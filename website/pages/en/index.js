@@ -75,8 +75,8 @@ class HomeSplash extends React.Component {
   render() {
     let language = this.props.language || '';
     const quickLinksCol = [{title: "Getting Started", 
-                desc: "Try W&B for free in seconds.", 
-                link:'started.html',
+                desc: "Quickly start tracking training.", 
+                link:'install.html',
                 img: 'img/documentation.png'}, 
                 {title: "Python API Reference",
                  desc: "Customize your analysis.",

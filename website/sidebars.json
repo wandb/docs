@@ -1,10 +1,9 @@
 {
   "docs": {
-    "Getting Started": ["started"],
+    "Getting Started": ["install","tutorial","script"],
     "Python Library": ["configs", "logs", "images", "histograms", "saving", "keras", "jupyter", "api"],
     "Command Line": ["cli", "restoring"],
     "Advanced Usage": ["automated", "grouping", "resuming", "security", "limits"],
-    "Sweeps": ["sweep"],
     "Resources": ["examples", "faq"]
   }
 }
