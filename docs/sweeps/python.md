@@ -3,9 +3,6 @@ title: Sweeps Jupyter/Python API
 sidebar_label: Jupyter/Python API
 ---
 
-## Beta Feature
-Use the Sweeps API to configure and execute sweeps from Python environments, including Jupyter notebooks. This API is currently experimental; please contact <jeff@wandb.com> with feedback.
-
 ## Initialize a sweep
 
 ```python

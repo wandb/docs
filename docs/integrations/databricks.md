@@ -42,7 +42,7 @@ import os
 import wandb
 
 api_key = dbutils.secrets.get("wandb", "api_key")
-os.environ['WANDB_API_KEY'] = api_key
+wandb.login(key=api_key)
 
 wandb.init()
 wandb.log({"foo": 1})
@@ -54,8 +54,7 @@ Setup required (temporary) for notebooks attempting to use wandb.sweep() or wand
 
 ```python
 import os
-api_key = dbutils.secrets.get("wandb", "api_key")
-os.environ['WANDB_API_KEY'] = api_key
+# These will not be necessary in the future
 os.environ['WANDB_ENTITY'] = "my-entity"
 os.environ['WANDB_PROJECT'] = "my-project-that-exists"
 ```
