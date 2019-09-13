@@ -11,8 +11,6 @@ W&B integrates with [databricks](https://www.databricks.com) by customizing the 
 
 Navigate to your cluster configuration, choose your cluster, click on Libraries, then on Install New, Choose PyPI and add the package `wandb`.
 
-> Use this wandb development branch from PyPI for improved compatibility: `git+git://github.com/wandb/client.git@feature/sweep-jupyter#egg=wandb`
-
 ### Authentication
 
 In order to authenticate your W&B account you can add a databricks secret which your notebooks can query.
