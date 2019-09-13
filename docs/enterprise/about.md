@@ -20,7 +20,7 @@ We also offer [W&B Enterprise Cloud](#enterprise-cloud), which runs a completely
 * Unlimited runs, experiments, and reports
 * Keep your data safe on your own company's network
 * Integrate with your company's authentication system
-* Premiere support by the W&B engineering team
+* Premier support by the W&B engineering team
 
 ## Enterprise Server
 
