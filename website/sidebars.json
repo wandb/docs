@@ -1,8 +1,6 @@
 {
   "docs": {
-    "Getting Started": [
-      "getting-started"
-    ],
+    "Getting Started": ["getting-started"],
     "Python Library": [
       "wandb/init",
       "wandb/config",
@@ -14,7 +12,8 @@
       "frameworks/keras",
       "frameworks/tensorflow",
       "frameworks/pytorch",
-      "frameworks/fastai"
+      "frameworks/fastai",
+      "frameworks/xgboost"
     ],
     "Integrations": [
       "integrations/tensorboard",
@@ -22,12 +21,11 @@
       "integrations/kubeflow",
       "integrations/docker",
       "integrations/jupyter",
+      "integrations/databricks",
+      "integrations/ray",
       "integrations/api"
     ],
-    "Command Line": [
-      "cli/overview",
-      "cli/restoring"
-    ],
+    "Command Line": ["cli/overview", "cli/restoring"],
     "Advanced Usage": [
       "advanced/automated",
       "advanced/grouping",
@@ -41,18 +39,14 @@
       "sweeps/local",
       "sweeps/python"
     ],
-    "Alerts": [
-      "alerts/slack"
-    ],
+    "Alerts": ["alerts/slack"],
     "Examples": [
       "frameworks/keras-example",
       "frameworks/tensorflow-example",
       "frameworks/pytorch-example",
       "examples"
     ],
-    "Resources": [
-      "faq"
-    ]
+    "Resources": ["faq"]
   },
   "enterprise": {
     "W&B Enterprise": [
