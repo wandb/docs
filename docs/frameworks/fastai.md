@@ -30,7 +30,7 @@ learn = cnn_learner(data, model, callback_fns=partial(WandbCallback, input_type=
 It is also possible to use WandbCallback only when starting training. In this case it must be instantiated.
 
 ```python
-learn.fit(epochs, callbacks=WandbCallback())
+learn.fit(epochs, callbacks=WandbCallback(learn))
 ```
 
 Custom parameters can also be given at that stage.
@@ -50,7 +50,7 @@ Check out our [Example GitHub Repo](https://github.com/wandb/examples) for compl
 | Keyword argument | Default   | Description                                                                                              |
 | ---------------- | --------- | -------------------------------------------------------------------------------------------------------- |
 | learn            | N/A       | the fast.ai learner to hook.                                                                             |
-| save_model       | True      | save the model if it's improved at each step.                                                            |
+| save_model       | True      | save the model if it's improved at each step. It will also load best model at the end of training.       |
 | mode             | auto      | 'min', 'max', or 'auto': How to compare the training metric specified in `monitor` between steps.        |
 | monitor          | None      | training metric used to measure performance for saving the best model. None defaults to validation loss. |
 | log              | gradients | "gradients", "parameters", "all", or None. Losses & metrics are always logged.                           |
