@@ -78,7 +78,7 @@ learn.fit(epochs)
 learn = cnn_learner(data, model, callback_fns=partial(WandbCallback, input_type=<span class="hljs-string">'images'</span>))
 </code></pre>
 <p>It is also possible to use WandbCallback only when starting training. In this case it must be instantiated.</p>
-<pre><code class="hljs css language-python">learn.fit(epochs, callbacks=WandbCallback())
+<pre><code class="hljs css language-python">learn.fit(epochs, callbacks=WandbCallback(learn))
 </code></pre>
 <p>Custom parameters can also be given at that stage.</p>
 <pre><code class="hljs css language-python">learn.fit(epochs, callbacks=WandbCallback(learn, input_type=<span class="hljs-string">'images'</span>))
@@ -93,7 +93,7 @@ learn = cnn_learner(data, model, callback_fns=partial(WandbCallback, input_type=
 </thead>
 <tbody>
 <tr><td>learn</td><td>N/A</td><td>the fast.ai learner to hook.</td></tr>
-<tr><td>save_model</td><td>True</td><td>save the model if it's improved at each step.</td></tr>
+<tr><td>save_model</td><td>True</td><td>save the model if it's improved at each step. It will also load best model at the end of training.</td></tr>
 <tr><td>mode</td><td>auto</td><td>'min', 'max', or 'auto': How to compare the training metric specified in <code>monitor</code> between steps.</td></tr>
 <tr><td>monitor</td><td>None</td><td>training metric used to measure performance for saving the best model. None defaults to validation loss.</td></tr>
 <tr><td>log</td><td>gradients</td><td>&quot;gradients&quot;, &quot;parameters&quot;, &quot;all&quot;, or None. Losses &amp; metrics are always logged.</td></tr>

@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Setting up W&amp;B Enterprise Server · W&amp;B</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="A W&amp;B Enterprise Server is a self-contained virtual machine provisioned on your private cloud, a physical server, or developer workstation. See the following for instructions for how to provision a new instance."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Setting up W&amp;B Enterprise Server · W&amp;B"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docs.wandb.com/"/><meta property="og:description" content="A W&amp;B Enterprise Server is a self-contained virtual machine provisioned on your private cloud, a physical server, or developer workstation. See the following for instructions for how to provision a new instance."/><meta property="og:image" content="https://docs.wandb.com/img/wandb.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docs.wandb.com/img/wandb.png"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atelier-cave-light.min.css"/><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="/js/sidebar.js"></script><script type="text/javascript" src="/js/segment.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/wandb-long.svg" alt="W&amp;B"/><h2 class="headerTitleWithLogo">W&amp;B</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/getting-started" target="_self">Docs</a></li><li class="siteNavGroupActive"><a href="/enterprise/about" target="_self">Enterprise</a></li><li class=""><a href="https://wandb.com" target="_self">Company</a></li><li class=""><a href="https://app.wandb.ai" target="_self">Login</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Enterprise Server</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">W&amp;B Enterprise</h3><ul class=""><li class="navListItem"><a class="navItem" href="/enterprise/about">About</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Enterprise Server</h3><ul class=""><li class="navListItem"><a class="navItem" href="/enterprise/server/about">About</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/enterprise/server/setup">Setup</a></li><li class="navListItem"><a class="navItem" href="/enterprise/server/config">Configuration</a></li><li class="navListItem"><a class="navItem" href="/enterprise/server/usage">Usage</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Enterprise Cloud</h3><ul class=""><li class="navListItem"><a class="navItem" href="/enterprise/cloud/about">About</a></li><li class="navListItem"><a class="navItem" href="/enterprise/cloud/usage">Usage</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/wandb/docs/edit/master/docs/enterprise/server/setup.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Setting up W&amp;B Enterprise Server</h1></header><article><div><span><p>A W&amp;B Enterprise Server is a self-contained virtual machine provisioned on your private cloud, a physical server, or developer workstation. See the following for instructions for how to provision a new instance.</p>
+<h2><a class="anchor" aria-hidden="true" id="amazon-web-services"></a><a href="#amazon-web-services" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Amazon Web Services</h2>
+<p>Before you begin, make sure you have access to our AMI. You'll need to send us your AWS Account ID (visible at your <a href="https://console.aws.amazon.com/billing/home?#/account">Account Settings page</a>) and desired region. W&amp;B will share access to the W&amp;B Enterprise Server AMI to your account and send you an AMI ID.</p>
+<h3><a class="anchor" aria-hidden="true" id="launch-the-instance"></a><a href="#launch-the-instance" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Launch the Instance</h3>
+<p>Go to EC2 &gt; Images &gt; AMIs in the AWS Console, select &quot;Private images&quot; in the search type dropdown, and search for &quot;wandb&quot;. Select the last created image that appears, and click &quot;Launch&quot;.</p>
+<ul>
+<li><strong>Choose Instance Type</strong>: Make sure to select a <code>m5.2xlarge</code> instance or larger. W&amp;B requires at least 4 cores and 16GB of memory.</li>
+<li><strong>Configure Instance</strong>: If you plan to use a cloud file backend (this is optional), make sure your instance has an IAM role that allows it to access S3 and subscribe to SQS.</li>
+<li><strong>Add Storage</strong>: If you plan on using the instance disk for file storage, be sure to provision the EBS disk with enough storage. The default is 300GB.</li>
+<li><strong>Add Tags</strong>: Name your instance if you like.</li>
+<li><strong>Configure Security Group</strong>: Ensure that port 80 on your instance is exposed to any machine from which you want to run machine learning jobs, or from which you want to access the W&amp;B web interface.</li>
+</ul>
+<p>After launching your instance, wait for it to boot. Your instance will spin up and be accessible at port 80 at its public IP.</p>
+<p>Your instance is usable from boot, but for advanced options, <a href="/enterprise/server/config">you can now proceed to configuring your instance.</a></p>
+<h3><a class="anchor" aria-hidden="true" id="configuring-dns-and-ssl"></a><a href="#configuring-dns-and-ssl" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuring DNS and SSL</h3>
+<p>By default, your Enterprise Server serves the web interface and API on port 80 via unencrypted HTTP.</p>
+<p>To add SSL, put your instance behind an Amazon Load Balancer and add a certificate, either by uploading it, or by using Amazon Certificate Manager.</p>
+<p>To serve your instance from a hostname, configure your DNS nameservers to point towards the instance IP or Amazon Load Balancer.</p>
+<h2><a class="anchor" aria-hidden="true" id="google-cloud-platform"></a><a href="#google-cloud-platform" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Google Cloud Platform</h2>
+<h2><a class="anchor" aria-hidden="true" id="microsoft-azure"></a><a href="#microsoft-azure" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Microsoft Azure</h2>
+<h2><a class="anchor" aria-hidden="true" id="vmware"></a><a href="#vmware" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>VMWare</h2>
+<h2><a class="anchor" aria-hidden="true" id="virtualbox"></a><a href="#virtualbox" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Virtualbox</h2>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/enterprise/server/about"><span class="arrow-prev">← </span><span>About</span></a><a class="docs-next button" href="/enterprise/server/config"><span>Configuration</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#amazon-web-services">Amazon Web Services</a><ul class="toc-headings"><li><a href="#launch-the-instance">Launch the Instance</a></li><li><a href="#configuring-dns-and-ssl">Configuring DNS and SSL</a></li></ul></li><li><a href="#google-cloud-platform">Google Cloud Platform</a></li><li><a href="#microsoft-azure">Microsoft Azure</a></li><li><a href="#vmware">VMWare</a></li><li><a href="#virtualbox">Virtualbox</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/wandb.svg" alt="W&amp;B" width="66" height="58"/></a><div><h5>Docs</h5><a href="/getting-started">Getting Started</a><a href="/wandb/init">Python API Reference</a><a href="/examples">Example Projects</a></div><div><h5>More</h5><a href="https://github.com/wandb/client">GitHub</a><a href="https://wandb.com">W&amp;B</a></div></section><section class="copyright">Copyright © 2019 Weights &amp; Biases, Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '0510e717ad08795f12b729ed540687cb',
+                indexName: 'wandb',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {}
+              });
+            </script></body></html>
