@@ -1,5 +1,5 @@
 ---
-title: Using W&B Enterprise
+title: Using W&B Enterprise Server
 sidebar_label: Usage
 ---
 
@@ -7,7 +7,7 @@ For the most part, you can use W&B Enterprise the same way as our Software-as-a-
 
 ## API Keys
 
-W&B Enterprise server API keys have a dedicated prefix to avoid confusion between the SaaS system and your private installation.
+W&B Enterprise Server API keys have a dedicated prefix to avoid confusion between the SaaS system and your private installation.
 
 ## Command line usage
 

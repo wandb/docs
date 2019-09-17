@@ -50,9 +50,17 @@
   },
   "enterprise": {
     "W&B Enterprise": [
-      "enterprise/about",
-      "enterprise/config",
-      "enterprise/usage"
+      "enterprise/about"
+    ],
+    "Enterprise Server": [
+      "enterprise/server/about",
+      "enterprise/server/setup",
+      "enterprise/server/config",
+      "enterprise/server/usage"
+    ],
+    "Enterprise Cloud": [
+      "enterprise/cloud/about",
+      "enterprise/cloud/usage"
     ]
   }
 }

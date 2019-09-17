@@ -41,12 +41,28 @@
         "title": "W&B Enterprise",
         "sidebar_label": "About"
       },
-      "enterprise/config": {
-        "title": "Configuring W&B Enterprise",
+      "enterprise/cloud/about": {
+        "title": "About W&B Enterprise Cloud",
+        "sidebar_label": "About"
+      },
+      "enterprise/cloud/usage": {
+        "title": "Using W&B Enterprise Cloud",
+        "sidebar_label": "Usage"
+      },
+      "enterprise/server/about": {
+        "title": "About W&B Enterprise Server",
+        "sidebar_label": "About"
+      },
+      "enterprise/server/config": {
+        "title": "Configuring W&B Enterprise Server",
         "sidebar_label": "Configuration"
       },
-      "enterprise/usage": {
-        "title": "Using W&B Enterprise",
+      "enterprise/server/setup": {
+        "title": "Setting up W&B Enterprise Server",
+        "sidebar_label": "Setup"
+      },
+      "enterprise/server/usage": {
+        "title": "Using W&B Enterprise Server",
         "sidebar_label": "Usage"
       },
       "examples": {
@@ -117,6 +133,10 @@
         "title": "Kubeflow",
         "sidebar_label": "Kubeflow"
       },
+      "integrations/ray": {
+        "title": "Ray Tune / RLlib",
+        "sidebar_label": "Ray Tune"
+      },
       "integrations/sagemaker": {
         "title": "SageMaker",
         "sidebar_label": "SageMaker"
@@ -179,7 +199,9 @@
       "Alerts": "Alerts",
       "Examples": "Examples",
       "Resources": "Resources",
-      "W&B Enterprise": "W&B Enterprise"
+      "W&B Enterprise": "W&B Enterprise",
+      "Enterprise Server": "Enterprise Server",
+      "Enterprise Cloud": "Enterprise Cloud"
     }
   },
   "pages-strings": {
