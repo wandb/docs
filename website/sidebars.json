@@ -55,12 +55,13 @@
     "Enterprise Server": [
       "enterprise/server/about",
       "enterprise/server/setup",
-      "enterprise/server/config",
-      "enterprise/server/usage"
+      "enterprise/server/config"
     ],
     "Enterprise Cloud": [
-      "enterprise/cloud/about",
-      "enterprise/cloud/usage"
+      "enterprise/cloud/about"
+    ],
+    "Usage": [
+      "enterprise/usage/sending-data"
     ]
   }
 }
