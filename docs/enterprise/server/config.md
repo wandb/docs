@@ -3,7 +3,7 @@ title: Configuring W&B Enterprise Server
 sidebar_label: Configuration
 ---
 
-Your W&B Enterprise Server comes up ready-to-use on boot. However several advanced configuration options are available, and accessible from the `/vm-settings` page on your server once it's up and running.
+Your W&B Enterprise Server comes up ready-to-use on boot. However, several advanced configuration options are available, at the `/vm-settings` page on your server once it's up and running.
 
 ## Authentication
 
@@ -23,31 +23,50 @@ Save the Client ID and domain from your Auth0 app.
 
 ![Auth0 Settings](/img/auth0-2.png)
 
+Then, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/vm-settings`. Enable the "Customize Authentication with Auth0" option, and fill in the Client ID and domain from your Auth0 app.
+
 ![Enterprise authentication settings](/img/enterprise-auth.png)
 
-Then, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/vm-settings`. Enable the "Customize Authentication with Auth0" option, and fill in the Client ID and domain from your Auth0 app. The press "Update settings and restart W&B".
+Finally, press "Update settings and restart W&B".
 
 ## File Storage
 
-By default, a W&B Enterprise Server saves files to a local data disk with a capacity that you set when you provision your instance.
-
-To support limitless file storage, you may configure your server to use an external cloud file storage bucket with an S3-compatible API.
+By default, a W&B Enterprise Server saves files to a local data disk with a capacity that you set when you provision your instance. To support limitless file storage, you may configure your server to use an external cloud file storage bucket with an S3-compatible API.
 
 ### Amazon Web Services
 
-#### Set up SQS Queue, S3 Bucket, and Bucket Notifications
+To use an AWS S3 bucket as the file storage backend for W&B, you'll need to create a bucket, along with an SQS queue configured to receive object creation notifications from that bucket. Your instance will need permissions to read from this queue.
 
-First, create an SQS Standard Queue. Make sure to add a permission for Amazon S3 to post to that queue, and EC2 to read from the queue.
+#### Create an SQS Queue
+
+First, create an SQS Standard Queue. Add a permission for all principals for the `SendMessage` and `ReceiveMessage` actions. (If you like you can further lock this down using an advancd policy document.)
 
 ![Enterprise file storage settings](/img/sqs-perms.png)
+
+#### Create an S3 Bucket and Bucket Notifications
 
 Then, create an S3 bucket. Under the bucket properties page in the console, in the "Events" section of "Advanced Settings", click "Add notification", and configure all object creation events to be sent to the SQS Queue you configured earlier.
 
 ![Enterprise file storage settings](/img/s3-notification.png)
 
-Then, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/vm-settings`. Enable the "Use an external file storage backend" option, and fill in the s3 bucket, region, and SQS queue in the following format:
+Enable CORS access: your CORS configuration should look like the following:
 
-* **File Storage URL**: `s3:///<bucket-name>`
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+<CORSRule>
+    <AllowedOrigin>http://YOUR-W&B-SERVER-IP</AllowedOrigin>
+    <AllowedMethod>GET</AllowedMethod>
+    <AllowedHeader>*</AllowedHeader>
+</CORSRule>
+</CORSConfiguration>
+```
+
+#### Configure W&B Server
+
+Finally, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/vm-settings`. Enable the "Use an external file storage backend" option, and fill in the s3 bucket, region, and SQS queue in the following format:
+
+* **File Storage Bucket**: `s3://<bucket-name>`
 * **File Storage Region**: `<region>`
 * **Notification Subscription**: `sqs://<queue-name>`
 
@@ -57,6 +76,40 @@ Press "update settings and restart W&B" to apply the new settings.
 
 ### Google Cloud Platform
 
-#### Set up Pubsub Topic and Subscription, Storage Bucket, and Bucket Notifications
+To use a GCP Storage bucket as a file storage backend for W&B, you'll need to create a bucket, along with a pubsub topic and subscription configured to receive object creation messages from that bucket.
 
-For AWS, your standard endpoint will be `http://s3.YOUR-REGION.amazonaws.com`. For GCP, it will be `https://storage.googleapis.com`. You can configure S3-compatible keys for Google Cloud Storage by [following the instructions here](https://cloud.google.com/storage/docs/migrating#keys).
+#### Create Pubsub Topic and Subscription
+
+Navigate to Pub/Sub > Topics in the GCP Console, and click "Create topic". Choose a name and create a topic.
+
+Then click "Create subscription" in the subscriptions table at the bottom of the page. Choose a name, and make sure Delivery Type is set to "Pull". Click "Create".
+
+#### Create Storage Bucket
+
+Navigate to Storage > Browser in the GCP Console, and click "Create bucket". Make sure to choose "Standard" storage class.
+
+#### Create Pubsub Notification
+
+Creating a notification stream from the Storage Bucket to the Pubsub Topic can unfortunately only be done in the console. Make sure you have `gsutil` installed, and logged into the correct GCP Project, then run the following:
+
+```sh
+gcloud pubsub topics list  # list names of topics for reference
+gsutil ls                  # list names of buckets for reference
+
+# create bucket notification
+gsutil notification create -t <TOPIC-NAME> -f json gs://<BUCKET-NAME>
+```
+
+[Further reference is available on the Cloud Storage website.](https://cloud.google.com/storage/docs/reporting-changes)
+
+#### Configure W&B Server
+
+Finally, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/vm-settings`. Enable the "Use an external file storage backend" option, and fill in the s3 bucket, region, and SQS queue in the following format:
+
+* **File Storage Bucket**: `gs://<bucket-name>`
+* **File Storage Region**: blank
+* **Notification Subscription**: `pubsub:/<project-name>/<topic-name>/<subscription-name>`
+
+![AWS file storage settings](/img/gcloud-filestore.png)
+
+Press "update settings and restart W&B" to apply the new settings.
