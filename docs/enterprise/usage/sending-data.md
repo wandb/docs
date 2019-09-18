@@ -11,8 +11,8 @@ You'll need to fetch your API key from your W&B Server instead of `wandb.ai` wit
 
 ```sh
 # Save a wandb settings file in the `wandb` subfolder of your python path.
-mkdir wandb
-echo "[default]\nbase_url = http://your-server-ip-or-host" > wandb/settings
+mkdir -p ~/.config/wandb
+echo "[default]\nbase_url = http://your-server-ip-or-host" > ~/.config/wandb/settings
 wandb login
 python your-training-script.py
 
