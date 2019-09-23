@@ -12,7 +12,8 @@ We support the following environments:
 | Amazon Web Services   | AMI           |
 | Microsoft Azure       | Managed Image |
 | Google Cloud Platform | GCE Image     |
-| VMware                | OVF           |
+| VMware                | OVA           |
+| Virtualbox            | OVA           |
 | Vagrant               | Vagrant Box   |
 
 ### Server Requirements

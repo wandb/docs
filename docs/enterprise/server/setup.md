@@ -63,3 +63,15 @@ If you are not serving your instance from a hostname, you should associate an El
 ## VMWare
 
 ## Virtualbox
+
+Contact the W&B team to gain access to the OVA file for the W&B Enterprise Server.
+
+Once you have the file, in Virtualbox, go to File > Import Appliance, and find the path of the downloaded archive.
+
+When creating your system, ensure to allocate at least 4 CPUs and 16GB of RAM if you intend to use this system for production workloads.
+
+Your W&B Server will be ready to use from moments of it booting up!
+
+Once your VM is created, go to Settings > Network > Advanced > Port Forwarding to forward port 80 on the guest machine to any desired port on the host.
+
+For advanced options, [you may now proceed to configuring your instance.](/enterprise/server/config)
