@@ -62,11 +62,23 @@ If you are not serving your instance from a hostname, you should associate an El
 
 ## VMWare
 
+Contact the W&B team to gain access to the OVA file for the W&B Enterprise Server.
+
+Once you have the file, in VMWare, go to File > Import, and select the downloaded archive.
+
+When creating your system, ensure to allocate at least 4 CPUs and 16GB of RAM if you intend to use this system for production workloads.
+
+Your W&B Server will be ready to use from moments of it booting up!
+
+In your VMWare Network preferences, make sure port 80 on your instance is exposed to the network from which you'd like to access W&B.
+
+For advanced options, [you may now proceed to configuring your instance.](/enterprise/server/config)
+
 ## Virtualbox
 
 Contact the W&B team to gain access to the OVA file for the W&B Enterprise Server.
 
-Once you have the file, in Virtualbox, go to File > Import Appliance, and find the path of the downloaded archive.
+Once you have the file, in Virtualbox, go to File > Import Appliance, and select the downloaded archive.
 
 When creating your system, ensure to allocate at least 4 CPUs and 16GB of RAM if you intend to use this system for production workloads.
 
