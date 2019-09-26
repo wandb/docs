@@ -60,6 +60,86 @@ If you are not serving your instance from a hostname, you should associate an El
 
 ## Microsoft Azure
 
+### Authorize the W&B Azure App
+
+First, you'll need to gain access to our shared image gallery through the "Weights And Biases On-Premises Images" Azure App.
+
+CLI instructions:
+
+```sh
+# First, install the azure CLI (`brew install azure-cli` on a Mac).
+
+# Log in
+az login
+
+# Get the tenant ID.
+TENANT_ID="$(az account show --query tenantId -o tsv)"
+
+# Log into the W&B App Registry from your Azure account.
+open "https://login.microsoftonline.com/$TENANT_ID/oauth2/authorize?client_id=af76df2c-ffe4-4f95-b71c-1558ed8afae1&response_type=code&redirect_uri=https%3A%2F%2Fwww.microsoft.com%2F"
+```
+
+Manual instructions:
+
+* Navigate to Portal.azure.com > Azure Active Directory > Properties. The directory ID it shows there is your Tenant ID. (https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Properties)
+* Then, navigate to `https://login.microsoftonline.com/<Your Tenant ID>/oauth2/authorize?client_id=af76df2c-ffe4-4f95-b71c-1558ed8afae1&response_type=code&redirect_uri=https%3A%2F%2Fwww.microsoft.com%2F`
+* Grant permissions. You'll be redirected to microsoft.com, at which point you can close the browser page.
+
+### Grant W&B App Permissions to your Resource Group
+
+Then create a resource group and give this app permission to create a VM in that resource group.
+
+* Create a Resource Group.
+* Navigate to that Resource Group and then select Access control (IAM).
+* Under Add role assignment select Add. Under Role, type Contributor.
+* Under Assign access to:, leave this as Azure AD user, group, or service principal.
+* Under Select, type "Weights And Biases On-Premises Images" then select it when it shows up in the list.
+* When you are done, select Save.
+
+### Launch your VM
+
+On Azure launching a VM from another tenant can only be done through the Azure CLI. ([See Microsoft's docs](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/share-images-across-tenants))
+
+```sh
+WB_IMAGES_APP_ID=af76df2c-ffe4-4f95-b71c-1558ed8afae1
+WB_TENANT_ID=af722783-84b6-4adc-9c49-c792786eab4a
+
+# Get this from our team
+WB_IMAGES_SECRET=(Get this from the W&B Team)
+
+# Customize these if needed
+YOUR_TENANT_ID="$(az account show --query tenantId -o tsv)"
+RESOURCE_GROUP_NAME="$(az group list --query '[0].name' -o tsv)"
+VM_NAME="wandb-$(date +%Y-%m-%d)"
+VM_IMAGE_RESOURCE_ID="/subscriptions/636d899d-58b4-4d7b-9e56-7a984388b4c8/resourceGroups/wandb-onprem-vm/providers/Microsoft.Compute/galleries/WandbAzureImages/images/WeightsAndBiasesOnPrem/versions/2019.9.25"
+VM_SSH_ADMIN_USERNAME="azureadmin"
+
+# Clear old credentials
+az account clear
+
+# Log in as service principle for W&B Tenant
+az login --service-principal -u $WB_IMAGES_APP_ID -p $WB_IMAGES_SECRET --tenant $WB_TENANT_ID
+az account get-access-token
+
+# Log in as service principle for your tenant
+az login --service-principal -u $WB_IMAGES_APP_ID -p $WB_IMAGES_SECRET --tenant $YOUR_TENANT_ID
+az account get-access-token 
+
+# Create the VM! You can customize this command per your requirements.
+az vm create \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --name $VM_NAME \
+  --image $VM_IMAGE_RESOURCE_ID \
+  --admin-username $VM_SSH_ADMIN_USERNAME \
+  --generate-ssh-keys
+```
+
+Your W&B Server will be ready to use from moments of it booting up!
+
+In the Azure console, you can now make sure port 80 on your instance is exposed to the network from which you'd like to access W&B.
+
+For advanced options, [you may now proceed to configuring your instance.](/enterprise/server/config)
+
 ## VMWare
 
 Contact the W&B team to gain access to the OVA file for the W&B Enterprise Server.
