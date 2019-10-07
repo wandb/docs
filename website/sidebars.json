@@ -13,7 +13,8 @@
       "frameworks/tensorflow",
       "frameworks/pytorch",
       "frameworks/fastai",
-      "frameworks/xgboost"
+      "frameworks/xgboost",
+      "frameworks/catalyst"
     ],
     "Integrations": [
       "integrations/tensorboard",
@@ -49,20 +50,14 @@
     "Resources": ["faq"]
   },
   "enterprise": {
-    "W&B Enterprise": [
-      "enterprise/about"
-    ],
+    "W&B Enterprise": ["enterprise/about"],
     "Enterprise Server": [
       "enterprise/server/about",
       "enterprise/server/setup",
       "enterprise/server/config",
       "enterprise/server/upgrades"
     ],
-    "Enterprise Cloud": [
-      "enterprise/cloud/about"
-    ],
-    "Usage": [
-      "enterprise/usage/sending-data"
-    ]
+    "Enterprise Cloud": ["enterprise/cloud/about"],
+    "Usage": ["enterprise/usage/sending-data"]
   }
 }

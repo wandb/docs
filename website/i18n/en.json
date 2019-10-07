@@ -57,6 +57,10 @@
         "title": "Setting up W&B Enterprise Server",
         "sidebar_label": "Setup"
       },
+      "enterprise/server/upgrades": {
+        "title": "Upgrading your W&B Enterprise Server",
+        "sidebar_label": "Upgrades"
+      },
       "enterprise/usage/sending-data": {
         "title": "Sending Data to W&B Enterprise",
         "sidebar_label": "Sending Data"
@@ -68,6 +72,10 @@
       "faq": {
         "title": "Frequently Asked Questions",
         "sidebar_label": "FAQ"
+      },
+      "frameworks/catalyst": {
+        "title": "Catalyst Support",
+        "sidebar_label": "Catalyst"
       },
       "frameworks/fastai": {
         "title": "Fast.ai Support",
