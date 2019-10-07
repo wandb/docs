@@ -55,7 +55,8 @@
     "Enterprise Server": [
       "enterprise/server/about",
       "enterprise/server/setup",
-      "enterprise/server/config"
+      "enterprise/server/config",
+      "enterprise/server/upgrades"
     ],
     "Enterprise Cloud": [
       "enterprise/cloud/about"
