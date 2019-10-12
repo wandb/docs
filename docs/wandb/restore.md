@@ -11,7 +11,7 @@ Calling `wandb.restore(filename)` will restore a file into your run. It returns 
 
 - **run_path** &mdash; String telling the run to pull from in the format _'$ENTITY_NAME/$PROJECT_NAME/$RUN_NAME'_ or _'$PROJECT_NAME/$RUN_NAME'_ (_default: current entity, project and run_)
 
-A common usecase is resuming from a checkpoint in the case of failure. 
+A common use case is resuming from a checkpoint in the case of failure. 
 
 Another common use is to restore the model file from a previous run.
 
