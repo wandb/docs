@@ -13,6 +13,8 @@ Install our library in an environment using Python 3.
 pip install wandb
 ```
 
+> If you are training models in an automated environment where it's inconvenient to run shell commands, such as Google's CloudML, you should look at the documentation on [Running in Automated Environments](advanced/automated).
+
 ## 2. Create a free wandb account
 
 Sign up for a free account in your shell.
@@ -21,10 +23,12 @@ Sign up for a free account in your shell.
 wandb login
 ```
 
-Alternatively, you can go to our [sign up page](https://app.wandb.ai/login?signup=true).
+> You can also login directly from our [sign up page](https://app.wandb.ai/login?signup=true).
 
 ## 3. Modify your training script
 Add a few lines to your script to log hyperparameters and metrics.
+
+> Weights and Biases is framework agnostic, but if you are using a common ML framework, you may find framework-specific examples even easier for getting started and in many cases we've build framework specific hooks to simplify the integration. You can find examples for [Keras](frameworks/keras), [TensorFlow](frameworks/tensorflow), [PyTorch](frameworks/pytorch), [Fast.ai](frameworks/fastai), [Scikit-learn](frameworks/scikit), [XGBoost](frameworks/xgboost), [Catalyst](frameworks/catalyst) and [Jax](frameworks/jax-example). 
 
 ### 3a. Initialization
 Initialize `wandb` at the beginning of your script right after the imports.
@@ -67,10 +71,3 @@ Great! Now run your script normally and we'll sync logs in a background process.
 
 > If you're testing and want to disable wandb syncing, set **WANDB_MODE**=dryrun
 
-## Examples
-
-You can find complete examples of integrating W&B here:
-
-- [Keras](frameworks/keras-example)
-- [PyTorch](frameworks/pytorch-example)
-- [Tensorflow](frameworks/tensorflow-example)

@@ -11,11 +11,11 @@ The W&B API is rate limited by IP and API key.  New accounts are restricted to 2
 
 ### Files
 
-The maximum file size for new accounts is 500MB.  A single run is allowed to store 1GB of data.  If you need to store larger files or more data per run, contact us at <a href="mailto:contact@wandb.com">contact@wandb.com</a>.
+The maximum file size for new accounts is 2GB.  A single run is allowed to store 10 GB of data.  If you need to store larger files or more data per run, contact us at <a href="mailto:contact@wandb.com">contact@wandb.com</a>.
 
 ### Metrics
 
-Metrics are sampled to 500 data points before displaying in the UI.  Generally you shouldn't be calling `wandb.log` more than 10,000 times in a single training run.  If the amount of metrics being sent to us exceeds 10MB we will begin dropping future data points.
+Metrics are sampled to 500 data points by default before displaying in the UI.  Generally you shouldn't be calling `wandb.log` more than a few times per second or wandb may start to interfere with your training run's performance.
 
 ### Logs
 

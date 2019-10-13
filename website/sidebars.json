@@ -1,6 +1,12 @@
 {
   "docs": {
-    "Getting Started": ["getting-started"],
+    "Overview": [
+      "overview/getting-started",
+      "overview/overview",
+      "overview/company-faq",
+      "overview/technical-faq",
+      "overview/getting-help"],
+
     "Python Library": [
       "wandb/init",
       "wandb/config",
@@ -8,11 +14,17 @@
       "wandb/save",
       "wandb/restore"
     ],
+    "API Reference": [
+      "api/overview",
+      "api/run",
+      "api/project"
+    ],
     "Framework Support": [
       "frameworks/keras",
       "frameworks/tensorflow",
       "frameworks/pytorch",
       "frameworks/fastai",
+      "frameworks/scikit",
       "frameworks/xgboost",
       "frameworks/catalyst"
     ],
@@ -23,10 +35,10 @@
       "integrations/docker",
       "integrations/jupyter",
       "integrations/databricks",
-      "integrations/ray",
-      "integrations/api"
+      "integrations/ray"
     ],
     "Command Line": ["cli/overview", "cli/restoring"],
+
     "Advanced Usage": [
       "advanced/automated",
       "advanced/grouping",
@@ -45,9 +57,14 @@
       "frameworks/keras-example",
       "frameworks/tensorflow-example",
       "frameworks/pytorch-example",
+      "frameworks/fastai-example",
+      "frameworks/scikit-example",
+      "frameworks/numpy-example",
+      "frameworks/xgboost-example",
+      "frameworks/jax-example",
       "examples"
-    ],
-    "Resources": ["faq"]
+    ]
+
   },
   "enterprise": {
     "W&B Enterprise": ["enterprise/about"],

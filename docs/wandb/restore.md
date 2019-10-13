@@ -25,4 +25,4 @@ model.load(weights.name)
 ```
 
 > If you don't specify a run_path, you'll need to configure [resuming](resuming) for your run.
-> If you want access to files programitcally outside of training, checkout the [Export API](integrations/api).
+> If you want access to files programitcally outside of training, use the [Run API](../api/run).

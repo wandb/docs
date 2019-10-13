@@ -1,19 +1,41 @@
 ---
-title: W&B Export API Overview
-sidebar_label: Python Export API
+title: Single Run API
+sidebar_label: Single Run API
 ---
 
-W&B provides an API to import and export data directly. This is useful for doing custom analysis of your existing runs or running an evaluation script and adding additional summary metrics.
+## Overview
 
-## Authentication
+The run API lets you export and update data from previous runs.
 
-The API looks for your key stored locally (populated by running `wandb login`), or in the **WANDB_API_KEY** environment variable.
+## Examples
+
+### Reading
+This example outputs timestamp and accuracy saved with `wandb.log({"accuracy": acc})` for a run saved to `<entity>/<project>/<run_id>`.
+ 
+```python
+import wandb
+api = wandb.Api()
+
+run = api.run("<entity>/<project>/<run_id>")
+if run.state == "finished":
+   for k in run.history():
+       print(k["_timestamp"], k["accuracy"]) 
+```
+
+### Updating
+This example sets the accuracy of a previous run to 0.9.
+It also modifies the accuracy histogram of a previous run to be the histogram of numpy_arry
 
 ```python
 import wandb
 api = wandb.Api()
-run = api.run("username/project/run_id")
+
+run = api.run("<entity>/<project>/<run_id>")
+run.summary["accuracy"] = 0.9
+run.summary["accuracy_histogram"] = wandb.Histogram(numpy_array)
+run.summary.update()
 ```
+
 
 ## Api Methods
 
@@ -65,26 +87,3 @@ run = api.run("username/project/run_id")
 | -------- | --------------- | --------------------------------------------------------------------------------------------- |
 | download | _replace=False_ | Download the source file in the current directory. If replace is True, replace existing files |
 
-```python
-if run.state == "finished":
-    print([(metric["accuracy"], metric["_timestamp"]) for metric in run.history()])
-run.summary["accuracy_histogram"] = wandb.Histogram(numpy_array)
-run.summary.update()
-```
-
-## Querying runs
-
-The W&B API also provides a way for you to query across runs in a project. The query interface is the same as the one [MongoDB uses](https://docs.mongodb.com/manual/reference/operator/query).
-
-```python
-runs = api.runs("username/project", {"$or": [{"config.experiment_name": "foo"}, {"config.experiment_name": "bar"}]})
-print("Found %i" % len(runs))
-```
-
-Calling `api.runs(...)` returns a **Runs** object that is iterable and acts like a list. The object loads 50 runs at a time in sequence as required, you can change the number loaded per page with the **per_page** keyword argument.
-
-`api.runs(...)` also accepts an **order** keyword argument. The default order is `-created_at`, specify `+created_at` to get results in ascending order. You can also sort by config or summary values i.e. `summary.val_acc` or `config.experiment_name`
-
-## Error handling
-
-If errors occur while talking to W&B servers a `wandb.CommError` will be raised. The original exception can be introspected via the **exc** attribute.

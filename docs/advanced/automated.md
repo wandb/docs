@@ -5,14 +5,14 @@ sidebar_label: Environment Variables
 
 When you are running your script in an automated environment, you can control **wandb** with environment variables set before the script runs or within the script.
 
-```shell
+```bash
 # This is secret and shouldn't be checked into version control
 WANDB_API_KEY=$YOUR_API_KEY
 # Description is optional
 WANDB_DESCRIPTION="$SHORT_MESSAGE"
 ```
 
-```shell
+```bash
 # Only needed if you don't checkin the wandb/settings file
 WANDB_ENTITY=$username
 WANDB_PROJECT=$project
