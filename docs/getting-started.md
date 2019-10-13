@@ -3,9 +3,9 @@ title: Getting Started
 sidebar_label: Getting Started
 ---
 
-Our tool `wandb` helps you track and visualize machine learning experiments.  Getting set up should take less than five minutes.  If you have any questions or run into any problems, please let us know!  You can ask questions in our [gitter forum](https://gitter.im/wandb-app/community) and we should be able to help you out right away.
+Our tool `wandb` helps you track and visualize machine learning experiments.  Integrating your training script with wandb should take less than five minutes.  
 
-There are three steps to get started.
+There are three steps.
 
 ## 1. Install the wandb Python Library
 Install our library in an environment using Python 3.
