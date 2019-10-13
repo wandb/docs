@@ -47,7 +47,7 @@ const siteConfig = {
   headerLinks: [
     //  {doc: 'gallery', label: 'Gallery'},
 
-    { doc: "getting-started", label: "Docs" },
+    { doc: "overview/getting-started", label: "Docs" },
     { doc: "enterprise/about", label: "Enterprise" },
     { href: "https://wandb.com", label: "Company" },
     { href: "https://app.wandb.ai", label: "Login" },
