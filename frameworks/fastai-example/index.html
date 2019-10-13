@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Fast.ai Example · W&amp;B</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;This is a complete example of Fast.ai code that trains a CNN and saves to W&amp;amp;B.&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Fast.ai Example · W&amp;B"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docs.wandb.com/index.html"/><meta property="og:description" content="&lt;p&gt;This is a complete example of Fast.ai code that trains a CNN and saves to W&amp;amp;B.&lt;/p&gt;
+"/><meta property="og:image" content="https://docs.wandb.com/img/wandb.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docs.wandb.com/img/wandb.png"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atelier-cave-light.min.css"/><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="/js/sidebar.js"></script><script type="text/javascript" src="/js/segment.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/wandb-long.svg" alt="W&amp;B"/><h2 class="headerTitleWithLogo">W&amp;B</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/getting-started" target="_self">Docs</a></li><li class=""><a href="/enterprise/about" target="_self">Enterprise</a></li><li class=""><a href="https://wandb.com" target="_self">Company</a></li><li class=""><a href="https://app.wandb.ai" target="_self">Login</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Examples</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Overview</h3><ul class=""><li class="navListItem"><a class="navItem" href="/overview/getting-started">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/overview/overview">Overview</a></li><li class="navListItem"><a class="navItem" href="/overview/company-faq">Company FAQ</a></li><li class="navListItem"><a class="navItem" href="/overview/technical-faq">Technical FAQ</a></li><li class="navListItem"><a class="navItem" href="/overview/getting-help">Getting Help</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Python Library</h3><ul class=""><li class="navListItem"><a class="navItem" href="/wandb/init">wandb.init</a></li><li class="navListItem"><a class="navItem" href="/wandb/config">wandb.config</a></li><li class="navListItem"><a class="navItem" href="/wandb/log">wandb.log</a></li><li class="navListItem"><a class="navItem" href="/wandb/save">wandb.save</a></li><li class="navListItem"><a class="navItem" href="/wandb/restore">wandb.restore</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">API Reference</h3><ul class=""><li class="navListItem"><a class="navItem" href="/api/overview">Overview</a></li><li class="navListItem"><a class="navItem" href="/api/run">Single Run API</a></li><li class="navListItem"><a class="navItem" href="/api/project">Project API</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Framework Support</h3><ul class=""><li class="navListItem"><a class="navItem" href="/frameworks/keras">Keras</a></li><li class="navListItem"><a class="navItem" href="/frameworks/tensorflow">TensorFlow</a></li><li class="navListItem"><a class="navItem" href="/frameworks/pytorch">PyTorch</a></li><li class="navListItem"><a class="navItem" href="/frameworks/fastai">Fast.ai</a></li><li class="navListItem"><a class="navItem" href="/frameworks/scikit">Scikit</a></li><li class="navListItem"><a class="navItem" href="/frameworks/xgboost">XGBoost</a></li><li class="navListItem"><a class="navItem" href="/frameworks/catalyst">Catalyst</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Integrations</h3><ul class=""><li class="navListItem"><a class="navItem" href="/integrations/tensorboard">Tensorboard</a></li><li class="navListItem"><a class="navItem" href="/integrations/sagemaker">SageMaker</a></li><li class="navListItem"><a class="navItem" href="/integrations/kubeflow">Kubeflow</a></li><li class="navListItem"><a class="navItem" href="/integrations/docker">Docker</a></li><li class="navListItem"><a class="navItem" href="/integrations/jupyter">Jupyter</a></li><li class="navListItem"><a class="navItem" href="/integrations/databricks">Databricks</a></li><li class="navListItem"><a class="navItem" href="/integrations/ray">Ray Tune</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Command Line</h3><ul class=""><li class="navListItem"><a class="navItem" href="/cli/overview">Command Line Overview</a></li><li class="navListItem"><a class="navItem" href="/cli/restoring">Restoring State</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Advanced Usage</h3><ul class=""><li class="navListItem"><a class="navItem" href="/advanced/automated">Environment Variables</a></li><li class="navListItem"><a class="navItem" href="/advanced/grouping">Grouping</a></li><li class="navListItem"><a class="navItem" href="/advanced/resuming">Resuming</a></li><li class="navListItem"><a class="navItem" href="/advanced/security">Security</a></li><li class="navListItem"><a class="navItem" href="/advanced/limits">Limits</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Sweeps</h3><ul class=""><li class="navListItem"><a class="navItem" href="/sweeps/overview">Sweeps Overview</a></li><li class="navListItem"><a class="navItem" href="/sweeps/configuration">Configuration</a></li><li class="navListItem"><a class="navItem" href="/sweeps/local">Local Controller</a></li><li class="navListItem"><a class="navItem" href="/sweeps/python">Jupyter/Python API</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Alerts</h3><ul class=""><li class="navListItem"><a class="navItem" href="/alerts/slack">Slack</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Examples</h3><ul class=""><li class="navListItem"><a class="navItem" href="/frameworks/keras-example">Keras</a></li><li class="navListItem"><a class="navItem" href="/frameworks/tensorflow-example">TensorFlow</a></li><li class="navListItem"><a class="navItem" href="/frameworks/pytorch-example">PyTorch</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/frameworks/fastai-example">Fast.ai</a></li><li class="navListItem"><a class="navItem" href="/frameworks/scikit-example">Scikit</a></li><li class="navListItem"><a class="navItem" href="/frameworks/numpy-example">Numpy</a></li><li class="navListItem"><a class="navItem" href="/frameworks/xgboost-example">XGBoost</a></li><li class="navListItem"><a class="navItem" href="/frameworks/jax-example">Jax</a></li><li class="navListItem"><a class="navItem" href="/examples">More Projects</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/wandb/docs/edit/master/docs/frameworks/fastai-example.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Fast.ai Example</h1></header><article><div><span><p>This is a complete example of Fast.ai code that trains a CNN and saves to W&amp;B.</p>
+<p>You can find this example on <a href="https://github.com/wandb/examples/blob/master/fastai-unet-segmentation/train.py">GitHub</a> and see the results on <a href="https://app.wandb.ai/wandb/witness/runs/uy25i7te?workspace=user-l2k2">W&amp;B</a>.</p>
+<pre><code class="hljs css language-python"><span class="hljs-keyword">from</span> fastai.vision <span class="hljs-keyword">import</span> *
+<span class="hljs-keyword">from</span> fastai.callbacks.hooks <span class="hljs-keyword">import</span> *
+<span class="hljs-keyword">from</span> fastai.utils.mem <span class="hljs-keyword">import</span> *
+<span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> wandb
+<span class="hljs-keyword">import</span> pandas
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> numpy
+<span class="hljs-keyword">from</span> wandb.fastai <span class="hljs-keyword">import</span> WandbCallback
+<span class="hljs-keyword">from</span> fastai.callbacks <span class="hljs-keyword">import</span> LearnerCallback
+
+<span class="hljs-keyword">from</span> aws_fetcher <span class="hljs-keyword">import</span> AwsGroundTruthFetcher 
+
+<span class="hljs-comment"># Seed the randomizer so training/validation set split is consistent</span>
+numpy.random.seed(<span class="hljs-number">789032</span>)
+
+run = wandb.init(project=<span class="hljs-string">'witness-puzzle-finder'</span>)
+
+encoder = models.resnet18
+
+wandb.config.batch_size = <span class="hljs-number">6</span>
+wandb.config.img_size = (<span class="hljs-number">360</span>, <span class="hljs-number">240</span>)
+wandb.config.encoder = encoder.__name__
+wandb.config.learning_rate = <span class="hljs-number">5e-3</span>
+wandb.config.weight_decay = <span class="hljs-number">1e-2</span>
+wandb.config.num_epochs = <span class="hljs-number">20</span>
+
+os.environ[<span class="hljs-string">'CUDA_LAUNCH_BLOCKING'</span>] = <span class="hljs-string">'1'</span>
+
+<span class="hljs-comment"># Fetch all files from S3.</span>
+results_path = <span class="hljs-string">'s3://wandb-ss-witness/raw-images/ss-witness'</span>
+manifest_path = <span class="hljs-string">'{}/manifests/output/output.manifest'</span>.format(results_path)
+manifest_fetcher = AwsGroundTruthFetcher(manifest_path, <span class="hljs-string">'ss-witness'</span>)
+manifest_items = list(manifest_fetcher.fetch())
+
+<span class="hljs-comment"># codes and image colors from the mask file.</span>
+mask_mappings = [
+    (<span class="hljs-string">'BACKGROUND'</span>, <span class="hljs-number">0</span>),
+    (<span class="hljs-string">'puzzle'</span>, <span class="hljs-number">112</span>)
+]
+
+<span class="hljs-comment"># Create a pixel mapping of raw mask values (0-255) to class indices (0-c).</span>
+mask_mapping = [<span class="hljs-number">0</span>] * <span class="hljs-number">256</span>
+<span class="hljs-keyword">for</span> i, (code, val) <span class="hljs-keyword">in</span> enumerate(mask_mappings):
+    mask_mapping[val] = i
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">witness_mask_xform</span><span class="hljs-params">(img)</span>:</span>
+    <span class="hljs-string">"Convert an image from a raw mask to an class index mask."</span>
+    <span class="hljs-keyword">return</span> img.point(mask_mapping)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WitnessSegmentationLabelList</span><span class="hljs-params">(SegmentationLabelList)</span>:</span>
+    <span class="hljs-string">"Label list that transforms mask values."</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">open</span><span class="hljs-params">(self, fn)</span>:</span>
+        <span class="hljs-string">"Open mask and trasform to class indices."</span>
+        <span class="hljs-keyword">return</span> open_mask(fn, after_open=witness_mask_xform)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WitnessSegmentationItemList</span><span class="hljs-params">(SegmentationItemList)</span>:</span>
+    <span class="hljs-string">"Item List with proper label class."</span>
+    _label_cls = WitnessSegmentationLabelList
+    _square_show_res = <span class="hljs-keyword">False</span>
+
+<span class="hljs-comment"># Create training and validation set</span>
+y_path_lookup = { i[<span class="hljs-string">'source'</span>]: i[<span class="hljs-string">'result'</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> manifest_items }
+get_y_fn = <span class="hljs-keyword">lambda</span> x: y_path_lookup[str(x)]
+codes = [i[<span class="hljs-number">0</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> mask_mappings]
+
+item_paths = [pathlib.Path(i[<span class="hljs-string">'source'</span>]) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> manifest_items]
+item_list = WitnessSegmentationItemList(item_paths)
+item_lists = item_list.split_by_rand_pct(<span class="hljs-number">0.2</span>)
+dataset = (item_lists
+    .label_from_func(get_y_fn, classes=codes)
+    .transform(get_transforms(), size=wandb.config.img_size, tfm_y=<span class="hljs-keyword">True</span>))
+
+<span class="hljs-comment"># Set up data transforms</span>
+databunch = (dataset
+    .databunch(bs=wandb.config.batch_size, num_workers=<span class="hljs-number">0</span>)
+    .normalize(imagenet_stats))
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">acc</span><span class="hljs-params">(input, target)</span>:</span>
+    <span class="hljs-string">"Accuracy."</span>
+    target = target.squeeze(<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">return</span> (input.argmax(dim=<span class="hljs-number">1</span>)==target).float().mean()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">total_flagged</span><span class="hljs-params">(input, target)</span>:</span>
+    <span class="hljs-string">"Total pixels flagged as a puzzle."</span>
+    <span class="hljs-keyword">return</span> (input == <span class="hljs-number">1</span>).sum()
+
+metrics=[acc, total_flagged]
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fastaiim2np</span><span class="hljs-params">(im)</span>:</span>
+    <span class="hljs-string">"Convert FastAI image to numpy array."</span>
+    thumb_ratio = <span class="hljs-number">0.5</span>  <span class="hljs-comment"># Scale images down so they can all be sent to W&amp;B.</span>
+    thumb_size = (
+        int(wandb.config.img_size[<span class="hljs-number">0</span>] * thumb_ratio),
+        int(wandb.config.img_size[<span class="hljs-number">1</span>] * thumb_ratio)
+    )
+    <span class="hljs-keyword">return</span> (PIL.Image
+        .fromarray(image2np(im.data*<span class="hljs-number">255</span>).astype(np.uint8))
+        .resize(thumb_size, Image.ANTIALIAS))
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">gather_image_groups</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-string">"Convert dataset into image group for sending to W&amp;B."</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(dataset.train)):
+        image = dataset.train.x[i]
+        label = dataset.train.y[i]
+        pred_class, pred_labels, pred_probs = learn.predict(image)
+        <span class="hljs-keyword">yield</span> {
+            <span class="hljs-string">'image'</span>: wandb.Image(fastaiim2np(image)),
+            <span class="hljs-string">'label'</span>: wandb.Image(fastaiim2np(label)),
+            <span class="hljs-string">'prediction'</span>: wandb.Image(fastaiim2np(pred_class))
+        }
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LogImagesCallback</span><span class="hljs-params">(LearnerCallback)</span>:</span>
+    <span class="hljs-string">"Log images at end of every epoch."</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">on_epoch_end</span><span class="hljs-params">(self, epoch, **kwargs)</span>:</span>
+        <span class="hljs-comment"># Log training set with predictions</span>
+        images = list(gather_image_groups())
+        wandb.log({
+            <span class="hljs-string">'images'</span>: [i[<span class="hljs-string">'image'</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> images],
+            <span class="hljs-string">'labels'</span>: [i[<span class="hljs-string">'label'</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> images],
+            <span class="hljs-string">'prediction'</span>: [i[<span class="hljs-string">'prediction'</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> images]
+        })
+
+<span class="hljs-comment"># Create the learner.</span>
+learn = unet_learner(
+    databunch,
+    arch=encoder,
+    metrics=metrics,
+    callback_fns=[WandbCallback, LogImagesCallback],
+    wd=wandb.config.weight_decay)
+
+<span class="hljs-comment"># Learn!</span>
+learn.fit_one_cycle(
+    wandb.config.num_epochs,
+    slice(wandb.config.learning_rate),
+    pct_start=<span class="hljs-number">0.9</span>)
+
+learn.save(<span class="hljs-string">'stage-1'</span>)
+
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/frameworks/pytorch-example"><span class="arrow-prev">← </span><span class="function-name-prevnext">PyTorch</span></a><a class="docs-next button" href="/frameworks/scikit-example"><span>Scikit</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/wandb.svg" alt="W&amp;B" width="66" height="58"/></a><div><h5>Docs</h5><a href="/getting-started">Getting Started</a><a href="/wandb/init">Python API Reference</a><a href="/examples">Example Projects</a></div><div><h5>More</h5><a href="https://github.com/wandb/client">GitHub</a><a href="https://wandb.com">W&amp;B</a></div></section><section class="copyright">Copyright © 2019 Weights &amp; Biases, Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '0510e717ad08795f12b729ed540687cb',
+                indexName: 'wandb',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {}
+              });
+            </script></body></html>
