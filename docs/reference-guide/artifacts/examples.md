@@ -1,7 +1,3 @@
----
-description: Example code for trying W&B Artifacts
----
-
 # Artifacts Examples
 
 Walk through an example of Artifacts in a live notebook.

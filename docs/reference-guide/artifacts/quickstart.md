@@ -1,6 +1,6 @@
 # Quickstart
 
-The proceeding quick start demonstrates how to create, track, and use a dataset artifact. Ensure you have a Weights & Biases account before you begin.&#x20;
+The proceeding quick start demonstrates how to create, track, and use a dataset artifact. Ensure you have a Weights & Biases account before you begin.
 
 The following procedure lists how to construct and use an artifact. Steps 1 and 2 are not unique to W&B Artifacts.
 

@@ -43,7 +43,12 @@ const sidebars = {
         ]
       }
   ],
-
+  integrations: [
+    'integrations/intro',
+  ],
+  howtoguides: [
+    'howtoguides/intro',
+  ],
   api: [
     'api/intro',
     {
