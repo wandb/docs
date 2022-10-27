@@ -6,13 +6,14 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
+  title: 'W&B Docs',
   tagline: 'W&B are cool',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  // favicon: 'img/favicon.ico',
+  favicon: 'img/docs-favicon.png',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -37,15 +38,9 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/wandb/docodile',
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -57,10 +52,10 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'My Site',
+        title: 'Documentation',
         logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
+          alt: 'W&B Logo',
+          src: 'img/docs-favicon.png',          
         },
         items: [
           {
@@ -70,13 +65,25 @@ const config = {
             label: 'Developer Guide',
           },
           {
+            type: 'doc',
+            docId: 'integrations/intro',
+            position: 'left',
+            label: 'Integrations',
+          },
+          {
+            type: 'docSidebar',
+            position: 'left',
+            sidebarId: 'howtoguides',
+            label: 'How-to Guides',
+          },
+          {
             type: 'docSidebar',
             position: 'left',
             sidebarId: 'api',
             label: 'API',
           },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/wandb/docodile',
             label: 'GitHub',
             position: 'right',
           },
@@ -93,6 +100,14 @@ const config = {
                 to: '/docs/reference-guide/intro',
               },
               {
+                label: 'Integrations',
+                to: '/docs/integrations/intro',
+              },
+              {
+                label: 'How-to Guides',
+                to: '/docs/howtoguides/intro',
+              },
+              {
                 label: 'API',
                 to: '/docs/api/intro'
               },
@@ -102,29 +117,37 @@ const config = {
             title: 'Community',
             items: [
               {
+                label: 'W&B Community',
+                href: 'https://community.wandb.ai/',
+              },
+              {
                 label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                href: 'https://stackoverflow.com/questions/tagged/wandb',
               },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
-              },
+              // {
+              //   label: 'Discord',
+              //   href: 'https://discordapp.com/invite/docusaurus',
+              // },
             ],
           },
           {
-            title: 'More',
+            title: 'Connect',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'W&B Fully Connected',
+                href: 'https://wandb.ai/fully-connected',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/wandb/wandb',
+              },
+              {
+                label: 'Twitter',
+                href: 'https://twitter.com/weights_biases',
+              },
+              {
+                label: 'YouTube',
+                href: 'https://www.youtube.com/c/WeightsBiases',
               },
             ],
           },
