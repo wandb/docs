@@ -19,7 +19,20 @@ const sidebars = {
         type: 'category',
         label: 'Artifacts',
         items: [
-          'reference-guide/artifacts/intro'
+          // 'reference-guide/artifacts/artifacts-faqs',
+          'reference-guide/artifacts/construct-an-artifact',
+          'reference-guide/artifacts/create-a-custom-alias',
+          'reference-guide/artifacts/create-a-new-artifact-version',
+          'reference-guide/artifacts/data-privacy-and-compliance',
+          'reference-guide/artifacts/delete-artifacts',
+          'reference-guide/artifacts/download-and-use-an-artifact',
+          'reference-guide/artifacts/examples',
+          'reference-guide/artifacts/explore-and-traverse-an-artifact-graph',
+          'reference-guide/artifacts/intro',
+          'reference-guide/artifacts/quickstart',
+          'reference-guide/artifacts/storage',
+          'reference-guide/artifacts/track-external-files',
+          'reference-guide/artifacts/update-an-artifact'
         ]
       },
       {
