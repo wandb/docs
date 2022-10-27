@@ -65,11 +65,16 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'intro',
+            docId: 'reference-guide/intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Developer Guide',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          {
+            type: 'docSidebar',
+            position: 'left',
+            sidebarId: 'api',
+            label: 'API',
+          },
           {
             href: 'https://github.com/facebook/docusaurus',
             label: 'GitHub',
@@ -84,8 +89,12 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Developer Guide',
+                to: '/docs/reference-guide/intro',
+              },
+              {
+                label: 'API',
+                to: '/docs/api/intro'
               },
             ],
           },
