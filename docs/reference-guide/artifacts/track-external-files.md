@@ -20,7 +20,7 @@ Use Weights & Biases Artifacts for dataset versioning and model lineage, and use
 
 For an example of tracking reference files in GCP, see the [Guide to Tracking Artifacts by Reference](https://wandb.ai/stacey/artifacts/reports/Tracking-Artifacts-by-Reference--Vmlldzo1NDMwOTE).
 
-The following describes how to construct reference artifacts and how to best incorporate them into your workflows.&#x20;
+The following describes how to construct reference artifacts and how to best incorporate them into your workflows.
 
 ### Amazon S3 / GCS References
 

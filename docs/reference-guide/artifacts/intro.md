@@ -11,7 +11,7 @@ Artifacts can be thought of as a versioned directory. Artifacts are either an in
 
 Artifacts and runs form a directed graph because a given W&B run can use another run’s output artifact as input. You do not need to define pipelines ahead of time. Weights and Biases will create the DAG for you when you use and log artifacts.
 
-The following animation demonstrates an example artifacts DAG as seen in the W\&B App UI.
+The following animation demonstrates an example artifacts DAG as seen in the W&B App UI.
 
 ![Example artifact DAG](<../../.gitbook/assets/2020-09-03 15.59.43.gif>)
 
@@ -42,9 +42,9 @@ artifact.add_dir('images') # Adds multiple files to artifact
 run.log_artifact(artifact) # Creates `animals:v0`
 ```
 
-Weights & Biases automatically assigns a version `v0` and attaches an alias called `latest` when you create and log a new artifact object to W\&B. An _alias_ is a human-readable name that you can give to an artifact version.
+Weights & Biases automatically assigns a version `v0` and attaches an alias called `latest` when you create and log a new artifact object to W&B. An _alias_ is a human-readable name that you can give to an artifact version.
 
-If you create another artifact with the same name, type, and contents (in other words, you create another version of the artifact), W\&B will increase the version index by one. The alias `latest` is unassigned from artifact `v0` and assigned to the `v1` artifact.
+If you create another artifact with the same name, type, and contents (in other words, you create another version of the artifact), W&B will increase the version index by one. The alias `latest` is unassigned from artifact `v0` and assigned to the `v1` artifact.
 
 Weights & Biases uploads files that were modified between artifacts versions. For more information about how artifacts are stored, see [Artifacts Storage](storage.md).
 
@@ -59,7 +59,7 @@ images
 |-- bird.png (3MB)
 ```
 
-Re initialize the previous code snippet. This will produce a new artifact version `animals:v1`. W\&B will automatically assign this version with the alias: `latest` . You can customize the aliases to apply to a version by passing in `aliases=['my-cool-alias']` to `log_artifact`. For more information about how to create new versions, see Create a new artifact version.
+Re initialize the previous code snippet. This will produce a new artifact version `animals:v1`. W&B will automatically assign this version with the alias: `latest` . You can customize the aliases to apply to a version by passing in `aliases=['my-cool-alias']` to `log_artifact`. For more information about how to create new versions, see Create a new artifact version.
 
 To use the artifact, provide the name of the artifact along with the alias.
 

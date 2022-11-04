@@ -39,7 +39,20 @@ const sidebars = {
         type: 'category',
         label: 'Tune Hyperparameters',
         items: [
-          'reference-guide/tune-hyperparameters/intro'
+          'reference-guide/tune-hyperparameters/intro',
+          'reference-guide/tune-hyperparameters/add-w-and-b-to-your-code',
+          'reference-guide/tune-hyperparameters/define-sweep-configuration',
+          'reference-guide/tune-hyperparameters/existing-project',
+          
+          'reference-guide/tune-hyperparameters/initialize-sweeps',
+          'reference-guide/tune-hyperparameters/local-controller',
+          'reference-guide/tune-hyperparameters/parallelize-agents',
+          'reference-guide/tune-hyperparameters/pause-resume-and-cancel-sweeps',
+          'reference-guide/tune-hyperparameters/quickstart',
+          'reference-guide/tune-hyperparameters/start-sweep-agents',
+          'reference-guide/tune-hyperparameters/troubleshoot-sweeps',
+          'reference-guide/tune-hyperparameters/useful-resources',
+          'reference-guide/tune-hyperparameters/visualize-sweep-results',
         ]
       }
   ],
