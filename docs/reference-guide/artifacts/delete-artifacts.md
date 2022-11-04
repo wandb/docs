@@ -4,7 +4,7 @@ Delete artifacts interactively with the App UI or programmatically with the Weig
 
 You can delete aliases before you delete an artifact or you can delete an artifact and pass an additional flag to the API call. It is recommended that you remove aliases associated to the artifact you want to delete before you delete the artifact.
 
-See the Update an artifact documentation for information on how to programmatically or interactively update an alias with the W\&B SDK or App UI, respectively.
+See the Update an artifact documentation for information on how to programmatically or interactively update an alias with the W&B SDK or App UI, respectively.
 
 ### Delete an artifact version
 
