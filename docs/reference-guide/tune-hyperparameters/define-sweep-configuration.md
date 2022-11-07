@@ -81,7 +81,7 @@ wandb.log({
 
 Sweep configurations are nested; keys can have, as their values, further keys. The top-level keys are listed and briefly described below, and then detailed in the following section.
 
-| Top-Level Key     | Description                                                                                                                   |
+<!-- | Top-Level Key     | Description                                                                                                                   |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | `program`         | (required) Training script to run.                                                                                            |
 | `method`          | (required) Specify the [search strategy](define-sweep-configuration.md#configuration-keys).                                   |
@@ -92,7 +92,7 @@ Sweep configurations are nested; keys can have, as their values, further keys. T
 | `early_terminate` | Specify any [early stopping criteria](define-sweep-configuration.md#early\_terminate).                                        |
 | `command`         | Specify [command structure ](define-sweep-configuration.md#command)for invoking and passing arguments to the training script. |
 | `project`         | Specify the project for this sweep.                                                                                           |
-| `entity`          | Specify the entity for this sweep.                                                                                            |
+| `entity`          | Specify the entity for this sweep.                                                                                            | -->
 
 ### Search type methods
 
@@ -136,9 +136,9 @@ The following list describes hyperparameter search methods. Specify the search s
   </TabItem>
 </Tabs>
 
-:::caution
-<!-- Random and Bayesian searches will run forever -- until you stop the process from the command line, within your python script, or [the UI](../../ref/app/features/sweeps.md). Grid search will also run forever if it searches within in a continuous search space. -->
-:::
+<!-- :::caution
+Random and Bayesian searches will run forever -- until you stop the process from the command line, within your python script, or [the UI](../../ref/app/features/sweeps.md). Grid search will also run forever if it searches within in a continuous search space.
+::: -->
 
 ## Configuration keys
 

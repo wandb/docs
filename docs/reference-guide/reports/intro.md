@@ -6,11 +6,11 @@ description: Project management and collaboration tools for machine learning pro
 
 Reports let you organize and embed visualizations, describe your findings, share updates with collaborators, and more.
 
-{% hint style="info" %}
-Check out our [video demo](https://www.youtube.com/watch?v=2xeJIv\_K\_eI) of Reports, or read curated Reports in [W\&B Fully Connected](http://wandb.me/fc).
-{% endhint %}
+:::info
+Check out our [video demo](https://www.youtube.com/watch?v=2xeJIv\_K\_eI) of Reports, or read curated Reports in [W&B Fully Connected](http://wandb.me/fc).
+:::
 
-{% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %}
+<!-- {% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %} -->
 
 ## Typical use cases for reports
 
@@ -58,6 +58,6 @@ Tell the story of a project, which you and others can reference later to underst
 
 ### [See the OpenAI case study →](https://bit.ly/wandb-learning-dexterity)
 
-Once you have [experiments in W\&B](../../quickstart.md), easily visualize results in reports. Here's a quick overview video.
+<!-- Once you have [experiments in W&B](../../quickstart.md), easily visualize results in reports. Here's a quick overview video. -->
 
-{% embed url="https://www.youtube.com/watch?v=o2dOSIDDr1w" %}
+<!-- {% embed url="https://www.youtube.com/watch?v=o2dOSIDDr1w" %} -->

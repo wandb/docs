@@ -59,6 +59,7 @@ const sidebars = {
         type: 'category',
         label: 'Collaborative Reports',
         items: [
+          'reference-guide/reports/intro',
           'reference-guide/reports/create-a-report',
           'reference-guide/reports/edit-a-report',
           'reference-guide/reports/collaborate-on-reports',
@@ -66,6 +67,15 @@ const sidebars = {
           'reference-guide/reports/embed-reports',
           'reference-guide/reports/cross-project-reports',
           'reference-guide/reports/reports-faq',
+        ]
+      },
+      {
+        type: 'category',
+        label: 'Model Management',
+        items: [
+          'reference-guide/models/intro',
+          'reference-guide/models/model-management-concepts',
+          'reference-guide/models/walkthrough',
         ]
       }
   ],
