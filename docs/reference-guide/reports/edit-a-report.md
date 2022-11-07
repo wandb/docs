@@ -8,7 +8,7 @@ Edit a report interactively with the App UI or programmatically with the Weights
 
 Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and run, and panels grids.
 
-_Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W\&B. Panels are visualizations of run set data.
+_Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
 
 :::warning
 Editing Reports programmatically with the Python SDK is in Beta and in active development.

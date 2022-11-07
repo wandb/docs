@@ -66,7 +66,7 @@ Reports look the same in view mode, and can have all the same content as they di
 
 **What is WYSIWYG?**
 
-WYSIWYG is an acronym for What You See Is What You Get. It refers to a type of editor where the content always looks the same, whether you're editing or presenting. In contrast, W\&B reports used to have Markdown editors, where you edit in [Markdown](https://www.markdownguide.org) and have to switch to preview mode to see what it'll end up looking like. W\&B reports are now fully WYSIWYG.
+WYSIWYG is an acronym for What You See Is What You Get. It refers to a type of editor where the content always looks the same, whether you're editing or presenting. In contrast, W&B reports used to have Markdown editors, where you edit in [Markdown](https://www.markdownguide.org) and have to switch to preview mode to see what it'll end up looking like. W&B reports are now fully WYSIWYG.
 
 **Why change to WYSIWYG?**
 
