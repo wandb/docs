@@ -77,6 +77,16 @@ const sidebars = {
           'reference-guide/models/model-management-concepts',
           'reference-guide/models/walkthrough',
         ]
+      },
+      {
+        type: 'category',
+        label: 'Data Visualization',
+        items: [
+          'reference-guide/data-vis/intro',
+          'reference-guide/data-vis/tables-quickstart',
+          'reference-guide/data-vis/log-tables',
+          'reference-guide/data-vis/tables',
+        ]
       }
   ],
   integrations: [
