@@ -4,7 +4,7 @@ description: Iterate on datasets and understand model predictions
 
 # Data Visualization
 
-Use **W\&B Tables** to log, query, and analyze tabular data. Understand your datasets, visualize model predictions, and share insights in a central dashboard.
+Use **W&B Tables** to log, query, and analyze tabular data. Understand your datasets, visualize model predictions, and share insights in a central dashboard.
 
 * Compare changes precisely across models, epochs, or individual examples
 * Understand higher-level patterns in your data
@@ -28,9 +28,9 @@ Add rich media to your logged [Table](log-tables.md) (images, audio, point cloud
 
 ![](<../../.gitbook/assets/tablesquickstart (1).png>)
 
-## What are W\&B Tables?
+## What are W&B Tables?
 
-A W\&B Table (`wandb.Table`) is a two dimensional grid of data where each column has a single type of data—think of this as a more powerful DataFrame. Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types. Log a Table to W\&B, then query, compare, and analyze results in the UI.
+A W&B Table (`wandb.Table`) is a two dimensional grid of data where each column has a single type of data—think of this as a more powerful DataFrame. Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types. Log a Table to W&B, then query, compare, and analyze results in the UI.
 
 Tables are great for storing, understanding, and sharing any form of data critical to your ML workflow—from datasets to model predictions and everything in between.
 
@@ -60,7 +60,7 @@ Zoom in to visualize a specific prediction at a specific step. Zoom out to see t
 
 ![](<../../.gitbook/assets/Screen Shot 2021-04-30 at 7.49.27 AM.png>)
 
-## Example Projects with W\&B Tables
+## Example Projects with W&B Tables
 
 ### Image classification
 
@@ -70,7 +70,7 @@ Read [this report](https://wandb.ai/stacey/mendeleev/reports/Visualize-Data-for-
 
 ### Audio
 
-Interact with audio Tables in[ this report](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) on timbre transfer. You can compare a recorded whale song with a synthesized rendition of the same melody on an instrument like violin or trumpet. You can also record your own songs and explore their synthesized versions in W\&B via [this colab →](http://wandb.me/audio-transfer)
+Interact with audio Tables in[ this report](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) on timbre transfer. You can compare a recorded whale song with a synthesized rendition of the same melody on an instrument like violin or trumpet. You can also record your own songs and explore their synthesized versions in W&B via [this colab →](http://wandb.me/audio-transfer)
 
 ![](<../../.gitbook/assets/Screen Shot 2021-04-30 at 12.08.52 PM.png>)
 

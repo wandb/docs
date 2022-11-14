@@ -15,6 +15,43 @@
 const sidebars = {
   referenceSidebar: [
     'reference-guide/intro',
+    {
+      type: 'category',
+      label: 'Experiment Tracking',
+      items: [
+        'reference-guide/track/intro',
+        'reference-guide/track/launch',
+        'reference-guide/track/config',
+        {
+          type: 'category',
+          label: 'Log Data with wandb.log',
+          items: [
+            'reference-guide/track/log/intro',
+            'reference-guide/track/log/plots',
+            'reference-guide/track/log/log-tables',
+            'reference-guide/track/log/working-with-csv',
+            'reference-guide/track/log/logging-faqs',
+          ]
+        },
+        'reference-guide/track/advanced/alert',
+        'reference-guide/track/app',
+        'reference-guide/track/limits',
+        'reference-guide/track/public-api-guide',
+        'reference-guide/track/jupyter',
+        {
+          type: 'category',
+          label: 'Advanced Features',
+          items: [
+            'reference-guide/track/advanced/intro',
+            'reference-guide/track/advanced/distributed-training',
+            'reference-guide/track/advanced/grouping',
+            'reference-guide/track/advanced/resuming',
+            'reference-guide/track/advanced/save-restore',
+            'reference-guide/track/advanced/environment-variables',
+          ]
+        }
+      ]
+    },
       {
         type: 'category',
         label: 'Artifacts',
@@ -87,7 +124,7 @@ const sidebars = {
           'reference-guide/data-vis/log-tables',
           'reference-guide/data-vis/tables',
         ]
-      }
+      },
   ],
   integrations: [
     'integrations/intro',

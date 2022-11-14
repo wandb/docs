@@ -3,7 +3,7 @@ import TabItem from '@theme/TabItem';
 
 # Visualize & Analyze Tables
 
-Use W\&B Tables to log and visualize data and model predictions. Interactively explore your data:
+Use W&B Tables to log and visualize data and model predictions. Interactively explore your data:
 
 * Compare changes precisely across models, epochs, or individual examples
 * Understand higher-level patterns in your data
@@ -11,7 +11,7 @@ Use W\&B Tables to log and visualize data and model predictions. Interactively e
 
 ### **Examples**
 
-These reports highlight the different use cases of W\&B Tables:
+These reports highlight the different use cases of W&B Tables:
 
 * [Visualize Predictions Over Time](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)
 * [How to Compare Tables in Workspaces](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)
@@ -74,7 +74,7 @@ From the three-dot menu on any column, you can insert a new column to the left o
 Tables render column data based on the type of the values logged in that column. By clicking on the column name or "Column settings" from the three-dot menu, you can modify
 
 * **the contents** of the column by editing "Cell expression": select a different field to show, or build a logical predicate expression as described above, including adding a function like count() or avg(), etc to apply to the contents.
-* **the column type**: convert between a histogram, an array of values, a number, text, etc. W\&B will try to guess the type based on the data contents.
+* **the column type**: convert between a histogram, an array of values, a number, text, etc. W&B will try to guess the type based on the data contents.
 * **the pagination**: select how many objects to view at once in a grouped row
 * **the display name** in the column header
 
