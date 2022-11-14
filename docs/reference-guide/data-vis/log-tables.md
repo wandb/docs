@@ -1,6 +1,6 @@
 # Log Tables
 
-Use `wandb.Table` to log data to visualize and query with W\&B. In this guide, learn how to:
+Use `wandb.Table` to log data to visualize and query with W&B. In this guide, learn how to:
 
 1. [Create Tables](./log-tables#create-tables)
 2. [Add Data](./log-tables#add-data)
@@ -72,7 +72,7 @@ Once data is in a Table, access it by column or by row:
 
 ## Save Tables
 
-After you generate a table of data in your script, for example a table of model predictions, save it to W\&B to visualize the results live. If you'd like to save and version larger datasets check out [Artifact Tables](https://docs.wandb.ai/guides/data-vis/log-tables#advanced-artifact-tables).
+After you generate a table of data in your script, for example a table of model predictions, save it to W&B to visualize the results live. If you'd like to save and version larger datasets check out [Artifact Tables](https://docs.wandb.ai/guides/data-vis/log-tables#advanced-artifact-tables).
 
 ### Log a table to a run
 
