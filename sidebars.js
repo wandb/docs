@@ -133,12 +133,12 @@ const sidebars = {
     'howtoguides/intro',
   ],
   api: [
-    'api/intro',
+    'ref/intro',
     {
       type: 'category',
       label: 'Python Library',
       items: [
-        'api/sdk/data-types'
+        'ref/python/artifact'
       ]
     }
   ]
