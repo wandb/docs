@@ -14,8 +14,8 @@ _We recommend that you consider using the wandb.ai cloud before privately hostin
 
 There are three main ways to set up a W&BServer in a production environment:
 
-1. [Production Cloud](setup/private-cloud.md): Set up a production deployment on a private cloud in just a few steps using terraform scripts provided by W\&B.
-2. [Dedicated Cloud](setup/dedicated-cloud.md): A managed, dedicated deployment on W\&B's single-tenant infrastructure in your choice of cloud region.
+1. [Production Cloud](setup/private-cloud.md): Set up a production deployment on a private cloud in just a few steps using terraform scripts provided by W&B.
+2. [Dedicated Cloud](setup/dedicated-cloud.md): A managed, dedicated deployment on W&B's single-tenant infrastructure in your choice of cloud region.
 3. [On-Prem / Bare Metal](setup/on-premise-baremetal.md): W&Bsupports setting up a production server on most bare metal servers in your on-premise data centers. Quickly get started by running `wandb server` to easily start hosting W&Bon your local infrastructure.
 
 Review our [Product Setup](setup/) to learn more about configuring a W&Bproduction server.

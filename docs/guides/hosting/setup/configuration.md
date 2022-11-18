@@ -27,7 +27,7 @@ All configuration settings can be set via the UI however if you would like to ma
 | SLACK\_CLIENT\_ID    | The client ID of the Slack application you want to use for alerts                                                                                                                          |
 | SLACK\_SECRET        | The secret of the Slack application you want to use for alerts                                                                                                                             |
 | LOCAL\_RESTORE       | You can temporarily set this to true if you're unable to access your instance. Check the logs from the container for temporary credentials.                                                |
-| REDIS                | Can be used to setup an external REDIS instance with W\&B.                                                                                                                                 |
+| REDIS                | Can be used to setup an external REDIS instance with W&B.                                                                                                                                 |
 | LOGGING\_ENABLED     | When set to true, access logs are streamed to stdout. You can also mount a sidecar container and tail `/var/log/gorilla.log` without setting this variable.                                |
 
 ### Host Configuration
@@ -137,7 +137,7 @@ You should always specify the bucket you're using with the BUCKET environment va
 
 ### Amazon Web Services
 
-To use an AWS S3 bucket as the file storage backend for W\&B, you'll need to create a bucket, along with an SQS queue configured to receive object creation notifications from that bucket. Your instance will need permissions to read from this queue.
+To use an AWS S3 bucket as the file storage backend for W&B, you'll need to create a bucket, along with an SQS queue configured to receive object creation notifications from that bucket. Your instance will need permissions to read from this queue.
 
 **Create an S3 Bucket and Bucket Notifications**
 
@@ -180,7 +180,7 @@ First, create an SQS Standard Queue. Add a permission for all principals for the
 }
 ```
 
-**Grant Permissions to Node Running W\&B**
+**Grant Permissions to Node Running W&B**
 
 The node on which W&BServer is running must be configured to permit access to S3 and SQS. Depending on the type of server deployment you've opted for, you may need to add the following policy statements to your node role:
 
@@ -219,7 +219,7 @@ Press "Update settings" to apply the new settings.
 
 ### Google Cloud Platform
 
-To use a GCP Storage bucket as a file storage backend for W\&B, you'll need to create a bucket, along with a PubSub topic and subscription configured to receive object creation messages from that bucket.
+To use a GCP Storage bucket as a file storage backend for W&B, you'll need to create a bucket, along with a PubSub topic and subscription configured to receive object creation messages from that bucket.
 
 **Create PubSub Topic and Subscription**
 
@@ -292,7 +292,7 @@ Press "update settings" to apply the new settings.
 
 ### Azure
 
-To use an Azure blob container as the file storage for W\&B, you'll need to create a storage account (if you don't already have one you want to use), create a blob container and a queue within that storage account, and then create an event subscription that sends "blob created" notifications to the queue from the blob container.
+To use an Azure blob container as the file storage for W&B, you'll need to create a storage account (if you don't already have one you want to use), create a blob container and a queue within that storage account, and then create an event subscription that sends "blob created" notifications to the queue from the blob container.
 
 #### Create a Storage Account
 
@@ -366,9 +366,9 @@ Configuring an external redis server will improve the reliability of the service
 
 #### Configuring REDIS in the W&Bserver
 
-To configure the redis instance with W\&B, you can navigate to the W&Bsettings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external Redis instance" option, and fill in the `redis` connection string in the following format:
+To configure the redis instance with W&B, you can navigate to the W&Bsettings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external Redis instance" option, and fill in the `redis` connection string in the following format:
 
-![Configuring REDIS in W\&B](<../../../.gitbook/assets/Screen Shot 2022-08-19 at 1.45.26 PM.png>)
+![Configuring REDIS in W&B](<../../../.gitbook/assets/Screen Shot 2022-08-19 at 1.45.26 PM.png>)
 
 You can also configure `redis` using the environment variable `REDIS` on the container or in your Kubernetes deployment. Alternatively, you could also setup `REDIS` as a Kubernetes secret.
 
@@ -406,7 +406,7 @@ Hit **Save URLs** once finished.
 
 To further secure your Slack application and prevent abuse, you can specify an IP range under **Restrict API Token Usage**, whitelisting the IP or IP range of your W&Binstance(s).
 
-#### Register your Slack application with W\&B
+#### Register your Slack application with W&B
 
 Navigate to the **System Settings** page of your W&Binstance. Check the box to enable a custom Slack application:
 

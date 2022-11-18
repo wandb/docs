@@ -4,13 +4,13 @@ description: Hosting W&B Server in a secure enterprise environment.
 
 # Dedicated Cloud
 
-W&Bis hosted in a dedicated virtual private network on W\&B's single-tenant AWS or GCP infrastructure in your choice of cloud region. Use our Secure Storage Connector to connect your data to a scalable data store hosted on your company's private cloud.
+W&Bis hosted in a dedicated virtual private network on W&B's single-tenant AWS or GCP infrastructure in your choice of cloud region. Use our Secure Storage Connector to connect your data to a scalable data store hosted on your company's private cloud.
 
 Talk to our sales team by reaching out to [contact@wandb.com](mailto:contact@wandb.com).
 
 ## Configuration
 
-We can configure an object store on your behalf, in which case there is no additional configuration that you need to perform. However, we also enable you to connect your object store with our Secure Storage Connector feature. The Secure Storage Connector enables you to connect your own secure data storage to this dedicated cloud infrastructure. This enables you full control of your data with isolation guarantees, while relying on W\&B's cloud operational expertise to reduce your support burden and manage your dedicated infrastructure.
+We can configure an object store on your behalf, in which case there is no additional configuration that you need to perform. However, we also enable you to connect your object store with our Secure Storage Connector feature. The Secure Storage Connector enables you to connect your own secure data storage to this dedicated cloud infrastructure. This enables you full control of your data with isolation guarantees, while relying on W&B's cloud operational expertise to reduce your support burden and manage your dedicated infrastructure.
 
 A W&BDedicated Cloud with Secure Storage Connector enabled requires the following resources in your private cloud account:
 
