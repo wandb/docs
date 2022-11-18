@@ -1,6 +1,6 @@
 # App UI
 
-This section contains reference docs for the web app interface, hosted in the cloud at wandb.ai or [self-hosted with W&B Local](../../guides/self-hosted/).
+This section contains reference docs for the web app interface, hosted in the cloud at wandb.ai or [self-hosted with W&B Local](../hosting/intro).
 
 ### Pages
 
@@ -22,7 +22,6 @@ This section contains reference docs for the web app interface, hosted in the cl
 * [**Runs Table**](features/runs-table.md): Queryable tool for organizing and comparing runs
 * [**Tags**](features/tags.md)
 * [**Notes**](features/notes.md)
-<!-- * [**Sweeps**](features/sweeps.md) -->
 * [**Alerts**](features/alerts.md)
 * [**Teams**](features/teams.md)
 * [**System Metrics**](features/system-metrics.md)

@@ -140,7 +140,7 @@ const sidebars = {
       type: 'category',
       label: 'W&B App UI',
       items: [
-        'guides/app/README',
+        'guides/app/intro',
         {
           type: 'category',
           label: 'Features',
