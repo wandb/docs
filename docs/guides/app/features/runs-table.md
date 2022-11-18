@@ -20,7 +20,7 @@ If regex doesn't provide you the desired results, you can make use of [tags](tag
 
 We provide a column named `End Time` that logs that last heartbeat from the client process. The field is hidden by default.
 
-![](<../../../.gitbook/assets/image (62) (1) (8).png>)
+<!-- ![](<../../../.gitbook/assets/image (62) (1) (8).png>) -->
 
 ## Resize the sidebar
 

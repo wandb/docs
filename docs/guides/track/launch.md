@@ -153,7 +153,7 @@ for i in range(100):
 
 Here's a sample terminal output:
 
-![](<../../.gitbook/assets/image (26) (3).png>)
+<!-- ![](<../../.gitbook/assets/image (26) (3).png>) -->
 
 And once you're ready, just run a sync command to send that folder to the cloud.
 

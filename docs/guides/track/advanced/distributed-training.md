@@ -48,7 +48,7 @@ Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-tha
 
 However, the loss values as a function epoch and batch size were only logged from a single GPU.
 
-![](<../../../.gitbook/assets/image (68) (2).png>)
+<!-- ![](<../../../.gitbook/assets/image (68) (2).png>) -->
 
 ### Method 2: Many processes
 

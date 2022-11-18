@@ -20,7 +20,7 @@ Creating Reports programmatically with the Python SDK is in Beta and in active d
 
 Click **Create report** in the upper right corner of your workspace.
 
-![](<../../.gitbook/assets/image (176) (2).png>)
+<!-- ![](<../../.gitbook/assets/image (176) (2).png>) -->
 
 Select the charts you would like to start with. You can add or delete charts later from the report interface.
 

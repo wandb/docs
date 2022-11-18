@@ -50,7 +50,7 @@ Project page tabs:
 
 [View a live example →](https://app.wandb.ai/example-team/sweep-demo)
 
-![](<../../../.gitbook/assets/image (38) (2) (3) (3) (2) (1) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (3) (1) (1) (1) (1) (1) (1) (1) (3) (1) (1) (3) (5) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1)  (2).png>)
+<!-- ![](<../../../.gitbook/assets/image (38) (2) (3) (3) (2) (1) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (3) (1) (1) (1) (1) (1) (1) (1) (3) (1) (1) (3) (5) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1)  (2).png>) -->
 
 ### Search for runs
 
@@ -178,7 +178,7 @@ You can change your project default settings _manually_ in your User Settings at
 _Note_ that these settings can also be specified by passing arguments to 
 [`wandb.init`](../../../ref/python/init.md).
 
-![](<../../../.gitbook/assets/image (78) (1) (1).png>)
+<!-- ![](<../../../.gitbook/assets/image (78) (1) (1).png>) -->
 
 ## Frequently Asked Questions
 

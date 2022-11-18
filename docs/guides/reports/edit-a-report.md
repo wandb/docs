@@ -324,7 +324,7 @@ report.save()
 This will render a HTML elements  to the following:
 
 
-![](<../../.gitbook/assets/image (2) (2).png>)
+<!-- ![](<../../.gitbook/assets/image (2) (2).png>) -->
 
   </TabItem>
 </Tabs>
