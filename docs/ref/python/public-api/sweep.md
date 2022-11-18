@@ -1,0 +1,131 @@
+# Sweep
+
+
+
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2437-L2614)
+
+
+
+A set of runs associated with a sweep.
+
+```python
+Sweep(
+    client, entity, project, sweep_id, attrs=None
+)
+```
+
+
+
+
+
+#### Examples:
+
+Instantiate with:
+```
+api = wandb.Api()
+sweep = api.sweep(path/to/sweep)
+```
+
+
+
+
+
+| Attributes |  |
+| :--- | :--- |
+|  `runs` |  (`Runs`) list of runs |
+|  `id` |  (str) sweep id |
+|  `project` |  (str) name of project |
+|  `config` |  (str) dictionary of sweep configuration |
+|  `state` |  (str) the state of the sweep |
+
+
+
+## Methods
+
+<h3 id="best_run"><code>best_run</code></h3>
+
+[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2514-L2537)
+
+```python
+best_run(
+    order=None
+)
+```
+
+Returns the best run sorted by the metric defined in config or the order passed in
+
+
+<h3 id="display"><code>display</code></h3>
+
+[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L959-L970)
+
+```python
+display(
+    height=420, hidden=(False)
+) -> bool
+```
+
+Display this object in jupyter
+
+
+<h3 id="get"><code>get</code></h3>
+
+[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2557-L2596)
+
+```python
+@classmethod
+get(
+    client, entity=None, project=None, sid=None, order=None, query=None, **kwargs
+)
+```
+
+Execute a query against the cloud backend
+
+
+<h3 id="load"><code>load</code></h3>
+
+[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2495-L2503)
+
+```python
+load(
+    force: bool = (False)
+)
+```
+
+
+
+
+<h3 id="snake_to_camel"><code>snake_to_camel</code></h3>
+
+[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L955-L957)
+
+```python
+snake_to_camel(
+    string
+)
+```
+
+
+
+
+<h3 id="to_html"><code>to_html</code></h3>
+
+[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2598-L2606)
+
+```python
+to_html(
+    height=420, hidden=(False)
+)
+```
+
+Generate HTML containing an iframe displaying this sweep
+
+
+
+
+
+
+| Class Variables |  |
+| :--- | :--- |
+|  `QUERY`<a id="QUERY"></a> |   |
+
