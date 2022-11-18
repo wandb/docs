@@ -1,3 +1,0 @@
-# Integrations
-
-Coming soon!

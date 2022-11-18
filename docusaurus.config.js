@@ -60,15 +60,9 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'reference-guide/intro',
+            docId: 'guides/intro',
             position: 'left',
             label: 'Developer Guide',
-          },
-          {
-            type: 'doc',
-            docId: 'integrations/intro',
-            position: 'left',
-            label: 'Integrations',
           },
           {
             type: 'docSidebar',
@@ -79,8 +73,8 @@ const config = {
           {
             type: 'docSidebar',
             position: 'left',
-            sidebarId: 'api',
-            label: 'API',
+            sidebarId: 'ref',
+            label: 'Reference',
           },
           {
             href: 'https://github.com/wandb/docodile',
@@ -97,7 +91,7 @@ const config = {
             items: [
               {
                 label: 'Developer Guide',
-                to: '/docs/reference-guide/intro',
+                to: '/docs/guides/intro',
               },
               {
                 label: 'Integrations',
