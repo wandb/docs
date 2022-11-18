@@ -1,0 +1,39 @@
+# Advanced Features
+
+The guides in this section go beyond core Weights & Biases experiment-tracking features like [logging data and media](../log/intro), [building rich dashboards](../app), and [seamlessly integrating with popular frameworks and tools](../../integrations/) to cover advanced use cases and power-user features.
+
+:::info
+Looking for the gory details on how the `wandb` library, CLI, and UI tools work? You want the [Reference](../../../ref/) documentation.
+:::
+
+Need to **track large-scale ML experiments distributed across multiple GPUs** and multiple nodes? Then check out our guide to [Distributed Training](./distributed-training). For some approaches to distributed training and [cross-validation](https://github.com/wandb/examples/tree/master/examples/wandb-sweeps/sweeps-cross-validation), you also need to **combine multiple runs together into a single experiment**, as described in our guide on how to [Group Runs](./grouping).
+
+At Weights & Biases, we're all about preventing you from losing any of your work. If you're **using** [**pre-emptible compute**](https://cloud.google.com/preemptible-vms) **or your machine crashes**, we'll help you [Resume Runs](./resuming) where you left off. If you're **in danger of losing valuable data**, `wandb` can even [Save & Restore Files](./save-restore).
+
+Tired of **wondering whether training has finished or, worse, crashed**? Set up [Alerts](alert) to Slack or your e-mail, with configurable triggers right in your Python code.
+
+The behavior of the tool is **controllable from the command line**, as described in our guide to [Environment Variables](./environment-variables).
+
+<!-- {% content-ref url="distributed-training.md" %}
+[distributed-training.md](distributed-training)
+{% endcontent-ref %}
+
+{% content-ref url="grouping.md" %}
+[grouping.md](grouping)
+{% endcontent-ref %}
+
+{% content-ref url="resuming.md" %}
+[resuming.md](resuming)
+{% endcontent-ref %}
+
+{% content-ref url="save-restore.md" %}
+[save-restore.md](save-restore)
+{% endcontent-ref %}
+
+{% content-ref url="alert.md" %}
+[alert.md](alert)
+{% endcontent-ref %}
+
+{% content-ref url="environment-variables.md" %}
+[environment-variables.md](environment-variables)
+{% endcontent-ref %} -->
