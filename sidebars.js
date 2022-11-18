@@ -14,40 +14,41 @@
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
   referenceSidebar: [
-    'reference-guide/intro',
+    'guides/intro',
+    'quickstart',
     {
       type: 'category',
       label: 'Experiment Tracking',
       items: [
-        'reference-guide/track/intro',
-        'reference-guide/track/launch',
-        'reference-guide/track/config',
+        'guides/track/intro',
+        'guides/track/launch',
+        'guides/track/config',
         {
           type: 'category',
           label: 'Log Data with wandb.log',
           items: [
-            'reference-guide/track/log/intro',
-            'reference-guide/track/log/plots',
-            'reference-guide/track/log/log-tables',
-            'reference-guide/track/log/working-with-csv',
-            'reference-guide/track/log/logging-faqs',
+            'guides/track/log/intro',
+            'guides/track/log/plots',
+            'guides/track/log/log-tables',
+            'guides/track/log/working-with-csv',
+            'guides/track/log/logging-faqs',
           ]
         },
-        'reference-guide/track/advanced/alert',
-        'reference-guide/track/app',
-        'reference-guide/track/limits',
-        'reference-guide/track/public-api-guide',
-        'reference-guide/track/jupyter',
+        'guides/track/advanced/alert',
+        'guides/track/app',
+        'guides/track/limits',
+        'guides/track/public-api-guide',
+        'guides/track/jupyter',
         {
           type: 'category',
           label: 'Advanced Features',
           items: [
-            'reference-guide/track/advanced/intro',
-            'reference-guide/track/advanced/distributed-training',
-            'reference-guide/track/advanced/grouping',
-            'reference-guide/track/advanced/resuming',
-            'reference-guide/track/advanced/save-restore',
-            'reference-guide/track/advanced/environment-variables',
+            'guides/track/advanced/intro',
+            'guides/track/advanced/distributed-training',
+            'guides/track/advanced/grouping',
+            'guides/track/advanced/resuming',
+            'guides/track/advanced/save-restore',
+            'guides/track/advanced/environment-variables',
           ]
         }
       ]
@@ -56,89 +57,213 @@ const sidebars = {
         type: 'category',
         label: 'Artifacts',
         items: [
-          'reference-guide/artifacts/intro',
-          'reference-guide/artifacts/quickstart',
-          'reference-guide/artifacts/construct-an-artifact',
-          'reference-guide/artifacts/download-and-use-an-artifact',
-          'reference-guide/artifacts/update-an-artifact',
-          'reference-guide/artifacts/create-a-custom-alias',
-          'reference-guide/artifacts/create-a-new-artifact-version',
-          'reference-guide/artifacts/track-external-files',
-          'reference-guide/artifacts/delete-artifacts',
-          'reference-guide/artifacts/explore-and-traverse-an-artifact-graph',
-          'reference-guide/artifacts/storage',
-          'reference-guide/artifacts/data-privacy-and-compliance',
-          // 'reference-guide/artifacts/artifacts-faqs',
-          'reference-guide/artifacts/examples',
+          'guides/artifacts/intro',
+          'guides/artifacts/quickstart',
+          'guides/artifacts/construct-an-artifact',
+          'guides/artifacts/download-and-use-an-artifact',
+          'guides/artifacts/update-an-artifact',
+          'guides/artifacts/create-a-custom-alias',
+          'guides/artifacts/create-a-new-artifact-version',
+          'guides/artifacts/track-external-files',
+          'guides/artifacts/delete-artifacts',
+          'guides/artifacts/explore-and-traverse-an-artifact-graph',
+          'guides/artifacts/storage',
+          'guides/artifacts/data-privacy-and-compliance',
+          // 'guides/artifacts/artifacts-faqs',
+          'guides/artifacts/examples',
         ]
       },
       {
         type: 'category',
         label: 'Tune Hyperparameters',
         items: [
-          'reference-guide/tune-hyperparameters/intro',
-          'reference-guide/tune-hyperparameters/quickstart',
-          'reference-guide/tune-hyperparameters/add-w-and-b-to-your-code',
-          'reference-guide/tune-hyperparameters/define-sweep-configuration',
-          'reference-guide/tune-hyperparameters/initialize-sweeps',
-          'reference-guide/tune-hyperparameters/start-sweep-agents',
-          'reference-guide/tune-hyperparameters/parallelize-agents',
-          'reference-guide/tune-hyperparameters/visualize-sweep-results',
-          'reference-guide/tune-hyperparameters/pause-resume-and-cancel-sweeps',
-          'reference-guide/tune-hyperparameters/local-controller',
-          'reference-guide/tune-hyperparameters/troubleshoot-sweeps',
-          // 'reference-guide/tune-hyperparameters/faq',
-          'reference-guide/tune-hyperparameters/useful-resources',
-          'reference-guide/tune-hyperparameters/existing-project',
+          'guides/tune-hyperparameters/intro',
+          'guides/tune-hyperparameters/quickstart',
+          'guides/tune-hyperparameters/add-w-and-b-to-your-code',
+          'guides/tune-hyperparameters/define-sweep-configuration',
+          'guides/tune-hyperparameters/initialize-sweeps',
+          'guides/tune-hyperparameters/start-sweep-agents',
+          'guides/tune-hyperparameters/parallelize-agents',
+          'guides/tune-hyperparameters/visualize-sweep-results',
+          'guides/tune-hyperparameters/pause-resume-and-cancel-sweeps',
+          'guides/tune-hyperparameters/sweeps-ui',
+          'guides/tune-hyperparameters/local-controller',
+          'guides/tune-hyperparameters/troubleshoot-sweeps',
+          'guides/tune-hyperparameters/faq',
+          'guides/tune-hyperparameters/useful-resources',
+          'guides/tune-hyperparameters/existing-project',
         ]
       },
       {
         type: 'category',
         label: 'Collaborative Reports',
         items: [
-          'reference-guide/reports/intro',
-          'reference-guide/reports/create-a-report',
-          'reference-guide/reports/edit-a-report',
-          'reference-guide/reports/collaborate-on-reports',
-          'reference-guide/reports/clone-and-export-reports',
-          'reference-guide/reports/embed-reports',
-          'reference-guide/reports/cross-project-reports',
-          'reference-guide/reports/reports-faq',
+          'guides/reports/intro',
+          'guides/reports/create-a-report',
+          'guides/reports/edit-a-report',
+          'guides/reports/collaborate-on-reports',
+          'guides/reports/clone-and-export-reports',
+          'guides/reports/embed-reports',
+          'guides/reports/cross-project-reports',
+          'guides/reports/reports-faq',
+        ]
+      },
+      {
+        type: 'category',
+        label: 'Data and model versioning',
+        items: [
+          'guides/data-and-model-versioning/intro',
+          'guides/data-and-model-versioning/dataset-versioning',
+          'guides/data-and-model-versioning/model-versioning',
         ]
       },
       {
         type: 'category',
         label: 'Model Management',
         items: [
-          'reference-guide/models/intro',
-          'reference-guide/models/model-management-concepts',
-          'reference-guide/models/walkthrough',
+          'guides/models/intro',
+          'guides/models/model-management-concepts',
+          'guides/models/walkthrough',
         ]
       },
       {
         type: 'category',
         label: 'Data Visualization',
         items: [
-          'reference-guide/data-vis/intro',
-          'reference-guide/data-vis/tables-quickstart',
-          'reference-guide/data-vis/log-tables',
-          'reference-guide/data-vis/tables',
+          'guides/data-vis/intro',
+          'guides/data-vis/tables-quickstart',
+          'guides/data-vis/log-tables',
+          'guides/data-vis/tables',
         ]
       },
-  ],
-  integrations: [
-    'integrations/intro',
+      {
+        type: 'category',
+        label: 'W&B App UI',
+        items: [
+          'guides/app/README',
+          {
+            type: 'category',
+            label: 'Features',
+            items: [
+              // 'guides/app/features/intro',
+              {
+                type: 'category',
+                label: 'Panels',
+                items: [
+                  'guides/app/features/panels/intro',
+                  {
+                    type: 'category',
+                    label: 'Line Plot',
+                    items: [
+                      'guides/app/features/panels/line-plot/intro',
+                      'guides/app/features/panels/line-plot/reference',
+                      'guides/app/features/panels/line-plot/sampling',
+                      'guides/app/features/panels/line-plot/smoothing',
+                    ]
+                  },
+                  'guides/app/features/panels/bar-plot',
+                  'guides/app/features/panels/run-colors',
+                  'guides/app/features/panels/parallel-coordinates',
+                  'guides/app/features/panels/scatter-plot',
+                  'guides/app/features/panels/code',
+                  'guides/app/features/panels/parameter-importance',
+                  'guides/app/features/panels/run-comparer',
+                  {
+                    type: 'category',
+                    label: 'Weave',
+                    items: [
+                      'guides/app/features/panels/weave/intro',
+                      'guides/app/features/panels/weave/embedding-projector',
+                    ]
+                  },
+                ]
+              },
+              {
+                type: 'category',
+                label: 'Custom Charts',
+                items: [
+                  'guides/app/features/custom-charts/intro',
+                  'guides/app/features/custom-charts/walkthrough',
+                ]
+              },
+              'guides/app/features/runs-table',
+              'guides/app/features/tags',
+              'guides/app/features/notes',
+              // 'guides/app/features/alerts',
+              'guides/app/features/teams',
+              'guides/app/features/system-metrics',
+              'guides/app/features/anon',
+            ]
+          },
+          {
+            type: 'category',
+            label: 'Pages',
+            items: [
+              'guides/app/pages/intro',
+              'guides/app/pages/gradient-panel',
+              'guides/app/pages/project-page',
+              'guides/app/pages/run-page',
+              'guides/app/pages/workspaces',
+            ]
+          },
+          {
+            type: 'category',
+            label: 'Settings',
+            items: [
+              'guides/app/settings-page/intro',
+              'guides/app/settings-page/user-settings',
+              'guides/app/settings-page/team-settings',
+              'guides/app/settings-page/emails',
+            ]
+          },
+        ]
+      },
+      {
+        type: 'category',
+        label: 'Integrations',
+        items: [
+          'guides/integrations/intro',
+          'guides/integrations/keras',
+          'guides/integrations/pytorch',
+          'guides/integrations/lightning',
+          'guides/integrations/tensorflow',
+          'guides/integrations/tensorboard',
+          'guides/integrations/huggingface',
+          'guides/integrations/spacy',
+          'guides/integrations/yolov5',
+          'guides/integrations/mmdetection',
+          'guides/integrations/scikit',
+          'guides/integrations/xgboost',
+          'guides/integrations/lightgbm',
+          {
+            type: 'category',
+            label: 'Fastai',
+            items: [
+              'guides/integrations/fastai/intro',
+              'guides/integrations/fastai/v1',
+            ]
+          },
+        ]
+      },
   ],
   howtoguides: [
     'howtoguides/intro',
   ],
-  api: [
-    'api/intro',
+  ref: [
+    'ref/intro',
     {
       type: 'category',
       label: 'Python Library',
       items: [
-        'api/sdk/data-types'
+        'ref/python/README',
+        'ref/python/artifact'
+      ]
+    },
+    {
+      type: 'category',
+      label: 'Command Line Interface',
+      items: [
+        'ref/cli/README'
       ]
     }
   ]
