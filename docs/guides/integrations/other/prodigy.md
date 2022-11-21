@@ -26,9 +26,7 @@ W&B will automatically try to convert images and named entity fields to [`wandb.
 
 ## Read through a detailed example
 
-This W&B Report demonstrates visualizations generated using the W&B Prodigy integration:
-
-{% embed url="https://wandb.ai/kshen/prodigy/reports/Visualizing-Prodigy-Datasets-Using-W-B-Tables--Vmlldzo5NDE2MTc" %}
+Explore the [Visualizing Prodigy Datasets Using W&B Tables](https://wandb.ai/kshen/prodigy/reports/Visualizing-Prodigy-Datasets-Using-W-B-Tables--Vmlldzo5NDE2MTc) for example visualizations generated with W&B Prodigy integration.  
 
 ## Also using spaCy?
 

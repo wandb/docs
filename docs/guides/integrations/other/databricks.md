@@ -54,9 +54,3 @@ import os
 os.environ['WANDB_ENTITY'] = "my-entity"
 os.environ['WANDB_PROJECT'] = "my-project-that-exists"
 ```
-
-We cover more details of how to run a sweep in a notebook here:
-
-{% content-ref url="broken-reference" %}
-[Broken link](broken-reference)
-{% endcontent-ref %}

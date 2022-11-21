@@ -17,9 +17,7 @@ model.fit(…)
 
 ## Report & Google Colab
 
-To read a Report with charts generated using the W&B DeepChem integration, have a look here:
-
-{% embed url="https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=" %}
+Explore the Using [W&B with DeepChem: Molecular Graph Convolutional Networks](https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=) article for an example charts generated using the W&B DeepChem integration.
 
 If you'd rather dive straight into working code, check out this [**Google Colab**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb).
 
@@ -32,8 +30,8 @@ Setup Weights & Biases for DeepChem models of type [KerasModel](https://deepchem
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'Apple', value: 'cli'},
-    {label: 'Orange', value: 'notebook'},
+    {label: 'Command Line', value: 'cli'},
+    {label: 'Notebook', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -70,8 +68,8 @@ Training loss and evaluation metrics can be automatically logged to Weights & Bi
 <Tabs
   defaultValue="torch"
   values={[
-    {label: 'Apple', value: 'torch'},
-    {label: 'Orange', value: 'keras'},
+    {label: 'TorchModel', value: 'torch'},
+    {label: 'KerasModel', value: 'keras'},
   ]}>
   <TabItem value="torch">
 

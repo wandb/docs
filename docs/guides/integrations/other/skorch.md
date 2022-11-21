@@ -6,36 +6,11 @@ See [example run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=u
 
 ## **Parameters**
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left"><b>Parameter</b>
-      </th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">
-        <p><b>wandb_run</b>:</p>
-        <p>wandb.wandb_run.Run</p>
-      </td>
-      <td style="text-align:left">wandb run used to log data.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>save_model<br /></b>bool (default=True)</td>
-      <td style="text-align:left">Whether to save a checkpoint of the best model and upload it to your Run
-        on W&amp;B servers.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>keys_ignored<br /></b>str or list of str (default=None)</td>
-      <td style="text-align:left">Key or list of keys that should not be logged to tensorboard. Note that
-        in addition to the keys provided by the user, keys such as those starting
-        with &#x2018;event_&#x2019; or ending on &#x2018;_best&#x2019; are ignored
-        by default.</td>
-    </tr>
-  </tbody>
-</table>
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `wandb_run` |  wandb.wandb_run.Run | wandb run used to log data. |
+|`save_model` | bool (default=True)| Whether to save a checkpoint of the best model and upload it to your Run on W&B servers.|
+|`keys_ignored`| str or list of str (default=None) | Key or list of keys that should not be logged to tensorboard. Note that in addition to the keys provided by the user, keys such as those starting with `event_` or ending on `_best` are ignored by default.|
 
 ## Example Code
 
