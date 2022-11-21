@@ -317,7 +317,47 @@ const sidebars = {
       type: 'category',
       label: 'Command Line Interface',
       items: [
-        'ref/cli/README'
+        'ref/cli/README',
+        {
+          type: 'category',
+          label: 'wandb artifact',
+          items: [
+            'ref/cli/wandb-artifact/README',
+            'ref/cli/wandb-artifact/wandb-artifact-cache/README',
+            'ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup',
+            'ref/cli/wandb-artifact/wandb-artifact-get',
+            'ref/cli/wandb-artifact/wandb-artifact-ls',
+            'ref/cli/wandb-artifact/wandb-artifact-put',
+          ]
+        },
+        'ref/cli/wandb-agent',
+        'ref/cli/wandb-controller',
+        'ref/cli/wandb-disabled',
+        'ref/cli/wandb-docker-run',
+        'ref/cli/wandb-docker',
+        'ref/cli/wandb-enabled',
+        'ref/cli/wandb-init',
+        'ref/cli/wandb-launch-agent',
+        'ref/cli/wandb-launch',
+        'ref/cli/wandb-login',
+        'ref/cli/wandb-offline',
+        'ref/cli/wandb-online',
+        'ref/cli/wandb-pull',
+        'ref/cli/wandb-restore',
+        'ref/cli/wandb-scheduler',
+        {
+          type: 'category',
+          label: 'wandb server',
+          items: [
+            'ref/cli/wandb-server/README',
+            'ref/cli/wandb-server/wandb-server-start',
+            'ref/cli/wandb-server/wandb-server-stop',
+          ]
+        },
+        'ref/cli/wandb-status',
+        'ref/cli/wandb-sweep',
+        'ref/cli/wandb-sync',
+        'ref/cli/wandb-verify',
       ]
     }
   ]
