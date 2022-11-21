@@ -22,29 +22,6 @@ wandb.log({"loss": 0.314, "epoch": 5,
 3. **Custom x-axis**: Add a custom x-axis to the same log call to visualize your metrics against a different axis in the W&B dashboard. For example: `wandb.log({'acc': 0.9, 'epoch': 3, 'batch': 117})`. To set the default x-axis for a given metric use [Run.define\_metric()](https://docs.wandb.ai/ref/python/run#define\_metric)
 4. **Log rich media and charts**: `wandb.log` supports the logging of a wide variety of data types, from [media like images and videos](./media) to [tables](../../data-vis/log-tables) and [charts](./plots).
 
-### In-**D**epth Guides
-
-For in-depth information on how to log everything from histograms to 3d molecules, check out the guides below.
-
-<!-- {% content-ref url="media.md" %}
-[media.md](media.md)
-{% endcontent-ref %}
-
-{% content-ref url="plots.md" %}
-[plots.md](plots.md)
-{% endcontent-ref %} -->
-
-### **Reference Documentation**
-
-For precise details about the signatures and behavior of logging functions, review the reference docs, generated from the `wandb` Python library.
-
-<!-- {% content-ref url="../../../ref/python/log.md" %}
-[log.md](../../../ref/python/log.md)
-{% endcontent-ref %}
-
-{% content-ref url="../../../ref/python/data-types/" %}
-[data-types](../../../ref/python/data-types/)
-{% endcontent-ref %} -->
 
 ## Stepwise and Incremental Logging
 

@@ -66,7 +66,7 @@ s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME
 
 By default we assume 3rd party object stores are not running over HTTPS. If you've configured a trusted SSL certificate for your object store, you can tell us to only connect over tls by adding the `tls` query parameter to the url, i.e.
 
-{% hint style="warning" %}
+:::caution
 This will only work if the SSL certificate is trusted. We do not support self-signed certificates.
 :::
 
@@ -228,7 +228,7 @@ You can run _wandb/local_ on any instance that also has Docker installed. We sug
    -p 8080:8080 --name wandb-local wandb/local
 ```
 
-{% hint style="warning" %}
+:::caution
 You'll want to configure a process manager to ensure this process is restarted if it crashes. A good overview of using SystemD to do this can be [found here](https://blog.container-solutions.com/running-docker-containers-with-systemd).
 :::
 
