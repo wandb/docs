@@ -61,11 +61,11 @@ If you have several different experiments and you'd like to see the average of t
 
 Here is what the graph looks like before averaging:
 
-![](<../../../../../.gitbook/assets/demo - precision lines.png>)
+![](<../../../../../images/app_ui/demo_precision_lines.png>)
 
 Here I have grouped the lines to see the average value across runs.
 
-<!-- ![](<../../../../../.gitbook/assets/demo-average-precision-lines (2) (2) (3) (3) (3) (3) (4) (4) (5) (5) (4) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (6) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2) (1) (  (1).png>) -->
+![](<../../../../../images/app_ui/demo_average_precision_lines.png>)
 
 ## Visualize NaN value on a plot
 
@@ -75,7 +75,7 @@ You can also plot `NaN` values including PyTorch tensors on a line plot with `wa
 wandb.log({'test': [..., float("nan"), ...]})
 ```
 
-<!-- ![](<../../../../../.gitbook/assets/image (78) (1).png>) -->
+![](<../../../../../images/app_ui/visualize_nan.png>)
 
 ## Compare two metrics on one chart
 

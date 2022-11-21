@@ -60,13 +60,13 @@ There are a few special case to be aware of:
     ![](<../../../../../images/weave/merge_tables_concate.png>) ![](<../../../../../images/weave/merge_tables_join.png>)
 3. `List of: <Panel>` is a special case where the incoming datatype is a List - and you wish to display a paginated view of panels. The following example shows `List of: Plot` , where each plot is from a different run
 
-<!-- ![](<../../../../.gitbook/assets/Screen Shot 2021-09-28 at 2.59.53 PM.png>) -->
+![](<../../../../../images/weave/list_of_panels_plot.png>)
 
 ### Weave Configuration
 
-<!-- Clicking the Gear icon ![](<../../../../.gitbook/assets/Screen Shot 2021-09-28 at 3.00.58 PM.png>) in the upper right corner will expand the Weave Configuration. This allows the user to configure the parameters for certain expression ops as well as the result panel. For example: -->
+Click on the gear icon on the upper left corner of the panel to expand the Weave Configuration. This allows the user to configure the parameters for certain expression ops as well as the result panel. For example:
 
-<!-- ![](<../../../../.gitbook/assets/Screen Shot 2021-09-28 at 3.03.59 PM.png>) -->
+![](<../../../../../images/weave/config_box_plot.png>)result_
 
 In the above example, we see 3 sections in the expanded Weave Configuration:
 
@@ -82,12 +82,12 @@ Finally, the Weave Result Panel renders the result of the Weave Expression, usin
 To resize all columns to the same size at once, you can `shift` + resize mouse drag.
 :::
 
-<!-- ![](<../../../../.gitbook/assets/Screen Shot 2021-09-28 at 3.12.36 PM.png>)
+![](<../../../../../images/weave/result_panel.png>)
 
-![](<../../../../.gitbook/assets/Screen Shot 2021-09-28 at 3.12.42 PM.png>) -->
+![](<../../../../../images/weave/result_panel_merge_table_plot.png>)
 
 ## Creating Weave Panels
 
 Weave Panels are automatically created whenever a user [logs a Table ](../../../../data-vis/log-tables.md)or [logs a Custom Chart](../custom-charts/). In such cases, will automatically set the Weave Expression to `run.summary["<TABLE_NAME>"]` and render the Table Panel. Furthermore, you can directly add a Weave Panel to a workspace by selecting the `Weave` Panel from the "add panel" button.
 
-<!-- ![](<../../../../.gitbook/assets/Screen Shot 2021-09-28 at 1.22.14 PM.png>) -->
+![](<../../../../../images/weave/create_weave_panel.png>)

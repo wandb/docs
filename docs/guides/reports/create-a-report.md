@@ -20,11 +20,11 @@ Creating Reports programmatically with the Python SDK is in Beta and in active d
 
 Click **Create report** in the upper right corner of your workspace.
 
-<!-- ![](<../../.gitbook/assets/image (176) (2).png>) -->
+![](<../../images/reports/create_a_report_button.png>)
 
 Select the charts you would like to start with. You can add or delete charts later from the report interface.
 
-![](<../../.gitbook/assets/Screen Shot 2021-11-17 at 11.01.32 AM.png>)
+![](<../../images/reports/create_a_report_modal.png>)
 
 Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. Once you click **Create report,** a draft report will be available in the report tab to continue working on.
   </TabItem>
@@ -61,21 +61,3 @@ report.save()
 For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report](https://docs.wandb.ai/guides/reports/edit-a-report).
   </TabItem>
 </Tabs>
-
-{% tabs %}
-{% tab title="App UI" %}
-
-{% endtab %}
-
-{% tab title="Report tab" %}
-
-
-
-
-
-{% endtab %}
-
-{% tab title="Python SDK (Beta)" %}
-
-{% endtab %}
-{% endtabs %}

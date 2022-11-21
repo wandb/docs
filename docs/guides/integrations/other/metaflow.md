@@ -1,3 +1,7 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
 # Metaflow
 
 ## Overview
@@ -13,28 +17,40 @@ This integration lets users apply decorators to Metaflow [steps and flows](https
 
 ### Install W&B and login
 
-{% tabs %}
-{% tab title="Notebook" %}
+<Tabs
+  defaultValue="notebook"
+  values={[
+    {label: 'Notebook', value: 'notebook'},
+    {label: 'Command Line', value: 'cli'},
+  ]}>
+  <TabItem value="notebook">
+
 ```python
 !pip install -Uqqq metaflow fastcore wandb
 
 import wandb
 wandb.login()
 ```
-{% endtab %}
-
-{% tab title="Command Line" %}
+  </TabItem>
+  <TabItem value="cli">
 ```
 pip install -Uqqq metaflow fastcore wandb
 wandb login
 ```
-{% endtab %}
-{% endtabs %}
+  </TabItem>
+</Tabs>
 
 ### Decorate your flows and steps
 
-{% tabs %}
-{% tab title="Step" %}
+<Tabs
+  defaultValue="step"
+  values={[
+    {label: 'Step', value: 'step'},
+    {label: 'Flow', value: 'flow'},
+    {label: 'Flow and Steps', value: 'flow_and_steps'},
+  ]}>
+  <TabItem value="step">
+
 Decorating a step will enable or disable logging for certain types within that Step.
 
 In this example, all datasets and models in `start` will be logged
@@ -50,9 +66,9 @@ class WandbExampleFlow(FlowSpec):
         self.model_file = torch.load(...)  # nn.Module    -> upload as model
         self.next(self.transform)
 ```
-{% endtab %}
+  </TabItem>
+  <TabItem value="flow">
 
-{% tab title="Flow" %}
 Decorating a flow is equivalent to decorating all the constituent steps with a default.
 
 In this case, all steps in `WandbExampleFlow` will log datasets and models by default -- the same as decorating each step with `@wandb_log(datasets=True, models=True)`
@@ -68,9 +84,9 @@ class WandbExampleFlow(FlowSpec):
         self.model_file = torch.load(...)  # nn.Module    -> upload as model
         self.next(self.transform)
 ```
-{% endtab %}
+  </TabItem>
+  <TabItem value="flow_and_steps">
 
-{% tab title="Both flow and steps" %}
 Decorating the flow is equivalent to decorating all steps with a default. That means if you later decorate a Step with another `@wandb_log`, you will override the flow-level decoration.
 
 In the example below:
@@ -104,8 +120,8 @@ class WandbExampleFlow(FlowSpec):
     self.raw_df = pd.read_csv(...).    
     self.model_file = torch.load(...)
 ```
-{% endtab %}
-{% endtabs %}
+  </TabItem>
+</Tabs>
 
 ## Where is my data? Can I access it programmatically?
 

@@ -1,3 +1,7 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
 # Kubeflow Pipelines (kfp)
 
 ## Overview
@@ -12,23 +16,31 @@ This feature was enabled in `wandb==0.12.11` and requires `kfp<2.0.0`
 
 ### Install W&B and login
 
-{% tabs %}
-{% tab title="Notebook" %}
+<Tabs
+  defaultValue="notebook"
+  values={[
+    {label: 'Apple', value: 'notebook'},
+    {label: 'Orange', value: 'cli'},
+  ]}>
+  <TabItem value="notebook">
+
 ```python
 !pip install kfp wandb
 
 import wandb
 wandb.login()
 ```
-{% endtab %}
 
-{% tab title="Command Line" %}
+  </TabItem>
+  <TabItem value="cli">
+
 ```
 pip install kfp wandb
 wandb login
 ```
-{% endtab %}
-{% endtabs %}
+
+  </TabItem>
+</Tabs>
 
 ### Decorate your components
 
@@ -85,7 +97,7 @@ Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
 
 The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space! Learn [more about the web app UI here](https://docs.wandb.ai/ref/app).
 
-<!-- ![View details about a particular run (and link back to the Kubeflow UI)](<../../../.gitbook/assets/image (176) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (1) (1) (1) (1) (1) (2).png>) -->
+![View details about a particular run (and link back to the Kubeflow UI)](<../../../images/integrations/kubeflow_pipelines.png>)
 
 ![See the full DAG of inputs and outputs at each stage of your pipeline](<../../../.gitbook/assets/image (179).png>)
 
@@ -97,12 +109,12 @@ The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipe
 
 Here's a mapping of Kubeflow Pipelines concepts to W&B
 
-<!-- | Kubeflow Pipelines | W&B                                                      | Location in W&B                                                                                  |
+| Kubeflow Pipelines | W&B                                                      | Location in W&B                                                                                  |
 | ------------------ | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | Input Scalar       | ``[`config`](https://docs.wandb.ai/guides/track/config)`` | [Overview tab](https://docs.wandb.ai/ref/app/pages/run-page#overview-tab)                         |
 | Output Scalar      | ``[`summary`](https://docs.wandb.ai/guides/track/log)``   | [Overview tab](https://docs.wandb.ai/ref/app/pages/run-page#overview-tab)                         |
 | Input Artifact     | Input Artifact                                            | [Artifacts tab](https://docs.wandb.ai/ref/app/pages/run-page#artifacts-tab)                       |
-| Output Artifact    | Output Artifact                                           | <p><a href="https://docs.wandb.ai/ref/app/pages/run-page#artifacts-tab">Artifacts tab</a><br></p> | -->
+| Output Artifact    | Output Artifact                                           | [Artifacts tab](https://docs.wandb.ai/ref/app/pages/run-page#artifacts-tab) |
 
 ## Fine-grain logging
 

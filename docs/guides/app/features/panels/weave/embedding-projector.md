@@ -7,7 +7,7 @@ description: >-
 
 # Embedding Projector
 
-<!-- ![](<../../../../../.gitbook/assets/Screen Shot 2021-12-06 at 4.59.13 PM (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (  (1).png>) -->
+![](<../../../../../images/weave/embedding_projector.png>)
 
 [Embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture) are used to represent objects (people, images, posts, words, etc...) with a list of numbers - sometimes referred to as a _vector_. In machine learning and data science use cases, embeddings can be generated using a variety of approaches across a range of applications. This page assumes the reader is familiar with embeddings and is interested in visually analyzing them inside of W&B.
 
@@ -71,7 +71,7 @@ wandb.finish()
 
 After running the above code, again we are presented with a Table in the UI. By selecting `2D Projection` we can configure the definition of the embedding, coloring, algorithm (PCA, UMAP, t-SNE), algorithm parameters, and even overlay (in this case we show the image when hovering over a point). In this particular case, these are all "smart defaults" and you should see something very similar with a single click on `2D Projection`. ([Click here to interact](https://wandb.ai/timssweeney/embedding\_tutorial/runs/k6guxhum?workspace=user-timssweeney) with this example).
 
-<!-- ![](<../../../../../.gitbook/assets/Screen Shot 2021-12-06 at 4.59.13 PM (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (  (8).png>) -->
+![](<../../../../../images/weave/embedding_projector.png>)
 
 ## Logging Options
 
@@ -80,7 +80,8 @@ You can log embeddings in a number of different formats:
 1. **Single Embedding Column:** Often your data is already in a "matrix"-like format. In this case, you can create a single embedding column - where the data type of the cell values can be `list[int]`, `list[float]`, or `np.ndarray`.
 2. **Multiple Numeric Columns:** In the above two examples, we use this approach and create a column for each dimension. We currently accept python `int` or `float` for the cells.
 
-<!-- ![Single Embedding Column](<../../../../../.gitbook/assets/clip1 (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) ( (3).png>) ![Many Numeric Columns](../../../../../.gitbook/assets/clip2.png) -->
+![Single Embedding Column](<../../../../../images/weave/logging_options.png>)
+![Many Numeric Columns](<../../../../../images/weave/logging_option_image_right.png>)
 
 Furthermore, just like all tables, you have many options regarding how to construct the table:
 
@@ -94,7 +95,8 @@ Furthermore, just like all tables, you have many options regarding how to constr
 
 After selecting `2D Projection`, you can click the gear icon to edit the rendering settings. In addition to selecting the intended columns (see above), you can select an algorithm of interest (along with the desired parameters). Below you can see the parameters for UMAP and t-SNE respectively.
 
-![](<../../../../../.gitbook/assets/Screen Shot 2021-12-06 at 5.36.18 PM.png>) ![](<../../../../../.gitbook/assets/Screen Shot 2021-12-06 at 5.36.10 PM.png>)
+![](<../../../../../images/weave/plotting_options_left.png>) 
+![](<../../../../../images/weave/plotting_options_right.png>)
 
 :::info
 Note: we currently downsample to a random subset of 1000 rows and 50 dimensions for all three algorithms.

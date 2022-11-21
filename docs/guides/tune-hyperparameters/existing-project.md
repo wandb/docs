@@ -46,7 +46,7 @@ Launch a new sweep using existing runs that you've previously logged.
 
 Your sweep will now be set up on our server. All you need to do is launch one or more agents to start running runs.
 
-<!-- ![](<../../.gitbook/assets/create-sweep-from-table (1) (2).png>) -->
+![](<../../images/sweeps/tutorial_sweep_runs.png>)
 
 :::info
 If you kick off the new sweep as a bayesian sweep, the selected runs will also seed the Gaussian Process.

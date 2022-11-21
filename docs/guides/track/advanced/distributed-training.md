@@ -48,7 +48,7 @@ Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-tha
 
 However, the loss values as a function epoch and batch size were only logged from a single GPU.
 
-<!-- ![](<../../../.gitbook/assets/image (68) (2).png>) -->
+![](<../../../images/experiments/loss_function_single_gpu.png>)
 
 ### Method 2: Many processes
 
@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
 Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna) of metrics tracked from multiple processes. Note that there are two W&B Runs grouped together in the left sidebar. Click on a group to view the dedicated group page for the experiment. The dedicated group page displays metrics from each process separately.
 
-<!-- <figure><img src="../../../.gitbook/assets/Screen Shot 2022-09-27 at 4.23.19 PM.png" alt=""><figcaption><p>W&#x26;B App UI dashboard that shows W&#x26;B Runs grouped together.</p></figcaption></figure> -->
+![](<../../../images/experiments/dashboard_grouped_runs.png>)
 
 The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see two experiments. One labeled 'null' and a second (bound by a yellow box) called 'DPP'. If you expand the group (select the Group dropdown) you will see the W&B Runs that are associated to that experiment.
 

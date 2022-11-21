@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ---
 description: Fine-tune OpenAI GPT-3 on your own data and track results with W&B
 ---
@@ -31,8 +34,14 @@ $ pip install --upgrade openai wandb
 
 Then sync your results from the command line or from your script.
 
-{% tabs %}
-{% tab title="Command Line" %}
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'Command Line', value: 'cli'},
+    {label: 'Python', value: 'python_sdk'},
+  ]}>
+  <TabItem value="cli">
+
 ```shell-session
 $ # one line command
 $ openai wandb sync
@@ -40,9 +49,9 @@ $ openai wandb sync
 $ # passing optional parameters
 $ openai wandb sync --help
 ```
-{% endtab %}
+  </TabItem>
+  <TabItem value="python_sdk">
 
-{% tab title="Python" %}
 ```python
 from openai.wandb_logger import WandbLogger
 
@@ -59,8 +68,8 @@ WandbLogger.sync(
     **kwargs_wandb_init
 )
 ```
-{% endtab %}
-{% endtabs %}
+  </TabItem>
+</Tabs>
 
 We scan for new completed fine-tunes and automatically add them to your dashboard.
 
