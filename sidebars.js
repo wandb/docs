@@ -310,7 +310,62 @@ const sidebars = {
       label: 'Python Library',
       items: [
         'ref/python/README',
-        'ref/python/artifact'
+        'ref/python/artifact',
+        'ref/python/run',
+        'ref/python/agent',
+        'ref/python/controller',
+        'ref/python/finish',
+        'ref/python/init',
+        'ref/python/log',
+        'ref/python/save',
+        'ref/python/sweep',
+        'ref/python/watch',
+        {
+          type: 'category',
+          label: 'Import and Export API',
+          items: [
+            'ref/python/public-api/README',
+            'ref/python/public-api/api',
+            'ref/python/public-api/artifact',
+            'ref/python/public-api/file',
+            'ref/python/public-api/files',
+            'ref/python/public-api/project',
+            'ref/python/public-api/projects',
+            'ref/python/public-api/run',
+            'ref/python/public-api/runs',
+            'ref/python/public-api/sweep',
+          ]
+        },
+        {
+          type: 'category',
+          label: 'Integration API',
+          items: [
+            'ref/python/integrations/keras/README',
+            'ref/python/integrations/keras/wandbcallback',
+            'ref/python/integrations/keras/wandbevalcallback',
+            'ref/python/integrations/keras/wandbmetricslogger',
+            'ref/python/integrations/keras/wandbmodelcheckpoint',
+          ]
+        },
+        {
+          type: 'category',
+          label: 'Visualizatin Data Types',
+          items: [
+            'ref/python/data-types/README',
+            'ref/python/data-types/audio',
+            'ref/python/data-types/boundingboxes2d',
+            'ref/python/data-types/graph',
+            'ref/python/data-types/histogram',
+            'ref/python/data-types/html',
+            'ref/python/data-types/image',
+            'ref/python/data-types/imagemask',
+            'ref/python/data-types/molecule',
+            'ref/python/data-types/object3d',
+            'ref/python/data-types/plotly',
+            'ref/python/data-types/table',
+            'ref/python/data-types/video',
+          ]
+        },
       ]
     },
     {
