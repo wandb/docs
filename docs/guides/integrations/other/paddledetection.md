@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # PaddleDetection
 
 [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) is an end-to-end object-detection development kit based on [PaddlePaddle](https://github.com/PaddlePaddle/Paddle). It implements varied mainstream object detection, instance segmentation, tracking and keypoint detection algorithms in modular design with configurable modules such as network components, data augmentations and losses.
@@ -18,23 +21,29 @@ The PaddleDetection WandbLogger will log your training and evaluation metrics to
 
 [**Sign up**](https://wandb.ai/site) for a free Weights & Biases account, then pip install the wandb library. To login, you'll need to be signed in to you account at www.wandb.ai. Once signed in **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
-{% tabs %}
-{% tab title="Command Line" %}
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'Command Line', value: 'cli'},
+    {label: 'Notebook', value: 'notebook'},
+  ]}>
+  <TabItem value="cli">
+
 ```
 pip install wandb
 
 wandb login
 ```
-{% endtab %}
+  </TabItem>
+  <TabItem value="notebook">
 
-{% tab title="Notebook" %}
 ```
 !pip install wandb
 
 wandb.login()
 ```
-{% endtab %}
-{% endtabs %}
+  </TabItem>
+</Tabs>
 
 ### Activating the WandbLogger in your Training Script
 

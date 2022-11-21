@@ -34,11 +34,11 @@ With automatic saving and versioning, each experiment you run stores the most re
 
 Train a model on a local machine and log it as an artifact. Each training run will create a new version of the model named `inceptionV3`.
 
-![](<../../.gitbook/assets/image (74).png>)
+![](<../../images/data_model_versioning/version_store_terminal.png>)
 
 Load the same model by name for inference in another machine, e.g. via Google Colab, using the "latest" version to get the most recent one. You can also refer to any other version by index or other custom alias.
 
-![](<../../.gitbook/assets/image (75).png>)
+![](<../../images/data_model_versioning/version_store_load_model.png>)
 
 ## Explore ideas in branches
 
@@ -46,15 +46,15 @@ To test a new hypothesis or start a set of experiments—say changing the core a
 
 On any model version, you can take notes, add descriptive tags and arbitrary metadata, and view all the experiments which loaded in this version of the model.
 
-![](<../../.gitbook/assets/image (76).png>)
+![](<../../images/data_model_versioning/explore_ideas_branches_0.png>)
 
 A partial view of an artifact tree showing two versions of an Inception-based CNN, iv3. A model checkpoint is saved before starting training (with pre-existing ImageNet weights) and after finishing training (suffix \_trained). The rightmost nodes show various inference runs which loaded the iv3\_trained:v2 model checkpoint and the test data in inat\_test\_data\_10:v0 (bottom right).
 
-![](<../../.gitbook/assets/image (77).png>)
+![](<../../images/data_model_versioning/explore_ideas_branches_1.png>)
 
 A partial view of a complex artifact tree focusing on two training runs (prefixed train), named beyond roads iou 0.48 (top left square node) and fastai baseline (bottom left square node). Each experiment produces many artifacts: sample predictions of the model on training and validation images after every epoch. In the right half of the image, you can see some test runs (prefixed test) which load in the model checkpoints of training runs (out of visible frame) and store predictions on the test data as artifacts (prefixed test\_preds).
 
-![](<../../.gitbook/assets/image (26) (1).png>)
+![](<../../images/data_model_versioning/explore_ideas_branches_2.png>)
 
 ## Compare models precisely
 

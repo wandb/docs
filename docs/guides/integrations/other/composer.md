@@ -59,8 +59,6 @@ wandb_logger = WandBLogger(log_artifacts=True, init_params=init_params)
 
 You can use [Composer's Callbacks](https://docs.mosaicml.com/en/latest/trainer/callbacks.html) system to control when you log to Weights & Biases via the WandBLogger, in this example we log a sample of our validation images and predictions:
 
-{% tabs %}
-{% tab title="Log Image Predictions" %}
 ```python
 import wandb
 from composer import Callback, State, Logger
@@ -95,5 +93,3 @@ trainer = Trainer(
     callbacks=[LogPredictions()]
 )
 ```
-{% endtab %}
-{% endtabs %}

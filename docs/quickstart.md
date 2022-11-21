@@ -1,3 +1,7 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
 # Quickstart
 
 Build better models more efficiently with Weights & Biases experiment tracking.
@@ -18,8 +22,14 @@ Try this short Google Colab to see Weights & Biases in action, no code installat
 
 **c)** Login to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).
 
-{% tabs %}
-{% tab title="Command Line" %}
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'Command Line', value: 'cli'},
+    {label: 'Notebook', value: 'notebook'},
+  ]}>
+  <TabItem value="cli">
+
 Install the CLI and Python library for interacting with the Weights and Biases API:
 
 ```
@@ -37,9 +47,10 @@ Or if you're using [W&B Server:](https://docs.wandb.ai/guides/self-hosted)
 ```
 wandb login --host=http://wandb.your-shared-local-host.com
 ```
-{% endtab %}
 
-{% tab title="Notebook" %}
+  </TabItem>
+  <TabItem value="notebook">
+
 Install the CLI and Python library for interacting with the Weights and Biases API:
 
 ```python
@@ -52,8 +63,10 @@ Next, import the W&B Python SDK and log in:
 import wandb
 wandb.login()
 ```
-{% endtab %}
-{% endtabs %}
+
+  </TabItem>
+</Tabs>
+
 
 ### 2. Start a new run
 

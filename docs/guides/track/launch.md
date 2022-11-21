@@ -3,18 +3,10 @@ import TabItem from '@theme/TabItem';
 
 # Launch Experiments with wandb.init
 
-Call `wandb.init()` once at the beginning of your script to initialize a new job. This creates a new run in W&B and launches a background process to sync data.
+Call [`wandb.init()`](../../ref/python/init.md) once at the beginning of your script to initialize a new job. This creates a new run in W&B and launches a background process to sync data.
 
-<!-- * **On-Prem**: If you need a private cloud or local instance of W&B, see our [Self Hosted](../self-hosted/) offerings. -->
+* **On-Prem**: If you need a private cloud or local instance of W&B, see our [Self Hosted](../hosting/intro) offerings.
 * **Automated Environments**: Most of these settings can also be controlled via [Environment Variables](./advanced/environment-variables). This is often useful when you're running jobs on a cluster.
-
-### Reference Documentation
-
-View the reference docs for this function, generated from the `wandb` Python library.
-
-<!-- {% content-ref url="../../ref/python/init.md" %}
-[init.md](../../ref/python/init.md)
-{% endcontent-ref %} -->
 
 ## Common Questions
 
@@ -89,7 +81,7 @@ Check out the [Distributed Training Guide](./advanced/distributed-training) for 
 
 ### How do I programmatically access the human-readable run name?
 
-<!-- It's available as the `.name` attribute of a [`wandb.Run`](../../ref/python/run.md). -->
+It's available as the `.name` attribute of a [`wandb.Run`](../../ref/python/run.md).
 
 ```python
 import wandb
@@ -115,7 +107,7 @@ If you do not explicitly name your run, a random run name will be assigned to th
 
 ### How can I save the git commit associated with my run?
 
-<!-- When `wandb.init` is called in your script, we automatically look for git information to save, including a link to a remote repo and the SHA of the latest commit. The git information should show up on your [run page](../guides/app/pages/run-paged#overview-tab). If you aren't seeing it appear there, make sure that your shell's current working directory when executing your script is located in a folder managed by git. -->
+When `wandb.init` is called in your script, we automatically look for git information to save, including a link to a remote repo and the SHA of the latest commit. The git information should show up on your [run page](../app/pages/run-paged#overview-tab). If you aren't seeing it appear there, make sure that your shell's current working directory when executing your script is located in a folder managed by git.
 
 The git commit and command used to run the experiment are visible to you but are hidden to external users, so if you have a public project, these details will remain private.
 
@@ -153,7 +145,7 @@ for i in range(100):
 
 Here's a sample terminal output:
 
-![](<../../.gitbook/assets/image (26) (3).png>)
+![](<../../images/experiments/sample_terminal_output.png>)
 
 And once you're ready, just run a sync command to send that folder to the cloud.
 
@@ -161,7 +153,7 @@ And once you're ready, just run a sync command to send that folder to the cloud.
 wandb sync wandb/dryrun-folder-name
 ```
 
-![](<../../.gitbook/assets/image (27).png>)
+![](<../../images/experiments/sample_terminal_output_cloud.png>)
 
 ### What is the difference between wandb.init modes?
 

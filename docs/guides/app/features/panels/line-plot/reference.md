@@ -34,7 +34,7 @@ Example:
 
 ${run:displayName} - ${config:dropout} will make the legend name for each run something like "royal-sweep - 0.5" where "royal-sweep" is the run name and 0.5 is the config parameter named "dropout".
 
-You can set value inside`[[ ]]` to display point specific values in the crosshair when hovering over a chart. For example \[\[ $x: $y ($original) ]] would display something like "2: 3 (2.9)"
+You can set value inside`[[ ]]` to display point specific values in the crosshair when hovering over a chart. For example `\[\[ $x: $y ($original) ]]` would display something like "2: 3 (2.9)"
 
 Supported values inside \[\[ ]] are as follows:
 
@@ -71,12 +71,12 @@ Select a style for your line plot.
 
 **Line plot:**
 
-<!-- ![](<../../../../../.gitbook/assets/image (5) (2) (3) (3) (3) (2) (1) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (3) (1) (1) (1) (1) (1) (1) (1) (3) (1) (1) (3) (5) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1)   (5).png>) -->
+![](<../../../../../images/app_ui/plot_style_line_plot.png>)
 
 **Area plot:**
 
-<!-- ![](<../../../../../.gitbook/assets/image (35) (1) (2) (3) (3) (3) (3) (1) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (6) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1)  (2).png>) -->
+![](<../../../../../images/app_ui/plot_style_area_plot.png>)
 
 **Percentage area plot:**
 
-<!-- ![](<../../../../../.gitbook/assets/image (69) (4) (6) (1) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (11) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (11) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10).png>) -->
+![](<../../../../../images/app_ui/plot_style_percentage_plot.png>)

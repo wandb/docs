@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # PaddleOCR
 
 [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) aims to create multilingual, awesome, leading, and practical OCR tools that help users train better models and apply them into practice implemented in PaddlePaddle. PaddleOCR support a variety of cutting-edge algorithms related to OCR, and developed industrial solution. PaddleOCR now comes with a Weights & Biases integration for logging training and evaluation metrics along with model checkpoints with corresponding metadata.
@@ -12,23 +15,31 @@
 
 [**Sign up**](https://wandb.ai/site) for a free account, then from the command line install the wandb library in a Python 3 environment. To login, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
-{% tabs %}
-{% tab title="Command Line" %}
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'Command Line', value: 'cli'},
+    {label: 'Notebook', value: 'notebook'},
+  ]}>
+  <TabItem value="cli">
+
 ```
 pip install wandb
 
 wandb login
 ```
-{% endtab %}
 
-{% tab title="Notebook" %}
+  </TabItem>
+  <TabItem value="notebook">
+
 ```python
 !pip install wandb
 
 wandb.login()
 ```
-{% endtab %}
-{% endtabs %}
+
+  </TabItem>
+</Tabs>
 
 ### 2. Add wandb to your `config.yml` file
 

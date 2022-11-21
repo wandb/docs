@@ -28,9 +28,9 @@ Project page tabs:
 
 [View a live example →](https://app.wandb.ai/example-team/sweep-demo/overview)
 
-<!-- ![](<../../../.gitbook/assets/image (29) (1) (2) (4) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (6) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2).png>) -->
+![](<../../../images/app_ui/overview_tab_image.png>)
 
-![](../../../.gitbook/assets/undelete.png)
+![](<../../../images/app_ui/undelete.png>)
 
 ## Workspace Tab
 
@@ -50,7 +50,7 @@ Project page tabs:
 
 [View a live example →](https://app.wandb.ai/example-team/sweep-demo)
 
-![](<../../../.gitbook/assets/image (38) (2) (3) (3) (2) (1) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (3) (1) (3) (1) (1) (1) (1) (1) (1) (1) (3) (1) (1) (3) (5) (1) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1)  (2).png>)
+![](<../../../images/app_ui/workspace_tab_example.png>)
 
 ### Search for runs
 
@@ -175,10 +175,12 @@ You can change your project default settings _manually_ in your User Settings at
 * **Default project privacy in your personal account**: This is set to 'Private' by default. In other words, your projects will be private and can only be accessed by you.
 * **Enable code saving in your personal account**: This is turned off by default. You can turn this on to save the main script or notebook to W&B.
 
-_Note_ that these settings can also be specified by passing arguments to 
+:::note
+These settings can also be specified by passing arguments to 
 [`wandb.init`](../../../ref/python/init.md).
+:::
 
-![](<../../../.gitbook/assets/image (78) (1) (1).png>)
+![](<../../../images/app_ui/project_defaults.png>)
 
 ## Frequently Asked Questions
 
