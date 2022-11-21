@@ -12,7 +12,8 @@ During training, Weights & Biases locally saves logs, artifacts, and configurati
 | artifacts | `~/.cache/wandb`  | the `WANDB_CACHE_DIR` environment variable                        |
 | configs   | `~/.config/wandb` | the `WANDB_CONFIG_DIR` environment variable                       |
 
-{% hint style="warning" %}
+
+:::caution
 Depending on the machine on `wandb` is initialized on, these default folders may not be located in a writeable part of the file system. This might trigger an error.
 :::
 

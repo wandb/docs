@@ -20,10 +20,6 @@ Contact Carey (c@wandb.com) with questions or suggestions
 2. **Customize the chart**: Pull in any of this logged data with a [GraphQL](https://graphql.org) query. Visualize the results of your query with [Vega](https://vega.github.io/vega/), a powerful visualization grammar.
 3. **Log the chart**: Call your own preset from your script with `wandb.plot_table()` or use one of our builtins.
 
-<!-- {% content-ref url="walkthrough.md" %}
-[walkthrough.md](walkthrough.md)
-{% endcontent-ref %} -->
-
 ![](<../../../../.gitbook/assets/pr roc.png>)
 
 ## Log charts from a script

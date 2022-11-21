@@ -13,27 +13,3 @@ At Weights & Biases, we're all about preventing you from losing any of your work
 Tired of **wondering whether training has finished or, worse, crashed**? Set up [Alerts](alert) to Slack or your e-mail, with configurable triggers right in your Python code.
 
 The behavior of the tool is **controllable from the command line**, as described in our guide to [Environment Variables](./environment-variables).
-
-<!-- {% content-ref url="distributed-training.md" %}
-[distributed-training.md](distributed-training)
-{% endcontent-ref %}
-
-{% content-ref url="grouping.md" %}
-[grouping.md](grouping)
-{% endcontent-ref %}
-
-{% content-ref url="resuming.md" %}
-[resuming.md](resuming)
-{% endcontent-ref %}
-
-{% content-ref url="save-restore.md" %}
-[save-restore.md](save-restore)
-{% endcontent-ref %}
-
-{% content-ref url="alert.md" %}
-[alert.md](alert)
-{% endcontent-ref %}
-
-{% content-ref url="environment-variables.md" %}
-[environment-variables.md](environment-variables)
-{% endcontent-ref %} -->

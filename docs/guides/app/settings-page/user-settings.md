@@ -62,7 +62,7 @@ Connect a personal Github account. To connect a Github account:
 
 Select the **Delete Account** button to delete your account.
 
-{% hint style="danger" %}
+:::warning
 Account deletion can not be reversed.
 :::
 

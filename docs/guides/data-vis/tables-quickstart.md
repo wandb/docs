@@ -33,13 +33,3 @@ Log sample tables from multiple different runs, then compare results in the proj
 Use the table filter, sort, and grouping features to explore and evaluate model results.
 
 ![](<../../.gitbook/assets/wandb demo - filter on a table.png>)
-
-<!-- Now that you've run through the quickstart, learn more about the power and flexibility of tables:
-
-{% content-ref url="log-tables.md" %}
-[log-tables.md](log-tables.md)
-{% endcontent-ref %}
-
-{% content-ref url="tables.md" %}
-[tables.md](tables.md)
-{% endcontent-ref %} -->

@@ -144,13 +144,3 @@ The `val_data` is uploaded only once. The `run_<id>_pred`table and subsequent ru
 If you want to train an instance segmentation model (Mask R-CNN) on a custom dataset, you can check out our [How to Use Weights & Biases with MMDetection](https://wandb.ai/ayush-thakur/mmdetection/reports/How-to-Use-Weights-Biases-with-MMDetection--VmlldzoyMTM0MDE2) W&B Report on [Fully Connected](https://wandb.ai/fully-connected).
 
 Any questions or issues about this Weights & Biases integration? Open an issue in the [MMDetection github repository](https://github.com/open-mmlab/mmdetection) and we'll catch it and get you an answer :)
-
-<!-- ### Learn more about versioning and visualization:
-
-{% content-ref url="broken-reference/" %}
-[broken-reference](broken-reference/)
-{% endcontent-ref %}
-
-{% content-ref url="../data-vis/" %}
-[data-vis](../data-vis/)
-{% endcontent-ref %} -->

@@ -62,14 +62,7 @@ This new feature is now turned on for all users to try for free, up to:
 * 5 Registered Models, with unlimited versions linked to each model
 * 10 most recent steps of Action History shown in the UI for each registered model
 
-<!-- ## Up Next
+## Explore more
+* Read [Model Management Concepts](./model-management-concepts.md) for more information on basic Model Management concepts.
+* Follow the steps in the [Walkthrough](./walkthrough.md) to learn how to use Model Management.
 
-Dig into the details of how to use Weights & Biases for model management:
-
-{% content-ref url="model-management-concepts.md" %}
-[model-management-concepts.md](model-management-concepts.md)
-{% endcontent-ref %}
-
-{% content-ref url="walkthrough.md" %}
-[walkthrough.md](walkthrough.md)
-{% endcontent-ref %} -->
