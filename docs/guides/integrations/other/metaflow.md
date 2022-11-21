@@ -33,6 +33,7 @@ wandb.login()
 ```
   </TabItem>
   <TabItem value="cli">
+
 ```
 pip install -Uqqq metaflow fastcore wandb
 wandb login

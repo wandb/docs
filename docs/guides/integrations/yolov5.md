@@ -43,8 +43,8 @@ But that's not all! By passing a few simple command line arguments to YOLO, you 
 <Tabs
   defaultValue="modelversioning"
   values={[
-    {label: 'Apple', value: 'modelversioning'},
-    {label: 'Orange', value: 'bothversioning'},
+    {label: 'Model Versioning Only', value: 'modelversioning'},
+    {label: 'Model Versioning and Data Visualization', value: 'bothversioning'},
   ]}>
   <TabItem value="modelversioning">
 

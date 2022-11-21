@@ -1,10 +1,6 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
----
-description: Fine-tune OpenAI GPT-3 on your own data and track results with W&B
----
-
 # OpenAI API
 
 :::info

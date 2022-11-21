@@ -19,8 +19,8 @@ This feature was enabled in `wandb==0.12.11` and requires `kfp<2.0.0`
 <Tabs
   defaultValue="notebook"
   values={[
-    {label: 'Apple', value: 'notebook'},
-    {label: 'Orange', value: 'cli'},
+    {label: 'Notebook', value: 'notebook'},
+    {label: 'Command Line', value: 'cli'},
   ]}>
   <TabItem value="notebook">
 
