@@ -69,7 +69,7 @@ const sidebars = {
         'guides/artifacts/explore-and-traverse-an-artifact-graph',
         'guides/artifacts/storage',
         'guides/artifacts/data-privacy-and-compliance',
-        // 'guides/artifacts/artifacts-faqs',
+        'guides/artifacts/artifacts-faqs',
         'guides/artifacts/examples',
       ]
     },
