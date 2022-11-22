@@ -414,7 +414,16 @@ const sidebars = {
         'ref/cli/wandb-sync',
         'ref/cli/wandb-verify',
       ]
-    }
+    },
+    {
+      type: 'category',
+      label: 'Java Library',
+      items: [
+        'ref/java/README',
+        'ref/java/wandbrun',
+        'ref/java/wandbrun-builder',
+      ]
+    },
   ]
 };
 
