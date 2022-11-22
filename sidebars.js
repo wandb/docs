@@ -424,6 +424,37 @@ const sidebars = {
         'ref/java/wandbrun-builder',
       ]
     },
+    {
+      type: 'category',
+      label: 'Weave',
+      items: [
+        'ref/weave/README',
+        'ref/weave/artifact-type',
+        'ref/weave/artifact-version',
+        'ref/weave/artifact',
+        'ref/weave/audio-file',
+        'ref/weave/bokeh-file',
+        'ref/weave/boolean',
+        'ref/weave/entity',
+        'ref/weave/file',
+        'ref/weave/float',
+        'ref/weave/html-file',
+        'ref/weave/image-file',
+        'ref/weave/int',
+        'ref/weave/joined-table',
+        'ref/weave/molecule-file',
+        'ref/weave/number',
+        'ref/weave/object-3-d-file',
+        'ref/weave/partitioned-table',
+        'ref/weave/project',
+        'ref/weave/pytorch-model-file',
+        'ref/weave/run',
+        'ref/weave/string',
+        'ref/weave/table',
+        'ref/weave/user',
+        'ref/weave/video-file',
+      ]
+    },
   ]
 };
 

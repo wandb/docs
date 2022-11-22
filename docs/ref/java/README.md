@@ -18,7 +18,7 @@ Our Java integration is still in Beta, if you run into issues please let us know
 1. Install the latest version of the wandb Python client: `pip install wandb[grpc] --upgrade`
 2.  Simply include the Wandb jar file in your Java Project.
 
-    **Maven**: this can be included by adding the jar file to your `pom.xml` file.\
+    **Maven**: this can be included by adding the jar file to your `pom.xml` file.
     Using maven repository:
 
     ```markup
