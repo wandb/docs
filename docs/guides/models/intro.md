@@ -1,4 +1,5 @@
 ---
+slug: /guides/models
 description: Manage the model lifecycle from training to production
 ---
 

@@ -8,11 +8,10 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Weights & Biases Documentation',
   tagline: 'The developer-first MLOps platform',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://docs.wandb.ai/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  // favicon: 'img/favicon.ico',
   favicon: 'img/docs-favicon.png',
 
   // GitHub pages deployment config.
@@ -34,6 +33,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.

@@ -1,7 +1,6 @@
 ---
-description: >-
-  Dataset versioning, model versioning, pipeline tracking with flexible and
-  lightweight building blocks
+slug: /guides/data-and-model-versioning
+description: Dataset versioning, model versioning, pipeline tracking with flexible and lightweight building blocks
 ---
 
 # Data and model versioning

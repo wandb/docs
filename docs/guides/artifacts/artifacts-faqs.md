@@ -88,7 +88,7 @@ consumer_runs = produced_artifacts[0].used_by()
 
 ### How do I best log models from runs in a sweep?
 
-One effective pattern for logging models in a [sweep](../tune-hyperparameters/intro.md) is to have a model artifact for the sweep, where the versions will correspond to different runs from the sweep. More concretely, you would have:
+One effective pattern for logging models in a [sweep](../sweeps/intro.md) is to have a model artifact for the sweep, where the versions will correspond to different runs from the sweep. More concretely, you would have:
 
 ```python
 wandb.Artifact(name="sweep_name", type="model")

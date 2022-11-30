@@ -1,4 +1,5 @@
 ---
+slug: /guides/reports
 description: Project management and collaboration tools for machine learning projects
 ---
 

@@ -109,7 +109,7 @@ See all the snapshots of results in one place, and share findings with your team
 
 ## Sweeps Tab
 
-Start a new [sweep](../../tune-hyperparameters/intro.md) from your project.
+Start a new [sweep](../../sweeps/intro.md) from your project.
 
 ![](../../../.gitbook/assets/sweeps-tab.png)
 

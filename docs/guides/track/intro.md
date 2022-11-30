@@ -1,3 +1,7 @@
+---
+slug: /guides/track
+---
+
 # Experiment Tracking
 
 Use the `wandb` Python library to track machine learning experiments with a few lines of code. If you're using a popular framework like [PyTorch](../integrations/pytorch) or [Keras](../integrations/keras), we have lightweight [integrations](../integrations/intro).

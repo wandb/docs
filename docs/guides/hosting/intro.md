@@ -1,7 +1,5 @@
 ---
-description: >-
-  Follow the quickstart below to start your W&B Server with only two lines of
-  code.
+slug: /guides/hosting
 ---
 
 # Private Hosting

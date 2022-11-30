@@ -1,4 +1,5 @@
 ---
+slug: /guides/data-vis
 description: Iterate on datasets and understand model predictions
 ---
 
