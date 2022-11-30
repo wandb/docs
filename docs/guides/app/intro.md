@@ -1,3 +1,7 @@
+---
+slug: /guides/app
+---
+
 # App UI
 
 This section contains reference docs for the web app interface, hosted in the cloud at wandb.ai or [self-hosted with W&B Local](../hosting/intro).

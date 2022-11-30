@@ -1,3 +1,7 @@
+---
+slug: /guides/artifacts
+---
+
 # Artifacts
 
 Use Weights & Biases Artifacts to track datasets, models, dependencies, and results through each step of your machine learning pipeline. Artifacts make it easy to get a complete and auditable history of changes to your files.

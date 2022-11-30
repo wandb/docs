@@ -25,7 +25,7 @@ In some cases, you may have your experiment details in a CSV file. W&B can take 
 * A name for the experiment run
 * Initial [notes](../../app/features/notes.md)
 * [Tags](../../app/features/tags.md) to differentiate the experiments
-* Configurations needed for your experiment (with the added benefit of being able to utilize our [Sweeps Hyperparameter Tuning](../../tune-hyperparameters/intro)).
+* Configurations needed for your experiment (with the added benefit of being able to utilize our [Sweeps Hyperparameter Tuning](../../sweeps/intro)).
 
 You can log this data a [`wandb.init()`](../../../ref/python/init.md) command:
 

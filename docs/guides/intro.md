@@ -7,7 +7,7 @@ Set up W&B in 5 minutes, then quickly iterate on your machine learning pipeline 
 
 ## Discover W&B
 1. [Experiment Tracking](./track/intro.md): Visualize experiments in real time
-2. [Hyperparameter Tuning](./tune-hyperparameters/intro.md): Optimize models quickly
+2. [Hyperparameter Tuning](./sweeps/intro.md): Optimize models quickly
 3. [Data and Model Versioning](./data-and-model-versioning/intro.md): Version datasets and models
 4. [Model Management](./models/intro.md): Manage the model lifecycle from training to production
 5. [Data Visualization](./data-vis/intro.md): Visualize predictions across model versions
