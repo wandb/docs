@@ -282,7 +282,7 @@ link_model(model_version, "[[entity/]project/]collectionName")
 
 After you link the Model Version, you will see hyperlinks connecting the Version in the Registered Model to the source Artifact and visa versa.
 
-![](../../.gitbook/assets/13\_edit.png)
+![](../../images/models/train_log_model_version.png)
 
 ### 4. Use a Model Version
 

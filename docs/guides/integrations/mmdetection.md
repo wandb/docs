@@ -115,7 +115,7 @@ You can reliably store these checkpoints as [W&B Artifacts](broken-reference/) b
 Every W&B account comes with 100 GB of free storage for datasets and models.
 :::
 
-![The checkpoints are shown as different versions on the left-hand side pane. You can download the model from the Files tab or use API to download it programmatically.](<../../.gitbook/assets/0b86abff (1).png>)
+![The checkpoints are shown as different versions on the left-hand side pane. You can download the model from the Files tab or use API to download it programmatically.](<../../images/integrations/mmdetection_checkpointing.png>)
 
 ### :mega: Checkpoint with Metadata
 

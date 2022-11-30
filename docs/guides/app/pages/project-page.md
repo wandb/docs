@@ -56,7 +56,7 @@ Project page tabs:
 
 Search for a run by name in the sidebar. You can use regex to filter down your visible runs. The search box affects which runs are shown on the graph. Here's an example:
 
-![](<../../../.gitbook/assets/2020-02-21 13.51.26.gif>)
+![](<../../../images/app_ui/project_page_search_for_runs.gif>)
 
 ### Add a section of panels
 
