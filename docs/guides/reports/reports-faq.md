@@ -56,7 +56,7 @@ When multiple users work on a report together, they should be credited as such. 
 
 You are able to share the report that you have created by embedding it. This is done simply by clicking Share on the top right of your report and copying the embedded code at the bottom of the pop-up window that appears.
 
-![](../../.gitbook/assets/89B8F1BD-D8EE-49C3-86D7-028809FDEB2C.gif)
+![](../../images/reports/emgedding_reports.gif)
 
 ### **WYSIWYG FAQ**
 

@@ -81,7 +81,8 @@ wandb.log({'test': [..., float("nan"), ...]})
 
 Click on a run to go to the run page. Here's an [example run](https://app.wandb.ai/stacey/estuary/runs/9qha4fuu?workspace=user-carey) from Stacey's Estuary project. The auto-generated charts show single metrics.
 
-![](../../../../../.gitbook/assets/visualization\_add.png)
+
+![](../../../../../images/app_ui/visualization_add.png)
 
 Click **the plus sign** at the top right of the page, and select the **Line Plot**.
 
@@ -99,38 +100,40 @@ Sometimes the default colour of runs is not helpful for comparison. To help over
 
 Each run is given a random color by default upon initialization.
 
-![Random colors given to runs](<../../../../../.gitbook/assets/image (95).png>)
+![Random colors given to runs](<../../../../../images/app_ui/line_plots_run_table_random_colors.png>)
 
 Upon clicking any of the colors, a color palette appears from which we can manually choose the color we want.
 
-![The color palette](<../../../../../.gitbook/assets/image (96).png>)
+![The color palette](<../../../../../images/app_ui/line_plots_run_table_color_palette.png>)
+
 
 ### **From the chart legend settings**
 
 One can also change the color of the runs from the chart legend settings.
 
-![](<../../../../../.gitbook/assets/image (98).png>)
+
+![](<../../../../../images/app_ui/plot_style_line_plot_legend.png>)
 
 ## Visualize on different x axes
 
 If you'd like to see the absolute time that an experiment has taken, or see what day an experiment ran, you can switch the x axis. Here's an example of switching from steps to relative time and then to wall time.
 
-![](<../../../../../.gitbook/assets/howto - use relative time or wall time.gif>)
+![](<../../../../../images/app_ui/howto_use_relative_time_or_wall_time.gif>)
 
 ## Area plots
 
 In the line plot settings, in the advanced tab, click on different plot styles to get an area plot or a percentage area plot.
 
-![](<../../../../../.gitbook/assets/2020-02-27 10.49.10.gif>)
+![](<../../../../../images/app_ui/line_plots_area_plots.gif>)
 
 ## Zoom
 
 Click and drag a rectangle to zoom vertically and horizontally at the same time. This changes the x-axis and y-axis zoom.
 
-![](<../../../../../.gitbook/assets/2020-02-24 08.46.53.gif>)
+![](<../../../../../images/app_ui/line_plots_zoom.gif>)
 
 ## Hide chart legend
 
 Turn off the legend in the line plot with this simple toggle:
 
-![](<../../../../../.gitbook/assets/demo - hide legend.gif>)
+![](<../../../../../images/app_ui/demo_hide_legend.gif>)
