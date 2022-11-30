@@ -304,7 +304,7 @@ const sidebars = {
     'howtoguides/intro',
   ],
   ref: [
-    'ref/intro',
+    'ref/README',
     {
       type: 'category',
       label: 'Python Library',
