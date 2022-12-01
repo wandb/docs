@@ -65,15 +65,15 @@ const config = {
             label: 'Developer Guide',
           },
           {
-            type: 'docSidebar',
+            type: 'doc',
             position: 'left',
-            sidebarId: 'howtoguides',
+            docId: 'howtoguides/intro',
             label: 'How-to Guides',
           },
           {
-            type: 'docSidebar',
+            type: 'doc',
             position: 'left',
-            sidebarId: 'ref',
+            docId: 'ref/README',
             label: 'Reference',
           },
           {
@@ -91,19 +91,15 @@ const config = {
             items: [
               {
                 label: 'Developer Guide',
-                to: '/docs/guides/intro',
-              },
-              {
-                label: 'Integrations',
-                to: '/docs/integrations/intro',
+                to: 'guides/intro',
               },
               {
                 label: 'How-to Guides',
-                to: '/docs/howtoguides/intro',
+                to: 'howtoguides/intro',
               },
               {
                 label: 'API',
-                to: '/docs/api/intro'
+                to: 'ref/'
               },
             ],
           },
@@ -120,7 +116,7 @@ const config = {
               },
               // {
               //   label: 'Discord',
-              //   href: 'https://discordapp.com/invite/docusaurus',
+              //   href: 'https://discordapp.com/invite/',
               // },
             ],
           },
