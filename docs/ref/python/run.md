@@ -348,7 +348,7 @@ This will save the loss and accuracy to the run's history and update
 the summary values for these metrics.
 
 Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
-or locally on a [self-hosted instance](https://docs.wandb.ai/self-hosted)
+or locally on a [hosting instance](https://docs.wandb.ai/hosting)
 of the W&B app, or export data to visualize and explore locally, e.g. in
 Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
 

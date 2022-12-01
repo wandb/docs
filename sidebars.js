@@ -270,7 +270,7 @@ const sidebars = {
           type: 'category',
           label: 'Fastai',
           items: [
-            'guides/integrations/fastai/intro',
+            'guides/integrations/fastai/README',
             'guides/integrations/fastai/v1',
           ]
         },

@@ -18,7 +18,7 @@ Use the run page to explore detailed information about a single version of your 
   * **running**: script is still running and has recently sent a heartbeat
 * Host name, operating system, Python version, and command that launched the run
 * List of config parameters saved with [`wandb.config`](../../../guides/track/config.md)
-* List of summary parameters saved with [`wandb.log()`](../../../guides/track/log/), by default set to the last value logged
+* List of summary parameters saved with [`wandb.log()`](../../../guides/track/log/intro.md), by default set to the last value logged
 
 [View a live example →](https://app.wandb.ai/carey/pytorch-cnn-fashion/runs/munu5vvg/overview?workspace=user-carey)
 
@@ -36,7 +36,7 @@ The Python details are private, even if you make the page itself public. Here is
   * change x-axis, metrics, and ranges
   * edit legends, titles, and colors of charts
 * View examples predictions from your validation set
-* To get these charts, log data with [`wandb.log()`](../../../guides/track/log/)
+* To get these charts, log data with [`wandb.log()`](../../../guides/track/log/intro.md)
 
 [View a live example →](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/runs/wec25l0q?workspace=user-carey)
 
@@ -76,16 +76,15 @@ The Python details are private, even if you make the page itself public. Here is
   [View a live example →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images)
 
 :::info
-The W&B [Artifacts](broken-reference/) system adds extra features for handling, versioning, and deduplicating large files like datasets and models. We recommend you use Artifacts for tracking inputs and outputs of runs, rather than `wandb.save`. Check out the Artifacts quickstart [here](broken-reference/).
+The W&B [Artifacts](../../artifacts/intro.md) system adds extra features for handling, versioning, and deduplicating large files like datasets and models. We recommend you use Artifacts for tracking inputs and outputs of runs, rather than `wandb.save`. Check out the Artifacts quickstart [here](../../artifacts/quickstart.md).
 :::
 
 ![](<../../../.gitbook/assets/wandb run page files tab.png>)
 
 ## Artifacts Tab
 
-* Provides a searchable list of the input and output [Artifacts](broken-reference/) for this run
+* Provides a searchable list of the input and output [Artifacts](../../artifacts/intro.md) for this run
 * Click a row to see information about a particular artifact used or produced by this run
-* See the reference for the [project](project-page.md)-level [Artifacts Tab](project-page.md#artifacts-tab) for more on navigating and using the artifacts viewers in the web app\
-  [View a live example →](https://wandb.ai/stacey/artifact\_july\_demo/runs/2cslp2rt/artifacts)
+* See the reference for the [project](project-page.md)-level [Artifacts Tab](project-page.md#artifacts-tab) for more on navigating and using the artifacts viewers in the web app [View a live example →](https://wandb.ai/stacey/artifact\_july\_demo/runs/2cslp2rt/artifacts)
 
 ![](<../../../.gitbook/assets/image (142).png>)

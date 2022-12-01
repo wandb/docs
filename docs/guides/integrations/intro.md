@@ -31,7 +31,7 @@ Weights & Biases integrations make it fast and easy to set up experiment trackin
 * [PyTorch Lightning](lightning.md)
 * [PyTorch Ignite](other/ignite.md)
 * [TensorFlow](tensorflow.md)
-* [Fastai](fastai/)
+* [Fastai](fastai/README.md)
 * [Scikit](scikit.md)
 
 

@@ -39,7 +39,7 @@ Tables are great for storing, understanding, and sharing any form of data critic
 
 ### **Actually see your data**
 
-Log metrics and rich media during model training or evaluation, then visualize results in a persistent database synced to the cloud, or to your [self-hosted instance](https://docs.wandb.ai/guides/self-hosted). For example, check out this [balanced split of a photos dataset →](https://wandb.ai/stacey/mendeleev/artifacts/balanced\_data/inat\_80-10-10\_5K/ab79f01e007113280018/files/data\_split.table.json)
+Log metrics and rich media during model training or evaluation, then visualize results in a persistent database synced to the cloud, or to your [hosting instance](https://docs.wandb.ai/guides/hosting). For example, check out this [balanced split of a photos dataset →](https://wandb.ai/stacey/mendeleev/artifacts/balanced\_data/inat\_80-10-10\_5K/ab79f01e007113280018/files/data\_split.table.json)
 
 ![Browse actual examples and verify the counts & distribution of your data](<../../.gitbook/assets/Screen Shot 2021-04-30 at 7.57.22 AM.png>)
 

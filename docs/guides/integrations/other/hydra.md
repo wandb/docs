@@ -10,11 +10,11 @@ Track your metrics as normal with `wandb.init` and `wandb.log` . Here, `wandb.en
 
 ```python
 import wandb
-﻿
-@hydra.main﻿(config_path=﻿"configs/"﻿, config_name=﻿"defaults"﻿)
-def run_experiment﻿(cfg)﻿:
+
+@hydra.main(config_path="configs/", config_name="defaults")
+def run_experiment(cfg):
     run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
-    wandb.log(﻿{﻿"loss"﻿: loss}﻿)
+    wandb.log({"loss": loss})
 ```
 
 ## Track Hyperparameters
@@ -22,14 +22,14 @@ def run_experiment﻿(cfg)﻿:
 Hydra uses [omegaconf](https://omegaconf.readthedocs.io/en/2.1\_branch/) as the default way to interface with configuration dictionaries. `OmegaConf`'s dictionary are not a subclass of primitive dictionaries so directly passing Hydra's `Config` to `wandb.config` leads to unexpected results on the dashboard. It's necessary to convert `omegaconf.DictConfig` to the primitive `dict` type before passing to `wandb.config`.
 
 ```python
-@hydra.main﻿(config_path=﻿"configs/"﻿, config_name=﻿"defaults"﻿)
-def run_experiment﻿(cfg)﻿:
+@hydra.main(config_path="configs/", config_name="defaults")
+def run_experiment(cfg):
     wandb.config = omegaconf.OmegaConf.to_container(
-        cfg, resolve=﻿True﻿, throw_on_missing=﻿True
+        cfg, resolve=True, throw_on_missing=True
     )
     wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
-    wandb.log(﻿{﻿"loss"﻿: loss}﻿)
-    model = Model(﻿**wandb.config.model.configs)
+    wandb.log({"loss": loss})
+    model = Model(**wandb.config.model.configs)
 ```
 
 ### Troubleshooting Multiprocessing
@@ -37,7 +37,7 @@ def run_experiment﻿(cfg)﻿:
 If your process hangs when started, this may be caused by [this known issue](https://docs.wandb.ai/guides/track/advanced/distributed-training#hanging-at-the-beginning-of-training). To solve this, try to changing wandb's multiprocessing protocol either by adding an extra settings parameter to \`wandb.init\` as:
 
 ```
-wandb.init(settings=wandb.Settings(start_method=﻿"thread"﻿)﻿)
+wandb.init(settings=wandb.Settings(start_method="thread"))
 ```
 
 or by setting a global environment variable from your shell:
@@ -48,20 +48,20 @@ $ export WANDB_START_METHOD=thread
 
 ## Optimize Hyperparameters
 
-[W&B Sweeps](broken-reference) is a highly scalable hyperparameter search platform, which provides interesting insights and visualization about W&B experiments with minimal requirements code real-estate. Sweeps integrates seamlessly with Hydra projects with no-coding requirements. The only thing needed is a configuration file describing the various parameters to sweep over as normal.
+[W&B Sweeps](../../sweeps/intro.md) is a highly scalable hyperparameter search platform, which provides interesting insights and visualization about W&B experiments with minimal requirements code real-estate. Sweeps integrates seamlessly with Hydra projects with no-coding requirements. The only thing needed is a configuration file describing the various parameters to sweep over as normal.
 
 A simple example `sweep.yaml` file would be:
 
 ```yaml
-program﻿: main.py
-method﻿: bayes
+program: main.py
+method: bayes
 metric:
-  goal﻿: maximize
-  name﻿: test/accuracy
+  goal: maximize
+  name: test/accuracy
 parameters:
   dataset:
-    values﻿: [mnist, cifar10]
-﻿
+    values: [mnist, cifar10]
+
 command:
   - ${env}
   - python

@@ -20,7 +20,7 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 2. Click **Invite Team** in the navigation bar.
 3. Create your team and invite collaborators.
 
-We also offer [Self-Hosted](../../../guides/self-hosted/) installs for on-prem or private cloud customers.
+We also offer [hosting](../../hosting/intro.md) installs for on-prem or private cloud customers.
 
 ![](<../../../images/app_ui/wandb demo - create a team.gif>)
 
@@ -32,7 +32,7 @@ _**Note**_: Only the admin of an organization would be able to create a new team
 
 We offer free trials for business teams, **no credit card required**. During the trial, you and your colleagues will have access to all the features in W&B. Once the trial is over, you can upgrade your plan to continue using a W&B Team to collaborate. Your personal W&B account will always remain free, and if you're a student or teacher you can enroll in an academic plan.
 
-See the [pricing page](https://wandb.ai/site/pricing) for more information on our plans. You can download all your data at any time, either using the dashboard UI or via our [Export API](../../python/public-api/).
+See the [pricing page](https://wandb.ai/site/pricing) for more information on our plans. You can download all your data at any time, either using the dashboard UI or via our [Export API](../../../ref/python/public-api/README.md). 
 
 ## Common Questions
 

@@ -10,7 +10,7 @@ No internet connection needed. W&BLocal can run in air gapped environments. The 
 The default docker image runs MySQL and Minio inside of the container and writes all data in sub folders of `/vol` . You can configure external MySQL and Object Storage by getting a license. Email [contact@wandb.com](mailto:contact@wandb.com) for more details.
 
 **Can I run a wandb server in my own datacenter?**
-Yes, but you are responsible for running your own MySQL 5.7 database and Object Store as [described in Production Setup](setup/#on-premise-baremetal). We strongly recommend running our server within a cloud vendor as the operational expertise and resources needed to operate a scalable MySQL 5.7 database and Object Store is non-trivial.
+Yes, but you are responsible for running your own MySQL 5.7 database and Object Store as [described in Production Setup](setup/on-premise-baremetal.md). We strongly recommend running our server within a cloud vendor as the operational expertise and resources needed to operate a scalable MySQL 5.7 database and Object Store is non-trivial.
 
 **How often do you release upgrades?**
 We strive to release upgraded versions of our server at least once a month.
@@ -28,7 +28,7 @@ A single instance of _wandb/local_ without an external MySQL store will scale to
 If you're unable to connect to your instance you can put it in restore mode by setting the LOCAL_RESTORE environment variable when you start local. If you're starting wandb local using our cli you can do so with `wandb local -e LOCAL_RESTORE=true` Look at the logs printed on startup for a temporary username / password to access the instance.
 
 **Does a wandb server need read or write access to the S3 bucket?**
-Yes to both. The wandb server needs to be able to read from the bucket in order to generate signed URLs for use by clients, and it needs to have write access in order to update file metadata (see section '[Grant Permissions to Node Running W&B](https://docs.wandb.ai/guides/self-hosted/configuration#amazon-web-services)'). Because the server generates temporary signed URLs for use by clients, there’s no need to make the s3 bucket public or explicitly grant permissions to any end-users.
+Yes to both. The wandb server needs to be able to read from the bucket in order to generate signed URLs for use by clients, and it needs to have write access in order to update file metadata (see section '[Grant Permissions to Node Running W&B](https://docs.wandb.ai/guides/hosting/configuration#amazon-web-services)'). Because the server generates temporary signed URLs for use by clients, there’s no need to make the s3 bucket public or explicitly grant permissions to any end-users.
 
 **Can I use environment variables to store my token?**
 You can set `WANDB_API_KEY` and `WANDB_BASE_URL` environment variables.
@@ -47,7 +47,7 @@ You are able to take advantage of admin functionality by going to:  `http://<dep
 
 Yes, W&B has RBAC controls at a team level where in only members invited to the team can view any activity inside that workspace. This can also be managed programmatically using the `wandb` python SDK.
 
-#### Does self-hosted W&Ballow setting up an external SMTP server?
+#### Does hosting W&Ballow setting up an external SMTP server?
 
 Yes, W&Bsupports setting up an external SMTP server. Please see below for steps to setup:
 

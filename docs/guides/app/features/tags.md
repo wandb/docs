@@ -5,7 +5,7 @@ import TabItem from '@theme/TabItem';
 
 Tags can be used to label runs with particular features that might not be obvious from the logged metrics or Artifact data -- this run's model is `in_production`, that run is `preemptible`, this run represents the `baseline`.
 
-## How to add tags <a href="how-to-add-tags" id="how-to-add-tags"></a>
+## How to add tags
 
 You can add tags to a run when it is created: `wandb.init(tags=["tag1", "tag2"])` .
 
@@ -39,7 +39,7 @@ run.tags.append("tag1")  # you can choose tags based on run data here
 run.update()
 ```
 
-You can read more about how to use the Public API in the [reference documentation](../../python/public-api/) or [guide](../../../guides/track/public-api-guide.md).
+You can read more about how to use the Public API in the [reference documentation](../../../ref/README.md) or [guide](../../../guides/track/public-api-guide.md).
 
   </TabItem>
   <TabItem value="projectpage">
@@ -72,7 +72,7 @@ Type a tag you'd like to add and click "Add" below the text box to add a new tag
 
 
 
-## How to remove tags <a href="how-to-remove-tags" id="how-to-remove-tags"></a>
+## How to remove tags
 
 Tags can also be removed from runs via the UI.
 
