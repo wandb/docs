@@ -4,7 +4,7 @@ slug: /guides/app
 
 # App UI
 
-This section contains reference docs for the web app interface, hosted in the cloud at wandb.ai or [self-hosted with W&B Local](../hosting/intro).
+This section contains reference docs for the web app interface, hosted in the cloud at wandb.ai or [hosting with W&B Local](../hosting/intro.md).
 
 ### Pages
 
@@ -14,15 +14,15 @@ This section contains reference docs for the web app interface, hosted in the cl
 
 ### Feature**s**
 
-* [**Panels**](features/panels/): Default visualizations available in workspaces and reports
-  * [**Line Plot**](features/panels/line-plot/)
+* [**Panels**](features/panels/intro.md): Default visualizations available in workspaces and reports
+  * [**Line Plot**](features/panels/line-plot/intro.md)
   * [**Run Colors**](features/panels/run-colors.md)
   * [**Parallel Coordinates**](features/panels/parallel-coordinates.md)
   * [**Scatter Plot**](features/panels/scatter-plot.md)
   * [**Code Saving**](features/panels/code.md)
   * [**Parameter Importance**](features/panels/parameter-importance.md)
   * [**Run Comparer**](features/panels/run-comparer.md)
-* [**Custom Charts**](features/custom-charts/): Deeply customizable visualizations built on Vega
+* [**Custom Charts**](features/custom-charts/intro.md): Deeply customizable visualizations built on Vega
 * [**Runs Table**](features/runs-table.md): Queryable tool for organizing and comparing runs
 * [**Tags**](features/tags.md)
 * [**Notes**](features/notes.md)

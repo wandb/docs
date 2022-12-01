@@ -71,11 +71,11 @@ Optionally provide the name of the project where you want the output of the W&B 
 Both the W&B Sweep and the W&B Run must be in the same project. Therefore, the name you provide when you initialize Weights & Biases must match the name of the project you provide when you initialize a W&B Sweep.
 :::
 
-For more information on how to add Weights & Biases SDK to your code, see [Add W&B to your code](https://docs.wandb.ai/guides/sweeps/add-w-and-b-to-your-code).
+For more information on how to add Weights & Biases SDK to your code, see [Add W&B to your code](add-w-and-b-to-your-code.md).
 
 ### Define the sweep configuration
 
-Within a YAML file, specify what hyperparameters you want to sweep over and. For more information about configuration options, see [Define sweep configuration](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration).
+Within a YAML file, specify what hyperparameters you want to sweep over and. For more information about configuration options, see [Define sweep configuration](define-sweep-configuration.md).
 
 The proceeding example demonstrates a sweep configuration that uses a random search (`'method':'random'`). The sweep will randomly select a random set of values listed in the configuration for the batch size, epoch, and the learning rate.
 
@@ -122,7 +122,7 @@ wandb.agent(sweep_id, function=main, count=4)
 
 ### Visualize results (optional)
 
-Open your project to see your live results in the W&B Sweep dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyses](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/).
+Open your project to see your live results in the W&B Sweep dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyses](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
 
 [Example dashboard →](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)
 

@@ -8,7 +8,7 @@ Use Weights & Biases with Jupyter to get interactive visualizations without leav
 ## **Use Cases for W&B with Jupyter notebooks**
 
 1. **Iterative experimentation**: Run and re-run experiments, tweaking parameters, and have all the runs you do saved automatically to W&B without having to take manual notes along the way.
-2. **Code saving**: When reproducing a model, it's hard to know which cells in a notebook ran, and in which order. Turn on code saving on your [settings page ](https://app.wandb.ai/settings)to save a record of cell execution for each experiment.
+2. **Code saving**: When reproducing a model, it's hard to know which cells in a notebook ran, and in which order. Turn on code saving on your [settings page](../app/settings-page/intro.md) to save a record of cell execution for each experiment.
 3. **Custom analysis**: Once runs are logged to W&B, it's easy to get a dataframe from the API and do custom analysis, then log those results to W&B to save and share in reports.
 
 ## Getting started in a notebook
@@ -72,7 +72,7 @@ wandb.run
 ```
 
 :::info
-Want to know more about what you can do with W&B? Check out our [guide to logging data and media](log/), learn [how to integrate us with your favorite ML toolkits](../integrations/), or just dive straight into the [reference docs](../../ref/python/) or our [repo of examples](https://github.com/wandb/examples).
+Want to know more about what you can do with W&B? Check out our [guide to logging data and media](log/intro.md), learn [how to integrate us with your favorite ML toolkits](../integrations/intro.md), or just dive straight into the [reference docs](../../ref/python/README.md) or our [repo of examples](https://github.com/wandb/examples).
 :::
 
 ## Additional Jupyter features in W&B

@@ -5,8 +5,8 @@ import TabItem from '@theme/TabItem';
 
 Call [`wandb.init()`](../../ref/python/init.md) once at the beginning of your script to initialize a new job. This creates a new run in W&B and launches a background process to sync data.
 
-* **On-Prem**: If you need a private cloud or local instance of W&B, see our [Self Hosted](../hosting/intro) offerings.
-* **Automated Environments**: Most of these settings can also be controlled via [Environment Variables](./advanced/environment-variables). This is often useful when you're running jobs on a cluster.
+* **On-Prem**: If you need a private cloud or local instance of W&B, see our [Self Hosted](../hosting/intro.md) offerings.
+* **Automated Environments**: Most of these settings can also be controlled via [Environment Variables](./advanced/environment-variables.md). This is often useful when you're running jobs on a cluster.
 
 ## Common Questions
 
@@ -72,11 +72,11 @@ If your training program uses multiple processes you will need to structure your
 \
 There are several approaches to managing multiprocess training:
 
-1. Call `wandb.init` in all your processes, using the [group](./advanced/grouping) keyword argument to define a shared group. Each process will have its own wandb run and the UI will group the training processes together.
+1. Call `wandb.init` in all your processes, using the [group](./advanced/grouping.md) keyword argument to define a shared group. Each process will have its own wandb run and the UI will group the training processes together.
 2. Call `wandb.init` from just one process and pass data to be logged over [multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes).
 
 :::info
-Check out the [Distributed Training Guide](./advanced/distributed-training) for more detail on these two approaches, including code examples with Torch DDP.
+Check out the [Distributed Training Guide](./advanced/distributed-training.md) for more detail on these two approaches, including code examples with Torch DDP.
 :::
 
 ### How do I programmatically access the human-readable run name?
@@ -107,7 +107,7 @@ If you do not explicitly name your run, a random run name will be assigned to th
 
 ### How can I save the git commit associated with my run?
 
-When `wandb.init` is called in your script, we automatically look for git information to save, including a link to a remote repo and the SHA of the latest commit. The git information should show up on your [run page](../app/pages/run-paged#overview-tab). If you aren't seeing it appear there, make sure that your shell's current working directory when executing your script is located in a folder managed by git.
+When `wandb.init` is called in your script, we automatically look for git information to save, including a link to a remote repo and the SHA of the latest commit. The git information should show up on your [run page](../app/pages/run-page.md). If you aren't seeing it appear there, make sure that your shell's current working directory when executing your script is located in a folder managed by git.
 
 The git commit and command used to run the experiment are visible to you but are hidden to external users, so if you have a public project, these details will remain private.
 
@@ -115,7 +115,7 @@ The git commit and command used to run the experiment are visible to you but are
 
 By default, `wandb.init` starts a process that syncs metrics in real time to our cloud hosted app. If your machine is offline, you don't have internet access, or you just want to hold off on the upload, here's how to run `wandb` in offline mode and sync later.
 
-You'll need to set two [environment variables](./advanced/environment-variables).
+You'll need to set two [environment variables](./advanced/environment-variables.md).
 
 1. `WANDB_API_KEY=$KEY`, where `$KEY` is the API Key from your [settings page](https://app.wandb.ai/settings)
 2. `WANDB_MODE="offline"`
@@ -173,7 +173,7 @@ You most likely lost connection to your machine while training. You can recover 
 
 If you're getting the error message `Launch Error: Permission denied`, you don't have permissions to log to the project you're trying to send runs to. This might be for a few different reasons.
 
-1. You aren't logged in on this machine. Run [`wandb login`](https://docs.wandb.ai/ref/cli/wandb-login) on the command line.
+1. You aren't logged in on this machine. Run [`wandb login`](../../ref/cli/wandb-login.md) on the command line.
 2. You've set an entity that doesn't exist. "Entity" should be your username or the name of an existing team. If you need to create a team, go to our [Subscriptions page](https://app.wandb.ai/billing).
 3. You don't have project permissions. Ask the creator of the project to set the privacy to **Open** so you can log runs to this project.
 

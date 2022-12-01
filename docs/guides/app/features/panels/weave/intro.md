@@ -88,6 +88,6 @@ To resize all columns to the same size at once, you can `shift` + resize mouse d
 
 ## Creating Weave Panels
 
-Weave Panels are automatically created whenever a user [logs a Table ](../../../../data-vis/log-tables.md)or [logs a Custom Chart](../custom-charts/). In such cases, will automatically set the Weave Expression to `run.summary["<TABLE_NAME>"]` and render the Table Panel. Furthermore, you can directly add a Weave Panel to a workspace by selecting the `Weave` Panel from the "add panel" button.
+Weave Panels are automatically created whenever a user [logs a Table ](../../../../data-vis/log-tables.md)or [logs a Custom Chart](../../custom-charts/intro.md). In such cases, will automatically set the Weave Expression to `run.summary["<TABLE_NAME>"]` and render the Table Panel. Furthermore, you can directly add a Weave Panel to a workspace by selecting the `Weave` Panel from the "add panel" button.
 
 ![](<../../../../../images/weave/create_weave_panel.png>)

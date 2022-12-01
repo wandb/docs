@@ -6,7 +6,7 @@
 
 To use YOLOX with Weights & Biases you will first need to sign up for a Weights & Biases account [here](https://wandb.ai/site).
 
-Then just use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [wandb.init](https://docs.wandb.ai/guides/track/launch) would expect, just prepend `wandb-` to the start of each argument
+Then just use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [wandb.init](../../track/launch.md) would expect, just prepend `wandb-` to the start of each argument
 
 **Note:** `num_eval_imges` controls the number of validation set images and predictions that will be logged to Weights & Biases Tables for model evaluation.
 

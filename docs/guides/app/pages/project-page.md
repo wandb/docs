@@ -115,7 +115,7 @@ Start a new [sweep](../../sweeps/intro.md) from your project.
 
 ## Artifacts Tab
 
-View all the [artifacts](broken-reference/) associated with a project, from [training datasets](../../data-and-model-versioning/dataset-versioning.md) and [fine-tuned models](../../data-and-model-versioning/model-versioning.md) to [tables of metrics and media](../../data-vis/tables-quickstart.md). For more on getting started with Artifacts, check out the [Quick start](https://app.gitbook.com/o/-Lr2SEfv2R3GSuF1kZCt/s/-Lqya5RvLedGEWPhtkjU-1972196547/\~/changes/j1B9n6G73J5mTKwAVy6u/guides/artifacts/quick-start).
+View all the [artifacts](../../artifacts/intro.md) associated with a project, from [training datasets](../../data-and-model-versioning/dataset-versioning.md) and [fine-tuned models](../../data-and-model-versioning/model-versioning.md) to [tables of metrics and media](../../data-vis/tables-quickstart.md). For more on getting started with Artifacts, check out the [Quick start](https://app.gitbook.com/o/-Lr2SEfv2R3GSuF1kZCt/s/-Lqya5RvLedGEWPhtkjU-1972196547/\~/changes/j1B9n6G73J5mTKwAVy6u/guides/artifacts/quick-start).
 
 ### Overview panel
 
