@@ -32,11 +32,12 @@ If you set `anonymous="allow"` in your script, we will check to make sure there'
 
 *   **No persistent data**: Runs are only saved for 7 days in an anonymous account. Users can claim anonymous run data by saving it to a real account.
 
-![](<../../../images/app_ui/anon_mode_no_data.png>)
+
+![](pathname:///images/app_ui/anon_mode_no_data.png)
 
 *   **No artifact logging**: Runs will print a warning on the command line that you can't log an artifact to an anonymous run.
 
-![](<../../../images/app_ui/anon_example_warning.png>)
+![](pathname:///images/app_ui/anon_example_warning.png)
 
 * **No profile or settings pages**: Certain pages aren't available in the UI, because they're only useful for real accounts.
 

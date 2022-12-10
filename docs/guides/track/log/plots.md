@@ -33,7 +33,7 @@ wandb.log({"my_custom_plot_id" : wandb.plot.line(table, "x", "y",
 
 You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
 
-![](<../../../images/track/line_plot.png>)
+![](<pathname:///images/track/line_plot.png>)
 
 [See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
 
@@ -54,7 +54,7 @@ wandb.log({"my_custom_id" : wandb.plot.scatter(table,
 
 You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
 
-![](<../../../images/track/demo - scatter plot.png>)
+![](<pathname:///images/track/demo - scatter plot.png>)
 
 [See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
 
@@ -96,7 +96,7 @@ wandb.log({'my_histogram': wandb.plot.histogram(table, "scores",
 
 You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
 
-![](<../../../images/track/demo - custom chart histogram.png>)
+![](<pathname:///images/track/demo - custom chart histogram.png>)
 
 [See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
 
@@ -176,7 +176,7 @@ You can log this whenever your code has access to:
 * (optionally) a list of the labels/ class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
 * (optionally) a subset (still in list format) of these labels to visualize on the plot
 
-![](<../../../images/track/demo - custom chart roc curve.png>)
+![](<pathname:///images/track/demo - custom chart roc curve.png>)
 
 [See in the app →](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
@@ -203,7 +203,7 @@ You can log this wherever your code has access to:
 * the corresponding ground truth labels for those examples (`y_true`)
 * a full list of the labels/class names as strings (`class_names`, e.g. `class_names=["cat", "dog", "bird"]` if index 0 is cat, 1=dog, 2=bird, etc)
 
-![](<../../../images/experiments/confusion_matrix.png>)
+![](<pathname:///images/experiments/confusion_matrix.png>)
 
 ​[See in the app →](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM)​
 

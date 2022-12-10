@@ -71,12 +71,12 @@ Select a style for your line plot.
 
 **Line plot:**
 
-![](<../../../../../images/app_ui/plot_style_line_plot.png>)
+![](<pathname:///images/app_ui/plot_style_line_plot.png>)
 
 **Area plot:**
 
-![](<../../../../../images/app_ui/plot_style_area_plot.png>)
+![](<pathname:///images/app_ui/plot_style_area_plot.png>)
 
 **Percentage area plot:**
 
-![](<../../../../../images/app_ui/plot_style_percentage_plot.png>)
+![](<pathname:///images/app_ui/plot_style_percentage_plot.png>)

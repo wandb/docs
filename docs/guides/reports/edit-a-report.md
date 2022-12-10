@@ -324,7 +324,7 @@ report.save()
 This will render a HTML elements  to the following:
 
 
-![](<../../images/reports/render_html.png>)
+![](<pathname:///images/reports/render_html.png>)
 
   </TabItem>
 </Tabs>

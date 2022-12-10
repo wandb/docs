@@ -28,9 +28,9 @@ Project page tabs:
 
 [View a live example →](https://app.wandb.ai/example-team/sweep-demo/overview)
 
-![](<../../../images/app_ui/overview_tab_image.png>)
+![](<pathname:///images/app_ui/overview_tab_image.png>)
 
-![](<../../../images/app_ui/undelete.png>)
+![](<pathname:///images/app_ui/undelete.png>)
 
 ## Workspace Tab
 
@@ -50,13 +50,13 @@ Project page tabs:
 
 [View a live example →](https://app.wandb.ai/example-team/sweep-demo)
 
-![](<../../../images/app_ui/workspace_tab_example.png>)
+![](<pathname:///images/app_ui/workspace_tab_example.png>)
 
 ### Search for runs
 
 Search for a run by name in the sidebar. You can use regex to filter down your visible runs. The search box affects which runs are shown on the graph. Here's an example:
 
-![](<../../../images/app_ui/project_page_search_for_runs.gif>)
+![](<pathname:///images/app_ui/project_page_search_for_runs.gif>)
 
 ### Add a section of panels
 
@@ -180,7 +180,7 @@ These settings can also be specified by passing arguments to
 [`wandb.init`](../../../ref/python/init.md).
 :::
 
-![](<../../../images/app_ui/project_defaults.png>)
+![](<pathname:///images/app_ui/project_defaults.png>)
 
 ## Frequently Asked Questions
 

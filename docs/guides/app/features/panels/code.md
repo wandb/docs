@@ -25,11 +25,11 @@ Click the **+** button in your workspace or report to add a new panel, and selec
 
 Starting with **wandb** version 0.8.34, our library does Jupyter session saving. When you call **wandb.init()** inside of Jupyter, we add a hook to automatically save a Jupyter notebook containing the history of code executed in your current session. You can find this session history in a runs file browser under the code directory:
 
-![](<../../../../images/app_ui/jupyter_session_history.png>)
+![](<pathname:///images/app_ui/jupyter_session_history.png>)
 
 Clicking on this file will display the cells that were executed in your session along with any outputs created by calling iPython’s display method. This enables you to see exactly what code was run within Jupyter in a given run. When possible we also save the most recent version of the notebook which you would find in the code directory as well.
 
-![](<../../../../images/app_ui/jupyter_session_history_display.png>)
+![](<pathname:///images/app_ui/jupyter_session_history_display.png>)
 
 ## Jupyter diffing
 
