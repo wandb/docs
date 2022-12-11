@@ -17,7 +17,7 @@ wandb.log_artifact(file_path, name='new_artifact', type='my_dataset')
 
 This will create a new artifact in your project's workspace:
 
-![](<../../.gitbook/assets/Screen Shot 2021-11-05 at 1.23.04 PM.png>)
+![](<pathname:///images/data_model_versioning/artifacts_quickstart.png>)
 
 ### Log a new version
 
@@ -29,7 +29,7 @@ artifact.add_dir('nature_100/')
 run.log_artifact(artifact)
 ```
 
-![In your Artifact page, click on the Compare button to see a new folder appears in the new version](<../../.gitbook/assets/Screen Shot 2021-11-05 at 1.34.26 PM.png>)
+![In your Artifact page, click on the Compare button to see a new folder appears in the new version](<pathname:///images/data_model_versioning/artifacts_page_compare.png>)
 
 ### Use your artifact
 
@@ -44,19 +44,18 @@ artifact_dir = artifact.download()
 
 Looking for a longer example with real model training? Try our [Guide to W&B Artifacts](https://wandb.ai/wandb/arttest/reports/Guide-to-W-B-Artifacts--VmlldzozNTAzMDM).
 
-![](<../../.gitbook/assets/keras example.png>)
+![](<pathname:///images/data_model_versioning/keras example.png>)
 
 ## How it works
 
 Using our Artifacts API, you can log artifacts as outputs of W&B runs, or use artifacts as input to runs.
 
-![](<../../.gitbook/assets/simple artifact diagram 2 (1).png>)
+![](<pathname:///images/data_model_versioning/simple artifact diagram 2 (1).png>)
 
 Since a run can use another run’s output artifact as input, artifacts and runs together form a directed graph. You don’t need to define pipelines ahead of time. Just use and log artifacts, and we’ll stitch everything together.
 
 Here's an [example artifact](https://app.wandb.ai/shawn/detectron2-11/artifacts/model/run-1cxg5qfx-model/4a0e3a7c5bff65ff4f91/graph) where you can see the summary view of the DAG, as well as the zoomed-out view of every execution of each step and every artifact version.
 
-![](<../../.gitbook/assets/2020-09-03 15.59.43.gif>)
 
 ## Artifacts resources
 

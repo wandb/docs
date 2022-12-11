@@ -22,14 +22,14 @@ run.log({"Table Name": my_table})
 
 See the resulting table in the workspace. A new panel is added for each unique table key. In the above example, `my_table` is logged under the key `Table Name`, which creates the displayed table below:
 
-![](<../../.gitbook/assets/wandb demo - logged sample table.png>)
+![](<pathname:///images/data_vis/wandb demo - logged sample table.png>)
 
 ## 3. Compare across model versions
 
 Log sample tables from multiple different runs, then compare results in the project workspace. In this [example workspace](https://wandb.ai/carey/table-test?workspace=user-carey), we show how to combine rows from multiple different versions in the same table.
 
-![](<../../.gitbook/assets/wandb demo - toggle on and off cross-run comparisons in tables.gif>)
+![](<pathname:///images/data_vis/wandb demo - toggle on and off cross-run comparisons in tables.gif>)
 
 Use the table filter, sort, and grouping features to explore and evaluate model results.
 
-![](<../../.gitbook/assets/wandb demo - filter on a table.png>)
+![](<pathname:///images/data_vis/wandb demo - filter on a table.png>)

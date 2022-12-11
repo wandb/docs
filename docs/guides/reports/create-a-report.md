@@ -20,11 +20,11 @@ Creating Reports programmatically with the Python SDK is in Beta and in active d
 
 Click **Create report** in the upper right corner of your workspace.
 
-![](<../../images/reports/create_a_report_button.png>)
+![](<pathname:///images/reports/create_a_report_button.png>)
 
 Select the charts you would like to start with. You can add or delete charts later from the report interface.
 
-![](<../../images/reports/create_a_report_modal.png>)
+![](<pathname:///images/reports/create_a_report_modal.png>)
 
 Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. Once you click **Create report,** a draft report will be available in the report tab to continue working on.
   </TabItem>
@@ -32,7 +32,7 @@ Select the **Filter run sets** option to prevent new runs from being added to yo
 
 Navigate to the **Reports** tab in your project and select the **Create Report** button on the report page. This creates a new blank report. Save a report to get a shareable link, or send charts to the report from different workspaces, and different projects.
 
-![](<../../.gitbook/assets/image (180).png>)
+![](<pathname:///images/reports/create_report_button.png>)
   </TabItem>
   <TabItem value="sdk">
 

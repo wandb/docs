@@ -17,7 +17,7 @@ wandb_logger = WandbLogger()
 trainer = Trainer(logger=wandb_logger)
 ```
 
-![Interactive dashboards accessible anywhere, and more!](../../.gitbook/assets/n6P7K4M.gif)
+![Interactive dashboards accessible anywhere, and more!](pathname:///images/integrations/n6P7K4M.gif)
 
 ## Sign up and Log in to wandb
 

@@ -18,7 +18,7 @@ W&B Artifacts help you save and organize machine learning datasets throughout a 
 
 Beyond these common scenarios, you can use core Artifact features to upload, version, alias, compare, and download data, supporting any custom dataset workflow on local or remote filesystems, via S3, GCP, or https.
 
-## Core Artifacts features <a href="#403224a6-95d9-4095-9161-076362f8fc5f" id="403224a6-95d9-4095-9161-076362f8fc5f"></a>
+## Core Artifacts features
 
 W&B Artifacts support dataset versioning through these basic features:
 
@@ -30,7 +30,7 @@ W&B Artifacts support dataset versioning through these basic features:
 
 For more detail on these features, check out [Artifacts how it works](https://docs.wandb.ai/guides/artifacts#how-it-works).
 
-## Version data seamlessly <a href="#25c79f05-174e-4d35-abda-e5c238b8d6d6" id="25c79f05-174e-4d35-abda-e5c238b8d6d6"></a>
+## Version data seamlessly
 
 The immediate value of W&B Artifacts is automatically versioning your data: tracking the contents of individual files and directories, in which you may add, remove, replace, or edit items. All these operations are traceable and reversible, reducing the cognitive load of handling data correctly. Once you create and upload an artifact, adding and logging new files will create a new version of that artifact. Behind the scenes, we'll diff the contents (deeply, via checksum) so that only the changes are uploaded — kind of like [git](https://www.atlassian.com/git/tutorials/what-is-git). You can view all the versions and the individual files in your browser, diff contents across versions, and download any specific version by index or alias (by default, `"latest"` is the alias of the most recent version). To keep data transfer lean and fast, wandb caches files.
 
@@ -45,9 +45,9 @@ run.log_artifact(my_data)
 
 In [this example](https://wandb.ai/stacey/mendeleev/artifacts/balanced\_data/inat\_80-10-10\_5K/ab79f01e007113280018), I have three datasets of 1K, 5K, and 10K items, and I can see and compare across the file names in subfolders (by data split or by class label).
 
-![](<../../.gitbook/assets/screen\_shot\_2021-02-23\_at\_3.18.03\_pm (1) (1).png>)
+![](<pathname:///images/artifacts/version_data_seamlessly.png>)
 
-## Prepackage data splits <a href="#7ccfb650-1f87-458c-a4e2-538138660292" id="7ccfb650-1f87-458c-a4e2-538138660292"></a>
+## Prepackage data splits
 
 As you iterate on your models and training schemes, you may want different slices of your data, varying the
 
@@ -75,9 +75,9 @@ run.log_artifact(my_data)
 
 View the [file contents →](https://wandb.ai/stacey/mendeleev/artifacts/balanced\_data/inat\_80-10-10\_5K/ab79f01e007113280018/files)
 
-![](<../../.gitbook/assets/Screen Shot 2021-03-03 at 12.55.55 PM.png>)
+![](<pathname:///images/artifacts/version_data_seamlessly_2.png>)
 
-## Iteratively refine your data <a href="#cee1428d-3b7a-4e1b-956b-e83170e7038f" id="cee1428d-3b7a-4e1b-956b-e83170e7038f"></a>
+## Iteratively refine your data 
 
 As you browse through your training data or add new batches of examples, you may notice issues like
 
@@ -91,7 +91,7 @@ You can tag artifact versions with custom aliases, take notes on what changed, s
 
 We're also working to make this refinement process easier and more visual — check out our beta of Datasets & Predictions [here →](https://docs.wandb.ai/datasets-and-predictions)
 
-### Versioning is automatic <a href="#4d22c630-6fed-4fab-a802-1c7ae0f2d8db" id="4d22c630-6fed-4fab-a802-1c7ae0f2d8db"></a>
+### Versioning is automatic 
 
 If an artifact changes, just re-run the same artifact creation script. In this case, imagine the `nature-data` directory contains two lists of photo ids, `animal-ids.txt` and `plant-ids.txt`. We edit `animals-ids.txt` to remove mislabeled examples. This script will capture the new version neatly — we'll checksum the artifact, identify that something changed, and track the new version. If nothing changes, we don't reupload any data (i.e. in this case, we don't reupload `plant-ids.txt`) or create a new version.
 
@@ -111,23 +111,23 @@ run.log_artifact(artifact)
 
 Give your datasets custom names and annotate them with notes or key-value pair metadata
 
-![](<../../.gitbook/assets/image (64).png>)
+![](<pathname:///images/artifacts/version_is_automatic.png>)
 
-## Juggle multiple datasets <a href="#4ba93c33-dd39-468b-8b3e-96c938bbd024" id="4ba93c33-dd39-468b-8b3e-96c938bbd024"></a>
+## Juggle multiple datasets
 
 Your task may require a more complex curriculum: perhaps pretraining on a subset of classes from [ImageNet](http://www.image-net.org) and fine-tuning on a custom dataset, say [iNaturalist](https://github.com/visipedia/inat\_comp/tree/master/2021) or your own photo collection. In domain adaptation, transfer learning, metalearning, and related tasks, you can save a different artifact for each data type or source to keep your experiments organized and more easily reproducible.
 
 [Explore the graph interactively →](https://wandb.ai/stacey/mendeleev/artifacts/balanced\_data/inat\_80-10-10\_5K/ab79f01e007113280018/graph)
 
-![](<../../.gitbook/assets/image (65).png>)
+![](<pathname:///images/artifacts/juggle_multiple_datasets_1.png>)
 
 Multiple versions of balanced datasets of different sizes: 1K, 5K, and 10K and the corresponding artifact graph, showing training and inference runs on that data.
 
-![](<../../.gitbook/assets/image (66).png>)
+![](<pathname:///images/artifacts/juggle_multiple_datasets_2.png>)
 
 Several versions of raw data with 50 and 500 items total, from which a data\_split job creates two separate artifacts for "train" and "val" data.
 
-## Visualize & easily share your data workflow <a href="#57023a52-2c00-4b24-8e17-b193b40e216b" id="57023a52-2c00-4b24-8e17-b193b40e216b"></a>
+## Visualize & easily share your data workflow
 
 Artifacts let you see and formalize the flow of data through your model development scripts, whether for preprocessing, training, testing, analysis, or any other job type:
 
@@ -140,20 +140,20 @@ Artifacts let you see and formalize the flow of data through your model developm
 
 Simple compute graph example
 
-![](<../../.gitbook/assets/image (67).png>)
+![](<pathname:///images/artifacts/compute_graph_example.png>)
 
 More complex compute graph with predictions and evaluation results logged as artifacts
 
-![](<../../.gitbook/assets/image (68).png>)
+![](<pathname:///images/artifacts/compute_graph_example_advanced.png>)
 
 Simplified version of the compute graph, node grouped by artifact/job type ("Explode" off)
 
-![](<../../.gitbook/assets/image (69).png>)
+![](<pathname:///images/artifacts/compute_graph_simple.png>)
 
 Full details of each node: versions by artifact type and scripts runs by job type ("Explode" on)
 
-![](<../../.gitbook/assets/image (70).png>)
+![](<pathname:///images/artifacts/compute_graph_deatiled.png>)
 
 Details for a particular version of resnet18: which training run produced it and which further runs loaded it for inference. These are deeply linked in each project so you can navigate the full graph.
 
-![](<../../.gitbook/assets/image (71).png>)
+![](<pathname:///images/artifacts/compute_graph_resnet_example.png>)

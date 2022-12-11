@@ -23,7 +23,7 @@ You can see working code to log all of these media objects in [this Colab Notebo
 
 Log images to track inputs, outputs, filter weights, activations, and more!
 
-![Inputs and outputs of an autoencoder network performing in-painting.](<../../../.gitbook/assets/image (117).png>)
+![Inputs and outputs of an autoencoder network performing in-painting.](<pathname:///images/track/log_images.png>)
 
 Images can be logged directly from numpy arrays, as PIL images, or from the filesystem.
 
@@ -87,7 +87,7 @@ wandb.log({"example": wandb.Image("myimage.jpg")})
 
 Log semantic segmentation masks and interact with them (altering opacity, viewing changes over time, and more) via the W&B UI.
 
-![Interactive mask viewing in the W&B UI.](<../../../.gitbook/assets/semantic segmentation.gif>)
+![Interactive mask viewing in the W&B UI.](<pathname:///images/track/semantic_segmentation.gif>)
 
 To log an overlay, you'll need to provide a dictionary with the following keys and values to the `masks` keyword argument of `wandb.Image`:
 
@@ -126,7 +126,7 @@ mask_img = wandb.Image(image, masks={
   <TabItem value="bounding_boxes">
 Log bounding boxes with images, and use filters and toggles to dynamically visualize different sets of boxes in the UI.
 
-![](../../../.gitbook/assets/bb-docs.jpeg)
+![](pathname:///images/track/bb-docs.jpeg)
 
 [See a live example →](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
 
@@ -210,7 +210,7 @@ wandb.log({"driving_scene": img})
   ]}>
   <TabItem value="segmentation_masks">
 
-![Interactive Segmentation Masks in Tables](<../../../.gitbook/assets/Segmentation Masks.gif>)
+![Interactive Segmentation Masks in Tables](<pathname:///images/track/Segmentation_Masks.gif>)
 
 To log Segmentation Masks in tables, you will need to provide a `wandb.Image` object for each row in the table.
 
@@ -236,7 +236,7 @@ wandb.log({"Table" : table})
   <TabItem value="bounding_boxes">
 
 
-![Interactive Bounding Boxes in Tables](<../../../.gitbook/assets/Bounding Boxes (1).gif>)
+![Interactive Bounding Boxes in Tables](<pathname:///images/track/Bounding_Boxes.gif>)
 
 To log Images with Bounding Boxes in tables, you will need to provide a `wandb.Image` object for each row in the table.
 
@@ -287,7 +287,7 @@ In the UI, histograms are plotted with the training step on the x-axis, the metr
 wandb.log({"gradients": wandb.Histogram(grads)})
 ```
 
-![Gradients for the discriminator in a GAN.](<../../../.gitbook/assets/image (116).png>)
+![Gradients for the discriminator in a GAN.](<pathname:///images/track/histograms.png>)
   </TabItem>
   <TabItem value="flexible_histogram">
 
@@ -329,7 +329,7 @@ wandb.log({"generated_samples":
             wandb.Object3D(open("sample.glb"))]})
 ```
 
-![Ground truth and prediction of a headphones point cloud](<../../../.gitbook/assets/ground truth - prediction of 3d point clouds.png>)
+![Ground truth and prediction of a headphones point cloud](<pathname:///images/track/ground truth - prediction of 3d point clouds.png>)
 
 [See a live example →](https://app.wandb.ai/nbaryd/SparseConvNet-examples\_3d\_segmentation/reports/Point-Clouds--Vmlldzo4ODcyMA)
   </TabItem>
@@ -436,7 +436,7 @@ When your run finishes, you'll be able to interact with 3D visualizations of you
 
 [See a live example using AlphaFold →](http://wandb.me/alphafold-workspace)
 
-![](../../../.gitbook/assets/docs-molecule.png)
+![](pathname:///images/track/docs-molecule.png)
   </TabItem>
 </Tabs>
 

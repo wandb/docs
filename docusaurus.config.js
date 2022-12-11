@@ -7,6 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Weights & Biases Documentation',
+  staticDirectories: ['public', 'static'],
   tagline: 'The developer-first MLOps platform',
   url: 'https://docs.wandb.ai/',
   baseUrl: '/',
@@ -152,4 +153,4 @@ const config = {
     }),
 };
 
-module.exports = config;
+module.exports = config

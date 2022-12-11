@@ -148,4 +148,4 @@ for i in range(10):
 
 Here's what the resulting min and max summary values look like, in pinned columns in the sidebar on the Project Page workspace:
 
-![Project Page Sidebar](<../../../.gitbook/assets/image (144).png>)
+![Project Page Sidebar](<pathname:///images/track/customize_sumary.png>)

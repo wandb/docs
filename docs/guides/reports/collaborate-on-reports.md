@@ -4,13 +4,13 @@ Once you have saved a report, you can select the **Share** button to collaborate
 
 A warning notification will appear if an edit conflict occurs. This can occur if you and another collaborator edit the same report at the same time. The warning notification will guide you to resolve potential edit conflicts.
 
-![Report sharing modal for a report in a 'Public' project](../../.gitbook/assets/share-report.gif)
+![Report sharing modal for a report in a 'Public' project](pathname:///images/reports/share-report.gif)
 
 ### Comment on reports
 
 Click the comment button on a panel in a report to add a comment directly to that panel.
 
-![Adding a comment to a panel](<../../.gitbook/assets/demo - comment on panels in reports.gif>)
+![Adding a comment to a panel](<pathname:///images/reports/demo_comment_on_panels_in_reports.gif>)
 
 
 

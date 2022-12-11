@@ -14,8 +14,7 @@ Artifacts are represented by blue rectangles and Runs are represented by green r
 
 The job type you provided when you initialized a run is located next to the **RUN** label. The W&B run name is located in the light green region underneath the **RUN** label.
 
-<!-- <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption><p>DAG view of artifacts, runs used for an experiment.</p></figcaption></figure> -->
-![DAG view of artifacts, runs used for an experiment.](<../../.gitbook/assets/image (2).png>)
+![DAG view of artifacts, runs used for an experiment.](<pathname:///images/artifacts/dag_view_of_artifacts.png>)
 
 For example, in the preceding image, the first artifact in the graph was given a 'dataset' type when the artifact was created. The name of the artifact is 'coco-train'.
 

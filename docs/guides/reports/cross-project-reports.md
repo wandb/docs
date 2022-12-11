@@ -2,7 +2,7 @@
 
 Compare runs from two different projects with cross-project reports. Use the project selector in the run set table to pick a project.
 
-![Compare runs across different projects](<../../.gitbook/assets/how to - pick a different project to draw runs from.gif>)
+![Compare runs across different projects](<pathname:///images/reports/howto_pick_a_different_project_to_draw_runs_from.gif>)
 
 The visualizations in the section pull columns from the first active runset. Make sure that the first run set checked in the section has that column available if you do not see the metric you are looking for in the line plot.
 
@@ -14,7 +14,7 @@ If you need to compare runs from two projects and the columns are not working, a
 
 Share a view-only link to a report that is in a private project or team project.
 
-![](../../.gitbook/assets/magic-links.gif)
+![](pathname:///images/reports/magic-links.gif)
 
 View-only report links add a secret access token to the URL, so anyone who opens the link can view the page. The magic link can also be used to let anyone view the report without logging in first. For customers on [W&B Local](../hosting/intro.md) private cloud installations, these links will still be behind your firewall, so only members of your team with access to your private instance _and_ access to the view-only link will be able to view the report.
 
@@ -30,4 +30,3 @@ Note: The magic links are only available for “Private” and “Team” projec
 
 Send a graph from your workspace to a report to keep track of your progress. Click the dropdown menu on the chart or panel you'd like to copy to a report and click **Add to report** to select the destination report.
 
-<!-- ![](<../../.gitbook/assets/demo-export-to-existing-report.gif>) -->

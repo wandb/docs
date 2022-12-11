@@ -4,7 +4,7 @@ description: Visualize the gradients of your parameters
 
 # Gradient Panel
 
-![Logged gradients get rendered as histograms](<../../../.gitbook/assets/Gradient panels.png>)
+![Logged gradients get rendered as histograms](<pathname:///images/app_ui/gradient_panels.png>)
 
 The gradient panel shows the histograms of the gradients, per time step.
 
