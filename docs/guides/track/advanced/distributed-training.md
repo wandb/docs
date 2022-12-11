@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
 Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system) of metrics tracked from a single process. The dashboard displays system metrics such as temperature and utilization, that were tracked for both GPUs.
 
-![](<../../../.gitbook/assets/image (102).png>)
+![](<pathname:///images/track/distributed_training_method1.png>)
 
 However, the loss values as a function epoch and batch size were only logged from a single GPU.
 

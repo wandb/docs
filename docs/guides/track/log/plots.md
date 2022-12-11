@@ -75,7 +75,7 @@ wandb.log({"my_bar_chart_id" : wandb.plot.bar(table, "label",
 
 You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
 
-![](<../../../.gitbook/assets/image (36).png>)
+![](<pathname:///images/track/basic_charts_bar.png>)
 
 [See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
@@ -119,7 +119,7 @@ wandb.log({"my_custom_id" : wandb.plot.line_series(
 
 Note that the number of x and y points must match exactly. You can supply one list of x values to match multiple lists of y values, or a separate list of x values for each list of y values.
 
-![](<../../../.gitbook/assets/Screen Shot 2021-02-19 at 12.33.02 PM.png>)
+![](<pathname:///images/track/basic_charts_histogram.png>)
 
 [See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU)
   </TabItem>
@@ -153,7 +153,7 @@ You can log this whenever your code has access to:
 * (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
 * (optionally) a subset (still in list format) of the labels to visualize in the plot
 
-![](<../../../.gitbook/assets/Screen Shot 2021-02-19 at 11.17.52 AM.png>)
+![](<pathname:///images/track/model_eval_charts_precision_recall.png>)
 
 [See in the app →](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
 

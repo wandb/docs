@@ -30,7 +30,7 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. Select **A
 
 
 
-![Add charts to a report](<../../.gitbook/assets/demo - report add panel grid.gif>)
+![Add charts to a report](<pathname:///images/reports/demo_report_add_panel_grid.gif>)
   
   </TabItem>
   <TabItem value="sdk">
@@ -282,7 +282,7 @@ report.blocks = [
 
 This will render a markdown block similar to:
 
-![](<../../.gitbook/assets/image (10).png>)
+![](<pathname:///images/reports/markdown.png>)
   </TabItem>
 </Tabs>
 
@@ -347,7 +347,7 @@ Copy and past URLs into reports to embed rich media within the report. The follo
 
 Copy and paste a Tweet link URL into a report to view the Tweet within the report.
 
-![](<../../.gitbook/assets/Jun-30-2022 20-18-35.gif>)
+![](<pathname:///images/reports/twitter.gif>)
 
 ####
 
@@ -355,13 +355,13 @@ Copy and paste a Tweet link URL into a report to view the Tweet within the repor
 
 Copy and paste a YouTube video URL link to embed a video in the report.
 
-![](<../../.gitbook/assets/Jun-30-2022 20-15-16.gif>)
+![](<pathname:///images/reports/youtube.gif>)
 
 #### SoundCloud
 
 Copy and paste a SoundCloud link to embed an audio file into a report.
 
-![](<../../.gitbook/assets/Jun-30-2022 20-20-52.gif>)
+![](<pathname:///images/reports/soundcloud.gif>)
   </TabItem>
   <TabItem value="sdk">
 
@@ -392,14 +392,14 @@ If you have a layout that you would like to reuse, you can select a panel grid a
 
 Highlight a whole panel grid section by selecting the drag handle in the upper right corner. Click and drag to highlight and select a region in a report such as panel grids, text, and headings.
 
-![](<../../.gitbook/assets/demo - copy and paste a panel grid section.gif>)
+![](<pathname:///images/reports/demo_copy_and_paste_a_panel_grid_section.gif>)
 
 Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
-![](../../.gitbook/assets/delete\_panel\_grid.gif)
+![](pathname:///images/reports/delete_panel_grid.gif)
 
 ### Collapse headers to organize Reports
 
 Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
 
-![](../../.gitbook/assets/collapse\_headers.gif)
+![](pathname:///images/reports/collapse_headers.gif)

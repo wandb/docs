@@ -143,7 +143,8 @@ You can log this whenever your code has access to:
 * (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
 * (optionally) a subset (still in list format) of the labels to visualize in the plot
 
-![](<../../../../.gitbook/assets/demo - precision recall.png>)
+![](<pathname:///images/app_ui/demo_average_precision_lines.png>)
+
 
 [See in the app →](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
 
@@ -275,13 +276,14 @@ Apply any changes to a specific visualization panel with the button at the botto
 
 This can be enabled on the “Other settings” page of the custom chart editor. If you change your query to use a `historyTable` instead of the `summaryTable`, you'll get an option to “Show step selector” in the custom chart editor. This gives you a slider that lets you select the step.
 
-![Show step slider in a custom chart](<../../../../.gitbook/assets/Screen Recording 2021-11-12 at 3.22.50 PM.gif>)
+![Show step slider in a custom chart](<pathname:///images/app_ui/step_sllider_custon_charts.mov>)
 
 ### How to delete a custom chart preset?
 
 You can do this by going into the custom chart editor. Then click on the currently selected chart type, this will open up a menu with all your presets. Hover the mouse on a preset you want to delete and then click on the Trash icon.
 
-![](<../../../../.gitbook/assets/Jun-27-2022 17-32-39.gif>)
+![](<pathname:///images/app_ui/delete_custome_chart_preset.gif>)
+
 
 ### Common use cases
 

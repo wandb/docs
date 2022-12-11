@@ -10,7 +10,7 @@ Add, delete, manage email types and primary email addresses in your Weights & Bi
 
 Manage emails from the Settings page. Select your profile icon in the upper right corner of the Weights & Biases dashboard. From the dropdown, select **Settings**. Within the Settings page, scroll down to to the Emails dashboard:
 
-![](<../../../.gitbook/assets/Screen Shot 2022-06-15 at 6.01.29 AM.png>)
+![](<pathname:///images/app_ui/manage_emails.png>)
 
 ### Primary email
 
@@ -22,7 +22,7 @@ Select the kebab dropdown to change the primary email associated with your Weigh
 Only verified emails can be set as primary
 :::
 
-![](<../../../.gitbook/assets/Screen Shot 2022-06-15 at 6.06.11 AM.png>)
+![](<pathname:///images/app_ui/primary_email.png>)
 
 ### Add Emails
 
@@ -48,7 +48,7 @@ Email Types are automatically detected when you add a new email. You can optiona
 
 If the email type is not validated a dispute modal will appear and ask you to contact support. Email validation can fail, for example, if you attempt to set an academic or personal email to a corporate email type.
 
-![](<../../../.gitbook/assets/Screen Shot 2022-06-14 at 2.30.09 AM.png>)
+![](<pathname:///images/app_ui/email_types.png>)
 
 ### Login methods
 

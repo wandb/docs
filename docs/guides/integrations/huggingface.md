@@ -13,8 +13,7 @@ from transformers import TrainingArguments, Trainer
 args = TrainingArguments(... , report_to="wandb")
 trainer = Trainer(... , args=args)
 ```
-
-![Explore your experiment results in the W&B interactive dashboard](../../.gitbook/assets/huggingface\_gif.gif)
+![Explore your experiment results in the W&B interactive dashboard](pathname:///images/integrations/huggingface_gif.gif)
 
 ## This guide covers
 
@@ -166,8 +165,6 @@ wandb.finish()
 ### 4) Visualize your results
 
 Once you have logged your training results you can explore your results dynamically in the [W&B Dashboard](../track/app.md). It's easy to compare across dozens of runs at once, zoom in on interesting findings, and coax insights out of complex data with flexible, interactive visualizations.
-
-<!-- ![](<../../.gitbook/assets/hf-gif-15.gif>) -->
 
 ## Advanced features
 

@@ -6,7 +6,7 @@ description: Visualize metrics, customize axes, and compare multiple lines on th
 
 Line plots show up by default when you plot metrics over time with **wandb.log()**. Customize with chart settings to compare multiple lines on the same plot, calculate custom axes, and rename labels.
 
-![](<../../../../../.gitbook/assets/line plot example.png>)
+![](<pathname:///images/app_ui/line plot example.png>)
 
 ## Settings
 
@@ -26,7 +26,7 @@ Line plots show up by default when you plot metrics over time with **wandb.log()
 **X Axis Settings**
 The x-axis can be set at the graph level, as well as globally for the project page or report page. Here's what the global settings look like:
 
-![](<../../../../../.gitbook/assets/x axis global settings.png>)
+![](<pathname:///images/app_ui/x axis global settings.png>)
 
 :::info
 Pick **multiple y-axes** in the line plot settings to compare different metrics on the same chart, like accuracy and validation accuracy for example.
@@ -48,7 +48,7 @@ Pick **multiple y-axes** in the line plot settings to compare different metrics 
 * **Legend**: Select field that you want to see in the legend of the plot for each line. You could, for example, show the name of the run and the learning rate.
 * **Legend template**: Fully customizable, this powerful template allows you to specify exactly what text and variables you want to show up in the template at the top of the line plot as well as the legend that appears when you hover your mouse over the plot.
 
-![Editing the line plot legend to show hyperparameters](<../../../../../.gitbook/assets/Screen Shot 2021-01-08 at 11.33.04 AM.png>)
+![Editing the line plot legend to show hyperparameters](<pathname:///images/app_ui/Screen Shot 2021-01-08 at 11.33.04 AM.png>)
 
 **Expressions**
 

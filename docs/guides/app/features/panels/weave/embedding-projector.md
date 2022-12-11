@@ -39,7 +39,7 @@ wandb.finish()
 
 After running the above code, the W&B dashboard will have a new Table containing your data. You can select `2D Projection` from the upper right panel selector to plot the embeddings in 2 dimensions. Smart default will be automatically selected, which can be easily overridden in the configuration menu accessed by clicking the gear icon. In this example, we automatically use all 5 available numeric dimensions.
 
-![](<../../../../../.gitbook/assets/Screen Shot 2021-12-06 at 4.36.17 PM.png>)
+![](<pathname:///images/app_ui/weave_hello_world.png>)
 
 ### Digits MNIST
 

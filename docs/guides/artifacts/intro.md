@@ -8,13 +8,13 @@ Use Weights & Biases Artifacts to track datasets, models, dependencies, and resu
 
 Artifacts can be thought of as a versioned directory. Artifacts are either an input of a run or an output of a run. Common artifacts include entire training sets and models. Store datasets directly into artifacts, or use artifact references to point to data in other systems like Amazon S3, GCP, or your own system.
 
-![Artifact overview](<../../.gitbook/assets/image (185).png>)Artifacts can be an input or an output of a given run.
+![Artifact overview](<pathname:///images/artifacts/artifacts_overview.png>)Artifacts can be an input or an output of a given run.
 
 Artifacts and runs form a directed graph because a given W&B run can use another run’s output artifact as input. You do not need to define pipelines ahead of time. Weights and Biases will create the DAG for you when you use and log artifacts.
 
 The following animation demonstrates an example artifacts DAG as seen in the W&B App UI.
 
-![Example artifact DAG](<../../.gitbook/assets/2020-09-03 15.59.43.gif>)
+![Example artifact DAG](<pathname:///images/artifacts/example_dag_view.gif>)
 
 For more information about exploring an artifacts graph, see [Explore and traverse an artifact graph](explore-and-traverse-an-artifact-graph.md).
 

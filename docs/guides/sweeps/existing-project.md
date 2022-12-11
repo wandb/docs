@@ -20,17 +20,17 @@ Optionally explore the example appear in the W&B App UI dashboard.
 
 From your [project page](../app/pages/project-page.md), open the [Sweep tab](./sweeps-ui.md) in the sidebar and select **Create Sweep**.
 
-![](../../.gitbook/assets/sweep1.png)
+![](pathname:///images/sweeps/sweep1.png)
 
 The auto-generated configuration guesses values to sweep over based on the runs you have completed. Edit the configuration to specify what ranges of hyperparameters you want to try. When you launch the sweep, it starts a new process on the hosted W&B sweep server. This centralized service coordinates the agents— the machines that are running the training jobs.
 
-![](../../.gitbook/assets/sweep2.png)
+![](pathname:///images/sweeps/sweep2.png)
 
 ## 3. Launch agents
 
 Next, launch an agent locally. You can launch up to 20 agents on different machines in parallel if you want to distribute the work and finish the sweep job more quickly. The agent will print out the set of parameters it’s trying next.
 
-![](../../.gitbook/assets/sweep3.png)
+![](pathname:///images/sweeps/sweep3.png)
 
 Now you're running a sweep. The following image demonstrates what the dashboard looks like as the example sweep job is running. [View an example project page →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
 

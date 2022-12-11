@@ -4,7 +4,7 @@ By default, we only save the latest git commit hash. You can turn on more code f
 
 Starting with `wandb` version 0.8.28, we can save the code from your main training file where you call `wandb.init()`. This will get sync'd to the dashboard and show up in a tab on the run page, as well as the Code Comparer panel. Go to your [settings page](https://app.wandb.ai/settings) to enable code saving by default.
 
-![Here's what your account settings look like. You can save code by default.](<../../../../.gitbook/assets/Screen Shot 2020-05-12 at 12.28.40 PM.png>)
+![Here's what your account settings look like. You can save code by default.](<pathname:///images/app_ui/code_saving.png>)
 
 ## Save Library Code
 
@@ -19,7 +19,7 @@ This will capture all python source code files in the current directory and all 
 
 Click the **+** button in your workspace or report to add a new panel, and select the Code Comparer. Diff any two experiments in your project and see exactly which lines of code changed. Here’s an example:
 
-![](<../../../../.gitbook/assets/cc1 (1).png>)
+![](<pathname:///images/app_ui/code_comparer.png>)
 
 ## Jupyter Session History
 

@@ -32,7 +32,7 @@ Select the **Filter run sets** option to prevent new runs from being added to yo
 
 Navigate to the **Reports** tab in your project and select the **Create Report** button on the report page. This creates a new blank report. Save a report to get a shareable link, or send charts to the report from different workspaces, and different projects.
 
-![](<../../.gitbook/assets/image (180).png>)
+![](<pathname:///images/reports/create_report_button.png>)
   </TabItem>
   <TabItem value="sdk">
 
