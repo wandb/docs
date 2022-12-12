@@ -13,7 +13,7 @@ from transformers import TrainingArguments, Trainer
 args = TrainingArguments(... , report_to="wandb")
 trainer = Trainer(... , args=args)
 ```
-![Explore your experiment results in the W&B interactive dashboard](pathname:///images/integrations/huggingface_gif.gif)
+![Explore your experiment results in the W&B interactive dashboard](/images/integrations/huggingface_gif.gif)
 
 ## This guide covers
 

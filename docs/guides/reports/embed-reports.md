@@ -14,18 +14,18 @@ _Note: Only **public** reports are viewable when embedded currently._
 
 __
 
-![](pathname:///images/reports/get_embed_url.gif)
+![](/images/reports/get_embed_url.gif)
 
 ### Confluence
 
 The proceeding animation demonstrates how to insert the direct link to the report within an IFrame cell in Confluence.
 
-![](pathname:///images/reports/embed_iframe_confluence.gif)
+![](/images/reports/embed_iframe_confluence.gif)
 
 ### Notion
 
 The proceeding animation demonstrates how to insert a report into a Notion document using an Embed block in Notion and the report's embedded code.
 
-![](pathname:///images/reports/embed_iframe_notion.gif)
+![](/images/reports/embed_iframe_notion.gif)
 
 ##

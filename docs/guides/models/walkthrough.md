@@ -3,7 +3,7 @@ import TabItem from '@theme/TabItem';
 
 # Model Management Walkthrough
 
-![](<pathname:///images/models/walkthrough.png>)
+![](</images/models/walkthrough.png>)
 
 In this walkthrough you'll learn how to use Weights & Biases for Model Management. Track, visualize, and report on the complete production model workflow.
 
@@ -34,7 +34,7 @@ Now we will walk through a canonical workflow for producing, organizing, and con
 **A** [**companion colab notebook**](https://colab.research.google.com/drive/1wjgr9AHICOa3EM1Ikr\_Ps\_MAm5D7QnCC) **is provided which covers step 2-3 in the first code block and steps 4-6 in the second code block.**
 :::
 
-![](<pathname:///images/models/workflow_dag.png>)
+![](</images/models/workflow_dag.png>)
 
 ### 1. Create a new Registered Model
 
@@ -50,17 +50,17 @@ First, create a Registered Model to hold all the candidate models for your parti
 
 1. Visit your Model Registry at [wandb.ai/registry/model](https://wandb.ai/registry/model) (linked from homepage).
 
-![](<pathname:///images/models/create_registered_model_1.png>)
+![](</images/models/create_registered_model_1.png>)
 
-![](<pathname:///images/models/create_registered_model_2.png>)
+![](</images/models/create_registered_model_2.png>)
 
 2. Click the `Create Registered Model` button at the top of the Model Registry.
 
-![](<pathname:///images/models/create_registered_model_3.png>)
+![](</images/models/create_registered_model_3.png>)
 
 3. Make sure the `Owning Entity` and `Owning Project` are set correctly to the values you desire. Enter a unique name for your new Registered Model that describes the modeling task or use-case of interest.
 
-![](<pathname:///images/models/create_registered_model_4.png>)
+![](</images/models/create_registered_model_4.png>)
   </TabItem>
   <TabItem value="browser">
 
@@ -68,7 +68,7 @@ First, create a Registered Model to hold all the candidate models for your parti
 2. Click the `+` icon on the bottom of the Artifact Browser Sidebar
 3. Select `Type: model`, `Style: Collection`, and enter a name. In our case `MNIST Grayscale 28x28`. Remember, a Collection should map to a modeling task - enter a unique name that describes the use case.
 
-![](<pathname:///images/models/browser.gif>)
+![](</images/models/browser.gif>)
   </TabItem>
 </Tabs>
 
@@ -182,11 +182,11 @@ Note: you may want to define custom serialization and deserialization strategies
 
 After logging 1 or more Model Versions, you will notice that your will have a new Model Artifact in your Artifact Browser. Here, we can see the results of logging 5 versions to an artifact named `mnist_nn-1r9jjogr`.
 
-![](<pathname:///images/models/train_log_model_version_browser.png>)
+![](</images/models/train_log_model_version_browser.png>)
 
 If you are following along the example notebook, you should see a Run Workspace with charts similar to the image below
 
-![](<pathname:///images/models/train_log_model_version_notebook.png>)
+![](</images/models/train_log_model_version_notebook.png>)
 
 ### 3. Link Model Versions to the Registered Model
 
@@ -208,7 +208,7 @@ The following video below demonstrates how to manually link a Model Version to y
 3. Select the target Registered Model
 4. (optional): Add additional aliases
 
-![](<pathname:///images/models/link_model_versions.gif>)
+![](</images/models/link_model_versions.gif>)
   </TabItem>
   <TabItem value="program_link">
 
@@ -282,7 +282,7 @@ link_model(model_version, "[[entity/]project/]collectionName")
 
 After you link the Model Version, you will see hyperlinks connecting the Version in the Registered Model to the source Artifact and visa versa.
 
-![](pathname:///images/models/train_log_model_version.png)
+![](/images/models/train_log_model_version.png)
 
 ### 4. Use a Model Version
 
@@ -351,7 +351,7 @@ wandb.log({"loss": loss, "accuracy": accuracy, "predictions": predictions})
 
 If you are executing similar code, as demonstrated in the notebook, you should see a workspace similar to the image below - here we even show model predictions against the test data!
 
-![](<pathname:///images/models/evaluate_model_performance.png>)
+![](</images/models/evaluate_model_performance.png>)
 
 ### 6. Promote a Version to Production
 
@@ -365,7 +365,7 @@ Next, you will likely want to denote which version in the Registered Model is in
   ]}>
   <TabItem value="UI_interface">
 
-![](<pathname:///images/models/promote_version_to_prod_1.png>)
+![](</images/models/promote_version_to_prod_1.png>)
   </TabItem>
   <TabItem value="api">
 
@@ -376,7 +376,7 @@ Follow steps in [Part 3. Link Model Versions to the Collection](walkthrough.md#3
 
 The image below shows the new `production` alias added to v1 of the Registered Model!
 
-![](<pathname:///images/models/promote_version_to_prod_2.png>)
+![](</images/models/promote_version_to_prod_2.png>)
 
 ### 7. Consume the Production Model
 
@@ -396,4 +396,4 @@ You can reference a Version within the Registered Model using different alias st
 
 Using Weave Panels, you can display any of the Model Registry/Artifact views inside of Reports! See a [demo here](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/reports/MNIST-Grayscale-28x28-Model-Dashboard--VmlldzoyMDI0Mzc1). Below is a full-page screenshot of an example Model Dashboard.
 
-![](<pathname:///images/models/build_reporting_dashboard.png>)
+![](</images/models/build_reporting_dashboard.png>)

@@ -20,17 +20,17 @@ Optionally explore the example appear in the W&B App UI dashboard.
 
 From your [project page](../app/pages/project-page.md), open the [Sweep tab](./sweeps-ui.md) in the sidebar and select **Create Sweep**.
 
-![](pathname:///images/sweeps/sweep1.png)
+![](/images/sweeps/sweep1.png)
 
 The auto-generated configuration guesses values to sweep over based on the runs you have completed. Edit the configuration to specify what ranges of hyperparameters you want to try. When you launch the sweep, it starts a new process on the hosted W&B sweep server. This centralized service coordinates the agents— the machines that are running the training jobs.
 
-![](pathname:///images/sweeps/sweep2.png)
+![](/images/sweeps/sweep2.png)
 
 ## 3. Launch agents
 
 Next, launch an agent locally. You can launch up to 20 agents on different machines in parallel if you want to distribute the work and finish the sweep job more quickly. The agent will print out the set of parameters it’s trying next.
 
-![](pathname:///images/sweeps/sweep3.png)
+![](/images/sweeps/sweep3.png)
 
 Now you're running a sweep. The following image demonstrates what the dashboard looks like as the example sweep job is running. [View an example project page →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
 
@@ -46,7 +46,7 @@ Launch a new sweep using existing runs that you've previously logged.
 
 Your sweep will now be set up on our server. All you need to do is launch one or more agents to start running runs.
 
-![](<pathname:///images/sweeps/tutorial_sweep_runs.png>)
+![](</images/sweeps/tutorial_sweep_runs.png>)
 
 :::info
 If you kick off the new sweep as a bayesian sweep, the selected runs will also seed the Gaussian Process.

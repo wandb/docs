@@ -7,7 +7,7 @@ description: Hyperparameter search and model optimization with W&B Sweeps
 
 Use Weights & Biases Sweeps to automate hyperparameter search and explore the space of possible models. Create a sweep with a few lines of code. Sweeps combines the benefits of automated hyperparameter search with our visualization-rich, interactive experiment tracking. Pick from popular search methods such as Bayesian, grid search, and random to search the hyperparameter space.  Scale and parallelize Sweep jobs across one or more machines.
 
-![Draw insights from large hyperparameter tuning experiments with interactive dashboards.](<pathname:///images/sweeps/intro_what_it_is.png>)
+![Draw insights from large hyperparameter tuning experiments with interactive dashboards.](</images/sweeps/intro_what_it_is.png>)
 
 ### How it works
 

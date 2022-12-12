@@ -55,7 +55,7 @@ _wandb/local_ uses Open ID Connect for authentication. When creating an applicat
 
 #### Setting up with AWS Cognito
 
-![Because we're only using OIDC for authentication and not authorization, public clients simplify setup](<pathname:///images/hosting/setup_aws_cognito.png>)
+![Because we're only using OIDC for authentication and not authorization, public clients simplify setup](</images/hosting/setup_aws_cognito.png>)
 
 To configure an application client in your identity provider you'll need to provide an allowed callback url:
 
@@ -64,11 +64,11 @@ To configure an application client in your identity provider you'll need to prov
 
 For example, in [AWS Cognito](https://aws.amazon.com/cognito/) if your application was running at `https://wandb.mycompany.com`:
 
-![If your instance is accessible from multiple hosts, be sure to include all of them here.](<pathname:///images/hosting/setup_aws_cognito_ui_settings.png>)
+![If your instance is accessible from multiple hosts, be sure to include all of them here.](</images/hosting/setup_aws_cognito_ui_settings.png>)
 
 _wandb/local_ will use the ["implicit" grant with the "form\_post" response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) by default. You can also configure _wandb/local_ to perform an "authorization\_code" grant using the [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) flow. We request the following scopes for the grant: "openid", "profile", and "email". Your identity provider will need to allow these scopes. For example in AWS Cognito the application should look like:
 
-![openid, profile, and email are required](<pathname:///images/hosting/setup_aws_required_fields.png>)
+![openid, profile, and email are required](</images/hosting/setup_aws_required_fields.png>)
 
 To tell _wandb/local_ which grant to use you can select the Auth Method in the settings page or set the OIDC\_AUTH\_METHOD environment variable.
 
@@ -78,7 +78,7 @@ For AWS Cognito providers you must set the Auth Method to "pkce"
 
 You'll need a Client ID and the url of your OIDC issuer. The OpenID discovery document must be available at `$OIDC_ISSUER/.well-known/openid-configuration` For example, when using AWS Cognito you can generate your issuer url by appending your User Pool ID to the Cognito IDP url from the _User Pools > App Integration_ tab:
 
-![The issuer URL would be https://cognito-idp.us-east-1.amazonaws.com/us-east-1\_uiIFNdacd](<pathname:///images/hosting/image (160) (1).png>)
+![The issuer URL would be https://cognito-idp.us-east-1.amazonaws.com/us-east-1\_uiIFNdacd](</images/hosting/setup_aws_cognito_issuer_url.png>)
 
 :::info
 Do not use the "Cognito domain" for the IDP url. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
@@ -86,19 +86,19 @@ Do not use the "Cognito domain" for the IDP url. Cognito provides it's discovery
 
 Once you have everything configured you can provide the Issuer, Client ID, and Auth method to _wandb/local_ via `/system-admin` or the environment variables and SSO will be configured.
 
-![](<pathname:///images/hosting/enable_sso.png>)
+![](</images/hosting/enable_sso.png>)
 
 #### Setting up with Okta
 
 First set up a new application by navigating in your provider's UI, Click on Add apps
 
-![](<pathname:///images/hosting/okta.png>)
+![](</images/hosting/okta.png>)
 
 Name your App Integration (ex: Weights & Biases) and select grant type `implicit (hybrid)`
 
 W&B also supports the Authorization Code grant type with PKCE
 
-![](<pathname:///images/hosting/pkce.png>)
+![](</images/hosting/pkce.png>)
 
 To configure an application client in your identity provider you'll need to provide an allowed callback url:
 
@@ -106,25 +106,25 @@ To configure an application client in your identity provider you'll need to prov
 * If your IDP supports universal logout, set Logout URL to `http(s)://YOUR-W&B-HOST`
 
 For example, if your application was running at `https://localhost:8080`,
-the redirect URI would look like `https://localhost:8080/oidc/callback`![](<pathname:///images/hosting/redirect_uri.png>)
+the redirect URI would look like `https://localhost:8080/oidc/callback`![](</images/hosting/redirect_uri.png>)
 
 Set the sign-out redirect to `http(s)://YOUR-W&B-HOST/logout`
 
-![](<pathname:///images/hosting/signout_redirect.png>)
+![](</images/hosting/signout_redirect.png>)
 
 Once you have everything configured you can provide the Issuer, Client ID, and Auth method to `wandb/local` via `/system-admin` or the environment variables and SSO will be configured.
 
 Sign in to your Weights and Biases server and navigate to the `System Settings` page. Navigate to upper-right, dropdown menu:
 
-![](<pathname:///images/hosting/system_settings.png>)
+![](</images/hosting/system_settings.png>)
 
 Next, select **System Settings**
 
-![](<pathname:///images/hosting/system_settings_select_settings.png>)
+![](</images/hosting/system_settings_select_settings.png>)
 
 Enter your Issuer, Client ID, and Authentication Method. Select **Update settings**.
 
-![](<pathname:///images/hosting/system_settings_select_update.png>)
+![](</images/hosting/system_settings_select_update.png>)
 
 :::info
 If you're unable to login to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This will output a temporary password to the containers logs and disable SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
@@ -146,7 +146,7 @@ To use an AWS S3 bucket as the file storage backend for W&B, you'll need to crea
 
 Then, create an S3 bucket. Under the bucket properties page in the console, in the "Events" section of "Advanced Settings", click "Add notification", and configure all object creation events to be sent to the SQS Queue you configured earlier.
 
-![Enterprise file storage settings](pathname:///images/hosting/s3-notification.png)
+![Enterprise file storage settings](/images/hosting/s3-notification.png)
 
 Enable CORS access: your CORS configuration should look like the following:
 
@@ -216,7 +216,7 @@ Finally, navigate to the W&Bsettings page at `http(s)://YOUR-W&B-SERVER-HOST/sys
 * **File Storage Region (AWS only)**: `<region>`
 * **Notification Subscription**: `sqs://<queue-name>`
 
-![](<pathname:///images/hosting/configure_file_store.png>)
+![](</images/hosting/configure_file_store.png>)
 
 Press "Update settings" to apply the new settings.
 
@@ -289,7 +289,7 @@ Finally, navigate to the W&Bsettings page at `http(s)://YOUR-W&B-SERVER-HOST/sys
 * **File Storage Region**: blank
 * **Notification Subscription**: `pubsub:/<project-name>/<topic-name>/<subscription-name>`
 
-![](<pathname:///images/hosting/configure_file_store.png>)
+![](</images/hosting/configure_file_store.png>)
 
 Press "update settings" to apply the new settings.
 
@@ -303,56 +303,56 @@ If you have a storage account you want to use already, you can skip this step.
 
 Navigate to [Storage Accounts > Add ](https://portal.azure.com/#create/Microsoft.StorageAccount)in the Azure portal. Select an Azure subscription, and select any resource group or create a new one. Enter a name for your storage account.
 
-![Azure storage account setup](<pathname:///images/hosting/azure_create_storage_account.png>)
+![Azure storage account setup](</images/hosting/azure_create_storage_account.png>)
 
 Click Review and Create, and then, on the summary screen, click Create:
 
-![Azure storage account details review](<pathname:///images/hosting/image (41).png>)
+![Azure storage account details review](</images/hosting/azure_create_storage_account_click_create.png>)
 
 #### Creating the blob container
 
 Go to [Storage Accounts](https://portal.azure.com/#blade/HubsExtension/BrowseResource/resourceType/Microsoft.Storage%2FStorageAccounts) in the Azure portal, and click on your new storage account. In the storage account dashboard, click on Blob service > Containers in the menu:
 
-![](<pathname:///images/hosting/image (43).png>)
+![](</images/hosting/create_blob_container_1.png>)
 
 Create a new container, and set it to Private:
 
-![](<pathname:///images/hosting/image (50).png>)
+![](</images/hosting/create_blob_container_2.png>)
 
 Go to Settings > CORS > Blob service, and enter the IP of your wandb server as an allowed origin, with allowed methods `GET` and `PUT`, and all headers allowed and exposed, then save your CORS settings.
 
-![](<pathname:///images/hosting/image (46).png>)
+![](</images/hosting/create_blob_container_3.png>)
 
 #### Creating the Queue
 
 Go to Queue service > Queues in your storage account, and create a new Queue:
 
-![](<pathname:///images/hosting/image (51).png>)
+![](</images/hosting/create_blob_container_4.png>)
 
 Go to Events in your storage account, and create an event subscription:
 
-![](<pathname:///images/hosting/image (47).png>)
+![](</images/hosting/create_blob_container_5.png>)
 
 Give the event subscription the Event Schema "Event Grid Schema", filter to only the "Blob Created" event type, set the Endpoint Type to Storage Queues, and then select the storage account/queue as the endpoint.
 
-![](<pathname:///images/hosting/image (52).png>)
+![](</images/hosting/create_blob_container_6.png>)
 
 In the Filters tab, enable subject filtering for subjects beginning with `/blobServices/default/containers/your-blob-container-name/blobs/`
 
-![](<pathname:///images/hosting/image (53).png>)
+![](</images/hosting/create_blob_container_7.png>)
 
 #### Configure W&BServer
 
 Go to Settings > Access keys in your storage account, click "Show keys", and then copy either key1 > Key or key2 > Key. Set this key on your W&Bserver as the environment variable `AZURE_STORAGE_KEY`.
 
-![](<pathname:///images/hosting/image (54).png>)
+![](</images/hosting/create_blob_container_8.png>)
 
 Finally, navigate to the W&Bsettings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external file storage backend" option, and fill in the s3 bucket, region, and SQS queue in the following format:
 
 * **File Storage Bucket**: `az://<storage-account-name>/<blob-container-name>`
 * **Notification Subscription**: `az://<storage-account-name>/<queue-name>`
 
-![](<pathname:///images/hosting/image (55).png>)
+![](</images/hosting/create_blob_container_9.png>)
 
 Press "Update settings" to apply the new settings.
 
@@ -371,7 +371,7 @@ Configuring an external redis server will improve the reliability of the service
 
 To configure the redis instance with W&B, you can navigate to the W&Bsettings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external Redis instance" option, and fill in the `redis` connection string in the following format:
 
-![Configuring REDIS in W&B](<pathname:///images/hosting/Screen Shot 2022-08-19 at 1.45.26 PM.png>)
+![Configuring REDIS in W&B](</images/hosting/configure_redis.png>)
 
 You can also configure `redis` using the environment variable `REDIS` on the container or in your Kubernetes deployment. Alternatively, you could also setup `REDIS` as a Kubernetes secret.
 
@@ -385,25 +385,25 @@ In order to integrate your W&BServer installation with Slack, you'll need to cre
 
 Visit [https://api.slack.com/apps](https://api.slack.com/apps) and select **Create New App** in the top right.
 
-![](<pathname:///images/hosting/image (56).png>)
+![](</images/hosting/create_slack_ap_1.png>)
 
 You can name it whatever you like, but what's important is to select the same Slack workspace as the one you intend to use for alerts.
 
-![](<pathname:///images/hosting/image (124).png>)
+![](</images/hosting/create_slack_ap_2.png>)
 
 #### Configuring the Slack application
 
 Now that we have a Slack application ready, we need to authorize for use as an OAuth bot. Select **OAuth & Permissions** in the sidebar to the left.
 
-![](<pathname:///images/hosting/image (57).png>)
+![](</images/hosting/create_slack_ap_3.png>)
 
 Under **Scopes**, supply the bot with the **incoming\_webhook** scope.
 
-![](<pathname:///images/hosting/image (128) (1) (17).png>)
+![](</images/hosting/create_slack_ap_4.png>)
 
 Finally, configure the **Redirect URL** to point to your W&Binstallation. You should use the same value as what you set **Frontend Host** to in your local system settings. You can specify multiple URLs if you have different DNS mappings to your instance.
 
-![](<pathname:///images/hosting/image (58).png>)
+![](</images/hosting/create_slack_ap_5.png>)
 
 Hit **Save URLs** once finished.
 
@@ -413,10 +413,10 @@ To further secure your Slack application and prevent abuse, you can specify an I
 
 Navigate to the **System Settings** page of your W&Binstance. Check the box to enable a custom Slack application:
 
-![](<pathname:///images/hosting/image (60).png>)
+![](</images/hosting/create_slack_ap_6.png>)
 
 You'll need to supply your Slack application's client ID and secret, which you can find in the **Basic Information** tab.
 
-![](<pathname:///images/hosting/image (61).png>)
+![](</images/hosting/create_slack_ap_7.png>)
 
 That's it! You can now verify that everything is working by setting up a Slack integration in the W&Bapp. Visit [this page](https://docs.wandb.ai/guides/track/alert) for more detailed information.

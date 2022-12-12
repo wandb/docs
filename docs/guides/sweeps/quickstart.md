@@ -126,7 +126,7 @@ Open your project to see your live results in the W&B Sweep dashboard. With just
 
 [Example dashboard →](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)
 
-![Sweeps dashboard](<pathname:///images/sweeps/sweeps_quickstart_dashboard.png>)
+![Sweeps dashboard](</images/sweeps/sweeps_quickstart_dashboard.png>)
 
 For more information about how to visualize results, see [Visualize sweep results](https://docs.wandb.ai/guides/sweeps/visualize-sweep-results).
 
