@@ -20,7 +20,7 @@ If regex doesn't provide you the desired results, you can make use of [tags](tag
 
 We provide a column named `End Time` that logs that last heartbeat from the client process. The field is hidden by default.
 
-![](<@site/static/images/app_ui/search_run_endtime.png>)
+![](/images/app_ui/search_run_endtime.png)
 
 ## Resize the sidebar
 
@@ -44,13 +44,13 @@ Here's a screen capture. I expand the table, pin two columns, collapse the table
 
 Delete multiple runs at once, or tag a group of runs— bulk selection makes it easier to keep the runs table organized.
 
-![](<@site/static/images/app_ui/howto_bulk_select.gif>)
+![](/images/app_ui/howto_bulk_select.gif)
 
 ## Select all runs in table
 
 Click the checkbox in the upper left corner of the table, and click "Select all runs" to select every run that matches the current set of filters.
 
-![](<@site/static/images/app_ui/all_runs_select.gif>)
+![](/images/app_ui/all_runs_select.gif)
 
 ## Move runs between projects
 
@@ -60,7 +60,7 @@ To move runs from one project to another:
 2. Click the checkbox next to the runs you want to move
 3. Click move and select the destination project
 
-![](<@site/static/images/app_ui/howto_move_runs.gif>)
+![](/images/app_ui/howto_move_runs.gif)
 
 ## See active runs
 
@@ -74,28 +74,28 @@ Do you want to hide crashed runs? Are short runs filling up your table? Do you w
 * **Hide crashed runs** filters out any runs marked crashed from the table
 * **Duration**: add a new filter and select "duration" to hide short runs
 
-![](<@site/static/images/app_ui/hide_uninsteresting.png>)
+![](/images/app_ui/hide_uninsteresting.png)
 
 ## Filter runs with tags
 
 Filter runs based on their tags with the filter button.
 
-![](<@site/static/images/app_ui/filter_runs.gif>)
+![](/images/app_ui/filter_runs.gif)
 
 ## Filter and delete unwanted runs
 
 If you filter down the table to just the ones you want to delete, you can select all and press delete to remove them from your project. Deleting runs is project-global, so if you delete runs from a report that will be reflected in the rest of your project.
 
-![](<@site/static/images/app_ui/filter_unwanted_runs.gif>)
+![](/images/app_ui/filter_unwanted_runs.gif)
 
 ## Export runs table to CSV
 
 Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
 
-![](<@site/static/images/app_ui/export_to_csv.gif>)
+![](/images/app_ui/export_to_csv.gif)
 
 ## Search columns in the table
 
 Search for the columns in the table UI guide with the **Columns** button.
 
-![](<@site/static/images/app_ui/search_columns.gif>)
+![](/images/app_ui/search_columns.gif)

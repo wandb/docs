@@ -30,7 +30,7 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. Select **A
 
 
 
-![Add charts to a report](<@site/static/images/reports/demo_report_add_panel_grid.gif>)
+![Add charts to a report](/images/reports/demo_report_add_panel_grid.gif)
   
   </TabItem>
   <TabItem value="sdk">
@@ -282,7 +282,7 @@ report.blocks = [
 
 This will render a markdown block similar to:
 
-![](<@site/static/images/reports/markdown.png>)
+![](/images/reports/markdown.png)
   </TabItem>
 </Tabs>
 
@@ -324,7 +324,7 @@ report.save()
 This will render a HTML elements  to the following:
 
 
-![](<@site/static/images/reports/render_html.png>)
+![](/images/reports/render_html.png)
 
   </TabItem>
 </Tabs>
@@ -347,7 +347,7 @@ Copy and past URLs into reports to embed rich media within the report. The follo
 
 Copy and paste a Tweet link URL into a report to view the Tweet within the report.
 
-![](<@site/static/images/reports/twitter.gif>)
+![](/images/reports/twitter.gif)
 
 ####
 
@@ -355,13 +355,13 @@ Copy and paste a Tweet link URL into a report to view the Tweet within the repor
 
 Copy and paste a YouTube video URL link to embed a video in the report.
 
-![](<@site/static/images/reports/youtube.gif>)
+![](/images/reports/youtube.gif)
 
 #### SoundCloud
 
 Copy and paste a SoundCloud link to embed an audio file into a report.
 
-![](<@site/static/images/reports/soundcloud.gif>)
+![](/images/reports/soundcloud.gif)
   </TabItem>
   <TabItem value="sdk">
 
@@ -392,7 +392,7 @@ If you have a layout that you would like to reuse, you can select a panel grid a
 
 Highlight a whole panel grid section by selecting the drag handle in the upper right corner. Click and drag to highlight and select a region in a report such as panel grids, text, and headings.
 
-![](<@site/static/images/reports/demo_copy_and_paste_a_panel_grid_section.gif>)
+![](/images/reports/demo_copy_and_paste_a_panel_grid_section.gif)
 
 Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 

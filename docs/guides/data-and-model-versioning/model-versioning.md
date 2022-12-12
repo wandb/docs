@@ -34,11 +34,11 @@ With automatic saving and versioning, each experiment you run stores the most re
 
 Train a model on a local machine and log it as an artifact. Each training run will create a new version of the model named `inceptionV3`.
 
-![](<@site/static/images/data_model_versioning/version_store_terminal.png>)
+![](/images/data_model_versioning/version_store_terminal.png)
 
 Load the same model by name for inference in another machine, e.g. via Google Colab, using the "latest" version to get the most recent one. You can also refer to any other version by index or other custom alias.
 
-![](<@site/static/images/data_model_versioning/version_store_load_model.png>)
+![](/images/data_model_versioning/version_store_load_model.png)
 
 ## Explore ideas in branches
 
@@ -46,15 +46,15 @@ To test a new hypothesis or start a set of experiments—say changing the core a
 
 On any model version, you can take notes, add descriptive tags and arbitrary metadata, and view all the experiments which loaded in this version of the model.
 
-![](<@site/static/images/data_model_versioning/explore_ideas_branches_0.png>)
+![](/images/data_model_versioning/explore_ideas_branches_0.png)
 
 A partial view of an artifact tree showing two versions of an Inception-based CNN, iv3. A model checkpoint is saved before starting training (with pre-existing ImageNet weights) and after finishing training (suffix \_trained). The rightmost nodes show various inference runs which loaded the iv3\_trained:v2 model checkpoint and the test data in inat\_test\_data\_10:v0 (bottom right).
 
-![](<@site/static/images/data_model_versioning/explore_ideas_branches_1.png>)
+![](/images/data_model_versioning/explore_ideas_branches_1.png)
 
 A partial view of a complex artifact tree focusing on two training runs (prefixed train), named beyond roads iou 0.48 (top left square node) and fastai baseline (bottom left square node). Each experiment produces many artifacts: sample predictions of the model on training and validation images after every epoch. In the right half of the image, you can see some test runs (prefixed test) which load in the model checkpoints of training runs (out of visible frame) and store predictions on the test data as artifacts (prefixed test\_preds).
 
-![](<@site/static/images/data_model_versioning/explore_ideas_branches_2.png>)
+![](/images/data_model_versioning/explore_ideas_branches_2.png)
 
 ## Compare models precisely
 
@@ -62,15 +62,15 @@ Compare your models by logged or derived metrics (e.g. loss, accuracy, mean inte
 
 This artifact tree shows 12 model variants (bottom left), creating two sets of predictions from the test_dataset: 14 entry_predictions and 2 predictions. These are all evaluated to produce 19 result artifacts (computed metrics and ground truth annotations on images).
 
-![](<@site/static/images/data_model_versioning/compare_models_1.png>)
+![](/images/data_model_versioning/compare_models_1.png)
 
 Select versions across names (here, model entries to a competitive benchmark from different teams) to browse details and connected experiment runs. You can compare contents side-by-side when you select two versions (check out [Tables](../data-vis/) for visual comparison).
 
-![](<@site/static/images/data_model_versioning/compare_models_2.png>)
+![](/images/data_model_versioning/compare_models_2.png)
 
 Each experiment run visible in the workspace links to its associated artifacts. Find a particular run—here the top mean\_class\_iou by team name "Daenerys"—and download the corresponding model.
 
-![](<@site/static/images/data_model_versioning/compare_models_3.png>)
+![](/images/data_model_versioning/compare_models_3.png)
 
 ## Manage a model ecosystem
 
@@ -84,7 +84,7 @@ The artifacts graph records and makes traceable the evolution of your models acr
 
 From the project dashboard, see which runs are prod\_ready and find the corresponding model artifacts for download by clicking on the run name.
 
-![](<@site/static/images/data_model_versioning/manage_ecosystem.png>)
+![](/images/data_model_versioning/manage_ecosystem.png)
 
 ## Visualize & share your workflow
 
@@ -104,31 +104,31 @@ Below is a walkthrough of a combination of these features for visualizing a work
 
 Let's find the best results across experiments: here, evaluations of candidate models entered into a comparison benchmark. Swept-water-5 (boxed in green) has the highest mean class IOU. Click on the run name to see the input and output artifacts.
 
-![](<@site/static/images/data_model_versioning/compute_graph_ex_1.png>)
+![](/images/data_model_versioning/compute_graph_ex_1.png)
 
 This view shows the input and output artifacts of the experiment run "swept-water-5". This run read in a labeled test dataset and a model entry's predictions on that data, evaluated the correctness of the predictions based on the ground truth labels, and saved the results as an artifact. Click on "entry\_predictions" to see how they were generated.
 
-![](<@site/static/images/data_model_versioning/compute_graph_ex_2.png>)
+![](/images/data_model_versioning/compute_graph_ex_2.png)
 
 These model predictions were one entry from a long list of submissions to the benchmark by different teams shown in the sidebar. They were generated by the run "skilled-tree-6".
 
-![](<@site/static/images/data_model_versioning/compute_graph_ex_3.png>)
+![](/images/data_model_versioning/compute_graph_ex_3.png)
 
 View the model used to generate these predictions.
 
-![](<@site/static/images/data_model_versioning/compute_graph_ex_4.png>)
+![](/images/data_model_versioning/compute_graph_ex_4.png)
 
 View the training details of this model and all the runs using it for evaluation.
 
-![](<@site/static/images/data_model_versioning/compute_graph_ex_5.png>)
+![](/images/data_model_versioning/compute_graph_ex_5.png)
 
 View all the predictions saved after each epoch on a random subset of training images and a fixed subset of validation images.
 
-![](<@site/static/images/data_model_versioning/compute_graph_ex_6.png>)
+![](/images/data_model_versioning/compute_graph_ex_6.png)
 
 The model itself—attempt v3 of a resnet18 architecture—appears as an output artifact at the end of this list.
 
-![](<@site/static/images/data_model_versioning/compute_graph_ex_7.png>)
+![](/images/data_model_versioning/compute_graph_ex_7.png)
 
 **Endnotes**
 

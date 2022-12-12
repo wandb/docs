@@ -12,10 +12,10 @@ This is likely because you have dots in your config parameter names. We flatten 
 
 Turn on the "eye" icon next to the top run in each group to visualize the maximum accuracy on the charts
 
-![](<@site/static/images/app_ui/visualize_max_accuracy.png>)
+![](/images/app_ui/visualize_max_accuracy.png)
 
 ### Download charts
 
 You can download charts by clicking the down arrow and select a format (.png, .svg, export API or export by CSV)
 
-![](<@site/static/images/app_ui/download_charts.png>)
+![](/images/app_ui/download_charts.png)

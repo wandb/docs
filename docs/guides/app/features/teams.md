@@ -22,7 +22,7 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 
 We also offer [hosting](../../hosting/intro.md) installs for on-prem or private cloud customers.
 
-![](<@site/static/images/app_ui/wandb_demo_create_a_team.gif>)
+![](/images/app_ui/wandb_demo_create_a_team.gif)
 
 :::info
 _**Note**_: Only the admin of an organization would be able to create a new team.
@@ -44,7 +44,7 @@ On the project page:
 2. Click the checkbox to select all runs
 3. Click **Move**: the destination project can be in your personal account or any team that you're a member of.
 
-![](<@site/static/images/app_ui/demo_move_runs.gif>)
+![](/images/app_ui/demo_move_runs.gif)
 
 ### Send new runs to a team
 
@@ -56,7 +56,7 @@ wandb.init(entity="example-team")
 
 Your **default entity** is updated when you join a team. This means that on your [settings page](https://app.wandb.ai/settings), you'll see that the default location to create a new project is now the team you've just joined. Here's an example of what that [settings page](https://app.wandb.ai/settings) section looks like:
 
-![](<@site/static/images/app_ui/send_new_runs_to_team.png>)
+![](/images/app_ui/send_new_runs_to_team.png)
 
 ## Team Management FAQs
 
@@ -100,7 +100,7 @@ Similarly, if your organization is still on trial then you can go to your 'Subsc
 
 Change the billing user of your organization by clicking on the "Manage members" button on your [subscription page](https://wandb.ai/subscriptions).
 
-![](<@site/static/images/app_ui/change_billing_user.gif>)
+![](/images/app_ui/change_billing_user.gif)
 
 ### What kind of permissions are placed on team projects?
 

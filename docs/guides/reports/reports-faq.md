@@ -8,7 +8,7 @@ If you currently want to upload a CSV to a report you can do it via the `wandb.T
 
 On a new line, press `/` and scroll to Image. Then just drag and drop an image into the report.
 
-![](<@site/static/images/reports/add_an_image.gif>)
+![](/images/reports/add_an_image.gif)
 
 ### Refreshing data
 
@@ -100,7 +100,7 @@ Tables are the only feature from Markdown that we haven't added a WYSIWYG equiva
 
 If you converted your report using the message at the top of the report, simply hit the red "Revert" button to return to your pre-converted state. Note that any changes you've made after converting will be lost.
 
-![](<@site/static/images/reports/reports_faq_wysiwyg.png>)
+![](/images/reports/reports_faq_wysiwyg.png)
 
 If you converted a single Markdown block, try hitting cmd+z to undo.
 

@@ -11,7 +11,7 @@ OpenAI’s API gives practitioners access to GPT-3, an incredibly powerful natur
 
 If you use OpenAI's API to [fine-tune GPT-3](https://beta.openai.com/docs/guides/fine-tuning), you can now use the W&B integration to track experiments, models, and datasets in your central dashboard.
 
-![](<@site/static/images/integrations/open_ai_api.png>)
+![](/images/integrations/open_ai_api.png)
 
 All it takes is one line: `openai wandb sync`
 
@@ -69,11 +69,11 @@ WandbLogger.sync(
 
 We scan for new completed fine-tunes and automatically add them to your dashboard.
 
-![](<@site/static/images/integrations/open_ai_auto_scan.png>)
+![](/images/integrations/open_ai_auto_scan.png)
 
 In addition your training and validation files are logged and versioned, as well as details of your fine-tune results. This let you interactively explore your training and validation data.
 
-![](<@site/static/images/integrations/open_ai_validation_files.png>)
+![](/images/integrations/open_ai_validation_files.png)
 
 ## :gear: Optional arguments
 
@@ -90,7 +90,7 @@ In addition your training and validation files are logged and versioned, as well
 
 Use [Tables](../../data-vis/) to better visualize sample predictions and compare models.
 
-![](<@site/static/images/integrations/open_ai_inspect_sample.png>)
+![](/images/integrations/open_ai_inspect_sample.png)
 
 Create a new run:
 
@@ -182,7 +182,7 @@ Yes, you can integrate your entire pipeline to W&B through Artifacts, including 
 
 This will allow complete traceability of your models.
 
-![](<@site/static/images/integrations/open_ai_faq_can_track.png>)
+![](/images/integrations/open_ai_faq_can_track.png)
 
 ## :books: Resources
 

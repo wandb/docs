@@ -91,15 +91,15 @@ Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
 * Inputs and outputs will be tracked in the `Input/Output` and `ML Metadata` tabs
 * You can also view the W&B web app from the `Visualizations` tab.
 
-![Get a view of W&B in the Kubeflow UI](<@site/static/images/integrations/kubeflow_app_pipelines_ui.png>)
+![Get a view of W&B in the Kubeflow UI](/images/integrations/kubeflow_app_pipelines_ui.png)
 
 ### Via the web app UI
 
 The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space! Learn [more about the web app UI here](https://docs.wandb.ai/ref/app).
 
-![View details about a particular run (and link back to the Kubeflow UI)](<@site/static/images/integrations/kubeflow_pipelines.png>)
+![View details about a particular run (and link back to the Kubeflow UI)](/images/integrations/kubeflow_pipelines.png)
 
-![See the full DAG of inputs and outputs at each stage of your pipeline](<@site/static/images/integrations/kubeflow_via_app.png>)
+![See the full DAG of inputs and outputs at each stage of your pipeline](/images/integrations/kubeflow_via_app.png)
 
 ### Via the Public API (for programmatic access)
 

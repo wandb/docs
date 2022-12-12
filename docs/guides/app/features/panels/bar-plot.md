@@ -6,11 +6,11 @@ description: Visualize metrics, customize axes, and compare categorical data as 
 
 A bar plot presents categorical data with rectangular bars which can be plotted vertically or horizontally. Bar plots show up by default with **wandb.log()** when all logged values are of length one.
 
-![Plotting Box and horizontal Bar plots in W&B](<@site/static/images/app_ui/bar_plot.png>)
+![Plotting Box and horizontal Bar plots in W&B](/images/app_ui/bar_plot.png)
 
 Customize with chart settings to limit max runs to show, group runs by any config and rename labels.
 
-![](<@site/static/images/app_ui/bar_plot_custom.png>)
+![](/images/app_ui/bar_plot_custom.png)
 
 ### Customize Bar Plots
 

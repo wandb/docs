@@ -10,7 +10,7 @@ A warning notification will appear if an edit conflict occurs. This can occur if
 
 Click the comment button on a panel in a report to add a comment directly to that panel.
 
-![Adding a comment to a panel](<@site/static/images/reports/demo_comment_on_panels_in_reports.gif>)
+![Adding a comment to a panel](/images/reports/demo_comment_on_panels_in_reports.gif)
 
 
 

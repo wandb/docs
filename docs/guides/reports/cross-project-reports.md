@@ -2,7 +2,7 @@
 
 Compare runs from two different projects with cross-project reports. Use the project selector in the run set table to pick a project.
 
-![Compare runs across different projects](<@site/static/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif>)
+![Compare runs across different projects](/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif)
 
 The visualizations in the section pull columns from the first active runset. Make sure that the first run set checked in the section has that column available if you do not see the metric you are looking for in the line plot.
 

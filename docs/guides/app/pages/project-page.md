@@ -28,9 +28,9 @@ Project page tabs:
 
 [View a live example →](https://app.wandb.ai/example-team/sweep-demo/overview)
 
-![](<@site/static/images/app_ui/overview_tab_image.png>)
+![](/images/app_ui/overview_tab_image.png)
 
-![](<@site/static/images/app_ui/undelete.png>)
+![](/images/app_ui/undelete.png)
 
 ## Workspace Tab
 
@@ -50,13 +50,13 @@ Project page tabs:
 
 [View a live example →](https://app.wandb.ai/example-team/sweep-demo)
 
-![](<@site/static/images/app_ui/workspace_tab_example.png>)
+![](/images/app_ui/workspace_tab_example.png)
 
 ### Search for runs
 
 Search for a run by name in the sidebar. You can use regex to filter down your visible runs. The search box affects which runs are shown on the graph. Here's an example:
 
-![](<@site/static/images/app_ui/project_page_search_for_runs.gif>)
+![](/images/app_ui/project_page_search_for_runs.gif)
 
 ### Add a section of panels
 
@@ -91,7 +91,7 @@ Drag and drop panels to reorder and organize into sections. You can also click t
 
 Use the search box in the workspace to filter down the panels. This search matches the panel titles, which are by default the name of the metrics visualized.
 
-![](<@site/static/images/app_ui/search_in_the_workspace.png>)
+![](/images/app_ui/search_in_the_workspace.png)
 
 ## Table Tab
 
@@ -99,7 +99,7 @@ Use the table to filter, group, and sort your results.
 
 [View a live example →](https://app.wandb.ai/example-team/sweep-demo/table?workspace=user-carey)
 
-![](<@site/static/images/app_ui/table_tab.png>)
+![](/images/app_ui/table_tab.png)
 
 ## Reports Tab
 
@@ -119,35 +119,35 @@ View all the [artifacts](../../artifacts/intro.md) associated with a project, fr
 
 ### Overview panel
 
-![](<@site/static/images/app_ui/overview_panel.png>)
+![](/images/app_ui/overview_panel.png)
 
 On the overview panel, you'll find a variety of high-level information about the artifact, including its name and version, the hash digest used to detect changes and prevent duplication, the creation date, and any aliases. You can add or remove aliases here, take notes on both the version as well as the artifact as a whole.
 
 ### Metadata panel
 
-![](<@site/static/images/app_ui/metadata_panel.png>)
+![](/images/app_ui/metadata_panel.png)
 
 The metadata panel provides access to the artifact's metadata, which is provided when the artifact is constructed. This metadata might include configuration arguments required to reconstruct the artifact, URLs where more information can be found, or metrics produced during the run which logged the artifact. Additionally, you can see the configuration for the run which produced the artifact as well as the history metrics at the time of logging the artifact.
 
 ### Usage panel
 
-![](<@site/static/images/app_ui/usage_panel.png>)
+![](/images/app_ui/usage_panel.png)
 
 The Usage panel provides a code snippet for downloading the artifact for use outside of the web app, for example on a local machine. This section also indicates and links to the run which output the artifact and any runs which use the artifact as an input.
 
 ### Files panel
 
-![](<@site/static/images/app_ui/files_panel.png>)
+![](/images/app_ui/files_panel.png)
 
 The files panel lists the files and folders associated with the artifact. You can navigate through this file tree and view the contents directly in the W&B web app.
 
 [Tables](../../data-vis/tables-quickstart.md) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here](../../data-vis/tables.md).
 
-![](<@site/static/images/app_ui/files_panel_table.png>)
+![](/images/app_ui/files_panel_table.png)
 
 ### Lineage panel
 
-![](<@site/static/images/app_ui/lineage_panel.png>)
+![](/images/app_ui/lineage_panel.png)
 
 The lineage panel provides a view of all of the artifacts associated with a project and the runs that connect them to each other. It shows run types as blocks and artifacts as circles, with arrows to indicate when a run of a given type consumes or produces an artifact of a given type. The type of the particular artifact selected in the left-hand column is highlighted.
 
@@ -155,15 +155,15 @@ Click the Explode toggle to view all of the individual artifact versions and the
 
 ### Action History Audit tab
 
-![](<@site/static/images/app_ui/action_history_audit_tab_1.png>)
+![](/images/app_ui/action_history_audit_tab_1.png)
 
-![](<@site/static/images/app_ui/action_history_audit_tab_2.png>)
+![](/images/app_ui/action_history_audit_tab_2.png)
 
 The action history audit tab shows all of the alias actions and membership changes for a Collection so you can audit the entire evolution of the resource.
 
 ### Versions tab
 
-![](<@site/static/images/app_ui/versions_tab.png>)
+![](/images/app_ui/versions_tab.png)
 
 The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
 
@@ -180,7 +180,7 @@ These settings can also be specified by passing arguments to
 [`wandb.init`](../../../ref/python/init.md).
 :::
 
-![](<@site/static/images/app_ui/project_defaults.png>)
+![](/images/app_ui/project_defaults.png)
 
 ## Frequently Asked Questions
 
@@ -188,17 +188,17 @@ These settings can also be specified by passing arguments to
 
 You can delete your project by clicking the three dots on the right of the overview tab.
 
-![](<@site/static/images/app_ui/howto_delete_project.gif>)
+![](/images/app_ui/howto_delete_project.gif)
 
 If the project is empty (i.e. it has no runs), you can delete it by clicking the dropdown menu in the top-right and selecting "Delete project".
 
-![](<@site/static/images/app_ui/howto_delete_project_2.png>)
+![](/images/app_ui/howto_delete_project_2.png)
 
 ### Where are the privacy settings for projects? How can I make a project public or private?
 
 Click the lock in the navigation bar at the top of the page to change project privacy settings. You can edit who can view or submit runs to your project. These settings include all runs and reports in the project. If you'd like to share your results with just a few people, you can create a [private team](../features/teams.md).
 
-![](<@site/static/images/app_ui/privacy_settings.png>)
+![](/images/app_ui/privacy_settings.png)
 
 ### How do I reset my workspace?
 

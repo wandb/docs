@@ -19,7 +19,7 @@ wandb.alert(
 
 And then see W&B Alerts messages in Slack (or your email):
 
-![](<@site/static/images/track/send_alerts_slack.png>)
+![](/images/track/send_alerts_slack.png)
 
 ## Getting Started
 
@@ -45,7 +45,7 @@ In your [User Settings](https://wandb.ai/settings):
 
 You will only have to do this the first time you set up W&B Alerts, or when you'd like to modify how you receive alerts.
 
-![Alerts settings in W&B User Settings](<@site/static/images/track/demo_connect_slack.png>)
+![Alerts settings in W&B User Settings](/images/track/demo_connect_slack.png)
 
 ### 2. Add \`wandb.alert()\` to Your Code
 

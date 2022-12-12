@@ -77,7 +77,7 @@ Here's a public example page. You can see on the files tab, there's a `model-bes
 
 [See the live example →](https://app.wandb.ai/wandb/neurips-demo/runs/206aacqo/files)
 
-![](<@site/static/images/experiments/example_saving_file_to_directory.png>)
+![](/images/experiments/example_saving_file_to_directory.png)
 
 ## Restoring Files
 
