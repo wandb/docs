@@ -29,4 +29,4 @@ There are three main ways to set up a W&BServer in a production environment:
 
 Paste the license in the `/system-admin` page on your localhost
 
-![Copy your license from Deployer and paste it into your Local settings](pathname:///images/hosting/License.gif)
+![Copy your license from Deployer and paste it into your Local settings](/images/hosting/License.gif)

@@ -12,7 +12,7 @@ Try this short Google Colab to see Weights & Biases in action, no code installat
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/intro)
 
-![](<pathname:///images/quickstart/wandb_demo_experiments.gif>)
+![](</images/quickstart/wandb_demo_experiments.gif>)
 
 ### 1. Set up wandb
 
@@ -86,7 +86,7 @@ Use `wandb.log()` to track metrics or a framework [integration](guides/integrati
 wandb.log({'accuracy': train_acc, 'loss': train_loss})
 ```
 
-![](<pathname:///images/quickstart/wandb_demo_logging_metrics.png>)
+![](</images/quickstart/wandb_demo_logging_metrics.png>)
 
 ### 4. Track hyperparameters
 
@@ -96,7 +96,7 @@ Save hyperparameters so you can quickly compare experiments.\
 ```python
 wandb.config.dropout = 0.2
 ```
-![](<pathname:///images/quickstart/wandb_demo_logging_config.png>)
+![](</images/quickstart/wandb_demo_logging_config.png>)
 
 ### 5. Get alerts
 
@@ -116,7 +116,7 @@ wandb.alert(
 
 Then see W&B Alerts messages in Slack (or your email):
 
-![W&B Alerts in a Slack channel](<pathname:///images/quickstart/get_alerts.png>)
+![W&B Alerts in a Slack channel](</images/quickstart/get_alerts.png>)
 
 ## What next?
 

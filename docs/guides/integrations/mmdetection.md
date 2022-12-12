@@ -105,7 +105,7 @@ init_kwargs={
 
 Check out all the arguments for wandb.init [here](https://docs.wandb.ai/ref/python/init)
 
-![](pathname:///images/integrations/log_metrics.gif)
+![](/images/integrations/log_metrics.gif)
 
 ### :checkered\_flag: Checkpointing
 
@@ -115,13 +115,13 @@ You can reliably store these checkpoints as [W&B Artifacts](../artifacts/intro.m
 Every W&B account comes with 100 GB of free storage for datasets and models.
 :::
 
-![The checkpoints are shown as different versions on the left-hand side pane. You can download the model from the Files tab or use API to download it programmatically.](<pathname:///images/integrations/mmdetection_checkpointing.png>)
+![The checkpoints are shown as different versions on the left-hand side pane. You can download the model from the Files tab or use API to download it programmatically.](</images/integrations/mmdetection_checkpointing.png>)
 
 ### :mega: Checkpoint with Metadata
 
 If `log_checkpoint_metadata` is `True`, every checkpoint version will have metadata associated with it. This feature depends on the `CheckpointHook` as well as `EvalHook` or `DistEvalHook`. The metadata is logged only when the checkpoint interval is divisible by evaluation interval.
 
-![The logged metadata is displayed under the Metadata tab.](pathname:///images/integrations/mmdetection_checkpoint_metadata.png)
+![The logged metadata is displayed under the Metadata tab.](/images/integrations/mmdetection_checkpoint_metadata.png)
 
 ### Visualize Dataset and Model Prediction 
 
@@ -133,7 +133,7 @@ The `num_eval_images` argument controls the number of validation samples that ar
 * If `validate=False` for [`mmdet.core.train_detector`](https://mmdetection.readthedocs.io/en/latest/\_modules/mmdet/apis/train.html?highlight=train\_detector) API, the validation data and model predictions will not be logged.
 * If the `num_eval_images` is greater than the total number of validation samples, the complete validation dataset is logged.
 
-![](<pathname:///images/integrations/mmdetection_visualize.gif>)
+![](</images/integrations/mmdetection_visualize.gif>)
 
 :::info
 The `val_data` is uploaded only once. The `run_<id>_pred`table and subsequent runs use referencing to the uploaded data to save memory. A new version of `val_data` is created only when it's changed.

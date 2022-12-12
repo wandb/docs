@@ -45,4 +45,4 @@ $TPR = Sensitivity = \dfrac{TP}{TP+FN}$
 
 Do this by adding a panel, selecting markdown, and then entering your markdown text, tables equations and code block will automatically render when clicking outside the markdown panel.
 
-![](pathname:///images/app_ui/tables_panel.gif)
+![](/images/app_ui/tables_panel.gif)

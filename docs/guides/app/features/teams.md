@@ -22,7 +22,7 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 
 We also offer [hosting](../../hosting/intro.md) installs for on-prem or private cloud customers.
 
-![](<pathname:///images/app_ui/wandb demo - create a team.gif>)
+![](</images/app_ui/wandb_demo_create_a_team.gif>)
 
 :::info
 _**Note**_: Only the admin of an organization would be able to create a new team.
@@ -44,7 +44,7 @@ On the project page:
 2. Click the checkbox to select all runs
 3. Click **Move**: the destination project can be in your personal account or any team that you're a member of.
 
-![](<pathname:///images/app_ui/demo - move runs.gif>)
+![](</images/app_ui/demo_move_runs.gif>)
 
 ### Send new runs to a team
 
@@ -56,7 +56,7 @@ wandb.init(entity="example-team")
 
 Your **default entity** is updated when you join a team. This means that on your [settings page](https://app.wandb.ai/settings), you'll see that the default location to create a new project is now the team you've just joined. Here's an example of what that [settings page](https://app.wandb.ai/settings) section looks like:
 
-![](<pathname:///images/app_ui/Screen Shot 2020-08-17 at 12.48.57 AM.png>)
+![](</images/app_ui/send_new_runs_to_team.png>)
 
 ## Team Management FAQs
 
@@ -64,7 +64,7 @@ Your **default entity** is updated when you join a team. This means that on your
 
 You can invite new members to your team by going to https://wandb.ai/subscriptions. In order for a user to be added to a team, they have to already [created a wandb account](https://app.wandb.ai/login?signup=true).
 
-![](pathname:///images/app_ui/ezgif-3-b665ff2fa9.gif)
+![](/images/app_ui/ezgif-3-b665ff2fa9.gif)
 
 :::info
 If you have an Enterprise account, please contact your Account Executive to invite new members to your team.
@@ -94,13 +94,13 @@ If you're a paid user, then you can go to your 'Subscriptions' page and click on
 
 Similarly, if your organization is still on trial then you can go to your 'Subscriptions' page and click on the three dots next to the 'Account' to update your account settings. Then, you'll be able to add seats to your org, contact sales to upgrade your plan, etc.
 
-![Update Account Settings of an Org](pathname:///images/app_ui/edit_account.gif)
+![Update Account Settings of an Org](/images/app_ui/edit_account.gif)
 
 ### **Change the billing user of an organization**
 
 Change the billing user of your organization by clicking on the "Manage members" button on your [subscription page](https://wandb.ai/subscriptions).
 
-![](<pathname:///images/app_ui/Change billing user.gif>)
+![](</images/app_ui/change_billing_user.gif>)
 
 ### What kind of permissions are placed on team projects?
 
