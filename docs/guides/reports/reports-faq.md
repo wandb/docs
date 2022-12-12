@@ -8,7 +8,7 @@ If you currently want to upload a CSV to a report you can do it via the `wandb.T
 
 On a new line, press `/` and scroll to Image. Then just drag and drop an image into the report.
 
-![](</images/reports/add_an_image.gif>)
+![](<@site/static/images/reports/add_an_image.gif>)
 
 ### Refreshing data
 
@@ -18,7 +18,7 @@ Reload the page to refresh data in a report and get the latest results from your
 
 Using the search bar, you can search and filter down the reports list. You can then delete an unwanted report from the list or select all and press 'Delete Reports' to remove them from your project.
 
-![Delete unwanted reports and drafts](/images/reports/delete_runs.gif)
+![Delete unwanted reports and drafts](@site/static/images/reports/delete_runs.gif)
 
 ### Incorporating LaTeX
 
@@ -50,13 +50,13 @@ A comprehensive list of LaTeX can be found [here](https://en.wikibooks.org/wiki/
 
 When multiple users work on a report together, they should be credited as such. In our reports, you can do just that and add all the users that worked together on a report in the Author line. This is done by clicking Edit on the top right of the page. From there, a '+' will be seen on the right of the author line to where you can add all of the team members that have contributed to the report.
 
-![](/images/reports/reports_faq_add_multiple_reports.gif)
+![](@site/static/images/reports/reports_faq_add_multiple_reports.gif)
 
 ### Embedding Reports
 
 You are able to share the report that you have created by embedding it. This is done simply by clicking Share on the top right of your report and copying the embedded code at the bottom of the pop-up window that appears.
 
-![](/images/reports/emgedding_reports.gif)
+![](@site/static/images/reports/emgedding_reports.gif)
 
 ### **WYSIWYG FAQ**
 
@@ -84,13 +84,13 @@ Absolutely! Type "/mark" anywhere in the document and hit enter to insert a Mark
 
 Sorry! We're constantly working on performance improvements, but WYSIWYG reports may run slowly on older hardware or exceptionally large reports. You can assuage the problem for now by collapsing sections of the report that you're not currently working on, like so:
 
-![](/images/reports/wandb-reports-editor-1.gif)
+![](@site/static/images/reports/wandb-reports-editor-1.gif)
 
 **How do I delete a panel grid?**
 
 Select the panel grid, and hit delete/backspace. The easiest way to select a panel grid is by clicking its drag handle on the top-right, like so:
 
-![](/images/reports/wandb-reports-editor-3.gif)
+![](@site/static/images/reports/wandb-reports-editor-3.gif)
 
 **How do I insert a table?**
 
@@ -100,7 +100,7 @@ Tables are the only feature from Markdown that we haven't added a WYSIWYG equiva
 
 If you converted your report using the message at the top of the report, simply hit the red "Revert" button to return to your pre-converted state. Note that any changes you've made after converting will be lost.
 
-![](</images/reports/reports_faq_wysiwyg.png>)
+![](<@site/static/images/reports/reports_faq_wysiwyg.png>)
 
 If you converted a single Markdown block, try hitting cmd+z to undo.
 

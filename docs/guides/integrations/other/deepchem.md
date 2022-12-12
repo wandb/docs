@@ -13,7 +13,7 @@ model = TorchModel(…, wandb_logger=logger)
 model.fit(…)
 ```
 
-![](/images/integrations/cd.png)
+![](@site/static/images/integrations/cd.png)
 
 ## Report & Google Colab
 

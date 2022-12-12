@@ -18,7 +18,7 @@ from wandb.integration.sb3 import WandbCallback
 model.learn(..., callback=WandbCallback())
 ```
 
-![](/images/integrations/stable_baselines_demo.gif)
+![](@site/static/images/integrations/stable_baselines_demo.gif)
 
 ## WandbCallback Arguments
 

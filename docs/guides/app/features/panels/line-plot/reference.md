@@ -2,7 +2,7 @@
 
 ## X-Axis
 
-![Selecting X-Axis](</images/app_ui/reference_x_axis.png>)
+![Selecting X-Axis](<@site/static/images/app_ui/reference_x_axis.png>)
 
 You can set the X-Axis of a line plot to any value that you have logged with wandb.log as long as it's always logged as a number.
 
@@ -71,12 +71,12 @@ Select a style for your line plot.
 
 **Line plot:**
 
-![](</images/app_ui/plot_style_line_plot.png>)
+![](<@site/static/images/app_ui/plot_style_line_plot.png>)
 
 **Area plot:**
 
-![](</images/app_ui/plot_style_area_plot.png>)
+![](<@site/static/images/app_ui/plot_style_area_plot.png>)
 
 **Percentage area plot:**
 
-![](</images/app_ui/plot_style_percentage_plot.png>)
+![](<@site/static/images/app_ui/plot_style_percentage_plot.png>)

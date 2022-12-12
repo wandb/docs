@@ -83,7 +83,7 @@ A service account is an API key that has permissions to write to your team, but 
 
 You can get the API key in your Team Settings page `/teams/<your-team-name>` where you invite new team members. Select service and click create to add a service account.
 
-![Create a service account on your team settings page for automated jobs](</images/technical_faq/what_is_service_account.png>)
+![Create a service account on your team settings page for automated jobs](<@site/static/images/technical_faq/what_is_service_account.png>)
 
 ### How can I rotate or revoke access?
 

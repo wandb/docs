@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/sdk/data_types/video.py#L48-L235)
+[![](https://www.tensorflow.org@site/static/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/sdk/data_types/video.py#L48-L235)
 
 
 
