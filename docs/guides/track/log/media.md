@@ -23,7 +23,7 @@ You can see working code to log all of these media objects in [this Colab Notebo
 
 Log images to track inputs, outputs, filter weights, activations, and more!
 
-![Inputs and outputs of an autoencoder network performing in-painting.](<@site/static/images/track/log_images.png>)
+![Inputs and outputs of an autoencoder network performing in-painting.](/images/track/log_images.png)
 
 Images can be logged directly from numpy arrays, as PIL images, or from the filesystem.
 
@@ -87,7 +87,7 @@ wandb.log({"example": wandb.Image("myimage.jpg")})
 
 Log semantic segmentation masks and interact with them (altering opacity, viewing changes over time, and more) via the W&B UI.
 
-![Interactive mask viewing in the W&B UI.](<@site/static/images/track/semantic_segmentation.gif>)
+![Interactive mask viewing in the W&B UI.](/images/track/semantic_segmentation.gif)
 
 To log an overlay, you'll need to provide a dictionary with the following keys and values to the `masks` keyword argument of `wandb.Image`:
 
@@ -210,7 +210,7 @@ wandb.log({"driving_scene": img})
   ]}>
   <TabItem value="segmentation_masks">
 
-![Interactive Segmentation Masks in Tables](<@site/static/images/track/Segmentation_Masks.gif>)
+![Interactive Segmentation Masks in Tables](/images/track/Segmentation_Masks.gif)
 
 To log Segmentation Masks in tables, you will need to provide a `wandb.Image` object for each row in the table.
 
@@ -236,7 +236,7 @@ wandb.log({"Table" : table})
   <TabItem value="bounding_boxes">
 
 
-![Interactive Bounding Boxes in Tables](<@site/static/images/track/Bounding_Boxes.gif>)
+![Interactive Bounding Boxes in Tables](/images/track/Bounding_Boxes.gif)
 
 To log Images with Bounding Boxes in tables, you will need to provide a `wandb.Image` object for each row in the table.
 
@@ -287,7 +287,7 @@ In the UI, histograms are plotted with the training step on the x-axis, the metr
 wandb.log({"gradients": wandb.Histogram(grads)})
 ```
 
-![Gradients for the discriminator in a GAN.](<@site/static/images/track/histograms.png>)
+![Gradients for the discriminator in a GAN.](/images/track/histograms.png)
   </TabItem>
   <TabItem value="flexible_histogram">
 
@@ -329,7 +329,7 @@ wandb.log({"generated_samples":
             wandb.Object3D(open("sample.glb"))]})
 ```
 
-![Ground truth and prediction of a headphones point cloud](<@site/static/images/track/ground_truth_prediction_of_3d_point_clouds.png>)
+![Ground truth and prediction of a headphones point cloud](/images/track/ground_truth_prediction_of_3d_point_clouds.png)
 
 [See a live example →](https://app.wandb.ai/nbaryd/SparseConvNet-examples\_3d\_segmentation/reports/Point-Clouds--Vmlldzo4ODcyMA)
   </TabItem>

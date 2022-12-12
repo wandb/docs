@@ -22,11 +22,11 @@ Use the run page to explore detailed information about a single version of your 
 
 [View a live example →](https://app.wandb.ai/carey/pytorch-cnn-fashion/runs/munu5vvg/overview?workspace=user-carey)
 
-![W&B Dashboard run overview tab](<@site/static/images/app_ui/wandb_run_overview_page.png>)
+![W&B Dashboard run overview tab](/images/app_ui/wandb_run_overview_page.png)
 
 The Python details are private, even if you make the page itself public. Here is an example of my run page in incognito on the left and my account on the right.
 
-![](<@site/static/images/app_ui/wandb_run_overview_page_2.png>)
+![](/images/app_ui/wandb_run_overview_page_2.png)
 
 ## Charts Tab
 
@@ -40,7 +40,7 @@ The Python details are private, even if you make the page itself public. Here is
 
 [View a live example →](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/runs/wec25l0q?workspace=user-carey)
 
-![](<@site/static/images/app_ui/wandb-run-page-workspace-tab.png>)
+![](/images/app_ui/wandb-run-page-workspace-tab.png)
 
 ## System Tab
 
@@ -49,7 +49,7 @@ The Python details are private, even if you make the page itself public. Here is
 
 [View a live example →](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey)
 
-![](<@site/static/images/app_ui/wandb_system_utilization.png>)
+![](/images/app_ui/wandb_system_utilization.png)
 
 ## Model Tab
 
@@ -57,7 +57,7 @@ The Python details are private, even if you make the page itself public. Here is
 
 [View a live example →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/model)
 
-![](<@site/static/images/app_ui/wandb_run_page_model_tab.png>)
+![](/images/app_ui/wandb_run_page_model_tab.png)
 
 ## Logs Tab
 
@@ -66,7 +66,7 @@ The Python details are private, even if you make the page itself public. Here is
 
 [View a live example →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs)
 
-![](<@site/static/images/app_ui/wandb_run_page_log_tab.png>)
+![](/images/app_ui/wandb_run_page_log_tab.png)
 
 ## Files Tab
 
@@ -79,7 +79,7 @@ The Python details are private, even if you make the page itself public. Here is
 The W&B [Artifacts](../../artifacts/intro.md) system adds extra features for handling, versioning, and deduplicating large files like datasets and models. We recommend you use Artifacts for tracking inputs and outputs of runs, rather than `wandb.save`. Check out the Artifacts quickstart [here](../../artifacts/quickstart.md).
 :::
 
-![](<@site/static/images/app_ui/wandb_run_page_files_tab.png>)
+![](/images/app_ui/wandb_run_page_files_tab.png)
 
 ## Artifacts Tab
 
@@ -87,4 +87,4 @@ The W&B [Artifacts](../../artifacts/intro.md) system adds extra features for han
 * Click a row to see information about a particular artifact used or produced by this run
 * See the reference for the [project](project-page.md)-level [Artifacts Tab](project-page.md#artifacts-tab) for more on navigating and using the artifacts viewers in the web app [View a live example →](https://wandb.ai/stacey/artifact\_july\_demo/runs/2cslp2rt/artifacts)
 
-![](<@site/static/images/app_ui/artifacts_tab.png>)
+![](/images/app_ui/artifacts_tab.png)

@@ -121,7 +121,7 @@ wandb.log({"plot": plt})
 
 #### Learning Curve
 
-![](<@site/static/images/integrations/scikit_learning_curve.png>)
+![](/images/integrations/scikit_learning_curve.png)
 
 Trains model on datasets of varying lengths and generates a plot of cross validated scores vs dataset size, for both training and test sets.
 
@@ -133,7 +133,7 @@ Trains model on datasets of varying lengths and generates a plot of cross valida
 
 #### ROC
 
-![](<@site/static/images/integrations/scikit_roc.png>)
+![](/images/integrations/scikit_roc.png)
 
 ROC curves plot true positive rate (y-axis) vs false positive rate (x-axis). The ideal score is a TPR = 1 and FPR = 0, which is the point on the top left. Typically we calculate the area under the ROC curve (AUC-ROC), and the greater the AUC-ROC the better.
 
@@ -145,7 +145,7 @@ ROC curves plot true positive rate (y-axis) vs false positive rate (x-axis). The
 
 #### Class Proportions
 
-![](<@site/static/images/integrations/scikic_class_props.png>)
+![](/images/integrations/scikic_class_props.png)
 
 Plots the distribution of target classes in training and test sets. Useful for detecting imbalanced classes and ensuring that one class doesn't have a disproportionate influence on the model.
 
@@ -157,7 +157,7 @@ Plots the distribution of target classes in training and test sets. Useful for d
 
 #### Precision Recall Curve
 
-![](<@site/static/images/integrations/scikit_precision_recall.png>)
+![](/images/integrations/scikit_precision_recall.png)
 
 Computes the tradeoff between precision and recall for different thresholds. A high area under the curve represents both high recall and high precision, where high precision relates to a low false positive rate, and high recall relates to a low false negative rate.
 
@@ -171,7 +171,7 @@ High scores for both show that the classifier is returning accurate results (hig
 
 #### Feature Importances
 
-![](<@site/static/images/integrations/scikit_feature_importances.png>)
+![](/images/integrations/scikit_feature_importances.png)
 
 Evaluates and plots the importance of each feature for the classification task. Only works with classifiers that have a `feature_importances_` attribute, like trees.
 
@@ -182,7 +182,7 @@ Evaluates and plots the importance of each feature for the classification task. 
 
 #### Calibration Curve
 
-![](<@site/static/images/integrations/scikit_calibration_curve.png>)
+![](/images/integrations/scikit_calibration_curve.png)
 
 Plots how well calibrated the predicted probabilities of a classifier are and how to calibrate an uncalibrated classifier. Compares estimated predicted probabilities by a baseline logistic regression model, the model passed as an argument, and by both its isotonic calibration and sigmoid calibrations.
 
@@ -199,7 +199,7 @@ For more details, check out [sklearn's docs](https://scikit-learn.org/stable/aut
 
 #### Confusion Matrix
 
-![](<@site/static/images/integrations/scikit_confusion_matrix.png>)
+![](/images/integrations/scikit_confusion_matrix.png)
 
 Computes the confusion matrix to evaluate the accuracy of a classification. It's useful for assessing the quality of model predictions and finding patterns in the predictions the model gets wrong. The diagonal represents the predictions the model got right, i.e. where the actual label is equal to the predicted label.
 
@@ -211,7 +211,7 @@ Computes the confusion matrix to evaluate the accuracy of a classification. It's
 
 #### Summary Metrics
 
-![](<@site/static/images/integrations/scikit_summary_metrics.png>)
+![](/images/integrations/scikit_summary_metrics.png)
 
 Calculates summary metrics (like f1, accuracy, precision and recall for classification and mse, mae, r2 score for regression) for both regression and classification algorithms.
 
@@ -225,7 +225,7 @@ Calculates summary metrics (like f1, accuracy, precision and recall for classifi
 
 #### Elbow Plot
 
-![](<@site/static/images/integrations/scikit_elbow_plot.png>)
+![](/images/integrations/scikit_elbow_plot.png)
 
 Measures and plots the percentage of variance explained as a function of the number of clusters, along with training times. Useful in picking the optimal number of clusters.
 
@@ -236,7 +236,7 @@ Measures and plots the percentage of variance explained as a function of the num
 
 #### Silhouette Plot
 
-![](<@site/static/images/integrations/scikit_silhouette_plot.png>)
+![](/images/integrations/scikit_silhouette_plot.png)
 
 Measures & plots how close each point in one cluster is to points in the neighboring clusters. The thickness of the clusters corresponds to the cluster size. The vertical line represents the average silhouette score of all the points.
 
@@ -252,7 +252,7 @@ In general we want all silhouette cluster scores to be above average (past the r
 
 #### Outlier Candidates Plot
 
-![](<@site/static/images/integrations/scikit_outlier_plot.png>)
+![](/images/integrations/scikit_outlier_plot.png)
 
 Measures a datapoint's influence on regression model via cook's distance. Instances with heavily skewed influences could potentially be outliers. Useful for outlier detection.
 
@@ -264,7 +264,7 @@ Measures a datapoint's influence on regression model via cook's distance. Instan
 
 #### Residuals Plot
 
-![](<@site/static/images/integrations/scikit_residuals_plot.png>)
+![](/images/integrations/scikit_residuals_plot.png)
 
 Measures and plots the predicted target values (y-axis) vs the difference between actual and predicted target values (x-axis), as well as the distribution of the residual error.
 

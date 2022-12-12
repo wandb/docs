@@ -45,7 +45,7 @@ run.log_artifact(my_data)
 
 In [this example](https://wandb.ai/stacey/mendeleev/artifacts/balanced\_data/inat\_80-10-10\_5K/ab79f01e007113280018), I have three datasets of 1K, 5K, and 10K items, and I can see and compare across the file names in subfolders (by data split or by class label).
 
-![](<@site/static/images/data_model_versioning/version_data_seamlessly.png>)
+![](/images/data_model_versioning/version_data_seamlessly.png)
 
 ## Prepackage data splits
 
@@ -75,7 +75,7 @@ run.log_artifact(my_data)
 
 View the [file contents →](https://wandb.ai/stacey/mendeleev/artifacts/balanced\_data/inat\_80-10-10\_5K/ab79f01e007113280018/files)
 
-![](<@site/static/images/data_model_versioning/version_data_seamlessly_2.png>)
+![](/images/data_model_versioning/version_data_seamlessly_2.png)
 
 ## Iteratively refine your data 
 
@@ -111,7 +111,7 @@ run.log_artifact(artifact)
 
 Give your datasets custom names and annotate them with notes or key-value pair metadata
 
-![](<@site/static/images/data_model_versioning/version_is_automatic.png>)
+![](/images/data_model_versioning/version_is_automatic.png)
 
 ## Juggle multiple datasets
 
@@ -119,11 +119,11 @@ Your task may require a more complex curriculum: perhaps pretraining on a subset
 
 [Explore the graph interactively →](https://wandb.ai/stacey/mendeleev/artifacts/balanced\_data/inat\_80-10-10\_5K/ab79f01e007113280018/graph)
 
-![](<@site/static/images/data_model_versioning/juggle_multiple_datasets_1.png>)
+![](/images/data_model_versioning/juggle_multiple_datasets_1.png)
 
 Multiple versions of balanced datasets of different sizes: 1K, 5K, and 10K and the corresponding artifact graph, showing training and inference runs on that data.
 
-![](<@site/static/images/data_model_versioning/juggle_multiple_datasets_2.png>)
+![](/images/data_model_versioning/juggle_multiple_datasets_2.png)
 
 Several versions of raw data with 50 and 500 items total, from which a data\_split job creates two separate artifacts for "train" and "val" data.
 
@@ -140,20 +140,20 @@ Artifacts let you see and formalize the flow of data through your model developm
 
 Simple compute graph example
 
-![](<@site/static/images/data_model_versioning/compute_graph_example.png>)
+![](/images/data_model_versioning/compute_graph_example.png)
 
 More complex compute graph with predictions and evaluation results logged as artifacts
 
-![](<@site/static/images/data_model_versioning/compute_graph_example_advanced.png>)
+![](/images/data_model_versioning/compute_graph_example_advanced.png)
 
 Simplified version of the compute graph, node grouped by artifact/job type ("Explode" off)
 
-![](<@site/static/images/data_model_versioning/compute_graph_simple.png>)
+![](/images/data_model_versioning/compute_graph_simple.png)
 
 Full details of each node: versions by artifact type and scripts runs by job type ("Explode" on)
 
-![](<@site/static/images/data_model_versioning/compute_graph_deatiled.png>)
+![](/images/data_model_versioning/compute_graph_deatiled.png)
 
 Details for a particular version of resnet18: which training run produced it and which further runs loaded it for inference. These are deeply linked in each project so you can navigate the full graph.
 
-![](<@site/static/images/data_model_versioning/compute_graph_resnet_example.png>)
+![](/images/data_model_versioning/compute_graph_resnet_example.png)

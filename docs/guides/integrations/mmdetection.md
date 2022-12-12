@@ -115,7 +115,7 @@ You can reliably store these checkpoints as [W&B Artifacts](../artifacts/intro.m
 Every W&B account comes with 100 GB of free storage for datasets and models.
 :::
 
-![The checkpoints are shown as different versions on the left-hand side pane. You can download the model from the Files tab or use API to download it programmatically.](<@site/static/images/integrations/mmdetection_checkpointing.png>)
+![The checkpoints are shown as different versions on the left-hand side pane. You can download the model from the Files tab or use API to download it programmatically.](/images/integrations/mmdetection_checkpointing.png)
 
 ### :mega: Checkpoint with Metadata
 
@@ -133,7 +133,7 @@ The `num_eval_images` argument controls the number of validation samples that ar
 * If `validate=False` for [`mmdet.core.train_detector`](https://mmdetection.readthedocs.io/en/latest/\_modules/mmdet/apis/train.html?highlight=train\_detector) API, the validation data and model predictions will not be logged.
 * If the `num_eval_images` is greater than the total number of validation samples, the complete validation dataset is logged.
 
-![](<@site/static/images/integrations/mmdetection_visualize.gif>)
+![](/images/integrations/mmdetection_visualize.gif)
 
 :::info
 The `val_data` is uploaded only once. The `run_<id>_pred`table and subsequent runs use referencing to the uploaded data to save memory. A new version of `val_data` is created only when it's changed.

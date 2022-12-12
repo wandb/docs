@@ -83,12 +83,12 @@ $ docker run --rm -d -v wandb:/vol -p 8080:8080 --name wandb-local wandb/local
 
 You need a license to complete your configuration of a W&BServer. [**Open the Deploy Manager** ](https://deploy.wandb.ai/deploy)to generate a free license. If you do not already have a cloud account then you will need to create one to generate your free license. We offer two options:
 
-1. [**Personal licenses ->**](https://deploy.wandb.ai/deploy) are free forever for personal work: ![](<@site/static/images/hosting/personal_license.png>)
-2. [**Team trial licenses ->**](https://deploy.wandb.ai/deploy) are free and last 30 days, allowing you to set up a team and connect a scalable backend: ![](<@site/static/images/hosting/team_trial_license.png>)
+1. [**Personal licenses ->**](https://deploy.wandb.ai/deploy) are free forever for personal work: ![](/images/hosting/personal_license.png)
+2. [**Team trial licenses ->**](https://deploy.wandb.ai/deploy) are free and last 30 days, allowing you to set up a team and connect a scalable backend: ![](/images/hosting/team_trial_license.png)
 
 ### Add a license to your Local host
 
-1. Copy your license from your Deployment and navigate back to your W&BServer's localhost: ![](<@site/static/images/hosting/add_license_local_host.png>)
+1. Copy your license from your Deployment and navigate back to your W&BServer's localhost: ![](/images/hosting/add_license_local_host.png)
 2. Add it to your local settings by pasting it into the `/system-admin` page of your localhost:\
    ![](@site/static/images/hosting/License.gif)
 

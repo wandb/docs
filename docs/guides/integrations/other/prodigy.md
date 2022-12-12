@@ -16,7 +16,7 @@ with wandb.init(project="prodigy"):
 
 and get visual, interactive, shareable tables like this one:
 
-![](<@site/static/images/integrations/prodigy_interactive_visual.png>)
+![](/images/integrations/prodigy_interactive_visual.png)
 
 ## Quickstart
 
