@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L17-L326)
+[![](https://www.tensorflow.org@site/static/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L17-L326)
 
 
 

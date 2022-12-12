@@ -145,7 +145,7 @@ for i in range(100):
 
 Here's a sample terminal output:
 
-![](</images/experiments/sample_terminal_output.png>)
+![](<@site/static/images/experiments/sample_terminal_output.png>)
 
 And once you're ready, just run a sync command to send that folder to the cloud.
 
@@ -153,7 +153,7 @@ And once you're ready, just run a sync command to send that folder to the cloud.
 wandb sync wandb/dryrun-folder-name
 ```
 
-![](</images/experiments/sample_terminal_output_cloud.png>)
+![](<@site/static/images/experiments/sample_terminal_output_cloud.png>)
 
 ### What is the difference between wandb.init modes?
 
