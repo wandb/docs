@@ -133,7 +133,7 @@ The `num_eval_images` argument controls the number of validation samples that ar
 * If `validate=False` for [`mmdet.core.train_detector`](https://mmdetection.readthedocs.io/en/latest/\_modules/mmdet/apis/train.html?highlight=train\_detector) API, the validation data and model predictions will not be logged.
 * If the `num_eval_images` is greater than the total number of validation samples, the complete validation dataset is logged.
 
-![](/images/integrations/mmdetection_visualize.gif)
+<!-- ![](/images/integrations/mmdetection_visualize.gif) -->
 
 :::info
 The `val_data` is uploaded only once. The `run_<id>_pred`table and subsequent runs use referencing to the uploaded data to save memory. A new version of `val_data` is created only when it's changed.
