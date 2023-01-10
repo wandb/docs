@@ -1,4 +1,4 @@
-# wandb
+# Command Line Interface
 
 **Usage**
 
