@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org@site/static/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/integration/keras/callbacks/metrics_logger.py#L22-L79)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/callbacks/metrics_logger.py#L22-L79)
 
 
 
@@ -10,9 +10,9 @@
 
 ```python
 WandbMetricsLogger(
-    log_freq: Union[LogStrategy, int] = "epoch",
-    *args,
-    **kwargs
+ log_freq: Union[LogStrategy, int] = "epoch",
+ \*args,
+ \*\*kwargs
 ) -> None
 ```
 
@@ -22,30 +22,34 @@ that callback methods take as argument to wandb.
 
 It also logs the system metrics to wandb.
 
-| Arguments |  |
+| Arguments | |
 | :--- | :--- |
-|  log_freq ("epoch", "batch", or int): if "epoch", logs metrics at the end of each epoch. If "batch", logs metrics at the end of each batch. If an integer, logs metrics at the end of that many batches. Defaults to "epoch". |
+| log_freq ("epoch", "batch", or int): if "epoch", logs metrics at the end of each epoch. If "batch", logs metrics at the end of each batch. If an integer, logs metrics at the end of that many batches. Defaults to "epoch". |
 
 
 
 ## Methods
 
-<h3 id="set_model"><code>set_model</code></h3>
+### `set_model`
+
+
 
 ```python
 set_model(
-    model
+ model
 )
 ```
 
 
 
 
-<h3 id="set_params"><code>set_params</code></h3>
+### `set_params`
+
+
 
 ```python
 set_params(
-    params
+ params
 )
 ```
 

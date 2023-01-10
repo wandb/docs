@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org@site/static/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/sdk/data_types/helper_types/image_mask.py#L18-L247)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/helper_types/image_mask.py#L18-L247)
 
 
 
@@ -10,8 +10,8 @@ Format image masks or overlays for logging to W&B.
 
 ```python
 ImageMask(
-    val: dict,
-    key: str
+ val: dict,
+ key: str
 ) -> None
 ```
 
@@ -19,17 +19,17 @@ ImageMask(
 
 
 
-| Arguments |  |
+| Arguments | |
 | :--- | :--- |
-|  `val` |  (dictionary) One of these two keys to represent the image: mask_data : (2D numpy array) The mask containing an integer class label for each pixel in the image path : (string) The path to a saved image file of the mask class_labels : (dictionary of integers to strings, optional) A mapping of the integer class labels in the mask to readable class names. These will default to class_0, class_1, class_2, etc. |
-|  `key` |  (string) The readable name or id for this mask type (e.g. predictions, ground_truth) |
+| `val` | (dictionary) One of these two keys to represent the image: mask_data : (2D numpy array) The mask containing an integer class label for each pixel in the image path : (string) The path to a saved image file of the mask class_labels : (dictionary of integers to strings, optional) A mapping of the integer class labels in the mask to readable class names. These will default to class_0, class_1, class_2, etc. |
+| `key` | (string) The readable name or id for this mask type (e.g. predictions, ground_truth) |
 
 
 
 #### Examples:
 
 ### Logging a single masked image
-<!--yeadoc-test:log-image-mask-->
+
 ```python
 import numpy as np
 import wandb
@@ -50,27 +50,27 @@ ground_truth_mask[:25, 25:] = 2
 ground_truth_mask[25:, 25:] = 3
 
 class_labels = {
-    0: "person",
-    1: "tree",
-    2: "car",
-    3: "road"
+ 0: "person",
+ 1: "tree",
+ 2: "car",
+ 3: "road"
 }
 
 masked_image = wandb.Image(image, masks={
-    "predictions": {
-        "mask_data": predicted_mask,
-        "class_labels": class_labels
-    },
-    "ground_truth": {
-        "mask_data": ground_truth_mask,
-        "class_labels": class_labels
-    }
+ "predictions": {
+ "mask_data": predicted_mask,
+ "class_labels": class_labels
+ },
+ "ground_truth": {
+ "mask_data": ground_truth_mask,
+ "class_labels": class_labels
+ }
 })
 wandb.log({"img_with_masks" : masked_image})
 ```
 
 ### Log a masked image inside a Table
-<!--yeadoc-test:log-image-mask-table-->
+
 ```python
 
 import numpy as np
@@ -92,28 +92,28 @@ ground_truth_mask[:25, 25:] = 2
 ground_truth_mask[25:, 25:] = 3
 
 class_labels = {
-    0: "person",
-    1: "tree",
-    2: "car",
-    3: "road"
+ 0: "person",
+ 1: "tree",
+ 2: "car",
+ 3: "road"
 }
 
 class_set = wandb.Classes([
-    {"name" : "person", "id" : 0},
-    {"name" : "tree", "id" : 1},
-    {"name" : "car", "id" : 2},
-    {"name" : "road", "id" : 3}
+ {"name" : "person", "id" : 0},
+ {"name" : "tree", "id" : 1},
+ {"name" : "car", "id" : 2},
+ {"name" : "road", "id" : 3}
 ])
 
 masked_image = wandb.Image(image, masks={
-    "predictions": {
-        "mask_data": predicted_mask,
-        "class_labels": class_labels
-    },
-    "ground_truth": {
-        "mask_data": ground_truth_mask,
-        "class_labels": class_labels
-    }
+ "predictions": {
+ "mask_data": predicted_mask,
+ "class_labels": class_labels
+ },
+ "ground_truth": {
+ "mask_data": ground_truth_mask,
+ "class_labels": class_labels
+ }
 }, classes=class_set)
 
 table = wandb.Table(columns=["image"])
@@ -124,9 +124,11 @@ wandb.log({"random_field": table})
 
 ## Methods
 
-<h3 id="type_name"><code>type_name</code></h3>
+### `type_name`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/sdk/data_types/helper_types/image_mask.py#L219-L221)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/helper_types/image_mask.py#L219-L221)
 
 ```python
 @classmethod
@@ -136,13 +138,15 @@ type_name() -> str
 
 
 
-<h3 id="validate"><code>validate</code></h3>
+### `validate`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/sdk/data_types/helper_types/image_mask.py#L223-L247)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/helper_types/image_mask.py#L223-L247)
 
 ```python
 validate(
-    val: dict
+ val: dict
 ) -> bool
 ```
 
