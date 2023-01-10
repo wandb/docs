@@ -69,12 +69,6 @@ const config = {
           {
             type: 'doc',
             position: 'left',
-            docId: 'howtoguides/intro',
-            label: 'How-to Guides',
-          },
-          {
-            type: 'doc',
-            position: 'left',
             docId: 'ref/README',
             label: 'Reference',
           },
@@ -94,10 +88,6 @@ const config = {
               {
                 label: 'Developer Guide',
                 to: 'guides/intro',
-              },
-              {
-                label: 'How-to Guides',
-                to: 'howtoguides/intro',
               },
               {
                 label: 'API',
