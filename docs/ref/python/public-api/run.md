@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org@site/static/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L1644-L2253)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L1644-L2253)
 
 
 
@@ -10,12 +10,12 @@ A single run associated with an entity and project.
 
 ```python
 Run(
-    client: "RetryingClient",
-    entity: str,
-    project: str,
-    run_id: str,
-    attrs: Optional[Mapping] = None,
-    include_sweeps: bool = (True)
+ client: "RetryingClient",
+ entity: str,
+ project: str,
+ run_id: str,
+ attrs: Optional[Mapping] = None,
+ include_sweeps: bool = (True)
 )
 ```
 
@@ -25,171 +25,191 @@ Run(
 
 
 
-| Attributes |  |
+| Attributes | |
 | :--- | :--- |
 
 
 
 ## Methods
 
-<h3 id="create"><code>create</code></h3>
+### `create`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L1740-L1780)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L1740-L1780)
 
 ```python
 @classmethod
 create(
-    api, run_id=None, project=None, entity=None
+ api, run_id=None, project=None, entity=None
 )
 ```
 
 Create a run for the given project
 
 
-<h3 id="delete"><code>delete</code></h3>
+### `delete`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L1895-L1929)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L1895-L1929)
 
 ```python
 delete(
-    delete_artifacts=(False)
+ delete_artifacts=(False)
 )
 ```
 
 Deletes the given run from the wandb backend.
 
 
-<h3 id="display"><code>display</code></h3>
+### `display`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L959-L970)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L959-L970)
 
 ```python
 display(
-    height=420, hidden=(False)
+ height=420, hidden=(False)
 ) -> bool
 ```
 
 Display this object in jupyter
 
 
-<h3 id="file"><code>file</code></h3>
+### `file`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L1991-L2000)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L1991-L2000)
 
 ```python
 file(
-    name
+ name
 )
 ```
 
 Arguments:
-    name (str): name of requested file.
+ name (str): name of requested file.
 
-| Returns |  |
+| Returns | |
 | :--- | :--- |
-|  A `File` matching the name argument. |
+| A `File` matching the name argument. |
 
 
 
-<h3 id="files"><code>files</code></h3>
+### `files`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L1979-L1989)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L1979-L1989)
 
 ```python
 files(
-    names=None, per_page=50
+ names=None, per_page=50
 )
 ```
 
 Arguments:
-    names (list): names of the requested files, if empty returns all files
-    per_page (int): number of results per page
+ names (list): names of the requested files, if empty returns all files
+ per_page (int): number of results per page
 
-| Returns |  |
+| Returns | |
 | :--- | :--- |
-|  A `Files` object, which is an iterator over `File` objects. |
+| A `Files` object, which is an iterator over `File` objects. |
 
 
 
-<h3 id="history"><code>history</code></h3>
+### `history`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2025-L2064)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L2025-L2064)
 
 ```python
 history(
-    samples=500, keys=None, x_axis="_step", pandas=(True), stream="default"
+ samples=500, keys=None, x_axis="_step", pandas=(True), stream="default"
 )
 ```
 
-Returns sampled history metrics for a run.  This is simpler and faster if you are ok with
+Returns sampled history metrics for a run. This is simpler and faster if you are ok with
 the history records being sampled.
 
-| Arguments |  |
+| Arguments | |
 | :--- | :--- |
-|  samples (int, optional): The number of samples to return pandas (bool, optional): Return a pandas dataframe keys (list, optional): Only return metrics for specific keys x_axis (str, optional): Use this metric as the xAxis defaults to _step stream (str, optional): "default" for metrics, "system" for machine metrics |
+| samples (int, optional): The number of samples to return pandas (bool, optional): Return a pandas dataframe keys (list, optional): Only return metrics for specific keys x_axis (str, optional): Use this metric as the xAxis defaults to _step stream (str, optional): "default" for metrics, "system" for machine metrics |
 
 
 
-| Returns |  |
+| Returns | |
 | :--- | :--- |
-|  If pandas=True returns a `pandas.DataFrame` of history metrics. If pandas=False returns a list of dicts of history metrics. |
+| If pandas=True returns a `pandas.DataFrame` of history metrics. If pandas=False returns a list of dicts of history metrics. |
 
 
 
-<h3 id="load"><code>load</code></h3>
+### `load`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L1782-L1840)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L1782-L1840)
 
 ```python
 load(
-    force=(False)
+ force=(False)
 )
 ```
 
 
 
 
-<h3 id="log_artifact"><code>log_artifact</code></h3>
+### `log_artifact`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2162-L2194)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L2162-L2194)
 
 ```python
 log_artifact(
-    artifact, aliases=None
+ artifact, aliases=None
 )
 ```
 
 Declare an artifact as output of a run.
 
 
-| Arguments |  |
+| Arguments | |
 | :--- | :--- |
-|  artifact (`Artifact`): An artifact returned from `wandb.Api().artifact(name)` aliases (list, optional): Aliases to apply to this artifact |
+| artifact (`Artifact`): An artifact returned from `wandb.Api().artifact(name)` aliases (list, optional): Aliases to apply to this artifact |
 
 
 
-| Returns |  |
+| Returns | |
 | :--- | :--- |
-|  A `Artifact` object. |
+| A `Artifact` object. |
 
 
 
-<h3 id="logged_artifacts"><code>logged_artifacts</code></h3>
+### `logged_artifacts`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2122-L2124)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L2122-L2124)
 
 ```python
 logged_artifacts(
-    per_page=100
+ per_page=100
 )
 ```
 
 
 
 
-<h3 id="save"><code>save</code></h3>
+### `save`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L1931-L1932)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L1931-L1932)
 
 ```python
 save()
@@ -198,13 +218,15 @@ save()
 
 
 
-<h3 id="scan_history"><code>scan_history</code></h3>
+### `scan_history`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2066-L2120)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L2066-L2120)
 
 ```python
 scan_history(
-    keys=None, page_size=1000, min_step=None, max_step=None
+ keys=None, page_size=1000, min_step=None, max_step=None
 )
 ```
 
@@ -224,47 +246,53 @@ losses = [row["Loss"] for row in history]
 
 
 
-| Arguments |  |
+| Arguments | |
 | :--- | :--- |
-|  keys ([str], optional): only fetch these keys, and only fetch rows that have all of keys defined. page_size (int, optional): size of pages to fetch from the api |
+| keys ([str], optional): only fetch these keys, and only fetch rows that have all of keys defined. page_size (int, optional): size of pages to fetch from the api |
 
 
 
-| Returns |  |
+| Returns | |
 | :--- | :--- |
-|  An iterable collection over history records (dict). |
+| An iterable collection over history records (dict). |
 
 
 
-<h3 id="snake_to_camel"><code>snake_to_camel</code></h3>
+### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L955-L957)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L955-L957)
 
 ```python
 snake_to_camel(
-    string
+ string
 )
 ```
 
 
 
 
-<h3 id="to_html"><code>to_html</code></h3>
+### `to_html`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2239-L2247)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L2239-L2247)
 
 ```python
 to_html(
-    height=420, hidden=(False)
+ height=420, hidden=(False)
 )
 ```
 
 Generate HTML containing an iframe displaying this run
 
 
-<h3 id="update"><code>update</code></h3>
+### `update`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L1865-L1893)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L1865-L1893)
 
 ```python
 update()
@@ -273,69 +301,77 @@ update()
 Persists changes to the run object to the wandb backend.
 
 
-<h3 id="upload_file"><code>upload_file</code></h3>
+### `upload_file`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2002-L2023)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L2002-L2023)
 
 ```python
 upload_file(
-    path, root="."
+ path, root="."
 )
 ```
 
 Arguments:
-    path (str): name of file to upload.
-    root (str): the root path to save the file relative to.  i.e.
-        If you want to have the file saved in the run as "my_dir/file.txt"
-        and you're currently in "my_dir" you would set root to "../"
+ path (str): name of file to upload.
+ root (str): the root path to save the file relative to. i.e.
+ If you want to have the file saved in the run as "my_dir/file.txt"
+ and you're currently in "my_dir" you would set root to "../"
 
-| Returns |  |
+| Returns | |
 | :--- | :--- |
-|  A `File` matching the name argument. |
+| A `File` matching the name argument. |
 
 
 
-<h3 id="use_artifact"><code>use_artifact</code></h3>
+### `use_artifact`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2130-L2160)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L2130-L2160)
 
 ```python
 use_artifact(
-    artifact, use_as=None
+ artifact, use_as=None
 )
 ```
 
 Declare an artifact as an input to a run.
 
 
-| Arguments |  |
+| Arguments | |
 | :--- | :--- |
-|  artifact (`Artifact`): An artifact returned from `wandb.Api().artifact(name)` use_as (string, optional): A string identifying how the artifact is used in the script. Used to easily differentiate artifacts used in a run, when using the beta wandb launch feature's artifact swapping functionality. |
+| artifact (`Artifact`): An artifact returned from `wandb.Api().artifact(name)` use_as (string, optional): A string identifying how the artifact is used in the script. Used to easily differentiate artifacts used in a run, when using the beta wandb launch feature's artifact swapping functionality. |
 
 
 
-| Returns |  |
+| Returns | |
 | :--- | :--- |
-|  A `Artifact` object. |
+| A `Artifact` object. |
 
 
 
-<h3 id="used_artifacts"><code>used_artifacts</code></h3>
+### `used_artifacts`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L2126-L2128)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L2126-L2128)
 
 ```python
 used_artifacts(
-    per_page=100
+ per_page=100
 )
 ```
 
 
 
 
-<h3 id="wait_until_finished"><code>wait_until_finished</code></h3>
+### `wait_until_finished`
 
-[View source](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/apis/public.py#L1842-L1863)
+
+
+[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L1842-L1863)
 
 ```python
 wait_until_finished()

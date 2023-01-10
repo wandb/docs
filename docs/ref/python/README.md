@@ -1,9 +1,9 @@
-# python
-
-<!-- Insert buttons and diff -->
+# Python Library
 
 
-[![](https://www.tensorflow.org@site/static/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/d0df1ddb23bdba0bec8d9be906336625a603439d/wandb/__init__.py)
+
+
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/__init__.py)
 
 
 
@@ -11,9 +11,9 @@ Use wandb to track machine learning work.
 
 
 The most commonly used functions/objects are:
-  - wandb.init — initialize a new run at the top of your training script
-  - wandb.config — track hyperparameters and metadata
-  - wandb.log — log metrics and media over time within your training loop
+ - wandb.init — initialize a new run at the top of your training script
+ - wandb.config — track hyperparameters and metadata
+ - wandb.log — log metrics and media over time within your training loop
 
 For guides and examples, see https://docs.wandb.com/guides.
 
@@ -47,9 +47,9 @@ For reference documentation, see https://docs.wandb.com/ref/python.
 
 
 
-| Other Members |  |
+| Other Members | |
 | :--- | :--- |
-|  `__version__`<a id="__version__"></a> |  `'0.13.4'` |
-|  `config`<a id="config"></a> |   |
-|  `summary`<a id="summary"></a> |   |
+| `__version__` | `'0.13.4'` |
+| `config` | |
+| `summary` | |
 
