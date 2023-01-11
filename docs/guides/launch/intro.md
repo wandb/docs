@@ -1,0 +1,20 @@
+# Launch Jobs
+
+:::danger
+Beta product in active development
+
+Interested in Launch? Reach out to your account team to talk about joining the customer pilot program for W&B Launch.
+
+Pilot customers need to use AWS EKS or SageMaker to qualify for the beta program. We plan to support additional platforms.
+:::
+
+Connect your own SageMaker or Kubernetes cluster, then easily queue and manage jobs using W&B Launch. Kick off jobs on your own infrastructure from the W&B UI or CLI.
+
+With W&B Launch you can:
+
+* Execute runs in reproducible containerized environments
+* Queue and launch jobs across your own clusters, locally or in the cloud
+* Easily tweak hyperparameters or input data and retrain models
+* Automatically trigger evaluation jobs on newly trained models
+
+![High level overview of W&B Launch](../../../static/images/launch/highlevel_launch_vision.png)

@@ -110,6 +110,13 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Launch',
+      items: [
+        'guides/launch/intro'
+      ]
+    },
+    {
+      type: 'category',
       label: 'Data and model versioning',
       items: [
         'guides/data-and-model-versioning/intro',
@@ -254,6 +261,7 @@ const sidebars = {
       label: 'Integrations',
       items: [
         'guides/integrations/intro',
+        'guides/integrations/add-wandb-to-any-library',
         'guides/integrations/keras',
         'guides/integrations/pytorch',
         'guides/integrations/lightning',

@@ -81,18 +81,19 @@ wandb.log({
 
 Sweep configurations are nested; keys can have, as their values, further keys. The top-level keys are listed and briefly described below, and then detailed in the following section.
 
-<!-- | Top-Level Key     | Description                                                                                                                   |
+| Top-Level Key     | Description                                                                                                                   |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | `program`         | (required) Training script to run.                                                                                            |
-| `method`          | (required) Specify the [search strategy](define-sweep-configuration.md#configuration-keys).                                   |
+| `method`          | (required) Specify the [search strategy](./define-sweep-configuration.md#configuration-keys).                                 |
 | `parameters`      | (required) Specify [parameters](define-sweep-configuration.md#parameters) bounds to search.                                   |
-| `name`            | The name of the sweep, displayed in the W&B UI.                                                                              |
+| `name`            | The name of the sweep, displayed in the W&B UI.                                                                               |
 | `description`     | Text description of the sweep.                                                                                                |
 | `metric`          | Specify the metric to optimize (only used by certain search strategies and stopping criteria).                                |
-| `early_terminate` | Specify any [early stopping criteria](define-sweep-configuration.md#early\_terminate).                                        |
-| `command`         | Specify [command structure ](define-sweep-configuration.md#command)for invoking and passing arguments to the training script. |
+| `early_terminate` | Specify any [early stopping criteria](./define-sweep-configuration.md#early_terminate).                                       |
+| `command`         | Specify [command structure ](./define-sweep-configuration.md#command)for invoking and passing arguments to the training script. |
 | `project`         | Specify the project for this sweep.                                                                                           |
-| `entity`          | Specify the entity for this sweep.                                                                                            | -->
+| `entity`          | Specify the entity for this sweep.                                                                                            |
+| `run_cap` | Specify a maximum number of runs in a sweep.                                                                                          |
 
 ### Search type methods
 
