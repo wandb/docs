@@ -28,4 +28,18 @@ The proceeding animation demonstrates how to insert a report into a Notion docum
 
 ![](@site/static/images/reports/embed_iframe_notion.gif)
 
+### Gradio
+
+You can use the `gr.HTML` element to embed W\&B Reports within Gradio Apps and use them within HuggingFace Spaces.
+
+```python
+import gradio as gr
+def wandb_report(url):
+    iframe = f'<iframe src={url} style="border:none;height:1024px;width:100%">'
+    return gr.HTML(iframe)
+with gr.Blocks() as demo:
+    report = wandb_report('https://wandb.ai/_scott/pytorch-sweeps-demo/reports/loss-22-10-07-16-00-17---VmlldzoyNzU2NzAx')
+demo.launch()
+```
+
 ##

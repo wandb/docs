@@ -147,27 +147,27 @@ Random and Bayesian searches will run forever -- until you stop the process from
 
 Specify the search strategy with the `method` key in the sweep configuration.
 
-| `method` | Description                                                                                                                                                                                                                                                         |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `grid`   | Grid search iterates over all possible combinations of parameter values.                                                                                                                                                                                            |
-| `random` | Random search chooses a random set of values on each iteration.                                                                                                                                                                                                     |
+| `method` | Description                                               |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `grid`   | Grid search iterates over all possible combinations of parameter values.                                                         |
+| `random` | Random search chooses a random set of values on each iteration.        |
 | `bayes`  | Our Bayesian hyperparameter search method uses a Gaussian Process to model the relationship between the parameters and the model metric and chooses parameters to optimize the probability of improvement. This strategy requires the `metric` key to be specified. |
 
 ### `parameters`
 
 Describe the hyperparameters to explore during the sweep. For each hyperparameter, specify the name and the possible values as a list of constants (for any `method`) or specify a `distribution` for `random` or `bayes`.
 
-| Values          | Description                                                                                                                                                                                                                                                                          |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `values`        | Specifies all valid values for this hyperparameter. Compatible with `grid`.                                                                                                                                                                                                          |
-| `value`         | Specifies the single valid value for this hyperparameter. Compatible with `grid`.                                                                                                                                                                                                    |
+| Values          | Description                                                             |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `values`        | Specifies all valid values for this hyperparameter. Compatible with `grid`.     |
+| `value`         | Specifies the single valid value for this hyperparameter. Compatible with `grid`.                                                                                               |
 | `distribution`  | (`str`) Selects a distribution from the distribution table below. If not specified, will default to `categorical` if `values` is set, to `int_uniform` if `max` and `min` are set to integers, to `uniform` if `max` and `min` are set to floats, or to`constant` if `value` is set. |
-| `probabilities` | Specify the probability of selecting each element of `values` when using `random`.                                                                                                                                                                                                   |
-| `min`, `max`    | (`int`or `float`) Maximum and minimum values. If `int`, for `int_uniform` -distributed hyperparameters. If `float`, for `uniform` -distributed hyperparameters.                                                                                                                      |
-| `mu`            | (`float`) Mean parameter for `normal` - or `lognormal` -distributed hyperparameters.                                                                                                                                                                                                 |
-| `sigma`         | (`float`) Standard deviation parameter for `normal` - or `lognormal` -distributed hyperparameters.                                                                                                                                                                                   |
-| `q`             | (`float`) Quantization step size for quantized hyperparameters.                                                                                                                                                                                                                      |
-| `parameters`    | Nest other parameters inside a root level parameter.                                                                                                                                                                                                                                 |
+| `probabilities` | Specify the probability of selecting each element of `values` when using `random`.                                |
+| `min`, `max`    | (`int`or `float`) Maximum and minimum values. If `int`, for `int_uniform` -distributed hyperparameters. If `float`, for `uniform` -distributed hyperparameters.                |
+| `mu`            | (`float`) Mean parameter for `normal` - or `lognormal` -distributed hyperparameters.                                                       |
+| `sigma`         | (`float`) Standard deviation parameter for `normal` - or `lognormal` -distributed hyperparameters.                            |
+| `q`             | (`float`) Quantization step size for quantized hyperparameters.                          |
+| `parameters`    | Nest other parameters inside a root level parameter.           |
 
 #### **Examples**
 
@@ -239,25 +239,23 @@ Describe the hyperparameters to explore during the sweep. For each hyperparamete
 
 Specify how to distribute values if you choose a random (`random)` or Bayesian (`bayes)` search method.
 
-| Value                    | Description                                                                                                                                                                              |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `constant`               | Constant distribution. Must specify `value`.                                                                                                                                             |
-| `categorical`            | Categorical distribution. Must specify `values`.                                                                                                                                         |
-| `int_uniform`            | Discrete uniform distribution on integers. Must specify `max` and `min` as integers.                                                                                                     |
-| `uniform`                | Continuous uniform distribution. Must specify `max` and `min` as floats.                                                                                                                 |
-| `q_uniform`              | Quantized uniform distribution. Returns `round(X / q) * q` where X is uniform. `q` defaults to `1`.                                                                                      |
-| `log_uniform`            | Log-uniform distribution. Returns a value `X` between `exp(min)` and `exp(max)`such that the natural logarithm is uniformly distributed between `min` and `max`.                         |
-| `inv_log_uniform`        | Inverse log uniform distribution. Returns `X` , where `log(1/X)` is uniformly distributed between `min` and `max` .                                                                      |
-| `log_uniform_values`     | Log-uniform distribution. Returns a value `X` between `min` and `max` such that `log(`X`)` is uniformly distributed between `log(min)` and `log(max)`.                                   |
-| `q_log_uniform`          | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform`. `q` defaults to `1`.                                                                                       |
-| `q_log_uniform_values`   | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform_values`. `q` defaults to `1`.                                                                                |
-| `inv_log_uniform`        | Inverse log uniform distribution. Returns `X`, where  `log(1/X)` is uniformly distributed between `min` and `max`.                                                                       |
-| `inv_log_uniform_values` | Inverse log uniform distribution. Returns `X`, where  `log(1/X)` is uniformly distributed between `log(1/max)` and `log(1/min)`.                                                         |
-| `normal`                 | Normal distribution. Return value is normally-distributed with mean `mu` (default `0`) and standard deviation `sigma` (default `1`).                                                     |
-| `q_normal`               | Quantized normal distribution. Returns `round(X / q) * q` where `X` is `normal`. Q defaults to 1.                                                                                        |
+| Value                    | Description            |
+| ------------------------ | ------------------------------------ |
+| `constant`               | Constant distribution. Must specify `value`.                         |
+| `categorical`            | Categorical distribution. Must specify `values`.                     |
+| `int_uniform`            | Discrete uniform distribution on integers. Must specify `max` and `min` as integers.     |
+| `uniform`                | Continuous uniform distribution. Must specify `max` and `min` as floats.      |
+| `q_uniform`              | Quantized uniform distribution. Returns `round(X / q) * q` where X is uniform. `q` defaults to `1`.|
+| `log_uniform`            | Log-uniform distribution. Returns a value `X` between `exp(min)` and `exp(max)`such that the natural logarithm is uniformly distributed between `min` and `max`.   |
+| `log_uniform_values`     | Log-uniform distribution. Returns a value `X` between `min` and `max` such that `log(`X`)` is uniformly distributed between `log(min)` and `log(max)`.     |
+| `q_log_uniform`          | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform`. `q` defaults to `1`.       |
+| `q_log_uniform_values`   | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform_values`. `q` defaults to `1`.     |
+| `inv_log_uniform`        | Inverse log uniform distribution. Returns `X`, where  `log(1/X)` is uniformly distributed between `min` and `max`.           |
+| `inv_log_uniform_values` | Inverse log uniform distribution. Returns `X`, where  `log(1/X)` is uniformly distributed between `log(1/max)` and `log(1/min)`.    |
+| `normal`                 | Normal distribution. Return value is normally-distributed with mean `mu` (default `0`) and standard deviation `sigma` (default `1`).|
+| `q_normal`               | Quantized normal distribution. Returns `round(X / q) * q` where `X` is `normal`. Q defaults to 1.      |
 | `log_normal`             | Log normal distribution. Returns a value `X` such that the natural logarithm `log(X)` is normally distributed with mean `mu` (default `0`) and standard deviation `sigma` (default `1`). |
-| `q_log_normal`           | Quantized log normal distribution. Returns `round(X / q) * q` where `X` is `log_normal`. `q` defaults to `1`.                                                                            |
-
+| `q_log_normal`  | Quantized log normal distribution. Returns `round(X / q) * q` where `X` is `log_normal`. `q` defaults to `1`.             |
 #### **Examples**
 
 <Tabs

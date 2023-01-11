@@ -14,6 +14,8 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 * **Catch regressions** and immediately get alerted when performance drops.
 * **Benchmark model performance** and compare model versions.
 
+![](../../../../static/images/app_ui/teams_overview.webp)
+
 ## Create a collaborative team
 
 1. [**Sign up or log in**](https://app.wandb.ai/login?signup=true) to your free W&B account.
@@ -57,6 +59,26 @@ wandb.init(entity="example-team")
 Your **default entity** is updated when you join a team. This means that on your [settings page](https://app.wandb.ai/settings), you'll see that the default location to create a new project is now the team you've just joined. Here's an example of what that [settings page](https://app.wandb.ai/settings) section looks like:
 
 ![](/images/app_ui/send_new_runs_to_team.png)
+
+### About your Team's Profile
+
+You can customize your team's profile page to show an introduction and showcase reports and projects that are visible to the public or team members.
+
+#### Highlight your work
+
+Present reports, projects, and external links.
+
+* **Highlight your best research** to visitors by showcasing your best public reports
+* **Showcase the most active projects** to make it easier for teammates to find them
+* **Find collaborators** by adding external links to your company or research lab's website and any papers you've published
+
+#### Add Social Badges to your Intro
+
+In your Intro, type `/` and choose Markdown and paste the markdown snippet that will render your badge. Once you convert it to WYSIWYG, you can resize it.
+
+ [![Twitter: @weights_biases](https://img.shields.io/twitter/follow/weights\_biases?style=social)](https://twitter.com/intent/follow?screen\_name=weights\_biases)
+
+For example, to add a Twitter follow badge, add `[![Twitter: @weights_biase](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://twitter.com/intent/follow?screen_name=weights_biases` replacing `weights_biases` with your Twitter username.
 
 ## Team Management FAQs
 
