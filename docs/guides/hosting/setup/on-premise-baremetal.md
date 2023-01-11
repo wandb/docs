@@ -4,10 +4,10 @@ description: Hosting W&B Server on baremetal servers on-premises
 
 # On Prem / Baremetal
 
-Run your bare metal infrastructure that connects to scaleable external data stores with W&BServer. See the following for instructions on how to provision a new instance and guidance on provisioning external data stores.
+Run your bare metal infrastructure that connects to scaleable external data stores with W&B Server. See the following for instructions on how to provision a new instance and guidance on provisioning external data stores.
 
 :::caution
-W&B application performance depends on scalable data stores that your operations team must configure and manage. The team must provide a MySQL 5.7 or MySQL 8 database server and an S3 compatible object store for the application to scale properly.
+W&B application performance depends on scalable data stores that your operations team must configure and manage. The team must provide a MySQL 5.7 or MySQL 8 database server and an AWS S3 compatible object store for the application to scale properly.
 :::
 
 Talk to our sales team by reaching out to [contact@wandb.com](mailto:contact@wandb.com).
