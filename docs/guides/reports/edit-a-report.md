@@ -22,7 +22,7 @@ Each panel grid has a set of run sets and a set of panels. The run sets at the b
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK (Beta)', value: 'sdk'},
+    {label: 'Python SDK', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -77,7 +77,7 @@ Add run sets from projects interactively with the App UI or the Weights & Biases
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK (Beta)', value: 'sdk'},
+    {label: 'Python SDK', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -180,7 +180,7 @@ Add code blocks to your report interactively with the App UI or with the Weights
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK (Beta)', value: 'sdk'},
+    {label: 'Python SDK', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -257,7 +257,7 @@ Add markdown to your report interactively with the App UI or with the Weights & 
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK (Beta)', value: 'sdk'},
+    {label: 'Python SDK', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -294,7 +294,7 @@ Add HTML elements to your report interactively with the App UI or with the Weigh
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK (Beta)', value: 'sdk'},
+    {label: 'Python SDK', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -337,7 +337,7 @@ Embed rich media within the report with the App UI or with the Weights & Biases 
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK (Beta)', value: 'sdk'},
+    {label: 'Python SDK', value: 'sdk'},
   ]}>
   <TabItem value="app">
 

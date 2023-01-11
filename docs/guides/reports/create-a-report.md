@@ -36,7 +36,7 @@ Navigate to the **Reports** tab in your project and select the **Create Report**
   </TabItem>
   <TabItem value="sdk">
 
-Create a report programmatically with the `wandb` library. After you import the `wandb`, state `wandb.require('report-editing')` to enable programatic report editing. This requirement ensures you do not accidentally modify a report.
+Create a report programmatically with the `wandb` library.
 
 ```python
 import wandb

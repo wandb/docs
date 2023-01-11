@@ -45,6 +45,7 @@ First, create a Registered Model to hold all the candidate models for your parti
   values={[
     {label: 'Using Model Registry', value: 'registry'},
     {label: 'Using Artifact Browser', value: 'browser'},
+    {label: 'Programmatic Linking', value: 'programmatic'},
   ]}>
   <TabItem value="registry">
 
@@ -70,6 +71,48 @@ First, create a Registered Model to hold all the candidate models for your parti
 
 ![](/images/models/browser.gif)
   </TabItem>
+    <TabItem value="programmatic">
+
+If you already have a logged model version, you can link directly to a registered model from the SDK. If the registered model you specify doesn't exist, we will created it for you.
+
+While manual linking is useful for one-off Models, it is often useful to programmatically link Model Versions to a Collection - consider a nightly job or CI pipeline that wants to link the best Model Version from every training job. Depending on your context and use case, you may use one of 3 different linking APIs:
+
+**Fetch Model Artifact from Public API:**
+
+```python
+import wandb
+# Fetch the Model Version via API
+art = wandb.Api().artifact(...)
+# Link the Model Version to the Model Collection
+art.link("[[entity/]project/]collectionName")
+```
+
+**Model Artifact is "used" by the current Run:**
+
+```python
+import wandb
+# Initialize a W&B run to start tracking
+wandb.init()
+# Obtain a reference to a Model Version
+art = wandb.use_artifact(...)
+# Link the Model Version to the Model Collection
+art.link("[[entity/]project/]collectionName")
+```
+
+**Model Artifact is logged by the current Run:**
+
+```python
+import wandb
+# Initialize a W&B run to start tracking
+wandb.init()
+# Create an Model Version
+art = wandb.Artifact(...)
+# Log the Model Version
+wandb.log_artifact(art)
+# Link the Model Version to the Collection
+wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
+```
+  </TabItem>
 </Tabs>
 
 ### 2. Train & log Model Versions
@@ -92,7 +135,7 @@ By default, you should use the native W&B Artifacts API to log your serialized m
   values={[
     {label: 'Using Artifacts', value: 'withartifacts'},
     {label: 'Declare Dataset Dependency', value: 'datasetdependency'},
-    {label: 'Using `log_model` (Beta)', value: 'logmodel'},
+    {label: '[Beta] Using `log_model()`', value: 'logmodel'},
   ]}>
   <TabItem value="withartifacts">
 
@@ -174,7 +217,7 @@ log_model(model, "mnist-nn", aliases=["best"] if model_is_best else [])
 ```
 
 :::info
-Note: you may want to define custom serialization and deserialization strategies. You can do so by subclassing the [`_SavedModel` class](https://github.com/wandb/wandb/blob/9dfa60b14599f2716ab94dd85aa0c1113cb5d073/wandb/sdk/data\_types/saved\_model.py#L73), similar to the [`_PytorchSavedModel` class](https://github.com/wandb/wandb/blob/9dfa60b14599f2716ab94dd85aa0c1113cb5d073/wandb/sdk/data\_types/saved\_model.py#L358). All subclasses will automatically be loaded into the serialization registry. _As this is a beta feature, please reach out to support@wandb.com with questions or comments._
+Note: you may want to define custom serialization and deserialization strategies. You can do so by subclassing the [`_SavedModel` class](https://github.com/wandb/wandb/blob/9dfa60b14599f2716ab94dd85aa0c1113cb5d073/wandb/sdk/data\_types/saved\_model.py#L73), similar to the [`_PytorchSavedModel` class](https://github.com/wandb/wandb/blob/9dfa60b14599f2716ab94dd85aa0c1113cb5d073/wandb/sdk/data\_types/saved\_model.py#L358). All subclasses will automatically be loaded into the serialization registry. As this is a beta feature, please reach out to support@wandb.com with questions or comments.
 :::
   </TabItem>
 </Tabs>
@@ -196,8 +239,8 @@ Now, let's say that we are ready to link one of our Model Versions to the Regist
   defaultValue="manual_link"
   values={[
     {label: 'Manual Linking', value: 'manual_link'},
-    {label: 'Programatic Linking', value: 'program_link'},
-    {label: 'Using `log_model` (Beta)', value: 'logmodel'},
+    {label: 'Programmatic Linking', value: 'program_link'},
+    {label: '[Beta] Using `log_model()`', value: 'logmodel'},
   ]}>
   <TabItem value="manual_link">
 
@@ -292,7 +335,7 @@ Now we are ready to consume a Model - perhaps to evaluate its performance, make 
   defaultValue="usingartifacts"
   values={[
     {label: 'Using Artifacts', value: 'usingartifacts'},
-    {label: '(Beta) Using `use_model`', value: 'use_model'},
+    {label: '[Beta] Using `use_model()`', value: 'use_model'},
   ]}>
   <TabItem value="usingartifacts">
 
