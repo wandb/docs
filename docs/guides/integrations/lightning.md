@@ -76,7 +76,7 @@ Below are some of the most used parameters in WandbLogger, see the PyTorch Light
 | `log_model` | Log all models if `log_model="all"` or at end of training if `log_model=True` |
 | `save_dir`  | Path where data is saved                                                      |
 
-### **Log your LightningModule hyperparameters**
+### Log your LightningModule hyperparameters
 
 ```python
 class LitModule(LightningModule):
