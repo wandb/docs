@@ -204,14 +204,14 @@ You can override the `on_train_begin` or `on_epoch_end` methods to have more fin
 💡 If you are implementing a callback for model prediction visualization by inheriting `WandbEvalCallback` and something needs to be clarified or fixed, please let us know by opening an [issue](https://github.com/wandb/wandb/issues).
 :::
 
-### **`WandbEvalCallback` Reference**
+### `WandbEvalCallback` Reference
 
 | Parameter            | Description                                      |
 | -------------------- | ------------------------------------------------ |
 | `data_table_columns` | (list) List of column names for the `data_table` |
 | `pred_table_columns` | (list) List of column names for the `pred_table` |
 
-## WandbCallback \[Legacy]
+## WandbCallback [Legacy]
 
 Use the W&B library [`WandbCallback`](https://docs.wandb.ai/ref/python/integrations/keras/wandbcallback) Class to automatically save all the metrics and the loss values tracked in `model.fit`.
 
@@ -286,7 +286,7 @@ The `WandbCallback`
 
 ## Frequently Asked Questions
 
-### **How do I use `Keras` multiprocessing with `wandb`?**
+### How do I use `Keras` multiprocessing with `wandb`?
 
 If you're setting `use_multiprocessing=True` and seeing an error like:
 

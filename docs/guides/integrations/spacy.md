@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 ## Getting Started: Track and Save your Models
 
-### **1)** **Install the `wandb` library and log in**
+### 1. Install the `wandb` library and log in
 
 <Tabs
   defaultValue="cli"
@@ -36,7 +36,7 @@ wandb.login()
 </Tabs>
 
 
-### **2) Add the `WandbLogger` to your spaCy config file**
+### 2) Add the `WandbLogger` to your spaCy config file
 
 spaCy config files are used to specify all aspects of training, not just logging -- GPU allocation, optimizer choice, dataset paths, and more. Minimally, under `[training.logger]` you need to provide the key `@loggers` with the value `"spacy.WandbLogger.v3"`, plus a `project_name`. You can also turn on [dataset and model versioning](../data-and-model-versioning/intro.md) by just adding a line to the config file.
 

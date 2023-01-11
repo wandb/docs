@@ -25,7 +25,7 @@ If you'd rather dive straight into working code, check out this [**Google Colab*
 
 Setup Weights & Biases for DeepChem models of type [KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) or [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models).
 
-### **1) Install the `wandb` library and log in**
+### 1) Install the `wandb` library and log in
 
 <Tabs
   defaultValue="cli"
@@ -61,7 +61,7 @@ from deepchem.models import WandbLogger
 logger = WandbLogger(entity="my_entity", project="my_project")
 ```
 
-### **3) Log your training and evaluation data to W&B**
+### 3) Log your training and evaluation data to W&B
 
 Training loss and evaluation metrics can be automatically logged to Weights & Biases. Optional evaluation can be enabled using the DeepChem [ValidationCallback](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py), the `WandbLogger` will detect ValidationCallback callback and log the metrics generated.
 
