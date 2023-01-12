@@ -74,7 +74,7 @@ const sidebars = {
         'guides/artifacts/storage',
         'guides/artifacts/data-privacy-and-compliance',
         'guides/artifacts/artifacts-faqs',
-        'guides/artifacts/examples',
+        // 'guides/artifacts/examples',
       ]
     },
     {

@@ -1,4 +1,12 @@
+---
+description: Update an existing Artifact inside and outside of a W&B Run.
+---
+
 # Update artifacts
+
+<head>
+  <title>Update artifacts</title>
+</head>
 
 Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the Weights & Biases servers. You can update an artifact during a W&B Run or outside of a Run.
 

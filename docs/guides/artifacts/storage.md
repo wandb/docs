@@ -1,4 +1,12 @@
+---
+description: Manage storage, memory allocation of W&B Artifacts.
+---
+
 # Storage
+
+<head>
+    <title>Artifact Storage</title>
+</head>
 
 Weights & Biases stores artifact files in a private Google Cloud Storage bucket located in the United States by default. All files are encrypted at rest and in transit.
 
