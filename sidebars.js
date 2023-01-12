@@ -19,15 +19,17 @@ const sidebars = {
     {
       type: 'category',
       label: 'Experiment Tracking',
+      link: {type: 'doc', id:'guides/track/intro'},
       items: [
-        'guides/track/intro',
+        // 'guides/track/intro',
         'guides/track/launch',
         'guides/track/config',
         {
           type: 'category',
           label: 'Log Data with wandb.log',
+          link: {type: 'doc', id:'guides/track/log/intro'},
           items: [
-            'guides/track/log/intro',
+            // 'guides/track/log/intro',
             'guides/track/log/plots',
             'guides/track/log/log-tables',
             'guides/track/log/working-with-csv',
@@ -42,8 +44,9 @@ const sidebars = {
         {
           type: 'category',
           label: 'Advanced Features',
+          link: {type: 'doc', id:'guides/track/advanced/intro'},
           items: [
-            'guides/track/advanced/intro',
+            // 'guides/track/advanced/intro',
             'guides/track/advanced/distributed-training',
             'guides/track/advanced/grouping',
             'guides/track/advanced/resuming',
@@ -56,8 +59,9 @@ const sidebars = {
     {
       type: 'category',
       label: 'Artifacts',
+      link: {type: 'doc', id:'guides/artifacts/intro'},
       items: [
-        'guides/artifacts/intro',
+        // 'guides/artifacts/intro',
         'guides/artifacts/quickstart',
         'guides/artifacts/construct-an-artifact',
         'guides/artifacts/download-and-use-an-artifact',
@@ -76,8 +80,9 @@ const sidebars = {
     {
       type: 'category',
       label: 'Tune Hyperparameters',
+      link: {type: 'doc', id:'guides/sweeps/intro'},
       items: [
-        'guides/sweeps/intro',
+        // 'guides/sweeps/intro',
         'guides/sweeps/quickstart',
         'guides/sweeps/add-w-and-b-to-your-code',
         'guides/sweeps/define-sweep-configuration',
@@ -97,8 +102,9 @@ const sidebars = {
     {
       type: 'category',
       label: 'Collaborative Reports',
+      link: {type: 'doc', id:'guides/reports/intro'},
       items: [
-        'guides/reports/intro',
+        // 'guides/reports/intro',
         'guides/reports/create-a-report',
         'guides/reports/edit-a-report',
         'guides/reports/collaborate-on-reports',
@@ -108,18 +114,13 @@ const sidebars = {
         'guides/reports/reports-faq',
       ]
     },
-    {
-      type: 'category',
-      label: 'Launch',
-      items: [
-        'guides/launch/intro'
-      ]
-    },
+    'guides/launch/intro',
     {
       type: 'category',
       label: 'Data and model versioning',
+      link: {type: 'doc', id:'guides/data-and-model-versioning/intro'},
       items: [
-        'guides/data-and-model-versioning/intro',
+        // 'guides/data-and-model-versioning/intro',
         'guides/data-and-model-versioning/dataset-versioning',
         'guides/data-and-model-versioning/model-versioning',
       ]
@@ -127,8 +128,9 @@ const sidebars = {
     {
       type: 'category',
       label: 'Model Management',
+      link: {type: 'doc', id:'guides/models/intro'},
       items: [
-        'guides/models/intro',
+        // 'guides/models/intro',
         'guides/models/model-management-concepts',
         'guides/models/walkthrough',
       ]
@@ -136,8 +138,9 @@ const sidebars = {
     {
       type: 'category',
       label: 'Data Visualization',
+      link: {type: 'doc', id:'guides/data-vis/intro'},
       items: [
-        'guides/data-vis/intro',
+        // 'guides/data-vis/intro',
         'guides/data-vis/tables-quickstart',
         'guides/data-vis/log-tables',
         'guides/data-vis/tables',
@@ -146,23 +149,27 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B App UI',
+      link: {type: 'doc', id:'guides/app/intro'},
       items: [
-        'guides/app/intro',
+        // 'guides/app/intro',
         {
           type: 'category',
           label: 'Features',
+          link: {type: 'doc', id:'guides/app/features/intro'},
           items: [
             // 'guides/app/features/intro',
             {
               type: 'category',
               label: 'Panels',
+              link: {type: 'doc', id:'guides/app/features/panels/intro'},
               items: [
-                'guides/app/features/panels/intro',
+                // 'guides/app/features/panels/intro',
                 {
                   type: 'category',
                   label: 'Line Plot',
+                  link: {type: 'doc', id:'guides/app/features/panels/line-plot/intro'},
                   items: [
-                    'guides/app/features/panels/line-plot/intro',
+                    // 'guides/app/features/panels/line-plot/intro',
                     'guides/app/features/panels/line-plot/reference',
                     'guides/app/features/panels/line-plot/sampling',
                     'guides/app/features/panels/line-plot/smoothing',
@@ -178,8 +185,9 @@ const sidebars = {
                 {
                   type: 'category',
                   label: 'Weave',
+                  link: {type: 'doc', id:'guides/app/features/panels/weave/intro'},
                   items: [
-                    'guides/app/features/panels/weave/intro',
+                    // 'guides/app/features/panels/weave/intro',
                     'guides/app/features/panels/weave/embedding-projector',
                   ]
                 },
@@ -188,8 +196,9 @@ const sidebars = {
             {
               type: 'category',
               label: 'Custom Charts',
+              link: {type: 'doc', id:'guides/app/features/custom-charts/intro'},
               items: [
-                'guides/app/features/custom-charts/intro',
+                // 'guides/app/features/custom-charts/intro',
                 'guides/app/features/custom-charts/walkthrough',
               ]
             },
@@ -205,8 +214,9 @@ const sidebars = {
         {
           type: 'category',
           label: 'Pages',
+          link: {type: 'doc', id:'guides/app/pages/intro'},
           items: [
-            'guides/app/pages/intro',
+            // 'guides/app/pages/intro',
             'guides/app/pages/gradient-panel',
             'guides/app/pages/project-page',
             'guides/app/pages/run-page',
@@ -216,8 +226,9 @@ const sidebars = {
         {
           type: 'category',
           label: 'Settings',
+          link: {type: 'doc', id:'guides/app/settings-page/intro'},
           items: [
-            'guides/app/settings-page/intro',
+            // 'guides/app/settings-page/intro',
             'guides/app/settings-page/user-settings',
             'guides/app/settings-page/team-settings',
             'guides/app/settings-page/emails',
@@ -228,14 +239,16 @@ const sidebars = {
     {
       type: 'category',
       label: 'Private Hosting',
+      link: {type: 'doc', id:'guides/hosting/intro'},
       items: [
-        'guides/hosting/intro',
+        // 'guides/hosting/intro',
         'guides/hosting/basic-setup',
         {
           type: 'category',
           label: 'Production Setup',
+          link: {type: 'doc', id:'guides/hosting/setup/intro'},
           items: [
-            'guides/hosting/setup/intro',
+            // 'guides/hosting/setup/intro',
             'guides/hosting/setup/dedicated-cloud',
             'guides/hosting/setup/private-cloud',
             'guides/hosting/setup/on-premise-baremetal',
@@ -248,6 +261,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Technical FAQ',
+      link: {type: 'doc', id:'guides/technical-faq/intro'},
       items: [
         // 'guides/hosting/technical-faq/intro',
         'guides/technical-faq/general',
@@ -259,8 +273,9 @@ const sidebars = {
     {
       type: 'category',
       label: 'Integrations',
+      link: {type: 'doc', id:'guides/integrations/intro'},
       items: [
-        'guides/integrations/intro',
+        // 'guides/integrations/intro',
         'guides/integrations/add-wandb-to-any-library',
         'guides/integrations/keras',
         'guides/integrations/pytorch',
@@ -277,8 +292,9 @@ const sidebars = {
         {
           type: 'category',
           label: 'Fastai',
+          link: {type: 'doc', id:'guides/integrations/fastai/README'},
           items: [
-            'guides/integrations/fastai/README',
+            // 'guides/integrations/fastai/README',
             'guides/integrations/fastai/v1',
           ]
         },

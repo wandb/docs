@@ -11,8 +11,8 @@ const config = {
   tagline: 'The developer-first MLOps platform',
   url: 'https://docs.wandb.ai/',
   baseUrl: '/',
-  // onBrokenLinks: 'throw',
-  onBrokenLinks: 'ignore',
+  onBrokenLinks: 'throw',
+  // onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docs-favicon.png',
 
