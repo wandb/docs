@@ -1,4 +1,12 @@
+---
+description: Create a new artifact version from a single run or from a distributed process.
+---
+
 # Create new artifact versions
+
+<head>
+    <title>Create new artifacts versions from single and muliprocess Runs.</title>
+</head>
 
 Create a new artifact version using a single run, collaboratively using distributed writers, or as a patch against a prior version.
 

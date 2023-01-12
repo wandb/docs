@@ -32,6 +32,6 @@ Compare results and describe your findings, then share links with colleagues. Le
 
 ![](../../../../static/images/app_ui/profile_page_overview.webp)
 
-Use your personal or team's profile page to showcase your work, find collaborators and easily navigate between projects.&#x20;
+Use your personal or team's profile page to showcase your work, find collaborators and easily navigate between projects.
 
 You can use your profile page to highlight your latest research by showcasing your best reports, projects and external links. Only projects and reports that visitors have access to will be displayed to them, showcasing does not change the permissions of the project or report.

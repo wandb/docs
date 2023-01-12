@@ -1,4 +1,12 @@
+---
+description: Download and use Artifacts from multiple projects.
+---
+
 # Download and use artifacts
+
+<head>
+  <title>Download and use artifacts</title>
+</head>
 
 Download and use an artifact that is already stored on the Weights & Biases server or construct an artifact object and pass it in to be deduplicated as necessary.
 

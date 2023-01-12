@@ -1,4 +1,12 @@
+---
+description: Create, construct a W&B Artifact. Learn how to add one or more files or a URI reference to an Artifact.
+---
+
 # Construct artifacts
+
+<head>
+  <title>Construct Artifacts</title>
+</head>
 
 Use the Weights & Biases SDK to construct an artifact during or outside of a [Weights & Biases Run](https://docs.wandb.ai/ref/python/run). Add files, directories, URIs, and files from parallel runs to artifacts. Once a file or URI is added, save your artifact to Weights & Biases with a W&B Run. For information on how to track an external file outside of a Weights & Biases Run, see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files).
 
@@ -67,7 +75,7 @@ for i in range(10):
 The artifact version **v0** is NOT guaranteed to have an index of 0 in its metadata, as the artifacts may be logged in an arbitrary order.
 :::
 
-### Add files to an artifact
+## Add files to an artifact
 
 The following sections demonstrate how to construct artifacts with different file types and from parallel runs.
 

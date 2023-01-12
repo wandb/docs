@@ -1,7 +1,16 @@
+---
+description: Answers to frequently asked quesetion about W&B Artifacts.
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Artifacts FAQs
+
+<head>
+  <title>Frequently Asked Artifacts Questions</title>
+</head>
+
+The proceeding questions are commonly asked questions about W&B Artifacts.
 
 ## Questions about Artifacts
 
@@ -128,9 +137,10 @@ There are many ways in which you can think of _version_ a model. Artifacts provi
 
 ## Artifact References FAQs
 
-### How can I fetch these V**ersion IDs** and **ETags** via W&B?
 
-If you've logged an artifact reference with W&B and if the versioning is enabled on your buckets then the version IDs can be seen in the S3 UI. To fetch these version IDs and ETags via W&B, you can use our [public API](../../ref/python/public-api/artifact.md) and then get the corresponding manifest entries. For example:
+### How can I fetch these Version IDs and ETags in W&B?
+
+If you've logged an artifact reference with W&B and if the versioning is enabled on your buckets then the version IDs can be seen in the S3 UI. To fetch these version IDs and ETags in W&B, you can use our [public API](../../ref/python/public-api/artifact.md) and then get the corresponding manifest entries. For example:
 
 ```python
 artifact = run.use_artifact('my_table:latest')

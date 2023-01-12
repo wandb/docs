@@ -1,4 +1,12 @@
+---
+description: Delete artifacts interactively with the App UI or programmatically with the Weights & Biases SDK/
+---
+
 # Delete artifacts
+
+<head>
+  <title>Delete W&B Artifacts</title>
+</head>
 
 Delete artifacts interactively with the App UI or programmatically with the Weights & Biases SDK. Weights & Biases first checks if the artifact and its associated files are not used by a previous or subsequent artifact version before it deletes an artifact. You can delete a specific artifact version or delete the entire artifact.
 

@@ -1,4 +1,12 @@
+---
+description: Learn where W&B files are stored by default. Explore how to save, store sensitive information.
+---
+
 # Data Privacy and Compliance
+
+<head>
+    <title>Artifact Data Privacy and Compliance</title>
+</head>
 
 Files are uploaded to Google Cloud bucket managed by Weights & Biases when you log artifacts. The contents of the bucket are encrypted both at rest and in transit. Artifact files are only visible to users who have access to the corresponding project.
 

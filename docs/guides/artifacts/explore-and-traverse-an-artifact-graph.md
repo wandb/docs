@@ -1,4 +1,12 @@
+---
+description: Traverse automatically created direct acyclic W&B Artifact graphs.
+---
+
 # Explore and traverse artifact graphs
+
+<head>
+    <title>Explore direct acyclic W&B Artifact graphs.</title>
+</head>
 
 Weights & Biases automatically tracks the artifacts a given run logged as well as the artifacts a given run used. The graph view shows a general overview of your pipeline. 
 

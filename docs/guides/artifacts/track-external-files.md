@@ -1,4 +1,12 @@
+---
+description: Track files saved outside the Weights & Biases such as in an Amazon S3 bucket, GCS bucket, HTTP file server, or even an NFS share.
+---
+
 # Track external files
+
+<head>
+	<title>Track external files with reference artifacts</title>
+</head>
 
 Use **reference artifacts** to track files saved outside the Weights & Biases system, for example in an Amazon S3 bucket, GCS bucket, HTTP file server, or even an NFS share. Log artifacts outside of a [W&B Run](https://docs.wandb.ai/ref/python/run) with the W&B [CLI](https://docs.wandb.ai/ref/cli).
 
