@@ -29,7 +29,7 @@ wandb.finish()
 Once your wandb run finishes, your TensborBoard event files will then be uploaded to Weights & Biaes. These metrics will **also be logged** in native Weights & Biases charts along with a host of useful information such as your machines CPU or GPU utilization, the git state, the terminal command used, and much more.
 
 :::info
-Weights & Biases support TensorBoard with all versions of TensorFlow. W\&B also supports TensorBoard > 1.14 with PyTorch as well as TensorBoardX.
+Weights & Biases support TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard > 1.14 with PyTorch as well as TensorBoardX.
 :::
 
 ## Common questions

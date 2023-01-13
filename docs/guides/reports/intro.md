@@ -5,6 +5,10 @@ description: Project management and collaboration tools for machine learning pro
 
 # Collaborative Reports
 
+<head>
+    <title>Use W&B Reports to organize Runs, embed and automate visualizations, describe your findings, and share updates with collaborators.</title>
+</head>
+
 Use Reports to organize, embed and automate visualizations, describe your findings, share updates with collaborators, and more.
 
 :::info

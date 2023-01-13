@@ -1,7 +1,14 @@
+---
+description: Create a W&B Report with the App UI or programmatically with the Weights & Biases SDK.
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Create a report
+
+<head>
+  <title>Create a W&B Report</title>
+</head>
 
 Create a Report interactively with the App UI or programmatically with the `wandb` Python SDK.
 

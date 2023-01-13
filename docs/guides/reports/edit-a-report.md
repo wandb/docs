@@ -1,8 +1,17 @@
+---
+description: Edit a report interactively with the App UI or programmatically with the Weights & Biases SDK.
+---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 
 # Edit a report
+
+<head>
+  <title>Edit a W&B Report</title>
+</head>
+
 
 Edit a report interactively with the App UI or programmatically with the Weights & Biases SDK.
 

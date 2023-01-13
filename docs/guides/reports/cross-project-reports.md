@@ -1,4 +1,13 @@
+---
+description: Compare runs from two different projects with cross-project reports.
+---
+
 # Cross-project reports
+
+<head>
+  <title>Compare runs from two different projects.</title>
+</head>
+
 
 Compare runs from two different projects with cross-project reports. Use the project selector in the run set table to pick a project.
 
