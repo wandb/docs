@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 # Artifacts FAQs
 
 <head>
-  <title>Frequently Asked Artifacts Questions</title>
+  <title>Frequently Asked Questions About Artifacts</title>
 </head>
 
 The proceeding questions are commonly asked questions about W&B Artifacts.

@@ -1,4 +1,12 @@
+---
+description: Collection of useful sources for Sweeps. 
+---
+
 # Useful resources
+
+<head>
+  <title>Resources to learn more about W&B Sweeps</title>
+</head>
 
 ### Academic papers
 

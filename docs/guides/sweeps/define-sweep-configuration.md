@@ -1,7 +1,15 @@
+---
+description: Learn how to create configuration files for sweeps.
+---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Define sweep configuration
+
+<head>
+  <title>Define sweep configuration for hyperparameter tuning.</title>
+</head>
 
 A Weights & Biases Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
 
