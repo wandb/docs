@@ -1,4 +1,12 @@
+---
+description: Sweeps quickstart shows how to define, initialize, and run a sweep. There are four main steps
+---
+
 # Quickstart
+
+<head>
+  <title>Sweeps Quickstart</title>
+</head>
 
 The proceeding Quickstart demonstrates how to define, initialize, and run a sweep. There are four main steps:
 

@@ -1,4 +1,12 @@
+---
+description: Visualize the results of your Weights & Biases Sweeps with the W&B App UI.
+---
+
 # Visualize sweep results
+
+<head>
+  <title>Visualize Results of W&B Sweeps</title>
+</head>
 
 Visualize the results of your Weights & Biases Sweeps with the W&B App UI. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home). Choose the project that you specified when you initialized a W&B Sweep. You will be redirected to your project [workspace](https://docs.wandb.ai/ref/app/pages/workspaces). Select the **Sweep icon** on the left panel (broom icon). From the [Sweep UI](https://docs.wandb.ai/ref/app/features/sweeps), select the name of your Sweep from the list.
 

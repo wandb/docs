@@ -1,5 +1,5 @@
 ---
-description: Quickstart on how to create, track, and use a dataset artifact with W&B.
+description: Artifacts quickstart shows how to create, track, and use a dataset artifact with W&B.
 ---
 
 # Quickstart

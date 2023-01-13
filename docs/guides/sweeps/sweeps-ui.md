@@ -1,5 +1,12 @@
+---
+description: Describes the different components of the Sweeps UI.
+---
+
 # Sweeps UI
 
+<head>
+    <title>Sweeps UI</title>
+</head>
 
 <!-- <figure><img src="../../../.gitbook/assets/Screen Shot 2022-09-02 at 4.10.44 PM.png" alt=""><figcaption></figcaption></figure> -->
 

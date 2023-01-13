@@ -1,3 +1,7 @@
+---
+description: Collection of useful sources for Sweeps. 
+---
+
 # Useful resources
 
 ### Academic papers

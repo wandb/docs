@@ -1,4 +1,12 @@
+---
+description: Tutorial on how to create sweep jobs from a pre-existing Weights & Biases project.
+---
+
 # Tutorial - Create sweeps from existing projects
+
+<head>
+    <title>Create sweeps from existing projects Tutorial</title>
+</head>
 
 The proceeding tutorial will walk through the steps of how to create sweep jobs from a pre-existing Weights & Biases project. We will use the [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) to train a PyTorch convolutional neural network how to classify images. The required code an dataset is located in the Weights & Biases repo: [https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
 
