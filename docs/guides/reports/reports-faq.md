@@ -1,4 +1,12 @@
+---
+description: Answers to frequently asked quesetion about W&B Reports.
+---
+
 # Reports FAQ
+
+<head>
+  <title>Frequently Asked Questions About Reports</title>
+</head>
 
 ### Upload a CSV to a report
 

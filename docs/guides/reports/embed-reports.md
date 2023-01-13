@@ -1,10 +1,14 @@
 ---
-description: >-
-  Embed Weights & Biases reports directly into Notion or with an HTML IFrame
-  element.
+description:
+  Embed Weights & Biases reports directly into Notion or with an HTML IFrame element.
 ---
 
 # Embed reports
+
+<head>
+  <title>Embed reports into popular applications.</title>
+</head>
+
 
 ### HTML iframe element
 
@@ -30,7 +34,7 @@ The proceeding animation demonstrates how to insert a report into a Notion docum
 
 ### Gradio
 
-You can use the `gr.HTML` element to embed W\&B Reports within Gradio Apps and use them within HuggingFace Spaces.
+You can use the `gr.HTML` element to embed W&B Reports within Gradio Apps and use them within HuggingFace Spaces.
 
 ```python
 import gradio as gr

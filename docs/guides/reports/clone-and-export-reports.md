@@ -1,7 +1,14 @@
+---
+description: Export a W&B Report as a PDF or LaTeX.
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Clone and export reports
+
+<head>
+  <title>Clone and export W&B Reports</title>
+</head>
 
 ## Export reports
 
