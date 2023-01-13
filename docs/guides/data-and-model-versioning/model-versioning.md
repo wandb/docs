@@ -4,6 +4,10 @@ description: Guide to using Artifacts for model versioning
 
 # Model Versioning
 
+<head>
+  <title>Version models with W&B Artifacts.</title>
+</head>
+
 W&B Artifacts help you save and organize machine learning models throughout a project's lifecycle.
 
 ### Common Use Cases

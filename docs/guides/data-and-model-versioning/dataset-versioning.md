@@ -4,6 +4,10 @@ description: Guide to using Artifacts for dataset versioning
 
 # Dataset Versioning
 
+<head>
+  <title>Version datasets with W&B Artifacts.</title>
+</head>
+
 W&B Artifacts help you save and organize machine learning datasets throughout a project's lifecycle.
 
 ### Common use cases
