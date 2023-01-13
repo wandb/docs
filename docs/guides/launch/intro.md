@@ -1,4 +1,12 @@
+---
+description: Easily queue and manage jobs using W&B Launch.
+---
+
 # Launch Jobs
+
+<head>
+  <title>W&B Launch Beta Documentation</title>
+</head>
 
 :::danger
 Beta product in active development
