@@ -4,6 +4,10 @@ description: 'Model Management: Data Model & Terminology'
 
 # Model Management Concepts
 
+<head>
+  <title>Model Management Concepts</title>
+</head>
+
 First, let's define the data model & terminology used throughout this guide:
 
 * **Model Version:** a package of data & metadata describing a trained model.
