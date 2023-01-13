@@ -4,6 +4,10 @@ description: Collection of useful sources for Sweeps.
 
 # Useful resources
 
+<head>
+  <title>Resources to learn more about W&B Sweeps</title>
+</head>
+
 ### Academic papers
 
 Li, Lisha, et al. "[Hyperband: A novel bandit-based approach to hyperparameter optimization.](https://arxiv.org/pdf/1603.06560.pdf)" _The   Journal of Machine Learning Research_ 18.1 (2017): 6765-6816.
