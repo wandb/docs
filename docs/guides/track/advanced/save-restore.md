@@ -4,6 +4,10 @@ description: Save files to the cloud and restore them locally later
 
 # Save & Restore Files
 
+<head>
+  <title>Save and Restore Files to the Cloud</title>
+</head>
+
 This guide first demonstrates how to save files to the cloud with `wandb.save`, then demonstrates how they can be re-created locally with `wandb.restore`.
 
 ## Saving Files
@@ -153,6 +157,6 @@ Use the `restore` command of our [command line tool](../../../ref/cli/README.md)
 wandb restore $RUN_ID
 ```
 
-### **How does `wandb` capture the state of the code?**
+### How does `wandb` capture the state of the code?
 
 When `wandb.init` is called from your script, a link is saved to the last git commit if the code is in a git repository. A diff patch is also created in case there are uncommitted changes or changes that are out of sync with your remote.

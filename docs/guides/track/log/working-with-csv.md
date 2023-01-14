@@ -4,6 +4,10 @@ description: Importing and logging data into W&B
 
 # Import CSV
 
+<head>
+  <title>Track CSV files with W&B Experiments</title>
+</head>
+
 ## Converting your CSV of Experiments into a W&B Dashboard
 
 ![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)

@@ -1,7 +1,14 @@
+---
+description: Create and track plots from machine learning experiments.
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Log Plots
+
+<head>
+  <title>Log and Track Plots from  W&B Experiments.</title>
+</head>
 
 Using the methods in `wandb.plot`, you can track charts with `wandb.log`, including charts that change over time during training. To learn more about our custom charting framework, check out [this guide](../../app/features/custom-charts/walkthrough.md).
 
@@ -211,7 +218,7 @@ You can log this wherever your code has access to:
   </TabItem>
 </Tabs>
 
-### **Interactive Custom Charts**
+### Interactive Custom Charts
 
 For full customization, tweak a built-in [Custom Chart preset](../../app/features/custom-charts/walkthrough.md) or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script.
 

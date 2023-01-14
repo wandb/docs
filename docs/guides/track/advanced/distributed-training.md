@@ -4,6 +4,11 @@ description: Use W&B to log distributed training experiments with multiple GPUs.
 
 # Log distributed training experiments
 
+<head>
+  <title>Log distributed training experiments</title>
+</head>
+
+
 In distributed training, models are trained using multiple GPUs in parallel. W&B supports two patterns to track distributed training experiments:
 
 1. **One process**: Initialize W&B ([`wandb.init`](https://docs.wandb.ai/ref/python/init)) and log experiments ([`wandb.log`](https://docs.wandb.ai/ref/python/log)) from a single process. This is a common solution for logging distributed training experiments with the [PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) Class. In some cases, users funnel data over from other processes using a multiprocessing queue (or another communication primitive) to the main logging process.

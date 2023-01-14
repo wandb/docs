@@ -4,6 +4,11 @@ description: Use a dictionary-like object to save your experiment configuration
 
 # Configure Experiments with wandb.config
 
+<head>
+  <title>Configure a Machine Learning Experiment</title>
+</head>
+
+
 ## Overview
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/config-colab)

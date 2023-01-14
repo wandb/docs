@@ -1,4 +1,12 @@
+---
+description: eep your pages in W&B faster and more responsive by logging within these suggested bounds.
+---
+
 # Limits & Performance
+
+<head>
+  <title>Experiments Limits and Performance</title>
+</head>
 
 ## Best Practices for Fast Pages
 

@@ -1,7 +1,14 @@
+---
+description: Create a W&B Experiment.
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Launch Experiments with wandb.init
+
+<head>
+  <title>Start a W&B Experiment</title>
+</head>
 
 Call [`wandb.init()`](../../ref/python/init.md) once at the beginning of your script to initialize a new job. This creates a new run in W&B and launches a background process to sync data.
 

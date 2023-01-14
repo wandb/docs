@@ -4,6 +4,11 @@ description: Group training and evaluation runs into larger experiments
 
 # Group Runs
 
+<head>
+  <title>Group W&B Runs</title>
+</head>
+
+
 Group individual jobs into experiments by passing a unique **group** name to **wandb.init()**.
 
 ## **Use Cases**

@@ -1,7 +1,14 @@
+---
+description: se Weights & Biases with Jupyter to get interactive visualizations without leaving your notebook.
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Tracking Jupyter Notebooks
+
+<head>
+  <title>Track Jupyter Notebooks</title>
+</head>
 
 Use Weights & Biases with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged!
 

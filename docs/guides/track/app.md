@@ -4,6 +4,10 @@ description: Create centralized, interactive, visual dashboards for your ML expe
 
 # Dashboards
 
+<head>
+  <title>Organize and visualize results from your machine learning models</title>
+</head>
+
 Use the Weights & Biases Dashboard as a central place to organize and visualize results from your machine learning models.
 
 <!-- {% embed url="https://youtu.be/gnD8BFuyVUA" %} -->

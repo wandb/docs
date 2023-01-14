@@ -1,7 +1,14 @@
+---
+description: Resume a paused or exited W&B Run
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Resume Runs
+
+<head>
+  <title>Resume W&B Runs</title>
+</head>
 
 You can have wandb automatically resume runs by passing `resume=True` to `wandb.init()`. If your process doesn't exit successfully, the next time you run it wandb will start logging from the last step.
 

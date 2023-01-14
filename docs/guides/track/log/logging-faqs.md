@@ -1,7 +1,14 @@
+---
+description: Answers to frequently asked questions about tracking data from machine learning experiments with W&B Experiments.
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Logging FAQs
+
+<head>
+  <title>Frequently Asked Questions About Logging Data from Experiments</title>
+</head>
 
 ### How can I organize my logged charts and media in the W&B UI?
 

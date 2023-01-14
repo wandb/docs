@@ -4,6 +4,10 @@ description: Keep track of metrics, videos, custom plots, and more
 
 # Log Data with wandb.log
 
+<head>
+  <title>Log Data in W&B Experiments</title>
+</head>
+
 Call `wandb.log(dict)` to log a dictionary of metrics, media, or custom objects to a step. Each time you log, we increment the step by default, so you can see how your models and data evolve over time.
 
 ### Example Usage

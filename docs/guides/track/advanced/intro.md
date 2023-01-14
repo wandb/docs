@@ -1,4 +1,13 @@
+---
+description: Go beyond core Weights & Biases experiment-tracking features.
+---
+
 # Advanced Features
+
+<head>
+  <title>Advanced Features</title>
+</head>
+
 
 The guides in this section go beyond core Weights & Biases experiment-tracking features like [logging data and media](../log/intro), [building rich dashboards](../app), and [seamlessly integrating with popular frameworks and tools](../../integrations/) to cover advanced use cases and power-user features.
 

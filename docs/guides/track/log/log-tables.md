@@ -1,4 +1,11 @@
+---
+description: Log tables from machine learning experiments. 
+---
 # Log Tables
+
+<head>
+  <title>Log Tables</title>
+</head>
 
 The simplest way to log a table is to log a [pandas dataframe](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html) which will be automatically converted into a W&B Table.
 
