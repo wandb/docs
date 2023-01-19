@@ -2,7 +2,7 @@
 description: Create centralized, interactive, visual dashboards for your ML experiments
 ---
 
-# Dashboards
+# View results from experiments
 
 <head>
   <title>Organize and visualize results from your machine learning models</title>

@@ -3,19 +3,19 @@ description: Track machine learning experiments with W&B.
 slug: /guides/track
 ---
 
-# Experiment Tracking
+# Track Experiments
 
 <head>
-  <title>Track Machine Learning Experiments.</title>
+  <title>Track Machine Learning and Deep Learning Experiments.</title>
 </head>
 
-Use the `wandb` Python library to track machine learning experiments with a few lines of code. If you're using a popular framework like [PyTorch](../integrations/pytorch.md) or [Keras](../integrations/keras.md), we have lightweight [integrations](../integrations/intro.md).
+Use the W&B Python Library to track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard](app.md) or export your data to Python for programmatic access using our [Public API](https://github.com/wandb/gitbook/tree/9daa732ca79ab1f56edf77631db3bdb259e0b3c5/guides/track/advanced/public-api-guide.md). Quickly find and [reproduce machine learning experiments with W&B](./reproduce-experiments.md).
 
-You can then review the results in an [interactive dashboard](app.md) or export your data to Python for programmatic access using our [Public API](https://github.com/wandb/gitbook/tree/9daa732ca79ab1f56edf77631db3bdb259e0b3c5/guides/track/advanced/public-api-guide.md).
+Utilize W&B Integrations if you use use popular frameworks such as [PyTorch](../integrations/pytorch.md), [Keras](../integrations/keras.md), or [Scikit](../integrations/scikit.md). See our [Integration guides](../integrations/intro.md) for a for a full list of integrations and information on how to add W&B to your code.
 
-## Integrating W&B in your script
+## How it works
 
-Below are the simple building blocks to track an experiment with W&B. We also have a whole host of special integrations for [PyTorch](../integrations/pytorch.md), [Keras](../integrations/keras.md), [Scikit](../integrations/scikit.md), etc. See our [Integration guides](../integrations/intro.md).
+W&B Experiments are composed of the following building blocks:
 
 1. [**`wandb.init()`**](./launch.md): Initialize a new run at the top of your script. This returns a `Run` object and creates a local directory where all logs and files are saved, then streamed asynchronously to a W&B server. If you want to use a private server instead of our hosted cloud server, we offer [Self-Hosting](../hosting/intro.md).
 2. [**`wandb.config`**](./config.md): Save a dictionary of hyperparameters such as learning rate or model type. The model settings you capture in config are useful later to organize and query your results.
@@ -24,53 +24,42 @@ Below are the simple building blocks to track an experiment with W&B. We also ha
    * `summary`: By default, the final value of a metric logged with wandb.log(). You can set the summary for a metric manually to capture the highest accuracy or lowest loss instead of the final value. These values are used in the table, and plots that compare runs — for example, you could visualize at the final accuracy for all runs in your project.
 4. [**`wandb.log_artifact`**](../../ref/python/artifact.md): Save outputs of a run, like the model weights or a table of predictions. This lets you track not just model training, but all the pipeline steps that affect the final model.
 
-## Best Practices
-
-The `wandb` library is incredibly flexible. Here are some suggested guidelines.
-
-1. **Config**: Track hyperparameters, architecture, dataset, and anything else you'd like to use to reproduce your model. These will show up in columns— use config columns to group, sort, and filter runs dynamically in the app.
-2. **Project**: A project is a set of experiments you can compare together. Each project gets a dedicated dashboard page, and you can easily turn on and off different groups of runs to compare different model versions.
-3. **Notes**: A quick commit message to yourself, the note can be set from your script and is editable in the table.
-4. **Tags**: Identify baseline runs and favorite runs. You can filter runs using tags, and they're editable in the table.
+The proceeding psuedocode demonstrates a common W&B Experiment tracking workflow:
 
 ```python
+# Flexible integration for any Python script
 import wandb
 
-config = dict (
-  learning_rate = 0.01,
-  momentum = 0.2,
-  architecture = "CNN",
-  dataset_id = "peds-0192",
-  infra = "AWS",
-)
+# 1. Start a W&B Run
+wandb.init(project='my-project-name')
 
-wandb.init(
-  project="detect-pedestrians",
-  notes="tweak baseline",
-  tags=["baseline", "paper1"],
-  config=config,
-)
+# 2. Save mode inputs and hyperparameters
+config = wandb.config
+config.learning_rate = 0.01
+
+# Set up model and data
+model, dataloader = get_model(), get_data()
+
+# Model training goes here
+
+# 3. Log metrics over time to visualize performance
+wandb.log({"loss": loss})
+
+# 4. Log an artifact to W&B
+wandb.log_artifact(model)
+
 ```
 
-## What data is logged?
+## How to get started
 
-All the data logged from your script is saved locally to your machine in a directory called `wandb`, then synced to the W&B cloud or your [private server](../hosting/intro.md).
+If this is your first time using W&B Experiments, we recommend you read the Quick Start. The [Quickstart](../../quickstart.md) walks you through the steps to set up your first experiment. 
 
-### **Logged Automatically**
 
-* **System metrics**: CPU and GPU utilization, network, etc. These are shown in the System tab on the [run page](../app/pages/run-page.md). For the GPU, these are fetched with [`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface).
-* **Command line**: The stdout and stderr are picked up and show in the logs tab on the [run page.](../app/pages/run-page.md)
+<!-- ## Storage options
+You can sync data on premises (on-prem), in a private cloud, or a local instance of Weights and Biases.
 
-Turn on [Code Saving](http://wandb.me/code-save-colab) in your account's [Settings page](https://wandb.ai/settings) to get:
+* **On-Prem**: If you need a private cloud or local instance of W&B, see our [Self Hosted](../hosting/intro.md) offerings.
+* **Automated Environments**: Most of these settings can also be controlled via [Environment Variables](./advanced/environment-variables.md). This is often useful when you're running jobs on a cluster. -->
 
-* **Git commit**: Pick up the latest git commit and see it on the overview tab of the run page, as well as a `diff.patch` file if there are any uncommitted changes.
-* **Dependencies**: The `requirements.txt` file will be uploaded and shown on the files tab of the run page, along with any files you save to the `wandb` directory for the run.
 
-### Logged with Specific Calls
 
-Where data and model metrics are concerned, you get to decide exactly what you want to log.
-
-* **Dataset**: You have to specifically log images or other dataset samples for them to stream to W&B.
-* **PyTorch gradients**: Add `wandb.watch(model)` to see gradients of the weights as histograms in the UI.
-* **Configuration info**: Log hyperparameters, a link to your dataset, or the name of the architecture you're using as config parameters, passed in like this: `wandb.init(config=your_config_dictionary)`.
-* **Metrics**: Use `wandb.log` to see metrics from your model. If you log metrics like accuracy and loss from inside your training loop, you'll get live updating graphs in the UI.

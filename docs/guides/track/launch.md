@@ -4,193 +4,160 @@ description: Create a W&B Experiment.
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Launch Experiments with wandb.init
+# Create an Experiment
 
 <head>
   <title>Start a W&B Experiment</title>
 </head>
 
-Call [`wandb.init()`](../../ref/python/init.md) once at the beginning of your script to initialize a new job. This creates a new run in W&B and launches a background process to sync data.
+Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API](../../ref/python/public-api/README.md).
 
-* **On-Prem**: If you need a private cloud or local instance of W&B, see our [Self Hosted](../hosting/intro.md) offerings.
-* **Automated Environments**: Most of these settings can also be controlled via [Environment Variables](./advanced/environment-variables.md). This is often useful when you're running jobs on a cluster.
+This guide describes how to use W&B building blocks to create a W&B Experiment. 
 
-## Common Questions
+## How to create a W&B Experiment
 
-### How do I launch multiple runs from one script?
+Create a W&B Experiment in four steps:
 
-If you're trying to start multiple runs from one script, add two things to your code:
+1. [Initialize a W&B Run](#import-wandb-and-call-wandbinit)
+2. [Capture a dictionary of hyperparameters](#capture-a-dictionary-of-hyperparameters)
+3. [Log metrics inside your training loop](#log-metrics-inside-your-training-loop)
+4. [Log an artifact to W&B](#log-an-artifact-to-wb)
 
-1. `run = wandb.init(reinit=True)`: Use this setting to allow reinitializing runs
-2. `run.finish()`: Use this at the end of your run to finish logging for that run
+### Initialize a W&B Run
+At the beginning of your script call, the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a W&B Run. 
+
+The proceeding code snippet demonstrates how to create a new W&B project named `“cat-classification”`. A note `“My first experiment”` was added to help identify this run. Tags `“baseline”` and `“paper1”` are included to remind us that this run is a baseline experiment intended for a future paper publication.
 
 ```python
+# Import the W&B Python Library 
 import wandb
-for x in range(10):
-    run = wandb.init(reinit=True)
-    for y in range (100):
-        wandb.log({"metric": x+y})
-    run.finish()
+
+# 1. Start a W&B Run
+run = wandb.init(
+  project="cat-classification",
+  notes="My first experiment",
+  tags=["baseline", "paper1"]
+)
 ```
-
-Alternatively you can use a python context manager which will automatically finish logging:
-
-```python
-import wandb
-for x in range(10):
-    run = wandb.init(reinit=True)
-    with run:
-        for y in range(100):
-            run.log({"metric": x+y})
-```
-
-### `InitStartError: Error communicating with wandb process` <a href="#init-start-error" id="init-start-error"></a>
-
-This error indicates that the library is having difficulty launching the process which synchronizes data to the server.
-
-The following workarounds can help resolve the issue in certain environments:
-
-<Tabs
-  defaultValue="linux"
-  values={[
-    {label: 'Linux and OS X', value: 'linux'},
-    {label: 'Google Colab', value: 'google_colab'},
-  ]}>
-  <TabItem value="linux">
-
-```python
-wandb.init(settings=wandb.Settings(start_method="fork"))
-```
-</TabItem>
-  <TabItem value="google_colab">
-
-For versions prior to `0.13.0` we suggest using:
-
-```python
-wandb.init(settings=wandb.Settings(start_method="thread"))
-```
-  </TabItem>
-</Tabs>
-
-
-### How can I use wandb with multiprocessing, e.g. distributed training? <a href="#multiprocess" id="multiprocess"></a>
-
-If your training program uses multiple processes you will need to structure your program to avoid making wandb method calls from processes where you did not run `wandb.init()`.\
-\
-There are several approaches to managing multiprocess training:
-
-1. Call `wandb.init` in all your processes, using the [group](./advanced/grouping.md) keyword argument to define a shared group. Each process will have its own wandb run and the UI will group the training processes together.
-2. Call `wandb.init` from just one process and pass data to be logged over [multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes).
+A [Run](../../ref/python/run.md) object is returned when you initialize W&B with `wandb.init()`. Additionally, W&B creates a local directory where all logs and files are saved and streamed asynchronously to a W&B server.
 
 :::info
-Check out the [Distributed Training Guide](./advanced/distributed-training.md) for more detail on these two approaches, including code examples with Torch DDP.
+Note: Runs are added to pre-existing projects if that project already exists when you call wandb.init().  For example, if you already have a project called `“cat-classification”`, that project will continue to exist and not be deleted. Instead, a new run is added to that project.
 :::
 
-### How do I programmatically access the human-readable run name?
-
-It's available as the `.name` attribute of a [`wandb.Run`](../../ref/python/run.md).
+### Capture a dictionary of hyperparameters
+Save a dictionary of hyperparameters such as learning rate or model type. The model settings you capture in config are useful later to organize and query your results.
 
 ```python
-import wandb
-
-wandb.init()
-run_name = wandb.run.name
+# 2. Capture a dictionary of hyperparameters
+wandb.config = {
+  "epochs": 100, 
+  "learning_rate": 0.001, 
+  "batch_size": 128
+}
 ```
+For more information on how to configure an experiment, see [Configure Experiments](./config.md).
 
-### Can I just set the run name to the run ID?
+### Log metrics inside your training loop
+Log metrics during each `for` loop (epoch), the accuracy and loss values are computed and logged to W&B with [`wandb.log()`](../../ref/python/log.md). By default, when you call wandb.log it appends a new step to the history object and updates the summary object.
 
-If you'd like to overwrite the run name (like snowy-owl-10) with the run ID (like qvlp96vk) you can use this snippet:
+The following code example shows how to log metrics with `wandb.log`.
+
+:::note
+Details of how to set up your mode and retrieve data are omitted. 
+:::
 
 ```python
-import wandb
-wandb.init()
-wandb.run.name = wandb.run.id
-wandb.run.save()
+# Set up model and data
+model, dataloader = get_model(), get_data()
+
+for epoch in range(wandb.config.epochs):
+	for batch in dataloader:
+	  loss, accuracy = model.training_step()
+	  # 3. Log metrics inside your training loop to visualize model performance
+	  wandb.log({"accuracy": accuracy, "loss": loss})
 ```
+For more information on different data types you can log with W&B, see [Log Data During Experiments](./log/intro.md).
 
-### **I didn't name my run. Where is the run name coming from?**
-
-If you do not explicitly name your run, a random run name will be assigned to the run to help identify the run in the UI. For instance, random run names will look like "pleasant-flower-4" or "misunderstood-glade-2".
-
-### How can I save the git commit associated with my run?
-
-When `wandb.init` is called in your script, we automatically look for git information to save, including a link to a remote repo and the SHA of the latest commit. The git information should show up on your [run page](../app/pages/run-page.md). If you aren't seeing it appear there, make sure that your shell's current working directory when executing your script is located in a folder managed by git.
-
-The git commit and command used to run the experiment are visible to you but are hidden to external users, so if you have a public project, these details will remain private.
-
-### Is it possible to save metrics offline and sync them to W&B later?
-
-By default, `wandb.init` starts a process that syncs metrics in real time to our cloud hosted app. If your machine is offline, you don't have internet access, or you just want to hold off on the upload, here's how to run `wandb` in offline mode and sync later.
-
-You'll need to set two [environment variables](./advanced/environment-variables.md).
-
-1. `WANDB_API_KEY=$KEY`, where `$KEY` is the API Key from your [settings page](https://app.wandb.ai/settings)
-2. `WANDB_MODE="offline"`
-
-And here's a sample of what this would look like in your script:
-
+### Log an artifact to W&B 
+Optionally log a W&B Artifact. Artifacts make it easy to version datasets and models. 
 ```python
+wandb.log_artifact(model)
+```
+For more information about Artifacts, see the [Artifacts Chapter](../artifacts/intro.md). For more information about versioning models, see [Model Management](../models/intro.md).
+
+
+### Putting it all together
+The full script with the preceeding code snippets is found below:
+```python
+# Import the W&B Python Library 
 import wandb
-import os
 
-os.environ["WANDB_API_KEY"] = YOUR_KEY_HERE
-os.environ["WANDB_MODE"] = "offline"
+# 1. Start a W&B Run
+run = wandb.init(
+    project="cat-classification",
+    notes="",
+    tags=["baseline", "paper1"]
+)
 
-config = {
-  "dataset": "CIFAR10",
-  "machine": "offline cluster",
-  "model": "CNN",
-  "learning_rate": 0.01,
-  "batch_size": 128,
+# 2. Capture a dictionary of hyperparameters
+wandb.config = {
+        "epochs": 100, 
+        "learning_rate": 0.001, 
+        "batch_size": 128
 }
 
-wandb.init(project="offline-demo")
+# Set up model and data
+model, dataloader = get_model(), get_data()
 
-for i in range(100):
-  wandb.log({"accuracy": i})
+for epoch in range(wandb.config.epochs):
+    for batch in dataloader:
+        loss, accuracy = model.training_step()
+        # 3. Log metrics inside your training loop to visualize model performance
+        wandb.log({"accuracy": accuracy, "loss": loss})
+
+# 4. Log an artifact to W&B
+wandb.log_artifact(model)
+
+# Optional: save model at the end
+model.to_onnx()
+wandb.save("model.onnx")
 ```
 
-Here's a sample terminal output:
+## Next steps: Visualize your experiment 
+Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyses](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
 
-![](/images/experiments/sample_terminal_output.png)
+![Quickstart Sweeps Dashboard example](/images/sweeps/quickstart_dashboard_example.png)
 
-And once you're ready, just run a sync command to send that folder to the cloud.
+For more information on how to view experiments and specific runs, see [Visualize results from experiments](./app.md).
+
+
+## Best Practices
+The following are some suggested guidelines to consider when you create experiments:
+
+1. **Config**: Track hyperparameters, architecture, dataset, and anything else you'd like to use to reproduce your model. These will show up in columns— use config columns to group, sort, and filter runs dynamically in the app.
+2. **Project**: A project is a set of experiments you can compare together. Each project gets a dedicated dashboard page, and you can easily turn on and off different groups of runs to compare different model versions.
+3. **Notes**: A quick commit message to yourself. The note can be set from your script. You can edit notes at a later time on the Overview section of your project's dashboard on the W&B App.
+4. **Tags**: Identify baseline runs and favorite runs. You can filter runs using tags. You can edit tags at a later time on the Overview section of your project's dashboard on the W&B App.
+
+The following code snippet demonstrates how to define a W&B Experiment using the best practices listed above:
 
 ```python
-wandb sync wandb/dryrun-folder-name
+import wandb
+
+config = dict (
+  learning_rate = 0.01,
+  momentum = 0.2,
+  architecture = "CNN",
+  dataset_id = "cats-0192"
+)
+
+wandb.init(
+  project="detect-cats",
+  notes="tweak baseline",
+  tags=["baseline", "paper1"],
+  config=config,
+)
 ```
 
-![](/images/experiments/sample_terminal_output_cloud.png)
-
-### What is the difference between wandb.init modes?
-
-Modes can be "online", "offline" or "disabled", and default to online.
-
-`online`(default): In this mode, the client sends data to the wandb server.
-
-`offline`: In this mode, instead of sending data to the wandb server, the client will store data on your local machine which can be later synced with the [`wandb sync`](https://docs.wandb.ai/ref/cli/wandb-sync?q=sync) command.
-
-`disabled`: In this mode, the client \*\*\*\* returns mocked objects and prevents all network communication. The client will essentially act like a no-op. In other words, all logging is entirely disabled. However, stubs out of all the API methods are still callable. This is usually used in tests.
-
-### My run's state is "crashed" on the UI but is still running on my machine. What do I do to get my data back?
-
-You most likely lost connection to your machine while training. You can recover your data by running [`wandb sync [PATH_TO_RUN]`](https://docs.wandb.ai/ref/cli/wandb-sync). The path to your run will be a folder in your `wandb` directory corresponding to the Run ID of the run in progress.
-
-### `LaunchError: Permission denied`
-
-If you're getting the error message `Launch Error: Permission denied`, you don't have permissions to log to the project you're trying to send runs to. This might be for a few different reasons.
-
-1. You aren't logged in on this machine. Run [`wandb login`](../../ref/cli/wandb-login.md) on the command line.
-2. You've set an entity that doesn't exist. "Entity" should be your username or the name of an existing team. If you need to create a team, go to our [Subscriptions page](https://app.wandb.ai/billing).
-3. You don't have project permissions. Ask the creator of the project to set the privacy to **Open** so you can log runs to this project.
-
-### Does W&B uses the `multiprocessing` library?
-
-Yes, W&B uses the `multiprocessing` library. If you see an error message such as:
-
-```
-An attempt has been made to start a new process before the current process 
-has finished its bootstrapping phase.
-```
-
-This might mean that you might need to add an entry point protection `if name == main`. Note that you would only need to add this entry point protection in case you're trying to run W&B directly from the script.
+For more more information about available parameters when defining a W&B Experiment, see the [`wandb.init`](../../ref/python/init.md) API docs in the [API Reference Guide](../../ref/python/README.md).

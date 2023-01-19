@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
   <title>Frequently Asked Questions About Artifacts</title>
 </head>
 
-The proceeding questions are commonly asked questions about W&B Artifacts.
+The proceeding questions are commonly asked questions about [W&B Artifacts](#questions-about-artifacts) and [W&B Artifact workflows](#questions-about-artifacts-workflows).
 
 ## Questions about Artifacts
 
