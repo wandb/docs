@@ -52,7 +52,17 @@ wandb.log_artifact(model)
 
 ## How to get started
 
-If this is your first time using W&B Experiments, we recommend you read the Quick Start. The [Quickstart](../../quickstart.md) walks you through the steps to set up your first experiment. 
+Depending on your use case, explore the following resources to get started with W&B Experiments:
+
+* If this is your first time using W&B Experiments, we recommend you read the Quick Start. The [Quickstart](../../quickstart.md) walks you through setting up your first experiment.
+* Explore topics about Experiments in the W&B Developer Guide such as:
+  * Create an experiment
+  * Configure experiments
+  * Log data from experiments
+  * View reults from experiments
+* Explore the [W&B Python Library](../../ref/python/README.md) within the [W&B API Reference Guide](../../ref/README.md).
+
+
 
 
 <!-- ## Storage options
