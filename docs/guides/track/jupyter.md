@@ -4,7 +4,7 @@ description: se Weights & Biases with Jupyter to get interactive visualizations 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Tracking Jupyter Notebooks
+# Track Jupyter Notebooks
 
 <head>
   <title>Track Jupyter Notebooks</title>

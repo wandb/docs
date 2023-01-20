@@ -18,7 +18,19 @@ const sidebars = {
     'quickstart',
     {
       type: 'category',
-      label: 'Experiment Tracking',
+      label: 'Runs',
+      link: {type: 'doc', id:'guides/runs/intro'},
+      items: [
+        // 'guides/runs/intro',
+        // 'guides/runs/create-run',
+        'guides/track/advanced/grouping',
+        'guides/track/advanced/resuming',
+        'guides/track/advanced/alert',
+      ]
+    },
+    {
+      type: 'category',
+      label: 'Track Experiments',
       link: {type: 'doc', id:'guides/track/intro'},
       items: [
         // 'guides/track/intro',
@@ -26,34 +38,27 @@ const sidebars = {
         'guides/track/config',
         {
           type: 'category',
-          label: 'Log Data with wandb.log',
+          label: 'Log Objects and Media',
           link: {type: 'doc', id:'guides/track/log/intro'},
           items: [
             // 'guides/track/log/intro',
             'guides/track/log/plots',
             'guides/track/log/log-tables',
+            'guides/track/log/log-summary',
             'guides/track/log/working-with-csv',
+            'guides/track/log/distributed-training',
+            'guides/track/log/customize-logging-axes',
             'guides/track/log/logging-faqs',
           ]
         },
-        'guides/track/advanced/alert',
         'guides/track/app',
+        // 'guides/track/reproduce-experiments',
+        'guides/track/jupyter',
         'guides/track/limits',
         'guides/track/public-api-guide',
-        'guides/track/jupyter',
-        {
-          type: 'category',
-          label: 'Advanced Features',
-          link: {type: 'doc', id:'guides/track/advanced/intro'},
-          items: [
-            // 'guides/track/advanced/intro',
-            'guides/track/advanced/distributed-training',
-            'guides/track/advanced/grouping',
-            'guides/track/advanced/resuming',
-            'guides/track/advanced/save-restore',
-            'guides/track/advanced/environment-variables',
-          ]
-        }
+        'guides/track/tracking-faq',
+        'guides/track/advanced/save-restore',
+        'guides/track/advanced/environment-variables',
       ]
     },
     {

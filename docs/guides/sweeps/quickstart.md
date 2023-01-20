@@ -10,134 +10,122 @@ description: Sweeps quickstart shows how to define, initialize, and run a sweep.
 
 The proceeding Quickstart demonstrates how to define, initialize, and run a sweep. There are four main steps:
 
-1. Set up your training code
-2. Define the sweep configuration
-3. Initialize the sweep
-4. Start the sweep agent
-5. Visualize results (optional)
-6. Stop the agent (optional)
+1. [Set up your training code](#set-up-your-training-code)
+2. [Define the search space with a sweep configuration](#define-the-search-space-with-a-sweep-configuration)
+3. [Initialize the sweep](#initialize-the-sweep)
+4. [Start the sweep agent](#start-the-sweep)
 
-:::info
-Copy and paste the following code snippets into a Jupyter Notebook.
-:::
 
-Before you get started, make sure you log in to Weights & Biases:
+Copy and paste the following Sweep Quickstart code into a Jupyter Notebook or Python script:
 
 ```python
+# Import the W&B Python Library and log into W&B
 import wandb
 wandb.login()
-```
 
-### Set up your training code
-
-Define a training function that takes in hyperparameter values from `wandb.config` and uses them to train a model and return metrics.
-
-```python
-import numpy as np 
-import random
-
-# 🐝 Step 1: Define training function that takes in hyperparameter 
-# values from `wandb.config` and uses them to train a model and return metric
-def train_one_epoch(epoch, lr, bs): 
-  acc = 0.25 + ((epoch/30) +  (random.random()/10))
-  loss = 0.2 + (1 - ((epoch-1)/10 +  random.random()/5))
-  return acc, loss
-
-def evaluate_one_epoch(epoch): 
-  acc = 0.1 + ((epoch/20) +  (random.random()/10))
-  loss = 0.25 + (1 - ((epoch-1)/10 +  random.random()/6))
-  return acc, loss
+# 1: Define objective/training function
+def objective(config):
+    score = config.x ** 3 + config.y
+    return score
 
 def main():
-    # Use the wandb.init() API to generate a background process 
-    # to sync and log data as a Weights and Biases run.
-    # Optionally provide the name of the project. 
-    run = wandb.init(project='my-first-sweep')
+    wandb.init(project='my-first-sweep')
+    score = objective(wandb.config)
+    wandb.log({'score': score})
 
-    # note that we define values from `wandb.config` instead of 
-    # defining hard values
-    lr  =  wandb.config.lr
-    bs = wandb.config.batch_size
-    epochs = wandb.config.epochs
+# 2: Define the search space
+sweep_configuration = {
+    'method': 'random',
+    'metric': {'goal': 'minimize', 'name': 'score'},
+    'parameters': 
+    {
+        'x': {'max': 0.1, 'min': 0.01},
+        'y': {'values': [1, 3, 7]},
+     }
+}
 
-    for epoch in np.arange(1, epochs):
-      train_acc, train_loss = train_one_epoch(epoch, lr, bs)
-      val_acc, val_loss = evaluate_one_epoch(epoch)
-
-      wandb.log({
-        'epoch': epoch, 
-        'train_acc': train_acc,
-        'train_loss': train_loss, 
-        'val_acc': val_acc, 
-        'val_loss': val_loss
-      })
+# 3: Start the sweep
+sweep_id = wandb.sweep(sweep=sweep_configuration, project='my-first-sweep')
+wandb.agent(sweep_id, function=main, count=10)
 ```
 
-Optionally provide the name of the project where you want the output of the W&B Run to be stored (`project` parameter in [`wandb.init`](https://docs.wandb.ai/ref/python/init)). If the project is not specified, the run is put in an "Uncategorized" project.
+The following sections break down and explains each step in the Quickstart code sample.
+
+
+
+
+## Set up your training code
+Define a training function that takes in hyperparameter values from `wandb.config` and uses them to train a model and return metrics.
+
+Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init`](../../ref/python/init.md)). If the project is not specified, the run is put in an "Uncategorized" project.
 
 :::caution
-Both the W&B Sweep and the W&B Run must be in the same project. Therefore, the name you provide when you initialize Weights & Biases must match the name of the project you provide when you initialize a W&B Sweep.
+Both the W&B Sweep and the W&B Run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a W&B Sweep.
 :::
 
-For more information on how to add Weights & Biases SDK to your code, see [Add W&B to your code](add-w-and-b-to-your-code.md).
+```python
+# 1: Define objective/training function
+def objective(config):
+    score = config.x ** 3 + config.y
+    return score
 
-### Define the sweep configuration
+def main():
+    wandb.init(project='my-first-sweep')
+    score = objective(wandb.config)
+    wandb.log({'score': score})
+```
 
-Within a YAML file, specify what hyperparameters you want to sweep over and. For more information about configuration options, see [Define sweep configuration](define-sweep-configuration.md).
+## Define the search space with a sweep configuration
+Within a dictionary, specify what hyperparameters you want to sweep over and. For more information about configuration options, see [Define sweep configuration](./define-sweep-configuration.md).
 
 The proceeding example demonstrates a sweep configuration that uses a random search (`'method':'random'`). The sweep will randomly select a random set of values listed in the configuration for the batch size, epoch, and the learning rate.
 
-Throughout the sweeps, Weights & Biases will maximize the metric specified in the metric key (`metric`). In the following example, W&B will maximize (`'goal':'maximize'`) the validation accuracy (`'val_acc'`).
+Throughout the sweeps, W&B will maximize the metric specified in the metric key (`metric`). In the following example, W&B will maximize (`'goal':'maximize'`) the validation accuracy (`'val_acc'`).
+
 
 ```python
-# 🐝 Step 2: Define sweep config
+# 2: Define the search space
 sweep_configuration = {
     'method': 'random',
-    'name': 'sweep',
-    'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    'metric': {'goal': 'minimize', 'name': 'score'},
     'parameters': 
     {
-        'batch_size': {'values': [16, 32, 64]},
-        'epochs': {'values': [5, 10, 15]},
-        'lr': {'max': 0.1, 'min': 0.0001}
+        'x': {'max': 0.1, 'min': 0.01},
+        'y': {'values': [1, 3, 7]},
      }
 }
 ```
 
-### Initialize the Sweep
+## Initialize the Sweep
 
-Weights & Biases uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally (local) across one or more machines. For more information about Sweep Controllers, see [Search and stop algorithms locally](https://docs.wandb.ai/guides/sweeps/local-controller).
+W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally (local) across one or more machines. For more information about Sweep Controllers, see [Search and stop algorithms locally](./local-controller.md).
 
 A sweep identification number is returned when you initialize a sweep:
 
 ```python
-# 🐝 Step 3: Initialize sweep by passing in config
 sweep_id = wandb.sweep(sweep=sweep_configuration, project='my-first-sweep')
 ```
 
-Optionally provide the name of the project where you want the output of the sweep to be stored. If the project is not specified, the run is put in an "Uncategorized" project.
-
 For more information about initializing sweeps, see [Initialize sweeps](https://docs.wandb.ai/guides/sweeps/initialize-sweeps).
 
-### Start the sweep agent
+## Start the Sweep
 
-Use the [`wandb.agent`](https://docs.wandb.ai/ref/python/agent) API call to start a Weights & Biases sweep.
+Use the [`wandb.agent`](../../ref/python/agent.md) API call to start a W&B sweep.
 
 ```python
-# 🐝 Step 4: Call to `wandb.agent` to start a sweep
-wandb.agent(sweep_id, function=main, count=4)
+wandb.agent(sweep_id, function=main, count=10)
 ```
 
-### Visualize results (optional)
+## Visualize results (optional)
 
 Open your project to see your live results in the W&B Sweep dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyses](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
 
-[Example dashboard →](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)
+![Quickstart Sweeps Dashboard example](/images/sweeps/quickstart_dashboard_example.png)
 
-![Sweeps dashboard](/images/sweeps/sweeps_quickstart_dashboard.png)
+For more information about how to visualize results, see [Visualize sweep results](https://docs.wandb.ai/guides/sweeps/visualize-sweep-results). For an example dashboard, see this sample [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
 
-For more information about how to visualize results, see [Visualize sweep results](https://docs.wandb.ai/guides/sweeps/visualize-sweep-results).
+## Stop the agent (optional)
 
-### Stop the agent (optional)
+From the terminal, hit `Ctrl+c` to stop the run that the Sweep agent is currently running. To kill the agent, hit `Ctrl+c` again after the run is stopped. -->
 
-From the terminal, hit `Ctrl+c` to stop the run that the Sweep agent is currently running. To kill the agent, hit `Ctrl+c` again after the run is stopped.
+
