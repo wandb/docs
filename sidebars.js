@@ -38,7 +38,7 @@ const sidebars = {
         'guides/track/config',
         {
           type: 'category',
-          label: 'Log Data From Experiments',
+          label: 'Log Objects and Media',
           link: {type: 'doc', id:'guides/track/log/intro'},
           items: [
             // 'guides/track/log/intro',
