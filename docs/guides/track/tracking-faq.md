@@ -72,7 +72,7 @@ If your training program uses multiple processes you will need to structure your
 \
 There are several approaches to managing multiprocess training:
 
-1. Call `wandb.init` in all your processes, using the [group](./advanced/grouping.md) keyword argument to define a shared group. Each process will have its own wandb run and the UI will group the training processes together.
+1. Call `wandb.init` in all your processes, using the [group](../runs/grouping.md) keyword argument to define a shared group. Each process will have its own wandb run and the UI will group the training processes together.
 2. Call `wandb.init` from just one process and pass data to be logged over [multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes).
 
 :::info
@@ -115,7 +115,7 @@ The git commit and command used to run the experiment are visible to you but are
 
 By default, `wandb.init` starts a process that syncs metrics in real time to our cloud hosted app. If your machine is offline, you don't have internet access, or you just want to hold off on the upload, here's how to run `wandb` in offline mode and sync later.
 
-You'll need to set two [environment variables](./advanced/environment-variables.md).
+You will need to set two [environment variables](./environment-variables.md).
 
 1. `WANDB_API_KEY=$KEY`, where `$KEY` is the API Key from your [settings page](https://app.wandb.ai/settings)
 2. `WANDB_MODE="offline"`

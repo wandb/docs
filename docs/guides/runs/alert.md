@@ -31,7 +31,7 @@ And then see W&B Alerts messages in Slack (or your email):
 :::info
 Please note that these following steps are to turn on alerts in public cloud _only_.
 
-If you're using [W&B Server](../../hosting/) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation](https://docs.wandb.ai/guides/hosting/setup/configuration#slack) to setup Slack alerts.
+If you're using [W&B Server](../hosting/intro.md) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation](https://docs.wandb.ai/guides/hosting/setup/configuration#slack) to setup Slack alerts.
 :::
 
 There are 2 steps to follow the first time you'd like to send a Slack or email alert, triggered from your code:
@@ -123,6 +123,6 @@ To change what channel you're posting to, click **Disconnect Slack** and then re
 
 Note that "**Run Finished"** alerts (turned on via the "**Run Finished"** setting in User Settings) only work with Python scripts and \*\*\*\* are disabled in Jupyter Notebook environments to prevent alert notifications on every cell execution. Use `wandb.alert()` in Jupyter Notebook environments instead.
 
-#### **How to enable alerts with** [**W&B S**erver](../../hosting/)**?**
+#### **How to enable alerts with** [**W&B S**erver](../hosting/intro.md)**?**
 
 <!-- If you are self-hosting using W&B Server you will need to follow [these steps](../../hosting/setup/configuration#slack) before enabling Slack alerts. -->

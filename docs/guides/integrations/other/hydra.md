@@ -34,7 +34,7 @@ def run_experiment(cfg):
 
 ### Troubleshooting Multiprocessing
 
-If your process hangs when started, this may be caused by [this known issue](https://docs.wandb.ai/guides/track/advanced/distributed-training#hanging-at-the-beginning-of-training). To solve this, try to changing wandb's multiprocessing protocol either by adding an extra settings parameter to \`wandb.init\` as:
+If your process hangs when started, this may be caused by [this known issue](../../track/log/distributed-training.md). To solve this, try to changing wandb's multiprocessing protocol either by adding an extra settings parameter to \`wandb.init\` as:
 
 ```
 wandb.init(settings=wandb.Settings(start_method="thread"))

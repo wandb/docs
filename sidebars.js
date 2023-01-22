@@ -18,18 +18,6 @@ const sidebars = {
     'quickstart',
     {
       type: 'category',
-      label: 'Runs',
-      link: {type: 'doc', id:'guides/runs/intro'},
-      items: [
-        // 'guides/runs/intro',
-        // 'guides/runs/create-run',
-        'guides/track/advanced/grouping',
-        'guides/track/advanced/resuming',
-        'guides/track/advanced/alert',
-      ]
-    },
-    {
-      type: 'category',
       label: 'Track Experiments',
       link: {type: 'doc', id:'guides/track/intro'},
       items: [
@@ -57,10 +45,22 @@ const sidebars = {
         'guides/track/limits',
         'guides/track/public-api-guide',
         'guides/track/tracking-faq',
-        'guides/track/advanced/save-restore',
-        'guides/track/advanced/environment-variables',
+        'guides/track/save-restore',
+        'guides/track/environment-variables',
       ]
     },
+    {
+      type: 'category',
+      label: 'Runs',
+      link: {type: 'doc', id:'guides/runs/intro'},
+      items: [
+        // 'guides/runs/intro',
+        // 'guides/runs/create-run',
+        'guides/runs/grouping',
+        'guides/runs/resuming',
+        'guides/runs/alert',
+      ]
+    },    
     {
       type: 'category',
       label: 'Artifacts',

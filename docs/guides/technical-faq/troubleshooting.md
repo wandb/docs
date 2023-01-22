@@ -19,7 +19,7 @@ Calling `wandb.log` writes a line to a local file; it does not block any network
 
 ### How do I stop wandb from writing to my terminal or my jupyter notebook output?
 
-Set the environment variable [`WANDB_SILENT`](../track/advanced/environment-variables.md) to `true`.
+Set the environment variable [`WANDB_SILENT`](../track/environment-variables.md) to `true`.
 
 <Tabs
   defaultValue="python"

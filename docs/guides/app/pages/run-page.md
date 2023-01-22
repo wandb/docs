@@ -70,9 +70,9 @@ The Python details are private, even if you make the page itself public. Here is
 
 ## Files Tab
 
-* Save files to sync with the run using [`wandb.save()`](../../../guides/track/advanced/save-restore.md)
+* Save files to sync with the run using [`wandb.save()`](../../track/save-restore.md)
 * Keep model checkpoints, validation set examples, and more
-* Use the `diff.patch` to [restore](../../../guides/track/advanced/save-restore.md) the exact version of your code\
+* Use the `diff.patch` to [restore](../../track/save-restore.md) the exact version of your code
   [View a live example →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images)
 
 :::info

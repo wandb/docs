@@ -11,10 +11,10 @@ The Builder pattern allows us to write readable code to set up a WandbRun. The b
 * **builder.withNotes(String notes)** — a description associated with the run
 * **builder.setTags(List String tags)** — an array of tags to be used with the run
 * **builder.setJobType(String type)** — the type of job you are logging, e.g. eval, worker, ps (default: training)
-* **builder.withGroup(String group)** — a string by which to group other runs; see [Grouping](../../guides/track/advanced/grouping.md)
+* **builder.withGroup(String group)** — a string by which to group other runs; see [Grouping](../../guides/runs/grouping.md)
 
 
-Most of these settings can also be controlled via [Environment Variables](../../guides/track/advanced/environment-variables.md). This is often useful when you're running jobs on a cluster.
+Most of these settings can also be controlled via [Environment Variables](../../guides/track/environment-variables.md). This is often useful when you're running jobs on a cluster.
 
 ### Examples
 

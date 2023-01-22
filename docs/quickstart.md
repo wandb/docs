@@ -100,9 +100,9 @@ wandb.config.dropout = 0.2
 
 ### 5. Get alerts
 
-Get notified via Slack or email if your W&B Run has crashed or whether a custom trigger, such as your loss going to NaN or a step in your ML pipeline has completed, has been reached. See the [Alerts docs](https://docs.wandb.ai/guides/track/alert) for a full setup.
+Get notified via Slack or email if your W&B Run has crashed or whether a custom trigger, such as your loss going to NaN or a step in your ML pipeline has completed, has been reached. See the [Alerts docs](./guides/runs/alert.md) for a full setup.
 
-[More about wandb.alert() →](./guides/track/advanced/alert.md)
+[More about wandb.alert() →](./guides/runs/alert.md)
 
 1. Turn on Alerts in your W&B [User Settings](./guides/app/settings-page/intro.md)
 2. Add `wandb.alert()` to your code
@@ -132,10 +132,10 @@ Then see W&B Alerts messages in Slack (or your email):
 Once you've signed in to www.wandb.ai, the API key will be on the [Authorize page](https://wandb.ai/authorize).
 
 **How do I use W&B in an automated environment?**
-If you are training models in an automated environment where it's inconvenient to run shell commands, such as Google's CloudML, you should look at our guide to configuration with [Environment Variables](guides/track/advanced/environment-variables.md).
+If you are training models in an automated environment where it's inconvenient to run shell commands, such as Google's CloudML, you should look at our guide to configuration with [Environment Variables](guides/track/environment-variables.md).
 
 **Do you offer local, on-prem installs?**
 Yes, you can [privately host W&B](guides/hosting/intro.md) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how. Note, to login to wandb local server you can [set the host flag](https://docs.wandb.ai/guides/hosting/quickstart#4.-modify-training-code-to-log-to-wandb-local-server) to the address of the local instance.  **** 
 
 **How do I turn off wandb logging temporarily?**\
-If you're testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](guides/track/advanced/environment-variables.md).
+If you're testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](guides/track/environment-variables.md).
