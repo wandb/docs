@@ -37,10 +37,10 @@ Use these optional environment variables to do things like set up authentication
 | --------------------------- | ---------- |
 | **WANDB\_ANONYMOUS**        | Set this to "allow", "never", or "must" to let users create anonymous runs with secret urls.                                                    |
 | **WANDB\_API\_KEY**         | Sets the authentication key associated with your account. You can find your key on [your settings page](https://app.wandb.ai/settings). This must be set if `wandb login` hasn't been run on the remote machine.               |
-| **WANDB\_BASE\_URL**        | If you're using [wandb/local](../../hosting/) you should set this environment variable to `http://YOUR_IP:YOUR_PORT`        |
+| **WANDB\_BASE\_URL**        | If you're using [wandb/local](../hosting/intro.md) you should set this environment variable to `http://YOUR_IP:YOUR_PORT`        |
 | **WANDB\_CACHE\_DIR**       | This defaults to \~/.cache/wandb, you can override this location with this environment variable                    |
 | **WANDB\_CONFIG\_DIR**      | This defaults to \~/.config/wandb, you can override this location with this environment variable                             |
-| **WANDB\_CONFIG\_PATHS**    | Comma separated list of yaml files to load into wandb.config. See [config](../config.md#file-based-configs).                                          |
+| **WANDB\_CONFIG\_PATHS**    | Comma separated list of yaml files to load into wandb.config. See [config](./config.md#file-based-configs).                                          |
 | **WANDB\_CONSOLE**          | Set this to "off" to disable stdout / stderr logging. This defaults to "on" in environments that support it.                                          |
 | **WANDB\_DIR**              | Set this to an absolute path to store all generated files here instead of the _wandb_ directory relative to your training script. _be sure this directory exists and the user your process runs as can write to it_                  |
 | **WANDB\_DISABLE\_GIT**     | Prevent wandb from probing for a git repository and capturing the latest commit / diff.      |
@@ -50,14 +50,14 @@ Use these optional environment variables to do things like set up authentication
 | **WANDB\_ERROR\_REPORTING** | Set this to false to prevent wandb from logging fatal errors to its error tracking system.                             |
 | **WANDB\_HOST**             | Set this to the hostname you want to see in the wandb interface if you don't want to use the system provided hostname                                |
 | **WANDB\_IGNORE\_GLOBS**    | Set this to a comma separated list of file globs to ignore. These files will not be synced to the cloud.                              |
-| **WANDB\_JOB\_TYPE**        | Specify the job type, like "training" or "evaluation" to indicate different types of runs. See [grouping](grouping.md) for more info.               |
+| **WANDB\_JOB\_TYPE**        | Specify the job type, like "training" or "evaluation" to indicate different types of runs. See [grouping](../runs/../runs/grouping.md) for more info.               |
 | **WANDB\_MODE**             | If you set this to "offline" wandb will save your run metadata locally and not sync to the server. If you set this to "disabled" wandb will turn off completely.                  |
 | **WANDB\_NAME**             | The human-readable name of your run. If not set it will be randomly generated for you                       |
 | **WANDB\_NOTEBOOK\_NAME**   | If you're running in jupyter you can set the name of the notebook with this variable. We attempt to auto detect this.                    |
 | **WANDB\_NOTES**            | Longer notes about your run. Markdown is allowed and you can edit this later in the UI.                                    |
 | **WANDB\_PROJECT**          | The project associated with your run. This can also be set with `wandb init`, but the environmental variable will override the value.                               |
 | **WANDB\_RESUME**           | By default this is set to _never_. If set to _auto_ wandb will automatically resume failed runs. If set to _must_ forces the run to exist on startup. If you want to always generate your own unique ids, set this to _allow_ and always set **WANDB\_RUN\_ID**.      |
-| **WANDB\_RUN\_GROUP**       | Specify the experiment name to automatically group runs together. See [grouping](grouping.md) for more info.                                 |
+| **WANDB\_RUN\_GROUP**       | Specify the experiment name to automatically group runs together. See [grouping](../runs/grouping.md) for more info.                                 |
 | **WANDB\_RUN\_ID**          | Set this to a globally unique string (per project) corresponding to a single run of your script. It must be no longer than 64 characters. All non-word characters will be converted to dashes. This can be used to resume an existing run in cases of failure.      |
 | **WANDB\_SILENT**           | Set this to **true** to silence wandb log statements. If this is set all logs will be written to **WANDB\_DIR**/debug.log               |
 | **WANDB\_SHOW\_RUN**        | Set this to **true** to automatically open a browser with the run url if your operating system supports it.        |
@@ -101,6 +101,6 @@ logger.setLevel(logging.WARNING)
 
 ### Multiple wandb users on shared machines
 
-If you're using a shared machine and another person is a wandb user, it's easy to make sure your runs are always logged to the proper account. Set the [WANDB\_API\_KEY environment variable](environment-variables.md) to authenticate. If you source it in your env, when you log in you'll have the right credentials, or you can set the environment variable from your script.
+If you're using a shared machine and another person is a wandb user, it's easy to make sure your runs are always logged to the proper account. Set the WANDB\_API\_KEY environment variable to authenticate. If you source it in your env, when you log in you'll have the right credentials, or you can set the environment variable from your script.
 
 Run this command `export WANDB_API_KEY=X` where X is your API key. When you're logged in, you can find your API key at [wandb.ai/authorize](https://app.wandb.ai/authorize).

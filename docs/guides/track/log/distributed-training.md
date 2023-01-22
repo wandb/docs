@@ -59,7 +59,7 @@ However, the loss values as a function epoch and batch size were only logged fro
 
 In this method, we track each process in the job, calling `wandb.init()` and `wandb.log()` from each process separately. We suggest you call `wandb.finish()` at the end of training, to mark that the run has completed so that all processes exit properly.
 
-This method makes more information accessible for logging. However, note that multiple W&B Runs are reported in the W&B App UI. It might be difficult to keep track of W&B Runs across multiple experiments. To mitigate this, provide a value to the group parameter when you initialize W&B to keep track of which W&B Run belongs to a given experiment. For more information about how to keep track of training and evaluation W&B Runs in experiments, see [Group Runs](https://docs.wandb.ai/guides/track/advanced/grouping).
+This method makes more information accessible for logging. However, note that multiple W&B Runs are reported in the W&B App UI. It might be difficult to keep track of W&B Runs across multiple experiments. To mitigate this, provide a value to the group parameter when you initialize W&B to keep track of which W&B Run belongs to a given experiment. For more information about how to keep track of training and evaluation W&B Runs in experiments, see [Group Runs](../../runs/grouping.md).
 
 :::info
 **Use this method if you want to track metrics from individual processes**. Typical examples include the data and predictions on each node (for debugging data distribution) and metrics on individual batches outside of the main node. This method is not necessary to get system metrics from all nodes nor to get summary statistics available on the main node.

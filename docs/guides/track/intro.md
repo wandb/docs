@@ -9,7 +9,7 @@ slug: /guides/track
   <title>Track Machine Learning and Deep Learning Experiments.</title>
 </head>
 
-Use the W&B Python Library to track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard](app.md) or export your data to Python for programmatic access using our [Public API](https://github.com/wandb/gitbook/tree/9daa732ca79ab1f56edf77631db3bdb259e0b3c5/guides/track/advanced/public-api-guide.md). Quickly find and [reproduce machine learning experiments with W&B](./reproduce-experiments.md).
+Use the W&B Python Library to track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard](app.md) or export your data to Python for programmatic access using our [Public API](../../ref/python/public-api/README.md). Quickly find and [reproduce machine learning experiments with W&B](./reproduce-experiments.md).
 
 Utilize W&B Integrations if you use use popular frameworks such as [PyTorch](../integrations/pytorch.md), [Keras](../integrations/keras.md), or [Scikit](../integrations/scikit.md). See our [Integration guides](../integrations/intro.md) for a for a full list of integrations and information on how to add W&B to your code.
 
@@ -65,11 +65,6 @@ Depending on your use case, explore the following resources to get started with 
 
 
 
-<!-- ## Storage options
-You can sync data on premises (on-prem), in a private cloud, or a local instance of Weights and Biases.
-
-* **On-Prem**: If you need a private cloud or local instance of W&B, see our [Self Hosted](../hosting/intro.md) offerings.
-* **Automated Environments**: Most of these settings can also be controlled via [Environment Variables](./advanced/environment-variables.md). This is often useful when you're running jobs on a cluster. -->
 
 
 
