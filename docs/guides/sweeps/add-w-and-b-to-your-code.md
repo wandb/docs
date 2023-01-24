@@ -236,7 +236,7 @@ This returns a sweep ID. For more information on how to initialize sweeps, see [
 Copy the sweep ID and replace `sweepID` in the proceeding code snippet to start the sweep job with the [`wandb agent`](https://docs.wandb.ai/ref/cli/wandb-agent) command:
 
 ```bash
-wandb agent --count $NUM noahluna/sweep-demo-cli/sweepID
+wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
 ```
 
 For more information on how to start sweep jobs, see [Start sweep jobs](https://docs.wandb.ai/guides/sweeps/start-sweep-job).

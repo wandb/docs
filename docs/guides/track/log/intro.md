@@ -67,7 +67,7 @@ With W&B, you can decide exactly what you want to log. The following lists some 
 ```python
 wandb.log({"loss": 0.314, "epoch": 5,
            "inputs": wandb.Image(inputs),
-           "logits": wandb.Histogram(ouputs),
+           "logits": wandb.Histogram(outputs),
            "captions": wandb.Html(captions)})
 ``` -->
 

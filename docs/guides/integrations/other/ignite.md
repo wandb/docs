@@ -88,7 +88,7 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
     project="pytorch-ignite-integration",
     name="cnn-mnist",
     config={"max_epochs": epochs,"batch_size":train_batch_size},
-    tags=["pytorch-ignite", "minst"]
+    tags=["pytorch-ignite", "mninst"]
     )
 
     wandb_logger.attach_output_handler(

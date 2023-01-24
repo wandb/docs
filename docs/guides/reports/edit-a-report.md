@@ -350,7 +350,7 @@ Embed rich media within the report with the App UI or with the Weights & Biases 
   ]}>
   <TabItem value="app">
 
-Copy and past URLs into reports to embed rich media within the report. The following animations demonstrate how to copy and paste URLs from Twitter, YouTube and Soundcloud
+Copy and past URLs into reports to embed rich media within the report. The following animations demonstrate how to copy and paste URLs from Twitter, YouTube and SoundCloud
 
 #### Twitter
 

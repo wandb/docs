@@ -18,7 +18,7 @@ A W&BDedicated Cloud with Secure Storage Connector enabled requires the followin
 * A KMS key (also called Cloud KMS)
 
 
-To set up the environment, you must run a simple terraform and provide W&Bwith the generated output so that W&Bcan complete the configuration. The links to the terraform scripts and instructions to run them can be found below for each supported cloud provider.
+To set up the environment, you must run a simple terraform and provide W&B with the generated output so that W&B can complete the configuration. The links to the terraform scripts and instructions to run them can be found below for each supported cloud provider.
 
 ## Amazon Web Services
 

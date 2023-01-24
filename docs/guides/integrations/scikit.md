@@ -72,7 +72,7 @@ wandb.init(project="visualize-sklearn")
 
 #### Step 2: Visualize individual plots
 
-After training a model and making predictions you can then generate plots in wandb to analyse your predictions. See the **Supported Plots** section below for a full list of supported charts
+After training a model and making predictions you can then generate plots in wandb to analyze your predictions. See the **Supported Plots** section below for a full list of supported charts
 
 ```python
 # Visualize single plot
@@ -141,7 +141,7 @@ ROC curves plot true positive rate (y-axis) vs false positive rate (x-axis). The
 
 * y\_true (arr): Test set labels.
 * y\_probas (arr): Test set predicted probabilities.
-* labels (list): Named labels for target varible (y).
+* labels (list): Named labels for target variable (y).
 
 #### Class Proportions
 
@@ -153,7 +153,7 @@ Plots the distribution of target classes in training and test sets. Useful for d
 
 * y\_train (arr): Training set labels.
 * y\_test (arr): Test set labels.
-* labels (list): Named labels for target varible (y).
+* labels (list): Named labels for target variable (y).
 
 #### Precision Recall Curve
 
@@ -167,7 +167,7 @@ High scores for both show that the classifier is returning accurate results (hig
 
 * y\_true (arr): Test set labels.
 * y\_probas (arr): Test set predicted probabilities.
-* labels (list): Named labels for target varible (y).
+* labels (list): Named labels for target variable (y).
 
 #### Feature Importances
 

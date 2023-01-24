@@ -117,7 +117,7 @@ valid_file = artifact_valid.get_path("FILENAME").download()
 Perform some inferences using OpenAI API:
 
 ```python
-# perfom inference and record results
+# perform inference and record results
 my_prompts = ["PROMPT_1", "PROMPT_2"]
 results = []
 for prompt in my_prompts:

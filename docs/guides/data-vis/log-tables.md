@@ -42,7 +42,7 @@ test_table = wandb.Table(data=my_data, columns=columns)
 Tables are mutable, and as your script executes you can add more data to your table, up to 200,000 rows. There are two ways to add data to a table:
 
 1. **Add a Row**: `table.add_data("3a", "3b", "3c")` . Note that the new row is not represented as a list. If your row is in list format, use star notation to expand the list to positional arguments: `table.add_data(*my_row_list)` . The row must contain the same number of entries as there are columns in the table.
-2. **Add a Column**: `table.add_column(name="col_name", data=col_data)`. Note that the length of `col_data` must be equal to the table's current number of rows. Here, `col_data` can be a list data, or a Numpy NDArray.
+2. **Add a Column**: `table.add_column(name="col_name", data=col_data)`. Note that the length of `col_data` must be equal to the table's current number of rows. Here, `col_data` can be a list data, or a NumPy NDArray.
 
 #### Adding data incrementally
 
@@ -68,7 +68,7 @@ for img_id, img in enumerate(mnist_test_data):
 Once data is in a Table, access it by column or by row:
 
 1. **Row Iterator**: Users can use the row iterator of Table such as `for ndx, row in table.iterrows(): ...` to efficiently iterate over the data's rows.
-2. **Get a Column**: Users can retrieve a column of data using `table.get_column("col_name")` . As a convenience, users can pass `convert_to="numpy"` to convert the column to a Numpy NDArray of primitives. This is useful if your column contains media types such as wandb.Image so that you can access the underlying data directly.
+2. **Get a Column**: Users can retrieve a column of data using `table.get_column("col_name")` . As a convenience, users can pass `convert_to="numpy"` to convert the column to a NumPy NDArray of primitives. This is useful if your column contains media types such as wandb.Image so that you can access the underlying data directly.
 
 ## Save Tables
 

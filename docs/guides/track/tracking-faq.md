@@ -1,5 +1,5 @@
 ---
-description: Answers to frequently asked quesetion about W&B Experiments.
+description: Answers to frequently asked question about W&B Experiments.
 ---
 
 # Experiments FAQ

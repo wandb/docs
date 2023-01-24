@@ -63,7 +63,7 @@ The `wandb.init()` API spawns a new background process to log data to a Run, and
 ![CSV file imported into W&B Dashboard](../../../../static/images/track/import_csv_tutorial.png)
 
 
-The full script with the preceeding code snippets is found below:
+The full script with the preceding code snippets is found below:
 
 ```python
 import wandb
@@ -116,7 +116,7 @@ In some cases, you might have your experiment details in a CSV file. Common deta
 | ...          | ...              | ...                                              | ...           | ...        | ...             | ...           |                                       |
 | Experiment N | mnist-X-layers   | NOTES                                            | ...           | ...        | ...             | ...           | \[..., ...]                           |
 
-W&B can take CSV files of experiments and convert it into a W&B Experiment Run. The proceeding code snippets and code script demonsrates how to import and log your CSV file of experiments:
+W&B can take CSV files of experiments and convert it into a W&B Experiment Run. The proceeding code snippets and code script demonstrates how to import and log your CSV file of experiments:
 
 1. To get started, first read in your CSV file and convert it into a Pandas DataFrame. Replace `"experiments.csv"` with the name of your CSV file:
 

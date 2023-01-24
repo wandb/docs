@@ -1,5 +1,5 @@
 ---
-description: Answers to frequently asked quesetion about W&B Reports.
+description: Answers to frequently asked question about W&B Reports.
 ---
 
 # Reports FAQ

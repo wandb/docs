@@ -90,7 +90,7 @@ from wandb import AlertLevel
 if acc < threshold:
     wandb.alert(
         title="Low accuracy", 
-        text=f"Accuracy {acc} is below the acceptable theshold {threshold}",
+        text=f"Accuracy {acc} is below the acceptable threshold {threshold}",
         level=AlertLevel.WARN,
         wait_duration=300
     )

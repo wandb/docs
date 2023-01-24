@@ -45,7 +45,7 @@ Log metrics and rich media during model training or evaluation, then visualize r
 
 ### **Interactively explore your data**
 
-View, sort, filter, group, join, and query Tables to understand your data and model performance—no need to browse static files or rerun analysis scripts. For example, see this project on [style-transfered audio →](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)
+View, sort, filter, group, join, and query Tables to understand your data and model performance—no need to browse static files or rerun analysis scripts. For example, see this project on [style-transferred audio →](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)
 
 ![Listen to original songs and their synthesized versions (with timbre transfer)](/images/data_vis/explore_data.png)
 

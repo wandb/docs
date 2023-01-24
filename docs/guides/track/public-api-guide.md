@@ -46,7 +46,7 @@ The most commonly used attributes of a run object are:
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `run.config`    | A dictionary of the run's configuration information, such as the hyperparameters for a training run or the preprocessing methods for a run that creates a dataset Artifact. Think of these as the run's "inputs".     |
 | `run.history()` | A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.log()` appends to this object.      |
-| `run.summary`   | A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged timeseries. The contents of the summary can also be set directly. Think of the summary as the run's "outputs". |
+| `run.summary`   | A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged time series. The contents of the summary can also be set directly. Think of the summary as the run's "outputs". |
 
 You can also modify or update the data of past runs. By default a single instance of an api object will cache all network requests. If your use case requires real time information in a running script, call `api.flush()` to get updated values.
 
@@ -385,7 +385,7 @@ runs_df.to_csv("project.csv")
 
 ### Get the starting time for a run
 
-This code snippet retrives the time at which the run was created.
+This code snippet retrieves the time at which the run was created.
 
 ```python
 import wandb

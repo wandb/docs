@@ -20,7 +20,7 @@ W&B Artifacts help you save and organize machine learning models throughout a pr
 
 ### Flexible tracking and hosting
 
-Beyond these common scenarios, you can use core Artifact features to upload, version, alias, compare, and download models, supporting any custom model training and management process on local or remote filesystems, via S3, GCP, or https.
+Beyond these common scenarios, you can use core Artifact features to upload, version, alias, compare, and download models, supporting any custom model training and management process on local or remote file systems, via S3, GCP, or https.
 
 ## Core Artifacts features
 
@@ -95,7 +95,7 @@ From the project dashboard, see which runs are prod\_ready and find the correspo
 Artifacts let you see and formalize the stages of your model development, keeping all the model variants reliably accessible and organized in helpful ways **for your entire team,** giving you one shared source of truth for each
 
 * **meaningful type of model your team creates**: use the artifact type to group different named artifacts together in the compute graph (e.g. `"resnet_model"` vs `"inceptionV3_model"`, `"a2c_agent"` vs `"a3c_agent"`). Different model artifacts within the type then have different names. For a given named model artifact, we recommend that the artifact's versions correspond to consecutive model checkpoints \[1]
-* **hypothesis or exploration branch your team tries: e**asily track which parameter or code changes in your experiments led to which model checkpoints. Interact with all the connections between your data, training code, and resulting models as you explore the artifact graph (input artifact(s) → script or job → output artifact(s)). Click "explode" on the compute graph to see all the versions for each artifact or all the runs of each script by job type. Click individual nodes to see further details in a new tab (file contents or code, annotations/metadata, config, timestamp, parent/child nodes, etc).
+* **hypothesis or exploration branch your team tries**: easily track which parameter or code changes in your experiments led to which model checkpoints. Interact with all the connections between your data, training code, and resulting models as you explore the artifact graph (input artifact(s) → script or job → output artifact(s)). Click "explode" on the compute graph to see all the versions for each artifact or all the runs of each script by job type. Click individual nodes to see further details in a new tab (file contents or code, annotations/metadata, config, timestamp, parent/child nodes, etc).
 * **meaningful instance pointer or alias your team needs**: use an alias like `"prod_ready"`, `"SOTA"`, or "`baseline"` to standardize models across your team. These will reliably return the same model checkpoint files, facilitating more scalable and reproducible workflows across file systems, environments, hardware, user accounts, etc.
 
 With artifacts, you can iterate confidently, knowing that the models resulting from all of your experiments will be saved, versioned, and organized for easy retrieval. Cleanup of unused artifacts is straightforward through the browser or API.
@@ -130,7 +130,7 @@ View all the predictions saved after each epoch on a random subset of training i
 
 ![](/images/data_model_versioning/compute_graph_ex_6.png)
 
-The model itself—attempt v3 of a resnet18 architecture—appears as an output artifact at the end of this list.
+The model itself—attempt v3 of a ResNet18 architecture—appears as an output artifact at the end of this list.
 
 ![](/images/data_model_versioning/compute_graph_ex_7.png)
 
