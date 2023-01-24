@@ -33,31 +33,39 @@ const config = {
     [
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
-      ({
+      {
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/wandb/docodile',
+          editUrl: 'https://github.com/wandb/docodile',
         },
         blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-      }),
+      },
+    ],
+  ],
+
+  plugins: [
+    [
+      'docusaurus-plugin-segment',
+      {
+        apiKey: 'NYcqWZ8sgOCplYnItFyBaZ5ZRClWlVgl',
+      },
     ],
   ],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
+    {
       navbar: {
         title: 'Documentation',
         logo: {
           alt: 'W&B Logo',
-          src: 'img/docs-favicon.png',          
+          src: 'img/docs-favicon.png',
         },
         items: [
           {
@@ -91,7 +99,7 @@ const config = {
               },
               {
                 label: 'API',
-                to: 'ref/'
+                to: 'ref/',
               },
             ],
           },
@@ -140,7 +148,7 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
-    }),
+    },
 };
 
-module.exports = config
+module.exports = config;
