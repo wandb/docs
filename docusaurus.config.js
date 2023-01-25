@@ -145,6 +145,15 @@ const config = {
       require.resolve('@cmfcmf/docusaurus-search-local'),
       {
         indexBlog: false,
+        indexDocSidebarParentCategories: 3,
+        maxSearchResults: 5,
+        lunr: {
+          k1: 0.5,
+          titleBoost: 100,
+          contentBoost: 1,
+          tagsBoost: 3,
+          parentCategoriesBoost: 7,
+        },
       },
     ],
   ],
