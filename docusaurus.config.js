@@ -146,21 +146,7 @@ const config = {
         apiKey: 'NYcqWZ8sgOCplYnItFyBaZ5ZRClWlVgl',
       },
     ],
-    [
-      require.resolve('@cmfcmf/docusaurus-search-local'),
-      {
-        indexBlog: false,
-        indexDocSidebarParentCategories: 3,
-        maxSearchResults: 5,
-        lunr: {
-          k1: 0.5,
-          titleBoost: 100,
-          contentBoost: 1,
-          tagsBoost: 3,
-          parentCategoriesBoost: 7,
-        },
-      },
-    ],
+    require.resolve('docusaurus-lunr-search'),
   ],
 };
 
