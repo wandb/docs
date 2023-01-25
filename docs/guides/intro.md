@@ -1,3 +1,7 @@
+---
+slug: /
+---
+
 # Weights & Biases
 
 ![](@site/static/images/general/diagram_2021.png)

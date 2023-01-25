@@ -48,7 +48,6 @@ const config = {
       },
     ],
   ],
-
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     {
@@ -133,7 +132,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Weights & Biases. All rights reserved.`,
       },
       prism: {
         theme: lightCodeTheme,
@@ -141,6 +140,12 @@ const config = {
       },
     },
   plugins: [
+    [
+      'docusaurus-plugin-segment',
+      {
+        apiKey: 'NYcqWZ8sgOCplYnItFyBaZ5ZRClWlVgl',
+      },
+    ],
     [
       require.resolve('@cmfcmf/docusaurus-search-local'),
       {
