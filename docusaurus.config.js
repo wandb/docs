@@ -33,31 +33,30 @@ const config = {
     [
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
-      ({
+      {
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/wandb/docodile',
+          editUrl: 'https://github.com/wandb/docodile',
         },
         blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-      }),
+      },
     ],
   ],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
+    {
       navbar: {
         title: 'Documentation',
         logo: {
           alt: 'W&B Logo',
-          src: 'img/docs-favicon.png',          
+          src: 'img/docs-favicon.png',
         },
         items: [
           {
@@ -91,7 +90,7 @@ const config = {
               },
               {
                 label: 'API',
-                to: 'ref/'
+                to: 'ref/',
               },
             ],
           },
@@ -134,13 +133,13 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Weights & Biases. All rights reserved.`,
       },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
-    }),
+    },
 };
 
-module.exports = config
+module.exports = config;
