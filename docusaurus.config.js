@@ -49,6 +49,15 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      'docusaurus-plugin-segment',
+      {
+        apiKey: 'NYcqWZ8sgOCplYnItFyBaZ5ZRClWlVgl',
+      },
+    ],
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     {
