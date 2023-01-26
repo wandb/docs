@@ -1,3 +1,7 @@
+---
+description: Frequently asked questions about W&B Hosting.
+---
+
 # FAQ
 
 **How can I switch back to the cloud after using local?**
