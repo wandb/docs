@@ -9,7 +9,7 @@ const config = {
   title: 'Weights & Biases Documentation',
   staticDirectories: ['static'],
   tagline: 'The developer-first MLOps platform',
-  url: 'https://docs.wandb.ai/',
+  url: 'https://docs.wandb.ai',
   baseUrl: '/',
   // onBrokenLinks: 'throw',
   onBrokenLinks: 'ignore',
@@ -54,6 +54,8 @@ const config = {
       'docusaurus-plugin-segment',
       {
         apiKey: 'NYcqWZ8sgOCplYnItFyBaZ5ZRClWlVgl',
+        host: 'wandb.ai',
+        ajsPath: '/sa-docs.min.js',
       },
     ],
   ],
