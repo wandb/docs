@@ -5,6 +5,10 @@
  */
 
 /* You can override the default Infima variables here. */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+
 :root {
   --ifm-color-primary: #0096AD;
   --ifm-color-primary-dark: #29784c;
@@ -22,9 +26,17 @@
   --ifm-breadcrumb-item-background-active: none;
   --ifm-breadcrumb-color-active: #A9AAAB;
   --ifm-line-height-base: 1.5;
-  font-family: 'Source Sans Pro';
-  font-style: normal;
+  --ifm-font-family-base: 'Source Sans Pro', sans-serif;
 }
+
+# nav right aligned
+# reduce size to carets
+# everything center aligned
+# white space
+# lines on the dropdown
+# logo 
+
+
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
@@ -60,13 +72,28 @@
 .navbar__link {
   color: var(--ifm-navbar-link-color);
   font-weight: var(--ifm-font-weight-semibold);
-  padding: 0 var(--ifm-navbar-item-padding-horizontal);
+  line-height: 2.2;
 }
 
 .navbar__link:hover,
 .navbar__link--active {
   color: var(--ifm-navbar-link-color);
   border-bottom: 2px solid var(--ifm-color-primary);
-  margin-bottom:  var(--ifm-navbar-item-padding-vertical);
+  margin-bottom: 0;
+}
+
+li:not(.menu__list-item--collapsed) ul.menu__list{
+  flex: 0 0 100%;
+  margin-top: 0.25rem;
+  margin-left: var(--ifm-menu-link-padding-horizontal);
+  padding-left: 0;
+  border-left: 1px solid #E6E6E6;
+}
+.menu__caret:before {
+  background: var(--ifm-menu-link-sublist-icon) 50% / 16px 16px;
+}
+
+.navbar--fixed-top {
+  padding-bottom: 0;
 }
 /* 4D86F5 */
