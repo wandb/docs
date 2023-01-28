@@ -313,6 +313,7 @@ const sidebars = {
           ],
         },
         'guides/integrations/other/catalyst',
+        'guides/integrations/dagster',
         'guides/integrations/other/databricks',
         'guides/integrations/other/deepchecks',
         'guides/integrations/other/deepchem',
