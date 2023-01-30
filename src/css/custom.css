@@ -29,15 +29,6 @@
   --ifm-font-family-base: 'Source Sans Pro', sans-serif;
 }
 
-# nav right aligned
-# reduce size to carets
-# everything center aligned
-# white space
-# lines on the dropdown
-# logo 
-
-
-
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
   --ifm-color-primary: #4D86F5;
@@ -48,6 +39,20 @@
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+#__docusaurus {
+  align-items: center;
+}
+
+footer {
+  width:100%;
+}
+
+div.main-wrapper,
+.navbar__inner{
+  max-width: 1150px;
+  width:100%;
 }
 
 .menu__link {
@@ -72,7 +77,7 @@
 .navbar__link {
   color: var(--ifm-navbar-link-color);
   font-weight: var(--ifm-font-weight-semibold);
-  line-height: 2.2;
+  line-height: 2.6;
 }
 
 .navbar__link:hover,
@@ -95,5 +100,10 @@ li:not(.menu__list-item--collapsed) ul.menu__list{
 
 .navbar--fixed-top {
   padding-bottom: 0;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
 }
+
 /* 4D86F5 */
