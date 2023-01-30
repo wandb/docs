@@ -140,9 +140,6 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
-          volumeMounts:
-            - name: wandb
-              mountPath: /vol
           livenessProbe:
             httpGet:
               path: /healthz
