@@ -2,7 +2,7 @@
 
 > [Hydra](https://hydra.cc) is an open-source Python framework that simplifies the development of research and other complex applications. The key feature is the ability to dynamically create a hierarchical configuration by composition and override it through config files and the command line.
 
-You can continue to use Hydra for configuration managment while taking advantage of the power of W&B.
+You can continue to use Hydra for configuration management while taking advantage of the power of W&B.
 
 ## Track metrics
 

@@ -142,7 +142,7 @@ For an example of tracking reference files in GCP, with code and screenshots, fo
 
 ### Filesystem References
 
-Another common pattern for fast access to datasets is to expose an NFS mount point to a remote filesystem on all machines running training jobs. This can be an even simpler solution than a cloud storage bucket because from the perspective of the training script, the files look just like they are sitting on your local filesystem. Luckily, that ease of use extends into using Artifacts to track references to filesystems — mounted or otherwise.
+Another common pattern for fast access to datasets is to expose an NFS mount point to a remote filesystem on all machines running training jobs. This can be an even simpler solution than a cloud storage bucket because from the perspective of the training script, the files look just like they are sitting on your local filesystem. Luckily, that ease of use extends into using Artifacts to track references to file systems — mounted or otherwise.
 
 Assume we have a filesystem mounted at `/mount` with the following structure:
 

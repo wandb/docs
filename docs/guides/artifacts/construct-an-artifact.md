@@ -223,7 +223,7 @@ result_ids = [train.remote(i) for i in range(num_parallel)]
 # been added before finishing the artifact. 
 ray.get(result_ids)
 
-# Once all the writers arefinished, finish the artifact
+# Once all the writers are finished, finish the artifact
 # to mark it ready.
 with wandb.init(group=group_name) as run:
   artifact = wandb.Artifact(artifact_name, type=artifact_type)

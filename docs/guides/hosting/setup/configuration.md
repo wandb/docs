@@ -4,7 +4,7 @@ description: How to configure the W&B Local Server installation
 
 # Advanced Configuration
 
-W&BServer starts ready-to-use on boot using `wandb server start`. However, several advanced configuration options are available using the `/system-admin` page on your server once it's up and running. You can email [contact@wandb.com](mailto:contact@wandb.com) to request a trial license to enable more users and teams.
+W&B server starts ready-to-use on boot using `wandb server start`. However, several advanced configuration options are available using the `/system-admin` page on your server once it's up and running. You can email [contact@wandb.com](mailto:contact@wandb.com) to request a trial license to enable more users and teams.
 
 The following is detailed information about the advanced configuration of a local server. When possible we suggest you use our [existing Terraform](https://github.com/wandb/local) to configure your instance.
 
@@ -45,7 +45,7 @@ You can connect to this instance by then explicitly defining the HOST for our au
 
 ## SSO & Authentication
 
-By default, a W&BServer runs with manual user management. Licensed versions of _wandb/local_ also unlock SSO. Email [contact@wandb.com](mailto:contact@wandb.com) to schedule a time with us to configure an [Auth0](https://auth0.com) tenant for you with any Identity provider they support such as SAML, Ping Federate, Active Directory, etc.
+By default, a W&B server runs with manual user management. Licensed versions of _wandb/local_ also unlock SSO. Email [contact@wandb.com](mailto:contact@wandb.com) to schedule a time with us to configure an [Auth0](https://auth0.com) tenant for you with any Identity provider they support such as SAML, Ping Federate, Active Directory, etc.
 
 If you already use Auth0 or have an Open ID Connect compatible server, you can follow the instructions below.
 
@@ -185,7 +185,7 @@ First, create an SQS Standard Queue. Add a permission for all principals for the
 
 **Grant Permissions to Node Running W&B**
 
-The node on which W&BServer is running must be configured to permit access to S3 and SQS. Depending on the type of server deployment you've opted for, you may need to add the following policy statements to your node role:
+The node on which W&B server is running must be configured to permit access to S3 and SQS. Depending on the type of server deployment you've opted for, you may need to add the following policy statements to your node role:
 
 ```
 {
@@ -208,9 +208,9 @@ The node on which W&BServer is running must be configured to permit access to S3
 }
 ```
 
-**Configure W&BServer**
+**Configure W&B server**
 
-Finally, navigate to the W&Bsettings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external file storage backend" option, and fill in the s3 bucket, region, and SQS queue in the following format:
+Finally, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external file storage backend" option, and fill in the s3 bucket, region, and SQS queue in the following format:
 
 * **File Storage Bucket**: `s3://<bucket-name>`
 * **File Storage Region (AWS only)**: `<region>`
@@ -254,11 +254,11 @@ gsutil notification create -t <TOPIC-NAME> -f json gs://<BUCKET-NAME>
 
 **Add Signing Permissions**
 
-To create signed file URLs, your W&BServer also needs the `iam.serviceAccounts.signBlob` permission in GCP. You can add it by adding the `Service Account Token Creator` role to the service account or IAM member that your instance is running as.
+To create signed file URLs, your W&B server also needs the `iam.serviceAccounts.signBlob` permission in GCP. You can add it by adding the `Service Account Token Creator` role to the service account or IAM member that your instance is running as.
 
-**Grant Permissions to Node Running W&BServer**
+**Grant Permissions to Node Running W&B server**
 
-The node on which W&BServer is running must be configured to permit access to S3 and SQS. Depending on the type of server deployment you've opted for, you may need to add the following policy statements to your node role:
+The node on which W&B server is running must be configured to permit access to S3 and SQS. Depending on the type of server deployment you've opted for, you may need to add the following policy statements to your node role:
 
 ```
 {
@@ -281,9 +281,9 @@ The node on which W&BServer is running must be configured to permit access to S3
 }
 ```
 
-**Configure W&BServer**
+**Configure W&B server**
 
-Finally, navigate to the W&Bsettings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external file storage backend" option, and fill in the s3 bucket, region, and SQS queue in the following format:
+Finally, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external file storage backend" option, and fill in the s3 bucket, region, and SQS queue in the following format:
 
 * **File Storage Bucket**: `gs://<bucket-name>`
 * **File Storage Region**: blank
@@ -341,13 +341,13 @@ In the Filters tab, enable subject filtering for subjects beginning with `/blobS
 
 ![](/images/hosting/create_blob_container_7.png)
 
-#### Configure W&BServer
+#### Configure W&B server
 
-Go to Settings > Access keys in your storage account, click "Show keys", and then copy either key1 > Key or key2 > Key. Set this key on your W&Bserver as the environment variable `AZURE_STORAGE_KEY`.
+Go to Settings > Access keys in your storage account, click "Show keys", and then copy either key1 > Key or key2 > Key. Set this key on your W&B server as the environment variable `AZURE_STORAGE_KEY`.
 
 ![](/images/hosting/create_blob_container_8.png)
 
-Finally, navigate to the W&Bsettings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external file storage backend" option, and fill in the s3 bucket, region, and SQS queue in the following format:
+Finally, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external file storage backend" option, and fill in the s3 bucket, region, and SQS queue in the following format:
 
 * **File Storage Bucket**: `az://<storage-account-name>/<blob-container-name>`
 * **Notification Subscription**: `az://<storage-account-name>/<queue-name>`
@@ -382,9 +382,9 @@ Configuring an external redis server will improve the reliability of the service
 * In transit encryption
 * Authentication enabled
 
-#### Configuring REDIS in the W&Bserver
+#### Configuring REDIS in the W&B server
 
-To configure the redis instance with W&B, you can navigate to the W&Bsettings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external Redis instance" option, and fill in the `redis` connection string in the following format:
+To configure the redis instance with W&B, you can navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external Redis instance" option, and fill in the `redis` connection string in the following format:
 
 ![Configuring REDIS in W&B](/images/hosting/configure_redis.png)
 
@@ -394,7 +394,7 @@ The above assumes the `redis` instance is running at the default port of `6379`.
 
 ## Slack
 
-In order to integrate your W&BServer installation with Slack, you'll need to create a suitable Slack application.
+In order to integrate your W&B server installation with Slack, you'll need to create a suitable Slack application.
 
 #### Creating the Slack application
 
@@ -416,17 +416,17 @@ Under **Scopes**, supply the bot with the **incoming\_webhook** scope.
 
 ![](/images/hosting/create_slack_ap_4.png)
 
-Finally, configure the **Redirect URL** to point to your W&Binstallation. You should use the same value as what you set **Frontend Host** to in your local system settings. You can specify multiple URLs if you have different DNS mappings to your instance.
+Finally, configure the **Redirect URL** to point to your W&B installation. You should use the same value as what you set **Frontend Host** to in your local system settings. You can specify multiple URLs if you have different DNS mappings to your instance.
 
 ![](/images/hosting/create_slack_ap_5.png)
 
 Hit **Save URLs** once finished.
 
-To further secure your Slack application and prevent abuse, you can specify an IP range under **Restrict API Token Usage**, whitelisting the IP or IP range of your W&Binstance(s).
+To further secure your Slack application and prevent abuse, you can specify an IP range under **Restrict API Token Usage**, whitelisting the IP or IP range of your W&B instance(s).
 
 #### Register your Slack application with W&B
 
-Navigate to the **System Settings** page of your W&Binstance. Check the box to enable a custom Slack application:
+Navigate to the **System Settings** page of your W&B instance. Check the box to enable a custom Slack application:
 
 ![](/images/hosting/create_slack_ap_6.png)
 
@@ -434,4 +434,4 @@ You'll need to supply your Slack application's client ID and secret, which you c
 
 ![](/images/hosting/create_slack_ap_7.png)
 
-That's it! You can now verify that everything is working by setting up a Slack integration in the W&Bapp. Visit [this page](https://docs.wandb.ai/guides/track/alert) for more detailed information.
+That's it! You can now verify that everything is working by setting up a Slack integration in the W&B app. Visit [this page](https://docs.wandb.ai/guides/track/alert) for more detailed information.

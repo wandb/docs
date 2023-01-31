@@ -23,7 +23,7 @@ The following W&B Reports demonstrate examples of projects that explore hyperpar
 * [Meaning and Noise in Hyperparameter Search with Weights & Biases](https://wandb.ai/stacey/pytorch\_intro/reports/Meaning-and-Noise-in-Hyperparameter-Search--Vmlldzo0Mzk5MQ) [Stacey Svetlichnaya](https://wandb.ai/stacey)
   * Description: How do we distinguish signal from pareidolia (imaginary patterns)? This article is showcases what is possible with W&B and aims to inspire further exploration.
 * [Who is Them? Text Disambiguation with Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc)
-  * Description: Using HuggingFace to explore models for natural language understanding
+  * Description: Using Hugging Face to explore models for natural language understanding
 * [DeepChem: Molecular Solubility](https://wandb.ai/stacey/deepchem\_molsol/reports/DeepChem-Molecular-Solubility--VmlldzoxMjQxMjM)
   * Description: Predict chemical properties from molecular structure with random forests and deep nets.
 

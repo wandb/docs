@@ -20,7 +20,7 @@ W&B Artifacts help you save and organize machine learning datasets throughout a 
 
 ### Flexible tracking and hosting
 
-Beyond these common scenarios, you can use core Artifact features to upload, version, alias, compare, and download data, supporting any custom dataset workflow on local or remote filesystems, via S3, GCP, or https.
+Beyond these common scenarios, you can use core Artifact features to upload, version, alias, compare, and download data, supporting any custom dataset workflow on local or remote file systems, via S3, GCP, or https.
 
 ## Core Artifacts features
 
@@ -119,7 +119,7 @@ Give your datasets custom names and annotate them with notes or key-value pair m
 
 ## Juggle multiple datasets
 
-Your task may require a more complex curriculum: perhaps pretraining on a subset of classes from [ImageNet](http://www.image-net.org) and fine-tuning on a custom dataset, say [iNaturalist](https://github.com/visipedia/inat\_comp/tree/master/2021) or your own photo collection. In domain adaptation, transfer learning, metalearning, and related tasks, you can save a different artifact for each data type or source to keep your experiments organized and more easily reproducible.
+Your task may require a more complex curriculum: perhaps pre-training on a subset of classes from [ImageNet](http://www.image-net.org) and fine-tuning on a custom dataset, say [iNaturalist](https://github.com/visipedia/inat\_comp/tree/master/2021) or your own photo collection. In domain adaptation, transfer learning, metalearning, and related tasks, you can save a different artifact for each data type or source to keep your experiments organized and more easily reproducible.
 
 [Explore the graph interactively →](https://wandb.ai/stacey/mendeleev/artifacts/balanced\_data/inat\_80-10-10\_5K/ab79f01e007113280018/graph)
 
@@ -158,6 +158,6 @@ Full details of each node: versions by artifact type and scripts runs by job typ
 
 ![](/images/data_model_versioning/compute_graph_deatiled.png)
 
-Details for a particular version of resnet18: which training run produced it and which further runs loaded it for inference. These are deeply linked in each project so you can navigate the full graph.
+Details for a particular version of ResNet18: which training run produced it and which further runs loaded it for inference. These are deeply linked in each project so you can navigate the full graph.
 
 ![](/images/data_model_versioning/compute_graph_resnet_example.png)

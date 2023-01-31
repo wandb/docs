@@ -26,7 +26,7 @@ wandb.finish()
 
 [**See here for an example of Tensorboard hosted in Weights & Biases**](https://wandb.ai/morgan/tensorboard\_demo/runs/1grhu7uq/tensorboard)
 
-Once your wandb run finishes, your TensborBoard event files will then be uploaded to Weights & Biaes. These metrics will **also be logged** in native Weights & Biases charts along with a host of useful information such as your machines CPU or GPU utilization, the git state, the terminal command used, and much more.
+Once your wandb run finishes, your TensorBoard event files will then be uploaded to Weights & Biases. These metrics will **also be logged** in native Weights & Biases charts along with a host of useful information such as your machines CPU or GPU utilization, the git state, the terminal command used, and much more.
 
 :::info
 Weights & Biases support TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard > 1.14 with PyTorch as well as TensorBoardX.
@@ -78,7 +78,7 @@ If you have existing `tfevents` files stored locally and you would like to impor
 
 ### Google Colab, Jupyter and TensorBoard
 
-If running your code in a Jupyter or Colab notebook, make sure to call `wandb.finish()` and the end of your training. This will finish the wandb run and upload the tensorboard logs to W&B so they can be visualised. This is not necessary when running a `.py` script as wandb finishes automatically when a script finishes.
+If running your code in a Jupyter or Colab notebook, make sure to call `wandb.finish()` and the end of your training. This will finish the wandb run and upload the tensorboard logs to W&B so they can be visualized. This is not necessary when running a `.py` script as wandb finishes automatically when a script finishes.
 
 To run shell commands in a notebook environment, you must prepend a `!`, as in `!wandb sync directoryname`.
 

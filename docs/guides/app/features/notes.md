@@ -37,7 +37,7 @@ Use reports to write about your findings when comparing multiple runs. Click "Ad
 
 ## Write Markdown in a new panel
 
-Use markdown and latex equtions such as:
+Use markdown and latex equations such as:
 
 ```
 $TPR = Sensitivity = \dfrac{TP}{TP+FN}$

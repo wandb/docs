@@ -94,7 +94,7 @@ In the **Y variables** field, select a few metrics you'd like to compare. They'l
 
 ## Changing the color of the line plots
 
-Sometimes the default colour of runs is not helpful for comparison. To help overcome this, wandb provides two instances with which one can manually change the colors.
+Sometimes the default color of runs is not helpful for comparison. To help overcome this, wandb provides two instances with which one can manually change the colors.
 
 ### **From the run table**
 

@@ -289,7 +289,7 @@ parameter_name:
   distribution: categorical
   values:
       - elu
-      - celu
+      - relu
       - gelu
       - selu
       - relu

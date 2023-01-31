@@ -1,5 +1,5 @@
 ---
-description: Answers to frequently asked quesetion about W&B Sweeps.
+description: Answers to frequently asked question about W&B Sweeps.
 ---
 
 import Tabs from '@theme/Tabs';

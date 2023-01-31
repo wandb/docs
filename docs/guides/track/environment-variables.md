@@ -19,7 +19,7 @@ WANDB_NOTES="Smaller learning rate, more regularization."
 ```
 
 ```bash
-# Only needed if you don't checkin the wandb/settings file
+# Only needed if you don't check in the wandb/settings file
 WANDB_ENTITY=$username
 WANDB_PROJECT=$project
 ```

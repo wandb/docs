@@ -25,7 +25,7 @@ Dependent variables (like loss and accuracy) or output metrics should be saved w
 
 
 ## Set up an experiment configuration
-Configurations are typically defined in the beginning of a training script. Machine laernig workflows may vary, however, so you are not required to define a configuration at the beginning of your training script.
+Configurations are typically defined in the beginning of a training script. Machine learning workflows may vary, however, so you are not required to define a configuration at the beginning of your training script.
 
 :::caution
 We recommend that you avoid using dots in your config variable names. Instead, use a dash or underscore instead. Use the dictionary access syntax `["key"]["foo"]` instead of the attribute access syntax `config.key.foo` if your script accesses `wandb.config` keys below the root.
@@ -35,7 +35,7 @@ We recommend that you avoid using dots in your config variable names. Instead, u
 The following sections outline different common scenarios of how to define your experiments configuration.
 
 ### Set the configuration at initialization
-Pass a dictionary at the beginning of your script when you call the `wadnb.init()` API to generate a background process to sync and log data as a W&B Run.
+Pass a dictionary at the beginning of your script when you call the `wandb.init()` API to generate a background process to sync and log data as a W&B Run.
 
 The proceeding code snippet demonstrates how to define a Python dictionary with configuration values and how to pass that dictionary as an argument when you initialize a W&B Run.
 
@@ -78,8 +78,8 @@ activation = wandb.config.get('activation')
 Throughout the Developer Guide and examples we copy the configuration values into separate variables. This step is optional. It is done for readability.
 :::
 
-### Set the configuration with arparse
-You can set your configuration with an arparse object. [argparse](https://docs.python.org/3/library/argparse.html), short for argument parser, is a standard library module in Python 3.2 and above that makes it easy to write scripts that take advantage of all the flexibility and power of command line arguments.
+### Set the configuration with argparse
+You can set your configuration with an argparse object. [argparse](https://docs.python.org/3/library/argparse.html), short for argument parser, is a standard library module in Python 3.2 and above that makes it easy to write scripts that take advantage of all the flexibility and power of command line arguments.
 
 This is useful for tracking results from scripts that are launched from the command line.
 
@@ -194,7 +194,7 @@ Provide your `entity`, `project name`, and the `Run ID` to update your configura
 ```python
 api = wandb.Api()
 
-# Acess attributes directly from the run object or from the W&B App 
+# Access attributes directly from the run object or from the W&B App 
 username = wandb.run.entity
 project = wandb.run.project
 run_id = wandb.run.id

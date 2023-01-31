@@ -18,7 +18,7 @@ Within the **Profile** section you can manage and modify your account name and i
 Change the default behavior for your account within the **Project** **Defaults** section. You can manage the proceeding:
 
 * **Default location to create new projects** - Select the dropdown menu and choose the entity to set as the new default. Specify either your account or a team you are a member of.
-* **Default projects privacy in your personal account** - Set a project to public (anyone can view), private (only you can view and contribute) or open (anyone can submit runs or write the repots) automatically when you create a project. You can optionally create a team to collaborate on private projects.
+* **Default projects privacy in your personal account** - Set a project to public (anyone can view), private (only you can view and contribute) or open (anyone can submit runs or write the reports) automatically when you create a project. You can optionally create a team to collaborate on private projects.
 * **Enable code savings in your personal account** - Permit Weights and Biases to save the latest git commit hash by default. To enable code saving, toggle the Enable code savings in your personal account option. For more information about saving and comparing code, see [Code Saving](https://docs.wandb.ai/ref/app/features/panels/code).
 
 ### Teams

@@ -4,7 +4,7 @@ description: Hosting W&B Server on your private cloud.
 
 # Private Cloud
 
-A W&BServer running in a scalable deployment on your private AWS or GCP infrastructure, in your chosen region, and connected to a scalable data store. The environment can be provisioned by us or by your company, using a toolset comprised of Terraform and Kubernetes.
+A W&B server running in a scalable deployment on your private AWS or GCP infrastructure, in your chosen region, and connected to a scalable data store. The environment can be provisioned by us or by your company, using a toolset comprised of Terraform and Kubernetes.
 
 Talk to our sales team by reaching out to [contact@wandb.com](mailto:contact@wandb.com).
 
@@ -24,12 +24,12 @@ Check out a [video tutorial](https://www.youtube.com/watch?v=bYmLY5fT2oA) for ge
 
 ## Amazon Web Services
 
-The simplest way to configure W&Bwithin AWS is to use our [official Terraform](https://github.com/wandb/terraform-aws-wandb). Detailed instructions can be found in the README. If instead you want to configure services manually you can find [instructions here](configuration.md#amazon-web-services).
+The simplest way to configure W&B within AWS is to use our [official Terraform](https://github.com/wandb/terraform-aws-wandb). Detailed instructions can be found in the README. If instead you want to configure services manually you can find [instructions here](configuration.md#amazon-web-services).
 
 ## Microsoft Azure
 
-The simplest way to configure W&Bwithin Azure is to use our [official Terraform](https://github.com/wandb/terraform-azurerm-wandb). Detailed instructions can be found in the README. If instead you want to configure services manually you can find [instructions here](configuration.md#azure).
+The simplest way to configure W&B within Azure is to use our [official Terraform](https://github.com/wandb/terraform-azurerm-wandb). Detailed instructions can be found in the README. If instead you want to configure services manually you can find [instructions here](configuration.md#azure).
 
 ## Google Cloud Platform
 
-The simplest way to configure W&Bwithin GCP is to use our [official Terraform](https://github.com/wandb/terraform-google-wandb). Detailed instructions can be found in the README. If instead you want to configure services manually you can find [instructions here](configuration.md#google-cloud-platform).
+The simplest way to configure W&B within GCP is to use our [official Terraform](https://github.com/wandb/terraform-google-wandb). Detailed instructions can be found in the README. If instead you want to configure services manually you can find [instructions here](configuration.md#google-cloud-platform).

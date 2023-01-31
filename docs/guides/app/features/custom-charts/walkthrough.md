@@ -64,8 +64,6 @@ To save this as a preset that you can use elsewhere in this project, click **Sav
 
 ![](https://paper-attachments.dropbox.com/s\_5FCA7E5A968820ADD0CD5402B4B0F71ED90882B3AC586103C1A96BF845A0EAC7\_1597442868347\_Screen+Shot+2020-08-14+at+3.07.30+PM.png)
 
-Thanks for following along! Message Carey (c@wandb.com) with questions and feedback [😊](https://emojipedia.org/smiling-face-with-smiling-eyes/)
-
 ## Bonus: Composite Histograms
 
 Histograms can visualize numerical distributions to help us understand larger datasets. Composite histograms show multiple distributions across the same bins, letting us compare two or more metrics across different models or across different classes within our model. For a semantic segmentation model detecting objects in driving scenes, we might compare the effectiveness of optimizing for accuracy versus intersection over union (IOU), or we might want to know how well different models detect cars (large, common regions in the data) versus traffic signs (much smaller, less common regions). In the[ demo Colab](https://bit.ly/custom-charts-colab), you can compare the confidence scores for two of the ten classes of living things.

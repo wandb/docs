@@ -119,7 +119,7 @@ Limit the total size of your run config to <10MB. Logging large values could slo
 wandb.init(config={
   "lr": 0.1,
   "batch_size": 32,
-  "epocs": 4,
+  "epochs": 4,
 })
 
 # ❌ not recommended

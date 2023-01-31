@@ -23,7 +23,7 @@ These new callbacks,
 
 * Adhere to Keras design philosophy
 * Reduce the cognitive load of using a single callback (`WandbCallback`) for everything,
-* Make it easy for Keras users to modify the callback by subclassing it to support their niche usecase.
+* Make it easy for Keras users to modify the callback by subclassing it to support their niche use case.
 
 ### Experiment Tracking with `WandbMetricsLogger`
 
@@ -117,7 +117,7 @@ model.fit(
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/wandb/examples/blob/e66f16fbe7ae7a2e636d59350a50059d3f7e5494/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb)
 
-The `WandbEvalCallback` is an abstract base class to build Keras callbacks primarily for model prediction and, secondarily, dataset visualisation.
+The `WandbEvalCallback` is an abstract base class to build Keras callbacks primarily for model prediction and, secondarily, dataset visualization.
 
 This abstract callback is agnostic with respect to the dataset and the task. To use this, inherit from this base `WandbEvalCallback` callback class and implement the `add_ground_truth` and `add_model_prediction` methods.
 
@@ -251,7 +251,7 @@ Check out [the reference documentation for the `keras.WandbCallback`](../../ref/
 The `WandbCallback` 
 
 * will automatically log history data from any metrics collected by keras: loss and anything passed into `keras_model.compile()`
-* will set summary metrics for the run associated with the "best" training step, where "best" is defined by the `monitor` and `mode` attribues. This defaults to the epoch with the minimum `val_loss`. `WandbCallback` will by default save the model associated with the best `epoch`
+* will set summary metrics for the run associated with the "best" training step, where "best" is defined by the `monitor` and `mode` attributes. This defaults to the epoch with the minimum `val_loss`. `WandbCallback` will by default save the model associated with the best `epoch`
 * can optionally log gradient and parameter histogram
 * can optionally save training and validation data for wandb to visualize.
 
@@ -274,7 +274,7 @@ The `WandbCallback`
 | `predictions`              | (int) the number of predictions to make for visualization each epoch, max is 100.    |
 | `input_type`               | (string) type of the model input to help visualization. can be one of: (`image`, `images`, `segmentation_mask`).  |
 | `output_type`              | (string) type of the model output to help visualziation. can be one of: (`image`, `images`, `segmentation_mask`).    |
-| `log_evaluation`           | (boolean) if True, save a Table containing validation data and the model's preditions at each epoch. See `validation_indexes`, `validation_row_processor`, and `output_row_processor` for additional details.     |
+| `log_evaluation`           | (boolean) if True, save a Table containing validation data and the model's predictions at each epoch. See `validation_indexes`, `validation_row_processor`, and `output_row_processor` for additional details.     |
 | `class_colors`             | (\[float, float, float]) if the input or output is a segmentation mask, an array containing an rgb tuple (range 0-1) for each class.                  |
 | `log_batch_frequency`      | (integer) if None, callback will log every epoch. If set to integer, callback will log training metrics every `log_batch_frequency` batches.          |
 | `log_best_prefix`          | (string) if None, no extra summary metrics will be saved. If set to a string, the monitored metric and epoch will be prepended with this value and stored as summary metrics.   |
