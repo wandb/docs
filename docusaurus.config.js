@@ -94,61 +94,8 @@ const config = {
         ],
       },
       footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Developer Guide',
-                to: 'guides/intro',
-              },
-              {
-                label: 'API',
-                to: 'ref/',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'W&B Community',
-                href: 'https://community.wandb.ai/',
-              },
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/wandb',
-              },
-              // {
-              //   label: 'Discord',
-              //   href: 'https://discordapp.com/invite/',
-              // },
-            ],
-          },
-          {
-            title: 'Connect',
-            items: [
-              {
-                label: 'W&B Fully Connected',
-                href: 'https://wandb.ai/fully-connected',
-              },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/wandb/wandb',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/weights_biases',
-              },
-              {
-                label: 'YouTube',
-                href: 'https://www.youtube.com/c/WeightsBiases',
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} Weights & Biases. All rights reserved.`,
+        style: 'light',
+        copyright: `Copyright © ${new Date().getFullYear()} Weights & Biases. All rights reserved.`, 
       },
       prism: {
         theme: lightCodeTheme,
