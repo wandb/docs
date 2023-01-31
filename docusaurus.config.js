@@ -96,6 +96,16 @@ const config = {
       footer: {
         style: 'light',
         copyright: `Copyright © ${new Date().getFullYear()} Weights & Biases. All rights reserved.`, 
+        links: [
+          {
+            label: 'Terms of Service',
+            href: 'https://wandb.ai/site/terms',
+          },
+          {
+            label: 'Privacy Policy',
+            href: 'https://wandb.ai/site/privacy',
+          },
+    ]
       },
       prism: {
         theme: lightCodeTheme,
