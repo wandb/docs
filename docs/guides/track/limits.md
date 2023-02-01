@@ -16,7 +16,7 @@ Keep your pages in W&B faster and more responsive by logging within these sugges
 
 Use `wandb.log` to track experiment metrics. Once logged, these metrics generate charts and show up in tables. Too much logged data can make the app slow.
 
-#### **Count of Distinct Metrics**
+#### Count of Distinct Metrics
 
 Keep the total number of distinct metrics under 10,000.
 

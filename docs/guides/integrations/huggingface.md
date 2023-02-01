@@ -26,7 +26,7 @@ If you'd rather dive straight into working code, check out this [Google Colab](h
 
 ## Getting started: track experiments
 
-### **1)** **Sign Up, install the `wandb` library and log in**
+### 1) Sign Up, install the `wandb` library and log in
 
 a) [**Sign up**](https://wandb.ai/site) for a free account
 
@@ -63,7 +63,7 @@ wandb.login()
   </TabItem>
 </Tabs>
 
-### **2) Name the project**
+### 2) Name the project
 
 A [Project](../app/pages/project-page.md) is where all of the charts, data, and models logged from related runs are stored. Naming your project helps you organize your work and keep all the information about a single project in one place.
 
@@ -98,7 +98,7 @@ Make sure you set the project name _before_ you initialize the `Trainer`.
 
 If a project name is not specified the project name defaults to "huggingface".
 
-### **3)** Log your training runs to W&B
+### 3) Log your training runs to W&B
 
 This is **the most important step:** when defining your `Trainer` training arguments, either inside your code or from the command line, set `report_to` to `"wandb"` in order enable logging with Weights & Biases.
 
@@ -228,7 +228,7 @@ We fine tune a DistilBERT transformer for sentiment analysis (binary classificat
 
 ## Advanced features
 
-### **Turn on model versioning**
+### Turn on model versioning
 
 Using [Weights & Biases' Artifacts](https://docs.wandb.ai/artifacts), you can store up to 100GB of models and datasets. Logging your Hugging Face model to W&B Artifacts can be done by setting a W&B environment variable called `WANDB_LOG_MODEL` to `true`.
 
@@ -261,7 +261,7 @@ Your model will be saved to W&B Artifacts as `run-{run_name}`.
 
 Any `Trainer` you initialize from now on will upload models to your W&B project. Your model file will be viewable through the W&B Artifacts UI. See the [Weights & Biases' Artifacts guide](https://docs.wandb.ai/artifacts) for more about how to use Artifacts for model and dataset versioning.
 
-#### **How do I save the best model?**
+#### How do I save the best model?
 
 If `load_best_model_at_end=True` is passed to `Trainer`, then W&B will save the best performing model checkpoint to Artifacts instead of the final checkpoint.
 

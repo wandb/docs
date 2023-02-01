@@ -9,7 +9,7 @@ Use W&B Tables to log and visualize data and model predictions. Interactively ex
 * Understand higher-level patterns in your data
 * Capture and communicate your insights with visual samples
 
-### **Examples**
+### Examples
 
 These reports highlight the different use cases of W&B Tables:
 

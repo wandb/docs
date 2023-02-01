@@ -4,7 +4,7 @@ You can use Weights & Biases with Skorch to automatically log the model with the
 
 See [example run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13).
 
-## **Parameters**
+## Parameters
 
 | Parameter | Type | Description |
 | :--- | :--- | :--- |

@@ -516,7 +516,7 @@ wandb.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 
 ## Frequently Asked Questions
 
-### **How can I compare images or media across epochs or steps?**
+### How can I compare images or media across epochs or steps?
 
 Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
 
@@ -524,7 +524,7 @@ Each time you log images from a step, we save them to show in the UI. Expand the
 
 W&B can be used even for projects that only log scalars — you specify any files or data you'd like to upload explicitly. Here's [a quick example in PyTorch](http://wandb.me/pytorch-colab) that does not log images.
 
-### **How do I log a PNG?**
+### How do I log a PNG?
 
 [`wandb.Image`](../../../ref/python/data-types/image.md) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
 
@@ -534,7 +534,7 @@ wandb.log({"example": wandb.Image(...)})
 wandb.log({"example": [wandb.Image(...) for img in images]})
 ```
 
-### **How do I log a video?**
+### How do I log a video?
 
 Videos are logged using the [`wandb.Video`](../../../ref/python/data-types/video.md) data type:
 

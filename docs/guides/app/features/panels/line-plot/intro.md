@@ -96,7 +96,7 @@ In the **Y variables** field, select a few metrics you'd like to compare. They'l
 
 Sometimes the default color of runs is not helpful for comparison. To help overcome this, wandb provides two instances with which one can manually change the colors.
 
-### **From the run table**
+### From the run table
 
 Each run is given a random color by default upon initialization.
 
@@ -107,7 +107,7 @@ Upon clicking any of the colors, a color palette appears from which we can manua
 ![The color palette](/images/app_ui/line_plots_run_table_color_palette.png)
 
 
-### **From the chart legend settings**
+### From the chart legend settings
 
 One can also change the color of the runs from the chart legend settings.
 
