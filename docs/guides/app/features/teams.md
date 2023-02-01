@@ -118,7 +118,7 @@ Similarly, if your organization is still on trial then you can go to your 'Subsc
 
 ![Update Account Settings of an Org](@site/static/images/app_ui/edit_account.gif)
 
-### **Change the billing user of an organization**
+### Change the billing user of an organization
 
 Change the billing user of your organization by clicking on the "Manage members" button on your [subscription page](https://wandb.ai/subscriptions).
 

@@ -31,7 +31,7 @@ Once you've logged data to visualize, go to your project page and click the **`+
 
 ![A new, blank custom chart ready to be configured](/images/app_ui/create_a_query.png)
 
-### **Add a query**
+### Add a query
 
 1. Click `summary` and select `historyTable` to set up a new query pulling data from the run history.
 2. Type in the key where you logged the **wandb.Table()**. In the code snippet above, it was `my_custom_table` . In the [example notebook](https://bit.ly/custom-charts-colab), the keys are `pr_curve` and `roc_curve`.

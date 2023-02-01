@@ -177,7 +177,7 @@ Describe the hyperparameters to explore during the sweep. For each hyperparamete
 | `q`             | (`float`) Quantization step size for quantized hyperparameters.                          |
 | `parameters`    | Nest other parameters inside a root level parameter.           |
 
-#### **Examples**
+#### Examples
 
 <Tabs
   defaultValue="single"
@@ -264,7 +264,7 @@ Specify how to distribute values if you choose a random (`random)` or Bayesian (
 | `q_normal`               | Quantized normal distribution. Returns `round(X / q) * q` where `X` is `normal`. Q defaults to 1.      |
 | `log_normal`             | Log normal distribution. Returns a value `X` such that the natural logarithm `log(X)` is normally distributed with mean `mu` (default `0`) and standard deviation `sigma` (default `1`). |
 | `q_log_normal`  | Quantized log normal distribution. Returns `round(X / q) * q` where `X` is `log_normal`. `q` defaults to `1`.             |
-#### **Examples**
+#### Examples
 
 <Tabs
   defaultValue="constant"
@@ -320,7 +320,7 @@ parameter_name:
   </TabItem>
 </Tabs>
 
-### **`metric`**
+### `metric`
 
 Describes the metric to optimize. This metric should be logged explicitly to W&B by your training script.
 
@@ -337,7 +337,7 @@ For example, if you want to minimize the validation loss of your model:
 wandb.log({"val_loss" : valid_loss})
 ```
 
-#### **Examples**
+#### Examples
 
 <Tabs
   defaultValue="maximize"
@@ -415,7 +415,7 @@ We support the following stopping algorithm(s):
 | ----------- | ------------------------------------------------------------- |
 | `hyperband` | Use the [hyperband method](https://arxiv.org/abs/1603.06560). |
 
-#### **`hyperband`**
+#### `hyperband`
 
 [Hyperband](https://arxiv.org/abs/1603.06560) stopping evaluates if a program should be stopped or permitted to continue at one or more pre-set iteration counts, called "brackets". When a run reaches a bracket, its metric value is compared to all previous reported metric values and the [W&B Run](https://docs.wandb.ai/ref/python/run) is terminated if its value is too high (when the goal is minimization) or low (when the goal is maximization).
 
@@ -438,7 +438,7 @@ The hyperband early terminator checks what [W&B Runs](https://docs.wandb.ai/ref/
 :::
 
 
-#### **Examples**
+#### Examples
 
 <Tabs
   defaultValue="min_iter"

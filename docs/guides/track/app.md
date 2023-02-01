@@ -12,7 +12,7 @@ Use the Weights & Biases Dashboard as a central place to organize and visualize 
 
 <!-- {% embed url="https://youtu.be/gnD8BFuyVUA" %} -->
 
-### **Persistent, centralized projects**
+### Persistent, centralized projects
 
 Anywhere you train your models, whether on your local machine, your lab cluster, or spot instances in the cloud, we give you the same centralized dashboard. You don't need to spend your time copying outputs from your terminal into a spreadsheet or organizing TensorBoard files from different machines.
 
@@ -20,7 +20,7 @@ Anywhere you train your models, whether on your local machine, your lab cluster,
 
 If you hand off a project to a collaborator or take a vacation, W&B makes it easy to see all the models your team has already tried so you're not wasting hours re-running old experiments.
 
-### **Powerful, queryable tables**
+### Powerful, queryable tables
 
 Compare each training run and see what hyperparameters changed. Search, filter, sort, and group results from different models. It's easy to look over thousands of model versions and find the best performing models for different tasks.
 

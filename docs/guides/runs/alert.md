@@ -65,7 +65,7 @@ wandb.alert(
 
 #### Check your Slack or email
 
-Check your Slack or emails for the alert message. If you didn't receive any, make sure you've got emails or Slack turned on for **Scriptable Alerts** in your \*\*\*\* [User Settings](https://wandb.ai/settings)
+Check your Slack or emails for the alert message. If you didn't receive any, make sure you've got emails or Slack turned on for **Scriptable Alerts** in your [User Settings](https://wandb.ai/settings)
 
 ## Using \`wandb.alert()\`
 
@@ -119,10 +119,10 @@ To change what channel you're posting to, click **Disconnect Slack** and then re
 
 ## FAQ(s)
 
-#### Do "**Run Finished" Alerts work in Jupyter notebooks?**
+#### Do "Run Finished" Alerts work in Jupyter notebooks?
 
-Note that "**Run Finished"** alerts (turned on via the "**Run Finished"** setting in User Settings) only work with Python scripts and \*\*\*\* are disabled in Jupyter Notebook environments to prevent alert notifications on every cell execution. Use `wandb.alert()` in Jupyter Notebook environments instead.
+Note that **"Run Finished"** alerts (turned on with the **"Run Finished"** setting in User Settings) only work with Python scripts and are disabled in Jupyter Notebook environments to prevent alert notifications on every cell execution. Use `wandb.alert()` in Jupyter Notebook environments instead.
 
-#### **How to enable alerts with** [**W&B S**erver](../hosting/intro.md)**?**
+#### How to enable alerts with [W&B Server](../hosting/intro.md)?
 
 <!-- If you are self-hosting using W&B Server you will need to follow [these steps](../../hosting/setup/configuration#slack) before enabling Slack alerts. -->

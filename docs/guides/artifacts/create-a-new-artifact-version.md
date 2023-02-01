@@ -61,7 +61,7 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-**Run 2:**
+#### Run 2:
 
 ```python
 with wandb.init() as run:
@@ -72,7 +72,7 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-#### **Run 3**
+#### Run 3
 
 Must run after Run 1 and Run 2 complete. The Run that calls `finish_artifact` can include files in the artifact, but does not need to.
 

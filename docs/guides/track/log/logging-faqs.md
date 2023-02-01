@@ -21,7 +21,7 @@ wandb.log({'train/loss': 0.1, 'train/acc': 0.94})  # charts in train/ Panel Sect
 
 In the [Workspace](../../app/pages/workspaces.md) settings, you can change whether panels are grouped by just the first component or by all components separated by `/`.
 
-### **How can I compare images or media across epochs or steps?**
+### How can I compare images or media across epochs or steps?
 
 Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
 
@@ -152,7 +152,7 @@ run.finish()
 
 If you're seeing "No visualization data logged yet" that means that we haven't gotten the first `wandb.log` call from your script yet. This could be because your run takes a long time to finish a step. If you're logging at the end of each epoch, you could log a few times per epoch to see data stream in more quickly.
 
-### **Why is the same metric appearing more than once?**
+### Why is the same metric appearing more than once?
 
 If you're logging different types of data under the same key, we have to split them out in our database. This means you'll see multiple entries of the same metric name in a dropdown in the UI. The types we group by are `number`, `string`, `bool`, `other` (mostly arrays), and any `wandb` data type (`Histogram`, `Image`, etc). Send only one type to each key to avoid this behavior.
 
