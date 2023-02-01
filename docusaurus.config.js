@@ -58,6 +58,7 @@ const config = {
         ajsPath: '/sa-docs.min.js',
       },
     ],
+    require.resolve('docusaurus-lunr-search'),
   ],
 
   themeConfig:
