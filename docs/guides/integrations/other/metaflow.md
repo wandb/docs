@@ -162,9 +162,9 @@ We currently support these types:
 | `models`            | <ul><li><code>nn.Module</code></li><li><code>sklearn.base.BaseEstimator</code></li></ul>                                    |
 | `others`            | <ul><li>Anything that is <a href="https://wiki.python.org/moin/UsingPickle">pickle-able</a> and JSON serializable</li></ul> |
 
-### Examples of logging behaviour
+### Examples of logging behavior
 
-| Kind of Variable | Behaviour                      | Example         | Data Type      |
+| Kind of Variable | behavior                      | Example         | Data Type      |
 | ---------------- | ------------------------------ | --------------- | -------------- |
 | Instance         | Auto-logged                    | `self.accuracy` | `float`        |
 | Instance         | Logged if `datasets=True`      | `self.df`       | `pd.DataFrame` |
@@ -176,4 +176,4 @@ We currently support these types:
 
 Yes! If you have an artifact that is an output of step A and an input to step B, we automatically construct the lineage DAG for you.
 
-For an example of this behaviour, please see this[ notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u\_nG#scrollTo=DQQVaKS0TmDU) and its corresponding [W&B Artifacts page](https://wandb.ai/megatruong/metaflow\_integration/artifacts/dataset/raw\_df/7d14e6578d3f1cfc72fe/graph)
+For an example of this behavior, please see this[ notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u\_nG#scrollTo=DQQVaKS0TmDU) and its corresponding [W&B Artifacts page](https://wandb.ai/megatruong/metaflow\_integration/artifacts/dataset/raw\_df/7d14e6578d3f1cfc72fe/graph)

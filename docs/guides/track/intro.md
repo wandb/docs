@@ -24,7 +24,7 @@ W&B Experiments are composed of the following building blocks:
    * `summary`: By default, the final value of a metric logged with wandb.log(). You can set the summary for a metric manually to capture the highest accuracy or lowest loss instead of the final value. These values are used in the table, and plots that compare runs — for example, you could visualize at the final accuracy for all runs in your project.
 4. [**`wandb.log_artifact`**](../../ref/python/artifact.md): Save outputs of a run, like the model weights or a table of predictions. This lets you track not just model training, but all the pipeline steps that affect the final model.
 
-The proceeding psuedocode demonstrates a common W&B Experiment tracking workflow:
+The proceeding pseudocode demonstrates a common W&B Experiment tracking workflow:
 
 ```python
 # Flexible integration for any Python script
@@ -59,7 +59,7 @@ Depending on your use case, explore the following resources to get started with 
   * Create an experiment
   * Configure experiments
   * Log data from experiments
-  * View reults from experiments
+  * View results from experiments
 * Explore the [W&B Python Library](../../ref/python/README.md) within the [W&B API Reference Guide](../../ref/README.md).
 
 

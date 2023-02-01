@@ -38,7 +38,7 @@ If an empty panel appears, make sure that your runs are ungrouped
 
 ## Using the Hyperparameter Importance Panel
 
-We can let wandb visualise the most useful set of hyperparameters by clicking on the magic wand beside the parameters manager. We can then sort the hyperparameters based on the Importance.
+We can let wandb visualize the most useful set of hyperparameters by clicking on the magic wand beside the parameters manager. We can then sort the hyperparameters based on the Importance.
 
 ![Using automatic parameter visualization](/images/app_ui/hyperparameter_importance_panel.gif)
 

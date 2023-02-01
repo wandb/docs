@@ -58,7 +58,7 @@ wandb controller {user}/{entity}/{sweep_id}
 Once you have specified you want to use a local controller, start one or more Sweep agents to execute the sweep. Start a W&B Sweep similar to how you normally would. See [Start sweep agents](https://docs.wandb.ai/guides/sweeps/start-sweep-agents), for more information.
 
 ```
-wandb sweep swepp_ID
+wandb sweep sweep_ID
 ```
 
 ### Run a local controller with W&B Python SDK

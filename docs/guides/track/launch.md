@@ -88,7 +88,7 @@ For more information about Artifacts, see the [Artifacts Chapter](../artifacts/i
 
 
 ### Putting it all together
-The full script with the preceeding code snippets is found below:
+The full script with the preceding code snippets is found below:
 ```python
 # Import the W&B Python Library 
 import wandb
@@ -125,7 +125,7 @@ wandb.save("model.onnx")
 ```
 
 ## Next steps: Visualize your experiment 
-Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyses](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
+Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyzes](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
 
 ![Quickstart Sweeps Dashboard example](/images/sweeps/quickstart_dashboard_example.png)
 

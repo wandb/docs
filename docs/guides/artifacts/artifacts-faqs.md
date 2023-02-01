@@ -1,5 +1,5 @@
 ---
-description: Answers to frequently asked quesetion about W&B Artifacts.
+description: Answers to frequently asked question about W&B Artifacts.
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

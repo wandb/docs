@@ -12,7 +12,7 @@ You can add tags to a run when it is created: `wandb.init(tags=["tag1", "tag2"])
 You can also update the tags of a run during training (e.g. if a particular metrics crosses a pre-defined threshold):
 
 ```python
-run = wandb.init(entity="geoff", project="capsules", tags=["debug"])
+run = wandb.init(entity="entity", project="capsules", tags=["debug"])
 
 ...
 

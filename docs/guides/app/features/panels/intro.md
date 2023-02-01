@@ -4,7 +4,7 @@ Use visualizations to explore your logged data, the relationships between hyperp
 
 ## Common Questions
 
-### **I select dimensions on a parallel coordinates plot and it disappears**
+### I select dimensions on a parallel coordinates plot and it disappears
 
 This is likely because you have dots in your config parameter names. We flatten nested parameters using dots, and we only handle 3 levels of dots in the backend. I recommend using a different character as a separator.
 

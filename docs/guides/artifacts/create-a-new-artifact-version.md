@@ -5,7 +5,7 @@ description: Create a new artifact version from a single run or from a distribut
 # Create new artifact versions
 
 <head>
-    <title>Create new artifacts versions from single and muliprocess Runs.</title>
+    <title>Create new artifacts versions from single and multiprocess Runs.</title>
 </head>
 
 Create a new artifact version using a single run, collaboratively using distributed writers, or as a patch against a prior version.
@@ -61,7 +61,7 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-**Run 2:**
+#### Run 2:
 
 ```python
 with wandb.init() as run:
@@ -72,14 +72,14 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-#### **Run 3**
+#### Run 3
 
 Must run after Run 1 and Run 2 complete. The Run that calls `finish_artifact` can include files in the artifact, but does not need to.
 
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
-    # Add Files and Assets to the artifact uthonsing 
+    # Add Files and Assets to the artifact  
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image3.png")
     run.finish_artifact(artifact, distributed_id="my_dist_artifact")

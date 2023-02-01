@@ -4,9 +4,9 @@ description: Run Weights and Biases on your own machines using Docker
 
 # Basic Setup
 
-The W&BServer is a single Docker image that is simple to deploy. Your W&Bdata is saved on a persistent volume or an external database so data can be preserved across container versions. The server requires an instance with **at least 4 cores and 8GB memory**.
+The W&B server is a single Docker image that is simple to deploy. Your W&B data is saved on a persistent volume or an external database so data can be preserved across container versions. The server requires an instance with **at least 4 cores and 8GB memory**.
 
-Run the W&BServer locally on your machine or host it in a private cloud. For serious work, we encourage you to set up and manage a scalable file system. We provide extensive technical support and frequent installation updates for privately hosted instances for enterprise customers.
+Run the W&B server locally on your machine or host it in a private cloud. For serious work, we encourage you to set up and manage a scalable file system. We provide extensive technical support and frequent installation updates for privately hosted instances for enterprise customers.
 
 ## Private Hosting
 
@@ -31,7 +31,7 @@ wandb server start
 
 ### Login
 
-If this is your first time logging in then you will need to create your local W&BServer account and authorize your API key.
+If this is your first time logging in then you will need to create your local W&B server account and authorize your API key.
 
 If you're running `wandb` on multiple machines or switching between a private instance and the wandb cloud, there are several ways to control where your runs are logged. If you want to send metrics to the shared private instance and you've configured DNS, you can
 
@@ -81,20 +81,20 @@ $ docker run --rm -d -v wandb:/vol -p 8080:8080 --name wandb-local wandb/local
 
 ### Generate a free license
 
-You need a license to complete your configuration of a W&BServer. [**Open the Deploy Manager** ](https://deploy.wandb.ai/deploy)to generate a free license. If you do not already have a cloud account then you will need to create one to generate your free license. We offer two options:
+You need a license to complete your configuration of a W&B server. [**Open the Deploy Manager** ](https://deploy.wandb.ai/deploy)to generate a free license. If you do not already have a cloud account then you will need to create one to generate your free license. We offer two options:
 
 1. [**Personal licenses ->**](https://deploy.wandb.ai/deploy) are free forever for personal work: ![](/images/hosting/personal_license.png)
 2. [**Team trial licenses ->**](https://deploy.wandb.ai/deploy) are free and last 30 days, allowing you to set up a team and connect a scalable backend: ![](/images/hosting/team_trial_license.png)
 
 ### Add a license to your Local host
 
-1. Copy your license from your Deployment and navigate back to your W&BServer's localhost: ![](/images/hosting/add_license_local_host.png)
+1. Copy your license from your Deployment and navigate back to your W&B server's localhost: ![](/images/hosting/add_license_local_host.png)
 2. Add it to your local settings by pasting it into the `/system-admin` page of your localhost:\
    ![](@site/static/images/hosting/License.gif)
 
 ### Persistence and Scalability
 
-* All metadata and files sent to W&BServer are stored in the `/vol` directory. If you do not mount a persistent volume at this location all data will be lost when the docker process dies.
+* All metadata and files sent to W&B server are stored in the `/vol` directory. If you do not mount a persistent volume at this location all data will be lost when the docker process dies.
 * This solution is not meant for [production](setup/intro.md) workloads.
 * You can store metadata in an external MySQL database and files in an external storage bucket.
 * The underlying file store should be resizable. Alerts should be put in place to let you know once minimum storage thresholds are crossed to resize the underlying file system.
@@ -118,4 +118,4 @@ In Trial Mode of W&BLocal, you're running the Docker container on a single machi
 Once you're ready to move from test projects to real production work, it is crucial that you set up a scalable file system to avoid data loss: allocate extra space in advance, resize the file system proactively as you log more data, and configure external metadata and object stores for backup. If you run out of disk space, the instance will stop working, and additional data will be lost.
 :::
 
-[**Contact sales -**](https://wandb.ai/site/local-contact)**>** to learn more about Enterprise options for W&BServer.
+[**Contact sales -**](https://wandb.ai/site/local-contact)**>** to learn more about Enterprise options for W&B server.

@@ -1,5 +1,13 @@
+---
+description: Frequently asked questions about W&B.
+---
+
 # Technical FAQ
 
-Frequently Asked Questions
 
+The following guide provides answers to frequently asked questions. Questions are grouped into four categories:
 
+* [General](./general.md)
+* [Metrics and Performance](./metrics-and-performance.md)
+* [Setup](./setup.md)
+* [Troubleshooting](./troubleshooting.md)

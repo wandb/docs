@@ -1,13 +1,17 @@
+---
+description: Frequently asked questions about W&B Hosting.
+---
+
 # FAQ
 
 **How can I switch back to the cloud after using local?**
 To restore a machine to reporting metrics to our cloud hosted solution, run `wandb login --cloud`.
 
 **Does my server need a connection to the internet?**
-No internet connection needed. W&BLocal can run in air gapped environments. The only requirement is that the machines that train your models on can connect to the server hosting your W&Binstance, so that data can be sync'd to your private-hosted dashboard.
+No internet connection needed. W&BLocal can run in air gapped environments. The only requirement is that the machines that train your models on can connect to the server hosting your W&B instance, so that data can be sync'd to your private-hosted dashboard.
 
 **Where is my data stored?**
-The default docker image runs MySQL and Minio inside of the container and writes all data in sub folders of `/vol` . You can configure external MySQL and Object Storage by getting a license. Email [contact@wandb.com](mailto:contact@wandb.com) for more details.
+The default docker image runs MySQL and MinIO inside of the container and writes all data in sub folders of `/vol` . You can configure external MySQL and Object Storage by getting a license. Email [contact@wandb.com](mailto:contact@wandb.com) for more details.
 
 **Can I run a wandb server in my own datacenter?**
 Yes, but you are responsible for running your own MySQL 5.7 database and Object Store as [described in Production Setup](setup/on-premise-baremetal.md). We strongly recommend running our server within a cloud vendor as the operational expertise and resources needed to operate a scalable MySQL 5.7 database and Object Store is non-trivial.
@@ -43,13 +47,13 @@ This ability is given to admins by clicking on your profile picture on the top r
 
 You are able to take advantage of admin functionality by going to:  `http://<deployed_name>/admin/users` and clicking on the icon with three horizontal lines. This will allow you to invites users to your instance, reset passwords, deactivate, and delete users from your `wandb` instance.
 
-#### Does W&Bsupport Role Based Access Control (RBAC)?
+#### Does W&B support Role Based Access Control (RBAC)?
 
 Yes, W&B has RBAC controls at a team level where in only members invited to the team can view any activity inside that workspace. This can also be managed programmatically using the `wandb` python SDK.
 
-#### Does hosting W&Ballow setting up an external SMTP server?
+#### Does hosting W&B allow setting up an external SMTP server?
 
-Yes, W&Bsupports setting up an external SMTP server. Please see below for steps to setup:
+Yes, W&B supports setting up an external SMTP server. Please see below for steps to setup:
 
 * Set the `GORILLA_EMAIL_SINK` environment variable in the docker container or the Kubernetes deployment to `smtp://<user:password>@smtp.host.com:<port>`
 * `user` and `password` are optional, if you’re using an SMTP server that’s designed to be unauthenticated you would just set the value for the environment variable like `GORILLA_EMAIL_SINK=smtp://smtp.host.com:<port>`

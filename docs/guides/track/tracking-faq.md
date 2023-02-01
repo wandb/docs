@@ -1,5 +1,5 @@
 ---
-description: Answers to frequently asked quesetion about W&B Experiments.
+description: Answers to frequently asked question about W&B Experiments.
 ---
 
 # Experiments FAQ
@@ -163,7 +163,7 @@ Modes can be "online", "offline" or "disabled", and default to online.
 
 `offline`: In this mode, instead of sending data to the wandb server, the client will store data on your local machine which can be later synced with the [`wandb sync`](https://docs.wandb.ai/ref/cli/wandb-sync?q=sync) command.
 
-`disabled`: In this mode, the client \*\*\*\* returns mocked objects and prevents all network communication. The client will essentially act like a no-op. In other words, all logging is entirely disabled. However, stubs out of all the API methods are still callable. This is usually used in tests.
+`disabled`: In this mode, the client returns mocked objects and prevents all network communication. The client will essentially act like a no-op. In other words, all logging is entirely disabled. However, stubs out of all the API methods are still callable. This is usually used in tests.
 
 ### My run's state is "crashed" on the UI but is still running on my machine. What do I do to get my data back?
 

@@ -16,7 +16,7 @@ Keep your pages in W&B faster and more responsive by logging within these sugges
 
 Use `wandb.log` to track experiment metrics. Once logged, these metrics generate charts and show up in tables. Too much logged data can make the app slow.
 
-#### **Count of Distinct Metrics**
+#### Count of Distinct Metrics
 
 Keep the total number of distinct metrics under 10,000.
 
@@ -119,7 +119,7 @@ Limit the total size of your run config to <10MB. Logging large values could slo
 wandb.init(config={
   "lr": 0.1,
   "batch_size": 32,
-  "epocs": 4,
+  "epochs": 4,
 })
 
 # ❌ not recommended

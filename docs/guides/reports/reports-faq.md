@@ -1,5 +1,5 @@
 ---
-description: Answers to frequently asked quesetion about W&B Reports.
+description: Answers to frequently asked question about W&B Reports.
 ---
 
 # Reports FAQ
@@ -12,7 +12,7 @@ description: Answers to frequently asked quesetion about W&B Reports.
 
 If you currently want to upload a CSV to a report you can do it via the `wandb.Table` format. Loading the CSV in your Python script and logging it as a `wandb.Table` object will allow you to render the data as a table in a report.
 
-### **Upload an image to a report**
+### Upload an image to a report
 
 On a new line, press `/` and scroll to Image. Then just drag and drop an image into the report.
 
@@ -66,7 +66,7 @@ You are able to share the report that you have created by embedding it. This is 
 
 ![](@site/static/images/reports/emgedding_reports.gif)
 
-### **WYSIWYG FAQ**
+### WYSIWYG FAQ
 
 **What's changed in the new reports release?**
 

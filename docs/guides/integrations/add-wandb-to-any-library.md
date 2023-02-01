@@ -369,9 +369,9 @@ For information on how to create a custom alias, see [Create a Custom Alias](htt
 
 You can log output Artifacts at any frequency (for example, every epoch, every 500 steps and so on) and are automatically versioned.
 
-#### Log And Track Pretrained Models Or Datasets
+#### Log And Track Pre-trained Models Or Datasets
 
-You can log artifacts that are used as inputs to your training such as pretrained models or datasets. The following snippet demonstrates how to log an Artifact and add it as an input to the ongoing Run as shown in the graph above.
+You can log artifacts that are used as inputs to your training such as pre-trained models or datasets. The following snippet demonstrates how to log an Artifact and add it as an input to the ongoing Run as shown in the graph above.
 
 ```python
 artifact_input_data = wandb.Artifact(name=”flowers”, type=”dataset”)

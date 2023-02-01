@@ -5,9 +5,7 @@ description: Project management and collaboration tools for machine learning pro
 
 # Collaborative Reports
 
-<head>
-    <title>Use W&B Reports to organize Runs, embed and automate visualizations, describe your findings, and share updates with collaborators.</title>
-</head>
+Use W&B Reports to organize Runs, embed and automate visualizations, describe your findings, and share updates with collaborators.
 
 Use Reports to organize, embed and automate visualizations, describe your findings, share updates with collaborators, and more.
 
@@ -21,9 +19,9 @@ Check out our [video demo](https://www.youtube.com/watch?v=2xeJIv\_K\_eI) of Rep
 
 1. **Collaboration**: Share findings with your colleagues.
 2. **Work log**: Track what you've tried and plan next steps.
-3. **Automated Visualizations**: **** Integrate model analysis into your model CI/CD pipeline using the Report API.
+3. **Automated Visualizations**: Integrate model analysis into your model CI/CD pipeline using the Report API.
 
-### **Notes: Add a visualization with a quick summary**
+### Notes: Add a visualization with a quick summary
 
 Capture an important observation, an idea for future work, or a milestone reached in the development of a project. All experiment runs in your report will link to their parameters, metrics, logs, and code, so you can save the full context of your work.
 
@@ -35,7 +33,7 @@ Save the best examples from a complex code base for easy reference and future in
 
 ![](/images/reports/notes_add_quick_summary_save_best_examples.png)
 
-### **Collaboration: Share findings with your colleagues**
+### Collaboration: Share findings with your colleagues
 
 Explain how to get started with a project, share what you've observed so far, and synthesize the latest findings. Your colleagues can make suggestions or discuss details using comments on any panel or at the end of the report.
 
@@ -51,7 +49,7 @@ Use sliders and configurable media panels to showcase a model's results or train
 
 ![](/images/reports/intro_collaborate4.png)
 
-### **Work log: Track what you've tried and plan next steps**
+### Work log: Track what you've tried and plan next steps
 
 Write down your thoughts on experiments, your findings, and any gotchas and next steps as you work through a project, keeping everything organized in one place. This lets you "document" all the important pieces beyond your scripts (example: [tuning transformers →](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc)).
 

@@ -25,7 +25,7 @@ Log images to track inputs, outputs, filter weights, activations, and more!
 
 ![Inputs and outputs of an autoencoder network performing in-painting.](/images/track/log_images.png)
 
-Images can be logged directly from numpy arrays, as PIL images, or from the filesystem.
+Images can be logged directly from NumPy arrays, as PIL images, or from the filesystem.
 
 :::info
 It's recommended to log fewer than 50 images per step to prevent logging from becoming a bottleneck during training and image loading from becoming a bottleneck when viewing results.
@@ -92,7 +92,7 @@ Log semantic segmentation masks and interact with them (altering opacity, viewin
 To log an overlay, you'll need to provide a dictionary with the following keys and values to the `masks` keyword argument of `wandb.Image`:
 
 * one of two keys representing the image mask:
-  * `"mask_data"`: a 2D numpy array containing an integer class label for each pixel
+  * `"mask_data"`: a 2D NumPy array containing an integer class label for each pixel
   * `"path"`: (string) a path to a saved image mask file
 * `"class_labels"`: (optional) a dictionary mapping the integer class labels in the image mask to their readable class names
 
@@ -335,7 +335,7 @@ wandb.log({"generated_samples":
   </TabItem>
   <TabItem value="point_clouds">
 
-Log 3D point clouds and Lidar scenes with bounding boxes. Pass in a numpy array containing coordinates and colors for the points to render. In the UI, we truncate to 300,000 points.
+Log 3D point clouds and Lidar scenes with bounding boxes. Pass in a NumPy array containing coordinates and colors for the points to render. In the UI, we truncate to 300,000 points.
 
 ```python
 point_cloud = np.array([[0, 0, 0, COLOR...], ...])
@@ -343,7 +343,7 @@ point_cloud = np.array([[0, 0, 0, COLOR...], ...])
 wandb.log({"point_cloud": wandb.Object3D(point_cloud)})
 ```
 
-Three different shapes of numpy arrays are supported for flexible color schemes.
+Three different shapes of NumPy arrays are supported for flexible color schemes.
 
 * `[[x, y, z], ...]` `nx3`
 * `[[x, y, z, c], ...]` `nx4` `| c is a category` in the range `[1, 14]` (Useful for segmentation)
@@ -351,8 +351,8 @@ Three different shapes of numpy arrays are supported for flexible color schemes.
 
 Here's an example of logging code below:
 
-* `points`is a numpy array with the same format as the simple point cloud renderer shown above.
-* `boxes` is a numpy array of python dictionaries with three attributes:
+* `points`is a NumPy array with the same format as the simple point cloud renderer shown above.
+* `boxes` is a NumPy array of python dictionaries with three attributes:
   * `corners`- a list of eight corners
   * `label`- a string representing the label to be rendered on the box (Optional)
   * `color`- rgb values representing the color of the box
@@ -469,7 +469,7 @@ wandb.log(
   {"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")})
 ```
 
-If a numpy array is supplied we assume the dimensions are, in order: time, channels, width, height. By default we create a 4 fps gif image ([`ffmpeg`](https://www.ffmpeg.org) and the [`moviepy`](https://pypi.org/project/moviepy/) python library are required when passing numpy objects). Supported formats are `"gif"`, `"mp4"`, `"webm"`, and `"ogg"`. If you pass a string to `wandb.Video` we assert the file exists and is a supported format before uploading to wandb. Passing a `BytesIO` object will create a tempfile with the specified format as the extension.
+If a numpy array is supplied we assume the dimensions are, in order: time, channels, width, height. By default we create a 4 fps gif image ([`ffmpeg`](https://www.ffmpeg.org) and the [`moviepy`](https://pypi.org/project/moviepy/) python library are required when passing numpy objects). Supported formats are `"gif"`, `"mp4"`, `"webm"`, and `"ogg"`. If you pass a string to `wandb.Video` we assert the file exists and is a supported format before uploading to wandb. Passing a `BytesIO` object will create a temporary file with the specified format as the extension.
 
 On the W&B [Run](../../app/pages/run-page.md) and [Project](../../app/pages/project-page.md) Pages, you will see your videos in the Media section.
 
@@ -516,7 +516,7 @@ wandb.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 
 ## Frequently Asked Questions
 
-### **How can I compare images or media across epochs or steps?**
+### How can I compare images or media across epochs or steps?
 
 Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
 
@@ -524,7 +524,7 @@ Each time you log images from a step, we save them to show in the UI. Expand the
 
 W&B can be used even for projects that only log scalars — you specify any files or data you'd like to upload explicitly. Here's [a quick example in PyTorch](http://wandb.me/pytorch-colab) that does not log images.
 
-### **How do I log a PNG?**
+### How do I log a PNG?
 
 [`wandb.Image`](../../../ref/python/data-types/image.md) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
 
@@ -534,7 +534,7 @@ wandb.log({"example": wandb.Image(...)})
 wandb.log({"example": [wandb.Image(...) for img in images]})
 ```
 
-### **How do I log a video?**
+### How do I log a video?
 
 Videos are logged using the [`wandb.Video`](../../../ref/python/data-types/video.md) data type:
 

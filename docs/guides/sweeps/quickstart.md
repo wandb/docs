@@ -118,7 +118,7 @@ wandb.agent(sweep_id, function=main, count=10)
 
 ## Visualize results (optional)
 
-Open your project to see your live results in the W&B Sweep dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyses](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
+Open your project to see your live results in the W&B Sweep dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyzes](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
 
 ![Quickstart Sweeps Dashboard example](/images/sweeps/quickstart_dashboard_example.png)
 

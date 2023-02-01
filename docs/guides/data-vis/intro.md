@@ -37,19 +37,19 @@ Tables are great for storing, understanding, and sharing any form of data critic
 
 ## Why use Tables?
 
-### **Actually see your data**
+### Actually see your data
 
 Log metrics and rich media during model training or evaluation, then visualize results in a persistent database synced to the cloud, or to your [hosting instance](https://docs.wandb.ai/guides/hosting). For example, check out this [balanced split of a photos dataset →](https://wandb.ai/stacey/mendeleev/artifacts/balanced\_data/inat\_80-10-10\_5K/ab79f01e007113280018/files/data\_split.table.json)
 
 ![Browse actual examples and verify the counts & distribution of your data](/images/data_vis/tables_see_data.png)
 
-### **Interactively explore your data**
+### Interactively explore your data
 
-View, sort, filter, group, join, and query Tables to understand your data and model performance—no need to browse static files or rerun analysis scripts. For example, see this project on [style-transfered audio →](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)
+View, sort, filter, group, join, and query Tables to understand your data and model performance—no need to browse static files or rerun analysis scripts. For example, see this project on [style-transferred audio →](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)
 
 ![Listen to original songs and their synthesized versions (with timbre transfer)](/images/data_vis/explore_data.png)
 
-### **Compare model versions**
+### Compare model versions
 
 Quickly compare results across different training epochs, datasets, hyperparameter choices, model architectures etc. For example, take a look at this comparison of [two models on the same test images →](https://wandb.ai/stacey/evalserver\_answers\_2/artifacts/results/eval\_Daenerys/c2290abd3d7274f00ad8/files/eval\_results.table.json#b6dae62d4f00d31eeebf$eval\_Bob)
 

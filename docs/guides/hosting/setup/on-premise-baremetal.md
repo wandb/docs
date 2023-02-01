@@ -4,7 +4,7 @@ description: Hosting W&B Server on baremetal servers on-premises
 
 # On Prem / Baremetal
 
-Run your bare metal infrastructure that connects to scaleable external data stores with W&B Server. See the following for instructions on how to provision a new instance and guidance on provisioning external data stores.
+Run your bare metal infrastructure that connects to scalable external data stores with W&B Server. See the following for instructions on how to provision a new instance and guidance on provisioning external data stores.
 
 :::caution
 W&B application performance depends on scalable data stores that your operations team must configure and manage. The team must provide a MySQL 5.7 or MySQL 8 database server and an AWS S3 compatible object store for the application to scale properly.
@@ -15,7 +15,7 @@ Talk to our sales team by reaching out to [contact@wandb.com](mailto:contact@wan
 ### MySQL Database
 
 :::caution
-W&Bcurrently supports MySQL 5.7 or MySQL 8.0.28 and above.
+W&B currently supports MySQL 5.7 or MySQL 8.0.28 and above.
 :::
 
 #### MySQL 5.7
@@ -31,7 +31,7 @@ There are a number of enterprise services that make operating a scalable MySQL d
 The Weights & Biases application currently only supports`MySQL 8`versions`8.0.28`and above.
 :::
 
-There are some additional performance tunings required when running your W&Bserver with MySQL 8.0 or when upgrading from MySQL 5.7 to 8.0. Tuning your database engine with the following settings will improve the overall query performance of the `wandb` application:
+There are some additional performance tunings required when running your W&B server with MySQL 8.0 or when upgrading from MySQL 5.7 to 8.0. Tuning your database engine with the following settings will improve the overall query performance of the `wandb` application:
 
 <pre class="language-markup"><code class="lang-markup"><strong>binlog_format = 'ROW'
 </strong>innodb_online_alter_log_max_size = 268435456
@@ -58,7 +58,7 @@ GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
 
 ### Object Store
 
-The object store can be an externally hosted [Minio cluster](https://docs.min.io/minio/k8s/), or W&Bsupports any **S3 compatible object store** that has support for signed urls. To see if your object store supports signed urls, you can run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b). When connecting to an S3 compatible object store you can specify your credentials in the connection string, i.e.
+The object store can be an externally hosted [Minio cluster](https://docs.min.io/minio/k8s/), or W&B supports any **S3 compatible object store** that has support for signed urls. To see if your object store supports signed urls, you can run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b). When connecting to an S3 compatible object store you can specify your credentials in the connection string, i.e.
 
 ```yaml
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME
@@ -74,11 +74,11 @@ This will only work if the SSL certificate is trusted. We do not support self-si
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 ```
 
-When using 3rd party object stores, you'll want to set `BUCKET_QUEUE` to `internal://`. This tells the W&Bserver to manage all object notifications internally instead of depending on an external SQS queue or equivalent.
+When using 3rd party object stores, you'll want to set `BUCKET_QUEUE` to `internal://`. This tells the W&B server to manage all object notifications internally instead of depending on an external SQS queue or equivalent.
 
 The most important things to consider when running your own object store are:
 
-1. **Storage capacity and performance**. It's fine to use magnetic disks, but you should be monitoring the capacity of these disks. Average W&Busage results in 10's to 100's of Gigabytes. Heavy usage could result in Petabytes of storage consumption.
+1. **Storage capacity and performance**. It's fine to use magnetic disks, but you should be monitoring the capacity of these disks. Average W&B usage results in 10's to 100's of Gigabytes. Heavy usage could result in Petabytes of storage consumption.
 2. **Fault tolerance.** At a minimum, the physical disk storing the objects should be on a RAID array. If you're using minio, consider running it in [distributed mode](https://docs.min.io/minio/baremetal/installation/deploy-minio-distributed.html#deploy-minio-distributed).
 3. **Availability.** Monitoring should be configured to ensure the storage is available.
 
@@ -87,7 +87,7 @@ There are many enterprise alternatives to running your own object storage servic
 1. [https://aws.amazon.com/s3/outposts/](https://aws.amazon.com/s3/outposts/)
 2. [https://www.netapp.com/data-storage/storagegrid/](https://www.netapp.com/data-storage/storagegrid/)
 
-#### Minio setup
+#### MinIO setup
 
 If you're using minio, you can run the following commands to create a bucket .
 
@@ -140,9 +140,6 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
-          volumeMounts:
-            - name: wandb
-              mountPath: /vol
           livenessProbe:
             httpGet:
               path: /healthz
@@ -195,11 +192,11 @@ The k8s YAML above should work in most on-premises installations. However the de
 
 ### Helm Chart
 
-W&Balso supports deploying via a Helm Chart. The official W&Bhelm chart can be [found here](https://github.com/wandb/helm-charts).
+W&B also supports deploying via a Helm Chart. The official W&B helm chart can be [found here](https://github.com/wandb/helm-charts).
 
 ### Openshift
 
-W&Bsupports operating from within an [Openshift kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). Simply follow the instructions in the kubernetes deployment section above.
+W&B supports operating from within an [Openshift kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). Simply follow the instructions in the kubernetes deployment section above.
 
 #### Running the container as an un-privileged user
 
@@ -247,7 +244,7 @@ You'll want to run a load balancer that terminates network requests at the appro
 
 ### SSL / TLS
 
-The W&Bserver does not terminate SSL. If your security policies require SSL communication within your trusted networks consider using a tool like Istio and [side car containers](https://istio.io/latest/docs/reference/config/networking/sidecar/). The load balancer itself should terminate SSL with a valid certificate. Using self-signed certificates is not supported and will cause a number of challenges for users. If possible using a service like [Let's Encrypt](https://letsencrypt.org) is a great way to provided trusted certificates to your load balancer. Services like Caddy and Cloudflare manage SSL for you.
+The W&B server does not terminate SSL. If your security policies require SSL communication within your trusted networks consider using a tool like Istio and [side car containers](https://istio.io/latest/docs/reference/config/networking/sidecar/). The load balancer itself should terminate SSL with a valid certificate. Using self-signed certificates is not supported and will cause a number of challenges for users. If possible using a service like [Let's Encrypt](https://letsencrypt.org) is a great way to provided trusted certificates to your load balancer. Services like Caddy and Cloudflare manage SSL for you.
 
 ### Example Nginx Configuration
 
@@ -316,7 +313,7 @@ http {
 
 ## Verifying your installation
 
-Regardless of how your server was installed, it's a good idea everything is configured properly. W&Bmakes it easy to verify everything is properly configured by using our CLI.
+Regardless of how your server was installed, it's a good idea everything is configured properly. W&B makes it easy to verify everything is properly configured by using our CLI.
 
 ```bash
 pip install wandb
@@ -324,7 +321,7 @@ wandb login --host=https://YOUR_DNS_DOMAIN
 wandb verify
 ```
 
-If you see any errors contact W&Bsupport staff. You can also see any errors the application hit at startup by checking the logs.
+If you see any errors contact W&B support staff. You can also see any errors the application hit at startup by checking the logs.
 
 ### Docker
 

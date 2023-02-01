@@ -31,7 +31,7 @@ Once you've logged data to visualize, go to your project page and click the **`+
 
 ![A new, blank custom chart ready to be configured](/images/app_ui/create_a_query.png)
 
-### **Add a query**
+### Add a query
 
 1. Click `summary` and select `historyTable` to set up a new query pulling data from the run history.
 2. Type in the key where you logged the **wandb.Table()**. In the code snippet above, it was `my_custom_table` . In the [example notebook](https://bit.ly/custom-charts-colab), the keys are `pr_curve` and `roc_curve`.
@@ -63,8 +63,6 @@ I updated the Vega spec to customize the visualization:
 To save this as a preset that you can use elsewhere in this project, click **Save as** at the top of the page. Here's what the result looks like, along with an ROC curve:
 
 ![](https://paper-attachments.dropbox.com/s\_5FCA7E5A968820ADD0CD5402B4B0F71ED90882B3AC586103C1A96BF845A0EAC7\_1597442868347\_Screen+Shot+2020-08-14+at+3.07.30+PM.png)
-
-Thanks for following along! Message Carey (c@wandb.com) with questions and feedback [😊](https://emojipedia.org/smiling-face-with-smiling-eyes/)
 
 ## Bonus: Composite Histograms
 

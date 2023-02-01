@@ -10,15 +10,13 @@ Use **Custom Charts** to create charts that aren't possible right now in the def
 * **Video**: Watch a quick [walkthrough video →](https://www.youtube.com/watch?v=3-N9OV6bkSM)
 * **Example**: Quick Keras and Sklearn [demo notebook →](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0\_5AoZdoSD?usp=sharing)
 
-Contact Carey (c@wandb.com) with questions or suggestions
-
 ![Supported charts from vega.github.io/vega](/images/app_ui/supported_charts.png)
 
 ### How it works
 
 1. **Log data**: From your script, log [config](../../../../guides/track/config.md) and summary data as you normally would when running with W&B. To visualize a list of multiple values logged at one specific time, use a custom`wandb.Table`
 2. **Customize the chart**: Pull in any of this logged data with a [GraphQL](https://graphql.org) query. Visualize the results of your query with [Vega](https://vega.github.io/vega/), a powerful visualization grammar.
-3. **Log the chart**: Call your own preset from your script with `wandb.plot_table()` or use one of our builtins.
+3. **Log the chart**: Call your own preset from your script with `wandb.plot_table()`.
 
 ![](/images/app_ui/pr_roc.png)
 
@@ -181,7 +179,7 @@ You can log this whenever your code has access to:
   </TabItem>
 </Tabs>
 
-### **Custom presets**
+### Custom presets
 
 Tweak a builtin preset, or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script.
 
@@ -211,11 +209,11 @@ Here are the data types you can log from your script and use in a custom chart:
 
 * **Config**: Initial settings of your experiment (your independent variables). This includes any named fields you've logged as keys to `wandb.config` at the start of your training (e.g. `wandb.config.learning_rate = 0.0001)`
 * **Summary**: Single values logged during training (your results or dependent variables), e.g. `wandb.log({"val_acc" : 0.8})`. If you write to this key multiple times during training via `wandb.log()`, the summary is set to the final value of that key.
-* **History**: The full timeseries of the logged scalar is available to the query via the `history` field
+* **History**: The full time series of the logged scalar is available to the query via the `history` field
 * **summaryTable**: If you need to log a list of multiple values, use a `wandb.Table()` to save that data, then query it in your custom panel.
 * **historyTable**: If you need to see the history data, then query `historyTable` in your custom chart panel. Each time you call `wandb.Table()` or log a custom chart, you're creating a new table in history for that step.
 
-### **How to log a custom table**
+### How to log a custom table
 
 Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.log()`("custom\_data\_table" below), and the individual fields will be accessible via the column names ("x", "y", and "z"). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows.
 
