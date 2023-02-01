@@ -78,18 +78,23 @@ const config = {
           {
             type: 'doc',
             docId: 'guides/intro',
-            position: 'left',
             label: 'Developer Guide',
+            position: 'right',
           },
           {
             type: 'doc',
-            position: 'left',
             docId: 'ref/README',
             label: 'Reference',
+            position: 'right',
           },
           {
-            href: 'https://github.com/wandb/docodile',
+            href: 'https://github.com/wandb/wandb',
             label: 'GitHub',
+            position: 'right',
+          },
+          {
+            href: 'https://app.wandb.ai/login',
+            label: 'Login',
             position: 'right',
           },
         ],
