@@ -1,4 +1,6 @@
-
+---
+slug: /guides/hosting
+---
 
 # Private Hosting
 
