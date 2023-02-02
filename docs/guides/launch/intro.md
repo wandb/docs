@@ -1,4 +1,5 @@
 ---
+slug: /guides/launch
 description: Easily queue and manage jobs using W&B Launch.
 ---
 

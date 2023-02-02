@@ -1,3 +1,7 @@
+---
+slug: /guides/app/features/custom-charts
+---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 

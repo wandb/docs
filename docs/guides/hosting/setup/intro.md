@@ -1,4 +1,5 @@
 ---
+slug: /guides/hosting/setup
 description: Deploying W&B in production
 ---
 

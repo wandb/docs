@@ -1,4 +1,5 @@
 ---
+slug: /guides/track/log
 description: Keep track of metrics, videos, custom plots, and more
 ---
 

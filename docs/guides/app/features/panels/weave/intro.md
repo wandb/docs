@@ -1,5 +1,6 @@
 ---
-description: >-
+slug: /guides/app/features/panels/weave
+description: 
   Some features on this page are in beta, hidden behind a feature flag. Add
   `weave-plot` to your bio on your profile page to unlock all related features.
 ---
