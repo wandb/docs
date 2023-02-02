@@ -1,3 +1,7 @@
+---
+slug: /guides/runs
+description:  Learn about the basic building block of W&B, Runs.
+---
 # Runs
 
 A single unit of computation logged by W&B is called a Run. In W&B it is common to associate a Run with:

@@ -1,4 +1,5 @@
 ---
+slug: /guides/technical-faq
 description: Frequently asked questions about W&B.
 ---
 

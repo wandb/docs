@@ -1,3 +1,7 @@
+---
+slug: /guides/app/features/panels
+---
+
 # Panels
 
 Use visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and dataset examples.

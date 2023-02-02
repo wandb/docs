@@ -1,4 +1,5 @@
 ---
+slug: /guides/app/features/panels/line-plot
 description: Visualize metrics, customize axes, and compare multiple lines on the same plot
 ---
 

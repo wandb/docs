@@ -1,4 +1,5 @@
 ---
+slug: /guides/app/pages
 description: An overview of the different pages in app.wandb.ai
 ---
 
