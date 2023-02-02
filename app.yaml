@@ -1,14 +1,30 @@
 runtime: nodejs16
 handlers:
-  # Serve all static files with url ending with a file extension
+  # static files with a URL ending with a file extension
+  # (e.g. favicon.ico, manifest.json, jylade.png)
   - url: /(.*\..+)$
     static_files: build/\1
     upload: build/(.*\..+)$
     secure: always
     redirect_http_response_code: 301
-  # Catch all handler to index.html
-  - url: /.*
+
+  # index page
+  - url: /
     static_files: build/index.html
     upload: build/index.html
+    secure: always
+    redirect_http_response_code: 301
+
+  # anything that ends with a slash (e.g. /docs/)
+  - url: /(.*)/$
+    static_files: build/\1/index.html
+    upload: build/(.*)
+    secure: always
+    redirect_http_response_code: 301
+
+  # anything else (e.g. /docs)
+  - url: /(.*)
+    static_files: build/\1/index.html
+    upload: build/(.*)
     secure: always
     redirect_http_response_code: 301
