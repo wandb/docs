@@ -1,3 +1,7 @@
+---
+slug: /guides/integrations/ignite
+---
+
 # PyTorch Ignite
 
 * See the resulting visualizations in this [example W&B report →](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg)

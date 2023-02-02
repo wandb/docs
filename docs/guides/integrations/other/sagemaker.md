@@ -1,3 +1,7 @@
+---
+slug: /guides/integrations/sagemaker
+---
+
 # SageMaker
 
 ## SageMaker Integration

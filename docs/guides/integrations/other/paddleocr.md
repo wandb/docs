@@ -1,3 +1,7 @@
+---
+slug: /guides/integrations/paddleocr
+---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 

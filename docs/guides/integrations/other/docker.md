@@ -1,3 +1,7 @@
+---
+slug: /guides/integrations/docker
+---
+
 # Docker
 
 ## Docker Integration

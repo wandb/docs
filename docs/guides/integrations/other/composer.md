@@ -1,4 +1,5 @@
 ---
+slug: /guides/integrations/composer
 description: State of the art algorithms to train your neural networks
 ---
 

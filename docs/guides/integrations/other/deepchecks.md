@@ -1,3 +1,7 @@
+---
+slug: /guides/integrations/deepchecks
+---
+
 # DeepChecks
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export\_outputs\_to\_wandb.ipynb)
