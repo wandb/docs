@@ -1,3 +1,7 @@
+---
+slug: /guides/integrations/skorch
+---
+
 # Skorch
 
 You can use Weights & Biases with Skorch to automatically log the model with the best performance – along with all model performance metrics, the model topology and compute resources after each epoch. Every file saved in wandb_run.dir is automatically logged to W&B servers.

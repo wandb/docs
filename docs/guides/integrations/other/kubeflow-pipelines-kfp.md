@@ -1,3 +1,7 @@
+---
+slug: /guides/integrations/kubeflow-pipelines-kfp
+---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 

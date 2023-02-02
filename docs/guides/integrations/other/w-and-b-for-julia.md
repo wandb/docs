@@ -1,3 +1,7 @@
+---
+slug: /guides/integrations/w-and-b-for-julia
+---
+
 # W&B for Julia
 
 For those running machine learning experiments in the Julia programming language, a community contributor has created an unofficial set of Julia bindings called [wandb.jl](https://github.com/avik-pal/Wandb.jl) that you can use.

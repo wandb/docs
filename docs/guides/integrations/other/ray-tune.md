@@ -1,3 +1,7 @@
+---
+slug: /guides/integrations/ray-tune
+---
+
 # Ray Tune
 
 W&B integrates with [Ray](https://github.com/ray-project/ray) by offering two lightweight integrations.
