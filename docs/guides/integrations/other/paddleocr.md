@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/paddleocr
+description: How to integrate W&B with PaddleOCR.
 ---
 
 import Tabs from '@theme/Tabs';

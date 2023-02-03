@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/yolox
+description: How to integrate W&B with YOLOX.
 ---
 
 # YOLOX

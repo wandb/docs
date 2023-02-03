@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/w-and-b-for-julia
+description: How to integrate W&B with Julia.
 ---
 
 # W&B for Julia

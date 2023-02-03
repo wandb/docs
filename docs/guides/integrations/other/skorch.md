@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/skorch
+description: How to integrate W&B with Skorch.
 ---
 
 # Skorch

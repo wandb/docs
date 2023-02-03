@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/metaflow
+description: How to integrate W&B with Metaflow.
 ---
 
 import Tabs from '@theme/Tabs';

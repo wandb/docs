@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/simpletransformers
+description: How to integrate W&B with the Transformers library by Hugging Face. 
 ---
 
 # Simple Transformers

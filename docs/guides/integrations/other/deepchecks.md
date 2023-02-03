@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/deepchecks
+description: How to integrate W&B with DeepChecks.
 ---
 
 # DeepChecks
