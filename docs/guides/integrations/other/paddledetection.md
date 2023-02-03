@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/paddledetection
+description: How to integrate W&B with PaddleDetection.
 ---
 
 import Tabs from '@theme/Tabs';

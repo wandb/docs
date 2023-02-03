@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/openai
+description: How to integrate W&B with OpenAI.
 ---
 
 import Tabs from '@theme/Tabs';

@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/kubeflow-pipelines-kfp
+description: How to integrate W&B with Kubeflow Pipelines.
 ---
 
 import Tabs from '@theme/Tabs';

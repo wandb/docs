@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/stable-baselines-3
+description: How to integrate W&B with Stable Baseline 3.
 ---
 
 # Stable Baselines 3

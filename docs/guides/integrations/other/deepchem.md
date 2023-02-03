@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations/deepchem
+description: How to integrate W&B with DeepChem library.
 ---
 
 import Tabs from '@theme/Tabs';
