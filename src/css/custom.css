@@ -29,6 +29,8 @@
   --ifm-font-family-base: 'Source Sans Pro', sans-serif;
   font-kerning: normal;
   --ifm-global-spacing: 24px;
+  --ifm-breadcrumb-separator: url('/static/img/breadcrumb.svg');
+  --ifm-leading-desktop: 1;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -51,6 +53,11 @@ footer {
   width:100%;
 }
 
+code.codeBlockLines_node_modules-\@docusaurus-theme-classic-lib-theme-CodeBlock-Content-styles-module {
+    padding-top: 16px;
+    padding-bottom: 12px;
+}
+
 div.main-wrapper,
 .navbar__inner{
   max-width: 1150px;
@@ -70,6 +77,23 @@ div.main-wrapper,
 .menu__link.menu__link--active,
 .breadcrumbs__item--active .breadcrumbs__link{
   font-weight: 600;
+}
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  font-size: 12px;
+}
+
+.breadcrumbs__link {
+  padding: 0;
+  color: #A9AAAB;
+}
+
+.menu__link.menu__link--active {
+  color: #33373D
+}
+
+.menu__list .menu__list a.menu__link {
+  font-size: 14px;
 }
 
 .markdown h1:first-child {
@@ -112,5 +136,17 @@ li:not(.menu__list-item--collapsed) ul.menu__list{
   flex-direction: column;
   display: flex;
 }
+nav.menu.thin-scrollbar.menu_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-Desktop-Content-styles-module {
+  padding-left: 0;
+}
 
+footer .container {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.footer__links.text--center{
+  margin-bottom: 0;
+}
 /* 4D86F5 */
