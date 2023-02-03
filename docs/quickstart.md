@@ -1,26 +1,21 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-
 # Quickstart
+This guide outlines a common method for integrating W&B into your code. There are for main steps:
+1. [Set up W&B](#set-up-wb)
+2. [Track metrics](#track-metrics)
+3. [Track hyperparameters](#track-hyperparameters)
+4. [Get an alert](#get-alerts)
 
-Build better models more efficiently with Weights & Biases experiment tracking.
+## Set up W&B
+Satisfy the following requirements to get started with W&B:  
 
-### [Run a quick example project →](http://wandb.me/intro)
+1.  [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then login to your wandb account.  
+2. Install the wandb library on your machine in a Python 3 environment using `pip`.  
+3. Login to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).  
 
-Try this short Google Colab to see Weights & Biases in action, no code installation required!
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/intro)
-
-![](/images/quickstart/wandb_demo_experiments.gif)
-
-### 1. Set up wandb
-
-**a)** [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then login to your wandb account.
-
-**b)** Install the wandb library on your machine in a Python 3 environment using `pip`
-
-**c)** Login to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).
+The following code snippets demonstrate how to install and log into W&B using the W&B CLI and Python Library:
 
 <Tabs
   defaultValue="cli"
@@ -68,55 +63,64 @@ wandb.login()
 </Tabs>
 
 
-### 2. Start a new run
+## Start a new Run
 
-Initialize a new run in W&B in your Python script or notebook. `wandb.init()` will start tracking system metrics and console logs, right out of the box. Run your code, put in [your API key](https://wandb.ai/authorize) when prompted, and you'll see the new run appear in W&B.[More about wandb.init() →](guides/track/launch.md)
+Initialize a new Run in W&B in your Python script or notebook with [`wandb.init()`](./ref/python/run.md). At the top of your training script add the following code snippet:
 
 ```python
 import wandb
 wandb.init(project="my-awesome-project")
 ```
+W&B tracks system metrics and console logs when you call the `wandb.init()` API. 
 
-### 3. Track metrics
+Run your code and put in [your API key](https://wandb.ai/authorize) when prompted. In the next step, we will show you how to track metrics. 
 
-Use `wandb.log()` to track metrics or a framework [integration](guides/integrations/intro.md) for easy instrumentation.
-[More about wandb.log() →](guides/track/log/intro.md)
+
+## Track metrics
+
+Use [`wandb.log()`](./ref/python/log.md) to track metrics or a framework [integration](guides/integrations/intro.md) for easy instrumentation.
 
 ```python
 wandb.log({'accuracy': train_acc, 'loss': train_loss})
 ```
 
+W&B saves metrics you log with `wandb.log` to the Run object you initialized. In this case, the accuracy and loss was associated to the W&B Run we initialized in the previous step.
+
 ![](/images/quickstart/wandb_demo_logging_metrics.png)
 
-### 4. Track hyperparameters
 
-Save hyperparameters so you can quickly compare experiments.\
-[More about wandb.config →](guides/track/config.md)
+## Track hyperparameters
+
+Save hyperparameters with [`wandb.config`](./guides/track/config.md). Tracking hyperparameters makes it easy to compare experiments with the W&B App. 
 
 ```python
 wandb.config.dropout = 0.2
 ```
-![](/images/quickstart/wandb_demo_logging_config.png)
+Attributes store in a `wandb.config` object are associated to the the most recent initialized Run object. 
 
-### 5. Get alerts
+![](/images/quickstart/wandb_demo_experiments.gif)
 
-Get notified via Slack or email if your W&B Run has crashed or whether a custom trigger, such as your loss going to NaN or a step in your ML pipeline has completed, has been reached. See the [Alerts docs](./guides/runs/alert.md) for a full setup.
+## Get alerts
 
-[More about wandb.alert() →](./guides/runs/alert.md)
+Get notified by Slack or email if your W&B Run has crashed or with a custom trigger. For example, you can create a trigger to notify you if your loss reports `NaN` or a step in your ML pipeline has completed.
 
-1. Turn on Alerts in your W&B [User Settings](./guides/app/settings-page/intro.md)
-2. Add `wandb.alert()` to your code
+Follow the procedure outlined below to set up an alert: 
+
+1. Turn on Alerts in your W&B [User Settings](https://wandb.ai/settings).
+2. Add [`wandb.alert()`](./guides/runs/alert.md) to your code.
 
 ```python
 wandb.alert(
     title="Low accuracy", 
-    text=f"Accuracy {acc} is below the acceptable threshold {thresh}"
+    text=f"Accuracy {acc} is below threshold {thresh}"
 )
 ```
-
-Then see W&B Alerts messages in Slack (or your email):
+You will recieve an email or Slack alert when your alert criteria is met. For example, the proceeding image demonstrates a Slack alert:
 
 ![W&B Alerts in a Slack channel](/images/quickstart/get_alerts.png)
+
+See the [Alerts docs](./guides/runs/alert.md) for more information on how to set up an alert. For more information about setting options, see the [Settings](./guides/app/settings-page/intro.md) page. 
+
 
 ## What next?
 
@@ -124,7 +128,7 @@ Then see W&B Alerts messages in Slack (or your email):
 2. [**Data + Model Versioning**](./guides/models/intro.md): Track dependencies and results in your ML pipeline
 3. [**Data Visualization**](guides/data-vis/intro.md): Visualize and query datasets and model evaluations
 4. [**Hyperparameter Tuning**](guides/sweeps/intro.md): Quickly automate optimizing hyperparameters
-5. ****[**Private-Hosting**](guides/hosting/intro.md): The enterprise solution for private cloud or on-prem hosting of W&B
+5. [**Private-Hosting**](guides/hosting/intro.md): The enterprise solution for private cloud or on-prem hosting of W&B
 
 ## Common Questions
 
@@ -137,5 +141,5 @@ If you are training models in an automated environment where it's inconvenient t
 **Do you offer local, on-prem installs?**
 Yes, you can [privately host W&B](guides/hosting/intro.md) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how. Note, to login to wandb local server you can [set the host flag](https://docs.wandb.ai/guides/hosting/quickstart#4.-modify-training-code-to-log-to-wandb-local-server) to the address of the local instance.  **** 
 
-**How do I turn off wandb logging temporarily?**\
+**How do I turn off wandb logging temporarily?**
 If you're testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](guides/track/environment-variables.md).
