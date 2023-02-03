@@ -88,7 +88,9 @@ div.main-wrapper,
   color: #A9AAAB;
 }
 
-.menu__link.menu__link--active {
+.menu__link.menu__link--active,
+.table-of-contents__link--active,
+.table-of-contents__link:hover {
   color: #33373D
 }
 
@@ -99,6 +101,11 @@ div.main-wrapper,
 .markdown h1:first-child {
   --ifm-h1-font-size: 24px;
   line-height: 32px;
+}
+
+.table-of-contents ul {
+  border-left: 1px solid #E6E6E6;
+  font-size: 14px;
 }
 
 .markdown > h2 {
