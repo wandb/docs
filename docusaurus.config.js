@@ -99,6 +99,11 @@ const config = {
           },
         ],
       },
+      docs: {
+        sidebar: {
+          autoCollapseCategories: true,
+        },
+      },
       footer: {
         style: 'light',
         copyright: `Copyright © ${new Date().getFullYear()} Weights & Biases. All rights reserved.`, 
