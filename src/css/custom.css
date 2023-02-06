@@ -89,9 +89,26 @@ div.main-wrapper,
 }
 
 .menu__link.menu__link--active,
+.table-of-contents__link,
 .table-of-contents__link--active,
 .table-of-contents__link:hover {
-  color: #33373D
+  color: #33373D;
+  padding: 3px 12px;
+  background-color: transparent;
+}
+
+a.theme-edit-this-page {
+   color: #33373D;
+}
+
+.table-of-contents__link--active,
+.table-of-contents__link:hover  {
+  background-color: #181B1F0D;
+  border-radius: 4px;
+}
+
+.table-of-contents {
+  font-size: 14px;
 }
 
 .menu__list .menu__list a.menu__link {
@@ -155,5 +172,9 @@ footer .container {
 
 .footer__links.text--center{
   margin-bottom: 0;
+}
+
+.col.col--3:last-child {
+    padding-right: 0;
 }
 /* 4D86F5 */
