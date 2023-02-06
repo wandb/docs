@@ -114,6 +114,15 @@ a.theme-edit-this-page {
 .menu__list .menu__list a.menu__link {
   font-size: 14px;
 }
+input#search_input_react {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.searchBox_node_modules-\@docusaurus-theme-classic-lib-theme-Navbar-Search-styles-module {
+    height: 40px;
+    width:172px
+}
 
 .markdown h1:first-child {
   --ifm-h1-font-size: 24px;
