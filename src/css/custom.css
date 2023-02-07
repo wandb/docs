@@ -29,6 +29,7 @@
   --ifm-font-family-base: 'Source Sans Pro', sans-serif;
   font-kerning: normal;
   --ifm-global-spacing: 24px;
+  --ifm-navbar-search-input-icon: url("../../static/img/icon-search-grey.svg");
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
