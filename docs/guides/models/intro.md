@@ -5,10 +5,6 @@ description: Manage the model lifecycle from training to production
 
 # Model Management
 
-<head>
-  <title>Manage the model lifecycle from training to production with Model Registry</title>
-</head>
-
 Use the W&B Model Registry as a central system of record for models.
 
 * Create Registered Models to organize your best model versions for a given task
@@ -29,7 +25,7 @@ Use the W&B Model Registry as a central system of record for models.
     ```
 3. From the Artifact page, link the artifact version to the registry.
 
-### Watch the 1 minute video walkthrough
+<!-- ### Watch the 1 minute video walkthrough -->
 
 <!-- {% embed url="https://www.youtube.com/watch?v=jy9Pk9riwZI" %} -->
 
