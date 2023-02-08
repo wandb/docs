@@ -3,26 +3,16 @@ const suggestionPrefix = `${prefix}-suggestion`;
 const footerPrefix = `${prefix}-footer`;
 
 const templates = {
-  suggestion:
-    `
-  <a class="${suggestionPrefix}
-    {{#isCategoryHeader}}${suggestionPrefix}__main{{/isCategoryHeader}}
-    {{#isSubCategoryHeader}}${suggestionPrefix}__secondary{{/isSubCategoryHeader}}
-    "
+  suggestion: `
+  <a class="${suggestionPrefix} ${suggestionPrefix}__main"
     aria-label="Link to the result"
     href="{{{url}}}"
     >
     <div class="${suggestionPrefix}--category-header">
         <span class="${suggestionPrefix}--category-header-lvl0">{{{category}}}</span>
-    </div>` +
-    // +
-    // `<div class="${suggestionPrefix}--wrapper">
-    //   <div class="${suggestionPrefix}--subcategory-column">
-    //     <span class="${suggestionPrefix}--subcategory-column-text">{{{subcategory}}}</span>
-    //   </div>`
-    `{{#isTextOrSubcategoryNonEmpty}}
+    </div>
+    {{#isTextOrSubcategoryNonEmpty}}
       <div class="${suggestionPrefix}--content">
-        <div class="${suggestionPrefix}--subcategory-inline">{{{subcategory}}}</div>
         <div class="${suggestionPrefix}--title">{{{title}}}</div>
         {{#text}}<div class="${suggestionPrefix}--text">{{{text}}}</div>{{/text}}
       </div>
