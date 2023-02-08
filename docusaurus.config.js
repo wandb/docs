@@ -69,10 +69,9 @@ const config = {
         disableSwitch: true,
       },
       navbar: {
-        title: 'Documentation',
         logo: {
           alt: 'W&B Logo',
-          src: 'img/docs-favicon.png',
+          src: 'img/DocsLogo.svg',
         },
         items: [
           {
@@ -106,7 +105,7 @@ const config = {
       },
       footer: {
         style: 'light',
-        copyright: `Copyright © ${new Date().getFullYear()} Weights & Biases. All rights reserved.`, 
+        copyright: `Copyright © ${new Date().getFullYear()} Weights & Biases. All rights reserved.`,
         links: [
           {
             label: 'Terms of Service',
@@ -116,7 +115,7 @@ const config = {
             label: 'Privacy Policy',
             href: 'https://wandb.ai/site/privacy',
           },
-    ]
+        ],
       },
       prism: {
         theme: lightCodeTheme,
