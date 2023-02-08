@@ -1,75 +1,84 @@
+---
+description:  Visualize and analyze W&B Tables.
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Visualize & Analyze Tables
 
-Use W&B Tables to log and visualize data and model predictions. Interactively explore your data:
+Use W&B Tables to log and visualize data and model predictions. Interactively explore your data to:
 
 * Compare changes precisely across models, epochs, or individual examples
 * Understand higher-level patterns in your data
 * Capture and communicate your insights with visual samples
 
-### Examples
+Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. 
 
-These reports highlight the different use cases of W&B Tables:
+:::info
+W&B Tables posses the following behaviors:
+1. **stateless in an artifact context**: any Table logged alongside an artifact version will reset to its default state after you close the browser window
+2. **stateful in a workspace or report context**: any changes you make to a Table in a single run workspace, multi-run project workspace, or Report will persist.
 
-* [Visualize Predictions Over Time](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)
-* [How to Compare Tables in Workspaces](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)
-* [Image & Classification Models](https://wandb.ai/stacey/mendeleev/reports/Tables-Tutorial-Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA)
-* [Text & Generative Language Models](https://wandb.ai/stacey/nlg/reports/Tables-Tutorial-Visualize-Text-Data-Predictions---Vmlldzo1NzcwNzY)
-* [Named Entity Recognition](https://wandb.ai/stacey/ner\_spacy/reports/Named-Entity-Recognition--Vmlldzo3MDE3NzQ)
-* [AlphaFold Proteins](https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc)
+For information on how to save your current W&B Table view, see [Save your view](#save-your-view).
+:::
 
-## Save your view
 
-Tables you interact with in the run workspace, project workspace, or a report will automatically save their view state. If you apply any Table operations then close your browser, the Table will retain the last viewed configuration when you next navigate to the table.
+## Table operations
 
-Tables you interact with in the artifact context will remain stateless.
+Use the W&B App to sort, filter, and group your W&B Tables. 
 
-To save a Table from a workspace in a particular state, export it to a Report. You can do this from the three dot menu in the top right corner of any workspace visualization panel (three dots → "Share panel" or "Add to report").
+<!-- [Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) -->
 
-![Share panel creates a new report, Add to report lets you append to an existing report.](/images/data_vis/share_your_view.png)
+### Sort
 
-## Table interactions
+Sort all rows in a Table by the value in a given column. 
+1. Hover your mouse over the column title. A kebob menu will appear (three vertical docs).
+2. Select on the kebob menu (three vertical dots).
+3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
 
-### Table operations
+![See the digits for which the model most confidently guessed "0".](/images/data_vis/data_vis_sort_kebob.png)
 
-Customize a single Table to answer specific questions, such as what is the precision of this model's predictions and what are the true labels of the mistakes? These operations are
+The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.
 
-* **stateless in an artifact context**: any Table logged alongside an artifact version will reset to its default state after you close the browser window
-* **stateful in a workspace or report context**: any changes you make to a Table in a single run workspace, multi-run project workspace, or Report will persist
+### Filter
 
-![7s confused for 2s are the most frequent error in this view.](/images/data_vis/tables_persistent_view.png)
-
-[Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)
-
-#### Sort
-
-Sort all rows in a Table by the value in a given column. Hover over the header, click on the three dot menu, and choose "Sort Asc" or "Sort Desc".
-
-![See the digits for which the model most confidently guessed "0".](/images/data_vis/sort.png)
-
-#### Filter
-
-Filter all rows by an expression via the Filter button in the top left. The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
+Filter all rows by an expression with the **Filter** button on the top left of the dashboard. 
 
 ![See only examples which the model gets wrong.](/images/data_vis/filter.png)
 
-#### Group
+Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
 
-Group all rows by the value in a particular column (three dot menu in column header → "Group by"). By default, this will turn other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.
+|                   | Column name | Binary relation    | Value       |
+| -----------       | ----------- | ----------- | ----------- |
+| Accepted values   | String       |  &equals;, &ne;, &le;, &ge;, IN, NOT IN,  | Integer, float, string, timestamp, null |
+
+
+The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
+
+![](/images/data_vis/filter_example.png)
+The preceding image demonstrates shows a filter that is based on the `val_loss` column. The filter shows W&B Runs with a validation loss less than or equal to 1.
+
+
+### Group
+
+Group all rows by the value in a particular column with the **Group by** button in a column header. 
 
 ![The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s.](/images/data_vis/group.png)
 
-### Changing the columns
+By default, this turns other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.
 
-#### Add columns
+<!-- ## Modify columns
+The proceeding sections demonstrate how to modify W&B Tables. -->
 
-From the three-dot menu on any column, you can insert a new column to the left or right. Edit the cell expression to compute a new column using references to existing columns, mathematical and logical operators, and aggregation functions when a row is grouped (like average, sum, min/max). Optionally give the column a new name below the expression editor.
+<!-- ### Add columns
 
-![The closed\_loop\_score column sums the confidence scores for digits with typical loops (0, 6, 8, 9).](/images/data_vis/add_columns.png)
+You can insert a new column to the left or right of a Table. To add a column, select the kebob menu
 
-#### Edit columns and display settings
+From the kebob menu on any column, you can insert a new column to the left or right. Edit the cell expression to compute a new column using references to existing columns, mathematical and logical operators, and aggregation functions when a row is grouped (like average, sum, min/max). Optionally give the column a new name below the expression editor.
+
+![The closed\_loop\_score column sums the confidence scores for digits with typical loops (0, 6, 8, 9).](/images/data_vis/add_columns.png) -->
+
+<!-- ### Edit columns and display settings
 
 Tables render column data based on the type of the values logged in that column. By clicking on the column name or "Column settings" from the three-dot menu, you can modify
 
@@ -78,11 +87,11 @@ Tables render column data based on the type of the values logged in that column.
 * **the pagination**: select how many objects to view at once in a grouped row
 * **the display name** in the column header
 
-#### Remove columns
+### Remove columns -->
 
-Select "Remove" to delete a column.
+<!-- Select "Remove" to delete a column. -->
 
-## Table comparison
+## Compare tables
 
 All the operations described above also work in the context of Table comparison.
 
@@ -90,7 +99,7 @@ All the operations described above also work in the context of Table comparison.
 
 ### From the UI
 
-To compare two Tables, start by viewing one Table logged alongside an artifact. Here I've logged a model's predictions on MNIST validation data after each of five epochs ([interactive example →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json))
+To compare two Tables, start by viewing one Table logged alongside an artifact. In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([interactive example →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json))
 
 ![Click on "predictions" to view the Table](@site/static/images/data_vis/preds_mnist.png)
 
@@ -151,3 +160,26 @@ This is a toy example of model comparison, but it illustrates the ease, flexibil
 ![After 5 epochs, the "double" variant is catching up to the baseline.](/images/data_vis/compare_across_variants_after_5_epochs.png)
   </TabItem>
 </Tabs>
+
+
+## Save your view
+
+Tables you interact with in the run workspace, project workspace, or a report will automatically save their view state. If you apply any Table operations then close your browser, the Table will retain the last viewed configuration when you next navigate to the table.
+
+Tables you interact with in the artifact context will remain stateless.
+
+To save a Table from a workspace in a particular state, export it to a Report. You can do this from the three dot menu in the top right corner of any workspace visualization panel (three dots → "Share panel" or "Add to report").
+
+![Share panel creates a new report, Add to report lets you append to an existing report.](/images/data_vis/share_your_view.png)
+
+
+### Examples
+
+These reports highlight the different use cases of W&B Tables:
+
+* [Visualize Predictions Over Time](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)
+* [How to Compare Tables in Workspaces](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)
+* [Image & Classification Models](https://wandb.ai/stacey/mendeleev/reports/Tables-Tutorial-Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA)
+* [Text & Generative Language Models](https://wandb.ai/stacey/nlg/reports/Tables-Tutorial-Visualize-Text-Data-Predictions---Vmlldzo1NzcwNzY)
+* [Named Entity Recognition](https://wandb.ai/stacey/ner\_spacy/reports/Named-Entity-Recognition--Vmlldzo3MDE3NzQ)
+* [AlphaFold Proteins](https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc)
