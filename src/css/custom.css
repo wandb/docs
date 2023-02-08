@@ -27,6 +27,7 @@
   --ifm-breadcrumb-color-active: #A9AAAB;
   --ifm-line-height-base: 1.5;
   --ifm-font-family-base: 'Source Sans Pro', sans-serif;
+  --ifm-h3-font-size: 18px;
   font-kerning: normal;
   --ifm-global-spacing: 24px;
   --ifm-breadcrumb-separator: url('/static/img/breadcrumb.svg');
