@@ -148,7 +148,6 @@ const sidebars = {
       items: [
         // 'guides/data-vis/intro',
         'guides/data-vis/tables-quickstart',
-        'guides/data-vis/log-tables',
         'guides/data-vis/tables',
       ],
     },
