@@ -59,6 +59,7 @@ const sidebars = {
         'guides/runs/grouping',
         'guides/runs/resuming',
         'guides/runs/alert',
+        'guides/runs/manage-runs',
       ],
     },
     {
