@@ -27,9 +27,12 @@
   --ifm-breadcrumb-color-active: #A9AAAB;
   --ifm-line-height-base: 1.5;
   --ifm-font-family-base: 'Source Sans Pro', sans-serif;
+  --ifm-h3-font-size: 18px;
   font-kerning: normal;
   --ifm-global-spacing: 24px;
   --ifm-navbar-search-input-icon: url("../../static/img/icon-search-grey.svg");
+  --ifm-breadcrumb-separator: url('/static/img/breadcrumb.svg');
+  --ifm-leading-desktop: 1;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -50,6 +53,11 @@
 
 footer {
   width:100%;
+}
+
+code.codeBlockLines_node_modules-\@docusaurus-theme-classic-lib-theme-CodeBlock-Content-styles-module {
+    padding-top: 16px;
+    padding-bottom: 12px;
 }
 
 div.main-wrapper,
@@ -73,9 +81,59 @@ div.main-wrapper,
   font-weight: 600;
 }
 
+.breadcrumbs__item--active .breadcrumbs__link {
+  font-size: 12px;
+}
+
+.breadcrumbs__link {
+  padding: 0;
+  color: #A9AAAB;
+}
+
+.menu__link.menu__link--active,
+.table-of-contents__link,
+.table-of-contents__link--active,
+.table-of-contents__link:hover {
+  color: #33373D;
+  padding: 3px 12px;
+  background-color: transparent;
+}
+
+a.theme-edit-this-page {
+   color: #33373D;
+}
+
+.table-of-contents__link--active,
+.table-of-contents__link:hover  {
+  background-color: #181B1F0D;
+  border-radius: 4px;
+}
+
+.table-of-contents {
+  font-size: 14px;
+}
+
+.menu__list .menu__list a.menu__link {
+  font-size: 14px;
+}
+input#search_input_react {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.searchBox_node_modules-\@docusaurus-theme-classic-lib-theme-Navbar-Search-styles-module {
+    height: 40px;
+    width:172px
+}
+
 .markdown h1:first-child {
   --ifm-h1-font-size: 24px;
   line-height: 32px;
+}
+
+.table-of-contents ul {
+  border-left: 1px solid #E6E6E6;
+  font-size: 14px;
 }
 
 .markdown > h2 {
@@ -113,5 +171,25 @@ li:not(.menu__list-item--collapsed) ul.menu__list{
   flex-direction: column;
   display: flex;
 }
+nav.menu.thin-scrollbar.menu_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-Desktop-Content-styles-module {
+  padding-left: 0;
+}
 
+<<<<<<< HEAD
 /* 4D86F5 */
+=======
+footer .container {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.footer__links.text--center{
+  margin-bottom: 0;
+}
+
+.col.col--3:last-child {
+    padding-right: 0;
+}
+/* 4D86F5 */
+>>>>>>> 6ef6265dae6ab770725dbb7839ce8038d43af05b

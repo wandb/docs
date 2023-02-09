@@ -59,6 +59,7 @@ const sidebars = {
         'guides/runs/grouping',
         'guides/runs/resuming',
         'guides/runs/alert',
+        'guides/runs/manage-runs',
       ],
     },
     {
@@ -147,7 +148,6 @@ const sidebars = {
       items: [
         // 'guides/data-vis/intro',
         'guides/data-vis/tables-quickstart',
-        'guides/data-vis/log-tables',
         'guides/data-vis/tables',
       ],
     },

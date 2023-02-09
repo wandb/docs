@@ -69,10 +69,9 @@ const config = {
         disableSwitch: true,
       },
       navbar: {
-        title: 'Documentation',
         logo: {
           alt: 'W&B Logo',
-          src: 'img/docs-favicon.png',
+          src: 'img/DocsLogo.svg',
         },
         items: [
           {

@@ -4,7 +4,7 @@ slug: /guides/hosting
 
 # Private Hosting
 
-## W&BHosting Options
+## W&B Hosting Options
 
 :::info
 We recommend that you consider using the wandb.ai cloud before privately hosting a W&B server on your infrastructure. The cloud is simple and secure, with no configuration required. Click [here](https://docs.wandb.ai/quickstart) to learn more.
