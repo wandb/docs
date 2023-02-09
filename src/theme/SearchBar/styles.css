@@ -14,6 +14,26 @@
   visibility: hidden;
 }
 
+.navbar__search-input {
+  border-radius: 04px;
+  background: rgba(0,0,0,0) var(--ifm-navbar-search-input-icon) no-repeat 0.75rem center / 1rem 1rem;
+  border: 1px solid #DDDDDD;
+  color: black;
+  font-family: var(--ifm-font-family-base);
+  max-height: 32px;
+  max-width: 168px;
+  margin-bottom: 6px;
+}
+
+.navbar__search-input:focus-visible {
+  border: 2px solid rgba(0, 175, 194, 0.64);
+  outline: none;
+}
+
+.navbar__search-input::placeholder {
+  color: #A9AAAB;
+}
+
 @media (max-width: 360px) {
   .search-bar {
     width: 0 !important;

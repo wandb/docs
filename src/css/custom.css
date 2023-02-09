@@ -30,6 +30,7 @@
   --ifm-h3-font-size: 18px;
   font-kerning: normal;
   --ifm-global-spacing: 24px;
+  --ifm-navbar-search-input-icon: url("../../static/img/icon-search-grey.svg");
   --ifm-breadcrumb-separator: url('/static/img/breadcrumb.svg');
   --ifm-leading-desktop: 1;
 }
@@ -174,6 +175,9 @@ nav.menu.thin-scrollbar.menu_node_modules-\@docusaurus-theme-classic-lib-theme-D
   padding-left: 0;
 }
 
+<<<<<<< HEAD
+/* 4D86F5 */
+=======
 footer .container {
   display: flex;
   flex-direction: column-reverse;
@@ -188,3 +192,4 @@ footer .container {
     padding-right: 0;
 }
 /* 4D86F5 */
+>>>>>>> 6ef6265dae6ab770725dbb7839ce8038d43af05b

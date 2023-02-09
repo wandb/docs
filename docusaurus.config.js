@@ -75,6 +75,10 @@ const config = {
         },
         items: [
           {
+            type: 'search',
+            position: 'right',
+          },
+          {
             type: 'doc',
             docId: 'guides/intro',
             label: 'Developer Guide',
