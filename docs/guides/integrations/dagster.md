@@ -1,6 +1,8 @@
 ---
 description: Guide on how to integrate W&B with Dagster.
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Dagster
 
@@ -34,6 +36,15 @@ Find your W&B entity by checking the profile page for that user or team in the W
 
 The proceeding examples demonstrate where to specify your API key in your Dagster code. Make sure to specify your entity and project name within the `wandb_config` nested dictionary. You can pass different `wandb_config` values to different ops/assets if you want to use a different W&B Project. For more information about possible keys you can pass, see the Configuration section below.
 
+
+<Tabs
+  defaultValue="job"
+  values={[
+    {label: 'configuration for @job', value: 'job'},
+    {label: 'configuration for @repository using assets', value: 'repository'},
+  ]}>
+  <TabItem value="job">
+
 Example: configuration for `@job`
 ```python
 # add this to your config.yaml
@@ -61,6 +72,10 @@ resources:
 def simple_job_example():
    my_op()
 ```
+
+  </TabItem>
+  <TabItem value="repository">
+
 
 Example: configuration for `@repository` using assets
 
@@ -103,8 +118,11 @@ def my_repository():
        ),
    ]
 ```
-
 Note that we are configuring the IO Manager cache duration in this example contrary to the example for `@job`.
+
+  </TabItem>
+</Tabs>
+
 
 ### Configuration
 The proceeding configuration options are used as settings on the W&B-specific Dagster resource and IO Manager provided by the integration.
@@ -153,8 +171,17 @@ Return an object from a Python function to write a W&B Artifact. The following o
 
 The proceeding examples demonstrate how to write W&B Artifacts with Dagster assets (`@asset`):
 
-### Python objects
-anything that can be serialized with the [pickle](https://docs.python.org/3/library/pickle.html) module is pickled and added to an Artifact created by the integration. The content is unpickled when you read that Artifact inside Dagster (see [Read artifacts](#read-wb-artifacts) for more details). 
+
+<Tabs
+  defaultValue="python_objects"
+  values={[
+    {label: 'Python objects', value: 'python_objects'},
+    {label: 'W&B object', value: 'wb_object'},
+    {label: 'W&B Artifacts', value: 'wb_artifact'},
+  ]}>
+  <TabItem value="python_objects">
+
+Anything that can be serialized with the [pickle](https://docs.python.org/3/library/pickle.html) module is pickled and added to an Artifact created by the integration. The content is unpickled when you read that Artifact inside Dagster (see [Read artifacts](#read-wb-artifacts) for more details). 
 
 ```python
 @asset(
@@ -173,7 +200,9 @@ def create_dataset():
 
 W&B supports multiple Pickle-based serialization modules ([pickle](https://docs.python.org/3/library/pickle.html), [dill](https://github.com/uqfoundation/dill), [cloudpickle](https://github.com/cloudpipe/cloudpickle), [joblib](https://github.com/joblib/joblib)). You can also use more advanced serialization like [ONNX](https://onnx.ai/) or [PMML](https://en.wikipedia.org/wiki/Predictive_Model_Markup_Language). Please refer to the [Serialization](#serialization-configuration) section for more information.
 
-### W&B objects
+  </TabItem>
+  <TabItem value="wb_object">
+
 any native W&B object (e.g [Table](../../ref/python/data-types/table.md), [Image](../../ref/python/data-types/image.md), [Graph](../../ref/python/data-types/graph.md)) is added to an Artifact created by the integration. Here’s an example using a Table.
 
 ```python
@@ -192,8 +221,9 @@ def create_dataset_in_table():
     return wandb.Table(columns=["a", "b", "c"], data=[[1, 2, 3]])
 ```
 
+  </TabItem>
+  <TabItem value="wb_artifact">
 
-### W&B Artifacts 
 For complex use cases, it might be necessary to build your own Artifact object. The integration still provides useful additional features like augmenting the metadata on both sides of the integration.
 
 ```python
@@ -212,6 +242,10 @@ def create_artifact():
    return artifact
 ```
 
+  </TabItem>
+</Tabs>
+
+
 ### Configuration
 A configuration dictionary called wandb_artifact_configuration can be set on an `@op`, `@asset` and `@multi_asset`. This dictionary must be passed in the decorator arguments as metadata. This configuration is required to control the IO Manager reads and writes of W&B Artifacts.
 
@@ -220,6 +254,15 @@ For `@asset`, it’s located in the metadata argument on the asset.
 For `@multi_asset`, it’s located in each output metadata through the [AssetOut](https://docs.dagster.io/_apidocs/assets#dagster.AssetOut) metadata arguments.
 
 The proceeding code examples demonstrate how to configure a dictionary on an `@op`, `@asset` and `@multi_asset` computations:
+
+<Tabs
+  defaultValue="op"
+  values={[
+    {label: 'Example for @op', value: 'op'},
+    {label: 'Example for @asset', value: 'asset'},
+    {label: 'Example for @multi_asset', value: 'multi_asset'},
+  ]}>
+  <TabItem value="op">
 
 Example for `@op`:
 ```python 
@@ -237,6 +280,9 @@ def create_dataset():
    return [1, 2, 3]
 ```
 
+  </TabItem>
+  <TabItem value="asset">
+
 Example for `@asset`:
 ```python
 @asset(
@@ -253,6 +299,9 @@ def create_dataset():
 ```
 
 You do not need to pass a name through the configuration because the @asset already has a name. The integration sets the Artifact name as the asset name.
+
+  </TabItem>
+  <TabItem value="multi_asset">
 
 Example for `@multi_asset`:
 
@@ -285,6 +334,10 @@ def create_datasets():
 
    return first_table, second_table
 ```
+
+  </TabItem>
+</Tabs>
+
 
 
 Supported properties:
@@ -382,6 +435,17 @@ For `@asset`, it’s located in the input metadata through the [Asset](https://d
 
 If you want to have a dependency on an Artifact created outside the integration you will need to use [SourceAsset](https://docs.dagster.io/_apidocs/assets#dagster.SourceAsset). It will always read the latest version of that asset.
 
+The following examples demonstrate how to read an Artifact from various ops.
+
+<Tabs
+  defaultValue="op"
+  values={[
+    {label: 'From an @op', value: 'op'},
+    {label: 'Created by another @asset', value: 'asset'},
+    {label: 'Artifact created outside Dagster', value: 'outside_dagster'},
+  ]}>
+  <TabItem value="op">
+
 Reading an artifact from an `@op`
 ```python
 @op(
@@ -397,8 +461,11 @@ Reading an artifact from an `@op`
    io_manager_key="wandb_artifacts_manager"
 )
 def read_artifact(context, artifact):
-   context.log.info(artifact)c
+   context.log.info(artifact)
 ```
+
+  </TabItem>
+  <TabItem value="asset">
 
 Reading an artifact created by another `@asset`
 ```python
@@ -416,6 +483,9 @@ def read_artifact(context, artifact):
    context.log.info(artifact)
 ```
 
+  </TabItem>
+  <TabItem value="outside_dagster">
+
 Reading an Artifact created outside Dagster:
 
 ```python
@@ -430,6 +500,10 @@ my_artifact = SourceAsset(
 def read_artifact(context, my_artifact):
    context.log.info(my_artifact)
 ```
+
+  </TabItem>
+</Tabs>
+
 
 ### Configuration
 The proceeding configuration is used to indicate what the IO Manager should collect and provide as inputs to the decorated functions. The following read patterns are supported.
