@@ -71,7 +71,8 @@ const config = {
       navbar: {
         logo: {
           alt: 'W&B Logo',
-          src: 'img/DocsLogo.svg',
+          src: 'img/DocsLogo2.svg',
+          style: {position: 'relative', top: '-2px'},
         },
         items: [
           {
