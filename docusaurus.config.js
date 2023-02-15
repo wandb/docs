@@ -48,6 +48,18 @@ const config = {
       },
     ],
   ],
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'sp'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+      },
+      it: {
+        label: 'Spanish',
+      },
+    },
+  },
 
   plugins: [
     [
@@ -100,6 +112,10 @@ const config = {
             href: 'https://app.wandb.ai/login',
             label: 'Login',
             position: 'right',
+          },
+          {
+            type: 'localeDropdown',
+            position: 'left',
           },
         ],
       },
