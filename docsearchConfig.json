@@ -1,0 +1,17 @@
+{
+  "index_name": "docodile",
+  "start_urls": ["https://docs-beta.wandb.ai"],
+  "sitemaps": ["https://docs-beta.wandb.ai/sitemap.xml"],
+  "selectors": {
+    "lvl0": {
+      "selector": "",
+      "default_value": "Documentation"
+    },
+    "lvl1": "header h1, article h1",
+    "lvl2": "article h2",
+    "lvl3": "article h3",
+    "lvl4": "article h4",
+    "lvl5": "article h5, article td:first-child",
+    "text": "article p, article li, article code, article td:last-child"
+  }
+}
