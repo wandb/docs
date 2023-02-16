@@ -3,10 +3,7 @@
   "start_urls": ["https://docs-beta.wandb.ai"],
   "sitemaps": ["https://docs-beta.wandb.ai/sitemap.xml"],
   "selectors": {
-    "lvl0": {
-      "selector": "",
-      "default_value": "Documentation"
-    },
+    "lvl0": "article nav ul li:nth-child(2) .breadcrumbs__link",
     "lvl1": "header h1, article h1",
     "lvl2": "article h2",
     "lvl3": "article h3",
