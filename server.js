@@ -6,7 +6,7 @@ const app = express();
 const isProduction = process.env.NODE_ENV === `production`;
 const isDev = !isProduction;
 
-app.use(helmet());
+app.use(helmet.hsts());
 
 app.use(
   static('build', {
