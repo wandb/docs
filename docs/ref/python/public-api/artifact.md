@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4014-L4913)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4205-L5250)
 
 
 
@@ -94,10 +94,11 @@ artifact.delete()
 | `name` | Returns: (str): The artifact's name |
 | `project` | Returns: (str): The name of the project this artifact belongs to. |
 | `size` | Returns: (int): The size in bytes of the artifact. Includes any references tracked by this artifact. |
+| `source_version` | Returns: (str) The artifact's version index under its parent artifact collection. This will return a string with the format "v{number}". |
 | `state` | Returns: (str): The state of the artifact, which can be one of "PENDING", "COMMITTED", or "DELETED". |
 | `type` | Returns: (str): The artifact's type |
 | `updated_at` | Returns: (datetime): The time at which the artifact was last updated. |
-| `version` | Returns: (str): The version of this artifact. For example, if this is the first version of an artifact, its `version` will be 'v0'. |
+| `version` | Returns: (str): The artifact's version index under the given artifact collection. This will return a string with the format "v{number}". |
 
 
 
@@ -107,7 +108,7 @@ artifact.delete()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4418-L4419)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4634-L4635)
 
 ```python
 add(
@@ -139,7 +140,7 @@ obj = artifact.get(name)
 Basic usage
 ```
 artifact = wandb.Artifact('my_table', 'dataset')
-table = wandb.Table(columns=["a", "b", "c"], data=[[i, i\*2, 2\*\*i]])
+table = wandb.Table(columns=["a", "b", "c"], data=[[i, i\*2, 2**i]])
 artifact.add(table, "my_table")
 
 wandb.log_artifact(artifact)
@@ -156,7 +157,7 @@ table = artifact.get("my_table")
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4412-L4413)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4628-L4629)
 
 ```python
 add_dir(
@@ -183,7 +184,7 @@ artifact.add_dir('my_dir/') # All files in `my_dir/` are added at the root of th
 
 Adding a directory without an explicit name:
 ```
-artifact.add_dir('my_dir/', path='destination') # All files in `my_dir/` are added under `destination/`.
+artifact.add_dir('my_dir/', name='destination') # All files in `my_dir/` are added under `destination/`.
 ```
 
 
@@ -204,7 +205,7 @@ artifact.add_dir('my_dir/', path='destination') # All files in `my_dir/` are add
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4409-L4410)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4625-L4626)
 
 ```python
 add_file(
@@ -253,7 +254,7 @@ artifact.add_file('path/to/file.txt', name='new/path/file.txt') # Added as 'new/
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4415-L4416)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4631-L4632)
 
 ```python
 add_reference(
@@ -326,7 +327,7 @@ artifact.add_reference('gs://mybucket/prefix', name='path')
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4546-L4561)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4762-L4777)
 
 ```python
 checkout(
@@ -355,7 +356,7 @@ artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4364-L4404)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4580-L4620)
 
 ```python
 delete(
@@ -389,7 +390,7 @@ for run in runs:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4501-L4544)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4717-L4760)
 
 ```python
 download(
@@ -420,7 +421,7 @@ match the artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4270-L4310)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4486-L4526)
 
 ```python
 @staticmethod
@@ -436,7 +437,7 @@ Returns the expected type for a given artifact name and project
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4595-L4616)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4808-L4829)
 
 ```python
 file(
@@ -444,12 +445,12 @@ file(
 )
 ```
 
-Download a single file artifact to dir specified by the 
+Download a single file artifact to dir specified by the root
 
 
 | Arguments | |
 | :--- | :--- |
-| `root` | (str, optional) The root directory in which to place the file. Defaults to './artifacts//'. |
+| `root` | (str, optional) The root directory in which to place the file. Defaults to './artifacts/self.name/'. |
 
 
 
@@ -463,7 +464,7 @@ Download a single file artifact to dir specified by the
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4742-L4753)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L5079-L5090)
 
 ```python
 files(
@@ -491,7 +492,7 @@ Iterate over all files stored in this artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4099-L4142)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4290-L4333)
 
 ```python
 @classmethod
@@ -508,7 +509,7 @@ from_id(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4473-L4499)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4689-L4715)
 
 ```python
 get(
@@ -540,7 +541,7 @@ Basic usage
 # Run logging the artifact
 with wandb.init() as r:
  artifact = wandb.Artifact('my_dataset', type='dataset')
- table = wandb.Table(columns=["a", "b", "c"], data=[[i, i\*2, 2\*\*i]])
+ table = wandb.Table(columns=["a", "b", "c"], data=[[i, i\*2, 2**i]])
  artifact.add(table, "my_table")
  wandb.log_artifact(artifact)
 
@@ -555,7 +556,7 @@ with wandb.init() as r:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4461-L4471)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4677-L4687)
 
 ```python
 get_path(
@@ -604,7 +605,7 @@ with wandb.init() as r:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4638-L4639)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4851-L4852)
 
 ```python
 json_encode()
@@ -617,7 +618,7 @@ json_encode()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4321-L4362)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4537-L4578)
 
 ```python
 link(
@@ -645,7 +646,7 @@ Links this artifact to a portfolio (a promoted collection of artifacts), with al
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4871-L4907)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L5208-L5244)
 
 ```python
 logged_by()
@@ -664,7 +665,7 @@ Retrieves the run which logged this artifact
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4406-L4407)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4622-L4623)
 
 ```python
 new_file(
@@ -704,7 +705,7 @@ wandb.log_artifact(artifact)
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4641-L4682)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4854-L4919)
 
 ```python
 save()
@@ -717,7 +718,7 @@ Persists artifact changes to the wandb backend.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4824-L4869)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L5161-L5206)
 
 ```python
 used_by()
@@ -736,7 +737,7 @@ Retrieves the runs which use this artifact directly
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4563-L4593)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4779-L4806)
 
 ```python
 verify(
@@ -755,7 +756,7 @@ NOTE: References are not verified.
 
 | Arguments | |
 | :--- | :--- |
-| `root` | (str, optional) The directory to verify. If None artifact will be downloaded to './artifacts//' |
+| `root` | (str, optional) The directory to verify. If None artifact will be downloaded to './artifacts/self.name/' |
 
 
 
@@ -769,7 +770,7 @@ NOTE: References are not verified.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4684-L4685)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4921-L4922)
 
 ```python
 wait()
@@ -788,7 +789,7 @@ Waits for this artifact to finish logging, if needed.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/apis/public.py#L4912-L4913)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L5249-L5250)
 
 ```python
 __getitem__(
@@ -818,7 +819,7 @@ NOTE: This will raise an error unless the artifact has been fetched using
 Basic usage
 ```
 artifact = wandb.Artifact('my_table', 'dataset')
-table = wandb.Table(columns=["a", "b", "c"], data=[[i, i\*2, 2\*\*i]])
+table = wandb.Table(columns=["a", "b", "c"], data=[[i, i\*2, 2**i]])
 artifact["my_table"] = table
 
 wandb.log_artifact(artifact)

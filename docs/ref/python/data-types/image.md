@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/image.py#L59-L630)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/image.py#L61-L655)
 
 
 
@@ -81,7 +81,7 @@ wandb.log({"examples": examples})
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/image.py#L555-L576)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/image.py#L576-L597)
 
 ```python
 @classmethod
@@ -100,7 +100,7 @@ all_boxes(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/image.py#L578-L582)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/image.py#L599-L603)
 
 ```python
 @classmethod
@@ -116,7 +116,7 @@ all_captions(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/image.py#L532-L553)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/image.py#L553-L574)
 
 ```python
 @classmethod
@@ -135,7 +135,7 @@ all_masks(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/image.py#L416-L430)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/image.py#L437-L451)
 
 ```python
 guess_mode(
@@ -150,7 +150,7 @@ Guess what type of image the np.array is representing
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/image.py#L432-L454)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/image.py#L453-L475)
 
 ```python
 @classmethod

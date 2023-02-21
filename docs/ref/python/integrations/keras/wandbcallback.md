@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/keras.py#L278-L1075)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/keras.py#L292-L1089)
 
 
 
@@ -18,7 +18,7 @@ WandbCallback(
  log_best_prefix="best_", save_graph=(True), validation_indexes=None,
  validation_row_processor=None, prediction_row_processor=None,
  infer_missing_processors=(True), log_evaluation_frequency=0,
- compute_flops=(False), \*\*kwargs
+ compute_flops=(False), **kwargs
 )
 ```
 
@@ -86,7 +86,7 @@ associated with the best `epoch`.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/keras.py#L1029-L1075)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/keras.py#L1043-L1089)
 
 ```python
 get_flops() -> float
@@ -99,7 +99,7 @@ in inference mode. It uses tf.compat.v1.profiler under the hood.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/keras.py#L540-L549)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/keras.py#L554-L563)
 
 ```python
 set_model(
@@ -114,7 +114,7 @@ set_model(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/keras.py#L537-L538)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/keras.py#L551-L552)
 
 ```python
 set_params(
