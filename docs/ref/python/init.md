@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/wandb_init.py#L849-L1117)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/wandb_init.py#L882-L1146)
 
 
 
@@ -15,12 +15,12 @@ init(
  config: Union[Dict, str, None] = None,
  project: Optional[str] = None,
  entity: Optional[str] = None,
- reinit: bool = None,
+ reinit: Optional[bool] = None,
  tags: Optional[Sequence] = None,
  group: Optional[str] = None,
  name: Optional[str] = None,
  notes: Optional[str] = None,
- magic: Union[dict, str, bool] = None,
+ magic: Optional[Union[dict, str, bool]] = None,
  config_exclude_keys=None,
  config_include_keys=None,
  anonymous: Optional[str] = None,

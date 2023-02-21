@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/callbacks/tables_builder.py#L10-L229)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/callbacks/tables_builder.py#L10-L229)
 
 
 
@@ -13,7 +13,7 @@ WandbEvalCallback(
  data_table_columns: List[str],
  pred_table_columns: List[str],
  \*args,
- \*\*kwargs
+ **kwargs
 ) -> None
 ```
 
@@ -105,7 +105,7 @@ can implement `on_train_batch_end` method.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/callbacks/tables_builder.py#L127-L141)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/callbacks/tables_builder.py#L127-L141)
 
 ```python
 @abc.abstractmethod
@@ -130,7 +130,7 @@ This method is called once `on_train_begin` or equivalent hook.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/callbacks/tables_builder.py#L143-L163)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/callbacks/tables_builder.py#L143-L163)
 
 ```python
 @abc.abstractmethod
@@ -160,7 +160,7 @@ This method is called `on_epoch_end` or equivalent hook.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/callbacks/tables_builder.py#L165-L172)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/callbacks/tables_builder.py#L165-L172)
 
 ```python
 init_data_table(
@@ -178,7 +178,7 @@ Args:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/callbacks/tables_builder.py#L174-L181)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/callbacks/tables_builder.py#L174-L181)
 
 ```python
 init_pred_table(
@@ -196,7 +196,7 @@ Args:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/callbacks/tables_builder.py#L183-L208)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/callbacks/tables_builder.py#L183-L208)
 
 ```python
 log_data_table(
@@ -223,7 +223,7 @@ Args:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/integration/keras/callbacks/tables_builder.py#L210-L229)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/callbacks/tables_builder.py#L210-L229)
 
 ```python
 log_pred_table(

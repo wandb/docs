@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/wandb_agent.py#L589-L650)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/wandb_agent.py#L589-L649)
 
 
 
@@ -36,16 +36,14 @@ Run a sample sweep over a function:
 
 ```python
 import wandb
+
 sweep_configuration = {
  "name": "my-awesome-sweep",
  "metric": {"name": "accuracy", "goal": "maximize"},
  "method": "grid",
- "parameters": {
- "a": {
- "values": [1, 2, 3, 4]
- }
- }
+ "parameters": {"a": {"values": [1, 2, 3, 4]}},
 }
+
 
 def my_train_func():
  # read the current value of parameter "a" from wandb.config
@@ -53,6 +51,7 @@ def my_train_func():
  a = wandb.config.a
 
  wandb.log({"a": a, "accuracy": a + 1})
+
 
 sweep_id = wandb.sweep(sweep_configuration)
 

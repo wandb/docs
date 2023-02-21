@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/object_3d.py#L76-L316)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/object_3d.py#L77-L319)
 
 
 
@@ -11,7 +11,7 @@ Wandb class for 3D point clouds.
 ```python
 Object3D(
  data_or_path: Union['np.ndarray', str, 'TextIO', dict],
- \*\*kwargs
+ **kwargs
 ) -> None
 ```
 
@@ -28,7 +28,7 @@ The shape of the numpy array must be one of either:
 ```
 [[x y z], ...] nx3
 [[x y z c], ...] nx4 where c is a category with supported range [1, 14]
-[[x y z r g b], ...] nx4 where is rgb is color
+[[x y z r g b], ...] nx6 where is rgb is color
 ```
 
 ## Methods
@@ -37,13 +37,13 @@ The shape of the numpy array must be one of either:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/object_3d.py#L221-L229)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/object_3d.py#L222-L232)
 
 ```python
 @classmethod
 from_file(
  data_or_path: Union['TextIO', str],
- file_type: "FileFormat3D" = None
+ file_type: Optional['FileFormat3D'] = None
 ) -> "Object3D"
 ```
 
@@ -54,7 +54,7 @@ from_file(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/object_3d.py#L231-L244)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/object_3d.py#L234-L247)
 
 ```python
 @classmethod
@@ -70,7 +70,7 @@ from_numpy(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/597de7d094bdab2fa17d5db396c6bc227b2f62c3/wandb/sdk/data_types/object_3d.py#L246-L270)
+[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/object_3d.py#L249-L273)
 
 ```python
 @classmethod
