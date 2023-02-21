@@ -3,7 +3,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/\_\_init\_\_.py)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/__init__.py)
 
 
 
@@ -39,7 +39,7 @@ For reference documentation, see https://docs.wandb.com/ref/python.
 
 [`log(...)`](./log.md): Logs a dictonary of data to the current run's history.
 
-[`save(...)`](./save.md): Ensure all files matching `glob\_str` are synced to wandb with the policy specified.
+[`save(...)`](./save.md): Ensure all files matching `glob_str` are synced to wandb with the policy specified.
 
 [`sweep(...)`](./sweep.md): Initialize a hyperparameter sweep.
 
@@ -49,7 +49,7 @@ For reference documentation, see https://docs.wandb.com/ref/python.
 
 | Other Members | |
 | :--- | :--- |
-| `\_\_version\_\_` | `'0.13.9'` |
+| `__version__` | `'0.13.9'` |
 | `config` | |
 | `summary` | |
 
