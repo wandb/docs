@@ -38,8 +38,6 @@ The Python details are private, even if you make the page itself public. Here is
 * View examples predictions from your validation set
 * To get these charts, log data with [`wandb.log()`](../../../guides/track/log/intro.md)
 
-[View a live example →](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/runs/wec25l0q?workspace=user-carey)
-
 ![](/images/app_ui/wandb-run-page-workspace-tab.png)
 
 ## System Tab
