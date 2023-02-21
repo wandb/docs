@@ -1,12 +1,27 @@
 const express = require('express');
 const helmet = require('helmet');
 const static = require('@laxels/serve-static');
+const url = require('url');
+const REDIRECTS = require('./redirects.json');
+
 const app = express();
 
 const isProduction = process.env.NODE_ENV === `production`;
 const isDev = !isProduction;
 
 app.use(helmet.hsts());
+
+const redirectMap = new Map(REDIRECTS.map(({from, to}) => [from, to]));
+app.use((req, res, next) => {
+  const {pathname, search, hash} = url.parse(req.originalUrl);
+  const redirectTo = redirectMap.get(pathname);
+  if (redirectTo == null) {
+    next();
+    return;
+  }
+
+  res.redirect(301, `${redirectTo}${search ?? ``}${hash ?? ``}`);
+});
 
 app.use(
   static('build', {
