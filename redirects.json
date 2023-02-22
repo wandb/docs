@@ -96,6 +96,10 @@
     "to": "/guides/integrations/kubeflow-pipelines-kfp"
   },
   {
+    "from": "/guides/integrations/kubeflow",
+    "to": "/guides/integrations/kubeflow-pipelines-kfp"
+  },
+  {
     "from": "/guides/integrations/other/add-wandb-to-any-library",
     "to": "/guides/integrations/add-wandb-to-any-library"
   },
@@ -268,6 +272,10 @@
     "to": "/guides/hosting/setup"
   },
   {
+    "from": "/guides/self-hosted/configuration",
+    "to": "/guides/hosting/setup/configuration"
+  },
+  {
     "from": "/guides/self-hosted/setup/configuration",
     "to": "/guides/hosting/setup/configuration"
   },
@@ -294,6 +302,14 @@
   {
     "from": "/guides/sweeps/python-api",
     "to": "/ref/python/public-api/api"
+  },
+  {
+    "from": "/guides/track/media",
+    "to": "/guides/track/log/media"
+  },
+  {
+    "from": "/data-vis/log-tables",
+    "to": "/guides/track/log/log-tables"
   },
   {
     "from": "/guides/data-vis/log-tables",
