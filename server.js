@@ -17,7 +17,12 @@ app.use(helmet.hsts());
 const redirectMap = new Map(REDIRECTS.map(({from, to}) => [from, to]));
 app.use((req, res, next) => {
   const {pathname, search, hash} = url.parse(req.originalUrl);
-  const redirectTo = redirectMap.get(pathname);
+
+  const pathnameWithoutTrailingSlash = pathname.endsWith(`/`)
+    ? pathname.slice(0, -1)
+    : pathname;
+
+  const redirectTo = redirectMap.get(pathnameWithoutTrailingSlash);
   if (redirectTo == null) {
     next();
     return;

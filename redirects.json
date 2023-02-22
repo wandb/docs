@@ -380,6 +380,10 @@
     "to": "/guides/runs/grouping"
   },
   {
+    "from": "/library/advanced/limits",
+    "to": "/guides/track/limits"
+  },
+  {
     "from": "/library/api",
     "to": "/ref/python/public-api/api"
   },
@@ -502,6 +506,10 @@
   {
     "from": "/ref/app/features/anon",
     "to": "/guides/app/features/anon"
+  },
+  {
+    "from": "/app/features/custom-charts",
+    "to": "/guides/app/features/custom-charts"
   },
   {
     "from": "/ref/app/features/custom-charts",
