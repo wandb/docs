@@ -21,7 +21,7 @@
   },
   {
     "from": "/company/data-and-privacy",
-    "to": "https://security.wandb.ai/"
+    "to": "https://security.wandb.ai"
   },
   {
     "from": "/datasets-and-predictions",
@@ -33,7 +33,7 @@
   },
   {
     "from": "/docs/frameworks/fastai.html",
-    "to": "/guides/integrations/fastai/"
+    "to": "/guides/integrations/fastai"
   },
   {
     "from": "/docs/init.html",
@@ -132,8 +132,8 @@
     "to": "/guides/integrations/docker"
   },
   {
-    "from": "/guides/integrations/other/fastai/",
-    "to": "/guides/integrations/fastai/"
+    "from": "/guides/integrations/other/fastai",
+    "to": "/guides/integrations/fastai"
   },
   {
     "from": "/guides/integrations/other/fastai/v1",
@@ -268,6 +268,10 @@
     "to": "/guides/hosting/faq"
   },
   {
+    "from": "/self-hosted/setup",
+    "to": "/guides/hosting/setup"
+  },
+  {
     "from": "/guides/self-hosted/setup",
     "to": "/guides/hosting/setup"
   },
@@ -376,6 +380,10 @@
     "to": "/guides/integrations/tensorboard"
   },
   {
+    "from": "/library/grouping",
+    "to": "/guides/runs/grouping"
+  },
+  {
     "from": "/library/advanced/grouping",
     "to": "/guides/runs/grouping"
   },
@@ -393,7 +401,7 @@
   },
   {
     "from": "/library/cli",
-    "to": "/ref/cli/"
+    "to": "/ref/cli"
   },
   {
     "from": "/library/config",
@@ -433,7 +441,7 @@
   },
   {
     "from": "/library/integrations/fastai",
-    "to": "/guides/integrations/fastai/"
+    "to": "/guides/integrations/fastai"
   },
   {
     "from": "/library/integrations/huggingface",
@@ -477,7 +485,7 @@
   },
   {
     "from": "/library/security",
-    "to": "https://security.wandb.ai/"
+    "to": "https://security.wandb.ai"
   },
   {
     "from": "/library/sweeps",
@@ -593,7 +601,7 @@
   },
   {
     "from": "/ref/data-types",
-    "to": "/ref/python/data-types/"
+    "to": "/ref/python/data-types"
   },
   {
     "from": "/ref/public-api",
@@ -601,7 +609,7 @@
   },
   {
     "from": "/ref/python/config",
-    "to": "/ref/python/"
+    "to": "/ref/python"
   },
   {
     "from": "/reports",
@@ -617,10 +625,6 @@
   },
   {
     "from": "/sweeps",
-    "to": "/guides/sweeps"
-  },
-  {
-    "from": "/sweeps/",
     "to": "/guides/sweeps"
   },
   {
