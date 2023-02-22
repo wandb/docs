@@ -36,7 +36,11 @@ app.use(
   })
 );
 
-// If no static file is found in that path, serve 404.html
+// If no static file is found in that path, serve 404 HTML page with 404 status code
+app.use((req, res, next) => {
+  res.status(404);
+  next();
+});
 app.use(
   static('build', {
     transformPath: transformPathInto404,
