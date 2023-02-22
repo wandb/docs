@@ -39,7 +39,7 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/wandb/docodile/tree/main',
+          // editUrl: 'https://github.com/wandb/docodile/tree/main', // We're removing this because the repo is private so public viewers don't see a broken edit link.
         },
         blog: false,
         theme: {
