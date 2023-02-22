@@ -140,6 +140,10 @@
     "to": "/ref/python/public-api/api"
   },
   {
+    "from": "/guides/data-vis/log-tables",
+    "to": "/guides/track/log/log-tables"
+  },
+  {
     "from": "/guides/track/advanced/distributed-training",
     "to": "/guides/track/log/distributed-training"
   },
@@ -365,7 +369,7 @@
   },
   {
     "from": "/ref/app/features/panels/run-comparer",
-    "to": "/guides/app/features/panels/weave"
+    "to": "/guides/app/features/panels/run-comparer"
   },
   {
     "from": "/ref/app/features/panels/weave",
