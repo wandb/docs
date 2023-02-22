@@ -26,7 +26,6 @@ This section contains reference docs for the web app interface, hosted in the cl
 * [**Runs Table**](features/runs-table.md): Queryable tool for organizing and comparing runs
 * [**Tags**](features/tags.md)
 * [**Notes**](features/notes.md)
-* [**Alerts**](features/alerts.md)
 * [**Teams**](features/teams.md)
 * [**System Metrics**](features/system-metrics.md)
 * [**Anonymous Mode**](features/anon.md)

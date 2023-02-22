@@ -219,7 +219,6 @@ const sidebars = {
             'guides/app/features/runs-table',
             'guides/app/features/tags',
             'guides/app/features/notes',
-            // 'guides/app/features/alerts',
             'guides/app/features/teams',
             'guides/app/features/system-metrics',
             'guides/app/features/anon',
