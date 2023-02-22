@@ -4,6 +4,10 @@
     "to": "/guides/app"
   },
   {
+    "from": "/app/features/custom-charts",
+    "to": "/guides/app/features/custom-charts"
+  },
+  {
     "from": "/app/features/sidebar",
     "to": "/guides/app/features/runs-table#add-sidebar-columns"
   },
@@ -22,6 +26,10 @@
   {
     "from": "/company/data-and-privacy",
     "to": "https://security.wandb.ai"
+  },
+  {
+    "from": "/data-vis/log-tables",
+    "to": "/guides/track/log/log-tables"
   },
   {
     "from": "/datasets-and-predictions",
@@ -84,16 +92,16 @@
     "to": "/guides/artifacts"
   },
   {
+    "from": "/guides/data-vis/log-tables",
+    "to": "/guides/track/log/log-tables"
+  },
+  {
     "from": "/guides/integrat",
     "to": "/guides/integrations"
   },
   {
     "from": "/guides/integrations/boosting",
     "to": "/guides/integrations"
-  },
-  {
-    "from": "/guides/integrations/other/kubeflow",
-    "to": "/guides/integrations/kubeflow-pipelines-kfp"
   },
   {
     "from": "/guides/integrations/kubeflow",
@@ -154,6 +162,10 @@
   {
     "from": "/guides/integrations/other/keras",
     "to": "/guides/integrations/keras"
+  },
+  {
+    "from": "/guides/integrations/other/kubeflow",
+    "to": "/guides/integrations/kubeflow-pipelines-kfp"
   },
   {
     "from": "/guides/integrations/other/kubeflow-pipelines-kfp",
@@ -260,6 +272,10 @@
     "to": "/guides/hosting"
   },
   {
+    "from": "/guides/self-hosted/configuration",
+    "to": "/guides/hosting/setup/configuration"
+  },
+  {
     "from": "/guides/self-hosted/local",
     "to": "/guides/hosting/basic-setup"
   },
@@ -268,16 +284,8 @@
     "to": "/guides/hosting/faq"
   },
   {
-    "from": "/self-hosted/setup",
-    "to": "/guides/hosting/setup"
-  },
-  {
     "from": "/guides/self-hosted/setup",
     "to": "/guides/hosting/setup"
-  },
-  {
-    "from": "/guides/self-hosted/configuration",
-    "to": "/guides/hosting/setup/configuration"
   },
   {
     "from": "/guides/self-hosted/setup/configuration",
@@ -308,18 +316,6 @@
     "to": "/ref/python/public-api/api"
   },
   {
-    "from": "/guides/track/media",
-    "to": "/guides/track/log/media"
-  },
-  {
-    "from": "/data-vis/log-tables",
-    "to": "/guides/track/log/log-tables"
-  },
-  {
-    "from": "/guides/data-vis/log-tables",
-    "to": "/guides/track/log/log-tables"
-  },
-  {
     "from": "/guides/track/advanced/distributed-training",
     "to": "/guides/track/log/distributed-training"
   },
@@ -342,6 +338,10 @@
   {
     "from": "/guides/track/alert",
     "to": "/guides/runs/alert"
+  },
+  {
+    "from": "/guides/track/media",
+    "to": "/guides/track/log/media"
   },
   {
     "from": "/huggingface",
@@ -378,10 +378,6 @@
   {
     "from": "/integrations/tensorboard",
     "to": "/guides/integrations/tensorboard"
-  },
-  {
-    "from": "/library/grouping",
-    "to": "/guides/runs/grouping"
   },
   {
     "from": "/library/advanced/grouping",
@@ -426,6 +422,10 @@
   {
     "from": "/library/frameworks/pytorch/lightning",
     "to": "/guides/integrations/lightning"
+  },
+  {
+    "from": "/library/grouping",
+    "to": "/guides/runs/grouping"
   },
   {
     "from": "/library/init",
@@ -516,10 +516,6 @@
     "to": "/guides/app/features/anon"
   },
   {
-    "from": "/app/features/custom-charts",
-    "to": "/guides/app/features/custom-charts"
-  },
-  {
     "from": "/ref/app/features/custom-charts",
     "to": "/guides/app/features/custom-charts"
   },
@@ -596,16 +592,16 @@
     "to": "/guides/app/settings-page"
   },
   {
-    "from": "/ref/app/pages/settings-page/user-settings",
-    "to": "/guides/app/settings-page/user-settings"
+    "from": "/ref/app/pages/settings-page/emails",
+    "to": "/guides/app/settings-page/emails"
   },
   {
     "from": "/ref/app/pages/settings-page/team-settings",
     "to": "/guides/app/settings-page/team-settings"
   },
   {
-    "from": "/ref/app/pages/settings-page/emails",
-    "to": "/guides/app/settings-page/emails"
+    "from": "/ref/app/pages/settings-page/user-settings",
+    "to": "/guides/app/settings-page/user-settings"
   },
   {
     "from": "/ref/app/pages/workspaces",
@@ -634,6 +630,10 @@
   {
     "from": "/self-hosted/local",
     "to": "/guides/hosting/basic-setup"
+  },
+  {
+    "from": "/self-hosted/setup",
+    "to": "/guides/hosting/setup"
   },
   {
     "from": "/sweeps",
