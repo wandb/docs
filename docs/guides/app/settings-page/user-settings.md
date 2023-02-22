@@ -19,7 +19,7 @@ Change the default behavior for your account within the **Project** **Defaults**
 
 * **Default location to create new projects** - Select the dropdown menu and choose the entity to set as the new default. Specify either your account or a team you are a member of.
 * **Default projects privacy in your personal account** - Set a project to public (anyone can view), private (only you can view and contribute) or open (anyone can submit runs or write the reports) automatically when you create a project. You can optionally create a team to collaborate on private projects.
-* **Enable code savings in your personal account** - Permit Weights and Biases to save the latest git commit hash by default. To enable code saving, toggle the Enable code savings in your personal account option. For more information about saving and comparing code, see [Code Saving](https://docs.wandb.ai/ref/app/features/panels/code).
+* **Enable code savings in your personal account** - Permit Weights and Biases to save the latest git commit hash by default. To enable code saving, toggle the Enable code savings in your personal account option. For more information about saving and comparing code, see [Code Saving](../features/panels/code.md).
 
 ### Teams
 
@@ -38,17 +38,17 @@ Only administrative accounts can create a team.
 Within the **Beta Features** section you can optionally enable fun add-ons and sneak previews of new products in development. Select the toggle switch next to the beta feature you want to enable. Currently you can get a sneak peak of the proceeding features:
 
 * **Night mode** - Invert the colors everywhere! This makes pages dark, but might make colors on charts less easy to distinguish.
-* **W&B Launch** - Launch jobs on your own infrastructure from Weights and Biases. For more information, see the [Launch Jobs](https://docs.wandb.ai/guides/launch?\_gl=1\*pdlnmj\*\_ga\*MjQzNTM2NTgwLjE2NTQwMTQ1NzA.\*\_ga\_JH1SJHJQXJ\*MTY1OTAzMTAwMS45Ni4xLjE2NTkwMzM5NjYuNjA.) documentation.
+* **W&B Launch** - Launch jobs on your own infrastructure from Weights and Biases. For more information, see the [Launch Jobs](../../launch/intro.md) documentation.
 * **Unicorn mode** - Change your cursor on charts from a boring pointer to a unicorn!
 
 ### Alerts
 
-Get notified when your runs crash, finish, or set custom alerts with [wandb.alert()](https://docs.wandb.ai/guides/track/alert). Receive notifications either through Email or Slack. Toggle the switch next to the event type you want to receive alerts from.
+Get notified when your runs crash, finish, or set custom alerts with [wandb.alert()](../../runs/alert.md). Receive notifications either through Email or Slack. Toggle the switch next to the event type you want to receive alerts from.
 
 * **Runs finished**: whether a Weights and Biases run successfully finished.
 * **Run crashed**: notification if a run has failed to finish.
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert](https://docs.wandb.ai/guides/track/alert).
+For more information about how to set up and manage alerts, see [Send alerts with wandb.alert](../../runs/alert.md).
 
 ### Personal GitHub integration
 
