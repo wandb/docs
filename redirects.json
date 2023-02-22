@@ -528,7 +528,7 @@
     "to": "/guides/app/features/custom-charts"
   },
   {
-    "from": "/guides/app/features/panels/bar-plot",
+    "from": "/ref/app/features/panels/bar-plot",
     "to": "/guides/app/features/panels/bar-plot"
   },
   {
@@ -590,6 +590,18 @@
   {
     "from": "/ref/app/pages/run-page",
     "to": "/guides/app/pages/run-page"
+  },
+  {
+    "from": "/ref/app/pages/settings-page",
+    "to": "/guides/app/settings-page"
+  },
+  {
+    "from": "/ref/app/pages/settings-page/user-settings",
+    "to": "/guides/app/settings-page/user-settings"
+  },
+  {
+    "from": "/ref/app/pages/settings-page/team-settings",
+    "to": "/guides/app/settings-page/team-settings"
   },
   {
     "from": "/ref/app/pages/settings-page/emails",
