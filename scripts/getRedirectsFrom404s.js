@@ -33,40 +33,34 @@ const brokenPaths = _.sortBy(
 );
 
 (async () => {
-  const newlyAddedRedirects = [];
-
   for (const path of brokenPaths) {
     const redirectTo = await prompt(
       `Enter redirect for ${path} and press Enter (just press Enter to ignore): `
     );
-    if (!redirectTo) {
-      ignoreList.push(path);
-      continue;
+    if (redirectTo) {
+      addToRedirects({
+        from: path,
+        to: redirectTo,
+      });
+    } else {
+      addToIgnoreList(path);
     }
-    newlyAddedRedirects.push({
-      from: path,
-      to: redirectTo,
-    });
   }
   rl.close();
+})();
 
+function addToRedirects(redirect) {
+  const newRedirects = _.sortBy([...existingRedirects, redirect], r => r.from);
+  fs.writeFileSync(`redirects.json`, JSON.stringify(newRedirects, null, 2));
+}
+
+function addToIgnoreList(path) {
+  const newIgnoreList = _.sortBy([...ignoreList, path]);
   fs.writeFileSync(
     `${__dirname}/ignore404s.json`,
-    JSON.stringify(_.sortBy(ignoreList), null, 2)
+    JSON.stringify(newIgnoreList, null, 2)
   );
-
-  if (newlyAddedRedirects.length === 0) {
-    console.log(`No new redirects added`);
-    return;
-  }
-
-  const newRedirects = _.sortBy(
-    [...existingRedirects, ...newlyAddedRedirects],
-    r => r.from
-  );
-
-  fs.writeFileSync(`redirects.json`, JSON.stringify(newRedirects, null, 2));
-})();
+}
 
 function prompt(query) {
   return new Promise(resolve => rl.question(query, resolve));
