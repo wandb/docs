@@ -682,5 +682,14 @@
   {
     "from": "/wandb/log",
     "to": "/ref/python/log"
+  },
+  {
+    "from": "/guides/app/pages/settings-page",
+    "to": "guides/app/settings-page"
+  }
+  ,
+  {
+    "from": "/ref/python/data_types",
+    "to": "/ref/python/data-types"
   }
 ]
