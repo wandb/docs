@@ -108,7 +108,7 @@ Wandb persists instance settings in the external bucket when it's configured. We
 
 #### Create and scale a shared instance
 
-To enjoy the powerful collaborative features of W&B, you will need a shared instance on a central server, which you can [set up on AWS, GCP, Azure, Kubernetes, or Docker](https://docs.wandb.ai/hosting/setup).
+To enjoy the powerful collaborative features of W&B, you will need a shared instance on a central server, which you can [set up on AWS, GCP, Azure, Kubernetes, or Docker](./setup/dedicated-cloud.md).
 
 :::warning
 **Trial Mode vs. Production Setup**

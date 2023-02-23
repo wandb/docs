@@ -69,7 +69,7 @@ Yes, W&B supports setting up Single Sign-On (SSO) for the SaaS offering via Auth
 
 * Create a `Single Page Application (SPA)` on your Identity Provider.
 * Set `grant_type` to `implicit` flow.
-* Set the callback URI to [`https://wandb.auth0.com/login/callback`](https://wandb.auth0.com/login/callback)
+* Set the callback URI to `https://wandb.auth0.com/login/callback`.
 
 **What W&B needs?**
 
