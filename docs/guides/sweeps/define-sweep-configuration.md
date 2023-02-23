@@ -69,15 +69,15 @@ parameters:
 2. You cannot change the Sweep configuration once you start the W&B Sweep agent.
 :::
 
-For example, suppose you want W&B Sweeps to maximize the validation accuracy during training. Within your Python script you store the validation accuracy in a variable `validation_loss`. In your YAML configuration file you define this as:
+For example, suppose you want W&B Sweeps to maximize the validation accuracy during training. Within your Python script you store the validation accuracy in a variable `val_loss`. In your YAML configuration file you define this as:
 
 ```yaml
 metric:
   goal: maximize
-  name: validation_loss
+  name: val_loss
 ```
 
-You must log the variable `validation_loss` (in this example) within your Python script or Jupyter Notebook to W&B.
+You must log the variable `val_loss` (in this example) within your Python script or Jupyter Notebook to W&B.
 
 ```python
 wandb.log({
