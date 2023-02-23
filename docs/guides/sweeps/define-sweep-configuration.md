@@ -81,7 +81,7 @@ You must log the variable `validation_loss` (in this example) within your Python
 
 ```python
 wandb.log({
-        'validation_loss': validation_loss
+        'val_loss': validation_loss
       })
 ```
 
