@@ -72,6 +72,10 @@
     "to": "/"
   },
   {
+    "from": "/guides/app//settings-page/team-settings",
+    "to": "/guides/app/settings-page/team-settings"
+  },
+  {
     "from": "/guides/artifacts/api",
     "to": "/ref/python/public-api/artifact"
   },
@@ -650,6 +654,10 @@
   {
     "from": "/sweeps/faq",
     "to": "/guides/sweeps/faq"
+  },
+  {
+    "from": "/sweeps/python-api",
+    "to": "/ref/python/public-api/sweep"
   },
   {
     "from": "/sweeps/quickstart",
