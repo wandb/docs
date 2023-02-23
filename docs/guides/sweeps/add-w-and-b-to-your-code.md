@@ -239,6 +239,6 @@ Copy the sweep ID and replace `sweepID` in the proceeding code snippet to start 
 wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
 ```
 
-For more information on how to start sweep jobs, see [Start sweep jobs](https://docs.wandb.ai/guides/sweeps/start-sweep-job).
+For more information on how to start sweep jobs, see [Start sweep jobs](./start-sweep-agents.md).
   </TabItem>
 </Tabs>
