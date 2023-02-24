@@ -97,7 +97,7 @@ div.main-wrapper,
 .table-of-contents__link--active,
 .table-of-contents__link:hover {
   color: #33373d;
-  padding: 3px 12px;
+  padding: 6px 12px;
   background-color: transparent;
 }
 
@@ -112,7 +112,7 @@ a.theme-edit-this-page {
 }
 
 .table-of-contents {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .menu__list .menu__list a.menu__link {
@@ -187,6 +187,7 @@ footer .container {
 }
 
 .col.col--3:last-child {
+  --ifm-col-width: calc(3.5 / 12 * 100%);
   padding-right: 0;
 }
 /* 4D86F5 */
