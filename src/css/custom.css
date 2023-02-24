@@ -197,7 +197,7 @@ footer .container {
 }
 
 .col.col--3:last-child {
-  --ifm-col-width: calc(3.5 / 12 * 100%);
+  /* --ifm-col-width: calc(3.5 / 12 * 100%); */
   padding-right: 0;
 }
 /* 4D86F5 */
