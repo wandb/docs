@@ -1,20 +1,16 @@
-:root {
+:root:root {
   --docsearch-primary-color: var(--ifm-color-primary);
   --docsearch-text-color: var(--ifm-font-color-base);
-}
-
-.DocSearch-Button {
-  margin: 0;
-  transition: all var(--ifm-transition-fast)
-    var(--ifm-transition-timing-default);
-}
-
-.DocSearch-Container {
-  z-index: calc(var(--ifm-z-index-fixed) + 1);
+  /* --docsearch-modal-background: #ffffff; */
+  /* --docsearch-hit-color: #4b4e52; */
+  /* --docsearch-hit-active-color: #4b4e52; */
 }
 
 .DocSearch-Button {
   width: 155px;
+  margin: 0;
+  transition: all var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
 }
 
 .DocSearch-Search-Icon {
@@ -22,5 +18,19 @@
 }
 
 .DocSearch-Button-Keys {
+  display: none;
+}
+
+.DocSearch-Container {
+  z-index: calc(var(--ifm-z-index-fixed) + 1);
+}
+
+.DocSearch-Hit > a {
+}
+
+.DocSearch-Hit-source {
+}
+
+.DocSearch-Footer {
   display: none;
 }
