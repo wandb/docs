@@ -8,7 +8,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 
-:root {
+:root:root {
   --ifm-color-primary: #0096ad;
   --ifm-color-primary-dark: #29784c;
   --ifm-color-primary-darker: #277148;
@@ -31,6 +31,7 @@
   --ifm-navbar-search-input-icon: url('../../static/img/icon-search-grey.svg');
   --ifm-breadcrumb-separator: url('/static/img/breadcrumb.svg');
   --ifm-leading-desktop: 1;
+  --ifm-link-color: #038899;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -72,6 +73,10 @@ div.main-wrapper,
   line-height: 2;
   font-size: 16px;
   margin-right: 20px;
+}
+
+.menu__link.menu__link:hover {
+  color: var(--ifm-link-color);
 }
 
 .menu__list-item-collapsible {
