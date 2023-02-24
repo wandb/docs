@@ -71,11 +71,11 @@ div.main-wrapper,
 .menu__link {
   line-height: 2;
   font-size: 16px;
-  margin-right: 24px;
+  margin-right: 20px;
 }
 
 .menu__list-item-collapsible {
-  margin-right: 24px;
+  margin-right: 20px;
 }
 
 .menu__link.menu__link--active,
@@ -191,3 +191,8 @@ footer .container {
   padding-right: 0;
 }
 /* 4D86F5 */
+
+.theme-doc-sidebar-container {
+  position: relative;
+  left: -12px;
+}
