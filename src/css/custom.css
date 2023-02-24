@@ -46,6 +46,10 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
+a:hover {
+  text-decoration: none;
+}
+
 .markdown > h3 {
   --ifm-h3-font-size: 18px;
 }
