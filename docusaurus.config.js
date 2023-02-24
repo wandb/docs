@@ -96,7 +96,6 @@ const config = {
         logo: {
           alt: 'W&B Logo',
           src: 'img/DocsLogo.svg',
-          style: {position: 'relative', top: '-2px'},
         },
         items: [
           {
