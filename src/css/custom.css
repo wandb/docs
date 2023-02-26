@@ -209,6 +209,11 @@ footer .container {
 .footer__link-item {
   display: inline-flex;
 }
+@media (max-width: 996px) {
+  .footer__link-item {
+    display: flex;
+  }
+}
 
 .navbar__link__icon,
 .footer__link-item__icon {
