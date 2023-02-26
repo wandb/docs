@@ -14,7 +14,7 @@ const config = {
   // onBrokenLinks: 'throw',
   onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/docs-favicon.png',
+  favicon: '/img/docs-favicon.png',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -95,7 +95,7 @@ const config = {
       navbar: {
         logo: {
           alt: 'W&B Logo',
-          src: 'img/DocsLogo.svg',
+          src: '/img/DocsLogo.svg',
         },
         items: [
           {
@@ -116,12 +116,12 @@ const config = {
           },
           {
             href: 'https://github.com/wandb/wandb',
-            label: 'GitHub',
+            html: 'GitHub<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
             position: 'right',
           },
           {
             href: 'https://app.wandb.ai/login',
-            label: 'Login',
+            html: 'Login<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
             position: 'right',
           },
         ],
@@ -136,12 +136,20 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} Weights & Biases. All rights reserved.`,
         links: [
           {
-            label: 'Terms of Service',
-            href: 'https://wandb.ai/site/terms',
+            html: `
+              <a href="https://wandb.ai/site/terms" target="_blank" rel="noopener noreferrer" class="footer__link-item">
+                Terms of Service
+                <img src="/img/icon-open-new-tab.svg" class="footer__link-item__icon" />
+              </a>
+            `,
           },
           {
-            label: 'Privacy Policy',
-            href: 'https://wandb.ai/site/privacy',
+            html: `
+              <a href="https://wandb.ai/site/privacy" target="_blank" rel="noopener noreferrer" class="footer__link-item">
+                Privacy Policy
+                <img src="/img/icon-open-new-tab.svg" class="footer__link-item__icon" />
+              </a>
+            `,
           },
         ],
       },

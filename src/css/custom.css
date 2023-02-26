@@ -148,6 +148,7 @@ input#search_input_react {
 }
 
 .navbar__link {
+  display: inline-flex;
   color: var(--ifm-navbar-link-color);
   font-weight: var(--ifm-font-weight-semibold);
   line-height: 48px;
@@ -194,6 +195,16 @@ footer .container {
 
 .footer__links.text--center {
   margin-bottom: 0;
+}
+
+.footer__link-item {
+  display: inline-flex;
+}
+
+.navbar__link__icon,
+.footer__link-item__icon {
+  width: 20px;
+  margin-left: 1px;
 }
 
 .col.col--3:last-child {
