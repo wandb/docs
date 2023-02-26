@@ -21,7 +21,9 @@
   --ifm-hover-overlay: rgba(0, 150, 173, 0.1);
   --ifm-font-weight-semibold: 400;
   --ifm-menu-color: #33383d;
+  --ifm-menu-color-active: #038899;
   --ifm-menu-color-background-hover: #f9f9f9;
+  --ifm-menu-color-background-active: rgba(0, 150, 173, 0.1);
   --ifm-h1-font-size: 24px;
   --ifm-breadcrumb-item-background-active: none;
   --ifm-breadcrumb-color-active: #a9aaab;
@@ -80,9 +82,32 @@ div.main-wrapper,
   font-size: 16px;
   margin-right: 20px;
 }
+.menu__list-item-collapsible--active .menu__caret:hover {
+  background: none;
+}
 
 .menu__list-item-collapsible {
   margin-right: 20px;
+}
+.menu__list-item-collapsible--active.menu__list-item-collapsible--active {
+  background: var(--ifm-menu-color-background-active);
+}
+
+li:not(.menu__list-item--collapsed) ul.menu__list {
+  flex: 0 0 100%;
+  margin-top: 0.25rem;
+  margin-left: var(--ifm-menu-link-padding-horizontal);
+  padding-left: 0;
+  border-left: 1px solid #e6e6e6;
+}
+.menu__caret:before {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24"><path fill="rgba(51,56,61,0.6)" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>')
+    50% / 16px 16px;
+}
+
+.menu__list-item-collapsible--active .menu__caret:before {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24"><path fill="rgba(3,136,153,0.6)" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>')
+    50% / 16px 16px;
 }
 
 .menu__link.menu__link--active,
@@ -103,9 +128,7 @@ div.main-wrapper,
 .table-of-contents__link,
 .table-of-contents__link--active,
 .table-of-contents__link:hover {
-  color: #33373d;
   padding: 6px 12px;
-  background-color: transparent;
 }
 
 a.theme-edit-this-page {
@@ -159,17 +182,6 @@ input#search_input_react {
   padding-bottom: 4px;
   border-bottom: 2px solid var(--ifm-color-primary);
   margin-bottom: 0;
-}
-
-li:not(.menu__list-item--collapsed) ul.menu__list {
-  flex: 0 0 100%;
-  margin-top: 0.25rem;
-  margin-left: var(--ifm-menu-link-padding-horizontal);
-  padding-left: 0;
-  border-left: 1px solid #e6e6e6;
-}
-.menu__caret:before {
-  background: var(--ifm-menu-link-sublist-icon) 50% / 16px 16px;
 }
 
 .navbar--fixed-top {
