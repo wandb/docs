@@ -167,6 +167,10 @@ input#search_input_react {
   --ifm-h2-font-size: 20px;
 }
 
+.navbar__inner {
+  height: 60px;
+}
+
 .navbar__link {
   display: inline-flex;
   color: var(--ifm-navbar-link-color);
