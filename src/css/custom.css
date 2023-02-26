@@ -20,7 +20,8 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --ifm-hover-overlay: rgba(0, 150, 173, 0.1);
   --ifm-font-weight-semibold: 400;
-  --ifm-menu-color: #1a1c1f;
+  --ifm-menu-color: #33383d;
+  --ifm-menu-color-background-hover: #f9f9f9;
   --ifm-h1-font-size: 24px;
   --ifm-breadcrumb-item-background-active: none;
   --ifm-breadcrumb-color-active: #a9aaab;
@@ -78,10 +79,6 @@ div.main-wrapper,
   line-height: 2;
   font-size: 16px;
   margin-right: 20px;
-}
-
-.menu__link.menu__link:hover {
-  color: var(--ifm-link-color);
 }
 
 .menu__list-item-collapsible {
