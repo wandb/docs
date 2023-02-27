@@ -27,7 +27,7 @@ We recommend you read the following sections in this order if you are a first-ti
 2. Create and track machine learning experiments with [Experiments](./track/intro.md).
 3. Discover W&B's flexible and lightweight building block for dataset and model versioning with [Artifacts](./artifacts/intro.md).
 4. Automate hyperparameter search and explore the space of possible models with [Sweeps](./sweeps/intro.md).
-5. Learn how track dependencies and results across machine learning pipelines with our [data and model versioning](./data-vis/intro.md) guide.
+5. Learn how to track dependencies and results across machine learning pipelines with our [data and model versioning](./data-and-model-versioning/intro.md) guide.
 6. Manage the model lifecycle from training to production with [Model Management](./models/intro.md).
 7. Visualize predictions across model versions with our [Data Visualization](./data-vis/intro.md) guide.
 8. Organize W&B Runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [Reports](./reports/intro.md).

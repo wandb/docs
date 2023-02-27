@@ -33,6 +33,7 @@ const sidebars = {
             'guides/track/log/plots',
             'guides/track/log/log-tables',
             'guides/track/log/log-summary',
+            'guides/track/log/media',
             'guides/track/log/working-with-csv',
             'guides/track/log/distributed-training',
             'guides/track/log/customize-logging-axes',
