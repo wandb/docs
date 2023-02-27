@@ -88,7 +88,7 @@ Use [`wandb.log()`](./ref/python/log.md) to track metrics or a framework [integr
 wandb.log({'accuracy': train_acc, 'loss': train_loss})
 ```
 
-W&B saves metrics you log with `wandb.log` to the Run object you initialized. In this case, the accuracy and loss was associated to the W&B Run we initialized in the previous step.
+W&B saves metrics you log with `wandb.log` to the Run object you initialized. In this case, the accuracy and loss are associated with the W&B Run we initialized in the previous step.
 
 ![](/images/quickstart/wandb_demo_logging_metrics.png)
 
