@@ -265,7 +265,7 @@ WANDB_LOG_MODEL=true
 Your model will be saved to W&B Artifacts as `run-{run_name}`.
 :::
 
-Any `Trainer` you initialize from now on will upload models to your W&B project. Your model file will be viewable through the W&B Artifacts UI. Read the full [Weights & Biases' Artifacts guide](https://docs.wandb.ai/artifacts) for more about how to use Artifacts for model and dataset versioning.
+Any `Trainer` you initialize from now on will upload models to your W&B project. Your model file will be viewable through the W&B Artifacts UI. See the [Weights & Biases' Artifacts guide](https://docs.wandb.ai/artifacts) for more about how to use Artifacts for model and dataset versioning.
 
 #### How do I save the best model?
 
