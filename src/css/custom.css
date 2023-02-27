@@ -67,7 +67,7 @@ a:hover {
   align-items: center;
 }
 
-code.codeBlockLines_node_modules-\@docusaurus-theme-classic-lib-theme-CodeBlock-Content-styles-module {
+.prism-code code {
   padding-top: 16px;
   padding-bottom: 12px;
 }
@@ -204,7 +204,7 @@ input#search_input_react {
   flex-direction: column;
   display: flex;
 }
-nav.menu.thin-scrollbar.menu_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-Desktop-Content-styles-module {
+nav.menu.thin-scrollbar {
   padding-left: 0;
 }
 
