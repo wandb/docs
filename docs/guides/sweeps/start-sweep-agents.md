@@ -29,25 +29,25 @@ Provide the name of the function the W&B Sweep will execute if you start a W&B S
 The proceeding code snippets demonstrate how to start an agent with Weights & Biases. We assume you already have a configuration file and you have already initialized a W&B Sweep. For more information about how to define a configuration file, see [Define sweep configuration](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration).
 
 <Tabs
-  defaultValue="python"
+  defaultValue="cli"
   values={[
-    {label: 'Python script or Jupyter Notebook', value: 'python'},
     {label: 'CLI', value: 'cli'},
+    {label: 'Python script or Jupyter Notebook', value: 'python'},
   ]}>
-  <TabItem value="python">
-
-Use the Weights & Biases Python SDK library to start a sweep. Provide the sweep ID that was returned when you initialized the sweep. In addition, provide the name of the function  the sweep will execute.
-
-```python
-wandb.agent(sweep_id=sweep_id, function=function_name)
-```
-  </TabItem>
   <TabItem value="cli">
 
 Use the `wandb agent` command to start a sweep. Provide the sweep ID that was returned when you initialized the sweep. Copy and paste the code snippet below and replace `sweep_id` with your sweep ID:
 
 ```bash
 wandb agent sweep_id
+```
+  </TabItem>
+  <TabItem value="python">
+
+Use the Weights & Biases Python SDK library to start a sweep. Provide the sweep ID that was returned when you initialized the sweep. In addition, provide the name of the function  the sweep will execute.
+
+```python
+wandb.agent(sweep_id=sweep_id, function=function_name)
 ```
   </TabItem>
 </Tabs>
