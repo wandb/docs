@@ -72,10 +72,18 @@ a:hover {
   padding-bottom: 12px;
 }
 
-div.main-wrapper,
 .navbar__inner {
-  max-width: 1150px;
   width: 100%;
+  max-width: 1150px;
+}
+.main-wrapper {
+  width: 100%;
+  max-width: 1198px;
+}
+@media (min-width: 997px) {
+  .main-wrapper {
+    padding: 0 24px;
+  }
 }
 
 .menu__link {
