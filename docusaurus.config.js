@@ -136,20 +136,10 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} Weights & Biases. All rights reserved.`,
         links: [
           {
-            html: `
-              <a href="https://wandb.ai/site/terms" target="_blank" rel="noopener noreferrer" class="footer__link-item">
-                Terms of Service
-                <img src="/img/icon-open-new-tab.svg" class="footer__link-item__icon" />
-              </a>
-            `,
+            html: `<a href="https://wandb.ai/site/terms" target="_blank" rel="noopener noreferrer" class="footer__link-item">Terms of Service</a>`,
           },
           {
-            html: `
-              <a href="https://wandb.ai/site/privacy" target="_blank" rel="noopener noreferrer" class="footer__link-item">
-                Privacy Policy
-                <img src="/img/icon-open-new-tab.svg" class="footer__link-item__icon" />
-              </a>
-            `,
+            html: `<a href="https://wandb.ai/site/privacy" target="_blank" rel="noopener noreferrer" class="footer__link-item">Privacy Policy</a>`,
           },
         ],
       },

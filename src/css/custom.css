@@ -36,6 +36,11 @@
   --ifm-leading-desktop: 1;
   --ifm-link-color: #038899;
   --ifm-link-hover-color: #00afc2;
+  --ifm-footer-color: #76787a;
+  --ifm-footer-link-color: #76787a;
+  --ifm-footer-background-color: #ffffff;
+  --ifm-footer-padding-vertical: 20px;
+  --ifm-footer-padding-horizontal: 0;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -60,10 +65,6 @@ a:hover {
 
 #__docusaurus {
   align-items: center;
-}
-
-footer {
-  width: 100%;
 }
 
 code.codeBlockLines_node_modules-\@docusaurus-theme-classic-lib-theme-CodeBlock-Content-styles-module {
@@ -207,23 +208,37 @@ nav.menu.thin-scrollbar.menu_node_modules-\@docusaurus-theme-classic-lib-theme-D
   padding-left: 0;
 }
 
+footer {
+  width: 100%;
+  border-top: 2px solid #eeeeee;
+}
+
 footer .container {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
 }
 
-.footer__links.text--center {
+@media (min-width: 997px) {
+  .footer__bottom {
+    height: 18px;
+  }
+}
+
+.footer__links {
   margin-bottom: 0;
 }
 
-.footer__link-item {
-  display: inline-flex;
+.footer__link-item a {
+  text-decoration: underline;
 }
-@media (max-width: 996px) {
-  .footer__link-item {
-    display: flex;
+@media (min-width: 997px) {
+  .footer__link-item:not(:first-child) {
+    margin-left: 1.2rem;
   }
+}
+.footer__link-separator {
+  display: none;
 }
 
 .navbar__link__icon,
