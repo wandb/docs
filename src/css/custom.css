@@ -269,3 +269,7 @@ footer .container {
   position: relative;
   left: -12px;
 }
+
+.pagination-nav {
+  display: none;
+}
