@@ -19,8 +19,8 @@ function BreadcrumbsItemLink({
   isLast,
 }: {
   children: ReactNode;
-  href: string | undefined;
-  isLast: boolean;
+  href?: string;
+  isLast?: boolean;
 }): JSX.Element {
   const className = 'breadcrumbs__link';
   if (isLast) {
@@ -53,8 +53,8 @@ function BreadcrumbsItem({
 }: {
   children: ReactNode;
   active?: boolean;
-  index: number;
-  addMicrodata: boolean;
+  index?: number;
+  addMicrodata?: boolean;
 }): JSX.Element {
   return (
     <li
@@ -67,7 +67,9 @@ function BreadcrumbsItem({
         'breadcrumbs__item--active': active,
       })}>
       {children}
-      <meta itemProp="position" content={String(index + 1)} />
+      {index != null && (
+        <meta itemProp="position" content={String(index + 1)} />
+      )}
     </li>
   );
 }
@@ -98,6 +100,34 @@ export default function DocBreadcrumbs(): JSX.Element | null {
     return null;
   }
 
+  const items: ReactNode[] = [
+    homePageRoute && <HomeBreadcrumbItem key={`home`} />,
+    ...breadcrumbs.map((item, idx) => {
+      const isLast = idx === breadcrumbs.length - 1;
+      return (
+        <BreadcrumbsItem
+          key={idx}
+          active={isLast}
+          index={idx}
+          addMicrodata={!!item.href}>
+          <BreadcrumbsItemLink href={item.href} isLast={isLast}>
+            {item.label}
+          </BreadcrumbsItemLink>
+        </BreadcrumbsItem>
+      );
+    }),
+  ].filter(n => !!n);
+
+  const renderedItems =
+    items.length <= 3
+      ? items
+      : [
+          <BreadcrumbsItem key={`ellipses`}>
+            <BreadcrumbsItemLink>...</BreadcrumbsItemLink>
+          </BreadcrumbsItem>,
+          ...items.slice(items.length - 3),
+        ];
+
   return (
     <nav
       className={clsx(
@@ -113,21 +143,7 @@ export default function DocBreadcrumbs(): JSX.Element | null {
         className="breadcrumbs"
         itemScope
         itemType="https://schema.org/BreadcrumbList">
-        {homePageRoute && <HomeBreadcrumbItem />}
-        {breadcrumbs.map((item, idx) => {
-          const isLast = idx === breadcrumbs.length - 1;
-          return (
-            <BreadcrumbsItem
-              key={idx}
-              active={isLast}
-              index={idx}
-              addMicrodata={!!item.href}>
-              <BreadcrumbsItemLink href={item.href} isLast={isLast}>
-                {item.label}
-              </BreadcrumbsItemLink>
-            </BreadcrumbsItem>
-          );
-        })}
+        {renderedItems}
       </ul>
     </nav>
   );
