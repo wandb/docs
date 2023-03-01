@@ -266,7 +266,7 @@ const sidebars = {
         },
         {
             type: 'category',
-            label: 'Admin management',
+            label: 'Server Admin management',
             link: {type: 'doc', id: 'guides/hosting/hosting-admin/intro'},
             items: [
               'guides/hosting/hosting-admin/manage-users',

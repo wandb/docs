@@ -1,4 +1,4 @@
-# Admin management 
+# Server Admin management 
 
 
 ## Monitor activity dashboards

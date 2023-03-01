@@ -1,1 +1,1 @@
-# W&B hosting options
+# W&B managed hosting

@@ -1,1 +1,1 @@
-# Custom managed hosting
+# Self-managed hosting
