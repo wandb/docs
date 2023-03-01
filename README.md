@@ -1,5 +1,5 @@
 # Weights & Biases Documentation
-The Weights & Biase Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is built using [Docusaurus 2](https://docusaurus.io/), a static website generator built with React. The high level overview of the doc writing process is:
+The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is built using [Docusaurus 2](https://docusaurus.io/), a static website generator built with React. The high level overview of the doc writing process is:
 
 <div align='center'>Edit markdown → confirm changes don’t break the docs → create a pull request for review.</div>  
 
