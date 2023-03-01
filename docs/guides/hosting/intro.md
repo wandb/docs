@@ -2,7 +2,9 @@
 slug: /guides/hosting
 ---
 
-# Private Hosting
+# W&B Server
+
+<!-- # Private Hosting
 
 ## W&B Hosting Options
 
@@ -29,4 +31,4 @@ There are three main ways to set up a W&B server in a production environment:
 
 Paste the license in the `/system-admin` page on your localhost
 
-![Copy your license from Deployer and paste it into your Local settings](@site/static/images/hosting/License.gif)
+![Copy your license from Deployer and paste it into your Local settings](@site/static/images/hosting/License.gif) -->
