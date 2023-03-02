@@ -282,7 +282,7 @@ If you saved your model to W&B Artifacts with `WANDB_LOG_MODEL`, you can downloa
 with wandb.init(project="amazon_sentiment_analysis") as run:
 
   # Connect an Artifact to the run
-  my_model_name = "run-bert-base-high-lr:latest"
+  my_model_name = "model-bert-base-high-lr:latest"
   my_model_artifact = run.use_artifact(my_model_name)
 
   # Download model weights to a folder and return the path
@@ -295,6 +295,40 @@ with wandb.init(project="amazon_sentiment_analysis") as run:
 
   # Do additional training, or run inference
 ```
+### Resume training from a checkpoint 
+If you had set `WANDB_LOG_MODEL='checkpoint'` you can also resume training by you can using the `model_dir` as the `model_name_or_path` argument in your `TrainingArguments` and pass `resume_from_checkpoint=True` to `Trainer`.
+
+```python
+last_run_id = "xxx"  # fetch the run_id from your wandb workspace
+
+# resume the wandb run from the run_id
+with wandb.init(
+    project=os.environ["WANDB_PROJECT"],
+    id=last_run_id,
+    resume="must",) as run:
+    
+  # Connect an Artifact to the run
+  my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
+  my_checkpoint_artifact = run.use_artifact(my_model_name)
+  
+  # Download checkpoint to a folder and return the path
+  checkpoint_dir = my_checkpoint_artifact.download()
+  
+  # reinitialize your model and trainer
+  model = AutoModelForSequenceClassification.from_pretrained(
+      MODEL_NAME, num_labels=num_labels)
+  # your awesome training arguments here.
+  training_args = TrainingArguments(...) 
+  
+  trainer = Trainer(
+      model=model,
+      args=training_args,
+      ...)
+  
+  # make sure use the checkpoint dir to resume training from the checkpoint
+  trainer.train(resume_from_checkpoint=checkpoint_dir) 
+```
+
 
 ### Additional W&B settings
 
