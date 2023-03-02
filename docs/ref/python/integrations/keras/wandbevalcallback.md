@@ -10,10 +10,10 @@ Abstract base class to build Keras callbacks for model prediction visualization.
 
 ```python
 WandbEvalCallback(
- data_table_columns: List[str],
- pred_table_columns: List[str],
- \*args,
- **kwargs
+    data_table_columns: List[str],
+    pred_table_columns: List[str],
+    *args,
+    **kwargs
 ) -> None
 ```
 
@@ -41,56 +41,52 @@ The base class will take care of the following:
 
 ```
 class WandbClfEvalCallback(WandbEvalCallback):
- def __init__(
- self,
- validation_data,
- data_table_columns,
- pred_table_columns
- ):
- super().__init__(
- data_table_columns,
- pred_table_columns
- )
+    def __init__(
+        self,
+        validation_data,
+        data_table_columns,
+        pred_table_columns
+    ):
+        super().__init__(data_table_columns, pred_table_columns)
+        self.x = validation_data[0]
+        self.y = validation_data[1]
 
- self.x = validation_data[0]
- self.y = validation_data[1]
+    def add_ground_truth(self):
+        for idx, (image, label) in enumerate(zip(self.x, self.y)):
+            self.data_table.add_data(
+                idx,
+                wandb.Image(image),
+                label
+            )
 
- def add_ground_truth(self):
- for idx, (image, label) in enumerate(zip(self.x, self.y)):
- self.data_table.add_data(
- idx,
- wandb.Image(image),
- label
- )
+    def add_model_predictions(self, epoch):
+        preds = self.model.predict(self.x, verbose=0)
+        preds = tf.argmax(preds, axis=-1)
 
- def add_model_predictions(self, epoch):
- preds = self.model.predict(self.x, verbose=0)
- preds = tf.argmax(preds, axis=-1)
+        data_table_ref = self.data_table_ref
+        table_idxs = data_table_ref.get_index()
 
- data_table_ref = self.data_table_ref
- table_idxs = data_table_ref.get_index()
+        for idx in table_idxs:
+            pred = preds[idx]
 
- for idx in table_idxs:
- pred = preds[idx]
- self.pred_table.add_data(
- epoch,
- data_table_ref.data[idx][0],
- data_table_ref.data[idx][1],
- data_table_ref.data[idx][2],
- pred
- )
+            self.pred_table.add_data(
+                epoch,
+                data_table_ref.data[idx][0],
+                data_table_ref.data[idx][1],
+                data_table_ref.data[idx][2],
+                pred
+            )
 
 model.fit(
- x,
- y,
- epochs=2,
- validation_data=(x, y),
- callbacks=[
- WandbClfEvalCallback(
- validation_data=(x, y),
- data_table_columns=["idx", "image", "label"],
- pred_table_columns=["epoch", "idx", "image", "label", "pred"])
- ],
+    x,
+    y,
+    epochs=2,
+    validation_data=(x, y),
+    callbacks=[WandbClfEvalCallback(
+        validation_data=(x, y),
+        data_table_columns=["idx", "image", "label"],
+        pred_table_columns=["epoch", "idx", "image", "label", "pred"]
+    )],
 )
 ```
 
@@ -110,20 +106,20 @@ can implement `on_train_batch_end` method.
 ```python
 @abc.abstractmethod
 add_ground_truth(
- logs: Optional[Dict[str, float]] = None
+    logs: Optional[Dict[str, float]] = None
 ) -> None
 ```
 
 Use this method to write the logic for adding validation/training
 data to `data_table` initialized using `init_data_table` method.
 Example:
- ```
- for idx, data in enumerate(dataloader):
- self.data_table.add_data(
- idx,
- data
- )
- ```
+```
+for idx, data in enumerate(dataloader):
+    self.data_table.add_data(
+        idx,
+        data
+    )
+```
 This method is called once `on_train_begin` or equivalent hook.
 
 ### `add_model_predictions`
@@ -135,8 +131,8 @@ This method is called once `on_train_begin` or equivalent hook.
 ```python
 @abc.abstractmethod
 add_model_predictions(
- epoch: int,
- logs: Optional[Dict[str, float]] = None
+    epoch: int,
+    logs: Optional[Dict[str, float]] = None
 ) -> None
 ```
 
@@ -144,16 +140,16 @@ Use this method to write the logic for adding model prediction for
 validation/training data to `pred_table` initialized using
 `init_pred_table` method.
 Example:
- ```
- # Assuming the dataloader is not shuffling the samples.
- for idx, data in enumerate(dataloader):
- preds = model.predict(data)
- self.pred_table.add_data(
- self.data_table_ref.data[idx][0],
- self.data_table_ref.data[idx][1],
- preds
- )
- ```
+```
+# Assuming the dataloader is not shuffling the samples.
+for idx, data in enumerate(dataloader):
+    preds = model.predict(data)
+    self.pred_table.add_data(
+        self.data_table_ref.data[idx][0],
+        self.data_table_ref.data[idx][1],
+        preds
+    )
+```
 This method is called `on_epoch_end` or equivalent hook.
 
 ### `init_data_table`
@@ -164,15 +160,18 @@ This method is called `on_epoch_end` or equivalent hook.
 
 ```python
 init_data_table(
- column_names: List[str]
+    column_names: List[str]
 ) -> None
 ```
 
-Initialize the W&B Tables for validation data.
+Initialize the W&B Tables for validation or training data.
 Call this method `on_train_begin` or equivalent hook. This is followed by
 adding data to the table row or column wise.
-Args:
- column_names (list): Column names for W&B Tables.
+
+| Args | |
+| :--- | :--- |
+| `column_names` | (list) Column names for the W&B Tables. |
+
 
 ### `init_pred_table`
 
@@ -182,15 +181,18 @@ Args:
 
 ```python
 init_pred_table(
- column_names: List[str]
+    column_names: List[str]
 ) -> None
 ```
 
 Initialize the W&B Tables for model evaluation.
 Call this method `on_epoch_end` or equivalent hook. This is followed by
 adding data to the table row or column wise.
-Args:
- column_names (list): Column names for W&B Tables.
+
+| Args | |
+| :--- | :--- |
+| `column_names` | (list) Column names for W&B Tables. |
+
 
 ### `log_data_table`
 
@@ -200,9 +202,9 @@ Args:
 
 ```python
 log_data_table(
- name: str = "val",
- type: str = "dataset",
- table_name: str = "val_data"
+    name: str = "val",
+    type: str = "dataset",
+    table_name: str = "val_data"
 ) -> None
 ```
 
@@ -210,14 +212,13 @@ Log the `data_table` as W&B artifact and call
 `use_artifact` on it so that the evaluation table can use the reference
 of already uploaded data (images, text, scalar, etc.).
 This allows the data to be uploaded just once.
-Args:
- name (str): A human-readable name for this artifact, which is how
- you can identify this artifact in the UI or reference
- it in use_artifact calls. (default is 'val')
- type (str): The type of the artifact, which is used to organize and
- differentiate artifacts. (default is 'dataset')
- table_name (str): The name of the table as will be displayed in the UI.
- (default is 'val_data')
+
+| Args | |
+| :--- | :--- |
+| `name` | (str) A human-readable name for this artifact, which is how you can identify this artifact in the UI or reference it in the `use_artifact` calls. (default is 'val') |
+| `type` | (str) The type of the artifact, which is used to organize and differentiate artifacts. (default is 'dataset') |
+| `table_name` | (str) The name of the table as will be displayed in the UI. (default is 'val_data') |
+
 
 ### `log_pred_table`
 
@@ -227,42 +228,36 @@ Args:
 
 ```python
 log_pred_table(
- type: str = "evaluation",
- table_name: str = "eval_data",
- aliases: Optional[List[str]] = None
+    type: str = "evaluation",
+    table_name: str = "eval_data",
+    aliases: Optional[List[str]] = None
 ) -> None
 ```
 
 Log the W&B Tables for model evaluation.
 The table will be logged multiple times creating new version. Use this
 to compare models at different intervals interactively.
-Args:
- type (str): The type of the artifact, which is used to organize and
- differentiate artifacts. (default is 'evaluation')
- table_name (str): The name of the table as will be displayed in the UI.
- (default is 'eval_data')
- aliases (List[str]): List of aliases for the prediction table.
+
+| Args | |
+| :--- | :--- |
+| `type` | (str) The type of the artifact, which is used to organize and differentiate artifacts. (default is 'evaluation') |
+| `table_name` | (str) The name of the table as will be displayed in the UI. (default is 'eval_data') |
+| `aliases` | (List[str]) List of aliases for the prediction table. |
 
 ### `set_model`
 
-
-
 ```python
 set_model(
- model
+    model
 )
 ```
 
 
-
-
 ### `set_params`
-
-
 
 ```python
 set_params(
- params
+    params
 )
 ```
 
