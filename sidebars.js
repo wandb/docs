@@ -321,6 +321,7 @@ const sidebars = {
         'guides/integrations/other/paddleocr',
         'guides/integrations/other/prodigy',
         'guides/integrations/pytorch',
+        'guides/integrations/pytorch-geometric',
         'guides/integrations/other/ignite',
         'guides/integrations/lightning',
         'guides/integrations/other/ray-tune',
