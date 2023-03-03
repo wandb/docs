@@ -17,7 +17,7 @@ Use Weights & Biases Sweeps to automate hyperparameter search and explore the sp
 
 There are two components to Weights & Biases Sweeps: a _controller_ and one or more _agents_. The controller picks out new hyperparameter combinations. [Typically the Sweep server is managed on the Weights & Biases server](https://docs.wandb.ai/guides/sweeps/local-controller).
 
-Agents query the Weights & Biases server for hyperparameters and use them to run model training. The training results are then reported back to the Sweep server. Agents can run one or more processes on one or more machines. The flexibility of agents to run multiples processes across multiples machines makes it easy to parallelize and scale Sweeps. For more information on how to scale sweeps, see [Parallelize agents](https://docs.wandb.ai/guides/sweeps/parallelize-agents).
+Agents query the Weights & Biases server for hyperparameters and use them to run model training. The training results are then reported back to the Sweep server. Agents can run one or more processes on one or more machines. The flexibility of agents to run multiple processes across multiple machines makes it easy to parallelize and scale Sweeps. For more information on how to scale sweeps, see [Parallelize agents](https://docs.wandb.ai/guides/sweeps/parallelize-agents).
 
 Create a W&B Sweep with the following steps:
 
@@ -42,6 +42,6 @@ Depending on your use case, explore the following resources to get started with 
 * Explore a [curated list of Sweep experiments](https://docs.wandb.ai/guides/sweeps/useful-resources#reports-with-sweeps) that explore hyperparameter optimization with W&B Sweeps. Results are stored in W&B Reports.
 * Read the [Weights & Biases SDK Reference Guide](https://docs.wandb.ai/ref).
 
-For a step-by-step video, see: [Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab\_channel=Weights%26Biases):
+For a step-by-step video, see: [Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab\_channel=Weights%26Biases).
 
 <!-- {% embed url="http://wandb.me/sweeps-video" %} -->

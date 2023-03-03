@@ -24,5 +24,7 @@ Create a sweep
 | --cancel | Cancel a sweep to kill all running runs and stop   running new runs. |
 | --pause | Pause a sweep to temporarily stop running new   runs. |
 | --resume | Resume a sweep to continue running new runs. |
+| --queue | The name of a launch queue (configured with a   resource), available in the current user or team. |
+| --project-queue | Specify sweeps launch project |
 | --help | Show this message and exit. |
 

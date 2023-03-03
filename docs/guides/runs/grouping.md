@@ -21,7 +21,7 @@ There are three ways to set grouping:
 
 ### 1. Set group in your script
 
-Pass an optional group and job\_type to wandb.init(). This gives you a dedicated group page for each experiment, which contains the individual runs. For example:`wandb.init(group="experiment_1", job_type="eval")`
+Pass an optional group and job_type to wandb.init(). This gives you a dedicated group page for each experiment, which contains the individual runs. For example:`wandb.init(group="experiment_1", job_type="eval")`
 
 ### 2. Set a group environment variable
 

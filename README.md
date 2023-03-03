@@ -1,5 +1,5 @@
 # Weights & Biases Documentation
-The Weights & Biase Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is built using [Docusaurus 2](https://docusaurus.io/), a static website generator built with React. The high level overview of the doc writing process is:
+The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is built using [Docusaurus 2](https://docusaurus.io/), a static website generator built with React. The high level overview of the doc writing process is:
 
 <div align='center'>Edit markdown → confirm changes don’t break the docs → create a pull request for review.</div>  
 
@@ -56,24 +56,23 @@ This will return the port number where you can preview your changes to the docs.
 ```bash
 yarn build
 ```
-7. Test your build locally with `yarn serve`.
-```bash
-yarn serve
-```
-8. Commit the changes to the branch.
+7. Commit the changes to the branch.
 ```bash
 git commit -m 'Useful commit message.'
 ```
-9. Push the branch to GitHub.
+8. Push the branch to GitHub.
 ```bash
 git push origin <your-feature-branch>
 ```
-10. Open a pull request from the new branch to the original repo.
+9. Open a pull request from the new branch to the original repo.
 
 
 &nbsp;
 
 ## What files do I edit?
+There are two types of docs in our Docs site: Developer Guide and the API Reference Guide.
+
+### Developer Guide
 All markdown files for the [W&B Developer Guide](https://docs.wandb.ai/) are stored in:
 
 ```bash
@@ -87,6 +86,9 @@ Each Chapter in the Developer Guide has its own folder in `docodile/docs/guides`
 docodile/docs/guides/artifacts
 ```
 
+The PR you create will get reviewed and (if approved) merged by the Docs Team. 
+
+### API Reference Guide
 All markdown files for the [W&B API Reference Guide](https://docs.wandb.ai/ref) are stored in:
 
 ```bash

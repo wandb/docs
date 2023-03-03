@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
   <title>Parallelize agents</title>
 </head>
 
-Parallelize your W&B Sweep agents on a multi-core or multi-GPU machine. Before you get started, ensure you have initialized your W&B Sweep. For more information on how to initialized a W&B Sweep, see [Initialize sweeps](https://docs.wandb.ai/guides/sweeps/initialize-sweeps).
+Parallelize your W&B Sweep agents on a multi-core or multi-GPU machine. Before you get started, ensure you have initialized your W&B Sweep. For more information on how to initialize a W&B Sweep, see [Initialize sweeps](https://docs.wandb.ai/guides/sweeps/initialize-sweeps).
 
 ### Parallelize on a multi-CPU machine
 
@@ -26,20 +26,29 @@ Depending on your use case, explore the proceeding tabs to learn how to parallel
   ]}>
   <TabItem value="cli_text">
 
-Follow the procedure outlined below to parallelize your W&B Sweep agent across multiple CPUs with the terminal:  
+Use the [`wandb agent`](../../ref/cli/wandb-agent.md) command to parallelize your W&B Sweep agent across multiple CPUs with the terminal. Provide the sweep ID that was returned when you [initialized the sweep](./initialize-sweeps.md). 
 
 1. Open more than one terminal window on your local machine.
-2. Copy and past the W&B Sweep ID across multiple terminals to parallelize a W&B Sweep. The Sweep ID is generated when you initialize a Sweep.
+2. Copy and paste the code snippet below and replace `sweep_id` with your sweep ID:
+
+
+```bash
+wandb agent sweep_id
+```
 
 
   </TabItem>
   <TabItem value="jupyter">
 
-Follow the procedure outlined to parallelize your W&B Sweep agent across multiple CPUs within Jupyter Notebooks.  
+Use the Weights & Biases Python SDK library to parallelize your W&B Sweep agent across multiple CPUs within Jupyter Notebooks. Ensure you have the sweep ID that was returned when you [initialized the sweep](./initialize-sweeps.md).  In addition, provide the name of the function the sweep will execute for the `function` parameter:
 
 1. Open more than one Jupyter Notebook.
-2. Copy and past the W&B Sweep ID across multiple Jupyter Notebooks to parallelize a W&B Sweep. The Sweep ID is generated when you initialize a Sweep.
+2. Copy and past the W&B Sweep ID on multiple Jupyter Notebooks to parallelize a W&B Sweep. For example, you can paste the following code snippet on multiple jupyter notebooks to paralleliz your sweep if you have the sweep ID stored in a variable called `sweep_id` and the name of the function is `function_name`: 
 
+
+```python
+wandb.agent(sweep_id=sweep_id, function=function_name)
+```
 
   </TabItem>
 </Tabs>

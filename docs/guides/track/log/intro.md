@@ -57,10 +57,10 @@ Turn on [Code Saving](http://wandb.me/code-save-colab) in your account's [Settin
 With W&B, you can decide exactly what you want to log. The following lists some commonly logged objects:
 
 * **Datasets**: You have to specifically log images or other dataset samples for them to stream to W&B.
-* **Plots**:
-* **Tables**:
+* **Plots**: Use `wandb.plot` with `wandb.log` to track charts. See [Log Plots](./plots.md) for more information. 
+* **Tables**: Use `wandb.Table` to log data to visualize and query with W&B. See [Log Tables](./log-tables.md) for more information.
 * **PyTorch gradients**: Add `wandb.watch(model)` to see gradients of the weights as histograms in the UI.
-* **Configuration information**: Log hyperparameters, a link to your dataset, or the name of the architecture you're using as config parameters, passed in like this: `wandb.init(config=your_config_dictionary)`.
+* **Configuration information**: Log hyperparameters, a link to your dataset, or the name of the architecture you're using as config parameters, passed in like this: `wandb.init(config=your_config_dictionary)`. See the [PyTorch Integrations](../../integrations/pytorch.md) page for more information. 
 * **Metrics**: Use `wandb.log` to see metrics from your model. If you log metrics like accuracy and loss from inside your training loop, you'll get live updating graphs in the UI.
 
 <!-- ### Example Usage
@@ -78,7 +78,7 @@ wandb.log({"loss": 0.314, "epoch": 5,
 1. **Compare the best accuracy**: To compare the best value of a metric across runs, set the summary value for that metric. By default, summary is set to the last value you logged for each key. This is useful in the table in the UI, where you can sort and filter runs based on their summary metrics — so you could compare runs in a table or bar chart based on their _best_ accuracy, instead of final accuracy. For example, you could set summary like so: `wandb.run.summary["best_accuracy"] = best_accuracy`
 2. **Multiple metrics on one chart**: Log multiple metrics in the same call to `wandb.log`, like this: `wandb.log({"acc'": 0.9, "loss": 0.1})` and they will both be available to plot against in the UI
 3. **Custom x-axis**: Add a custom x-axis to the same log call to visualize your metrics against a different axis in the W&B dashboard. For example: `wandb.log({'acc': 0.9, 'epoch': 3, 'batch': 117})`. To set the default x-axis for a given metric use [Run.define\_metric()](https://docs.wandb.ai/ref/python/run#define\_metric)
-4. **Log rich media and charts**: `wandb.log` supports the logging of a wide variety of data types, from [media like images and videos](./media) to [tables](../../data-vis/log-tables) and [charts](./plots).
+4. **Log rich media and charts**: `wandb.log` supports the logging of a wide variety of data types, from [media like images and videos](./media.md) to [tables](./log-tables.md) and [charts](../../app/features/custom-charts/intro.md).
 
 
 

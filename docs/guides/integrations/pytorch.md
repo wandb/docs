@@ -79,7 +79,7 @@ W&B integrates directly with [PyTorch Kineto](https://github.com/pytorch/kineto)
 profile_dir = "path/to/run/tbprofile/"
 profiler = torch.profiler.profile(
     schedule=schedule,  # see the profiler docs for details on scheduling
-    on_trace_ready=torch.profiler.tensorboard_trace_handler(profile_dir)
+    on_trace_ready=torch.profiler.tensorboard_trace_handler(profile_dir),
     with_stack=True)
 
 with profiler:
