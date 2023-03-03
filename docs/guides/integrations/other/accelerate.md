@@ -11,16 +11,7 @@ Accelerate includes a Weights & Biases Tracker which we show how to use below. Y
 
 ## Start logging with Accelerate
 
-To start logging with Accelerate you need to:
-1. Pass `log_with="wandb"` when initialising the Accelerator class
-2. Call the [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) method and pass it:
-- a project name via `project_name`
-- any parameters you want to pass to [`wandb.init`](https://docs.wandb.ai/ref/python/init) via a nested dict to `init_kwargs`
-- any other experiment config information you want to log to your wandb run, via `config`
-3. Use the `.log` method to log to W&B
-4. Call `.end_training` when finished training
-
-For example:
+To get started with Accelerate and Weights & Biases you can follow the pseudocode below:
 
 ```python
 from accelerate import Accelerator
@@ -44,6 +35,15 @@ accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
 # Make sure that the wandb tracker finishes correctly
 accelerator.end_training()
 ```
+
+Explaining more, you need to:
+1. Pass `log_with="wandb"` when initialising the Accelerator class
+2. Call the [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) method and pass it:
+- a project name via `project_name`
+- any parameters you want to pass to [`wandb.init`](https://docs.wandb.ai/ref/python/init) via a nested dict to `init_kwargs`
+- any other experiment config information you want to log to your wandb run, via `config`
+3. Use the `.log` method to log to W&B
+4. Call `.end_training` when finished training
 
 ## Accessing Accelerates' Internal W&B Tracker
 
