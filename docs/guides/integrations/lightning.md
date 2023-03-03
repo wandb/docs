@@ -232,9 +232,7 @@ The `WandbLogger` has `log_image`, `log_text` and `log_table` methods for loggin
 
 You can also directly call `wandb.log` or `trainer.logger.experiment.log` to log other media types such as Audio, Molecules, Point Clouds, 3D Objects and more.
 
-:::info
-When using `wandb.log` or `trainer.logger.experiment.log` within your `trainer` make sure to also include`"global_step": trainer.global_step` in the dictionary being passed. That way, you can line up the information you're currently logging with information logged via other methods.
-:::
+
 
 <Tabs
   defaultValue="images"
