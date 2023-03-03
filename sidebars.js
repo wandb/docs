@@ -291,7 +291,6 @@ const sidebars = {
       items: [
         // 'guides/integrations/intro',
         'guides/integrations/add-wandb-to-any-library',
-        'guides/integrations/other/accelerate',
         'guides/integrations/other/catalyst',
         'guides/integrations/dagster',
         'guides/integrations/other/databricks',
@@ -308,6 +307,7 @@ const sidebars = {
           ],
         },
         'guides/integrations/huggingface',
+        'guides/integrations/other/accelerate',
         'guides/integrations/other/hydra',
         'guides/integrations/keras',
         'guides/integrations/other/kubeflow-pipelines-kfp',
