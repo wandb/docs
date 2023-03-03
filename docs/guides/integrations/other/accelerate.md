@@ -16,10 +16,10 @@ To get started with Accelerate and Weights & Biases you can follow the pseudocod
 ```python
 from accelerate import Accelerator
 
-# Tell the Accelerator to log with wandb
+# Tell the Accelerator object to log with wandb
 accelerator = Accelerator(log_with="wandb")
 
-# Initialise your wandb run
+# Initialise your wandb run, passing wandb parameters and any config information
 accelerator.init_trackers(
     project_name="my_project", 
     config={"dropout": 0.1, "learning_rate": 1e-2}
@@ -28,7 +28,7 @@ accelerator.init_trackers(
 
 ...
 
-# Log to wandb by calling `accelerator.log`
+# Log to wandb by calling `accelerator.log`, `step` is optional
 accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
 
 
@@ -42,7 +42,7 @@ Explaining more, you need to:
 - a project name via `project_name`
 - any parameters you want to pass to [`wandb.init`](https://docs.wandb.ai/ref/python/init) via a nested dict to `init_kwargs`
 - any other experiment config information you want to log to your wandb run, via `config`
-3. Use the `.log` method to log to W&B
+3. Use the `.log` method to log to Weigths & Biases; the `step` argument is optional
 4. Call `.end_training` when finished training
 
 ## Accessing Accelerates' Internal W&B Tracker
