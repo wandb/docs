@@ -88,7 +88,7 @@ Use [`wandb.log()`](./ref/python/log.md) to track metrics or a framework [integr
 wandb.log({'accuracy': train_acc, 'loss': train_loss})
 ```
 
-W&B saves metrics you log with `wandb.log` to the Run object you initialized. In this case, the accuracy and loss was associated to the W&B Run we initialized in the previous step.
+W&B saves metrics you log with `wandb.log` to the Run object you initialized. In this case, the accuracy and loss are associated with the W&B Run we initialized in the previous step.
 
 ![](/images/quickstart/wandb_demo_logging_metrics.png)
 
@@ -100,7 +100,7 @@ Save hyperparameters with [`wandb.config`](./guides/track/config.md). Tracking h
 ```python
 wandb.config.dropout = 0.2
 ```
-Attributes store in a `wandb.config` object are associated to the the most recent initialized Run object. 
+Attributes stored in a `wandb.config` object are associated with the most recent initialized Run object.
 
 ![](/images/quickstart/wandb_demo_experiments.gif)
 
@@ -119,7 +119,7 @@ wandb.alert(
     text=f"Accuracy {acc} is below threshold {thresh}"
 )
 ```
-You will recieve an email or Slack alert when your alert criteria is met. For example, the proceeding image demonstrates a Slack alert:
+You will receive an email or Slack alert when your alert criteria is met. For example, the proceeding image demonstrates a Slack alert:
 
 ![W&B Alerts in a Slack channel](/images/quickstart/get_alerts.png)
 
@@ -129,7 +129,7 @@ See the [Alerts docs](./guides/runs/alert.md) for more information on how to set
 ## What next?
 
 1. [**Collaborative Reports**](./guides/reports/intro.md): Snapshot results, take notes, and share findings
-2. [**Data + Model Versioning**](./guides/models/intro.md): Track dependencies and results in your ML pipeline
+2. [**Data + Model Versioning**](./guides/data-and-model-versioning/intro.md): Track dependencies and results in your ML pipeline
 3. [**Data Visualization**](guides/data-vis/intro.md): Visualize and query datasets and model evaluations
 4. [**Hyperparameter Tuning**](guides/sweeps/intro.md): Quickly automate optimizing hyperparameters
 5. [**Private-Hosting**](guides/hosting/intro.md): The enterprise solution for private cloud or on-prem hosting of W&B
@@ -143,7 +143,7 @@ Once you've signed in to www.wandb.ai, the API key will be on the [Authorize pag
 If you are training models in an automated environment where it's inconvenient to run shell commands, such as Google's CloudML, you should look at our guide to configuration with [Environment Variables](guides/track/environment-variables.md).
 
 **Do you offer local, on-prem installs?**
-Yes, you can [privately host W&B](guides/hosting/intro.md) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how. Note, to login to wandb local server you can [set the host flag](https://docs.wandb.ai/guides/hosting/quickstart#4.-modify-training-code-to-log-to-wandb-local-server) to the address of the local instance.  **** 
+Yes, you can [privately host W&B](guides/hosting/intro.md) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how. Note, to login to wandb local server you can [set the host flag](./guides/hosting/basic-setup.md#login) to the address of the local instance.  **** 
 
 **How do I turn off wandb logging temporarily?**
 If you're testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](guides/track/environment-variables.md).

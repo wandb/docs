@@ -1,0 +1,210 @@
+2023-02-25 11:47:21,506 INFO    StreamThr :52997 [internal.py:wandb_internal():87] W&B internal server running at pid: 52997, started at: 2023-02-25 11:47:21.503179
+2023-02-25 11:47:21,508 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: status
+2023-02-25 11:47:21,510 INFO    WriterThread:52997 [datastore.py:open_for_write():85] open: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/run-qryugudj.wandb
+2023-02-25 11:47:21,512 DEBUG   SenderThread:52997 [sender.py:send():334] send: header
+2023-02-25 11:47:21,512 DEBUG   SenderThread:52997 [sender.py:send():334] send: run
+2023-02-25 11:47:21,759 INFO    SenderThread:52997 [dir_watcher.py:__init__():216] watching files in: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files
+2023-02-25 11:47:21,759 INFO    SenderThread:52997 [sender.py:_start_run_threads():1065] run started: qryugudj with start time 1677354440.543374
+2023-02-25 11:47:21,760 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: summary_record
+2023-02-25 11:47:21,761 INFO    SenderThread:52997 [sender.py:_save_file():1319] saving file wandb-summary.json with policy end
+2023-02-25 11:47:21,766 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: check_version
+2023-02-25 11:47:21,766 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: check_version
+2023-02-25 11:47:21,849 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: run_start
+2023-02-25 11:47:21,851 DEBUG   HandlerThread:52997 [system_info.py:__init__():31] System info init
+2023-02-25 11:47:21,851 DEBUG   HandlerThread:52997 [system_info.py:__init__():46] System info init done
+2023-02-25 11:47:21,851 INFO    HandlerThread:52997 [system_monitor.py:start():151] Starting system monitor
+2023-02-25 11:47:21,851 INFO    SystemMonitor:52997 [system_monitor.py:_start():116] Starting system asset monitoring threads
+2023-02-25 11:47:21,851 INFO    HandlerThread:52997 [system_monitor.py:probe():172] Collecting system info
+2023-02-25 11:47:21,852 INFO    SystemMonitor:52997 [interfaces.py:start():168] Started cpu
+2023-02-25 11:47:21,852 DEBUG   HandlerThread:52997 [system_info.py:probe():195] Probing system
+2023-02-25 11:47:21,852 INFO    SystemMonitor:52997 [interfaces.py:start():168] Started disk
+2023-02-25 11:47:21,857 INFO    SystemMonitor:52997 [interfaces.py:start():168] Started gpuapple
+2023-02-25 11:47:21,862 INFO    SystemMonitor:52997 [interfaces.py:start():168] Started memory
+2023-02-25 11:47:21,863 INFO    SystemMonitor:52997 [interfaces.py:start():168] Started network
+2023-02-25 11:47:21,864 DEBUG   HandlerThread:52997 [system_info.py:_probe_git():180] Probing git
+2023-02-25 11:47:21,897 DEBUG   HandlerThread:52997 [system_info.py:_probe_git():188] Probing git done
+2023-02-25 11:47:21,897 DEBUG   HandlerThread:52997 [system_info.py:probe():241] Probing system done
+2023-02-25 11:47:21,897 DEBUG   HandlerThread:52997 [system_monitor.py:probe():181] {'os': 'macOS-12.2.1-arm64-arm-64bit', 'python': '3.10.0', 'heartbeatAt': '2023-02-25T19:47:21.852381', 'startedAt': '2023-02-25T19:47:20.533102', 'docker': None, 'cuda': None, 'args': None, 'state': 'running', 'program': 'W&B_Report_API_Quickstart.ipynb', 'root': '/Users/noahluna/Documents/GitHub/docodile', 'git': {'remote': 'https://github.com/wandb/docodile.git', 'commit': '88717bd70970a45d2f9756e0446706758743f107'}, 'email': '15202580+ngrayluna@users.noreply.github.com', 'host': 'Noahs-MacBook-Pro-2.local', 'username': 'noahluna', 'executable': '/Users/noahluna/.pyenv/versions/docu_nbdev/bin/python', 'cpu_count': 10, 'cpu_count_logical': 10, 'disk': {'total': 926.3517189025879, 'used': 131.1805419921875}, 'gpuapple': {'type': 'arm', 'vendor': 'Apple'}, 'memory': {'total': 32.0}}
+2023-02-25 11:47:21,897 INFO    HandlerThread:52997 [system_monitor.py:probe():182] Finished collecting system info
+2023-02-25 11:47:21,897 INFO    HandlerThread:52997 [system_monitor.py:probe():185] Publishing system info
+2023-02-25 11:47:21,897 DEBUG   HandlerThread:52997 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2023-02-25 11:47:21,898 DEBUG   HandlerThread:52997 [system_info.py:_save_pip():67] Saving pip packages done
+2023-02-25 11:47:21,898 DEBUG   HandlerThread:52997 [system_info.py:_save_code():89] Saving code
+2023-02-25 11:47:21,898 WARNING HandlerThread:52997 [system_info.py:_save_code():91] unable to save code -- program entry not found
+2023-02-25 11:47:21,898 DEBUG   HandlerThread:52997 [system_info.py:_save_patches():127] Saving git patches
+2023-02-25 11:47:22,452 DEBUG   HandlerThread:52997 [system_info.py:_save_patches():169] Saving git patches done
+2023-02-25 11:47:22,453 INFO    HandlerThread:52997 [system_monitor.py:probe():187] Finished publishing system info
+2023-02-25 11:47:22,453 DEBUG   SenderThread:52997 [sender.py:send():334] send: files
+2023-02-25 11:47:22,454 INFO    SenderThread:52997 [sender.py:_save_file():1319] saving file wandb-metadata.json with policy now
+2023-02-25 11:47:22,454 INFO    SenderThread:52997 [sender.py:_save_file():1319] saving file diff.patch with policy now
+2023-02-25 11:47:22,462 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: stop_status
+2023-02-25 11:47:22,462 DEBUG   SenderThread:52997 [sender.py:send():334] send: telemetry
+2023-02-25 11:47:22,462 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: stop_status
+2023-02-25 11:47:22,561 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: log_artifact
+2023-02-25 11:47:22,561 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: log_artifact
+2023-02-25 11:47:22,774 INFO    Thread-224:52997 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/diff.patch
+2023-02-25 11:47:22,775 INFO    Thread-224:52997 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/wandb-metadata.json
+2023-02-25 11:47:22,775 INFO    Thread-224:52997 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/requirements.txt
+2023-02-25 11:47:22,775 INFO    Thread-224:52997 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/wandb-summary.json
+2023-02-25 11:47:22,872 INFO    Thread-227:52997 [upload_job.py:push():143] Uploaded file /var/folders/8l/17pbmxnj7l58_psygsk0dpzw0000gn/T/tmplmbdukzmwandb/4zcl5bz8-wandb-metadata.json
+2023-02-25 11:47:22,874 INFO    Thread-228:52997 [upload_job.py:push():143] Uploaded file /var/folders/8l/17pbmxnj7l58_psygsk0dpzw0000gn/T/tmplmbdukzmwandb/ag7egwp8-diff.patch
+2023-02-25 11:47:23,117 INFO    SenderThread:52997 [sender.py:send_request_log_artifact():1379] logged artifact dataset-0:v0 - {'id': 'QXJ0aWZhY3Q6MzgxNDY2MDMy', 'digest': 'f6f12e3c56840caab13072de1657c7f4', 'state': 'COMMITTED', 'aliases': [{'artifactCollectionName': 'dataset-0', 'alias': 'latest'}, {'artifactCollectionName': 'dataset-0', 'alias': 'v0'}], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjU0ODA2NzMz', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MzgxNDY2MDMy', 'versionIndex': 0}}, 'version': 'latest'}
+2023-02-25 11:47:23,122 DEBUG   SenderThread:52997 [sender.py:send():334] send: use_artifact
+2023-02-25 11:47:23,515 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: log_artifact
+2023-02-25 11:47:23,515 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: log_artifact
+2023-02-25 11:47:24,289 INFO    Thread-230:52997 [upload_job.py:push():98] Skipped uploading /Users/noahluna/Library/Application Support/wandb/artifacts/staging/tmpfpeuycg7
+2023-02-25 11:47:24,289 INFO    Thread-231:52997 [upload_job.py:push():98] Skipped uploading /Users/noahluna/Library/Application Support/wandb/artifacts/staging/tmpwst6yhwx
+2023-02-25 11:47:24,559 INFO    Thread-232:52997 [upload_job.py:push():101] Uploaded file /Users/noahluna/Library/Application Support/wandb/artifacts/staging/tmp6hz2p4ts
+2023-02-25 11:47:25,429 INFO    SenderThread:52997 [sender.py:send_request_log_artifact():1379] logged artifact model-0 - {'id': 'QXJ0aWZhY3Q6MzgxNDY2Mjk3', 'digest': 'f4b74b5660d4fbde34690c5a48c3a951', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjU0ODA2NzQ3', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MzgxNDY2MjE3', 'versionIndex': 1}}, 'version': 'latest'}
+2023-02-25 11:47:26,108 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: log_artifact
+2023-02-25 11:47:26,108 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: log_artifact
+2023-02-25 11:47:26,738 INFO    Thread-234:52997 [upload_job.py:push():98] Skipped uploading /Users/noahluna/Library/Application Support/wandb/artifacts/staging/tmpkr_x0nj7
+2023-02-25 11:47:26,738 INFO    Thread-235:52997 [upload_job.py:push():98] Skipped uploading /Users/noahluna/Library/Application Support/wandb/artifacts/staging/tmpss_4k8hm
+2023-02-25 11:47:26,998 INFO    Thread-236:52997 [upload_job.py:push():101] Uploaded file /Users/noahluna/Library/Application Support/wandb/artifacts/staging/tmphq9xgvgc
+2023-02-25 11:47:27,879 INFO    SenderThread:52997 [sender.py:send_request_log_artifact():1379] logged artifact model-1 - {'id': 'QXJ0aWZhY3Q6MzgxNDY2MzE0', 'digest': '11dd6b742d20693a52de126f11cd017c', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjU0ODA2NzQ5', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MzgxNDY2MjMx', 'versionIndex': 1}}, 'version': 'latest'}
+2023-02-25 11:47:27,879 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: status_report
+2023-02-25 11:47:28,641 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: log_artifact
+2023-02-25 11:47:28,642 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: log_artifact
+2023-02-25 11:47:29,636 INFO    Thread-238:52997 [upload_job.py:push():98] Skipped uploading /Users/noahluna/Library/Application Support/wandb/artifacts/staging/tmptu32woyo
+2023-02-25 11:47:29,637 INFO    Thread-239:52997 [upload_job.py:push():98] Skipped uploading /Users/noahluna/Library/Application Support/wandb/artifacts/staging/tmpbth0lj41
+2023-02-25 11:47:29,904 INFO    Thread-240:52997 [upload_job.py:push():101] Uploaded file /Users/noahluna/Library/Application Support/wandb/artifacts/staging/tmpg5x8wxqv
+2023-02-25 11:47:30,753 INFO    SenderThread:52997 [sender.py:send_request_log_artifact():1379] logged artifact model-2 - {'id': 'QXJ0aWZhY3Q6MzgxNDY2MzI3', 'digest': 'e00c4826943f2bb8b2dc7b3d90d24f78', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjU0ODA2NzUy', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MzgxNDY2MjUx', 'versionIndex': 1}}, 'version': 'latest'}
+2023-02-25 11:47:31,058 DEBUG   SenderThread:52997 [sender.py:send():334] send: telemetry
+2023-02-25 11:47:31,066 DEBUG   SenderThread:52997 [sender.py:send():334] send: config
+2023-02-25 11:47:31,172 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: log_artifact
+2023-02-25 11:47:31,174 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: log_artifact
+2023-02-25 11:47:31,816 INFO    Thread-224:52997 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/code/_session_history.ipynb
+2023-02-25 11:47:31,817 INFO    Thread-224:52997 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/code
+2023-02-25 11:47:32,112 INFO    Thread-243:52997 [upload_job.py:push():101] Uploaded file /Users/noahluna/Library/Application Support/wandb/artifacts/staging/tmp78ybydap
+2023-02-25 11:47:32,132 INFO    Thread-242:52997 [upload_job.py:push():101] Uploaded file /Users/noahluna/Library/Application Support/wandb/artifacts/staging/tmpn22k2iny
+2023-02-25 11:47:32,186 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: poll_exit
+2023-02-25 11:47:33,100 INFO    SenderThread:52997 [sender.py:send_request_log_artifact():1379] logged artifact source-lineage-project-None - {'id': 'QXJ0aWZhY3Q6MzgxNDY2MzQ0', 'digest': 'f8eefed9096642cbe31aef46f27eae04', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjU0ODA2NzQz', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MzgxNDY2MjYx', 'versionIndex': 2}}, 'version': 'latest'}
+2023-02-25 11:47:33,100 DEBUG   SenderThread:52997 [sender.py:send():334] send: exit
+2023-02-25 11:47:33,100 INFO    SenderThread:52997 [sender.py:send_exit():557] handling exit code: 0
+2023-02-25 11:47:33,100 INFO    SenderThread:52997 [sender.py:send_exit():559] handling runtime: 9
+2023-02-25 11:47:33,100 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: status_report
+2023-02-25 11:47:33,101 INFO    SenderThread:52997 [sender.py:_save_file():1319] saving file wandb-summary.json with policy end
+2023-02-25 11:47:33,102 INFO    SenderThread:52997 [sender.py:send_exit():565] send defer
+2023-02-25 11:47:33,102 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: poll_exit
+2023-02-25 11:47:33,102 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:33,102 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 0
+2023-02-25 11:47:33,102 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:33,102 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 0
+2023-02-25 11:47:33,102 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 1
+2023-02-25 11:47:33,102 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:33,102 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 1
+2023-02-25 11:47:33,102 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:33,102 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 1
+2023-02-25 11:47:33,102 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 2
+2023-02-25 11:47:33,102 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:33,102 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 2
+2023-02-25 11:47:33,102 INFO    HandlerThread:52997 [system_monitor.py:finish():161] Stopping system monitor
+2023-02-25 11:47:33,106 DEBUG   SystemMonitor:52997 [system_monitor.py:_start():130] Starting system metrics aggregation loop
+2023-02-25 11:47:33,106 DEBUG   SystemMonitor:52997 [system_monitor.py:_start():137] Finished system metrics aggregation loop
+2023-02-25 11:47:33,106 DEBUG   SystemMonitor:52997 [system_monitor.py:_start():141] Publishing last batch of metrics
+2023-02-25 11:47:33,107 INFO    HandlerThread:52997 [interfaces.py:finish():175] Joined cpu
+2023-02-25 11:47:33,107 INFO    HandlerThread:52997 [interfaces.py:finish():175] Joined disk
+2023-02-25 11:47:33,122 INFO    HandlerThread:52997 [interfaces.py:finish():175] Joined gpuapple
+2023-02-25 11:47:33,122 INFO    HandlerThread:52997 [interfaces.py:finish():175] Joined memory
+2023-02-25 11:47:33,122 INFO    HandlerThread:52997 [interfaces.py:finish():175] Joined network
+2023-02-25 11:47:33,123 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:33,123 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 2
+2023-02-25 11:47:33,123 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 3
+2023-02-25 11:47:33,123 DEBUG   SenderThread:52997 [sender.py:send():334] send: telemetry
+2023-02-25 11:47:33,123 DEBUG   SenderThread:52997 [sender.py:send():334] send: stats
+2023-02-25 11:47:33,123 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:33,123 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 3
+2023-02-25 11:47:33,123 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:33,123 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 3
+2023-02-25 11:47:33,123 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 4
+2023-02-25 11:47:33,123 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:33,123 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 4
+2023-02-25 11:47:33,123 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:33,123 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 4
+2023-02-25 11:47:33,123 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 5
+2023-02-25 11:47:33,123 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:33,123 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 5
+2023-02-25 11:47:33,123 DEBUG   SenderThread:52997 [sender.py:send():334] send: summary
+2023-02-25 11:47:33,124 INFO    SenderThread:52997 [sender.py:_save_file():1319] saving file wandb-summary.json with policy end
+2023-02-25 11:47:33,124 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:33,124 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 5
+2023-02-25 11:47:33,124 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 6
+2023-02-25 11:47:33,124 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:33,124 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 6
+2023-02-25 11:47:33,124 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:33,124 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 6
+2023-02-25 11:47:33,126 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: status_report
+2023-02-25 11:47:33,189 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: poll_exit
+2023-02-25 11:47:33,247 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 7
+2023-02-25 11:47:33,247 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: poll_exit
+2023-02-25 11:47:33,248 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:33,248 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 7
+2023-02-25 11:47:33,248 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:33,248 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 7
+2023-02-25 11:47:33,248 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 8
+2023-02-25 11:47:33,248 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:33,248 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 8
+2023-02-25 11:47:33,248 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:33,248 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 8
+2023-02-25 11:47:33,249 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 9
+2023-02-25 11:47:33,249 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:33,249 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 9
+2023-02-25 11:47:33,249 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:33,249 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 9
+2023-02-25 11:47:33,249 INFO    SenderThread:52997 [dir_watcher.py:finish():362] shutting down directory watcher
+2023-02-25 11:47:33,825 INFO    SenderThread:52997 [dir_watcher.py:_on_file_modified():292] file/dir modified: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/config.yaml
+2023-02-25 11:47:33,826 INFO    SenderThread:52997 [dir_watcher.py:_on_file_modified():292] file/dir modified: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/wandb-summary.json
+2023-02-25 11:47:33,827 INFO    SenderThread:52997 [dir_watcher.py:finish():392] scan: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files
+2023-02-25 11:47:33,827 INFO    SenderThread:52997 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/diff.patch diff.patch
+2023-02-25 11:47:33,828 INFO    SenderThread:52997 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/requirements.txt requirements.txt
+2023-02-25 11:47:33,828 INFO    SenderThread:52997 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/config.yaml config.yaml
+2023-02-25 11:47:33,828 INFO    SenderThread:52997 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/wandb-summary.json wandb-summary.json
+2023-02-25 11:47:33,829 INFO    SenderThread:52997 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/wandb-metadata.json wandb-metadata.json
+2023-02-25 11:47:33,836 INFO    SenderThread:52997 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/code/_session_history.ipynb code/_session_history.ipynb
+2023-02-25 11:47:33,836 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 10
+2023-02-25 11:47:33,837 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:33,837 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 10
+2023-02-25 11:47:33,847 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:33,847 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 10
+2023-02-25 11:47:33,850 INFO    SenderThread:52997 [file_pusher.py:finish():160] shutting down file pusher
+2023-02-25 11:47:34,199 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: poll_exit
+2023-02-25 11:47:34,200 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: poll_exit
+2023-02-25 11:47:34,342 INFO    Thread-247:52997 [upload_job.py:push():143] Uploaded file /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/code/_session_history.ipynb
+2023-02-25 11:47:34,348 INFO    Thread-245:52997 [upload_job.py:push():143] Uploaded file /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/config.yaml
+2023-02-25 11:47:34,348 INFO    Thread-246:52997 [upload_job.py:push():143] Uploaded file /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/wandb-summary.json
+2023-02-25 11:47:34,348 INFO    Thread-244:52997 [upload_job.py:push():143] Uploaded file /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/files/requirements.txt
+2023-02-25 11:47:34,553 INFO    Thread-223 (_thread_body):52997 [sender.py:transition_state():585] send defer: 11
+2023-02-25 11:47:34,554 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:34,554 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 11
+2023-02-25 11:47:34,555 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:34,555 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 11
+2023-02-25 11:47:34,555 INFO    SenderThread:52997 [file_pusher.py:join():165] waiting for file pusher
+2023-02-25 11:47:34,555 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 12
+2023-02-25 11:47:34,556 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:34,556 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 12
+2023-02-25 11:47:34,556 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:34,556 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 12
+2023-02-25 11:47:34,827 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 13
+2023-02-25 11:47:34,828 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:34,828 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 13
+2023-02-25 11:47:34,830 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:34,830 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 13
+2023-02-25 11:47:34,830 INFO    SenderThread:52997 [sender.py:transition_state():585] send defer: 14
+2023-02-25 11:47:34,831 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:47:34,831 INFO    HandlerThread:52997 [handler.py:handle_request_defer():170] handle defer: 14
+2023-02-25 11:47:34,831 DEBUG   SenderThread:52997 [sender.py:send():334] send: final
+2023-02-25 11:47:34,832 DEBUG   SenderThread:52997 [sender.py:send():334] send: footer
+2023-02-25 11:47:34,832 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:47:34,832 INFO    SenderThread:52997 [sender.py:send_request_defer():581] handle sender defer: 14
+2023-02-25 11:47:34,835 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: poll_exit
+2023-02-25 11:47:34,836 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: server_info
+2023-02-25 11:47:34,837 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: get_summary
+2023-02-25 11:47:34,837 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: poll_exit
+2023-02-25 11:47:34,837 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: sampled_history
+2023-02-25 11:47:34,838 DEBUG   SenderThread:52997 [sender.py:send_request():361] send_request: server_info
+2023-02-25 11:47:34,949 DEBUG   HandlerThread:52997 [handler.py:handle_request():144] handle_request: shutdown
+2023-02-25 11:47:34,949 INFO    HandlerThread:52997 [handler.py:finish():841] shutting down handler
+2023-02-25 11:47:35,838 INFO    WriterThread:52997 [datastore.py:close():299] close: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114720-qryugudj/run-qryugudj.wandb
+2023-02-25 11:47:35,947 INFO    SenderThread:52997 [sender.py:finish():1491] shutting down sender
+2023-02-25 11:47:35,947 INFO    SenderThread:52997 [file_pusher.py:finish():160] shutting down file pusher
+2023-02-25 11:47:35,947 INFO    SenderThread:52997 [file_pusher.py:join():165] waiting for file pusher

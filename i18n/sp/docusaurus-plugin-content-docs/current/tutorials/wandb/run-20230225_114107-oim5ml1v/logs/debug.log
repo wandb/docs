@@ -1,0 +1,39 @@
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_setup.py:_flush():68] Configure stats pid to 48785
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_setup.py:_flush():68] Loading settings from /Users/noahluna/.config/wandb/settings
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_setup.py:_flush():68] Loading settings from /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/settings
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_setup.py:_flush():68] Loading settings from environment variables: {'_require_service': 'True'}
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_setup.py:_flush():68] Inferring run settings from compute environment: {'program': '<python with no main file>'}
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_init.py:_log_setup():478] Logging user logs to /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114107-oim5ml1v/logs/debug.log
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_init.py:_log_setup():479] Logging internal logs to /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_114107-oim5ml1v/logs/debug-internal.log
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_init.py:_jupyter_setup():428] configuring jupyter hooks <wandb.sdk.wandb_init._WandbInit object at 0x11131b610>
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_init.py:init():518] calling init triggers
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_init.py:init():521] wandb.init called with sweep_config: {}
+config: {}
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_init.py:init():571] starting backend
+2023-02-25 11:41:07,176 INFO    MainThread:48785 [wandb_init.py:init():575] setting up manager
+2023-02-25 11:41:07,183 INFO    MainThread:48785 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=spawn,fork,forkserver, using: spawn
+2023-02-25 11:41:07,184 INFO    MainThread:48785 [wandb_init.py:init():582] backend started and connected
+2023-02-25 11:41:07,193 INFO    MainThread:48785 [wandb_run.py:_label_probe_notebook():1202] probe notebook
+2023-02-25 11:41:07,194 INFO    MainThread:48785 [wandb_init.py:init():670] updated telemetry
+2023-02-25 11:41:07,213 INFO    MainThread:48785 [wandb_init.py:init():710] communicating run to backend with 60.0 second timeout
+2023-02-25 11:41:07,747 INFO    MainThread:48785 [wandb_run.py:_on_init():2121] communicating current version
+2023-02-25 11:41:07,800 INFO    MainThread:48785 [wandb_run.py:_on_init():2125] got version response upgrade_message: "wandb version 0.13.10 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2023-02-25 11:41:07,800 INFO    MainThread:48785 [wandb_init.py:init():758] starting run threads in backend
+2023-02-25 11:41:08,432 INFO    MainThread:48785 [wandb_run.py:_console_start():2101] atexit reg
+2023-02-25 11:41:08,432 INFO    MainThread:48785 [wandb_run.py:_redirect():1959] redirect: SettingsConsole.WRAP_RAW
+2023-02-25 11:41:08,432 INFO    MainThread:48785 [wandb_run.py:_redirect():2024] Wrapping output streams.
+2023-02-25 11:41:08,432 INFO    MainThread:48785 [wandb_run.py:_redirect():2046] Redirects installed.
+2023-02-25 11:41:08,433 INFO    MainThread:48785 [wandb_init.py:init():798] run started, returning control to user process
+2023-02-25 11:41:08,433 INFO    MainThread:48785 [wandb_run.py:_finish():1844] finishing run noahluna/my-awesome-project/oim5ml1v
+2023-02-25 11:41:08,435 INFO    MainThread:48785 [jupyter.py:save_history():478] saving 5 cells to _session_history.ipynb
+2023-02-25 11:41:08,436 INFO    MainThread:48785 [wandb_run.py:_config_callback():1249] config_cb ('_wandb', 'session_history') code/_session_history.ipynb None
+2023-02-25 11:41:08,438 INFO    MainThread:48785 [jupyter.py:_save_ipynb():390] looking for notebook: quickstart.ipynb
+2023-02-25 11:41:08,533 INFO    MainThread:48785 [wandb_init.py:_jupyter_teardown():409] saved code and history: <wandb.sdk.wandb_artifacts.Artifact object at 0x1323b7100>
+2023-02-25 11:41:08,533 INFO    MainThread:48785 [wandb_init.py:_jupyter_teardown():410] cleaning up jupyter logic
+2023-02-25 11:41:08,533 INFO    MainThread:48785 [wandb_run.py:_atexit_cleanup():2070] got exitcode: 0
+2023-02-25 11:41:08,533 INFO    MainThread:48785 [wandb_run.py:_restore():2053] restore
+2023-02-25 11:41:08,533 INFO    MainThread:48785 [wandb_run.py:_restore():2059] restore done
+2023-02-25 11:41:13,840 INFO    MainThread:48785 [wandb_run.py:_footer_history_summary_info():3427] rendering history
+2023-02-25 11:41:13,840 INFO    MainThread:48785 [wandb_run.py:_footer_history_summary_info():3459] rendering summary
+2023-02-25 11:41:13,849 INFO    MainThread:48785 [wandb_run.py:_footer_sync_info():3383] logging synced files

@@ -1,0 +1,33 @@
+diff --git a/docusaurus.config.js b/docusaurus.config.js
+index 86eed89..592a7ef 100644
+--- a/docusaurus.config.js
++++ b/docusaurus.config.js
+@@ -108,6 +108,12 @@ const config = {
+             label: 'Developer guide',
+             position: 'right',
+           },
++          {
++            type: 'doc',
++            docId: 'tutorials/intro',
++            label: 'Tutorials',
++            position: 'right',
++          },
+           {
+             type: 'doc',
+             docId: 'ref/README',
+diff --git a/sidebars.js b/sidebars.js
+index 0bb0ce1..4a8a2ed 100644
+--- a/sidebars.js
++++ b/sidebars.js
+@@ -345,6 +345,11 @@ const sidebars = {
+       dirName: 'ref',
+     },
+   ],
++  tutorials : [
++    'tutorials/intro',
++    'tutorials/new_page',
++    'tutorials/quickstart',
++  ]
+ };
+ 
+ module.exports = sidebars;

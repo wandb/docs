@@ -1,0 +1,138 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.referenceSidebar.category.Track Experiments": {
+    "message": "Track Experiments",
+    "description": "The label for category Track Experiments in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Log Objects and Media": {
+    "message": "Log Objects and Media",
+    "description": "The label for category Log Objects and Media in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Runs": {
+    "message": "Runs",
+    "description": "The label for category Runs in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Artifacts": {
+    "message": "Artifacts",
+    "description": "The label for category Artifacts in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Tune Hyperparameters": {
+    "message": "Tune Hyperparameters",
+    "description": "The label for category Tune Hyperparameters in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Collaborative Reports": {
+    "message": "Collaborative Reports",
+    "description": "The label for category Collaborative Reports in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Data and model versioning": {
+    "message": "Data and model versioning",
+    "description": "The label for category Data and model versioning in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Model Management": {
+    "message": "Model Management",
+    "description": "The label for category Model Management in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Data Visualization": {
+    "message": "Data Visualization",
+    "description": "The label for category Data Visualization in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.W&B App UI": {
+    "message": "W&B App UI",
+    "description": "The label for category W&B App UI in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Features": {
+    "message": "Features",
+    "description": "The label for category Features in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Panels": {
+    "message": "Panels",
+    "description": "The label for category Panels in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Line Plot": {
+    "message": "Line Plot",
+    "description": "The label for category Line Plot in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Weave": {
+    "message": "Weave",
+    "description": "The label for category Weave in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Custom Charts": {
+    "message": "Custom Charts",
+    "description": "The label for category Custom Charts in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Pages": {
+    "message": "Pages",
+    "description": "The label for category Pages in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Settings": {
+    "message": "Settings",
+    "description": "The label for category Settings in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Private Hosting": {
+    "message": "Private Hosting",
+    "description": "The label for category Private Hosting in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Production Setup": {
+    "message": "Production Setup",
+    "description": "The label for category Production Setup in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Technical FAQ": {
+    "message": "Technical FAQ",
+    "description": "The label for category Technical FAQ in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Integrations": {
+    "message": "Integrations",
+    "description": "The label for category Integrations in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Fastai": {
+    "message": "Fastai",
+    "description": "The label for category Fastai in sidebar referenceSidebar"
+  },
+  "sidebar.ref.category.Command Line Interface": {
+    "message": "Command Line Interface",
+    "description": "The label for category Command Line Interface in sidebar ref"
+  },
+  "sidebar.ref.category.wandb artifact": {
+    "message": "wandb artifact",
+    "description": "The label for category wandb artifact in sidebar ref"
+  },
+  "sidebar.ref.category.wandb artifact cache": {
+    "message": "wandb artifact cache",
+    "description": "The label for category wandb artifact cache in sidebar ref"
+  },
+  "sidebar.ref.category.wandb server": {
+    "message": "wandb server",
+    "description": "The label for category wandb server in sidebar ref"
+  },
+  "sidebar.ref.category.Java Library": {
+    "message": "Java Library",
+    "description": "The label for category Java Library in sidebar ref"
+  },
+  "sidebar.ref.category.Python Library": {
+    "message": "Python Library",
+    "description": "The label for category Python Library in sidebar ref"
+  },
+  "sidebar.ref.category.Data Types": {
+    "message": "Data Types",
+    "description": "The label for category Data Types in sidebar ref"
+  },
+  "sidebar.ref.category.Integrations": {
+    "message": "Integrations",
+    "description": "The label for category Integrations in sidebar ref"
+  },
+  "sidebar.ref.category.Keras": {
+    "message": "Keras",
+    "description": "The label for category Keras in sidebar ref"
+  },
+  "sidebar.ref.category.Import & Export API": {
+    "message": "Import & Export API",
+    "description": "The label for category Import & Export API in sidebar ref"
+  },
+  "sidebar.ref.category.Weave (Query Language)": {
+    "message": "Weave (Query Language)",
+    "description": "The label for category Weave (Query Language) in sidebar ref"
+  }
+}

@@ -1,0 +1,220 @@
+2023-02-25 11:11:37,794 INFO    StreamThr :48537 [internal.py:wandb_internal():87] W&B internal server running at pid: 48537, started at: 2023-02-25 11:11:37.794156
+2023-02-25 11:11:37,794 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: status
+2023-02-25 11:11:37,799 INFO    WriterThread:48537 [datastore.py:open_for_write():85] open: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/run-z091jpet.wandb
+2023-02-25 11:11:37,800 DEBUG   SenderThread:48537 [sender.py:send():334] send: header
+2023-02-25 11:11:37,818 DEBUG   SenderThread:48537 [sender.py:send():334] send: run
+2023-02-25 11:11:38,041 INFO    SenderThread:48537 [dir_watcher.py:__init__():216] watching files in: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files
+2023-02-25 11:11:38,041 INFO    SenderThread:48537 [sender.py:_start_run_threads():1065] run started: z091jpet with start time 1677352297.792606
+2023-02-25 11:11:38,041 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: summary_record
+2023-02-25 11:11:38,042 INFO    SenderThread:48537 [sender.py:_save_file():1319] saving file wandb-summary.json with policy end
+2023-02-25 11:11:38,045 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: check_version
+2023-02-25 11:11:38,045 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: check_version
+2023-02-25 11:11:38,120 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: run_start
+2023-02-25 11:11:38,130 DEBUG   HandlerThread:48537 [system_info.py:__init__():31] System info init
+2023-02-25 11:11:38,130 DEBUG   HandlerThread:48537 [system_info.py:__init__():46] System info init done
+2023-02-25 11:11:38,130 INFO    HandlerThread:48537 [system_monitor.py:start():151] Starting system monitor
+2023-02-25 11:11:38,130 INFO    SystemMonitor:48537 [system_monitor.py:_start():116] Starting system asset monitoring threads
+2023-02-25 11:11:38,130 INFO    HandlerThread:48537 [system_monitor.py:probe():172] Collecting system info
+2023-02-25 11:11:38,131 INFO    SystemMonitor:48537 [interfaces.py:start():168] Started cpu
+2023-02-25 11:11:38,131 DEBUG   HandlerThread:48537 [system_info.py:probe():195] Probing system
+2023-02-25 11:11:38,131 INFO    SystemMonitor:48537 [interfaces.py:start():168] Started disk
+2023-02-25 11:11:38,133 INFO    SystemMonitor:48537 [interfaces.py:start():168] Started gpuapple
+2023-02-25 11:11:38,134 INFO    SystemMonitor:48537 [interfaces.py:start():168] Started memory
+2023-02-25 11:11:38,135 INFO    SystemMonitor:48537 [interfaces.py:start():168] Started network
+2023-02-25 11:11:38,138 DEBUG   HandlerThread:48537 [system_info.py:_probe_git():180] Probing git
+2023-02-25 11:11:38,162 DEBUG   HandlerThread:48537 [system_info.py:_probe_git():188] Probing git done
+2023-02-25 11:11:38,163 DEBUG   HandlerThread:48537 [system_info.py:probe():241] Probing system done
+2023-02-25 11:11:38,163 DEBUG   HandlerThread:48537 [system_monitor.py:probe():181] {'os': 'macOS-12.2.1-arm64-arm-64bit', 'python': '3.10.0', 'heartbeatAt': '2023-02-25T19:11:38.131200', 'startedAt': '2023-02-25T19:11:37.783868', 'docker': None, 'cuda': None, 'args': None, 'state': 'running', 'program': '<python with no main file>', 'git': {'remote': 'https://github.com/wandb/docodile.git', 'commit': '88717bd70970a45d2f9756e0446706758743f107'}, 'email': '15202580+ngrayluna@users.noreply.github.com', 'root': '/Users/noahluna/Documents/GitHub/docodile', 'host': 'Noahs-MacBook-Pro-2.local', 'username': 'noahluna', 'executable': '/Users/noahluna/.pyenv/versions/docu_nbdev/bin/python', 'cpu_count': 10, 'cpu_count_logical': 10, 'disk': {'total': 926.3517189025879, 'used': 130.77756881713867}, 'gpuapple': {'type': 'arm', 'vendor': 'Apple'}, 'memory': {'total': 32.0}}
+2023-02-25 11:11:38,163 INFO    HandlerThread:48537 [system_monitor.py:probe():182] Finished collecting system info
+2023-02-25 11:11:38,163 INFO    HandlerThread:48537 [system_monitor.py:probe():185] Publishing system info
+2023-02-25 11:11:38,163 DEBUG   HandlerThread:48537 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2023-02-25 11:11:38,164 DEBUG   HandlerThread:48537 [system_info.py:_save_pip():67] Saving pip packages done
+2023-02-25 11:11:38,164 DEBUG   HandlerThread:48537 [system_info.py:_save_code():89] Saving code
+2023-02-25 11:11:38,164 WARNING HandlerThread:48537 [system_info.py:_save_code():91] unable to save code -- program entry not found
+2023-02-25 11:11:38,164 DEBUG   HandlerThread:48537 [system_info.py:_save_patches():127] Saving git patches
+2023-02-25 11:11:38,613 DEBUG   HandlerThread:48537 [system_info.py:_save_patches():169] Saving git patches done
+2023-02-25 11:11:38,614 INFO    HandlerThread:48537 [system_monitor.py:probe():187] Finished publishing system info
+2023-02-25 11:11:38,622 DEBUG   SenderThread:48537 [sender.py:send():334] send: files
+2023-02-25 11:11:38,622 INFO    SenderThread:48537 [sender.py:_save_file():1319] saving file wandb-metadata.json with policy now
+2023-02-25 11:11:38,622 INFO    SenderThread:48537 [sender.py:_save_file():1319] saving file diff.patch with policy now
+2023-02-25 11:11:38,630 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: stop_status
+2023-02-25 11:11:38,631 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: stop_status
+2023-02-25 11:11:38,632 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: pause
+2023-02-25 11:11:38,632 INFO    HandlerThread:48537 [handler.py:handle_request_pause():717] stopping system metrics thread or process
+2023-02-25 11:11:38,632 INFO    HandlerThread:48537 [system_monitor.py:finish():161] Stopping system monitor
+2023-02-25 11:11:38,654 DEBUG   SystemMonitor:48537 [system_monitor.py:_start():130] Starting system metrics aggregation loop
+2023-02-25 11:11:38,654 DEBUG   SystemMonitor:48537 [system_monitor.py:_start():137] Finished system metrics aggregation loop
+2023-02-25 11:11:38,654 DEBUG   SystemMonitor:48537 [system_monitor.py:_start():141] Publishing last batch of metrics
+2023-02-25 11:11:38,655 INFO    HandlerThread:48537 [interfaces.py:finish():175] Joined cpu
+2023-02-25 11:11:38,655 INFO    HandlerThread:48537 [interfaces.py:finish():175] Joined disk
+2023-02-25 11:11:38,712 DEBUG   SenderThread:48537 [sender.py:send():334] send: telemetry
+2023-02-25 11:11:38,748 INFO    HandlerThread:48537 [interfaces.py:finish():175] Joined gpuapple
+2023-02-25 11:11:38,748 INFO    HandlerThread:48537 [interfaces.py:finish():175] Joined memory
+2023-02-25 11:11:38,748 INFO    HandlerThread:48537 [interfaces.py:finish():175] Joined network
+2023-02-25 11:11:38,748 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: resume
+2023-02-25 11:11:38,748 INFO    HandlerThread:48537 [handler.py:handle_request_resume():708] starting system metrics thread or process
+2023-02-25 11:11:38,748 INFO    HandlerThread:48537 [system_monitor.py:start():151] Starting system monitor
+2023-02-25 11:11:38,748 INFO    SystemMonitor:48537 [system_monitor.py:_start():116] Starting system asset monitoring threads
+2023-02-25 11:11:38,748 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: pause
+2023-02-25 11:11:38,748 INFO    HandlerThread:48537 [handler.py:handle_request_pause():717] stopping system metrics thread or process
+2023-02-25 11:11:38,748 INFO    HandlerThread:48537 [system_monitor.py:finish():161] Stopping system monitor
+2023-02-25 11:11:38,748 WARNING HandlerThread:48537 [interfaces.py:finish():177] Failed to join cpu: cannot join thread before it is started
+2023-02-25 11:11:38,751 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: resume
+2023-02-25 11:11:38,751 INFO    HandlerThread:48537 [handler.py:handle_request_resume():708] starting system metrics thread or process
+2023-02-25 11:11:38,751 INFO    HandlerThread:48537 [system_monitor.py:start():151] Starting system monitor
+2023-02-25 11:11:38,751 INFO    SystemMonitor:48537 [system_monitor.py:_start():116] Starting system asset monitoring threads
+2023-02-25 11:11:38,751 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: partial_history
+2023-02-25 11:11:38,751 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: pause
+2023-02-25 11:11:38,751 INFO    HandlerThread:48537 [handler.py:handle_request_pause():717] stopping system metrics thread or process
+2023-02-25 11:11:38,751 INFO    HandlerThread:48537 [system_monitor.py:finish():161] Stopping system monitor
+2023-02-25 11:11:38,751 WARNING HandlerThread:48537 [interfaces.py:finish():177] Failed to join cpu: cannot join thread before it is started
+2023-02-25 11:11:38,752 DEBUG   SenderThread:48537 [sender.py:send():334] send: history
+2023-02-25 11:11:38,752 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: summary_record
+2023-02-25 11:11:38,752 INFO    SenderThread:48537 [sender.py:_save_file():1319] saving file wandb-summary.json with policy end
+2023-02-25 11:11:38,752 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: resume
+2023-02-25 11:11:38,752 INFO    HandlerThread:48537 [handler.py:handle_request_resume():708] starting system metrics thread or process
+2023-02-25 11:11:38,752 INFO    HandlerThread:48537 [system_monitor.py:start():151] Starting system monitor
+2023-02-25 11:11:38,752 INFO    SystemMonitor:48537 [system_monitor.py:_start():116] Starting system asset monitoring threads
+2023-02-25 11:11:38,753 INFO    SystemMonitor:48537 [interfaces.py:start():168] Started cpu
+2023-02-25 11:11:38,753 DEBUG   SenderThread:48537 [sender.py:send():334] send: telemetry
+2023-02-25 11:11:38,753 INFO    SystemMonitor:48537 [interfaces.py:start():168] Started disk
+2023-02-25 11:11:38,753 DEBUG   SenderThread:48537 [sender.py:send():334] send: telemetry
+2023-02-25 11:11:38,753 DEBUG   SenderThread:48537 [sender.py:send():334] send: stats
+2023-02-25 11:11:38,753 INFO    SystemMonitor:48537 [interfaces.py:start():168] Started gpuapple
+2023-02-25 11:11:38,753 DEBUG   SenderThread:48537 [sender.py:send():334] send: config
+2023-02-25 11:11:38,756 INFO    SystemMonitor:48537 [interfaces.py:start():168] Started memory
+2023-02-25 11:11:38,756 DEBUG   SenderThread:48537 [sender.py:send():334] send: exit
+2023-02-25 11:11:38,757 INFO    SystemMonitor:48537 [interfaces.py:start():168] Started network
+2023-02-25 11:11:38,757 INFO    SenderThread:48537 [sender.py:send_exit():557] handling exit code: 0
+2023-02-25 11:11:38,757 INFO    SenderThread:48537 [sender.py:send_exit():559] handling runtime: 0
+2023-02-25 11:11:38,758 INFO    SenderThread:48537 [sender.py:_save_file():1319] saving file wandb-summary.json with policy end
+2023-02-25 11:11:38,758 INFO    SenderThread:48537 [sender.py:send_exit():565] send defer
+2023-02-25 11:11:38,758 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:38,758 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 0
+2023-02-25 11:11:38,758 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:38,758 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 0
+2023-02-25 11:11:38,758 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 1
+2023-02-25 11:11:38,758 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:38,758 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 1
+2023-02-25 11:11:38,758 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:38,758 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 1
+2023-02-25 11:11:38,758 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 2
+2023-02-25 11:11:38,759 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:38,759 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 2
+2023-02-25 11:11:38,759 INFO    HandlerThread:48537 [system_monitor.py:finish():161] Stopping system monitor
+2023-02-25 11:11:38,762 DEBUG   SystemMonitor:48537 [system_monitor.py:_start():130] Starting system metrics aggregation loop
+2023-02-25 11:11:38,762 DEBUG   SystemMonitor:48537 [system_monitor.py:_start():137] Finished system metrics aggregation loop
+2023-02-25 11:11:38,762 DEBUG   SystemMonitor:48537 [system_monitor.py:_start():141] Publishing last batch of metrics
+2023-02-25 11:11:38,763 INFO    HandlerThread:48537 [interfaces.py:finish():175] Joined cpu
+2023-02-25 11:11:38,763 INFO    HandlerThread:48537 [interfaces.py:finish():175] Joined disk
+2023-02-25 11:11:39,047 INFO    Thread-13 :48537 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/requirements.txt
+2023-02-25 11:11:39,048 INFO    Thread-13 :48537 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/wandb-summary.json
+2023-02-25 11:11:39,048 INFO    Thread-13 :48537 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/diff.patch
+2023-02-25 11:11:39,048 INFO    Thread-13 :48537 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/code/_session_history.ipynb
+2023-02-25 11:11:39,048 INFO    Thread-13 :48537 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/wandb-metadata.json
+2023-02-25 11:11:39,048 INFO    Thread-13 :48537 [dir_watcher.py:_on_file_created():275] file/dir created: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/code
+2023-02-25 11:11:39,088 INFO    Thread-16 :48537 [upload_job.py:push():143] Uploaded file /var/folders/8l/17pbmxnj7l58_psygsk0dpzw0000gn/T/tmpzjagrexhwandb/k6t0wf8x-wandb-metadata.json
+2023-02-25 11:11:39,089 INFO    Thread-17 :48537 [upload_job.py:push():143] Uploaded file /var/folders/8l/17pbmxnj7l58_psygsk0dpzw0000gn/T/tmpzjagrexhwandb/rms1e9cp-diff.patch
+2023-02-25 11:11:39,396 INFO    HandlerThread:48537 [interfaces.py:finish():175] Joined gpuapple
+2023-02-25 11:11:39,396 INFO    HandlerThread:48537 [interfaces.py:finish():175] Joined memory
+2023-02-25 11:11:39,396 INFO    HandlerThread:48537 [interfaces.py:finish():175] Joined network
+2023-02-25 11:11:39,397 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:39,397 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 2
+2023-02-25 11:11:39,397 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 3
+2023-02-25 11:11:39,397 DEBUG   SenderThread:48537 [sender.py:send():334] send: stats
+2023-02-25 11:11:39,397 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:39,397 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 3
+2023-02-25 11:11:39,397 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:39,397 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 3
+2023-02-25 11:11:39,397 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 4
+2023-02-25 11:11:39,397 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:39,397 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 4
+2023-02-25 11:11:39,397 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:39,397 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 4
+2023-02-25 11:11:39,397 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 5
+2023-02-25 11:11:39,397 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:39,397 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 5
+2023-02-25 11:11:39,398 DEBUG   SenderThread:48537 [sender.py:send():334] send: summary
+2023-02-25 11:11:39,398 INFO    SenderThread:48537 [sender.py:_save_file():1319] saving file wandb-summary.json with policy end
+2023-02-25 11:11:39,398 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:39,398 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 5
+2023-02-25 11:11:39,398 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 6
+2023-02-25 11:11:39,398 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:39,398 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 6
+2023-02-25 11:11:39,398 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:39,398 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 6
+2023-02-25 11:11:39,400 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: status_report
+2023-02-25 11:11:39,514 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 7
+2023-02-25 11:11:39,514 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:39,514 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 7
+2023-02-25 11:11:39,514 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:39,514 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 7
+2023-02-25 11:11:39,514 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 8
+2023-02-25 11:11:39,515 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:39,515 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 8
+2023-02-25 11:11:39,515 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:39,515 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 8
+2023-02-25 11:11:39,515 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 9
+2023-02-25 11:11:39,515 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:39,515 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 9
+2023-02-25 11:11:39,515 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:39,515 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 9
+2023-02-25 11:11:39,515 INFO    SenderThread:48537 [dir_watcher.py:finish():362] shutting down directory watcher
+2023-02-25 11:11:39,678 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: poll_exit
+2023-02-25 11:11:40,054 INFO    SenderThread:48537 [dir_watcher.py:_on_file_modified():292] file/dir modified: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/wandb-summary.json
+2023-02-25 11:11:40,055 INFO    SenderThread:48537 [dir_watcher.py:_on_file_modified():292] file/dir modified: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/config.yaml
+2023-02-25 11:11:40,055 INFO    SenderThread:48537 [dir_watcher.py:finish():392] scan: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files
+2023-02-25 11:11:40,056 INFO    SenderThread:48537 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/diff.patch diff.patch
+2023-02-25 11:11:40,056 INFO    SenderThread:48537 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/requirements.txt requirements.txt
+2023-02-25 11:11:40,056 INFO    SenderThread:48537 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/config.yaml config.yaml
+2023-02-25 11:11:40,057 INFO    SenderThread:48537 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/wandb-summary.json wandb-summary.json
+2023-02-25 11:11:40,064 INFO    SenderThread:48537 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/wandb-metadata.json wandb-metadata.json
+2023-02-25 11:11:40,067 INFO    SenderThread:48537 [dir_watcher.py:finish():406] scan save: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/code/_session_history.ipynb code/_session_history.ipynb
+2023-02-25 11:11:40,069 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 10
+2023-02-25 11:11:40,069 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: poll_exit
+2023-02-25 11:11:40,069 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:40,072 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 10
+2023-02-25 11:11:40,072 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:40,072 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 10
+2023-02-25 11:11:40,072 INFO    SenderThread:48537 [file_pusher.py:finish():160] shutting down file pusher
+2023-02-25 11:11:40,526 INFO    Thread-21 :48537 [upload_job.py:push():143] Uploaded file /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/code/_session_history.ipynb
+2023-02-25 11:11:40,527 INFO    Thread-20 :48537 [upload_job.py:push():143] Uploaded file /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/wandb-summary.json
+2023-02-25 11:11:40,528 INFO    Thread-18 :48537 [upload_job.py:push():143] Uploaded file /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/requirements.txt
+2023-02-25 11:11:40,534 INFO    Thread-19 :48537 [upload_job.py:push():143] Uploaded file /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/files/config.yaml
+2023-02-25 11:11:40,684 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: poll_exit
+2023-02-25 11:11:40,685 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: poll_exit
+2023-02-25 11:11:40,740 INFO    Thread-12 (_thread_body):48537 [sender.py:transition_state():585] send defer: 11
+2023-02-25 11:11:40,741 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:40,741 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 11
+2023-02-25 11:11:40,742 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:40,742 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 11
+2023-02-25 11:11:40,742 INFO    SenderThread:48537 [file_pusher.py:join():165] waiting for file pusher
+2023-02-25 11:11:40,742 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 12
+2023-02-25 11:11:40,743 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:40,743 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 12
+2023-02-25 11:11:40,745 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:40,745 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 12
+2023-02-25 11:11:40,832 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 13
+2023-02-25 11:11:40,832 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:40,833 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 13
+2023-02-25 11:11:40,833 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:40,833 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 13
+2023-02-25 11:11:40,833 INFO    SenderThread:48537 [sender.py:transition_state():585] send defer: 14
+2023-02-25 11:11:40,834 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: defer
+2023-02-25 11:11:40,834 DEBUG   SenderThread:48537 [sender.py:send():334] send: final
+2023-02-25 11:11:40,835 INFO    HandlerThread:48537 [handler.py:handle_request_defer():170] handle defer: 14
+2023-02-25 11:11:40,835 DEBUG   SenderThread:48537 [sender.py:send():334] send: footer
+2023-02-25 11:11:40,835 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: defer
+2023-02-25 11:11:40,835 INFO    SenderThread:48537 [sender.py:send_request_defer():581] handle sender defer: 14
+2023-02-25 11:11:40,837 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: poll_exit
+2023-02-25 11:11:40,838 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: server_info
+2023-02-25 11:11:40,838 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: get_summary
+2023-02-25 11:11:40,838 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: sampled_history
+2023-02-25 11:11:40,839 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: poll_exit
+2023-02-25 11:11:40,839 DEBUG   SenderThread:48537 [sender.py:send_request():361] send_request: server_info
+2023-02-25 11:11:41,026 DEBUG   HandlerThread:48537 [handler.py:handle_request():144] handle_request: shutdown
+2023-02-25 11:11:41,026 INFO    HandlerThread:48537 [handler.py:finish():841] shutting down handler
+2023-02-25 11:11:41,844 INFO    WriterThread:48537 [datastore.py:close():299] close: /Users/noahluna/Documents/GitHub/docodile/docs/tutorials/wandb/run-20230225_111137-z091jpet/run-z091jpet.wandb
+2023-02-25 11:11:42,027 INFO    SenderThread:48537 [sender.py:finish():1491] shutting down sender
+2023-02-25 11:11:42,027 INFO    SenderThread:48537 [file_pusher.py:finish():160] shutting down file pusher
+2023-02-25 11:11:42,028 INFO    SenderThread:48537 [file_pusher.py:join():165] waiting for file pusher

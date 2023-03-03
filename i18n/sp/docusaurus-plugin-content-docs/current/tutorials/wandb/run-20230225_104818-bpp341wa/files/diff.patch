@@ -1,0 +1,17 @@
+diff --git a/docusaurus.config.js b/docusaurus.config.js
+index 86eed89..64a600b 100644
+--- a/docusaurus.config.js
++++ b/docusaurus.config.js
+@@ -114,6 +114,12 @@ const config = {
+             label: 'Reference',
+             position: 'right',
+           },
++          {
++            type: 'doc',
++            docId: 'tutorials/intro',
++            label: 'Tutorials',
++            position: 'right',
++          },
+           {
+             href: 'https://github.com/wandb/wandb',
+             label: 'GitHub',

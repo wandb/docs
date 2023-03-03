@@ -1,0 +1,33 @@
+{
+    "os": "macOS-12.2.1-arm64-arm-64bit",
+    "python": "3.10.0",
+    "heartbeatAt": "2023-02-25T19:48:07.364180",
+    "startedAt": "2023-02-25T19:48:06.012686",
+    "docker": null,
+    "cuda": null,
+    "args": null,
+    "state": "running",
+    "program": "W&B_Report_API_Quickstart.ipynb",
+    "root": "/Users/noahluna/Documents/GitHub/docodile",
+    "git": {
+        "remote": "https://github.com/wandb/docodile.git",
+        "commit": "88717bd70970a45d2f9756e0446706758743f107"
+    },
+    "email": "15202580+ngrayluna@users.noreply.github.com",
+    "host": "Noahs-MacBook-Pro-2.local",
+    "username": "noahluna",
+    "executable": "/Users/noahluna/.pyenv/versions/docu_nbdev/bin/python",
+    "cpu_count": 10,
+    "cpu_count_logical": 10,
+    "disk": {
+        "total": 926.3517189025879,
+        "used": 131.18584060668945
+    },
+    "gpuapple": {
+        "type": "arm",
+        "vendor": "Apple"
+    },
+    "memory": {
+        "total": 32.0
+    }
+}

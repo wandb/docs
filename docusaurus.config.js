@@ -24,9 +24,28 @@ const config = {
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
+  // i18n: {
+  //   defaultLocale: 'en',
+  //   locales: ['en'],
+  // },
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'sp', 'ja'],
+    path: 'i18n',
+    localeConfigs: {
+      en: {
+        label: 'English',
+        path: 'en'
+      },
+      sp: {
+        label: 'Spanish',
+        path: 'sp'
+      },
+      ja: {
+        label: 'Japanese',
+        path: 'ja'
+      },
+    },
   },
 
   presets: [
@@ -48,19 +67,6 @@ const config = {
       },
     ],
   ],
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'sp'],
-    localeConfigs: {
-      en: {
-        label: 'English',
-      },
-      it: {
-        label: 'Spanish',
-      },
-    },
-  },
-
   plugins: [
     [
       'docusaurus-plugin-segment',
