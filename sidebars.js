@@ -307,6 +307,7 @@ const sidebars = {
           ],
         },
         'guides/integrations/huggingface',
+        'guides/integrations/other/accelerate',
         'guides/integrations/other/hydra',
         'guides/integrations/keras',
         'guides/integrations/other/kubeflow-pipelines-kfp',
