@@ -57,8 +57,14 @@ const config = {
         host: 'wandb.ai',
         ajsPath: '/sa-docs.min.js',
       },
-    ], 
-    'plugin-image-zoom'
+    ],
+    [
+      '@docusaurus/plugin-google-tag-manager',
+      {
+        containerId: 'GTM-TCTWFHR',
+      },
+    ],
+    'plugin-image-zoom',
     // require.resolve('docusaurus-lunr-search'),
   ],
 
