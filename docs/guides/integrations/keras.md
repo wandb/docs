@@ -2,7 +2,7 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/intro-keras)
 
-:::caution
+:::info
 For  our legacy Keras `WandbCallback`, scroll down to the `WandbCallback` section.
 :::
 
