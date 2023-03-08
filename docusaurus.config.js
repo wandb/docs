@@ -64,6 +64,13 @@ const config = {
         containerId: 'GTM-TCTWFHR',
       },
     ],
+    [
+      '@docusaurus/plugin-google-gtag',
+      {
+        trackingID: 'G-5JYCHZZP7K',
+        anonymizeIP: true,
+      },
+    ],
     'plugin-image-zoom',
     // require.resolve('docusaurus-lunr-search'),
   ],
