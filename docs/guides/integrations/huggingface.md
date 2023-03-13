@@ -299,7 +299,7 @@ with wandb.init(project="amazon_sentiment_analysis") as run:
 If you had set `WANDB_LOG_MODEL='checkpoint'` you can also resume training by you can using the `model_dir` as the `model_name_or_path` argument in your `TrainingArguments` and pass `resume_from_checkpoint=True` to `Trainer`.
 
 ```python
-last_run_id = "xxx"  # fetch the run_id from your wandb workspace
+last_run_id = "xxxxxxxx"  # fetch the run_id from your wandb workspace
 
 # resume the wandb run from the run_id
 with wandb.init(
@@ -316,7 +316,7 @@ with wandb.init(
   
   # reinitialize your model and trainer
   model = AutoModelForSequenceClassification.from_pretrained(
-      MODEL_NAME, num_labels=num_labels)
+      <model_name>, num_labels=num_labels)
   # your awesome training arguments here.
   training_args = TrainingArguments(...) 
   
