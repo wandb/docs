@@ -2,11 +2,11 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/callbacks/model_checkpoint.py#L27-L197)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/integration/keras/callbacks/model_checkpoint.py#L27-L197)
 
 
 
-`WandbModelCheckpoint` periodically saves a Keras model or model weights
+A checkpoint that periodically saves a Keras model or model weights.
 
 ```python
 WandbModelCheckpoint(
@@ -25,16 +25,16 @@ WandbModelCheckpoint(
 
 
 
-and uploads it to W&B as a `wandb.Artifact`.
 
-Since this callback is subclassed from `tf.keras.callbacks.ModelCheckpoint`,
-the checkpointing logic is taken care of by the parent callback. You can learn
-more here:
-https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint
+Saves weights are uploaded to W&B as a `wandb.Artifact`.
 
-This callback is to be used in conjunction with training using `model.fit()`
-to save a model or weights (in a checkpoint file) at some interval. The
-model checkpoints will be logged as W&B Artifacts. You can learn more here:
+Since this callback is subclassed from `tf.keras.callbacks.ModelCheckpoint`, the
+checkpointing logic is taken care of by the parent callback. You can learn more
+here: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint
+
+This callback is to be used in conjunction with training using `model.fit()` to save
+a model or weights (in a checkpoint file) at some interval. The model checkpoints
+will be logged as W&B Artifacts. You can learn more here:
 https://docs.wandb.ai/guides/artifacts
 
 This callback provides the following features:
