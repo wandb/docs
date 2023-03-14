@@ -143,7 +143,7 @@ View the status of your queue.
 2. Select **Launch** within the **Applications** section of the left sidebar.
 3. Filter queues by entity. Select the **All entities** dropdown and select the entity to filter with.
 
-For example, in the following image we see the queue we see the **Starter queue** we created in this guide. And the queue is in an **inactive (Not running)** state.
+For example, in the following image we see the **Starter queue** we created in this guide. 
 
 ![](/images/launch/launch_queues_all.png)
 
