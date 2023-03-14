@@ -10,8 +10,6 @@ For example, suppose a team has a queue configured to a Kubernetes cluster. Anyo
 ## Add jobs to your queue
 Add jobs to your queue interactively with the W&B App or programmatically with the CLI.
 
-
-
 <Tabs
   defaultValue="cli"
   values={[
@@ -38,7 +36,7 @@ View queues associated with a W&B entity with the W&B App.
 2. Select **Launch** within the **Applications** section of the left sidebar.
 3. Select the **All entities** dropdown and select the entity to filter with.
 
-A list of queues will appear in the Launch workspace. From left to right, each queue listed will show the name of the queue, the entity the queue belongs to, the compute resource configured for that queue and the state of the queue. 
+A list of queues will appear in the Launch workspace. From left to right, each queue listed shows the name of the queue, the entity the queue belongs to, the compute resource configured for that queue and the state of the queue. 
 
 For example, in the following image, we have a queue called **Starter queue**. It belongs the the wandb entity. The queue is configured to use Docker. And the queue is in an **inactive (Not running)** state.
 
@@ -62,9 +60,9 @@ Each run listed corresponds to a job that was was added to that queue. For examp
 
 Find additional information about the jobs such as the:
 - **Run**: The name of the W&B Run assigned to that job.
-- **Job ID**: The name of the job. See Job naming conventions information on the default naming assigned to a Job. [LINK].
+- **Job ID**: The name of the job. See Job naming conventions[LINK] information on the default naming assigned to a job.
 - **Project**: The name of the project the run belongs to.
-- **Status**: The status of the queue. See the following section for a list of queue states.
+- **Status**: The status of the queue. 
 - **Author**: The W&B entity that created the run.
 - **Creation date**: The time stamp when the queue was created.
 - **Start time**: The timestamp when the job started.
