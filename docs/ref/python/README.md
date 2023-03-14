@@ -3,7 +3,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/__init__.py)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/__init__.py)
 
 
 
@@ -15,7 +15,7 @@ The most commonly used functions/objects are:
  - wandb.config — track hyperparameters and metadata
  - wandb.log — log metrics and media over time within your training loop
 
-For guides and examples, see https://docs.wandb.com/guides.
+For guides and examples, see https://docs.wandb.ai.
 
 For scripts and interactive notebooks, see https://github.com/wandb/examples.
 
@@ -29,27 +29,27 @@ For reference documentation, see https://docs.wandb.com/ref/python.
 
 ## Functions
 
-[`agent(...)`](./agent.md): Generic agent entrypoint, used for CLI or jupyter.
+[`agent(...)`](./agent.md): Run a function or program with configuration parameters specified by server.
 
 [`controller(...)`](./controller.md): Public sweep controller constructor.
 
-[`finish(...)`](./finish.md): Marks a run as finished, and finishes uploading all data.
+[`finish(...)`](./finish.md): Mark a run as finished, and finish uploading all data.
 
-[`init(...)`](./init.md): Starts a new run to track and log to W&B.
+[`init(...)`](./init.md): Start a new run to track and log to W&B.
 
-[`log(...)`](./log.md): Logs a dictonary of data to the current run's history.
+[`log(...)`](./log.md): Log a dictonary of data to the current run's history.
 
-[`save(...)`](./save.md): Ensure all files matching `glob_str` are synced to wandb with the policy specified.
+[`save(...)`](./save.md): Ensure all files matching `glob\_str` are synced to wandb with the policy specified.
 
 [`sweep(...)`](./sweep.md): Initialize a hyperparameter sweep.
 
-[`watch(...)`](./watch.md): Hooks into the torch model to collect gradients and the topology.
+[`watch(...)`](./watch.md): Hook into the torch model to collect gradients and the topology.
 
 
 
 | Other Members | |
 | :--- | :--- |
-| `__version__` | `'0.13.9'` |
+| `__version__` | `'0.13.11'` |
 | `config` | |
 | `summary` | |
 

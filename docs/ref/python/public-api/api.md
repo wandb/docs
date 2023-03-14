@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L265-L960)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L276-L968)
 
 
 
@@ -48,7 +48,7 @@ Most common way to initialize
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L931-L954)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L939-L962)
 
 ```python
 artifact(
@@ -56,7 +56,7 @@ artifact(
 )
 ```
 
-Returns a single artifact by parsing path in the form `entity/project/run_id`.
+Return a single artifact by parsing path in the form `entity/project/run_id`.
 
 
 | Arguments | |
@@ -76,7 +76,7 @@ Returns a single artifact by parsing path in the form `entity/project/run_id`.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L920-L923)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L928-L931)
 
 ```python
 artifact_type(
@@ -91,7 +91,7 @@ artifact_type(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L915-L918)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L923-L926)
 
 ```python
 artifact_types(
@@ -106,7 +106,7 @@ artifact_types(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L925-L929)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L933-L937)
 
 ```python
 artifact_versions(
@@ -121,7 +121,7 @@ artifact_versions(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L452-L453)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L462-L463)
 
 ```python
 create_project(
@@ -137,7 +137,7 @@ create_project(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L435-L450)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L445-L460)
 
 ```python
 create_report(
@@ -157,7 +157,7 @@ create_report(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L429-L433)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L439-L443)
 
 ```python
 create_run(
@@ -165,14 +165,14 @@ create_run(
 )
 ```
 
-Create a new run
+Create a new run.
 
 
 ### `create_team`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L727-L737)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L737-L747)
 
 ```python
 create_team(
@@ -180,7 +180,7 @@ create_team(
 )
 ```
 
-Creates a new team
+Create a new team.
 
 
 | Arguments | |
@@ -200,7 +200,7 @@ Creates a new team
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L472-L482)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L481-L491)
 
 ```python
 create_user(
@@ -208,7 +208,7 @@ create_user(
 )
 ```
 
-Creates a new user
+Create a new user.
 
 
 | Arguments | |
@@ -228,21 +228,23 @@ Creates a new user
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L546-L552)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L555-L562)
 
 ```python
 flush()
 ```
 
+Flush the local cache.
+
 The api object keeps a local cache of runs, so if the state of the run may
-change while executing your script you must clear the local cache with `api.flush()`
-to get the latest values associated with the run.
+change while executing your script you must clear the local cache with
+`api.flush()` to get the latest values associated with the run.
 
 ### `from_path`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L554-L608)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L564-L618)
 
 ```python
 from_path(
@@ -250,7 +252,7 @@ from_path(
 )
 ```
 
-Return a run, sweep, project or report from a path
+Return a run, sweep, project or report from a path.
 
 
 #### Examples:
@@ -287,7 +289,7 @@ report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L956-L960)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L964-L968)
 
 ```python
 job(
@@ -302,7 +304,7 @@ job(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L455-L470)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L465-L479)
 
 ```python
 load_report(
@@ -335,7 +337,7 @@ Get report at a given path.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L691-L694)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L701-L704)
 
 ```python
 project(
@@ -350,7 +352,7 @@ project(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L667-L689)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L678-L699)
 
 ```python
 projects(
@@ -378,7 +380,7 @@ Get projects for a given entity.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L875-L895)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L883-L904)
 
 ```python
 queued_run(
@@ -387,14 +389,15 @@ queued_run(
 )
 ```
 
-Returns a single queued run by parsing the path in the form entity/project/queue_id/run_queue_item_id
+Return a single queued run based on the path.
 
+Parses paths of the form entity/project/queue_id/run_queue_item_id.
 
 ### `reports`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L696-L725)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L706-L735)
 
 ```python
 reports(
@@ -424,7 +427,7 @@ WARNING: This api is in beta and will likely change in a future release
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L857-L873)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L866-L881)
 
 ```python
 run(
@@ -432,7 +435,7 @@ run(
 )
 ```
 
-Returns a single run by parsing path in the form entity/project/run_id.
+Return a single run by parsing path in the form entity/project/run_id.
 
 
 | Arguments | |
@@ -451,7 +454,7 @@ Returns a single run by parsing path in the form entity/project/run_id.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L778-L855)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L788-L864)
 
 ```python
 runs(
@@ -465,7 +468,7 @@ runs(
 
 Return a set of runs from a project that match the filters provided.
 
-You can filter by `config.\*`, `summary_metrics.\*`, `tags`, `state`, `entity`, `createdAt`, etc.
+You can filter by `config.*`, `summary_metrics.*`, `tags`, `state`, `entity`, `createdAt`, etc.
 
 #### Examples:
 
@@ -486,7 +489,7 @@ Find runs in my_project where config.experiment_name matches a regex (anchors ar
 ```
 api.runs(
  path="my_entity/my_project",
- filters={"config.experiment_name": {"$regex": "b.\*"}}
+ filters={"config.experiment_name": {"$regex": "b.*"}}
 )
 ```
 
@@ -494,7 +497,7 @@ Find runs in my_project where the run name matches a regex (anchors are not supp
 ```
 api.runs(
  path="my_entity/my_project",
- filters={"display_name": {"$regex": "^foo.\*"}}
+ filters={"display_name": {"$regex": "^foo.*"}}
 )
 ```
 
@@ -509,7 +512,7 @@ api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 | :--- | :--- |
 | `path` | (str) path to project, should be in the form: "entity/project" |
 | `filters` | (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: {"config.experiment_name": "foo"} would find runs with a config entry of experiment name set to "foo" You can compose operations to make more complicated queries, see Reference for the language is at https://docs.mongodb.com/manual/reference/operator/query |
-| `order` | (str) Order can be `created_at`, `heartbeat_at`, `config.\*.value`, or `summary_metrics.\*`. If you prepend order with a + order is ascending. If you prepend order with a - order is descending (default). The default order is run.created_at from newest to oldest. |
+| `order` | (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending. If you prepend order with a - order is descending (default). The default order is run.created_at from newest to oldest. |
 
 
 
@@ -523,7 +526,7 @@ api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L897-L913)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L906-L921)
 
 ```python
 sweep(
@@ -531,7 +534,7 @@ sweep(
 )
 ```
 
-Returns a sweep by parsing path in the form `entity/project/sweep_id`.
+Return a sweep by parsing path in the form `entity/project/sweep_id`.
 
 
 | Arguments | |
@@ -550,7 +553,7 @@ Returns a sweep by parsing path in the form `entity/project/sweep_id`.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L484-L506)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L493-L515)
 
 ```python
 sync_tensorboard(
@@ -558,14 +561,14 @@ sync_tensorboard(
 )
 ```
 
-Sync a local directory containing tfevent files to wandb
+Sync a local directory containing tfevent files to wandb.
 
 
 ### `team`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L739-L740)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L749-L750)
 
 ```python
 team(
@@ -580,7 +583,7 @@ team(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L742-L762)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L752-L772)
 
 ```python
 user(
@@ -588,7 +591,7 @@ user(
 )
 ```
 
-Return a user from a username or email address
+Return a user from a username or email address.
 
 Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
 
@@ -608,7 +611,7 @@ Note: This function only works for Local Admins, if you are trying to get your o
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L764-L776)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L774-L786)
 
 ```python
 users(
@@ -616,7 +619,7 @@ users(
 )
 ```
 
-Return all users from a partial username or email address query
+Return all users from a partial username or email address query.
 
 Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
 

@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4205-L5250)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4214-L5260)
 
 
 
@@ -83,22 +83,22 @@ artifact.delete()
 | Attributes | |
 | :--- | :--- |
 | `aliases` | The aliases associated with this artifact. |
-| `commit_hash` | Returns: (str): The artifact's commit hash which is used in http URLs |
-| `created_at` | Returns: (datetime): The time at which the artifact was created. |
-| `description` | Returns: (str): Free text that offers a description of the artifact. The description is markdown rendered in the UI, so this is a good place to put links, etc. |
-| `digest` | Returns: (str): The artifact's logical digest, a checksum of its contents. If an artifact has the same digest as the current `latest` version, then `log_artifact` is a no-op. |
-| `entity` | Returns: (str): The name of the entity this artifact belongs to. |
-| `id` | Returns: (str): The artifact's ID |
-| `manifest` | Returns: (ArtifactManifest): The artifact's manifest, listing all of its contents. You cannot add more files to an artifact once you've retrieved its manifest. |
-| `metadata` | Returns: (dict): Structured data associated with the artifact, for example class distribution of a dataset. This will eventually be queryable and plottable in the UI. There is a hard limit of 100 total keys. |
-| `name` | Returns: (str): The artifact's name |
-| `project` | Returns: (str): The name of the project this artifact belongs to. |
-| `size` | Returns: (int): The size in bytes of the artifact. Includes any references tracked by this artifact. |
-| `source_version` | Returns: (str) The artifact's version index under its parent artifact collection. This will return a string with the format "v{number}". |
-| `state` | Returns: (str): The state of the artifact, which can be one of "PENDING", "COMMITTED", or "DELETED". |
-| `type` | Returns: (str): The artifact's type |
-| `updated_at` | Returns: (datetime): The time at which the artifact was last updated. |
-| `version` | Returns: (str): The artifact's version index under the given artifact collection. This will return a string with the format "v{number}". |
+| `commit_hash` | The hash returned when this artifact was committed. |
+| `created_at` | The time at which the artifact was created. |
+| `description` | The artifact description. |
+| `digest` | The logical digest of the artifact. The digest is the checksum of the artifact's contents. If an artifact has the same digest as the current `latest` version, then `log_artifact` is a no-op. |
+| `entity` | The name of the entity this artifact belongs to. |
+| `id` | The artifact's ID. |
+| `manifest` | The artifact's manifest. The manifest lists all of its contents, and can't be changed once the artifact has been logged. |
+| `metadata` | User-defined artifact metadata. |
+| `name` | The artifact's name. |
+| `project` | The name of the project this artifact belongs to. |
+| `size` | The total size of the artifact in bytes. |
+| `source_version` | The artifact's version index under its parent artifact collection. A string with the format "v{number}". |
+| `state` | The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED". |
+| `type` | The artifact's type. |
+| `updated_at` | The time at which the artifact was last updated. |
+| `version` | The artifact's version index under the given artifact collection. A string with the format "v{number}". |
 
 
 
@@ -108,7 +108,7 @@ artifact.delete()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4634-L4635)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4649-L4650)
 
 ```python
 add(
@@ -116,7 +116,7 @@ add(
 )
 ```
 
-Adds wandb.WBValue `obj` to the artifact.
+Add wandb.WBValue `obj` to the artifact.
 
 ```
 obj = artifact.get(name)
@@ -135,18 +135,24 @@ obj = artifact.get(name)
 
 
 
+| Raises | |
+| :--- | :--- |
+| `ArtifactFinalizedError` | if the artifact has already been finalized. |
+
+
+
 #### Examples:
 
 Basic usage
 ```
 artifact = wandb.Artifact('my_table', 'dataset')
-table = wandb.Table(columns=["a", "b", "c"], data=[[i, i\*2, 2**i]])
+table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
 artifact.add(table, "my_table")
 
 wandb.log_artifact(artifact)
 ```
 
-Retrieving an object:
+Retrieve an object:
 ```
 artifact = wandb.use_artifact('my_table:latest')
 table = artifact.get("my_table")
@@ -157,7 +163,7 @@ table = artifact.get("my_table")
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4628-L4629)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4643-L4644)
 
 ```python
 add_dir(
@@ -165,33 +171,35 @@ add_dir(
 )
 ```
 
-Adds a local directory to the artifact.
+Add a local directory to the artifact.
 
 
 | Arguments | |
 | :--- | :--- |
 | `local_path` | (str) The path to the directory being added. |
-| `name` | (str, optional) The path within the artifact to use for the directory being added. Defaults to files being added under the root of the artifact. |
+| `name` | (str, optional) The path within the artifact to use for the directory being added. Defaults to the root of the artifact. |
 
 
 
 #### Examples:
 
-Adding a directory without an explicit name:
+Add a directory without an explicit name:
 ```
-artifact.add_dir('my_dir/') # All files in `my_dir/` are added at the root of the artifact.
+# All files in `my_dir/` are added at the root of the artifact.
+artifact.add_dir('my_dir/')
 ```
 
-Adding a directory without an explicit name:
+Add a directory and name it explicitly:
 ```
-artifact.add_dir('my_dir/', name='destination') # All files in `my_dir/` are added under `destination/`.
+# All files in `my_dir/` are added under `destination/`.
+artifact.add_dir('my_dir/', name='destination')
 ```
 
 
 
 | Raises | |
 | :--- | :--- |
-| `Exception` | if problem. |
+| `ArtifactFinalizedError` | if the artifact has already been finalized. |
 
 
 
@@ -205,7 +213,7 @@ artifact.add_dir('my_dir/', name='destination') # All files in `my_dir/` are add
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4625-L4626)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4640-L4641)
 
 ```python
 add_file(
@@ -213,7 +221,7 @@ add_file(
 )
 ```
 
-Adds a local file to the artifact.
+Add a local file to the artifact.
 
 
 | Arguments | |
@@ -226,21 +234,23 @@ Adds a local file to the artifact.
 
 #### Examples:
 
-Adding a file without an explicit name:
+Add a file without an explicit name:
 ```
-artifact.add_file('path/to/file.txt') # Added as `file.txt'
+# Add as `file.txt'
+artifact.add_file('path/to/file.txt')
 ```
 
-Adding a file with an explicit name:
+Add a file with an explicit name:
 ```
-artifact.add_file('path/to/file.txt', name='new/path/file.txt') # Added as 'new/path/file.txt'
+# Add as 'new/path/file.txt'
+artifact.add_file('path/to/file.txt', name='new/path/file.txt')
 ```
 
 
 
 | Raises | |
 | :--- | :--- |
-| `Exception` | if problem |
+| `ArtifactFinalizedError` | if the artifact has already been finalized. |
 
 
 
@@ -254,7 +264,7 @@ artifact.add_file('path/to/file.txt', name='new/path/file.txt') # Added as 'new/
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4631-L4632)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4646-L4647)
 
 ```python
 add_reference(
@@ -262,37 +272,38 @@ add_reference(
 )
 ```
 
-Adds a reference denoted by a URI to the artifact. Unlike adding files or directories,
-references are NOT uploaded to W&B. However, artifact methods such as `download()` can
-be used regardless of whether the artifact contains references or uploaded files.
+Add a reference denoted by a URI to the artifact.
 
-By default, W&B offers special
-handling for the following schemes:
+Unlike adding files or directories, references are NOT uploaded to W&B. However,
+artifact methods such as `download()` can be used regardless of whether the
+artifact contains references or uploaded files.
 
-- http(s): The size and digest of the file will be inferred by the `Content-Length` and
- the `ETag` response headers returned by the server.
-- s3: The checksum and size will be pulled from the object metadata. If bucket versioning
- is enabled, then the version ID is also tracked.
-- gs: The checksum and size will be pulled from the object metadata. If bucket versioning
- is enabled, then the version ID is also tracked.
-- file: The checksum and size will be pulled from the file system. This scheme is useful if
- you have an NFS share or other externally mounted volume containing files you wish to track
- but not necessarily upload.
+By default, W&B offers special handling for the following schemes:
 
-For any other scheme, the digest is just a hash of the URI and the size is left blank.
+- http(s): The size and digest of the file will be inferred by the
+ `Content-Length` and the `ETag` response headers returned by the server.
+- s3: The checksum and size will be pulled from the object metadata. If bucket
+ versioning is enabled, then the version ID is also tracked.
+- gs: The checksum and size will be pulled from the object metadata. If bucket
+ versioning is enabled, then the version ID is also tracked.
+- file: The checksum and size will be pulled from the file system. This scheme
+ is useful if you have an NFS share or other externally mounted volume
+ containing files you wish to track but not necessarily upload.
+
+For any other scheme, the digest is just a hash of the URI and the size is left
+blank.
 
 | Arguments | |
 | :--- | :--- |
 | `uri` | (str) The URI path of the reference to add. Can be an object returned from Artifact.get_path to store a reference to another artifact's entry. |
-| `name` | (str) The path within the artifact to place the contents of this reference |
-| `checksum` | (bool, optional) Whether or not to checksum the resource(s) located at the reference URI. Checksumming is strongly recommended as it enables automatic integrity validation, however it can be disabled to speed up artifact creation. (default: True) |
+| `name` | (str) The path within the artifact to place the contents of this reference checksum: (bool, optional) Whether or not to checksum the resource(s) located at the reference URI. Checksumming is strongly recommended as it enables automatic integrity validation, however it can be disabled to speed up artifact creation. (default: True) |
 | `max_objects` | (int, optional) The maximum number of objects to consider when adding a reference that points to directory or bucket store prefix. For S3 and GCS, this limit is 10,000 by default but is uncapped for other URI schemes. (default: None) |
 
 
 
 | Raises | |
 | :--- | :--- |
-| `Exception` | If problem. |
+| `ArtifactFinalizedError` | if the artifact has already been finalized. |
 
 
 
@@ -304,30 +315,33 @@ For any other scheme, the digest is just a hash of the URI and the size is left 
 
 #### Examples:
 
-Adding an HTTP link:
-```
-# Adds `file.txt` to the root of the artifact as a reference
-artifact.add_reference('http://myserver.com/file.txt')
+
+
+#### Add an HTTP link:
+
+
+```python
+# Adds `file.txt` to the root of the artifact as a reference.
+artifact.add_reference("http://myserver.com/file.txt")
 ```
 
-Adding an S3 prefix without an explicit name:
-```
+Add an S3 prefix without an explicit name:
+```python
 # All objects under `prefix/` will be added at the root of the artifact.
-artifact.add_reference('s3://mybucket/prefix')
+artifact.add_reference("s3://mybucket/prefix")
 ```
 
-Adding a GCS prefix with an explicit name:
+Add a GCS prefix with an explicit name:
+```python
+# All objects under `prefix/` will be added under `path/` at the artifact root.
+artifact.add_reference("gs://mybucket/prefix", name="path")
 ```
-# All objects under `prefix/` will be added under `path/` at the top of the artifact.
-artifact.add_reference('gs://mybucket/prefix', name='path')
-```
-
 
 ### `checkout`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4762-L4777)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4776-L4791)
 
 ```python
 checkout(
@@ -335,7 +349,7 @@ checkout(
 )
 ```
 
-Replaces the specified root directory with the contents of the artifact.
+Replace the specified root directory with the contents of the artifact.
 
 WARNING: This will DELETE all files in `root` that are not included in the
 artifact.
@@ -356,7 +370,7 @@ artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4580-L4620)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4596-L4635)
 
 ```python
 delete(
@@ -390,7 +404,7 @@ for run in runs:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4717-L4760)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4731-L4774)
 
 ```python
 download(
@@ -398,7 +412,7 @@ download(
 )
 ```
 
-Downloads the contents of the artifact to the specified root directory.
+Download the contents of the artifact to the specified root directory.
 
 NOTE: Any existing files at `root` are left untouched. Explicitly delete
 root before calling `download` if you want the contents of `root` to exactly
@@ -421,7 +435,7 @@ match the artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4486-L4526)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4502-L4542)
 
 ```python
 @staticmethod
@@ -430,14 +444,14 @@ expected_type(
 )
 ```
 
-Returns the expected type for a given artifact name and project
+Returns the expected type for a given artifact name and project.
 
 
 ### `file`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4808-L4829)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4822-L4842)
 
 ```python
 file(
@@ -445,7 +459,7 @@ file(
 )
 ```
 
-Download a single file artifact to dir specified by the root
+Download a single file artifact to dir specified by the root.
 
 
 | Arguments | |
@@ -464,7 +478,7 @@ Download a single file artifact to dir specified by the root
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L5079-L5090)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5089-L5100)
 
 ```python
 files(
@@ -492,7 +506,7 @@ Iterate over all files stored in this artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4290-L4333)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4298-L4345)
 
 ```python
 @classmethod
@@ -509,7 +523,7 @@ from_id(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4689-L4715)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4703-L4729)
 
 ```python
 get(
@@ -517,10 +531,8 @@ get(
 )
 ```
 
-Gets the WBValue object located at the artifact relative `name`.
+Get the WBValue object located at the artifact relative `name`.
 
-NOTE: This will raise an error unless the artifact has been fetched using
-`use_artifact`, fetched using the API, or `wait()` has been called.
 
 | Arguments | |
 | :--- | :--- |
@@ -530,7 +542,7 @@ NOTE: This will raise an error unless the artifact has been fetched using
 
 | Raises | |
 | :--- | :--- |
-| `Exception` | if problem |
+| `ArtifactNotLoggedError` | if the artifact isn't logged or the run is offline |
 
 
 
@@ -541,7 +553,7 @@ Basic usage
 # Run logging the artifact
 with wandb.init() as r:
  artifact = wandb.Artifact('my_dataset', type='dataset')
- table = wandb.Table(columns=["a", "b", "c"], data=[[i, i\*2, 2**i]])
+ table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
  artifact.add(table, "my_table")
  wandb.log_artifact(artifact)
 
@@ -556,7 +568,7 @@ with wandb.init() as r:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4677-L4687)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4691-L4701)
 
 ```python
 get_path(
@@ -564,10 +576,8 @@ get_path(
 )
 ```
 
-Gets the path to the file located at the artifact relative `name`.
+Get the path to the file located at the artifact relative `name`.
 
-NOTE: This will raise an error unless the artifact has been fetched using
-`use_artifact`, fetched using the API, or `wait()` has been called.
 
 | Arguments | |
 | :--- | :--- |
@@ -577,7 +587,7 @@ NOTE: This will raise an error unless the artifact has been fetched using
 
 | Raises | |
 | :--- | :--- |
-| `Exception` | if problem |
+| `ArtifactNotLoggedError` | if the artifact isn't logged or the run is offline |
 
 
 
@@ -605,7 +615,7 @@ with wandb.init() as r:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4851-L4852)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4864-L4865)
 
 ```python
 json_encode()
@@ -618,7 +628,7 @@ json_encode()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4537-L4578)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4553-L4594)
 
 ```python
 link(
@@ -626,7 +636,7 @@ link(
 )
 ```
 
-Links this artifact to a portfolio (a promoted collection of artifacts), with aliases.
+Link this artifact to a portfolio (a promoted collection of artifacts), with aliases.
 
 
 | Arguments | |
@@ -646,13 +656,13 @@ Links this artifact to a portfolio (a promoted collection of artifacts), with al
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L5208-L5244)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5218-L5254)
 
 ```python
 logged_by()
 ```
 
-Retrieves the run which logged this artifact
+Retrieve the run which logged this artifact.
 
 
 | Returns | |
@@ -665,7 +675,7 @@ Retrieves the run which logged this artifact
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4622-L4623)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4637-L4638)
 
 ```python
 new_file(
@@ -701,11 +711,17 @@ wandb.log_artifact(artifact)
 
 
 
+| Raises | |
+| :--- | :--- |
+| `ArtifactFinalizedError` | if the artifact has already been finalized. |
+
+
+
 ### `save`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4854-L4919)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4867-L4930)
 
 ```python
 save()
@@ -718,13 +734,13 @@ Persists artifact changes to the wandb backend.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L5161-L5206)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5171-L5216)
 
 ```python
 used_by()
 ```
 
-Retrieves the runs which use this artifact directly
+Retrieve the runs which use this artifact directly.
 
 
 | Returns | |
@@ -737,7 +753,7 @@ Retrieves the runs which use this artifact directly
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4779-L4806)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4793-L4820)
 
 ```python
 verify(
@@ -745,9 +761,7 @@ verify(
 )
 ```
 
-Verify that the actual contents of an artifact at a specified directory
-`root` match the expected contents of the artifact according to its
-manifest.
+Verify that the actual contents of an artifact match the manifest.
 
 All files in the directory are checksummed and the checksums are then
 cross-referenced against the artifact's manifest.
@@ -770,13 +784,13 @@ NOTE: References are not verified.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L4921-L4922)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4932-L4933)
 
 ```python
 wait()
 ```
 
-Waits for this artifact to finish logging, if needed.
+Wait for this artifact to finish logging, if needed.
 
 
 | Returns | |
@@ -789,7 +803,7 @@ Waits for this artifact to finish logging, if needed.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L5249-L5250)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5259-L5260)
 
 ```python
 __getitem__(
@@ -797,10 +811,8 @@ __getitem__(
 )
 ```
 
-Gets the WBValue object located at the artifact relative `name`.
+Get the WBValue object located at the artifact relative `name`.
 
-NOTE: This will raise an error unless the artifact has been fetched using
-`use_artifact`, fetched using the API, or `wait()` has been called.
 
 | Arguments | |
 | :--- | :--- |
@@ -810,7 +822,7 @@ NOTE: This will raise an error unless the artifact has been fetched using
 
 | Raises | |
 | :--- | :--- |
-| `Exception` | if problem |
+| `ArtifactNotLoggedError` | if the artifact isn't logged or the run is offline |
 
 
 
@@ -819,7 +831,7 @@ NOTE: This will raise an error unless the artifact has been fetched using
 Basic usage
 ```
 artifact = wandb.Artifact('my_table', 'dataset')
-table = wandb.Table(columns=["a", "b", "c"], data=[[i, i\*2, 2**i]])
+table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
 artifact["my_table"] = table
 
 wandb.log_artifact(artifact)

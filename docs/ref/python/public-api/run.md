@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1657-L2268)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1664-L2276)
 
 
 
@@ -36,7 +36,7 @@ Run(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1753-L1793)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1761-L1801)
 
 ```python
 @classmethod
@@ -45,14 +45,14 @@ create(
 )
 ```
 
-Create a run for the given project
+Create a run for the given project.
 
 
 ### `delete`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1908-L1942)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1914-L1946)
 
 ```python
 delete(
@@ -60,14 +60,14 @@ delete(
 )
 ```
 
-Deletes the given run from the wandb backend.
+Delete the given run from the wandb backend.
 
 
 ### `display`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L971-L982)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L979-L990)
 
 ```python
 display(
@@ -75,14 +75,14 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter
+Display this object in jupyter.
 
 
 ### `file`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2004-L2013)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2009-L2019)
 
 ```python
 file(
@@ -90,8 +90,14 @@ file(
 )
 ```
 
-Arguments:
- name (str): name of requested file.
+Return the path of a file with a given name in the artifact.
+
+
+| Arguments | |
+| :--- | :--- |
+| name (str): name of requested file. |
+
+
 
 | Returns | |
 | :--- | :--- |
@@ -103,7 +109,7 @@ Arguments:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1992-L2002)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1996-L2007)
 
 ```python
 files(
@@ -111,9 +117,14 @@ files(
 )
 ```
 
-Arguments:
- names (list): names of the requested files, if empty returns all files
- per_page (int): number of results per page
+Return a file path for each file named.
+
+
+| Arguments | |
+| :--- | :--- |
+| names (list): names of the requested files, if empty returns all files per_page (int): number of results per page. |
+
+
 
 | Returns | |
 | :--- | :--- |
@@ -125,7 +136,7 @@ Arguments:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2038-L2077)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2045-L2085)
 
 ```python
 history(
@@ -133,18 +144,23 @@ history(
 )
 ```
 
-Returns sampled history metrics for a run. This is simpler and faster if you are ok with
-the history records being sampled.
+Return sampled history metrics for a run.
+
+This is simpler and faster if you are ok with the history records being sampled.
 
 | Arguments | |
 | :--- | :--- |
-| samples (int, optional): The number of samples to return pandas (bool, optional): Return a pandas dataframe keys (list, optional): Only return metrics for specific keys x_axis (str, optional): Use this metric as the xAxis defaults to _step stream (str, optional): "default" for metrics, "system" for machine metrics |
+| `samples` | (int, optional) The number of samples to return |
+| `pandas` | (bool, optional) Return a pandas dataframe |
+| `keys` | (list, optional) Only return metrics for specific keys |
+| `x_axis` | (str, optional) Use this metric as the xAxis defaults to _step |
+| `stream` | (str, optional) "default" for metrics, "system" for machine metrics |
 
 
 
 | Returns | |
 | :--- | :--- |
-| If pandas=True returns a `pandas.DataFrame` of history metrics. If pandas=False returns a list of dicts of history metrics. |
+| `pandas.DataFrame` | If pandas=True returns a `pandas.DataFrame` of history metrics. list of dicts: If pandas=False returns a list of dicts of history metrics. |
 
 
 
@@ -152,7 +168,7 @@ the history records being sampled.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1795-L1853)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1803-L1861)
 
 ```python
 load(
@@ -167,7 +183,7 @@ load(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2175-L2207)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2183-L2215)
 
 ```python
 log_artifact(
@@ -194,7 +210,7 @@ Declare an artifact as output of a run.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2135-L2137)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2142-L2144)
 
 ```python
 logged_artifacts(
@@ -209,7 +225,7 @@ logged_artifacts(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1944-L1945)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1948-L1949)
 
 ```python
 save()
@@ -222,7 +238,7 @@ save()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2079-L2133)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2087-L2140)
 
 ```python
 scan_history(
@@ -262,7 +278,7 @@ losses = [row["Loss"] for row in history]
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L967-L969)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L975-L977)
 
 ```python
 snake_to_camel(
@@ -277,7 +293,7 @@ snake_to_camel(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2254-L2262)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2262-L2270)
 
 ```python
 to_html(
@@ -285,27 +301,27 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this run
+Generate HTML containing an iframe displaying this run.
 
 
 ### `update`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1878-L1906)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1886-L1912)
 
 ```python
 update()
 ```
 
-Persists changes to the run object to the wandb backend.
+Persist changes to the run object to the wandb backend.
 
 
 ### `upload_file`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2015-L2036)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2021-L2043)
 
 ```python
 upload_file(
@@ -313,11 +329,14 @@ upload_file(
 )
 ```
 
-Arguments:
- path (str): name of file to upload.
- root (str): the root path to save the file relative to. i.e.
- If you want to have the file saved in the run as "my_dir/file.txt"
- and you're currently in "my_dir" you would set root to "../"
+Upload a file.
+
+
+| Arguments | |
+| :--- | :--- |
+| path (str): name of file to upload. root (str): the root path to save the file relative to. i.e. If you want to have the file saved in the run as "my_dir/file.txt" and you're currently in "my_dir" you would set root to "../". |
+
+
 
 | Returns | |
 | :--- | :--- |
@@ -329,7 +348,7 @@ Arguments:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2143-L2173)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2150-L2181)
 
 ```python
 use_artifact(
@@ -356,7 +375,7 @@ Declare an artifact as an input to a run.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2139-L2141)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2146-L2148)
 
 ```python
 used_artifacts(
@@ -371,7 +390,7 @@ used_artifacts(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1855-L1876)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1863-L1884)
 
 ```python
 wait_until_finished()
