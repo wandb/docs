@@ -201,3 +201,13 @@ docker run WANDB_API_KEY=... WANDB_DOCKER=<image-name> <image-name>
 ```
 
 For more information on optional W&B Environment variables, see the [Environment Variables](../track/environment-variables.md) page.
+
+## Job naming conventions
+
+By default, W&B automatically creates a job name for you. The name is generated depending on how the job is created (GitHub, code artifact, or Docker image). The following table describes the job naming convention used for each job source:
+
+| Source | Naming convention |
+| ------ | ------ |
+| GitHub | `job-<git-remote-url>-<path-to-script>` |
+| Code artifact | `job-<code-artifact-name>` |
+| Docker image | `job-<image-name>` |
