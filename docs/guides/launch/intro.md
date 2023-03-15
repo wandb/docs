@@ -3,27 +3,37 @@ slug: /guides/launch
 description: Easily queue and manage jobs using W&B Launch.
 ---
 
-# Launch Jobs
+# Launch jobs
 
-<head>
-  <title>W&B Launch Beta Documentation</title>
-</head>
+Use W&B Launch to start jobs in the compute  environment or infrastructure of choice from one central interface. W&B Launch removes the complexity of using different environments to run training, inference, and more. Weights and Biases will automatically capture the information needed to reproduce the run, containerize the job and launch the job locally or remotely. 
 
-:::danger
-Beta product in active development
+![](/images/launch/ready_to_launch.png)
 
-Interested in Launch? Reach out to your account team to talk about joining the customer pilot program for W&B Launch.
+:::caution
+W&B Launch is Public preview in active development. 
 
-Pilot customers need to use AWS EKS or SageMaker to qualify for the beta program. We plan to support additional platforms.
+Talk to the W&B Sales Team to get W&B Launch set up for your business: [https://wandb.ai/site/pricing](https://wandb.ai/site/pricing).
 :::
 
-Connect your own SageMaker or Kubernetes cluster, then easily queue and manage jobs using W&B Launch. Kick off jobs on your own infrastructure from the W&B UI or CLI. Applications to the Launch pilot program are open to paying customers at the moment. To get started with W&B for your company, talk to Sales here: [https://wandb.ai/site/pricing](https://wandb.ai/site/pricing)
+## How it works
+There are three unique concepts to W&B Launch: *jobs*, *queues*, and *agents*: 
+* **Job**:  a definition of a computational process. You can think of W&B Jobs as a ‘Run template’. A Job can have one or more versions. Each job version combines source code and environment to produce a template for a reproducible run.
+* **Queue**: FIFO queue of W&B Jobs. A launch queue has a compute resource associated to that queue. Launch queues are entity-scoped. All jobs pushed to a queue automatically posses the same compute resource type.
+* **Agents**: A launch agent listens the queue and executes jobs added to the queue. The launch agent builds a docker image for you if you do not have one. The agent will build an image for the environment and will send the job to the desired compute runner.
 
-With W&B Launch you can:
 
-* Execute runs in reproducible containerized environments
-* Queue and launch jobs across your own clusters, locally or in the cloud
-* Easily tweak hyperparameters or input data and retrain models
-* Automatically trigger evaluation jobs on newly trained models
+:::tip
+Generally, an MLOps Team will configure a queue with a cloud compute resource and activate a launch agent. Once this step is completed, anyone who has access to a W&B entity can add jobs to the queue with the W&B App UI or the CLI.
+:::
 
-![High level overview of W&B Launch](../../../static/images/launch/highlevel_launch_vision.png)
+
+## How to get started
+Depending on your use case, explore the following resources to get started with Weights & Biases Launch:
+
+* If this is your first time using W&B Launch, we recommend you go through the [Getting started](./getting-started.md) guide.
+* Explore topics about W&B Launch in this Developer Guide, such as:
+    * [Prerequisites](../launch/prerequisites.md)  
+    * [Create a job](../launch/create-job.md)
+    * [Add jobs to your queue](../launch/add-jobs-to-queue.md)
+    * [Launch jobs](../launch/launch-jobs.md)
+* Discover the [`wandb launch`](../../ref/cli/wandb-launch.md) and [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) in the CLI Reference.
