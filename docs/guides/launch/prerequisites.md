@@ -24,7 +24,7 @@ Based on your use case, read the following to sections to satisfy W&B Launch pre
 Before you get started, ensure you enable the W&B Launch UI and install Docker. Follow these steps to enable W&B Launch:
 
 1. Navigate to your settings page at [https://wandb.ai/settings](https://wandb.ai/settings) .
-2. Scroll to the **Beta Features** sections. Toggle the W&B Launch.
+2. Scroll to the **Beta Features** sections. Toggle the `W&B Launch` option.
 
 ![](/images/launch/toggle_beta_flag.png)
 
