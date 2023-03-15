@@ -4,7 +4,7 @@ description: Discover how to launch your jobs.
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Launch jobs
+# Launch your jobs
 Launch jobs directly from within W&B locally on your machine or to the compute provider of your choice. Reproduce runs or sweeps directly from the W&B User Interface to launch new experiments and compare results.
 
 
