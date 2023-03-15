@@ -16,7 +16,34 @@ Add jobs to your queue interactively with the W&B App or programmatically with t
     {label: 'W&B App', value: 'app'},
     {label: 'CLI', value: 'cli'},
   ]}>
-  <TabItem value="app">This is an app 🍊</TabItem>
+  <TabItem value="app">
+Add a job to your queue with the W&B App.
+
+:::info
+In this example we demonstrate how to create a “Starter queue”. This starter queue is designed for local testing and demonstrative purposes only. 
+:::
+
+1. Navigate to your W&B Project Page. 
+2. Select the **Jobs** icon on the left panel:
+
+![](/images/launch/project_jobs_tab_gs.png)
+
+3. The **Jobs** page displays a list of W&B Jobs that were created from previously executed W&B Runs. 
+
+![](/images/launch/view_jobs.png)
+
+4. Select the **Launch** button next to the name of the Job name. A modal will appear on the right side of the page.
+5. Within the modal select the:
+    * Job version you want to add to your queue from the **Job version** dropdown. In this example we only have one version, so we select `v0`.
+    * Select the **Paste from…** button to automatically propagate hyperparameters used from a specific W&B Run. In the following image, we have two runs to choose from.
+
+![](/images/launch/create_starter_queue_gs.png)
+
+6. Next, select **Starter queue** from the **Queue** dropdown to create a queue.
+7. Select the **Launch now** button. 
+
+
+  </TabItem>
     <TabItem value="cli">
 
 Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Getting Started](./getting-started.md) guide, we create a JSON file with the following overrides:
