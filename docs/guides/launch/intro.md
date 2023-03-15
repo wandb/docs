@@ -8,7 +8,7 @@ description: Easily queue and manage jobs using W&B Launch.
 :::caution
 W&B Launch is Public preview in active development. 
 
-Talk to our Sales Team to get Launch up and running for your company: [https://wandb.ai/site/pricing](https://wandb.ai/site/pricing)
+Talk to the W&B Sales Team to get W&B Launch set up for your business: [https://wandb.ai/site/pricing](https://wandb.ai/site/pricing).
 :::
 
 Use W&B Launch to start jobs in the compute  environment or infrastructure of choice from one central interface. W&B Launch removes the complexity of using different environments to run training, inference, and more. Weights and Biases will automatically capture the information needed to reproduce the run, containerize the job and launch the job locally or remotely. 
@@ -31,8 +31,8 @@ Depending on your use case, explore the following resources to get started with 
 
 * If this is your first time using W&B Launch, we recommend you go through the [Getting started](./getting-started.md) guide.
 * Explore topics about W&B Launch in this Developer Guide, such as:
-    * [Prerequisites](./prerequisites.md) 
-    * [Create a job](./create-job.md)
-    * [Add jobs to your queue](./add-jobs-to-queue.md)
-    * [Launch jobs](./launch-jobs.md)
+    * [Prerequisites](../launch/prerequisites.md)  
+    * [Create a job](../launch/create-job.md)
+    * [Add jobs to your queue](../launch/add-jobs-to-queue.md)
+    * [Launch jobs](../launch/launch-jobs.md)
 * Discover the [`wandb launch`](../../ref/cli/wandb-launch.md) and [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) in the CLI Reference.
