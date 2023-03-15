@@ -28,7 +28,7 @@ A queue is where you add W&B Jobs to. Launch Queues possess one or more W&B Jobs
 
 ![](/images/launch/create_a_queue.png)
 
-W&B currently supports compute configuration for Kubernetes on EKS. For more information on configuration details, contact sales at [LINK].
+W&B currently supports compute configuration for Kubernetes on EKS. For more information on configuration details, contact sales at https://wandb.ai/site/local-contact. 
 
 :::note
 You must use Amazon’s Elastic Container Registry (ECR) to use Kubernetes on EKS. Additionally, you will also need an Amazon Simple Storage Service (S3) bucket if you want to build your own Docker container. 
@@ -53,7 +53,7 @@ Activate a launch agent in your terminal with the `wandb launch-agent` command:
 ```bash
 wandb launch-agent -q <queue-name>
 ```
-Provide a name for your queue for the `queue` flag (`-q`). For more information on optional flags, see the CLI Reference Guide. [LINK]
+Provide a name for your queue for the `queue` flag (`-q`). For more information on optional flags, see the [CLI Reference Guide](../../ref/cli/README.md).
 
 
   </TabItem>

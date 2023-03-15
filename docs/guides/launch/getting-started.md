@@ -79,7 +79,7 @@ Information about the W&B Run, such as metrics logged, can be found by copying a
 ![](/images/launch/sample_run_terminal_view.png)
 
 :::info
-There is more than one way to create a W&B Job. For more information, [LINK].
+There is more than one way to create a W&B Job. For more information, see the [Create a job](./create-job.md) page.
 :::
 
 ## Add the job to your queue

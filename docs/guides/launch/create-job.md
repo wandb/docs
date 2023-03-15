@@ -1,6 +1,6 @@
 # Create a job
 
-A W&B Job is a definition of a computational process. You can think of jobs as a ‘run template’. A job is populated with contextual information about the run it is created from such as the source code, software dependencies, hyperparameter configuration, and more. For more information, see the View Job details section [LINK].
+A W&B Job is a definition of a computational process. You can think of jobs as a ‘run template’. A job is populated with contextual information about the run it is created from such as the source code, software dependencies, hyperparameter configuration, and more. For more information, see the [View details of launched jobs section](launch-jobs#view-details-of-launched-jobs).
 
 There are three ways to create a job:
 
@@ -72,7 +72,7 @@ python canonical_job_example.py
 W&B Launch can automatically create a W&B Job if you have a GitHub repository with a Python script that creates a W&B Run. 
 
 :::info
-Unlike the Log a code artifact section [LINK], you do not need to specify `run.log_code()` within your Python script. 
+Unlike the [Log a code artifact section](create-job#log-a-code-artifact), you do not need to specify `run.log_code()` within your Python script. 
 :::
 
 1. Navigate to your personal or team settings page at [https://wandb.ai/settings](https://wandb.ai/settings) .
@@ -133,7 +133,7 @@ That's it! You can see the job created for you on the W&B App.
 
 The name of the job will contain the prefix `job-` with the GitHub URL and path to script as the suffix: `job-<git-remote-url>-<path-to-script>`. 
 
-For more information on how job names are created, see Job naming conventions[LINK].
+For more information on how job names are created, see the [Job naming conventions](create-job#job-naming-conventions) section.
 
  ## Create a job with your own Docker container.
 

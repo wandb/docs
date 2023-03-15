@@ -22,7 +22,7 @@ The following procedure demonstrates how to add a job to a queue interactively w
 :::info
 In this example we demonstrate how add a job to a “Starter queue”. This starter queue is designed to be used for local testing and demonstrative purposes only. 
 
-For more information on how to create queues that utilize other cloud compute resources such as Kubernetes, see [FUTURE LINK TO DOCS SECTION]. 
+For more information on how to create queues that utilize other cloud compute resources such as Kubernetes, see the [Set up a cloud compute resource](./prerequisites#set-up-cloud-compute-resource) in the [Prerequisites page](./prerequisites.md). 
 :::
 
 1. Navigate to your project page on the W&B App.
@@ -32,7 +32,7 @@ For more information on how to create queues that utilize other cloud compute re
 
 3. The **Jobs Page** displays a list of W&B Jobs that were created from previously executed W&B Runs. Find information about the jobs such as the:
 
-* **Job ID**: Unique Job ID name. For more information about Job naming conventions, see Job Naming Conventions[LINK].
+* **Job ID**: Unique Job ID name. For more information about job naming conventions, see [Job naming conventions](create-job#job-naming-conventions).
 * **Versions**: The number of job versions.
 * **Runs**: The number of W&B Runs created by the associated job.
 * **Creation date**: The creation date of the job.
@@ -52,7 +52,7 @@ For more information on how to create queues that utilize other cloud compute re
 :::info
 The described example use a queue called **Starter queue**. This is a queue that W&B created for demonstrative purposes only. In addition to adding the job to this queue, W&B will also create this queue for you. The **Starter queue** uses a Docker image to run the job locally on your machine. 
 
-Note that W&B expects that you create a queue before you can add jobs to it. For more information on how to create a queue, see the Prerequisites[LINK].
+Note that W&B expects that you create a queue before you can add jobs to it. For more information on how to create a queue, see the [Prerequisites](./prerequisites.md) page.
 :::
 
 
@@ -60,7 +60,7 @@ Note that W&B expects that you create a queue before you can add jobs to it. For
 <TabItem value="cli">
 Follow the procedure outlined below to recreate a run with the CLI:
 
-1. Find the name of the run you want to reproduce and its associated job name. See the [INSERT] page for information on how to find the job name.
+1. Find the name of the run you want to reproduce and its associated job name. See the [View details of each job](#view-details-of-each-job) section for information on how to find the job name.
 2. Navigate to your terminal and type the following:
 
 ```bash    
@@ -95,7 +95,7 @@ The following code snippet demonstrates an example config file:
 Create W&B Sweeps with Launch. You can create a sweep interactively with the W&B App or programmatically with the W&B CLI.
 
 :::info
-Before you create a sweep with W&B Launch, ensure that you create a job first. Inspect that the run you want to create a job from has a code artifact. See the Create a Job[LINK] page for more information. 
+Before you create a sweep with W&B Launch, ensure that you create a job first. Inspect that the run you want to create a job from has a code artifact. See the [Create a Job](./create-job.md) page for more information. 
 :::
 
 
@@ -153,7 +153,7 @@ parameters:
     distribution: int_uniform
 ```
 
-For information on how to create a sweep configuration, see [LINK].
+For information on how to create a sweep configuration, see the [Define sweep configuration](../sweeps/define-sweep-configuration.md) page.
 
 4. Next, initialize a sweep. Provide the path to your config file, the name of your job queue, your W&B entity, and the name of the project for the queue, entity, and project flags, respectively.
 
@@ -161,7 +161,7 @@ For information on how to create a sweep configuration, see [LINK].
 wandb sweep <path/to/yaml/file> --queue <queue_name> --entity <your_entity>  --project <project_name>
 ```
 
-For more information on W&B Sweeps, see the Sweeps Guide [LINK].
+For more information on W&B Sweeps, see the [Tune Hyperparameters](../sweeps/intro.md) chapter.
 
 
   </TabItem>
@@ -169,7 +169,7 @@ For more information on W&B Sweeps, see the Sweeps Guide [LINK].
 
 
 ## View details of launched jobs
-[INSERT]
+View details of launched jobs with the W&B App. You can view job artifacts that were created and find out runs, version and job specific details.
 
 ### View job artifacts
 Each W&B Job you create is saved as a W&B Artifact. Select the **Artifacts** icon within your project’s workspace on the W&B App to view a list of job artifacts created in that project.
