@@ -205,7 +205,44 @@ Select a job from list to learn more about that job. A new page with a list of r
     {label: 'Job details', value: 'jobs_details'},
     {label: 'Version details', value: 'version_details'},
   ]}>
-  <TabItem value="runs">This is an runs 🍎</TabItem>
-  <TabItem value="jobs_details">This is an jobs_details 🍊</TabItem>
-  <TabItem value="version_details">This is a version_details 🍌</TabItem>
+  <TabItem value="runs">
+
+Select the name of your job from the list. This will redirect you to a new page with details about each run created by the job such as the:
+
+The Runs tab provides information about each run created by the job such as the:
+
+- **Run**: The names of run.
+- **State**: The state of the run.
+- **Job version**: The version of the job used.
+- **Creator**: Who created the run.
+- **Creation date**: The timestamp of when the run
+- **Other**: The remaining columns will contain the key-value pairs of the configuration dictionary passed to `wandb.init()`. 
+
+For example, in our demo script, we passed the learning rate (`learning_rate`) and number of epochs (`epochs`) when we initialized a run with `wandb.init()`.
+
+![](/images/launch/runs_in_job.png)
+
+
+  </TabItem>
+  <TabItem value="jobs_details">
+
+The **Job details** provides information about:
+
+* **Description**: An optional description of the job. Select the pencil icon next to this field to add a description.
+* **Owner entity**: The entity the job belongs to.
+* **Parent project**: The project the job belongs to.
+* **Full name**: The full name of your job
+* **Creation date**: Creation date of the job.
+
+
+![](/images/launch/job_id_full_name.png)
+
+  </TabItem>
+  <TabItem value="version_details">
+
+Use the **Version details** tab to view specific information about each job version such as the input and output types, and files used for each job version. 
+
+[INSERT image of this]
+
+  </TabItem>
 </Tabs>
