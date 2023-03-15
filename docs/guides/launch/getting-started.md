@@ -30,7 +30,7 @@ As a practitioner, you normally only need to complete the following steps to use
 Before you get started, ensure you enable the W&B Launch UI and install Docker. 
 
 1. Navigate to your settings page at [https://wandb.ai/settings](https://wandb.ai/settings) .
-2. Scroll to the **Beta Features** sections. Toggle the W&B Launch.
+2. Scroll to the **Beta Features** sections. Toggle the `W&B Launch` option.
 
 See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker. Make sure Docker is running on your local machine.
 

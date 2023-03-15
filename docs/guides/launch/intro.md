@@ -11,7 +11,7 @@ W&B Launch is in Public Preview and in active development.
 Before you get started, ensure you enable the W&B Launch UI.
 
 1. Navigate to your settings page at https://wandb.ai/settings.
-2. Scroll to the Beta Features sections. Toggle the W&B Launch.
+2. Scroll to the Beta Features sections. Toggle the `W&B Launch` option.
 
 ![](/images/launch/toggle_beta_flag.png)
 :::
