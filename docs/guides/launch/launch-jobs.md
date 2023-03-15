@@ -242,7 +242,7 @@ The **Job details** provides information about:
 
 Use the **Version details** tab to view specific information about each job version such as the input and output types, and files used for each job version. 
 
-[INSERT image of this]
+![](/images/launch/version_details_large.png)
 
   </TabItem>
 </Tabs>
