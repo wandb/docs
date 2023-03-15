@@ -1,3 +1,6 @@
+---
+description: Learn how to add jobs to your W&B queue.
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 

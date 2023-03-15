@@ -1,3 +1,6 @@
+---
+description: Getting started guide for W&B Launch.
+---
 # Getting started
 
 Follow this getting started guide to launch your first job. This guide will get you up and running using a demo “starter” queue that uses a Docker container as its compute resource.

@@ -1,3 +1,7 @@
+---
+description: Discover how to create a job for W&B Launch.
+---
+
 # Create a job
 
 A W&B Job is a definition of a computational process. You can think of jobs as a ‘run template’. A job is populated with contextual information about the run it is created from such as the source code, software dependencies, hyperparameter configuration, and more. For more information, see the [View details of launched jobs section](launch-jobs#view-details-of-launched-jobs).

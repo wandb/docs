@@ -1,3 +1,6 @@
+---
+description: Prerequisites for W&B Launch.
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
