@@ -11,14 +11,31 @@ For example, suppose a team has a queue configured to a Kubernetes cluster. Anyo
 Add jobs to your queue interactively with the W&B App or programmatically with the CLI.
 
 <Tabs
-  defaultValue="cli"
+  defaultValue="app"
   values={[
-    {label: 'CLI', value: 'cli'},
     {label: 'W&B App', value: 'app'},
+    {label: 'CLI', value: 'cli'},
   ]}>
-  <TabItem value="cli">
+  <TabItem value="app">This is an app 🍊</TabItem>
+    <TabItem value="cli">
 
-Use the `wandb launch` command to add jobs to a queue. Provide the name of the queue for the `queue`(`-q`) flag, the name of the job for the `job`(`-j`) flag, and the path to the configuration file for the `config`(`-c`) flag.
+Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Getting Started](./getting-started.md) guide, we create a JSON file with the following overrides:
+
+```json
+// config.json
+{
+    "args": [],
+    "run_config": {
+        "learning_rate": 0,
+        "epochs": 0
+    },
+    "entry_point": []
+}
+```
+W&B Launch will use the default parameters if you do not provide a JSON configuration file.
+
+
+Provide the name of the queue for the `queue`(`-q`) flag, the name of the job for the `job`(`-j`) flag, and the path to the configuration file for the `config`(`-c`) flag.
 
 ```bash
 wandb launch -j <job> -q <queue-name> -e <entity-name> -c path/to/config.json
@@ -26,7 +43,6 @@ wandb launch -j <job> -q <queue-name> -e <entity-name> -c path/to/config.json
 If you work within a W&B Team, we suggest you specify the `entity` flag (`-e`) to indicate which entity the queue will use.
 
   </TabItem>
-  <TabItem value="app">This is an app 🍊</TabItem>
 </Tabs>
 
 ## View queues
@@ -62,7 +78,7 @@ Find additional information about the jobs such as the:
 - **Run**: The name of the W&B Run assigned to that job.
 - **Job ID**: The name of the job. See Job naming conventions[LINK] information on the default naming assigned to a job.
 - **Project**: The name of the project the run belongs to.
-- **Status**: The status of the queue. 
+- **Status**: The status of the queued run. 
 - **Author**: The W&B entity that created the run.
 - **Creation date**: The time stamp when the queue was created.
 - **Start time**: The timestamp when the job started.

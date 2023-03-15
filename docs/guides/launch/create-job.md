@@ -5,12 +5,12 @@ A W&B Job is a definition of a computational process. You can think of jobs as a
 There are three ways to create a job:
 
 1. Log a code artifact
-2. Associate a GitHub repository
+2. Associate a Git repository
 3. Set the `WANDB_DOCKER` environment variable
 
 W&B automatically checks your run to see if it can create a job. W&B determines how to create a job based on the following logic:
 
-1. If a GitHub repository is present, create a GitHub sourced job.
+1. If a remote Git repository is present, create a GitHub sourced job.
 2. If `run.log_code()` is called, create an artifact sourced job.
 3. Lastly, if the `WANDB_DOCKER` environment variable is set, create an image sourced job.
 
@@ -56,7 +56,7 @@ def run_training_run(epochs, lr):
         print(f"epoch={epoch}, acc={acc}, loss={loss}")
         wandb.log({"acc": acc, "loss": loss})
     
-        run.log_code()
+    run.log_code()
 
 
 run_training_run(epochs=10, lr=0.01)
@@ -77,9 +77,9 @@ Unlike the Log a code artifact section [LINK], you do not need to specify `run.l
 
 1. Navigate to your personal or team settings page at [https://wandb.ai/settings](https://wandb.ai/settings) .
 
-2. Select **Connect GitHub**. This will prompt a new screen that confirms you want Weights & Biases to connect to your GitHub account.
-3. Create a GitHub repo with your Python script if you have not done so already. 
-4. Run you Python script.
+
+2. Create a GitHub repo with your Python script if you have not done so already. 
+3. Run your Python script.
 
 ### Example GitHub repo and Python script
 For example, suppose we create a GitHub repository called “demo_launch” with a README.md file and a Python script called `canonical_job_example.py`:

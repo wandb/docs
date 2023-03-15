@@ -62,7 +62,7 @@ def run_training_run(epochs, lr):
         print(f"epoch={epoch}, acc={acc}, loss={loss}")
         wandb.log({"acc": acc, "loss": loss})
 
-        run.log_code()
+    run.log_code() # log code so we can reuse this experiment
 
 
 run_training_run(epochs=10, lr=0.01)

@@ -2,7 +2,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Launch jobs
-[INSERT]
+Launch jobs directly from within W&B locally on your machine or to the compute provider of your choice. Reproduce runs or sweeps directly from the W&B User Interface to launch new experiments and compare results.
 
 
 ## Recreate a run
@@ -11,41 +11,11 @@ Add your W&B Job to a queue to execute a W&B Run. All jobs pushed to a queue aut
 Interactively recreate a W&B Run with the W&B App or programmatically with the CLI.
 
 <Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'CLI', value: 'cli'},
+  defaultValue="app"
+  values={[    
     {label: 'W&B App', value: 'app'},
+    {label: 'CLI', value: 'cli'},
   ]}>
-  <TabItem value="cli">
-Follow the procedure outlined below to recreate a run with the CLI:
-
-1. Find the name of the run you want to reproduce and its associated job name. See the [INSERT] page for information on how to find the job name.
-2. Navigate to your terminal and type the following:
-
-```bash    
-wandb launch -j <job-name> -c path/to/config_file.j
-```    
-This will default to running on the `Docker runner` on the same machine you intend on running on.
-
-:::info
-You need to specify the `run.config` in your config files `overrides.run_config` keys.
-:::
-
-The following code snippet demonstrates an example config file:
-
-```python
-{
-   "overrides": {
-      "args": [],
-      "run_config": {
-	      "lr": <value>,
-        "batch_size": <value>
-      }
-   }
-}
-```
-
-  </TabItem>
   <TabItem value="app">
 The following procedure demonstrates how to add a job to a queue interactively with the W&B App.
 
@@ -87,6 +57,36 @@ Note that W&B expects that you create a queue before you can add jobs to it. For
 
 
 </TabItem>
+<TabItem value="cli">
+Follow the procedure outlined below to recreate a run with the CLI:
+
+1. Find the name of the run you want to reproduce and its associated job name. See the [INSERT] page for information on how to find the job name.
+2. Navigate to your terminal and type the following:
+
+```bash    
+wandb launch -j <job-name> -c path/to/config.json
+```    
+This will default to running on the `Docker runner` on the same machine you intend on running on.
+
+:::info
+You need to specify the `run.config` in your config files `overrides.run_config` keys.
+:::
+
+The following code snippet demonstrates an example config file:
+
+```json
+{
+   "overrides": {
+      "args": [],
+      "run_config": {
+	      "lr": <value>,
+        "batch_size": <value>
+      }
+   }
+}
+```
+
+  </TabItem>
 </Tabs>
 
 
@@ -100,11 +100,25 @@ Before you create a sweep with W&B Launch, ensure that you create a job first. I
 
 
 <Tabs
-  defaultValue="cli"
+  defaultValue="app"
   values={[
-    {label: 'CLI', value: 'cli'},
     {label: 'W&B App', value: 'app'},
+    {label: 'CLI', value: 'cli'},
   ]}>
+  <TabItem value="app">
+Create a sweep interactively with the W&B App.
+
+1. Navigate to you W&B project on the W&B App.  
+2. Select the sweeps icon on the left panel (broom image). 
+3. Next, select the **Create Sweep** button.
+4. Toggle the **Use Launch 🚀 (In Beta)** slider.
+5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from. 
+6. Select the queue to add the job to from the **Queue** dropdown menu.
+7. Select **Initialize Sweep**.
+
+![](/images/launch/create_sweep_with_launch.png)
+
+  </TabItem>
   <TabItem value="cli">
 Programmatically create a W&B Sweep with Launch with the W&B CLI.
 
@@ -149,20 +163,6 @@ wandb sweep <path/to/yaml/file> --queue <queue_name> --entity <your_entity>  --p
 
 For more information on W&B Sweeps, see the Sweeps Guide [LINK].
 
-
-  </TabItem>
-  <TabItem value="app">
-Create a sweep interactively with the W&B App.
-
-1. Navigate to you W&B project on the W&B App.  
-2. Select the sweeps icon on the left panel (broom image). 
-3. Next, select the **Create Sweep** button.
-4. Toggle the **Use Launch 🚀 (In Beta)** slider.
-5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from. 
-6. Select the queue to add the job to from the **Queue** dropdown menu.
-7. Select **Initialize Sweep**.
-
-![](/images/launch/create_sweep_with_launch.png)
 
   </TabItem>
 </Tabs>
@@ -211,11 +211,11 @@ Select the name of your job from the list. This will redirect you to a new page 
 
 The Runs tab provides information about each run created by the job such as the:
 
-- **Run**: The names of run.
+- **Run**: The name of the run.
 - **State**: The state of the run.
 - **Job version**: The version of the job used.
 - **Creator**: Who created the run.
-- **Creation date**: The timestamp of when the run
+- **Creation date**: The timestamp of when the run was started.
 - **Other**: The remaining columns will contain the key-value pairs of the configuration dictionary passed to `wandb.init()`. 
 
 For example, in our demo script, we passed the learning rate (`learning_rate`) and number of epochs (`epochs`) when we initialized a run with `wandb.init()`.

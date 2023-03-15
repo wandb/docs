@@ -44,7 +44,7 @@ The following tabs provide information on how to activate a launch agent with ba
   defaultValue="basic"
   values={[
     {label: 'Basic', value: 'basic'},
-    {label: 'ECR', value: 'ecr'},
+    {label: 'EKS', value: 'eks'},
   ]}>
   <TabItem value="basic">
 
@@ -57,7 +57,7 @@ Provide a name for your queue for the `queue` flag (`-q`). For more information 
 
 
   </TabItem>
-  <TabItem value="ecr">
+  <TabItem value="eks">
 
 For more control options a config file can be placed at `~/.config/wandb/launch-config.yaml` (or the path can be specified with the config flag).
 
@@ -85,7 +85,7 @@ builder:
 
 **Registry Flags and Options:**
 
-- `type`: specifies the registry type, options: `local` (default) and `ecr` (ECR requires `aws` environment.
+- `type`: specifies the registry type, options: `local` (default) and `ecr` (ECR requires `aws` environment).
 - `repository`: only used with ECR, the name of the underlying repository.
 
 **Builder Flags and Options:**
