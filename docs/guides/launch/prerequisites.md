@@ -16,15 +16,21 @@ Before you use W&B Launch ensure you have satisfied these prerequisites.
 The steps required to create a queue and activate a launch agent depend on whether or not your queue will use a cloud compute resource (such as Kubernetes on EKS) or use a local Docker container that uses your machine's hardware.
 :::
 
-## Enable Launch UI 
+Based on your use case, read the following to sections to satisfy W&B Launch prerequisites for setting up a cloud resources or setting up a local Docker container for testing.
 
-Before you get started, ensure you enable the W&B Launch UI and install Docker. See the Docker documentation for more information on how to install Docker. Make sure Docker is running on your local machine.
+## Prerequisites for both cloud and local testing
+
+### Enable Launch
+Before you get started, ensure you enable the W&B Launch UI and install Docker. Follow these steps to enable W&B Launch:
 
 1. Navigate to your settings page at [https://wandb.ai/settings](https://wandb.ai/settings) .
 2. Scroll to the **Beta Features** sections. Toggle the W&B Launch.
 
+![](/images/launch/toggle_beta_flag.png)
 
-Based on your use case, read the following to satisfy W&B Launch prerequisites.
+### Install Docker
+See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker. Make sure Docker is running on your local machine.
+
 
 
 ## Set up cloud compute resource

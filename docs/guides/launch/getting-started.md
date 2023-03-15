@@ -24,19 +24,18 @@ As a practitioner, you normally only need to complete the following steps to use
 2. Add jobs to a queue created by an MLOps Team.
 :::
 
-:::info
-Before you get started, ensure you enable the W&B Launch UI and install Docker. See the Docker documentation for more information on how to install Docker. Make sure Docker is running on your local machine.
+
+
+## Before you get started
+Before you get started, ensure you enable the W&B Launch UI and install Docker. 
 
 1. Navigate to your settings page at [https://wandb.ai/settings](https://wandb.ai/settings) .
 2. Scroll to the **Beta Features** sections. Toggle the W&B Launch.
 
-:::
+See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker. Make sure Docker is running on your local machine.
 
-<!-- ## Before you get started
-Before you get started, ensure you enable the W&B Launch UI and install Docker. See the Docker documentation for more information on how to install Docker. Make sure Docker is running on your local machine.
 
-1. Navigate to your settings page at [https://wandb.ai/settings](https://wandb.ai/settings) .
-2. Scroll to the **Beta Features** sections. Toggle the W&B Launch. -->
+![](/images/launch/toggle_beta_flag.png)
 
 ## Create a job
 Create a W&B Run similarly to how you normally would create a job. Use `wandb.init()` to start a new run. Use `wandb.log()` to log metrics and specify `run.log_code()` to log code and create a code artifact. W&B will create a job when you create a code artifact with `run.log_code()`. 
