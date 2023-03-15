@@ -5,11 +5,23 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Prerequisites
-Before you use W&B Launch you will need to enable the W&B Launch feature flag, create a queue and activate a launch agent. 
+Before you use W&B Launch ensure you have satisfied these prerequisites.
+
+1. Enable the W&B Launch feature flag.
+2. Create a queue.
+3. Activate a launch agent.
+
 
 :::info
 The steps required to create a queue and activate a launch agent depend on whether or not your queue will use a cloud compute resource (such as Kubernetes on EKS) or use a local Docker container that uses your machine's hardware.
 :::
+
+## Enable Launch UI 
+
+Before you get started, ensure you enable the W&B Launch UI and install Docker. See the Docker documentation for more information on how to install Docker. Make sure Docker is running on your local machine.
+
+1. Navigate to your settings page at [https://wandb.ai/settings](https://wandb.ai/settings) .
+2. Scroll to the **Beta Features** sections. Toggle the W&B Launch.
 
 
 Based on your use case, read the following to satisfy W&B Launch prerequisites.
