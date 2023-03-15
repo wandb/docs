@@ -2,7 +2,7 @@
 
 Follow this getting started guide to launch your first job. This guide will get you up and running using a demo “starter” queue that uses a Docker container as its compute resource.
 
-:::note
+:::tip
 In most enterprise settings, it is expected that the MLOps Team will create queues and configure those queues to infrastructure and external cloud resources. In addition, it is expected that the MLOps team will activate and manage launch agents.  The ML Practitioner can then add jobs to those queues.
 :::
 
