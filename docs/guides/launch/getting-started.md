@@ -142,7 +142,7 @@ Within your terminal, you will see the agent begin to poll for queues. Your term
 
 ![](/images/launch/terminal_gs.png)
 
-That’s it! Navigate to your Launch workspace or your terminal to see the status of your launch jbo. Jobs are executed in first in, first out order (FIFO). All jobs pushed to the queue will use the same resource type and resource arguments. 
+That’s it! Navigate to your Launch workspace or your terminal to see the status of your launch job. Jobs are executed in first in, first out order (FIFO). All jobs pushed to the queue will use the same resource type and resource arguments. 
 
 ## Optional - View your queue and launched jobs
 
