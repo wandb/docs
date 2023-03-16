@@ -26,7 +26,7 @@ Use W&B Launch to start jobs in the compute  environment or infrastructure of ch
 There are three unique concepts to W&B Launch: *jobs*, *queues*, and *agents*: 
 * **Job**:  a definition of a computational process. You can think of W&B Jobs as a ‘Run template’. A Job can have one or more versions. Each job version combines source code and environment to produce a template for a reproducible run.
 * **Queue**: FIFO queue of W&B Jobs. A launch queue has a compute resource associated to that queue. Launch queues are entity-scoped. All jobs pushed to a queue automatically posses the same compute resource type.
-* **Agents**: A launch agent listens the queue and executes jobs added to the queue. The launch agent builds a docker image for you if you do not have one. The agent will build an image for the environment and will send the job to the desired compute runner.
+* **Agents**: A launch agent listens the queue and executes jobs added to the queue. The agent will build an image (if you do not have one) for the environment and will send the job to the desired compute runner.
 
 
 :::tip
