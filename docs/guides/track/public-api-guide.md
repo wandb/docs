@@ -10,6 +10,69 @@ import TabItem from '@theme/TabItem';
   <title>Import & Export Data to W&B</title>
 </head>
 
+## Import Data
+
+### MLFlow
+W&B supports importing data from MLFlow, including experiments, runs, artifacts, metrics, and other metadata.
+
+#### Quickstart
+Install dependencies:
+```sh
+pip install mlflow wandb>=0.14.0
+```
+
+Log in to W&B (follow prompts if you haven't logged in before)
+```sh
+wandb login
+```
+
+Import all runs from an existing MLFlow server:
+```sh
+wandb import mlflow \ &&
+    --mlflow-tracking-uri <mlflow_uri> \ &&
+    --target_entity       <entity> \ &&
+    --target_project      <project>
+```
+
+#### Advanced
+You can also import from python.  This can be useful if you want to specify overrides, or if you prefer python to the command line.
+```py
+from wandb.apis.importers import MlflowImporter
+
+# optional dict to override settings for all imported runs
+overrides = {
+    "entity": "my_custom_entity",
+    "project": "my_custom_project"
+}
+
+importer = MlflowImporter(mlflow_tracking_uri="...")
+importer.import_all_parallel()
+```
+
+For even more fine-grained control, you can selectively import experiments or specify overrides based on your own custom logic.  For example, if you wanted runs with a certain tag to be imported into a specific project:
+```py
+default_settings = {
+    "entity": "default_entity",
+    "project": "default_project"
+}
+
+special_tag_settings = {
+    "entity": "special_entity",
+    "project": "special_project"
+}
+
+for run in importer.download_all_runs():
+    if "special_tag" in run.tags():
+        overrides = special_tag_settings
+    else:
+        overrides = default_settings
+
+    importer.import_run(run, overrides=overrides)
+```
+
+
+## Export Data
+
 Use the Public API to export or update data that you have saved to W&B. Before using this API, you'll want to log data from your script — check the [Quickstart](../../quickstart.md) for more details.
 
 **Use Cases for the Public API**
