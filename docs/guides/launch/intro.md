@@ -5,7 +5,7 @@ description: Easily queue and manage jobs using W&B Launch.
 
 # Launch jobs
 
-:::caution
+
 W&B Launch is in Public Preview and in active development. 
 
 Before you get started, ensure you enable the W&B Launch UI.
@@ -14,7 +14,8 @@ Before you get started, ensure you enable the W&B Launch UI.
 2. Scroll to the Beta Features sections. Toggle the `W&B Launch` option.
 
 ![](/images/launch/toggle_beta_flag.png)
-:::
+
+## What is Launch?
 
 Use W&B Launch to start jobs in the compute  environment or infrastructure of choice from one central interface. W&B Launch removes the complexity of using different environments to run training, inference, and more. Weights and Biases will automatically capture the information needed to reproduce the run, containerize the job and launch the job locally or remotely. 
 
