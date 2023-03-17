@@ -12,7 +12,7 @@ import TabItem from '@theme/TabItem';
 
 Create a Report interactively with the App UI or programmatically with the `wandb` Python SDK.
 
-:::warning
+:::info
 Creating Reports programmatically with the Python SDK is in Beta and in active development.
 :::
 
