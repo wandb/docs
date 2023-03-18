@@ -7,14 +7,10 @@ import TabItem from '@theme/TabItem';
 
 # Quickstart
 
-
 Install W&B and start tracking your machine learning experiments in minutes.
 
-
-
-
 ## Create an account and install W&B
-Complete these steps to use W&B:
+Before you get started, make sure you create an account and install W&B:
 
 1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then login to your wandb account.  
 2. Install the wandb library on your machine in a Python 3 environment using [`pip`](https://pypi.org/project/wandb/).  
@@ -36,18 +32,6 @@ Install the CLI and Python library for interacting with the Weights and Biases A
 pip install wandb
 ```
 
-<!-- Next, log in to W&B:
-
-```
-wandb login
-```
-
-Or if you're using [W&B Server:](./guides/hosting/intro.md)
-
-```
-wandb login --host=http://wandb.your-shared-local-host.com
-``` -->
-
   </TabItem>
   <TabItem value="notebook">
 
@@ -57,12 +41,6 @@ Install the CLI and Python library for interacting with the Weights and Biases A
 !pip install wandb
 ```
 
-<!-- Next, import the W&B Python SDK and log in:
-
-```python
-import wandb
-wandb.login()
-``` -->
 
   </TabItem>
 </Tabs>
@@ -106,72 +84,92 @@ Provide [your API key](https://wandb.ai/authorize) when prompted.
 </Tabs>
 
 
-## Start a W&B Run
+## Start a  run and track hyperparameters
 
-Initialize a W&B Run object in your Python script or notebook with [`wandb.init()`](./ref/python/run.md).
+Initialize a W&B Run object in your Python script or notebook with [`wandb.init()`](./ref/python/run.md) and pass a dictionary to the `config` parameter with key-value pairs of hyperparameter names and values:
 
 ```python
-run = wandb.init(project="my-awesome-project")
+run = wandb.init(
+    # Set the project where this run will be logged
+    project="my-awesome-project",
+    # Track hyperparameters and run metadata
+    config={
+        "learning_rate": 0.01,
+        "epochs": 10,
+    })
 ```
 
- A run is the basic building block of W&B. You will use them often to track metrics, create logs, create jobs, and more.
 
-## Track metrics and hyperparameters
+<!-- ```python
+run = wandb.init(project="my-awesome-project")
+``` -->
 
-Use [`wandb.log()`](./ref/python/log.md) to track metrics:
+A [run](./guides/runs/intro.md) is the basic building block of W&B. You will use them often to [track metrics](./guides/track/intro.md), [create logs](./guides/artifacts/intro.md), [create jobs](./guides/launch/intro.md), and more.
+
+
+<!-- ## Track metrics -->
+<!-- Pass a dictionary to the `config` parameter with key-value pairs of hyperparameter name and values when you initialize a run object:
+
+```python
+  # Track hyperparameters and run metadata
+  config={
+      "learning_rate": lr,
+      "epochs": epochs,
+  }
+``` -->
+
+
+<!-- Use [`wandb.log()`](./ref/python/log.md) to track metrics:
 
 ```python
 wandb.log({'accuracy': acc, 'loss': loss})
 ```
 
-Anything you log with `wandb.log` is stored in the run object that was most recently initialized.
+Anything you log with `wandb.log` is stored in the run object that was most recently initialized. -->
+
 
 
 ## Putting it all together
 
+We put together the two code snippets above and add it to a Python loop that mimics machine learning training:
+
 ```python
 # train.py
-
 import wandb
 import random # for demo script
 
 epochs=10
 lr=0.01
 
+# highlight-start
 run = wandb.init(
     # Set the project where this run will be logged
-    project="job_example",
+    project="my-awesome-project",
     # Track hyperparameters and run metadata
     config={
         "learning_rate": lr,
         "epochs": epochs,
     })
+# highlight-end    
 
 offset = random.random() / 5
 print(f"lr: {lr}")
 
+# simulating a training run
 for epoch in range(2, epochs):
-    # simulating a training run
     acc = 1 - 2 ** -epoch - random.random() / epoch - offset
     loss = 2 ** -epoch + random.random() / epoch + offset
     print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
+    # highlight-next-line
     wandb.log({"accuracy": acc, "loss": loss})
 
-run.log_code()
+# run.log_code()
 ```
 
-<!-- ## Track hyperparameters
 
-Save hyperparameters with [`wandb.config`](./guides/track/config.md). Tracking hyperparameters makes it easy to compare experiments with the W&B App. 
 
-```python
-wandb.config.dropout = 0.2
-```
-Attributes stored in a `wandb.config` object are associated with the most recent initialized Run object.
-
-![](/images/quickstart/wandb_demo_experiments.gif) -->
-
-<!-- ## Get alerts
+## What's next?
+<!-- ### Get alerts
 
 Get notified by Slack or email if your W&B Run has crashed or with a custom trigger. For example, you can create a trigger to notify you if your loss reports `NaN` or a step in your ML pipeline has completed.
 
@@ -192,21 +190,22 @@ You will receive an email or Slack alert when your alert criteria is met. For ex
 
 See the [Alerts docs](./guides/runs/alert.md) for more information on how to set up an alert. For more information about setting options, see the [Settings](./guides/app/settings-page/intro.md) page.  -->
 
+Explore the rest of the W&B ecosystem.
 
-## What next?
+![](/images/quickstart/wandb_demo_experiments.gif) 
 
-![](/images/quickstart/wandb_demo_logging_metrics.png)
+1. Check out [W&B Integrations](./guides/integrations/intro.md) to learn how to integrate W&B with your ML framework such as PyTorch, ML library such as Hugging Face, or ML service such as SageMaker. 
+2. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [W&B Reports](./guides/reports/intro.md).
+2. Create [W&B Artifacts](./guides/artifacts/intro.md) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
+3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps](./guides/sweeps/intro.md).
+4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/data-vis/intro.md).
 
-<!-- Set up Alerts! -->
-<!-- view what was tracked -->
-<!-- or a framework [integration](guides/integrations/intro.md) for easy instrumentation. -->
 
-
-1. [**Collaborative Reports**](./guides/reports/intro.md): Snapshot results, take notes, and share findings
+<!-- 1. [**Collaborative Reports**](./guides/reports/intro.md): Snapshot results, take notes, and share findings
 2. [**Data + Model Versioning**](./guides/data-and-model-versioning/intro.md): Track dependencies and results in your ML pipeline
 3. [**Data Visualization**](guides/data-vis/intro.md): Visualize and query datasets and model evaluations
 4. [**Hyperparameter Tuning**](guides/sweeps/intro.md): Quickly automate optimizing hyperparameters
-5. [**Private-Hosting**](guides/hosting/intro.md): The enterprise solution for private cloud or on-prem hosting of W&B
+5. [**Private-Hosting**](guides/hosting/intro.md): The enterprise solution for private cloud or on-prem hosting of W&B -->
 
 ## Common Questions
 
