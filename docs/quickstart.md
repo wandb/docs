@@ -6,26 +6,27 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Quickstart
-This guide outlines a common method for integrating W&B into your code. There are for main steps:
-1. [Set up W&B](#set-up-wb)
-2. [Track metrics](#track-metrics)
-3. [Track hyperparameters](#track-hyperparameters)
-4. [Get an alert](#get-alerts)
 
-## Set up W&B
-Satisfy the following requirements to get started with W&B:  
 
-1.  [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then login to your wandb account.  
-2. Install the wandb library on your machine in a Python 3 environment using `pip`.  
-3. Login to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).  
+Install W&B and start tracking your machine learning experiments in minutes.
+
+
+
+
+## Create an account and install W&B
+Complete these steps to use W&B:
+
+1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then login to your wandb account.  
+2. Install the wandb library on your machine in a Python 3 environment using [`pip`](https://pypi.org/project/wandb/).  
+<!-- 3. Login to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).   -->
 
 The following code snippets demonstrate how to install and log into W&B using the W&B CLI and Python Library:
 
 <Tabs
-  defaultValue="cli"
+  defaultValue="notebook"
   values={[
-    {label: 'Command Line', value: 'cli'},
     {label: 'Notebook', value: 'notebook'},
+    {label: 'Command Line', value: 'cli'},
   ]}>
   <TabItem value="cli">
 
@@ -34,6 +35,48 @@ Install the CLI and Python library for interacting with the Weights and Biases A
 ```
 pip install wandb
 ```
+
+<!-- Next, log in to W&B:
+
+```
+wandb login
+```
+
+Or if you're using [W&B Server:](./guides/hosting/intro.md)
+
+```
+wandb login --host=http://wandb.your-shared-local-host.com
+``` -->
+
+  </TabItem>
+  <TabItem value="notebook">
+
+Install the CLI and Python library for interacting with the Weights and Biases API:
+
+```python
+!pip install wandb
+```
+
+<!-- Next, import the W&B Python SDK and log in:
+
+```python
+import wandb
+wandb.login()
+``` -->
+
+  </TabItem>
+</Tabs>
+
+## Log in to W&B
+
+
+<Tabs
+  defaultValue="notebook"
+  values={[
+    {label: 'Notebook', value: 'notebook'},
+    {label: 'Command Line', value: 'cli'},
+  ]}>
+  <TabItem value="cli">
 
 Next, log in to W&B:
 
@@ -47,53 +90,77 @@ Or if you're using [W&B Server:](./guides/hosting/intro.md)
 wandb login --host=http://wandb.your-shared-local-host.com
 ```
 
+Provide [your API key](https://wandb.ai/authorize) when prompted.
+
   </TabItem>
   <TabItem value="notebook">
-
-Install the CLI and Python library for interacting with the Weights and Biases API:
-
-```python
-!pip install wandb
-```
 
 Next, import the W&B Python SDK and log in:
 
 ```python
-import wandb
 wandb.login()
 ```
 
+Provide [your API key](https://wandb.ai/authorize) when prompted.
   </TabItem>
 </Tabs>
 
 
-## Start a new Run
+## Start a W&B Run
 
-Initialize a new Run in W&B in your Python script or notebook with [`wandb.init()`](./ref/python/run.md). At the top of your training script add the following code snippet:
+Initialize a W&B Run object in your Python script or notebook with [`wandb.init()`](./ref/python/run.md).
 
 ```python
+run = wandb.init(project="my-awesome-project")
+```
+
+ A run is the basic building block of W&B. You will use them often to track metrics, create logs, create jobs, and more.
+
+## Track metrics and hyperparameters
+
+Use [`wandb.log()`](./ref/python/log.md) to track metrics:
+
+```python
+wandb.log({'accuracy': acc, 'loss': loss})
+```
+
+Anything you log with `wandb.log` is stored in the run object that was most recently initialized.
+
+
+## Putting it all together
+
+```python
+# train.py
+
 import wandb
-wandb.init(project="my-awesome-project")
+import random # for demo script
+
+epochs=10
+lr=0.01
+
+run = wandb.init(
+    # Set the project where this run will be logged
+    project="job_example",
+    # Track hyperparameters and run metadata
+    config={
+        "learning_rate": lr,
+        "epochs": epochs,
+    })
+
+offset = random.random() / 5
+print(f"lr: {lr}")
+
+for epoch in range(2, epochs):
+    # simulating a training run
+    acc = 1 - 2 ** -epoch - random.random() / epoch - offset
+    loss = 2 ** -epoch + random.random() / epoch + offset
+    print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
+    wandb.log({"accuracy": acc, "loss": loss})
+
+run.log_code()
 ```
-W&B tracks system metrics and console logs when you call the `wandb.init()` API. 
 
-Run your code and put in [your API key](https://wandb.ai/authorize) when prompted. In the next step, we will show you how to track metrics. 
-
-
-## Track metrics
-
-Use [`wandb.log()`](./ref/python/log.md) to track metrics or a framework [integration](guides/integrations/intro.md) for easy instrumentation.
-
-```python
-wandb.log({'accuracy': train_acc, 'loss': train_loss})
-```
-
-W&B saves metrics you log with `wandb.log` to the Run object you initialized. In this case, the accuracy and loss are associated with the W&B Run we initialized in the previous step.
-
-![](/images/quickstart/wandb_demo_logging_metrics.png)
-
-
-## Track hyperparameters
+<!-- ## Track hyperparameters
 
 Save hyperparameters with [`wandb.config`](./guides/track/config.md). Tracking hyperparameters makes it easy to compare experiments with the W&B App. 
 
@@ -102,9 +169,9 @@ wandb.config.dropout = 0.2
 ```
 Attributes stored in a `wandb.config` object are associated with the most recent initialized Run object.
 
-![](/images/quickstart/wandb_demo_experiments.gif)
+![](/images/quickstart/wandb_demo_experiments.gif) -->
 
-## Get alerts
+<!-- ## Get alerts
 
 Get notified by Slack or email if your W&B Run has crashed or with a custom trigger. For example, you can create a trigger to notify you if your loss reports `NaN` or a step in your ML pipeline has completed.
 
@@ -123,10 +190,17 @@ You will receive an email or Slack alert when your alert criteria is met. For ex
 
 ![W&B Alerts in a Slack channel](/images/quickstart/get_alerts.png)
 
-See the [Alerts docs](./guides/runs/alert.md) for more information on how to set up an alert. For more information about setting options, see the [Settings](./guides/app/settings-page/intro.md) page. 
+See the [Alerts docs](./guides/runs/alert.md) for more information on how to set up an alert. For more information about setting options, see the [Settings](./guides/app/settings-page/intro.md) page.  -->
 
 
 ## What next?
+
+![](/images/quickstart/wandb_demo_logging_metrics.png)
+
+<!-- Set up Alerts! -->
+<!-- view what was tracked -->
+<!-- or a framework [integration](guides/integrations/intro.md) for easy instrumentation. -->
+
 
 1. [**Collaborative Reports**](./guides/reports/intro.md): Snapshot results, take notes, and share findings
 2. [**Data + Model Versioning**](./guides/data-and-model-versioning/intro.md): Track dependencies and results in your ML pipeline
