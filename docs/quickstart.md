@@ -138,6 +138,9 @@ We put together the two code snippets above and add it to a Python loop that mim
 import wandb
 import random # for demo script
 
+# highlight-next-line
+wandb.login()
+
 epochs=10
 lr=0.01
 
@@ -166,6 +169,9 @@ for epoch in range(2, epochs):
 # run.log_code()
 ```
 
+That's it! W&B will print URL links where you can view your project and run on the W&B App.
+
+![](/images/quickstart/quickstart_image.png)
 
 
 ## What's next?
@@ -192,14 +198,14 @@ See the [Alerts docs](./guides/runs/alert.md) for more information on how to set
 
 Explore the rest of the W&B ecosystem.
 
-![](/images/quickstart/wandb_demo_experiments.gif) 
-
 1. Check out [W&B Integrations](./guides/integrations/intro.md) to learn how to integrate W&B with your ML framework such as PyTorch, ML library such as Hugging Face, or ML service such as SageMaker. 
 2. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [W&B Reports](./guides/reports/intro.md).
 2. Create [W&B Artifacts](./guides/artifacts/intro.md) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
 3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps](./guides/sweeps/intro.md).
 4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/data-vis/intro.md).
 
+
+![](/images/quickstart/wandb_demo_experiments.gif) 
 
 <!-- 1. [**Collaborative Reports**](./guides/reports/intro.md): Snapshot results, take notes, and share findings
 2. [**Data + Model Versioning**](./guides/data-and-model-versioning/intro.md): Track dependencies and results in your ML pipeline
