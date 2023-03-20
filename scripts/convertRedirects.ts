@@ -679,7 +679,7 @@ const redirects: Redirect[] = [
   },
   {
     from: '/ref/app/features/panels/code',
-    to: '/guides/app/features/panels',
+    to: '/guides/app/features/panels/code',
   },
   {
     from: '/ref/app/features/panels/line-plot',
