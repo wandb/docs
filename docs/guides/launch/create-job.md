@@ -53,7 +53,7 @@ def run_training_run(epochs, lr):
     offset = random.random() / 5
     print(f"lr: {lr}")
 
-    for epoch in range(2, epochs):
+    for epoch in range(2, wandb.config.epochs):
         # simulating a training run
         acc = 1 - 2 ** -epoch - random.random() / epoch - offset
         loss = 2 ** -epoch + random.random() / epoch + offset
