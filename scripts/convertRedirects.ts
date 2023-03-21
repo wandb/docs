@@ -1,6 +1,13 @@
 import _ from 'lodash';
 
-type Redirect = {from: string; to: string};
+type Redirect = {
+  from: string;
+  to: string;
+
+  // This is the same `exact` prop used by `react-router`. When `exact !== true`,
+  // the redirect will be applied to all paths that start with `from`.
+  exact?: boolean;
+};
 
 type Segments = string[];
 
@@ -16,8 +23,8 @@ function convert(redirects: Redirect[]): Redirect[] {
   const results = getResults(fromPaths);
   // console.log(JSON.stringify(results, null, 2));
 
-  const globRedirects: Redirect[] = [];
-  const globbedIndices = new Set<number>();
+  const inexactRedirects: Redirect[] = [];
+  const inexactIndices = new Set<number>();
   for (const {prefix, matches} of results) {
     const newPrefixes = matches.map(({index, suffix}) => {
       if (suffix === ``) {
@@ -32,21 +39,29 @@ function convert(redirects: Redirect[]): Redirect[] {
     const uniqueNewPrefixes = _.uniq(newPrefixes);
 
     if (uniqueNewPrefixes.length === 1 && uniqueNewPrefixes[0] != null) {
-      globRedirects.push({
-        from: `${prefix}/*`,
-        to: `${uniqueNewPrefixes[0]}/*`,
+      inexactRedirects.push({
+        from: `${prefix}`,
+        to: `${uniqueNewPrefixes[0]}`,
       });
       for (const {index} of matches) {
-        globbedIndices.add(index);
+        inexactIndices.add(index);
       }
     }
   }
 
-  const nonGlobRedirects = withoutAbsolute.filter(
-    (r, i) => !globbedIndices.has(i)
+  const exactRedirects = withoutAbsolute.filter(
+    (r, i) => !inexactIndices.has(i)
   );
 
-  return [...globRedirects, ...nonGlobRedirects, ...withAbsolute];
+  return [
+    ...inexactRedirects,
+    ...addExactProp(exactRedirects),
+    ...addExactProp(withAbsolute),
+  ];
+}
+
+function addExactProp(redirects: Redirect[]): Redirect[] {
+  return redirects.map(r => ({...r, exact: true}));
 }
 
 type Result = {
@@ -849,17 +864,22 @@ function check(redirects: Redirect[], convertedRedirects: Redirect[]): void {
   OuterLoop: for (const redirect of redirects) {
     for (const convertedRedirect of convertedRedirects) {
       if (
+        convertedRedirect.exact &&
         redirect.from === convertedRedirect.from &&
         redirect.to === convertedRedirect.to
       ) {
         continue OuterLoop;
       }
-      const fromGlobSuffix = getGlobSuffix(
+      const fromSuffix = getRedirectSuffix(
         redirect.from,
         convertedRedirect.from
       );
-      const toGlobSuffix = getGlobSuffix(redirect.to, convertedRedirect.to);
-      if (fromGlobSuffix != null && fromGlobSuffix === toGlobSuffix) {
+      const toSuffix = getRedirectSuffix(redirect.to, convertedRedirect.to);
+      if (
+        !convertedRedirect.exact &&
+        fromSuffix != null &&
+        fromSuffix === toSuffix
+      ) {
         continue OuterLoop;
       }
     }
@@ -868,16 +888,9 @@ function check(redirects: Redirect[], convertedRedirects: Redirect[]): void {
   console.log(`Checked ${redirects.length} redirects`);
 }
 
-function isGlobPath(path: string): boolean {
-  return path.endsWith('/*');
-}
-
-function getGlobSuffix(path: string, globPath: string): string | null {
-  if (!isGlobPath(globPath)) {
+function getRedirectSuffix(path: string, prefixPath: string): string | null {
+  if (prefixPath !== path.slice(0, prefixPath.length)) {
     return null;
   }
-  if (globPath.slice(0, -2) !== path.slice(0, globPath.length - 2)) {
-    return null;
-  }
-  return path.slice(globPath.length - 2);
+  return path.slice(prefixPath.length);
 }
