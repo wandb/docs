@@ -1,6 +1,7 @@
+import fs from 'fs';
 import _ from 'lodash';
 
-type Redirect = {
+export type Redirect = {
   from: string;
   to: string;
 
@@ -11,7 +12,7 @@ type Redirect = {
 
 type Segments = string[];
 
-function convert(redirects: Redirect[]): Redirect[] {
+export function convert(redirects: Redirect[]): Redirect[] {
   const {withoutAbsolute, withAbsolute} = groupRedirectsByAbsolute(redirects);
 
   const fromPaths: Segments[] = [];
@@ -67,11 +68,12 @@ function convert(redirects: Redirect[]): Redirect[] {
   ];
 }
 
-function convertNew(redirects: Redirect[]): Redirect[] {
+export function convertNew(redirects: Redirect[]): Redirect[] {
   const {withoutAbsolute, withAbsolute} = groupRedirectsByAbsolute(redirects);
 
   const inexactRedirectsWithIndices =
     getInexactRedirectsWithIndices(withoutAbsolute);
+  // log(inexactRedirectsWithIndices);
   const inexactRedirects: Redirect[] = [];
   const inexactIndices = new Set<number>();
   for (const {redirect, indices} of inexactRedirectsWithIndices) {
@@ -152,6 +154,7 @@ function getInexactRedirectsWithIndices(
       .filter(isNotNullOrUndefined);
 
     Object.values(_.groupBy(datas, d => d.fromPrefix))
+      .filter(moreThanOneRedirect)
       .filter(allToPrefixesEqual)
       .forEach(datas => {
         inexactRedirects.push({
@@ -185,6 +188,9 @@ function getInexactRedirectsWithIndices(
       };
     }
 
+    function moreThanOneRedirect(datas: RedirectData[]): boolean {
+      return datas.length > 1;
+    }
     function allToPrefixesEqual(datas: RedirectData[]): boolean {
       return datas.every(({toPrefix}) => toPrefix === datas[0]!.toPrefix);
     }
@@ -1017,49 +1023,79 @@ const convertedRedirects = convert(redirects);
 // console.log(JSON.stringify(convertedRedirects, null, 2));
 console.log(`${redirects.length} --> ${convertedRedirects.length}`);
 
-check(redirects, convertedRedirects);
+ensureProperRedirectConversion(redirects, convertedRedirects);
 
 const convertedRedirectsNew = convertNew(redirects);
 // console.log(JSON.stringify(convertedRedirects, null, 2));
 console.log(`${redirects.length} --> ${convertedRedirectsNew.length}`);
+fs.writeFileSync(
+  `newRedirects.json`,
+  JSON.stringify(convertedRedirectsNew, null, 2)
+);
 
-check(redirects, convertedRedirectsNew);
+ensureProperRedirectConversion(redirects, convertedRedirectsNew);
 
-function check(redirects: Redirect[], convertedRedirects: Redirect[]): void {
-  OuterLoop: for (const originalRedirect of redirects) {
+export type ConversionError = MissingRedirectError | WrongRedirectError;
+
+type MissingRedirectError = {
+  type: 'missing';
+  oldRedirect: Redirect;
+};
+
+type WrongRedirectError = {
+  type: 'wrong';
+  oldRedirect: Redirect;
+  convertedRedirect: Redirect;
+};
+
+export function ensureProperRedirectConversion(
+  ogRedirects: Redirect[],
+  convertedRedirects: Redirect[]
+): ConversionError[] {
+  const errors: ConversionError[] = [];
+  OuterLoop: for (const oldRedirect of ogRedirects) {
     const appliedRedirect = getAppliedRedirect(
       convertedRedirects,
-      originalRedirect.from
+      oldRedirect.from
     );
     if (appliedRedirect == null) {
-      logMissing();
+      pushMissing();
       continue;
     }
 
     if (appliedRedirect.exact) {
-      if (originalRedirect.to !== appliedRedirect.to) {
-        logMissing();
+      if (oldRedirect.to !== appliedRedirect.to) {
+        pushWrong(appliedRedirect);
       }
       continue;
     }
 
     const appliedTo = `${appliedRedirect.to}${getRedirectSuffix(
       appliedRedirect.from,
-      originalRedirect.from
+      oldRedirect.from
     )}`;
 
-    if (originalRedirect.to !== appliedTo) {
-      logMissing();
+    if (oldRedirect.to !== appliedTo) {
+      pushWrong(appliedRedirect);
     }
 
-    function logMissing(): void {
-      console.log(
-        `Missing redirect: ${originalRedirect.from} --> ${originalRedirect.to}`
-      );
+    function pushMissing(): void {
+      errors.push({
+        type: 'missing',
+        oldRedirect: oldRedirect,
+      });
+    }
+    function pushWrong(convertedRedirect: Redirect) {
+      errors.push({
+        type: 'wrong',
+        oldRedirect: oldRedirect,
+        convertedRedirect,
+      });
     }
   }
 
-  console.log(`Checked ${redirects.length} redirects`);
+  console.log(`Checked ${ogRedirects.length} redirects`);
+  return errors;
 }
 
 function getAppliedRedirect(
