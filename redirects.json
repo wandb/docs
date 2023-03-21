@@ -516,6 +516,10 @@
     "to": "/guides/app/features"
   },
   {
+    "from": "/ref/app/features",
+    "to": "/guides/app/features"
+  },
+  {
     "from": "/ref/app/features/anon",
     "to": "/guides/app/features/anon"
   },

@@ -26,24 +26,29 @@ function convert(redirects: Redirect[]): Redirect[] {
   const inexactRedirects: Redirect[] = [];
   const inexactIndices = new Set<number>();
   for (const {prefix, matches} of results) {
-    const newPrefixes = matches.map(({index, suffix}) => {
+    const filteredMatches = matches.filter(({index, suffix}) =>
+      withoutAbsolute[index].to.endsWith(suffix)
+    );
+
+    if (filteredMatches.length < 2) {
+      continue;
+    }
+
+    const newPrefixes = filteredMatches.map(({index, suffix}) => {
       if (suffix === ``) {
         return withoutAbsolute[index].to;
-      }
-      if (!withoutAbsolute[index].to.endsWith(suffix)) {
-        return null;
       }
       return withoutAbsolute[index].to.slice(0, -suffix.length);
     });
 
     const uniqueNewPrefixes = _.uniq(newPrefixes);
 
-    if (uniqueNewPrefixes.length === 1 && uniqueNewPrefixes[0] != null) {
+    if (uniqueNewPrefixes.length === 1) {
       inexactRedirects.push({
-        from: `${prefix}`,
-        to: `${uniqueNewPrefixes[0]}`,
+        from: prefix,
+        to: uniqueNewPrefixes[0],
       });
-      for (const {index} of matches) {
+      for (const {index} of filteredMatches) {
         inexactIndices.add(index);
       }
     }
@@ -53,13 +58,39 @@ function convert(redirects: Redirect[]): Redirect[] {
     (r, i) => !inexactIndices.has(i)
   );
 
+  // log(sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])));
+  log(sortInexactRedirects(mergeInexactRedirects(inexactRedirects)));
+
   return [
-    ..._.sortBy(
-      [...addExactProp(exactRedirects), ...addExactProp(withAbsolute)],
-      r => r.from
-    ),
-    ..._.sortBy(inexactRedirects, r => r.from),
+    ...sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])),
+    ...sortInexactRedirects(mergeInexactRedirects(inexactRedirects)),
   ];
+}
+
+function log(x: any): void {
+  console.log(JSON.stringify(x, null, 2));
+}
+
+function mergeInexactRedirects(redirects: Redirect[]): Redirect[] {
+  for (const redirect of redirects) {
+    if (redirect.exact) {
+      throw new Error(`mergeInexactRedirects called on exact redirect`);
+    }
+  }
+  return redirects;
+}
+
+function sortExactRedirects(redirects: Redirect[]): Redirect[] {
+  return _.sortBy(redirects, r => r.from);
+}
+
+function sortInexactRedirects(redirects: Redirect[]): Redirect[] {
+  return _.sortBy(
+    _.sortBy(redirects, r => r.from),
+
+    // Longer paths should take precedence over shorter paths
+    r => -r.from.split('/').length
+  );
 }
 
 function addExactProp(redirects: Redirect[]): Redirect[] {
@@ -679,6 +710,10 @@ const redirects: Redirect[] = [
     to: '/guides/app/features',
   },
   {
+    from: '/ref/app/features',
+    to: '/guides/app/features',
+  },
+  {
     from: '/ref/app/features/anon',
     to: '/guides/app/features/anon',
   },
@@ -857,7 +892,7 @@ const redirects: Redirect[] = [
 ];
 
 const convertedRedirects = convert(redirects);
-console.log(JSON.stringify(convertedRedirects, null, 2));
+// console.log(JSON.stringify(convertedRedirects, null, 2));
 console.log(`${redirects.length} --> ${convertedRedirects.length}`);
 
 check(redirects, convertedRedirects);
