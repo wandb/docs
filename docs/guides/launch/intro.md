@@ -39,7 +39,7 @@ Jobs make your workloads reproducible, but they also allow you to rapidly iterat
 
 **Launch queues** are first-in, first-out (FIFO) queues where users can configure and submit their jobs. Each item in a launch queue consists of a job and settings for the parameters of that job. Users can submit workloads to launch queues via the W&B UI, CLI, or SDK.
 
-The queue itself is a first-in, first-out (FIFO) queue that corresponds to a particular compute resource, e.g. a kubernetes cluster, an on-prem machine with several GPU, or an on demand cloud service like AWS sagemaker.
+The queue itself corresponds to a particular compute resource, e.g. a kubernetes cluster, an on-prem machine, or an on demand cloud service like AWS sagemaker.
 
 ### Agents
 
