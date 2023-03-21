@@ -27,7 +27,7 @@ function convert(redirects: Redirect[]): Redirect[] {
   const inexactIndices = new Set<number>();
   for (const {prefix, matches} of results) {
     const filteredMatches = matches.filter(({index, suffix}) =>
-      withoutAbsolute[index].to.endsWith(suffix)
+      withoutAbsolute[index]!.to.endsWith(suffix)
     );
 
     if (filteredMatches.length < 2) {
@@ -36,9 +36,9 @@ function convert(redirects: Redirect[]): Redirect[] {
 
     const newPrefixes = filteredMatches.map(({index, suffix}) => {
       if (suffix === ``) {
-        return withoutAbsolute[index].to;
+        return withoutAbsolute[index]!.to;
       }
-      return withoutAbsolute[index].to.slice(0, -suffix.length);
+      return withoutAbsolute[index]!.to.slice(0, -suffix.length);
     });
 
     const uniqueNewPrefixes = _.uniq(newPrefixes);
@@ -46,7 +46,7 @@ function convert(redirects: Redirect[]): Redirect[] {
     if (uniqueNewPrefixes.length === 1) {
       inexactRedirects.push({
         from: prefix,
-        to: uniqueNewPrefixes[0],
+        to: uniqueNewPrefixes[0]!,
       });
       for (const {index} of filteredMatches) {
         inexactIndices.add(index);
@@ -59,7 +59,34 @@ function convert(redirects: Redirect[]): Redirect[] {
   );
 
   // log(sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])));
-  log(sortInexactRedirects(mergeInexactRedirects(inexactRedirects)));
+  // log(sortInexactRedirects(mergeInexactRedirects(inexactRedirects)));
+
+  return [
+    ...sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])),
+    ...sortInexactRedirects(mergeInexactRedirects(inexactRedirects)),
+  ];
+}
+
+function convertNew(redirects: Redirect[]): Redirect[] {
+  const {withoutAbsolute, withAbsolute} = groupRedirectsByAbsolute(redirects);
+
+  const inexactRedirectsWithIndices =
+    getInexactRedirectsWithIndices(withoutAbsolute);
+  const inexactRedirects: Redirect[] = [];
+  const inexactIndices = new Set<number>();
+  for (const {redirect, indices} of inexactRedirectsWithIndices) {
+    inexactRedirects.push(redirect);
+    for (const index of indices) {
+      inexactIndices.add(index);
+    }
+  }
+
+  const exactRedirects = withoutAbsolute.filter(
+    (r, i) => !inexactIndices.has(i)
+  );
+
+  // log(sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])));
+  // log(sortInexactRedirects(mergeInexactRedirects(inexactRedirects)));
 
   return [
     ...sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])),
@@ -97,6 +124,102 @@ function addExactProp(redirects: Redirect[]): Redirect[] {
   return redirects.map(r => ({...r, exact: true}));
 }
 
+type RedirectData = {
+  fromPrefix: string;
+  toPrefix: string;
+  suffix: string;
+  index: number;
+};
+
+type RedirectWithIndices = {
+  redirect: Redirect;
+  indices: number[];
+};
+
+function getInexactRedirectsWithIndices(
+  redirects: Redirect[]
+): RedirectWithIndices[] {
+  const inexactRedirects: RedirectWithIndices[] = [];
+  const handledIndices = new Set<number>();
+  const maxFromSegmentCount = getMaxFromSegmentCount(redirects);
+  for (
+    let fromSegmentCount = 1;
+    fromSegmentCount < maxFromSegmentCount;
+    fromSegmentCount++
+  ) {
+    const datas: RedirectData[] = redirects
+      .map(getRedirectData)
+      .filter(isNotNullOrUndefined);
+
+    Object.values(_.groupBy(datas, d => d.fromPrefix))
+      .filter(allToPrefixesEqual)
+      .forEach(datas => {
+        inexactRedirects.push({
+          redirect: {
+            from: datas[0]!.fromPrefix,
+            to: datas[0]!.toPrefix,
+          },
+          indices: datas.map(d => d.index),
+        });
+        for (const {index} of datas) {
+          handledIndices.add(index);
+        }
+      });
+
+    function getRedirectData(r: Redirect, i: number): RedirectData | null {
+      if (handledIndices.has(i)) {
+        return null;
+      }
+      const fromPrefix = truncateToNSegments(r.from, fromSegmentCount);
+      const fromSuffix = r.from.slice(fromPrefix.length);
+      if (!r.to.endsWith(fromSuffix)) {
+        // Exclude redirects where from and to have different suffixes
+        return null;
+      }
+      const toPrefix = r.to.slice(0, r.to.length - fromSuffix.length);
+      return {
+        fromPrefix,
+        toPrefix,
+        suffix: fromSuffix,
+        index: i,
+      };
+    }
+
+    function allToPrefixesEqual(datas: RedirectData[]): boolean {
+      return datas.every(({toPrefix}) => toPrefix === datas[0]!.toPrefix);
+    }
+  }
+
+  return inexactRedirects;
+}
+
+function getSegmentsFromPath(path: string): string[] {
+  return killLeadingSlash(path).split('/');
+}
+
+function getMaxFromSegmentCount(redirects: Redirect[]): number {
+  const fromSegmentCounts = redirects.map(
+    r => getSegmentsFromPath(r.from).length
+  );
+  return Math.max(...fromSegmentCounts);
+}
+
+function truncateToNSegments(path: string, n: number): string {
+  const segments = getSegmentsFromPath(path);
+  return `/${segments.slice(0, n).join('/')}`;
+}
+
+function killLeadingSlash(path: string): string {
+  if (path.startsWith(`/`)) {
+    return path.slice(1);
+  }
+  return path;
+}
+
+function isNotNullOrUndefined<T>(x: T | null | undefined): x is T {
+  return x != null;
+}
+
 type Result = {
   prefix: string;
   matches: Array<{index: number; suffix: string}>;
@@ -116,10 +239,10 @@ function getResults(paths: Segments[]): Result[] {
     const indicesByDuplicatePrefix = new Map<string, number[]>();
     for (let i = 0; i < truncatedPaths.length; i++) {
       const path = truncatedPaths[i];
-      if (path.length !== currentLength || alreadyHandledIndices.has(i)) {
+      if (path!.length !== currentLength || alreadyHandledIndices.has(i)) {
         continue;
       }
-      const pathStr = path.join('/');
+      const pathStr = path!.join('/');
       if (indicesByDuplicatePrefix.has(pathStr)) {
         indicesByDuplicatePrefix.get(pathStr)!.push(i);
       } else {
@@ -139,9 +262,8 @@ function getResults(paths: Segments[]): Result[] {
       res.push({
         prefix: pathStr,
         matches: indices.map(index => {
-          const suffixWithoutSlash = paths[index]
-            .slice(currentLength)
-            .join('/');
+          const suffixWithoutSlash =
+            paths[index]!.slice(currentLength).join('/');
           return {
             index,
             suffix:
@@ -897,37 +1019,71 @@ console.log(`${redirects.length} --> ${convertedRedirects.length}`);
 
 check(redirects, convertedRedirects);
 
+const convertedRedirectsNew = convertNew(redirects);
+// console.log(JSON.stringify(convertedRedirects, null, 2));
+console.log(`${redirects.length} --> ${convertedRedirectsNew.length}`);
+
+check(redirects, convertedRedirectsNew);
+
 function check(redirects: Redirect[], convertedRedirects: Redirect[]): void {
-  OuterLoop: for (const redirect of redirects) {
-    for (const convertedRedirect of convertedRedirects) {
-      if (
-        convertedRedirect.exact &&
-        redirect.from === convertedRedirect.from &&
-        redirect.to === convertedRedirect.to
-      ) {
-        continue OuterLoop;
-      }
-      const fromSuffix = getRedirectSuffix(
-        redirect.from,
-        convertedRedirect.from
-      );
-      const toSuffix = getRedirectSuffix(redirect.to, convertedRedirect.to);
-      if (
-        !convertedRedirect.exact &&
-        fromSuffix != null &&
-        fromSuffix === toSuffix
-      ) {
-        continue OuterLoop;
-      }
+  OuterLoop: for (const originalRedirect of redirects) {
+    const appliedRedirect = getAppliedRedirect(
+      convertedRedirects,
+      originalRedirect.from
+    );
+    if (appliedRedirect == null) {
+      logMissing();
+      continue;
     }
-    console.log(`Missing redirect: ${redirect.from} --> ${redirect.to}`);
+
+    if (appliedRedirect.exact) {
+      if (originalRedirect.to !== appliedRedirect.to) {
+        logMissing();
+      }
+      continue;
+    }
+
+    const appliedTo = `${appliedRedirect.to}${getRedirectSuffix(
+      appliedRedirect.from,
+      originalRedirect.from
+    )}`;
+
+    if (originalRedirect.to !== appliedTo) {
+      logMissing();
+    }
+
+    function logMissing(): void {
+      console.log(
+        `Missing redirect: ${originalRedirect.from} --> ${originalRedirect.to}`
+      );
+    }
   }
+
   console.log(`Checked ${redirects.length} redirects`);
 }
 
-function getRedirectSuffix(path: string, prefixPath: string): string | null {
-  if (prefixPath !== path.slice(0, prefixPath.length)) {
+function getAppliedRedirect(
+  redirects: Redirect[],
+  path: string
+): Redirect | null {
+  for (const redirect of redirects) {
+    if (redirect.exact && redirect.from === path) {
+      return redirect;
+    }
+    if (!redirect.exact && isPrefix(redirect.from, path)) {
+      return redirect;
+    }
+  }
+  return null;
+}
+
+function getRedirectSuffix(prefix: string, path: string): string | null {
+  if (!isPrefix(prefix, path)) {
     return null;
   }
-  return path.slice(prefixPath.length);
+  return path.slice(prefix.length);
+}
+
+function isPrefix(prefix: string, path: string): boolean {
+  return path.startsWith(prefix);
 }
