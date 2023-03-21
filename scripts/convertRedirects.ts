@@ -54,9 +54,11 @@ function convert(redirects: Redirect[]): Redirect[] {
   );
 
   return [
-    ...inexactRedirects,
-    ...addExactProp(exactRedirects),
-    ...addExactProp(withAbsolute),
+    ..._.sortBy(
+      [...addExactProp(exactRedirects), ...addExactProp(withAbsolute)],
+      r => r.from
+    ),
+    ..._.sortBy(inexactRedirects, r => r.from),
   ];
 }
 
