@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/node-lts/tsconfig.json",
   "compilerOptions": {
-    // Copied from tsconfig/bases/strictest.json with modifications
+    // Copied from tsconfig/bases/strictest.json with certain properties commented out
     "strict": true,
     // "allowUnusedLabels": false,
     // "allowUnreachableCode": false,
@@ -19,7 +19,10 @@
 
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+
+    // New properties
+    "resolveJsonModule": true
   },
   "ts-node": {
     "compilerOptions": {
