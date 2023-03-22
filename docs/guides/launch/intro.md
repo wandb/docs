@@ -26,7 +26,7 @@ Launch workflows can be managed from the W&B CLI, UI, or SDK.
 
 ## How it works
 
-Launch workflows are powered by three fundamental compoenents: **jobs, queues, and agents**.
+Launch workflows are powered by three fundamental components: **jobs, queues, and agents**.
 
 
 * **Jobs** are blueprints for configuring and running the tasks in your ML workflow. A job is actually an [Artifact](../../guides/artifacts/intro.md) that is created automatically when you track a run with W&B. Each job contains contextual information about the run it is being created from, including the source code, entrypoint, software dependencies, hyperparameters, dataset version, etc.
