@@ -22,5 +22,21 @@ export function isNotNullOrUndefined<T>(x: T | null | undefined): x is T {
 }
 
 export function prompt(rl: RLInterface, query: string): Promise<string> {
-  return new Promise(resolve => rl.question(query, resolve));
+  return new Promise(resolve => rl.question(`\n${query}`, resolve));
+}
+
+export async function promptChoice<T extends readonly string[]>(
+  rl: RLInterface,
+  query: string,
+  choices: T
+): Promise<T[number]> {
+  const choiceSet = new Set(choices);
+  const choicesStr = choices.join(`/`);
+  while (true) {
+    const answer = await prompt(rl, `${query} (${choicesStr}): `);
+    if (choiceSet.has(answer)) {
+      return answer;
+    }
+    log(`${answer} is not one of the available choices: ${choicesStr}`);
+  }
 }

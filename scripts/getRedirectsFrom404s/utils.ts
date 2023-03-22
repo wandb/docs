@@ -53,14 +53,14 @@ export function isRelativeRedirect(r: Redirect): boolean {
   return !r.from.startsWith(`http`) && !r.to.startsWith(`http`);
 }
 
-export function getRedirectSuffix(prefix: string, path: string): string | null {
-  if (!isPrefix(prefix, path)) {
+export function getRedirectSuffix(path: string, prefix: string): string | null {
+  if (!isPrefix(path, prefix)) {
     return null;
   }
   return path.slice(prefix.length);
 }
 
-export function isPrefix(prefix: string, path: string): boolean {
+export function isPrefix(path: string, prefix: string): boolean {
   const prefixSegments = getSegmentsFromPath(prefix);
   const pathSegments = getSegmentsFromPath(path);
   for (let i = 0; i < prefixSegments.length; i++) {
