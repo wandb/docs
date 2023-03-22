@@ -17,7 +17,7 @@ Jobs will be captured automatically from any workloads that you track with W&B i
 3. Set the [`WANDB_DOCKER` environment variable](../../guides/integrations/other/docker.md) to capture a container image as a source for your job.
 
 :::info
-You must `wandb>=0.13.8` in order to create jobs from your runs.
+`wandb>=0.13.8` is required in order to create jobs.
 :::
 
 ## Job naming conventions
