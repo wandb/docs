@@ -16,7 +16,8 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "redirect-404s": "ts-node scripts/getRedirectsFrom404s"
   },
   "dependencies": {
     "@docusaurus/core": "^2.3.1",
