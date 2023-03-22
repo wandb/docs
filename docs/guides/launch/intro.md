@@ -33,7 +33,7 @@ Launch workflows are powered by three fundamental compoenents: **jobs, queues, a
 
 * **Launch queues** are first-in, first-out (FIFO) queues where users can configure and submit their jobs to a particular compute resource. Each item in a launch queue consists of a job and settings for the parameters of that job.
 
-* The **launch agent** is a long-running process that polls on one or more launch queues for jobs to run. The agent is capable of building container images to replicate the original environment of the job. The agent can then take the image it has built (or a pre-made image) and execute it on the system targeted by the queue this job was taken from.
+* **Launch agents** are long-running processes that poll on one or more launch queues for jobs to run. The agent is capable of building container images to replicate the original environment of the job. The agent can then take the image it has built (or a pre-made image) and execute it on the system targeted by the queue this job was taken from.
 
 ## How to get started
 Depending on your use case, explore the following resources to get started with Weights & Biases Launch:
