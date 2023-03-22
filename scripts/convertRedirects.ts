@@ -1,5 +1,25 @@
+import fs from 'fs';
 import _ from 'lodash';
-import REDIRECTS from '../redirects.json';
+// import REDIRECTS from '../redirects.json';
+import REDIRECTS from '../testRedirects.json';
+import {log, stringify} from './utils';
+
+const convertedRedirects = convert(REDIRECTS);
+const conversionErrors = ensureProperRedirectConversion(
+  REDIRECTS,
+  convertedRedirects
+);
+log(`Old conversion: ${REDIRECTS.length} -> ${convertedRedirects.length}`);
+logConversionErrors(conversionErrors);
+
+const convertedRedirectsNew = convertNew(REDIRECTS);
+const conversionErrorsNew = ensureProperRedirectConversion(
+  REDIRECTS,
+  convertedRedirectsNew
+);
+log(`New conversion: ${REDIRECTS.length} -> ${convertedRedirectsNew.length}`);
+logConversionErrors(conversionErrorsNew);
+fs.writeFileSync(`newRedirects.json`, stringify(convertedRedirectsNew, true));
 
 export type Redirect = {
   from: string;
@@ -301,12 +321,6 @@ function groupRedirectsByAbsolute(redirects: Redirect[]): {
   return {withAbsolute, withoutAbsolute};
 }
 
-const convertedRedirects = convert(REDIRECTS);
-ensureProperRedirectConversion(REDIRECTS, convertedRedirects);
-
-const convertedRedirectsNew = convertNew(REDIRECTS);
-ensureProperRedirectConversion(REDIRECTS, convertedRedirectsNew);
-
 export type ConversionError = MissingRedirectError | WrongRedirectError;
 
 type MissingRedirectError = {
@@ -393,4 +407,21 @@ function getRedirectSuffix(prefix: string, path: string): string | null {
 
 function isPrefix(prefix: string, path: string): boolean {
   return path.startsWith(prefix);
+}
+
+function logConversionErrors(errors: ConversionError[]): void {
+  for (const error of errors) {
+    switch (error.type) {
+      case 'missing':
+        log(`Missing redirect: ${stringify(error.oldRedirect)}`);
+        break;
+      case 'wrong':
+        log(
+          `Wrong redirect: ${stringify(
+            error.oldRedirect
+          )} converted to ${stringify(error.convertedRedirect)}`
+        );
+        break;
+    }
+  }
 }
