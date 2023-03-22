@@ -1,4 +1,3 @@
-import fs from 'fs';
 import _ from 'lodash';
 
 export type Redirect = {
@@ -22,7 +21,6 @@ export function convert(redirects: Redirect[]): Redirect[] {
   }
 
   const results = getResults(fromPaths);
-  // console.log(JSON.stringify(results, null, 2));
 
   const inexactRedirects: Redirect[] = [];
   const inexactIndices = new Set<number>();
@@ -59,9 +57,6 @@ export function convert(redirects: Redirect[]): Redirect[] {
     (r, i) => !inexactIndices.has(i)
   );
 
-  // log(sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])));
-  // log(sortInexactRedirects(mergeInexactRedirects(inexactRedirects)));
-
   return [
     ...sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])),
     ...sortInexactRedirects(mergeInexactRedirects(inexactRedirects)),
@@ -73,7 +68,6 @@ export function convertNew(redirects: Redirect[]): Redirect[] {
 
   const inexactRedirectsWithIndices =
     getInexactRedirectsWithIndices(withoutAbsolute);
-  // log(inexactRedirectsWithIndices);
   const inexactRedirects: Redirect[] = [];
   const inexactIndices = new Set<number>();
   for (const {redirect, indices} of inexactRedirectsWithIndices) {
@@ -87,17 +81,10 @@ export function convertNew(redirects: Redirect[]): Redirect[] {
     (r, i) => !inexactIndices.has(i)
   );
 
-  // log(sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])));
-  // log(sortInexactRedirects(mergeInexactRedirects(inexactRedirects)));
-
   return [
     ...sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])),
     ...sortInexactRedirects(mergeInexactRedirects(inexactRedirects)),
   ];
-}
-
-function log(x: any): void {
-  console.log(JSON.stringify(x, null, 2));
 }
 
 function mergeInexactRedirects(redirects: Redirect[]): Redirect[] {
@@ -279,13 +266,6 @@ function getResults(paths: Segments[]): Result[] {
           };
         }),
       });
-
-      // console.log(`DUPLICATE: ${pathStr}`);
-      // console.log(`PATHS:`);
-      // for (const index of indices) {
-      //   console.log(`  ${paths[index].join('/')}`);
-      // }
-      // console.log();
     });
   }
 
@@ -1020,19 +1000,9 @@ const redirects: Redirect[] = [
 ];
 
 const convertedRedirects = convert(redirects);
-// console.log(JSON.stringify(convertedRedirects, null, 2));
-console.log(`${redirects.length} --> ${convertedRedirects.length}`);
-
 ensureProperRedirectConversion(redirects, convertedRedirects);
 
 const convertedRedirectsNew = convertNew(redirects);
-// console.log(JSON.stringify(convertedRedirects, null, 2));
-console.log(`${redirects.length} --> ${convertedRedirectsNew.length}`);
-fs.writeFileSync(
-  `newRedirects.json`,
-  JSON.stringify(convertedRedirectsNew, null, 2)
-);
-
 ensureProperRedirectConversion(redirects, convertedRedirectsNew);
 
 export type ConversionError = MissingRedirectError | WrongRedirectError;
@@ -1094,7 +1064,6 @@ export function ensureProperRedirectConversion(
     }
   }
 
-  console.log(`Checked ${ogRedirects.length} redirects`);
   return errors;
 }
 
