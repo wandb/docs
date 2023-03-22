@@ -58,6 +58,20 @@ describe(`convert`, () => {
     expect(convert(redirects)).toStrictEqual(expectedConvertedRedirects);
   });
 
+  test(`should create separate prefix redirects when necessary`, () => {
+    const redirects: Redirect[] = [
+      {from: `/p-a/a/1`, to: `/p-b/a/1`},
+      {from: `/p-a/a/2`, to: `/p-b/a/2`},
+      {from: `/p-a/b/1`, to: `/p-b/1`},
+      {from: `/p-a/b/2`, to: `/p-b/2`},
+    ];
+    const expectedConvertedRedirects: Redirect[] = [
+      {from: `/p-a/b`, to: `/p-b`},
+      {from: `/p-a`, to: `/p-b`},
+    ];
+    expect(convert(redirects)).toStrictEqual(expectedConvertedRedirects);
+  });
+
   test(`should not create unnecessarily specific prefix redirects`, () => {
     const redirects: Redirect[] = [
       {from: `/p-a/a/b/c/1`, to: `/p-b/a/b/c/1`},
