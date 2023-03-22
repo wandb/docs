@@ -1,6 +1,6 @@
 import {describe, test, expect} from '@jest/globals';
 import {
-  convertNew,
+  convert,
   ensureProperRedirectConversion,
   Redirect,
   ConversionError,
@@ -18,7 +18,7 @@ describe(`convert`, () => {
       {from: `/b/1`, to: `/b/2`, exact: true},
       {from: `/c/1`, to: `/c/2`, exact: true},
     ];
-    expect(convertNew(redirects)).toStrictEqual(expectedConvertedRedirects);
+    expect(convert(redirects)).toStrictEqual(expectedConvertedRedirects);
   });
 
   test(`should convert redirects with common prefixes`, () => {
@@ -27,7 +27,7 @@ describe(`convert`, () => {
       {from: `/p-a/2`, to: `/p-b/2`},
     ];
     const expectedConvertedRedirects: Redirect[] = [{from: `/p-a`, to: `/p-b`}];
-    expect(convertNew(redirects)).toStrictEqual(expectedConvertedRedirects);
+    expect(convert(redirects)).toStrictEqual(expectedConvertedRedirects);
   });
 
   test(`should not convert exact redirects unrelated to prefix redirects`, () => {
@@ -42,7 +42,7 @@ describe(`convert`, () => {
       {from: `/b/1`, to: `/b/2`, exact: true},
       {from: `/p-a`, to: `/p-b`},
     ];
-    expect(convertNew(redirects)).toStrictEqual(expectedConvertedRedirects);
+    expect(convert(redirects)).toStrictEqual(expectedConvertedRedirects);
   });
 
   test(`should keep exact redirects as exceptions to prefix redirects`, () => {
@@ -55,7 +55,7 @@ describe(`convert`, () => {
       {from: `/p-a/exception`, to: `/unrelated/redirect`, exact: true},
       {from: `/p-a`, to: `/p-b`},
     ];
-    expect(convertNew(redirects)).toStrictEqual(expectedConvertedRedirects);
+    expect(convert(redirects)).toStrictEqual(expectedConvertedRedirects);
   });
 
   test(`should not create unnecessarily specific prefix redirects`, () => {
@@ -64,7 +64,7 @@ describe(`convert`, () => {
       {from: `/p-a/a/b/2`, to: `/p-b/a/b/2`},
     ];
     const expectedConvertedRedirects: Redirect[] = [{from: `/p-a`, to: `/p-b`}];
-    expect(convertNew(redirects)).toStrictEqual(expectedConvertedRedirects);
+    expect(convert(redirects)).toStrictEqual(expectedConvertedRedirects);
   });
 });
 

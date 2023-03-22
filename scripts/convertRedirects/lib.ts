@@ -10,61 +10,7 @@ export type Redirect = {
   exact?: boolean;
 };
 
-type Segments = string[];
-
 export function convert(redirects: Redirect[]): Redirect[] {
-  const {withoutAbsolute, withAbsolute} = groupRedirectsByAbsolute(redirects);
-
-  const fromPaths: Segments[] = [];
-  for (const {from} of withoutAbsolute) {
-    const fromSegments = from.split('/');
-    fromPaths.push(fromSegments);
-  }
-
-  const results = getResults(fromPaths);
-
-  const inexactRedirects: Redirect[] = [];
-  const inexactIndices = new Set<number>();
-  for (const {prefix, matches} of results) {
-    const filteredMatches = matches.filter(({index, suffix}) =>
-      withoutAbsolute[index]!.to.endsWith(suffix)
-    );
-
-    if (filteredMatches.length < 2) {
-      continue;
-    }
-
-    const newPrefixes = filteredMatches.map(({index, suffix}) => {
-      if (suffix === ``) {
-        return withoutAbsolute[index]!.to;
-      }
-      return withoutAbsolute[index]!.to.slice(0, -suffix.length);
-    });
-
-    const uniqueNewPrefixes = _.uniq(newPrefixes);
-
-    if (uniqueNewPrefixes.length === 1) {
-      inexactRedirects.push({
-        from: prefix,
-        to: uniqueNewPrefixes[0]!,
-      });
-      for (const {index} of filteredMatches) {
-        inexactIndices.add(index);
-      }
-    }
-  }
-
-  const exactRedirects = withoutAbsolute.filter(
-    (r, i) => !inexactIndices.has(i)
-  );
-
-  return [
-    ...sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])),
-    ...sortInexactRedirects(mergeInexactRedirects(inexactRedirects)),
-  ];
-}
-
-export function convertNew(redirects: Redirect[]): Redirect[] {
   const {withoutAbsolute, withAbsolute} = groupRedirectsByAbsolute(redirects);
 
   const inexactRedirectsWithIndices =
@@ -84,17 +30,8 @@ export function convertNew(redirects: Redirect[]): Redirect[] {
 
   return [
     ...sortExactRedirects(addExactProp([...exactRedirects, ...withAbsolute])),
-    ...sortInexactRedirects(mergeInexactRedirects(inexactRedirects)),
+    ...sortInexactRedirects(inexactRedirects),
   ];
-}
-
-function mergeInexactRedirects(redirects: Redirect[]): Redirect[] {
-  for (const redirect of redirects) {
-    if (redirect.exact) {
-      throw new Error(`mergeInexactRedirects called on exact redirect`);
-    }
-  }
-  return redirects;
 }
 
 function sortExactRedirects(redirects: Redirect[]): Redirect[] {
@@ -216,77 +153,6 @@ function killLeadingSlash(path: string): string {
 
 function isNotNullOrUndefined<T>(x: T | null | undefined): x is T {
   return x != null;
-}
-
-type Result = {
-  prefix: string;
-  matches: Array<{index: number; suffix: string}>;
-};
-
-function getResults(paths: Segments[]): Result[] {
-  let maxLength = getMaxSegmentLength(paths);
-
-  const alreadyHandledIndices = new Set<number>();
-  const res: Result[] = [];
-
-  // We want to ignore the empty string preceding the first slash
-  // So we stop at 1 instead of 0
-  for (let currentLength = maxLength; currentLength > 1; currentLength--) {
-    const truncatedPaths = paths.map(p => truncateSegments(p, currentLength));
-
-    const indicesByDuplicatePrefix = new Map<string, number[]>();
-    for (let i = 0; i < truncatedPaths.length; i++) {
-      const path = truncatedPaths[i];
-      if (path!.length !== currentLength || alreadyHandledIndices.has(i)) {
-        continue;
-      }
-      const pathStr = path!.join('/');
-      if (indicesByDuplicatePrefix.has(pathStr)) {
-        indicesByDuplicatePrefix.get(pathStr)!.push(i);
-      } else {
-        indicesByDuplicatePrefix.set(pathStr, [i]);
-      }
-    }
-
-    indicesByDuplicatePrefix.forEach((indices, pathStr) => {
-      if (indices.length < 2) {
-        return;
-      }
-
-      for (const index of indices) {
-        alreadyHandledIndices.add(index);
-      }
-
-      res.push({
-        prefix: pathStr,
-        matches: indices.map(index => {
-          const suffixWithoutSlash =
-            paths[index]!.slice(currentLength).join('/');
-          return {
-            index,
-            suffix:
-              suffixWithoutSlash === ``
-                ? suffixWithoutSlash
-                : `/${suffixWithoutSlash}`,
-          };
-        }),
-      });
-    });
-  }
-
-  return res;
-}
-
-function truncateSegments(segments: Segments, n: number): Segments {
-  return segments.slice(0, n);
-}
-
-function getMaxSegmentLength(paths: Segments[]): number {
-  let max = 0;
-  for (const path of paths) {
-    max = Math.max(max, path.length);
-  }
-  return max;
 }
 
 function groupRedirectsByAbsolute(redirects: Redirect[]): {

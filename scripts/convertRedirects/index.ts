@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import {
   convert,
-  convertNew,
   ensureProperRedirectConversion,
   logConversionErrors,
 } from './lib';
@@ -15,13 +14,5 @@ const conversionErrors = ensureProperRedirectConversion(
   REDIRECTS,
   convertedRedirects
 );
-log(`Old conversion: ${REDIRECTS.length} -> ${convertedRedirects.length}`);
+log(`${REDIRECTS.length} -> ${convertedRedirects.length}`);
 logConversionErrors(conversionErrors);
-
-const convertedRedirectsNew = convertNew(REDIRECTS);
-const conversionErrorsNew = ensureProperRedirectConversion(
-  REDIRECTS,
-  convertedRedirectsNew
-);
-log(`New conversion: ${REDIRECTS.length} -> ${convertedRedirectsNew.length}`);
-logConversionErrors(conversionErrorsNew);
