@@ -1,18 +1,37 @@
-import _ from 'lodash';
+import yargs from 'yargs';
 
 import {
   convert,
   ensureProperRedirectConversion,
   logConversionErrors,
 } from './lib';
-import {log} from '../utils';
+import {log, parseJSONFile, writeJSONFile} from '../utils';
 
-import REDIRECTS from '../../redirects.json';
+const {file, out} = yargs(process.argv.slice(2))
+  .options({
+    file: {
+      alias: 'f',
+      type: 'string',
+      demandOption: true,
+      description: 'Path to the redirects file',
+    },
+    out: {
+      alias: 'o',
+      type: 'string',
+      demandOption: true,
+      description: 'Path to the converted redirects file',
+    },
+  })
+  .parseSync();
 
-const convertedRedirects = convert(REDIRECTS);
+const redirects = parseJSONFile(file);
+
+const convertedRedirects = convert(redirects);
 const conversionErrors = ensureProperRedirectConversion(
-  REDIRECTS,
+  redirects,
   convertedRedirects
 );
-log(`${REDIRECTS.length} -> ${convertedRedirects.length}`);
+log(`${redirects.length} -> ${convertedRedirects.length}`);
 logConversionErrors(conversionErrors);
+
+writeJSONFile(out, convertedRedirects);
