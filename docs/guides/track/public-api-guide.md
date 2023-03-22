@@ -35,7 +35,7 @@ wandb import mlflow \ &&
 ```
 
 #### Advanced
-You can also import from python.  This can be useful if you want to specify overrides, or if you prefer python to the command line.
+You can also import from Python.  This can be useful if you want to specify overrides, or if you prefer python to the command line.
 ```py
 from wandb.apis.importers import MlflowImporter
 
@@ -49,7 +49,7 @@ importer = MlflowImporter(mlflow_tracking_uri="...")
 importer.import_all_parallel()
 ```
 
-For even more fine-grained control, you can selectively import experiments or specify overrides based on your own custom logic.  For example, if you wanted runs with a certain tag to be imported into a specific project:
+For even more fine-grained control, you can selectively import experiments or specify overrides based on your own custom logic.  For example, the following code shows how to make runs with custom tags that are then imported into the specified project.
 ```py
 default_settings = {
     "entity": "default_entity",
