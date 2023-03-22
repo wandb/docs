@@ -4,8 +4,6 @@ description: Discover how to create a job for W&B Launch.
 
 # Create a job
 
-## What is a job?
-
 A job is a complete blueprint of how to perform a step in your ML workflow, like training a model, running an evaluation, or deploying a model to an inference server. For more information, see the [details of launched jobs section](launch-jobs#view-details-of-launched-jobs).
 
 ## How do I create a job?
