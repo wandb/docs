@@ -1,25 +1,5 @@
-import fs from 'fs';
 import _ from 'lodash';
-// import REDIRECTS from '../redirects.json';
-import REDIRECTS from '../testRedirects.json';
-import {log, stringify} from './utils';
-
-const convertedRedirects = convert(REDIRECTS);
-const conversionErrors = ensureProperRedirectConversion(
-  REDIRECTS,
-  convertedRedirects
-);
-log(`Old conversion: ${REDIRECTS.length} -> ${convertedRedirects.length}`);
-logConversionErrors(conversionErrors);
-
-const convertedRedirectsNew = convertNew(REDIRECTS);
-const conversionErrorsNew = ensureProperRedirectConversion(
-  REDIRECTS,
-  convertedRedirectsNew
-);
-log(`New conversion: ${REDIRECTS.length} -> ${convertedRedirectsNew.length}`);
-logConversionErrors(conversionErrorsNew);
-fs.writeFileSync(`newRedirects.json`, stringify(convertedRedirectsNew, true));
+import {log, stringify} from '../utils';
 
 export type Redirect = {
   from: string;
@@ -165,22 +145,26 @@ function getInexactRedirectsWithIndices(
       .filter(moreThanOneRedirect)
       .filter(allToPrefixesEqual)
       .forEach(datas => {
+        const filteredIndices = datas
+          .map(d => d.index)
+          .filter(i => !handledIndices.has(i));
+        if (filteredIndices.length === 0) {
+          return;
+        }
+
         inexactRedirects.push({
           redirect: {
             from: datas[0]!.fromPrefix,
             to: datas[0]!.toPrefix,
           },
-          indices: datas.map(d => d.index),
+          indices: filteredIndices,
         });
-        for (const {index} of datas) {
+        for (const index of filteredIndices) {
           handledIndices.add(index);
         }
       });
 
     function getRedirectData(r: Redirect, i: number): RedirectData | null {
-      if (handledIndices.has(i)) {
-        return null;
-      }
       const fromPrefix = truncateToNSegments(r.from, fromSegmentCount);
       const fromSuffix = r.from.slice(fromPrefix.length);
       if (!r.to.endsWith(fromSuffix)) {
@@ -406,10 +390,17 @@ function getRedirectSuffix(prefix: string, path: string): string | null {
 }
 
 function isPrefix(prefix: string, path: string): boolean {
-  return path.startsWith(prefix);
+  const prefixSegments = getSegmentsFromPath(prefix);
+  const pathSegments = getSegmentsFromPath(path);
+  for (let i = 0; i < prefixSegments.length; i++) {
+    if (prefixSegments[i] !== pathSegments[i]) {
+      return false;
+    }
+  }
+  return true;
 }
 
-function logConversionErrors(errors: ConversionError[]): void {
+export function logConversionErrors(errors: ConversionError[]): void {
   for (const error of errors) {
     switch (error.type) {
       case 'missing':

@@ -4,7 +4,7 @@ import {
   ensureProperRedirectConversion,
   Redirect,
   ConversionError,
-} from './convertRedirects';
+} from './lib';
 
 describe(`convert`, () => {
   test(`should not convert redirects without common prefixes`, () => {
