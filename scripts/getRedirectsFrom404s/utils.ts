@@ -2,6 +2,10 @@ import _ from 'lodash';
 
 import type {Redirect} from './lib';
 
+export function sortPaths(paths: string[]): string[] {
+  return _.sortBy(paths);
+}
+
 export function sortRedirects(redirects: Redirect[]): Redirect[] {
   return _.sortBy(redirects, r => r.from);
 }
@@ -34,6 +38,13 @@ export function truncateToNSegments(path: string, n: number): string {
 export function killLeadingSlash(path: string): string {
   if (path.startsWith(`/`)) {
     return path.slice(1);
+  }
+  return path;
+}
+
+export function killTrailingSlash(path: string): string {
+  if (path.endsWith(`/`)) {
+    return path.slice(0, -1);
   }
   return path;
 }

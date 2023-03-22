@@ -1,4 +1,5 @@
 import fs from 'fs';
+import type {Interface as RLInterface} from 'readline';
 
 export function stringify(x: any, format = false): string {
   return JSON.stringify(x, null, format ? 2 : 0);
@@ -18,4 +19,8 @@ export function writeJSONFile(fileName: string, x: any): void {
 
 export function isNotNullOrUndefined<T>(x: T | null | undefined): x is T {
   return x != null;
+}
+
+export function prompt(rl: RLInterface, query: string): Promise<string> {
+  return new Promise(resolve => rl.question(query, resolve));
 }

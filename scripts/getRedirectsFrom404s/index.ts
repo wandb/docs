@@ -1,37 +1,53 @@
+import {createInterface} from 'readline';
 import yargs from 'yargs';
 
-import {
-  convert,
-  ensureProperRedirectConversion,
-  logConversionErrors,
-} from './lib';
-import {log, parseJSONFile, writeJSONFile} from '../utils';
+import {addIgnoredPath, addRedirect, loadData} from './data';
+import {fetch404Paths, getSuggestionPrefixes} from './lib';
+import {log, parseJSONFile, prompt, writeJSONFile} from '../utils';
 
-const {file, out} = yargs(process.argv.slice(2))
+const {dataFile} = yargs(process.argv.slice(2))
   .options({
-    file: {
-      alias: 'f',
+    dataFile: {
+      alias: 'd',
       type: 'string',
-      demandOption: true,
-      description: 'Path to the redirects file',
-    },
-    out: {
-      alias: 'o',
-      type: 'string',
-      demandOption: true,
-      description: 'Path to the converted redirects file',
+      description: 'Path to the data JSON file',
     },
   })
   .parseSync();
 
-const redirects = parseJSONFile(file);
+const rl = createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-const convertedRedirects = convert(redirects);
-const conversionErrors = ensureProperRedirectConversion(
-  redirects,
-  convertedRedirects
-);
-log(`${redirects.length} -> ${convertedRedirects.length}`);
-logConversionErrors(conversionErrors);
+let data = loadData(dataFile);
 
-writeJSONFile(out, convertedRedirects);
+(async () => {
+  log(`Fetching 404 paths...`);
+  const brokenPaths = await fetch404Paths();
+
+  for (const path of brokenPaths) {
+    if (data.encounteredPaths.has(path)) {
+      continue;
+    }
+
+    const redirectTo = await prompt(
+      rl,
+      `Enter redirect for ${path} and press Enter (just press Enter to ignore): `
+    );
+    if (redirectTo) {
+      data = addRedirect(
+        data,
+        {
+          from: path,
+          to: redirectTo,
+        },
+        dataFile
+      );
+    } else {
+      data = addIgnoredPath(data, path, dataFile);
+    }
+  }
+
+  rl.close();
+})();

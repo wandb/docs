@@ -1,11 +1,27 @@
 import _ from 'lodash';
 import {isNotNullOrUndefined} from '../utils';
+import {queryBQ} from './bq';
 import {
   getMaxFromSegmentCount,
   isRelativeRedirect,
+  killTrailingSlash,
   sortSuggestionPrefixes,
   truncateToNSegments,
 } from './utils';
+
+const DOCS_404S_QUERY = `
+  SELECT path FROM wandb-production.docs.pages_view
+  WHERE title LIKE 'Page Not Found%'
+    AND url LIKE 'https://docs.wandb.ai%'
+    AND url NOT LIKE 'https://docs.wandb.ai/404.html%'
+    AND url NOT LIKE 'https://docs.wandb.ai/v/%'
+  ORDER BY timestamp DESC
+`;
+
+export async function fetch404Paths(): Promise<string[]> {
+  const pages = await queryBQ<{path: string}>(DOCS_404S_QUERY);
+  return pages.map(page => killTrailingSlash(page.path)).filter(p => !!p);
+}
 
 export type Redirect = {
   from: string;

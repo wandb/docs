@@ -1,7 +1,10 @@
-import immer from 'immer';
+import immer, {enableMapSet} from 'immer';
 
-import type {Redirect} from './lib';
+import {getSuggestionPrefixes, Redirect} from './lib';
 import {parseJSONFile, writeJSONFile} from '../utils';
+import {sortPaths, sortRedirects} from './utils';
+
+enableMapSet();
 
 const DEFAULT_DATA_FILE_PATH = `./data.json`;
 
@@ -15,24 +18,32 @@ type Data = {
 type JSONRepresentation = {
   redirects: Redirect[];
   ignoredPaths: string[];
-  suggestionPrefixes: Redirect[];
 };
 
-export function addRedirect(data: Data, r: Redirect): Data {
+export function addRedirect(
+  data: Data,
+  r: Redirect,
+  dataFilePath = DEFAULT_DATA_FILE_PATH
+): Data {
   const newData = immer(data, draft => {
     draft.redirects.push(r);
     draft.encounteredPaths.add(r.from);
+    draft.suggestionPrefixes = getSuggestionPrefixes(draft.redirects);
   });
-  saveData(newData);
+  saveData(newData, dataFilePath);
   return newData;
 }
 
-export function addIgnoredPath(data: Data, path: string): Data {
+export function addIgnoredPath(
+  data: Data,
+  path: string,
+  dataFilePath = DEFAULT_DATA_FILE_PATH
+): Data {
   const newData = immer(data, draft => {
     draft.ignoredPaths.add(path);
     draft.encounteredPaths.add(path);
   });
-  saveData(newData);
+  saveData(newData, dataFilePath);
   return newData;
 }
 
@@ -48,9 +59,8 @@ export function loadData(filePath = DEFAULT_DATA_FILE_PATH): Data {
 
 export function toJSON(data: Data): JSONRepresentation {
   return {
-    redirects: data.redirects,
-    ignoredPaths: [...data.ignoredPaths],
-    suggestionPrefixes: data.suggestionPrefixes,
+    redirects: sortRedirects(data.redirects),
+    ignoredPaths: sortPaths([...data.ignoredPaths]),
   };
 }
 
@@ -62,6 +72,6 @@ export function fromJSON(json: JSONRepresentation): Data {
       ...json.redirects.map(r => r.from),
       ...json.ignoredPaths,
     ]),
-    suggestionPrefixes: json.suggestionPrefixes,
+    suggestionPrefixes: getSuggestionPrefixes(json.redirects),
   };
 }
