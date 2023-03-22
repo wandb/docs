@@ -67,7 +67,7 @@ function getInexactRedirectsWithIndices(
   redirects: Redirect[]
 ): RedirectWithIndices[] {
   const inexactRedirects: RedirectWithIndices[] = [];
-  const handledIndices = new Set<number>();
+  const addedIndices = new Set<number>();
   const maxFromSegmentCount = getMaxFromSegmentCount(redirects);
   for (
     let fromSegmentCount = 1;
@@ -82,10 +82,10 @@ function getInexactRedirectsWithIndices(
       .filter(moreThanOneRedirect)
       .filter(allToPrefixesEqual)
       .forEach(datas => {
-        const filteredIndices = datas
+        const unaddedIndices = datas
           .map(d => d.index)
-          .filter(i => !handledIndices.has(i));
-        if (filteredIndices.length === 0) {
+          .filter(i => !addedIndices.has(i));
+        if (unaddedIndices.length === 0) {
           return;
         }
 
@@ -94,10 +94,10 @@ function getInexactRedirectsWithIndices(
             from: datas[0]!.fromPrefix,
             to: datas[0]!.toPrefix,
           },
-          indices: filteredIndices,
+          indices: unaddedIndices,
         });
-        for (const index of filteredIndices) {
-          handledIndices.add(index);
+        for (const index of unaddedIndices) {
+          addedIndices.add(index);
         }
       });
 
