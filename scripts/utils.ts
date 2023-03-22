@@ -15,3 +15,7 @@ export function parseJSONFile(fileName: string): any {
 export function writeJSONFile(fileName: string, x: any): void {
   fs.writeFileSync(fileName, stringify(x, true));
 }
+
+export function isNotNullOrUndefined<T>(x: T | null | undefined): x is T {
+  return x != null;
+}
