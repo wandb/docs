@@ -26,7 +26,7 @@ Running wandb on localhost is great for initial testing, but to leverage the col
 
 ```
 pip install wandb
-wandb server start 
+wandb server start
 ```
 
 ### Login
@@ -113,7 +113,7 @@ To enjoy the powerful collaborative features of W&B, you will need a shared inst
 :::warning
 **Trial Mode vs. Production Setup**
 
-In Trial Mode of W&BLocal, you're running the Docker container on a single machine. This setup is quick and painless, and it's great for testing the product, but it isn't scalable in the long term.
+In Trial Mode of W&B Local, you're running the Docker container on a single machine. This setup is quick and painless, and it's great for testing the product, but it isn't scalable in the long term.
 
 Once you're ready to move from test projects to real production work, it is crucial that you set up a scalable file system to avoid data loss: allocate extra space in advance, resize the file system proactively as you log more data, and configure external metadata and object stores for backup. If you run out of disk space, the instance will stop working, and additional data will be lost.
 :::

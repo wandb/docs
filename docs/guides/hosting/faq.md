@@ -8,7 +8,7 @@ description: Frequently asked questions about W&B Hosting.
 To restore a machine to reporting metrics to our cloud hosted solution, run `wandb login --cloud`.
 
 **Does my server need a connection to the internet?**
-No internet connection needed. W&BLocal can run in air gapped environments. The only requirement is that the machines that train your models on can connect to the server hosting your W&B instance, so that data can be sync'd to your private-hosted dashboard.
+No internet connection needed. W&B Local can run in air gapped environments. The only requirement is that the machines that train your models on can connect to the server hosting your W&B instance, so that data can be sync'd to your private-hosted dashboard.
 
 **Where is my data stored?**
 The default docker image runs MySQL and MinIO inside of the container and writes all data in sub folders of `/vol` . You can configure external MySQL and Object Storage by getting a license. Email [contact@wandb.com](mailto:contact@wandb.com) for more details.
