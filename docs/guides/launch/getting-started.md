@@ -5,11 +5,11 @@ description: Getting started guide for W&B Launch.
 
 Follow this guide to get started using W&B Launch. This guide will walk you through the setup of the fundamental components of a launch workflow: a **job**, **launch queue**, and **launch queue**. 
 
-A **job** is a reusable blueprint for configuring and executing a step of your ML workflow. Jobs can be automatically captured from your workloads when your track those workloads with W&B. In this guide will create and then launch a job that trains a neural network.
+* A **job** is a reusable blueprint for configuring and executing a step of your ML workflow. Jobs can be automatically captured from your workloads when your track those workloads with W&B. In this guide will create and then launch a job that trains a neural network.
 
-A **launch queue** is a place where you can submit your jobs for execution on a particular compute resource. For example, you might create separate launch queues for submitting jobs that should be run on specific GPU server, or a particular kubernetes cluster. The queue we will create in this guide will be used to submit jobs that will run on your machine via Docker.
+* A **launch queue** is a place where you can submit your jobs for execution on a particular compute resource. For example, you might create separate launch queues for submitting jobs that should be run on specific GPU server, or a particular kubernetes cluster. The queue we will create in this guide will be used to submit jobs that will run on your machine via Docker.
 
-A **launch agent** is a long-running process that polls on one or more launch queues and executes the jobs that it pops from the queue. A launch agent can be started with the `wandb launch-agent` command and is capable on launching jobs onto a multitude of compute platforms, including docker, kubernetes, sagemaker, and more. In this example, you will run a launch agent that will pop jobs from your queue and execute them on its local host using Docker.
+* A **launch agent** is a long-running process that polls on one or more launch queues and executes the jobs that it pops from the queue. A launch agent can be started with the `wandb launch-agent` command and is capable on launching jobs onto a multitude of compute platforms, including docker, kubernetes, sagemaker, and more. In this example, you will run a launch agent that will pop jobs from your queue and execute them on its local host using Docker.
 
 ## Before you get started
 Before you get started, ensure you [enable the W&B Launch UI](./intro.md) and install Docker on the machine where you will run your launch agent.
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     train_fmnist(config)
 ```
 
-The script above initializes a simple neural network and then trains that network to distinguish types of clothing in images from the [fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist). The training is tracked with `wandb` and the source code is logged as an Artifact via `wandb.run.log_code()`, which means that when we run this script W&B will automatically create our first job.
+The script above initializes a simple neural network and then trains that network to distinguish types of clothing in images from the [fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist). The training is tracked with `wandb` and the source code is logged as an Artifact with `wandb.run.log_code()`. This means that when we run this script W&B will automatically create our first job.
 
 
 To install dependencies and run the script, execute the following commands in your terminal:
@@ -214,7 +214,7 @@ Once you have configured your job as desired, click the **launch now** button at
 
 ## Start a launch agent
 
-To actually execute your job, you will need to start a launch agent polling on your launch queue.
+To execute your job, you will need to start a launch agent polling on your launch queue.
 
 1. From [wandb.ai/launch](https://wandb.ai/launch) navigate to the page for your launch queue.
 2. Click the **Add an agent** button.
