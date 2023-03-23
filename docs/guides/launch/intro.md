@@ -8,32 +8,32 @@ description: Easily queue and manage jobs using W&B Launch.
 
 W&B Launch is in Public Preview and in active development. 
 
-Before you get started, ensure you enable the W&B Launch UI.
+Before you get started, enable the W&B Launch UI:
 
-1. Navigate to your settings page at https://wandb.ai/settings.
-2. Scroll to the Beta Features sections. Toggle the `W&B Launch` option.
+1. Navigate to https://wandb.ai/settings.
+2. Scroll down to the **Beta Features** section and enable **W&B Launch**.
 
 ![](/images/launch/toggle_beta_flag.png)
 
 ## What is Launch?
 
-Use W&B Launch to start jobs in the compute  environment or infrastructure of choice from one central interface. W&B Launch removes the complexity of using different environments to run training, inference, and more. Weights and Biases will automatically capture the information needed to reproduce the run, containerize the job and launch the job locally or remotely. 
+W&B Launch is a toolkit for building collaborative, portable, and reproducible machine learning workflows.
+
+Launch workflows can be managed from the W&B CLI, UI, or SDK.
 
 ![](/images/launch/ready_to_launch.png)
 
 
-
 ## How it works
-There are three unique concepts to W&B Launch: *jobs*, *queues*, and *agents*: 
-* **Job**:  a definition of a computational process. You can think of W&B Jobs as a ‘Run template’. A Job can have one or more versions. Each job version combines source code and environment to produce a template for a reproducible run.
-* **Queue**: FIFO queue of W&B Jobs. A launch queue has a compute resource associated to that queue. Launch queues are entity-scoped. All jobs pushed to a queue automatically posses the same compute resource type.
-* **Agents**: A launch agent listens the queue and executes jobs added to the queue. The agent will build an image (if you do not have one) for the environment and will send the job to the desired compute runner.
+
+Launch workflows are powered by three fundamental compoenents: **jobs, queues, and agents**.
 
 
-:::tip
-Generally, an MLOps Team will configure a queue with a cloud compute resource and activate a launch agent. Once this step is completed, anyone who has access to a W&B entity can add jobs to the queue with the W&B App UI or the CLI.
-:::
+* **Jobs** are blueprints for configuring and running the tasks in your ML workflow. A job is actually an [Artifact](../../guides/artifacts/intro.md) that is created automatically when you track a run with W&B. Each job contains contextual information about the run it is being created from, including the source code, entrypoint, software dependencies, hyperparameters, dataset version, etc.
 
+* **Launch queues** are first-in, first-out (FIFO) queues where users can configure and submit their jobs to a particular compute resource. Each item in a launch queue consists of a job and settings for the parameters of that job.
+
+* **Launch agents** are long-running processes that poll on one or more launch queues for jobs to run. The agent is capable of building container images to replicate the original environment of the job. The agent can then take the image it has built (or a pre-made image) and execute it on the system targeted by the queue this job was taken from.
 
 ## How to get started
 Depending on your use case, explore the following resources to get started with Weights & Biases Launch:
@@ -44,7 +44,7 @@ Depending on your use case, explore the following resources to get started with 
     * [Create a job](../launch/create-job.md)
     * [Add jobs to your queue](../launch/add-jobs-to-queue.md)
     * [Launch jobs](../launch/launch-jobs.md)
-* Discover the [`wandb launch`](../../ref/cli/wandb-launch.md) and [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) in the CLI Reference.
+* Discover the [`wandb launch`](../../ref/cli/wandb-launch.md) and [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) commands in the CLI Reference.
 
 :::info
 Talk to the W&B Sales Team to get W&B Launch set up for your business: [https://wandb.ai/site/pricing](https://wandb.ai/site/pricing).
