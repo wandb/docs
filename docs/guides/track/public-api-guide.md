@@ -1,5 +1,5 @@
 ---
-description: Export or update data that you have saved to W&B
+description: Import data from MLFlow, export or update data that you have saved to W&B
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -10,9 +10,12 @@ import TabItem from '@theme/TabItem';
   <title>Import & Export Data to W&B</title>
 </head>
 
-## Import Data
+Export data or import data from MLFlow with W&B Public APIs.
 
-### MLFlow
+## Import Data from MLFLow
+
+
+
 W&B supports importing data from MLFlow, including experiments, runs, artifacts, metrics, and other metadata.
 
 #### Quickstart
