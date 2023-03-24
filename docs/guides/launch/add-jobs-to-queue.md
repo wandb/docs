@@ -113,10 +113,10 @@ Find additional information about the jobs such as the:
 
 ## Status of queued runs
 
-<!-- markdown table of all job statuses -->
 | Status | Description |
 | --- | --- |
 | **-- Idle** | The run is in a queue with no active agents. |
+| **Claimed** | The run has been picked up by an agent but has not yet started. |
 | **Running** | The run is currently executing. |
 | **Killed** | The job was killed by the user. |
 | **Failed** | The run ended with a non-zero exit code. |
