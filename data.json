@@ -461,10 +461,6 @@
       "to": "/guides/integrations"
     },
     {
-      "from": "/guides/integrations",
-      "to": "/guides/integrations"
-    },
-    {
       "from": "/guides/integrations/add-wandb-to-any-library",
       "to": "/guides/integrations/add-wandb-to-any-library"
     },
