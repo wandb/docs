@@ -29,18 +29,19 @@ The following procedure demonstrates how to add a job to a queue interactively w
 
 3. The **Jobs Page** displays a list of W&B Jobs that were created from previously executed W&B Runs. Find information about the jobs such as the:
 
-* **Job ID**: Unique Job ID name. For more information about job naming conventions, see [Job naming conventions](create-job#job-naming-conventions).
-* **Versions**: The number of job versions.
-* **Runs**: The number of W&B Runs created by the associated job.
-* **Creation date**: The creation date of the job.
-* **Last run**: The timestamp of the last run created by the job.
+> * **Job ID**: Unique Job ID name. For more information about job naming conventions, see [Job naming conventions](create-job#job-naming-conventions).
+> * **Versions**: The number of job versions.
+> * **Runs**: The number of W&B Runs created by the associated job.
+> * **Creation date**: The creation date of the job.
+> * **Last run**: The timestamp of the last run created by the job.
 
 ![](/images/launch/view_jobs.png)
 
 4. Select the **Launch** button next to the job name. A UI modal will appear.
 5. Within the modal select the:
-* Job version you want to add to your queue from the **Job version** dropdown. In this example we only have one version, so we select `v0`. 
-* Select the **Paste from…** button to automatically propagate hyperparameters used from a specific W&B Run. In the following image, we have two runs to choose from.
+   
+> * Job version you want to add to your queue from the **Job version** dropdown. In this example we only have one version, so we select `v0`. 
+> * Select the **Paste from…** button to automatically propagate hyperparameters used from a specific W&B Run. In the following image, we have two runs to choose from.
 
 ![](/images/launch/create_starter_queue_gs.png)
 6. From the **Queue** dropdown, select **Starter queue**.  
