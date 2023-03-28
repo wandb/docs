@@ -229,6 +229,10 @@
       "to": "/guides/integrations/docker"
     },
     {
+      "from": "/docs/integrations/sagemaker.html",
+      "to": "/guides/integrations/sagemaker"
+    },
+    {
       "from": "/docs/restoring.html",
       "to": "/guides"
     },
@@ -391,6 +395,10 @@
     {
       "from": "/guides/config",
       "to": "/guides/sweeps/define-sweep-configuration"
+    },
+    {
+      "from": "/guides/configurations",
+      "to": "/guides/track/config"
     },
     {
       "from": "/guides/data-vis/log-tables",
@@ -729,6 +737,10 @@
       "to": "/guides"
     },
     {
+      "from": "/guides/projects/sharing-and-visibility",
+      "to": "/guides"
+    },
+    {
       "from": "/guides/reference/data_types",
       "to": "/ref/python/data-types"
     },
@@ -841,6 +853,10 @@
       "to": "/guides/runs/grouping"
     },
     {
+      "from": "/guides/track/advanced/init",
+      "to": "/guides/track"
+    },
+    {
       "from": "/guides/track/advanced/integrations",
       "to": "/guides/track"
     },
@@ -865,12 +881,12 @@
       "to": "/guides/track/jupyter"
     },
     {
-      "from": "/guides/track/distributed-training",
-      "to": "/guides/track/log/distributed-training"
+      "from": "/guides/track/configurations",
+      "to": "/guides/track/config"
     },
     {
-      "from": "/guides/track/environment-variables",
-      "to": "/guides/track/environment-variables"
+      "from": "/guides/track/distributed-training",
+      "to": "/guides/track/log/distributed-training"
     },
     {
       "from": "/guides/track/grouping",
@@ -882,6 +898,10 @@
     },
     {
       "from": "/guides/track/log",
+      "to": "/guides/track/log"
+    },
+    {
+      "from": "/guides/track/log-a-model",
       "to": "/guides/track/log"
     },
     {
@@ -1109,6 +1129,10 @@
       "to": "/guides/integrations/catalyst"
     },
     {
+      "from": "/library/integrations/cpp",
+      "to": "/guides/integrations"
+    },
+    {
       "from": "/library/integrations/docker",
       "to": "/guides/integrations/docker"
     },
@@ -1231,6 +1255,10 @@
     {
       "from": "/library/technical-faq",
       "to": "/guides/hosting/faq"
+    },
+    {
+      "from": "/library/wandb.alert",
+      "to": "/ref/python/"
     },
     {
       "from": "/library/wandb.init",
@@ -1577,6 +1605,10 @@
       "to": "/guides/sweeps/add-w-and-b-to-your-code"
     },
     {
+      "from": "/sweeps/overview/getting-started",
+      "to": "/guides/sweeps/quickstart"
+    },
+    {
       "from": "/sweeps/overview/quickstart",
       "to": "/guides/sweeps/quickstart"
     },
@@ -1639,17 +1671,21 @@
     "/adsfasdf",
     "/afs",
     "/guides/%3Cscript%3Ealert(1)%3C/script%3E",
+    "/guides/artifacts/storagecifar10%20clustering",
     "/guides/hosting/setup/configurationhttp://10.0.7.62:8080/authorize",
     "/guides/integrations/dagster'",
     "/guides/integrations/mmf",
     "/guides/repors",
     "/guides/runs",
+    "/guides/runs/r",
+    "/guides/t",
     "/guides/track/jupyter",
     "/guides/track/log/log-tables",
     "/guides/track/log/media",
     "/guides/track/log/mediaraise%20TypeError(%22iteration%20over%20a%200-d%20tensor%22)TypeError:%20iteration%20over%20a%200-d%20tensor",
     "/integrations/lightningg",
     "/manan-goel/gnn-recommender/amazon_product_graph:latest",
+    "/quickstart]",
     "/ref",
     "/ref/app/features/panels/weave/embedding-projector.",
     "/ref/python/data-types/histogram",
