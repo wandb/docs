@@ -69,13 +69,16 @@ const Chatbot: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputText, setInputText] = useState('');
+
     const [queryState, setQueryState] = useState<
         {type: 'idle'} |
         {type: 'waiting'} |
         {type: 'error', error: Error}
     >({type: 'idle'});
-    const messagePaneRef = React.useRef<HTMLDivElement>(null);
 
+    const waiting = queryState.type === 'waiting';
+
+    const messagePaneRef = React.useRef<HTMLDivElement>(null);
     React.useEffect(() => {
         const chatContainer = messagePaneRef.current;
         if (!chatContainer) return;
@@ -89,7 +92,7 @@ const Chatbot: React.FC = () => {
     }
 
     const handleSendMessage = async () => {
-        if (queryState.type === 'waiting') return;
+        if (waiting) return;
         if (!inputText.trim()) return;
 
         addMessage({ type: 'sent', sender: 'user', content: inputText });
@@ -127,8 +130,6 @@ const Chatbot: React.FC = () => {
 
         addMessage(responseMsg);
     };
-
-    const waiting = queryState.type === 'waiting';
 
     return (
         <ChatbotContainer>
