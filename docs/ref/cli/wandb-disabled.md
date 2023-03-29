@@ -12,5 +12,6 @@ Disable W&B.
 
 | **Option** | **Description** |
 | :--- | :--- |
+| --service | Disable W&B service  [default: True] |
 | --help | Show this message and exit. |
 

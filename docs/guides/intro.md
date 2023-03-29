@@ -16,7 +16,7 @@ If this is your first time using W&B we suggest you explore the following:
 1. Experience Weights & Biases in action, [run an example introduction project with Google Colab](http://wandb.me/intro).
 1. Read through the [Quickstart](../quickstart.md) for a quick overview of how and where to add W&B to your code.
 2. Read [How does Weights & Biases work?](#how-does-weights--biases-work) This section provides an overview of the building blocks of W&B.
-3. Explore our [Integrations guide](./integrations/intro.md) and our [W&B Easy Integration YouTube](https://www.youtube.com/watch?v=UkjwWybwh8g&list=PLD80i8An1OEGDADxOBaH71ZwieZ9nmPGC&index=3&ab_channel=Weights%26Biases) playlist for information on how to integrate W&B with your preferred machine learning framework.
+3. Explore our [Integrations guide](./integrations/intro.md) and our [W&B Easy Integration YouTube](https://www.youtube.com/playlist?list=PLD80i8An1OEGDADxOBaH71ZwieZ9nmPGC) playlist for information on how to integrate W&B with your preferred machine learning framework.
 4. View the [API Reference guide](../ref/README.md) for technical specifications about the W&B Python Library, CLI, and Weave operations.
 
 

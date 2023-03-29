@@ -6,8 +6,8 @@
 
 **Summary**
 
-Simple wrapper for `docker run` which adds WANDB_API_KEY and WANDB_DOCKER
-environment variables to any docker run command.
+Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER environment
+variables.
 
 This will also set the runtime to nvidia if the nvidia-docker executable is
 present on the system and --runtime wasn't set.

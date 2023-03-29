@@ -2,11 +2,11 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/wandb_agent.py#L589-L649)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/wandb_agent.py#L592-L650)
 
 
 
-Generic agent entrypoint, used for CLI or jupyter.
+Run a function or program with configuration parameters specified by server.
 
 ```python
 agent(
@@ -17,8 +17,7 @@ agent(
 
 
 
-Will run a function or program with configuration parameters specified
-by server.
+Generic agent entrypoint, used for CLI or jupyter.
 
 | Arguments | |
 | :--- | :--- |

@@ -121,7 +121,21 @@ const sidebars = {
         'guides/reports/reports-faq',
       ],
     },
-    'guides/launch/intro',
+    {
+      type: 'category',
+      label: 'Launch jobs',
+      link: {
+        type: 'doc', 
+        id : 'guides/launch/intro'
+      },
+      items: [
+        'guides/launch/getting-started',
+        'guides/launch/prerequisites',
+        'guides/launch/create-job',
+        'guides/launch/add-jobs-to-queue',
+        'guides/launch/launch-jobs',
+      ],
+    },
     {
       type: 'category',
       label: 'Data and model versioning',
@@ -333,6 +347,7 @@ const sidebars = {
           ],
         },
         'guides/integrations/huggingface',
+        'guides/integrations/other/accelerate',
         'guides/integrations/other/hydra',
         'guides/integrations/keras',
         'guides/integrations/other/kubeflow-pipelines-kfp',
@@ -347,6 +362,7 @@ const sidebars = {
         'guides/integrations/other/paddleocr',
         'guides/integrations/other/prodigy',
         'guides/integrations/pytorch',
+        'guides/integrations/pytorch-geometric',
         'guides/integrations/other/ignite',
         'guides/integrations/lightning',
         'guides/integrations/other/ray-tune',

@@ -2,11 +2,11 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/molecule.py#L23-L242)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/molecule.py#L23-L239)
 
 
 
-Wandb class for 3D Molecular data
+Wandb class for 3D Molecular data.
 
 ```python
 Molecule(
@@ -33,7 +33,7 @@ Molecule(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/molecule.py#L98-L163)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/molecule.py#L97-L161)
 
 ```python
 @classmethod
@@ -45,7 +45,7 @@ from_rdkit(
 ) -> "Molecule"
 ```
 
-Convert RDKit-supported file/object types to wandb.Molecule
+Convert RDKit-supported file/object types to wandb.Molecule.
 
 
 | Arguments | |
@@ -61,7 +61,7 @@ Convert RDKit-supported file/object types to wandb.Molecule
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/data_types/molecule.py#L165-L203)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/molecule.py#L163-L200)
 
 ```python
 @classmethod
@@ -74,7 +74,7 @@ from_smiles(
 ) -> "Molecule"
 ```
 
-Convert SMILES string to wandb.Molecule
+Convert SMILES string to wandb.Molecule.
 
 
 | Arguments | |

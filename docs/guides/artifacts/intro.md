@@ -15,7 +15,7 @@ Artifacts and runs form a directed graph because a given W&B run can use another
 
 The following animation demonstrates an example artifacts DAG as seen in the W&B App UI.
 
-![Example artifact DAG](/images/artifacts/example_dag_view.gif)
+![Example artifact DAG](/images/artifacts/dag_view_of_artifacts.png)
 
 For more information about exploring an artifacts graph, see [Explore and traverse an artifact graph](explore-and-traverse-an-artifact-graph.md).
 

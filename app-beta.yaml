@@ -1,0 +1,3 @@
+service: beta
+runtime: nodejs16
+entrypoint: yarn serve
