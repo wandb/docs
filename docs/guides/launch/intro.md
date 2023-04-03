@@ -15,6 +15,8 @@ W&B Launch introduces a connective layer between machine learning practioners an
 
 Launch workflows are powered by three fundamental compoenents: **jobs, queues, and agents**.
 
+![](/images/launch/Launch_Diagram.png)
+
 
 * **Jobs** are blueprints for configuring and running the tasks in your ML workflow. A job is actually an [Artifact](../../guides/artifacts/intro.md) that is created automatically when you track a run with W&B. Each job contains contextual information about the run it is being created from, including the source code, entrypoint, software dependencies, hyperparameters, dataset version, etc.
 
