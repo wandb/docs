@@ -6,9 +6,7 @@ import TabItem from '@theme/TabItem';
 
 # Add jobs to your queue
 
-Launch queues possess one or more W&B Jobs that are executed when you start a W&B Launch agent. A launch queue has a compute resource associated to that queue. Launch queues are entity-scoped. This means that anyone who has access to the entity can use the queue to launch jobs.
-
-For example, suppose a team has a queue configured to a Kubernetes cluster. Anyone on that team, or who has access to that entity, can send jobs to that cluster with the W&B App or W&B CLI.
+Use W&B launch to queue up jobs for execution on a particular compute resource. Users submit workloads in the form of jobs to a launch queue, then any agent polling on that queue can pop a workload and execute it according to the configuration and type of the queue, e.g. via Docker, Kubernetes, etc. Queues can be created by and for individual W&B users, or shared across W&B Teams. In either case, queue setup should be done once and then jobs can be added to the queue as needed. In this guide, we will walk through how to add jobs to a launch queue once it has been set up.
 
 ## Add jobs to your queue
 Add jobs to your queue interactively with the W&B App or programmatically with the CLI.
@@ -106,7 +104,7 @@ Find additional information about the jobs such as the:
    - **Project**: The name of the project the run belongs to.
    - **Status**: The status of the queued run. 
    - **Author**: The W&B entity that created the run.
-   - **Creation date**: The time stamp when the queue was created.
+   - **Creation date**: The timestamp when the queue was created.
    - **Start time**: The timestamp when the job started.
    - **Duration**: Time, in seconds, it took to complete the job’s run.
 
