@@ -166,7 +166,7 @@ wandb: Find logs at: ./wandb/run-20230323_120437-p89pnj2u/logs
 
 Navigate to your new **launch-quickstart** project in your W&B account and open the jobs tab from the nav on the left side of the screen.
 
-![](../../../images/launch/jobs-tab.png)
+![](/images/launch/jobs-tab.png)
 
 The **Jobs** page displays a list of W&B Jobs that were created from previously executed W&B Runs. You should see a job named **job-source-launch-quickstart-main.py**. You can edit the name of the job from the jobs page if you would like to make the job a bit more memorable. Click on your job to open a detailed view of your job including the source code and dependencies for the job and a list of runs that have been launched from this job.
 
@@ -181,7 +181,7 @@ When you click the button, a drawer will slide from the right side of your scree
 * **Resource**: the execution platform for jobs in this queue. Check out the other options, but for this walkthrough we will use the default: **Docker container**.
 * **Configuration**: json configuration that will passed to any launch agent that polls on this queue. This can be left blank, but some additional configuration does need to be provided in order to leverage GPU.
 
-![](@/../../../../images/launch/create-queue.gif)
+![](/images/launch/create-queue.gif)
 
 :::info
 Add the following resource configuration in order to use GPUs in jobs submitted to this queue:
@@ -212,7 +212,7 @@ For jobs that use tensorflow on GPU, you may also need to specify a custom base 
 
 Head back to the page for your job. It should look something like the image below:
 
-![](@/../../../../images/launch/launch-job.gif)
+![](/images/launch/launch-job.gif)
 
 Click the **Launch** button in the top right to launch a new run from this job. A drawer will slide from the right side of your screen and present you with some options for your new run:
 
@@ -221,7 +221,7 @@ Click the **Launch** button in the top right to launch a new run from this job. 
 * **Queue**: the queue to launch the run on. We will select the queue we created in the previous step.
 * **Resource config**: This is non-editable and shows the queue configuration, so we can see how our job will be run when we add it to this queue.
 
-![](@/../../../../images/launch/launch-job.gif)
+![](/images/launch/launch-job.gif)
 
 Once you have configured your job as desired, click the **launch now** button at the bottom of the drawer to enqueue your launch job.
 

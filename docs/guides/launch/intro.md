@@ -13,7 +13,7 @@ W&B Launch introduces a connective layer between machine learning practitioners 
 
 ## How it works
 
-Launch workflows are powered by three fundamental compoenents: **jobs, queues, and agents**.
+Launch workflows are powered by three fundamental components: **jobs, queues, and agents**.
 
 ![](/images/launch/Launch_Diagram.png)
 
