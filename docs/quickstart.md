@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 Install W&B and start tracking your machine learning experiments in minutes.
 
-## Create an account and install W&B
+## 1. Create an account and install W&B
 Before you get started, make sure you create an account and install W&B:
 
 1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then login to your wandb account.  
@@ -45,7 +45,7 @@ Install the CLI and Python library for interacting with the Weights and Biases A
   </TabItem>
 </Tabs>
 
-## Log in to W&B
+## 2. Log in to W&B
 
 
 <Tabs
@@ -84,7 +84,7 @@ Provide [your API key](https://wandb.ai/authorize) when prompted.
 </Tabs>
 
 
-## Start a  run and track hyperparameters
+## 3. Start a  run and track hyperparameters
 
 Initialize a W&B Run object in your Python script or notebook with [`wandb.init()`](./ref/python/run.md) and pass a dictionary to the `config` parameter with key-value pairs of hyperparameter names and values:
 
@@ -131,7 +131,8 @@ Anything you log with `wandb.log` is stored in the run object that was most rece
 
 ## Putting it all together
 
-We put together the two code snippets above and add it to a Python loop that mimics machine learning training:
+Putting it all together, your training script might look similar to the following code example. The highlighted code shows W&B-specific code. 
+Note that we added code that mimics machine learning training.
 
 ```python
 # train.py
@@ -169,9 +170,11 @@ for epoch in range(2, epochs):
 # run.log_code()
 ```
 
-That's it! W&B will print URL links where you can view your project and run on the W&B App.
+That's it! Navigate to the W&B App at [https://wandb.ai/home](https://wandb.ai/home) to view how the metrics we logged with W&B (accuracy and loss) improved during each training step.
 
-![](/images/quickstart/quickstart_image.png)
+![Shows the loss and accuracy that was tracked from each time we ran the script above. ](/images/quickstart/quickstart_image.png)
+
+The image above (click to expand) shows the loss and accuracy that was tracked from each time we ran the script above.  Each run object that was created is show within the **Runs** column. Each run name is randomly generated.
 
 
 ## What's next?
