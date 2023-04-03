@@ -4,7 +4,9 @@ description: Easily scale and manage ML jobs using W&B Launch.
 ---
 # Launch
 
+
 W&B Launch introduces a connective layer between machine learning practitioners and the high-scale, specialized hardware that powers modern machine learning workflows. Easily scale training runs from your desktop to your GPUs, quickly spin up intensive model evaluation suites, and prepare models for production inference, all without the friction of complex infrastructure.
+
 
 
 ![](/images/launch/ready_to_launch.png)
