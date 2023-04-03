@@ -62,7 +62,7 @@ Next, log in to W&B:
 wandb login
 ```
 
-Or if you're using [W&B Server:](./guides/hosting/intro.md)
+Or if you're using [W&B Server:](./guides/hosting)
 
 ```
 wandb login --host=http://wandb.your-shared-local-host.com
@@ -104,7 +104,7 @@ run = wandb.init(
 run = wandb.init(project="my-awesome-project")
 ``` -->
 
-A [run](./guides/runs/intro.md) is the basic building block of W&B. You will use them often to [track metrics](./guides/track/intro.md), [create logs](./guides/artifacts/intro.md), [create jobs](./guides/launch/intro.md), and more.
+A [run](./guides/runs) is the basic building block of W&B. You will use them often to [track metrics](./guides/track), [create logs](./guides/artifacts), [create jobs](./guides/launch), and more.
 
 
 <!-- ## Track metrics -->
@@ -201,11 +201,11 @@ See the [Alerts docs](./guides/runs/alert.md) for more information on how to set
 
 Explore the rest of the W&B ecosystem.
 
-1. Check out [W&B Integrations](./guides/integrations/intro.md) to learn how to integrate W&B with your ML framework such as PyTorch, ML library such as Hugging Face, or ML service such as SageMaker. 
-2. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [W&B Reports](./guides/reports/intro.md).
-2. Create [W&B Artifacts](./guides/artifacts/intro.md) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
-3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps](./guides/sweeps/intro.md).
-4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/data-vis/intro.md).
+1. Check out [W&B Integrations](guides/integrations) to learn how to integrate W&B with your ML framework such as PyTorch, ML library such as Hugging Face, or ML service such as SageMaker. 
+2. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [W&B Reports](./guides/reports).
+2. Create [W&B Artifacts](./guides/artifacts) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
+3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps](./guides/sweeps).
+4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/data-vis).
 
 
 ![](/images/quickstart/wandb_demo_experiments.gif) 
@@ -222,10 +222,10 @@ Explore the rest of the W&B ecosystem.
 Once you've signed in to www.wandb.ai, the API key will be on the [Authorize page](https://wandb.ai/authorize).
 
 **How do I use W&B in an automated environment?**
-If you are training models in an automated environment where it's inconvenient to run shell commands, such as Google's CloudML, you should look at our guide to configuration with [Environment Variables](guides/track/environment-variables.md).
+If you are training models in an automated environment where it's inconvenient to run shell commands, such as Google's CloudML, you should look at our guide to configuration with [Environment Variables](guides/track/environment-variables).
 
 **Do you offer local, on-prem installs?**
-Yes, you can [privately host W&B](guides/hosting/intro.md) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how. Note, to login to wandb local server you can [set the host flag](./guides/hosting/basic-setup.md#login) to the address of the local instance.  **** 
+Yes, you can [privately host W&B](guides/hosting) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how. Note, to login to wandb local server you can [set the host flag](./guides/hosting/basic-setup) to the address of the local instance.  
 
 **How do I turn off wandb logging temporarily?**
-If you're testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](guides/track/environment-variables.md).
+If you're testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](guides/track/environment-variables).

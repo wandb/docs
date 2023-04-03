@@ -1,14 +1,6 @@
 {
   "redirects": [
     {
-      "from": "/%20dataframe",
-      "to": "/guides"
-    },
-    {
-      "from": "/%EF%BC%89%E6%88%96%E8%80%85%E5%90%91wandb%E7%9A%84%E5%AE%98%E6%96%B9%E6%94%AF%E6%8C%81%E5%AF%BB%E6%B1%82%E5%B8%AE%E5%8A%A9%E3%80%82",
-      "to": "/guides"
-    },
-    {
       "from": "/&",
       "to": "/guides"
     },
@@ -201,6 +193,10 @@
       "to": "/guides/integrations/mmdetection#visualize-dataset-and-model-prediction"
     },
     {
+      "from": "/define-sweep-configuration",
+      "to": "/guides/sweeps/define-sweep-configuration"
+    },
+    {
       "from": "/deployment",
       "to": "/guides"
     },
@@ -239,6 +235,10 @@
     {
       "from": "/docs/resuming.html",
       "to": "/guides/runs/resuming"
+    },
+    {
+      "from": "/docs/saving.html",
+      "to": "/guides/app/features/panels/code"
     },
     {
       "from": "/docs/started.html",
@@ -337,6 +337,10 @@
       "to": "/guides/app/pages"
     },
     {
+      "from": "/guides/app/pages/intro",
+      "to": "/guides/app/pages"
+    },
+    {
       "from": "/guides/app/pages/settings-page",
       "to": "/guides/app/settings-page"
     },
@@ -425,10 +429,6 @@
       "to": "/guides/hosting"
     },
     {
-      "from": "/guides/hosting/faq%23how-can-users-create-an-organization-with-deploy-manager-note-this-only-applies-to-customers-on-dedicated-cloud-and-who-dont-have-an-existing-organization-with-wb&data=05%7C01%7CKanishk.Singh@bms.com%7C8a2a55abec7f478fc05908db20994a18%7C71e34cb83a564fd5a2594acadab6e4ac%7C0%7C0%7C638139615019047286%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0=%7C3000%7C%7C%7C&sdata=s0u377mknSbKSJTaRCbpRdjMtddg415UjGX5TvWKOZ8=&reserved=0",
-      "to": "/guides/hosting"
-    },
-    {
       "from": "/guides/hosting/intro",
       "to": "/guides/hosting"
     },
@@ -446,10 +446,6 @@
     },
     {
       "from": "/guides/hosting/setup/configuration",
-      "to": "/guides/hosting"
-    },
-    {
-      "from": "/guides/hosting/setup/configuration%23sso--authentication",
       "to": "/guides/hosting"
     },
     {
@@ -511,6 +507,10 @@
     {
       "from": "/guides/integrations/other",
       "to": "/guides/integrations"
+    },
+    {
+      "from": "/guides/integrations/other/accelerate",
+      "to": "/guides/integrations/accelerate"
     },
     {
       "from": "/guides/integrations/other/add-wandb-to-any-library",
@@ -865,6 +865,10 @@
       "to": "/guides/track/jupyter"
     },
     {
+      "from": "/guides/track/advanced/offline",
+      "to": "/guides/track"
+    },
+    {
       "from": "/guides/track/advanced/resuming",
       "to": "/guides/runs/resuming"
     },
@@ -885,6 +889,10 @@
       "to": "/guides/track/config"
     },
     {
+      "from": "/guides/track/data-offline",
+      "to": "/guides/track"
+    },
+    {
       "from": "/guides/track/distributed-training",
       "to": "/guides/track/log/distributed-training"
     },
@@ -894,6 +902,10 @@
     },
     {
       "from": "/guides/track/limits",
+      "to": "/guides/track"
+    },
+    {
+      "from": "/guides/track/local",
       "to": "/guides/track"
     },
     {
@@ -909,12 +921,12 @@
       "to": "/guides/track/log"
     },
     {
-      "from": "/guides/track/log/media/image-logging-de-duplication",
-      "to": "/guides/track/log/media"
+      "from": "/guides/track/log/intro",
+      "to": "/guides/track/log"
     },
     {
-      "from": "/guides/track/log/plothydra.errors.InstantiationException:%20Error%20in%20call%20to%20target%20'pytorch_lightning.loggers.wandb.WandbLogger':",
-      "to": "/guides/track/log"
+      "from": "/guides/track/log/media/image-logging-de-duplication",
+      "to": "/guides/track/log/media"
     },
     {
       "from": "/guides/track/log/tables",
@@ -1117,6 +1129,10 @@
       "to": "/guides/runs/grouping"
     },
     {
+      "from": "/library/hyperparameter-sweeps",
+      "to": "/guides/sweeps"
+    },
+    {
       "from": "/library/init",
       "to": "/ref/python/init"
     },
@@ -1285,8 +1301,8 @@
       "to": "/quickstart"
     },
     {
-      "from": "/quickstarthttps://docs.wandb.ai/quickstarthttps://esl.hohoweiya.xyz/01-Introduction/1.1-Introduction/index.htmlhttps://esl.hohoweiya.xyz/01-Introduction/1.1-Introduction/index.htmlhttps://sebastianraschka.com/pdf/slides/2022-07-scipy-corn.pdfhttps://sebastianraschka.com/pdf/slides/2022-07-scipy-corn.pdfhttps://scikit-learn.org/stable/modules/classes.htmlhttps://scikit-learn.org/stable/modules/classes.htmlhttps://github.com/TheAlgorithmshttps://github.com/TheAlgorithmshttps://github.com/TheAlgorithms/C-Plus-Plushttps://github.com/TheAlgorithms/C-Plus-Plushttps://gist.github.com/RaulSanchezVazquez/d338c271ace3e218d83e3cb6400a769chttps://gist.github.com/RaulSanchezVazquez/d338c271ace3e218d83e3cb6400a769chttps://zhuanlan.zhihu.com/p/108493730https://zhuanlan.zhihu.com/p/108493730https://zhuanlan.zhihu.com/p/68191407https://zhuanlan.zhihu.com/p/68191407https://www.zhihu.com/question/68730628https://www.zhihu.com/question/68730628https://www.zhihu.com/question/536012286https://www.zhihu.com/question/536012286https://www.zhihu.com/question/306135761https://www.zhihu.com/question/306135761https://www.zhihu.com/question/31167170https://www.zhihu.com/question/31167170https://www.zhihu.com/question/517340666https://www.zhihu.com/question/517340666https://www.zhihu.com/question/51211064https://www.zhihu.com/question/51211064https://www.zhihu.com/question/350078061https://www.zhihu.com/question/350078061https://www.zhihu.com/question/338066667https://www.zhihu.com/question/338066667https://www.zhihu.com/question/519893352https://www.zhihu.com/question/519893352https://www.google.com.hk/search",
-      "to": "/guides"
+      "from": "/ref/README",
+      "to": "/ref"
     },
     {
       "from": "/ref/api/public-methods",
@@ -1469,6 +1485,10 @@
       "to": "/ref/python/public-api/api"
     },
     {
+      "from": "/ref/python/README",
+      "to": "/ref/python"
+    },
+    {
       "from": "/ref/python/config",
       "to": "/ref/python"
     },
@@ -1482,10 +1502,6 @@
     },
     {
       "from": "/ref/python/ini",
-      "to": "/ref/python/init"
-    },
-    {
-      "from": "/ref/python/init%20for%20more%20init%20arguments.",
       "to": "/ref/python/init"
     },
     {
@@ -1517,12 +1533,24 @@
       "to": "/guides/sweeps/define-sweep-configuration"
     },
     {
+      "from": "/ref/weave/README",
+      "to": "/ref/weave"
+    },
+    {
       "from": "/reports",
       "to": "/guides/reports/create-a-report"
     },
     {
+      "from": "/resources/technical-faq",
+      "to": "/guides"
+    },
+    {
       "from": "/runner",
       "to": "/guides"
+    },
+    {
+      "from": "/scikit",
+      "to": "/guides/integrations/scikit"
     },
     {
       "from": "/search.json",
@@ -1670,30 +1698,51 @@
     "/adfsdafsadfs",
     "/adsfasdf",
     "/afs",
+    "/asdfasdfadsf",
+    "/docodile/docs/guides/app/features/custom-charts",
     "/guides/%3Cscript%3Ealert(1)%3C/script%3E",
+    "/guides/artifacts/artifacts-faqs.md",
     "/guides/artifacts/storagecifar10%20clustering",
     "/guides/hosting/setup/configurationhttp://10.0.7.62:8080/authorize",
     "/guides/integrations/dagster'",
     "/guides/integrations/mmf",
+    "/guides/integrations/yolov6",
     "/guides/repors",
     "/guides/runs",
     "/guides/runs/r",
+    "/guides/self-hosted/)%20wandb:%20You%20can%20find%20your%20API%20key%20in%20your%20browser%20here:%20https://wandb.ai/authorize",
+    "/guides/self-hosted/)i",
+    "/guides/sweeps/uncategorized%20during%20createAgentarallelize-agents",
     "/guides/t",
     "/guides/track/jupyter",
     "/guides/track/log/log-tables",
     "/guides/track/log/media",
     "/guides/track/log/mediaraise%20TypeError(%22iteration%20over%20a%200-d%20tensor%22)TypeError:%20iteration%20over%20a%200-d%20tensor",
+    "/guides/track/log/plothydra.errors.InstantiationException:%20Error%20in%20call%20to%20target%20'pytorch_lightning.loggers.wandb.WandbLogger':",
     "/integrations/lightningg",
     "/manan-goel/gnn-recommender/amazon_product_graph:latest",
+    "/plots",
     "/quickstart]",
+    "/quickstarthttps://docs.wandb.ai/quickstarthttps://esl.hohoweiya.xyz/01-Introduction/1.1-Introduction/index.htmlhttps://esl.hohoweiya.xyz/01-Introduction/1.1-Introduction/index.htmlhttps://sebastianraschka.com/pdf/slides/2022-07-scipy-corn.pdfhttps://sebastianraschka.com/pdf/slides/2022-07-scipy-corn.pdfhttps://scikit-learn.org/stable/modules/classes.htmlhttps://scikit-learn.org/stable/modules/classes.htmlhttps://github.com/TheAlgorithmshttps://github.com/TheAlgorithmshttps://github.com/TheAlgorithms/C-Plus-Plushttps://github.com/TheAlgorithms/C-Plus-Plushttps://gist.github.com/RaulSanchezVazquez/d338c271ace3e218d83e3cb6400a769chttps://gist.github.com/RaulSanchezVazquez/d338c271ace3e218d83e3cb6400a769chttps://zhuanlan.zhihu.com/p/108493730https://zhuanlan.zhihu.com/p/108493730https://zhuanlan.zhihu.com/p/68191407https://zhuanlan.zhihu.com/p/68191407https://www.zhihu.com/question/68730628https://www.zhihu.com/question/68730628https://www.zhihu.com/question/536012286https://www.zhihu.com/question/536012286https://www.zhihu.com/question/306135761https://www.zhihu.com/question/306135761https://www.zhihu.com/question/31167170https://www.zhihu.com/question/31167170https://www.zhihu.com/question/517340666https://www.zhihu.com/question/517340666https://www.zhihu.com/question/51211064https://www.zhihu.com/question/51211064https://www.zhihu.com/question/350078061https://www.zhihu.com/question/350078061https://www.zhihu.com/question/338066667https://www.zhihu.com/question/338066667https://www.zhihu.com/question/519893352https://www.zhihu.com/question/519893352https://www.google.com.hk/search",
     "/ref",
     "/ref/app/features/panels/weave/embedding-projector.",
+    "/ref/cli/wandb-log",
+    "/ref/java/wandbrun.md",
     "/ref/python/data-types/histogram",
+    "/ref/python/init%20for%20more%20init%20arguments.",
     "/ref/python/sweep",
+    "/ref/weave/artifact.md",
     "/ref/weave/int",
+    "/ref/weave/run.md",
+    "/ref/weave]",
+    "/robot.txt",
+    "/robots.txt",
     "/ryh",
     "/sauravm/Optimizers/reports/How-to-Compare-Keras-Optimizers-in-Tensorflow-for-Deep-Learning--VmlldzoxNjU1OTA4",
+    "/sweeps]",
+    "/tensorflow",
     "/translate-war/webTransUrl",
+    "/weave/run.md",
     "/zh-hans"
   ]
 }
