@@ -236,7 +236,8 @@ Read the full report [here](https://wandb.ai/ayush-thakur/huggingface/reports/Ho
 
 ### Turn on model versioning
 
-Using [Weights & Biases' Artifacts](https://docs.wandb.ai/artifacts), you can store up to 100GB of models and datasets. Logging your Hugging Face model to W&B Artifacts can be done by setting a W&B environment variable called `WANDB_LOG_MODEL` to `true`.
+Using [Weights & Biases' Artifacts](https://docs.wandb.ai/artifacts), you can store up to 100GB of models and datasets. Logging your Hugging Face model to W&B Artifacts can be done by setting a W&B environment variable called `WANDB_LOG_MODEL` to one of `'end'` or `'checkpoint'`.
+`'end'` logs only the final model while `'checkpoint'` logs the model checkpoints every [`save_steps`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.save_steps) in the [`TrainingArguments`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments).
 
 <Tabs
   defaultValue="cli"
@@ -247,14 +248,14 @@ Using [Weights & Biases' Artifacts](https://docs.wandb.ai/artifacts), you can st
   <TabItem value="cli">
 
 ```bash
-WANDB_LOG_MODEL=true
+WANDB_LOG_MODEL='end'
 ```
 
   </TabItem>
   <TabItem value="notebook">
 
 ```python
-%env WANDB_LOG_MODEL=true
+%env WANDB_LOG_MODEL='end'
 ```
 
   </TabItem>
@@ -262,14 +263,15 @@ WANDB_LOG_MODEL=true
 
 
 :::info
-Your model will be saved to W&B Artifacts as `run-{run_name}`.
+By default, your model will be saved to W&B Artifacts as `model-{run_id}` when `WANDB_LOG_MODEL` is set to `end` or `checkpoint-{run_id}` when `WANDB_LOG_MODEL` is set to `checkpoint`.
+However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.run_name) in your `TrainingArguments`, the model will be saved as `model-{run_name}` or `checkpoint-{run_name}`.
 :::
 
 Any `Trainer` you initialize from now on will upload models to your W&B project. Your model file will be viewable through the W&B Artifacts UI. See the [Weights & Biases' Artifacts guide](https://docs.wandb.ai/artifacts) for more about how to use Artifacts for model and dataset versioning.
 
 #### How do I save the best model?
 
-If `load_best_model_at_end=True` is passed to `Trainer`, then W&B will save the best performing model checkpoint to Artifacts instead of the final checkpoint.
+If `load_best_model_at_end=True` is passed to `Trainer`, then W&B will save the best performing model to Artifacts.
 
 ### Loading a saved model
 
@@ -280,7 +282,7 @@ If you saved your model to W&B Artifacts with `WANDB_LOG_MODEL`, you can downloa
 with wandb.init(project="amazon_sentiment_analysis") as run:
 
   # Connect an Artifact to the run
-  my_model_name = "run-bert-base-high-lr:latest"
+  my_model_name = "model-bert-base-high-lr:latest"
   my_model_artifact = run.use_artifact(my_model_name)
 
   # Download model weights to a folder and return the path
@@ -293,18 +295,52 @@ with wandb.init(project="amazon_sentiment_analysis") as run:
 
   # Do additional training, or run inference
 ```
+### Resume training from a checkpoint 
+If you had set `WANDB_LOG_MODEL='checkpoint'` you can also resume training by you can using the `model_dir` as the `model_name_or_path` argument in your `TrainingArguments` and pass `resume_from_checkpoint=True` to `Trainer`.
+
+```python
+last_run_id = "xxxxxxxx"  # fetch the run_id from your wandb workspace
+
+# resume the wandb run from the run_id
+with wandb.init(
+    project=os.environ["WANDB_PROJECT"],
+    id=last_run_id,
+    resume="must",) as run:
+    
+  # Connect an Artifact to the run
+  my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
+  my_checkpoint_artifact = run.use_artifact(my_model_name)
+  
+  # Download checkpoint to a folder and return the path
+  checkpoint_dir = my_checkpoint_artifact.download()
+  
+  # reinitialize your model and trainer
+  model = AutoModelForSequenceClassification.from_pretrained(
+      <model_name>, num_labels=num_labels)
+  # your awesome training arguments here.
+  training_args = TrainingArguments(...) 
+  
+  trainer = Trainer(
+      model=model,
+      args=training_args,
+      ...)
+  
+  # make sure use the checkpoint dir to resume training from the checkpoint
+  trainer.train(resume_from_checkpoint=checkpoint_dir) 
+```
+
 
 ### Additional W&B settings
 
 Further configuration of what is logged with `Trainer` is possible by setting environment variables. A full list of W&B environment variables [can be found here](https://docs.wandb.ai/library/environment-variables).
 
-| Environment Variable | Usage                                                                                                                                                                                                                                                                                                  |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `WANDB_PROJECT`      | Give your project a name                                                                                                                                                                                                                                                                               |
-| `WANDB_LOG_MODEL`    | Log the model as artifact at the end of training (`false` by default)                                                                                                                                                                                                                                  |
-| `WANDB_WATCH`        | <p>Set whether you'd like to log your models gradients, parameters or neither</p><ul><li><code>gradients</code>: Log histograms of the gradients (default)</li><li><code>all</code>: Log histograms of gradients and parameters</li><li><code>false</code>: No gradient or parameter logging</li></ul> |
-| `WANDB_DISABLED`     | Set to `true` to disable logging entirely (`false` by default)                                                                                                                                                                                                                                         |
-| `WANDB_SILENT`       | Set to `true` to silence the output printed by wandb (`false` by default)                                                                                                                                                                                                                              |
+| Environment Variable | Usage                                                                                                                                                                                                                                                                                                    |
+| -------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `WANDB_PROJECT`      | Give your project a name (`huggingface` by default)                                                                                                                                                                                                                                                      |
+| `WANDB_LOG_MODEL`    | Log the model as artifact at the end of training (`false` by default)                                                                                                                                                                                                                                    |
+| `WANDB_WATCH`        | <p>Set whether you'd like to log your models gradients, parameters or neither</p><ul><li><code>false</code> (default): No gradient or parameter logging </li><li><code>gradients</code>: Log histograms of the gradients </li><li><code>all</code>: Log histograms of gradients and parameters</li></ul> |
+| `WANDB_DISABLED`     | Set to `true` to disable logging entirely (`false` by default)                                                                                                                                                                                                                                           |
+| `WANDB_SILENT`       | Set to `true` to silence the output printed by wandb (`false` by default)                                                                                                                                                                                                                                |
 
 <Tabs
   defaultValue="cli"

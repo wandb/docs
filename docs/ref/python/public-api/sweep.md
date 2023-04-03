@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2483-L2693)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2487-L2697)
 
 
 
@@ -47,7 +47,7 @@ sweep = api.sweep(path/to/sweep)
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2578-L2601)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2582-L2605)
 
 ```python
 best_run(
@@ -55,14 +55,14 @@ best_run(
 )
 ```
 
-Returns the best run sorted by the metric defined in config or the order passed in
+Return the best run sorted by the metric defined in config or the order passed in.
 
 
 ### `display`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L971-L982)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L979-L990)
 
 ```python
 display(
@@ -70,14 +70,14 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter
+Display this object in jupyter.
 
 
 ### `get`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2626-L2675)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2630-L2679)
 
 ```python
 @classmethod
@@ -86,14 +86,14 @@ get(
 )
 ```
 
-Execute a query against the cloud backend
+Execute a query against the cloud backend.
 
 
 ### `load`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2559-L2567)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2563-L2571)
 
 ```python
 load(
@@ -108,7 +108,7 @@ load(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L967-L969)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L975-L977)
 
 ```python
 snake_to_camel(
@@ -123,7 +123,7 @@ snake_to_camel(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2677-L2685)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2681-L2689)
 
 ```python
 to_html(
@@ -131,7 +131,7 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this sweep
+Generate HTML containing an iframe displaying this sweep.
 
 
 

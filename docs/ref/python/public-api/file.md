@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2762-L2841)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2766-L2845)
 
 
 
@@ -31,7 +31,7 @@ File(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2821-L2834)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2825-L2838)
 
 ```python
 delete()
@@ -44,7 +44,7 @@ delete()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L971-L982)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L979-L990)
 
 ```python
 display(
@@ -52,14 +52,14 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter
+Display this object in jupyter.
 
 
 ### `download`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L2788-L2819)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2792-L2823)
 
 ```python
 download(
@@ -88,7 +88,7 @@ Downloads a file previously saved by a run from the wandb server.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L967-L969)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L975-L977)
 
 ```python
 snake_to_camel(
@@ -103,11 +103,11 @@ snake_to_camel(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L984-L985)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L992-L993)
 
 ```python
 to_html(
- \*args, **kwargs
+ *args, **kwargs
 )
 ```
 

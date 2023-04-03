@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1459-L1541)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1465-L1547)
 
 
 
@@ -31,7 +31,7 @@ Project(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1492-L1494)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1498-L1500)
 
 ```python
 artifacts_types(
@@ -46,7 +46,7 @@ artifacts_types(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L971-L982)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L979-L990)
 
 ```python
 display(
@@ -54,14 +54,14 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter
+Display this object in jupyter.
 
 
 ### `snake_to_camel`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L967-L969)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L975-L977)
 
 ```python
 snake_to_camel(
@@ -76,7 +76,7 @@ snake_to_camel(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1496-L1541)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1502-L1547)
 
 ```python
 sweeps()
@@ -89,7 +89,7 @@ sweeps()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1476-L1484)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1482-L1490)
 
 ```python
 to_html(
@@ -97,7 +97,7 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this project
+Generate HTML containing an iframe displaying this project.
 
 
 

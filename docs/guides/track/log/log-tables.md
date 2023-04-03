@@ -118,7 +118,7 @@ For more information on Artifacts, see the [Artifacts Chapter](../../artifacts/i
 
 ## Visualize tables
 
-Any table logged this way will show up in your Workspace on both the Run Page and the Project Page. For more information, see [Visualize and Analyze Tables](./tables).
+Any table logged this way will show up in your Workspace on both the Run Page and the Project Page. For more information, see [Visualize and Analyze Tables](../../data-vis/tables).
 
 
 ## Advanced: Artifact Tables

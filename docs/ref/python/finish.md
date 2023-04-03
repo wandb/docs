@@ -2,11 +2,11 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/sdk/wandb_run.py#L3660-L3671)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L3658-L3669)
 
 
 
-Marks a run as finished, and finishes uploading all data.
+Mark a run as finished, and finish uploading all data.
 
 ```python
 finish(

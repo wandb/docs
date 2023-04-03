@@ -21,7 +21,9 @@ Initialize the [`wandb.Artifact()`](https://docs.wandb.ai/ref/python/artifact) c
 * **Name**: Specify a name for your artifact. The name should be unique, descriptive, and easy to remember. Use an artifacts name to both: identify the artifact in the W&B App UI and when you want to use that artifact.
 * **Type**: Provide a type. The type should be simple, descriptive and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
 
-:::note
+You can view the lineage of an artifact within the W&B App UI. The "name" and "type" you provide is used to create a directed acyclic graph. See the [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph.md) for more information.
+
+:::caution
 Artifacts can not have the same name, even if you specify a different type for the types parameter. In other words, you can not create an artifact named ‘cats’ of type ‘dataset’ and another artifact with the same name of type ‘model’.
 :::
 

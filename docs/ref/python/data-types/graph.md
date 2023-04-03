@@ -2,11 +2,11 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/data_types.py#L1375-L1536)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L1386-L1547)
 
 
 
-Wandb class for graphs
+Wandb class for graphs.
 
 ```python
 Graph(
@@ -36,7 +36,7 @@ Import a keras model:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/data_types.py#L1462-L1466)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L1473-L1477)
 
 ```python
 add_edge(
@@ -51,7 +51,7 @@ add_edge(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/data_types.py#L1448-L1460)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L1459-L1471)
 
 ```python
 add_node(
@@ -66,7 +66,7 @@ add_node(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/data_types.py#L1468-L1497)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L1479-L1508)
 
 ```python
 @classmethod
@@ -82,7 +82,7 @@ from_keras(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/data_types.py#L1442-L1446)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L1453-L1457)
 
 ```python
 pprint()
@@ -95,7 +95,7 @@ pprint()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/data_types.py#L1439-L1440)
+[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L1450-L1451)
 
 ```python
 __getitem__(

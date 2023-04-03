@@ -4,20 +4,61 @@ description: Track your trees with W&B.
 
 # XGBoost
 
-The `wandb` library includes a special callback for [XGBoost](https://xgboost.readthedocs.io/en/latest/index.html). It's also easy to use the generic logging features of Weights & Biases to track large experiments, like hyperparameter sweeps.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://wandb.me/xgboost)
+
+The `wandb` library has a `WandbCallback` callback for logging metrics, configs and saved boosters from training with XGBoost. Here you can see a **[live Weights & Biases dashboard](https://wandb.ai/morg/credit_scorecard)** with outputs from the XGBoost `WandbCallback`.
+
+![Weights & Biases dashboard using XGBoost](/images/integrations/xgb_dashboard.png)
+
+## Get Started
+
+Logging XGBoost metrics, configs and booster models to Weights & Biases is as easy as passing the `WandbCallback` to XGBoost:
 
 ```python
-from wandb.xgboost import wandb_callback
-import xgboost as xgb
+from wandb.xgboost import WandbCallback
+import xgboost as XGBClassifier
 
 ...
+# Start a wandb run
+run = wandb.init()
 
-bst = xgb.train(param, train_data, num_round, watchlist,
-                callbacks=[wandb_callback()])
+# Pass WandbCallback to the model
+bst = XGBClassifier()
+bst.fit(X_train, y_train, 
+    callbacks=[WandbCallback(log_model=True)])
+
+# Close your wandb run
+run.finish()
 ```
 
+You can open **[this notebook](https://wandb.me/xgboost)** for a comprehensive look at logging with XGBoost and Weights & Biases
+
+## WandbCallback
+
+### Functionality
+Passing `WandbCallback` to a XGBoost model will:
+- log the booster model configuration to Weights & Biases
+- log evaluation metrics collected by XGBoost, such as rmse, accuracy etc to Weights & Biases
+- log training metrics collected by XGBoost (if you provide data to eval_set)
+- log the best score and the best iteration
+- save and upload your trained model to to Weights & Biases Artifacts (when `log_model = True`)
+- log feature importance plot when `log_feature_importance=True` (default).
+- Capture the best eval metric in `wandb.summary` when `define_metric=True` (default).
+
+### Arguments
+`log_model`: (boolean) if True save and upload the model to Weights & Biases Artifacts
+
+`log_feature_importance`: (boolean) if True log a feature importance bar plot
+
+`importance_type`: (str) one of {weight, gain, cover, total_gain, total_cover} for tree model. weight for linear model.
+
+`define_metric`: (boolean) if True (default) capture model performance at the best step, instead of the last step, of training in your `wandb.summary`.
+
+
+You can find the source code for WandbCallback [here](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)
+
 :::info
-Looking for working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms) or try out a [Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit\_Scorecards\_with\_XGBoost\_and\_W%26B.ipynb)
+Looking for more working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms) or try out a [Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit\_Scorecards\_with\_XGBoost\_and\_W%26B.ipynb)
 :::
 
 ## Tuning your hyperparameters with Sweeps

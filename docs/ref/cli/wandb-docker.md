@@ -6,6 +6,8 @@
 
 **Summary**
 
+Run your code in a docker container.
+
 W&B docker lets you run your code in a docker image ensuring wandb is
 configured. It adds the WANDB_DOCKER and WANDB_API_KEY environment variables
 to your container and mounts the current directory in /app by default.  You
@@ -13,9 +15,9 @@ can pass additional args which will be added to `docker run` before the
 image name is declared, we'll choose a default image for you if one isn't
 passed:
 
-wandb docker -v /mnt/dataset:/app/data wandb docker gcr.io/kubeflow-images-
-public/tensorflow-1.12.0-notebook-cpu:v0.4.0 --jupyter wandb docker
-wandb/deepo:keras-gpu --no-tty --cmd "python train.py --epochs=5"
+```sh wandb docker -v /mnt/dataset:/app/data wandb docker gcr.io/kubeflow-
+images-public/tensorflow-1.12.0-notebook-cpu:v0.4.0 --jupyter wandb docker
+wandb/deepo:keras-gpu --no-tty --cmd "python train.py --epochs=5" ```
 
 By default, we override the entrypoint to check for the existence of wandb
 and install it if not present.  If you pass the --jupyter flag we will
