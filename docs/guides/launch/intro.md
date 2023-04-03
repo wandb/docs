@@ -6,7 +6,7 @@ description: Easily queue and manage jobs using W&B Launch.
 
 ## What is Launch?
 
-W&B Launch introduces a connective layer between machine learning practitioner and the high-scale, specialized hardware that powers modern machine learning workflows. Easily scale training from your desktop to GPUs such as when you run intensive model evaluation suites or transfer models for production inference.
+W&B Launch introduces a connective layer between machine learning practitioners and the high-scale, specialized hardware that powers modern machine learning workflows. Easily scale training runs from your desktop to your GPUs, quickly spin up, intensive model evaluation suites, and prepare models for production inference, all without the friction of complex infrastructure.
 
 
 ![](/images/launch/ready_to_launch.png)
