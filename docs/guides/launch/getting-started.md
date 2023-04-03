@@ -193,6 +193,19 @@ Add the following resource configuration in order to use GPUs in jobs submitted 
 ```
 
 The `gpus` key of the resource configuration is used to pass values to the `--gpus` argument of `docker run`. This argument can be used to control which GPUs will be used for by a launch agent when it picks up runs from this queue. For more information, see the relevant [NVIDIA documentation](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#gpu-enumeration).
+
+For jobs that use tensorflow on GPU, you may also need to specify a custom base image for the container build that the agent will perform in order for your runs to properly utilize GPUs. This can be done by adding an image tag under the `builder.cuda.base_image` key to the resource configuration. For example:
+
+```json
+{
+    "gpus": "all",
+    "builder": {
+        "cuda": {
+            "base_image": "tensorflow/tensorflow:latest-gpu"
+        }
+    }
+}
+```
 :::
 
 ## Add a job to your queue
