@@ -26,13 +26,19 @@ Launch workflows are powered by three fundamental components: **jobs, queues, an
 
 ## How to get started
 
-
 To enable W&B Launch:
 
 1. Navigate to https://wandb.ai/settings.
 2. Scroll down to the **Beta Features** section and enable **W&B Launch**.
 
 ![](/images/launch/toggle_beta_flag.png)
+
+:::info
+Please ensure you are on SDK version 0.14.0 or higher by running ```
+wandb --version```.
+
+If you're on W&B Dedicated Cloud or a Customer-Managed W&B deployment, please ensure you are on version 0.30 or higher of W&B Server.
+:::
 
 Depending on your use case, explore the following resources to get started with Weights & Biases Launch:
 
