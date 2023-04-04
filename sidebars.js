@@ -18,7 +18,7 @@ const sidebars = {
     'quickstart',
     {
       type: 'category',
-      label: 'Track Experiments',
+      label: 'Experiments',
       link: {type: 'doc', id: 'guides/track/intro'},
       items: [
         // 'guides/track/intro',
@@ -65,6 +65,21 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Reports',
+      link: {type: 'doc', id: 'guides/reports/intro'},
+      items: [
+        // 'guides/reports/intro',
+        'guides/reports/create-a-report',
+        'guides/reports/edit-a-report',
+        'guides/reports/collaborate-on-reports',
+        'guides/reports/clone-and-export-reports',
+        'guides/reports/embed-reports',
+        'guides/reports/cross-project-reports',
+        'guides/reports/reports-faq',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Artifacts',
       link: {type: 'doc', id: 'guides/artifacts/intro'},
       items: [
@@ -86,7 +101,17 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Tune Hyperparameters',
+      label: 'Tables',
+      link: {type: 'doc', id: 'guides/data-vis/intro'},
+      items: [
+        // 'guides/data-vis/intro',
+        'guides/data-vis/tables-quickstart',
+        'guides/data-vis/tables',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Sweeps',
       link: {type: 'doc', id: 'guides/sweeps/intro'},
       items: [
         // 'guides/sweeps/intro',
@@ -108,22 +133,17 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Collaborative Reports',
-      link: {type: 'doc', id: 'guides/reports/intro'},
+      label: 'Models',
+      link: {type: 'doc', id: 'guides/models/intro'},
       items: [
-        // 'guides/reports/intro',
-        'guides/reports/create-a-report',
-        'guides/reports/edit-a-report',
-        'guides/reports/collaborate-on-reports',
-        'guides/reports/clone-and-export-reports',
-        'guides/reports/embed-reports',
-        'guides/reports/cross-project-reports',
-        'guides/reports/reports-faq',
+        // 'guides/models/intro',
+        'guides/models/model-management-concepts',
+        'guides/models/walkthrough',
       ],
     },
     {
       type: 'category',
-      label: 'Launch jobs',
+      label: 'Launch',
       link: {
         type: 'doc', 
         id : 'guides/launch/intro'
@@ -148,27 +168,29 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Model Management',
-      link: {type: 'doc', id: 'guides/models/intro'},
+      label: 'W&B Server',
+      link: {type: 'doc', id: 'guides/hosting/intro'},
       items: [
-        // 'guides/models/intro',
-        'guides/models/model-management-concepts',
-        'guides/models/walkthrough',
+        // 'guides/hosting/intro',
+        'guides/hosting/basic-setup',
+        {
+          type: 'category',
+          label: 'Production Setup',
+          link: {type: 'doc', id: 'guides/hosting/setup/intro'},
+          items: [
+            // 'guides/hosting/setup/intro',
+            'guides/hosting/setup/dedicated-cloud',
+            'guides/hosting/setup/private-cloud',
+            'guides/hosting/setup/on-premise-baremetal',
+            'guides/hosting/setup/configuration',
+          ],
+        },
+        'guides/hosting/faq',
       ],
     },
     {
       type: 'category',
-      label: 'Data Visualization',
-      link: {type: 'doc', id: 'guides/data-vis/intro'},
-      items: [
-        // 'guides/data-vis/intro',
-        'guides/data-vis/tables-quickstart',
-        'guides/data-vis/tables',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'W&B App UI',
+      label: 'App Reference',
       link: {type: 'doc', id: 'guides/app/intro'},
       items: [
         // 'guides/app/intro',
@@ -266,40 +288,6 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Private Hosting',
-      link: {type: 'doc', id: 'guides/hosting/intro'},
-      items: [
-        // 'guides/hosting/intro',
-        'guides/hosting/basic-setup',
-        {
-          type: 'category',
-          label: 'Production Setup',
-          link: {type: 'doc', id: 'guides/hosting/setup/intro'},
-          items: [
-            // 'guides/hosting/setup/intro',
-            'guides/hosting/setup/dedicated-cloud',
-            'guides/hosting/setup/private-cloud',
-            'guides/hosting/setup/on-premise-baremetal',
-            'guides/hosting/setup/configuration',
-          ],
-        },
-        'guides/hosting/faq',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Technical FAQ',
-      link: {type: 'doc', id: 'guides/technical-faq/intro'},
-      items: [
-        // 'guides/hosting/technical-faq/intro',
-        'guides/technical-faq/general',
-        'guides/technical-faq/metrics-and-performance',
-        'guides/technical-faq/setup',
-        'guides/technical-faq/troubleshooting',
-      ],
-    },
-    {
-      type: 'category',
       label: 'Integrations',
       link: {type: 'doc', id: 'guides/integrations/intro'},
       items: [
@@ -353,6 +341,18 @@ const sidebars = {
         'guides/integrations/yolov5',
         'guides/integrations/other/yolox',
         
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Technical FAQ',
+      link: {type: 'doc', id: 'guides/technical-faq/intro'},
+      items: [
+        // 'guides/hosting/technical-faq/intro',
+        'guides/technical-faq/general',
+        'guides/technical-faq/metrics-and-performance',
+        'guides/technical-faq/setup',
+        'guides/technical-faq/troubleshooting',
       ],
     },
   ],
