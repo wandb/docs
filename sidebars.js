@@ -158,16 +158,6 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Data and model versioning',
-      link: {type: 'doc', id: 'guides/data-and-model-versioning/intro'},
-      items: [
-        // 'guides/data-and-model-versioning/intro',
-        'guides/data-and-model-versioning/dataset-versioning',
-        'guides/data-and-model-versioning/model-versioning',
-      ],
-    },
-    {
-      type: 'category',
       label: 'W&B Server',
       link: {type: 'doc', id: 'guides/hosting/intro'},
       items: [
