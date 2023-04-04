@@ -217,6 +217,10 @@ Click the **Launch** button in the top right to launch a new run from this job. 
 ![](@/../../../../images/launch/launch-job.gif)
 
 Once you have configured your job as desired, click the **launch now** button at the bottom of the drawer to enqueue your launch job.
+:::info
+You can modify the resource configuration that a job will run with while submitting a job.
+![](@/../../../../images/launch/launch-job-update-resource.gif)
+:::
 
 ## Start a launch agent
 
