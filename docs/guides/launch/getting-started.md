@@ -1,8 +1,6 @@
 ---
 description: Getting started guide for W&B Launch.
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 # Getting started
 
@@ -216,6 +214,7 @@ For jobs that use tensorflow on GPU, you may also need to specify a custom base 
 
 
 ## Add a job to your queue
+
 Head back to the page for your job. It should look something like the image below:
 
 ![](/images/launch/launch-job.gif)
