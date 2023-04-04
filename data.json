@@ -1,18 +1,6 @@
 {
   "redirects": [
     {
-      "from": "/&",
-      "to": "/guides"
-    },
-    {
-      "from": "/)",
-      "to": "/guides"
-    },
-    {
-      "from": "//classes",
-      "to": "/guides"
-    },
-    {
       "from": "/app",
       "to": "/guides/app"
     },
@@ -265,16 +253,16 @@
       "to": "/quickstart"
     },
     {
-      "from": "/guides",
-      "to": "/"
-    },
-    {
-      "from": "/guides/'",
+      "from": "/guides/data-and-model-versioning/dataset-versioning",
       "to": "/guides"
     },
     {
-      "from": "/guides/--",
+      "from": "/guides/data-and-model-versioning/intro",
       "to": "/guides"
+    },
+    {
+      "from": "/guides/data-and-model-versioning/model-versioning",
+      "to": "/guides/models"
     },
     {
       "from": "/guides/app//settings-page/team-settings",
@@ -459,10 +447,6 @@
     {
       "from": "/guides/hosting/system-admin",
       "to": "/guides/hosting"
-    },
-    {
-      "from": "/guides/integrat",
-      "to": "/guides/integrations"
     },
     {
       "from": "/guides/integrations/add-wandb-to-any-library",
@@ -1694,16 +1678,22 @@
     }
   ],
   "ignoredPaths": [
+    "/&",
     "/",
+    "/)",
     "/adfsdafsadfs",
     "/adsfasdf",
     "/afs",
     "/asdfasdfadsf",
+    "//classes",
     "/docodile/docs/guides/app/features/custom-charts",
+    "/guides/'",
+    "/guides/--",
     "/guides/%3Cscript%3Ealert(1)%3C/script%3E",
     "/guides/artifacts/artifacts-faqs.md",
     "/guides/artifacts/storagecifar10%20clustering",
     "/guides/hosting/setup/configurationhttp://10.0.7.62:8080/authorize",
+    "/guides/integrat",
     "/guides/integrations/dagster'",
     "/guides/integrations/mmf",
     "/guides/integrations/yolov6",
