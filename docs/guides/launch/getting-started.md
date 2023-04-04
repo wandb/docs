@@ -1,6 +1,9 @@
 ---
 description: Getting started guide for W&B Launch.
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Getting started
 
 Follow this guide to get started using W&B Launch. This guide will walk you through the setup of the fundamental components of a launch workflow: a **job**, **launch queue**, and **launch queue**. 
@@ -179,7 +182,7 @@ When you click the button, a drawer will slide from the right side of your scree
 * **Entity**: the owner of the queue, which can either be your W&B account or any W&B team you are a member of. For this demo, we recommend setting up a personal queue.
 * **Queue name**: the name of the queue. Make this whatever you want!
 * **Resource**: the execution platform for jobs in this queue. Check out the other options, but for this walkthrough we will use the default: **Docker container**.
-* **Configuration**: json configuration that will passed to any launch agent that polls on this queue. This can be left blank, but some additional configuration does need to be provided in order to leverage GPU.
+* **Configuration**: default resource configurations for all jobs placed on this queue. Used to specify arguments for the resource when run. These defaults can be overridden when you enqueue a job.
 
 ![](@/../../../../images/launch/create-queue.gif)
 
@@ -193,12 +196,15 @@ Add the following resource configuration in order to use GPUs in jobs submitted 
 ```
 
 The `gpus` key of the resource configuration is used to pass values to the `--gpus` argument of `docker run`. This argument can be used to control which GPUs will be used for by a launch agent when it picks up runs from this queue. For more information, see the relevant [NVIDIA documentation](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#gpu-enumeration).
+
+Accepted configuration values include all arguments available for the `docker run` command. For more information, see the [reference](https://docs.docker.com/engine/reference/commandline/run).
 :::
+<!-- TODO: add configuration details for all runners.  Kubernetes to be completed once Kubernetes config refactor completed. -->
+<!-- ### Defining your configurations -->
+
 
 ## Add a job to your queue
-
 Head back to the page for your job. It should look something like the image below:
-
 ![](@/../../../../images/launch/launch-job.gif)
 
 Click the **Launch** button in the top right to launch a new run from this job. A drawer will slide from the right side of your screen and present you with some options for your new run:
