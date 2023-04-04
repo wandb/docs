@@ -28,7 +28,7 @@
     "@mdx-js/react": "^1.6.22",
     "clsx": "^1.2.1",
     "docusaurus-lunr-search": "^2.3.2",
-    "docusaurus-plugin-segment": "^1.0.4",
+    "@laxels/docusaurus-plugin-segment": "^1.0.6",
     "express": "^4.18.2",
     "helmet": "^6.0.1",
     "plugin-image-zoom": "^1.1.0",

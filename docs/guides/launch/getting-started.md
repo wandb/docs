@@ -169,7 +169,7 @@ wandb: Find logs at: ./wandb/run-20230323_120437-p89pnj2u/logs
 
 Navigate to your new **launch-quickstart** project in your W&B account and open the jobs tab from the nav on the left side of the screen.
 
-![](../../../images/launch/jobs-tab.png)
+![](/images/launch/jobs-tab.png)
 
 The **Jobs** page displays a list of W&B Jobs that were created from previously executed W&B Runs. You should see a job named **job-source-launch-quickstart-main.py**. You can edit the name of the job from the jobs page if you would like to make the job a bit more memorable. Click on your job to open a detailed view of your job including the source code and dependencies for the job and a list of runs that have been launched from this job.
 
@@ -184,10 +184,11 @@ When you click the button, a drawer will slide from the right side of your scree
 * **Resource**: the execution platform for jobs in this queue. Check out the other options, but for this walkthrough we will use the default: **Docker container**.
 * **Configuration**: default resource configurations for all jobs placed on this queue. Used to specify arguments for the resource when run. These defaults can be overridden when you enqueue a job.
 
-![](@/../../../../images/launch/create-queue.gif)
+![](/images/launch/create-queue.gif)
 
 :::info
-Add the following resource configuration in order to use GPUs in jobs submitted to this queue:
+
+Accepted configuration values include all arguments available for the `docker run` command. For more information, see the [reference](https://docs.docker.com/engine/reference/commandline/run). Add the following resource configuration in order to use GPUs in jobs submitted to this queue:
 
 ```json
 {
@@ -197,7 +198,18 @@ Add the following resource configuration in order to use GPUs in jobs submitted 
 
 The `gpus` key of the resource configuration is used to pass values to the `--gpus` argument of `docker run`. This argument can be used to control which GPUs will be used for by a launch agent when it picks up runs from this queue. For more information, see the relevant [NVIDIA documentation](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#gpu-enumeration).
 
-Accepted configuration values include all arguments available for the `docker run` command. For more information, see the [reference](https://docs.docker.com/engine/reference/commandline/run).
+For jobs that use tensorflow on GPU, you may also need to specify a custom base image for the container build that the agent will perform in order for your runs to properly utilize GPUs. This can be done by adding an image tag under the `builder.cuda.base_image` key to the resource configuration. For example:
+
+```json
+{
+    "gpus": "all",
+    "builder": {
+        "cuda": {
+            "base_image": "tensorflow/tensorflow:latest-gpu"
+        }
+    }
+}
+```
 :::
 <!-- TODO: add configuration details for all runners.  Kubernetes to be completed once Kubernetes config refactor completed. -->
 <!-- ### Defining your configurations -->
@@ -205,7 +217,8 @@ Accepted configuration values include all arguments available for the `docker ru
 
 ## Add a job to your queue
 Head back to the page for your job. It should look something like the image below:
-![](@/../../../../images/launch/launch-job.gif)
+
+![](/images/launch/launch-job.gif)
 
 Click the **Launch** button in the top right to launch a new run from this job. A drawer will slide from the right side of your screen and present you with some options for your new run:
 
@@ -213,7 +226,8 @@ Click the **Launch** button in the top right to launch a new run from this job. 
 * **Overrides**: new values for any of jobs inputs. These can be used to change the entrypoint command, arguments, or values in the `wandb.config` of your new run. Our run had 3 values in the `wandb.config`: `epochs`, `batch_size`, and `learning_rate`. We can override any of these values by specifying them in the overrides field. We can also paste values from other runs using this job by clicking the **Paste from...** button.
 * **Queue**: the queue to launch the run on. We will select the queue we created in the previous step.
 * **Resource config**: This advanced feature allows you to modify the resource config for the specific job being enqueued.
-![](@/../../../../images/launch/launch-job-update-resource.gif)
+![](/images/launch/launch-job-update-resource.gif)
+
 Once you have configured your job as desired, click the **launch now** button at the bottom of the drawer to enqueue your launch job.
 
 ## Start a launch agent

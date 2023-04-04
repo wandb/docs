@@ -23,7 +23,7 @@ app.use((req, res, next) => {
     : pathname;
 
   const redirectTo = redirectMap.get(pathnameWithoutTrailingSlash);
-  if (redirectTo == null) {
+  if (redirectTo == null || redirectTo === pathname) {
     next();
     return;
   }

@@ -51,11 +51,13 @@ const config = {
 
   plugins: [
     [
-      'docusaurus-plugin-segment',
+      '@laxels/docusaurus-plugin-segment',
       {
         apiKey: 'NYcqWZ8sgOCplYnItFyBaZ5ZRClWlVgl',
         host: 'wandb.ai',
         ajsPath: '/sa-docs.min.js',
+        page: false,
+        excludeUserAgents: ['GoogleSecurityScanner'],
       },
     ],
     [
