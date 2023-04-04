@@ -26,6 +26,19 @@ const sidebars = {
         'guides/track/config',
         {
           type: 'category',
+          label: 'What are Runs?',
+          link: {type: 'doc', id: 'guides/runs/intro'},
+          items: [
+            // 'guides/runs/intro',
+            // 'guides/runs/create-run',
+            'guides/runs/grouping',
+            'guides/runs/resuming',
+            'guides/runs/alert',
+            'guides/runs/manage-runs',
+          ],
+        },
+        {
+          type: 'category',
           label: 'Log Objects and Media',
           link: {type: 'doc', id: 'guides/track/log/intro'},
           items: [
@@ -50,19 +63,7 @@ const sidebars = {
         'guides/track/environment-variables',
       ],
     },
-    {
-      type: 'category',
-      label: 'Runs',
-      link: {type: 'doc', id: 'guides/runs/intro'},
-      items: [
-        // 'guides/runs/intro',
-        // 'guides/runs/create-run',
-        'guides/runs/grouping',
-        'guides/runs/resuming',
-        'guides/runs/alert',
-        'guides/runs/manage-runs',
-      ],
-    },
+
     {
       type: 'category',
       label: 'Reports',
