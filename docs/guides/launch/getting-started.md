@@ -186,7 +186,18 @@ When you click the button, a drawer will slide from the right side of your scree
 
 :::info
 
-Accepted configuration values include all arguments available for the `docker run` command. For more information, see the [reference](https://docs.docker.com/engine/reference/commandline/run). Add the following resource configuration in order to use GPUs in jobs submitted to this queue:
+Accepted configuration values include all arguments available for the `docker run` command. For more information, see the [reference](https://docs.docker.com/engine/reference/commandline/run). To handle options that can be specified more than once, place the values in a list:
+
+```json
+{
+    "env": [
+        "MY_ENV_VAR=value",
+        "MY_EXISTING_ENV_VAR"
+    ]
+}
+```
+
+Add the following resource configuration in order to use GPUs in jobs submitted to this queue:
 
 ```json
 {
