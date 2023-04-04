@@ -212,15 +212,9 @@ Click the **Launch** button in the top right to launch a new run from this job. 
 * **Job version**: the version of the job to launch. Jobs are versioned like any other W&B Artifact. Different versions of the same job will be created if you make modifications to the software dependencies or source code used to run the job. Since we only have one version, we will select the default **@latest** version.
 * **Overrides**: new values for any of jobs inputs. These can be used to change the entrypoint command, arguments, or values in the `wandb.config` of your new run. Our run had 3 values in the `wandb.config`: `epochs`, `batch_size`, and `learning_rate`. We can override any of these values by specifying them in the overrides field. We can also paste values from other runs using this job by clicking the **Paste from...** button.
 * **Queue**: the queue to launch the run on. We will select the queue we created in the previous step.
-* **Resource config**: This is non-editable and shows the queue configuration, so we can see how our job will be run when we add it to this queue.
-
-![](@/../../../../images/launch/launch-job.gif)
-
-Once you have configured your job as desired, click the **launch now** button at the bottom of the drawer to enqueue your launch job.
-:::info
-You can modify the resource configuration that a job will run with while submitting a job.
+* **Resource config**: This advanced feature allows you to modify the resource config for the specific job being enqueued.
 ![](@/../../../../images/launch/launch-job-update-resource.gif)
-:::
+Once you have configured your job as desired, click the **launch now** button at the bottom of the drawer to enqueue your launch job.
 
 ## Start a launch agent
 
