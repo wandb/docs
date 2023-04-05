@@ -193,6 +193,9 @@ Accepted configuration values include all arguments available for the `docker ru
     "env": [
         "MY_ENV_VAR=value",
         "MY_EXISTING_ENV_VAR"
+    ],
+    "volume": [
+         "/mnt/datasets:/mnt/datasets"
     ]
 }
 ```
