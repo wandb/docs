@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2487-L2697)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L2487-L2697)
 
 
 
@@ -47,7 +47,7 @@ sweep = api.sweep(path/to/sweep)
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2582-L2605)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L2582-L2605)
 
 ```python
 best_run(
@@ -62,7 +62,7 @@ Return the best run sorted by the metric defined in config or the order passed i
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L979-L990)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L979-L990)
 
 ```python
 display(
@@ -77,7 +77,7 @@ Display this object in jupyter.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2630-L2679)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L2630-L2679)
 
 ```python
 @classmethod
@@ -93,7 +93,7 @@ Execute a query against the cloud backend.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2563-L2571)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L2563-L2571)
 
 ```python
 load(
@@ -108,7 +108,7 @@ load(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L975-L977)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L975-L977)
 
 ```python
 snake_to_camel(
@@ -123,7 +123,7 @@ snake_to_camel(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2681-L2689)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L2681-L2689)
 
 ```python
 to_html(

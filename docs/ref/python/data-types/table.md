@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L150-L933)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L150-L933)
 
 
 
@@ -110,7 +110,7 @@ due to lack of consistent typing.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L829-L868)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L829-L868)
 
 ```python
 add_column(
@@ -133,7 +133,7 @@ Add a column of data to the table.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L911-L933)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L911-L933)
 
 ```python
 add_computed_columns(
@@ -154,7 +154,7 @@ Add one or more computed columns based on existing data.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L455-L488)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L455-L488)
 
 ```python
 add_data(
@@ -170,7 +170,7 @@ Argument length should match column length.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L450-L453)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L450-L453)
 
 ```python
 add_row(
@@ -185,7 +185,7 @@ Deprecated: use add_data instead.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L349-L403)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L349-L403)
 
 ```python
 cast(
@@ -208,7 +208,7 @@ Cast a column to a specific type.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L870-L893)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L870-L893)
 
 ```python
 get_column(
@@ -230,7 +230,7 @@ Retrieve a column of data from the table.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L895-L902)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L895-L902)
 
 ```python
 get_index()
@@ -243,7 +243,7 @@ Return an array of row indexes for use in other tables to create links.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L904-L909)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L904-L909)
 
 ```python
 index_ref(
@@ -258,7 +258,7 @@ Get a reference to a particular row index in the table.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L706-L720)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L706-L720)
 
 ```python
 iterrows()
@@ -282,7 +282,7 @@ row : List[any]
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L727-L731)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L727-L731)
 
 ```python
 set_fk(
@@ -297,7 +297,7 @@ set_fk(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L722-L725)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/data_types.py#L722-L725)
 
 ```python
 set_pk(

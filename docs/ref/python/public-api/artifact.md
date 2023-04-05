@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4214-L5260)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4214-L5260)
 
 
 
@@ -108,7 +108,7 @@ artifact.delete()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4649-L4650)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4649-L4650)
 
 ```python
 add(
@@ -163,7 +163,7 @@ table = artifact.get("my_table")
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4643-L4644)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4643-L4644)
 
 ```python
 add_dir(
@@ -213,7 +213,7 @@ artifact.add_dir('my_dir/', name='destination')
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4640-L4641)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4640-L4641)
 
 ```python
 add_file(
@@ -264,7 +264,7 @@ artifact.add_file('path/to/file.txt', name='new/path/file.txt')
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4646-L4647)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4646-L4647)
 
 ```python
 add_reference(
@@ -341,7 +341,7 @@ artifact.add_reference("gs://mybucket/prefix", name="path")
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4776-L4791)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4776-L4791)
 
 ```python
 checkout(
@@ -370,7 +370,7 @@ artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4596-L4635)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4596-L4635)
 
 ```python
 delete(
@@ -404,7 +404,7 @@ for run in runs:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4731-L4774)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4731-L4774)
 
 ```python
 download(
@@ -435,7 +435,7 @@ match the artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4502-L4542)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4502-L4542)
 
 ```python
 @staticmethod
@@ -451,7 +451,7 @@ Returns the expected type for a given artifact name and project.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4822-L4842)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4822-L4842)
 
 ```python
 file(
@@ -478,7 +478,7 @@ Download a single file artifact to dir specified by the root.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5089-L5100)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L5089-L5100)
 
 ```python
 files(
@@ -506,7 +506,7 @@ Iterate over all files stored in this artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4298-L4345)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4298-L4345)
 
 ```python
 @classmethod
@@ -523,7 +523,7 @@ from_id(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4703-L4729)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4703-L4729)
 
 ```python
 get(
@@ -568,7 +568,7 @@ with wandb.init() as r:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4691-L4701)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4691-L4701)
 
 ```python
 get_path(
@@ -615,7 +615,7 @@ with wandb.init() as r:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4864-L4865)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4864-L4865)
 
 ```python
 json_encode()
@@ -628,7 +628,7 @@ json_encode()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4553-L4594)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4553-L4594)
 
 ```python
 link(
@@ -656,7 +656,7 @@ Link this artifact to a portfolio (a promoted collection of artifacts), with ali
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5218-L5254)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L5218-L5254)
 
 ```python
 logged_by()
@@ -675,7 +675,7 @@ Retrieve the run which logged this artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4637-L4638)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4637-L4638)
 
 ```python
 new_file(
@@ -721,7 +721,7 @@ wandb.log_artifact(artifact)
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4867-L4930)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4867-L4930)
 
 ```python
 save()
@@ -734,7 +734,7 @@ Persists artifact changes to the wandb backend.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5171-L5216)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L5171-L5216)
 
 ```python
 used_by()
@@ -753,7 +753,7 @@ Retrieve the runs which use this artifact directly.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4793-L4820)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4793-L4820)
 
 ```python
 verify(
@@ -784,7 +784,7 @@ NOTE: References are not verified.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4932-L4933)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L4932-L4933)
 
 ```python
 wait()
@@ -803,7 +803,7 @@ Wait for this artifact to finish logging, if needed.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5259-L5260)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/apis/public.py#L5259-L5260)
 
 ```python
 __getitem__(

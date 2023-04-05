@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/object_3d.py#L77-L318)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/sdk/data_types/object_3d.py#L77-L318)
 
 
 
@@ -37,7 +37,7 @@ The shape of the numpy array must be one of either:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/object_3d.py#L221-L231)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/sdk/data_types/object_3d.py#L221-L231)
 
 ```python
 @classmethod
@@ -54,7 +54,7 @@ from_file(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/object_3d.py#L233-L246)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/sdk/data_types/object_3d.py#L233-L246)
 
 ```python
 @classmethod
@@ -70,7 +70,7 @@ from_numpy(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/object_3d.py#L248-L272)
+[View source](https://www.github.com/wandb/client/tree/9f1a662d681e96387ebf650900aef8f19703b575/wandb/sdk/data_types/object_3d.py#L248-L272)
 
 ```python
 @classmethod
