@@ -1,53 +1,52 @@
-# Python Library
-
-
+# Pythonライブラリ
 
 
 [![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/__init__.py)
 
 
 
-Use wandb to track machine learning work.
+wandbを使って機械学習作業を追跡します。
 
 
-The most commonly used functions/objects are:
- - wandb.init — initialize a new run at the top of your training script
- - wandb.config — track hyperparameters and metadata
- - wandb.log — log metrics and media over time within your training loop
+最もよく使用される関数/オブジェクトは以下の通りです：
+ - wandb.init — トレーニングスクリプトの最上部で新しいrunを初期化します
+ - wandb.config — ハイパーパラメーターとメタデータを追跡します
+ - wandb.log — トレーニングループ内でメトリクスとメディアを経時的に記録します
 
-For guides and examples, see https://docs.wandb.ai.
+ガイドと例については、https://docs.wandb.aiを参照してください。
 
-For scripts and interactive notebooks, see https://github.com/wandb/examples.
+スクリプトとインタラクティブなノートブックについては https://github.com/wandb/examplesを参照してください。
 
-For reference documentation, see https://docs.wandb.com/ref/python.
+参考文献については、https://docs.wandb.com/ref/pythonを参照してください。
 
-## Classes
+## クラス​
 
-[`class Artifact`](./artifact.md): Flexible and lightweight building block for dataset and model versioning.
+[`class Artifact`](./artifact.md): データセットとモデルバージョン管理用の、柔軟かつ軽量なビルディングブロック。
 
-[`class Run`](./run.md): A unit of computation logged by wandb. Typically, this is an ML experiment.
+[`class Run`](./run.md): wandbによって記録される計算の単位。通常これはML実験になります。
 
-## Functions
+## 関数​
 
-[`agent(...)`](./agent.md): Run a function or program with configuration parameters specified by server.
+[`agent(...)`](./agent.md): CLIまたはjupyterによって使用される、包括的なエージェントエントリポイント。
 
-[`controller(...)`](./controller.md): Public sweep controller constructor.
+[`controller(...)`](./controller.md): パブリックスウィープコントローラコンストラクタ。
 
-[`finish(...)`](./finish.md): Mark a run as finished, and finish uploading all data.
+[`finish(...)`](./finish.md): runに「終了」のマークを付け、全データのアップロードを終了します。
 
-[`init(...)`](./init.md): Start a new run to track and log to W&B.
+[`init(...)`](./init.md): 新しいrunを開始し、追跡してW&Bに記録します。
 
-[`log(...)`](./log.md): Log a dictonary of data to the current run's history.
+[`log(...)`](./log.md): データの辞書を現在のrunの履歴に追加します。
 
-[`save(...)`](./save.md): Ensure all files matching `glob\_str` are synced to wandb with the policy specified.
+[`save(...)`](./save.md): 指定されたポリシーで、glob_strと一致するすべてのファイルをwandbと同期化します。
 
-[`sweep(...)`](./sweep.md): Initialize a hyperparameter sweep.
+[`sweep(...)`](./sweep.md): ハイパーパラメータースウィープを初期化します。
 
-[`watch(...)`](./watch.md): Hook into the torch model to collect gradients and the topology.
+[`watch(...)`](./watch.md): torchモデルを接続し、勾配とトポロジを収集します。
 
 
 
-| Other Members | |
+
+| その他のメンバー | |
 | :--- | :--- |
 | `__version__` | `'0.13.11'` |
 | `config` | |

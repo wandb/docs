@@ -5,28 +5,28 @@ description: W&B Quickstart.
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Quickstart
+# クイックスタート
 
-Install W&B and start tracking your machine learning experiments in minutes.
+W&Bをインストールして、あなたの機械学習プロジェクトのトラッキングをすぐ開始できます。
 
-## 1. Create an account and install W&B
-Before you get started, make sure you create an account and install W&B:
+## 1. アカウント作成とW&Bのインストール
+始める前にまず、アカウントを作成し、W&Bをインストールしてください
 
-1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then login to your wandb account.  
-2. Install the wandb library on your machine in a Python 3 environment using [`pip`](https://pypi.org/project/wandb/).  
+1. [ここから](https://wandb.ai/site)フリーアカウントにサインナップし、あなたのwandbアカウントにログインできます。
+2. Python 3の環境にwandb ライブラリーをインストールするために[`pip`](https://pypi.org/project/wandb/)を使います。
 <!-- 3. Login to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).   -->
 
-The following code snippets demonstrate how to install and log into W&B using the W&B CLI and Python Library:
+下記のコードを使ってコマンドラインもしくはPythonライブラリーからW&Bをインストールし、ログインすることができます：
 
 <Tabs
   defaultValue="notebook"
   values={[
-    {label: 'Notebook', value: 'notebook'},
-    {label: 'Command Line', value: 'cli'},
+    {label: 'ノートブック', value: 'notebook'},
+    {label: 'コマンドライン', value: 'cli'},
   ]}>
   <TabItem value="cli">
 
-Install the CLI and Python library for interacting with the Weights and Biases API:
+コマンドラインおよびパイソンライブラリーをインストールして、Wights and Biases APIを使う：
 
 ```
 pip install wandb
@@ -35,7 +35,7 @@ pip install wandb
   </TabItem>
   <TabItem value="notebook">
 
-Install the CLI and Python library for interacting with the Weights and Biases API:
+コマンドラインおよびパイソンライブラリーをインストールして、Wights and Biases APIを使う：
 
 ```python
 !pip install wandb
@@ -45,18 +45,18 @@ Install the CLI and Python library for interacting with the Weights and Biases A
   </TabItem>
 </Tabs>
 
-## 2. Log in to W&B
+## 2. W&Bにログイン
 
 
 <Tabs
   defaultValue="notebook"
   values={[
-    {label: 'Notebook', value: 'notebook'},
-    {label: 'Command Line', value: 'cli'},
+    {label: 'ノートブック', value: 'notebook'},
+    {label: 'コマンドライン', value: 'cli'},
   ]}>
   <TabItem value="cli">
 
-Next, log in to W&B:
+W&BのPython SDKをインポートし、ログインします
 
 ```
 wandb login
@@ -68,25 +68,25 @@ Or if you're using [W&B Server:](./guides/hosting)
 wandb login --host=http://wandb.your-shared-local-host.com
 ```
 
-Provide [your API key](https://wandb.ai/authorize) when prompted.
+[ あなたのAPIキー](https://wandb.ai/authorize)をここから入手してください。
 
   </TabItem>
   <TabItem value="notebook">
 
-Next, import the W&B Python SDK and log in:
+W&BのPython SDKをインポートし、ログインします：
 
 ```python
 wandb.login()
 ```
 
-Provide [your API key](https://wandb.ai/authorize) when prompted.
+[ あなたのAPIキー](https://wandb.ai/authorize)をここから入手してください。
   </TabItem>
 </Tabs>
 
 
-## 3. Start a  run and track hyperparameters
+## 3. 学習Runを開始し、ハイパーパラメーターをトラッキング
 
-Initialize a W&B Run object in your Python script or notebook with [`wandb.init()`](./ref/python/run.md) and pass a dictionary to the `config` parameter with key-value pairs of hyperparameter names and values:
+W&BのRunオブジェクトを初期化します。Pythonスクリプトもしくはノートブックで[`wandb.init()`](./ref/python/run.md) を使い `config` パラメーターに key-value ペアでハイパーパラメーターの名称と値を指定します：
 
 ```python
 run = wandb.init(
@@ -104,7 +104,7 @@ run = wandb.init(
 run = wandb.init(project="my-awesome-project")
 ``` -->
 
-A [run](./guides/runs) is the basic building block of W&B. You will use them often to [track metrics](./guides/track), [create logs](./guides/artifacts), [create jobs](./guides/launch), and more.
+[Run](./guides/runs)はW&Bの最も基本的なオブジェクトです。[メトリクスのトラッキング](./guides/track), [ログの生成](./guides/artifacts), [ジョブの生成](./guides/launch),などさまざまな用途で使われます。
 
 
 <!-- ## Track metrics -->
@@ -129,10 +129,9 @@ Anything you log with `wandb.log` is stored in the run object that was most rece
 
 
 
-## Putting it all together
+## 全体をつなげると
 
-Putting it all together, your training script might look similar to the following code example. The highlighted code shows W&B-specific code. 
-Note that we added code that mimics machine learning training.
+ここまでの過程をつなげて、あなたの学習スクリプトがどのようになるのか、下記のコード例で見ていきましょう。ハイライトされている部分がW&Bに特化した部分です。下記の例では機械学習のコードになぞらえた例を使っています
 
 ```python
 # train.py
@@ -170,35 +169,14 @@ for epoch in range(2, epochs):
 # run.log_code()
 ```
 
-That's it! Navigate to the W&B App at [https://wandb.ai/home](https://wandb.ai/home) to view how the metrics we logged with W&B (accuracy and loss) improved during each training step.
+以上です。W&Bウェブアプリ[https://wandb.ai/home](https://wandb.ai/home) に行って、記録されたメトリック（AccuracyとLoss）をリアルタイムで見てみましょう。 
 
 ![Shows the loss and accuracy that was tracked from each time we ran the script above. ](/images/quickstart/quickstart_image.png)
 
-The image above (click to expand) shows the loss and accuracy that was tracked from each time we ran the script above.  Each run object that was created is show within the **Runs** column. Each run name is randomly generated.
+上記のスクリーンショット（クリックして拡大できます）は上記スクリプトを複数回走らせた結果を示しています。毎回異なるRunオブジェクトが作られ、Runsという左側のカラムに並んでいます。Runの名前は指定しなければランダムに生成されます。
 
 
-## What's next?
-<!-- ### Get alerts
-
-Get notified by Slack or email if your W&B Run has crashed or with a custom trigger. For example, you can create a trigger to notify you if your loss reports `NaN` or a step in your ML pipeline has completed.
-
-Follow the procedure outlined below to set up an alert: 
-
-1. Turn on Alerts in your W&B [User Settings](https://wandb.ai/settings).
-2. Add [`wandb.alert()`](./guides/runs/alert.md) to your code.
-
-```python
-wandb.alert(
-    title="Low accuracy", 
-    text=f"Accuracy {acc} is below threshold {thresh}"
-)
-```
-You will receive an email or Slack alert when your alert criteria is met. For example, the proceeding image demonstrates a Slack alert:
-
-![W&B Alerts in a Slack channel](/images/quickstart/get_alerts.png)
-
-See the [Alerts docs](./guides/runs/alert.md) for more information on how to set up an alert. For more information about setting options, see the [Settings](./guides/app/settings-page/intro.md) page.  -->
-
+## ネクストステップ
 Explore the rest of the W&B ecosystem.
 
 1. Check out [W&B Integrations](guides/integrations) to learn how to integrate W&B with your ML framework such as PyTorch, ML library such as Hugging Face, or ML service such as SageMaker. 
@@ -210,22 +188,20 @@ Explore the rest of the W&B ecosystem.
 
 ![](/images/quickstart/wandb_demo_experiments.gif) 
 
-<!-- 1. [**Collaborative Reports**](./guides/reports/intro.md): Snapshot results, take notes, and share findings
-2. [**Data + Model Versioning**](./guides/data-and-model-versioning/intro.md): Track dependencies and results in your ML pipeline
-3. [**Data Visualization**](guides/data-vis/intro.md): Visualize and query datasets and model evaluations
-4. [**Hyperparameter Tuning**](guides/sweeps/intro.md): Quickly automate optimizing hyperparameters
-5. [**Private-Hosting**](guides/hosting/intro.md): The enterprise solution for private cloud or on-prem hosting of W&B -->
 
-## Common Questions
+## よくある質問
 
-**Where do I find my API key?**
-Once you've signed in to www.wandb.ai, the API key will be on the [Authorize page](https://wandb.ai/authorize).
+**APIキーはどこにありますか?**
+W&Bにログイン（www.wandb.ai)し、[Authorize page](https://wandb.ai/authorize) に行くことで入手できます。
 
-**How do I use W&B in an automated environment?**
-If you are training models in an automated environment where it's inconvenient to run shell commands, such as Google's CloudML, you should look at our guide to configuration with [Environment Variables](guides/track/environment-variables).
+**自動化された環境でW&Bを使うことができますか？**
+もし自動化された環境でモデルの学習をしていて、コマンドラインを叩くことができない場合（例えば Google's CloudML）[環境変数](guides/track/environment-variables)のページにある設定ガイドを参照してください。
 
-**Do you offer local, on-prem installs?**
-Yes, you can [privately host W&B](guides/hosting) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how. Note, to login to wandb local server you can [set the host flag](./guides/hosting/basic-setup) to the address of the local instance.  
+**ローカルないしオンプレ環境での実行に対応していますか?**
+はい、[プライベート環境でのホスティング](guides/hosting)でご自身のマシンやプライベートクラウドなどでW&Bを実行することができます。こちらの[チュートリアルノートブック](http://wandb.me/intro)をお試しください。　
 
-**How do I turn off wandb logging temporarily?**
-If you're testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](guides/track/environment-variables).
+wandbのローカルサーバーにログインするには、[ホストフラグ](guides/hosting/basic-setup#login)を、ローカルサーバーのアドレスに設定してください。 
+
+**W&Bのログトラッキングを一時的に切ることはできますか?**
+もしコードのテスト中など、トラッキングを行いたくない場合には、環境変数 [WANDB_MODE=offline](guides/track/environment-variables)を設定してください。
+

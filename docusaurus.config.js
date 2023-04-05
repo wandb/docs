@@ -126,10 +126,6 @@ const config = {
         },
         items: [
           {
-            type: 'localeDropdown',
-            position: 'left',
-          },
-          {
             type: 'search',
             position: 'right',
           },
@@ -143,6 +139,10 @@ const config = {
             type: 'doc',
             docId: 'ref/README',
             label: 'Reference',
+            position: 'right',
+          },
+          {
+            type: 'localeDropdown',
             position: 'right',
           },
           {

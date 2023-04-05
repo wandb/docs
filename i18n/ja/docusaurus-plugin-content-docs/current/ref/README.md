@@ -2,18 +2,18 @@
 description: Generated documentation for Weights & Biases tools
 ---
 
-# Reference
+# リファレンス
 
-The Reference Docs are automatically generated from the `wandb` [wandb library](https://github.com/wandb/wandb).
+リファレンスドキュメントは、[wandbライブラリ](https://github.com/wandb/wandb)から自動的に生成されます。
 
-### Reference sections
+### リファレンスセクション​
 
-1. [Command Line Interface](cli/): Use the basics of wandb from shell commands
-2. [Python Library](python/): Add `wandb` to your script to capture metrics and save artifacts
-3. [Java Library](java/): Try our beta integration with Java
+1. [コマンドラインインターフェース](cli/): shellコマンドからwandbの基本機能を使用します
+2. [Pythonライブラリ](python/): wandbをスクリプトに追加して、メトリクスをキャプチャしてアーティファクトを保存します
+3. [Javaライブラリ](java/): Javaとのベータ統合をお試しください
 
-### Guides and examples
+### ガイドおよび例​
 
-For usage examples, including scripts, interactive colabs, and videos, see [our examples repo on GitHub](https://github.com/wandb/wandb).
+スクリプト、インタラクティブなcolabs、および動画を含む使用例については、[GitHubのサンプルレポジトリ](https://github.com/wandb/wandb)をご覧ください。
 
-For tutorials, guides, and FAQs, click through the sidebar on the left side of this page.
+チュートリアル、ガイド、およびよくある質問については、このページの左側にあるサイドバーをクリックしてください。
