@@ -159,7 +159,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'W&B Server',
+      label: 'Deployment',
       link: {type: 'doc', id: 'guides/hosting/intro'},
       items: [
         // 'guides/hosting/intro',

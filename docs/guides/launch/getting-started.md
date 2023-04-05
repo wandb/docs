@@ -1,6 +1,7 @@
 ---
 description: Getting started guide for W&B Launch.
 ---
+
 # Getting started
 
 Follow this guide to get started using W&B Launch. This guide will walk you through the setup of the fundamental components of a launch workflow: a **job**, **launch queue**, and **launch queue**. 
@@ -179,11 +180,26 @@ When you click the button, a drawer will slide from the right side of your scree
 * **Entity**: the owner of the queue, which can either be your W&B account or any W&B team you are a member of. For this demo, we recommend setting up a personal queue.
 * **Queue name**: the name of the queue. Make this whatever you want!
 * **Resource**: the execution platform for jobs in this queue. Check out the other options, but for this walkthrough we will use the default: **Docker container**.
-* **Configuration**: json configuration that will passed to any launch agent that polls on this queue. This can be left blank, but some additional configuration does need to be provided in order to leverage GPU.
+* **Configuration**: default resource configurations for all jobs placed on this queue. Used to specify arguments for the resource when run. These defaults can be overridden when you enqueue a job.
 
 ![](/images/launch/create-queue.gif)
 
 :::info
+
+Accepted configuration values include all arguments available for the `docker run` command. For more information, see the [reference](https://docs.docker.com/engine/reference/commandline/run). To handle options that can be specified more than once, place the values in a list:
+
+```json
+{
+    "env": [
+        "MY_ENV_VAR=value",
+        "MY_EXISTING_ENV_VAR"
+    ],
+    "volume": [
+         "/mnt/datasets:/mnt/datasets"
+    ]
+}
+```
+
 Add the following resource configuration in order to use GPUs in jobs submitted to this queue:
 
 ```json
@@ -207,6 +223,9 @@ For jobs that use tensorflow on GPU, you may also need to specify a custom base 
 }
 ```
 :::
+<!-- TODO: add configuration details for all runners.  Kubernetes to be completed once Kubernetes config refactor completed. -->
+<!-- ### Defining your configurations -->
+
 
 ## Add a job to your queue
 
@@ -219,9 +238,8 @@ Click the **Launch** button in the top right to launch a new run from this job. 
 * **Job version**: the version of the job to launch. Jobs are versioned like any other W&B Artifact. Different versions of the same job will be created if you make modifications to the software dependencies or source code used to run the job. Since we only have one version, we will select the default **@latest** version.
 * **Overrides**: new values for any of jobs inputs. These can be used to change the entrypoint command, arguments, or values in the `wandb.config` of your new run. Our run had 3 values in the `wandb.config`: `epochs`, `batch_size`, and `learning_rate`. We can override any of these values by specifying them in the overrides field. We can also paste values from other runs using this job by clicking the **Paste from...** button.
 * **Queue**: the queue to launch the run on. We will select the queue we created in the previous step.
-* **Resource config**: This is non-editable and shows the queue configuration, so we can see how our job will be run when we add it to this queue.
-
-![](/images/launch/launch-job.gif)
+* **Resource config**: This advanced feature allows you to modify the resource config for the specific job being enqueued.
+![](/images/launch/launch-job-update-resource.gif)
 
 Once you have configured your job as desired, click the **launch now** button at the bottom of the drawer to enqueue your launch job.
 
