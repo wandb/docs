@@ -1,60 +1,40 @@
 ---
-description: Prerequisites for W&B Launch.
+description: Launch agent documentation
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Prerequisites
-Before you use W&B Launch ensure you have satisfied these prerequisites.
+# Start an agent
 
-1. Enable the W&B Launch feature flag.
-2. Create a queue.
-3. Activate a launch agent.
+Start a launch agent to execute jobs from your queues.
 
+## Overview
 
-:::info
-The steps required to create a queue and activate a launch agent depend on whether or not your queue will use a cloud compute resource (such as Kubernetes on EKS) or use a local Docker container that uses your machine's hardware.
-:::
+A **launch agent** is a long-running process that polls on one or more launch queues and executes the jobs that it pops from the queue. A launch agent can be started with the `wandb launch-agent` command and is capable on launching jobs onto a multitude of compute platforms, including docker, kubernetes, sagemaker, and more. The launch agent is implemented entirely in our [open source client library](https://github.com/wandb/wandb).
 
-Based on your use case, read the following to sections to satisfy W&B Launch prerequisites for setting up a cloud resources or setting up a local Docker container for testing.
+## How it works
 
-## Prerequisites for both cloud and local testing
+The agent polls on one or more queues. When the launch agent pops an item from a queue, it will, if necessary, build a container image to execute the run within and then execute that container image on the compute platform targeted by the queue.
 
-### Enable Launch
-Before you get started, ensure you enable the W&B Launch UI and install Docker. Follow these steps to enable W&B Launch:
+These container builds and executions happen asynchronously. To control the max number of concurrent jobs that an agent can perform, pass `-j <num-max-jobs>` to `wandb launch-agent` command or set the `max_jobs` field in the agent config file.
 
-1. Navigate to your settings page at [https://wandb.ai/settings](https://wandb.ai/settings) .
-2. Scroll to the **Beta Features** sections. Toggle the `W&B Launch` option.
+### Compile the job into a container image
 
-![](/images/launch/toggle_beta_flag.png)
+If your job contains source code from a git repository or code artifact, the launch agent will build a container image that contains the code and all of the dependencies specified in the job.
 
-### Install Docker
-See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker. Make sure Docker is running on your local machine.
+If your job was sourced from a container image via the `WANDB_DOCKER` environment variable, then this step is skipped.
 
+Launch currently supports building container images with [Docker](https://docker.com) and [Kaniko](https://github.com/GoogleContainerTools/kaniko). Kaniko should only be used when running the agent in a container, to avoid the security risks associated with running docker-in-docker.
 
+### Execute the run
 
-## Set up cloud compute resource
-Set up a cloud compute resource and a launch agent to communicate with the cloud resource. To do this, create a queue that is configured to use a cloud resource.
+The launch agent will execute the run in the container image that was built in the previous step or specified in the job. How the agent executes the run depends on the type of queue the job was in. 
+
+For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a k8s cluster as a [k8s Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) via the k8s API.
 
 
-### Create a queue
-A queue is where you add W&B Jobs to. Launch Queues possess one or more W&B Jobs that are executed when you start a W&B Launch agent. A Launch Queue can use  any resource configuration that is defined within a given W&B Entity.  Queues give your team members access to specific types of compute resources so they can easily launch jobs at scale. 
 
-1. Navigate to the W&B App at https://wandb.ai/home.
-2. Select Launch within the Applications section of the left sidebar.
-3. Choose **Create queue**.
-4. Select the queue's entity from the **Entity** dropdown menu.
-5. Provide a name for the queue in the **Queue name** field
-6. Specify a compute resource from the **Resource** dropdown menu. Within the modal, specify the compute configuration in the **Configuration** editor.
-
-![](/images/launch/create_a_queue.png)
-
-W&B currently supports compute configuration for Kubernetes on EKS. For more information on configuration details, contact sales at https://wandb.ai/site/local-contact. 
-
-:::note
-You must use Amazon’s Elastic Container Registry (ECR) to use Kubernetes on EKS. Additionally, you will also need an Amazon Simple Storage Service (S3) bucket if you want to build your own Docker container. 
-:::
-
+<!-- 
 ### Activate a launch agent
 A launch agent listens the queue and executes jobs added to the queue. If certain criteria are met, the launch agent builds an image for the environment and sends the job to the desired compute runner. 
 
@@ -166,4 +146,4 @@ Launch queues require an active agent. To start an agent for a local process you
 
 Within your terminal, you will see the agent begin to poll for queues. Your terminal should look similar to the following image:
 
-![](/images/launch/terminal_gs.png)
+![](/images/launch/terminal_gs.png) -->
