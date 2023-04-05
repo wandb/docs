@@ -253,18 +253,6 @@
       "to": "/quickstart"
     },
     {
-      "from": "/guides/data-and-model-versioning/dataset-versioning",
-      "to": "/guides"
-    },
-    {
-      "from": "/guides/data-and-model-versioning/intro",
-      "to": "/guides"
-    },
-    {
-      "from": "/guides/data-and-model-versioning/model-versioning",
-      "to": "/guides/models"
-    },
-    {
       "from": "/guides/app//settings-page/team-settings",
       "to": "/guides/app/settings-page/team-settings"
     },
@@ -391,6 +379,22 @@
     {
       "from": "/guides/configurations",
       "to": "/guides/track/config"
+    },
+    {
+      "from": "/guides/data-and-model-versioning",
+      "to": "/guides"
+    },
+    {
+      "from": "/guides/data-and-model-versioning/dataset-versioning",
+      "to": "/guides"
+    },
+    {
+      "from": "/guides/data-and-model-versioning/intro",
+      "to": "/guides"
+    },
+    {
+      "from": "/guides/data-and-model-versioning/model-versioning",
+      "to": "/guides/models"
     },
     {
       "from": "/guides/data-vis/log-tables",
@@ -823,6 +827,10 @@
     {
       "from": "/guides/track/advanced/alert",
       "to": "/guides/runs/alert"
+    },
+    {
+      "from": "/guides/track/advanced/customizing-runs",
+      "to": "/guides/runs"
     },
     {
       "from": "/guides/track/advanced/distributed-training",
@@ -1678,20 +1686,28 @@
     }
   ],
   "ignoredPaths": [
-    "/&",
     "/",
+    "/&",
     "/)",
+    "//classes",
     "/adfsdafsadfs",
     "/adsfasdf",
     "/afs",
     "/asdfasdfadsf",
-    "//classes",
     "/docodile/docs/guides/app/features/custom-charts",
+    "/docs/automated.html",
+    "/docs/examples.html",
+    "/docs/grouping.html",
+    "/docs/histograms.html",
+    "/docs/logs.html",
+    "/guides",
+    "/guides/%3Cscript%3Ealert(1)%3C/script%3E",
     "/guides/'",
     "/guides/--",
-    "/guides/%3Cscript%3Ealert(1)%3C/script%3E",
     "/guides/artifacts/artifacts-faqs.md",
     "/guides/artifacts/storagecifar10%20clustering",
+    "/guides/data-and-model-versioning%7Cdataset",
+    "/guides/guides/integrations",
     "/guides/hosting/setup/configurationhttp://10.0.7.62:8080/authorize",
     "/guides/integrat",
     "/guides/integrations/dagster'",
@@ -1720,6 +1736,7 @@
     "/ref/java/wandbrun.md",
     "/ref/python/data-types/histogram",
     "/ref/python/init%20for%20more%20init%20arguments.",
+    "/ref/python/public-api/artifact",
     "/ref/python/sweep",
     "/ref/weave/artifact.md",
     "/ref/weave/int",
@@ -1729,9 +1746,12 @@
     "/robots.txt",
     "/ryh",
     "/sauravm/Optimizers/reports/How-to-Compare-Keras-Optimizers-in-Tensorflow-for-Deep-Learning--VmlldzoxNjU1OTA4",
+    "/sweep%20confuration%20method%20w&/sweeps/add-w-and-b-to-your-code",
     "/sweeps]",
     "/tensorflow",
     "/translate-war/webTransUrl",
+    "/tutorials",
+    "/tutorials/wandb",
     "/weave/run.md",
     "/zh-hans"
   ]
