@@ -15,7 +15,19 @@
 const sidebars = {
   referenceSidebar: [
     'guides/intro',
-    'quickstart',
+    {
+      type: 'category',
+      label: 'Tutorials',
+      link: {type: 'doc', id: 'guides/tutorials/intro_to_tutorials'},
+      items: [
+        // 'guides/tutorials/intro_to_tutorials',
+        'guides/tutorials/intro_to_wandb',
+        'guides/tutorials/intro_to_sweeps',
+        'guides/tutorials/intro_to_tables',
+        'guides/tutorials/intro_to_artifacts',
+
+      ],
+    },
     {
       type: 'category',
       label: 'Experiments',
