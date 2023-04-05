@@ -5,23 +5,24 @@ slug: /guides/integrations
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Integrations
+# 統合
 
-Weights & Biases integrations make it fast and easy to set up experiment tracking and data versioning inside existing projects. If you're using a popular ML framework (ex. [PyTorch](pytorch.md)), library (ex. [Hugging Face](huggingface.md)), or service (ex. [SageMaker](other/sagemaker.md)), check out the integrations below and in the navigation bar on the left!
+Weights & Biases統合によって、既存プロジェクト内で実験トラッキングとデータバージョン管理を迅速かつ簡単にセットアップできます。一般的なMLフレームワーク（例：[PyTorch](pytorch.md)）、ライブラリ（例：[Hugging Face](huggingface.md)）、またはサービス（例：[SageMaker](other/sagemaker.md))を使っている場合、以下と左側のナビゲーションバーにある統合を確認してください。
 
-### Related Links
+### 関連リンク​
 
-* [Examples](https://github.com/wandb/examples): Working, end-to-end Google Colabs and script examples for all of our integrations
-* [Video Tutorials](https://www.youtube.com/playlist?list=PLD80i8An1OEGajeVo15ohAQYF1Ttle0lk): Learn to use W&B with YouTube videos for PyTorch, Keras, and more.
+* [例](https://github.com/wandb/examples): 弊社のすべての統合の、動作中のエンドツーエンドのGoogle Colabsとスクリプト例
+* [動画チュートリアル](https://www.youtube.com/playlist?list=PLD80i8An1OEGajeVo15ohAQYF1Ttle0lk): PyTorch、Keras、およびその他のサービス向けのYouTube動画を視聴して、W&Bの使い方を学びましょう。
 
-## Guides for Specific Integrations
+
+## 特定の統合向けガイド​
 
 <Tabs
   defaultValue="frameworks"
   values={[
-    {label: 'Popular ML Frameworks', value: 'frameworks'},
-    {label: 'Popular ML Libraries', value: 'repositories'},
-    {label: 'Popular Tools', value: 'tools'},
+    {label: '一般的なMLフレームワーク', value: 'frameworks'},
+    {label: '一般的なMLライブラリ', value: 'repositories'},
+    {label: '一般的なツール', value: 'tools'},
   ]}>
   <TabItem value="frameworks">
 
