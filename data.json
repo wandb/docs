@@ -114,7 +114,7 @@
     },
     {
       "from": "/authenticate",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/authonize",
@@ -122,11 +122,11 @@
     },
     {
       "from": "/authorize",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/classes",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/cli",
@@ -134,7 +134,7 @@
     },
     {
       "from": "/cn",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/company",
@@ -146,19 +146,19 @@
     },
     {
       "from": "/company/beginner-faq",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/company/classes",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/company/classes/talks",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/company/company-faq",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/company/data-and-privacy",
@@ -166,7 +166,7 @@
     },
     {
       "from": "/company/getting-help",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/data-vis",
@@ -186,7 +186,7 @@
     },
     {
       "from": "/deployment",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/docs/config.html",
@@ -218,7 +218,7 @@
     },
     {
       "from": "/docs/restoring.html",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/docs/resuming.html",
@@ -354,11 +354,11 @@
     },
     {
       "from": "/guides/artifacts/dataset-versioning",
-      "to": "/guides/data-and-model-versioning/dataset-versioning"
+      "to": "/"
     },
     {
       "from": "/guides/artifacts/model-versioning",
-      "to": "/guides/data-and-model-versioning/model-versioning"
+      "to": "/guides/models"
     },
     {
       "from": "/guides/artifacts/references",
@@ -382,15 +382,15 @@
     },
     {
       "from": "/guides/data-and-model-versioning",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/guides/data-and-model-versioning/dataset-versioning",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/guides/data-and-model-versioning/intro",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/guides/data-and-model-versioning/model-versioning",
@@ -410,7 +410,7 @@
     },
     {
       "from": "/guides/datasets-and-predictions",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/guides/experiments/track",
@@ -702,7 +702,7 @@
     },
     {
       "from": "/guides/intro",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/guides/launch/containers",
@@ -722,11 +722,11 @@
     },
     {
       "from": "/guides/projects/campaigns",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/guides/projects/sharing-and-visibility",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/guides/reference/data_types",
@@ -942,7 +942,7 @@
     },
     {
       "from": "/home",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/hosting",
@@ -1030,11 +1030,11 @@
     },
     {
       "from": "/jp",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/ko",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/library",
@@ -1114,7 +1114,7 @@
     },
     {
       "from": "/library/graphs/graph-edit-axes",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/library/grouping",
@@ -1466,7 +1466,7 @@
     },
     {
       "from": "/ref/history",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/ref/init-1",
@@ -1534,11 +1534,11 @@
     },
     {
       "from": "/resources/technical-faq",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/runner",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/scikit",
@@ -1546,7 +1546,7 @@
     },
     {
       "from": "/search.json",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/self-hosted",
@@ -1586,7 +1586,7 @@
     },
     {
       "from": "/site",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/start/windows",
@@ -1662,7 +1662,7 @@
     },
     {
       "from": "/v",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/wandb/config",
@@ -1677,12 +1677,8 @@
       "to": "/ref/python/log"
     },
     {
-      "from": "/yinghui000123",
-      "to": "/guides"
-    },
-    {
       "from": "/zh",
-      "to": "/guides"
+      "to": "/"
     }
   ],
   "ignoredPaths": [
@@ -1700,7 +1696,7 @@
     "/docs/grouping.html",
     "/docs/histograms.html",
     "/docs/logs.html",
-    "/guides",
+    "/",
     "/guides/%3Cscript%3Ealert(1)%3C/script%3E",
     "/guides/'",
     "/guides/--",
