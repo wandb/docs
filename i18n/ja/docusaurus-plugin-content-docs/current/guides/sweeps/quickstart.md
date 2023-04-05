@@ -2,21 +2,20 @@
 description: Sweeps quickstart shows how to define, initialize, and run a sweep. There are four main steps
 ---
 
-# Quickstart
+# クイックスタート
 
 <head>
   <title>Sweeps Quickstart</title>
 </head>
 
-The proceeding Quickstart demonstrates how to define, initialize, and run a sweep. There are four main steps:
+前述のクイックスタートは、スウィープの定義、初期化、および実行方法を示しています。4つの主要ステップがあります：
 
-1. [Set up your training code](#set-up-your-training-code)
-2. [Define the search space with a sweep configuration](#define-the-search-space-with-a-sweep-configuration)
-3. [Initialize the sweep](#initialize-the-sweep)
-4. [Start the sweep agent](#start-the-sweep)
+1. [トレーニングコードのセットアップ](#set-up-your-training-code)
+2. [スウィープ構成で検索空間を定義する](#define-the-search-space-with-a-sweep-configuration)
+3. [スウィープを初期化する](#initialize-the-sweep)
+4. [スウィープエージェントを開始する](#start-the-sweep)
 
-
-Copy and paste the following Sweep Quickstart code into a Jupyter Notebook or Python script:
+以下のスウィープクイックスタートコードをコピーして、JupyterノートブックまたはPythonスクリプトに貼り付けます：
 
 ```python
 # Import the W&B Python Library and log into W&B
@@ -49,18 +48,16 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project='my-first-sweep')
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-The following sections break down and explains each step in the Quickstart code sample.
+以下のセクションでは、クイックスタートコードサンプル内の各ステップを詳細に説明します
 
 
+## トレーニングコードのセットアップ​
+「wandb.config」からハイパーパラメーター値を取り込み、この値を使ってモデルをトレーニングし、メトリクスを返すトレーニング関数を定義します。
 
-
-## Set up your training code
-Define a training function that takes in hyperparameter values from `wandb.config` and uses them to train a model and return metrics.
-
-Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init`](../../ref/python/init.md)). If the project is not specified, the run is put in an "Uncategorized" project.
+オプションで、W&B Runの出力を保存したいプロジェクトに名前を付けます（[`wandb.init`](../../ref/python/init.md))内のプロジェクトパラメーター）。プロジェクトを指定しない場合、runは「未分類」プロジェクトに保存されます。
 
 :::caution
-Both the W&B Sweep and the W&B Run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a W&B Sweep.
+W&BスウィープとW&B Runはともに、同じプロジェクト内にあることが必須です。このため、W&Bを初期化する時に付けた名前は、W&Bスウィープを初期化した時に付けたプロジェクト名と一致している必要があります。
 :::
 
 ```python
@@ -75,12 +72,12 @@ def main():
     wandb.log({'score': score})
 ```
 
-## Define the search space with a sweep configuration
-Within a dictionary, specify what hyperparameters you want to sweep over and. For more information about configuration options, see [Define sweep configuration](./define-sweep-configuration.md).
+## スウィープ構成で検索空間を定義する​
+辞書内で、スウィープしたいハイパーパラメーターを指定します。設定オプションの詳細情報は、[スウィープ構成を定義する](./define-sweep-configuration.md)を参照してください。
 
-The proceeding example demonstrates a sweep configuration that uses a random search (`'method':'random'`). The sweep will randomly select a random set of values listed in the configuration for the batch size, epoch, and the learning rate.
+前述の例は、ランダム検索を使用するスウィープ構成を示しています（'method':'random'）。スウィープは、設定にリスト表示された、バッチサイズ、エポックおよび学習速度の値セットをランダムに選択します。
 
-Throughout the sweeps, W&B will maximize the metric specified in the metric key (`metric`). In the following example, W&B will maximize (`'goal':'maximize'`) the validation accuracy (`'val_acc'`).
+スウィープを通して、W&Bは、メトリックキー（metric）で指定されたメトリックを最大化します。以下の例では、W&Bは検証精度（'val_acc'）を最大化（'goal':'maximize'）します。
 
 
 ```python
@@ -96,36 +93,36 @@ sweep_configuration = {
 }
 ```
 
-## Initialize the Sweep
+## スウィープの初期化
 
-W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally (local) across one or more machines. For more information about Sweep Controllers, see [Search and stop algorithms locally](./local-controller.md).
+W&Bはスウィープコントローラを使って、クラウド上で（標準）、ローカルで（ローカル）、1台または複数台のマシン上でスウィープを管理します。スウィープコントローラの詳細情報は、[アルゴリズムをローカルで検索および停止する](./local-controller.md)を参照してください。
 
-A sweep identification number is returned when you initialize a sweep:
+スウィープを初期化すると、スウィープの識別番号が返されます：
 
 ```python
 sweep_id = wandb.sweep(sweep=sweep_configuration, project='my-first-sweep')
 ```
 
-For more information about initializing sweeps, see [Initialize sweeps](https://docs.wandb.ai/guides/sweeps/initialize-sweeps).
+スウィープの初期化に関する詳細情報は、[Initialize sweeps](https://docs.wandb.ai/guides/sweeps/initialize-sweeps)を参照してください。
 
-## Start the Sweep
+## スウィープを開始する​
 
-Use the [`wandb.agent`](../../ref/python/agent.md) API call to start a W&B sweep.
+wandbエージェント[`wandb.agent`](../../ref/python/agent.md) APコールを使ってW&Bスウィープを開始します。
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-## Visualize results (optional)
+## 可視化の結果（オプション）
 
-Open your project to see your live results in the W&B Sweep dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyzes](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
+プロジェクトを開き、W&Bスウィープダッシュボードでライブ結果を確認します。わずか数回のクリックで、[パラレル座標図](../app/features/panels/parallel-coordinates.md),[ パラメーター重要性分析](../app/features/panels/parameter-importance.md)、および[その他のグラフ](../app/features/panels/intro.md)など、充実したインタラクティブなグラフを作成できます。
 
 ![Quickstart Sweeps Dashboard example](/images/sweeps/quickstart_dashboard_example.png)
 
-For more information about how to visualize results, see [Visualize sweep results](https://docs.wandb.ai/guides/sweeps/visualize-sweep-results). For an example dashboard, see this sample [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
+結果を可視化する方法に関する詳細情報は、[スウィープ結果を可視化する](https://docs.wandb.ai/guides/sweeps/visualize-sweep-results).を参照してください。サンプルダッシュボードについては、このサンプル[スウィーププロジェクト](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)をご覧ください。
 
-## Stop the agent (optional)
+## エージェントを停止する（オプション）
 
-From the terminal, hit `Ctrl+c` to stop the run that the Sweep agent is currently running. To kill the agent, hit `Ctrl+c` again after the run is stopped. 
+端末から、Ctrl+cを押して、スウィープエージェントが現在実行しているrunを停止します。エージェントを停止するには、runが停止した後にCtrl+cを再度押します。
 
 
