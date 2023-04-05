@@ -1,12 +1,12 @@
 ---
 slug: /guides/launch
-description: Easily queue and manage jobs using W&B Launch.
+description: Easily scale and manage ML jobs using W&B Launch.
 ---
+# Launch
 
 
-## What is Launch?
+W&B Launch introduces a connective layer between machine learning practitioners and the high-scale, specialized hardware that powers modern machine learning workflows. Easily scale training runs from your desktop to your GPUs, quickly spin up intensive model evaluation suites, and prepare models for production inference, all without the friction of complex infrastructure.
 
-W&B Launch introduces a connective layer between machine learning practitioners and the high-scale, specialized hardware that powers modern machine learning workflows. Easily scale training runs from your desktop to your GPUs, quickly spin up, intensive model evaluation suites, and prepare models for production inference, all without the friction of complex infrastructure.
 
 
 ![](/images/launch/ready_to_launch.png)
@@ -26,13 +26,19 @@ Launch workflows are powered by three fundamental components: **jobs, queues, an
 
 ## How to get started
 
-
 To enable W&B Launch:
 
 1. Navigate to https://wandb.ai/settings.
 2. Scroll down to the **Beta Features** section and enable **W&B Launch**.
 
 ![](/images/launch/toggle_beta_flag.png)
+
+:::info
+Please ensure you are on SDK version 0.14.0 or higher by running ```
+wandb --version```.
+
+If you're on W&B Dedicated Cloud or a Customer-Managed W&B deployment, please ensure you are on version 0.30 or higher of W&B Server.
+:::
 
 Depending on your use case, explore the following resources to get started with Weights & Biases Launch:
 

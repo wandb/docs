@@ -2108,6 +2108,13 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@laxels/docusaurus-plugin-segment@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@laxels/docusaurus-plugin-segment/-/docusaurus-plugin-segment-1.0.6.tgz#224fc874483e11cd753d3d9d8f7e99d73c01dafa"
+  integrity sha512-dQSZ1kWV8PAIgnEv7P3FLGNlPS3WmJ8vp9aZ0al/ycuNoHpUeRz+sDzcljqJGr3EDsf5SxNrS5L/QVtYxP+Wvg==
+  dependencies:
+    "@segment/snippet" "^4.13.2"
+
 "@laxels/serve-static@^1.15.1":
   version "1.15.1"
   resolved "https://registry.npmjs.org/@laxels/serve-static/-/serve-static-1.15.1.tgz"
@@ -4278,13 +4285,6 @@ docusaurus-lunr-search@^2.3.2:
     to-vfile "^6.1.0"
     unified "^9.0.0"
     unist-util-is "^4.0.2"
-
-docusaurus-plugin-segment@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.npmjs.org/docusaurus-plugin-segment/-/docusaurus-plugin-segment-1.0.4.tgz"
-  integrity sha512-kJT0wvhlursmjHNrrQDs7Ce6vAB+yjflr8P6T0s6LE87BPA2+KQ8ifyNb4PwSdX91OJ5bBYyb4V0T8EI8MtGWQ==
-  dependencies:
-    "@segment/snippet" "^4.13.2"
 
 dom-converter@^0.2.0:
   version "0.2.0"
