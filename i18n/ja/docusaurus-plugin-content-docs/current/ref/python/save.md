@@ -1,4 +1,4 @@
-# save
+# 保存
 
 
 
@@ -6,7 +6,7 @@
 
 
 
-Ensure all files matching `glob_str` are synced to wandb with the policy specified.
+指定されたポリシーで、'glob_str'と一致するすべてのファイルをwandbと同期化します。
 
 ```python
 save(
@@ -20,9 +20,9 @@ save(
 
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `glob_str` | (string) a relative or absolute path to a unix glob or regular path. If this isn't specified the method is a noop. |
-| `base_path` | (string) the base path to run the glob relative to |
-| `policy` | (string) on of `live`, `now`, or `end` - live: upload the file as it changes, overwriting the previous version - now: upload the file once now - end: only upload file when the run ends |
+| `glob_str` | （文字列）unix globや正規パスへの相対パスまたは絶対パス。指定しない場合、メソッドはnoopになります。 |
+| `base_path` | （文字列）globを実行する際のベースパス |
+| `policy` | （文字列）`live`、`now`、または`end` - live：変更されたファイルをアップロードし、前のバージョンを上書きします - now：ファイルをすぐに1回アップロードします - end：runの終了時にのみファイルをアップロードします |
 
