@@ -3,45 +3,46 @@ slug: /guides/sweeps
 description: Hyperparameter search and model optimization with W&B Sweeps
 ---
 
-# Tune Hyperparameters
+# ハイパーパラメーターのチューニング
 
 <head>
   <title>Tune Hyperparameters with Sweeps</title>
 </head>
 
-Use Weights & Biases Sweeps to automate hyperparameter search and explore the space of possible models. Create a sweep with a few lines of code. Sweeps combines the benefits of automated hyperparameter search with our visualization-rich, interactive experiment tracking. Pick from popular search methods such as Bayesian, grid search, and random to search the hyperparameter space.  Scale and parallelize Sweep jobs across one or more machines.
+Weights & Biasesスウィープを使って、ハイパーパラメーター検索を自動化し、可能性があるモデルの空間を探索します。数行のコードでスウィープを作成します。スウィープは、自動化されたハイパーパラメーター検索のメリットを、可視化に富んだインタラクティブな実験トラッキングと結合します。ベイズなどの一般的な検索メソッド、グリッド検索およびランダムから選んでハイパーパラメーター空間を検索します。1台または複数台のマシンでスウィープジョブを拡大し、並列化します。
+
 
 ![Draw insights from large hyperparameter tuning experiments with interactive dashboards.](/images/sweeps/intro_what_it_is.png)
 
-### How it works
+### 仕組み​
 
-There are two components to Weights & Biases Sweeps: a _controller_ and one or more _agents_. The controller picks out new hyperparameter combinations. [Typically the Sweep server is managed on the Weights & Biases server](https://docs.wandb.ai/guides/sweeps/local-controller).
+Weights & Biasesスウィープには2つのコンポーネント、コントローラおよび1つまたは複数のエージェントがあります。コントローラは新しいハイパーパラメーターの組み合わせを選び出します。[通常、スウィープサーバーはWeights & Biasesサーバー上で管理されます](https://docs.wandb.ai/guides/sweeps/local-controller).
 
-Agents query the Weights & Biases server for hyperparameters and use them to run model training. The training results are then reported back to the Sweep server. Agents can run one or more processes on one or more machines. The flexibility of agents to run multiple processes across multiple machines makes it easy to parallelize and scale Sweeps. For more information on how to scale sweeps, see [Parallelize agents](https://docs.wandb.ai/guides/sweeps/parallelize-agents).
+エージェントはWeights & Biasesサーバーにハイパーパラメーターのクエリを行い、これらのパラメーターを使ってモデルトレーニングを実行します。その後、トレーニング結果はスウィープサーバーにレポートされます。エージェントは1つまたは複数のプロセスを、1台または複数台のマシンで実行できます。複数のプロセスを複数のマシンで実行できるエージェントの柔軟性によって、スウィープの並列化と拡大が容易になります。スウィープの拡大方法の詳細情報は、[エージェントの並列化](https://docs.wandb.ai/guides/sweeps/parallelize-agents)をご覧ください。
 
-Create a W&B Sweep with the following steps:
+以下のステップに従ってW&Bスウィープを作成します：
 
-1. **Add W&B to your code:** In your Python script, add a couple lines of code to log hyperparameters and output metrics from your script. See [Add W&B to your code](https://docs.wandb.ai/guides/sweeps/add-w-and-b-to-your-code) for more information.
-2. **Define the sweep configuration**: Define the variables and ranges to sweep over. Pick a search strategy— we support grid, random, and Bayesian search, plus techniques for faster iterations like early stopping. See [Define sweep configuration](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) for more information.
-3. **Initialize sweep**: Start the Sweep server. We host this central controller and coordinate between the agents that execute the sweep. See [Initialize sweeps](https://docs.wandb.ai/guides/sweeps/initialize-sweeps) for more information.
-4. **Start sweep**: Run a single-line command on each machine you'd like to use to train models in the sweep. The agents ask the central sweep server what hyperparameters to try next, and then they execute the runs. See [Start sweep agents](https://docs.wandb.ai/guides/sweeps/start-sweep-agents) for more information.
-5. **Visualize results (optional)**: Open our live dashboard to see all your results in one central place.
+1. **W&Bをコードに追加:** Pythonスクリプトでコード2行を追加して、ハイパーパラメーターと出力メトリクスをスクリプトから記録します。詳細情報は、[W&Bをコードに追加する](https://docs.wandb.ai/guides/sweeps/add-w-and-b-to-your-code)を参照してください。
+2. **スウィープ構成を定義**: スウィープの変数と範囲を定義します。検索戦略を選びます — グリッド、ランダムおよびベイズ検索に加えて、早期終了などの反復を迅速に行うための手法もサポートしています。詳細情報は、[スウィープ構成を定義する](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)を参照してください。
+3. **スウィープの初期化**: スウィープサーバーを起動します。弊社では、この一元化されたコントローラをホスティングし、スウィープを実行するエージェント間での調整を行います。詳細情報は、[スウィープの初期化](https://docs.wandb.ai/guides/sweeps/initialize-sweeps)を参照してください。
+4. **スウィープの開始**: 各マシンで、スウィープでのモデルのトレーニングに使用したい1行コマンドを実行します。エージェントは集中型スウィープサーバーに次に試すハイパーパラメーターを尋ねてから、runを実行します。詳細情報は、[スウィープエージェントの開始](https://docs.wandb.ai/guides/sweeps/start-sweep-agents)を参照してください。
+5. **可視化結果（オプション**: ライブダッシュボードを開くと、すべての結果が1か所に表示されます。
 
-### How to get started
+### 開始方法​
 
-Depending on your use case, explore the following resources to get started with Weights & Biases Sweeps:
+ユースケースに従って、以下のリソースを探索し、Weights & Biasesスウィープの使用を開始してください:
 
-* If this is your first time hyperparameter tuning with Weights & Biases Sweeps, we recommend you read the [Quickstart](https://docs.wandb.ai/guides/sweeps/quickstart). The Quickstart walks you through setting up your first W&B Sweep.
-* Explore topics about Sweeps in the Weights and Biases Developer Guide such as:
-  * [Add W&B to your code](https://docs.wandb.ai/guides/sweeps/add-w-and-b-to-your-code)
-  * [Define sweep configuration](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)
-  * [Initialize sweeps](https://docs.wandb.ai/guides/sweeps/initialize-sweeps)
-  * [Start sweep agents](https://docs.wandb.ai/guides/sweeps/start-sweep-agents)
-  * [Visualize sweep results](https://docs.wandb.ai/guides/sweeps/visualize-sweep-results)
-* Try our [Organizing Hyperparameter Sweeps in PyTorch](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing\_Hyperparameter\_Sweeps\_in\_PyTorch\_with\_W%26B.ipynb#scrollTo=e43v8-9MEoYk) Google Colab Jupyter notebook for an example of how to create sweeps using the PyTorch framework in a Jupyter notebook.
-* Explore a [curated list of Sweep experiments](https://docs.wandb.ai/guides/sweeps/useful-resources#reports-with-sweeps) that explore hyperparameter optimization with W&B Sweeps. Results are stored in W&B Reports.
-* Read the [Weights & Biases SDK Reference Guide](https://docs.wandb.ai/ref).
+* Weights & Biasesスウィープでハイパーパラメーターのチューニングを初めて行う場合は、[クイックスタート](https://docs.wandb.ai/guides/sweeps/quickstart)を読むことをお勧めします。クイックスタートには、最初のW&Bスウィープのセットアップ方法が説明されています。
+* 「Weights and Biases開発者ガイド」で、以下のようなスウィープに関するトピックを探索してください：
+  * [W&Bをコードに追加する](https://docs.wandb.ai/guides/sweeps/add-w-and-b-to-your-code)
+  * [スウィープ構成を定義する](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)
+  * [スウィープを初期化する](https://docs.wandb.ai/guides/sweeps/initialize-sweeps)
+  * [スウィープエージェントを開始する](https://docs.wandb.ai/guides/sweeps/start-sweep-agents)
+  * [スウィープ結果を可視化する](https://docs.wandb.ai/guides/sweeps/visualize-sweep-results)
+* [PyTorchでハイパーパラメータースウィープを体系化する](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing\_Hyperparameter\_Sweeps\_in\_PyTorch\_with\_W%26B.ipynb#scrollTo=e43v8-9MEoYk) をお試しください。Google Colab Jupyterノートブック JupyterノートブックでPyTorchフレームワークを使ってスウィープを作成する方法の例。
+* W&Bスウィープによるハイパーパラメーターの最適化を説明する[スウィープ実験のキュレートされたリスト](https://docs.wandb.ai/guides/sweeps/useful-resources#reports-with-sweeps)をご覧ください。結果はW&Bレポートに保存されます。
+* [Weights & Biases SDKリファレンスガイド](https://docs.wandb.ai/ref)をお読みください。
 
-For a step-by-step video, see: [Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab\_channel=Weights%26Biases).
+手順を段階的に説明した動画をご覧ください: [W&Bスウィープでハイパーパラメーターを簡単にチューニングする](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab\_channel=Weights%26Biases).
 
 <!-- {% embed url="http://wandb.me/sweeps-video" %} -->
