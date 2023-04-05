@@ -49,7 +49,7 @@ W&Bレポートを使ってRunを体系化し、可視化の埋め込みと自�
 
 ### 作業ログ：試したことを追跡し、次のステップを計画
 
-プロジェクトに取り組みながら、実験に関する考察、発見事項、理解した内容および次のステップを書き留め、すべての内容を1か所で整理します。これによって、スクリプトの外で、重要事項をすべて「文書化」することができます（例: [Who Is Them? Text Disambiguation With Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc))。
+プロジェクトに取り組みながら、実験に関する考察、発見事項、理解した内容および次のステップを書き留め、すべての内容を1か所で整理します。これによって、スクリプトの外で、重要事項をすべて`文書化`することができます（例: [Who Is Them? Text Disambiguation With Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc))。
 
 ![](/images/reports/intro_work_log_1.png)
 

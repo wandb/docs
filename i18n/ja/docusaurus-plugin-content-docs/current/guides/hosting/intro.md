@@ -27,6 +27,6 @@ W&Bサーバーをプロダクション環境でセットアップする方法�
 2. [Deployer](https://deploy.wandb.ai/)から無料ライセンスを生成します。
 3. これをローカル設定に追加します。
 
-localhostの「 /system-admin」ページでライセンスを貼り付けます
+localhostの` /system-admin`ページでライセンスを貼り付けます
 
 ![Copy your license from Deployer and paste it into your Local settings](@site/static/images/hosting/License.gif)

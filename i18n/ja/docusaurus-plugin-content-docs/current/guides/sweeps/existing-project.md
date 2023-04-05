@@ -14,9 +14,9 @@ description: Tutorial on how to create sweep jobs from a pre-existing Weights & 
 
 ## 1. プロジェクトを作成する​
 
-まずベースラインを作成します。PyTorch MNISTデータセットサンプルモデルを、Weights & BiasesサンプルGitHubレポジトリからダウンロードします。次にモデルのトレーニングを行います。トレーニングスクリプトは、「examples/pytorch/pytorch-cnn-fashion」ディレクトリーにあります。
+まずベースラインを作成します。PyTorch MNISTデータセットサンプルモデルを、Weights & BiasesサンプルGitHubレポジトリからダウンロードします。次にモデルのトレーニングを行います。トレーニングスクリプトは、`examples/pytorch/pytorch-cnn-fashion`ディレクトリーにあります。
 
-1. このレポジトリ「git clone」を複製します `git clone https://github.com/wandb/examples.git`
+1. このレポジトリ`git clone`を複製します `git clone https://github.com/wandb/examples.git`
 2. このサンプルcdを開きます  `cd examples/pytorch/pytorch-cnn-fashion`
 3. Runを手動で実行します `python train.py`
 
@@ -26,7 +26,7 @@ description: Tutorial on how to create sweep jobs from a pre-existing Weights & 
 
 ## 2. スウィープを作成する​
 
-[プロジェクトページ](../app/pages/project-page.md)から、サイドバーにある[「Sweep（スウィープ）」タブ](./sweeps-ui.md) を開き、「Create Sweep（スウィープを作成）」を選びます。
+[プロジェクトページ](../app/pages/project-page.md)から、サイドバーにある[`Sweep（スウィープ）`タブ](./sweeps-ui.md) を開き、`Create Sweep（スウィープを作成）`を選びます。
 
 ![](@site/static/images/sweeps/sweep1.png)
 

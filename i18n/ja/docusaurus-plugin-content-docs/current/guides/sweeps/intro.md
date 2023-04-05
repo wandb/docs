@@ -33,7 +33,7 @@ Weights & Biasesスウィープには2つのコンポーネント、コントロ
 ユースケースに従って、以下のリソースを探索し、Weights & Biasesスウィープの使用を開始してください:
 
 * Weights & Biasesスウィープでハイパーパラメーターのチューニングを初めて行う場合は、[クイックスタート](https://docs.wandb.ai/guides/sweeps/quickstart)を読むことをお勧めします。クイックスタートには、最初のW&Bスウィープのセットアップ方法が説明されています。
-* 「Weights and Biases開発者ガイド」で、以下のようなスウィープに関するトピックを探索してください：
+* `Weights and Biases開発者ガイド`で、以下のようなスウィープに関するトピックを探索してください：
   * [W&Bをコードに追加する](https://docs.wandb.ai/guides/sweeps/add-w-and-b-to-your-code)
   * [スウィープ構成を定義する](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)
   * [スウィープを初期化する](https://docs.wandb.ai/guides/sweeps/initialize-sweeps)
