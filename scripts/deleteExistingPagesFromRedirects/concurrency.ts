@@ -1,5 +1,6 @@
 export type ConcurrencyLimiter = {
   addTask: (fn: () => Promise<void>) => Promise<void>;
+  waitForTasksToFinish: () => Promise<void>;
 };
 
 export function createConcurrencyLimiter(
@@ -7,7 +8,7 @@ export function createConcurrencyLimiter(
 ): ConcurrencyLimiter {
   const promiseMap = new Map<string, Promise<void>>();
 
-  return {addTask};
+  return {addTask, waitForTasksToFinish};
 
   async function addTask(fn: () => Promise<void>): Promise<void> {
     const promiseKey = `${Math.random()}`;
@@ -21,5 +22,11 @@ export function createConcurrencyLimiter(
         promiseMap.delete(promiseKey);
       })()
     );
+  }
+
+  async function waitForTasksToFinish(): Promise<void> {
+    while (promiseMap.size > 0) {
+      await Promise.all(promiseMap.values());
+    }
   }
 }

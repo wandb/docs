@@ -1,10 +1,11 @@
 import axios from 'axios';
 import yargs from 'yargs';
 
-import {loadData} from './data';
+import {loadData, removeRedirects} from './data';
 import {createConcurrencyLimiter} from './concurrency';
+import type {Redirect} from '../utils';
 
-const BASE_URL = 'https://docs.wandb.ai';
+const BASE_URL = 'https://docs-beta.wandb.ai';
 
 const {dataFile} = yargs(process.argv.slice(2))
   .options({
@@ -17,23 +18,29 @@ const {dataFile} = yargs(process.argv.slice(2))
   .parseSync();
 
 let data = loadData(dataFile);
-const concurrencyLimiter = createConcurrencyLimiter(5);
+const concurrencyLimiter = createConcurrencyLimiter(3);
 
 (async () => {
-  let count = 0;
-  for (const {from, to} of data.redirects) {
+  const toRemove: Redirect[] = [];
+
+  for (const r of data.redirects) {
+    const {from} = r;
     concurrencyLimiter.addTask(async () => {
       const fromPageExists = await pageExists(from);
       if (fromPageExists) {
-        count++;
+        toRemove.push(r);
         console.log(from);
       }
     });
   }
 
+  await concurrencyLimiter.waitForTasksToFinish();
+
   console.log(
-    `\n${count} / ${data.redirects.length} redirects from pages that already exist`
+    `\n${toRemove.length} / ${data.redirects.length} redirects from pages that already exist`
   );
+
+  data = removeRedirects(data, toRemove);
 })();
 
 async function pageExists(path: string): Promise<boolean> {
