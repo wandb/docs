@@ -1,15 +1,9 @@
 import {createInterface} from 'readline';
 import yargs from 'yargs';
 
+import {Redirect, log, prompt, promptChoice} from '../utils';
 import {addIgnoredPath, addRedirect, loadData} from './data';
-import {fetch404Paths, getSuggestionPrefixes, Redirect} from './lib';
-import {
-  log,
-  parseJSONFile,
-  prompt,
-  promptChoice,
-  writeJSONFile,
-} from '../utils';
+import {fetch404Paths} from './lib';
 import {getRedirectSuffix} from './utils';
 
 const {dataFile} = yargs(process.argv.slice(2))
