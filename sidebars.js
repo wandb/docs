@@ -171,7 +171,16 @@ const sidebars = {
           items: [
             // 'guides/hosting/setup/intro',
             'guides/hosting/setup/dedicated-cloud',
-            'guides/hosting/setup/private-cloud',
+            {
+              type: 'category',
+              label: 'Private Cloud',
+              link: {type: 'doc', id: 'guides/hosting/setup/private-cloud'},
+              items: [
+                'guides/hosting/setup/private-cloud/aws',
+                'guides/hosting/setup/private-cloud/azure',
+                'guides/hosting/setup/private-cloud/gcp'
+              ],
+            },
             'guides/hosting/setup/on-premise-baremetal',
             'guides/hosting/setup/configuration',
           ],
