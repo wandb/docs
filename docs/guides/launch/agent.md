@@ -33,117 +33,135 @@ The launch agent will execute the run in the container image that was built in t
 For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a k8s cluster as a [k8s Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) via the k8s API.
 
 
+## Agent configuration
 
-<!-- 
-### Activate a launch agent
-A launch agent listens the queue and executes jobs added to the queue. If certain criteria are met, the launch agent builds an image for the environment and sends the job to the desired compute runner. 
-
-The following tabs provide information on how to activate a launch agent with basic, standard control settings and with more control options with a config file.
-
-
-<Tabs
-  defaultValue="basic"
-  values={[
-    {label: 'Basic', value: 'basic'},
-    {label: 'EKS', value: 'eks'},
-  ]}>
-  <TabItem value="basic">
-
-Activate a launch agent in your terminal with the `wandb launch-agent` command:
-
-```bash
-wandb launch-agent -q <queue-name>
-```
-Provide a name for your queue for the `queue` flag (`-q`). For more information on optional flags, see the [CLI Reference Guide](../../ref/cli/README.md).
-
-
-  </TabItem>
-  <TabItem value="eks">
-
-For more control options a config file can be placed at `~/.config/wandb/launch-config.yaml` (or the path can be specified with the config flag).
+The launch agent can be configured with a variety of flags and options. The agent can be configured with a config file or with command line flags. The config file is located at `~/.config/wandb/launch-config.yaml` by default, but the location of the config can be overridden with the `--config` flag. The config file is a YAML file with the following structure:
 
 ```yaml
-base_url: https://api.wandb.ai # TODO: set wandb base url
-entity: <entity-name>
-max_jobs: -1 # TODO: set max concurrent jobs here
+base_url: https://api.wandb.ai # URL of the W&B API server
+entity: <entity-name>  # W&B entity (i.e. user or team) name
+max_jobs: -1 # Set max concurrent jobs here, -1 = no limit
 queues:
-- default # TODO: set queue name here
+- default # Set queues to poll by name here
 environment:
-  type: aws
-  region: us-east-1 # TODO: set aws region here
+  type: aws|gcp
 registry:
-  type: ecr
-  repository: # TODO: set ecr repository name here
+  type: ecr|gcr
 builder:
-  type: kaniko
-  build-context-store: s3://my-bucket/... # TODO: set your build context store here
+  type: docker|kaniko|noop
 ```
 
-**Environment Flags and Options**
+The `environment`, `registry`, and `builder` keys are optional. By default, the agent will use no cloud environment, a local docker registry, and a docker builder. 
 
-- `type`: specified the environment type, options: `local` and `aws`.
-- `region`: only used with AWS environment, AWS region.
+### Environments
 
-**Registry Flags and Options:**
+The `environment` key is used to configure the cloud environment that the agent will need to access in order to do its job. If the agent does not require access to cloud resources, this key should be omitted. See the following references for configuring an AWS or GCP environment.
 
-- `type`: specifies the registry type, options: `local` (default) and `ecr` (ECR requires `aws` environment).
-- `repository`: only used with ECR, the name of the underlying repository.
+<Tabs
+  defaultValue="aws"
+  values={[
+    {label: 'AWS', value: 'aws'},
+    {label: 'GCP', value: 'gcp'},
+  ]}>
 
-**Builder Flags and Options:**
+<TabItem value="aws">
 
-- `type` : specifies type: options: `docker`, `noop`, `kaniko`
-    - defaults to docker builder
-    - `noop` provides no build capabilities, used for launching image sourced jobs
-    - `kaniko` only used in `EKS`
-- `build-context-store`: only used with kaniko (EKS)
+```yaml
+environment:
+  type: aws
+  region: us-east-2
+```
 
+</TabItem>
 
-  </TabItem>
+<TabItem value="gcp">
+
+```yaml
+environment:
+  type: gcp
+  region: us-east1
+  project: my-gcp-project
+```
+
+</TabItem>
+
+</Tabs>
+
+### Registries
+
+The `registry` key is used to configure the container registry that the agent will use to store container images. If the agent does not require access to a container registry, this key should be omitted.
+
+<Tabs
+  defaultValue="ecr"
+  values={[
+    {label: 'AWS ECR', value: 'ecr'},
+    {label: 'GCP Artifact Registry', value: 'gcr'},
+  ]}>
+
+<TabItem value="ecr">
+
+```yaml
+registry:
+  type: ecr  # requires an aws environment configuration
+  repository: my-ecr-repo.  # name of repository in the ecr for the region configured in your environment
+```
+
+</TabItem>
+
+<TabItem value="gcr">
+
+```yaml
+registry:
+  type: gcr  # requires a gcp environment configuration
+  repository: my-artifact-repo  # name of artifact repository in project/region configured in your environment
+  image-name: my-image-name # the name (not tag!) of image within repository
+```
+
+</TabItem>
+
 </Tabs>
 
 
+### Builders
 
+The `builder` key is used to configure the container builder that the agent will use to build container images. If the agent does not require access to a container builder, this key should be omitted.
 
-## Local testing with Docker
-Set up a queue for local testing with Docker. 
+<Tabs
+  defaultValue="docker"
+  values={[
+    {label: 'Docker', value: 'docker'},
+    {label: 'Kaniko', value: 'kaniko'},
+    {label: 'Noop', value: 'noop'}
+  ]}>
 
-:::info
-The following section describes how to create a "Starter queue". This is a queue that W&B created for local testing purposes only. This means that you do not need to manually configure the queue. 
-:::
+<TabItem value="docker">
 
-The "Starter queue" uses a Docker image to run the job locally on your machine. Ensure you have Docker installed and running. See the [Docker documentation](https://docs.docker.com/get-docker/) for instructions on how to install Docker based on your operating system.
+```yaml
+builder:
+  type: docker
+```
 
+</TabItem>
 
-### Create a starter queue 
-The following procedure demonstrates how to create a starter queue:
+<TabItem value="kaniko">
 
-1. Navigate to your W&B Project Page. 
-2. Select the **Jobs Tab** from the W&B App Project page.
-3. The Jobs Page displays a list of jobs that were created from previously executed W&B Runs. 
-:::tip
-If you do not see a job you will need to create one first. See the [Create a job](./create-job.md) page for more information.
-:::
-4. Select the **Launch** button next to the name of the Job name. A modal will appear.
-5. Within the modal select **Starter queue** From the **Queue** dropdown.
+```yaml
+builder:
+  type: kaniko
+  build-context-store: s3://my-bucket/build-contexts/  # s3 or gcs prefix for build context storage
+  build-job-name: wandb-image-build  # k8s job name prefix for all builds
+```
+</TabItem>
 
-![](/images/launch/starter_queue.png)
+<TabItem value="noop">
 
-### Activate a launch agent
-Launch queues require an active agent. To start an agent for a local process you will need to execute a CLI command in your local machine’s terminal. 
+The `noop` builder is useful if you want to limit the agent to running pre-built container images.
 
-1. Navigate to the W&B App at https://wandb.ai/home.
-2. Select **Launch** within the **Applications** section of the left sidebar.
-3. Select **View queue** next to the name of your queue.
-![](/images/launch/view_queue_button.png)
+```yaml
+builder:
+  type: noop
+```
 
+</TabItem>
 
-4. Select the **Add an agent** button at the top of your screen.
-![](/images/launch/add_agent_zoom.png)
-
-5. A modal will appear with a W&B CLI command. Copy this and paste this command into your terminal.
-
-![](/images/launch/add_agent_dark_background.png)
-
-Within your terminal, you will see the agent begin to poll for queues. Your terminal should look similar to the following image:
-
-![](/images/launch/terminal_gs.png) -->
+</Tabs>
