@@ -1,23 +1,23 @@
 import immer, {enableMapSet} from 'immer';
 
-import {getSuggestionPrefixes, Redirect} from './lib';
-import {parseJSONFile, writeJSONFile} from '../utils';
-import {sortPaths, sortRedirects} from './utils';
+import {getSuggestionPrefixes} from './lib';
+import {
+  Data as JSONRepresentation,
+  DEFAULT_DATA_FILE_PATH,
+  Redirect,
+  parseJSONFile,
+  sortPaths,
+  sortRedirects,
+  writeJSONFile,
+} from '../utils';
 
 enableMapSet();
-
-const DEFAULT_DATA_FILE_PATH = `./data.json`;
 
 type Data = {
   redirects: Redirect[];
   ignoredPaths: Set<string>;
   encounteredPaths: Set<string>;
   suggestionPrefixes: Redirect[];
-};
-
-type JSONRepresentation = {
-  redirects: Redirect[];
-  ignoredPaths: string[];
 };
 
 export function addRedirect(

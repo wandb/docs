@@ -79,7 +79,7 @@ For more information about how to download use artifacts, see [Use an artifact](
 
 Depending on your use case, explore the following resources to get started with W&B Artifacts:
 
-* If this is your first time using W&B Artifacts, we recommend you read the Quick Start. The [Quickstart](quickstart.md) walks you through setting up your first artifact.
+* If this is your first time using W&B Artifacts, we recommend you read the Quick Start. The [Quickstart](./quickstart.md) walks you through setting up your first artifact.
 * Explore topics about Artifacts in the W&B Developer Guide such as:
   * Create an artifact or a new artifact version.
   * Update an artifact.
