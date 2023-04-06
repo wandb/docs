@@ -66,21 +66,25 @@ The `environment` key is used to configure the cloud environment that the agent 
 
 <TabItem value="aws">
 
+The AWS environment configuration requires the `region` key to be set. The region should be the AWS region that the agent will be running in. When the agent starts, it will use `boto3` to load the default AWS credentials. See the [boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#overview) for more information on how to configure default AWS credentials.
+
 ```yaml
 environment:
   type: aws
-  region: us-east-2
+  region: <aws-region>
 ```
 
 </TabItem>
 
 <TabItem value="gcp">
 
+The GCP environment requires the `region` and `project` keys to be set. The region should be the GCP region that the agent will be running in. The project should be the GCP project that the agent will be running in. When the agent starts, it will use `google.auth.default()` to load the default GCP credentials. See the [google-auth documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) for more information on how to configure default GCP credentials.
+
 ```yaml
 environment:
   type: gcp
-  region: us-east1
-  project: my-gcp-project
+  region: <gcp-region>
+  project: <gcp-project-id>
 ```
 
 </TabItem>
@@ -100,6 +104,8 @@ The `registry` key is used to configure the container registry that the agent wi
 
 <TabItem value="ecr">
 
+Set `type: ecr` to use AWS Elastic Container Registry. In order to use `ecr`, must configure an AWS environment. The `repository` key is required and should be the name of the ECR repository that the agent will use to store container images. The agent will use the region configured in the `environment` key to determine which registry to use.
+
 ```yaml
 registry:
   type: ecr  # requires an aws environment configuration
@@ -109,6 +115,8 @@ registry:
 </TabItem>
 
 <TabItem value="gcr">
+
+Set `type: gcr` to use GCP Artifact Registry. In order to use `gcr`, must configure a GCP environment. The `repository` and `image-name` keys are required. The `repository` key should be the name of the Artifact Registry repository that the agent will use to store container images. The agent will use the region and project configured in the `environment` key to determine which registry to use. The `image-name` key should be the name of the image within the repository that the agent will use to store container images.
 
 ```yaml
 registry:
@@ -124,7 +132,7 @@ registry:
 
 ### Builders
 
-The `builder` key is used to configure the container builder that the agent will use to build container images. If the agent does not require access to a container builder, this key should be omitted.
+The `builder` key is used to configure the container builder that the agent will use to build container images. The `builder` key is not required and if omitted, the agent will use Docker to build images locally.
 
 <Tabs
   defaultValue="docker"
@@ -136,6 +144,8 @@ The `builder` key is used to configure the container builder that the agent will
 
 <TabItem value="docker">
 
+Set `type: docker` to use Docker to build images locally. The `docker` builder is selected by default and does not require any additional configuration.
+
 ```yaml
 builder:
   type: docker
@@ -145,12 +155,27 @@ builder:
 
 <TabItem value="kaniko">
 
+Set `type: kaniko` and configure either a GCP or AWS environment to use Kaniko to build container images in Kubernetes. The `kaniko` builder requires the `build-context-store` key to be set. The `build-context-store` key should be an S3 or GCS prefix that the agent will use to store build contexts, depending on the environment that is configured. The `build-job-name` can be used to specify a name prefix for the k8s job that the agent will use to build images.
+
 ```yaml
 builder:
   type: kaniko
   build-context-store: s3://my-bucket/build-contexts/  # s3 or gcs prefix for build context storage
   build-job-name: wandb-image-build  # k8s job name prefix for all builds
 ```
+
+To grant Kaniko builds running in k8s access to your blob and container storage in the cloud, it is strongly recommended that you use either [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) if you are using GKE or [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) if you are using EKS.
+
+If you are running your own k8s cluster, you will need to create a k8s secret that contains the credentials for your cloud environemnt. To grant access to GCP, this secret should contain a [service account json](https://cloud.google.com/iam/docs/keys-create-delete#creating). To grant access to AWS, this secret should contain an [AWS credentials file](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html). You can configure the Kaniko builder to use this secret by setting the following keys in your builder config:
+
+```yaml
+builder:
+  type: kaniko
+  build-context-store: <my-build-context-store>
+  secret-name: <k8s-secret-name>
+  secret-key: <secret-file-name>
+```
+
 </TabItem>
 
 <TabItem value="noop">
