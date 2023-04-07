@@ -123,5 +123,3 @@ Select the **Agents** tab to view active and inactive agents assigned to the que
 - **Host:** The machine the agent is polling on.
 
 ![](/images/launch/queues_all_agents.png)
-
-<!-- For information on how to add an agent see [LINK to Prerequisites]. -->
