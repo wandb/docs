@@ -10,7 +10,7 @@ Upon successful deployment of the W&B server, the first user to sign up will aut
 
 In W&B, users can be classified as either admin or member. Instance admins have the ability to invite users with either role from the `https://<YOUR-WANDB-URL>/admin/users` page.
 
-Step 1: Navigate to https://<YOUR-WANDB-URL>/admin/users
+Step 1: Navigate to `https://<YOUR-WANDB-URL>/admin/users`
 
 ![Screen Shot 2023-01-09 at 10.12.48 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d9be8ae4-be4b-479a-b8b1-48c43e941f29/Screen_Shot_2023-01-09_at_10.12.48_PM.png)
 
