@@ -22,12 +22,6 @@ Interactively recreate a W&B Run with the W&B App or programmatically with the C
   <TabItem value="app">
 The following procedure demonstrates how to add a job to a queue interactively with the W&B App.
 
-:::info
-In this example we demonstrate how add a job to a “Starter queue”. This starter queue is designed to be used for local testing and demonstrative purposes only. 
-
-For more information on how to create queues that utilize other cloud compute resources such as Kubernetes, see the [Set up a cloud compute resource](./prerequisites#set-up-cloud-compute-resource) in the [Prerequisites page](./prerequisites.md). 
-:::
-
 1. Navigate to your project page on the W&B App.
 2. Select the **Jobs** tab.
 
@@ -50,13 +44,7 @@ For more information on how to create queues that utilize other cloud compute re
 
 ![](/images/launch/create_starter_queue_gs.png)
 6. From the **Queue** dropdown, select **Starter queue**.  
-7. Select the **Launch now** button. 
-
-:::info
-The described example use a queue called **Starter queue**. This is a queue that W&B created for demonstrative purposes only. In addition to adding the job to this queue, W&B will also create this queue for you. The **Starter queue** uses a Docker image to run the job locally on your machine. 
-
-Note that W&B expects that you create a queue before you can add jobs to it. For more information on how to create a queue, see the [Prerequisites](./prerequisites.md) page.
-:::
+7. Select the **Launch now** button.
 
 
 </TabItem>
