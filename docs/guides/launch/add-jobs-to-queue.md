@@ -6,9 +6,7 @@ import TabItem from '@theme/TabItem';
 
 # Add jobs to your queue
 
-Add W&B Jobs to your Launch Queue. Launch queues possess one or more W&B Jobs that are executed when you start a W&B Launch agent. A launch queue has a compute resource associated to that queue. Launch queues are entity-scoped. This means that anyone who has access to the entity can use the queue to launch jobs. 
-
-For example, suppose a team has a queue configured to a Kubernetes cluster. Anyone on that team, or who has access to that entity, can send jobs to that cluster with the W&B App or W&B CLI.
+Use W&B launch to queue up jobs for execution on a particular compute resource. Users submit workloads in the form of jobs to a launch queue, then any agent polling on that queue can pop a workload and execute it according to the configuration and type of the queue, e.g. via Docker, Kubernetes, etc. Queues can be created by and for individual W&B users, or shared across W&B Teams. In either case, queue setup should be done once and then jobs can be added to the queue as needed. In this guide, we will walk through how to add jobs to a launch queue once it has been set up.
 
 ## Add jobs to your queue
 Add jobs to your queue interactively with the W&B App or programmatically with the CLI.
@@ -22,11 +20,7 @@ Add jobs to your queue interactively with the W&B App or programmatically with t
   <TabItem value="app">
 Add a job to your queue with the W&B App.
 
-:::info
-In this example we demonstrate how to create a “Starter queue”. This starter queue is designed for local testing and demonstrative purposes only. 
-:::
-
-1. Navigate to your W&B Project Page. 
+1. Navigate to your W&B Project Page.
 2. Select the **Jobs** icon on the left panel:
 
 ![](/images/launch/project_jobs_tab_gs.png)
@@ -105,14 +99,26 @@ Each run listed corresponds to a job that was was added to that queue. For examp
 ![](/images/launch/launch_jobs_status.png)
 
 Find additional information about the jobs such as the:
-- **Run**: The name of the W&B Run assigned to that job.
-- **Job ID**: The name of the job. See [Job naming conventions](create-job#job-naming-conventions) page for information on the default naming assigned to a job.
-- **Project**: The name of the project the run belongs to.
-- **Status**: The status of the queued run. 
-- **Author**: The W&B entity that created the run.
-- **Creation date**: The time stamp when the queue was created.
-- **Start time**: The timestamp when the job started.
-- **Duration**: Time, in seconds, it took to complete the job’s run.
+   - **Run**: The name of the W&B Run assigned to that job.
+   - **Job ID**: The name of the job. See [Job naming conventions](create-job#job-naming-conventions) page for information on the default naming assigned to a job.
+   - **Project**: The name of the project the run belongs to.
+   - **Status**: The status of the queued run. 
+   - **Author**: The W&B entity that created the run.
+   - **Creation date**: The timestamp when the queue was created.
+   - **Start time**: The timestamp when the job started.
+   - **Duration**: Time, in seconds, it took to complete the job’s run.
+
+
+## Status of queued runs
+
+| Status | Description |
+| --- | --- |
+| **-- Idle** | The run is in a queue with no active agents. |
+| **Claimed** | The run has been picked up by an agent but has not yet started. |
+| **Running** | The run is currently executing. |
+| **Killed** | The job was killed by the user. |
+| **Failed** | The run ended with a non-zero exit code. |
+| **Finished** | The job completed successfully. |
 
 ## View agents
 Select the **Agents** tab to view active and inactive agents assigned to the queue. Within this tab you can view the:
