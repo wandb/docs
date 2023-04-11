@@ -4,24 +4,40 @@ description: Deploying W&B in production
 ---
 
 # W&B Server
+Deploy Weights & Biases in a resource isolate environment managed by W&B or by yourself. W&B Server is shipped as a packaged Docker image that can be deployed easily into any underlying infrastructure. There are several ways to install and host the W&B Server in different environments. 
 
-W&B server is an option available for Enterprise customers who prefer to deploy Weights & Biases in a resource isolated environment either managed by W&B or by the customer themselves. W&B server comes with several Enterprise level options such as:
+:::info
+W&B Server is an option available only for Enterprise-tier customers.
+:::
 
+
+With W&B Server you can configure:
 - Secure Storage Connector
 - Role-based Access Control
 - Single Sign-On
 - LDAP integration
-- Monitoring & Alerting
-- …and much more
+- Monitoring & Alerting and more.
 
-W&B server is shipped as a packaged docker image that can be deployed easily into any underlying infrastructure. In order to preserve state outside of the container, it's highly recommended to run the docker container with an external storage and an external Mysql database. This protects the data from getting accidentally deleted if the container dies or crashes. W&B also highly recommends leveraging Kubernetes to run the docker image and expose the `wandb` service.There are several ways to install and host the W&B server in various different environments. The following sections talk about options available to install W&B server, the shared responsibility model, step by step installation and configuration guides.
+The following guide describes different options on how to install W&B Server, the shared responsibility model, step-by-step installation and configuration guides.
 
-**System Requirements:**
+## Recommendations
+W&B recommends the following when configuring W&B Server:
+
+1. Run the W&B Server Docker container with an external storage and an external MySQL database in order to preserve the state outside of a container. This protects the data from being accidentally deleted if the container dies or crashes.
+2. Leverage Kubernetes to run the W&B Server Docker image and expose the `wandb` service. 
+3. Set up and manage a scale-able file system if you plan on using W&B Server for production-related work.
+
+
+
+## System Requirements
 
 W&B Server requires a machine with at least 4 cores and 8GB of memory to run. Your W&B data will be saved on a persistent volume or external database, ensuring that it is preserved across different versions of the container.
 
-For enterprise customers, we offer extensive technical support and frequent installation updates for privately hosted instances. If you are planning on using the W&B Server for production related work, we recommend setting up and managing a scalable file system.
+:::tip
+For enterprise customers, W&B offers extensive technical support and frequent installation updates for privately hosted instances. 
+:::
 
-**Releases**
+## Releases
+Subscribe to receive notifications from the [W&B Server GitHub repository](https://github.com/wandb/server/releases) when a new W&B Server release comes out. 
 
-You can find information about our latest releases on our [official github repo here](https://github.com/wandb/server/releases). You can subscribe to automatic notifications on the releases by simply clicking `Watch` > `All Activity` on the page above.
+To subscribe, select the **Watch** button at the top of the GitHub page and select **All Activity**. 
