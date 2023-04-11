@@ -58,7 +58,7 @@ export default function LocaleDropdownNavbarItem({
       className="locale-dropdown"
       label={
         <>
-          <IconLanguage width={24} height={24} className="locale-dropdown-icon" />
+          <IconLanguage width={24} height={24} className="locale-dropdown-icon iconLanguage" />
           {dropdownLabel}
           <IconChevronDown width={24} height={24} className="locale-dropdown-icon chevron-down" />
         </>
