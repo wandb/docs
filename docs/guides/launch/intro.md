@@ -47,7 +47,7 @@ Depending on your use case, explore the following resources to get started with 
     * [Create a job](../launch/create-job.md)
     * [Create a queue](../launch/create-queue.md)
     * [Launch jobs](../launch/launch-jobs.md)
-    * [Run an agent](../launch/agent.md)  
+    * [Run an agent](../launch/run-agent.md)  
 * Discover the [`wandb launch`](../../ref/cli/wandb-launch.md) and [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) commands in the CLI Reference.
 
 :::info
