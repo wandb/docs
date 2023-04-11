@@ -273,3 +273,16 @@ footer .container {
 .pagination-nav {
   display: none;
 }
+
+.dropdown > .navbar__link:after {
+  border: none;
+}
+
+.locale-dropdown-icon {
+  margin: auto 0;
+}
+
+.locale-dropdown-icon.chevron-down{
+  margin-left: 4px;
+  padding-top: 2px;
+}
