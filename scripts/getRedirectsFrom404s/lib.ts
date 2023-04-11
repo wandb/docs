@@ -1,10 +1,13 @@
 import _ from 'lodash';
-import {isNotNullOrUndefined} from '../utils';
+import {
+  Redirect,
+  isNotNullOrUndefined,
+  isRelativeRedirect,
+  killTrailingSlash,
+} from '../utils';
 import {queryBQ} from './bq';
 import {
   getMaxFromSegmentCount,
-  isRelativeRedirect,
-  killTrailingSlash,
   sortSuggestionPrefixes,
   truncateToNSegments,
 } from './utils';
@@ -22,11 +25,6 @@ export async function fetch404Paths(): Promise<string[]> {
   const pages = await queryBQ<{path: string}>(DOCS_404S_QUERY);
   return pages.map(page => killTrailingSlash(page.path)).filter(p => !!p);
 }
-
-export type Redirect = {
-  from: string;
-  to: string;
-};
 
 export function getSuggestionPrefixes(redirects: Redirect[]): Redirect[] {
   const relativeRedirects = redirects.filter(isRelativeRedirect);

@@ -114,7 +114,7 @@
     },
     {
       "from": "/authenticate",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/authonize",
@@ -122,11 +122,11 @@
     },
     {
       "from": "/authorize",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/classes",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/cli",
@@ -134,7 +134,7 @@
     },
     {
       "from": "/cn",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/company",
@@ -146,19 +146,19 @@
     },
     {
       "from": "/company/beginner-faq",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/company/classes",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/company/classes/talks",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/company/company-faq",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/company/data-and-privacy",
@@ -166,7 +166,7 @@
     },
     {
       "from": "/company/getting-help",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/data-vis",
@@ -186,7 +186,7 @@
     },
     {
       "from": "/deployment",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/docs/config.html",
@@ -218,7 +218,7 @@
     },
     {
       "from": "/docs/restoring.html",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/docs/resuming.html",
@@ -253,28 +253,12 @@
       "to": "/quickstart"
     },
     {
-      "from": "/guides/data-and-model-versioning/dataset-versioning",
-      "to": "/guides"
-    },
-    {
-      "from": "/guides/data-and-model-versioning/intro",
-      "to": "/guides"
-    },
-    {
-      "from": "/guides/data-and-model-versioning/model-versioning",
-      "to": "/guides/models"
-    },
-    {
       "from": "/guides/app//settings-page/team-settings",
       "to": "/guides/app/settings-page/team-settings"
     },
     {
       "from": "/guides/app/features/app/features/panels/parallel-coordinates",
       "to": "/guides/app/features/app/features/panels/parallel-coordinates"
-    },
-    {
-      "from": "/guides/app/features/custom-charts/walkthrough",
-      "to": "/guides/app/features/custom-charts/walkthrough"
     },
     {
       "from": "/guides/app/features/panels/compare-metrics",
@@ -285,40 +269,8 @@
       "to": "/guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart"
     },
     {
-      "from": "/guides/app/features/panels/line-plot",
-      "to": "/guides/app/features/panels/line-plot"
-    },
-    {
-      "from": "/guides/app/features/panels/line-plot/reference",
-      "to": "/guides/app/features/panels/line-plot/reference"
-    },
-    {
-      "from": "/guides/app/features/panels/line-plot/smoothing",
-      "to": "/guides/app/features/panels/line-plot/smoothing"
-    },
-    {
       "from": "/guides/app/features/panels/panels",
       "to": "/guides/app/features/panels"
-    },
-    {
-      "from": "/guides/app/features/panels/parameter-importance",
-      "to": "/guides/app/features/panels/parameter-importance"
-    },
-    {
-      "from": "/guides/app/features/panels/scatter-plot",
-      "to": "/guides/app/features/panels/scatter-plot"
-    },
-    {
-      "from": "/guides/app/features/panels/weave",
-      "to": "/guides/app/features/panels/weave"
-    },
-    {
-      "from": "/guides/app/features/teams",
-      "to": "/guides/app/features/teams"
-    },
-    {
-      "from": "/guides/app/pages",
-      "to": "/guides/app/pages"
     },
     {
       "from": "/guides/app/pages/guides/app/settings-page",
@@ -345,10 +297,6 @@
       "to": "/guides/app/settings-page"
     },
     {
-      "from": "/guides/app/settings-page/team-settings",
-      "to": "/guides/app/settings-page/team-settings"
-    },
-    {
       "from": "/guides/artifacts-1",
       "to": "/guides/artifacts"
     },
@@ -361,16 +309,12 @@
       "to": "/guides/artifacts"
     },
     {
-      "from": "/guides/artifacts/construct-an-artifact",
-      "to": "/guides/artifacts/construct-an-artifact"
-    },
-    {
       "from": "/guides/artifacts/dataset-versioning",
-      "to": "/guides/data-and-model-versioning/dataset-versioning"
+      "to": "/"
     },
     {
       "from": "/guides/artifacts/model-versioning",
-      "to": "/guides/data-and-model-versioning/model-versioning"
+      "to": "/guides/models"
     },
     {
       "from": "/guides/artifacts/references",
@@ -393,6 +337,22 @@
       "to": "/guides/track/config"
     },
     {
+      "from": "/guides/data-and-model-versioning",
+      "to": "/"
+    },
+    {
+      "from": "/guides/data-and-model-versioning/dataset-versioning",
+      "to": "/"
+    },
+    {
+      "from": "/guides/data-and-model-versioning/intro",
+      "to": "/"
+    },
+    {
+      "from": "/guides/data-and-model-versioning/model-versioning",
+      "to": "/guides/models"
+    },
+    {
       "from": "/guides/data-vis/log-tables",
       "to": "/guides/track/log/log-tables"
     },
@@ -406,15 +366,11 @@
     },
     {
       "from": "/guides/datasets-and-predictions",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/guides/experiments/track",
       "to": "/guides/track"
-    },
-    {
-      "from": "/guides/hosting/faq",
-      "to": "/guides/hosting"
     },
     {
       "from": "/guides/hosting/intro",
@@ -429,28 +385,12 @@
       "to": "/guides/hosting"
     },
     {
-      "from": "/guides/hosting/setup",
-      "to": "/guides/hosting"
-    },
-    {
-      "from": "/guides/hosting/setup/configuration",
-      "to": "/guides/hosting"
-    },
-    {
       "from": "/guides/hosting/setup/intro",
-      "to": "/guides/hosting"
-    },
-    {
-      "from": "/guides/hosting/setup/on-premise-baremetal",
       "to": "/guides/hosting"
     },
     {
       "from": "/guides/hosting/system-admin",
       "to": "/guides/hosting"
-    },
-    {
-      "from": "/guides/integrations/add-wandb-to-any-library",
-      "to": "/guides/integrations/add-wandb-to-any-library"
     },
     {
       "from": "/guides/integrations/boosting",
@@ -459,14 +399,6 @@
     {
       "from": "/guides/integrations/fastai/v2",
       "to": "/guides/integrations/fastai"
-    },
-    {
-      "from": "/guides/integrations/hydra",
-      "to": "/guides/integrations/hydra"
-    },
-    {
-      "from": "/guides/integrations/ignite",
-      "to": "/guides/integrations/ignite"
     },
     {
       "from": "/guides/integrations/kerasyou",
@@ -483,10 +415,6 @@
     {
       "from": "/guides/integrations/open",
       "to": "/guides/integrations/openai"
-    },
-    {
-      "from": "/guides/integrations/openai-gym",
-      "to": "/guides/integrations/openai-gym"
     },
     {
       "from": "/guides/integrations/other",
@@ -673,18 +601,6 @@
       "to": "/guides/integrations"
     },
     {
-      "from": "/guides/integrations/ray-tune",
-      "to": "/guides/integrations/ray-tune"
-    },
-    {
-      "from": "/guides/integrations/scikit",
-      "to": "/guides/integrations/scikit"
-    },
-    {
-      "from": "/guides/integrations/simpletransformers",
-      "to": "/guides/integrations/simpletransformers"
-    },
-    {
       "from": "/guides/integrations/tensorboardgetting%20recal%20from%20precision",
       "to": "/guides/integrations/tensorboard"
     },
@@ -698,7 +614,7 @@
     },
     {
       "from": "/guides/intro",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/guides/launch/containers",
@@ -718,11 +634,11 @@
     },
     {
       "from": "/guides/projects/campaigns",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/guides/projects/sharing-and-visibility",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/guides/reference/data_types",
@@ -735,10 +651,6 @@
     {
       "from": "/guides/run/grouping",
       "to": "/guides/runs/grouping"
-    },
-    {
-      "from": "/guides/runs/resuming",
-      "to": "/guides/runs/resuming"
     },
     {
       "from": "/guides/self-hosted",
@@ -825,6 +737,10 @@
       "to": "/guides/runs/alert"
     },
     {
+      "from": "/guides/track/advanced/customizing-runs",
+      "to": "/guides/runs"
+    },
+    {
       "from": "/guides/track/advanced/distributed-training",
       "to": "/guides/track/log/distributed-training"
     },
@@ -885,16 +801,8 @@
       "to": "/guides/runs/grouping"
     },
     {
-      "from": "/guides/track/limits",
-      "to": "/guides/track"
-    },
-    {
       "from": "/guides/track/local",
       "to": "/guides/track"
-    },
-    {
-      "from": "/guides/track/log",
-      "to": "/guides/track/log"
     },
     {
       "from": "/guides/track/log-a-model",
@@ -934,7 +842,7 @@
     },
     {
       "from": "/home",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/hosting",
@@ -1022,11 +930,11 @@
     },
     {
       "from": "/jp",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/ko",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/library",
@@ -1106,7 +1014,7 @@
     },
     {
       "from": "/library/graphs/graph-edit-axes",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/library/grouping",
@@ -1437,10 +1345,6 @@
       "to": "/guides/app/pages/workspaces"
     },
     {
-      "from": "/ref/cli/wandb-docker-run",
-      "to": "/ref/cli/wandb-docker-run"
-    },
-    {
       "from": "/ref/cli/wandb-server-start",
       "to": "/ref/cli/wandb-server"
     },
@@ -1458,7 +1362,7 @@
     },
     {
       "from": "/ref/history",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/ref/init-1",
@@ -1501,10 +1405,6 @@
       "to": "/ref/python"
     },
     {
-      "from": "/ref/python/public-api/run",
-      "to": "/ref/python/public-api/"
-    },
-    {
       "from": "/ref/python/wandb.ai/settings",
       "to": "/ref/python"
     },
@@ -1526,11 +1426,11 @@
     },
     {
       "from": "/resources/technical-faq",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/runner",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/scikit",
@@ -1538,7 +1438,7 @@
     },
     {
       "from": "/search.json",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/self-hosted",
@@ -1578,7 +1478,7 @@
     },
     {
       "from": "/site",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/start/windows",
@@ -1654,7 +1554,7 @@
     },
     {
       "from": "/v",
-      "to": "/guides"
+      "to": "/"
     },
     {
       "from": "/wandb/config",
@@ -1669,29 +1569,33 @@
       "to": "/ref/python/log"
     },
     {
-      "from": "/yinghui000123",
-      "to": "/guides"
-    },
-    {
       "from": "/zh",
-      "to": "/guides"
+      "to": "/"
     }
   ],
   "ignoredPaths": [
-    "/&",
     "/",
+    "/&",
     "/)",
+    "//classes",
     "/adfsdafsadfs",
     "/adsfasdf",
     "/afs",
     "/asdfasdfadsf",
-    "//classes",
     "/docodile/docs/guides/app/features/custom-charts",
+    "/docs/automated.html",
+    "/docs/examples.html",
+    "/docs/grouping.html",
+    "/docs/histograms.html",
+    "/docs/logs.html",
+    "/",
+    "/guides/%3Cscript%3Ealert(1)%3C/script%3E",
     "/guides/'",
     "/guides/--",
-    "/guides/%3Cscript%3Ealert(1)%3C/script%3E",
     "/guides/artifacts/artifacts-faqs.md",
     "/guides/artifacts/storagecifar10%20clustering",
+    "/guides/data-and-model-versioning%7Cdataset",
+    "/guides/guides/integrations",
     "/guides/hosting/setup/configurationhttp://10.0.7.62:8080/authorize",
     "/guides/integrat",
     "/guides/integrations/dagster'",
@@ -1720,6 +1624,7 @@
     "/ref/java/wandbrun.md",
     "/ref/python/data-types/histogram",
     "/ref/python/init%20for%20more%20init%20arguments.",
+    "/ref/python/public-api/artifact",
     "/ref/python/sweep",
     "/ref/weave/artifact.md",
     "/ref/weave/int",
@@ -1729,9 +1634,12 @@
     "/robots.txt",
     "/ryh",
     "/sauravm/Optimizers/reports/How-to-Compare-Keras-Optimizers-in-Tensorflow-for-Deep-Learning--VmlldzoxNjU1OTA4",
+    "/sweep%20confuration%20method%20w&/sweeps/add-w-and-b-to-your-code",
     "/sweeps]",
     "/tensorflow",
     "/translate-war/webTransUrl",
+    "/tutorials",
+    "/tutorials/wandb",
     "/weave/run.md",
     "/zh-hans"
   ]

@@ -1,6 +1,8 @@
 import fs from 'fs';
 import type {Interface as RLInterface} from 'readline';
 
+export * from './data';
+
 export function stringify(x: any, format = false): string {
   return JSON.stringify(x, null, format ? 2 : 0);
 }

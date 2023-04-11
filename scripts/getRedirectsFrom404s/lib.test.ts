@@ -1,5 +1,6 @@
 import {describe, test, expect} from '@jest/globals';
-import {getSuggestionPrefixes, Redirect} from './lib';
+import {getSuggestionPrefixes} from './lib';
+import type {Redirect} from '../utils';
 
 describe(`getSuggestionPrefixes`, () => {
   test(`should get no suggestions from redirects without common prefixes`, () => {
