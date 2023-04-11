@@ -208,3 +208,14 @@ builder:
 </TabItem>
 
 </Tabs>
+
+## View agents
+
+Navigate to the page for a particular launch queue, and the navigate to the **Agents** tab to view active and inactive agents assigned to the queue. Within this tab you can view the:
+
+- **Agent ID**:  Unique agent identification
+- **Status:** The statue of the agent. An agent can have a **Killed** or **Polling** status.
+- **Start date:** The date the agent was activated.
+- **Host:** The machine the agent is polling on.
+
+![](/images/launch/queues_all_agents.png)

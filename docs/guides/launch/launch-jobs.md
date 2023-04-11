@@ -69,23 +69,6 @@ If you work within a W&B Team, we suggest you specify the `entity` flag (`-e`) t
   </TabItem>
 </Tabs>
 
-## View queues
-View queues associated with a W&B entity with the W&B App.
-
-1. Navigate to the W&B App at [https://wandb.ai/home](https://wandb.ai/home). 
-2. Select **Launch** within the **Applications** section of the left sidebar.
-3. Select the **All entities** dropdown and select the entity to filter with.
-
-A list of queues will appear in the Launch workspace. From left to right, each queue listed shows the name of the queue, the entity the queue belongs to, the compute resource configured for that queue and the state of the queue. 
-
-For example, in the following image, we have a queue called **Starter queue**. It belongs the the wandb entity. The queue is configured to use Docker. And the queue is in an **inactive (Not running)** state.
-
-![](/images/launch/launch_queues_all.png)
-
-A queue is either **Active** or **Not running** (inactive). 
-* **Active**: A queue is active if at least one agent is either polling or executing jobs for that queue. 
-* **Not running**: A queue is not running if there is no agent polling or executing jobs for that queue.
-
 ## View queued jobs
 View jobs added to a queue with the W&B App.
 

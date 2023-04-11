@@ -90,3 +90,82 @@ wandb.init(config=args)
 # wandb.config["learning_rate"].
 args = wandb.config
 ```
+
+## View your jobs
+View details of launched jobs with the W&B App. You can view job artifacts that were created and find out runs, version and job specific details.
+
+### View job artifacts
+Each W&B Job you create is saved as a W&B Artifact. Select the **Artifacts** icon within your project’s workspace on the W&B App to view a list of job artifacts created in that project.
+
+![](/images/launch/job_artifacts_project_page.png)
+
+Expand the **JOB** menu on the left panel to view a list of job artifacts. For example, in the following image we have two job artifacts called: 
+- **job-https___github.com_githubrepo_demo_launch.git_canonical_job_example.py**
+- **job-source-launch_demo-canonical_job_example.py**
+
+![](/images/launch/job_artifacts_page.png)
+
+### View details of each job
+
+Navigate to your W&B Project to view fine-grained details of each job such as runs created by a job, the full name of your jobs, and version metadata associated with a project. 
+
+1. Navigate to your W&B project.
+2. Select the **Jobs** icon on the left sidebar.
+3. A **Jobs** page will appear. In it, you can view all of the jobs created in that project.
+
+![](/images/launch/view_jobs.png)
+
+For example, in the following image we have two job listed:
+- **job-https___github.com_githubrepo_demo_launch.git_canonical_job_example.py**
+- **job-source-launch_demo-canonical_job_example.py**
+
+Select a job from list to learn more about that job. A new page with a list of runs created by the job, along with job and version details will appear.  This information is contained in three tabs: **Runs**, **Job details**, and **Version details**.
+
+<Tabs
+  defaultValue="runs"
+  values={[
+    {label: 'Runs', value: 'runs'},
+    {label: 'Job details', value: 'jobs_details'},
+    {label: 'Version details', value: 'version_details'},
+  ]}>
+  <TabItem value="runs">
+
+Select the name of your job from the list. This will redirect you to a new page with details about each run created by the job such as the:
+
+The Runs tab provides information about each run created by the job such as the:
+
+- **Run**: The name of the run.
+- **State**: The state of the run.
+- **Job version**: The version of the job used.
+- **Creator**: Who created the run.
+- **Creation date**: The timestamp of when the run was started.
+- **Other**: The remaining columns will contain the key-value pairs of the configuration dictionary passed to `wandb.init()`. 
+
+For example, in our demo script, we passed the learning rate (`learning_rate`) and number of epochs (`epochs`) when we initialized a run with `wandb.init()`.
+
+![](/images/launch/runs_in_job.png)
+
+
+  </TabItem>
+  <TabItem value="jobs_details">
+
+The **Job details** provides information about:
+
+* **Description**: An optional description of the job. Select the pencil icon next to this field to add a description.
+* **Owner entity**: The entity the job belongs to.
+* **Parent project**: The project the job belongs to.
+* **Full name**: The full name of your job
+* **Creation date**: Creation date of the job.
+
+
+![](/images/launch/job_id_full_name.png)
+
+  </TabItem>
+  <TabItem value="version_details">
+
+Use the **Version details** tab to view specific information about each job version such as the input and output types, and files used for each job version. 
+
+![](/images/launch/version_details_large.png)
+
+  </TabItem>
+</Tabs>
