@@ -56,6 +56,7 @@ export default function LocaleDropdownNavbarItem({
     <DropdownNavbarItem
       {...props}
       mobile={mobile}
+      className="locale-dropdown"
       label={
         <>
           <IconLanguage width={24} height={24} className={`${styles.iconLanguage} locale-dropdown-icon`} />
@@ -64,7 +65,6 @@ export default function LocaleDropdownNavbarItem({
         </>
       }
       items={items}
-      className="locale-dropdown"
     />
   );
 }

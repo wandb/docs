@@ -7,6 +7,7 @@
 /* You can override the default Infima variables here. */
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+@import "localeDropdown.css";
 
 :root:root {
   --ifm-color-primary: #0096ad;
@@ -272,17 +273,4 @@ footer .container {
 
 .pagination-nav {
   display: none;
-}
-
-.dropdown > .navbar__link:after {
-  border: none;
-}
-
-.locale-dropdown-icon {
-  margin: auto 0;
-}
-
-.locale-dropdown-icon.chevron-down{
-  margin-left: 4px;
-  padding-top: 2px;
 }
