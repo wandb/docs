@@ -5,7 +5,6 @@ import {translate} from '@docusaurus/Translate';
 import {useLocation} from '@docusaurus/router';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import IconLanguage from '@theme/Icon/Language';
-import styles from './styles.module.css';
 import IconChevronDown from '@site/src/components/Icons/IconChevronDown';
 export default function LocaleDropdownNavbarItem({
   mobile,
@@ -59,7 +58,7 @@ export default function LocaleDropdownNavbarItem({
       className="locale-dropdown"
       label={
         <>
-          <IconLanguage width={24} height={24} className={`${styles.iconLanguage} locale-dropdown-icon`} />
+          <IconLanguage width={24} height={24} className="locale-dropdown-icon" />
           {dropdownLabel}
           <IconChevronDown width={24} height={24} className="locale-dropdown-icon chevron-down" />
         </>
