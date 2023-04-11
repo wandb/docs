@@ -5,13 +5,13 @@ description: Deploying W&B in production
 
 # W&B Server Hosting Options
 
-There are three options available to deploy W&B Server:
+There are three ways to deploy W&B Server:
 
 - W&B managed Dedicated Cloud
 - Customer managed OnPrem Private Cloud
 - Customer managed OnPrem Bare Metal
 
-**W&B Managed Dedicated Cloud**
+## W&B Managed Dedicated Cloud
 
 _Shared responsibility:_
 
@@ -27,7 +27,7 @@ _Customer Cloud_
 - (Optional) Customers have the option to bring their own S3 compatible object storage bucket and connect to the rest of the systems running on W&B cloud.
 - Customers can bring their own KMS key. W&B uses this key to encrypt all communication between W&B services. We recommend customers to setup their own encryption key so that they can continue to adhere to any internal security policies of key rotation, compromised key replacements etc.
 
-**Customer Managed On-Prem Private Cloud:**
+## Customer Managed On-Prem Private Cloud
 
 _W&B:_
 
@@ -44,7 +44,7 @@ _Customer:_
   - high CPU resources utilization
   - high memory utilization
 
-**Customer Managed On-Prem Bare Metal:**
+## Customer Managed On-Prem Bare Metal
 
 _W&B:_
 
