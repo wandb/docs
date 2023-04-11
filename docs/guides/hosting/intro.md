@@ -13,7 +13,7 @@ W&B Server is an option available only for Enterprise-tier customers.
 
 With W&B Server you can configure:
 - Secure Storage Connector
-- Role-based Access Control
+- Role-based Access Control via LDAP integrations
 - Single Sign-On
 - LDAP integration
 - Monitoring & Alerting and more.
