@@ -10,7 +10,7 @@ Start a launch agent to execute jobs from your queues.
 
 ## Overview
 
-A **launch agent** is a long-running process that polls on one or more launch queues and executes the jobs that it pops from the queue. A launch agent can be started with the `wandb launch-agent` command and is capable on launching jobs onto a multitude of compute platforms, including docker, kubernetes, sagemaker, and more. The launch agent is implemented entirely in our [open source client library](https://github.com/wandb/wandb).
+A **launch agent** is a long-running process that polls on one or more launch queues and executes the jobs that it pops from the queue. A launch agent can be started with the `wandb launch-agent` command and is capable on launching jobs onto a multitude of compute platforms, including docker, kubernetes, sagemaker, and more. The launch agent is implemented entirely in our [open source client library](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch).
 
 ## How it works
 
@@ -38,15 +38,28 @@ For example, if the job was in a Docker queue, the agent will execute the run lo
 The launch agent can be configured with a variety of flags and options. The agent can be configured with a config file or with command line flags. The config file is located at `~/.config/wandb/launch-config.yaml` by default, but the location of the config can be overridden with the `--config` flag. The config file is a YAML file with the following structure:
 
 ```yaml
-base_url: https://api.wandb.ai # URL of the W&B API server
-entity: <entity-name>  # W&B entity (i.e. user or team) name
-max_jobs: -1 # Set max concurrent jobs here, -1 = no limit
+# URL of your W&B server. Defaults to https://api.wandb.ai
+base_url: https://api.wandb.ai
+
+# W&B entity (i.e. user or team) name
+entity: <entity-name>
+
+# Max number of concurrent runs to perform. -1 = no limit
+max_jobs: -1
+
+# List of queues to poll.
 queues:
-- default # Set queues to poll by name here
+- default
+
+# Cloud environment config.
 environment:
   type: aws|gcp
+
+# Container registry config.
 registry:
   type: ecr|gcr
+
+# Container build config.
 builder:
   type: docker|kaniko|noop
 ```
@@ -108,8 +121,10 @@ Set `type: ecr` to use AWS Elastic Container Registry. In order to use `ecr`, mu
 
 ```yaml
 registry:
-  type: ecr  # requires an aws environment configuration
-  repository: my-ecr-repo.  # name of repository in the ecr for the region configured in your environment
+  # Requires an aws environment configuration.
+  type: ecr
+  # Name of ECR repository in region configured in your environment.
+  repository: my-ecr-repo.
 ```
 
 </TabItem>
@@ -120,9 +135,12 @@ Set `type: gcr` to use GCP Artifact Registry. In order to use `gcr`, must config
 
 ```yaml
 registry:
-  type: gcr  # requires a gcp environment configuration
-  repository: my-artifact-repo  # name of artifact repository in project/region configured in your environment
-  image-name: my-image-name # the name (not tag!) of image within repository
+  # Requires a gcp environment configuration.
+  type: gcr
+  # Name of artifact repository in project/region configured in your environment.
+  repository: my-artifact-repo
+  # Name (not tag!) of image within repository where the agent will store images.
+  image-name: my-image-name
 ```
 
 </TabItem>
