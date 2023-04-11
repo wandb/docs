@@ -12,6 +12,9 @@ Launch on kubernetes is an enterprise feature. To get access, please contact our
 
 The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) to build container images inside of k8s. Kaniko is a tool to build container images from a Dockerfile, inside a container or k8s cluster. Kaniko doesn’t depend on a Docker daemon and executes each command within a Dockerfile completely in userspace. This enables building container images in environments that can’t easily or securely run a Docker daemon, such as a standard k8s cluster.
 
+:::tip
+If you want to use the launch agent without the ability to build new images, you can use the `noop` builder type when you configure your launch agent. More info [here](../launch/run-agent.md#builders).
+:::
 
 ## Create a queue
 
