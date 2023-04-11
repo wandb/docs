@@ -4,10 +4,11 @@ This guide demonstrates how to use W&B Launch to run ML workloads on a kubernete
 
 <!-- TODO: What email do we use here? -->
 :::info
-Launch on kubernetes is an enterprise feature. To get access, please contact us at [email@wandb.com](mailto:email@wandb.com)
+
+Launch on kubernetes is an enterprise feature. To get access, please contact our sales team through [this page](https://wandb.ai/site/pricing).
 :::
 
-## Kaniko
+## Building images in Kubernetes
 
 The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) to build container images inside of k8s. Kaniko is a tool to build container images from a Dockerfile, inside a container or k8s cluster. Kaniko doesn’t depend on a Docker daemon and executes each command within a Dockerfile completely in userspace. This enables building container images in environments that can’t easily or securely run a Docker daemon, such as a standard k8s cluster.
 
@@ -38,6 +39,10 @@ Before you can launch a job on k8s, you need to deploy an agent to your cluster.
 ### Cluster configuration
 
 In order to run a launch agent in your cluster, you will need to create a few other resources in your cluster. Here, these are all laid out separately but the purpose of demonstration, but you can aggregate them into a single file and apply them all at once.
+
+:::tip
+You can find k8s manifests containing the resources below prepared for specific kubernetes services like EKS or GKE in our sdk repo [here](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch/deploys).
+:::
 
 #### Namespace
 
@@ -133,13 +138,9 @@ kubectl -n wandb create secret  \
     --from-literal=password=<your-wandb-api-key>
 ```
 
-:::tip
-You can find k8s manifests containing the resources above prepared for specific kubernetes distributions in our sdk repo [here](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch/deploys).
-:::
-
 #### Agent configuration
 
-Lastly, you will need to create a configmap in the `wandb` namespace that contains the configuration for your agent. This configmap will be used by the agent to configure the agent itself. This configuration will depend heavily on your cloud provider and the resources you have available to you. You can find more information about the configuration options in [prequisites section](./prerequisites.md#activate-a-launch-agent).
+Lastly, you will need to create a configmap in the `wandb` namespace that contains the configuration for your agent. This configmap will be used by the agent to configure the agent itself. This configuration will depend heavily on your cloud provider and the resources you have available to you. You can find more information in our [agent documentation](../launch/run-agent.md#agent-configuration).
 
 ```yaml
 apiVersion: v1
@@ -190,7 +191,7 @@ spec:
       serviceAccountName: wandb-launch-serviceaccount
       containers:
         - name: launch-agent
-          image: wandb/launch-agent-dev:3c89d65
+          image: <latest-agent-release>
           resources:
             limits:
               memory: "2Gi"
