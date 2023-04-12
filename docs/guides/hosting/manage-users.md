@@ -20,6 +20,8 @@ Invite fellow admin or members from the `https://<YOUR-WANDB-URL>/admin/users` p
 
 <!-- ![Screen Shot 2023-01-09 at 10.12.48 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d9be8ae4-be4b-479a-b8b1-48c43e941f29/Screen_Shot_2023-01-09_at_10.12.48_PM.png) -->
 
+![](/images/hosting/invite_users.png)
+
 2. Click on **Add User**.
 
 <!-- ![Screen Shot 2023-01-09 at 10.13.29 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cf4dd778-5185-4503-8653-94388eae2e5b/Screen_Shot_2023-01-09_at_10.13.29_PM.png) -->
