@@ -17,10 +17,10 @@ A job is a complete blueprint of how to perform a step in your ML workflow, like
 Jobs will be **captured automatically** from any runs that you track with W&B if you also track the runs source code. You can track source code for your runs in the following ways:
 
 <Tabs
-  defaultValue="artifact"
+  defaultValue="git"
   values={[
+    {label: 'Git', value: 'git'},
     {label: 'Code artifact', value: 'artifact'},
-    {label: 'GitHub', value: 'github'},
     {label: 'Docker image', value: 'docker'},
   ]}>
 
@@ -38,17 +38,22 @@ run.log_code(".", include_fn=lambda path: path.endswith(".py"))
 
 <TabItem value="github">
 
-Associate your run with a git commit from your GitHub repo. W&B will automatically capture a commit id and diff when `wandb.init()` is called by code in a git repository. If your repository contains a `requirements.txt` file, the launch agent will install any specified dependencies when running your job.
+Associate your run with a git commit from your git repo. W&B will automatically capture a commit id and diff when `wandb.init()` is called by code in a git repository cloned from a remote url. If your repository contains a `requirements.txt` file, the launch agent will install any specified dependencies when running your job.
 
 </TabItem>
 
 <TabItem value="docker">
 
-Associate your run with a Docker image. W&B will look for an image tag in the `WANDB_DOCKER` environment variable when `wandb.init()` is called. If `WANDB_DOCKER` is set, a job will be created from the specified image tag. When you launch a job from a Docker image, the launch agent run the image specified.
+Associate your run with a Docker image. W&B will look for an image tag in the `WANDB_DOCKER` environment variable, and if `WANDB_DOCKER` is set, a job will be created from the specified image tag. When you launch a job from a Docker image, the launch agent run the image specified.
 
 For more information on `WANDB_DOCKER` see the docs for our [docker integration](/docs/guides/integrations/other/docker.md).
 
 Be sure to set the `WANDB_DOCKER` environment variable to the full image tag as you it will be accessible to your launch agent. For example, if your agent will run images from an ECR repository, you should set `WANDB_DOCKER` to the full image tag, including the ECR repository URL, e.g. `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-image:latest`.
+
+To create your first container image-sourced job, simply run:
+```bash
+docker run -e WANDB_DOCKER=<image-tag> <image-tag>
+```
 
 </TabItem>
 
@@ -92,18 +97,7 @@ args = wandb.config
 ```
 
 ## View your jobs
-View details of launched jobs with the W&B App. You can view job artifacts that were created and find out runs, version and job specific details.
-
-### View job artifacts
-Each W&B Job you create is saved as a W&B Artifact. Select the **Artifacts** icon within your project’s workspace on the W&B App to view a list of job artifacts created in that project.
-
-![](/images/launch/job_artifacts_project_page.png)
-
-Expand the **JOB** menu on the left panel to view a list of job artifacts. For example, in the following image we have two job artifacts called: 
-- **job-https___github.com_githubrepo_demo_launch.git_canonical_job_example.py**
-- **job-source-launch_demo-canonical_job_example.py**
-
-![](/images/launch/job_artifacts_page.png)
+View details of launched jobs with the W&B App.
 
 ### View details of each job
 
@@ -119,7 +113,7 @@ For example, in the following image we have two job listed:
 - **job-https___github.com_githubrepo_demo_launch.git_canonical_job_example.py**
 - **job-source-launch_demo-canonical_job_example.py**
 
-Select a job from list to learn more about that job. A new page with a list of runs created by the job, along with job and version details will appear.  This information is contained in three tabs: **Runs**, **Job details**, and **Version details**.
+Select a job from the list to learn more about that job. A new page with a list of runs created by the job, along with job and version details will appear.  This information is contained in three tabs: **Runs**, **Job details**, and **Version details**.
 
 <Tabs
   defaultValue="runs"
@@ -130,8 +124,6 @@ Select a job from list to learn more about that job. A new page with a list of r
   ]}>
   <TabItem value="runs">
 
-Select the name of your job from the list. This will redirect you to a new page with details about each run created by the job such as the:
-
 The Runs tab provides information about each run created by the job such as the:
 
 - **Run**: The name of the run.
@@ -139,9 +131,7 @@ The Runs tab provides information about each run created by the job such as the:
 - **Job version**: The version of the job used.
 - **Creator**: Who created the run.
 - **Creation date**: The timestamp of when the run was started.
-- **Other**: The remaining columns will contain the key-value pairs of the configuration dictionary passed to `wandb.init()`. 
-
-For example, in our demo script, we passed the learning rate (`learning_rate`) and number of epochs (`epochs`) when we initialized a run with `wandb.init()`.
+- **Other**: The remaining columns will contain the key-value pairs of your `wandb.config`.
 
 ![](/images/launch/runs_in_job.png)
 
