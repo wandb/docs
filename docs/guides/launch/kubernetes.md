@@ -32,12 +32,35 @@ Congratulations! You have created a k8s queue.
 
 ### Queue configuration
 
-The queue configuration is a JSON object that will used by any job popped from this queue.
-You can use the queue configuration to specify an execution namespace, configure the container build, mount volumes from your cluster to your job, and more.
+The launch agent will create a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each run that is popped from a Kubernetes queue. The JSON configuration for a Kubernetes queue is used to modify the Job spec that the agent submits to your cluster. The configuration follows the same schema as a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec), except that it is formatted as JSON rather than YAML and supports additional, universal queue configuration fields, e.g. `builder`.
+
+Control over the job spec allows you to specify resource requests, volume mounts, retry strategies, and more for your runs at the queue level. For example, to create a k8s queue for runs that require an Nvidia GPU, you might specify the following configuration:
+
+```json
+{
+  "namespace": "wandb",
+  "resources": {
+    "limits": {
+      "nvidia.com/gpu:": 1
+    }
+  },
+  "tolerations": [
+    {
+      "key": "gpu",
+      "value": "false",
+      "effect": "NoSchedule",
+      "operator": "Equal"
+    }
+  ],
+  "node_selector": {
+    "gpu": "false"
+  }
+}
+```
 
 ## Deploying an agent
 
-Before you can launch a job on k8s, you need to deploy an agent to your cluster.
+Before you can launch a run on k8s, you need to deploy an agent to your cluster.
 
 ### Cluster configuration
 
