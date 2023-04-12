@@ -24,9 +24,13 @@ Invite fellow admin or members from the `https://<YOUR-WANDB-URL>/admin/users` p
 
 2. Click on **Add User**.
 
+![](/images/hosting/add_user_empty_field.png)
+
 <!-- ![Screen Shot 2023-01-09 at 10.13.29 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cf4dd778-5185-4503-8653-94388eae2e5b/Screen_Shot_2023-01-09_at_10.13.29_PM.png) -->
 
 3. Enter the user's email. By default, all users are invited as Members. If you need to invite someone as an instance Admin, toggle the **Admin option** and click **Submit**.
+
+![](/images/hosting/add_user_field_filled.png)
 
 <!-- ![Screen Shot 2023-01-09 at 10.16.04 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a1428275-5ae0-4a36-8c1b-99248d7a7584/Screen_Shot_2023-01-09_at_10.16.04_PM.png) -->
 
@@ -42,15 +46,20 @@ Navigate to `https://<YOUR-WANDB-URL>/admin/users` to create a new W&B Team.
 
 1. Go to `https://<YOUR-WANDB-URL>/admin/users` page and click on **Teams**.
 
+![](/images/hosting/manage_users_teams.png)
+
 <!-- ![Screen Shot 2023-01-09 at 10.22.50 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7d59520c-4a00-4596-9e2e-428b1b53c589/Screen_Shot_2023-01-09_at_10.22.50_PM.png) -->
 
 2. Click on **New Team** and enter a name for the team in the **Team name** field. 
+
+![](/images/hosting/manage_users_teams_filled.png)
 
 <!-- ![Screen Shot 2023-01-09 at 10.25.10 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/180f26ae-fa96-4dc4-b421-f9676ff73477/Screen_Shot_2023-01-09_at_10.25.10_PM.png) -->
 
 
 Each team has its own profile page. Navigate to `https://<YOUR-WANDB-URL>/<team-name>` to view a team's profile page.
 
+![](/images/hosting/add_teams_server.png)
 
 <!-- ![Screen Shot 2023-01-09 at 10.29.14 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7dbd7cac-9300-4a48-a67c-a696548b0153/Screen_Shot_2023-01-09_at_10.29.14_PM.png) -->
 
@@ -71,6 +80,8 @@ When you invite a user to a team you can assign them one of the following roles:
 | Admin | A team member who can add and remove other admins and members of the team.|
 | Member| A regular member of your team, invited by email by the team admin. A team member cannot invite other members to the team.|
 |Service | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure that the environment variable `WANDB_USERNAME` is set to correctly attribute runs to the appropriate user.|
+
+![](/images/hosting/team_settings_wand_server_example.png)
 
 <!-- **Admin**: A team member who can add and remove other admins and members of the team.
 
