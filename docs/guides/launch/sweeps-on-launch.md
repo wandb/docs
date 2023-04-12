@@ -1,5 +1,5 @@
 ---
-description: Discover how to launch your jobs.
+description: Discover how to automate hyperparamter sweeps on launch.
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

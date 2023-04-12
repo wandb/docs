@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 A job is a complete blueprint of how to perform a step in your ML workflow, like training a model, running an evaluation, or deploying a model to an inference server. For more information, see the [details of launched jobs section](launch-jobs#view-details-of-launched-jobs).
 
-:::danger
+:::info
 `wandb>=0.13.8` is required in order to create jobs.
 :::
 
@@ -36,7 +36,7 @@ run.log_code(".", include_fn=lambda path: path.endswith(".py"))
 
 </TabItem>
 
-<TabItem value="github">
+<TabItem value="git">
 
 Associate your run with a git commit from your git repo. W&B will automatically capture a commit id and diff when `wandb.init()` is called by code in a git repository cloned from a remote url. If your repository contains a `requirements.txt` file, the launch agent will install any specified dependencies when running your job.
 

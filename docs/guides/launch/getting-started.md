@@ -2,20 +2,13 @@
 description: Getting started guide for W&B Launch.
 ---
 
-# Quickstart
+# Getting started
 
-Follow this guide to get started using W&B Launch. This guide will walk you through the setup of the fundamental components of a launch workflow: a **job**, **launch queue**, and **launch queue**.
-
-* A **job** is a reusable blueprint for configuring and executing a step of your ML workflow. Jobs can be automatically captured from your workloads when your track those workloads with W&B. In this guide will create and then launch a job that trains a neural network.
-
-* A **launch queue** is a place where you can submit your jobs for execution on a particular compute resource. For example, you might create separate launch queues for submitting jobs that should be run on specific GPU server, or a particular kubernetes cluster. The queue we will create in this guide will be used to submit jobs that will run on your machine via Docker.
-
-* A **launch agent** is a long-running process that polls on one or more launch queues and executes the jobs that it pops from the queue. A launch agent can be started with the `wandb launch-agent` command and is capable on launching jobs onto a multitude of compute platforms, including docker, kubernetes, sagemaker, and more. In this example, you will run a launch agent that will pop jobs from your queue and execute them on its local host using Docker.
-
+Follow this guide to get started using W&B Launch. This guide will walk you through the setup of the fundamental components of a launch workflow: a **job**, **launch queue**, and **launch queue**. Specifically, you will create a job that trains a neural network, create a launch queue that will be used to submit jobs for execution on your local machine, and then create a launch agent that will poll on the queue and execute the jobs that it pops from the queue with Docker.
 ## Before you get started
 Before you get started, ensure you [enable the W&B Launch UI](./intro.md#how-to-get-started) and install Docker on the machine where you will run your launch agent.
 
-See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker, and make sure the docker daemon is running on your machine before you proceed.
+See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker, and make sure the docker daemon is running on your machine before you proceed.s
 
 ## Create a job
 
@@ -75,7 +68,7 @@ Navigate to your new **launch-quickstart** project in your W&B account and open 
 
 The **Jobs** page displays a list of W&B Jobs that were created from previously executed W&B Runs. You should see a job named **job-source-launch-quickstart-train.py:v0**. You can edit the name of the job from the jobs page if you would like to make the job a bit more memorable. Click on your job to open a detailed view of your job including the source code and dependencies for the job and a list of runs that have been launched from this job.
 
-## Queue up your job
+## Queue your job
 
 Head back to the page for your job. It should look something like the image below:
 

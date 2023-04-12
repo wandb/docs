@@ -198,7 +198,7 @@ builder:
 
 <TabItem value="noop">
 
-The `noop` builder is useful if you want to limit the agent to running pre-built container images.
+The `noop` builder is useful if you want to limit the agent to running pre-built container images. Simply set `type: noop` to prevent your agent from building images.
 
 ```yaml
 builder:

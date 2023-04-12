@@ -6,7 +6,7 @@ import TabItem from '@theme/TabItem';
 
 # Launch a run
 
-Use W&B launch to queue up jobs for execution on a particular compute resource. Users submit workloads in the form of jobs to a launch queue, then any agent polling on that queue can pop a workload and execute it according to the configuration and type of the queue, e.g. via Docker, Kubernetes, etc. Queues can be created by and for individual W&B users, or shared across W&B Teams. In either case, queue setup should be done once and then jobs can be added to the queue as needed. In this guide, we will walk through how to add jobs to a launch queue once it has been set up.
+Use W&B launch to queue jobs for execution by a launch agent. The following guide demonstrates how to submit runs to a queue.
 
 ## Add jobs to your queue
 Add jobs to your queue interactively with the W&B App or programmatically with the CLI.
