@@ -42,7 +42,7 @@ If you're on W&B Dedicated Cloud or a Customer-Managed W&B deployment, please en
 
 Depending on your use case, explore the following resources to get started with Weights & Biases Launch:
 
-* If this is your first time using W&B Launch, we recommend you go through the [Getting started](./getting-started.md) guide.
+* If this is your first time using W&B Launch, we recommend you go through the [Quickstart](./quickstart.md) guide.
 * Explore topics about W&B Launch in this Developer Guide, such as:
     * [Create a job](../launch/create-job.md)
     * [Create a queue](../launch/create-queue.md)

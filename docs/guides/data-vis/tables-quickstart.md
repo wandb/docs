@@ -2,7 +2,7 @@
 description: Explore how to use W&B Tables with this 5 minute Quickstart.
 ---
 
-# Tables Quickstart
+# Quickstart
 
 The following Quickstart demonstrates how to log data tables, visualize data, and query data.
 
