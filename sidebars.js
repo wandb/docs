@@ -151,7 +151,7 @@ const sidebars = {
       },
       items: [
         'guides/launch/getting-started',
-        'guides/launch/prerequisites',
+        'guides/launch/agent',
         'guides/launch/create-job',
         'guides/launch/add-jobs-to-queue',
         'guides/launch/launch-jobs',

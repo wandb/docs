@@ -2,14 +2,9 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/intro-keras)
 
-:::info
-For  our legacy Keras `WandbCallback`, scroll down to the `WandbCallback` section.
-:::
-
-
 ## The Weights & Biases Keras Callbacks
 
-We have added three new callbacks for Keras and TensorFlow users, available from `wandb` v0.13.4
+We have added three new callbacks for Keras and TensorFlow users, available from `wandb` v0.13.4. For the legacy `WandbCallback` scroll down.
 
 ### Callbacks
 
