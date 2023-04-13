@@ -151,10 +151,13 @@ const sidebars = {
       },
       items: [
         'guides/launch/getting-started',
-        'guides/launch/agent',
         'guides/launch/create-job',
-        'guides/launch/add-jobs-to-queue',
+        'guides/launch/create-queue',
+        'guides/launch/run-agent',
         'guides/launch/launch-jobs',
+        'guides/launch/docker',
+        'guides/launch/kubernetes',
+        'guides/launch/sweeps-on-launch',
       ],
     },
     {

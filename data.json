@@ -637,6 +637,14 @@
       "to": "/guides/launch"
     },
     {
+      "from": "/guides/launch/prerequisites",
+      "to": "/guides/launch/getting-started"
+    },
+    {
+      "from": "/guides/launch/add-jobs-to-queue",
+      "to": "/guides/launch/create-queue"
+    },
+    {
       "from": "/guides/manage-runs",
       "to": "/guides/runs/manage-runs"
     },
