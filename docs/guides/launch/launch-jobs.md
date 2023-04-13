@@ -96,9 +96,11 @@ Find additional information about the jobs such as the:
 
 | Status | Description |
 | --- | --- |
-| **-- Idle** | The run is in a queue with no active agents. |
-| **Claimed** | The run has been picked up by an agent but has not yet started. |
+| **Idle** | The run is in a queue with no active agents. |
+| **Queued** | The run is in a queue waiting for an agent to process it. |
+| **Starting** | The run has been picked up by an agent but has not yet started. |
 | **Running** | The run is currently executing. |
 | **Killed** | The job was killed by the user. |
+| **Crashed** | The run stopped sending data or did not successfully start. |
 | **Failed** | The run ended with a non-zero exit code. |
 | **Finished** | The job completed successfully. |
