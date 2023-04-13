@@ -146,8 +146,8 @@ const sidebars = {
       type: 'category',
       label: 'Launch',
       link: {
-        type: 'doc', 
-        id : 'guides/launch/intro'
+        type: 'doc',
+        id: 'guides/launch/intro',
       },
       items: [
         'guides/launch/getting-started',
@@ -155,28 +155,6 @@ const sidebars = {
         'guides/launch/create-job',
         'guides/launch/add-jobs-to-queue',
         'guides/launch/launch-jobs',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Deployment',
-      link: {type: 'doc', id: 'guides/hosting/intro'},
-      items: [
-        // 'guides/hosting/intro',
-        'guides/hosting/basic-setup',
-        {
-          type: 'category',
-          label: 'Production Setup',
-          link: {type: 'doc', id: 'guides/hosting/setup/intro'},
-          items: [
-            // 'guides/hosting/setup/intro',
-            'guides/hosting/setup/dedicated-cloud',
-            'guides/hosting/setup/private-cloud',
-            'guides/hosting/setup/on-premise-baremetal',
-            'guides/hosting/setup/configuration',
-          ],
-        },
-        'guides/hosting/faq',
       ],
     },
     {
@@ -279,6 +257,59 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'W&B Server',
+      link: {type: 'doc', id: 'guides/hosting/intro'},
+      items: [
+        {
+          type: 'category',
+          label: 'Hosting options',
+          link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
+          items: [
+            'guides/hosting/hosting-options/wb-managed',
+            'guides/hosting/hosting-options/self-managed',
+          ],
+        },
+        // 'guides/hosting/hosting-options/intro',
+        // 'guides/hosting/getting-started',
+        'guides/hosting/secure-storage-connector',
+        'guides/hosting/sso',
+        'guides/hosting/ldap',
+        'guides/hosting/audit-logging',
+        'guides/hosting/manage-users',
+        'guides/hosting/prometheus-logging',
+        'guides/hosting/slack-alerts',
+        'guides/hosting/env-vars',
+        // 'guides/hosting/hosting-upgrade',
+        // 'guides/hosting/configure-cloud',
+        {
+          type: 'category',
+          label: 'How-to guides',
+          // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+          items: [
+            'guides/hosting/how-to-guides/basic-setup',
+            'guides/hosting/how-to-guides/aws-tf',
+            'guides/hosting/how-to-guides/gcp-tf',
+            // 'guides/hosting/how-to-guides/azure-tf',
+            // 'guides/hosting/how-to/bare-metal'
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Technical FAQ',
+      link: {type: 'doc', id: 'guides/technical-faq/intro'},
+      items: [
+        // 'guides/hosting/technical-faq/intro',
+        'guides/technical-faq/general',
+        'guides/technical-faq/metrics-and-performance',
+        'guides/technical-faq/setup',
+        'guides/technical-faq/troubleshooting',
+      ],
+    },
+    {
+      type: 'category',
+
       label: 'Integrations',
       link: {type: 'doc', id: 'guides/integrations/intro'},
       items: [
@@ -331,7 +362,6 @@ const sidebars = {
         'guides/integrations/xgboost',
         'guides/integrations/yolov5',
         'guides/integrations/other/yolox',
-        
       ],
     },
     {
