@@ -1,6 +1,7 @@
 .homePage {
   align-items: center;
   display: flex;
+  font-family: 'Source Sans Pro';
   flex-direction: column;
   margin: 30px auto 50px auto;
   max-width: 626px;
@@ -8,7 +9,6 @@
 
 .homeHeader {
   color: #181B1F;
-  font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: 600;
   font-size: 64px;
@@ -48,7 +48,6 @@
 
 .homeDescription {
   color: #000000;
-  font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -67,7 +66,7 @@
   width: 301px;
   height: 192px;
   border-radius: 6px;
-  padding: 30px 46px 34px 34px;
+  padding: 30px 42px 34px 34px;
 }
 
 .homeBox .boxHeader {

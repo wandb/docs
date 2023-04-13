@@ -76,11 +76,11 @@ const Home: React.FC = () => {
               <div className={clsx(styles.homeBox, styles.gray)}>
                 <MagicWandStarIcon />
                 <div className={styles.boxHeader}>
-                  Tutorials
+                  Quickstart
                   <ForwardNextIcon className={styles.arrowIcon} />
                 </div>
                 <div className={styles.boxDescription}>
-                  Are you new to W&B? Check out our tutorials!
+                  Are you new to W&B? Check out our quickstart!
                 </div>
               </div>
             </Link>
@@ -88,7 +88,7 @@ const Home: React.FC = () => {
               <div className={clsx(styles.homeBox, styles.teal)}>
                 <DocumentationIcon />
                 <div className={clsx(styles.boxHeader, styles.whiteText)}>
-                  How-to guides{' '}
+                  Tutorials
                   <ForwardNextIconWhite className={styles.arrowIcon} />
                 </div>
                 <div className={clsx(styles.boxDescription, styles.whiteText)}>
