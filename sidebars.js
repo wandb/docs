@@ -21,11 +21,12 @@ const sidebars = {
       link: {type: 'doc', id: 'guides/tutorials/intro_to_tutorials'},
       items: [
         // 'guides/tutorials/intro_to_tutorials',
-        'guides/tutorials/intro_to_wandb',
-        'guides/tutorials/intro_to_sweeps',
-        'guides/tutorials/intro_to_tables',
-        'guides/tutorials/intro_to_artifacts',
-
+        'guides/tutorials/Intro_to_Weights_\&_Biases',
+        'guides/tutorials/W\&B_Tables_Quickstart',
+        'guides/tutorials/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W\&B',
+        'guides/tutorials/Pipeline_Versioning_with_W\&B_Artifacts',
+        'guides/tutorials/Model_Registry_E2E',
+        'guides/tutorials/launch_placeholder'
       ],
     },
     {
