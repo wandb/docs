@@ -117,10 +117,6 @@
       "to": "/"
     },
     {
-      "from": "/authonize",
-      "to": "/guides/app/settings-page/user-settings"
-    },
-    {
       "from": "/authorize",
       "to": "/"
     },
@@ -186,7 +182,7 @@
     },
     {
       "from": "/deployment",
-      "to": "/"
+      "to": "/guides/hosting"
     },
     {
       "from": "/docs/config.html",
@@ -310,7 +306,7 @@
     },
     {
       "from": "/guides/artifacts/dataset-versioning",
-      "to": "/"
+      "to": "/guides/artifacts"
     },
     {
       "from": "/guides/artifacts/model-versioning",
@@ -342,7 +338,7 @@
     },
     {
       "from": "/guides/data-and-model-versioning/dataset-versioning",
-      "to": "/"
+      "to": "/guides/artifacts"
     },
     {
       "from": "/guides/data-and-model-versioning/intro",
