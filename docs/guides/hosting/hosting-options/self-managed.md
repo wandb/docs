@@ -1,12 +1,11 @@
 ---
-slug: /guides/hosting/hosting-options/self-managed
 description: Deploying W&B in production
 ---
 
 # Self managed hosting
 
 :::info
-We recommend that you consider leveraging [W&B managed hosting options](../wb-managed.md) before privately hosting a W&B server on your infrastructure. The W&B cloud is simple and secure, with minimum to no configuration required.
+We recommend that you consider leveraging [W&B managed hosting options](./wb-managed.md) before privately hosting a W&B server on your infrastructure. The W&B cloud is simple and secure, with minimum to no configuration required.
 :::
 
 ## On-prem Private Cloud

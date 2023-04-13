@@ -157,28 +157,6 @@ const sidebars = {
         'guides/launch/launch-jobs',
       ],
     },
-    // {
-    //   type: 'category',
-    //   label: 'Deployment',
-    //   link: {type: 'doc', id: 'guides/hosting/intro'},
-    //   items: [
-    //     // 'guides/hosting/intro',
-    //     'guides/hosting/basic-setup',
-    //     {
-    //       type: 'category',
-    //       label: 'Production Setup',
-    //       link: {type: 'doc', id: 'guides/hosting/setup/intro'},
-    //       items: [
-    //         // 'guides/hosting/setup/intro',
-    //         'guides/hosting/setup/dedicated-cloud',
-    //         'guides/hosting/setup/private-cloud',
-    //         'guides/hosting/setup/on-premise-baremetal',
-    //         'guides/hosting/setup/configuration',
-    //       ],
-    //     },
-    //     'guides/hosting/faq',
-    //   ],
-    // },
     {
       type: 'category',
       label: 'App Reference',

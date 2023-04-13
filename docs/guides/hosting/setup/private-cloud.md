@@ -22,7 +22,7 @@ Check out a [video tutorial](https://www.youtube.com/watch?v=bYmLY5fT2oA) for ge
 
 <!-- {% embed url="https://www.youtube.com/watch?v=bYmLY5fT2oA" %} -->
 
-## Amazon Web Services
+<!-- ## Amazon Web Services
 
 The simplest way to configure W&B within AWS is to use our [official Terraform](https://github.com/wandb/terraform-aws-wandb). Detailed instructions can be found in the [AWS](private-cloud/aws) section. If instead you want to configure services manually you can find [instructions here](configuration.md#amazon-web-services).
 
@@ -32,4 +32,4 @@ The simplest way to configure W&B within Azure is to use our [official Terraform
 
 ## Google Cloud Platform
 
-The simplest way to configure W&B within GCP is to use our [official Terraform](https://github.com/wandb/terraform-google-wandb). Detailed instructions can be found in the [GCP](private-cloud/gcp) section. If instead you want to configure services manually you can find [instructions here](configuration.md#google-cloud-platform).
+The simplest way to configure W&B within GCP is to use our [official Terraform](https://github.com/wandb/terraform-google-wandb). Detailed instructions can be found in the [GCP](private-cloud/gcp) section. If instead you want to configure services manually you can find [instructions here](configuration.md#google-cloud-platform). -->

@@ -1,5 +1,4 @@
 ---
-slug: /guides/hosting/hosting-options/wb-managed
 description: Deploying W&B in production
 ---
 
