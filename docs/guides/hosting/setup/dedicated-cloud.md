@@ -4,7 +4,7 @@ description: Hosting W&B Server in a secure enterprise environment.
 
 # Dedicated Cloud
 
-W&Bis hosted in a dedicated virtual private network on W&B's single-tenant AWS or GCP infrastructure in your choice of cloud region. Use our Secure Storage Connector to connect your data to a scalable data store hosted on your company's private cloud.
+W&B is hosted in a dedicated virtual private network on W&B's single-tenant AWS or GCP infrastructure in your choice of cloud region. Use our Secure Storage Connector to connect your data to a scalable data store hosted on your company's private cloud.
 
 Talk to our sales team by reaching out to [contact@wandb.com](mailto:contact@wandb.com).
 
@@ -14,9 +14,8 @@ We can configure an object store on your behalf, in which case there is no addit
 
 A W&BDedicated Cloud with Secure Storage Connector enabled requires the following resources in your private cloud account:
 
-* An object store (S3 or GCS)
-* A KMS key (also called Cloud KMS)
-
+- An object store (S3 or GCS)
+- A KMS key (also called Cloud KMS)
 
 To set up the environment, you must run a simple terraform and provide W&B with the generated output so that W&B can complete the configuration. The links to the terraform scripts and instructions to run them can be found below for each supported cloud provider.
 

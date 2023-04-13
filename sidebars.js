@@ -146,8 +146,8 @@ const sidebars = {
       type: 'category',
       label: 'Launch',
       link: {
-        type: 'doc', 
-        id : 'guides/launch/intro'
+        type: 'doc',
+        id: 'guides/launch/intro',
       },
       items: [
         'guides/launch/getting-started',
@@ -282,25 +282,39 @@ const sidebars = {
       label: 'W&B Server',
       link: {type: 'doc', id: 'guides/hosting/intro'},
       items: [
-        // {
-        //   type: 'category',
-        //   label: 'Hosting options',
-        //   link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
-        //   items: [
-        //     'guides/hosting/hosting-options/wb-managed',
-        //     'guides/hosting/hosting-options/custom-managed',
-        //   ],
-        // },
-        'guides/hosting/hosting-options/intro',
-        'guides/hosting/manage-users',
+        {
+          type: 'category',
+          label: 'Hosting options',
+          link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
+          items: [
+            'guides/hosting/hosting-options/wb-managed',
+            'guides/hosting/hosting-options/self-managed',
+          ],
+        },
+        // 'guides/hosting/hosting-options/intro',
+        // 'guides/hosting/getting-started',
+        'guides/hosting/secure-storage-connector',
         'guides/hosting/sso',
         'guides/hosting/ldap',
-        'guides/hosting/slack-alerts',
-        'guides/hosting/secure-storage-connector',
         'guides/hosting/audit-logging',
+        'guides/hosting/manage-users',
         'guides/hosting/prometheus-logging',
+        'guides/hosting/slack-alerts',
+        'guides/hosting/env-vars',
         // 'guides/hosting/hosting-upgrade',
         // 'guides/hosting/configure-cloud',
+        {
+          type: 'category',
+          label: 'How-to guides',
+          link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+          items: [
+            'guides/hosting/how-to-guides/basic-setup',
+            'guides/hosting/how-to-guides/aws-tf',
+            'guides/hosting/how-to-guides/gcp-tf',
+            // 'guides/hosting/how-to-guides/azure-tf',
+            // 'guides/hosting/how-to/bare-metal'
+          ],
+        },
       ],
     },
     {
@@ -370,7 +384,6 @@ const sidebars = {
         'guides/integrations/xgboost',
         'guides/integrations/yolov5',
         'guides/integrations/other/yolox',
-        
       ],
     },
     {
