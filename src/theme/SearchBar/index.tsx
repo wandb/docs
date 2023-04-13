@@ -22,7 +22,7 @@ import type {
 } from '@docsearch/react/dist/esm/types';
 import type {SearchClient} from 'algoliasearch/lite';
 import type {AutocompleteState} from '@algolia/autocomplete-core';
-import {useSearchPopoverProvider} from '@site/src/components/SearchProvider';
+import {useSearchPopoverProvider} from '@site/src/components/SearchPopoverProvider';
 
 type DocSearchProps = Omit<
   DocSearchModalProps,

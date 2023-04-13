@@ -1,4 +1,3 @@
-// Import react
 import React, {useCallback} from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
@@ -13,7 +12,7 @@ import ForwardNextIcon from '/static/img/icon-forward-next-gray-800.svg';
 import ForwardNextIconBlue from '/static/img/icon-forward-next.svg';
 import ForwardNextIconWhite from '/static/img/icon-forward-next-white.svg';
 import SearchIcon from '/static/img/icon-search-grey.svg';
-import {useSearchPopoverProvider} from '../components/SearchProvider';
+import {useSearchPopoverProvider} from '../components/SearchPopoverProvider';
 import clsx from 'clsx';
 
 const BigSearchBar = () => {
@@ -30,7 +29,6 @@ const BigSearchBar = () => {
   );
 };
 
-// Export homepage component.
 const Home: React.FC = () => {
   return (
     <>
