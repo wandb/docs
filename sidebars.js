@@ -300,18 +300,6 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Technical FAQ',
-      link: {type: 'doc', id: 'guides/technical-faq/intro'},
-      items: [
-        // 'guides/hosting/technical-faq/intro',
-        'guides/technical-faq/general',
-        'guides/technical-faq/metrics-and-performance',
-        'guides/technical-faq/setup',
-        'guides/technical-faq/troubleshooting',
-      ],
-    },
-    {
-      type: 'category',
 
       label: 'Integrations',
       link: {type: 'doc', id: 'guides/integrations/intro'},
