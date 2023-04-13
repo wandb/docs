@@ -641,6 +641,10 @@
       "to": "/guides/launch/create-queue"
     },
     {
+      "from": "/guides/launch/getting-started",
+      "to": "/guides/launch/quickstart"
+    },
+    {
       "from": "/guides/manage-runs",
       "to": "/guides/runs/manage-runs"
     },

@@ -138,8 +138,8 @@ const sidebars = {
       link: {type: 'doc', id: 'guides/models/intro'},
       items: [
         // 'guides/models/intro',
-        'guides/models/model-management-concepts',
         'guides/models/walkthrough',
+        'guides/models/model-management-concepts',
       ],
     },
     {
@@ -150,7 +150,7 @@ const sidebars = {
         id: 'guides/launch/intro',
       },
       items: [
-        'guides/launch/getting-started',
+        'guides/launch/quickstart',
         'guides/launch/create-job',
         'guides/launch/create-queue',
         'guides/launch/run-agent',
