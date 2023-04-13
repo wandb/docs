@@ -4,7 +4,7 @@ description: Hosting W&B Server on AWS.
 
 # AWS
 
-## Introduction
+
 
 We recommend the usage of the [Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) developed by Weights and Biases to deploy the W&B server on AWS.
 

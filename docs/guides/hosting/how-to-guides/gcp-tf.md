@@ -4,7 +4,7 @@ description: Hosting W&B Server on GCP.
 
 # GCP
 
-## Introduction
+
 
 We recommend the usage of the [Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) developed by Weights and Biases to deploy the W&B server on Google Cloud.
 
