@@ -44,10 +44,10 @@ Depending on your use case, explore the following resources to get started with 
 
 * If this is your first time using W&B Launch, we recommend you go through the [Getting started](./getting-started.md) guide.
 * Explore topics about W&B Launch in this Developer Guide, such as:
-    * [Prerequisites](../launch/prerequisites.md)  
     * [Create a job](../launch/create-job.md)
     * [Add jobs to your queue](../launch/add-jobs-to-queue.md)
     * [Launch jobs](../launch/launch-jobs.md)
+    * [Run an agent](../launch/agent.md)  
 * Discover the [`wandb launch`](../../ref/cli/wandb-launch.md) and [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) commands in the CLI Reference.
 
 :::info

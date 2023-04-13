@@ -261,10 +261,6 @@
       "to": "/guides/app/features/app/features/panels/parallel-coordinates"
     },
     {
-      "from": "/guides/app/features/custom-charts/walkthrough",
-      "to": "/guides/app/features/custom-charts/walkthrough"
-    },
-    {
       "from": "/guides/app/features/panels/compare-metrics",
       "to": "/guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart"
     },
@@ -273,40 +269,8 @@
       "to": "/guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart"
     },
     {
-      "from": "/guides/app/features/panels/line-plot",
-      "to": "/guides/app/features/panels/line-plot"
-    },
-    {
-      "from": "/guides/app/features/panels/line-plot/reference",
-      "to": "/guides/app/features/panels/line-plot/reference"
-    },
-    {
-      "from": "/guides/app/features/panels/line-plot/smoothing",
-      "to": "/guides/app/features/panels/line-plot/smoothing"
-    },
-    {
       "from": "/guides/app/features/panels/panels",
       "to": "/guides/app/features/panels"
-    },
-    {
-      "from": "/guides/app/features/panels/parameter-importance",
-      "to": "/guides/app/features/panels/parameter-importance"
-    },
-    {
-      "from": "/guides/app/features/panels/scatter-plot",
-      "to": "/guides/app/features/panels/scatter-plot"
-    },
-    {
-      "from": "/guides/app/features/panels/weave",
-      "to": "/guides/app/features/panels/weave"
-    },
-    {
-      "from": "/guides/app/features/teams",
-      "to": "/guides/app/features/teams"
-    },
-    {
-      "from": "/guides/app/pages",
-      "to": "/guides/app/pages"
     },
     {
       "from": "/guides/app/pages/guides/app/settings-page",
@@ -333,10 +297,6 @@
       "to": "/guides/app/settings-page"
     },
     {
-      "from": "/guides/app/settings-page/team-settings",
-      "to": "/guides/app/settings-page/team-settings"
-    },
-    {
       "from": "/guides/artifacts-1",
       "to": "/guides/artifacts"
     },
@@ -347,10 +307,6 @@
     {
       "from": "/guides/artifacts/artifacts-core-concepts",
       "to": "/guides/artifacts"
-    },
-    {
-      "from": "/guides/artifacts/construct-an-artifact",
-      "to": "/guides/artifacts/construct-an-artifact"
     },
     {
       "from": "/guides/artifacts/dataset-versioning",
@@ -417,10 +373,6 @@
       "to": "/guides/track"
     },
     {
-      "from": "/guides/hosting/faq",
-      "to": "/guides/hosting"
-    },
-    {
       "from": "/guides/hosting/intro",
       "to": "/guides/hosting"
     },
@@ -434,7 +386,7 @@
     },
     {
       "from": "/guides/hosting/setup",
-      "to": "/guides/hosting/how-to-guides"
+      "to": "/guides/hosting"
     },
     {
       "from": "/guides/hosting/setup/configuration",
@@ -445,16 +397,8 @@
       "to": "/guides/hosting"
     },
     {
-      "from": "/guides/hosting/setup/on-premise-baremetal",
-      "to": "/guides/hosting"
-    },
-    {
       "from": "/guides/hosting/system-admin",
       "to": "/guides/hosting"
-    },
-    {
-      "from": "/guides/integrations/add-wandb-to-any-library",
-      "to": "/guides/integrations/add-wandb-to-any-library"
     },
     {
       "from": "/guides/integrations/boosting",
@@ -463,14 +407,6 @@
     {
       "from": "/guides/integrations/fastai/v2",
       "to": "/guides/integrations/fastai"
-    },
-    {
-      "from": "/guides/integrations/hydra",
-      "to": "/guides/integrations/hydra"
-    },
-    {
-      "from": "/guides/integrations/ignite",
-      "to": "/guides/integrations/ignite"
     },
     {
       "from": "/guides/integrations/kerasyou",
@@ -487,10 +423,6 @@
     {
       "from": "/guides/integrations/open",
       "to": "/guides/integrations/openai"
-    },
-    {
-      "from": "/guides/integrations/openai-gym",
-      "to": "/guides/integrations/openai-gym"
     },
     {
       "from": "/guides/integrations/other",
@@ -677,18 +609,6 @@
       "to": "/guides/integrations"
     },
     {
-      "from": "/guides/integrations/ray-tune",
-      "to": "/guides/integrations/ray-tune"
-    },
-    {
-      "from": "/guides/integrations/scikit",
-      "to": "/guides/integrations/scikit"
-    },
-    {
-      "from": "/guides/integrations/simpletransformers",
-      "to": "/guides/integrations/simpletransformers"
-    },
-    {
       "from": "/guides/integrations/tensorboardgetting%20recal%20from%20precision",
       "to": "/guides/integrations/tensorboard"
     },
@@ -739,10 +659,6 @@
     {
       "from": "/guides/run/grouping",
       "to": "/guides/runs/grouping"
-    },
-    {
-      "from": "/guides/runs/resuming",
-      "to": "/guides/runs/resuming"
     },
     {
       "from": "/guides/self-hosted",
@@ -889,16 +805,8 @@
       "to": "/guides/runs/grouping"
     },
     {
-      "from": "/guides/track/limits",
-      "to": "/guides/track"
-    },
-    {
       "from": "/guides/track/local",
       "to": "/guides/track"
-    },
-    {
-      "from": "/guides/track/log",
-      "to": "/guides/track/log"
     },
     {
       "from": "/guides/track/log-a-model",
@@ -1441,10 +1349,6 @@
       "to": "/guides/app/pages/workspaces"
     },
     {
-      "from": "/ref/cli/wandb-docker-run",
-      "to": "/ref/cli/wandb-docker-run"
-    },
-    {
       "from": "/ref/cli/wandb-server-start",
       "to": "/ref/cli/wandb-server"
     },
@@ -1503,10 +1407,6 @@
     {
       "from": "/ref/python/join",
       "to": "/ref/python"
-    },
-    {
-      "from": "/ref/python/public-api/run",
-      "to": "/ref/python/public-api/"
     },
     {
       "from": "/ref/python/wandb.ai/settings",
