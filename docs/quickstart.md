@@ -210,11 +210,7 @@ Explore the rest of the W&B ecosystem.
 
 ![](/images/quickstart/wandb_demo_experiments.gif) 
 
-<!-- 1. [**Collaborative Reports**](./guides/reports/intro.md): Snapshot results, take notes, and share findings
-2. [**Data + Model Versioning**](./guides/data-and-model-versioning/intro.md): Track dependencies and results in your ML pipeline
-3. [**Data Visualization**](guides/data-vis/intro.md): Visualize and query datasets and model evaluations
-4. [**Hyperparameter Tuning**](guides/sweeps/intro.md): Quickly automate optimizing hyperparameters
-5. [**Private-Hosting**](guides/hosting/intro.md): The enterprise solution for private cloud or on-prem hosting of W&B -->
+
 
 ## Common Questions
 
