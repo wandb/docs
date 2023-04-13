@@ -119,18 +119,6 @@ li:not(.menu__list-item--collapsed) ul.menu__list {
     50% / 16px 16px;
 }
 
-.menu__link--sublist-caret::after{
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24"><path fill="rgba(51,56,61,0.6)" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>')
-    50% / 16px 16px;
-
-}
-
-.menu__list-item-collapsed.menu__link--sublist-caret:after {
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24"><path fill="rgba(3,136,153,0.6)" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>')
-  50% / 16px 16px;
-}
-
-
 .menu__link.menu__link--active {
   font-weight: 600;
 }
