@@ -1,28 +1,29 @@
-# Set up Slack alerts
+# Slack alerts
 
 Integrate W&B Server with [Slack](https://slack.com/).
 
-
-
 ## Create the Slack application
+
 Follow the procedure below to create a Slack application.
+
 1. Visit https://api.slack.com/apps and select **Create an App**.
 
 ![](/images/hosting/create_an_app.png)
 
-2. Provide a name for your app in the **App Name** field. 
+2. Provide a name for your app in the **App Name** field.
 3. Select a Slack workspace where you want to develop your app in. Ensure that the Slack workspace you use is the same workspace you intend to use for alerts.
 
 ![](/images/hosting/name_app_workspace.png)
 
 ## Configure the Slack application
-1. On the left sidebar, select **OAth & Permissions**. 
+
+1. On the left sidebar, select **OAth & Permissions**.
 
 ![](/images/hosting/add_an_oath.png)
 
 2. Within the Scopes section, provide the bot with the **incoming_webhook** scope. Scopes give your app permission to perform actions in your development workspace.
 
-    For more information about OAuth scopes for Bots, see the Understanding OAuth scopes for Bots tutorial in the Slack api documentation. 
+   For more information about OAuth scopes for Bots, see the Understanding OAuth scopes for Bots tutorial in the Slack api documentation.
 
 ![](/images/hosting/save_urls.png)
 
@@ -39,6 +40,6 @@ Follow the procedure below to create a Slack application.
 
 ![](/images/hosting/register_slack_app.png)
 
-You will need to supply your Slack application's client ID and secret.  Navigate to Basic Information in Settings to find your application’s client ID and secret. 
+You will need to supply your Slack application's client ID and secret. Navigate to Basic Information in Settings to find your application’s client ID and secret.
 
 2. Verify that everything is working by setting up a Slack integration in the W&B app.
