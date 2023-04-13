@@ -1,0 +1,140 @@
+.homePage {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 30px auto 50px auto;
+  max-width: 626px;
+}
+
+.homeHeader {
+  color: #181B1F;
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 73px;
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.bigSearch {
+  background: #FFFFFF;
+  box-sizing: border-box;
+  border: 3px solid #E6E6E6;
+  border-radius: 6px;
+  height: 72px;
+  padding: 14px 0px 0px 22px;
+  width: 100%;
+
+
+  color: #A0A1A3;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 40px;
+
+  display: flex;
+  gap: 20px;
+}
+
+.bigSearch:hover {
+  border-color: #00afc2;
+  color: #000000;
+  cursor: pointer;
+}
+
+.searchIcon {
+  transform: scale(1.2) translateY(9px);
+}
+
+.homeDescription {
+  color: #000000;
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 42px 0px;
+}
+
+.homeBoxContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.homeBox {
+  width: 301px;
+  height: 192px;
+  border-radius: 6px;
+  padding: 30px 46px 34px 34px;
+}
+
+.homeBox .boxHeader {
+  color: #181B1F;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 40px;
+}
+
+.homeBox .boxDescription {
+  color: #000000;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.homeBox .whiteText {
+  color: #FFFFFF;
+}
+
+.homeBox.yellow {
+  background: #FFD95C;
+}
+
+.homeBox.sienna {
+  background: #FFC5A3;
+}
+
+.homeBox.gray {
+  background: #EEEEEE;
+}
+
+.homeBox.teal {
+  background: #0096AD;
+}
+
+.homeFooterBox {
+  border: 1px solid #E6E6E6;
+  border-radius: 6px;
+  margin-top: 57px;
+  padding: 16px;
+
+  color: #000000;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 25px;
+}
+
+.arrowIcon {
+  margin-left: 16px;
+  transform: translateY(4px);
+}
+
+.arrowIconLink {
+  transform: translateY(4px);
+}
+
+@media (max-width: 768px) {
+  .homePage {
+    max-width: 350px;
+  }
+
+  .homeHeader {
+    font-size: 48px;
+  }
+
+  .homeBoxContainer {
+    flex-direction: column;
+  }
+}
