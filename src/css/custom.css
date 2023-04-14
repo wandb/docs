@@ -41,6 +41,7 @@
   --ifm-footer-background-color: #ffffff;
   --ifm-footer-padding-vertical: 20px;
   --ifm-footer-padding-horizontal: 0;
+  --doc-sidebar-width: 254px;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -87,9 +88,8 @@ a:hover {
 }
 
 .menu__link {
-  line-height: 2;
   font-size: 16px;
-  margin-right: 20px;
+  margin-right: 24px;
 }
 .menu__list-item-collapsible--active .menu__caret:hover {
   background: none;
@@ -172,9 +172,24 @@ a.theme-edit-this-page {
   font-size: 16px;
 }
 
-.menu__list .menu__list a.menu__link {
-  font-size: 14px;
+/* Submenu list styles === START ====== */
+.menu__list {
+  padding-left: 6px !important;
 }
+.menu__list .menu__list a.menu__link, .menu__list .menu__list .menu__list-item div {
+  font-size: 14px;
+  line-height: 18px;  
+}
+
+.menu__list .menu__list a.menu__link {
+  padding: 3px 0 3px var(--ifm-menu-link-padding-horizontal);
+}
+
+.menu__list .menu__list .menu__caret {
+  padding: 0 var(--ifm-menu-link-padding-horizontal);
+}
+/* Submenu list styles === END ====== */
+
 input#search_input_react {
   width: 100%;
   border-radius: 4px;
@@ -192,6 +207,10 @@ input#search_input_react {
 
 .markdown > h2 {
   --ifm-h2-font-size: 20px;
+}
+
+.navbar__brand, .navbar__logo {
+  height: 28px;
 }
 
 .navbar__inner {
