@@ -50,7 +50,7 @@ const Home: React.FC = () => {
               <div className={clsx(styles.homeBox, styles.yellow)}>
                 <QuickStartIcon />
                 <div className={styles.boxHeader}>
-                  Developer Guide
+                  Developer guide
                   <ForwardNextIcon className={styles.arrowIcon} />
                 </div>
                 <div className={styles.boxDescription}>
@@ -63,7 +63,7 @@ const Home: React.FC = () => {
               <div className={clsx(styles.homeBox, styles.sienna)}>
                 <CodeAltIcon />
                 <div className={styles.boxHeader}>
-                  API Reference
+                  API reference
                   <ForwardNextIcon className={styles.arrowIcon} />
                 </div>
                 <div className={styles.boxDescription}>
