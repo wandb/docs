@@ -150,7 +150,7 @@ const sidebars = {
         id: 'guides/launch/intro',
       },
       items: [
-        'guides/launch/quickstart',
+        // 'guides/launch/quickstart',
         'guides/launch/create-job',
         'guides/launch/create-queue',
         'guides/launch/run-agent',
@@ -158,6 +158,17 @@ const sidebars = {
         'guides/launch/docker',
         'guides/launch/kubernetes',
         'guides/launch/sweeps-on-launch',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Prompts',
+      link: {
+        type: 'doc',
+        id: 'guides/prompts/intro',
+      },
+      items: [
+        'guides/prompts/quickstart',
       ],
     },
     {
