@@ -74,7 +74,8 @@ model, dataloader = get_model(), get_data()
 for epoch in range(wandb.config.epochs):
 	for batch in dataloader:
 	  loss, accuracy = model.training_step()
-	  # 3. Log metrics inside your training loop to visualize model performance
+    # 3. Log metrics inside your training loop to visualize 
+    # model performance
 	  wandb.log({"accuracy": accuracy, "loss": loss})
 ```
 For more information on different data types you can log with W&B, see [Log Data During Experiments](./log/intro.md).
@@ -113,7 +114,8 @@ model, dataloader = get_model(), get_data()
 for epoch in range(wandb.config.epochs):
     for batch in dataloader:
         loss, accuracy = model.training_step()
-        # 3. Log metrics inside your training loop to visualize model performance
+    # 3. Log metrics inside your training loop to visualize 
+    # model performance
         wandb.log({"accuracy": accuracy, "loss": loss})
 
 # 4. Log an artifact to W&B

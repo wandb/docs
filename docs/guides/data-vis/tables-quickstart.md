@@ -18,8 +18,11 @@ Follow the procedure outlined below to log a Table with W&B:
 
 ```python
 run = wandb.init(project="table-test")
-my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
-run.log({"Table Name": my_table})
+my_table = wandb.Table(
+    columns=["a", "b"], 
+    data=[["a1", "b1"], ["a2", "b2"]]
+    )
+run.log({"Table Name": my_table})   
 ```
 
 You can optionally pass in a Pandas DataFrame to `wandb.Table()` Class. For more information on supported data types, see the [`wandb.Table`](../../ref/python/data-types/table.md) in the W&B API Reference Guide.
