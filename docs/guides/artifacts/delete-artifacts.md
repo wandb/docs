@@ -44,7 +44,8 @@ import wandb
 run = api.run('entity/project/run_id')
 
 for artifact in run.logged_artifacts():
-    # Set delete_aliases=True in order to delete artifacts with one more aliases
+    # Set delete_aliases=True in order to delete 
+    # artifacts with one more aliases
     artifact.delete(delete_aliases=True)
 ```
 
@@ -70,17 +71,18 @@ The following code snippet demonstrates how to delete all versions of an artifac
 
 ```python
 import wandb
-# When using artifact api methods that don't have an entity or project
-#  argument, you must provide that information when instantiating the wandb.Api
+
+# Provide your entity and a project name when you 
+# use wandb.Api methods.
 api = wandb.Api(overrides={
         "project": "project", 
         "entity": "entity"
         })
 
-artifact_type, artifact_name = ... # fill in the desired type + name
-for version in api.artifact_versions(artifact_type, artifact_name):
-  # Clean up all versions that don't have an alias such as 'latest'.
+artifact_type, artifact_name = ... # provide type and name
+for v in api.artifact_versions(artifact_type, artifact_name):
+  # Clean up versions that don't have an alias such as 'latest'.
 	# NOTE: You can put whatever deletion logic you want here.
-  if len(version.aliases) == 0:
-      version.delete()
+  if len(v.aliases) == 0:
+      v.delete()
 ```
