@@ -131,7 +131,11 @@ run = wandb.init()
 # Training here... 
 
 s3_client = boto3.client('s3')
-s3_client.upload_file('my_model.h5', 'my-bucket', 'models/cnn/my_model.h5')
+s3_client.upload_file(
+    'my_model.h5', 
+    'my-bucket', 
+    'models/cnn/my_model.h5'
+    )
 
 model_artifact = wandb.Artifact('cnn', type='model')
 model_artifact.add_reference('s3://my-bucket/models/cnn/')
@@ -179,7 +183,10 @@ Downloading a reference artifact is simple:
 import wandb
 
 run = wandb.init()
-artifact = run.use_artifact('entity/project/mnist:latest', type='dataset')
+artifact = run.use_artifact(
+    'entity/project/mnist:latest', 
+    type='dataset'
+    )
 artifact_dir = artifact.download()
 ```
 

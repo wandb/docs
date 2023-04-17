@@ -123,7 +123,8 @@ Set `type: ecr` to use AWS Elastic Container Registry. In order to use `ecr`, mu
 registry:
   # Requires an aws environment configuration.
   type: ecr
-  # Name of ECR repository in region configured in your environment.
+  # Name of ECR repository in region configured 
+  # in your environment.
   repository: my-ecr-repo.
 ```
 

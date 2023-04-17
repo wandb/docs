@@ -292,6 +292,7 @@ const sidebars = {
         'guides/hosting/manage-users',
         'guides/hosting/prometheus-logging',
         'guides/hosting/slack-alerts',
+        'guides/hosting/smtp',
         'guides/hosting/env-vars',
         // 'guides/hosting/hosting-upgrade',
         // 'guides/hosting/configure-cloud',
@@ -304,7 +305,7 @@ const sidebars = {
             'guides/hosting/how-to-guides/aws-tf',
             'guides/hosting/how-to-guides/gcp-tf',
             // 'guides/hosting/how-to-guides/azure-tf',
-            // 'guides/hosting/how-to/bare-metal'
+            'guides/hosting/how-to-guides/bare-metal',
           ],
         },
       ],
