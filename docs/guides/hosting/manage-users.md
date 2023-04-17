@@ -36,7 +36,7 @@ Invite fellow admin or members from the `https://<YOUR-WANDB-URL>/admin/users` p
 
 An invite link will be sent to the user by email. The new admin or member will now have access to the W&B instance.
 
-W&B uses third-party email server to send these invite emails. If your organization firewall rules prohibit from sending traffic outside the corporate network, W&B provides an option to set up internal SMTP server. Please refer to [these instructions](./configure-smtp.md) to setup the SMTP server.
+W&B uses third-party email server to send these invite emails. If your organization firewall rules prohibit from sending traffic outside the corporate network, W&B provides an option to set up internal SMTP server. Please refer to [these instructions](./smtp.md) to setup the SMTP server.
 
 <!-- To do: Add this doc -->
 <!-- Refer to SMTP configuration documentation for instructions on how to do this. -->

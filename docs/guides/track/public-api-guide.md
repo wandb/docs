@@ -161,7 +161,7 @@ these are the different outputs for the above run object attributes
 
 ### Sampling
 
-The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` \_\_ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](https://docs.wandb.ai/ref/python/public-api).
+The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` __ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](https://docs.wandb.ai/ref/python/public-api).
 
 ### Querying Multiple Runs
 
@@ -173,19 +173,20 @@ The default history method samples the metrics to a fixed number of samples (the
   ]}>
   <TabItem value="dataframes_csvs">
 
-This example script finds a project and outputs a CSV of runs with name, configs and summary stats.
+This example script finds a project and outputs a CSV of runs with name, configs and summary stats. Replace  `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
 
 ```python
 import pandas as pd 
 import wandb
 
 api = wandb.Api()
-entity, project = "<entity>", "<project>"  # set to your entity and project 
+entity, project = "<entity>", "<project>"  
 runs = api.runs(entity + "/" + project) 
 
 summary_list, config_list, name_list = [], [], []
 for run in runs: 
-    # .summary contains the output keys/values for metrics like accuracy.
+    # .summary contains output keys/values for 
+    # metrics such as accuracy.
     #  We call ._json_dict to omit large files 
     summary_list.append(run.summary._json_dict)
 
@@ -258,8 +259,8 @@ If you're thinking about ways to set useful identifiers for your runs, here's wh
 
 ### Read metrics from a run
 
-This example outputs timestamp and accuracy saved with `wandb.log({"accuracy": acc})` for a run saved to `"<entity>/<project>/<run_id>"`.
-
+This example outputs timestamp and accuracy saved with `wandb.log({"accuracy": acc})` for a run saved to `"<entity>/<project>/<run_id>"`. 
+ 
 ```python
 import wandb
 api = wandb.Api()
@@ -415,19 +416,20 @@ run.scan_history(keys=sorted(cols), page_size=100)
 
 ### Export metrics from all runs in a project to a CSV file
 
-This script pulls down the runs in a project and produces a dataframe and a CSV of runs including their names, configs, and summary stats.
+This script pulls down the runs in a project and produces a dataframe and a CSV of runs including their names, configs, and summary stats. Replace  `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
 
 ```python
 import pandas as pd 
 import wandb
 
 api = wandb.Api()
-entity, project = "<entity>", "<project>"  # set to your entity and project 
+entity, project = "<entity>", "<project>"  
 runs = api.runs(entity + "/" + project) 
 
 summary_list, config_list, name_list = [], [], []
 for run in runs: 
-    # .summary contains the output keys/values for metrics like accuracy.
+    # .summary contains the output keys/values 
+    #  for metrics such as accuracy.
     #  We call ._json_dict to omit large files 
     summary_list.append(run.summary._json_dict)
 
@@ -536,7 +538,7 @@ sweep = api.sweep("<entity>/<project>/<sweep_id>")
 runs = sorted(sweep.runs,
     key=lambda run: run.summary.get("val_acc", 0), reverse=True)
 val_acc = runs[0].summary.get("val_acc", 0)
-print(f"Best run {runs[0].name} with {val_acc}% validation accuracy")
+print(f"Best run {runs[0].name} with {val_acc}% val accuracy")
 
 runs[0].file("model.h5").download(replace=True)
 print("Best model saved to model-best.h5")

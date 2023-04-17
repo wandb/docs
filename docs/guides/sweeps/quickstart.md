@@ -36,7 +36,11 @@ def main():
 # 2: Define the search space
 sweep_configuration = {
     'method': 'random',
-    'metric': {'goal': 'minimize', 'name': 'score'},
+    'metric': 
+    {
+        'goal': 'minimize', 
+        'name': 'score'
+        },
     'parameters': 
     {
         'x': {'max': 0.1, 'min': 0.01},
@@ -45,7 +49,11 @@ sweep_configuration = {
 }
 
 # 3: Start the sweep
-sweep_id = wandb.sweep(sweep=sweep_configuration, project='my-first-sweep')
+sweep_id = wandb.sweep(
+    sweep=sweep_configuration, 
+    project='my-first-sweep'
+    )
+
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
@@ -103,7 +111,10 @@ W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally 
 A sweep identification number is returned when you initialize a sweep:
 
 ```python
-sweep_id = wandb.sweep(sweep=sweep_configuration, project='my-first-sweep')
+sweep_id = wandb.sweep(
+    sweep=sweep_configuration, 
+    project='my-first-sweep'
+    )
 ```
 
 For more information about initializing sweeps, see [Initialize sweeps](https://docs.wandb.ai/guides/sweeps/initialize-sweeps).
