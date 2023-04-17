@@ -4,6 +4,8 @@ The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is 
 
 <div align='center'>Edit markdown → confirm changes don’t break the docs → create a pull request for review.</div>
 
+From there, someone from the Docs Team will review the PR and merge it. 
+
 &nbsp;
 
 ## Docusaurus dependencies
