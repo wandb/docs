@@ -16,9 +16,11 @@ With W&B Alerts you can be notified via Slack or email if your W&B Run has crash
 You can set an alert like this:
 
 ```python
+text = f"Accuracy {acc} is below acceptable threshold {thresh}"
+
 wandb.alert(
     title="Low accuracy", 
-    text=f"Accuracy {acc} is below the acceptable threshold {thresh}"
+    text=text
 )
 ```
 

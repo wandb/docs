@@ -15,8 +15,8 @@ import TabItem from '@theme/TabItem';
 We treat `/` as a separator for organizing logged panels in the W&B UI. By default, the component of the logged item's name before a `/` is used to define a group of panel called a "Panel Section".
 
 ```python
-wandb.log({'val/loss': 1.1, 'val/acc': 0.3})  # charts in val/ Panel Section
-wandb.log({'train/loss': 0.1, 'train/acc': 0.94})  # charts in train/ Panel Section
+wandb.log({'val/loss': 1.1, 'val/acc': 0.3})  
+wandb.log({'train/loss': 0.1, 'train/acc': 0.94})  
 ```
 
 In the [Workspace](../../app/pages/workspaces.md) settings, you can change whether panels are grouped by just the first component or by all components separated by `/`.
@@ -88,7 +88,10 @@ import wandb
 import plotly.express as px
 
 # Initialize a new run
-run = wandb.init(project="log-plotly-fig-tables", name="plotly_html")
+run = wandb.init(
+    project="log-plotly-fig-tables", 
+    name="plotly_html"
+    )    
 
 # Create a table
 table = wandb.Table(columns = ["plotly_figure"])
@@ -100,7 +103,9 @@ path_to_plotly_html = "./plotly_figure.html"
 fig = px.scatter(x = [0, 1, 2, 3, 4], y = [0, 1, 4, 9, 16])
 
 # Write Plotly figure to HTML
-fig.write_html(path_to_plotly_html, auto_play = False) # Setting auto_play to False prevents animated Plotly charts from playing in the table automatically
+# Setting auto_play to False prevents animated Plotly 
+# charts from playing in the table automatically
+fig.write_html(path_to_plotly_html, auto_play = False) 
 
 # Add Plotly figure as HTML file into Table
 table.add_data(wandb.Html(path_to_plotly_html))

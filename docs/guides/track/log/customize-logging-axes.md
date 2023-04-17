@@ -17,7 +17,8 @@ wandb.init()
 # define our custom x axis metric
 wandb.define_metric("custom_step")
 # define which metrics will be plotted against it
-wandb.define_metric("validation_loss", step_metric="custom_step")
+wandb.define_metric(
+  "validation_loss", step_metric="custom_step")
 
 for i in range(10):
   log_dict = {
@@ -41,9 +42,9 @@ wandb.define_metric("train/*", step_metric="train/step")
 
 for i in range(10):
   log_dict = {
-      "train/step": 2 ** i  # grows exponentially with internal wandb step
+      "train/step": 2 ** i # exponential growth w/ internal W&B step
       "train/loss": 1/(i+1), # x-axis is train/step
-      "train/accuracy": 1 -  (1/(1+i)), # x-axis is train/step
+      "train/accuracy": 1 - (1/(1+i)), # x-axis is train/step
       "val/loss": 1/(1+i), # x-axis is internal wandb step
       
   }
