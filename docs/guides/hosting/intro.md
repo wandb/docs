@@ -9,7 +9,8 @@ Deploy Weights & Biases in a resource isolated environment managed by W&B or by 
 
 :::info
 Production-grade features for W&B Server are available for enterprise-tier only.
-For getting started on a dev or trial environment please refer to our [Basic Setup guide](/guides/hosting/how-to-guides/basic-setup)
+
+See the [Basic Setup guide](/guides/hosting/how-to-guides/basic-setup) to set up a developer or trial environment.
 :::
 
 With W&B Server you can configure and leverage features such as:
