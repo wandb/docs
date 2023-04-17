@@ -61,13 +61,7 @@ This will return the port number where you can preview your changes to the docs.
 
 4. Make your changes on the new branch.
 5. Check your changes are rendered correctly.
-6. Build the static files of your website for production with `yarn build:prod`.
-
-```bash
-yarn build:prod
-```
-
-or, if you're building for beta
+6. Build the static files of your website to beta with `yarn build:beta`.
 
 ```bash
 yarn build:beta
