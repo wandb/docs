@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, { useCallback } from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
@@ -12,11 +12,12 @@ import ForwardNextIcon from '/static/img/icon-forward-next-gray-800.svg';
 import ForwardNextIconBlue from '/static/img/icon-forward-next.svg';
 import ForwardNextIconWhite from '/static/img/icon-forward-next-white.svg';
 import SearchIcon from '/static/img/icon-search-grey.svg';
-import {useSearchPopoverProvider} from '../components/SearchPopoverProvider';
+import { useSearchPopoverProvider } from '../components/SearchPopoverProvider';
 import clsx from 'clsx';
+import { positional } from 'yargs';
 
 const BigSearchBar = () => {
-  const {triggerSearchPopover} = useSearchPopoverProvider();
+  const { triggerSearchPopover } = useSearchPopoverProvider();
   const onClick = useCallback(() => {
     triggerSearchPopover();
   }, [triggerSearchPopover]);
@@ -97,6 +98,18 @@ const Home: React.FC = () => {
                 </div>
               </div>
             </a>
+            <Link to="/guides/hosting/hosting-options">
+              <div className={clsx(styles.homeBox, styles.sienna)}>
+                <DocumentationIcon />
+                <div className={styles.boxHeader}>
+                  W&B Server
+                  <ForwardNextIcon className={styles.arrowIcon} />
+                </div>
+                <div className={styles.boxDescription}>
+                  Check out W&B Deployment options
+                </div>
+              </div>
+            </Link>
           </div>
           <div className={styles.homeFooterBox}>
             Stay up to date with the latest updates from our W&B platform, learn

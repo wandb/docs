@@ -13,13 +13,13 @@ W&B Server is an option available only for Enterprise-tier customers.
 
 With W&B Server you can configure and leverage features such as:
 
-- [Secure Storage Connector](/guides/hosting/secure-storage-connector)
-- [Single Sign-On](/guides/hosting/sso)
-- [Role-based Access Control via LDAP](/guides/hosting/ldap)
-- [Audit Logs](/guides/hosting/audit-logging)
-- [User Management](/guides/hosting/manage-users)
-- [Prometheus Monitoring](/guides/hosting/prometheus-logging)
-- [Slack Alerts](/guides/hosting/slack-alerts) and more.
+- [Secure Storage Connector](/guides/hosting/configuration/secure-storage-connector)
+- [Single Sign-On](/guides/hosting/configuration/sso)
+- [Role-based Access Control via LDAP](/guides/hosting/configuration/ldap)
+- [Audit Logs](/guides/hosting/configuration/audit-logging)
+- [User Management](/guides/hosting/configuration/manage-users)
+- [Prometheus Monitoring](/guides/hosting/configuration/prometheus-logging)
+- [Slack Alerts](/guides/hosting/configuration/slack-alerts) and more.
 
 The following sections of the documentation describes different options on how to install W&B Server, the shared responsibility model, step-by-step installation and configuration guides.
 
