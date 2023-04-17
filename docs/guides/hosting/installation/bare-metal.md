@@ -190,7 +190,7 @@ spec:
         number: 80
 ```
 
-The k8s YAML above should work in most on-premises installations. However the details of your Ingress and optional SSL termination will vary. See [networking](on-premise-baremetal.md#networking) below.
+The k8s YAML above should work in most on-premises installations. However the details of your Ingress and optional SSL termination will vary. See [networking](bare-metal.md#networking) below.
 
 ### Helm Chart
 
