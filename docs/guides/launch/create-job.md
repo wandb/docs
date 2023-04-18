@@ -86,12 +86,13 @@ parser.add_argument("--learning_rate", type=float, default=0.01)
 parser.add_argument("--batch_size", type=int, default=32)
 args = parser.parse_args()
 
-# Pass the arguments to wandb.init to store them in wandb.config and allow
-# the launch agent to modify them. 
+# Pass the arguments to wandb.init to store them in 
+# wandb.config and allow the launch agent to modify them. 
 wandb.init(config=args)
 
-# Use the values in wandb.config instead of args. The wandb.config supports
-# dot and dictionary style access, e.g. wandb.config.learning_rate or 
+# Use the values in wandb.config instead of args. 
+# The wandb.config supports dot and dictionary 
+# style access, e.g. wandb.config.learning_rate or 
 # wandb.config["learning_rate"].
 args = wandb.config
 ```

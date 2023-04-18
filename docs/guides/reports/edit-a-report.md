@@ -19,7 +19,7 @@ Reports consist of _blocks_. Blocks make up the body of a report. Within these b
 
 _Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
 
-:::warning
+:::caution
 Editing Reports programmatically with the Python SDK is in Beta and in active development.
 :::
 
