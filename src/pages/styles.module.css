@@ -52,7 +52,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  margin: 42px 0px;
+  margin: 42px 0px 43px 0px;
 }
 
 .homeBoxContainer {
@@ -66,7 +66,7 @@
   width: 301px;
   height: 192px;
   border-radius: 6px;
-  padding: 30px 42px 34px 34px;
+  padding: 32px 56px 51px 34px;
 }
 
 .homeBox .boxHeader {

@@ -60,7 +60,7 @@ Interact with audio Tables in[ this report](https://wandb.ai/stacey/cshanty/repo
 
 ### Text
 
-Browse text samples from training data or generated output, dynamically group by relevant fields, and align your evaluation across model variants or experiment settings. Explore a simple character-based RNN for generating Shakespeare in [this report →](https://wandb.ai/stacey/nlg/reports/Visualize-Text-Data-Predictions--Vmlldzo1NzcwNzY)
+Browse text samples from training data or generated output, dynamically group by relevant fields, and align your evaluation across model variants or experiment settings. Render text as Markdown or use visual diff mode to compare texts. Explore a simple character-based RNN for generating Shakespeare in [this report →](https://wandb.ai/stacey/nlg/reports/Visualize-Text-Data-Predictions--Vmlldzo1NzcwNzY)
 
 ![Doubling the size of the hidden layer yields some more creative prompt completions.](@site/static/images/data_vis/shakesamples.png)
 

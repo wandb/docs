@@ -4,7 +4,7 @@ description: Learn how to use Weights & Biases for Model Management
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Getting started
+# Quickstart
 
 <head>
   <title>Walkthrough of how to use Model Management</title>
@@ -169,7 +169,8 @@ art.add_file("path/to/model.pt", "model.pt")
 wandb.log({"train_loss": 0.345, "val_loss": 0.456})
 # ... Log the Version
 if model_is_best:
-    # If the model is the best model so far, add "best" to the aliases
+    # If the model is the best model so far,
+    #  add "best" to the aliases
     wandb.log_artifact(art, aliases=["latest", "best"])
 else:
     wandb.log_artifact(art)
@@ -397,7 +398,11 @@ dataset = wandb.use_artifact("mnist-evaluation:latest")
 loss, accuracy, predictions = evaluate_model(model, dataset)
 
 # Log out metrics, images, tables, or any data useful for evaluation.
-wandb.log({"loss": loss, "accuracy": accuracy, "predictions": predictions})
+wandb.log(
+    {
+        "loss": loss, "accuracy": accuracy, 
+        "predictions": predictions
+        })
 ```
 
 If you are executing similar code, as demonstrated in the notebook, you should see a workspace similar to the image below - here we even show model predictions against the test data!
