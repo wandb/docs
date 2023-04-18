@@ -69,6 +69,25 @@ Control over the job spec allows you to specify resource requests, volume mounts
 }
 ```
 
+The agent will automatically apply set the following values in the top level of the job spec:
+
+```yaml
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+      containers:  # These security defaults are applied to all containers in the pod spec.
+      - securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          seccompProfile:
+            type: RuntimeDefault
+```
+
 ## Deploying an agent
 
 Before you can launch a run on k8s, you need to deploy an agent to your cluster.
