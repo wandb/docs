@@ -2,11 +2,11 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_watch.py#L20-L106)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/sdk/wandb_watch.py#L20-L106)
 
 
 
-Hook into the torch model to collect gradients and the topology.
+Hooks into the torch model to collect gradients and the topology.
 
 ```python
 watch(

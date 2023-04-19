@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L64-L655)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/image.py#L60-L652)
 
 
 
@@ -81,7 +81,7 @@ wandb.log({"examples": examples})
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L576-L597)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/image.py#L573-L594)
 
 ```python
 @classmethod
@@ -100,7 +100,7 @@ all_boxes(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L599-L603)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/image.py#L596-L600)
 
 ```python
 @classmethod
@@ -116,7 +116,7 @@ all_captions(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L553-L574)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/image.py#L550-L571)
 
 ```python
 @classmethod
@@ -135,7 +135,7 @@ all_masks(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L440-L452)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/image.py#L434-L448)
 
 ```python
 guess_mode(
@@ -143,14 +143,14 @@ guess_mode(
 ) -> str
 ```
 
-Guess what type of image the np.array is representing.
+Guess what type of image the np.array is representing
 
 
 ### `to_uint8`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L454-L477)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/image.py#L450-L472)
 
 ```python
 @classmethod
@@ -159,10 +159,8 @@ to_uint8(
 ) -> "np.ndarray"
 ```
 
-Convert image data to uint8.
-
-Convert floating point image on the range [0,1] and integer images on the range
-[0,255] to uint8, clipping if necessary.
+Converts floating point image on the range [0,1] and integer images
+on the range [0,255] to uint8, clipping if necessary.
 
 
 

@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/video.py#L49-L238)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/video.py#L48-L235)
 
 
 
@@ -51,7 +51,7 @@ wandb.log({"video": wandb.Video(frames, fps=4)})
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/video.py#L129-L166)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/video.py#L128-L163)
 
 ```python
 encode() -> None

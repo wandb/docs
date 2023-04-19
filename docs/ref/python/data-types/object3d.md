@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/object_3d.py#L77-L318)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/object_3d.py#L76-L316)
 
 
 
@@ -28,7 +28,7 @@ The shape of the numpy array must be one of either:
 ```
 [[x y z], ...] nx3
 [[x y z c], ...] nx4 where c is a category with supported range [1, 14]
-[[x y z r g b], ...] nx6 where is rgb is color
+[[x y z r g b], ...] nx4 where is rgb is color
 ```
 
 ## Methods
@@ -37,13 +37,13 @@ The shape of the numpy array must be one of either:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/object_3d.py#L221-L231)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/object_3d.py#L221-L229)
 
 ```python
 @classmethod
 from_file(
  data_or_path: Union['TextIO', str],
- file_type: Optional['FileFormat3D'] = None
+ file_type: "FileFormat3D" = None
 ) -> "Object3D"
 ```
 
@@ -54,7 +54,7 @@ from_file(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/object_3d.py#L233-L246)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/object_3d.py#L231-L244)
 
 ```python
 @classmethod
@@ -70,7 +70,7 @@ from_numpy(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/object_3d.py#L248-L272)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/object_3d.py#L246-L270)
 
 ```python
 @classmethod

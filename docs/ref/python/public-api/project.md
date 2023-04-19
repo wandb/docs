@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1465-L1547)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L1446-L1528)
 
 
 
@@ -31,7 +31,7 @@ Project(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1498-L1500)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L1479-L1481)
 
 ```python
 artifacts_types(
@@ -46,7 +46,7 @@ artifacts_types(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L979-L990)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L959-L970)
 
 ```python
 display(
@@ -54,14 +54,14 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+Display this object in jupyter
 
 
 ### `snake_to_camel`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L975-L977)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L955-L957)
 
 ```python
 snake_to_camel(
@@ -76,7 +76,7 @@ snake_to_camel(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1502-L1547)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L1483-L1528)
 
 ```python
 sweeps()
@@ -89,7 +89,7 @@ sweeps()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1482-L1490)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L1463-L1471)
 
 ```python
 to_html(
@@ -97,7 +97,7 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this project.
+Generate HTML containing an iframe displaying this project
 
 
 

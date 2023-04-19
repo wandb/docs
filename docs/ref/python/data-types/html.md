@@ -2,11 +2,11 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/html.py#L19-L108)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/html.py#L19-L109)
 
 
 
-Wandb class for arbitrary html.
+Wandb class for arbitrary html
 
 ```python
 Html(
@@ -32,7 +32,7 @@ Html(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/html.py#L60-L75)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/html.py#L61-L76)
 
 ```python
 inject_head() -> None

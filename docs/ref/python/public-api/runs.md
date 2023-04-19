@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1550-L1661)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L1531-L1641)
 
 
 
@@ -22,8 +22,7 @@ Runs(
 
 
 
-
-This is generally used indirectly via the `Api`.runs method.
+This is generally used indirectly via the `Api`.runs method
 
 
 

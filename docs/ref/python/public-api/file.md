@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2766-L2845)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L2712-L2781)
 
 
 
@@ -31,7 +31,7 @@ File(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2825-L2838)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L2761-L2774)
 
 ```python
 delete()
@@ -44,7 +44,7 @@ delete()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L979-L990)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L959-L970)
 
 ```python
 display(
@@ -52,21 +52,19 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+Display this object in jupyter
 
 
 ### `download`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2792-L2823)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L2738-L2759)
 
 ```python
 download(
- root: str = ".",
- replace: bool = (False),
- exist_ok: bool = (False)
-) -> io.TextIOWrapper
+ root=".", replace=(False)
+)
 ```
 
 Downloads a file previously saved by a run from the wandb server.
@@ -74,13 +72,13 @@ Downloads a file previously saved by a run from the wandb server.
 
 | Arguments | |
 | :--- | :--- |
-| replace (boolean): If `True`, download will overwrite a local file if it exists. Defaults to `False`. root (str): Local directory to save the file. Defaults to ".". exist_ok (boolean): If `True`, will not raise ValueError if file already exists and will not re-download unless replace=True. Defaults to `False`. |
+| replace (boolean): If `True`, download will overwrite a local file if it exists. Defaults to `False`. root (str): Local directory to save the file. Defaults to ".". |
 
 
 
 | Raises | |
 | :--- | :--- |
-| `ValueError` if file already exists, replace=False and exist_ok=False. |
+| `ValueError` if file already exists and replace=False |
 
 
 
@@ -88,7 +86,7 @@ Downloads a file previously saved by a run from the wandb server.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L975-L977)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L955-L957)
 
 ```python
 snake_to_camel(
@@ -103,7 +101,7 @@ snake_to_camel(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L992-L993)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/apis/public.py#L972-L973)
 
 ```python
 to_html(
