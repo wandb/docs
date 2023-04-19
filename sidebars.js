@@ -25,7 +25,7 @@ const sidebars = {
         'guides/tutorials/W\&B_Tables_Quickstart',
         'guides/tutorials/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W\&B',
         'guides/tutorials/Pipeline_Versioning_with_W\&B_Artifacts',
-        'guides/tutorials/Model_Registry_E2E',
+        'guides/tutorials/Model_Registry_Tutorial',
         'guides/tutorials/launch_placeholder'
       ],
     },

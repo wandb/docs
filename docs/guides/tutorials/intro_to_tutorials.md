@@ -12,7 +12,7 @@ If this is your first time using W&B, we suggest you explore the following tutor
 2. [View & Analyze Model Predictions](W&B_Tables_Quickstart.md).
 3. [Tune Hyperparameters](Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.md).
 4. [Manage Model Weights & Dataset Versions](Pipeline_Versioning_with_W&B_Artifacts.md).
-5. [Model Management](Model_Registry_E2E.md).
+5. [Track Model Development Lifecycle](Model_Registry_Tutorial.md).
 6. [Automate Launching Experiments](Intro_to_Launch.md)
 
 ## Tutorials - Libraries, Frameworks & Integrations
