@@ -150,7 +150,7 @@ const sidebars = {
         id: 'guides/launch/intro',
       },
       items: [
-        // 'guides/launch/quickstart',
+        'guides/launch/quickstart',
         'guides/launch/create-job',
         'guides/launch/create-queue',
         'guides/launch/run-agent',
