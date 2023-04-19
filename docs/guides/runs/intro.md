@@ -139,26 +139,26 @@ The following image demonstrates information about a Run called "sparkling-glade
 
 The **Overview Tab** will show the following information about the Run you selected:
 
-* Run name: The name of the Run.
-* Description: A description of the Run that you provided. This field is left initially blank if no description was specified when you create the Run. You can optionally provide a description for the Run with the W&B App UI or programmatically. 
-* Privacy: Privacy settings of the Run. You can set it to either **Private** or **Public**. 
+* Run name: The name of the run.
+* Description: A description of the run that you provided. This field is left initially blank if no description was specified when you create the run. You can optionally provide a description for the run with the W&B App UI or programmatically. 
+* Privacy: Privacy settings of the run. You can set it to either **Private** or **Public**. 
     * **Private**: (Default) Only you can view and contribute.
     * **Public**: Anyone can view.
 * Tags: (list, optional) A list of strings. Tags are useful for organizing runs together, or applying temporary labels like "baseline" or "production".
-* Author: The W&B username that created the Run.
-* Run state: The state of the Run:
+* Author: The W&B username that created the run.
+* Run state: The state of the run:
   * **finished**: script ended and fully synced data, or called `wandb.finish()`
   * **failed**: script ended with a non-zero exit status
   * **crashed**: script stopped sending heartbeats in the internal process, which can happen if the machine crashes
   * **running**: script is still running and has recently sent a heartbeat
-* Start time: The timestamp when the Run started.
-* Duration: How long, in seconds, the Run took to **finish**, **fail**, or **crash**.
-* Host name: Where the Run was launched. The name of your machine is displayed if you launched the Run locally on your machine. 
-* Operating system: The operating system used for the Run.
-* Python version: The Python version used for the Run.
-* Python executable: The command that started the Run.
-* System Hardware: The hardware of the 
-* W&B CLI version: The W&B ClI version installed on the machine that hosted the Run command.
+* Start time: The timestamp when the run started.
+* Duration: How long, in seconds, the run took to **finish**, **fail**, or **crash**.
+* Host name: Where the run was launched. The name of your machine is displayed if you launched the run locally on your machine. 
+* Operating system: The operating system used for the run.
+* Python version: The Python version used for the run.
+* Python executable: The command that started the run.
+* System Hardware: The hardware used to create the run. 
+* W&B CLI version: The W&B ClI version installed on the machine that hosted the run command.
 
 <!-- :::info
 The Python details are private, even if you make the page itself public. 
@@ -167,7 +167,7 @@ The Python details are private, even if you make the page itself public.
 
 Below the overview section, you will additionally find information about: 
 
-* **Artifact Outputs**: Artifact outputs produced by the Run.
+* **Artifact Outputs**: Artifact outputs produced by the run.
 * **Config**: List of config parameters saved with [`wandb.config`](../../guides/track/config.md).
 * **Summary**: List of summary parameters saved with [`wandb.log()`](../../guides/track/log/intro.md). By default, this value is set to the last value logged.
 
