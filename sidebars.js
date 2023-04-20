@@ -162,6 +162,17 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Prompts',
+      link: {
+        type: 'doc',
+        id: 'guides/prompts/intro',
+      },
+      items: [
+        'guides/prompts/quickstart',
+      ],
+    },
+    {
+      type: 'category',
       label: 'App Reference',
       link: {type: 'doc', id: 'guides/app/intro'},
       items: [
