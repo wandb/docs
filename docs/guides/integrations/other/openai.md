@@ -25,6 +25,7 @@ To get started, pip install the `wandb` library, then follow the steps below:
 First, import `autolog` from `wandb.integration.openai` and initialise it.  
 
 ```python
+import os
 import openai
 from wandb.integration.openai import autolog
 
@@ -37,6 +38,8 @@ You can optionally pass a dictionary with argument that `wandb.init()` accepts t
 Each call you make to the OpenAI API will now be logged to Weights & Biases automatically.
 
 ```python
+os.environ["OPENAI_API_KEY"] = "XXX"
+
 chat_request_kwargs = dict(
     model="gpt-3.5-turbo",
     messages=[
@@ -62,6 +65,7 @@ We recommend that you call `disable()` to close all W&B processes when you are f
 autolog.disable()
 ```
 
+Now your inputs and completions will be logged to Weights & Biases, ready for analysis or to be shared with colleagues.
 
 ## Log OpenAI fine-tunes to W&B
 
