@@ -48,3 +48,5 @@ and upload them to the W&B server.
 
 [`class Video`](./video.md): Format a video for logging to W&B.
 
+[`class WBTraceTree`](./wbtracetree.md): Media object for trace tree data.
+

@@ -11,7 +11,7 @@
 
 
 
-## Modules
+## Classes
 
-[`keras`](./keras) module: Tools for integrating `wandb` with [`Keras`](https://keras.io/).
+[`class WandbTracer`](./wandbtracer.md): Callback Handler that logs to Weights and Biases.
 
