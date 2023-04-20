@@ -5,17 +5,32 @@ description: Manage the model lifecycle from training to production
 
 # Model Registry
 
-Use the W&B Model Registry as a central system of record for models.
+Use Model Registry as the central system to organize your models and their versions for a given task. Easily keep track and promote models in their various stages of maturity or task: from staging, to production, and more. View the change history of registered model on the W&B App.
 
-* Create Registered Models to organize your best model versions for a given task
-* Track a model moving into staging and production
-* See a history of all changes, including who moved a model to production
+![](/images/models/model_registry_landing_page.png)
+
+The image above shows the Model Registry W&B App UI. The left panel demonstrates a list of registered models. On the right panel there is a **Model Overview** that describes INSERT. On the bottom right of the image is the **Versions** section. This section lists all the models versions created, when they were created, aliases associated with a specific version, and more.
+
 
 <!-- ### Watch the 1 minute video walkthrough -->
 
 <!-- {% embed url="https://www.youtube.com/watch?v=jy9Pk9riwZI" %} -->
 
-## Model Registry Features
+## How it works
+There are three major components to Model Registry: model versions, model artifacts, and registered models.
+
+* Model versions: a package of data & metadata describing a trained model.
+* Model artifact: a sequence of logged model versions.
+* Registered models: a selection of linked model versions. Registered models often represent all of the candidate models for a single modeling use case or task.
+
+
+
+## How to get started
+* Read [Model Management Concepts](./model-management-concepts.md) for more information on basic Model Management concepts.
+* Follow the steps in the [Walkthrough](./walkthrough.md) to learn how to use Model Registry.
+
+
+<!-- ## Model Registry Features
 
 ### Model Versioning
 
@@ -47,9 +62,8 @@ Manage the process as a model moves from training through staging to production.
 This new feature is now turned on for all users to try for free, up to:
 
 * 5 Registered Models, with unlimited versions linked to each model
-* 10 most recent steps of Action History shown in the UI for each registered model
+* 10 most recent steps of Action History shown in the UI for each registered model -->
 
-## Explore more
-* Read [Model Management Concepts](./model-management-concepts.md) for more information on basic Model Management concepts.
-* Follow the steps in the [Walkthrough](./walkthrough.md) to learn how to use Model Management.
+
+
 

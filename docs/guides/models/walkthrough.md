@@ -15,9 +15,7 @@ import TabItem from '@theme/TabItem';
 
 In this walkthrough you'll learn how to use Weights & Biases for Model Management. Track, visualize, and report on the complete production model workflow.
 
-1. **Model Versioning**: Save and restore every version of your model & learned parameters - organize versions by use case and objective. Track training metrics, assign custom metadata, and document rich markdown descriptions of your models.
-2. **Model Lineage:** Track the exact code, hyperparameters, & training dataset used to produce the model. Enable model reproducibility.
-3. **Model Lifecycle:** Promote promising models to positions like "staging" or "production" - allowing downstream users to fetch the best model automatically. Communicate progress collaboratively in Reports.
+
 
 _We are actively building new Model Management features. Please reach out with questions or suggestions at support@wandb.com._
 
