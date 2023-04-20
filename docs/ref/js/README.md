@@ -83,7 +83,7 @@ await WandbTracer.finish();
 We spawn a seperate MessageChannel to process all api calls async.  This will cause your script to hang if you don't call `await WandbTracer.finish()`.
 :::
 
-:::warning
+:::caution
 The tracer does not play nicely with parallel execution.  See the example on the bottom of the langchain js [tracing documentation](https://js.langchain.com/docs/production/tracing).
 :::
 
