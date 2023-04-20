@@ -13,7 +13,7 @@ W&B Prompts complements [W&B Experiments](../track/intro.md) and [W&B Tables](..
 
 <!-- ## Prompts Product Suite
 
-[W&B Tracer](#Trace) is the first of our Prompts tools -->
+[Trace](#Trace) is the first of our Prompts tools -->
 
 ## How it works
 
@@ -21,7 +21,7 @@ W&B currently supports a tool called _Trace_. **Trace** allows you to track and 
 
 Use Trace for LLM chaining, plug-in or pipelining use cases. You can use your own LLM chaining implementation or use a W&B integration provided by LLM libraries such as LangChain.
 
-W&B Trace consists of three main components:
+Trace consists of three main components:
 
 * [Trace table](#trace-table): Overview of the inputs and outputs of a chain.
 * [Trace timeline](#trace-timeline): Displays the execution flow of the chain and is color-coded according to component types.
@@ -53,7 +53,7 @@ The Model Architecture view provides details about the structure of the chain an
 ## How to get started
 
 * If this is your first time using W&B Prompts, we recommend you go through the [Quickstart](./quickstart.md) guide.
-* Try our [Google Colab Jupyter notebook](http://wandb.me/prompts-quickstart) for an example of how [INSERT].
+* Try our [Google Colab Jupyter notebook](http://wandb.me/prompts-quickstart) for an example of how.
 
 <!-- Add link to colab -->
 
