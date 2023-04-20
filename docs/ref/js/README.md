@@ -10,7 +10,7 @@ Similar to our Python library, we offer a client to track experiments in JavaScr
 - Debug LLM applications with interactive traces
 - Debug [LangChain.js](https://github.com/hwchase17/langchainjs) usage
 
-This library is compatible with Node and modern Web Browsers. 
+This library is compatible with Node and modern JS run times. 
 
 You can find the source code for the JavaScript client in the [Github repository](https://github.com/wandb/wandb-js).
 
@@ -20,22 +20,18 @@ Our JavaScript integration is still in Beta, if you run into issues please let u
 
 ### Installation
 
-We're working to make this easier, but for now you need to build it from source.
-
-- Clone this repo locally 
-    - `git clone https://github.com/wandb/wandb-js.git`
-- Install dependencies & build it. 
-    - `cd ./wandb-js`
-    - `npm i && npm run build`
-- Within your project directory, run `npm i ./wandb-js`
-
+```shell
+npm install @wandb/sdk
+# or ...
+yarn add @wandb/sdk
+```
 
 ### Usage
 
-TypeScript:
+TypeScript/ESM:
 
 ```typescript
-import {wandb} from '@wandb/sdk'
+import wandb from '@wandb/sdk'
 
 async function track() {
     await wandb.init({config: {test: 1}});
@@ -44,10 +40,24 @@ async function track() {
     await wandb.finish();
 }
 
-track()
+await track()
+```
+
+:::caution
+We span a seperate MessageChannel to process all api calls asynchronously.  This will cause your script to hang if you don't call `await wandb.finish()`.
+:::
+
+Node/CommonJS:
+
+```javascript
+const wandb = require('@wandb/sdk').default;
 ```
 
 We're currently missing a lot of the functionality found in our Python SDK, but basic logging functionality is available. We'll be adding additional features like [Tables](https://docs.wandb.ai/guides/data-vis?utm_source=github&utm_medium=code&utm_campaign=wandb&utm_content=readme) soon.
+
+### Authentication and Settings
+
+In node environments we look for `process.env.WANDB_API_KEY` and prompt for it's input if we have a TTY.  In non-node environments we look for `sessionStorage.getItem("WANDB_API_KEY")`.  Addtional settings can be [found here](https://github.com/wandb/wandb-js/blob/main/src/sdk/lib/config.ts).
 
 # Integrations
 
@@ -64,9 +74,13 @@ This library integrates with the popular library for building LLM applications, 
 ```typescript
 import {WandbTracer} from '@wandb/sdk/integrations/langchain';
 
-await WandbTracer.watchAll({project: 'langchain-test'});
+await WandbTracer.init({project: 'langchain-test'});
 // run your langchain workloads...
-await WandbTracer.stopWatch();
+await WandbTracer.finish();
 ```
+
+:::caution
+We span a seperate MessageChannel to process all api calls asynchronously.  This will cause your script to hang if you don't call `await WandbTracer.finish()`.
+:::
 
 See [this test](https://github.com/wandb/wandb-js/blob/main/src/sdk/integrations/langchain/langchain.test.ts) for a more detailed example. 
