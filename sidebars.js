@@ -338,6 +338,7 @@ const sidebars = {
         'guides/integrations/other/hydra',
         'guides/integrations/keras',
         'guides/integrations/other/kubeflow-pipelines-kfp',
+        'guides/integrations/langchain',
         'guides/integrations/lightgbm',
         'guides/integrations/other/metaflow',
         'guides/integrations/mmdetection',
