@@ -6,7 +6,7 @@
 
 **Summary**
 
-Run a W&B launch agent (Experimental).
+Run a W&B launch agent.
 
 **Options**
 

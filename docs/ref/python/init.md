@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_init.py#L920-L1182)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_init.py#L913-L1184)
 
 
 
@@ -132,6 +132,16 @@ config = {"lr": 3e-4, "batch_size": 32}
 config.update({"architecture": "resnet", "depth": 34})
 wandb.init(config=config)
 ```
+
+| Raises | |
+| :--- | :--- |
+| `Error` | if some unknown or internal error happened during the run initialization. |
+| `AuthenticationError` | if the user failed to provide valid credentials. |
+| `CommError` | if there was a problem communicating with the WandB server. |
+| `UsageError` | if the user provided invalid arguments. |
+| `KeyboardInterrupt` | if user interrupts the run. |
+
+
 
 | Returns | |
 | :--- | :--- |

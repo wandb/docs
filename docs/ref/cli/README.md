@@ -23,9 +23,10 @@
 | docker | Run your code in a docker container. |
 | docker-run | Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER... |
 | enabled | Enable W&B. |
+| import | Commands for importing data from other systems |
 | init | Configure a directory with Weights & Biases |
-| launch | Launch or queue a job from a uri (Experimental). |
-| launch-agent | Run a W&B launch agent (Experimental). |
+| launch | Launch or queue a W&B Job. |
+| launch-agent | Run a W&B launch agent. |
 | login | Login to Weights & Biases |
 | offline | Disable W&B sync |
 | online | Enable W&B sync |
