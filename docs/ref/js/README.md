@@ -44,7 +44,7 @@ await track()
 ```
 
 :::caution
-We span a seperate MessageChannel to process all api calls asynchronously.  This will cause your script to hang if you don't call `await wandb.finish()`.
+We spawn a seperate MessageChannel to process all api calls async.  This will cause your script to hang if you don't call `await wandb.finish()`.
 :::
 
 Node/CommonJS:
@@ -80,7 +80,7 @@ await WandbTracer.finish();
 ```
 
 :::caution
-We span a seperate MessageChannel to process all api calls asynchronously.  This will cause your script to hang if you don't call `await WandbTracer.finish()`.
+We spawn a seperate MessageChannel to process all api calls async.  This will cause your script to hang if you don't call `await WandbTracer.finish()`.
 :::
 
 See [this test](https://github.com/wandb/wandb-js/blob/main/src/sdk/integrations/langchain/langchain.test.ts) for a more detailed example. 
