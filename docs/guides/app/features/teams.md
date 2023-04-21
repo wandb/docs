@@ -26,22 +26,6 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 **Note**: Only the admin of an organization can create a new team.
 :::
 
-## Invite team members
-
-Invite new members to your team. 
-1. Ensure the team member already has a [W&B Account](https://app.wandb.ai/login?signup=true). 
-2. Navigate to https://wandb.ai/subscriptions. 
-3. Select **Manage members**.
-4. A model will appear. Provide the username or email for the **Email or Username** field, select a team for them to join from the **Team** dropdown menu, and select a role type from the **Organizational Role** dropdown menu.
-
-![](@site/static/images/app_ui/ezgif-3-b665ff2fa9.gif)
-
-5. Select the **Add** button.
-
-:::info
-* If you have an Enterprise account, please contact your Account Executive to invite new members to your team.
-:::
-
 ## Create a Team Profile
 
 You can customize your team's profile page to show an introduction and showcase reports and projects that are visible to the public or team members. Present reports, projects, and external links.
@@ -54,7 +38,7 @@ You can customize your team's profile page to show an introduction and showcase 
 
 <!-- To do: show how to remove team members -->
 
-## Remove team members
+## Remove Team members
 
 Team admins can open the team settings page and click the delete button next to the departing member's name. Any runs that they logged to the team will remain after a user is removed.
 
@@ -142,26 +126,93 @@ For example, to add a Twitter follow badge, add `[![Twitter: @weights_biase](htt
 
 W&B offers free trials for business teams, **no credit card required**. During the trial, you and your colleagues will have access to all the features in W&B. Once the trial is over, you can upgrade your plan to continue using a W&B Team to collaborate. Your personal W&B account will always remain free, and if you're a student or teacher you can enroll in an academic plan.
 
-See the [pricing page](https://wandb.ai/site/pricing) for more information on our plans. You can download all your data at any time, either using the dashboard UI or via our [Export API](../../../ref/python/public-api/README.md). 
+See the [pricing page](https://wandb.ai/site/pricing) for more information on our plans. You can download all your data at any time, either using the dashboard UI or via our [Export API](../../../ref/python/public-api/README.md).
 
-
-
-## Change the account settings for an organization
-
-If you're a paid user, then you can go to your 'Subscriptions' page and click on the three dots next to the 'Account' next to your organization name. You'll be then able to edit the billing info for your organization, add seats to your org or contact sales to upgrade your plan.
-
-Similarly, if your organization is still on trial then you can go to your 'Subscriptions' page and click on the three dots next to the 'Account' to update your account settings. Then, you'll be able to add seats to your org, contact sales to upgrade your plan, etc.
-
-![Update Account Settings of an Org](@site/static/images/app_ui/edit_account.gif)
-
-## Change the billing user of an organization
-
-Change the billing user of your organization by clicking on the "Manage members" button on your [subscription page](https://wandb.ai/subscriptions).
-
-![](/images/app_ui/change_billing_user.gif)
-
-
-## Privacy settings
+## Privacy Settings
 
 You can see the privacy settings of all team projects on the team settings page:
 `app.wandb.ai/teams/your-team-name`
+
+## Advanced Configuration
+
+### Secure Storage Connector
+The team-level secure storage connector allows teams to use their own cloud storage bucket with W&B. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements.
+
+:::info
+This feature is only available for Google Cloud Storage buckets and Amazon S3 buckets. Only enterprise teams can use this feature. To learn more about enterprise plans, please contact us at  support@wandb.com
+:::
+
+To provision a cloud storage bucket, we recommend using our secure storage connector terraform module for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector). 
+
+Alternatively, you can follow the instructions [here](../../hosting/setup/configuration#file-storage) to create a bucket in your cloud provider's console. In addition, you will
+need to grant W&B permission to access the bucket. For GCP, you will need to grant our service account `wandb-integration@wandb-production.iam.gserviceaccount.com` the `storage.admin` role on the bucket. For details, see https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add.
+For AWS, you will need to apply the following IAM policy to the bucket.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Id": "WandbAccess",
+  "Statement": [
+    {
+      "Sid": "WandBAccountAccess",
+      "Effect": "Allow",
+      "Principal": { "AWS": "arn:aws:iam::725579432336:role/WandbIntegration" },
+      "Action" : [
+          "s3:GetObject*",
+          "s3:GetEncryptionConfiguration",
+          "s3:ListBucket",
+          "s3:ListBucketMultipartUploads",
+          "s3:ListBucketVersions",
+          "s3:AbortMultipartUpload",
+          "s3:DeleteObject",
+          "s3:PutObject",
+          "s3:GetBucketCORS",
+          "s3:GetBucketLocation",
+          "s3:GetBucketVersioning"
+        ],
+      "Resource": [
+          "arn:aws:s3:::<WANDB_BUCKET>",
+          "arn:aws:s3:::<WANDB_BUCKET>/*"
+      ]
+    }
+  ]
+}
+```
+
+If you are using a KMS Key for encryption, you will also need to apply the following policy.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid" : "Internal",
+      "Effect" : "Allow",
+      "Principal" : { "AWS" : "<YOUR_AWS_ACCOUNT_ID>" },
+      "Action" : "kms:*",
+      "Resource" : "*"
+    },
+    {
+      "Sid" : "External",
+      "Effect" : "Allow",
+      "Principal" : { "AWS" : "arn:aws:iam::725579432336:role/WandbIntegration" },
+      "Action" : [
+        "kms:Decrypt",
+        "kms:Describe*",
+        "kms:Encrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*"
+      ],
+      "Resource" : "*"
+    }
+  ]
+}
+```
+
+A cloud storage bucket can be configured only once for a team at the time of team creation. Select **External Storage** when you create a team to configure a cloud storage bucket. Select your provider and fill out your bucket name and storage encryption key ID, if applicable, and select **Create Team**.
+
+An error or warning will appear at the bottom of the page if there are issues accessing the bucket or the bucket has invalid settings.
+
+![](/images/hosting/saas_setup_secure_storage.png)
+
+Only organization administrators have the permissions to configure the secure storage connector. The same cloud storage bucket can be used amongst multiple teams by selecting an existing cloud storage bucket from the dropdown.

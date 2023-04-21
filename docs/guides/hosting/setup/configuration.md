@@ -230,56 +230,46 @@ Navigate to Pub/Sub > Topics in the GCP Console, and click "Create topic". Choos
 
 Then click "Create subscription" in the subscriptions table at the bottom of the page. Choose a name, and make sure Delivery Type is set to "Pull". Click "Create".
 
-Make sure the service account or account that your instance is running as has access to this subscription.
+Make sure the service account or account that your instance is running as has the `pubsub.admin` role on this subscription. For details, see https://cloud.google.com/pubsub/docs/access-control#console
 
 **Create Storage Bucket**
 
 Navigate to Storage > Browser in the GCP Console, and click "Create bucket". Make sure to choose "Standard" storage class.
 
-Make sure the service account or account that your instance is running as has access to this bucket.
+Make sure the service account or account that your instance is running as has the `storage.objectAdmin` role on this bucket. For details, see https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add.
+To create signed file URLs, your instance also needs the `iam.serviceAccounts.signBlob` permission in GCP. You can add it by adding the `Service Account Token Creator` role to the service account or IAM member that your instance is running as.
+
+Lastly, enable CORS access. This can only be done using the command line. First, create a JSON file with the following CORS configuration.
+
+`cors:
+- maxAgeSeconds: 3600
+  method:
+  - GET
+  - PUT
+  origin:
+  - '<YOUR_W&B_SERVER_HOST>'
+  responseHeader:
+  - Content-Type`
+
+Note that the scheme, host, and port of the values for the origin must match exactly. Next, make sure you have `gcloud` installed, and logged into the correct GCP Project, then run the following:
+
+```bash
+gcloud storage buckets update gs://<BUCKET_NAME> --cors-file=<CORS_CONFIG_FILE>
+```
 
 **Create PubSub Notification**
 
-Creating a notification stream from the Storage Bucket to the PubSub Topic can unfortunately only be done in the console. Make sure you have `gsutil` installed, and logged into the correct GCP Project, then run the following:
+Creating a notification stream from the Storage Bucket to the PubSub Topic can unfortunately only be done in the command line. Make sure you have `gcloud` installed, and logged into the correct GCP Project, then run the following:
 
 ```bash
 gcloud pubsub topics list  # list names of topics for reference
-gsutil ls                  # list names of buckets for reference
+gcloud storage ls          # list names of buckets for reference
 
 # create bucket notification
-gsutil notification create -t <TOPIC-NAME> -f json gs://<BUCKET-NAME>
+gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NAME>
 ```
 
 [Further reference is available on the Cloud Storage website.](https://cloud.google.com/storage/docs/reporting-changes)
-
-**Add Signing Permissions**
-
-To create signed file URLs, your W&B server also needs the `iam.serviceAccounts.signBlob` permission in GCP. You can add it by adding the `Service Account Token Creator` role to the service account or IAM member that your instance is running as.
-
-**Grant Permissions to Node Running W&B server**
-
-The node on which W&B server is running must be configured to permit access to S3 and SQS. Depending on the type of server deployment you've opted for, you may need to add the following policy statements to your node role:
-
-```
-{
-   "Statement":[
-      {
-         "Sid":"",
-         "Effect":"Allow",
-         "Action":"s3:*",
-         "Resource":"arn:aws:s3:::<WANDB_BUCKET>"
-      },
-      {
-         "Sid":"",
-         "Effect":"Allow",
-         "Action":[
-            "sqs:*"
-         ],
-         "Resource":"arn:aws:sqs:<REGION>:<ACCOUNT>:<WANDB_QUEUE>"
-      }
-   ]
-}
-```
 
 **Configure W&B server**
 
@@ -363,7 +353,10 @@ The team-level secure storage connector allows teams within W&B to utilize a sep
 This feature is currently only available for Google Cloud Platform and Amazon Web Services. To request a license to enable this feature, email contact@wandb.com.
 :::
 
-A cloud storage bucket can be configured only once for a team at the time of team creation. Select **External Storage** when you create a team tp configure a cloud storage bucket. You can configure a cloud storage bucket once the bucket is provisioned. Select your provider and fill out your bucket name and storage encryption key ID, if applicable, and select **Create team bucket**.
+A cloud storage bucket can be configured only once for a team at the time of team creation. To provision a bucket, we recommend using our terraform for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector). 
+Alternatively, you can follow the instructions [here](http://localhost:3000/guides/hosting/setup/configuration#file-storage) to provision a bucket in your cloud provider's console. 
+
+Select **External Storage** when you create a team tp configure a cloud storage bucket. Select your provider and fill out your bucket name and storage encryption key ID, if applicable, and select **Create Team**.
 
 An error or warning will appear at the bottom of the page if there are issues accessing the bucket or the bucket has invalid settings.
 
