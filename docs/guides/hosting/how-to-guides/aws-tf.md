@@ -235,4 +235,84 @@ module "wandb_infra" {
 You can combine all three deployment options adding all configurations to the same file.
 The [Terraform Module](https://github.com/wandb/terraform-aws-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in `Deployment - Recommended`
 
+## Manual configuration
+
+To use an AWS S3 bucket as the file storage backend for W&B, you'll need to create a bucket, along with an SQS queue configured to receive object creation notifications from that bucket. Your instance will need permissions to read from this queue.
+
+**Create an S3 Bucket and Bucket Notifications**
+
+Then, create an S3 bucket. Under the bucket properties page in the console, in the "Events" section of "Advanced Settings", click "Add notification", and configure all object creation events to be sent to the SQS Queue you configured earlier.
+
+![Enterprise file storage settings](@site/static/images/hosting/s3-notification.png)
+
+Enable CORS access: your CORS configuration should look like the following:
+
+```markup
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+<CORSRule>
+    <AllowedOrigin>http://YOUR-W&B-SERVER-IP</AllowedOrigin>
+    <AllowedMethod>GET</AllowedMethod>
+    <AllowedMethod>PUT</AllowedMethod>
+    <AllowedHeader>*</AllowedHeader>
+</CORSRule>
+</CORSConfiguration>
+```
+
+**Create an SQS Queue**
+
+First, create an SQS Standard Queue. Add a permission for all principals for the `SendMessage`, `ReceiveMessage`, `ChangeMessageVisibility`, `DeleteMessage`, and `GetQueueUrl` actions. If you'd like you can further lock this down using an advanced policy document. For instance, the policy for accessing SQS with a statement is as follows:
+
+```json
+{
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : "*",
+        "Action" : ["sqs:SendMessage"],
+        "Resource" : "<sqs-queue-arn>",
+        "Condition" : {
+          "ArnEquals" : { "aws:SourceArn" : "<s3-bucket-arn>" }
+        }
+      }
+    ]
+}
+```
+
+**Grant Permissions to Node Running W&B**
+
+The node on which W&B server is running must be configured to permit access to S3 and SQS. Depending on the type of server deployment you've opted for, you may need to add the following policy statements to your node role:
+
+```json
+{
+   "Statement":[
+      {
+         "Sid":"",
+         "Effect":"Allow",
+         "Action":"s3:*",
+         "Resource":"arn:aws:s3:::<WANDB_BUCKET>"
+      },
+      {
+         "Sid":"",
+         "Effect":"Allow",
+         "Action":[
+            "sqs:*"
+         ],
+         "Resource":"arn:aws:sqs:<REGION>:<ACCOUNT>:<WANDB_QUEUE>"
+      }
+   ]
+}
+```
+
+**Configure W&B server**
+Finally, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. Enable the "Use an external file storage backend" option, and fill in the s3 bucket, region, and SQS queue in the following format:
+* **File Storage Bucket**: `s3://<bucket-name>`
+* **File Storage Region (AWS only)**: `<region>`
+* **Notification Subscription**: `sqs://<queue-name>`
+
+![](/images/hosting/configure_file_store.png)
+
+Press "Update settings" to apply the new settings.
+
 <!-- ## Upgrades (coming soon) -->
