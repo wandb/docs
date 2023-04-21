@@ -142,72 +142,7 @@ The team-level secure storage connector allows teams to use their own cloud stor
 This feature is only available for Google Cloud Storage buckets and Amazon S3 buckets. Only enterprise teams can use this feature. To learn more about enterprise plans, please contact us at  support@wandb.com
 :::
 
-To provision a cloud storage bucket, we recommend using our secure storage connector terraform module for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector). 
-
-Alternatively, you can follow the instructions [here](../../hosting/setup/configuration#file-storage) to create a bucket in your cloud provider's console. In addition, you will
-need to grant W&B permission to access the bucket. For GCP, you will need to grant our service account `wandb-integration@wandb-production.iam.gserviceaccount.com` the `storage.admin` role on the bucket. For details, see https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add.
-For AWS, you will need to apply the following IAM policy to the bucket.
-
-```json
-{
-  "Version": "2012-10-17",
-  "Id": "WandbAccess",
-  "Statement": [
-    {
-      "Sid": "WandBAccountAccess",
-      "Effect": "Allow",
-      "Principal": { "AWS": "arn:aws:iam::725579432336:role/WandbIntegration" },
-      "Action" : [
-          "s3:GetObject*",
-          "s3:GetEncryptionConfiguration",
-          "s3:ListBucket",
-          "s3:ListBucketMultipartUploads",
-          "s3:ListBucketVersions",
-          "s3:AbortMultipartUpload",
-          "s3:DeleteObject",
-          "s3:PutObject",
-          "s3:GetBucketCORS",
-          "s3:GetBucketLocation",
-          "s3:GetBucketVersioning"
-        ],
-      "Resource": [
-          "arn:aws:s3:::<WANDB_BUCKET>",
-          "arn:aws:s3:::<WANDB_BUCKET>/*"
-      ]
-    }
-  ]
-}
-```
-
-If you are using a KMS Key for encryption, you will also need to apply the following policy.
-
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid" : "Internal",
-      "Effect" : "Allow",
-      "Principal" : { "AWS" : "<YOUR_AWS_ACCOUNT_ID>" },
-      "Action" : "kms:*",
-      "Resource" : "*"
-    },
-    {
-      "Sid" : "External",
-      "Effect" : "Allow",
-      "Principal" : { "AWS" : "arn:aws:iam::725579432336:role/WandbIntegration" },
-      "Action" : [
-        "kms:Decrypt",
-        "kms:Describe*",
-        "kms:Encrypt",
-        "kms:ReEncrypt*",
-        "kms:GenerateDataKey*"
-      ],
-      "Resource" : "*"
-    }
-  ]
-}
-```
+To provision a cloud storage bucket, we recommend using our secure storage connector terraform module for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector).
 
 A cloud storage bucket can be configured only once for a team at the time of team creation. Select **External Storage** when you create a team to configure a cloud storage bucket. Select your provider and fill out your bucket name and storage encryption key ID, if applicable, and select **Create Team**.
 
