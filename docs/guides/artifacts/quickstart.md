@@ -13,12 +13,12 @@ The proceeding quick start demonstrates how to create, track, and use a dataset 
 
 The following procedure lists how to construct and use an artifact. Steps 1 and 2 are not unique to W&B Artifacts.
 
-1. [Log into Weights & Biases.](quickstart.md#log-into-weights-and-biases)
-2. [Initialize a Run.](quickstart.md#initialize)
-3. [Create an artifact object.](quickstart.md#create-an-artifact-object)
-4. [Add the dataset to the artifact.](quickstart.md#add-a-file)
-5. [Log the dataset.](quickstart.md#log-the-file)
-6. [Download and use the artifact.](quickstart.md#download-and-use-the-artifact)
+1. [Log into Weights & Biases.](#log-into-weights--biasess)
+2. [Initialize a Run.](#initialize-a-run)
+3. [Create an artifact object.](#create-an-artifact-object)
+4. [Add the dataset to the artifact.](#add-the-dataset-to-the-artifact)
+5. [Log the dataset.](#log-the-dataset)
+6. [Download and use the artifact.](#download-and-use-the-artifact)
 
 ### Log into Weights & Biases
 
@@ -37,7 +37,10 @@ Use the [`wandb.init()`](https://docs.wandb.ai/ref/python/init) API to generate 
 ```python
 # Create a W&B Run. Here we specify 'dataset' as the job type since this example
 # shows how to create a dataset artifact.
-run = wandb.init(project="artifacts-example", job_type='upload-dataset')
+run = wandb.init(
+    project="artifacts-example", 
+    job_type='upload-dataset'
+    )
 ```
 
 ### Create an artifact object
@@ -47,7 +50,10 @@ Create an artifact object with the [`wandb.Artifact()`](https://docs.wandb.ai/re
 For example, the following code snippet demonstrates how to create an artifact called `‘bicycle-dataset’` with a `‘dataset’` label:
 
 ```python
-artifact = wandb.Artifact(name='bicycle-dataset', type='dataset')
+artifact = wandb.Artifact(
+    name='bicycle-dataset', 
+    type='dataset'
+    )    
 ```
 
 For more information about how to construct an artifact, see [Construct artifacts](https://docs.wandb.ai/guides/artifacts/construct-an-artifact).
@@ -68,7 +74,8 @@ Replace the filename `dataset.h5` in the preceding code snippet with the path to
 Use the W&B run objects `log_artifact()` method to both save your artifact version and declare the artifact as an output of the run.
 
 ```python
-# Save the artifact version to W&B and mark it as the output of this run
+# Save the artifact version to W&B and mark it 
+# as the output of this run
 run.log_artifact(artifact)
 ```
 
@@ -83,9 +90,12 @@ The following code example demonstrates the steps you can take to use an artifac
 3. Third, use the artifacts [`download()`](https://docs.wandb.ai/ref/python/artifact#download) method to download the contents of the artifact.
 
 ```python
-# Create a W&B Run. Here we specify 'training' for 'type' because
-# we will use this run to track training.
-run = wandb.init(project="artifacts-example", job_type='training')
+# Create a W&B Run. Here we specify 'training' for 'type' 
+# because we will use this run to track training.
+run = wandb.init(
+    project="artifacts-example", 
+    job_type='training'
+    )
 
 # Query W&B for an artifact and mark it as input to this run
 artifact = run.use_artifact('bicycle-dataset:latest')

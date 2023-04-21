@@ -22,8 +22,8 @@ W&B currently supports MySQL 5.7 or MySQL 8.0.28 and above.
 
 There are a number of enterprise services that make operating a scalable MySQL database simpler. We suggest looking into one of the following solutions:
 
-* [https://www.percona.com/software/mysql-database/percona-server](https://www.percona.com/software/mysql-database/percona-server)
-* [https://github.com/mysql/mysql-operator](https://github.com/mysql/mysql-operator)
+- [https://www.percona.com/software/mysql-database/percona-server](https://www.percona.com/software/mysql-database/percona-server)
+- [https://github.com/mysql/mysql-operator](https://github.com/mysql/mysql-operator)
 
 #### MySQL 8.0
 
@@ -33,11 +33,13 @@ The Weights & Biases application currently only supports`MySQL 8`versions`8.0.28
 
 There are some additional performance tunings required when running your W&B server with MySQL 8.0 or when upgrading from MySQL 5.7 to 8.0. Tuning your database engine with the following settings will improve the overall query performance of the `wandb` application:
 
-<pre class="language-markup"><code class="lang-markup"><strong>binlog_format = 'ROW'
-</strong>innodb_online_alter_log_max_size = 268435456
+```
+binlog_format = 'ROW'
+innodb_online_alter_log_max_size = 268435456
 sync_binlog = 1
 innodb_flush_log_at_trx_commit = 1
-binlog_row_image = 'MINIMAL'</code></pre>
+binlog_row_image = 'MINIMAL'
+```
 
 Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you may need to update the `sort_buffer_size` parameter from its default value of `262144`. Our recommendation is to set the value to `33554432(32MiB)` in order for the database to efficiently work with the wandb application. Note that, this only works with MySQL versions 8.0.28 and above.
 
@@ -48,7 +50,7 @@ The most important things to consider when running your own MySQL database are:
 3. **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it's likely a good indication the server is resource starved.
 4. **Availability.** Depending on your availability and durability requirements you may want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to incase the primary server crashes or become corrupted.
 
-Once you've provisioned a compatible MySQL database you can create a database and a user using the following SQL (replacing SOME\_PASSWORD with password of your choice).
+Once you've provisioned a compatible MySQL database you can create a database and a user using the following SQL (replacing SOME_PASSWORD with password of your choice).
 
 ```sql
 CREATE USER 'wandb_local'@'%' IDENTIFIED BY 'SOME_PASSWORD';
@@ -155,10 +157,10 @@ spec:
             failureThreshold: 60 # allow 10 minutes for migrations
           resources:
             requests:
-              cpu: "2000m"
+              cpu: '2000m'
               memory: 4G
             limits:
-              cpu: "4000m"
+              cpu: '4000m'
               memory: 8G
 ---
 apiVersion: v1
@@ -188,7 +190,7 @@ spec:
         number: 80
 ```
 
-The k8s YAML above should work in most on-premises installations. However the details of your Ingress and optional SSL termination will vary. See [networking](on-premise-baremetal.md#networking) below.
+The k8s YAML above should work in most on-premises installations. However the details of your Ingress and optional SSL termination will vary. See [networking](#networking) below.
 
 ### Helm Chart
 
@@ -200,8 +202,7 @@ W&B supports operating from within an [Openshift kubernetes cluster](https://www
 
 #### Running the container as an un-privileged user
 
-By default the container will run with a `$UID` of 999.  If you're orchestrator requires the container be run with a non-root user you can specify a `$UID` >= 100000 and a `$GID` of 0.  We must be started as the root group (`$GID=0`) for file system permissions to function properly.  This is the default behavior when running containers in Openshift.  An example security context for kubernetes would looks like:\
-
+By default the container will run with a `$UID` of 999. If you're orchestrator requires the container be run with a non-root user you can specify a `$UID` >= 100000 and a `$GID` of 0. We must be started as the root group (`$GID=0`) for file system permissions to function properly. This is the default behavior when running containers in Openshift. An example security context for kubernetes would looks like:\
 
 ```
 spec:
@@ -291,7 +292,7 @@ http {
         server_name         www.example.com;
         ssl_certificate     www.example.com.crt;
         ssl_certificate_key www.example.com.key;
-        
+
         proxy_http_version 1.1;
         proxy_buffering off;
         proxy_set_header Host $http_host;

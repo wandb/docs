@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L17-L292)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L17-L292)
 
 
 
@@ -129,7 +129,7 @@ wandb.log({"driving_scene": table})
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L216-L218)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L216-L218)
 
 ```python
 @classmethod
@@ -143,7 +143,7 @@ type_name() -> str
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L220-L275)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L220-L275)
 
 ```python
 validate(

@@ -117,10 +117,6 @@
       "to": "/"
     },
     {
-      "from": "/authonize",
-      "to": "/guides/app/settings-page/user-settings"
-    },
-    {
       "from": "/authorize",
       "to": "/"
     },
@@ -186,7 +182,7 @@
     },
     {
       "from": "/deployment",
-      "to": "/"
+      "to": "/guides/hosting"
     },
     {
       "from": "/docs/config.html",
@@ -310,7 +306,7 @@
     },
     {
       "from": "/guides/artifacts/dataset-versioning",
-      "to": "/"
+      "to": "/guides/artifacts"
     },
     {
       "from": "/guides/artifacts/model-versioning",
@@ -342,7 +338,7 @@
     },
     {
       "from": "/guides/data-and-model-versioning/dataset-versioning",
-      "to": "/"
+      "to": "/guides/artifacts"
     },
     {
       "from": "/guides/data-and-model-versioning/intro",
@@ -382,6 +378,14 @@
     },
     {
       "from": "/guides/hosting/quickstart",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/setup",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/setup/configuration",
       "to": "/guides/hosting"
     },
     {
@@ -629,6 +633,18 @@
       "to": "/guides/launch"
     },
     {
+      "from": "/guides/launch/prerequisites",
+      "to": "/guides/launch/getting-started"
+    },
+    {
+      "from": "/guides/launch/add-jobs-to-queue",
+      "to": "/guides/launch/create-queue"
+    },
+    {
+      "from": "/guides/launch/getting-started",
+      "to": "/guides/launch/quickstart"
+    },
+    {
       "from": "/guides/manage-runs",
       "to": "/guides/runs/manage-runs"
     },
@@ -673,12 +689,8 @@
       "to": "/guides/hosting"
     },
     {
-      "from": "/guides/self-hosted/)wandb:YoucanfindyourAPIkeyyour",
-      "to": "/guides/hosting"
-    },
-    {
       "from": "/guides/self-hosted/configuration",
-      "to": "/guides/hosting/setup/configuration"
+      "to": "/guides/hosting/env-vars"
     },
     {
       "from": "/guides/self-hosted/local",
@@ -686,7 +698,7 @@
     },
     {
       "from": "/guides/self-hosted/local-common-questions",
-      "to": "/guides/hosting/faq"
+      "to": "/guides/hosting"
     },
     {
       "from": "/guides/self-hosted/setup",
@@ -694,19 +706,19 @@
     },
     {
       "from": "/guides/self-hosted/setup/configuration",
-      "to": "/guides/hosting/setup/configuration"
+      "to": "/guides/hosting/env-vars"
     },
     {
       "from": "/guides/self-hosted/setup/dedicated-cloud",
-      "to": "/guides/hosting/setup/dedicated-cloud"
+      "to": "/guides/hosting/hosting-options/wb-managed"
     },
     {
       "from": "/guides/self-hosted/setup/on-premise-baremetal",
-      "to": "/guides/hosting/setup/on-premise-baremetal"
+      "to": "/guides/hosting/hosting-options/self-managed#on-prem-bare-metal"
     },
     {
       "from": "/guides/self-hosted/setup/private-cloud",
-      "to": "/guides/hosting/setup/private-cloud"
+      "to": "/guides/hosting/hosting-options"
     },
     {
       "from": "/guides/self-hosted/system-admin",

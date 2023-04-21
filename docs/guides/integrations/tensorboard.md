@@ -24,7 +24,7 @@ wandb.init(project='my-project', sync_tensorboard=True)
 wandb.finish()
 ```
 
-[**See here for an example of Tensorboard hosted in Weights & Biases**](https://wandb.ai/morgan/tensorboard\_demo/runs/1grhu7uq/tensorboard)
+[**See here for an example of Tensorboard hosted in Weights & Biases**](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard)
 
 Once your wandb run finishes, your TensorBoard event files will then be uploaded to Weights & Biases. These metrics will **also be logged** in native Weights & Biases charts along with a host of useful information such as your machines CPU or GPU utilization, the git state, the terminal command used, and much more.
 

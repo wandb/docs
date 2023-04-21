@@ -1,4 +1,4 @@
-import React, {useState, useRef, useCallback, useMemo} from 'react';
+import React, {useState, useRef, useCallback, useMemo, useEffect} from 'react';
 import {createPortal} from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
@@ -22,6 +22,7 @@ import type {
 } from '@docsearch/react/dist/esm/types';
 import type {SearchClient} from 'algoliasearch/lite';
 import type {AutocompleteState} from '@algolia/autocomplete-core';
+import {useSearchPopoverProvider} from '@site/src/components/SearchPopoverProvider';
 
 type DocSearchProps = Omit<
   DocSearchModalProps,
@@ -69,7 +70,7 @@ type FacetFilters = Required<
 
 function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
   const normalize = (
-    f: FacetFilters,
+    f: FacetFilters
   ): readonly string[] | readonly (string | readonly string[])[] =>
     typeof f === 'string' ? [f] : f;
   return [...normalize(f1), ...normalize(f2)] as FacetFilters;
@@ -106,7 +107,7 @@ function DocSearch({
   const searchButtonRef = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState<string | undefined>(
-    undefined,
+    undefined
   );
 
   const importDocSearchModalIfNeeded = useCallback(() => {
@@ -130,11 +131,21 @@ function DocSearch({
       searchContainer.current = document.createElement('div');
       document.body.insertBefore(
         searchContainer.current,
-        document.body.firstChild,
+        document.body.firstChild
       );
       setIsOpen(true);
     });
   }, [importDocSearchModalIfNeeded, setIsOpen]);
+
+  // Hooray, it's semi-hacky custom logic so we can trigger this from another component.
+  const {setSearchPopoverCallback} = useSearchPopoverProvider();
+  useEffect(() => {
+    setSearchPopoverCallback(() => onOpen);
+
+    return () => {
+      setSearchPopoverCallback(null);
+    };
+  }, [setSearchPopoverCallback, onOpen]);
 
   const onClose = useCallback(() => {
     setIsOpen(false);
@@ -148,7 +159,7 @@ function DocSearch({
         setInitialQuery(event.key);
       });
     },
-    [importDocSearchModalIfNeeded, setIsOpen, setInitialQuery],
+    [importDocSearchModalIfNeeded, setIsOpen, setInitialQuery]
   );
 
   const navigator = useRef({
@@ -163,22 +174,21 @@ function DocSearch({
     },
   }).current;
 
-  const transformItems = useRef<DocSearchModalProps['transformItems']>(
-    (items) =>
-      items.map((item) => {
-        // If Algolia contains a external domain, we should navigate without
-        // relative URL
-        if (isRegexpStringMatch(externalUrlRegex, item.url)) {
-          return item;
-        }
+  const transformItems = useRef<DocSearchModalProps['transformItems']>(items =>
+    items.map(item => {
+      // If Algolia contains a external domain, we should navigate without
+      // relative URL
+      if (isRegexpStringMatch(externalUrlRegex, item.url)) {
+        return item;
+      }
 
-        // We transform the absolute URL into a relative URL.
-        const url = new URL(item.url);
-        return {
-          ...item,
-          url: withBaseUrl(`${url.pathname}${url.hash}`),
-        };
-      }),
+      // We transform the absolute URL into a relative URL.
+      const url = new URL(item.url);
+      return {
+        ...item,
+        url: withBaseUrl(`${url.pathname}${url.hash}`),
+      };
+    })
   ).current;
 
   const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
@@ -187,19 +197,19 @@ function DocSearch({
         // eslint-disable-next-line react/no-unstable-nested-components
         (footerProps: Omit<ResultsFooterProps, 'onClose'>): JSX.Element =>
           <ResultsFooter {...footerProps} onClose={onClose} />,
-      [onClose],
+      [onClose]
     );
 
   const transformSearchClient = useCallback(
     (searchClient: SearchClient) => {
       searchClient.addAlgoliaAgent(
         'docusaurus',
-        siteMetadata.docusaurusVersion,
+        siteMetadata.docusaurusVersion
       );
 
       return searchClient;
     },
-    [siteMetadata.docusaurusVersion],
+    [siteMetadata.docusaurusVersion]
   );
 
   useDocSearchKeyboardEvents({
@@ -252,7 +262,7 @@ function DocSearch({
             placeholder={translations.placeholder}
             translations={translations.modal}
           />,
-          searchContainer.current,
+          searchContainer.current
         )}
     </>
   );
