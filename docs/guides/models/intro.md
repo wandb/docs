@@ -12,6 +12,7 @@ Use Model Registry as the central system to organize your models and their versi
 The image above shows the Model Registry W&B App UI. The left panel demonstrates a list of registered models. On the right panel there is a **Model Overview** that describes INSERT. On the bottom right of the image is the **Versions** section. This section lists all the models versions created, when they were created, aliases associated with a specific version, and more.
 
 
+
 <!-- ### Watch the 1 minute video walkthrough -->
 
 <!-- {% embed url="https://www.youtube.com/watch?v=jy9Pk9riwZI" %} -->
@@ -22,6 +23,39 @@ There are three major components to Model Registry: model versions, model artifa
 * Model versions: a package of data & metadata describing a trained model.
 * Model artifact: a sequence of logged model versions.
 * Registered models: a selection of linked model versions. Registered models often represent all of the candidate models for a single modeling use case or task.
+
+```python showLineNumbers
+import wandb
+import random
+
+run = wandb.init(project="Models_Quickstart")
+
+# canonical training loop
+for i in range(5):
+    run.log({"acc": 0.91, "loss": 0.12})
+
+    # Serialize the model
+    f = open('my-model.h5', 'w')
+    f.write(str(random.random())) # Imaginary model
+    f.close()
+
+    # Save the model checkpoint to W&B
+    best_model = wandb.Artifact(
+        f"model_{run.id}", type='model'
+        )
+    best_model.add_file('my-model.h5')
+    run.log_artifact(best_model, aliases=["best"])
+
+
+# Link the model to the Model Registry
+run.link_artifact(
+    artifact=best_model, 
+    target_path='model-registry/Quickstart Registered Model', 
+    aliases=['staging']
+    )
+
+run.finish()
+```
 
 
 
