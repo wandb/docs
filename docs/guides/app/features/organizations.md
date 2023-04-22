@@ -25,14 +25,21 @@ Invite new members to your organizations.
 
 ## Change the account settings for an organization
 
-If you're a paid user, then you can go to your 'Subscriptions' page and click on the three dots next to the 'Account' next to your organization name. You'll be then able to edit the billing info for your organization, add seats to your org or contact sales to upgrade your plan.
+Edit and update the billing information for your organization (both paid and trail subscriptions) and add sets to your organization. Navigate to the W&B App and complete the following:
 
-Similarly, if your organization is still on trial then you can go to your 'Subscriptions' page and click on the three dots next to the 'Account' to update your account settings. Then, you'll be able to add seats to your org, contact sales to upgrade your plan, etc.
+1. Navigate to the **Subscriptions** page.
+2. Click on the kebab menu (three vertical dots).
+3. Select **Account** next to your organization name.
+
 
 ![Update Account Settings of an Org](@site/static/images/app_ui/edit_account.gif)
 
+:::info
+Contact sales to upgrade your plan.
+:::
+
 ## Change the billing user of an organization
 
-Change the billing user of your organization by clicking on the "Manage members" button on your [subscription page](https://wandb.ai/subscriptions).
+Change the billing user of your organization by clicking on the **Manage members** button on your [subscription page](https://wandb.ai/subscriptions).
 
 ![](/images/app_ui/change_billing_user.gif)
