@@ -60,16 +60,6 @@ a:hover {
   text-decoration: none;
 }
 
-.text-align-center {
-  text-align: center;
-}
-
-img.centered {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .markdown > h3 {
   --ifm-h3-font-size: 18px;
 }
