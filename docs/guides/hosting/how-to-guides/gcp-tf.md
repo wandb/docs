@@ -231,3 +231,92 @@ You can combine all three deployment options adding all configurations to the sa
 The [Terraform Module](https://github.com/wandb/terraform-google-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in `Deployment - Recommended`
 
 <!-- ## Upgrades (coming soon) -->
+
+## Manual configuration
+
+To use a GCP Storage bucket as a file storage backend for W&B, you will need to create a:
+
+* [PubSub Topic and Subscription](#create-pubsub-topic-and-subscription)
+* [Storage Bucket](#create-storage-bucket)
+* [PubSub Notification](#create-pubsub-notification)
+
+
+### Create PubSub Topic and Subscription
+
+Follow the procedure below to create a PubSub topic and subscription:
+
+1. Navigate to the Pub/Sub service within the GCP Console 
+2. Select **Create Topic** and provide a name for your topic. 
+3. At the bottom of the page, select **Create subscription**. Ensure **Delivery Type** is set to **Pull**.
+4. Click **Create**.
+
+Make sure the service account or account that your instance is running has the `pubsub.admin` role on this subscription. For details, see https://cloud.google.com/pubsub/docs/access-control#console.
+
+### Create Storage Bucket
+
+1. Navigate to the **Cloud Storage Buckets** page.
+2. Select **Create bucket** and provide a name for your bucket. Ensure you choose a **Standard** [storage class](https://cloud.google.com/storage/docs/storage-classes). 
+
+Ensure that the service account or account that your instance is running has both:
+* access to the bucket you created in the previous step
+* `storage.objectAdmin` role on this bucket. For details, see https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add
+
+:::info
+Your instance also needs the `iam.serviceAccounts.signBlob` permission in GCP to create signed file URLs. Add `Service Account Token Creator` role to the service account or IAM member that your instance is running as to enable permission.
+:::
+
+3. Enable CORS access. This can only be done using the command line. First, create a JSON file with the following CORS configuration.
+
+```
+cors:
+- maxAgeSeconds: 3600
+  method:
+   - GET
+   - PUT
+     origin:
+   - '<YOUR_W&B_SERVER_HOST>'
+     responseHeader:
+   - Content-Type
+```
+
+Note that the scheme, host, and port of the values for the origin must match exactly. 
+
+4. Make sure you have `gcloud` installed, and logged into the correct GCP Project. 
+5. Next, run the following:
+
+```bash
+gcloud storage buckets update gs://<BUCKET_NAME> --cors-file=<CORS_CONFIG_FILE>
+```
+
+### Create PubSub Notification
+Follow the procedure below in your command line to create a notification stream from the Storage Bucket to the Pub/Sub topic. 
+
+:::info
+You must use the CLI to create a notification stream. Ensure you have `gcloud` installed.
+:::
+
+1. Log into your GCP Project.
+2. Run the following in your terminal:
+
+```bash
+gcloud pubsub topics list  # list names of topics for reference
+gcloud storage ls          # list names of buckets for reference
+
+# create bucket notification
+gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NAME>
+```
+
+[Further reference is available on the Cloud Storage website.](https://cloud.google.com/storage/docs/reporting-changes)
+
+### Configure W&B server
+
+1. Finally, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
+2. Enable the "Use an external file storage backend" option, 
+3. Provide the name of the AWS S3 bucket, the region where the bucket is stored, and SQS queue in the following format:
+* **File Storage Bucket**: `gs://<bucket-name>`
+* **File Storage Region**: blank
+* **Notification Subscription**: `pubsub:/<project-name>/<topic-name>/<subscription-name>`
+
+![](/images/hosting/configure_file_store.png)
+
+4. Press **Update settings** to apply the new settings.

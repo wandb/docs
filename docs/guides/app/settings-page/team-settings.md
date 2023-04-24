@@ -67,3 +67,7 @@ Navigate to the **Privacy** section to change privacy settings. Only members wit
 ### Usage
 
 The **Usage** section describes the total memory usage the team has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+
+### Storage
+
+The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector](../features/teams.md#secure-storage-connector) or check out our [W&B Server](../../hosting/secure-storage-connector.md) docs if you are self-hosting. 
