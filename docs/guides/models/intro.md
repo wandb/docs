@@ -5,11 +5,11 @@ description: Manage the model lifecycle from training to production
 
 # Model Registry
 
-Use Model Registry as the central system to organize your models and their versions for a given task. Easily keep track and promote models in their various stages of maturity or task: from staging, to production, and more. View the change history of registered model on the W&B App.
+Use Model Registry to organize your best model versions for a given task. Easily track your models in their various stages of maturity: from staging to production, and much more.  Use the Model Registry App UI to see a history of all changes, including who moved a model to production
 
 ![](/images/models/model_registry_landing_page.png)
 
-The image above shows the Model Registry W&B App UI. The left panel demonstrates a list of registered models. On the right panel there is a **Model Overview** that describes INSERT. On the bottom right of the image is the **Versions** section. This section lists all the models versions created, when they were created, aliases associated with a specific version, and more.
+The image above shows the Model Registry W&B App UI. The left panel lists models registered to this user's account. On the right panel there is a **Model Overview** that describes [insert]. On the bottom right we can see different model versions of the model in the **Versions** section.
 
 
 
@@ -18,11 +18,15 @@ The image above shows the Model Registry W&B App UI. The left panel demonstrates
 <!-- {% embed url="https://www.youtube.com/watch?v=jy9Pk9riwZI" %} -->
 
 ## How it works
-There are three major components to Model Registry: model versions, model artifacts, and registered models.
 
-* Model versions: a package of data & metadata describing a trained model.
-* Model artifact: a sequence of logged model versions.
-* Registered models: a selection of linked model versions. Registered models often represent all of the candidate models for a single modeling use case or task.
+The following Python code demonstrates a typical training script that uses W&B. However, this demo script also uses API calls that will track, register, and store a model into the model registry.
+
+
+* Line 4: Create a W&B run object like you normally would.
+* Line 16 - 18: Create a _model artifact_. (Specify 'model' as the `type` when you create the artifact instance). 
+* Line 20: Create a _model version_. Log the model version with `log_artifact()`.
+* Line 24-28: Link the model artifact to the model registry with `link_artifact()`.
+
 
 ```python showLineNumbers
 import wandb
@@ -57,6 +61,7 @@ run.link_artifact(
 run.finish()
 ```
 
+Select the link URL printed from the W&B run output or navigate to your W&B project to view a dashboard similar to the image posted above. For more information about Model Registry terms, see the [Concepts](./model-management-concepts.md) page.
 
 
 ## How to get started
