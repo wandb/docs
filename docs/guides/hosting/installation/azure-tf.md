@@ -4,8 +4,6 @@ description: Hosting W&B Server on Azure.
 
 # Azure
 
-
-
 We recommend the usage of the [Terraform Module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) developed by Weights and Biases to deploy the W&B server on Azure.
 
 The module documentation is extensive and contains all available options that can be used. We will cover some deployment options in this document.
@@ -20,18 +18,20 @@ The Terraform Module will deploy the following `mandatory` components:
 - Azure Virtual Network (VPC)
 - Azure MySQL Fliexible Server
 - Azure Storage Account & Blob Storage
-
+- Azure Kubernetes Service
+- Azure Application Gateway
 
 Other deployment options can also include the following optional components:
 
-- Elastic Cache for Redis
-- SQS
+- Azure Cache for Redis
+- Azure Event Grid
 
-<!-- ## **Pre-requisite permissions**
+## **Pre-requisite permissions**
 
-The account that will run the Terraform needs to be able to create all components described in the Introduction and permission to create **IAM Policies** and **IAM Roles** and assign roles to resources. -->
+The simplest way to get the AzureRM provider configured is via [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli) but the incase of automation using [Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) can also be useful.
+Regardless the authentication method used, the account that will run the Terraform needs to be able to create all components described in the Introduction.
 
-<!-- ## General steps
+## General steps
 
 The steps on this topic are common for any deployment option covered by this documentation.
 
@@ -43,11 +43,11 @@ The steps on this topic are common for any deployment option covered by this doc
    The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
 
    ```bash
-   namespace     = "wandb"
-   wandb_license = "xxxxxxxxxxyyyyyyyyyyyzzzzzzz"
-   subdomain     = "wandb-aws"
-   domain_name   = "wandb.ml"
-   zone_id       = "xxxxxxxxxxxxxxxx"
+    namespace     = "wandb"
+    wandb_license = "xxxxxxxxxxyyyyyyyyyyyzzzzzzz"
+    subdomain     = "wandb-aws"
+    domain_name   = "wandb.ml"
+    location      = "westeurope"
    ```
 
    The variables defined here need to be decided before the deployment because. The `namespace` variable will be a string that will prefix all resources created by Terraform.
@@ -59,27 +59,16 @@ The steps on this topic are common for any deployment option covered by this doc
    This file will contain the Terraform and Terraform provider versions required to deploy W&B in AWS
 
    ```bash
-   terraform {
-     required_providers {
-       aws = {
-         source  = "hashicorp/aws"
-         version = "~> 3.60"
-       }
-     }
-   }
+    terraform {
+      required_version = "~> 1.3"
 
-   provider "aws" {
-     region = "eu-central-1"
-
-     default_tags {
-       tags = {
-         GithubRepo = "terraform-aws-wandb"
-         GithubOrg  = "wandb"
-         Enviroment = "Example"
-         Example    = "PublicDnsExternal"
-       }
-     }
-   }
+      required_providers {
+        azurerm = {
+          source  = "hashicorp/azurerm"
+          version = "~> 3.17"
+        }
+      }
+    }
    ```
 
    Please, refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
@@ -90,34 +79,35 @@ The steps on this topic are common for any deployment option covered by this doc
 
    For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
 
-   ```
-   variable "namespace" {
-     type        = string
-     description = "Name prefix used for resources"
-   }
+   ```bash
+    variable "namespace" {
+      type        = string
+      description = "String used for prefix resources."
+    }
 
-   variable "domain_name" {
-     type        = string
-     description = "Domain name used to access instance."
-   }
+    variable "location" {
+      type        = string
+      description = "Azure Resource Group location"
+    }
 
-   variable "subdomain" {
-     type        = string
-     default     = null
-     description = "Subdomain for accessing the Weights & Biases UI."
-   }
+    variable "domain_name" {
+      type        = string
+      description = "Domain for accessing the Weights & Biases UI."
+    }
 
-   variable "license" {
-     type = string
-   }
+    variable "subdomain" {
+      type        = string
+      default     = null
+      description = "Subdomain for accessing the Weights & Biases UI. Default creates record at Route53 Route."
+    }
 
-   variable "zone_id" {
-     type        = string
-     description = "Domain for creating the Weights & Biases subdomain on."
-   }
-   ``` -->
+    variable "license" {
+      type        = string
+      description = "Your wandb/local license"
+    }
+  ```
 
-<!-- ## Deployment - Recommended (~20 mins)
+## Deployment - Recommended (~20 mins)
 
 This is the most straightforward deployment option configuration that will create all `Mandatory` components and install in the `Kubernetes Cluster` the latest version of `W&B`.
 
@@ -125,54 +115,53 @@ This is the most straightforward deployment option configuration that will creat
 
    In the same directory where you created the files in the `General Steps`, create a file `main.tf` with the following content:
 
-   ```
-   module "wandb_infra" {
-     source  = "wandb/wandb/aws"
-     version = "1.6.0"
+   ```bash
+  provider "azurerm" {
+    features {}
+  }
 
-     namespace   = var.namespace
-     domain_name = var.domain_name
-     subdomain   = var.subdomain
-     zone_id     = var.zone_id
-   }
+  provider "kubernetes" {
+    host                   = module.wandb.cluster_host
+    cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+    client_key             = base64decode(module.wandb.cluster_client_key)
+    client_certificate     = base64decode(module.wandb.cluster_client_certificate)
+  }
 
-   data "aws_eks_cluster" "app_cluster" {
-     name = module.wandb_infra.cluster_id
-   }
+  provider "helm" {
+    kubernetes {
+      host                   = module.wandb.cluster_host
+      cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+      client_key             = base64decode(module.wandb.cluster_client_key)
+      client_certificate     = base64decode(module.wandb.cluster_client_certificate)
+    }
+  }
 
-   data "aws_eks_cluster_auth" "app_cluster" {
-     name = module.wandb_infra.cluster_id
-   }
+  # Spin up all required services
+  module "wandb" {
+    source  = "wandb/wandb/azurerm"
+    version = "~> 1.2"
 
-   provider "kubernetes" {
-     host                   = data.aws_eks_cluster.app_cluster.endpoint
-     cluster_ca_certificate = base64decode(data.aws_eks_cluster.app_cluster.certificate_authority.0.data)
-     token                  = data.aws_eks_cluster_auth.app_cluster.token
-   }
 
-   module "wandb_app" {
-     source  = "wandb/wandb/kubernetes"
-     version = "1.5.0"
+    namespace   = var.namespace
+    location    = var.location
+    license     = var.license
+    domain_name = var.domain_name
+    subdomain   = var.subdomain
 
-     license                    = var.license
-     host                       = module.wandb_infra.url
-     bucket                     = "s3://${module.wandb_infra.bucket_name}"
-     bucket_aws_region          = module.wandb_infra.bucket_region
-     bucket_queue               = "internal://"
-     database_connection_string = "mysql://${module.wandb_infra.database_connection_string}"
+    deletion_protection = false
 
-     # If we dont wait, tf will start trying to deploy while the work group is
-     # still spinning up
-     depends_on = [module.wandb_infra]
-   }
+    tags = {
+      "Example" : "PublicDns"
+    }
+  }
 
-   output "bucket_name" {
-     value = module.wandb_infra.bucket_name
-   }
+  output "address" {
+    value = module.wandb.address
+  }
 
-   output "url" {
-     value = module.wandb_infra.url
-   }
+  output "url" {
+    value = module.wandb.url
+  }
    ```
 
 2. Deploy W&B
@@ -182,51 +171,56 @@ This is the most straightforward deployment option configuration that will creat
    ```
    terraform init
    terraform apply -var-file=terraform.tfvars
-   ``` -->
+   ```
 
-<!-- ## Enabling REDIS
+## Enabling REDIS
 
 Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
 
-You need to add the option `create_elasticache_subnet = true` to the same `main.tf` file we worked on in `Recommended Deployment` to enable the cache.
+You need to add the option `create_redis = true` to the same `main.tf` file we worked on in [Deployment Recommended](azure-tf.md#deployment---recommended-20-mins) to enable the cache.
 
-```
-module "wandb_infra" {
-  source  = "wandb/wandb/aws"
-  version = "1.6.0"
+```bash
+# Spin up all required services
+module "wandb" {
+  source  = "wandb/wandb/azurerm"
+  version = "~> 1.2"
+
 
   namespace   = var.namespace
+  location    = var.location
+  license     = var.license
   domain_name = var.domain_name
   subdomain   = var.subdomain
-  zone_id     = var.zone_id
-	**create_elasticache_subnet = true**
-}
-[...]
-``` -->
 
-<!-- ## Enabling message broker (queue)
+  create_redis       = true # Create Redis
+  [...]
+```
+
+## Enabling message broker (queue)
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The AWS resource that provides the message broker is the `SQS`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the `Recommended Deployment`
+The Azure resource that provides the message broker is the `Azure Event Grid`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the [Deployment Recommended](azure-tf.md#deployment---recommended-20-mins)
+```bash
+# Spin up all required services
+module "wandb" {
+  source  = "wandb/wandb/azurerm"
+  version = "~> 1.2"
 
-```
-module "wandb_infra" {
-  source  = "wandb/wandb/aws"
-  version = "1.6.0"
 
   namespace   = var.namespace
+  location    = var.location
+  license     = var.license
   domain_name = var.domain_name
   subdomain   = var.subdomain
-  zone_id     = var.zone_id
-  **use_internal_queue = false**
 
-[...]
-``` -->
+  use_internal_queue       = false # Enable Azure Event Grid
+  [...]
+```
 
-<!-- ## Other deployment options
+## Other deployment options
 
 You can combine all three deployment options adding all configurations to the same file.
-The [Terraform Module](https://github.com/wandb/terraform-aws-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in `Deployment - Recommended`
+The [Terraform Module](https://github.com/wandb/terraform-azure-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in [Deployment Recommended](azure-tf.md#deployment---recommended-20-mins)
 
-## Upgrades (coming soon) -->
+## Upgrades (coming soon)

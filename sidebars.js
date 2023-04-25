@@ -263,20 +263,12 @@ const sidebars = {
       label: 'W&B Server',
       link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
-        'guides/hosting/intro',
+        // 'guides/hosting/install',
+        // 'guides/hosting/configure',
         {
           type: 'category',
-          label: 'Hosting options',
-          link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
-          items: [
-            'guides/hosting/hosting-options/wb-managed',
-            'guides/hosting/hosting-options/self-managed',
-          ],
-        },
-        {
-          type: 'category',
-          label: 'W&B Server Install',
-          link: { type: 'doc', id: 'guides/hosting/installation/intro' },
+          label: 'Server Install',
+          link: { type: 'doc', id: 'guides/hosting/install' },
           items: [
             'guides/hosting/installation/dev-setup',
             'guides/hosting/installation/bare-metal',
@@ -288,8 +280,8 @@ const sidebars = {
         },
         {
           type: 'category',
-          label: 'W&B Server Configuration',
-          // link: { type: 'doc', id: 'guides/hosting/configuration/intro' },
+          label: 'Server Config',
+          link: { type: 'doc', id: 'guides/hosting/configure' },
           items: [
             'guides/hosting/configuration/audit-logging',
             'guides/hosting/configuration/env-vars',

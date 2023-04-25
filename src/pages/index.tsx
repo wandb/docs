@@ -98,18 +98,6 @@ const Home: React.FC = () => {
                 </div>
               </div>
             </a>
-            <Link to="/guides/hosting/hosting-options">
-              <div className={clsx(styles.homeBox, styles.sienna)}>
-                <DocumentationIcon />
-                <div className={styles.boxHeader}>
-                  W&B Server
-                  <ForwardNextIcon className={styles.arrowIcon} />
-                </div>
-                <div className={styles.boxDescription}>
-                  Check out W&B Deployment options
-                </div>
-              </div>
-            </Link>
           </div>
           <div className={styles.homeFooterBox}>
             Stay up to date with the latest updates from our W&B platform, learn
