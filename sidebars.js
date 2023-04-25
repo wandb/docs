@@ -268,7 +268,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Server Install',
-          link: { type: 'doc', id: 'guides/hosting/install' },
+          link: { type: 'doc', id: 'guides/hosting/installation' },
           items: [
             'guides/hosting/installation/dev-setup',
             'guides/hosting/installation/bare-metal',
@@ -281,7 +281,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Server Config',
-          link: { type: 'doc', id: 'guides/hosting/configure' },
+          link: { type: 'doc', id: 'guides/hosting/configuration' },
           items: [
             'guides/hosting/configuration/audit-logging',
             'guides/hosting/configuration/env-vars',

@@ -81,7 +81,7 @@ $ docker run --rm -d -v wandb:/vol -p 8080:8080 --name wandb-local wandb/local
 ### Persistence and Scalability
 
 - All metadata and files sent to W&B server are stored in the `/vol` directory. If you do not mount a persistent volume at this location all data will be lost when the docker process dies.
-- This solution is not meant for [production](/guides/hosting/hosting-options) workloads.
+- This solution is not meant for [production](/guides/hosting) workloads.
 - You can store metadata in an external MySQL database and files in an external storage bucket.
 - The underlying file store should be resizable. Alerts should be put in place to let you know once minimum storage thresholds are crossed to resize the underlying file system.
 - For enterprise trials, we recommend at least 100GB free space in the underlying volume for non-image/video/audio heavy workloads.
@@ -94,7 +94,7 @@ Wandb persists instance settings in the external bucket when it's configured. We
 
 #### Create and scale a shared instance
 
-To enjoy the powerful collaborative features of W&B, you will need a shared instance on a central server, which you can [set up on AWS, GCP, Azure, Kubernetes, or Docker](/guides/hosting/hosting-options).
+To enjoy the powerful collaborative features of W&B, you will need a shared instance on a central server, which you can [set up on AWS, GCP, Azure, Kubernetes, or Docker](/guides/hosting).
 
 :::warning
 **Trial Mode vs. Production Setup**

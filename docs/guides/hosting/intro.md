@@ -92,7 +92,7 @@ With W&B Server you can configure and leverage features such as:
 - [Secure Storage Connector](/guides/hosting/configuration/secure-storage-connector)
 - [Slack Alerts](/guides/hosting/configuration/slack-alerts)
 - [Single Sign-On](/guides/hosting/configuration/sso)
-- Check the [Configurations](configuration/intro.md) page for all available configuration
+- Check the [Configurations](/guides/hosting/configuration) page for all available configuration
 
 The following sections of the documentation describes different options on how to install W&B Server, the shared responsibility model, step-by-step installation and configuration guides.
 
@@ -121,7 +121,7 @@ MySQL Database
 :::info
 * These are minimum recommended resources and will vary according to the number of users logging experiments in parallel.
 * When running [W&B for development](installation/dev-setup.md), your data will be saved on a local persistent volume.
-* For [production-grade installation](installation/intro.md), S3-compatible object storage and an external MySQL database are highly recommended.
+* For [production-grade installation](/guides/hosting/installation), S3-compatible object storage and an external MySQL database are highly recommended.
 :::
 
 :::tip
