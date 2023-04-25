@@ -9,23 +9,20 @@ Use Model Registry to organize your best model versions for a given task. Easily
 
 ![](/images/models/model_registry_landing_page.png)
 
-The image above shows the Model Registry W&B App UI. The left panel lists models registered to this user's account. On the right panel there is a **Model Overview** that describes [insert]. On the bottom right we can see different model versions of the model in the **Versions** section.
 
-
+For more information about the Model Registry UI, see [insert future docs].
 
 <!-- ### Watch the 1 minute video walkthrough -->
 
 <!-- {% embed url="https://www.youtube.com/watch?v=jy9Pk9riwZI" %} -->
 
 ## How it works
+Use the W&B Python SDK to train, log, and use model versions. You can use the W&B App or the Python SDK to register or link models.
 
-The following Python code demonstrates a typical training script that uses W&B. However, this demo script also uses API calls that will track, register, and store a model into the model registry.
 
+For example, the following Python code demonstrates a typical training script that uses W&B. However, this demo script also calls W&B Python SDK APIs that will create a model artifact, make a model version, and register the model to the Model Registry.
 
-* Line 4: Create a W&B run object like you normally would.
-* Line 16 - 18: Create a _model artifact_. (Specify 'model' as the `type` when you create the artifact instance). 
-* Line 20: Create a _model version_. Log the model version with `log_artifact()`.
-* Line 24-28: Link the model artifact to the model registry with `link_artifact()`.
+Copy the sample Python script below and run it in a Python script or in a Jupyter Notebook:
 
 
 ```python showLineNumbers
@@ -44,64 +41,42 @@ for i in range(5):
     f.close()
 
     # Save the model checkpoint to W&B
+    # highlight-start
     best_model = wandb.Artifact(
         f"model_{run.id}", type='model'
         )
     best_model.add_file('my-model.h5')
     run.log_artifact(best_model, aliases=["best"])
-
+    # highlight-end
 
 # Link the model to the Model Registry
+# highlight-start
 run.link_artifact(
     artifact=best_model, 
     target_path='model-registry/Quickstart Model Registry', 
     aliases=['staging']
     )
+# highlight-end
 
 run.finish()
 ```
+Where:
+
+* Line 4: Create a W&B run object like you normally would.
+* Line 16 - 18: Create a _model artifact_. (Specify 'model' as the `type` when you create the artifact instance). 
+* Line 20: Create a _model version_. Log the model version with `log_artifact()`.
+* Line 24-28: Link the model artifact to the model registry with `link_artifact()`.
 
 Select the link URL printed from the W&B run output or navigate to your W&B project to view a dashboard similar to the image posted above. For more information about Model Registry terms, see the [Concepts](./model-management-concepts.md) page.
 
 
 ## How to get started
-* Read [Model Management Concepts](./model-management-concepts.md) for more information on basic Model Management concepts.
 * Follow the steps in the [Walkthrough](./walkthrough.md) to learn how to use Model Registry.
+* Read [Model Management Concepts](./model-management-concepts.md) for more information on basic Model Management concepts.
+* [INSERT]
+* [INSERT]
 
 
-<!-- ## Model Registry Features
-
-### Model Versioning
-
-Iterate to get the best model version for a task, and catalog all the changes along the way.
-
-* Track every model version in a central repository
-* Browse and compare model versions
-* Capture training metrics and hyperparameters
-
-### Model Lineage
-
-Document and reproduce the complete pipeline of model training and evaluation.
-
-* Identify the exact dataset version the model trained on
-* Restore the training code, including git commit and diff patch
-* Get back to the model’s hyperparameters and other metadata for reproducibility
-* Dig in to upstream jobs that can affect model performance
-
-### Model Lifecycle
-
-Manage the process as a model moves from training through staging to production.
-
-* Highlight the best model versions that are being evaluated for production
-* Communicate where a model version is in the process — staging, production etc
-* Review the history of model versions that moved through each stage
-
-## Model Registry Pilot Limits
-
-This new feature is now turned on for all users to try for free, up to:
-
-* 5 Registered Models, with unlimited versions linked to each model
-* 10 most recent steps of Action History shown in the UI for each registered model -->
 
 
 
