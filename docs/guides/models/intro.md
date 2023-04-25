@@ -54,7 +54,7 @@ for i in range(5):
 # Link the model to the Model Registry
 run.link_artifact(
     artifact=best_model, 
-    target_path='model-registry/Quickstart Registered Model', 
+    target_path='model-registry/Quickstart Model Registry', 
     aliases=['staging']
     )
 
