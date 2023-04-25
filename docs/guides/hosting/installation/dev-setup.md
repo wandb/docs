@@ -59,7 +59,7 @@ You need a license to complete your configuration of a W&B server. [**Open the D
 ### Add a license to your Local host
 
 1. Copy your license from your Deployment and navigate back to your W&B server's localhost: ![](/images/hosting/add_license_local_host.png)
-2. Add it to your local settings by pasting it into the `/system-admin` page of your localhost:\
+2. Add it to your local settings by pasting it into the `/system-admin` page of your localhost:
    ![](@site/static/images/hosting/License.gif)
 
 ### Upgrades
