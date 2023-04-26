@@ -8,7 +8,7 @@ description: Use a dictionary-like object to save your experiment configuration
   <title>Configure a Machine Learning Experiment</title>
 </head>
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/config-colab)
+[**Try in a Colab Notebook here →**](http://wandb.me/config-colab)
 
 Use the `wandb.config` object to save your training configuration such as: 
 - hyperparameters

@@ -4,7 +4,7 @@ description: Track your trees with W&B.
 
 # XGBoost
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://wandb.me/xgboost)
+[**Try in a Colab Notebook here →**](https://wandb.me/xgboost)
 
 The `wandb` library has a `WandbCallback` callback for logging metrics, configs and saved boosters from training with XGBoost. Here you can see a **[live Weights & Biases dashboard](https://wandb.ai/morg/credit_scorecard)** with outputs from the XGBoost `WandbCallback`.
 

@@ -32,7 +32,7 @@ Clone a report to reuse a project's template and format. Cloned projects are vis
   </TabItem>
   <TabItem value="python">
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/report\_api)
+[**Try in a Colab Notebook here →**](http://wandb.me/report\_api)
 
 Load a Report from a URL to use it as a template.
 
