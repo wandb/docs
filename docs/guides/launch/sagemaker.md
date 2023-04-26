@@ -50,8 +50,6 @@ builder:
 
 Kaniko will store compressed build contexts in the local specified under `build-context-store` and then push any container images it builds to the ECR repository configured in the `registry` block. Kaniko pods will need permission 
 
-TODO: Options to pass into -c when calling `launch-agent` or TBD location to `~/.config`  
-
 ## Queue setup
 
 The config for a SageMaker queue is a JSON blob that gets passed to [SageMaker API's `CreateTrainingJob` request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). When you create the queue, the config will be automatically populated with the following JSON:
@@ -78,7 +76,3 @@ You can arguments you like, but you must specify:
 
 - `RoleArn` : ARN of the role the IAM role that will be assumed by the job.
 - `OutputDataConfig.S3OutputPath` : An S3 URI specifying where SageMaker outputs will be stored.
-
-Full JSON specification:
-
-[CreateTrainingJob - Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html)
