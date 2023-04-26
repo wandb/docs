@@ -4,8 +4,7 @@ description: The Prompts Quickstart shows how to visualise and debug the executi
 
 # Quickstart
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/prompts-quickstart)
-
+[**Try in a Colab Notebook here →**](http://wandb.me/prompts-quickstart)
 
 <head>
   <title>Prompts Quickstart</title>

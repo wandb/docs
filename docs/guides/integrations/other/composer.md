@@ -5,7 +5,7 @@ description: State of the art algorithms to train your neural networks
 
 # MosaicML Composer
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://wandb.me/composer)
+[**Try in a Colab Notebook here →**](https://wandb.me/composer)
 
 [Composer](https://github.com/mosaicml/composer) is a library for training neural networks better, faster, and cheaper. It contains many state-of-the-art methods for accelerating neural network training and improving generalization, along with an optional [Trainer](https://docs.mosaicml.com/en/v0.5.0/trainer/using\_the\_trainer.html) API that makes _composing_ many different enhancements easy.
 
