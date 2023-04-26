@@ -57,7 +57,6 @@ The config for a SageMaker queue is a JSON blob that gets passed to [SageMaker A
 ```yaml
 {
     "RoleArn": "<REQUIRED>",
-    "EcrRepoName": "",
     "ResourceConfig": {
         "InstanceType": "ml.m4.xlarge",
         "InstanceCount": 1,
