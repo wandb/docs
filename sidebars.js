@@ -162,6 +162,17 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Prompts',
+      link: {
+        type: 'doc',
+        id: 'guides/prompts/intro',
+      },
+      items: [
+        'guides/prompts/quickstart',
+      ],
+    },
+    {
+      type: 'category',
       label: 'App Reference',
       link: {type: 'doc', id: 'guides/app/intro'},
       items: [
@@ -229,6 +240,7 @@ const sidebars = {
             'guides/app/features/tags',
             'guides/app/features/notes',
             'guides/app/features/teams',
+            'guides/app/features/organizations',
             'guides/app/features/system-metrics',
             'guides/app/features/anon',
           ],
@@ -327,6 +339,7 @@ const sidebars = {
         'guides/integrations/other/hydra',
         'guides/integrations/keras',
         'guides/integrations/other/kubeflow-pipelines-kfp',
+        'guides/integrations/langchain',
         'guides/integrations/lightgbm',
         'guides/integrations/other/metaflow',
         'guides/integrations/mmdetection',

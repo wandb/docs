@@ -34,28 +34,58 @@ Congratulations! You have created a k8s queue.
 
 The launch agent will create a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each run that is popped from a Kubernetes queue. The JSON configuration for a Kubernetes queue is used to modify the Job spec that the agent submits to your cluster. The configuration follows the same schema as a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec), except that it is formatted as JSON rather than YAML and supports additional, universal queue configuration fields, e.g. `builder`.
 
-Control over the job spec allows you to specify resource requests, volume mounts, retry strategies, and more for your runs at the queue level. For example, to create a k8s queue for runs that require an Nvidia GPU, you might specify the following configuration:
+Control over the job spec allows you to specify resource requests, volume mounts, retry strategies, and more for your runs at the queue level. For example, to set a custom environment variable, resource requests, and labels for all runs launched from a queue, you can use a variation of the following configuration:
 
 ```json
 {
-  "namespace": "wandb",
-  "resources": {
-    "limits": {
-      "nvidia.com/gpu:": 1
+  "spec": {
+    "template": {
+      "spec": {
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "MY_ENV_VAR",
+                "value": "some-value"
+              }
+            ],
+            "resources": {
+              "requests": {
+                "cpu": "1000m",
+                "memory": "1Gi"
+              }
+            }
+          }
+        ]
+      }
     }
   },
-  "tolerations": [
-    {
-      "key": "gpu",
-      "value": "false",
-      "effect": "NoSchedule",
-      "operator": "Equal"
+  "metadata": {
+    "labels": {
+      "queue": "k8s-test"
     }
-  ],
-  "node_selector": {
-    "gpu": "false"
-  }
+  },
+  "namespace": "wandb"
 }
+```
+
+The agent will automatically apply set the following values in the top level of the job spec:
+
+```yaml
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+      containers:  # These security defaults are applied to all containers in the pod spec.
+      - securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          seccompProfile:
+            type: RuntimeDefault
 ```
 
 ## Deploying an agent

@@ -3,7 +3,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/__init__.py)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/__init__.py)
 
 
 
@@ -47,4 +47,6 @@ and upload them to the W&B server.
 [`class Table`](./table.md): The Table class used to display and analyze tabular data.
 
 [`class Video`](./video.md): Format a video for logging to W&B.
+
+[`class WBTraceTree`](./wbtracetree.md): Media object for trace tree data.
 
