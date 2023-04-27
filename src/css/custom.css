@@ -96,7 +96,7 @@ a:hover {
     padding: 0 24px;
   }
 
-  .row .docItemCol_node_modules-\@docusaurus-theme-classic-lib-theme-DocItem-Layout-styles-module {
+  .row .col {
     max-width: 630px !important;
   }
 }
