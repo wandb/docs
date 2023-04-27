@@ -1,3 +1,7 @@
+---
+displayed_sidebar: ja
+---
+
 # Code Saving
 
 By default, we only save the latest git commit hash. You can turn on more code features to compare the code between your experiments dynamically in the UI.

@@ -1,5 +1,6 @@
 ---
 description: 'Model Management: Data Model & Terminology'
+displayed_sidebar: ja
 ---
 
 # Model Management Concepts

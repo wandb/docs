@@ -1,5 +1,6 @@
 ---
 slug: /guides/app/features/custom-charts
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';

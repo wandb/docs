@@ -1,5 +1,6 @@
 ---
 description: Create custom aliases for W&B Artifacts.
+displayed_sidebar: ja
 ---
 
 # Create a custom alias

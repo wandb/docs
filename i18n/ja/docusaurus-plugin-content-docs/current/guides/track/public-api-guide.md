@@ -1,5 +1,6 @@
 ---
 description: Import data from MLFlow, export or update data that you have saved to W&B
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

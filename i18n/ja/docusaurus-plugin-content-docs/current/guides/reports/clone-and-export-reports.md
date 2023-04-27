@@ -1,5 +1,6 @@
 ---
 description: Export a W&B Report as a PDF or LaTeX.
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -66,5 +67,3 @@ new_report.save()
 ```
   </TabItem>
 </Tabs>
-
-

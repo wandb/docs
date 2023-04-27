@@ -1,5 +1,6 @@
 ---
 slug: /guides/hosting
+displayed_sidebar: ja
 ---
 
 # プライベートホスティング

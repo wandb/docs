@@ -1,5 +1,6 @@
 ---
-description: Pause, resume, and cancel a W&B Sweep with the CLI. 
+description: Pause, resume, and cancel a W&B Sweep with the CLI.
+displayed_sidebar: default
 ---
 
 # Pause, resume, stop and cancel sweeps

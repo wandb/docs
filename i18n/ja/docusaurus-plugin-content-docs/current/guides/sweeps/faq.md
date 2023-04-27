@@ -1,5 +1,6 @@
 ---
 description: Answers to frequently asked question about W&B Sweeps.
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';

@@ -3,6 +3,7 @@ description: >-
   Manage your profile information, account defaults, alerts, participation in
   beta products, GitHub integration, storage usage, account activation, and
   create teams in your user settings.
+displayed_sidebar: ja
 ---
 
 # User settings

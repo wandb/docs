@@ -1,5 +1,6 @@
 ---
 description: Prerequisites for W&B Launch.
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

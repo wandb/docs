@@ -1,5 +1,6 @@
 ---
 description: Add W&B to your Python code script or Jupyter Notebook.
+displayed_sidebar: ja
 ---
 
 # Add W&B to your code

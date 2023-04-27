@@ -1,5 +1,6 @@
 ---
 description: Compare runs from two different projects with cross-project reports.
+displayed_sidebar: default
 ---
 
 # Cross-project reports
@@ -38,4 +39,3 @@ Note: The magic links are only available for “Private” and “Team” projec
 ### Send a graph to a report
 
 Send a graph from your workspace to a report to keep track of your progress. Click the dropdown menu on the chart or panel you'd like to copy to a report and click **Add to report** to select the destination report.
-

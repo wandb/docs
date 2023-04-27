@@ -1,5 +1,6 @@
 ---
 description: Update an existing Artifact inside and outside of a W&B Run.
+displayed_sidebar: ja
 ---
 
 # Update artifacts
@@ -78,5 +79,3 @@ artifact.save()
 For more information, see the Weights and Biases [Public Artifact API](https://docs.wandb.ai/ref/python/public-api/artifact).
   </TabItem>
 </Tabs>
-
-

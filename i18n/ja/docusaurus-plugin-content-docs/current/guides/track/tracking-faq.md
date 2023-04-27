@@ -1,5 +1,6 @@
 ---
 description: Answers to frequently asked question about W&B Experiments.
+displayed_sidebar: ja
 ---
 
 # Experiments FAQ

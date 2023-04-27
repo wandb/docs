@@ -1,5 +1,6 @@
 ---
 description: Create a new artifact version from a single run or from a distributed process.
+displayed_sidebar: ja
 ---
 
 # Create new artifact versions

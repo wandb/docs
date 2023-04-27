@@ -1,6 +1,7 @@
 ---
 slug: /guides/runs
-description:  Learn about the basic building block of W&B, Runs.
+description: Learn about the basic building block of W&B, Runs.
+displayed_sidebar: default
 ---
 # Runs
 
@@ -170,9 +171,3 @@ Below the overview section, you will additionally find information about:
 * **Artifact Outputs**: Artifact outputs produced by the Run.
 * **Config**: List of config parameters saved with [`wandb.config`](../../guides/track/config.md).
 * **Summary**: List of summary parameters saved with [`wandb.log()`](../../guides/track/log/intro.md). By default, this value is set to the last value logged.
-
-
-
-
-
-

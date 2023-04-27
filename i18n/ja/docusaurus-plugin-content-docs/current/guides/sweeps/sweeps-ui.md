@@ -1,5 +1,6 @@
 ---
 description: Describes the different components of the Sweeps UI.
+displayed_sidebar: ja
 ---
 
 # Sweeps UI

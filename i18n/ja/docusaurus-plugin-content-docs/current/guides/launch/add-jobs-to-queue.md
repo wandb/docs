@@ -1,5 +1,6 @@
 ---
 description: Learn how to add jobs to your W&B queue.
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

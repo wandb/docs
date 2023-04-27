@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -76,6 +80,3 @@ Here's what that looks like.
 :::info
 With data and model versioning, you can resume paused or crashed experiments from any device, no setup necessary! Check out [the Colab ](https://wandb.me/yolo-colab)for details.
 :::
-
-
-

@@ -1,5 +1,6 @@
 ---
 description: Importing and logging data into W&B
+displayed_sidebar: default
 ---
 
 # Log data and experiments from a CSV file

@@ -1,3 +1,7 @@
+---
+displayed_sidebar: ja
+---
+
 # TensorFlow
 
 If you're already using TensorBoard, it's easy to integrate with wandb.

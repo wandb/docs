@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # Keras
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/intro-keras)

@@ -1,6 +1,7 @@
 ---
 slug: /guides/sweeps
 description: Hyperparameter search and model optimization with W&B Sweeps
+displayed_sidebar: default
 ---
 
 # Tune Hyperparameters

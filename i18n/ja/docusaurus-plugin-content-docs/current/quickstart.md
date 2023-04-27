@@ -1,5 +1,6 @@
 ---
 description: W&B Quickstart.
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';
@@ -204,4 +205,3 @@ wandbのローカルサーバーにログインするには、[ホストフラ�
 
 **W&Bのログトラッキングを一時的に切ることはできますか?**
 もしコードのテスト中など、トラッキングを行いたくない場合には、環境変数 [WANDB_MODE=offline](guides/track/environment-variables)を設定してください。
-

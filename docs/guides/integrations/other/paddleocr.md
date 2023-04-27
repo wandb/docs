@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/paddleocr
 description: How to integrate W&B with PaddleOCR.
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';

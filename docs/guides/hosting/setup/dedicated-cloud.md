@@ -1,5 +1,6 @@
 ---
 description: Hosting W&B Server in a secure enterprise environment.
+displayed_sidebar: default
 ---
 
 # Dedicated Cloud

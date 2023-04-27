@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/catalyst
 description: How to integrate W&B for Catalyst, a Pytorch framework.
+displayed_sidebar: ja
 ---
 
 # Catalyst
@@ -14,4 +15,3 @@ Check out their documentation of the integration [here](https://catalyst-team.gi
 ## Interactive Example
 
 Run this [example colab](https://colab.research.google.com/drive/1PD0LnXiADCtt4mu7bzv7VfQkFXVrPxJq?usp=sharing) to see Catalyst and W&B integration in action.
-

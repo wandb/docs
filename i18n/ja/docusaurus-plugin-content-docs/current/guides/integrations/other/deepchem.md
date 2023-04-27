@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/deepchem
 description: How to integrate W&B with DeepChem library.
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';

@@ -1,5 +1,6 @@
 ---
 description: Learn how to use Weights & Biases for Model Management
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

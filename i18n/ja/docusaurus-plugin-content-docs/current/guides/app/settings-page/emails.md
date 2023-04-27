@@ -1,5 +1,6 @@
 ---
 description: Manage emails from the Settings page.
+displayed_sidebar: ja
 ---
 
 # Emails
@@ -59,4 +60,3 @@ A verification email is sent to your email account when you create a Weights & B
 Attempt to log in with your email address again to retrieve a second verification email if you no longer have the original verification email that was sent to your email account.
 
 Contact support@wandb.com for account login issues.
-

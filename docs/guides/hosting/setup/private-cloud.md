@@ -1,5 +1,6 @@
 ---
 description: Hosting W&B Server on your private cloud.
+displayed_sidebar: default
 ---
 
 # Private Cloud

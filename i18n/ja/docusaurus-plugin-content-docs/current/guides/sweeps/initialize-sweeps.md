@@ -1,5 +1,6 @@
 ---
-description: Initialize a W&B Sweep 
+description: Initialize a W&B Sweep
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';
@@ -66,4 +67,3 @@ wandb sweep --project sweeps_demo config.yaml
 This command will print out a sweep ID. The sweep ID includes the entity name and the project name. Make a note of the sweep ID.
   </TabItem>
 </Tabs>
-

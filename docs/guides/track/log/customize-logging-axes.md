@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # Customize Log Axes
 
 Use `define_metric` to set a **custom x axis**.Custom x-axes are useful in contexts where you need to log to different time steps in the past during training, asynchronously. For example, this can be useful in RL where you may track the per-episode reward and a per-step reward.

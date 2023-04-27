@@ -1,6 +1,7 @@
 ---
 slug: /guides/hosting/setup
 description: Deploying W&B in production
+displayed_sidebar: default
 ---
 
 # Production Setup

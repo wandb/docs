@@ -1,3 +1,7 @@
+---
+displayed_sidebar: ja
+---
+
 # Sampling and Bucketing
 
 ## Sampling
@@ -15,4 +19,3 @@ losses = [row["Loss"] for row in history]
 ## Bucketing
 
 When grouping or using expressions with multiple runs with possibly not-aligned x axis values, bucketing is used to downsample the points.  The x-axis is divided into 200 evenly sized segments and then within each segments all points for a given metric are averaged. When grouping or using expressions to combine metrics, this average inside a segment is used as the value of the metric.
-

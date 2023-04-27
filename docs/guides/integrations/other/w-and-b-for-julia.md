@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/w-and-b-for-julia
 description: How to integrate W&B with Julia.
+displayed_sidebar: default
 ---
 
 # W&B for Julia
@@ -36,4 +37,3 @@ end
 # Finish the run
 close(lg)
 ```
-

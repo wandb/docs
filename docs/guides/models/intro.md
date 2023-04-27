@@ -1,6 +1,7 @@
 ---
 slug: /guides/models
 description: Manage the model lifecycle from training to production
+displayed_sidebar: default
 ---
 
 # Model Management
@@ -66,4 +67,3 @@ This new feature is now turned on for all users to try for free, up to:
 ## Explore more
 * Read [Model Management Concepts](./model-management-concepts.md) for more information on basic Model Management concepts.
 * Follow the steps in the [Walkthrough](./walkthrough.md) to learn how to use Model Management.
-

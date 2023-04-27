@@ -1,5 +1,6 @@
 ---
 description: Save files to the cloud and restore them locally later
+displayed_sidebar: ja
 ---
 
 # Save & Restore Files

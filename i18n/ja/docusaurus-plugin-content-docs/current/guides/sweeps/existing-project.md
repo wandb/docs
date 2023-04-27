@@ -1,5 +1,8 @@
 ---
-description: Tutorial on how to create sweep jobs from a pre-existing Weights & Biases project.
+description: >-
+  Tutorial on how to create sweep jobs from a pre-existing Weights & Biases
+  project.
+displayed_sidebar: ja
 ---
 
 # チュートリアル - 既存プロジェクトからスウィープを作成
@@ -59,5 +62,3 @@ description: Tutorial on how to create sweep jobs from a pre-existing Weights & 
 :::info
 新しいスウィープをベイズスウィープとして開始する場合、選択したrunは、ガウスプロセスのシード設定も行います。
 :::
-
-

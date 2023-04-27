@@ -1,6 +1,8 @@
 ---
-description:
-  Embed Weights & Biases reports directly into Notion or with an HTML IFrame element.
+description: >-
+  Embed Weights & Biases reports directly into Notion or with an HTML IFrame
+  element.
+displayed_sidebar: ja
 ---
 
 # Embed reports

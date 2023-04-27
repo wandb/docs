@@ -1,6 +1,9 @@
 ---
-description: An overview of what is Weights & Biases along with links on how to get started if you are a first time user.
+description: >-
+  An overview of what is Weights & Biases along with links on how to get started
+  if you are a first time user.
 slug: /
+displayed_sidebar: default
 ---
 
 # What is Weights & Biases?
@@ -30,4 +33,3 @@ We recommend you read the following sections in this order if you are a first-ti
 6. Manage the model lifecycle from training to production with [Model Management](./models/intro.md).
 7. Visualize predictions across model versions with our [Data Visualization](./data-vis/intro.md) guide.
 8. Organize W&B Runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [Reports](./reports/intro.md).
-

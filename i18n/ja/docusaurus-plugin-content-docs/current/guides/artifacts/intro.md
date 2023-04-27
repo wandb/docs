@@ -1,6 +1,9 @@
 ---
 slug: /guides/artifacts
-description: Overview of what W&B Artifacts are, how they work, and how to get started using W&B Artifacts.
+description: >-
+  Overview of what W&B Artifacts are, how they work, and how to get started
+  using W&B Artifacts.
+displayed_sidebar: ja
 ---
 
 # アーティファクト
@@ -95,4 +98,3 @@ directory = animals.download()
 
 
 <!-- {% embed url="https://www.youtube.com/watch?v=Hd94gatGMic" %} -->
-

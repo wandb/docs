@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/prodigy
 description: How to integrate W&B with Prodigy.
+displayed_sidebar: ja
 ---
 
 # Prodigy

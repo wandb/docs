@@ -1,5 +1,6 @@
 ---
 description: Set W&B environment variables.
+displayed_sidebar: ja
 ---
 
 # Environment Variables

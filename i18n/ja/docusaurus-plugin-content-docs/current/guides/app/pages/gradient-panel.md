@@ -1,5 +1,6 @@
 ---
 description: Visualize the gradients of your parameters
+displayed_sidebar: ja
 ---
 
 # Gradient Panel

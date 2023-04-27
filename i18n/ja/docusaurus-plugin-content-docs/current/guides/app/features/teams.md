@@ -2,6 +2,7 @@
 description: >-
   Collaborate with your colleagues, share results, and track all the experiments
   across your team
+displayed_sidebar: ja
 ---
 
 # Teams

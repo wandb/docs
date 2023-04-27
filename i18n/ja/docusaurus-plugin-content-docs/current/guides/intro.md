@@ -1,6 +1,9 @@
 ---
-description: An overview of what is Weights & Biases along with links on how to get started if you are a first time user.
+description: >-
+  An overview of what is Weights & Biases along with links on how to get started
+  if you are a first time user.
 slug: /
+displayed_sidebar: ja
 ---
 
 # Weights & Biasesとは？
@@ -29,4 +32,3 @@ W&Bを初めて使う場合、以下のセクションをこの順序で読む�
 6. [モデル管理](./models/intro.md)で、トレーニングからプロダクションまでのモデルライフサイクルを管理します。
 7. [データ可視化](./data-vis/intro.md)ガイドで、複数のモデルバージョン間の予測を可視化します。
 8. W&B Runを体系化し、可視化の埋め込みと自動化を行い、発見事項を説明し、[レポート](./reports/intro.md)でアップデートを共同作業者と共有します。
-

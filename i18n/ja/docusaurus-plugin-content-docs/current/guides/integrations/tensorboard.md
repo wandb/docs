@@ -1,3 +1,7 @@
+---
+displayed_sidebar: ja
+---
+
 # TensorBoard
 
 ## Hosted TensorBoard with 1 Line of Code

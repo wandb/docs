@@ -1,5 +1,6 @@
 ---
 description: Visualize metrics, customize axes, and compare categorical data as bars.
+displayed_sidebar: ja
 ---
 
 # Bar Plot

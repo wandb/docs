@@ -2,6 +2,7 @@
 description: >-
   Add notes to your runs and projects, and use notes to describe your findings
   in reports
+displayed_sidebar: ja
 ---
 
 # Notes

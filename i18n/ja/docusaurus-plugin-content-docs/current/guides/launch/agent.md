@@ -1,5 +1,6 @@
 ---
 description: Launch agent documentation
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

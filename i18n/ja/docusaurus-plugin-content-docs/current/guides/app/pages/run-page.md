@@ -1,7 +1,8 @@
 ---
-description: 
+description: >-
   Each training run of your model gets a dedicated page, organized within the
   larger project
+displayed_sidebar: ja
 ---
 
 # Run Page

@@ -1,5 +1,6 @@
 ---
 description: How to configure the W&B Local Server installation
+displayed_sidebar: default
 ---
 
 # Advanced Configuration

@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/skorch
 description: How to integrate W&B with Skorch.
+displayed_sidebar: default
 ---
 
 # Skorch
@@ -55,4 +56,3 @@ net.fit(X, y)
 | `on_grad_computed`\(net, named\_parameters\[, X, …\]\) | Called once per batch after gradients have been computed but before an update step was performed. |
 | `on_train_begin`\(net, \*\*kwargs\) | Log model topology and add a hook for gradients |
 | `on_train_end`\(net\[, X, y\]\) | Called at the end of training. |
-

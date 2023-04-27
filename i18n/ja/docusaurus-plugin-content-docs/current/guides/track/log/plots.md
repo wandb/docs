@@ -1,5 +1,6 @@
 ---
 description: Create and track plots from machine learning experiments.
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

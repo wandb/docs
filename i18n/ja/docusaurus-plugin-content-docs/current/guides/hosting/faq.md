@@ -1,5 +1,6 @@
 ---
 description: Frequently asked questions about W&B Hosting.
+displayed_sidebar: ja
 ---
 
 # FAQ

@@ -1,5 +1,8 @@
 ---
-description: Sweeps quickstart shows how to define, initialize, and run a sweep. There are four main steps
+description: >-
+  Sweeps quickstart shows how to define, initialize, and run a sweep. There are
+  four main steps
+displayed_sidebar: ja
 ---
 
 # クイックスタート
@@ -124,5 +127,3 @@ wandb.agent(sweep_id, function=main, count=10)
 ## エージェントを停止する（オプション）
 
 端末から、Ctrl+cを押して、スウィープエージェントが現在実行しているrunを停止します。エージェントを停止するには、runが停止した後にCtrl+cを再度押します。
-
-

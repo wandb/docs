@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';

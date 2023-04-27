@@ -1,5 +1,6 @@
 ---
 description: Discover how to create a job for W&B Launch.
+displayed_sidebar: default
 ---
 
 # Create a job

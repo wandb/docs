@@ -1,5 +1,6 @@
 ---
 description: Tutorial of using the custom charts feature in the Weights & Biases UI
+displayed_sidebar: ja
 ---
 
 # Custom Charts Walkthrough

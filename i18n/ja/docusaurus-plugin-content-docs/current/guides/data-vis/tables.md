@@ -1,5 +1,6 @@
 ---
-description:  Visualize and analyze W&B Tables.
+description: Visualize and analyze W&B Tables.
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

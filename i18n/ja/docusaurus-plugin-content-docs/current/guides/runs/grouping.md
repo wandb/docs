@@ -1,5 +1,6 @@
 ---
 description: Group training and evaluation runs into larger experiments
+displayed_sidebar: ja
 ---
 
 # Group Runs

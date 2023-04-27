@@ -1,3 +1,7 @@
+---
+displayed_sidebar: ja
+---
+
 # Reference
 
 ## X-Axis

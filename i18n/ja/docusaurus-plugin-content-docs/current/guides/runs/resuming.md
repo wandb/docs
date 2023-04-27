@@ -1,5 +1,6 @@
 ---
 description: Resume a paused or exited W&B Run
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

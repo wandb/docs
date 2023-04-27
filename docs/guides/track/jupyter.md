@@ -1,5 +1,8 @@
 ---
-description: se Weights & Biases with Jupyter to get interactive visualizations without leaving your notebook.
+description: >-
+  se Weights & Biases with Jupyter to get interactive visualizations without
+  leaving your notebook.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

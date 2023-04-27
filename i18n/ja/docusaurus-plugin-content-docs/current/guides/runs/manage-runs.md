@@ -1,3 +1,7 @@
+---
+displayed_sidebar: ja
+---
+
 # Manage Runs
 
 ### Move runs to a team

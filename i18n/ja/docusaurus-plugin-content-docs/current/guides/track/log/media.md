@@ -1,5 +1,6 @@
 ---
 description: Log rich media, from 3D point clouds and molecules to HTML and histograms
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

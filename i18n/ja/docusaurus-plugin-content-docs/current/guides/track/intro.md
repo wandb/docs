@@ -1,6 +1,7 @@
 ---
 description: Track machine learning experiments with W&B.
 slug: /guides/track
+displayed_sidebar: ja
 ---
 
 # Track Experiments
@@ -61,10 +62,3 @@ Depending on your use case, explore the following resources to get started with 
   * Log data from experiments
   * View results from experiments
 * Explore the [W&B Python Library](../../ref/python/README.md) within the [W&B API Reference Guide](../../ref/README.md).
-
-
-
-
-
-
-

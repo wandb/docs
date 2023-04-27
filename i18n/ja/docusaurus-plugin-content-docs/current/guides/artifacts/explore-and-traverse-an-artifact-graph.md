@@ -1,5 +1,6 @@
 ---
 description: Traverse automatically created direct acyclic W&B Artifact graphs.
+displayed_sidebar: ja
 ---
 
 # Explore and traverse artifact graphs
