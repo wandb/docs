@@ -204,7 +204,7 @@ dataset = wandb.use_artifact(art)
   </TabItem>
     <TabItem value="logmodel">
 
-:::warning
+:::caution
 The following code snippet leverages actively developed `beta` APIs and therefore is subject to change and not guaranteed to be backwards compatible.
 :::
 
@@ -313,7 +313,7 @@ wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
   </TabItem>
   <TabItem value="logmodel">
 
-:::warning
+:::caution
 The following code snippet leverages actively developed `beta` APIs and therefore is subject to change and not guaranteed to be backwards compatible.
 :::
 
@@ -367,7 +367,7 @@ model = make_model_from_data(path)
   </TabItem>
   <TabItem value="use_model">
 
-:::warning
+:::caution
 The following code snippet leverages actively developed `beta` APIs and therefore is subject to change and not guaranteed to be backwards compatible.
 :::
 
