@@ -9,7 +9,7 @@ description: Send alerts, triggered from your Python code, to your Slack or emai
 </head>
 
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/alerts-colab)
+[**Try in a Colab Notebook here →**](http://wandb.me/alerts-colab)
 
 With W&B Alerts you can be notified via Slack or email if your W&B Run has crashed or whether a custom trigger, such as your loss going to NaN or a step in your ML pipeline has completed, has been reached. W&B Alerts apply all projects where you launch runs, including both personal and Team projects.
 

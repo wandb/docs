@@ -62,7 +62,7 @@ Next, log in to W&B:
 wandb login
 ```
 
-Or if you're using [W&B Server:](./guides/hosting)
+Or if you are using [W&B Server:](./guides/hosting)
 
 ```
 wandb login --host=http://wandb.your-shared-local-host.com
@@ -224,4 +224,4 @@ If you are training models in an automated environment where it's inconvenient t
 Yes, you can [privately host W&B](guides/hosting) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how. Note, to login to wandb local server you can [set the host flag](guides/hosting/how-to-guides/basic-setup) to the address of the local instance.  
 
 **How do I turn off wandb logging temporarily?**
-If you're testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](guides/track/environment-variables).
+If are testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](guides/track/environment-variables).

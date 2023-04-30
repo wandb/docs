@@ -135,7 +135,7 @@ plot = wandb.plot.pr_curve(
     ground_truth, predictions,
     labels=None, classes_to_plot=None)
     
-wandb.log({"pr":})
+wandb.log({"pr": plot})
 ```
 
 You can log this whenever your code has access to:

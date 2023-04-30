@@ -1,6 +1,6 @@
 # PyTorch
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/intro)
+[**Try in a Colab Notebook here →**](http://wandb.me/intro)
 
 PyTorch is one of the most popular frameworks for deep learning in Python, especially among researchers. W&B provides first class support for PyTorch, from logging gradients to profiling your code on the CPU and GPU.
 

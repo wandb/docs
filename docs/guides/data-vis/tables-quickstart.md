@@ -7,7 +7,7 @@ description: Explore how to use W&B Tables with this 5 minute Quickstart.
 The following Quickstart demonstrates how to log data tables, visualize data, and query data.
 
 
-Select the button below to try a PyTorch Quickstart example project on MNIST data. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/tables-quickstart)
+Select the button below to try a PyTorch Quickstart example project on MNIST data. [**Try in a Colab Notebook here →**](http://wandb.me/tables-quickstart)
 
 ## 1. Log a table
 
