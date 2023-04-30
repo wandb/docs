@@ -8,7 +8,7 @@ Run Weights and Biases on your own machines using Docker.
 
 ### Installation
 
-- On any machine with [Docker](https://www.docker.com) and [Python](https://www.python.org) installed, run:
+On any machine with [Docker](https://www.docker.com) and [Python](https://www.python.org) installed, run:
 
 ```
 pip install wandb
@@ -17,44 +17,44 @@ wandb server start
 
 ### Login
 
-If this is your first time logging in then you will need to create your local W&B server account and authorize your API key.
+If this is your first time logging in then you will need to create your local W&B server account and authorize your API key. There are several ways to control where your runs are logged to. This is particularly useful if you run `wandb` on multiple machines or you switch between a private instance and W&B cloud. 
 
-If you're running `wandb` on multiple machines or switching between a private instance and the wandb cloud, there are several ways to control where your runs are logged. If you want to send metrics to the shared private instance and you've configured DNS, you can
+Follow the procedure below to send metrics to the shared private instance. Ensure you have already set up DNS:
 
-- set the host flag to the address of the private instance whenever you login:
+1. Set the host flag to the address of the private instance whenever you login:
 
 ```
  wandb login --host=http://wandb.your-shared-local-host.com
 ```
 
-- set the environment variable `WANDB_BASE_URL` to the address of the local instance:
+2. Set the environment variable `WANDB_BASE_URL` to the address of the local instance:
 
 ```python
 export WANDB_BASE_URL = "http://wandb.your-shared-local-host.com"
 ```
 
-In an automated environment, you can set the `WANDB_API_KEY` which is accessible at [wandb.your-shared-local-host.com/authorize](http://wandb.your-shared-local-host.com/authorize).
+In an automated environment, you can set the `WANDB_API_KEY`. Find your key at [wandb.your-shared-local-host.com/authorize](http://wandb.your-shared-local-host.com/authorize).
 
-To switch to logging to the public **cloud** instance of wandb, set the host to `api.wandb.ai`:
+Set the host to `api.wandb.ai` to log to the public cloud instance of W&B:
 
-```
+```bash
 wandb login --cloud
 ```
 
 or
 
-```python
+```bash
 export WANDB_BASE_URL = "https://api.wandb.ai"
 ```
 
-You can also switch to your cloud API key, available at [https://wandb.ai/settings](https://wandb.ai/settings) when you're logged in to your cloud-hosted wandb account in your browser.
+You can also switch to your cloud API key, available at [https://wandb.ai/settings](https://wandb.ai/settings) when you are logged in to your cloud-hosted wandb account in your browser.
 
 ### Generate a free license
 
-You need a license to complete your configuration of a W&B server. [**Open the Deploy Manager** ](https://deploy.wandb.ai/deploy)to generate a free license. If you do not already have a cloud account then you will need to create one to generate your free license. We offer two options:
+You need a license to complete your configuration of a W&B server. [**Open the Deploy Manager** ](https://deploy.wandb.ai/deploy)to generate a free license. If you do not already have a cloud account then you will need to create one to generate your free license. You can generate either a personal or team or free license:
 
-1. [**Personal licenses ->**](https://deploy.wandb.ai/deploy) are free forever for personal work: ![](/images/hosting/personal_license.png)
-2. [**Team trial licenses ->**](https://deploy.wandb.ai/deploy) are free and last 30 days, allowing you to set up a team and connect a scalable backend: ![](/images/hosting/team_trial_license.png)
+1. [**Personal licenses**](https://deploy.wandb.ai/deploy) are free forever for personal work: ![](/images/hosting/personal_license.png)
+2. [**Team trial licenses**](https://deploy.wandb.ai/deploy) are free and last 30 days, allowing you to set up a team and connect a scalable backend: ![](/images/hosting/team_trial_license.png)
 
 ### Add a license to your Local host
 
@@ -64,13 +64,13 @@ You need a license to complete your configuration of a W&B server. [**Open the D
 
 ### Upgrades
 
-We are pushing new versions of _wandb/local_ to DockerHub regularly. To upgrade you can run:
+New versions of _wandb/local_ are pushed to DockerHub regularly. We suggest you keep your version up to date. To upgrade, copy and paste the following command into your terminal:
 
 ```shell
 $ wandb server start --upgrade
 ```
 
-To upgrade your instance manually you can run the following
+Alternatively, you can upgrade your instance manually. Copy and paste the following code snippets into your terminal:
 
 ```shell
 $ docker pull wandb/local
@@ -88,20 +88,27 @@ $ docker run --rm -d -v wandb:/vol -p 8080:8080 --name wandb-local wandb/local
 
 #### How does wandb persist user account data?
 
-When a Kubernetes instance is stopped, the wandb application bundles all the user account data into a tarball and uploads it to the S3 object store. On restarting the instance and providing the `BUCKET` environment variable, wandb pulls that previously uploaded tarball and loads the user account info into the newly started Kubernetes deployment.
+When a Kubernetes instance is stopped, the W&B application bundles all the user account data into a tarball and uploads it to the Amazon S3 object store. W&B pulls previously uploaded tarball files when you restart an instance and provide the `BUCKET` environment variable. W&B will also load your user account information into the newly started Kubernetes deployment.
 
-Wandb persists instance settings in the external bucket when it's configured. We also persist certificates, and secrets in the bucket but should be moving those into proper secret stores or at least adding a layer of encryption. When an external object store is enabled, strong access controls should be enforced as it will contain all users data
+When an external object store is enabled, strong access controls should be enforced as it will contain all users data.
+W&B persists instance settings in the external bucket when it is configured. W&B also persist certificates, and secrets in the bucket.
+
 
 #### Create and scale a shared instance
 
 To enjoy the powerful collaborative features of W&B, you will need a shared instance on a central server, which you can [set up on AWS, GCP, Azure, Kubernetes, or Docker](/guides/hosting/hosting-options).
 
-:::warning
+:::caution
 **Trial Mode vs. Production Setup**
 
-In Trial Mode of W&B Local, you're running the Docker container on a single machine. This setup is quick and painless, and it's great for testing the product, but it isn't scalable.
+In Trial Mode of W&B Local, you run the Docker container on a single machine. This setup is ideal for testing the product, but it is not scalable.
 
-Once you're ready to move from test projects to real production work, it is crucial that you set up a scalable file system to avoid data loss: allocate extra space in advance, resize the file system proactively as you log more data, and configure external metadata and object stores for backup. If you run out of disk space, the instance will stop working, and additional data will be lost.
+For production work, set up a scalable file system to avoid data loss. We suggest you:
+* allocate extra space in advance, 
+* resize the file system proactively as you log more data
+* configure external metadata and object stores for backup.
+
+The instance will stop working if you run out of space. In this case, any additional data will be lost.
 :::
 
-[**Contact sales -**](https://wandb.ai/site/local-contact)**>** to learn more about Enterprise options for W&B server.
+[Contact sales](https://wandb.ai/site/local-contact) to learn more about Enterprise options for W&B server.
