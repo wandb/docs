@@ -1,18 +1,18 @@
 # Audit logs
-Use audit logs to track and understand activity within your team. Audit logs are synced to your bucket store every 10 seconds. Optionally download your audit logs and view them with your tool of choice such as [Pandas](https://pandas.pydata.org/docs/index.html), [BigQuery](https://cloud.google.com/bigquery), and more. 
+Use audit logs to track and understand activity within your team. Audit logs sync to your bucket store every 10 seconds. Optionally, download your audit logs and view them with your preferred tool, such as [Pandas](https://pandas.pydata.org/docs/index.html), [BigQuery](https://cloud.google.com/bigquery), and more.
 
 :::info
 This feature is currently in Private Preview.
 :::
 
 ## Audit log schema
-The following table lists all the different keys that might be present on your audit logs. Each log only contains assets relavant to the corresponding action only and others are omitted from the log. 
+The following table lists all the different keys that might be present in your audit logs. Each log contains only the assets relevant to the corresponding action, and others are omitted from the log.
 
 | Key | Definition |
 |---------| -------|
 |timestamp               | Time stamp in [RFC3339 format](https://www.rfc-editor.org/rfc/rfc3339). For example: `2023-01-23T12:34:56Z`, represents `12:34:56 UTC` time on Jan 23, 2023.
 |action                  | What [action](#actions) did the user take.
-|actor_user_id           | If present, ID of the logged in user who performed the action.
+|actor_user_id           | If present, ID of the logged-in user who performed the action.
 |response_code           | Http response code for the action.
 |artifact_asset          | If present, action was taken on this artifact id
 |artifact_sequence_asset | If present, action was taken on this artifact sequence id
@@ -21,7 +21,7 @@ The following table lists all the different keys that might be present on your a
 |report_asset            | If present, action was taken on this report id.
 |user_asset              | If present, action was taken on this user asset.
 |cli_version             | If the action is taken via python SDK, this will contain the version
-|actor_ip                | IP address of the logs in user.
+|actor_ip                | IP address of the logged-in user.
 |actor_email             | if present, action was taken on this actor email.
 |artifact_digest         | if present, action was taken on this artifact digest.
 |artifact_sequence_name  | if present, action was taken on this artifact sequence name.
@@ -33,7 +33,7 @@ The following table lists all the different keys that might be present on your a
 Personally identifiable information (PII) like email ids, project, team and report names are returned only by the endpoint, and can be turned off as [described below](#view-audit-logs).
 
 ## View audit logs
-You can view the audit logs for your W&B server instance by following these steps:
+To view the audit logs for your W&B server instance, follow these steps:
 1. Admin users can go to `<wandb-server-url>/admin/audit_logs`
 2. Pass in the following URL parameters:
     - `numDays` : logs will be fetch starting from `today - numdays` to most recent; defaults to `0`
@@ -43,7 +43,7 @@ Note that only W&B server admins are allowed to request this information. If you
 
 All historical audit logs are stored in the storage bucket that backs your W&B Server installation. One file is uploaded per day. The files contain new-line separated JSON objects. These logs have the same format as the ones returned by the end points, except that they do not contain any PII for security reasons.
 
-You can view your historical audit logs by completing the following steps:
+To view your historical audit logs, complete the following steps:
 
 1. Navigate to your `/wandb-audit-logs` directory in your bucket.
 2. Download the files for the period you are interested in.
