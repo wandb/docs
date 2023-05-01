@@ -12,7 +12,7 @@ The following table lists all the different keys that might be present in your a
 |---------| -------|
 |timestamp               | Time stamp in [RFC3339 format](https://www.rfc-editor.org/rfc/rfc3339). For example: `2023-01-23T12:34:56Z`, represents `12:34:56 UTC` time on Jan 23, 2023.
 |action                  | What [action](#actions) did the user take.
-|actor_user_id           | If present, ID of the logged in user who performed the action.
+|actor_user_id           | If present, ID of the logged-in user who performed the action.
 |response_code           | Http response code for the action.
 |artifact_asset          | If present, action was taken on this artifact id
 |artifact_sequence_asset | If present, action was taken on this artifact sequence id
