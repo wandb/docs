@@ -2,29 +2,26 @@
 
 Use W&B Launch to send your runs to AWS SageMaker.
 
-## AWS Setup
+## Prerequisites
+Create and set up the following AWS resources to launch your W&B runs on AWS SageMaker:
 
-You will need to create a few AWS resources in order to launch your runs onto AWS SageMaker. The steps below are necessary to use SageMaker in general, so if you are already using SageMaker, it's likely that the resources described below already exist in your AWS account.
+1. **Setup SageMaker in your AWS account.** See the [SageMaker Developer guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) for more information.
+2. **Create an IAM execution role.** Attach the [AmazonSageMakerFullAccess policy to your role](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
+3. **Create an Amazon ECR repository**  to store images you want to execute on SageMaker. See the [Amazon ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for more information. 
+:::tip
+You can launch custom container images that you have pushed to that repository yourself or configure the launch agent to build container images and push them to your ECR repository.
+:::
+4. **Create an Amazon S3 bucket** to store SageMaker outputs from your runs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information. 
+:::tip
+Ensure you create an Amazon S3 bucket in the same AWS Region you use AWS SageMaker. For more information, see Supported Regions and Quotas page in the [SageMaker Developer Guide](https://docs.aws.amazon.com/sagemaker/latest/dg/regions-quotas.html). 
+:::
 
-### Prerequisites
-
-To use W&B Launch with AWS SageMaker, you will need to setup SageMaker in your AWS account. For instructions on how to do so, follow [this guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) from the official SageMaker docs.
-
-### Execution role
-
-[Create an IAM role with AmazonSageMakerFullAccess policy for your SageMaker jobs to assume](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
-
-### Container registry
-
-[Create an ECR repository](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) to store any container images that you want to execute on SageMaker. You can launch custom container images that you have pushed to that repository yourself or configure the launch agent to build container images and push them to your ECR repository.
-
-### Storage
-
-[Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) that can be used to store SageMaker outputs from your runs.
 
 ## Agent setup
 
-In order for the launch agent to launch jobs with SageMaker you will need configure AWS credentials for you agent. Set the AWS credentials you want the agent to use via environment variables or as the `default` profile in your AWS config and then add an `environment` block to your agent config.
+In order for the launch agent to launch jobs with SageMaker you will need configure AWS credentials for you agent. Set the AWS credentials you want the agent to use with environment variables or as the `default` profile in your AWS config. 
+
+Next, add an `environment` block to your agent config. Specify the environment type, in this case AWS (`aws`) and the AWS region SageMaker will execute your runs.
 
 ```yaml
 environment:
@@ -40,7 +37,9 @@ registry:
 	repository: <ecr-repo-name>
 ```
 
-The agent can build container images with either Kaniko or Docker. The agent will attempt to perform container builds with `docker build` by default. If you are running the agent in Kubernetes you can enable Kaniko builds by adding the following to you agent config:
+The agent can build container images with either Kaniko or Docker. The agent will attempt to perform container builds with `docker build` by default. 
+
+If you run the agent in Kubernetes you can enable Kaniko builds by adding the following to you agent config:
 
 ```yaml
 builder:
@@ -52,7 +51,7 @@ Kaniko will store compressed build contexts in the local specified under `build-
 
 ## Queue setup
 
-The config for a SageMaker queue is a JSON blob that gets passed to [SageMaker API's `CreateTrainingJob` request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). When you create the queue, the config will be automatically populated with the following JSON:
+The config for a SageMaker queue is a JSON blob that is passed to [SageMaker API's `CreateTrainingJob` request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). When you create the queue, the config will be automatically populated with the following JSON:
 
 ```yaml
 {
@@ -71,7 +70,7 @@ The config for a SageMaker queue is a JSON blob that gets passed to [SageMaker A
 }
 ```
 
-You can arguments you like, but you must specify:
+You can optionally add additional arguments. However, you must specify:
 
 - `RoleArn` : ARN of the role the IAM role that will be assumed by the job.
 - `OutputDataConfig.S3OutputPath` : An S3 URI specifying where SageMaker outputs will be stored.
