@@ -19,9 +19,13 @@ Ensure you create an Amazon S3 bucket in the same AWS Region you use AWS SageMak
 
 ## Agent setup
 
+<<<<<<< HEAD
 In order for the launch agent to launch jobs with SageMaker you will need configure AWS credentials for you agent. Set the AWS credentials you want the agent to use with environment variables or as the `default` profile in your AWS config. 
 
 Next, add an `environment` block to your agent config. Specify the environment type, in this case AWS (`aws`) and the AWS region SageMaker will execute your runs.
+=======
+In order for the launch agent to launch jobs with SageMaker you will need configure AWS credentials for you agent. Set the AWS credentials you want the agent to use via [environment variables](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#environment-variables) or as the `default` profile in your [AWS config](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#shared-credentials-file) and then add an `environment` block to your agent config.
+>>>>>>> 75026ff (addressing noah's comments)
 
 ```yaml
 environment:
@@ -47,7 +51,9 @@ builder:
 	build-context-store: s3://<s3-bucket>/<prefix>
 ```
 
-Kaniko will store compressed build contexts in the local specified under `build-context-store` and then push any container images it builds to the ECR repository configured in the `registry` block. Kaniko pods will need permission 
+Kaniko will store compressed build contexts in the local specified under `build-context-store` and then push any container images it builds to the ECR repository configured in the `registry` block. Kaniko pods will need permission to access the S3 bucket specified in `build-context-store` and read/write access to the ECR repository specified in `registry.repository`.
+
+```yaml
 
 ## Queue setup
 
