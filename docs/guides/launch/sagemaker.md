@@ -17,15 +17,52 @@ Ensure you create an Amazon S3 bucket in the same AWS Region you use AWS SageMak
 :::
 
 
-## Agent setup
+## Create a queue
 
-<<<<<<< HEAD
-In order for the launch agent to launch jobs with SageMaker you will need configure AWS credentials for you agent. Set the AWS credentials you want the agent to use with environment variables or as the `default` profile in your AWS config. 
+Before you can launch a job on k8s, you need to create a k8s queue in the W&B App. To create a k8s queue:
 
-Next, add an `environment` block to your agent config. Specify the environment type, in this case AWS (`aws`) and the AWS region SageMaker will execute your runs.
-=======
+1. Navigate to the [Launch application](https://wandb.ai/launch).
+2. Click on the **Queues** tab.
+3. Click on the **Create Queue** button.
+4. Select the **entity** you would like to create the queue in.
+5. Enter a name for your queue.
+6. Enter a configuration for your queue.
+7. Click on the **Create Queue** button.
+
+
+### Queue configuration
+
+The config for a SageMaker queue is a JSON blob that is passed to [SageMaker API's `CreateTrainingJob` request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). When you create the queue, the config will be automatically populated with the following JSON:
+
+```yaml
+{
+    "RoleArn": "<REQUIRED>",
+    "ResourceConfig": {
+        "InstanceType": "ml.m4.xlarge",
+        "InstanceCount": 1,
+        "VolumeSizeInGB": 2
+    },
+    "OutputDataConfig": {
+        "S3OutputPath": "<REQUIRED>"
+    },
+    "StoppingCondition": {
+        "MaxRuntimeInSeconds": 3600
+    }
+}
+```
+
+You can optionally add additional arguments. However, you must specify:
+
+- `RoleArn` : ARN of the role the IAM role that will be assumed by the job.
+- `OutputDataConfig.S3OutputPath` : An S3 URI specifying where SageMaker outputs will be stored.
+
+
+## Configure and deploy an agent
+
+
+### Agent configuration
 In order for the launch agent to launch jobs with SageMaker you will need configure AWS credentials for you agent. Set the AWS credentials you want the agent to use via [environment variables](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#environment-variables) or as the `default` profile in your [AWS config](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#shared-credentials-file) and then add an `environment` block to your agent config.
->>>>>>> 75026ff (addressing noah's comments)
+
 
 ```yaml
 environment:
@@ -53,30 +90,12 @@ builder:
 
 Kaniko will store compressed build contexts in the local specified under `build-context-store` and then push any container images it builds to the ECR repository configured in the `registry` block. Kaniko pods will need permission to access the S3 bucket specified in `build-context-store` and read/write access to the ECR repository specified in `registry.repository`.
 
-```yaml
 
-## Queue setup
+### Deploy the agent
+Now that you have created all the resources needed to run the agent, you can deploy the agent to your cluster.
 
-The config for a SageMaker queue is a JSON blob that is passed to [SageMaker API's `CreateTrainingJob` request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). When you create the queue, the config will be automatically populated with the following JSON:
+[To do]
 
-```yaml
-{
-    "RoleArn": "<REQUIRED>",
-    "ResourceConfig": {
-        "InstanceType": "ml.m4.xlarge",
-        "InstanceCount": 1,
-        "VolumeSizeInGB": 2
-    },
-    "OutputDataConfig": {
-        "S3OutputPath": "<REQUIRED>"
-    },
-    "StoppingCondition": {
-        "MaxRuntimeInSeconds": 3600
-    }
-}
-```
+After you have created the deployment, you can check the status of the agent by running the following command:
 
-You can optionally add additional arguments. However, you must specify:
-
-- `RoleArn` : ARN of the role the IAM role that will be assumed by the job.
-- `OutputDataConfig.S3OutputPath` : An S3 URI specifying where SageMaker outputs will be stored.
+[to do]
