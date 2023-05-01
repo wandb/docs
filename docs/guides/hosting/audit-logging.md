@@ -21,7 +21,7 @@ The following table lists all the different keys that might be present on your a
 |report_asset            | If present, action was taken on this report id.
 |user_asset              | If present, action was taken on this user asset.
 |cli_version             | If the action is taken via python SDK, this will contain the version
-|actor_ip                | IP Address of the logges in user.
+|actor_ip                | IP address of the logs in user.
 |actor_email             | if present, action was taken on this actor email.
 |artifact_digest         | if present, action was taken on this artifact digest.
 |artifact_sequence_name  | if present, action was taken on this artifact sequence name.
@@ -30,22 +30,23 @@ The following table lists all the different keys that might be present on your a
 |report_name             | if present, action was taken on this report name.
 |user_email              | if present, action was taken on this user email.
 
-Personally identifiable information (PII) like email ids, project, team and report names are returned only via the endpoint, and can be turned off as [described below](#view-audit-logs).
+Personally identifiable information (PII) like email ids, project, team and report names are returned only by the endpoint, and can be turned off as [described below](#view-audit-logs).
 
 ## View audit logs
-You can view the audit logs for your Wandb server instance by following these steps:
+You can view the audit logs for your W&B server instance by following these steps:
 1. Admin users can go to `<wandb-server-url>/admin/audit_logs`
 2. Pass in the following URL parameters:
     - `numDays` : logs will be fetch starting from `today - numdays` to most recent; defaults to `0`
     - `anonymize` : if set to `true`, remove any PII; defaults to `false`
 
-If you get an authentication error, please note that only wandb server admins are allowed too request this information. The response contains new-line separated JSON objects. Objects will have fields described in the schema.
-You may also want to view all the historical audit logs, these are stored in the storage bucket that backs your W&B Server installation. To do so, please:
+Note that only W&B server admins are allowed to request this information. If you are not an admin you will an authentication error. The response contains new-line separated JSON objects. Objects will have fields described in the schema.
+
+All historical audit logs are stored in the storage bucket that backs your W&B Server installation. One file is uploaded per day. The files contain new-line separated JSON objects. These logs have the same format as the ones returned by the end points, except that they do not contain any PII for security reasons.
+
+You can view your historical audit logs by completing the following steps:
 
 1. Navigate to your `/wandb-audit-logs` directory in your bucket.
 2. Download the files for the period you are interested in.
-
-One file is uploaded per day. The files contain new-line separated JSON objects. These logs have the same format as the ones returned by the end points, except that they do not contain any PII for security reasons.
 
 
 ## Actions
