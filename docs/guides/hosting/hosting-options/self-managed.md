@@ -86,6 +86,7 @@ The following CORS policy needs to be applied to the S3 Bucket.
     <AllowedOrigin>http://YOUR-W&B-SERVER-IP</AllowedOrigin>
     <AllowedMethod>GET</AllowedMethod>
     <AllowedMethod>PUT</AllowedMethod>
+    <AllowedMethod>HEAD</AllowedMethod>
     <AllowedHeader>*</AllowedHeader>
 </CORSRule>
 </CORSConfiguration>
