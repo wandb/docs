@@ -112,7 +112,8 @@ You can use the following code to retrieve the artifacts associated with the bes
 api = wandb.Api()
 sweep = api.sweep("entity/project/sweep_id")
 runs = sorted(sweep.runs,
-              key=lambda run: run.summary.get("val_acc", 0), reverse=True)
+              key=lambda run: run.summary.get("val_acc", 0), 
+              reverse=True)
 best_run = runs[0]
 for artifact in best_run.logged_artifacts():
   artifact_path = artifact.download()

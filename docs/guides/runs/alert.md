@@ -10,16 +10,18 @@ displayed_sidebar: default
 </head>
 
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/alerts-colab)
+[**Try in a Colab Notebook here →**](http://wandb.me/alerts-colab)
 
 With W&B Alerts you can be notified via Slack or email if your W&B Run has crashed or whether a custom trigger, such as your loss going to NaN or a step in your ML pipeline has completed, has been reached. W&B Alerts apply all projects where you launch runs, including both personal and Team projects.
 
 You can set an alert like this:
 
 ```python
+text = f"Accuracy {acc} is below acceptable threshold {thresh}"
+
 wandb.alert(
     title="Low accuracy", 
-    text=f"Accuracy {acc} is below the acceptable threshold {thresh}"
+    text=text
 )
 ```
 
@@ -32,8 +34,9 @@ And then see W&B Alerts messages in Slack (or your email):
 :::info
 Please note that these following steps are to turn on alerts in public cloud _only_.
 
-If you're using [W&B Server](../hosting/intro.md) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation](https://docs.wandb.ai/guides/hosting/setup/configuration#slack) to setup Slack alerts.
+If you're using [W&B Server](../hosting/intro.md) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation](../hosting/slack-alerts.md) to setup Slack alerts.
 :::
+
 
 There are 2 steps to follow the first time you'd like to send a Slack or email alert, triggered from your code:
 

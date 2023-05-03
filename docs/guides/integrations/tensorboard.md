@@ -8,7 +8,7 @@ displayed_sidebar: default
 
 With Weight & Biases you can easily upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
 
-**Get started now in with this Notebook:** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard\_and\_Weights\_and\_Biases.ipynb)
+**Get started now in with this Notebook:** [**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard\_and\_Weights\_and\_Biases.ipynb)
 
 
 ![](/images/integrations/tensorboard_oneline_code.webp)
@@ -28,7 +28,7 @@ wandb.init(project='my-project', sync_tensorboard=True)
 wandb.finish()
 ```
 
-[**See here for an example of Tensorboard hosted in Weights & Biases**](https://wandb.ai/morgan/tensorboard\_demo/runs/1grhu7uq/tensorboard)
+[**See here for an example of Tensorboard hosted in Weights & Biases**](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard)
 
 Once your wandb run finishes, your TensorBoard event files will then be uploaded to Weights & Biases. These metrics will **also be logged** in native Weights & Biases charts along with a host of useful information such as your machines CPU or GPU utilization, the git state, the terminal command used, and much more.
 

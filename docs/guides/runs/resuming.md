@@ -31,7 +31,9 @@ wandb.init(project="preemptible", resume=True)
 
 if wandb.run.resumed:
     # restore the best model
-    model = keras.models.load_model(wandb.restore("model-best.h5").name)
+    model = keras.models.load_model(
+        wandb.restore("model-best.h5").name
+        )
 else:
     a = keras.layers.Input(shape=(32,))
     b = keras.layers.Dense(10)(a)

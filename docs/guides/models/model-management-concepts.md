@@ -3,7 +3,7 @@ description: 'Model Management: Data Model & Terminology'
 displayed_sidebar: default
 ---
 
-# Model Management Concepts
+# Concepts
 
 <head>
   <title>Model Management Concepts</title>

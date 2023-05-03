@@ -47,7 +47,10 @@ Replace the string arguments in the preceding code snippet with your own name an
 Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the [`add_file`](https://docs.wandb.ai/ref/python/artifact#add\_file) method:
 
 ```python
-artifact.add_file(local_path='hello_world.txt', name='optional-name')
+artifact.add_file(
+    local_path='hello_world.txt', 
+    name='optional-name'
+    )    
 ```
 
 You can also add multiple files with the [`add_dir`](https://docs.wandb.ai/ref/python/artifact#add\_dir) method. For more information on how to add files, see [Update an artifact](https://docs.wandb.ai/guides/artifacts/update-an-artifact).
@@ -58,7 +61,10 @@ Finally, save your artifact to the Weights & Biases server. Artifacts are associ
 
 ```python
 # Create a W&B Run. Replace 'job-type'.
-run = wandb.init(project="artifacts-example", job_type='job-type')
+run = wandb.init(
+    project="artifacts-example", 
+    job_type='job-type'
+    )    
 
 run.log_artifact(artifact)
 ```
@@ -120,7 +126,10 @@ file.txt
 Optionally, pass the desired path within the artifact for the `name` parameter.
 
 ```python
-artifact.add_file('path/file.format', name='new/path/file.format') 
+artifact.add_file(
+    local_path='path/file.format', 
+    name='new/path/file.format'
+    )     
 ```
 
 The artifact is stored as:
@@ -141,7 +150,10 @@ The proceeding code snippet demonstrates how to add an entire, local directory t
 
 ```python
 # Recursively add a directory
-artifact.add_dir(local_path='path/file.format', name='optional-prefix')
+artifact.add_dir(
+    local_path='path/file.format', 
+    name='optional-prefix'
+    )
 ```
 
 The proceeding API calls produce the proceeding artifact content:
@@ -210,14 +222,17 @@ def train(i):
   Our writer job. Each writer will add one image to the artifact.
   """
   with wandb.init(group=group_name) as run:
-    artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
-    
+    artifact = wandb.Artifact(
+        name=artifact_name, 
+        type=artifact_type
+        )       
+        
     # Add data to a wandb table. In this case we use example data
     table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
-    
+
     # Add the table to folder in the artifact
     artifact.add(table, "{}/table_{}".format(parts_path, i))
-    
+
     # Upserting the artifact creates or appends data to the artifact
     run.upsert_artifact(artifact)
   
@@ -231,11 +246,17 @@ ray.get(result_ids)
 # Once all the writers are finished, finish the artifact
 # to mark it ready.
 with wandb.init(group=group_name) as run:
-  artifact = wandb.Artifact(artifact_name, type=artifact_type)
+  artifact = wandb.Artifact(
+    artifact_name, 
+    type=artifact_type
+    )
   
   # Create a "PartitionTable" pointing to the folder of tables
   # and add it to the artifact.
-  artifact.add(wandb.data_types.PartitionedTable(parts_path), table_name)
+  artifact.add(
+    wandb.data_types.PartitionedTable(parts_path), 
+    table_name
+    )
   
   # Finish artifact finalizes the artifact, disallowing future "upserts"
   # to this version.

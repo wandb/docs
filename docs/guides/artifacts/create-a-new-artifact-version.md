@@ -59,7 +59,10 @@ with wandb.init() as run:
     # Add Files and Assets to the artifact using 
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image1.png")
-    run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
+    run.upsert_artifact(
+        artifact, 
+        distributed_id="my_dist_artifact"
+        )     
 ```
 
 #### Run 2:
@@ -70,7 +73,10 @@ with wandb.init() as run:
     # Add Files and Assets to the artifact using 
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image2.png")
-    run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
+    run.upsert_artifact(
+        artifact, 
+        distributed_id="my_dist_artifact"
+        )
 ```
 
 #### Run 3
@@ -83,5 +89,8 @@ with wandb.init() as run:
     # Add Files and Assets to the artifact  
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image3.png")
-    run.finish_artifact(artifact, distributed_id="my_dist_artifact")
+    run.finish_artifact(
+        artifact, 
+        distributed_id="my_dist_artifact"
+        )
 ```

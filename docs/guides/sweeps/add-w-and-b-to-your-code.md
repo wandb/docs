@@ -39,8 +39,8 @@ config = {
 }
 
 def main():
-    # Note that we define values from `wandb.config` instead of 
-    # defining hard values
+    # Note that we define values from `wandb.config` 
+    # instead of defining hard values
     lr = config['lr']
     bs = config['bs']
     epochs = config['epochs']
@@ -100,10 +100,16 @@ sweep_configuration = {
      }
 }
 
-# Initialize sweep by passing in config. (Optional) Provide a name of the project.
-sweep_id = wandb.sweep(sweep=sweep_configuration, project='my-first-sweep')
+# Initialize sweep by passing in config. 
+# (Optional) Provide a name of the project.
+sweep_id = wandb.sweep(
+  sweep=sweep_configuration, 
+  project='my-first-sweep'
+  )
 
-# Define training function that takes in hyperparameter values from `wandb.config` and uses them to train a model and return metric
+# Define training function that takes in hyperparameter 
+# values from `wandb.config` and uses them to train a 
+# model and return metric
 def train_one_epoch(epoch, lr, bs): 
   acc = 0.25 + ((epoch/30) +  (random.random()/10))
   loss = 0.2 + (1 - ((epoch-1)/10 +  random.random()/5))
@@ -117,8 +123,8 @@ def evaluate_one_epoch(epoch):
 def main():
     run = wandb.init()
 
-    # note that we define values from `wandb.config` instead 
-    # of defining hard values
+    # note that we define values from `wandb.config`  
+    # instead of defining hard values
     lr  =  wandb.config.lr
     bs = wandb.config.batch_size
     epochs = wandb.config.epochs
@@ -197,8 +203,8 @@ def main():
     
     run = wandb.init(config=config)
 
-    # Note that we define values from `wandb.config` instead of 
-    # defining hard values
+    # Note that we define values from `wandb.config` 
+    # instead of  defining hard values
     lr  =  wandb.config.lr
     bs = wandb.config.batch_size
     epochs = wandb.config.epochs

@@ -28,7 +28,10 @@ artifact.download()
 You can also apply a custom alias to an artifact version. For example, if you want to mark that model checkpoint is the best on the metric AP-50, you could add the string `'best-ap50'` as an alias when you log the model artifact.
 
 ```python
-artifact = wandb.Artifact('run-3nq3ctyy-bike-model', type='model')
+artifact = wandb.Artifact(
+    'run-3nq3ctyy-bike-model', 
+    type='model'
+    )  
 artifact.add_file('model.h5')
 run.log_artifact(artifact, aliases=['latest','best-ap50'])
 ```

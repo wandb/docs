@@ -37,11 +37,15 @@ iris_table = wandb.Table(dataframe=new_iris_dataframe)
 3. Next, create a W&B Artifact and add the table to the Artifact:
 
 ```python
-# Add the table to an Artifact to increase the row limit to 200000 and make it easier to reuse!
-iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
+# Add the table to an Artifact to increase the row 
+# limit to 200000 and make it easier to reuse
+iris_table_artifact = wandb.Artifact(
+    "iris_artifact", 
+    type="dataset"
+    )        
 iris_table_artifact.add(iris_table, "iris_table")
 
-# We will also log the raw csv file within an artifact to preserve our data
+# Log the raw csv file within an artifact to preserve our data
 iris_table_artifact.add_file("iris.csv")
 ```
 For more information about W&B Artifacts, see the [Artifacts chapter](../../artifacts/intro.md).  
@@ -76,11 +80,15 @@ new_iris_dataframe = pd.read_csv("iris.csv")
 # Convert the DataFrame into a W&B Table
 iris_table = wandb.Table(dataframe=new_iris_dataframe)
 
-# Add the table to an Artifact to increase the row limit to 200000 and make it easier to reuse!
-iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
+# Add the table to an Artifact to increase the row 
+# limit to 200000 and make it easier to reuse
+iris_table_artifact = wandb.Artifact(
+    "iris_artifact", 
+    type="dataset"
+    )        
 iris_table_artifact.add(iris_table, "iris_table")
 
-# We will also log the raw csv file within an artifact to preserve our data
+# log the raw csv file within an artifact to preserve our data
 iris_table_artifact.add_file("iris.csv")
 
 # Start a W&B run to log data
@@ -161,7 +169,13 @@ for i, row in loaded_experiment_df.iterrows():
 2. Next,  start a new W&B Run to track and log to W&B with [`wandb.init()`](../../../ref/python/init.md):
 
 ```python
-run = wandb.init(project=PROJECT_NAME, name=run_name, tags=tags, notes=notes, config=config)
+run = wandb.init(
+    project=PROJECT_NAME, 
+    name=run_name, 
+    tags=tags, 
+    notes=notes, 
+    config=config
+    )    
 ```
 
 As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`](../../../ref/python/log.md) command to accomplish this:

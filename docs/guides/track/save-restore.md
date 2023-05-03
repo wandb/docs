@@ -34,10 +34,10 @@ See [this report](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/
 # Save a model file from the current directory
 wandb.save('model.h5')
 
-# Save all files that currently exist containing the substring "ckpt"
+# Save all files that exist containing the substring "ckpt"
 wandb.save('../logs/*ckpt*')
 
-# Save any files starting with "checkpoint" as they're written to
+# Save files starting with "checkpoint" as they're written to
 wandb.save(os.path.join(wandb.run.dir, "checkpoint*"))
 ```
 
@@ -56,7 +56,11 @@ W&B's local run directories are by default inside the `./wandb` directory relati
 You can also specify the **base\_path** argument to `wandb.save`. This would allow you to maintain a directory hierarchy, for example:
 
 ```python
-wandb.save("./results/eval/*", base_path="./results", policy="now")
+wandb.save(
+    path="./results/eval/*", 
+    base_path="./results", 
+    policy="now"
+    )    
 ```
 
 Would result in all files matching the pattern being saved in an `eval` folder instead of at the root.

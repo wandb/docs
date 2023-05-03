@@ -8,9 +8,10 @@ The Reference Docs are automatically generated from the `wandb` [wandb library](
 
 ### Reference sections
 
-1. [Command Line Interface](cli/): Use the basics of wandb from shell commands
-2. [Python Library](python/): Add `wandb` to your script to capture metrics and save artifacts
-3. [Java Library](java/): Try our beta integration with Java
+1. [Command Line Interface](cli/README.md): Use the basics of wandb from shell commands
+2. [Python Library](python/README.md): Add `wandb` to your script to capture metrics and save artifacts
+3. [Java Library](java/README.md): Try our beta integration with Java
+4. [JavaScript Library](js/README.md): Try our beta integration with JavaScript/TypeScript
 
 ### Guides and examples
 

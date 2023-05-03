@@ -46,7 +46,10 @@ Provide arrays directly when constructing images manually, e.g. using [`make_gri
 Arrays are converted to png using [Pillow](https://pillow.readthedocs.io/en/stable/index.html).
 
 ```python
-images = wandb.Image(image_array, caption="Top: Output, Bottom: Input")
+images = wandb.Image(
+    image_array, 
+    caption="Top: Output, Bottom: Input"
+    )
           
 wandb.log({"examples": images}
 ```
@@ -456,8 +459,11 @@ Weights & Biases also supports logging of a variety of other media types.
   <TabItem value="audio">
 
 ```python
-wandb.log(
-  {"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
+wandb.log({
+    "whale songs": wandb.Audio(
+        np_array, 
+        caption="OooOoo", 
+        sample_rate=32)})  
 ```
 
 The maximum number of audio clips that can be logged per step is 100.
