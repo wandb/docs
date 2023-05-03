@@ -1,49 +1,33 @@
 # WandbMetricsLogger
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/metrics_logger.py#L23-L130)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/integration/keras/callbacks/metrics_logger.py#L23-L130)
-
-
-
-Logger that sends system metrics to W&B.
+W&Bにシステムメトリクスを送信するロガーです。
 
 ```python
 WandbMetricsLogger(
- log_freq: Union[LogStrategy, int] = "epoch",
- initial_global_step: int = 0,
+ ログ頻度: Union[LogStrategy, int] = "エポック",
+ 初期グローバルステップ: int = 0,
  *args,
  **kwargs
 ) -> None
 ```
 
+`WandbMetricsLogger`は、コールバックメソッドの引数として渡される`logs`辞書を自動的にwandbにログします。
 
+このコールバックは、以下の内容をW&Bのrunページに自動的にログします。
+* システム（CPU/GPU/TPU）メトリクス
+* `model.compile`で定義されたトレーニングおよび検証メトリクス
+* 学習率（固定値または学習率スケジューラの両方）
+#### ノート:
 
+`initial_epoch` を `model.fit` に渡してトレーニングを再開する場合、学習率スケジューラを使用している場合は、`WandbMetricsLogger` に `initial_global_step` を渡すことを確認してください。`initial_global_step` は、`step_size * initial_step` で、`step_size` はエポックごとのトレーニングステップ数です。`step_size`は、トレーニングデータセットのカーディナリティとバッチサイズの積として計算できます。
 
-`WandbMetricsLogger` automatically logs the `logs` dictionary that callback methods
-take as argument to wandb.
-
-This callback automatically logs the following to a W&B run page:
-* system (CPU/GPU/TPU) metrics,
-* train and validation metrics defined in `model.compile`,
-* learning rate (both for a fixed value or a learning rate scheduler)
-
-#### Notes:
-
-
-If you resume training by passing `initial_epoch` to `model.fit` and you are using a
-learning rate scheduler, make sure to pass `initial_global_step` to
-`WandbMetricsLogger`. The `initial_global_step` is `step_size * initial_step`, where
-`step_size` is number of training steps per epoch. `step_size` can be calculated as
-the product of the cardinality of the training dataset and the batch size.
-
-| Arguments | |
+| 引数 |  |
 | :--- | :--- |
-| log_freq ("epoch", "batch", or int): if "epoch", logs metrics at the end of each epoch. If "batch", logs metrics at the end of each batch. If an integer, logs metrics at the end of that many batches. Defaults to "epoch". initial_global_step (int): Use this argument to correcly log the learning rate when you resume training from some `initial_epoch`, and a learning rate scheduler is used. This can be computed as `step_size * initial_step`. Defaults to 0. |
+| log_freq ("epoch", "batch", または int): "epoch" の場合、各エポックの終わりにメトリクスをログに記録します。"batch" の場合、各バッチの終わりにメトリクスをログに記録します。整数の場合、そのバッチ数の終わりにメトリクスをログに記録します。デフォルトは "epoch" です。initial_global_step (int): トレーニングをある `initial_epoch` から再開し、学習率スケジューラが使用されている場合、学習率を正しくログに記録するためにこの引数を使用します。これは `step_size * initial_step` として計算できます。デフォルトは0です。|
 
-
-
-## Methods
+## メソッド
 
 ### `set_model`
 
@@ -52,24 +36,24 @@ the product of the cardinality of the training dataset and the batch size.
 ```python
 set_model(
  model
-)
-```
+)```
 
-
-
+以下はMarkdownのテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。他に何も言わずに。テキスト：
 
 ### `set_params`
 
 
 
+
+
+
+
 ```python
+
 set_params(
+
  params
+
 )
+
 ```
-
-
-
-
-
-

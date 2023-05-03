@@ -1,73 +1,71 @@
 ---
-description: Track your trees with W&B.
-displayed_sidebar: ja
+description: W&Bで木を追跡しましょう。
 ---
 
 # XGBoost
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://wandb.me/xgboost)
 
-The `wandb` library has a `WandbCallback` callback for logging metrics, configs and saved boosters from training with XGBoost. Here you can see a **[live Weights & Biases dashboard](https://wandb.ai/morg/credit_scorecard)** with outputs from the XGBoost `WandbCallback`.
+`wandb`ライブラリには、XGBoostでのトレーニング時にメトリクス、設定、そして保存されたブースターをログに記録するための`WandbCallback`コールバックがあります。ここでは、XGBoostの`WandbCallback`の出力が含まれる**[Weights & Biasesのライブダッシュボード](https://wandb.ai/morg/credit_scorecard)**をご覧いただけます。
 
-![Weights & Biases dashboard using XGBoost](/images/integrations/xgb_dashboard.png)
+![XGBoostを使用したWeights & Biasesダッシュボード](/images/integrations/xgb_dashboard.png)
 
-## Get Started
+## はじめに
 
-Logging XGBoost metrics, configs and booster models to Weights & Biases is as easy as passing the `WandbCallback` to XGBoost:
+Weights & BiasesへのXGBoostメトリクス、設定、およびブースターモデルのログ記録は、`WandbCallback`をXGBoostに渡すだけで簡単に行えます。
 
 ```python
 from wandb.xgboost import WandbCallback
 import xgboost as XGBClassifier
 
 ...
-# Start a wandb run
+# wandb runを開始
 run = wandb.init()
 
-# Pass WandbCallback to the model
+# WandbCallbackをモデルに渡す
 bst = XGBClassifier()
 bst.fit(X_train, y_train, 
     callbacks=[WandbCallback(log_model=True)])
 
-# Close your wandb run
+# wandb runを終了
 run.finish()
 ```
-
-You can open **[this notebook](https://wandb.me/xgboost)** for a comprehensive look at logging with XGBoost and Weights & Biases
+**[このノートブック](https://wandb.me/xgboost)** を開いて、XGBoostとWeights＆Biasesを使ったログの詳細を確認してください。
 
 ## WandbCallback
 
-### Functionality
-Passing `WandbCallback` to a XGBoost model will:
-- log the booster model configuration to Weights & Biases
-- log evaluation metrics collected by XGBoost, such as rmse, accuracy etc to Weights & Biases
-- log training metrics collected by XGBoost (if you provide data to eval_set)
-- log the best score and the best iteration
-- save and upload your trained model to to Weights & Biases Artifacts (when `log_model = True`)
-- log feature importance plot when `log_feature_importance=True` (default).
-- Capture the best eval metric in `wandb.summary` when `define_metric=True` (default).
+### 機能
+`WandbCallback`をXGBoostモデルに渡すと、次のことができます。
+- ブースターモデルの設定をWeights＆Biasesにログ
+- XGBoostによって収集される評価指標（rmse、精度など）をWeights＆Biasesにログ
+- XGBoostによって収集されるトレーニング指標をログ（eval_setにデータを提供する場合）
+- 最高スコアと最適なイテレーションをログ
+- トレーニング済みモデルをWeights＆Biases Artifactsに保存してアップロード（`log_model = True` の場合）
+- `log_feature_importance=True`（デフォルト）で特徴量重要度プロットをログ
+- `define_metric=True`（デフォルト）で、`wandb.summary` に最適なステップでのモデルのパフォーマンスを記録
 
-### Arguments
-`log_model`: (boolean) if True save and upload the model to Weights & Biases Artifacts
+### 引数
+`log_model`: (boolean) Trueの場合、モデルをWeights＆Biases Artifactsに保存してアップロード
 
-`log_feature_importance`: (boolean) if True log a feature importance bar plot
+`log_feature_importance`: (boolean) Trueの場合、特徴量重要度の棒グラフをログ
 
-`importance_type`: (str) one of {weight, gain, cover, total_gain, total_cover} for tree model. weight for linear model.
+`importance_type`: (str) 木モデルの場合、{weight, gain, cover, total_gain, total_cover} のいずれか。線形モデルの場合、weight。
 
-`define_metric`: (boolean) if True (default) capture model performance at the best step, instead of the last step, of training in your `wandb.summary`.
+`define_metric`: (boolean) True（デフォルト）の場合、トレーニングの最後のステップではなく、最適なステップでのモデルのパフォーマンスを `wandb.summary` に記録。
 
-
-You can find the source code for WandbCallback [here](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)
-
-:::info
-Looking for more working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms) or try out a [Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit\_Scorecards\_with\_XGBoost\_and\_W%26B.ipynb)
-:::
-
-## Tuning your hyperparameters with Sweeps
-
-Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps](../sweeps/), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
+WandbCallbackのソースコードは[こちら](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)で見ることができます。
 
 :::info
-To learn more about these tools and see an example of how to use Sweeps with XGBoost, check out [this interactive Colab notebook](http://wandb.me/xgb-sweeps-colab) or try this XGBoost & Sweeps [python script here](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost\_tune.py)
+動作するコード例をもっと探していますか？[GitHubの弊社リポジトリ](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)で例をチェックするか、[Colabノートブック](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit\_Scorecards\_with\_XGBoost\_and\_W%26B.ipynb)をお試しください。
+:::
+## スイープを使ったハイパーパラメータチューニング
+
+モデルの最大性能を達成するためには、ハイパーパラメーター（例: 木の深さや学習率）をチューニングする必要があります。Weights & Biasesには[Sweeps](../sweeps/)が含まれており、大規模なハイパーパラメータテスト実験の設定、制御、解析に適したパワフルなツールキットです。
+
+:::info
+
+これらのツールについて詳しく学ぶために、XGBoostとSweepsを使った例を見るには、[このインタラクティブなColabノートブック](http://wandb.me/xgb-sweeps-colab)をチェックしてみてください。また、XGBoostとSweepsの[Pythonスクリプト](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost\_tune.py)も試してみてください。
+
 :::
 
-![tl;dr: trees outperform linear learners on this classification dataset.](/images/integrations/xgboost_sweeps_example.png)
+![要約：この分類データセットでは、木が線形学習者よりも優れた性能を発揮します。](/images/integrations/xgboost_sweeps_example.png)

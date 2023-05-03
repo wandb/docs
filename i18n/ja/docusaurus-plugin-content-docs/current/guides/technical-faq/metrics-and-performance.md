@@ -1,66 +1,63 @@
----
-displayed_sidebar: ja
----
+# メトリクス & パフォーマンス
 
-# Metrics & Performance
+## メトリクス
 
-## Metrics
+### システムメトリクスはどのくらいの頻度で収集されますか？
 
-### How often are system metrics collected?
+デフォルトでは、メトリクスは2秒ごとに収集され、30秒間で平均化されます。もし、より高解像度のメトリクスが必要な場合は、[contact@wandb.com](mailto:contact@wandb.com)までメールでお問い合わせください。
 
-By default, metrics are collected every 2 seconds and averaged over a 30-second period. If you need higher resolution metrics, email us a [contact@wandb.com](mailto:contact@wandb.com).
+### コードやデータセットの例なしに、メトリクスのみをログに残すことはできますか？
 
-### Can I just log metrics, no code or dataset examples?
+**データセットの例**
 
-**Dataset Examples**
+デフォルトでは、データセットの例はログに残さないようになっています。ウェブインターフェースでの例の予測を確認するために、この機能を明示的にオンにすることができます。
 
-By default, we don't log any of your dataset examples. You can explicitly turn this feature on to see example predictions in our web interface.
+**コードのログ**
 
-**Code Logging**
+コードのログをオフにするには2つの方法があります:
 
-There are two ways to turn off code logging:
+1. `WANDB_DISABLE_CODE` を `true` に設定して、すべてのコードトラッキングをオフにします。これにより、git SHA や diff パッチを拾わなくなります。
+2. `WANDB_IGNORE_GLOBS` を `*.patch` に設定し、diff パッチの同期をサーバーにオフにします。これにより、ローカルでパッチを保持しつつ、[wandb restore](../track/save-restore.md) コマンドで適用することができます。
 
-1. Set `WANDB_DISABLE_CODE` to `true` to turn off all code tracking. We won't pick up the git SHA or the diff patch.
-2. Set `WANDB_IGNORE_GLOBS` to `*.patch` to turn off syncing the diff patch to our servers. You'll still have it locally and be able to apply it with the [wandb restore](../track/save-restore.md) command.
+### 2つの異なる時間スケールでメトリクスをログに残すことはできますか？（例えば、バッチごとのトレーニング精度とエポックごとの検証精度をログに残したい）
 
-### Can I log metrics on two different time scales? (For example, I want to log training accuracy per batch and validation accuracy per epoch.)
-
-Yes, you can do this by logging your indices (e.g. `batch` and `epoch`) whenever you log your other metrics. So in one step you could call `wandb.log({'train_accuracy': 0.9, 'batch': 200})` and in another step call `wandb.log({'val_accuracy': 0.8, 'epoch': 4})`. Then, in the UI, you can set the appropriate value as the x-axis for each chart. If you want to set the default x-axis of a particular index you can do so using by using [Run.define\_metric()](https://docs.wandb.ai/ref/python/run#define\_metric). In our above example we could do the following:
+はい、ログに残すメトリクスと一緒にインデックス（例： `batch` や `epoch`）をログに残すことでこれを実現できます。1つのステップでは `wandb.log({'train_accuracy': 0.9, 'batch': 200})` を呼び出し、別のステップでは `wandb.log({'val_accuracy': 0.8, 'epoch': 4})` を呼び出すことができます。その後、UIで各チャートのx軸に適切な値を設定できます。特定のインデックスのデフォルトのx軸を設定したい場合は、[Run.define\_metric()](https://docs.wandb.ai/ref/python/run#define\_metric) を使って行うことができます。上記の例では、次のようにします：
 
 ```python
 wandb.init()
 
 wandb.define_metric("batch")
 wandb.define_metric("epoch")
+以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳して、それ以外のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
+```python
 wandb.define_metric("train_accuracy", step_metric="batch")
 wandb.define_metric("val_accuracy", step_metric="epoch")
 ```
 
-### How can I log a metric that doesn't change over time such as a final evaluation accuracy?
+### 時間とともに変化しないメトリック（最終評価精度など）はどのようにしてログに記録できますか？
 
-Using `wandb.log({'final_accuracy': 0.9}` will work fine for this. By default `wandb.log({'final_accuracy'})` will update `wandb.settings['final_accuracy']`, which is the value shown in the runs table.
+`wandb.log({'final_accuracy': 0.9}` を使用すればこれが可能です。デフォルトでは、`wandb.log({'final_accuracy'})` は `wandb.settings['final_accuracy']` を更新します。これは、runs tableに表示される値です。
 
-### How can I log additional metrics after a run completes?
+### runが完了した後に追加のメトリックをログに記録する方法は？
 
-There are several ways to do this.
+これを行うためのいくつかの方法があります。
 
-For complicated workflows, we recommend using multiple runs and setting group parameters in [`wandb.init`](../track/launch.md) to a unique value in all the processes that are run as part of a single experiment. The [runs table](../app/pages/run-page.md) will automatically group the table by the group ID and the visualizations will behave as expected. This will allow you to run multiple experiments and training runs as separate processes log all the results into a single place.
+複雑なワークフローの場合、複数のrunを使用して [`wandb.init`](../track/launch.md) 内のgroupパラメータを、1つの実験として実行されるすべてのプロセスで一意の値に設定することをお勧めします。[runs table](../app/pages/run-page.md)は、グループIDでテーブルを自動的にグループ化し、視覚化は期待通りの振る舞いをします。これにより、複数の実験やトレーニングrunを別々のプロセスとして実行し、結果を1か所にまとめてログに記録することができます。
 
-For simpler workflows, you can call `wandb.init` with `resume=True` and `id=UNIQUE_ID` and then later call `wandb.init` with the same `id=UNIQUE_ID`. Then you can log normally with [`wandb.log`](../track/log/intro.md) or `wandb.summary` and the runs values will update.
+シンプルなワークフローの場合は、`resume=True` および `id=UNIQUE_ID` を指定して `wandb.init` を呼び出し、その後同じ `id=UNIQUE_ID` で `wandb.init` を呼び出すことができます。次に、[`wandb.log`](../track/log/intro.md) または `wandb.summary` を使用して通常通りログに記録し、runsの値が更新されます。
 
-At any point, you can always use the [API](https://docs.wandb.ai/library/public-api-guide#update-metrics-for-a-run-after-the-run-has-finished) to add additional evaluation metrics.
+いつでも、[API](https://docs.wandb.ai/library/public-api-guide#update-metrics-for-a-run-after-the-run-has-finished) を使って追加の評価メトリクスを追加することができます。
 
-## Performance
+## パフォーマンス
 
-### Will wandb slow down my training?
+### wandbはトレーニングを遅くするか？
 
-Wandb should have a negligible effect on your training performance if you use it normally. Normal use of wandb means logging less than once a second and logging less than a few megabytes of data at each step. Wandb runs in a separate process and the function calls don't block, so if the network goes down briefly or there are intermittent read write issues on disk it should not affect your performance. It is possible to log a huge amount of data quickly, and if you do that you might create disk I/O issues. If you have any questions, please don't hesitate to contact us.
+wandbは、通常の使用法であれば、トレーニングのパフォーマンスにほとんど影響を与えません。wandbの通常の使用法とは、1秒に1回未満の頻度でログを記録し、各ステップで数メガバイト未満のデータをログに記録することを意味します。wandbは別のプロセスで実行され、関数呼び出しがブロックされないため、ネットワークが一時的にダウンしたり、ディスク上で断続的な読み書きの問題が発生したりしても、パフォーマンスに影響しません。ただし、短時間で大量のデータをログに記録することができますが、その場合はディスクI/Oの問題が発生することがあります。ご質問があれば、どうぞお気軽にお問い合わせください。
 
-### How many runs to create per project?
+### プロジェクトごとに作成するrunの数は？
 
-We recommend you have roughly 10k runs per project max for performance reasons.
+パフォーマンス上の理由から、プロジェクトごとに最大で約10kのrunを作成することをお勧めします。
 
-### Best practices to organize hyperparameter searches
-
-If 10k runs per project (approx.) is a reasonable limit then our recommendation would be to set tags in `wandb.init()` and have a unique tag for each search. This means that you'll easily be able to filter the project down to a given search by clicking that tag in the Project Page in the Runs Table. For example `wandb.init(tags='your_tag')`  docs for this can be found [here](../../ref/python/init.md).
+### ハイパーパラメータ検索を整理するためのベストプラクティス
+プロジェクトごとに1万回のrun（概算）が適切な限界であれば、`wandb.init()`でタグを設定し、各検索に対して一意のタグを持たせることをお勧めします。これにより、プロジェクトページのRunsテーブルでそのタグをクリックすることで、特定の検索に絞り込むことが簡単にできます。例えば、`wandb.init(tags='your_tag')`  このドキュメントは[こちら](../../ref/python/init.md)で見つけることができます。

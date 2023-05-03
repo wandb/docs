@@ -1,16 +1,15 @@
-# wandb online
+# wandbオンライン
 
-**Usage**
+**使い方**
 
-`wandb online [OPTIONS]`
+`wandb online [オプション]`
 
-**Summary**
+**概要**
 
-Enable W&B sync
+W&B syncを有効にする
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| --help | Show this message and exit. |
-
+| --help | このメッセージを表示して終了します。 |

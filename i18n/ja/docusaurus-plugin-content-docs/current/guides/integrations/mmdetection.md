@@ -1,7 +1,3 @@
----
-displayed_sidebar: ja
----
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -9,35 +5,36 @@ import TabItem from '@theme/TabItem';
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/wandb/examples/blob/master/colabs/mmdetection/Train\_an\_Object\_Detection%2BSemantic\_Segmentation\_Model\_with\_MMDetection\_and\_W%26B.ipynb)
 
-[MMDetection](https://github.com/open-mmlab/mmdetection/) is an open source object detection toolbox based on PyTorch and is part of the [OpenMMLab](https://openmmlab.com/). It offers composable and modular API design which you can use to easily build custom object detection and segmentation pipelines.
+[MMDetection](https://github.com/open-mmlab/mmdetection/)は、PyTorchに基づくオープンソースのオブジェクト検出ツールボックスであり、[OpenMMLab](https://openmmlab.com/)の一部です。組み立てやすいモジュール式のAPIデザインを提供しており、カスタムオブジェクト検出やセグメンテーション開発フローを簡単に構築することができます。
 
-[Weights and Biases](https://wandb.ai/site) is directly integrated into MMDetection through a dedicated `MMDetWandbHook` that can be used to:
+[Weights and Biases](https://wandb.ai/site)は、MMDetectionに専用の`MMDetWandbHook`を介して直接統合されており、次のことができます。
 
-✅ Log training and evaluation metrics.
+✅ トレーニングと評価のメトリクスをロギングする。
 
-✅ Log versioned model checkpoints.
+✅ バージョン管理されたモデルのチェックポイントをロギングする。
 
-✅ Log versioned validation dataset with ground truth bounding boxes.
+✅ バージョン管理された検証データセットと正解のバウンディングボックスをロギングする。
 
-✅ Log and visualize model predictions.
+✅ モデル予測のロギングと可視化。
 
-## :fire: Getting Started
+## :fire: はじめに
 
-### Sign up and Log in to wandb
+### wandbにサインアップしてログインする
 
-a) [**Sign up**](https://wandb.ai/site) for a free account
+a) [**無料アカウントのサインアップ**](https://wandb.ai/site)
 
-b) Pip install the `wandb` library
+b) `wandb` ライブラリをpipでインストール
 
-c) To login in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+c) トレーニングスクリプトでログインするには、www.wandb.aiでアカウントにサインインして、[**Authorizeページ**](https://wandb.ai/authorize)で**APIキーを見つけます。**
 
-If you are using Weights and Biases for the first time you might want to check out our [quickstart](../../quickstart.md)
+もし、Weights and Biasesを初めて使う場合は、[クイックスタート](../../quickstart.md)をチェックしてみてください。
+翻訳後のMarkdownテキストは以下の通りです。
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
+    {label: 'コマンドライン', value: 'cli'},
+    {label: 'ノートブック', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -59,12 +56,11 @@ wandb.login()
   </TabItem>
 </Tabs>
 
-### Using `MMDetWandbHook`
+### `MMDetWandbHook`を使う方法
 
-You can get started with Weights and Biases by adding the `MMDetWandbHook` to the MMDetection `log_config` method of the config system.
-
+Weights and Biasesを使い始めるには、MMDetectionの`log_config`メソッドに`MMDetWandbHook`を追加して、設定システムを利用します。
 :::info
-`MMDetWandbHook` is supported by [MMDetection v2.25.0](https://twitter.com/OpenMMLab/status/1532193548283432960?s=20\&t=dzBiKn9dlNdrvK8e\_q0zfQ) and above.
+`MMDetWandbHook`は、[MMDetection v2.25.0](https://twitter.com/OpenMMLab/status/1532193548283432960?s=20&t=dzBiKn9dlNdrvK8e_q0zfQ)以降でサポートされています。
 :::
 
 ```python
@@ -87,16 +83,15 @@ cfg.log_config.hooks = [
 
 | Name                      | Description                                                                                                                                                             |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `init_kwargs`             | (`dict`) A dict passed to wandb.init to initialize a W&B run.                                                                                                          |
-| `interval`                | (`int`) Logging interval (every k iterations). Defaults to `50`.                                                                                                        |
-| `log_checkpoint`          | (`bool`) Save the checkpoint at every checkpoint interval as W&B Artifacts. Use this for model versioning where each version is a checkpoint. Defaults to `False`.     |
-| `log_checkpoint_metadata` | (`bool`) Log the evaluation metrics computed on the validation data with the checkpoint, along with current epoch as a metadata to that checkpoint. Defaults to `True`. |
-| `num_eval_images`         | (`int`) The number of validation images to be logged. If zero, the evaluation won't be logged. Defaults to `100`.                                                       |
-| `bbox_score_thr`          | (`float`) Threshold for bounding box scores. Defaults to `0.3`.                                                                                                         |
+| `init_kwargs`             | (`dict`) W&B runを初期化するためにwandb.initに渡される辞書。                                                                                                          |
+| `interval`                | (`int`) ロギング間隔（k回のイテレーションごと）。デフォルトは`50`。                                                                                                        |
+| `log_checkpoint`          | (`bool`) チェックポイント間隔ごとにチェックポイントをW&Bアーティファクトとして保存します。各バージョンがチェックポイントであるモデルバージョニングに使用してください。デフォルトは`False`。     |
+| `log_checkpoint_metadata` | (`bool`) 検証データで計算された評価メトリクスを、現在のエポックと共に、そのチェックポイントのメタデータとしてログします。デフォルトは `True`。 |
+| `num_eval_images`         | (`int`) ログされる検証画像の数。ゼロの場合、評価はログされません。デフォルトは `100`。                                                       |
+| `bbox_score_thr`          | (`float`) バウンディングボックススコアの閾値。デフォルトは `0.3`。                                                                                                         |
+### :chart\_with\_upwards\_trend: メトリクスのログ
 
-### :chart\_with\_upwards\_trend: Log Metrics
-
-Start tracking train and eval metrics by using the `init_kwargs` argument in `MMDetWandbHook`. This argument takes in a dictionary of key-value pairs which in turn is passed to `wandb.init` which controls which project your run is logged to as well as other features of your run.
+`MMDetWandbHook`の`init_kwargs`引数を使って、トレーニングと評価のメトリクスのトラッキングを開始します。この引数は、キーと値のペアを持つディクショナリを受け取り、これが`wandb.init`に渡されて、runがどのプロジェクトにログされるかやその他のrunの機能を制御します。
 
 ```
 init_kwargs={
@@ -107,44 +102,43 @@ init_kwargs={
 }
 ```
 
-Check out all the arguments for wandb.init [here](https://docs.wandb.ai/ref/python/init)
+wandb.initの全ての引数については、[こちら](https://docs.wandb.ai/ref/python/init)をご覧ください。
 
 ![](@site/static/images/integrations/log_metrics.gif)
 
-### :checkered\_flag: Checkpointing
+### :checkered\_flag: チェックポイント
 
-You can reliably store these checkpoints as [W&B Artifacts](../artifacts/intro.md) by using the `log_checkpoint=True` argument in `MMDetWandbHook`. This feature depends on the MMCV's [`CheckpointHook`](https://mmcv.readthedocs.io/en/latest/api.html?highlight=CheckpointHook#mmcv.runner.CheckpointHook) that periodically save the model checkpoints. The period is determined by `checkpoint_config.interval`.
+`MMDetWandbHook`の`log_checkpoint=True`引数を使って、これらのチェックポイントを[W&B Artifacts](../artifacts/intro.md)として確実に保存できます。この機能は、MMCVの[`CheckpointHook`](https://mmcv.readthedocs.io/en/latest/api.html?highlight=CheckpointHook#mmcv.runner.CheckpointHook)に依存しており、チェックポイントのモデルを定期的に保存します。期間は`checkpoint_config.interval`で決定されます。
 
 :::info
-Every W&B account comes with 100 GB of free storage for datasets and models.
+すべてのW&Bアカウントには、データセットとモデル用に100 GBの無料ストレージが付属しています。
 :::
 
-![The checkpoints are shown as different versions on the left-hand side pane. You can download the model from the Files tab or use API to download it programmatically.](/images/integrations/mmdetection_checkpointing.png)
+![チェックポイントが左側のペインに異なるバージョンとして表示されます。ファイルタブからモデルをダウンロードするか、APIを使ってプログラムでダウンロードできます。](/images/integrations/mmdetection_checkpointing.png)
 
-### :mega: Checkpoint with Metadata
+### :mega: メタデータ付きチェックポイント
 
-If `log_checkpoint_metadata` is `True`, every checkpoint version will have metadata associated with it. This feature depends on the `CheckpointHook` as well as `EvalHook` or `DistEvalHook`. The metadata is logged only when the checkpoint interval is divisible by evaluation interval.
+`log_checkpoint_metadata`が`True`の場合、すべてのチェックポイントバージョンには、関連するメタデータが付いています。この機能は、`CheckpointHook`、`EvalHook`、または`DistEvalHook`に依存します。メタデータは、チェックポイント間隔が評価間隔で割り切れる場合にのみログされます。
+![メタデータタブの下に表示されるログされたメタデータ。](@site/static/images/integrations/mmdetection_checkpoint_metadata.png)
 
-![The logged metadata is displayed under the Metadata tab.](@site/static/images/integrations/mmdetection_checkpoint_metadata.png)
+### データセットとモデル予測の可視化
 
-### Visualize Dataset and Model Prediction 
+データセットや特にモデル予測をインタラクティブに可視化する能力は、より良いモデルの構築やデバッグに役立ちます。`MMDetWandbHook`を使用することで、W&B Tablesで検証データをログし、モデル予測のバージョン管理されたW&B Tablesを作成できるようになります。
 
-The ability to interactively visualize the dataset and especially the model prediction can help build and debug better models. Using `MMDetWandbHook` you can now log the validation data as W&B Tables and create versioned W&B Tables for model prediction.
+`num_eval_images`引数は、W&B Tablesとしてログされる検証サンプルの数を制御します。以下の点に注意してください。
 
-The `num_eval_images` argument controls the number of validation samples that are logged as W&B Tables. Here are a few things to note:
-
-* If the `num_eval_images=0` the validation data, as well as model predictions, will not be logged.
-* If `validate=False` for [`mmdet.core.train_detector`](https://mmdetection.readthedocs.io/en/latest/\_modules/mmdet/apis/train.html?highlight=train\_detector) API, the validation data and model predictions will not be logged.
-* If the `num_eval_images` is greater than the total number of validation samples, the complete validation dataset is logged.
+* `num_eval_images=0`の場合、検証データおよびモデル予測はログされません。
+* [`mmdet.core.train_detector`](https://mmdetection.readthedocs.io/en/latest/\_modules/mmdet/apis/train.html?highlight=train\_detector) APIの`validate=False`の場合、検証データおよびモデル予測はログされません。
+* `num_eval_images`が検証サンプルの総数よりも大きい場合、完全な検証データセットがログされます。
 
 <!-- ![](/images/integrations/mmdetection_visualize.gif) -->
 
 :::info
-The `val_data` is uploaded only once. The `run_<id>_pred`table and subsequent runs use referencing to the uploaded data to save memory. A new version of `val_data` is created only when it's changed.
+`val_data`は一度だけアップロードされます。`run_<id>_pred`テーブルおよびその後の実行は、アップロードされたデータへの参照を使用してメモリを節約します。`val_data`の新しいバージョンは、変更された場合にのみ作成されます。
 :::
 
-## Next Steps
+## 次のステップ
 
-If you want to train an instance segmentation model (Mask R-CNN) on a custom dataset, you can check out our [How to Use Weights & Biases with MMDetection](https://wandb.ai/ayush-thakur/mmdetection/reports/How-to-Use-Weights-Biases-with-MMDetection--VmlldzoyMTM0MDE2) W&B Report on [Fully Connected](https://wandb.ai/fully-connected).
+カスタムデータセットでインスタンスセグメンテーションモデル（Mask R-CNN）をトレーニングしたい場合は、[MMDetectionとWeights & Biasesを使った方法](https://wandb.ai/ayush-thakur/mmdetection/reports/How-to-Use-Weights-Biases-with-MMDetection--VmlldzoyMTM0MDE2) のW&Bレポートを[Fully Connected](https://wandb.ai/fully-connected)でチェックしてください。
 
-Any questions or issues about this Weights & Biases integration? Open an issue in the [MMDetection github repository](https://github.com/open-mmlab/mmdetection) and we'll catch it and get you an answer :)
+Weights & Biasesとの統合に関する質問や問題はありますか？[MMDetection githubリポジトリ](https://github.com/open-mmlab/mmdetection)にイシューをオープンしていただければ、対応して回答を提供いたします。:)

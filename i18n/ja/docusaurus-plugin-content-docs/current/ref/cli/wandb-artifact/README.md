@@ -1,24 +1,24 @@
-# wandb artifact
+# wandbアーティファクト
 
-**Usage**
+**使い方**
 
 `wandb artifact [OPTIONS] COMMAND [ARGS]...`
 
-**Summary**
+**概要**
 
-Commands for interacting with artifacts
+アーティファクトとやり取りするためのコマンド
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| --help | Show this message and exit. |
+| --help | このメッセージを表示して終了します |
 
-**Commands**
+**コマンド**
 
-| **Command** | **Description** |
+| **コマンド** | **説明** |
 | :--- | :--- |
-| cache | Commands for interacting with the artifact cache |
-| get | Download an artifact from wandb |
-| ls | List all artifacts in a wandb project |
-| put | Upload an artifact to wandb |
+| cache | アーティファクトキャッシュとのやり取り用のコマンド |
+| get | wandbからアーティファクトをダウンロード |
+| ls | wandbプロジェクト内のすべてのアーティファクトをリストする |
+| put | wandbにアーティファクトをアップロード |

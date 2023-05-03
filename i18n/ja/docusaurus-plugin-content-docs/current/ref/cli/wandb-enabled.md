@@ -1,17 +1,16 @@
-# wandb enabled
+# wandb有効化
 
-**Usage**
+**使い方**
 
-`wandb enabled [OPTIONS]`
+`wandb enabled [オプション]`
 
-**Summary**
+**概要**
 
-Enable W&B.
+W&Bを有効にします。
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| --service | Enable W&B service  [default: True] |
-| --help | Show this message and exit. |
-
+| --service | W&B サービスを有効にする [デフォルト: True] |
+| --help | このメッセージを表示して終了します。 |

@@ -1,40 +1,38 @@
 ---
-description: 'Model Management: Data Model & Terminology'
-displayed_sidebar: ja
+description: 'モデル管理: データモデルと用語'
 ---
 
-# Model Management Concepts
+# 概念
 
 <head>
-  <title>Model Management Concepts</title>
+  <title>モデル管理の概念</title>
 </head>
 
-First, let's define the data model & terminology used throughout this guide:
+まず、このガイド全体で使用されるデータモデルと用語を定義しましょう。
 
-* **Model Version:** a package of data & metadata describing a trained model.
-* **Model Artifact:** a sequence of logged Model Versions - often tracking the progress of training.
-* **Registered Model:** a selection of linked Model Versions - often representing all the candidate models for a single modeling use case or task
+* **モデルバージョン:** トレーニングされたモデルを記述するデータとメタデータのパッケージ。
+* **モデルアーティファクト:** モデルバージョンのログを追跡したシーケンス - トレーニングの進行状況を追跡することがよくあります。
+* **登録済みモデル:** 関連するモデルバージョンの選択 - 関連するモデルバージョンの選択 - 一般的には、単一のモデリング用途やタスクに対するすべての候補モデルを表すものです。
 
 :::info
-A Model Version will always belong to one and only one Model Artifact, yet may belong to zero or more Registered Models.
+モデルバージョンは、必ず1つのモデルアーティファクトに帰属し、0または複数の登録済みモデルに帰属する場合があります。
 :::
 
 :::tip
-For those familiar with W&B Artifacts: a Model is exactly an Artifact with `type="model"`, a Model Version is an Artifact Version belonging to such an Artifact, and a Registered Model is an Artifact Collection of `type="model"`.
+W&B Artifactsに詳しい方へ: モデルは、`type="model"`のArtifactsそのものであり、モデルバージョンはそのようなArtifactsに属するArtifactsバージョンであり、登録済みモデルは`type="model"`のArtifactsコレクションです。
 :::
 
-In W&B a **Model Version** is an immutable directory of data; it is up to you to decide what files & formats are appropriate to store (and restore) your model architecture & learned parameters. Typically you will want to store whatever files are produced from the serialization process provided by your modeling library (eg [PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) & [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)).
+W&Bでは、**モデルバージョン**はデータの不変ディレクトリです。モデルアーキテクチャと学習済みパラメータを保存（および復元）するために、どのファイルとフォーマットが適切かを決定することができます。通常、モデリングライブラリ（例：[PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) や [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)）が提供するシリアライズプロセスから生成されるファイルを保存することをお勧めします。
 
-Furthermore, a **Model Artifact** is a sequence of Model Versions. Model Artifact can **alias** specific versions so that downstream consumers can pin to such aliases. It is extremely common for a W&B Run to produce many versions of a model while training (periodically saving checkpoints). Using this approach, each individual model being trained by the Run corresponds to its own Model Artifact, and each checkpoint corresponds to its own Model Version of the respective Model Artifact. 
+さらに、**モデルアーティファクト**は、モデルバージョンのシーケンスです。モデルアーティファクトは特定のバージョンを**エイリアス**することができ、ダウンストリームのコンシューマーはそのようなエイリアスに固定することができます。W&B Runがトレーニング中に多数のモデルバージョンを生成することが非常に一般的であり（定期的にチェックポイントを保存します）、このアプローチを使用することで、Runによってトレーニングされる個々のモデルはそれぞれ独自のモデルアーティファクトに対応し、各チェックポイントは、それぞれのモデルアーティファクトの独自のモデルバージョンに対応します。
 
-View an [**example Model Artifact ->**](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/artifacts/model/mnist-zws7gt0n)
+[**例のモデルアーティファクトを表示 ->**](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/artifacts/model/mnist-zws7gt0n)
 
 ![](@site/static/images/models/mr1c.png)
+最後に、**登録済みモデル**は、モデルバージョンへのリンクのセットです。登録済みモデルは、モデルアーティファクトとまったく同じようにアクセスできます（`[[entityName/]/projectName]/registeredModelName:alias`で識別されますが、それは「ブックマーク」のフォルダのような振る舞いをします。登録されたモデルの「バージョン」は、同じタイプのモデルアーティファクトに属するモデルバージョンへのリンクです。モデルバージョンは、任意の数の登録済みモデルにリンクさせることができます。通常、各ユースケースやモデリングタスクに対して登録済みモデルを作成し、特別な目的を持つバージョンには「プロダクション」や「ステージング」などのエイリアスを使用します。
 
-Finally, a **Registered Model** is a set of links to Model Versions. A Registered Model can be accessed exactly like Model Artifacts (identified by `[[entityName/]/projectName]/registeredModelName:alias`), however it acts more like a folder of "bookmarks" - where each "version" of a Registered Model is actually a link to an Model Version belonging to a Model Artifact of the same type. A Model Version may be linked to any number of Registered Models. Typically you will create a Registered Model for each of your use cases / modeling tasks and use aliases like "production" or "staging" to denote versions with special purposes. 
-
-View an [**example Registered Model ->**](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/artifacts/model/MNIST%20Grayscale%2028x28)
+[**例として登録済みモデルを見る ->**](https://wandb.ai/timssweeney/model_management_docs_official_v0/artifacts/model/MNIST%20Grayscale%2028x28)
 
 ![](/images/models/diagram_doc.png)
 
-While developing an ML Model, you will likely have dozens, hundreds, or even thousands of Runs which produce Model Versions - they may come from notebooks, remote training jobs, CI/CD pipelines, etc... Most likely, not all of those models are great; often you are iterating on scripts, parameters, architectures, preprocessing logic and more. The separation of Artifacts and Registered Models allows you to produce a massive number of Artifacts (think of them like "draft models"), and periodically _link_ your high performing versions to a the curated Registered Model. Then use aliases to mark which Version in a Registered Model is at which stage in the lifecycle. Each person in your team can collaborate on a single use case, while having the freedom to explore and experiment without polluting namespaces or conflicting with others' work.
+MLモデルを開発する際、ノートブック、リモートトレーニングジョブ、CI/CDパイプラインなどから、数十、数百、または数千のrunがモデルバージョンを生成することがあります。おそらく、それらのモデルすべてが優れているわけではありません。スクリプト、パラメータ、アーキテクチャ、前処理ロジックなどを繰り返し調整していることがよくあります。アーティファクトと登録済みモデルの分離により、大量のアーティファクト（「ドラフトモデル」のように考えてください）を作成し、定期的に高性能なバージョンを厳選した登録済みモデルにリンクすることが可能になります。そして、登録済みモデル内のどのバージョンがライフサイクルのどの段階にあるかを示すために、エイリアスを使用します。チーム内の各メンバーは、単一のユースケースに協力しながら、名前空間を汚染したり他人の作業と衝突したりせずに自由に探索や実験を行うことができます。

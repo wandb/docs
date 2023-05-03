@@ -1,16 +1,17 @@
-# wandb offline
+# wandb オフライン
 
-**Usage**
+**使用法**
 
-`wandb offline [OPTIONS]`
+`wandb offline [オプション]`
 
-**Summary**
+**概要**
 
-Disable W&B sync
+W&B 同期を無効にする
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
+
 | :--- | :--- |
-| --help | Show this message and exit. |
 
+| --help | このメッセージを表示して終了します。 |

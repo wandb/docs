@@ -1,12 +1,8 @@
-# Histogram
+# ヒストグラム
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを表示する](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/histogram.py#L17-L95)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/histogram.py#L17-L95)
-
-
-
-wandb class for histograms.
+wandbのヒストグラム用クラスです。
 
 ```python
 Histogram(
@@ -16,20 +12,16 @@ Histogram(
 ) -> None
 ```
 
-
-
-
-This object works just like numpy's histogram function
+このオブジェクトは、numpyのヒストグラム関数と同様に動作します。
 https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
 
-#### Examples:
+#### 例:
 
-Generate histogram from a sequence
+シーケンスからヒストグラムを生成する
 ```python
 wandb.Histogram([1, 2, 3])
 ```
-
-Efficiently initialize from np.histogram.
+np.histogram から効率的に初期化する方法。
 ```python
 hist = np.histogram(data)
 wandb.Histogram(np_histogram=hist)
@@ -37,26 +29,25 @@ wandb.Histogram(np_histogram=hist)
 
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `sequence` | (array_like) input data for histogram |
-| `np_histogram` | (numpy histogram) alternative input of a precomputed histogram |
-| `num_bins` | (int) Number of bins for the histogram. The default number of bins is 64. The maximum number of bins is 512 |
+| `sequence` | (array_like) ヒストグラムの入力データ |
+| `np_histogram` | (numpy histogram) 事前に計算されたヒストグラムの代替入力 |
+| `num_bins` | (int) ヒストグラムのビンの数。デフォルトのビンの数は64。ビンの最大数は512 |
 
 
 
 
 
-| Attributes | |
+| 属性 | |
 | :--- | :--- |
-| `bins` | ([float]) edges of bins |
-| `histogram` | ([int]) number of elements falling in each bin |
+| `bins` | ([float]) ビンのエッジ |
+| `histogram` | ([int]) 各ビンに分類される要素の数 |
 
 
 
 
 
-| Class Variables | |
+| クラス変数 | |
 | :--- | :--- |
 | `MAX_LENGTH` | `512` |
-

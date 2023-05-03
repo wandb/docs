@@ -1,49 +1,43 @@
 ---
-description: Use a dictionary-like object to save your experiment configuration
-displayed_sidebar: ja
+description: 辞書のようなオブジェクトを使って、実験設定を保存する
 ---
 
-# Configure Experiments
+# 実験を設定する
 
 <head>
-  <title>Configure a Machine Learning Experiment</title>
+  <title>機械学習実験を設定する</title>
 </head>
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/config-colab)
 
-Use the `wandb.config` object to save your training configuration such as: 
-- hyperparameters
-- input settings such as the dataset name or model type
-- any other independent variables for your experiments. 
+以下のようなトレーニング設定を保存するために`wandb.config`オブジェクトを使用してください:
+- ハイパーパラメーター
+- データセット名やモデルタイプなどの入力設定
+- 実験に関連する他の独立変数
 
-The `wandb.config` attribute makes it easy to analyze your experiments and reproduce your work in the future. You can group by configuration values in the W&B App, compare the settings of different W&B Runs and view how different training configurations affect the output. A Run's `config` attribute is a dictionary-like object, and it can be built from lots of dictionary-like objects.
+`wandb.config`属性は、実験を分析し、将来的に作業を再現するのに便利です。W&Bアプリで設定値をグループ分けしたり、異なるW&B Runsの設定を比較したり、異なるトレーニング設定が出力にどのように影響するかを見ることができます。Run の `config` 属性は辞書のようなオブジェクトであり、多くの辞書のようなオブジェクトから構築できます。
 
 :::info
-Dependent variables (like loss and accuracy) or output metrics should be saved with `wandb.log`instead.
+損失や精度のような従属変数や出力指標は、代わりに `wandb.log`で保存する必要があります。
 :::
 
-## 
-
-
-## Set up an experiment configuration
-Configurations are typically defined in the beginning of a training script. Machine learning workflows may vary, however, so you are not required to define a configuration at the beginning of your training script.
+## 実験設定を設定する
+設定は通常、トレーニングスクリプトの冒頭で定義されます。ただし、機械学習のワークフローは異なる場合があるため、トレーニングスクリプトの冒頭で設定を定義する必要はありません。
 
 :::caution
-We recommend that you avoid using dots in your config variable names. Instead, use a dash or underscore instead. Use the dictionary access syntax `["key"]["foo"]` instead of the attribute access syntax `config.key.foo` if your script accesses `wandb.config` keys below the root.
+構成変数名にドットを使用しないことをお勧めします。代わりにダッシュまたはアンダースコアを使用してください。スクリプトが `wandb.config` のルート以下のキーにアクセスする場合は、属性アクセス構文 `config.key.foo` の代わりに、辞書アクセス構文 `["key"]["foo"]` を使用してください。
 :::
+以下のセクションでは、実験設定を定義する方法について、さまざまな一般的なシナリオを概説しています。
 
+### 初期化時に設定を行う
+スクリプトの最初に、`wandb.init()` APIを呼び出してディクショナリを渡し、W&B Runとしてデータを同期およびログするバックグラウンドプロセスを生成します。
 
-The following sections outline different common scenarios of how to define your experiments configuration.
-
-### Set the configuration at initialization
-Pass a dictionary at the beginning of your script when you call the `wandb.init()` API to generate a background process to sync and log data as a W&B Run.
-
-The proceeding code snippet demonstrates how to define a Python dictionary with configuration values and how to pass that dictionary as an argument when you initialize a W&B Run.
+以下のコードスニペットでは、設定値を持つPythonディクショナリを定義し、W&B Runを初期化する際にそのディクショナリを引数として渡す方法を示しています。
 
 ```python
 import wandb
 
-# Define a config dictionary object
+# configディクショナリオブジェクトを定義する
 config = {
   "hidden_layer_sizes": [32, 64],
   "kernel_sizes": [3],
@@ -53,38 +47,39 @@ config = {
   "num_classes": 10
 }
 
-# Pass the config dictionary when you initialize W&B
+# W&Bを初期化するときにconfigディクショナリを渡す
 run = wandb.init(project="config_example", config=config)
 ```
 
 :::info
-You can pass a nested dictionary to `wandb.config()`. W&B will flatten the names using dots in the W&B backend.
+`wandb.config()` にはネストしたディクショナリを渡すことができます。W&Bは、W&Bバックエンドでドットを使って名前をフラット化します。
 :::
 
-Access the values from the dictionary similarly to how you access other dictionaries in Python:
+ディクショナリから値を取得する方法は、Pythonの他のディクショナリから値を取得する方法と同様です。
+以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
 ```python
-# Access values with the key as the index value
+# キーをインデックス値として値にアクセスする
 hidden_layer_sizes = wandb.config['hidden_layer_sizes']
 kernel_sizes = wandb.config['kernel_sizes']
 activation = wandb.config['activation']
 
-# Python dictionary get() method
+# Pythonの辞書型のget()メソッド
 hidden_layer_sizes = wandb.config.get('hidden_layer_sizes')
 kernel_sizes = wandb.config.get('kernel_sizes')
 activation = wandb.config.get('activation')
 ```
 
 :::note
-Throughout the Developer Guide and examples we copy the configuration values into separate variables. This step is optional. It is done for readability.
+開発者ガイドや例題では、設定値を別の変数にコピーしています。このステップはオプションです。これは可読性のために行われています。
 :::
 
-### Set the configuration with argparse
-You can set your configuration with an argparse object. [argparse](https://docs.python.org/3/library/argparse.html), short for argument parser, is a standard library module in Python 3.2 and above that makes it easy to write scripts that take advantage of all the flexibility and power of command line arguments.
+### argparseを使って設定を行う
+argparseオブジェクトで設定を行うことができます。[argparse](https://docs.python.org/3/library/argparse.html)は、Python 3.2以降の標準ライブラリモジュールで、コマンドライン引数の柔軟性とパワーを活用したスクリプトを簡単に作成できます。
 
-This is useful for tracking results from scripts that are launched from the command line.
+これは、コマンドラインから起動されたスクリプトの結果をトラッキングするのに便利です。
 
-The proceeding Python script demonstrates how to define a parser object to define and set your experiment config. The functions `train_one_epoch` and `evaluate_one_epoch` are provided to simulate a training loop for the purpose of this demonstration:
+次のPythonスクリプトは、実験設定を定義し設定するために、パーサーオブジェクトを定義する方法を示しています。関数`train_one_epoch`と`evaluate_one_epoch`は、このデモンストレーションの目的のためにトレーニングループをシミュレートするために提供されています。
 
 ```python
 # config_experiment.py
@@ -92,9 +87,7 @@ import wandb
 import argparse
 import numpy as np 
 import random
-
-
-# Training and evaluation demo code
+# トレーニングと評価デモコード
 def train_one_epoch(epoch, lr, bs): 
     acc = 0.25 + ((epoch/30) +  (random.random()/10))
     loss = 0.2 + (1 - ((epoch-1)/10 +  random.random()/5))
@@ -105,17 +98,16 @@ def evaluate_one_epoch(epoch):
     loss = 0.25 + (1 - ((epoch-1)/10 +  random.random()/6))
     return acc, loss
 
-
 def main(args):
-    # Start a W&B Run
+    # W&B Runを開始
     run = wandb.init(project="config_example", config=args)
 
-    # Access values from config dictionary and store them into variables for readability
+    # config辞書から値を取得し、読みやすさのために変数に保存する
     lr  =  wandb.config['learning_rate']
     bs = wandb.config['batch_size']
     epochs = wandb.config['epochs']
 
-    # Simulate training and logging values to W&B for demo purposes
+    # トレーニングとW&Bへの値のロギングをシミュレーションする
     for epoch in np.arange(1, epochs):
         train_acc, train_loss = train_one_epoch(epoch, lr, bs)
         val_acc, val_loss = evaluate_one_epoch(epoch)
@@ -127,41 +119,45 @@ def main(args):
         'val_acc': val_acc, 
         'val_loss': val_loss
         })
+以下はMarkdownテキストの日本語への翻訳です。返信には翻訳されたテキストのみを記載して、その他のことは何も言わないでください。テキスト：
 
+```python
 if __name__ == "__main__":
-  parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+  parser = argparse.ArgumentParser(
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
   parser.add_argument(
     "-b",
     "--batch_size",
     type=int,
     default=32,
-    help="Batch size")
+    help="バッチサイズ")
   parser.add_argument(
     "-e",
     "--epochs",
     type=int,
     default=50,
-    help="Number of training epochs")
+    help="トレーニングエポック数")
   parser.add_argument(
     "-lr",
     "--learning_rate",
     type=int,
     default=0.001,
-    help="Learning rate")    
+    help="学習率")    
 
 
 args = parser.parse_args()
 
 main(args)
 ```
-### Set the configuration throughout your script
-You can add more parameters to your config object throughout your script. The proceeding code snippet demonstrates how to add new key-value pairs to your config object:
+### スクリプト全体で設定を設定する
+スクリプト全体でconfigオブジェクトにさらにパラメータを追加することができます。以下のコードスニペットでは、configオブジェクトに新しいキーと値のペアを追加する方法を示しています。
 
 ```python
 import wandb
 
-# Define a config dictionary object
+# config辞書オブジェクトを定義
 config = {
   "hidden_layer_sizes": [32, 64],
   "kernel_sizes": [3],
@@ -171,31 +167,30 @@ config = {
   "num_classes": 10
 }
 
-# Pass the config dictionary when you initialize W&B
+# W&Bを初期化するときにconfig辞書を渡す
 run = wandb.init(project="config_example", config=config)
 
-# Update config after you initialize W&B
+# W&Bを初期化した後でconfigを更新する
 wandb.config['dropout'] = 0.2
 wandb.config.epochs = 4
 wandb.config["batch_size"] = 32
 ```
-You can update multiple values at a time:
+一度に複数の値を更新することができます:
 
 ```python
 wandb.init(config={"epochs": 4, "batch_size": 32})
-# later
+# その後
 wandb.config.update({"lr": 0.1, "channels": 16})
 ```
+### Runが終了した後に設定を行う
+[W&B Public API](../../ref/python/public-api/README.md)を使って、Runが終了した後に設定（またはRun全体からの他の事項）を更新します。これは、Run中に値をログに記録し忘れた場合に特に便利です。
 
-### Set the configuration after your Run has finished
-Use the [W&B Public API](../../ref/python/public-api/README.md) to update your config (or anything else about from a complete Run) after your Run. This is particularly useful if you forgot to log a value during a Run. 
-
-Provide your `entity`, `project name`, and the `Run ID` to update your configuration after a Run has finished. Find these values directly from the Run object itself `wandb.run` or from the [W&B App UI](../app/intro.md):
+Runが終了した後に設定を更新するには、`entity`、`project name`、および`Run ID`を提供してください。これらの値は、Runオブジェクト自体`wandb.run`または[W&B App UI](../app/intro.md)から直接取得できます。
 
 ```python
 api = wandb.Api()
 
-# Access attributes directly from the run object or from the W&B App 
+# runオブジェクトまたはW&Bアプリから直接属性にアクセス
 username = wandb.run.entity
 project = wandb.run.project
 run_id = wandb.run.id
@@ -205,54 +200,54 @@ run.config["bar"] = 32
 run.update()
 ```
 
+<!-- ## `argparse.Namespace` -->
 
 
+<!-- [`argparse`](https://docs.python.org/3/library/argparse.html)で返される引数を渡すことができます。これは、コマンドラインから異なるハイパーパラメータ値を素早くテストするのに便利です。 -->
 
-<!-- ## `argparse.Namespace`
 
-You can pass in the arguments returned by [`argparse`](https://docs.python.org/3/library/argparse.html). This is convenient for quickly testing different hyperparameter values from the command line.
-
-```python
-wandb.init(config={"lr": 0.1})
-wandb.config.epochs = 4
-
+<!-- ```python -->
+<!-- wandb.init(config={"lr": 0.1}) -->
+<!-- wandb.config.epochs = 4 -->
 parser = argparse.ArgumentParser()
 parser.add_argument('-b', '--batch-size', type=int, default=8, metavar='N',
-                     help='input batch size for training (default: 8)')
+                     help='トレーニング用の入力バッチサイズ（デフォルト：8）')
 args = parser.parse_args()
-wandb.config.update(args) # adds all of the arguments as config variables -->
-```
+wandb.config.update(args) # 引数をすべて設定変数として追加
+<!-- ``` -->
 
 ## `absl.FLAGS`
 
-You can also pass in [`absl` flags](https://abseil.io/docs/python/guides/flags).
+
+[`absl`フラグ](https://abseil.io/docs/python/guides/flags)も渡すことができます。
 
 ```python
-flags.DEFINE_string("model", None, "model to run") # name, default, help
-wandb.config.update(flags.FLAGS) # adds all absl flags to config
+flags.DEFINE_string(
+    "model", None, "実行するモデル") # 名前、デフォルト、ヘルプ
+        
+wandb.config.update(flags.FLAGS) # abslフラグをconfigに追加
 ```
 
-## File-Based Configs
-Key-value pairs are automatically passed to `wandb.config` if you create a file called `config-defaults.yaml`.
+## ファイルベースの設定
+キーと値のペアは、`config-defaults.yaml`という名前のファイルを作成することで自動的に`wandb.config`に渡されます。
 
-The proceeding code snippet demonstrates a sample `config-defaults.yaml` YAML file:
+以下のコードスニペットは、サンプルの`config-defaults.yaml` YAMLファイルを示しています。
 
 ```yaml
 # config-defaults.yaml
-# sample config defaults file
+# サンプルの設定デフォルトファイル
 epochs:
-  desc: Number of epochs to train over
+  desc: トレーニングするエポック数
   value: 100
 batch_size:
-  desc: Size of each mini-batch
+  desc: 各ミニバッチのサイズ
   value: 32
 ```
-You can overwrite automatically passed by a `config-defaults.yaml`. To do so , pass values to the `config` argument of `wandb.init`.
+自動的に渡される`config-defaults.yaml`による値を上書きすることができます。そのためには、`wandb.init`の`config`引数に値を渡してください。
+また、コマンドライン引数`--configs`で別の設定ファイルを読み込むこともできます。
 
-You can also load different config files with the command line argument `--configs`.
-
-### Example use case for file-based configs
-Suppose you have a YAML file with some metadata for the run, and then a dictionary of hyperparameters in your Python script. You can save both in the nested `config` object:
+### ファイルベースの設定の例
+例えば、runのメタデータを含むYAMLファイルと、Pythonスクリプト内のハイパーパラメーターのディクショナリがあるとします。両方をネストされた`config`オブジェクトに保存できます。
 
 ```python
 hyperparameter_defaults = dict(
@@ -269,9 +264,9 @@ config_dictionary = dict(
 wandb.init(config=config_dictionary)
 ```
 
-## TensorFlow v1 Flags
+## TensorFlow v1フラグ
 
-You can pass TensorFlow flags into the `wandb.config` object directly.
+`wandb.config`オブジェクトに直接TensorFlowのフラグを渡すことができます。
 
 ```python
 wandb.init()
@@ -280,20 +275,19 @@ wandb.config.epochs = 4
 flags = tf.app.flags
 flags.DEFINE_string("data_dir", "/tmp/data")
 flags.DEFINE_integer("batch_size", 128, "Batch size.")
-wandb.config.update(flags.FLAGS)  # adds all of the tensorflow flags as config
+wandb.config.update(flags.FLAGS) # add tensorflow flags as config
 ```
+<!-- ## データセット識別子 -->
 
-<!-- ## Dataset Identifier
-
-You can add a unique identifier (like a hash or other identifier) in your run's configuration for your dataset by tracking it as input to your experiment using `wandb.config`
+データセットに一意の識別子（ハッシュや他の識別子）を付けることで、`wandb.config` を使って実験への入力としてトラッキングできます。
 
 ```yaml
 wandb.config.update({"dataset": "ab131"})
-``` -->
+```
 
-<!-- ## Update Config Files
+<!-- ## 設定ファイルの更新 -->
 
-You can use the public API to add values your `config` file, even after the run has finished.
+パブリックAPIを使って、`config`ファイルに値を追加することができます。これは、runが終了した後でも行うことができます。
 
 ```python
 import wandb
@@ -301,8 +295,8 @@ api = wandb.Api()
 run = api.run("username/project/run_id")
 run.config["foo"] = 32
 run.update()
-``` -->
+```
 
-<!-- ## Key-Value Pairs
+<!-- ## キー・バリューペア -->
 
-You can log any key-value pairs into `wandb.config`. They can be different for every type of model you are training, e.g.`wandb.config.update({"my_param": 10, "learning_rate": 0.3, "model_architecture": "B"})`. -->
+`wandb.config` に任意のキーと値のペアをログに記録することができます。これらは、トレーニング中のモデルのタイプごとに異なることができます。例：`wandb.config.update({"my_param": 10, "learning_rate": 0.3, "model_architecture": "B"})`。

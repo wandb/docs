@@ -1,8 +1,6 @@
 ---
-description: Answers to frequently asked question about W&B Sweeps.
-displayed_sidebar: ja
+description: W&B Sweepsに関するよくある質問への回答。
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -10,16 +8,16 @@ import TabItem from '@theme/TabItem';
 # FAQ
 
 <head>
-  <title>Frequently Asked Questions About Sweeps</title>
+  <title>スイープに関するよくある質問</title>
 </head>
 
-### Do I need to provide values for all hyperparameters as part of the W&B Sweep. Can I set defaults?
+### W&Bスイープの一部として、すべてのハイパーパラメーターの値を提供する必要がありますか。デフォルト値を設定できますか？
 
-The hyperparameter names and values specified as part of the sweep configuration are accessible in `wandb.config`, a dictionary-like object.
+スイープ構成の一部として指定されたハイパーパラメーターの名前と値は、辞書のようなオブジェクトである`wandb.config`でアクセス可能です。
 
-For runs that are not part of a sweep, the values of `wandb.config` are usually set by providing a dictionary to the `config` argument of `wandb.init`. During a sweep, however, any configuration information passed to `wandb.init` is instead treated as a default value, which might be over-ridden by the sweep.
+スイープの一部でない`wandb.config`の値は、通常、`wandb.init`の`config`引数に辞書を提供して設定されます。ただし、スイープ中に`wandb.init`に渡される設定情報は、スイープによってオーバーライドされる可能性があるデフォルト値として扱われます。
 
-You can also be more explicit about the intended behavior by using `config.setdefaults`. Code snippets for both methods appear below:
+また、`config.setdefaults`を使用して、意図した振る舞いをより明示的に示すこともできます。両方のメソッドのコードスニペットは以下の通りです：
 
 <Tabs
   defaultValue="wandb.init"
@@ -30,48 +28,47 @@ You can also be more explicit about the intended behavior by using `config.setde
   <TabItem value="wandb.init">
 
 ```python
-# set default values for hyperparameters
+# ハイパーパラメータのデフォルト値を設定
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# start a run, providing defaults
-#   that can be over-ridden by the sweep
+# デフォルトを提供して実行を開始
+#   スイープによって上書き可能
 with wandb.init(config=config_default) as run:
-    # add your training code here
+    # ここにトレーニングコードを追加してください
 ```
 
   </TabItem>
   <TabItem value="config.setdef">
 
 ```python
-# set default values for hyperparameters
+# ハイパーパラメーターのデフォルト値を設定
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# start a run
+# 実行を開始
 with wandb.init() as run:
-    # update any values not set by sweep
+    # スイープによって設定されていない値を更新
     run.config.setdefaults(config_defaults)
     
-    # add your training code here
+    # ここにトレーニングコードを追加してください
 ```
 
   </TabItem>
 </Tabs>
 
-### How should I run sweeps on SLURM?
+### SLURMでスイープを実行する方法は？
 
-When using sweeps with the [SLURM scheduling system](https://slurm.schedmd.com/documentation.html), we recommend running `wandb agent --count 1 SWEEP_ID` in each of your scheduled jobs, which will run a single training job and then exit. This makes it easier to predict runtimes when requesting resources and takes advantage of the parallelism of hyperparameter search.
+[SLURMスケジューリングシステム](https://slurm.schedmd.com/documentation.html)を使用してスイープを実行する場合、各スケジュールされたジョブで `wandb agent --count 1 SWEEP_ID` を実行することをお勧めします。これにより、1つのトレーニングジョブを実行してから終了します。これにより、リソースの要求時に実行時間を予測しやすくなり、ハイパーパラメーター検索の並列性を活用できます。
+### グリッドサーチを再実行することはできますか？
 
-### Can I rerun a grid search?
+はい。グリッドサーチを使い果たしたが、W&B Runsの一部を再実行したい場合（例えば、いくつかがクラッシュしたため）があります。再実行したいW&B Runsを削除し、[sweep control page](./sweeps-ui.md)の**Resume**ボタンを選択してください。最後に、新しいSweep IDで新しいW&B Sweepエージェントを開始します。
 
-Yes. If you exhaust a grid search but want to re-execute some of the W&B Runs (for example because some crashed). Delete the W&B Runs ones you want to re-execute, then choose the **Resume** button on the [sweep control page](./sweeps-ui.md). Finally, start new W&B Sweep agents with the new Sweep ID.
+完了したW&B Runsのパラメータ組み合わせは再実行されません。
 
-Parameter combinations with completed W&B Runs are not re-executed.
+### カスタムCLIコマンドをスイープでどのように使用しますか？
 
-### How do I use custom CLI commands with sweeps?
+コマンドライン引数を渡すことでトレーニングの一部を設定する場合、W&BスイープとカスタムCLIコマンドを使用できます。
 
-You can use W&B Sweeps with custom CLI commands if you normally configure some aspects of training by passing command line arguments.
-
-For example, the proceeding code snippet demonstrates a bash terminal where the user is training a Python script named train.py. The user passes in values that are then parsed within the Python script:
+例えば、次のコードスニペットは、ユーザーがtrain.pyという名前のPythonスクリプトをトレーニングしているbashターミナルを示しています。ユーザーは、Pythonスクリプト内で解析される値を渡します。
 
 ```bash
 /usr/bin/env python train.py -b \
@@ -80,7 +77,7 @@ For example, the proceeding code snippet demonstrates a bash terminal where the 
     --lr 0.00001
 ```
 
-To use custom commands, edit the `command` key in your YAML file. For example, continuing the example above, that might look like so:
+カスタムコマンドを使用するには、YAMLファイルの`command`キーを編集します。例えば、上記の例を続けると、次のようになります。
 
 ```yaml
 program:
@@ -99,10 +96,9 @@ command:
   - your-training-config
   - ${args}
 ```
+`${args}`キーは、スイープ構成ファイル内のすべてのパラメーターに展開され、`argparse`で解析できるように展開されます: `--param1 value1 --param2 value2`
 
-The `${args}` key expands to all the parameters in the sweep configuration file, expanded so they can be parsed by `argparse: --param1 value1 --param2 value2`
-
-If you have extra arguments that you don't want to specify with `argparse` you can use:
+`argparse`で指定しない追加の引数がある場合は、次のように使用できます。
 
 ```python
 parser = argparse.ArgumentParser()
@@ -110,7 +106,7 @@ args, unknown = parser.parse_known_args()
 ```
 
 :::info
-Depending on the environment, `python` might point to Python 2. To ensure Python 3 is invoked, use `python3` instead of `python` when configuring the command:
+環境によっては、`python`はPython 2を指すことがあります。Python 3を呼び出すことを確実にするには、コマンドの構成時に`python`の代わりに`python3`を使用してください。
 
 ```yaml
 program:
@@ -123,47 +119,45 @@ command:
 ```
 :::
 
-### Is there a way to add extra values to a sweep, or do I need to start a new one?
+### スイープに追加の値を追加する方法はありますか、それとも新しいスイープを開始する必要がありますか？
 
-You cannot change the Sweep configuration once a W&B Sweep has started. But you can go to any table view, and use the checkboxes to select runs, then use the **Create sweep** menu option to create a new Sweep configuration using prior runs.
+W&Bスイープが開始されると、スイープ構成を変更することはできません。ただし、任意のテーブルビューに移動し、チェックボックスを使用してrunsを選択し、前のrunsを使用して新しいスイープ構成を作成するために**スイープを作成**メニューオプションを使用できます。
 
-### Can we flag boolean variables as hyperparameters?
+### boolean変数をハイパーパラメーターとしてフラグできますか？
 
-You can use the `${args_no_boolean_flags}` macro in the command section of the config to pass hyperparameters as boolean flags. This will automatically pass in any boolean parameters as flags. When `param` is `True` the command will receive `--param`, when `param` is `False` the flag will be omitted.
+設定のコマンドセクションで`${args_no_boolean_flags}`マクロを使用して、ハイパーパラメータをbooleanフラグとして渡すことができます。これにより、任意のbooleanパラメータがフラグとして自動的に渡されます。`param`が`True`の場合、コマンドは `--param` を受け取ります。`param`が`False`の場合、フラグは省略されます。
+### SweepsとSageMakerは使えますか？
 
-### Can I use Sweeps and SageMaker?
-
-Yes. At a glance, you will need to need to authenticate W&B and you will need to create a `requirements.txt` file if you use a built-in SageMaker estimator. For more on how to authenticate and set up a requirements.txt file, see the [SageMaker integration](../integrations/other/sagemaker.md) guide.
+はい。一見すると、W&Bを認証し、組み込みのSageMaker estimatorを使っている場合は`requirements.txt`ファイルを作成する必要があります。認証方法や`requirements.txt`ファイルの設定方法については、[SageMaker integration](../integrations/other/sagemaker.md) ガイドをご覧ください。
 
 :::info
-A complete example is available on [GitHub](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cifar10-sagemaker) and you can read more on our [blog](https://wandb.ai/site/articles/running-sweeps-with-sagemaker).\
-You can also read the [tutorial](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE) on deploying a sentiment analyzer using SageMaker and W&B.
+完全な例が[GitHub](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cifar10-sagemaker)にありますし、[ブログ](https://wandb.ai/site/articles/running-sweeps-with-sagemaker)でも詳しく説明しています。\
+また、SageMakerとW&Bを使ったセンチメントアナライザーのデプロイに関する[チュートリアル](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE)も読むことができます。\
 :::
 
-### Can you use W&B Sweeps with cloud infrastructures such as AWS Batch, ECS, etc.?
+### W&B Sweepsは、AWS BatchやECSなどのクラウドインフラストラクチャとともに使えますか？
 
-In general, you would need a way to publish `sweep_id` to a location that any potential W&B Sweep agent can read and a way for these Sweep agents to consume this `sweep_id` and start running.
+一般的に、候補となるW&Bスイープエージェントが読むことができる場所に`sweep_id`を発行できる方法と、これらのスイープエージェントが`sweep_id`を消費して実行を開始できる方法が必要です。
 
-In other words, you need something that can invoke `wandb agent`. For instance, bring up an EC2 instance and then call `wandb agent` on it. In this case, you might use an SQS queue to broadcast `sweep_id` to a few EC2 instances and then have them consume the `sweep_id` from the queue and start running.
+言い換えれば、`wandb agent`を呼び出す何らかのものが必要です。例えば、EC2インスタンスを立ち上げ、それに対して`wandb agent`を呼び出すことができます。この場合、SQSキューを使って`sweep_id`を複数のEC2インスタンスにブロードキャストし、それらがキューから`sweep_id`を消費して実行を開始するかもしれません。
 
-### How can I change the directory my sweep logs to locally?
+### スイープがローカルにログを残すディレクトリを変更する方法は？
 
-You can change the path of the directory where W&B will log your run data by setting an environment variable `WANDB_DIR`. For example:
+W&Bが実行データをログに記録するディレクトリのパスを変更するには、環境変数`WANDB_DIR`を設定します。例えば、以下のようになります。
 
 ```python
 os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
 ```
 
-### Optimizing multiple metrics
+### 複数のメトリクスの最適化
 
-If you want to optimize multiple metrics in the same run, you can use a weighted sum of the individual metrics.
+同じ実行で複数のメトリクスを最適化したい場合は、個々のメトリクスの加重和を使用できます。
 
 ```python
 metric_combined = 0.3*metric_a + 0.2*metric_b + ... + 1.5*metric_n
 wandb.log({"metric_combined": metric_combined})
 ```
-
-Ensure to log your new combined metric and set it as the optimization objective:
+新しい組み合わせ指標をログに記録し、最適化目的として設定してください。
 
 ```yaml
 metric:
@@ -171,24 +165,23 @@ metric:
   goal: minimize
 ```
 
-### How do I enable code logging with Sweeps?
+### スイープでのコードログをどのように有効にしますか？
 
-To enable code logging for sweeps, simply add `wandb.log_code()` after you have initialized your W&B Run. This is necessary even when you have enabled code logging in the settings page of your W&B profile in the app. For more advanced code logging, see the [docs for `wandb.log_code()` here](https://docs.wandb.ai/ref/python/run#log\_code).
+スイープでのコードログを有効にするには、W&B Runを初期化した後に `wandb.log_code()` を追加するだけです。これは、アプリのW&Bプロファイルの設定ページでコードログを有効にしている場合でも必要です。より高度なコードログについては、[こちらの `wandb.log_code()` のドキュメント](https://docs.wandb.ai/ref/python/run#log\_code)を参照してください。
 
-### What is the "Est. Runs" column?
+###「Est. Runs」の列とは何ですか？
 
-W&B provides an estimated number of Runs that will occur when you create a W&B Sweep with a discrete search space. The total number of Runs is the cartesian product of the search space.
+W&Bは、離散的な検索空間でW&Bスイープを作成するときに発生するであろうRunの推定数を提供します。Runの合計数は、検索空間の直積です。
 
-For example, suppose you provide the following search space:
+例えば、次のような検索空間を提供した場合。
 
 ![](/images/sweeps/sweeps_faq_whatisestruns_1.png)
 
-The cartesian product in this example is 9. W&B shows this number in the W&B App UI as the estimated run count (**Est. Runs**):
+この例では、直積は9です。W&Bは、W&BアプリのUIで推定されるRun数（**Est. Runs**）としてこの数字を表示します。
 
 ![](/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp)
 
-
-You can obtain the estimated Run count with the W&B SDK as well. Use the Sweep object's `expected_run_count` attribute to obtain the estimated Run count:
+W&B SDKを使って推定されるRun数も取得できます。Sweepオブジェクトの `expected_run_count` 属性を使って、推定されたRun数を取得します。
 
 ```python
 sweep_id = wandb.sweep(sweep_configs, project="your_project_name", entity='your_entity_name')

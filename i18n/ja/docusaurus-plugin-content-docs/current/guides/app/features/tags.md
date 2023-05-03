@@ -1,19 +1,15 @@
----
-displayed_sidebar: ja
----
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Tags
+# タグ
 
-Tags can be used to label runs with particular features that might not be obvious from the logged metrics or Artifact data -- this run's model is `in_production`, that run is `preemptible`, this run represents the `baseline`.
+タグは、記録されたメトリックスやアーティファクトデータからは明らかでない特定の機能を持つrunsをラベル付けするために使用できます。例えば、このrunのモデルは `in_production` 、その他のrunは `preemptible` 、このrunは `baseline` を表しています。
 
-## How to add tags
+## タグの追加方法
 
-You can add tags to a run when it is created: `wandb.init(tags=["tag1", "tag2"])` .
+runが作成されるときにタグを追加できます: `wandb.init(tags=["tag1", "tag2"])` .
 
-You can also update the tags of a run during training (e.g. if a particular metrics crosses a pre-defined threshold):
+トレーニング中にrunのタグを更新することもできます（例えば、特定のメトリクスが事前に定義された閾値を超えた場合）:
 
 ```python
 run = wandb.init(entity="entity", project="capsules", tags=["debug"])
@@ -24,88 +20,85 @@ if current_loss < threshold:
     run.tags = run.tags + ("release_candidate",)
 ```
 
-There are also several ways to add tags after runs have been logged to Weights & Biases.
+また、Weights & Biasesにログインされたrunsに対してタグを追加するいくつかの方法があります。
 
 <Tabs
   defaultValue="publicapi"
   values={[
-    {label: 'Using the Public API', value: 'publicapi'},
-    {label: 'Project Page', value: 'projectpage'},
-    {label: 'Run Page', value: 'runpage'},
+    {label: '公開APIを使用して', value: 'publicapi'},
+    {label: 'プロジェクトページ', value: 'projectpage'},
+    {label: 'Runページ', value: 'runpage'},
   ]}>
   <TabItem value="publicapi">
-
-After a run is created, you can update tags using [our public API](../../../guides/track/public-api-guide.md) like so:
+runが作成された後、次のように[弊社の公開API](../../../guides/track/public-api-guide.md)を使用してタグを更新できます。
 
 ```python
 run = wandb.Api().run("{entity}/{project}/{run-id}"})
-run.tags.append("tag1")  # you can choose tags based on run data here
+run.tags.append("tag1")  # ここでrunデータに基づいてタグを選択できます
 run.update()
 ```
 
-You can read more about how to use the Public API in the [reference documentation](../../../ref/README.md) or [guide](../../../guides/track/public-api-guide.md).
+Public APIの使い方については、[リファレンスドキュメント](../../../ref/README.md)や[ガイド](../../../guides/track/public-api-guide.md)で詳しくご紹介しています。
 
   </TabItem>
   <TabItem value="projectpage">
 
-This method is best suited to tagging large numbers of runs with the same tag or tags.
+この方法は、同じタグやタグを大量のrunsに付けるのに最適です。
 
-In the [runs sidebar](../pages/project-page.md#search-for-runs) of the [Project Page](../pages/project-page.md),  click the table icon in the upper-right.  This will expand the sidebar into the full [runs table](runs-table.md).
+[プロジェクトページ](../pages/project-page.md)の[runsサイドバー](../pages/project-page.md#search-for-runs)で、右上のテーブルアイコンをクリックします。これにより、サイドバーが[runsテーブル](runs-table.md)に拡張されます。
 
-Hover over a run in the table to see a checkbox on the left or look in the header row for a checkbox that will allow you to select all runs.
+テーブルの中のrunにカーソルを置くと左側にチェックボックスが表示されるか、すべてのrunsを選択できるヘッダー行にチェックボックスが表示されます。
 
-Click the checkbox to enable bulk actions. Select the runs to which you'd like to apply your tag(s).
+チェックボックスをクリックして一括操作を有効にします。タグを適用したいrunsを選択します。
 
-Click the Tag button above the rows of runs.
+runsの行の上にあるタグボタンをクリックします。
 
-Type a tag you'd like to add and click "Add" below the text box to add a new tag.
+追加したいタグを入力し、テキストボックスの下にある「追加」をクリックして新しいタグを追加します。
 
   </TabItem>
   <TabItem value="runpage">
 
-This method is best suited to applying a tag or tags to a single run by hand.
+この方法は、手動で1つのrunにタグまたはタグを適用するのに最適です。
+[Run Page](../pages/run-page.md)の左サイドバーにある、一番上の[概要タブ](../pages/run-page.md#overview-tab)をクリックしてください。
 
-In the left sidebar of the [Run Page](../pages/run-page.md), click the top [Overview tab](../pages/run-page.md#overview-tab).
+"Tags"の隣に、グレーの➕ボタンがあります。そのプラスをクリックしてタグを追加します。
 
-Next to "Tags" is a gray ➕ button. Click on that plus to add a tag.
-
-Type a tag you'd like to add and click "Add" below the text box to add a new tag.
+追加したいタグを入力し、テキストボックスの下の"Add"をクリックして新しいタグを追加します。
 
   </TabItem>
 </Tabs>
 
+## タグの削除方法
 
-
-## How to remove tags
-
-Tags can also be removed from runs via the UI.
+UIを通じて、タグはrunsから削除することもできます。
 
 <Tabs
   defaultValue="projectpage"
   values={[
-    {label: 'Project Page', value: 'projectpage'},
-    {label: 'Run Page', value: 'runpage'},
+    {label: 'プロジェクトページ', value: 'projectpage'},
+    {label: 'Runページ', value: 'runpage'},
   ]}>
   <TabItem value="projectpage">
 
-This method is best suited to removing tags from a large numbers of runs.
+この方法は、多くのrunsからタグを削除するのに最適です。
 
-In the [runs sidebar](../pages/project-page.md#search-for-runs) of the [Project Page](../pages/project-page.md),  click the table icon in the upper-right.  This will expand the sidebar into the full [runs table](runs-table.md).
+[プロジェクトページ](../pages/project-page.md) の[runsサイドバー](../pages/project-page.md#search-for-runs)で、右上にあるテーブルアイコンをクリックします。これにより、サイドバーが完全な[runsテーブル](runs-table.md)に展開されます。
 
-Hover over a run in the table to see a checkbox on the left or look in the header row for a checkbox that will allow you to select all runs.
+テーブル内のrunの上にマウスを置くと、左側にチェックボックスが表示されます。また、すべてのrunsを選択できるヘッダー行にチェックボックスが表示されます。
 
-Click either checkbox to enable bulk actions. Select the runs to from which you'd like to remove your tag(s).
+どちらかのチェックボックスをクリックして一括操作を有効にします。タグを削除したいrunsを選択してください。
+上のrunsの列の上にあるタグボタンをクリックしてください。
 
-Click the Tag button above the rows of runs.
-
-Click the checkbox next to a tag to remove it from the run.
+ランのタグを削除するには、そのタグの横にあるチェックボックスをクリックします。
 
   </TabItem>
+
   <TabItem value="runpage">
 
-In the left sidebar of the [Run Page,](../pages/run-page.md) click the top [Overview tab](../pages/run-page.md#overview-tab). The tags on the run are visible here.
+[実行ページ](../pages/run-page.md)の左側のサイドバーで、一番上の[概要タブ](../pages/run-page.md#overview-tab)をクリックしてください。ここで、ランのタグが表示されます。
 
-Hover over a tag and click the "x" to remove it from the run.
+タグの上にマウスを置いて、その "x" をクリックして実行からタグを削除します。
 
   </TabItem>
+
 </Tabs>

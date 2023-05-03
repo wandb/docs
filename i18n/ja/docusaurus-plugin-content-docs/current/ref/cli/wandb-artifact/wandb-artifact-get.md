@@ -1,18 +1,17 @@
 # wandb artifact get
 
-**Usage**
+**使用法**
 
-`wandb artifact get [OPTIONS] PATH`
+`wandb artifact get [オプション] PATH`
 
-**Summary**
+**概要**
 
-Download an artifact from wandb
+wandbからアーティファクトをダウンロードする
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| --root | The directory you want to download the artifact to |
-| --type | The type of artifact you are downloading |
-| --help | Show this message and exit. |
-
+| --root | アーティファクトをダウンロードするディレクトリー |
+| --type | ダウンロードするアーティファクトのタイプ |
+| --help | このメッセージを表示して終了する。|

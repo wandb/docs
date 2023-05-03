@@ -1,34 +1,34 @@
 ---
-description: Learn how to create configuration files for sweeps.
-displayed_sidebar: ja
+description: スイープの設定ファイルの作成方法を学びます。
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Define sweep configuration
+# スイープ構成の定義
 
 <head>
-  <title>Define sweep configuration for hyperparameter tuning.</title>
+  <title>ハイパーパラメータチューニングのためのスイープ構成を定義します。</title>
 </head>
 
-A Weights & Biases Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
+Weights & Biasesスイープは、ハイパーパラメーターの値を探索する戦略と、それらを評価するコードを組み合わせたものです。戦略は、すべてのオプションを試すだけのシンプルなものから、ベイズ最適化やHyperband（[BOHB](https://arxiv.org/abs/1807.01774)）のように複雑なものまであります。
 
-Define your strategy in the form of a sweep configuration. Specify the configuration either in a:
+スイープ構成の形で戦略を定義します。構成は以下のいずれかで指定してください：
 
-1. Python nested dictionary data structure if you use a Jupyter Notebook or Python script.
-2. YAML file if you use the command line (CLI).
+1. Jupyter NotebookまたはPythonスクリプトを使用している場合は、Pythonのネストされたディクショナリデータ構造。
+2. コマンドライン（CLI）を使用している場合は、YAMLファイル。
 
-The following code snippets demonstrate examples of how to define a Sweep configuration in a Jupyter Notebook or Python script or within a YAML file. Configuration keys are defined in detail in subsequent sections.
+以下のコードスニペットは、Jupyter NotebookやPythonスクリプト内、またはYAMLファイル内でスイープ構成を定義する方法の例を示しています。構成キーは、後続のセクションで詳細に定義されています。
+
 
 <Tabs
   defaultValue="script"
   values={[
-    {label: 'Python script or Jupyter Notebook', value: 'script'},
+    {label: 'PythonスクリプトまたはJupyterノートブック', value: 'script'},
     {label: 'YAML', value: 'yaml'},
   ]}>
   <TabItem value="script">
-  Within your Jupyter Notebook or Python script, define a sweep in a dictionary Python data structure.
+  JupyterノートブックやPythonスクリプト内で、スイープをPythonディクショナリデータ構造として定義します。
+以下は Markdown テキストの日本語への翻訳です。翻訳されたテキストのみを返し、それ以外のことは何も言わないでください。テキスト：
 
 ```python
 sweep_configuration = {
@@ -47,7 +47,7 @@ sweep_configuration = {
 ```
   </TabItem>
   <TabItem value="yaml">
-  Create a map in your YAML where the keys can have, as their values, further keys.
+  YAML でキーを持つマップを作成し、そのキーの値にさらにキーを持たせることができます。
 
 ```yaml
 program: train.py
@@ -65,12 +65,12 @@ parameters:
   </TabItem>
 </Tabs>
 
-:::caution
-1. Ensure that you log (`wandb.log`) the _exact_ metric name that you defined the sweep to optimize within your Python script or Jupyter Notebook.
-2. You cannot change the Sweep configuration once you start the W&B Sweep agent.
+:::注意
+1. PythonスクリプトやJupyterノートブック内で、スイープが最適化するために定義した正確なメトリック名をログ（`wandb.log`）に記録してください。
+2. W&Bスイープエージェントを開始した後は、スイープ構成を変更することはできません。
 :::
 
-For example, suppose you want W&B Sweeps to maximize the validation accuracy during training. Within your Python script you store the validation accuracy in a variable `val_loss`. In your YAML configuration file you define this as:
+例えば、W&Bスイープでトレーニング中の検証精度を最大化したい場合、Pythonスクリプト内で検証精度を`val_loss`という変数に格納します。YAML構成ファイルでは、以下のように定義します。
 
 ```yaml
 metric:
@@ -78,7 +78,7 @@ metric:
   name: val_loss
 ```
 
-You must log the variable `val_loss` (in this example) within your Python script or Jupyter Notebook to W&B.
+PythonスクリプトやJupyterノートブックで`val_loss`変数（この例では）をW&Bにログに記録する必要があります。
 
 ```python
 wandb.log({
@@ -86,39 +86,38 @@ wandb.log({
       })
 ```
 
-### Sweep configuration structure
+### スイープ構成の構造
 
-Sweep configurations are nested; keys can have, as their values, further keys. The top-level keys are listed and briefly described below, and then detailed in the following section.
+スイープ構成はネストされており、キーはさらにキーを値として持つことができます。以下にトップレベルのキーを一覧し、簡単に説明した後に、次のセクションで詳しく述べます。
 
-| Top-Level Key     | Description                                                                                                                   |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `program`         | (required) Training script to run.                                                                                            |
-| `method`          | (required) Specify the [search strategy](./define-sweep-configuration.md#configuration-keys).                                 |
-| `parameters`      | (required) Specify [parameters](define-sweep-configuration.md#parameters) bounds to search.                                   |
-| `name`            | The name of the sweep, displayed in the W&B UI.                                                                               |
-| `description`     | Text description of the sweep.                                                                                                |
-| `metric`          | Specify the metric to optimize (only used by certain search strategies and stopping criteria).                                |
-| `early_terminate` | Specify any [early stopping criteria](./define-sweep-configuration.md#early_terminate).                                       |
-| `command`         | Specify [command structure ](./define-sweep-configuration.md#command)for invoking and passing arguments to the training script. |
-| `project`         | Specify the project for this sweep.                                                                                           |
-| `entity`          | Specify the entity for this sweep.                                                                                            |
-| `run_cap` | Specify a maximum number of runs in a sweep.                                                                                          |
+| トップレベルキー   | 説明                                                                                                                               |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `program`         | （必須）実行するトレーニングスクリプト。                                                                                         |
+| `method`          | （必須）[検索戦略](./define-sweep-configuration.md#configuration-keys)を指定します。                                                  |
+| `parameters`      | （必須）[パラメーター](define-sweep-configuration.md#parameters)の検索範囲を指定します。                                              |
+| `name`            | W&B UIで表示されるスイープの名前。                                                                                               |
+| `description`     | スイープのテキスト説明。                                                                                                         |
+| `metric`          | 最適化するメトリックを指定します（特定の検索戦略および停止基準でのみ使用されます）。                                                  |
+| `early_terminate` | [早期停止基準](./define-sweep-configuration.md#early_terminate)を指定します。                                                       |
+| `command`         | トレーニングスクリプトに引数を渡すための[コマンド構造](./define-sweep-configuration.md#command)を指定します。                      |
+| `project`         | このスイープのプロジェクトを指定します。                                                                                         |
+| `entity`          | このスイープのエンティティを指定します。                                                                                         |
+| `run_cap` | スイープ内の最大ラン数を指定します。                                                                                           |
+### 検索タイプのメソッド
 
-### Search type methods
+以下のリストは、ハイパーパラメーター検索方法を説明しています。検索戦略は `method` で指定します。
 
-The following list describes hyperparameter search methods. Specify the search strategy with the `method`:
-
-* **`grid`**  – Iterate over every combination of hyperparameter values. Can be computationally costly.
-* **`random`**  – Choose a random set of hyperparameter values on each iteration based on provided distributions.
-* **`bayes`** – Create a probabilistic model of a metric score as a function of the hyperparameters, and choose parameters with high probability of improving the metric. Bayesian hyperparameter search method uses a Gaussian Process to model the relationship between the parameters and the model metric and chooses parameters to optimize the probability of improvement. This strategy requires the `metric`key to be specified. Works well for small numbers of continuous parameters but scales poorly.
+* **`grid`**  - 各ハイパーパラメーターの値のすべての組み合わせを繰り返します。計算コストが高いことがあります。
+* **`random`**  - 提供された分布に基づいて、各反復でランダムなセットのハイパーパラメーター値を選択します。
+* **`bayes`** - ハイパーパラメーターの関数としてメトリックスコアの確率モデルを作成し、メトリックを改善する可能性が高いパラメーターを選択します。ベイジアンハイパーパラメーター検索方法は、ガウスプロセスを使用してパラメーターとモデルメトリックの関係をモデル化し、改善の確率を最適化するためのパラメーターを選択します。この戦略では、`metric`キーを指定する必要があります。連続パラメーターの数が少ない場合にはうまく機能するが、スケールは悪い。
 
 
 <Tabs
   defaultValue="random"
   values={[
-    {label: 'Random search', value: 'random'},
-    {label: 'Grid search', value: 'grid'},
-    {label: 'Bayes search', value: 'bayes'},
+    {label: 'ランダム検索', value: 'random'},
+    {label: 'グリッド検索', value: 'grid'},
+    {label: 'ベイズ検索', value: 'bayes'},
   ]}>
   <TabItem value="random">
 
@@ -136,7 +135,8 @@ The following list describes hyperparameter search methods. Specify the search s
   </TabItem>
   <TabItem value="bayes">
 
-  ```yaml  
+
+```yaml
   method: bayes
   metric:
     name: val_loss
@@ -146,48 +146,47 @@ The following list describes hyperparameter search methods. Specify the search s
   </TabItem>
 </Tabs>
 
-:::caution
-Random and Bayesian searches will run forever -- until you stop the process from the command line, within your python script, or [the UI](./sweeps-ui.md). Grid search will also run forever if it searches within in a continuous search space.
+:::警告
+ランダムおよびベイズ探索は、コマンドライン、Pythonスクリプト内、または[UI](./sweeps-ui.md)からプロセスを停止するまで永遠に実行されます。連続した探索空間の中で検索を行う場合、グリッド検索も永遠に実行されます。
 :::
 
-## Configuration keys
+## 設定キー
 
 ### `method`
 
-Specify the search strategy with the `method` key in the sweep configuration.
+スイープ構成の`method`キーで、検索戦略を指定します。
 
-| `method` | Description                                               |
+| `method` | 説明                                               |
 | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `grid`   | Grid search iterates over all possible combinations of parameter values.                                                         |
-| `random` | Random search chooses a random set of values on each iteration.        |
-| `bayes`  | Our Bayesian hyperparameter search method uses a Gaussian Process to model the relationship between the parameters and the model metric and chooses parameters to optimize the probability of improvement. This strategy requires the `metric` key to be specified. |
+| `grid`   | グリッド検索は、パラメータ値のすべての組み合わせを繰り返し検索します。                                                         |
+| `random` | ランダム検索は、各反復でパラメータ値のランダムなセットを選択します。        |
+| `bayes`  | ベイズハイパーパラメータ検索方法では、ガウス過程を使用して、パラメータとモデル指標の関係をモデル化し、改善の確率を最適化するパラメータを選択します。この戦略では、`metric`キーを指定する必要があります。 |
 
 ### `parameters`
 
-Describe the hyperparameters to explore during the sweep. For each hyperparameter, specify the name and the possible values as a list of constants (for any `method`) or specify a `distribution` for `random` or `bayes`.
+スイープの間に探索するハイパーパラメーターを記述します。それぞれのハイパーパラメーターについて、名前と可能な値を定数リスト（任意の`method`に対して）として指定するか、`random`または`bayes`用に`distribution`を指定します。
+| 値              | 説明                                    |
+| --------------- | ------------------------------------------------------------------- |
+| `values`        | このハイパーパラメーターに対して有効なすべての値を指定します。`grid`と互換性があります。                                         |
+| `value`         | このハイパーパラメーターに対して単一の有効な値を指定します。`grid`と互換性があります。                                                                                 |
+| `distribution`  | (`str`) 下の分布表から分布を選択します。指定されていない場合、`values`が設定されている場合は`categorical`、`max`と`min`が整数に設定されている場合は`int_uniform`、`max`と`min`が小数に設定されている場合は`uniform`、`value`が設定されている場合は`constant`がデフォルトになります。 |
+| `probabilities` | `random`を使用する際に、`values`の各要素を選択する確率を指定します。                                           |
+| `min`, `max`    | (`int`or `float`) 最大値と最小値。`int`の場合、`int_uniform`分布のハイパーパラメーター用。`float`の場合、`uniform`分布のハイパーパラメーター用。                     |
+| `mu`            | (`float`) `normal`または`lognormal`分布のハイパーパラメータに対する平均パラメータ。                                             |
+| `sigma`         | (`float`) `normal`または`lognormal`分布のハイパーパラメータに対する標準偏差パラメータ。                                      |
+| `q`             | (`float`) 量子化パラメータのステップサイズ。                                                                |
+| `parameters`    | ルートレベルパラメータ内に他のパラメータをネストします。                                                |
 
-| Values          | Description                                                             |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `values`        | Specifies all valid values for this hyperparameter. Compatible with `grid`.     |
-| `value`         | Specifies the single valid value for this hyperparameter. Compatible with `grid`.                                                                                               |
-| `distribution`  | (`str`) Selects a distribution from the distribution table below. If not specified, will default to `categorical` if `values` is set, to `int_uniform` if `max` and `min` are set to integers, to `uniform` if `max` and `min` are set to floats, or to`constant` if `value` is set. |
-| `probabilities` | Specify the probability of selecting each element of `values` when using `random`.                                |
-| `min`, `max`    | (`int`or `float`) Maximum and minimum values. If `int`, for `int_uniform` -distributed hyperparameters. If `float`, for `uniform` -distributed hyperparameters.                |
-| `mu`            | (`float`) Mean parameter for `normal` - or `lognormal` -distributed hyperparameters.                                                       |
-| `sigma`         | (`float`) Standard deviation parameter for `normal` - or `lognormal` -distributed hyperparameters.                            |
-| `q`             | (`float`) Quantization step size for quantized hyperparameters.                          |
-| `parameters`    | Nest other parameters inside a root level parameter.           |
-
-#### Examples
+#### 例
 
 <Tabs
   defaultValue="single"
   values={[
-    {label: 'single value', value: 'single'},
-    {label: 'multiple values', value: 'multiple'},
-    {label: 'probabilities', value: 'probabilities'},
-    {label: 'distribution', value: 'distribution'},
-    {label: 'nested', value: 'nested'},
+    {label: '単一の値', value: 'single'},
+    {label: '複数の値', value: 'multiple'},
+    {label: '確率', value: 'probabilities'},
+    {label: '分布', value: 'distribution'},
+    {label: 'ネスト', value: 'nested'},
   ]}>
   <TabItem value="single">
 
@@ -196,12 +195,12 @@ Describe the hyperparameters to explore during the sweep. For each hyperparamete
     value: 1.618
   ```
 
-  </TabItem>
+</TabItem>
   <TabItem value="multiple">
 
   ```yaml
-  parameter_name:
-  values:
+  パラメータ名:
+  値:
     - 8
     - 6
     - 7
@@ -214,22 +213,21 @@ Describe the hyperparameters to explore during the sweep. For each hyperparamete
   <TabItem value="probabilities">
 
   ```yaml
-  parameter_name:
-    values: [1, 2, 3, 4, 5]
-    probabilities: [0.1, 0.2, 0.1, 0.25, 0.35]
+  パラメータ名:
+    値: [1, 2, 3, 4, 5]
+    確率: [0.1, 0.2, 0.1, 0.25, 0.35]
   ```
 
   </TabItem>
   <TabItem value="distribution">
 
   ```yaml
-  parameter_name:
-    distribution: normal
-    mu: 100
-    sigma: 10
+  パラメータ名:
+    分布: 正規分布
+    平均: 100
+    標準偏差: 10
   ```
-
-  </TabItem>
+</TabItem>
   <TabItem value="nested">
 
   ```yaml
@@ -246,26 +244,26 @@ Describe the hyperparameters to explore during the sweep. For each hyperparamete
 
 #### `distribution`
 
-Specify how to distribute values if you choose a random (`random)` or Bayesian (`bayes)` search method.
+ランダム (`random`) またはベイズ (`bayes`) の探索メソッドを選択した場合に、値の分布方法を指定します。
 
-| Value                    | Description            |
+| 値                    | 説明            |
 | ------------------------ | ------------------------------------ |
-| `constant`               | Constant distribution. Must specify `value`.                         |
-| `categorical`            | Categorical distribution. Must specify `values`.                     |
-| `int_uniform`            | Discrete uniform distribution on integers. Must specify `max` and `min` as integers.     |
-| `uniform`                | Continuous uniform distribution. Must specify `max` and `min` as floats.      |
-| `q_uniform`              | Quantized uniform distribution. Returns `round(X / q) * q` where X is uniform. `q` defaults to `1`.|
-| `log_uniform`            | Log-uniform distribution. Returns a value `X` between `exp(min)` and `exp(max)`such that the natural logarithm is uniformly distributed between `min` and `max`.   |
-| `log_uniform_values`     | Log-uniform distribution. Returns a value `X` between `min` and `max` such that `log(`X`)` is uniformly distributed between `log(min)` and `log(max)`.     |
-| `q_log_uniform`          | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform`. `q` defaults to `1`.       |
-| `q_log_uniform_values`   | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform_values`. `q` defaults to `1`.     |
-| `inv_log_uniform`        | Inverse log uniform distribution. Returns `X`, where  `log(1/X)` is uniformly distributed between `min` and `max`.           |
-| `inv_log_uniform_values` | Inverse log uniform distribution. Returns `X`, where  `log(1/X)` is uniformly distributed between `log(1/max)` and `log(1/min)`.    |
-| `normal`                 | Normal distribution. Return value is normally-distributed with mean `mu` (default `0`) and standard deviation `sigma` (default `1`).|
-| `q_normal`               | Quantized normal distribution. Returns `round(X / q) * q` where `X` is `normal`. Q defaults to 1.      |
-| `log_normal`             | Log normal distribution. Returns a value `X` such that the natural logarithm `log(X)` is normally distributed with mean `mu` (default `0`) and standard deviation `sigma` (default `1`). |
-| `q_log_normal`  | Quantized log normal distribution. Returns `round(X / q) * q` where `X` is `log_normal`. `q` defaults to `1`.             |
-#### Examples
+| `constant`               | 定数分布。`value` を指定する必要があります。                         |
+| `categorical`            | カテゴリ分布。`values` を指定する必要があります。                     |
+| `int_uniform`            | 整数に対する離散一様分布。`max` と `min` を整数で指定する必要があります。     |
+| `uniform`                | 連続一様分布。`max` と `min` を浮動小数点で指定する必要があります。      |
+| `q_uniform`              | 量子化された一様分布。`round(X / q) * q` を返し、X は一様分布です。`q` はデフォルトで `1`。|
+| `log_uniform`            | 対数一様分布。`exp(min)` と `exp(max)` の間にある値 `X` を返し、自然対数が `min` と `max` の間で一様に分布します。   |
+| `log_uniform_values`     | 対数一様分布。`log(X)` が `log(min)` と `log(max)` の間で一様に分布するような、`min` と `max` の間にある値 `X` を返します。     |
+| `q_log_uniform`          | 量子化された対数一様分布。`round(X / q) * q` を返し、`X` は `log_uniform` です。`q` はデフォルトで `1`。       |
+| `q_log_uniform_values`   | 量子化された対数一様分布。`round(X / q) * q` を返し、`X` は `log_uniform_values` です。`q` はデフォルトで `1`。     |
+| `inv_log_uniform`        | 逆対数一様分布。`log(1/X)` が `min` と `max` の間で一様に分布するような値 `X` を返します。           |
+| `inv_log_uniform_values` | 逆対数一様分布。`log(1/X)` が `log(1/max)` と `log(1/min)` の間で一様に分布するような値 `X` を返します。    |
+| `normal`                 | 正規分布。平均 `mu`（デフォルトは `0`）と標準偏差 `sigma`（デフォルトは `1`）で正規分布する値を返します。|
+| `q_normal`               | 量子化された正規分布。`round(X / q) * q` を返し、`X` は `normal` です。`q` はデフォルトで `1`。      |
+| `log_normal`             | 対数正規分布。自然対数 `log(X)` が平均 `mu`（デフォルトは `0`）と標準偏差 `sigma`（デフォルトは `1`）で正規分布する値 `X` を返します。|
+| `q_log_normal`  | 量子化された対数正規分布。`round(X / q) * q` を返し、`X` は `log_normal` です。`q` はデフォルトで `1`。             |
+#### 例
 
 <Tabs
   defaultValue="constant"
@@ -323,22 +321,23 @@ parameter_name:
 
 ### `metric`
 
-Describes the metric to optimize. This metric should be logged explicitly to W&B by your training script.
+最適化するメトリックを記述します。このメトリックは、トレーニングスクリプトによってW&Bに明示的にログされる必要があります。
 
-| Key      | Description                                                                                                                                                                                                                                                   |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`   | Name of the metric to optimize.                                                                                                                                                                                                                               |
-| `goal`   | Either `minimize` or `maximize` (Default is `minimize`).                                                                                                                                                                                                      |
-| `target` | Goal value for the metric you're optimizing. When any run in the sweep achieves that target value, the sweep's state will be set to `finished`. This means all agents with active runs will finish those jobs, but no new runs will be launched in the sweep. |
+| キー      | 説明                                                                                                                                                                                                                                                         |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`   | 最適化するメトリックの名前。                                                                                                                                                                                                                                 |
+| `goal`   | `minimize` もしくは `maximize`（デフォルトは `minimize`）。                                                                                                                                                                                                  |
+| `target` | 最適化するメトリックの目標値。スイープ内の任意のrunがその目標値を達成した場合、スイープの状態は `finished` に設定されます。これは、アクティブなrunを持つすべてのエージェントがジョブを終了することを意味しますが、スイープには新しいrunが開始されません。 |
 
-For example, if you want to minimize the validation loss of your model:
+例えば、モデルの検証ロスを最小化したい場合は以下のようになります。
+以下はMarkdownテキストのチャンクを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。他に何も言わずに。テキスト：
 
 ```python
-# model training code that returns validation loss as valid_loss
+# valid_lossとして検証損失を返すモデルトレーニングコード
 wandb.log({"val_loss" : valid_loss})
 ```
 
-#### Examples
+#### 例
 
 <Tabs
   defaultValue="maximize"
@@ -364,6 +363,7 @@ metric:
 ```
   </TabItem>
   <TabItem value="target">
+以下はMarkdownテキストのチャンクです。日本語に翻訳してください。テキストのみを返してください。他の言葉は使わないでください。テキスト：
 
 ```yaml
 metric:
@@ -375,11 +375,11 @@ metric:
 </Tabs>
 
 :::caution
-The metric you optimize must be a top-level metric.
+最適化するメトリクスはトップレベルのメトリクスである必要があります。
 :::
 
 
-Do not log the metric for your sweep inside of a sub-directory. In the proceeding code example, we want to log the validation loss (`"loss": val_loss`). First we define it in a dictionary. However, the dictionary passed to `wandb.log` does not specify the key-value pair to track.
+スイープのメトリクスをサブディレクトリ内にログしないでください。先程のコード例では、検証ロス（`"loss": val_loss`）をログしたいと思っています。まず、それを辞書に定義します。しかし、`wandb.log`に渡される辞書では、トラッキングするキーと値のペアが指定されていません。
 
 ```
 val_metrics = {
@@ -387,65 +387,63 @@ val_metrics = {
         "acc": val_acc
         }
 
-# Incorrect. Dictionary key-value paired is not provided.
+# 不正確。辞書のキーと値のペアが提供されていません。
 wandb.log({"val_loss", val_metrics})
 ```
 
-Instead, log the metric at the top level. For example, after you create a dictionary, specify the key-value pair when you pass the dictionary to the `wandb.log` method:
+代わりに、メトリクスをトップレベルでログしてください。例えば、辞書を作成した後、辞書を`wandb.log`メソッドに渡す際にキーと値のペアを指定します。
 
 ```
 val_metrics = {
         "loss": val_loss, 
         "acc": val_acc
         }
+以下は Markdown テキストのチャンクを翻訳してください。日本語に翻訳してください。それ以外のことは何も言わずに、翻訳したテキストだけを返してください。テキスト：
 
 wandb.log({"val_loss", val_metrics["loss"]})
 ```
 
 ### `early_terminate`
 
-Early termination is an optional feature that speeds up hyperparameter search by stopping poorly-performing runs. When the early stopping is triggered, the agent stops the current run and gets the next set of hyperparameters to try.
+早期終了は、性能が低い実行を停止することでハイパーパラメータの検索を高速化するオプション機能です。早期停止がトリガされると、エージェントは現在の実行を停止し、次のハイパーパラメーターセットを試みます。
 
-| Key    | Description                    |
-| ------ | ------------------------------ |
-| `type` | Specify the stopping algorithm |
+| キー  | 説明                            |
+| ---- | ------------------------------ |
+| `type` | 停止アルゴリズムを指定する         |
 
-We support the following stopping algorithm(s):
+以下の停止アルゴリズムをサポートしています。
 
-| `type`      | Description                                                   |
+| `type`      | 説明                                                   |
 | ----------- | ------------------------------------------------------------- |
-| `hyperband` | Use the [hyperband method](https://arxiv.org/abs/1603.06560). |
+| `hyperband` | [ハイパーバンド法](https://arxiv.org/abs/1603.06560) を使用する |
 
 #### `hyperband`
 
-[Hyperband](https://arxiv.org/abs/1603.06560) stopping evaluates if a program should be stopped or permitted to continue at one or more pre-set iteration counts, called "brackets". When a run reaches a bracket, its metric value is compared to all previous reported metric values and the [W&B Run](https://docs.wandb.ai/ref/python/run) is terminated if its value is too high (when the goal is minimization) or low (when the goal is maximization).
+[Hyperband](https://arxiv.org/abs/1603.06560) 停止は、プログラムを停止するか、いわゆる "ブラケット" と呼ばれる1つ以上のプリセット・イテレーションカウントで続行するかどうかを評価します。実行がブラケットに達すると、そのメトリクス値は、これまでに報告されたすべてのメトリクス値と比較され、値が高すぎる場合 (目標が最小化の場合) または低すぎる場合 (目標が最大化の場合) [W&B Run](https://docs.wandb.ai/ref/python/run) が終了します。
 
-Brackets are based on the number of logged iterations. The number of brackets corresponds to the number of times you log the metric you are optimizing. The iterations can correspond to steps, epochs, or something in between. The numerical value of the step counter is not used in bracket calculations.
+ブラケットは、ログされたイテレーションの数に基づいています。ブラケットの数は、最適化するメトリックをログする回数に対応します。イテレーションは、ステップ、エポック、またはその間のものに対応することができます。ステップカウンターの数値は、ブラケットの計算には使用されません。
 
 :::caution
-Specify either `min_iter` or `max_iter` to create a bracket schedule.
+ブラケットスケジュールを作成するには、`min_iter` または `max_iter` のいずれかを指定してください。
 :::
 
-
-| Key        | Description                                                    |
+| キー        | 説明                                                    |
 | ---------- | -------------------------------------------------------------- |
-| `min_iter` | Specify the iteration for the first bracket                    |
-| `max_iter` | Specify the maximum number of iterations.                      |
-| `s`        | Specify the total number of brackets (required for `max_iter`) |
-| `eta`      | Specify the bracket multiplier schedule (default: `3`).        |
-
+| `min_iter` | 最初のブラケットのイテレーションを指定する                     |
+| `max_iter` | 最大イテレーション数を指定します。                             |
+| `s`        | ブラケットの総数を指定します（`max_iter` に必要）              |
+| `eta`      | ブラケット乗数スケジュールを指定します（デフォルト: `3`）。   |
 :::info
-The hyperband early terminator checks what [W&B Runs](https://docs.wandb.ai/ref/python/run) to terminate once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
+ハイパーバンド早期終了器は、数分ごとにどの[W&B Runs](https://docs.wandb.ai/ref/python/run)を終了させるかをチェックします。ランまたは反復が短い場合、終了ランのタイムスタンプが指定されたブラケットと異なる場合があります。
 :::
 
-
-#### Examples
+#### 例
 
 <Tabs
   defaultValue="min_iter"
   values={[
-    {label: 'Hyperband (min_iter)', value: 'min_iter'},
-    {label: 'Hyperband (max_iter)', value: 'max_iter'},
+    {label: 'Hyperband（min_iter）', value: 'min_iter'},
+    {label: 'Hyperband（max_iter）', value: 'max_iter'},
   ]}>
   <TabItem value="min_iter">
 
@@ -455,7 +453,7 @@ early_terminate:
   min_iter: 3
 ```
 
-The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.
+この例のブラケットは `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]` で、`[3, 9, 27, 81]` と等しいです。
   </TabItem>
   <TabItem value="max_iter">
 
@@ -465,14 +463,13 @@ early_terminate:
   max_iter: 27
   s: 2
 ```
-
-The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.
+この例のカッコは、`[27/eta, 27/eta/eta]`であり、`[9, 3]`に等しいです。
   </TabItem>
 </Tabs>
 
 ### `command` <a href="#command" id="command"></a>
 
-<!-- Agents created with [`wandb agent`](../../ref/cli/wandb-agent.md) receive a command in the following format by default: -->
+<!-- [`wandb agent`](../../ref/cli/wandb-agent.md) で作成されたエージェントは、デフォルトで以下の形式のコマンドを受信します: -->
 
 <Tabs
   defaultValue="unix"
@@ -491,30 +488,30 @@ The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.
 ```python
 python train.py --param1=value1 --param2=value2
 ```
+
   </TabItem>
 </Tabs>
 
 :::info
-On UNIX systems, `/usr/bin/env` ensures the right Python interpreter is chosen based on the environment.
+UNIXシステムでは、`/usr/bin/env`が環境に基づいて適切なPythonインタープリタが選択されることを保証します。
 :::
+`command`キーの下に値を指定することで、フォーマットと内容を変更することができます。ファイル名などの固定されたコマンドの要素は、直接含めることができます（以下の例を参照）。
 
-The format and contents can be modified by specifying values under the `command` key. Fixed components of the command, such as filenames, can be included directly (see examples below).
+コマンドの可変要素については、以下のマクロをサポートしています。
 
-We support the following macros for variable components of the command:
+| コマンドマクロ                   | 説明                                                                                                                                           |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `${env}`                     | UNIXシステムでは `/usr/bin/env`、Windowsでは省略されます。                                                                                        |
+| `${interpreter}`             | `python`に展開されます。                                                                                                                           |
+| `${program}`                 | スイープ構成の`program`キーで指定されたトレーニングスクリプトファイル名。                                                                              |
+| `${args}`                    | `--param1=value1 --param2=value2`の形式でハイパーパラメータとその値を指定します。                                                                 |
+| `${args_no_boolean_flags}`   | `--param1=value1`の形式でハイパーパラメータとその値を指定しますが、ブールパラメータは`--boolean_flag_param`の形式で`True`、省略されて`False`。 |
+| `${args_no_hyphens}`         | `param1=value1 param2=value2`の形式で、ハイパーパラメータとその値。                                                                                 |
+| `${args_json}`               | JSONでエンコードされたハイパーパラメータとその値。                                                                                                |
+| `${args_json_file}`          | JSONでエンコードされたハイパーパラメータとその値が含まれるファイルへのパス。                                                                          |
+| `${envvar}`                  | 環境変数を渡す方法。`${envvar: MYENVVAR}` __MYENVVAR環境変数の値に展開されます。__                                                                      |
 
-| Command Macro              | Description                                                                                                                                                           |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `${env}`                   | `/usr/bin/env` on UNIX systems, omitted on Windows.                                                                                                                   |
-| `${interpreter}`           | Expands to `python`.                                                                                                                                                  |
-| `${program}`               | Training script filename specified by the sweep configuration `program` key.                                                                                          |
-| `${args}`                  | Hyperparameters and their values in the form `--param1=value1 --param2=value2`.                                                                                       |
-| `${args_no_boolean_flags}` | Hyperparameters and their values in the form `--param1=value1` except boolean parameters are in the form `--boolean_flag_param` when `True` and omitted when `False`. |
-| `${args_no_hyphens}`       | Hyperparameters and their values in the form `param1=value1 param2=value2`.                                                                                           |
-| `${args_json}`             | Hyperparameters and their values encoded as JSON.                                                                                                                     |
-| `${args_json_file}`        | The path to a file containing the hyperparameters and their values encoded as JSON.                                                                                   |
-| `${envvar}`                | A way to pass environment variables. `${envvar: MYENVVAR}` __ expands to the value of MYENVVAR environment variable. __                                               |
-
-The default command format is defined as:
+デフォルトのコマンドフォーマットは以下のように定義されています。
 
 ```yaml
 command:
@@ -524,19 +521,19 @@ command:
   - ${args}
 ```
 
-#### Examples
+#### 例
 
 <Tabs
   defaultValue="python"
   values={[
-    {label: 'Set python interpreter', value: 'python'},
-    {label: 'Add extra parameters', value: 'parameters'},
-    {label: 'Omit arguments', value: 'omit'},
+    {label: 'Pythonインタプリタを設定', value: 'python'},
+    {label: '追加パラメータ', value: 'parameters'},
+    {label: '引数を省略', value: 'omit'},
     {label: 'Hydra', value: 'hydra'}
   ]}>
   <TabItem value="python">
 
-Remove the `{$interpreter}` macro and provide a value explicitly in order to hardcode the python interpreter. For example, the following code snippet demonstrates how to do this:
+`{$interpreter}`マクロを削除し、Pythonインタプリタをハードコードするために値を明示的に指定します。例えば、以下のコードスニペットはその方法を示しています。
 
 ```yaml
 command:
@@ -548,7 +545,7 @@ command:
   </TabItem>
   <TabItem value="parameters">
 
-To add extra command line arguments not specified by sweep configuration parameters:
+スイープ設定パラメーターで指定されていない追加のコマンドライン引数を追加するには：
 
 ```
 command:
@@ -563,7 +560,7 @@ command:
   </TabItem>
   <TabItem value="omit">
 
-If your program does not use argument parsing you can avoid passing arguments all together and take advantage of `wandb.init` picking up sweep parameters into `wandb.config` automatically:
+プログラムが引数解析を使用していない場合、引数をまったく渡さずに、`wandb.init`が自動的にスイープパラメータを`wandb.config`に取り込む機能を利用できます。
 
 ```
 command:
@@ -573,15 +570,23 @@ command:
 ```
   </TabItem>
   <TabItem value="hydra">
+コマンドを変更して、[Hydra](https://hydra.cc)のようなツールが期待する方法で引数を渡すことができます。詳細は[HydraとW＆B](../integrations/other/hydra.md)を参照してください。
 
-You can change the command to pass arguments the way tools like [Hydra](https://hydra.cc) expect. See [Hydra with W&B](../integrations/other/hydra.md) for more information.
+
 
 ```
 command:
+
   - ${env}
+
   - ${interpreter}
+
   - ${program}
+
   - ${args_no_hyphens}
+
 ```
+
   </TabItem>
+
 </Tabs>

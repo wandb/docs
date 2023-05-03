@@ -1,18 +1,17 @@
 ---
-description: How to change the colors of your runs in visualizations
-displayed_sidebar: ja
+description: ビジュアライゼーションでランの色を変更する方法
 ---
 
-# Run Colors
+# ランの色
 
-When a new run is created, it is assigned a default color. You can edit the color for a given run by clicking the color preview.
+新しいランが作成されると、デフォルトの色が割り当てられます。 特定のランの色を編集するには、色プレビューをクリックします。
 
-Colors are locally scoped. On the project page, custom colors only apply to your own workspace. In reports, custom colors for runs only apply at the section level. You can visualize the same run in different sections, and it can have a different custom color in each section.
+色はローカルスコープです。プロジェクトページでは、カスタムカラーは自分のワークスペースにのみ適用されます。レポートでは、ランのカスタムカラーはセクションレベルでのみ適用されます。同じランを異なるセクションで可視化することができ、それぞれのセクションで異なるカスタムカラーを持つことができます。
 
-## How to edit run colors
+## ランの色の編集方法
 
-1. Select the Run you want to visualize
-2. Click the colored dot 
-3. Select a color for the graphs of your run
+1. 可視化したいランを選択します
+2. 色付きのドットをクリックします 
+3. ランのグラフに使用する色を選択します
 
 ![](https://downloads.intercomcdn.com/i/o/149202442/b430d9b1473e41644a91fae3/run+coloring.gif)

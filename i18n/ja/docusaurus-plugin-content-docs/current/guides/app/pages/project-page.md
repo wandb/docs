@@ -1,208 +1,224 @@
 ---
-description: >-
-  Compare versions of your model, explore results in a scratch workspace, and
-  export findings to a report to save notes and visualizations
-displayed_sidebar: ja
+description:
+  モデルのバージョンを比較し、スクラッチワークスペースで結果を調べ、
+  ノートや可視化を保存するレポートに調査結果をエクスポートします
 ---
 
-# Project Page
+# プロジェクトページ
 
-The project **Workspace** gives you a personal sandbox to compare experiments. Use projects to organize models that can be compared, working on the same problem with different architectures, hyperparameters, datasets, preprocessing etc.
+プロジェクトの**ワークスペース**は、実験を比較するための個人用のサンドボックスです。異なるアーキテクチャー、ハイパーパラメーター、データセット、前処理などで同じ問題に取り組むモデルを比較できるように、プロジェクトを使って整理します。
 
-Project page tabs:
+プロジェクトページのタブ：
 
-1. [**Overview**](project-page.md#overview-tab): snapshot of your project
-2. [**Workspace**](project-page.md#workspace-tab): personal visualization sandbox
-3. [**Table**](project-page.md#table-tab): bird's eye view of all runs
-4. [**Reports**](project-page.md#reports-tab): saved snapshots of notes, runs, and graphs
-5. [**Sweeps**](project-page.md#sweeps-tab): automated exploration and optimization
+1. [**概要**](project-page.md#overview-tab): プロジェクトのスナップショット
+2. [**ワークスペース**](project-page.md#workspace-tab): 個人用の可視化サンドボックス
+3. [**テーブル**](project-page.md#table-tab): すべてのrunsの俯瞰図
+4. [**レポート**](project-page.md#reports-tab): ノート、runs、グラフの保存されたスナップショット
+5. [**スイープ**](project-page.md#sweeps-tab): 自動化された探索と最適化
 
-## Overview Tab
+## 概要タブ
 
-* **Project name**: click to edit the project name
-* **Project description**: click to edit the project description and add notes
-* **Delete project**: click the dot menu in the right corner to delete a project
-* **Project privacy**: edit who can view runs and reports— click the lock icon
-* **Last active**: see when the most recent data was logged to this project
-* **Total compute**: we add up all the run times in your project to get this total
-* **Undelete runs**: Click the dropdown menu and click "Undelete all runs" to recover deleted runs in your project.
+* **プロジェクト名**: クリックしてプロジェクト名を編集します
+* **プロジェクトの説明**: クリックしてプロジェクトの説明を編集し、メモを追加します
+* **プロジェクトの削除**: 右上のドットメニューをクリックしてプロジェクトを削除します
+* **プロジェクトのプライバシー**: runsやレポートが誰に見られるかを編集 – 鍵アイコンをクリック
+* **最終アクティブ**: このプロジェクトに最も最近データがログされた日時
+* **合計コンピュート**: プロジェクト内のすべての実行時間を合計してこの数値が得られます
+* **削除済みrunsの復元**: ドロップダウンメニューをクリックして「すべての削除済みrunsを復元」をクリックし、プロジェクト内の削除済みrunsを回復します。
 
-[View a live example →](https://app.wandb.ai/example-team/sweep-demo/overview)
+[ライブ例を見る →](https://app.wandb.ai/example-team/sweep-demo/overview)
 
 ![](/images/app_ui/overview_tab_image.png)
-
 ![](/images/app_ui/undelete.png)
 
-## Workspace Tab
+## ワークスペースタブ
 
-**Runs Sidebar**: list of all the runs in your project
+**Runsサイドバー**: プロジェクト内のすべてのrunsのリスト
 
-* **Dot menu**: hover over a row in the sidebar to see the menu appear on the left side. Use this menu to rename a run, delete a run, or stop and active run.
-* **Visibility icon**: click the eye to turn on and off runs on graphs
-* **Color**: change the run color to another one of our presets or a custom color
-* **Search**: search runs by name. This also filters visible runs in the plots.
-* **Filter**: use the sidebar filter to narrow down the set of runs visible
-* **Group**: select a config column to dynamically group your runs, for example by architecture. Grouping makes plots show up with a line along the mean value, and a shaded region for the variance of points on the graph.
-* **Sort**: pick a value to sort your runs by, for example runs with the lowest loss or highest accuracy. Sorting will affect which runs show up on the graphs.
-* **Expand button**: expand the sidebar into the full table
-* **Run count**: the number in parentheses at the top is the total number of runs in the project. The number (N visualized) is the number of runs that have the eye turned on and are available to be visualized in each plot. In the example below, the graphs are only showing the first 10 of 183 runs. Edit a graph to increase the max number of runs visible.
+* **ドットメニュー**: サイドバーの行にカーソルを合わせると左側にメニューが現れます。このメニューでrunの名前を変更したり、runを削除したり、アクティブなrunを停止したりできます。
+* **表示アイコン**: 目のアイコンをクリックして、グラフ上の runs の表示をオン / オフにします
+* **色**: runの色を、プリセットの別の色やカスタムカラーに変更します
+* **検索**: runsを名前で検索します。これにより、プロット内の表示されるrunsも絞り込まれます。
+* **フィルター**: サイドバーのフィルター機能を利用して、表示されるrunsを絞り込むことができます
+* **グループ**: 設定列を選択して、アーキテクチャーなどの項目でrunsを動的にグループ化してください。グルーピングすると、プロットに平均値に沿った線と、グラフ上の点の分散範囲が表示されます。
+* **並び替え**: 例えば最も損失が少ないrunsや正確性が高いrunsなど、runsを並び替える基準を選択します。並び替えは、グラフに表示されるrunsに影響します。
+* **拡張ボタン**: サイドバーを完全なテーブルに拡張します
+* **Runの数**: 上部のかっこ内の数字は、プロジェクト内のrunsの合計数です。数値(Nが可視化されています)は、目のアイコンがオンになっており、各プロットで可視化できるrunsの数です。以下の例では、グラフは183のrunsのうち最初の10個だけを表示しています。表示される上限runsの数を増やすには、グラフを編集してください。
 
-**Panels layout**: use this scratch space to explore results, add and remove charts, and compare versions of your models based on different metrics
+**パネルレイアウト**: このスクラッチスペースを使って結果を探索し、チャートを追加・削除したり、モデルの異なるバージョンをメトリクスに基づいて比較してください
 
-[View a live example →](https://app.wandb.ai/example-team/sweep-demo)
+[ライブ例を見る →](https://app.wandb.ai/example-team/sweep-demo)
 
 ![](/images/app_ui/workspace_tab_example.png)
 
-### Search for runs
+### runs を検索する
 
-Search for a run by name in the sidebar. You can use regex to filter down your visible runs. The search box affects which runs are shown on the graph. Here's an example:
+サイドバーでrunの名前を検索します。正規表現を使って表示するrunsを絞り込むことができます。検索ボックスは、グラフに表示されるrunsに影響します。以下に例を示します:
 
 ![](/images/app_ui/project_page_search_for_runs.gif)
 
-### Add a section of panels
+### パネルのセクションを追加する
+セクションのドロップダウンメニューをクリックし、「セクションを追加」をクリックして、パネル用の新しいセクションを作成します。セクションの名前を変更したり、ドラッグして並べ替えたり、展開したり折りたたんだりできます。
 
-Click the section dropdown menu and click "Add section" to create a new section for panels. You can rename sections, drag them to reorganize them, and expand and collapse sections.
+各セクションには、右上隅にオプションがあります：
 
-Each section has options in the upper right corner:
-
-* **Switch to custom layout**: The custom layout allows you to resize panels individually.
-* **Switch to standard layout**: The standard layout lets you resize all panels in the section at once, and gives you pagination.
-* **Add section**: Add a section above or below from the dropdown menu, or click the button at the bottom of the page to add a new section.
-* **Rename section**: Change the title for your section.
-* **Export section to report**: Save this section of panels to a new report.
-* **Delete section**: Remove the whole section and all the charts. This can be undone with the undo button at the bottom of the page in the workspace bar.
-* **Add panel**: Click the plus button to add a panel to the section.
+* **カスタムレイアウトに切り替え**: カスタムレイアウトでは、パネルを個別にサイズ変更できます。
+* **標準レイアウトに切り替え**: 標準レイアウトでは、一度にセクション内のすべてのパネルのサイズを変更でき、ページ送りが可能です。
+* **セクションの追加**: ドロップダウンメニューから上または下にセクションを追加するか、ページの下部にあるボタンをクリックして新しいセクションを追加します。
+* **セクションの名前の変更**: セクションのタイトルを変更します。
+* **レポートにセクションをエクスポート**: パネルのこのセクションを新しいレポートとして保存します。
+* **セクションの削除**: セクション全体とすべてのグラフを削除します。これは、ワークスペースバーのページ下部にある元に戻すボタンで元に戻すことができます。
+* **パネルの追加**: プラスボタンをクリックして、セクションにパネルを追加します。
 
 ![](@site/static/images/app_ui/add-section.gif)
 
-### Move panels between sections
+### セクション間でパネルを移動する
 
-Drag and drop panels to reorder and organize into sections. You can also click the "Move" button in the upper right corner of a panel to select a section to move the panel to.
+パネルをドラッグアンドドロップして、セクションに並べ替えたり整理したりできます。また、パネルの右上隅にある「移動」ボタンをクリックして、パネルを移動するセクションを選択することもできます。
 
 ![](@site/static/images/app_ui/move-panel.gif)
 
-### Resize panels
+### パネルのサイズ変更
 
-* **Standard layout**: All panels maintain the same size, and there are pages of panels. You can resize the panels by clicking and dragging the lower right corner. Resize the section by clicking and dragging the lower right corner of the section.
-* **Custom layout**: All panels are sized individually, and there are no pages.
+* **標準レイアウト**: すべてのパネルは同じサイズを維持し、パネルのページがあります。右下隅をクリックしてドラッグすることで、パネルのサイズを変更できます。セクションの右下隅をクリックしてドラッグして、セクションのサイズを変更します。
+* **カスタムレイアウト**: すべてのパネルは個別にサイズが設定され、ページはありません。
 
 ![](@site/static/images/app_ui/resize-panel.gif)
 
-### Search for metrics
+### メトリクスの検索
 
-Use the search box in the workspace to filter down the panels. This search matches the panel titles, which are by default the name of the metrics visualized.
-
+ワークスペース内の検索ボックスを使用して、パネルを絞り込みます。この検索は、パネルのタイトルに一致し、デフォルトでは表示されているメトリクスの名前になります。
 ![](/images/app_ui/search_in_the_workspace.png)
 
-## Table Tab
+## テーブルタブ
 
-Use the table to filter, group, and sort your results.
+テーブルを使用して、結果をフィルター、グループ化、並び替えします。
 
-[View a live example →](https://app.wandb.ai/example-team/sweep-demo/table?workspace=user-carey)
+[ライブ例を見る →](https://app.wandb.ai/example-team/sweep-demo/table?workspace=user-carey)
 
 ![](/images/app_ui/table_tab.png)
 
-## Reports Tab
+## レポートタブ
 
-See all the snapshots of results in one place, and share findings with your team.
+結果のスナップショットを一か所で表示し、チームと調査結果を共有します。
 
 ![](@site/static/images/app_ui/reports-tab.png)
 
-## Sweeps Tab
+## スイープタブ
 
-Start a new [sweep](../../sweeps/intro.md) from your project.
+プロジェクトから新しい[スイープ](../../sweeps/intro.md)を開始します。
 
 ![](@site/static/images/app_ui/sweeps-tab.png)
 
-## Artifacts Tab
+## アーティファクトタブ
 
-View all the [artifacts](../../artifacts/intro.md) associated with a project, from training datasets and [fine-tuned models](../../models/intro.md) to [tables of metrics and media](../../data-vis/tables-quickstart.md).
+プロジェクトに関連するすべての[アーティファクト](../../artifacts/intro.md)を表示し、トレーニングデータセットや[微調整されたモデル](../../models/intro.md)、[メトリクスとメディアのテーブル](../../data-vis/tables-quickstart.md)を確認します。
 
-### Overview panel
+### 概要パネル
 
 ![](/images/app_ui/overview_panel.png)
+概要パネルでは、アーティファクトの名前やバージョン、変更を検出し重複を防ぐためのハッシュダイジェスト、作成日、エイリアスなど、アーティファクトに関する様々な高レベルの情報が表示されます。ここでエイリアスの追加や削除ができ、バージョンやアーティファクト全体についてメモを取ることができます。
 
-On the overview panel, you'll find a variety of high-level information about the artifact, including its name and version, the hash digest used to detect changes and prevent duplication, the creation date, and any aliases. You can add or remove aliases here, take notes on both the version as well as the artifact as a whole.
-
-### Metadata panel
+### メタデータパネル
 
 ![](/images/app_ui/metadata_panel.png)
 
-The metadata panel provides access to the artifact's metadata, which is provided when the artifact is constructed. This metadata might include configuration arguments required to reconstruct the artifact, URLs where more information can be found, or metrics produced during the run which logged the artifact. Additionally, you can see the configuration for the run which produced the artifact as well as the history metrics at the time of logging the artifact.
+メタデータパネルは、アーティファクトのメタデータにアクセスする機能を提供します。このメタデータは、アーティファクトが構築されたときに提供されます。このメタデータには、アーティファクトを再構築するために必要な設定引数、詳細情報が入手できるURL、または、アーティファクトをログに記録したランで生成されたメトリクスが含まれることがあります。また、アーティファクトを生成したランの設定や、アーティファクトがログに記録された時点での履歴メトリクスを確認することができます。
 
-### Usage panel
+### 使用法パネル
 
 ![](/images/app_ui/usage_panel.png)
 
-The Usage panel provides a code snippet for downloading the artifact for use outside of the web app, for example on a local machine. This section also indicates and links to the run which output the artifact and any runs which use the artifact as an input.
+Usageパネルでは、Webアプリケーション以外でアーティファクトを使用するためのコードをダウンロードするためのスニペットが提供されます。例えば、ローカルマシンなどです。このセクションでは、アーティファクトを出力したランと、アーティファクトを入力として使用するランについても表示・リンクがされています。
 
-### Files panel
+### ファイルパネル
 
 ![](/images/app_ui/files_panel.png)
 
-The files panel lists the files and folders associated with the artifact. You can navigate through this file tree and view the contents directly in the W&B web app.
+ファイルパネルには、アーティファクトに関連するファイルやフォルダが一覧表示されます。このファイルツリーをナビゲートして、W&B Webアプリ内で直接コンテンツを表示することができます。
 
-[Tables](../../data-vis/tables-quickstart.md) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here](../../data-vis/tables.md).
+アーティファクトに関連する[Tables](../../data-vis/tables-quickstart.md)は、このコンテキストで特に豊かでインタラクティブです。アーティファクトとTablesの使用方法については[こちら](../../data-vis/tables.md)で詳しく解説しています。
 
 ![](/images/app_ui/files_panel_table.png)
 
-### Lineage panel
+### 履歴パネル
 
 ![](/images/app_ui/lineage_panel.png)
 
-The lineage panel provides a view of all of the artifacts associated with a project and the runs that connect them to each other. It shows run types as blocks and artifacts as circles, with arrows to indicate when a run of a given type consumes or produces an artifact of a given type. The type of the particular artifact selected in the left-hand column is highlighted.
+履歴パネルでは、プロジェクトに関連するすべてのアーティファクトとそれらを互いに接続するランを表示します。ランのタイプはブロックで表示され、アーティファクトは円で表示されます。矢印は、特定のタイプのランが特定のタイプのアーティファクトを消費または生成することを示しています。左側の列で選択された特定のアーティファクトのタイプが強調表示されます。
+Explodeトグルをクリックすると、個々のアーティファクトのバージョンとそれらを接続する特定のrunが表示されます。
 
-Click the Explode toggle to view all of the individual artifact versions and the specific runs that connect them.
-
-### Action History Audit tab
+### アクション履歴監査タブ
 
 ![](/images/app_ui/action_history_audit_tab_1.png)
 
 ![](/images/app_ui/action_history_audit_tab_2.png)
 
-The action history audit tab shows all of the alias actions and membership changes for a Collection so you can audit the entire evolution of the resource.
+アクション履歴監査タブには、Collectionのエイリアスアクションとメンバーシップの変更がすべて表示されるため、リソースの全体的な進化を監査できます。
 
-### Versions tab
+### バージョンタブ
 
 ![](/images/app_ui/versions_tab.png)
 
-The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
+バージョンタブには、アーティファクトのすべてのバージョンと、バージョンのログ時点のRun履歴の数値値ごとの各列が表示されます。これにより、パフォーマンスを比較し、関心のあるバージョンをすばやく特定できます。
 
-## Project Defaults
+## プロジェクトのデフォルト設定
 
-You can change your project default settings _manually_ in your User Settings at `/settings`.
+ユーザー設定の `/settings` でプロジェクトのデフォルト設定を_手動_で変更することができます。
 
-* **Default location to create new projects**: This is set to your own personal entity by default. By clicking on the dropdown, you can switch between your personal entity and the teams you're part of.
-* **Default project privacy in your personal account**: This is set to 'Private' by default. In other words, your projects will be private and can only be accessed by you.
-* **Enable code saving in your personal account**: This is turned off by default. You can turn this on to save the main script or notebook to W&B.
+* **新しいプロジェクトを作成するデフォルトの場所**：デフォルトでは、あなた自身の個人エンティティに設定されています。ドロップダウンメニューをクリックすることで、個人エンティティと参加しているチーム間で切り替えることができます。
+* **個人アカウントでのデフォルトプロジェクトプライバシー**：デフォルトでは、「プライベート」に設定されています。つまり、プロジェクトはプライベートであり、あなただけがアクセスできます。
+* **個人アカウントでのコード保存を有効にする**：デフォルトではオフになっています。これをオンにすると、メインスクリプトやノートブックをW&Bに保存できます。
 
 :::note
-These settings can also be specified by passing arguments to 
-[`wandb.init`](../../../ref/python/init.md).
+これらの設定は、
+[`wandb.init`](../../../ref/python/init.md)
+に引数を渡すことで指定することもできます。
 :::
 
 ![](/images/app_ui/project_defaults.png)
+## よくある質問
 
-## Frequently Asked Questions
 
-### How can I delete projects?
 
-You can delete your project by clicking the three dots on the right of the overview tab.
+### プロジェクトを削除する方法は？
+
+
+
+プロジェクトを削除するには、概要タブの右側にある3つの点をクリックします。
+
+
 
 ![](/images/app_ui/howto_delete_project.gif)
 
-If the project is empty (i.e. it has no runs), you can delete it by clicking the dropdown menu in the top-right and selecting "Delete project".
+
+
+プロジェクトが空（つまり、runがない）場合は、右上のドロップダウンメニューをクリックして「プロジェクトを削除」を選択することで削除できます。
+
+
 
 ![](/images/app_ui/howto_delete_project_2.png)
 
-### Where are the privacy settings for projects? How can I make a project public or private?
 
-Click the lock in the navigation bar at the top of the page to change project privacy settings. You can edit who can view or submit runs to your project. These settings include all runs and reports in the project. If you'd like to share your results with just a few people, you can create a [private team](../features/teams.md).
+
+### プロジェクトのプライバシー設定はどこにありますか？プロジェクトを公開または非公開にする方法は？
+
+
+
+ページ上部のナビゲーションバーにあるロックをクリックして、プロジェクトのプライバシー設定を変更できます。プロジェクトに対して誰がrunを閲覧または送信できるかを編集することができます。この設定は、プロジェクト内のすべてのrunやレポートに適用されます。結果を限られた数の人と共有したい場合は、[プライベートチーム](../features/teams.md)を作成できます。
+
+
 
 ![](/images/app_ui/privacy_settings.png)
 
-### How do I reset my workspace?
 
-If you see an error like the one below on your project page, here's how to reset your workspace.`"objconv: "100000000000" overflows the maximum values of a signed 64 bits integer"`
 
-Add `?workspace=clear` to the end of the URL and press enter. This should take you to a cleared version of your project page workspace.
+### ワークスペースをリセットする方法は？
+
+
+
+プロジェクトページで以下のようなエラーが表示された場合、ワークスペースをリセットする方法は次のとおりです。`"objconv: "100000000000" overflows the maximum values of a signed 64 bits integer"`
+
+
+
+URLの末尾に`?workspace=clear`を追加してエンターを押します。これで、ワークスペースがクリアされたバージョンのプロジェクトページに移動するはずです。

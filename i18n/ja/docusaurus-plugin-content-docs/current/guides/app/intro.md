@@ -1,32 +1,29 @@
 ---
 slug: /guides/app
-displayed_sidebar: ja
 ---
 
-# アプリUI
+# App UI
 
-このセクションには、wandb.aiのクラウドまたは[W&Bローカルでホスティングされる](../hosting/intro.md)ウェブアプリインターフェース用の参考文献が含まれています。
+このセクションには、クラウド上のwandb.aiまたは[W&Bローカルでのホスティング](../hosting/intro.md)でホストされているウェブアプリインタフェースのリファレンスドキュメントが含まれています。
+### ページ
 
-### ページ​
+* [**プロジェクトページ**](pages/project-page.md): 複数の実験を統一された場所で比較する
+* [**Runページ**](pages/run-page.md): 1つのrunの結果を詳しく調べる
+* [**ワークスペース**](pages/workspaces.md): あなたのサンドボックスで可視化を設定・カスタマイズする
+### 機能
 
-* [**プロジェクトページ**](pages/project-page.md): 一元的な場所で複数の実験を管理
-* [**Runページ**](pages/run-page.md): 単一のrunで結果を取得
-* [**ワークスペース**](pages/workspaces.md): sandboxで可視化を構成およびカスタマイズ
-
-### 機能​
-
-* [**パネル**](features/panels/intro.md): ワークスペースとレポートで利用可能なデフォルトの可視化
+* [**パネル**](features/panels/intro.md): ワークスペースとレポートで利用可能なデフォルトのデータ可視化
   * [**折れ線グラフ**](features/panels/line-plot/intro.md)
-  * [**Runの色**](features/panels/run-colors.md)
-  * [**パラレル座標**](features/panels/parallel-coordinates.md)
+  * [**Runの色分け**](features/panels/run-colors.md)
+  * [**平行座標**](features/panels/parallel-coordinates.md)
   * [**散布図**](features/panels/scatter-plot.md)
-  * [**コードの保存**](features/panels/code.md)
-  * [**パラメーターの重要性**](features/panels/parameter-importance.md)
-  * [**Run Comparer**](features/panels/run-comparer.md)
-* [**カスタムチャート**](features/custom-charts/intro.md): Vegaで構築される、詳細にカスタマイズ可能な可視化
-* [**Runテーブル**](features/runs-table.md): runを体系化および比較するためのクエリ可能なツール
+  * [**コード保存**](features/panels/code.md)
+  * [**パラメータ重要度**](features/panels/parameter-importance.md)
+  * [**Run比較器**](features/panels/run-comparer.md)
+* [**カスタムチャート**](features/custom-charts/intro.md): Vegaを利用した高度にカスタマイズ可能なデータ可視化
+* [**Runsテーブル**](features/runs-table.md): Runの整理や比較が可能なツール
 * [**タグ**](features/tags.md)
-* [**メモ**](features/notes.md)
-* [**Teams**](features/teams.md)
+* [**ノート**](features/notes.md)
+* [**チーム**](features/teams.md)
 * [**システムメトリクス**](features/system-metrics.md)
 * [**匿名モード**](features/anon.md)

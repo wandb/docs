@@ -1,26 +1,25 @@
 ---
 slug: /guides/integrations/accelerate
-description: Training and inference at scale made simple, efficient and adaptable
-displayed_sidebar: ja
+description: シンプルかつ効率的で適応力のあるスケールでのトレーニングと推論
 ---
 
 # Hugging Face Accelerate
 
-Accelerate is a library that enables the same PyTorch code to be run across any distributed configuration by adding just four lines of code, making training and inference at scale made simple, efficient and adaptable.
+Accelerateは、わずか4行のコードを追加するだけで、同じPyTorchコードを任意の分散設定で実行できるライブラリで、シンプルかつ効率的で適応力のあるスケールでのトレーニングと推論が可能になります。
 
-Accelerate includes a Weights & Biases Tracker which we show how to use below. You can also read more about Accelerate Trackers in **[their docs here](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking)**
+Accelerateには、Weights & Biases トラッカーが含まれており、以下でその使い方を紹介します。Accelerate トラッカーについてもっと詳しく知りたい場合は、**[こちらのドキュメント](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking)**を参照してください。
 
-## Start logging with Accelerate
+## Accelerateでのログの開始
 
-To get started with Accelerate and Weights & Biases you can follow the pseudocode below:
+AccelerateとWeights & Biasesを始めるには、以下の疑似コードに従ってください。
 
 ```python
 from accelerate import Accelerator
 
-# Tell the Accelerator object to log with wandb
+# Acceleratorオブジェクトにwandbでログを取るよう指示する
 accelerator = Accelerator(log_with="wandb")
 
-# Initialise your wandb run, passing wandb parameters and any config information
+# wandb runを初期化し、wandbパラメータや設定情報を渡す
 accelerator.init_trackers(
     project_name="my_project", 
     config={"dropout": 0.1, "learning_rate": 1e-2}
@@ -28,58 +27,79 @@ accelerator.init_trackers(
     )
 
 ...
+以下は翻訳するMarkdownのテキストです。これを日本語に翻訳してください。何も言わずに翻訳されたテキストだけを返してください。テキスト：
 
-# Log to wandb by calling `accelerator.log`, `step` is optional
+# `accelerator.log` を呼び出して wandb にログを送信し、`step` はオプションです
 accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
 
 
-# Make sure that the wandb tracker finishes correctly
+# wandb トラッカーが正しく終了することを確認してください
 accelerator.end_training()
 ```
 
-Explaining more, you need to:
-1. Pass `log_with="wandb"` when initialising the Accelerator class
-2. Call the [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) method and pass it:
-- a project name via `project_name`
-- any parameters you want to pass to [`wandb.init`](https://docs.wandb.ai/ref/python/init) via a nested dict to `init_kwargs`
-- any other experiment config information you want to log to your wandb run, via `config`
-3. Use the `.log` method to log to Weigths & Biases; the `step` argument is optional
-4. Call `.end_training` when finished training
+詳しく説明すると、次の作業が必要です。
+1. Accelerator クラスを初期化する際に、`log_with="wandb"` を渡します
+2. [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) メソッドを呼び出し、次のものを渡します。
+- `project_name` 経由でプロジェクト名
+- `init_kwargs` にネストされた dict を通じて [`wandb.init`](https://docs.wandb.ai/ref/python/init) に渡したいパラメータ
+- `config` を介して wandb run にログを追加したいその他の実験設定情報
+3. `.log` メソッドを使って Weights & Biases にログを記録；`step`引数はオプションです
+4. トレーニングが終了したら `.end_training` を呼び出します
 
-## Accessing Accelerates' Internal W&B Tracker
+## Accelerates の内部の W&B トラッカーにアクセスする
 
-You can quickly access the wandb tracker using the Accelerator.get_tracker() method. Just pass in the string corresponding to a tracker’s .name attribute and it will return that tracker on the main process.
+Accelerator.get_tracker() メソッドを使用して、すばやく wandb トラッカーにアクセスできます。トラッカーの .name 属性に対応する文字列を渡すだけで、メインプロセス上でそのトラッカーを返します。
 
 ```python
 wandb_tracker = accelerator.get_tracker("wandb")
-
 ```
-From there you can interact with wandb’s run object like normal:
+そこから通常通り wandb の run オブジェクトとやりとりできます。
 
 ```python
 wandb_tracker.log_artifact(some_artifact_to_log)
 ```
+:::注意
 
-:::caution
-Trackers built in Accelerate will automatically execute on the correct process, so if a tracker is only meant to be ran on the main process it will do so automatically.
+Accelerateに組み込まれたトラッカーは、自動的に適切なプロセスで実行されるため、トラッカーがメインプロセスでのみ実行されるように設定されている場合、自動的にそうなります。
 
-If you want to truly remove Accelerate’s wrapping entirely, you can achieve the same outcome with:
+
+
+Accelerateのラッピングを完全に解除したい場合は、以下のようにして同じ結果を得ることができます。
+
+
 
 ```
+
 wandb_tracker = accelerator.get_tracker("wandb", unwrap=True)
+
 with accelerator.on_main_process:
+
     wandb_tracker.log_artifact(some_artifact_to_log)
+
 ```
+
 :::
 
-## Accelerate Articles
-Below is an Accelerate article you may enjoy
+
+
+## Accelerateの記事
+
+以下は、Accelerateに関する記事です。お楽しみください。
+
+
 
 <details>
 
-<summary>HuggingFace Accelerate Super Charged With Weights & Biases</summary>
 
-* In this article, we'll look at what HuggingFace Accelerate has to offer and how simple it is to perform distributed training and evaluation, while logging results to Weights & Biases
 
-Read the full report [here](https://wandb.ai/gladiator/HF%20Accelerate%20+%20W&B/reports/Hugging-Face-Accelerate-Super-Charged-with-Weights-Biases--VmlldzoyNzk3MDUx?utm_source=docs&utm_medium=docs&utm_campaign=accelerate-docs).
+<summary>HuggingFace AccelerateがWeights & Biasesでさらにパワーアップ</summary>
+
+
+
+* この記事では、HuggingFace Accelerateが提供する機能と、分散トレーニングや評価を行いながら、Weights & Biasesに結果をログする方法を簡単に紹介します。
+
+
+
+詳細なレポートは[こちら](https://wandb.ai/gladiator/HF%20Accelerate%20+%20W&B/reports/Hugging-Face-Accelerate-Super-Charged-with-Weights-Biases--VmlldzoyNzk3MDUx?utm_source=docs&utm_medium=docs&utm_campaign=accelerate-docs)でご覧いただけます。
+
 </details>

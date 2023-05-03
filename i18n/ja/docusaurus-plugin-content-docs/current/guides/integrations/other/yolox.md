@@ -1,40 +1,38 @@
 ---
 slug: /guides/integrations/yolox
-description: How to integrate W&B with YOLOX.
-displayed_sidebar: ja
+description: W&BをYOLOXと統合する方法
 ---
 
 # YOLOX
 
-[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. YOLOX contains a Weights & Biases integration that enables you to turn on logging of training, validation and system metrics, as well as interactive validation predictions with just 1 command line argument.
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX)は、オブジェクト検出の性能が高いYOLOのアンカーフリーバージョンです。YOLOXには、Weights & Biasesの統合が含まれており、トレーニング、バリデーション、システムメトリクスのログ記録、およびインタラクティブなバリデーション予測を1つのコマンドライン引数で有効にできます。
 
-## Getting Started
+## はじめに
 
-To use YOLOX with Weights & Biases you will first need to sign up for a Weights & Biases account [here](https://wandb.ai/site).
+まず、[こちら](https://wandb.ai/site)からWeights & Biasesのアカウントにサインアップしてください。
 
-Then just use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [wandb.init](../../track/launch.md) would expect, just prepend `wandb-` to the start of each argument
+次に、`--logger wandb`コマンドライン引数を使用して、wandbでのログ記録を有効にします。オプションで、[wandb.init](../../track/launch.md)が期待するすべての引数に`wandb-`を先頭につけて渡すこともできます。
 
-**Note:** `num_eval_imges` controls the number of validation set images and predictions that will be logged to Weights & Biases Tables for model evaluation.
+**注意:** `num_eval_imges`は、Weights & Biasesテーブルにログを記録し、モデルの評価のためにバリデーションセットの画像と予測の数を制御します。
 
 ```python
-# login to wandb
+# wandbにログインします
 wandb login
 
-# call your yolox training script with the `wandb` logger argument
+# `wandb` logger引数を使ってYOLOXトレーニングスクリプトを呼び出す
 python tools/train.py .... --logger wandb \
                 wandb-project <project-name> \
-                wandb-entity <entity>
+                wandb-entity <entity> \
                 wandb-name <run-name> \
                 wandb-id <run-id> \
                 wandb-save_dir <save-dir> \
                 wandb-num_eval_imges <num-images> \
                 wandb-log_checkpoints <bool>
 ```
+## 例
 
-## Example
-
-[Example dashboard with YOLOX training and validation metrics ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
+[YOLOXのトレーニングと検証メトリクスを含む例のダッシュボードへ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
 
 ![](/images/integrations/yolox_example_dashboard.png)
 
-Any questions or issues about this Weights & Biases integration? Open an issue in the [YOLOX github repository](https://github.com/Megvii-BaseDetection/YOLOX) and we'll catch it and get you an answer :)
+このWeights & Biasesの統合に関する質問や問題がありますか？[YOLOXのGitHubリポジトリ](https://github.com/Megvii-BaseDetection/YOLOX)で問題を報告してください。確認の上、回答をお伝えします。

@@ -1,22 +1,22 @@
-# wandb server
+# wandbサーバー
 
-**Usage**
+**使用法**
 
 `wandb server [OPTIONS] COMMAND [ARGS]...`
 
-**Summary**
+**概要**
 
-Commands for operating a local W&B server
+ローカルのW&Bサーバーを操作するためのコマンド
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| --help | Show this message and exit. |
+| --help | このメッセージを表示し、終了します。 |
 
-**Commands**
+**コマンド**
 
-| **Command** | **Description** |
+| **コマンド** | **説明** |
 | :--- | :--- |
-| start | Start a local W&B server |
-| stop | Stop a local W&B server |
+| start | ローカルのW&Bサーバーを開始します |
+| stop | ローカルのW&Bサーバーを停止します |

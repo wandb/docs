@@ -1,27 +1,24 @@
----
-displayed_sidebar: ja
----
+# ログ軸のカスタマイズ
 
-# Customize Log Axes
+`define_metric`を使用して、**カスタムx軸**を設定します。カスタムx軸は、トレーニング中に過去の異なる時間ステップに非同期でログを記録する必要がある状況で便利です。例えば、エピソードごとの報酬とステップごとの報酬をトラッキングするRLで役立ちます。
 
-Use `define_metric` to set a **custom x axis**.Custom x-axes are useful in contexts where you need to log to different time steps in the past during training, asynchronously. For example, this can be useful in RL where you may track the per-episode reward and a per-step reward.
+[Google Colabで`define_metric`を試す →](http://wandb.me/define-metric-colab)
 
-[Try `define_metric` live in Google Colab →](http://wandb.me/define-metric-colab)
+### 軸のカスタマイズ
 
-### Customize axes
+デフォルトでは、すべてのメトリクスはW&B内部の`step`という同じx軸に対して記録されます。しかし、場合によっては、以前のステップにログを記録するか、異なるx軸を使用したいことがあります。
 
-By default, all metrics are logged against the same x-axis, which is the W&B internal `step`. Sometimes, you might want to log to a previous step, or use a different x-axis.
-
-Here's an example of setting a custom x-axis metric, instead of the default step.
+以下に、デフォルトのステップではなく、カスタムx軸メトリックを設定する例を示します。
 
 ```python
 import wandb
 
 wandb.init()
-# define our custom x axis metric
+# カスタムx軸メトリック定義
 wandb.define_metric("custom_step")
-# define which metrics will be plotted against it
-wandb.define_metric("validation_loss", step_metric="custom_step")
+# どのメトリクスを対応させるか定義
+wandb.define_metric(
+  "validation_loss", step_metric="custom_step")
 
 for i in range(10):
   log_dict = {
@@ -31,25 +28,46 @@ for i in range(10):
   }
   wandb.log(log_dict)
 ```
+以下は、Markdownテキストの一部を翻訳してください。日本語に翻訳し、それ以外のことは何も言わずに翻訳されたテキストのみを返してください。テキスト:
 
-The x axis can be set using globs as well. Currently, only globs that have string prefixes are available. The following example will plot all logged metrics with the prefix `"train/"` to the x-axis `"train/step"`:
+x軸は、グロブを使って設定することもできます。現在、文字列プレフィックスを持つグロブのみが利用可能です。次の例では、プレフィックス`"train/"`でログされたすべてのメトリクスをx軸`"train/step"`にプロットします。
+
+
 
 ```python
+
 import wandb
 
+
+
 wandb.init()
-# define our custom x axis metric
+
+# カスタムx軸メトリックを定義する
+
 wandb.define_metric("train/step")
-# set all other train/ metrics to use this step
+
+# 他のすべてのtrain/メトリックをこのステップで使用するように設定する
+
 wandb.define_metric("train/*", step_metric="train/step")
 
+
+
 for i in range(10):
+
   log_dict = {
-      "train/step": 2 ** i  # grows exponentially with internal wandb step
-      "train/loss": 1/(i+1), # x-axis is train/step
-      "train/accuracy": 1 -  (1/(1+i)), # x-axis is train/step
-      "val/loss": 1/(1+i), # x-axis is internal wandb step
+
+      "train/step": 2 ** i # W&Bステップとともに指数関数的に増加
+
+      "train/loss": 1/(i+1), # x軸はtrain/step
+
+      "train/accuracy": 1 - (1/(1+i)), # x軸はtrain/step
+
+      "val/loss": 1/(1+i), # x軸は内部のwandbステップ
+
       
+
   }
+
   wandb.log(log_dict)
+
 ```

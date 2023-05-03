@@ -1,17 +1,16 @@
 ---
-description: Resume a paused or exited W&B Run
-displayed_sidebar: ja
+description: 一時停止または終了したW&B Runを再開する
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Resume Runs
+# Runの再開
 
 <head>
-  <title>Resume W&B Runs</title>
+  <title>W&B Run の再開</title>
 </head>
 
-You can have wandb automatically resume runs by passing `resume=True` to `wandb.init()`. If your process doesn't exit successfully, the next time you run it wandb will start logging from the last step.
+`wandb.init()`に`resume=True`を渡すことで、自動的にwandbのRunを再開させることができます。プロセスが正常に終了しない場合、次回実行時にwandbは最後のステップからログを開始します。
 
 <Tabs
   defaultValue="keras"
@@ -30,18 +29,19 @@ from wandb.keras import WandbCallback
 wandb.init(project="preemptible", resume=True)
 
 if wandb.run.resumed:
-    # restore the best model
-    model = keras.models.load_model(wandb.restore("model-best.h5").name)
+    # ベストモデルを復元する
+    model = keras.models.load_model(
+        wandb.restore("model-best.h5").name
+        )
 else:
     a = keras.layers.Input(shape=(32,))
     b = keras.layers.Dense(10)(a)
     model = keras.models.Model(input=a, output=b)
-
-model.compile("adam", loss="mse")
-model.fit(np.random.rand(100, 32), np.random.rand(100, 10),
-    # set the resumed epoch
+モデル.compile("adam", loss="mse")
+モデル.fit(np.random.rand(100, 32), np.random.rand(100, 10),
+    # 再開時のエポックを設定
     initial_epoch=wandb.run.step, epochs=300,
-    # save the best model if it improved each epoch
+    # 各エポックで改善された場合、最良のモデルを保存
     callbacks=[WandbCallback(save_model=True, monitor="loss")])
 ```
   </TabItem>
@@ -57,7 +57,7 @@ PROJECT_NAME = 'pytorch-resume-run'
 CHECKPOINT_PATH = './checkpoint.tar'
 N_EPOCHS = 100
 
-# Dummy data
+# ダミーデータ
 X = torch.randn(64, 8, requires_grad=True)
 Y = torch.empty(64, 1).random_(2)
 model = nn.Sequential(
@@ -76,7 +76,9 @@ if wandb.run.resumed:
     optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
     epoch = checkpoint['epoch']
     loss = checkpoint['loss']
+以下は、Markdownテキストのチャンクです。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
+```python
 model.train()
 while epoch < N_EPOCHS:
     optimizer.zero_grad()
@@ -86,74 +88,72 @@ while epoch < N_EPOCHS:
     loss.backward()
     optimizer.step()
 
-     torch.save({ # Save our checkpoint loc
+    torch.save({ # チェックポイントの場所を保存
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': loss,
         }, CHECKPOINT_PATH)
-    wandb.save(CHECKPOINT_PATH) # saves checkpoint to wandb
+    wandb.save(CHECKPOINT_PATH) # wandbにチェックポイントを保存
     epoch += 1
 ```
   </TabItem>
 </Tabs>
 
-### Resuming Guidance
+### 再開のガイダンス
 
-There are different ways in which W&B can be used to resume runs as detailed below:
+W&Bを使ってrunを再開する方法はいくつかありますが、以下で詳しく説明します：
 
-1.  [`resume`](./resuming)
+1. [`resume`](./resuming)
 
-    This is our recommended method for resuming runs with W&B.
+   これは、W&Bでrunを再開するためのおすすめの方法です。
 
-    1. As described above, runs can be resumed by passing`resume=True` to `wandb.init()`. This can be thought of as auto-resuming, where we “automatically” pick up from where an aborted run left off. If your process doesn't exit successfully, the next time you run it wandb will start logging from the last step.
-       * Note: This only works if you are running your script in the same directory as the one that failed as the file is stored at: `wandb/wandb-resume.json`.
-    2. The other form of resume requires you to provide the actual run id: `wandb.init(id=run_id)` and then when you resume (if you want to be sure that it is resuming, you do `wandb.init(id=run_id, resume="must")`.
-       * You can also have full control over resuming if you manage the `run_id`. We provide a utility to generate `run_id`: `wandb.util.generate_id()`. As long as you set the id to one of these unique ids for each unique run, you can say `resume="allow"` and wandb will automatically resume the run with that id.
-
-    More context regarding automatic and controlled resuming can be found in [this section](resuming.md#undefined).
+   1. 上記で説明したように、runは`wandb.init()`に`resume=True`を渡すことで再開することができます。これは、中断されたrunが終了するところから「自動的に」始めると考えることができます。プロセスが正常に終了しない場合、次に実行するとwandbは最後のステップからログを開始します。
+      * 注意：これは、ファイルが `wandb/wandb-resume.json` の場所に保存されているため、失敗したディレクトリと同じディレクトリでスクリプトを実行している場合にのみ機能します。
+   2. もう一つの再開方法では、実際のrun idを提供する必要があります： `wandb.init(id=run_id)` そして、再開するとき (もし再開がされていることを確認したい場合は、`wandb.init(id=run_id, resume="must")` を実行します)。
+      * `run_id` を管理することで、再開に完全なコントロールを持つことができます。一意のrunに対して一意のidを持つように`run_id`を設定するだけで、 `resume="allow"` を指定して、wandbはそのidのrunを自動的に再開します。これには、 `wandb.util.generate_id()`というidの生成ユーティリティを提供しています。
+自動および制御された再開に関する詳細なコンテキストは、[このセクション](resuming.md#undefined)で見つけることができます。
 2. [`wandb.restore`](../track/save-restore#examples-of-wandb.restore)
-   * This will allow you to log new historical values for your metrics to a run starting from where you left off but does not take care of re-establishing the state of your code, you will need to make sure you have written checkpoints that you can load!
-   * You can use [`wandb.save`](../track/save-restore#examples-of-wandb.save) to record the state of your run via checkpoint files. Create a checkpoint file through `wandb.save()`, which can then be used through `wandb.init(resume=<run-id>)`. [This report](https://wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W-B--Vmlldzo3MDQ3Mw) illustrates how to save and restore models with W&B.
+   * これにより、終了した箇所からrunを開始してメトリクスに新しい履歴値をロギングできますが、コードの状態を再確立することはできません。チェックポイントを書いてロードできるようにする必要があります！
+   * チェックポイントファイルを介してrunの状態を記録するには、[`wandb save`](../track/save-restore#examples-of-wandb.save)を使用できます。`wandb.save()`でチェックポイントファイルを作成し、`wandb.init(resume=<run-id>)`を使用してロードできます。[こちらのレポート](https://wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W-B--Vmlldzo3MDQ3Mw)では、W&Bを使用したモデルの保存と復元の方法について説明しています。
 
-#### Automatic and controlled resuming
+#### 自動および制御された再開
 
-Automatic resuming only works if the process is restarted on top of the same filesystem as the failed process. If you can't share a filesystem, we allow you to set the `WANDB_RUN_ID`: a globally unique string (per project) corresponding to a single run of your script. It must be no longer than 64 characters. All non-word characters will be converted to dashes.
+自動再開は、失敗したプロセスと同じファイルシステム上でプロセスが再開された場合にのみ機能します。ファイルシステムを共有できない場合は、`WANDB_RUN_ID`を設定できます。これは、スクリプトの単一の実行に対応する、プロジェクトごとにグローバルに一意の文字列です。最大64文字までです。すべての非単語文字はダッシュに変換されます。
 
 ```python
-# store this id to use it later when resuming
+# 後で再開する際に使用するために、このIDを保存します
 id = wandb.util.generate_id()
 wandb.init(id=id, resume="allow")
-# or via environment variables
+# または環境変数を経由して
 os.environ["WANDB_RESUME"] = "allow"
 os.environ["WANDB_RUN_ID"] = wandb.util.generate_id()
 wandb.init()
 ```
 
-If you set `WANDB_RESUME` equal to `"allow"`, you can always set `WANDB_RUN_ID` to a unique string and restarts of the process will be handled automatically. If you set `WANDB_RESUME` equal to `"must"`, wandb will throw an error if the run to be resumed does not exist yet instead of auto-creating a new run.
+`WANDB_RESUME`に`"allow"`を設定すると、`WANDB_RUN_ID`を一意の文字列に設定してプロセスの再起動を自動的に処理できます。`WANDB_RESUME`に`"must"`を設定すると、まだ存在しないrunを再開しようとするとwandbがエラーをスローし、新しいrunの自動作成は行われません。
 
 :::caution
-If multiple processes use the same `run_id` concurrently unexpected results will be recorded and rate limiting will occur.
+複数のプロセスが同じ`run_id`を同時に使用すると、予期しない結果が記録され、レート制限が発生します。
 :::
 
 :::info
-If you resume a run and you have `notes` specified in `wandb.init()`, those notes will overwrite any notes that you have added in the UI.
+runを再開し、`wandb.init()`で`notes`が指定されている場合、これらのnotesはUIで追加したnotesに上書きされます。
 :::
 
 :::info
-Note that resuming a run which was executed as part of a Sweep is not supported.
+スイープの一部として実行されたrunの再開はサポートされていません。
 :::
+### 事前終了可能なスイープ
 
-### Preemptible Sweeps
+もし、スイープエージェントを事前終了が可能な計算環境（例：SLURMジョブ内の事前終了可能なキュー、EC2スポットインスタンス、Google Cloudの事前終了可能なVMなど）で実行している場合、途中で中断されたスイープの実行を自動的に再キューに入れ、完全に実行されるまでリトライされるようにすることができます。
 
-If you are running a sweep agent in a compute environment that is subject to preemption (e.g., a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM), you can automatically requeue your interrupted sweep runs, ensuring they will be retried until they run to completion.
-
-When you learn your current run is about to be preempted, call
+現在の実行が事前終了寸前であることがわかったら、
 
 ```
 wandb.mark_preempting()
 ```
 
-to immediately signal to the W&B backend that your run believes it is about to be preempted. If a run that is marked preempting exits with status code 0, W&B will consider the run to have terminated successfully and it will not be requeued. If a preempting run exits with a nonzero status, W&B will consider the run to have been preempted, and it will automatically append the run to a run queue associated with the sweep. If a run exits with no status, W&B will mark the run preempted 5 minutes after the run's final heartbeat, then add it to the sweep run queue. Sweep agents will consume runs off the run queue until the queue is exhausted, at which point they will resume generating new runs based on the standard sweep search algorithm.
+を呼び出して、W&Bバックエンドに対して、実行が事前終了されると考えられることをすぐに伝えます。事前終了寸前の状態でマークされた実行がステータスコード0で終了した場合、W&Bはその実行が正常に終了したと見なし、再キューに入れません。事前終了寸前の実行が非ゼロのステータスで終了した場合、W&Bはその実行が事前終了されたものと見なし、スイープに関連付けられた実行キューに自動的に追加します。実行がステータスなしで終了した場合、W&Bは最後のハートビートから5分後に実行を事前終了されたものとしてマークし、スイープの実行キューに追加します。スイープエージェントは、キューが空になるまで実行を消費し続け、その後標準的なスイープ検索アルゴリズムに基づいて新しい実行を生成します。
 
-By default, requeued runs begin logging from their initial step. To instruct a run to resume logging at the step where it was interrupted, initialize the resumed run with `wandb.init(resume=True)`.
+デフォルトでは、再キューに入れられた実行は最初のステップからログを記録し始めます。中断されたステップでログの記録を再開させるには、`wandb.init(resume=True)`で実行を再開させてください。

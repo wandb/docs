@@ -1,16 +1,15 @@
-# wandb scheduler
+# wandbスケジューラー
 
-**Usage**
+**使用法**
 
 `wandb scheduler [OPTIONS] SWEEP_ID`
 
-**Summary**
+**概要**
 
-Run a W&B launch sweep scheduler (Experimental)
+W&B ランチスイープスケジューラーを実行する（実験的）
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| --help | Show this message and exit. |
-
+| --help | このメッセージを表示して終了します。 |

@@ -2,6 +2,8 @@
 description: Add W&B to your Python code script or Jupyter Notebook.
 displayed_sidebar: default
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Add W&B to your code
 
@@ -61,8 +63,7 @@ main()
 
 The following code examples demonstrate how to add the W&B Python SDK into your code. If you start W&B Sweep jobs in the CLI, you will want to explore the CLI tab. If you start W&B Sweep jobs within a Jupyter notebook or Python script, explore the Python SDK tab.
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
 
 <Tabs
   defaultValue="script"

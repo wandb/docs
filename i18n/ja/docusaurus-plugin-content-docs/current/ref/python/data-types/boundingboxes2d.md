@@ -1,12 +1,8 @@
 # BoundingBoxes2D
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L17-L292)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L17-L292)
-
-
-
-Format images with 2D bounding box overlays for logging to W&B.
+W&Bにログを送信するための2Dバウンディングボックスのオーバーレイを含む画像をフォーマットします。
 
 ```python
 BoundingBoxes2D(
@@ -15,20 +11,13 @@ BoundingBoxes2D(
 ) -> None
 ```
 
-
-
-
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `val` | (dictionary) A dictionary of the following form: box_data: (list of dictionaries) One dictionary for each bounding box, containing: position: (dictionary) the position and size of the bounding box, in one of two formats Note that boxes need not all use the same format. {"minX", "minY", "maxX", "maxY"}: (dictionary) A set of coordinates defining the upper and lower bounds of the box (the bottom left and top right corners) {"middle", "width", "height"}: (dictionary) A set of coordinates defining the center and dimensions of the box, with "middle" as a list [x, y] for the center point and "width" and "height" as numbers domain: (string) One of two options for the bounding box coordinate domain null: By default, or if no argument is passed, the coordinate domain is assumed to be relative to the original image, expressing this box as a fraction or percentage of the original image. This means all coordinates and dimensions passed into the "position" argument are floating point numbers between 0 and 1. "pixel": (string literal) The coordinate domain is set to the pixel space. This means all coordinates and dimensions passed into "position" are integers within the bounds of the image dimensions. class_id: (integer) The class label id for this box scores: (dictionary of string to number, optional) A mapping of named fields to numerical values (float or int), can be used for filtering boxes in the UI based on a range of values for the corresponding field box_caption: (string, optional) A string to be displayed as the label text above this box in the UI, often composed of the class label, class name, and/or scores class_labels: (dictionary, optional) A map of integer class labels to their readable class names |
-| `key` | (string) The readable name or id for this set of bounding boxes (e.g. predictions, ground_truth) |
+| `val` | (辞書型) 以下の形式の辞書型: box_data: (辞書型のリスト) それぞれのバウンディングボックスの情報を含む辞書型 position: (辞書型) バウンディングボックスの位置とサイズを2つの形式のうちの1つで表現する（すべてのボックスが同じ形式を使う必要はありません）. {"minX", "minY", "maxX", "maxY"}: (辞書型) ボックスの上限と下限（左下の角と右上の角）を示す座標のセット {"middle", "width", "height"}: (辞書型) ボックスの中心と寸法を示す座標のセット。"middle"は中心点の[x, y]リストであり、"width"と"height"は数値です domain: (文字列) バウンディングボックスの座標ドメインを2つのオプションのうちの1つにする null: デフォルトであるか、引数が渡されない場合、座標ドメインは元の画像に相対的であり、このボックスを元の画像の割合またはパーセンテージとして表現します。これは、「position」引数に渡されるすべての座標と寸法が0から1の範囲の浮動小数点数であることを意味します。 "pixel": (文字列リテラル) 座標ドメインがピクセル空間に設定されます。これは、「position」に渡されるすべての座標と寸法が画像寸法の範囲内の整数であることを意味します。 class_id: (整数) このボックスのクラスラベルID scores: (文字列と数値の辞書型, 任意) 名前が付けられたフィールドと数値（浮動小数点または整数）のマッピングで、UIでの該当フィールドの値範囲に基づくボックスのフィルタリングに使用できます box_caption: (文字列, 任意) UI上でこのボックスの上に表示されるラベルテキストとして表示される文字列で、クラスラベル、クラス名、および/またはスコアで構成されることがよくあります class_labels: (辞書型, 任意) 整数型のクラスラベルと読みやすいクラス名のマップ |
+| `key` | (文字列) このバウンディングボックスのセットの読みやすい名前またはID（例: predictions, ground_truth） |
 
-
-
-#### Examples:
-
-### Log bounding boxes for a single image
+#### 例:
+### 一つの画像のバウンディングボックスをログに記録
 
 ```python
 import numpy as np
@@ -37,7 +26,7 @@ import wandb
 wandb.init()
 image = np.random.randint(low=0, high=256, size=(200, 300, 3))
 
-class_labels = {0: "person", 1: "car", 2: "road", 3: "building"}
+class_labels = {0: "人", 1: "車", 2: "道路", 3: "建物"}
 
 img = wandb.Image(
  image,
@@ -45,31 +34,33 @@ img = wandb.Image(
  "predictions": {
  "box_data": [
  {
- # one box expressed in the default relative/fractional domain
+ # デフォルトの相対／分数表現で一つのボックスを表す
  "position": {"minX": 0.1, "maxX": 0.2, "minY": 0.3, "maxY": 0.4},
  "class_id": 1,
  "box_caption": class_labels[1],
  "scores": {"acc": 0.2, "loss": 1.2},
  },
  {
- # another box expressed in the pixel domain
+ # ピクセル領域で表現されたもう一つのボックス
  "position": {"middle": [150, 20], "width": 68, "height": 112},
  "domain": "pixel",
  "class_id": 3,
- "box_caption": "a building",
+ "box_caption": "建物",
  "scores": {"acc": 0.5, "loss": 0.7},
  },
- # Log as many boxes an as needed
+ # 必要なだけボックスを記録
  ],
  "class_labels": class_labels,
  }
  },
 )
+以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストのみを返してください。 テキスト:
 
+```
 wandb.log({"driving_scene": img})
 ```
 
-### Log a bounding box overlay to a Table
+### テーブルにバウンディングボックスのオーバーレイをログする
 
 ```python
 import numpy as np
@@ -78,14 +69,14 @@ import wandb
 wandb.init()
 image = np.random.randint(low=0, high=256, size=(200, 300, 3))
 
-class_labels = {0: "person", 1: "car", 2: "road", 3: "building"}
+class_labels = {0: "人", 1: "車", 2: "道路", 3: "建物"}
 
 class_set = wandb.Classes(
  [
- {"name": "person", "id": 0},
- {"name": "car", "id": 1},
- {"name": "road", "id": 2},
- {"name": "building", "id": 3},
+ {"name": "人", "id": 0},
+ {"name": "車", "id": 1},
+ {"name": "道路", "id": 2},
+ {"name": "建物", "id": 3},
  ]
 )
 
@@ -95,27 +86,29 @@ img = wandb.Image(
  "predictions": {
  "box_data": [
  {
- # one box expressed in the default relative/fractional domain
+ # デフォルトの相対/分数ドメインで表される1つのボックス
  "position": {"minX": 0.1, "maxX": 0.2, "minY": 0.3, "maxY": 0.4},
  "class_id": 1,
  "box_caption": class_labels[1],
  "scores": {"acc": 0.2, "loss": 1.2},
  },
  {
- # another box expressed in the pixel domain
+ # ピクセルドメインで表されるもう1つのボックス
  "position": {"middle": [150, 20], "width": 68, "height": 112},
  "domain": "pixel",
  "class_id": 3,
- "box_caption": "a building",
+ "box_caption": "建物",
  "scores": {"acc": 0.5, "loss": 0.7},
  },
- # Log as many boxes an as needed
+ # 必要なだけのボックスをログする
  ],
  "class_labels": class_labels,
  }
  },
  classes=class_set,
 )
+```
+ここに翻訳するマークダウンテキストの塊があります。日本語に翻訳してください。翻訳したテキストだけを返してください。それ以外のことは何も言わないでください。テキスト: 
 
 table = wandb.Table(columns=["image"])
 table.add_data(img)
@@ -123,13 +116,13 @@ wandb.log({"driving_scene": table})
 ```
 
 
-## Methods
+## メソッド
 
 ### `type_name`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L216-L218)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L216-L218)
 
 ```python
 @classmethod
@@ -143,16 +136,10 @@ type_name() -> str
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L220-L275)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/bounding_boxes_2d.py#L220-L275)
 
 ```python
 validate(
  val: dict
 ) -> bool
 ```
-
-
-
-
-
-

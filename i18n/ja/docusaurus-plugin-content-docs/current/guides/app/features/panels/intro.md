@@ -1,26 +1,25 @@
 ---
 slug: /guides/app/features/panels
-displayed_sidebar: ja
 ---
 
-# Panels
+# パネル
 
-Use visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and dataset examples.
+ログされたデータ、ハイパーパラメーターと出力メトリクスの関係、およびデータセット例を可視化で探索します。
 
-## Common Questions
+## よくある質問
 
-### I select dimensions on a parallel coordinates plot and it disappears
+### 平行座標プロットで次元を選択すると消えてしまう
 
-This is likely because you have dots in your config parameter names. We flatten nested parameters using dots, and we only handle 3 levels of dots in the backend. I recommend using a different character as a separator.
+これは、おそらくconfigパラメータ名にドットが含まれているためです。ネストされたパラメータをドットでフラット化し、バックエンドでは3レベルのドットしか処理しないためです。区切り文字として別の文字を使用することをお勧めします。
 
-### Visualize max accuracy in groups
+### グループで最大精度を可視化する
 
-Turn on the "eye" icon next to the top run in each group to visualize the maximum accuracy on the charts
+各グループのトップrunの横にある「目」アイコンをオンにして、チャートで最大精度を可視化します。
 
 ![](/images/app_ui/visualize_max_accuracy.png)
 
-### Download charts
+### チャートをダウンロードする
 
-You can download charts by clicking the down arrow and select a format (.png, .svg, export API or export by CSV)
+ダウンアローをクリックして、形式（.png、.svg、エクスポートAPI、CSVでエクスポート）を選択することで、チャートをダウンロードできます。
 
 ![](/images/app_ui/download_charts.png)

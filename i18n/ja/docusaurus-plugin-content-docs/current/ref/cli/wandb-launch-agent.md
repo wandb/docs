@@ -1,21 +1,20 @@
 # wandb launch-agent
 
-**Usage**
+**使用方法**
 
 `wandb launch-agent [OPTIONS]`
 
-**Summary**
+**概要**
 
-Run a W&B launch agent (Experimental).
+W&Bのlaunchエージェントを実行します。
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| -q, --queue <queue(s)> | The name of a queue for the agent to watch. Multiple   -q flags supported. |
-| -p, --project | Name of the project which the agent will watch. If   passed in, will override the project value passed in |
-| -e, --entity | The entity to use. Defaults to current logged-in   user |
-| -j, --max-jobs | The maximum number of launch jobs this agent can run   in parallel. Defaults to 1. Set to -1 for no upper |
-| -c, --config | path to the agent config yaml to use |
-| --help | Show this message and exit. |
-
+| -q, --queue <queue(s)> | エージェントが監視するキューの名前。複数の-qフラグが対応しています。 |
+| -p, --project | エージェントが監視するプロジェクトの名前。渡された場合、渡されたプロジェクトの値を上書きします |
+| -e, --entity | 使用するエンティティ。デフォルトでは現在ログイン中のユーザーになります。 |
+| -j, --max-jobs | このエージェントが並行して実行できるlaunchジョブの最大数。デフォルトは1です。上限なしの場合は-1に設定してください。 |
+| -c, --config | 使用するエージェントのconfig yamlへのパス |
+| --help | このメッセージを表示して終了します。 |

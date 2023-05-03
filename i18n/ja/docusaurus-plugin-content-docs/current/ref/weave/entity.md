@@ -1,49 +1,32 @@
-# entity
+# エンティティ
+## チェーン可能な操作
 
-## Chainable Ops
-<h3 id="entity-link"><code>entity-link</code></h3>
 
-Returns the link of the [entity](https://docs.wandb.ai/ref/weave/entity)
-
-| Argument |  |
 | :--- | :--- |
-| `entity` | A [entity](https://docs.wandb.ai/ref/weave/entity) |
 
-#### Return Value
-The link of the [entity](https://docs.wandb.ai/ref/weave/entity)
+[エンティティ](https://docs.wandb.ai/ref/weave/entity)のリンク
+<h3 id="entity-name"><code>entity-name</code></h3>
+[エンティティ](https://docs.wandb.ai/ref/weave/entity)の名前を返します。
+| 引数 |  |
+| `entity` | [エンティティ](https://docs.wandb.ai/ref/weave/entity) |
+#### 戻り値
+
+## リスト操作
+
+| 引数 |  |
+| :--- | :--- |
+| `entity` | [エンティティ](https://docs.wandb.ai/ref/weave/entity) |
+
+#### 戻り値
+[エンティティ](https://docs.wandb.ai/ref/weave/entity)のリンク
 
 <h3 id="entity-name"><code>entity-name</code></h3>
 
-Returns the name of the [entity](https://docs.wandb.ai/ref/weave/entity)
+[エンティティ](https://docs.wandb.ai/ref/weave/entity)の名前を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `entity` | A [entity](https://docs.wandb.ai/ref/weave/entity) |
+| `entity` | [エンティティ](https://docs.wandb.ai/ref/weave/entity) |
 
-#### Return Value
-The name of the [entity](https://docs.wandb.ai/ref/weave/entity)
-
-
-## List Ops
-<h3 id="entity-link"><code>entity-link</code></h3>
-
-Returns the link of the [entity](https://docs.wandb.ai/ref/weave/entity)
-
-| Argument |  |
-| :--- | :--- |
-| `entity` | A [entity](https://docs.wandb.ai/ref/weave/entity) |
-
-#### Return Value
-The link of the [entity](https://docs.wandb.ai/ref/weave/entity)
-
-<h3 id="entity-name"><code>entity-name</code></h3>
-
-Returns the name of the [entity](https://docs.wandb.ai/ref/weave/entity)
-
-| Argument |  |
-| :--- | :--- |
-| `entity` | A [entity](https://docs.wandb.ai/ref/weave/entity) |
-
-#### Return Value
-The name of the [entity](https://docs.wandb.ai/ref/weave/entity)
-
+#### 戻り値
+[エンティティ](https://docs.wandb.ai/ref/weave/entity)の名前

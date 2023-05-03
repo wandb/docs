@@ -1,16 +1,19 @@
-# wandb server stop
+以下のマークダウンテキストを日本語に翻訳してください。他に何も言わずに、翻訳されたテキストだけを返してください。テキスト:
 
-**Usage**
+# wandbサーバーの停止
 
-`wandb server stop [OPTIONS]`
+**使用方法**
 
-**Summary**
+`wandb server stop [オプション]`
 
-Stop a local W&B server
+**概要**
 
-**Options**
+ローカルのW&Bサーバーを停止する
 
-| **Option** | **Description** |
+**オプション**
+
+| **オプション** | **説明** |
+
 | :--- | :--- |
-| --help | Show this message and exit. |
 
+| --help | このメッセージを表示して終了します。 |

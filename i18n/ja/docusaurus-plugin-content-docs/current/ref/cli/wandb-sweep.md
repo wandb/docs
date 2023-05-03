@@ -1,30 +1,28 @@
-# wandb sweep
+# wandbスイープ
 
-**Usage**
+**使用法**
 
-`wandb sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID`
+`wandb sweep [オプション] CONFIG_YAML_OR_SWEEP_ID`
 
-**Summary**
+**概要**
+スイープの作成
 
-Create a sweep
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| -p, --project | The project of the sweep. |
-| -e, --entity | The entity scope for the project. |
-| --controller | Run local controller |
-| --verbose | Display verbose output |
-| --name | Set sweep name |
-| --program | Set sweep program |
-| --update | Update pending sweep |
-| -c, --launch_config | Path to JSON or YAML file which defines how to   launch the sweep. |
-| --stop | Finish a sweep to stop running new runs and let   currently running runs finish. |
-| --cancel | Cancel a sweep to kill all running runs and stop   running new runs. |
-| --pause | Pause a sweep to temporarily stop running new   runs. |
-| --resume | Resume a sweep to continue running new runs. |
-| -q, --queue | The name of a launch queue (configured with a   resource), available in the current user or team. |
-| --project-queue | Specify sweeps launch project |
-| --help | Show this message and exit. |
-
+| -p, --project | スイープのプロジェクト |
+| -e, --entity | プロジェクトのエンティティスコープ |
+| --controller | ローカルコントローラを実行 |
+| --verbose | 詳細な出力を表示 |
+| --name | スイープ名を設定 |
+| --program | スイーププログラムを設定 |
+| --update | 保留中のスイープを更新 |
+| -c, --launch_config | スイープの起動方法を定義したJSONまたはYAMLファイルへのパス |
+| --stop | 新しいrunの実行を停止し、現在実行中のrunを終了させるために、スイープを終了 |
+| --cancel | すべての実行中のrunをキャンセルし、新しいrunの実行を停止するために、スイープをキャンセル |
+| --pause | 一時的に新しいrunの実行を停止するために、スイープを一時停止 |
+| --resume | 新しいrunの実行を続行するために、スイープを再開 |
+| -q, --queue | 現在のユーザーまたはチームで利用可能なリソースを備えたローンチキューの名前 |
+| --project-queue | スイープの起動プロジェクトを指定 |
+| --help | このメッセージを表示して終了 |

@@ -1,12 +1,8 @@
-# Artifact
+# アーティファクト
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4214-L5254)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4214-L5260)
-
-
-
-A wandb Artifact.
+wandbのアーティファクトです。
 
 ```python
 Artifact(
@@ -14,101 +10,93 @@ Artifact(
 )
 ```
 
+ログされたアーティファクトで、すべての属性、それを使用するrunへのリンク、
+それをログしたrunへのリンクが含まれています。
 
+#### 例:
 
-
-An artifact that has been logged, including all its attributes, links to the runs
-that use it, and a link to the run that logged it.
-
-#### Examples:
-
-Basic usage
+基本的な使い方
 ```
 api = wandb.Api()
 artifact = api.artifact('project/artifact:alias')
 
-# Get information about the artifact...
+# アーティファクトに関する情報を取得する...
 artifact.digest
 artifact.aliases
 ```
 
-Updating an artifact
+アーティファクトを更新する
 ```
 artifact = api.artifact('project/artifact:alias')
 
-# Update the description
+# 説明を更新する
 artifact.description = 'My new description'
-
-# Selectively update metadata keys
+# メタデータキーを選択的に更新する
 artifact.metadata["oldKey"] = "new value"
 
-# Replace the metadata entirely
+# メタデータを完全に置き換える
 artifact.metadata = {"newKey": "new value"}
 
-# Add an alias
+# エイリアスを追加する
 artifact.aliases.append('best')
 
-# Remove an alias
+# エイリアスを削除する
 artifact.aliases.remove('latest')
 
-# Completely replace the aliases
+# エイリアスを完全に置き換える
 artifact.aliases = ['replaced']
 
-# Persist all artifact modifications
+# すべてのアーティファクトの変更を保存する
 artifact.save()
 ```
 
-Artifact graph traversal
+アーティファクトグラフの走査
 ```
 artifact = api.artifact('project/artifact:alias')
 
-# Walk up and down the graph from an artifact:
+# アーティファクトからグラフを上下に辿る:
 producer_run = artifact.logged_by()
 consumer_runs = artifact.used_by()
 
-# Walk up and down the graph from a run:
+# runからグラフを上下に辿る:
 logged_artifacts = run.logged_artifacts()
 used_artifacts = run.used_artifacts()
 ```
 
-Deleting an artifact
+アーティファクトの削除
 ```
 artifact = api.artifact('project/artifact:alias')
 artifact.delete()
 ```
-
-
-
-
-| Attributes | |
+| 属性 | |
 | :--- | :--- |
-| `aliases` | The aliases associated with this artifact. |
-| `commit_hash` | The hash returned when this artifact was committed. |
-| `created_at` | The time at which the artifact was created. |
-| `description` | The artifact description. |
-| `digest` | The logical digest of the artifact. The digest is the checksum of the artifact's contents. If an artifact has the same digest as the current `latest` version, then `log_artifact` is a no-op. |
-| `entity` | The name of the entity this artifact belongs to. |
-| `id` | The artifact's ID. |
-| `manifest` | The artifact's manifest. The manifest lists all of its contents, and can't be changed once the artifact has been logged. |
-| `metadata` | User-defined artifact metadata. |
-| `name` | The artifact's name. |
-| `project` | The name of the project this artifact belongs to. |
-| `size` | The total size of the artifact in bytes. |
-| `source_version` | The artifact's version index under its parent artifact collection. A string with the format "v{number}". |
-| `state` | The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED". |
-| `type` | The artifact's type. |
-| `updated_at` | The time at which the artifact was last updated. |
-| `version` | The artifact's version index under the given artifact collection. A string with the format "v{number}". |
+| `aliases` | このアーティファクトに関連付けられたエイリアス。 |
+| `commit_hash` | このアーティファクトがコミットされたときに返されるハッシュ。 |
+| `created_at` | アーティファクトが作成された時刻。 |
+| `description` | アーティファクトの説明。 |
+| `digest` | アーティファクトの論理ダイジェスト。ダイジェストはアーティファクトの内容のチェックサムです。アーティファクトが現在の`latest`バージョンと同じダイジェストを持っている場合、`log_artifact`は何もしません。 |
+| `entity` | このアーティファクトが所属するエンティティの名前。 |
+| `id` | アーティファクトのID。 |
+| `manifest` | アーティファクトのマニフェスト。マニフェストにはその内容がすべて記載され、アーティファクトがログに記録されると変更できません。 |
+| `metadata` | ユーザー定義のアーティファクトメタデータ。 |
+| `name` | アーティファクトの名前。 |
+| `project` | このアーティファクトが所属するプロジェクト名。 |
+| `size` | アーティファクトの合計サイズ（バイト単位）。 |
+| `source_version` | 親アーティファクトコレクションの下のアーティファクトのバージョンインデックス。"v{number}"という形式の文字列。 |
+| `state` | アーティファクトの状態。以下のいずれか: "PENDING", "COMMITTED", "DELETED"。 |
+| `type` | アーティファクトのタイプ。 |
+| `updated_at` | アーティファクトが最後に更新された時刻。 |
+| `version` | 指定されたアーティファクトコレクションの下のアーティファクトのバージョンインデックス。"v{number}"という形式の文字列。 |
 
 
 
-## Methods
+## メソッド
 
 ### `add`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4649-L4650)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4649-L4650)
 
 ```python
 add(
@@ -116,34 +104,33 @@ add(
 )
 ```
 
-Add wandb.WBValue `obj` to the artifact.
+wandb.WBValue `obj` をアーティファクトに追加します。
 
 ```
 obj = artifact.get(name)
 ```
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `obj` | (wandb.WBValue) The object to add. Currently support one of Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3D |
-| `name` | (str) The path within the artifact to add the object. |
+| `obj` | (wandb.WBValue) 追加するオブジェクト。現在、Bokeh、JoinedTable、PartitionedTable、Table、Classes、ImageMask、BoundingBoxes2D、Audio、Image、Video、Html、Object3D のいずれかに対応しています。 |
+| `name` | (str) アーティファクト内のオブジェクトを追加するパス。 |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| `ArtifactManifestEntry` | the added manifest entry |
+| `ArtifactManifestEntry` | 追加されたマニフェストエントリ |
 
 
 
-| Raises | |
+| 例外 | |
 | :--- | :--- |
-| `ArtifactFinalizedError` | if the artifact has already been finalized. |
+| `ArtifactFinalizedError` | アーティファクトがすでに確定している場合。 |
 
 
 
-#### Examples:
+#### 例:
 
-Basic usage
+基本的な使い方
 ```
 artifact = wandb.Artifact('my_table', 'dataset')
 table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
@@ -152,7 +139,7 @@ artifact.add(table, "my_table")
 wandb.log_artifact(artifact)
 ```
 
-Retrieve an object:
+オブジェクトの取得:
 ```
 artifact = wandb.use_artifact('my_table:latest')
 table = artifact.get("my_table")
@@ -160,10 +147,7 @@ table = artifact.get("my_table")
 
 
 ### `add_dir`
-
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4643-L4644)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4643-L4644)
 
 ```python
 add_dir(
@@ -171,39 +155,34 @@ add_dir(
 )
 ```
 
-Add a local directory to the artifact.
+アーティファクトにローカルディレクトリを追加します。
 
-
-| Arguments | |
+| 引数 | 説明 |
 | :--- | :--- |
-| `local_path` | (str) The path to the directory being added. |
-| `name` | (str, optional) The path within the artifact to use for the directory being added. Defaults to the root of the artifact. |
+| `local_path` | (str) 追加されるディレクトリのパス。 |
+| `name` | (str, 任意) 追加されるディレクトリに使われるアーティファクト内のパス。デフォルトでは、アーティファクトのルートになります。 |
 
 
 
-#### Examples:
+#### 例:
 
-Add a directory without an explicit name:
+明示的な名前なしでディレクトリを追加:
 ```
-# All files in `my_dir/` are added at the root of the artifact.
+# `my_dir/`内の全てのファイルがアーティファクトのルートに追加されます。
 artifact.add_dir('my_dir/')
 ```
 
-Add a directory and name it explicitly:
+明示的な名前でディレクトリを追加:
 ```
-# All files in `my_dir/` are added under `destination/`.
+# `my_dir/`内の全てのファイルが`destination/`の下に追加されます。
 artifact.add_dir('my_dir/', name='destination')
 ```
 
 
-
-| Raises | |
+| 例外 | 説明 |
 | :--- | :--- |
-| `ArtifactFinalizedError` | if the artifact has already been finalized. |
-
-
-
-| Returns | |
+| `ArtifactFinalizedError` | アーティファクトがすでに確定済みの場合。 |
+| 戻り値 | |
 | :--- | :--- |
 | None |
 
@@ -213,7 +192,7 @@ artifact.add_dir('my_dir/', name='destination')
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4640-L4641)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4640-L4641)
 
 ```python
 add_file(
@@ -221,50 +200,42 @@ add_file(
 )
 ```
 
-Add a local file to the artifact.
+ローカルファイルをアーティファクトに追加します。
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `local_path` | (str) The path to the file being added. |
-| `name` | (str, optional) The path within the artifact to use for the file being added. Defaults to the basename of the file. |
-| `is_tmp` | (bool, optional) If true, then the file is renamed deterministically to avoid collisions. (default: False) |
+| `local_path` | (str) 追加されるファイルへのパス。 |
+| `name` | (str, 任意) 追加されるファイルに対してアーティファクト内で使用するパス。デフォルトでは、ファイルのベース名が使用されます。 |
+| `is_tmp` | (bool, 任意) True の場合、ファイルは衝突を避けるために決定論的にリネームされます。 (デフォルト: False) |
 
 
 
-#### Examples:
+#### 例:
 
-Add a file without an explicit name:
+明示的な名前がないファイルを追加する:
 ```
-# Add as `file.txt'
+# `file.txt' として追加
 artifact.add_file('path/to/file.txt')
 ```
 
-Add a file with an explicit name:
+明示的な名前を持つファイルを追加する:
 ```
-# Add as 'new/path/file.txt'
+# 'new/path/file.txt'として追加
 artifact.add_file('path/to/file.txt', name='new/path/file.txt')
 ```
 
-
-
 | Raises | |
 | :--- | :--- |
-| `ArtifactFinalizedError` | if the artifact has already been finalized. |
-
-
+| `ArtifactFinalizedError` | アーティファクトがすでに確定されている場合。 |
 
 | Returns | |
 | :--- | :--- |
-| `ArtifactManifestEntry` | the added manifest entry |
-
-
+| `ArtifactManifestEntry` | 追加されたマニフェストエントリ |
 
 ### `add_reference`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4646-L4647)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4646-L4647)
 
 ```python
 add_reference(
@@ -272,76 +243,70 @@ add_reference(
 )
 ```
 
-Add a reference denoted by a URI to the artifact.
+URIで示される参照をアーティファクトに追加します。
 
-Unlike adding files or directories, references are NOT uploaded to W&B. However,
-artifact methods such as `download()` can be used regardless of whether the
-artifact contains references or uploaded files.
+ファイルやディレクトリを追加するのとは異なり、参照はW&Bにアップロードされません。ただし、
+アーティファクトに参照が含まれているかアップロードされたファイルが含まれているかに関わらず、
+アーティファクトメソッド（`download()`など）が使用できます。
 
-By default, W&B offers special handling for the following schemes:
+デフォルトで、W&Bは次のスキームに対して特別な処理を提供しています。
 
-- http(s): The size and digest of the file will be inferred by the
- `Content-Length` and the `ETag` response headers returned by the server.
-- s3: The checksum and size will be pulled from the object metadata. If bucket
- versioning is enabled, then the version ID is also tracked.
-- gs: The checksum and size will be pulled from the object metadata. If bucket
- versioning is enabled, then the version ID is also tracked.
-- file: The checksum and size will be pulled from the file system. This scheme
- is useful if you have an NFS share or other externally mounted volume
- containing files you wish to track but not necessarily upload.
+- http(s): サイズとダイジェストは、サーバーが返す`Content-Length`と`ETag`応答ヘッダーによって推定されます。
+- s3: チェックサムとサイズは、オブジェクトのメタデータから取得されます。バケットの
+ バージョン管理が有効になっている場合は、バージョンIDも追跡されます。
+- gs: チェックサムとサイズは、オブジェクトのメタデータから取得されます。バケットの
+ バージョン管理が有効になっている場合は、バージョンIDも追跡されます。
+- file: チェックサムとサイズは、ファイルシステムから取得されます。このスキームは、
+ 追跡したいファイルが含まれているNFS共有や外部からマウントされたボリュームがある場合に
+ 役立ちますが、必ずしもアップロードする必要はありません。
+他のスキームでは、ダイジェストはURIとサイズのハッシュで、サイズは空白のままです。
 
-For any other scheme, the digest is just a hash of the URI and the size is left
-blank.
-
-| Arguments | |
+| 引数 |  |
 | :--- | :--- |
-| `uri` | (str) The URI path of the reference to add. Can be an object returned from Artifact.get_path to store a reference to another artifact's entry. |
-| `name` | (str) The path within the artifact to place the contents of this reference checksum: (bool, optional) Whether or not to checksum the resource(s) located at the reference URI. Checksumming is strongly recommended as it enables automatic integrity validation, however it can be disabled to speed up artifact creation. (default: True) |
-| `max_objects` | (int, optional) The maximum number of objects to consider when adding a reference that points to directory or bucket store prefix. For S3 and GCS, this limit is 10,000 by default but is uncapped for other URI schemes. (default: None) |
+| `uri` | (str) 追加する参照のURIパス。Artifact.get_pathから返されるオブジェクトを指定して、別のアーティファクトのエントリへの参照を保存できます。 |
+| `name` | (str) この参照のコンテンツをアーティファクト内に配置するパス checksum: (bool, optional) 参照URIにあるリソースをチェックサムするかどうか。チェックサムは自動的な整合性検証が可能になるため、強く推奨されますが、アーティファクトの作成を高速化するために無効にすることもできます。(デフォルト: True) |
+| `max_objects` | (int, optional) ディレクトリーやバケットストアのプレフィックスを指す参照を追加する際に考慮すべきオブジェクトの最大数。S3およびGCSでは、この上限はデフォルトで10,000ですが、他のURIスキームでは上限がありません。(デフォルト: None) |
 
 
 
 | Raises | |
 | :--- | :--- |
-| `ArtifactFinalizedError` | if the artifact has already been finalized. |
+| `ArtifactFinalizedError` | アーティファクトがすでに確定されている場合。 |
 
 
 
 | Returns | |
 | :--- | :--- |
-| List[ArtifactManifestEntry]: The added manifest entries. |
+| List["ArtifactManifestEntry"]: 追加されたマニフェストエントリ。 |
 
 
 
-#### Examples:
+#### 例:
 
 
 
-#### Add an HTTP link:
+#### HTTPリンクの追加:
 
 
 ```python
-# Adds `file.txt` to the root of the artifact as a reference.
+# `file.txt`をアーティファクトのルートに参照として追加します。
 artifact.add_reference("http://myserver.com/file.txt")
 ```
 
-Add an S3 prefix without an explicit name:
+明示的な名前がないS3プレフィックスを追加:
 ```python
-# All objects under `prefix/` will be added at the root of the artifact.
+# `prefix/`以下のすべてのオブジェクトがアーティファクトのルートに追加されます。
 artifact.add_reference("s3://mybucket/prefix")
 ```
-
-Add a GCS prefix with an explicit name:
+明示的な名前でGCSプレフィックスを追加してください：
 ```python
-# All objects under `prefix/` will be added under `path/` at the artifact root.
+# `prefix/`の下にある全てのオブジェクトがアーティファクトのルートの`path/`下に追加されます。
 artifact.add_reference("gs://mybucket/prefix", name="path")
 ```
 
 ### `checkout`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4776-L4791)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4776-L4791)
 
 ```python
 checkout(
@@ -349,41 +314,36 @@ checkout(
 )
 ```
 
-Replace the specified root directory with the contents of the artifact.
+指定されたルートディレクトリーをアーティファクトの内容で置き換えます。
 
-WARNING: This will DELETE all files in `root` that are not included in the
-artifact.
+警告：アーティファクトに含まれていない`root`内のすべてのファイルが削除されます。
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `root` | (str, optional) The directory to replace with this artifact's files. |
+| `root` | (str, 任意) このアーティファクトのファイルで置き換えるディレクトリー。 |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| (str): The path to the checked out contents. |
+| (str): チェックアウトした内容へのパス。 |
 
 
 
 ### `delete`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4596-L4635)
-
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4596-L4635)
 ```python
 delete(
  delete_aliases=(False)
 )
 ```
 
-Delete an artifact and its files.
+アーティファクトとそのファイルを削除します。
 
+#### 例:
 
-#### Examples:
-
-Delete all the "model" artifacts a run has logged:
+Runがログしたすべての "model" アーティファクトを削除する:
 ```
 runs = api.runs(path="my_entity/my_project")
 for run in runs:
@@ -394,48 +354,43 @@ for run in runs:
 
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `delete_aliases` | (bool) If true, deletes all aliases associated with the artifact. Otherwise, this raises an exception if the artifact has existing aliases. |
-
+| `delete_aliases` | (bool) True の場合、アーティファクトに関連するすべてのエイリアスを削除します。それ以外の場合、既存のエイリアスがあるアーティファクトでは例外が発生します。|
+ 
 
 
 ### `download`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4731-L4774)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4731-L4774)
 
 ```python
 download(
  root=None, recursive=(False)
 )
 ```
+アーティファクトの内容を指定されたルートディレクトリにダウンロードします。
 
-Download the contents of the artifact to the specified root directory.
+注意: `root` に既存のファイルはそのまま残ります。`root` の内容をアーティファクトと完全に一致させたい場合、`download` を呼び出す前に root を明示的に削除してください。
 
-NOTE: Any existing files at `root` are left untouched. Explicitly delete
-root before calling `download` if you want the contents of `root` to exactly
-match the artifact.
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `root` | (str, optional) The directory in which to download this artifact's files. |
-| `recursive` | (bool, optional) If true, then all dependent artifacts are eagerly downloaded. Otherwise, the dependent artifacts are downloaded as needed. |
+| `root` | (str, 任意) このアーティファクトのファイルをダウンロードするディレクトリ |
+| `recursive` | (bool, 任意) True の場合、すべての依存アーティファクトが積極的にダウンロードされます。それ以外の場合、依存アーティファクトは必要に応じてダウンロードされます。 |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| (str): The path to the downloaded contents. |
+| (str): ダウンロードされた内容へのパス |
 
 
 
 ### `expected_type`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4502-L4542)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4502-L4542)
 
 ```python
 @staticmethod
@@ -444,14 +399,12 @@ expected_type(
 )
 ```
 
-Returns the expected type for a given artifact name and project.
-
+特定のアーティファクト名とプロジェクトの期待されるタイプを返します。
 
 ### `file`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4822-L4842)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4822-L4842)
+以下のマークダウンテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストだけを返してください。他には何も言わないでください。テキスト:
 
 ```python
 file(
@@ -459,18 +412,18 @@ file(
 )
 ```
 
-Download a single file artifact to dir specified by the root.
+指定された root によってディレクトリーに単一のファイルアーティファクトをダウンロードします。
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `root` | (str, optional) The root directory in which to place the file. Defaults to './artifacts/self.name/'. |
+| `root` | (str, 任意) ファイルを配置するルートディレクトリー。デフォルトは './artifacts/self.name/'。 |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| (str): The full path of the downloaded file. |
+| (str)：ダウンロードされたファイルのフルパス。 |
 
 
 
@@ -478,7 +431,7 @@ Download a single file artifact to dir specified by the root.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5089-L5100)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L5089-L5100)
 
 ```python
 files(
@@ -486,19 +439,16 @@ files(
 )
 ```
 
-Iterate over all files stored in this artifact.
+このアーティファクトに保存されているすべてのファイルを反復処理します。
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `names` | (list of str, optional) The filename paths relative to the root of the artifact you wish to list. |
-| `per_page` | (int, default 50) The number of files to return per request |
-
-
-
-| Returns | |
+| `names` | (str のリスト, 任意) アーティファクトのルートに相対的なファイル名のパスをリスト表示する場合。 |
+| `per_page` | (int, デフォルト50) 1回のリクエストで戻すファイルの数 |
+| 戻り値 | |
 | :--- | :--- |
-| (`ArtifactFiles`): An iterator containing `File` objects |
+| （`ArtifactFiles`）: `File`オブジェクトを含むイテレータ |
 
 
 
@@ -506,7 +456,7 @@ Iterate over all files stored in this artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4298-L4345)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4298-L4345)
 
 ```python
 @classmethod
@@ -523,7 +473,7 @@ from_id(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4703-L4729)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4703-L4729)
 
 ```python
 get(
@@ -531,33 +481,33 @@ get(
 )
 ```
 
-Get the WBValue object located at the artifact relative `name`.
+アーティファクト相対`name`にあるWBValueオブジェクトを取得します。
+以下のMarkdownテキストを翻訳してください。日本語に翻訳し、翻訳したテキストのみを返してください。他に何も言わずに。テキスト:
 
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `name` | (str) The artifact relative name to get |
+| `name` | (str) 取得するアーティファクトの相対名 |
 
 
 
-| Raises | |
+| 発生するエラー | |
 | :--- | :--- |
-| `ArtifactNotLoggedError` | if the artifact isn't logged or the run is offline |
+| `ArtifactNotLoggedError` | アーティファクトが記録されていないか、runがオフラインの場合 |
 
 
 
-#### Examples:
+#### 例:
 
-Basic usage
+基本的な使い方
 ```
-# Run logging the artifact
+# アーティファクトをログするrun
 with wandb.init() as r:
  artifact = wandb.Artifact('my_dataset', type='dataset')
  table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
  artifact.add(table, "my_table")
  wandb.log_artifact(artifact)
 
-# Run using the artifact
+# アーティファクトを使用するrun
 with wandb.init() as r:
  artifact = r.use_artifact('my_dataset:latest')
  table = r.get('my_table')
@@ -568,45 +518,44 @@ with wandb.init() as r:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4691-L4701)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4691-L4701)
 
 ```python
 get_path(
  name
 )
 ```
+`name` に関連するアーティファクトのファイルへのパスを取得します。
 
-Get the path to the file located at the artifact relative `name`.
 
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `name` | (str) The artifact relative name to get |
+| `name` | (str) 取得するアーティファクトの相対名 |
 
 
 
-| Raises | |
+| 例外 | |
 | :--- | :--- |
-| `ArtifactNotLoggedError` | if the artifact isn't logged or the run is offline |
+| `ArtifactNotLoggedError` | アーティファクトが記録されていないか、runがオフラインの場合 |
 
 
 
-#### Examples:
+#### 例:
 
-Basic usage
+基本的な使い方
 ```
-# Run logging the artifact
+# アーティファクトを記録するRun
 with wandb.init() as r:
  artifact = wandb.Artifact('my_dataset', type='dataset')
  artifact.add_file('path/to/file.txt')
  wandb.log_artifact(artifact)
 
-# Run using the artifact
+# アーティファクトを使用するRun
 with wandb.init() as r:
  artifact = r.use_artifact('my_dataset:latest')
  path = artifact.get_path('file.txt')
 
- # Can now download 'file.txt' directly:
+ # これで 'file.txt' を直接ダウンロードできます:
  path.download()
 ```
 
@@ -615,7 +564,8 @@ with wandb.init() as r:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4864-L4865)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4864-L4865)
+以下は、Markdownのテキストチャンクです。これを日本語に翻訳してください。他に何も言わずに、翻訳したテキストだけを返してください。テキスト：
 
 ```python
 json_encode()
@@ -628,7 +578,7 @@ json_encode()
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4553-L4594)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4553-L4594)
 
 ```python
 link(
@@ -636,19 +586,19 @@ link(
 )
 ```
 
-Link this artifact to a portfolio (a promoted collection of artifacts), with aliases.
+エイリアスを使って、このアーティファクトをポートフォリオ（プロモートされたアーティファクトのコレクション）にリンクします。
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `target_path` | (str) The path to the portfolio. It must take the form {portfolio}, {project}/{portfolio} or {entity}/{project}/{portfolio}. |
-| `aliases` | (Optional[List[str]]) A list of strings which uniquely identifies the artifact inside the specified portfolio. |
+| `target_path` | (str) ポートフォリオへのパス。{portfolio}、{project}/{portfolio}または{entity}/{project}/{portfolio}の形式でなければなりません。 |
+| `aliases` | (Optional[List[str]]) 指定されたポートフォリオ内でアーティファクトを一意に識別する文字列のリスト。 |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| None |
+| なし |
 
 
 
@@ -656,18 +606,17 @@ Link this artifact to a portfolio (a promoted collection of artifacts), with ali
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5218-L5254)
-
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L5218-L5254)
 ```python
 logged_by()
 ```
 
-Retrieve the run which logged this artifact.
+このアーティファクトをログしたrunを取得します。
 
 
-| Returns | |
+| 返り値 | |
 | :--- | :--- |
-| `Run` | Run object which logged this artifact |
+| `Run` | このアーティファクトをログしたRunオブジェクト |
 
 
 
@@ -675,7 +624,7 @@ Retrieve the run which logged this artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4637-L4638)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4637-L4638)
 
 ```python
 new_file(
@@ -683,18 +632,18 @@ new_file(
 )
 ```
 
-Open a new temporary file that will be automatically added to the artifact.
+新しい一時ファイルを開き、それを自動的にアーティファクトに追加します。
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `name` | (str) The name of the new file being added to the artifact. |
-| `mode` | (str, optional) The mode in which to open the new file. |
-| `encoding` | (str, optional) The encoding in which to open the new file. |
+| `name` | (str) アーティファクトに追加される新しいファイルの名前。 |
+| `mode` | (str, optional) 新しいファイルを開くモード。 |
+| `encoding` | (str, optional) 新しいファイルを開くエンコーディング。 |
 
 
 
-#### Examples:
+#### 例:
 
 ```
 artifact = wandb.Artifact('my_data', type='dataset')
@@ -702,18 +651,17 @@ with artifact.new_file('hello.txt') as f:
  f.write('hello!')
 wandb.log_artifact(artifact)
 ```
+以下は、Markdownテキストのチャンクを翻訳してください。日本語に訳してください。それ以外のことは何も言わずに、翻訳したテキストのみを返してください。テキスト：
 
-
-
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| (file): A new file object that can be written to. Upon closing, the file will be automatically added to the artifact. |
+| (ファイル): 書き込み可能な新しいファイルオブジェクト。クローズ時に、ファイルは自動的にアーティファクトに追加されます。|
 
 
 
-| Raises | |
+| 例外 | |
 | :--- | :--- |
-| `ArtifactFinalizedError` | if the artifact has already been finalized. |
+| `ArtifactFinalizedError` | もしアーティファクトがすでに確定されていた場合。|
 
 
 
@@ -721,31 +669,31 @@ wandb.log_artifact(artifact)
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4867-L4930)
+[ソースコードを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4867-L4930)
 
 ```python
 save()
 ```
 
-Persists artifact changes to the wandb backend.
+アーティファクトの変更をwandbバックエンドに永続化します。
 
 
 ### `used_by`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5171-L5216)
+[ソースコードを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L5171-L5216)
 
 ```python
 used_by()
 ```
 
-Retrieve the runs which use this artifact directly.
+このアーティファクトを直接使用しているrunsを取得します。
+以下のマークダウンテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストを返してください。他のことは言わないでください。テキスト：
 
-
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| [Run]: a list of Run objects which use this artifact |
+| [Run]: このアーティファクトを使用するRunオブジェクトのリスト |
 
 
 
@@ -753,7 +701,7 @@ Retrieve the runs which use this artifact directly.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4793-L4820)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4793-L4820)
 
 ```python
 verify(
@@ -761,41 +709,40 @@ verify(
 )
 ```
 
-Verify that the actual contents of an artifact match the manifest.
+アーティファクトの実際の内容がマニフェストと一致することを確認します。
 
-All files in the directory are checksummed and the checksums are then
-cross-referenced against the artifact's manifest.
+ディレクトリ内のすべてのファイルがチェックサムされ、そのチェックサムが
+アーティファクトのマニフェストと照らし合わせられます。
 
-NOTE: References are not verified.
+注: 参照は確認されません。
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `root` | (str, optional) The directory to verify. If None artifact will be downloaded to './artifacts/self.name/' |
+| `root` | (str, オプション) 確認するディレクトリ。Noneの場合、アーティファクトは'./artifacts/self.name/'にダウンロードされます。 |
 
 
 
 | Raises | |
 | :--- | :--- |
-| (ValueError): If the verification fails. |
+| (ValueError)：検証が失敗した場合。 |
 
 
 
 ### `wait`
+以下のMarkdownテキストを翻訳してください。日本語に翻訳し、そのテキストだけを返してください。それ以外のことは何も言わないでください。テキスト：
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L4932-L4933)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4932-L4933)
 
 ```python
 wait()
 ```
 
-Wait for this artifact to finish logging, if needed.
+必要に応じて、このアーティファクトのログ記録が終わるのを待ちます。
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| Artifact |
+| アーティファクト |
 
 
 
@@ -803,32 +750,29 @@ Wait for this artifact to finish logging, if needed.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L5259-L5260)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/interface/artifacts/artifact.py#L553-L578)
 
 ```python
 __getitem__(
- name
-)
+ name: str
+) -> Optional[WBValue]
 ```
 
-Get the WBValue object located at the artifact relative `name`.
+アーティファクト相対`name`の場所にあるWBValueオブジェクトを取得します。
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `name` | (str) The artifact relative name to get |
+| `name` | (str) 取得するアーティファクト相対名 |
 
 
 
-| Raises | |
+| 例外 | |
 | :--- | :--- |
-| `ArtifactNotLoggedError` | if the artifact isn't logged or the run is offline |
+| `ArtifactNotLoggedError` | アーティファクトがログに記録されていないか、runがオフラインの場合 |
+#### 例：
 
-
-
-#### Examples:
-
-Basic usage
+基本的な使い方
 ```
 artifact = wandb.Artifact('my_table', 'dataset')
 table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
@@ -837,7 +781,7 @@ artifact["my_table"] = table
 wandb.log_artifact(artifact)
 ```
 
-Retrieving an object:
+オブジェクトの取得：
 ```
 artifact = wandb.use_artifact('my_table:latest')
 table = artifact["my_table"]
@@ -845,10 +789,6 @@ table = artifact["my_table"]
 
 
 
-
-
-
-| Class Variables | |
+| クラス変数 | |
 | :--- | :--- |
 | `QUERY` | |
-

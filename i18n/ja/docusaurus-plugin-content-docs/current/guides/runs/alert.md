@@ -1,61 +1,62 @@
 ---
-description: Send alerts, triggered from your Python code, to your Slack or email
-displayed_sidebar: ja
+description: PythonコードからのアラートをSlackまたはメールで受け取る
 ---
 
-# Send Alerts with wandb.alert
+# wandb.alertを使ってアラートを送信する
 
 <head>
-  <title>Send Alerts from your Python Code</title>
+  <title>Pythonコードからアラートを送信する</title>
 </head>
 
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/alerts-colab)
 
-With W&B Alerts you can be notified via Slack or email if your W&B Run has crashed or whether a custom trigger, such as your loss going to NaN or a step in your ML pipeline has completed, has been reached. W&B Alerts apply all projects where you launch runs, including both personal and Team projects.
+W&B Alertsを使用すると、W&B Runがクラッシュした場合や、損失がNaNになったり、MLパイプラインのステップが完了したなどのカスタムトリガーが達成された場合に、Slackまたはメールで通知を受け取ることができます。W&B Alertsは、個人プロジェクトとチームプロジェクトの両方を含む、runを起動するすべてのプロジェクトに適用されます。
 
-You can set an alert like this:
+以下のようにアラートを設定することができます:
 
 ```python
+text = f"精度 {acc} は許容範囲 {thresh} を下回っています"
+
 wandb.alert(
-    title="Low accuracy", 
-    text=f"Accuracy {acc} is below the acceptable threshold {thresh}"
+    title="低い精度", 
+    text=text
 )
 ```
 
-And then see W&B Alerts messages in Slack (or your email):
+そして、Slack（またはメール）でW&B Alertsメッセージを確認できます:
 
 ![](/images/track/send_alerts_slack.png)
-
-## Getting Started
+## はじめに
 
 :::info
-Please note that these following steps are to turn on alerts in public cloud _only_.
+この手順は、パブリッククラウドでのみアラートを有効にする方法です。
 
-If you're using [W&B Server](../hosting/intro.md) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation](https://docs.wandb.ai/guides/hosting/setup/configuration#slack) to setup Slack alerts.
+プライベートクラウドやW&B専用クラウドで[W&Bサーバー](../hosting/intro.md)を使用している場合は、[このドキュメント](../hosting/slack-alerts.md)を参照してSlackアラートのセットアップを行ってください。
 :::
 
-There are 2 steps to follow the first time you'd like to send a Slack or email alert, triggered from your code:
+コードからSlackやメールでアラートを送信するためには、最初に以下の2つの手順を行ってください。
 
-1. Turn on Alerts in your W&B [User Settings](https://wandb.ai/settings)
-2. Add `wandb.alert()` to your code
+1. W&B [ユーザー設定](https://wandb.ai/settings)でアラートを有効にする
+2. `wandb.alert()`をコードに追加する
 
-### 1. Turn on Alerts in your W&B User Settings
+### 1. W&Bユーザー設定でアラートを有効にする
 
-In your [User Settings](https://wandb.ai/settings):
+[ユーザー設定](https://wandb.ai/settings)で:
 
-* Scroll to the **Alerts** section
-* Turn on **Scriptable run alerts** to receive alerts from `wandb.alert()`
-* Use **Connect Slack** to pick a Slack channel to post alerts. We recommend the **Slackbot** channel because it keeps the alerts private.
-* **Email** will go to the email address you used when you signed up for W&B. We recommend setting up a filter in your email so all these alerts go into a folder and don't fill up your inbox.
+* **アラート**セクションまでスクロールする
+* \`wandb.alert()\`からアラートを受け取るために、**スクリプトで実行可能なアラート** を有効にする
+* **Slackに接続**を使用して、アラートを投稿するSlackチャンネルを選択します。アラートをプライベートに保つために、**Slackbot**チャンネルをお勧めします。
+* **メール**は、W&Bにサインアップした際に使用したメールアドレスに送信されます。すべてのこれらのアラートがフォルダに入り、受信トレイがいっぱいにならないように、メールでフィルタを設定することをお勧めします。
 
-You will only have to do this the first time you set up W&B Alerts, or when you'd like to modify how you receive alerts.
+W&Bアラートの設定を初めて行う場合や、アラートの受信方法を変更したい場合に、この作業を行う必要があります。
 
-![Alerts settings in W&B User Settings](/images/track/demo_connect_slack.png)
+![W&Bユーザー設定のアラート設定](/images/track/demo_connect_slack.png)
 
-### 2. Add \`wandb.alert()\` to Your Code
+### 2. \`wandb.alert()\`をコードに追加する
 
-Add `wandb.alert()` to your code (either in a Notebook or Python script) wherever you'd like it to be triggered
+コード（ノートブックまたはPythonスクリプト）に`wandb.alert()`を追加し、アラートがトリガーされる場所を選択します。
+次のMarkdownテキストを日本語に翻訳してください。翻訳したテキストのみを返してください。テキスト：
 
 ```python
 wandb.alert(
@@ -64,66 +65,75 @@ wandb.alert(
 )
 ```
 
-#### Check your Slack or email
+#### Slackまたはメールを確認してください
 
-Check your Slack or emails for the alert message. If you didn't receive any, make sure you've got emails or Slack turned on for **Scriptable Alerts** in your [User Settings](https://wandb.ai/settings)
+アラートメッセージがSlackまたはメールに届いているか確認してください。もし届いていない場合は、[ユーザー設定](https://wandb.ai/settings)で**スクリプト可能なアラート**に対してメールまたはSlackが有効になっているか確認してください。
 
-## Using \`wandb.alert()\`
+## `wandb.alert()`の使用法
 
-| Argument                   | Description                                                                                                                                           |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `title` (string)           | A short description of the alert, for example "Low accuracy"                                                                                          |
-| `text` (string)            | A longer, more detailed description of what happened to trigger the alert                                                                             |
-| `level` (optional)         | How important the alert is — must be either `AlertLevel.INFO`, `AlertLevel.WARN`, or `AlertLevel.ERROR.` You can import `AlertLevel.xxx` from `wandb` |
-|                            |                                                                                                                                                       |
-| `wait_duration` (optional) | How many seconds to wait before sending another alert with the same **title.** This helps reduce alert spam                                           |
+| 引数                         | 説明                                                                                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title` (string)          | アラートの短い説明。例：「精度が低い」                                                                                                           |
+| `text` (string)            | アラートのトリガーとなった事象についてのより詳細な説明                                                                                              |
+| `level` (任意)             | アラートの重要度。`AlertLevel.INFO`、`AlertLevel.WARN`、または`AlertLevel.ERROR`のいずれかである必要があります。`wandb`から`AlertLevel.xxx`をインポートできます。 |
+|                            |                                                                                                                                                   |
+| `wait_duration` (任意)     | 同じ**タイトル**で別のアラートを送信するまでの秒数。これにより、アラートのスパムが減少します。                                                       |
 
-### Example
+### 例
 
-This simple alert sends a warning when accuracy falls below a threshold. In this example, it only sends alerts at least 5 minutes apart.
+このシンプルなアラートは、精度が閾値を下回ったときに警告を送信します。この例では、少なくとも5分間隔でアラートを送信します。
 
-[Run the code →](http://wandb.me/alerts)
+[コードを実行 →](http://wandb.me/alerts)
 
 ```python
 import wandb
 from wandb import AlertLevel
+```
+こちらのMarkdownテキストを日本語に翻訳してください。他のことは言わず、翻訳されたテキストのみを返してください。テキスト： 
 
 if acc < threshold:
     wandb.alert(
-        title="Low accuracy", 
-        text=f"Accuracy {acc} is below the acceptable threshold {threshold}",
+        title="低い精度", 
+        text=f"精度 {acc} は許容範囲 {threshold} を下回っています",
         level=AlertLevel.WARN,
         wait_duration=300
     )
 ```
 
-## More Info
+## 詳細情報
 
-### Tagging / Mentioning Users
+### タグ付け/ユーザーのメンション
 
-When sending Alerts on Slack you can @ yourself or your colleagues by adding their Slack user id as `<@USER_ID>` in either the title or the text of the Alert. You can find a Slack user id from their Slack profile page.
+Slackでアラートを送る際、自分自身や同僚にメンションを送ることができます。そのためには、アラートのタイトルやテキスト内にSlackユーザーIDを `<@USER_ID>` として追加してください。SlackプロフィールページからSlackユーザーIDを見つけることができます。
 
 ```python
 wandb.alert(
     title="Loss is NaN", 
-    text=f"Hey <@U1234ABCD> loss has gone to NaN"
+    text=f"Hey <@U1234ABCD> lossがNaNになってしまいました"
 )
 ```
 
-### W&B Team Alerts
+### W&Bチームアラート
 
-Team admins can set up alerts for the team on the team settings page: wandb.ai/teams/`your-team`. These alerts apply to everyone on your team. We recommend using the **Slackbot** channel because it keeps the alerts private.
+チームの管理者は、チーム設定ページでチームに対するアラートを設定できます: wandb.ai/teams/ `your-team`。これらのアラートは、チーム内の全員に適用されます。アラートをプライベートに保つために、**Slackbot**チャンネルの使用をお勧めします。
 
-### Changing Slack Channels
+### Slackチャンネルの変更
 
-To change what channel you're posting to, click **Disconnect Slack** and then reconnect, picking a different destination channel.
+投稿先のチャンネルを変更するには、**Slackの接続解除**をクリックしてから、再接続して別の宛先チャンネルを選択してください。
+## FAQ(よくある質問)
 
-## FAQ(s)
 
-#### Do "Run Finished" Alerts work in Jupyter notebooks?
 
-Note that **"Run Finished"** alerts (turned on with the **"Run Finished"** setting in User Settings) only work with Python scripts and are disabled in Jupyter Notebook environments to prevent alert notifications on every cell execution. Use `wandb.alert()` in Jupyter Notebook environments instead.
+#### Jupyterノートブックでは「Run Finished」アラートは機能しますか？
 
-#### How to enable alerts with [W&B Server](../hosting/intro.md)?
 
-<!-- If you are self-hosting using W&B Server you will need to follow [these steps](../../hosting/setup/configuration#slack) before enabling Slack alerts. -->
+
+ユーザー設定で「Run Finished」設定をオンにすることで有効になる **「Run Finished」** アラートは、Pythonスクリプトでのみ動作し、Jupyter Notebooks環境では各セルの実行ごとにアラート通知が発生しないように無効にされています。代わりに、Jupyter Notebook環境で `wandb.alert()` を使用してください。
+
+
+
+#### [W&Bサーバー](../hosting/intro.md)でアラートを有効にする方法は？
+
+
+
+<!-- 自分でW&Bサーバーをホストしている場合は、Slackアラートを有効にする前に、[この手順](../../hosting/setup/configuration#slack)に従って設定する必要があります。 -->

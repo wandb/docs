@@ -1,458 +1,428 @@
 # float
 
-## Chainable Ops
+## 連鎖可能な操作
 <h3 id="number-notEqual"><code>number-notEqual</code></h3>
 
-Determines inequality of two values.
+二つの値の不等性を判断します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 比較する最初の値。 |
+| `rhs` | 比較する二番目の値。 |
 
-#### Return Value
-Whether the two values are not equal.
+#### 返り値
+二つの値が等しくないかどうか。
 
 <h3 id="number-modulo"><code>number-modulo</code></h3>
+ある[数値](https://docs.wandb.ai/ref/weave/number)を別の数値で割り、余りを返します
 
-Divide a [number](https://docs.wandb.ai/ref/weave/number) by another and return remainder
-
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide by |
+| `lhs` | 割る[数値](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 割るための[数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Modulo of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 返り値
+二つの[数値](https://docs.wandb.ai/ref/weave/number)の余り
 
 <h3 id="number-mult"><code>number-mult</code></h3>
 
-Multiply two [numbers](https://docs.wandb.ai/ref/weave/number)
+二つの[数値](https://docs.wandb.ai/ref/weave/number)を掛け合わせる
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | First [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Second [number](https://docs.wandb.ai/ref/weave/number) |
-
-#### Return Value
-Product of two [numbers](https://docs.wandb.ai/ref/weave/number)
+| `lhs` | 最初の[数値](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 二番目の[数値](https://docs.wandb.ai/ref/weave/number) |
+#### 戻り値
+2つの[数値](https://docs.wandb.ai/ref/weave/number)の積
 
 <h3 id="number-powBinary"><code>number-powBinary</code></h3>
 
-Raise a [number](https://docs.wandb.ai/ref/weave/number) to an exponent
+[数値](https://docs.wandb.ai/ref/weave/number)を指数へと引き上げる
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | Base [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Exponent [number](https://docs.wandb.ai/ref/weave/number) |
+| `lhs` | 基底の[数値](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 指数の[数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-The base [numbers](https://docs.wandb.ai/ref/weave/number) raised to nth power
-
+#### 戻り値
+基底の[数値](https://docs.wandb.ai/ref/weave/number)をn乗したもの
 <h3 id="number-add"><code>number-add</code></h3>
 
-Add two [numbers](https://docs.wandb.ai/ref/weave/number)
+2つの[数値](https://docs.wandb.ai/ref/weave/number)を加算する
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | First [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Second [number](https://docs.wandb.ai/ref/weave/number) |
+| `lhs` | 最初の[数値](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 2番目の[数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Sum of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 返り値
+2つの[数値](https://docs.wandb.ai/ref/weave/number)の合計
 
 <h3 id="number-sub"><code>number-sub</code></h3>
 
-Subtract a [number](https://docs.wandb.ai/ref/weave/number) from another
-
-| Argument |  |
+ある[数値](https://docs.wandb.ai/ref/weave/number)から別の数値を減算する
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to subtract from |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to subtract |
+| `lhs` | 引き算する[number](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 引く[number](https://docs.wandb.ai/ref/weave/number)  |
 
-#### Return Value
-Difference of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 戻り値
+二つの[number](https://docs.wandb.ai/ref/weave/number)の差
 
 <h3 id="number-div"><code>number-div</code></h3>
 
-Divide a [number](https://docs.wandb.ai/ref/weave/number) by another
+ある[number](https://docs.wandb.ai/ref/weave/number)を別の数で割る
 
-| Argument |  |
-| :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide by |
-
-#### Return Value
-Quotient of two [numbers](https://docs.wandb.ai/ref/weave/number)
+| 引数 |  |
+| :-- | :-- |
+| `lhs` | 割る[number](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 割るための[number](https://docs.wandb.ai/ref/weave/number) |
+#### 返り値
+2つの[数値](https://docs.wandb.ai/ref/weave/number)の商
 
 <h3 id="number-less"><code>number-less</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is less than another
+ある[数値](https://docs.wandb.ai/ref/weave/number)が別の数値より小さいかどうかを確認する
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 比較する[数値](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 比較対象の[数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is less than the second
-
+#### 返り値
+最初の[数値](https://docs.wandb.ai/ref/weave/number)が2つ目より小さいかどうか
 <h3 id="number-lessEqual"><code>number-lessEqual</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is less than or equal to another
+ある[数値](https://docs.wandb.ai/ref/weave/number)が他の数値以下であるかどうかを調べる
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 比較する[数値](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 比較対象の[数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is less than or equal to the second
+#### 戻り値
+最初の[数値](https://docs.wandb.ai/ref/weave/number)が2番目の数値以下であるかどうか
 
 <h3 id="number-equal"><code>number-equal</code></h3>
 
-Determines equality of two values.
-
-| Argument |  |
+二つの値が等しいかどうかを判断する。
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 比較する最初の値。 |
+| `rhs` | 比較する2番目の値。 |
 
-#### Return Value
-Whether the two values are equal.
+#### 返り値
+2つの値が等しいかどうか。
 
 <h3 id="number-greater"><code>number-greater</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is greater than another
+ある[数値](https://docs.wandb.ai/ref/weave/number)が別の数値より大きいかどうかを確認する
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
-
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is greater than the second
+| `lhs` | 比較する[number](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` |  比較対象の[number](https://docs.wandb.ai/ref/weave/number) |
+#### 戻り値
+最初の[数値](https://docs.wandb.ai/ref/weave/number)が、2番目のものよりも大きいかどうか
 
 <h3 id="number-greaterEqual"><code>number-greaterEqual</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is greater than or equal to another
+ある[数値](https://docs.wandb.ai/ref/weave/number)が、別のものよりも大きいかまたは等しいかを調べる
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 比較対象の[数値](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 比較先の[数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is greater than or equal to the second
-
+#### 戻り値
+最初の[数値](https://docs.wandb.ai/ref/weave/number)が、2番目のものよりも大きいかまたは等しいかどうか
 <h3 id="number-negate"><code>number-negate</code></h3>
 
-Negate a [number](https://docs.wandb.ai/ref/weave/number)
+[数値](https://docs.wandb.ai/ref/weave/number)を否定する
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `val` | Number to negate |
+| `val` | 否定する数値 |
 
-#### Return Value
-A [number](https://docs.wandb.ai/ref/weave/number)
+#### 戻り値
+[数値](https://docs.wandb.ai/ref/weave/number)
 
 <h3 id="number-toString"><code>number-toString</code></h3>
 
-Convert a [number](https://docs.wandb.ai/ref/weave/number) to a string
-
-| Argument |  |
+[数値](https://docs.wandb.ai/ref/weave/number)を文字列に変換する
+| 引数 |  |
 | :--- | :--- |
-| `in` | Number to convert |
+| `in` | 変換する数値 |
 
-#### Return Value
-String representation of the [number](https://docs.wandb.ai/ref/weave/number)
+#### 戻り値
+[数値](https://docs.wandb.ai/ref/weave/number)の文字列表現
 
 <h3 id="number-toTimestamp"><code>number-toTimestamp</code></h3>
 
-Converts a [number](https://docs.wandb.ai/ref/weave/number) to a _timestamp_. Values less than 31536000000 will be converted to seconds, values less than 31536000000000 will be converted to milliseconds, values less than 31536000000000000 will be converted to microseconds, and values less than 31536000000000000000 will be converted to nanoseconds.
+[数値](https://docs.wandb.ai/ref/weave/number)を_タイムスタンプ_に変換します。31536000000未満の値は秒に変換され、31536000000000未満の値はミリ秒に変換され、31536000000000000未満の値はマイクロ秒に変換され、31536000000000000000未満の値はナノ秒に変換されます。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `val` | Number to convert to a timestamp |
-
-#### Return Value
-Timestamp
+| `val` | タイムスタンプに変換する数値 |
+#### 戻り値
+タイムスタンプ
 
 <h3 id="number-abs"><code>number-abs</code></h3>
 
-Calculates the absolute value of a [number](https://docs.wandb.ai/ref/weave/number)
+[数値](https://docs.wandb.ai/ref/weave/number)の絶対値を計算します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `n` | A [number](https://docs.wandb.ai/ref/weave/number) |
+| `n` | [数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-The absolute value of the [number](https://docs.wandb.ai/ref/weave/number)
-
-
-## List Ops
+#### 戻り値
+[数値](https://docs.wandb.ai/ref/weave/number)の絶対値
+## リスト操作
 <h3 id="number-notEqual"><code>number-notEqual</code></h3>
 
-Determines inequality of two values.
+2つの値の不等式を判断します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 比較する最初の値。 |
+| `rhs` | 比較する2つ目の値。 |
 
-#### Return Value
-Whether the two values are not equal.
+#### 戻り値
+2つの値が等しくないかどうか。
 
 <h3 id="number-modulo"><code>number-modulo</code></h3>
+[number](https://docs.wandb.ai/ref/weave/number) を別の数で割り、余りを返す
 
-Divide a [number](https://docs.wandb.ai/ref/weave/number) by another and return remainder
-
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide by |
+| `lhs` | 割られる [number](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 割る [number](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Modulo of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 戻り値
+2つの [numbers](https://docs.wandb.ai/ref/weave/number) の余り
 
 <h3 id="number-mult"><code>number-mult</code></h3>
 
-Multiply two [numbers](https://docs.wandb.ai/ref/weave/number)
+2つの [numbers](https://docs.wandb.ai/ref/weave/number) を乗算する
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | First [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Second [number](https://docs.wandb.ai/ref/weave/number) |
-
-#### Return Value
-Product of two [numbers](https://docs.wandb.ai/ref/weave/number)
+| `lhs` | 1つ目の [number](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 2つ目の [number](https://docs.wandb.ai/ref/weave/number) |
+#### 戻り値
+2つの[数値](https://docs.wandb.ai/ref/weave/number)の積
 
 <h3 id="number-powBinary"><code>number-powBinary</code></h3>
 
-Raise a [number](https://docs.wandb.ai/ref/weave/number) to an exponent
+[数値](https://docs.wandb.ai/ref/weave/number)を指数に累乗する
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | Base [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Exponent [number](https://docs.wandb.ai/ref/weave/number) |
+| `lhs` | 基底となる[数値](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 指数となる[数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-The base [numbers](https://docs.wandb.ai/ref/weave/number) raised to nth power
-
+#### 戻り値
+基底[数値](https://docs.wandb.ai/ref/weave/number)をn乗した結果
 <h3 id="number-add"><code>number-add</code></h3>
 
-Add two [numbers](https://docs.wandb.ai/ref/weave/number)
+2つの[数字](https://docs.wandb.ai/ref/weave/number)を足す
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | First [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Second [number](https://docs.wandb.ai/ref/weave/number) |
+| `lhs` | 最初の[数字](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 2番目の[数字](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Sum of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 返り値
+2つの[数字](https://docs.wandb.ai/ref/weave/number)の和
 
 <h3 id="number-sub"><code>number-sub</code></h3>
 
-Subtract a [number](https://docs.wandb.ai/ref/weave/number) from another
-
-| Argument |  |
+ある[数字](https://docs.wandb.ai/ref/weave/number)から別の数字を引く
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to subtract from |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to subtract |
+| `lhs` | 引き算する[number](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 引かれる[number](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Difference of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 戻り値
+2つの[number](https://docs.wandb.ai/ref/weave/number)の差
 
 <h3 id="number-div"><code>number-div</code></h3>
 
-Divide a [number](https://docs.wandb.ai/ref/weave/number) by another
+[number](https://docs.wandb.ai/ref/weave/number)を別の数で割る
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide by |
-
-#### Return Value
-Quotient of two [numbers](https://docs.wandb.ai/ref/weave/number)
+| `lhs` | 割られる[number](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 割るための[number](https://docs.wandb.ai/ref/weave/number) |
+#### 戻り値
+2つの[数値](https://docs.wandb.ai/ref/weave/number)の商
 
 <h3 id="number-less"><code>number-less</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is less than another
+ある[数値](https://docs.wandb.ai/ref/weave/number)がもう一つより小さいかどうかを確認する
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 比較する[数値](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 比較対象となる[数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is less than the second
-
+#### 戻り値
+最初の[数値](https://docs.wandb.ai/ref/weave/number)が二番目の数値より小さいかどうか
 <h3 id="number-lessEqual"><code>number-lessEqual</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is less than or equal to another
+[数値](https://docs.wandb.ai/ref/weave/number)がもう一つの数値以下かどうかをチェック
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 比較する[数値](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 比較対象の[数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is less than or equal to the second
+#### 返り値
+最初の[数値](https://docs.wandb.ai/ref/weave/number)が2つ目の数値以下かどうか
 
 <h3 id="number-equal"><code>number-equal</code></h3>
 
-Determines equality of two values.
-
-| Argument |  |
+2つの値の等価性を判断します。
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 比較する最初の値。 |
+| `rhs` | 比較する2つ目の値。 |
 
-#### Return Value
-Whether the two values are equal.
+#### 戻り値
+2つの値が等しいかどうか。
 
 <h3 id="number-greater"><code>number-greater</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is greater than another
+ある[数値](https://docs.wandb.ai/ref/weave/number)が別の数値より大きいかどうかを確認する
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
-
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is greater than the second
+| `lhs` | 比較する[number](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 比較対象の[number](https://docs.wandb.ai/ref/weave/number) |
+#### 戻り値
+最初の[数値](https://docs.wandb.ai/ref/weave/number)が2番目の数値よりも大きいかどうか
 
 <h3 id="number-greaterEqual"><code>number-greaterEqual</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is greater than or equal to another
+[数値](https://docs.wandb.ai/ref/weave/number)が別の数値以上であるかどうかを確認する
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 比較する[数値](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 比較される[数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is greater than or equal to the second
-
+#### 戻り値
+最初の[数値](https://docs.wandb.ai/ref/weave/number)が2番目の数値以上であるかどうか
 <h3 id="number-negate"><code>number-negate</code></h3>
 
-Negate a [number](https://docs.wandb.ai/ref/weave/number)
+[数値](https://docs.wandb.ai/ref/weave/number)を否定する
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `val` | Number to negate |
+| `val` | 否定する数値 |
 
-#### Return Value
-A [number](https://docs.wandb.ai/ref/weave/number)
+#### 戻り値
+[数値](https://docs.wandb.ai/ref/weave/number)
 
 <h3 id="numbers-argmax"><code>numbers-argmax</code></h3>
 
-Finds the index of maximum [number](https://docs.wandb.ai/ref/weave/number)
-
-| Argument |  |
+最大[数値](https://docs.wandb.ai/ref/weave/number)のインデックスを見つける
+| 引数 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to find the index of maximum [number](https://docs.wandb.ai/ref/weave/number) |
+| `numbers` | 最大[number](https://docs.wandb.ai/ref/weave/number)のインデックスを見つけるための[number](https://docs.wandb.ai/ref/weave/number)の_list_ |
 
-#### Return Value
-Index of maximum [number](https://docs.wandb.ai/ref/weave/number)
+#### 戻り値
+最大[number](https://docs.wandb.ai/ref/weave/number)のインデックス
 
 <h3 id="numbers-argmin"><code>numbers-argmin</code></h3>
 
-Finds the index of minimum [number](https://docs.wandb.ai/ref/weave/number)
+最小[number](https://docs.wandb.ai/ref/weave/number)のインデックスを見つけます。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to find the index of minimum [number](https://docs.wandb.ai/ref/weave/number) |
-
-#### Return Value
-Index of minimum [number](https://docs.wandb.ai/ref/weave/number)
+| `numbers` | 最小[number](https://docs.wandb.ai/ref/weave/number)のインデックスを見つけるための[number](https://docs.wandb.ai/ref/weave/number)の_list_ |
+#### 戻り値
+最小値のインデックス [number](https://docs.wandb.ai/ref/weave/number)
 
 <h3 id="numbers-avg"><code>numbers-avg</code></h3>
 
-Average of [numbers](https://docs.wandb.ai/ref/weave/number)
+[numbers](https://docs.wandb.ai/ref/weave/number) の平均
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to average |
+| `numbers` | 平均する [numbers](https://docs.wandb.ai/ref/weave/number) の_list_ |
 
-#### Return Value
-Average of [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 戻り値
+[numbers](https://docs.wandb.ai/ref/weave/number) の平均
 
 <h3 id="numbers-max"><code>numbers-max</code></h3>
+最大値
 
-Maximum number
-
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to find the maximum [number](https://docs.wandb.ai/ref/weave/number) |
+| `numbers` | 最大の[数値](https://docs.wandb.ai/ref/weave/number)を見つけるための_リスト_ [数値](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Maximum [number](https://docs.wandb.ai/ref/weave/number)
+#### 戻り値
+最大の[数値](https://docs.wandb.ai/ref/weave/number)
 
 <h3 id="numbers-min"><code>numbers-min</code></h3>
 
-Minimum number
+最小値
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to find the minimum [number](https://docs.wandb.ai/ref/weave/number) |
-
-#### Return Value
-Minimum [number](https://docs.wandb.ai/ref/weave/number)
+| `numbers` | 最小の[数値](https://docs.wandb.ai/ref/weave/number)を見つけるための_リスト_ [数値](https://docs.wandb.ai/ref/weave/number) |
+#### 戻り値
+最小[数値](https://docs.wandb.ai/ref/weave/number)
 
 <h3 id="numbers-stddev"><code>numbers-stddev</code></h3>
 
-Standard deviation of [numbers](https://docs.wandb.ai/ref/weave/number)
+[numbers](https://docs.wandb.ai/ref/weave/number)の標準偏差
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to calculate the standard deviation |
+| `numbers` | 標準偏差を計算するための[numbers](https://docs.wandb.ai/ref/weave/number)の_list_ |
 
-#### Return Value
-Standard deviation of [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 戻り値
+[numbers](https://docs.wandb.ai/ref/weave/number)の標準偏差
 
 <h3 id="numbers-sum"><code>numbers-sum</code></h3>
+[numbers](https://docs.wandb.ai/ref/weave/number) の合計
 
-Sum of [numbers](https://docs.wandb.ai/ref/weave/number)
-
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to sum |
+| `numbers` | 合計する [numbers](https://docs.wandb.ai/ref/weave/number) の_list_ |
 
-#### Return Value
-Sum of [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 返り値
+[numbers](https://docs.wandb.ai/ref/weave/number) の合計
 
 <h3 id="number-toString"><code>number-toString</code></h3>
 
-Convert a [number](https://docs.wandb.ai/ref/weave/number) to a string
+[number](https://docs.wandb.ai/ref/weave/number) を文字列に変換する
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `in` | Number to convert |
-
-#### Return Value
-String representation of the [number](https://docs.wandb.ai/ref/weave/number)
+| `in` | 変換する数値 |
+#### 戻り値
+[number](https://docs.wandb.ai/ref/weave/number)の文字列表現
 
 <h3 id="number-toTimestamp"><code>number-toTimestamp</code></h3>
 
-Converts a [number](https://docs.wandb.ai/ref/weave/number) to a _timestamp_. Values less than 31536000000 will be converted to seconds, values less than 31536000000000 will be converted to milliseconds, values less than 31536000000000000 will be converted to microseconds, and values less than 31536000000000000000 will be converted to nanoseconds.
+[number](https://docs.wandb.ai/ref/weave/number) を _タイムスタンプ_ に変換します。31536000000未満の値は秒に変換され、31536000000000未満の値はミリ秒に変換され、31536000000000000未満の値はマイクロ秒に変換され、31536000000000000000未満の値はナノ秒に変換されます。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `val` | Number to convert to a timestamp |
+| `val` | タイムスタンプに変換する数値 |
 
-#### Return Value
-Timestamp
+#### 戻り値
+タイムスタンプ
 
 <h3 id="number-abs"><code>number-abs</code></h3>
+[number](https://docs.wandb.ai/ref/weave/number)の絶対値を計算します。
 
-Calculates the absolute value of a [number](https://docs.wandb.ai/ref/weave/number)
-
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `n` | A [number](https://docs.wandb.ai/ref/weave/number) |
+| `n` | [number](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-The absolute value of the [number](https://docs.wandb.ai/ref/weave/number)
-
+#### 返り値
+[number](https://docs.wandb.ai/ref/weave/number)の絶対値

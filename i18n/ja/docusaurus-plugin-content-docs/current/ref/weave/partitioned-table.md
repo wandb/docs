@@ -1,49 +1,49 @@
-# partitioned-table
+以下は、Markdownテキストの日本語訳です。テキストのみを返してください。
 
-## Chainable Ops
+# パーティション化されたテーブル
+
+## 連鎖可能な操作
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの _ファイル_ を返します。
 
-| Argument |  |
+| 引数 | 　|
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
+#### 戻り値
+アセットの _ファイル_
 
 <h3 id="partitionedtable-file"><code>partitionedtable-file</code></h3>
 
-Returns the _file_ of a _partitioned-table_
+_パーティション化されたテーブル_ の _ファイル_ を返します。
 
-| Argument |  |
+| 引数 | 　|
 | :--- | :--- |
-| `partitionedTable` | The _partitioned-table_ |
+| `partitionedTable` | _パーティション化されたテーブル_ |
 
-#### Return Value
-_file_ of the _partitioned-table_
+#### 戻り値
+_パーティション化されたテーブル_ の _ファイル_
 
 <h3 id="partitionedtable-rows"><code>partitionedtable-rows</code></h3>
 
-Returns the rows of a _partitioned-table_
+_パーティション化されたテーブル_ の行を返します。
 
-| Argument |  |
+| 引数 | 　|
 | :--- | :--- |
-| `partitionedTable` | The _partitioned-table_ to get rows from |
+| `partitionedTable` | 行を取得する _パーティション化されたテーブル_ |
 
-#### Return Value
-Rows of the _partitioned-table_
+#### 戻り値
+_パーティション化されたテーブル_ の行
 
 
-## List Ops
+## リスト操作
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
-
-| Argument |  |
+アセットの _ファイル_ を返します。
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
-
+#### 戻り値
+アセットの_ファイル_

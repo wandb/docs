@@ -1,59 +1,57 @@
 ---
-description: Export a W&B Report as a PDF or LaTeX.
-displayed_sidebar: ja
+description: W&BレポートをPDFまたはLaTeX形式でエクスポートする。
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Clone and export reports
+# レポートのクローンとエクスポート
 
 <head>
-  <title>Clone and export W&B Reports</title>
+  <title>W&Bレポートのクローンとエクスポート</title>
 </head>
 
-## Export reports
+## レポートのエクスポート
 
-Export a report as a PDF or LaTeX. Within your report, select the kebab icon to expand the dropdown menu. Choose **Download and** select either PDF or LaTeX output format.
+レポートをPDFまたはLaTeX形式でエクスポートします。レポート内でケバブアイコンを選択してドロップダウンメニューを展開し、**ダウンロード**を選択して、PDFまたはLaTeXの出力形式を選択します。
 
-## Cloning reports
+## レポートのクローニング
 
 <Tabs
   defaultValue="app"
   values={[
-    {label: 'App UI', value: 'app'},
+    {label: 'アプリUI', value: 'app'},
     {label: 'Python SDK', value: 'python'}
   ]}>
   <TabItem value="app">
 
-Within your report, select the kebab icon to expand the dropdown menu. Choose the **Clone this report** button. Pick a destination for your cloned report in the modal. Choose **Clone report**.
+レポート内でケバブアイコンを選択してドロップダウンメニューを展開し、**このレポートを複製**ボタンを選択します。モーダルで複製したレポートの保存先を選択し、**レポートを複製**を選択します。
 
 ![](@site/static/images/reports/clone_reports.gif)
 
-Clone a report to reuse a project's template and format. Cloned projects are visible to your team if you clone a project within the team's account. Projects cloned within an individual's account are only visible to that user.
+プロジェクトのテンプレートとフォーマットを再利用するためにレポートを複製します。チームのアカウント内でプロジェクトを複製した場合、複製したプロジェクトはチームのメンバーに表示されます。個人のアカウント内で複製されたプロジェクトは、そのユーザーにしか表示されません。
   </TabItem>
   <TabItem value="python">
-
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/report\_api)
 
-Load a Report from a URL to use it as a template.
+URLからレポートをロードして、テンプレートとして使用します。
 
 ```python
 report = wr.Report(
     project=PROJECT,
-    title='Quickstart Report',
-    description="That was easy!"
-)                                              # Create
-report.save()                                  # Save
-new_report = wr.Report.from_url(report.url)    # Load
+    title='クイックスタート レポート',
+    description="簡単だった！"
+)                                              # 作成
+report.save()                                  # 保存
+new_report = wr.Report.from_url(report.url)    # ロード
 ```
 
-Edit the content within `new_report.blocks`.
+`new_report.blocks`の中身を編集します。
 
 ```python
 pg = wr.PanelGrid(
     runsets=[
-        wr.Runset(ENTITY, PROJECT, "First Run Set"),
-        wr.Runset(ENTITY, PROJECT, "Elephants Only!", query="elephant"),
+        wr.Runset(ENTITY, PROJECT, "最初のRunセット"),
+        wr.Runset(ENTITY, PROJECT, "象のみ！", query="elephant"),
     ],
     panels=[
         wr.LinePlot(x='Step', y=['val_acc'], smoothing_factor=0.8),
@@ -62,7 +60,7 @@ pg = wr.PanelGrid(
         wr.RunComparer(diff_only='split', layout={'w': 24, 'h': 9}),
     ]
 )
-new_report.blocks = report.blocks[:1] + [wr.H1("Panel Grid Example"), pg] + report.blocks[1:]
+new_report.blocks = report.blocks[:1] + [wr.H1("パネルグリッドの例"), pg] + report.blocks[1:]
 new_report.save()
 ```
   </TabItem>

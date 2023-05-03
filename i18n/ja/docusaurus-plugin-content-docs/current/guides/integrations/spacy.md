@@ -1,23 +1,19 @@
----
-displayed_sidebar: ja
----
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # spaCy
 
-[spaCy](https://spacy.io) is a popular "industrial-strength" NLP library: fast, accurate models with a minimum of fuss. As of spaCy v3, Weights and Biases can now be used with [`spacy train`](https://spacy.io/api/cli#train) to track your spaCy model's training metrics as well as to save and version your models and datasets. And all it takes is a few added lines in your configuration!
+[spaCy](https://spacy.io)は、高速で正確なモデルを簡単に扱える「産業強度」のNLPライブラリです。spaCy v3以降では、Weights and Biasesを[`spacy train`](https://spacy.io/api/cli#train)と組み合わせて使用することで、spaCyモデルのトレーニングメトリクスを追跡したり、モデルとデータセットを保存・バージョン管理することができます。そして、設定に数行を追加するだけで実現できます！
 
-## Getting Started: Track and Save your Models
+## はじめに：モデルのトラッキングと保存
 
-### 1. Install the `wandb` library and log in
+### 1. `wandb` ライブラリをインストールしてログイン
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
+    {label: 'コマンドライン', value: 'cli'},
+    {label: 'ノートブック', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -35,17 +31,15 @@ wandb login
 import wandb
 wandb.login()
 ```
-
-  </TabItem>
+</TabItem>
 </Tabs>
 
+### 2) spaCy設定ファイルに`WandbLogger`を追加
 
-### 2) Add the `WandbLogger` to your spaCy config file
-
-spaCy config files are used to specify all aspects of training, not just logging -- GPU allocation, optimizer choice, dataset paths, and more. Minimally, under `[training.logger]` you need to provide the key `@loggers` with the value `"spacy.WandbLogger.v3"`, plus a `project_name`. 
+spaCyの設定ファイルは、ロギングだけでなく、トレーニングのすべての側面を指定するために使用されます。GPU割り当て、オプティマイザーの選択、データセットのパスなどです。最小限、`[training.logger]`の下で、キー`@loggers`に値`"spacy.WandbLogger.v3"`と、`project_name`を指定する必要があります。
 
 :::info
-For more on how spaCy training config files work and on other options you can pass in to customize training, check out [spaCy's documentation](https://spacy.io/usage/training).
+spaCyトレーニング設定ファイルの機能や、トレーニングをカスタマイズするために渡すことができる他のオプションについては、[spaCyのドキュメント](https://spacy.io/usage/training)をご覧ください。
 :::
 
 ```python
@@ -57,25 +51,23 @@ log_dataset_dir = "./corpus"
 model_log_interval = 1000
 ```
 
-| Name                   | Description                                                                                                                                                                                                                                                   |
+| 名前                   | 説明                                                                                                                                                                                                                                                   |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `project_name`         | `str`. The name of the Weights & Biases [project](../app/pages/project-page.md). The project will be created automatically if it doesn’t exist yet.                                                                                                    |
-| `remove_config_values` | `List[str]` . A list of values to exclude from the config before it is uploaded to W&B. `[]` by default.                                                                                                                                                     |
-| `model_log_interval`   | `Optional int`. `None` by default. If set, [model versioning](../models/intro.md) with [Artifacts](../artifacts/intro.md)will be enabled. Pass in the number of steps to wait between logging model checkpoints. `None` by default. |
-| `log_dataset_dir`      | `Optional str`. If passed a path, the dataset will be uploaded as an Artifact at the beginning of training. `None` by default.                                                                                                            |
-| `entity`               | `Optional str` . If passed, the run will be created in the specified entity                                                                                                                                                                                   |
-| `run_name`             | `Optional str` . If specified, the run will be created with the specified name.                                                                                                                                                                               |
+| `project_name`         | `str`. Weights & Biasesの[プロジェクト](../app/pages/project-page.md)の名前。プロジェクトがまだ存在しない場合は自動的に作成されます。                                                                                                    |
+| `remove_config_values` | `List[str]` . 設定から除外する値のリスト。初期値は `[]`です。                                                                                                                                                     |
+| `model_log_interval`   | `Optional int`. 初期値は`None`です。設定された場合、[モデルのバージョン管理](../models/intro.md)と[アーティファクト](../artifacts/intro.md)が有効化されます。モデルチェックポイントのロギング間隔を設定してください。初期値は`None`です。 |
+| `log_dataset_dir`      | `Optional str`. パスが指定されている場合、トレーニング開始時にデータセットがアーティファクトとしてアップロードされます。初期値は`None`です。                                                                                                            |
+| `entity`               | `Optional str` . 指定された場合、特定のエンティティでrunが作成されます。                                                                                                                                                                                   |
+| `run_name`             | `Optional str` . 指定された場合、指定された名前でrunが作成されます。                                                                                                                                                                               |
+### 3) トレーニングを開始する
 
-### 3) Start training
-
-Once you have added the `WandbLogger` to your spaCy training config you can run `spacy train` as usual.
-
+`WandbLogger`をspaCyトレーニング設定に追加したら、通常通り`spacy train`を実行できます。
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
+    {label: 'コマンドライン', value: 'cli'},
+    {label: 'ノートブック', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -97,8 +89,8 @@ python -m spacy train \
     --paths.train ./train \
     --paths.dev ./dev
 ```
+</TabItem>
 
-  </TabItem>
 </Tabs>
 
-When training begins, a link to your training run's [W&B page](../app/pages/run-page.md) will be output which will take you to this run's experiment tracking [dashboard](../track/app.md) in the Weights & Biases web UI.
+トレーニングが始まると、トレーニングrunの[W&Bページ](../app/pages/run-page.md)へのリンクが出力され、このリンクからWeights & Biases Web UIの実験トラッキング[ダッシュボード](../track/app.md)にアクセスできるようになります。

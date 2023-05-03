@@ -1,20 +1,19 @@
 # wandb artifact put
 
-**Usage**
+**使用方法**
 
 `wandb artifact put [OPTIONS] PATH`
 
-**Summary**
+**概要**
 
-Upload an artifact to wandb
+wandbにアーティファクトをアップロード
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| -n, --name | The name of the artifact to push:   project/artifact_name |
-| -d, --description | A description of this artifact |
-| -t, --type | The type of the artifact |
-| -a, --alias | An alias to apply to this artifact |
-| --help | Show this message and exit. |
-
+| -n, --name | プッシュするアーティファクトの名前:   project/artifact_name |
+| -d, --description | このアーティファクトの説明 |
+| -t, --type | アーティファクトのタイプ |
+| -a, --alias | このアーティファクトに適用するエイリアス |
+| --help | このメッセージを表示して終了します。 |

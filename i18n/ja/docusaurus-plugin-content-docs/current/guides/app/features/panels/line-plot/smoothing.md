@@ -1,25 +1,24 @@
 ---
-description: In line plots, use smoothing to see trends in noisy data.
-displayed_sidebar: ja
+description: 線グラフでは、スムージングを使ってノイズの多いデータのトレンドを確認します。
 ---
 
-# Smoothing
+# スムージング
 
-In Weights & Biases line plots, we support three types of smoothing:
+Weights＆Biasesの線グラフでは、以下の3種類のスムージングをサポートしています:
 
-* [exponential moving average](smoothing.md#exponential-moving-average-default) (default)
-* [gaussian smoothing](smoothing.md#gaussian-smoothing)
-* [running average](smoothing.md#running-average)
+* [指数移動平均](smoothing.md#exponential-moving-average-default) (デフォルト)
+* [ガウススムージング](smoothing.md#gaussian-smoothing)
+* [移動平均](smoothing.md#running-average)
 
-See these live in an [interactive W&B report](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc).
+これらについては、[インタラクティブなW&Bレポート](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc)で実際に確認できます。
 
 ![](/images/app_ui/beamer_smoothing.gif)
 
-## Exponential Moving Average (Default)
+## 指数移動平均 (デフォルト)
 
-Exponential moving average is implemented to match TensorBoard's smoothing algorithm. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential\_smoothing) for background. There is a debias term added so that early values in the time series are not biases towards zero.
+指数移動平均は、TensorBoardのスムージングアルゴリズムに合わせて実装されています。範囲は0から1です。「[指数平滑化](https://www.wikiwand.com/en/Exponential\_smoothing)」を参照してください。最初の時系列データの値がゼロにバイアスされないように、デバイアス項が追加されています。
 
-Here is sample code for how this works under the hood:
+これが内部的にどのように機能しているかのサンプルコードは次のとおりです。
 
 ```javascript
   data.forEach(d => {
@@ -29,37 +28,37 @@ Here is sample code for how this works under the hood:
     debiasWeight = 1.0 - Math.pow(smoothingWeight, numAccum);
     smoothedData.push(last / debiasWeight);
 ```
-
-Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
+このように見えます[アプリで](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc)：
 
 ![](/images/app_ui/exponential_moving_average.png)
 
-## Gaussian Smoothing
+## ガウシアンスムージング
 
-Gaussian smoothing (or gaussian kernel smoothing) computes a weighted average of the points, where the weights correspond to a gaussian distribution with the standard deviation specified as the smoothing parameter. See . The smoothed value is calculated for every input x value.
+ガウシアンスムージング（またはガウシアンカーネルスムージング）は、ポイントの重み付け平均を計算し、重みはスムージングパラメータとして指定された標準偏差を持つガウシアン分布に対応します。参照してください。スムージングされた値は、すべての入力x値に対して計算されます。
 
-Gaussian smoothing is a good standard choice for smoothing if you are not concerned with matching TensorBoard's behavior. Unlike an exponential moving average the point will be smoothed based on points occurring both before and after the value.
+ガウシアンスムージングは、テンソルボードの動作と一致することに関心がない場合、スムージングに適した標準的な選択です。指数移動平均とは異なり、ポイントはその前後の両方の値によってスムージングされるでしょう。
 
-Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing):
+これが[アプリで](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing)どのように見えるかです：
 
 ![](/images/app_ui/gaussian_smoothing.png)
 
-## Running Average
+## 移動平均
 
-Running average is a simple smoothing algorithm that replaces a point with the average of points in a window before and after the given x value. See "Boxcar Filter" at [https://en.wikipedia.org/wiki/Moving\_average](https://en.wikipedia.org/wiki/Moving\_average). The selected parameter for running average tells Weights and Biases the number of points to consider in the moving average.
+移動平均は、単純なスムージングアルゴリズムであり、与えられたx値の前後のウィンドウ内のポイントの平均でポイントを置き換えます。[https://en.wikipedia.org/wiki/Moving\_average](https://en.wikipedia.org/wiki/Moving\_average) の "Boxcar Filter" を参照してください。移動平均を考慮するポイント数をWeights and Biasesに伝えるために選択されたパラメータです。
 
-Running average is a simple, trivial to replicate smoothing algorithm. If your points are spaced unevenly on the x-axis Gaussian Smoothing may be a better choice.
+移動平均は、単純で複製しやすいスムージングアルゴリズムです。ポイントがx軸上で不均一に配置されている場合、ガウシアンスムージングがより適切な選択となります。
 
-Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average):
+これが[アプリで](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average)どのように見えるかです：
 
 ![](/images/app_ui/running_average.png)
 
-## Implementation Details
+## 実装の詳細
 
-All of the smoothing algorithms run on the sampled data, meaning that if you log more than 3000 points, the smoothing algorithm will run _after_ the points are downloaded from the server. The intention of the smoothing algorithms is to help find patterns in data quickly. If you need exact smoothed values on metrics with a large number of logged points, it may be better to download your metrics through the API and run your own smoothing methods.
+すべてのスムージングアルゴリズムは、サンプルデータで実行されるため、3000ポイント以上ログする場合、スムージングアルゴリズムはサーバーからのポイントのダウンロードが完了した後に実行されます。スムージングアルゴリズムの目的は、データのパターンを迅速に見つけることを支援することです。ログポイント数の多いメトリクス上で正確なスムーズ化された値が必要な場合は、APIを介してメトリクスをダウンロードし、独自のスムージング方法を実行する方が良いかもしれません。
 
-## Hide original data
+## オリジナルデータを非表示にする
+デフォルトでは、元の滑らかでないデータを背景に薄い線で表示しています。この表示をオフにするには、**Show Original** トグルをクリックしてください。
 
-By default we show the original, unsmoothed data as a faint line in the background. Click the **Show Original** toggle to turn this off.
+
 
 ![](/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif)

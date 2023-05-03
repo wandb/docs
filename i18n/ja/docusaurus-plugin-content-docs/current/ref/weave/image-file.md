@@ -1,27 +1,23 @@
-# image-file
+# 画像ファイル
 
-## Chainable Ops
+## チェーン可能なOps
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの_ファイル_を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
+#### 返り値
+アセットの_ファイル_
 
-#### Return Value
-The _file_ of the asset
 
-
-## List Ops
+## リスト操作
 <h3 id="asset-file"><code>asset-file</code></h3>
+アセットの_file_を返します
 
-Returns the _file_ of the asset
-
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
-
-#### Return Value
-The _file_ of the asset
-
+| `asset` | アセット |
+#### 戻り値
+アセットの_ファイル_

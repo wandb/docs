@@ -1,35 +1,33 @@
 # wandb launch
 
-**Usage**
+**使い方**
 
-`wandb launch [OPTIONS] [URI]`
+`wandb launch [オプション]`
 
-**Summary**
+**概要**
 
-Launch or queue a job from a uri (Experimental). A uri can be either a wandb
-uri of the form https://wandb.ai/entity/project/runs/run_id, or a git uri
-pointing to a remote repository, or path to a local directory.
+W&Bジョブを開始またはキューします。https://wandb.me/launch を参照してください。
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| -j, --job  | Name of the job to launch. If passed in, launch does not require a uri. |
-| --entry-point | Entry point within project. [default: main].   If the entry point is not found, attempts to run the project file with the specified name as a script, using 'python' to run .py files and the default shell (specified by | environment variable $SHELL) to run .sh files. If passed in, will override the entrypoint value passed in using a config |
-| -g, --git-version | Version of the project to run, as a Git   commit reference for Git projects. |
-| -a, --args-list | An argument for the run, of the form -a   name=value. Provided arguments that are not in the list of arguments for an entry point | will be passed to the corresponding entry  point as command-line arguments in the form | `--name value` |
-| --name | Name of the run under which to launch the   run. If not specified, a random run name will be used to launch run. If passed in, will override the name passed|
-| -e, --entity  | Name of the target entity which the new run will be sent to. Defaults to using the entity set by local wandb/settings folder.If | passed in, will override the entity value |
-| -p, --project  | Name of the target project which the new run   will be sent to. Defaults to using the project name given by the source uri or for | github runs, the git repo name. If passed in, will override the project value passed in using a config file. |
-| -r, --resource | Execution resource to use for run. Supported   values: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'. This is now a required parameter if pushing to a queue with no resource configuration. If passed in, will override the resource |
-| -d, --docker-image | Specific docker image you'd like to use. In the form name:tag. If passed in, will override the docker image value passed in |
-| -c, --config | Path to JSON file (must end in '.json') or   JSON string which will be passed as a launch config. Dictation how the launched run will | be configured. |
-| -q, --queue | Name of run queue to push to. If none,   launches single run directly. If supplied without an argument (`--queue`), defaults to | queue 'default'. Else, if name supplied, specified run queue must exist under the | project and entity supplied. |
-| --async | Flag to run the job asynchronously. Defaults   to false, i.e. unless --async is set, wandb launch will wait for the job to finish. This option is incompatible with --queue; asynchronous options when running with an | agent should be set on wandb launch-agent. |
-| --resource-args | Path to JSON file (must end in '.json') or   JSON string which will be passed as resource args to the compute resource. The exact content which should be provided is different for each execution backend. See | documentation for layout of this file. |
-| --cuda | Flag to build an image with CUDA enabled. If reproducing a previous wandb run that ran on a CUDA-enabled image will be built by | default and you must set --cuda=False to |
-| -b, --build | Flag to build an associated job and push to   queue as an image job. |
-| -rg, --repository | Name of a remote repository. Will be used to   push a built image to. |
-| -pq, --project-queue | Name of the project containing the queue to   push to. If none, defaults to entity level |
-| --help | Show this message and exit. |
-
+| -j, --job (str) | 起動するジョブの名前。指定されている場合、launchはuriを必要としません。 |
+| --entry-point | プロジェクト内のエントリーポイント。[デフォルト: main]。エントリーポイントが見つからない場合、|
+| 指定された名前のプロジェクトファイルを | スクリプトとして実行し、.pyファイルは'python'を使用して実行し、|
+| .shファイルはデフォルトのシェル（環境変数$SHELLで | 指定されたもの）を使用して実行します。|
+| 指定されている場合、設定ファイルで | 渡されたエントリーポイントの値を上書きします。|
+| -a, --args-list | `-a name=value`の形式で実行に引数を渡します。提供された引数がエントリーポイントの引数リストに |
+| ない場合、それらは `--name value` の形式で | コマンドライン引数として対応するエントリーポイントに渡されます。|
+| --name | 実行を開始する実行の名前。指定されていない場合、ランダムな実行名が | 使用されます。指定されている場合、設定ファイルで渡された名前を上書きします。|
+| -e, --entity (str) | 新しい実行が送られる対象エンティティの名前。デフォルトでは、ローカルのwandb/settingsフォルダに | 設定されたエンティティを使用します。指定されている場合、設定ファイルで渡されたエンティティ値を上書きします。|
+| -p, --project (str) | 新しい実行が送られる対象プロジェクトの名前。デフォルトでは、ソースURIか | githubの実行で与えられたプロジェクト名、またはgitリポジトリ名を使用します。指定されている場合、設定ファイルで渡されたプロジェクト値を上書きします。|
+| -r, --resource | 実行に使用する実行リソース。サポートされている値: 'local-process', 'local-container', | 'kubernetes', 'sagemaker', 'gcp-vertex'。現在、リソース設定がないキューにプッシュする場合、必須パラメーターです。指定されている場合、設定ファイルで渡されたリソースを上書きします。|
+| -d, --docker-image | 使用したい特定のDockerイメージ。|
+| name:tagの形で指定します。指定されている場合、設定ファイルで | 渡されたDockerイメージ値を上書きします。|
+| -c, --config | JSONファイル（'.json'で終わる必要があります）またはJSON文字列のパス。これはlaunch | 設定として渡され、起動された実行がどのように設定されるかを決定します。|
+| -q, --queue | プッシュする実行キューの名前。ない場合、単一の実行を直接開始します。引数なしで指定されている場合（`--queue`）、デフォルトのキュー 'default'になります。 それ以外の場合、指定された名前がある場合、指定された実行キューは、指定されたプロジェクトとエンティティの下に存在している必要があります。|
+| --async | ジョブを非同期で実行するフラグ。デフォルトではfalseです。つまり、--asyncが設定されていない限り、wandb | launchはジョブが終了するのを待ちます。このオプションは、--queueと互換性がありません。エージェントと一緒に実行する場合の非同期オプションは、wandb launch-agentで設定してください。|
+| --resource-args | JSONファイル（'.json'で終わる必要があります）またはJSON文字列のパス。これはリソース | 引数としてコンピュートリソースに渡されます。提供するべき内容は、実行バックエンドごとに異なります。このファイルのレイアウトについては、ドキュメントを参照してください。|
+| -pq, --project-queue | 押し付けるキューを含むプロジェクトの名前。ない場合、エンティティレベルに | デフォルトします。|
+| --help | このメッセージを表示し、終了します。|

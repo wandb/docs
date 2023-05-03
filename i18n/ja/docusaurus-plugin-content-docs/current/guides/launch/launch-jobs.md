@@ -1,241 +1,114 @@
 ---
-description: Discover how to launch your jobs.
-displayed_sidebar: ja
+description: W&Bキューにジョブを追加する方法を学びましょう。
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Launch your jobs
-Launch jobs directly from within W&B locally on your machine or to the compute provider of your choice. Reproduce runs or sweeps directly from the W&B User Interface to launch new experiments and compare results.
+# ランを起動する
 
+W&B launchを使って、実行用のキューにジョブを追加して、スイープエージェントによって実行できるようにします。次のガイドでは、キューにランを送信する方法を説明します。
 
-## Recreate a run
-Add your W&B Job to a queue to execute a W&B Run. All jobs pushed to a queue automatically posses the same compute resource type and parameter resource arguments. You can alter the hyperparameters to use when you add a job to a queue.
-
-Interactively recreate a W&B Run with the W&B App or programmatically with the CLI.
+## キューにジョブを追加する
+W&Bアプリを使ってインタラクティブにキューにジョブを追加するか、CLIを使ってプログラム的に追加します。
 
 <Tabs
   defaultValue="app"
-  values={[    
-    {label: 'W&B App', value: 'app'},
+  values={[
+    {label: 'W&Bアプリ', value: 'app'},
     {label: 'CLI', value: 'cli'},
   ]}>
   <TabItem value="app">
-The following procedure demonstrates how to add a job to a queue interactively with the W&B App.
+W&Bアプリを使ってキューにジョブを追加します。
 
-1. Navigate to your project page on the W&B App.
-2. Select the **Jobs** tab.
+1. W&Bプロジェクトページに移動します。
+2. 左パネルの**Jobs**アイコンを選択します:
 
 ![](/images/launch/project_jobs_tab_gs.png)
 
-3. The **Jobs Page** displays a list of W&B Jobs that were created from previously executed W&B Runs. Find information about the jobs such as the:
-
-> * **Job ID**: Unique Job ID name. For more information about job naming conventions, see [Job naming conventions](create-job#job-naming-conventions).
-> * **Versions**: The number of job versions.
-> * **Runs**: The number of W&B Runs created by the associated job.
-> * **Creation date**: The creation date of the job.
-> * **Last run**: The timestamp of the last run created by the job.
+3. **Jobs**ページには、以前に実行されたW&Bランから作成されたW&Bジョブのリストが表示されます。
 
 ![](/images/launch/view_jobs.png)
 
-4. Select the **Launch** button next to the job name. A UI modal will appear.
-5. Within the modal select the:
-   
-> * Job version you want to add to your queue from the **Job version** dropdown. In this example we only have one version, so we select `v0`. 
-> * Select the **Paste from…** button to automatically propagate hyperparameters used from a specific W&B Run. In the following image, we have two runs to choose from.
+4. ジョブ名の横にある**起動**ボタンを選択します。ページの右側にモーダルが表示されます。
+5. そのモーダルから以下を選択してください。
+    * **Job version**のドロップダウンから、キューに追加したいJob versionを選択してください。この例では、バージョンが1つしかないため、`v0`を選択します。
+    * **Paste from…** ボタンを選択して、特定のW&B Runから使用されたハイパーパラメーターを自動的に伝播させます。以下の画像では、選ぶことができる2つのrunがあります。
 
 ![](/images/launch/create_starter_queue_gs.png)
-6. From the **Queue** dropdown, select **Starter queue**.  
-7. Select the **Launch now** button.
+
+6. 次に、**Queue**のドロップダウンから**Starter queue**を選択して、キューを作成します。
+7. **Launch now**ボタンを選択します。
 
 
-</TabItem>
-<TabItem value="cli">
-Follow the procedure outlined below to recreate a run with the CLI:
+  </TabItem>
+    <TabItem value="cli">
 
-1. Find the name of the run you want to reproduce and its associated job name. See the [View details of each job](#view-details-of-each-job) section for information on how to find the job name.
-2. Navigate to your terminal and type the following:
-
-```bash    
-wandb launch -j <job-name> -c path/to/config.json
-```    
-This will default to running on the `Docker runner` on the same machine you intend on running on.
-
-:::info
-You need to specify the `run.config` in your config files `overrides.run_config` keys.
-:::
-
-The following code snippet demonstrates an example config file:
+`wandb launch`コマンドを使ってキューにジョブを追加します。ハイパーパラメーターのオーバーライド情報を持つJSON設定を作成してください。例えば、[Quickstart](./quickstart.md)ガイドで紹介されているスクリプトを使って、次のようなオーバーライド情報を持つJSONファイルを作成します：
 
 ```json
+// config.json
 {
-   "overrides": {
-      "args": [],
-      "run_config": {
-	      "lr": <value>,
-        "batch_size": <value>
-      }
-   }
+    "args": [],
+    "run_config": {
+        "learning_rate": 0,
+        "epochs": 0
+    },
+    "entry_point": []
 }
-```
 
-  </TabItem>
-</Tabs>
-
-
-
-## Create a sweep
-Create W&B Sweeps with Launch. You can create a sweep interactively with the W&B App or programmatically with the W&B CLI.
-
-:::info
-Before you create a sweep with W&B Launch, ensure that you create a job first. Inspect that the run you want to create a job from has a code artifact. See the [Create a Job](./create-job.md) page for more information. 
-:::
-
-
-<Tabs
-  defaultValue="app"
-  values={[
-    {label: 'W&B App', value: 'app'},
-    {label: 'CLI', value: 'cli'},
-  ]}>
-  <TabItem value="app">
-Create a sweep interactively with the W&B App.
-
-1. Navigate to you W&B project on the W&B App.  
-2. Select the sweeps icon on the left panel (broom image). 
-3. Next, select the **Create Sweep** button.
-4. Toggle the **Use Launch 🚀 (In Beta)** slider.
-5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from. 
-6. Select the queue to add the job to from the **Queue** dropdown menu.
-7. Select **Initialize Sweep**.
-
-![](/images/launch/create_sweep_with_launch.png)
-
-  </TabItem>
-  <TabItem value="cli">
-Programmatically create a W&B Sweep with Launch with the W&B CLI.
-
-1. Create a Sweep configuration
-2. Specify the full job name within you sweep configuration
-3. Initialize a sweep agent.
-
-:::info
-Steps 1 and 3 are the same steps you normally take when you create a W&B Sweep. With the exception that you need to specify the name of the job within your sweep YAML configuration file. 
-:::
-
-For example, in the following code snippet, we specify `wandb/launch_demo/job-source-launch_demo-canonical_job_example.py:v0` for the job value:
-
-```yaml
-#config.yaml
-
-job: wandb/launch_demo/job-source-launch_demo-canonical_job_example.py:v0
-description: sweep examples using launch jobs
-
-method: bayes
-metric:
-  goal: minimize
-  name: ""
-parameters:
-  learning_rate:
-    max: 0.02
-    min: 0
-    distribution: uniform
-  epochs:
-    max: 20
-    min: 0
-    distribution: int_uniform
-```
-
-For information on how to create a sweep configuration, see the [Define sweep configuration](../sweeps/define-sweep-configuration.md) page.
-
-4. Next, initialize a sweep. Provide the path to your config file, the name of your job queue, your W&B entity, and the name of the project for the queue, entity, and project flags, respectively.
+W&B Launchは、JSON設定ファイルを提供しない場合、デフォルトのパラメーターが使用されます。
+`queue`（`-q`）フラグにはキューの名前、`job`（`-j`）フラグにはジョブの名前、`config`（`-c`）フラグには設定ファイルへのパスを指定してください。
 
 ```bash
-wandb sweep <path/to/yaml/file> --queue <queue_name> --entity <your_entity>  --project <project_name>
+wandb launch -j <job> -q <queue-name> -e <entity-name> -c path/to/config.json
 ```
 
-For more information on W&B Sweeps, see the [Tune Hyperparameters](../sweeps/intro.md) chapter.
-
-
-  </TabItem>
-</Tabs>
-
-
-## View details of launched jobs
-View details of launched jobs with the W&B App. You can view job artifacts that were created and find out runs, version and job specific details.
-
-### View job artifacts
-Each W&B Job you create is saved as a W&B Artifact. Select the **Artifacts** icon within your project’s workspace on the W&B App to view a list of job artifacts created in that project.
-
-![](/images/launch/job_artifacts_project_page.png)
-
-Expand the **JOB** menu on the left panel to view a list of job artifacts. For example, in the following image we have two job artifacts called: 
-- **job-https___github.com_githubrepo_demo_launch.git_canonical_job_example.py**
-- **job-source-launch_demo-canonical_job_example.py**
-
-![](/images/launch/job_artifacts_page.png)
-
-### View details of each job
-
-Navigate to your W&B Project to view fine-grained details of each job such as runs created by a job, the full name of your jobs, and version metadata associated with a project. 
-
-1. Navigate to your W&B project.
-2. Select the **Jobs** icon on the left sidebar.
-3. A **Jobs** page will appear. In it, you can view all of the jobs created in that project.
-
-![](/images/launch/view_jobs.png)
-
-For example, in the following image we have two job listed:
-- **job-https___github.com_githubrepo_demo_launch.git_canonical_job_example.py**
-- **job-source-launch_demo-canonical_job_example.py**
-
-Select a job from list to learn more about that job. A new page with a list of runs created by the job, along with job and version details will appear.  This information is contained in three tabs: **Runs**, **Job details**, and **Version details**.
-
-<Tabs
-  defaultValue="runs"
-  values={[
-    {label: 'Runs', value: 'runs'},
-    {label: 'Job details', value: 'jobs_details'},
-    {label: 'Version details', value: 'version_details'},
-  ]}>
-  <TabItem value="runs">
-
-Select the name of your job from the list. This will redirect you to a new page with details about each run created by the job such as the:
-
-The Runs tab provides information about each run created by the job such as the:
-
-- **Run**: The name of the run.
-- **State**: The state of the run.
-- **Job version**: The version of the job used.
-- **Creator**: Who created the run.
-- **Creation date**: The timestamp of when the run was started.
-- **Other**: The remaining columns will contain the key-value pairs of the configuration dictionary passed to `wandb.init()`. 
-
-For example, in our demo script, we passed the learning rate (`learning_rate`) and number of epochs (`epochs`) when we initialized a run with `wandb.init()`.
-
-![](/images/launch/runs_in_job.png)
-
-
-  </TabItem>
-  <TabItem value="jobs_details">
-
-The **Job details** provides information about:
-
-* **Description**: An optional description of the job. Select the pencil icon next to this field to add a description.
-* **Owner entity**: The entity the job belongs to.
-* **Parent project**: The project the job belongs to.
-* **Full name**: The full name of your job
-* **Creation date**: Creation date of the job.
-
-
-![](/images/launch/job_id_full_name.png)
-
-  </TabItem>
-  <TabItem value="version_details">
-
-Use the **Version details** tab to view specific information about each job version such as the input and output types, and files used for each job version. 
-
-![](/images/launch/version_details_large.png)
+W&Bチーム内で作業している場合は、キューが使用するエンティティを示すために、`entity`フラグ（`-e`）を指定することをお勧めします。
 
   </TabItem>
 </Tabs>
+
+## キューに追加されたジョブを表示する
+W&Bアプリでキューに追加されたジョブを表示します。
+
+1. https://wandb.ai/home のW&Bアプリに移動します。
+2. 左側のサイドバーの**Applications**セクションで**Launch**を選択します。
+3. **全エンティティ**のドロップダウンを選択し、フィルタリングするエンティティを選択します。
+4. Launch Applicationページから折りたたみ可能なキューUIを展開して、特定のキューに追加されたジョブを表示します。
+
+リストに表示されている各runは、そのキューに追加されたジョブに対応しています。例えば、次の画像では、`Starter queue`というキューに2つのジョブがリストされています。1つは`resilient-snowball`と呼ばれ、もう1つは`earthy-energy-165`と呼ばれています。
+
+![](/images/launch/launch_jobs_status.png)
+
+ジョブに関する追加情報を次のように調べます。
+   - **Run**：そのジョブに割り当てられたW&B Runの名前。
+   - **Job ID**：ジョブの名前。デフォルトの命名に関する情報は、[ジョブ命名規則](create-job#job-naming-conventions)ページを参照してください。
+   - **Project**：runが所属するプロジェクトの名前。
+   - **Status**：キューに入っているrunのステータス。
+   - **Author**：runを作成したW&Bエンティティ。
+   - **Creation date**：キューが作成された日時。
+   - **Start time**：ジョブが開始された日時。
+   - **Duration**：ジョブのrunを完了するまでにかかった時間（秒）。
+## キューにあるrunsの状態
+
+
+
+| 状態 | 説明 |
+
+| --- | --- |
+
+| **アイドル** | runがアクティブなエージェントのないキューにあります。 |
+
+| **キュー待ち** | エージェントが処理を待っているキューにrunがあります。 |
+
+| **開始中** | エージェントがrunを取得しましたが、まだ開始されていません。 |
+
+| **実行中** | runが現在実行中です。 |
+
+| **強制終了** | ユーザーがジョブを強制終了しました。 |
+
+| **クラッシュ** | runがデータの送信を停止したか、正常に開始されませんでした。 |
+
+| **失敗** | runが0以外の終了コードで終了しました。 |
+
+| **完了** | ジョブが正常に完了しました。 |

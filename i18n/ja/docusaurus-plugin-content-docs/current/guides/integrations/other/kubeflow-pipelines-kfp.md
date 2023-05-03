@@ -1,7 +1,6 @@
 ---
 slug: /guides/integrations/kubeflow-pipelines-kfp
-description: How to integrate W&B with Kubeflow Pipelines.
-displayed_sidebar: ja
+description: W&BをKubeflow Pipelinesと統合する方法。
 ---
 
 import Tabs from '@theme/Tabs';
@@ -10,23 +9,23 @@ import TabItem from '@theme/TabItem';
 
 # Kubeflow Pipelines (kfp)
 
-## Overview
+## 概要
 
-[Kubeflow Pipelines (kfp) ](https://www.kubeflow.org/docs/components/pipelines/introduction/)is a platform for building and deploying portable, scalable machine learning (ML) workflows based on Docker containers.
+[Kubeflow Pipelines (kfp)](https://www.kubeflow.org/docs/components/pipelines/introduction/)は、Dockerコンテナをベースとしたポータブルでスケーラブルな機械学習（ML）ワークフローを構築・デプロイするプラットフォームです。
 
-This integration lets users apply decorators to kfp python functional components to automatically log parameters and artifacts to W&B.
+この統合により、ユーザーはkfpのPython関数コンポーネントにデコレータを適用して、パラメータとアーティファクトをW&Bに自動的に記録することができます。
 
-This feature was enabled in `wandb==0.12.11` and requires `kfp<2.0.0`
+この機能は`wandb==0.12.11`で有効になり、`kfp<2.0.0`が必要です。
 
-## Quickstart
+## クイックスタート
 
-### Install W&B and login
+### W&Bのインストールとログイン
 
 <Tabs
   defaultValue="notebook"
   values={[
-    {label: 'Notebook', value: 'notebook'},
-    {label: 'Command Line', value: 'cli'},
+    {label: 'ノートブック', value: 'notebook'},
+    {label: 'コマンドライン', value: 'cli'},
   ]}>
   <TabItem value="notebook">
 
@@ -48,9 +47,9 @@ wandb login
   </TabItem>
 </Tabs>
 
-### Decorate your components
+### コンポーネントにデコレータを追加
 
-Add the `@wandb_log` decorator and create your components as usual. This will automatically log the input/outputs parameters and artifacts to W&B each time you run your pipeline.
+`@wandb_log` デコレータを追加し、コンポーネントを通常どおり作成します。これにより、パイプラインを実行するたびに、入力/出力パラメータとアーティファクトが自動的にW&Bにログされます。
 
 ```python
 from kfp import components
@@ -59,13 +58,15 @@ from wandb.integration.kfp import wandb_log
 @wandb_log
 def add(a: float, b: float) -> float:
     return a + b
+```
+以下はMarkdownのテキストを翻訳してください。翻訳したテキストだけを返してください。他のことは何も言わずに。テキスト:
 
 add = components.create_component_from_func(add)
 ```
 
-### Passing env vars to containers
+### コンテナに環境変数を渡す
 
-You may need to explicitly pass[WANDB env vars](../../track/environment-variables.md)to your containers. For two-way linking, you should also set the env var `WANDB_KUBEFLOW_URL` to the base URL of your Kubeflow Pipelines instance (e.g. https://kubeflow.mysite.com)
+コンテナに[WANDB環境変数](../../track/environment-variables.md)を明示的に渡す必要があるかもしれません。双方向リンクの場合は、環境変数`WANDB_KUBEFLOW_URL`にKubeflow Pipelinesインスタンスの基本URL（例: https://kubeflow.mysite.com）を設定する必要があります。
 
 ```python
 import os
@@ -88,47 +89,45 @@ def example_pipeline(...):
     ...
 ```
 
-## Where is my data? Can I access it programmatically?
+## 私のデータはどこにありますか？プログラムでアクセスできますか？
+### Kubeflow Pipelines UI経由
 
-### Via the Kubeflow Pipelines UI
+W&Bでログを記録したKubeflow Pipelines UIの任意のRunをクリックします。
 
-Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
+* 入力と出力は、`Input/Output`タブと`ML Metadata`タブでトラッキングされます。
+* `Visualizations`タブからW&Bウェブアプリを表示することもできます。
 
-* Inputs and outputs will be tracked in the `Input/Output` and `ML Metadata` tabs
-* You can also view the W&B web app from the `Visualizations` tab.
+![Kubeflow UIでW&Bを表示する](/images/integrations/kubeflow_app_pipelines_ui.png)
 
-![Get a view of W&B in the Kubeflow UI](/images/integrations/kubeflow_app_pipelines_ui.png)
+### ウェブアプリUI経由
 
-### Via the web app UI
+ウェブアプリUIは、Kubeflow Pipelinesの`Visualizations`タブと同じ内容ですが、スペースがもっと広いです！[ウェブアプリUIについての詳細はこちら](https://docs.wandb.ai/ref/app)。
 
-The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space! Learn [more about the web app UI here](https://docs.wandb.ai/ref/app).
+![特定のRunの詳細を表示する（Kubeflow UIへのリンクもあります）](/images/integrations/kubeflow_pipelines.png)
 
-![View details about a particular run (and link back to the Kubeflow UI)](/images/integrations/kubeflow_pipelines.png)
+![パイプラインの各段階での入力と出力の完全なDAGを表示する](/images/integrations/kubeflow_via_app.png)
 
-![See the full DAG of inputs and outputs at each stage of your pipeline](/images/integrations/kubeflow_via_app.png)
+### Public API経由（プログラムでのアクセス）
 
-### Via the Public API (for programmatic access)
+* プログラムでのアクセスのために、[Public APIをご覧ください](https://docs.wandb.ai/ref/python/public-api)。
 
-* For programmatic access, [see our Public API](https://docs.wandb.ai/ref/python/public-api).
+### Kubeflow PipelinesからW&Bへの概念マッピング
 
-### Concept mapping from Kubeflow Pipelines to W&B
+以下は、Kubeflow Pipelinesの概念をW&Bにマッピングしたものです。
 
-Here's a mapping of Kubeflow Pipelines concepts to W&B
-
-| Kubeflow Pipelines | W&B                                                      | Location in W&B                                                                                  |
+| Kubeflow Pipelines | W&B                                                      | W&B内の位置                                                                                      |
 | ------------------ | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Input Scalar       | ``[`config`](https://docs.wandb.ai/guides/track/config)`` | [Overview tab](https://docs.wandb.ai/ref/app/pages/run-page#overview-tab)                         |
-| Output Scalar      | ``[`summary`](https://docs.wandb.ai/guides/track/log)``   | [Overview tab](https://docs.wandb.ai/ref/app/pages/run-page#overview-tab)                         |
-| Input Artifact     | Input Artifact                                            | [Artifacts tab](https://docs.wandb.ai/ref/app/pages/run-page#artifacts-tab)                       |
-| Output Artifact    | Output Artifact                                           | [Artifacts tab](https://docs.wandb.ai/ref/app/pages/run-page#artifacts-tab) |
+| 入力スカラー       | ``[`config`](https://docs.wandb.ai/guides/track/config)`` | [概要タブ](https://docs.wandb.ai/ref/app/pages/run-page#overview-tab)                             |
+| 出力スカラー       | ``[`summary`](https://docs.wandb.ai/guides/track/log)``   | [概要タブ](https://docs.wandb.ai/ref/app/pages/run-page#overview-tab)                             |
+| 入力アーティファクト | 入力アーティファクト                                       | [アーティファクトタブ](https://docs.wandb.ai/ref/app/pages/run-page#artifacts-tab)               |
+| 出力アーティファクト | 出力アーティファクト                                       | [アーティファクトタブ](https://docs.wandb.ai/ref/app/pages/run-page#artifacts-tab) |
+## 細かいログ記録
 
-## Fine-grain logging
+ログ記録をより細かく制御したい場合は、`wandb.log`および`wandb.log_artifact`をコンポーネントに追加できます。
 
-If you want finer control of logging, you can sprinkle in `wandb.log` and `wandb.log_artifact` calls in the component.
+### 明示的なwandbログ記録呼び出しを使用して
 
-### With explicit wandb logging calls
-
-In this example below, we are training a model. The `@wandb_log` decorator will automatically track the relevant inputs and outputs. If you want to log the training process, you can explicitly add that logging like so:
+以下の例では、モデルをトレーニングしています。`@wandb_log`デコレータは関連する入力と出力を自動的にトラッキングします。トレーニングプロセスをログに記録したい場合は、以下のようにログを明示的に追加できます。
 
 ```python
 @wandb_log
@@ -150,21 +149,36 @@ def train_model(
         ...
         wandb.log_artifact(model_artifact)
 ```
+### 暗黙的なwandbの統合
 
-### With implicit wandb integrations
 
-If you're using a [framework integration we support](https://docs.wandb.ai/guides/integrations), you can also pass in the callback directly:
+
+[対応しているフレームワークの統合](https://docs.wandb.ai/guides/integrations)を使用している場合は、コールバックを直接渡すこともできます。
+
+
 
 ```python
+
 @wandb_log
+
 def train_model(
+
     train_dataloader_path: components.InputPath("dataloader"),
+
     test_dataloader_path: components.InputPath("dataloader"),
+
     model_path: components.OutputPath("pytorch_model")
+
 ):
+
     from pytorch_lightning.loggers import WandbLogger
+
     from pytorch_lightning import Trainer
+
     
+
     trainer = Trainer(logger=WandbLogger())
-    ...  # do training
+
+    ...  # トレーニングを行う
+
 ```

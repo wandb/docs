@@ -1,27 +1,26 @@
-# user
+# ユーザー
 
-## Chainable Ops
+## チェイン可能なOps
 <h3 id="user-username"><code>user-username</code></h3>
 
-Returns the username of the [user](https://docs.wandb.ai/ref/weave/user)
+[ユーザー](https://docs.wandb.ai/ref/weave/user)のユーザー名を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `user` | A [user](https://docs.wandb.ai/ref/weave/user) |
+| `user` | [ユーザー](https://docs.wandb.ai/ref/weave/user) |
 
-#### Return Value
-The username of the [user](https://docs.wandb.ai/ref/weave/user)
+#### 戻り値
+[ユーザー](https://docs.wandb.ai/ref/weave/user)のユーザー名
 
 
-## List Ops
+## リストOps
 <h3 id="user-username"><code>user-username</code></h3>
 
-Returns the username of the [user](https://docs.wandb.ai/ref/weave/user)
+[ユーザー](https://docs.wandb.ai/ref/weave/user)のユーザー名を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `user` | A [user](https://docs.wandb.ai/ref/weave/user) |
+| `user` | [ユーザー](https://docs.wandb.ai/ref/weave/user) |
 
-#### Return Value
-The username of the [user](https://docs.wandb.ai/ref/weave/user)
-
+#### 戻り値
+[ユーザー](https://docs.wandb.ai/ref/weave/user)のユーザー名

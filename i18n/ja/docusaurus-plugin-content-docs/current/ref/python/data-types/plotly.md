@@ -1,12 +1,8 @@
 # Plotly
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/plotly.py#L32-L81)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/plotly.py#L32-L81)
-
-
-
-Wandb class for plotly plots.
+Wandbでplotlyプロットのためのクラス。
 
 ```python
 Plotly(
@@ -14,23 +10,16 @@ Plotly(
 )
 ```
 
-
-
-
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `val` | matplotlib or plotly figure |
+| `val` | matplotlibまたはplotlyの図表 |
 
-
-
-## Methods
+## メソッド
 
 ### `make_plot_media`
+以下のMarkdownテキストを翻訳してください。日本語に訳して返してください。他に何も言わずに、翻訳されたテキストのみを返してください。テキスト:
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/plotly.py#L41-L49)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/plotly.py#L41-L49)
 
 ```python
 @classmethod
@@ -38,9 +27,3 @@ make_plot_media(
  val: Union['plotly.Figure', 'matplotlib.artist.Artist']
 ) -> Union[Image, 'Plotly']
 ```
-
-
-
-
-
-

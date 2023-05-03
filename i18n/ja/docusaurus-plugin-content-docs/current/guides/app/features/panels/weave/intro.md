@@ -1,95 +1,92 @@
 ---
+
 slug: /guides/app/features/panels/weave
-description: >-
-  Some features on this page are in beta, hidden behind a feature flag. Add
-  `weave-plot` to your bio on your profile page to unlock all related features.
-displayed_sidebar: ja
+description: 
+  このページの一部の機能はベータ版で、機能フラグの後ろに隠れています。プロフィールページの自己紹介欄に
+  `weave-plot` を追加することで、関連するすべての機能をアンロックできます。
 ---
 
 # Weave
 
-## Introduction
+## はじめに
 
-Weave Panels allow users to directly query W&B for data, visualize the results, and further analyze interactively. Weave Panels have 4 primary components, as illustrated in the image below:
+Weaveパネルは、ユーザーがW&Bに直接データを問い合わせ、結果を可視化し、さらにインタラクティブに分析できるようにします。Weaveパネルには、以下の画像に示すように、主に4つのコンポーネントがあります。
 
-1. The **Weave Expression**: specifies the query to execute against W&B's backend
-2. The **Weave Panel Selector**: specifies the Panel used to display the results of the query.
-3. The **Weave Configuration**: enables the user to configure the parameters of the Weave Expression and/or Weave Panel
-4. The **Weave Result Panel**: the primary area of the Weave Panel, displaying the result of the Weave Expression query, using the Weave Panel and Configuration specified.
+1. **Weave式**: W&Bのバックエンドに対して実行するクエリを指定します
+2. **Weaveパネルセレクター**: クエリの結果を表示するために使用されるパネルを指定します。
+3. **Weave構成**: ユーザーがWeave式および/またはWeaveパネルのパラメーターを設定できるようにします
+4. **Weave結果パネル**: Weaveパネルの主要なエリアで、指定されたWeaveパネルと構成を使用して、Weave式クエリの結果を表示します。
 
 ![](/images/weave/weave_panel_components.png)
 
-To try out Weave, Tables, and Plots right away, please checkout this [interactive Report](https://wandb.ai/timssweeney/keras\_learning\_rate/reports/Announcing-W-B-Weave-Plot--VmlldzoxMDIyODM1).
+Weave、テーブル、プロットをすぐに試してみたい場合は、こちらの[インタラクティブレポート](https://wandb.ai/timssweeney/keras\_learning\_rate/reports/Announcing-W-B-Weave-Plot--VmlldzoxMDIyODM1)をご覧ください。
 
-## Components
+## コンポーネント
 
-### Weave Expression
+### Weave式
 
-Weave Expressions allow the user to query the data stored in W&B - from runs, to artifacts, to models, to tables, and more! The most common Weave Expression is generated from logging a Table,`wandb.log({"predictions":<MY_TABLE>})`, and will look like this:
+Weave式を使用すると、ユーザーはW&Bに格納されたデータ（ラン、アーティファクト、モデル、テーブルなど）を問い合わせることができます！最も一般的なWeave式は、テーブルをログに記録することで生成されます。`wandb.log({"predictions":<MY_TABLE>})`、そして次のようになります。
 
 ![](/images/weave/basic_weave_expression.png)
 
-Let's break this down:
+これを分解してみましょう：
+* `runs`は、Weaveパネルがワークスペース内にある場合、Weaveパネル式に自動的に挿入される**変数**です。その「値」は、その特定のワークスペースで表示されるランのリストです。[こちらのリンクでrun内で利用できる様々な属性について読む](../../../../track/public-api-guide.md#understanding-the-different-attributes)。
+* `summary`は、RunのSummaryオブジェクトを返す**op**です。注意: **ops**は「マップ」されており、この**op**はリスト内の各Runに適用され、Summaryオブジェクトのリストが生成されます。
+* `["predictions"]`は、Pick **op**（角括弧で示される）で、**パラメーター**は"predictions"です。Summaryオブジェクトは辞書やマップのように機能するため、この操作では、各Summaryオブジェクトから"predictions"フィールドが「選択」されます。上述のように、「predictions」フィールドはTableであり、このクエリによって上記のTableが生成されます。
 
-* `runs` is a **variable** automatically injected in Weave Panel Expressions when the Weave Panel is in a Workspace. Its "value" is the list of runs which are visible for that particular Workspace. [Read about the different attributes available within a run here](../../../../track/public-api-guide.md#understanding-the-different-attributes).
-* `summary` is an **op** which returns the Summary object for a Run. Note: **ops** are "mapped", meaning this **op** is applied to each Run in the list, resulting in a list of Summary objects.
-* `["predictions"]` is a Pick **op** (denoted with brackets), with a **parameter** of "predictions". Since Summary objects act like dictionaries or maps, this operation "picks" the "predictions" field off of each Summary object. As noted above, the "predictions" field is a Table, and therefore this query results in the Table above.
+Weave式は非常に強力であり、例えば、次の式では:
 
-Weave expressions are extremely powerful, for example, the following expression says:
+* 自分のランを`name = "easy-bird-1"`のものだけにフィルタリング
+* Summaryオブジェクトを取得
+* "Predictions"の値を選択
+* テーブルをマージ
+* テーブルをクエリ
+* 結果をプロット
 
-* Filter my runs to just those whose `name = "easy-bird-1"`
-* Get their Summary objects
-* Pick the "Predictions" value
-* Merge the Tables
-* Query the Tables
-* Plot the results
-
-Note that the Merge, Query, and Plot configuration is specified in the Weave Configuration (discussed below). Please refer to the Weave Expression Docs for a full discussion of Ops, Types, and other characteristics of this query language.
+ここで、マージ、クエリ、およびプロット構成はWeave構成（下記で説明）で指定されています。Ops、Types、およびこのクエリ言語のその他の特徴に関する完全な説明については、Weave Expression Docsを参照してください。
 
 ![](/images/weave/merge_query_plot_example.png)
 
-### Weave Panel Selector
+### Weaveパネルセレクタ
 
-After constructing a Weave Expression, the Weave Panel will automatically select a panel to use to display the results. The most common Panel for the resulting datatype is automatically selected. However, if you wish to change the panel, simply click the dropdown and select a different panel.
+Weave式を構築した後、Weaveパネルは自動的に結果を表示するために使用するパネルを選択します。結果のデータタイプに対して最も一般的なパネルが自動的に選択されます。ただし、パネルを変更する場合は、ドロップダウンをクリックして別のパネルを選択します。
 
 ![](/images/weave/panel_selector.png)
 
-There are a few special case to be aware of:
+いくつかの特別なケースに注意してください:
 
-1. If you are currently viewing a Table, then a `Plot table query` option will be available in addition to all the other normal options. Selecting this option means that you want to plot the results of the _current table query_. So, if you have perhaps added a custom field, grouped, sorted, filtered, or otherwise manipulated the table, you can select `Plot table query` to use the current results as the input to the plot.
-2.  `Merge Tables: <Panel>` is a special case where the incoming datatype is a List of Tables. In such cases, the "Merge Tables" portion of the panel allows users to either concatenate all the rows, or join the tables on a particular column. This setting is configured in the Weave Configuration (discussed below) and shown in the following screen shots
+1. 現在テーブルを表示している場合、通常のオプションに加えて、「Plot table query」オプションが利用可能になります。このオプションを選択すると、_現在のテーブルクエリ_の結果をプロットすることを意味します。つまり、カスタムフィールドの追加、グループ化、ソート、フィルタリングなど、テーブルを操作している場合は、`Plot table query`を選択して、現在の結果をプロットの入力として使用できます。
+2.  `Merge Tables: <Panel>`は、入力データタイプがテーブルのリストである特別なケースです。このような場合、「Merge Tables」のパネル部分では、すべての行を連結するか、特定の列でテーブルを結合することができます。この設定は、Weave構成（下記で説明）で設定され、次のスクリーンショットに示されています。
 
     ![](/images/weave/merge_tables_concate.png) ![](/images/weave/merge_tables_join.png)
-3. `List of: <Panel>` is a special case where the incoming datatype is a List - and you wish to display a paginated view of panels. The following example shows `List of: Plot` , where each plot is from a different run
-
+3.  `List of: <Panel>`は、入力データタイプがリストである特別なケースであり、ページ化されたパネル表示を表示したい場合です。次の例では、`List of: Plot`が表示され、それぞれのプロットが異なるランから来ています。
 ![](/images/weave/list_of_panels_plot.png)
 
-### Weave Configuration
+### Weave設定
 
-Click on the gear icon on the upper left corner of the panel to expand the Weave Configuration. This allows the user to configure the parameters for certain expression ops as well as the result panel. For example:
+パネルの左上隅にある歯車アイコンをクリックして、Weave設定を展開します。これにより、ユーザーは特定の式オペレーションのパラメーターと結果パネルを構成することができます。例えば：
 
 ![](/images/weave/config_box_plot.png)result_
 
-In the above example, we see 3 sections in the expanded Weave Configuration:
+上記の例では、展開されたWeave設定に3つのセクションが表示されます。
 
-1. `Merge Tables`: the `merge` op in the expression has additional configuration properties (in this case Concatenate or Join) which are exposed here.
-2. `Table Query` : the `table` op in the expression represents a table query applied to the results - users can edit the table query interactively by clicking the `Edit table query` button.
-3. `Plot`: finally, after any expression ops are configured, the Result Panel itself can be configured. In this case, the `Plot` panel has configuration for setting the dimensions and other plot characteristics. Here, we have configured a boxplot with the categorical ground truth value along the x axis, and the model's predicted score for the "1" class along the y axis. As we would expect, the distribution of scores for "1" is notably higher than the other classes.
+1. `Merge Tables`: 式内の`merge`オペレーションには、追加の設定プロパティ（この場合はConcatenateまたはJoin）が存在し、ここで公開されます。
+2. `Table Query`: 式内の`table`オペレーションは結果に適用されるテーブルクエリを表し、ユーザーは`Edit table query`ボタンをクリックすることでテーブルクエリをインタラクティブに編集できます。
+3. `Plot`: 最後に、式オペレーションが設定された後、Result Panel自体が構成可能になります。この場合、`Plot`パネルには、次元とその他のプロット特性を設定するための構成があります。ここでは、x軸にカテゴリカルな正解値、y軸にモデルの"1"クラスの予測スコアを持つボックスプロットが設定されています。期待通り、"1"のスコア分布は他のクラスよりも著しく高いです。
 
-### Weave Result Panel
+### Weave結果パネル
 
-Finally, the Weave Result Panel renders the result of the Weave Expression, using the selected Weave Panel, configured by the configuration to display the data in an interactive form. Here we can see a Table and a Plot of the same data.
+最後に、Weave結果パネルは、選択されたWeaveパネルを使用して、Weave式の結果をインタラクティブな形式で表示します。ここでは、同じデータのテーブルとプロットが表示されています。
 
 :::info
-To resize all columns to the same size at once, you can `shift` + resize mouse drag.
+すべての列を一度に同じサイズにリサイズするには、`shift` + マウスドラッグを使用してリサイズできます。
 :::
 
 ![](/images/weave/result_panel.png)
 
 ![](/images/weave/result_panel_merge_table_plot.png)
 
-## Creating Weave Panels
+## Weaveパネルの作成
 
-Weave Panels are automatically created whenever a user [logs a Table ](../../../../track/log/log-tables.md)or [logs a Custom Chart](../../custom-charts/intro.md). In such cases, will automatically set the Weave Expression to `run.summary["<TABLE_NAME>"]` and render the Table Panel. Furthermore, you can directly add a Weave Panel to a workspace by selecting the `Weave` Panel from the "add panel" button.
-
+ユーザーが[ログにテーブルを記録する](../../../../track/log/log-tables.md)場合や[カスタムチャートをログに記録する](../../custom-charts/intro.md)場合には、Weaveパネルが自動的に作成されます。このような場合、Weave式を`run.summary["<TABLE_NAME>"]`に自動的に設定し、テーブルパネルをレンダリングします。さらに、「パネルの追加」ボタンから`Weave`パネルを選択して、ワークスペースに直接Weaveパネルを追加することができます。
 ![](/images/weave/create_weave_panel.png)

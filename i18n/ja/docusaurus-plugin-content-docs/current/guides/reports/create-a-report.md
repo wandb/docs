@@ -1,73 +1,76 @@
 ---
-description: >-
-  Create a W&B Report with the App UI or programmatically with the Weights &
-  Biases SDK.
-displayed_sidebar: ja
+description: W&BアプリUIまたはWeights & Biases SDKを使用して、W&Bレポートを作成します。
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create a report
+# レポートを作成する
 
 <head>
-  <title>Create a W&B Report</title>
+  <title>W&Bレポートを作成する</title>
 </head>
 
-Create a Report interactively with the App UI or programmatically with the `wandb` Python SDK.
+`wandb` Python SDKを使ったプログラムによるレポート作成か、アプリUIでインタラクティブにレポートを作成します。
 
 :::info
-Creating Reports programmatically with the Python SDK is in Beta and in active development.
+Python SDKを使ったレポートのプログラム作成は、ベータ版であり、積極的に開発が行われています。
 :::
 
 <Tabs
   defaultValue="app"
   values={[
-    {label: 'App UI', value: 'app'},
-    {label: 'Report tab', value: 'reporttab'},
-    {label: 'Python SDK (Beta)', value: 'sdk'},
+    {label: 'アプリUI', value: 'app'},
+    {label: 'レポートタブ', value: 'reporttab'},
+    {label: 'Python SDK (ベータ)', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
-Click **Create report** in the upper right corner of your workspace.
+ワークスペースの右上隅にある**レポートを作成**をクリックします。
 
 ![](/images/reports/create_a_report_button.png)
-
-Select the charts you would like to start with. You can add or delete charts later from the report interface.
+はじめに選択したチャートを選んでください。後からレポートインターフェースからチャートを追加や削除できます。
 
 ![](/images/reports/create_a_report_modal.png)
 
-Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. Once you click **Create report,** a draft report will be available in the report tab to continue working on.
+**Filter run sets** オプションを選択して、新しいrunsがレポートに追加されるのを防ぎます。このオプションはオン・オフが切り替えられます。 **Create report** をクリックすると、レポートタブ内にドラフトレポートが用意され、作業を続けることができます。
   </TabItem>
   <TabItem value="reporttab">
 
-Navigate to the **Reports** tab in your project and select the **Create Report** button on the report page. This creates a new blank report. Save a report to get a shareable link, or send charts to the report from different workspaces, and different projects.
+プロジェクト内の **Reports** タブに移動し、レポートページ上の **Create Report** ボタンを選択してください。これで新しい空白のレポートが作成されます。レポートを保存して共有可能なリンクを取得するか、別のワークスペースや別のプロジェクトからチャートをレポートに送信します。
 
 ![](/images/reports/create_report_button.png)
   </TabItem>
   <TabItem value="sdk">
 
-Create a report programmatically with the `wandb` library.
+`wandb` ライブラリを利用してプログラムでレポートを作成します。
 
 ```python
 import wandb
 import wandb.apis.reports as wr
 
-# W&B requirement to avoid accidental report modification
+# レポート変更の誤操作を避けるためのW&B要件
 wandb.require('report-editing')
 ```
 
-Create a report instance with the Report Class Public API ([`wandb.apis.reports`](https://docs.wandb.ai/ref/python/public-api/api#reports)). Specify a name for the project.
+レポートクラスの Public API（[`wandb.apis.reports`](https://docs.wandb.ai/ref/python/public-api/api#reports)）を使って、プロジェクトの名前を指定してレポートインスタンスを作成します。
 
 ```python
 report = wr.Report(project='report_standard')
 ```
+レポートは、.`save()`メソッドを呼び出すまで、Weights & Biasesサーバーにアップロードされません:
 
-Reports are not uploaded to the Weights & Biases server until you call the .`save()` method:
+
 
 ```python
+
 report.save()
+
 ```
 
-For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report](https://docs.wandb.ai/guides/reports/edit-a-report).
+
+
+アプリUIまたはプログラムでレポートを編集する方法については、[レポートの編集](https://docs.wandb.ai/guides/reports/edit-a-report)を参照してください。
+
   </TabItem>
+
 </Tabs>

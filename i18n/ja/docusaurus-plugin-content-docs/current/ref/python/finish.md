@@ -1,12 +1,9 @@
-# finish
+# 終了
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L3658-L3669)
-
-
-
-Mark a run as finished, and finish uploading all data.
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L3705-L3716)
+すべてのデータのアップロードが完了したら、runを終了済みとしてマークします。
 
 ```python
 finish(
@@ -14,15 +11,10 @@ finish(
  quiet: Optional[bool] = None
 ) -> None
 ```
+この機能は、同じプロセスで複数のrunsを作成する場合に使用されます。
+スクリプトが終了すると、このメソッドが自動的に呼び出されます。
 
-
-
-
-This is used when creating multiple runs in the same process.
-We automatically call this method when your script exits.
-
-| Arguments | |
+| 引数 |  |
 | :--- | :--- |
-| `exit_code` | Set to something other than 0 to mark a run as failed |
-| `quiet` | Set to true to minimize log output |
-
+| `exit_code` | runを失敗としてマークするには、0以外の値に設定してください |
+| `quiet` | ログ出力を最小限に抑えるために、trueに設定してください |

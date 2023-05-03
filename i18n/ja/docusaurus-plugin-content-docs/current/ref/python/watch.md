@@ -1,12 +1,8 @@
 # watch
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_watch.py#L20-L106)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_watch.py#L20-L106)
-
-
-
-Hook into the torch model to collect gradients and the topology.
+トーチモデルにフックして、勾配とトポロジーを収集します。
 
 ```python
 watch(
@@ -19,29 +15,26 @@ watch(
 )
 ```
 
+任意のMLモデルを受け入れるように拡張すべきです。
 
-
-
-Should be extended to accept arbitrary ML models.
-
-| Args | |
+| 引数 | 説明 |
 | :--- | :--- |
-| `models` | (torch.Module) The model to hook, can be a tuple |
-| `criterion` | (torch.F) An optional loss value being optimized |
-| `log` | (str) One of "gradients", "parameters", "all", or None |
-| `log_freq` | (int) log gradients and parameters every N batches |
-| `idx` | (int) an index to be used when calling wandb.watch on multiple models |
-| `log_graph` | (boolean) log graph topology |
+| `models` | (torch.Module) フックするモデル。タプルであってもよい |
+| `criterion` | (torch.F) 最適化されるオプションの損失値 |
+| `log` | (str) "gradients"、"parameters"、"all"、または None のいずれか |
+| `log_freq` | (int) Nバッチごとに勾配とパラメータをログする |
+| `idx` | (int) 複数のモデルでwandb.watchを呼び出すときに使用されるインデックス |
+| `log_graph` | (boolean) グラフトポロジーをログする |
+| 返り値 | |
 
-
-
-| Returns | |
 | :--- | :--- |
-| `wandb.Graph`: The graph object that will populate after the first backward pass |
+
+| `wandb.Graph` | 最初のbackwardパスの後にデータが入るグラフオブジェクト |
 
 
 
-| Raises | |
+| 例外 | |
+
 | :--- | :--- |
-| `ValueError` | If called before `wandb.init` or if any of models is not a torch.nn.Module. |
 
+| `ValueError` | `wandb.init`が呼ばれる前に呼び出された場合、またはどのモデルもtorch.nn.Moduleでない場合。 |

@@ -1,49 +1,46 @@
 ---
 description: >-
-  Add notes to your runs and projects, and use notes to describe your findings
-  in reports
-displayed_sidebar: ja
+  ランとプロジェクトにメモを追加し、レポートで調査結果を説明するためにメモを使用してください
 ---
 
-# Notes
+# メモ
 
-There are a few ways to take notes about your work in Weights & Biases.
+Weights & Biasesで作業に関するメモを取る方法はいくつかあります。
 
-1. Add notes to a run. These notes show up on the run page in the overview tab and in the table of runs on the project page.
-2. Add notes to a project. These notes show up on the project page in the overview tab.
-3. Add a markdown panel on the run page, project page, or report page.
+1. ランにメモを追加します。これらのメモは、ランのページの概要タブと、プロジェクトページのランの表に表示されます。
+2. プロジェクトにメモを追加します。これらのメモは、プロジェクトページの概要タブに表示されます。
+3. ランのページ、プロジェクトページ、またはレポートページにマークダウンパネルを追加します。
 
-## Add notes to a specific run
+## 特定のランにメモを追加
 
-You can edit the notes on a run in two places.
+ランのメモを2か所で編集できます。
 
-1. **Project Page**: the table has an editable notes column
-2. **Run Page**: the overview tab shows information about a run, and you can
+1. **プロジェクトページ**：テーブルに編集可能なメモの列があります
+2. **ランページ**：概要タブにはランに関する情報が表示されます。そこでメモを編集することができます
 
-On the project page, expand the table. Click "Add notes..." to type notes in-line.
+プロジェクトページで表を展開します。"Add notes..."をクリックして、インラインでメモを入力します。
 
-![Editing notes in the table on the project page](https://downloads.intercomcdn.com/i/o/148296355/34114b47362b0378e233a440/2019-09-13+08.05.17.gif)
+![プロジェクトページの表でメモを編集する](https://downloads.intercomcdn.com/i/o/148296355/34114b47362b0378e233a440/2019-09-13+08.05.17.gif)
 
-This field also shows up on the individual run page. Click the name of the run in the table to go to the run page. Click the top tab on the left side to go to the Overview tab. The field has much more room to grow here. You can type as many notes as you'd like in this space, and a preview will be shown in the runs table when you mouse over the notes field.
+このフィールドは、個別のランページにも表示されます。表のランの名前をクリックしてランページに移動します。左側の上部タブをクリックして概要タブに移動します。ここでは、フィールドがはるかに大きくなります。このスペースに好きなだけメモを入力でき、マウスをメモフィールドに重ねるとランの表にプレビューが表示されます。
 
-![Editing notes in the overview tab on the run page](https://downloads.intercomcdn.com/i/o/148297196/afdb48d2fb59aaa0c90c3aed/2019-09-13+08.06.45.gif)
+![ランページの概要タブでメモを編集する](https://downloads.intercomcdn.com/i/o/148297196/afdb48d2fb59aaa0c90c3aed/2019-09-13+08.06.45.gif)
 
-You can also create a report to add plots and markdown side by side. Use different sections to show different runs, and tell a story about what you worked on. These notes can be saved and shared with colleagues.
+また、プロットとマークダウンを並べて表示するレポートを作成することもできます。異なるセクションを使用して異なるランを表示し、作業内容についてのストーリーを伝えます。これらのメモは保存して同僚と共有することができます。
+## 複数のランを比較する際の説明的なメモを書く
 
-## Write descriptive notes comparing runs
-
-Use reports to write about your findings when comparing multiple runs. Click "Add visualization" to add a markdown panel. You can arrange these panels beside panels of graphs.
+複数のランを比較する際の調査結果についてレポートで記述します。"Add visualization" をクリックして、マークダウンパネルを追加します。これらのパネルはグラフのパネルの横に配置できます。
 
 ![](https://downloads.intercomcdn.com/i/o/148297552/64e5baa86a48927158d17456/2019-09-13+08.08.31.gif)
 
-## Write Markdown in a new panel
+## 新しいパネルでMarkdownを記述
 
-Use markdown and latex equations such as:
+以下のようなmarkdownとlatexの数式を使用します。
 
 ```
 $TPR = Sensitivity = \dfrac{TP}{TP+FN}$
 ```
 
-Do this by adding a panel, selecting markdown, and then entering your markdown text, tables equations and code block will automatically render when clicking outside the markdown panel.
+これは、パネルを追加し、マークダウンを選択してから、マークダウンテキスト、表、数式、およびコードブロックを入力することで行います。マークダウンパネルの外をクリックすると、自動的にレンダリングされます。
 
 ![](@site/static/images/app_ui/tables_panel.gif)

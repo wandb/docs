@@ -1,62 +1,60 @@
 ---
-description: Manage emails from the Settings page.
-displayed_sidebar: ja
+description: 設定ページからメールを管理します。
 ---
 
-# Emails
+# メール
 
-Add, delete, manage email types and primary email addresses in your Weights & Biases Profile Settings page.
+Weights & Biasesのプロフィール設定ページで、メールアドレスの追加、削除、管理、およびプライマリメールアドレスを設定できます。
 
-## Manage Emails
+## メールの管理
 
-Manage emails from the Settings page. Select your profile icon in the upper right corner of the Weights & Biases dashboard. From the dropdown, select **Settings**. Within the Settings page, scroll down to to the Emails dashboard:
+設定ページからメールを管理します。Weights & Biasesダッシュボードの右上隅にあるプロフィールアイコンを選択します。ドロップダウンから**Settings**を選択します。設定ページ内で、メールダッシュボードまで下にスクロールします。
 
 ![](/images/app_ui/manage_emails.png)
 
-### Primary email
+### プライマリメール
 
-The primary email is marked with a 😎 emoji. The primary email is automatically defined with the email you provided when you created a Weights & Biases account.
+プライマリメールは、😎絵文字でマークされています。プライマリメールは、Weights & Biasesアカウントを作成したときに提供したメールで自動的に設定されます。
 
-Select the kebab dropdown to change the primary email associated with your Weights And Biases account:
+ケバブドロップダウンを選択して、Weights And Biasesアカウントに関連付けられたプライマリメールを変更します。
 
 :::info
-Only verified emails can be set as primary
+確認済みのメールのみがプライマリとして設定できます
 :::
 
 ![](/images/app_ui/primary_email.png)
 
-### Add Emails
+### メールの追加
 
-Select **+ Add Email** to add an email. This will take you to an Auth0 page. You can enter in the credentials for the new email or connect using single sign-on (SSO).
+**+ メールを追加**を選択してメールを追加します。これにより、Auth0のページが表示されます。新しいメールの認証情報を入力するか、シングルサインオン（SSO）を使用して接続できます。
+### メールの削除
 
-### Delete Emails
-
-Select the kebab dropdown and choose **Delete Emails** to delete an email that is registered to your Weights & Biases account
+ケバブドロップダウンを選択し、「メール削除」を選択して、Weights & Biasesアカウントに登録されているメールを削除します。
 
 :::info
-Primary emails cannot be deleted; you need to set a different email as a primary email before deleting
+プライマリメールは削除できません。削除する前に、別のメールをプライマリメールとして設定する必要があります。
 :::
 
-### Email Types
+### メールのタイプ
 
-There are three email types:
+メールには3つのタイプがあります。
 
-* Corporate - an email associated with a company, usually in the company's domain
-* Academic - an email associated with an academic institution
-* Personal - an email that does not fall under Corporate or Academic
+* 法人 - 企業と関連のあるメールで、通常は企業のドメインにある
+* 学術 - 学術機関と関連のあるメール
+* 個人 - 法人や学術に属さないメール
 
-Email Types are automatically detected when you add a new email. You can optionally manually set the email type. Use the kebab dropdown to manually set the email type.
+メールのタイプは、新しいメールを追加する際に自動的に検出されます。メールのタイプを手動で設定することもできます。ケバブドロップダウンを使用して、メールのタイプを手動で設定してください。
 
-If the email type is not validated a dispute modal will appear and ask you to contact support. Email validation can fail, for example, if you attempt to set an academic or personal email to a corporate email type.
+メールのタイプが検証されない場合、紛争モーダルが表示され、サポートに連絡するよう求められます。例えば、学術メールや個人メールを法人メールタイプに設定しようとすると、メール検証が失敗することがあります。
 
 ![](/images/app_ui/email_types.png)
 
-### Login methods
+### ログイン方法
 
-The Login Methods column displays the login methods that are associated with your account.
+ログイン方法の列には、アカウントに関連付けられたログイン方法が表示されます。
 
-A verification email is sent to your email account when you create a Weights & Biases account. Your email account is considered unverified until you verify your email address. Unverified emails are displayed in red.
+Weights & Biasesアカウントを作成すると、メールアカウントに確認メールが送信されます。メールアドレスを確認するまで、メールアカウントは未確認と見なされます。未確認のメールは赤で表示されます。
 
-Attempt to log in with your email address again to retrieve a second verification email if you no longer have the original verification email that was sent to your email account.
+最初に送信された確認メールがもう手元にない場合は、メールアドレスで再度ログインし、2回目の確認メールを取得してください。
 
-Contact support@wandb.com for account login issues.
+アカウントのログインに問題がある場合は、support@wandb.comにお問い合わせください。

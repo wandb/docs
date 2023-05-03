@@ -1,40 +1,35 @@
----
-displayed_sidebar: ja
----
+# コードの保存
 
-# Code Saving
+デフォルトでは、最新のgitコミットハッシュのみを保存します。UIで動的に実験間のコードを比較するために、より多くのコード機能を有効にすることができます。
 
-By default, we only save the latest git commit hash. You can turn on more code features to compare the code between your experiments dynamically in the UI.
+`wandb`バージョン0.8.28から、`wandb.init()`を呼び出す主要なトレーニングファイルのコードを保存できます。これにより、ダッシュボードに同期され、runページのタブやコード比較パネルに表示されます。デフォルトでコード保存を有効にするには、[設定ページ](https://app.wandb.ai/settings)に進んでください。
 
-Starting with `wandb` version 0.8.28, we can save the code from your main training file where you call `wandb.init()`. This will get sync'd to the dashboard and show up in a tab on the run page, as well as the Code Comparer panel. Go to your [settings page](https://app.wandb.ai/settings) to enable code saving by default.
+![アカウント設定画面です。デフォルトでコードを保存することができます。](/images/app_ui/code_saving.png)
 
-![Here's what your account settings look like. You can save code by default.](/images/app_ui/code_saving.png)
+## ライブラリコードの保存
 
-## Save Library Code
+コード保存が有効になっている場合、wandbは`wandb.init()`を呼び出したファイルのコードを保存します。追加のライブラリコードを保存するには、次の2つのオプションがあります。
 
-When code saving is enabled, wandb will save the code from the file that called `wandb.init()`. To save additional library code, you have two options:
+* `wandb.init()`の呼び出し後に`wandb.run.log_code(".")`を呼び出します
+* code\_dirが設定された設定オブジェクトを`wandb.init`に渡します：`wandb.init(settings=wandb.Settings(code_dir="."))`
 
-* Call `wandb.run.log_code(".")` after calling `wandb.init()`
-* Pass a settings object to `wandb.init` with code\_dir set: `wandb.init(settings=wandb.Settings(code_dir="."))`
+これにより、現在のディレクトリとすべてのサブディレクトリにあるすべてのPythonソースコードファイルが、[アーティファクト](https://docs.wandb.ai/ref/python/artifact)としてキャプチャされます。保存されるソースコードファイルの種類と場所をより制御するには、[リファレンスドキュメント](https://docs.wandb.ai/ref/python/run#log\_code)をご覧ください。
 
-This will capture all python source code files in the current directory and all subdirectories as an [artifact](https://docs.wandb.ai/ref/python/artifact). For more control over the types and locations of source code files that are saved, please see the [reference docs](https://docs.wandb.ai/ref/python/run#log\_code).
+## コード比較器
 
-## Code Comparer
-
-Click the **+** button in your workspace or report to add a new panel, and select the Code Comparer. Diff any two experiments in your project and see exactly which lines of code changed. Here’s an example:
+ワークスペースやレポートに新しいパネルを追加するために、**+**ボタンをクリックし、コード比較器を選択します。プロジェクト内の任意の2つの実験を比較し、コードの変更された行を正確に確認できます。以下はその例です。
 
 ![](/images/app_ui/code_comparer.png)
 
-## Jupyter Session History
+## Jupyterセッション履歴
 
-Starting with **wandb** version 0.8.34, our library does Jupyter session saving. When you call **wandb.init()** inside of Jupyter, we add a hook to automatically save a Jupyter notebook containing the history of code executed in your current session. You can find this session history in a runs file browser under the code directory:
+**wandb**バージョン0.8.34から、ライブラリはJupyterセッションの保存を行います。Jupyter内で**wandb.init()**を呼び出すと、現在のセッションで実行されたコードの履歴が含まれるJupyterノートブックを自動的に保存するフックが追加されます。このセッション履歴は、codeディレクトリ内のrunsファイルブラウザで見つけることができます。
 
 ![](/images/app_ui/jupyter_session_history.png)
 
-Clicking on this file will display the cells that were executed in your session along with any outputs created by calling iPython’s display method. This enables you to see exactly what code was run within Jupyter in a given run. When possible we also save the most recent version of the notebook which you would find in the code directory as well.
+このファイルをクリックすると、セッションで実行されたセルと、iPythonのdisplayメソッドを呼び出すことで作成された出力が表示されます。これにより、特定のrunでJupyter内で実行されたコードを正確に確認できます。可能であれば、最も最近のノートブックのバージョンも保存されます。これはcodeディレクトリ内にあります。
 
 ![](/images/app_ui/jupyter_session_history_display.png)
+## Jupyterの差分表示
 
-## Jupyter diffing
-
-One last bonus feature is the ability to diff notebooks. Instead of showing the raw JSON in our Code Comparer panel, we extract each cell and display any lines that changed. We have some exciting features planned for integrating Jupyter deeper in our platform.
+最後にもう1つのおまけ機能として、ノートブック間の差分を表示する機能があります。コード比較パネルで生のJSONを表示する代わりに、それぞれのセルを抽出し、変更された行を表示します。当社のプラットフォームにJupyterをより深く統合するための、いくつかのエキサイティングな機能を計画しています。

@@ -1,12 +1,8 @@
 # Run
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L405-L3638)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L380-L3591)
-
-
-
-A unit of computation logged by wandb. Typically, this is an ML experiment.
+wandbによってログされる計算の単位。通常、これはML実験です。
 
 ```python
 Run(
@@ -17,10 +13,7 @@ Run(
 ) -> None
 ```
 
-
-
-
-Create a run with `wandb.init()`:
+`wandb.init()`を使ってrunを作成します:
 
 ```python
 import wandb
@@ -28,8 +21,7 @@ import wandb
 run = wandb.init()
 ```
 
-There is only ever at most one active `wandb.Run` in any process,
-and it is accessible as `wandb.run`:
+任意のプロセスでアクティブな `wandb.Run` は最大で1つだけであり、`wandb.run` としてアクセスできます:
 
 ```python
 import wandb
@@ -40,11 +32,8 @@ wandb.init()
 
 assert wandb.run is not None
 ```
-anything you log with `wandb.log` will be sent to that run.
-
-If you want to start more runs in the same script or notebook, you'll need to
-finish the run that is in-flight. Runs can be finished with `wandb.finish` or
-by using them in a `with` block:
+`wandb.log` でログしたものは、そのrunに送られます。
+同じスクリプトやノートブックで複数のrunを開始したい場合は、進行中のrunを終了する必要があります。runは`wandb.finish`で終了させるか、`with`ブロックを使用して終了させます。
 
 ```python
 import wandb
@@ -55,56 +44,45 @@ wandb.finish()
 assert wandb.run is None
 
 with wandb.init() as run:
- pass # log data here
+ pass # ここでデータをログに記録
 
 assert wandb.run is None
 ```
 
-See the documentation for `wandb.init` for more on creating runs, or check out
-[our guide to `wandb.init`](https://docs.wandb.ai/guides/track/launch).
+runの作成については`wandb.init`のドキュメントを参照してください。[`wandb.init`に関する当社のガイド](https://docs.wandb.ai/guides/track/launch)もチェックしてみてください。
 
-In distributed training, you can either create a single run in the rank 0 process
-and then log information only from that process, or you can create a run in each process,
-logging from each separately, and group the results together with the `group` argument
-to `wandb.init`. For more details on distributed training with W&B, check out
-[our guide](https://docs.wandb.ai/guides/track/log/distributed-training).
+分散トレーニングでは、ランク0プロセスで単一のrunを作成し、そのプロセスからの情報のみをログに記録するか、各プロセスでrunを作成し、それぞれ別々にログに記録し、`wandb.init`の`group`引数で結果をまとめることができます。W&Bを使った分散トレーニングの詳細については、[当社のガイド](https://docs.wandb.ai/guides/track/log/distributed-training)をご覧ください。
 
-Currently, there is a parallel `Run` object in the `wandb.Api`. Eventually these
-two objects will be merged.
+現在、`wandb.Api`には並列`Run`オブジェクトが存在しています。これら2つのオブジェクトは最終的には統合される予定です。
 
-
-
-| Attributes | |
+| 属性 | |
 | :--- | :--- |
-| `summary` | (Summary) Single values set for each `wandb.log()` key. By default, summary is set to the last value logged. You can manually set summary to the best value, like max accuracy, instead of the final value. |
-| `config` | Config object associated with this run. |
-| `dir` | The directory where files associated with the run are saved. |
-| `entity` | The name of the W&B entity associated with the run. Entity can be a user name or the name of a team or organization. |
-| `group` | Name of the group associated with the run. Setting a group helps the W&B UI organize runs in a sensible way. If you are doing a distributed training you should give all of the runs in the training the same group. If you are doing crossvalidation you should give all the crossvalidation folds the same group. |
-| `id` | Identifier for this run. |
-| `mode` | For compatibility with `0.9.x` and earlier, deprecate eventually. |
-| `name` | Display name of the run. Display names are not guaranteed to be unique and may be descriptive. By default, they are randomly generated. |
-| `notes` | Notes associated with the run, if there are any. Notes can be a multiline string and can also use markdown and latex equations inside `$$`, like `$x + 3$`. |
-| `path` | Path to the run. Run paths include entity, project, and run ID, in the format `entity/project/run_id`. |
-| `project` | Name of the W&B project associated with the run. |
-| `resumed` | True if the run was resumed, False otherwise. |
-| `settings` | A frozen copy of run's Settings object. |
-| `start_time` | Unix timestamp (in seconds) of when the run started. |
-| `starting_step` | The first step of the run. |
-| `step` | Current value of the step. This counter is incremented by `wandb.log`. |
-| `sweep_id` | ID of the sweep associated with the run, if there is one. |
-| `tags` | Tags associated with the run, if there are any. |
-| `url` | The W&B url associated with the run. |
-
-
-
-## Methods
+| `summary` | (Summary) 各`wandb.log()`キーに設定された単一の値。デフォルトでは、サマリーは最後にログされた値に設定されます。サマリーを最後の値ではなく、最大精度などの最適な値に手動で設定することができます。 |
+| `config` | このrunに関連する設定オブジェクト。 |
+| `dir` | runに関連するファイルが保存されているディレクトリ。 |
+| `entity` | runに関連するW&Bエンティティの名前。エンティティはユーザー名やチーム名、組織名などになります。 |
+| `group` | runに関連するグループ名。グループを設定すると、W&BのUIがrunを適切な方法で整理するのに役立ちます。分散トレーニングを行っている場合は、トレーニング中のすべてのランに同じグループ名を付ける必要があります。クロスバリデーションを行っている場合は、すべてのクロスバリデーションフォールドに同じグループ名を付ける必要があります。 |
+| `id` | このrunの識別子。 |
+| `mode` | `0.9.x`以前の互換性のために、最終的に非推奨。 |
+| `name` | runの表示名。表示名は一意であることが保証されておらず、説明的であることがあります。デフォルトでは、ランダムに生成されます。 |
+| `notes` | runに関連するメモがあれば、そのメモ。メモは複数行の文字列で、マークダウンや`$$`内のlatex方程式（`$x + 3$`のような）も使用できます。 |
+| `path` | runへのパス。runパスにはエンティティ、プロジェクト、およびrun IDが含まれ、`entity/project/run_id`の形式で表示されます。 |
+| `project` | runに関連するW&Bプロジェクトの名前。 |
+| `resumed` | runが再開された場合はTrue、そうでない場合はFalse。 |
+| `settings` | runの設定オブジェクトの凍結コピー。 |
+| `start_time` | runが開始された時のUnixタイムスタンプ（秒単位）。 |
+| `starting_step` | runの最初のステップ。 |
+| `step` | ステップの現在の値。このカウンターは`wandb.log`によってインクリメントされます。 |
+| `sweep_id` | runに関連するスイープのID（ある場合）。 |
+| `tags` | runに関連するタグがあれば、それらのタグ。 |
+| `url` | runに関連するW&Bのurl。 |
+## メソッド
 
 ### `alert`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2962-L2994)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L3007-L3040)
 
 ```python
 alert(
@@ -115,15 +93,15 @@ alert(
 ) -> None
 ```
 
-Launch an alert with the given title and text.
+指定されたタイトルとテキストでアラートを起動します。
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `title` | (str) The title of the alert, must be less than 64 characters long. |
-| `text` | (str) The text body of the alert. |
-| `level` | (str or wandb.AlertLevel, optional) The alert level to use, either: `INFO`, `WARN`, or `ERROR`. |
-| `wait_duration` | (int, float, or timedelta, optional) The time to wait (in seconds) before sending another alert with this title. |
+| `title` | (str) アラートのタイトル。64文字未満である必要があります。 |
+| `text` | (str) アラートの本文。 |
+| `level` | (strまたはwandb.AlertLevel、オプション) 使用するアラートレベル。 `INFO`、`WARN`、または `ERROR` のいずれか。 |
+| `wait_duration` | (int、float、timedelta、オプション) このタイトルで他のアラートを送信するまでの待機時間（秒）。 |
 
 
 
@@ -131,7 +109,7 @@ Launch an alert with the given title and text.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2377-L2410)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2426-L2460)
 
 ```python
 define_metric(
@@ -145,24 +123,22 @@ define_metric(
  **kwargs
 ) -> wandb_metric.Metric
 ```
+`wandb.log()`で後でログに記録されるメトリックのプロパティを定義します。
 
-Define metric properties which will later be logged with `wandb.log()`.
-
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `name` | Name of the metric. |
-| `step_metric` | Independent variable associated with the metric. |
-| `step_sync` | Automatically add `step_metric` to history if needed. Defaults to True if step_metric is specified. |
-| `hidden` | Hide this metric from automatic plots. |
-| `summary` | Specify aggregate metrics added to summary. Supported aggregations: "min,max,mean,best,last,none" Default aggregation is `copy` Aggregation `best` defaults to `goal`==`minimize` |
-| `goal` | Specify direction for optimizing the metric. Supported directions: "minimize,maximize" |
+| `name` | メトリックの名前。 |
+| `step_metric` | メトリックに関連する独立変数。 |
+| `step_sync` | 必要に応じて`step_metric`を履歴に自動追加。`step_metric`が指定されている場合、デフォルトでTrue。 |
+| `hidden` | このメトリックを自動プロットから非表示にします。 |
+| `summary` | サマリーに追加される集計メトリックを指定。サポートされる集計: "min,max,mean,best,last,none" デフォルトの集計は`copy` 集計`best`はデフォルトで`goal`==`minimize` |
+| `goal` | メトリックの最適化方向を指定します。サポートされる方向: "minimize,maximize" |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| A metric object is returned that can be further specified. |
+| さらに指定可能なメトリックオブジェクトが返されます。 |
 
 
 
@@ -170,7 +146,7 @@ Define metric properties which will later be logged with `wandb.log()`.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2545-L2546)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2586-L2587)
 
 ```python
 detach() -> None
@@ -183,7 +159,7 @@ detach() -> None
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1217-L1225)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1252-L1260)
 
 ```python
 display(
@@ -191,15 +167,11 @@ display(
  hidden: bool = (False)
 ) -> bool
 ```
-
-Display this run in jupyter.
-
+この実行をjupyterで表示します。
 
 ### `finish`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1829-L1843)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1869-L1883)
 
 ```python
 finish(
@@ -208,23 +180,20 @@ finish(
 ) -> None
 ```
 
-Mark a run as finished, and finishe uploading all data.
+実行を終了済みとしてマークし、すべてのデータのアップロードを完了します。
 
-This is used when creating multiple runs in the same process. We automatically
-call this method when your script exits or if you use the run context manager.
+これは、同じプロセスで複数のrunを作成する場合に使用されます。スクリプトが終了するか、runコンテキストマネージャを使用した場合に、このメソッドを自動的に呼び出します。
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `exit_code` | Set to something other than 0 to mark a run as failed |
-| `quiet` | Set to true to minimize log output |
+| `exit_code` | 実行を失敗としてマークするには、0以外の値を設定します |
+| `quiet` | ログ出力を最小限に抑えるには、trueに設定します |
 
 
 
 ### `finish_artifact`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2787-L2838)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2832-L2884)
 
 ```python
 finish_artifact(
@@ -235,24 +204,23 @@ finish_artifact(
  distributed_id: Optional[str] = None
 ) -> wandb_artifacts.Artifact
 ```
+runの出力として、非確定的なアーティファクトを終了させます。
 
-Finishes a non-finalized artifact as output of a run.
+同じ分散IDでの後続の "upserts" は、新しいバージョンが生成されます。
 
-Subsequent "upserts" with the same distributed ID will result in a new version.
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `artifact_or_path` | (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
-| `name` | (str, optional) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
-| `type` | (str) The type of artifact to log, examples include `dataset`, `model` |
-| `aliases` | (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
-| `distributed_id` | (string, optional) Unique string that all distributed jobs share. If None, defaults to the run's group name. |
+| `artifact_or_path` | (str または Artifact) このアーティファクトの内容へのパスで、以下の形式があります： - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` `wandb.Artifact` を呼び出すことで作成される Artifact オブジェクトも渡すことができます。 |
+| `name` | (str, 任意) アーティファクト名。エンティティ/プロジェクトでプリフィックス付きも可。有効な名前は以下の形式であることができます: - name:version - name:alias - digest 指定されていない場合、パスのベース名に現在のrun IDが追加されたものがデフォルトになります。 |
+| `type` | (str) ログに残すアーティファクトの種類。例えば、`dataset` や `model` など |
+| `aliases` | (list, 任意) このアーティファクトに適用するエイリアス。デフォルトは `["latest"]` です |
+| `distributed_id` | (string, 任意) すべての分散ジョブが共有するユニークな文字列。None の場合、runのグループ名がデフォルトになります。 |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| An `Artifact` object. |
+| `Artifact`オブジェクト。 |
 
 
 
@@ -260,48 +228,44 @@ Subsequent "upserts" with the same distributed ID will result in a new version.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1097-L1105)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1132-L1140)
 
 ```python
 get_project_url() -> Optional[str]
 ```
 
-Return the url for the W&B project associated with the run, if there is one.
+runに関連付けられたW&BプロジェクトのURLを返します（ある場合）。
 
-Offline runs will not have a project url.
+オフラインのrunでは、プロジェクトのURLはありません。
 
 ### `get_sweep_url`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1107-L1112)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1142-L1147)
+以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳し、それ以外のことは言わずに翻訳したテキストのみを返してください。テキスト：
 
 ```python
 get_sweep_url() -> Optional[str]
 ```
 
-Return the url for the sweep associated with the run, if there is one.
-
+runに関連付けられたスイープのurlを返します（もしあれば）。
 
 ### `get_url`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1087-L1095)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1122-L1130)
 
 ```python
 get_url() -> Optional[str]
 ```
 
-Return the url for the W&B run, if there is one.
+W&B runのurlを返します（もしあれば）。
 
-Offline runs will not have a url.
+オフラインのrunではurlがありません。
 
 ### `join`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1873-L1883)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1917-L1927)
 
 ```python
 join(
@@ -309,14 +273,10 @@ join(
 ) -> None
 ```
 
-Deprecated alias for `finish()` - use finish instead.
-
+`finish()`の非推奨エイリアス - 代わりにfinishを使用してください。
 
 ### `link_artifact`
-
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2548-L2589)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2589-L2631)
 
 ```python
 link_artifact(
@@ -326,19 +286,19 @@ link_artifact(
 ) -> None
 ```
 
-Link the given artifact to a portfolio (a promoted collection of artifacts).
+指定されたアーティファクトをポートフォリオ（プロモートされたアーティファクトのコレクション）にリンクします。
 
-The linked artifact will be visible in the UI for the specified portfolio.
+リンクされたアーティファクトは、指定されたポートフォリオのUIで表示されます。
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `artifact` | the (public or local) artifact which will be linked |
-| `target_path` | `str` - takes the following forms: {portfolio}, {project}/{portfolio}, or {entity}/{project}/{portfolio} |
-| `aliases` | `List[str]` - optional alias(es) that will only be applied on this linked artifact inside the portfolio. The alias "latest" will always be applied to the latest version of an artifact that is linked. |
+| `artifact` | リンクされる（パブリックまたはローカル）アーティファクト |
+| `target_path` | `str` - 次の形式をとります：{portfolio}、{project}/{portfolio}、または {entity}/{project}/{portfolio} |
+| `aliases` | `List[str]` - ポートフォリオ内のこのリンクされたアーティファクトに適用されるオプションのエイリアス。エイリアス "latest" は、リンクされたアーティファクトの最新バージョンに常に適用されます。 |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
 | None |
 
@@ -348,7 +308,7 @@ The linked artifact will be visible in the UI for the specified portfolio.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1518-L1712)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1555-L1750)
 
 ```python
 log(
@@ -358,69 +318,42 @@ log(
  sync: Optional[bool] = None
 ) -> None
 ```
+現在のrunの履歴にデータの辞書を記録します。
 
-Log a dictonary of data to the current run's history.
+`wandb.log`を使用して、スカラ、画像、ビデオ、ヒストグラム、プロット、テーブルなどのrunからデータを記録します。
 
-Use `wandb.log` to log data from runs, such as scalars, images, video,
-histograms, plots, and tables.
+ライブの例、コードスニペット、ベストプラクティスなどを知るには、[記録のガイド](https://docs.wandb.ai/guides/track/log)を参照してください。
 
-See our [guides to logging](https://docs.wandb.ai/guides/track/log) for
-live examples, code snippets, best practices, and more.
+最も基本的な使い方は `wandb.log({"train-loss": 0.5, "accuracy": 0.9})` です。これにより、損失と精度がrunの履歴に保存され、これらのメトリックのサマリー値が更新されます。
 
-The most basic usage is `wandb.log({"train-loss": 0.5, "accuracy": 0.9})`.
-This will save the loss and accuracy to the run's history and update
-the summary values for these metrics.
+記録されたデータは、[wandb.ai](https://wandb.ai) のワークスペースで可視化したり、W&Bアプリの[セルフホスティングされたインスタンス](https://docs.wandb.ai/guides/hosting)上でローカルに表示したり、[API](https://docs.wandb.ai/guides/track/public-api-guide)を使用してJupyterノートブックなどでローカルに可視化・探索したりできます。
 
-Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
-or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, e.g. in
-Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
+UIでは、サマリー値は、run間で単一の値を比較するためのrunテーブルに表示されます。サマリー値は、`wandb.run.summary["key"] = value`で直接設定することもできます。
 
-In the UI, summary values show up in the run table to compare single values across runs.
-Summary values can also be set directly with `wandb.run.summary["key"] = value`.
+記録する値はスカラである必要はありません。wandbオブジェクトの記録がサポートされています。例えば、`wandb.log({"example": wandb.Image("myimage.jpg")})`では、W&BのUIで適切に表示される例の画像を記録します。サポートされているさまざまなタイプについては、[リファレンスドキュメント](https://docs.wandb.com/ref/python/data-types)を参照するか、3D分子構造やセグメンテーションマスク、PR曲線、ヒストグラムなどを含む例が掲載されている[記録のガイド](https://docs.wandb.ai/guides/track/log)をご覧ください。`wandb.Table`は構造化データを記録するために使用できます。詳細については[テーブルの記録ガイド](https://docs.wandb.ai/guides/data-vis/log-tables)を参照してください。
 
-Logged values don't have to be scalars. Logging any wandb object is supported.
-For example `wandb.log({"example": wandb.Image("myimage.jpg")})` will log an
-example image which will be displayed nicely in the W&B UI.
-See the [reference documentation](https://docs.wandb.com/ref/python/data-types)
-for all of the different supported types or check out our
-[guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
-from 3D molecular structures and segmentation masks to PR curves and histograms.
-`wandb.Table`s can be used to logged structured data. See our
-[guide to logging tables](https://docs.wandb.ai/guides/data-vis/log-tables)
-for details.
+入れ子になったメトリクスの記録が推奨されており、W&BのUIでサポートされています。入れ子になった辞書で記録する場合、`wandb.log({"train": {"acc": 0.9}, "val": {"acc": 0.8}})`とすると、W&BのUIではメトリックが`train`と`val`のセクションに整理されます。
 
-Logging nested metrics is encouraged and is supported in the W&B UI.
-If you log with a nested dictionary like `wandb.log({"train":
-{"acc": 0.9}, "val": {"acc": 0.8}})`, the metrics will be organized into
-`train` and `val` sections in the W&B UI.
+wandbはグローバルなステップを維持しており、デフォルトでは`wandb.log`を呼び出すたびにインクリメントされます。そのため、関連するメトリクスをまとめて記録することが推奨されます。関連するメトリクスをまとめて記録するのが不便な場合は、`wandb.log({"train-loss": 0.5}, commit=False)` とした後に `wandb.log({"accuracy": 0.9})` と呼び出すことは、`wandb.log({"train-loss": 0.5, "accuracy": 0.9})` を呼び出すことと同等です。
+`wandb.log`は、1秒あたり数回以上呼び出されることを想定していません。
+もし、それより頻繁にログを取りたい場合は、クライアント側でデータを集約するか、
+パフォーマンスが低下することがあります。
 
-wandb keeps track of a global step, which by default increments with each
-call to `wandb.log`, so logging related metrics together is encouraged.
-If it's inconvenient to log related metrics together
-calling `wandb.log({"train-loss": 0.5}, commit=False)` and then
-`wandb.log({"accuracy": 0.9})` is equivalent to calling
-`wandb.log({"train-loss": 0.5, "accuracy": 0.9})`.
-
-`wandb.log` is not intended to be called more than a few times per second.
-If you want to log more frequently than that it's better to aggregate
-the data on the client side or you may get degraded performance.
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `data` | (dict, optional) A dict of serializable python objects i.e `str`, `ints`, `floats`, `Tensors`, `dicts`, or any of the `wandb.data_types`. |
-| `commit` | (boolean, optional) Save the metrics dict to the wandb server and increment the step. If false `wandb.log` just updates the current metrics dict with the data argument and metrics won't be saved until `wandb.log` is called with `commit=True`. |
-| `step` | (integer, optional) The global step in processing. This persists any non-committed earlier steps but defaults to not committing the specified step. |
-| `sync` | (boolean, True) This argument is deprecated and currently doesn't change the behaviour of `wandb.log`. |
+| `data` | (辞書, 任意) シリアライズ可能なPythonオブジェクトの辞書です。`str`、`ints`、`floats`、`Tensors`、`dicts`、または`wandb.data_types`のいずれか。 |
+| `commit` | (boolean, 任意) メトリクスの辞書をwandbサーバーに保存し、ステップをインクリメントします。`false`の場合、`wandb.log`はdata引数で現在のメトリクス辞書を更新し、`commit=True`で`wandb.log`が呼び出されるまでメトリクスは保存されません。 |
+| `step` | (整数, 任意) 処理のグローバルステップです。これにより、指定されたステップのコミットをデフォルトで無効にする以前の非コミット済みステップが保持されます。 |
+| `sync` | (boolean, True) この引数は非推奨であり、現在は`wandb.log`の振る舞いは変更されません。 |
 
 
 
-#### Examples:
+#### 例:
 
-For more and more detailed examples, see
-[our guides to logging](https://docs.wandb.com/guides/track/log).
+より多くの詳細な例については、
+[ログの取り方に関するガイド](https://docs.wandb.com/guides/track/log)を参照してください。
 
-### Basic usage
+### 基本的な使い方
 
 ```python
 import wandb
@@ -429,30 +362,31 @@ wandb.init()
 wandb.log({"accuracy": 0.9, "epoch": 5})
 ```
 
-### Incremental logging
+### インクリメンタルなログ
 
 ```python
 import wandb
 
 wandb.init()
 wandb.log({"loss": 0.2}, commit=False)
-# Somewhere else when I'm ready to report this step:
+# どこか別の場所で、このステップを報告する準備ができたとき:
 wandb.log({"accuracy": 0.8})
 ```
 
-### Histogram
+### ヒストグラム
+以下はMarkdownテキストの日本語訳です。他の言葉を使わず、翻訳されたテキストのみを返してください。テキスト:
 
 ```python
 import numpy as np
 import wandb
 
-# sample gradients at random from normal distribution
+# 正規分布からランダムに勾配をサンプリングします
 gradients = np.random.randn(100, 100)
 wandb.init()
 wandb.log({"gradients": wandb.Histogram(gradients)})
 ```
 
-### Image from numpy
+### numpyからの画像
 
 ```python
 import numpy as np
@@ -467,7 +401,7 @@ for i in range(3):
 wandb.log({"examples": examples})
 ```
 
-### Image from PIL
+### PILからの画像
 
 ```python
 import numpy as np
@@ -483,20 +417,19 @@ for i in range(3):
  examples.append(image)
 wandb.log({"examples": examples})
 ```
-
-### Video from numpy
+### numpyからのビデオ
 
 ```python
 import numpy as np
 import wandb
 
 wandb.init()
-# axes are (time, channel, height, width)
+# 軸は (時間, チャンネル, 高さ, 幅)
 frames = np.random.randint(low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8)
 wandb.log({"video": wandb.Video(frames, fps=4)})
 ```
 
-### Matplotlib Plot
+### Matplotlibプロット
 
 ```python
 from matplotlib import pyplot as plt
@@ -507,16 +440,16 @@ wandb.init()
 fig, ax = plt.subplots()
 x = np.linspace(0, 10)
 y = x * x
-ax.plot(x, y) # plot y = x^2
+ax.plot(x, y) # y = x^2のプロット
 wandb.log({"chart": fig})
 ```
 
-### PR Curve
+### PR曲線
 ```python
 wandb.log({"pr": wandb.plots.precision_recall(y_test, y_probas, labels)})
 ```
 
-### 3D Object
+### 3Dオブジェクト
 ```python
 wandb.log(
  {
@@ -528,13 +461,12 @@ wandb.log(
  }
 )
 ```
+以下のマークダウンテキストを日本語に翻訳してください。翻訳したテキストだけを返し、それ以外のことは何も言わないでください。テキスト:
 
-
-
-| Raises | |
+| 例外 | |
 | :--- | :--- |
-| `wandb.Error` | if called before `wandb.init` |
-| `ValueError` | if invalid data is passed |
+| `wandb.Error` | `wandb.init`の前に呼び出された場合 |
+| `ValueError` | 不正なデータが渡された場合 |
 
 
 
@@ -542,40 +474,35 @@ wandb.log(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2698-L2732)
+[ソースコードを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2741-L2776)
 
 ```python
 log_artifact(
- artifact_or_path: Union[wandb_artifacts.Artifact, str],
+ artifact_or_path: Union[wandb_artifacts.Artifact, StrPath],
  name: Optional[str] = None,
  type: Optional[str] = None,
  aliases: Optional[List[str]] = None
 ) -> wandb_artifacts.Artifact
 ```
 
-Declare an artifact as an output of a run.
+アーティファクトをrunの出力として宣言します。
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `artifact_or_path` | (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
-| `name` | (str, optional) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
-| `type` | (str) The type of artifact to log, examples include `dataset`, `model` |
-| `aliases` | (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
+| `artifact_or_path` | (str または Artifact) このアーティファクトの内容へのパスで、次の形式で表すことができます: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` また、`wandb.Artifact`を呼び出して作成されたArtifactオブジェクトを渡すこともできます。 |
+| `name` | (str, オプション) アーティファクト名。エンティティ/プロジェクトでプレフィックスが付けられている場合もあります。有効な名前は次の形式で表すことができます: - name:version - name:alias - digest 指定されていない場合、デフォルトではパスのベース名が現在のrun IDに前置されます。 |
+| `type` | (str) ログするアーティファクトの種類。`dataset` や `model` などの例があります。 |
+| `aliases` | (list, オプション) このアーティファクトに適用するエイリアスで、デフォルトは `["latest"]` |
 
 
 
-| Returns | |
+| 返り値 | |
 | :--- | :--- |
-| An `Artifact` object. |
-
-
-
+| `Artifact`オブジェクト。 |
 ### `log_code`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1023-L1085)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1057-L1120)
 
 ```python
 log_code(
@@ -586,38 +513,35 @@ log_code(
 ) -> Optional[Artifact]
 ```
 
-Save the current state of your code to a W&B Artifact.
+現在のコードの状態をW&Bアーティファクトに保存します。
 
-By default, it walks the current directory and logs all files that end with `.py`.
+デフォルトでは、現在のディレクトリーを走査し、`.py`で終わるすべてのファイルをログします。
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `root` | The relative (to `os.getcwd()`) or absolute path to recursively find code from. |
-| `name` | (str, optional) The name of our code artifact. By default, we'll name the artifact `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`. There may be scenarios where you want many runs to share the same artifact. Specifying name allows you to achieve that. |
-| `include_fn` | A callable that accepts a file path and returns True when it should be included and False otherwise. This defaults to: `lambda path: path.endswith(".py")` |
-| `exclude_fn` | A callable that accepts a file path and returns `True` when it should be excluded and `False` otherwise. This defaults to: `lambda path: False` |
+| `root` | コードを再帰的に検索する相対( `os.getcwd()` に対する)または絶対パス。 |
+| `name` | (str, オプション) コードアーティファクトの名前。デフォルトでは、アーティファクトの名前は `source-$PROJECT_ID-$ENTRYPOINT_RELPATH` になります。複数のrunが同じアーティファクトを共有するシナリオがある場合、nameを指定することで実現できます。 |
+| `include_fn` | ファイルパスを受け入れ、含めるべき場合は `True` を、そうでない場合は `False` を返す呼び出し可能なオブジェクト。デフォルトでは、`lambda path: path.endswith(".py")` になります。 |
+| `exclude_fn` | ファイルパスを受け入れ、除外すべき場合は `True` を、そうでない場合は `False` を返す呼び出し可能なオブジェクト。デフォルトでは、`lambda path: False` になります。 |
 
 
 
-#### Examples:
+#### 例:
 
-Basic usage
+基本的な使い方
 ```python
 run.log_code()
 ```
 
-Advanced usage
+高度な使い方
 ```python
 run.log_code(
  "../", include_fn=lambda path: path.endswith(".py") or path.endswith(".ipynb")
 )
 ```
-
-
-
 | Returns | |
 | :--- | :--- |
-| An `Artifact` object if code was logged |
+| コードがログされた場合、`Artifact`オブジェクト |
 
 
 
@@ -625,21 +549,21 @@ run.log_code(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L3009-L3016)
+[ソースを表示する](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L3055-L3063)
 
 ```python
 mark_preempting() -> None
 ```
 
-Mark this run as preempting.
+このrunを事前停止としてマークします。
 
-Also tells the internal process to immediately report this to server.
+また、内部プロセスに対して、これをすぐにサーバーに報告するよう指示します。
 
 ### `plot_table`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1909-L1927)
+[ソースを表示する](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1954-L1972)
 
 ```python
 @staticmethod
@@ -651,15 +575,13 @@ plot_table(
 ) -> CustomChart
 ```
 
-Create a custom plot on a table.
-
-
-| Arguments | |
+テーブル上にカスタムプロットを作成します。
+| 引数 | |
 | :--- | :--- |
-| `vega_spec_name` | the name of the spec for the plot |
-| `data_table` | a wandb.Table object containing the data to be used on the visualization |
-| `fields` | a dict mapping from table keys to fields that the custom visualization needs |
-| `string_fields` | a dict that provides values for any string constants the custom visualization needs |
+| `vega_spec_name` | プロットの仕様名 |
+| `data_table` | 可視化で使用されるデータを含むwandb.Tableオブジェクト |
+| `fields` | カスタム可視化が必要とするフィールドへのテーブルキーのマッピングを表す辞書 |
+| `string_fields` | カスタム可視化が必要とする文字列定数の値を提供する辞書 |
 
 
 
@@ -667,7 +589,7 @@ Create a custom plot on a table.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L966-L968)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1000-L1002)
 
 ```python
 project_name() -> str
@@ -680,7 +602,7 @@ project_name() -> str
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1814-L1827)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1854-L1867)
 
 ```python
 restore(
@@ -691,30 +613,29 @@ restore(
 ) -> Union[None, TextIO]
 ```
 
-Download the specified file from cloud storage.
+指定されたファイルをクラウドストレージからダウンロードします。
+ファイルは現在のディレクトリーまたはrunディレクトリーに配置されます。
+デフォルトでは、ファイルがすでに存在しない場合にのみダウンロードします。
 
-File is placed into the current directory or run directory.
-By default, will only download the file if it doesn't already exist.
-
-| Arguments | |
+| 引数 |  |
 | :--- | :--- |
-| `name` | the name of the file |
-| `run_path` | optional path to a run to pull files from, i.e. `username/project_name/run_id` if wandb.init has not been called, this is required. |
-| `replace` | whether to download the file even if it already exists locally |
-| `root` | the directory to download the file to. Defaults to the current directory or the run directory if wandb.init was called. |
+| `name` | ファイルの名前 |
+| `run_path` | ファイルを取得するrunへのオプションのパス。例：`username/project_name/run_id` 。wandb.initが呼び出されていない場合、この引数は必須です。 |
+| `replace` | ファイルがローカルに既に存在していてもダウンロードするかどうか |
+| `root` | ファイルをダウンロードするディレクトリー。デフォルトでは、現在のディレクトリーまたは、wandb.initが呼び出されている場合はrunディレクトリーになります。 |
 
 
 
-| Returns | |
+| 戻り値 |  |
 | :--- | :--- |
-| None if it can't find the file, otherwise a file object open for reading |
+| ファイルが見つからない場合はNone、それ以外の場合は読み取り用に開いたファイルオブジェクト |
 
 
 
-| Raises | |
+| 例外 |  |
 | :--- | :--- |
-| `wandb.CommError` | if we can't connect to the wandb backend |
-| `ValueError` | if the file is not found or can't find run_path |
+| `wandb.CommError` | wandbのバックエンドに接続できない場合 |
+| `ValueError` | ファイルが見つからないか、run_pathが見つからない場合 |
 
 
 
@@ -722,7 +643,7 @@ By default, will only download the file if it doesn't already exist.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1714-L1743)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1752-L1782)
 
 ```python
 save(
@@ -732,14 +653,12 @@ save(
 ) -> Union[bool, List[str]]
 ```
 
-Ensure all files matching `glob_str` are synced to wandb with the policy specified.
-
-
-| Arguments | |
+指定されたポリシーで`glob_str`に一致するすべてのファイルがwandbと同期されることを保証します。
+| 引数 | |
 | :--- | :--- |
-| `glob_str` | (string) a relative or absolute path to a unix glob or regular path. If this isn't specified the method is a noop. |
-| `base_path` | (string) the base path to run the glob relative to |
-| `policy` | (string) on of `live`, `now`, or `end` - live: upload the file as it changes, overwriting the previous version - now: upload the file once now - end: only upload file when the run ends |
+| `glob_str` | (string) unix globまたは正規パスへの相対または絶対パス。これが指定されていない場合、メソッドは何もしません。 |
+| `base_path` | (string) globを実行するための基本パス |
+| `policy` | (string) `live`、`now`、または `end` のうちの1つ - live: ファイルを変更するたびにアップロードし、前のバージョンを上書きします - now: ファイルを今すぐ一度アップロードします - end: ランが終了するときだけファイルをアップロードします |
 
 
 
@@ -747,20 +666,20 @@ Ensure all files matching `glob_str` are synced to wandb with the policy specifi
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1885-L1907)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1929-L1952)
 
 ```python
 status() -> RunStatus
 ```
 
-Get sync info from the internal backend, about the current run's sync status.
+内部バックエンドから現在のランの同期状況に関する情報を取得します。
 
 
 ### `to_html`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L1227-L1236)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1262-L1271)
 
 ```python
 to_html(
@@ -769,14 +688,13 @@ to_html(
 ) -> str
 ```
 
-Generate HTML containing an iframe displaying the current run.
+現在のランを表示するiframeを含むHTMLを生成します。
 
 
 ### `unwatch`
+以下はMarkdownテキストのチャンクを翻訳してください。それを日本語に翻訳してください。他のことは何も言わずに、翻訳したテキストだけを返してください。テキスト：
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2497-L2499)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2547-L2549)
 
 ```python
 unwatch(
@@ -791,7 +709,7 @@ unwatch(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2734-L2785)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2778-L2830)
 
 ```python
 upsert_artifact(
@@ -803,32 +721,27 @@ upsert_artifact(
 ) -> wandb_artifacts.Artifact
 ```
 
-Declare (or append to) a non-finalized artifact as output of a run.
+実行の出力として非確定アーティファクトを宣言（または追加）します。
 
-Note that you must call run.finish_artifact() to finalize the artifact.
-This is useful when distributed jobs need to all contribute to the same artifact.
+run.finish_artifact()を呼び出してアーティファクトを確定させる必要があることに注意してください。
+これは、分散ジョブがすべて同じアーティファクトに貢献する必要がある場合に便利です。
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `artifact_or_path` | (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
-| `name` | (str, optional) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
-| `type` | (str) The type of artifact to log, examples include `dataset`, `model` |
-| `aliases` | (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
-| `distributed_id` | (string, optional) Unique string that all distributed jobs share. If None, defaults to the run's group name. |
-
-
-
+| `artifact_or_path` | (str または Artifact) このアーティファクトの内容へのパス。次の形式であることができます：- `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` または、`wandb.Artifact`を呼び出すことで作成されたArtifactオブジェクトを渡すこともできます。 |
+| `name` | (str, 任意) アーティファクト名。エンティティ/プロジェクトでプレフィックスが付けられる場合があります。有効な名前は次の形式であることができます：- name:version - name:alias - digest 指定されていない場合、これはデフォルトでパスのベース名に現在の実行IDが付加されます。|
+| `type` | (str) ログに記録するアーティファクトのタイプ。例えば `dataset`、`model` など|
+| `aliases` | (リスト, 任意) このアーティファクトに適用するエイリアス。デフォルトでは `["latest"]` になります。|
+| `distributed_id` | (string, 任意) すべての分散ジョブが共有する一意の文字列。Noneの場合、実行のグループ名がデフォルトで使用されます。|
 | Returns | |
 | :--- | :--- |
-| An `Artifact` object. |
+| `Artifact`オブジェクト。 |
 
 
 
 ### `use_artifact`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2591-L2696)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2633-L2739)
 
 ```python
 use_artifact(
@@ -839,34 +752,29 @@ use_artifact(
 ) -> Union[public.Artifact, Artifact]
 ```
 
-Declare an artifact as an input to a run.
+アーティファクトをrunの入力として宣言します。
 
-Call `download` or `file` on the returned object to get the contents locally.
+返されたオブジェクトで`download`や`file`を呼び出して、ローカルに内容を取得します。
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `artifact_or_name` | (str or Artifact) An artifact name. May be prefixed with entity/project/. Valid names can be in the following forms: - name:version - name:alias - digest You can also pass an Artifact object created by calling `wandb.Artifact` |
-| `type` | (str, optional) The type of artifact to use. |
-| `aliases` | (list, optional) Aliases to apply to this artifact |
-| `use_as` | (string, optional) Optional string indicating what purpose the artifact was used with. Will be shown in UI. |
+| `artifact_or_name` | (strまたはArtifact) アーティファクト名。エンティティ/プロジェクト/で接頭辞付け可能です。有効な名前は以下の形式があります: - name:version - name:alias - digest また、`wandb.Artifact`を呼び出して作成されたArtifactオブジェクトを渡すこともできます。 |
+| `type` | (str, 任意) 使用するアーティファクトのタイプ。 |
+| `aliases` | (list, 任意) このアーティファクトに適用するエイリアス |
+| `use_as` | (string, 任意) このアーティファクトがどの目的で使用されたかを示す任意の文字列。UIに表示されます。 |
 
 
 
 | Returns | |
 | :--- | :--- |
-| An `Artifact` object. |
-
-
-
+| `Artifact`オブジェクト。 |
 ### `watch`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2484-L2494)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2534-L2544)
 
 ```python
 watch(
- models, criterion=None, log="gradients", log_freq=100, idx=None,
+ モデル, criterion=None, ログ="gradients", log_freq=100, idx=None,
  log_graph=(False)
 ) -> None
 ```
@@ -876,9 +784,7 @@ watch(
 
 ### `__enter__`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2996-L2997)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L3042-L3043)
 
 ```python
 __enter__() -> "Run"
@@ -889,9 +795,7 @@ __enter__() -> "Run"
 
 ### `__exit__`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_run.py#L2999-L3007)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L3045-L3053)
 
 ```python
 __exit__(
@@ -900,9 +804,3 @@ __exit__(
  exc_tb: TracebackType
 ) -> bool
 ```
-
-
-
-
-
-

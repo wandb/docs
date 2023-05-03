@@ -1,69 +1,38 @@
 ---
-slug: /guides/models
-description: Manage the model lifecycle from training to production
-displayed_sidebar: ja
+description: トレーニングからプロダクションまでのモデルライフサイクルを管理します。
 ---
 
-# Model Management
 
-Use the W&B Model Registry as a central system of record for models.
+* ステージングやプロダクションに移行するモデルを追跡
 
-* Create Registered Models to organize your best model versions for a given task
-* Track a model moving into staging and production
-* See a history of all changes, including who moved a model to production
 
-## Model Registry Quickstart
 
-1. Open [your Model Registry](https://wandb.ai/registry/model) and create a registered model.
-2.  In your script, log a model as an [artifact version](https://docs.wandb.ai/guides/artifacts).
 
-    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://wandb.me/model-registry-quickstart)
 
-    ```
-    art = wandb.Artifact("my-object-detector", type="model")
-    art.add_file("saved_model_weights.pt")
-    wandb.log_artifact(art)
-    ```
-3. From the Artifact page, link the artifact version to the registry.
 
-<!-- ### Watch the 1 minute video walkthrough -->
+* モデルバージョンを閲覧・比較
 
-<!-- {% embed url="https://www.youtube.com/watch?v=jy9Pk9riwZI" %} -->
 
-## Model Registry Features
+* モデルがトレーニングされた正確なデータセットバージョンを特定する
+* トレーニングコードを復元し、gitコミットと差分パッチを含める
+* 再現性のためにモデルのハイパーパラメーターや他のメタデータに戻る
+* モデルのパフォーマンスに影響を与える上流のジョブを調べる
 
-### Model Versioning
+### モデルのライフサイクル
 
-Iterate to get the best model version for a task, and catalog all the changes along the way.
+トレーニングからステージングを経てプロダクションまでのプロセスを管理します。
 
-* Track every model version in a central repository
-* Browse and compare model versions
-* Capture training metrics and hyperparameters
+* プロダクション向けに評価中の最適なモデルのバージョンを強調して表示
+* モデルバージョンがプロセス内でどの段階にあるかを伝える（ステージング、プロダクションなど）
+* 各ステージを通過したモデルバージョンの履歴を確認する
 
-### Model Lineage
+## モデルレジストリパイロット制限
 
-Document and reproduce the complete pipeline of model training and evaluation.
+この新機能は、以下の条件で無料で試すことができるようになりました。
 
-* Identify the exact dataset version the model trained on
-* Restore the training code, including git commit and diff patch
-* Get back to the model’s hyperparameters and other metadata for reproducibility
-* Dig in to upstream jobs that can affect model performance
+* 5つの登録モデル（各モデルに無制限のバージョンがリンクされています）
+* 各登録モデルについて、UIで表示されるアクション履歴の最新10ステップ
 
-### Model Lifecycle
-
-Manage the process as a model moves from training through staging to production.
-
-* Highlight the best model versions that are being evaluated for production
-* Communicate where a model version is in the process — staging, production etc
-* Review the history of model versions that moved through each stage
-
-## Model Registry Pilot Limits
-
-This new feature is now turned on for all users to try for free, up to:
-
-* 5 Registered Models, with unlimited versions linked to each model
-* 10 most recent steps of Action History shown in the UI for each registered model
-
-## Explore more
-* Read [Model Management Concepts](./model-management-concepts.md) for more information on basic Model Management concepts.
-* Follow the steps in the [Walkthrough](./walkthrough.md) to learn how to use Model Management.
+## もっと探す
+* [モデル管理の基本概念](./model-management-concepts.md) を読んで、モデル管理の基本概念について詳しく知る。
+* [ウォークスルー](./walkthrough.md) の手順に従って、モデル管理の使い方を学ぶ。

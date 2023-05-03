@@ -1,17 +1,16 @@
 # wandb verify
 
-**Usage**
+**使い方**
 
-`wandb verify [OPTIONS]`
+`wandb verify [オプション]`
 
-**Summary**
+**概要**
 
-Verify your local instance
+ローカルインスタンスを検証します
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| --host | Test a specific instance of W&B |
-| --help | Show this message and exit. |
-
+| --host | W&Bの特定のインスタンスをテストする |
+| --help | このメッセージを表示し、終了する。 |

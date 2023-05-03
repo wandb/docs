@@ -1,54 +1,52 @@
 ---
-description: Create centralized, interactive, visual dashboards for your ML experiments
-displayed_sidebar: ja
+description: ML実験のための集約化されたインタラクティブで視覚的なダッシュボードを作成
 ---
 
-# View results from experiments
+# 実験結果を表示する
 
 <head>
-  <title>Organize and visualize results from your machine learning models</title>
+  <title>機械学習モデルの結果を整理・視覚化する</title>
 </head>
 
-Use the Weights & Biases Dashboard as a central place to organize and visualize results from your machine learning models.
+Weights & Biasesのダッシュボードを、機械学習モデルの結果を整理・視覚化するための中央集約的な場として使用してください。
 
 <!-- {% embed url="https://youtu.be/gnD8BFuyVUA" %} -->
 
-### Persistent, centralized projects
+### 永続的で集約化されたプロジェクト
 
-Anywhere you train your models, whether on your local machine, your lab cluster, or spot instances in the cloud, we give you the same centralized dashboard. You don't need to spend your time copying outputs from your terminal into a spreadsheet or organizing TensorBoard files from different machines.
+モデルをローカルマシン、研究室のクラスター、クラウド上のスポットインスタンスでトレーニングする場合でも、同じ集約化されたダッシュボードが提供されます。ターミナルからの出力をスプレッドシートにコピーしたり、異なるマシンでのTensorBoardファイルの整理に時間を費やす必要はありません。
 
-### Automatic organization
+### 自動整理
 
-If you hand off a project to a collaborator or take a vacation, W&B makes it easy to see all the models your team has already tried so you're not wasting hours re-running old experiments.
+プロジェクトをコラボレーターに引き継ぐか休暇を取る場合でも、W&Bを使えば既に試したチームの全てのモデルが簡単に確認でき、古い実験を再実行するのに何時間も費やすことがありません。
 
-### Powerful, queryable tables
+### 強力で検索可能なテーブル
 
-Compare each training run and see what hyperparameters changed. Search, filter, sort, and group results from different models. It's easy to look over thousands of model versions and find the best performing models for different tasks.
+各トレーニングのrunを比較し、どのハイパーパラメータが変更されたかを確認します。異なるモデルの結果を検索、フィルタリング、並べ替え、グループ化ができます。何千ものモデルバージョンを一覧できて、さまざまなタスクで最も実行が良いモデルを見つけるのが簡単です。
 
 ![](/images/track/dashboar_faq_query_tables.png)
 
-### Reproducible models
+### 再現性のあるモデル
 
-Weights & Biases is good for experimentation, exploration, and reproducing models later. We capture not just the metrics, but also the hyperparameters and version of the code, and we can save your model checkpoints for you so your project is reproducible.
+Weights & Biasesは、実験、探索、後でモデルを再現する際にも役立ちます。メトリクスだけでなく、ハイパーパラメーターやコードのバージョンも取得し、プロジェクトが再現可能になるようにモデルのチェックポイントを保存することもできます。
+### 素早く柔軟な導入
 
-### Fast, flexible integration
+W&Bを5分でプロジェクトに追加できます。無料のオープンソースPythonパッケージをインストールし、コードに2行追加するだけで、モデルを実行するたびにログされたメトリクスと記録が得られます。
 
-Add W&B to your project in 5 minutes. Install our free open-source Python package and add a couple of lines to your code, and every time you run your model you'll have nice logged metrics and records.
+### コラボレーションのためのツール
 
-### Tools for Collaboration
+W&Bを使って、複雑な機械学習プロジェクトを整理しましょう。W&Bへのリンクを簡単に共有でき、プライベートチームを使って、全員が共有プロジェクトに結果を送信できます。また、レポートを介したコラボレーションもサポートしており、インタラクティブなデータ可視化を追加し、マークダウンで作業内容を説明できます。これは、作業ログを保持したり、上司と調査結果を共有したり、研究室で調査結果を発表するのに役立ちます。
 
-Use W&B to organize complex machine learning projects. It's easy to share a link to W&B, and you can use private teams to have everyone sending results to a shared project. We also support collaboration via reports— add interactive visualizations and describe your work in markdown. This is a great way to keep a work log, share findings with your supervisor, or present findings to your lab.
+## ダッシュボードFAQ
 
-## Dashboard FAQ
+### W&Bでパネルを誤って削除した場合、元に戻す方法は？
 
-### I accidentally deleted a panel in W&B, how do I undo it?
-
-To undo a change in your workspace, click the "undo" button at the bottom of the page.
+ワークスペースの変更を元に戻すには、ページの下部にある「元に戻す」ボタンをクリックしてください。
 
 ![](/images/track/demo_how_to_undo_deleting_a_panel.gif)
 
-### How to sort by more than one column in the runs table?
+### runsテーブルで複数の列をソートする方法は？
 
-To sort by more than 1 column in your runs table, click on "Sort" and then "Add another field".
+runsテーブルで複数の列をソートするには、「ソート」をクリックし、「別のフィールドを追加」を選択します。
 
 ![](/images/track/sort_columns.gif)

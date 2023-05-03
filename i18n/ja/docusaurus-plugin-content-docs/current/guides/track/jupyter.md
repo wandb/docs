@@ -1,29 +1,26 @@
 ---
-description: >-
-  se Weights & Biases with Jupyter to get interactive visualizations without
-  leaving your notebook.
-displayed_sidebar: ja
+description: Jupyterを使ってWeights & Biasesを使用し、ノートブックを離れることなくインタラクティブな可視化を取得しましょう。
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Track Jupyter Notebooks
+# Jupyterノートブックのトラッキング
 
 <head>
-  <title>Track Jupyter Notebooks</title>
+  <title>Jupyterノートブックのトラッキング</title>
 </head>
 
-Use Weights & Biases with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged!
+Jupyterを使ってWeights & Biasesを使用し、ノートブックを離れることなくインタラクティブな可視化を取得しましょう。カスタム分析、実験、プロトタイプを組み合わせて、すべて完全に記録されます！
 
-## Use Cases for W&B with Jupyter notebooks
+## W&BとJupyterノートブックのユースケース
 
-1. **Iterative experimentation**: Run and re-run experiments, tweaking parameters, and have all the runs you do saved automatically to W&B without having to take manual notes along the way.
-2. **Code saving**: When reproducing a model, it's hard to know which cells in a notebook ran, and in which order. Turn on code saving on your [settings page](../app/settings-page/intro.md) to save a record of cell execution for each experiment.
-3. **Custom analysis**: Once runs are logged to W&B, it's easy to get a dataframe from the API and do custom analysis, then log those results to W&B to save and share in reports.
+1. **繰り返し実験**: 実験を実行および再実行し、パラメーターを調整し、途中で手動のメモを取らずにすべてのrunをW&Bに自動的に保存します。
+2. **コード保存**: モデルを再現するとき、ノートブックのどのセルが実行され、どの順序で実行されたかわかりにくいです。[設定ページ](../app/settings-page/intro.md) でコード保存をオンにして、各実験のセル実行の記録を保存しましょう。
+3. **カスタム分析**: runがW&Bに記録されると、APIからデータフレームを取得し、カスタム分析を行い、その結果をW&Bに記録してレポートで保存および共有するのが簡単になります。
 
-## Getting started in a notebook
+## ノートブックでの始め方
 
-Start your notebook with the following code to install W&B and link your account:
+W&Bをインストールし、アカウントをリンクするために以下のコードでノートブックを開始します。
 
 ```python
 !pip install wandb -qqq
@@ -31,7 +28,8 @@ import wandb
 wandb.login()
 ```
 
-Next, set up your experiment and save hyperparameters:
+次に、実験を設定し、ハイパーパラメーターを保存します:
+以下は、Markdownテキストの翻訳です。テキストのみを返し、他のことは言わないでください。テキスト:
 
 ```python
 wandb.init(project="jupyter-projo",
@@ -42,71 +40,70 @@ wandb.init(project="jupyter-projo",
            })
 ```
 
-After running `wandb.init()` , start a new cell with `%%wandb` to see live graphs in the notebook. If you run this cell multiple times, data will be appended to the run.
+`wandb.init()` を実行した後、`%%wandb`で新しいセルを開始して、ノートブック内でリアルタイムのグラフを表示します。このセルを複数回実行すると、データがrunに追加されます。
 
 ```python
 %%wandb
 
-# Your training loop here
+# ここにトレーニングループを記述
 ```
 
-Try it for yourself in this [quick example notebook →](http://wandb.me/jupyter-interact-colab)
+[クイック実例ノートブック →](http://wandb.me/jupyter-interact-colab) で自分自身で試してみましょう。
 
 ![](/images/track/jupyter_widget.png)
 
-### Rendering live W&B interfaces directly in your notebooks
+### ノートブック内でのリアルタイムのW&Bインターフェースのレンダリング
 
-You can also display any existing dashboards, sweeps or reports directly in your notebook using the `%wandb` magic:
+`%wandb` マジックを使用して、既存のダッシュボード、スイープ、レポートをノートブック内に直接表示することもできます。
 
 ```python
-# Display a project workspace
+# プロジェクトワークスペースを表示
 %wandb USERNAME/PROJECT
-# Display a single run
+# シングルのrunを表示
 %wandb USERNAME/PROJECT/runs/RUN_ID
-# Display a sweep
-%wandb USERNAME/PROJECT/sweeps/SWEEP_ID
-# Display a report
-%wandb USERNAME/PROJECT/reports/REPORT_ID
-# Specify the height of embedded iframe
-%wandb USERNAME/PROJECT -h 2048
+# スイープの表示
+%wandb ユーザー名/プロジェクト/sweeps/SWEEP_ID
+# レポートの表示
+%wandb ユーザー名/プロジェクト/reports/REPORT_ID
+# 埋め込まれたiframeの高さを指定
+%wandb ユーザー名/プロジェクト -h 2048
 ```
 
-As an alternative to the `%%wandb` or `%wandb` magics, after running `wandb.init()` you can end any cell with `wandb.run` to show in-line graphs, or call `ipython.display(...)` on any report, sweep, or run object returned from our apis.
+`%%wandb`や`%wandb`マジックとして代替手段として、`wandb.init()`を実行した後、任意のセルで`wandb.run`を使用してインライングラフを表示することができます。また、APIから取得したレポート、スイープ、runオブジェクトに`ipython.display(...)`を呼び出すことができます。
 
 ```python
-# Initialize wandb.run first
+# 最初にwandb.runを初期化
 wandb.init()
 
-# If cell outputs wandb.run, you'll see live graphs
+# セルの出力がwandb.runの場合、ライブグラフが表示されます
 wandb.run
 ```
 
 :::info
-Want to know more about what you can do with W&B? Check out our [guide to logging data and media](log/intro.md), learn [how to integrate us with your favorite ML toolkits](../integrations/intro.md), or just dive straight into the [reference docs](../../ref/python/README.md) or our [repo of examples](https://github.com/wandb/examples).
+W&Bでできることの詳細は、[データとメディアの記録に関するガイド](log/intro.md)を参照してください。お気に入りのMLツールキットとの統合方法について学ぶには、[こちら](../integrations/intro.md)を参照してください。また、[リファレンスドキュメント](../../ref/python/README.md)や[例のリポジトリ](https://github.com/wandb/examples)を直接閲覧してください。
 :::
 
-## Additional Jupyter features in W&B
+## W&Bでの追加のJupyter機能
 
-1. **Easy authentication in Colab**: When you call `wandb.init` for the first time in a Colab, we automatically authenticate your runtime if you're currently logged in to W&B in your browser. On the overview tab of your run page, you'll see a link to the Colab.
-2. **Jupyter Magic:** Display dashboards, sweeps and reports directly in your notebooks. The `%wandb` magic accepts a path to your project, sweeps or reports and will render the W&B interface directly in the notebook.
-3. **Launch dockerized Jupyter**: Call `wandb docker --jupyter` to launch a docker container, mount your code in it, ensure Jupyter is installed, and launch on port 8888.
-4. **Run cells in arbitrary order without fear**: By default, we wait until the next time `wandb.init` is called to mark a run as "finished". That allows you to run multiple cells (say, one to set up data, one to train, one to test) in whatever order you like and have them all log to the same run. If you turn on code saving in [settings](https://app.wandb.ai/settings), you'll also log the cells that were executed, in order and in the state in which they were run, enabling you to reproduce even the most non-linear of pipelines. To mark a run as complete manually in a Jupyter notebook, call `run.finish`.
+1. **Colabでの簡単な認証**：Colabで初めて`wandb.init`を呼び出すと、ブラウザでW&Bにログインしている場合、自動的にランタイムが認証されます。ランの概要タブにはColabへのリンクが表示されます。
+2. **Jupyter Magic**：ダッシュボード、スイープ、レポートをノートブックに直接表示します。`%wandb`マジックは、プロジェクト、スイープ、レポートへのパスを受け取り、ノートブックに直接W&Bインターフェースを表示します。
+3. **Docker化されたJupyterを起動**：`wandb docker --jupyter`を実行してdockerコンテナを起動し、コードをマウントし、Jupyterをインストールしてポート8888で起動します。
+4. **任意の順序でセルを実行することを恐れない**：デフォルトでは、次に`wandb.init`が呼び出されるまでrunを"終了"としてマークしません。これにより、複数のセル（データの設定、トレーニング、テストなど）を好きな順番で実行し、すべて同じrunに記録させることができます。[設定](https://app.wandb.ai/settings)でコード保存をオンにすると、実行されたセルの順序と実行状態が記録され、非線形な開発フローでも再現が可能になります。Jupyterノートブックでrunを手動で終了するには、`run.finish`を呼び出してください。
 
 ```python
 import wandb
-
 run = wandb.init()
 
-# training script and logging goes here
+# ここにトレーニングスクリプトとログが入ります
 
 run.finish()
 ```
 
-## Common questions
+## よくある質問
 
-### How do I silence W&B info messages?
+### W&Bの情報メッセージを非表示にする方法は？
 
-To disable standard wandb logging and info messages (e.g. project info at the start of a run), run the following in a notebook cell _before_ running `wandb.login`:
+標準のwandbログや情報メッセージ（例：プロジェクト情報などの開始時の情報）を無効にするには、`wandb.login` を実行する前に、ノートブックのセルで以下のコードを実行してください：
 
 <Tabs
   defaultValue="jupyter"
@@ -130,7 +127,7 @@ os.environ["WANDB_SILENT"] = "True"
   </TabItem>
 </Tabs>
 
-If you see log messages like `INFO SenderThread:11484 [sender.py:finish():979]` in your notebook, you can disable those with the following:
+ノートブックに`INFO SenderThread:11484 [sender.py:finish():979]`のようなログメッセージが表示される場合は、以下の方法でそれらを無効にできます。
 
 ```python
 import logging
@@ -139,9 +136,9 @@ logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
 
-### How do I set the `WANDB_NOTEBOOK_NAME`?
+### `WANDB_NOTEBOOK_NAME`をどのように設定しますか？
 
-If you're seeing the error message `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` you can resolve it by setting the environment variable. There's multiple ways to do so:
+`"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"`というエラーメッセージが表示される場合は、環境変数を設定することで解決できます。方法はいくつかあります：
 
 <Tabs
   defaultValue="jupyter"
@@ -156,11 +153,18 @@ If you're seeing the error message `"Failed to query for notebook name, you can 
 ```
   </TabItem>
   <TabItem value="python">
+以下は、Markdownテキストを翻訳するためのチャンクです。日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
 ```python
+
 import os
 
-os.environ["WANDB_NOTEBOOK_NAME"] = "notebook name here"
+
+
+os.environ["WANDB_NOTEBOOK_NAME"] = "ここにノートブック名を入力"
+
 ```
+
   </TabItem>
+
 </Tabs>

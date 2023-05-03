@@ -1,64 +1,63 @@
 ---
-description: Track machine learning experiments with W&B.
+description: W&Bを使って機械学習の実験をトラッキングしましょう。
 slug: /guides/track
-displayed_sidebar: ja
 ---
 
-# Track Experiments
+
+# 実験のトラッキング
 
 <head>
-  <title>Track Machine Learning and Deep Learning Experiments.</title>
+  <title>機械学習とディープラーニングの実験をトラックする</title>
 </head>
 
-Use the W&B Python Library to track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard](app.md) or export your data to Python for programmatic access using our [Public API](../../ref/python/public-api/README.md). Quickly find and [reproduce machine learning experiments with W&B](./reproduce-experiments.md).
+W&BのPythonライブラリを使って、数行のコードで機械学習の実験をトラッキングできます。その後、[インタラクティブなダッシュボード](app.md)で結果を確認したり、[Public API](../../ref/python/public-api/README.md)を使ってPythonにデータをエクスポートしてプログラムでアクセスできます。W&Bを使って[機械学習の実験を迅速に見つけて再現する](./reproduce-experiments.md)。
 
-Utilize W&B Integrations if you use use popular frameworks such as [PyTorch](../integrations/pytorch.md), [Keras](../integrations/keras.md), or [Scikit](../integrations/scikit.md). See our [Integration guides](../integrations/intro.md) for a for a full list of integrations and information on how to add W&B to your code.
+[PyTorch](../integrations/pytorch.md)、[Keras](../integrations/keras.md)、[Scikit](../integrations/scikit.md)などの一般的なフレームワークを使っている場合は、W&Bのインテグレーションを活用してください。[インテグレーションガイド](../integrations/intro.md)で、全てのインテグレーションとW&Bをコードに追加する方法についての情報を入手できます。
 
-## How it works
+## 仕組み
 
-W&B Experiments are composed of the following building blocks:
+W&Bの実験は、以下の構成要素で構成されています:
 
-1. [**`wandb.init()`**](./launch.md): Initialize a new run at the top of your script. This returns a `Run` object and creates a local directory where all logs and files are saved, then streamed asynchronously to a W&B server. If you want to use a private server instead of our hosted cloud server, we offer [Self-Hosting](../hosting/intro.md).
-2. [**`wandb.config`**](./config.md): Save a dictionary of hyperparameters such as learning rate or model type. The model settings you capture in config are useful later to organize and query your results.
-3. [**`wandb.log()`**](./log/intro.md): Log metrics over time in a training loop, such as accuracy and loss. By default, when you call `wandb.log` it appends a new step to the `history` object and updates the `summary` object.
-   * `history`: An array of dictionary-like objects that tracks metrics over time. These time series values are shown as default line plots in the UI.
-   * `summary`: By default, the final value of a metric logged with wandb.log(). You can set the summary for a metric manually to capture the highest accuracy or lowest loss instead of the final value. These values are used in the table, and plots that compare runs — for example, you could visualize at the final accuracy for all runs in your project.
-4. [**`wandb.log_artifact`**](../../ref/python/artifact.md): Save outputs of a run, like the model weights or a table of predictions. This lets you track not just model training, but all the pipeline steps that affect the final model.
+1. [**`wandb.init()`**](./launch.md): スクリプトの先頭で新しいrunを初期化します。これにより、`Run`オブジェクトが返され、ログやファイルが保存されるローカルディレクトリが作成され、W&Bサーバーに非同期でストリーミングされます。ホストされたクラウドサーバーの代わりにプライベートサーバーを使用したい場合は、[Self-Hosting](../hosting/intro.md)を提供しています。
+2. [**`wandb.config`**](./config.md): 学習率やモデルタイプなどのハイパーパラメータ辞書を保存します。configでキャプチャしたモデルの設定は、後で結果を整理してクエリするときに便利です。
+3. [**`wandb.log()`**](./log/intro.md): トレーニングループで精度や損失などのメトリクスを時間と共に記録します。デフォルトでは、`wandb.log`を呼び出すと、`history`オブジェクトに新しいステップが追加され、`summary`オブジェクトが更新されます。
+   * `history`: 時間経過と共にメトリクスを記録する辞書のようなオブジェクトの配列。これらの時系列値は、デフォルトでUIの折れ線グラフとして表示されます。
+   * `summary`: デフォルトで、wandb.log()で記録されたメトリックの最終値です。メトリックのサマリーを手動で設定して、最終値の代わりに最も高い精度や最も低い損失を記録できます。これらの値は、テーブルやrunを比較するグラフに使用されます。例えば、プロジェクト内のすべてのrunの最終精度を視覚化できます。
+4. [**`wandb.log_artifact`**](../../ref/python/artifact.md): モデルの重みや予測のテーブルなど、runの出力を保存します。これにより、モデルのトレーニングだけでなく、最終モデルに影響を与える開発フローの全てのステップを追跡できます。
 
-The proceeding pseudocode demonstrates a common W&B Experiment tracking workflow:
+以下の疑似コードは、一般的なW&B実験のトラッキングワークフローを示しています:
 
 ```python
-# Flexible integration for any Python script
+# 任意のPythonスクリプトに対する柔軟なインテグレーション
 import wandb
-
-# 1. Start a W&B Run
+# 1. W&B Runを開始する
 wandb.init(project='my-project-name')
 
-# 2. Save mode inputs and hyperparameters
+# 2. モード入力とハイパーパラメーターを保存する
 config = wandb.config
 config.learning_rate = 0.01
 
-# Set up model and data
+# モデルとデータを設定する
 model, dataloader = get_model(), get_data()
 
-# Model training goes here
+# モデルトレーニングはここに入ります
 
-# 3. Log metrics over time to visualize performance
+# 3. メトリクスを時系列でログすることでパフォーマンスを可視化する
 wandb.log({"loss": loss})
 
-# 4. Log an artifact to W&B
+# 4. W&Bにアーティファクトをログする
 wandb.log_artifact(model)
 
 ```
 
-## How to get started
+## はじめ方
 
-Depending on your use case, explore the following resources to get started with W&B Experiments:
+あなたのユースケースに応じて、以下のリソースを参考にしてW&B実験を始めてください：
 
-* If this is your first time using W&B Experiments, we recommend you read the Quick Start. The [Quickstart](../../quickstart.md) walks you through setting up your first experiment.
-* Explore topics about Experiments in the W&B Developer Guide such as:
-  * Create an experiment
-  * Configure experiments
-  * Log data from experiments
-  * View results from experiments
-* Explore the [W&B Python Library](../../ref/python/README.md) within the [W&B API Reference Guide](../../ref/README.md).
+* W&B実験を初めて利用する場合は、Quick Startをお読みください。[クイックスタート](../../quickstart.md)では、初めての実験を設定する方法について説明しています。
+* W&B Developer Guideの「実験」に関するトピックを探索してください：
+  * 実験を作成する
+  * 実験を設定する
+  * 実験からのデータをログする
+  * 実験からの結果を表示する
+* [W&B API Reference Guide](../../ref/README.md)内にある[W&B Pythonライブラリ](../../ref/python/README.md)を参照してください。

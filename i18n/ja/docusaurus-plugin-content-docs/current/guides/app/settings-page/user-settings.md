@@ -1,72 +1,77 @@
 ---
 description: >-
-  Manage your profile information, account defaults, alerts, participation in
-  beta products, GitHub integration, storage usage, account activation, and
-  create teams in your user settings.
-displayed_sidebar: ja
+  ユーザー設定で、プロフィール情報、アカウントのデフォルト設定、アラート、ベータ製品への参加、GitHubの統合、ストレージ使用量、アカウントの有効化、チームの作成を管理できます。
 ---
 
-# User settings
+# ユーザー設定
 
-Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**.
+ユーザープロフィールページに移動し、右上隅のユーザーアイコンを選択してください。ドロップダウンから**設定**を選択します。
 
-### Profile
+### プロフィール
 
-Within the **Profile** section you can manage and modify your account name and institution. You can optionally add a biography, location, link to a personal or your institution’s website, and upload a profile image.
+**プロフィール**セクションでは、アカウント名と所属機関を管理および変更できます。また、自己紹介、場所、個人または所属機関のウェブサイトへのリンクを追加し、プロフィール画像をアップロードすることができます。
 
-### Project defaults
+### プロジェクトのデフォルト設定
 
-Change the default behavior for your account within the **Project** **Defaults** section. You can manage the proceeding:
+**プロジェクト** **デフォルト**セクションで、アカウントのデフォルト振る舞いを変更できます。以下を管理できます。
 
-* **Default location to create new projects** - Select the dropdown menu and choose the entity to set as the new default. Specify either your account or a team you are a member of.
-* **Default projects privacy in your personal account** - Set a project to public (anyone can view), private (only you can view and contribute) or open (anyone can submit runs or write the reports) automatically when you create a project. You can optionally create a team to collaborate on private projects.
-* **Enable code savings in your personal account** - Permit Weights and Biases to save the latest git commit hash by default. To enable code saving, toggle the Enable code savings in your personal account option. For more information about saving and comparing code, see [Code Saving](../features/panels/code.md).
+* **新しいプロジェクトを作成する場所のデフォルト設定** - ドロップダウンメニューから選択して新しいデフォルト設定を行うエンティティを指定します。アカウントか所属しているチームを指定します。
+* **個人アカウント内のプロジェクトのプライバシーデフォルト設定** - プロジェクトを公開(誰でも閲覧可能)、非公開(閲覧や投稿は自分だけ)、オープン(誰でもrunsやレポートの作成が可能)に設定し、プロジェクトを自動的に作成できます。プライベートプロジェクトでの共同作業を行うためにチームを作成することができます。
+* **個人アカウントでのコードの保存を許可する** - Weights and Biasesにデフォルトで最新のgitコミットハッシュを保存させることができます。コードの保存を有効にするには、「Enable code savings in your personal account」のオプションを切り替えてください。コードの保存と比較についての詳細は、[Code Saving](../features/panels/code.md)を参照してください。
 
-### Teams
+### チーム
 
-Create a new team in the **Team** section. To create a new team, select the **New team** button and provide the following:
+**チーム**セクションで新しいチームを作成します。新しいチームを作成するには、**新しいチーム**ボタンを選択し、以下の情報を入力します。
 
-* **Team name** - the name of your team. The team mane must be unique. Team names can not be changed.
-* **Team type** - Select either the **Work** or **Academic** button.
-* **Company/Organization** - Provide the name of the team’s company or organization. Choose the dropdown menu to select a company or organization. You can optionally provide a new organization.
-
+* **チーム名** - チームの名前。チーム名は一意でなければなりません。チーム名は変更できません。
+* **チームの種類** - **Work**または**Academic**ボタンを選択します。
+* **会社/組織** - チームの会社や組織の名前を入力します。ドロップダウンメニューから会社や組織を選択できます。必要に応じて、新しい組織を入力することができます。
 :::info
-Only administrative accounts can create a team.
+チームを作成できるのは管理者アカウントのみです。
 :::
 
-### Beta features
+### ベータ機能
 
-Within the **Beta Features** section you can optionally enable fun add-ons and sneak previews of new products in development. Select the toggle switch next to the beta feature you want to enable. Currently you can get a sneak peak of the proceeding features:
+**ベータ機能**セクションでは、オプションで楽しいアドオンや開発中の新製品のプレビューを有効にすることができます。有効にしたいベータ機能の横にあるトグルスイッチを選択します。現在、以下の機能のプレビューをご覧いただくことができます。
 
-* **Night mode** - Invert the colors everywhere! This makes pages dark, but might make colors on charts less easy to distinguish.
-* **W&B Launch** - Launch jobs on your own infrastructure from Weights and Biases. For more information, see the [Launch Jobs](../../launch/intro.md) documentation.
-* **Unicorn mode** - Change your cursor on charts from a boring pointer to a unicorn!
+* **ナイトモード** - どこでも色を反転させます！ これによりページが暗くなりますが、チャートの色が区別しにくくなることがあります。
+* **W&B Launch** - Weights and Biasesから自分のインフラストラクチャーにジョブをLaunchします。詳細については、[Launch Jobs](../../launch/intro.md)のドキュメントをご覧ください。
+* **ユニコーンモード** - チャート上のカーソルを退屈なポインターからユニコーンに変更します！
 
-### Alerts
+### アラート
 
-Get notified when your runs crash, finish, or set custom alerts with [wandb.alert()](../../runs/alert.md). Receive notifications either through Email or Slack. Toggle the switch next to the event type you want to receive alerts from.
+runがクラッシュしたり、終了したり、[wandb.alert()](../../runs/alert.md)でカスタムアラートを設定した際に通知を受け取ります。通知はメールまたはSlackで受け取ることができます。通知を受け取りたいイベントタイプの横にあるスイッチを切り替えてください。
 
-* **Runs finished**: whether a Weights and Biases run successfully finished.
-* **Run crashed**: notification if a run has failed to finish.
+* **Runs finished**: Weights and Biasesのrunが正常に終了したかどうか。
+* **Run crashed**: runが終了に失敗した場合に通知。
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert](../../runs/alert.md).
+アラートの設定と管理方法についての詳細は、[wandb.alertを送信する方法](../../runs/alert.md)を参照してください。
 
-### Personal GitHub integration
+### 個人GitHubインテグレーション
 
-Connect a personal Github account. To connect a Github account:
+個人のGithubアカウントと接続します。 Githubアカウントに接続する方法は以下の通りです。
 
-1. Select the **Connect Github** button. This will redirect you to an open authorization (OAuth) page.
-2. Select the organization to grant access in the **Organization access** section.
-3. Select **Authorize** **wandb**.
+1. **Connect Github**ボタンを選択します。これにより、オープン認可（OAuth）ページにリダイレクトされます。
+2. **Organization access**セクションでアクセスを許可する組織を選択します。
+3. **Authorize** **wandb**を選択します。
+### アカウントの削除
 
-### Delete your account
 
-Select the **Delete Account** button to delete your account.
+
+アカウントを削除するには、**アカウント削除**ボタンを選択してください。
+
+
 
 :::warning
-Account deletion can not be reversed.
+
+アカウントの削除は、元に戻すことができません。
+
 :::
 
-### Storage
 
-The **Storage** section describes the total memory usage the your account has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+
+### ストレージ
+
+
+
+**ストレージ**セクションは、Weights and Biasesサーバー上でアカウントが消費したトータルメモリ使用量について説明しています。デフォルトのストレージプランは100GBです。ストレージと価格に関する詳細は、[料金](https://wandb.ai/site/pricing)ページをご覧ください。

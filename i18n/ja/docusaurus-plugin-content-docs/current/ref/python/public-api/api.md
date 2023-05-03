@@ -1,12 +1,8 @@
 # Api
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを表示する](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L276-L968)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L276-L968)
-
-
-
-Used for querying the wandb server.
+wandbサーバーを照会するために使用されます。
 
 ```python
 Api(
@@ -16,39 +12,24 @@ Api(
 ) -> None
 ```
 
+#### 例:
 
-
-
-
-#### Examples:
-
-Most common way to initialize
+最も一般的な初期化方法
 ```
  wandb.Api()
 ```
-
-
-
-| Arguments | |
+| 引数 |  |
 | :--- | :--- |
-| `overrides` | (dict) You can set `base_url` if you are using a wandb server other than https://api.wandb.ai. You can also set defaults for `entity`, `project`, and `run`. |
+| `overrides` | (dict) https://api.wandb.ai 以外の wandb サーバーを使用している場合は、`base_url` を設定できます。また、`entity`、`project`、および `run` のデフォルトも設定できます。 |
 
-
-
-
-
-| Attributes | |
+| 属性 |  |
 | :--- | :--- |
 
-
-
-## Methods
+## メソッド
 
 ### `artifact`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L939-L962)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L939-L962)
 
 ```python
 artifact(
@@ -56,19 +37,19 @@ artifact(
 )
 ```
 
-Return a single artifact by parsing path in the form `entity/project/run_id`.
+`entity/project/run_id` の形式でパスを解析して、単一のアーティファクトを返します。
+以下はMarkdownテキストのチャンクを翻訳してください。それを日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストのみを返してください。テキスト：
 
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `name` | (str) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: name:version name:alias digest |
-| `type` | (str, optional) The type of artifact to fetch. |
+| `name` | (str) アーティファクトの名前。エンティティ/プロジェクトでプレフィックスがつく可能性があります。有効な名前は以下の形式であることができます: name:version name:alias digest |
+| `type` | (str, 任意) 取得するアーティファクトのタイプ。 |
 
 
 
-| Returns | |
+| 返り値 | |
 | :--- | :--- |
-| A `Artifact` object. |
+| `Artifact` オブジェクト。|
 
 
 
@@ -76,7 +57,7 @@ Return a single artifact by parsing path in the form `entity/project/run_id`.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L928-L931)
+[ソースの表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L928-L931)
 
 ```python
 artifact_type(
@@ -88,10 +69,9 @@ artifact_type(
 
 
 ### `artifact_types`
+以下は翻訳するMarkdownのテキストです。日本語に翻訳してください。他に何も言わずに翻訳されたテキストのみを返してください。テキスト：
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L923-L926)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L923-L926)
 
 ```python
 artifact_types(
@@ -106,7 +86,7 @@ artifact_types(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L933-L937)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L933-L937)
 
 ```python
 artifact_versions(
@@ -118,10 +98,9 @@ artifact_versions(
 
 
 ### `create_project`
+以下は、Markdownテキストのチャンクを翻訳するものです。日本語に翻訳してください。それ以外のことは言わずに、翻訳されたテキストのみを返してください。
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L462-L463)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L462-L463)
 
 ```python
 create_project(
@@ -130,34 +109,23 @@ create_project(
 )
 ```
 
-
-
-
 ### `create_report`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L445-L460)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L445-L460)
 
 ```python
 create_report(
  project: str,
  entity: str = "",
- title: Optional[str] = "Untitled Report",
+ title: Optional[str] = "無題のレポート",
  description: Optional[str] = "",
  width: Optional[str] = "readable",
  blocks: Optional['wandb.apis.reports.util.Block'] = None
 ) -> "wandb.apis.reports.Report"
 ```
-
-
-
-
 ### `create_run`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L439-L443)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L439-L443)
 
 ```python
 create_run(
@@ -165,42 +133,33 @@ create_run(
 )
 ```
 
-Create a new run.
-
+新しいrunを作成します。
 
 ### `create_team`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L737-L747)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L737-L747)
 
 ```python
 create_team(
  team, admin_username=None
 )
 ```
+新しいチームを作成します。
 
-Create a new team.
-
-
-| Arguments | |
+| 引数 |  |
 | :--- | :--- |
-| `team` | (str) The name of the team |
-| `admin_username` | (str) optional username of the admin user of the team, defaults to the current user. |
+| `team` | (str) チームの名前 |
+| `admin_username` | (str) オプション: チームの管理ユーザーのユーザー名。デフォルトは現在のユーザーです。 |
 
 
-
-| Returns | |
+| 戻り値 |  |
 | :--- | :--- |
-| A `Team` object |
-
+| `Team` オブジェクト |
 
 
 ### `create_user`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L481-L491)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L481-L491)
 
 ```python
 create_user(
@@ -208,19 +167,17 @@ create_user(
 )
 ```
 
-Create a new user.
-
-
-| Arguments | |
+新しいユーザーを作成します。
+| 引数 | |
 | :--- | :--- |
-| `email` | (str) The name of the team |
-| `admin` | (bool) Whether this user should be a global instance admin |
+| `email` | (str) チーム名 |
+| `admin` | (bool) このユーザーがグローバルインスタンスの管理者であるかどうか |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| A `User` object |
+| `User` オブジェクト |
 
 
 
@@ -228,23 +185,18 @@ Create a new user.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L555-L562)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L555-L562)
 
 ```python
 flush()
 ```
 
-Flush the local cache.
+ローカルキャッシュをフラッシュします。
 
-The api object keeps a local cache of runs, so if the state of the run may
-change while executing your script you must clear the local cache with
-`api.flush()` to get the latest values associated with the run.
-
+apiオブジェクトはrunsのローカルキャッシュを保持しているため、スクリプトの実行中にrunの状態が変更される可能性がある場合は、`api.flush()`でローカルキャッシュをクリアして、runに関連する最新の値を取得する必要があります。
 ### `from_path`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L564-L618)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L564-L618)
 
 ```python
 from_path(
@@ -252,10 +204,9 @@ from_path(
 )
 ```
 
-Return a run, sweep, project or report from a path.
+パスからrun、スイープ、プロジェクト、またはレポートを返します。
 
-
-#### Examples:
+#### 例:
 
 ```
 project = api.from_path("my_project")
@@ -265,23 +216,20 @@ sweep = api.from_path("my_team/my_project/sweeps/id")
 report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 ```
 
-
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `path` | (str) The path to the project, run, sweep or report |
-
-
+| `path` | (str) プロジェクト、run、スイープ、またはレポートへのパス |
+以下のテーブルはMarkdownテキストを日本語に翻訳してください。翻訳されたテキストのみを返し、それ以外のことは何も言わないでください。テキスト:
 
 | Returns | |
 | :--- | :--- |
-| A `Project`, `Run`, `Sweep`, or `BetaReport` instance. |
+| `Project`、`Run`、`Sweep`、または `BetaReport` のインスタンス。 |
 
 
 
 | Raises | |
 | :--- | :--- |
-| wandb.Error if path is invalid or the object doesn't exist |
+| パスが無効であるか、オブジェクトが存在しない場合は wandb.Error |
 
 
 
@@ -289,22 +237,16 @@ report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L964-L968)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L964-L968)
 
 ```python
 job(
  name, path=None
 )
 ```
-
-
-
-
 ### `load_report`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L465-L479)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L465-L479)
 
 ```python
 load_report(
@@ -312,32 +254,26 @@ load_report(
 ) -> "wandb.apis.reports.Report"
 ```
 
-Get report at a given path.
+指定したパスのレポートを取得します。
 
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `path` | (str) Path to the target report in the form `entity/project/reports/reportId`. You can get this by copy-pasting the URL after your wandb url. For example: `megatruong/report-editing/reports/My-fabulous-report-title--VmlldzoxOTc1Njk0` |
+| `path` | (str) 対象のレポートへのパス。形式は `entity/project/reports/reportId` です。これは、wandbのURLの後にURLをコピーして貼り付けることで取得できます。例： `megatruong/report-editing/reports/My-fabulous-report-title--VmlldzoxOTc1Njk0` |
 
 
 
-| Returns | |
+| 返り値 | |
 | :--- | :--- |
-| A `BetaReport` object which represents the report at `path` |
+| `path` で指定されたレポートを表す `BetaReport` オブジェクト |
 
 
 
-| Raises | |
+| 例外 | |
 | :--- | :--- |
-| wandb.Error if path is invalid |
-
-
-
+| パスが無効な場合はwandb.Error |
 ### `project`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L701-L704)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L701-L704)
 
 ```python
 project(
@@ -350,9 +286,7 @@ project(
 
 ### `projects`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L678-L699)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L678-L699)
 
 ```python
 projects(
@@ -360,19 +294,19 @@ projects(
 )
 ```
 
-Get projects for a given entity.
+指定されたエンティティのプロジェクトを取得します。
+以下のMarkdownテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。他のことは何も言わずに。テキスト:
 
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `entity` | (str) Name of the entity requested. If None, will fall back to default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
-| `per_page` | (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+| `entity` | (str) 要求されたエンティティの名前。Noneの場合、`Api`に渡されたデフォルトのエンティティにフォールバックします。デフォルトのエンティティがない場合、`ValueError`を発生させます。|
+| `per_page` | (int) クエリのページネーションに対するページサイズを設定します。Noneの場合、デフォルトのサイズを使用します。通常、これを変更する理由はありません。 |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| A `Projects` object which is an iterable collection of `Project` objects. |
+| イテラブルな`Project`オブジェクトのコレクションである`Projects`オブジェクト。 |
 
 
 
@@ -380,7 +314,7 @@ Get projects for a given entity.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L883-L904)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L883-L904)
 
 ```python
 queued_run(
@@ -389,15 +323,12 @@ queued_run(
 )
 ```
 
-Return a single queued run based on the path.
+パスに基づいて、1つのキューに入ったrunを返します。
 
-Parses paths of the form entity/project/queue_id/run_queue_item_id.
-
+entity/project/queue_id/run_queue_item_id の形式のパスを解析します。
 ### `reports`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L706-L735)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L706-L735)
 
 ```python
 reports(
@@ -405,29 +336,23 @@ reports(
 )
 ```
 
-Get reports for a given project path.
+指定したプロジェクトパスに対するレポートを取得します。
 
-WARNING: This api is in beta and will likely change in a future release
+警告: このAPIはベータ版であり、今後のリリースで変更される可能性があります。
 
-| Arguments | |
+| 引数 |  |
 | :--- | :--- |
-| `path` | (str) path to project the report resides in, should be in the form: "entity/project" |
-| `name` | (str) optional name of the report requested. |
-| `per_page` | (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+| `path` | (str) レポートが存在するプロジェクトへのパスで、"entity/project"の形式であるべきです。 |
+| `name` | (str) オプションで指定するレポートの名前。 |
+| `per_page` | (int) クエリのページネーションにおけるページサイズを設定します。Noneを指定するとデフォルトサイズが使用されます。通常、この設定を変更する必要はありません。 |
 
 
-
-| Returns | |
+| 戻り値 |  |
 | :--- | :--- |
-| A `Reports` object which is an iterable collection of `BetaReport` objects. |
-
-
-
+| `BetaReport`オブジェクトのイテラブルなコレクションである `Reports`オブジェクト。|
 ### `run`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L866-L881)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L866-L881)
 
 ```python
 run(
@@ -435,26 +360,22 @@ run(
 )
 ```
 
-Return a single run by parsing path in the form entity/project/run_id.
+エンティティ/プロジェクト/ランIDの形式でパスを解析して、単一のランを返します。
 
-
-| Arguments | |
+| 引数 | 説明 |
 | :--- | :--- |
-| `path` | (str) path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id. |
+| `path` | (str) パスは`entity/project/run_id`の形式です。`api.entity`が設定されている場合、`project/run_id`の形式で、`api.project`が設定されている場合は、run_id だけで構いません。|
 
 
 
-| Returns | |
+| 戻り値 | 説明 |
 | :--- | :--- |
-| A `Run` object. |
+| `Run`オブジェクト。 |
 
 
 
 ### `runs`
-
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L788-L864)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L788-L864)
 
 ```python
 runs(
@@ -466,26 +387,25 @@ runs(
 )
 ```
 
-Return a set of runs from a project that match the filters provided.
+指定されたフィルタに一致するプロジェクトからのrunsのセットを返します。
 
-You can filter by `config.*`, `summary_metrics.*`, `tags`, `state`, `entity`, `createdAt`, etc.
+`config.*`、`summary_metrics.*`、`tags`、`state`、`entity`、`createdAt`などでフィルタリングできます。
 
-#### Examples:
+#### 例：
 
-Find runs in my_project where config.experiment_name has been set to "foo"
+my_projectでconfig.experiment_nameが"foo"に設定されているrunsを検索
 ```
 api.runs(path="my_entity/my_project", filters={"config.experiment_name": "foo"})
 ```
 
-Find runs in my_project where config.experiment_name has been set to "foo" or "bar"
+my_projectでconfig.experiment_nameが"foo"または"bar"に設定されているrunsを検索
 ```
 api.runs(
  path="my_entity/my_project",
  filters={"$or": [{"config.experiment_name": "foo"}, {"config.experiment_name": "bar"}]}
 )
 ```
-
-Find runs in my_project where config.experiment_name matches a regex (anchors are not supported)
+私のプロジェクトでconfig.experiment_nameが正規表現に一致するrunを見つける（アンカーはサポートされていません）
 ```
 api.runs(
  path="my_entity/my_project",
@@ -493,7 +413,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project where the run name matches a regex (anchors are not supported)
+私のプロジェクトでrun名が正規表現に一致するrunを見つける（アンカーはサポートされていません）
 ```
 api.runs(
  path="my_entity/my_project",
@@ -501,24 +421,21 @@ api.runs(
 )
 ```
 
-Find runs in my_project sorted by ascending loss
+私のプロジェクトのrunを昇順の損失で並べ替える
 ```
 api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 ```
 
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `path` | (str) path to project, should be in the form: "entity/project" |
-| `filters` | (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: {"config.experiment_name": "foo"} would find runs with a config entry of experiment name set to "foo" You can compose operations to make more complicated queries, see Reference for the language is at https://docs.mongodb.com/manual/reference/operator/query |
-| `order` | (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending. If you prepend order with a - order is descending (default). The default order is run.created_at from newest to oldest. |
-
-
-
-| Returns | |
+| `path` | (str) プロジェクトへのパスで、"entity/project"の形式である必要があります |
+| `filters` | (dict) MongoDBクエリ言語を使用して特定のrunをクエリします。config.key、summary_metrics.key、state、entity、createdAtなどのrunプロパティで絞り込むことができます。例：{"config.experiment_name": "foo"} は実験名が"foo"に設定されているrunを見つけます。詳細なクエリを作成するために、操作を組み合わせることができます。言語のリファレンスは https://docs.mongodb.com/manual/reference/operator/query で参照できます。 |
+| `order` | (str) 順序は `created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` にすることができます。順序に+を付けると昇順になります。順序に-を付けると降順になります（デフォルト）。デフォルトの順序は最新から最古のrun.created_atです。 |
+| 戻り値 | |
 | :--- | :--- |
-| A `Runs` object, which is an iterable collection of `Run` objects. |
+| `Runs`オブジェクト。これは、`Run`オブジェクトのイテレータブルなコレクションです。|
 
 
 
@@ -526,7 +443,7 @@ api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L906-L921)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L906-L921)
 
 ```python
 sweep(
@@ -534,26 +451,21 @@ sweep(
 )
 ```
 
-Return a sweep by parsing path in the form `entity/project/sweep_id`.
+`entity/project/sweep_id`の形式でパスを解析して、スイープを返します。
 
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `path` | (str, optional) path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id. |
+| `path` | (str, optional) entity/project/sweep_idの形式で指定されたスイープへのパス。`api.entity`が設定されている場合は、project/sweep_idの形式で指定でき、`api.project`が設定されている場合は、sweep_idだけで指定できます。 |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| A `Sweep` object. |
-
-
-
+| `Sweep`オブジェクト。 |
 ### `sync_tensorboard`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L493-L515)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L493-L515)
 
 ```python
 sync_tensorboard(
@@ -561,57 +473,43 @@ sync_tensorboard(
 )
 ```
 
-Sync a local directory containing tfevent files to wandb.
-
+tfeventファイルを含むローカルディレクトリをwandbに同期します。
 
 ### `team`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L749-L750)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L749-L750)
 
 ```python
 team(
  team
 )
 ```
-
-
-
-
 ### `user`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L752-L772)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L752-L772)
 
 ```python
 user(
- username_or_email
+ ユーザー名_または_メール
 )
 ```
 
-Return a user from a username or email address.
+ユーザー名またはメールアドレスからユーザーを返します。
 
-Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
+注: この関数はローカル管理者専用です。自分自身のユーザーオブジェクトを取得しようとする場合は、`api.viewer`を使用してください。
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `username_or_email` | (str) The username or email address of the user |
+| `ユーザー名_または_メール` | (str) ユーザーのユーザー名またはメールアドレス |
 
 
 
-| Returns | |
+| 返り値 | |
 | :--- | :--- |
-| A `User` object or None if a user couldn't be found |
-
-
-
+| `User`オブジェクト または ユーザーが見つからない場合はNone |
 ### `users`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L774-L786)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L774-L786)
 
 ```python
 users(
@@ -619,29 +517,25 @@ users(
 )
 ```
 
-Return all users from a partial username or email address query.
+部分的なユーザー名またはメールアドレスのクエリからすべてのユーザーを返します。
 
-Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
+注: この関数はローカル管理者のみが使用できます。自分のユーザーオブジェクトを取得しようとしている場合は、`api.viewer`を使用してください。
 
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `username_or_email` | (str) The prefix or suffix of the user you want to find |
+| `username_or_email` | (str) 検索したいユーザーの接頭辞または接尾辞 |
 
 
 
-| Returns | |
+| 戻り値 | |
 | :--- | :--- |
-| An array of `User` objects |
+| `User`オブジェクトの配列 |
+| クラス変数 | |
 
-
-
-
-
-
-
-| Class Variables | |
 | :--- | :--- |
+
 | `CREATE_PROJECT` | |
-| `USERS_QUERY` | |
-| `VIEWER_QUERY` | |
 
+| `USERS_QUERY` | |
+
+| `VIEWER_QUERY` | |

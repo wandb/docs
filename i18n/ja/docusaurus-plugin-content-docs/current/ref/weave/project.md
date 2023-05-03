@@ -1,167 +1,161 @@
-# project
+# プロジェクト
 
-## Chainable Ops
+## チェイン可能なOps
 <h3 id="project-artifact"><code>project-artifact</code></h3>
 
-Returns the [artifact](https://docs.wandb.ai/ref/weave/artifact) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
+指定された名前の[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)を、[プロジェクト](https://docs.wandb.ai/ref/weave/project)内で返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
-| `artifactName` | The name of the [artifact](https://docs.wandb.ai/ref/weave/artifact) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
+| `artifactName` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact)の名前 |
 
-#### Return Value
-The [artifact](https://docs.wandb.ai/ref/weave/artifact) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
+#### 返り値
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)内の指定された名前の[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)
 
 <h3 id="project-artifactType"><code>project-artifactType</code></h3>
 
-Returns the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
+指定された名前の[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)を、[プロジェクト](https://docs.wandb.ai/ref/weave/project)内で返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
-| `artifactType` | The name of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
+| `artifactType` | [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)の名前 |
 
-#### Return Value
-The [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
+#### 返り値
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)内の指定された名前の[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
 
 <h3 id="project-artifactTypes"><code>project-artifactTypes</code></h3>
 
-Returns the [artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type) for a [project](https://docs.wandb.ai/ref/weave/project)
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の[artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type)を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
 
-#### Return Value
-The [artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type) for a [project](https://docs.wandb.ai/ref/weave/project)
+#### 返り値
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の[artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type)
 
 <h3 id="project-artifactVersion"><code>project-artifactVersion</code></h3>
 
-Returns the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) for a given name and version within a [project](https://docs.wandb.ai/ref/weave/project)
-
-| Argument |  |
+指定された名前とバージョンの[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)を、[プロジェクト](https://docs.wandb.ai/ref/weave/project)内で返します。
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
-| `artifactName` | The name of the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
-| `artifactVersionAlias` | The version alias of the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
+| `artifactName` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の名前 |
+| `artifactVersionAlias` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のエイリアスバージョン |
 
-#### Return Value
-The [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) for a given name and version within a [project](https://docs.wandb.ai/ref/weave/project)
+#### 返り値
+指定された名前とバージョンのある[プロジェクト](https://docs.wandb.ai/ref/weave/project)内の[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)
 
 <h3 id="project-createdAt"><code>project-createdAt</code></h3>
 
-Returns the creation time of the [project](https://docs.wandb.ai/ref/weave/project)
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の作成時間を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
 
-#### Return Value
-The creation time of the [project](https://docs.wandb.ai/ref/weave/project)
+#### 返り値
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の作成時間
 
 <h3 id="project-name"><code>project-name</code></h3>
 
-Returns the name of the [project](https://docs.wandb.ai/ref/weave/project)
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の名前を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
 
-#### Return Value
-The name of the [project](https://docs.wandb.ai/ref/weave/project)
+#### 返り値
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の名前
 
 <h3 id="project-runs"><code>project-runs</code></h3>
 
-Returns the [runs](https://docs.wandb.ai/ref/weave/run) from a [project](https://docs.wandb.ai/ref/weave/project)
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)からの[runs](https://docs.wandb.ai/ref/weave/run)を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
+#### 戻り値
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)からの[runs](https://docs.wandb.ai/ref/weave/run)
 
-#### Return Value
-The [runs](https://docs.wandb.ai/ref/weave/run) from a [project](https://docs.wandb.ai/ref/weave/project)
-
-
-## List Ops
+## リスト操作
 <h3 id="project-artifact"><code>project-artifact</code></h3>
 
-Returns the [artifact](https://docs.wandb.ai/ref/weave/artifact) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
+指定された名前の[プロジェクト](https://docs.wandb.ai/ref/weave/project)内の[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
-| `artifactName` | The name of the [artifact](https://docs.wandb.ai/ref/weave/artifact) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
+| `artifactName` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact)の名前 |
 
-#### Return Value
-The [artifact](https://docs.wandb.ai/ref/weave/artifact) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
+#### 戻り値
+指定された名前の[プロジェクト](https://docs.wandb.ai/ref/weave/project)内の[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)
 
 <h3 id="project-artifactType"><code>project-artifactType</code></h3>
 
-Returns the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
+指定された名前の[プロジェクト](https://docs.wandb.ai/ref/weave/project)内の[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
-| `artifactType` | The name of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
+| `artifactType` | [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)の名前 |
 
-#### Return Value
-The [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
+#### 戻り値
+指定された名前の[プロジェクト](https://docs.wandb.ai/ref/weave/project)内の[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
 
 <h3 id="project-artifactTypes"><code>project-artifactTypes</code></h3>
 
-Returns the [artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type) for a [project](https://docs.wandb.ai/ref/weave/project)
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の[artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type)を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
 
-#### Return Value
-The [artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type) for a [project](https://docs.wandb.ai/ref/weave/project)
+#### 戻り値
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の[artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type)
 
 <h3 id="project-artifactVersion"><code>project-artifactVersion</code></h3>
+指定された名前とバージョンに対応する[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)を[プロジェクト](https://docs.wandb.ai/ref/weave/project)内で返します。
 
-Returns the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) for a given name and version within a [project](https://docs.wandb.ai/ref/weave/project)
-
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
-| `artifactName` | The name of the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
-| `artifactVersionAlias` | The version alias of the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
+| `artifactName` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の名前 |
+| `artifactVersionAlias` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のバージョンエイリアス |
 
-#### Return Value
-The [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) for a given name and version within a [project](https://docs.wandb.ai/ref/weave/project)
+#### 返り値
+指定された名前とバージョンに対応する[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)を[プロジェクト](https://docs.wandb.ai/ref/weave/project)内で返します。
 
 <h3 id="project-createdAt"><code>project-createdAt</code></h3>
 
-Returns the creation time of the [project](https://docs.wandb.ai/ref/weave/project)
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の作成時刻を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
 
-#### Return Value
-The creation time of the [project](https://docs.wandb.ai/ref/weave/project)
+#### 返り値
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の作成時刻
 
 <h3 id="project-name"><code>project-name</code></h3>
 
-Returns the name of the [project](https://docs.wandb.ai/ref/weave/project)
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の名前を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
 
-#### Return Value
-The name of the [project](https://docs.wandb.ai/ref/weave/project)
+#### 返り値
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)の名前
 
 <h3 id="project-runs"><code>project-runs</code></h3>
 
-Returns the [runs](https://docs.wandb.ai/ref/weave/run) from a [project](https://docs.wandb.ai/ref/weave/project)
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)から[runs](https://docs.wandb.ai/ref/weave/run)を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
-
-#### Return Value
-The [runs](https://docs.wandb.ai/ref/weave/run) from a [project](https://docs.wandb.ai/ref/weave/project)
-
+| `project` | [プロジェクト](https://docs.wandb.ai/ref/weave/project) |
+#### 返り値
+[プロジェクト](https://docs.wandb.ai/ref/weave/project)からの[runs](https://docs.wandb.ai/ref/weave/run)

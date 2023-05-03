@@ -1,23 +1,19 @@
----
-displayed_sidebar: ja
----
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # PyTorch Geometric
 
-[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) or PyG is one of the most popular libraries for geometric deep learning and W&B works extremely well with it for visualizing graphs and tracking experiments.
+[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric)またはPyGは、幾何学的ディープラーニングにおいて最も人気のあるライブラリの1つであり、W&Bはグラフの可視化や実験のトラッキングにこれと非常にうまく機能します。
 
-## Getting Started
+## はじめに
 
-After you have installed pytorch geometric, install the wandb library and login
+PyTorch Geometricをインストールした後、wandbライブラリをインストールし、ログインしてください。
 
 <Tabs
   defaultValue="script"
   values={[
-    {label: 'Command Line', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
+    {label: 'コマンドライン', value: 'script'},
+    {label: 'ノートブック', value: 'notebook'},
   ]}>
   <TabItem value="script">
 
@@ -35,26 +31,25 @@ wandb login
 import wandb
 wandb.login()
 ```
-
-  </TabItem>
+</TabItem>
 </Tabs>
 
-## Visualizing the Graphs
+## グラフの可視化
 
-You can save details about the input graphs including number of edges, number of nodes and more. W&B supports logging plotly charts and HTML panels so any visualizations you create for your graph can then also be logged to W&B.
+入力グラフの詳細（エッジ数、ノード数など）を保存できます。W&Bは、PlotlyチャートとHTMLパネルのログをサポートしているため、グラフに作成した可視化もW&Bにログとして記録できます。
 
-### Using PyVis
+### PyVisを使う
 
-The following snippet shows how you could do that with PyVis and HTML.
+以下のスニペットは、PyVisとHTMLを使ってこれがどのように行われるかを示しています。
 
 ```python
 from pyvis.network import Network
-Import wandb
+import wandb
 
-wandb.init(project=’graph_vis’)
+wandb.init(project='graph_vis')
 net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
 
-# Add the edges from the PyG graph to the PyVis network
+# PyGグラフからエッジをPyVisネットワークに追加する
 for e in tqdm(g.edge_index.T):
     src = e[0].item()
     dst = e[1].item()
@@ -64,19 +59,18 @@ for e in tqdm(g.edge_index.T):
     
     net.add_edge(src, dst, value=0.1)
 
-# Save the PyVis visualisation to a HTML file
+# PyVisの可視化をHTMLファイルに保存する
 net.show("graph.html")
 wandb.log({"eda/graph": wandb.Html("graph.html")})
 wandb.finish()
 ```
+| ![この画像は、インタラクティブなHTML可視化としての入力グラフを示しています。](@site/static/images/integrations/pyg_graph_wandb.png) |
+|:--:|
+| **この画像は、インタラクティブなHTML可視化としての入力グラフを示しています。** |
 
-| ![This image shows the input graph as an interactive HTML visualization.](@site/static/images/integrations/pyg_graph_wandb.png) | 
-|:--:| 
-| **This image shows the input graph as an interactive HTML visualization.** |
+### Plotlyの使用法
 
-### Using Plotly
-
-To use plotly to create a graph visualization, first you need to convert the PyG graph to a networkx object. Following this you will need to create Plotly scatter plots for both nodes and edges. The snippet below can be used for this task.
+グラフの可視化を作成するためにplotlyを使用するには、まずPyGグラフをnetworkxオブジェクトに変換する必要があります。その後、ノードとエッジのためのPlotly散布図を作成する必要があります。以下のスニペットがこのタスクに使用できます。
 
 ```python
 def create_vis(graph):
@@ -101,8 +95,7 @@ def create_vis(graph):
         hoverinfo='none',
         mode='lines'
     )
-
-    node_x = []
+node_x = []
     node_y = []
     for node in G.nodes():
         x, y = pos[node]
@@ -121,34 +114,52 @@ def create_vis(graph):
     return fig
 
 
-wandb.init(project=’visualize_graph’)
-wandb.log({‘graph’: wandb.Plotly(create_vis(graph))})
+wandb.init(project='visualize_graph')
+wandb.log({'graph': wandb.Plotly(create_vis(graph))})
 wandb.finish()
 ```
 
-| ![This visualization was created using the function shown in the snippet above and longed inside a W&B Table.](@site/static/images/integrations/pyg_graph_plotly.png) | 
+| ![この可視化は、上記のスニペットに示されている関数を使用して作成され、W&Bテーブルの中に記録されました。](@site/static/images/integrations/pyg_graph_plotly.png) | 
 |:--:| 
-| **This visualization was created using the function shown in the snippet above and longed inside a W&B Table.** |
+| **この可視化は、上記のスニペットに示されている関数を使用して作成され、W&Bテーブルの中に記録されました。** |
 
-## Logging Metrics
+## メトリクスの記録
+W&Bを使って、損失関数や精度などのメトリクスとともに、すべての実験をトラッキングすることができます。トレーニングループに以下の行を追加するだけで、準備完了です!
 
-You can use W&B to track all your experiments along with metrics like loss functions, accuracy and more. Just add the following line to your training loop and you are good to go!
+
 
 ```python
+
 wandb.log({
+
 	‘train/loss’: training_loss,
+
 	‘train/acc’: training_acc,
+
 	‘val/loss’: validation_loss,
+
 	‘val/acc’: validation_acc
+
 })
+
 ```
 
-| ![Plots from W&B showing how the hits@K metric changes over epochs for different values of K.](@site/static/images/integrations/pyg_metrics.png) | 
+
+
+| ![W＆Bのプロットによる試行回数による異なるK値に対するhits@K メトリクスの変化の可視化](@site/static/images/integrations/pyg_metrics.png) | 
+
 |:--:| 
-| **Plots from W&B showing how the hits@K metric changes over epochs for different values of K.** |
 
-## More Resources
+| **W＆Bのプロットによる試行回数による異なるK値に対するhits@K メトリクスの変化の可視化** |
 
-- [Recommending Amazon Products using Graph Neural Networks in PyTorch Geometric](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
-- [Point Cloud Classification using PyTorch Geometric](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)
-- [Point Cloud Segmentation using PyTorch Geometric](https://wandb.ai/wandb/point-cloud-segmentation/reports/Point-Cloud-Segmentation-using-Dynamic-Graph-CNN--VmlldzozMTk5MDcy)
+
+
+## さらなるリソース
+
+
+
+- [PyTorch Geometricを使ったAmazon商品のグラフニューラルネットワークによる推薦](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
+
+- [PyTorch Geometricを使ったポイントクラウド分類](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)
+
+- [PyTorch Geometricを使ったポイントクラウドセグメンテーション](https://wandb.ai/wandb/point-cloud-segmentation/reports/Point-Cloud-Segmentation-using-Dynamic-Graph-CNN--VmlldzozMTk5MDcy)

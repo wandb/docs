@@ -1,86 +1,80 @@
----
-displayed_sidebar: ja
----
+# リファレンス
 
-# Reference
+## X軸
 
-## X-Axis
+![X軸の選択](/images/app_ui/reference_x_axis.png)
 
-![Selecting X-Axis](/images/app_ui/reference_x_axis.png)
+X軸は、wandb.logでログに記録した数値を使用して設定することができます。
 
-You can set the X-Axis of a line plot to any value that you have logged with wandb.log as long as it's always logged as a number.
+## Y軸変数
 
-## Y-Axis Variables
-
-You can set the y-axis variables to any value you have logged with wandb.log as long as you were logging numbers, arrays of numbers or a histogram of numbers. If you logged more than 1500 points for a variable, wandb samples down to 1500 points.
+Y軸の変数は、wandb.logでログに記録した数値、数値の配列、または数値のヒストグラムを使用して設定できます。変数に1500ポイント以上ログされている場合、wandbは1500ポイントにサンプリングダウンします。
 
 :::info
-You can change the color of your y axis lines by changing the color of the run in the runs table.
+実行テーブルのrunの色を変更することで、Y軸の線の色を変更できます。
 :::
 
-## X Range and Y Range
+## X範囲とY範囲
 
-You can change the maximum and minimum values of X and Y for the plot.
+プロットのXおよびYの最大値と最小値を変更できます。
 
-X range default is from the smallest value of your x-axis to the largest.
+X範囲のデフォルトは、X軸の最小値から最大値までです。
 
-Y range default is from the smallest value of your metrics and zero to the largest value of your metrics.
+Y範囲のデフォルトは、メトリクスの最小値とゼロからメトリクスの最大値までです。
 
-## Max Runs/Groups
+## 最大実行/グループ数
 
-By default you will only plot 10 runs or groups of runs. The runs will be taken from the top of your runs table or run set, so if you sort your runs table or run set you can change the runs that are shown.
+デフォルトでは、10の実行またはグループの実行のみがプロットされます。実行は、実行テーブルまたは実行セットの一番上から取得されるため、実行テーブルまたは実行セットを並べ替えることで、表示される実行を変更できます。
 
-## Legend
+## 凡例
 
-You can control the legend of your chart to show for any run any config value that you logged and meta data from the runs such as the created at time or the user who created the run.
+チャートの凡例をコントロールして、実行のためにログした任意の設定値と、実行されたメタデータ（作成された時間や実行を作成したユーザーなど）を表示できます。
+例:
 
-Example:
+${run:displayName} - ${config:dropout} とすると、各ランの凡例名は "royal-sweep - 0.5" のようになります。ここで "royal-sweep" はラン名で、0.5は "dropout" という名前の設定パラメータです。
 
-${run:displayName} - ${config:dropout} will make the legend name for each run something like "royal-sweep - 0.5" where "royal-sweep" is the run name and 0.5 is the config parameter named "dropout".
+チャート上でマウスオーバーすると十字線でポイント固有の値を表示するために、`[[ ]]`内に値を設定できます。例えば `[[ $x: $y ($original) ]]` は "2: 3 (2.9)" のようなものを表示します。
 
-You can set value inside`[[ ]]` to display point specific values in the crosshair when hovering over a chart. For example `\[\[ $x: $y ($original) ]]` would display something like "2: 3 (2.9)"
+[[ ]] 内でサポートされている値は以下の通りです。
 
-Supported values inside \[\[ ]] are as follows:
+| 値          | 意味                                      |
+| ----------- | ---------------------------------------- |
+| ${x}        | Xの値                                    |
+| ${y}        | Yの値 (スムージング調整を含む)             |
+| ${original} | スムージング調整を含まないYの値            |
+| ${mean}     | グループ化されたランの平均                |
+| ${stddev}   | グループ化されたランの標準偏差             |
+| ${min}      | グループ化されたランの最小値              |
+| ${max}      | グループ化されたランの最大値              |
+| ${percent}  | 総数のパーセント(積み重ねエリアチャート用) |
 
-| Value       | Meaning                                    |
-| ----------- | ------------------------------------------ |
-| ${x}        | X value                                    |
-| ${y}        | Y value (Including smoothing adjustment)   |
-| ${original} | Y value not including smoothing adjustment |
-| ${mean}     | Mean of grouped runs                       |
-| ${stddev}   | Standard Deviation of grouped runs         |
-| ${min}      | Min of grouped runs                        |
-| ${max}      | Max of grouped runs                        |
-| ${percent}  | Percent of total (for stacked area charts) |
+## グループ化
 
-## Grouping
+グループ化をオンにしてすべてのランを集約するか、個別の変数別にグループ化できます。また、テーブル内でグループ化を行い、グループがグラフに自動的に反映されるようにグループ化をオンにすることもできます。
 
-You can aggregate all of the runs by turning on grouping, or group over an individual variable. You can also turn on grouping by grouping inside the table and the groups will automatically populate into the graph.
+## スムージング
 
-## Smoothing
+[スムージング係数](../../../../technical-faq/general.md#what-formula-do-you-use-for-your-smoothing-algorithm)を0から1の間で設定できます。0はスムージングなし、1は最大のスムージングを意味します。
 
-You can set the [smoothing coefficient](../../../../technical-faq/general.md#what-formula-do-you-use-for-your-smoothing-algorithm) to be between 0 and 1 where 0 is no smoothing and 1 is maximum smoothing.
+## 外れ値の無視
 
-## Ignore Outliers
+外れ値の無視をオンにすると、グラフはすべてのデータが表示されるように設定されたy軸の最小値と最大値を、データの5thと95thパーセンタイルに設定します。
+## 式
 
-Ignore outliers makes the graph set the yaxis min and max to the 5th and 95th percentile of the data instead of setting it to make all data visible.
+式を使用すると、1-精度のようなメトリックから導かれた値をプロットできます。現在、単一のメトリックをプロットしている場合にのみ機能します。+, -, *, /, % および ** によるべき乗の簡単な算術式が可能です。
 
-## Expression
+## プロットスタイル
 
-Expression lets you plot values derived from metrics like 1-accuracy. It currently only works if you are plotting a single metric. You can do simple arithmetic expressions, +, -, \*, / and % as well as \*\* for powers.
+折れ線グラフのスタイルを選択します。
 
-## Plot style
-
-Select a style for your line plot.
-
-**Line plot:**
+**折れ線グラフ:**
 
 ![](/images/app_ui/plot_style_line_plot.png)
 
-**Area plot:**
+**エリアプロット**
 
 ![](/images/app_ui/plot_style_area_plot.png)
 
-**Percentage area plot:**
+**パーセントエリアプロット**
 
 ![](/images/app_ui/plot_style_percentage_plot.png)

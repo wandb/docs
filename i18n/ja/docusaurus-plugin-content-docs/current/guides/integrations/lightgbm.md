@@ -1,33 +1,31 @@
 ---
-description: Track your trees with W&B.
-displayed_sidebar: ja
+description: W&Bで木をトラッキングしましょう。
 ---
 
 # LightGBM
 
-The `wandb` library includes a special callback for [LightGBM](https://lightgbm.readthedocs.io/en/latest/). It's also easy to use the generic logging features of Weights & Biases to track large experiments, like hyperparameter sweeps.
+`wandb`ライブラリには、[LightGBM](https://lightgbm.readthedocs.io/en/latest/)用の特別なコールバックが含まれています。また、Weights & Biasesの汎用的なログ機能を使って、ハイパーパラメータ探索のような大規模な実験を追跡することも簡単です。
 
 ```python
 from wandb.lightgbm import wandb_callback, log_summary
 import lightgbm as lgb
 
-# Log metrics to W&B
+# W&Bにメトリクスをログ
 gbm = lgb.train(..., callbacks=[wandb_callback()])
 
-# Log feature importance plot and upload model checkpoint to W&B 
+# W&Bに特徴量重要度図をログし、モデルのチェックポイントをアップロード
 log_summary(gbm, save_model_checkpoint=True)
 ```
 
 :::info
-Looking for working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms) or try out a [Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple\_LightGBM\_Integration.ipynb).
+実行可能なコード例をお探しですか？[GitHubの例のリポジトリ](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)を確認するか、[Colabノートブック](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple\_LightGBM\_Integration.ipynb)をお試しください。
 :::
 
-## Tuning your hyperparameters with Sweeps
+## スイープを使ってハイパーパラメータを調整
 
-Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps](../sweeps/), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
+モデルの最大性能を引き出すには、木の深さや学習率などのハイパーパラメータを調整する必要があります。Weights & Biasesには、[スイープ](../sweeps/)という、大規模なハイパーパラメータテスト実験の設定、オーケストレーション、分析が可能な強力なツールキットが含まれています。
 
 :::info
-To learn more about these tools and see an example of how to use Sweeps with XGBoost, check out [this interactive Colab notebook.](http://wandb.me/xgb-sweeps-colab)
+これらのツールの詳細や、XGBoostでスイープを使った例を見るには、[このインタラクティブなColabノートブック](http://wandb.me/xgb-sweeps-colab)をご覧ください。
 :::
-
-![tl;dr: trees outperform linear learners on this classification dataset.](/images/integrations/lightgbm_sweeps.png)
+![要約：この分類データセットでは、木構造が線形学習よりも優れた性能を発揮します。](/images/integrations/lightgbm_sweeps.png)

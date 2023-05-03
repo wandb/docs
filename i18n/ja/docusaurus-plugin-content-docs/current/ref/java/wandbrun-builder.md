@@ -1,42 +1,44 @@
 # WandbRun.Builder
 
-### Overview
+### 概要
 
-The Builder pattern allows us to write readable code to set up a WandbRun. The builder contains a few functions used to help initialize these values.
+Builderパターンを使用すると、WandbRunを設定するための読みやすいコードを書くことができます。ビルダーには、これらの値を初期化するために使用されるいくつかの関数が含まれています。
 
-* **builder.build()** — returns a WandbRun instance, representing a run
-* **builder.withName(String name)** — a display name for this run, which shows up in the UI and is editable, doesn't have to be unique
-* **builder.withConfig(JSONObject data)** — a Java JSON Object that contains any initial config values
-* **builder.withProject(String project)** — the name of the project to which this run will belong
-* **builder.withNotes(String notes)** — a description associated with the run
-* **builder.setTags(List String tags)** — an array of tags to be used with the run
-* **builder.setJobType(String type)** — the type of job you are logging, e.g. eval, worker, ps (default: training)
-* **builder.withGroup(String group)** — a string by which to group other runs; see [Grouping](../../guides/runs/grouping.md)
+* **builder.build()** — runを表すWandbRunインスタンスを返します
+* **builder.withName(String name)** — このrunの表示名で、UIに表示され編集可能で、一意である必要はありません
+* **builder.withConfig(JSONObject data)** — 初期設定値が含まれるJava JSONオブジェクト
+* **builder.withProject(String project)** — このrunが所属するプロジェクトの名前
+* **builder.withNotes(String notes)** — runに関連付けられた説明
+* **builder.setTags(List String tags)** — runで使用されるタグの配列
+* **builder.setJobType(String type)** — ログしているジョブのタイプ（例：eval、worker、ps（デフォルト：training））
+* **builder.withGroup(String group)** — 他のrunとグループ化するための文字列；[Grouping](../../guides/runs/grouping.md)を参照してください。
 
+これらの設定のほとんどは、[環境変数](../../guides/track/environment-variables.md)を介して制御することもできます。これは、クラスター上でジョブを実行している場合に便利です。
 
-Most of these settings can also be controlled via [Environment Variables](../../guides/track/environment-variables.md). This is often useful when you're running jobs on a cluster.
+### 例
 
-### Examples
-
-Initializing a default run
+デフォルトのrunを初期化する
 
 ```java
 WandbRun run = new WandbRun.Builder().build();
 ```
 
-Initializing a run with a config object and name
+configオブジェクトと名前を使ってrunを初期化する
 
 ```java
-// Create JSONObject config
+// JSONObject configを作成
 JSONObject config = new JSONOBject();
 config.add("property", true);
+以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
-// Use builder to customize run options
+// ビルダーを使用してrunのオプションをカスタマイズ
+
 WandbRun run = new WandbRun.Builder()
+
     .withConfig(config)
+
     .withName("A Java Run")
+
     .build();
+
 ```
-
-
-

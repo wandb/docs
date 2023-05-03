@@ -1,34 +1,30 @@
 ---
-description: Collaborate and share W&B Reports with peers, co-workers, and your team.
-displayed_sidebar: ja
+description: W&Bレポートを仲間、同僚、チームと共有してコラボレーション。
 ---
 
-# Collaborate on reports
+# レポートのコラボレーション
 
 <head>
-  <title>Collaborate and Share W&B Reports</title>
+  <title>W&Bレポートの共有とコラボレーション</title>
 </head>
 
-Once you have saved a report, you can select the **Share** button to collaborate. A draft copy of the report is created when you select the **Edit** button. Draft reports auto-save. Select **Save to report** to publish your changes to the shared report.
+レポートを保存したら、**共有**ボタンを選択してコラボレーションを開始できます。**編集**ボタンを選択するとレポートの下書きコピーが作成されます。下書きレポートは自動的に保存されます。共有レポートに変更を公開するには、**レポートに保存**を選択してください。
 
-A warning notification will appear if an edit conflict occurs. This can occur if you and another collaborator edit the same report at the same time. The warning notification will guide you to resolve potential edit conflicts.
+編集競合が発生した場合は、警告通知が表示されます。これは、同じレポートを同時に編集している他のコラボレータとの競合が発生した場合です。警告通知は、編集競合の解決方法をガイドしてくれます。
 
-![Report sharing modal for a report in a 'Public' project](@site/static/images/reports/share-report.gif)
+![パブリックプロジェクトのレポート共有モーダル](@site/static/images/reports/share-report.gif)
 
-### Comment on reports
+### レポートにコメントする
 
-Click the comment button on a panel in a report to add a comment directly to that panel.
+レポート内のパネルにコメントボタンをクリックして、そのパネルに直接コメントを追加します。
 
-![Adding a comment to a panel](/images/reports/demo_comment_on_panels_in_reports.gif)
+![パネルにコメントを追加する](/images/reports/demo_comment_on_panels_in_reports.gif)
 
+### 誰がレポートを編集および共有できるのか？
 
+個人のプライベートプロジェクト内で作成されたレポートは、そのユーザーにしか表示されません。ユーザーはプロジェクトをチームまたは公開に共有することができます。
 
-### Who can edit and share reports?
+チームプロジェクトでは、管理者やレポートを作成したメンバーが、他のチームメンバーの編集または閲覧アクセス権を切り替えることができます。チームメンバーはレポートを共有することができます。
 
-Reports that are created within an individual's private project is only visible to that user. The user can share their project to a team or to the public.
-
-On team projects, both the administrator, or member who created the report, can toggle permissions between edit or view access for other team members. Team members can share reports.
-
-To share a report, select the **Share** button on the upper right hand corner.  You can either provide an email account or copy the magic link. Users invited by email will need to log into Weights & Biases to view the report. Users who are given a magic link to not need to log into Weights & Biases to view the report.
-
-Shared reports are view-only.
+レポートを共有するには、右上隅の**共有**ボタンを選択します。メールアドレスを入力するか、マジックリンクをコピーします。メールで招待されたユーザーは、Weights & Biasesにログインしてレポートを閲覧する必要があります。マジックリンクを受け取ったユーザーは、Weights & Biasesにログインせずにレポートを閲覧できます。
+共有レポートは閲覧専用です。

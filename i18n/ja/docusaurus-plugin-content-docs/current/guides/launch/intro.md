@@ -1,57 +1,52 @@
 ---
 slug: /guides/launch
-description: Easily scale and manage ML jobs using W&B Launch.
-displayed_sidebar: ja
+description: W&B Launchを使用して、MLジョブを簡単にスケーリングおよび管理します。
 ---
-# Launch
+# ランチ
 
-
-W&B Launch introduces a connective layer between machine learning practitioners and the high-scale, specialized hardware that powers modern machine learning workflows. Easily scale training runs from your desktop to your GPUs, quickly spin up intensive model evaluation suites, and prepare models for production inference, all without the friction of complex infrastructure.
-
-
+W&B Launchは、機械学習開発者と現代の機械学習ワークフローを支える高スケールの特 specialized ハードウェアとの間に接続層を導入します。デスクトップからGPUへのトレーニングの実行を簡単にスケールアップし、モデル評価スイートを迅速にスピンアップし、複雑なインフラストラクチャーの摩擦なしでプロダクション推論の準備ができます。
 
 ![](/images/launch/ready_to_launch.png)
 
-## How it works
+## 仕組み
 
-Launch workflows are powered by three fundamental components: **jobs, queues, and agents**.
+Launchワークフローは、**ジョブ、キュー、エージェント**という3つの基本要素によって支えられています。
 
 ![](/images/launch/Launch_Diagram.png)
 
+* **ジョブ**は、MLワークフロー内のタスクを構成および実行するための設計図です。ジョブは、実際にはW&Bでrunをトラッキングすると自動的に作成される[アーティファクト](../../guides/artifacts/intro.md)です。各ジョブには、それが作成されるrunに関する文脈情報が含まれています。これには、ソースコード、エントリーポイント、ソフトウェアの依存関係、ハイパーパラメーター、データセットのバージョンなどがあります。
 
-* **Jobs** are blueprints for configuring and running the tasks in your ML workflow. A job is actually an [Artifact](../../guides/artifacts/intro.md) that is created automatically when you track a run with W&B. Each job contains contextual information about the run it is being created from, including the source code, entrypoint, software dependencies, hyperparameters, dataset version, etc.
+* **Launchキュー**は、ユーザーがジョブを特定の計算リソースに構成および送信できる先入れ先出し（FIFO）キューです。ローンチキュー内の各項目は、ジョブとそのジョブのパラメータ設定で構成されています。
 
-* **Launch queues** are first-in, first-out (FIFO) queues where users can configure and submit their jobs to a particular compute resource. Each item in a launch queue consists of a job and settings for the parameters of that job.
+* **Launchエージェント**は、ジョブを実行するために1つ以上のローンチキューでポーリングを行う長時間実行プロセスです。エージェントは、ジョブの元々の環境を再現するためにコンテナイメージを構築できるようになります。次に、エージェントは、構築したイメージ（または事前に作成されたイメージ）を取得し、このジョブが取得されたキューでターゲットとされるシステム上で実行できます。
 
-* **Launch agents** are long-running processes that poll on one or more launch queues for jobs to run. The agent is capable of building container images to replicate the original environment of the job. The agent can then take the image it has built (or a pre-made image) and execute it on the system targeted by the queue this job was taken from.
-
-## How to get started
-
-To enable W&B Launch:
-
-1. Navigate to https://wandb.ai/settings.
-2. Scroll down to the **Beta Features** section and enable **W&B Launch**.
-
-![](/images/launch/toggle_beta_flag.png)
+## はじめ方
 
 :::info
-Please ensure you are on SDK version 0.14.0 or higher by running ```
-wandb --version```.
+SDKバージョン0.14.0以上であることを確認してください。実行方法は、```
+wandb --version``` です。
+あなたがW&B Dedicated CloudまたはCustomer-Managed W&B展開を使用している場合、W&Bサーバーのバージョン0.30以上をご利用いただくようにしてください。
 
-If you're on W&B Dedicated Cloud or a Customer-Managed W&B deployment, please ensure you are on version 0.30 or higher of W&B Server.
-:::
+::::
 
-Depending on your use case, explore the following resources to get started with Weights & Biases Launch:
+ユースケースに応じて、以下のリソースを参照して、Weights & Biases Launchを開始してください。
 
-* If this is your first time using W&B Launch, we recommend you go through the [Getting started](./getting-started.md) guide.
-* Explore topics about W&B Launch in this Developer Guide, such as:
-    * [Create a job](../launch/create-job.md)
-    * [Add jobs to your queue](../launch/add-jobs-to-queue.md)
-    * [Launch jobs](../launch/launch-jobs.md)
-    * [Run an agent](../launch/agent.md)  
-* Discover the [`wandb launch`](../../ref/cli/wandb-launch.md) and [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) commands in the CLI Reference.
+* W&B Launchを初めて使用する場合は、[クイックスタート](./quickstart.md)ガイドを参照してください。
+
+* この開発者ガイドでW&B Launchに関する以下のトピックを探索してください。
+
+    * [ジョブを作成する](../launch/create-job.md)
+
+    * [キューを作成する](../launch/create-queue.md)
+
+    * [ジョブを実行する](../launch/launch-jobs.md)
+
+    * [エージェントを実行する](../launch/run-agent.md)
+
+* CLIリファレンスで[`wandb launch`](../../ref/cli/wandb-launch.md)コマンドと[`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md)コマンドを確認してください。
 
 :::info
-Talk to the W&B Sales Team to get W&B Launch set up for your business: [https://wandb.ai/site/pricing](https://wandb.ai/site/pricing).
+
+W&Bの営業チームに問い合わせて、あなたのビジネスにW&B Launchを設定してもらってください: [https://wandb.ai/site/pricing](https://wandb.ai/site/pricing)。
 
 :::

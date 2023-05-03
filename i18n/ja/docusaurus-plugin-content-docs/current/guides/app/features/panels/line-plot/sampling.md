@@ -1,14 +1,10 @@
----
-displayed_sidebar: ja
----
+# サンプリングとバケット分け
 
-# Sampling and Bucketing
+## サンプリング
 
-## Sampling
+パフォーマンス上の理由から、線プロットのメトリックで1500点以上を選択した場合、W&Bは1500点をランダムにサンプリングしたものを返します。各メトリックは別々にサンプリングされ、実際にメトリックがログに残されているステップのみが考慮されます。
 
-For performance reasons, when over 1500 points are chosen for a line plot metric, W&B returns 1500 randomly sampled points.  Each metric is sampled separately and only steps where the metric is actually logged are considered.
-
-If you want to look at all of the metrics logged for a run or implement your own sampling you can use the W&B Api.
+runごとにログされたすべてのメトリックを見たり、独自のサンプリングを実装したい場合は、W&B APIを使用できます。
 
 ```python
 run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
@@ -16,6 +12,6 @@ history = run.scan_history(keys=["Loss"])
 losses = [row["Loss"] for row in history]
 ```
 
-## Bucketing
+## バケット分け
 
-When grouping or using expressions with multiple runs with possibly not-aligned x axis values, bucketing is used to downsample the points.  The x-axis is divided into 200 evenly sized segments and then within each segments all points for a given metric are averaged. When grouping or using expressions to combine metrics, this average inside a segment is used as the value of the metric.
+複数のrunをグループ化したり、x軸の値が揃っていない可能性のある複数のrunで式を使用する場合、バケット分けが用いられてポイントをダウンサンプリングします。x軸は200の等間隔なセグメントに分けられ、各セグメント内で特定のメトリックのすべてのポイントが平均されます。グループ化や式を使用して複数のメトリックを組み合わせる場合、このセグメント内の平均がメトリックの値として使用されます。

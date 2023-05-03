@@ -1,12 +1,8 @@
 # Runs
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1550-L1661)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L1550-L1661)
-
-
-
-An iterable collection of runs associated with a project and optional filter.
+プロジェクトとオプションのフィルターに関連付けられた、runのイタラブルなコレクションです。
 
 ```python
 Runs(
@@ -20,14 +16,8 @@ Runs(
 )
 ```
 
+通常、`Api`.runs メソッドを間接的に使用しています。
 
-
-
-This is generally used indirectly via the `Api`.runs method.
-
-
-
-| Class Variables | |
+| クラス変数 | |
 | :--- | :--- |
 | `QUERY` | |
-

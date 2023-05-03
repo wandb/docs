@@ -1,16 +1,15 @@
 ---
-description: Visualize the gradients of your parameters
-displayed_sidebar: ja
+description: パラメータの勾配を可視化する
 ---
 
-# Gradient Panel
+# 勾配パネル
 
-![Logged gradients get rendered as histograms](/images/app_ui/gradient_panels.png)
+![ログされた勾配がヒストグラムとして表示されます](/images/app_ui/gradient_panels.png)
 
-The gradient panel shows the histograms of the gradients, per time step.
+勾配パネルは、各タイムステップごとの勾配のヒストグラムを表示します。
 
-Take the leftmost chart, `layer.10` weights. In the very first slice at Step 0, the grey shading indicates that the gradients for that layer had values between -40 and +40. The blue parts however indicate that most of those gradients were between -2 and +2 (roughly).
+例えば、一番左のチャート「layer.10の重み」では、ステップ0で最初のスライスを見ると、グレーの影では、その層の勾配が-40から+40の間の値を持っていたことを示しています。しかし、青い部分は、それらの勾配のほとんどが大体-2から+2の間だったことを示しています。
 
-So, the shading represents the count of gradients in that particular histogram bin, for that particular time step.
+つまり、その影は、その特定のタイムステップで、その特定のヒストグラムのビンにある勾配の数を表しています。
 
-Interpreting gradients can be tricky sometimes, but generally, these plots are useful to check that your gradients haven't exploded (big values on the y-axis) or collapsed (concentrated blue around 0 with little to no deviation).
+勾配の解釈は時々難しいことがありますが、一般的に、これらのプロットは、勾配が爆発していないか（y軸上の大きな値）や潰れていないか（0周辺に青が集中していて、ほとんどまたは全く偏差がない）をチェックするのに役立ちます。

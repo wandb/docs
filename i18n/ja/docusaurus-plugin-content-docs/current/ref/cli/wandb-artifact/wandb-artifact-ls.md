@@ -1,17 +1,16 @@
 # wandb artifact ls
 
-**Usage**
+**使い方**
 
-`wandb artifact ls [OPTIONS] PATH`
+`wandb artifact ls [オプション] パス`
 
-**Summary**
+**概要**
 
-List all artifacts in a wandb project
+wandbプロジェクト内のすべてのアーティファクトをリストする
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| -t, --type | The type of artifacts to list |
-| --help | Show this message and exit. |
-
+| -t, --type | リストするアーティファクトのタイプ |
+| --help | このメッセージを表示し、終了します。 |

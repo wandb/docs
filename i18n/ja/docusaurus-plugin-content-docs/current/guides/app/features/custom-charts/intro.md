@@ -1,51 +1,49 @@
 ---
 slug: /guides/app/features/custom-charts
-displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Custom Charts
+# カスタムチャート
 
-Use **Custom Charts** to create charts that aren't possible right now in the default UI. Log arbitrary tables of data and visualize them exactly how you want. Control details of fonts, colors, and tooltips with the power of [Vega](https://vega.github.io/vega/).
+**カスタムチャート**を使用して、現在のデフォルトのUIでは作成できないチャートを作成します。任意のデータ表をログし、正確にどのように表示したいかを制御できます。[Vega](https://vega.github.io/vega/)の力で、フォント、色、ツールチップの詳細を制御します。
 
-* **What's possible**: Read the[ launch announcement →](https://wandb.ai/wandb/posts/reports/Announcing-the-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
-* **Code**: Try a live example in a[ hosted notebook →](https://tiny.cc/custom-charts)
-* **Video**: Watch a quick [walkthrough video →](https://www.youtube.com/watch?v=3-N9OV6bkSM)
-* **Example**: Quick Keras and Sklearn [demo notebook →](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0\_5AoZdoSD?usp=sharing)
+* **可能なこと**：[ローンチアナウンス →](https://wandb.ai/wandb/posts/reports/Announcing-the-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)を読む
+* **コード**：[ホストされたノートブック →](https://tiny.cc/custom-charts)でライブ例を試す
+* **ビデオ**：クイックな[ウォークスルービデオ →](https://www.youtube.com/watch?v=3-N9OV6bkSM)を見る
+* **例**：Quick KerasとSklearnの[デモノートブック →](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
 
-![Supported charts from vega.github.io/vega](/images/app_ui/supported_charts.png)
+![vega.github.io/vegaからのサポートされるチャート](/images/app_ui/supported_charts.png)
 
-### How it works
+### 使い方
 
-1. **Log data**: From your script, log [config](../../../../guides/track/config.md) and summary data as you normally would when running with W&B. To visualize a list of multiple values logged at one specific time, use a custom`wandb.Table`
-2. **Customize the chart**: Pull in any of this logged data with a [GraphQL](https://graphql.org) query. Visualize the results of your query with [Vega](https://vega.github.io/vega/), a powerful visualization grammar.
-3. **Log the chart**: Call your own preset from your script with `wandb.plot_table()`.
+1. **データを記録**：スクリプトから、[config](../../../../guides/track/config.md)やサマリーデータなどをW&Bと一緒に実行するときと同様に記録します。特定の時間に記録された複数の値のリストを視覚化するには、カスタム `wandb.Table`を使用します。
+2. **チャートをカスタマイズ**：[GraphQL](https://graphql.org) クエリを使用して、この記録されたデータの任意の部分を取り込みます。クエリの結果を、強力な視覚化文法である[Vega](https://vega.github.io/vega/)を使って可視化します。
+3. **チャートを記録**： `wandb.plot_table()`を使って、スクリプトから自分のプリセットを呼び出します。
 
 ![](/images/app_ui/pr_roc.png)
 
-## Log charts from a script
+## スクリプトからチャートを記録する
 
-### Builtin presets
+### ビルトインプリセット
 
-These presets have builtin `wandb.plot` methods that make it fast to log charts directly from your script and see the exact visualizations you're looking for in the UI.
-
+これらのプリセットには、ビルトインの `wandb.plot` メソッドがあり、スクリプトから直接チャートを記録し、UIで探している正確な視覚化をすばやく表示できます。
 <Tabs
   defaultValue="line-plot"
   values={[
-    {label: 'Line plot', value: 'line-plot'},
-    {label: 'Scatter plot', value: 'scatter-plot'},
-    {label: 'Bar chart', value: 'bar-chart'},
-    {label: 'Histogram', value: 'histogram'},
-    {label: 'PR curve', value: 'pr-curve'},
-    {label: 'ROC curve', value: 'roc-curve'},
+    {label: '折れ線グラフ', value: 'line-plot'},
+    {label: '散布図', value: 'scatter-plot'},
+    {label: '棒グラフ', value: 'bar-chart'},
+    {label: 'ヒストグラム', value: 'histogram'},
+    {label: 'PR曲線', value: 'pr-curve'},
+    {label: 'ROC曲線', value: 'roc-curve'},
   ]}>
   <TabItem value="line-plot">
 
 `wandb.plot.line()`
 
-Log a custom line plot—a list of connected and ordered points (x,y) on arbitrary axes x and y.
+カスタム折れ線グラフをログに記録します。接続された順序付きの点（x、y）を任意の軸xとyにプロットします。
 
 ```python
 data = [[x, y] for (x, y) in zip(x_values, y_values)]
@@ -53,20 +51,19 @@ table = wandb.Table(data=data, columns = ["x", "y"])
 wandb.log({"my_custom_plot_id" : wandb.plot.line(table, "x", "y", title="Custom Y vs X Line Plot")})
 ```
 
-You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
+任意の2次元で曲線をログに記録することができます。2つの値のリストを互いにプロットする場合、リストの値の数が完全に一致している必要があります（つまり、各点はxとyを持っている必要があります）。
 
 ![](/images/app_ui/line_plot.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
+[アプリで見る →](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
 
-[Run the code →](https://tiny.cc/custom-charts)
-
-  </TabItem>
+[コードを実行する →](https://tiny.cc/custom-charts)
+</TabItem>
   <TabItem value="scatter-plot">
 
 `wandb.plot.scatter()`
 
-Log a custom scatter plot—a list of points (x, y) on a pair of arbitrary axes x and y.
+カスタム散布図を記録します。一連の任意の軸xおよびy上の点（x、y）のリストです。
 
 ```python
 data = [[x, y] for (x, y) in zip(class_x_prediction_scores, class_y_prediction_scores)]
@@ -74,41 +71,40 @@ table = wandb.Table(data=data, columns = ["class_x", "class_y"])
 wandb.log({"my_custom_id" : wandb.plot.scatter(table, "class_x", "class_y")})
 ```
 
-You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
+これを使用して、任意の2次元上の散布点を記録できます。2つの値のリストを互いにプロットする場合は、リスト内の値の数が正確に一致する必要があります（つまり、各点にはxとyが必要です）。
 
 ![](/images/app_ui/demo_scatter_plot.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
+[アプリで見る →](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[コードを実行 →](https://tiny.cc/custom-charts)
 
   </TabItem>
   <TabItem value="bar-chart">
 
 `wandb.plot.bar()`
 
-Log a custom bar chart—a list of labeled values as bars—natively in a few lines:
+カスタムバーチャートを記録します。いくつかの行でネイティブに表示される、ラベル付きの値のリストをバーとして表示します。
 
 ```python
 data = [[label, val] for (label, val) in zip(labels, values)]
 table = wandb.Table(data=data, columns = ["label", "value"])
 wandb.log({"my_bar_chart_id" : wandb.plot.bar(table, "label", "value", title="Custom Bar Chart")})
 ```
-
-You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
+これを使用して任意の棒グラフをログに記録できます。リスト内のラベルと値の数が正確に一致しなければならないことに注意してください（つまり、各データポイントには両方が必要です）。
 
 ![](@site/static/images/app_ui/line_plot_bar_chart.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
+[アプリで見る →](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[コードを実行する →](https://tiny.cc/custom-charts)
 
   </TabItem>
   <TabItem value="histogram">
 
 `wandb.plot.histogram()`
 
-Log a custom histogram—sort list of values into bins by count/frequency of occurrence—natively in a few lines. Let's say I have a list of prediction confidence scores (`scores`) and want to visualize their distribution:
+カスタムヒストグラムをログに記録し、リスト内の値をカウント/出現頻度でビンに分類して、わずかな行でネイティブに表示します。予測信頼スコア（`scores`）のリストがあり、その分布を視覚化したい場合を考えてみましょう。
 
 ```python
 data = [[s] for s in scores]
@@ -116,20 +112,19 @@ table = wandb.Table(data=data, columns=["scores"])
 wandb.log({'my_histogram': wandb.plot.histogram(table, "scores", title=None)})
 ```
 
-You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
+これを使用して任意のヒストグラムをログに記録できます。`data`はリストのリストであり、行と列の2D配列をサポートすることを目的としています。
 
 ![](/images/app_ui/demo_custom_chart_histogram.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
+[アプリで見る →](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[コードを実行する →](https://tiny.cc/custom-charts)
 
   </TabItem>
     <TabItem value="pr-curve">
-
 `wandb.plot.pr_curve()`
 
-Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision\_recall\_curve.html#sklearn.metrics.precision\_recall\_curve) in one line:
+1行で[Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision\_recall\_curve.html#sklearn.metrics.precision\_recall\_curve) を作成します:
 
 ```python
 plot = wandb.plot.pr_curve(
@@ -139,17 +134,16 @@ plot = wandb.plot.pr_curve(
 wandb.log({"pr":})
 ```
 
-You can log this whenever your code has access to:
+以下にアクセスがあるときにこれをログに記録することができます。
 
-* a model's predicted scores (`predictions`) on a set of examples
-* the corresponding ground truth labels (`ground_truth`) for those examples
-* (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
-* (optionally) a subset (still in list format) of the labels to visualize in the plot
+* 一連の例に対するモデルの予測スコア（`predictions`）
+* それらの例の対応する正解ラベル（`ground_truth`）
+* （オプション）ラベル/クラス名のリスト（ラベルインデックス0が猫、1=犬、2=鳥などの場合は、`labels=["cat", "dog", "bird"...]`）
+* （オプション）プロットで視覚化するラベルのサブセット（まだリスト形式）
 
 ![](/images/app_ui/demo_average_precision_lines.png)
 
-
-[See in the app →](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
+[アプリで見る →](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
 
 [Run the code →](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
 
@@ -157,8 +151,7 @@ You can log this whenever your code has access to:
   <TabItem value="roc-curve">
 
 `wandb.plot.roc_curve()`
-
-Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc\_curve.html#sklearn.metrics.roc\_curve) in one line:
+[ROCカーブ](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc\_curve.html#sklearn.metrics.roc\_curve)を1行で作成します。
 
 ```python
 plot = wandb.plot.roc_curve(
@@ -168,61 +161,59 @@ plot = wandb.plot.roc_curve(
 wandb.log({"roc": plot})
 ```
 
-You can log this whenever your code has access to:
+以下にアクセスできる場合、いつでもこれをロギングできます。
 
-* a model's predicted scores (`predictions`) on a set of examples
-* the corresponding ground truth labels (`ground_truth`) for those examples
-* (optionally) a list of the labels/ class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
-* (optionally) a subset (still in list format) of these labels to visualize on the plot
+* 一連の例のモデルの予測スコア（`predictions`）
+* それらの例の対応する正解ラベル（`ground_truth`）
+* （オプション）ラベル/クラス名のリスト（`labels=["cat", "dog", "bird"...]`）（ラベルインデックス0が猫で1=犬、2=鳥などの場合）
+* （オプション）プロットに表示するこれらのラベルのサブセット（リスト形式のまま）
 
 ![](/images/app_ui/demo_custom_chart_roc_curve.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
+[アプリで見る →](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
-[Run the code →](https://colab.research.google.com/drive/1\_RMppCqsA8XInV\_jhJz32NCZG6Z5t1RO?usp=sharing)
+[コードを実行する →](https://colab.research.google.com/drive/1\_RMppCqsA8XInV\_jhJz32NCZG6Z5t1RO?usp=sharing)
 
   </TabItem>
 </Tabs>
 
-### Custom presets
+### カスタムプリセット
 
-Tweak a builtin preset, or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script.
-
+ビルトインプリセットを調整するか、新しいプリセットを作成してから、チャートを保存します。チャートIDを使用して、スクリプトからデータをそのカスタムプリセットに直接ログすることができます。
 ```python
-# Create a table with the columns to plot
+# プロットするための列を持つテーブルを作成
 table = wandb.Table(data=data, columns=["step", "height"])
 
-# Map from the table's columns to the chart's fields
+# テーブルの列からチャートのフィールドにマップする
 fields = {"x": "step",
           "value": "height"}
 
-# Use the table to populate the new custom chart preset
-# To use your own saved chart preset, change the vega_spec_name
+# テーブルを使って新しいカスタムチャートプリセットにデータを入力
+# 自分で保存したチャートプリセットを使用するには、vega_spec_nameを変更
 my_custom_chart = wandb.plot_table(vega_spec_name="carey/new_chart",
               data_table=table,
               fields=fields,
               )
 ```
 
-[Run the code →](https://tiny.cc/custom-charts)
+[コードを実行 →](https://tiny.cc/custom-charts)
 
 ![](/images/app_ui/custom_presets.png)
 
-## Log data
+## データのログ取り
 
-Here are the data types you can log from your script and use in a custom chart:
+以下は、スクリプトからログを取得し、カスタムチャートで使用できるデータタイプです。
 
-* **Config**: Initial settings of your experiment (your independent variables). This includes any named fields you've logged as keys to `wandb.config` at the start of your training (e.g. `wandb.config.learning_rate = 0.0001)`
-* **Summary**: Single values logged during training (your results or dependent variables), e.g. `wandb.log({"val_acc" : 0.8})`. If you write to this key multiple times during training via `wandb.log()`, the summary is set to the final value of that key.
-* **History**: The full time series of the logged scalar is available to the query via the `history` field
-* **summaryTable**: If you need to log a list of multiple values, use a `wandb.Table()` to save that data, then query it in your custom panel.
-* **historyTable**: If you need to see the history data, then query `historyTable` in your custom chart panel. Each time you call `wandb.Table()` or log a custom chart, you're creating a new table in history for that step.
+* **Config**: 実験の初期設定（独立変数）。これには、トレーニングの開始時に`wandb.config`のキーとしてログに記録した名前付きフィールドが含まれます（例：`wandb.config.learning_rate = 0.0001)`）。
+* **Summary**: トレーニング中に記録された単一の値（結果や従属変数）。例：`wandb.log({"val_acc" : 0.8})`。トレーニング中に`wandb.log()`でこのキーに複数回書き込むと、サマリーはそのキーの最終値に設定されます。
+* **History**: ログされたスカラーの完全な時系列データは、`history`フィールド経由でクエリに利用可能です。
+* **summaryTable**: 複数の値のリストをログに記録する必要がある場合は、`wandb.Table()`を使ってデータを保存し、カスタムパネルでそのデータをクエリします。
+* **historyTable**: 履歴データを表示する必要がある場合は、カスタムチャートパネルで`historyTable`をクエリしてください。`wandb.Table()`を呼び出したり、カスタムチャートをログに記録するたびに、そのステップの履歴の新しいテーブルが作成されます。
+### カスタムテーブルの記録方法
 
-### How to log a custom table
+`wandb.Table()`を使用して、データを2次元配列としてログに記録します。通常、このテーブルの各行は1つのデータポイントを表し、各列はプロットするための各データポイントの関連フィールド/次元を示します。カスタムパネルを設定すると、`wandb.log()`に渡された名前付きキー(`"custom_data_table"`以下)でテーブル全体がアクセス可能になり、個々のフィールドが列名("x"、"y"、"z")でアクセス可能になります。実験の途中で複数のタイムステップでテーブルを記録できます。各テーブルの最大サイズは10,000行です。
 
-Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.log()`("custom\_data\_table" below), and the individual fields will be accessible via the column names ("x", "y", and "z"). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows.
-
-[Try it in a Google Colab →](https://tiny.cc/custom-charts)
+[Google Colabで試してみる →](https://tiny.cc/custom-charts)
 
 ```python
 # Logging a custom table of data
@@ -231,67 +222,80 @@ wandb.log({"custom_data_table": wandb.Table(data=my_custom_data,
                                 columns = ["x", "y", "z"])})
 ```
 
-## Customize the chart
+## チャートをカスタマイズする
 
-Add a new custom chart to get started, then edit the query to select data from your visible runs. The query uses [GraphQL](https://graphql.org) to fetch data from the config, summary, and history fields in your runs.
+新しいカスタムチャートを追加して始め、クエリを編集して可視化されたランからデータを選択します。クエリは[GraphQL](https://graphql.org)を使用して、実行中のconfig、summary、historyフィールドからデータを取得します。
 
-![Add a new custom chart, then edit the query](/images/app_ui/customize_chart.gif)
+![新しいカスタムチャートを追加し、クエリを編集する](/images/app_ui/customize_chart.gif)
 
-### Custom visualizations
+### カスタムビジュアライゼーション
 
-Select a **Chart** in the upper right corner to start with a default preset. Next, pick **Chart fields** to map the data you're pulling in from the query to the corresponding fields in your chart. Here's an example of selecting a metric to get from the query, then mapping that into the bar chart fields below.
+右上の**Chart**を選択してデフォルトのプリセットから始めます。次に、**Chart fields**を選択して、クエリから取得したデータをチャートの対応するフィールドにマッピングします。以下は、クエリから取得するメトリックを選択し、それを下のバーチャートフィールドにマッピングする例です。
 
-![Creating a custom bar chart showing accuracy across runs in a project](/images/app_ui/demo_make_a_custom_chart_bar_chart.gif)
+![プロジェクトの実行間での精度を示すカスタムバーチャートを作成する](/images/app_ui/demo_make_a_custom_chart_bar_chart.gif)
 
-### How to edit Vega
+### Vegaの編集方法
 
-Click **Edit** at the top of the panel to go into [Vega](https://vega.github.io/vega/) edit mode. Here you can define a [Vega specification](https://vega.github.io/vega/docs/specification/) that creates an interactive chart in the UI. You can change any aspect of the chart, from the visual style (e.g. change the title, pick a different color scheme, show curves as a series of points instead of as connected lines) to the data itself (use a Vega transform to bin an array of values into a histogram, etc.). The panel preview will update interactively, so you can see the effect of your changes as you edit the Vega spec or query. The [Vega documentation and tutorials ](https://vega.github.io/vega/)are an excellent source of inspiration.
+パネルの上部にある**Edit**をクリックして、[Vega](https://vega.github.io/vega/)編集モードに移ります。ここでは、UIでインタラクティブなチャートを作成する[Vega specification](https://vega.github.io/vega/docs/specification/)を定義できます。チャートの視覚スタイル（例えば、タイトルの変更、異なるカラースキームの選択、曲線を接続された線の代わりに一連の点として表示）からデータ自体（Vega変換を使用して、値の配列をヒストグラムにビン分けするなど）まで、チャートのあらゆる側面を変更できます。パネルプレビューはインタラクティブに更新されるため、Vega仕様やクエリを編集すると、変更の効果がわかりやすくなります。[Vegaのドキュメントとチュートリアル](https://vega.github.io/vega/)は、インスピレーションのすばらしいソースです。
 
-**Field references**
+**フィールド参照**
+W&Bからチャートにデータを取り込むには、Vega spec内の任意の場所に `"${field:<field-name>}"` という形式のテンプレート文字列を追加してください。これにより、右側の**Chart Fields**エリアにドロップダウンが作成され、ユーザーはそのドロップダウンを使用して、Vegaにマッピングするクエリ結果列を選択できます。
 
-To pull data into your chart from W&B, add template strings of the form `"${field:<field-name>}"` anywhere in your Vega spec. This will create a dropdown in the **Chart Fields** area on the right side, which users can use to select a query result column to map into Vega.
+フィールドのデフォルト値を設定するには、次の構文を使用してください：`"${field:<field-name>:<placeholder text>}"`
 
-To set a default value for a field, use this syntax: `"${field:<field-name>:<placeholder text>}"`
+### チャート設定の保存
 
-### Saving chart presets
+変更を特定のビジュアライゼーションパネルに適用するには、モーダルの下部にあるボタンを使用してください。あるいは、Vega specをプロジェクト内の他の箇所で使用するために保存することもできます。再利用可能なチャート定義を保存するには、Vegaエディタの上部にある**Save as**をクリックし、プリセットに名前を付けてください。
 
-Apply any changes to a specific visualization panel with the button at the bottom of the modal. Alternatively, you can save the Vega spec to use elsewhere in your project. To save the reusable chart definition, click **Save as** at the top of the Vega editor and give your preset a name.
+## 記事とガイド
 
-## Articles and guides
+1. [W&B機械学習ビジュアライゼーションIDE](https://wandb.ai/wandb/posts/reports/The-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
+2. [NLPアテンションベースモデルの可視化](https://wandb.ai/kylegoyette/gradientsandtranslation2/reports/Visualizing-NLP-Attention-Based-Models-Using-Custom-Charts--VmlldzoyNjg2MjM)
+3. [アテンション効果の勾配フローを可視化する方法](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
+4. [任意の曲線のログ記録](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
 
-1. [The W&B Machine Learning Visualization IDE](https://wandb.ai/wandb/posts/reports/The-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
-2. [Visualizing NLP Attention Based Models](https://wandb.ai/kylegoyette/gradientsandtranslation2/reports/Visualizing-NLP-Attention-Based-Models-Using-Custom-Charts--VmlldzoyNjg2MjM)
-3. [Visualizing The Effect of Attention on Gradient Flow](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
-4. [Logging arbitrary curves](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
+## よくある質問
 
-## Frequently asked questions
+### 近日中に追加予定
 
-### Coming soon
+* **ポーリング**：チャート内のデータの自動更新
+* **サンプリング**：パネルに読み込まれるポイントの総数を動的に調整して効率を向上させる
 
-* **Polling**: Auto-refresh of data in the chart
-* **Sampling**: Dynamically adjust the total number of points loaded into the panel for efficiency
+### ゴッチャ
 
-### Gotchas
+* チャートの編集中に、想定しているデータがクエリに表示されない理由は、選択しているrunに探している列が記録されていないためかもしれません。チャートを保存して、runテーブルに戻り、**eye**アイコンを使用して表示したいrunを選択してください。
 
-* Not seeing the data you're expecting in the query as you're editing your chart? It might be because the column you're looking for is not logged in the runs you have selected. Save your chart and go back out to the runs table, and select the runs you'd like to visualize with the **eye** icon.
+### カスタムチャートで「ステップスライダー」を表示するには？
 
-### How to show a "step slider" in a custom chart?
+これは、カスタムチャートエディタの「その他の設定」ページで有効にできます。クエリを`summaryTable`から`historyTable`に変更すると、カスタムチャートエディタで「ステップセレクタを表示」するオプションが得られます。これにより、ステップを選択できるスライダーが提供されます。
+<!-- ![カスタムチャートでステップスライダーを表示する](/images/app_ui/step_sllider_custon_charts.mov>) -->
 
-This can be enabled on the “Other settings” page of the custom chart editor. If you change your query to use a `historyTable` instead of the `summaryTable`, you'll get an option to “Show step selector” in the custom chart editor. This gives you a slider that lets you select the step.
 
-<!-- ![Show step slider in a custom chart](/images/app_ui/step_sllider_custon_charts.mov>) -->
 
-### How to delete a custom chart preset?
+### カスタムチャートプリセットを削除する方法は？
 
-You can do this by going into the custom chart editor. Then click on the currently selected chart type, this will open up a menu with all your presets. Hover the mouse on a preset you want to delete and then click on the Trash icon.
+
+
+これは、カスタムチャートエディタに行くことでできます。次に、現在選択されているチャートタイプをクリックし、プリセットがすべて表示されるメニューを開きます。削除したいプリセットの上にマウスを置き、ゴミ箱アイコンをクリックします。
+
+
 
 ![](/images/app_ui/delete_custome_chart_preset.gif)
 
 
-### Common use cases
 
-* Customize bar plots with error bars
-* Show model validation metrics which require custom x-y coordinates (like precision-recall curves)
-* Overlay data distributions from two different models/experiments as histograms
-* Show changes in a metric via snapshots at multiple points during training
-* Create a unique visualization not yet available in W&B (and hopefully share it with the world)
+
+
+### 一般的なユースケース
+
+
+
+* エラーバー付きの棒グラフをカスタマイズする
+
+* カスタムx-y座標が必要なモデル検証メトリクスを表示する（PR曲線のような）
+
+* 二つの異なるモデル/実験からのデータ分布をヒストグラムで重ねて表示する
+
+* トレーニング中に複数のポイントでのメトリックの変化をスナップショットで表示する
+
+* W&Bではまだ利用できない独自の可視化を作成し（そしてできれば世界と共有する）

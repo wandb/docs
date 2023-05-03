@@ -1,24 +1,17 @@
 # Keras
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/__init__.py)
 
+`wandb`と[`Keras`](https://keras.io/)を連携させるためのツール。
 
+Kerasは、[`TensorFlow`](https://www.tensorflow.org/)のディープラーニングAPIです。
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/integration/keras/__init__.py)
+## クラス
 
+[`class WandbCallback`](./wandbcallback.md): `WandbCallback`は、Kerasとwandbを自動的に連携させます。
 
+[`class WandbEvalCallback`](./wandbevalcallback.md): モデル予測の可視化のためのKerasコールバックを構築するための抽象基本クラス。
 
-Tools for integrating `wandb` with [`Keras`](https://keras.io/).
+[`class WandbMetricsLogger`](./wandbmetricslogger.md): システムメトリクスをW&Bに送信するロガー。
 
-
-Keras is a deep learning API for [`TensorFlow`](https://www.tensorflow.org/).
-
-## Classes
-
-[`class WandbCallback`](./wandbcallback.md): `WandbCallback` automatically integrates keras with wandb.
-
-[`class WandbEvalCallback`](./wandbevalcallback.md): Abstract base class to build Keras callbacks for model prediction visualization.
-
-[`class WandbMetricsLogger`](./wandbmetricslogger.md): Logger that sends system metrics to W&B.
-
-[`class WandbModelCheckpoint`](./wandbmodelcheckpoint.md): A checkpoint that periodically saves a Keras model or model weights.
-
+[`class WandbModelCheckpoint`](./wandbmodelcheckpoint.md): 定期的にKerasモデルやモデルの重みを保存するチェックポイント。

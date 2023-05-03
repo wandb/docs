@@ -1,21 +1,20 @@
 ---
 slug: /guides/integrations/w-and-b-for-julia
-description: How to integrate W&B with Julia.
-displayed_sidebar: ja
+description: W&BをJuliaと統合する方法
 ---
 
 # W&B for Julia
 
-For those running machine learning experiments in the Julia programming language, a community contributor has created an unofficial set of Julia bindings called [wandb.jl](https://github.com/avik-pal/Wandb.jl) that you can use.
+Juliaプログラミング言語で機械学習の実験を行っている方向けに、コミュニティの貢献者が非公式のJuliaバインディングセットである[wandb.jl](https://github.com/avik-pal/Wandb.jl)を作成しました。
 
-## Example
+## 例
 
-You can find examples [in the documentation](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples) on the wandb.jl repository. Their "Getting Started" example is here:
+wandb.jlリポジトリの[ドキュメント](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples)で例を見つけることができます。彼らの"Getting Started"例はこちらです:
 
 ```julia
 using Wandb, Dates, Logging
 
-# Start a new run, tracking hyperparameters in config
+# 新しいrunを開始し、configでハイパーパラメータをトラッキング
 lg = WandbLogger(project = "Wandb.jl",
                  name = "wandbjl-demo-$(now())",
                  config = Dict("learning_rate" => 0.01,
@@ -23,17 +22,19 @@ lg = WandbLogger(project = "Wandb.jl",
                                "architecture" => "CNN",
                                "dataset" => "CIFAR-100"))
 
-# Use LoggingExtras.jl to log to multiple loggers together
+# LoggingExtras.jlを使って複数のロガーを一緒にログする
 global_logger(lg)
 
-# Simulating the training or evaluation loop
+# トレーニングや評価ループのシミュレーション
 for x ∈ 1:50
     acc = log(1 + x + rand() * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
     loss = 10 - log(1 + x + rand() + x * get_config(lg, "learning_rate") + rand() + get_config(lg, "dropout"))
-    # Log metrics from your script to W&B
+    # スクリプトからW&Bにメトリクスをログする
     @info "metrics" accuracy=acc loss=loss
 end
+```
+# Runを終了する
 
-# Finish the run
-close(lg)
+lgを閉じる
+
 ```

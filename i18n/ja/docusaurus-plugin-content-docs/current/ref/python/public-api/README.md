@@ -1,42 +1,21 @@
-# Import & Export API
+# インポート & エクスポート API
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/__init__.py)
+Public APIを使って、W&Bに保存したデータをエクスポートしたり更新したりします。
+このAPIを使う前に、スクリプトからデータをログに記録しておく必要があります。詳細は[クイックスタート](https://docs.wandb.ai/quickstart)を参照してください。
+Public APIを使って、
+ - Jupyterノートブックで事後分析を行うために、結果をデータフレームとしてダウンロードする
+などができます。
+Public APIの使用方法については、[ガイド](https://docs.wandb.com/guides/track/public-api-guide)をチェックしてください。
+## クラス
+[`class Api`](./api.md): wandbサーバーへの問い合わせに使用されます。
+[`class Artifact`](./artifact.md): wandbのアーティファクト。
+[`class File`](./file.md): wandbによって保存されたファイルに関連するクラス。
+[`class Files`](./files.md): `File`オブジェクトの反復可能なコレクション。
 
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/__init__.py)
 
 
 
-Use the Public API to export or update data that you have saved to W&B.
-
-
-Before using this API, you'll want to log data from your script — check the
-[Quickstart](https://docs.wandb.ai/quickstart) for more details.
-
-You might use the Public API to
- - update metadata or metrics for an experiment after it has been completed,
- - pull down your results as a dataframe for post-hoc analysis in a Jupyter notebook, or
- - check your saved model artifacts for those tagged as `ready-to-deploy`.
-
-For more on using the Public API, check out [our guide](https://docs.wandb.com/guides/track/public-api-guide).
-
-## Classes
-
-[`class Api`](./api.md): Used for querying the wandb server.
-
-[`class Artifact`](./artifact.md): A wandb Artifact.
-
-[`class File`](./file.md): File is a class associated with a file saved by wandb.
-
-[`class Files`](./files.md): An iterable collection of `File` objects.
-
-[`class Project`](./project.md): A project is a namespace for runs.
-
-[`class Projects`](./projects.md): An iterable collection of `Project` objects.
-
-[`class Run`](./run.md): A single run associated with an entity and project.
-
-[`class Runs`](./runs.md): An iterable collection of runs associated with a project and optional filter.
-
-[`class Sweep`](./sweep.md): A set of runs associated with a sweep.
 

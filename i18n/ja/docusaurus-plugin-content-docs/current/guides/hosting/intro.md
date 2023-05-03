@@ -1,33 +1,36 @@
 ---
-slug: /guides/hosting
-displayed_sidebar: ja
+description: W&Bをプロダクション環境にデプロイする
 ---
 
-# プライベートホスティング
 
-## W&Bホスティングオプション​
+W&Bサーバーのプロダクション向け機能は、エンタープライズ層でのみ利用可能です。
+[基本セットアップガイド](/guides/hosting/how-to-guides/basic-setup)を参照して、開発者用または試用環境を設定してください。
 
-:::info
-W&Bサーバーを貴社のインフラストラクチャでプライベートホスティングする前に、wandb.aiクラウドを使用することをお勧めします。クラウドはシンプルかつ安全で、設定は必要ありません。詳細については[こちら](https://docs.wandb.ai/quickstart) をクリックしてください。
+
+- [シングルサインオン](/guides/hosting/sso)
+- [監査ログ](/guides/hosting/audit-logging)
+- [Prometheusモニタリング](/guides/hosting/prometheus-logging)
+
+
+
+1. W&BサーバーDockerコンテナを、外部ストレージと外部MySQLデータベースとともに実行して、コンテナの外部に状態を保存します。これにより、コンテナが停止したりクラッシュしたりした場合に、データが誤って削除されるのを防ぎます。
+2. Kubernetesを利用して、W&BサーバーDockerイメージを実行し、`wandb`サービスを公開します。
+3. W&Bサーバーをプロダクション関連の作業に使用する予定の場合は、スケーラブルなファイルシステムを設定および管理します。
+
+## システム要件
+
+W&Bサーバーには、最低以下の条件が必要です。
+
+- 4コアのCPUと
+- 8GBのメモリ（RAM）
+
+W&Bのデータは、永続ボリュームまたは外部データベースに保存されるため、コンテナの異なるバージョン間でデータが保持されます。
+
+:::tip
+エンタープライズのお客様には、W&Bがプライベートホストのインスタンスに対して幅広い技術サポートと頻繁なインストール更新を提供します。
 :::
 
-W&Bサーバーをプロダクション環境でセットアップする方法は、主として3種類あります：
+## リリース
+[W&B Server GitHubリポジトリ](https://github.com/wandb/server/releases)から新しいW&Bサーバーリリースが出たときに通知を受け取るように登録します。
 
-1. [プロダクションクラウド](setup/private-cloud.md): プライベートクラウドで、W&Bが提供するterraformスクリプトを使って、わずか数ステップでプロダクション展開をセットアップできます。
-2. [専用クラウド](setup/dedicated-cloud.md): お好きなクラウドリージョンで、W&Bのシングルテナントインフラストラクチャーでの専用のマネージド展開。
-3. [オンプレミス / ベアメタル](setup/on-premise-baremetal.md): W&Bは、企業オンプレミスデータセンター内の多くのベアメタルサーバー上でのプロダクションサーバーのセットアップをサポートしています。wandbサーバーを実行して、ローカルインフラストラクチャーでW&Bのホスティングを簡単に開始することで、迅速に作業を開始できます。
-
-## W&Bサーバークイックスタート​
-
-1.  [Docker](https://www.docker.com)と[Python](https://www.python.org) がインストールされたマシン上で以下を実行します：
-
-    ```
-    pip install wandb
-    wandb server start
-    ```
-2. [Deployer](https://deploy.wandb.ai/)から無料ライセンスを生成します。
-3. これをローカル設定に追加します。
-
-localhostの` /system-admin`ページでライセンスを貼り付けます
-
-![Copy your license from Deployer and paste it into your Local settings](@site/static/images/hosting/License.gif)
+登録するには、GitHubページの上部にある**Watch**ボタンを選択し、**All Activity**を選択します。

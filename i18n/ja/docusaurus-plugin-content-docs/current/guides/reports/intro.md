@@ -1,65 +1,67 @@
 ---
 slug: /guides/reports
-description: Project management and collaboration tools for machine learning projects
-displayed_sidebar: ja
+description: 機械学習プロジェクトのプロジェクト管理とコラボレーションツール
 ---
 
-# レポートを使用した共同作業
+# コラボレーティブレポート
 
-W&Bレポートを使ってRunを体系化し、可視化の埋め込みと自動化を行い、発見事項を説明し、最新情報を共同作業者と共有します。
+W&Bレポートを使用して、Runsを整理し、可視化を埋め込み・自動化し、結果を説明し、共同作業者との最新情報を共有します。
 
 
 :::info
-レポートの[デモ動画](https://www.youtube.com/watch?v=2xeJIv\_K\_eI)を鑑賞し、[W&B Fully Connected](http://wandb.me/fc)のキュレートされたレポートをお読みください。
+レポートの[ビデオデモ](https://www.youtube.com/watch?v=2xeJIv\_K\_eI)をチェックするか、[W&B Fully Connected](http://wandb.me/fc)でキュレーションされたレポートを読んでください。
 :::
 
 <!-- {% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %} -->
 
-## レポートの一般的なユースケース​
+## レポートの典型的なユースケース
 
-1. **コラボレーション**: 発見事項を同僚と共有しましょう。
-2. **作業ログ**: 試したことを追跡し、次のステップを計画します。
-3. **自動化された可視化**: レポートAPIを使って、モデル分析をモデルCI/CD開発フローに統合します。
+1. **コラボレーション**: 同僚と結果を共有します。
+2. **ワークログ**: 試したことをトラッキングし、次のステップを計画します。
+3. **自動化された可視化**: Report APIを使用して、モデル分析をモデルのCI/CDパイプラインに統合します。
 
-### 注：簡単な要約と共に可視化を追加
+### ノート: クイックサマリーを含む可視化を追加
 
-重要な発見事項、将来の作業用のアイデア、またはプロジェクトの開発中に到達したマイルストーンをキャプチャします。レポート内の実験runはすべて、パラメーター、メトリクス、ログ、およびコードにリンクされるため、作業の完全なコンテキストを保存できます。
+プロジェクトの開発において重要な観察、将来の作業のアイデア、または達成されたマイルストーンを記録します。レポート内のすべての実験のRunは、パラメータ、メトリクス、ログ、コードへのリンクが含まれるため、作業の全コンテキストを保存できます。
 
+テキストを書き留め、関連するチャートを引き込んで、洞察を示します。
+
+[Inception-ResNet-V2が遅すぎる場合の対処法](https://wandb.ai/stacey/estuary/reports/When-Inception-ResNet-V2-is-too-slow--Vmlldzo3MDcxMA)のW&Bレポートを参考に、トレーニング時間の比較をどのように共有できるかを確認してください。
 
 ![](/images/reports/notes_add_quick_summary.png)
-
-複雑なコードベースから最善の例を保存し、その後の作業時に簡単に参照できます（例: [LIDAR point clouds](https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg))
+複雑なコードベースから最高の例を保存し、簡単に参照して将来の対話ができるようにします。[LIDARポイントクラウド](https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg)のW&Bレポートでは、LyftデータセットからLIDARポイントクラウドを可視化し、3Dバウンディングボックスで注釈を付ける方法を示しています。
 
 ![](/images/reports/notes_add_quick_summary_save_best_examples.png)
 
-### コラボレーション：発見事項を同僚と共有​
+### コラボレーション：同僚と調査結果を共有する
 
-プロジェクトに取りかかり、これまでの観察内容を共有し、最新の発見事項を合成する方法を説明します。同僚は提案をしたり、パネル上やレポートの最後の部分でコメントを使って詳細について話し合ったりすることができます。
+プロジェクトの開始方法、これまでの観察結果、最新の調査結果を説明します。同僚は、パネルのコメントやレポートの最後にコメントを使用して、提案や詳細を議論できます。
 
-動的な設定を含めることで、同僚は自分で探索したり、追加のインサイトを入手したり、次のステップを適切に計画したりすることができます。この例では、3種類の実験を個別に可視化、比較し、平均することができます。
+同僚が自分で調査したり、追加の洞察を得たり、次のステップをよりよく計画できるように、動的な設定を含めます。この例では、3つのタイプの実験を独立して可視化し、比較または平均化できます。
+
+[SafeLifeベンチマーク実験](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM)のW&Bレポートでは、ベンチマークの最初のランと観察結果を共有する方法を示しています。
 
 ![](/images/reports/intro_collaborate1.png)
 
 ![](/images/reports/intro_collaborate2.png)
 
-スライダーと設定可能なメディアパネルを使って、モデルの結果やトレーニングの進捗状況を示します（例: [Cute Animals and Post-Modern Style Transfer: StarGAN v2 for Multi-Domain Image Synthesis](https://wandb.ai/stacey/stargan/reports/Cute-Animals-and-Post-Modern-Style-Transfer-StarGAN-v2-for-Multi-Domain-Image-Synthesis---VmlldzoxNzcwODQ))。
+スライダーや設定可能なメディアパネルを使用して、モデルの結果やトレーニングの進捗状況を紹介します。[かわいい動物とポストモダンスタイル変換：マルチドメイン画像合成のためのStarGAN v2](https://wandb.ai/stacey/stargan/reports/Cute-Animals-and-Post-Modern-Style-Transfer-StarGAN-v2-for-Multi-Domain-Image-Synthesis---VmlldzoxNzcwODQ)レポートでは、スライダーを使用したW&Bレポートの例を示しています。
 
 ![](/images/reports/intro_collaborate3.png)
 
 ![](/images/reports/intro_collaborate4.png)
 
-### 作業ログ：試したことを追跡し、次のステップを計画
+### ワークログ：試したことや次のステップを追跡する
 
-プロジェクトに取り組みながら、実験に関する考察、発見事項、理解した内容および次のステップを書き留め、すべての内容を1か所で整理します。これによって、スクリプトの外で、重要事項をすべて`文書化`することができます（例: [Who Is Them? Text Disambiguation With Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc))。
+プロジェクトを進めながら、実験や調査結果、注意点や次のステップに関する考えを記録し、すべてを一か所に整理しておきます。これにより、スクリプト以外の重要な要素をすべて「文書化」できます。 [Who Is Them? Text Disambiguation With Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc) のW&Bレポートでは、調査結果を報告する方法を示しています。
 
 ![](/images/reports/intro_work_log_1.png)
 
-あなたと他の人が後で参照してモデルの開発方法と開発理由を理解できるように、プロジェクトのストーリーを伝えましょう （例: [The View from the Driver's Seat](https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ))。
-
+プロジェクトのストーリーを語り、後で自分や他の人がモデルがどのように、なぜ開発されたかを理解するための参照資料として利用できます。[The View from the Driver's Seat](https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ) のW&Bレポートでは、調査結果を報告する方法を示しています。
 ![](/images/reports/intro_work_log_2.png)
 
-See the [Learning Dexterity End-to-End Using Weights & Biases Reports](https://bit.ly/wandb-learning-dexterity) for an example of how W&B Reports were used to explore how the OpenAI Robotics team used Weights & Biases Reports to run massive machine learning projects.
+OpenAIロボティクスチームがどのようにしてWeights & Biases Reportsを使って大規模な機械学習プロジェクトを実行しているかを探るために、W&B Reportsがどのように使用されているのかを示す例として[Learning Dexterity End-to-End Using Weights & Biases Reports](https://bit.ly/wandb-learning-dexterity)をご覧ください。
 
-<!-- Once you have [experiments in W&B](../../quickstart.md), easily visualize results in reports. Here's a quick overview video. -->
+<!-- W&Bで[実験](../../quickstart.md)を行ったら、レポートで簡単に結果を可視化できます。以下にクイックオーバービデオをご紹介します。 -->
 
 <!-- {% embed url="https://www.youtube.com/watch?v=o2dOSIDDr1w" %} -->

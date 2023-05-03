@@ -1,12 +1,8 @@
-# Video
+# ビデオ
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/video.py#L49-L238)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/video.py#L49-L238)
-
-
-
-Format a video for logging to W&B.
+W&Bにログインするためのビデオをフォーマットします。
 
 ```python
 Video(
@@ -17,54 +13,37 @@ Video(
 )
 ```
 
-
-
-
-
-| Arguments | |
+| 引数 | 説明 |
 | :--- | :--- |
-| `data_or_path` | (numpy array, string, io) Video can be initialized with a path to a file or an io object. The format must be "gif", "mp4", "webm" or "ogg". The format must be specified with the format argument. Video can be initialized with a numpy tensor. The numpy tensor must be either 4 dimensional or 5 dimensional. Channels should be (time, channel, height, width) or (batch, time, channel, height width) |
-| `caption` | (string) caption associated with the video for display |
-| `fps` | (int) frames per second for video. Default is 4. |
-| `format` | (string) format of video, necessary if initializing with path or io object. |
+| `data_or_path` | (numpy配列, 文字列, io) ビデオは、ファイルへのパスまたはioオブジェクトで初期化できます。フォーマットは "gif"、"mp4"、"webm"、または "ogg" である必要があります。フォーマットは、format引数で指定する必要があります。ビデオはnumpyテンソルで初期化することもできます。numpyテンソルは、4次元または5次元である必要があります。チャンネルは（時間, チャンネル, 高さ, 幅）または（バッチ, 時間, チャンネル, 高さ, 幅）である必要があります。|
+| `caption` | (文字列) ビデオに関連するキャプション表示 |
+| `fps` | (int) ビデオのフレームレート。デフォルトは4です。 |
+| `format` | (文字列) ビデオのフォーマットで、パスまたはioオブジェクトで初期化する場合に必要です。 |
+#### 例:
 
-
-
-#### Examples:
-
-### Log a numpy array as a video
+### numpy配列をビデオとしてログする
 
 ```python
 import numpy as np
 import wandb
 
 wandb.init()
-# axes are (time, channel, height, width)
+# 軸は (時間, チャンネル, 高さ, 幅)
 frames = np.random.randint(low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8)
 wandb.log({"video": wandb.Video(frames, fps=4)})
 ```
 
-
-## Methods
+## メソッド
 
 ### `encode`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/video.py#L129-L166)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/video.py#L129-L166)
 
 ```python
 encode() -> None
 ```
+| クラス変数 | |
 
-
-
-
-
-
-
-
-| Class Variables | |
 | :--- | :--- |
-| `EXTS` | |
 
+| `EXTS` | |

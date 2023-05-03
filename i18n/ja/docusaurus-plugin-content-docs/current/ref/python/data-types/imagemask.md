@@ -1,12 +1,8 @@
 # ImageMask
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/image_mask.py#L19-L234)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/helper_types/image_mask.py#L19-L234)
-
-
-
-Format image masks or overlays for logging to W&B.
+W&Bにログを記録するための画像マスクやオーバーレイのフォーマット。
 
 ```python
 ImageMask(
@@ -15,20 +11,13 @@ ImageMask(
 ) -> None
 ```
 
-
-
-
-
-| Arguments | |
+| 引数 |  |
 | :--- | :--- |
-| `val` | (dictionary) One of these two keys to represent the image: mask_data : (2D numpy array) The mask containing an integer class label for each pixel in the image path : (string) The path to a saved image file of the mask class_labels : (dictionary of integers to strings, optional) A mapping of the integer class labels in the mask to readable class names. These will default to class_0, class_1, class_2, etc. |
-| `key` | (string) The readable name or id for this mask type (e.g. predictions, ground_truth) |
+| `val` | (辞書) 画像を表す以下の2つのキーのいずれか: mask_data : (2D numpy配列) 画像の各ピクセルに対する整数クラスラベルが含まれるマスク path : (文字列) マスクの保存された画像ファイルへのパス class_labels : (整数から文字列への辞書, オプション) マスク内の整数クラスラベルを読みやすいクラス名にマッピング。デフォルトではclass_0, class_1, class_2などになります。 |
+| `key` | (文字列) このマスクタイプの読みやすい名前またはID（例：predictions、ground_truth） |
 
-
-
-#### Examples:
-
-### Logging a single masked image
+#### 例:
+### マスク付きの単一画像のログ
 
 ```python
 import numpy as np
@@ -49,7 +38,7 @@ ground_truth_mask[25:, :25] = 1
 ground_truth_mask[:25, 25:] = 2
 ground_truth_mask[25:, 25:] = 3
 
-class_labels = {0: "person", 1: "tree", 2: "car", 3: "road"}
+class_labels = {0: "人", 1: "木", 2: "車", 3: "道路"}
 
 masked_image = wandb.Image(
  image,
@@ -60,8 +49,7 @@ masked_image = wandb.Image(
 )
 wandb.log({"img_with_masks": masked_image})
 ```
-
-### Log a masked image inside a Table
+### テーブル内のマスクされた画像をログに記録する
 
 ```python
 import numpy as np
@@ -82,16 +70,17 @@ ground_truth_mask[25:, :25] = 1
 ground_truth_mask[:25, 25:] = 2
 ground_truth_mask[25:, 25:] = 3
 
-class_labels = {0: "person", 1: "tree", 2: "car", 3: "road"}
+class_labels = {0: "人", 1: "木", 2: "車", 3: "道"}
 
 class_set = wandb.Classes(
  [
- {"name": "person", "id": 0},
- {"name": "tree", "id": 1},
- {"name": "car", "id": 2},
- {"name": "road", "id": 3},
+ {"name": "人", "id": 0},
+ {"name": "木", "id": 1},
+ {"name": "車", "id": 2},
+ {"name": "道", "id": 3},
  ]
-)
+)```
+以下は、日本語に翻訳するMarkdownテキストのチャンクです。それを日本語に翻訳してください。他に何も言わずに、翻訳されたテキストだけを返してください。テキスト:
 
 masked_image = wandb.Image(
  image,
@@ -107,37 +96,24 @@ table.add_data(masked_image)
 wandb.log({"random_field": table})
 ```
 
-
-## Methods
+## メソッド
 
 ### `type_name`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/helper_types/image_mask.py#L206-L208)
+[ソースを表示する](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/image_mask.py#L206-L208)
 
 ```python
 @classmethod
 type_name() -> str
 ```
-
-
-
+こちらのMarkdownテキストを日本語に翻訳してください。それ以外のことは何も言わず、翻訳したテキストだけを返してください。テキスト：
 
 ### `validate`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/helper_types/image_mask.py#L210-L234)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/image_mask.py#L210-L234)
 
 ```python
 validate(
  val: dict
 ) -> bool
 ```
-
-
-
-
-
-

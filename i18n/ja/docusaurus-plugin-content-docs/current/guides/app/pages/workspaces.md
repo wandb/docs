@@ -1,18 +1,17 @@
 ---
-description: A playground for exploring run data with interactive visualizations
-displayed_sidebar: ja
+description: インタラクティブな可視化を使ってrunデータを探索する場
 ---
 
-# Workspaces
+# ワークスペース
 
-Your workspace is your personal sandbox to customize charts and explore model results.
+ワークスペースは、チャートをカスタマイズし、モデルの結果を探究するための個人用の砂場です。
 
-1. **Table**: All the runs in your project are listed in the table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
-2. **Panels**: Panels are organized into sections. Create new panels, organize them, and export to reports to save snapshots of your workspace.
+1. **テーブル**: プロジェクト内のすべてのrunsがテーブルにリストされています。runsのオン・オフを切り替え、色を変えることができます。また、テーブルを展開して、それぞれのrunのメモ、config、サマリー・メトリクスを確認することができます。
+2. **パネル**: パネルはセクションに分かれています。新しいパネルを作成し、整理し、レポートにエクスポートして、ワークスペースのスナップショットを保存します。
 
 ![](/images/app_ui/workspace_table_and_panels.png)
 
-Want to organize charts by default? Add a prefix to metric names to sort charts into sections in the UI. You can also drag and drop charts into sections to reorganize them after logging. For example, this code block will produce the chart sections below:
+チャートをデフォルトで整理したいですか？メトリクス名にプレフィックスを追加して、UI内でチャートをセクションに分けます。また、ログイン後にセクションにチャートをドラッグ＆ドロップして、再編成することもできます。たとえば、次のコードブロックは以下のチャートセクションを生成します。
 
 ```python
 run = wandb.init()
@@ -24,25 +23,24 @@ with run:
 
 ![](/images/app_ui/workspaces_bar1.png)
 
-At the bottom of the page is a workspace control bar:
+ページの下部には、ワークスペース・コントロール・バーがあります。
 
-* **Workspace**: Each user has one workspace. Only you can edit your own workspace.
-* **Undo/redo**: Quickly undo changes you made to your workspace.
-* **Sharing**: Create a report to share results with colleagues. Click **Create report** in the upper right and select what charts you'd like to save a snapshot of.
-  * Reports can be **static snapshots** or **dynamic dashboards** of your project progress.
-  * You can create multiple different saved views of your project with reports.
-  * Reports let you add text annotations, create multiple different panel sections with different visible runs in each, and even share view-only links from inside private projects.
-  * If you do end up sharing a link to your workspace with a collaborator, they can't overwrite your original layout but they can play with the charts in a temporary view, explore the results, and save over their own workspace if they prefer your layout.
-* **Default workspace**: This is the default layout for any newcomers who land on this project for the first time. This lets you set up a nice landing page for your public project, or help your team members get started.
-
+* **ワークスペース**: 各ユーザーは1つのワークスペースを持っています。自分のワークスペースは自分だけが編集できます。
+* **元に戻す/やり直す**: ワークスペースで行った変更をすばやく取り消すことができます。
+* **共有**: レポートを作成して、同僚と結果を共有します。右上の**レポートを作成**をクリックし、スナップショットを保存したいチャートを選択します。
+  * レポートは、**静的なスナップショット**または**動的なダッシュボード**として作成できます。
+  * レポートを使って、プロジェクトのさまざまな保存されたビューを作成できます。
+  * レポートを使ってテキスト注釈を追加し、それぞれに異なる実行が表示される複数のパネルセクションを作成したり、プライベートプロジェクト内から閲覧専用のリンクを共有したりできます。
+  * ワークスペースへのリンクを共同作業者と共有することになった場合、元のレイアウトを上書きすることはできませんが、一時的なビューでチャートを操作したり、結果を調べたり、レイアウトが気に入ったら自分のワークスペースを上書き保存したりすることができます。
+* **デフォルトワークスペース**: これは、初めてこのプロジェクトにアクセスする新規ユーザーに対するデフォルトのレイアウトです。これにより、公開プロジェクトのランディングページを設定したり、チームメンバーが始められるようにサポートしたりできます。
 ![](/images/app_ui/workspaces_bar2.png)
 
-### Team Projects
+### チームプロジェクト
 
-Every user of a team will get one workspace that is unique to them and can be customized to their liking. However, users between teams can switch workspaces to other users of the team. Workspaces can differ between users for a variety of reasons like having different custom charts, different filters/groupings or section orders.
+チームの全てのユーザーは、自分だけのユニークなワークスペースを1つ持っており、好みに合わせてカスタマイズできます。しかし、チーム間のユーザーは他のチームのユーザーのワークスペースに切り替えることができます。ユーザーごとにワークスペースが異なる理由は、カスタムチャートの違いや、フィルター/グルーピングの違い、セクションの順序の違いなどがあります。
 
 ![](/images/app_ui/team_project_1.png)
 
-As such when viewing another team member's workspace, you can fork the workspace and then save it to your own by clicking on the Copy to My Workspace button.
+そのため、他のチームメンバーのワークスペースを表示しているときに、ワークスペースをフォークして「自分のワークスペースにコピー」ボタンをクリックすることで、自分のワークスペースに保存することができます。
 
 ![](/images/app_ui/team_project_2.png)

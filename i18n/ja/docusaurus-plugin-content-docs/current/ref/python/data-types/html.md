@@ -1,12 +1,10 @@
-# Html
+以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳してください。他に何も言わずに、翻訳したテキストのみを返してください。テキスト：
 
+# HTML
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/html.py#L19-L108)
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/html.py#L19-L108)
-
-
-
-Wandb class for arbitrary html.
+Wandbで任意のHTMLに対するクラス。
 
 ```python
 Html(
@@ -15,31 +13,18 @@ Html(
 ) -> None
 ```
 
-
-
-
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `data` | (string or io object) HTML to display in wandb |
-| `inject` | (boolean) Add a stylesheet to the HTML object. If set to False the HTML will pass through unchanged. |
+| `data` | (文字列またはIOオブジェクト) wandbに表示するHTML |
+| `inject` | (真偽値) HTMLオブジェクトにスタイルシートを追加します。Falseに設定すると、HTMLは変更されずに通過します。|
 
-
-
-## Methods
+## メソッド
+以下はMarkdownテキストのチャンクです。日本語に翻訳してください。返答は翻訳されたテキストのみで、それ以外のことは言わないでください。テキスト:
 
 ### `inject_head`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/html.py#L60-L75)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/html.py#L60-L75)
 
 ```python
 inject_head() -> None
 ```
-
-
-
-
-
-

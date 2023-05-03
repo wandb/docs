@@ -1,18 +1,17 @@
 # wandb pull
 
-**Usage**
+**使用法**
 
-`wandb pull [OPTIONS] RUN`
+`wandb pull [オプション] RUN`
 
-**Summary**
+**概要**
 
-Pull files from Weights & Biases
+Weights & Biases からファイルを取得
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| -p, --project | The project you want to download. |
-| -e, --entity | The entity to scope the listing to. |
-| --help | Show this message and exit. |
-
+| -p, --project | ダウンロードしたいプロジェクト。 |
+| -e, --entity | リストをスコープするエンティティ。 |
+| --help | このメッセージを表示して終了。 |

@@ -1,15 +1,14 @@
 ---
 slug: /guides/technical-faq
-description: Frequently asked questions about W&B.
-displayed_sidebar: ja
+description: W&Bに関するよくある質問。
 ---
 
-# Technical FAQ
+# テクニカルFAQ
 
 
-The following guide provides answers to frequently asked questions. Questions are grouped into four categories:
+このガイドでは、よくある質問に対する回答を提供しています。質問は以下の4つのカテゴリに分かれています:
 
-* [General](./general.md)
-* [Metrics and Performance](./metrics-and-performance.md)
-* [Setup](./setup.md)
-* [Troubleshooting](./troubleshooting.md)
+* [一般](./general.md)
+* [メトリクスとパフォーマンス](./metrics-and-performance.md)
+* [セットアップ](./setup.md)
+* [トラブルシューティング](./troubleshooting.md)

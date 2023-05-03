@@ -1,60 +1,67 @@
 ---
-description: Log and visualize data without a W&B account
-displayed_sidebar: ja
+description: W＆Bのアカウントがなくてもデータを記録し、可視化する
 ---
 
-# Anonymous Mode
+# 匿名モード
 
-Are you publishing code that you want anyone to be able to run easily? Use Anonymous Mode to let someone run your code, see a W&B dashboard, and visualize results without needing to create a Weights & Biases account first.
+コードを公開して誰でも簡単に実行できるようにしたいですか？ 匿名モードを使用して、最初にWeights＆Biasesアカウントを作成せずに、コードを実行し、W＆Bダッシュボードを表示し、結果を可視化できるようにしてください。
 
-Allow results to be logged in Anonymous Mode with `wandb.init(`**`anonymous="allow"`**`)`
+匿名モードで結果を記録できるようにするには、`wandb.init(`**`anonymous="allow"`**`)`を使用します。
 
 :::info
-**Publishing a paper?** Please [cite W&B](https://docs.wandb.ai/company/academics#bibtex-citation), and if you have questions about how to make your code accessible while using W&B, reach out to us at support@wandb.com.
+**論文を発表しますか？**  [W&Bを引用してください](https://docs.wandb.ai/company/academics#bibtex-citation)。W＆Bを使用しながらコードをアクセス可能にする方法について質問がある場合は、support@wandb.comまでお問い合わせください。
 :::
 
-### How does someone without an account see results?
+### アカウントがない誰かが結果をどのように表示しますか？
 
-If someone runs your script and you have to set `anonymous="allow"`:
+スクリプトを実行して `anonymous="allow"` に設定した場合：
 
-1. **Auto-create temporary account:** W&B checks for an account that's already signed in. If there's no account, we automatically create a new anonymous account and save that API key for the session.
-2. **Log results quickly:** The user can run and re-run the script, and automatically see results show up in the W&B dashboard UI. These unclaimed anonymous runs will be available for 7 days.
-3. **Claim data when it's useful**: Once the user finds valuable results in W&B, they can easily click a button in the banner at the top of the page to save their run data to a real account. If they don't claim a run, it will be deleted after 7 days.
+1. **一時アカウントの自動作成：** W＆Bはすでにサインインしているアカウントをチェックします。アカウントがない場合、新しい匿名アカウントが自動的に作成され、そのセッションのAPIキーが保存されます。
+2. **結果を迅速に記録する：** ユーザーはスクリプトを実行して再実行でき、W＆BダッシュボードUIに自動的に結果が表示されます。これらの未請求の匿名runは7日間利用できます。
+3. **データが有用である場合に請求する：** ユーザーがW＆Bで価値ある結果を見つけたら、ページの一番上にあるバナーにあるボタンをクリックするだけで、runデータを本物のアカウントに保存できます。請求しない場合、runは7日後に削除されます。
 
 :::caution
-**Anonymous run links are sensitive**. These links allow anyone to view and claim the results of an experiment for 7 days, so make sure to only share links with people you trust. If you're trying to share results publicly, but hide the author's identity, please contact us at support@wandb.com to share more about your use case.
+**匿名runのリンクはセンシティブです**。 これらのリンクにより、誰でも7日間実験の結果を表示し、請求することができるため、信頼できる人にのみリンクを共有してください。 結果を公開して共有し、著者の身元を隠すことを試みている場合は、support@wandb.comまでお問い合わせいただくか、使用事例について詳しくお話ししてください。
 :::
 
-### What happens to users with existing accounts?
+### 既存アカウントのユーザーにどのような影響がありますか？
 
-If you set `anonymous="allow"` in your script, we will check to make sure there's not an existing account first, before creating an anonymous account. This means that if a W&B user finds your script and runs it, their results will be logged correctly to their account, just like a normal run.
+スクリプトで `anonymous="allow"` を設定すると、匿名アカウントを作成する前に既存のアカウントがないことを確認します。つまり、W＆Bユーザーがスクリプトを見つけて実行すると、通常のrunと同じように、アカウントに正しく結果が記録されます。
 
-### What are features that aren't available to anonymous users?
+### 匿名ユーザーには利用できない機能は何ですか？
 
-*   **No persistent data**: Runs are only saved for 7 days in an anonymous account. Users can claim anonymous run data by saving it to a real account.
+*   **データの永続性なし**: 匿名アカウントでは、runは7日間しか保存されません。 ユーザーは、匿名のrunデータを本物のアカウントに保存することで請求することができます。
 
 
 ![](@site/static/images/app_ui/anon_mode_no_data.png)
 
-*   **No artifact logging**: Runs will print a warning on the command line that you can't log an artifact to an anonymous run.
+*   **アーティファクトのログがありません**： 匿名のrunにアーティファクトを記録できないという警告がコマンドラインに表示されます。
 
 ![](@site/static/images/app_ui/anon_example_warning.png)
 
-* **No profile or settings pages**: Certain pages aren't available in the UI, because they're only useful for real accounts.
+* **プロファイルページや設定ページがありません**： UIで利用できないページがいくつかあります。これらは本物のアカウントにのみ役立ちます。
 
-## Example usage
+## 使用例
 
-[Try the example notebook](http://bit.ly/anon-mode) to see how anonymous mode works.
+[匿名モードの例のノートブックを試してください](http://bit.ly/anon-mode)。
 
 ```python
 import wandb
+```
+# 匿名アカウントを許可してrunを開始
 
-# Start a run allowing anonymous accounts
 wandb.init(anonymous="allow")
 
-# Log results from your training loop
+
+
+# トレーニングループからの結果をログに記録
+
 wandb.log({"acc": 0.91})
 
-# Mark the run as finished
+
+
+# runを終了としてマーク
+
 wandb.finish()
+
 ```

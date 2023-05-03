@@ -1,20 +1,25 @@
 # wandb login
 
-**Usage**
+**使い方**
 
-`wandb login [OPTIONS] [KEY]...`
+`wandb login [オプション] [キー]...`
 
-**Summary**
+**概要**
 
-Login to Weights & Biases
+Weights & Biasesにログインします。
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
+
 | :--- | :--- |
-| --cloud | Login to the cloud instead of local |
-| --host | Login to a specific instance of W&B |
-| --relogin | Force relogin if already logged in. |
-| --anonymously | Log in anonymously |
-| --help | Show this message and exit. |
 
+| --cloud | ローカルではなくクラウドにログインする |
+
+| --host | W&Bの特定のインスタンスにログインする |
+
+| --relogin | すでにログインしている場合、再ログインを強制する |
+
+| --anonymously | 匿名でログインする |
+
+| --help | このメッセージを表示し、終了する |

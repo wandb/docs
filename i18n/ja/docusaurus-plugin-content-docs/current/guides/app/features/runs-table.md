@@ -1,102 +1,106 @@
 ---
-description: How to use the sidebar and table on the project page
-displayed_sidebar: ja
+description: プロジェクトページのサイドバーとテーブルの使用方法
 ---
 
-# Runs Table
+# Runs Table（Runの一覧表）
 
-On the project page, we show runs in a sidebar. Expand the sidebar to view a table of hyperparameters and summary metrics across runs.
+プロジェクトページでは、サイドバーにRunが表示されます。サイドバーを展開すると、Runごとのハイパーパラメータとサマリーメトリクスのテーブルが表示されます。
 
-## Search run names
+## Run名の検索
 
-We support full [regex](https://dev.mysql.com/doc/refman/8.0/en/regexp.html) search on run names in the table. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
+テーブル内のRun名の検索では、完全な[regex](https://dev.mysql.com/doc/refman/8.0/en/regexp.html)検索に対応しています。検索ボックスにクエリを入力すると、ワークスペースのグラフに表示されるRunと、テーブルの行がフィルタリングされます。
 
-#### What to do in case regex fails?
+#### regexがうまく機能しない場合はどうすればよいですか？
 
-If regex doesn't provide you the desired results, you can make use of [tags](tags.md) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
+もしregexで望んだ結果が得られない場合は、Runの一覧表でRunを絞り込むために[タグ](tags.md)を使用することができます。タグはRunの作成時または終了後に追加することができます。Runにタグが追加されると、以下のgifのようにタグフィルタを追加できます。
 
-![If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table](@site/static/images/app_ui/tags.gif)
+![regexが望ましい結果を提供しない場合は、Runの一覧表でRunを絞り込むためにタグを使用できます](@site/static/images/app_ui/tags.gif)
 
-## Search End Time for runs
+## Runの終了時間を検索
 
-We provide a column named `End Time` that logs that last heartbeat from the client process. The field is hidden by default.
+`End Time`というカラムを用意しており、クライアントプロセスからの最後のハートビートが記録されます。このフィールドはデフォルトで非表示になっています。
 
 ![](/images/app_ui/search_run_endtime.png)
 
-## Resize the sidebar
+## サイドバーのサイズ変更
 
-Would you like to make more space for the graphs on the project page? Click and drag the edge of the column header to resize the sidebar. You'll still be able to click on the eye icon to turn on and off runs on the graphs.
+プロジェクトページでグラフ用にもっとスペースが欲しいですか？列ヘッダの端をクリックしてドラッグすることで、サイドバーのサイズを変更できます。なお、目のアイコンをクリックしてグラフ上のRunの表示・非表示を切り替えることもできます。
 
 ![](https://downloads.intercomcdn.com/i/o/153755378/d54ae70fb8155657a87545b1/howto+-+resize+column.gif)
+## サイドバーのカラムを追加
 
-## Add sidebar columns
+プロジェクトページでは、サイドバーでrunsを表示しています。さらにカラムを表示するには:
 
-On the project page, we show runs in a sidebar. To show more columns:
+1. サイドバーの右上隅にあるボタンをクリックして、テーブルを展開します。
+2. カラムヘッダー上でドロップダウンメニューをクリックし、カラムをピン留めします。
+3. テーブルを折りたたむと、ピン留めされたカラムがサイドバーに表示されます。
 
-1. Click the button in the upper right corner of the sidebar to expand the table.
-2. On a column header, click the dropdown menu to pin a column.
-3. Pinned columns will be available in the sidebar when you collapse the table.
-
-Here's a screen capture. I expand the table, pin two columns, collapse the table, then resize the sidebar.
+以下は、画面キャプチャです。テーブルを展開し、2つのカラムをピン留めし、テーブルを折りたたみ、サイドバーをサイズ変更します。
 
 ![](https://downloads.intercomcdn.com/i/o/152951680/cf8cbc6b35e923be2551ba20/howto+-+pin+rows+in+table.gif)
 
-## Bulk select runs
+## 複数のrunsを一括選択
 
-Delete multiple runs at once, or tag a group of runs— bulk selection makes it easier to keep the runs table organized.
+複数のrunsを一度に削除したり、一群のrunsにタグを付けたりすることができます。一括選択機能を使うことで、runsテーブルを整理しやすくなります。
 
 ![](/images/app_ui/howto_bulk_select.gif)
 
-## Select all runs in table
+## テーブル内のすべてのrunsを選択
 
-Click the checkbox in the upper left corner of the table, and click "Select all runs" to select every run that matches the current set of filters.
+テーブルの左上隅にあるチェックボックスをクリックし、「すべてのrunsを選択」をクリックして、現在のフィルターに一致するすべてのrunを選択します。
 
 ![](/images/app_ui/all_runs_select.gif)
 
-## Move runs between projects
+## runsをプロジェクト間で移動
 
-To move runs from one project to another:
+runsをあるプロジェクトから別のプロジェクトに移動する方法は以下の通りです。
 
-1. Expand the table
-2. Click the checkbox next to the runs you want to move
-3. Click move and select the destination project
-
+1. テーブルを展開する
+2. 移動したいrunsの左にあるチェックボックスをクリックする
+3. 移動ボタンをクリックして、移動先のプロジェクトを選択
 ![](/images/app_ui/howto_move_runs.gif)
 
-## See active runs
+## アクティブなrunを表示
 
-Look for a green dot next to the name of runs— this indicates they're active in the table and on the graph legends.
+runの名前の横にある緑の点を探してください。これは、テーブルやグラフの凡例でアクティブであることを示しています。
 
-## Hide uninteresting runs
+## 興味のないrunを非表示にする
 
-Do you want to hide crashed runs? Are short runs filling up your table? Do you want to only see your work in a group project? Hide the noise with a filter. Some filters we recommend:
+クラッシュしたrunを非表示にしたいですか？短いrunがテーブルを埋め尽くしていますか？グループプロジェクトで自分の作業だけを表示したいですか？フィルターでノイズを隠します。おすすめのフィルターは以下の通りです。
 
-* **Show only my work** filters down to runs under your username
-* **Hide crashed runs** filters out any runs marked crashed from the table
-* **Duration**: add a new filter and select "duration" to hide short runs
+* **自分の作業のみ表示** で、ユーザー名の下にあるrunに絞り込みます
+* **クラッシュしたrunを非表示** で、テーブルからクラッシュしたとマークされたrunをフィルタリングして非表示にします
+* **期間**：新しいフィルターを追加し、「期間」を選択して短いrunを非表示にします
 
 ![](/images/app_ui/hide_uninsteresting.png)
 
-## Filter runs with tags
+## タグでrunをフィルタリング
 
-Filter runs based on their tags with the filter button.
+フィルターボタンを使用して、タグに基づいてrunをフィルタリングします。
 
 ![](/images/app_ui/filter_runs.gif)
 
-## Filter and delete unwanted runs
+## 不要なrunをフィルタリングして削除
 
-If you filter down the table to just the ones you want to delete, you can select all and press delete to remove them from your project. Deleting runs is project-global, so if you delete runs from a report that will be reflected in the rest of your project.
+テーブルを削除したいものだけに絞り込んでフィルタリングすると、すべてを選択して削除を押すことでプロジェクトから削除できます。runの削除はプロジェクト全体に影響するため、レポートからrunを削除すると、プロジェクト全体に反映されます。
 
 ![](/images/app_ui/filter_unwanted_runs.gif)
 
-## Export runs table to CSV
+## runテーブルをCSVにエクスポートする
+すべてのruns、ハイパーパラメーター、およびサマリーメトリクスを含むテーブルをCSVにダウンロードボタンでエクスポートします。
 
-Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
+
 
 ![](/images/app_ui/export_to_csv.gif)
 
-## Search columns in the table
 
-Search for the columns in the table UI guide with the **Columns** button.
+
+## テーブルの列を検索
+
+
+
+テーブルUIガイドで列を検索するには、**列**ボタンを使用します。
+
+
 
 ![](/images/app_ui/search_columns.gif)

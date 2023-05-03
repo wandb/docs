@@ -1,18 +1,17 @@
 ---
 slug: /guides/app/features
-description: High level overview of the W&B App features
-displayed_sidebar: ja
+description: W&Bアプリ機能の概要
 ---
 
-# Features
+# 機能
 
-This guides provides information about W&B App features. Select on a topic to learn more:
+このガイドでは、W&Bアプリの機能について説明します。詳細については、以下のトピックを選択してください。
 
-* [Panels](./panels/intro.md) - visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and dataset examples.
-* [Custom Charts](./custom-charts/intro.md) - Custom visualizations and custom panels using queries
-* [Runs table](./runs-table.md) - How to use the sidebar and table on the project page
-* [Tags](./tags.md) - Label runs with particular features that might not be obvious from the logged metrics or Artifact data 
-* [Notes](./notes.md) - Add notes to your runs and projects, and use notes to describe your findings in reports.
-* [Teams](./teams.md) - Collaborate with your colleagues, share results, and track all the experiments across your team.
-* [System Metrics](./system-metrics.md) - Metrics automatically logged by `wandb`.
-* [Anonymous Mode](./anon.md) - Log and visualize data without a W&B account.
+* [パネル](./panels/intro.md) - トレーニングデータの可視化、ハイパーパラメータと出力メトリクスの関係、データセットの例の探索。
+* [カスタムチャート](./custom-charts/intro.md) - クエリを使ったカスタム可視化とカスタムパネル
+* [Runsテーブル](./runs-table.md) - プロジェクトページのサイドバーとテーブルの使い方
+* [タグ](./tags.md) - ログされたメトリクスやアーティファクトデータからは明らかでない特定の特徴を持つrunにラベルを付ける
+* [ノート](./notes.md) - runやプロジェクトにノートを追加し、レポートで調査結果を説明に使用する。
+* [チーム](./teams.md) - 同僚と協力して結果を共有し、チーム全体の実験を追跡します。
+* [システムメトリクス](./system-metrics.md) - `wandb`によって自動的にログされるメトリクス。
+* [匿名モード](./anon.md) - W&Bアカウントを持たずにデータのログと可視化。

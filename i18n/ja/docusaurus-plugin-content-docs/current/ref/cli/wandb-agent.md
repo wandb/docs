@@ -1,19 +1,18 @@
-# wandb agent
+# wandbエージェント
 
-**Usage**
+**使い方**
 
 `wandb agent [OPTIONS] SWEEP_ID`
 
-**Summary**
+**概要**
 
-Run the W&B agent
+W&Bエージェントを実行します
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| -p, --project | The project of the sweep. |
-| -e, --entity | The entity scope for the project. |
-| --count | The max number of runs for this agent. |
-| --help | Show this message and exit. |
-
+| -p, --project | スイープのプロジェクト。|
+| -e, --entity | プロジェクトのエンティティ範囲。|
+| --count | このエージェントの最大run数。|
+| --help | このメッセージを表示して終了します。|

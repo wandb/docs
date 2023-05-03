@@ -1,16 +1,15 @@
-# wandb artifact cache cleanup
+# wandbアーティファクトキャッシュのクリーンアップ
 
-**Usage**
+**使い方**
 
-`wandb artifact cache cleanup [OPTIONS] TARGET_SIZE`
+`wandb artifact cache cleanup [オプション] TARGET_SIZE`
 
-**Summary**
+**概要**
 
-Clean up less frequently used files from the artifacts cache
+アーティファクトキャッシュからあまり頻繁に使われないファイルを削除する。
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| --help | Show this message and exit. |
-
+| --help | このメッセージを表示して終了します。 |

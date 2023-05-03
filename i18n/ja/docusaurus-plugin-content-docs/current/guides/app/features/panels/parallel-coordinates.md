@@ -1,25 +1,24 @@
 ---
-description: Compare results across machine learning experiments
-displayed_sidebar: ja
+description: 機械学習の実験で結果の比較
 ---
 
-# Parallel Coordinates
+# 並行座標
 
-Parallel coordinates charts summarize the relationship between large numbers of hyperparameters and model metrics at a glance.
+並行座標グラフは、多数のハイパーパラメータとモデルメトリクスの関係を一目で把握できるように要約しています。
 
 ![](/images/app_ui/parallel_coordinates.gif)
 
-* **Axes**: Different hyperparameters from [`wandb.config`](../../../../guides/track/config.md) and metrics from [`wandb.log`](../../../../guides/track/log/intro.md).
-* **Lines**: Each line represents a single run. Mouse over a line to see a tooltip with details about the run. All lines that match the current filters will be shown, but if you turn off the eye, lines will be grayed out.
+* **軸**: [`wandb.config`](../../../../guides/track/config.md)からの異なるハイパーパラメータや [`wandb.log`](../../../../guides/track/log/intro.md)からのメトリクスです。
+* **線**: 各線は1つのrunを表します。線をマウスオーバすると、runの詳細が表示されるツールチップが表示されます。現在のフィルタに一致するすべての線が表示されますが、目をオフにすると、線がグレーアウトされます。
 
-## Panel Settings
+## パネル設定
 
-Configure these features in the panel settings— click the edit button in the upper right corner of the panel.
+パネルの右上隅にある編集ボタンをクリックして、パネル設定でこれらの機能を設定します。
 
-* **Tooltip**: On hover, a legend shows up with info on each run
-* **Titles**: Edit the axis titles to be more readable
-* **Gradient**: Customize the gradient to be any color range you like
-* **Log scale**: Each axis can be set to view on a log scale independently
-* **Flip axis**: Switch the axis direction— this is useful when you have both accuracy and loss as columns
+* **ツールチップ**: ホバー時に、各runの情報が表示される凡例が表示されます
+* **タイトル**: 軸タイトルをもっと読みやすく編集できます
+* **グラデーション**: グラデーションを好きな色範囲にカスタマイズできます
+* **対数スケール**: 各軸は独立して対数スケールで表示することができます
+* **軸の反転**: 軸の方向を切り替えることができます- これは、正確さと損失の両方を列として持つ場合に便利です
 
-[See it live →](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+[ライブで見る →](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)

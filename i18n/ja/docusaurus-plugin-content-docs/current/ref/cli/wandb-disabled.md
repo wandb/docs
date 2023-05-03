@@ -1,17 +1,19 @@
-# wandb disabled
+# wandb 無効化
 
-**Usage**
+**使用法**
 
-`wandb disabled [OPTIONS]`
+`wandb disabled [オプション]`
 
-**Summary**
+**概要**
 
-Disable W&B.
+W&Bを無効にします。
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
+
 | :--- | :--- |
-| --service | Disable W&B service  [default: True] |
-| --help | Show this message and exit. |
 
+| --service | W&Bサービスを無効にする [デフォルト: True] |
+
+| --help | このメッセージを表示して終了します。 |

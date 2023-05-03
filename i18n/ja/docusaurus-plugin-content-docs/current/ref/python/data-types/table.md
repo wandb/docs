@@ -1,12 +1,8 @@
-# Table
+# テーブル
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L153-L936)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L150-L933)
-
-
-
-The Table class used to display and analyze tabular data.
+Tableクラスは、表形式のデータを表示・分析するために使用されます。
 
 ```python
 Table(
@@ -15,19 +11,13 @@ Table(
 )
 ```
 
+従来のスプレッドシートとは異なり、Tableは様々なタイプのデータに対応しています：スカラー値、文字列、numpy配列、そしてほとんどの`wandb.data_types.Media`のサブクラスも対応しています。
+これにより、`Images`、`Video`、`Audio`などのリッチでアノテーションされたメディアを、他の従来のスカラー値と並べてTableに埋め込むことができます。
 
+このクラスは、UIのTable Visualizerを生成する主要なクラスです：https://docs.wandb.ai/guides/data-vis/tables.
 
-
-Unlike traditional spreadsheets, Tables support numerous types of data:
-scalar values, strings, numpy arrays, and most subclasses of `wandb.data_types.Media`.
-This means you can embed `Images`, `Video`, `Audio`, and other sorts of rich, annotated media
-directly in Tables, alongside other traditional scalar values.
-
-This class is the primary class used to generate the Table Visualizer
-in the UI: https://docs.wandb.ai/guides/data-vis/tables.
-
-Tables can be constructed with initial data using the `data` or
-`dataframe` parameters:
+Tableは、`data`または`dataframe` パラメータを使用して初期データを含めて作成することができます：
+以下は、Markdownテキストのチャンクです。これを日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストのみを返してください。テキスト：
 
 ```python
 import pandas as pd
@@ -41,9 +31,9 @@ assert all(tbl.get_column("users") == df["users"])
 assert all(tbl.get_column("feature_01") == df["feature_01"])
 ```
 
-Additionally, users can add data to Tables incrementally by using the
-`add_data`, `add_column`, and `add_computed_column` functions for
-adding rows, columns, and columns computed from data in other columns, respectively:
+さらに、ユーザーは、
+`add_data`、`add_column`、および `add_computed_column` 関数を使用して、
+行、列、および他の列のデータに基づいて計算された列をそれぞれ追加することにより、Tablesにデータをインクリメンタルに追加できます。
 
 ```python
 import wandb
@@ -58,14 +48,15 @@ assert tbl.get_column("user") == users
 
 def get_user_name_length(index, row):
  return {"feature_01": len(row["user"])}
+以下のMarkdownテキストを日本語に翻訳してください。それ以外のことは言わず、翻訳されたテキストだけを返してください。テキスト:
 
-
+```python
 tbl.add_computed_columns(get_user_name_length)
 assert tbl.get_column("feature_01") == [5, 7, 3]
 ```
 
-Tables can be logged directly to runs using `run.log({"my_table": table})`
-or added to artifacts using `artifact.add(table, "my_table")`:
+テーブルは、`run.log({"my_table": table})`を使用して直接runsにログに記録することができます。
+また、`artifact.add(table, "my_table")`を使用してアーティファクトに追加できます：
 
 ```python
 import numpy as np
@@ -82,35 +73,28 @@ labels = ["panda", "gibbon"]
 wandb.log({"classifier_out": tbl})
 ```
 
-Tables added directly to runs as above will produce a corresponding Table Visualizer in the
-Workspace which can be used for further analysis and exporting to reports.
+上記のように直接runsに追加されたテーブルは、ワークスペース内の対応するTable Visualizerを生成し、さらなる分析やレポートへのエクスポートに使用できます。
 
-Tables added to artifacts can be viewed in the Artifact Tab and will render
-an equivalent Table Visualizer directly in the artifact browser.
+アーティファクトに追加されたテーブルは、Artifactタブで表示でき、アーティファクトブラウザ内で同等のTable Visualizerがレンダリングされます。
 
-Tables expect each value for a column to be of the same type. By default, a column supports
-optional values, but not mixed values. If you absolutely need to mix types,
-you can enable the `allow_mixed_types` flag which will disable type checking
-on the data. This will result in some table analytics features being disabled
-due to lack of consistent typing.
+テーブルは、各列の値が同じタイプであることを期待しています。デフォルトでは、列はオプションの値をサポートしますが、混在した値はサポートしません。絶対にタイプを混ぜる必要がある場合は、`allow_mixed_types`フラグを有効にして、データの型チェックを無効にすることができます。これにより、一貫した型付けが欠けているため、一部のテーブル分析機能が無効になります。
+以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。他のことは何も言わないでください。テキスト：
 
-| Arguments | |
+| 引数 |  |
 | :--- | :--- |
-| `columns` | (List[str]) Names of the columns in the table. Defaults to ["Input", "Output", "Expected"]. |
-| `data` | (List[List[any]]) 2D row-oriented array of values. |
-| `dataframe` | (pandas.DataFrame) DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored. |
-| `optional` | (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True - If a singular bool value, then the optionality is enforced for all columns specified at construction time - If a list of bool values, then the optionality is applied to each column - should be the same length as `columns` applies to all columns. A list of bool values applies to each respective column. |
-| `allow_mixed_types` | (bool) Determines if columns are allowed to have mixed types (disables type validation). Defaults to False |
+| `columns` | (List[str]) テーブルの列名。デフォルトでは["Input", "Output", "Expected"]。 |
+| `data` | (List[List[any]]) 値の2次元の行指向配列。 |
+| `dataframe` | (pandas.DataFrame) テーブルを作成するために使用されるDataFrameオブジェクト。設定されている場合、`data` と `columns` の引数は無視されます。 |
+| `optional` | (Union[bool,List[bool]]) `None`の値が許可されるかどうかを決定します。デフォルトではTrue - 単一のbool値の場合、構築時に指定されたすべての列にオプションが強制されます - 列と同じ長さであるべきbool値のリストの場合、オプションが各列に適用されます。 |
+| `allow_mixed_types` | (bool) 列に混在した型が許可されているかどうかを決定します（型検証が無効になります）。デフォルトでは False |
 
 
 
-## Methods
+## メソッド
 
 ### `add_column`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L829-L868)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L832-L871)
 
 ```python
 add_column(
@@ -118,22 +102,16 @@ add_column(
 )
 ```
 
-Add a column of data to the table.
+テーブルにデータの列を追加します。
 
-
-| Arguments | |
+| 引数 |  |
 | :--- | :--- |
-| `name` | (str) - the unique name of the column |
-| `data` | (list | np.array) - a column of homogenous data |
-| `optional` | (bool) - if null-like values are permitted |
-
-
-
+| `name` | (str) - 列の一意の名前|
+| `data` | (list | np.array) - 同種のデータの列 |
+| `optional` | (bool) - nullのような値が許可されているかどうか |
 ### `add_computed_columns`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L911-L933)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L914-L936)
 
 ```python
 add_computed_columns(
@@ -141,36 +119,32 @@ add_computed_columns(
 )
 ```
 
-Add one or more computed columns based on existing data.
+既存のデータに基づいて、1つまたは複数の計算された列を追加します。
 
-
-| Args | |
+| 引数 | |
 | :--- | :--- |
-| `fn` | A function which accepts one or two parameters, ndx (int) and row (dict), which is expected to return a dict representing new columns for that row, keyed by the new column names. `ndx` is an integer representing the index of the row. Only included if `include_ndx` is set to `True`. `row` is a dictionary keyed by existing columns |
+| `fn` | `ndx`（int）と`row`（dict）という1つまたは2つのパラメータを受け取り、その行の新しい列を表す辞書を返すことが期待される関数。`ndx`は、行のインデックスを表す整数です。`include_ndx`が`True`に設定されている場合にのみ含まれます。`row`は、既存の列によってキー化された辞書です |
 
 
 
 ### `add_data`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L455-L488)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L458-L491)
 
 ```python
 add_data(
  *data
 )
 ```
+表にデータの行を追加します。
 
-Add a row of data to the table.
-
-Argument length should match column length.
+引数の長さは、カラムの長さと一致する必要があります。
 
 ### `add_row`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L450-L453)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L453-L456)
 
 ```python
 add_row(
@@ -178,29 +152,26 @@ add_row(
 )
 ```
 
-Deprecated: use add_data instead.
-
+非推奨：代わりに add_data を使用してください。
 
 ### `cast`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L349-L403)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L352-L406)
 
 ```python
 cast(
  col_name, dtype, optional=(False)
 )
 ```
+特定の型に列をキャストする。
 
-Cast a column to a specific type.
-
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `col_name` | (str) - name of the column to cast |
-| `dtype` | (class, wandb.wandb_sdk.interface._dtypes.Type, any) - the target dtype. Can be one of normal python class, internal WB type, or an example object (e.g. an instance of wandb.Image or wandb.Classes) |
-| `optional` | (bool) - if the column should allow Nones |
+| `col_name` | (str) - キャストする列の名前 |
+| `dtype` | (class, wandb.wandb_sdk.interface._dtypes.Type, any) - 対象のdtype。通常のPythonクラス、内部WBタイプ、または例オブジェクト（例： wandb.Image や wandb.Classes のインスタンス）のいずれかにできます。 |
+| `optional` | (bool) - その列がNoneを許可するかどうか |
 
 
 
@@ -208,7 +179,7 @@ Cast a column to a specific type.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L870-L893)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L873-L896)
 
 ```python
 get_column(
@@ -216,34 +187,26 @@ get_column(
 )
 ```
 
-Retrieve a column of data from the table.
+テーブルからデータ列を取得します。
 
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| `name` | (str) - the name of the column |
-| `convert_to` | (str, optional) - "numpy": will convert the underlying data to numpy object |
-
-
-
+| `name` | (str) - 列の名前 |
+| `convert_to` | (str, optional) - "numpy": 基礎となるデータをnumpyオブジェクトに変換する |
 ### `get_index`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L895-L902)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L898-L905)
 
 ```python
 get_index()
 ```
 
-Return an array of row indexes for use in other tables to create links.
+リンクを作成するための他のテーブルで使用する行インデックスの配列を返します。
 
 
 ### `index_ref`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L904-L909)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L907-L912)
 
 ```python
 index_ref(
@@ -251,38 +214,30 @@ index_ref(
 )
 ```
 
-Get a reference to a particular row index in the table.
-
-
+テーブル内の特定の行インデックスへの参照を取得します。
 ### `iterrows`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L706-L720)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L709-L723)
 
 ```python
 iterrows()
 ```
 
-Iterate over rows as (ndx, row).
-
+行を（ndx、行）としてイテレートします。
 
 | Yields | |
 | :--- | :--- |
 
-
 ------
 index : int
- The index of the row. Using this value in other WandB tables
- will automatically build a relationship between the tables
+ 行のインデックス。この値を他のWandBテーブルで使用すると、テーブル間の関係が自動的に構築されます。
 row : List[any]
- The data of the row.
+ 行のデータ。
 
 ### `set_fk`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L727-L731)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L730-L734)
+以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳し、それ以外のことは何も言わずに翻訳されたテキストを返してください。テキスト：
 
 ```python
 set_fk(
@@ -297,7 +252,7 @@ set_fk(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/data_types.py#L722-L725)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L725-L728)
 
 ```python
 set_pk(
@@ -312,8 +267,7 @@ set_pk(
 
 
 
-| Class Variables | |
+| クラス変数 | |
 | :--- | :--- |
 | `MAX_ARTIFACT_ROWS` | `200000` |
 | `MAX_ROWS` | `10000` |
-

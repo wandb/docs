@@ -1,73 +1,76 @@
 ---
-description: Save files to the cloud and restore them locally later
-displayed_sidebar: ja
+description: クラウドにファイルを保存して、後でローカルに復元する
 ---
 
-# Save & Restore Files
+# ファイルの保存と復元
 
 <head>
-  <title>Save and Restore Files to the Cloud</title>
+  <title>クラウドにファイルを保存し、復元する</title>
 </head>
 
-This guide first demonstrates how to save files to the cloud with `wandb.save`, then demonstrates how they can be re-created locally with `wandb.restore`.
+このガイドではまず、`wandb.save`を使ってクラウドにファイルを保存する方法を紹介し、次に`wandb.restore`を使って、それらをローカルに再作成する方法を紹介します。
 
-## Saving Files
+## ファイルの保存
 
-Sometimes, rather than logging a numerical value or a piece of media, you want to log a whole file: the weights of a model, the output of other logging software, even source code.
+場合によっては、数値やメディアの一部を記録するのではなく、ファイル全体を記録したいことがあります。例えば、モデルの重みや、他のログソフトウェアの出力、ソースコードなどです。
 
-There are two ways to associate a file with a run and upload it to W&B.
+W&Bにファイルを関連付けてアップロードする方法は2つあります。
 
-1. Use `wandb.save(filename)`.
-2. Put a file in the wandb run directory, and it will get uploaded at the end of the run.
+1. `wandb.save(filename)` を使う。
+2. wandb runディレクトリーにファイルを置くと、runの終了時にアップロードされます。
 
 :::info
-If you're [resuming](../runs/resuming.md) a run, you can recover a file by calling`wandb.restore(filename)`
+[再開](../runs/resuming.md)するrunであれば、`wandb.restore(filename)`を呼び出すことでファイルを復元できます。
 :::
 
-If you want to sync files as they're being written, you can specify a filename or glob in `wandb.save`.
+書き込まれているファイルを同期する場合は、`wandb.save`でファイル名やglobを指定できます。
 
-### Examples of `wandb.save`
+### `wandb.save`の例
 
-See [this report](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw) for a complete working example.
+完全な動作例は、[こちらのレポート](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw)をご覧ください。
+以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳してください。他のことは言わずに、翻訳したテキストだけを返してください。テキスト：
 
 ```python
-# Save a model file from the current directory
+# 現在のディレクトリからモデルファイルを保存する
 wandb.save('model.h5')
 
-# Save all files that currently exist containing the substring "ckpt"
+# サブストリング "ckpt" を含むすべてのファイルを保存する
 wandb.save('../logs/*ckpt*')
 
-# Save any files starting with "checkpoint" as they're written to
+# "checkpoint"で始まるファイルを書き込み時に保存する
 wandb.save(os.path.join(wandb.run.dir, "checkpoint*"))
 ```
 
 :::info
-W&B's local run directories are by default inside the `./wandb` directory relative to your script, and the path looks like `run-20171023_105053-3o4933r0` where `20171023_105053` is the timestamp and `3o4933r0` is the ID of the run. You can set the `WANDB_DIR` [environment variable](environment-variables.md), or the `dir` keyword argument of [`wandb.init`](./launch.md), to an absolute path and files will be written within that directory instead.
+W&Bのローカルランディレクトリはデフォルトでスクリプトに関連する`./wandb`ディレクトリ内にありますが、パスは`run-20171023_105053-3o4933r0`のようになります。ここで`20171023_105053`はタイムスタンプで`3o4933r0`はランのIDです。`WANDB_DIR`[環境変数](environment-variables.md)を設定するか、[`wandb.init`](./launch.md)の`dir`キーワード引数に絶対パスを設定することで、代わりにそのディレクトリ内にファイルが書き込まれるようになります。
 :::
 
-### Save Policies and relative paths
+### 保存ポリシーと相対パス
 
-`wandb.save` accepts a **policy** argument which is set to "**live**" by default. Available policies are:
+`wandb.save`は**policy**引数も受け付け、デフォルトで"**live**"に設定されています。利用可能なポリシーは以下の通りです。
 
-* **live (default)** - sync this file to a wandb server immediately and re-sync it if it changes
-* **now** - sync this file to a wandb server immediately, don't continue syncing if it changes
-* **end** - only sync the file when the run finishes
+* **live (デフォルト)** - このファイルをすぐにwandbサーバーに同期し、変更があれば再同期する
+* **now** - このファイルをすぐにwandbサーバーに同期し、変更があっても再同期しない
+* **end** - ランが終了したときにのみファイルを同期する
 
-You can also specify the **base\_path** argument to `wandb.save`. This would allow you to maintain a directory hierarchy, for example:
+また、`wandb.save`に**base\_path**引数を指定することもできます。これによりディレクトリ階層を維持することができます。例えば：
 
 ```python
-wandb.save("./results/eval/*", base_path="./results", policy="now")
+wandb.save(
+    path="./results/eval/*", 
+    base_path="./results", 
+    policy="now"
+    )    
 ```
-
-Would result in all files matching the pattern being saved in an `eval` folder instead of at the root.
+すべてのファイルがパターンに一致すると、ルートの代わりに`eval`フォルダに保存されます。
 
 :::info
-When `wandb.save` is called it will list all files that exist at the provided path and create symlinks for them into the run directory (`wandb.run.dir`). If you create new files in the same path after calling `wandb.save` we will not sync them. You should either write files directly to `wandb.run.dir` or be sure to call `wandb.save` anytime new files are created.
+`wandb.save`が呼び出されると、指定されたパスに存在するすべてのファイルを一覧表示し、runディレクトリー（`wandb.run.dir`）にシンボリックリンクを作成します。`wandb.save`を呼び出した後に同じパスに新しいファイルを作成する場合、それらのファイルは同期されません。ファイルは直接`wandb.run.dir`に書き込むか、新しいファイルが作成されるたびに`wandb.save`を呼び出す必要があります。
 :::
 
-### Example of saving a file to the wandb run directory
+### wandbの実行ディレクトリにファイルを保存する例
 
-The file `model.h5` is saved into the `wandb.run.dir` and will be uploaded at the end of training.
+ファイル`model.h5`は`wandb.run.dir`に保存され、トレーニングの終了時にアップロードされます。
 
 ```python
 import wandb
@@ -78,61 +81,60 @@ model.fit(X_train, y_train,  validation_data=(X_test, y_test),
 model.save(os.path.join(wandb.run.dir, "model.h5"))
 ```
 
-Here's a public example page. You can see on the files tab, there's a `model-best.h5`. That's automatically saved by default by the Keras integration, but you can save a checkpoint manually and we'll store it for you in association with your run.
+こちらが公開されている例のページです。ファイルタブで`model-best.h5`が表示されています。これはKerasの統合によってデフォルトで自動的に保存されますが、チェックポイントを手動で保存することもでき、runに関連付けて保存します。
 
-[See the live example →](https://app.wandb.ai/wandb/neurips-demo/runs/206aacqo/files)
+[ライブ例を見る →](https://app.wandb.ai/wandb/neurips-demo/runs/206aacqo/files)
 
 ![](/images/experiments/example_saving_file_to_directory.png)
 
-## Restoring Files
+## ファイルの復元
 
-Calling `wandb.restore(filename)`will restore a file into your local run directory. Typically`filename` refers to a file generated by an earlier experiment run and uploaded to our cloud with `wandb.save`. This call will make a local copy of the file and return a local file stream open for reading.
+`wandb.restore(filename)` を呼び出すと、ローカルのrunディレクトリーにファイルが復元されます。通常、`filename`は、以前の実験runで生成され、`wandb.save`を使用してクラウドにアップロードされたファイルを指します。この呼び出しにより、ファイルのローカルコピーが作成され、読み取り用に開かれたローカルファイルストリームが返されます。
 
-Common use cases:
+一般的なユースケース:
+過去のrunsで生成されたモデルアーキテクチャや重みを復元する（より複雑なバージョン管理のユースケースについては、[Artifacts](../artifacts/intro.md)を参照してください）。
+* エラーが発生した場合、最後のチェックポイントからトレーニングを再開する（[再開](../runs/resuming.md)のセクションを参照してください）。
 
-* restore the model architecture or weights generated by past runs (for more complicated version control use cases, see our [Artifacts](../artifacts/intro.md).
-* resume training from the last checkpoint in the case of failure (see the section on [resuming](../runs/resuming.md) for important details)
+### `wandb.restore` の例
 
-### Examples of `wandb.restore`
-
-See [this report](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw) for a complete working example.
+完全な動作例については、[こちらのレポート](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw) をご覧ください。
 
 ```python
-# restore a model file from a specific run by user "vanpelt" in "my-project"
+# ユーザー "vanpelt" が "my-project" で実行した特定の run からモデルファイルを復元する
 best_model = wandb.restore(
   'model-best.h5', run_path="vanpelt/my-project/a1b2c3d")
 
-# restore a weights file from a checkpoint
-# (NOTE: resuming must be configured if run_path is not provided)
+# チェックポイントから重みファイルを復元する
+# (注意：run_pathが提供されていない場合、再開が設定されている必要があります)
 weights_file = wandb.restore('weights.h5')
-# use the "name" attribute of the returned object
-# if your framework expects a filename, e.g. as in Keras
+# フレームワークがファイル名を期待している場合、
+# 返されたオブジェクトの "name" 属性を使ってください。
+# 例：Keras では
 my_predefined_model.load_weights(weights_file.name)
 ```
 
-> If you don't specify a `run_path`, you'll need to configure [resuming](../runs/resuming.md) for your run. If you want access to files programmatically outside of training, use the [Run API](../../ref/python/run.md).
+> `run_path`を指定しない場合、run の[再開](../runs/resuming.md)を設定する必要があります。トレーニング外でファイルにプログラムでアクセスしたい場合は、[Run API](../../ref/python/run.md)を使用してください。
 
-## Common Questions
+## 一般的な質問
 
-### How do I ignore files?
+### どのようにしてファイルを無視するのか？
 
-You can edit the `wandb/settings` file and set `ignore_globs` equal to a comma separated list of [globs](https://en.wikipedia.org/wiki/Glob\_\(programming\)). You can also set the `WANDB_IGNORE_GLOBS` [environment variable](./environment-variables.md). A common use case is to prevent the git patch that we automatically create from being uploaded i.e. `WANDB_IGNORE_GLOBS=*.patch`.
+`wandb/settings` ファイルを編集して、`ignore_globs` を [globs](https://en.wikipedia.org/wiki/Glob\_\(programming\)) 形式のカンマ区切りのリストに設定することができます。また、`WANDB_IGNORE_GLOBS` [環境変数](./environment-variables.md)を設定することもできます。一般的なユースケースとしては、自動的に作成される git パッチのアップロードを防ぐために、`WANDB_IGNORE_GLOBS=*.patch` と設定します。
 
-### How can I sync files before the run ends?
+### ランが終了する前にファイルを同期する方法は？
+長いrunがある場合は、runの終了前に、モデルのチェックポイントなどのファイルをクラウドにアップロードしたいことがあるでしょう。デフォルトでは、ほとんどのファイルのアップロードはrunの終了まで待っています。スクリプトに`wandb.save('*.pth')`や`wandb.save('latest.pth')`を追加することで、ファイルが作成されたり更新されたりするたびに上記のファイルをアップロードできます。
 
-If you have a long run, you might want to see files like model checkpoints uploaded to the cloud before the end of the run. By default, we wait to upload most files until the end of the run. You can add a `wandb.save('*.pth')` or just `wandb.save('latest.pth')` in your script to upload those files whenever they are written or updated.
+### ファイルを保存するディレクトリを変更する
 
-### Change directory for saving files
+AWS S3やGoogle Cloud Storageにデフォルトでファイルを保存する場合、以下のエラーが発生することがあります：`events.out.tfevents.1581193870.gpt-tpu-finetune-8jzqk-2033426287 is a cloud storage url, can't save file to wandb.`
 
-If you default to saving files in AWS S3 or Google Cloud Storage, you might get this error:`events.out.tfevents.1581193870.gpt-tpu-finetune-8jzqk-2033426287 is a cloud storage url, can't save file to wandb.`
+TensorBoardのイベントファイルや同期させたい他のファイルのログディレクトリを変更するには、ファイルを`wandb.run.dir`に保存して、クラウドに同期させるようにします。
 
-To change the log directory for TensorBoard events files or other files you'd like us to sync, save your files to the `wandb.run.dir` so they're synced to our cloud.
+### ランの名前を取得する方法は？
 
-### How do I get the name of a run?
+スクリプト内でランの名前を使用したい場合は、`wandb.run.name`を使用して、例えば "blissful-waterfall-2" のようなランの名前を取得できます。
 
-If you'd like to use the run name from within your script, you can use `wandb.run.name` and you'll get the run name— "blissful-waterfall-2" for example.
-
-You need to call save on the run before you can access the display name:
+表示名にアクセスする前に、runでsaveを呼び出す必要があります。
 
 ```
 run = wandb.init(...)
@@ -140,24 +142,23 @@ run.save()
 print(run.name)
 ```
 
-### How can I push all saved files from local?
+### ローカルからすべての保存されたファイルをプッシュする方法は？
 
-Call `wandb.save("*.pt")` once at the top of your script after `wandb.init`, then all files that match that pattern will save immediately once they're written to `wandb.run.dir`.
+`wandb.init`の後にスクリプトの先頭で一度`wandb.save("*.pt")`を呼び出すと、そのパターンに一致するすべてのファイルが、`wandb.run.dir`に書き込まれるとすぐに保存されます。
 
-### Can I remove local files that have already been synced to cloud storage?
+### すでにクラウドストレージに同期されたローカルファイルを削除することはできますか？
 
-There’s a command `wandb sync --clean` that you can run to remove local files that have already been synced to cloud storage. More information about usage can be found with `wandb sync --help`
+ローカルのファイルをすでにクラウドストレージに同期した後に削除するためのコマンド`wandb sync --clean`があります。使用方法の詳細は `wandb sync --help`で見ることができます。
 
-### What if I want to restore the state of my code?
-
-Use the `restore` command of our [command line tool](../../ref/cli/README.md) to return to the state of your code when you ran a given run.
+### コードの状態を復元したい場合はどうすればいいですか？
+`restore`コマンドを使って、特定のrunが実行された時のコードの状態に戻ります。[コマンドラインツール](../../ref/cli/README.md)を参照してください。
 
 ```python
-# creates a branch and restores the code to the state
-# it was in when run $RUN_ID was executed
+# ブランチを作成し、コードの状態を復元します
+# run $RUN_IDが実行された時の状態に
 wandb restore $RUN_ID
 ```
 
-### How does `wandb` capture the state of the code?
+### `wandb`はコードの状態をどのようにキャプチャしますか？
 
-When `wandb.init` is called from your script, a link is saved to the last git commit if the code is in a git repository. A diff patch is also created in case there are uncommitted changes or changes that are out of sync with your remote.
+スクリプトから`wandb.init`が呼び出されると、コードがgitリポジトリにある場合は最後のgitコミットへのリンクが保存されます。また、未コミットの変更やリモートと同期されていない変更がある場合は、diffパッチも作成されます。

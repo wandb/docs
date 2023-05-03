@@ -1,70 +1,73 @@
 ---
 description: >-
-  Manage a team's members, avatar, alerts, and privacy settings with the Team
-  Settings page.
-displayed_sidebar: ja
+  チームのメンバー、アバター、アラート、プライバシー設定を、チーム設定ページで管理します。
 ---
 
-# Team settings
+# チーム設定
 
-Navigate to your team’s profile page and select the **Team settings** icon to manage team settings. Not all members in a team can modify team settings. The account type (Administrator, Member, or Service) of a member determines what settings that member can modify. For example, only Administration account types can change team privacy settings and remove a member from a team.
+チームのプロフィールページに移動して、**チーム設定**アイコンを選択してチーム設定を管理します。チーム内のすべてのメンバーがチーム設定を変更できるわけではありません。メンバーのアカウントタイプ（管理者、メンバー、またはサービス）によって、そのメンバーが変更できる設定が決まります。例えば、管理者アカウントタイプのみがチームのプライバシー設定を変更したり、チームからメンバーを削除することができます。
 
-### Members
+### メンバー
 
-The **Members** section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, and account type. There are three account types: Administrator (Admin), Member, and Service.
+**メンバー**セクションには、保留中の招待状リストと、チームに参加する招待を受け入れたメンバーが表示されます。各メンバーには、名前、ユーザー名、アカウントタイプが表示されます。アカウントタイプは3つあります：管理者（Admin）、メンバー、サービス。
 
-#### Change a member's role in the team
+#### チーム内でメンバーの役割を変更する
 
-Complete the proceeding steps to change a member's role in a team:
+以下の手順でチーム内のメンバーの役割を変更します：
 
-1. Select the account type icon next to the name of a given team member. A modal will appear.
-2. Select the drop-down menu.
-3. From the drop-down, choose the account type you want that team member to posses.
+1. あるチームメンバーの名前の隣にあるアカウントタイプアイコンを選択します。モーダルが表示されます。
+2. ドロップダウンメニューを選択します。
+3. ドロップダウンから、そのチームメンバーに持たせたいアカウントタイプを選択します。
 
-#### Remove a member from a team
+#### チームからメンバーを削除する
 
-Select the trash can icon next to the name of the member you want to remove from the team.
+チームから削除したいメンバーの名前の隣にあるゴミ箱アイコンを選択します。
 
 :::info
-Runs created in a team account are preserved when the member who created those runs are removed from the team.
+チームアカウントで作成されたRunsは、それらのRunsを作成したメンバーがチームから削除された場合も保持されます。
 :::
+#### サインアップ時にチーム組織にメンバーを割り当てる
 
-#### Match members to a team organization during signup
+新しいユーザーがサインアップ時に、組織内のチームを見つけられるようにします。新しいユーザーは、組織の確認済みメールドメインと一致する確認済みメールドメインを持っている必要があります。確認済みの新しいユーザーは、W&Bアカウントにサインアップすると、組織に属する確認済みチームのリストが表示されます。
 
-Allow new users within your organization discover Teams within your organization when they sign-up. New users must have a verified email domain that matches your organization's verified email domain. Verified new users will see a list of verified teams that belong to an organization when they sign up for a W&B account.
+組織の管理者（Admin）は、この機能を有効にする必要があります。この機能を有効にするには、以下の手順に従ってください。
 
-An organization administrator (Admin) must enable this feature. To enable this feature, follow these steps:
+1. チーム設定ページの**プライバシー**セクションに移動します。
+2. "Allow users with matching organization email domain to join this team"というテキストの隣にある**アクセスをリクエスト**ボタンを選択します。Weights & Biasesサポートチームにリクエストが通知されます。
+3. W&Bサポートチームがリクエストを確認すると、**アクセスをリクエスト**ボタンが消え、トグルが有効になります。
+4. 新しく有効にされたトグルを選択します。
 
-1. Navigate to the **Privacy** section of the Teams Setting page.
-2. Select the **Request Access** button next to text "Allow users with matching organization email domain to join this team". Weights & Biases Support will be notified of the request.
-3. The **Request Access** button will disappear and the toggle is enabled when W&B Support verifies the request.
-4. Select the newly enabled toggle.
+### アバター
 
-### Avatar
+**アバター**セクションに移動して画像をアップロードすることで、アバターを設定します。
 
-Set an avatar by navigating to the **Avatar** section and uploading an image.
+1. **アバターを更新**を選択すると、ファイルダイアログが表示されます。
+2. ファイルダイアログから、使用したい画像を選択します。
 
-1. Select the **Update Avatar** to prompt a file dialog to appear.
-2. From the file dialog, choose the image you want to use.
+### アラート
 
-### Alerts
+runがクラッシュした場合、終了した場合、またはカスタムアラートを設定してチームに通知します。チームは、メールまたはSlackでアラートを受け取ることができます。
 
-Notify your team when runs crash, finish, or set custom alerts. Your team can receive alerts either through email or Slack.
+アラートを受け取りたいイベントタイプの隣にあるスイッチを切り替えます。Weights and Biasesは、デフォルトで以下のイベントタイプオプションを提供しています。
 
-Toggle the switch next to the event type you want to receive alerts from. Weights and Biases provides the following event type options be default:
+* **Runs finished**: Weights and Biases の run が正常に終了したかどうか。
+* **Run crashed**: runが終了しなかった場合。
 
-* **Runs finished**: whether a Weights and Biases run successfully finished.
-* **Run crashed**: if a run has failed to finish.
+アラートの設定と管理方法についての詳細は、[Send alerts with wandb.alert](../../runs/alert.md) を参照してください。
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert](../../runs/alert.md).
+### プライバシー
+**プライバシー** セクションに移動して、プライバシー設定を変更します。管理者権限を持つメンバーのみがプライバシー設定を変更できます。管理者権限は以下の機能があります。
 
-### Privacy
 
-Navigate to the **Privacy** section to change privacy settings. Only members with Administrative roles can modify privacy settings. Administrator roles can:
 
-* Force projects in the team to be private.
-* Enable code saving by default.
+* チーム内のプロジェクトをプライベートにすることを強制する。
 
-### Usage
+* デフォルトでコードの保存を有効化する。
 
-The **Usage** section describes the total memory usage the team has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+
+
+### 使用状況
+
+
+
+**使用状況** セクションでは、チームがWeights and Biasesサーバーで消費した合計メモリ使用量が説明されています。デフォルトのストレージプランは100GBです。ストレージや価格に関する詳細は、[Pricing](https://wandb.ai/site/pricing)ページを参照してください。

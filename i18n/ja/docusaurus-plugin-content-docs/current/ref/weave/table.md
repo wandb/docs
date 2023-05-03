@@ -1,49 +1,47 @@
-# table
+# テーブル
 
-## Chainable Ops
+## 連鎖可能な操作
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの_ファイル_を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
+#### 返り値
+アセットの_ファイル_
 
 <h3 id="table-rows"><code>table-rows</code></h3>
 
-Returns the rows of a _table_
+_テーブル_の行を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `table` | A _table_ |
+| `table` | _テーブル_ |
 
-#### Return Value
-The rows of the _table_
+#### 返り値
+_テーブル_の行
 
 
-## List Ops
+## リスト操作
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの_ファイル_を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
+#### 返り値
+アセットの_ファイル_
 
 <h3 id="table-rows"><code>table-rows</code></h3>
 
-Returns the rows of a _table_
-
-| Argument |  |
+_テーブル_の行を返します
+| 引数 |  |
 | :--- | :--- |
-| `table` | A _table_ |
+| `table` | _テーブル_ |
 
-#### Return Value
-The rows of the _table_
-
+#### 戻り値
+_テーブル_ の行

@@ -1,7 +1,6 @@
 ---
 slug: /guides/integrations/openai
-description: How to integrate W&B with OpenAI.
-displayed_sidebar: ja
+description: W&BとOpenAIの統合方法。
 ---
 
 import Tabs from '@theme/Tabs';
@@ -10,45 +9,101 @@ import TabItem from '@theme/TabItem';
 # OpenAI API
 
 :::info
-**Beta Integration**: This is a new feature, and we're actively working on making this better. Please reach out if you have any feedback — contact@wandb.com
+**Beta Integration**: これは新しい機能であり、この機能を改善するために積極的に取り組んでいます。何かフィードバックがあれば、お気軽にお問い合わせください — contact@wandb.com
 :::
 
-OpenAI’s API gives practitioners access to GPT-3, an incredibly powerful natural language model that can be applied to virtually any task that involves understanding or generating natural language.
+OpenAIのAPIは、機械学習開発者がGPT-4にアクセスできるようにします。これは非常にパワフルな自然言語モデルであり、自然言語を理解したり生成したりするタスクにほぼ適用できます。
 
-If you use OpenAI's API to [fine-tune GPT-3](https://beta.openai.com/docs/guides/fine-tuning), you can now use the W&B integration to track experiments, models, and datasets in your central dashboard.
+## OpenAI APIコールを1行のコードでログに記録する
+たった1行のコードで、OpenAI Python SDKからWeights & Biasesに入力と出力を自動的にログに記録できるようになりました！
+
+![](/images/integrations/open_ai_autolog.png)
+
+始めるには、`wandb`ライブラリをpipでインストールし、以下の手順に従ってください。
+
+### 1. autologをインポートして初期化する
+まず、`wandb.integration.openai`から`autolog`をインポートし、初期化します。
+
+```python
+import os
+import openai
+from wandb.integration.openai import autolog
+以下は、Markdownテキストのチャンクです。これを日本語に翻訳してください。返信時は、翻訳されたテキストのみを記載して、それ以外に何も言わないでください。テキスト：
+
+autolog({"project":"gpt5"})
+```
+
+必要に応じて、`autolog`に`wandb.init()`が受け付ける引数を含むディクショナリを渡すことができます。これには、プロジェクト名、チーム名、エンティティなどが含まれます。 [`wandb.init`](../../../ref/python/init.md)についての詳細は、APIリファレンスガイドを参照してください。
+
+### 2. OpenAI APIを呼び出す
+これで、OpenAI APIへの各呼び出しがWeights＆Biasesに自動的に記録されます。
+
+```python
+os.environ["OPENAI_API_KEY"] = "XXX"
+
+chat_request_kwargs = dict(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "あなたは親切なアシスタントです。"},
+        {"role": "user", "content": "2020年のワールドシリーズで誰が勝ちましたか？"},
+        {"role": "assistant", "content": "ロサンゼルス・ドジャースです"},
+        {"role": "user", "content": "それはどこで行われましたか？"},
+    ],
+)
+response = openai.ChatCompletion.create(**chat_request_kwargs)
+```
+
+### 3. OpenAI APIの入力とレスポンスを表示する
+
+**手順1**で`autolog`によって生成されたWeights＆Biases [run](../../runs/intro.md)リンクをクリックします。これにより、W&Bアプリのプロジェクトワークスペースにリダイレクトされます。
+
+作成したrunを選択して、トレーステーブル、トレースタイムライン、および使用されたOpenAI LLMのアーキテクチャーを表示します。
+### 4. オートログを無効にする
+OpenAI APIを使用し終わったら、`disable()`を呼び出して、W&Bのすべてのプロセスを閉じることをお勧めします。
+
+```python
+autolog.disable()
+```
+
+これで、入力と完成がWeights & Biasesにログされ、分析や同僚との共有の準備が整います。
+
+## W&BにOpenAIの微調整をログする
+
+OpenAIのAPIを使って[GPT-3を微調整する](https://beta.openai.com/docs/guides/fine-tuning)場合、W&Bの統合を利用して、実験、モデル、データセットを一元管理できるダッシュボードでトラッキングできるようになります。
 
 ![](/images/integrations/open_ai_api.png)
 
-All it takes is one line: `openai wandb sync`
+必要なのは、`openai wandb sync`という一行だけです。
 
-## :sparkles: Check out interactive examples
+## :sparkles: インタラクティブな例をチェックしよう
 
-* [Demo Colab](http://wandb.me/openai-colab)
-* [Report - GPT-3 Exploration and Fine-Tuning Tips](http://wandb.me/openai-report)
+* [デモColab](http://wandb.me/openai-colab)
+* [レポート - GPT-3の探索と微調整のヒント](http://wandb.me/openai-report)
 
-## :tada: Sync your fine-tunes with one line!
+## :tada: 1行で微調整を同期しよう！
 
-Make sure you are using latest version of openai and wandb.
+openaiとwandbの最新バージョンを使用していることを確認してください。
 
 ```shell-session
 $ pip install --upgrade openai wandb
 ```
 
-Then sync your results from the command line or from your script.
+次に、コマンドラインまたはスクリプトから結果を同期します。
+以下は、Markdownテキストの翻訳です。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'Command Line', value: 'cli'},
+    {label: 'コマンドライン', value: 'cli'},
     {label: 'Python', value: 'python_sdk'},
   ]}>
   <TabItem value="cli">
 
 ```shell-session
-$ # one line command
+$ # 1行のコマンド
 $ openai wandb sync
 
-$ # passing optional parameters
+$ # オプションパラメータを渡す
 $ openai wandb sync --help
 ```
   </TabItem>
@@ -57,10 +112,10 @@ $ openai wandb sync --help
 ```python
 from openai.wandb_logger import WandbLogger
 
-# one line command
+# 1行のコマンド
 WandbLogger.sync()
 
-# passing optional parameters
+# オプションパラメータを渡す
 WandbLogger.sync(
     id=None,
     n_fine_tunes=None,
@@ -72,58 +127,56 @@ WandbLogger.sync(
 ```
   </TabItem>
 </Tabs>
-
-We scan for new completed fine-tunes and automatically add them to your dashboard.
+新しい完了した微調整をスキャンし、自動的にダッシュボードに追加します。
 
 ![](/images/integrations/open_ai_auto_scan.png)
 
-In addition your training and validation files are logged and versioned, as well as details of your fine-tune results. This let you interactively explore your training and validation data.
+さらに、トレーニングと検証のファイルがログ化されバージョン管理され、微調整の結果の詳細も記録されます。これにより、トレーニングデータと検証データを対話式に調べることができます。
 
 ![](/images/integrations/open_ai_validation_files.png)
 
-## :gear: Optional arguments
+## :gear: 任意の引数
 
-| Argument                 | Description                                                                                                               |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| -i ID, --id ID           | The id of the fine-tune (optional)                                                                                        |
-| -n N, --n\_fine\_tunes N | Number of most recent fine-tunes to log when an id is not provided. By default, every fine-tune is synced.                |
-| --project PROJECT        | Name of the project where you're sending runs. By default, it is "GPT-3".                                                 |
-| --entity ENTITY          | Username or team name where you're sending runs. By default, your default entity is used, which is usually your username. |
-| --force                  | Forces logging and overwrite existing wandb run of the same fine-tune.                                                    |
-| \*\*kwargs\_wandb\_init  | In python, any additional argument is directly passed to [`wandb.init()`](../../../ref/python/init.md)                    |
+| 引数                     | 説明                                                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| -i ID, --id ID           | 微調整のID（任意）                                                                                                       |
+| -n N, --n\_fine\_tunes N | IDが提供されていない場合にログする最も新しい微調整の数。デフォルトでは、すべての微調整が同期されます。                 |
+| --project PROJECT        | プロジェクトの名前。デフォルトでは、「GPT-3」です。                                                                        |
+| --entity ENTITY          | runsを送信するユーザー名またはチーム名。デフォルトでは、デフォルトのエンティティ（通常はユーザー名）が使用されます。   |
+| --force                  | ログ記録を強制し、同じ微調整の既存のwandb runを上書きします。                                                          |
+| \*\*kwargs\_wandb\_init  | Pythonでは、追加の引数は[`wandb.init()`](../../../ref/python/init.md)に直接渡されます。                          |
 
-## 🔍 Inspect sample predictions
+## 🔍 サンプル予測の検証
 
-Use [Tables](../../data-vis/intro.md) to better visualize sample predictions and compare models.
+[Tables](../../data-vis/intro.md)を使用して、サンプル予測をより良く可視化し、モデルを比較します。
 
 ![](/images/integrations/open_ai_inspect_sample.png)
 
-Create a new run:
+新しいrunを作成します：
 
 ```python
 run = wandb.init(project="GPT-3", job_type="eval")
 ```
+推論用のモデルIDを取得します。
 
-Retrieve a model id for inference.
-
-You can use automatically logged artifacts to retrieve your latest model:
+自動的にログされたアーティファクトを使用して、最新のモデルを取得できます。
 
 ```python
 artifact_job = run.use_artifact("ENTITY/PROJECT/fine_tune_details:latest")
 fine_tuned_model = artifact_job.metadata["fine_tuned_model"]
 ```
 
-You can also retrieve your validation file:
+検証ファイルも取得できます。
 
 ```python
 artifact_valid = run.use_artifact("ENTITY/PROJECT/FILENAME:latest")
 valid_file = artifact_valid.get_path("FILENAME").download()
 ```
 
-Perform some inferences using OpenAI API:
+OpenAI APIを使っていくつかの推論を行います。
 
 ```python
-# perform inference and record results
+# 推論を行い結果を記録する
 my_prompts = ["PROMPT_1", "PROMPT_2"]
 results = []
 for prompt in my_prompts:
@@ -133,65 +186,69 @@ for prompt in my_prompts:
     results.append(res["choices"][0]["text"])
 ```
 
-Log your results with a Table:
-
+結果をテーブルでログします。
 ```python
 table = wandb.Table(columns=['prompt', 'completion'],
                     data=list(zip(my_prompts, results)))
 ```
 
-## :question:Frequently Asked Questions
+## :question:よくある質問
 
-### How do I share runs with my team?
+### どのようにしてチームとrunを共有できますか？
 
-Sync all your runs to your team account with:
+以下のようにして、すべてのrunをチームアカウントと同期させます。
 
 ```shell-session
 $ openai wandb sync --entity MY_TEAM_ACCOUNT
 ```
 
-### How can I organize my runs?
+### runをどのように整理できますか？
 
-Your runs are automatically organized and can be filtered/sorted based on any configuration parameter such as job type, base model, learning rate, training filename and any other hyper-parameter.
+runは自動的に整理され、ジョブタイプ、ベースモデル、学習率、トレーニングファイル名、その他のハイパーパラメータなどの設定パラメータに基づいてフィルター/並び替えができます。
 
-In addition, you can rename your runs, add notes or create tags to group them.
+また、runの名前を変更したり、ノートを追加したり、タグを作成してグループ化することができます。
 
-Once you’re satisfied, you can save your workspace and use it to create report, importing data from your runs and saved artifacts (training/validation files).
+満足したら、ワークスペースを保存し、レポートを作成するために、runからデータや保存されたアーティファクト（トレーニング/検証ファイル）をインポートできます。
 
-### How can I access my fine-tune details?
+### 微調整の詳細にどのようにアクセスできますか？
 
-Fine-tune details are logged to W&B as artifacts and can be accessed with:
+微調整の詳細はW&Bにアーティファクトとしてログされており、以下のようにアクセスできます。
 
 ```python
 import wandb
-
+```
 artifact_job = wandb.run.use_artifact('USERNAME/PROJECT/job_details:VERSION')
+
 ```
 
-where `VERSION` is either:
+ここで`VERSION`は以下のいずれかです。
 
-* a version number such as `v2`
-* the fine-tune id such as `ft-xxxxxxxxx`
-* an alias added automatically such as `latest` or manually
+* バージョン番号（例：`v2`）
 
-You can then access fine-tune details through `artifact_job.metadata`. For example, the fine-tuned model can be retrieved with `artifact_job.metadata[`"`fine_tuned_model"]`.
+* 微調整ID（例：`ft-xxxxxxxxx`）
 
-### What if a fine-tune was not synced successfully?
+* 自動的に追加されたエイリアス（例：`latest`）または手動で追加されたエイリアス
 
-You can always call again `openai wandb sync` and we will re-sync any run that was not synced successfully.
+その後、`artifact_job.metadata` を通して微調整の詳細にアクセスできます。例えば、微調整されたモデルは `artifact_job.metadata["fine_tuned_model"]`で取得できます。
 
-If needed, you can call `openai wandb sync --id fine_tune_id --force` to force re-syncing a specific fine-tune.
+### ファインチューンが正常に同期されなかった場合は？
 
-### Can I track my datasets with W&B?
+いつでも `openai wandb sync` を再度呼び出すことで、正常に同期されなかったランを再同期できます。
 
-Yes, you can integrate your entire pipeline to W&B through Artifacts, including creating your dataset, splitting it, training your models and evaluating them!
+必要に応じて、`openai wandb sync --id fine_tune_id --force` を呼び出して、特定のファインチューンを強制的に再同期できます。
 
-This will allow complete traceability of your models.
+### W&Bでデータセットをトラッキングできますか？
+
+はい、Artifactsを通じて、データセットの作成、分割、モデルのトレーニングおよび評価を含む、W&Bの完全な開発フローを統合できます！
+
+これにより、モデルの完全なトレーサビリティが実現されます。
 
 ![](/images/integrations/open_ai_faq_can_track.png)
 
-## :books: Resources
+## :books: リソース
 
-* [OpenAI Fine-tuning Documentation](https://beta.openai.com/docs/guides/fine-tuning) is very thorough and contains many useful tips
-* [Demo Colab](http://wandb.me/openai-colab)
-* [Report - GPT-3 Exploration & Fine-tuning Tips](http://wandb.me/openai-report)
+* [OpenAI Fine-tuning Documentation](https://beta.openai.com/docs/guides/fine-tuning) は非常に詳細で、多くの有益なヒントが含まれています。
+
+* [デモColab](http://wandb.me/openai-colab)
+
+* [レポート - GPT-3 Exploration & Fine-tuning Tips](http://wandb.me/openai-report)

@@ -1,111 +1,106 @@
----
-displayed_sidebar: ja
----
+# 一般
 
-# General
+### `wandb.init`は私のトレーニングプロセスに何をしますか？
 
-### What does `wandb.init` do to my training process?
+トレーニングスクリプトから`wandb.init()`が呼ばれると、APIコールが行われ、サーバー上にrunオブジェクトが作成されます。新しいプロセスが開始され、メトリクスをストリーム化し、収集することで、すべてのスレッドとロジックを主プロセスから外すようにしています。スクリプトは通常通り実行され、ローカルファイルに書き込まれる一方で、別のプロセスがそれらをサーバーにストリーム化し、システムメトリクスも送信します。いつでもストリーミングをオフにするには、トレーニングディレクトリから`wandb off`を実行するか、`WANDB_MODE` 環境変数を `offline` に設定してください。
 
-When `wandb.init()` is called from your training script an API call is made to create a run object on our servers. A new process is started to stream and collect metrics, thereby keeping all threads and logic out of your primary process. Your script runs normally and writes to local files, while the separate process streams them to our servers along with system metrics. You can always turn off streaming by running `wandb off` from your training directory, or setting the `WANDB_MODE` environment variable to `offline`.
+### コードをテストするときにwandbを無効にできますか？
 
-### Can I disable wandb when testing my code?
+`wandb.init(mode="disabled")`や`WANDB_MODE=disabled`を使用することで、wandbはNOOPのように動作し、コードのテストに最適になります。
 
-By using `wandb.init(mode="disabled")` or by setting `WANDB_MODE=disabled` you will make wandb act like a NOOP which is perfect for testing your code.
+**注意**：`wandb.init(mode="disabled")`を設定しても、`wandb`は`WANDB_CACHE_DIR`にアーティファクトを保存することを防ぎません
 
-**Note**: Setting `wandb.init(mode=“disabled”)` does not prevent `wandb` from saving artifacts to `WANDB_CACHE_DIR`
+### あなたのツールは、トレーニングデータを追跡または保存しますか？
 
-### Does your tool track or store training data?
+`wandb.config.update(...)`にSHAや他の一意の識別子を渡すことで、データセットをトレーニングのrunに関連付けることができます。W&Bは、`wandb.save`がローカルファイル名で呼び出される場合にのみデータを保存します。
 
-You can pass a SHA or other unique identifier to `wandb.config.update(...)` to associate a dataset with a training run. W&B does not store any data unless `wandb.save` is called with the local file name.
+### スムージングアルゴリズムに使用している式は何ですか？
 
-### What formula do you use for your smoothing algorithm?
+TensorBoardと同じ指数平滑移動平均の式を使用しています。[こちらで説明を見つけることができます](https://stackoverflow.com/questions/42281844/what-is-the-mathematics-behind-the-smoothing-parameter-in-tensorboards-scalar)。
 
-We use the same exponential moving average formula as TensorBoard. You can find an [explanation here](https://stackoverflow.com/questions/42281844/what-is-the-mathematics-behind-the-smoothing-parameter-in-tensorboards-scalar).
+### スクリプトでランダムなrun名を取得する方法は？
 
-### How do I get the random run name in my script?
+`wandb.run.save()`を呼び出してから、`wandb.run.name`で名前を取得します。
 
-Call `wandb.run.save()` and then get the name with `wandb.run.name` .
+### `.log()`と`.summary`の違いは何ですか？
 
-### What is the difference between `.log()` and `.summary`?
+summaryはテーブルに表示される値であり、logは後でプロットするためにすべての値を保存します。
 
-The summary is the value that shows in the table while the log will save all the values for plotting later.
+たとえば、精度が変わるたびに`wandb.log`を呼び出すことができます。通常、.logを使用できます。`wandb.log()`は、そのメトリクスに対してsummaryを手動で設定していない限り、デフォルトでsummary値も更新します。
 
-For example, you might want to call `wandb.log` every time the accuracy changes. Usually, you can just use .log. `wandb.log()` will also update the summary value by default unless you have set the summary manually for that metric
+散布図と並行座標プロットもsummary値を使用し、折れ線プロットは.logで設定したすべての値をプロットします。
+まず、その理由は、一部の人々がサマリーを手動で設定したいと考えているためで、例えば最適な精度ではなく、最後にログされた精度を反映させたいといったことです。
 
-The scatterplot and parallel coordinate plots will also use the summary value while the line plot plots all of the values set by .log
+### W&BとTensorBoardの違いは何ですか？
 
-The reason we have both is that some people like to set the summary manually because they want the summary to reflect for example the optimal accuracy instead of the last accuracy logged.
+私たちはTensorBoardの開発者たちを尊敬しており、[TensorBoardとの連携](../integrations/tensorboard.md)を提供しています！私たちは、誰もが使える実験追跡ツールを改善することにインスパイアされました。W&Bの共同創設者たちは、OpenAIでTensorBoardに不満を持つユーザーに向けたツールを開発することにインスパイアされました。以下は、私たちが特に改善に注力したいくつかの点です。
 
-### How is W&B different from TensorBoard?
+1. **モデルの再現性**: Weights & Biasesは、実験、探索、そして後でモデルを再現するために適しています。メトリクスだけでなく、ハイパーパラメーターやコードのバージョンも記録し、チェックポイントにモデルを保存できるようにして、プロジェクトが再現可能になるようにしています。
+2. **自動的な整理**: プロジェクトを他の人に引き継いだり、休暇を取ったりすると、W&Bではこれまで試したモデルがすべて確認できるので、古い実験をやり直す時間を無駄にすることがありません。
+3. **高速で柔軟な統合**: W&Bをプロジェクトに5分で追加できます。無料のオープンソースのPythonパッケージをインストールし、コードに2行追加するだけで、モデルを実行するたびにきれいにログされたメトリクスと記録が得られます。
+4. **持続的で集中管理されたダッシュボード**: ローカルマシン、研究室のクラスター、クラウドのスポットインスタンスなど、モデルをトレーニングする場所に関わらず、同じ集中管理されたダッシュボードが得られます。異なるマシンからTensorBoardのファイルをコピーして整理する時間を節約できます。
+5. **強力なテーブル**: 異なるモデルの結果を検索、フィルタ、並び替え、グループ化できます。何千ものモデルバージョンを一覧表示して、さまざまなタスクのパフォーマンスが高いモデルを見つけるのが簡単です。TensorBoard は大規模なプロジェクトでうまく動作するようには設計されていません。
+6. **コラボレーションのためのツール**: W&Bを使って、複雑な機械学習プロジェクトを整理します。W&Bへのリンクを簡単に共有できるだけでなく、プライベートチームを使って複数人が同じプロジェクトに結果を送信できます。また、インタラクティブな可視化を追加したり、作業内容をマークダウンで説明したりすることで、協力者との連携もサポートしています。これは、作業ログを残すためにも、上司に成果を報告するためにも、研究室で結果を発表するためにも便利です。
 
-We love the TensorBoard folks, and we have a [TensorBoard integration](../integrations/tensorboard.md)! We were inspired to improve experiment tracking tools for everyone. When the co-founders started working on W&B, they were inspired to build a tool for the frustrated TensorBoard users at OpenAI. Here are a few things we focused on improving:
+[無料の個人アカウントで始める→](http://app.wandb.ai)
 
-1. **Reproduce models**: Weights & Biases is good for experimentation, exploration, and reproducing models later. We capture not just the metrics, but also the hyperparameters and version of the code, and we can save your model checkpoints for you so your project is reproducible.
-2. **Automatic organization**: If you hand off a project to a collaborator or take a vacation, W&B makes it easy to see all the models you've tried so you're not wasting hours re-running old experiments.
-3. **Fast, flexible integration**: Add W&B to your project in 5 minutes. Install our free open-source Python package and add a couple of lines to your code, and every time you run your model you'll have nice logged metrics and records.
-4. **Persistent, centralized dashboard**: Anywhere you train your models, whether on your local machine, your lab cluster, or spot instances in the cloud, we give you the same centralized dashboard. You don't need to spend your time copying and organizing TensorBoard files from different machines.
-5. **Powerful table**: Search, filter, sort, and group results from different models. It's easy to look over thousands of model versions and find the best-performing models for different tasks. TensorBoard isn't built to work well on large projects.
-6. **Tools for collaboration**: Use W&B to organize complex machine learning projects. It's easy to share a link to W&B, and you can use private teams to have everyone send results to a shared project. We also support collaboration via reports— add interactive visualizations and describe your work in markdown. This is a great way to keep a work log, share findings with your supervisor, or present findings to your lab.
+### wandbはどのようにログをストリーミングし、ディスクに書き込みますか？
 
-Get started with a [free personal account →](http://app.wandb.ai)
+W&Bはメモリ内にキューイングするだけでなく、[ディスクにイベントを書き込む](https://github.com/wandb/wandb/blob/7cc4dd311f3cdba8a740be0dc8903075250a914e/wandb/sdk/internal/datastore.py)ことも非同期で行い、これによって障害が発生した場合や`WANDB_MODE=offline` の場合に、ログされたデータを後で同期することができます。
 
-### How does wandb stream logs and writes to disk?
+ターミナルでは、ローカルのrunディレクトリへのパスが表示されます。このディレクトリには、上記のデータストアとなる`.wandb`ファイルが含まれています。また、画像もログしている場合、クラウドストレージにアップロードする前に、そのディレクトリの`media/images`に画像が書き込まれます。
 
-W&B queues in memory but also [write the events to disk](https://github.com/wandb/wandb/blob/7cc4dd311f3cdba8a740be0dc8903075250a914e/wandb/sdk/internal/datastore.py) asynchronously to handle failures and for the `WANDB_MODE=offline` case where you can sync the data after it's been logged.
+### 複数のチャートで、異なる選択されたrunsを表示する方法は？
 
-In your terminal, you can see a path to the local run directory. This directory will contain a `.wandb` file that is the datastore above. If you're also logging images, we write them to `media/images` in that directory before uploading them to cloud storage.
+wandbレポートでは、以下の手順で行います。
 
-### How to get multiple charts with different selected runs?
+* 複数のパネルグリッドを持つ。
+* 各パネルグリッドのrunセットをフィルタリングするためにフィルタを追加します。これにより、各パネルで表示したいrunsを選択できます。
+* パネルグリッドに表示したいチャートを作成します。
+### APIへのアクセスはどのように制御されていますか？
 
-With wandb reports the procedure is as follows:
+簡単のため、W&BはAPIキーを使用してAPIへのアクセス時に認証を行います。APIキーは、[設定](https://app.wandb.ai/settings)で見つけることができます。APIキーは安全に保存され、バージョン管理にチェックインされることはありません。個人用APIキーに加えて、チームにサービスアカウントユーザーを追加することができます。
 
-* Have multiple panel grids.
-* Add filters to filter the run sets of each panel grid. This will help in selecting the runs that you want to portray in the respective panels.
-* Create the charts you want in the panel grids.
+### W&BはSaaSのためのSSOをサポートしていますか？
 
-### How is access to the API controlled?
+はい、W&BはAuth0を介したSaaSのSingle Sign-On（SSO）設定をサポートしています。W&Bは、OIDC準拠のIdentity Provider（例：Okta、AzureADなど）とのSSOインテグレーションをサポートしています。OIDCプロバイダがある場合は、以下の手順に従ってください。
 
-For simplicity, W&B uses API keys for authorization when accessing the API. You can find your API keys in your [settings](https://app.wandb.ai/settings). Your API key should be stored securely and never checked into version control. In addition to personal API keys, you can add Service Account users to your team.
+* Identity Provider上に`Single Page Application (SPA)`を作成します。
+* `grant_type`を`implicit`フローに設定します。
+* コールバックURIを`https://wandb.auth0.com/login/callback`に設定します。
 
-### Does W&B support SSO for SaaS?
+**W&Bに必要なものは？**
 
-Yes, W&B supports setting up Single Sign-On (SSO) for the SaaS offering via Auth0. W&B support SSO integration with any OIDC compliant identity provider(ex: Okta, AzureAD etc.). If you have an OIDC provider, please follow the steps below:
+上記の設定が完了したら、お客様担当のカスタマーサクセスマネージャー(CSM)にご連絡いただき、アプリケーションに関連付けられた`クライアントID`と`発行元URL`をお知らせください。
 
-* Create a `Single Page Application (SPA)` on your Identity Provider.
-* Set `grant_type` to `implicit` flow.
-* Set the callback URI to `https://wandb.auth0.com/login/callback`.
+その後、上記の詳細を持つAuth0接続を設定し、SSOを有効にします。
 
-**What W&B needs?**
+### サービスアカウントとは何ですか？その利点は何ですか？
 
-Once you have the above setup, contact your customer success manager(CSM) and let us know the `Client ID` and `Issuer URL` associated with the application.
+サービスアカウントは、チームに書き込む権限を持つAPIキーであり、特定のユーザーに関連付けられていません。サービスアカウントは、定期的な再トレーニング、ナイトリービルドなど、wandbにログを記録する自動化されたジョブのトラッキングに役立ちます。必要に応じて、[環境変数](../track/environment-variables.md) `WANDB_USERNAME`を使用して、これらのマシン起動runsにユーザー名を関連付けることができます。
 
-We'll then set up an Auth0 connection with the above details and enable SSO.
+APIキーは、チーム設定ページ`/teams/<your-team-name>`で取得できます。ここで新しいチームメンバーを招待します。サービスを選択し、サービスアカウントを追加するために作成をクリックします。
 
-### What is a service account, and why is it useful?
+![自動化ジョブ用のチーム設定ページでサービスアカウントを作成する](/images/technical_faq/what_is_service_account.png)
 
-A service account is an API key that has permissions to write to your team, but is not associated with a particular user. Among other things, service accounts are useful for tracking automated jobs logged to wandb, like periodic retraining, nightly builds, and so on. If you'd like, you can associate a username with one of these machine-launched runs with the [environment variable](../track/environment-variables.md) `WANDB_USERNAME`.
+### アクセスを回転させるか取り消す方法は？
 
-You can get the API key in your Team Settings page `/teams/<your-team-name>` where you invite new team members. Select service and click create to add a service account.
+個人用のAPIキーおよびサービスアカウントキーは、回転させたり取り消したりすることができます。新しいAPIキーまたはサービスアカウントユーザーを作成し、新しいキーを使用するようにスクリプトを再設定します。すべてのプロセスが再設定されたら、プロファイルまたはチームから古いAPIキーを削除できます。
+### 同じマシン上でアカウントを切り替える方法は？
 
-![Create a service account on your team settings page for automated jobs](/images/technical_faq/what_is_service_account.png)
-
-### How can I rotate or revoke access?
-
-Both personal and service account keys can be rotated or revoked. Simply create a new API Key or Service Account user and reconfigure your scripts to use the new key. Once all processes are reconfigured, you can remove the old API key from your profile or team.
-
-### How do I switch between accounts on the same machine?
-
-If you have two W&B accounts working from the same machine, you'll need a nice way to switch between your different API keys. You can store both API keys in a file on your machine then add code like the following to your repos. This is to avoid checking your secret key into a source control system, which is potentially dangerous.
+同じマシンで2つのW&Bアカウントを利用している場合、異なるAPIキー間で切り替える方法が必要になります。マシン上のファイルに両方のAPIキーを保存し、次のようなコードをリポジトリに追加します。これにより、ソースコントロールシステムに秘密キーを記録すことが潜在的に危険であるため、回避できます。
 
 ```python
 if os.path.exists("~/keys.json"):
    os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
 ```
 
-### Is there a dark mode?
+### ダークモードはありますか？
 
-Yes. To enable dark mode:
+はい。ダークモードを有効にする方法は以下の通りです。
 
-1. Navigate to your account settings at [https://wandb.ai/settings](https://wandb.ai/settings).
-2. Scroll to the **Beta Features** section.
-3. Toggle the **Night mode** option.
+1. [https://wandb.ai/settings](https://wandb.ai/settings) にてアカウント設定に移動します。
+
+2. **Beta Features** セクションまでスクロールします。
+
+3. **Night mode** オプションを切り替えます。

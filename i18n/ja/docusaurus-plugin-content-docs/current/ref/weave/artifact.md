@@ -1,71 +1,72 @@
-# artifact
+# アーティファクト
 
-## Chainable Ops
+## チェーン可能なOps
 <h3 id="artifact-link"><code>artifact-link</code></h3>
 
-Returns the url for a [artifact](https://docs.wandb.ai/ref/weave/artifact)
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のURLを返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | A [artifact](https://docs.wandb.ai/ref/weave/artifact) |
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
 
-#### Return Value
-The url for a [artifact](https://docs.wandb.ai/ref/weave/artifact)
+#### 返り値
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のURL
 
 <h3 id="artifact-name"><code>artifact-name</code></h3>
 
-Returns the name of the [artifact](https://docs.wandb.ai/ref/weave/artifact)
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)の名前を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | A [artifact](https://docs.wandb.ai/ref/weave/artifact) |
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
 
-#### Return Value
-The name of the [artifact](https://docs.wandb.ai/ref/weave/artifact)
+#### 返り値
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)の名前
 
 <h3 id="artifact-versions"><code>artifact-versions</code></h3>
 
-Returns the versions of the [artifact](https://docs.wandb.ai/ref/weave/artifact)
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のバージョンを返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | A [artifact](https://docs.wandb.ai/ref/weave/artifact) |
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
+#### 戻り値
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のバージョン
 
-#### Return Value
-The versions of the [artifact](https://docs.wandb.ai/ref/weave/artifact)
-
-
-## List Ops
+## リスト操作
 <h3 id="artifact-link"><code>artifact-link</code></h3>
 
-Returns the url for a [artifact](https://docs.wandb.ai/ref/weave/artifact)
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のURLを返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | A [artifact](https://docs.wandb.ai/ref/weave/artifact) |
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
 
-#### Return Value
-The url for a [artifact](https://docs.wandb.ai/ref/weave/artifact)
+#### 戻り値
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のURL
 
 <h3 id="artifact-name"><code>artifact-name</code></h3>
 
-Returns the name of the [artifact](https://docs.wandb.ai/ref/weave/artifact)
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)の名前を返します。
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | A [artifact](https://docs.wandb.ai/ref/weave/artifact) |
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
 
-#### Return Value
-The name of the [artifact](https://docs.wandb.ai/ref/weave/artifact)
+#### 戻り値
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)の名前
 
 <h3 id="artifact-versions"><code>artifact-versions</code></h3>
 
-Returns the versions of the [artifact](https://docs.wandb.ai/ref/weave/artifact)
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のバージョンを返します。
+| 引数 |  |
 
-| Argument |  |
 | :--- | :--- |
-| `artifact` | A [artifact](https://docs.wandb.ai/ref/weave/artifact) |
 
-#### Return Value
-The versions of the [artifact](https://docs.wandb.ai/ref/weave/artifact)
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
 
+
+
+#### 戻り値
+
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のバージョン

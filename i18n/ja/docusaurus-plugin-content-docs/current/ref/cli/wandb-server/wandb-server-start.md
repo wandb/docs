@@ -1,19 +1,18 @@
-# wandb server start
+# wandbサーバーの開始
 
-**Usage**
+**使用法**
 
 `wandb server start [OPTIONS]`
 
-**Summary**
+**概要**
 
-Start a local W&B server
+ローカルのW&Bサーバーを開始する
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| -p, --port | The host port to bind W&B server on |
-| -e, --env | Env vars to pass to wandb/local |
-| --daemon / --no-daemon | Run or don't run in daemon mode |
-| --help | Show this message and exit. |
-
+| -p, --port | W&Bサーバーにバインドするホストポート |
+| -e, --env | wandb/localに渡す環境変数 |
+| --daemon / --no-daemon | デーモンモードで実行するかしないか |
+| --help | このメッセージを表示して終了します。 |

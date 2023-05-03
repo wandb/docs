@@ -1,21 +1,21 @@
-# wandb artifact cache
+# wandbアーティファクトキャッシュ
 
-**Usage**
+**使い方**
 
-`wandb artifact cache [OPTIONS] COMMAND [ARGS]...`
+`wandb artifact cache [オプション] コマンド [ARGS]...`
 
-**Summary**
+**概要**
 
-Commands for interacting with the artifact cache
+アーティファクトキャッシュを操作するためのコマンド
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| --help | Show this message and exit. |
+| --help | このメッセージを表示して終了します。 |
 
-**Commands**
+**コマンド**
 
-| **Command** | **Description** |
+| **コマンド** | **説明** |
 | :--- | :--- |
-| cleanup | Clean up less frequently used files from the artifacts cache |
+| cleanup | アーティファクトキャッシュから、あまり使われていないファイルを削除する |

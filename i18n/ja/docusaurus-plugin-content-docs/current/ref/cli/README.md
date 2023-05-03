@@ -1,39 +1,37 @@
-# Command Line Interface
+# コマンドラインインターフェース
 
-**Usage**
+**使い方**
 
-`wandb [OPTIONS] COMMAND [ARGS]...`
+`wandb [オプション] コマンド [ARG]...`
 
-
-**Options**
-
-| **Option** | **Description** |
+**オプション**
+| **オプション** | **説明** |
 | :--- | :--- |
-| --version | Show the version and exit. |
-| --help | Show this message and exit. |
+| --version | バージョンを表示して終了します。 |
+| --help | このメッセージを表示して終了します。 |
 
-**Commands**
-
-| **Command** | **Description** |
+**コマンド**
+| **コマンド** | **説明** |
 | :--- | :--- |
-| agent | Run the W&B agent |
-| artifact | Commands for interacting with artifacts |
-| controller | Run the W&B local sweep controller |
-| disabled | Disable W&B. |
-| docker | Run your code in a docker container. |
-| docker-run | Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER... |
-| enabled | Enable W&B. |
-| init | Configure a directory with Weights & Biases |
-| launch | Launch or queue a job from a uri (Experimental). |
-| launch-agent | Run a W&B launch agent (Experimental). |
-| login | Login to Weights & Biases |
-| offline | Disable W&B sync |
-| online | Enable W&B sync |
-| pull | Pull files from Weights & Biases |
-| restore | Restore code, config and docker state for a run |
-| scheduler | Run a W&B launch sweep scheduler (Experimental) |
-| server | Commands for operating a local W&B server |
-| status | Show configuration settings |
-| sweep | Create a sweep |
-| sync | Upload an offline training directory to W&B |
-| verify | Verify your local instance |
+| agent | W&Bエージェントを実行 |
+| artifact | アーティファクトとのやり取りのためのコマンド |
+| controller | W&Bローカルスイープコントローラーを実行 |
+| disabled | W&Bを無効にする。 |
+| docker | コードをdockerコンテナで実行。 |
+| docker-run | `docker run`をラップし、WANDB_API_KEYおよびWANDB_DOCKERを追加... |
+| enabled | W&Bを有効にする。 |
+| import | 他のシステムからのデータのインポートコマンド |
+| init | Weights & Biasesとともにディレクトリを設定 |
+| launch | W&Bジョブを開始またはキューに追加。 |
+| launch-agent | W&B launchエージェントを実行。 |
+| login | Weights & Biasesにログイン |
+| offline | W&B syncを無効にする |
+| online | W&B syncを有効にする |
+| pull | Weights & Biasesからファイルをダウンロード |
+| restore | runのコード、設定、およびdocker状態を復元 |
+| scheduler | W&B launch スイープスケジューラーを実行（実験的） |
+| server | ローカルW&Bサーバーの操作コマンド |
+| status | 設定の表示 |
+| sweep | スイープを作成 |
+| sync | オフライントレーニングディレクトリをW&Bにアップロード |
+| verify | ローカルインスタンスの確認 |

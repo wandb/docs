@@ -1,27 +1,23 @@
----
-displayed_sidebar: ja
----
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Fastai
 
-If you're using **fastai** to train your models, W&B has an easy integration using the `WandbCallback`. Explore the details in[ interactive docs with examples →](https://app.wandb.ai/borisd13/demo\_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)
+**fastai** を使ってモデルをトレーニングしている場合、`WandbCallback` を利用して W&B と簡単に連携できます。詳細は[インタラクティブな解説と例 →](https://app.wandb.ai/borisd13/demo\_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA) で確認できます。
 
-## Start Logging with W&B
+## W&B でのログの開始
 
-**a)** [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then login to your wandb account.
+**a)** [https://wandb.ai/site](https://wandb.ai/site) で無料アカウントに[登録](https://wandb.ai/site)し、wandb アカウントにログインします。
 
-**b)** Install the wandb library on your machine in a Python 3 environment using `pip`
+**b)** Python 3 の環境で `pip` を使ってマシンに wandb ライブラリをインストールします。
 
-**c)** Login to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).
+**c)** マシン上の wandb ライブラリにログインします。APIキーはこちらで見つけられます：[https://wandb.ai/authorize](https://wandb.ai/authorize)。
 
 <Tabs
   defaultValue="script"
   values={[
-    {label: 'Command Line', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
+    {label: 'コマンドライン', value: 'script'},
+    {label: 'ノートブック', value: 'notebook'},
   ]}>
   <TabItem value="script">
 
@@ -43,61 +39,62 @@ wandb.login()
   </TabItem>
 </Tabs>
 
-Then add the `WandbCallback` to the `learner` or `fit` method:
+
+次に、`WandbCallback` を `learner` または `fit` メソッドに追加します:
 
 ```python
 import wandb
 from fastai.callback.wandb import *
 
-# start logging a wandb run
+# wandb run のログ記録を開始
 wandb.init(project='my_project')
 
-# To log only during one training phase
+# トレーニングの一部でのみログを記録する場合
 learn.fit(..., cbs=WandbCallback())
 
-# To log continuously for all training phases
+# すべてのトレーニングフェーズで連続してログを記録する場合
 learn = learner(..., cbs=WandbCallback())
 ```
 
 :::info
-If you use version 1 of Fastai, refer to the [Fastai v1 docs](v1.md).
+Fastaiのバージョン1を使用している場合は、 [Fastai v1ドキュメント](v1.md) を参照してください。
 :::
+## WandbCallback 引数
 
-## WandbCallback Arguments
+`WandbCallback`は以下の引数を受け付けます:
 
-`WandbCallback` accepts the following arguments:
-
-| Args                     | Description                                                                                                                                                                                                                                                  |
+| Args                     | 説明                                                                                                                                                                                                                                                  |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| log                      | Whether to log the model's: "`gradients`" , "`parameters`", "`all`" or `None` (default). Losses & metrics are always logged.                                                                                                                                 |
-| log\_preds               | whether we want to log prediction samples (default to `True`).                                                                                                                                                                                               |
-| log\_preds\_every\_epoch | whether to log predictions every epoch or at the end (default to `False`)                                                                                                                                                                                    |
-| log\_model               | whether we want to log our model (default to False). This also requires `SaveModelCallback`                                                                                                                                                                  |
-| model\_name              | The name of the `file` to save, overrides `SaveModelCallback`                                                                                                                                                                                                |
-| log\_dataset             | <ul><li><code>False</code> (default)</li><li><code>True</code> will log folder referenced by learn.dls.path.</li><li>a path can be defined explicitly to reference which folder to log.</li></ul><p><em>Note: subfolder "models" is always ignored.</em></p> |
-| dataset\_name            | name of logged dataset (default to `folder name`).                                                                                                                                                                                                           |
-| valid\_dl                | `DataLoaders` containing items used for prediction samples (default to random items from `learn.dls.valid`.                                                                                                                                                  |
-| n\_preds                 | number of logged predictions (default to 36).                                                                                                                                                                                                                |
-| seed                     | used for defining random samples.                                                                                                                                                                                                                            |
+| log                      | モデルの "`gradients`" , "`parameters`", "`all`" または `None` (デフォルト) をログするかどうか。損失とメトリクスは常にログされます。                                                                                                                                 |
+| log\_preds               | 予測サンプルをログするかどうか（デフォルトは `True`）。                                                                                                                                                                                                 |
+| log\_preds\_every\_epoch | 予測を毎エポックログするか、最後にログするか（デフォルトは `False`）。                                                                                                                                                                                    |
+| log\_model               | モデルをログするかどうか（デフォルトは False）。これには `SaveModelCallback` も必要です。                                                                                                                                                                  |
+| model\_name              | 保存する `file` の名前。`SaveModelCallback` を上書きします。                                                                                                                                                                                                |
+| log\_dataset             | <ul><li><code>False</code>（デフォルト）</li><li><code>True</code> は、learn.dls.path で参照されるフォルダをログします。</li><li>ログするフォルダを明示的に参照するパスを定義できます。</li></ul><p><em>注意：サブフォルダ「models」は常に無視されます。</em></p> |
+| dataset\_name            | ログされたデータセットの名前（デフォルトは `folder name`）。                                                                                                                                                                                                           |
+| valid\_dl                | 予測サンプルに使用されるアイテムが含まれる `DataLoaders`（デフォルトは `learn.dls.valid` のランダムアイテム）。                                                                                                                                                  |
+| n\_preds                 | ログされる予測の数（デフォルトは 36）。                                                                                                                                                                                                                |
+| seed                     | ランダムサンプルを定義するために使用されるシード。                                                                                                                                                                                                                            |
 
-For custom workflows, you can manually log your datasets and models:
+カスタムワークフローの場合、データセットとモデルを手動でログすることができます。
 
 * `log_dataset(path, name=None, metadata={})`
 * `log_model(path, name=None, metadata={})`
 
-_Note: any subfolder "models" will be ignored._
+_注意: 任意のサブフォルダ "models"は無視されます。_
 
-## Distributed Training
+## 分散トレーニング
 
-`fastai` supports distributed training by using the context manager `distrib_ctx`. W&B supports this automatically and enables you to track your Multi-GPU experiments out of the box.
+`fastai`は、コンテキストマネージャ`distrib_ctx`を使用することで、分散トレーニングをサポートしています。W&Bはこれを自動的にサポートし、マルチGPU実験をすぐにトラッキングすることができます。
 
-A minimal example is shown below:
+以下に簡単な例を示します。
+以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。それ以外のことは何も言わずに。テキスト：
 
 <Tabs
   defaultValue="script"
   values={[
-    {label: 'Script', value: 'script'},
-    {label: 'Notebook', value: 'notebook'},
+    {label: 'スクリプト', value: 'script'},
+    {label: 'ノートブック', value: 'notebook'},
   ]}>
   <TabItem value="script">
 
@@ -124,19 +121,18 @@ def train():
 if __name__ == "__main__":
     train()
 ```
-
-Then, in your terminal you will execute:
+その後、ターミナルで以下のコマンドを実行します:
 
 ```
 $ torchrun --nproc_per_node 2 train.py
 ```
 
-in this case, the machine has 2 GPUs.
+この例では、マシンには2つのGPUがあります。
 
   </TabItem>
   <TabItem value="notebook">
 
-You can now run distributed training directly inside a notebook!
+これで、ノートブック内で分散トレーニングを直接実行できるようになりました！
 
 ```python
 import wandb
@@ -158,16 +154,18 @@ def train():
     learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
     with learn.distrib_ctx(in_notebook=True, sync_bn=False):
         learn.fit(1)
-        
+以下のマークダウンテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。それ以外のことは何も言わずに。
+
+```
 notebook_launcher(train, num_processes=2)
 ```
 
   </TabItem>
 </Tabs>
 
-### Logging only on the main process
+### メインプロセスでのみログを記録する
 
-In the examples above, `wandb` launches one run per process. At the end of the training, you will end up with two runs. This can sometimes be confusing, and you may want to log only on the main process. To do so, you will have to detect in which process you are manually and avoid creating runs (calling `wandb.init` in all other processes)
+上記の例では、`wandb`はプロセスごとに1つのrunを起動します。トレーニングが終了すると、2つのrunができます。これは時々混乱を招くことがあり、メインプロセスでのみログを記録したい場合があります。これを行うには、手動でどのプロセスにいるかを検出し、runを作成しないようにする必要があります（すべての他のプロセスで`wandb.init`を呼び出さないようにする）。
 
 <Tabs
   defaultValue="script"
@@ -197,11 +195,12 @@ def train():
     learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
     with learn.distrib_ctx(sync_bn=False):
         learn.fit(1)
-        
+以下は、Markdownテキストを日本語に翻訳してください。それ以外のことは言わず、翻訳されたテキストのみを返します。テキスト：
+
 if __name__ == "__main__":
     train()
 ```
-in your terminal call:
+ターミナルで呼び出すには：
 
 ```
 $ torchrun --nproc_per_node 2 train.py
@@ -232,14 +231,16 @@ def train():
     learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
     with learn.distrib_ctx(in_notebook=True, sync_bn=False):
         learn.fit(1)
-
 notebook_launcher(train, num_processes=2)
+
 ```
 
   </TabItem>
+
 </Tabs>
 
-## Examples
+## 例
 
-* [Visualize, track, and compare Fastai models](https://app.wandb.ai/borisd13/demo\_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): A thoroughly documented walkthrough
-* [Image Segmentation on CamVid](http://bit.ly/fastai-wandb): A sample use case of the integration
+* [Fastaiモデルの可視化・トラッキング・比較](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): 詳細にドキュメント化されたウォークスルー
+
+* [CamVidにおける画像セグメンテーション](http://bit.ly/fastai-wandb): この統合のサンプルユースケース

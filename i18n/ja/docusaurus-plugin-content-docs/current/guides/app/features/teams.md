@@ -1,168 +1,157 @@
 ---
 description: >-
-  Collaborate with your colleagues, share results, and track all the experiments
-  across your team
-displayed_sidebar: ja
+  仲間と協力して結果を共有し、チーム全体の実験を追跡してください
 ---
 
-# Teams
+# チーム
 
-Use W&B Teams as a central workspace for your ML team to build better models faster.
+W&B Teamsを使用して、MLチームとして一元化されたワークスペースを構築し、より優れたモデルを迅速に開発してください。
 
-* **Track all the experiments** your team has tried so you never duplicate work.
-* **Save and reproduce** previously trained models.
-* **Share progress** and results with your boss and collaborators.
-* **Catch regressions** and immediately get alerted when performance drops.
-* **Benchmark model performance** and compare model versions.
+* **すべての実験をトラッキング**して、作業の重複を避けます。
+* 以前にトレーニングされたモデルを**保存および再現**します。
+* 上司や協力者と**進捗状況**および結果を共有します。
+* **リグレッションを検出**し、パフォーマンスが低下した際に直ちにアラートを受け取ります。
+* **モデルのパフォーマンスをベンチマーク**し、モデルのバージョンを比較します。
 
 ![](/images/app_ui/teams_overview.webp)
 
-## Create a collaborative team
+## 協力チームを作成する
 
-1. [**Sign up or log in**](https://app.wandb.ai/login?signup=true) to your free W&B account.
-2. Click **Invite Team** in the navigation bar.
-3. Create your team and invite collaborators.
+1. [**サインアップまたはログイン**](https://app.wandb.ai/login?signup=true)して、無料のW&Bアカウントを取得します。
+2. ナビゲーションバーで**Invite Team**をクリックします。
+3. チームを作成し、コラボレーターを招待します。
 
 :::info
-**Note**: Only the admin of an organization can create a new team.
+**注意**：組織の管理者だけが新しいチームを作成できます。
 :::
 
-## Invite team members
+## チームメンバーを招待する
 
-Invite new members to your team. 
-1. Ensure the team member already has a [W&B Account](https://app.wandb.ai/login?signup=true). 
-2. Navigate to https://wandb.ai/subscriptions. 
-3. Select **Manage members**.
-4. A model will appear. Provide the username or email for the **Email or Username** field, select a team for them to join from the **Team** dropdown menu, and select a role type from the **Organizational Role** dropdown menu.
-
+チームに新しいメンバーを招待します。
+1. チームメンバーが既に[W&Bアカウント](https://app.wandb.ai/login?signup=true)を持っていることを確認します。
+2. https://wandb.ai/subscriptions に移動します。
+3. **メンバーの管理**を選択します。
+4. モデルが表示されます。**Email or Username**フィールドにユーザー名またはメールアドレスを入力し、**Team**ドロップダウンメニューから参加するチームを選択し、**Organizational Role**ドロップダウンメニューから役割タイプを選択します。
 ![](@site/static/images/app_ui/ezgif-3-b665ff2fa9.gif)
 
-5. Select the **Add** button.
+5. **追加**ボタンを選択します。
 
 :::info
-* If you have an Enterprise account, please contact your Account Executive to invite new members to your team.
+* エンタープライズアカウントをお持ちの場合は、アカウント担当者にお問い合わせの上、チームに新しいメンバーを招待してください。
 :::
 
-## Create a Team Profile
+## チームプロフィールの作成
 
-You can customize your team's profile page to show an introduction and showcase reports and projects that are visible to the public or team members. Present reports, projects, and external links.
+チームのプロフィールページをカスタマイズして、紹介や公開レポート、プロジェクトをチームメンバーや一般に表示できるようにしましょう。レポート、プロジェクト、外部リンクを表示します。
 
-* **Highlight your best research** to visitors by showcasing your best public reports
-* **Showcase the most active projects** to make it easier for teammates to find them
-* **Find collaborators** by adding external links to your company or research lab's website and any papers you've published
+* 最高の公開レポートを**アピールして最高の研究を強調**する
+* チームメイトが見つけやすいように**最もアクティブなプロジェクトを紹介**する
+* 企業や研究室のウェブサイトや発表した論文への外部リンクを追加して**コラボレーターを探す**
 
 <!-- To do: show team profiles -->
 
 <!-- To do: show how to remove team members -->
 
-## Remove team members
+## チームメンバーの削除
 
-Team admins can open the team settings page and click the delete button next to the departing member's name. Any runs that they logged to the team will remain after a user is removed.
+チーム管理者は、チーム設定ページを開き、退会するメンバーの名前の横にある削除ボタンをクリックできます。ユーザーが削除された後も、彼らがチームにログしたランは残ります。
 
+## チームの役割と権限
+チームに招待する同僚にチームの役割を1つ選択します。チーム役割には4つのオプションがあります。
 
-## Team Roles and Permissions
-Select one a team role when you invite colleagues to join a team. There are four team role options:
+- **管理者**：チーム管理者は、他の管理者やチームメンバーを追加および削除できます。すべてのプロジェクトを変更し、完全な削除権限を持っています。これには、run、プロジェクト、アーティファクト、スイープの削除などが含まれます。
+- **メンバー**：チームの通常のメンバー。チームメンバーは、チーム管理者によってメールで招待されます。チームメンバーは他のメンバーを招待することはできません。チームメンバーは、そのメンバーが作成したrunとスイープrunのみを削除できます。たとえば、メンバーAとメンバーBがいる場合。メンバーBがチームBのプロジェクトから別のメンバーAが所有するプロジェクトにRunを移動します。メンバーAは、メンバーBがメンバーAのプロジェクトに移動したRunを削除することはできません。Runを作成したメンバーまたはチーム管理者のみがRunを削除できます。
+- **サービス**：サービスワーカー、W&Bをrunオートメーションツールと一緒に使用するのに役立つAPIキーです。チームのサービスアカウントからAPIキーを使用する場合は、環境変数 **WANDB_USERNAME** を設定して、runを正しいユーザーに割り当てるようにしてください。
+- **閲覧専用（エンタープライズ機能のみ）**：閲覧専用メンバーは、チーム内のrun, レポート、およびワークスペースなどのアセットを表示できます。レポートをフォローやコメントはできますが、プロジェクトの概要、レポート、またはrunの作成、編集、削除はできません。閲覧専用メンバーはAPIキーを持っていません。
 
-- **Admin**: Team admins can add and remove other admins or team members. They have permissions to modify all projects and full deletion permissions. This includes, but is not limited to, deleting runs, projects, artifacts, and sweeps.
-- **Member**: A regular member of the team. A team member is invited by email by the team admin. A team member cannot invite other members. Team members can only delete runs and sweep runs created by that member. Suppose you have two members A and B. Member B moves a Run from team B's project to a different project owned by Member A. Member A can not delete the Run Member B moved to Member A's project. Only the member that creates the Run, or the team admin, can delete the run.
+### チーム設定
+チーム設定を使用すると、チームおよびそのメンバーの設定を管理できます。これらの権限を使用して、Weights & Biases内のチームを効果的に監督および組織化できます。
 
-- **Service**: A service worker, an API key useful for using W&B with your run automation tools. If you use the API key from a service account for your team, make sure to set the environment variable **WANDB_USERNAME** to attribute runs to the correct user.
-- **View-Only (Enterprise-only feature)**: View-Only members can view assets within the team such as runs, reports, and workspaces. They can follow and comment on reports, but they can not create, edit, or delete project overview, reports, or runs. View-Only members do not have an API key.
+| 権限               | 閲覧専用 | チームメンバー | チーム管理者 |
+| ----------------- | ------- | ------------ | ---------- |
+| チームメンバーの追加   |         |            |     X      |
+| チームメンバーの削除   |         |            |     X      |
+| チーム設定の管理       |         |            |     X      |
 
-### Team Settings
-Team settings allow you to manage the settings for your team and its members. With these privileges, you can effectively oversee and organize your team within Weights & Biases.
+### モデルレジストリ
+次の表は、特定のチーム全体のすべてのプロジェクトに適用される権限をリストしています。
 
-| Permissions         | View-Only | Team Member | Team Admin | 
-| ------------------- | --------- | ----------- | ---------- |
-| Add team members    |           |             |     X      |
-| Remove team members |           |             |     X      |
-| Manage team settings|           |             |     X      |
+| 権限                          | 閲覧専用 | チームメンバー | チーム管理者 |
+| ---------------------------- | ------- | ----------- | ---------- |
+| エイリアスの追加                |         | X           | X          |
+| レジストリにモデルを追加する     |         | X           | X          |
+|レジストリのモデルを表示する     | X       | X           | X          |
+|モデルをダウンロードする         | X       | X           | X          |
 
-### Model Registry
-The proceeding table lists permissions that apply to all projects across a given team.
+### レポート
+レポート権限では、レポートの作成、表示、編集のアクセスが許可されます。次の表は、特定のチーム全体のすべてのレポートに適用される権限をリストしています。
 
-| Permissions                | View-Only | Team Member | Team Admin | 
-| ---------------------------| --------- | ----------- | ---------- |
-| Add aliases                |           | X           | X          |
-| Add models to the registry |           | X           | X          |
-| View models in the registry| X         | X           | X          |
-|Download models             | X         | X           | X          |
+| 権限             | 閲覧専用 | チームメンバー                                     | チーム管理者 |
+| -------------    | ------- | ----------------------------------------------- | ---------- |
+|レポートを表示する  | X       | X                                               | X          |
+|レポートを作成する  |         | X                                               | X          |
+|レポートを編集する  |         | X (チームメンバーは自分のレポートのみ編集可能)    | X          |
+|レポートを削除する  |         | X (チームメンバーは自分のレポートのみ編集可能)    | X          |
+### 実験
+次の表は、特定のチームにおいてすべての実験に適用される権限を一覧にしています。
 
-### Reports
-Report permissions grant access to create, view, and edit reports. The proceeding table lists permissions that apply to all reports across a given team.
+| 権限 | 閲覧のみ | チームメンバー | チーム管理者 |
+| ------------------------------------------------------------------------------------ | --------- | ----------- | --------- |
+| 実験のメタデータの表示（履歴メトリクス、システムメトリクス、ファイル、ログを含む）       | X         | X           | X         |
+| 実験のログ                                                                             | X         | X           | X         |
+| 実験の削除                                                                             |           | X（チームメンバーは自分が作成した実験のみ削除可能) | X         |
+| 実験の停止                                                                             |           | X（チームメンバーは自分が作成した実験のみ停止可能) | X         |
 
-| Permissions   | View-Only | Team Member                                     | Team Admin | 
-| -----------   | --------- | ----------------------------------------------- | ---------- |
-|View reports   | X         | X                                               | X          |
-|Create reports |           | X                                               | X          |
-|Edit reports   |           | X (team members can only edit their own reports)| X          |
-|Delete reports |           | X (team members can only edit their own reports)| X          |
+### アーティファクト
+次の表は、特定のチームにおいてすべてのアーティファクトに適用される権限を一覧にしています。
 
-### Experiments
-The proceeding table lists permissions that apply to all experiments across a given team.
+| 権限            | 閲覧のみ | チームメンバー | チーム管理者 |
+| ---------------- | --------- | ----------- | --------- |
+| アーティファクトの表示   | X         | X           | X         |
+| アーティファクトの作成   |           | X           | X         |
+| アーティファクトの削除   |           | X           | X         |
+| メタデータの編集          |           | X           | X         |
+| エイリアスの編集           |           | X           | X         |
+| エイリアスの削除           |           | X           | X         |
+| アーティファクトのダウンロード |           | X           | X         |
 
-| Permissions | View-Only | Team Member | Team Admin | 
-| ------------------------------------------------------------------------------------ | --------- | ----------- | ---------- |
-| View experiment metadata (includes history metrics, system metrics, files, and logs) | X         | X           | X          |
-| Log experiments                                                                      | X         | X           | X          |
-| Delete experiments                                                                   |           | X (team members can only delete experiments they created) |  X  |
-|Stop experiments                                                                      |           | X (team members can only stop experiments they created)   |  X  |
+### システム設定（W＆Bサーバーのみ）
+システム権限を持つことで、メンバーの管理、チームの作成や変更、システム設定の調整、ユーザー活動の表示などが可能になります。これらの権限により、Weights & Biasesインスタンスの管理と維持が効果的に行えます。
 
-### Artifacts
-The proceeding table lists permissions that apply to all artifacts across a given team.
+| 権限                      | 閲覧のみ | チームメンバー | チーム管理者 | システム管理者 |
+| ------------------------ | --------- | ----------- | ---------  | ------------ |
+| システム設定の構成        |           |             |            | X            |
+| チームの作成/削除          |           |             |            | X            |
+| アクティビティダッシュボードの表示 |           |             |            | X            |
+#### 自己紹介にソーシャルバッジを追加する
 
-| Permissions      | View-Only | Team Member | Team Admin | 
-| ---------------- | --------- | ----------- | ---------- |
-| View artifacts   | X         | X           | X          |
-| Create artifacts |           | X           | X          |
-| Delete artifacts |           | X           | X          |
-| Edit metadata    |           | X           | X          |
-| Edit aliases     |           | X           | X          |
-| Delete aliases   |           | X           | X          |
-| Download artifact|           | X           | X          |
-
-### System Settings (W&B Server Only)
-With system permissions, you have the ability to manage members, create and modify teams, adjust system settings, and view user activity. These privileges enable you to effectively administer and maintain the Weights & Biases instance.
-
-| Permissions              | View-Only | Team Member | Team Admin | System Admin | 
-| ------------------------ | --------- | ----------- | ---------- | ------------ |
-| Configure system settings|           |             |            | X            |
-| Create/delete teams      |           |             |            | X            |
-| View activity dashboard  |           |             |            | X            |
-
-
-#### Add Social Badges to your Intro
-
-In your Intro, type `/` and choose Markdown and paste the markdown snippet that will render your badge. Once you convert it to WYSIWYG, you can resize it.
+自己紹介で `/` を入力し、Markdown を選んでバッジを表示するためのマークダウンスニペットを貼り付けてください。WYSIWYGに変換すると、サイズを変更できます。
 
  [![Twitter: @weights_biases](https://img.shields.io/twitter/follow/weights\_biases?style=social)](https://twitter.com/intent/follow?screen\_name=weights\_biases)
 
-For example, to add a Twitter follow badge, add `[![Twitter: @weights_biase](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://twitter.com/intent/follow?screen_name=weights_biases` replacing `weights_biases` with your Twitter username.
+例えば、Twitterのフォローバッジを追加するには、 `[![Twitter: @weights_biase](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://twitter.com/intent/follow?screen_name=weights_biases` にあなたのTwitterユーザー名で `weights_biases` を置き換えて追加してください。
 
-## Team Trials
+## チーム向け試用版
 
-W&B offers free trials for business teams, **no credit card required**. During the trial, you and your colleagues will have access to all the features in W&B. Once the trial is over, you can upgrade your plan to continue using a W&B Team to collaborate. Your personal W&B account will always remain free, and if you're a student or teacher you can enroll in an academic plan.
+W&Bでは、**クレジットカードは不要** でビジネスチーム向けの無料試用版を提供しています。試用期間中は、あなたと同僚がW&Bのすべての機能にアクセスできます。試用期間が終了した後、W&Bチームとしてのコラボレーションを継続するためにプランをアップグレードできます。個人用のW&Bアカウントは常に無料のままであり、学生や教師の場合は、学術プランに登録することができます。
 
-See the [pricing page](https://wandb.ai/site/pricing) for more information on our plans. You can download all your data at any time, either using the dashboard UI or via our [Export API](../../../ref/python/public-api/README.md). 
+プランの詳細については[料金ページ](https://wandb.ai/site/pricing)をご覧ください。いつでもデータをダウンロードできます。ダッシュボードのUIを使っても、[Export API](../../../ref/python/public-api/README.md) を使っても構いません。
 
+## 組織のアカウント設定を変更する
 
+有料ユーザーの場合は、「サブスクリプション」ページに移動し、組織名の横にある「アカウント」の横にある3つのドットをクリックします。そうすることで、組織の請求情報を編集したり、組織にメンバーを追加したり、プランをアップグレードするためにセールスに連絡したりすることができます。
 
-## Change the account settings for an organization
-
-If you're a paid user, then you can go to your 'Subscriptions' page and click on the three dots next to the 'Account' next to your organization name. You'll be then able to edit the billing info for your organization, add seats to your org or contact sales to upgrade your plan.
-
-Similarly, if your organization is still on trial then you can go to your 'Subscriptions' page and click on the three dots next to the 'Account' to update your account settings. Then, you'll be able to add seats to your org, contact sales to upgrade your plan, etc.
+同様に、組織が試用版のままである場合は、「サブスクリプション」ページに移動し、「アカウント」の横にある3つのドットをクリックしてアカウント設定を更新します。その後、組織にメンバーを追加したり、プランをアップグレードするためにセールスに連絡したりなどができます。
 
 ![Update Account Settings of an Org](@site/static/images/app_ui/edit_account.gif)
 
-## Change the billing user of an organization
+## 組織の請求ユーザーを変更する
 
-Change the billing user of your organization by clicking on the "Manage members" button on your [subscription page](https://wandb.ai/subscriptions).
+[サブスクリプションページ](https://wandb.ai/subscriptions) の「メンバーの管理」ボタンをクリックして、組織の請求ユーザーを変更します。
 
 ![](/images/app_ui/change_billing_user.gif)
+## プライバシー設定
 
+チーム設定ページで、すべてのチームプロジェクトのプライバシー設定を確認できます:
 
-## Privacy settings
-
-You can see the privacy settings of all team projects on the team settings page:
-`app.wandb.ai/teams/your-team-name`
+`app.wandb.ai/teams/あなたのチーム名`

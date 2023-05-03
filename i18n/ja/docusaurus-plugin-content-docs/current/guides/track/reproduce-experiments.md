@@ -1,5 +1,1 @@
----
-displayed_sidebar: ja
----
-
-# Reproduce Experiments
+# 実験の再現

@@ -1,12 +1,8 @@
 # WandbModelCheckpoint
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/model_checkpoint.py#L27-L196)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/integration/keras/callbacks/model_checkpoint.py#L27-L197)
-
-
-
-A checkpoint that periodically saves a Keras model or model weights.
+Kerasモデルまたはモデルの重みを定期的に保存するチェックポイントです。
 
 ```python
 WandbModelCheckpoint(
@@ -23,41 +19,32 @@ WandbModelCheckpoint(
 ) -> None
 ```
 
+重みは、`wandb.Artifact`としてW&Bにアップロードされます。
 
+このコールバックは`tf.keras.callbacks.ModelCheckpoint`からサブクラス化されているため、チェックポイントのロジックは親のコールバックによって処理されます。詳しくはこちらを参照してください：https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint
 
+このコールバックは、`model.fit()`を使用したトレーニングと併せて使用し、一定の間隔でモデルまたは重み（チェックポイントファイル内）を保存するために使用されます。モデルのチェックポイントは、W&Bアーティファクトとして記録されます。詳しくはこちらを参照してください：https://docs.wandb.ai/guides/artifacts
 
-Saves weights are uploaded to W&B as a `wandb.Artifact`.
+このコールバックは以下の機能を提供します：
+- "monitor"に基づいて"最高のパフォーマンス"を達成したモデルを保存します。
+- パフォーマンスに関係なく、各エポックの最後にモデルを保存します。
+- エポックの最後、または一定数のトレーニングバッチの後にモデルを保存します。
+- モデルの重みのみを保存するか、またはモデル全体を保存します。
+- モデルをSavedModel形式または`.h5`形式で保存します。
+以下は、Markdownテキストのチャンクを翻訳してください。それを日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
-Since this callback is subclassed from `tf.keras.callbacks.ModelCheckpoint`, the
-checkpointing logic is taken care of by the parent callback. You can learn more
-here: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint
-
-This callback is to be used in conjunction with training using `model.fit()` to save
-a model or weights (in a checkpoint file) at some interval. The model checkpoints
-will be logged as W&B Artifacts. You can learn more here:
-https://docs.wandb.ai/guides/artifacts
-
-This callback provides the following features:
- - Save the model that has achieved "best performance" based on "monitor".
- - Save the model at the end of every epoch regardless of the performance.
- - Save the model at the end of epoch or after a fixed number of training batches.
- - Save only model weights, or save the whole model.
- - Save the model either in SavedModel format or in `.h5` format.
-
-| Arguments | |
+| 引数 | |
 | :--- | :--- |
-| filepath (Union[str, os.PathLike]): path to save the model file. monitor (str): The metric name to monitor. verbose (int): Verbosity mode, 0 or 1. Mode 0 is silent, and mode 1 displays messages when the callback takes an action. save_best_only (bool): if `save_best_only=True`, it only saves when the model is considered the "best" and the latest best model according to the quantity monitored will not be overwritten. save_weights_only (bool): if True, then only the model's weights will be saved. mode (Mode): one of {'auto', 'min', 'max'}. For `val_acc`, this should be `max`, for `val_loss` this should be `min`, etc. save_weights_only (bool): if True, then only the model's weights will be saved save_freq (Union[SaveStrategy, int]): `epoch` or integer. When using `'epoch'`, the callback saves the model after each epoch. When using an integer, the callback saves the model at end of this many batches. Note that when monitoring validation metrics such as `val_acc` or `val_loss`, save_freq must be set to "epoch" as those metrics are only available at the end of an epoch. options (Optional[str]): Optional `tf.train.CheckpointOptions` object if `save_weights_only` is true or optional `tf.saved_model.SaveOptions` object if `save_weights_only` is false. initial_value_threshold (Optional[float]): Floating point initial "best" value of the metric to be monitored. |
+| filepath (Union[str, os.PathLike]): モデルファイルを保存するパス。monitor (str): 監視するメトリクス名。verbose (int): 冗長モード、0または1。モード0はサイレントで、モード1はコールバックがアクションを実行したときにメッセージを表示します。save_best_only (bool): `save_best_only=True` の場合、モニタリングされる数量に基づいて"最高の"モデルとされた場合にのみモデルが保存され、最新の最高のモデルは上書きされません。save_weights_only (bool): True の場合、モデルの重みのみが保存されます。mode (Mode): {'auto', 'min', 'max'} のうちの一つ。`val_acc`の場合は`max`、`val_loss`の場合は`min`などです。save_freq (Union[SaveStrategy, int]): `epoch` または整数。`'epoch'` を使用する場合、コールバックは各エポック後にモデルを保存します。整数を使用する場合、コールバックは指定したバッチ数の終わりにモデルを保存します。ただし、`val_acc` や `val_loss` などの検証メトリクスを監視する場合は、save_freq を "epoch" に設定する必要があります。options (Optional[str]): `save_weights_only` が true の場合は任意の `tf.train.CheckpointOptions` オブジェクト、`save_weights_only` が false の場合は任意の `tf.saved_model.SaveOptions` オブジェクト。initial_value_threshold (Optional[float]): 監視されるメトリクスの初期 "最高" 値の浮動小数点数。|
 
 
 
-
-
-| Attributes | |
+| 属性 | |
 | :--- | :--- |
 
 
 
-## Methods
+## メソッド
 
 ### `set_model`
 
@@ -72,6 +59,7 @@ set_model(
 
 
 
+
 ### `set_params`
 
 
@@ -81,9 +69,3 @@ set_params(
  params
 )
 ```
-
-
-
-
-
-

@@ -1,17 +1,16 @@
-# wandb controller
+# wandbコントローラー
 
-**Usage**
+**使用方法**
 
-`wandb controller [OPTIONS] SWEEP_ID`
+`wandb controller [オプション] SWEEP_ID`
 
-**Summary**
+**概要**
 
-Run the W&B local sweep controller
+W&Bローカルスイープコントローラーを実行する。
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| --verbose | Display verbose output |
-| --help | Show this message and exit. |
-
+| --verbose | 詳細な出力を表示する |
+| --help | このメッセージを表示して終了する。 |

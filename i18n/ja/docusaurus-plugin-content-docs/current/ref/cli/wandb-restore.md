@@ -1,20 +1,19 @@
 # wandb restore
 
-**Usage**
+**使い方**
 
-`wandb restore [OPTIONS] RUN`
+`wandb restore [オプション] RUN`
 
-**Summary**
+**概要**
 
-Restore code, config and docker state for a run
+Run のコード、設定、および docker コンテナの状態を復元
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
 | --no-git | Skupp |
-| --branch / --no-branch | Whether to create a branch or checkout detached |
-| -p, --project | The project you wish to upload to. |
-| -e, --entity | The entity to scope the listing to. |
-| --help | Show this message and exit. |
-
+| --branch / --no-branch | ブランチを作成するか、デタッチされた状態でチェックアウトするか |
+| -p, --project | アップロードしたいプロジェクト。 |
+| -e, --entity | リストの範囲を指定するエンティティ。 |
+| --help | このメッセージを表示して終了。 |

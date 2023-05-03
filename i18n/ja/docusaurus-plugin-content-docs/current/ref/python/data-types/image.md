@@ -1,12 +1,8 @@
-# Image
+# 画像
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/image.py#L64-L655)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L64-L655)
-
-
-
-Format images for logging to W&B.
+W&Bにログを送るための画像を整形します。
 
 ```python
 Image(
@@ -20,22 +16,16 @@ Image(
 ) -> None
 ```
 
-
-
-
-
-| Arguments | |
+| 引数 |  |
 | :--- | :--- |
-| `data_or_path` | (numpy array, string, io) Accepts numpy array of image data, or a PIL image. The class attempts to infer the data format and converts it. |
-| `mode` | (string) The PIL mode for an image. Most common are "L", "RGB", "RGBA". Full explanation at https://pillow.readthedocs.io/en/4.2.x/handbook/concepts.html#concept-modes. |
-| `caption` | (string) Label for display of image. |
+| `data_or_path` | (numpy配列, 文字列, io) 画像データのnumpy配列またはPILイメージを受け取ります。クラスはデータフォーマットを推測し、それに変換します。 |
+| `mode` | (文字列) 画像のPILモード。最も一般的なものは "L"、"RGB"、"RGBA"です。詳細はhttps://pillow.readthedocs.io/en/4.2.x/handbook/concepts.html#concept-modes で確認できます。|
+| `caption` | (文字列) 画像の表示用ラベル。|
+注意: `torch.Tensor` を `wandb.Image` としてログに記録する際、画像は正規化されます。画像を正規化したくない場合は、テンソルをPILイメージに変換してください。
 
+#### 例:
 
-Note : When logging a `torch.Tensor` as a `wandb.Image`, images are normalized. If you do not want to normalize your images, please convert your tensors to a PIL Image.
-
-#### Examples:
-
-### Create a wandb.Image from a numpy array
+### numpy配列からwandb.Imageを作成する
 
 ```python
 import numpy as np
@@ -50,7 +40,7 @@ for i in range(3):
 wandb.log({"examples": examples})
 ```
 
-### Create a wandb.Image from a PILImage
+### PILImageからwandb.Imageを作成する
 
 ```python
 import numpy as np
@@ -66,41 +56,27 @@ for i in range(3):
  examples.append(image)
 wandb.log({"examples": examples})
 ```
-
-
-
-
-| Attributes | |
+| 属性 | |
 | :--- | :--- |
 
-
-
-## Methods
+## メソッド
 
 ### `all_boxes`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L576-L597)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/image.py#L576-L597)
 
 ```python
 @classmethod
 all_boxes(
- images: Sequence['Image'],
+ 画像: Sequence['Image'],
  run: "LocalRun",
  run_key: str,
- step: Union[int, str]
+ ステップ: Union[int, str]
 ) -> Union[List[Optional[dict]], bool]
 ```
-
-
-
-
 ### `all_captions`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L599-L603)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/image.py#L599-L603)
 
 ```python
 @classmethod
@@ -114,9 +90,7 @@ all_captions(
 
 ### `all_masks`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L553-L574)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/image.py#L553-L574)
 
 ```python
 @classmethod
@@ -127,15 +101,9 @@ all_masks(
  step: Union[int, str]
 ) -> Union[List[Optional[dict]], bool]
 ```
-
-
-
-
 ### `guess_mode`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L440-L452)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/image.py#L440-L452)
 
 ```python
 guess_mode(
@@ -143,14 +111,11 @@ guess_mode(
 ) -> str
 ```
 
-Guess what type of image the np.array is representing.
-
+np.arrayで表現される画像の種類を推測します。
 
 ### `to_uint8`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/data_types/image.py#L454-L477)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/image.py#L454-L477)
 
 ```python
 @classmethod
@@ -158,18 +123,22 @@ to_uint8(
  data: "np.ndarray"
 ) -> "np.ndarray"
 ```
-
-Convert image data to uint8.
-
-Convert floating point image on the range [0,1] and integer images on the range
-[0,255] to uint8, clipping if necessary.
+画像データをuint8に変換します。
 
 
 
+範囲[0,1]の浮動小数点画像および範囲
+
+[0,255]の整数画像をuint8に変換し、必要に応じてクリッピングします。
 
 
-| Class Variables | |
+
+
+
+| クラス変数 | |
+
 | :--- | :--- |
-| `MAX_DIMENSION` | `65500` |
-| `MAX_ITEMS` | `108` |
 
+| `MAX_DIMENSION` | `65500` |
+
+| `MAX_ITEMS` | `108` |

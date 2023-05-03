@@ -1,12 +1,8 @@
-# Sweep
+# スイープ
 
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2487-L2697)
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2487-L2697)
-
-
-
-A set of runs associated with a sweep.
+スイープに関連する一連のruns。
 
 ```python
 Sweep(
@@ -14,40 +10,31 @@ Sweep(
 )
 ```
 
+#### 例:
 
-
-
-
-#### Examples:
-
-Instantiate with:
+次のようにインスタンス化します：
 ```
 api = wandb.Api()
 sweep = api.sweep(path/to/sweep)
 ```
-
-
-
-
-
-| Attributes | |
+| 属性 | |
 | :--- | :--- |
-| `runs` | (`Runs`) list of runs |
-| `id` | (str) sweep id |
-| `project` | (str) name of project |
-| `config` | (str) dictionary of sweep configuration |
-| `state` | (str) the state of the sweep |
-| `expected_run_count` | (int) number of expected runs for the sweep |
+| `runs` | (`Runs`) ランのリスト |
+| `id` | (str) スイープID |
+| `project` | (str) プロジェクト名 |
+| `config` | (str) スイープ構成の辞書 |
+| `state` | (str) スイープの状態 |
+| `expected_run_count` | (int) スイープの予想ラン数 |
 
 
 
-## Methods
+## メソッド
 
 ### `best_run`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2582-L2605)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2582-L2605)
 
 ```python
 best_run(
@@ -55,14 +42,10 @@ best_run(
 )
 ```
 
-Return the best run sorted by the metric defined in config or the order passed in.
-
-
+設定で定義されたメトリックまたは入力された順序で、最適なランを返します。
 ### `display`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L979-L990)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L979-L990)
 
 ```python
 display(
@@ -70,14 +53,11 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
-
+このオブジェクトをjupyterで表示します。
 
 ### `get`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2630-L2679)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2630-L2679)
 
 ```python
 @classmethod
@@ -86,14 +66,12 @@ get(
 )
 ```
 
-Execute a query against the cloud backend.
-
+クラウドバックエンドに対してクエリを実行します。
+以下はMarkdownテキストの一部です。これを日本語に翻訳してください。他のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 ### `load`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2563-L2571)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2563-L2571)
 
 ```python
 load(
@@ -101,45 +79,28 @@ load(
 )
 ```
 
-
-
-
 ### `snake_to_camel`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L975-L977)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L975-L977)
 
 ```python
 snake_to_camel(
  string
 )
 ```
-
-
-
-
 ### `to_html`
 
-
-
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/apis/public.py#L2681-L2689)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2681-L2689)
 
 ```python
 to_html(
- height=420, hidden=(False)
+  height=420, hidden=(False)
 )
 ```
 
-Generate HTML containing an iframe displaying this sweep.
+このスイープを表示するiframeを含むHTMLを生成します。
 
-
-
-
-
-
-| Class Variables | |
+| クラス変数 | |
 | :--- | :--- |
 | `LEGACY_QUERY` | |
 | `QUERY` | |
-
