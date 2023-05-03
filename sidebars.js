@@ -157,6 +157,7 @@ const sidebars = {
         'guides/launch/launch-jobs',
         'guides/launch/docker',
         'guides/launch/kubernetes',
+        'guides/launch/sagemaker',
         'guides/launch/sweeps-on-launch',
       ],
     },

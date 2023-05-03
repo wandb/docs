@@ -98,8 +98,7 @@ a:hover {
 }
 
 .col { 
-  padding: 0;
-  margin: 0 14px;
+  padding: 0 14px;
 }
 
 .menu__link {
@@ -176,6 +175,11 @@ a.theme-edit-this-page {
 
 /* Table of contents styles === START ====== */
 
+.col.col--3:last-child {
+  width: var(--doc-sidebar-width);
+  padding-right: 0;
+}
+
 .menu__link.menu__link--active,
 .table-of-contents__link,
 .table-of-contents__link--active,
@@ -225,12 +229,6 @@ a.theme-edit-this-page {
 .TOC-header {
   font-size: 16px;
   line-height: 32px;
-}
-
-.col.col--3:last-child {
-  width: var(--doc-sidebar-width);
-  margin-right: 0;
-  margin-left: 14px;
 }
 
 /* Table of contents styles === END ====== */

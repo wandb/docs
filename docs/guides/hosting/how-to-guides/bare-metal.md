@@ -1,6 +1,8 @@
 ---
 description: Hosting W&B Server on baremetal servers on-premises
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # On Prem / Baremetal
 
@@ -10,28 +12,37 @@ Run your bare metal infrastructure that connects to scalable external data store
 W&B application performance depends on scalable data stores that your operations team must configure and manage. The team must provide a MySQL 5.7 or MySQL 8 database server and an AWS S3 compatible object store for the application to scale properly.
 :::
 
-Talk to our sales team by reaching out to [contact@wandb.com](mailto:contact@wandb.com).
+Talk to the W&B Sales Team: [contact@wandb.com](mailto:contact@wandb.com).
 
-### MySQL Database
+## MySQL Database
 
 :::caution
 W&B currently supports MySQL 5.7 or MySQL 8.0.28 and above.
 :::
 
-#### MySQL 5.7
-
+<Tabs
+  defaultValue="apple"
+  values={[
+    {label: 'MySQL 5.7', value: 'apple'},
+    {label: 'MySQL 8.0', value: 'orange'},
+  ]}>
+  <TabItem value="apple">
+  
 There are a number of enterprise services that make operating a scalable MySQL database simpler. We suggest looking into one of the following solutions:
 
-- [https://www.percona.com/software/mysql-database/percona-server](https://www.percona.com/software/mysql-database/percona-server)
-- [https://github.com/mysql/mysql-operator](https://github.com/mysql/mysql-operator)
+[https://www.percona.com/software/mysql-database/percona-server](https://www.percona.com/software/mysql-database/percona-server)
 
-#### MySQL 8.0
+[https://github.com/mysql/mysql-operator](https://github.com/mysql/mysql-operator)
+
+  </TabItem>
+
+  <TabItem value="orange">
 
 :::info
-The Weights & Biases application currently only supports`MySQL 8`versions`8.0.28`and above.
+The W&B application currently only supports`MySQL 8`versions`8.0.28`and above.
 :::
 
-There are some additional performance tunings required when running your W&B server with MySQL 8.0 or when upgrading from MySQL 5.7 to 8.0. Tuning your database engine with the following settings will improve the overall query performance of the `wandb` application:
+Satisfy the conditions below if you run W&B Server MySQL 8.0 or when you upgrade from MySQL 5.7 to 8.0:
 
 ```
 binlog_format = 'ROW'
@@ -41,16 +52,21 @@ innodb_flush_log_at_trx_commit = 1
 binlog_row_image = 'MINIMAL'
 ```
 
-Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you may need to update the `sort_buffer_size` parameter from its default value of `262144`. Our recommendation is to set the value to `33554432(32MiB)` in order for the database to efficiently work with the wandb application. Note that, this only works with MySQL versions 8.0.28 and above.
+Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. Our recommendation is to set the value to `33554432(32MiB)` in order for the database to efficiently work with the W&B application. Note that, this only works with MySQL versions 8.0.28 and above.
+  
+  </TabItem>
+</Tabs>
 
-The most important things to consider when running your own MySQL database are:
+### Database considerations
 
-1. **Backups**. You should be periodically backing up the database to a separate facility. We suggest daily backups with at least 1 week of retention.
+Consider the following when you run your own MySQL database:
+
+1. **Backups**. You should  periodically back up the database to a separate facility. We suggest daily backups with at least 1 week of retention.
 2. **Performance.** The disk the server is running on should be fast. We suggest running the database on an SSD or accelerated NAS.
-3. **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it's likely a good indication the server is resource starved.
+3. **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
 4. **Availability.** Depending on your availability and durability requirements you may want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to incase the primary server crashes or become corrupted.
 
-Once you've provisioned a compatible MySQL database you can create a database and a user using the following SQL (replacing SOME_PASSWORD with password of your choice).
+Create a database and a user with the following SQL query. Replace `SOME_PASSWORD` with password of your choice:
 
 ```sql
 CREATE USER 'wandb_local'@'%' IDENTIFIED BY 'SOME_PASSWORD';
@@ -58,8 +74,7 @@ CREATE DATABASE wandb_local CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
 ```
 
-### Object Store
-
+## Object Store
 The object store can be an externally hosted [Minio cluster](https://docs.min.io/minio/k8s/), or W&B supports any **S3 compatible object store** that has support for signed urls. To see if your object store supports signed urls, you can run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b).
 
 Additionally, the following CORS policy needs to be applied to the object store.
@@ -77,28 +92,28 @@ Additionally, the following CORS policy needs to be applied to the object store.
 </CORSConfiguration>
 ```
 
-When connecting to an S3 compatible object store you can specify your credentials in the connection string, i.e.
+You can specify your credentials in a connection string when you connect to an Amazon S3 compatible object store. For example, you can specify the following: 
 
 ```yaml
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME
 ```
 
-By default we assume 3rd party object stores are not running over HTTPS. If you've configured a trusted SSL certificate for your object store, you can tell us to only connect over tls by adding the `tls` query parameter to the url, i.e.
-
-:::caution
-This will only work if the SSL certificate is trusted. We do not support self-signed certificates.
-:::
+You can optionally tell W&B to only connect over TLS if you configure a trusted SSL certificate for your object store. To do so, add the `tls` query parameter to the url. For example, the following URL example demonstrates how to add the TLS query parameter to an Amazon S3 URI:
 
 ```yaml
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 ```
 
-When using 3rd party object stores, you'll want to set `BUCKET_QUEUE` to `internal://`. This tells the W&B server to manage all object notifications internally instead of depending on an external SQS queue or equivalent.
+:::caution
+This will only work if the SSL certificate is trusted. W&B does not support self-signed certificates.
+:::
+
+Set `BUCKET_QUEUE` to `internal://` if you use third-party object stores.  This tells the W&B server to manage all object notifications internally instead of depending on an external SQS queue or equivalent.
 
 The most important things to consider when running your own object store are:
 
 1. **Storage capacity and performance**. It's fine to use magnetic disks, but you should be monitoring the capacity of these disks. Average W&B usage results in 10's to 100's of Gigabytes. Heavy usage could result in Petabytes of storage consumption.
-2. **Fault tolerance.** At a minimum, the physical disk storing the objects should be on a RAID array. If you're using minio, consider running it in [distributed mode](https://docs.min.io/minio/baremetal/installation/deploy-minio-distributed.html#deploy-minio-distributed).
+2. **Fault tolerance.** At a minimum, the physical disk storing the objects should be on a RAID array. If you use minio, consider running it in [distributed mode](https://docs.min.io/minio/baremetal/installation/deploy-minio-distributed.html#deploy-minio-distributed).
 3. **Availability.** Monitoring should be configured to ensure the storage is available.
 
 There are many enterprise alternatives to running your own object storage service such as:
@@ -106,16 +121,16 @@ There are many enterprise alternatives to running your own object storage servic
 1. [https://aws.amazon.com/s3/outposts/](https://aws.amazon.com/s3/outposts/)
 2. [https://www.netapp.com/data-storage/storagegrid/](https://www.netapp.com/data-storage/storagegrid/)
 
-#### MinIO setup
+### MinIO setup
 
-If you're using minio, you can run the following commands to create a bucket .
+If you use minio, you can run the following commands to create a bucket.
 
 ```bash
 mc config host add local http://$MINIO_HOST:$MINIO_PORT "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" --api s3v4
 mc mb --region=us-east1 local/local-files
 ```
 
-### Kubernetes Deployment
+## Kubernetes deployment
 
 The following k8s yaml can be customized but should serve as a basic foundation for configuring local in Kubernetes.
 
@@ -217,9 +232,15 @@ W&B also supports deploying via a Helm Chart. The official W&B helm chart can be
 
 W&B supports operating from within an [Openshift kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). Simply follow the instructions in the kubernetes deployment section above.
 
-#### Running the container as an un-privileged user
+#### Run the container as an un-privileged user
 
-By default the container will run with a `$UID` of 999. If you're orchestrator requires the container be run with a non-root user you can specify a `$UID` >= 100000 and a `$GID` of 0. We must be started as the root group (`$GID=0`) for file system permissions to function properly. This is the default behavior when running containers in Openshift. An example security context for kubernetes would looks like:\
+By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
+
+:::note
+W&B  must start as the root group (`$GID=0`) for file system permissions to function properly.
+:::
+
+An example security context for Kubernetes looks similar to the following:
 
 ```
 spec:
@@ -228,9 +249,11 @@ spec:
     runAsGroup: 0
 ```
 
-### Docker
+## Docker deployment
 
-You can run _wandb/local_ on any instance that also has Docker installed. We suggest **at least 8GB of RAM and 4vCPU's**. Simply run the following command to launch the container:
+You can run _wandb/local_ on any instance that also has Docker installed. We suggest at least 8GB of RAM and 4vCPU's. 
+
+Run the following command to launch the container:
 
 ```bash
  docker run --rm -d \
@@ -244,15 +267,16 @@ You can run _wandb/local_ on any instance that also has Docker installed. We sug
 ```
 
 :::caution
-You'll want to configure a process manager to ensure this process is restarted if it crashes. A good overview of using SystemD to do this can be [found here](https://blog.container-solutions.com/running-docker-containers-with-systemd).
+Configure a process manager to ensure this process is restarted if it crashes. A good overview of using SystemD to do this can be [found here](https://blog.container-solutions.com/running-docker-containers-with-systemd).
 :::
 
 ## Networking
 
 ### Load Balancer
 
-You'll want to run a load balancer that terminates network requests at the appropriate network boundary. Some customers expose their wandb service on the internet, others only expose it on an internal VPN/VPC. It's important that both the machines being used to execute machine learning payloads and the devices users access the service through web browsers can communicate to this endpoint. Common load balancers include:
+Run a load balancer that terminates network requests at the appropriate network boundary. 
 
+Common load balancers include:
 1. [Nginx Ingress](https://kubernetes.github.io/ingress-nginx/)
 2. [Istio](https://istio.io)
 3. [Caddy](https://caddyserver.com)
@@ -260,9 +284,12 @@ You'll want to run a load balancer that terminates network requests at the appro
 5. [Apache](https://www.apache.org)
 6. [HAProxy](http://www.haproxy.org)
 
+Ensure that all machines used to execute machine learning payloads, and the devices used to access the service through web browsers, can communicate to this endpoint. 
+
+
 ### SSL / TLS
 
-The W&B server does not terminate SSL. If your security policies require SSL communication within your trusted networks consider using a tool like Istio and [side car containers](https://istio.io/latest/docs/reference/config/networking/sidecar/). The load balancer itself should terminate SSL with a valid certificate. Using self-signed certificates is not supported and will cause a number of challenges for users. If possible using a service like [Let's Encrypt](https://letsencrypt.org) is a great way to provided trusted certificates to your load balancer. Services like Caddy and Cloudflare manage SSL for you.
+W&B Server does not terminate SSL. If your security policies require SSL communication within your trusted networks consider using a tool like Istio and [side car containers](https://istio.io/latest/docs/reference/config/networking/sidecar/). The load balancer itself should terminate SSL with a valid certificate. Using self-signed certificates is not supported and will cause a number of challenges for users. If possible using a service like [Let's Encrypt](https://letsencrypt.org) is a great way to provided trusted certificates to your load balancer. Services like Caddy and Cloudflare manage SSL for you.
 
 ### Example Nginx Configuration
 
@@ -329,9 +356,9 @@ http {
 }
 ```
 
-## Verifying your installation
+## Verify your installation
 
-Regardless of how your server was installed, it's a good idea everything is configured properly. W&B makes it easy to verify everything is properly configured by using our CLI.
+Very your W&B Server is configured properly. Run the following commands in your terminal:
 
 ```bash
 pip install wandb
@@ -339,17 +366,30 @@ wandb login --host=https://YOUR_DNS_DOMAIN
 wandb verify
 ```
 
-If you see any errors contact W&B support staff. You can also see any errors the application hit at startup by checking the logs.
+Check log files to view any errors the W&B Server hits at startup. Run the following commands based on whether if you use Docker or Kubernetes: 
 
-### Docker
+<Tabs
+  defaultValue="apple"
+  values={[
+    {label: 'Apple', value: 'apple'},
+    {label: 'Orange', value: 'orange'},
+  ]}>
+  <TabItem value="apple">
 
 ```bash
 docker logs wandb-local
 ```
 
-### Kubernetes
+  </TabItem>
+  <TabItem value="orange">
 
 ```bash
 kubectl get pods
 kubectl logs wandb-XXXXX-XXXXX
 ```
+
+  </TabItem>
+</Tabs>
+
+
+Contact W&B Support if you encounter errors. 
