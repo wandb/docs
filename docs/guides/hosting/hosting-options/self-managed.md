@@ -54,7 +54,7 @@ It is important to keep in mind that these specifications are minimum requiremen
 
 ### Database Server
 
-W&B recommends a [MySQL 8](../how-to-guides/bare-metal.md#mysql-80) database as a metadata store of all project, report, artifact, and run data. The shape of the ML practitioners parameters and metadata will greatly affect the performance of the database. The database is typically incrementally written to as SMLE’s track their training runs and is more read heavy when queries are executed in reports and dashboard.
+W&B recommends a [MySQL 8](../how-to-guides/bare-metal.md#mysql-80) database as a metadata store. The shape of the ML practitioners parameters and metadata will greatly affect the performance of the database. The database is typically incrementally written to as practitioners track their training runs and is more read heavy when queries are executed in reports and dashboard.
 
 To ensure optimal performance we recommend deploying the W&B database on to a server with the following starting specs:
 
