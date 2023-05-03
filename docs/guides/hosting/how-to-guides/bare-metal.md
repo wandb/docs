@@ -60,7 +60,24 @@ GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
 
 ### Object Store
 
-The object store can be an externally hosted [Minio cluster](https://docs.min.io/minio/k8s/), or W&B supports any **S3 compatible object store** that has support for signed urls. To see if your object store supports signed urls, you can run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b). When connecting to an S3 compatible object store you can specify your credentials in the connection string, i.e.
+The object store can be an externally hosted [Minio cluster](https://docs.min.io/minio/k8s/), or W&B supports any **S3 compatible object store** that has support for signed urls. To see if your object store supports signed urls, you can run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b).
+
+Additionally, the following CORS policy needs to be applied to the object store.
+
+``` xml
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+<CORSRule>
+    <AllowedOrigin>http://YOUR-W&B-SERVER-IP</AllowedOrigin>
+    <AllowedMethod>GET</AllowedMethod>
+    <AllowedMethod>PUT</AllowedMethod>
+    <AllowedMethod>HEAD</AllowedMethod>
+    <AllowedHeader>*</AllowedHeader>
+</CORSRule>
+</CORSConfiguration>
+```
+
+When connecting to an S3 compatible object store you can specify your credentials in the connection string, i.e.
 
 ```yaml
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME

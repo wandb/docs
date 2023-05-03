@@ -75,22 +75,7 @@ Additionally, we recommend the following [parameter overrides](../how-to-guides/
 
 W&B is compatible with an object storage that supports S3 API interface, Signed URLs and CORS. We recommend specing the storage array to the current needs of your practitioners and to capacity plan on a regular cadence.
 
-The [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) can be used to validate that the Object Store supports Signed URL’s.
-
-The following CORS policy needs to be applied to the S3 Bucket.
-
-``` xml
-<?xml version="1.0" encoding="UTF-8"?>
-<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-<CORSRule>
-    <AllowedOrigin>http://YOUR-W&B-SERVER-IP</AllowedOrigin>
-    <AllowedMethod>GET</AllowedMethod>
-    <AllowedMethod>PUT</AllowedMethod>
-    <AllowedMethod>HEAD</AllowedMethod>
-    <AllowedHeader>*</AllowedHeader>
-</CORSRule>
-</CORSConfiguration>
-```
+More details on object store configuration can be found in the [how-to section](../how-to-guides/bare-metal.md#object-store).
 
 Some tested and working providers:
 - [MinIO](https://min.io/)
@@ -100,7 +85,7 @@ Some tested and working providers:
 
 ##### Secure Storage Connector
 
-The [Secure Storage Connector](../secure-storage-connector.md) is not available for teams at this time.
+The [Secure Storage Connector](../secure-storage-connector.md) is not available for teams at this time for bare metal deployments.
 
 ### Contact
 
