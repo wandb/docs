@@ -3,19 +3,12 @@
 Use W&B Launch to send your runs to AWS SageMaker.
 
 ## Prerequisites
-Create and set up the following AWS resources to launch your W&B runs on AWS SageMaker:
+Create the following AWS resources to launch your W&B runs on AWS SageMaker:
 
 1. **Setup SageMaker in your AWS account.** See the [SageMaker Developer guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) for more information.
 2. **Create an IAM execution role.** Attach the [AmazonSageMakerFullAccess policy to your role](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
-3. **Create an Amazon ECR repository**  to store images you want to execute on SageMaker. See the [Amazon ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for more information. 
-:::tip
-You can launch custom container images that you have pushed to ECR yourself or configure the launch agent to build container images and push them to ECR.
-:::
-4. **Create an Amazon S3 bucket** to store SageMaker outputs from your runs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information. 
-:::tip
-Ensure you create an Amazon S3 bucket in the same AWS Region you use AWS SageMaker. For more information, see Supported Regions and Quotas page in the [SageMaker Developer Guide](https://docs.aws.amazon.com/sagemaker/latest/dg/regions-quotas.html). 
-:::
-
+3. **Create an Amazon ECR repository**  to store images you want to execute on SageMaker. See the [Amazon ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for more information. You can use launch to run custom images you add to this repository yourself or configure the agent to build containers for you and store them in this repository.
+4. **Create an Amazon S3 bucket** to store SageMaker outputs from your runs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information.
 
 ## Create a queue
 
