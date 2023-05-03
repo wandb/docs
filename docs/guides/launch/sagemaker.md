@@ -9,7 +9,7 @@ Create and set up the following AWS resources to launch your W&B runs on AWS Sag
 2. **Create an IAM execution role.** Attach the [AmazonSageMakerFullAccess policy to your role](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 3. **Create an Amazon ECR repository**  to store images you want to execute on SageMaker. See the [Amazon ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for more information. 
 :::tip
-You can launch custom container images that you have pushed to that repository yourself or configure the launch agent to build container images and push them to your ECR repository.
+You can launch custom container images that you have pushed to ECR yourself or configure the launch agent to build container images and push them to ECR.
 :::
 4. **Create an Amazon S3 bucket** to store SageMaker outputs from your runs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information. 
 :::tip
@@ -19,15 +19,16 @@ Ensure you create an Amazon S3 bucket in the same AWS Region you use AWS SageMak
 
 ## Create a queue
 
-Before you can launch a job on k8s, you need to create a k8s queue in the W&B App. To create a k8s queue:
+Before you can launch a job on SageMaker, you need to create a SageMaker queue in the W&B App. To create a SageMaker queue:
 
 1. Navigate to the [Launch application](https://wandb.ai/launch).
 2. Click on the **Queues** tab.
 3. Click on the **Create Queue** button.
 4. Select the **entity** you would like to create the queue in.
 5. Enter a name for your queue.
-6. Enter a configuration for your queue.
-7. Click on the **Create Queue** button.
+6. Select **SageMaker** as the **Resource**.
+7. Enter a configuration for your queue.
+8. Click on the **Create Queue** button.
 
 
 ### Queue configuration
@@ -90,12 +91,10 @@ builder:
 
 Kaniko will store compressed build contexts in the local specified under `build-context-store` and then push any container images it builds to the ECR repository configured in the `registry` block. Kaniko pods will need permission to access the S3 bucket specified in `build-context-store` and read/write access to the ECR repository specified in `registry.repository`.
 
-
 ### Deploy the agent
-Now that you have created all the resources needed to run the agent, you can deploy the agent to your cluster.
 
-[To do]
+The launch agent will be able to launch jobs on SageMaker as long as it is being run in an environment with AWS credentials. You can run the agent locally, in a Kubernetes cluster, or in a Docker container.
 
-After you have created the deployment, you can check the status of the agent by running the following command:
+For more information on deploying an agent to a Kubernetes cluster, see the [Kubernetes deployment guide](/docs/guides/launch/kubernetes#deploying-an-agent).
 
-[to do]
+Another common pattern is to run the agent on an EC2 instance. Docker can be installed on Amazon Linux 2, allowing the agent to perform container builds and push them to ECR. The agent can then launch jobs on SageMaker using the AWS credentials associated with the EC2 instance. AWS provides a guide to installing Docker in Amazon Linux 2 [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html#prequisites).
