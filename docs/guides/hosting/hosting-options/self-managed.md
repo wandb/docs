@@ -73,7 +73,7 @@ Additionally, we recommend the following [parameter overrides](../how-to-guides/
 
 ### Object Storage
 
-W&B has no hardware requirements for the on premises storage backend as long as it supports an S3 API interface, Signed URL’s, and a CORS policy. We recommend specing the storage array to the current needs of your ML practitioners and to capacity plan on a regular cadence.
+W&B is compatible with an object storage that supports S3 API interface, Signed URLs and CORS. We recommend specing the storage array to the current needs of your practitioners and to capacity plan on a regular cadence.
 
 The [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) can be used to validate that the Object Store supports Signed URL’s.
 
