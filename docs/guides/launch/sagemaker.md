@@ -85,9 +85,8 @@ builder:
 Kaniko will store compressed build contexts in the local specified under `build-context-store` and then push any container images it builds to the ECR repository configured in the `registry` block. Kaniko pods will need permission to access the S3 bucket specified in `build-context-store` and read/write access to the ECR repository specified in `registry.repository`.
 
 ### Deploy the agent
-
-The launch agent will be able to launch jobs on SageMaker as long as it is being run in an environment with AWS credentials. You can run the agent locally, in a Kubernetes cluster, or in a Docker container.
+Run the agent locally, in a Kubernetes cluster, or in a Docker container. The launch agent will continuously run launch jobs on Amazon SageMaker so long as the agent is an environment with AWS credentials.
 
 For more information on deploying an agent to a Kubernetes cluster, see the [Kubernetes deployment guide](/docs/guides/launch/kubernetes#deploying-an-agent).
 
-Another common pattern is to run the agent on an EC2 instance. Docker can be installed on Amazon Linux 2, allowing the agent to perform container builds and push them to ECR. The agent can then launch jobs on SageMaker using the AWS credentials associated with the EC2 instance. AWS provides a guide to installing Docker in Amazon Linux 2 [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html#prequisites).
+Another common pattern is to run the agent on an Amazon EC2 instance. The agent can perform container builds and push them to Amazon ECR if you install Docker on an Amazon Linux 2 instance. The launch agent can then launch jobs on SageMaker using the AWS credentials associated with the EC2 instance. AWS provides a guide to installing Docker in Amazon Linux 2 [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html#prequisites).
