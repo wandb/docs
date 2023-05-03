@@ -75,7 +75,7 @@ GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
 ```
 
 ## Object Store
-The object store can be an externally hosted [Minio cluster](https://docs.min.io/minio/k8s/), or W&B supports any **S3 compatible object store** that has support for signed urls. To see if your object store supports signed urls, you can run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b).
+The object store can be externally hosted on a [Minio cluster](https://docs.min.io/minio/k8s/), or any Amazon S3 compatible object store that has support for signed urls. Run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) to check if your object store supports signed urls.
 
 Additionally, the following CORS policy needs to be applied to the object store.
 
