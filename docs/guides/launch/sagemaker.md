@@ -64,7 +64,7 @@ environment:
 	region: <aws-region>  # E.g. us-east-2
 ```
 
-Any containers you want to run in SageMaker will need to be stored in your Elastic Container Registry (ECR). If you want your agent to build new customers and push them to ECR for you, you will need to add a `registry` block to your agent config.
+Any containers you want to run in SageMaker will need to be stored in your Elastic Container Registry (ECR). If you want your agent to build new containers and push them to ECR for you, you will need to add a `registry` block to your agent config.
 
 ```yaml
 registry:
