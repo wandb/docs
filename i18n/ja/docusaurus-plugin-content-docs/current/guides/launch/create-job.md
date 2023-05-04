@@ -45,7 +45,7 @@ run.log_code(".", include_fn=lambda path: path.endswith(".py"))
 
 実行をDockerイメージと関連付けます。W&Bは`WANDB_DOCKER`環境変数内のイメージタグを探し、`WANDB_DOCKER`が設定されている場合、指定されたイメージタグからジョブが作成されます。Dockerイメージからジョブを起動すると、ランチエージェントは指定されたイメージを実行します。
 
-`WANDB_DOCKER`の詳細については、[docker integration](/docs/guides/integrations/other/docker.md)のドキュメントを参照してください。
+`WANDB_DOCKER`の詳細については、[docker integration](/guides/integrations/other/docker.md)のドキュメントを参照してください。
 
 `WANDB_DOCKER`環境変数に完全なイメージタグを設定して、ランチエージェントがアクセスできるようにしてください。たとえば、エージェントがECRリポジトリからイメージを実行する場合、`WANDB_DOCKER`には、ECRリポジトリのURLを含めた完全なイメージタグを設定してください。例：`123456789012.dkr.ecr.us-east-1.amazonaws.com/my-image:latest`。
 
