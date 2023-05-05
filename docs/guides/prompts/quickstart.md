@@ -110,7 +110,9 @@ agent_span = trace_tree.Span(name="Auto-GPT", span_kind = trace_tree.SpanKind.AG
 Spans can be of type `AGENT`, `CHAIN`, `TOOL` or `LLM`
 
 ### 2. Add child Spans
-Nest child Spans within the parent span so that they are nested and in the correct order in the Trace Timeline view. Below, 2 child spans and 1 grandchild span are created.
+Nest child Spans within the parent span so that they are nested and in the correct order in the Trace Timeline view. 
+
+The following text code demonstrates how to create two child spans and one grandchild span:
 
 ```python
 tool_span = trace_tree.Span(
@@ -132,7 +134,7 @@ agent_span.add_child_span(chain_span)
 
 ### 3. Add the inputs and outputs
 
-Populate spans with the input and output data
+Populate spans with the input and output data. The following code 
 
 ```python
 tool_span.add_named_result(
@@ -157,9 +159,10 @@ agent_span.add_named_result(
 )
 ```
 
-### 4. Log the spans to Weights & Biases' Trace 
+### 4. Log the spans to W&B Trace 
 
-This will allow you to visualize the Trace Table, Trace Timeline, and Model Architecture.
+Log your span to W&B with the run.log() method. W&B will create a Trace Table, Trace Timeline, and Model Architecture for you to view in the W&B App UI.
+
 
 ```python
 import wandb 
@@ -170,4 +173,4 @@ run.log({"trace": trace})
 run.finish()
 ```
 ### 5. View the trace
-Click on the W&B run link that gets generated to see the trace of your LLM.
+Click on the W&B run link that is generated to see the trace of your LLM on the W&B App UI.
