@@ -18,10 +18,10 @@ This Quickstart guide will walk you how to use [Trace](intro.md) to visualize an
 ## Use Trace with LangChain
 
 :::info
-**Versions**: Please ensure you're `langchain` package version is `0.0.158` or later and your `wandb` package version is `0.15.2` or later
+**Versions**: Ensure your `langchain` package version is `0.0.158` or later and that your `wandb` package version is `0.15.2` or later.
 :::
 
-With a simple callback, W&B Trace will continuously log calls to a [LangChain Model](https://python.langchain.com/en/latest/modules/models.html), [Chain](https://python.langchain.com/en/latest/modules/chains.html), or [Agent](https://python.langchain.com/en/latest/modules/agents.html).
+W&B Trace will continuously log calls to a [LangChain Model](https://python.langchain.com/en/latest/modules/models.html), [Chain](https://python.langchain.com/en/latest/modules/chains.html), or [Agent](https://python.langchain.com/en/latest/modules/agents.html).
 
 Follow the steps below to visualize and debug a LangChain chain. For this demo, we will use a LangChain Math agent.
 
