@@ -46,7 +46,7 @@ const Home: React.FC = () => {
             spot regressions, and share findings with colleagues.
           </div>
           <div className={styles.homeBoxContainer}>
-            <Link to="/guide">
+            <Link to="/guides">
               <div className={clsx(styles.homeBox, styles.yellow)}>
                 <QuickStartIcon />
                 <div className={styles.boxHeader}>

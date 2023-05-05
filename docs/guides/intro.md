@@ -2,7 +2,7 @@
 description: >-
   An overview of what is Weights & Biases along with links on how to get started
   if you are a first time user.
-slug: /
+slug: /guides
 displayed_sidebar: default
 ---
 
