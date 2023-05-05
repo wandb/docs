@@ -58,7 +58,7 @@ wandb.login()
 
 ## Using PyTorch Lightning's `WandbLogger`
 
-PyTorch Lightning has a [**`WandbLogger`**](https://pytorch-lightning.readthedocs.io/en/latest/extensions/generated/pytorch\_lightning.loggers.WandbLogger.html?highlight=wandblogger) class that can be used to seamlessly log metrics, model weights, media and more. Just instantiate the WandbLogger and pass it to Lightning's `Trainer`.
+PyTorch Lightning has a [**`WandbLogger`**](https://pytorch-lightning.readthedocs.io/en/1.4.9/extensions/generated/pytorch_lightning.loggers.WandbLogger.html) class that can be used to seamlessly log metrics, model weights, media and more. Just instantiate the WandbLogger and pass it to Lightning's `Trainer`.
 
 ```
 wandb_logger = WandbLogger()
@@ -67,7 +67,7 @@ trainer = Trainer(logger=wandb_logger)
 
 ### Logger arguments
 
-Below are some of the most used parameters in WandbLogger, see the PyTorch Lightning [**`WandbLogger` documentation**](https://pytorch-lightning.readthedocs.io/en/latest/extensions/generated/pytorch\_lightning.loggers.WandbLogger.html?highlight=wandblogger) for a full list and description
+Below are some of the most used parameters in WandbLogger, see the PyTorch Lightning [**`WandbLogger` documentation**](https://pytorch-lightning.readthedocs.io/en/1.4.9/extensions/generated/pytorch_lightning.loggers.WandbLogger.html) for a full list and description
 
 | Parameter   | Description                                                                   |
 | ----------- | ----------------------------------------------------------------------------- |
@@ -100,7 +100,7 @@ wandb.config.update()
 
 ### Log gradients, parameter histogram and model topology
 
-You can pass your model object to `wandblogger.watch()` to monitor your models's gradients and parameters as you train. See the PyTorch Lightning [**`WandbLogger` documentation**](https://pytorch-lightning.readthedocs.io/en/latest/extensions/generated/pytorch\_lightning.loggers.WandbLogger.html?highlight=wandblogger) for a full description
+You can pass your model object to `wandblogger.watch()` to monitor your models's gradients and parameters as you train. See the PyTorch Lightning [**`WandbLogger` documentation**](https://pytorch-lightning.readthedocs.io/en/1.4.9/extensions/generated/pytorch_lightning.loggers.WandbLogger.html) for a full description
 
 ### Log metrics
 
