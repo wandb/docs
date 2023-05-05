@@ -15,10 +15,7 @@ WandbTracer() -> Any
 
 
 
-This handler will log the model architecture and run traces to Weights and Biases. It is rare
-that you will need to instantiate this class directly. Instead, you should use the
-`WandbTracer.init()` method to set up the handler and make it the default handler. This will
-ensure that all LangChain activity is logged to W&B.
+This handler will log the model architecture and run traces to Weights and Biases. This will ensure that all LangChain activity is logged to W&B.
 
 
 
@@ -43,11 +40,12 @@ ensure that all LangChain activity is logged to W&B.
 @staticmethod
 finish() -> None
 ```
+Waits for all asynchronous processes to finish and data to upload.
 
-Stops watching all LangChain activity and resets the default handler.
+<!-- Stops watching all LangChain activity and resets the default handler.
 
 It is recommended to call this function before terminating the kernel or
-python script.
+python script. -->
 
 ### `finish_run`
 
