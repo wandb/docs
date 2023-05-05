@@ -31,7 +31,7 @@ Use Weights & Biases for machine learning experiment tracking, dataset versionin
 
 
 
-```
+```python
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.datasets import cifar10
@@ -47,7 +47,7 @@ import matplotlib.pyplot as plt
 ## Step 0️⃣: Install W&B
 
 
-```
+```python
 %%capture
 !pip install wandb
 ```
@@ -55,7 +55,7 @@ import matplotlib.pyplot as plt
 ## Step 1️⃣: Import W&B and login
 
 
-```
+```python
 import wandb
 from wandb.keras import WandbCallback
 
@@ -67,7 +67,7 @@ wandb.login()
 # 👩‍🍳 Prepare Dataset
 
 
-```
+```python
 # Prepare the training dataset
 BATCH_SIZE = 64
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
@@ -85,7 +85,7 @@ val_dataset = val_dataset.batch(BATCH_SIZE)
 # 🧠 Define the Model and the Training Loop
 
 
-```
+```python
 def make_model():
     inputs = keras.Input(shape=(784,), name="digits")
     x1 = keras.layers.Dense(64, activation="relu")(inputs)
@@ -96,7 +96,7 @@ def make_model():
 ```
 
 
-```
+```python
 def train_step(x, y, model, optimizer, loss_fn, train_acc_metric):
     with tf.GradientTape() as tape:
         logits = model(x, training=True)
@@ -111,7 +111,7 @@ def train_step(x, y, model, optimizer, loss_fn, train_acc_metric):
 ```
 
 
-```
+```python
 def test_step(x, y, model, loss_fn, val_acc_metric):
     val_logits = model(x, training=False)
     loss_value = loss_fn(y, val_logits)
@@ -123,7 +123,7 @@ def test_step(x, y, model, loss_fn, val_acc_metric):
 ## Step 2️⃣: Add `wandb.log` to your training loop
 
 
-```
+```python
 def train(train_dataset, val_dataset,  model, optimizer,
           train_acc_metric, val_acc_metric,
           epochs=10,  log_step=200, val_log_step=50):
@@ -178,7 +178,7 @@ so we can give it a unique ID and a dashboard.
 
 
 
-```
+```python
 # initialize wandb with your project name and optionally with configutations.
 # play around with the config values and see the result on your wandb dashboard.
 config = {
@@ -223,13 +223,6 @@ run.finish()  # In Jupyter/Colab, let us know you're finished!
 
 Click on the [**run page**](https://docs.wandb.ai/ref/app/pages/run-page)
 link above to see your live results.
-
-Or run the cell below to see an example dashboard rendered inside this notebook using [the `%wandb` magic](http://wandb.me/jupyter-interact-colab):
-
-
-```
-%wandb charlesfrye/my-tf-integration/runs/1ru23zx2 -h 720 
-```
 
 # 🧹 Sweep 101
 

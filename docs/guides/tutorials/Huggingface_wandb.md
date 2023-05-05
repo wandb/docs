@@ -42,13 +42,13 @@ Install the Hugging Face and Weights & Biases libraries, and the GLUE dataset an
 - [GLUE script](https://github.com/huggingface/transformers/blob/master/examples/run_glue.py): Model training script for sequence classification
 
 
-```
+```python
 !pip install datasets wandb evaluate -qU
 !wget https://raw.githubusercontent.com/huggingface/transformers/master/examples/pytorch/text-classification/run_glue.py
 ```
 
 
-```
+```python
 # the run_glue.py script requires transformers dev
 !pip install -q git+https://github.com/huggingface/transformers
 ```
@@ -59,7 +59,7 @@ Install the Hugging Face and Weights & Biases libraries, and the GLUE dataset an
 Once you've signed up, run the next cell and click on the link to get your API key and authenticate this notebook.
 
 
-```
+```python
 import wandb
 wandb.login()
 ```
@@ -67,7 +67,7 @@ wandb.login()
 Optionally, we can set environment variables to customize W&B logging. See [documentation](https://docs.wandb.com/library/integrations/huggingface).
 
 
-```
+```python
 # Optional: log both gradients and parameters
 %env WANDB_WATCH=all
 ```
@@ -76,7 +76,7 @@ Optionally, we can set environment variables to customize W&B logging. See [docu
 Next, call the downloaded training script [run_glue.py](https://huggingface.co/transformers/examples.html#glue) and see training automatically get tracked to the Weights & Biases dashboard. This script fine-tunes BERT on the Microsoft Research Paraphrase Corpus— pairs of sentences with human annotations indicating whether they are semantically equivalent.
 
 
-```
+```python
 %env WANDB_PROJECT=huggingface-demo
 %env TASK_NAME=MRPC
 

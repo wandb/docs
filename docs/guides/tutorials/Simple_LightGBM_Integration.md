@@ -25,12 +25,12 @@ We want to make it incredible easy for people to look under the hood of their mo
 ## The Usual Suspects
 
 
-```
+```python
 !pip install -Uq 'lightgbm>=3.3.1'
 ```
 
 
-```
+```python
 import pandas as pd
 import lightgbm as lgb
 from sklearn.metrics import mean_squared_error
@@ -39,14 +39,14 @@ from sklearn.metrics import mean_squared_error
 ## Step 0: Install W&B
 
 
-```
+```python
 !pip install -qU wandb
 ```
 
 ## Step 1: Import W&B and Login
 
 
-```
+```python
 import wandb
 from wandb.lightgbm import wandb_callback, log_summary
 
@@ -57,13 +57,13 @@ wandb.login()
 
 
 
-```
+```python
 !wget https://raw.githubusercontent.com/microsoft/LightGBM/master/examples/regression/regression.train -qq
 !wget https://raw.githubusercontent.com/microsoft/LightGBM/master/examples/regression/regression.test -qq
 ```
 
 
-```
+```python
 # load or create your dataset
 df_train = pd.read_csv('regression.train', header=None, sep='\t')
 df_test = pd.read_csv('regression.test', header=None, sep='\t')
@@ -89,7 +89,7 @@ You can't deny the importance of configs in your ML/DL workflow. W&B makes sure 
 [Learn more about configs in this colab notebook $\rightarrow$](http://wandb.me/config-colab)
 
 
-```
+```python
 # specify your configurations as a dict
 params = {
     'boosting_type': 'gbdt',
@@ -111,7 +111,7 @@ wandb.init(project='my-lightgbm-project', config=params);
 ### Step 3: Train with `wandb_callback`
 
 
-```
+```python
 # train 
 # add lightgbm callback
 gbm = lgb.train(params,
@@ -127,14 +127,14 @@ gbm = lgb.train(params,
 `log_summary` will upload calculate and upload the feature importance import and (optionally) upload your trained model to W&B Artifacts so you can use it later
 
 
-```
+```python
 log_summary(gbm, save_model_checkpoint=True)
 ```
 
 # Evaluate
 
 
-```
+```python
 # predict
 y_pred = gbm.predict(X_test, num_iteration=gbm.best_iteration)
 
@@ -146,7 +146,7 @@ wandb.log({'rmse_prediction': mean_squared_error(y_test, y_pred) ** 0.5})
 When you are finished logging for a particular W&B run its a good idea to call `wandb.finish()` to tidy up the wandb process (only necessary when using notebooks/colabs)
 
 
-```
+```python
 wandb.finish()
 ```
 

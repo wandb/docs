@@ -40,7 +40,7 @@ The rest of the code is there to set up a simple example.
 ### Step 0️⃣: Install W&B
 
 
-```
+```python
 %%capture
 !pip install wandb
 ```
@@ -48,7 +48,7 @@ The rest of the code is there to set up a simple example.
 ### Step 1️⃣: Import W&B and Login
 
 
-```
+```python
 import tqdm
 import tensorflow as tf
 from tensorflow import keras
@@ -61,7 +61,7 @@ import matplotlib.pyplot as plt
 ```
 
 
-```
+```python
 import wandb
 from wandb.keras import WandbCallback
 
@@ -73,7 +73,7 @@ wandb.login()
 # 👩‍🍳 Prepare Dataset
 
 
-```
+```python
 # Prepare the training dataset
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
 
@@ -88,7 +88,7 @@ x_test = np.reshape(x_test, (-1, 784))
 ## 🏗️ Build a Simple Classifier MLP
 
 
-```
+```python
 def Model():
     inputs = keras.Input(shape=(784,), name="digits")
     x1 = keras.layers.Dense(64, activation="relu")(inputs)
@@ -124,7 +124,7 @@ def test_step(x, y, model, loss_fn, val_acc_metric):
 ### Step 3️⃣: Log metrics with `wandb.log`
 
 
-```
+```python
 def train(train_dataset,
           val_dataset, 
           model,
@@ -186,7 +186,7 @@ This is where you will:
 #### [Check out more on Sweep Configs $\rightarrow$](https://docs.wandb.com/sweeps/configuration)
 
 
-```
+```python
 sweep_config = {
   'method': 'random', 
   'metric': {
@@ -215,7 +215,7 @@ that uses `wandb.config` to set the hyperparameters
 before `train` gets called.
 
 
-```
+```python
 def sweep_train(config_defaults=None):
     # Set default values
     config_defaults = {
@@ -269,14 +269,14 @@ def sweep_train(config_defaults=None):
 # Step 6️⃣: Initialize Sweep and Run Agent 
 
 
-```
+```python
 sweep_id = wandb.sweep(sweep_config, project="sweeps-tensorflow")
 ```
 
 You can limit the number of total runs with the `count` parameter, we will limit a 10 to make the script run fast, feel free to increase the number of runs and see what happens.
 
 
-```
+```python
 wandb.agent(sweep_id, function=sweep_train, count=10)
 ```
 

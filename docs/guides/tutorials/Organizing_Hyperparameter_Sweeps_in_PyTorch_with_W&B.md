@@ -23,12 +23,12 @@ the call to `login` will give you a link to sign up for an account.
 W&B is free to use for personal and academic projects!
 
 
-```
+```python
 !pip install wandb -Uq
 ```
 
 
-```
+```python
 import wandb
 
 wandb.login()
@@ -65,7 +65,7 @@ Very effective, but can be computationally costly.
 We'll stick with `random`.
 
 
-```
+```python
 sweep_config = {
     'method': 'random'
     }
@@ -80,7 +80,7 @@ or to `maximize` it
 (e.g. if it's the accuracy).
 
 
-```
+```python
 metric = {
     'name': 'loss',
     'goal': 'minimize'   
@@ -116,7 +116,7 @@ a few select `values`,
 as we do here with the hidden `layer_size` and `dropout`.
 
 
-```
+```python
 parameters_dict = {
     'optimizer': {
         'values': ['adam', 'sgd']
@@ -139,7 +139,7 @@ but which we still want to set in our `sweep_config`.
 In that case, we just set the `value` directly:
 
 
-```
+```python
 parameters_dict.update({
     'epochs': {
         'value': 1}
@@ -159,7 +159,7 @@ and standard deviation `sigma` of a `normal` distribution.
 See more on how to set the distributions of your random variables [here](https://docs.wandb.com/sweeps/configuration#distributions).
 
 
-```
+```python
 parameters_dict.update({
     'learning_rate': {
         # a flat distribution between 0 and 0.1
@@ -183,7 +183,7 @@ that specifies exactly which `parameters` we're interested in trying
 and what `method` we're going to use to try them.
 
 
-```
+```python
 import pprint
 
 pprint.pprint(sweep_config)
@@ -221,13 +221,13 @@ We can wind up a Sweep Controller by calling `wandb.sweep` with the appropriate 
 This function returns a `sweep_id` that we will later user to assign agents to this Controller.
 
 > _Side Note_: on the command line, this function is replaced with
-```
+```python
 wandb sweep config.yaml
 ```
 [Learn more about using Sweeps in the command line ➡](https://docs.wandb.com/sweeps/quickstart)
 
 
-```
+```python
 sweep_id = wandb.sweep(sweep_config, project="pytorch-sweeps-demo")
 ```
 
@@ -246,7 +246,7 @@ In the functions below, we define a simple fully-connected neural network in PyT
 For more details on instrumenting W&B with PyTorch, see [this Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb).
 
 
-```
+```python
 import torch
 import torch.optim as optim
 import torch.nn.functional as F
@@ -279,7 +279,7 @@ and their implementation is unaffected by the use of W&B,
 so we won't comment on them.
 
 
-```
+```python
 def build_dataset(batch_size):
    
     transform = transforms.Compose(
@@ -353,7 +353,7 @@ according to the strategy laid out in the `sweep_config`.
 This makes it trivially easy to scale your Sweeps across as many nodes as you can get ahold of!
 
 > _Side Note:_ on the command line, this function is replaced with
-```
+```bash
 wandb agent sweep_id
 ```
 [Learn more about using Sweeps in the command line ➡](https://docs.wandb.com/sweeps/quickstart)
@@ -362,7 +362,7 @@ The cell below will launch an `agent` that runs `train` 5 times,
 usingly the randomly-generated hyperparameter values returned by the Sweep Controller. Execution takes under 5 minutes.
 
 
-```
+```python
 wandb.agent(sweep_id, train, count=5)
 ```
 
@@ -394,4 +394,4 @@ That repo also has examples to help you try more advanced sweep features like [B
 
 # What's next 🚀 ?
 In the next tutorial, you will learn how to manage model weights & dataset versions using W&B Artifacts:
-## 👉 [Manage Model Weights & Dataset Versions](intro_to_artifacts.md)
+## 👉 [Manage Model Weights & Dataset Versions](Pipeline_Versioning_with_W&B_Artifacts)

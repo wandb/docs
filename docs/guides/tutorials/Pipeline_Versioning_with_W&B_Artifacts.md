@@ -33,14 +33,14 @@ Artifacts are part of our Python library, starting with version `0.9.2`.
 Like most parts of the ML Python stack, it's available via `pip`.
 
 
-```
+```python
 # Compatible with wandb version 0.9.2+
 !pip install wandb -qqq
 !apt install tree
 ```
 
 
-```
+```python
 import os
 import wandb
 ```
@@ -62,7 +62,7 @@ We start with the `Dataset`s:
 The first cell below defines these three datasets.
 
 
-```
+```python
 import random 
 
 import torch
@@ -128,7 +128,7 @@ Check out the example the code cell below
 and then expand the sections afterwards for more details.
 
 
-```
+```python
 def load_and_log():
 
     # 🚀 start a run, with a type to label it and a project it can call home
@@ -238,7 +238,7 @@ Notice again that we split out the meat of the code, `preprocess`,
 from the code that interfaces with `wandb`.
 
 
-```
+```python
 def preprocess(dataset, normalize=True, expand_dims=True):
     """
     ## Prepare the data
@@ -268,7 +268,7 @@ We use a new `job_type`, `preprocess-data`,
 to make it clear that this is a different kind of job from the previous one.
 
 
-```
+```python
 def preprocess_and_log(steps):
 
     with wandb.init(project="artifacts-example", job_type="preprocess-data") as run:
@@ -314,7 +314,7 @@ the `download` step is done in much less than a second.
 Expand the markdown cell below for details.
 
 
-```
+```python
 steps = {"normalize": True,
          "expand_dims": True}
 
@@ -355,7 +355,7 @@ one for each `Artifact`.
 Check out its contents with `!tree artifacts`:
 
 
-```
+```python
 !tree artifacts
 ```
 
@@ -392,7 +392,7 @@ We'll start by just initializing the `model`, not training it.
 That way, we can repeat the training while keeping everything else constant.
 
 
-```
+```python
 from math import floor
 
 import torch.nn as nn
@@ -444,7 +444,7 @@ object to store all of the hyperparameters.
 The `dict`ionary version of that `config` object is a really useful piece of `metadata`, so make sure to include it!
 
 
-```
+```python
 def build_model_and_log(config):
     with wandb.init(project="artifacts-example", job_type="initialize", config=config) as run:
         config = wandb.config
@@ -497,7 +497,7 @@ For more details, check out our Colab on
 [instrumenting W&B with PyTorch](http://wandb.me/pytorch-colab).
 
 
-```
+```python
 import torch.nn.functional as F
 
 def train(model, train_loader, valid_loader, config):
@@ -575,7 +575,7 @@ on which the `categorical_crossentropy` is highest.
 This is a good way to diagnose issues with your dataset and your model!
 
 
-```
+```python
 def evaluate(model, test_loader):
     """
     ## Evaluate the trained model
@@ -624,7 +624,7 @@ we're just `use`ing, `download`ing,
 and `log`ging `Artifact`s.
 
 
-```
+```python
 from torch.utils.data import DataLoader
 
 def train_and_log(config):
@@ -695,7 +695,7 @@ def evaluate_and_log(config=None):
 ```
 
 
-```
+```python
 train_config = {"batch_size": 128,
                 "epochs": 5,
                 "batch_log_interval": 25,
@@ -731,3 +731,9 @@ This provides total insight into your pipeline,
 with logged metrics, metadata, and more
 all at your fingertips --
 you're only limited by what you choose to log with us.
+
+# What's next 🚀 ?
+The next tutorial, you will learn how to communicate changes to your models and manage the model development lifecycle with W&B Models:
+## 👉 [Track Model Development Lifecycle](Model_Registry_Tutorial)
+
+

@@ -34,7 +34,7 @@ and builds in some best practices.
 `wandb` and `pytorch-lightning` are both easily installable via [`pip`](https://pip.pypa.io/en/stable/).
 
 
-```
+```python
 !pip install -qqq wandb pytorch-lightning torchmetrics
 ```
 
@@ -42,7 +42,7 @@ PyTorch Lightning is built on top of PyTorch,
 so we still need to import vanilla PyTorch.
 
 
-```
+```python
 # numpy for non-GPU array math
 import numpy as np
 
@@ -76,7 +76,7 @@ you'll need to sign up first.
 Accounts are free forever for academic and public projects.
 
 
-```
+```python
 # ⚡ PyTorch Lightning
 import pytorch_lightning as pl
 import torchmetrics
@@ -146,7 +146,7 @@ that all comes for free as part of the `LightningModule`.
 so you'll never lose track of the arguments you used to run a model again!
 
 
-```
+```python
 class LitMLP(pl.LightningModule):
 
     def __init__(self, in_dims, n_classes=10,
@@ -239,7 +239,7 @@ these averages will be automatically computed across nodes.
 Read more about the `log` method [in the docs](https://pytorch-lightning.readthedocs.io/en/latest/lightning_module.html#log).
 
 
-```
+```python
 def training_step(self, batch, batch_idx):
     xs, ys = batch
     logits, loss = self.loss(xs, ys)
@@ -293,7 +293,7 @@ so that we log only `epoch`-wise metrics.
 > _Note_: That's actually the default behavior for `.log` when it's called inside of a `validation` or a `test` loop -- but not when it's called inside a `training` loop! Check out the table of default behaviors for `.log` [in the docs](https://pytorch-lightning.readthedocs.io/en/latest/lightning_module.html#log).
 
 
-```
+```python
 def test_step(self, batch, batch_idx):
     xs, ys = batch
     logits, loss = self.loss(xs, ys)
@@ -315,7 +315,7 @@ we'll see that this allows us to use the
 [Netron model viewer](https://github.com/lutzroeder/netron) in W&B.
 
 
-```
+```python
 def test_epoch_end(self, test_step_outputs):  # args are defined as part of pl API
     dummy_input = torch.zeros(self.hparams["in_dims"], device=self.device)
     model_filename = "model_final.onnx"
@@ -358,7 +358,7 @@ we need to drop down a level and use
 `self.experiment.logger.log`.
 
 
-```
+```python
 def validation_step(self, batch, batch_idx):
     xs, ys = batch
     logits, loss = self.loss(xs, ys)
@@ -421,7 +421,7 @@ or check out
 to see everything it's capable of.
 
 
-```
+```python
 class ImagePredictionLogger(pl.Callback):
     def __init__(self, val_samples, num_samples=32):
         super().__init__()
@@ -457,7 +457,7 @@ A `DataModule` is also defined by an interface:
 * `train_dataloader`, `val_dataloader` and `test_dataloader` to load each dataset
 
 
-```
+```python
 class MNISTDataModule(pl.LightningDataModule):
 
     def __init__(self, data_dir='./', batch_size=128):
@@ -519,7 +519,7 @@ we just need to configure it with keyword arguments.
 And that is where we'll use the `pytorch_lightning.loggers.WandbLogger` to connect our logging to W&B.
 
 
-```
+```python
 wandb_logger = WandbLogger(project="lit-wandb")
 ```
 
@@ -533,7 +533,7 @@ We'll stick to the basics for this example,
 but half-precision training and easy scaling to distributed settings are two of the major reasons why folks like PyTorch Lightning!
 
 
-```
+```python
 trainer = pl.Trainer(
     logger=wandb_logger,    # W&B integration
     log_every_n_steps=50,   # set the logging frequency
@@ -549,7 +549,7 @@ trainer = pl.Trainer(
 Now, let's make it all happen:
 
 
-```
+```python
 # setup model
 model = LitMLP(in_dims=(1, 28, 28))
 

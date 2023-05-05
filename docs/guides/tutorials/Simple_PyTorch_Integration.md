@@ -52,7 +52,7 @@ wandb.save("model.onnx")
 # 🚀 Install, Import, and Log In
 
 
-```
+```python
 import os
 import random
 
@@ -84,7 +84,7 @@ To get started, we'll need to get the library.
 `wandb` is easily installed using `pip`.
 
 
-```
+```python
 !pip install wandb -Uq
 ```
 
@@ -124,7 +124,7 @@ fully-connected architectures on CIFAR in the same project,
 this will help us separate our runs.
 
 
-```
+```python
 config = dict(
     epochs=5,
     classes=10,
@@ -145,7 +145,7 @@ which is pretty typical for model-training:
 We'll implement these functions below.
 
 
-```
+```python
 def model_pipeline(hyperparameters):
 
     # tell wandb to get started
@@ -188,7 +188,7 @@ Once the issue is resolved (e.g. the Kraken returns to the deep)
 you can log the data with `wandb sync`.
 
 
-```
+```python
 def make(config):
     # Make the data
     train, test = get_data(train=True), get_data(train=False)
@@ -215,7 +215,7 @@ no different from what it would be without `wandb`,
 so we won't dwell on it.
 
 
-```
+```python
 def get_data(slice=5, train=True):
     full_dataset = torchvision.datasets.MNIST(root=".",
                                               train=train, 
@@ -247,7 +247,7 @@ all your results will be logged on [wandb.ai](https://wandb.ai)!
 
 
 
-```
+```python
 # Conventional and convolutional neural network
 
 class ConvNet(nn.Module):
@@ -291,7 +291,7 @@ running forward and backward passes
 and applying our `optimizer`.
 
 
-```
+```python
 def train(model, loader, criterion, optimizer, config):
     # Tell wandb to watch what the model gets up to: gradients, weights, and more!
     wandb.watch(model, criterion, log="all", log_freq=10)
@@ -342,7 +342,7 @@ since this makes for easier comparison across batch sizes,
 but you can use raw steps or batch count. For longer training runs, it can also make sense to log by `epoch`.
 
 
-```
+```python
 def train_log(loss, example_ct, epoch):
     # Where the magic happens
     wandb.log({"epoch": epoch, "loss": loss}, step=example_ct)
@@ -372,7 +372,7 @@ For more advanced `wandb` features for storing, versioning, and distributing
 models, check out our [Artifacts tools](https://www.wandb.com/artifacts).
 
 
-```
+```python
 def test(model, test_loader):
     model.eval()
 

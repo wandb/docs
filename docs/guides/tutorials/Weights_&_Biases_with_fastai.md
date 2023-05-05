@@ -20,12 +20,12 @@ This notebook shows how to use fastai with the[`WandbCallback`](https://docs.wan
 First, install and import `fastai` and `wandb`.
 
 
-```
+```python
 !pip install -qU wandb fastai timm
 ```
 
 
-```
+```python
 import wandb
 
 from fastai.vision.all import *
@@ -38,7 +38,7 @@ Log in so your results can stream to a private project in W&B. Here's more info 
 *Note: Login only needs to be done once, and it is automatically called with `wandb.init()`.*
 
 
-```
+```python
 wandb.login()
 ```
 
@@ -47,7 +47,7 @@ wandb.login()
 Let's start with a very simple fastai pipeline:
 
 
-```
+```python
 path = untar_data(URLs.PETS)/'images'
 
 def is_cat(x): return x[0].isupper()
@@ -63,28 +63,28 @@ learn.fine_tune(1)
 You just need to add the `WandbCallback` to the `Learner` (or to the fit method with the `cbs` argument)
 
 
-```
+```python
 learn = vision_learner(dls, "convnext_tiny", metrics=error_rate, cbs = WandbCallback())
 ```
 
 create a run by calling `wandb.init`
 
 
-```
+```python
 wandb.init(project="fastai");
 ```
 
 Train your model as usual
 
 
-```
+```python
 learn.fine_tune(1)
 ```
 
 end the run
 
 
-```
+```python
 wandb.finish()
 ```
 
@@ -108,7 +108,7 @@ In this example, we'll train a U-Net with a ResNet encoder to perform semantic s
 Fastai datasets are downloaded from a URL and cached locally.
 
 
-```
+```python
 path = untar_data(URLs.CAMVID_TINY)
 path
 ```
@@ -123,33 +123,33 @@ This specific dataset contains:
 We can create `DataLoaders` in many possible ways: from a `Dataset`, `TfmdList`, `DataBlock` or custom methods such as `ImageDataLoaders` or `SegmentationDataLoaders`.
 
 
-```
+```python
 # Get classes
 codes = np.loadtxt(path/'codes.txt', dtype=str)
 codes
 ```
 
 
-```
+```python
 # Get list of input files path
 fnames = get_image_files(path/"images")
 fnames[:3]
 ```
 
 
-```
+```python
 # get label path from an input path
 def label_func(fn): return path/"labels"/f"{fn.stem}_P{fn.suffix}"
 ```
 
 
-```
+```python
 # create DataLoaders using a function specific to semantic segmentation
 dls = SegmentationDataLoaders.from_label_func(path, bs=8, fnames=fnames, label_func=label_func, codes=codes)
 ```
 
 
-```
+```python
 dls.show_batch()
 ```
 
@@ -158,7 +158,7 @@ dls.show_batch()
 We start a new W&B run with wandb.init() which gives us a link to our logged run.
 
 
-```
+```python
 wandb.init(project='fastai_camvid');
 ```
 
@@ -173,17 +173,17 @@ wandb.init(project='fastai_camvid');
 In addition to logging losses & metrics, we are going to log our dataset and our model, which will be automatically versioned.
 
 
-```
+```python
 learn = unet_learner(dls, resnet18, metrics=foreground_acc, cbs=WandbCallback(log_dataset=True, log_model=True))
 ```
 
 
-```
+```python
 learn.fit_one_cycle(2, )
 ```
 
 
-```
+```python
 # optional: mark the run as completed
 wandb.finish()
 ```

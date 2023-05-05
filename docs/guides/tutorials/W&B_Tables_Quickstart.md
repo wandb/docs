@@ -1,4 +1,4 @@
-# View & analyze model predictions
+# View & Analyze Model Predictions
 
 <a href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W&B_Tables_Quickstart.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
@@ -37,14 +37,14 @@ Filter out correct answers, then group by the guess to see examples of misclassi
 In this example we're using Google Colab as a convenient hosted environment, but you can run your own training scripts from anywhere and visualize metrics with W&B's experiment tracking tool.
 
 
-```
+```python
 !pip install wandb -qqq
 ```
 
 log to your account
 
 
-```
+```python
 
 import wandb
 wandb.login()
@@ -57,7 +57,7 @@ WANDB_PROJECT = "mnist-viz"
 Install dependencies, download MNIST, and create train and test datasets using PyTorch. 
 
 
-```
+```python
 import torch
 import torch.nn as nn
 import torchvision
@@ -86,7 +86,7 @@ def get_dataloader(is_train, batch_size, slice=5):
 
 
 
-```
+```python
 # Number of epochs to run
 # Each epoch includes a training step and a test step, so this sets
 # the number of tables of test predictions to log
@@ -146,7 +146,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 For every epoch, run a training step and a test step. For each test step, create a wandb.Table() in which to store test predictions. These can be visualized, dynamically queried, and compared side by side in your browser.
 
 
-```
+```python
 # ✨ W&B: Initialize a new run to track this model's training
 wandb.init(project="table-quickstart")
 
@@ -240,4 +240,4 @@ wandb.finish()
 
 # What's next 🚀 ?
 The next tutorial, you will learn how to optimize hyperparameters using W&B Sweeps:
-## 👉 [Optimize Hyperparameters](intro_to_sweeps.md)
+## 👉 [Optimize Hyperparameters](Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B)

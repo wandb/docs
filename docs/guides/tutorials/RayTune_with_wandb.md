@@ -45,12 +45,12 @@ Let's start by installing the libraries and importing everything we need.
 
 
 
-```
+```python
 !pip install -Uq ray[tune] wandb
 ```
 
 
-```
+```python
 import random
 import numpy as np
 from ray import tune
@@ -62,21 +62,21 @@ import wandb
 ```
 
 
-```
+```python
 wandb.login()
 ```
 
 We'll make use of Ray's handy [`mnist_pytorch` example code](https://github.com/ray-project/ray/blob/master/python/ray/tune/examples/mnist_pytorch.py).
 
 
-```
+```python
 from ray.tune.examples.mnist_pytorch import ConvNet, get_data_loaders, test, train
 ```
 
 In order to make this experiment reproducible, we'll set the seeds for random number generators of various libraries used in this experiment.
 
 
-```
+```python
 torch.backends.cudnn.deterministic = True
 random.seed(2022)
 np.random.seed(2022)
@@ -96,7 +96,7 @@ For simplicity, we only have two hyperparameters here:
 the learning rate and momentum value for accelerated SGD.
 
 
-```
+```python
 @wandb_mixin
 def train_mnist(config):
 
@@ -141,7 +141,7 @@ that dictionary also has a few special keys, described in
 [the documentation for the `WandbLoggerCallback`](https://docs.ray.io/en/master/tune/tutorials/tune-wandb.html).
 
 
-```
+```python
 wandb.login()
 ```
 
@@ -164,7 +164,7 @@ Here, we do a simple grid search, but
 [Ray/Tune provides lots of sophisticated options](https://docs.ray.io/en/latest/tune/api_docs/suggestion.html).
 
 
-```
+```python
 analysis = tune.run(
     train_mnist,
     callbacks=[WandbLoggerCallback(project="raytune-colab")], # WandbLoggerCallback uses tune.run's logger interface
@@ -179,6 +179,6 @@ analysis = tune.run(
 ```
 
 
-```
+```python
 print("Best config: ", analysis.get_best_config(metric="mean_accuracy", mode="max"))
 ```
