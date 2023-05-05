@@ -189,6 +189,28 @@ Calculates the absolute value of a [number](https://docs.wandb.ai/ref/weave/numb
 #### Return Value
 The absolute value of the [number](https://docs.wandb.ai/ref/weave/number)
 
+<h3 id="number-cos"><code>number-cos</code></h3>
+
+Calculates the cosine of a [number](https://docs.wandb.ai/ref/weave/number) in radians
+
+| Argument |  |
+| :--- | :--- |
+| `n` | Radians to calculate the cosine of |
+
+#### Return Value
+Sine of the [number](https://docs.wandb.ai/ref/weave/number)
+
+<h3 id="number-sin"><code>number-sin</code></h3>
+
+Calculates the sine of a [number](https://docs.wandb.ai/ref/weave/number) in radians
+
+| Argument |  |
+| :--- | :--- |
+| `n` | Radians to calculate the sine of |
+
+#### Return Value
+Sine of the [number](https://docs.wandb.ai/ref/weave/number)
+
 
 ## List Ops
 <h3 id="number-notEqual"><code>number-notEqual</code></h3>
@@ -455,4 +477,26 @@ Calculates the absolute value of a [number](https://docs.wandb.ai/ref/weave/numb
 
 #### Return Value
 The absolute value of the [number](https://docs.wandb.ai/ref/weave/number)
+
+<h3 id="number-cos"><code>number-cos</code></h3>
+
+Calculates the cosine of a [number](https://docs.wandb.ai/ref/weave/number) in radians
+
+| Argument |  |
+| :--- | :--- |
+| `n` | Radians to calculate the cosine of |
+
+#### Return Value
+Sine of the [number](https://docs.wandb.ai/ref/weave/number)
+
+<h3 id="number-sin"><code>number-sin</code></h3>
+
+Calculates the sine of a [number](https://docs.wandb.ai/ref/weave/number) in radians
+
+| Argument |  |
+| :--- | :--- |
+| `n` | Radians to calculate the sine of |
+
+#### Return Value
+Sine of the [number](https://docs.wandb.ai/ref/weave/number)
 

@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_sweep.py#L31-L116)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/sdk/wandb_sweep.py#L31-L118)
 
 
 
@@ -11,8 +11,8 @@ Initialize a hyperparameter sweep.
 ```python
 sweep(
  sweep: Union[dict, Callable],
- entity: Optional[str] = None,
- project: Optional[str] = None
+ entity: str = None,
+ project: str = None
 ) -> str
 ```
 
@@ -26,8 +26,8 @@ tool `wandb sweep` (https://docs.wandb.ai/ref/cli/wandb-sweep).
 
 | Args | |
 | :--- | :--- |
-| `sweep` | dict, SweepConfig, or callable. The sweep configuration (or configuration generator). If a dict or SweepConfig, should conform to the W&B sweep config specification (https://docs.wandb.ai/guides/sweeps/define-sweep-configuration). If a callable, should take no arguments and return a dict that conforms to the W&B sweep config spec. |
-| `entity` | str (optional). An entity is a username or team name where you're sending runs. This entity must exist before you can send runs there, so make sure to create your account or team in the UI before starting to log runs. If you don't specify an entity, the run will be sent to your default entity, which is usually your username. Change your default entity in [Settings](https://wandb.ai/settings) under "default location to create new projects". |
+| `sweep` | dict, SweepConfig, or callable. The sweep configuration (or configuration generator). If a dict or SweepConfig, should conform to the W&B sweep config specification (https://docs.wandb.ai/guides/sweeps/configuration). If a callable, should take no arguments and return a dict that conforms to the W&B sweep config spec. |
+| `entity` | str (optional). An entity is a username or team name where you're sending runs. This entity must exist before you can send runs there, so make sure to create your account or team in the UI before starting to log runs. If you don't specify an entity, the run will be sent to your default entity, which is usually your username. Change your default entity in [Settings](wandb.ai/settings) under "default location to create new projects". |
 | `project` | str (optional). The name of the project where you're sending the new run. If the project is not specified, the run is put in an "Uncategorized" project. |
 
 
@@ -44,14 +44,16 @@ Basic usage
 
 ```python
 import wandb
-
 sweep_configuration = {
  "name": "my-awesome-sweep",
  "metric": {"name": "accuracy", "goal": "maximize"},
  "method": "grid",
- "parameters": {"a": {"values": [1, 2, 3, 4]}},
+ "parameters": {
+ "a": {
+ "values": [1, 2, 3, 4]
+ }
+ }
 }
-
 
 def my_train_func():
  # read the current value of parameter "a" from wandb.config
@@ -59,7 +61,6 @@ def my_train_func():
  a = wandb.config.a
 
  wandb.log({"a": a, "accuracy": a + 1})
-
 
 sweep_id = wandb.sweep(sweep_configuration)
 

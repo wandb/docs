@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_sweep.py#L119-L143)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/sdk/wandb_sweep.py#L121-L144)
 
 
 
@@ -24,7 +24,6 @@ controller(
 
 ```python
 import wandb
-
 tuner = wandb.controller(...)
 print(tuner.sweep_config)
 print(tuner.sweep_id)

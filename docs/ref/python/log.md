@@ -2,11 +2,11 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1555-L1750)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/sdk/wandb_run.py#L1415-L1609)
 
 
 
-Log a dictonary of data to the current run's history.
+Logs a dictonary of data to the current run's history.
 
 ```python
 log(
@@ -31,7 +31,7 @@ This will save the loss and accuracy to the run's history and update
 the summary values for these metrics.
 
 Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
-or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
+or locally on a [self-hosted instance](https://docs.wandb.ai/self-hosted)
 of the W&B app, or export data to visualize and explore locally, e.g. in
 Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
 
@@ -41,7 +41,7 @@ Summary values can also be set directly with `wandb.run.summary["key"] = value`.
 Logged values don't have to be scalars. Logging any wandb object is supported.
 For example `wandb.log({"example": wandb.Image("myimage.jpg")})` will log an
 example image which will be displayed nicely in the W&B UI.
-See the [reference documentation](https://docs.wandb.com/ref/python/data-types)
+See the [reference documentation](https://docs.wandb.com/library/reference/data_types)
 for all of the different supported types or check out our
 [guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
 from 3D molecular structures and segmentation masks to PR curves and histograms.

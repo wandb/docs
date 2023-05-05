@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/histogram.py#L17-L95)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/sdk/data_types/histogram.py#L17-L94)
 
 
 
@@ -26,7 +26,7 @@ https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
 
 Generate histogram from a sequence
 ```python
-wandb.Histogram([1, 2, 3])
+wandb.Histogram([1,2,3])
 ```
 
 Efficiently initialize from np.histogram.

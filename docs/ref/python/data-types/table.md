@@ -2,11 +2,11 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L153-L936)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L148-L922)
 
 
 
-The Table class used to display and analyze tabular data.
+The Table class is used to display and analyze tabular data.
 
 ```python
 Table(
@@ -110,7 +110,7 @@ due to lack of consistent typing.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L832-L871)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L818-L857)
 
 ```python
 add_column(
@@ -120,20 +120,16 @@ add_column(
 
 Add a column of data to the table.
 
-
-| Arguments | |
-| :--- | :--- |
-| `name` | (str) - the unique name of the column |
-| `data` | (list | np.array) - a column of homogenous data |
-| `optional` | (bool) - if null-like values are permitted |
-
-
+Arguments
+ name: (str) - the unique name of the column
+ data: (list | np.array) - a column of homogenous data
+ optional: (bool) - if null-like values are permitted
 
 ### `add_computed_columns`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L914-L936)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L900-L922)
 
 ```python
 add_computed_columns(
@@ -141,7 +137,7 @@ add_computed_columns(
 )
 ```
 
-Add one or more computed columns based on existing data.
+Adds one or more computed columns based on existing data
 
 
 | Args | |
@@ -154,7 +150,7 @@ Add one or more computed columns based on existing data.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L458-L491)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L450-L480)
 
 ```python
 add_data(
@@ -162,15 +158,14 @@ add_data(
 )
 ```
 
-Add a row of data to the table.
+Add a row of data to the table. Argument length should match column length
 
-Argument length should match column length.
 
 ### `add_row`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L453-L456)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L445-L448)
 
 ```python
 add_row(
@@ -178,14 +173,14 @@ add_row(
 )
 ```
 
-Deprecated: use add_data instead.
+add_row is deprecated. Please use add_data
 
 
 ### `cast`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L352-L406)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L344-L398)
 
 ```python
 cast(
@@ -193,7 +188,7 @@ cast(
 )
 ```
 
-Cast a column to a specific type.
+Casts a column to a specific type
 
 
 | Arguments | |
@@ -208,7 +203,7 @@ Cast a column to a specific type.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L873-L896)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L859-L882)
 
 ```python
 get_column(
@@ -216,34 +211,31 @@ get_column(
 )
 ```
 
-Retrieve a column of data from the table.
+Retrieves a column of data from the table
 
-
-| Arguments | |
-| :--- | :--- |
-| `name` | (str) - the name of the column |
-| `convert_to` | (str, optional) - "numpy": will convert the underlying data to numpy object |
-
-
+Arguments
+ name: (str) - the name of the column
+ convert_to: (str, optional)
+ - "numpy": will convert the underlying data to numpy object
 
 ### `get_index`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L898-L905)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L884-L891)
 
 ```python
 get_index()
 ```
 
-Return an array of row indexes for use in other tables to create links.
+Returns an array of row indexes which can be used in other tables to create links
 
 
 ### `index_ref`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L907-L912)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L893-L898)
 
 ```python
 index_ref(
@@ -251,38 +243,33 @@ index_ref(
 )
 ```
 
-Get a reference to a particular row index in the table.
+Get a reference to a particular row index in the table
 
 
 ### `iterrows`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L709-L723)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L697-L710)
 
 ```python
 iterrows()
 ```
 
-Iterate over rows as (ndx, row).
-
-
-| Yields | |
-| :--- | :--- |
-
-
+Iterate over rows as (ndx, row)
+Yields
 ------
 index : int
  The index of the row. Using this value in other WandB tables
  will automatically build a relationship between the tables
 row : List[any]
- The data of the row.
+ The data of the row
 
 ### `set_fk`
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L730-L734)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L717-L721)
 
 ```python
 set_fk(
@@ -297,7 +284,7 @@ set_fk(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L725-L728)
+[View source](https://www.github.com/wandb/client/tree/latest/wandb/data_types.py#L712-L715)
 
 ```python
 set_pk(

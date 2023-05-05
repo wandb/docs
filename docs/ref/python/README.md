@@ -3,7 +3,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/__init__.py)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/__init__.py)
 
 
 
@@ -15,7 +15,7 @@ The most commonly used functions/objects are:
  - wandb.config — track hyperparameters and metadata
  - wandb.log — log metrics and media over time within your training loop
 
-For guides and examples, see https://docs.wandb.ai.
+For guides and examples, see https://docs.wandb.com/guides.
 
 For scripts and interactive notebooks, see https://github.com/wandb/examples.
 
@@ -29,27 +29,27 @@ For reference documentation, see https://docs.wandb.com/ref/python.
 
 ## Functions
 
-[`agent(...)`](./agent.md): Run a function or program with configuration parameters specified by server.
+[`agent(...)`](./agent.md): Generic agent entrypoint, used for CLI or jupyter.
 
 [`controller(...)`](./controller.md): Public sweep controller constructor.
 
-[`finish(...)`](./finish.md): Mark a run as finished, and finish uploading all data.
+[`finish(...)`](./finish.md): Marks a run as finished, and finishes uploading all data.
 
-[`init(...)`](./init.md): Start a new run to track and log to W&B.
+[`init(...)`](./init.md): Starts a new run to track and log to W&B.
 
-[`log(...)`](./log.md): Log a dictonary of data to the current run's history.
+[`log(...)`](./log.md): Logs a dictonary of data to the current run's history.
 
 [`save(...)`](./save.md): Ensure all files matching `glob_str` are synced to wandb with the policy specified.
 
 [`sweep(...)`](./sweep.md): Initialize a hyperparameter sweep.
 
-[`watch(...)`](./watch.md): Hook into the torch model to collect gradients and the topology.
+[`watch(...)`](./watch.md): Hooks into the torch model to collect gradients and the topology.
 
 
 
 | Other Members | |
 | :--- | :--- |
-| `__version__` | `'0.15.0'` |
+| `__version__` | `'0.13.5'` |
 | `config` | |
 | `summary` | |
 

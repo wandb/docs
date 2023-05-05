@@ -2,11 +2,11 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/wandb_agent.py#L592-L650)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/latest/wandb/wandb_agent.py#L589-L650)
 
 
 
-Run a function or program with configuration parameters specified by server.
+Generic agent entrypoint, used for CLI or jupyter.
 
 ```python
 agent(
@@ -17,7 +17,8 @@ agent(
 
 
 
-Generic agent entrypoint, used for CLI or jupyter.
+Will run a function or program with configuration parameters specified
+by server.
 
 | Arguments | |
 | :--- | :--- |
@@ -35,14 +36,16 @@ Run a sample sweep over a function:
 
 ```python
 import wandb
-
 sweep_configuration = {
  "name": "my-awesome-sweep",
  "metric": {"name": "accuracy", "goal": "maximize"},
  "method": "grid",
- "parameters": {"a": {"values": [1, 2, 3, 4]}},
+ "parameters": {
+ "a": {
+ "values": [1, 2, 3, 4]
+ }
+ }
 }
-
 
 def my_train_func():
  # read the current value of parameter "a" from wandb.config
@@ -50,7 +53,6 @@ def my_train_func():
  a = wandb.config.a
 
  wandb.log({"a": a, "accuracy": a + 1})
-
 
 sweep_id = wandb.sweep(sweep_configuration)
 
