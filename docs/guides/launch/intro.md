@@ -26,13 +26,6 @@ Launch workflows are powered by three fundamental components: **jobs, queues, an
 
 ## How to get started
 
-To enable W&B Launch:
-
-1. Navigate to https://wandb.ai/settings.
-2. Scroll down to the **Beta Features** section and enable **W&B Launch**.
-
-![](/images/launch/toggle_beta_flag.png)
-
 :::info
 Please ensure you are on SDK version 0.14.0 or higher by running ```
 wandb --version```.
@@ -42,12 +35,12 @@ If you're on W&B Dedicated Cloud or a Customer-Managed W&B deployment, please en
 
 Depending on your use case, explore the following resources to get started with Weights & Biases Launch:
 
-* If this is your first time using W&B Launch, we recommend you go through the [Getting started](./getting-started.md) guide.
+* If this is your first time using W&B Launch, we recommend you go through the [Quickstart](./quickstart.md) guide.
 * Explore topics about W&B Launch in this Developer Guide, such as:
-    * [Prerequisites](../launch/prerequisites.md)  
     * [Create a job](../launch/create-job.md)
-    * [Add jobs to your queue](../launch/add-jobs-to-queue.md)
+    * [Create a queue](../launch/create-queue.md)
     * [Launch jobs](../launch/launch-jobs.md)
+    * [Run an agent](../launch/run-agent.md)  
 * Discover the [`wandb launch`](../../ref/cli/wandb-launch.md) and [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) commands in the CLI Reference.
 
 :::info

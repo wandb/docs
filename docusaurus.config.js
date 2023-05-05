@@ -73,7 +73,7 @@ const config = {
         anonymizeIP: true,
       },
     ],
-    'plugin-image-zoom',
+    require.resolve('docusaurus-plugin-image-zoom'),
     // require.resolve('docusaurus-lunr-search'),
   ],
 
@@ -147,7 +147,7 @@ const config = {
           autoCollapseCategories: true,
         },
       },
-      imageZoom: {
+      zoom: {
         // CSS selector to apply the plugin to, defaults to '.markdown img'
         selector: '.markdown img',
         // Optional medium-zoom options

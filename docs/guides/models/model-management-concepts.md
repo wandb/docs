@@ -2,7 +2,7 @@
 description: 'Model Management: Data Model & Terminology'
 ---
 
-# Model Management Concepts
+# Concepts
 
 <head>
   <title>Model Management Concepts</title>

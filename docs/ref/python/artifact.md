@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L111-L739)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L110-L732)
 
 
 
@@ -82,7 +82,7 @@ wandb.log_artifact(artifact)
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L492-L573)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L491-L572)
 
 ```python
 add(
@@ -138,7 +138,7 @@ table = artifact.get("my_table")
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L420-L453)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L419-L452)
 
 ```python
 add_dir(
@@ -189,7 +189,7 @@ artifact.add_dir('my_dir/', name='destination')
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L399-L418)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L398-L417)
 
 ```python
 add_file(
@@ -242,7 +242,7 @@ artifact.add_file('path/to/file.txt', name='new/path/file.txt')
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L455-L490)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L454-L489)
 
 ```python
 add_reference(
@@ -290,7 +290,7 @@ blank.
 
 | Returns | |
 | :--- | :--- |
-| List[ArtifactManifestEntry]: The added manifest entries. |
+| List["ArtifactManifestEntry"]: The added manifest entries. |
 
 
 
@@ -322,7 +322,7 @@ artifact.add_reference("gs://mybucket/prefix", name="path")
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L595-L599)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L594-L598)
 
 ```python
 checkout(
@@ -351,7 +351,7 @@ artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L648-L652)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L647-L651)
 
 ```python
 delete() -> None
@@ -371,7 +371,7 @@ NOTE: Deletion is permanent and CANNOT be undone.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L587-L593)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L586-L592)
 
 ```python
 download(
@@ -403,7 +403,7 @@ match the artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L689-L702)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L688-L701)
 
 ```python
 finalize() -> None
@@ -423,7 +423,7 @@ This happens automatically when calling `log_artifact`.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L581-L585)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L580-L584)
 
 ```python
 get(
@@ -468,7 +468,7 @@ with wandb.init() as r:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L665-L687)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L664-L686)
 
 ```python
 get_added_local_path_name(
@@ -507,7 +507,7 @@ name = artifact.get_added_local_path_name('path/to/file.txt')
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L575-L579)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L574-L578)
 
 ```python
 get_path(
@@ -554,7 +554,7 @@ with wandb.init() as r:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L704-L707)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L703-L706)
 
 ```python
 json_encode() -> Dict[str, Any]
@@ -567,7 +567,7 @@ json_encode() -> Dict[str, Any]
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/interface/artifacts.py#L677-L689)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/interface/artifacts/artifact.py#L521-L533)
 
 ```python
 link(
@@ -596,7 +596,7 @@ Link this artifact to a portfolio (a promoted collection of artifacts), with ali
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L373-L377)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L372-L376)
 
 ```python
 logged_by() -> "wandb.apis.public.Run"
@@ -609,7 +609,7 @@ Get the run that first logged this artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L379-L397)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L378-L396)
 
 ```python
 @contextlib.contextmanager
@@ -658,7 +658,7 @@ wandb.log_artifact(artifact)
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L607-L646)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L606-L645)
 
 ```python
 save(
@@ -688,7 +688,7 @@ run, a run of type "auto" will be created to track this artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L367-L371)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L366-L370)
 
 ```python
 used_by() -> List['wandb.apis.public.Run']
@@ -701,7 +701,7 @@ Get a list of the runs that have used this artifact.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L601-L605)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L600-L604)
 
 ```python
 verify(
@@ -732,7 +732,7 @@ NOTE: References are not verified.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L654-L663)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L653-L662)
 
 ```python
 wait(
@@ -753,12 +753,12 @@ Wait for an artifact to finish logging.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c505c66a5f9c1530671564dae3e9e230f72f6584/wandb/sdk/wandb_artifacts.py#L738-L739)
+[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/interface/artifacts/artifact.py#L553-L578)
 
 ```python
 __getitem__(
  name: str
-) -> Optional[data_types.WBValue]
+) -> Optional[WBValue]
 ```
 
 Get the WBValue object located at the artifact relative `name`.

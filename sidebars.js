@@ -151,45 +151,38 @@ const sidebars = {
       link: {type: 'doc', id: 'guides/models/intro'},
       items: [
         // 'guides/models/intro',
-        'guides/models/model-management-concepts',
         'guides/models/walkthrough',
+        'guides/models/model-management-concepts',
       ],
     },
     {
       type: 'category',
       label: 'Launch',
       link: {
-        type: 'doc', 
-        id : 'guides/launch/intro'
+        type: 'doc',
+        id: 'guides/launch/intro',
       },
       items: [
-        'guides/launch/getting-started',
-        'guides/launch/prerequisites',
+        'guides/launch/quickstart',
         'guides/launch/create-job',
-        'guides/launch/add-jobs-to-queue',
+        'guides/launch/create-queue',
+        'guides/launch/run-agent',
         'guides/launch/launch-jobs',
+        'guides/launch/docker',
+        'guides/launch/kubernetes',
+        'guides/launch/sagemaker',
+        'guides/launch/sweeps-on-launch',
       ],
     },
     {
       type: 'category',
-      label: 'W&B Server',
-      link: {type: 'doc', id: 'guides/hosting/intro'},
+      label: 'Prompts',
+      link: {
+        type: 'doc',
+        id: 'guides/prompts/intro',
+      },
       items: [
-        // 'guides/hosting/intro',
-        'guides/hosting/basic-setup',
-        {
-          type: 'category',
-          label: 'Production Setup',
-          link: {type: 'doc', id: 'guides/hosting/setup/intro'},
-          items: [
-            // 'guides/hosting/setup/intro',
-            'guides/hosting/setup/dedicated-cloud',
-            'guides/hosting/setup/private-cloud',
-            'guides/hosting/setup/on-premise-baremetal',
-            'guides/hosting/setup/configuration',
-          ],
-        },
-        'guides/hosting/faq',
+        'guides/prompts/quickstart',
       ],
     },
     {
@@ -261,6 +254,7 @@ const sidebars = {
             'guides/app/features/tags',
             'guides/app/features/notes',
             'guides/app/features/teams',
+            'guides/app/features/organizations',
             'guides/app/features/system-metrics',
             'guides/app/features/anon',
           ],
@@ -292,6 +286,48 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'W&B Server',
+      link: {type: 'doc', id: 'guides/hosting/intro'},
+      items: [
+        {
+          type: 'category',
+          label: 'Hosting options',
+          link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
+          items: [
+            'guides/hosting/hosting-options/wb-managed',
+            'guides/hosting/hosting-options/self-managed',
+          ],
+        },
+        // 'guides/hosting/hosting-options/intro',
+        // 'guides/hosting/getting-started',
+        'guides/hosting/secure-storage-connector',
+        'guides/hosting/sso',
+        'guides/hosting/ldap',
+        'guides/hosting/audit-logging',
+        'guides/hosting/manage-users',
+        'guides/hosting/prometheus-logging',
+        'guides/hosting/slack-alerts',
+        'guides/hosting/smtp',
+        'guides/hosting/env-vars',
+        // 'guides/hosting/hosting-upgrade',
+        // 'guides/hosting/configure-cloud',
+        {
+          type: 'category',
+          label: 'How-to guides',
+          // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+          items: [
+            'guides/hosting/how-to-guides/basic-setup',
+            'guides/hosting/how-to-guides/aws-tf',
+            'guides/hosting/how-to-guides/gcp-tf',
+            // 'guides/hosting/how-to-guides/azure-tf',
+            'guides/hosting/how-to-guides/bare-metal',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
+
       label: 'Integrations',
       link: {type: 'doc', id: 'guides/integrations/intro'},
       items: [
@@ -317,6 +353,7 @@ const sidebars = {
         'guides/integrations/other/hydra',
         'guides/integrations/keras',
         'guides/integrations/other/kubeflow-pipelines-kfp',
+        'guides/integrations/langchain',
         'guides/integrations/lightgbm',
         'guides/integrations/other/metaflow',
         'guides/integrations/mmdetection',
@@ -344,7 +381,6 @@ const sidebars = {
         'guides/integrations/xgboost',
         'guides/integrations/yolov5',
         'guides/integrations/other/yolox',
-        
       ],
     },
     {

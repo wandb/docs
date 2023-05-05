@@ -3,7 +3,7 @@ import TabItem from '@theme/TabItem';
 
 # PyTorch Lightning
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://wandb.me/lightning)
+[**Try in a Colab Notebook here →**](https://wandb.me/lightning)
 
 PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch code and easily adding advanced features such as distributed training and 16-bit precision. W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: Weights & Biases is incorporated directly into the PyTorch Lightning library via the [**`WandbLogger`**](https://pytorch-lightning.readthedocs.io/en/stable/extensions/generated/pytorch\_lightning.loggers.WandbLogger.html#pytorch\_lightning.loggers.WandbLogger).
 

@@ -2,12 +2,12 @@
 description: Explore how to use W&B Tables with this 5 minute Quickstart.
 ---
 
-# Tables Quickstart
+# Quickstart
 
 The following Quickstart demonstrates how to log data tables, visualize data, and query data.
 
 
-Select the button below to try a PyTorch Quickstart example project on MNIST data. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/tables-quickstart)
+Select the button below to try a PyTorch Quickstart example project on MNIST data. [**Try in a Colab Notebook here →**](http://wandb.me/tables-quickstart)
 
 ## 1. Log a table
 
@@ -18,8 +18,11 @@ Follow the procedure outlined below to log a Table with W&B:
 
 ```python
 run = wandb.init(project="table-test")
-my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
-run.log({"Table Name": my_table})
+my_table = wandb.Table(
+    columns=["a", "b"], 
+    data=[["a1", "b1"], ["a2", "b2"]]
+    )
+run.log({"Table Name": my_table})   
 ```
 
 You can optionally pass in a Pandas DataFrame to `wandb.Table()` Class. For more information on supported data types, see the [`wandb.Table`](../../ref/python/data-types/table.md) in the W&B API Reference Guide.

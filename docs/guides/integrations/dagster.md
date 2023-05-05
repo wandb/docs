@@ -575,7 +575,7 @@ Thankfully, we support more Pickle-based serialization modules ([dill](https://g
 
 ### Pickle-based serialization modules
 
-:::warning
+:::caution
 Pickling is known to be insecure. If security is a concern please only use W&B objects. We recommend signing your data and storing the hash keys in your own systems. For more complex use cases don’t hesitate to contact us, we will be happy to help.
 :::
 
@@ -722,7 +722,7 @@ To view advanced usage of the integration please refer to the following full cod
 
 ## Using W&B Launch
 
-:::warning
+:::caution
 Beta product in active development
 Interested in Launch? Reach out to your account team to talk about joining the customer pilot program for W&B Launch.
 Pilot customers need to use AWS EKS or SageMaker to qualify for the beta program. We ultimately plan to support additional platforms.

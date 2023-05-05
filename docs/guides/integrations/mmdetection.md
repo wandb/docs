@@ -3,7 +3,7 @@ import TabItem from '@theme/TabItem';
 
 # MMDetection
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/wandb/examples/blob/master/colabs/mmdetection/Train\_an\_Object\_Detection%2BSemantic\_Segmentation\_Model\_with\_MMDetection\_and\_W%26B.ipynb)
+[**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/master/colabs/mmdetection/Train\_an\_Object\_Detection%2BSemantic\_Segmentation\_Model\_with\_MMDetection\_and\_W%26B.ipynb)
 
 [MMDetection](https://github.com/open-mmlab/mmdetection/) is an open source object detection toolbox based on PyTorch and is part of the [OpenMMLab](https://openmmlab.com/). It offers composable and modular API design which you can use to easily build custom object detection and segmentation pipelines.
 
