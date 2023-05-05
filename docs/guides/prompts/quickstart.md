@@ -65,12 +65,15 @@ questions = [
 
 for question in questions:
   try:
-    answer = math_agent.run(question, callbacks=[WandbTracer(wandb_config)])
+    answer = math_agent.run(question, 
+                            callbacks=[WandbTracer(wandb_config)])
     print(answer)
   except Exception as e:
     print(e)
     pass
 ```
+
+If you had previously created a dictionary for your `wandb.init` arguments, you can pass it to `WandbTracer` here now as shown.
 
 Once the chain execution completes, any call to your LangChain object will be logged to the W&B Trace. 
 
