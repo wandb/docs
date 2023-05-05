@@ -17,6 +17,10 @@ This Quickstart guide will walk you how to use [Trace](intro.md) to visualize an
 
 ## Use Trace with LangChain
 
+:::info
+**Versions**: Please ensure you're `langchain` package version is `0.0.158` or later and your `wandb` package version is `0.15.2` or later
+:::
+
 With one line of code W&B Trace will automatically and continuously log calls to a [LangChain Model](https://python.langchain.com/en/latest/modules/models.html), [Chain](https://python.langchain.com/en/latest/modules/chains.html), or [Agent](https://python.langchain.com/en/latest/modules/agents.html).
 
 Follow the steps below to visualize and debug LangChain. For this demo, we will use a LangChain Math agent.
@@ -31,11 +35,11 @@ from wandb.integration.langchain import WandbTracer
 wandb_config = {"project": "wandb_prompts_quickstart"}
 ```
 
-You can optionally define a dictionary with arguments for `wandb.init()` that will later be passed to WandbTracer. This includes a project name, team name, entity, and more. For more information about [`wandb.init`](../../ref/python/init.md), see the API Reference Guide.
+You can optionally define a dictionary with arguments for `wandb.init()` that will later be passed to `WandbTracer`. This includes a project name, team name, entity, and more. For more information about [`wandb.init`](../../ref/python/init.md), see the API Reference Guide.
 
 
 ### 2. Set up your LangChain Agent
-Import an OpenAI Langchain Agent and create a math tool(function) with `load_tools`.  Next create a math agent with the [`initialize_agent`](https://python.langchain.com/en/latest/_modules/langchain/agents/initialize.html) method and pass the tool object to `initialize_agent`:
+Import an OpenAI model and create a math tool with `load_tools`. Next create a math agent with the [`initialize_agent`](https://python.langchain.com/en/latest/_modules/langchain/agents/initialize.html) method and pass the tool and model objects to `initialize_agent`:
 
 ```python
 from langchain.llms import OpenAI
@@ -46,9 +50,9 @@ tools = load_tools(["llm-math"], llm=llm)
 math_agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION)
 ```
 
-### 3. Pass `WandbTracer` as a callback
+### 3. Pass WandbTracer as a callback
 
-Passing `WandbTracer` to the agent's `callbacks` argument will enable every call made to the agent (in this example, `math_agent`) to be logged to Weights & Biases once the execution is complete.
+Pass `WandbTracer` to the agent's `callbacks` argument in the `.run` method. This will enable every call made to the agent (in this example, `math_agent`) to be logged to Weights & Biases once the execution is complete.
 
 The parameters used to create objects are also logged:
 
@@ -68,7 +72,7 @@ for question in questions:
     pass
 ```
 
-Once the chain execution completes, any call to your LangChain object is logged to the W&B Trace. 
+Once the chain execution completes, any call to your LangChain object will be logged to the W&B Trace. 
 
 ### 4. View the trace
 
