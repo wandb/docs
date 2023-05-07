@@ -36,7 +36,11 @@ wandb import mlflow \ &&
     --target-project      <project>
 ```
 
-Note: If you are importing from Databricks, you may need to [configure the Databricks CLI first](https://docs.databricks.com/dev-tools/cli/index.html).  Set `--mlflow-tracking-uri=databricks` in the previous step.
+:::tip
+If you are importing from Databricks MLFlow, you may need to [configure the Databricks CLI first](https://docs.databricks.com/dev-tools/cli/index.html).
+
+Set `--mlflow-tracking-uri=databricks` in the previous step.
+:::
 
 #### Advanced
 You can also import from Python.  This can be useful if you want to specify overrides, or if you prefer python to the command line.
