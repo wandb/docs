@@ -8,15 +8,15 @@ description: Create, construct a W&B Artifact. Learn how to add one or more file
   <title>Construct Artifacts</title>
 </head>
 
-Use the Weights & Biases SDK to construct an artifact during or outside of a [Weights & Biases Run](https://docs.wandb.ai/ref/python/run). Add files, directories, URIs, and files from parallel runs to artifacts. Once a file or URI is added, save your artifact to Weights & Biases with a W&B Run. For information on how to track an external file outside of a Weights & Biases Run, see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files).
+Use the Weights & Biases SDK to construct an artifact during or outside of a [W&B Run](../../ref/python/run.md). Add files, directories, URIs, and files from parallel runs to artifacts. Once a file or URI is added, save your artifact to Weights & Biases with a W&B Run. For information on how to track an external file outside of a Weights & Biases Run, see [Track external files](../artifacts/track-external-files.md).
 
-### How to construct an artifact
+## How to construct an artifact
 
-Constructing a [Weights & Biases Artifact](https://docs.wandb.ai/ref/python/artifact) within a run is a three step process:
+Construct a [W&B Artifact](../../ref/python/artifact.md) within a run in a three step process:
 
-#### 1. Create an artifact Python object with `wandb.Artifact()`
+### 1. Create an artifact Python object with `wandb.Artifact()`
 
-Initialize the [`wandb.Artifact()`](https://docs.wandb.ai/ref/python/artifact) class to create an artifact. Specify the following parameters:
+Initialize the [`wandb.Artifact()`](../../ref/python/artifact.md) class to create an artifact. Specify the following parameters:
 
 * **Name**: Specify a name for your artifact. The name should be unique, descriptive, and easy to remember. Use an artifacts name to both: identify the artifact in the W&B App UI and when you want to use that artifact.
 * **Type**: Provide a type. The type should be simple, descriptive and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
@@ -27,7 +27,7 @@ You can view the lineage of an artifact within the W&B App UI. The "name" and "t
 Artifacts can not have the same name, even if you specify a different type for the types parameter. In other words, you can not create an artifact named ‘cats’ of type ‘dataset’ and another artifact with the same name of type ‘model’.
 :::
 
-You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see [wandb.Artifact](https://docs.wandb.ai/ref/python/artifact) Class definition in the Python SDK Reference Guide.
+You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see [wandb.Artifact](../../ref/python/artifact.md) Class definition in the Python SDK Reference Guide.
 
 The proceeding example demonstrates how to create a dataset artifact:
 
@@ -39,9 +39,9 @@ artifact = wandb.Artifact(name='<replace>', type='<replace>')
 
 Replace the string arguments in the preceding code snippet with your own name and type.
 
-#### 2. Add one more files to the artifact
+### 2. Add one more files to the artifact
 
-Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the [`add_file`](https://docs.wandb.ai/ref/python/artifact#add\_file) method:
+Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the [`add_file`](../../ref/python/artifact.md#add_file) method:
 
 ```python
 artifact.add_file(
@@ -50,11 +50,12 @@ artifact.add_file(
     )    
 ```
 
-You can also add multiple files with the [`add_dir`](https://docs.wandb.ai/ref/python/artifact#add\_dir) method. For more information on how to add files, see [Update an artifact](https://docs.wandb.ai/guides/artifacts/update-an-artifact).
+You can also add multiple files with the [`add_dir`](../../ref/python/artifact.md#add_dir) method. For more information on how to add files, see [Update an artifact](../artifacts/update-an-artifact.md).
 
-#### 3. Save your artifact to the Weights & Biases server
 
-Finally, save your artifact to the Weights & Biases server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`](https://docs.wandb.ai/ref/python/run#log\_artifact) method to save the artifact.
+### 3. Save your artifact to the Weights & Biases server
+
+Finally, save your artifact to the Weights & Biases server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`](../../ref/python/run.md#logartifact) method to save the artifact.
 
 ```python
 # Create a W&B Run. Replace 'job-type'.
@@ -66,7 +67,7 @@ run = wandb.init(
 run.log_artifact(artifact)
 ```
 
-You can optionally construct an artifact outside of a W&B run. For more information, see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files).
+You can optionally construct an artifact outside of a W&B run. For more information, see [Track external files](../artifacts/track-external-files.md).
 
 :::caution
 Calls to `log_artifact` are performed asynchronously for performant uploads. This can cause surprising behavior when logging artifacts in a loop. For example:
@@ -165,7 +166,7 @@ The proceeding API calls produce the proceeding artifact content:
 
 Artifacts track checksums and other information for reproducibility if the URI has a scheme that W&B library knows how to handle.
 
-Add an external URI reference to an artifact with the [`add_reference`](https://docs.wandb.ai/ref/python/artifact#add\_reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
+Add an external URI reference to an artifact with the [`add_reference`](../../ref/python/artifact.md#addreference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
 
 ```python
 # Add a URI reference

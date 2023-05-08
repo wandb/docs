@@ -1,6 +1,8 @@
 ---
 description: Download and use Artifacts from multiple projects.
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Download and use artifacts
 
@@ -17,10 +19,8 @@ Team members with view-only seats cannot download artifacts.
 
 ### Download and use an artifact stored on Weights & Biases
 
-Download and use an artifact that is stored in Weights & Biases either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](https://docs.wandb.ai/ref/python/public-api/api)) to export (or update data) already saved in Weights & Biases. For more information, see the Weights & Biases [Public API Reference guide](https://docs.wandb.ai/ref/python/public-api).
+Download and use an artifact that is stored in Weights & Biases either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](../../ref/python/public-api/api.md)) to export (or update data) already saved in Weights & Biases. For more information, see the Weights & Biases [Public API Reference guide](../../ref/python/public-api/README.md).
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 <Tabs
   defaultValue="insiderun"
@@ -31,7 +31,7 @@ import TabItem from '@theme/TabItem';
   ]}>
   <TabItem value="insiderun">
 
-First, import the W&B Python SDK. Next, create a W&B [Run](https://docs.wandb.ai/ref/python/run):
+First, import the W&B Python SDK. Next, create a W&B [Run](../../ref/python/run.md):
 
 ```python
 import wandb
@@ -39,7 +39,7 @@ import wandb
 run = wandb.init(project="<example>", job_type="<job-type>")
 ```
 
-Indicate the artifact you want to use with the [`use_artifact`](https://docs.wandb.ai/ref/python/run#use\_artifact) method. This returns a run object. In the proceeding code snippet we specify an artifact called `'bike-dataset'` with alias `'latest'`:
+Indicate the artifact you want to use with the [`use_artifact`](../../ref/python/run.md#use_artifact) method. This returns a run object. In the proceeding code snippet we specify an artifact called `'bike-dataset'` with alias `'latest'`:
 
 ```python
 artifact = run.use_artifact('bike-dataset:latest')
@@ -51,9 +51,10 @@ Use the object returned to download all the contents of the artifact:
 datadir = artifact.download()
 ```
 
-You can optionally pass a path to the root parameter to download the contents of the artifact to a specific directory. For more information, see the [Python SDK Reference Guide](https://docs.wandb.ai/ref/python/artifact#download).
+You can optionally pass a path to the root parameter to download the contents of the artifact to a specific directory. For more information, see the [Python SDK Reference Guide](../../ref/python/artifact.md#download).
 
-Use the [`get_path`](https://docs.wandb.ai/ref/python/artifact#get\_path) method to download only subset of files:
+Use the [`get_path`](../../ref/python/artifact.md#get_path) method to download only subset of files:
+
 
 ```python
 path = artifact.get_path(name)
