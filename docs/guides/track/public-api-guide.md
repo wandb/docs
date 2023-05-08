@@ -12,8 +12,7 @@ import TabItem from '@theme/TabItem';
 
 Export data or import data from MLFlow with W&B Public APIs.
 
-## Import Data from MLFLow
-
+## Import Data from MLFlow
 
 
 W&B supports importing data from MLFlow, including experiments, runs, artifacts, metrics, and other metadata.
@@ -33,9 +32,15 @@ Import all runs from an existing MLFlow server:
 ```sh
 wandb import mlflow \ &&
     --mlflow-tracking-uri <mlflow_uri> \ &&
-    --target_entity       <entity> \ &&
-    --target_project      <project>
+    --target-entity       <entity> \ &&
+    --target-project      <project>
 ```
+
+:::tip
+You might need to [configure the Databricks CLI first](https://docs.databricks.com/dev-tools/cli/index.html) if you import from Databricks MLFlow.
+
+Set `--mlflow-tracking-uri=databricks` in the previous step.
+:::
 
 #### Advanced
 You can also import from Python.  This can be useful if you want to specify overrides, or if you prefer python to the command line.
