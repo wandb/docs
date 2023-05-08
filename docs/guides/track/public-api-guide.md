@@ -37,7 +37,7 @@ wandb import mlflow \ &&
 ```
 
 :::tip
-If you are importing from Databricks MLFlow, you may need to [configure the Databricks CLI first](https://docs.databricks.com/dev-tools/cli/index.html).
+You might need to [configure the Databricks CLI first](https://docs.databricks.com/dev-tools/cli/index.html) if you import from Databricks MLFlow.
 
 Set `--mlflow-tracking-uri=databricks` in the previous step.
 :::
