@@ -2,6 +2,7 @@
 
 <a href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W&B_Tables_Quickstart.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
+
 This covers how to track, visualize, and compare model predictions over the course of training, using PyTorch on MNIST data. 
 
 You will learn how to:

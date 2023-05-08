@@ -1,6 +1,6 @@
 # W&B + fastai 
 
-<a href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/fastai/Weights_&_Biases_with_fastai.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/fastai/Weights_&_Biases_with_fastai.ipynb)
 
 <img src="https://i.imgur.com/pNKgZgL.png" alt="Fastai2 and Weights & Biases" width="400"/>
 <div><img /></div>
