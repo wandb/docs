@@ -30,11 +30,11 @@ For an example of tracking reference files in GCP, see the [Guide to Tracking Ar
 
 The following describes how to construct reference artifacts and how to best incorporate them into your workflows.
 
-### Amazon S3 / GCS References
+### Amazon S3 / GCS / Azure Blob Storage References
 
 Use Weights & Biases Artifacts for dataset and model versioning to track references in cloud storage buckets. With artifact references, seamlessly layer tracking on top of your buckets with no modifications to your existing storage layout.
 
-Artifacts abstract away the underlying cloud storage vendor (such AWS or GCP). Information described the proceeding section apply uniformly both Google Cloud Storage and Amazon S3.
+Artifacts abstract away the underlying cloud storage vendor (such AWS, GCP or Azure). Information described in the proceeding section apply uniformly to Amazon S3, Google Cloud Storage and Azure Blob Storage.
 
 :::info
 Weights & Biases Artifacts support any Amazon S3 compatible interface — including MinIO! The scripts below work, as is, when you set the AWS\_S3\_ENDPOINT\_URL environment variable to point at your MinIO server.
@@ -64,15 +64,15 @@ run.log_artifact(artifact)
 By default, W&B imposes a 10,000 object limit when adding an object prefix. You can adjust this limit by specifying `max_objects=` in calls to `add_reference`.
 :::
 
-Our new reference artifact `mnist:latest` looks and behaves similarly to a regular artifact. The only difference is that the artifact only consists of metadata about the S3/GCS object such as its ETag, size, and version ID (if object versioning is enabled on the bucket).
+Our new reference artifact `mnist:latest` looks and behaves similarly to a regular artifact. The only difference is that the artifact only consists of metadata about the S3/GCS/Azure object such as its ETag, size, and version ID (if object versioning is enabled on the bucket).
 
-Weights & Biases will attempt to use the corresponding credential files or environment variables associated with the cloud provider when it adds references to Amazon S3 or GCS buckets.
+W&B will use the default mechanism to look for credentials based on the cloud provider you use. Read the documentation from your cloud provider to learn more about the credentials used:
 
-| Priority                    | Amazon S3                                                                                                           | Google Cloud Storage                                          |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| 1 - Environment variables   | <p><code>AWS_ACCESS_KEY_ID</code></p><p><code>AWS_SECRET_ACCESS_KEY</code></p><p><code>AWS_SESSION_TOKEN</code></p> | `GOOGLE_APPLICATION_CREDENTIALS`                              |
-| 2 - Shared credentials file | `~/.aws/credentials`                                                                                                | `application_default_credentials.json` in `~/.config/gcloud/` |
-| 3 - Config file             | `~/.aws.config`                                                                                                     | N/A                                                           |
+| Cloud provider | Credentials Documentation |
+| -------------- | ------------------------- |
+| AWS            | [Boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
+| GCP            | [Google Cloud documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
+| Azure          | [Azure documentation](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
 
 Interact with this artifact similarly to a normal artifact. In the App UI, you can look through the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact.
 
@@ -95,7 +95,9 @@ artifact_dir = artifact.download()
 Weights & Biases will use the metadata recorded when the artifact was logged to retrieve the files from the underlying bucket when it downloads a reference artifact. If your bucket has object versioning enabled, Weights & Biases will retrieve the object version corresponding to the state of the file at the time an artifact was logged. This means that as you evolve the contents of your bucket, you can still point to the exact iteration of your data a given model was trained on since the artifact serves as a snapshot of your bucket at the time of training.
 
 :::info
-W&B recommends that you enable 'Object Versioning' on your Amazon S3 or GCS buckets if you overwrite files as part of your workflow. With versioning enabled on your buckets, artifacts with references to files that have been overwritten will still be intact because the older object versions are retained.
+W&B recommends that you enable 'Object Versioning' on your storage buckets if you overwrite files as part of your workflow. With versioning enabled on your buckets, artifacts with references to files that have been overwritten will still be intact because the older object versions are retained. 
+
+Based on your use case, read the instructions to enable object versioning: [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/using-object-versioning#set), [Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/versioning-enable).
 :::
 
 ### Tying it together
