@@ -10,7 +10,6 @@ Use Weights & Biases for machine learning experiment tracking, dataset versionin
 This colab notebook introduces the `WandbMetricsLogger` callback. Use this callback for [Experiment Tracking](https://docs.wandb.ai/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
 
 
-
 # 🌴 Setup and Installation
 
 First, let us install the latest version of Weights and Biases. We will then authenticate this colab instance to use W&B.

@@ -396,13 +396,13 @@ const sidebars = {
       id: 'tutorials/intro_to_tutorials', // document ID
       label: 'Tutorials', // sidebar label
     },
-       // 'tutorials/intro_to_tutorials',
-      'tutorials/Intro_to_Weights_\&_Biases',
-      'tutorials/W\&B_Tables_Quickstart',
-      'tutorials/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W\&B',
-      'tutorials/Pipeline_Versioning_with_W\&B_Artifacts',
-      'tutorials/Model_Registry_Tutorial',
-      'tutorials/W\&B_Prompts_Quickstart',
+        // 'guides/tutorials/intro_to_tutorials',
+        'tutorials/Intro_to_Weights_\&_Biases',
+        'tutorials/W\&B_Tables_Quickstart',
+        'tutorials/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W\&B',
+        'tutorials/Pipeline_Versioning_with_W\&B_Artifacts',
+        'tutorials/Model_Registry_E2E',
+        'tutorials/W\&B_Prompts_Quickstart',
   ],
 };
 
