@@ -66,13 +66,13 @@ By default, W&B imposes a 10,000 object limit when adding an object prefix. You 
 
 Our new reference artifact `mnist:latest` looks and behaves similarly to a regular artifact. The only difference is that the artifact only consists of metadata about the S3/GCS/Azure object such as its ETag, size, and version ID (if object versioning is enabled on the bucket).
 
-Weights & Biases will use the default mechanism of looking for credentials for a given cloud provider. Consult the documentation from your cloud provider:
+W&B will use the default mechanism to look for credentials based on the cloud provider you use. Read the documentation from your cloud provider to learn more about the credentials used:
 
 | Cloud provider | Credentials Documentation |
 | -------------- | ------------------------- |
-| AWS            | [Link](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
-| GCP            | [Link](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
-| Azure          | [Link](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
+| AWS            | [Boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
+| GCP            | [Google Cloud documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
+| Azure          | [Azure documentation](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
 
 Interact with this artifact similarly to a normal artifact. In the App UI, you can look through the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact.
 
@@ -95,7 +95,9 @@ artifact_dir = artifact.download()
 Weights & Biases will use the metadata recorded when the artifact was logged to retrieve the files from the underlying bucket when it downloads a reference artifact. If your bucket has object versioning enabled, Weights & Biases will retrieve the object version corresponding to the state of the file at the time an artifact was logged. This means that as you evolve the contents of your bucket, you can still point to the exact iteration of your data a given model was trained on since the artifact serves as a snapshot of your bucket at the time of training.
 
 :::info
-W&B recommends that you enable 'Object Versioning' on your storage buckets if you overwrite files as part of your workflow. With versioning enabled on your buckets, artifacts with references to files that have been overwritten will still be intact because the older object versions are retained. Instructions for enabling object versioning: [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/using-object-versioning#set), [Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/versioning-enable).
+W&B recommends that you enable 'Object Versioning' on your storage buckets if you overwrite files as part of your workflow. With versioning enabled on your buckets, artifacts with references to files that have been overwritten will still be intact because the older object versions are retained. 
+
+Based on your use case, read the instructions to enable object versioning: [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/using-object-versioning#set), [Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/versioning-enable).
 :::
 
 ### Tying it together
