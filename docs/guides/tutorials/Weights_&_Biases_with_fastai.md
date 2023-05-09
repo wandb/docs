@@ -1,15 +1,11 @@
-# W&B + fastai 
-
-<a href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/fastai/Weights_&_Biases_with_fastai.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+# 💨 Fastai and 🏋️‍♀️ Weights & Biases
 
 <img src="https://i.imgur.com/pNKgZgL.png" alt="Fastai2 and Weights & Biases" width="400"/>
 <div><img /></div>
 
 <img src="https://i.imgur.com/uEtWSEb.png" width="650" alt="Weights & Biases" />
 
-<div><img /></div>
-
-# 💨 Fastai and 🏋️‍♀️ Weights & Biases
+<a href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/fastai/Weights_&_Biases_with_fastai.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 Fastai let us create quickly neural networks architectures using modern best practices in just a few lines of code.
 

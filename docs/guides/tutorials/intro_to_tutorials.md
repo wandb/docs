@@ -10,11 +10,10 @@ If this is your first time using W&B, we suggest you explore the following tutor
 
 1. Get Started with [Experiment Tracking](Intro_to_Weights_&_Biases.md)
 2. [View & Analyze Model Predictions](W&B_Tables_Quickstart.md)
-3. [Tune Hyperparameters](Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.md)
+3. [Automatically Tune Hyperparameters](Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.md)
 4. [Manage Model Weights & Dataset Versions](Pipeline_Versioning_with_W&B_Artifacts.md)
-5. [Track Model Development Lifecycle](Model_Registry_Tutorial.md)
+5. [Track Model Development Lifecycle](Model_Registry_E2E.md)
 6. [Debug LLM Applications](W&B_Prompts_Quickstart.md)
-
 
 ## Tutorials - Libraries, Frameworks & Integrations
 
@@ -28,8 +27,7 @@ If this is your first time using W&B, we suggest you explore the following tutor
     - [Viewing Model Predictions](Use_WandbEvalCallback_in_your_Keras_workflow.md)
     - [Model Checkpointing](Use_WandbModelCheckpoint_in_your_Keras_workflow.md)
 - PyTorch Lightning
-    - [Experiment Tracking](Supercharge_your_Training_with_Pytorch_Lightning_and_Weights_and_Biases.md)
-    - [Hyperparameter Tuning](Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.md)
+    - [Experiment Tracking](docs/guides/tutorials/Image_Classification_using_PyTorch_Lightning.md)
 - XGBoost
     - [Experiment Tracking](Credit_Scorecards_with_XGBoost_and_W&B.md)
     - [Hyperparameter Tuning](Using_W&B_Sweeps_with_XGBoost.md)
