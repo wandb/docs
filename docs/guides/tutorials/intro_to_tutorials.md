@@ -34,9 +34,4 @@ If this is your first time using W&B, we suggest you explore the following tutor
     - [Experiment Tracking](Credit_Scorecards_with_XGBoost_and_W&B.md)
     - [Hyperparameter Tuning](Using_W&B_Sweeps_with_XGBoost.md)
 - [LightGBM](Simple_LightGBM_Integration.md)
-- [fastai](Weights_&_Biases_with_fastai.md)
-- [Ray Tune](RayTune_with_wandb.md)
-                                                                  
-                                                       
-                                                                                             
-                     
+- [fastai](Weights_&_Biases_with_fastai.md)                  

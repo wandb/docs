@@ -43,7 +43,7 @@ Install the Hugging Face and Weights & Biases libraries, and the GLUE dataset an
 
 
 ```python
-!pip install datasets wandb evaluate -qU
+!pip install datasets wandb evaluate accelerate -qU
 !wget https://raw.githubusercontent.com/huggingface/transformers/master/examples/pytorch/text-classification/run_glue.py
 ```
 

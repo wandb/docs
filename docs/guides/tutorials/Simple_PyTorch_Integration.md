@@ -85,7 +85,7 @@ To get started, we'll need to get the library.
 
 
 ```python
-!pip install wandb -Uq
+!pip install wandb onnx -Uq
 ```
 
 ### 1️⃣ Step 1: Import W&B and Login

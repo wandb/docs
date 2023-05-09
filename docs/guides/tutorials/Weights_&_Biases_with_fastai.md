@@ -197,7 +197,7 @@ That's it! Check out your fastai model training in the live W&B dashboard by cli
 
 # Learn more!
 1. [Documentation](https://docs.wandb.com/library/integrations/fastai): Explore the docs to learn what's possible with Weights & Biases visualizations for Fastai models
-2. [Slack community](http://wandb.me/slack): Ask questions and share results in our vibrant community of practitioners
-3. [Gallery](app.wandb.ai/gallery): See more reproducible research projects from practitioners around the world in the W&B gallery
+2. [Discord community](http://wandb.me/discord): Ask questions and share results in our vibrant community of practitioners
+3. [Fully Connected](https://wandb.ai/fc): See more reproducible research projects from practitioners around the world in the W&B gallery
 
 
