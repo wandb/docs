@@ -28,7 +28,7 @@ Invite fellow admin or members from the `https://<YOUR-WANDB-URL>/admin/users` p
 
 <!-- ![Screen Shot 2023-01-09 at 10.13.29 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cf4dd778-5185-4503-8653-94388eae2e5b/Screen_Shot_2023-01-09_at_10.13.29_PM.png) -->
 
-3. Enter the user's email. By default, all users are invited as Members. If you need to invite someone as an instance Admin, toggle the **Admin option** and click **Submit**.
+3. Enter the user's email. By default, all users are invited as full Members. If you need to invite someone as an instance Admin or as a view-only member, select the appropriate option from the dropdown and click **Submit**. Note that an option may be greyed out if there are no more seats in the license.
 
 ![](/images/hosting/add_user_field_filled.png)
 
@@ -40,6 +40,17 @@ W&B uses third-party email server to send these invite emails. If your organizat
 
 <!-- To do: Add this doc -->
 <!-- Refer to SMTP configuration documentation for instructions on how to do this. -->
+
+## Change Users' Roles
+
+Navigate to `https://<YOUR-WANDB-URL>/admin/users` to change the roles of users.
+
+1. Locate the user whose role you'd like to modify.
+
+2. Select the new role from the dropdown menu.
+
+3. Confirm the change on the modal.
+
 
 ## Create Teams
 
@@ -75,11 +86,12 @@ Members must first be part of the instance before they can be invited to a team.
 
 When you invite a user to a team you can assign them one of the following roles:
 
-| Role    | Definition                                                                                                                                                                                                                                                                                       |
-| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Admin   | A team member who can add and remove other admins and members of the team.                                                                                                                                                                                                                       |
-| Member  | A regular member of your team, invited by email by the team admin. A team member cannot invite other members to the team.                                                                                                                                                                        |
-| Service | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure that the environment variable `WANDB_USERNAME` is set to correctly attribute runs to the appropriate user. |
+| Role      | Definition                                                                                                                                                                                                                                                                                       |
+|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Admin     | A team member who can add and remove other admins and members of the team.                                                                                                                                                                                                                       |
+| Member    | A regular member of your team, invited by email by the team admin. A team member cannot invite other members to the team.                                                                                                                                                                        |
+| View-Only | A view-only member of your team, invited by email by the team admin. A view-only member only has read access to the team and its contents.                                                                                                                                                       |
+| Service   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure that the environment variable `WANDB_USERNAME` is set to correctly attribute runs to the appropriate user. |
 
 ![](/images/hosting/team_settings_wand_server_example.png)
 
