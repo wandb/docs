@@ -47,10 +47,13 @@ Navigate to `https://<YOUR-WANDB-URL>/admin/users` to change the roles of users.
 
 1. Locate the user whose role you'd like to modify.
 
+![](/images/hosting/change_user_role.png)
+
 2. Select the new role from the dropdown menu.
 
 3. Confirm the change on the modal.
 
+![](/images/hosting/change_user_role_modal.png)
 
 ## Create Teams
 
