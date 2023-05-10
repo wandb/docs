@@ -410,7 +410,7 @@ const sidebars = {
           items: [
             'tutorials/Simple_PyTorch_Integration',
             'tutorials/Huggingface_wandb',
-            'tutorials/Simple_TensorFlow_Integration',
+            // 'tutorials/Simple_TensorFlow_Integration',
             'tutorials/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps',
             'tutorials/Use_WandbMetricLogger_in_your_Keras_workflow',
             'tutorials/Use_WandbEvalCallback_in_your_Keras_workflow',
@@ -419,7 +419,7 @@ const sidebars = {
             'tutorials/Credit_Scorecards_with_XGBoost_and_W&B',
             'tutorials/Using_W&B_Sweeps_with_XGBoost',
             'tutorials/Simple_LightGBM_Integration',
-            
+
           ],
         },
   ],
