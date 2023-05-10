@@ -27,9 +27,9 @@ If this is your first time using W&B, we suggest you explore the following tutor
     - [Viewing Model Predictions](Use_WandbEvalCallback_in_your_Keras_workflow.md)
     - [Model Checkpointing](Use_WandbModelCheckpoint_in_your_Keras_workflow.md)
 - PyTorch Lightning
-    - [Experiment Tracking](docs/guides/tutorials/Image_Classification_using_PyTorch_Lightning.md)
+    - [Experiment Tracking](Image_Classification_using_PyTorch_Lightning.md)
 - XGBoost
     - [Experiment Tracking](Credit_Scorecards_with_XGBoost_and_W&B.md)
     - [Hyperparameter Tuning](Using_W&B_Sweeps_with_XGBoost.md)
 - [LightGBM](Simple_LightGBM_Integration.md)
-- [fastai](Weights_&_Biases_with_fastai.md)                  
+
