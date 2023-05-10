@@ -4,7 +4,7 @@ description: Generated documentation for Weights & Biases APIs
 
 # Reference
 
-These reference docs are automatically generated from the [`wandb` library](https://github.com/wandb/wandb).
+These docs are automatically generated from the [`wandb` library](https://github.com/wandb/wandb).
 
 ### Reference sections
 
@@ -12,6 +12,7 @@ These reference docs are automatically generated from the [`wandb` library](http
 2. [Command Line Interface](cli/README.md): Use the basics of wandb from shell commands
 3. [Java Library](java/README.md): Try our beta integration with Java
 4. [JavaScript Library](js/README.md): Try our beta integration with JavaScript/TypeScript
+5. [Weave](weave/README.md): Weave is a new query language to select and aggregate data across runs and projects
 
 ### Examples and guides
 
