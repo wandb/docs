@@ -84,7 +84,7 @@ const Home: React.FC = () => {
                 </div>
               </div>
             </Link>
-            <a href="https://github.com/wandb/examples">
+            <a href="/tutorials">
               <div className={clsx(styles.homeBox, styles.teal)}>
                 <DocumentationIcon />
                 <div className={clsx(styles.boxHeader, styles.whiteText)}>
