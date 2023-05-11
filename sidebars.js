@@ -138,8 +138,12 @@ const sidebars = {
       link: {type: 'doc', id: 'guides/models/intro'},
       items: [
         // 'guides/models/intro',
-        'guides/models/walkthrough',
+        'guides/models/quickstart',
+        'guides/models/notifications',
+        'guides/models/model_tags',
+        'guides/models/access_controls',
         'guides/models/model-management-concepts',
+        'guides/models/walkthrough',
       ],
     },
     {

@@ -3,19 +3,33 @@ slug: /guides/models
 description: Manage the model lifecycle from training to production
 ---
 
-# Model Registry
+# Models 
 
+Use W&B Models as a central system of record for your best models. 
+* **Versioning**: Bookmark your best model versions for each machine learning task
+* **Lifecycle**: Move model versions through the lifecycle from staging to production
+* **Lineage**: Audit the history of changes to production models
+
+![](/images/models/models_landing_page.png)
+
+## How it works
+
+
+## How to get started
+
+
+<!-- 
 Use the W&B Model Registry as a central system of record for models.
 
 * Create Registered Models to organize your best model versions for a given task
 * Track a model moving into staging and production
-* See a history of all changes, including who moved a model to production
+* See a history of all changes, including who moved a model to production -->
 
 <!-- ### Watch the 1 minute video walkthrough -->
 
 <!-- {% embed url="https://www.youtube.com/watch?v=jy9Pk9riwZI" %} -->
 
-## Model Registry Features
+<!-- ## Model Registry Features
 
 ### Model Versioning
 
@@ -51,5 +65,5 @@ This new feature is now turned on for all users to try for free, up to:
 
 ## Explore more
 * Read [Model Management Concepts](./model-management-concepts.md) for more information on basic Model Management concepts.
-* Follow the steps in the [Walkthrough](./walkthrough.md) to learn how to use Model Management.
+* Follow the steps in the [Walkthrough](./walkthrough.md) to learn how to use Model Management. -->
 

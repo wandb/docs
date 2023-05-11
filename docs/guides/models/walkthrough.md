@@ -4,7 +4,7 @@ description: Learn how to use Weights & Biases for Model Management
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Quickstart
+# Walkthrough
 
 <head>
   <title>Walkthrough of how to use Model Management</title>
