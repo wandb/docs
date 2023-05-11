@@ -1,6 +1,6 @@
 # 🏃‍♀️ W&B & Keras - Analyze Model Predictions
 
-<a href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb)
 
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 

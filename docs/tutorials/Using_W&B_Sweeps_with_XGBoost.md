@@ -1,6 +1,7 @@
 # Using W&B Sweeps with XGBoost
 
-<a href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb)
 
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 

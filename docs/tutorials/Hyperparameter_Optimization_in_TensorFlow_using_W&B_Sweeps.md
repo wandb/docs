@@ -1,6 +1,6 @@
 # 🧹 Weights & Biases Sweeps + ‍🌊 TensorFlow 2.x
 
-<a href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb)
 
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
