@@ -18,7 +18,7 @@ This tutorial will walkthrough how to track the model development lifecycle for 
 
 
 
-```
+```python
 !pip install -q wandb onnx pytorch-lightning
 ```
 
@@ -32,7 +32,7 @@ This tutorial will walkthrough how to track the model development lifecycle for 
 ![api_token](https://drive.google.com/uc?export=view&id=1Xn7hnn0rfPu_EW0A_-32oCXqDmpA0-kx)
 
 
-```
+```python
 !wandb login
 ```
 
@@ -49,7 +49,7 @@ The `Artifact` class will correspond to an entry in the W&B Artifact registry.  
 * files, directory of files, or references
 
 Example usage:
-```
+```python
 run = wandb.init(project = "my-project")
 artifact = wandb.Artifact(name = "my_artifact", type = "data")
 artifact.add_file("/path/to/my/file.txt")
@@ -60,7 +60,7 @@ run.finish()
 In this tutorial, the first thing we will do is download a training dataset and log it as an artifact to be used downstream in the training job. 
 
 
-```
+```python
 #@title Enter your W&B project and entity
 
 # FORM VARIABLES
@@ -110,7 +110,7 @@ elif SIZE == "LARGE":
 ```
 
 
-```
+```python
 import wandb
 import pandas as pd
 import os
@@ -143,7 +143,7 @@ You can now see all the metadata associated with this dataset, the W&B runs cons
 ![api_token](https://drive.google.com/uc?export=view&id=1fEEddXMkabgcgusja0g8zMz8whlP2Y5P)
 
 
-```
+```python
 from torchvision import transforms
 import pytorch_lightning as pl
 import torch
@@ -240,7 +240,7 @@ class NatureDatasetModule(pl.LightningDataModule):
 ### Writing the Model Class and Validation Function
 
 
-```
+```python
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.optim.lr_scheduler import StepLR
@@ -372,9 +372,7 @@ During training, it is a best practice to checkpoint your models overtime, so if
 
 
 
-```
-%%wandb -h 600
-
+```python
 run = wandb.init(project=PROJECT_NAME,
                      entity=ENTITY,
                      job_type='training',
@@ -506,7 +504,7 @@ The model registry offers a centralized place to house the best checkpoints for 
 You can [link a model via api](https://docs.wandb.ai/guides/models) with `wandb.run.link_artifact` passing in the artifact object, and the name of the **Registered Model**, along with aliases you want to append to it. **Registered Models** are entity (team) scoped in W&B so only members of a team can see and access the **Registered Models** there. You indicate a registered model name via api with `<entity>/model-registry/<registered-model-name>`. If a Registered Model doesn't exist, one will be created automatically.
 
 
-```
+```python
 wandb.run.link_artifact(best_model, 'wandb/model-registry/Model Registry Tutorial', aliases=['staging'])
 wandb.finish()
 ```
@@ -531,9 +529,7 @@ Typically during R&D/experimentation, researchers generate 100s, if not 1000s of
 You now can consume any registered model via API by referring the corresponding `name:alias`. Model consumers, whether they are engineers, researchers, or CI/CD processes, can go to the model registry as the central hub for all models that should "see the light of day": those that need to go through testing or move to production. 
 
 
-```
-%%wandb -h 600
-
+```python
 run = wandb.init(project=PROJECT_NAME, entity=ENTITY, job_type='inference')
 artifact = run.use_artifact('wandb/model-registry/Model Registry Tutorial:staging', type='model')
 artifact_dir = artifact.download()
