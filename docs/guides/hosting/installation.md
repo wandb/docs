@@ -14,7 +14,7 @@ The production installation types available are the following:
 - [AWS](/guides/hosting/installation/aws-tf)
 - [Azure](/guides/hosting/installation/azure-tf)
 - [GCP](/guides/hosting/installation/gcp-tf)
-- [Bare Betal](/guides/hosting/installation/bare-metal)
+- [Bare Metal](/guides/hosting/installation/bare-metal)
 
 For all of our Cloud Deployments, we rely on [Terraform](https://developer.hashicorp.com/terraform/intro) as a tool to provision all infrastructure components necessary to execute the W&B Server reliably.
 
