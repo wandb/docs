@@ -202,7 +202,7 @@ Lastly, you will need to create a configmap in the `wandb` namespace that contai
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: wandb-launch-agent-config
+  name: wandb-launch-configmap
   namespace: wandb
 data:
   launch-config.yaml: |
