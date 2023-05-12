@@ -4,10 +4,10 @@ description: Use model registry role based access controls (RBAC) to control who
 
 # Access control
 
-Use model registry role based access controls (RBAC) to control who can update protected aliases — these are the aliases you use to represent key stages of your model development pipeline.
+Use model registry role based access controls (RBAC) to control who can update *protected aliases*. Protected aliases are the aliases you use to represent key stages of your model development pipeline.
 
 ## Example use case
-For example, you could set the aliases `staging` and `production` as Protected Aliases. In this scenario, any member of your team could add a new model version, which would automatically be marked `latest`, but only admins could then move that model into `staging` or `production`.
+For example, you could set the aliases `staging` and `production` as Protected Aliases. In this scenario, any member of your team could add a new model version. This would automatically create an alias marked `latest`. However, only admins could then move that model into `staging` or `production`.
 
 ## Features
 The access controls add two new features:

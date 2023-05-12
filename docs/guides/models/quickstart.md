@@ -3,7 +3,9 @@ description: Try the model registry in one minute. Learn how to log a model vers
 ---
 # Quickstart
 
-Try the model registry in one minute with this quickstart: Log a model version, then link it to a registered model.
+Try the model registry in one minute. This quickstart will show you how to log a model version and link to a registered model.
+
+Copy and paste the following code sample into your Jupyter Notebook or in a Python script.
 
 ```python
 import wandb
