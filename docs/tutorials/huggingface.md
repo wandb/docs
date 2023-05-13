@@ -1,4 +1,4 @@
-# 🤗 Transformers with W&B
+# Hugging Face
 
 <img src="https://i.imgur.com/vnejHGh.png" width="800"/>
 

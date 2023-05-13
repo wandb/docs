@@ -1,4 +1,4 @@
-# 🧹 Weights & Biases Sweeps + ‍🌊 TensorFlow 2.x
+# TensorFlow Sweeps
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb)
 

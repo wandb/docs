@@ -1,4 +1,4 @@
-# Optimize Hyperparameters
+# Tune hyperparameters
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.ipynb)
 

@@ -1,4 +1,4 @@
-# Using W&B Sweeps with XGBoost
+# XGBoost Sweeps
 
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb)

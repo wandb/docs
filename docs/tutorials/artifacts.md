@@ -1,4 +1,4 @@
-# Manage Model Weights & Dataset Versions
+# Track models and datasets
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W&B_Artifacts.ipynb)
 

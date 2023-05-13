@@ -1,12 +1,14 @@
-# 🏃‍♀️ W&B & Keras - Manage Model Weights
+# Keras
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb)
+[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb)
 
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
 <img src="http://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
 
-This colab notebook introduces the `WandbModelCheckpoint` callback. Use this callback to log your model checkpoints to Weight and Biases [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning).
+
+This colab notebook introduces the `WandbMetricsLogger` callback. Use this callback for [Experiment Tracking](https://docs.wandb.ai/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
+
 
 # 🌴 Setup and Installation
 
@@ -28,7 +30,6 @@ import tensorflow_datasets as tfds
 # Weights and Biases related imports
 import wandb
 from wandb.keras import WandbMetricsLogger
-from wandb.keras import WandbModelCheckpoint
 ```
 
 If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up for a [free account](https://wandb.ai/signup) is as easy as a few clicks.
@@ -155,10 +156,7 @@ model.fit(
     trainloader,
     epochs = configs["epochs"],
     validation_data = validloader,
-    callbacks = [
-        WandbMetricsLogger(log_freq=10),
-        WandbModelCheckpoint(filepath="models/") # Notice the use of WandbModelCheckpoint here
-    ]
+    callbacks = [WandbMetricsLogger(log_freq=10)] # Notice the use of WandbMetricsLogger here
 )
 
 # Close the W&B run

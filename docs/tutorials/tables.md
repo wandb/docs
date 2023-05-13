@@ -1,4 +1,4 @@
-# View & Analyze Model Predictions
+# Visualize predictions
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W&B_Tables_Quickstart.ipynb)
 

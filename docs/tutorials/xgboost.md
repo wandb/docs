@@ -1,4 +1,4 @@
-# Vehicle Loan Default Prediction with XGBoost
+# XGBoost
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W&B.ipynb)
 

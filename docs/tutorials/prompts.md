@@ -1,4 +1,4 @@
-# Debug LLM Applications
+# Iterate on LLMs
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/W&B_Prompts_Quickstart.ipynb)
 

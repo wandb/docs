@@ -1,4 +1,4 @@
-# Image Classification using PyTorch Lightning ⚡️
+# PyTorch Lightning
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Image_Classification_using_PyTorch_Lightning.ipynb)
 

@@ -1,4 +1,4 @@
-# 🏋️‍♀️ W&B + 🌊 TensorFlow 2.x
+# TensorFlow
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Simple_TensorFlow_Integration.ipynb)
 

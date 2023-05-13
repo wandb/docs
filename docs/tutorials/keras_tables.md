@@ -1,4 +1,4 @@
-# 🏃‍♀️ W&B & Keras - Analyze Model Predictions
+# Keras Tables
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb)
 

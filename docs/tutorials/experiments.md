@@ -1,4 +1,4 @@
-# Getting Started with Experiment Tracking
+# Track experiments
 
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_&_Biases.ipynb)
