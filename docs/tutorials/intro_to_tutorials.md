@@ -1,21 +1,21 @@
 ---
-description: An overview of what is Weights & Biases along with links on how to get started if you are a first time user.
+description: Get started using Weights & Biases with interactive tutorials.
 slug: /tutorials
 ---
 
 # Tutorials
 
-## Are you a first-time user of W&B?
-If this is your first time using W&B, we suggest you explore the following tutorials:
+## Learn to use W&B with interactive code examples
+These tutorials guide you through the fundamentals of Weights & Biases for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more. Learn by doing with these hands-on lessons.
 
-1. Get Started with [Experiment Tracking](Intro_to_Weights_&_Biases.md)
-2. [View & Analyze Model Predictions](W&B_Tables_Quickstart.md)
-3. [Automatically Tune Hyperparameters](Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.md)
-4. [Manage Model Weights & Dataset Versions](Pipeline_Versioning_with_W&B_Artifacts.md)
-5. [Track Model Development Lifecycle](Model_Registry_E2E.md)
-6. [Debug LLM Applications](W&B_Prompts_Quickstart.md)
+1. [Track experiments](Intro_to_Weights_&_Biases.md) 
+2. [Visualize predictions](W&B_Tables_Quickstart.md)
+3. [Optimize hyperparameters](Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.md)
+4. [Track models and datasets](Pipeline_Versioning_with_W&B_Artifacts.md)
+5. [Productionize models](Model_Registry_E2E.md)
+6. [Iterate on LLMs](W&B_Prompts_Quickstart.md)
 
-## Tutorials - Libraries, Frameworks & Integrations
+## Use W&B with popular ML frameworks
 
 - [PyTorch](Simple_PyTorch_Integration.md)
 - [HuggingFace 🤗 Transformers](Huggingface_wandb.md)
