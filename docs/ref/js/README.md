@@ -67,24 +67,21 @@ If you have any requests for additional integrations, we'd love you to open an i
 
 ## LangChain.js
 
-This library integrates with the popular library for building LLM applications, [LangChain.js](https://github.com/hwchase17/langchainjs).
+This library integrates with the popular library for building LLM applications, [LangChain.js](https://github.com/hwchase17/langchainjs) version >= 0.0.75.
 
 ### Usage
 
 ```typescript
 import {WandbTracer} from '@wandb/sdk/integrations/langchain';
 
-await WandbTracer.init({project: 'langchain-test'});
+const wbTracer = await WandbTracer.init({project: 'langchain-test'});
 // run your langchain workloads...
+chain.call({input: "My prompt"}, wbTracer)
 await WandbTracer.finish();
 ```
 
 :::caution
 We spawn a seperate MessageChannel to process all api calls async.  This will cause your script to hang if you don't call `await WandbTracer.finish()`.
-:::
-
-:::caution
-The tracer does not play nicely with parallel execution.  See the example on the bottom of the langchain js [tracing documentation](https://js.langchain.com/docs/production/tracing).
 :::
 
 See [this test](https://github.com/wandb/wandb-js/blob/main/src/sdk/integrations/langchain/langchain.test.ts) for a more detailed example. 
