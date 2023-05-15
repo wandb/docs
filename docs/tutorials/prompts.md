@@ -70,7 +70,8 @@ from langchain.llms import OpenAI
 ```python
 llm = OpenAI(temperature=0)
 tools = load_tools(["llm-math"], llm=llm)
-agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION)
+agent = initialize_agent(
+  tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION)
 ```
 
 Pass `WandbTracer` when you call your LangChain chain or agent to log your trace to W&B
@@ -117,7 +118,10 @@ A Span represents a unit of work, Spans can have type `AGENT`, `TOOL`, `LLM` or 
 
 
 ```python
-parent_span = trace_tree.Span(name="Example Span", span_kind = trace_tree.SpanKind.AGENT)
+parent_span = trace_tree.Span(
+  name="Example Span", 
+  span_kind = trace_tree.SpanKind.AGEN
+)
 ```
 
 Spans can (and should!) be nested:
@@ -125,13 +129,22 @@ Spans can (and should!) be nested:
 
 ```python
 # Create a span for a call to a Tool
-tool_span = trace_tree.Span(name="Tool 1", span_kind = trace_tree.SpanKind.TOOL)
+tool_span = trace_tree.Span(
+  name="Tool 1", 
+  span_kind = trace_tree.SpanKind.TOOL
+)
 
 # Create a span for a call to a LLM Chain
-chain_span = trace_tree.Span(name="LLM CHAIN 1", span_kind = trace_tree.SpanKind.CHAIN)
+chain_span = trace_tree.Span(
+  name="LLM CHAIN 1", 
+  span_kind = trace_tree.SpanKind.CHAIN
+)
 
 # Create a span for a call to a LLM that is called by the LLM Chain
-llm_span = trace_tree.Span(name="LLM 1", span_kind = trace_tree.SpanKind.LLM)
+llm_span = trace_tree.Span(
+  name="LLM 1", 
+  span_kind = trace_tree.SpanKind.LLM
+)
 chain_span.add_child_span(llm_span)
 ```
 
@@ -139,10 +152,18 @@ Span Inputs and Outputs can be added like so:
 
 
 ```python
-tool_span.add_named_result({"input": "search: google founded in year"}, {"response": "1998"})
-chain_span.add_named_result({"input": "calculate: 2023 - 1998"}, {"response": "25"})
-llm_span.add_named_result({"input": "calculate: 2023 - 1998", "system": "you are a helpful assistant", }, 
-                          {"response": "25", "tokens_used":218})
+tool_span.add_named_result(
+  {"input": "search: google founded in year"}, 
+  {"response": "1998"}
+)
+chain_span.add_named_result(
+  {"input": "calculate: 2023 - 1998"}, 
+  {"response": "25"}
+)
+llm_span.add_named_result(
+  {"input": "calculate: 2023 - 1998", "system": "you are a helpful assistant", }, 
+  {"response": "25", "tokens_used":218}
+)
 
 parent_span.add_child_span(tool_span)
 parent_span.add_child_span(chain_span)
