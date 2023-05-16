@@ -28,7 +28,8 @@ wandb.init()
 
 wandb.define_metric("batch")
 wandb.define_metric("epoch")
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳して、それ以外のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト：
+```
+
 
 ```python
 wandb.define_metric("train_accuracy", step_metric="batch")
