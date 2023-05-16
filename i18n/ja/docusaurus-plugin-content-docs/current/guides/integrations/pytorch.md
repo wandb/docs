@@ -68,7 +68,7 @@ wandb.log({"mnist_predictions": my_table})
 上のコードでこのようなテーブルが生成されます。このモデルは良さそうです！
 ![The code above generates a table like this one. This model's looking good!](/images/integrations/pytorch_example_table.png)
 
-データセットとモデルのログや可視化について詳しくは、[W&B Tables のガイド](../data-vis/)を参照してください。
+データセットとモデルのログや可視化について詳しくは、[W&B Tables のガイド](../data-vis/intro.md)を参照してください。
 
 ## PyTorch コードのプロファイリング
 
