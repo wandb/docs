@@ -132,7 +132,7 @@ config = {
   "learning_rate": 0.01,
   "batch_size": 128,
 }
-```
+
 wandb.init(project="offline-demo")
 
 for i in range(100):
