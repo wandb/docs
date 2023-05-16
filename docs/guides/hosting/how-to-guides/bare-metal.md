@@ -132,6 +132,19 @@ CREATE DATABASE wandb_local CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
 ```
 
+#### Parameter Group Configuration
+
+Ensure that the following parameter groups are set to tune the database performance:
+
+```
+binlog_format = 'ROW'
+innodb_online_alter_log_max_size = 268435456
+sync_binlog = 1
+innodb_flush_log_at_trx_commit = 1
+binlog_row_image = 'MINIMAL'
+sort_buffer_size = 33554432
+```
+
 ## Object Store
 The object store can be externally hosted on a [Minio cluster](https://docs.min.io/minio/k8s/), or any Amazon S3 compatible object store that has support for signed urls. Run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) to check if your object store supports signed urls.
 
