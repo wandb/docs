@@ -1,31 +1,31 @@
 ---
-description: Learn where W&B files are stored by default. Explore how to save, store sensitive information.
+description: W&Bのファイルがデフォルトで保存される場所を学びます。機密情報の保存や保管方法についても説明します。
 ---
 
-# Data Privacy and Compliance
+# データプライバシーとコンプライアンス
 
 <head>
-    <title>Artifact Data Privacy and Compliance</title>
+    <title>アーティファクトのデータプライバシーとコンプライアンス</title>
 </head>
+アーティファクトをログに記録する際、ファイルはWeights & Biasesが管理するGoogle Cloudバケットにアップロードされます。バケットの内容は、保存時も転送時も暗号化されています。アーティファクトファイルは、対応するプロジェクトへのアクセス権があるユーザーにのみ表示されます。
 
-Files are uploaded to Google Cloud bucket managed by Weights & Biases when you log artifacts. The contents of the bucket are encrypted both at rest and in transit. Artifact files are only visible to users who have access to the corresponding project.
+![GCS W&B クライアントサーバーダイアグラム](/images/artifacts/data_and_privacy_compliance_1.png)
 
-![GCS W&B Client Server diagram](/images/artifacts/data_and_privacy_compliance_1.png)
+アーティファクトのバージョンを削除すると、安全に削除できるファイル（前のバージョンや次のバージョンで使用されていないファイル）が、Weights & Biasesのバケットから _直ちに_ 削除されます。同様に、アーティファクト全体を削除すると、その内容全てがバケットから削除されます。
 
-When you delete a version of an artifact, all the files that can be safely deleted (files not used in previous or subsequent versions) are _immediately_ removed from Weights & Biases buckets. Similarly, when you delete an entire artifact, all of its contents are removed from our bucket.
+マルチテナント環境に配置できない機密データセットの場合、プライベートなW&Bサーバーをクラウドバケットに接続するか、_リファレンスアーティファクト_ を使用できます。リファレンスアーティファクトは、ファイルの内容をW&Bに送信せずに、プライベートバケットへの参照をトラッキングします。リファレンスアーティファクトは、バケットやサーバー上のファイルへのリンクを維持します。つまり、Weights & Biasesはファイルに関連するメタデータのみを追跡し、ファイル自体は保持しません。
+以下は、Markdownのテキストを翻訳してください。日本語に翻訳し、他の言葉は使用せずに翻訳したテキストのみを返してください。テキスト：
 
-For sensitive datasets that cannot reside in a multi-tenant environment, you can use either a private W&B server connected to your cloud bucket or _reference artifacts_. Reference artifacts track references to private buckets without sending file contents to W&B. Reference artifacts maintain links to files on your buckets or servers. In other words, Weights & Biases only keeps track of the metadata associated with the files and not the files themselves.
+![W&B クライアントサーバークラウド図](/images/artifacts/data_and_privacy_compliance_2.png)
 
-![W&B Client Server Cloud diagram](/images/artifacts/data_and_privacy_compliance_2.png)
-
-Create a reference artifact similar to how you create a non reference artifact:
+参照用アーティファクトを、非参照用アーティファクトの作成方法と同様に作成してください：
 
 ```python
 import wandb
-
+```
 run = wandb.init()
-artifact = wandb.Artifact('animals', type='dataset')
-artifact.add_reference('s3://my-bucket/animals')
+アーティファクト = wandb.Artifact('動物', type='データセット')
+アーティファクト.add_reference('s3://my-バケット/動物')
 ```
 
-For alternatives, contact us at [contact@wandb.com](mailto:contact@wandb.com) to talk about private cloud and on-premises installations.
+代替案については、プライベートクラウドおよびオンプレミスのインストールについて話し合うために[contact@wandb.com](mailto:contact@wandb.com)までお問い合わせください。

@@ -1,21 +1,20 @@
 ---
-description: Update an existing Artifact inside and outside of a W&B Run.
+description: 既存のアーティファクトをW&B Run内外で更新する。
 ---
 
-# Update artifacts
+# アーティファクトの更新
 
 <head>
-  <title>Update artifacts</title>
+  <title>アーティファクトの更新</title>
 </head>
+artifactの`description`、`metadata`、および`alias`を更新するために、望ましい値を渡してください。`save()`メソッドを呼び出して、Weights & Biasesサーバー上のartifactを更新します。W&B Run中またはRunの外でartifactを更新できます。
 
-Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the Weights & Biases servers. You can update an artifact during a W&B Run or outside of a Run.
-
-Use the W&B Public API ([`wandb.Api`](https://docs.wandb.ai/ref/python/public-api/api)) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`](https://docs.wandb.ai/ref/python/artifact)) to update an artifact during a run.
+W&B Public API（[`wandb.Api`](https://docs.wandb.ai/ref/python/public-api/api)）を使用して、runの外でartifactを更新します。Artifact API（[`wandb.Artifact`](https://docs.wandb.ai/ref/python/artifact)）を使用して、runの間にartifactを更新します。
 
 :::caution
-You can not update the alias of artifact that is linked to a model in Model Registry.
+モデルレジストリ内のモデルにリンクされているartifactのエイリアスは更新できません。
 :::
-
+以下は、Markdownのテキストを翻訳してください。日本語に翻訳し、他に何も言わずに翻訳されたテキストだけを返してください。テキスト：
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -23,60 +22,55 @@ import TabItem from '@theme/TabItem';
 <Tabs
   defaultValue="duringrun"
   values={[
-    {label: 'During a Run', value: 'duringrun'},
-    {label: 'Outside of a Run', value: 'outsiderun'},
+    {label: 'ランの間', value: 'duringrun'},
+    {label: 'ランの外', value: 'outsiderun'},
   ]}>
   <TabItem value="duringrun">
-
-The proceeding code example demonstrates how to update the description of an artifact using the [`wandb.Artifact`](https://docs.wandb.ai/ref/python/artifact) API:
+次のコード例は、[`wandb.Artifact`](https://docs.wandb.ai/ref/python/artifact) APIを使用してアーティファクトの説明を更新する方法を示しています。
 
 ```python
 import wandb
 
 run = wandb.init(project="<example>", job_type="<job-type>")
 artifact = run.use_artifact('<artifact-name>:<alias>')
+```
+以下は、Markdownのテキストチャンクを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。他のことは何も言わずに：
 
-artifact = wandb.Artifact('')
+アーティファクト = wandb.Artifact('')
 run.use_artifact(artifact)
-artifact.description = '<description>'
-artifact.save()
+アーティファクトの説明 = '<説明>'
+アーティファクト.save()
 ```
   </TabItem>
-  <TabItem value="outsiderun">
-
-The proceeding code example demonstrates how to update the description of an artifact using the `wandb.Api` API:
+  <TabItem value="外部実行">
+以下のコード例では、`wandb.Api` APIを使用して、アーティファクトの説明を更新する方法を示しています。
 
 ```python
 import wandb
 
 api = wandb.Api()
+```
+artifact = api.artifact('entity/project/artifact:エイリアス')
 
-artifact = api.artifact('entity/project/artifact:alias')
+# 説明を更新する
+artifact.description = "新しい説明"
 
-# Update the description
-artifact.description = "My new description"
+# メタデータキーを選択して更新する
+artifact.metadata["oldKey"] = "新しい値"
+# メタデータを完全に置き換える
+artifact.metadata = {"newKey": "新しい値"}
 
-# Selectively update metadata keys
-artifact.metadata["oldKey"] = "new value"
-
-# Replace the metadata entirely
-artifact.metadata = {"newKey": "new value"}
-
-# Add an alias
+# エイリアスを追加する
 artifact.aliases.append('best')
-
-# Remove an alias
+# エイリアスを削除する
 artifact.aliases.remove('latest')
 
-# Completely replace the aliases
+# エイリアスを完全に置き換える
 artifact.aliases = ['replaced']
 
-# Persist all artifact modifications
+# すべてのアーティファクトの変更を保存する
 artifact.save()
 ```
-
-For more information, see the Weights and Biases [Public Artifact API](https://docs.wandb.ai/ref/python/public-api/artifact).
+詳細については、Weights and Biasesの [Public Artifact API](https://docs.wandb.ai/ref/python/public-api/artifact) をご覧ください。
   </TabItem>
 </Tabs>
-
-

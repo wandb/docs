@@ -1,30 +1,29 @@
 ---
-description: Create custom aliases for W&B Artifacts.
+description: W&Bアーティファクト用のカスタムエイリアスを作成します。
 ---
 
-# Create a custom alias
+# カスタムエイリアスの作成
 
 <head>
-    <title>Create a custom alias for your Artifact.</title>
+    <title>Artifact用のカスタムエイリアスを作成する。</title>
 </head>
+エイリアスを特定のバージョンへのポインタとして使用します。デフォルトでは、`Run.log_artifact`はログされたバージョンに`latest`エイリアスを追加します。
 
-Use aliases as pointers to specific versions. By default, `Run.log_artifact` adds the `latest` alias to the logged version.
+アーティファクトを初めてログするときに、アーティファクトに`v0`というバージョンが作成され、それがアーティファクトに関連付けられます。Weights & Biasesは、同じアーティファクトに再度ログを記録すると、内容をチェックサムします。アーティファクトが変更された場合、Weights & Biasesは新しいバージョン`v1`を保存します。
 
-An artifact version `v0` is created and attached to your artifact when you log an artifact for the first time. Weights & Biases checksums the contents when you log again to the same artifact. If the artifact changed, Weights & Biases saves a new version `v1`.
-
-For example, if you want your training script to pull the most recent version of a dataset, specify `latest` when you use that artifact. The proceeding code example demonstrates how to download a recent dataset artifact named `bike-dataset` that has an alias, `latest`:
+例えば、トレーニングスクリプトで最新のデータセットバージョンを引き出したい場合は、アーティファクトを使用するときに`latest`を指定します。以下のコード例では、`latest`というエイリアスを持つ、`bike-dataset`というデータセットアーティファクトの最近のバージョンをダウンロードする方法を示しています：
 
 ```python
 import wandb
+ここにMarkdownテキストのチャンクがありますので、それを日本語に翻訳してください。 それ以外は何も言わずに、翻訳されたテキストだけを返してください。 テキスト：
 
 run = wandb.init(project='<example-project>')
 
-artifact = run.use_artifact('bike-dataset:latest')
+アーティファクト = run.use_artifact('bike-dataset:latest')
 
-artifact.download()
+アーティファクト.download()
 ```
-
-You can also apply a custom alias to an artifact version. For example, if you want to mark that model checkpoint is the best on the metric AP-50, you could add the string `'best-ap50'` as an alias when you log the model artifact.
+アーティファクトのバージョンにカスタムエイリアスを適用することもできます。例えば、モデルのチェックポイントがメトリックAP-50で最も優れていることを示すために、モデルのアーティファクトをログするときに文字列`'best-ap50'`をエイリアスとして追加できます。
 
 ```python
 artifact = wandb.Artifact(

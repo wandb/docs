@@ -1,58 +1,55 @@
 ---
 slug: /guides/artifacts
-description: Overview of what W&B Artifacts are, how they work, and how to get started using W&B Artifacts.
+description: W&Bアーティファクトの概要、使い方、W&Bアーティファクトの使用方法の入門。
 ---
 
-# Artifacts
+# アーティファクト
 
-Use W&B Artifacts to track datasets, models, dependencies, and results through each step of your machine learning pipeline. Artifacts make it easy to get a complete and auditable history of changes to your files.
+W&Bアーティファクトを使って、データセット、モデル、依存関係、結果を機械学習パイプラインの各ステップでトラッキングしましょう。アーティファクトを使うことで、ファイルの変更履歴を完全かつ監査可能な形で取得することが簡単になります。
 
-Artifacts can be thought of as a versioned directory. Artifacts are either an input of a run or an output of a run. Common artifacts include entire training sets and models. Store datasets directly into artifacts, or use artifact references to point to data in other systems like Amazon S3, GCP, or your own system.
+アーティファクトは、バージョン管理されたディレクトリーと考えることができます。アーティファクトは、runの入力または出力のどちらかです。一般的なアーティファクトには、トレーニングセット全体やモデルが含まれます。データセットを直接アーティファクトに保存するか、アーティファクト参照を使ってAmazon S3、GCP、自分のシステムなどの他のシステム内のデータを指し示すことができます。
 
-![Artifact overview](/images/artifacts/artifacts_overview.png)Artifacts can be an input or an output of a given run.
+![アーティファクトの概要](/images/artifacts/artifacts_overview.png)アーティファクトは、指定されたrunの入力または出力になることができます。
 
-Artifacts and runs form a directed graph because a given W&B run can use another run’s output artifact as input. You do not need to define pipelines ahead of time. Weights and Biases will create the DAG for you when you use and log artifacts.
+アーティファクトとrunは有向グラフを形成します。なぜなら、あるW&B runは、他のrunの出力アーティファクトを入力として使用できるからです。パイプラインを事前に定義する必要はありません。Weights and Biasesは、アーティファクトを使用してログをとることで、DAGを作成してくれます。
 
-The following animation demonstrates an example artifacts DAG as seen in the W&B App UI.
+次のアニメーションは、W&BアプリUIで表示されるアーティファクトのDAGの例を示しています。
+![アーティファクトの例DAG](/images/artifacts/dag_view_of_artifacts.png)
 
-![Example artifact DAG](/images/artifacts/dag_view_of_artifacts.png)
+アーティファクトのグラフの探索方法についての詳細は、[アーティファクトグラフの探索と移動](explore-and-traverse-an-artifact-graph.md)を参照してください。
 
-For more information about exploring an artifacts graph, see [Explore and traverse an artifact graph](explore-and-traverse-an-artifact-graph.md).
+### 仕組み
 
-### How it works
+アーティファクトはデータのディレクトリーのようなものです。各エントリは、アーティファクト内に保存されている実際のファイルか、外部URIへの参照のどちらかです。通常のファイルシステムと同様に、アーティファクト内にフォルダを入れ子にできます。データセット、モデル、画像、HTML、コード、オーディオ、生のバイナリデータなど、あらゆるデータを保存できます。
 
-An artifact is like a directory of data. Each entry is either an actual file stored in the artifact, or a reference to an external URI. You can nest folders inside an artifact just like a regular filesystem. You can store any data, including: datasets, models, images, HTML, code, audio, raw binary data and more.
+このディレクトリーの内容を変更するたびに、W&Bはアーティファクトの新しいバージョンを作成し、以前の内容を上書きするのではなく、代わりに新しいバージョンを作成します。
 
-Every time you change the contents of this directory, W&B will create a new version of your artifact instead of overwriting the previous contents.
-
-As an example, assume we have the following directory structure:
+例として、以下のディレクトリー構造を持つと仮定しましょう。
 
 ```
-images
-|-- cat.png (2MB)
-|-- dog.png (1MB)
+画像
+|-- cat.png（2MB）
+|-- dog.png（1MB）
 ```
-
-The proceeding code snippet demonstrates how to create a dataset artifact called `‘animals’`. (The specifics of how the following code snippet work are explained in greater detail in later sections).
+次のコードスニペットは、`animals`というデータセットアーティファクトを作成する方法を示しています。（以下のコードスニペットの詳細については、後のセクションで詳しく説明します）。
 
 ```python
 import wandb
 
-run = wandb.init() # Initialize a W&B Run
+run = wandb.init() # W&B Runを初期化
 artifact = wandb.Artifact('animals', type='dataset')
-artifact.add_dir('images') # Adds multiple files to artifact
-run.log_artifact(artifact) # Creates `animals:v0`
+artifact.add_dir('images') # 複数のファイルをアーティファクトに追加します
+run.log_artifact(artifact) # `animals:v0`を作成します
 ```
 
-W&B automatically assigns a version `v0` and attaches an alias called `latest` when you create and log a new artifact object to W&B. An _alias_ is a human-readable name that you can give to an artifact version.
+W&Bは、新しいアーティファクトオブジェクトをW&Bに作成してログするときに、自動的に`v0`というバージョンを割り当て、`latest`というエイリアスを付けます。_エイリアス_は、アーティファクトバージョンに人間が読める名前を付けることができます。
 
-If you create another artifact with the same name, type, and contents (in other words, you create another version of the artifact), W&B will increase the version index by one. The alias `latest` is unassigned from artifact `v0` and assigned to the `v1` artifact.
+同じ名前、タイプ、内容で別のアーティファクトを作成すると（つまり、アーティファクトの別バージョンを作成すると）、W&Bはバージョンインデックスを1つ増やします。エイリアス`latest`はアーティファクト`v0`から外れ、`v1`アーティファクトに割り当てられます。
+W&Bは、アーティファクトのバージョン間で変更されたファイルをアップロードします。アーティファクトがどのように保存されるかの詳細については、[アーティファクトのストレージ](storage.md)を参照してください。
 
-W&B uploads files that were modified between artifacts versions. For more information about how artifacts are stored, see [Artifacts Storage](storage.md).
+特定のアーティファクトを参照するには、インデックスバージョンまたはエイリアスのいずれかを使用できます。
 
-You can use either the index version or the alias to refer to a specific artifact.
-
-As an example, suppose you want to upload a new image, `bird.png`, to your dataset artifact. Continuing from the previous code example, your directory might look similar to the following:
+例として、データセットのアーティファクトに新しい画像 `bird.png` をアップロードしたいとします。前のコード例から続けると、ディレクトリは次のようになります。
 
 ```
 images
@@ -61,9 +58,8 @@ images
 |-- bird.png (3MB)
 ```
 
-Re initialize the previous code snippet. This will produce a new artifact version `animals:v1`. W&B will automatically assign this version with the alias: `latest` . You can customize the aliases to apply to a version by passing in `aliases=['my-cool-alias']` to `log_artifact`. For more information about how to create new versions, see Create a new artifact version.
-
-To use the artifact, provide the name of the artifact along with the alias.
+前のコードスニペットを再初期化します。これにより、新しいアーティファクトのバージョン `animals:v1` が生成されます。W&Bはこのバージョンに自動的にエイリアス `latest` を割り当てます。エイリアスをカスタマイズして、バージョンに適用するには、`log_artifact` に `aliases=['my-cool-alias']` を渡します。新しいバージョンを作成する方法についての詳細は、新しいアーティファクトのバージョンを作成を参照してください。
+アーティファクトを使用するには、アーティファクトの名前とエイリアスを提供してください。
 
 ```python
 import wandb
@@ -73,22 +69,20 @@ animals = run.use_artifact('animals:latest')
 directory = animals.download()
 ```
 
-For more information about how to download use artifacts, see [Use an artifact](download-and-use-an-artifact.md).
+アーティファクトのダウンロード方法についての詳細は、[アーティファクトの使用](download-and-use-an-artifact.md)を参照してください。
 
-### How to get started
+### はじめ方
 
-Depending on your use case, explore the following resources to get started with W&B Artifacts:
+ユースケースに応じて、以下のリソースを参考にしてW&Bアーティファクトの使い方を学びましょう：
+* W&Bアーティファクトを初めて使用する場合は、クイックスタートをお読みいただくことをお勧めします。[クイックスタート](./quickstart.md)では、初めてのアーティファクトのセットアップ方法を説明しています。
+* W&B開発者ガイドで、アーティファクトに関するトピックを探求してください。例えば：
+  * アーティファクトや新しいアーティファクトバージョンを作成する。
+  * アーティファクトを更新する。
+  * アーティファクトをダウンロードして使用する。
+  * アーティファクトを削除する。
+* [W&B SDKリファレンスガイド](https://docs.wandb.ai/ref)で、[Python Artifact API](../../ref/python/artifact.md)や[Artifact CLIリファレンスガイド](../../ref/cli/wandb-artifact/README.md)を探索してください。
 
-* If this is your first time using W&B Artifacts, we recommend you read the Quick Start. The [Quickstart](./quickstart.md) walks you through setting up your first artifact.
-* Explore topics about Artifacts in the W&B Developer Guide such as:
-  * Create an artifact or a new artifact version.
-  * Update an artifact.
-  * Download and use an artifact.
-  * Delete artifacts.
-* Within the [W&B SDK Reference Guide](https://docs.wandb.ai/ref) explore [Python Artifact APIs](../../ref/python/artifact.md) and [Artifact CLI Reference Guide](../../ref/cli/wandb-artifact/README.md).
-
-For a step-by-step video, see [Version Control Data and Model with W&B Artifacts](https://www.youtube.com/watch?v=Hd94gatGMic\&ab\_channel=Weights%26Biases).
+ステップバイステップのビデオは、「[Version Control Data and Model with W&B Artifacts](https://www.youtube.com/watch?v=Hd94gatGMic\&ab\_channel=Weights%26Biases)」をご覧ください。
 
 
 <!-- {% embed url="https://www.youtube.com/watch?v=Hd94gatGMic" %} -->
-

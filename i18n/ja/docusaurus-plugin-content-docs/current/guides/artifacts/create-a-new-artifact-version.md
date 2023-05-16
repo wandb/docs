@@ -1,92 +1,85 @@
 ---
-description: Create a new artifact version from a single run or from a distributed process.
+description: 単一のrunまたは分散プロセスから新しいアーティファクトのバージョンを作成します。
 ---
 
-# Create new artifact versions
+# 新しいアーティファクトのバージョンを作成
 
 <head>
-    <title>Create new artifacts versions from single and multiprocess Runs.</title>
+    <title>単一およびマルチプロセスのRunsから新しいアーティファクトのバージョンを作成します。</title>
 </head>
+単一のrunを使って新しいアーティファクトバージョンを作成するか、分散ライターを共同で使用して作成するか、前のバージョンに対するパッチとして作成します。
 
-Create a new artifact version using a single run, collaboratively using distributed writers, or as a patch against a prior version.
+3つの方法で新しいアーティファクトバージョンを作成します：
 
-Create a new artifact version in one of three ways:
+* **シンプル**：単一のrunが新しいバージョンのすべてのデータを提供します。これは最も一般的なケースであり、runが必要なデータを完全に再作成する場合に最適です。例えば：分析用のテーブルに保存されたモデルやモデル予測を出力する場合。
+* **コラボレーティブ**：一連のrunが新しいバージョンのすべてのデータを共同で提供します。これは、データを生成する複数のrunを持つ分散ジョブに最適です。例えば：モデルを分散して評価し、予測を出力する場合。
+* **パッチ**：（近日公開）単一のrunが適用すべき差分のパッチを提供します。これは、既存のデータをすべて再作成することなく、runがアーティファクトにデータを追加したい場合に最適です。例えば：毎日ウェブスクレイピングを実行して作成されるゴールデンデータセットがある場合、このケースではrunがデータセットに新しいデータを追加することを望みます。
+![アーティファクト概要図](/images/artifacts/create_new_artifact_version.png)
 
-* **Simple**: A single run provides all the data for a new version. This is the most common case and is best suited for when the run fully recreates the needed data. For example: outputting saved models or model predictions in a table for analysis.
-* **Collaborative**: A set of runs collectively provides all the data for a new version. This is best suited for distributed jobs which have multiple runs generating data, often in parallel. For example: evaluating a model in a distributed manner, and outputting the predictions.
-* **Patch:** (coming soon) A single run provides a patch of the differences to be applied. This is best suited when a run wants to add data to an artifact without needing to recreate all the already existing data. For example: you have a golden dataset which is created by running a daily web scraper - in this case, you want the run to append new data to the dataset.
+### シンプルモード
 
-![Artifact overview diagram](/images/artifacts/create_new_artifact_version.png)
-
-### Simple Mode
-
-To log a new version of an Artifact with a single run that produces all the files in the artifact, use the Simple Mode:
+アーティファクト内のすべてのファイルを生成する単一のrunで新しいバージョンのアーティファクトをログするには、シンプルモードを使用してください：
 
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
-    # Add Files and Assets to the artifact using 
-    # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
+    # `.add`, `.add_file`, `.add_dir`, および`.add_reference` を使って
+    # アーティファクトにファイルとアセットを追加
     artifact.add_file("image1.png")
     run.log_artifact(artifact)
 ```
-
-Use the `Artifact.save()` to create the version without starting a run.
+`Artifact.save()` を使用して、runを開始せずにバージョンを作成します。
 
 ```python
 artifact = wandb.Artifact("artifact_name", "artifact_type")
-# Add Files and Assets to the artifact using 
-# `.add`, `.add_file`, `.add_dir`, and `.add_reference`
+# `.add`, `.add_file`, `.add_dir`, そして `.add_reference` を使って
+# アーティファクトにファイルやアセットを追加する
 artifact.add_file("image1.png")
 artifact.save()
 ```
+### コラボレーティブモード
 
-### Collaborative Mode
+コラボレーティブモードを使用して、複数のrunsがバージョンを共同で作成することができます。コラボレーティブモードを使用する際には、次の2つの重要な点を理解しておく必要があります。
 
-Use Collaborative Mode to allow a collection of runs to collaborate on a version before committing it. There are two key ideas to keep in mind when using Collaborative Mode:
-
-1. Each Run in the collection needs to be aware of the same unique ID (called `distributed_id`) in order to collaborate on the same version. As a default, if present, Weights & Biases uses the run's `group` as set by `wandb.init(group=GROUP)` as the `distributed_id`.
-2. There must be a final run that "commits" the version, permanently locking its state.
-
-Consider the following example. Note that rather than using `log_artifact` we use `upsert_artifact` to add the the collaborative artifact and `finish_artifact` to finalize the commit:
+1. コレクション内の各Runは、同じ一意のID（`distributed_id`と呼ばれる）を認識して、同じバージョンで協力する必要があります。デフォルトでは、Weights & Biasesは、`wandb.init(group=GROUP)`で設定されたrunの`group`を`distributed_id`として使用します（もしある場合）。
+2. 状態を永久にロックするバージョンを"コミット"する最終的なrunが必要です。
+次の例を考えてみましょう。`log_artifact`を使う代わりに、`upsert_artifact`を使ってコラボレーションアーティファクトを追加し、`finish_artifact`を使ってコミットを確定します。
 
 #### Run 1:
 
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
-    # Add Files and Assets to the artifact using 
-    # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
+    # アーティファクトにファイルやアセットを追加する方法は
+    # `.add`, `.add_file`, `.add_dir`, そして `.add_reference` を使います
     artifact.add_file("image1.png")
     run.upsert_artifact(
         artifact, 
         distributed_id="my_dist_artifact"
         )     
 ```
-
 #### Run 2:
 
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
-    # Add Files and Assets to the artifact using 
-    # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
+    # アーティファクトにファイルやアセットを追加するには、
+    # `.add`、`.add_file`、`.add_dir`、`.add_reference`を使用します
     artifact.add_file("image2.png")
     run.upsert_artifact(
         artifact, 
         distributed_id="my_dist_artifact"
         )
 ```
-
 #### Run 3
 
-Must run after Run 1 and Run 2 complete. The Run that calls `finish_artifact` can include files in the artifact, but does not need to.
+Run 1およびRun 2が完了した後に実行する必要があります。`finish_artifact`を呼び出すRunでは、アーティファクトにファイルを含めることができますが、必ずしも含める必要はありません。
 
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
-    # Add Files and Assets to the artifact  
-    # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
+    # アーティファクトにファイルやアセットを追加する
+    # `.add`, `.add_file`, `.add_dir`, および `.add_reference`
     artifact.add_file("image3.png")
     run.finish_artifact(
         artifact, 

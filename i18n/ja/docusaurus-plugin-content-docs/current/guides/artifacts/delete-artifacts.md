@@ -1,88 +1,88 @@
 ---
-description: Delete artifacts interactively with the App UI or programmatically with the Weights & Biases SDK/
+description: アプリUIやWeights & Biases SDKを使って、アーティファクトを対話的に削除します。
 ---
 
-# Delete artifacts
+# アーティファクトの削除
 
 <head>
-  <title>Delete W&B Artifacts</title>
+  <title>W&Bアーティファクトの削除</title>
 </head>
+アプリのUIやWeights＆Biases SDKを使って、アーティファクトを対話式に削除したりプログラムで削除できます。Weights & Biases は、アーティファクトとそれに関連するファイルが、前のアーティファクトバージョンまたは後のアーティファクトバージョンで使用されていないかどうか確認してから、アーティファクトを削除します。特定のアーティファクトバージョンを削除することも、アーティファクト全体を削除することもできます。
 
-Delete artifacts interactively with the App UI or programmatically with the Weights & Biases SDK. Weights & Biases first checks if the artifact and its associated files are not used by a previous or subsequent artifact version before it deletes an artifact. You can delete a specific artifact version or delete the entire artifact.
+アーティファクトを削除する前にエイリアスを削除することも、API呼び出しに追加のフラグを渡してアーティファクトを削除することもできます。削除したいアーティファクトに関連するエイリアスを削除することが推奨されます。
 
-You can delete aliases before you delete an artifact or you can delete an artifact and pass an additional flag to the API call. It is recommended that you remove aliases associated to the artifact you want to delete before you delete the artifact.
+アーティファクトを更新するドキュメントを参照して、W&B SDKやアプリUIを使ってエイリアスをプログラムで更新したり対話式に更新する方法について調べてください。
+### アーティファクトバージョンの削除
 
-See the Update an artifact documentation for information on how to programmatically or interactively update an alias with the W&B SDK or App UI, respectively.
+アーティファクトバージョンを削除するには：
 
-### Delete an artifact version
+1. アーティファクトの名前を選択します。これにより、アーティファクトビューが展開され、そのアーティファクトに関連付けられたすべてのアーティファクトバージョンが表示されます。
+2. アーティファクトのリストから、削除するアーティファクトバージョンを選択します。
+3. ワークスペースの右側にあるケバブドロップダウンを選択します。
+4. 削除を選択します。
+### エイリアスを持つ複数のアーティファクトを削除する
 
-To delete an artifact version:
-
-1. Select the name of the artifact. This will expand the artifact view and list all the artifact versions associated with that artifact.
-2. From the list of artifacts, select the artifact version you want to delete.
-3. On the right hand side of the workspace, select the kebab dropdown.
-4. Choose Delete.
-
-### Delete multiple artifacts with aliases
-
-The following code example demonstrates how to delete artifacts that have aliases associated with them. Provide the entity, project name, and run ID that created the artifacts.
+次のコード例は、エイリアスが関連付けられたアーティファクトを削除する方法を示しています。アーティファクトを作成したエンティティ、プロジェクト名、およびrun IDを提供してください。
 
 ```python
 import wandb
-
-run = api.run('entity/project/run_id')
-
-for artifact in run.logged_artifacts():
-    artifact.delete()
 ```
-
-Set the `delete_aliases` parameter to the boolean value, `True` to delete aliases if the artifact has one or more aliases.
-
-```python
-import wandb
-
 run = api.run('entity/project/run_id')
 
+アーティファクトが1つ以上のエイリアスを持っている場合、`delete_aliases`パラメータをブール値`True`に設定してエイリアスを削除します。
+
+```python
 for artifact in run.logged_artifacts():
-    # Set delete_aliases=True in order to delete 
-    # artifacts with one more aliases
     artifact.delete(delete_aliases=True)
 ```
-
-### Delete multiple artifact version with a specific alias
-
-The proceeding code demonstrates how to delete multiple artifact versions that have a specific alias. Provide the entity, project name, and run ID that created the artifacts. Replace the deletion logic with your own:
+以下のMarkdownテキストを日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストだけを返してください。テキスト：
 
 ```python
 import wandb
 
+run = api.run('entity/project/run_id')
+
+for artifact in run.logged_artifacts():
+    # エイリアスが1つ以上あるアーティファクトを削除するためには、
+    # delete_aliases=True を指定します
+    artifact.delete(delete_aliases=True)
+```
+### 特定のエイリアスを持つ複数のアーティファクトバージョンを削除する
+
+以下のコードは、特定のエイリアスを持つ複数のアーティファクトバージョンを削除する方法を示しています。アーティファクトを作成したエンティティ、プロジェクト名、およびrun IDを指定してください。削除ロジックは独自のものに置き換えてください。
+
+```python
+import wandb
+```
 runs = api.run('entity/project_name/run_id')
 
-# Delete artifact ith alias 'v3' and 'v4
+# エイリアス 'v3' と 'v4' のアーティファクトを削除する
 for artifact_version in runs.logged_artifacts():
-  # Replace with your own deletion logic.
+  # ここに独自の削除ロジックを書く。
   if artifact_version.name[-2:] == 'v3' or artifact_version.name[-2:] == 'v4':
     artifact.delete(delete_aliases=True)
 ```
+こちらのMarkdownテキストを日本語に翻訳してください。他のことは何も言わず、翻訳されたテキストだけを返してください。テキスト:
 
-### Delete all versions of an artifact that do not have an alias
+### エイリアスのないアーティファクトのすべてのバージョンを削除する
 
-The following code snippet demonstrates how to delete all versions of an artifact that do not have an alias. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
+次のコードスニペットは、エイリアスがないアーティファクトのすべてのバージョンを削除する方法を示しています。`wandb.Api`の`project`と`entity`キーにそれぞれプロジェクト名とエンティティ名を指定してください:
 
 ```python
 import wandb
+```
+ここにMarkdownテキストがあります。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
-# Provide your entity and a project name when you 
-# use wandb.Api methods.
+# wandb.Apiメソッドを使用するときに、
+# エンティティとプロジェクト名を提供してください。
 api = wandb.Api(overrides={
-        "project": "project", 
-        "entity": "entity"
+        "project": "プロジェクト", 
+        "entity": "エンティティ"
         })
-
-artifact_type, artifact_name = ... # provide type and name
+エイリアス名, アーティファクト名 = ... # タイプと名前を提供してください
 for v in api.artifact_versions(artifact_type, artifact_name):
-  # Clean up versions that don't have an alias such as 'latest'.
-	# NOTE: You can put whatever deletion logic you want here.
+  # 'latest' のようなエイリアスがないバージョンをクリーンアップします。
+	# 注: 好きな削除ロジックをここに記述できます。
   if len(v.aliases) == 0:
       v.delete()
 ```

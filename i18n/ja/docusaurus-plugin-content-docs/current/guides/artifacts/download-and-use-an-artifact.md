@@ -1,75 +1,73 @@
 ---
-description: Download and use Artifacts from multiple projects.
+description: 複数のプロジェクトからアーティファクトをダウンロードして使用する。
 ---
 
-# Download and use artifacts
+# アーティファクトのダウンロードと使用
 
 <head>
-  <title>Download and use artifacts</title>
+  <title>アーティファクトのダウンロードと使用</title>
 </head>
-
-Download and use an artifact that is already stored on the Weights & Biases server or construct an artifact object and pass it in to be deduplicated as necessary.
+すでにWeights & Biasesサーバーに保存されているアーティファクトをダウンロードして使用するか、アーティファクトオブジェクトを構築して必要に応じて重複排除を行ってください。
 
 :::note
-Team members with view-only seats cannot download artifacts.
+閲覧専用席のチームメンバーは、アーティファクトをダウンロードできません。
 :::
+### Weights & Biasesに保存されたアーティファクトのダウンロードと使用
 
-
-### Download and use an artifact stored on Weights & Biases
-
-Download and use an artifact that is stored in Weights & Biases either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](https://docs.wandb.ai/ref/python/public-api/api)) to export (or update data) already saved in Weights & Biases. For more information, see the Weights & Biases [Public API Reference guide](https://docs.wandb.ai/ref/python/public-api).
+Weights & BiasesのW&B Runの内部または外部に保存されたアーティファクトをダウンロードして使用します。Public API ([`wandb.Api`](https://docs.wandb.ai/ref/python/public-api/api)) を使って、Weights & Biasesに既に保存されているデータをエクスポート（または更新）します。詳細については、Weights & Biases [Public API Reference ガイド](https://docs.wandb.ai/ref/python/public-api) を参照してください。
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+ここに翻訳するマークダウンのテキストがあります。それを日本語に翻訳してください。他のことは何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
 <Tabs
   defaultValue="insiderun"
   values={[
-    {label: 'During a run', value: 'insiderun'},
-    {label: 'Outside of a run', value: 'outsiderun'},
+    {label: 'ラン時', value: 'insiderun'},
+    {label: 'ランの外', value: 'outsiderun'},
     {label: 'wandb CLI', value: 'cli'},
   ]}>
   <TabItem value="insiderun">
-
-First, import the W&B Python SDK. Next, create a W&B [Run](https://docs.wandb.ai/ref/python/run):
+まず、W&B Python SDKをインポートしてください。次に、W&B [Run](https://docs.wandb.ai/ref/python/run) を作成します:
 
 ```python
 import wandb
 
-run = wandb.init(project="<example>", job_type="<job-type>")
+run = wandb.init(project="<例>", job_type="<ジョブタイプ>")
 ```
-
-Indicate the artifact you want to use with the [`use_artifact`](https://docs.wandb.ai/ref/python/run#use\_artifact) method. This returns a run object. In the proceeding code snippet we specify an artifact called `'bike-dataset'` with alias `'latest'`:
+以下のように、[`use_artifact`](https://docs.wandb.ai/ref/python/run#use_artifact)メソッドを使用して、使用するアーティファクトを指定します。これはrunオブジェクトを返します。次のコードスニペットでは、エイリアスが`'latest'`の`'bike-dataset'`というアーティファクトを指定しています：
 
 ```python
 artifact = run.use_artifact('bike-dataset:latest')
 ```
 
-Use the object returned to download all the contents of the artifact:
+返されたオブジェクトを使用して、アーティファクトの内容をすべてダウンロードします：
+以下は翻訳するMarkdownテキストです。これを日本語に翻訳してください。他に何も言わずに、翻訳したテキストのみを返してください。 テキスト:
 
 ```python
 datadir = artifact.download()
 ```
 
-You can optionally pass a path to the root parameter to download the contents of the artifact to a specific directory. For more information, see the [Python SDK Reference Guide](https://docs.wandb.ai/ref/python/artifact#download).
+必要に応じて、rootパラメータにパスを渡して、アーティファクトの内容を特定のディレクトリにダウンロードできます。詳細については、[Python SDKリファレンスガイド](https://docs.wandb.ai/ref/python/artifact#download)を参照してください。
 
-Use the [`get_path`](https://docs.wandb.ai/ref/python/artifact#get\_path) method to download only subset of files:
+ファイルのサブセットのみをダウンロードするには、[`get_path`](https://docs.wandb.ai/ref/python/artifact#get\_path) メソッドを使用してください:
+以下のMarkdownテキストを日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストだけを返してください。テキスト：
 
 ```python
 path = artifact.get_path(name)
 ```
 
-This fetches only the file at the path `name`. It returns an `Entry` object with the following methods:
+これは、パス`name`にあるファイルだけを取得します。`Entry`オブジェクトを返し、次のメソッドがあります：
 
-* `Entry.download`: Downloads file from the artifact at path `name`
-* `Entry.ref`: If the entry was stored as a reference using `add_reference`, returns the URI
+* `Entry.download`：アーティファクトからパス`name`のファイルをダウンロードする
+* `Entry.ref`：エントリが`add_reference`を使って参照として保存された場合、URIを返す
+Weights & Biasesが扱い方を知っているスキームを持つ参照は、アーティファクトファイルと同様にダウンロードできます。詳細については、[外部ファイルのトラッキング](https://docs.wandb.ai/guides/artifacts/track-external-files)を参照してください。
 
-References that have schemes that Weights & Biases knows how to handle can be downloaded just like artifact files. For more information, see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files).
-  
   </TabItem>
   <TabItem value="outsiderun">
   
-First, import the Weights & Biases SDK. Next, create an artifact from the Public API Class. Provide the entity, project, artifact, and alias associated with that artifact:
+まず、Weights & Biases SDKをインポートします。次に、Public APIクラスからアーティファクトを作成します。そのアーティファクトに関連するエンティティ、プロジェクト、アーティファクト、エイリアスを提供してください：
+以下は、Markdownテキストの一部です。これを日本語に翻訳してください。翻訳されたテキストのみを返してください。テキスト：
 
 ```python
 import wandb
@@ -77,49 +75,43 @@ import wandb
 api = wandb.Api()
 artifact = api.artifact('entity/project/artifact:alias')
 ```
-
-Use the object returned to download the contents of the artifact:
+アーティファクトの内容をダウンロードするために、返されたオブジェクトを使用します：
 
 ```python
 artifact.download()
 ```
 
-You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [API Reference Guide](https://docs.wandb.ai/ref/python/public-api/artifact#download).
-  
-  </TabItem>
+必要に応じて、`root`パラメータにパスを渡して、アーティファクトの内容を特定のディレクトリにダウンロードできます。詳細については、[APIリファレンスガイド](https://docs.wandb.ai/ref/python/public-api/artifact#download)を参照してください。
+</TabItem>
   <TabItem value="cli">
 
-Use the `wandb artifact get` command to download an artifact from the Weights & Biases server.
+`wandb artifact get`コマンドを使用して、Weights & Biasesサーバーからアーティファクトをダウンロードします。
 
 ```
 $ wandb artifact get project/artifact:alias --root mnist/
 ```
   </TabItem>
 </Tabs>
+### 別のプロジェクトからのアーティファクトを使用する
 
+アーティファクトを参照するには、そのアーティファクトの名前とプロジェクト名を指定してください。また、エンティティ名を指定して、アーティファクトを横断的に参照することもできます。
 
-### Use an artifact from a different project
-
-Specify the name of artifact along with its project name to reference an artifact. You can also reference artifacts across entities by specifying the name of the artifact with its entity name.
-
-The following code example demonstrates how to query an artifact from another project as input to our current W&B run.
+以下のコード例は、別のプロジェクトからアーティファクトを取得し、現在のW&B runへの入力として使用する方法を示しています。
+以下のMarkdownテキストを日本語に翻訳してください。他の言葉を言わずに、翻訳されたテキストのみを返してください。テキスト: 
 
 ```python
 import wandb
 
 run = wandb.init(project="<example>", job_type="<job-type>")
-# Query W&B for an artifact from another project and mark it
-# as an input to this run.
-artifact = run.use_artifact('my-project/artifact:alias')
-
-# Use an artifact from another entity and mark it as an input
-# to this run.
-artifact = run.use_artifact('my-entity/my-project/artifact:alias')
+# W&Bから別のプロジェクトのアーティファクトを取得し、
+# このrunの入力としてマークする。
+artifact = run.use_artifact('my-project/artifact:エイリアス')
+# 他のエンティティのアーティファクトを使用し、それをこのrunの入力としてマークする
+artifact = run.use_artifact('my-entity/my-project/artifact:エイリアス')
 ```
 
-### Construct and use an artifact simultaneously
-
-Simultaneously construct and use an artifact. Create an artifact object and pass it to use\_artifact. This will create an artifact in Weights & Biases if it does not exist yet. The [`use_artifact`](https://docs.wandb.ai/ref/python/run#use\_artifact) API is idempotent, so you can call it as many times as you like.
+### アーティファクトの同時構築と使用
+同時にアーティファクトを構築し、使用します。アーティファクトオブジェクトを作成し、use\_artifactに渡します。これにより、Weights & Biasesでアーティファクトがまだ存在していない場合、作成されます。[`use_artifact`](https://docs.wandb.ai/ref/python/run#use\_artifact) APIは冪等性がありますので、何度でも呼び出すことができます。
 
 ```python
 import wandb
@@ -127,5 +119,4 @@ artifact = wandb.Artifact('reference model')
 artifact.add_file('model.h5')
 run.use_artifact(artifact)
 ```
-
-For more information about constructing an artifact, see [Construct an artifact](https://docs.wandb.ai/guides/artifacts/construct-an-artifact).
+アーティファクトの構築に関する詳細は、[アーティファクトの構築](https://docs.wandb.ai/guides/artifacts/construct-an-artifact)を参照してください。

@@ -1,63 +1,57 @@
 ---
-description: Manage storage, memory allocation of W&B Artifacts.
+description: W&Bアーティファクトのストレージとメモリ割り当てを管理します。
 ---
 
-# Storage
+# ストレージ
 
 <head>
-    <title>Artifact Storage</title>
+    <title>アーティファクトストレージ</title>
 </head>
+Weights & Biasesは、デフォルトでアーティファクトファイルをアメリカ合衆国にあるプライベートなGoogleクラウドストレージバケットに保存します。すべてのファイルは、保存時および転送時に暗号化されています。
 
-Weights & Biases stores artifact files in a private Google Cloud Storage bucket located in the United States by default. All files are encrypted at rest and in transit.
+機密ファイルの場合は、[プライベートホスティング](https://docs.wandb.ai/guides/hosting)を設定するか、[参照アーティファクト](https://docs.wandb.ai/guides/artifacts/track-external-files)を使用することをお勧めします。
 
-For sensitive files, we recommend you set up [Private Hosting](https://docs.wandb.ai/guides/hosting) or use [reference artifacts](https://docs.wandb.ai/guides/artifacts/track-external-files).
+トレーニング中、Weights & Biasesはローカルのログ、アーティファクト、設定ファイルを以下のローカルディレクトリに保存します。
 
-During training, Weights & Biases locally saves logs, artifacts, and configuration files in the following local directories:
-
-| File      | Default location  | To change default location set:                                   |
+| ファイル     | デフォルトの場所  | デフォルトの場所を変更するには以下を設定:                                   |
 | --------- | ----------------- | ----------------------------------------------------------------- |
-| logs      | `./wandb`         | `dir` in `wandb.init` or set the `WANDB_DIR` environment variable |
-| artifacts | `~/.cache/wandb`  | the `WANDB_CACHE_DIR` environment variable                        |
-| configs   | `~/.config/wandb` | the `WANDB_CONFIG_DIR` environment variable                       |
-
-
-:::caution
-Depending on the machine on `wandb` is initialized on, these default folders may not be located in a writeable part of the file system. This might trigger an error.
+| logs      | `./wandb`         | `wandb.init`の`dir`を設定するか、`WANDB_DIR`環境変数を設定します |
+| artifacts | `~/.cache/wandb`  | `WANDB_CACHE_DIR`環境変数を設定します                           |
+| configs   | `~/.config/wandb` | `WANDB_CONFIG_DIR`環境変数を設定します                          |
+:::注意
+`wandb`が初期化されたマシンによっては、これらのデフォルトフォルダがファイルシステムの書き込み可能な部分に位置していない場合があります。これによってエラーが発生する可能性があります。
 :::
 
-### Clean up local artifact cache
+### ローカルアーティファクトキャッシュのクリーンアップ
+Weights & Biases は、アーティファクトファイルをキャッシュして、共通のファイルを持つバージョン間のダウンロードを高速化します。時間とともにこのキャッシュディレクトリは大きくなることがあります。最近使用されていないファイルを削除してキャッシュを整理するには、[`wandb artifact cache cleanup`](https://docs.wandb.ai/ref/cli/wandb-artifact/wandb-artifact-cache) コマンドを実行してください。
 
-Weights & Biases caches artifact files to speed up downloads across versions that share files in common. Over time this cache directory can become large. Run the [`wandb artifact cache cleanup`](https://docs.wandb.ai/ref/cli/wandb-artifact/wandb-artifact-cache) command to prune the cache and to remove any files that have not been used recently.
-
-The proceeding code snippet demonstrates how to limit the size of the cache to 1GB. Copy and paste the code snippet into your terminal:
+次のコードスニペットでは、キャッシュのサイズを 1GB に制限する方法を示しています。コードスニペットをコピーしてターミナルに貼り付けてください。
 
 ```bash
 $ wandb artifact cache cleanup 1GB
 ```
+### 各アーティファクトのバージョンはどれくらいのストレージを使用するのか？
 
-### How much storage does each artifact version use?
+2つのアーティファクトのバージョン間で変更されるファイルだけが、ストレージコストに影響します。
 
-Only files that change between two artifact versions incur a storage cost.
+![アーティファクト "dataset" の v1 は、5つの画像のうち2つが異なるため、使用スペースは40%になります。](@site/static/images/artifacts/artifacts-dedupe.PNG)
 
-![v1 of the artifact "dataset" only has 2/5 images that differ, so it only uses 40% of the space.](@site/static/images/artifacts/artifacts-dedupe.PNG)
-
-For example, suppose you create an image artifact named `animals` that contains two image files cat.png and dog.png:
-
-```
-images
-|-- cat.png (2MB) # Added in `v0`
-|-- dog.png (1MB) # Added in `v0`
-```
-
-This artifact will automatically be assigned a version `v0`.
-
-If you add a new image `rat.png` to your artifact, a new artifact version is create, `v1`, and it will have the following contents:
+例えば、`animals` という名前の画像アーティファクトを作成し、その中に cat.png と dog.png の2つの画像ファイルが含まれているとします：
+以下のMarkdownテキストを和訳してください。和訳したテキストだけを返して、それ以外のことは言わないでください。テキスト:
 
 ```
 images
-|-- cat.png (2MB) # Added in `v0`
-|-- dog.png (1MB) # Added in `v0`
-|-- rat.png (3MB) # Added in `v1`
+|-- cat.png (2MB) # `v0`で追加されました
+|-- dog.png (1MB) # `v0`で追加されました
 ```
 
-`v1` tracks a total of 6MB worth of files, however, it only takes up 3MB of space because it shares the remaining 3MB in common with `v0`. If you delete `v1`, you will reclaim the 3MB of storage associated with `rat.png`. If you delete `v0`, then `v1` will inherit the storage costs of `cat.png` and `dog.png` bringing its storage size to 6MB.
+このアーティファクトは自動的にバージョン`v0`が割り当てられます。
+新しい画像`rat.png`をアーティファクトに追加すると、新しいアーティファクトバージョンが作成され、`v1`になり、次の内容が表示されます。
+
+```
+images
+|-- cat.png (2MB) # `v0`で追加されました
+|-- dog.png (1MB) # `v0`で追加されました
+|-- rat.png (3MB) # `v1`で追加されました
+```
+`v1`は合計6MBのファイルをトラッキングしていますが、`v0`と共有されている残りの3MB分のため、実際には3MBのスペースしか使用していません。`v1`を削除すると、`rat.png`に関連付けられた3MBのストレージが回収されます。`v0`を削除すると、`v1`は`cat.png`と`dog.png`のストレージコストを引き継ぎ、ストレージサイズが6MBになります。

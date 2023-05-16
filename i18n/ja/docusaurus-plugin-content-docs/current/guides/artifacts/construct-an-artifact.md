@@ -1,47 +1,44 @@
 ---
-description: Create, construct a W&B Artifact. Learn how to add one or more files or a URI reference to an Artifact.
+description: W＆Bアーティファクトを作成、構築します。アーティファクトに1つ以上のファイルやURI参照を追加する方法を学びましょう。
 ---
 
-# Construct artifacts
+# アーティファクトの構築
 
 <head>
-  <title>Construct Artifacts</title>
+  <title>アーティファクトの構築</title>
 </head>
+Weights & Biases SDKを使って、[Weights & Biases Run](https://docs.wandb.ai/ref/python/run)中または外でアーティファクトを構築します。ファイル、ディレクトリ、URI、並列実行からのファイルをアーティファクトに追加します。ファイルやURIが追加されたら、W&B Runを使ってWeights & Biasesにアーティファクトを保存します。Weights & Biases Runの外部で外部ファイルをトラッキングする方法については、[外部ファイルのトラッキング](https://docs.wandb.ai/guides/artifacts/track-external-files)を参照してください。
 
-Use the Weights & Biases SDK to construct an artifact during or outside of a [Weights & Biases Run](https://docs.wandb.ai/ref/python/run). Add files, directories, URIs, and files from parallel runs to artifacts. Once a file or URI is added, save your artifact to Weights & Biases with a W&B Run. For information on how to track an external file outside of a Weights & Biases Run, see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files).
+### アーティファクトの構築方法
 
-### How to construct an artifact
+Run内での[Weights & Biases Artifact](https://docs.wandb.ai/ref/python/artifact)の構築は、3つのステップで行われます:
+#### 1. `wandb.Artifact()`を使って、アーティファクトのPythonオブジェクトを作成する
 
-Constructing a [Weights & Biases Artifact](https://docs.wandb.ai/ref/python/artifact) within a run is a three step process:
+[`wandb.Artifact()`](https://docs.wandb.ai/ref/python/artifact) クラスを初期化して、アーティファクトを作成します。以下のパラメータを指定してください。
 
-#### 1. Create an artifact Python object with `wandb.Artifact()`
+* **名前**: アーティファクトに一意でわかりやすく記述的な名前を指定してください。アーティファクトの名前は、W&BアプリUIでアーティファクトを識別するときと、そのアーティファクトを使用したいときに使います。
+* **タイプ**: タイプを指定してください。タイプはシンプルで記述的で、機械学習の開発フローの単一のステップに対応するべきです。一般的なアーティファクトのタイプには、`'dataset'` や `'model'` があります。
 
-Initialize the [`wandb.Artifact()`](https://docs.wandb.ai/ref/python/artifact) class to create an artifact. Specify the following parameters:
-
-* **Name**: Specify a name for your artifact. The name should be unique, descriptive, and easy to remember. Use an artifacts name to both: identify the artifact in the W&B App UI and when you want to use that artifact.
-* **Type**: Provide a type. The type should be simple, descriptive and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
-
-You can view the lineage of an artifact within the W&B App UI. The "name" and "type" you provide is used to create a directed acyclic graph. See the [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph.md) for more information.
-
+W&BアプリUI内でアーティファクトの履歴を表示することができます。提供した "名前" と "タイプ" は、有向非巡回グラフを作成するために使用されます。詳細については、[アーティファクトグラフの探索と移動](./explore-and-traverse-an-artifact-graph.md)を参照してください。
 :::caution
-Artifacts can not have the same name, even if you specify a different type for the types parameter. In other words, you can not create an artifact named ‘cats’ of type ‘dataset’ and another artifact with the same name of type ‘model’.
+アーティファクトは、同じ名前を持つことができません。たとえ、typesパラメーターに異なるタイプを指定したとしてもです。つまり、「dataset」タイプの「cats」という名前のアーティファクトと、「model」タイプの同じ名前のアーティファクトを作成することはできません。
 :::
 
-You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see [wandb.Artifact](https://docs.wandb.ai/ref/python/artifact) Class definition in the Python SDK Reference Guide.
+アーティファクトオブジェクトを初期化する際に、オプションで説明とメタデータを提供できます。利用可能な属性やパラメータの詳細については、Python SDKリファレンスガイドの[wandb.Artifact](https://docs.wandb.ai/ref/python/artifact)クラス定義を参照してください。
 
-The proceeding example demonstrates how to create a dataset artifact:
+次の例では、データセットアーティファクトの作成方法について説明しています：
+以下のMarkdownテキストを日本語に翻訳してください。他のことは何も言わずに、翻訳したテキストのみを返してください。テキスト:
 
 ```python
 import wandb
 
-artifact = wandb.Artifact(name='<replace>', type='<replace>')
+artifact = wandb.Artifact(name='<置き換え>', type='<置き換え>')
 ```
 
-Replace the string arguments in the preceding code snippet with your own name and type.
+上記のコードスニペットの文字列引数を、独自の名前とタイプに置き換えてください。
+#### 2. アーティファクトにさらにファイルを追加する
 
-#### 2. Add one more files to the artifact
-
-Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the [`add_file`](https://docs.wandb.ai/ref/python/artifact#add\_file) method:
+ファイル、ディレクトリ、外部URI参照（Amazon S3など）をアーティファクトのメソッドで追加できます。例えば、1つのテキストファイルを追加するには、[`add_file`](https://docs.wandb.ai/ref/python/artifact#add\_file) メソッドを使用します。
 
 ```python
 artifact.add_file(
@@ -49,15 +46,16 @@ artifact.add_file(
     name='optional-name'
     )    
 ```
+ファイルの追加方法については、[`add_dir`](https://docs.wandb.ai/ref/python/artifact#add\_dir) メソッドを使って複数のファイルを追加することもできます。ファイルの追加方法の詳細については、[アーティファクトの更新](https://docs.wandb.ai/guides/artifacts/update-an-artifact)をご覧ください。
 
-You can also add multiple files with the [`add_dir`](https://docs.wandb.ai/ref/python/artifact#add\_dir) method. For more information on how to add files, see [Update an artifact](https://docs.wandb.ai/guides/artifacts/update-an-artifact).
+#### 3. アーティファクトをWeights & Biasesサーバーに保存する
 
-#### 3. Save your artifact to the Weights & Biases server
-
-Finally, save your artifact to the Weights & Biases server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`](https://docs.wandb.ai/ref/python/run#log\_artifact) method to save the artifact.
+最後に、アーティファクトをWeights & Biasesサーバーに保存します。アーティファクトはrunと関連付けられています。そのため、runオブジェクトの[`log_artifact()`](https://docs.wandb.ai/ref/python/run#log\_artifact)メソッドを使ってアーティファクトを保存します。
 
 ```python
-# Create a W&B Run. Replace 'job-type'.
+以下は翻訳するMarkdownテキストのチャンクです。日本語に翻訳してください。それ以外のことは何も言わず、翻訳したテキストだけを返してください。テキスト：
+
+# W&B Runを作成します。'job-type'を置き換えてください。
 run = wandb.init(
     project="artifacts-example", 
     job_type='job-type'
@@ -65,62 +63,58 @@ run = wandb.init(
 
 run.log_artifact(artifact)
 ```
-
-You can optionally construct an artifact outside of a W&B run. For more information, see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files).
+W&B runの外でアーティファクトをオプションで構築することもできます。詳細は、[外部ファイルのトラッキング](https://docs.wandb.ai/guides/artifacts/track-external-files)を参照してください。
 
 :::caution
-Calls to `log_artifact` are performed asynchronously for performant uploads. This can cause surprising behavior when logging artifacts in a loop. For example:
+`log_artifact`への呼び出しは、パフォーマンスのために非同期で行われます。これにより、ループでアーティファクトをログする際に、予期しない振る舞いが起こることがあります。例えば：
 
 ```python
 for i in range(10):
     a = wandb.Artifact('race', type='dataset', metadata={
         "index": i,
     })
-    # ... add files to artifact a ...
+    # ... アーティファクトaにファイルを追加 ...
     run.log_artifact(a)
 ```
-
-The artifact version **v0** is NOT guaranteed to have an index of 0 in its metadata, as the artifacts may be logged in an arbitrary order.
+アーティファクトのバージョン **v0** は、アーティファクトが任意の順序でログに記録される可能性があるため、メタデータでインデックス0が保証されているわけではありません。
 :::
 
-## Add files to an artifact
+## アーティファクトにファイルを追加する
 
-The following sections demonstrate how to construct artifacts with different file types and from parallel runs.
-
-For the following examples, assume you have a project directory with multiple files and a directory structure:
+次のセクションでは、さまざまなファイルタイプや並列実行からアーティファクトを構築する方法をデモンストレーションします。
+以下の例では、複数のファイルとディレクトリ構造があるプロジェクトディレクトリを持っていると仮定してください：
 
 ```
-project-directory
-|-- images
-|   |-- cat.png
-|   +-- dog.png
-|-- checkpoints
-|   +-- model.h5
-+-- model.h5
+プロジェクト-ディレクトリ
+|-- 画像
+|   |-- 猫.png
+|   +-- 犬.png
+|-- チェックポイント
+|   +-- モデル.h5
++-- モデル.h5
 ```
+### シングルファイルの追加
 
-### Add a single file
-
-The proceeding code snippet demonstrates how to add a single, local file to your artifact:
+以下のコードスニペットは、ローカルファイルをアーティファクトに追加する方法を示しています。
 
 ```python
-# Add a single file
+# シングルファイルの追加
 artifact.add_file(local_path='path/file.format')
 ```
-
-For example, suppose you had a file called `'file.txt'` in your working local directory.
+例えば、作業用のローカルディレクトリーに`'file.txt'`という名前のファイルがあるとします。
 
 ```python
-artifact.add_file('path/file.txt') # Added as `file.txt'
+artifact.add_file('path/file.txt') # `file.txt`として追加されます
 ```
 
-The artifact now has the following content:
+アーティファクトには、次のような内容が含まれています:
+以下はMarkdownテキストの一部です。これを日本語に翻訳してください。他のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 ```
 file.txt
 ```
 
-Optionally, pass the desired path within the artifact for the `name` parameter.
+オプションとして、`name`パラメータにアーティファクト内での希望のパスを指定できます。
 
 ```python
 artifact.add_file(
@@ -128,134 +122,129 @@ artifact.add_file(
     name='new/path/file.format'
     )     
 ```
-
-The artifact is stored as:
+アーティファクトは次のように保存されます:
 
 ```
 new/path/file.txt
 ```
 
-| API Call                                                  | Resulting artifact |
-| --------------------------------------------------------- | ------------------ |
-| `artifact.add_file('model.h5')`                           | model.h5           |
-| `artifact.add_file('checkpoints/model.h5')`               | model.h5           |
-| `artifact.add_file('model.h5', name='models/mymodel.h5')` | models/mymodel.h5  |
+| API呼び出し                                              | 結果のアーティファクト  |
+| ------------------------------------------------------ | ------------------- |
+| `artifact.add_file('model.h5')`                        | model.h5            |
+| `artifact.add_file('checkpoints/model.h5')`            | model.h5            |
+| `artifact.add_file('model.h5', name='models/mymodel.h5')` | models/mymodel.h5   |
+### 複数ファイルを追加する
 
-### Add multiple files
-
-The proceeding code snippet demonstrates how to add an entire, local directory to your artifact:
+以下のコードスニペットは、ローカルディレクトリ全体をアーティファクトに追加する方法を示しています:
 
 ```python
-# Recursively add a directory
+# ディレクトリを再帰的に追加する
 artifact.add_dir(
     local_path='path/file.format', 
     name='optional-prefix'
     )
 ```
+以下のAPI呼び出しは、以下のアーティファクトの内容を生成します:
 
-The proceeding API calls produce the proceeding artifact content:
-
-| API Call                                    | Resulting artifact                                     |
-| ------------------------------------------- | ------------------------------------------------------ |
+| API Call                                    | 結果のアーティファクト                                 |
+| ------------------------------------------- | ---------------------------------------------------- |
 | `artifact.add_dir('images')`                | <p><code>cat.png</code></p><p><code>dog.png</code></p> |
-| `artifact.add_dir('images', name='images')` | `name='images')images/cat.pngimages/dog.png`           |
-| `artifact.new_file('hello.txt')`            | `hello.txt`                                            |
+| `artifact.add_dir('images', name='images')` | `name='images')images/cat.pngimages/dog.png`         |
+| `artifact.new_file('hello.txt')`            | `hello.txt`                                          |
+### URIリファレンスを追加する
 
-### Add a URI reference
+URIがW&Bライブラリが扱い方を知っているスキームを持っている場合、アーティファクトはチェックサムや再現性のための他の情報をトラッキングします。
 
-Artifacts track checksums and other information for reproducibility if the URI has a scheme that W&B library knows how to handle.
-
-Add an external URI reference to an artifact with the [`add_reference`](https://docs.wandb.ai/ref/python/artifact#add\_reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
+外部URIリファレンスをアーティファクトに追加するには、[`add_reference`](https://docs.wandb.ai/ref/python/artifact#add\_reference)メソッドを使用します。`'uri'`文字列を自分のURIに置き換えてください。オプションで、名前パラメータにアーティファクト内での所望のパスを渡すことができます。
 
 ```python
-# Add a URI reference
+# URI参照の追加
 artifact.add_reference(uri='uri', name='optional-name')
 ```
 
-Artifacts currently support the following URI schemes:
+アーティファクトは現在以下のURIスキームをサポートしています。
 
-* `http(s)://`: A path to a file accessible over HTTP. The artifact will track checksums in the form of etags and size metadata if the HTTP server supports the `ETag` and `Content-Length` response headers.
-* `s3://`: A path to an object or object prefix in S3. The artifact will track checksums and versioning information (if the bucket has object versioning enabled) for the referenced objects. Object prefixes are expanded to include the objects under the prefix, up to a maximum of 10,000 objects.
-* `gs://`: A path to an object or object prefix in GCS. The artifact will track checksums and versioning information (if the bucket has object versioning enabled) for the referenced objects. Object prefixes are expanded to include the objects under the prefix, up to a maximum of 10,000 objects.
+* `http(s)://`: HTTP経由でアクセス可能なファイルへのパス。HTTPサーバーが`ETag`および`Content-Length`レスポンスヘッダーをサポートしている場合、アーティファクトはetagとサイズのメタデータの形式でチェックサムを追跡します。
+* `s3://`: S3内のオブジェクトまたはオブジェクトプレフィックスへのパス。アーティファクトは、参照されたオブジェクトのチェックサムとバージョン情報（バケットがオブジェクトのバージョン管理を有効にしている場合）を追跡します。オブジェクトプレフィックスは、プレフィックスの下のオブジェクトを最大10,000オブジェクトまで含めて展開されます。
+* `gs://`: GCS内のオブジェクトまたはオブジェクトプレフィックスへのパス。アーティファクトは、参照されたオブジェクトのチェックサムとバージョン情報（バケットがオブジェクトのバージョン管理を有効にしている場合）を追跡します。オブジェクトプレフィックスは、プレフィックスの下のオブジェクトを最大10,000オブジェクトまで含めて展開されます。
+以下のAPI呼び出しは、以下のアーティファクトを生成します:
 
-The proceeding API calls will produce the proceeding artifacts:
-
-| API call                                                                      | Resulting artifact contents                                          |
+| API呼び出し                                                                      | 結果として得られるアーティファクトの内容                                          |
 | ----------------------------------------------------------------------------- | -------------------------------------------------------------------- |
 | `artifact.add_reference('s3://my-bucket/model.h5')`                           | `model.h5`                                                           |
 | `artifact.add_reference('s3://my-bucket/checkpoints/model.h5')`               | `model.h5`                                                           |
 | `artifact.add_reference('s3://my-bucket/model.h5', name='models/mymodel.h5')` | `models/mymodel.h5`                                                  |
 | `artifact.add_reference('s3://my-bucket/images')`                             | <p><code>cat.png</code></p><p><code>dog.png</code></p>               |
 | `artifact.add_reference('s3://my-bucket/images', name='images')`              | <p><code>images/cat.png</code></p><p><code>images/dog.png</code></p> |
+### 並列実行からアーティファクトにファイルを追加する
 
-### Add files to artifacts from parallel runs
-
-For large datasets or distributed training, multiple parallel runs might need to contribute to a single artifact.
+大規模なデータセットや分散トレーニングの場合、複数の並行実行が1つのアーティファクトに寄与することが必要になることがあります。
 
 ```python
 import wandb
 import time
-
-# We will use ray to launch our runs in parallel
-# for demonstration purposes. You can orchestrate
-# your parallel runs however you want.
+# rayを使って並列で実行するrunsを起動します
+# これはデモ目的です。並列で実行する方法は
+# あなたが望むように調整できます。
 import ray
 
 ray.init()
+ここに翻訳するマークダウンテキストがあります。日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト:
 
-artifact_type = "dataset"
+artifact_type = "データセット"
 artifact_name = "parallel-artifact"
 table_name = "distributed_table"
 parts_path = "parts"
 num_parallel = 5
+こちらのMarkdownテキストを日本語に翻訳してください。それ以外のことは言わず、翻訳されたテキストだけを返してください。テキスト：
 
-# Each batch of parallel writers should have its own
-# unique group name.
+# 並列で書き込む各バッチは、固有のグループ名を
+# 持っている必要があります。
 group_name = "writer-group-{}".format(round(time.time()))
 
 @ray.remote
 def train(i):
   """
-  Our writer job. Each writer will add one image to the artifact.
+  書き込みジョブです。各ライターは、アーティファクトに1つの画像を追加します。
   """
   with wandb.init(group=group_name) as run:
     artifact = wandb.Artifact(
         name=artifact_name, 
         type=artifact_type
-        )       
-        
-    # Add data to a wandb table. In this case we use example data
+        )
+以下は、Markdownテキストの一部です。これを日本語に翻訳してください。他の言葉を使わず、翻訳されたテキストのみを返してください。テキスト：
+
+# wandbテーブルにデータを追加します。 この場合は、例のデータを使用します
     table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
 
-    # Add the table to folder in the artifact
+    # アーティファクト内のフォルダにテーブルを追加します
     artifact.add(table, "{}/table_{}".format(parts_path, i))
 
-    # Upserting the artifact creates or appends data to the artifact
+    # アーティファクトをアップサートすると、アーティファクトにデータが作成されたり、追加されたりします
     run.upsert_artifact(artifact)
-  
-# Launch your runs in parallel
+# 並行してrunを実行する
 result_ids = [train.remote(i) for i in range(num_parallel)]
 
-# Join on all the writers to make sure their files have
-# been added before finishing the artifact. 
+# すべてのファイルがアーティファクトに追加されるのを確認するために、
+# すべてのライターに結合します。
 ray.get(result_ids)
+以下のMarkdownテキストを翻訳してください。日本語に翻訳し、他のことは何も言わずに翻訳したテキストだけを返してください。テキスト：
 
-# Once all the writers are finished, finish the artifact
-# to mark it ready.
+# すべてのライターが終了したら、アーティファクトを
+# 完了して準備ができていることを示します。
 with wandb.init(group=group_name) as run:
   artifact = wandb.Artifact(
     artifact_name, 
     type=artifact_type
     )
-  
-  # Create a "PartitionTable" pointing to the folder of tables
-  # and add it to the artifact.
+# テーブルのフォルダを指す"PartitionTable"を作成し
+  # アーティファクトに追加します。
   artifact.add(
     wandb.data_types.PartitionedTable(parts_path), 
     table_name
     )
-  
-  # Finish artifact finalizes the artifact, disallowing future "upserts"
-  # to this version.
+以下のMarkdownテキストを日本語に翻訳してください。他のことは何も言わず、翻訳されたテキストのみを返してください。テキスト：
+
+# Finish artifact は、アーティファクトの確定を行い、今後このバージョンへの"upserts"を禁止します
   run.finish_artifact(artifact)
 ```

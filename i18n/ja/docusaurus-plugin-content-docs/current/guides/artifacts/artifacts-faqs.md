@@ -1,40 +1,39 @@
 ---
-description: Answers to frequently asked question about W&B Artifacts.
+description: W&B Artifactsに関するよくある質問の回答です。
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Artifacts FAQs
+# アーティファクトFAQ
 
 <head>
-  <title>Frequently Asked Questions About Artifacts</title>
+  <title>アーティファクトに関するよくある質問</title>
 </head>
 
-The proceeding questions are commonly asked questions about [W&B Artifacts](#questions-about-artifacts) and [W&B Artifact workflows](#questions-about-artifacts-workflows).
+以下の質問は、[W&B Artifacts](#questions-about-artifacts)および[W&B Artifactワークフロー](#questions-about-artifacts-workflows)に関してよくある質問です。
 
-## Questions about Artifacts
+## アーティファクトに関する質問
 
-### When are artifact files deleted?
+### アーティファクトのファイルはいつ削除されますか？
 
-W&B stores artifact files in a way that minimizes duplication across successive artifact versions, as described above.
+W&Bは、上記のように、連続するアーティファクトのバージョン間での重複を最小限に抑える方法でアーティファクトのファイルを保存しています。
 
-When deleting artifact versions, W&B checks which files are completely safe to delete. In other words, it guarantees that the file is not in use by a previous or subsequent artifact version. If it is safe to remove, the file is deleted immediately and no trace of it remains on our servers.
+アーティファクトのバージョンを削除する際、W&Bは完全に削除が安全なファイルをチェックします。つまり、そのファイルが以前のアーティファクトのバージョンまたは後続のアーティファクトのバージョンで使用されていないことを保証します。削除が安全である場合、ファイルは直ちに削除され、当社のサーバーにはその痕跡は残りません。
 
-### Who has access to my artifacts?
+### 誰が私のアーティファクトにアクセスできますか？
 
-Artifacts inherit the access to their parent project:
+アーティファクトは、親プロジェクトのアクセス権を継承します。
 
-* If the project is private, then only members of the project's team have access to its artifacts.
-* For public projects, all users have read access to artifacts but only members of the project's team can create or modify them.
-* For open projects, all users have read and write access to artifacts.
+* プロジェクトがプライベートの場合、プロジェクトのチームのメンバーのみがそのアーティファクトにアクセスできます。
+* 公開プロジェクトの場合、すべてのユーザーはアーティファクトへの読み取りアクセスがありますが、プロジェクトのチームのメンバーのみがそれらを作成または変更できます。
+* オープンプロジェクトの場合、すべてのユーザーはアーティファクトへの読み書きアクセスがあります。
+## アーティファクトのワークフローに関する質問
 
-## Questions about Artifacts workflows
+このセクションでは、アーティファクトの管理と編集のワークフローについて説明します。これらのワークフローの多くは、W&Bで保存されたデータにアクセスを提供する[クライアントライブラリのコンポーネントであるW&B API](../track/public-api-guide.md)を使用しています。
 
-This section describes workflows for managing and editing Artifacts. Many of these workflows use [the W&B API](../track/public-api-guide.md), the component of [our client library](../../ref/python/README.md) which provides access to data stored with W&B.
+### 既存のランにアーティファクトをログする方法は？
 
-### How do I log an artifact to an existing run?
-
-Occasionally, you may want to mark an artifact as the output of a previously logged run. In that scenario, you can [reinitialize the old run](../runs/resuming.md) and log new artifacts to it as follows:
+たまに、アーティファクトを以前にログしたランの出力としてマークしたい場合があります。そのようなシナリオでは、古いランを再初期化して、以下のように新しいアーティファクトをログすることができます。
 
 ```python
 with wandb.init(id="existing_run_id", resume="allow") as run:
@@ -43,33 +42,34 @@ with wandb.init(id="existing_run_id", resume="allow") as run:
     run.log_artifact(artifact)
 ```
 
-### How can I find the artifacts logged or consumed by a run? How can I find the runs that produced or consumed an artifact?
+### ランでログしたアーティファクトを検索したり、ランが利用したアーティファクトを検索したりする方法はありますか？ アーティファクトを生成または使用したランを検索する方法は？
 
-W&B automatically tracks the artifacts a given run has logged as well as the artifacts a given run has used and uses the information to construct an artifact graph -- a bipartite, directed, acyclic graph whose nodes are runs and artifacts, like [this one](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (click "Explode" to see the full graph).
+W&Bは、ランがログしたアーティファクトと、ランが使用したアーティファクトを自動的にトラッキングし、その情報をもとに、ランとアーティファクトで構成される二部有向非循環グラフであるアーティファクトグラフを構築します。[こちらのグラフ](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph)のようなグラフです（フルグラフを見るには、「Explode」をクリックしてください）。
 
-You can walk this graph programmatically with [the Public API](../../ref/python/public-api/README.md), starting from either a run or an artifact.
+このグラフは、ランまたはアーティファクトから始めて、[Public API](../../ref/python/public-api/README.md)を使ってプログラムで探索することができます。
 
 <Tabs
   defaultValue="from_artifact"
   values={[
-    {label: 'From an Artifact', value: 'from_artifact'},
-    {label: 'From a Run', value: 'from_run'},
+    {label: 'アーティファクトから', value: 'from_artifact'},
+    {label: 'ランから', value: 'from_run'},
   ]}>
   <TabItem value="from_artifact">
 
 ```python
 api = wandb.Api()
+次のマークダウンテキストを日本語に翻訳してください。翻訳されたテキストのみを返し、それ以外のことは言わずにください。テキスト:
 
 artifact = api.artifact("project/artifact:alias")
 
-# Walk up the graph from an artifact:
+# アーティファクトからグラフを遡る：
 producer_run = artifact.logged_by()
-# Walk down the graph from an artifact:
+# アーティファクトからグラフをたどる：
 consumer_runs = artifact.used_by()
 
-# Walk down the graph from a run:
+# runからグラフをたどる：
 next_artifacts = consumer_runs[0].logged_artifacts()
-# Walk up the graph from a run:
+# runからグラフを遡る：
 previous_artifacts = producer_run.used_artifacts()
 ```
 
@@ -81,31 +81,30 @@ api = wandb.Api()
 
 run = api.run("entity/project/run_id")
 
-# Walk down the graph from a run:
+# runからグラフをたどる：
 produced_artifacts = run.logged_artifacts()
-# Walk up the graph from a run:
+# runからグラフを遡る：
 consumed_artifacts = run.used_artifacts()
 
-# Walk up the graph from an artifact:
+# アーティファクトからグラフを遡る：
 earlier_run = consumed_artifacts[0].logged_by()
-# Walk down the graph from an artifact:
+# アーティファクトからグラフをたどる：
 consumer_runs = produced_artifacts[0].used_by()
 ```
-
-  </TabItem>
+</TabItem>
 </Tabs>
 
-### How do I best log models from runs in a sweep?
+### スイープ内のrunsからモデルを最適にログする方法は？
 
-One effective pattern for logging models in a [sweep](../sweeps/intro.md) is to have a model artifact for the sweep, where the versions will correspond to different runs from the sweep. More concretely, you would have:
+[sweep](../sweeps/intro.md)内でモデルをログする効果的な方法の1つは、スイープのモデルアーティファクトを持ち、バージョンがスイープからの異なるrunsに対応するようにすることです。具体的には、次のようになります。
 
 ```python
 wandb.Artifact(name="sweep_name", type="model")
 ```
 
-### How do I find an artifact from the best run in a sweep?
+### スイープ内の最適なrunからアーティファクトを見つける方法は？
 
-You can use the following code to retrieve the artifacts associated with the best performing run in a sweep:
+以下のコードを使用して、スイープ内で最も性能の良いrunに関連付けられたアーティファクトを取得できます。
 
 ```python
 api = wandb.Api()
@@ -119,33 +118,37 @@ for artifact in best_run.logged_artifacts():
   print(artifact_path)
 ```
 
-### How do I save code?‌
+### コードを保存する方法は？
 
-Use `save_code=True` in `wandb.init` to save the main script or notebook where you’re launching the run. To save all your code to a run, version code with Artifacts. Here’s an example:
-
+`wandb.init`で`save_code=True`を使用して、runを開始するメインスクリプトまたはノートブックを保存します。すべてのコードをrunに保存するには、アーティファクトを使ってコードをバージョン管理します。以下に例を示します。
 ```python
 code_artifact = wandb.Artifact(type="code")
+
 code_artifact.add_file("./train.py")
+
 wandb.log_artifact(code_artifact)
 ```
 
-### Using artifacts with multiple architectures and runs?
+### 複数のアーキテクチャーとrunsを使ったアーティファクトの使い方
 
-There are many ways in which you can think of _version_ a model. Artifacts provides a you a tool to implement model versioning as you see fit. One common pattern for projects that explore multiple model architectures over a number of runs is to separate artifacts by architecture. As an example, one could do the following:
+モデルのバージョンを考える方法は多くありますが、アーティファクトはモデルのバージョン管理を自分で実装するためのツールを提供します。複数のモデルアーキテクチャーを探求し、いくつかのrunsでアーティファクトをアーキテクチャーごとに分ける典型的なパターンがあります。例えば以下のように行うことができます。
 
-1. Create a new artifact for each different model architecture. You can use `metadata` attribute of artifacts to describe the architecture in more detail (similar to how you would use `config` for a run).
-2. For each model, periodically log checkpoints with `log_artifact`. W&B will automatically build a history of those checkpoints, annotating the most recent checkpoint with the `latest` alias so you can refer to the latest checkpoint for any given model architecture using `architecture-name:latest`
+1. 異なるモデルアーキテクチャーごとに新しいアーティファクトを作成します。アーティファクトの`metadata`属性を使って、アーキテクチャーをより詳細に記述できます（runの`config`を使うのと同様に）。
 
-## Artifact References FAQs
+2. 各モデルのチェックポイントを`log_artifact`で定期的に記録します。W&Bは自動的にこれらのチェックポイントの履歴を構築し、最新のチェックポイントを`latest`エイリアスで注釈付けします。これにより、任意のモデルアーキテクチャの最新のチェックポイントを`architecture-name:latest`で参照できます。
 
+## アーティファクト参照FAQ
 
-### How can I fetch these Version IDs and ETags in W&B?
+### W&BでこれらのバージョンIDとETagsをどのように取得できますか？
 
-If you've logged an artifact reference with W&B and if the versioning is enabled on your buckets then the version IDs can be seen in the S3 UI. To fetch these version IDs and ETags in W&B, you can use our [public API](../../ref/python/public-api/artifact.md) and then get the corresponding manifest entries. For example:
+W&Bでアーティファクト参照をログし、バケットでバージョン管理が有効になっている場合、バージョンIDはS3 UIで表示できます。W&BでこれらのバージョンIDとETagsを取得するには、[公開API](../../ref/python/public-api/artifact.md) を使って対応するマニフェストエントリを取得できます。例えば以下のようになります。
 
 ```python
 artifact = run.use_artifact('my_table:latest')
+
 for entry in artifact.manifest.entries.values():
+
     versionID = entry.extra.get("versionID")
+
     etag = manifest_entry.extra.get("etag")
 ```

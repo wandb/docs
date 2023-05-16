@@ -1,85 +1,71 @@
 ---
-description: Traverse automatically created direct acyclic W&B Artifact graphs.
+description: 自動生成された有向非巡回W＆Bアーティファクトグラフを探索します。
 ---
 
-# Explore and traverse artifact graphs
+# アーティファクトグラフの探索とたどり
 
 <head>
-    <title>Explore direct acyclic W&B Artifact graphs.</title>
+    <title>有向非巡回W＆Bアーティファクトグラフを探索しましょう。</title>
 </head>
+Weights & Biasesは、特定のrunでログしたアーティファクトと、特定のrunが使用したアーティファクトを自動的にトラッキングします。W&B App UIまたはプログラムでアーティファクトの履歴を調べてみましょう。
 
-Weights & Biases automatically tracks the artifacts a given run logged as well as the artifacts a given run used. Explore the lineage of an artifact with the W&B App UI or programmatically.
+## W&B App UIでアーティファクトをたどる
 
+グラフビューでは、開発フローの概要が表示されます。
+アーティファクトのグラフを表示する方法：
 
-## Traverse an artifact with the W&B App UI
+1. W&BアプリのUIでプロジェクトに移動します。
+2. 左パネルのアーティファクトアイコンを選択します。
+3. **履歴**を選択します。
 
-The graph view shows a general overview of your pipeline. 
+runやアーティファクトを作成する際に提供する`type`が、グラフの作成に使用されます。runやアーティファクトの入力と出力は、矢印でグラフに表示されます。アーティファクトは青い四角形で表され、Runは緑の四角形で表されます。
+提供されるアーティファクトのタイプは、**ARTIFACT**ラベルの隣にある濃い青のヘッダーにあります。アーティファクトの名前とアーティファクトのバージョンは、**ARTIFACT**ラベルの下の淡い青の領域に表示されます。
 
-To view an artifact graph:
-
-1. Navigate to your project in the W&B App UI
-2. Choose the artifact icon on the left panel.
-3. Select **Lineage**.
-
-The `type` you provide when you create runs and artifacts are used to create the graph. The input and output of a run or artifact is depicted in the graph with arrows. Artifacts are represented by blue rectangles and Runs are represented by green rectangles. 
-
-
-
-The artifact type you provide is located in the dark blue header next to the **ARTIFACT** label. The name of the artifact, along with the artifact version, is shown in the light blue region underneath the **ARTIFACT** label.
-
-The job type you provide when you initialized a run is located next to the **RUN** label. The W&B run name is located in the light green region underneath the **RUN** label. 
+runを初期化する際に提供するジョブタイプは、**RUN**ラベルの隣にあります。W&Bのrun名は、**RUN**ラベルの下の淡い緑の領域にあります。
 
 :::info
-You can view the type and the name of artifacts both in the left sidebar and in the **Lineage** tab. 
+アーティファクトのタイプと名前は、左のサイドバーと**Lineage**タブの両方で表示することができます。
 :::
+例えば、上の画像では、アーティファクトは "raw_dataset" というタイプで定義されています（ピンクの四角）。アーティファクトの名前は "MNIST_raw"（ピンクの線）と呼ばれています。そのアーティファクトは、トレーニングに使用されました。トレーニングのrunの名前は "vivid-snow-42" と呼ばれています。そのrunは、"mnist-19pofeku" という名前の "モデル"アーティファクト（オレンジの四角）を生成しました。
 
+![実験に使用されたアーティファクトとrunsのDAGビュー](/images/artifacts/example_dag_with_sidebar.png)
+詳細なビューには、ダッシュボードの左上にある **Explode** トグルを選択してください。拡張されたグラフでは、プロジェクト内のすべてのrunやアーティファクトの詳細を確認できます。この[example Graph page](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/v0/lineage)で自分で試してみてください。
 
+## アーティファクトをプログラム的にたどる
 
-For example, in the proceeding image, an artifact was defined with a type called "raw_dataset" (pink square). The name of the artifact is called "MNIST_raw" (pink line). The artifact was then used for training. The name of the training run is called "vivid-snow-42". That run then produced a "model" artifact (orange square) named "mnist-19pofeku".
-
-
-![DAG view of artifacts, runs used for an experiment.](/images/artifacts/example_dag_with_sidebar.png)
-
-
-For a more detailed view, select the **Explode** toggle on the upper left hand side of the dashboard. The expanded graph shows details of every run and every artifact in the project that was logged. Try it yourself on this [example Graph page](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/v0/lineage).
-
-
-## Traverse an artifact programmatically 
-
-Create an artifact object with the W&B Public API ([wandb.Api](https://docs.wandb.ai/ref/python/public-api/api)). Provide the name of the project, artifact and alias of the artifact:
+W&B Public API（[wandb.Api](https://docs.wandb.ai/ref/python/public-api/api)）を使用して、アーティファクトオブジェクトを作成します。プロジェクト名、アーティファクト名、およびアーティファクトのエイリアスを指定してください。
+以下のMarkdownテキストを日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 ```python
 import wandb
 
 api = wandb.Api()
 
-artifact = api.artifact('project/artifact:alias')
+artifact = api.artifact('プロジェクト/アーティファクト:エイリアス')
 ```
-
-Use the artifact objects [`logged_by`](https://docs.wandb.ai/ref/python/public-api/artifact#logged\_by) and [`used_by`](https://docs.wandb.ai/ref/python/public-api/artifact#used\_by) methods to walk the graph from the artifact:
+アーティファクトからグラフを辿るために、アーティファクトオブジェクトの[`logged_by`](https://docs.wandb.ai/ref/python/public-api/artifact#logged\_by)メソッドと[`used_by`](https://docs.wandb.ai/ref/python/public-api/artifact#used\_by)メソッドを使用します。
 
 ```python
-# Walk up and down the graph from an artifact:
+# アーティファクトからグラフの上下を辿る：
 producer_run = artifact.logged_by()
 consumer_runs = artifact.used_by()
 ```
+#### runからトラバースする
 
-#### Traverse from a run
-
-Create an artifact object with the W&B Public API ([wandb.Api.Run](https://docs.wandb.ai/ref/python/public-api/run)). Provide the name of the entity, project, and run ID:
+W&B Public API（[wandb.Api.Run](https://docs.wandb.ai/ref/python/public-api/run)）を使用して、アーティファクトオブジェクトを作成します。エンティティ名、プロジェクト名、およびRun IDを指定してください。
 
 ```python
 import wandb
-
 api = wandb.Api()
 
-artifact = api.run('entity/project/run_id')
+artifact = api.run('エンティティ/プロジェクト/run_id')
 ```
 
-Use the [`logged_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#logged\_artifacts) and [`used_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#used\_artifacts) methods to walk the graph from a given run:
+与えられたrunからグラフをたどるために、[`logged_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#logged_artifacts) および [`used_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#used_artifacts) メソッドを使用します。
+以下のMarkdownテキストを日本語に翻訳してください。翻訳したテキストのみを返し、それ以外のことは何も言わずに返してください。テキスト：
 
 ```python
-# Walk up and down the graph from a run:
+# runからグラフを上下に辿る：
 logged_artifacts = run.logged_artifacts()
 used_artifacts = run.used_artifacts()
 ```
