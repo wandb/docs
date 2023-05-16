@@ -129,7 +129,7 @@ class WandbExampleFlow(FlowSpec):
 </Tabs>
 ## データはどこにありますか？プログラムでアクセスできますか？
 
-私たちがキャプチャした情報には、以下の3つの方法でアクセスできます：ログに使用されているオリジナルのPythonプロセス内の[`wandb`クライアントライブラリ](../../../ref/python/)、[WebアプリのUI](../../app/intro.md)、または[パブリックAPI](../../../ref/python/public-api/)を使ってプログラムで。 `Parameter`はW＆Bの[`config`](../../track/config.md)に保存され、[概要タブ](../../app/pages/run-page.md#overview-tab)で見つけることができます。`datasets`、`models`、`others`は[W＆Bアーティファクト](../../artifacts/intro.md)に保存され、[アーティファクトタブ](../../app/pages/run-page.md#artifacts-tab)で見つけることができます。基本的なPythonの型はW＆Bの[`summary`](../../track/log/intro.md)辞書に保存され、概要タブで見つけることができます。プログラムでこの情報を取得する方法については、[パブリックAPIのガイド](../../track/public-api-guide.md)を参照してください。
+私たちがキャプチャした情報には、以下の3つの方法でアクセスできます：ログに使用されているオリジナルのPythonプロセス内の[`wandb`クライアントライブラリ](../../../ref/python/README.md)、[WebアプリのUI](../../app/intro.md)、または[パブリックAPI](../../../ref/python/public-api/README.md)を使ってプログラムで。 `Parameter`はW＆Bの[`config`](../../track/config.md)に保存され、[概要タブ](../../app/pages/run-page.md#overview-tab)で見つけることができます。`datasets`、`models`、`others`は[W＆Bアーティファクト](../../artifacts/intro.md)に保存され、[アーティファクトタブ](../../app/pages/run-page.md#artifacts-tab)で見つけることができます。基本的なPythonの型はW＆Bの[`summary`](../../track/log/intro.md)辞書に保存され、概要タブで見つけることができます。プログラムでこの情報を取得する方法については、[パブリックAPIのガイド](../../track/public-api-guide.md)を参照してください。
 
 以下はチートシートです：
 

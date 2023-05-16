@@ -26,7 +26,7 @@ Visualize the metrics and dataset examples from a single run. Learn more [here](
 
 ## Report Page
 
-Compare results and describe your findings, then share links with colleagues. Learn more about Reports [here](../../../guides/reports/).
+Compare results and describe your findings, then share links with colleagues. Learn more about Reports [here](../../../guides/reports/intro.md).
 
 ![](/images/app_ui/example_report_for_molecules.png)
 

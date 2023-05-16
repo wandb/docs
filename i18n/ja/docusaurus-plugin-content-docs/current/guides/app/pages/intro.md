@@ -25,7 +25,7 @@ description: app.wandb.aiのさまざまなページの概要
 
 ## レポートページ
 
-結果を比較し、調査結果を説明してから、同僚とリンクを共有します。レポートについての詳細は[こちら](../../../guides/reports/)。
+結果を比較し、調査結果を説明してから、同僚とリンクを共有します。レポートについての詳細は[こちら](../../../guides/reports/intro.md)。
 
 ![](/images/app_ui/example_report_for_molecules.png)
 ## プロフィールページ
