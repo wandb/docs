@@ -96,7 +96,7 @@ run = wandb.init(
         "epochs": 10,
     })
 ```
-こちらのMarkdownテキストを日本語に翻訳してください。翻訳したテキストだけを返して、それ以外のことは言わないでください。テキスト：
+
 
 <!-- ```python
 run = wandb.init(project="my-awesome-project")
@@ -151,7 +151,7 @@ run = wandb.init(
 
 offset = random.random() / 5
 print(f"lr: {lr}")
-```
+
 # トレーニングランのシミュレーション
 for epoch in range(2, epochs):
     acc = 1 - 2 ** -epoch - random.random() / epoch - offset
