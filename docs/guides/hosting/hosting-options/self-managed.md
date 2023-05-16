@@ -31,4 +31,4 @@ W&B can provide recommendations for compatible database engines, object stores a
 
 ### Contact
 
-If you have questions about planning an onpremises installation of W&B please take a look at our [On Prem / Baremetal](../how-to-guides/bare-metal.md) docs and reach out to us at support@wandb.com.
+See the [On Prem / Baremetal](../how-to-guides/bare-metal.md) documentation if you have questions about planning an on premises installation of W&B and reach out to W&B Supported at support@wandb.com.

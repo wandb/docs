@@ -16,9 +16,18 @@ Talk to the W&B Sales Team: [contact@wandb.com](mailto:contact@wandb.com).
 
 ## Infrastructure Guidelines
 
-It is highly recommended to deploy W&B into a kubernetes cluster to fully take advantage of all the features of the product and to utilize the standardized [helm interface](https://github.com/wandb/helm-charts) that we provide.
+The following infrastructure guidelines section outline W&B recommendations to take into consideration when you set up your application server, database server, and object storage.
 
-If kubernetes is unavailable, W&B can be installed onto a bare-metal server and configured manually, however, future features may be broken out into k8s native or custom resource definitions and may not be backported into the standalone Docker Container. 
+
+:::tip
+We recommend that you deploy W&B into a Kubernetes cluster. Deploying to a Kubernetes cluster ensures that you can use all W&B features and use the [helm interface](https://github.com/wandb/helm-charts).
+:::
+
+You can install W&B onto a bare-metal server and configure it manually. However, W&B Server is in active development and certain features might be broken into K8s native or customer resource definitions. If this is the  case, you will not be able to backport certain features into a standalone Docker container.
+
+If you have questions about planning an on premises installation of W&B and reach out to W&B Supported at support@wandb.com.
+
+
 
 ### Application Server
 
