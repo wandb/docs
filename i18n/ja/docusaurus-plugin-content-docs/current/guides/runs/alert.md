@@ -88,8 +88,6 @@ wandb.alert(
 ```python
 import wandb
 from wandb import AlertLevel
-```
-こちらのMarkdownテキストを日本語に翻訳してください。他のことは言わず、翻訳されたテキストのみを返してください。テキスト： 
 
 if acc < threshold:
     wandb.alert(

@@ -76,7 +76,7 @@ if wandb.run.resumed:
     optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
     epoch = checkpoint['epoch']
     loss = checkpoint['loss']
-以下は、Markdownテキストのチャンクです。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストだけを返してください。テキスト：
+```
 
 ```python
 model.train()
