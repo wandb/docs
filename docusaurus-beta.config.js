@@ -142,6 +142,10 @@ const config = {
             position: 'right',
           },
           {
+            type: 'localeDropdown',
+            position: 'right',
+          },
+          {
             href: 'https://github.com/wandb/wandb',
             html: 'GitHub<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
             position: 'right',
