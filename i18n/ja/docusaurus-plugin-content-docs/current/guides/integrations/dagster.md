@@ -71,6 +71,7 @@ resources:
 def simple_job_example():
    my_op()
 ```
+
 </TabItem>
   <TabItem value="repository">
 
@@ -385,6 +386,8 @@ return first_table, second_table
 )
 def create_advanced_artifact():
    return [1, 2, 3]
+```
+
 このアセットは、両方の統合部分で有用なメタデータとともに具体化されます。
 * W&B側：ソース統合名とバージョン、使用されたPythonバージョン、ピクルプロトコルバージョンなど。
 * Dagster側：
