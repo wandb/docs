@@ -56,9 +56,8 @@ test_table = wandb.Table(data=my_data, columns=columns)
 #### データを逐次追加
 
 ```python
-以下のMarkdownテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。それ以外のことは何も言わないでください。テキスト：
 
-```
+
 ＃上と同じ列を持つテーブルを作成し、
 ＃すべてのラベルの信頼スコアを追加
 columns=["id", "image", "guess", "truth"]

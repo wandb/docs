@@ -119,7 +119,7 @@ def main(args):
         'val_acc': val_acc, 
         'val_loss': val_loss
         })
-以下はMarkdownテキストの日本語への翻訳です。返信には翻訳されたテキストのみを記載して、その他のことは何も言わないでください。テキスト：
+```
 
 ```python
 if __name__ == "__main__":
