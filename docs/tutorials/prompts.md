@@ -10,8 +10,8 @@ Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyz
 
 
 ```python
-!pip install "wandb>=0.15.2" -qqq
-!pip install "langchain>=v0.0.158" openai -qqq
+!pip install "wandb==0.15.2" -qqq
+!pip install "langchain==v0.0.158" openai -qqq
 ```
 
 ## Setup
