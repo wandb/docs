@@ -1,6 +1,6 @@
 ---
 description: Weights & Biasesとは何か、初めてのユーザーが始めるためのリンクが紹介されています。
-slug: /guide
+slug: /guides
 ---
 
 # Weights & Biasesとは何ですか？
