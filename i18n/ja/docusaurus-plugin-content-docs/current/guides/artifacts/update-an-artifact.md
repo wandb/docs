@@ -14,7 +14,7 @@ W&B Public API（[`wandb.Api`](https://docs.wandb.ai/ref/python/public-api/api)�
 :::caution
 モデルレジストリ内のモデルにリンクされているartifactのエイリアスは更新できません。
 :::
-以下は、Markdownのテキストを翻訳してください。日本語に翻訳し、他に何も言わずに翻訳されたテキストだけを返してください。テキスト：
+
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -26,6 +26,7 @@ import TabItem from '@theme/TabItem';
     {label: 'ランの外', value: 'outsiderun'},
   ]}>
   <TabItem value="duringrun">
+
 次のコード例は、[`wandb.Artifact`](https://docs.wandb.ai/ref/python/artifact) APIを使用してアーティファクトの説明を更新する方法を示しています。
 
 ```python
@@ -33,23 +34,24 @@ import wandb
 
 run = wandb.init(project="<example>", job_type="<job-type>")
 artifact = run.use_artifact('<artifact-name>:<alias>')
-```
-以下は、Markdownのテキストチャンクを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。他のことは何も言わずに：
+
 
 アーティファクト = wandb.Artifact('')
 run.use_artifact(artifact)
 アーティファクトの説明 = '<説明>'
 アーティファクト.save()
 ```
+
   </TabItem>
   <TabItem value="外部実行">
+
 以下のコード例では、`wandb.Api` APIを使用して、アーティファクトの説明を更新する方法を示しています。
 
 ```python
 import wandb
 
 api = wandb.Api()
-```
+
 artifact = api.artifact('entity/project/artifact:エイリアス')
 
 # 説明を更新する

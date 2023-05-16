@@ -35,7 +35,6 @@ run = api.run('entity/project/run_id')
 for artifact in run.logged_artifacts():
     artifact.delete(delete_aliases=True)
 ```
-以下のMarkdownテキストを日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストだけを返してください。テキスト：
 
 ```python
 import wandb

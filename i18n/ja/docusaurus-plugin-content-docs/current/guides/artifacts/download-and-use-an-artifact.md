@@ -1,6 +1,9 @@
 ---
 description: 複数のプロジェクトからアーティファクトをダウンロードして使用する。
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 
 # アーティファクトのダウンロードと使用
 
@@ -16,18 +19,16 @@ description: 複数のプロジェクトからアーティファクトをダウ�
 
 Weights & BiasesのW&B Runの内部または外部に保存されたアーティファクトをダウンロードして使用します。Public API ([`wandb.Api`](https://docs.wandb.ai/ref/python/public-api/api)) を使って、Weights & Biasesに既に保存されているデータをエクスポート（または更新）します。詳細については、Weights & Biases [Public API Reference ガイド](https://docs.wandb.ai/ref/python/public-api) を参照してください。
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-ここに翻訳するマークダウンのテキストがあります。それを日本語に翻訳してください。他のことは何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
 <Tabs
   defaultValue="insiderun"
   values={[
     {label: 'ラン時', value: 'insiderun'},
-    {label: 'ランの外', value: 'outsiderun'},
+    {label: 'Outside of a run', value: 'outsiderun'},
     {label: 'wandb CLI', value: 'cli'},
   ]}>
   <TabItem value="insiderun">
+
 まず、W&B Python SDKをインポートしてください。次に、W&B [Run](https://docs.wandb.ai/ref/python/run) を作成します:
 
 ```python
@@ -35,6 +36,7 @@ import wandb
 
 run = wandb.init(project="<例>", job_type="<ジョブタイプ>")
 ```
+
 以下のように、[`use_artifact`](https://docs.wandb.ai/ref/python/run#use_artifact)メソッドを使用して、使用するアーティファクトを指定します。これはrunオブジェクトを返します。次のコードスニペットでは、エイリアスが`'latest'`の`'bike-dataset'`というアーティファクトを指定しています：
 
 ```python
@@ -42,7 +44,6 @@ artifact = run.use_artifact('bike-dataset:latest')
 ```
 
 返されたオブジェクトを使用して、アーティファクトの内容をすべてダウンロードします：
-以下は翻訳するMarkdownテキストです。これを日本語に翻訳してください。他に何も言わずに、翻訳したテキストのみを返してください。 テキスト:
 
 ```python
 datadir = artifact.download()
@@ -51,7 +52,7 @@ datadir = artifact.download()
 必要に応じて、rootパラメータにパスを渡して、アーティファクトの内容を特定のディレクトリにダウンロードできます。詳細については、[Python SDKリファレンスガイド](https://docs.wandb.ai/ref/python/artifact#download)を参照してください。
 
 ファイルのサブセットのみをダウンロードするには、[`get_path`](https://docs.wandb.ai/ref/python/artifact#get\_path) メソッドを使用してください:
-以下のMarkdownテキストを日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストだけを返してください。テキスト：
+
 
 ```python
 path = artifact.get_path(name)
@@ -61,28 +62,30 @@ path = artifact.get_path(name)
 
 * `Entry.download`：アーティファクトからパス`name`のファイルをダウンロードする
 * `Entry.ref`：エントリが`add_reference`を使って参照として保存された場合、URIを返す
+
 Weights & Biasesが扱い方を知っているスキームを持つ参照は、アーティファクトファイルと同様にダウンロードできます。詳細については、[外部ファイルのトラッキング](https://docs.wandb.ai/guides/artifacts/track-external-files)を参照してください。
 
   </TabItem>
   <TabItem value="outsiderun">
   
-まず、Weights & Biases SDKをインポートします。次に、Public APIクラスからアーティファクトを作成します。そのアーティファクトに関連するエンティティ、プロジェクト、アーティファクト、エイリアスを提供してください：
-以下は、Markdownテキストの一部です。これを日本語に翻訳してください。翻訳されたテキストのみを返してください。テキスト：
+  まず、Weights & Biases SDKをインポートします。次に、Public APIクラスからアーティファクトを作成します。そのアーティファクトに関連するエンティティ、プロジェクト、アーティファクト、エイリアスを提供してください：
 
-```python
-import wandb
+  ```python
+  import wandb
 
-api = wandb.Api()
-artifact = api.artifact('entity/project/artifact:alias')
-```
-アーティファクトの内容をダウンロードするために、返されたオブジェクトを使用します：
+  api = wandb.Api()
+  artifact = api.artifact('entity/project/artifact:alias')
+  ```
 
-```python
-artifact.download()
-```
+  アーティファクトの内容をダウンロードするために、返されたオブジェクトを使用します：
 
-必要に応じて、`root`パラメータにパスを渡して、アーティファクトの内容を特定のディレクトリにダウンロードできます。詳細については、[APIリファレンスガイド](https://docs.wandb.ai/ref/python/public-api/artifact#download)を参照してください。
-</TabItem>
+  ```python
+  artifact.download()
+  ```
+
+  必要に応じて、`root`パラメータにパスを渡して、アーティファクトの内容を特定のディレクトリにダウンロードできます。詳細については、[APIリファレンスガイド](https://docs.wandb.ai/ref/python/public-api/artifact#download)を参照してください。
+
+  </TabItem>
   <TabItem value="cli">
 
 `wandb artifact get`コマンドを使用して、Weights & Biasesサーバーからアーティファクトをダウンロードします。
@@ -90,14 +93,16 @@ artifact.download()
 ```
 $ wandb artifact get project/artifact:alias --root mnist/
 ```
+
   </TabItem>
 </Tabs>
+
 ### 別のプロジェクトからのアーティファクトを使用する
 
 アーティファクトを参照するには、そのアーティファクトの名前とプロジェクト名を指定してください。また、エンティティ名を指定して、アーティファクトを横断的に参照することもできます。
 
 以下のコード例は、別のプロジェクトからアーティファクトを取得し、現在のW&B runへの入力として使用する方法を示しています。
-以下のMarkdownテキストを日本語に翻訳してください。他の言葉を言わずに、翻訳されたテキストのみを返してください。テキスト: 
+
 
 ```python
 import wandb
