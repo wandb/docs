@@ -5,7 +5,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Quickstart
+# Walkthrough
 
 <head>
   <title>Walkthrough of how to use Model Management</title>
@@ -30,14 +30,14 @@ Please see the[ Artifact Tab](https://docs.wandb.ai/ref/app/pages/project-page#a
 
 Now we will walk through a canonical workflow for producing, organizing, and consuming trained models:
 
-1. [Create a new Registered Model](walkthrough.md#1.-create-a-new-model-portfolio)
-2. [Train & log Model Versions](walkthrough.md#2.-train-and-log-model-versions)
-3. [Link Model Versions to the Registered Model](walkthrough.md#3.-link-model-versions-to-the-portfolio)
-4. [Using a Model Version](walkthrough.md#4.-use-a-model-version)
-5. [Evaluate Model Performance](walkthrough.md#5.-evaluate-model-performance)
-6. [Promote a Version to Production](walkthrough.md#6.-promote-a-version-to-production)
-7. [Use the Production Model for Inference](walkthrough.md#7.-consume-the-production-model)
-8. [Build a Reporting Dashboard](walkthrough.md#8.-build-a-reporting-dashboard)
+1. [Create a new Registered Model](#1-create-a-new-registered-model)
+2. [Train & log Model Versions](#2-train--log-model-versions)
+3. [Link Model Versions to the Registered Model](#3-link-model-versions-to-the-registered-model)
+4. [Using a Model Version](#4-use-a-model-version)
+5. [Evaluate Model Performance](#5-evaluate-model-performance)
+6. [Promote a Version to Production](#6-promote-a-version-to-production)
+7. [Use the Production Model for Inference](#7-consume-the-production-model)
+8. [Build a Reporting Dashboard](#8-build-a-reporting-dashboard)
 
 :::tip
 **A** [**companion colab notebook**](https://colab.research.google.com/drive/1wjgr9AHICOa3EM1Ikr\_Ps\_MAm5D7QnCC) **is provided which covers step 2-3 in the first code block and steps 4-6 in the second code block.**

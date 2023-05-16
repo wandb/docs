@@ -1,20 +1,21 @@
 ---
-description: Generated documentation for Weights & Biases tools
+description: Generated documentation for Weights & Biases APIs
 ---
 
 # Reference
 
-The Reference Docs are automatically generated from the `wandb` [wandb library](https://github.com/wandb/wandb).
+These docs are automatically generated from the [`wandb` library](https://github.com/wandb/wandb).
 
 ### Reference sections
 
-1. [Command Line Interface](cli/README.md): Use the basics of wandb from shell commands
-2. [Python Library](python/README.md): Add `wandb` to your script to capture metrics and save artifacts
-3. [Java Library](java/README.md): Try our beta integration with Java
-4. [JavaScript Library](js/README.md): Try our beta integration with JavaScript/TypeScript
+1. [Python Library](python/README.md): Add `wandb` to your script to capture metrics and save artifacts
+2. [Command Line Interface](cli/README.md): Log in, run jobs, execute sweeps, and more using shell commands
+3. [Java Library](java/README.md): A beta Java client to track experiments
+4. [JavaScript Library](js/README.md): A beta JavaScript/TypeScript client to track metrics from your Node server
+5. [Weave](weave/README.md): A beta query language to select and aggregate data
 
-### Guides and examples
+### Examples and guides
 
-For usage examples, including scripts, interactive colabs, and videos, see [our examples repo on GitHub](https://github.com/wandb/wandb).
+[Our examples repo](https://github.com/wandb/examples) has scripts and colabs to try W&B features, and see integrations with various libraries.
 
-For tutorials, guides, and FAQs, click through the sidebar on the left side of this page.
+[Our developer guide](../guides/intro.md) has guides, tutorials, and FAQs for the various W&B products.

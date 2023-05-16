@@ -373,6 +373,14 @@
       "to": "/guides/hosting"
     },
     {
+      "from": "/guides/hosting/how-to-guides",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/basic-setup",
+      "to": "/guides/hosting/how-to-guides/basic-setup"
+    },
+    {
       "from": "/guides/hosting/local",
       "to": "/guides/hosting"
     },

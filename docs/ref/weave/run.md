@@ -258,14 +258,3 @@ Returns all of the [artifactVersions](https://docs.wandb.ai/ref/weave/artifact-v
 #### Return Value
 The [artifactVersions](https://docs.wandb.ai/ref/weave/artifact-version) used by the [run](https://docs.wandb.ai/ref/weave/run)
 
-<h3 id="run-user"><code>run-user</code></h3>
-
-Returns the [user](https://docs.wandb.ai/ref/weave/user) of the [run](https://docs.wandb.ai/ref/weave/run)
-
-| Argument |  |
-| :--- | :--- |
-| `run` | A [run](https://docs.wandb.ai/ref/weave/run) |
-
-#### Return Value
-The [user](https://docs.wandb.ai/ref/weave/user) of the [run](https://docs.wandb.ai/ref/weave/run)
-

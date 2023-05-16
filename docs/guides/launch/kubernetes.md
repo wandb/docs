@@ -202,7 +202,7 @@ Lastly, you will need to create a configmap in the `wandb` namespace that contai
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: wandb-launch-agent-config
+  name: wandb-launch-configmap
   namespace: wandb
 data:
   launch-config.yaml: |
@@ -266,6 +266,8 @@ spec:
                 secretKeyRef:
                   name: wandb-api-key
                   key: password
+            - name: WANDB_BASE_URL
+              value: https://api.wandb.ai #TODO: Update the base url to your WANDB server url
           volumeMounts:
             - name: wandb-launch-config
               mountPath: /home/launch_agent/.config/wandb

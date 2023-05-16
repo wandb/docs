@@ -28,3 +28,7 @@ This is a fully self-hosted solution where W&B server is running in a scalable d
 - a redis cache (optional)
 
 W&B can provide recommendations for compatible database engines, object stores and have an experienced team to help with the installation process. The complexity of administrating a database, creating and maintaining a distributed object storage system adds additional overhead to the customer's IT/DevOps/MLOps teams. When possible, W&B recommends using W&B managed cloud solutions for better user experience.
+
+### Contact
+
+See the [On Prem / Baremetal](../how-to-guides/bare-metal.md) documentation if you have questions about planning an on premises installation of W&B and reach out to W&B Supported at support@wandb.com.

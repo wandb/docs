@@ -17,27 +17,29 @@ This Quickstart guide will walk you how to use [Trace](intro.md) to visualize an
 
 ## Use Trace with LangChain
 
-With one line of code W&B Trace will automatically and continuously log calls to a [LangChain Model](https://python.langchain.com/en/latest/modules/models.html), [Chain](https://python.langchain.com/en/latest/modules/chains.html), or [Agent](https://python.langchain.com/en/latest/modules/agents.html).
+:::info
+**Versions**: Ensure your `langchain` package version is `0.0.158` or later and that your `wandb` package version is `0.15.2` or later.
+:::
 
-Follow the steps below to visualize and debug LangChain. For this demo, we will use a LangChain Math agent.
+W&B Trace will continuously log calls to a [LangChain Model](https://python.langchain.com/en/latest/modules/models.html), [Chain](https://python.langchain.com/en/latest/modules/chains.html), or [Agent](https://python.langchain.com/en/latest/modules/agents.html).
 
-### 1. Import and initialize WandbTracer
+Follow the steps below to visualize and debug a LangChain chain. For this demo, we will use a LangChain Math agent.
 
-First, import `WandbTracer` from `wandb.integration.langchain`.  Then call the `init()` method to make W&B start watching for calls to LangChain Models, Chains, or Agents.
+### 1. Import WandbTracer
+
+First, import `WandbTracer` from `wandb.integration.langchain`.
 
 ```python
 from wandb.integration.langchain import WandbTracer
 
-WandbTracer.init({"project": "wandb_prompts"})
+wandb_config = {"project": "wandb_prompts_quickstart"}
 ```
 
-You can optionally pass a dictionary with argument that `wandb.init()` accepts to `WandbTracer.init`. This includes a project name, team name, entity, and more. For more information about [`wandb.init`](../../ref/python/init.md), see the API Reference Guide.
+You can optionally define a dictionary with arguments for `wandb.init()` that will later be passed to `WandbTracer`. This includes a project name, team name, entity, and more. For more information about [`wandb.init`](../../ref/python/init.md), see the API Reference Guide.
 
-
-Once the chain execution completes, any call to a LangChain object is logged automatically to the W&B Trace. 
 
 ### 2. Set up your LangChain Agent
-Import an OpenAI Langchain Agent and create a math tool(function) with `load_tools`.  Next create a math agent with the [`initialize_agent`](https://python.langchain.com/en/latest/_modules/langchain/agents/initialize.html) method and pass the tool object to `initialize_agent`:
+Import an OpenAI model and create a math tool with `load_tools`. Next create a math agent with the [`initialize_agent`](https://python.langchain.com/en/latest/_modules/langchain/agents/initialize.html) method and pass the tool and model objects to `initialize_agent`:
 
 ```python
 from langchain.llms import OpenAI
@@ -48,9 +50,9 @@ tools = load_tools(["llm-math"], llm=llm)
 math_agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION)
 ```
 
-### 3. Make calls to your Agent
+### 3. Pass WandbTracer as a callback
 
-Every call made to the agent (in this example, `math_agent`) is logged once the execution is complete.
+Pass `WandbTracer` to the agent's `callbacks` argument in the `.run` method. This will enable every call made to the agent (in this example, `math_agent`) to be logged to Weights & Biases once the execution is complete.
 
 The parameters used to create objects are also logged:
 
@@ -63,12 +65,17 @@ questions = [
 
 for question in questions:
   try:
-    answer = math_agent.run(question)
+    answer = math_agent.run(question, 
+                            callbacks=[WandbTracer(wandb_config)])
     print(answer)
   except Exception as e:
     print(e)
     pass
 ```
+
+If you had previously created a dictionary for your `wandb.init` arguments, you can pass it to `WandbTracer` here now as shown.
+
+Once the chain execution completes, any call to your LangChain object will be logged to the W&B Trace. 
 
 ### 4. View the trace
 
@@ -110,7 +117,9 @@ agent_span = trace_tree.Span(name="Auto-GPT", span_kind = trace_tree.SpanKind.AG
 Spans can be of type `AGENT`, `CHAIN`, `TOOL` or `LLM`
 
 ### 2. Add child Spans
-Nest child Spans within the parent span so that they are nested and in the correct order in the Trace Timeline view. Below, 2 child spans and 1 grandchild span are created.
+Nest child Spans within the parent span so that they are nested and in the correct order in the Trace Timeline view. 
+
+The following text code demonstrates how to create two child spans and one grandchild span:
 
 ```python
 tool_span = trace_tree.Span(
@@ -132,7 +141,7 @@ agent_span.add_child_span(chain_span)
 
 ### 3. Add the inputs and outputs
 
-Populate spans with the input and output data
+Populate spans with the input and output data. The following code 
 
 ```python
 tool_span.add_named_result(
@@ -157,9 +166,10 @@ agent_span.add_named_result(
 )
 ```
 
-### 4. Log the spans to Weights & Biases' Trace 
+### 4. Log the spans to W&B Trace 
 
-This will allow you to visualize the Trace Table, Trace Timeline, and Model Architecture.
+Log your span to W&B with the run.log() method. W&B will create a Trace Table, Trace Timeline, and Model Architecture for you to view in the W&B App UI.
+
 
 ```python
 import wandb 
@@ -170,4 +180,4 @@ run.log({"trace": trace})
 run.finish()
 ```
 ### 5. View the trace
-Click on the W&B run link that gets generated to see the trace of your LLM.
+Click on the W&B run link that is generated to see the trace of your LLM on the W&B App UI.
