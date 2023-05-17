@@ -15,6 +15,8 @@ import SearchIcon from '/static/img/icon-search-grey.svg';
 import {useSearchPopoverProvider} from '../components/SearchPopoverProvider';
 import clsx from 'clsx';
 
+import Translate, {translate} from '@docusaurus/Translate';
+
 const BigSearchBar = () => {
   const {triggerSearchPopover} = useSearchPopoverProvider();
   const onClick = useCallback(() => {
@@ -24,7 +26,7 @@ const BigSearchBar = () => {
   return (
     <div className={styles.bigSearch} onClick={onClick}>
       <SearchIcon className={styles.searchIcon} />
-      Search documentation
+      <Translate>Search documentation</Translate>
     </div>
   );
 };
@@ -35,27 +37,31 @@ const Home: React.FC = () => {
       <Layout title="W&B Docs">
         <div className={styles.homePage}>
           <div className={styles.homeHeader}>
-            Weights & Biases Documentation
+            <Translate>Weights & Biases Documentation</Translate>
           </div>
           <BigSearchBar />
           <div className={styles.homeDescription}>
+            <Translate>
             Weights & Biases is the machine learning platform for developers to
             build better models faster. Use W&B's lightweight, interoperable
             tools to quickly track experiments, version and iterate on datasets,
             evaluate model performance, reproduce models, visualize results and
             spot regressions, and share findings with colleagues.
+            </Translate>
           </div>
           <div className={styles.homeBoxContainer}>
             <Link to="/guides">
               <div className={clsx(styles.homeBox, styles.yellow)}>
                 <QuickStartIcon />
                 <div className={styles.boxHeader}>
-                  Developer guide
+                <Translate>Developer guide</Translate>
                   <ForwardNextIcon className={styles.arrowIcon} />
                 </div>
                 <div className={styles.boxDescription}>
+                  <Translate>
                   The developer guide provides in-depth information about W&B
                   and how to use it.
+                  </Translate>
                 </div>
               </div>
             </Link>
@@ -67,8 +73,10 @@ const Home: React.FC = () => {
                   <ForwardNextIcon className={styles.arrowIcon} />
                 </div>
                 <div className={styles.boxDescription}>
+                  <Translate>
                   The API reference guide provides technical information about
                   the W&B API.
+                  </Translate>
                 </div>
               </div>
             </Link>
@@ -80,7 +88,9 @@ const Home: React.FC = () => {
                   <ForwardNextIcon className={styles.arrowIcon} />
                 </div>
                 <div className={styles.boxDescription}>
+                  <Translate>
                   Are you new to W&B? Check out our quickstart!
+                  </Translate>
                 </div>
               </div>
             </Link>
@@ -92,8 +102,10 @@ const Home: React.FC = () => {
                   <ForwardNextIconWhite className={styles.arrowIcon} />
                 </div>
                 <div className={clsx(styles.boxDescription, styles.whiteText)}>
+                  <Translate>
                   Explore examples to real-world problems with our how-to
                   guides.
+                  </Translate>
                 </div>
               </div>
             </a>

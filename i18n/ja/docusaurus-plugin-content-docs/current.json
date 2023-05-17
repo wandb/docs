@@ -1,0 +1,150 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.default.category.Experiments": {
+    "message": "Experiments",
+    "description": "The label for category Experiments in sidebar default"
+  },
+  "sidebar.default.category.What are Runs?": {
+    "message": "What are Runs?",
+    "description": "The label for category What are Runs? in sidebar default"
+  },
+  "sidebar.default.category.Log Objects and Media": {
+    "message": "Log Objects and Media",
+    "description": "The label for category Log Objects and Media in sidebar default"
+  },
+  "sidebar.default.category.Reports": {
+    "message": "Reports",
+    "description": "The label for category Reports in sidebar default"
+  },
+  "sidebar.default.category.Artifacts": {
+    "message": "Artifacts",
+    "description": "The label for category Artifacts in sidebar default"
+  },
+  "sidebar.default.category.Tables": {
+    "message": "Tables",
+    "description": "The label for category Tables in sidebar default"
+  },
+  "sidebar.default.category.Sweeps": {
+    "message": "Sweeps",
+    "description": "The label for category Sweeps in sidebar default"
+  },
+  "sidebar.default.category.Models": {
+    "message": "Models",
+    "description": "The label for category Models in sidebar default"
+  },
+  "sidebar.default.category.Launch": {
+    "message": "Launch",
+    "description": "The label for category Launch in sidebar default"
+  },
+  "sidebar.default.category.Prompts": {
+    "message": "Prompts",
+    "description": "The label for category Prompts in sidebar default"
+  },
+  "sidebar.default.category.App Reference": {
+    "message": "App Reference",
+    "description": "The label for category App Reference in sidebar default"
+  },
+  "sidebar.default.category.Features": {
+    "message": "Features",
+    "description": "The label for category Features in sidebar default"
+  },
+  "sidebar.default.category.Panels": {
+    "message": "Panels",
+    "description": "The label for category Panels in sidebar default"
+  },
+  "sidebar.default.category.Line Plot": {
+    "message": "Line Plot",
+    "description": "The label for category Line Plot in sidebar default"
+  },
+  "sidebar.default.category.Weave": {
+    "message": "Weave",
+    "description": "The label for category Weave in sidebar default"
+  },
+  "sidebar.default.category.Custom Charts": {
+    "message": "Custom Charts",
+    "description": "The label for category Custom Charts in sidebar default"
+  },
+  "sidebar.default.category.Pages": {
+    "message": "Pages",
+    "description": "The label for category Pages in sidebar default"
+  },
+  "sidebar.default.category.Settings": {
+    "message": "Settings",
+    "description": "The label for category Settings in sidebar default"
+  },
+  "sidebar.default.category.W&B Server": {
+    "message": "W&B Server",
+    "description": "The label for category W&B Server in sidebar default"
+  },
+  "sidebar.default.category.Hosting options": {
+    "message": "Hosting options",
+    "description": "The label for category Hosting options in sidebar default"
+  },
+  "sidebar.default.category.How-to guides": {
+    "message": "How-to guides",
+    "description": "The label for category How-to guides in sidebar default"
+  },
+  "sidebar.default.category.Integrations": {
+    "message": "Integrations",
+    "description": "The label for category Integrations in sidebar default"
+  },
+  "sidebar.default.category.Fastai": {
+    "message": "Fastai",
+    "description": "The label for category Fastai in sidebar default"
+  },
+  "sidebar.default.category.Technical FAQ": {
+    "message": "Technical FAQ",
+    "description": "The label for category Technical FAQ in sidebar default"
+  },
+  "sidebar.ref.category.コマンドラインインターフェース": {
+    "message": "コマンドラインインターフェース",
+    "description": "The label for category コマンドラインインターフェース in sidebar ref"
+  },
+  "sidebar.ref.category.wandbアーティファクト": {
+    "message": "wandbアーティファクト",
+    "description": "The label for category wandbアーティファクト in sidebar ref"
+  },
+  "sidebar.ref.category.wandbアーティファクトキャッシュ": {
+    "message": "wandbアーティファクトキャッシュ",
+    "description": "The label for category wandbアーティファクトキャッシュ in sidebar ref"
+  },
+  "sidebar.ref.category.wandb import": {
+    "message": "wandb import",
+    "description": "The label for category wandb import in sidebar ref"
+  },
+  "sidebar.ref.category.wandbサーバー": {
+    "message": "wandbサーバー",
+    "description": "The label for category wandbサーバー in sidebar ref"
+  },
+  "sidebar.ref.category.Javaライブラリ": {
+    "message": "Javaライブラリ",
+    "description": "The label for category Javaライブラリ in sidebar ref"
+  },
+  "sidebar.ref.category.Pythonライブラリ": {
+    "message": "Pythonライブラリ",
+    "description": "The label for category Pythonライブラリ in sidebar ref"
+  },
+  "sidebar.ref.category.データタイプ": {
+    "message": "データタイプ",
+    "description": "The label for category データタイプ in sidebar ref"
+  },
+  "sidebar.ref.category.インテグレーション": {
+    "message": "インテグレーション",
+    "description": "The label for category インテグレーション in sidebar ref"
+  },
+  "sidebar.ref.category.Keras": {
+    "message": "Keras",
+    "description": "The label for category Keras in sidebar ref"
+  },
+  "sidebar.ref.category.インポート & エクスポート API": {
+    "message": "インポート & エクスポート API",
+    "description": "The label for category インポート & エクスポート API in sidebar ref"
+  },
+  "sidebar.ref.category.Weave（クエリ言語）": {
+    "message": "Weave（クエリ言語）",
+    "description": "The label for category Weave（クエリ言語） in sidebar ref"
+  }
+}
