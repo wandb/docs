@@ -421,5 +421,8 @@
   },
   "Explore examples to real-world problems with our how-to guides.": {
     "message": "実世界の課題をテーマにしたチュートリアルの一覧です（英語）"
+  },
+  "Search documentation": {
+    "message": "ドキュメンテーションを検索"
   }
 }
