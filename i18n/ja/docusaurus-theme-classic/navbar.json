@@ -1,0 +1,10 @@
+{
+  "item.label.Developer guide": {
+    "message": "Developer guide",
+    "description": "Navbar item with label Developer guide"
+  },
+  "item.label.Reference": {
+    "message": "Reference",
+    "description": "Navbar item with label Reference"
+  }
+}
