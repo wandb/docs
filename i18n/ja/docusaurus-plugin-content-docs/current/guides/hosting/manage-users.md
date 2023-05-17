@@ -1,5 +1,4 @@
 ---
-slug: /guides/hosting
 displayed_sidebar: default
 ---
 # ユーザー管理
