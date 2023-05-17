@@ -221,17 +221,75 @@ model.fit(
   callbacks=[WandbCallback()]
 )
 ```
+## 使用例
+
+W&BとKerasを初めて組み合わせる場合は、この1分間のステップバイステップのビデオを参照してください: [KerasとWeights & Biasesを1分以内に始める](https://www.youtube.com/watch?ab_channel=Weights&Biases&v=4FjDIJ-vO_M)
+
+より詳細なビデオについては、[Weights & BiasesとKerasの統合](https://www.youtube.com/watch?v=Bsudo7jbMow\&ab\_channel=Weights%26Biases)を参照してください。使用されているノートブックの例はこちらから見つけることができます: [Colab Jupyter Notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Keras\_pipeline\_with\_Weights\_and\_Biases.ipynb).
+
+:::info
+上記の動画でのW&BとKerasの統合例を[Colabノートブック](http://wandb.me/keras-colab)で試してみてください。または、[Fashion MNISTの例](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py)やそれが生成する[W&Bダッシュボード](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs)などのスクリプトが含まれている[example repo](https://github.com/wandb/examples)を参照してください。
+:::
+
+## `WandbCallback`の設定
+
+`WandbCallback`クラスは、多様なロギング設定オプションをサポートしています。監視する指標の指定、重みと勾配の追跡、トレーニング\_データや検証\_データに対する予測のログ記録などが含まれます。
+
+詳細については、[`keras.WandbCallback`のリファレンスドキュメント](../../ref/python/integrations/keras/wandbcallback.md)をご覧ください。
+
+`WandbCallback`
+
+* Kerasで収集されたメトリクスから自動的に履歴データをログする：`loss`や`keras_model.compile()`に渡されたものが対象です。
+* 「最適」なトレーニングステップに関連付けられたrunのサマリーメトリクスを設定します。「最適」は`monitor`と`mode`属性で定義され、デフォルトでは最小の`val_loss`を持つエポックになります。`WandbCallback`は、デフォルトで最適な`epoch`に関連付けられたモデルを保存します。
+* オプションで勾配とパラメータのヒストグラムをログすることができます。
+* オプションでWandbが可視化するためのトレーニングデータと検証データを保存することができます。
+
+### `WandbCallback`リファレンス
+
+ | 引数                         |                                    |
+| -------------------------- | ------------------------------------------- |
+| `monitor`                  | (str) 監視するメトリックの名前。デフォルトは `val_loss`。                                                                   |
+| `mode`                     | (str) {`auto`、`min`、`max`} のいずれか。`min` - 監視対象が最小になった時にモデルを保存 `max` - 監視対象が最大になった時にモデルを保存 `auto` - モデルをいつ保存するか自動的に推測（デフォルト）。                                                                                                                                               |
+| `save_model`               | True - 監視がすべての前のエポックを上回った時にモデルを保存する False - モデルを保存しない                                       |
+| `save_graph`               | (boolean) True の場合、モデルのグラフを wandb に保存します（デフォルトは True）。                                                           |
+
+| `save_weights_only`        | (boolean) Trueの場合、モデルの重みだけが保存されます（`model.save_weights(filepath)`）、それ以外の場合は、モデル全体が保存されます（`model.save(filepath)`）。   |
+| `log_weights`              | (boolean) Trueの場合、モデルのレイヤーの重みのヒストグラムを保存します。                                                |
+| `log_gradients`            | (boolean) Trueの場合、トレーニング勾配のヒストグラムをログします。                                                       |
+| `training_data`            | (タプル) `model.fit`に渡されるのと同じフォーマット`(X,y)`。 勾配の計算に必要です - `log_gradients`が`True`の場合、これは必須です。       |
+| `validation_data`          | (タプル) `model.fit`に渡されるのと同じフォーマット`(X,y)`。 wandbが可視化するためのデータセット。これが設定されている場合、wandbはエポックごとに少数の予測を行い、結果を後で可視化するために保存します。          |
+
+| `generator`                | (generator) wandbが視覚化するためのバリデーションデータを返すジェネレーター。このジェネレーターはタプル`(X,y)`を返すべきです。wandbが特定のデータ例を視覚化するためには、`validate_data`またはgeneratorのどちらかが設定されている必要があります。     |
+| `validation_steps`         | (int) `validation_data`がジェネレーターの場合、全バリデーションセットのジェネレーターを実行するステップ数。       |
+| `labels`                   | (list) wandbでデータを視覚化している場合、このラベルのリストは、マルチクラス分類器を構築している場合に数値出力を理解しやすい文字列に変換します。バイナリ分類器を作成している場合は、\["label for false", "label for true"]という2つのラベルのリストを渡すことができます。`validate_data`とgeneratorの両方がfalseの場合、これは何もしません。 |
+| `predictions`              | (int) 各エポックで視覚化するための予測を行う回数、最大は100。    |
+
+ | `input_type`               | (string) モデル入力のタイプを可視化に役立てます。次のうちのいずれかになります: (`image`, `images`, `segmentation_mask`).  |
+| `output_type`              | (string) モデル出力のタイプを可視化に役立てます。次のうちのいずれかになります: (`image`, `images`, `segmentation_mask`).    |
+| `log_evaluation`           | (boolean) Trueの場合、各エポックでの検証データとモデルの予測を含む表を保存します。詳細については、`validation_indexes`、`validation_row_processor`、および`output_row_processor`を参照してください。     |
+| `class_colors`             | (\[float, float, float]) 入力または出力がセグメンテーションマスクの場合、各クラスに対するrgbタプル（範囲0-1）を含む配列。                  |
+| `log_batch_frequency`      | (integer) Noneの場合、コールバックは各エポックでログを記録します。整数に設定されている場合、コールバックは`log_batch_frequency`バッチごとにトレーニングメトリクスを記録します。          |
+
+| `log_best_prefix`          | (string) Noneの場合、追加の要約メトリクスは保存されません。文字列に設定すると、監視されたメトリックとエポックはこの値で前置され、要約メトリクスとして保存されます。   |
+| `validation_indexes`       | (\[wandb.data\_types.\_TableLinkMixin]) 検証例に関連付ける順序付けられたインデックスキーのリスト。log\_evaluationがTrueであり、`validation_indexes`が提供されている場合、検証データのテーブルは作成されず、各予測が`TableLinkMixin`で表される行に関連付けられます。このようなキーを取得する最も一般的な方法は、`Table.get_index()`を使用することで、行キーのリストを返します。          |
+
+| `validation_row_processor` | (Callable) 検証データに適用する関数で、データの可視化によく使われます。関数は `ndx`（int）と `row`（dict）を受け取ります。モデルが単一の入力を持つ場合、`row["input"]` は行の入力データになります。それ以外の場合、入力スロットの名前に基づいてキーが割り当てられます。fit関数が単一のターゲットを取る場合、`row["target"]` は行のターゲットデータになります。それ以外の場合、出力スロットの名前に基づいてキーが割り当てられます。例えば、入力データが単一のndarrayである場合でも、データを画像として可視化したい場合は、`lambda ndx, row: {"img": wandb.Image(row["input"])}` を処理関数として提供できます。log\_evaluationがFalseの場合、または `validation_indexes` が存在する場合は無視されます。|
+| `output_row_processor`     | (Callable) `validation_row_processor` と同様ですが、モデルの出力に適用されます。`row["output"]` には、モデルの結果が格納されます。          |
+
+| `infer_missing_processors` | (bool) `validation_row_processor` と `output_row_processor` が不足している場合に推定されるかどうかを決定します。デフォルトではTrueです。`labels` が提供されている場合、適切な場所で分類タイプのプロセッサーを推定しようとします。|
+| `log_evaluation_frequency` | (int) 評価結果がログに記録される頻度を決定します。デフォルトは 0 (トレーニング終了時のみ)。毎エポックを記録するには 1、エポックごとに 2 を設定します。log\_evaluation が False の場合、影響はありません。|
+
 ## よくある質問
 
-### `Keras` のマルチプロセッシングと`wandb`をどのように使いますか？
+### `Keras`のマルチプロセッシングを`wandb`と一緒に使いたい場合、どうすればいいですか？
 
-`use_multiprocessing=True` を設定して、以下のようなエラーが表示される場合：
+`use_multiprocessing=True`を設定して、次のようなエラーが表示される場合：
 
 ```python
 Error('You must call wandb.init() before wandb.config.batch_size')
 ```
 
-以下の方法を試してください：
+次の手順を試してみてください：
 
-1. `Sequence` クラスの構築で、`wandb.init(group='...')` を追加します。
-2. メインプログラムで `if __name__ == "__main__":` を使用し、スクリプトのロジックをその中に入れてください。
+1. `Sequence`クラスの構築で、`wandb.init(group='...')` を追加します。
+2. メインプログラムで、`if __name__ == "__main__":` を使用していることを確認し、その後にスクリプトロジックの残りを入れます。
