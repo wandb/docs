@@ -411,15 +411,15 @@
     "message": "Weights & Boasesは機械学習開発に関わる全ての人たちが、より良いモデルをより早く構築することを支援します。W&Bは軽量で、互換性が高く、実験管理、データセットのバージョン管理、モデルの品質評価、再現可能性の向上、結果の可視化、チームとのコラボレーションなどの優れたワークフローをあなたの開発プロセスにすぐ導入することができます。"
   },
   "The developer guide provides in-depth information about W&B and how to use it.": {
-    "message": "開発者向けガイド → W&Bの使い方および開発者向けの詳しい情報を提供します。"
+    "message": "W&Bの使い方および開発者向けの詳しい情報を提供します。"
   },
   "The API reference guide provides technical information about the W&B API.": {
-    "message": "APIリファレンス → W&BのAPIに関する技術的な情報を提供します"
+    "message": "W&BのAPIに関する技術的な情報を提供します"
   },
   "Are you new to W&B? Check out our quickstart!": {
-    "message": "クイックスタート → とりあえず初めてみたい、という方は、このクイックスタートから！"
+    "message": "とりあえず初めてみたい、という方は、このクイックスタートから！"
   },
   "Explore examples to real-world problems with our how-to guides.": {
-    "message": "チュートリアル → 実世界の課題をテーマにしたチュートリアルの一覧です（英語）"
+    "message": "実世界の課題をテーマにしたチュートリアルの一覧です（英語）"
   }
 }
