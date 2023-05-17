@@ -1,5 +1,6 @@
 ---
-description: オンプレミスのベアメタルサーバーでW&Bサーバーをホスティングする方法
+description: Hosting W&B Server on baremetal servers on-premises
+displayed_sidebar: default
 ---
 
 # オンプレミス / ベアメタル

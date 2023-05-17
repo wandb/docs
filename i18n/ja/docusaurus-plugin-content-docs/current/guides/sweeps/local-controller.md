@@ -1,6 +1,8 @@
 ---
-description: 
-  Weights & Biasesクラウドホストサービスを使わずに、ローカルで探索と停止アルゴリズムを実行します。
+description: >-
+  Search and stop algorithms locally instead of using the Weights & Biases
+  cloud-hosted service.
+displayed_sidebar: default
 ---
 
 # ローカルで探索と停止アルゴリズムを実行する

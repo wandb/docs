@@ -1,5 +1,6 @@
 ---
-description:  W&Bテーブルを視覚化・分析する
+description: Visualize and analyze W&B Tables.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

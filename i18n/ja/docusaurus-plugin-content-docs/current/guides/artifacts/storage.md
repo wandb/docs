@@ -1,5 +1,6 @@
 ---
-description: W&Bアーティファクトのストレージとメモリ割り当てを管理します。
+description: Manage storage, memory allocation of W&B Artifacts.
+displayed_sidebar: default
 ---
 
 # ストレージ

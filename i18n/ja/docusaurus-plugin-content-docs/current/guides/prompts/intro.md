@@ -1,6 +1,6 @@
 ---
 slug: /guides/prompts
-description: LLM搭載アプリケーション開発のためのツール
+description: Tools for the development of LLM-powered applications
 ---
 # プロンプト
 

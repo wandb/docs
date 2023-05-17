@@ -1,5 +1,5 @@
 ---
-description: Prompts Quickstartは、LLMチェーンや開発フローの実行フローを視覚化およびデバッグする方法を示します
+description: The Prompts Quickstart shows how to visualise and debug the execution flow of your LLM chains and pipelines
 ---
 
 # クイックスタート

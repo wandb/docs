@@ -1,5 +1,6 @@
 ---
-description: パラメータの勾配を可視化する
+description: Visualize the gradients of your parameters
+displayed_sidebar: default
 ---
 
 # 勾配パネル

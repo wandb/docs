@@ -1,5 +1,6 @@
 ---
-description: MLFlowからデータをインポートし、W&Bに保存したデータをエクスポートまたは更新する
+description: Import data from MLFlow, export or update data that you have saved to W&B
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

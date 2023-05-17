@@ -1,5 +1,8 @@
 ---
-description: Jupyterを使ってWeights & Biasesを使用し、ノートブックを離れることなくインタラクティブな可視化を取得しましょう。
+description: >-
+  se Weights & Biases with Jupyter to get interactive visualizations without
+  leaving your notebook.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

@@ -1,5 +1,6 @@
 ---
-description: メトリクスを可視化し、軸をカスタマイズし、カテゴリデータを棒グラフとして比較します。
+description: Visualize metrics, customize axes, and compare categorical data as bars.
+displayed_sidebar: default
 ---
 
 # 棒グラフ

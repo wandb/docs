@@ -1,6 +1,8 @@
 ---
 description: >-
-  仲間と協力して結果を共有し、チーム全体の実験を追跡してください
+  Collaborate with your colleagues, share results, and track all the experiments
+  across your team
+displayed_sidebar: default
 ---
 
 # チーム

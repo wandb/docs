@@ -1,5 +1,6 @@
 ---
-description: Weights & Biasesを使ってモデル管理を学ぶ
+description: Learn how to use Weights & Biases for Model Management
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

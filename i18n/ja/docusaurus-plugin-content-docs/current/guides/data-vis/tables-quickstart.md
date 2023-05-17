@@ -1,5 +1,6 @@
 ---
-description: W&B Tablesを使ってデータを探索する方法をこの5分間のクイックスタートで学びましょう。
+description: Explore how to use W&B Tables with this 5 minute Quickstart.
+displayed_sidebar: default
 ---
 
 # クイックスタート

@@ -1,3 +1,6 @@
+---
+displayed_sidebar: default
+---
 # 一般
 
 ### `wandb.init`は私のトレーニングプロセスに何をしますか？

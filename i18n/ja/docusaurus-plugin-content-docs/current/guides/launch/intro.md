@@ -1,6 +1,7 @@
 ---
 slug: /guides/launch
-description: W&B Launchを使用して、MLジョブを簡単にスケーリングおよび管理します。
+description: Easily scale and manage ML jobs using W&B Launch.
+displayed_sidebar: default
 ---
 # ランチ
 

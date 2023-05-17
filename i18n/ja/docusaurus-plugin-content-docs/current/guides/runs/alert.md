@@ -1,5 +1,6 @@
 ---
-description: PythonコードからのアラートをSlackまたはメールで受け取る
+description: Send alerts, triggered from your Python code, to your Slack or email
+displayed_sidebar: default
 ---
 
 # wandb.alertを使ってアラートを送信する

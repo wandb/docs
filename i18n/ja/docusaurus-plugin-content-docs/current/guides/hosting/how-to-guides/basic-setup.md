@@ -1,5 +1,5 @@
 ---
-description: Dockerを使ってWeights and Biasesを自分のマシンで実行
+description: Run Weights and Biases on your own machines using Docker
 ---
 
 # 基本セットアップ

@@ -1,7 +1,9 @@
 ---
 slug: /guides/app/settings-page
-description:
-  Weights and Biasesの設定ページを使用して、個々のユーザープロファイルやチーム設定をカスタマイズします。
+description: >-
+  Use the Weights and Biases Settings Page to customize your individual user
+  profile or team settings.
+displayed_sidebar: default
 ---
 
 # 設定ページ

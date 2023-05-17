@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/hydra
-description: W&BとHydraの連携方法
+description: How to integrate W&B with Hydra.
+displayed_sidebar: default
 ---
 
 # Hydra

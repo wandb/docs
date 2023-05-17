@@ -1,5 +1,6 @@
 ---
-description: クラウドにファイルを保存して、後でローカルに復元する
+description: Save files to the cloud and restore them locally later
+displayed_sidebar: default
 ---
 
 # ファイルの保存と復元

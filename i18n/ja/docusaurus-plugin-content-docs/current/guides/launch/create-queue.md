@@ -1,5 +1,5 @@
 ---
-description: W&B Launchのキューを作成する方法をご紹介します。
+description: Discover how to create a queue for W&B Launch.
 ---
 
 # キューの作成

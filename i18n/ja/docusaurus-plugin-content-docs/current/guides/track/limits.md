@@ -1,5 +1,8 @@
 ---
-description: W&Bのページをより高速で応答性の高いものにするために、この提案された範囲内でログを記録してください。
+description: >-
+  eep your pages in W&B faster and more responsive by logging within these
+  suggested bounds.
+displayed_sidebar: default
 ---
 
 # 制限とパフォーマンス

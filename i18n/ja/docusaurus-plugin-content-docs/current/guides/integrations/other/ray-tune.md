@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/ray-tune
-description: W&BとRay Tuneの統合方法
+description: How to integrate W&B with Ray Tune.
+displayed_sidebar: default
 ---
 
 # Ray Tune

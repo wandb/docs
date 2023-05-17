@@ -1,6 +1,7 @@
 ---
 slug: /guides/sweeps
-description: W&B スイープを使ったハイパーパラメータ探索とモデルの最適化
+description: Hyperparameter search and model optimization with W&B Sweeps
+displayed_sidebar: default
 ---
 
 # ハイパーパラメータをチューニングする

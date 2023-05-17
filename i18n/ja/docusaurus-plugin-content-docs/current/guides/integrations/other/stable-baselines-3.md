@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/stable-baselines-3
-description: W&BとStable Baseline 3を統合する方法
+description: How to integrate W&B with Stable Baseline 3.
+displayed_sidebar: default
 ---
 
 # Stable Baselines 3

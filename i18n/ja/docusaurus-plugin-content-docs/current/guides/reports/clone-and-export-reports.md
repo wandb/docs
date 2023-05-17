@@ -1,5 +1,6 @@
 ---
-description: W&BレポートをPDFまたはLaTeX形式でエクスポートする。
+description: Export a W&B Report as a PDF or LaTeX.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

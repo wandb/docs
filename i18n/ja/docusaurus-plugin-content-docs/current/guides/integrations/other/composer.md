@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/composer
-description: ニューラルネットワークをトレーニングする最先端のアルゴリズム
+description: State of the art algorithms to train your neural networks
+displayed_sidebar: default
 ---
 
 # MosaicML Composer

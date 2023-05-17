@@ -1,5 +1,6 @@
 ---
-description: Weights & BiasesのUIでカスタムチャート機能を使ったチュートリアル
+description: Tutorial of using the custom charts feature in the Weights & Biases UI
+displayed_sidebar: default
 ---
 
 # カスタムチャートのウォークスルー

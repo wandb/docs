@@ -1,9 +1,9 @@
 ---
-
 slug: /guides/app/features/panels/weave
-description: 
-  このページの一部の機能はベータ版で、機能フラグの後ろに隠れています。プロフィールページの自己紹介欄に
-  `weave-plot` を追加することで、関連するすべての機能をアンロックできます。
+description: >-
+  Some features on this page are in beta, hidden behind a feature flag. Add
+  `weave-plot` to your bio on your profile page to unlock all related features.
+displayed_sidebar: default
 ---
 
 # Weave

@@ -1,5 +1,6 @@
 ---
-description: 一時停止または終了したW&B Runを再開する
+description: Resume a paused or exited W&B Run
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

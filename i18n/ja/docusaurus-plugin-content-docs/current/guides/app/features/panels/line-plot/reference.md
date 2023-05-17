@@ -1,3 +1,6 @@
+---
+displayed_sidebar: default
+---
 # リファレンス
 
 ## X軸

@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/deepchem
-description: W&BをDeepChemライブラリと統合する方法
+description: How to integrate W&B with DeepChem library.
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';

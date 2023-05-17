@@ -1,3 +1,7 @@
+---
+description: Visualize the gradients of your parameters
+displayed_sidebar: default
+---
 # Kubernetesで起動
 
 このガイドでは、W&B Launchを使用して、kubernetes（k8s）クラスター上でMLワークロードを実行する方法を示します。

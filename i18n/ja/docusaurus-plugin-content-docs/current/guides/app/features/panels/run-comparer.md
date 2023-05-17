@@ -1,5 +1,6 @@
 ---
-説明: 複数のrunsでメトリクスを比較する
+description: Compare metrics across multiple runs
+displayed_sidebar: default
 ---
 
 # Run Comparer（ランの比較器）

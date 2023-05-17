@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/prodigy
-description: W&BとProdigyを統合する方法。
+description: How to integrate W&B with Prodigy.
+displayed_sidebar: default
 ---
 
 # Prodigy

@@ -1,3 +1,6 @@
+---
+displayed_sidebar: default
+---
 # ランの管理
 
 ### ランをチームに移動

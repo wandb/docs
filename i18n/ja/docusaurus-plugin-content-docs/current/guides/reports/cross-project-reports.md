@@ -1,5 +1,6 @@
 ---
-description: 二つの異なるプロジェクトからのrunを比較して、クロスプロジェクトレポートを作成します。
+description: Compare runs from two different projects with cross-project reports.
+displayed_sidebar: default
 ---
 
 # クロスプロジェクトレポート

@@ -1,5 +1,8 @@
 ---
-description: スイープのクイックスタートでは、スイープの定義、初期化、実行の方法を示します。主に4つのステップがあります。
+description: >-
+  Sweeps quickstart shows how to define, initialize, and run a sweep. There are
+  four main steps
+displayed_sidebar: default
 ---
 
 # クイックスタート

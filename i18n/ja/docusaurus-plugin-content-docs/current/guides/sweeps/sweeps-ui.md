@@ -1,5 +1,6 @@
 ---
-description: スイープUIのさまざまなコンポーネントを説明します。
+description: Describes the different components of the Sweeps UI.
+displayed_sidebar: default
 ---
 
 # スイープ UI

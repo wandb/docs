@@ -1,3 +1,6 @@
+---
+description: How to configure the W&B Server installation
+---
 # Prometheusモニタリング
 
 W&Bサーバーで[Prometheus](https://prometheus.io/docs/introduction/overview/)を使用します。Prometheusのインストールは、[kubernetes ClusterIPサービス](https://github.com/wandb/terraform-kubernetes-wandb/blob/main/main.tf#L225)として公開されています。

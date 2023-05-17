@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/ignite
-description: PyTorch Ignite と W&B の統合方法
+description: How to integrate W&B with PyTorch Ignite.
+displayed_sidebar: default
 ---
 
 # PyTorch Ignite

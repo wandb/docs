@@ -1,4 +1,8 @@
 ---
+description: >-
+  Visualize the relationships between your model's hyperparameters and output
+  metrics
+displayed_sidebar: default
 ---
 :::info
 ![自動パラメーター可視化を使用する](/images/app_ui/hyperparameter_importance_panel.gif)

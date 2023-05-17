@@ -1,5 +1,6 @@
 ---
-description: インタラクティブな可視化を使ってrunデータを探索する場
+description: A playground for exploring run data with interactive visualizations
+displayed_sidebar: default
 ---
 
 # ワークスペース

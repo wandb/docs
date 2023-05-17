@@ -1,3 +1,6 @@
+---
+displayed_sidebar: default
+---
 # サンプリングとバケット分け
 
 ## サンプリング

@@ -1,3 +1,6 @@
+---
+description: The Prompts Quickstart shows how to visualise and debug the execution flow of your LLM chains and pipelines
+---
 # SMTP設定
 
 W&Bサーバーでは、インスタンスやチームにユーザーを追加すると、メール招待が送信されます。これらのメール招待を送信するために、W&Bはサードパーティのメールサーバーを使用しています。一部の組織では、企業ネットワークからのトラフィックに厳しいポリシーがあるため、これらのメール招待がエンドユーザーに送信されないことがあります。W&Bサーバーでは、内部のSMTPサーバーを経由してこれらの招待メールを送信するように設定するオプションが用意されています。

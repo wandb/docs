@@ -1,5 +1,6 @@
 ---
-description: W&Bをプロダクション環境にデプロイする
+slug: /guides/hosting
+displayed_sidebar: default
 ---
 
 

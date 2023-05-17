@@ -1,5 +1,6 @@
 ---
-description: 自動生成された有向非巡回W＆Bアーティファクトグラフを探索します。
+description: Traverse automatically created direct acyclic W&B Artifact graphs.
+displayed_sidebar: default
 ---
 
 # アーティファクトグラフの探索とたどり

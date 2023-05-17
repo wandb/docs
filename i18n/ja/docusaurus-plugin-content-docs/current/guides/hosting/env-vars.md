@@ -1,5 +1,5 @@
 ---
-description: W&Bサーバーインストールの設定方法
+description: How to configure the W&B Server installation
 ---
 
 # 環境変数

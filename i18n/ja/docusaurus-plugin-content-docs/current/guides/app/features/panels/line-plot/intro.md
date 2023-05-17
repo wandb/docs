@@ -1,6 +1,7 @@
 ---
 slug: /guides/app/features/panels/line-plot
-description: メトリクスを可視化し、軸をカスタマイズし、同じプロット上で複数の線を比較する
+description: Visualize metrics, customize axes, and compare multiple lines on the same plot
+displayed_sidebar: default
 ---
 
 # 折れ線グラフ

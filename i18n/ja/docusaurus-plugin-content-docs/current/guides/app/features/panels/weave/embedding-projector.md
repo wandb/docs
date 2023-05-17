@@ -1,6 +1,9 @@
 ---
 description: >-
-  W&BのEmbedding Projectorは、PCA、UMAP、およびt-SNEなどの一般的な次元削減アルゴリズムを使用して、2D平面上に多次元の埋め込みをプロットすることができます。
+  W&B's Embedding Projector allows users to plot multi-dimensional embeddings on
+  a 2D plane using common dimension reduction algorithms like PCA, UMAP, and
+  t-SNE.
+displayed_sidebar: default
 ---
 
 # 埋め込みプロジェクター

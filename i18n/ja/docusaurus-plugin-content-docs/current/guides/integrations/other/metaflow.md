@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/metaflow
-description: W&BとMetaflowの連携方法
+description: How to integrate W&B with Metaflow.
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';

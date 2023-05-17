@@ -1,5 +1,8 @@
 ---
-description: W&BアプリUIまたはWeights & Biases SDKを使用して、W&Bレポートを作成します。
+description: >-
+  Create a W&B Report with the App UI or programmatically with the Weights &
+  Biases SDK.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

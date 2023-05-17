@@ -1,6 +1,8 @@
 ---
 description: >-
-  チームのメンバー、アバター、アラート、プライバシー設定を、チーム設定ページで管理します。
+  Manage a team's members, avatar, alerts, and privacy settings with the Team
+  Settings page.
+displayed_sidebar: default
 ---
 
 # チーム設定

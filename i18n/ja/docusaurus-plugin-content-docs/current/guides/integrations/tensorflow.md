@@ -1,3 +1,6 @@
+---
+displayed_sidebar: default
+---
 # TensorFlow
 
 TensorBoardをすでに使用している場合、wandbとの統合も簡単です。

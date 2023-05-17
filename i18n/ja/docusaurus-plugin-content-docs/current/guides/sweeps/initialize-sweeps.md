@@ -1,5 +1,6 @@
 ---
-description: W&Bスイープを初期化する
+description: Initialize a W&B Sweep
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';

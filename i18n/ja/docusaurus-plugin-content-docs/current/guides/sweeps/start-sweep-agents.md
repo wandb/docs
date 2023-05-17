@@ -1,5 +1,6 @@
 ---
-description: 1台以上のマシンでW&Bスイープエージェントを開始または停止します。
+description: Start or stop a W&B Sweep Agent on one or more machines.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

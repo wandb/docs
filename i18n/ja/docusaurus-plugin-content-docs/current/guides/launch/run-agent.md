@@ -1,5 +1,6 @@
 ---
-description: Launch agentのドキュメント
+description: Launch agent documentation
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/w-and-b-for-julia
-description: W&BをJuliaと統合する方法
+description: How to integrate W&B with Julia.
+displayed_sidebar: default
 ---
 
 # W&B for Julia

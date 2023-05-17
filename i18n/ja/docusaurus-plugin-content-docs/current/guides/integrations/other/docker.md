@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/docker
-description: W&BとDockerを統合する方法。
+description: How to integrate W&B with Docker.
+displayed_sidebar: default
 ---
 
 # Docker

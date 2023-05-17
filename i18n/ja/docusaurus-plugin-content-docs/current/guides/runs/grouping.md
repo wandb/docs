@@ -1,5 +1,6 @@
 ---
-description: トレーニングと評価のrunを大規模な実験にグループ化する
+description: Group training and evaluation runs into larger experiments
+displayed_sidebar: default
 ---
 
 # Runのグループ化

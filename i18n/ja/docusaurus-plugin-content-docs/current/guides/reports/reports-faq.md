@@ -1,4 +1,6 @@
 ---
+description: Answers to frequently asked question about W&B Reports.
+displayed_sidebar: default
 ---
 # レポートFAQ
 <head>

@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/databricks
-description: W&BとDatabricksを統合する方法。
+description: How to integrate W&B with Databricks.
+displayed_sidebar: default
 ---
 
 # Databricks

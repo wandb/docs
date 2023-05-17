@@ -1,5 +1,8 @@
 ---
-description: アプリUIやWeights & Biases SDKを使って、アーティファクトを対話的に削除します。
+description: >-
+  Delete artifacts interactively with the App UI or programmatically with the
+  Weights & Biases SDK/
+displayed_sidebar: default
 ---
 
 # アーティファクトの削除

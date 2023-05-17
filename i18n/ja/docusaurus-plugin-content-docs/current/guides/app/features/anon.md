@@ -1,5 +1,6 @@
 ---
-description: W＆Bのアカウントがなくてもデータを記録し、可視化する
+description: Log and visualize data without a W&B account
+displayed_sidebar: default
 ---
 
 # 匿名モード

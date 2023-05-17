@@ -1,5 +1,6 @@
 ---
-description: ML実験のための集約化されたインタラクティブで視覚的なダッシュボードを作成
+description: Create centralized, interactive, visual dashboards for your ML experiments
+displayed_sidebar: default
 ---
 
 # 実験結果を表示する

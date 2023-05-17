@@ -1,6 +1,9 @@
 ---
-description: Weights & Biasesとは何か、初めてのユーザーが始めるためのリンクが紹介されています。
+description: >-
+  An overview of what is Weights & Biases along with links on how to get started
+  if you are a first time user.
 slug: /guides
+displayed_sidebar: default
 ---
 
 # Weights & Biasesとは何ですか？

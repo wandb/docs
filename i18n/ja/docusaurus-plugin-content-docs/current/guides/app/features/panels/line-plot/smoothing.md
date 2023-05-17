@@ -1,5 +1,6 @@
 ---
-description: 線グラフでは、スムージングを使ってノイズの多いデータのトレンドを確認します。
+description: In line plots, use smoothing to see trends in noisy data.
+displayed_sidebar: default
 ---
 
 # スムージング

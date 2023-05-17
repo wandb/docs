@@ -1,5 +1,6 @@
 ---
-description: W&B実験に関するよくある質問への回答。
+description: Answers to frequently asked question about W&B Experiments.
+displayed_sidebar: default
 ---
 
 # 実験FAQ

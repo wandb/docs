@@ -1,7 +1,8 @@
 ---
-description:
-  モデルのバージョンを比較し、スクラッチワークスペースで結果を調べ、
-  ノートや可視化を保存するレポートに調査結果をエクスポートします
+description: >-
+  Compare versions of your model, explore results in a scratch workspace, and
+  export findings to a report to save notes and visualizations
+displayed_sidebar: default
 ---
 
 # プロジェクトページ

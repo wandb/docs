@@ -1,5 +1,5 @@
 ---
-description: 起動時にハイパーパラメーター探索を自動化する方法をお見逃しなく。
+description: Discover how to automate hyperparamter sweeps on launch.
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

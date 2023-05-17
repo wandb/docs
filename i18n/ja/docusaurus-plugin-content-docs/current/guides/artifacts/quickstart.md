@@ -1,5 +1,8 @@
 ---
-description: Artifactsのクイックスタートでは、W&Bでデータセットのアーティファクトを作成、トラッキング、および使用する方法を示します。
+description: >-
+  Artifacts quickstart shows how to create, track, and use a dataset artifact
+  with W&B.
+displayed_sidebar: default
 ---
 
 # クイックスタート

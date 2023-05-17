@@ -1,5 +1,6 @@
 ---
-description: 単一のrunまたは分散プロセスから新しいアーティファクトのバージョンを作成します。
+description: Create a new artifact version from a single run or from a distributed process.
+displayed_sidebar: default
 ---
 
 # 新しいアーティファクトのバージョンを作成

@@ -1,5 +1,6 @@
 ---
-description: W&B環境変数の設定
+description: Set W&B environment variables.
+displayed_sidebar: default
 ---
 
 # 環境変数

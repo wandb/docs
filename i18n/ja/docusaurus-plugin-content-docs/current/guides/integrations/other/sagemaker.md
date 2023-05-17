@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/sagemaker
-description: W&BとAmazon SageMakerを統合する方法。
+description: How to integrate W&B with Amazon SageMaker.
+displayed_sidebar: default
 ---
 
 # SageMaker

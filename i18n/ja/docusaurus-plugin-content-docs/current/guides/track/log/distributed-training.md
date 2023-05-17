@@ -1,5 +1,6 @@
 ---
-description: W&Bを使って、複数のGPUを用いた分散トレーニング実験を記録する方法について学びます。
+description: Use W&B to log distributed training experiments with multiple GPUs.
+displayed_sidebar: default
 ---
 
 # 分散トレーニング実験の記録

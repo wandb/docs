@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/catalyst
-description: Catalyst（PyTorchフレームワーク）とW&Bを統合する方法。
+description: How to integrate W&B for Catalyst, a Pytorch framework.
+displayed_sidebar: default
 ---
 
 # Catalyst

@@ -1,5 +1,8 @@
 ---
-description: App UIまたはWeights & Biases SDKを使って、レポートを対話的に編集します。
+description: >-
+  Edit a report interactively with the App UI or programmatically with the
+  Weights & Biases SDK.
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';

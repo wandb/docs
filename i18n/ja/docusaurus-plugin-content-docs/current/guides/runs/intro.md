@@ -1,6 +1,7 @@
 ---
 slug: /guides/runs
-description:  W&Bの基本的な構成要素であるRunsについて学びます。
+description: Learn about the basic building block of W&B, Runs.
+displayed_sidebar: default
 ---
 # Runs
 

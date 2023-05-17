@@ -1,5 +1,5 @@
 ---
-description: W&Bをプロダクションにデプロイする
+description: Deploying W&B in production
 ---
 
 # 自己管理型ホスティング

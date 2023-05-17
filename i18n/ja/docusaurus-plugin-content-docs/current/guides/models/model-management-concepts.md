@@ -1,5 +1,6 @@
 ---
-description: 'モデル管理: データモデルと用語'
+description: 'Model Management: Data Model & Terminology'
+displayed_sidebar: default
 ---
 
 # 概念

@@ -1,5 +1,5 @@
 ---
-description: W&BサーバーをAWSにホストする方法。
+description: Hosting W&B Server on AWS.
 ---
 
 # AWS

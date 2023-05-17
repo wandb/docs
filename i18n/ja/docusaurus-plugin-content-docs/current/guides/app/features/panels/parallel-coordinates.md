@@ -1,5 +1,6 @@
 ---
-description: 機械学習の実験で結果の比較
+description: Compare results across machine learning experiments
+displayed_sidebar: default
 ---
 
 # 並行座標

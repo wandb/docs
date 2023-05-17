@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/accelerate
-description: シンプルかつ効率的で適応力のあるスケールでのトレーニングと推論
+description: Training and inference at scale made simple, efficient and adaptable
+displayed_sidebar: default
 ---
 
 # Hugging Face Accelerate

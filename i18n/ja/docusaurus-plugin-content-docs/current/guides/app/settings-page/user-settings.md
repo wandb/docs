@@ -1,6 +1,9 @@
 ---
 description: >-
-  ユーザー設定で、プロフィール情報、アカウントのデフォルト設定、アラート、ベータ製品への参加、GitHubの統合、ストレージ使用量、アカウントの有効化、チームの作成を管理できます。
+  Manage your profile information, account defaults, alerts, participation in
+  beta products, GitHub integration, storage usage, account activation, and
+  create teams in your user settings.
+displayed_sidebar: default
 ---
 
 # ユーザー設定

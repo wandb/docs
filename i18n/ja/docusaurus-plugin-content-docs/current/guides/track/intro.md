@@ -1,6 +1,7 @@
 ---
-description: W&Bを使って機械学習の実験をトラッキングしましょう。
+description: Track machine learning experiments with W&B.
 slug: /guides/track
+displayed_sidebar: default
 ---
 
 

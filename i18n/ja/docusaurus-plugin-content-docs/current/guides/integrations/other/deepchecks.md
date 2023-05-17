@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/deepchecks
-description: W&BとDeepChecksを統合する方法。
+description: How to integrate W&B with DeepChecks.
+displayed_sidebar: default
 ---
 
 # DeepChecks

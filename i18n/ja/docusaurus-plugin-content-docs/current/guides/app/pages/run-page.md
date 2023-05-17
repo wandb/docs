@@ -1,6 +1,8 @@
 ---
-description: 
-  各モデルのトレーニングrunは、専用のページが割り当てられ、大規模なプロジェクト内で整理されます。
+description: >-
+  Each training run of your model gets a dedicated page, organized within the
+  larger project
+displayed_sidebar: default
 ---
 
 # Runページ

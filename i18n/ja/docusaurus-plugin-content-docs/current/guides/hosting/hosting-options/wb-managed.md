@@ -1,5 +1,5 @@
 ---
-description: W&Bをプロダクション環境に展開する
+description: Deploying W&B in production
 ---
 
 # W&Bマネージドホスティング

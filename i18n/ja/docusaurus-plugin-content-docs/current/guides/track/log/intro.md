@@ -1,6 +1,7 @@
 ---
 slug: /guides/track/log
-description: メトリクス、ビデオ、カスタムプロットなどを追跡できます
+description: Keep track of metrics, videos, custom plots, and more
+displayed_sidebar: default
 ---
 
 # 実験でのメディアとオブジェクトのログ

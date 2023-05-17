@@ -1,5 +1,6 @@
 ---
-description: PythonコードスクリプトやJupyter NotebookにW&Bを追加する方法。
+description: Add W&B to your Python code script or Jupyter Notebook.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

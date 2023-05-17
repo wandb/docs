@@ -1,6 +1,9 @@
 ---
 slug: /guides/artifacts
-description: W&Bアーティファクトの概要、使い方、W&Bアーティファクトの使用方法の入門。
+description: >-
+  Overview of what W&B Artifacts are, how they work, and how to get started
+  using W&B Artifacts.
+displayed_sidebar: default
 ---
 
 # アーティファクト

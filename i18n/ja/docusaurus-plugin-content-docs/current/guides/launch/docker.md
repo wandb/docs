@@ -1,5 +1,5 @@
 ---
-description: W&B Launchの入門ガイド。
+description: Getting started guide for W&B Launch.
 ---
 
 # Dockerでの起動

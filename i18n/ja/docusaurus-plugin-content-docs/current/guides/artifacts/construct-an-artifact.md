@@ -1,5 +1,8 @@
 ---
-description: W＆Bアーティファクトを作成、構築します。アーティファクトに1つ以上のファイルやURI参照を追加する方法を学びましょう。
+description: >-
+  Create, construct a W&B Artifact. Learn how to add one or more files or a URI
+  reference to an Artifact.
+displayed_sidebar: default
 ---
 
 # アーティファクトの構築

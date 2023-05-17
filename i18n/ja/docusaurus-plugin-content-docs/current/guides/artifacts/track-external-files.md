@@ -1,5 +1,8 @@
 ---
-description: Weights & Biasesの外部に保存されたファイルを、Amazon S3バケット、GCSバケット、HTTPファイルサーバー、またはNFS共有などでトラッキングします。
+description: >-
+  Track files saved outside the Weights & Biases such as in an Amazon S3 bucket,
+  GCS bucket, HTTP file server, or even an NFS share.
+displayed_sidebar: default
 ---
 
 # 外部ファイルのトラッキング

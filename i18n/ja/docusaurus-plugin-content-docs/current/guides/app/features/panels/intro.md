@@ -1,5 +1,6 @@
 ---
 slug: /guides/app/features/panels
+displayed_sidebar: default
 ---
 
 # パネル

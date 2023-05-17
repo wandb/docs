@@ -1,5 +1,6 @@
 ---
-description: W&Bへのデータのインポートとログ記録
+description: Importing and logging data into W&B
+displayed_sidebar: default
 ---
 
 # CSVファイルからデータと実験をログに記録する

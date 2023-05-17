@@ -1,5 +1,6 @@
 ---
-description: W&B スイープエージェントをマルチコアやマルチGPUマシンで並列化しましょう。
+description: Parallelize W&B Sweep agents on multi-core or multi-GPU machine.
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';

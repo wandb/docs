@@ -1,6 +1,8 @@
 ---
 description: >-
-  ランとプロジェクトにメモを追加し、レポートで調査結果を説明するためにメモを使用してください
+  Add notes to your runs and projects, and use notes to describe your findings
+  in reports
+displayed_sidebar: default
 ---
 
 # メモ

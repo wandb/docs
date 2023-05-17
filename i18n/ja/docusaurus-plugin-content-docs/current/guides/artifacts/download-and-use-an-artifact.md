@@ -1,5 +1,6 @@
 ---
-description: 複数のプロジェクトからアーティファクトをダウンロードして使用する。
+description: Download and use Artifacts from multiple projects.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

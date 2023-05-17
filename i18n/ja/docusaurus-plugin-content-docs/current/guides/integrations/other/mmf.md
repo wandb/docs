@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/mmf
-description: W&BをMeta AIのMMFと統合する方法。
+description: How to integrate W&B with Meta AI's MMF.
+displayed_sidebar: default
 ---
 
 # MMF

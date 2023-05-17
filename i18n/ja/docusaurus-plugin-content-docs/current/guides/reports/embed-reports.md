@@ -1,6 +1,8 @@
 ---
-description:
-  Weights & Biasesのレポートを直接Notionに埋め込むか、HTMLのIFrame要素を使って埋め込みます。
+description: >-
+  Embed Weights & Biases reports directly into Notion or with an HTML IFrame
+  element.
+displayed_sidebar: default
 ---
 
 # レポートの埋め込み

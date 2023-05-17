@@ -1,3 +1,6 @@
+---
+description: The Prompts Quickstart shows how to visualise and debug the execution flow of your LLM chains and pipelines
+---
 # 監査ログ
 監査ログを使用して、チーム内のアクティビティを追跡し、理解します。監査ログは、10秒ごとにバケットストアに同期されます。オプションで監査ログをダウンロードし、[Pandas](https://pandas.pydata.org/docs/index.html)、[BigQuery](https://cloud.google.com/bigquery)など、選択したツールで表示できます。
 

@@ -1,5 +1,6 @@
 ---
-description: W&Bレポートを仲間、同僚、チームと共有してコラボレーション。
+description: Collaborate and share W&B Reports with peers, co-workers, and your team.
+displayed_sidebar: default
 ---
 
 # レポートのコラボレーション

@@ -1,5 +1,8 @@
 ---
-description: W&Bのファイルがデフォルトで保存される場所を学びます。機密情報の保存や保管方法についても説明します。
+description: >-
+  Learn where W&B files are stored by default. Explore how to save, store
+  sensitive information.
+displayed_sidebar: default
 ---
 
 # データプライバシーとコンプライアンス

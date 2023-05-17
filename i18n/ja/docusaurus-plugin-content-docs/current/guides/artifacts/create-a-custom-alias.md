@@ -1,5 +1,6 @@
 ---
-description: W&Bアーティファクト用のカスタムエイリアスを作成します。
+description: Create custom aliases for W&B Artifacts.
+displayed_sidebar: default
 ---
 
 # カスタムエイリアスの作成

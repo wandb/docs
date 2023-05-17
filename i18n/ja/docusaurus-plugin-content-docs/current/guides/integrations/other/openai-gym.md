@@ -1,9 +1,7 @@
 ---
-
 slug: /guides/integrations/openai-gym
-
-description: W&BとOpenAI Gymを統合する方法です。
-
+description: How to integrate W&B with OpenAI Gym.
+displayed_sidebar: default
 ---
 
 # OpenAI Gym

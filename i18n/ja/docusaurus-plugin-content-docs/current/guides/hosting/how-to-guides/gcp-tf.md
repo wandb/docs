@@ -1,5 +1,5 @@
 ---
-description: W&BサーバーをGCPにホスティングする方法。
+description: Hosting W&B Server on GCP.
 ---
 
 # GCP

@@ -1,5 +1,6 @@
 ---
-description: 設定ページからメールを管理します。
+description: Manage emails from the Settings page.
+displayed_sidebar: default
 ---
 
 # メール

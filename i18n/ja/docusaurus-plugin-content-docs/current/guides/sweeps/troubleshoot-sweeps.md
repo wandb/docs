@@ -1,5 +1,6 @@
 ---
-description: W&Bスイープの一般的な問題を解決します。
+description: Troubleshoot common W&B Sweep issues.
+displayed_sidebar: default
 ---
 
 # スイープのトラブルシューティング

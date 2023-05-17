@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/simpletransformers
-description: Hugging FaceのTransformersライブラリとW＆Bを統合する方法。
+description: How to integrate W&B with the Transformers library by Hugging Face.
+displayed_sidebar: default
 ---
 
 # シンプルトランスフォーマー

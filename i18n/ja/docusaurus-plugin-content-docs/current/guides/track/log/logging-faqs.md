@@ -1,5 +1,8 @@
 ---
-description: W&B Experimentsを使用して機械学習実験からデータをトラッキングする際のよくある質問とその回答。
+description: >-
+  Answers to frequently asked questions about tracking data from machine
+  learning experiments with W&B Experiments.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

@@ -1,5 +1,6 @@
 ---
-description: スイープに関する便利な情報源の集まり。
+description: Collection of useful sources for Sweeps.
+displayed_sidebar: default
 ---
 
 # 便利なリソース

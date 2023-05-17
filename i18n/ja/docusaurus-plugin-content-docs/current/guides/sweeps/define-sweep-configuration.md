@@ -1,5 +1,6 @@
 ---
-description: スイープの設定ファイルの作成方法を学びます。
+description: Learn how to create configuration files for sweeps.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

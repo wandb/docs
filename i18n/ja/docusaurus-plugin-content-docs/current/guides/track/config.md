@@ -1,5 +1,6 @@
 ---
-description: 辞書のようなオブジェクトを使って、実験設定を保存する
+description: Use a dictionary-like object to save your experiment configuration
+displayed_sidebar: default
 ---
 
 # 実験を設定する

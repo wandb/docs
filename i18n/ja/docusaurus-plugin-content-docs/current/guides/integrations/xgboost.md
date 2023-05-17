@@ -1,5 +1,6 @@
 ---
-description: W&Bで木を追跡しましょう。
+description: Track your trees with W&B.
+displayed_sidebar: default
 ---
 
 # XGBoost

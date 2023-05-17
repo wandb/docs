@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/yolox
-description: W&BをYOLOXと統合する方法
+description: How to integrate W&B with YOLOX.
+displayed_sidebar: default
 ---
 
 # YOLOX

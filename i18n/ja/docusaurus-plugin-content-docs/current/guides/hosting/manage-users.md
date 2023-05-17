@@ -1,3 +1,7 @@
+---
+slug: /guides/hosting
+displayed_sidebar: default
+---
 # ユーザー管理
 
 Weights & Biasesは、シングルサインオン（SSO）を介したユーザー管理を強く推奨しています。W&BサーバーでSSOを設定する方法については、[SSO設定ドキュメント](./sso.md)を参照してください。

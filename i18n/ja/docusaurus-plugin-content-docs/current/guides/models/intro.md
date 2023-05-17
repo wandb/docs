@@ -1,5 +1,6 @@
 ---
-description: トレーニングからプロダクションまでのモデルライフサイクルを管理します。
+slug: /guides/models
+description: Model registry to manage the model lifecycle from training to production
 ---
 
 

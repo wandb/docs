@@ -1,5 +1,5 @@
 ---
-description: W&B Launchのクイックスタートガイド。
+description: Getting started guide for W&B Launch.
 ---
 
 # クイックスタート

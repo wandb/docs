@@ -1,3 +1,6 @@
+---
+displayed_sidebar: default
+---
 # TensorBoard
 
 ## 1行のコードでホストされたTensorBoard
