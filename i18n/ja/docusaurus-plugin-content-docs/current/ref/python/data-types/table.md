@@ -17,7 +17,6 @@ Table(
 このクラスは、UIのTable Visualizerを生成する主要なクラスです：https://docs.wandb.ai/guides/data-vis/tables.
 
 Tableは、`data`または`dataframe` パラメータを使用して初期データを含めて作成することができます：
-以下は、Markdownテキストのチャンクです。これを日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストのみを返してください。テキスト：
 
 ```python
 import pandas as pd
@@ -48,7 +47,6 @@ assert tbl.get_column("user") == users
 
 def get_user_name_length(index, row):
  return {"feature_01": len(row["user"])}
-以下のMarkdownテキストを日本語に翻訳してください。それ以外のことは言わず、翻訳されたテキストだけを返してください。テキスト:
 
 ```python
 tbl.add_computed_columns(get_user_name_length)
@@ -78,7 +76,6 @@ wandb.log({"classifier_out": tbl})
 アーティファクトに追加されたテーブルは、Artifactタブで表示でき、アーティファクトブラウザ内で同等のTable Visualizerがレンダリングされます。
 
 テーブルは、各列の値が同じタイプであることを期待しています。デフォルトでは、列はオプションの値をサポートしますが、混在した値はサポートしません。絶対にタイプを混ぜる必要がある場合は、`allow_mixed_types`フラグを有効にして、データの型チェックを無効にすることができます。これにより、一貫した型付けが欠けているため、一部のテーブル分析機能が無効になります。
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。他のことは何も言わないでください。テキスト：
 
 | 引数 |  |
 | :--- | :--- |
@@ -237,7 +234,6 @@ row : List[any]
 ### `set_fk`
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L730-L734)
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳し、それ以外のことは何も言わずに翻訳されたテキストを返してください。テキスト：
 
 ```python
 set_fk(

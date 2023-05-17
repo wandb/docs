@@ -58,7 +58,6 @@ for i, img in enumerate(images):
 wandb.log({
   "wide_key": range(10000000)
 })
-以下は、Markdownテキストのチャンクを日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 # ❌ お勧めできません
 with f as open('large_file.json', 'r'):
@@ -90,7 +89,6 @@ for step in range(1000000):
   'media': wandb.Image(...), # 100,000画像
   'histogram': wandb.Histogram(...) # 100,000ヒストグラム
   })
-こちらのMarkdownテキストを翻訳してください。日本語に翻訳し、翻訳したテキストのみを返してください。他に何も言わないでください。テキスト:
 
 # ✅ 推奨
   if step % 1000 == 0:

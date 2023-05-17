@@ -55,7 +55,6 @@ W&Bは自動的に[`wandb.finish`](../../ref/python/finish.md)を呼び出して
 :::note
 スクリプトが終了すると、wandb.finish APIは自動的に呼び出されます。
 :::
-次に示すマークダウンテキストを日本語に翻訳してください。翻訳したテキストだけを返してください。他のことは何も言わずに。テキスト：
 
 [`wandb.finish`](../../ref/python/finish.md) APIを使用してRunを手動で終了させるか、`with`文を使用してRunを終了させることができます。次のコード例は、`with` Python文からRunを終了する方法を示しています:
 

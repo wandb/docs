@@ -61,7 +61,6 @@ for artifact_version in runs.logged_artifacts():
   if artifact_version.name[-2:] == 'v3' or artifact_version.name[-2:] == 'v4':
     artifact.delete(delete_aliases=True)
 ```
-こちらのMarkdownテキストを日本語に翻訳してください。他のことは何も言わず、翻訳されたテキストだけを返してください。テキスト:
 
 ### エイリアスのないアーティファクトのすべてのバージョンを削除する
 
@@ -70,7 +69,6 @@ for artifact_version in runs.logged_artifacts():
 ```python
 import wandb
 ```
-ここにMarkdownテキストがあります。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
 # wandb.Apiメソッドを使用するときに、
 # エンティティとプロジェクト名を提供してください。

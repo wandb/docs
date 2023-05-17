@@ -59,7 +59,6 @@ from wandb.integration.kfp import wandb_log
 def add(a: float, b: float) -> float:
     return a + b
 ```
-以下はMarkdownのテキストを翻訳してください。翻訳したテキストだけを返してください。他のことは何も言わずに。テキスト:
 
 add = components.create_component_from_func(add)
 ```

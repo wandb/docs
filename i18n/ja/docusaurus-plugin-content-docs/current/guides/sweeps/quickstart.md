@@ -31,7 +31,6 @@ def main():
     wandb.init(project='my-first-sweep')
     score = objective(wandb.config)
     wandb.log({'score': score})
-ここにMarkdownテキストの一部があります。これを日本語に翻訳してください。他のことは何も言わずに、翻訳したテキストだけを返してください。
 
 テキスト:
 

@@ -38,7 +38,6 @@ artifact(
 ```
 
 `entity/project/run_id` の形式でパスを解析して、単一のアーティファクトを返します。
-以下はMarkdownテキストのチャンクを翻訳してください。それを日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストのみを返してください。テキスト：
 
 | 引数 | |
 | :--- | :--- |
@@ -69,7 +68,6 @@ artifact_type(
 
 
 ### `artifact_types`
-以下は翻訳するMarkdownのテキストです。日本語に翻訳してください。他に何も言わずに翻訳されたテキストのみを返してください。テキスト：
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L923-L926)
 
@@ -98,7 +96,6 @@ artifact_versions(
 
 
 ### `create_project`
-以下は、Markdownテキストのチャンクを翻訳するものです。日本語に翻訳してください。それ以外のことは言わずに、翻訳されたテキストのみを返してください。
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L462-L463)
 
@@ -219,7 +216,6 @@ report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 | 引数 | |
 | :--- | :--- |
 | `path` | (str) プロジェクト、run、スイープ、またはレポートへのパス |
-以下のテーブルはMarkdownテキストを日本語に翻訳してください。翻訳されたテキストのみを返し、それ以外のことは何も言わないでください。テキスト:
 
 | Returns | |
 | :--- | :--- |
@@ -295,7 +291,6 @@ projects(
 ```
 
 指定されたエンティティのプロジェクトを取得します。
-以下のMarkdownテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。他のことは何も言わずに。テキスト:
 
 | 引数 | |
 | :--- | :--- |

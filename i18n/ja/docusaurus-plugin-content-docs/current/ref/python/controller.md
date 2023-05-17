@@ -10,13 +10,11 @@ controller(
  project: Optional[str] = None
 )
 ```
-こちらのMarkdownテキストを日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 #### 使い方：
 
 ```python
 import wandb
-以下は、Markdownテキストの一部です。日本語に翻訳してください。翻訳されたテキストだけを返してください。他のことは何も言わないでください。テキスト：
 
 tuner = wandb.controller(...)
 print(tuner.sweep_config)

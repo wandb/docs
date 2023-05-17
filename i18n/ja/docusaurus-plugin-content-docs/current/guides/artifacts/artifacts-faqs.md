@@ -58,7 +58,6 @@ W&Bは、ランがログしたアーティファクトと、ランが使用し�
 
 ```python
 api = wandb.Api()
-次のマークダウンテキストを日本語に翻訳してください。翻訳されたテキストのみを返し、それ以外のことは言わずにください。テキスト:
 
 artifact = api.artifact("project/artifact:alias")
 

@@ -95,7 +95,6 @@ for i in range(3):
  examples.append(image)
 wandb.log({"examples": examples})
 ```
-以下は、Markdownのテキストを翻訳してください。日本語に翻訳して、それ以外のことは言わないでください。テキスト：
 
 ### PILからの画像
 

@@ -15,7 +15,6 @@ description: W&Bアーティファクト用のカスタムエイリアスを作�
 
 ```python
 import wandb
-ここにMarkdownテキストのチャンクがありますので、それを日本語に翻訳してください。 それ以外は何も言わずに、翻訳されたテキストだけを返してください。 テキスト：
 
 run = wandb.init(project='<example-project>')
 

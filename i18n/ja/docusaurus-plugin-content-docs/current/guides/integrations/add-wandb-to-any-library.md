@@ -112,7 +112,6 @@ os.environ['WANDB_API_KEY'] = "abc123..."
 W&B Runは、Weights & Biasesによって記録される計算の単位です。通常、1つのW&B Runを1つのトレーニング実験に関連付けます。
 
 コード内でW&Bを初期化し、Runを開始するには：
-以下は翻訳するMarkdownテキストのチャンクです。追加のコメントなどせずに、翻訳されたテキストのみを返してください。テキスト：
 
 ```python
 wandb.init()

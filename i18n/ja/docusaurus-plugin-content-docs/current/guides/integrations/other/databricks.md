@@ -30,7 +30,6 @@ databricks secrets create-scope --scope wandb
 # セキュリティアドオンがない場合
 databricks secrets create-scope --scope wandb --initial-manage-principal users
 ```
-以下は翻訳するためのMarkdownテキストの一部です。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 # APIキーを追加：https://app.wandb.ai/authorize から取得
 

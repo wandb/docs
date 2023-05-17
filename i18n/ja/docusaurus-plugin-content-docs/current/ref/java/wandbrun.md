@@ -20,7 +20,6 @@ for (double i = 0.0; i < 2 * Math.PI; i += 0.1) {
     data.put("value", Math.sin(i));
     run.log(data);
 }
-以下は翻訳していただきたいMarkdownのテキストです。日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストだけを返してください。テキスト:
 
 // 完了時にrunを終了する。
 run.done();

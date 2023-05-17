@@ -27,7 +27,6 @@ W&BアプリUI内でアーティファクトの履歴を表示することがで
 アーティファクトオブジェクトを初期化する際に、オプションで説明とメタデータを提供できます。利用可能な属性やパラメータの詳細については、Python SDKリファレンスガイドの[wandb.Artifact](https://docs.wandb.ai/ref/python/artifact)クラス定義を参照してください。
 
 次の例では、データセットアーティファクトの作成方法について説明しています：
-以下のMarkdownテキストを日本語に翻訳してください。他のことは何も言わずに、翻訳したテキストのみを返してください。テキスト:
 
 ```python
 import wandb
@@ -53,7 +52,6 @@ artifact.add_file(
 最後に、アーティファクトをWeights & Biasesサーバーに保存します。アーティファクトはrunと関連付けられています。そのため、runオブジェクトの[`log_artifact()`](https://docs.wandb.ai/ref/python/run#log\_artifact)メソッドを使ってアーティファクトを保存します。
 
 ```python
-以下は翻訳するMarkdownテキストのチャンクです。日本語に翻訳してください。それ以外のことは何も言わず、翻訳したテキストだけを返してください。テキスト：
 
 # W&B Runを作成します。'job-type'を置き換えてください。
 run = wandb.init(
@@ -108,7 +106,6 @@ artifact.add_file('path/file.txt') # `file.txt`として追加されます
 ```
 
 アーティファクトには、次のような内容が含まれています:
-以下はMarkdownテキストの一部です。これを日本語に翻訳してください。他のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 ```
 file.txt
@@ -189,14 +186,12 @@ import time
 import ray
 
 ray.init()
-ここに翻訳するマークダウンテキストがあります。日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト:
 
 artifact_type = "データセット"
 artifact_name = "parallel-artifact"
 table_name = "distributed_table"
 parts_path = "parts"
 num_parallel = 5
-こちらのMarkdownテキストを日本語に翻訳してください。それ以外のことは言わず、翻訳されたテキストだけを返してください。テキスト：
 
 # 並列で書き込む各バッチは、固有のグループ名を
 # 持っている必要があります。
@@ -212,7 +207,6 @@ def train(i):
         name=artifact_name, 
         type=artifact_type
         )
-以下は、Markdownテキストの一部です。これを日本語に翻訳してください。他の言葉を使わず、翻訳されたテキストのみを返してください。テキスト：
 
 # wandbテーブルにデータを追加します。 この場合は、例のデータを使用します
     table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
@@ -228,7 +222,6 @@ result_ids = [train.remote(i) for i in range(num_parallel)]
 # すべてのファイルがアーティファクトに追加されるのを確認するために、
 # すべてのライターに結合します。
 ray.get(result_ids)
-以下のMarkdownテキストを翻訳してください。日本語に翻訳し、他のことは何も言わずに翻訳したテキストだけを返してください。テキスト：
 
 # すべてのライターが終了したら、アーティファクトを
 # 完了して準備ができていることを示します。
@@ -243,7 +236,6 @@ with wandb.init(group=group_name) as run:
     wandb.data_types.PartitionedTable(parts_path), 
     table_name
     )
-以下のMarkdownテキストを日本語に翻訳してください。他のことは何も言わず、翻訳されたテキストのみを返してください。テキスト：
 
 # Finish artifact は、アーティファクトの確定を行い、今後このバージョンへの"upserts"を禁止します
   run.finish_artifact(artifact)

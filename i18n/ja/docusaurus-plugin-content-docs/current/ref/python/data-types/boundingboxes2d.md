@@ -54,7 +54,6 @@ img = wandb.Image(
  }
  },
 )
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストのみを返してください。 テキスト:
 
 ```
 wandb.log({"driving_scene": img})
@@ -108,7 +107,6 @@ img = wandb.Image(
  classes=class_set,
 )
 ```
-ここに翻訳するマークダウンテキストの塊があります。日本語に翻訳してください。翻訳したテキストだけを返してください。それ以外のことは何も言わないでください。テキスト: 
 
 table = wandb.Table(columns=["image"])
 table.add_data(img)

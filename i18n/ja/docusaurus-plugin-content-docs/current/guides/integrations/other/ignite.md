@@ -28,7 +28,6 @@ from ignite.metrics import Accuracy, Loss
 
 from tqdm import tqdm
 ```
-以下は翻訳するMarkdownテキストのチャンクです。日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 ```python
 class Net(nn.Module):
@@ -99,7 +98,6 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
     config={"max_epochs": epochs,"batch_size":train_batch_size},
     tags=["pytorch-ignite", "mninst"]
     )
-以下は、Markdownのテキストチャンクを翻訳してください。日本語に翻訳し、翻訳したテキストだけを返してください。他のことは言わないでください。テキスト：
 
 wandb_logger.attach_output_handler(
     trainer,
@@ -175,7 +173,6 @@ if __name__ == "__main__":
                         help='SGDの運動量（デフォルト：0.5）')
     parser.add_argument('--log_interval', type=int, default=10,
                         help='トレーニングステータスをログに記録する前に待機するバッチ数')
-以下のMarkdownテキストを日本語に翻訳してください。翻訳したテキストのみを返し、他のことは何も言わないでください。テキスト：
 
 args = parser.parse_args()
 

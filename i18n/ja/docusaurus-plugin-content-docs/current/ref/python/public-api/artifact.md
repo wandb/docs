@@ -404,7 +404,6 @@ expected_type(
 ### `file`
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4822-L4842)
-以下のマークダウンテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストだけを返してください。他には何も言わないでください。テキスト:
 
 ```python
 file(
@@ -482,7 +481,6 @@ get(
 ```
 
 アーティファクト相対`name`にあるWBValueオブジェクトを取得します。
-以下のMarkdownテキストを翻訳してください。日本語に翻訳し、翻訳したテキストのみを返してください。他に何も言わずに。テキスト:
 
 | 引数 | |
 | :--- | :--- |
@@ -565,7 +563,6 @@ with wandb.init() as r:
 
 
 [ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4864-L4865)
-以下は、Markdownのテキストチャンクです。これを日本語に翻訳してください。他に何も言わずに、翻訳したテキストだけを返してください。テキスト：
 
 ```python
 json_encode()
@@ -651,7 +648,6 @@ with artifact.new_file('hello.txt') as f:
  f.write('hello!')
 wandb.log_artifact(artifact)
 ```
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に訳してください。それ以外のことは何も言わずに、翻訳したテキストのみを返してください。テキスト：
 
 | 戻り値 | |
 | :--- | :--- |
@@ -689,7 +685,6 @@ used_by()
 ```
 
 このアーティファクトを直接使用しているrunsを取得します。
-以下のマークダウンテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストを返してください。他のことは言わないでください。テキスト：
 
 | 戻り値 | |
 | :--- | :--- |
@@ -729,7 +724,6 @@ verify(
 
 
 ### `wait`
-以下のMarkdownテキストを翻訳してください。日本語に翻訳し、そのテキストだけを返してください。それ以外のことは何も言わないでください。テキスト：
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L4932-L4933)
 

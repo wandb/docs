@@ -28,7 +28,6 @@ b) `wandb` ライブラリをpipでインストール
 c) トレーニングスクリプトでログインするには、www.wandb.aiでアカウントにサインインして、[**Authorizeページ**](https://wandb.ai/authorize)で**APIキーを見つけます。**
 
 もし、Weights and Biasesを初めて使う場合は、[クイックスタート](../../quickstart.md)をチェックしてみてください。
-翻訳後のMarkdownテキストは以下の通りです。
 
 <Tabs
   defaultValue="cli"

@@ -323,7 +323,6 @@ def create_datasets():
    first_table = wandb.Table(columns=["a", "b", "c"], data=[[1, 2, 3]])
    second_table = wandb.Table(columns=["d", "e"], data=[[4, 5]])
 
-以下のMarkdownテキストを日本語に翻訳してください。文章だけを返して、それ以外のことは何も言わずに。テキスト：
 
 return first_table, second_table
 ```
@@ -749,7 +748,6 @@ ops:
 from dagster_wandb.launch.ops import run_launch_agent
 from dagster_wandb.resources import wandb_resource
 
-次のMarkdownテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストだけを返してください。他のことは何も言わずに。テキスト：
 
 from dagster import job, make_values_resource
 
@@ -782,7 +780,6 @@ Launchpadのすべてのプロパティについても、役立つ説明を見�
 
 簡単な例
 ```python
-以下のマークダウンテキストを翻訳してください。日本語に翻訳し、他に何も言わずに翻訳されたテキストのみ返してください。テキスト：
 
 # config.yamlにこれを追加してください
 # 代わりにDagitのLaunchpadやJobDefinition.execute_in_processで設定を行うこともできます

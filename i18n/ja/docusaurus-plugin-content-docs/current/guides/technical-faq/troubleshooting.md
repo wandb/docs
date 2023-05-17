@@ -29,7 +29,6 @@ import TabItem from '@theme/TabItem';
     {label: 'Command Line', value: 'command-line'},
   ]}>
   <TabItem value="python">
-以下はMarkdownテキストの翻訳です。日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストだけを返してください。テキスト：
 
 ```python
 os.environ["WANDB_SILENT"] = "true"

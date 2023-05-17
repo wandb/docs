@@ -62,7 +62,6 @@ wandb_logger = WandBLogger(log_artifacts=True, init_params=init_params)
 ```python
 import wandb
 from composer import Callback, State, Logger
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳し、それ以外は何も言わずに翻訳されたテキストのみを返してください。テキスト：
 
 class LogPredictions(Callback):
 

@@ -114,7 +114,6 @@ tool_span = trace_tree.Span(
 chain_span = trace_tree.Span(
   name="LLM CHAIN 1", span_kind = trace_tree.SpanKind.CHAIN
 )
-以下は翻訳するMarkdownテキストの一部です。それを日本語に翻訳してください。他に何も言わず、翻訳したテキストのみを返してください。テキスト：
 
 llm_span = trace_tree.Span(
   name="LLM 1", span_kind = trace_tree.SpanKind.LLM
@@ -145,7 +144,6 @@ llm_span.add_named_result(
     "input": "calculate: 2023 - 1998"}, 
   {"response": "25", "tokens_used": 218}
 )
-以下は翻訳するMarkdownテキストのチャンクです。日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストのみ返してください。テキスト：
 
 agent_span.add_named_result(
 

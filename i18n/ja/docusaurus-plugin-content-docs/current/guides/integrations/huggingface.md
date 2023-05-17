@@ -88,7 +88,6 @@ WANDB_PROJECT=amazon_sentiment_analysis
 
   </TabItem>
 </Tabs>
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。他のことは何も言わずに。テキスト：
 
 :::info
 `Trainer`を初期化する前に、プロジェクト名を設定してください。
@@ -184,7 +183,6 @@ wandb.finish()
 
 * この記事では、著者が5分で誰のツイートでもHuggingFace Transformerの学習済みGPT2モデルを微調整する方法を実演しています。
 * モデルは以下の開発フローを使用しています：ツイートのダウンロード、データセットの最適化、初期実験、ユーザー間の損失の比較、モデルの微調整。
-以下のマークダウンテキストを日本語に翻訳してください。それ以外のことは何も言わずに、翻訳したテキストのみを返してください。テキスト：
 
 詳細なレポートは、[こちら](https://wandb.ai/wandb/huggingtweets/reports/HuggingTweets-Train-a-Model-to-Generate-Tweets--VmlldzoxMTY5MjI)をご覧ください。
 </details>
@@ -217,7 +215,6 @@ wandb.finish()
 * Hugging Face TransformerをEarly Stopping正則化を使用してファインチューニングすることは、PyTorchまたはTensorFlowではネイティブに実行できます。
 * TensorFlowでは、`tf.keras.callbacks.EarlyStopping`コールバックを使って手軽にEarlyStoppingコールバックを使用できます。
 * PyTorchでは、すぐに使えるearly stopping方法はありませんが、GitHub Gistで利用可能なearly stoppingフックがあります。
-下記のMarkdownテキストを日本語に翻訳してください。それ以外のことは何も言わずに、翻訳したテキストだけを返してください。テキスト：
 
 完全なレポートは[こちら](https://wandb.ai/ayush-thakur/huggingface/reports/Early-Stopping-in-HuggingFace-Examples--Vmlldzo0MzE2MTM)で読めます。
 </details>
@@ -307,7 +304,6 @@ with wandb.init(
   # runにアーティファクトを接続する
   my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
   my_checkpoint_artifact = run.use_artifact(my_model_name)
-以下はMarkdownのテキストを翻訳してください。日本語に翻訳し、他のことは何も言わずに翻訳したテキストを返してください。テキスト：
 
 # フォルダにチェックポイントをダウンロードし、パスを返す
   checkpoint_dir = my_checkpoint_artifact.download()

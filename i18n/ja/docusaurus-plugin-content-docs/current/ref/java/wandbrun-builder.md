@@ -29,7 +29,6 @@ configオブジェクトと名前を使ってrunを初期化する
 // JSONObject configを作成
 JSONObject config = new JSONOBject();
 config.add("property", true);
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
 // ビルダーを使用してrunのオプションをカスタマイズ
 

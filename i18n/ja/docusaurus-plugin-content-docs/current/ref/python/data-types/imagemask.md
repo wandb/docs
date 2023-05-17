@@ -80,7 +80,6 @@ class_set = wandb.Classes(
  {"name": "道", "id": 3},
  ]
 )```
-以下は、日本語に翻訳するMarkdownテキストのチャンクです。それを日本語に翻訳してください。他に何も言わずに、翻訳されたテキストだけを返してください。テキスト:
 
 masked_image = wandb.Image(
  image,
@@ -106,7 +105,6 @@ wandb.log({"random_field": table})
 @classmethod
 type_name() -> str
 ```
-こちらのMarkdownテキストを日本語に翻訳してください。それ以外のことは何も言わず、翻訳したテキストだけを返してください。テキスト：
 
 ### `validate`
 

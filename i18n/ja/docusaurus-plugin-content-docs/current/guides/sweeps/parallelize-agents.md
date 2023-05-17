@@ -57,7 +57,6 @@ CUDA Toolkitを使用して、ターミナルで複数のGPUにW&Bスイープ�
 2. W&Bスイープジョブ（ [`wandb agent`](https://docs.wandb.ai/ref/cli/wandb-agent)）を開始するときに、 `CUDA_VISIBLE_DEVICES`で使用するGPUインスタンスを指定します。 `CUDA_VISIBLE_DEVICES` に使用するGPUインスタンスに対応する整数値を割り当てます。
 
 たとえば、ローカルマシンに2つのNVIDIA GPUがある場合、ターミナルウィンドウを開いて `CUDA_VISIBLE_DEVICES`を `0` に設定します（ `CUDA_VISIBLE_DEVICES=0`）。次の例の`sweep_ID`を、W&Bスイープを初期化したときに返されたW&BスイープIDに置き換えます:
-以下が翻訳するMarkdownテキストのチャンクです。日本語に翻訳してください。それ以外のことは言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 ターミナル1
 

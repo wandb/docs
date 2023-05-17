@@ -90,7 +90,6 @@ wandb: 同期済み 4 W&B ファイル, 0 メディアファイル, 9 アーテ�
 1. [wandb.ai/launch](https://wandb.ai/launch)から、起動キューのページに移動します。
 2. **Add an agent**ボタンをクリックします。
 3. W&B CLIコマンドが記載されたモーダルが表示されます。これをコピーして、ターミナルに貼り付けて実行してください。
-次のMarkdownテキストを日本語に翻訳してください。翻訳したテキストのみを返してください。他に何も言わないでください。テキスト：
 
 ![](/images/launch/activate_starter_queue_agent.png)
 

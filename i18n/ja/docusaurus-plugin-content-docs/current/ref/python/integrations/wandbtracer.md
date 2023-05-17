@@ -109,7 +109,6 @@ load_default_session() -> "TracerSession"
 
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L259-L262)
-以下は、Markdownテキストの日本語への翻訳です。そのまま翻訳文のみを返してください。
 
 ```python
 load_session(
@@ -167,7 +166,6 @@ on_chain_end(
 ```
 
 チェーン実行のトレースを終了します。
-以下は、Markdownテキストの翻訳チャンクです。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストのみを返してください。テキスト:
 
 ### `on_chain_error`
 
@@ -191,7 +189,6 @@ on_chain_start(
 ```
 
 チェーンrunのトレースを開始する。
-以下はMarkdownテキストの日本語への翻訳です。他のことは言わずに、翻訳されたテキストのみを返してください。テキスト:
 
 ### `on_llm_end`
 
@@ -216,7 +213,6 @@ on_llm_error(
 LLMの実行中に発生したエラーを処理する。
 
 ### `on_llm_new_token`
-以下は翻訳すべきMarkdownのテキスト部分です。日本語に翻訳してください。それ以外のことは言わず、翻訳されたテキストのみを返してください。テキスト:
 
 ```python
 on_llm_new_token(
@@ -244,7 +240,6 @@ LLMのrunのためにトレースを開始します。
 
 
 ### `on_text`
-以下は翻訳するMarkdownテキストの一部です。日本語に翻訳してください。他のことを言わず、翻訳されたテキストのみを返してください。テキスト：
 
 ```python
 on_text(

@@ -34,7 +34,6 @@ runを初期化する際に提供するジョブタイプは、**RUN**ラベル�
 ## アーティファクトをプログラム的にたどる
 
 W&B Public API（[wandb.Api](https://docs.wandb.ai/ref/python/public-api/api)）を使用して、アーティファクトオブジェクトを作成します。プロジェクト名、アーティファクト名、およびアーティファクトのエイリアスを指定してください。
-以下のMarkdownテキストを日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 ```python
 import wandb
@@ -62,7 +61,6 @@ artifact = api.run('エンティティ/プロジェクト/run_id')
 ```
 
 与えられたrunからグラフをたどるために、[`logged_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#logged_artifacts) および [`used_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#used_artifacts) メソッドを使用します。
-以下のMarkdownテキストを日本語に翻訳してください。翻訳したテキストのみを返し、それ以外のことは何も言わずに返してください。テキスト：
 
 ```python
 # runからグラフを上下に辿る：

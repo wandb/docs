@@ -58,7 +58,6 @@ ray.tune.integration.wandb.wandb_mixin(func)
 このRay Tune Trainable `mixin`は、`Trainable`クラスや関数APIの`@wandb_mixin`とともに、Wandb APIを初期化するのに役立ちます。
 
 基本的な使い方は、トレーニング関数の前に`@wandb_mixin`デコレータを付けるだけです:
-以下は、Markdownテキストのチャンクを翻訳してください。それを日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストだけを返してください。テキスト：
 
 ```python
 from ray.tune.integration.wandb import wandb_mixin

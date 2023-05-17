@@ -243,7 +243,6 @@ runに関連付けられたW&BプロジェクトのURLを返します（ある�
 
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1142-L1147)
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳し、それ以外のことは言わずに翻訳したテキストのみを返してください。テキスト：
 
 ```python
 get_sweep_url() -> Optional[str]
@@ -374,7 +373,6 @@ wandb.log({"accuracy": 0.8})
 ```
 
 ### ヒストグラム
-以下はMarkdownテキストの日本語訳です。他の言葉を使わず、翻訳されたテキストのみを返してください。テキスト:
 
 ```python
 import numpy as np
@@ -461,7 +459,6 @@ wandb.log(
  }
 )
 ```
-以下のマークダウンテキストを日本語に翻訳してください。翻訳したテキストだけを返し、それ以外のことは何も言わないでください。テキスト:
 
 | 例外 | |
 | :--- | :--- |
@@ -692,7 +689,6 @@ to_html(
 
 
 ### `unwatch`
-以下はMarkdownテキストのチャンクを翻訳してください。それを日本語に翻訳してください。他のことは何も言わずに、翻訳したテキストだけを返してください。テキスト：
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2547-L2549)
 

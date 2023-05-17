@@ -28,7 +28,6 @@ W&Bにファイルを関連付けてアップロードする方法は2つあり�
 ### `wandb.save`の例
 
 完全な動作例は、[こちらのレポート](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw)をご覧ください。
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳してください。他のことは言わずに、翻訳したテキストだけを返してください。テキスト：
 
 ```python
 # 現在のディレクトリからモデルファイルを保存する

@@ -271,7 +271,6 @@ run = wandb.init(
 
 # テーブルを作成
 table = wandb.Table(columns = ["plotly_figure"])
-以下は、Markdownテキストを日本語に翻訳してください。他に何も言わず、翻訳したテキストのみを返してください。
 
 # Plotly図のためのパスを作成する
 path_to_plotly_html = "./plotly_figure.html"

@@ -27,7 +27,6 @@ accelerator.init_trackers(
     )
 
 ...
-以下は翻訳するMarkdownのテキストです。これを日本語に翻訳してください。何も言わずに翻訳されたテキストだけを返してください。テキスト：
 
 # `accelerator.log` を呼び出して wandb にログを送信し、`step` はオプションです
 accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)

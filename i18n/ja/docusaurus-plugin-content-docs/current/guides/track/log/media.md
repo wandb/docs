@@ -61,7 +61,6 @@ wandb.log({"examples": images}
 
 ```python
 images = [PIL.Image.fromarray(image) for image in image_array]
-こちらのMarkdownテキストを翻訳してください。英語以外の言語は返さず、翻訳されたテキストだけを返してください。テキスト:
 
 wandb.log({"examples": [wandb.Image(image) for image in images]}
 ```

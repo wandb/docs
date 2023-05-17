@@ -273,7 +273,6 @@ art.link("[[entity/]project/]collectionName")
 
 ```python
 import wandb
-以下のMarkdownテキストを日本語に翻訳してください。翻訳したテキストのみを返し、それ以外のことは言わないでください。テキスト：
 
 # W&B runを開始してトラッキングを開始
 wandb.init()

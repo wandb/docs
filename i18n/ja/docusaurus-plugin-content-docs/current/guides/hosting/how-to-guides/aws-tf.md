@@ -148,7 +148,6 @@ Terraformを実行するアカウントは、はじめに述べたすべての�
      cluster_ca_certificate = base64decode(data.aws_eks_cluster.app_cluster.certificate_authority.0.data)
      token                  = data.aws_eks_cluster_auth.app_cluster.token
    }
-次のMarkdownテキストを日本語に翻訳してください。翻訳したテキストのみを返してください。他のことは何も言わないでください。テキスト：
 
 module "wandb_app" {
      source  = "wandb/wandb/kubernetes"

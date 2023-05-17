@@ -117,7 +117,6 @@ class My_LitModule(LightningModule):
     def __init__(self, n_classes=10, n_layer_1=128, n_layer_2=256, lr=1e-3):
         '''モデルのパラメータを定義するメソッド'''
         super().__init__()
-ここに翻訳するMarkdownテキストのチャンクがあります。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストだけを返してください。テキスト:
 
 # mnist画像は(1, 28, 28) (チャンネル, 幅, 高さ）です。
         self.layer_1 = Linear(28 * 28, n_layer_1)
@@ -214,7 +213,6 @@ trainer = Trainer(logger=wandb_logger, callbacks=[checkpoint_callback])
 # "VERSION"はバージョン（例："v2"）またはエイリアス（"latest"または"best"）であることができます
 checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
 
-以下は、Markdownのテキストを翻訳してください。それ以外の言葉を付け加えず、翻訳されたテキストのみを返してください。テキスト：
 
 # チェックポイントをローカルにダウンロード（すでにキャッシュされていない場合）
 run = wandb.init(project="MNIST")
@@ -303,7 +301,6 @@ class LogPredictionSamplesCallback(Callback):
     def on_validation_batch_end(
         self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx):
         """検証バッチが終了したときに呼び出されます。"""
-ここに翻訳するMarkdownのテキストがあります。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストだけを返してください。テキスト:
 
 # `outputs`は`LightningModule.validation_step`から来ています
         # これは、この場合、モデルの予測に対応します
@@ -369,7 +366,6 @@ class MNISTClassifier(pl.LightningModule):
         y_hat = self.forward(x)
         loss = self.loss(y_hat, y)
 ```
-以下は、Markdownテキストの日本語への翻訳です。テキストのみを返します。
 
 ```
 model = MNISTClassifier()

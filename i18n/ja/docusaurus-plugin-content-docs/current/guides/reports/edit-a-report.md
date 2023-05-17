@@ -34,7 +34,6 @@ Python SDK を使ったプログラムによるレポート編集は、ベータ
     {label: 'Python SDK', value: 'sdk'},
   ]}>
   <TabItem value="app">
-次のMarkdownテキストを日本語に翻訳してください。翻訳されたテキストのみを返して、それ以外のことは何も言わないでください。テキスト：
 
 レポート中にスラッシュ(`/`)を入力すると、ドロップダウンメニューが表示されます。**Add panel**を選択してパネルを追加します。Weights & Biasesでサポートされているパネルを追加できます。これには、折れ線グラフ、散布図、並行座標グラフなどが含まれます。
 
@@ -66,7 +65,6 @@ blocks = [
 	)
 ]
 ```
-以下はMarkdownテキストの翻訳です。日本語に訳してください。他に何も言わずに、翻訳したテキストだけを返してください。テキスト:
 
 report.blocks = blocks
 report.save()
@@ -99,7 +97,6 @@ App UIまたはWeights & Biases SDKを使って、プロジェクトからイン
 2. `wr.PanelGrid()` オブジェクトのインスタンスを作成します。`runsets` パラメータに1つ以上のランセットオブジェクトのリストを渡します。
 3. 1つ以上の `wr.PanelGrid()` オブジェクトのインスタンスをリストに格納します。
 4. リスト内のパネルグリッドインスタンスでレポートインスタンスのブロック属性を更新します。
-以下は、Markdownテキストの一部を日本語に翻訳してください。他に何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
 ```python
 import wandb
@@ -173,7 +170,6 @@ panel_grids = wr.PanelGrid(
 				],
 	runsets=[wr.RunSet(project='<プロジェクト名>', entity='<エンティティ名>')]
 		)
-レポートには次のコードを使用して、Markdownテキストの翻訳を追加してください。翻訳したテキストのみを返してください。他の言葉は使用しないでください。テキスト：
 
 report.blocks = [panel_grids]
 report.save()
@@ -207,7 +203,6 @@ App UIまたはWeights & Biases SDKを使用して、レポートにコードブ
 ```python
 import wandb
 import wandb.apis.reports as wr
-以下は、Markdownテキストの翻訳です。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストのみを返してください。テキスト:
 
 report = wr.Report(
     project='report-editing'
@@ -240,7 +235,6 @@ cool:
 report = wr.Report(
     project='report-editing'
     )
-次に、Markdownテキストのブロックを翻訳してください。日本語に翻訳し、翻訳されたテキストだけを返してください。他には何も言わないでください。テキスト:
 
 report.blocks = [
 	wr.CodeBlock(

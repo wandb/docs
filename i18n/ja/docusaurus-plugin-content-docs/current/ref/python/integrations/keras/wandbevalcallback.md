@@ -51,7 +51,6 @@ class WandbClfEvalCallback(WandbEvalCallback):
  def add_model_predictions(self, epoch):
  preds = self.model.predict(self.x, verbose=0)
  preds = tf.argmax(preds, axis=-1)
-以下は、Markdownテキストの一部です。日本語に翻訳してください。その他のことは言わないでください。テキスト：
 
 data_table_ref = self.data_table_ref
  table_idxs = data_table_ref.get_index()

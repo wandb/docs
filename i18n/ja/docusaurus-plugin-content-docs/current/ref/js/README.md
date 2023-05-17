@@ -29,7 +29,6 @@ yarn add @wandb/sdk
 ### 使用方法
 
 TypeScript/ESM:
-以下は、Markdownテキストの一部を翻訳してください。日本語に翻訳し、他のことは言わずに翻訳したテキストのみを返してください。テキスト：
 
 ```typescript
 import wandb from '@wandb/sdk'

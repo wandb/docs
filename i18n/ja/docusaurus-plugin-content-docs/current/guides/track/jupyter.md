@@ -29,7 +29,6 @@ wandb.login()
 ```
 
 次に、実験を設定し、ハイパーパラメーターを保存します:
-以下は、Markdownテキストの翻訳です。テキストのみを返し、他のことは言わないでください。テキスト:
 
 ```python
 wandb.init(project="jupyter-projo",
@@ -153,7 +152,6 @@ logger.setLevel(logging.ERROR)
 ```
   </TabItem>
   <TabItem value="python">
-以下は、Markdownテキストを翻訳するためのチャンクです。日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
 ```python
 

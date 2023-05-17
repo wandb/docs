@@ -225,7 +225,6 @@ http {
         default $http_x_forwarded_proto;
         ''      $scheme;
     }
-以下のMarkdownテキストを日本語に翻訳してください。翻訳されたテキストのみを返してください。それ以外のことは何も言わないでください。テキスト：
 
 # また上記のケースでは、HTTPSを強制する
     map $http_x_forwarded_proto $sts {
@@ -258,7 +257,6 @@ http {
         server_name         www.example.com;
         ssl_certificate     www.example.com.crt;
         ssl_certificate_key www.example.com.key;
-以下は、Markdownテキストのチャンクです。これを日本語に翻訳してください。翻訳した文章だけを返してください。テキスト：
 
 ```
 proxy_http_version 1.1;

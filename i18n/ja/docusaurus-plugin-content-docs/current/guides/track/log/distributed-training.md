@@ -28,7 +28,6 @@ description: W&Bを使って、複数のGPUを用いた分散トレーニング�
 :::
 
 サンプルのPythonスクリプト（`log-ddp.py`）では、rankが0であるかどうかを確認しています。これには、まず`torch.distributed.launch`を使い複数プロセスを起動し、次にコマンドライン引数`--local_rank`を使いランクを確認します。ランクが0に設定されている場合、[`train()`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py#L24)関数内で条件付きで`wandb`のログを設定します。Pythonスクリプト内では以下のチェックを使用しています：
-ここに翻訳するMarkdownテキストのチャンクがあります。それを日本語に翻訳してください。何も言わずに翻訳されたテキストだけを返してください。テキスト：
 
 ```python showLineNumbers
 if __name__ == "__main__":

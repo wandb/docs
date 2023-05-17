@@ -29,7 +29,6 @@ Artifact(
 基本的な使い方
 ```
 wandb.init()
-以下は、Markdownテキストのチャンクを翻訳してください。それ以外のことは何も言わず、日本語に翻訳されたテキストを返してください。テキスト：
 
 ```python
 artifact = wandb.Artifact('mnist', type='dataset')
@@ -68,7 +67,6 @@ wandb.log_artifact(artifact)
 ## メソッド
 
 ### `add`
-以下のMarkdownテキストを翻訳してください。 翻訳されたテキストだけを返してください。他のことは言わずに。テキスト：
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_artifacts.py#L491-L572)
 
@@ -111,7 +109,6 @@ obj = artifact.get(name)
 artifact = wandb.Artifact('my_table', 'dataset')
 table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
 artifact.add(table, "my_table")
-以下はMarkdownテキストのチャンクを翻訳してください。日本語に翻訳し、翻訳されたテキストだけを返してください。他に何も言わずに。テキスト:
 
 wandb.log_artifact(artifact)
 ```
@@ -187,7 +184,6 @@ add_file(
 | `local_path` | (str) 追加されるファイルへのパス。 |
 | `name` | (str, 任意) 追加されるファイルに対してアーティファクト内で使用するパス。デフォルトはファイルのベース名。 |
 | `is_tmp` | (bool, 任意) True の場合、ファイルは衝突を避けるために決まった方法でリネームされます。 (デフォルト: False) |
-以下は、Markdownテキストの翻訳です。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 #### 例:
 
@@ -300,7 +296,6 @@ checkout(
 指定したルートディレクトリをアーティファクトの内容で置き換えます。
 
 警告: この操作は、アーティファクトに含まれていない`root`内のすべてのファイルを削除します。
-以下の Markdown テキストを日本語に翻訳してください。なお、翻訳を返すだけ、それ以外のことは言わないでください。テキスト：
 
 | 引数 | |
 | :--- | :--- |
@@ -490,7 +485,6 @@ with wandb.init() as r:
 with wandb.init() as r:
  artifact = r.use_artifact('my_dataset:latest')
  path = artifact.get_path('file.txt')
-以下はマークダウンテキストの翻訳です。日本語に翻訳してください。他に何も言わないで、翻訳されたテキストだけを返してください。テキスト：
 
 # これで 'file.txt'を直接ダウンロードできます:
 path.download()

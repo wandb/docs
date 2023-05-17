@@ -150,7 +150,6 @@ Terraformを実行するアカウントは、使用するGCPプロジェクト�
    output "url" {
      value = module.wandb.url
    }
-ここに翻訳するMarkdownテキストがあります。日本語に翻訳してください。翻訳されたテキストのみを返し、それ以外のことは何も言わないでください。テキスト：
 
 output "address" {
      value = module.wandb.address
@@ -182,7 +181,6 @@ output "address" {
 module "wandb" {
   source  = "wandb/wandb/google"
   version = "1.12.2"
-次のMarkdownテキストを日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストのみを返してください。テキスト：
 
 namespace    = var.namespace
   license      = var.license
@@ -214,7 +212,6 @@ module "wandb" {
   subdomain          = var.subdomain
   # Pub/Subの作成と使用
   use_internal_queue = false
-ここに翻訳するMarkdownテキストのチャンクがあります。それを日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
 }
 

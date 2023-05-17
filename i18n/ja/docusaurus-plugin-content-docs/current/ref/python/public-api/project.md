@@ -16,7 +16,6 @@ Project(
 ## メソッド
 
 ### `artifacts_types`
-以下のマークダウンテキストを翻訳してください。日本語に翻訳し、それ以外のことは何も言わずに翻訳されたテキストのみを返してください。テキスト：
 
 [ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1498-L1500)
 
@@ -44,7 +43,6 @@ display(
 このオブジェクトをjupyterで表示します。
 
 ### `snake_to_camel`
-以下は翻訳するMarkdownテキストです。日本語に翻訳してください。質問に対する回答だけを返し、その他は何も言わずにください。テキスト：
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L975-L977)
 
@@ -71,7 +69,6 @@ sweeps()
 
 
 ### `to_html`
-以下のMarkdownテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。他の言葉は使わないでください。テキスト：
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1482-L1490)
 

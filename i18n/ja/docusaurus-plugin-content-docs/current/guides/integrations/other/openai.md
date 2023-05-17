@@ -28,7 +28,6 @@ OpenAIのAPIは、機械学習開発者がGPT-4にアクセスできるように
 import os
 import openai
 from wandb.integration.openai import autolog
-以下は、Markdownテキストのチャンクです。これを日本語に翻訳してください。返信時は、翻訳されたテキストのみを記載して、それ以外に何も言わないでください。テキスト：
 
 autolog({"project":"gpt5"})
 ```
@@ -89,7 +88,6 @@ $ pip install --upgrade openai wandb
 ```
 
 次に、コマンドラインまたはスクリプトから結果を同期します。
-以下は、Markdownテキストの翻訳です。日本語に翻訳してください。他に何も言わずに、翻訳されたテキストのみを返してください。テキスト：
 
 <Tabs
   defaultValue="cli"

@@ -45,7 +45,6 @@ def from_file(
 ### `from_numpy`
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/object_3d.py#L242-L271)
-以下はMarkdownテキストのチャンクを翻訳してください。日本語に翻訳し、翻訳したテキストのみを返してください。これ以上何も言わずに。 テキスト:
 
 ```python
 @classmethod

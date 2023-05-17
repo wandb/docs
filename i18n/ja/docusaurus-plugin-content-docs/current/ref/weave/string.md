@@ -315,7 +315,6 @@
 <h3 id="string-contains"><code>string-contains</code></h3>
 
 [文字列](https://docs.wandb.ai/ref/weave/string)が部分文字列を含んでいるかどうか確認する
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳し、翻訳したテキストのみを返してください。他のことは言わないでください。テキスト：
 
 | 引数 |  |
 | :--- | :--- |

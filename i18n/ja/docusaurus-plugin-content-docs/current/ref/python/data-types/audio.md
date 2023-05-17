@@ -43,7 +43,6 @@ resolve_ref()
 
 
 ### `sample_rates`
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に訳してください。それ以外のことは何も言わず、翻訳されたテキストだけを返してください。テキスト：
 
 [ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L1148-L1150)
 

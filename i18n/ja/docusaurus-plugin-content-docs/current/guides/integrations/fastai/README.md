@@ -88,7 +88,6 @@ _注意: 任意のサブフォルダ "models"は無視されます。_
 `fastai`は、コンテキストマネージャ`distrib_ctx`を使用することで、分散トレーニングをサポートしています。W&Bはこれを自動的にサポートし、マルチGPU実験をすぐにトラッキングすることができます。
 
 以下に簡単な例を示します。
-以下は、Markdownテキストのチャンクを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。それ以外のことは何も言わずに。テキスト：
 
 <Tabs
   defaultValue="script"
@@ -154,7 +153,6 @@ def train():
     learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
     with learn.distrib_ctx(in_notebook=True, sync_bn=False):
         learn.fit(1)
-以下のマークダウンテキストを翻訳してください。日本語に翻訳し、翻訳されたテキストのみを返してください。それ以外のことは何も言わずに。
 
 ```
 notebook_launcher(train, num_processes=2)
@@ -195,7 +193,6 @@ def train():
     learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
     with learn.distrib_ctx(sync_bn=False):
         learn.fit(1)
-以下は、Markdownテキストを日本語に翻訳してください。それ以外のことは言わず、翻訳されたテキストのみを返します。テキスト：
 
 if __name__ == "__main__":
     train()

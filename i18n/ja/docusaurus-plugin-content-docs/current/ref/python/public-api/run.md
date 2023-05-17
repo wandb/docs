@@ -20,7 +20,6 @@ Run(
 ## メソッド
 
 ### `create`
-ここに翻訳するMarkdownテキストがあります。日本語に翻訳してください。翻訳されたテキストのみを返して、他に何も言わないでください。テキスト：
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1761-L1801)
 
@@ -69,7 +68,6 @@ file(
 | 引数 | |
 | :--- | :--- |
 | name (str): 要求されたファイルの名前。|
-以下は、翻訳するMarkdownのテキストです。日本語に翻訳してください。他に何も言わず、翻訳されたテキストのみを返してください。テキスト:
 
 | 戻り値 | |
 | :--- | :--- |
@@ -124,7 +122,6 @@ Runのサンプル履歴メトリクスを返します。
 | 戻り値 | |
 | :--- | :--- |
 | `pandas.DataFrame` | pandas=Trueの場合、履歴メトリクスの`pandas.DataFrame`を返す。リストの辞書：pandas=Falseの場合、履歴メトリクスの辞書のリストを返す。
-以下のマークダウンテキストを翻訳してください。日本語に翻訳し、それ以外は何も言わずに翻訳されたテキストのみを返してください。テキスト：
 
 ### `load`
 
@@ -163,7 +160,6 @@ log_artifact(
 
 
 ### `logged_artifacts`
-以下のマークダウンテキストを翻訳してください。日本語に翻訳し、それ以外のことは何も言わないで返してください。テキスト：
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2142-L2144)
 
@@ -177,7 +173,6 @@ logged_artifacts(
 
 
 ### `save`
-以下のマークダウンテキストを日本語に翻訳してください。それ以外のことは何も言わず、翻訳されたテキストだけを返してください。テキスト：
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1948-L1949)
 
@@ -186,7 +181,6 @@ save()
 ```
 
 ### `scan_history`
-以下のマークダウンテキストを日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストだけを返してください。テキスト：
 
 [ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2087-L2140)
 
@@ -202,7 +196,6 @@ runのすべての履歴レコードを含む反復可能なコレクション�
 #### 例:
 
 例のrunにおいて全ての損失値をエクスポートする
-以下は、Markdownテキストの一部です。これを日本語に翻訳してください。他のことは言わずに、翻訳されたテキストだけを返してください。テキスト：
 
 ```python
 run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
@@ -216,7 +209,6 @@ losses = [row["Loss"] for row in history]
 | 引数 | |
 | :--- | :--- |
 | keys ([str], 任意): これらのキーのみをフェッチし、また、すべてのキーが定義されている行のみをフェッチします。page_size (int, 任意): APIからフェッチするページのサイズ |
-以下は、Markdownテキストのチャンクを翻訳してください。それを日本語に翻訳してください。それ以外のことは何も言わずに、翻訳されたテキストだけを返してください。テキスト:
 
 | 戻り値 | |
 | :--- | :--- |
@@ -283,7 +275,6 @@ upload_file(
 
 
 ### `use_artifact`
-以下はMarkdownテキストのチャンクの翻訳です。日本語に翻訳してください。返信には翻訳されたテキストのみを含めてください。テキスト：
 
 [ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2150-L2181)
 
@@ -298,7 +289,6 @@ use_artifact(
 | 引数 | |
 | :--- | :--- |
 | artifact (`Artifact`): `wandb.Api().artifact(name)`から返されるアーティファクト use_as (文字列, オプション): スクリプトでアーティファクトの使い方を識別する文字列。betaのwandb launch機能のアーティファクト交換機能を使用して、runで使用されるアーティファクトを簡単に区別できます。 |
-以下のMarkdownテキストを翻訳してください。日本語に翻訳して、それだけを返してください。他に何も言わずに。テキスト：
 
 | 返り値 | |
 | :--- | :--- |
