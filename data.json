@@ -413,6 +413,10 @@
       "to": "/guides/integrations/fastai"
     },
     {
+      "from": "/guides/integrations/jax",
+      "to": "/guides/integrations"
+    },
+    {
       "from": "/guides/integrations/kerasyou",
       "to": "/guides/integrations/keras"
     },
