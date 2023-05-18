@@ -3,7 +3,7 @@ slug: /guides/launch
 description: Easily scale and manage ML jobs using W&B Launch.
 displayed_sidebar: default
 ---
-# ランチ
+# ローンチ
 
 W&B Launchは、機械学習開発者と現代の機械学習ワークフローを支える高スケールの特 specialized ハードウェアとの間に接続層を導入します。デスクトップからGPUへのトレーニングの実行を簡単にスケールアップし、モデル評価スイートを迅速にスピンアップし、複雑なインフラストラクチャーの摩擦なしでプロダクション推論の準備ができます。
 

@@ -19,10 +19,11 @@ W&B Python SDKを使って、機械学習実験をトラッキングします。
 
 W&B実験を作成するための４つのステップ：
 
-1. [W&B Runを初期化する](#import-wandb-and-call-wandbinit)
+1. [W&B Runを初期化する](#initialize-a-wb-run)
 2. [ハイパーパラメータのディクショナリを取得する](#capture-a-dictionary-of-hyperparameters)
 3. [トレーニングループ内でメトリクスをログする](#log-metrics-inside-your-training-loop)
 4. [アーティファクトをW&Bにログする](#log-an-artifact-to-wb)
+
 
 ### W&B Runを初期化する
 スクリプトの最初に、[`wandb.init()`](../../ref/python/init.md) APIを呼び出して、W&B Runとしてデータを同期・ログするバックグラウンドプロセスを生成します。
