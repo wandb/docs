@@ -10,18 +10,18 @@ W&Bサーバーは、W&Bが管理するリソース分離環境または自分�
 :::info
 W&Bサーバーのプロダクション環境向け機能は、エンタープライズティアのみで利用可能です。
 
-開発環境や試験環境をセットアップするには、[基本セットアップガイド](/guides/hosting/how-to-guides/basic-setup) を参照してください。
+開発環境や試験環境をセットアップするには、[基本セットアップガイド](./how-to-guides/basic-setup.md) を参照してください。
 :::
 
 W&Bサーバーを使用することで、次のような機能が利用できるように設定できます:
 
- - [セキュアストレージコネクタ](/guides/hosting/secure-storage-connector)
-- [シングルサインオン](/guides/hosting/sso)
-- [LDAPを介したロールベースのアクセス制御](/guides/hosting/ldap)
-- [監査ログ](/guides/hosting/audit-logging)
-- [ユーザー管理](/guides/hosting/manage-users)
-- [Prometheusによる監視](/guides/hosting/prometheus-logging)
-- [Slackアラート](/guides/hosting/slack-alerts) など。
+ - [セキュアストレージコネクタ](./secure-storage-connector.md)
+- [シングルサインオン](./sso.md)
+- [LDAPを介したロールベースのアクセス制御](./ldap.md)
+- [監査ログ](./audit-logging.md)
+- [ユーザー管理](./manage-users.md)
+- [Prometheusによる監視](./prometheus-logging.md)
+- [Slackアラート](./slack-alerts.md) など。
 
 以下のドキュメントのセクションでは、W&Bサーバーのインストール方法、共有責任モデル、手順に沿ったインストールおよび設定ガイドについて説明しています。
 

@@ -10,18 +10,18 @@ Deploy Weights & Biases in a resource isolated environment managed by W&B or by 
 :::info
 Production-grade features for W&B Server are available for enterprise-tier only.
 
-See the [Basic Setup guide](/guides/hosting/how-to-guides/basic-setup) to set up a developer or trial environment.
+See the [Basic Setup guide](./how-to-guides/basic-setup.md) to set up a developer or trial environment.
 :::
 
 With W&B Server you can configure and leverage features such as:
 
-- [Secure Storage Connector](/guides/hosting/secure-storage-connector)
-- [Single Sign-On](/guides/hosting/sso)
-- [Role-based Access Control via LDAP](/guides/hosting/ldap)
-- [Audit Logs](/guides/hosting/audit-logging)
-- [User Management](/guides/hosting/manage-users)
-- [Prometheus Monitoring](/guides/hosting/prometheus-logging)
-- [Slack Alerts](/guides/hosting/slack-alerts) and more.
+- [Secure Storage Connector](./secure-storage-connector.md)
+- [Single Sign-On](./sso.md)
+- [Role-based Access Control via LDAP](./ldap.md)
+- [Audit Logs](./audit-logging.md)
+- [User Management](./manage-users.md)
+- [Prometheus Monitoring](./prometheus-logging.md)
+- [Slack Alerts](./slack-alerts.md) and more.
 
 The following sections of the documentation describes different options on how to install W&B Server, the shared responsibility model, step-by-step installation and configuration guides.
 
