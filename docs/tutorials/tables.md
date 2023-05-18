@@ -238,6 +238,6 @@ for epoch in range(EPOCHS):
 wandb.finish()
 ```
 
-# What's next 🚀 ?
+# What's next?
 The next tutorial, you will learn how to optimize hyperparameters using W&B Sweeps:
-## 👉 [Optimize Hyperparameters](Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B)
+## 👉 [Optimize Hyperparameters](sweeps)

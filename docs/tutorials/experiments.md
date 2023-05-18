@@ -288,6 +288,6 @@ wandb.finish()
 ```
 
 
-# What's next 🚀 ?
+# What's next?
 The next tutorial, you will learn how to view & analyze model predictions using W&B Tables:
-## 👉 [View & Analyze Model Predictions](W&B_Tables_Quickstart.md)
+## 👉 [View & Analyze Model Predictions](tables)

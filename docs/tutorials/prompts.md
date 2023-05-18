@@ -181,4 +181,4 @@ run.log({"trace": trace_tree.WBTraceTree(parent_span)})
 run.finish()
 ```
 
-Clicking on the W&B Run link generated will take you to a workspace where you can inspect the Trace created
+Clicking on the W&B Run link generated will take you to a workspace where you can inspect the Trace created.

@@ -392,6 +392,6 @@ We created a simple training script and [a few flavors of sweep configs](https:/
 That repo also has examples to help you try more advanced sweep features like [Bayesian Hyperband](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/us0ifmrf?workspace=user-lavanyashukla), and [Hyperopt](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/xbs2wm5e?workspace=user-lavanyashukla).
 
 
-# What's next 🚀 ?
+# What's next?
 In the next tutorial, you will learn how to manage model weights & dataset versions using W&B Artifacts:
-## 👉 [Manage Model Weights & Dataset Versions](Pipeline_Versioning_with_W&B_Artifacts)
+## 👉 [Manage Model Weights & Dataset Versions](artifacts)

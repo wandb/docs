@@ -732,8 +732,8 @@ with logged metrics, metadata, and more
 all at your fingertips --
 you're only limited by what you choose to log with us.
 
-# What's next 🚀 ?
+# What's next?
 The next tutorial, you will learn how to communicate changes to your models and manage the model development lifecycle with W&B Models:
-## 👉 [Track Model Development Lifecycle](Model_Registry_E2E)
+## 👉 [Track Model Development Lifecycle](models)
 
 
