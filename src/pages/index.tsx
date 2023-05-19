@@ -46,6 +46,30 @@ const Home: React.FC = () => {
             spot regressions, and share findings with colleagues.
           </div>
           <div className={styles.homeBoxContainer}>
+            <Link to="/quickstart">
+              <div className={clsx(styles.homeBox, styles.gray)}>
+                <MagicWandStarIcon />
+                <div className={styles.boxHeader}>
+                  Quickstart
+                  <ForwardNextIcon className={styles.arrowIcon} />
+                </div>
+                <div className={styles.boxDescription}>
+                  New to W&B? Start here.
+                </div>
+              </div>
+            </Link>
+            <Link to="/tutorials">
+              <div className={clsx(styles.homeBox, styles.teal)}>
+                <DocumentationIcon />
+                <div className={clsx(styles.boxHeader, styles.whiteText)}>
+                  Tutorials
+                  <ForwardNextIconWhite className={styles.arrowIcon} />
+                </div>
+                <div className={clsx(styles.boxDescription, styles.whiteText)}>
+                  Dive deeper. Learn practical skills for efficient workflows with our Tutorials.
+                </div>
+              </div>
+            </Link>
             <Link to="/guide">
               <div className={clsx(styles.homeBox, styles.yellow)}>
                 <QuickStartIcon />
@@ -72,31 +96,6 @@ const Home: React.FC = () => {
                 </div>
               </div>
             </Link>
-            <Link to="/quickstart">
-              <div className={clsx(styles.homeBox, styles.gray)}>
-                <MagicWandStarIcon />
-                <div className={styles.boxHeader}>
-                  Quickstart
-                  <ForwardNextIcon className={styles.arrowIcon} />
-                </div>
-                <div className={styles.boxDescription}>
-                  Are you new to W&B? Check out our quickstart!
-                </div>
-              </div>
-            </Link>
-            <a href="https://github.com/wandb/examples">
-              <div className={clsx(styles.homeBox, styles.teal)}>
-                <DocumentationIcon />
-                <div className={clsx(styles.boxHeader, styles.whiteText)}>
-                  Tutorials
-                  <ForwardNextIconWhite className={styles.arrowIcon} />
-                </div>
-                <div className={clsx(styles.boxDescription, styles.whiteText)}>
-                  Explore examples to real-world problems with our how-to
-                  guides.
-                </div>
-              </div>
-            </a>
           </div>
           <div className={styles.homeFooterBox}>
             Stay up to date with the latest updates from our W&B platform, learn

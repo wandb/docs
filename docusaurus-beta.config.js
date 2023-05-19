@@ -131,6 +131,12 @@ const config = {
             position: 'right',
           },
           {
+            type: 'doc',
+            docId: 'tutorials/intro_to_tutorials',
+            label: 'Tutorials',
+            position: 'right',
+          },
+          {
             href: 'https://github.com/wandb/wandb',
             html: 'GitHub<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
             position: 'right',
