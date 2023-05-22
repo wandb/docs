@@ -149,6 +149,7 @@ const config = {
           },
           {
             type: 'localeDropdown',
+            position: 'right',
           },
           {
             href: 'https://github.com/wandb/wandb',
