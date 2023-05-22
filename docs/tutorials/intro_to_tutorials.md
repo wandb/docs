@@ -13,7 +13,6 @@ These tutorials take you through the fundamentals of Weights & Biases for machin
 3. [Tune hyperparameters](/tutorials/sweeps)
 4. [Track models and datasets](/tutorials/artifacts)
 5. [Register models](/tutorials/models)
-6. [Iterate on LLMs](/tutorials/prompts)
 
 ## Use W&B with popular ML frameworks
 
