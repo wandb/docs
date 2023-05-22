@@ -18,7 +18,7 @@ The proceeding questions are commonly asked questions about [W&B Artifacts](#que
 
 W&B stores artifact files in a way that minimizes duplication across successive artifact versions, as described above.
 
-When deleting artifact versions, W&B checks which files are completely safe to delete. In other words, it guarantees that the file is not in use by a previous or subsequent artifact version. If it is safe to remove, the file is deleted immediately and no trace of it remains on our servers.
+When deleting artifact versions, W&B checks which files are completely safe to delete. In other words, it guarantees that the file is not in use by a previous or subsequent artifact version. If it is safe to remove, the file is marked as deleted immediately and customers will no longer be charged for storage. Files marked for deletion will be removed from our storage buckets later in a batch process; if you have specific needs around file deletion please reach out to [Customer Support](mailto:support@wandb.com)
 
 ### Who has access to my artifacts?
 
