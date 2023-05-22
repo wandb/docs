@@ -14,12 +14,6 @@ The proceeding questions are commonly asked questions about [W&B Artifacts](#que
 
 ## Questions about Artifacts
 
-### When are artifact files deleted?
-
-W&B stores artifact files in a way that minimizes duplication across successive artifact versions, as described above.
-
-When deleting artifact versions, W&B checks which files are completely safe to delete. In other words, it guarantees that the file is not in use by a previous or subsequent artifact version. If it is safe to remove, the file is deleted immediately and no trace of it remains on our servers.
-
 ### Who has access to my artifacts?
 
 Artifacts inherit the access to their parent project:
