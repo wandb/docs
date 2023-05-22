@@ -89,12 +89,12 @@ const Home: React.FC = () => {
                 </div>
                 <div className={styles.boxDescription}>
                   <Translate>
-                  Are you new to W&B? Check out our quickstart!
+                  Are you new to W&B? Check out our quickstarts!
                   </Translate>
                 </div>
               </div>
             </Link>
-            <a href="https://github.com/wandb/examples">
+            <Link to="/tutorials">
               <div className={clsx(styles.homeBox, styles.teal)}>
                 <DocumentationIcon />
                 <div className={clsx(styles.boxHeader, styles.whiteText)}>
@@ -103,12 +103,11 @@ const Home: React.FC = () => {
                 </div>
                 <div className={clsx(styles.boxDescription, styles.whiteText)}>
                   <Translate>
-                  Explore examples to real-world problems with our how-to
-                  guides.
+                  Learn practical skills for efficient workflows with our Tutorials. 
                   </Translate>
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
           <div className={styles.homeFooterBox}>
             Stay up to date with the latest updates from our W&B platform, learn

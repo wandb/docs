@@ -142,8 +142,13 @@ const config = {
             position: 'right',
           },
           {
-            type: 'localeDropdown',
+            type: 'doc',
+            docId: 'tutorials/intro_to_tutorials',
+            label: 'Tutorials',
             position: 'right',
+          },
+          {
+            type: 'localeDropdown',
           },
           {
             href: 'https://github.com/wandb/wandb',

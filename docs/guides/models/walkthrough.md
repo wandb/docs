@@ -23,8 +23,9 @@ In this walkthrough you'll learn how to use Weights & Biases for Model Managemen
 _We are actively building new Model Management features. Please reach out with questions or suggestions at support@wandb.com._
 
 :::info
-Please see the[ Artifact Tab](https://docs.wandb.ai/ref/app/pages/project-page#artifacts-tab) details for a discussion of all content available in the Model Registry!
+Please see the[ Artifact Tab](../app/pages/project-page.md#artifacts-tab) details for a discussion of all content available in the Model Registry!
 :::
+
 
 ## Workflow
 
@@ -426,10 +427,9 @@ Next, you will likely want to denote which version in the Registered Model is in
   </TabItem>
   <TabItem value="api">
 
-Follow steps in [Part 3. Link Model Versions to the Collection](walkthrough.md#3.-linking-model-versions-to-the-portfolio) and add the aliases you want to the `aliases` parameter.
+Follow steps in [Part 3. Link Model Versions to the Collection](#3-link-model-versions-to-the-registered-model) and add the aliases you want to the `aliases` parameter.
   </TabItem>
 </Tabs>
-
 
 The image below shows the new `production` alias added to v1 of the Registered Model!
 
