@@ -6,7 +6,7 @@ slug: /tutorials
 # Tutorials
 
 ## Learn to use W&B with interactive code examples
-These tutorials take you through the fundamentals of Weights & Biases for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more. Learn by doing with hands-on lessons.
+These tutorials take you through the fundamentals of Weights & Biases for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more.
 
 1. [Track experiments](/tutorials/experiments) 
 2. [Visualize predictions](/tutorials/tables)
