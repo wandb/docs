@@ -89,7 +89,9 @@ spec:
             type: RuntimeDefault
 ```
 
-If you specify an API version other than `batch/v1` or `batch/v1beta1`, the agent will automatically, the agent instead produce an object of the specified API version. This may be useful if you have a custom controller that you would like to use to run your jobs, or if you want to make use of [volcano](https://volcano.sh) or [kubeflow pipelines](https://kubeflow.org). If you provide a custom API version, you will also need to specify a few values in the spec using macros that will be evaluated when the agent is launching your job. The following macros are available:
+### Custom controllers
+
+If you specify an API version other than `batch/v1` or `batch/v1beta1`, the agent will launch an object of the specified API version instead of a standard Kubernetes Job. This may be useful if you have a custom controller that you would like to use to run your jobs, or if you want to make use of [volcano](https://volcano.sh) or [kubeflow pipelines](https://kubeflow.org). If you provide a custom API version, you will also need to specify a few values in the spec using macros that will be evaluated when the agent is launching your job. The following macros are available:
 
 | Macro             | Description                                           |
 |-------------------|-------------------------------------------------------|
