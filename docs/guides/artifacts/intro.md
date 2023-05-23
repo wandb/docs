@@ -5,6 +5,7 @@ description: >-
   using W&B Artifacts.
 displayed_sidebar: default
 ---
+import Translate, {translate} from '@docusaurus/Translate';
 
 # Artifacts
 

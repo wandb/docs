@@ -424,5 +424,11 @@
   },
   "Search documentation": {
     "message": "ドキュメンテーションを検索"
+  },
+  "Are you new to W&B? Check out our quickstarts!": {
+    "message": "Are you new to W&B? Check out our quickstarts!"
+  },
+  "Learn practical skills for efficient workflows with our Tutorials.": {
+    "message": "Learn practical skills for efficient workflows with our Tutorials."
   }
 }

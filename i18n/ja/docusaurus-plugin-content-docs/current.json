@@ -4,7 +4,7 @@
     "description": "The label for version current"
   },
   "sidebar.default.category.Experiments": {
-    "message": "Experiments",
+    "message": "実験管理",
     "description": "The label for category Experiments in sidebar default"
   },
   "sidebar.default.category.What are Runs?": {
@@ -16,35 +16,35 @@
     "description": "The label for category Log Objects and Media in sidebar default"
   },
   "sidebar.default.category.Reports": {
-    "message": "Reports",
+    "message": "レポート",
     "description": "The label for category Reports in sidebar default"
   },
   "sidebar.default.category.Artifacts": {
-    "message": "Artifacts",
+    "message": "アーティファクト",
     "description": "The label for category Artifacts in sidebar default"
   },
   "sidebar.default.category.Tables": {
-    "message": "Tables",
+    "message": "テーブル",
     "description": "The label for category Tables in sidebar default"
   },
   "sidebar.default.category.Sweeps": {
-    "message": "Sweeps",
+    "message": "スイープ",
     "description": "The label for category Sweeps in sidebar default"
   },
   "sidebar.default.category.Models": {
-    "message": "Models",
+    "message": "モデル",
     "description": "The label for category Models in sidebar default"
   },
   "sidebar.default.category.Launch": {
-    "message": "Launch",
+    "message": "ローンチ",
     "description": "The label for category Launch in sidebar default"
   },
   "sidebar.default.category.Prompts": {
-    "message": "Prompts",
+    "message": "プロンプト",
     "description": "The label for category Prompts in sidebar default"
   },
   "sidebar.default.category.App Reference": {
-    "message": "App Reference",
+    "message": "Appリファレンス",
     "description": "The label for category App Reference in sidebar default"
   },
   "sidebar.default.category.Features": {
@@ -76,7 +76,7 @@
     "description": "The label for category Settings in sidebar default"
   },
   "sidebar.default.category.W&B Server": {
-    "message": "W&B Server",
+    "message": "W&Bサーバー",
     "description": "The label for category W&B Server in sidebar default"
   },
   "sidebar.default.category.Hosting options": {
@@ -88,7 +88,7 @@
     "description": "The label for category How-to guides in sidebar default"
   },
   "sidebar.default.category.Integrations": {
-    "message": "Integrations",
+    "message": "インテグレーション",
     "description": "The label for category Integrations in sidebar default"
   },
   "sidebar.default.category.Fastai": {
@@ -96,7 +96,7 @@
     "description": "The label for category Fastai in sidebar default"
   },
   "sidebar.default.category.Technical FAQ": {
-    "message": "Technical FAQ",
+    "message": "技術FAQ",
     "description": "The label for category Technical FAQ in sidebar default"
   },
   "sidebar.ref.category.コマンドラインインターフェース": {
@@ -146,5 +146,13 @@
   "sidebar.ref.category.Weave（クエリ言語）": {
     "message": "Weave（クエリ言語）",
     "description": "The label for category Weave（クエリ言語） in sidebar ref"
+  },
+  "sidebar.tutorials.category.Integration Tutorials": {
+    "message": "Integration Tutorials",
+    "description": "The label for category Integration Tutorials in sidebar tutorials"
+  },
+  "sidebar.tutorials.doc.Tutorials": {
+    "message": "Tutorials",
+    "description": "The label for the doc item Tutorials in sidebar tutorials, linking to the doc tutorials/intro_to_tutorials"
   }
 }
