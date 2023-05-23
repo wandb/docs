@@ -227,6 +227,9 @@ rules:
   - apiGroups: ["batch"]
     resources: ["jobs", "jobs/status"]
     verbs: ["create", "get", "watch", "list", "update", "delete", "patch"]
+  - apiGroups: ["batch.volcano.sh"]  # Add permission to create and maintain objects from any custom API you wish to use.
+    resources: ["jobs", "jobs/status"]
+    verbs: ["create", "get", "watch", "list", "update", "delete", "patch"]
 ---
 apiVersion: v1
 kind: ServiceAccount
