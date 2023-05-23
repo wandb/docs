@@ -407,6 +407,7 @@ const sidebars = {
         'tutorials/sweeps',
         'tutorials/artifacts',
         'tutorials/models',
+        'tutorials/prompts',
         {
           type: 'category',
           label: 'Integration Tutorials',

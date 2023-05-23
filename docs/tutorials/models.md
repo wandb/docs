@@ -535,3 +535,7 @@ artifact = run.use_artifact('wandb/model-registry/Model Registry Tutorial:stagin
 artifact_dir = artifact.download()
 wandb.finish()
 ```
+
+# What's next?
+In the next tutorial, you will learn how to iterate on large language models and debug using W&B Prompts:
+## 👉 [Iterate on LLMs](prompts)
