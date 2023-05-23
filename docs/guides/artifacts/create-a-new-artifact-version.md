@@ -1,6 +1,8 @@
 ---
 description: Create a new artifact version from a single run or from a distributed process.
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Create new artifact versions
 
@@ -8,47 +10,83 @@ description: Create a new artifact version from a single run or from a distribut
     <title>Create new artifacts versions from single and multiprocess Runs.</title>
 </head>
 
-Create a new artifact version using a single run, collaboratively using distributed writers, or as a patch against a prior version.
+Create a new artifact version with a single run, collaboratively with distributed writers, or as an incremental change to a prior version.
 
-Create a new artifact version in one of three ways:
-
-* **Simple**: A single run provides all the data for a new version. This is the most common case and is best suited for when the run fully recreates the needed data. For example: outputting saved models or model predictions in a table for analysis.
+* **Simple**: A single run provides all the data for a new version. This is the most common case and is best suited when the run fully recreates the needed data. For example: outputting saved models or model predictions in a table for analysis.
 * **Collaborative**: A set of runs collectively provides all the data for a new version. This is best suited for distributed jobs which have multiple runs generating data, often in parallel. For example: evaluating a model in a distributed manner, and outputting the predictions.
-* **Patch:** (coming soon) A single run provides a patch of the differences to be applied. This is best suited when a run wants to add data to an artifact without needing to recreate all the already existing data. For example: you have a golden dataset which is created by running a daily web scraper - in this case, you want the run to append new data to the dataset.
+* **Incremental Change:** Add, modify, or remove a subset of files from the previous version. This is best suited when you have a large artifact composed of many underlying files. For example a dataset artifact, and you are looking to add, modify, or delete only a small number of files. This can be done within a single run or outside.
 
 ![Artifact overview diagram](/images/artifacts/create_new_artifact_version.png)
 
-### Simple Mode
+## Simple mode
 
-To log a new version of an Artifact with a single run that produces all the files in the artifact, use the Simple Mode:
+Use Simple mode to log a new version of an artifact. This mode applies to the case when a single run produces all the files in the artifact.
 
-```python
+### Create a new artifact with simple mode
+Follow the procedure below to create a new artifact in simple mode:
+
+<Tabs
+  defaultValue="within"
+  values={[
+    {label: 'Within a run', value: 'within'},
+    {label: 'Outside a run', value: 'outside'},
+  ]}>
+  <TabItem value="within">
+
+1. Create with `wandb.init`. (Line 1)
+2. Create an artifact object with `wandb.Artifact`. (Line 2)
+3. Add files to the artifact with `.add_file`. (Line 9)
+4. Log the artifacts to the run with `.log_artifact`. (Line 10)
+
+```python showLineNumbers
 with wandb.init() as run:
-    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    artifact = wandb.Artifact(
+        "artifact_name", 
+        "artifact_type"
+        )
+
     # Add Files and Assets to the artifact using 
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image1.png")
     run.log_artifact(artifact)
 ```
 
-Use the `Artifact.save()` to create the version without starting a run.
+  </TabItem>
+  <TabItem value="outside">
 
-```python
+Create an artifact version outside of a W&B run:
+
+1. Create an artifact object with the W&B Public API (`wanb.Artifact`). (Line 1)
+2. Add files to the artifact with `.add_file`. (Line 4)
+3. Use `Artifact.save()` to create the version. (Line 5)
+
+```python showLineNumbers
 artifact = wandb.Artifact("artifact_name", "artifact_type")
 # Add Files and Assets to the artifact using 
 # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
 artifact.add_file("image1.png")
 artifact.save()
-```
+```  
 
-### Collaborative Mode
+  </TabItem>
+</Tabs>
 
-Use Collaborative Mode to allow a collection of runs to collaborate on a version before committing it. There are two key ideas to keep in mind when using Collaborative Mode:
 
-1. Each Run in the collection needs to be aware of the same unique ID (called `distributed_id`) in order to collaborate on the same version. As a default, if present, Weights & Biases uses the run's `group` as set by `wandb.init(group=GROUP)` as the `distributed_id`.
+
+## Collaborative Mode
+
+Use Collaborative Mode to allow a collection of runs to collaborate on a version before committing it. Use `upsert_artifact` to add to the collaborative artifact and `finish_artifact` to finalize the commit.
+
+:::info
+1. Each run in the collection needs to be aware of the same unique ID (called `distributed_id`) in order to collaborate on the same version. By default, if present, W&B uses the run's `group` as set by `wandb.init(group=GROUP)` as the `distributed_id`.
 2. There must be a final run that "commits" the version, permanently locking its state.
+3. Use `upsert_artifact` to add the the collaborative artifact and `finish_artifact` to finalize the commit.
+:::
 
-Consider the following example. Note that rather than using `log_artifact` we use `upsert_artifact` to add the the collaborative artifact and `finish_artifact` to finalize the commit:
+### Create an artifact collaboratively across different runs
+
+Consider the following example. Different runs (labelled below as **Run 1**, **Run 2**, and **Run 3**) add different image file (image.png) versions to the same artifact with `upsert_artifact`.
+
 
 #### Run 1:
 
@@ -93,3 +131,71 @@ with wandb.init() as run:
         distributed_id="my_dist_artifact"
         )
 ```
+
+
+
+
+## Incremental change
+
+Use incremental artifacts to apply changes to a small subset of files without waiting for the process to re-index, download, or reference the rest of the files in an artifact. There are three types of incremental changes you can make to an artifact:
+
+|       |      | Common use case |
+| ----- | -----| ----|
+| add | | periodically add a new subset of files to a dataset after collecting a new batch. |
+| remove | | you discovered several duplicate files and want to remove them from your artifact.| 
+| modify | | you corrected annotations for a subset of files and want to replace the old files with the correct ones.|
+
+### How to incrementally change your artifact
+
+Follow the procedure below to incrementally change an artifact:
+
+1. Obtain the artifact version you want to perform an incremental change on with the W&B Public API:
+
+```python
+client = wandb.Api()
+saved_artifact = client.artifact("my_artifact:latest")
+```
+
+2. Create a draft with:
+
+```python
+draft_artifact = saved_artifact.new_draft()
+```
+
+3. Perform any incremental changes you want to see in the next version:
+
+
+<Tabs
+  defaultValue="add"
+  values={[
+    {label: 'Add', value: 'add'},
+    {label: 'Remove', value: 'remove'},
+    {label: 'Modify', value: 'modify'},
+  ]}>
+  <TabItem value="add">Add a file:
+
+```python
+draft_artifact.add_file("file_to_add.txt")
+```
+  </TabItem>
+  <TabItem value="remove">
+Remove a file:  
+
+```python
+draft_artifact.remove("file_to_remove.txt")
+```
+  
+  </TabItem>
+  <TabItem value="modify">
+Modify, replace a file:
+
+```python
+draft_artifact.add_file("modified_file.txt")
+```
+
+  </TabItem>
+</Tabs>
+
+:::info
+The method to add or modify an artifact are the same. Entries are replaced (as opposed to duplicated), when you pass a filename for an entry that already exists.
+:::
