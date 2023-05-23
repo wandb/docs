@@ -28,7 +28,7 @@ description: The Prompts Quickstart shows how to visualise and debug the executi
 
 ```python
 from wandb.integration.langchain import WandbTracer
-```
+
 WandbTracer.init({"project": "wandb_prompts"})
 ```
 
@@ -37,6 +37,7 @@ WandbTracer.init({"project": "wandb_prompts"})
 チェーン実行が完了すると、LangChainオブジェクトへのコールはW&Bトレースに自動的にログされます。
 
 ### 2. LangChainエージェントの設定
+
 OpenAI Langchainエージェントをインポートし、`load_tools`で数学ツール（関数）を作成します。次に、ツールオブジェクトを`initialize_agent`に渡して[`initialize_agent`](https://python.langchain.com/en/latest/_modules/langchain/agents/initialize.html)メソッドで数学エージェントを作成します。
 
 ```python
@@ -60,7 +61,7 @@ questions = [
     "3を7.34で割った数をπのべき乗にしてください。",
     "0.47ラジアンのsinを27の立方根で割ってください。"
 ]
-```python
+
 for question in questions:
   try:
     answer = math_agent.run(question)
