@@ -1,5 +1,6 @@
 ---
 description: Create a W&B Experiment.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -18,7 +19,7 @@ This guide describes how to use W&B building blocks to create a W&B Experiment.
 
 Create a W&B Experiment in four steps:
 
-1. [Initialize a W&B Run](#import-wandb-and-call-wandbinit)
+1. [Initialize a W&B Run](#initialize-a-wb-run)
 2. [Capture a dictionary of hyperparameters](#capture-a-dictionary-of-hyperparameters)
 3. [Log metrics inside your training loop](#log-metrics-inside-your-training-loop)
 4. [Log an artifact to W&B](#log-an-artifact-to-wb)

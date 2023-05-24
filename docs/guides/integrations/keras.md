@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # Keras
 
 [**Try in a Colab Notebook here →**](http://wandb.me/intro-keras)

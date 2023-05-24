@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/sagemaker
 description: How to integrate W&B with Amazon SageMaker.
+displayed_sidebar: default
 ---
 
 # SageMaker
@@ -40,4 +41,3 @@ The W&B sweep agent will not behave as expected in a SageMaker job unless our Sa
 wandb.init(..., settings=wandb.Settings(sagemaker_disable=True))
 ```
 :::
-

@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # General
 
 ### What does `wandb.init` do to my training process?

@@ -3,6 +3,7 @@ description: >-
   W&B's Embedding Projector allows users to plot multi-dimensional embeddings on
   a 2D plane using common dimension reduction algorithms like PCA, UMAP, and
   t-SNE.
+displayed_sidebar: default
 ---
 
 # Embedding Projector

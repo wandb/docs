@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # Manage Runs
 
 ### Move runs to a team

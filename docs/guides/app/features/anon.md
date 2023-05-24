@@ -1,5 +1,6 @@
 ---
 description: Log and visualize data without a W&B account
+displayed_sidebar: default
 ---
 
 # Anonymous Mode

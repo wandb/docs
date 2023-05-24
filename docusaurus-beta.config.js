@@ -26,7 +26,18 @@ const config = {
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'ja'],
+    path: 'i18n',
+    localeConfigs: {
+      en : {
+        label: 'English',
+        path: 'en'
+      },
+      ja : {
+        label: 'Japanese',
+        path: 'ja'
+      },
+    },
   },
 
   presets: [
@@ -134,6 +145,10 @@ const config = {
             type: 'doc',
             docId: 'tutorials/intro_to_tutorials',
             label: 'Tutorials',
+            position: 'right',
+          },
+          {
+            type: 'localeDropdown',
             position: 'right',
           },
           {

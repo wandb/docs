@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -220,7 +224,7 @@ wandb offline
 
 With a `wandb` run config you can provide metadata about your model, dataset, and so on when you create a W&B Run. You can use this information to compare different experiments and quickly understand what are the main differences.
 
-![Weights & Biases Runs table](../../../static/images/integrations/integrations_add_any_lib_runs_page.png)
+![Weights & Biases Runs table](/images/integrations/integrations_add_any_lib_runs_page.png)
 
 Typical config parameters you can log include:
 
@@ -272,7 +276,7 @@ metrics = {
 wandb.log(metrics)
 ```
 
-![A Weights & Biases Workspace with 2 separate sections](../../../static/images/integrations/integrations_add_any_lib_log.png)
+![A Weights & Biases Workspace with 2 separate sections](/images/integrations/integrations_add_any_lib_log.png)
 
 For more on `wandb.log`, see [Log Data with wandb.log](https://docs.wandb.ai/guides/track/log)
 
@@ -339,7 +343,7 @@ See [Log Distributed Training Experiments](../track/log/distributed-training.md)
 
 If your framework uses or produces models or datasets, you can log them for full traceability and have wandb automatically monitor your entire pipeline through W&B Artifacts.
 
-![Stored Datasets and Model Checkpoints in W&B](../../../static/images/integrations/integrations_add_any_lib_dag.png)
+![Stored Datasets and Model Checkpoints in W&B](/images/integrations/integrations_add_any_lib_dag.png)
 
 When using Artifacts, it might be useful but not necessary to let your users define:
 

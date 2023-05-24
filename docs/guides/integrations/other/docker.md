@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/docker
 description: How to integrate W&B with Docker.
+displayed_sidebar: default
 ---
 
 # Docker
@@ -24,4 +25,3 @@ If you run your training workloads in Kubernetes and the k8s API is exposed to y
 ## Restoring
 
 If a run was instrumented with the **WANDB\_DOCKER** environment variable, calling `wandb restore username/project:run_id` will checkout a new branch restoring your code then launch the exact docker image used for training pre-populated with the original command.
-

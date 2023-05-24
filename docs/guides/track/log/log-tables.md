@@ -1,5 +1,6 @@
 ---
 description: Log tables with W&B.
+displayed_sidebar: default
 ---
 
 # Log Tables

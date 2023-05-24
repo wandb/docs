@@ -1,6 +1,8 @@
 ---
-description: 
-  Search and stop algorithms locally instead of using the Weights & Biases cloud-hosted service.
+description: >-
+  Search and stop algorithms locally instead of using the Weights & Biases
+  cloud-hosted service.
+displayed_sidebar: default
 ---
 
 # Search and stop algorithms locally

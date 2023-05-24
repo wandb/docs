@@ -1,5 +1,6 @@
 ---
 description: Hosting W&B Server on baremetal servers on-premises
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

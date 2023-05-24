@@ -1,7 +1,7 @@
 ---
 description: Learn how to create configuration files for sweeps.
+displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
