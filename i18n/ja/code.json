@@ -5,6 +5,33 @@
   "Developer guide": {
     "message": "Developer guide"
   },
+  "Weights & Biases is the machine learning platform for developers to build better models faster. Use W&B's lightweight, interoperable tools to quickly track experiments, version and iterate on datasets, evaluate model performance, reproduce models, visualize results and spot regressions, and share findings with colleagues.": {
+    "message": "Weights & Biasesは機械学習開発に関わる全ての人たちが、より良いモデルをより早く構築することを支援します。W&Bは軽量で、互換性が高く、実験管理、データセットのバージョン管理、モデルの品質評価、再現可能性の向上、結果の可視化、チームとのコラボレーションなどの優れたワークフローをあなたの開発プロセスにすぐ導入することができます。"
+  },
+  "The developer guide provides in-depth information about W&B and how to use it.": {
+    "message": "W&Bの使い方および開発者向けの詳しい情報を提供します。"
+  },
+  "The API reference guide provides technical information about the W&B API.": {
+    "message": "W&BのAPIに関する技術的な情報を提供します"
+  },
+  "Are you new to W&B? Check out our quickstarts!": {
+    "message": "とりあえず初めてみたい、という方は、このクイックスタートから"
+  },
+  "Search documentation": {
+    "message": "ドキュメンテーションを検索"
+  },
+  "Learn practical skills for efficient workflows with our Tutorials.": {
+    "message": "実世界の課題をテーマにしたチュートリアルの一覧です（英語)"
+  },
+  "API reference": {
+    "message": "API reference"
+  },
+  "Quickstart": {
+    "message": "Quickstart"
+  },
+  "Tutorials": {
+    "message": "Tutorials"
+  },
   "theme.docs.breadcrumbs.home": {
     "message": "ホームページ",
     "description": "The ARIA label for the home page in the breadcrumbs"
@@ -406,29 +433,5 @@
   "theme.tags.tagsPageTitle": {
     "message": "タグ",
     "description": "The title of the tag list page"
-  },
-  "Weights & Biases is the machine learning platform for developers to build better models faster. Use W&B's lightweight, interoperable tools to quickly track experiments, version and iterate on datasets, evaluate model performance, reproduce models, visualize results and spot regressions, and share findings with colleagues.": {
-    "message": "Weights & Biasesは機械学習開発に関わる全ての人たちが、より良いモデルをより早く構築することを支援します。W&Bは軽量で、互換性が高く、実験管理、データセットのバージョン管理、モデルの品質評価、再現可能性の向上、結果の可視化、チームとのコラボレーションなどの優れたワークフローをあなたの開発プロセスにすぐ導入することができます。"
-  },
-  "The developer guide provides in-depth information about W&B and how to use it.": {
-    "message": "W&Bの使い方および開発者向けの詳しい情報を提供します。"
-  },
-  "The API reference guide provides technical information about the W&B API.": {
-    "message": "W&BのAPIに関する技術的な情報を提供します"
-  },
-  "Are you new to W&B? Check out our quickstart!": {
-    "message": "とりあえず初めてみたい、という方は、このクイックスタートから！"
-  },
-  "Explore examples to real-world problems with our how-to guides.": {
-    "message": "実世界の課題をテーマにしたチュートリアルの一覧です（英語）"
-  },
-  "Search documentation": {
-    "message": "ドキュメンテーションを検索"
-  },
-  "Are you new to W&B? Check out our quickstarts!": {
-    "message": "Are you new to W&B? Check out our quickstarts!"
-  },
-  "Learn practical skills for efficient workflows with our Tutorials.": {
-    "message": "Learn practical skills for efficient workflows with our Tutorials."
   }
 }

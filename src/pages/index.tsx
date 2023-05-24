@@ -69,7 +69,7 @@ const Home: React.FC = () => {
               <div className={clsx(styles.homeBox, styles.sienna)}>
                 <CodeAltIcon />
                 <div className={styles.boxHeader}>
-                  API reference
+                  <Translate>API reference</Translate>
                   <ForwardNextIcon className={styles.arrowIcon} />
                 </div>
                 <div className={styles.boxDescription}>
@@ -84,7 +84,7 @@ const Home: React.FC = () => {
               <div className={clsx(styles.homeBox, styles.gray)}>
                 <MagicWandStarIcon />
                 <div className={styles.boxHeader}>
-                  Quickstart
+                  <Translate>Quickstart</Translate>
                   <ForwardNextIcon className={styles.arrowIcon} />
                 </div>
                 <div className={styles.boxDescription}>
@@ -98,7 +98,7 @@ const Home: React.FC = () => {
               <div className={clsx(styles.homeBox, styles.teal)}>
                 <DocumentationIcon />
                 <div className={clsx(styles.boxHeader, styles.whiteText)}>
-                  Tutorials
+                  <Translate>Tutorials</Translate>
                   <ForwardNextIconWhite className={styles.arrowIcon} />
                 </div>
                 <div className={clsx(styles.boxDescription, styles.whiteText)}>
