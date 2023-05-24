@@ -94,6 +94,8 @@ Find additional information about the jobs such as the:
 
 
 ## Status of queued runs
+The following table defines the status a queued run can have:
+
 
 | Status | Description |
 | --- | --- |
