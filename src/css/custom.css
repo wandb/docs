@@ -88,6 +88,11 @@ a:hover {
   max-width: 1150px;
   height: var(--ifm-navbar-height);
 }
+
+.navbar__items {
+  height: var(--ifm-navbar-height);
+}
+
 .main-wrapper {
   width: 100%;
   max-width: 1198px;
