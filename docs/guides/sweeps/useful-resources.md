@@ -1,5 +1,6 @@
 ---
-description: Collection of useful sources for Sweeps. 
+description: Collection of useful sources for Sweeps.
+displayed_sidebar: default
 ---
 
 # Useful resources
@@ -39,4 +40,3 @@ The following how-to-guide demonstrates how to solve real-world problems with We
 ### Sweep GitHub repository
 
 Weights & Biases advocates open source and welcome contributions from the community. Find the GitHub repository at [https://github.com/wandb/sweeps](https://github.com/wandb/sweeps). For information on how to contribute to the Weights & Biases open source repo, see the W&B GitHub [Contribution guidelines](https://github.com/wandb/wandb/blob/master/CONTRIBUTING.md).
-

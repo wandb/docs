@@ -1,5 +1,6 @@
 ---
 description: Create centralized, interactive, visual dashboards for your ML experiments
+displayed_sidebar: default
 ---
 
 # View results from experiments

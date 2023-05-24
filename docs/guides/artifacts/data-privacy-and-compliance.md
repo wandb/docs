@@ -1,5 +1,8 @@
 ---
-description: Learn where W&B files are stored by default. Explore how to save, store sensitive information.
+description: >-
+  Learn where W&B files are stored by default. Explore how to save, store
+  sensitive information.
+displayed_sidebar: default
 ---
 
 # Data Privacy and Compliance

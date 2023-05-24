@@ -1,7 +1,11 @@
 ---
 slug: /guides/artifacts
-description: Overview of what W&B Artifacts are, how they work, and how to get started using W&B Artifacts.
+description: >-
+  Overview of what W&B Artifacts are, how they work, and how to get started
+  using W&B Artifacts.
+displayed_sidebar: default
 ---
+import Translate, {translate} from '@docusaurus/Translate';
 
 # Artifacts
 
@@ -91,4 +95,3 @@ For a step-by-step video, see [Version Control Data and Model with W&B Artifacts
 
 
 <!-- {% embed url="https://www.youtube.com/watch?v=Hd94gatGMic" %} -->
-

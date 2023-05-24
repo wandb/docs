@@ -2,6 +2,7 @@
 description: >-
   Collaborate with your colleagues, share results, and track all the experiments
   across your team
+displayed_sidebar: default
 ---
 
 # Teams
@@ -14,7 +15,7 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 * **Catch regressions** and immediately get alerted when performance drops.
 * **Benchmark model performance** and compare model versions.
 
-![](../../../../static/images/app_ui/teams_overview.webp)
+![](/images/app_ui/teams_overview.webp)
 
 ## Create a collaborative team
 

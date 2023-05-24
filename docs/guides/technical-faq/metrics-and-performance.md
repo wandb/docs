@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # Metrics & Performance
 
 ## Metrics

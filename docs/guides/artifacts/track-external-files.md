@@ -1,5 +1,8 @@
 ---
-description: Track files saved outside the Weights & Biases such as in an Amazon S3 bucket, GCS bucket, HTTP file server, or even an NFS share.
+description: >-
+  Track files saved outside the Weights & Biases such as in an Amazon S3 bucket,
+  GCS bucket, HTTP file server, or even an NFS share.
+displayed_sidebar: default
 ---
 
 # Track external files

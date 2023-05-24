@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # PyTorch
 
 [**Try in a Colab Notebook here →**](http://wandb.me/intro)
@@ -67,7 +71,7 @@ wandb.log({"mnist_predictions": my_table})
 
 ![The code above generates a table like this one. This model's looking good!](/images/integrations/pytorch_example_table.png)
 
-For more on logging and visualizing datasets and models, check out our [guide to W&B Tables](../data-vis/).
+For more on logging and visualizing datasets and models, check out our [guide to W&B Tables](../data-vis/intro.md).
 
 ## Profiling PyTorch code
 

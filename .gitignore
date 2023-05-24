@@ -25,3 +25,8 @@ yarn-error.log*
 # Yarn stuff
 .yarnrc.yml
 .yarn/
+
+#wandb
+wandb/
+translate_dev/
+chatgpt*

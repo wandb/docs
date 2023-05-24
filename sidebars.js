@@ -13,7 +13,7 @@
 
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
-  referenceSidebar: [
+  default: [
     'guides/intro',
     'quickstart',
     {
