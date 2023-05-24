@@ -17,7 +17,7 @@ Create a new artifact version with a single run, collaboratively with distribute
 * **Collaborative**: A set of runs collectively provides all the data for a new version. This is best suited for distributed jobs which have multiple runs generating data, often in parallel. For example: evaluating a model in a distributed manner, and outputting the predictions.
 * **Incremental Change:** Add, modify, or remove a subset of files from the previous version. This is best suited when you have a large artifact composed of many underlying files. For example a dataset artifact, and you are looking to add, modify, or delete only a small number of files. This can be done within a single run or outside.
 
-![Artifact overview diagram](/images/artifacts/create_new_artifact_version.png)
+![Artifact overview diagram](/images/artifacts/incremental_artifacts_Diagram.png)
 
 ## Simple mode
 
@@ -140,11 +140,11 @@ with wandb.init() as run:
 
 Use incremental artifacts to apply changes to a small subset of files without waiting for the process to re-index, download, or reference the rest of the files in an artifact. There are three types of incremental changes you can make to an artifact:
 
-|       |      | Common use case |
-| ----- | -----| ----|
-| add | | periodically add a new subset of files to a dataset after collecting a new batch. |
-| remove | | you discovered several duplicate files and want to remove them from your artifact.| 
-| modify | | you corrected annotations for a subset of files and want to replace the old files with the correct ones.|
+|            | Common use case |
+| ----- | ----|
+| add |  periodically add a new subset of files to a dataset after collecting a new batch. |
+| remove  | you discovered several duplicate files and want to remove them from your artifact.| 
+| modify  | you corrected annotations for a subset of files and want to replace the old files with the correct ones.|
 
 ### How to incrementally change your artifact
 
