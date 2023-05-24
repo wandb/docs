@@ -8,6 +8,7 @@ In this tutorial, you will learn how to use W&B Launch to run multinode jobs on 
 
 - Ensure that you have a Weights & Biases account and a Kubernetes cluster.
 - Create a launch queue for our volcano jobs.
+- Deploy a Launch agent into our kubernetes cluster.
 - Create a distributed training job.
 - Launch our distributed training.
 
@@ -103,9 +104,21 @@ Now that you have created a queue, you will need to deploy a launch agent to pul
 
 ### Get an API key for the agent
 
+If you created a queue in your personal entity, head to [wandb.ai/authorize](https://wandb.ai/authorize) to get a personal API key.
+
+If you created a queue for a W&B, you will need to create a service account in that team or use an API key from a prior service account. For more information on generating service accounts, see [these docs](../guides/track/environment-variables.md#automated-runs-and-service-accounts).
+
+Keep the API key you plan to deploy your agent with handy for later steps.
+
 ### Create a config for the agent
 
-Create a yaml configuration file for the agent you will deploy. Refer [here](../guides/launch/run-agent.md#agent-configuration) for complete documentation of the agent configuration file.
+Create a yaml configuration file for the agent you will deploy. Refer [here](../guides/launch/run-agent.md#agent-configuration) for complete documentation of the agent configuration file. The config should contain (at least):
+
+```yaml
+entity: <your-entity>
+queues: [ <your-queue> ]
+```
+
 
 ### Deploy with helm
 
