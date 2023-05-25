@@ -4,9 +4,9 @@ description: Iterate on datasets and understand model predictions
 displayed_sidebar: default
 ---
 
-# Data Visualization
+# Visualize your data
 
-Use **W&B Tables** to log, query, and analyze tabular data. Understand your datasets, visualize model predictions, and share insights in a central dashboard.
+Use **W&B Tables** to log, query, and analyze tabular data. Understand your datasets, visualize model predictions, and share insights in a central dashboard. For example, with W&B Tables, you can:
 
 * Compare changes precisely across models, epochs, or individual examples
 * Understand higher-level patterns in your data
@@ -15,11 +15,7 @@ Use **W&B Tables** to log, query, and analyze tabular data. Understand your data
 
 ## What are W&B Tables?
 
-A W&B Table (`wandb.Table`) is a two dimensional grid of data where each column has a single type of data—think of this as a more powerful DataFrame. Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types. Log a Table to W&B, then query, compare, and analyze results in the UI.
-
-Tables are great for storing, understanding, and sharing any form of data critical to your ML workflow—from datasets to model predictions and everything in between.
-
-## Why use Tables?
+A W&B Table (`wandb.Table`) is a two dimensional grid of data where each column has a single type of data—think of this as a more powerful Pandas DataFrame. Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types. Log a Table to W&B, then query, compare, and analyze results in the UI.
 
 ### View your data
 

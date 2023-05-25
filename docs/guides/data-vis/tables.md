@@ -19,65 +19,76 @@ Interactively explore your data to:
 
 :::info
 W&B Tables posses the following behaviors:
-1. **stateless in an artifact context**: any Table logged alongside an artifact version will reset to its default state after you close the browser window
-2. **stateful in a workspace or report context**: any changes you make to a Table in a single run workspace, multi-run project workspace, or Report will persist.
+1. **stateless in an artifact context**: any table logged alongside an artifact version will reset to its default state after you close the browser window
+2. **stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or Report will persist.
 
 For information on how to save your current W&B Table view, see [Save your view](#save-your-view).
 :::
 
-## Compare tables
-Compare two table with a [merged view](#merged-view) or a [side-by-side view](#side-by-side-view). You can also [compare tables across time](#compare-across-time) or [model variants](#compare-across-model-variants). 
+## How to view two tables
+Compare two tables with a [merged view](#merged-view) or a [side-by-side view](#side-by-side-view). For example, the image below demonstrates a table comparison of MNIST data.
 
 ![Left: mistakes after 1 training epochs, Right: mistakes after 5 epochs](/images/data_vis/table_comparison.png)
 
-Follow this procedure to compare two tables:
+Follow these steps to compare two tables:
 
-1. View a table logged alongside an artifact. In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([interactive example →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json))
+1. Go to your W&B project and select the artifacts icon on the left panel.
+2. Select a dataset artifact version. In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([view interactive example.](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json))
 
 ![Click on "predictions" to view the Table](@site/static/images/data_vis/preds_mnist.png)
 
-2. Next, select a different artifact version for comparison. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
-3. Hover over the second artifact version in the sidebar and click **Compare** when it appears.
+3. Next, select a different artifact version for comparison. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
+4. Hover over the second artifact version in the sidebar and click **Compare** when it appears.
 
 ![Preparing to compare model predictions after training for 1 epoch (v0, shown here) vs 5 epochs (v4)](@site/static/images/data_vis/preds_2.png)
 
 ### Merged view
+Merge two tables together. 
+
+<!-- To do, add steps -->
+
 
 [Live example →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec)
 
-Initially you will see both Tables merged together. The first Table selected has index 0 and a blue highlight, and the second Table has index 1 and a yellow highlight.
+Initially you will see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight.
 
 ![In the merged view, numerical columns will appear as histograms by default](@site/static/images/data_vis/merged_view.png)
 
 From the merged view, you can
 
-* **choose the join key**: use the dropdown at the top left to set the column to use as the join key for the two tables. Typically this will be the unique identifier of each row, such as the file name of a specific example in your dataset or an incrementing index on your generated samples. Note that it's currently possible to select _any_ column, which may yield illegible Tables and slow queries.
-* **concatenate instead of join**: select "concatenating all tables" in this dropdown to _union all the rows_ from both Tables into one larger Table instead of joining across their columns
-* **reference each Table explicitly**: use 0, 1, and \* in the filter expression to explicitly specify a column in one or both Table instances
+* **choose the join key**: use the dropdown at the top left to set the column to use as the join key for the two tables. Typically this will be the unique identifier of each row, such as the file name of a specific example in your dataset or an incrementing index on your generated samples. Note that it's currently possible to select _any_ column, which may yield illegible tables and slow queries.
+* **concatenate instead of join**: select "concatenating all tables" in this dropdown to _union all the rows_ from both tables into one larger Table instead of joining across their columns
+* **reference each Table explicitly**: use 0, 1, and \* in the filter expression to explicitly specify a column in one or both table instances
 * **visualize detailed numerical differences as histograms**: compare the values in any cell at a glance
 
 ### Side-by-side view
 
-To view the two Tables side-by-side, change the first dropdown from "Merge Tables: Table" to "List of: Table" and then update the "Page size" respectively. Here the first Table selected is on the left and the second one is on the right. Also, you can compare these tables vertically as well by clicking on the "Vertical" checkbox.
+<!-- To do -->
+
+To view the two tables side-by-side, change the first dropdown from "Merge Tables: Table" to "List of: Table" and then update the "Page size" respectively. Here the first Table selected is on the left and the second one is on the right. Also, you can compare these tables vertically as well by clicking on the "Vertical" checkbox.
 
 ![In the side-by-side view, Table rows are independent of each other.](/images/data_vis/side_by_side.png)
 
-* **compare the Tables at a glance**: apply any operations (sort, filter, group) to both Tables in tandem and spot any changes or differences quickly. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, the confidence score distribution by true label, etc.
-* **explore two Tables independently**: scroll through and focus on the side/rows of interest
+* **compare the tables at a glance**: apply any operations (sort, filter, group) to both tables in tandem and spot any changes or differences quickly. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, the confidence score distribution by true label, etc.
+* **explore two tables independently**: scroll through and focus on the side/rows of interest
+
+
+## Compare artifacts
+You can also [compare tables across time](#compare-across-time) or [model variants](#compare-across-model-variants). 
+
 
 ### Compare across time
-
-To analyze model performance over training time, log a Table in an artifact context for each meaningful step of training: at the end of every validation step, after every 50 epochs of training, or any frequency that makes sense for your pipeline. Use the side-by-side view to visualize changes in model predictions.
+Log a table in an artifact for each meaningful step of training to analyze model performance over training time. For example, you could log a table at the end of every validation step, after every 50 epochs of training, or any frequency that makes sense for your pipeline. Use the side-by-side view to visualize changes in model predictions.
 
 ![For each label, the model makes fewer mistakes after 5 training epochs (R) than after 1 (L)](/images/data_vis/compare_across_time.png)
 
-For a more detailed walkthrough of visualizing predictions across training time, [see this report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) and this interactive [notebook example →](http://wandb.me/tables-quickstart)
+For a more detailed walkthrough of visualizing predictions across training time, [see this report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) and this interactive [notebook example](http://wandb.me/tables-quickstart).
 
 ### Compare across model variants
 
-To analyze model performance across different configurations (hyperparameters, base architectures, etc), compare two artifact versions logged at the same step for two different models. For example, compare predictions between a `baseline` and a new model variant, `2x_layers_2x_lr`, where the first convolutional layer doubles from 32 to 64, the second from 128 to 256, and the learning rate from 0.001 to 0.002. From [this live example](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x\_layers\_2x\_lr), use the side-by-side view and filter down to the incorrect predictions after 1 (left tab) versus 5 training epochs (right tab).
+Compare two artifact versions logged at the same step for two different models to analyze model performance across different configurations (hyperparameters, base architectures, and so forth).
 
-This is a toy example of model comparison, but it illustrates the ease, flexibility, and depth of the exploratory analysis you can do with Tables—without rerunning any of your code, writing new one-off scripts, generating new charts, etc.
+For example, compare predictions between a `baseline` and a new model variant, `2x_layers_2x_lr`, where the first convolutional layer doubles from 32 to 64, the second from 128 to 256, and the learning rate from 0.001 to 0.002. From [this live example](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x\_layers\_2x\_lr), use the side-by-side view and filter down to the incorrect predictions after 1 (left tab) versus 5 training epochs (right tab).
 
 <Tabs
   defaultValue="one_epoch"
@@ -98,11 +109,11 @@ This is a toy example of model comparison, but it illustrates the ease, flexibil
 
 ## Save your view
 
-Tables you interact with in the run workspace, project workspace, or a report will automatically save their view state. If you apply any Table operations then close your browser, the Table will retain the last viewed configuration when you next navigate to the table.
+Tables you interact with in the run workspace, project workspace, or a report will automatically save their view state. If you apply any table operations then close your browser, the table will retain the last viewed configuration when you next navigate to the table. Tables you interact with in the artifact context will remain stateless.
 
-Tables you interact with in the artifact context will remain stateless.
-
-To save a Table from a workspace in a particular state, export it to a Report. You can do this from the three dot menu in the top right corner of any workspace visualization panel (three dots → "Share panel" or "Add to report").
+To save a table from a workspace in a particular state, export it to a W&B Report. To export a table to report:
+1. Select the kebob icon (three vertical dots) in the top right corner of your workspace visualization panel.
+2. Select either **Share panel** or **Add to report**.
 
 ![Share panel creates a new report, Add to report lets you append to an existing report.](/images/data_vis/share_your_view.png)
 
