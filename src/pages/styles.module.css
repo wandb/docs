@@ -74,6 +74,7 @@
   font-weight: 600;
   font-size: 24px;
   line-height: 40px;
+  /* width: 220px; */
 }
 
 .homeBox .boxDescription {
@@ -116,7 +117,7 @@
 }
 
 .arrowIcon {
-  margin-left: 16px;
+  margin-left: 4px;
   transform: translateY(4px);
 }
 
