@@ -7,13 +7,15 @@ import TabItem from '@theme/TabItem';
 
 # Visualize & Analyze Tables
 
-Use W&B Tables to log and visualize data and model predictions. Interactively explore your data to:
+Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. 
+
+Interactively explore your data to:
 
 * Compare changes precisely across models, epochs, or individual examples
 * Understand higher-level patterns in your data
 * Capture and communicate your insights with visual samples
 
-Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. 
+
 
 :::info
 W&B Tables posses the following behaviors:
@@ -23,10 +25,8 @@ W&B Tables posses the following behaviors:
 For information on how to save your current W&B Table view, see [Save your view](#save-your-view).
 :::
 
-All the operations described above also work in the context of Table comparison.
-
 ## Compare tables
-Compare two table in the W&B App UI.
+Compare two table with a [merged view](#merged-view) or a [side-by-side view](#side-by-side-view). You can also [compare tables across time](#compare-across-time) or [model variants](#compare-across-model-variants). 
 
 ![Left: mistakes after 1 training epochs, Right: mistakes after 5 epochs](/images/data_vis/table_comparison.png)
 
