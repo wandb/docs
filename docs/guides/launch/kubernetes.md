@@ -92,13 +92,13 @@ spec:
 
 Before you can launch a run on k8s, you need to deploy an agent to your cluster.
 
-### Cluster configuration
-
-In order to run a launch agent in your cluster, you will need to create a few other resources in your cluster. Here, these are all laid out separately but the purpose of demonstration, but you can aggregate them into a single file and apply them all at once.
-
 :::tip
-You can find k8s manifests containing the resources below prepared for specific kubernetes services like EKS or GKE in our sdk repo [here](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch/deploys).
+It is **strongly recommended** that you install the launch agent through the [official helm repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent). Consult the [`README.md` in the chart directory](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent/README.md) for detailed instructions on how to configure and deploy your agent.
 :::
+
+### Manual cluster configuration
+
+In order to run a launch agent in your cluster without the use of Helm, you will need to create a few other resources in your cluster. Here, these are all laid out separately but the purpose of demonstration, but you can aggregate them into a single file and apply them all at once.
 
 #### Namespace
 
