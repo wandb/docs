@@ -8,6 +8,8 @@ import TabItem from '@theme/TabItem';
 
 Launch jobs directly from within W&B locally on your machine or to the compute provider of your choice. Reproduce runs or sweeps directly from the W&B User Interface to launch new experiments and compare results.
 
+There are two methods of creating sweeps on launch. First first harnesses the existing Wandb sweep scheduling engine that powers standard sweeps. The familiar `bayes`, `grid`, and `random` methods are available. It is recommended for first-time sweeps on launch users to use this path, and the steps to do so are below in the "basic" section. The second method is more extendible, configuring the sweep scheduler to run as a job itself. This enables full customization, and should be used by users who find standard wandb scheduling lacking.
+
 ## Create a basic sweep
 Create W&B Sweeps with Launch. You can create a sweep interactively with the W&B App or programmatically with the W&B CLI. For advanced configurations of Launch sweeps, including the ability to customize the scheduler, use the CLI. 
 
@@ -71,7 +73,7 @@ parameters:
     min: 0
     distribution: int_uniform
 
-# Optional/Advanced Scheduler Params:
+# Optional/advanced scheduler params:
 scheduler:
    num_workers: 1  # concurrent sweep runs
    docker_image: <base image for the scheduler>
@@ -99,7 +101,7 @@ For more information on W&B Sweeps, see the [Tune Hyperparameters](../sweeps/int
 </TabItem>
 <TabItem value="existing">
 
-  It is also possible to resume a launch-sweep from a previously launched sweep. Although hyperparameters and the training job cannot be changed, scheduler-specific parameters (like `num_workers`) can be, as well as the queue it is pushed to.
+  It is also possible to resume a launch-sweep from a previously launched sweep. Although hyperparameters and the training job cannot be changed, scheduler-specific parameters can be, as well as the queue it is pushed to.
 
 :::info
 If the initial sweep used a training job with an alias like 'latest', resuming can lead to different results if the latest job version has been changed since the last run.
@@ -118,7 +120,10 @@ wandb launch-sweep <optional config.yaml> --resume_id <sweep id> --queue <queue_
 
 ## Create an advanced sweep
 
-Using sweeps with launch enables superior customizability. The sweep scheduling mechanism can be entirely replaced with a job! To do so, create a sweep scheduler job, or point to a public wandb scheduler job. Examples of what is possible with custom sweep scheduler jobs are available in the [wandb/launch-jobs](https://github.com/wandb/launch-jobs) repo under `jobs/sweep_schedulers`. This guide shows how to use the publicly available Wandb Scheduler Job, as well demonstrates a process for creating custom sweep scheduler jobs. 
+Sweeps on Launch are far more customizable than standard sweeps. The sweep scheduling mechanism can be entirely replaced with a job! You can use pre-made schedulers or implement your own custom scheduler job. Examples of what is possible with custom sweep scheduler jobs are available in the [wandb/launch-jobs](https://github.com/wandb/launch-jobs) repo under `jobs/sweep_schedulers`. This guide shows how to use the publicly available **Wandb Scheduler Job**, as well demonstrates a process for creating custom sweep scheduler jobs. 
+
+What is a sweep scheduler job? Just like any other training job, launch will take a scheduler job and execute it in the environment of choice. The sweep scheduler starts, turning a user provided hyperparameter configuration into many different sweep runs. Rather than starting runs in a sub-process like standard sweeps, the scheduler packages them up and launches them onto the same queue it is running on. Then, the scheduler is responsible for polling on the runs, feeding that information back into its optimization algorithm, and determining which combinations of parameters to use next.
+
 
 :::info
 Using scheduler jobs requires wandb cli version >= `0.15.4`
