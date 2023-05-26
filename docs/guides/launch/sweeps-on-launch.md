@@ -5,12 +5,21 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Sweeps on Launch
+Reproduce [runs](../runs/intro.md) or [sweeps](../sweeps/intro.md) directly with W&B Launch.  After you create a queue, W&B Launch creates a sweep schedule job and executes it in the specified environment. When the sweep schedular starts, it uses the hyperparameter configuration you provide and creates multiple sweep runs. You can use the default W&B Sweep scheduling engine or implement your own custom schedular:
 
-Launch jobs directly from within W&B locally on your machine or to the compute provider of your choice. Reproduce runs or sweeps directly from the W&B User Interface to launch new experiments and compare results.
+1. Standard sweep schedular: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps](../sweeps/intro.md). The familiar `bayes`, `grid`, and `random` methods are available.
+2. Custom sweep schedular: Configure the sweep scheduler to run as a job. This option enables full customization. 
 
-There are two methods of creating sweeps on launch. First first harnesses the existing Wandb sweep scheduling engine that powers standard sweeps. The familiar `bayes`, `grid`, and `random` methods are available. It is recommended for first-time sweeps on launch users to use this path, and the steps to do so are below in the "basic" section. The second method is more extendible, configuring the sweep scheduler to run as a job itself. This enables full customization, and should be used by users who find standard wandb scheduling lacking.
+By default, the W&B sweep scheduling engine executes runs in a sub-process. The sub-process is responsible for using the optimization algorithm and it determines which combinations of hyperparameters to use.
 
-## Create a basic sweep
+If you create a custom sweep schedular, however, the schedular you create will instead package the runs and put them on a single launch queue. The custom schedular then polls the runs on the queue and passes that information into its optimization algorithm. The sweep schedular then determines which combinations of hyperparameters to use next.
+
+
+:::tip
+We recommend you create a sweep on launch using the 'basic' method if you are a first time users of sweeps on launch. Use a custom sweeps on launch when the standard W&B scheduling engine does not meet your needs.
+:::
+
+## Create a sweep with a W&B standard schedular
 Create W&B Sweeps with Launch. You can create a sweep interactively with the W&B App or programmatically with the W&B CLI. For advanced configurations of Launch sweeps, including the ability to customize the scheduler, use the CLI. 
 
 :::info
@@ -73,14 +82,14 @@ parameters:
     min: 0
     distribution: int_uniform
 
-# Optional/advanced scheduler params:
-scheduler:
-   num_workers: 1  # concurrent sweep runs
-   docker_image: <base image for the scheduler>
-   resource: <ie. kubernetes, local-container...>
-   resource_args:  # resource arguments passed to runs
-      env: 
-         - WANDB_API_KEY
+# # Optional/advanced scheduler params:
+# scheduler:
+#    num_workers: 1  # concurrent sweep runs
+#    docker_image: <base image for the scheduler>
+#    resource: <ie. kubernetes, local-container...>
+#    resource_args:  # resource arguments passed to runs
+#       env: 
+#          - WANDB_API_KEY
 
 # Optional Launch Params
 launch: 
@@ -118,12 +127,10 @@ wandb launch-sweep <optional config.yaml> --resume_id <sweep id> --queue <queue_
 </Tabs>
 
 
-## Create an advanced sweep
+## Create a custom sweep schedular
+Create a custom sweep schedular either with the W&B schedular or a custom schedular.
 
-Sweeps on Launch are far more customizable than standard sweeps. The sweep scheduling mechanism can be entirely replaced with a job! You can use pre-made schedulers or implement your own custom scheduler job. Examples of what is possible with custom sweep scheduler jobs are available in the [wandb/launch-jobs](https://github.com/wandb/launch-jobs) repo under `jobs/sweep_schedulers`. This guide shows how to use the publicly available **Wandb Scheduler Job**, as well demonstrates a process for creating custom sweep scheduler jobs. 
-
-What is a sweep scheduler job? Just like any other training job, launch will take a scheduler job and execute it in the environment of choice. The sweep scheduler starts, turning a user provided hyperparameter configuration into many different sweep runs. Rather than starting runs in a sub-process like standard sweeps, the scheduler packages them up and launches them onto the same queue it is running on. Then, the scheduler is responsible for polling on the runs, feeding that information back into its optimization algorithm, and determining which combinations of parameters to use next.
-
+<!-- [insert] -->
 
 :::info
 Using scheduler jobs requires wandb cli version >= `0.15.4`
@@ -132,13 +139,12 @@ Using scheduler jobs requires wandb cli version >= `0.15.4`
 <Tabs
   defaultValue="wandb-scheduler"
   values={[
-    {label: 'Wandb Scheduler', value: 'wandb-scheduler'},
-    {label: 'Custom Scheduler', value: 'custom-scheduler'},
-    {label: 'Optuna Scheduler', value: 'optuna-scheduler'},
+    {label: 'Wandb scheduler', value: 'wandb-scheduler'},
+    {label: 'Custom scheduler', value: 'custom-scheduler'},
   ]}>
     <TabItem value="wandb-scheduler">
 
-  Create a launch sweep using the wandb sweep scheduling logic, as a job.
+  Create a launch sweep using the wandb sweep scheduling logic as a job.
   
   1. Identify the 'Wandb Sweep Scheduler' job in the public wandb/jobs project, or use the job name:
   `'wandb/jobs/Wandb Sweep Scheduler:latest'`
@@ -183,8 +189,6 @@ scheduler:
 ```
 
   </TabItem>
-  <TabItem value="optuna-scheduler">
-
-  Coming soon
-  </TabItem>
 </Tabs>
+
+ Examples of what is possible with custom sweep scheduler jobs are available in the [wandb/launch-jobs](https://github.com/wandb/launch-jobs) repo under `jobs/sweep_schedulers`. This guide shows how to use the publicly available **Wandb Scheduler Job**, as well demonstrates a process for creating custom sweep scheduler jobs. 
