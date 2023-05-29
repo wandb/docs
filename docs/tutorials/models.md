@@ -1,6 +1,6 @@
 # Register models
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Optimize_Pytorch_Lightning_models_with_Weights_&_Biases.ipynb)
+[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-model-registry/Model_Registry_E2E.ipynb)
 
 
 The model registry is a central place to house and organize all the model tasks and their associated artifacts being worked on across an org:
@@ -12,10 +12,10 @@ The model registry is a central place to house and organize all the model tasks 
 - Set up automatic notifications when models progress
 
 This tutorial will walkthrough how to track the model development lifecycle for a simple image classification task. 
-
+ 
 
 ### 🛠️ Install `wandb`
-
+ 
 
 
 ```python
@@ -29,8 +29,7 @@ This tutorial will walkthrough how to track the model development lifecycle for 
     - `WANDB_BASE_URL` - this is the url of the W&B server
 - Find your API Token in "Profile" -> "Setttings" in the W&B App
 
-![api_token](https://drive.google.com/uc?export=view&id=1Xn7hnn0rfPu_EW0A_-32oCXqDmpA0-kx)
-
+![api_token](https://drive.google.com/uc?export=view&id=1Xn7hnn0rfPu_EW0A_-32oCXqDmpA0-kx) 
 
 ```python
 !wandb login
@@ -57,8 +56,7 @@ run.log_artifact(artifact)
 run.finish()
 ```
 
-In this tutorial, the first thing we will do is download a training dataset and log it as an artifact to be used downstream in the training job. 
-
+In this tutorial, the first thing we will do is download a training dataset and log it as an artifact to be used downstream in the training job.  
 
 ```python
 #@title Enter your W&B project and entity
@@ -103,7 +101,7 @@ elif SIZE == "LARGE":
 ```
 
 
-```
+```python
 %%capture
 !curl -SL $src_url > $src_zip
 !unzip $src_zip
@@ -140,8 +138,7 @@ with wandb.init(project=PROJECT_NAME, entity=ENTITY, job_type='log_datasets') as
 
 You can now see all the metadata associated with this dataset, the W&B runs consuming it, and the whole lineage of upstream and downstream artifacts!
 
-![api_token](https://drive.google.com/uc?export=view&id=1fEEddXMkabgcgusja0g8zMz8whlP2Y5P)
-
+![api_token](https://drive.google.com/uc?export=view&id=1fEEddXMkabgcgusja0g8zMz8whlP2Y5P) 
 
 ```python
 from torchvision import transforms
@@ -235,10 +232,9 @@ class NatureDatasetModule(pl.LightningDataModule):
         pass
 ```
 
-## Model Training
+## Model Training 
 
-### Writing the Model Class and Validation Function
-
+### Writing the Model Class and Validation Function 
 
 ```python
 import torch.nn.functional as F
@@ -369,10 +365,10 @@ def evaluate_model(model, eval_data, idx_to_class, class_names, epoch_ndx):
 
 ### Tracking the Training Loop
 During training, it is a best practice to checkpoint your models overtime, so if training gets interrupted or your instance crashes you can resume from where you left off. With artifact logging, we can track all our checkpoints with W&B and attach any metadata we want (like format of serialization, class labels, etc.). That way, when someone needs to consume a checkpoint they know how to use it. When logging models of any form as artifacts, ensure to set the `type` of the artifact to `model`. 
-
-
+ 
 
 ```python
+
 run = wandb.init(project=PROJECT_NAME,
                      entity=ENTITY,
                      job_type='training',
@@ -471,20 +467,17 @@ for epoch_ndx in range(epochs):
 
 ### Manage all your model checkpoints for a project under one roof. 
 
-![api_token](https://drive.google.com/uc?export=view&id=1z7nXRgqHTPYjfR1SoP-CkezyxklbAZlM)
-
+![api_token](https://drive.google.com/uc?export=view&id=1z7nXRgqHTPYjfR1SoP-CkezyxklbAZlM) 
 ### Note: Syncing with W&B Offline
 If for some reason, network communication is lost during the course of training, you can always sync progress with `wandb sync`
 
-The W&B sdk caches all logged data in a local directory `wandb` and when you call `wandb sync`, this syncs the your local state with the web app. 
-
+The W&B sdk caches all logged data in a local directory `wandb` and when you call `wandb sync`, this syncs the your local state with the web app.  
 ## Model Registry 
 After logging a bunch of checkpoints across multiple runs during experimentation, now comes time to hand-off the best checkpoint to the next stage of the workflow (e.g. testing, deployment). 
 
 The Model Registry is a central page that lives above individual W&B projects. It houses **Registered Models**, portfolios that store "links" to the valuable checkpoints living in individual W&B Projects. 
 
-The model registry offers a centralized place to house the best checkpoints for all your model tasks. Any `model` artifact you log can be "linked" to a Registered Model. 
-
+The model registry offers a centralized place to house the best checkpoints for all your model tasks. Any `model` artifact you log can be "linked" to a Registered Model.  
 ### Creating **Registered Models** and Linking through the UI
 #### 1. Access your team's model registry by going the team page and selecting `Model Registry`
 
@@ -498,40 +491,39 @@ The model registry offers a centralized place to house the best checkpoints for 
 
 ![model registry](https://drive.google.com/uc?export=view&id=1LfTLrRNpBBPaUb_RmBIE7fWFMG0h3e0E)
 
-#### 4. Click "Link to Registry" for the model artifact version you want. 
-
+#### 4. Click "Link to Registry" for the model artifact version you want.  
 ### Creating Registered Models and Linking through the **API**
-You can [link a model via api](https://docs.wandb.ai/guides/models) with `wandb.run.link_artifact` passing in the artifact object, and the name of the **Registered Model**, along with aliases you want to append to it. **Registered Models** are entity (team) scoped in W&B so only members of a team can see and access the **Registered Models** there. You indicate a registered model name via api with `<entity>/model-registry/<registered-model-name>`. If a Registered Model doesn't exist, one will be created automatically.
-
+You can [link a model via api](https://docs.wandb.ai/guides/models) with `wandb.run.link_artifact` passing in the artifact object, and the name of the **Registered Model**, along with aliases you want to append to it. **Registered Models** are entity (team) scoped in W&B so only members of a team can see and access the **Registered Models** there. You indicate a registered model name via api with `<entity>/model-registry/<registered-model-name>`. If a Registered Model doesn't exist, one will be created automatically. 
 
 ```python
-wandb.run.link_artifact(best_model, 'wandb/model-registry/Model Registry Tutorial', aliases=['staging'])
+if ENTITY:
+  wandb.run.link_artifact(best_model, f'{ENTITY}/model-registry/Model Registry Tutorial', aliases=['staging'])
+else:
+  print('Must indicate entity where Registered Model will exist')
 wandb.finish()
 ```
 
 ### What is "Linking"?
 When you link to the registry, this creates a new version of that Registered Model, which is just a pointer to the artifact version living in that project. There's a reason W&B segregates the versioning of artifacts in a project from the versioning of a Registered Model. The process of linking a model artifact version is equivalent to "bookmarking" that artifact version under a Registered Model task. 
 
-Typically during R&D/experimentation, researchers generate 100s, if not 1000s of model checkpoint artifacts, but only one or two of them actually "see the light of day." This process of linking those checkpoints to a separate, versioned registry helps delineate the model development side from the model deployment/consumption side of the workflow. The globally understood version/alias of a model should be unpolluted from all the experimental versions being generated in R&D and thus the versioning of a Registered Model increments according to new "bookmarked" models as opposed to model checkpoint logging. 
-
+Typically during R&D/experimentation, researchers generate 100s, if not 1000s of model checkpoint artifacts, but only one or two of them actually "see the light of day." This process of linking those checkpoints to a separate, versioned registry helps delineate the model development side from the model deployment/consumption side of the workflow. The globally understood version/alias of a model should be unpolluted from all the experimental versions being generated in R&D and thus the versioning of a Registered Model increments according to new "bookmarked" models as opposed to model checkpoint logging.  
 ## Create a Centralized Hub for all your models
 - Add a model card, tags, slack notifactions to your Registered Model
 - Change aliases to reflect when models move through different phases
 - Embed the model registry in reports for model documentation and regression reports. See this report as an [example](https://api.wandb.ai/links/wandb-smle/r82bj9at)
 ![model registry](https://drive.google.com/uc?export=view&id=1lKPgaw-Ak4WK_91aBMcLvUMJL6pDQpgO)
-
-
+ 
 ### Set up Slack Notifications when new models get linked to the registry
 
-![model registry](https://drive.google.com/uc?export=view&id=1RsWCa6maJYD5y34gQ0nwWiKSWUCqcjT9)
-
+![model registry](https://drive.google.com/uc?export=view&id=1RsWCa6maJYD5y34gQ0nwWiKSWUCqcjT9) 
 ## Consuming a Registered Model
-You now can consume any registered model via API by referring the corresponding `name:alias`. Model consumers, whether they are engineers, researchers, or CI/CD processes, can go to the model registry as the central hub for all models that should "see the light of day": those that need to go through testing or move to production. 
-
+You now can consume any registered model via API by referring the corresponding `name:alias`. Model consumers, whether they are engineers, researchers, or CI/CD processes, can go to the model registry as the central hub for all models that should "see the light of day": those that need to go through testing or move to production.  
 
 ```python
+%%wandb -h 600
+
 run = wandb.init(project=PROJECT_NAME, entity=ENTITY, job_type='inference')
-artifact = run.use_artifact('wandb/model-registry/Model Registry Tutorial:staging', type='model')
+artifact = run.use_artifact(f'{ENTITY}/model-registry/Model Registry Tutorial:staging', type='model')
 artifact_dir = artifact.download()
 wandb.finish()
 ```
