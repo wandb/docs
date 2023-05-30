@@ -37,7 +37,8 @@ const Home: React.FC = () => {
       <Layout title="W&B Docs">
         <div className={styles.homePage}>
           <div className={styles.homeHeader}>
-            <Translate>Weights & Biases Documentation</Translate>
+            <Translate>Weights & Biases</Translate> <br/>
+            <Translate>Documentation</Translate>
           </div>
           <BigSearchBar />
           <div className={styles.homeDescription}>
