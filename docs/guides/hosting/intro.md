@@ -15,13 +15,13 @@ See the [Basic Setup guide](./how-to-guides/basic-setup.md) to set up a develope
 
 With W&B Server you can configure and leverage features such as:
 
-- [Secure Storage Connector](./secure-storage-connector.md)
-- [Single Sign-On](./sso.md)
-- [Role-based Access Control via LDAP](./ldap.md)
-- [Audit Logs](./audit-logging.md)
-- [User Management](./manage-users.md)
-- [Prometheus Monitoring](./prometheus-logging.md)
-- [Slack Alerts](./slack-alerts.md) and more.
+- [Secure Storage Connector](./configure/secure-storage-connector.md)
+- [Single Sign-On](./configure/sso.md)
+- [Role-based Access Control via LDAP](./configure/ldap.md)
+- [Audit Logs](./configure/audit-logging.md)
+- [User Management](./configure/manage-users.md)
+- [Prometheus Monitoring](./configure/prometheus-logging.md)
+- [Slack Alerts](./configure/slack-alerts.md) and more.
 
 The following sections of the documentation describes different options on how to install W&B Server, the shared responsibility model, step-by-step installation and configuration guides.
 
