@@ -2,7 +2,7 @@
 description: Run Weights and Biases on your own machines using Docker
 ---
 
-# Basic Setup
+# Developer installation
 
 Run Weights and Biases on your own machines using Docker.
 
