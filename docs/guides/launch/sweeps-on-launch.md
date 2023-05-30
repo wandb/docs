@@ -7,10 +7,17 @@ import TabItem from '@theme/TabItem';
 # Sweeps on Launch
 Reproduce [runs](../runs/intro.md) or [sweeps](../sweeps/intro.md) directly with W&B Launch.  After you create a queue, W&B Launch creates a sweep schedule job and executes it in the specified environment. When the sweep schedular starts, it uses the hyperparameter configuration you provide and creates multiple sweep runs. You can use the default W&B Sweep scheduling engine or implement your own custom schedular:
 
+<<<<<<< Updated upstream
 1. Standard sweep schedular: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps](../sweeps/intro.md). The familiar `bayes`, `grid`, and `random` methods are available.
 2. Custom sweep schedular: Configure the sweep scheduler to run as a job. This option enables full customization. 
 
 By default, the W&B sweep scheduling engine executes runs in a sub-process. The sub-process is responsible for using the optimization algorithm and it determines which combinations of hyperparameters to use.
+=======
+Launch jobs directly from within W&B locally on your machine or to the compute provider of your choice. Reproduce runs or sweeps from the W&B User Interface to launch new experiments and compare results.
+
+1. Standard sweep schedular: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps](../sweeps/intro.md). The familiar `bayes`, `grid`, and `random` methods are available.It is recommended for first-time sweeps on launch users to use this path, and the steps to do so are below in the "basic" section. 
+2. The second method is more extendible, configuring the sweep scheduler to run as a job itself. This enables full customization, and should be used if the standard wandb scheduling is lacking. An example of how to extend the standard sweep scheduler to include more logging can be found below in the "advanced" section.
+>>>>>>> Stashed changes
 
 If you create a custom sweep schedular, however, the schedular you create will instead package the runs and put them on a single launch queue. The custom schedular then polls the runs on the queue and passes that information into its optimization algorithm. The sweep schedular then determines which combinations of hyperparameters to use next.
 
@@ -82,6 +89,7 @@ parameters:
     min: 0
     distribution: int_uniform
 
+<<<<<<< Updated upstream
 # # Optional/advanced scheduler params:
 # scheduler:
 #    num_workers: 1  # concurrent sweep runs
@@ -90,6 +98,16 @@ parameters:
 #    resource_args:  # resource arguments passed to runs
 #       env: 
 #          - WANDB_API_KEY
+=======
+# Optional scheduler params:
+scheduler:
+   num_workers: 1  # concurrent sweep runs
+   docker_image: <base image for the scheduler>
+   resource: <ie. local-container...>
+   resource_args:  # resource arguments passed to runs
+      env: 
+         - WANDB_API_KEY
+>>>>>>> Stashed changes
 
 # Optional Launch Params
 launch: 
@@ -175,7 +193,7 @@ parameters:
   Custom schedulers can be created by creating a scheduler-job. For the purposes of this guide we will be modifying the `WandbScheduler` to provide more logging. 
 
   1. Clone the `wandb/launch-jobs` repo (specifically: `wandb/launch-jobs/jobs/sweep_schedulers`)
-  2. Now, we can modify the `wandb_scheduler.py` to achieve our desired increased logging. Example: Add logging to the function `_poll`. This is called once ever polling cycle (configurable timing), before we launch new sweep runs. 
+  2. Now, we can modify the `wandb_scheduler.py` to achieve our desired increased logging. Example: Add logging to the function `_poll`. This is called once every polling cycle (configurable timing), before we launch new sweep runs. 
   3. Run the modified file to create a job, with: `python wandb_scheduler.py --project <project> --entity <entity> --name CustomWandbScheduler`
   4. Identify the name of the job created, either in the UI or in the output of the previous call, which will be a code-artifact job (unless otherwise specified).
   5. Now create a sweep configuration where the scheduler points to your new job!
@@ -184,7 +202,6 @@ parameters:
 ...
 scheduler:
   job: '<entity>/<project>/job-CustomWandbScheduler:latest'
-
 ...
 ```
 
