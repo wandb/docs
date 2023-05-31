@@ -398,14 +398,14 @@ const sidebars = {
     'quickstart',
     {
       type: 'category',
-      label: 'Experiments',
+      label: '実験管理',
       link: {type: 'doc', id: 'guides/track/intro'},
       items: [
         'guides/track/launch',
         'guides/track/config',
         {
           type: 'category',
-          label: 'What are Runs?',
+          label: 'Runとは',
           link: {type: 'doc', id: 'guides/runs/intro'},
           items: [
             'guides/runs/grouping',
@@ -416,7 +416,7 @@ const sidebars = {
         },
         {
           type: 'category',
-          label: 'Log Objects and Media',
+          label: 'メディアとオブジェクトのログ',
           link: {type: 'doc', id: 'guides/track/log/intro'},
           items: [
             'guides/track/log/plots',
@@ -440,7 +440,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Reports',
+      label: 'レポート',
       link: {type: 'doc', id: 'guides/reports/intro'},
       items: [
         'guides/reports/create-a-report',
@@ -454,7 +454,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Artifacts',
+      label: 'アーティファクト',
       link: {type: 'doc', id: 'guides/artifacts/intro'},
       items: [
         'guides/artifacts/quickstart',
@@ -473,7 +473,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Tables',
+      label: 'テーブル',
       link: {type: 'doc', id: 'guides/data-vis/intro'},
       items: [
         'guides/data-vis/tables-quickstart',
@@ -482,7 +482,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Sweeps',
+      label: 'スイープ',
       link: {type: 'doc', id: 'guides/sweeps/intro'},
       items: [
         'guides/sweeps/quickstart',
@@ -503,7 +503,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Models',
+      label: 'モデル',
       link: {type: 'doc', id: 'guides/models/intro'},
       items: [
         // 'guides/models/quickstart',
@@ -517,7 +517,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Launch',
+      label: 'ローンチ',
       link: {
         type: 'doc',
         id: 'guides/launch/intro',
@@ -535,7 +535,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Prompts',
+      label: 'プロンプト',
       link: {
         type: 'doc',
         id: 'guides/prompts/intro',
@@ -546,12 +546,12 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'App Reference',
+      label: 'Appリファレンス',
       link: {type: 'doc', id: 'guides/app/intro'},
       items: [
         {
           type: 'category',
-          label: 'Features',
+          label: '機能',
           link: {type: 'doc', id: 'guides/app/features/intro'},
           items: [
             {
@@ -613,7 +613,7 @@ const sidebars = {
         },
         {
           type: 'category',
-          label: 'Pages',
+          label: 'ページ',
           link: {type: 'doc', id: 'guides/app/pages/intro'},
           items: [
             'guides/app/pages/gradient-panel',
@@ -624,7 +624,7 @@ const sidebars = {
         },
         {
           type: 'category',
-          label: 'Settings',
+          label: '設定',
           link: {type: 'doc', id: 'guides/app/settings-page/intro'},
           items: [
             'guides/app/settings-page/user-settings',
@@ -636,12 +636,12 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'W&B Server',
+      label: 'W&Bサーバー',
       link: {type: 'doc', id: 'guides/hosting/intro'},
       items: [
         {
           type: 'category',
-          label: 'Hosting options',
+          label: 'ホスティングオプション',
           link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
           items: [
             'guides/hosting/hosting-options/wb-managed',
@@ -659,7 +659,7 @@ const sidebars = {
         'guides/hosting/env-vars',
         {
           type: 'category',
-          label: 'How-to guides',
+          label: 'ハウツーガイド',
           items: [
             'guides/hosting/how-to-guides/basic-setup',
             'guides/hosting/how-to-guides/aws-tf',
@@ -671,7 +671,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Integrations',
+      label: 'インテグレーション',
       link: {type: 'doc', id: 'guides/integrations/intro'},
       items: [
         'guides/integrations/add-wandb-to-any-library',
@@ -726,7 +726,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Technical FAQ',
+      label: '技術FAQ',
       link: {type: 'doc', id: 'guides/technical-faq/intro'},
       items: [
         'guides/technical-faq/general',
