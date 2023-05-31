@@ -301,6 +301,7 @@ const sidebars = {
         'guides/hosting/slack-alerts',
         'guides/hosting/smtp',
         'guides/hosting/env-vars',
+        'guides/hosting/debug',
         // 'guides/hosting/hosting-upgrade',
         // 'guides/hosting/configure-cloud',
         {
