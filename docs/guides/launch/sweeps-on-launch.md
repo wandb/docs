@@ -33,7 +33,6 @@ Before you create a sweep with W&B Launch, ensure that you create a job first. I
   values={[
     {label: 'W&B App', value: 'app'},
     {label: 'CLI', value: 'cli'},
-    {label: 'Resume', value: 'existing'}
   ]}>
   <TabItem value="app">
 Create a sweep interactively with the W&B App.
@@ -110,22 +109,7 @@ For more information on W&B Sweeps, see the [Tune Hyperparameters](../sweeps/int
 
 
 </TabItem>
-<TabItem value="existing">
 
-  It is also possible to resume a launch-sweep from a previously launched sweep. Although hyperparameters and the training job cannot be changed, scheduler-specific parameters can be, as well as the queue it is pushed to.
-
-:::info
-If the initial sweep used a training job with an alias like 'latest', resuming can lead to different results if the latest job version has been changed since the last run.
-:::
-
-  1. Identify the sweep name/id for a previously run launch-sweep (ex. `hhd16935`)
-  2. If changing scheduler parameters, construct an updated config.
-  3. Run: 
-
-```bash
-wandb launch-sweep <optional config.yaml> --resume_id <sweep id> --queue <queue_name>
-```
-  </TabItem>
 </Tabs>
 
 
@@ -191,3 +175,19 @@ scheduler:
 </Tabs>
 
  Examples of what is possible with custom sweep scheduler jobs are available in the [wandb/launch-jobs](https://github.com/wandb/launch-jobs) repo under `jobs/sweep_schedulers`. This guide shows how to use the publicly available **Wandb Scheduler Job**, as well demonstrates a process for creating custom sweep scheduler jobs. 
+
+
+ ## How to resume sweeps on launch
+  It is also possible to resume a launch-sweep from a previously launched sweep. Although hyperparameters and the training job cannot be changed, scheduler-specific parameters can be, as well as the queue it is pushed to.
+
+:::info
+If the initial sweep used a training job with an alias like 'latest', resuming can lead to different results if the latest job version has been changed since the last run.
+:::
+
+  1. Identify the sweep name/ID for a previously run launch sweep. The sweep ID is an eight character string (for example, `hhd16935`) that you can find in your project on the W&B App.
+  2. If you change the scheduler parameters, construct an updated config file.
+  3. In your terminal, execute the following command. Replace content wrapped in "<" and ">" with your information: 
+
+```bash
+wandb launch-sweep <optional config.yaml> --resume_id <sweep id> --queue <queue_name>
+```

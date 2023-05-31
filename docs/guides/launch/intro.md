@@ -47,5 +47,4 @@ Depending on your use case, explore the following resources to get started with 
 
 :::info
 Talk to the W&B Sales Team to get W&B Launch set up for your business: [https://wandb.ai/site/pricing](https://wandb.ai/site/pricing).
-
 :::
