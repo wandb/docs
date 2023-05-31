@@ -2,7 +2,7 @@
 description: >-
   Answers to frequently asked questions about tracking data from machine
   learning experiments with W&B Experiments.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

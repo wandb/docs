@@ -1,6 +1,6 @@
 ---
 description: Visualize the gradients of your parameters
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 # Kubernetesで起動
 

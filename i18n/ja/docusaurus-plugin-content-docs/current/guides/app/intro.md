@@ -1,6 +1,6 @@
 ---
 slug: /guides/app
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # App UI

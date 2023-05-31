@@ -1,6 +1,6 @@
 ---
 description: Compare results across machine learning experiments
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 並行座標

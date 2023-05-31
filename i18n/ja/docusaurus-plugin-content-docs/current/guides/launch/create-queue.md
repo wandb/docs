@@ -1,5 +1,6 @@
 ---
 description: Discover how to create a queue for W&B Launch.
+displayed_sidebar: ja
 ---
 
 # キューの作成

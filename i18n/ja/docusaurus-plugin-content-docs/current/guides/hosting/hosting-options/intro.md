@@ -1,6 +1,7 @@
 ---
 slug: /guides/hosting/hosting-options
 description: Deploying W&B in production
+displayed_sidebar: ja
 ---
 
 # W&Bサーバーホスティングのオプション

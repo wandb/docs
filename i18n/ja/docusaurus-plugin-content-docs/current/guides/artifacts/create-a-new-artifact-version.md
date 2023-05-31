@@ -1,6 +1,6 @@
 ---
 description: Create a new artifact version from a single run or from a distributed process.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 新しいアーティファクトのバージョンを作成

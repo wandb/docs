@@ -1,6 +1,6 @@
 ---
 description: A playground for exploring run data with interactive visualizations
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # ワークスペース

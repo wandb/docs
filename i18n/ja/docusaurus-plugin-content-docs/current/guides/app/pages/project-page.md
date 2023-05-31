@@ -2,7 +2,7 @@
 description: >-
   Compare versions of your model, explore results in a scratch workspace, and
   export findings to a report to save notes and visualizations
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # プロジェクトページ

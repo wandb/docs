@@ -1,7 +1,7 @@
 ---
 slug: /guides/app/features
 description: High level overview of the W&B App features
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 機能

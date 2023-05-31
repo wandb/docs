@@ -1,6 +1,6 @@
 ---
 description: Compare runs from two different projects with cross-project reports.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # クロスプロジェクトレポート
