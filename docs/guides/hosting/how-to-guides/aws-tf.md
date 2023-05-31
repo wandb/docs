@@ -1,5 +1,6 @@
 ---
 description: Hosting W&B Server on AWS.
+displayed_sidebar: default
 ---
 
 # AWS

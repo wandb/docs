@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # Launch on SageMaker
 
 Use W&B Launch to send your runs to AWS SageMaker.

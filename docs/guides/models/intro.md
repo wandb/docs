@@ -1,6 +1,7 @@
 ---
 slug: /guides/models
 description: Model registry to manage the model lifecycle from training to production
+displayed_sidebar: default
 ---
 
 # Models 

@@ -1,5 +1,6 @@
 ---
 description: Getting started guide for W&B Launch.
+displayed_sidebar: default
 ---
 
 # Launch on Docker

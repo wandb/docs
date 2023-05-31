@@ -1,3 +1,8 @@
+---
+displayed_sidebar: default
+---
+
+
 # User Management
 
 Weights & Biases strongly recommends and encourages user management via Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to the [SSO Configuration documentation](./sso.md).

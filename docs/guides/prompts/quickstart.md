@@ -1,5 +1,6 @@
 ---
 description: The Prompts Quickstart shows how to visualise and debug the execution flow of your LLM chains and pipelines
+displayed_sidebar: default
 ---
 
 # Quickstart

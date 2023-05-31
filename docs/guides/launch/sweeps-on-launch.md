@@ -1,5 +1,6 @@
 ---
 description: Discover how to automate hyperparamter sweeps on launch.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
