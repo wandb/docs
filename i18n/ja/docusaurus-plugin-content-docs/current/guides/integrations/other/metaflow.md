@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/metaflow
 description: How to integrate W&B with Metaflow.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';

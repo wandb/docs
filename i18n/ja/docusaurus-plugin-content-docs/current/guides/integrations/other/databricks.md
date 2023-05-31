@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/databricks
 description: How to integrate W&B with Databricks.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # Databricks

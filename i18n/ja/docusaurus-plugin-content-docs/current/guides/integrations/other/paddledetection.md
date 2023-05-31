@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/paddledetection
 description: How to integrate W&B with PaddleDetection.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';

@@ -1,6 +1,6 @@
 ---
 description: Guide on how to integrate W&B with Dagster.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

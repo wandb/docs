@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/yolox
 description: How to integrate W&B with YOLOX.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # YOLOX
