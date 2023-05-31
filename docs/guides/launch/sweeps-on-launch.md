@@ -13,7 +13,7 @@ You can use the default W&B Sweep scheduling engine or implement your own custom
 2. Custom sweep schedular: Configure the sweep scheduler to run as a job. This option enables full customization. An example of how to extend the standard sweep scheduler to include more logging can be found below in the "advanced" section.
 
 :::note
-This guide assumes that W&B Launch has been previously configured. If W&B Launch has is not configured, follow the instructions on the [Launch Guide](../launch/intro.md).
+This guide assumes that W&B Launch has been previously configured. If W&B Launch has is not configured, see the [how to get started](./intro.md#how-to-get-started) section of the launch documentation. 
 :::
 
 :::tip
