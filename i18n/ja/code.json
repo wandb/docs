@@ -1,6 +1,9 @@
 {
-  "Weights & Biases Documentation": {
-    "message": "Weights & Biases ドキュメンテーション"
+  "Weights & Biases": {
+    "message": "Weights & Biases"
+  },
+  "Documentation": {
+    "message": "ドキュメンテーション"
   },
   "Developer guide": {
     "message": "Developer guide"

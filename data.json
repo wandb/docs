@@ -950,7 +950,19 @@
     },
     {
       "from": "/java",
-      "to": "/ref/java"
+      "to": "/ref"
+    },
+    {
+      "from": "/ref/java",
+      "to": "/ref"
+    },
+    {
+      "from": "/ref/java/wandbrun-builder",
+      "to": "/ref"
+    },
+    {
+      "from": "/ref/java/wandbrun",
+      "to": "/ref"
     },
     {
       "from": "/jp",

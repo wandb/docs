@@ -5,15 +5,16 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Sweeps on Launch
-Reproduce [runs](../runs/intro.md) or [sweeps](../sweeps/intro.md) directly with W&B Launch.  After you create a queue, W&B Launch creates a sweep schedule job and executes it in the specified environment. When the sweep schedular starts, it uses the hyperparameter configuration you provide and creates multiple sweep runs. You can use the default W&B Sweep scheduling engine or implement your own custom schedular:
+Create a hyperparameter tuning job ([sweeps](../sweeps/intro.md)) with W&B Launch. With sweeps on launch, a sweep scheduler is pushed to a Launch Queue with the specified hyperparameters to sweep over. The sweep schedular starts as it is picked up by the agent, launching sweep runs onto the same queue with chosen hyperparameters. This continues until the sweep finishes or is stopped. 
+
+You can use the default W&B Sweep scheduling engine or implement your own custom scheduler:
 
 1. Standard sweep schedular: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps](../sweeps/intro.md). The familiar `bayes`, `grid`, and `random` methods are available.
-2. Custom sweep schedular: Configure the sweep scheduler to run as a job. This option enables full customization. 
+2. Custom sweep schedular: Configure the sweep scheduler to run as a job. This option enables full customization. An example of how to extend the standard sweep scheduler to include more logging can be found below in the "advanced" section.
 
-By default, the W&B sweep scheduling engine executes runs in a sub-process. The sub-process is responsible for using the optimization algorithm and it determines which combinations of hyperparameters to use.
-
-If you create a custom sweep schedular, however, the schedular you create will instead package the runs and put them on a single launch queue. The custom schedular then polls the runs on the queue and passes that information into its optimization algorithm. The sweep schedular then determines which combinations of hyperparameters to use next.
-
+:::note
+This guide assumes that W&B Launch has been previously configured. If W&B Launch has is not configured, follow the instructions on the [Launch Guide](../launch/intro.md).
+:::
 
 :::tip
 We recommend you create a sweep on launch using the 'basic' method if you are a first time users of sweeps on launch. Use a custom sweeps on launch when the standard W&B scheduling engine does not meet your needs.
@@ -40,7 +41,7 @@ Create a sweep interactively with the W&B App.
 1. Navigate to you W&B project on the W&B App.  
 2. Select the sweeps icon on the left panel (broom image). 
 3. Next, select the **Create Sweep** button.
-4. Toggle the **Use Launch 🚀 (In Beta)** slider.
+4. Toggle the **Use Launch 🚀** slider.
 5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from. 
 6. Select the queue to add the job to from the **Queue** dropdown menu.
 7. Select **Initialize Sweep**.
@@ -82,23 +83,24 @@ parameters:
     min: 0
     distribution: int_uniform
 
-# # Optional/advanced scheduler params:
+# Optional scheduler parameters:
+
 # scheduler:
-#    num_workers: 1  # concurrent sweep runs
-#    docker_image: <base image for the scheduler>
-#    resource: <ie. kubernetes, local-container...>
-#    resource_args:  # resource arguments passed to runs
-#       env: 
-#          - WANDB_API_KEY
+#   num_workers: 1  # concurrent sweep runs
+#   docker_image: <base image for the scheduler>
+#   resource: <ie. local-container...>
+#   resource_args:  # resource arguments passed to runs
+#     env: 
+#         - WANDB_API_KEY
 
 # Optional Launch Params
-launch: 
-   registry: <registry for image pulling>
+# launch: 
+#    registry: <registry for image pulling>
 ```
 
 For information on how to create a sweep configuration, see the [Define sweep configuration](../sweeps/define-sweep-configuration.md) page.
 
-4. Next, initialize a sweep. Provide the path to your config file, the name of your job queue, your W&B entity, and the name of the project for the queue, entity, and project flags, respectively.
+4. Next, initialize a sweep. Provide the path to your config file, the name of your job queue, your W&B entity, and the name of the project.
 
 ```bash
 wandb launch-sweep <path/to/yaml/file> --queue <queue_name> --entity <your_entity>  --project <project_name>
@@ -130,8 +132,6 @@ wandb launch-sweep <optional config.yaml> --resume_id <sweep id> --queue <queue_
 ## Create a custom sweep schedular
 Create a custom sweep schedular either with the W&B schedular or a custom schedular.
 
-<!-- [insert] -->
-
 :::info
 Using scheduler jobs requires wandb cli version >= `0.15.4`
 :::
@@ -144,7 +144,7 @@ Using scheduler jobs requires wandb cli version >= `0.15.4`
   ]}>
     <TabItem value="wandb-scheduler">
 
-  Create a launch sweep using the wandb sweep scheduling logic as a job.
+  Create a launch sweep using the W&B sweep scheduling logic as a job.
   
   1. Identify the 'Wandb Sweep Scheduler' job in the public wandb/jobs project, or use the job name:
   `'wandb/jobs/Wandb Sweep Scheduler:latest'`
@@ -175,7 +175,7 @@ parameters:
   Custom schedulers can be created by creating a scheduler-job. For the purposes of this guide we will be modifying the `WandbScheduler` to provide more logging. 
 
   1. Clone the `wandb/launch-jobs` repo (specifically: `wandb/launch-jobs/jobs/sweep_schedulers`)
-  2. Now, we can modify the `wandb_scheduler.py` to achieve our desired increased logging. Example: Add logging to the function `_poll`. This is called once ever polling cycle (configurable timing), before we launch new sweep runs. 
+  2. Now, we can modify the `wandb_scheduler.py` to achieve our desired increased logging. Example: Add logging to the function `_poll`. This is called once every polling cycle (configurable timing), before we launch new sweep runs. 
   3. Run the modified file to create a job, with: `python wandb_scheduler.py --project <project> --entity <entity> --name CustomWandbScheduler`
   4. Identify the name of the job created, either in the UI or in the output of the previous call, which will be a code-artifact job (unless otherwise specified).
   5. Now create a sweep configuration where the scheduler points to your new job!
@@ -184,7 +184,6 @@ parameters:
 ...
 scheduler:
   job: '<entity>/<project>/job-CustomWandbScheduler:latest'
-
 ...
 ```
 
