@@ -24,7 +24,11 @@ trainer = Trainer(logger=wandb_logger)
 ![Interactive dashboards accessible anywhere, and more!](@site/static/images/integrations/n6P7K4M.gif)
 
 :::info
-**Lightning's Trainer global_step:** Please note that the `WandbLogger` logs to W&B using the Trainer's `global_step`. If you are making additional calls to `wandb.log`, please pass the Trainer's `global_step` using the `step` argument: `wandb.log({"accuracy":0.7, step=current_global_step})
+**Using wandb.log():** Please note that the `WandbLogger` logs to W&B using the Trainer's `global_step`. If you are making additional calls to `wandb.log` directly in your code, **do not** use the `step` argument in `wandb.log()`. 
+
+Instead, log the Trainer's `global_step` like your other metrics, like so:
+
+`wandb.log({"accuracy":0.99, "trainer/global_step": step}`
 :::
 
 ## Sign up and Log in to wandb
