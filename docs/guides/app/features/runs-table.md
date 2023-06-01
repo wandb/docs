@@ -1,5 +1,6 @@
 ---
 description: How to use the sidebar and table on the project page
+displayed_sidebar: default
 ---
 
 # Runs Table

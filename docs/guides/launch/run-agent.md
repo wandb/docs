@@ -1,5 +1,6 @@
 ---
 description: Launch agent documentation
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -215,7 +216,7 @@ builder:
 Navigate to the page for a particular launch queue, and the navigate to the **Agents** tab to view active and inactive agents assigned to the queue. Within this tab you can view the:
 
 - **Agent ID**:  Unique agent identification
-- **Status:** The statue of the agent. An agent can have a **Killed** or **Polling** status.
+- **Status:** The status of the agent. An agent can have a **Killed** or **Polling** status. See status types in the [Launch a run, status of queued runs](launch-jobs.md#status-of-queued-runs) section.
 - **Start date:** The date the agent was activated.
 - **Host:** The machine the agent is polling on.
 

@@ -1,6 +1,7 @@
 ---
 slug: /guides/track/log
 description: Keep track of metrics, videos, custom plots, and more
+displayed_sidebar: default
 ---
 
 # Log Media and Objects in Experiments
@@ -79,6 +80,3 @@ wandb.log({"loss": 0.314, "epoch": 5,
 2. **Multiple metrics on one chart**: Log multiple metrics in the same call to `wandb.log`, like this: `wandb.log({"acc'": 0.9, "loss": 0.1})` and they will both be available to plot against in the UI
 3. **Custom x-axis**: Add a custom x-axis to the same log call to visualize your metrics against a different axis in the W&B dashboard. For example: `wandb.log({'acc': 0.9, 'epoch': 3, 'batch': 117})`. To set the default x-axis for a given metric use [Run.define\_metric()](https://docs.wandb.ai/ref/python/run#define\_metric)
 4. **Log rich media and charts**: `wandb.log` supports the logging of a wide variety of data types, from [media like images and videos](./media.md) to [tables](./log-tables.md) and [charts](../../app/features/custom-charts/intro.md).
-
-
-

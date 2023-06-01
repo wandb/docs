@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # Scatter Plot
 
 Use the scatter plot to compare multiple runs and visualize how your experiments are performing. We've added some customizable features:
@@ -18,4 +22,3 @@ Here’s an example of validation accuracy of different models over a couple of 
 ### Is it possible to plot the max of a metric rather than plot step by step?
 
 The best way to do this is to create a Scatter Plot of the metric, go into the Edit menu, and select Annotations. From there you can plot the running max of the values
-

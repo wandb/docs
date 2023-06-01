@@ -1,5 +1,6 @@
 ---
 description: Visualize the results of your Weights & Biases Sweeps with the W&B App UI.
+displayed_sidebar: default
 ---
 
 # Visualize sweep results

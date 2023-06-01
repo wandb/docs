@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';

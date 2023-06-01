@@ -1,5 +1,6 @@
 ---
 description: Use a dictionary-like object to save your experiment configuration
+displayed_sidebar: default
 ---
 
 # Configure Experiments
@@ -311,5 +312,3 @@ run.update()
 <!-- ## Key-Value Pairs
 
 You can log any key-value pairs into `wandb.config`. They can be different for every type of model you are training, e.g.`wandb.config.update({"my_param": 10, "learning_rate": 0.3, "model_architecture": "B"})`. -->
-
-

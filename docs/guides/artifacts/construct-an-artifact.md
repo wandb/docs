@@ -1,5 +1,8 @@
 ---
-description: Create, construct a W&B Artifact. Learn how to add one or more files or a URI reference to an Artifact.
+description: >-
+  Create, construct a W&B Artifact. Learn how to add one or more files or a URI
+  reference to an Artifact.
+displayed_sidebar: default
 ---
 
 # Construct artifacts
@@ -158,7 +161,7 @@ The proceeding API calls produce the proceeding artifact content:
 | API Call                                    | Resulting artifact                                     |
 | ------------------------------------------- | ------------------------------------------------------ |
 | `artifact.add_dir('images')`                | <p><code>cat.png</code></p><p><code>dog.png</code></p> |
-| `artifact.add_dir('images', name='images')` | `name='images')images/cat.pngimages/dog.png`           |
+| `artifact.add_dir('images', name='images')` | <p><code>images/cat.png</code></p><p><code>images/dog.png</code></p> |
 | `artifact.new_file('hello.txt')`            | `hello.txt`                                            |
 
 ### Add a URI reference

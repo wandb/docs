@@ -1,7 +1,7 @@
 ---
 description: Answers to frequently asked question about W&B Sweeps.
+displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -180,11 +180,11 @@ W&B provides an estimated number of Runs that will occur when you create a W&B S
 
 For example, suppose you provide the following search space:
 
-![](../../../static/images/sweeps/sweeps_faq_whatisestruns_1.png)
+![](/images/sweeps/sweeps_faq_whatisestruns_1.png)
 
 The cartesian product in this example is 9. W&B shows this number in the W&B App UI as the estimated run count (**Est. Runs**):
 
-![](../../../static/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp)
+![](/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp)
 
 
 You can obtain the estimated Run count with the W&B SDK as well. Use the Sweep object's `expected_run_count` attribute to obtain the estimated Run count:

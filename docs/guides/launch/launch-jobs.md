@@ -1,5 +1,6 @@
 ---
-description: Learn how to add jobs to your W&B queue.
+description: Discover how to launch your jobs.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -93,6 +94,8 @@ Find additional information about the jobs such as the:
 
 
 ## Status of queued runs
+The following table defines the status a queued run can have:
+
 
 | Status | Description |
 | --- | --- |

@@ -1,5 +1,8 @@
 ---
-description: Tutorial on how to create sweep jobs from a pre-existing Weights & Biases project.
+description: >-
+  Tutorial on how to create sweep jobs from a pre-existing Weights & Biases
+  project.
+displayed_sidebar: default
 ---
 
 # Tutorial - Create sweeps from existing projects
@@ -59,5 +62,3 @@ Your sweep will now be set up on our server. All you need to do is launch one or
 :::info
 If you kick off the new sweep as a bayesian sweep, the selected runs will also seed the Gaussian Process.
 :::
-
-

@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import type {Interface as RLInterface} from 'readline';
 
 export * from './data';
@@ -41,4 +42,37 @@ export async function promptChoice<T extends readonly string[]>(
     }
     log(`${answer} is not one of the available choices: ${choicesStr}`);
   }
+}
+
+type DirectoryAndExtension = {
+  directoryPath: string;
+  fileExtension: string;
+};
+
+export function findFilesWithExtension(
+  directoryPath: string,
+  fileExtension: string
+): string[] {
+  const filesWithExtension: string[] = [];
+
+  function traverseDirectory({
+    directoryPath,
+    fileExtension,
+  }: DirectoryAndExtension): void {
+    const files = fs.readdirSync(directoryPath);
+
+    files.forEach(file => {
+      const fullPath = path.join(directoryPath, file);
+      const fileStat = fs.lstatSync(fullPath);
+
+      if (fileStat.isDirectory()) {
+        traverseDirectory({directoryPath: fullPath, fileExtension});
+      } else if (path.extname(fullPath) === fileExtension) {
+        filesWithExtension.push(fullPath);
+      }
+    });
+  }
+
+  traverseDirectory({directoryPath, fileExtension});
+  return filesWithExtension;
 }

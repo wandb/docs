@@ -1,5 +1,6 @@
 ---
 description: Learn how to use Weights & Biases for Model Management
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -137,14 +138,11 @@ Next, you will log a model from your training script:
 5. **Log** your model
    * Note: If you are logging multiple versions, it is advisable to add an alias of "best" to your Model Version when it outperforms the prior versions. This will make it easy to find the model with peak performance - especially when the tail end of training may overfit!
 
-By default, you should use the native W&B Artifacts API to log your serialized model. However, since this pattern is so common, we have provided a single method which combines serialization, Artifact creation, and logging. See the "(Beta) Using `log_model`" tab for details.
-
 <Tabs
   defaultValue="withartifacts"
   values={[
     {label: 'Using Artifacts', value: 'withartifacts'},
     {label: 'Declare Dataset Dependency', value: 'datasetdependency'},
-    {label: '[Beta] Using `log_model()`', value: 'logmodel'},
   ]}>
   <TabItem value="withartifacts">
 
@@ -203,33 +201,6 @@ art.add_reference("s3://path/to/data")
 dataset = wandb.use_artifact(art)
 ```
   </TabItem>
-    <TabItem value="logmodel">
-
-:::caution
-The following code snippet leverages actively developed `beta` APIs and therefore is subject to change and not guaranteed to be backwards compatible.
-:::
-
-```python
-from wandb.beta.workflows import log_model
-
-# (Optional) Declare an upstream dataset dependency
-# see the `Declare Dataset Dependency` tab for
-# alternative examples.
-dataset = wandb.use_artifact("mnist:latest")
-
-# (optional) Log training metrics
-wandb.log({"train_loss": 0.345, "val_loss": 0.456})
-
-# This one method will serialize the model, start a run, create a version
-# add the files to the version, and log the version. You can override
-# the default name, project, aliases, metadata, and more!
-log_model(model, "mnist-nn", aliases=["best"] if model_is_best else [])
-```
-
-:::info
-Note: you may want to define custom serialization and deserialization strategies. You can do so by subclassing the [`_SavedModel` class](https://github.com/wandb/wandb/blob/9dfa60b14599f2716ab94dd85aa0c1113cb5d073/wandb/sdk/data\_types/saved\_model.py#L73), similar to the [`_PytorchSavedModel` class](https://github.com/wandb/wandb/blob/9dfa60b14599f2716ab94dd85aa0c1113cb5d073/wandb/sdk/data\_types/saved\_model.py#L358). All subclasses will automatically be loaded into the serialization registry. As this is a beta feature, please reach out to support@wandb.com with questions or comments.
-:::
-  </TabItem>
 </Tabs>
 
 
@@ -250,7 +221,6 @@ Now, let's say that we are ready to link one of our Model Versions to the Regist
   values={[
     {label: 'Manual Linking', value: 'manual_link'},
     {label: 'Programmatic Linking', value: 'program_link'},
-    {label: '[Beta] Using `log_model()`', value: 'logmodel'},
   ]}>
   <TabItem value="manual_link">
 
@@ -312,24 +282,6 @@ wandb.log_artifact(art)
 wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
 ```
   </TabItem>
-  <TabItem value="logmodel">
-
-:::caution
-The following code snippet leverages actively developed `beta` APIs and therefore is subject to change and not guaranteed to be backwards compatible.
-:::
-
-In the case that you logged a model with the beta `log_model` discussed above, then you can use it's companion method: `link_model`
-
-```python
-from wandb.beta.workflows import log_model, link_model
-
-# Obtain a Model Version
-model_version = wb.log_model(model, "mnist_nn")
-
-# Link the Model Version
-link_model(model_version, "[[entity/]project/]collectionName")
-```
-  </TabItem>
 </Tabs>
 
 
@@ -339,15 +291,7 @@ After you link the Model Version, you will see hyperlinks connecting the Version
 
 ### 4. Use a Model Version
 
-Now we are ready to consume a Model - perhaps to evaluate its performance, make predictions against a dataset, or use in a live production context. Similar to logging a Model, you may choose to use the raw Artifact API or the more opinionated beta APIs.
-
-<Tabs
-  defaultValue="usingartifacts"
-  values={[
-    {label: 'Using Artifacts', value: 'usingartifacts'},
-    {label: '[Beta] Using `use_model()`', value: 'use_model'},
-  ]}>
-  <TabItem value="usingartifacts">
+Now we are ready to consume a Model - perhaps to evaluate its performance, make predictions against a dataset, or use in a live production context. Similar to logging a Model, you may choose to use the raw Artifact API:
 
 You can load in a Model Version using the `use_artifact` method.
 
@@ -365,22 +309,6 @@ path = wandb.use_artifact("[[entity/]project/]collectionName:latest").download()
 # to load in a model from disk
 model = make_model_from_data(path)
 ```
-  </TabItem>
-  <TabItem value="use_model">
-
-:::caution
-The following code snippet leverages actively developed `beta` APIs and therefore is subject to change and not guaranteed to be backwards compatible.
-:::
-
-Directly manipulating model files and handling deserialization can be tricky - especially if you were not the one who serialized the model. As a companion to `log_model`, `use_model` automatically deserializes and reconstructs your model for use.
-
-```python
-from wandb.beta.workflows import use_model
-
-model = use_model("[[entity/]project/]collectionName").model_obj()
-```
-  </TabItem>
-</Tabs>
 
 ### 5. Evaluate Model Performance
 

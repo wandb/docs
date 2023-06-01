@@ -1,5 +1,6 @@
 ---
 description: Track your trees with W&B.
+displayed_sidebar: default
 ---
 
 # XGBoost

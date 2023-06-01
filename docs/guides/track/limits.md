@@ -1,5 +1,8 @@
 ---
-description: eep your pages in W&B faster and more responsive by logging within these suggested bounds.
+description: >-
+  eep your pages in W&B faster and more responsive by logging within these
+  suggested bounds.
+displayed_sidebar: default
 ---
 
 # Limits & Performance
