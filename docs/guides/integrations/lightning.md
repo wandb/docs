@@ -23,6 +23,10 @@ trainer = Trainer(logger=wandb_logger)
 
 ![Interactive dashboards accessible anywhere, and more!](@site/static/images/integrations/n6P7K4M.gif)
 
+:::info
+**Lightning's Trainer global_step:** Please note that the `WandbLogger` logs to W&B using the Trainer's `global_step`. If you are making additional calls to `wandb.log`, please pass the Trainer's `global_step` using the `step` argument: `wandb.log({"accuracy":0.7, step=current_global_step})
+:::
+
 ## Sign up and Log in to wandb
 
 a) [**Sign up**](https://wandb.ai/site) for a free account
@@ -261,7 +265,7 @@ wandb_logger.log_image(key="samples", images=["img_1.jpg", "img_2.jpg"])
 trainer.logger.experiment.log({
     "samples": [wandb.Image(img, caption=caption) 
     for (img, caption) in my_images]
-})
+}, step = current_trainer_global_step)
 ```
   </TabItem>
   <TabItem value="text">

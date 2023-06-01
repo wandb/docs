@@ -12,11 +12,9 @@ description: Weights & Biasesツールの生成されたドキュメント
 
 1. [コマンドラインインターフェース](cli/)：シェルコマンドからwandbの基本を使用する
 
-2. [Pythonライブラリ](python/)：スクリプトに`wandb`を追加して、メトリクスを取得し、アーティファクトを保存する
+2. [Pythonライブラリ](./python/README.md)：スクリプトに`wandb`を追加して、メトリクスを取得し、アーティファクトを保存する
 
-3. [Javaライブラリ](java/)：Javaとのベータ版統合を試す
-
-4. [JavaScriptライブラリ](js/)：JavaScript/TypeScriptとのベータ版統合を試す
+4. [JavaScriptライブラリ](./js/README.md)：JavaScript/TypeScriptとのベータ版統合を試す
 
 ### ガイドと例
 

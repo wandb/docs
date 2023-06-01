@@ -15,7 +15,7 @@ Files are uploaded to Google Cloud bucket managed by Weights & Biases when you l
 
 ![GCS W&B Client Server diagram](/images/artifacts/data_and_privacy_compliance_1.png)
 
-When you delete a version of an artifact, all the files that can be safely deleted (files not used in previous or subsequent versions) are _immediately_ removed from Weights & Biases buckets. Similarly, when you delete an entire artifact, all of its contents are removed from our bucket.
+When you delete a version of an artifact, it is marked for soft deletion in our database and removed from your storage cost. When you delete an entire artifact, it is queued for permanently deletion and all of its contents are removed from the Weights & Biases bucket. If you have specific needs around file deletion please reach out to [Customer Support](mailto:support@wandb.com).
 
 For sensitive datasets that cannot reside in a multi-tenant environment, you can use either a private W&B server connected to your cloud bucket or _reference artifacts_. Reference artifacts track references to private buckets without sending file contents to W&B. Reference artifacts maintain links to files on your buckets or servers. In other words, Weights & Biases only keeps track of the metadata associated with the files and not the files themselves.
 

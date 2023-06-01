@@ -63,10 +63,10 @@ This will return the port number where you can preview your changes to the docs.
 
 4. Make your changes on the new branch.
 5. Check your changes are rendered correctly.
-6. Build the static files of your website to beta with `yarn build:beta`.
+6. Build the static files of your website:
 
 ```bash
-yarn build:beta
+yarn build docusaurus 
 ```
 
 7. Commit the changes to the branch.
