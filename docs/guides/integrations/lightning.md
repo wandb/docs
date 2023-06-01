@@ -28,7 +28,7 @@ trainer = Trainer(logger=wandb_logger)
 
 Instead, log the Trainer's `global_step` like your other metrics, like so:
 
-`wandb.log({"accuracy":0.99, "trainer/global_step": step}`
+`wandb.log({"accuracy":0.99, "trainer/global_step": step})`
 :::
 
 ## Sign up and Log in to wandb
