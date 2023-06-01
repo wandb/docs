@@ -8,11 +8,10 @@ These docs are automatically generated from the [`wandb` library](https://github
 
 ### Reference sections
 
-1. [Python Library](python/README.md): Add `wandb` to your script to capture metrics and save artifacts
-2. [Command Line Interface](cli/README.md): Log in, run jobs, execute sweeps, and more using shell commands
-3. [Java Library](java/README.md): A beta Java client to track experiments
-4. [JavaScript Library](js/README.md): A beta JavaScript/TypeScript client to track metrics from your Node server
-5. [Weave](weave/README.md): A beta query language to select and aggregate data
+1. [Python Library](./python/README.md): Add `wandb` to your script to capture metrics and save artifacts
+2. [Command Line Interface](./cli/README.md): Log in, run jobs, execute sweeps, and more using shell commands
+3. [JavaScript Library](./js/README.md): A beta JavaScript/TypeScript client to track metrics from your Node server
+4. [Weave](./weave/README.md): A beta query language to select and aggregate data
 
 ### Examples and guides
 

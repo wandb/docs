@@ -15,6 +15,9 @@
   line-height: 73px;
   text-align: center;
   margin-bottom: 34px;
+  /* Adds extra width to the header so the japanese translation of documentation fits */
+  width: 640px;
+
 }
 
 .bigSearch {
@@ -116,7 +119,7 @@
 }
 
 .arrowIcon {
-  margin-left: 16px;
+  margin-left: 4px;
   transform: translateY(4px);
 }
 
