@@ -9,16 +9,22 @@ import TabItem from '@theme/TabItem';
 
 # OpenAI API
 
-:::info
-**Beta Integration**: This is a new feature, and we're actively working on making this better. Please reach out if you have any feedback — contact@wandb.com
-:::
+Weights & Biases has 2 OpenAI integrations
 
-OpenAI’s API gives practitioners access to GPT-4, an incredibly powerful natural language model that can be applied to virtually any task that involves understanding or generating natural language.
+1. **[OpenAI Python SDK API](#log-openai-api-calls-in-1-line-of-code):** Log requests, responses, token counts and model metadata with 1 line of code for all OpenAI models
+
+2. **[OpenAI GPT-3 Fine-tuning](#log-openai-fine-tunes-to-wb):** Log your GPT-3 fine-tuning metrics and configuration to Weights & Biases to analyse and understand the performance of your newly fine-tuned models. 
+
 
 ## Log OpenAI API calls in 1 line of code
+
+**[Try in a Colab Notebook here →](https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb)**
+
 With just 1 line of code you can now automatically log inputs and outputs from the OpenAI Python SDK to Weights & Biases! 
 
 ![](/images/integrations/open_ai_autolog.png)
+
+Once you start logging your API inputs and outputs you can quickly evaluate the performance of difference prompts, compare different model settings (such as temperature), and track other usage metrics such as token usage.
 
 To get started, pip install the `wandb` library, then follow the steps below:
 
@@ -68,6 +74,9 @@ autolog.disable()
 
 Now your inputs and completions will be logged to Weights & Biases, ready for analysis or to be shared with colleagues.
 
+
+
+
 ## Log OpenAI fine-tunes to W&B
 
 If you use OpenAI's API to [fine-tune GPT-3](https://beta.openai.com/docs/guides/fine-tuning), you can now use the W&B integration to track experiments, models, and datasets in your central dashboard.
@@ -76,12 +85,12 @@ If you use OpenAI's API to [fine-tune GPT-3](https://beta.openai.com/docs/guides
 
 All it takes is one line: `openai wandb sync`
 
-## :sparkles: Check out interactive examples
+### :sparkles: Check out interactive examples
 
 * [Demo Colab](http://wandb.me/openai-colab)
 * [Report - GPT-3 Exploration and Fine-Tuning Tips](http://wandb.me/openai-report)
 
-## :tada: Sync your fine-tunes with one line!
+### :tada: Sync your fine-tunes with one line!
 
 Make sure you are using latest version of openai and wandb.
 
@@ -136,7 +145,7 @@ In addition your training and validation files are logged and versioned, as well
 
 ![](/images/integrations/open_ai_validation_files.png)
 
-## :gear: Optional arguments
+### :gear: Optional arguments
 
 | Argument                 | Description                                                                                                               |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
@@ -147,7 +156,7 @@ In addition your training and validation files are logged and versioned, as well
 | --force                  | Forces logging and overwrite existing wandb run of the same fine-tune.                                                    |
 | \*\*kwargs\_wandb\_init  | In python, any additional argument is directly passed to [`wandb.init()`](../../../ref/python/init.md)                    |
 
-## 🔍 Inspect sample predictions
+### 🔍 Inspect sample predictions
 
 Use [Tables](../../data-vis/intro.md) to better visualize sample predictions and compare models.
 
