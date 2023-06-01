@@ -11,11 +11,13 @@ import TabItem from '@theme/TabItem';
     <title>Create new artifacts versions from single and multiprocess Runs.</title>
 </head>
 
-Create a new artifact version with a single run, collaboratively with distributed writers, or as an incremental change to a prior version.
+Create a new artifact version with a single run (simple mode) or collaboratively with distributed writers (collaborative mode):
 
 * **Simple**: A single run provides all the data for a new version. This is the most common case and is best suited when the run fully recreates the needed data. For example: outputting saved models or model predictions in a table for analysis.
 * **Collaborative**: A set of runs collectively provides all the data for a new version. This is best suited for distributed jobs which have multiple runs generating data, often in parallel. For example: evaluating a model in a distributed manner, and outputting the predictions.
-* **Incremental Change:** Add, modify, or remove a subset of files from the previous version. This is best suited when you have a large artifact composed of many underlying files. For example a dataset artifact, and you are looking to add, modify, or delete only a small number of files. This can be done within a single run or outside.
+
+You can optionally create a new artifact version from a previous version. This is known as an *incremental change*. More specifically, you can add, modify, or remove a subset of files from an existing artifact version.
+
 
 ![Artifact overview diagram](/images/artifacts/incremental_artifacts_Diagram.png)
 
@@ -136,9 +138,18 @@ with wandb.init() as run:
 
 
 
-## Incremental change
+## Create a new version from an existing artifact version
 
-Use incremental artifacts to apply changes to a small subset of files without waiting for the process to re-index, download, or reference the rest of the files in an artifact. There are three types of incremental changes you can make to an artifact:
+Add, modify, or remove a subset of files from the previous version. 
+
+
+Use incremental artifacts to apply changes to a small subset of files without waiting for the process to re-index, download, or reference the rest of the files in an artifact. This is best suited when you have a large artifact composed of many underlying files. For example a dataset artifact, and you are looking to add, modify, or delete only a small number of files. This can be done within a single run or outside.
+
+:::info
+Similar to creating artifacts from scratch, you can make incremental changes in Simple and Collaborative Mode.
+:::
+
+There are three types of incremental changes you can make to an artifact:
 
 |            | Common use case |
 | ----- | ----|
@@ -146,7 +157,9 @@ Use incremental artifacts to apply changes to a small subset of files without wa
 | remove  | you discovered several duplicate files and want to remove them from your artifact.| 
 | modify  | you corrected annotations for a subset of files and want to replace the old files with the correct ones.|
 
-### How to incrementally change your artifact
+
+
+### Incrementally change your artifact
 
 Follow the procedure below to incrementally change an artifact:
 
