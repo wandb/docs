@@ -11,22 +11,22 @@ import TabItem from '@theme/TabItem';
     <title>Create new artifacts versions from single and multiprocess Runs.</title>
 </head>
 
-Create a new artifact version with a single run (simple mode) or collaboratively with distributed writers (collaborative mode):
+Create a new artifact version with a single run or collaboratively with distributed writers:
 
-* **Simple**: A single run provides all the data for a new version. This is the most common case and is best suited when the run fully recreates the needed data. For example: outputting saved models or model predictions in a table for analysis.
-* **Collaborative**: A set of runs collectively provides all the data for a new version. This is best suited for distributed jobs which have multiple runs generating data, often in parallel. For example: evaluating a model in a distributed manner, and outputting the predictions.
+* **Single run mode**: A single run provides all the data for a new version. This is the most common case and is best suited when the run fully recreates the needed data. For example: outputting saved models or model predictions in a table for analysis.
+* **Distributed run mode**: A set of runs collectively provides all the data for a new version. This is best suited for distributed jobs which have multiple runs generating data, often in parallel. For example: evaluating a model in a distributed manner, and outputting the predictions.
 
 You can optionally create a new artifact version from a previous version. This is known as an *incremental change*. More specifically, you can add, modify, or remove a subset of files from an existing artifact version.
 
 
 ![Artifact overview diagram](/images/artifacts/incremental_artifacts_Diagram.png)
 
-## Simple mode
+## Single run mode
 
-Use Simple mode to log a new version of an artifact. This mode applies to the case when a single run produces all the files in the artifact.
+Use a single run to log a new version of an artifact. This mode applies to the case when a single run produces all the files in the artifact.
 
-### Create a new artifact with simple mode
-Follow the procedure below to create a new artifact in simple mode:
+### Create a new artifact with single mode
+Follow the procedure below to create a new artifact in single run:
 
 <Tabs
   defaultValue="within"
@@ -76,9 +76,9 @@ artifact.save()
 
 
 
-## Collaborative Mode
+## Distributed run mode
 
-Use Collaborative Mode to allow a collection of runs to collaborate on a version before committing it. Use `upsert_artifact` to add to the collaborative artifact and `finish_artifact` to finalize the commit.
+Use a set of runs to create an artifact version. This is in contrast to single run mode described above where one run provides all the data for a new version.
 
 :::info
 1. Each run in the collection needs to be aware of the same unique ID (called `distributed_id`) in order to collaborate on the same version. By default, if present, W&B uses the run's `group` as set by `wandb.init(group=GROUP)` as the `distributed_id`.
@@ -86,7 +86,9 @@ Use Collaborative Mode to allow a collection of runs to collaborate on a version
 3. Use `upsert_artifact` to add the the collaborative artifact and `finish_artifact` to finalize the commit.
 :::
 
-### Create an artifact collaboratively across different runs
+### Create an artifact from different runs
+
+Use `upsert_artifact` to add to the collaborative artifact and `finish_artifact` to finalize the commit.
 
 Consider the following example. Different runs (labelled below as **Run 1**, **Run 2**, and **Run 3**) add different image file (image.png) versions to the same artifact with `upsert_artifact`.
 
@@ -138,28 +140,35 @@ with wandb.init() as run:
 
 
 
-## Create a new version from an existing artifact version
+## Create a new version from an existing version
 
-Add, modify, or remove a subset of files from the previous version. 
+Add, modify, or remove a subset of files from a previous artifact version without waiting for a process to re-index, download, or reference the rest of the files in an artifact. Adding, modifying, or removing a subset of files from a previous artifact version creates a new artifact version known as an *incremental artifact*.
 
 
-Use incremental artifacts to apply changes to a small subset of files without waiting for the process to re-index, download, or reference the rest of the files in an artifact. This is best suited when you have a large artifact composed of many underlying files. For example a dataset artifact, and you are looking to add, modify, or delete only a small number of files. This can be done within a single run or outside.
+This is contrast to loading an artifact's contents onto your local disk.
 
-:::info
-Similar to creating artifacts from scratch, you can make incremental changes in Simple and Collaborative Mode.
+
+
+:::tip
+Incremental artifacts are particularly useful for workflows that require you to apply changes to a subset of files in an artifact that are large (for example datasets). 
 :::
 
-There are three types of incremental changes you can make to an artifact:
+:::info
+You can create an incremental artifact within a single run or with a set of runs (distributed mode).
+:::
 
-|            | Common use case |
+
+There are three types of changes you can make to an artifact: add, remove, and modify an artifact.
+
+<!-- |            | Common use case |
 | ----- | ----|
 | add |  periodically add a new subset of files to a dataset after collecting a new batch. |
 | remove  | you discovered several duplicate files and want to remove them from your artifact.| 
-| modify  | you corrected annotations for a subset of files and want to replace the old files with the correct ones.|
+| modify  | you corrected annotations for a subset of files and want to replace the old files with the correct ones.| -->
 
 
 
-### Incrementally change your artifact
+### How to create a new aritfact version with an incremental change
 
 Follow the procedure below to incrementally change an artifact:
 
