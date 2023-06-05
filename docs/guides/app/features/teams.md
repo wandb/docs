@@ -70,7 +70,7 @@ The proceeding table lists permissions that apply to all projects across a given
 | Add aliases                |           | X           | X          |
 | Add models to the registry |           | X           | X          |
 | View models in the registry| X         | X           | X          |
-|Download models             | X         | X           | X          |
+|Download models             |           | X           | X          |
 
 ### Reports
 Report permissions grant access to create, view, and edit reports. The proceeding table lists permissions that apply to all reports across a given team.
@@ -88,7 +88,7 @@ The proceeding table lists permissions that apply to all experiments across a gi
 | Permissions | View-Only | Team Member | Team Admin | 
 | ------------------------------------------------------------------------------------ | --------- | ----------- | ---------- |
 | View experiment metadata (includes history metrics, system metrics, files, and logs) | X         | X           | X          |
-| Log experiments                                                                      | X         | X           | X          |
+| Log experiments                                                                      |           | X           | X          |
 | Delete experiments                                                                   |           | X (team members can only delete experiments they created) |  X  |
 |Stop experiments                                                                      |           | X (team members can only stop experiments they created)   |  X  |
 
