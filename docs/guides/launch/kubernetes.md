@@ -205,8 +205,8 @@ metadata:
   name: wandb-launch-configmap
   namespace: wandb
 data:
+  wandb-base-url: https://api.wandb.ai # TODO: set your base_url here
   launch-config.yaml: |
-    base_url: https://api.wandb.ai # TODO: set wandb base url
     max_jobs: -1 # TODO: set max concurrent jobs here
     queues:
     - default # TODO: set queue name here
@@ -267,7 +267,10 @@ spec:
                   name: wandb-api-key
                   key: password
             - name: WANDB_BASE_URL
-              value: https://api.wandb.ai #TODO: Update the base url to your WANDB server url
+              valueFrom:
+                configMapKeyRef:
+                  name: wandb-launch-configmap
+                  key: wandb-base-url
           volumeMounts:
             - name: wandb-launch-config
               mountPath: /home/launch_agent/.config/wandb

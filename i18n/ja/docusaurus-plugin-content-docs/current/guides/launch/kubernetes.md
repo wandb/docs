@@ -206,8 +206,9 @@ metadata:
   name: wandb-launch-agent-config
   namespace: wandb
 data:
+data:
+  wandb-base-url: https://api.wandb.ai # TODO: wandb base urlを設定してください
   launch-config.yaml: |
-    base_url: https://api.wandb.ai # TODO: wandb base urlを設定してください
     max_jobs: -1 # TODO: ここで最大同時ジョブ数を設定してください
     queues:
     - default # TODO: ここでキュー名を設定してください
@@ -266,6 +267,11 @@ spec:
                 secretKeyRef:
                   name: wandb-api-key
                   key: password
+            - name: WANDB_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: wandb-launch-configmap
+                  key: wandb-base-url
           volumeMounts:
             - name: wandb-launch-config
               mountPath: /home/launch_agent/.config/wandb
