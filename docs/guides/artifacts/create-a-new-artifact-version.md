@@ -141,9 +141,7 @@ with wandb.init() as run:
 
 Add, modify, or remove a subset of files from a previous artifact version without waiting for a process to re-index, download, or reference the rest of the files in an artifact. Adding, modifying, or removing a subset of files from a previous artifact version creates a new artifact version known as an *incremental artifact*.
 
-
-<!-- This is contrast to loading an artifact's contents onto your local disk. -->
-
+You could create an artifact from scratch to perform the same function as an incremental artifact. However, when you create an artifact from scratch, you will need to have all the contents of your artifact on your local disk. When making an incremental change, you can add, remove, or modify a single file without changing the files from a previous artifact version.
 
 
 :::tip
@@ -170,7 +168,9 @@ saved_artifact = client.artifact("my_artifact:latest")
 draft_artifact = saved_artifact.new_draft()
 ```
 
-3. Perform any incremental changes you want to see in the next version:
+3. Perform any incremental changes you want to see in the next version. You can either add, remove, or modify an existing artifact version.
+
+Select one of the tabs for an example on how to perform each of these changes:
 
 
 <Tabs
@@ -180,22 +180,31 @@ draft_artifact = saved_artifact.new_draft()
     {label: 'Remove', value: 'remove'},
     {label: 'Modify', value: 'modify'},
   ]}>
-  <TabItem value="add">Add a file:
+  <TabItem value="add">
+
+Add a file to an existing artifact version with the `add_file` method:
 
 ```python
 draft_artifact.add_file("file_to_add.txt")
 ```
+
+Use the `add_file` method multiple times to add multiple files.
+
   </TabItem>
   <TabItem value="remove">
-Remove a file:  
+
+Remove a file to an existing artifact version with the `remove` method:
 
 ```python
 draft_artifact.remove("file_to_remove.txt")
 ```
-  
+
+Use the `remove` method multiple times to add multiple files.
+
   </TabItem>
   <TabItem value="modify">
-Modify, replace a file:
+  
+Modify or replace a file with the `add_file` method:
 
 ```python
 draft_artifact.add_file("modified_file.txt")
@@ -207,3 +216,70 @@ draft_artifact.add_file("modified_file.txt")
 :::tip
 The method to add or modify an artifact are the same. Entries are replaced (as opposed to duplicated), when you pass a filename for an entry that already exists.
 :::
+
+4. Lastly, log or save your changes. The following tabs show you how to save your changes inside and outside of a W&B run. Select the tab that is appropriate for your use case:
+
+
+<Tabs
+  defaultValue="inside"
+  values={[
+    {label: 'Inside a run', value: 'inside'},
+    {label: 'Outside of a run', value: 'outside'},
+  ]}>
+  <TabItem value="inside">
+
+```python
+run.log_artifact(draft_artifact)
+```
+
+  </TabItem>
+  <TabItem value="outside">
+
+
+```python
+draft_artifact.save()
+```
+
+  </TabItem>
+</Tabs>
+
+
+Putting it all together, the code examples above look like: 
+
+<Tabs
+  defaultValue="inside"
+  values={[
+    {label: 'Inside a run', value: 'inside'},
+    {label: 'Outside of a run', value: 'outside'},
+  ]}>
+  <TabItem value="inside">
+
+```python
+with wandb.init() as run:
+	saved_artifact = run.use_artifact("my_artifact:latest") # fetch artifact and input it into your run
+	draft_artifact = saved_artifact.new_draft() # create a draft version
+
+	# modify a subset of files in the draft version
+	draft_artifact.add_file("file_to_add.txt")
+	draft_artifact.remove('dir_to_remove/') 
+	draft_artifact.add_file("file_to_replace.txt")  
+	run.log_artifact(artifact) # log your changes to create a new version and mark it as output to your run
+```
+
+  </TabItem>
+  <TabItem value="outside">
+
+
+```python
+client = wandb.Api()
+saved_artifact = client.artifact("my_artifact:latest") # load your artifact
+draft_artifact = saved_artifact.new_draft() # create a draft version
+
+# modify a subset of files in the draft version
+draft_artifact.remove("deleted_file.txt")
+draft_artifact.add_file("modified_file.txt")
+draft_artifact.save() # commit changes to the draft
+```
+
+  </TabItem>
+</Tabs>
