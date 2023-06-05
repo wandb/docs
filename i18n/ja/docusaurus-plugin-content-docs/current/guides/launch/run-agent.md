@@ -37,9 +37,6 @@ launch agentは、前の手順でビルドされたコンテナイメージ内�
 ローンチエージェントは、さまざまなフラグとオプションで構成できます。 エージェントは、設定ファイルまたはコマンドラインフラグで構成できます。 設定ファイルはデフォルトで`~/.config/wandb/launch-config.yaml`に配置されていますが、`--config`フラグで設定ファイルの場所を上書きできます。 設定ファイルは、次の構造を持つYAMLファイルです：
 
 ```yaml
-# W&BサーバーのURL。デフォルトは https://api.wandb.ai
-base_url: https://api.wandb.ai
-
 # W&Bエンティティ（ユーザーまたはチーム）名
 entity: <entity-name>
 
