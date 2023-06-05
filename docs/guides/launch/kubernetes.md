@@ -216,7 +216,7 @@ data:
     registry:
       type: gcr
       repository: # TODO: set name of artifact repository name here
-      image_name: launch-images # TODO: set name of image here
+      image-name: launch-images # TODO: set name of image here
     builder:
       type: kaniko
       build-context-store: gs://my-bucket/... # TODO: set your build context store here

@@ -217,7 +217,7 @@ data:
     registry:
       type: gcr
       repository: # TODO: ここでアーティファクトリポジトリ名を設定してください
-      image_name: launch-images # TODO: ここでイメージ名を設定してください
+      image-name: launch-images # TODO: ここでイメージ名を設定してください
     builder:
       type: kaniko
       build-context-store: gs://my-bucket/... # TODO: ここでビルドコンテキストストアを設定してください
