@@ -203,9 +203,8 @@ kubectl -n wandb create secret  \
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: wandb-launch-agent-config
+  name: wandb-launch-configmap
   namespace: wandb
-data:
 data:
   wandb-base-url: https://api.wandb.ai # TODO: wandb base urlを設定してください
   launch-config.yaml: |
