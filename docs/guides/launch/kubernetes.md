@@ -2,12 +2,6 @@
 
 This guide demonstrates how to use W&B Launch to run ML workloads on a kubernetes (k8s) cluster.
 
-<!-- TODO: What email do we use here? -->
-:::info
-
-Launch on kubernetes is an enterprise feature. To get access, please contact our sales team through [this page](https://wandb.ai/site/pricing).
-:::
-
 ## Building images in Kubernetes
 
 The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) to build container images inside of k8s. Kaniko is a tool to build container images from a Dockerfile, inside a container or k8s cluster. Kaniko doesn’t depend on a Docker daemon and executes each command within a Dockerfile completely in userspace. This enables building container images in environments that can’t easily or securely run a Docker daemon, such as a standard k8s cluster.
