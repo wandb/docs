@@ -11,7 +11,7 @@ displayed_sidebar: default
   <title>機械学習とディープラーニングの実験をトラックする</title>
 </head>
 
-W&BのPythonライブラリを使って、数行のコードで機械学習の実験をトラッキングできます。その後、[インタラクティブなダッシュボード](app.md)で結果を確認したり、[Public API](../../ref/python/public-api/README.md)を使ってPythonにデータをエクスポートしてプログラムでアクセスできます。W&Bを使って[機械学習の実験を迅速に見つけて再現する](./reproduce-experiments.md)。
+W&BのPythonライブラリを使って、数行のコードで機械学習の実験をトラッキングできます。その後、[インタラクティブなダッシュボード](app.md)で結果を確認したり、[Public API](../../ref/python/public-api/README.md)を使ってPythonにデータをエクスポートしてプログラムでアクセスできます。
 
 [PyTorch](../integrations/pytorch.md)、[Keras](../integrations/keras.md)、[Scikit](../integrations/scikit.md)などの一般的なフレームワークを使っている場合は、W&Bのインテグレーションを活用してください。[インテグレーションガイド](../integrations/intro.md)で、全てのインテグレーションとW&Bをコードに追加する方法についての情報を入手できます。
 
