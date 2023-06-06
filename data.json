@@ -381,6 +381,10 @@
       "to": "/guides/hosting/how-to-guides/basic-setup"
     },
     {
+      "from": "/guides/hosting/hosting-upgrade",
+      "to": "/guides/hosting"
+    },
+    {
       "from": "/guides/hosting/local",
       "to": "/guides/hosting"
     },
