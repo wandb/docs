@@ -124,6 +124,7 @@ Using scheduler jobs requires wandb cli version >= `0.15.4`
   defaultValue="wandb-scheduler"
   values={[
     {label: 'Wandb scheduler', value: 'wandb-scheduler'},
+    {label: 'Optuna scheduler', value: 'optuna-scheduler'},
     {label: 'Custom scheduler', value: 'custom-scheduler'},
   ]}>
     <TabItem value="wandb-scheduler">
@@ -170,6 +171,53 @@ scheduler:
   job: '<entity>/<project>/job-CustomWandbScheduler:latest'
 ...
 ```
+
+  </TabItem>
+  <TabItem value="optuna-scheduler">
+
+  Create a launch sweep using the Optuna and the sweep scheduling logic.
+  
+  1. Identify the 'Optuna Sweep Scheduler' job in the public wandb/jobs project, or use the job name:
+  `'wandb/jobs/Optuna Sweep Scheduler:latest'`
+  2. Construct a configuration yaml with an additional `scheduler` block that includes a `job` key pointing to this name, example below.
+  3. Launch the sweep with command: `wandb launch-sweep <config.yaml> -q <queue> -p <project>`.
+
+  ```yaml
+  # optuna_config_basic.yaml
+  description: A basic Optuna scheduler
+  job: 'wandb/jobs/Example Train Job:latest'
+  run_cap: 5
+  metric:
+    name: loss
+    goal: minimize
+
+  scheduler:
+    job: 'wandb/jobs/Optuna Scheduler Image Job:latest'
+    resource: local-container  # required for scheduler jobs sourced from images
+    num_workers: 2
+
+    # optuna specific settings
+    settings:
+      pruner:
+        type: PercentilePruner
+        args:
+          percentile: 25.0  # kill 75% of runs
+          n_warmup_steps: 10  # pruning disabled for first x steps
+
+  parameters:
+    learning_rate:
+      min: 0.0001
+      max: 0.1
+  ```
+
+  ### Why use Optuna? 
+  
+  Optuna is a hyperparameter optimization framework that uses a variety of algorithms to find the best hyperparameters for a given model (similar to Wandb). In addition to the [sampling algorithms](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna also provides a variety of [pruning algorithms](https://optuna.readthedocs.io/en/stable/reference/pruners.html) that can be used to terminate poorly performing runs early. This is especially useful when running a large number of runs, as it can save time and resources. The classes are highly configurable, just pass in the expected parameters in the `scheduler.settings.pruner/sampler.args` block of the config file.
+
+  For the exact implementation of the Optuna sweep scheduler job, see [wandb/launch-jobs](https://github.com/wandb/launch-jobs/jobs/sweep_schedulers/optuna_scheduler.py).
+
+  For more examples of what is possible with the Optuna scheduler, check out [wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler).
+
 
   </TabItem>
 </Tabs>
