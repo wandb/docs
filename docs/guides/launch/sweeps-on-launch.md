@@ -175,11 +175,11 @@ scheduler:
   </TabItem>
   <TabItem value="optuna-scheduler">
 
-  Create a launch sweep using Optuna's scheduling logic with a Job. Either create your own, steps in the [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/jobs/sweep_schedulers/optuna_scheduler) repo, or use the pre-built `Optuna Scheduler Image Job` in the `wandb/jobs` project. Full job name: `'wandb/jobs/Optuna Sweep Scheduler:latest'`. 
+  Create a launch sweep using Optuna's scheduling logic with a Job. You can either create your own job or use a pre-built Optuna shedular image job. To use the pre-built image, navigate to `Optuna Scheduler Image Job` in the `wandb/jobs` project, or just use the job name: `'wandb/jobs/Optuna Sweep Scheduler:latest'`. See the [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/jobs/sweep_schedulers/optuna_scheduler) repo for examples on how to create your own job.
 
-  Now, we can create a sweep configuration that uses this job. Include a `scheduler` block that with a `job` key pointing to the Optuna scheduler job (example below).
+ After you create a job, you can now create a sweep... Construct a sweep config that includes a `scheduler` block with a `job` key pointing to the Optuna scheduler job (example below).
 
-  Finally, we can launch the sweep to a an active queue with the launch-sweep command: 
+  Lastly, launch the sweep to a an active queue with the launch-sweep command:
   
   ```bash
   wandb launch-sweep <config.yaml> -q <queue> -p <project> -e <entity>
@@ -215,7 +215,7 @@ scheduler:
 
   ### Why use Optuna? 
   
-  Optuna is a hyperparameter optimization framework that uses a variety of algorithms to find the best hyperparameters for a given model (similar to Wandb). In addition to the [sampling algorithms](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna also provides a variety of [pruning algorithms](https://optuna.readthedocs.io/en/stable/reference/pruners.html) that can be used to terminate poorly performing runs early. This is especially useful when running a large number of runs, as it can save time and resources. The classes are highly configurable, just pass in the expected parameters in the `scheduler.settings.pruner/sampler.args` block of the config file.
+  Optuna is a hyperparameter optimization framework that uses a variety of algorithms to find the best hyperparameters for a given model (similar to W&B). In addition to the [sampling algorithms](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna also provides a variety of [pruning algorithms](https://optuna.readthedocs.io/en/stable/reference/pruners.html) that can be used to terminate poorly performing runs early. This is especially useful when running a large number of runs, as it can save time and resources. The classes are highly configurable, just pass in the expected parameters in the `scheduler.settings.pruner/sampler.args` block of the config file.
 
   For the exact implementation of the Optuna sweep scheduler job, see [wandb/launch-jobs](https://github.com/wandb/launch-jobs/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py).
 
