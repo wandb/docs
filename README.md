@@ -66,7 +66,7 @@ This will return the port number where you can preview your changes to the docs.
 6. Build the static files of your website:
 
 ```bash
-yarn build docusaurus 
+yarn docusaurus build
 ```
 
 7. Commit the changes to the branch.
