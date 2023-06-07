@@ -3,7 +3,7 @@ description: The Prompts Quickstart shows how to visualise and debug the executi
 displayed_sidebar: default
 ---
 
-# Quickstart
+# Prompts Quickstart
 
 [**Try in a Colab Notebook here →**](http://wandb.me/prompts-quickstart)
 
@@ -11,7 +11,7 @@ displayed_sidebar: default
   <title>Prompts Quickstart</title>
 </head>
 
-This Quickstart guide will walk you how to use [Trace](intro.md) to visualize and debug calls to LangChain or any other LLM Chain.
+This Quickstart guide will walk you how to use [Trace](intro.md) to visualize and debug calls to LangChain or any other LLM Chain or Pipeline.
 
 <!-- This Quickstart guide will walk you how to use Weights & Biases (W&B) Prompts tools to visualise and debug the execution flow of your LLM chains or pipelines. -->
 
@@ -19,7 +19,9 @@ This Quickstart guide will walk you how to use [Trace](intro.md) to visualize an
 ## Use Trace with LangChain
 
 :::info
-**Versions**: Ensure your `langchain` package version is `0.0.158` or later and that your `wandb` package version is `0.15.2` or later.
+**Versions** Please use `wandb >= 0.15.3` and `langchain >= 0.0.188` when using `WandbTracer` 
+
+**LangChain:** Note that from `langchain >= 0.0.188` the W&B Prompts integration for LangChain can now be found in the `langchain` library. Please see the [LangChain documentation](https://python.langchain.com/en/latest/integrations/agent_with_wandb_tracing.html) for more.
 :::
 
 W&B Trace will continuously log calls to a [LangChain Model](https://python.langchain.com/en/latest/modules/models.html), [Chain](https://python.langchain.com/en/latest/modules/chains.html), or [Agent](https://python.langchain.com/en/latest/modules/agents.html).
@@ -110,9 +112,9 @@ First, create a span object. Import `trace_tree` from the `wandb.sdk.data_types`
 ```python
 from wandb.sdk.data_types import trace_tree
 
-# span = trace_tree.Span(name="Example Span")
-# Parent Span - Create a span for your high level agent
-agent_span = trace_tree.Span(name="Auto-GPT", span_kind = trace_tree.SpanKind.AGENT)
+# Root Span - Create a span for your high level agent
+root_span = trace_tree.Span(name="Auto-GPT", 
+  span_kind = trace_tree.SpanKind.AGENT)
 ```
 
 Spans can be of type `AGENT`, `CHAIN`, `TOOL` or `LLM`
@@ -136,15 +138,16 @@ llm_span = trace_tree.Span(
 )
 
 chain_span.add_child_span(llm_span)
-agent_span.add_child_span(tool_span)
-agent_span.add_child_span(chain_span)
+root_span.add_child_span(tool_span)
+root_span.add_child_span(chain_span)
 ```
 
 ### 3. Add the inputs and outputs
 
-Populate spans with the input and output data. The following code 
+Populate spans with the input and output data as well as any metadata: 
 
 ```python
+# add the Inputs and Outputs to the span as dictionaries
 tool_span.add_named_result(
   {"input": "search: google founded in year"}, 
   {"response": "1998"}
@@ -158,27 +161,48 @@ chain_span.add_named_result(
 llm_span.add_named_result(
   {"system": "you are a helpful assistant", 
     "input": "calculate: 2023 - 1998"}, 
-  {"response": "25", "tokens_used": 218}
+  {"response": "25"}
 )
 
-agent_span.add_named_result(
+root_span.add_named_result(
   {"user": "How old is google?"},
   {"response": "25 years old"}
 )
 ```
 
-### 4. Log the spans to W&B Trace 
+### 4. Add metadata, status, start and end time to a Span
 
-Log your span to W&B with the run.log() method. W&B will create a Trace Table, Trace Timeline, and Model Architecture for you to view in the W&B App UI.
+Any span can also have metadata, status, status messages, start and end timestamps:
+
+```python
+# add metadata to the span using .attributes
+tokens_used = 284
+llm_span.attributes = {"token_usage": tokens_used}
+
+# often you want to add the same metadata to different spans
+root_span.attributes = {"token_usage": tokens_used}
+
+# add a status code and any message to any span
+root_span.status_code = trace_tree.StatusCode.ERROR  # or SUCCESS
+root_span.status_message = "Error: there was an error"
+
+# add the start and end timestamp for any span, in milliseconds 
+root_span.start_time_ms = 1685649600011
+root_span.end_time_ms = 1685649611000
+```
+
+### 5. Log the spans to W&B Trace 
+
+Log your span to W&B with the run.log() method. W&B will create a Trace Table and Trace Timeline for you to view in the W&B App UI.
 
 
 ```python
 import wandb 
 
-trace = trace_tree.WBTraceTree(agent_span)
+trace = trace_tree.WBTraceTree(root_span)
 run = wandb.init(project="wandb_prompts")
 run.log({"trace": trace})
 run.finish()
 ```
-### 5. View the trace
+### 6. View the trace
 Click on the W&B run link that is generated to see the trace of your LLM on the W&B App UI.

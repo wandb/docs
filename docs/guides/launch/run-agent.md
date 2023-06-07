@@ -39,9 +39,6 @@ For example, if the job was in a Docker queue, the agent will execute the run lo
 The launch agent can be configured with a variety of flags and options. The agent can be configured with a config file or with command line flags. The config file is located at `~/.config/wandb/launch-config.yaml` by default, but the location of the config can be overridden with the `--config` flag. The config file is a YAML file with the following structure:
 
 ```yaml
-# URL of your W&B server. Defaults to https://api.wandb.ai
-base_url: https://api.wandb.ai
-
 # W&B entity (i.e. user or team) name
 entity: <entity-name>
 

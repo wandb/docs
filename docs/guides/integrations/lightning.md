@@ -23,6 +23,14 @@ trainer = Trainer(logger=wandb_logger)
 
 ![Interactive dashboards accessible anywhere, and more!](@site/static/images/integrations/n6P7K4M.gif)
 
+:::info
+**Using wandb.log():** Please note that the `WandbLogger` logs to W&B using the Trainer's `global_step`. If you are making additional calls to `wandb.log` directly in your code, **do not** use the `step` argument in `wandb.log()`. 
+
+Instead, log the Trainer's `global_step` like your other metrics, like so:
+
+`wandb.log({"accuracy":0.99, "trainer/global_step": step})`
+:::
+
 ## Sign up and Log in to wandb
 
 a) [**Sign up**](https://wandb.ai/site) for a free account
@@ -261,7 +269,7 @@ wandb_logger.log_image(key="samples", images=["img_1.jpg", "img_2.jpg"])
 trainer.logger.experiment.log({
     "samples": [wandb.Image(img, caption=caption) 
     for (img, caption) in my_images]
-})
+}, step = current_trainer_global_step)
 ```
   </TabItem>
   <TabItem value="text">

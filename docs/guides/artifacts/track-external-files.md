@@ -104,7 +104,7 @@ Based on your use case, read the instructions to enable object versioning: [AWS]
 
 ### Tying it together
 
-The following code example demonstrates a simple workflow you can use to track a dataset in Amazon S3 or GCS that feeds into a training job:
+The following code example demonstrates a simple workflow you can use to track a dataset in Amazon S3, GCS, or Azure that feeds into a training job:
 
 ```python
  import wandb

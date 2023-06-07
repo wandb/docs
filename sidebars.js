@@ -740,7 +740,7 @@ const sidebars = {
     {
       type: 'doc',
       id: 'tutorials/intro_to_tutorials', // document ID
-      label: 'Tutorials', // sidebar label
+      label: 'W&B Tutorials', // sidebar label
     },
         // 'guides/tutorials/intro_to_tutorials',
         'tutorials/experiments',
