@@ -302,7 +302,6 @@ const sidebars = {
         'guides/hosting/env-vars',
         'guides/hosting/debug',
         // 'guides/hosting/hosting-upgrade',
-        // 'guides/hosting/configure-cloud',
         {
           type: 'category',
           label: 'How-to guides',
