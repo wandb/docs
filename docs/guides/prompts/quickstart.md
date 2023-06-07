@@ -10,7 +10,14 @@ description: The Prompts Quickstart shows how to visualise and debug the executi
   <title>Prompts Quickstart</title>
 </head>
 
-This Quickstart guide will walk you how to use [Trace](intro.md) to visualize and debug calls to LangChain or any other LLM Chain or Pipeline.
+This Quickstart guide will walk you how to use [Trace](intro.md) to visualize and debug calls to LangChain, LlamaIndex or any other LLM Chain or Pipeline.
+
+1. Langchain: Use `WandbTracer` to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
+
+2. LlamaIndex: Use `WandbCallbackHandler` to keep track and visualize the trace (collection of events) maps, analyze the inputs and outputs of your LLM calls, upload and download indices and debug your retrieval and query engine.
+
+3. Custom usage: Use W&B Prompts with your own chains and pipelines.
+
 
 <!-- This Quickstart guide will walk you how to use Weights & Biases (W&B) Prompts tools to visualise and debug the execution flow of your LLM chains or pipelines. -->
 
