@@ -1,7 +1,7 @@
 ---
 slug: /guides/reports
 description: Project management and collaboration tools for machine learning projects
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # コラボレーティブレポート

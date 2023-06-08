@@ -1,6 +1,6 @@
 ---
 description: How to change the colors of your runs in visualizations
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # ランの色

@@ -1,6 +1,6 @@
 ---
 description: Update an existing Artifact inside and outside of a W&B Run.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # アーティファクトの更新

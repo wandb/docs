@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # Launch on Kubernetes
 
 This guide demonstrates how to use W&B Launch to run ML workloads on a kubernetes (k8s) cluster.

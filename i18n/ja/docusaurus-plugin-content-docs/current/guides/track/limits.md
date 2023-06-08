@@ -2,7 +2,7 @@
 description: >-
   eep your pages in W&B faster and more responsive by logging within these
   suggested bounds.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 制限とパフォーマンス

@@ -1,5 +1,6 @@
 ---
 description: Use tags to organize registered models into categories, and search over those categories
+displayed_sidebar: default
 ---
 
 # Registered model tags

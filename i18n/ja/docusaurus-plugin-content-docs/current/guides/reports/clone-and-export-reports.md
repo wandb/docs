@@ -1,6 +1,6 @@
 ---
 description: Export a W&B Report as a PDF or LaTeX.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

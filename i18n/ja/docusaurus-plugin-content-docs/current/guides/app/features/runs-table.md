@@ -1,6 +1,6 @@
 ---
 description: How to use the sidebar and table on the project page
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # Runs Table（Runの一覧表）

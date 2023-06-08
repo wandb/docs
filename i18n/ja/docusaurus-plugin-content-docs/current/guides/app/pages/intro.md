@@ -1,7 +1,7 @@
 ---
 slug: /guides/app/pages
 description: An overview of the different pages in app.wandb.ai
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # ページ

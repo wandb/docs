@@ -2,7 +2,7 @@
 description: >-
   Delete artifacts interactively with the App UI or programmatically with the
   Weights & Biases SDK/
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # アーティファクトの削除

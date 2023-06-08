@@ -1,6 +1,6 @@
 ---
 description: Use W&B to log distributed training experiments with multiple GPUs.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 分散トレーニング実験の記録

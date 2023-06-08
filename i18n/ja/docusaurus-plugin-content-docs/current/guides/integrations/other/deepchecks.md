@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/deepchecks
 description: How to integrate W&B with DeepChecks.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # DeepChecks

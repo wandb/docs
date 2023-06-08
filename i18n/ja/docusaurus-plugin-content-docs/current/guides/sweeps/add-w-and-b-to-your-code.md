@@ -1,6 +1,6 @@
 ---
 description: Add W&B to your Python code script or Jupyter Notebook.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

@@ -1,6 +1,6 @@
 ---
 description: Troubleshoot common W&B Sweep issues.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # スイープのトラブルシューティング

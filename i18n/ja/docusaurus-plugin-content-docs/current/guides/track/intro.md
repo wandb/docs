@@ -1,7 +1,7 @@
 ---
 description: Track machine learning experiments with W&B.
 slug: /guides/track
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 
