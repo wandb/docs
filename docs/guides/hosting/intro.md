@@ -18,7 +18,7 @@ With W&B Server you can configure and leverage features such as:
 - [Secure Storage Connector](./secure-storage-connector.md)
 - [Single Sign-On](./sso.md)
 - [Role-based Access Control via LDAP](./ldap.md)
-- [Audit Logs](./audit-logging.md)
+- [Audit Logs](./configure/audit-logging.md)
 - [User Management](./manage-users.md)
 - [Prometheus Monitoring](./prometheus-logging.md)
 - [Slack Alerts](./slack-alerts.md) and more.
