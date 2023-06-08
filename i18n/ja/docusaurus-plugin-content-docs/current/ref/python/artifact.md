@@ -411,7 +411,7 @@ with wandb.init() as r:
 # アーティファクトを使用するRun
 with wandb.init() as r:
  artifact = r.use_artifact('my_dataset:latest')
- table = r.get('my_table')
+ table = artifact.get('my_table')
 ```
 ### `get_added_local_path_name`
 
