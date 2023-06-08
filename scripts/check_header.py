@@ -27,7 +27,6 @@ def check_markdown_files(directory:str) -> None:
     Returns:
         None
     """
-
     for root, subdirs, files in os.walk(directory):
     
         for filename in os.listdir(root):
@@ -78,9 +77,7 @@ def extract_metadata(content:str):
 def main(args):
     
     directory_path = args.directory
-
     check_markdown_files(directory_path)
-
 
 if __name__ == '__main__':
     args = parser.parse_args()
