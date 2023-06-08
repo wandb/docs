@@ -74,10 +74,10 @@ def extract_metadata(content:str):
     return None
 
 
-def main(args):
-    
+def main(args):    
     directory_path = args.directory
     check_markdown_files(directory_path)
+
 
 if __name__ == '__main__':
     args = parser.parse_args()
