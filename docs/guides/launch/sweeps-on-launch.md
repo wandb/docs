@@ -142,16 +142,16 @@ Example config:
 # launch-sweep-config.yaml  
 description: Launch sweep config using a scheduler job
 scheduler:
-  job: 'wandb/jobs/Wandb Sweep Scheduler:latest'
+  job: wandb/sweep-jobs/job-wandb-sweep-scheduler:latest
   num_workers: 8  # allows 8 concurrent sweep runs
 
 # training/tuning job that the sweep runs will execute
-job: 'wandb/jobs/Hello World 2:latest'
+job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
 method: grid
 parameters:
-  param1:
-    min: 0
-    max: 10
+  learning_rate:
+    min: 0.0001
+    max: 0.1
 ```
 
   </TabItem>
@@ -175,7 +175,7 @@ scheduler:
   </TabItem>
   <TabItem value="optuna-scheduler">
 
-  Create a launch sweep using Optuna's scheduling logic with a Job. You can either create your own job or use a pre-built Optuna shedular image job. To use the pre-built image, navigate to `Optuna Scheduler Image Job` in the `wandb/jobs` project, or just use the job name: `'wandb/jobs/Optuna Sweep Scheduler:latest'`. See the [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/jobs/sweep_schedulers/optuna_scheduler) repo for examples on how to create your own job.
+  Create a launch sweep using Optuna's scheduling logic with a Job. You can either create your own job or use a pre-built Optuna shedular image job. To use the pre-built image, navigate to `Optuna Scheduler Image Job` in the `wandb/jobs` project, or just use the job name: `wandb/sweep-jobs/job-optuna-sweep-scheduler:latest`. See the [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/jobs/sweep_schedulers/optuna_scheduler) repo for examples on how to create your own job.
 
  After you create a job, you can now create a sweep... Construct a sweep config that includes a `scheduler` block with a `job` key pointing to the Optuna scheduler job (example below).
 
@@ -188,14 +188,14 @@ scheduler:
   ```yaml
   # optuna_config_basic.yaml
   description: A basic Optuna scheduler
-  job: 'wandb/jobs/Example Train Job:latest'
+  job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
   run_cap: 5
   metric:
-    name: loss
+    name: epoch/val_loss
     goal: minimize
 
   scheduler:
-    job: 'wandb/jobs/Optuna Scheduler Image Job:latest'
+    job: wandb/sweep-jobs/job-optuna-sweep-scheduler:latest
     resource: local-container  # required for scheduler jobs sourced from images
     num_workers: 2
 
