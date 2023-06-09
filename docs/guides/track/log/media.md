@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
 :::info
-Looking for reference docs for our media types? You want [this page](../../../ref/python/data-types/).
+Looking for reference docs for our media types? You want [this page](../../../ref/python/data-types/README.md).
 :::
 
 <!-- {% embed url="https://www.youtube.com/watch?v=96MxRvx15Ts" %} -->

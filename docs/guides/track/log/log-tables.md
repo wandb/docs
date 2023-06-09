@@ -7,10 +7,10 @@ displayed_sidebar: default
 
 Use `wandb.Table` to log data to visualize and query with W&B. In this guide, learn how to:
 
-1. [Create Tables](./log-tables#create-tables)
-2. [Add Data](./log-tables#add-data)
-3. [Retrieve Data](./log-tables#retrieve-data)
-4. [Save Tables](./log-tables#save-tables)
+1. [Create Tables](./log-tables.md#create-tables)
+2. [Add Data](./log-tables.md#add-data)
+3. [Retrieve Data](./log-tables.md#retrieve-data)
+4. [Save Tables](./log-tables.md#save-tables)
 
 ## Create Tables
 

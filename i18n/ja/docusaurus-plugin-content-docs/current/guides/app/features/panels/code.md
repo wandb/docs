@@ -16,7 +16,7 @@ displayed_sidebar: ja
 * `wandb.init()`の呼び出し後に`wandb.run.log_code(".")`を呼び出します
 * code\_dirが設定された設定オブジェクトを`wandb.init`に渡します：`wandb.init(settings=wandb.Settings(code_dir="."))`
 
-これにより、現在のディレクトリとすべてのサブディレクトリにあるすべてのPythonソースコードファイルが、[アーティファクト](https://docs.wandb.ai/ref/python/artifact)としてキャプチャされます。保存されるソースコードファイルの種類と場所をより制御するには、[リファレンスドキュメント](https://docs.wandb.ai/ref/python/run#log\_code)をご覧ください。
+これにより、現在のディレクトリとすべてのサブディレクトリにあるすべてのPythonソースコードファイルが、[アーティファクト](https://docs.wandb.ai/ref/python/artifact)としてキャプチャされます。保存されるソースコードファイルの種類と場所をより制御するには、[リファレンスドキュメント](../../ref/python/run#log\_code)をご覧ください。
 
 ## コード比較器
 
