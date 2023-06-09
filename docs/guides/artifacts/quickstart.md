@@ -35,7 +35,7 @@ wandb.login()
 
 ### Initialize a run
 
-Use the [`wandb.init()`](https://docs.wandb.ai/ref/python/init) API to generate a background process to sync and log data as a W&B Run. Provide a project name and a job type:
+Use the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a W&B Run. Provide a project name and a job type:
 
 ```python
 # Create a W&B Run. Here we specify 'dataset' as the job type since this example
@@ -48,7 +48,7 @@ run = wandb.init(
 
 ### Create an artifact object
 
-Create an artifact object with the [`wandb.Artifact()`](https://docs.wandb.ai/ref/python/artifact) API. Provide a name for the artifact and a description of the file type for the `name` and `type` parameters, respectively.
+Create an artifact object with the [`wandb.Artifact()`](../../ref/python/artifact.md) API. Provide a name for the artifact and a description of the file type for the `name` and `type` parameters, respectively.
 
 For example, the following code snippet demonstrates how to create an artifact called `‘bicycle-dataset’` with a `‘dataset’` label:
 
@@ -59,7 +59,7 @@ artifact = wandb.Artifact(
     )    
 ```
 
-For more information about how to construct an artifact, see [Construct artifacts](https://docs.wandb.ai/guides/artifacts/construct-an-artifact).
+For more information about how to construct an artifact, see [Construct artifacts](./construct-an-artifact.md).
 
 ### Add the dataset to the artifact
 
@@ -82,15 +82,15 @@ Use the W&B run objects `log_artifact()` method to both save your artifact versi
 run.log_artifact(artifact)
 ```
 
-A `'latest'` alias is created by default when you log an artifact. For more information about artifact aliases and versions, see [Create a custom alias](https://docs.wandb.ai/guides/artifacts/create-a-custom-alias) and [Create new artifact versions](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version), respectively.
+A `'latest'` alias is created by default when you log an artifact. For more information about artifact aliases and versions, see [Create a custom alias](./create-a-custom-alias.md) and [Create new artifact versions](./create-a-new-artifact-version.md), respectively.
 
 ### Download and use the artifact
 
 The following code example demonstrates the steps you can take to use an artifact you have logged and saved to the Weights & Biases servers.
 
 1. First, initialize a new run object with **`wandb.init()`.**
-2. Second, use the run objects [`use_artifact()`](https://docs.wandb.ai/ref/python/run#use\_artifact) method to tell Weights & Biases what artifact to use. This returns an artifact object.
-3. Third, use the artifacts [`download()`](https://docs.wandb.ai/ref/python/artifact#download) method to download the contents of the artifact.
+2. Second, use the run objects [`use_artifact()`](../../ref/python/run.md#use_artifact) method to tell Weights & Biases what artifact to use. This returns an artifact object.
+3. Third, use the artifacts [`download()`](../../ref/python/artifact.md#download) method to download the contents of the artifact.
 
 ```python
 # Create a W&B Run. Here we specify 'training' for 'type' 
@@ -107,4 +107,4 @@ artifact = run.use_artifact('bicycle-dataset:latest')
 artifact_dir = artifact.download()
 ```
 
-Alternatively, you can use the Public API (`wandb.Api`) to export (or update data) data already saved in a Weights & Biases outside of a Run. See [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files) for more information.
+Alternatively, you can use the Public API (`wandb.Api`) to export (or update data) data already saved in a Weights & Biases outside of a Run. See [Track external files](./track-external-files.md) for more information.
