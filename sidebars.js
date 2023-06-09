@@ -309,7 +309,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'How to install',
-          link: {type: 'doc', id: 'guides/hosting/how-to-guides/installation'},
+          link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
           items: [
             'guides/hosting/how-to-guides/basic-setup',
             'guides/hosting/how-to-guides/bare-metal',
@@ -663,6 +663,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'ハウツーガイド',
+          // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
           items: [
             'guides/hosting/how-to-guides/basic-setup',
             'guides/hosting/how-to-guides/aws-tf',
