@@ -7,7 +7,7 @@ displayed_sidebar: default
 
 # Notes
 
-There are a few ways to take notes about your work in Weights & Biases.
+There are a few ways to take notes about your work in W&B.
 
 1. Add notes to a run. These notes show up on the run page in the overview tab and in the table of runs on the project page.
 2. Add notes to a project. These notes show up on the project page in the overview tab.

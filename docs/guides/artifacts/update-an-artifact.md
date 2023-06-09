@@ -9,7 +9,7 @@ displayed_sidebar: default
   <title>Update artifacts</title>
 </head>
 
-Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the Weights & Biases servers. You can update an artifact during a W&B Run or outside of a Run.
+Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the W&B servers. You can update an artifact during a W&B Run or outside of a Run.
 
 Use the W&B Public API ([`wandb.Api`](https://docs.wandb.ai/ref/python/public-api/api)) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`](https://docs.wandb.ai/ref/python/artifact)) to update an artifact during a run.
 

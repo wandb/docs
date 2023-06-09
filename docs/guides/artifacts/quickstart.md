@@ -12,20 +12,20 @@ displayed_sidebar: default
 </head>
 
 
-The proceeding quick start demonstrates how to create, track, and use a dataset artifact. Ensure you have a Weights & Biases account before you begin.
+The proceeding quick start demonstrates how to create, track, and use a dataset artifact. Ensure you have a W&B account before you begin.
 
 The following procedure lists how to construct and use an artifact. Steps 1 and 2 are not unique to W&B Artifacts.
 
-1. [Log into Weights & Biases.](#log-into-weights--biasess)
+1. [Log into W&B.](#log-into-weights--biasess)
 2. [Initialize a Run.](#initialize-a-run)
 3. [Create an artifact object.](#create-an-artifact-object)
 4. [Add the dataset to the artifact.](#add-the-dataset-to-the-artifact)
 5. [Log the dataset.](#log-the-dataset)
 6. [Download and use the artifact.](#download-and-use-the-artifact)
 
-### Log into Weights & Biases
+### Log into W&B
 
-Import the Weights & Biases library and log in to W&B. You will need to sign up for a free W&B account if you have not done so already.
+Import the W&B library and log in to W&B. You will need to sign up for a free W&B account if you have not done so already.
 
 ```python
 import wandb
@@ -86,10 +86,10 @@ A `'latest'` alias is created by default when you log an artifact. For more info
 
 ### Download and use the artifact
 
-The following code example demonstrates the steps you can take to use an artifact you have logged and saved to the Weights & Biases servers.
+The following code example demonstrates the steps you can take to use an artifact you have logged and saved to the W&B servers.
 
 1. First, initialize a new run object with **`wandb.init()`.**
-2. Second, use the run objects [`use_artifact()`](../../ref/python/run.md#use_artifact) method to tell Weights & Biases what artifact to use. This returns an artifact object.
+2. Second, use the run objects [`use_artifact()`](../../ref/python/run.md#use_artifact) method to tell W&B what artifact to use. This returns an artifact object.
 3. Third, use the artifacts [`download()`](../../ref/python/artifact.md#download) method to download the contents of the artifact.
 
 ```python
@@ -107,4 +107,4 @@ artifact = run.use_artifact('bicycle-dataset:latest')
 artifact_dir = artifact.download()
 ```
 
-Alternatively, you can use the Public API (`wandb.Api`) to export (or update data) data already saved in a Weights & Biases outside of a Run. See [Track external files](./track-external-files.md) for more information.
+Alternatively, you can use the Public API (`wandb.Api`) to export (or update data) data already saved in a W&B outside of a Run. See [Track external files](./track-external-files.md) for more information.

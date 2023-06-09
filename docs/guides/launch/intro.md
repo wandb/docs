@@ -34,7 +34,7 @@ wandb --version```.
 If you're on W&B Dedicated Cloud or a Customer-Managed W&B deployment, please ensure you are on version 0.30 or higher of W&B Server.
 :::
 
-Depending on your use case, explore the following resources to get started with Weights & Biases Launch:
+Depending on your use case, explore the following resources to get started with W&B Launch:
 
 * If this is your first time using W&B Launch, we recommend you go through the [Quickstart](./quickstart.md) guide.
 * Explore topics about W&B Launch in this Developer Guide, such as:

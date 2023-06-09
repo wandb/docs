@@ -19,11 +19,11 @@ Your W&B Run ID might be defined if these two error messages are both returned. 
 wandb.init(id="some-string")
 ```
 
-You can not set a Run ID for W&B Sweeps because Weights & Biases automatically generates random, unique IDs for Runs created by W&B Sweeps.
+You can not set a Run ID for W&B Sweeps because W&B automatically generates random, unique IDs for Runs created by W&B Sweeps.
 
 W&B Run IDs need to be unique within a project.
 
-We recommend you pass a name to the name parameter when you initialized Weights & Biases, if you want to set a custom name that will appear on tables and graphs. For example:
+We recommend you pass a name to the name parameter when you initialized W&B, if you want to set a custom name that will appear on tables and graphs. For example:
 
 ```python
 wandb.init(name="a helpful readable run name")

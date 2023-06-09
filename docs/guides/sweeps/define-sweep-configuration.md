@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
   <title>Define sweep configuration for hyperparameter tuning.</title>
 </head>
 
-A Weights & Biases Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
+A W&B Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
 
 Define your strategy in the form of a sweep configuration. Specify the configuration either in a:
 

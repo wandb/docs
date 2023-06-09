@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
   <title>Add W&B to your Python code</title>
 </head>
 
-There are numerous ways to add the Weights & Biases Python SDK to your script or Jupyter Notebook. Outlined below is a "best practice" example of how to integrate the W&B Python SDK into your own code.
+There are numerous ways to add the W&B Python SDK to your script or Jupyter Notebook. Outlined below is a "best practice" example of how to integrate the W&B Python SDK into your own code.
 
 ### Original training script
 

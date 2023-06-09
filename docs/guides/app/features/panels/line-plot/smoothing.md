@@ -5,7 +5,7 @@ displayed_sidebar: default
 
 # Smoothing
 
-In Weights & Biases line plots, we support three types of smoothing:
+In W&B line plots, we support three types of smoothing:
 
 * [exponential moving average](smoothing.md#exponential-moving-average-default) (default)
 * [gaussian smoothing](smoothing.md#gaussian-smoothing)

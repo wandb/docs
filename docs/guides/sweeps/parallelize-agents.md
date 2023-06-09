@@ -41,7 +41,7 @@ wandb agent sweep_id
   </TabItem>
   <TabItem value="jupyter">
 
-Use the Weights & Biases Python SDK library to parallelize your W&B Sweep agent across multiple CPUs within Jupyter Notebooks. Ensure you have the sweep ID that was returned when you [initialized the sweep](./initialize-sweeps.md).  In addition, provide the name of the function the sweep will execute for the `function` parameter:
+Use the W&B Python SDK library to parallelize your W&B Sweep agent across multiple CPUs within Jupyter Notebooks. Ensure you have the sweep ID that was returned when you [initialized the sweep](./initialize-sweeps.md).  In addition, provide the name of the function the sweep will execute for the `function` parameter:
 
 1. Open more than one Jupyter Notebook.
 2. Copy and past the W&B Sweep ID on multiple Jupyter Notebooks to parallelize a W&B Sweep. For example, you can paste the following code snippet on multiple jupyter notebooks to paralleliz your sweep if you have the sweep ID stored in a variable called `sweep_id` and the name of the function is `function_name`: 
