@@ -1,5 +1,5 @@
 ---
-description: Learn how to use Weights & Biases for Model Management
+description: Learn how to use W&B for Model Management
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
@@ -14,7 +14,7 @@ import TabItem from '@theme/TabItem';
 
 ![](/images/models/walkthrough.png)
 
-In this walkthrough you'll learn how to use Weights & Biases for Model Management. Track, visualize, and report on the complete production model workflow.
+In this walkthrough you'll learn how to use W&B for Model Management. Track, visualize, and report on the complete production model workflow.
 
 1. **Model Versioning**: Save and restore every version of your model & learned parameters - organize versions by use case and objective. Track training metrics, assign custom metadata, and document rich markdown descriptions of your models.
 2. **Model Lineage:** Track the exact code, hyperparameters, & training dataset used to produce the model. Enable model reproducibility.

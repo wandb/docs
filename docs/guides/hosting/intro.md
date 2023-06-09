@@ -5,7 +5,7 @@ displayed_sidebar: default
 
 # W&B Server
 
-Deploy Weights & Biases in a resource isolated environment managed by W&B or by yourself. W&B Server is shipped as a packaged Docker image that can be deployed easily into any underlying infrastructure. There are several ways to install and host the W&B Server in different environments.
+Deploy W&B in a resource isolated environment managed by W&B or by yourself. W&B Server is shipped as a packaged Docker image that can be deployed easily into any underlying infrastructure. There are several ways to install and host the W&B Server in different environments.
 
 :::info
 Production-grade features for W&B Server are available for enterprise-tier only.
