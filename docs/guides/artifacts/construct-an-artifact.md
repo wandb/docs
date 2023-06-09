@@ -11,7 +11,7 @@ displayed_sidebar: default
   <title>Construct Artifacts</title>
 </head>
 
-Use the W&B SDK to construct an artifact during or outside of a [W&B Run](../../ref/python/run.md). Add files, directories, URIs, and files from parallel runs to artifacts. Once a file or URI is added, save your artifact to W&B with a W&B Run. For information on how to track an external file outside of a W&B Run, see [Track external files](./track-external-files).
+Use the W&B SDK to construct an artifact during or outside of a [W&B Run](../../ref/python/run.md). Add files, directories, URIs, and files from parallel runs to artifacts. Once a file or URI is added, save your artifact to W&B with a W&B Run. For information on how to track an external file outside of a W&B Run, see [Track external files](./track-external-files.md).
 
 ### How to construct an artifact
 
@@ -53,7 +53,7 @@ artifact.add_file(
     )    
 ```
 
-You can also add multiple files with the [`add_dir`](../../ref/python/artifact.md#add_dir) method. For more information on how to add files, see [Update an artifact](./update-an-artifact.mdt).
+You can also add multiple files with the [`add_dir`](../../ref/python/artifact.md#add_dir) method. For more information on how to add files, see [Update an artifact](./update-an-artifact.md).
 
 #### 3. Save your artifact to the W&B server
 

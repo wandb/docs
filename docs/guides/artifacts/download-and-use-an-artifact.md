@@ -85,7 +85,7 @@ Use the object returned to download the contents of the artifact:
 artifact.download()
 ```
 
-You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [API Reference Guide](../../ref/python/public-api/artifact.mdt#download).
+You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [API Reference Guide](../../ref/python/public-api/artifact.md#download).
   
   </TabItem>
   <TabItem value="cli">

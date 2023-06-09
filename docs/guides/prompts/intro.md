@@ -60,8 +60,8 @@ The Model Architecture view provides details about the structure of the chain an
 
 Weights and Biases also has lightweight integrations for:
 * [LangChain](../integrations/langchain.md)
-* [OpenAI API](../integrations/openai)
-* [Hugging Face Transformers](../integrations/huggingface)
+* [OpenAI API](../integrations/other/openai.md)
+* [Hugging Face Transformers](../integrations/huggingface.md)
 
 <!-- Add link to colab -->
 
