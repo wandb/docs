@@ -291,17 +291,10 @@ const sidebars = {
         },
         {
           type: 'category',
-          label: 'Test Configure',
-          // link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
-          items: [
-            'guides/hosting/configure/audit-logging',
-          ],
-        },
-        {
-          type: 'category',
           label: 'Configure',
           // link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
-          items: [            
+          items: [          
+            'guides/hosting/audit-logging',  
             'guides/hosting/env-vars',
             'guides/hosting/ldap',
             'guides/hosting/manage-users',
