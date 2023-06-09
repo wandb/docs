@@ -89,7 +89,7 @@ Depending on your use case, explore the following resources to get started with 
   * Update an artifact.
   * Download and use an artifact.
   * Delete artifacts.
-* Within the [W&B SDK Reference Guide](https://docs.wandb.ai/ref) explore [Python Artifact APIs](../../ref/python/artifact.md) and [Artifact CLI Reference Guide](../../ref/cli/wandb-artifact/README.md).
+* Within the [W&B SDK Reference Guide](../../ref/README.md) explore [Python Artifact APIs](../../ref/python/artifact.md) and [Artifact CLI Reference Guide](../../ref/cli/wandb-artifact/README.md).
 
 For a step-by-step video, see [Version Control Data and Model with W&B Artifacts](https://www.youtube.com/watch?v=Hd94gatGMic\&ab\_channel=Weights%26Biases).
 

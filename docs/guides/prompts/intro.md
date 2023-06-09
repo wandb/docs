@@ -5,7 +5,7 @@ displayed_sidebar: default
 ---
 # Prompts for LLMs
 
-Weights & Biases Prompts is a suite of LLMOps tools built for the development of LLM-powered applications.
+W&B Prompts is a suite of LLMOps tools built for the development of LLM-powered applications.
 Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
 
 ![](/images/prompts/trace_timeline.png)
@@ -59,9 +59,9 @@ The Model Architecture view provides details about the structure of the chain an
 ## More LLMs tools
 
 Weights and Biases also has lightweight integrations for:
-* [LangChain](../guides/integrations/langchain)
-* [OpenAI API](../guides/integrations/openai)
-* [Hugging Face Transformers](../guides/integrations/huggingface)
+* [LangChain](../integrations/langchain.md)
+* [OpenAI API](../integrations/other/openai.md)
+* [Hugging Face Transformers](../integrations/huggingface.md)
 
 <!-- Add link to colab -->
 

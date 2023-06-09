@@ -1,7 +1,7 @@
 ---
 description: >-
   Edit a report interactively with the App UI or programmatically with the
-  Weights & Biases SDK.
+  W&B SDK.
 displayed_sidebar: default
 ---
 
@@ -16,7 +16,7 @@ import TabItem from '@theme/TabItem';
 </head>
 
 
-Edit a report interactively with the App UI or programmatically with the Weights & Biases SDK.
+Edit a report interactively with the App UI or programmatically with the W&B SDK.
 
 Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and run, and panels grids.
 
@@ -38,7 +38,7 @@ Each panel grid has a set of run sets and a set of panels. The run sets at the b
   ]}>
   <TabItem value="app">
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by Weights & Biases; including a line plot, scatter plot or parallel coordinates chart.
+Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by W&B; including a line plot, scatter plot or parallel coordinates chart.
 
 
 
@@ -83,7 +83,7 @@ For more information about available plots and charts you can add to a report pr
 
 ### Add run sets
 
-Add run sets from projects interactively with the App UI or the Weights & Biases SDK.
+Add run sets from projects interactively with the App UI or the W&B SDK.
 
 <Tabs
   defaultValue="app"
@@ -186,7 +186,7 @@ report.save()
 
 ### Add code blocks
 
-Add code blocks to your report interactively with the App UI or with the Weights & Biases SDK.
+Add code blocks to your report interactively with the App UI or with the W&B SDK.
 
 <Tabs
   defaultValue="app"
@@ -263,7 +263,7 @@ Hello, World!
 
 ### Markdown
 
-Add markdown to your report interactively with the App UI or with the Weights & Biases SDK.
+Add markdown to your report interactively with the App UI or with the W&B SDK.
 
 <Tabs
   defaultValue="app"
@@ -300,7 +300,7 @@ This will render a markdown block similar to:
 
 ### HTML elements
 
-Add HTML elements to your report interactively with the App UI or with the Weights & Biases SDK.
+Add HTML elements to your report interactively with the App UI or with the W&B SDK.
 
 <Tabs
   defaultValue="app"
@@ -343,7 +343,7 @@ This will render a HTML elements  to the following:
 
 ### Embed rich media links
 
-Embed rich media within the report with the App UI or with the Weights & Biases SDK.
+Embed rich media within the report with the App UI or with the W&B SDK.
 
 <Tabs
   defaultValue="app"

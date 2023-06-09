@@ -84,7 +84,7 @@ Each run listed corresponds to a job that was was added to that queue. For examp
 
 Find additional information about the jobs such as the:
    - **Run**: The name of the W&B Run assigned to that job.
-   - **Job ID**: The name of the job. See [Job naming conventions](create-job#job-naming-conventions) page for information on the default naming assigned to a job.
+   - **Job ID**: The name of the job. See [Job naming conventions](create-job.md#job-naming-conventions) page for information on the default naming assigned to a job.
    - **Project**: The name of the project the run belongs to.
    - **Status**: The status of the queued run. 
    - **Author**: The W&B entity that created the run.

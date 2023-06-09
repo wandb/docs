@@ -1,7 +1,7 @@
 ---
 description: >-
   Delete artifacts interactively with the App UI or programmatically with the
-  Weights & Biases SDK/
+  W&B SDK/
 displayed_sidebar: default
 ---
 
@@ -11,7 +11,7 @@ displayed_sidebar: default
   <title>Delete W&B Artifacts</title>
 </head>
 
-Delete artifacts interactively with the App UI or programmatically with the Weights & Biases SDK. Weights & Biases first checks if the artifact and its associated files are not used by a previous or subsequent artifact version before it deletes an artifact. You can delete a specific artifact version or delete the entire artifact.
+Delete artifacts interactively with the App UI or programmatically with the W&B SDK. W&B first checks if the artifact and its associated files are not used by a previous or subsequent artifact version before it deletes an artifact. You can delete a specific artifact version or delete the entire artifact.
 
 You can delete aliases before you delete an artifact or you can delete an artifact and pass an additional flag to the API call. It is recommended that you remove aliases associated to the artifact you want to delete before you delete the artifact.
 

@@ -1,6 +1,6 @@
 ---
 description: >-
-  Track files saved outside the Weights & Biases such as in an Amazon S3 bucket,
+  Track files saved outside the W&B such as in an Amazon S3 bucket,
   GCS bucket, HTTP file server, or even an NFS share.
 displayed_sidebar: default
 ---
@@ -23,7 +23,7 @@ Use the [`wandb artifact put`](https://docs.wandb.ai/ref/cli/wandb-artifact/wand
 $ wandb artifact put --name project/artifact_name --type TYPE PATH
 ```
 
-Weights & Biases will create a new project if a the project you specify does not exist. For information on how to download an artifact, see [Download and use artifacts](https://docs.wandb.ai/guides/artifacts/download-and-use-an-artifact).
+W&B will create a new project if a the project you specify does not exist. For information on how to download an artifact, see [Download and use artifacts](https://docs.wandb.ai/guides/artifacts/download-and-use-an-artifact).
 
 ## Track artifacts outside of W&B
 
