@@ -1,11 +1,11 @@
 ---
-description: Tutorial of using the custom charts feature in the Weights & Biases UI
+description: Tutorial of using the custom charts feature in the W&B UI
 displayed_sidebar: default
 ---
 
 # Custom Charts Walkthrough
 
-To go beyond the built-in charts in Weights & Biases, use the new **Custom Charts** feature to control the details of exactly what data you're loading in to a panel and how you visualize that data.
+To go beyond the built-in charts in W&B, use the new **Custom Charts** feature to control the details of exactly what data you're loading in to a panel and how you visualize that data.
 
 **Overview**
 

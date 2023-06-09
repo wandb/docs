@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
   <title>Resume W&B Runs</title>
 </head>
 
-You can have wandb automatically resume runs by passing `resume=True` to `wandb.init()`. If your process doesn't exit successfully, the next time you run it wandb will start logging from the last step.
+You can have W&B automatically resume runs by passing `resume=True` to `wandb.init()`. If your process doesn't exit successfully, the next time you run it W&B will start logging from the last step.
 
 <Tabs
   defaultValue="keras"
@@ -100,23 +100,23 @@ while epoch < N_EPOCHS:
   </TabItem>
 </Tabs>
 
-### Resuming Guidance
+### Resume Guidance
 
 There are different ways in which W&B can be used to resume runs as detailed below:
 
-1.  [`resume`](./resuming)
+1.  [`resume`](./resuming.md)
 
     This is our recommended method for resuming runs with W&B.
 
-    1. As described above, runs can be resumed by passing`resume=True` to `wandb.init()`. This can be thought of as auto-resuming, where we “automatically” pick up from where an aborted run left off. If your process doesn't exit successfully, the next time you run it wandb will start logging from the last step.
+    1. As described above, runs can be resumed by passing`resume=True` to `wandb.init()`. This can be thought of as auto-resuming, where we “automatically” pick up from where an aborted run left off. If your process doesn't exit successfully, the next time you run it W&B will start logging from the last step.
        * Note: This only works if you are running your script in the same directory as the one that failed as the file is stored at: `wandb/wandb-resume.json`.
     2. The other form of resume requires you to provide the actual run id: `wandb.init(id=run_id)` and then when you resume (if you want to be sure that it is resuming, you do `wandb.init(id=run_id, resume="must")`.
-       * You can also have full control over resuming if you manage the `run_id`. We provide a utility to generate `run_id`: `wandb.util.generate_id()`. As long as you set the id to one of these unique ids for each unique run, you can say `resume="allow"` and wandb will automatically resume the run with that id.
+       * You can also have full control over resuming if you manage the `run_id`. We provide a utility to generate `run_id`: `wandb.util.generate_id()`. As long as you set the id to one of these unique ids for each unique run, you can say `resume="allow"` and W&B will automatically resume the run with that id.
 
-    More context regarding automatic and controlled resuming can be found in [this section](resuming.md#undefined).
-2. [`wandb.restore`](../track/save-restore#examples-of-wandb.restore)
+    More context regarding automatic and controlled resuming can be found in [this section](resuming.md#resume-runs).
+2. [`wandb.restore`](../track/save-restore.md#examples-of-wandb.restore)
    * This will allow you to log new historical values for your metrics to a run starting from where you left off but does not take care of re-establishing the state of your code, you will need to make sure you have written checkpoints that you can load!
-   * You can use [`wandb.save`](../track/save-restore#examples-of-wandb.save) to record the state of your run via checkpoint files. Create a checkpoint file through `wandb.save()`, which can then be used through `wandb.init(resume=<run-id>)`. [This report](https://wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W-B--Vmlldzo3MDQ3Mw) illustrates how to save and restore models with W&B.
+   * You can use [`wandb.save`](../track/save-restore.md#examples-of-wandbsave) to record the state of your run via checkpoint files. Create a checkpoint file through `wandb.save()`, which can then be used through `wandb.init(resume=<run-id>)`. [This report](https://wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W-B--Vmlldzo3MDQ3Mw) illustrates how to save and restore models with W&B.
 
 #### Automatic and controlled resuming
 
@@ -132,7 +132,7 @@ os.environ["WANDB_RUN_ID"] = wandb.util.generate_id()
 wandb.init()
 ```
 
-If you set `WANDB_RESUME` equal to `"allow"`, you can always set `WANDB_RUN_ID` to a unique string and restarts of the process will be handled automatically. If you set `WANDB_RESUME` equal to `"must"`, wandb will throw an error if the run to be resumed does not exist yet instead of auto-creating a new run.
+If you set `WANDB_RESUME` equal to `"allow"`, you can always set `WANDB_RUN_ID` to a unique string and restarts of the process will be handled automatically. If you set `WANDB_RESUME` equal to `"must"`, W&B will throw an error if the run to be resumed does not exist yet instead of auto-creating a new run.
 
 :::caution
 If multiple processes use the same `run_id` concurrently unexpected results will be recorded and rate limiting will occur.

@@ -5,7 +5,7 @@ displayed_sidebar: default
 
 # Anonymous Mode
 
-Are you publishing code that you want anyone to be able to run easily? Use Anonymous Mode to let someone run your code, see a W&B dashboard, and visualize results without needing to create a Weights & Biases account first.
+Are you publishing code that you want anyone to be able to run easily? Use Anonymous Mode to let someone run your code, see a W&B dashboard, and visualize results without needing to create a W&B account first.
 
 Allow results to be logged in Anonymous Mode with `wandb.init(`**`anonymous="allow"`**`)`
 

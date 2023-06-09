@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
 :::info
-Looking for reference docs for our media types? You want [this page](../../../ref/python/data-types/).
+Looking for reference docs for our media types? You want [this page](../../../ref/python/data-types/README.md).
 :::
 
 <!-- {% embed url="https://www.youtube.com/watch?v=96MxRvx15Ts" %} -->
@@ -422,7 +422,7 @@ wandb.log({"protein": wandb.Molecule("6lu7.pdb")}
 
 Log molecular data in any of 10 file types:`pdb`, `pqr`, `mmcif`, `mcif`, `cif`, `sdf`, `sd`, `gro`, `mol2`, or `mmtf.`
 
-Weights & Biases also supports logging molecular data from SMILES strings, [`rdkit`](https://www.rdkit.org/docs/index.html) `mol` files, and `rdkit.Chem.rdchem.Mol` objects.
+W&B also supports logging molecular data from SMILES strings, [`rdkit`](https://www.rdkit.org/docs/index.html) `mol` files, and `rdkit.Chem.rdchem.Mol` objects.
 
 ```python
 resveratrol = rdkit.Chem.MolFromSmiles("Oc1ccc(cc1)C=Cc1cc(O)cc(c1)O")
@@ -446,7 +446,7 @@ When your run finishes, you'll be able to interact with 3D visualizations of you
 
 ## Other Media
 
-Weights & Biases also supports logging of a variety of other media types.
+W&B also supports logging of a variety of other media types.
 
 <Tabs
   defaultValue="audio"
