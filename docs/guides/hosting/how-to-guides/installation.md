@@ -1,4 +1,5 @@
 ---
+slug: /guides/hosting/how-to-guides
 description: W&B Server Install
 displayed_sidebar: default
 ---
@@ -11,10 +12,10 @@ In this page you will find all available installation methods of W&B server.
 
 The production installation types available are the following:
 
-- [AWS](./how-to-guides/aws-tf.md)
-- [Azure](./how-to-guides/azure-tf.md)
-- [GCP](./how-to-guides/gcp-tf.md)
-- [Bare Metal](./how-to-guides/bare-metal.md)
+- [AWS](./aws-tf.md)
+- [Azure](./azure-tf.md)
+- [GCP](./gcp-tf.md)
+- [Bare Metal](./bare-metal.md)
 
 For all of our Cloud Deployments, we rely on [Terraform](https://developer.hashicorp.com/terraform/intro) as a tool to provision all infrastructure components necessary to execute the W&B Server reliably.
 
@@ -26,10 +27,10 @@ The State File is the necessary resource to roll out upgrades or make changes in
 
 To allow the users try Weights and Biases server without having to provisioning the whole infrastructure, it's possible to run W&B Server locally.
 
-- [Development Setup](./how-to-guides/basic-setup.md)
+- [Development Setup](./basic-setup.md)
 
 This mode is **NOT RECOMMENDED FOR PRODUCTION**
 
 # Upgrade
 
-- [Upgrade W&B Server](./upgrade.md) 
+- [Upgrade W&B Server](../upgrade.md) 
