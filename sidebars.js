@@ -316,6 +316,7 @@ const sidebars = {
             'guides/hosting/how-to-guides/aws-tf',
             'guides/hosting/how-to-guides/gcp-tf',
             'guides/hosting/how-to-guides/azure-tf',
+            'guides/hosting/upgrade',
           ],
         },
       ],
