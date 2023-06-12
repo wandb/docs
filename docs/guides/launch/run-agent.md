@@ -216,7 +216,9 @@ To grant Kaniko builds running in Kubernetes access to your blob and container s
 
 You must use [Azure AD Workload Identity](https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview) to provide the agent credentials if you are using AKS.
 
+
 If you are running your own Kubernetes cluster rather than using AKS, EKS, or GKE, you will need to create a Kubernetes secret that contains the credentials for your cloud environment. To grant access to GCP, this secret should contain a [service account json](https://cloud.google.com/iam/docs/keys-create-delete#creating). To grant access to AWS, this secret should contain an [AWS credentials file](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html). You can configure the Kaniko builder to use this secret by setting the following keys in your builder config:
+
 
 ```yaml
 builder:

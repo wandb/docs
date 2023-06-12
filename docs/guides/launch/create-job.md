@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 # Create a job
 
-A job is a complete blueprint of how to perform a step in your ML workflow, like training a model, running an evaluation, or deploying a model to an inference server. For more information, see the [details of launched jobs section](launch-jobs#view-details-of-launched-jobs).
+A job is a complete blueprint of how to perform a step in your ML workflow, like training a model, running an evaluation, or deploying a model to an inference server. For more information, see the [details of launched jobs section](launch-jobs.md#view-details-of-launched-jobs).
 
 :::info
 `wandb>=0.13.8` is required in order to create jobs.
@@ -47,7 +47,7 @@ Associate your run with a git commit from your git repo. W&B will automatically 
 
 Associate your run with a Docker image. W&B will look for an image tag in the `WANDB_DOCKER` environment variable, and if `WANDB_DOCKER` is set, a job will be created from the specified image tag. When you launch a job from a Docker image, the launch agent run the image specified.
 
-For more information on `WANDB_DOCKER` see the docs for our [docker integration](/docs/guides/integrations/other/docker.md).
+For more information on `WANDB_DOCKER` see the docs for our [docker integration](../integrations/other/docker.md).
 
 Be sure to set the `WANDB_DOCKER` environment variable to the full image tag as you it will be accessible to your launch agent. For example, if your agent will run images from an ECR repository, you should set `WANDB_DOCKER` to the full image tag, including the ECR repository URL, e.g. `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-image:latest`.
 

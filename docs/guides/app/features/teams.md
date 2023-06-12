@@ -54,7 +54,7 @@ Select one a team role when you invite colleagues to join a team. There are four
 - **View-Only (Enterprise-only feature)**: View-Only members can view assets within the team such as runs, reports, and workspaces. They can follow and comment on reports, but they can not create, edit, or delete project overview, reports, or runs. View-Only members do not have an API key.
 
 ### Team Settings
-Team settings allow you to manage the settings for your team and its members. With these privileges, you can effectively oversee and organize your team within Weights & Biases.
+Team settings allow you to manage the settings for your team and its members. With these privileges, you can effectively oversee and organize your team within W&B.
 
 | Permissions         | View-Only | Team Member | Team Admin | 
 | ------------------- | --------- | ----------- | ---------- |
@@ -106,7 +106,7 @@ The proceeding table lists permissions that apply to all artifacts across a give
 | Download artifact|           | X           | X          |
 
 ### System Settings (W&B Server Only)
-With system permissions, you have the ability to manage members, create and modify teams, adjust system settings, and view user activity. These privileges enable you to effectively administer and maintain the Weights & Biases instance.
+With system permissions, you have the ability to manage members, create and modify teams, adjust system settings, and view user activity. These privileges enable you to effectively administer and maintain the W&B instance.
 
 | Permissions              | View-Only | Team Member | Team Admin | System Admin | 
 | ------------------------ | --------- | ----------- | ---------- | ------------ |

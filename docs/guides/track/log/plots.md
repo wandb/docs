@@ -263,7 +263,7 @@ If you’re getting an error “You attempted to log an empty plot” then you c
 
 ### Log Custom HTML to W&B Tables
 
-Weights & Biases supports logging interactive charts from Plotly and Bokeh as HTML and adding them to Tables.
+W&B supports logging interactive charts from Plotly and Bokeh as HTML and adding them to Tables.
 
 #### Log Plotly figures to Tables as HTML
 
