@@ -15,12 +15,12 @@ A job is a complete blueprint of how to perform a step in your ML workflow, like
 
 ## How do I create a job?
 
-Jobs will be captured automatically from any runs that you track with W&B if you also track the run's source code. When you launch a job created this way, W&B will automatically build and run a Docker image using that code, the associated requirements.txt, and the base image associated with the queue on which the job is launched. 
+Jobs are captured automatically from runs that you track with W&B if you also track the run's source code. When you launch a job created this way, W&B will automatically build and run a Docker image using that code, the associated requirements.txt, and the base image associated with the queue on which the job is launched. 
 
-Alternatively--if you prefer to bake in dependencies and custom base images--you can create a job using a full Docker image.
+Alternatively, you can create a job using a Docker image if you prefer to bake in dependencies and custom base images.
 
 :::info
-* Conda enviornments are not yet supported for automatic job creation--please use the Docker-image job creation path if you manage dependencies with Conda today. 
+* Conda environments are not yet supported for automatic job creation. Use the Docker-image job creation path if you manage dependencies with Conda today. 
 * See [this section](https://docs.wandb.ai/guides/launch/docker#docker-queues) for more information on choosing an accelerator base image.
 * Automatic job creation is supported in Docker, AWS EKS, AWS Sagemaker, GCP GKE, and GCP Vertex queues.  Other queues (e.g. other Kubernetes environments) may encounter errors; in these cases, try the Docker-image job creation path.
 :::
