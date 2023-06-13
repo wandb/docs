@@ -37,6 +37,8 @@ If you're on W&B Dedicated Cloud or a Customer-Managed W&B deployment, please en
 Depending on your use case, explore the following resources to get started with W&B Launch:
 
 * If this is your first time using W&B Launch, we recommend you go through the [Quickstart](./quickstart.md) guide.
+* Or check out our [public jobs repo](https://github.com/wandb/launch-jobs) for templates of common tasks like [deploying to Triton](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton), [evaluating an LLM](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals), or more. 
+    * These jobs are also visible in the public [`wandb/jobs` project](https://wandb.ai/wandb/jobs/jobs). (Be sure to uncheck the toggle to see the full list.)
 * Explore topics about W&B Launch in this Developer Guide, such as:
     * [Create a job](./create-job.md)
     * [Create a queue](./create-queue.md)
@@ -44,7 +46,3 @@ Depending on your use case, explore the following resources to get started with 
     * [Launch a run](./launch-jobs.md)
     * [Run an agent](./run-agent.md)  
 * Discover the [`wandb launch`](../../ref/cli/wandb-launch.md) and [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) commands in the CLI Reference.
-
-:::info
-Talk to the W&B Sales Team to get W&B Launch set up for your business: [https://wandb.ai/site/pricing](https://wandb.ai/site/pricing).
-:::
