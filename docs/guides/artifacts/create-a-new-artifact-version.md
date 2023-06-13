@@ -27,9 +27,9 @@ There are two ways to create a new artifact version: from a single run and from 
 * **Distributed runs**: A set of runs collectively provides all the data for a new version. This is best suited for distributed jobs which have multiple runs generating data, often in parallel. For example: evaluating a model in a distributed manner, and outputting the predictions.
 
 ### Single run
-Use a single run to log a new version of an artifact. This case occurs when a single run produces all the files in the artifact. 
+Log a new version of an Artifact with a single run that produces all the files in the artifact. This case occurs when a single run produces all the files in the artifact. 
 
-Select one of the tabs below to view the steps to create a new artifact version inside or outside of a run:
+Based on your use case, select one of the tabs below to create a new artifact version inside or outside of a run:
 
 <Tabs
   defaultValue="within"
@@ -40,7 +40,7 @@ Select one of the tabs below to view the steps to create a new artifact version 
   <TabItem value="within">
 
 1. Create with `wandb.init`. (Line 1)
-2. Create an artifact object with `wandb.Artifact`. (Line 2)
+2. Retrieve the Artifact you want to add a new version to with `wandb.Artifact`. (Line 2)
 3. Add files to the artifact with `.add_file`. (Line 9)
 4. Log the artifacts to the run with `.log_artifact`. (Line 10)
 
@@ -62,7 +62,7 @@ with wandb.init() as run:
 
 Create an artifact version outside of a W&B run:
 
-1. Create an artifact object with the W&B Public API (`wanb.Artifact`). (Line 1)
+1. Retrieve the Artifact with the W&B Public API (`wanb.Artifact`). (Line 1)
 2. Add files to the artifact with `.add_file`. (Line 4)
 3. Use `Artifact.save()` to create the version. (Line 5)
 
@@ -81,7 +81,8 @@ artifact.save()
 
 ### Distributed runs
 
-Use a set of runs to create an artifact version. This is in contrast to single run mode described above where one run provides all the data for a new version.
+Allow a collection of runs to collaborate on a version before committing it. This is in contrast to single run mode described above where one run provides all the data for a new version.
+
 
 :::info
 1. Each run in the collection needs to be aware of the same unique ID (called `distributed_id`) in order to collaborate on the same version. By default, if present, W&B uses the run's `group` as set by `wandb.init(group=GROUP)` as the `distributed_id`.
