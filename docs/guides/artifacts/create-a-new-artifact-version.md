@@ -188,7 +188,9 @@ Add a file to an existing artifact version with the `add_file` method:
 draft_artifact.add_file("file_to_add.txt")
 ```
 
-Use the `add_file` method multiple times to add multiple files.
+:::note
+You can also add multiple files by adding a directory with the `add_dir` method.
+:::
 
   </TabItem>
   <TabItem value="remove">
@@ -199,7 +201,9 @@ Remove a file to an existing artifact version with the `remove` method:
 draft_artifact.remove("file_to_remove.txt")
 ```
 
-Use the `remove` method multiple times to add multiple files.
+:::note
+You can also remove multiple files with the `remove` method by passing in a directory path.
+:::
 
   </TabItem>
   <TabItem value="modify">
