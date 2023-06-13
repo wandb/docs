@@ -7,6 +7,12 @@ displayed_sidebar: default
 
 Learn how to use W&B Launch on Docker.
 
+:::note
+Launch does not support custom Dockerfiles. Instead, specify a Docker image that contains the resources necessary to create and execute a W&B job. W&B will use the Docker image you specify and create an image sourced job. Use a docker image sourced job from a repo that your cluster has access to. 
+
+For more info about making jobs from images, see the ["Docker image" tab in the Create a job page](./create-job.md#how-do-i-create-a-job).
+:::
+
 ## Launch agent setup
 
 You will need to have the Docker CLI installed wherever you run your agent. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker, and make sure the Docker daemon is running on your machine before you proceed. If you want the agent to make use of GPUs on Docker, you will also need to install the [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
