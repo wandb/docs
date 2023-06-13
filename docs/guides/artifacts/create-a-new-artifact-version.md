@@ -213,9 +213,7 @@ You can also remove multiple files with the `remove` method by passing in a dire
   </TabItem>
   <TabItem value="modify">
 
-Modify or replace contents by removing the old contents from the draft and adding the new contents back in  
-
-Modify or replace a file with the `add_file` method:
+Modify or replace contents by removing the old contents from the draft and adding the new contents back in:
 
 ```python
 draft_artifact.remove("modified_file.txt")
