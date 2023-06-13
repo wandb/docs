@@ -20,9 +20,9 @@ Jobs are captured automatically from runs that you track with W&B if you also tr
 Alternatively, you can create a job using a Docker image if you prefer to bake in dependencies and custom base images.
 
 :::info
-* Conda environments are not yet supported for automatic job creation. Use the Docker-image job creation path if you manage dependencies with Conda today. 
-* See [this section](https://docs.wandb.ai/guides/launch/docker#docker-queues) for more information on choosing an accelerator base image.
-* Automatic job creation is supported in Docker, AWS EKS, AWS Sagemaker, GCP GKE, and GCP Vertex queues.  Other queues (e.g. other Kubernetes environments) may encounter errors; in these cases, try the Docker-image job creation path.
+* Conda environments are not yet supported for capturing job dependencies. Use the Docker image job creation path if you manage dependencies with Conda today. 
+* See [this section](docker#docker-queues) for more information on choosing an accelerator base image.
+* Launch's automated container build requires that the agent runs with access to the Docker CLI or in an EKS or GKE cluster with [kaniko configured](run-agent#builders). If you plan to run your agent in a way that is incompatible with these build requirements, use the Docker image job creation path and set `builder.type` to `noop` in your launch config.
 :::
 
 
