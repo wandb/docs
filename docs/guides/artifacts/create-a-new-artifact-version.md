@@ -13,7 +13,9 @@ import TabItem from '@theme/TabItem';
 
 Create a new artifact version with a single [run](../runs/intro.md) or collaboratively with distributed runs. You can optionally create a new artifact version from a previous version known as an [incremental artifact](#create-a-new-version-from-an-existing-version).
 
-
+:::tip
+We recommend that you create an incremental artifact when you need to apply changes to a subset of files in an artifact, where the size of the original artifact is significantly larger.
+:::
 
 
 <!-- ![Artifact overview diagram](/images/artifacts/incremental_artifacts_Diagram.png) -->
@@ -141,12 +143,14 @@ with wandb.init() as run:
 
 Add, modify, or remove a subset of files from a previous artifact version without waiting for a process to re-index, download, or reference the rest of the files in an artifact. Adding, modifying, or removing a subset of files from a previous artifact version creates a new artifact version known as an *incremental artifact*.
 
+Here are some scenarios for each type of incremental change you might encounter:
+
+- add: you periodically add a new subset of files to a dataset after collecting a new batch.
+- remove: you discovered several duplicate files and want to remove them from your artifact.
+- update: you corrected annotations for a subset of files and want to replace the old files with the correct ones.
+
 You could create an artifact from scratch to perform the same function as an incremental artifact. However, when you create an artifact from scratch, you will need to have all the contents of your artifact on your local disk. When making an incremental change, you can add, remove, or modify a single file without changing the files from a previous artifact version.
 
-
-:::tip
-Incremental artifacts are particularly useful for workflows that require you to apply changes to a subset of files in an artifact that are large (for example datasets). Use incremental artifacts to avoid loading all of an artifact's contents onto your local disk.
-:::
 
 :::info
 You can create an incremental artifact within a single run or with a set of runs (distributed mode).
@@ -207,19 +211,22 @@ You can also remove multiple files with the `remove` method by passing in a dire
 
   </TabItem>
   <TabItem value="modify">
-  
+
+Modify or replace contents by removing the old contents from the draft and adding the new contents back in  
+
 Modify or replace a file with the `add_file` method:
 
 ```python
+draft_artifact.remove("modified_file.txt")
 draft_artifact.add_file("modified_file.txt")
 ```
 
   </TabItem>
 </Tabs>
 
-:::tip
+<!-- :::tip
 The method to add or modify an artifact are the same. Entries are replaced (as opposed to duplicated), when you pass a filename for an entry that already exists.
-:::
+::: -->
 
 4. Lastly, log or save your changes. The following tabs show you how to save your changes inside and outside of a W&B run. Select the tab that is appropriate for your use case:
 
@@ -266,7 +273,6 @@ with wandb.init() as run:
 	# modify a subset of files in the draft version
 	draft_artifact.add_file("file_to_add.txt")
 	draft_artifact.remove('dir_to_remove/') 
-	draft_artifact.add_file("file_to_replace.txt")  
 	run.log_artifact(artifact) # log your changes to create a new version and mark it as output to your run
 ```
 
