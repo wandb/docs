@@ -26,6 +26,9 @@ There are two ways to create a new artifact version: from a single run and from 
 * **Single run**: A single run provides all the data for a new version. This is the most common case and is best suited when the run fully recreates the needed data. For example: outputting saved models or model predictions in a table for analysis.
 * **Distributed runs**: A set of runs collectively provides all the data for a new version. This is best suited for distributed jobs which have multiple runs generating data, often in parallel. For example: evaluating a model in a distributed manner, and outputting the predictions.
 
+
+![](/images/artifacts/single_distributed_artifacts.png)
+
 ### Single run
 Log a new version of an Artifact with a single run that produces all the files in the artifact. This case occurs when a single run produces all the files in the artifact. 
 
@@ -143,6 +146,8 @@ with wandb.init() as run:
 ## Create a new artifact version from an existing version
 
 Add, modify, or remove a subset of files from a previous artifact version without waiting for a process to re-index, download, or reference the rest of the files in an artifact. Adding, modifying, or removing a subset of files from a previous artifact version creates a new artifact version known as an *incremental artifact*.
+
+![](/images/artifacts/incremental_artifacts.png)
 
 Here are some scenarios for each type of incremental change you might encounter:
 
