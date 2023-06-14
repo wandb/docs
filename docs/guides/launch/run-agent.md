@@ -29,10 +29,9 @@ Launch currently supports building container images with [Docker](https://docker
 
 ### Execute the run
 
-The launch agent will execute the run in the container image that was built in the previous step or specified in the job. How the agent executes the run depends on the type of queue the job was in. 
+The launch agent will execute the run in the container image that was built in the previous step or specified in the job. How the agent executes the run depends on the type of queue the job was in.
 
-For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a k8s cluster as a [k8s Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) via the k8s API.
-
+For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) via the Kubernetes API.
 
 ## Agent configuration
 
@@ -62,7 +61,7 @@ builder:
   type: docker|kaniko|noop
 ```
 
-The `environment`, `registry`, and `builder` keys are optional. By default, the agent will use no cloud environment, a local docker registry, and a docker builder. 
+The `environment`, `registry`, and `builder` keys are optional. By default, the agent will use no cloud environment, a local docker registry, and a docker builder.
 
 ### Environments
 
@@ -146,7 +145,6 @@ registry:
 
 </Tabs>
 
-
 ### Builders
 
 The `builder` key is used to configure the container builder that the agent will use to build container images. The `builder` key is not required and if omitted, the agent will use Docker to build images locally.
@@ -172,24 +170,24 @@ builder:
 
 <TabItem value="kaniko">
 
-Set `type: kaniko` and configure either a GCP or AWS environment to use Kaniko to build container images in Kubernetes. The `kaniko` builder requires the `build-context-store` key to be set. The `build-context-store` key should be an S3 or GCS prefix that the agent will use to store build contexts, depending on the environment that is configured. The `build-job-name` can be used to specify a name prefix for the k8s job that the agent will use to build images.
+Set `type: kaniko` and configure either a GCP or AWS environment to use Kaniko to build container images in Kubernetes. The `kaniko` builder requires the `build-context-store` key to be set. The `build-context-store` key should be an S3 or GCS prefix that the agent will use to store build contexts, depending on the environment that is configured. The `build-job-name` can be used to specify a name prefix for the Kubernetes job that the agent will use to build images.
 
 ```yaml
 builder:
   type: kaniko
   build-context-store: s3://my-bucket/build-contexts/  # s3 or gcs prefix for build context storage
-  build-job-name: wandb-image-build  # k8s job name prefix for all builds
+  build-job-name: wandb-image-build  # Kubernetes job name prefix for all builds
 ```
 
-To grant Kaniko builds running in k8s access to your blob and container storage in the cloud, it is strongly recommended that you use either [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) if you are using GKE or [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) if you are using EKS.
+To grant Kaniko builds running in Kubernetes access to your blob and container storage in the cloud, it is strongly recommended that you use either [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) if you are using GKE or [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) if you are using EKS.
 
-If you are running your own k8s cluster, you will need to create a k8s secret that contains the credentials for your cloud environment. To grant access to GCP, this secret should contain a [service account json](https://cloud.google.com/iam/docs/keys-create-delete#creating). To grant access to AWS, this secret should contain an [AWS credentials file](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html). You can configure the Kaniko builder to use this secret by setting the following keys in your builder config:
+If you are running your own Kubernetes cluster, you will need to create a Kubernetes secret that contains the credentials for your cloud environemnt. To grant access to GCP, this secret should contain a [service account json](https://cloud.google.com/iam/docs/keys-create-delete#creating). To grant access to AWS, this secret should contain an [AWS credentials file](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html). You can configure the Kaniko builder to use this secret by setting the following keys in your builder config:
 
 ```yaml
 builder:
   type: kaniko
   build-context-store: <my-build-context-store>
-  secret-name: <k8s-secret-name>
+  secret-name: <Kubernetes-secret-name>
   secret-key: <secret-file-name>
 ```
 
@@ -203,6 +201,63 @@ The `noop` builder is useful if you want to limit the agent to running pre-built
 builder:
   type: noop
 ```
+
+</TabItem>
+
+</Tabs>
+
+## Cloud permissions
+
+The agent requires access to the cloud environment that it is configured to use. The agent will use the credentials configured in the `environment` key to access the cloud environment. The agent will use these credentials to access the cloud environment to push and pull container images, access cloud storage, and trigger on demand compute through cloud services like SageMaker and Vertex AI.
+
+<Tabs
+  defaultValue="aws"
+  values={[
+    {label: 'AWS', value: 'aws'},
+    {label: 'GCP', value: 'gcp'},
+    {label: 'Azure', value: 'azure'}
+  ]}>
+
+<TabItem value="aws">
+
+</TabItem>
+
+<TabItem value="gcp">
+
+The gcp credentials in the agents environment must include the following permissions in order to access various services:
+
+```yaml
+# Permissions for accessing cloud storage. Required for kaniko build.
+storage.buckets.get
+storage.objects.create
+storage.objects.delete
+storage.objects.get
+
+# Permissions for accessing artifact registry. Required for any container build.
+artifactregistry.dockerimages.list
+artifactregistry.repositories.downloadArtifacts
+artifactregistry.repositories.list
+artifactregistry.repositories.uploadArtifacts
+
+# Permissions for listing accessible compute regions. Required always.
+compute.regions.get
+
+# Permissions for managing Vertex AI jobs. Required for Vertex queues.
+ml.jobs.create
+ml.jobs.list
+ml.jobs.get
+```
+
+</TabItem>
+
+<TabItem value="azure">
+
+The agent requires the following roles be assigned to its service principal in order to access various services:
+
+- **Storage Blob Data Contributor**: Required for kaniko build ([docs](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor))
+- **AcrPush**: Required for kaniko build ([docs](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-roles#acrpush))
+
+These permissions should be scoped to any storage containers and containers registries that you plan to access with the agent.
 
 </TabItem>
 
