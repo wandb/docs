@@ -9,8 +9,8 @@ displayed_sidebar: default
 
 The following guide provides answers to frequently asked questions. Questions are grouped into four categories:
 
-* [Admin](./admin.md)
 * [General](./general.md)
+* [Admin](./admin.md)
 * [Metrics and Performance](./metrics-and-performance.md)
 * [Setup](./setup.md)
 * [Troubleshooting](./troubleshooting.md)
