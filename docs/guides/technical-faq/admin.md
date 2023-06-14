@@ -14,7 +14,7 @@ A team is a collaborative workspace for a group of users working on the same pro
 
 ### What is a team and where can I find more information about it?
 
-If you want to know more about teams, visit the [teams section](https://docs.wandb.ai/guides/app/features/teams).
+If you want to know more about teams, visit the [teams section](../app/features/teams.md).
 
 ### When should I log to my personal entity against my team entity?
 
@@ -22,15 +22,15 @@ You should log to your personal entity when you are working on individual projec
 
 ### Who can create a team? Who can add or delete people from a team? Who can delete projects?
 
-You can check the different roles and permissions [here](https://docs.wandb.ai/guides/app/features/teams#team-roles-and-permissions).
+You can check the different roles and permissions [here](../app/features/teams.md#team-roles-and-permissions).
 
 ### What type of roles are available and what are the differences between them?
 
-Go to [this](https://docs.wandb.ai/guides/app/features/teams#team-roles-and-permissions) page to see the different roles and permissions available.
+Go to [this](../app/features/teams.md#team-roles-and-permissions) page to see the different roles and permissions available.
 
 ### What are service accounts, and how do we add one to our team? 
 
-Check [this](https://docs.wandb.ai/guides/technical-faq/general#what-is-a-service-account-and-why-is-it-useful) page from our docs to know more about service accounts.
+Check [this](./general.md#what-is-a-service-account-and-why-is-it-useful) page from our docs to know more about service accounts.
 
 ### How can I see the bytes stored, bytes tracked and tracked hours of my organization?
 
@@ -57,4 +57,4 @@ You should check the `Debug Bundle`. An admin of the instance can get it from th
 
 ### If I am the admin of my local instance, how should I manage it?
 
-If you are the admin of your instance, go through our [User Management](https://docs.wandb.ai/guides/hosting/manage-users) section to learn how to add users to the instance and create teams.
+If you are the admin of your instance, go through our [User Management](../hosting/manage-users.md) section to learn how to add users to the instance and create teams.
