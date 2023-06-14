@@ -15,7 +15,16 @@ A job is a complete blueprint of how to perform a step in your ML workflow, like
 
 ## How do I create a job?
 
-Jobs will be **captured automatically** from any runs that you track with W&B if you also track the runs source code. You can track source code for your runs in the following ways:
+Jobs are captured automatically from runs that you track with W&B if you also track the run's source code. When you launch a job created this way, W&B will automatically build and run a Docker image using that code, the associated requirements.txt, and the base image associated with the queue on which the job is launched. 
+
+Alternatively, you can create a job using a Docker image if you prefer to bake in dependencies and custom base images.
+
+:::info
+* Conda environments are not yet supported for capturing job dependencies. Use the Docker image job creation path if you manage dependencies with Conda today. 
+* See [this section](docker#docker-queues) for more information on choosing an accelerator base image.
+* Launch's automated container build requires that the agent runs with access to the Docker CLI or in an EKS or GKE cluster with [kaniko configured](run-agent#builders). If you plan to run your agent in a way that is incompatible with these build requirements, use the Docker image job creation path and set `builder.type` to `noop` in your launch config.
+:::
+
 
 <Tabs
   defaultValue="git"
