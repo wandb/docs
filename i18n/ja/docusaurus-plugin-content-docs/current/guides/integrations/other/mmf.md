@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/mmf
 description: How to integrate W&B with Meta AI's MMF.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # MMF

@@ -9,9 +9,9 @@ displayed_sidebar: default
   <title>Update artifacts</title>
 </head>
 
-Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the Weights & Biases servers. You can update an artifact during a W&B Run or outside of a Run.
+Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the W&B servers. You can update an artifact during a W&B Run or outside of a Run.
 
-Use the W&B Public API ([`wandb.Api`](https://docs.wandb.ai/ref/python/public-api/api)) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`](https://docs.wandb.ai/ref/python/artifact)) to update an artifact during a run.
+Use the W&B Public API ([`wandb.Api`](../../ref/python/public-api/api.md)) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`](../../ref/python/artifact.md)) to update an artifact during a run.
 
 :::caution
 You can not update the alias of artifact that is linked to a model in Model Registry.
@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
   ]}>
   <TabItem value="duringrun">
 
-The proceeding code example demonstrates how to update the description of an artifact using the [`wandb.Artifact`](https://docs.wandb.ai/ref/python/artifact) API:
+The proceeding code example demonstrates how to update the description of an artifact using the [`wandb.Artifact`](../../ref/python/artifact.md) API:
 
 ```python
 import wandb
@@ -76,6 +76,6 @@ artifact.aliases = ['replaced']
 artifact.save()
 ```
 
-For more information, see the Weights and Biases [Public Artifact API](https://docs.wandb.ai/ref/python/public-api/artifact).
+For more information, see the Weights and Biases [Public Artifact API](../../ref/python/public-api/artifact.md).
   </TabItem>
 </Tabs>

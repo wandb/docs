@@ -1,6 +1,6 @@
 ---
 description: Use a dictionary-like object to save your experiment configuration
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 実験を設定する

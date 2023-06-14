@@ -1,6 +1,6 @@
 ---
 description: In line plots, use smoothing to see trends in noisy data.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # スムージング

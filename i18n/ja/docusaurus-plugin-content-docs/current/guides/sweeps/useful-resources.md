@@ -1,6 +1,6 @@
 ---
 description: Collection of useful sources for Sweeps.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 便利なリソース

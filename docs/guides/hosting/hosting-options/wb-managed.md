@@ -1,5 +1,6 @@
 ---
 description: Deploying W&B in production
+displayed_sidebar: default
 ---
 
 # W&B managed hosting

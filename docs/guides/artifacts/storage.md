@@ -9,11 +9,11 @@ displayed_sidebar: default
     <title>Artifact Storage</title>
 </head>
 
-Weights & Biases stores artifact files in a private Google Cloud Storage bucket located in the United States by default. All files are encrypted at rest and in transit.
+W&B stores artifact files in a private Google Cloud Storage bucket located in the United States by default. All files are encrypted at rest and in transit.
 
-For sensitive files, we recommend you set up [Private Hosting](https://docs.wandb.ai/guides/hosting) or use [reference artifacts](https://docs.wandb.ai/guides/artifacts/track-external-files).
+For sensitive files, we recommend you set up [Private Hosting](../hosting/intro.md) or use [reference artifacts](./track-external-files.md).
 
-During training, Weights & Biases locally saves logs, artifacts, and configuration files in the following local directories:
+During training, W&B locally saves logs, artifacts, and configuration files in the following local directories:
 
 | File      | Default location  | To change default location set:                                   |
 | --------- | ----------------- | ----------------------------------------------------------------- |
@@ -28,7 +28,7 @@ Depending on the machine on `wandb` is initialized on, these default folders may
 
 ### Clean up local artifact cache
 
-Weights & Biases caches artifact files to speed up downloads across versions that share files in common. Over time this cache directory can become large. Run the [`wandb artifact cache cleanup`](https://docs.wandb.ai/ref/cli/wandb-artifact/wandb-artifact-cache) command to prune the cache and to remove any files that have not been used recently.
+W&B caches artifact files to speed up downloads across versions that share files in common. Over time this cache directory can become large. Run the [`wandb artifact cache cleanup`](../../ref/cli/wandb-artifact/wandb-artifact-cache/README.md) command to prune the cache and to remove any files that have not been used recently.
 
 The proceeding code snippet demonstrates how to limit the size of the cache to 1GB. Copy and paste the code snippet into your terminal:
 

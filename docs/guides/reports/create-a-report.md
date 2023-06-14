@@ -62,7 +62,7 @@ Create a report instance with the Report Class Public API ([`wandb.apis.reports`
 report = wr.Report(project='report_standard')
 ```
 
-Reports are not uploaded to the Weights & Biases server until you call the .`save()` method:
+Reports are not uploaded to the W&B server until you call the .`save()` method:
 
 ```python
 report.save()

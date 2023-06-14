@@ -9,7 +9,7 @@ displayed_sidebar: default
     <title>Explore direct acyclic W&B Artifact graphs.</title>
 </head>
 
-Weights & Biases automatically tracks the artifacts a given run logged as well as the artifacts a given run used. Explore the lineage of an artifact with the W&B App UI or programmatically.
+W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run used. Explore the lineage of an artifact with the W&B App UI or programmatically.
 
 
 ## Traverse an artifact with the W&B App UI
@@ -47,7 +47,7 @@ For a more detailed view, select the **Explode** toggle on the upper left hand s
 
 ## Traverse an artifact programmatically 
 
-Create an artifact object with the W&B Public API ([wandb.Api](https://docs.wandb.ai/ref/python/public-api/api)). Provide the name of the project, artifact and alias of the artifact:
+Create an artifact object with the W&B Public API ([wandb.Api](../../ref/python/public-api/api.md)). Provide the name of the project, artifact and alias of the artifact:
 
 ```python
 import wandb
@@ -57,7 +57,7 @@ api = wandb.Api()
 artifact = api.artifact('project/artifact:alias')
 ```
 
-Use the artifact objects [`logged_by`](https://docs.wandb.ai/ref/python/public-api/artifact#logged\_by) and [`used_by`](https://docs.wandb.ai/ref/python/public-api/artifact#used\_by) methods to walk the graph from the artifact:
+Use the artifact objects [`logged_by`](../../ref/python/public-api/artifact.md#loggedby) and [`used_by`](../../ref/python/public-api/artifact.md#used_by) methods to walk the graph from the artifact:
 
 ```python
 # Walk up and down the graph from an artifact:
@@ -67,7 +67,7 @@ consumer_runs = artifact.used_by()
 
 #### Traverse from a run
 
-Create an artifact object with the W&B Public API ([wandb.Api.Run](https://docs.wandb.ai/ref/python/public-api/run)). Provide the name of the entity, project, and run ID:
+Create an artifact object with the W&B Public API ([wandb.Api.Run](../../ref/python/public-api/run.md)). Provide the name of the entity, project, and run ID:
 
 ```python
 import wandb
@@ -77,7 +77,7 @@ api = wandb.Api()
 artifact = api.run('entity/project/run_id')
 ```
 
-Use the [`logged_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#logged\_artifacts) and [`used_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#used\_artifacts) methods to walk the graph from a given run:
+Use the [`logged_artifacts`](../../ref/python/public-api/run.md#logged_artifacts) and [`used_artifacts`](../../ref/python/public-api/run.md#used_artifacts) methods to walk the graph from a given run:
 
 ```python
 # Walk up and down the graph from a run:

@@ -1,20 +1,21 @@
+---
+displayed_sidebar: default
+---
+
 # Launch on Kubernetes
 
 This guide demonstrates how to use W&B Launch to run ML workloads on a kubernetes (k8s) cluster.
-
-<!-- TODO: What email do we use here? -->
-:::info
-
-Launch on kubernetes is an enterprise feature. To get access, please contact our sales team through [this page](https://wandb.ai/site/pricing).
-:::
 
 ## Building images in Kubernetes
 
 The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) to build container images inside of k8s. Kaniko is a tool to build container images from a Dockerfile, inside a container or k8s cluster. Kaniko doesn’t depend on a Docker daemon and executes each command within a Dockerfile completely in userspace. This enables building container images in environments that can’t easily or securely run a Docker daemon, such as a standard k8s cluster.
 
 :::tip
-If you want to use the launch agent without the ability to build new images, you can use the `noop` builder type when you configure your launch agent. More info [here](../launch/run-agent.md#builders).
+* If you want to use the Launch agent without the ability to build new images, you can use the `noop` builder type when you configure your launch agent. More info [here](../launch/run-agent.md#builders).
+
+* You can use Launch with any Kubernetes system if you use an image based job and you do not require a build for your launch job.
 :::
+
 
 ## Create a queue
 
@@ -205,8 +206,8 @@ metadata:
   name: wandb-launch-configmap
   namespace: wandb
 data:
+  wandb-base-url: https://api.wandb.ai # TODO: set your base_url here
   launch-config.yaml: |
-    base_url: https://api.wandb.ai # TODO: set wandb base url
     max_jobs: -1 # TODO: set max concurrent jobs here
     queues:
     - default # TODO: set queue name here
@@ -216,7 +217,7 @@ data:
     registry:
       type: gcr
       repository: # TODO: set name of artifact repository name here
-      image_name: launch-images # TODO: set name of image here
+      image-name: launch-images # TODO: set name of image here
     builder:
       type: kaniko
       build-context-store: gs://my-bucket/... # TODO: set your build context store here
@@ -267,7 +268,10 @@ spec:
                   name: wandb-api-key
                   key: password
             - name: WANDB_BASE_URL
-              value: https://api.wandb.ai #TODO: Update the base url to your WANDB server url
+              valueFrom:
+                configMapKeyRef:
+                  name: wandb-launch-configmap
+                  key: wandb-base-url
           volumeMounts:
             - name: wandb-launch-config
               mountPath: /home/launch_agent/.config/wandb

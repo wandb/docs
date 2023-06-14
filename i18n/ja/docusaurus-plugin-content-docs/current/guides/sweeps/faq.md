@@ -1,6 +1,6 @@
 ---
 description: Answers to frequently asked question about W&B Sweeps.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -168,7 +168,7 @@ metric:
 
 ### スイープでのコードログをどのように有効にしますか？
 
-スイープでのコードログを有効にするには、W&B Runを初期化した後に `wandb.log_code()` を追加するだけです。これは、アプリのW&Bプロファイルの設定ページでコードログを有効にしている場合でも必要です。より高度なコードログについては、[こちらの `wandb.log_code()` のドキュメント](https://docs.wandb.ai/ref/python/run#log\_code)を参照してください。
+スイープでのコードログを有効にするには、W&B Runを初期化した後に `wandb.log_code()` を追加するだけです。これは、アプリのW&Bプロファイルの設定ページでコードログを有効にしている場合でも必要です。より高度なコードログについては、[こちらの `wandb.log_code()` のドキュメント](../../ref/python/run#log\_code)を参照してください。
 
 ###「Est. Runs」の列とは何ですか？
 

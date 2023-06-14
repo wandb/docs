@@ -1,6 +1,6 @@
 ---
 description: Visualize metrics, customize axes, and compare categorical data as bars.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 棒グラフ

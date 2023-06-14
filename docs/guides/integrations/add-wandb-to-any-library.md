@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 # Add wandb to Any Library
 
-This guide provides best practices on how to integrate Weights & Biases into your Python library to get powerful Experiment Tracking, GPU and System Monitoring, Model Checkpointing and more for you own library.
+This guide provides best practices on how to integrate W&B into your Python library to get powerful Experiment Tracking, GPU and System Monitoring, Model Checkpointing and more for you own library.
 
 :::note
 If you are still learning how to use W&B, we recommend exploring the other W&B Guides in these docs, such as [Experiment Tracking](https://docs.wandb.ai/guides/track), before reading further.
@@ -19,7 +19,7 @@ Below we cover best tips and best practices when the codebase you are working on
 * User Login
 * Starting a wandb Run
 * Defining a Run Config
-* Logging to Weights & Biases
+* Logging to W&B
 * Distributed Training
 * Model Checkpointing and More
 * Hyper-parameter tuning
@@ -121,7 +121,7 @@ If a user is using wandb for the first time without following any of the steps m
 
 ### Starting A wandb Run
 
-A W&B Run is a unit of computation logged by Weights & Biases. Typically you associate a single W&B Run per training experiment.
+A W&B Run is a unit of computation logged by W&B. Typically you associate a single W&B Run per training experiment.
 
 Initialize W&B and start a Run within your code with:
 
@@ -192,7 +192,7 @@ wandb disabled
   </TabItem>
 </Tabs>
 
-* Or, set `wandb` to be offline - note this will still run `wandb`, it just won't try and communicate back to Weights & Biases over the internet
+* Or, set `wandb` to be offline - note this will still run `wandb`, it just won't try and communicate back to W&B over the internet
 
 <Tabs
   defaultValue="environment"
@@ -224,7 +224,7 @@ wandb offline
 
 With a `wandb` run config you can provide metadata about your model, dataset, and so on when you create a W&B Run. You can use this information to compare different experiments and quickly understand what are the main differences.
 
-![Weights & Biases Runs table](/images/integrations/integrations_add_any_lib_runs_page.png)
+![W&B Runs table](/images/integrations/integrations_add_any_lib_runs_page.png)
 
 Typical config parameters you can log include:
 
@@ -249,7 +249,7 @@ wandb.config.update({“model_parameters” = 3500})
 
 For more information on how to define a config file, see [Configure Experiments with wandb.config](https://docs.wandb.ai/guides/track/config)
 
-### Logging To Weights & Biases
+### Logging To W&B
 
 #### Log Metrics
 
@@ -276,7 +276,7 @@ metrics = {
 wandb.log(metrics)
 ```
 
-![A Weights & Biases Workspace with 2 separate sections](/images/integrations/integrations_add_any_lib_log.png)
+![A W&B Workspace with 2 separate sections](/images/integrations/integrations_add_any_lib_log.png)
 
 For more on `wandb.log`, see [Log Data with wandb.log](https://docs.wandb.ai/guides/track/log)
 

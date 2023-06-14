@@ -1,6 +1,6 @@
 ---
 description: Discover how to launch your jobs.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

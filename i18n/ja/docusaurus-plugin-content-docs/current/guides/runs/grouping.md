@@ -1,6 +1,6 @@
 ---
 description: Group training and evaluation runs into larger experiments
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # Runのグループ化

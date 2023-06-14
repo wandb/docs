@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 # サンプリングとバケット分け
 

@@ -1,6 +1,6 @@
 ---
 description: Explore how to use W&B Tables with this 5 minute Quickstart.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # クイックスタート

@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
   <title>Define sweep configuration for hyperparameter tuning.</title>
 </head>
 
-A Weights & Biases Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
+A W&B Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
 
 Define your strategy in the form of a sweep configuration. Specify the configuration either in a:
 
@@ -417,7 +417,7 @@ We support the following stopping algorithm(s):
 
 #### `hyperband`
 
-[Hyperband](https://arxiv.org/abs/1603.06560) stopping evaluates if a program should be stopped or permitted to continue at one or more pre-set iteration counts, called "brackets". When a run reaches a bracket, its metric value is compared to all previous reported metric values and the [W&B Run](https://docs.wandb.ai/ref/python/run) is terminated if its value is too high (when the goal is minimization) or low (when the goal is maximization).
+[Hyperband](https://arxiv.org/abs/1603.06560) stopping evaluates if a program should be stopped or permitted to continue at one or more pre-set iteration counts, called "brackets". When a run reaches a bracket, its metric value is compared to all previous reported metric values and the [W&B Run](../../ref/python/run.md) is terminated if its value is too high (when the goal is minimization) or low (when the goal is maximization).
 
 Brackets are based on the number of logged iterations. The number of brackets corresponds to the number of times you log the metric you are optimizing. The iterations can correspond to steps, epochs, or something in between. The numerical value of the step counter is not used in bracket calculations.
 
@@ -434,7 +434,7 @@ Specify either `min_iter` or `max_iter` to create a bracket schedule.
 | `eta`      | Specify the bracket multiplier schedule (default: `3`).        |
 
 :::info
-The hyperband early terminator checks what [W&B Runs](https://docs.wandb.ai/ref/python/run) to terminate once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
+The hyperband early terminator checks what [W&B Runs](../../ref/python/run.md) to terminate once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
 :::
 
 

@@ -1,7 +1,7 @@
 ---
 slug: /guides/technical-faq
 description: Frequently asked questions about W&B.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # テクニカルFAQ

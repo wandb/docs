@@ -1,5 +1,6 @@
 ---
 description: Use automation for model CI (automated model evaluation pipelines) and model deployment.
+displayed_sidebar: default
 ---
 
 # Automation

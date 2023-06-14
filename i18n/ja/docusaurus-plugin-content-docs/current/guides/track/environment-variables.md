@@ -1,6 +1,6 @@
 ---
 description: Set W&B environment variables.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 環境変数

@@ -1,6 +1,6 @@
 ---
 description: Create a W&B Experiment.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # Secure storage connector
 
 The team-level secure storage connector allows teams within W&B to utilize a separate cloud file storage bucket from the rest of the W&B instance. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements.

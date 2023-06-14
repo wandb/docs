@@ -1,7 +1,7 @@
 ---
 slug: /guides/runs
 description: Learn about the basic building block of W&B, Runs.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 # Runs
 

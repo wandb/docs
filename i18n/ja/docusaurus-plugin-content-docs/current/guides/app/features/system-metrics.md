@@ -1,6 +1,6 @@
 ---
 description: Metrics automatically logged by wandb
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # システムメトリクス

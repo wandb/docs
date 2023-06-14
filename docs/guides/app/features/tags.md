@@ -24,7 +24,7 @@ if current_loss < threshold:
     run.tags = run.tags + ("release_candidate",)
 ```
 
-There are also several ways to add tags after runs have been logged to Weights & Biases.
+There are also several ways to add tags after runs have been logged to W&B.
 
 <Tabs
   defaultValue="publicapi"

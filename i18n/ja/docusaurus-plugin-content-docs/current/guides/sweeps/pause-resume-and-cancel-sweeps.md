@@ -1,6 +1,6 @@
 ---
 description: Pause, resume, and cancel a W&B Sweep with the CLI.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # スイープの一時停止、再開、停止、キャンセル

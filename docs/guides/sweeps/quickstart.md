@@ -120,7 +120,7 @@ sweep_id = wandb.sweep(
     )
 ```
 
-For more information about initializing sweeps, see [Initialize sweeps](https://docs.wandb.ai/guides/sweeps/initialize-sweeps).
+For more information about initializing sweeps, see [Initialize sweeps](./initialize-sweeps.md).
 
 ## Start the Sweep
 
@@ -136,7 +136,7 @@ Open your project to see your live results in the W&B Sweep dashboard. With just
 
 ![Quickstart Sweeps Dashboard example](/images/sweeps/quickstart_dashboard_example.png)
 
-For more information about how to visualize results, see [Visualize sweep results](https://docs.wandb.ai/guides/sweeps/visualize-sweep-results). For an example dashboard, see this sample [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
+For more information about how to visualize results, see [Visualize sweep results](./visualize-sweep-results.md). For an example dashboard, see this sample [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
 
 ## Stop the agent (optional)
 

@@ -1,5 +1,10 @@
+---
+displayed_sidebar: default
+---
+
+
 # Audit logs
-Use audit logs to track and understand activity within your team. Audit logs sync to your bucket store every 10 seconds. Optionally, download your audit logs and view them with your preferred tool, such as [Pandas](https://pandas.pydata.org/docs/index.html), [BigQuery](https://cloud.google.com/bigquery), and more.
+Use audit logs to track and understand activity within your team. Audit logs sync to your bucket store every 10 minutes. Optionally, download your audit logs and view them with your preferred tool, such as [Pandas](https://pandas.pydata.org/docs/index.html), [BigQuery](https://cloud.google.com/bigquery), and more.
 
 :::info
 This feature is currently in Private Preview.

@@ -1,6 +1,6 @@
 ---
 description: Describes the different components of the Sweeps UI.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # スイープ UI

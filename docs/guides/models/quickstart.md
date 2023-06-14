@@ -1,5 +1,6 @@
 ---
 description: Try the model registry in one minute. Learn how to log a model version, then link it to a registered model.
+displayed_sidebar: default
 ---
 # Quickstart
 

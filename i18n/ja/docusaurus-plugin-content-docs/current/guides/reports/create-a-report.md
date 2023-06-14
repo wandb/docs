@@ -2,7 +2,7 @@
 description: >-
   Create a W&B Report with the App UI or programmatically with the Weights &
   Biases SDK.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
