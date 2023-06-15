@@ -59,7 +59,7 @@ Associate your run with a Docker image. W&B will look for an image tag in the `W
 
 For more information on `WANDB_DOCKER` see the docs for our [docker integration](../integrations/other/docker.md).
 
-Be sure to set the `WANDB_DOCKER` environment variable to the full image tag as you it will be accessible to your launch agent. For example, if your agent will run images from an ECR repository, you should set `WANDB_DOCKER` to the full image tag, including the ECR repository URL, e.g. `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-image:latest`.
+Be sure to set the `WANDB_DOCKER` environment variable to the full image tag as you it will be accessible to your launch agent. For example, if your agent will run images from an ECR repository, you should set `WANDB_DOCKER` to the full image tag, including the ECR repository URL, e.g. `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-image:develop`. The docker tag, in this case 'develop', will be added as an alias to the resulting job. Creating more launch jobs from this image results in newer versions of the job, with updated aliases. 
 
 To create your first container image-sourced job, simply run:
 ```bash
@@ -80,6 +80,7 @@ By default, W&B automatically creates a job name for you. The name is generated 
 | Code artifact | `job-<code-artifact-name>`              |
 | Docker image  | `job-<image-name>`                      |
 
+Note: for docker image jobs, the image tag is automatically added as an alias to the job.
 ## Making your code job-friendly
 
 Jobs are parameterized by the values in your `wandb.config`. When your job is executed and `wandb.init` is called, your `wandb.config` will be populated with the values specified for this run. This means it's important that you use the `wandb.config` to store and access all of the parameters that you want to be able to vary between runs.
