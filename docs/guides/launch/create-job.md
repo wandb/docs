@@ -23,6 +23,7 @@ Alternatively, you can create a job using a Docker image if you prefer to bake i
 * Conda environments are not yet supported for capturing job dependencies. Use the Docker image job creation path if you manage dependencies with Conda today. 
 * See [this section](docker#docker-queues) for more information on choosing an accelerator base image.
 * Launch's automated container build requires that the agent runs with access to the Docker CLI or in an EKS or GKE cluster with [kaniko configured](run-agent#builders). If you plan to run your agent in a way that is incompatible with these build requirements, use the Docker image job creation path and set `builder.type` to `noop` in your launch config.
+* Launch does not support custom Dockerfiles. Instead, specify a Docker image that contains the resources necessary to create and execute a W&B job. W&B will use the Docker image you specify and create an image sourced job. Use a docker image sourced job from a repo that your cluster has access to. For more info about making jobs from images, see the ["Docker image" tab in the Create a job page](./create-job.md#how-do-i-create-a-job).
 :::
 
 
