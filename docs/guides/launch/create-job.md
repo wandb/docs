@@ -80,7 +80,10 @@ By default, W&B automatically creates a job name for you. The name is generated 
 | Code artifact | `job-<code-artifact-name>`              |
 | Docker image  | `job-<image-name>`                      |
 
-Note: for docker image jobs, the image tag is automatically added as an alias to the job.
+
+:::note
+For docker image jobs, the image tag is automatically added as an alias to the job.
+:::
 ## Making your code job-friendly
 
 Jobs are parameterized by the values in your `wandb.config`. When your job is executed and `wandb.init` is called, your `wandb.config` will be populated with the values specified for this run. This means it's important that you use the `wandb.config` to store and access all of the parameters that you want to be able to vary between runs.
