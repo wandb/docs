@@ -380,6 +380,7 @@ const sidebars = {
       items: [
         // 'guides/hosting/technical-faq/intro',
         'guides/technical-faq/general',
+        'guides/technical-faq/admin',
         'guides/technical-faq/metrics-and-performance',
         'guides/technical-faq/setup',
         'guides/technical-faq/troubleshooting',
