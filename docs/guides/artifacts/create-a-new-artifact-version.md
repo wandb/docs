@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
     <title>Create new artifacts versions from single and multiprocess Runs.</title>
 </head>
 
-Create a new artifact version with a single [run](../runs/intro.md) or collaboratively with distributed runs. You can optionally create a new artifact version from a previous version known as an [incremental artifact](#create-a-new-version-from-an-existing-version).
+Create a new artifact version with a single [run](../runs/intro.md) or collaboratively with distributed runs. You can optionally create a new artifact version from a previous version known as an [incremental artifact](#create-a-new-artifact-version-from-an-existing-version).
 
 :::tip
 We recommend that you create an incremental artifact when you need to apply changes to a subset of files in an artifact, where the size of the original artifact is significantly larger.
@@ -42,10 +42,12 @@ Based on your use case, select one of the tabs below to create a new artifact ve
   ]}>
   <TabItem value="within">
 
-1. Create with `wandb.init`. (Line 1)
-2. Retrieve the Artifact you want to add a new version to with `wandb.Artifact`. (Line 2)
+Create an artifact version within a W&B run:
+
+1. Create a run with `wandb.init`. (Line 1)
+2. Create a new artifact with `wandb.Artifact`. (Line 2)
 3. Add files to the artifact with `.add_file`. (Line 9)
-4. Log the artifacts to the run with `.log_artifact`. (Line 10)
+4. Log the artifact to the run with `.log_artifact`. (Line 10)
 
 ```python showLineNumbers
 with wandb.init() as run:
@@ -65,9 +67,9 @@ with wandb.init() as run:
 
 Create an artifact version outside of a W&B run:
 
-1. Retrieve the Artifact with the W&B Public API (`wanb.Artifact`). (Line 1)
+1. Create a new artifact with `wanb.Artifact`. (Line 1)
 2. Add files to the artifact with `.add_file`. (Line 4)
-3. Use `Artifact.save()` to create the version. (Line 5)
+3. Save the artifact with `.save`. (Line 5)
 
 ```python showLineNumbers
 artifact = wandb.Artifact("artifact_name", "artifact_type")
@@ -90,10 +92,10 @@ Allow a collection of runs to collaborate on a version before committing it. Thi
 :::info
 1. Each run in the collection needs to be aware of the same unique ID (called `distributed_id`) in order to collaborate on the same version. By default, if present, W&B uses the run's `group` as set by `wandb.init(group=GROUP)` as the `distributed_id`.
 2. There must be a final run that "commits" the version, permanently locking its state.
-3. Use `upsert_artifact` to add the the collaborative artifact and `finish_artifact` to finalize the commit.
+3. Use `upsert_artifact` to add to the collaborative artifact and `finish_artifact` to finalize the commit.
 :::
 
-Consider the following example. Different runs (labelled below as **Run 1**, **Run 2**, and **Run 3**) add different image file (image.png) versions to the same artifact with `upsert_artifact`.
+Consider the following example. Different runs (labelled below as **Run 1**, **Run 2**, and **Run 3**) add a different image file to the same artifact with `upsert_artifact`.
 
 
 #### Run 1:
@@ -101,13 +103,13 @@ Consider the following example. Different runs (labelled below as **Run 1**, **R
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
-    # Add Files and Assets to the artifact using 
+    # Add Files and Assets to the artifact using
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image1.png")
     run.upsert_artifact(
-        artifact, 
+        artifact,
         distributed_id="my_dist_artifact"
-        )     
+    )
 ```
 
 #### Run 2:
@@ -115,13 +117,13 @@ with wandb.init() as run:
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
-    # Add Files and Assets to the artifact using 
+    # Add Files and Assets to the artifact using
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image2.png")
     run.upsert_artifact(
-        artifact, 
+        artifact,
         distributed_id="my_dist_artifact"
-        )
+    )
 ```
 
 #### Run 3
@@ -131,13 +133,13 @@ Must run after Run 1 and Run 2 complete. The Run that calls `finish_artifact` ca
 ```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
-    # Add Files and Assets to the artifact  
+    # Add Files and Assets to the artifact
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image3.png")
     run.finish_artifact(
-        artifact, 
+        artifact,
         distributed_id="my_dist_artifact"
-        )
+    )
 ```
 
 
@@ -145,7 +147,7 @@ with wandb.init() as run:
 
 ## Create a new artifact version from an existing version
 
-Add, modify, or remove a subset of files from a previous artifact version without waiting for a process to re-index, download, or reference the rest of the files in an artifact. Adding, modifying, or removing a subset of files from a previous artifact version creates a new artifact version known as an *incremental artifact*.
+Add, modify, or remove a subset of files from a previous artifact version without the need to re-index the files that didn't change. Adding, modifying, or removing a subset of files from a previous artifact version creates a new artifact version known as an *incremental artifact*.
 
 ![](/images/artifacts/incremental_artifacts.png)
 
@@ -178,7 +180,7 @@ saved_artifact = client.artifact("my_artifact:latest")
 draft_artifact = saved_artifact.new_draft()
 ```
 
-3. Perform any incremental changes you want to see in the next version. You can either add, remove, or modify an existing artifact version.
+3. Perform any incremental changes you want to see in the next version. You can either add, remove, or modify an existing entry.
 
 Select one of the tabs for an example on how to perform each of these changes:
 
@@ -205,7 +207,7 @@ You can also add multiple files by adding a directory with the `add_dir` method.
   </TabItem>
   <TabItem value="remove">
 
-Remove a file to an existing artifact version with the `remove` method:
+Remove a file from an existing artifact version with the `remove` method:
 
 ```python
 draft_artifact.remove("file_to_remove.txt")
