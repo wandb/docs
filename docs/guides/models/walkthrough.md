@@ -41,7 +41,7 @@ Now we will walk through a canonical workflow for producing, organizing, and con
 8. [Build a Reporting Dashboard](#8-build-a-reporting-dashboard)
 
 :::tip
-**A** [**companion colab notebook**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Model_Management_Guide.ipynb) **is provided which covers step 2-3 in the first code block and steps 4-6 in the second code block.**
+**A** [**companion colab notebook**](https://colab.research.google.com/drive/1wjgr9AHICOa3EM1Ikr\_Ps\_MAm5D7QnCC) **is provided which covers step 2-3 in the first code block and steps 4-6 in the second code block.**
 :::
 
 ![](/images/models/workflow_dag.png)
