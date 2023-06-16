@@ -23,13 +23,13 @@ If you want the agent to make use of GPUs on Docker, you will also need to insta
 
 
 ## 1. Build your Docker image
-Use the `docker build` command to build your Docker image with the Docker CLI. 
+Use the `docker build` command to build your Docker image with the Docker CLI.  For this example, we build a Docker image called `fashion_mnist_train`:
 
 ```bash
 docker build -t fashion_mnist_train .
 ```
 
-For more information, see the Docker documentation.
+For more information, see the [Docker build](https://docs.docker.com/engine/reference/commandline/build/) documentation.
 ## 2. Create an image-based job
 Use `wandb launch` to create an image-based job. Following the example above, we specify the `fashion_mnist_train` image:
 
@@ -38,10 +38,10 @@ Use `wandb launch` to create an image-based job. Following the example above, we
 wandb launch -d fashion_mnist_train
 ```
 
-Copy and past the hyperlink to view the run created from the job or navivate to your Project's workspace.
+Copy and past the hyperlink returned from job to view the run.  Or navigate to your project's workspace.
 
 ## 3. Create a queue
-To create a Docker queue, follow the queue creation steps on [this page](../launch/create-queue.md) and select Docker as the resource type.
+Follow the queue creation steps on [this page](../launch/create-queue.md) and select Docker as the resource type.
 
 ![](/images/launch/create-queue.gif)
 
@@ -92,18 +92,23 @@ For jobs that use tensorflow on GPU, you may also need to specify a custom base 
 
 
 ## 4. Add image-based job to your queue
-1. Select the Jobs icon on the left panel. 
+1. Select the **Jobs** icon on the left panel. 
 2. On the right panel, select the name of the queue you created in the previous step. 
 3. Select **Launch now**.
-4. Select **View queue** from the modal that appears or go to the Launch App.
 
 
 ## 5. Start your agent
-If you do not have an active agent, select **Add an agent**. Copy and paste the command to the machine that created the Docker image. It will look similar to:
+1. Go to the Launch App. 
+2. Select the entity from the dropdown that contains your queue.
+3. Select your queue from the list. 
+4. Select **View queue**.
+5. If you do not have an active agent, select **Add an agent**. 
+6. Copy and paste the command to the machine that created the Docker image. It will look similar to:
 
 ```bash
 wandb launch-agent -e <entity> -q <queue-name>
 ```
+See the [Start an agent](./run-agent.md) for more information on agents work and optional configuration.
 
 ## Launch agent setup
 The agent's default behavior is to perform any necessary container builds by running `docker build` on its local host. The agent will execute runs from a Docker queue by running `docker run` on its local host. The uses the Docker CLI for these actions, so any Docker CLI configuration that you have set up on your machine will be used by the agent.
