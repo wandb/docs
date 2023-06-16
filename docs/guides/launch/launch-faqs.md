@@ -15,46 +15,63 @@ import TabItem from '@theme/TabItem';
 ## Getting Started
 
 
-### I don’t want you to build a container for me, can I still use Launch?
+### I do not want W&B to build a container for me, can I still use Launch?
   
-Yes! You can launch a pre-built docker image by running
+Yes. Run the following to launch a pre-built docker image. Replace the items in the `<>` with your information:
 
-    wandb launch -d <docker-image-uri> -q <queue-name> -E <entrypoint>
-  
-  This will build a job when run.
-  
-  Alternatively, you can make a launch job based on a docker image: see [here](https://docs.wandb.ai/guides/launch/create-job)
+```bash
+wandb launch -d <docker-image-uri> -q <queue-name> -E <entrypoint>
+```  
 
-### Are there any best practices for using Launch effectively?
+This will build a job when you create a run.
+
+Alternatively, you can make a launch job based on a docker image. See the [Create a job](https://docs.wandb.ai/guides/launch/create-job) page for more information. 
+
+### Are there best practices for using Launch effectively?
 
   1. Create your queue before you start your agent, so that you can set your agent to point to it easily.  If you don’t do this, your agent will give errors and not work until you add a queue.
   2. Create a W&B service account to start up the agent, so that it's not tied to an individual user account.
   3. Use `wandb.config` to read and write your hyperparameters, as opposed to argsparse, so that they can be overwritten when re-running a job.  Check out [this guide](https://docs.wandb.ai/guides/launch/create-job#making-your-code-job-friendly) if you use argsparse.
 
-### I don’t like clicking- can I use Launch without going through the UI?
+### I do not like clicking- can I use Launch without going through the UI?
   
-  Yes! The standard `wandb` CLI includes a `launch` subcommand that you can use to launch your jobs. For more info, try running
+  Yes. The standard `wandb` CLI includes a `launch` subcommand that you can use to launch your jobs. For more info, try running
 
-    wandb launch --help
+  ```bash
+  wandb launch --help
+  ```
 
 ### Can Launch automatically provision (and spin down) compute resources for me in the target environment?
 
-No--Launch uses existing resources you have created.  That said, our Solution Architects are happy to work with you to configure your underlying Kubernetes infrastructure to faciliate retries, autoscaling, and use of spot instance node pools.  Reach out to support@wandb.com or in your shared Slack channel.
+No. Launch uses existing resources you have created.  However, the Solution Architects at W&B are happy to work with you to configure your underlying Kubernetes infrastructure to facilitate retries, autoscaling, and use of spot instance node pools.  Reach out to [support@wandb.com](support@wandb.com) or your shared Slack channel.
 
+<<<<<<< HEAD
 ### Is `wandb launch -d` uploading a whole docker artifact and is not pulling from a registry? 
+=======
+### `wandb launch -d` uploading a whole docker artifact and is not pulling from a registry?
+>>>>>>> d0ba67e4536530052aad2629bf53d8f22d92ff1c
 
-  No, the command `wandb launch -d` won't upload to a registry, you'll have to do that yourself.  The process is for you to build an image, push it to a registry, then the agent will spin up a job pointing to that container. For Kubernetes, the k8s cluster pods will need access to the registry you are pushing to. The workflow looks like:
+No. The  `wandb launch -d` command will not upload to a registry for you. You need to upload your image to a registry yourself. Her are the general steps:
 
-    docker build -t <repo-url>:<tag> .
-    docker push <repo-url>:<tag>
-    wandb launch -d <repo-url>:<tag>
+1. Build an image. 
+2. Push the image to a registry.
+
+From there, the launch agent will spin up a job pointing to that container. 
+
+For Kubernetes, the k8s cluster pods will need access to the registry you are pushing to. The workflow looks like:
+
+```bash
+docker build -t <repo-url>:<tag> .
+docker push <repo-url>:<tag>
+wandb launch -d <repo-url>:<tag>
+```
 
 
 ## Permissions and Resources
 
 ### How do I control who can push to a queue?
 
-Queues are scoped to a team of users—you set the owning entity when you create the queue.  So to restrict access, you can change the team membership.
+Queues are scoped to a team of users. You define the owning entity when you create the queue.  To restrict access, you can change the team membership.
 
 ### What permissions does the agent require in Kubernetes?
 1. [https://docs.wandb.ai/guides/launch/kubernetes](https://docs.wandb.ai/guides/launch/kubernetes)
@@ -64,9 +81,9 @@ Queues are scoped to a team of users—you set the owning entity when you create
 
 ### Does Launch support parallelization?  How can I limit the resources consumed by a job?
    
-  An individual Launch agent is configured with a `max_jobs` parameter that determines how many jobs that agent can be running simultaneously. Additionally, you may point as many agents as you want at a particular queue, so long as those agents are themselves connected to infrastructure that they can launch into.
+  An individual Launch agent is configured with a `max_jobs` parameter that determines how many jobs that agent can be running simultaneously. Additionally, you can point to as many agents as you want at a particular queue, so long as those agents are connected to an infrastructure that they can launch into.
    
-  You can limit the CPU/GPU, memory, etc. requirements at either the queue or job run level, in the resource config. For more information about setting up queues with resource limits on kubernetes see [here](https://docs.wandb.ai/guides/launch/kubernetes#queue-configuration). 
+  You can limit the CPU/GPU, memory, etc. requirements at either the queue or job run level, in the resource config. For more information about setting up queues with resource limits on Kubernetes see [here](https://docs.wandb.ai/guides/launch/kubernetes#queue-configuration). 
    
   For sweeps, in the SDK you can add a block to the config
     
