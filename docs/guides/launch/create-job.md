@@ -23,6 +23,7 @@ Alternatively, you can create a job using a Docker image if you prefer to bake i
 * Conda environments are not yet supported for capturing job dependencies. Use the Docker image job creation path if you manage dependencies with Conda today. 
 * See [this section](docker#docker-queues) for more information on choosing an accelerator base image.
 * Launch's automated container build requires that the agent runs with access to the Docker CLI or in an EKS or GKE cluster with [kaniko configured](run-agent#builders). If you plan to run your agent in a way that is incompatible with these build requirements, use the Docker image job creation path and set `builder.type` to `noop` in your launch config.
+* Launch does not support custom Dockerfiles. Instead, specify a Docker image that contains the resources necessary to create and execute a W&B job. W&B will use the Docker image you specify and create an image sourced job. Use a docker image sourced job from a repo that your cluster has access to. For more info about making jobs from images, see the ["Docker image" tab in the Create a job page](./create-job.md#how-do-i-create-a-job).
 :::
 
 
@@ -58,7 +59,7 @@ Associate your run with a Docker image. W&B will look for an image tag in the `W
 
 For more information on `WANDB_DOCKER` see the docs for our [docker integration](../integrations/other/docker.md).
 
-Be sure to set the `WANDB_DOCKER` environment variable to the full image tag as you it will be accessible to your launch agent. For example, if your agent will run images from an ECR repository, you should set `WANDB_DOCKER` to the full image tag, including the ECR repository URL, e.g. `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-image:latest`.
+Be sure to set the `WANDB_DOCKER` environment variable to the full image tag as you it will be accessible to your launch agent. For example, if your agent will run images from an ECR repository, you should set `WANDB_DOCKER` to the full image tag, including the ECR repository URL, e.g. `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-image:develop`. The docker tag, in this case 'develop', will be added as an alias to the resulting job. Creating more launch jobs from this image results in newer versions of the job, with updated aliases. 
 
 To create your first container image-sourced job, simply run:
 ```bash
@@ -79,6 +80,10 @@ By default, W&B automatically creates a job name for you. The name is generated 
 | Code artifact | `job-<code-artifact-name>`              |
 | Docker image  | `job-<image-name>`                      |
 
+
+:::note
+For docker image jobs, the image tag is automatically added as an alias to the job.
+:::
 ## Making your code job-friendly
 
 Jobs are parameterized by the values in your `wandb.config`. When your job is executed and `wandb.init` is called, your `wandb.config` will be populated with the values specified for this run. This means it's important that you use the `wandb.config` to store and access all of the parameters that you want to be able to vary between runs.
