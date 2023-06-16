@@ -157,6 +157,7 @@ const sidebars = {
         'guides/launch/quickstart',
         'guides/launch/create-job',
         'guides/launch/create-queue',
+        'guides/launch/building-containers',
         'guides/launch/run-agent',
         'guides/launch/launch-jobs',
         'guides/launch/docker',

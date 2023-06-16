@@ -46,23 +46,8 @@ The `gpus` key of the resource configuration is used to pass values to the `--gp
 
 Reminder: you will also need to install the [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) on the machine where your agent is running in order to leverage GPU through Docker.
 :::
-'
 
 <!-- TODO: put this in a technical FAQ or in the queue docs -->
-For jobs that use an accelerator, an accelerator base image with the required accelerator components installed can be provided. Other requirements for the provided accelerator image include:
-- Debian compatibility (the Launch Dockerfile uses apt-get to fetch python )
-- Compatibility CPU & GPU hardware instruction set (Make sure your CUDA version is supported by the GPU you intend on using)
-- Compatibility between the accelerator version you provide and the packages installed in your ML algorithm
-- Packages installed that require extra steps for setting up compatibility with hardware
-
-|                                                     | Install python using apt | Install python packages | Create a user and workdir | Copy code into image | Set entrypoint |
-|-----------------------------------------------------|:------------------------:|:-----------------------:|:-------------------------:|:--------------------:|:---------------|
-| Job sourced from git                                |                          |            X            |             X             |           X          |        X       |
-| Job sourced from code                               |                          |            X            |             X             |           X          |        X       |
-| Job sourced from git and provided accelerator image |             X            |            X            |             X             |           X          |        X       |
-| Job sourced from code and provided accelerator image|             X            |            X            |             X             |           X          |        X       |
-| Job sourced from image                              |                          |                         |                           |                      |                |
-
 
 For example, for jobs that use tensorflow on GPU, you may also need to specify a custom base image for the container build that the agent will perform in order for your runs to properly utilize GPUs. This can be done by adding the `tensorflow/tensorflow:latest-gpu` image tag under the `builder.accelerator.base_image` key to the resource configuration. For example:
 
