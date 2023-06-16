@@ -45,12 +45,7 @@ Alternatively, you can make a launch job based on a docker image. See the [Creat
 
 No. Launch uses existing resources you have created.  However, the Solution Architects at W&B are happy to work with you to configure your underlying Kubernetes infrastructure to facilitate retries, autoscaling, and use of spot instance node pools.  Reach out to [support@wandb.com](support@wandb.com) or your shared Slack channel.
 
-<<<<<<< HEAD
-### Is `wandb launch -d` uploading a whole docker artifact and is not pulling from a registry? 
-=======
-### `wandb launch -d` uploading a whole docker artifact and is not pulling from a registry?
->>>>>>> d0ba67e4536530052aad2629bf53d8f22d92ff1c
-
+### Is `wandb launch -d` uploading a whole docker artifact and not pulling from a registry? 
 No. The  `wandb launch -d` command will not upload to a registry for you. You need to upload your image to a registry yourself. Her are the general steps:
 
 1. Build an image. 
