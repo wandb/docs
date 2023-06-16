@@ -3,7 +3,7 @@ description: Discover how to create a job for W&B Launch.
 displayed_sidebar: default
 ---
 
-# Building Containers
+# Building Images
 
 When providing a job sourced from a git source or code artifact source, several steps are taken by W&B Launch to build the resulting container. Launch uses provided requirements.txt files, or if not resolves the environment from the packages used from the run that created the job.
 
