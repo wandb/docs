@@ -19,7 +19,6 @@ Before you get started, you will need:
 - A Weights & Biases account
 - A Kubernetes cluster
 
-
 ## Create a launch queue
 
 The first step is to create a launch queue. Head to [wandb.ai/launch](https://wandb.ai/launch) and in the top right corner of your screen, hit the blue **Create a queue** button. A queue creation drawer will slide out from the right side of your screen. Select an entity, enter a name, and select **Kubernetes** as the type for your queue.
@@ -119,7 +118,6 @@ entity: <your-entity>
 queues: [ <your-queue> ]
 ```
 
-
 ### Deploy with helm
 
 Make sure you have `helm` and `kubectl` installed and pointing at the cluster where you want to install your agent. To add the `wandb/helm-charts` repository, run:
@@ -129,6 +127,7 @@ helm repo add wandb https://wandb.github.io/helm-charts
 ```
 
 Next, run the following command (substituting your own api key and agent config file):
+
 ```bash
 helm install volcano-agent wandb/launch-agent --set agent.apiKey=<your-api-key> --set-file launchConfig=<path-to-your-launch-config>
 ```
@@ -144,3 +143,14 @@ Volcano's pytorch plugin is also compatible with [multinode training via the PyT
 :::
 
 ## Launch 🚀
+
+Now that our queue and cluster are set up, it's time to launch some distributed training! To start off with we will use [a job](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) trains a simple multi-layer perceptron on random data using volcano's pytorch plugin. You can find the source code for the job [here](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test).
+
+To launch this job, head to the [job's page](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) and click the **Launch** button in the top right corner of the screen. You will be prompted to select a queue to launch the job from.
+
+1. Set the jobs parameters however you like,
+2. Select the queue you created earlier.
+3. Modify the volcano job in the **Resource config** section to modify the parameters of your job. For example, you can change the number of workers by changing the `replicas` field in the `worker` task.
+4. Click **Launch** 🚀
+
+You can monitor the progress and if necessary stop your job from the W&B UI.
