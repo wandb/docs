@@ -41,7 +41,7 @@ Yes! You can launch a pre-built docker image by running
 
 No--Launch uses existing resources you have created.  That said, our Solution Architects are happy to work with you to configure your underlying Kubernetes infrastructure to faciliate retries, autoscaling, and use of spot instance node pools.  Reach out to support@wandb.com or in your shared Slack channel.
 
-### `wandb launch -d` uploading a whole docker artifact and is not pulling from a registry? 
+### Is `wandb launch -d` uploading a whole docker artifact and is not pulling from a registry? 
 
   No, the command `wandb launch -d` won't upload to a registry, you'll have to do that yourself.  The process is for you to build an image, push it to a registry, then the agent will spin up a job pointing to that container. For Kubernetes, the k8s cluster pods will need access to the registry you are pushing to. The workflow looks like:
 
@@ -57,9 +57,10 @@ No--Launch uses existing resources you have created.  That said, our Solution Ar
 Queues are scoped to a team of users—you set the owning entity when you create the queue.  So to restrict access, you can change the team membership.
 
 ### What permissions does the agent require in Kubernetes?
-  1. [https://docs.wandb.ai/guides/launch/kubernetes](https://docs.wandb.ai/guides/launch/kubernetes)
-  2. “The following kubernetes manifest will create a role named
-  `wandb-launch-agent` in the`wandb`namespace. This role will allow the agent to create pods, configmaps, secrets, and pods/log in the `wandb` namespace. The `wandb-cluster-role` will allow the agent to create pods, pods/log, secrets, jobs, and jobs/status in any namespace of your choice.”*
+1. [https://docs.wandb.ai/guides/launch/kubernetes](https://docs.wandb.ai/guides/launch/kubernetes)
+
+ “The following kubernetes manifest will create a role named
+  `wandb-launch-agent` in the`wandb`namespace. This role will allow the agent to create pods, configmaps, secrets, and pods/log in the `wandb` namespace. The `wandb-cluster-role` will allow the agent to create pods, pods/log, secrets, jobs, and jobs/status in any namespace of your choice.”
 
 ### Does Launch support parallelization?  How can I limit the resources consumed by a job?
    
@@ -72,6 +73,36 @@ Queues are scoped to a team of users—you set the owning entity when you create
     scheduler:
     
     num_workers: 4
+
+### When using Docker queues to run multiple jobs that download the same artifact with `use_artifact`, do we re-download the artifact for every single run of the job, or is there any caching going on under the hood?
+
+There is no caching; each job is independent.  However, there are ways to configure your queue/agent where it mounts a shared cache.  You can achieve this via docker args in the queue config.
+
+As a special case, you can also mount the W&B artifacts cache as a persistent volume.
+
+
+### Can you specify secrets for jobs/automations? For instance, an API key which you do not wish to be directly visible to users?
+
+Yes. The suggested way is:
+
+  1. Add the secret as a vanilla k8s secret in the namespace where the runs will be created. something like `kubectl create secret -n <namespace> generic <secret_name> <secret value>`
+
+ 2. Once that secret is created, you can specify a queue config to inject the secret when runs start. The end users cannot see the secret, only cluster admins can. An example is done in the `W&B Global CPU` queue:[https://wandb.ai/wandb/launch/UnVuUXVldWU6MTcxODMwOA==/config](https://wandb.ai/wandb/launch/UnVuUXVldWU6MTcxODMwOA==/config) . Specifically:
+            
+            ```
+            {
+                                    "env": [
+                                        {
+                                            "name": "OPENAI_API_KEY",
+                                            "valueFrom": {
+                                                "secretKeyRef": {
+                                                    "key": "password",
+                                                    "name": "openai-api-key"
+                                                }
+                                            }
+                                        }
+                                    ],
+            ```
 
 ### How can admins restrict what ML engineers have access to modify? For example, changing an image tag may be fine but other job settings may not be.
   
