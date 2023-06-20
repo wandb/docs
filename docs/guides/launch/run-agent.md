@@ -29,10 +29,9 @@ Launch currently supports building container images with [Docker](https://docker
 
 ### Execute the run
 
-The launch agent will execute the run in the container image that was built in the previous step or specified in the job. How the agent executes the run depends on the type of queue the job was in. 
+The launch agent will execute the run in the container image that was built in the previous step or specified in the job. How the agent executes the run depends on the type of queue the job was in.
 
-For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a k8s cluster as a [k8s Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) via the k8s API.
-
+For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) via the Kubernetes API.
 
 ## Agent configuration
 
@@ -62,7 +61,7 @@ builder:
   type: docker|kaniko|noop
 ```
 
-The `environment`, `registry`, and `builder` keys are optional. By default, the agent will use no cloud environment, a local docker registry, and a docker builder. 
+The `environment`, `registry`, and `builder` keys are optional. By default, the agent will use no cloud environment, a local docker registry, and a docker builder.
 
 ### Environments
 
@@ -73,6 +72,7 @@ The `environment` key is used to configure the cloud environment that the agent 
   values={[
     {label: 'AWS', value: 'aws'},
     {label: 'GCP', value: 'gcp'},
+    {label: 'Azure', value: 'azure'}
   ]}>
 
 <TabItem value="aws">
@@ -100,6 +100,17 @@ environment:
 
 </TabItem>
 
+<TabItem value="azure">
+
+The Azure environment does not require any additional keys to be set. When the agent starts, it will use `azure.identity.DefaultAzureCredential()` to load the default Azure credentials. See the [azure-identity documentation](https://docs.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) for more information on how to configure default Azure credentials.
+
+```yaml
+environment:
+  type: azure
+```
+
+</TabItem>
+
 </Tabs>
 
 ### Registries
@@ -111,6 +122,7 @@ The `registry` key is used to configure the container registry that the agent wi
   values={[
     {label: 'AWS ECR', value: 'ecr'},
     {label: 'GCP Artifact Registry', value: 'gcr'},
+    {label: 'Azure Container Registry', value: 'acr'}
   ]}>
 
 <TabItem value="ecr">
@@ -144,8 +156,19 @@ registry:
 
 </TabItem>
 
-</Tabs>
+<TabItem value="acr">
 
+Set `type: acr` to use Azure Container Registry. In order to use `acr`, must configure an Azure environment. You must set the `uri` key to the URI of a repository within an Azure Container Registry. The agent will push images to the repository specified in the URI.
+
+```yaml
+registry:
+  type: acr
+  uri: https://my-registry.azurecr.io/my-repository
+```
+
+</TabItem>
+
+</Tabs>
 
 ### Builders
 
@@ -172,24 +195,36 @@ builder:
 
 <TabItem value="kaniko">
 
-Set `type: kaniko` and configure either a GCP or AWS environment to use Kaniko to build container images in Kubernetes. The `kaniko` builder requires the `build-context-store` key to be set. The `build-context-store` key should be an S3 or GCS prefix that the agent will use to store build contexts, depending on the environment that is configured. The `build-job-name` can be used to specify a name prefix for the k8s job that the agent will use to build images.
+Set `type: kaniko` and configure either a GCP or AWS environment to use Kaniko to build container images in Kubernetes. The `kaniko` builder requires the `build-context-store` key to be set. The `build-context-store` key should be an S3 or GCS prefix that the agent will use to store build contexts, depending on the environment that is configured. The `build-job-name` can be used to specify a name prefix for the Kubernetes job that the agent will use to build images.
 
 ```yaml
 builder:
   type: kaniko
-  build-context-store: s3://my-bucket/build-contexts/  # s3 or gcs prefix for build context storage
-  build-job-name: wandb-image-build  # k8s job name prefix for all builds
+  build-context-store: s3://my-bucket/build-contexts/  # s3, gcs, or azure blob storage uri for build context storage
+  build-job-name: wandb-image-build  # Kubernetes job name prefix for all builds
 ```
 
-To grant Kaniko builds running in k8s access to your blob and container storage in the cloud, it is strongly recommended that you use either [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) if you are using GKE or [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) if you are using EKS.
+To specify the `build-context-store` for the `kaniko` builder, you must also configure a cloud environment. The `kaniko` builder supports GCP, AWS, and Azure environments. Please provide the uri in the following formats:
 
-If you are running your own k8s cluster, you will need to create a k8s secret that contains the credentials for your cloud environment. To grant access to GCP, this secret should contain a [service account json](https://cloud.google.com/iam/docs/keys-create-delete#creating). To grant access to AWS, this secret should contain an [AWS credentials file](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html). You can configure the Kaniko builder to use this secret by setting the following keys in your builder config:
+| Cloud | URI |
+| --- | --- |
+| GCP | `gs://my-bucket/build-contexts/` |
+| AWS | `s3://my-bucket/build-contexts/` |
+| Azure | `https://my-bucket.blob.core.windows.net/build-contexts/` |
+
+To grant Kaniko builds running in Kubernetes access to your blob and container storage in the cloud, it is strongly recommended that you use either [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) if you are using GKE and [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) if you are using EKS.
+
+You must use [Azure AD Workload Identity](https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview) to provide the agent credentials if you are using AKS.
+
+
+If you are running your own Kubernetes cluster rather than using AKS, EKS, or GKE, you will need to create a Kubernetes secret that contains the credentials for your cloud environment. To grant access to GCP, this secret should contain a [service account json](https://cloud.google.com/iam/docs/keys-create-delete#creating). To grant access to AWS, this secret should contain an [AWS credentials file](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html). You can configure the Kaniko builder to use this secret by setting the following keys in your builder config:
+
 
 ```yaml
 builder:
   type: kaniko
   build-context-store: <my-build-context-store>
-  secret-name: <k8s-secret-name>
+  secret-name: <Kubernetes-secret-name>
   secret-key: <secret-file-name>
 ```
 
