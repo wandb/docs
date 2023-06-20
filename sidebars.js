@@ -164,6 +164,7 @@ const sidebars = {
         'guides/launch/kubernetes',
         'guides/launch/sagemaker',
         'guides/launch/sweeps-on-launch',
+        'guides/launch/launch-faqs',
       ],
     },
     {
