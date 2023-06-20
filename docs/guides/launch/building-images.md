@@ -1,11 +1,11 @@
 ---
-description: Discover how to create a job for W&B Launch.
+description: Discover how W&B Launch handles building images.
 displayed_sidebar: default
 ---
 
-# Building Images
+# How W&B Launch builds images
 
-When providing a job sourced from a git source or code artifact source, several steps are taken by W&B Launch to build the resulting container. Launch uses provided requirements.txt files, or if not resolves the environment from the packages used from the run that created the job.
+When providing a job sourced from a git source or code artifact source, several steps are taken by W&B Launch to build the resulting container. Launch uses provided requirements.txt files, or if not resolves the environment from the packages used from the run that created the job. The steps taken depend on the job source, and whether an accelerator base image is specified in the resource config.
 
 When specifying a queue config, or submitting a job, a base accelerator image can be provided in the queue or job resource configuration:
 ```json
