@@ -31,7 +31,7 @@ Alternatively, you can make a launch job based on a docker image. See the [Creat
 
   1. Create your queue before you start your agent, so that you can set your agent to point to it easily.  If you don’t do this, your agent will give errors and not work until you add a queue.
   2. Create a W&B service account to start up the agent, so that it's not tied to an individual user account.
-  3. Use `wandb.config` to read and write your hyperparameters, as opposed to argsparse, so that they can be overwritten when re-running a job.  Check out [this guide](https://docs.wandb.ai/guides/launch/create-job#making-your-code-job-friendly) if you use argsparse.
+  3. Use `wandb.config` to read and write your hyperparameters, so that they can be overwritten when re-running a job.  Check out [this guide](https://docs.wandb.ai/guides/launch/create-job#making-your-code-job-friendly) if you use argsparse.
 
 ### I do not like clicking- can I use Launch without going through the UI?
   
@@ -43,7 +43,7 @@ Alternatively, you can make a launch job based on a docker image. See the [Creat
 
 ### Can Launch automatically provision (and spin down) compute resources for me in the target environment?
 
-No. Launch uses existing resources you have created.  However, the Solution Architects at W&B are happy to work with you to configure your underlying Kubernetes infrastructure to facilitate retries, autoscaling, and use of spot instance node pools.  Reach out to [support@wandb.com](support@wandb.com) or your shared Slack channel.
+No. Launch uses existing resources you have created.  However, the Solution Architects at W&B are happy to work with you to configure your underlying Kubernetes infrastructure to facilitate retries, autoscaling, and use of spot instance node pools.  Reach out to support@wandb.com or your shared Slack channel.
 
 ### Is `wandb launch -d` uploading a whole docker artifact and not pulling from a registry? 
 No. The  `wandb launch -d` command will not upload to a registry for you. You need to upload your image to a registry yourself. Her are the general steps:
