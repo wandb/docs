@@ -176,17 +176,20 @@ scheduler:
   </TabItem>
   <TabItem value="optuna-scheduler">
 
-  Create a launch sweep using Optuna's scheduling logic with a Job. You can either create your own job or use a pre-built Optuna scheduler image job. To use the pre-built image, navigate to `job-optuna-sweep-scheduler` in the `wandb/sweep-jobs` project, or just use the job name: `wandb/sweep-jobs/job-optuna-sweep-scheduler:latest`. See the [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers) repo for examples on how to create your own job.
+  Optuna is a hyperparameter optimization framework that uses a variety of algorithms to find the best hyperparameters for a given model (similar to W&B). In addition to the [sampling algorithms](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna also provides a variety of [pruning algorithms](https://optuna.readthedocs.io/en/stable/reference/pruners.html) that can be used to terminate poorly performing runs early. This is especially useful when running a large number of runs, as it can save time and resources. The classes are highly configurable, just pass in the expected parameters in the `scheduler.settings.pruner/sampler.args` block of the config file.
 
- After you create a job, you can now create a sweep... Construct a sweep config that includes a `scheduler` block with a `job` key pointing to the Optuna scheduler job (example below).
 
-  Lastly, launch the sweep to an active queue with the launch-sweep command:
-  
-  ```bash
-  wandb launch-sweep <config.yaml> -q <queue> -p <project> -e <entity>
-  ```
 
-  ```yaml
+Create a launch sweep using Optuna's scheduling logic with a job.
+
+1. First, create your own job or use a pre-built Optuna scheduler image job. 
+    * See the [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers) repo for examples on how to create your own job.
+    * To use a pre-built Optuna image, you can either navigate to `job-optuna-sweep-scheduler` in the `wandb/sweep-jobs` project or use can use the job name: `wandb/sweep-jobs/job-optuna-sweep-scheduler:latest`. 
+    
+
+2. After you create a job, you can now create a sweep. Construct a sweep config that includes a `scheduler` block with a `job` key pointing to the Optuna scheduler job (example below).
+
+```yaml
   # optuna_config_basic.yaml
   description: A basic Optuna scheduler
   job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
@@ -214,13 +217,15 @@ scheduler:
       max: 0.1
   ```
 
-  ### Why use Optuna? 
+
+  3. Lastly, launch the sweep to an active queue with the launch-sweep command:
   
-  Optuna is a hyperparameter optimization framework that uses a variety of algorithms to find the best hyperparameters for a given model (similar to W&B). In addition to the [sampling algorithms](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna also provides a variety of [pruning algorithms](https://optuna.readthedocs.io/en/stable/reference/pruners.html) that can be used to terminate poorly performing runs early. This is especially useful when running a large number of runs, as it can save time and resources. The classes are highly configurable, just pass in the expected parameters in the `scheduler.settings.pruner/sampler.args` block of the config file.
+  ```bash
+  wandb launch-sweep <config.yaml> -q <queue> -p <project> -e <entity>
+  ```
 
-  For the exact implementation of the Optuna sweep scheduler job, see [wandb/launch-jobs](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py).
 
-  For more examples of what is possible with the Optuna scheduler, check out [wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler).
+  For the exact implementation of the Optuna sweep scheduler job, see [wandb/launch-jobs](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py). For more examples of what is possible with the Optuna scheduler, check out [wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler).
 
 
   </TabItem>
