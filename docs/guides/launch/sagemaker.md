@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 Use W&B Launch to send your runs to AWS SageMaker. There are two ways to use Launch on SageaMaker:
 
 1. Bring your own image (BYOI) and push it to your Amazon ECR repository. 
-2. Let the agent build a container for your and push it to your ECR repository.
+2. Let the launch agent build a container for your and push it to your ECR repository.
 
 :::info
 If you bring your own image (1), it must already be SageMaker compatible. If you let W&B build and push the image for you (2), W&B will make your image SageMaker compatible.
@@ -31,8 +31,11 @@ The following table highlights the key differences between the two workflows:
 [INSERT] Something about if the W&B default build system does not satisfy the customer's needs.
 :::
 
+
+The following sections outline the steps to set up and run a job on SageMaker with Launch.
+
 ## Prerequisites
-Create the following AWS resources to launch your W&B runs on AWS SageMaker:
+Create the following AWS resources:
 
 1. **Setup SageMaker in your AWS account.** See the [SageMaker Developer guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) for more information.
 2. **Create an IAM execution role.** Attach the [AmazonSageMakerFullAccess policy to your role](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
@@ -42,12 +45,7 @@ Create the following AWS resources to launch your W&B runs on AWS SageMaker:
 Make note of your IAM RoleARN, your Amazon S3 URI, and your ECR repository name.
 
 ## 1. Create a queue
-Create a queue in the W&B App that uses SageMaker as its compute resource. When you create a queue, a config is automatically populated with a template of key-value pairs. (see below)
-
-Within the queue config, you must provide:
-
-- `RoleArn` : ARN of the role the IAM role that will be assumed by the job.
-- `OutputDataConfig.S3OutputPath` : An S3 URI specifying where SageMaker outputs will be stored.
+Create a queue in the W&B App that uses SageMaker as its compute resource. When you create a queue, a config is automatically populated with a template of key-value pairs (see below).
 
 Follow these steps to create a queue: 
 
@@ -56,8 +54,7 @@ Follow these steps to create a queue:
 4. Select the **entity** you would like to create the queue in.
 5. Enter a name for your queue in the **Name** field.
 6. Select **SageMaker** as the **Resource**.
-7. Enter a configuration for your queue. The config is a JSON blob that:
-
+7. Within the **Configuration** section, enter the configuration of your queue. A default YAML configuration is populated for you. It will look similar to the following code snippet:
 
 ```yaml
 {
@@ -76,31 +73,27 @@ Follow these steps to create a queue:
 }
 ```
 
-You can optionally add additional arguments.  See [INSERT] for more information.
+Replace the values based on your use case. You must provide:
 
-8. Click on the **Create Queue** button.
+- `RoleArn` : ARN of the role the IAM role that will be assumed by the job.
+- `OutputDataConfig.S3OutputPath` : An S3 URI specifying where SageMaker outputs will be stored.
 
 
+You can optionally add additional arguments.  See the [`CreateTrainingJob`](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html) API in the Amazon SageMaker reference guide for more information.
 
+8. Lastly, click the **Create Queue** button.
 
 
 ## 2. Configure the launch agent
 
-Edit your AWS credentials file and your W&B config file to configure your agent.  
+Configure a launch agent to execute jobs from your queues with SageMaker. The following steps outline how to configure your launch agent to use SageMaker with Launch. For more information on how launch agents work, see the Start an agent[LINK] page.
 
-:::note
-The agent can build container images with either Kaniko or Docker. The agent will attempt to perform container builds with `docker build` by default. 
-:::
-
-<!-- ### 1. Define AWS credentials -->
-
-The following steps outline the necessary steps to configure your agent to use SageMaker with Launch, for more information on how launch agent work, see the Start an agent[LINK] page.
-
-1. **Set the AWS credentials** you want the agent to use with either: 
-    * [AWS SDK for Python environment variables](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#environment-variables).
+1. **Set the AWS credentials** you want the agent to use either by: 
+    * Set [AWS SDK for Python environment variables](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#environment-variables) 
+    or
     * Set a `default` profile in your [AWS config](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#shared-credentials-file)(`~/.aws/config`). 
     
-    The following code snippet shows an example `~/.aws/config` file:
+    The following code snippet shows an example of how to set your AWS config `~/.aws/config` file. Replace the `<>` with your own values:
 
     ```yaml title="~/.aws/config"
     [default]
@@ -109,7 +102,11 @@ The following steps outline the necessary steps to configure your agent to use S
     aws_session_token=<your_aws_session_token>
     ```
 
-2. **Define the agent config**. Add the `environment` block in your agent config file (`~/.config/wandb/launch-config.yaml`). The following code snippet shows an example `launch-config.yaml` file:
+    For more information about AWS CLI credentials, see the [Configure the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) documentation for more information.
+
+2. **Define the agent config**. Add the `environment` block in your agent config file (`~/.config/wandb/launch-config.yaml`). 
+
+    The following code snippet shows an example `launch-config.yaml` file. Ensure you specify the type as AWS and the region of your Amazon S3 bucket and ECR repository:
 
     ```yaml title="~/.config/wandb/launch-config.yaml"
     environment:
@@ -118,7 +115,9 @@ The following steps outline the necessary steps to configure your agent to use S
     ```
 
 :::note
-Continue to complete the following steps if you want W&B to build and push your image for you. If you bring your own image, skip the next two steps and move on to the [Add jobs to your queue section](#3-add-jobs-to-your-queue).
+Continue to complete the following steps if you want W&B to build and push your image for you. 
+
+Skip the next two steps and move on to the [Add jobs to your queue section] if you brought your own imaged and you pushed that image to your ECR repository.
 :::
 
 
