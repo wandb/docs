@@ -80,7 +80,7 @@ The agent can build container images with either Kaniko or Docker. The agent wil
 
 <!-- ### 1. Define AWS credentials -->
 
-The following steps outline the necessary steps to configure your agent to use SageMaker with Launch, for more information on how launch agent work, see the [Start an agent](./run-agent.md) page.
+The following steps outline the necessary steps to configure your agent to use SageMaker with Launch, for more information on how launch agent work, see the Start an agent[LINK] page.
 
 1. **Set the AWS credentials** you want the agent to use with either: 
     * [AWS SDK for Python environment variables](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#environment-variables).
