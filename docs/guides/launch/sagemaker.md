@@ -19,10 +19,10 @@ The following table highlights the key differences between the two workflows:
 
 |       | BYOI  | W&B   |
 | ----- | ----- | ----- |
-| Queue | Same for both workflows | Same for both workflows. |
-| Job type                  | Image source-job | Git or code artifact sourced job | 
-| Job name | Name must match the name of image in ECR repo | Job name does not need to match. |  
-| Agent configuration |  | Must have the `registry` block in your agent config file |
+| Queue                     | Same for both workflows                       | Same for both workflows.                                 |
+| Job type                  | Image source-job                              | Git or code artifact sourced job                         | 
+| Job name                  | Name must match the name of image in ECR repo | Job name does not need to match.                         |  
+| Agent configuration       |                                               | Must have the `registry` block in your agent config file |
 
 
 :::tip
