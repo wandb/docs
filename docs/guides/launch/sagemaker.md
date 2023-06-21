@@ -6,15 +6,30 @@ import TabItem from '@theme/TabItem';
 
 # Launch on SageMaker
 
-Use W&B Launch to send your runs to AWS SageMaker. To use W&B Launch on AWS SageMaker you will need to create an Amazon ECR repository see [the SageMaker Prerequisites](#prerequisites) section for a list of all prerequisites . 
+Use W&B Launch to send your runs to AWS SageMaker. There are two ways to use Launch on SageaMaker:
+
+1. Bring your own image (BYOI) and push it to your Amazon ECR repository. 
+2. Let the agent build a container for your and push it to your ECR repository.
 
 :::info
-You will use the ECR repository to store custom images that launch will run. Any containers you want to run in SageMaker will need to be stored in your Elastic Container Registry (ECR).
-
-
-Alternatively, you can configure the launch agent to build containers for you and store them in this ECR repository.
+If you brin your own image (1), it must already be SageMaker compatible. If you let W&B build and push the image for you (2), W&B will make your image SageMaker compatible.
 :::
 
+The following table highlights the key differences between the two workflows:
+
+|       | BYOI  | W&B   |
+| ----- | ----- | ----- |
+| Queue | Same for both workflows | Same for both workflows. |
+| Job type                  | Image source-job | Git or code artifact sourced job | 
+| Job name | Name must match the name of image in ECR repo | Job name does not need to match. |  
+| Agent configuration |  | Must have the `registry` block in your agent config file |
+
+
+:::tip
+**Should I bring my own image or let W&B build and push the image for me?**
+
+[INSERT] Something about if the W&B default build system does not satisfy the customer's needs.
+:::
 
 ## Prerequisites
 Create the following AWS resources to launch your W&B runs on AWS SageMaker:
@@ -26,11 +41,10 @@ Create the following AWS resources to launch your W&B runs on AWS SageMaker:
 
 Make note of your IAM RoleARN, your Amazon S3 URI, and your ECR repository name.
 
-
 ## 1. Create a queue
 Create a queue in the W&B App that uses SageMaker as its compute resource. When you create a queue, a config is automatically populated with a template of key-value pairs. (see below)
 
-Within the config, you must provide:
+Within the queue config, you must provide:
 
 - `RoleArn` : ARN of the role the IAM role that will be assumed by the job.
 - `OutputDataConfig.S3OutputPath` : An S3 URI specifying where SageMaker outputs will be stored.
@@ -90,9 +104,9 @@ The following steps outline the necessary steps to configure your agent to use S
 
     ```yaml title="~/.aws/config"
     [default]
-    aws_access_key_id=
-    aws_secret_access_key=
-    aws_session_token=
+    aws_access_key_id=<your_aws_access_key_id>
+    aws_secret_access_key=<your_aws_secret_access_key>
+    aws_session_token=<your_aws_session_token>
     ```
 
 2. **Define the agent config**. Add the `environment` block in your agent config file (`~/.config/wandb/launch-config.yaml`). The following code snippet shows an example `launch-config.yaml` file:
@@ -103,9 +117,9 @@ The following steps outline the necessary steps to configure your agent to use S
         region: <aws-region>  # E.g. us-east-2
     ```
 
-3. **(Optional) Specify a `registry`**: If you want your agent to build new containers and push them to ECR for you, you will need to add a `registry` block to your agent config.
+3. **(Optional) Specify a `registry`**: If you want the W&B agent to build new containers and push them to ECR for you, you will need to add a `registry` block to your agent config.
 
-    ```yaml
+    ```yaml title="~/.config/wandb/launch-config.yaml"
     registry:
         type: ecr
         repository: <ecr-repo-name>
@@ -115,7 +129,7 @@ The following steps outline the necessary steps to configure your agent to use S
 4. **(Optional) Enable Kaniko**
     If you run the agent in Kubernetes you can enable Kaniko builds by adding the following to you agent config:
 
-    ```yaml
+    ```yaml title="~/.config/wandb/launch-config.yaml"
     builder:
         type: kaniko
         build-context-store: s3://<s3-bucket>/<prefix>
@@ -125,23 +139,35 @@ The following steps outline the necessary steps to configure your agent to use S
 
 ## 3. Add jobs to your queue
 
-[TO DO]
+
+
+[TO DO - Elaborate more/quickly reiterate what was said in table above,]
 
 ## 4. Start your agent
 Run the agent locally, in a Kubernetes cluster, or in a Docker container. 
 
 
-<Tabs>
-  <TabItem value="locally" label="Locally" default>
-    TO DO
-  </TabItem>
-  <TabItem value="kubernetes" label="Kubernetes">
-    TO DO 
-  </TabItem>
-  <TabItem value="Docker" label="Docker">
-    TO DO
-  </TabItem>
+<Tabs
+  defaultValue="locally"
+  values={[
+    {label: 'Locally', value: 'locally'},
+    {label: 'Kubernetes', value: 'kubernetes'},
+    {label: 'Docker', value: 'docker'},
+  ]}>
+    <TabItem value="locally">
+
+```bash
+wandb launch-agent -e <your-entity> -q sagemaker-noahluna  \\ 
+    -c <path-to-agent-config>
+```
+
+</TabItem>
+  <TabItem value="kubernetes">To do</TabItem>
+
+  <TabItem value="docker">To do</TabItem>
 </Tabs>
+
+
 
 
 The launch agent will continuously run launch jobs on Amazon SageMaker so long as the agent is an environment with AWS credentials.
