@@ -133,9 +133,12 @@ Set `type: ecr` to use AWS Elastic Container Registry. In order to use `ecr`, mu
 registry:
   # Requires an aws environment configuration.
   type: ecr
-  # Name of ECR repository in region configured 
-  # in your environment.
-  repository: my-ecr-repo.
+  # URI of the ECR repository where the agent will store images.
+  # Make sure the region matches what you have configured in your
+  # environment.
+  uri: <account-id>.ecr.<region>.amazonaws.com/<repository-name>
+  # Alternatively, you can simply set the repository name
+  # repository: my-repository-name
 ```
 
 </TabItem>
@@ -148,10 +151,13 @@ Set `type: gcr` to use GCP Artifact Registry. In order to use `gcr`, must config
 registry:
   # Requires a gcp environment configuration.
   type: gcr
-  # Name of artifact repository in project/region configured in your environment.
-  repository: my-artifact-repo
-  # Name (not tag!) of image within repository where the agent will store images.
-  image-name: my-image-name
+  # URI of the Artifact Registry repository and image name where the agent 
+  # will store images. Make sure the region and project match what you have
+  # configured in your environment.
+  uri: <region>-docker.pkg.dev/<project-id>/<repository-name>/<image-name>
+  # Alternatively, you may set the repository and image-name keys.
+  # repository: my-artifact-repo
+  # image-name: my-image-name
 ```
 
 </TabItem>
@@ -216,9 +222,7 @@ To grant Kaniko builds running in Kubernetes access to your blob and container s
 
 You must use [Azure AD Workload Identity](https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview) to provide the agent credentials if you are using AKS.
 
-
 If you are running your own Kubernetes cluster rather than using AKS, EKS, or GKE, you will need to create a Kubernetes secret that contains the credentials for your cloud environment. To grant access to GCP, this secret should contain a [service account json](https://cloud.google.com/iam/docs/keys-create-delete#creating). To grant access to AWS, this secret should contain an [AWS credentials file](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html). You can configure the Kaniko builder to use this secret by setting the following keys in your builder config:
-
 
 ```yaml
 builder:
