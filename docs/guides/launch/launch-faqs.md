@@ -119,3 +119,53 @@ Yes. The suggested way is:
 ### How can admins restrict what ML engineers have access to modify? For example, changing an image tag may be fine but other job settings may not be.
   
   Right now, the only permission restriction is that only team admins can create queues.  We are anticipating (a) expanding that to include also *editing* queue configs and (b) to allow whitelisting of certain config parameters to be editable by non-admins.  For example the image tag or the memory requirements.
+### How does W&B Launch build images?
+
+The steps taken to build an image vary depending on the source of the job being run, and whether the resource configuration specifies an accelerator base image.
+
+:::note
+When specifying a queue config, or submitting a job, a base accelerator image can be provided in the queue or job resource configuration:
+```json
+{
+    "builder": {
+        "accelerator": {
+            "base_image": "image-name"
+        }
+    }
+}
+```
+:::
+
+During the build process the following actions are taken dependant on the type of job and accelerator base image provided:
+
+|                                                     | Install python using apt | Install python packages | Create a user and workdir | Copy code into image | Set entrypoint |
+|-----------------------------------------------------|:------------------------:|:-----------------------:|:-------------------------:|:--------------------:|:--------------:|
+| Job sourced from git                                |                          |            X            |             X             |           X          |        X       |
+| Job sourced from code                               |                          |            X            |             X             |           X          |        X       |
+| Job sourced from git and provided accelerator image |             X            |            X            |             X             |           X          |        X       |
+| Job sourced from code and provided accelerator image|             X            |            X            |             X             |           X          |        X       |
+| Job sourced from image                              |                          |                         |                           |                      |                |
+
+
+### What requirements does the accelerator base image have?
+For jobs that use an accelerator, an accelerator base image with the required accelerator components installed can be provided. Other requirements for the provided accelerator image include:
+- Debian compatibility (the Launch Dockerfile uses apt-get to fetch python )
+- Compatibility CPU & GPU hardware instruction set (Make sure your CUDA version is supported by the GPU you intend on using)
+- Compatibility between the accelerator version you provide and the packages installed in your ML algorithm
+- Packages installed that require extra steps for setting up compatibility with hardware
+
+### How do I make W&B Launch work with Tensorflow on GPU?
+For jobs that use tensorflow on GPU, you may also need to specify a custom base image for the container build that the agent will perform in order for your runs to properly utilize GPUs. This can be done by adding an image tag under the `builder.accelerator.base_image` key to the resource configuration. For example:
+
+```json
+{
+    "gpus": "all",
+    "builder": {
+        "accelerator": {
+            "base_image": "tensorflow/tensorflow:latest-gpu"
+        }
+    }
+}
+```
+
+Note prior to wandb version: 0.15.6 use `cuda` instead of `accelerator` as the parent key to `base_image`.
