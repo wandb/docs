@@ -12,4 +12,5 @@ Check if your PR fulfills the following requirements. Put an `X` in the boxes th
 
 - [ ] Files I edited were previewed on my local development server with `yarn start`. My changes did not break the local preview.
 - [ ] Build (`yarn docusaurus build`) was run locally and successfully without errors or warnings.
+    - [ ] If I added a new file I also added it to the translated i8ln docs folder and added a `needs_translation: true` header to the file
 - [ ] I merged the latest changes from `main` into my feature branch before submitting this PR.
