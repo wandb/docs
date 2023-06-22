@@ -168,4 +168,4 @@ For jobs that use tensorflow on GPU, you may also need to specify a custom base 
 }
 ```
 
-Note prior to wandb version: 0.15.6 use `cuda` instead of `accelerator` as tge key.
+Note prior to wandb version: 0.15.6 use `cuda` instead of `accelerator` as the parent key to `base_image`.
