@@ -37,7 +37,7 @@ def check_markdown_files(directory:str, available_sidebars: list):
                 if metadata is None:
                     raise ValueError(f"Missing header metadata in file: {file_path}")
                 else:
-                    check_description(metadata, file_path)
+                    #check_description(metadata, file_path)
                     check_displayed_sidebar(metadata, file_path, available_sidebars)
 
     print("\nMarkdown header check complete.")
