@@ -1,0 +1,25 @@
+name: Check markdown header
+
+on:
+  pull request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+      
+    - name: Check the markdown header in English docs
+      run: python scripts/check_header.py -d ./docs/guides/
+
+    - name: Check the markdown header in Japanese docs
+      run: python scripts/check_header.py -d ./i18n/ja/docusaurus-plugin-content-docs/current/guides/
