@@ -11,7 +11,7 @@ Start a launch agent to execute jobs from your queues.
 
 ## Overview
 
-A **launch agent** is a long-running process that polls on one or more launch queues and executes the jobs that it pops from the queue. A launch agent can be started with the `wandb launch-agent` command and is capable on launching jobs onto a multitude of compute platforms, including docker, kubernetes, sagemaker, and more. The launch agent is implemented entirely in our [open source client library](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch).
+A **launch agent** is a long-running process that polls on one or more launch queues and executes the jobs that it pops from the queue. A launch agent can be started with the `wandb launch-agent` command and is capable on launching jobs onto a multitude of compute platforms, including Docker, Kubernetes, sagemaker, and more. The launch agent is implemented entirely in our [open source client library](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch).
 
 ## How it works
 
@@ -25,7 +25,7 @@ If your job contains source code from a git repository or code artifact, the lau
 
 If your job was sourced from a container image via the `WANDB_DOCKER` environment variable, then this step is skipped.
 
-Launch currently supports building container images with [Docker](https://docker.com) and [Kaniko](https://github.com/GoogleContainerTools/kaniko). Kaniko should only be used when running the agent in a container, to avoid the security risks associated with running docker-in-docker.
+Launch currently supports building container images with [Docker](https://docker.com) and [Kaniko](https://github.com/GoogleContainerTools/kaniko). Kaniko should only be used when running the agent in a container, to avoid the security risks associated with running Docker-in-Docker.
 
 ### Execute the run
 
@@ -61,7 +61,7 @@ builder:
   type: docker|kaniko|noop
 ```
 
-The `environment`, `registry`, and `builder` keys are optional. By default, the agent will use no cloud environment, a local docker registry, and a docker builder.
+The `environment`, `registry`, and `builder` keys are optional. By default, the agent will use no cloud environment, a local Docker registry, and a Docker builder.
 
 ### Environments
 
