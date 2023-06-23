@@ -112,4 +112,4 @@ For production work, set up a scalable file system to avoid data loss. We sugges
 The instance will stop working if you run out of space. In this case, any additional data will be lost.
 :::
 
-[Contact sales](https://wandb.ai/site/local-contact) to learn more about Enterprise options for W&B server.
+[Contact sales](https://wandb.ai/site/contact) to learn more about Enterprise options for W&B server.
