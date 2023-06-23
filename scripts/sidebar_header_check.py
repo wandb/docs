@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument('-d','--directory', type=str, help='The directory that contains the markdown files.')
 
-def check_markdown_files(directory:str) -> None:
+def check_markdown_files(directory:str, available_sidebars: list):
     """Reads in markdown files in directory, and its sub-directories. 
     
     Args:
@@ -35,19 +35,35 @@ def check_markdown_files(directory:str) -> None:
                 with open(file_path, 'r') as file:
                     content = file.read()
                     metadata = extract_metadata(content)
-                    if metadata is None:
-                        print(f"Invalid metadata in file: {file_path}")
-                    else:
-                        description = metadata.get('description')
-                        displayed_sidebar = metadata.get('displayed_sidebar')
-                        if description is None or description == "":
-                            print(f"Missing description key in file: {file_path}")
-                        elif displayed_sidebar is None:
-                            print(f"Missing 'displayed_sidebar' key in file: {file_path}")
-                        elif displayed_sidebar not in ['default', 'ja']:
-                            print(f"Invalid value for 'displayed_sidebar' in file: {file_path}")
+
+                if metadata is None:
+                    raise ValueError(f"Missing header metadata in file: {file_path}")
+                else:
+                    # check_description(metadata, file_path)
+                    check_displayed_sidebar(metadata, file_path, available_sidebars)
+
 
     print("\nMarkdown header check complete.")
+
+
+def check_displayed_sidebar(metadata, file_path, available_sidebars):
+    displayed_sidebar = metadata.get('displayed_sidebar')
+    
+    if displayed_sidebar is None:
+        raise ValueError(f"Missing 'displayed_sidebar' key in file header: {file_path}")
+    elif displayed_sidebar not in available_sidebars:
+        raise ValueError(f"Invalid value for 'displayed_sidebar' in file header: {file_path}. Available sidebars are: {available_sidebars}")
+    
+    return
+
+
+def check_description(metadata, file_path):
+    description = metadata.get('description')
+    if description is None or description == "":
+        print(f"Missing description key in file: {file_path}")
+
+    return
+
 
 
 def extract_metadata(content:str):
@@ -76,7 +92,10 @@ def extract_metadata(content:str):
 
 def main(args):    
     directory_path = args.directory
-    check_markdown_files(directory_path)
+
+    available_sidebars = ['default', 'ja']
+
+    check_markdown_files(directory_path, available_sidebars)
 
 
 if __name__ == '__main__':
