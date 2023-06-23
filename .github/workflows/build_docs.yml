@@ -1,8 +1,9 @@
 name: Build the docs
 
 on:
+  pull_request:
   push:
-    pull_request: [main]
+    branches: [main]
 
 jobs:
   build:
