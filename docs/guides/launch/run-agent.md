@@ -342,6 +342,10 @@ In order to use SageMaker queues, you will also need to create a separate execut
 
 ```
 
+:::note
+The `kms:CreateGrant` permission for SageMaker queues is required only if the associated ResourceConfig has a specified VolumeKmsKeyId and the associated role does not have a policy that permits this action.
+:::
+
 </TabItem>
 
 <TabItem value="gcp">
