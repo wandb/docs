@@ -10,18 +10,18 @@ jobs:
 
     steps:
     - name: Checkout repository
-    - uses: actions/checkout@v2
+      uses: actions/checkout@v2
 
     - name: Set up Node.js
-    - uses: actions/setup-node@v3
+      uses: actions/setup-node@v3
       with:
         node-version: 16.16.0
 
     - name: Install yarn
-    - run: npm install --global yarn
+      run: npm install --global yarn
   
     - name: Install dependencies 
-    - run: yarn install
+      run: yarn install
 
     - name: Build the docs
-    - run: yarn docusaurus build
+      run: yarn docusaurus build
