@@ -11,7 +11,7 @@ Start a launch agent to execute jobs from your queues.
 
 ## Overview
 
-A **launch agent** is a long-running process that polls on one or more launch queues and executes the jobs that it pops from the queue. A launch agent can be started with the `wandb launch-agent` command and is capable on launching jobs onto a multitude of compute platforms, including docker, kubernetes, sagemaker, and more. The launch agent is implemented entirely in our [open source client library](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch).
+A **launch agent** is a long-running process that polls on one or more launch queues and executes the jobs that it pops from the queue. A launch agent can be started with the `wandb launch-agent` command and is capable on launching jobs onto a multitude of compute platforms, including Docker, Kubernetes, sagemaker, and more. The launch agent is implemented entirely in our [open source client library](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch).
 
 ## How it works
 
@@ -25,7 +25,7 @@ If your job contains source code from a git repository or code artifact, the lau
 
 If your job was sourced from a container image via the `WANDB_DOCKER` environment variable, then this step is skipped.
 
-Launch currently supports building container images with [Docker](https://docker.com) and [Kaniko](https://github.com/GoogleContainerTools/kaniko). Kaniko should only be used when running the agent in a container, to avoid the security risks associated with running docker-in-docker.
+Launch currently supports building container images with [Docker](https://docker.com) and [Kaniko](https://github.com/GoogleContainerTools/kaniko). Kaniko should only be used when running the agent in a container, to avoid the security risks associated with running Docker-in-Docker.
 
 ### Execute the run
 
@@ -61,7 +61,7 @@ builder:
   type: docker|kaniko|noop
 ```
 
-The `environment`, `registry`, and `builder` keys are optional. By default, the agent will use no cloud environment, a local docker registry, and a docker builder.
+The `environment`, `registry`, and `builder` keys are optional. By default, the agent will use no cloud environment, a local Docker registry, and a Docker builder.
 
 ### Environments
 
@@ -201,7 +201,7 @@ builder:
 
 <TabItem value="kaniko">
 
-Set `type: kaniko` and configure either a GCP or AWS environment to use Kaniko to build container images in Kubernetes. The `kaniko` builder requires the `build-context-store` key to be set. The `build-context-store` key should be an S3 or GCS prefix that the agent will use to store build contexts, depending on the environment that is configured. The `build-job-name` can be used to specify a name prefix for the Kubernetes job that the agent will use to build images.
+Set `type: kaniko` and configure a GCP, AWS, or Azure environment to use Kaniko to build container images in Kubernetes. The `kaniko` builder requires the `build-context-store` key to be set. The `build-context-store` key should be an S3, GCS, or Azure Blob Storage prefix that the agent will use to store build contexts, depending on the environment that is configured. The `build-job-name` can be used to specify a name prefix for the Kubernetes job that the agent will use to build images.
 
 ```yaml
 builder:
@@ -242,6 +242,152 @@ The `noop` builder is useful if you want to limit the agent to running pre-built
 builder:
   type: noop
 ```
+
+</TabItem>
+
+</Tabs>
+
+## Cloud permissions
+
+The agent requires access to the cloud environment that it is configured to use. The agent will use the credentials configured in the `environment` key to access the cloud environment. The agent will use these credentials to access the cloud environment to push and pull container images, access cloud storage, and trigger on demand compute through cloud services like SageMaker and Vertex AI.
+
+<Tabs
+  defaultValue="aws"
+  values={[
+    {label: 'AWS', value: 'aws'},
+    {label: 'GCP', value: 'gcp'},
+    {label: 'Azure', value: 'azure'}
+  ]}>
+
+<TabItem value="aws">
+
+The agent requires credentials to access ECR to push and pull container images if you are using a builder, and acess to an S3 bucket if you want to use the kaniko builder. The following policy can be used to grant the agent access to ECR and S3. The policy should be attached to the IAM role that the agent is running as and the `<PLACEHOLDER>` values should be replaced with the appropriate values for your environment.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:PutLifecyclePolicy",
+                "ecr:PutImageTagMutability",
+                "ecr:StartImageScan",
+                "ecr:CreateRepository",
+                "ecr:PutImageScanningConfiguration",
+                "ecr:UploadLayerPart",
+                "ecr:BatchDeleteImage",
+                "ecr:DeleteLifecyclePolicy",
+                "ecr:DeleteRepository",
+                "ecr:PutImage",
+                "ecr:CompleteLayerUpload",
+                "ecr:StartLifecyclePolicyPreview",
+                "ecr:InitiateLayerUpload",
+                "ecr:DeleteRepositoryPolicy"
+            ],
+            "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ecr:GetAuthorizationToken",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ecr:BatchCheckLayerAvailability",
+            "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
+        },
+    {
+            "Sid": "ListObjectsInBucket",
+            "Effect": "Allow",
+            "Action": ["s3:ListBucket"],
+            "Resource": ["arn:aws:s3:::<BUCKET-NAME>"]
+        },
+        {
+            "Sid": "AllObjectActions",
+            "Effect": "Allow",
+            "Action": "s3:*Object",
+            "Resource": ["arn:aws:s3:::<BUCKET-NAME>/*"]
+        }
+    ]
+}
+```
+
+In order to use SageMaker queues, you will also need to create a separate execution role that is assumed by your jobs running in SageMaker. The agent should be granted the following permissions to be allowed to create training jobs:
+
+```json
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sagemaker:CreateTrainingJob",
+      "Resource": "arn:aws:sagemaker:<REGION>:<ACCOUNT-ID>/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": "<ARN-OF-ROLE-TO-PASS>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "kms:CreateGrant",
+      "Resource": "<ARN-OF-KMS-KEY>",
+      "Condition": {
+        "StringEquals": {
+          "kms:ViaService": "sagemaker.<REGION>.amazonaws.com",
+          "kms:GrantIsForAWSResource": "true"
+        }
+      }
+    }
+  ]
+}
+
+```
+
+:::note
+The `kms:CreateGrant` permission for SageMaker queues is required only if the associated ResourceConfig has a specified VolumeKmsKeyId and the associated role does not have a policy that permits this action.
+:::
+
+</TabItem>
+
+<TabItem value="gcp">
+
+The gcp credentials in the agents environment must include the following permissions in order to access various services:
+
+```yaml
+# Permissions for accessing cloud storage. Required for kaniko build.
+storage.buckets.get
+storage.objects.create
+storage.objects.delete
+storage.objects.get
+
+# Permissions for accessing artifact registry. Required for any container build.
+artifactregistry.dockerimages.list
+artifactregistry.repositories.downloadArtifacts
+artifactregistry.repositories.list
+artifactregistry.repositories.uploadArtifacts
+
+# Permissions for listing accessible compute regions. Required always.
+compute.regions.get
+
+# Permissions for managing Vertex AI jobs. Required for Vertex queues.
+ml.jobs.create
+ml.jobs.list
+ml.jobs.get
+```
+
+</TabItem>
+
+<TabItem value="azure">
+
+The agent requires the following roles be assigned to its service principal in order to access various services:
+
+- **Storage Blob Data Contributor**: Required for kaniko build ([docs](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor))
+- **AcrPush**: Required for kaniko build ([docs](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-roles#acrpush))
+
+These permissions should be scoped to any storage containers and containers registries that you plan to access with the agent.
 
 </TabItem>
 
