@@ -89,6 +89,87 @@ spec:
             type: RuntimeDefault
 ```
 
+### Custom controllers
+
+If you specify an API version other than `batch/v1` or `batch/v1beta1`, the agent will launch an object of the specified API version instead of a standard Kubernetes Job. This may be useful if you have a custom controller that you would like to use to run your jobs, or if you want to make use of [volcano](https://volcano.sh) or [kubeflow pipelines](https://kubeflow.org). If you provide a custom API version, you will also need to specify a few values in the spec using macros that will be evaluated when the agent is launching your job. The following macros are available:
+
+| Macro             | Description                                           |
+|-------------------|-------------------------------------------------------|
+| `${project_name}` | The name of the project the run is being launched to. |
+| `${entity_name}`  | The owner of the project the run being launched to.   |
+| `${run_id}`       | The id of the run being launched.                     |
+| `${run_name}`     | The name of the run that is launching.                |
+| `${image_uri}`    | The URI of the container image for this run.          |
+
+For example, to launch a multinode pytorch jobs on with volcano, you could use the following configuration:
+
+```json
+{
+  "kind": "Job",
+  "spec": {
+    "tasks": [
+      {
+        "name": "master",
+        "policies": [
+          {
+            "event": "TaskCompleted",
+            "action": "CompleteJob"
+          }
+        ],
+        "replicas": 1,
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "master",
+                "image": "${image_uri}",
+                "imagePullPolicy": "IfNotPresent"
+              }
+            ],
+            "restartPolicy": "OnFailure"
+          }
+        }
+      },
+      {
+        "name": "worker",
+        "replicas": 3,
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "worker",
+                "image": "${image_uri}",
+                "workingDir": "/home",
+                "imagePullPolicy": "IfNotPresent"
+              }
+            ],
+            "restartPolicy": "OnFailure"
+          }
+        }
+      }
+    ],
+    "plugins": {
+      "pytorch": [
+        "--master=master",
+        "--worker=worker",
+        "--port=23456"
+      ]
+    },
+    "minAvailable": 1,
+    "schedulerName": "volcano"
+  },
+  "metadata": {
+    "name": "wandb-job-${run_id}",
+    "labels": {
+      "wandb_entity": "${entity_name}",
+      "wandb_project": "${project_name}"
+    }
+  },
+  "apiVersion": "batch.volcano.sh/v1alpha1"
+}
+```
+
+
 ## Deploying an agent
 
 Before you can launch a run on k8s, you need to deploy an agent to your cluster.
@@ -146,6 +227,9 @@ rules:
     resources: ["pods", "pods/log", "secrets"]
     verbs: ["create", "get", "watch", "list", "update", "delete", "patch"]
   - apiGroups: ["batch"]
+    resources: ["jobs", "jobs/status"]
+    verbs: ["create", "get", "watch", "list", "update", "delete", "patch"]
+  - apiGroups: ["batch.volcano.sh"]  # Add permission to create and maintain objects from any custom API you wish to use.
     resources: ["jobs", "jobs/status"]
     verbs: ["create", "get", "watch", "list", "update", "delete", "patch"]
 ---

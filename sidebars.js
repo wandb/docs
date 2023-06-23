@@ -19,7 +19,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Experiments',
-      link: {type: 'doc', id: 'guides/track/intro'},
+      link: { type: 'doc', id: 'guides/track/intro' },
       items: [
         // 'guides/track/intro',
         'guides/track/launch',
@@ -27,7 +27,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'What are Runs?',
-          link: {type: 'doc', id: 'guides/runs/intro'},
+          link: { type: 'doc', id: 'guides/runs/intro' },
           items: [
             // 'guides/runs/intro',
             // 'guides/runs/create-run',
@@ -40,7 +40,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Log Objects and Media',
-          link: {type: 'doc', id: 'guides/track/log/intro'},
+          link: { type: 'doc', id: 'guides/track/log/intro' },
           items: [
             // 'guides/track/log/intro',
             'guides/track/log/plots',
@@ -66,7 +66,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Reports',
-      link: {type: 'doc', id: 'guides/reports/intro'},
+      link: { type: 'doc', id: 'guides/reports/intro' },
       items: [
         // 'guides/reports/intro',
         'guides/reports/create-a-report',
@@ -81,7 +81,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Artifacts',
-      link: {type: 'doc', id: 'guides/artifacts/intro'},
+      link: { type: 'doc', id: 'guides/artifacts/intro' },
       items: [
         // 'guides/artifacts/intro',
         'guides/artifacts/quickstart',
@@ -102,7 +102,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Tables',
-      link: {type: 'doc', id: 'guides/data-vis/intro'},
+      link: { type: 'doc', id: 'guides/data-vis/intro' },
       items: [
         // 'guides/data-vis/intro',
         'guides/data-vis/tables-quickstart',
@@ -112,7 +112,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Sweeps',
-      link: {type: 'doc', id: 'guides/sweeps/intro'},
+      link: { type: 'doc', id: 'guides/sweeps/intro' },
       items: [
         // 'guides/sweeps/intro',
         'guides/sweeps/quickstart',
@@ -134,7 +134,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Models',
-      link: {type: 'doc', id: 'guides/models/intro'},
+      link: { type: 'doc', id: 'guides/models/intro' },
       items: [
         // 'guides/models/intro',
         'guides/models/quickstart',
@@ -180,19 +180,19 @@ const sidebars = {
     {
       type: 'category',
       label: 'App Reference',
-      link: {type: 'doc', id: 'guides/app/intro'},
+      link: { type: 'doc', id: 'guides/app/intro' },
       items: [
         // 'guides/app/intro',
         {
           type: 'category',
           label: 'Features',
-          link: {type: 'doc', id: 'guides/app/features/intro'},
+          link: { type: 'doc', id: 'guides/app/features/intro' },
           items: [
             // 'guides/app/features/intro',
             {
               type: 'category',
               label: 'Panels',
-              link: {type: 'doc', id: 'guides/app/features/panels/intro'},
+              link: { type: 'doc', id: 'guides/app/features/panels/intro' },
               items: [
                 // 'guides/app/features/panels/intro',
                 {
@@ -254,7 +254,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Pages',
-          link: {type: 'doc', id: 'guides/app/pages/intro'},
+          link: { type: 'doc', id: 'guides/app/pages/intro' },
           items: [
             // 'guides/app/pages/intro',
             'guides/app/pages/gradient-panel',
@@ -266,7 +266,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Settings',
-          link: {type: 'doc', id: 'guides/app/settings-page/intro'},
+          link: { type: 'doc', id: 'guides/app/settings-page/intro' },
           items: [
             // 'guides/app/settings-page/intro',
             'guides/app/settings-page/user-settings',
@@ -279,12 +279,12 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Server',
-      link: {type: 'doc', id: 'guides/hosting/intro'},
+      link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
         {
           type: 'category',
           label: 'Hosting options',
-          link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
+          link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
             'guides/hosting/hosting-options/wb-managed',
             'guides/hosting/hosting-options/self-managed',
@@ -320,7 +320,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Integrations',
-      link: {type: 'doc', id: 'guides/integrations/intro'},
+      link: { type: 'doc', id: 'guides/integrations/intro' },
       items: [
         // 'guides/integrations/intro',
         'guides/integrations/add-wandb-to-any-library',
@@ -333,7 +333,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Fastai',
-          link: {type: 'doc', id: 'guides/integrations/fastai/README'},
+          link: { type: 'doc', id: 'guides/integrations/fastai/README' },
           items: [
             // 'guides/integrations/fastai/README',
             'guides/integrations/fastai/v1',
@@ -377,7 +377,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Technical FAQ',
-      link: {type: 'doc', id: 'guides/technical-faq/intro'},
+      link: { type: 'doc', id: 'guides/technical-faq/intro' },
       items: [
         // 'guides/hosting/technical-faq/intro',
         'guides/technical-faq/general',
@@ -743,32 +743,39 @@ const sidebars = {
       id: 'tutorials/intro_to_tutorials', // document ID
       label: 'W&B Tutorials', // sidebar label
     },
-        // 'guides/tutorials/intro_to_tutorials',
-        'tutorials/experiments',
-        'tutorials/tables',
-        'tutorials/sweeps',
-        'tutorials/artifacts',
-        'tutorials/models',
-        'tutorials/prompts',
-        {
-          type: 'category',
-          label: 'Integration Tutorials',
-          // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
-          items: [
-            'tutorials/pytorch',
-            'tutorials/lightning',
-            'tutorials/huggingface',
-            'tutorials/tensorflow',
-            'tutorials/tensorflow_sweeps',
-            'tutorials/keras',
-            'tutorials/keras_tables',
-            'tutorials/keras_models',
-            'tutorials/xgboost',
-            'tutorials/xgboost_sweeps',
-            'tutorials/lightgbm',
+    // 'guides/tutorials/intro_to_tutorials',
+    'tutorials/experiments',
+    'tutorials/tables',
+    'tutorials/sweeps',
+    'tutorials/artifacts',
+    'tutorials/models',
+    {
+      type: 'category',
+      label: 'Integration Tutorials',
+      // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+      items: [
+        'tutorials/pytorch',
+        'tutorials/lightning',
+        'tutorials/huggingface',
+        'tutorials/tensorflow',
+        'tutorials/tensorflow_sweeps',
+        'tutorials/keras',
+        'tutorials/keras_tables',
+        'tutorials/keras_models',
+        'tutorials/xgboost',
+        'tutorials/xgboost_sweeps',
+        'tutorials/lightgbm',
 
-          ],
-        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Launch Tutorials',
+      // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+      items: [
+        'tutorials/volcano',
+      ],
+    },
   ],
 };
 
