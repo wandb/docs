@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/object_3d.py#L77-L353)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/object_3d.py#L79-L355)
 
 
 
@@ -37,7 +37,7 @@ The shape of the numpy array must be one of either:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/object_3d.py#L223-L240)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/object_3d.py#L225-L242)
 
 ```python
 @classmethod
@@ -60,7 +60,7 @@ Initializes Object3D from a file or stream.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/object_3d.py#L242-L271)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/object_3d.py#L244-L273)
 
 ```python
 @classmethod
@@ -88,7 +88,7 @@ The shape of the numpy array must be one of either:
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/object_3d.py#L273-L307)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/object_3d.py#L275-L309)
 
 ```python
 @classmethod

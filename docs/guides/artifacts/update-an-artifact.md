@@ -76,6 +76,6 @@ artifact.aliases = ['replaced']
 artifact.save()
 ```
 
-For more information, see the Weights and Biases [Public Artifact API](../../ref/python/public-api/artifact.md).
+For more information, see the Weights and Biases [Artifact API](../../ref/python/artifact.md).
   </TabItem>
 </Tabs>

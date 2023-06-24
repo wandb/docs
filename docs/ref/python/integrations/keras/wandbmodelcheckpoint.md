@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/model_checkpoint.py#L27-L196)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/integration/keras/callbacks/model_checkpoint.py#L28-L205)
 
 
 
@@ -10,7 +10,7 @@ A checkpoint that periodically saves a Keras model or model weights.
 
 ```python
 WandbModelCheckpoint(
- filepath: Union[str, os.PathLike],
+ filepath: StrPath,
  monitor: str = "val_loss",
  verbose: int = 0,
  save_best_only: bool = (False),
@@ -46,7 +46,15 @@ This callback provides the following features:
 
 | Arguments | |
 | :--- | :--- |
-| filepath (Union[str, os.PathLike]): path to save the model file. monitor (str): The metric name to monitor. verbose (int): Verbosity mode, 0 or 1. Mode 0 is silent, and mode 1 displays messages when the callback takes an action. save_best_only (bool): if `save_best_only=True`, it only saves when the model is considered the "best" and the latest best model according to the quantity monitored will not be overwritten. save_weights_only (bool): if True, then only the model's weights will be saved. mode (Mode): one of {'auto', 'min', 'max'}. For `val_acc`, this should be `max`, for `val_loss` this should be `min`, etc. save_freq (Union[SaveStrategy, int]): `epoch` or integer. When using `'epoch'`, the callback saves the model after each epoch. When using an integer, the callback saves the model at end of this many batches. Note that when monitoring validation metrics such as `val_acc` or `val_loss`, save_freq must be set to "epoch" as those metrics are only available at the end of an epoch. options (Optional[str]): Optional `tf.train.CheckpointOptions` object if `save_weights_only` is true or optional `tf.saved_model.SaveOptions` object if `save_weights_only` is false. initial_value_threshold (Optional[float]): Floating point initial "best" value of the metric to be monitored. |
+| `filepath` | (Union[str, os.PathLike]) path to save the model file. `filepath` can contain named formatting options, which will be filled by the value of `epoch` and keys in `logs` (passed in `on_epoch_end`). For example: if `filepath` is `model-{epoch:02d}-{val_loss:.2f}`, then the model checkpoints will be saved with the epoch number and the validation loss in the filename. |
+| `monitor` | (str) The metric name to monitor. Default to "val_loss". |
+| `verbose` | (int) Verbosity mode, 0 or 1. Mode 0 is silent, and mode 1 displays messages when the callback takes an action. |
+| `save_best_only` | (bool) if `save_best_only=True`, it only saves when the model is considered the "best" and the latest best model according to the quantity monitored will not be overwritten. If `filepath` doesn't contain formatting options like `{epoch}` then `filepath` will be overwritten by each new better model locally. The model logged as an artifact will still be associated with the correct `monitor`. Artifacts will be uploaded continuously and versioned separately as a new best model is found. |
+| `save_weights_only` | (bool) if True, then only the model's weights will be saved. |
+| `mode` | (Mode) one of {'auto', 'min', 'max'}. For `val_acc`, this should be `max`, for `val_loss` this should be `min`, etc. |
+| `save_freq` | (Union[SaveStrategy, int]) `epoch` or integer. When using `'epoch'`, the callback saves the model after each epoch. When using an integer, the callback saves the model at end of this many batches. Note that when monitoring validation metrics such as `val_acc` or `val_loss`, save_freq must be set to "epoch" as those metrics are only available at the end of an epoch. |
+| `options` | (Optional[str]) Optional `tf.train.CheckpointOptions` object if `save_weights_only` is true or optional `tf.saved_model.SaveOptions` object if `save_weights_only` is false. |
+| `initial_value_threshold` | (Optional[float]) Floating point initial "best" value of the metric to be monitored. |
 
 
 
