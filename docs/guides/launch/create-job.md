@@ -18,7 +18,7 @@ Once you have one or more jobs created, you can add them to a [launch queue](./c
 
 
 :::tip
-Similar to [launch queues](./create-job.md), a launch job belongs to a W&B entity. Both the launch queue and the jobs you want to enqueue must belong to the same W&B entity.
+Similar to [launch queues](./create-queue.md), a launch job belongs to a W&B entity. Both the launch queue and the jobs you want to enqueue must belong to the same W&B entity.
 :::
 
 
