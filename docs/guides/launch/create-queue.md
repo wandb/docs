@@ -5,20 +5,30 @@ displayed_sidebar: default
 
 # Create a queue
 
-**Launch queues** are first-in, first-out (FIFO) queues where users can configure and submit their jobs to be executed by any polling launch agents. Each item in a launch queue consists of a job and settings for the parameters of that job. Launch queues are owned by either a W&B or W&B Team. Follow this guide to learn how to create and configure a launch queue.
+**Launch queues** are first-in, first-out (FIFO) configurable queues you can submit your jobs to. The jobs are then executed by any polling launch agents. Each item in a launch queue consists of a job and settings for the parameters of that job.  
+
+:::tip
+Similar to [launch jobs](./create-job.md), a launch queue belongs to a W&B entity. Both the launch queue and the jobs you want to enqueue must belong to the same W&B entity.
+:::
+
+
+Follow this guide to learn how to create, configure, and view launch queues.
 
 ## Create a queue
 
-Navigate to [wandb.ai/launch](https://wandb.ai/launch). Click **create queue** button in the top right of the screen to start creating a new launch queue.
+1. Navigate to [wandb.ai/launch](https://wandb.ai/launch). 
+2. Click **create queue** button in the top right of the screen to start creating a new launch queue.
 
 When you click the button, a drawer will slide from the right side of your screen and present you with some options for your new queue:
 
-* **Entity**: the owner of the queue, which can either be your W&B account or any W&B team you are a member of. For this tutorial, we recommend setting up a personal queue.
-* **Queue name**: the name of the queue. Make this whatever you want!
+* **Entity**: the owner of the queue. The entity can either be your W&B account or any W&B team you are a member of.
+* **Queue name**: the name of the queue. 
 * **Resource**: the compute resource type for jobs in this queue.
 * **Configuration**: default resource configurations for all jobs placed on this queue. Used to configure the compute resources that any job in this queue will run on. These defaults can be overridden when you enqueue a job.
 
 ![](/images/launch/create-queue.gif)
+
+3. Select **Create queue** to create the queue.
 
 ## Queue configuration
 
