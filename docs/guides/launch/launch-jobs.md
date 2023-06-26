@@ -5,7 +5,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Launch a run
+# Launch a job
 
 Use W&B launch to queue jobs for execution by a launch agent. The following guide demonstrates how to submit runs to a queue.
 
