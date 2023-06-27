@@ -35,17 +35,17 @@ Log a new version of an Artifact with a single run that produces all the files i
 Based on your use case, select one of the tabs below to create a new artifact version inside or outside of a run:
 
 <Tabs
-  defaultValue="within"
+  defaultValue="inside"
   values={[
-    {label: 'Within a run', value: 'within'},
+    {label: 'Inside a run', value: 'inside'},
     {label: 'Outside a run', value: 'outside'},
   ]}>
-  <TabItem value="within">
+  <TabItem value="inside">
 
 Create an artifact version within a W&B run:
 
 1. Create a run with `wandb.init`. (Line 1)
-2. Create a new artifact with `wandb.Artifact`. (Line 2)
+2. Create a new artifact or retrieve an existing one with `wandb.Artifact` . (Line 2)
 3. Add files to the artifact with `.add_file`. (Line 9)
 4. Log the artifact to the run with `.log_artifact`. (Line 10)
 
@@ -67,7 +67,7 @@ with wandb.init() as run:
 
 Create an artifact version outside of a W&B run:
 
-1. Create a new artifact with `wanb.Artifact`. (Line 1)
+1. Create a new artifact or retrieve an existing one with `wanb.Artifact`. (Line 1)
 2. Add files to the artifact with `.add_file`. (Line 4)
 3. Save the artifact with `.save`. (Line 5)
 
@@ -78,10 +78,11 @@ artifact = wandb.Artifact("artifact_name", "artifact_type")
 artifact.add_file("image1.png")
 artifact.save()
 ```  
-
   </TabItem>
 </Tabs>
-
+:::info
+When calling the wandb.Artifact, constructing the Artifact with an "artifact_name" that has not been used by any other artifacts in this project will create a new Artifact and add files to the v0 Artifact version. Passing in a name, type pair for an existing Artifact will fetch this Artifact and add files to a version with count 1 greater than the latest version. You can use the constructor to add a version to a new Artifact or an existing one depending on whether the name, type pair has already been used to construct an Artifact. 
+:::
 
 
 ### Distributed runs
@@ -167,12 +168,35 @@ You can create an incremental artifact within a single run or with a set of runs
 
 Follow the procedure below to incrementally change an artifact:
 
-1. Obtain the artifact version you want to perform an incremental change on with the W&B Public API:
+1. Obtain the artifact version you want to perform an incremental change on:
+
+<Tabs
+  defaultValue="inside"
+  values={[
+    {label: 'Inside a run', value: 'inside'},
+    {label: 'Outside of a run', value: 'outside'},
+  ]}>
+  <TabItem value="inside">
+
+```python
+saved_artifact = run.use_artifact("my_artifact:latest")
+```
+
+  </TabItem>
+  <TabItem value="outside">
+
 
 ```python
 client = wandb.Api()
 saved_artifact = client.artifact("my_artifact:latest")
 ```
+
+  </TabItem>
+</Tabs>
+
+
+
+
 
 2. Create a draft with:
 
@@ -272,7 +296,7 @@ Putting it all together, the code examples above look like:
   <TabItem value="inside">
 
 ```python
-with wandb.init() as run:
+with wandb.init(job_type="modify dataset") as run:
 	saved_artifact = run.use_artifact("my_artifact:latest") # fetch artifact and input it into your run
 	draft_artifact = saved_artifact.new_draft() # create a draft version
 
