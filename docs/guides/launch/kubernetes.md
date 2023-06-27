@@ -4,11 +4,11 @@ displayed_sidebar: default
 
 # Launch on Kubernetes
 
-This guide demonstrates how to use W&B Launch to run ML workloads on a kubernetes (k8s) cluster.
+This guide demonstrates how to use W&B Launch to run ML workloads on a kubernetes cluster.
 
 ## Building images in Kubernetes
 
-The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) to build container images inside of k8s. Kaniko is a tool that builds container images from a Dockerfile, inside a container or Kubernetes cluster. For more information about Kaniko, see the [Kaniko](https://github.com/GoogleContainerTools/kaniko) documentation.
+The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) to build container images inside of Kubernetes cluster. Kaniko is a tool that builds container images from a Dockerfile, inside a container or Kubernetes cluster. For more information about Kaniko, see the [Kaniko](https://github.com/GoogleContainerTools/kaniko) documentation.
 
 :::tip
 * If you want to use the Launch agent without the ability to build new images, you can use the `noop` builder type when you configure your launch agent. More info [here](../launch/run-agent.md#builders).
@@ -19,7 +19,7 @@ The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) t
 
 ## 1. Create a queue
 
-Before you can launch a job on k8s, you need to create a k8s queue in the W&B App. To create a k8s queue:
+Before you can launch a job on Kubernetes cluster, you need to create a Kubernetes cluster queue in the W&B App. To create a Kubernetes cluster queue:
 
 1. Navigate to the [Launch application](https://wandb.ai/launch).
 2. Click on the **Queues** tab.
@@ -31,10 +31,9 @@ Before you can launch a job on k8s, you need to create a k8s queue in the W&B Ap
 
 ### Queue configuration for Kubernetes
 
-The launch agent creates a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each run that is popped from the launch queue that is configured to use Kubernetes. 
+The launch agent creates a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each run that is popped from the launch queue that is configured to use Kubernetes.  The JSON configuration you define for a Kubernetes queue is used to modify the [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec) that the launch agent submits to your Kubernetes cluster. Use the launch queue configuration to control the functionality of the Kubernetes Job spec. 
 
-
-The JSON configuration you define for a Kubernetes queue is used to modify the [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec) that the launch agent submits to your Kubernetes cluster. Use the launch queue configuration to control the functionality of the Kubernetes Job spec. For example, you can specify resource requests, volume mounts, retry strategies, and more for your runs at the queue level.
+For example, you can specify resource requests, volume mounts, retry strategies, and more for your runs at the queue level.
 
 :::note
 The launch queue configuration follows the same schema as a Kubernetes Job spec, except that it is formatted as JSON rather than YAML. In addition, the launch queue also supports additional, universal queue configuration fields, such as `builder`.
@@ -238,9 +237,9 @@ data:
 
 ## 3. Adds jobs to your queue
 
-## 4. Deploy the agent
+## 4. Start your agent
 
-Now that you have created all the resources needed to run the agent, you can deploy the agent to your cluster. The following manifest defines a k8s deployment that will run the agent in your cluster in one container. The agent will run in the `wandb` namespace, use the `wandb-launch-agent` service account. Our API key will be mounted as the `WANDB_API_KEY` environment variable in the container. Our configmap will be mounted as a volume in the container at `/home/launch-agent/launch-config.yaml`.
+Now that you have created all the resources needed to run the agent, you can deploy the agent to your cluster. The following manifest defines a Kubernetes cluster deployment that will run the agent in your cluster in one container. The agent will run in the `wandb` namespace, use the `wandb-launch-agent` service account. Our API key will be mounted as the `WANDB_API_KEY` environment variable in the container. Our configmap will be mounted as a volume in the container at `/home/launch-agent/launch-config.yaml`.
 
 We recommend you pull the latest agent image from our public docker registry. You can find the latest image tag [here](https://hub.docker.com/r/wandb/launch-agent-dev/tags?page=1&ordering=last_updated).
 
