@@ -84,7 +84,7 @@ You can optionally add additional arguments.  See the [`CreateTrainingJob`](http
 8. Lastly, click the **Create Queue** button.
 
 
-## 2. Configure the launch agent
+## 2. Configure the agent
 
 Configure a launch agent to execute jobs from your queues with SageMaker. The following steps outline how to configure your launch agent to use SageMaker with Launch. For more information on how launch agents work, see the Start an agent[LINK] page.
 

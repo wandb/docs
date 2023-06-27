@@ -6,13 +6,7 @@ displayed_sidebar: default
 
 This guide demonstrates how to use W&B Launch to run ML workloads on a kubernetes cluster.
 
-## Building images in Kubernetes
-
-The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) to build container images inside of Kubernetes cluster. Kaniko is a tool that builds container images from a Dockerfile, inside a container or Kubernetes cluster. For more information about Kaniko, see the [Kaniko](https://github.com/GoogleContainerTools/kaniko) documentation.
-
 :::tip
-* If you want to use the Launch agent without the ability to build new images, you can use the `noop` builder type when you configure your launch agent. More info [here](../launch/run-agent.md#builders).
-
 * You can use Launch with any Kubernetes system if you use an image based job and you do not require a build for your launch job.
 :::
 
@@ -95,7 +89,6 @@ spec:
 ```
 
 ## 2. Configure the agent
-
 There are two ways to configure your launch agent:
 
 1. Helm charts
@@ -105,9 +98,24 @@ There are two ways to configure your launch agent:
 We **strongly recommended** that you install the launch agent through the [official helm repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent). Consult the [`README.md` in the chart directory](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent/README.md) for detailed instructions on how to configure and deploy your agent.
 :::
 
-### Manual cluster configuration
 
-In order to run a launch agent in your cluster without the use of Helm, you will need to create a few other resources in your cluster. 
+:::note
+The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) to build container images inside of Kubernetes. Kaniko is a tool that builds container images from a Dockerfile, inside a container or Kubernetes cluster. For more information about Kaniko, see the [Kaniko](https://github.com/GoogleContainerTools/kaniko) documentation.
+
+If you want to use the Launch agent without the ability to build new images, you can use the `noop` builder type when you configure your launch agent. More info [here](../launch/run-agent.md#builders).
+:::
+
+
+### Helm charts
+[INSERT]
+
+### Manual cluster configuration
+In order to run a launch agent in your cluster without the use of Helm, you will need to create a few other resources in your cluster:
+
+* Namespace
+* Service account and roles
+* W&B API Key
+* Agent configuration
 
 :::note
 In this guide we separated the different resources. However, you can aggregate them into a single file and apply them all at once.
@@ -237,11 +245,11 @@ data:
 
 ## 3. Adds jobs to your queue
 
-## 4. Start your agent
+## 4. Deploy your agent
 
-Now that you have created all the resources needed to run the agent, you can deploy the agent to your cluster. The following manifest defines a Kubernetes cluster deployment that will run the agent in your cluster in one container. The agent will run in the `wandb` namespace, use the `wandb-launch-agent` service account. Our API key will be mounted as the `WANDB_API_KEY` environment variable in the container. Our configmap will be mounted as a volume in the container at `/home/launch-agent/launch-config.yaml`.
+Now that you have created all the resources needed to run the agent, you can deploy the agent to your cluster. 
 
-We recommend you pull the latest agent image from our public docker registry. You can find the latest image tag [here](https://hub.docker.com/r/wandb/launch-agent-dev/tags?page=1&ordering=last_updated).
+The following manifest defines a Kubernetes cluster deployment that will run the agent in your cluster in one container. The agent will run in the `wandb` namespace, use the `wandb-launch-agent` service account. Our API key will be mounted as the `WANDB_API_KEY` environment variable in the container. Our configmap will be mounted as a volume in the container at `/home/launch-agent/launch-config.yaml`.
 
 ```yaml
 apiVersion: apps/v1
@@ -295,8 +303,10 @@ spec:
           configMap:
             name: wandb-launch-configmap
 ```
+We recommend you pull the latest agent image from our public docker registry. You can find the latest image tag [here](https://hub.docker.com/r/wandb/launch-agent-dev/tags?page=1&ordering=last_updated).
 
-After you have created the deployment, you can check the status of the agent by running the following command:
+
+Check the status of your deployment with the following command:
 
 ```sh
 kubectl -n wandb describe deployment launch-agent
