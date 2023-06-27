@@ -10,6 +10,11 @@ This guide demonstrates how to use W&B Launch to run ML workloads on a kubernete
 * You can use Launch with any Kubernetes system if you use an image based job and you do not require a build for your launch job.
 :::
 
+## Prerequisites
+Before you get started, ensure you have:
+1. **Kubernetes cluster**
+2. **W&B API Key**: If you created a queue in your personal entity, head to [wandb.ai/authorize](wandb.ai/authorize) to get a personal API key. If you created a queue for a W&B, you will need to create a service account in that team or use an API key from a prior service account. For more information on generating service accounts, see these docs.
+
 
 ## 1. Create a queue
 
@@ -25,14 +30,31 @@ Before you can launch a job on Kubernetes cluster, you need to create a Kubernet
 
 ### Queue configuration for Kubernetes
 
-The launch agent creates a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each run that is popped from the launch queue that is configured to use Kubernetes.  The JSON configuration you define for a Kubernetes queue is used to modify the [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec) that the launch agent submits to your Kubernetes cluster. Use the launch queue configuration to control the functionality of the Kubernetes Job spec. 
-
-For example, you can specify resource requests, volume mounts, retry strategies, and more for your runs at the queue level.
+The launch agent creates a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each run that is popped from the launch queue that is configured to use Kubernetes.  The configuration you define for a Kubernetes queue is used to modify the [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec) that the launch agent submits to your Kubernetes cluster.
 
 :::note
-The launch queue configuration follows the same schema as a Kubernetes Job spec, except that it is formatted as JSON rather than YAML. In addition, the launch queue also supports additional, universal queue configuration fields, such as `builder`.
+The launch queue configuration follows the same schema as a Kubernetes Job spec, except that it also supports additional, universal queue configuration fields, such as `builder`.
 :::
 
+The launch agent will automatically apply set the following values in the top level of the Kubernetes job spec:
+
+```yaml
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+      containers:  # These security defaults are applied to all containers in the pod spec.
+      - securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          seccompProfile:
+            type: RuntimeDefault
+```
+### Example configuration
 
 The following code snippet demonstrates an example of how to set a custom environment variable, resource requests, and labels for all runs launched from a queue:
 
@@ -69,30 +91,31 @@ The following code snippet demonstrates an example of how to set a custom enviro
 }
 ```
 
-The launch agent will automatically apply set the following values in the top level of the Kubernetes job spec:
 
-```yaml
-spec:
-  backoffLimit: 0
-  ttlSecondsAfterFinished: 60
-  template:
-    spec:
-      restartPolicy: Never
-      containers:  # These security defaults are applied to all containers in the pod spec.
-      - securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
-          seccompProfile:
-            type: RuntimeDefault
-```
 
 ## 2. Configure the agent
-There are two ways to configure your launch agent:
+Create a yaml configuration file for the agent you will deploy. Refer to the [Start an agent](./run-agent.md#agent-configuration) page for complete documentation of the agent configuration file. 
+
+The config should contain, at a minimum:
+
+```yaml title="~/.config/wandb/launch-config.yaml"
+entity: <your-entity>
+queues: [ <your-queue> ]
+```
+
+
+## 3. Adds jobs to your queue
+[INSERT]
+
+
+## 4. Deploy your agent
+Unlike managed compute resources (such as SageMaker), with Kubernetes you will need to deploy your agent to your Kubernetes/compute resource.
+
+
+There are two ways to deploy your launch agent:
 
 1. Helm charts
-2. Manual cluster configuration
+2. Deploy with a manual cluster configuration
 
 :::tip
 We **strongly recommended** that you install the launch agent through the [official helm repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent). Consult the [`README.md` in the chart directory](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent/README.md) for detailed instructions on how to configure and deploy your agent.
@@ -105,11 +128,20 @@ The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) t
 If you want to use the Launch agent without the ability to build new images, you can use the `noop` builder type when you configure your launch agent. More info [here](../launch/run-agent.md#builders).
 :::
 
+### Deploy with helm
+The easiest way to deploy your agent is with the launch agent chart from [W&B's official helm-charts repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent).
 
-### Helm charts
-[INSERT]
+1. Install the wandb/helm-charts repo:
+```bash
+helm repo add wandb https://wandb.github.io/helm-charts
+```
+2. Add your W&B API key and the literal contents of your launch config to `values.yml` in  [`wandb/helm-charts/charts/launch-agent/`](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml). For more information, see the [README.md](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/README.md). 
 
-### Manual cluster configuration
+3. [INSERT]
+
+
+
+### Deploy with a manual cluster configuration
 In order to run a launch agent in your cluster without the use of Helm, you will need to create a few other resources in your cluster:
 
 * Namespace
@@ -117,7 +149,8 @@ In order to run a launch agent in your cluster without the use of Helm, you will
 * W&B API Key
 * Agent configuration
 
-:::note
+
+:::tip
 In this guide we separated the different resources. However, you can aggregate them into a single file and apply them all at once.
 :::
 
@@ -217,41 +250,42 @@ kubectl -n wandb create secret  \
 
 #### Agent configuration
 
-Lastly, you will need to create a configmap in the `wandb` namespace that contains the configuration for your agent. This configmap will be used by the agent to configure the agent itself. This configuration will depend heavily on your cloud provider and the resources you have available to you. You can find more information in our [agent documentation](../launch/run-agent.md#agent-configuration).
+  To run a launch agent in your cluster without the use of Helm, you will need to create a configmap in the `wandb` namespace that contains the configuration for your agent. This configmap will be used by the agent to configure the agent itself. This configuration will depend heavily on your cloud provider and the resources you have available to you. 
 
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: wandb-launch-configmap
-  namespace: wandb
-data:
-  wandb-base-url: https://api.wandb.ai # TODO: set your base_url here
-  launch-config.yaml: |
-    max_jobs: -1 # TODO: set max concurrent jobs here
-    queues:
-    - default # TODO: set queue name here
-    environment:
-      type: gcp
-      region: us-central1 # TODO: set gcp region here
-    registry:
-      type: gcr
-      repository: # TODO: set name of artifact repository name here
-      image-name: launch-images # TODO: set name of image here
-    builder:
-      type: kaniko
-      build-context-store: gs://my-bucket/... # TODO: set your build context store here
-```
 
-## 3. Adds jobs to your queue
 
-## 4. Deploy your agent
+  ```yaml title="~/.config/wandb/launch-config.yaml"   
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: wandb-launch-configmap
+    namespace: wandb
+  data:
+    wandb-base-url: https://api.wandb.ai # TODO: set your base_url here
+    launch-config.yaml: |
+      max_jobs: -1 # TODO: set max concurrent jobs here
+      queues:
+      - default # TODO: set queue name here
+      environment:
+        type: gcp
+        region: us-central1 # TODO: set gcp region here
+      registry:
+        type: gcr
+        repository: # TODO: set name of artifact repository name here
+        image-name: launch-images # TODO: set name of image here
+      builder:
+        type: kaniko
+        build-context-store: gs://my-bucket/... # TODO: set your build context store here   
+  ```
+
+  You can find more information in our [agent documentation](../launch/run-agent.md#agent-configuration).
+
 
 Now that you have created all the resources needed to run the agent, you can deploy the agent to your cluster. 
 
 The following manifest defines a Kubernetes cluster deployment that will run the agent in your cluster in one container. The agent will run in the `wandb` namespace, use the `wandb-launch-agent` service account. Our API key will be mounted as the `WANDB_API_KEY` environment variable in the container. Our configmap will be mounted as a volume in the container at `/home/launch-agent/launch-config.yaml`.
 
-```yaml
+```yaml title="launch-config.yaml"
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -311,3 +345,4 @@ Check the status of your deployment with the following command:
 ```sh
 kubectl -n wandb describe deployment launch-agent
 ```
+
