@@ -27,6 +27,10 @@ There are two ways to create a new artifact version: from a single run and from 
 * **Distributed runs**: A set of runs collectively provides all the data for a new version. This is best suited for distributed jobs which have multiple runs generating data, often in parallel. For example: evaluating a model in a distributed manner, and outputting the predictions.
 
 
+W&B will create a new artifact and assign it a `v0` alias if you pass a name to the `wandb.Artifact` API that does not exist in your project. W&B checksums the contents when you log again to the same artifact. If the artifact changed, W&B saves a new version `v1`.  
+
+W&B will retrieve an existing artifact if you pass a name and artifact type to the `wandb.Artifact` API that matches an existing artifact in your project. The retrieved artifact will have a version greater than 1. 
+
 ![](/images/artifacts/single_distributed_artifacts.png)
 
 ### Single run
@@ -80,9 +84,6 @@ artifact.save()
 ```  
   </TabItem>
 </Tabs>
-:::info
-When calling the wandb.Artifact, constructing the Artifact with an "artifact_name" that has not been used by any other artifacts in this project will create a new Artifact and add files to the v0 Artifact version. Passing in a name, type pair for an existing Artifact will fetch this Artifact and add files to a version with count 1 greater than the latest version. You can use the constructor to add a version to a new Artifact or an existing one depending on whether the name, type pair has already been used to construct an Artifact. 
-:::
 
 
 ### Distributed runs
