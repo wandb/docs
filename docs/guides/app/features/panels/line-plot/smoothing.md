@@ -18,9 +18,9 @@ See these live in an [interactive W&B report](https://wandb.ai/carey/smoothing-e
 
 ## Exponential Moving Average (Default)
 
-Exponential smoothing is a technique for smoothing time series data by exponentially decaying the weight of previous points. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) for background. There is a debias term added so that early values in the time series are not biased towards zero.
+Exponential smoothing is a technique for smoothing time series data by exponentially decaying the weight of previous points. The range is 0 to 1. See [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) for background. There is a de-bias term added so that early values in the time series are not biased towards zero.
 
-Our EMA algorithm takes the density of points on the line (i.e. the number of `y` values per unit of range on x-axis) into account. This allows consistent smoothing when displaying multiple lines with differnet characteristics simultaneously.
+The EMA algorithm takes the density of points on the line (i.e. the number of `y` values per unit of range on x-axis) into account. This allows consistent smoothing when displaying multiple lines with different characteristics simultaneously.
 
 Here is sample code for how this works under the hood:
 
@@ -58,11 +58,11 @@ Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-exampl
 
 ## Running Average
 
-Running average is a simple smoothing algorithm that replaces a point with the average of points in a window before and after the given x value. See "Boxcar Filter" at [https://en.wikipedia.org/wiki/Moving_average](https://en.wikipedia.org/wiki/Moving_average). The selected parameter for running average tells Weights and Biases the number of points to consider in the moving average.
+Running average is a smoothing algorithm that replaces a point with the average of points in a window before and after the given x value. See "Boxcar Filter" at [https://en.wikipedia.org/wiki/Moving_average](https://en.wikipedia.org/wiki/Moving_average). The selected parameter for running average tells Weights and Biases the number of points to consider in the moving average.
 
-Running average is a simple, trivial to replicate smoothing algorithm. If your points are spaced unevenly on the x-axis Gaussian Smoothing may be a better choice.
+Consider using Gaussian Smoothing if your points are spaced unevenly on the x-axis.
 
-Here's what this looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average):
+The following image demonstrates how a running app looks like [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average):
 
 ![](/images/app_ui/running_average.png)
 
