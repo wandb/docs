@@ -215,7 +215,7 @@ for query in queries_ls:
 
     # create a span in wandb
     root_span = Trace(
-          name=f"root_span",
+          name="root_span",
           kind="llm",  # kind can be "llm", "chain", "agent" or "tool"
           status_code=status,
           status_message=status_message,
@@ -229,7 +229,7 @@ for query in queries_ls:
           )
     
     # log the span to wandb
-    root_span.log(name=f"openai_trace")
+    root_span.log(name="openai_trace")
 ```
 
 ### 4. View the trace in Weights & Biases
@@ -252,7 +252,7 @@ query = "How many days until the next US election?"
 start_time_ms = round(datetime.datetime.now().timestamp() * 1000)
 
 root_span = Trace(
-      name=f"MyAgent",
+      name="MyAgent",
       kind="agent",
       start_time_ms=start_time_ms,
       metadata={"user": "optimus_12"})
@@ -260,7 +260,7 @@ root_span = Trace(
 
 # part 2 - The Agent calls into a LLMChain..
 chain_span = Trace(
-      name=f"LLMChain",
+      name="LLMChain",
       kind="chain",
       start_time_ms=start_time_ms)
 
@@ -283,7 +283,7 @@ response_text = response["choices"][0]["message"]["content"]
 token_usage = response["usage"].to_dict()
 
 llm_span = Trace(
-      name=f"OpenAI",
+      name="OpenAI",
       kind="llm",
       status_code="success",
       metadata={"temperature":temperature,
@@ -314,7 +314,7 @@ tool_end_time_ms = round(datetime.datetime.now().timestamp() * 1000)
 
 # create a Tool span 
 tool_span = Trace(
-      name=f"Calculator",
+      name="Calculator",
       kind="tool",
       status_code="success",
       start_time_ms=llm_end_time_ms,
@@ -333,7 +333,7 @@ root_span._span.end_time_ms = tool_end_time_ms
 
 
 # part 6 - log all spans to W&B by logging the root span
-root_span.log(name=f"openai_trace")
+root_span.log(name="openai_trace")
 ```
 
 Once you have logged your span, you will be able to see your Trace table update in the W&B App.
