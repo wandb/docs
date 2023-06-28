@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Launch multinode jobs with Volcano
 
 This tutorial will guide you through the process of launching multinode training jobs with W&B and Volcano on Kubernetes.
@@ -27,7 +30,69 @@ In the configuration section, we will enter a [volcano job](https://volcano.sh/e
 
 This configuration block can accept a Kubernetes job specification, volcano job specification, or any other custom resource definition (CRD) that you are interested in launching. You can make use of [macros in the configuration block](../guides/launch/kubernetes#custom-controllers) to dynamically set the contents of this spec.
 
-In this tutorial, we will use a configuration for multinode pytorch training that makes use of [volcano's pytorch plugin](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin.md). You can copy and paste the following config:
+In this tutorial, we will use a configuration for multinode pytorch training that makes use of [volcano's pytorch plugin](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin.md). You can copy and paste the following config as YAML or JSON:
+
+<Tabs
+defaultValue="yaml"
+values={[
+{ label: "YAML", value: "yaml", },
+{ label: "JSON", value: "json", },
+]}>
+
+<TabItem value="yaml">
+
+```yaml
+kind: Job
+spec:
+  tasks:
+    - name: master
+      policies:
+        - event: TaskCompleted
+          action: CompleteJob
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - name: master
+              image: ${image_uri}
+              resources:
+                limits:
+                  nvidia.com/gpu: 1
+              imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure
+    - name: worker
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - name: worker
+              image: ${image_uri}
+              resources:
+                limits:
+                  nvidia.com/gpu: 1
+              workingDir: /home
+              imagePullPolicy: IfNotPresent
+          nodeSelector:
+            cloud.google.com/gke-nodepool: k80-pool
+          restartPolicy: OnFailure
+  plugins:
+    pytorch:
+      - --master=master
+      - --worker=worker
+      - --port=23456
+  minAvailable: 1
+  schedulerName: volcano
+metadata:
+  name: wandb-job-${run_id}
+  labels:
+    wandb_entity: ${entity_name}
+    wandb_project: ${project_name}
+apiVersion: batch.volcano.sh/v1alpha1
+```
+
+</TabItem>
+
+<TabItem value="json">
 
 ```json
 {
@@ -75,11 +140,7 @@ In this tutorial, we will use a configuration for multinode pytorch training tha
       }
     ],
     "plugins": {
-      "pytorch": [
-        "--master=master",
-        "--worker=worker",
-        "--port=23456"
-      ]
+      "pytorch": ["--master=master", "--worker=worker", "--port=23456"]
     },
     "minAvailable": 1,
     "schedulerName": "volcano"
@@ -94,6 +155,10 @@ In this tutorial, we will use a configuration for multinode pytorch training tha
   "apiVersion": "batch.volcano.sh/v1alpha1"
 }
 ```
+
+</TabItem>
+
+</Tabs>
 
 Click the **Create queue** button at the bottom of the drawer to finish creating your queue.
 
@@ -115,7 +180,7 @@ Create a yaml configuration file for the agent you will deploy. Refer [here](../
 
 ```yaml
 entity: <your-entity>
-queues: [ <your-queue> ]
+queues: [<your-queue>]
 ```
 
 ### Deploy with helm
