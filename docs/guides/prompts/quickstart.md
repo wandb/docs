@@ -14,11 +14,11 @@ displayed_sidebar: default
 
 This Quickstart guide will walk you how to use [Trace](intro.md) to visualize and debug calls to LangChain, LlamaIndex or your own LLM Chain or Pipeline:
 
-1. **[Langchain:](#use-trace-with-langchain)** Use the 1-line LangChain environment variable or context manager integration for automated logging.
+1. **[Langchain:](#use-wb-trace-with-langchain)** Use the 1-line LangChain environment variable or context manager integration for automated logging.
 
-2. **[LlamaIndex:](#use-trace-with-llamaindex)** Use the W&B callback from LlamaIndex for automated logging.
+2. **[LlamaIndex:](#use-wb-trace-with-llamaindex)** Use the W&B callback from LlamaIndex for automated logging.
 
-3. **[Custom usage](#use-trace-with-any-llm-chain-or-plug-in)**: Use Trace with your own custom chains and LLM pipeline code.
+3. **[Custom usage](#use-wb-trace-with-any-llm-pipeline-or-plug-in)**: Use Trace with your own custom chains and LLM pipeline code.
 
 
 ## Use W&B Trace with LangChain
@@ -121,8 +121,223 @@ with wandb_tracing_enabled():
 math_agent.run("What is 2 raised to .123243 power?")  # this should not be traced
 ```
 
-
 Please report any issues with this LangChain integration to the [wandb repo](https://github.com/wandb/wandb/issues) with the tag `langchain`
+
+
+## Use W&B Trace with Any LLM Pipeline or Plug-In
+
+:::info
+**Versions** Please use `wandb >= 0.15.4`
+:::
+
+A W&B Trace is created by logging 1 or more "spans". A root span is expected, which can accept nested child spans, which can in turn accept their own child spans. Spans can be of type `AGENT`, `CHAIN`, `TOOL` or `LLM`.
+
+When logging with Trace, a single W&B run can have multiple calls to a LLM, Tool, Chain or Agent logged to it, there is no need to start a new W&B run after each generation from your model or pipeline, instead each call will be appended to the Trace Table.
+
+In this quickstart, we will how to log a single call to an OpenAI model to W&B Trace as a single span. Then we will show how to log a more complex series of nested spans.
+
+### 1. Install wandb-addons
+For now, a high-level Trace api is available from the [`wandb-addon`](https://github.com/soumik12345/wandb-addons) community library from [@soumik12345](https://github.com/soumik12345). This will shortly be replaced by a wandb-native integration shortly. 
+
+Install the `prompts` module of `wandb-addons`:
+
+```python
+!git clone https://github.com/soumik12345/wandb-addons.git
+!pip install ./wandb-addons[prompts] openai wandb -qqq 
+```
+
+
+### 2. Import Trace and start a Weights & Biases run
+
+Call `wandb.init` to start a W&B run. Here you can pass a W&B project name as well as an entity name (if logging to a W&B Team), as well as a config and more. See [`wandb.init`](../../ref/python/init.md) for the full list of arguments.
+
+Once your start a W&B run you will be asked to login with your Weights & Biases **[API key](https:wwww.wandb.ai/authorize)**.
+
+
+```python
+import wandb
+
+# start a wandb run to log to
+wandb.init(project="trace-example")
+```
+
+You can also set the `entity` argument in `wandb.init` if logging to a W&B Team.
+
+### 3. Log to a Trace
+Now we will query OpenAI times and log the results to a W&B Trace. We will log the inputs and outputs, start and end times, whether the OpenAI call was successful, the token usage, and additional metadata.
+
+You can see the full description of the arguments to the Trace class [here](https://soumik12345.github.io/wandb-addons/prompts/tracer/).
+
+```python
+import openai
+import datetime
+from wandb_addons.prompts import Trace
+
+openai.api_key = "<YOUR_OPENAI_API_KEY>"
+
+# define your conifg
+model_name = "gpt-3.5-turbo"
+temperature = 0.7
+system_message = "You are a helpful assistant that always replies in 3 concise bullet points using markdown."
+
+queries_ls = [
+  "What is the capital of France?",
+  "How do I boil an egg?" * 10000,  # deliberately trigger an openai error
+  "What to do if the aliens arrive?" 
+]
+
+for query in queries_ls:
+    messages=[
+      {"role": "system", "content": system_message},
+      {"role": "user", "content": query}
+    ]
+
+    start_time_ms = datetime.datetime.now().timestamp() * 1000
+    try:
+      response = openai.ChatCompletion.create(model=model_name,
+                                              messages=messages,
+                                              temperature=temperature
+                                              )   
+
+      end_time_ms = round(datetime.datetime.now().timestamp() * 1000)  # logged in milliseconds
+      status="success"
+      status_message=None,
+      response_text = response["choices"][0]["message"]["content"]
+      token_usage = response["usage"].to_dict()
+      
+    
+    except Exception as e:
+      end_time_ms = round(datetime.datetime.now().timestamp() * 1000)  # logged in milliseconds
+      status="error"
+      status_message=str(e)
+      response_text = ""
+      token_usage = {}
+
+    # create a span in wandb
+    root_span = Trace(
+          name=f"root_span",
+          kind="llm",  # kind can be "llm", "chain", "agent" or "tool"
+          status_code=status,
+          status_message=status_message,
+          metadata={"temperature": temperature,
+                    "token_usage": token_usage, 
+                    "model_name": model_name},
+          start_time_ms=start_time_ms,
+          end_time_ms=end_time_ms,
+          inputs={"system_prompt": system_message, "query": query},
+          outputs={"response": response_text},
+          )
+    
+    # log the span to wandb
+    root_span.log(name=f"openai_trace")
+```
+
+### 4. View the trace in Weights & Biases
+
+Click on the W&B [run](../runs/intro.md) link generated in step 2. Here you should be able to view the trace table and trace timeline of your LLM. 
+
+
+### 5. Logging a LLM pipeline using nested spans
+In this example we will simulate an Agent being called, which then calls a LLM Chain, which calls an OpenAI LLM and then the Agent "calls" a Calculator tool.
+
+The inputs, outputs and metadata for each step in the execution of our "Agent" is logged in its own span. Spans can have child
+
+```python
+import time
+
+# The query our agent has to answer
+query = "How many days until the next US election?"
+
+# part 1 - an Agent is started...
+start_time_ms = round(datetime.datetime.now().timestamp() * 1000)
+
+root_span = Trace(
+      name=f"MyAgent",
+      kind="agent",
+      start_time_ms=start_time_ms,
+      metadata={"user": "optimus_12"})
+
+
+# part 2 - The Agent calls into a LLMChain..
+chain_span = Trace(
+      name=f"LLMChain",
+      kind="chain",
+      start_time_ms=start_time_ms)
+
+# add the Chain span as a child of the root
+root_span.add_child(chain_span)
+
+
+# part 3 - the LLMChain calls an OpenAI LLM...
+messages=[
+  {"role": "system", "content": system_message},
+  {"role": "user", "content": query}
+]
+
+response = openai.ChatCompletion.create(model=model_name,
+                                        messages=messages,
+                                        temperature=temperature)   
+
+llm_end_time_ms = round(datetime.datetime.now().timestamp() * 1000)
+response_text = response["choices"][0]["message"]["content"]
+token_usage = response["usage"].to_dict()
+
+llm_span = Trace(
+      name=f"OpenAI",
+      kind="llm",
+      status_code="success",
+      metadata={"temperature":temperature,
+                "token_usage": token_usage, 
+                "model_name":model_name},
+      start_time_ms=start_time_ms,
+      end_time_ms=llm_end_time_ms,
+      inputs={"system_prompt":system_message, "query":query},
+      outputs={"response": response_text},
+      )
+
+# add the LLM span as a child of the Chain span...
+chain_span.add_child(llm_span)
+
+# update the end time of the Chain span
+chain_span.add_inputs_and_outputs(
+      inputs={"query":query},
+      outputs={"response": response_text})
+
+# update the Chain span's end time
+chain_span._span.end_time_ms = llm_end_time_ms
+
+
+# part 4 - the Agent then calls a Tool...
+time.sleep(3)
+days_to_election = 117
+tool_end_time_ms = round(datetime.datetime.now().timestamp() * 1000)
+
+# create a Tool span 
+tool_span = Trace(
+      name=f"Calculator",
+      kind="tool",
+      status_code="success",
+      start_time_ms=llm_end_time_ms,
+      end_time_ms=tool_end_time_ms,
+      inputs={"input": response_text},
+      outputs={"result": days_to_election})
+
+# add the TOOL span as a child of the root
+root_span.add_child(tool_span)
+
+
+# part 5 - the final results from the tool are added 
+root_span.add_inputs_and_outputs(inputs={"query": query},
+                                 outputs={"result": days_to_election})
+root_span._span.end_time_ms = tool_end_time_ms
+
+
+# part 6 - log all spans to W&B by logging the root span
+root_span.log(name=f"openai_trace")
+```
+
+Once you have logged your span, you will be able to see your Trace table update in the W&B App.
+
 
 ## Use W&B Trace with LlamaIndex
 
@@ -225,111 +440,3 @@ index = load_index_from_storage(storage_context, service_context=service_context
 ```
 
 **Note:** For a [`ComposableGraph`](https://gpt-index.readthedocs.io/en/latest/reference/query/query_engines/graph_query_engine.html) the root id for the index can be found in the artifact's metadata tab in the W&B App.
-
-
-## Use Trace with Any LLM Chain or Plug-In
-
-When logging with Trace, a single run can have multiple calls to a LLM, Tool, Chain or Agent logged to it, there is no need to start a new run after each generation from your model, each call will be appended to the Trace Table.
-
-To use Trace with your own chains, plug-ins or pipelines, you first need to create traces using the `Span` and `TraceTree` data types. A _Span_ represents a unit of work.
-
-### 1. Create a Span
-First, create a span object. Import `trace_tree` from the `wandb.sdk.data_types`:
-
-```python
-from wandb.sdk.data_types import trace_tree
-
-# Root Span - Create a span for your high level agent
-root_span = trace_tree.Span(name="Auto-GPT", 
-  span_kind = trace_tree.SpanKind.AGENT)
-```
-
-Spans can be of type `AGENT`, `CHAIN`, `TOOL` or `LLM`
-
-### 2. Add child Spans
-Nest child Spans within the parent span so that they are nested and in the correct order in the Trace Timeline view. 
-
-The following text code demonstrates how to create two child spans and one grandchild span:
-
-```python
-tool_span = trace_tree.Span(
-  name="Tool 1", span_kind = trace_tree.SpanKind.TOOL
-)
-
-chain_span = trace_tree.Span(
-  name="LLM CHAIN 1", span_kind = trace_tree.SpanKind.CHAIN
-)
-
-llm_span = trace_tree.Span(
-  name="LLM 1", span_kind = trace_tree.SpanKind.LLM
-)
-
-chain_span.add_child_span(llm_span)
-root_span.add_child_span(tool_span)
-root_span.add_child_span(chain_span)
-```
-
-### 3. Add the inputs and outputs
-
-Populate spans with the input and output data as well as any metadata: 
-
-```python
-# add the Inputs and Outputs to the span as dictionaries
-tool_span.add_named_result(
-  {"input": "search: google founded in year"}, 
-  {"response": "1998"}
-)
-
-chain_span.add_named_result(
-  {"input": "calculate: 2023 - 1998"}, 
-  {"response": "25"}
-)
-
-llm_span.add_named_result(
-  {"system": "you are a helpful assistant", 
-    "input": "calculate: 2023 - 1998"}, 
-  {"response": "25"}
-)
-
-root_span.add_named_result(
-  {"user": "How old is google?"},
-  {"response": "25 years old"}
-)
-```
-
-### 4. Add metadata, status, start and end time to a Span
-
-Any span can also have metadata, status, status messages, start and end timestamps:
-
-```python
-# add metadata to the span using .attributes
-tokens_used = 284
-llm_span.attributes = {"token_usage": tokens_used}
-
-# often you want to add the same metadata to different spans
-root_span.attributes = {"token_usage": tokens_used}
-
-# add a status code and any message to any span
-root_span.status_code = trace_tree.StatusCode.ERROR  # or SUCCESS
-root_span.status_message = "Error: there was an error"
-
-# add the start and end timestamp for any span, in milliseconds 
-root_span.start_time_ms = 1685649600011
-root_span.end_time_ms = 1685649611000
-```
-
-### 5. Log the spans to W&B Trace 
-
-Log your span to W&B with the run.log() method. W&B will create a Trace Table and Trace Timeline for you to view in the W&B App UI.
-
-
-```python
-import wandb 
-
-trace = trace_tree.WBTraceTree(root_span)
-run = wandb.init(project="wandb_prompts")
-run.log({"trace": trace})
-run.finish()
-```
-### 6. View the trace
-Click on the W&B run link that is generated to see the trace of your LLM on the W&B App UI.
