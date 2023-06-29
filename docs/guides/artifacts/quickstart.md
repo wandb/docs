@@ -12,7 +12,7 @@ displayed_sidebar: default
 </head>
 
 
-The proceeding quick start demonstrates how to create, track, and use a dataset artifact. Ensure you have a W&B account before you begin.
+The proceeding quick start demonstrates how to create, track, and use a dataset artifact from [W&B Runs](../runs/intro.md). Ensure you have a W&B account before you begin.
 
 The following procedure lists how to construct and use an artifact. Steps 1 and 2 are not unique to W&B Artifacts.
 
