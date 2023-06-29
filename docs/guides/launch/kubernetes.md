@@ -13,7 +13,7 @@ This guide demonstrates how to use W&B Launch to run ML workloads on a kubernete
 ## Prerequisites
 Before you get started, ensure you have:
 1. **Kubernetes cluster**
-2. **W&B API Key**: If you created a queue in your personal entity, head to [wandb.ai/authorize](wandb.ai/authorize) to get a personal API key. If you created a queue for a W&B, you will need to create a service account in that team or use an API key from a prior service account. For more information on generating service accounts, see these docs.
+2. **W&B API Key**: If you created a queue in your personal entity, head to [wandb.ai/authorize](https://wandb.ai/authorize) to get a personal API key. If you created a queue for a W&B, you will need to create a service account in that team or use an API key from a prior service account. For more information on generating service accounts, see these docs.
 
 
 ## 1. Create a queue
