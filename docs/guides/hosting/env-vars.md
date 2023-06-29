@@ -10,7 +10,7 @@ In addition to configuring instance level settings via the System Settings admin
 ## Configuration as code
 
 | Environment Variable             | Description                                                                                                                                                                              |
-|----------------------------------| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | LICENSE                          | Your wandb/local license                                                                                                                                                                 |
 | MYSQL                            | The MySQL connection string                                                                                                                                                              |
 | BUCKET                           | The S3 / GCS bucket for storing data                                                                                                                                                     |
@@ -26,7 +26,7 @@ In addition to configuring instance level settings via the System Settings admin
 | LOCAL_RESTORE                    | You can temporarily set this to true if you're unable to access your instance. Check the logs from the container for temporary credentials.                                              |
 | REDIS                            | Can be used to setup an external REDIS instance with W&B.                                                                                                                                |
 | LOGGING_ENABLED                  | When set to true, access logs are streamed to stdout. You can also mount a sidecar container and tail `/var/log/gorilla.log` without setting this variable.                              |
-| GORILLA_ALLOW_USER_TEAM_CREATION | When set to true, allows non-admin users to create a new team.                                                                                                                           |
+| GORILLA_ALLOW_USER_TEAM_CREATION | When set to true, allows non-admin users to create a new team. False by default.                                                                                                         |
 
 
 ## Advanced Reliability Settings
