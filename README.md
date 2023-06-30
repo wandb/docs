@@ -1,3 +1,5 @@
+https://github.com/wandb/docodile/blob/main/.github/workflows/build_docs.yml/badge.svg
+
 # Weights & Biases Documentation
 
 The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is built using [Docusaurus 2](https://docusaurus.io/), a static website generator built with React. The high level overview of the doc writing process is:
