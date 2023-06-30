@@ -1,4 +1,4 @@
-https://github.com/wandb/docodile/blob/main/.github/workflows/build_docs.yml/badge.svg
+[![Build the docs](https://github.com/wandb/docodile/actions/workflows/build_docs.yml/badge.svg)](https://github.com/wandb/docodile/actions/workflows/build_docs.yml)
 
 # Weights & Biases Documentation
 
