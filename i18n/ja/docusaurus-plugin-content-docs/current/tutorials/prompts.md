@@ -1,6 +1,6 @@
 # Iterate on LLMs
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb)
+[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/W&B_Prompts_Quickstart.ipynb)
 
 **Weights & Biases Prompts** is a suite of LLMOps tools built for the development of LLM-powered applications. 
 

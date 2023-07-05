@@ -30,9 +30,21 @@ Before you can launch a job on SageMaker, you need to create a SageMaker queue i
 
 ### Queue configuration
 
-The config for a SageMaker queue is a JSON blob that is passed to [SageMaker API's `CreateTrainingJob` request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). When you create the queue, the config will be automatically populated with the following JSON:
+The config for a SageMaker queue is passed to [SageMaker API's `CreateTrainingJob` request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). You can define the queue with JSON or YAML. When you create the queue, a config is automatically populated with the following fields:
 
-```yaml
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="JSON"
+  values={[
+    {label: 'JSON', value: 'JSON'},
+    {label: 'YAML', value: 'YAML'},
+  ]}>
+  <TabItem value="JSON">
+
+```json
 {
     "RoleArn": "<REQUIRED>",
     "ResourceConfig": {
@@ -48,6 +60,29 @@ The config for a SageMaker queue is a JSON blob that is passed to [SageMaker API
     }
 }
 ```
+
+  </TabItem>
+  <TabItem value="YAML">
+
+```yaml
+RoleArn: <REQUIRED>
+ResourceConfig:
+  InstanceType: ml.m4.xlarge
+  InstanceCount: 1
+  VolumeSizeInGB: 2
+OutputDataConfig:
+  S3OutputPath: <REQUIRED>
+StoppingCondition:
+  MaxRuntimeInSeconds: 3600
+```
+
+  </TabItem>
+</Tabs>
+
+
+
+
+
 
 You can optionally add additional arguments. However, you must specify:
 
