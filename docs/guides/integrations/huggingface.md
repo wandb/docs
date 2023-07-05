@@ -387,6 +387,34 @@ wandb.init(project="amazon_sentiment_analysis",
 
 Logging to Weights & Biases via the [Transformers `Trainer` ](https://huggingface.co/transformers/main\_classes/trainer.html)is taken care of by the `WandbCallback` ([reference documentation](https://huggingface.co/transformers/main\_classes/callback.html#transformers.integrations.WandbCallback)) in the Transformers library. If you need to customize your Hugging Face logging you can modify this callback.
 
+## Automatic logging of Hugging Face Pipelines
+
+[Log inputs and outputs from your trained and fine-tuned models via HuggingFace Pipelines to Weights & Biases with just 1 line of code](./other/hf-pipeline.md)
+
+![](/images/integrations/qna_autologged_table_hf_pipelines.png)
+
+### 1. Import autolog and initialise it
+
+```python
+from transformers import pipeline
+from wandb.integration.huggingface import autolog
+
+autolog({"project":"fine-tuned-OS_GPT"})
+```
+
+### 2. Call a Supported HuggingFace Pipeline
+
+Each call you make to a supported HuggingFace Pipeline will now be logged to Weights & Biases automatically.
+
+```python
+task = "text-classification" #any task from SUPPORTED_PIPELINE_TASKS
+task_pipeline = pipeline(task)
+query = "This tracker is amazing!"
+
+response = task_pipeline(query, **kwargs)
+# [{'label': 'POSITIVE', 'score': 0.98}, {'label': 'NEGATIVE', 'score': 0.02}]
+```
+
 ## Issues, questions, feature requests
 
 For any issues, questions, or feature requests for the Hugging Face W&B integration, feel free to post in [this thread on the Hugging Face forums](https://discuss.huggingface.co/t/logging-experiment-tracking-with-w-b/498) or open an issue on the Hugging Face [Transformers GitHub repo](https://github.com/huggingface/transformers).
