@@ -10,7 +10,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Artifacts
 
-<CTAButtons productLink="https://github.com/wandb/docodile" colablink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W&B.ipynb"/>
+<CTAButtons productLink="https://github.com/wandb/docodile" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W&B.ipynb"/>
 
 Use W&B Artifacts to track and version any serialized data as the inputs and outputs of your [W&B Runs](../runs/intro.md). For example, a model training run might take in a dataset as input and trained model as output. In addition to logging hyper-parameters and metadata to a run, you can use an artifact to log the dataset used to train the model as input and the resulting model checkpoints as outputs. You will always be able answer the question “what version of my dataset was this model trained on”.
 
