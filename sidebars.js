@@ -340,6 +340,7 @@ const sidebars = {
           ],
         },
         'guides/integrations/huggingface',
+        'guides/integrations/other/hf-pipeline',
         'guides/integrations/other/accelerate',
         'guides/integrations/other/hydra',
         'guides/integrations/keras',
