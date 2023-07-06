@@ -141,7 +141,7 @@ wandb.log_artifact(code_artifact)
 
 ### W&BでこれらのバージョンIDとETagsをどのように取得できますか？
 
-W&Bでアーティファクト参照をログし、バケットでバージョン管理が有効になっている場合、バージョンIDはS3 UIで表示できます。W&BでこれらのバージョンIDとETagsを取得するには、[公開API](../../ref/python/public-api/artifact.md) を使って対応するマニフェストエントリを取得できます。例えば以下のようになります。
+W&Bでアーティファクト参照をログし、バケットでバージョン管理が有効になっている場合、バージョンIDはS3 UIで表示できます。W&BでこれらのバージョンIDとETagsを取得するには、公開API を使って対応するマニフェストエントリを取得できます。例えば以下のようになります。
 
 ```python
 artifact = run.use_artifact('my_table:latest')

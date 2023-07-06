@@ -3,7 +3,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/__init__.py)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/__init__.py)
 
 
 
@@ -23,8 +23,6 @@ For more on using the Public API, check out [our guide](https://docs.wandb.com/g
 ## Classes
 
 [`class Api`](./api.md): Used for querying the wandb server.
-
-[`class Artifact`](./artifact.md): A wandb Artifact.
 
 [`class File`](./file.md): File is a class associated with a file saved by wandb.
 

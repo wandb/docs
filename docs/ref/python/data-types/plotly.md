@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/plotly.py#L32-L81)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/plotly.py#L33-L82)
 
 
 
@@ -30,7 +30,7 @@ Plotly(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/plotly.py#L41-L49)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/plotly.py#L42-L50)
 
 ```python
 @classmethod
