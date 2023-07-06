@@ -12,18 +12,9 @@ displayed_sidebar: default
 </head>
 
 
-The proceeding quick start demonstrates how to create, track, and use a dataset artifact from [W&B Runs](../runs/intro.md). Ensure you have a W&B account before you begin.
+The proceeding walkthrough demonstrates the major W&B Python SDK commands used to create, track, and use a dataset artifact from [W&B Runs](../runs/intro.md).
 
-The following procedure lists how to construct and use an artifact. Steps 1 and 2 are not unique to W&B Artifacts.
-
-1. [Log into W&B.](#log-into-weights--biasess)
-2. [Initialize a Run.](#initialize-a-run)
-3. [Create an artifact object.](#create-an-artifact-object)
-4. [Add the dataset to the artifact.](#add-the-dataset-to-the-artifact)
-5. [Log the dataset.](#log-the-dataset)
-6. [Download and use the artifact.](#download-and-use-the-artifact)
-
-### Log into W&B
+## 1. Log into W&B
 
 Import the W&B library and log in to W&B. You will need to sign up for a free W&B account if you have not done so already.
 
@@ -33,7 +24,7 @@ import wandb
 wandb.login()
 ```
 
-### Initialize a run
+## 2. Initialize a run
 
 Use the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a W&B Run. Provide a project name and a job type:
 
@@ -46,7 +37,7 @@ run = wandb.init(
     )
 ```
 
-### Create an artifact object
+## 3. Create an artifact object
 
 Create an artifact object with the [`wandb.Artifact()`](../../ref/python/artifact.md) API. Provide a name for the artifact and a description of the file type for the `name` and `type` parameters, respectively.
 
@@ -61,7 +52,7 @@ artifact = wandb.Artifact(
 
 For more information about how to construct an artifact, see [Construct artifacts](./construct-an-artifact.md).
 
-### Add the dataset to the artifact
+## Add the dataset to the artifact
 
 Add a file to the artifact. Common file types include models and datasets. The following example adds a dataset named `dataset.h5` that is saved locally on our machine to the artifact:
 
@@ -72,7 +63,7 @@ artifact.add_file(local_path='dataset.h5')
 
 Replace the filename `dataset.h5` in the preceding code snippet with the path to the file you want to add to the artifact.
 
-### Log the dataset
+## 4. Log the dataset
 
 Use the W&B run objects `log_artifact()` method to both save your artifact version and declare the artifact as an output of the run.
 
@@ -84,7 +75,7 @@ run.log_artifact(artifact)
 
 A `'latest'` alias is created by default when you log an artifact. For more information about artifact aliases and versions, see [Create a custom alias](./create-a-custom-alias.md) and [Create new artifact versions](./create-a-new-artifact-version.md), respectively.
 
-### Download and use the artifact
+## 5. Download and use the artifact
 
 The following code example demonstrates the steps you can take to use an artifact you have logged and saved to the W&B servers.
 

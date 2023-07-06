@@ -21,7 +21,8 @@ In summary, with W&B Artifacts, you can:
 
 ![](/images/artifacts/artifacts_landing_page2.png)
 
-The image above...[insert]
+
+The diagram above demonstrates how you can use artifacts throughout your entire ML workflow; as inputs and outputs of [runs](../runs/intro.md). 
 
 ## Create an artifact
 
@@ -40,15 +41,16 @@ run.log_artifact(artifact) # Logs the artifact version "my_data:v0"
 ```
 
 :::tip
-The preceding code snippet, and the [colab linked on this page](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W&B.ipynb), show how to track files from [W&B Runs](../runs/intro.md). See the [track external files](./track-external-files.md) page for information on how to track files outside of the W&B ecosystem (for example, in an Amazon S3 bucket). 
+The preceding code snippet, and the [colab linked on this page](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W&B.ipynb), show how to track files by uploading them to W&B. See the [track external files](./track-external-files.md) page for information on how to add references to files or directories that are stored in external object storage (for example, in an Amazon S3 bucket). 
 :::
 
 ## How to get started
 
 Depending on your use case, explore the following resources to get started with W&B Artifacts:
 
-* If this is your first time using W&B Artifacts, we recommend you read the quickstart linked on this page: [W&B Artifacts Quickstart Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W&B.ipynb#scrollTo=fti9TCdjOfHT).
-* Explore topics about Artifacts in this chapter, such as how to:
+* If this is your first time using W&B Artifacts, we recommend you go through the [Artifacts Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W&B.ipynb#scrollTo=fti9TCdjOfHT).
+* Read the [artifacts walkthrough](./artifacts-walkthrough.md) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
+* Explore this chapter to learn how to:
   * [Construct an artifact](./construct-an-artifact.md) or a [new artifact version](./create-a-new-artifact-version.md)
   * [Update an artifact](./update-an-artifact.md)
   * [Download and use an artifact](./download-and-use-an-artifact.md).
