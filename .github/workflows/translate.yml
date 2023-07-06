@@ -1,0 +1,35 @@
+name: Translate MD files
+
+on: [workflow_dispatch]
+
+defaults:
+  run: { shell: bash }
+
+jobs:
+  export_notebooks:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+    - name: Run script
+      env:
+        CONTEXT_GITHUB: ${{ toJson(github) }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        pip install git+https://github.com/tcapelle/gpt_translate.git
+        # get changed files
+        git diff --name-only ${{ github.event.before }} ${{ github.event.after }} > changed_files.txt
+        # get changed md files
+        grep -E "\.md$" changed_files.txt > changed_md_files.txt
+        # run translation
+        python3 .github/scripts/translate.py
+        
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5.0.1
+      with:
+        add-paths: |
+          i18n/**/*.md
