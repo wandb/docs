@@ -4,7 +4,7 @@ from gpt_translate.translate import _translate_file
 
 DOCS_FOLDER = Path("docs")
 CHANGED_FILES = Path("changed_files.txt")
-OUT_DIR = Path("docs_ja")
+OUT_DIR = Path("i18n/ja/docusaurus-plugin-content-docs/current")
 LANGUAGE = "ja"
 MODEL = "gpt-4"
 VERBOSE = True
