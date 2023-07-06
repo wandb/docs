@@ -5,6 +5,7 @@ from gpt_translate.translate import _translate_file
 DOCS_FOLDER = Path("docs")
 CHANGED_FILES = Path("changed_files.txt")
 OUT_DIR = Path("i18n/ja/docusaurus-plugin-content-docs/current")
+MAX_CHUNK_TOKENS = 2000
 LANGUAGE = "ja"
 MODEL = "gpt-4"
 VERBOSE = True
@@ -19,6 +20,7 @@ def translate(file=CHANGED_FILES, out_dir=OUT_DIR):
         out_file = OUT_DIR / file.relative_to(DOCS_FOLDER)
         _translate_file(input_file=file, 
                         out_file=out_file,
+                        max_chunk_tokens=MAX_CHUNK_TOKENS,
                         language=LANGUAGE,
                         model=MODEL,
                         verbose=VERBOSE)
