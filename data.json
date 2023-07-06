@@ -297,6 +297,10 @@
       "to": "/guides/artifacts"
     },
     {
+      "from": "/guides/artifacts/quickstart",
+      "to": "/guides/artifacts/artifacts-walkthrough"
+    },
+    {
       "from": "/guides/artifacts/api",
       "to": "/ref/python/public-api/artifact"
     },

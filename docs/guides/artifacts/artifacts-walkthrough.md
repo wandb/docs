@@ -5,10 +5,10 @@ description: >-
 displayed_sidebar: default
 ---
 
-# Quickstart
+# Walkthrough
 
 <head>
-  <title>Artifacts Quickstart</title>
+  <title>Walkthrough</title>
 </head>
 
 

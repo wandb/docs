@@ -84,7 +84,7 @@ const sidebars = {
       link: { type: 'doc', id: 'guides/artifacts/intro' },
       items: [
         // 'guides/artifacts/intro',
-        'guides/artifacts/quickstart',
+        'guides/artifacts/artifacts-walkthrough',
         'guides/artifacts/construct-an-artifact',
         'guides/artifacts/download-and-use-an-artifact',
         'guides/artifacts/update-an-artifact',
@@ -458,7 +458,7 @@ const sidebars = {
       label: 'アーティファクト',
       link: {type: 'doc', id: 'guides/artifacts/intro'},
       items: [
-        'guides/artifacts/quickstart',
+        'guides/artifacts/artifacts-walkthrough',
         'guides/artifacts/construct-an-artifact',
         'guides/artifacts/download-and-use-an-artifact',
         'guides/artifacts/update-an-artifact',
