@@ -24,7 +24,7 @@ In summary, with W&B Artifacts, you can:
 
 The diagram above demonstrates how you can use artifacts throughout your entire ML workflow; as inputs and outputs of [runs](../runs/intro.md). 
 
-## Create an artifact
+## How it works
 
 Create an artifact with four lines of code:
 1. Create a [W&B run](../runs/intro.md).
