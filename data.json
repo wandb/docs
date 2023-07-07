@@ -298,7 +298,7 @@
     },
     {
       "from": "/guides/artifacts/api",
-      "to": "/ref/python/public-api/artifact"
+      "to": "ref/python/public-api/api#artifact"
     },
     {
       "from": "/guides/artifacts/artifacts-core-concepts",
@@ -1664,7 +1664,6 @@
     "/ref/java/wandbrun.md",
     "/ref/python/data-types/histogram",
     "/ref/python/init%20for%20more%20init%20arguments.",
-  
     "/ref/python/sweep",
     "/ref/weave/artifact.md",
     "/ref/weave/int",
