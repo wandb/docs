@@ -15,7 +15,7 @@ Use W&B Launch to send your runs to AWS SageMaker. There are two ways to use Lau
 If you bring your own image (1), it must already be SageMaker compatible. If you let W&B build and push the image for you (2), W&B will make your image SageMaker compatible.
 :::
 
-The following table highlights the key differences between the two workflows:
+The following table highlights the key differences between the two workflows listed above:
 
 |       | BYOI  | W&B   |
 | ----- | ----- | ----- |
