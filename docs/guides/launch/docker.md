@@ -8,9 +8,7 @@ displayed_sidebar: default
 Learn how to use W&B Launch on Docker.
 
 :::info
-For this example, we show you how to use Docker with Launch using this job: https://github.com/wandb/launch-jobs/tree/main/jobs/fashion_mnist_train. Clone the repo to follow along.
-
-The `fashion_minst_train` directory contains all the files you need to create an image based job and to use Launch.
+For this guide, we refer to this repo and directory: https://github.com/wandb/launch-jobs/tree/main/jobs/fashion_mnist_train. The `fashion_minst_train` directory contains all the files you need to create an image based job such as the training script and Dockerfile. Optionally clone the repo if you want to follow along.
 :::
 ## Requirements
 Ensure Docker CLI is installed wherever you run your [agent](run-agent.md). Additionally, make sure the Docker daemon is running on your machine before you proceed. 
@@ -29,16 +27,18 @@ Use the `docker build` command to build your Docker image with the Docker CLI.  
 docker build -t fashion_mnist_train .
 ```
 
-For more information, see the [Docker build](https://docs.docker.com/engine/reference/commandline/build/) documentation.
+For more information on how to build a Docker image, see the official [Docker build](https://docs.docker.com/engine/reference/commandline/build/) documentation.
 ## 2. Create an image-based job
-Use `wandb launch` to create an image-based job. Following the example above, we specify the `fashion_mnist_train` image:
+Next, create an image-based launch job. To do this, [run your Docker container](https://docs.docker.com/engine/reference/commandline/run/). Pass in your W&B API key and you Docker image as environment variables `WANDB_API_KEY` and `WANDB_DOCKER`, respectively.
 
+Continuing the example above, we specify the `fashion_mnist_train` Docker image:
 
 ```bash
-wandb launch -d fashion_mnist_train
+docker run -e WANDB_API_KEY="<your-wandb-api-key>" \ 
+   -e WANDB_DOCKER="fashion_mnist_train"  fashion_mnist_train:latest
 ```
 
-Copy and past the hyperlink returned from job to view the run.  Or navigate to your project's workspace.
+This will create an image-based W&B Launch Job. 
 
 ## 3. Create a queue
 Follow the queue creation steps on [this page](../launch/create-queue.md) and select Docker as the resource type.
@@ -110,6 +110,6 @@ wandb launch-agent -e <entity> -q <queue-name>
 ```
 See the [Start an agent](./run-agent.md) for more information on agents work and optional configuration.
 
-## Launch agent setup
-The agent's default behavior is to perform any necessary container builds by running `docker build` on its local host. The agent will execute runs from a Docker queue by running `docker run` on its local host. The uses the Docker CLI for these actions, so any Docker CLI configuration that you have set up on your machine will be used by the agent.
-
+:::note
+The agent's default behavior is to perform any necessary container builds by running `docker build` on its local host. The agent will execute runs from a Docker queue by running `docker run` on its local host. The agent uses the Docker CLI for these actions, so any Docker CLI configuration that you have set up on your machine will be used by the agent.
+:::
