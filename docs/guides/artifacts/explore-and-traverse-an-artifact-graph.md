@@ -57,7 +57,7 @@ api = wandb.Api()
 artifact = api.artifact('project/artifact:alias')
 ```
 
-Use the artifact objects [`logged_by`](../../ref/python/public-api/artifact.md#loggedby) and [`used_by`](../../ref/python/public-api/artifact.md#used_by) methods to walk the graph from the artifact:
+Use the artifact object's [`logged_by`](../../ref/python/artifact.md#logged_by) and [`used_by`](../../ref/python/artifact.md#used_by) methods to walk the graph from the artifact:
 
 ```python
 # Walk up and down the graph from an artifact:

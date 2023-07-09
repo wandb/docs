@@ -7,11 +7,22 @@ import TabItem from '@theme/TabItem';
 
 # Create a job
 
-A job is a complete blueprint of how to perform a step in your ML workflow, like training a model, running an evaluation, or deploying a model to an inference server. For more information, see the [details of launched jobs section](launch-jobs.md#view-details-of-launched-jobs).
+A job is a complete blueprint of how to perform a step in your ML workflow, like training a model, running an evaluation, or deploying a model to an inference server. Each job contains contextual information about the run it is being created from, including the source code, entrypoint, software dependencies, hyperparameters, dataset version, and so on.
+
 
 :::info
 `wandb>=0.13.8` is required in order to create jobs.
 :::
+
+Once you have one or more jobs created, you can add them to a [launch queue](./create-queue.md). W&B will then execute your jobs based on your queue configuration. See the [Launch a job](./launch-jobs.md) section for information on how to add jobs to your queue.
+
+
+:::tip
+Similar to [launch queues](./create-queue.md), a launch job belongs to a W&B entity. Both the launch queue and the jobs you want to enqueue must belong to the same W&B entity.
+:::
+
+
+
 
 ## How do I create a job?
 
@@ -84,7 +95,7 @@ By default, W&B automatically creates a job name for you. The name is generated 
 :::note
 For docker image jobs, the image tag is automatically added as an alias to the job.
 :::
-## Making your code job-friendly
+## Make your code job-friendly
 
 Jobs are parameterized by the values in your `wandb.config`. When your job is executed and `wandb.init` is called, your `wandb.config` will be populated with the values specified for this run. This means it's important that you use the `wandb.config` to store and access all of the parameters that you want to be able to vary between runs.
 

@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L405-L3638)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L401-L3622)
 
 
 
@@ -80,7 +80,7 @@ two objects will be merged.
 | `config` | Config object associated with this run. |
 | `dir` | The directory where files associated with the run are saved. |
 | `entity` | The name of the W&B entity associated with the run. Entity can be a user name or the name of a team or organization. |
-| `group` | Name of the group associated with the run. Setting a group helps the W&B UI organize runs in a sensible way. If you are doing a distributed training you should give all of the runs in the training the same group. If you are doing crossvalidation you should give all the crossvalidation folds the same group. |
+| `group` | Name of the group associated with the run. Setting a group helps the W&B UI organize runs in a sensible way. If you are doing a distributed training you should give all of the runs in the training the same group. If you are doing cross-validation you should give all the cross-validation folds the same group. |
 | `id` | Identifier for this run. |
 | `mode` | For compatibility with `0.9.x` and earlier, deprecate eventually. |
 | `name` | Display name of the run. Display names are not guaranteed to be unique and may be descriptive. By default, they are randomly generated. |
@@ -104,7 +104,7 @@ two objects will be merged.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L3007-L3040)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L3003-L3036)
 
 ```python
 alert(
@@ -131,7 +131,7 @@ Launch an alert with the given title and text.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2426-L2460)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L2423-L2457)
 
 ```python
 define_metric(
@@ -170,7 +170,7 @@ Define metric properties which will later be logged with `wandb.log()`.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2586-L2587)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L2583-L2584)
 
 ```python
 detach() -> None
@@ -183,7 +183,7 @@ detach() -> None
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1252-L1260)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1248-L1256)
 
 ```python
 display(
@@ -199,7 +199,7 @@ Display this run in jupyter.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1869-L1883)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1864-L1878)
 
 ```python
 finish(
@@ -224,16 +224,16 @@ call this method when your script exits or if you use the run context manager.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2832-L2884)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L2829-L2881)
 
 ```python
 finish_artifact(
- artifact_or_path: Union[wandb_artifacts.Artifact, str],
+ artifact_or_path: Union[Artifact, str],
  name: Optional[str] = None,
  type: Optional[str] = None,
  aliases: Optional[List[str]] = None,
  distributed_id: Optional[str] = None
-) -> wandb_artifacts.Artifact
+) -> Artifact
 ```
 
 Finishes a non-finalized artifact as output of a run.
@@ -260,7 +260,7 @@ Subsequent "upserts" with the same distributed ID will result in a new version.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1132-L1140)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1128-L1136)
 
 ```python
 get_project_url() -> Optional[str]
@@ -274,7 +274,7 @@ Offline runs will not have a project url.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1142-L1147)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1138-L1143)
 
 ```python
 get_sweep_url() -> Optional[str]
@@ -287,7 +287,7 @@ Return the url for the sweep associated with the run, if there is one.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1122-L1130)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1118-L1126)
 
 ```python
 get_url() -> Optional[str]
@@ -301,7 +301,7 @@ Offline runs will not have a url.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1917-L1927)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1912-L1922)
 
 ```python
 join(
@@ -316,11 +316,11 @@ Deprecated alias for `finish()` - use finish instead.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2589-L2631)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L2586-L2628)
 
 ```python
 link_artifact(
- artifact: Union[public.Artifact, Artifact],
+ artifact: Artifact,
  target_path: str,
  aliases: Optional[List[str]] = None
 ) -> None
@@ -348,7 +348,7 @@ The linked artifact will be visible in the UI for the specified portfolio.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1555-L1750)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1550-L1745)
 
 ```python
 log(
@@ -542,15 +542,15 @@ wandb.log(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2741-L2776)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L2738-L2773)
 
 ```python
 log_artifact(
- artifact_or_path: Union[wandb_artifacts.Artifact, StrPath],
+ artifact_or_path: Union[Artifact, StrPath],
  name: Optional[str] = None,
  type: Optional[str] = None,
  aliases: Optional[List[str]] = None
-) -> wandb_artifacts.Artifact
+) -> Artifact
 ```
 
 Declare an artifact as an output of a run.
@@ -575,7 +575,7 @@ Declare an artifact as an output of a run.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1057-L1120)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1044-L1116)
 
 ```python
 log_code(
@@ -625,7 +625,7 @@ run.log_code(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L3055-L3063)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L3051-L3059)
 
 ```python
 mark_preempting() -> None
@@ -639,7 +639,7 @@ Also tells the internal process to immediately report this to server.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1954-L1972)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1949-L1967)
 
 ```python
 @staticmethod
@@ -667,7 +667,7 @@ Create a custom plot on a table.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1000-L1002)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L990-L991)
 
 ```python
 project_name() -> str
@@ -680,7 +680,7 @@ project_name() -> str
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1854-L1867)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1849-L1862)
 
 ```python
 restore(
@@ -722,7 +722,7 @@ By default, will only download the file if it doesn't already exist.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1752-L1782)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1747-L1777)
 
 ```python
 save(
@@ -747,7 +747,7 @@ Ensure all files matching `glob_str` are synced to wandb with the policy specifi
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1929-L1952)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1924-L1947)
 
 ```python
 status() -> RunStatus
@@ -760,7 +760,7 @@ Get sync info from the internal backend, about the current run's sync status.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1262-L1271)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L1258-L1267)
 
 ```python
 to_html(
@@ -776,7 +776,7 @@ Generate HTML containing an iframe displaying the current run.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2547-L2549)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L2544-L2546)
 
 ```python
 unwatch(
@@ -791,16 +791,16 @@ unwatch(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2778-L2830)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L2775-L2827)
 
 ```python
 upsert_artifact(
- artifact_or_path: Union[wandb_artifacts.Artifact, str],
+ artifact_or_path: Union[Artifact, str],
  name: Optional[str] = None,
  type: Optional[str] = None,
  aliases: Optional[List[str]] = None,
  distributed_id: Optional[str] = None
-) -> wandb_artifacts.Artifact
+) -> Artifact
 ```
 
 Declare (or append to) a non-finalized artifact as output of a run.
@@ -828,15 +828,15 @@ This is useful when distributed jobs need to all contribute to the same artifact
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2633-L2739)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L2630-L2736)
 
 ```python
 use_artifact(
- artifact_or_name: Union[str, public.Artifact, Artifact],
+ artifact_or_name: Union[str, Artifact],
  type: Optional[str] = None,
  aliases: Optional[List[str]] = None,
  use_as: Optional[str] = None
-) -> Union[public.Artifact, Artifact]
+) -> Artifact
 ```
 
 Declare an artifact as an input to a run.
@@ -862,7 +862,7 @@ Call `download` or `file` on the returned object to get the contents locally.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L2534-L2544)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L2531-L2541)
 
 ```python
 watch(
@@ -878,7 +878,7 @@ watch(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L3042-L3043)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L3038-L3039)
 
 ```python
 __enter__() -> "Run"
@@ -891,7 +891,7 @@ __enter__() -> "Run"
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L3045-L3053)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_run.py#L3041-L3049)
 
 ```python
 __exit__(

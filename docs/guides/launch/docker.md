@@ -41,13 +41,20 @@ docker run -e WANDB_API_KEY="<your-wandb-api-key>" \
 This will create an image-based W&B Launch Job. 
 
 ## 3. Create a queue
-Follow the queue creation steps on [this page](../launch/create-queue.md) and select Docker as the resource type.
+Create a queue in the W&B App that uses Docker as its compute resource:
 
-![](/images/launch/create-queue.gif)
+1. Navigate to the [Launch application](https://wandb.ai/launch).
+3. Click on the **Create Queue** button.
+4. Select the **Entity** you would like to create the queue in.
+5. Enter a name for your queue in the **Name** field.
+6. Select **Docker** as the **Resource**. 
+7. Define your Docker queue configuration in the **Configuration** field. Pass in any arguments available for the [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command. 
 
+:::tip
+Leave the **Configuration** field blank (see .gif below) if you do not need to pass optional [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) parameters.
+:::
 
-### Optional queue configurations for Docker
-Accepted configuration values include all arguments available for the `docker run` command. For more information, see the [reference](https://docs.docker.com/engine/reference/commandline/run). To handle options that can be specified more than once, place the values in a list:
+To handle options that can be specified more than once, place the values in a list within the **Configuration** field:
 
 ```json
 {
@@ -61,8 +68,8 @@ Accepted configuration values include all arguments available for the `docker ru
 }
 ```
 
-:::tip
-Add the following resource configuration in order to use GPUs in jobs submitted to this queue:
+:::note
+Add the following resource configuration to use GPUs:
 
 ```json
 {
@@ -75,9 +82,8 @@ The `gpus` key of the resource configuration is used to pass values to the `--gp
 Reminder: you will also need to install the [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) on the machine where your agent is running in order to leverage GPU through Docker.
 :::
 
-
 <!-- TODO: put this in a technical FAQ or in the queue docs -->
-For jobs that use tensorflow on GPU, you may also need to specify a custom base image for the container build that the agent will perform in order for your runs to properly utilize GPUs. This can be done by adding an image tag under the `builder.cuda.base_image` key to the resource configuration. For example:
+For jobs that use tensorflow on GPU, you might also need to specify a custom base image for the container build that the agent will perform in order for your runs to properly utilize GPUs. This can be done by adding an image tag under the `builder.cuda.base_image` key to the resource configuration. For example:
 
 ```json
 {
@@ -91,24 +97,38 @@ For jobs that use tensorflow on GPU, you may also need to specify a custom base 
 ```
 
 
-## 4. Add image-based job to your queue
-1. Select the **Jobs** icon on the left panel. 
-2. On the right panel, select the name of the queue you created in the previous step. 
-3. Select **Launch now**.
+
+8. After you configure your queue, click on the **Create Queue** button.
+
+![](/images/launch/create-queue.gif)
+
+
+## 4. Add image-based job to the queue
+1. Navigate to your W&B project where the job is defined.
+2. Select the **Jobs** icon on the left panel (thunderbolt image).
+3. This will redirect you to the Jobs page within your project workspace.
+4. Hover your mouse on the right side of the job name. 
+5. Select **Launch**.  A drawer will appear from the right side of your screen. Select the
+   * The name of the queue you want to add the job to from the **Queue** dropdown menu.
+   * From the **Destination project** dropdown menu, select the W&B project to send the run to.
+6. Select **Launch now**.
+
 
 
 ## 5. Start your agent
-1. Go to the Launch App. 
-2. Select the entity from the dropdown that contains your queue.
-3. Select your queue from the list. 
-4. Select **View queue**.
-5. If you do not have an active agent, select **Add an agent**. 
-6. Copy and paste the command to the machine that created the Docker image. It will look similar to:
+1. Go to the Launch App at [https://wandb.ai/launch](https://wandb.ai/launch). 
+2. Select the entity from the **Entity** dropdown that contains your queue.
+3. Find your queue and click on **View queue**.
+4. If you do not have an active agent, select **Add an agent**. 
+5. A modal will appear. Copy and paste the command to the machine that had the Docker container running. It will look similar to:
 
 ```bash
 wandb launch-agent -e <entity> -q <queue-name>
 ```
-See the [Start an agent](./run-agent.md) for more information on agents work and optional configuration.
+
+Replace the values in `<>` with your W&B entity and the name of your queue.
+
+See the [Start an agent](./run-agent.md) for more information on how agents work and for information on optional configuration.
 
 :::note
 The agent's default behavior is to perform any necessary container builds by running `docker build` on its local host. The agent will execute runs from a Docker queue by running `docker run` on its local host. The agent uses the Docker CLI for these actions, so any Docker CLI configuration that you have set up on your machine will be used by the agent.

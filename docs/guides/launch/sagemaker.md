@@ -45,18 +45,24 @@ Create the following AWS resources:
 Make note of your IAM RoleARN, your Amazon S3 URI, and your ECR repository name.
 
 ## 1. Create a queue
-Create a queue in the W&B App that uses SageMaker as its compute resource. When you create a queue, a config is automatically populated with a template of key-value pairs (see below).
-
-Follow these steps to create a queue: 
+Create a queue in the W&B App that uses SageMaker as its compute resource:
 
 1. Navigate to the [Launch application](https://wandb.ai/launch).
 3. Click on the **Create Queue** button.
 4. Select the **entity** you would like to create the queue in.
 5. Enter a name for your queue in the **Name** field.
 6. Select **SageMaker** as the **Resource**.
-7. Within the **Configuration** section, enter the configuration of your queue. A default YAML configuration is populated for you. It will look similar to the following code snippet:
+7. Within the **Configuration** field, provide information about your SageMaker job. By default, W&B will populate a YAML and JSON CreateTrainingJob request body:
 
-```yaml
+<Tabs
+  defaultValue="JSON"
+  values={[
+    {label: 'JSON', value: 'JSON'},
+    {label: 'YAML', value: 'YAML'},
+  ]}>
+  <TabItem value="JSON">
+
+```json
 {
     "RoleArn": "<REQUIRED>",
     "ResourceConfig": {
@@ -73,20 +79,44 @@ Follow these steps to create a queue:
 }
 ```
 
-Replace the values based on your use case. You must provide:
+  </TabItem>
+  <TabItem value="YAML">
+
+```yaml
+RoleArn: <REQUIRED>
+ResourceConfig:
+  InstanceType: ml.m4.xlarge
+  InstanceCount: 1
+  VolumeSizeInGB: 2
+OutputDataConfig:
+  S3OutputPath: <REQUIRED>
+StoppingCondition:
+  MaxRuntimeInSeconds: 3600
+```
+
+  </TabItem>
+</Tabs>
+
+Specify your:
 
 - `RoleArn` : ARN of the role the IAM role that will be assumed by the job.
 - `OutputDataConfig.S3OutputPath` : An S3 URI specifying where SageMaker outputs will be stored.
 
+:::tip
+The launch queue configuration for a SageMaker compute resource is passed to the [`CreateTrainingJob` SageMaker API request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). This means that you can optionally add additional arguments to your launch queue configuration that correspond to SageMaker CreateTrainingJob request parameters.
+:::
 
-You can optionally add additional arguments.  See the [`CreateTrainingJob`](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html) API in the Amazon SageMaker reference guide for more information.
 
-8. Lastly, click the **Create Queue** button.
+7. After you configure your queue, click on the **Create Queue** button.
+
+
+<!-- ### Configure a SageMaker queue -->
+
 
 
 ## 2. Configure the launch agent
 
-Configure a launch agent to execute jobs from your queues with SageMaker. The following steps outline how to configure your launch agent to use SageMaker with Launch. For more information on how launch agents work, see the Start an agent[LINK] page.
+Configure a launch agent to execute jobs from your queues with SageMaker. The following steps outline how to configure your launch agent to use SageMaker with Launch. 
 
 1. **Set the AWS credentials** you want the agent to use either by: 
     * Set [AWS SDK for Python environment variables](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#environment-variables) 
