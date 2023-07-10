@@ -13,7 +13,7 @@ We refer to this example: https://github.com/wandb/launch-jobs/tree/main/jobs/fa
 ## Requirements
 
 Before you get started, make sure you satisfy the following:
-1. Make sure the Docker daemon is running on the machine that will run your Docker container and W&B Launch agent.
+1. Ensure the Docker daemon is running on the machine that will run your Docker container and W&B Launch agent.
 2. Ensure Docker CLI is installed wherever you run your [agent](run-agent.md). 
 3. Obtain your [W&B API key](https://wandb.ai/authorize).
 

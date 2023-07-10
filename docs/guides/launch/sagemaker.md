@@ -44,13 +44,13 @@ Create the following AWS resources:
 
 Make note of your IAM RoleARN, your Amazon S3 URI, and your ECR repository name.
 
-## 1. Create a queue
+## Create a queue
 Create a queue in the W&B App that uses SageMaker as its compute resource:
 
 1. Navigate to the [Launch application](https://wandb.ai/launch).
 3. Click on the **Create Queue** button.
-4. Select the **entity** you would like to create the queue in.
-5. Enter a name for your queue in the **Name** field.
+4. Select the **Entity** you would like to create the queue in.
+5. Provide a name for your queue in the **Name** field.
 6. Select **SageMaker** as the **Resource**.
 7. Within the **Configuration** field, provide information about your SageMaker job. By default, W&B will populate a YAML and JSON CreateTrainingJob request body:
 
@@ -100,7 +100,7 @@ StoppingCondition:
 Specify your:
 
 - `RoleArn` : ARN of the role the IAM role that will be assumed by the job.
-- `OutputDataConfig.S3OutputPath` : An S3 URI specifying where SageMaker outputs will be stored.
+- `OutputDataConfig.S3OutputPath` : An Amazon S3 URI specifying where SageMaker outputs will be stored.
 
 :::tip
 The launch queue configuration for a SageMaker compute resource is passed to the [`CreateTrainingJob` SageMaker API request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). This means that you can optionally add additional arguments to your launch queue configuration that correspond to SageMaker CreateTrainingJob request parameters.
@@ -114,7 +114,7 @@ The launch queue configuration for a SageMaker compute resource is passed to the
 
 
 
-## 2. Configure the launch agent
+## Configure the launch agent
 
 Configure a launch agent to execute jobs from your queues with SageMaker. The following steps outline how to configure your launch agent to use SageMaker with Launch. 
 
@@ -172,12 +172,19 @@ Skip the next two steps and move on to the [Add jobs to your queue section] if y
 
 
 
-## 3. Add jobs to your queue
+## Add jobs to your queue
+Follow these steps to add your launch job to your queue:
+
+1. Navigate to your W&B project where the job is defined.
+2. Select the **Jobs** icon on the left panel (thunderbolt image). This will redirect you to the Jobs page within your project workspace.
+3. Hover your mouse on the right side of the job name and click on the **Launch** button that appears.  A drawer will appear from the right side of your screen. Provide the following:
+   * The name your queue from the **Queue** dropdown menu. If you have not created a queue yet, see the [Create a queue section](#1-create-a-queue).
+   * Select a W&B project from the **Destination project** dropdown menu. 
+4. Click **Launch now**.
 
 
-[TO DO - Elaborate more/quickly reiterate what was said in table above,]
 
-## 4. Start your agent
+## Start your agent
 Run the agent locally, in a Kubernetes cluster, or in a Docker container.  The launch agent will continuously run launch jobs on Amazon SageMaker so long as the agent is an environment with AWS credentials.
 
 
