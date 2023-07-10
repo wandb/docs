@@ -8,10 +8,14 @@ displayed_sidebar: default
 Learn how to use W&B Launch on Docker.
 
 :::info
-For this guide, we refer to this repo and directory: https://github.com/wandb/launch-jobs/tree/main/jobs/fashion_mnist_train. The `fashion_minst_train` directory contains all the files you need to create an image based job such as the training script and Dockerfile. Optionally clone the repo if you want to follow along.
+We refer to this example: https://github.com/wandb/launch-jobs/tree/main/jobs/fashion_mnist_train for demonstrative purposes in this guide. You can optionally clone the repo if you want to follow along. Otherwise, replace the values with your own.
 :::
 ## Requirements
-Ensure Docker CLI is installed wherever you run your [agent](run-agent.md). Additionally, make sure the Docker daemon is running on your machine before you proceed. 
+
+Before you get started, make sure you satisfy the following:
+1. Make sure the Docker daemon is running on the machine that will run your Docker container and W&B Launch agent.
+2. Ensure Docker CLI is installed wherever you run your [agent](run-agent.md). 
+3. Obtain your [W&B API key](https://wandb.ai/authorize).
 
 See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker.
 
@@ -20,16 +24,19 @@ If you want the agent to make use of GPUs on Docker, you will also need to insta
 :::
 
 
-## 1. Build your Docker image
-Use the `docker build` command to build your Docker image with the Docker CLI.  For this example, we build a Docker image called `fashion_mnist_train`:
+## Build your Docker image
+Use the [`docker build`](https://docs.docker.com/engine/reference/commandline/build/) command to build your Docker image with the Docker CLI.  
+
+
+For this example, we build a Docker image called `fashion_mnist_train`:
 
 ```bash
 docker build -t fashion_mnist_train .
 ```
 
 For more information on how to build a Docker image, see the official [Docker build](https://docs.docker.com/engine/reference/commandline/build/) documentation.
-## 2. Create an image-based job
-Next, create an image-based launch job. To do this, [run your Docker container](https://docs.docker.com/engine/reference/commandline/run/). Pass in your W&B API key and you Docker image as environment variables `WANDB_API_KEY` and `WANDB_DOCKER`, respectively.
+## Create an image-based job
+Next, create an image-based launch job. To do this, [run your Docker container](https://docs.docker.com/engine/reference/commandline/run/). Pass in your [W&B API key](https://wandb.ai/authorize) and your Docker image as environment variables `WANDB_API_KEY` and `WANDB_DOCKER`, respectively.
 
 Continuing the example above, we specify the `fashion_mnist_train` Docker image:
 
@@ -40,7 +47,7 @@ docker run -e WANDB_API_KEY="<your-wandb-api-key>" \
 
 This will create an image-based W&B Launch Job. 
 
-## 3. Create a queue
+## Create a queue
 Create a queue in the W&B App that uses Docker as its compute resource:
 
 1. Navigate to the [Launch application](https://wandb.ai/launch).
@@ -103,23 +110,23 @@ For jobs that use tensorflow on GPU, you might also need to specify a custom bas
 ![](/images/launch/create-queue.gif)
 
 
-## 4. Add image-based job to the queue
+## Add image-based job to the queue
+Follow these steps to add your launch job to your queue:
+
 1. Navigate to your W&B project where the job is defined.
-2. Select the **Jobs** icon on the left panel (thunderbolt image).
-3. This will redirect you to the Jobs page within your project workspace.
-4. Hover your mouse on the right side of the job name. 
-5. Select **Launch**.  A drawer will appear from the right side of your screen. Select the
-   * The name of the queue you want to add the job to from the **Queue** dropdown menu.
-   * From the **Destination project** dropdown menu, select the W&B project to send the run to.
-6. Select **Launch now**.
+2. Select the **Jobs** icon on the left panel (thunderbolt image). This will redirect you to the Jobs page within your project workspace.
+3. Hover your mouse on the right side of the job name and click on the **Launch** button that appears.  A drawer will appear from the right side of your screen. Provide the following:
+   * The name your queue from the **Queue** dropdown menu. If you have not created a queue yet, see the [Create a queue section](#3-create-a-queue).
+   * Select a W&B project from the **Destination project** dropdown menu. 
+4. Click **Launch now**.
 
 
 
-## 5. Start your agent
+## Start your agent
 1. Go to the Launch App at [https://wandb.ai/launch](https://wandb.ai/launch). 
 2. Select the entity from the **Entity** dropdown that contains your queue.
 3. Find your queue and click on **View queue**.
-4. If you do not have an active agent, select **Add an agent**. 
+4. Click on **Add an agent**. 
 5. A modal will appear. Copy and paste the command to the machine that had the Docker container running. It will look similar to:
 
 ```bash
