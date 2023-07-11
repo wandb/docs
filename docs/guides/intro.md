@@ -1,17 +1,35 @@
 ---
 description: >-
-  An overview of what is W&B along with links on how to get started
-  if you are a first time user.
+  Overview of the Weights & Biases machine learning developer platform, and 
 slug: /guides
 displayed_sidebar: default
 ---
 
-# What is W&B?
+# Weights & Biases
 
-W&B is the machine learning platform for developers to build better models faster. Use W&B's lightweight, interoperable tools to quickly track experiments, version and iterate on datasets, evaluate model performance, reproduce models, visualize results and spot regressions, and share findings with colleagues.
-Set up W&B in 5 minutes, then quickly iterate on your machine learning pipeline with the confidence that your datasets and models are tracked and versioned in a reliable system of record.
+Use the W&B machine learning platform to build better models faster. 
 
-<!-- ![](@site/static/images/general/diagram_2021.png) -->
+Set up W&B in 5 minutes, then quickly iterate on your ML pipeline with the confidence that experiments, models, and datasets are tracked in a reliable system of record.
+
+<iframe width="100%" height="330" src="https://www.youtube.com/embed/tHAFujRhZLA" title="Weights &amp; Biases End-to-End Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+
+## Start tracking models
+- **[Colab Notebook](http://wandb.me/intro)**: Track your first experiment with W&B
+
+
+## W&B Products
+- **[Experiments](./track/intro.md)**: Track ML model training
+- **[Reports](./reports/intro.md)**: Share findings with collaborators
+- **[Artifacts](./artifacts/intro.md)**: Track assets, such as datasets or models
+- **[Tables](./reports/intro.md)**: Visualize data and model predictions
+- **[Sweeps](./reports/intro.md)**: Optimize hyperparameters
+- **[Models](./reports/intro.md)**: Productionize workflows with a model registry
+- **[Launch](./reports/intro.md)**: Connect to compute locally or in the cloud
+- **[Prompts](./reports/intro.md)**: Visualize LLMs
+
+
+![](@site/static/images/general/wandb_diagram_july23.png)
 
 ## Are you a first-time user of W&B?
 
