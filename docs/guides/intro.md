@@ -19,17 +19,6 @@ Track your scripts with [`wandb`](https://github.com/wandb/wandb) in 5 minutes, 
 - **[Integrations](./integrations/intro.md)**: Get started quickly with our integrations, which simplify tracking with popular libraries and frameworks, such as [PyTorch Lightning](./integrations/lightning.md), [Hugging Face](./integrations/huggingface.md), [XGBoost](./integrations/xgboost.md), and more.
 
 
-## W&B Products
-- **[Experiments](./track/intro.md)**: Track ML model training
-- **[Reports](./reports/intro.md)**: Share findings with collaborators
-- **[Artifacts](./artifacts/intro.md)**: Track assets, such as datasets or models
-- **[Tables](./reports/intro.md)**: Visualize data and model predictions
-- **[Sweeps](./reports/intro.md)**: Optimize hyperparameters
-- **[Models](./reports/intro.md)**: Productionize workflows with a model registry
-- **[Launch](./reports/intro.md)**: Connect to compute locally or in the cloud
-- **[Prompts](./reports/intro.md)**: Visualize LLMs
-
-
 ![](@site/static/images/general/wandb_diagram_july23.png)
 
 ## Resources
