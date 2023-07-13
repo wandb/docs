@@ -6,7 +6,7 @@ import TabItem from '@theme/TabItem';
 
 # Launch on SageMaker
 
-Use W&B Launch to send your runs to AWS SageMaker. There are two ways to use Launch on SageaMaker:
+Use W&B Launch to send your runs to AWS SageMaker. There are two ways to use Launch on SageMaker:
 
 1. Bring your own image (BYOI) and push it to your Amazon ECR repository. 
 2. Let the launch agent build a container for your and push it to your ECR repository.
@@ -21,14 +21,16 @@ The following table highlights the key differences between the two workflows lis
 | ----- | ----- | ----- |
 | Queue                     | Same for both workflows                       | Same for both workflows.                                 |
 | Job type                  | Image source-job                              | Git or code artifact sourced job                         | 
-| Job name                  | Name must match the name of image in ECR repo | Job name does not need to match.                         |  
-| Agent configuration       |                                               | Must have the `registry` block in your agent config file |
+| Job source                | Job must use image as source                  |          N/A                 |  
+| Agent configuration       |                 N/A                           | Must have the `registry` block in your agent config file |
+| Builder options           |                 You can use noop              | You can not use noop |
 
 
 :::tip
 **Should I bring my own image or let W&B build and push the image for me?**
 
-[INSERT] Something about if the W&B default build system does not satisfy the customer's needs.
+Follow the bring your own image (BYOI) method if you uses packages that are not available on PyPi or find that you are having issues with W&B building your images. 
+In which case, we appreciate feedback about the specific problem so we can fix it in future releases.
 :::
 
 
