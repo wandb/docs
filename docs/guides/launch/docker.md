@@ -19,9 +19,7 @@ Before you get started, make sure you satisfy the following:
 
 See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker.
 
-:::note
-If you want the agent to make use of GPUs on Docker, you will also need to install the [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
-:::
+
 
 
 ## Build your Docker image
@@ -33,6 +31,10 @@ For this example, we build a Docker image called `fashion_mnist_train`:
 ```bash
 docker build -t fashion_mnist_train .
 ```
+
+:::note
+If you want the agent to make use of GPUs on Docker, you will also need to install the [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+:::
 
 For more information on how to build a Docker image, see the official [Docker build](https://docs.docker.com/engine/reference/commandline/build/) documentation.
 ## Create an image-based job
@@ -55,11 +57,8 @@ Create a queue in the W&B App that uses Docker as its compute resource:
 4. Select the **Entity** you would like to create the queue in.
 5. Enter a name for your queue in the **Name** field.
 6. Select **Docker** as the **Resource**. 
-7. Define your Docker queue configuration in the **Configuration** field. Pass in any arguments available for the [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command. 
+7. Define your Docker queue configuration in the **Configuration** field. Resource arguments populate docker run arguments. Therefore, you can pass in any arguments available for the [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command. 
 
-:::tip
-Leave the **Configuration** field blank (see .gif below) if you do not need to pass optional [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) parameters.
-:::
 
 To handle options that can be specified more than once, place the values in a list within the **Configuration** field:
 
@@ -96,7 +95,7 @@ For jobs that use tensorflow on GPU, you might also need to specify a custom bas
 {
     "gpus": "all",
     "builder": {
-        "cuda": {
+        "accelerator": {
             "base_image": "tensorflow/tensorflow:latest-gpu"
         }
     }
