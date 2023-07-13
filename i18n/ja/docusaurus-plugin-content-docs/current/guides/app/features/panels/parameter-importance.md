@@ -2,7 +2,7 @@
 description: >-
   Visualize the relationships between your model's hyperparameters and output
   metrics
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # パラメーター重要度

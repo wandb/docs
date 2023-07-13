@@ -1,7 +1,7 @@
 ---
 slug: /guides/data-vis
 description: Iterate on datasets and understand model predictions
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # データ可視化

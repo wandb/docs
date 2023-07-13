@@ -4,4 +4,4 @@
 
 ## クラス
 
-[`class WandbTracer`](./wandbtracer.md): Weights and Biasesにログを送信するコールバックハンドラ。
+`class WandbTracer`: Weights and Biasesにログを送信するコールバックハンドラ。

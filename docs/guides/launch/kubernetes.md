@@ -1,19 +1,20 @@
+---
+displayed_sidebar: default
+---
+
 # Launch on Kubernetes
 
 This guide demonstrates how to use W&B Launch to run ML workloads on a kubernetes (k8s) cluster.
-
-<!-- TODO: What email do we use here? -->
-:::info
-
-Launch on kubernetes is an enterprise feature. To get access, please contact our sales team through [this page](https://wandb.ai/site/pricing).
-:::
 
 ## Building images in Kubernetes
 
 The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) to build container images inside of k8s. Kaniko is a tool to build container images from a Dockerfile, inside a container or k8s cluster. Kaniko doesn’t depend on a Docker daemon and executes each command within a Dockerfile completely in userspace. This enables building container images in environments that can’t easily or securely run a Docker daemon, such as a standard k8s cluster.
 
 :::tip
-If you want to use the launch agent without the ability to build new images, you can use the `noop` builder type when you configure your launch agent. More info [here](../launch/run-agent.md#builders).
+
+* If you want to use the Launch agent without the ability to build new images, you can use the `noop` builder type when you configure your launch agent. More info [here](../launch/run-agent.md#builders).
+
+* You can use Launch with any Kubernetes system if you use an image based job and you do not require a build for your launch job.
 :::
 
 ## Create a queue
@@ -32,7 +33,9 @@ Congratulations! You have created a k8s queue.
 
 ### Queue configuration
 
-The launch agent will create a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each run that is popped from a Kubernetes queue. The JSON configuration for a Kubernetes queue is used to modify the Job spec that the agent submits to your cluster. The configuration follows the same schema as a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec), except that it is formatted as JSON rather than YAML and supports additional, universal queue configuration fields, e.g. `builder`.
+The launch agent will create a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each run that is popped from a Kubernetes queue. The configuration for a Kubernetes queue is used to modify the Job spec that the agent submits to your cluster. The configuration follows the same schema as a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec), except that it supports additional, universal queue configuration fields, such as `builder`. You can configure your config in either JSON or YAML format.
+
+
 
 Control over the job spec allows you to specify resource requests, volume mounts, retry strategies, and more for your runs at the queue level. For example, to set a custom environment variable, resource requests, and labels for all runs launched from a queue, you can use a variation of the following configuration:
 
@@ -88,17 +91,98 @@ spec:
             type: RuntimeDefault
 ```
 
+### Custom controllers
+
+If you specify an API version other than `batch/v1` or `batch/v1beta1`, the agent will launch an object of the specified API version instead of a standard Kubernetes Job. This may be useful if you have a custom controller that you would like to use to run your jobs, or if you want to make use of [volcano](https://volcano.sh) or [kubeflow pipelines](https://kubeflow.org). If you provide a custom API version, you will also need to specify a few values in the spec using macros that will be evaluated when the agent is launching your job. The following macros are available:
+
+| Macro             | Description                                           |
+|-------------------|-------------------------------------------------------|
+| `${project_name}` | The name of the project the run is being launched to. |
+| `${entity_name}`  | The owner of the project the run being launched to.   |
+| `${run_id}`       | The id of the run being launched.                     |
+| `${run_name}`     | The name of the run that is launching.                |
+| `${image_uri}`    | The URI of the container image for this run.          |
+
+For example, to launch a multinode pytorch jobs on with volcano, you could use the following configuration:
+
+```json
+{
+  "kind": "Job",
+  "spec": {
+    "tasks": [
+      {
+        "name": "master",
+        "policies": [
+          {
+            "event": "TaskCompleted",
+            "action": "CompleteJob"
+          }
+        ],
+        "replicas": 1,
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "master",
+                "image": "${image_uri}",
+                "imagePullPolicy": "IfNotPresent"
+              }
+            ],
+            "restartPolicy": "OnFailure"
+          }
+        }
+      },
+      {
+        "name": "worker",
+        "replicas": 3,
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "worker",
+                "image": "${image_uri}",
+                "workingDir": "/home",
+                "imagePullPolicy": "IfNotPresent"
+              }
+            ],
+            "restartPolicy": "OnFailure"
+          }
+        }
+      }
+    ],
+    "plugins": {
+      "pytorch": [
+        "--master=master",
+        "--worker=worker",
+        "--port=23456"
+      ]
+    },
+    "minAvailable": 1,
+    "schedulerName": "volcano"
+  },
+  "metadata": {
+    "name": "wandb-job-${run_id}",
+    "labels": {
+      "wandb_entity": "${entity_name}",
+      "wandb_project": "${project_name}"
+    }
+  },
+  "apiVersion": "batch.volcano.sh/v1alpha1"
+}
+```
+
+
 ## Deploying an agent
 
 Before you can launch a run on k8s, you need to deploy an agent to your cluster.
 
-### Cluster configuration
-
-In order to run a launch agent in your cluster, you will need to create a few other resources in your cluster. Here, these are all laid out separately but the purpose of demonstration, but you can aggregate them into a single file and apply them all at once.
-
 :::tip
-You can find k8s manifests containing the resources below prepared for specific kubernetes services like EKS or GKE in our sdk repo [here](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch/deploys).
+It is **strongly recommended** that you install the launch agent through the [official helm repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent). Consult the [`README.md` in the chart directory](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent/README.md) for detailed instructions on how to configure and deploy your agent.
 :::
+
+### Manual cluster configuration
+
+In order to run a launch agent in your cluster without the use of Helm, you will need to create a few other resources in your cluster. Here, these are all laid out separately but the purpose of demonstration, but you can aggregate them into a single file and apply them all at once.
 
 #### Namespace
 
@@ -145,6 +229,9 @@ rules:
     resources: ["pods", "pods/log", "secrets"]
     verbs: ["create", "get", "watch", "list", "update", "delete", "patch"]
   - apiGroups: ["batch"]
+    resources: ["jobs", "jobs/status"]
+    verbs: ["create", "get", "watch", "list", "update", "delete", "patch"]
+  - apiGroups: ["batch.volcano.sh"]  # Add permission to create and maintain objects from any custom API you wish to use.
     resources: ["jobs", "jobs/status"]
     verbs: ["create", "get", "watch", "list", "update", "delete", "patch"]
 ---
@@ -205,8 +292,8 @@ metadata:
   name: wandb-launch-configmap
   namespace: wandb
 data:
+  wandb-base-url: https://api.wandb.ai # TODO: set your base_url here
   launch-config.yaml: |
-    base_url: https://api.wandb.ai # TODO: set wandb base url
     max_jobs: -1 # TODO: set max concurrent jobs here
     queues:
     - default # TODO: set queue name here
@@ -216,7 +303,7 @@ data:
     registry:
       type: gcr
       repository: # TODO: set name of artifact repository name here
-      image_name: launch-images # TODO: set name of image here
+      image-name: launch-images # TODO: set name of image here
     builder:
       type: kaniko
       build-context-store: gs://my-bucket/... # TODO: set your build context store here
@@ -267,7 +354,10 @@ spec:
                   name: wandb-api-key
                   key: password
             - name: WANDB_BASE_URL
-              value: https://api.wandb.ai #TODO: Update the base url to your WANDB server url
+              valueFrom:
+                configMapKeyRef:
+                  name: wandb-launch-configmap
+                  key: wandb-base-url
           volumeMounts:
             - name: wandb-launch-config
               mountPath: /home/launch_agent/.config/wandb

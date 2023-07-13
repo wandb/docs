@@ -1,5 +1,6 @@
 ---
 description: Hosting W&B Server on AWS.
+displayed_sidebar: default
 ---
 
 # AWS
@@ -255,7 +256,7 @@ Follow the procedure bellow to create an Amazon S3 bucket and enable bucket noti
 3. Within the **Advanced settings**, select **Add notification** within the **Events** section.
 4. Configure all object creation events to be sent to the SQS Queue you configured earlier.
 
-![Enterprise file storage settings](@site/static/images/hosting/s3-notification.png)
+![Enterprise file storage settings](/images/hosting/s3-notification.png)
 
 Enable CORS access. Your CORS configuration should look like the following:
 

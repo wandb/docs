@@ -1,5 +1,6 @@
 ---
 description: Hosting W&B Server on GCP.
+displayed_sidebar: ja
 ---
 
 # GCP

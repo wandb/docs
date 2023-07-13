@@ -1,6 +1,6 @@
 ---
 description: Manage storage, memory allocation of W&B Artifacts.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # ストレージ

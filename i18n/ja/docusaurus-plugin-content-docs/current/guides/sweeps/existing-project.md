@@ -2,7 +2,7 @@
 description: >-
   Tutorial on how to create sweep jobs from a pre-existing Weights & Biases
   project.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # チュートリアル - 既存のプロジェクトからスイープを作成する

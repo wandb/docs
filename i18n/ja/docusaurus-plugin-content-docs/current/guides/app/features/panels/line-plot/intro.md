@@ -1,7 +1,7 @@
 ---
 slug: /guides/app/features/panels/line-plot
 description: Visualize metrics, customize axes, and compare multiple lines on the same plot
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 折れ線グラフ

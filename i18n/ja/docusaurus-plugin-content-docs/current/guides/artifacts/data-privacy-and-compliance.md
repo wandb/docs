@@ -2,7 +2,7 @@
 description: >-
   Learn where W&B files are stored by default. Explore how to save, store
   sensitive information.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # データプライバシーとコンプライアンス

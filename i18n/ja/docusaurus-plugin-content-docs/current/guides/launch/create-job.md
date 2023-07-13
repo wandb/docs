@@ -1,6 +1,6 @@
 ---
 description: Discover how to create a job for W&B Launch.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

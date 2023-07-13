@@ -2,7 +2,7 @@
 description: >-
   Search and stop algorithms locally instead of using the Weights & Biases
   cloud-hosted service.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # ローカルで探索と停止アルゴリズムを実行する

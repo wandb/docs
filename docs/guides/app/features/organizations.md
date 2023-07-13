@@ -1,6 +1,7 @@
 ---
 description: >-
     Manage organization members, subscription settings, and billing information
+displayed_sidebar: default    
 ---
 
 # Organizations

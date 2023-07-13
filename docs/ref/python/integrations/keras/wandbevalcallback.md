@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L10-L241)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/integration/keras/callbacks/tables_builder.py#L10-L241)
 
 
 
@@ -105,7 +105,7 @@ can implement `on_train_batch_end` method.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L127-L144)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/integration/keras/callbacks/tables_builder.py#L127-L144)
 
 ```python
 @abc.abstractmethod
@@ -135,7 +135,7 @@ This method is called once `on_train_begin` or equivalent hook.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L146-L168)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/integration/keras/callbacks/tables_builder.py#L146-L168)
 
 ```python
 @abc.abstractmethod
@@ -169,7 +169,7 @@ This method is called `on_epoch_end` or equivalent hook.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L170-L179)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/integration/keras/callbacks/tables_builder.py#L170-L179)
 
 ```python
 init_data_table(
@@ -184,7 +184,7 @@ data to the table row or column wise.
 
 | Args | |
 | :--- | :--- |
-| column_names (list): Column names for W&B Tables. |
+| `column_names` | (list) Column names for W&B Tables. |
 
 
 
@@ -192,7 +192,7 @@ data to the table row or column wise.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L181-L190)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/integration/keras/callbacks/tables_builder.py#L181-L190)
 
 ```python
 init_pred_table(
@@ -207,7 +207,7 @@ data to the table row or column wise.
 
 | Args | |
 | :--- | :--- |
-| column_names (list): Column names for W&B Tables. |
+| `column_names` | (list) Column names for W&B Tables. |
 
 
 
@@ -215,7 +215,7 @@ data to the table row or column wise.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L192-L218)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/integration/keras/callbacks/tables_builder.py#L192-L218)
 
 ```python
 log_data_table(
@@ -232,7 +232,9 @@ This lets the evaluation table use the reference of already uploaded data
 
 | Args | |
 | :--- | :--- |
-| name (str): A human-readable name for this artifact, which is how you can identify this artifact in the UI or reference it in use_artifact calls. (default is 'val') type (str): The type of the artifact, which is used to organize and differentiate artifacts. (default is 'dataset') table_name (str): The name of the table as will be displayed in the UI. (default is 'val_data'). |
+| `name` | (str) A human-readable name for this artifact, which is how you can identify this artifact in the UI or reference it in use_artifact calls. (default is 'val') |
+| `type` | (str) The type of the artifact, which is used to organize and differentiate artifacts. (default is 'dataset') |
+| `table_name` | (str) The name of the table as will be displayed in the UI. (default is 'val_data'). |
 
 
 
@@ -240,7 +242,7 @@ This lets the evaluation table use the reference of already uploaded data
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L220-L241)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/integration/keras/callbacks/tables_builder.py#L220-L241)
 
 ```python
 log_pred_table(
@@ -257,7 +259,9 @@ to compare models at different intervals interactively.
 
 | Args | |
 | :--- | :--- |
-| type (str): The type of the artifact, which is used to organize and differentiate artifacts. (default is 'evaluation') table_name (str): The name of the table as will be displayed in the UI. (default is 'eval_data') aliases (List[str]): List of aliases for the prediction table. |
+| `type` | (str) The type of the artifact, which is used to organize and differentiate artifacts. (default is 'evaluation') |
+| `table_name` | (str) The name of the table as will be displayed in the UI. (default is 'eval_data') |
+| `aliases` | (List[str]) List of aliases for the prediction table. |
 
 
 

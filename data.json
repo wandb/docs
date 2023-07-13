@@ -298,7 +298,7 @@
     },
     {
       "from": "/guides/artifacts/api",
-      "to": "/ref/python/public-api/artifact"
+      "to": "ref/python/public-api/api#artifact"
     },
     {
       "from": "/guides/artifacts/artifacts-core-concepts",
@@ -379,6 +379,10 @@
     {
       "from": "/guides/hosting/basic-setup",
       "to": "/guides/hosting/how-to-guides/basic-setup"
+    },
+    {
+      "from": "/guides/hosting/hosting-upgrade",
+      "to": "/guides/hosting"
     },
     {
       "from": "/guides/hosting/local",
@@ -950,7 +954,19 @@
     },
     {
       "from": "/java",
-      "to": "/ref/java"
+      "to": "/ref"
+    },
+    {
+      "from": "/ref/java",
+      "to": "/ref"
+    },
+    {
+      "from": "/ref/java/wandbrun-builder",
+      "to": "/ref"
+    },
+    {
+      "from": "/ref/java/wandbrun",
+      "to": "/ref"
     },
     {
       "from": "/jp",
@@ -1648,7 +1664,6 @@
     "/ref/java/wandbrun.md",
     "/ref/python/data-types/histogram",
     "/ref/python/init%20for%20more%20init%20arguments.",
-    "/ref/python/public-api/artifact",
     "/ref/python/sweep",
     "/ref/weave/artifact.md",
     "/ref/weave/int",

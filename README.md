@@ -1,5 +1,7 @@
 # Weights & Biases Documentation
 
+[![Build the docs](https://github.com/wandb/docodile/actions/workflows/build_docs.yml/badge.svg)](https://github.com/wandb/docodile/actions/workflows/build_docs.yml)
+
 The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is built using [Docusaurus 2](https://docusaurus.io/), a static website generator built with React. The high level overview of the doc writing process is:
 
 <div align='center'>Edit markdown → confirm changes don’t break the docs → create a pull request for review.</div>
@@ -63,10 +65,10 @@ This will return the port number where you can preview your changes to the docs.
 
 4. Make your changes on the new branch.
 5. Check your changes are rendered correctly.
-6. Build the static files of your website to beta with `yarn build:beta`.
+6. Build the static files of your website:
 
 ```bash
-yarn build:beta
+yarn docusaurus build
 ```
 
 7. Commit the changes to the branch.

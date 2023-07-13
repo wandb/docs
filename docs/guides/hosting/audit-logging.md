@@ -1,5 +1,10 @@
+---
+displayed_sidebar: default
+---
+
+
 # Audit logs
-Use audit logs to track and understand activity within your team. Audit logs sync to your bucket store every 10 seconds. Optionally, download your audit logs and view them with your preferred tool, such as [Pandas](https://pandas.pydata.org/docs/index.html), [BigQuery](https://cloud.google.com/bigquery), and more.
+Use audit logs to track and understand activity within your team. Audit logs sync to your bucket store every 10 minutes. Optionally, download your audit logs and view them with your preferred tool, such as [Pandas](https://pandas.pydata.org/docs/index.html), [BigQuery](https://cloud.google.com/bigquery), and more.
 
 :::info
 This feature is currently in Private Preview.
@@ -24,7 +29,7 @@ The following table lists all the different keys that might be present in your a
 |actor_ip                | IP address of the logged-in user.
 |actor_email             | if present, action was taken on this actor email.
 |artifact_digest         | if present, action was taken on this artifact digest.
-|artifact_sequence_name  | if present, action was taken on this artifact sequence name.
+|artifact_qualified_name | if present, action was taken on this artifact.
 |entity_name             | if present, action was taken on this entity or team name.
 |project_name            | if present, action was taken on this project name.
 |report_name             | if present, action was taken on this report name.

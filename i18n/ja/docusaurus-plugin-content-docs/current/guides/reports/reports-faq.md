@@ -1,6 +1,6 @@
 ---
 description: Answers to frequently asked question about W&B Reports.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 # レポートFAQ
 <head>

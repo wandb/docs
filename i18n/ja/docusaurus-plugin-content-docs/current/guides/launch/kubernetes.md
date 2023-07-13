@@ -1,6 +1,6 @@
 ---
 description: Visualize the gradients of your parameters
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 # Kubernetesで起動
 
@@ -203,11 +203,11 @@ kubectl -n wandb create secret  \
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: wandb-launch-agent-config
+  name: wandb-launch-configmap
   namespace: wandb
 data:
+  wandb-base-url: https://api.wandb.ai # TODO: wandb base urlを設定してください
   launch-config.yaml: |
-    base_url: https://api.wandb.ai # TODO: wandb base urlを設定してください
     max_jobs: -1 # TODO: ここで最大同時ジョブ数を設定してください
     queues:
     - default # TODO: ここでキュー名を設定してください
@@ -217,7 +217,7 @@ data:
     registry:
       type: gcr
       repository: # TODO: ここでアーティファクトリポジトリ名を設定してください
-      image_name: launch-images # TODO: ここでイメージ名を設定してください
+      image-name: launch-images # TODO: ここでイメージ名を設定してください
     builder:
       type: kaniko
       build-context-store: gs://my-bucket/... # TODO: ここでビルドコンテキストストアを設定してください
@@ -266,6 +266,11 @@ spec:
                 secretKeyRef:
                   name: wandb-api-key
                   key: password
+            - name: WANDB_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: wandb-launch-configmap
+                  key: wandb-base-url
           volumeMounts:
             - name: wandb-launch-config
               mountPath: /home/launch_agent/.config/wandb

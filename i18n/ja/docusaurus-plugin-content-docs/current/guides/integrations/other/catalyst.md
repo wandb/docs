@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/catalyst
 description: How to integrate W&B for Catalyst, a Pytorch framework.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # Catalyst

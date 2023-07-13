@@ -1,5 +1,6 @@
 ---
 description: Deploying W&B in production
+displayed_sidebar: ja
 ---
 
 # 自己管理型ホスティング

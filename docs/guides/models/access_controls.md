@@ -1,5 +1,6 @@
 ---
 description: Use model registry role based access controls (RBAC) to control who can update protected aliases.
+displayed_sidebar: default
 ---
 
 # Access control
@@ -11,8 +12,9 @@ For example, you could set the aliases `staging` and `production` as Protected A
 
 ## Features
 The access controls add two new features:
-1. **Model Registry Admins**: Give members of your team admin permissions for the model registry. These admins can define and use protected aliases.
-2. **Protected Aliases**: A protected alias such as 
+1. **Model Registry Admins**: Give specific members of your team admin permissions for the model registry. These admins can define and use protected aliases, and non-admins will be blocked from adding and removing protected aliases from model versions (both in the UI and programatically).
+2. **Protected Aliases**: Define a list of aliases that only admins can manage. For example, you might use the **production** alias to indicate a model being deployed, and only a few members of your team should be able to make that decision.
+ 
 
 
 ## How to set up access control

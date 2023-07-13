@@ -15,12 +15,6 @@ The proceeding questions are commonly asked questions about [W&B Artifacts](#que
 
 ## Questions about Artifacts
 
-### When are artifact files deleted?
-
-W&B stores artifact files in a way that minimizes duplication across successive artifact versions, as described above.
-
-When deleting artifact versions, W&B checks which files are completely safe to delete. In other words, it guarantees that the file is not in use by a previous or subsequent artifact version. If it is safe to remove, the file is marked as deleted immediately and customers will no longer be charged for storage. Files marked for deletion will be removed from our storage buckets later in a batch process; if you have specific needs around file deletion please reach out to [Customer Support](mailto:support@wandb.com)
-
 ### Who has access to my artifacts?
 
 Artifacts inherit the access to their parent project:
@@ -142,7 +136,7 @@ There are many ways in which you can think of _version_ a model. Artifacts provi
 
 ### How can I fetch these Version IDs and ETags in W&B?
 
-If you've logged an artifact reference with W&B and if the versioning is enabled on your buckets then the version IDs can be seen in the S3 UI. To fetch these version IDs and ETags in W&B, you can use our [public API](../../ref/python/public-api/artifact.md) and then get the corresponding manifest entries. For example:
+If you've logged an artifact reference with W&B and if the versioning is enabled on your buckets then the version IDs can be seen in the S3 UI. To fetch these version IDs and ETags in W&B, you can fetch the artifact and then get the corresponding manifest entries. For example:
 
 ```python
 artifact = run.use_artifact('my_table:latest')

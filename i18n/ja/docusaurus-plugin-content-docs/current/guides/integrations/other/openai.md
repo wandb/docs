@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/openai
 description: How to integrate W&B with OpenAI.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';

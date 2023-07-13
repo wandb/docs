@@ -1,6 +1,6 @@
 ---
 description: Learn how to use Weights & Biases for Model Management
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -140,7 +140,6 @@ wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
   values={[
     {label: 'Artifactsを使用する', value: 'withartifacts'},
     {label: 'データセット依存関係を宣言する', value: 'datasetdependency'},
-    {label: '[Beta] `log_model()`を使用する', value: 'logmodel'},
   ]}>
   <TabItem value="withartifacts">
 
@@ -197,31 +196,6 @@ art.add_reference("s3://path/to/data")
 dataset = wandb.use_artifact(art)
 ```
   </TabItem>
-    <TabItem value="logmodel">
-
-:::warning
-以下のコードスニペットは、積極的に開発されている`beta` APIを利用しているため、変更される可能性があり、後方互換性が保証されていません。
-:::
-
-```python
-from wandb.beta.workflows import log_model
-
-# (オプション) 上流のデータセット依存関係を宣言する
-# 別の例については、「Declare Dataset Dependency」タブを参照してください。
-dataset = wandb.use_artifact("mnist:latest")
-# （オプション）トレーニングメトリクスをログする
-wandb.log({"train_loss": 0.345, "val_loss": 0.456})
-
-# このメソッドは、モデルをシリアライズし、runを開始し、バージョンを作成し、
-# ファイルをバージョンに追加し、バージョンをログする。デフォルトの名前、プロジェクト
-# エイリアス、メタデータなどを上書きすることができます。
-log_model(model, "mnist-nn", aliases=["best"] if model_is_best else [])
-```
-
-:::info
-注：カスタムのシリアライズおよびデシリアライズの戦略を定義することができます。[`_SavedModel` クラス](https://github.com/wandb/wandb/blob/9dfa60b14599f2716ab94dd85aa0c1113cb5d073/wandb/sdk/data\_types/saved\_model.py#L73)をサブクラス化して、[`_PytorchSavedModel` クラス](https://github.com/wandb/wandb/blob/9dfa60b14599f2716ab94dd85aa0c1113cb5d073/wandb/sdk/data\_types/saved\_model.py#L358)と同様の方法で行えます。すべてのサブクラスは、シリアライズの登録に自動的にロードされます。これはベータ機能であるため、質問やコメントがあれば、support@wandb.comまでお問い合わせください。
-:::
-  </TabItem>
 </Tabs>
 
 
@@ -242,7 +216,6 @@ log_model(model, "mnist-nn", aliases=["best"] if model_is_best else [])
   values={[
     {label: '手動でのリンク', value: 'manual_link'},
     {label: 'プログラムでのリンク', value: 'program_link'},
-    {label: '[ベータ] `log_model()`を使用する', value: 'logmodel'},
   ]}>
   <TabItem value="manual_link">
 以下のビデオは、モデルバージョンを新しく作成した登録済みモデルに手動でリンクする方法を説明しています。
@@ -303,23 +276,6 @@ wandb.log_artifact(art)
 wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
 ```
   </TabItem>
-  <TabItem value="logmodel">
-:::warning
-以下のコードスニペットは、積極的に開発されている`beta`APIを利用しているため、互換性がない変更が発生することがあります。
-:::
-
-上記で説明したbetaの`log_model`を使用してモデルをログに残した場合、それに対応するメソッド`link_model`を使用できます。
-
-```python
-from wandb.beta.workflows import log_model, link_model
-
-# モデルバージョンを取得する
-model_version = wb.log_model(model, "mnist_nn")
-
-# モデルバージョンをリンクする
-link_model(model_version, "[[entity/]project/]collectionName")
-```
-  </TabItem>
 </Tabs>
 
 
@@ -331,13 +287,6 @@ link_model(model_version, "[[entity/]project/]collectionName")
 
 さて、モデルを使って評価を行ったり、データセットに対して予測を行ったり、ライブプロダクション環境で使用する準備が整いました。モデルをログに記録するときと同様に、生のArtifact APIを使用するか、もっと指向性のあるbeta APIを使用するかを選ぶことができます。
 
-<Tabs
-  defaultValue="usingartifacts"
-  values={[
-    {label: 'アーティファクトを使用', value: 'usingartifacts'},
-    {label: '[Beta] `use_model()`を使用', value: 'use_model'},
-  ]}>
-  <TabItem value="usingartifacts">
 モデルバージョンを`use_artifact`メソッドを使ってロードすることができます。
 
 ```python
@@ -354,22 +303,7 @@ path = wandb.use_artifact("[[entity/]project/]collectionName:latest").download()
 # あなたのデシリアル化ロジックを表しています
 model = make_model_from_data(path)
 ```
-  </TabItem>
-  <TabItem value="use_model">
 
-:::warning
-次のコードスニペットでは、活発に開発されている`beta`APIを利用しているため、変更される可能性があり、後方互換性が保証されていません。
-:::
-
-モデルファイルを直接操作し、デシリアル化を処理するのは難しいです - 特に、モデルをシリアライズしたのが自分でない場合。`log_model`と対になるように、`use_model`はモデルを自動的にデシリアル化して再構築し、使用することができます。
-
-```python
-from wandb.beta.workflows import use_model
-
-model = use_model("[[entity/]project/]collectionName").model_obj()
-```
-  </TabItem>
-</Tabs>
 ### 5. モデル性能の評価
 
 多くのモデルをトレーニングした後、それらのモデルのパフォーマンスを評価したくなるでしょう。ほとんどの場合、モデルがトレーニング中にアクセスできるデータセットとは独立したテストデータセットとして機能するホールドアウトデータがあります。モデルのバージョンを評価するには、まず上記のステップ4を完了して、モデルをメモリにロードする必要があります。そして:

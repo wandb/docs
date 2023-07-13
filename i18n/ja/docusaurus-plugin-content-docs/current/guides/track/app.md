@@ -1,6 +1,6 @@
 ---
 description: Create centralized, interactive, visual dashboards for your ML experiments
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 実験結果を表示する

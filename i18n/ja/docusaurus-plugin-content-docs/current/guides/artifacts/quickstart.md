@@ -2,7 +2,7 @@
 description: >-
   Artifacts quickstart shows how to create, track, and use a dataset artifact
   with W&B.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # クイックスタート

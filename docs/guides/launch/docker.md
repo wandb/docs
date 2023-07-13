@@ -1,5 +1,6 @@
 ---
 description: Getting started guide for W&B Launch.
+displayed_sidebar: default
 ---
 
 # Launch on Docker
@@ -45,18 +46,3 @@ The `gpus` key of the resource configuration is used to pass values to the `--gp
 
 Reminder: you will also need to install the [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) on the machine where your agent is running in order to leverage GPU through Docker.
 :::
-'
-
-<!-- TODO: put this in a technical FAQ or in the queue docs -->
-For jobs that use tensorflow on GPU, you may also need to specify a custom base image for the container build that the agent will perform in order for your runs to properly utilize GPUs. This can be done by adding an image tag under the `builder.cuda.base_image` key to the resource configuration. For example:
-
-```json
-{
-    "gpus": "all",
-    "builder": {
-        "cuda": {
-            "base_image": "tensorflow/tensorflow:latest-gpu"
-        }
-    }
-}
-```

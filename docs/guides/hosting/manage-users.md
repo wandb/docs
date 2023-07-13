@@ -1,11 +1,16 @@
+---
+displayed_sidebar: default
+---
+
+
 # User Management
 
-Weights & Biases strongly recommends and encourages user management via Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to the [SSO Configuration documentation](./sso.md).
+W&B strongly recommends and encourages user management via Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to the [SSO Configuration documentation](./sso.md).
 
 :::tip
 Users are classified as either an _admin_ or _member_ when using W&B. Admins can add and remove other admins or team members. A team member is invited by email by the team admin. A team member cannot invite other members.
 
-For more information on roles and permissions, [see Team Roles and Permissions](../app/features/teams#team-roles-and-permissions).
+For more information on roles and permissions, [see Team Roles and Permissions](../app/features/teams.md#team-roles-and-permissions).
 :::
 
 ## Instance Admins

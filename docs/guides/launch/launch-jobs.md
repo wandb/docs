@@ -5,9 +5,13 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Launch a run
+# Launch a job
 
 Use W&B launch to queue jobs for execution by a launch agent. The following guide demonstrates how to submit runs to a queue.
+
+:::tip
+Both the launch queue and the jobs you want to enqueue must belong to the same W&B entity.
+:::
 
 ## Add jobs to your queue
 Add jobs to your queue interactively with the W&B App or programmatically with the CLI.
@@ -84,7 +88,7 @@ Each run listed corresponds to a job that was was added to that queue. For examp
 
 Find additional information about the jobs such as the:
    - **Run**: The name of the W&B Run assigned to that job.
-   - **Job ID**: The name of the job. See [Job naming conventions](create-job#job-naming-conventions) page for information on the default naming assigned to a job.
+   - **Job ID**: The name of the job. See [Job naming conventions](create-job.md#job-naming-conventions) page for information on the default naming assigned to a job.
    - **Project**: The name of the project the run belongs to.
    - **Status**: The status of the queued run. 
    - **Author**: The W&B entity that created the run.

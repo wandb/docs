@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_init.py#L913-L1184)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/wandb_init.py#L922-L1193)
 
 
 
@@ -11,7 +11,7 @@ Start a new run to track and log to W&B.
 ```python
 init(
  job_type: Optional[str] = None,
- dir: Union[str, pathlib.Path, None] = None,
+ dir: Optional[StrPath] = None,
  config: Union[Dict, str, None] = None,
  project: Optional[str] = None,
  entity: Optional[str] = None,

@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/image_mask.py#L19-L234)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/helper_types/image_mask.py#L18-L233)
 
 
 
@@ -114,7 +114,7 @@ wandb.log({"random_field": table})
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/image_mask.py#L206-L208)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/helper_types/image_mask.py#L205-L207)
 
 ```python
 @classmethod
@@ -128,7 +128,7 @@ type_name() -> str
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/image_mask.py#L210-L234)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/helper_types/image_mask.py#L209-L233)
 
 ```python
 validate(

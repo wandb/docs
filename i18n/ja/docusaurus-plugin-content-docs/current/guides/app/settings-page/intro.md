@@ -3,7 +3,7 @@ slug: /guides/app/settings-page
 description: >-
   Use the Weights and Biases Settings Page to customize your individual user
   profile or team settings.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 設定ページ

@@ -1,6 +1,6 @@
 ---
 description: Manage emails from the Settings page.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # メール

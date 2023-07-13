@@ -1,6 +1,6 @@
 ---
 description: 'Model Management: Data Model & Terminology'
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # 概念

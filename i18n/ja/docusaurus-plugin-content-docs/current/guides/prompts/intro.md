@@ -1,6 +1,7 @@
 ---
 slug: /guides/prompts
 description: Tools for the development of LLM-powered applications
+displayed_sidebar: ja
 ---
 # プロンプト
 

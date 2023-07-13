@@ -1,6 +1,6 @@
 ---
 description: Save files to the cloud and restore them locally later
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # ファイルの保存と復元

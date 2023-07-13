@@ -1,3 +1,7 @@
+---
+displayed_sidebar: default
+---
+
 # Launch on SageMaker
 
 Use W&B Launch to send your runs to AWS SageMaker.
@@ -26,9 +30,21 @@ Before you can launch a job on SageMaker, you need to create a SageMaker queue i
 
 ### Queue configuration
 
-The config for a SageMaker queue is a JSON blob that is passed to [SageMaker API's `CreateTrainingJob` request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). When you create the queue, the config will be automatically populated with the following JSON:
+The config for a SageMaker queue is passed to [SageMaker API's `CreateTrainingJob` request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). You can define the queue with JSON or YAML. When you create the queue, a config is automatically populated with the following fields:
 
-```yaml
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="JSON"
+  values={[
+    {label: 'JSON', value: 'JSON'},
+    {label: 'YAML', value: 'YAML'},
+  ]}>
+  <TabItem value="JSON">
+
+```json
 {
     "RoleArn": "<REQUIRED>",
     "ResourceConfig": {
@@ -44,6 +60,29 @@ The config for a SageMaker queue is a JSON blob that is passed to [SageMaker API
     }
 }
 ```
+
+  </TabItem>
+  <TabItem value="YAML">
+
+```yaml
+RoleArn: <REQUIRED>
+ResourceConfig:
+  InstanceType: ml.m4.xlarge
+  InstanceCount: 1
+  VolumeSizeInGB: 2
+OutputDataConfig:
+  S3OutputPath: <REQUIRED>
+StoppingCondition:
+  MaxRuntimeInSeconds: 3600
+```
+
+  </TabItem>
+</Tabs>
+
+
+
+
+
 
 You can optionally add additional arguments. However, you must specify:
 
@@ -87,6 +126,6 @@ Kaniko will store compressed build contexts in the local specified under `build-
 ### Deploy the agent
 Run the agent locally, in a Kubernetes cluster, or in a Docker container. The launch agent will continuously run launch jobs on Amazon SageMaker so long as the agent is an environment with AWS credentials.
 
-For more information on deploying an agent to a Kubernetes cluster, see the [Kubernetes deployment guide](/guides/launch/kubernetes#deploying-an-agent).
+
 
 Another common pattern is to run the agent on an Amazon EC2 instance. The agent can perform container builds and push them to Amazon ECR if you install Docker on an Amazon Linux 2 instance. The launch agent can then launch jobs on SageMaker using the AWS credentials associated with the EC2 instance. AWS provides a guide to installing Docker in Amazon Linux 2 [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html#prequisites).

@@ -1,6 +1,6 @@
 ---
 description: Parallelize W&B Sweep agents on multi-core or multi-GPU machine.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';

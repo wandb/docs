@@ -1,5 +1,6 @@
 ---
 description: Run Weights and Biases on your own machines using Docker
+displayed_sidebar: ja
 ---
 
 # 基本セットアップ
@@ -103,4 +104,4 @@ W&Bローカルの試用モードでは、Dockerコンテナを単一のマシ�
 
 :::
 
-[**セールスにお問い合わせ -**](https://wandb.ai/site/local-contact)**>** W&Bサーバーのエンタープライズオプションについて詳しく知る。
+[**セールスにお問い合わせ -**](https://wandb.ai/site/contact)**>** W&Bサーバーのエンタープライズオプションについて詳しく知る。
