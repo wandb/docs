@@ -35,5 +35,5 @@ Track your scripts with [`wandb`](https://github.com/wandb/wandb) in 5 minutes, 
 ## Resources
 
 - **[W&B Server](./hosting/intro.md)**: Learn about options for secure deployments of W&B in dedicated cloud or customer-managed infrastructure.
-- **[API Reference](./ref)**: Check the generated documentation from the open source [`wandb` library](https://github.com/wandb/wandb).
-- **[Tutorials](./tutorials)**: Learn to use W&B with interactive code examples.
+- **[API Reference](../ref/README.md)**: Check the generated documentation from the open source [`wandb` library](https://github.com/wandb/wandb).
+- **[Tutorials](../tutorials/intro_to_tutorials.md)**: Learn to use W&B with interactive code examples.
