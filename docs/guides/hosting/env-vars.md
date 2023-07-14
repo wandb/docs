@@ -32,7 +32,7 @@ In addition to configuring instance level settings via the System Settings admin
 
 
 :::info
-Use the GORILLA_DATA_RETENTION_PERIOD environment variable cautiously.  Data is removed immediately once the environment variable is set.  We also recommend that you backup your data before you enable this flag.
+Use the GORILLA_DATA_RETENTION_PERIOD environment variable cautiously.  Data is removed immediately once the environment variable is set.  We also recommend that you backup both the database and the storage bucket before you enable this flag.
 :::
 
 ## Advanced Reliability Settings
