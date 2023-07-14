@@ -26,7 +26,7 @@ In addition to configuring instance level settings via the System Settings admin
 | LOCAL_RESTORE        | You can temporarily set this to true if you're unable to access your instance. Check the logs from the container for temporary credentials.                                              |
 | REDIS                | Can be used to setup an external REDIS instance with W&B.                                                                                                                                |
 | LOGGING_ENABLED      | When set to true, access logs are streamed to stdout. You can also mount a sidecar container and tail `/var/log/gorilla.log` without setting this variable.                              |
-| MAX_RETENTION_DAYS   | The number of days before the data from deleted runs will be permanently deleted and unrecoverable. |
+| GORILLA_DATA_RETENTION_PERIOD   | The number of days before the data from deleted runs will be permanently deleted and unrecoverable. |
 
 ## Advanced Reliability Settings
 
