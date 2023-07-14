@@ -53,7 +53,7 @@ Node/CommonJS:
 const wandb = require('@wandb/sdk').default;
 ```
 
-現在、Python SDKに見られる多くの機能が欠けていますが、基本的なログ機能は利用可能です。近いうちに、[Tables](https://docs.wandb.ai/guides/data-vis?utm_source=github&utm_medium=code&utm_campaign=wandb&utm_content=readme)などの追加機能を追加予定です。
+現在、Python SDKに見られる多くの機能が欠けていますが、基本的なログ機能は利用可能です。近いうちに、[Tables](https://docs.wandb.ai/guides/tables?utm_source=github&utm_medium=code&utm_campaign=wandb&utm_content=readme)などの追加機能を追加予定です。
 
 ### 認証と設定
 

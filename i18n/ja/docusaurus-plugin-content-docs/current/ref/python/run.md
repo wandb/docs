@@ -329,7 +329,7 @@ log(
 
 UIでは、サマリー値は、run間で単一の値を比較するためのrunテーブルに表示されます。サマリー値は、`wandb.run.summary["key"] = value`で直接設定することもできます。
 
-記録する値はスカラである必要はありません。wandbオブジェクトの記録がサポートされています。例えば、`wandb.log({"example": wandb.Image("myimage.jpg")})`では、W&BのUIで適切に表示される例の画像を記録します。サポートされているさまざまなタイプについては、[リファレンスドキュメント](https://docs.wandb.com/ref/python/data-types)を参照するか、3D分子構造やセグメンテーションマスク、PR曲線、ヒストグラムなどを含む例が掲載されている[記録のガイド](https://docs.wandb.ai/guides/track/log)をご覧ください。`wandb.Table`は構造化データを記録するために使用できます。詳細については[テーブルの記録ガイド](https://docs.wandb.ai/guides/data-vis/log-tables)を参照してください。
+記録する値はスカラである必要はありません。wandbオブジェクトの記録がサポートされています。例えば、`wandb.log({"example": wandb.Image("myimage.jpg")})`では、W&BのUIで適切に表示される例の画像を記録します。サポートされているさまざまなタイプについては、[リファレンスドキュメント](https://docs.wandb.com/ref/python/data-types)を参照するか、3D分子構造やセグメンテーションマスク、PR曲線、ヒストグラムなどを含む例が掲載されている[記録のガイド](https://docs.wandb.ai/guides/track/log)をご覧ください。`wandb.Table`は構造化データを記録するために使用できます。詳細については[テーブルの記録ガイド](https://docs.wandb.ai/guides/tables/log-tables)を参照してください。
 
 入れ子になったメトリクスの記録が推奨されており、W&BのUIでサポートされています。入れ子になった辞書で記録する場合、`wandb.log({"train": {"acc": 0.9}, "val": {"acc": 0.8}})`とすると、W&BのUIではメトリックが`train`と`val`のセクションに整理されます。
 

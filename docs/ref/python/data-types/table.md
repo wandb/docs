@@ -24,7 +24,7 @@ This means you can embed `Images`, `Video`, `Audio`, and other sorts of rich, an
 directly in Tables, alongside other traditional scalar values.
 
 This class is the primary class used to generate the Table Visualizer
-in the UI: https://docs.wandb.ai/guides/data-vis/tables.
+in the UI: https://docs.wandb.ai/guides/tables/tables.
 
 Tables can be constructed with initial data using the `data` or
 `dataframe` parameters:
