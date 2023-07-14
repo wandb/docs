@@ -105,7 +105,7 @@ const sidebars = {
       link: { type: 'doc', id: 'guides/tables/intro' },
       items: [
         'guides/tables/tables-quickstart',
-        'guides/tables/tables',
+        'guides/tables/visualize-tables',
         'guides/tables/tables-gallery',
       ],
     },
