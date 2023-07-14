@@ -107,6 +107,7 @@ const sidebars = {
         // 'guides/data-vis/intro',
         'guides/data-vis/tables-quickstart',
         'guides/data-vis/tables',
+        'guides/data-vis/tables-gallery',
       ],
     },
     {
