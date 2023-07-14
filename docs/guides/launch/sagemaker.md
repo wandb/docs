@@ -50,7 +50,7 @@ Ensure that the AWS account associated with the launch agent has access to the A
 ## Create a queue
 Create a queue in the W&B App that uses SageMaker as its compute resource:
 
-1. Navigate to the [Launch application](https://wandb.ai/launch).
+1. Navigate to the [Launch page](https://wandb.ai/launch).
 3. Click on the **Create Queue** button.
 4. Select the **Entity** you would like to create the queue in.
 5. Provide a name for your queue in the **Name** field.

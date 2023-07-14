@@ -3,7 +3,7 @@ description: Getting started guide for W&B Launch.
 displayed_sidebar: default
 ---
 
-# Launch on Docker
+# Launch with Docker
 
 Learn how to use W&B Launch on Docker.
 
@@ -52,7 +52,7 @@ This will create an image-based W&B Launch Job.
 ## Create a queue
 Create a queue in the W&B App that uses Docker as its compute resource:
 
-1. Navigate to the [Launch application](https://wandb.ai/launch).
+1. Navigate to the [Launch page](https://wandb.ai/launch).
 3. Click on the **Create Queue** button.
 4. Select the **Entity** you would like to create the queue in.
 5. Enter a name for your queue in the **Name** field.
@@ -122,7 +122,7 @@ Follow these steps to add your launch job to your queue:
 
 
 ## Start your agent
-1. Go to the Launch App at [https://wandb.ai/launch](https://wandb.ai/launch). 
+1. Go to the Launch page at [https://wandb.ai/launch](https://wandb.ai/launch). 
 2. Select the entity from the **Entity** dropdown that contains your queue.
 3. Find your queue and click on **View queue**.
 4. Click on **Add an agent**. 
