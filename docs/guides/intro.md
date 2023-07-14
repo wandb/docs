@@ -19,6 +19,7 @@ Track your scripts with [`wandb`](https://github.com/wandb/wandb) in 5 minutes, 
 - **[Integrations](./integrations/intro.md)**: Get started quickly with our integrations, which simplify tracking with popular libraries and frameworks, such as [PyTorch Lightning](./integrations/lightning.md), [Hugging Face](./integrations/huggingface.md), [XGBoost](./integrations/xgboost.md), and more.
 
 
+Here's an overview of the tools we offer for machine learning workflows, which support enterprise hosting. 
 ![](@site/static/images/general/wandb_diagram_july23.png)
 
 ## Resources
