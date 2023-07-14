@@ -27,7 +27,13 @@ In addition to configuring instance level settings via the System Settings admin
 | REDIS                            | Can be used to setup an external REDIS instance with W&B.                                                                                                                                |
 | LOGGING_ENABLED                  | When set to true, access logs are streamed to stdout. You can also mount a sidecar container and tail `/var/log/gorilla.log` without setting this variable.                              |
 | GORILLA_ALLOW_USER_TEAM_CREATION | When set to true, allows non-admin users to create a new team. False by default.                                                                                                         |
+| GORILLA_DATA_RETENTION_PERIOD   | How long to retain deleted data from runs in hours. Deleted run data is unrecoverable. If this variable is specified, W&B will clear up deleted an unused data immediately. Append an `h` to the input value. For example,  `"24h"`. |
 
+
+
+:::info
+Use the GORILLA_DATA_RETENTION_PERIOD environment variable cautiously.  Data is removed immediately once the environment variable is set.  We also recommend that you backup both the database and the storage bucket before you enable this flag.
+:::
 
 ## Advanced Reliability Settings
 
