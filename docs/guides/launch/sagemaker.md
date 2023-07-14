@@ -36,14 +36,16 @@ In which case, we appreciate feedback about the specific problem so we can fix i
 The following sections outline the steps to set up and run a job on SageMaker with Launch.
 
 ## Prerequisites
-Create the following AWS resources:
+Create and make note of the following AWS resources:
 
-1. **Setup SageMaker in your AWS account.** See the [SageMaker Developer guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) for more information.
+1. **Setup SageMaker in your AWS account.** See the [SageMaker Developer guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) for more information. 
 2. **Create an IAM execution role.** Attach the [AmazonSageMakerFullAccess policy to your role](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 3. **Create an Amazon ECR repository**  to store images you want to execute on SageMaker. See the [Amazon ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for more information.
 4. **(If W&B creates your image) Create an Amazon S3 bucket** to store SageMaker outputs from your runs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information. 
 
-Make note of your IAM RoleARN, your Amazon S3 URI, and your ECR repository name.
+Ensure that the AWS account associated with the launch agent has access to the Amazon ECR repo, Amazon S3 bucket and the ability to create Sagemaker jobs. 
+
+
 
 ## Create a queue
 Create a queue in the W&B App that uses SageMaker as its compute resource:
@@ -197,7 +199,7 @@ wandb launch-agent -e <your-entity> -q <queue-name>  \\
     -c <path-to-agent-config>
 ```
 
-For more information on launch agents, see the Start an agent[LINK] page.
+For more information on launch agents, see the [Start an agent](./run-agent.md) page.
 
 
 

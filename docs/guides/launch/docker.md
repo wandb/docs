@@ -89,7 +89,7 @@ Reminder: you will also need to install the [NVIDIA container toolkit](https://d
 :::
 
 <!-- TODO: put this in a technical FAQ or in the queue docs -->
-For jobs that use tensorflow on GPU, you might also need to specify a custom base image for the container build that the agent will perform in order for your runs to properly utilize GPUs. This can be done by adding an image tag under the `builder.cuda.base_image` key to the resource configuration. For example:
+For jobs that use tensorflow on GPU, you might also need to specify a custom base image for the container build that the agent will perform in order for your runs to properly utilize GPUs. This can be done by adding an image tag under the `builder.accelerator.base_image` key to the resource configuration. For example:
 
 ```json
 {
