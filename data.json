@@ -166,11 +166,19 @@
     },
     {
       "from": "/data-vis",
-      "to": "/guides/data-vis"
+      "to": "/guides/tables"
     },
     {
       "from": "/data-vis/log-tables",
       "to": "/guides/track/log/log-tables"
+    },
+    {
+      "from": "guides/data-vis/tables",
+      "to: ": "guides/tables/visualize-tables"
+    },
+    {
+      "from": "guides/data-vis/tables-quickstart",
+      "to": "guides/tables/tables-quickstart"
     },
     {
       "from": "/datasets-and-predictions",

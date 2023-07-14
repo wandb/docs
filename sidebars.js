@@ -102,12 +102,11 @@ const sidebars = {
     {
       type: 'category',
       label: 'Tables',
-      link: { type: 'doc', id: 'guides/data-vis/intro' },
+      link: { type: 'doc', id: 'guides/tables/intro' },
       items: [
-        // 'guides/data-vis/intro',
-        'guides/data-vis/tables-quickstart',
-        'guides/data-vis/tables',
-        'guides/data-vis/tables-gallery',
+        'guides/tables/tables-quickstart',
+        'guides/tables/tables',
+        'guides/tables/tables-gallery',
       ],
     },
     {
@@ -476,10 +475,10 @@ const sidebars = {
     {
       type: 'category',
       label: 'テーブル',
-      link: {type: 'doc', id: 'guides/data-vis/intro'},
+      link: {type: 'doc', id: 'guides/tables/intro'},
       items: [
-        'guides/data-vis/tables-quickstart',
-        'guides/data-vis/tables',
+        'guides/tables/tables-quickstart',
+        'guides/tables/tables',
       ],
     },
     {
