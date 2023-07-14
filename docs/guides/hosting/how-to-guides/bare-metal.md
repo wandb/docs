@@ -450,19 +450,19 @@ wandb verify
 Check log files to view any errors the W&B Server hits at startup. Run the following commands based on whether if you use Docker or Kubernetes: 
 
 <Tabs
-  defaultValue="apple"
+  defaultValue="docker"
   values={[
-    {label: 'Apple', value: 'apple'},
-    {label: 'Orange', value: 'orange'},
+    {label: 'Docker', value: 'docker'},
+    {label: 'Kubernetes', value: 'kubernetes'},
   ]}>
-  <TabItem value="apple">
+  <TabItem value="docker">
 
 ```bash
 docker logs wandb-local
 ```
 
   </TabItem>
-  <TabItem value="orange">
+  <TabItem value="kubernetes">
 
 ```bash
 kubectl get pods

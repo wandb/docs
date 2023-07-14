@@ -2,7 +2,7 @@
 
 
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/molecule.py#L23-L239)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/molecule.py#L25-L241)
 
 
 
@@ -33,7 +33,7 @@ Molecule(
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/molecule.py#L97-L161)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/molecule.py#L99-L163)
 
 ```python
 @classmethod
@@ -61,7 +61,7 @@ Convert RDKit-supported file/object types to wandb.Molecule.
 
 
 
-[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/molecule.py#L163-L200)
+[View source](https://www.github.com/wandb/client/tree/v0.15.5/wandb/sdk/data_types/molecule.py#L165-L202)
 
 ```python
 @classmethod

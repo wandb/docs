@@ -5,9 +5,13 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Launch a run
+# Launch a job
 
 Use W&B launch to queue jobs for execution by a launch agent. The following guide demonstrates how to submit runs to a queue.
+
+:::tip
+Both the launch queue and the jobs you want to enqueue must belong to the same W&B entity.
+:::
 
 ## Add jobs to your queue
 Add jobs to your queue interactively with the W&B App or programmatically with the CLI.
