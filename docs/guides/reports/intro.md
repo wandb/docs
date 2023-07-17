@@ -30,7 +30,7 @@ Create a collaborative report with a few clicks.
 4. Click **Create report**. 
 
 
-See the [Create a report](./create-a-report.md) page for more information.
+See the [Create a report](./create-a-report.md) page for more information on how to create reports interactively an programmatically with the W&B Python SDK.
 
 ## How to get started
 Depending on your use case, explore the following resources to get started with W&B Reports:
