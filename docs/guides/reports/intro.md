@@ -3,12 +3,14 @@ slug: /guides/reports
 description: Project management and collaboration tools for machine learning projects
 displayed_sidebar: default
 ---
+import Translate, {translate} from '@docusaurus/Translate';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Collaborative Reports
 
+<CTAButtons productLink="https://github.com/wandb/docodile" colabLink="https://www.google.com/"/>
+
 Use W&B Reports to organize Runs, embed and automate visualizations, describe your findings, and share updates with collaborators. Easily export your report as a LaTeX zip file or  convert the file to PDF.
-
-
 
 <!-- {% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %} -->
 
