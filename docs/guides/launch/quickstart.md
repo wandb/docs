@@ -7,6 +7,11 @@ displayed_sidebar: default
 
 Follow this guide to get started using W&B Launch. This guide will walk you through the setup of the fundamental components of a launch workflow: a **job**, **launch queue**, and **launch agent**. Specifically, you will create a job that trains a neural network, create a launch queue that will be used to submit jobs for execution on your local machine, and then create a launch agent that will poll on the queue and execute the jobs that it pops from the queue with Docker.
 
+:::info
+Ensure you have W&B Python SDK version 0.14.0 or higher by running ```
+wandb --version```.
+:::
+
 ## Before you get started
 Before you get started, install Docker on the machine where you will run your launch agent. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker, and make sure the docker daemon is running on your machine before you proceed.
 
