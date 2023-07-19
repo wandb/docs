@@ -8,8 +8,12 @@ displayed_sidebar: default
 
 ## What is Weave?
 
-Weave is a new kind of visual development environment, designed for building AI-powered software. It’s also an open-source, interactive analytics toolkit for performant data exploration.
-Our mission is to equip machine learning practitioners with the best tools to turn data into insights quickly and easily. Whether you are a seasoned data scientist, an aspiring ML practitioner, or just a tech enthusiast eager to play with data, Weave is for you!
+Weave is a visual development environment designed for building AI-powered software.  It is also an open-source, interactive analytics toolkit for performant data exploration and a growing ecosystem of computational patterns. 
+
+Use Weave to:
+* Spend less time waiting for datasets to load and more time exploring data, deriving insights, and building powerful data analytics
+* Interactively explore your data. Work with your data visually and dynamically to discover patterns that static graphs can not reveal, without using complicated APIs.
+* [Monitor AI applications and models in production](./prod-mon.md) with real-time metrics, customizable visualizations, and interactive analysis.
 
 ![](/images/weave/core_weave_demo.gif)
 
@@ -20,15 +24,9 @@ Learn more in the [Weave Github Repo→](https://github.com/wandb/weave)
 * Create, share, and edit Weave Boards for analysis
 * Generate Boards to address common use cases when monitoring production models and working with LLMs
 
-## Primary workflows
+## How it works
 
-Another way to think of Weave is as an ecosystem of computational patterns. We will highlight some of the core workflows here as they evolve:
-
-* [production monitoring](./prod-mon.md): real-time metrics, custom visualizations, and interactive analysis for AI applications and deployed machine learning models serving users
-
-## Weave quickstart
-
-[Run in a Jupyter notebook→](https://github.com/wandb/weave/examples/experimental/skip_test/weave_demo_quickstart.ipynb)
+[Try Weave in a Jupyter notebook→](https://github.com/wandb/weave/blob/master/examples/experimental/skip_test/weave_demo_quickstart.ipynb)
 
 * install via `pip install weave`
 * `import weave` in a notebook
@@ -57,10 +55,3 @@ weave.show(df)
 ### Share a dashboard
 
 ![](/images/weave/make_quick_board.gif)
-
-## Why Weave
-
-* **Performant:** Weave is built with performance in mind. It's designed to handle large datasets smoothly so you can focus on what matters - exploring data, deriving insights, and building powerful abstractions. Under the hood we optimize execution plans and parallelize computation using Arrow.
-* **Interactive:** Weave enables an interactive flow state for data exploration. Work with your data visually and dynamically to discover patterns that static graphs can't reveal - without learning complicated APIs.
-* **Modular ecosystem:** Weave's architecture & compute language consists of Types, Ops, and Panels. Combine, extend, and interconnect different components to build your custom data exploration toolkit. Share your creations to grow our collaborative ecosystem and help other contributors.
-* **Open source:** We believe in the power of open source. Weave is built by the community, for the community. We are excited to see what you build with Weave!
