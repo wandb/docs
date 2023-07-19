@@ -12,7 +12,7 @@ Use Weave to:
 * Spend less time waiting for datasets to load and more time exploring data, deriving insights, and building powerful data analytics
 * Interactively explore your data. Work with your data visually and dynamically to discover patterns that static graphs can not reveal, without using complicated APIs.
 * [Monitor AI applications and models in production](./prod-mon.md) with real-time metrics, customizable visualizations, and interactive analysis.
-<!-- * Generate Boards to address common use cases when monitoring production models and working with LLMs -->
+* Generate Boards to address common use cases when monitoring production models and working with LLMs
 <!-- * W&B offers supplementary data & asset storage as well as a hosted compute engine -->
 
 
@@ -48,13 +48,6 @@ An interactive weave dashboard will appear, similar to the animation shown below
 
 ![](/images/weave/first_load.gif)
 
-
-
-<!-- The following animations show you how you can [explore your dataframe](#view-a-dataframe), [plot charts](#plot-a-chart), and [publish your dashboard to share with your colleagues](#share-a-dashboard): -->
-
-<!-- ### View a dataframe
-
-![](/images/weave/first_load.gif) -->
 
 The following animations show how you can interactively [plot charts](#plot-a-chart) and [publish your dashboard to share with your colleagues](#share-a-dashboard):
 
