@@ -179,6 +179,14 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Weave',
+      link: { type: 'doc', id: 'guides/weave/intro' },
+      items: [
+        'guides/weave/prod-mon',
+      ],
+    },
+    {
+      type: 'category',
       label: 'App Reference',
       link: { type: 'doc', id: 'guides/app/intro' },
       items: [
