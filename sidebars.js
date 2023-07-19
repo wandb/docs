@@ -182,7 +182,9 @@ const sidebars = {
       label: 'Weave',
       link: { type: 'doc', id: 'guides/weave/intro' },
       items: [
-        'guides/weave/prod-mon',
+        'guides/weave/boards',
+        'guides/weave/streamtable',
+        'guides/weave/prod-mon'
       ],
     },
     {
