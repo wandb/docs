@@ -6,11 +6,11 @@ displayed_sidebar: default
 
 # StreamTable
 
-Log and explore some basic StreamTables in an [interactive notebook→](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/stream_table_api.ipynb).
+Log and explore some basic StreamTables in an [interactive notebook](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/stream_table_api.ipynb).
 
 * A Weave StreamTable object enables continuous streaming of data from an application or service to W&B
 * Append data repeatedly to the same StreamTable object with `.log([your data rows])`
-* Build dynamic visualizations from the streaming data, like this example to recognize MNIST digits with [live user feedback→](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/ProductionMonitoringConceptualOverview.ipynb).
+* Build dynamic visualizations from the streaming data, like this example to recognize MNIST digits with [live user feedback](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/ProductionMonitoringConceptualOverview.ipynb).
 
 ![small_prodmon_board](/images/weave/mnist_pm_draw_hover.png)
 

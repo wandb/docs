@@ -6,52 +6,79 @@ displayed_sidebar: default
 
 # Weave
 
-## What is Weave?
-
 Weave is a visual development environment designed for building AI-powered software.  It is also an open-source, interactive analytics toolkit for performant data exploration and a growing ecosystem of computational patterns. 
 
 Use Weave to:
 * Spend less time waiting for datasets to load and more time exploring data, deriving insights, and building powerful data analytics
 * Interactively explore your data. Work with your data visually and dynamically to discover patterns that static graphs can not reveal, without using complicated APIs.
 * [Monitor AI applications and models in production](./prod-mon.md) with real-time metrics, customizable visualizations, and interactive analysis.
+<!-- * Generate Boards to address common use cases when monitoring production models and working with LLMs -->
+<!-- * W&B offers supplementary data & asset storage as well as a hosted compute engine -->
+
 
 ![](/images/weave/core_weave_demo.gif)
 
-Learn more in the [Weave Github Repo→](https://github.com/wandb/weave)
+For more information about Weave, see the [Weave Github Repo](https://github.com/wandb/weave).
 
-* W&B offers supplementary data & asset storage as well as a hosted compute engine
-* Stream data of any shape and type to W&B for analysis with Weave
-* Create, share, and edit Weave Boards for analysis
-* Generate Boards to address common use cases when monitoring production models and working with LLMs
+
 
 ## How it works
+Use Weave to view your dataframe in your notebook with only a few lines of code:
 
-[Try Weave in a Jupyter notebook→](https://github.com/wandb/weave/blob/master/examples/experimental/skip_test/weave_demo_quickstart.ipynb)
+1. First, install or update to the latest version of Weave with pip: 
+```bash
+pip install weave --upgrade
+```
+2. Load your dataframe into your notebook.
+3. View your dataframe with `weave.show`. 
 
-* install via `pip install weave`
-* `import weave` in a notebook
-* explore your data  with one line of code!
-
-### View a dataframe
-
-```python
+```python title="weave.ipynb" showLineNumbers
 import weave
 from sklearn.datasets import load_iris
 
-# use any existing dataframe
-# here we load the iris data and visualize the labels
+# We load in the iris dataset for demonstrative purposes 
 iris = load_iris(as_frame=True)
 df = iris.data.assign(target=iris.target_names[iris.target])
 
 weave.show(df)
 ```
 
+An interactive weave dashboard will appear, similar to the animation shown below:
+
+
 ![](/images/weave/first_load.gif)
 
+
+
+<!-- The following animations show you how you can [explore your dataframe](#view-a-dataframe), [plot charts](#plot-a-chart), and [publish your dashboard to share with your colleagues](#share-a-dashboard): -->
+
+<!-- ### View a dataframe
+
+![](/images/weave/first_load.gif) -->
+
+The following animations show how you can interactively [plot charts](#plot-a-chart) and [publish your dashboard to share with your colleagues](#share-a-dashboard):
+
 ### Plot a chart
+1. Hover your mouse next to a panel and click **Add a new panel**.
+2. Copy the dataset you want to plot.
+3. Click on Table.
+4. From the dropdown, select **Plot**.
 
 ![](/images/weave/qs_table_plot.gif)
 
 ### Share a dashboard
+Select the **Publish** button on the top right of your dashboard to share your weave board:
 
 ![](/images/weave/make_quick_board.gif)
+
+## How to get started
+
+If this is your first time using Weave, we suggest that you explore the following topics:
+
+* [Try Weave in a Jupyter notebook](https://github.com/wandb/weave/blob/master/examples/experimental/skip_test/weave_demo_quickstart.ipynb).
+* Explore the following topics:
+   * [Stream data of any shape and type to W&B for analysis with Weave.](./streamtable.md)
+   * [Create, share, and edit Weave Boards for analysis](./boards.md)
+   * [Monitor AI applications and models in production](./prod-mon.md) with real-time metrics, customizable visualizations, and interactive analysis.
+* Go to the Weave Home page at [weave.wandb.ai](https://weave.wandb.ai/) to see all of your Tables and Boards stored in W&B.
+* Check out the Weave repo [Weave Github Repo](https://github.com/wandb/weave).

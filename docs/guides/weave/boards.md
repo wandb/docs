@@ -6,8 +6,6 @@ displayed_sidebar: default
 
 # Boards 
 
-## Boards are interconnected groups of Weave Panels
-
 ![](/images/weave/weave_latest_board.png)
 
 Dynamically visualize, configure, and extend any StreamTable as a Weave Board. A Weave Board is a fully-customizable arrangement of Weave Panels and their underlying data, with versioned history. From the Weave Board UI, you can iteratively edit Weave Panels, load in any existing W&B Tables, create and link new Panels, make charts (scatter, line, bar, etc), define and call external APIs, and much more as your project evolves.

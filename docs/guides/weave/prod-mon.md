@@ -6,8 +6,6 @@ displayed_sidebar: default
 
 # Production monitoring
 
-## What is production monitoring?
-
 Production monitoring for AI means real-time observability and analytics for any models served from your application. For models deployed to production, monitoring tools and dashboards help track key performance metrics like query rates and latency and enable interactive analytics around model prediction quality and trends, patterns of errors or edge cases, data drift, etc.
 
 ![](/images/weave/prodmon_mini_overview.gif)
@@ -29,9 +27,9 @@ table = StreamTable("prodmon_demo")
 for i in range(100):
   table.log({"_id" : i, "text" : "hi " + str(i), "img" : gen_image()}
 ```
-Read more about the [Weave StreamTable API →](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/StreamTable.md)
+Read more about the [Weave StreamTable API](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/StreamTable.md)
 
-Try a simple interactive example [in a Jupyter notebook→](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/stream_table_api.ipynb)
+Try a simple interactive example [in a Jupyter notebook](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/stream_table_api.ipynb)
 
 ### StreamTables features
 
@@ -63,4 +61,4 @@ ask_llm_calculator(
 * supports pre- and post- processing of inputs and outputs
 * able to add data to rows after execution
 
-Try an interactive example: monitoring an MNIST model with live user feedback [in a Jupyter notebook→](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/ProductionMonitoringConceptualOverview.ipynb)
+Try an interactive example: monitoring an MNIST model with live user feedback [in a Jupyter notebook](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/ProductionMonitoringConceptualOverview.ipynb)
