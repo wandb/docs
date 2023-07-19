@@ -53,14 +53,14 @@ The following animations show how you can interactively [plot charts](#plot-a-ch
 
 ### Plot a chart
 1. Hover your mouse next to a panel and click **Add a new panel**.
-2. Copy the dataset you want to plot.
-3. Click on Table.
+2. Copy the Weave Expression for the dataset you want to plot. This Weave Expression is the path/location of the dataset object in the Weave compute graph.
+3. Click on Table to change this Weave Panel type.
 4. From the dropdown, select **Plot**.
 
 ![](/images/weave/qs_table_plot.gif)
 
 ### Share a dashboard
-Select the **Publish** button on the top right of your dashboard to share your weave board:
+Select the **Publish** button in the top right of your view to share your Weave Board:
 
 ![](/images/weave/make_quick_board.gif)
 
