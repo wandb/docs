@@ -6,11 +6,9 @@ description: >-
 displayed_sidebar: default
 ---
 
-# Weave
+# Querying and plotting Tables
 
-## Introduction
-
-Weave Panels allow users to directly query W&B for data, visualize the results, and further analyze interactively. Weave Panels have 4 primary components, as illustrated in the image below:
+Use Weave Panels to directly query W&B for data, visualize the results, and further analyze interactively. Weave Panels have four primary components, as illustrated in the image below:
 
 1. The **Weave Expression**: specifies the query to execute against W&B's backend
 2. The **Weave Panel Selector**: specifies the Panel used to display the results of the query.
@@ -25,7 +23,7 @@ To try out Weave, Tables, and Plots right away, please checkout this [interactiv
 
 ### Weave Expression
 
-Weave Expressions allow the user to query the data stored in W&B - from runs, to artifacts, to models, to tables, and more! The most common Weave Expression is generated from logging a Table,`wandb.log({"predictions":<MY_TABLE>})`, and will look like this:
+Use Weave Expressions to query the data stored in W&B - from runs, to artifacts, to models, to tables, and more! The most common Weave Expression is generated from logging a Table,`wandb.log({"predictions":<MY_TABLE>})`, and will look like this:
 
 ![](/images/weave/basic_weave_expression.png)
 
