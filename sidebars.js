@@ -218,7 +218,7 @@ const sidebars = {
                 'guides/app/features/panels/run-comparer',
                 {
                   type: 'category',
-                  label: 'Weave',
+                  label: 'Querying and plotting Tables',
                   link: {
                     type: 'doc',
                     id: 'guides/app/features/panels/weave/intro',
