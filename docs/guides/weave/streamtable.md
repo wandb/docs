@@ -1,3 +1,9 @@
+---
+slug: /guides/weave/streamtable
+description: Weave StreamTable API for logging a continuous stream of data
+displayed_sidebar: default
+---
+
 # StreamTable
 
 Log and explore some basic StreamTables in an [interactive notebook→](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/stream_table_api.ipynb).
