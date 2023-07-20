@@ -430,7 +430,7 @@ from dagster_wandb import WandbArtifactConfiguration
 
 The integration natively supports [Dagster partitions](https://docs.dagster.io/concepts/partitions-schedules-sensors/partitions).
 
-Here's a simple example with a partitioned using `DailyPartitionsDefinition`.
+The following is an example with a partitioned using `DailyPartitionsDefinition`.
 ```python
 @asset(
     partitions_def=DailyPartitionsDefinition(start_date="2023-01-01", end_date="2023-02-01"),
@@ -447,7 +447,7 @@ def create_my_daily_partitioned_asset(context):
     context.log.info(f"Creating partitioned asset for {partition_key}")
     return random.randint(0, 100)
 ```
-This code will produce one W&B Artifact for each partition. They can be located under the Artifact name, which will be appended with the partition key e.g. `my_daily_partitioned_asset.2023-01-01`. Assets that are partitioned across multiple dimensions will have each partition divided by a dot e.g. `my_asset.car.blue`.
+This code will produce one W&B Artifact for each partition. They can be located under the Artifact name, which will be appended with the partition key, for example `my_daily_partitioned_asset.2023-01-01`. Assets that are partitioned across multiple dimensions will have each partition divided by a dot e.g. `my_asset.car.blue`.
 
 :::caution
 The integration does not allow for the materialization of multiple partitions within one run. You will need to carry out multiple runs to materialize your assets. This can be executed in Dagit when you're materializing your assets.
@@ -757,7 +757,7 @@ The integration natively supports [Dagster partitions](https://docs.dagster.io/c
 
 You can selectively read one, multiple or all partitions of an asset.
 
-All partition are provided in a dictionary, with the key and value representing the partition key and the Artifact content, respectively.
+All partitions are provided in a dictionary, with the key and value representing the partition key and the Artifact content, respectively.
 
 <!-- 
 <Tabs
@@ -830,11 +830,9 @@ The `partitions` object maps the name of each partition to its configuration. Th
 **Configuration keys**
 
 1. `get`:
-The `get` key specifies the name of the W&B Object (Table, Image...) from which to fetch the data. 
-
+The `get` key specifies the name of the W&B Object (Table, Image...) where to fetch the data. 
 2. `version`:
 The `version` key is used when you want to fetch a specific version for the Artifact. 
-
 3. `alias`:
 The `alias` key allows you to get the Artifact by its alias.
 
@@ -849,7 +847,7 @@ For example,
     "get": "default_table_name",
 },
 ```
-This configuration means that for all partitions not explicitly configured, data will be fetched from the table named `default_table_name`.
+This configuration means that for all partitions not explicitly configured, data is fetched from the table named `default_table_name`.
 
 **Specific partition configuration**
 
@@ -916,7 +914,7 @@ The integration provides an importable `@op` called `run_launch_agent`. It start
 
 Agents are processes that poll launch queues and execute the jobs (or dispatch them to external services to be executed) in order.
 
-Please refer to the [reference documentation](https://docs.wandb.ai/guides/launch) for configuration
+Refer to the [reference documentation](../launch/intro.md) for configuration
 
 You can also view useful descriptions for all properties in Launchpad.
 
@@ -964,7 +962,7 @@ The integration provides an importable `@op` called `run_launch_job`. It execute
 
 A Launch job is assigned to a queue in order to be executed. You can create a queue or use the default one. Make sure you have an active agent listening to that queue. You can run an agent inside your Dagster instance but can also consider using a deployable agent in Kubernetes.
 
-Please refer to the [reference documentation](https://docs.wandb.ai/guides/launch) for configuration.
+Refer to the [reference documentation](../launch/intro.md) for configuration.
 
 You can also view useful descriptions for all properties in Launchpad.
 
