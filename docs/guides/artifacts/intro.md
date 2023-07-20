@@ -10,7 +10,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Artifacts
 
-<CTAButtons productLink="https://github.com/wandb/docodile" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W&B.ipynb"/>
+<CTAButtons productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W%26B_Artifacts.ipynb"/>
 
 Use W&B Artifacts to track and version any serialized data as the inputs and outputs of your [W&B Runs](../runs/intro.md). For example, a model training run might take in a dataset as input and trained model as output. In addition to logging hyper-parameters and metadata to a run, you can use an artifact to log the dataset used to train the model as input and the resulting model checkpoints as outputs. You will always be able answer the question “what version of my dataset was this model trained on”.
 
@@ -36,7 +36,7 @@ Create an artifact with four lines of code:
 ```python showLineNumbers
 run = wandb.init(project="artifacts-example", job_type='add-dataset')
 artifact = wandb.Artifact(name='my_data', type='dataset')
-artifact.add_file(local_path='./dataset.h5') # Add dataset to artifact
+artifact.add_dir(local_path='./dataset.h5') # Add dataset directory to artifact
 run.log_artifact(artifact) # Logs the artifact version "my_data:v0"
 ```
 
