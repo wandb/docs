@@ -3,12 +3,8 @@ slug: /guides/models
 description: Model registry to manage the model lifecycle from training to production
 displayed_sidebar: default
 ---
-import Translate, {translate} from '@docusaurus/Translate';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Models 
-
-<CTAButtons productLink="https://github.com/wandb/docodile" colabLink="https://www.google.com/"/>
 
 Use W&B Models as a central system of record for your best models, standardized and organized in a model registry across projects and teams. 
 
