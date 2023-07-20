@@ -8,7 +8,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Collaborative Reports
 
-<CTAButtons productLink="https://github.com/wandb/docodile" colabLink="https://www.google.com/"/>
+<CTAButtons productLink="https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ?utm_source=fully_connected&utm_medium=blog&utm_campaign=view+from+the+drivers+seat" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb"/>
 
 Use W&B Reports to organize Runs, embed and automate visualizations, describe your findings, and share updates with collaborators. Easily export your report as a LaTeX zip file or  convert the file to PDF.
 
@@ -30,7 +30,9 @@ Create a collaborative report with a few clicks.
 
 3. A modal titled **Create Report** will appear. Select the charts and panels you want to add to your report. (You can add or remove charts and panels later).
 4. Click **Create report**. 
-
+5. Edit the report to your desired state. 
+6. Click **Publish to project**.
+7. Click the **Share** button to share your report with collaborators. 
 
 See the [Create a report](./create-a-report.md) page for more information on how to create reports interactively an programmatically with the W&B Python SDK.
 
