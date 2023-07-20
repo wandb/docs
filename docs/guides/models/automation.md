@@ -1,11 +1,11 @@
 ---
-description: Use automation for model CI (automated model evaluation pipelines) and model deployment.
+description: Use an Automation for model CI (automated model evaluation pipelines) and model deployment.
 displayed_sidebar: default
 ---
 
-# Automation
+# Automations
 
-Use Automation to easily trigger workflow steps, such as automated model testing and deployment, on your own infrastructure with a lightweight Launch connector.
+An Automation is an event, action pair where a specific event in W&B will kick off a downstream action, such as a [Launch Job]([https://docs.wandb.ai/guides/launch](https://docs.wandb.ai/guides/launch/create-job). Use Automations to easily trigger workflow steps, such as automated model testing and deployment, on your own infrastructure with a lightweight Launch connector. 
 
 ![](/images/models/automations_section_in_registry.png)
 
@@ -22,3 +22,8 @@ You can automatically trigger actions based on two types of events:
 ## Infrastructure
 
 Use [Launch](https://docs.wandb.ai/guides/launch) to set up a connection to your own compute resources, whether that’s a GPU machine at your desk or a scalable cloud Kubernetes cluster.
+
+**Coming Soon**: Create an automation that triggers a **web-hook** to kick off an action in an external system, such as GitHub Actions. Please reach out to support@wandb.com to learn more. 
+
+## Walkthrough
+For a step by step guide on how to use Automations for Model CI, check out [this](https://wandb.ai/examples/wandb_automations/reports/Model-CI-with-W-B-Automations--Vmlldzo0NDY5OTIx) report.
