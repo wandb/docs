@@ -6,7 +6,7 @@ displayed_sidebar: default
 
 # Weave
 
-Weave is a visual development environment designed for building AI-powered software.  It is also an open-source, interactive analytics toolkit for performant data exploration and a growing ecosystem of computational patterns. 
+Weave is a visual development environment designed for building AI-powered software.  It is also an open-source, interactive analytics toolkit for performant data exploration.
 
 Use Weave to:
 * Spend less time waiting for datasets to load and more time exploring data, deriving insights, and building powerful data analytics
