@@ -4,11 +4,8 @@ description: Easily scale and manage ML jobs using W&B Launch.
 displayed_sidebar: default
 ---
 import Translate, {translate} from '@docusaurus/Translate';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Launch
-
-<CTAButtons productLink="https://github.com/wandb/docodile" colabLink="https://www.google.com/"/>
 
 Easily scale training [runs](../runs/intro.md) from your desktop to your GPUs, quickly spin up intensive model evaluation suites, and prepare models for production inference, all without the friction of complex infrastructure.
 
