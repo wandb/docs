@@ -25,7 +25,7 @@ $ wandb artifact put --name project/artifact_name --type TYPE PATH
 Weights & Biasesは、指定したプロジェクトが存在しない場合、新しいプロジェクトを作成します。アーティファクトのダウンロード方法については、[アーティファクトのダウンロードと使用](https://docs.wandb.ai/guides/artifacts/download-and-use-an-artifact)を参照してください。
 ## Weights & Biasesを使わずにアーティファクトをトラッキングする
 
-Weights & Biases Artifactsをデータセットのバージョン管理とモデルの履歴用に使い、W&Bサーバーの外に保存されたファイルをトラッキングするために**リファレンスアーティファクト**を使用します。このモードでは、アーティファクトはファイルのメタデータのみを保存し、URL、サイズ、チェックサムなどが含まれます。実際のデータはシステムから離れることはありません。ファイルやディレクトリをW&Bサーバーに代わりに保存する方法については、[クイックスタート](https://docs.wandb.ai/guides/artifacts/quickstart)をご覧ください。
+Weights & Biases Artifactsをデータセットのバージョン管理とモデルの履歴用に使い、W&Bサーバーの外に保存されたファイルをトラッキングするために**リファレンスアーティファクト**を使用します。このモードでは、アーティファクトはファイルのメタデータのみを保存し、URL、サイズ、チェックサムなどが含まれます。実際のデータはシステムから離れることはありません。ファイルやディレクトリをW&Bサーバーに代わりに保存する方法については、[クイックスタート](https://docs.wandb.ai/guides/artifacts/artifacts-walkthrough)をご覧ください。
 
 GCPでリファレンスファイルをトラッキングする例については、[リファレンスでアーティファクトをトラッキングするガイド](https://wandb.ai/stacey/artifacts/reports/Tracking-Artifacts-by-Reference--Vmlldzo1NDMwOTE)を参照してください。
 

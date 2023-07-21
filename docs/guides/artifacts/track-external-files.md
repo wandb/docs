@@ -27,7 +27,7 @@ W&B will create a new project if a the project you specify does not exist. For i
 
 ## Track artifacts outside of W&B
 
-Use W&B Artifacts for dataset versioning and model lineage, and use **reference artifacts** to track files saved outside the W&B server. In this mode an artifact only stores metadata about the files, such as URLs, size, and checksums. The underlying data never leaves your system.  See the [Quick start](https://docs.wandb.ai/guides/artifacts/quickstart) for information on how to save files and directories to W&B servers instead.
+Use W&B Artifacts for dataset versioning and model lineage, and use **reference artifacts** to track files saved outside the W&B server. In this mode an artifact only stores metadata about the files, such as URLs, size, and checksums. The underlying data never leaves your system.  See the [Quick start](https://docs.wandb.ai/guides/artifacts/artifacts-walkthrough) for information on how to save files and directories to W&B servers instead.
 
 The following describes how to construct reference artifacts and how to best incorporate them into your workflows.
 

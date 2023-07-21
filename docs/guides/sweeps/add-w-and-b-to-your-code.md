@@ -174,7 +174,7 @@ Note that you must provide the name of your Python script for the `program` key 
 
 Next, we add the following to the code example:
 
-1. Line 1-2: Import the Wights & Biases Python SDK (`wandb`) and PyYAML (`yaml`). PyYAML is used to read in our YAML configuration file.
+1. Line 1-2: Import the Wieghts & Biases Python SDK (`wandb`) and PyYAML (`yaml`). PyYAML is used to read in our YAML configuration file.
 2. Line 18: Read in the configuration file.
 3. Line 21: Use the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a [W&B Run](../../ref/python/run.md). We pass the config object to the config parameter.
 4. Line 25 - 27: Define hyperparameter values from `wandb.config` instead of using hard coded values.

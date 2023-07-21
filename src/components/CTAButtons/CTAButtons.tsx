@@ -29,10 +29,11 @@ export const CTAButtons = ({productLink, colabLink}: {productLink:string, colabL
         rel:"noreferrer",
         as:'a'
     }
+
     return (
         <CTAContainer>
-            <Button href={productLink} Icon={<StyledWBLogo height={35} width={35}/>} {...buttonProps}>Try in product</Button>
-            <Button href={colabLink} Icon={<StyledColabLogo height={24} width={24}/>} {...buttonProps}>Try in colab</Button>
+            <Button href={productLink} Icon={<StyledWBLogo height={35} width={35}/>} onClick={() => {console.log("something"); window.analytics?.track('Docs button clicked', {type: 'Try in product'})}} {...buttonProps}>Try in product</Button>
+            <Button href={colabLink} Icon={<StyledColabLogo height={24} width={24}/>} onClick={() => {console.log("something"); window.analytics?.track('Docs button clicked', {type: 'Try in colab'})}}{...buttonProps}>Try in colab</Button>
         </CTAContainer>
     );
 };
