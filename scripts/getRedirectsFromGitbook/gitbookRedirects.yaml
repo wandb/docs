@@ -162,7 +162,7 @@ redirects:
   guides/artifacts-1/model-versioning: ./guides/data-and-model-versioning/model-versioning.md
   artifacts: ./guides/artifacts/README.md
   artifacts/artifacts-core-concepts: ./guides/artifacts/README.md#how-it-works
-  artifacts/api: ./guides/artifacts/quickstart.md
+  artifacts/api: ./guides/artifacts/artifacts-walkthrough.md
   artifacts/dataset-versioning: ./guides/artifacts/dataset-versioning.md
   artifacts/model-versioning: ./guides/artifacts/model-versioning.md
   artifacts/artifact-creation-modes: ./guides/artifacts/create-a-new-artifact-version.md
