@@ -13,7 +13,7 @@ import TabItem from '@theme/TabItem';
   <title>Create a W&B Report</title>
 </head>
 
-Create a Report interactively with the App UI or programmatically with the `wandb` Python SDK.
+Create a report interactively with the W&B App UI or programmatically with the W&B Python SDK.
 
 :::info
 Creating Reports programmatically with the Python SDK is in Beta and in active development.
@@ -28,19 +28,24 @@ Creating Reports programmatically with the Python SDK is in Beta and in active d
   ]}>
   <TabItem value="app">
 
-Click **Create report** in the upper right corner of your workspace.
+1. Navigate to your project workspace in the W&B App.
+2. Click **Create report** in the upper right corner of your workspace.
 
 ![](/images/reports/create_a_report_button.png)
 
-Select the charts you would like to start with. You can add or delete charts later from the report interface.
+3. A modal will appear. Select the charts you would like to start with. You can add or delete charts later from the report interface.
 
 ![](/images/reports/create_a_report_modal.png)
 
-Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. Once you click **Create report,** a draft report will be available in the report tab to continue working on.
+4. Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. Once you click **Create report,** a draft report will be available in the report tab to continue working on.
+
+
   </TabItem>
   <TabItem value="reporttab">
 
-Navigate to the **Reports** tab in your project and select the **Create Report** button on the report page. This creates a new blank report. Save a report to get a shareable link, or send charts to the report from different workspaces, and different projects.
+1. Navigate to your project workspace in the W&B App.
+2. Select to the **Reports** tab (clipboard image) in your project.
+3. Select the **Create Report** button on the report page. 
 
 ![](/images/reports/create_report_button.png)
   </TabItem>
