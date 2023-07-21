@@ -58,7 +58,7 @@ with wandb.init(project="models_quickstart") as run:
 Depending on your use case, explore the following resources to get started with W&B Models:
 
 <!-- * [Try the Quickstart](./quickstart.md) to log and link a sample model in just two minutes. -->
-* If this is your first time using W&B Models, we recommend you go through the Models Colab notebook.
+* Check out the [Model Registry Quickstart YouTube](https://www.youtube.com/watch?v=jy9Pk9riwZI&ab_channel=Weights%26Biases) video.
 * Read the [models walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
 * Explore this chapter to learn how about:
    * [Role based access controls (RBAC)](./access_controls.md).
