@@ -8,7 +8,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Visualize your data
 
-<CTAButtons productLink="https://github.com/wandb/docodile" colabLink="https://google.com"/>
+<CTAButtons productLink="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb"/>
 
 Use W&B Tables to log, query, and analyze tabular data. Understand your datasets, visualize model predictions, and share insights in a central dashboard. 
 
@@ -18,7 +18,7 @@ For example, with W&B Tables, you can:
 * Understand higher-level patterns in your data
 * Capture and communicate your insights with visual samples
 
-[INSERT photo]
+![](/images/data_vis/compare_model_versions.png)
 
 ## How it works
 
@@ -44,4 +44,5 @@ run.log({"Table Name": my_table})
 ## How to get started
 <!-- * If this is your first time using W&B Artifacts, we recommend you go through the [Artifacts Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W&B.ipynb#scrollTo=fti9TCdjOfHT). -->
 * Read the [quickstart](./tables-quickstart.md) for a step-by-step instructions on how to log data tables, visualize data, and query data.
+* View the [Tables gallery](./tables-gallery.md) for different ways you can use tables.
 
