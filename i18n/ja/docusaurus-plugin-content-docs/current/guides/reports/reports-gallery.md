@@ -1,6 +1,6 @@
 ---
 description: Reports gallery
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # Reports gallery
