@@ -8,7 +8,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Tune Hyperparameters
 
-<CTAButtons productLink="" colabLink=""/>
+<CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb"/>
 
 <head>
   <title>Tune Hyperparameters with Sweeps</title>
