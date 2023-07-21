@@ -23,7 +23,5 @@ You can automatically trigger actions based on two types of events:
 
 Use [Launch](https://docs.wandb.ai/guides/launch) to set up a connection to your own compute resources, whether that’s a GPU machine at your desk or a scalable cloud Kubernetes cluster.
 
-**Coming Soon**: Create an automation that triggers a **web-hook** to kick off an action in an external system, such as GitHub Actions. Please reach out to support@wandb.com to learn more. 
-
 ## Walkthrough
 For a step by step guide on how to use Automations for Model CI, check out [this](https://wandb.ai/examples/wandb_automations/reports/Model-CI-with-W-B-Automations--Vmlldzo0NDY5OTIx) report.
