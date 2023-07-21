@@ -11,20 +11,28 @@ displayed_sidebar: default
   <title>Construct Artifacts</title>
 </head>
 
-Use the W&B SDK to construct an artifact during or outside of a [W&B Run](../../ref/python/run.md). Add files, directories, URIs, and files from parallel runs to artifacts. Once a file or URI is added, save your artifact to W&B with a W&B Run. For information on how to track an external file outside of a W&B Run, see [Track external files](./track-external-files.md).
+Use the W&B Python SDK to construct artifacts from [W&B Runs](../../ref/python/run.md). You can add [files, directories, URIs, and files from parallel runs to artifacts](#add-files-to-an-artifact). After you add a file to an artifact, save the artifact to the W&B Server or [your own private server](../hosting/hosting-options/self-managed.md).
 
-### How to construct an artifact
+For information on how to track external files, such as files stored in Amazon S3, see the [Track external files](./track-external-files.md) page.
 
-Constructing a [W&B Artifact](../../ref/python/artifact.md) within a run is a three step process:
+## How to construct an artifact
 
-#### 1. Create an artifact Python object with `wandb.Artifact()`
+Construct a [W&B Artifact](../../ref/python/artifact.md) in three steps:
 
-Initialize the [`wandb.Artifact()`](../../ref/python/artifact.md) class to create an artifact. Specify the following parameters:
+### 1. Create an artifact Python object with `wandb.Artifact()`
+
+Initialize the [`wandb.Artifact()`](../../ref/python/artifact.md) class to create an artifact object. Specify the following parameters:
 
 * **Name**: Specify a name for your artifact. The name should be unique, descriptive, and easy to remember. Use an artifacts name to both: identify the artifact in the W&B App UI and when you want to use that artifact.
 * **Type**: Provide a type. The type should be simple, descriptive and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
 
-You can view the lineage of an artifact within the W&B App UI. The "name" and "type" you provide is used to create a directed acyclic graph. See the [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph.md) for more information.
+
+:::tip
+The "name" and "type" you provide is used to create a directed acyclic graph. This means you can view the lineage of an artifact on the W&B App. 
+
+See the [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph.md) for more information.
+:::
+
 
 :::caution
 Artifacts can not have the same name, even if you specify a different type for the types parameter. In other words, you can not create an artifact named ‘cats’ of type ‘dataset’ and another artifact with the same name of type ‘model’.
@@ -42,7 +50,7 @@ artifact = wandb.Artifact(name='<replace>', type='<replace>')
 
 Replace the string arguments in the preceding code snippet with your own name and type.
 
-#### 2. Add one more files to the artifact
+### 2. Add one more files to the artifact
 
 Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the [`add_file`](../../ref/python/artifact.md#add_file) method:
 
@@ -55,7 +63,7 @@ artifact.add_file(
 
 You can also add multiple files with the [`add_dir`](../../ref/python/artifact.md#add_dir) method. For more information on how to add files, see [Update an artifact](./update-an-artifact.md).
 
-#### 3. Save your artifact to the W&B server
+### 3. Save your artifact to the W&B server
 
 Finally, save your artifact to the W&B server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`](../../ref/python/run#log\_artifact) method to save the artifact.
 

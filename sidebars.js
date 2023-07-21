@@ -75,6 +75,7 @@ const sidebars = {
         'guides/reports/clone-and-export-reports',
         'guides/reports/embed-reports',
         'guides/reports/cross-project-reports',
+        'guides/reports/reports-gallery',
         'guides/reports/reports-faq',
       ],
     },
@@ -84,7 +85,7 @@ const sidebars = {
       link: { type: 'doc', id: 'guides/artifacts/intro' },
       items: [
         // 'guides/artifacts/intro',
-        'guides/artifacts/quickstart',
+        'guides/artifacts/artifacts-walkthrough',
         'guides/artifacts/construct-an-artifact',
         'guides/artifacts/download-and-use-an-artifact',
         'guides/artifacts/update-an-artifact',
@@ -137,13 +138,13 @@ const sidebars = {
       link: { type: 'doc', id: 'guides/models/intro' },
       items: [
         // 'guides/models/intro',
-        'guides/models/quickstart',
+        // 'guides/models/quickstart',
+        'guides/models/walkthrough',
         'guides/models/access_controls',
         'guides/models/automation',
         'guides/models/notifications',
         'guides/models/model_tags',
         'guides/models/model-management-concepts',
-        'guides/models/walkthrough',
       ],
     },
     {
@@ -175,6 +176,16 @@ const sidebars = {
       },
       items: [
         'guides/prompts/quickstart',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Weave',
+      link: { type: 'doc', id: 'guides/weave/intro' },
+      items: [
+        'guides/weave/boards',
+        'guides/weave/streamtable',
+        'guides/weave/prod-mon'
       ],
     },
     {
@@ -450,6 +461,7 @@ const sidebars = {
         'guides/reports/clone-and-export-reports',
         'guides/reports/embed-reports',
         'guides/reports/cross-project-reports',
+        'guides/reports/reports-gallery',
         'guides/reports/reports-faq',
       ],
     },
@@ -458,7 +470,7 @@ const sidebars = {
       label: 'アーティファクト',
       link: {type: 'doc', id: 'guides/artifacts/intro'},
       items: [
-        'guides/artifacts/quickstart',
+        'guides/artifacts/artifacts-walkthrough',
         'guides/artifacts/construct-an-artifact',
         'guides/artifacts/download-and-use-an-artifact',
         'guides/artifacts/update-an-artifact',

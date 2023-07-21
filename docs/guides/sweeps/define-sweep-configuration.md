@@ -31,7 +31,7 @@ The following code snippets demonstrate examples of how to define a Sweep config
 
 ```python
 sweep_configuration = {
-    'method': 'random',
+    'method': 'bayes',
     'name': 'sweep',
     'metric': {
         'goal': 'minimize', 
@@ -84,6 +84,8 @@ wandb.log({
         'val_loss': validation_loss
       })
 ```
+
+Defining the metric in the sweep configuration is only required when using the bayes method for the sweep. 
 
 ### Sweep configuration structure
 
