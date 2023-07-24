@@ -5,7 +5,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Visualize & Analyze Tables
+# Visualize & analyze tables
 
 Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. 
 
@@ -19,8 +19,8 @@ Interactively explore your data to:
 
 :::info
 W&B Tables posses the following behaviors:
-1. **stateless in an artifact context**: any table logged alongside an artifact version will reset to its default state after you close the browser window
-2. **stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or Report will persist.
+1. **Stateless in an artifact context**: any table logged alongside an artifact version will reset to its default state after you close the browser window
+2. **Stateful in a workspace or report context**: any changes you make to a table in a single run workspace, multi-run project workspace, or Report will persist.
 
 For information on how to save your current W&B Table view, see [Save your view](#save-your-view).
 :::
@@ -32,13 +32,16 @@ Compare two tables with a [merged view](#merged-view) or a [side-by-side view](#
 
 Follow these steps to compare two tables:
 
-1. Go to your W&B project and select the artifacts icon on the left panel.
-2. Select a dataset artifact version. In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([view interactive example.](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json))
+1. Go to your project in the W&B App.
+2. Select the artifacts icon on the left panel.
+2. Select an artifact version. 
+
+In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([view interactive example here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)).
 
 ![Click on "predictions" to view the Table](@site/static/images/data_vis/preds_mnist.png)
 
-3. Next, select a different artifact version for comparison. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
-4. Hover over the second artifact version in the sidebar and click **Compare** when it appears.
+
+3. Hover over the second artifact version you want to compare in the sidebar and click **Compare** when it appears. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
 
 ![Preparing to compare model predictions after training for 1 epoch (v0, shown here) vs 5 epochs (v4)](@site/static/images/data_vis/preds_2.png)
 
@@ -46,11 +49,11 @@ Follow these steps to compare two tables:
 Merge two tables together. 
 
 <!-- To do, add steps -->
+<!-- 1. From the dropdown  -->
 
 
-[Live example →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec)
 
-Initially you will see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight.
+Initially you will see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 
 ![In the merged view, numerical columns will appear as histograms by default](@site/static/images/data_vis/merged_view.png)
 
@@ -77,14 +80,14 @@ To view the two tables side-by-side, change the first dropdown from "Merge Table
 You can also [compare tables across time](#compare-across-time) or [model variants](#compare-across-model-variants). 
 
 
-### Compare across time
+### Compare tables across time
 Log a table in an artifact for each meaningful step of training to analyze model performance over training time. For example, you could log a table at the end of every validation step, after every 50 epochs of training, or any frequency that makes sense for your pipeline. Use the side-by-side view to visualize changes in model predictions.
 
 ![For each label, the model makes fewer mistakes after 5 training epochs (R) than after 1 (L)](/images/data_vis/compare_across_time.png)
 
 For a more detailed walkthrough of visualizing predictions across training time, [see this report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) and this interactive [notebook example](http://wandb.me/tables-quickstart).
 
-### Compare across model variants
+### Compare tables across model variants
 
 Compare two artifact versions logged at the same step for two different models to analyze model performance across different configurations (hyperparameters, base architectures, and so forth).
 
@@ -109,7 +112,11 @@ For example, compare predictions between a `baseline` and a new model variant, `
 
 ## Save your view
 
-Tables you interact with in the run workspace, project workspace, or a report will automatically save their view state. If you apply any table operations then close your browser, the table will retain the last viewed configuration when you next navigate to the table. Tables you interact with in the artifact context will remain stateless.
+Tables you interact with in the run workspace, project workspace, or a report will automatically save their view state. If you apply any table operations then close your browser, the table will retain the last viewed configuration when you next navigate to the table. 
+
+:::tip
+Tables you interact with in the artifact context will remain stateless.
+:::
 
 To save a table from a workspace in a particular state, export it to a W&B Report. To export a table to report:
 1. Select the kebob icon (three vertical dots) in the top right corner of your workspace visualization panel.

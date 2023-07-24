@@ -8,16 +8,18 @@ displayed_sidebar: default
 The following Quickstart demonstrates how to log data tables, visualize data, and query data.
 
 
-Select the button below to try a PyTorch Quickstart example project on MNIST data. [**Try in a Colab Notebook here →**](http://wandb.me/tables-quickstart)
+Select the button below to try a PyTorch Quickstart example project on MNIST data. 
 
 ## 1. Log a table
 
-Follow the procedure outlined below to log a Table with W&B:
-1. Initialize a W&B Run with [`wandb.init()`](../../ref/python/init.md). 
-2. Create a [`wandb.Table()`](../../ref/python/data-types/table.md) object instance. Pass the name of the columns in your table along with the data for the `columns` and `data` parameters, respectively.  
+Follow the procedure describes how to log a table to W&B:
+1. Initialize a W&B [Run](../runs/intro.md) with [`wandb.init()`](../../ref/python/init.md). 
+2. Create a [`wandb.Table()`](../../ref/python/data-types/table.md) object. Pass the name of the columns in your table along with the data for the `columns` and `data` parameters, respectively.  
 3. Log the table with [`run.log()`](../../ref/python/log.md) as a key-value pair. Provide a name for your table for the key, and pass the object instance of `wandb.Table` as the value.
 
 ```python
+import wandb
+
 run = wandb.init(project="table-test")
 my_table = wandb.Table(
     columns=["a", "b"], 
@@ -28,9 +30,12 @@ run.log({"Table Name": my_table})
 
 You can optionally pass in a Pandas DataFrame to `wandb.Table()` Class. For more information on supported data types, see the [`wandb.Table`](../../ref/python/data-types/table.md) in the W&B API Reference Guide.
 
-## 2. Visualize tables in the workspace
+## 2. Visualize tables in your project workspace
 
-View the resulting table in your workspace. Navigate to the W&B App and select the name of your Run in your Project workspace. A new panel is added for each unique table key. 
+View the resulting table in your workspace. 
+
+1. Navigate to your project in the W&B App.
+2. Select the name of your run in your project workspace. A new panel is added for each unique table key. 
 
 ![](/images/data_vis/wandb_demo_logged_sample_table.png)
 
