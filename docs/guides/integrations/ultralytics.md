@@ -170,4 +170,4 @@ Here's how the interactive bbox overlay looks:
 
 ![](@site/static/images/integrations/ultralytics/interactive_bbox.gif)
 
-You can fine more information on the W&B image overlays [here](![](@site/static/images/integrations/log_metrics.gif)).
+You can fine more information on the W&B image overlays [here](https://docs.wandb.ai/guides/track/log/media#image-overlays).
