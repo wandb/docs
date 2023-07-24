@@ -23,13 +23,15 @@ Here is [an example Table](https://wandb.ai/av-team/mlops-course-001) with inter
 
 ## How it works
 
-A W&B Table is a two dimensional grid of data where each column has a single type of data. Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types. 
+A Table is a two-dimensional grid of data where each column has a single type of data. Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types. 
 
 Log a table with a few lines of code:
 
-1. Create a W&B Run with [`wandb.init()`](../../ref/python/init.md). 
-2. Create a [`wandb.Table()`](../../ref/python/data-types/table.md) object instance. Pass the name of the columns in your table along with the data for the `columns` and `data` parameters, respectively.  
-3. Log the table with [`run.log()`](../../ref/python/log.md) as a key-value pair. Provide a name for your table for the key, and pass the object instance of `wandb.Table` as the value.
+- [`wandb.init()`](../../ref/python/init.md): Create a run
+- [`wandb.Table()`](../../ref/python/data-types/table.md): Create a table
+  - `columns`: Set the column names
+  - `data`: Set the contents of the table
+- [`run.log()`](../../ref/python/log.md): Log the table to save to W&B
 
 ```python showLineNumbers
 run = wandb.init(project="table-test")
@@ -44,6 +46,6 @@ run.log({"Table Name": my_table})
 
 ## How to get started
 <!-- * If this is your first time using W&B Artifacts, we recommend you go through the [Artifacts Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W&B.ipynb#scrollTo=fti9TCdjOfHT). -->
-* Read the [quickstart](./tables-quickstart.md) for a step-by-step instructions on how to log data tables, visualize data, and query data.
-* View the [Tables gallery](./tables-gallery.md) for different ways you can use tables.
+* [Quickstart](./tables-quickstart.md): Learn to log data tables, visualize data, and query data.
+* [Tables Gallery](./tables-gallery.md): See example use cases for Tables.
 
