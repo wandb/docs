@@ -173,6 +173,22 @@ importer.import_all_reports(
 )
 ```
 
+#### Advanced
+
+The importer supports more granular control over imports as well.
+
+You can import individual runs and reports with `import_run` and `import_report` respectively.
+
+You can also collect and import a list of runs based on your own custom logic. For example:
+
+```py
+runs = importer.collect_runs(src_entity)
+
+for run in runs:
+    if run.name().startswith("something-important"):
+        importer.import_run(run)
+```
+
 ## Export Data
 
 Use the Public API to export or update data that you have saved to W&B. Before using this API, you'll want to log data from your script — check the [Quickstart](../../quickstart.md) for more details.
