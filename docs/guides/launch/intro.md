@@ -17,9 +17,13 @@ Launch is composed of three fundamental components: **jobs, queues, and agents**
 
 A [job](./create-job.md) is a blueprint for configuring and running tasks in your ML workflow.  Once you have a job, you can add it to a [*launch queue*](./create-queue.md). A launch queue is a first-in, first-out (FIFO) queues where you can configure and submit your jobs to a particular compute resource. 
 
+![](/images/launch/mlOps_flow.png)
+
 As jobs are added to the queue, a [*launch agent*](./run-agent.md) will poll that queue and execute the job on the system targeted by the queue this job was taken from.
 
-![](/images/launch/Launch_Diagram.png)
+![](/images/launch/ml_user_flow.png)
+
+<!-- ![](/images/launch/Launch_Diagram.png) -->
 
 
 ## How to get started
