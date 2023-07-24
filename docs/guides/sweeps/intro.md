@@ -3,8 +3,12 @@ slug: /guides/sweeps
 description: Hyperparameter search and model optimization with W&B Sweeps
 displayed_sidebar: default
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
+
 
 # Tune Hyperparameters
+
+<CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb"/>
 
 <head>
   <title>Tune Hyperparameters with Sweeps</title>
@@ -15,33 +19,40 @@ Use W&B Sweeps to automate hyperparameter search and explore the space of possib
 ![Draw insights from large hyperparameter tuning experiments with interactive dashboards.](/images/sweeps/intro_what_it_is.png)
 
 ### How it works
+Create a sweep with two [W&B CLI](../../ref/cli/README.md) commands:
 
-There are two components to W&B Sweeps: a _controller_ and one or more _agents_. The controller picks out new hyperparameter combinations. [Typically the Sweep server is managed on the W&B server](./local-controller.md).
 
-Agents query the W&B server for hyperparameters and use them to run model training. The training results are then reported back to the Sweep server. Agents can run one or more processes on one or more machines. The flexibility of agents to run multiple processes across multiple machines makes it easy to parallelize and scale Sweeps. For more information on how to scale sweeps, see [Parallelize agents](./parallelize-agents.md).
+1. Initialize a sweep
 
-Create a W&B Sweep with the following steps:
+```bash
+wandb sweep --project <propject-name> <path-to-config file>
+```
 
-1. **Add W&B to your code:** In your Python script, add a couple lines of code to log hyperparameters and output metrics from your script. See [Add W&B to your code](./add-w-and-b-to-your-code.md) for more information.
-2. **Define the sweep configuration**: Define the variables and ranges to sweep over. Pick a search strategy— we support grid, random, and Bayesian search, plus techniques for faster iterations like early stopping. See [Define sweep configuration](./define-sweep-configuration.md) for more information.
-3. **Initialize sweep**: Start the Sweep server. We host this central controller and coordinate between the agents that execute the sweep. See [Initialize sweeps](./initialize-sweeps.md) for more information.
-4. **Start sweep**: Run a single-line command on each machine you'd like to use to train models in the sweep. The agents ask the central sweep server what hyperparameters to try next, and then they execute the runs. See [Start sweep agents](./start-sweep-agents.md) for more information.
-5. **Visualize results (optional)**: Open our live dashboard to see all your results in one central place.
+2. Start the sweep agent
+
+```bash
+wandb agent <sweep-ID>
+```
+
+:::tip
+The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with wht W&B CLI. See the Sweeps [Walkthrough] for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
+:::
+
+
 
 ### How to get started
 
 Depending on your use case, explore the following resources to get started with W&B Sweeps:
 
-* If this is your first time hyperparameter tuning with W&B Sweeps, we recommend you read the [Quickstart](./quickstart.md). The Quickstart walks you through setting up your first W&B Sweep.
-* Explore topics about Sweeps in the Weights and Biases Developer Guide such as:
+* If this is your first time using W&B Sweeps, we recommend you go through the Sweeps Colab notebook.
+* Read through the [sweeps walkthrough](./quickstart.md) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
+* Explore this chapter to learn how to:
   * [Add W&B to your code](./add-w-and-b-to-your-code.md)
   * [Define sweep configuration](./define-sweep-configuration.md)
   * [Initialize sweeps](./initialize-sweeps.md)
   * [Start sweep agents](./start-sweep-agents.md)
   * [Visualize sweep results](./visualize-sweep-results.md)
-* Try our [Organizing Hyperparameter Sweeps in PyTorch](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing\_Hyperparameter\_Sweeps\_in\_PyTorch\_with\_W%26B.ipynb#scrollTo=e43v8-9MEoYk) Google Colab Jupyter notebook for an example of how to create sweeps using the PyTorch framework in a Jupyter notebook.
 * Explore a [curated list of Sweep experiments](./useful-resources.md) that explore hyperparameter optimization with W&B Sweeps. Results are stored in W&B Reports.
-* Read the [W&B SDK Reference Guide](../../ref/README.md).
 
 For a step-by-step video, see: [Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab\_channel=Weights%26Biases).
 
