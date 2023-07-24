@@ -18,7 +18,7 @@ Use W&B Tables to visualize and query tabular data.
 * Identify higher level patterns in your data, like an under-represented class
 
 
-Here's an example 
+Below is [an example Table](https://wandb.ai/av-team/mlops-course-001) showing sample images with interactive semantic segmentation masks and metadata for each prediction.
 ![](/images/data_vis/tables_sample_predictions.png)
 
 ## How it works
