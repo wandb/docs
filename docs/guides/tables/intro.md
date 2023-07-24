@@ -10,15 +10,16 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 <CTAButtons productLink="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb"/>
 
-Use W&B Tables to log, query, and analyze tabular data. Understand your datasets, visualize model predictions, and share insights in a central dashboard. 
+Use W&B Tables to visualize and query tabular data.
 
-For example, with W&B Tables, you can:
+* Look at sample model predictions visually
+* Query to find commonly misclassified examples
+* Compare how different models perform on the same test set
+* Identify higher level patterns in your data, like an under-represented class
 
-* Compare changes precisely across models, epochs, or individual examples
-* Understand higher-level patterns in your data
-* Capture and communicate your insights with visual samples
 
-![](/images/data_vis/compare_model_versions.png)
+Here's an example 
+![](/images/data_vis/tables_sample_predictions.png)
 
 ## How it works
 
