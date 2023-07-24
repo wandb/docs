@@ -2,6 +2,7 @@
 description: Import data from MLFlow, export or update data that you have saved to W&B
 displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -11,25 +12,28 @@ import TabItem from '@theme/TabItem';
   <title>Import & Export Data to W&B</title>
 </head>
 
-Export data or import data from MLFlow with W&B Public APIs.
+Export data or import data from MLFlow or between W&B instances with W&B Public APIs.
 
 ## Import Data from MLFlow
-
 
 W&B supports importing data from MLFlow, including experiments, runs, artifacts, metrics, and other metadata.
 
 #### Quickstart
+
 Install dependencies:
+
 ```sh
 pip install mlflow wandb>=0.14.0
 ```
 
 Log in to W&B (follow prompts if you haven't logged in before)
+
 ```sh
 wandb login
 ```
 
 Import all runs from an existing MLFlow server:
+
 ```sh
 wandb import mlflow \ &&
     --mlflow-tracking-uri <mlflow_uri> \ &&
@@ -44,7 +48,9 @@ Set `--mlflow-tracking-uri=databricks` in the previous step.
 :::
 
 #### Advanced
-You can also import from Python.  This can be useful if you want to specify overrides, or if you prefer python to the command line.
+
+You can also import from Python. This can be useful if you want to specify overrides, or if you prefer python to the command line.
+
 ```py
 from wandb.apis.importers import MlflowImporter
 
@@ -58,7 +64,8 @@ importer = MlflowImporter(mlflow_tracking_uri="...")
 importer.import_all_parallel()
 ```
 
-For even more fine-grained control, you can selectively import experiments or specify overrides based on your own custom logic.  For example, the following code shows how to make runs with custom tags that are then imported into the specified project.
+For even more fine-grained control, you can selectively import experiments or specify overrides based on your own custom logic. For example, the following code shows how to make runs with custom tags that are then imported into the specified project.
+
 ```py
 default_settings = {
     "entity": "default_entity",
@@ -79,6 +86,92 @@ for run in importer.download_all_runs():
     importer.import_run(run, overrides=overrides)
 ```
 
+## Import Data from another W&B instance
+
+:::info
+This feature is in beta, and only supports importing from the W&B public cloud.
+:::
+
+### Quickstart
+
+Install dependencies:
+
+```sh
+pip install wandb>=0.15.6 polars tqdm
+```
+
+Log in to W&B (follow prompts if you haven't logged in before)
+
+```sh
+wandb login
+```
+
+In python, instantiate the importer:
+
+```
+from wandb.apis.importers import WandbParquetImporter
+
+importer = WandbParquetImporter(
+    src_base_url="https://api.wandb.ai",
+    src_api_key="your-api-key-here",
+    dst_base_url="https://example-target.wandb.io",
+    dst_api_key="target-environment-api-key-here",
+)
+```
+
+#### Import runs
+
+Import all runs from an entity:
+
+```py
+importer.import_all_runs(src_entity)
+```
+
+You can optionally specify a project if you don't want to import all projects by default:
+
+```py
+importer.import_all_runs(src_entity, src_project)
+```
+
+If you would prefer the data to be imported to a different entity or project, you can specify with `overrides`:
+
+```py
+importer.import_all_runs(
+    src_entity,
+    src_project,
+    overrides={
+        'entity': dst_entity,
+        'project': dst_project
+    }
+)
+```
+
+#### Import reports
+
+Import all reports from an entity:
+
+```py
+importer.import_all_reports(src_entity)
+```
+
+You can optionally specify a project if you don't want to import all projects by default:
+
+```py
+importer.import_all_reports(src_entity, src_project)
+```
+
+If you would prefer the data to be imported to a different entity or project, you can specify with `overrides`. Report overrides also support different names and descriptions.:
+
+```py
+importer.import_all_reports(
+    src_entity,
+    src_project,
+    overrides={
+        'entity': dst_entity,
+        'project': dst_project
+    }
+)
+```
 
 ## Export Data
 
@@ -86,8 +179,8 @@ Use the Public API to export or update data that you have saved to W&B. Before u
 
 **Use Cases for the Public API**
 
-* **Export Data**: Pull down a dataframe for custom analysis in a Jupyter Notebook. Once you have explored the data, you can sync your findings by creating a new analysis run and logging results, for example: `wandb.init(job_type="analysis")`
-* **Update Existing Runs**: You can update the data logged in association with a W&B run. For example, you might want to update the config of a set of runs to include additional information, like the architecture or a hyperparameter that wasn't originally logged.
+- **Export Data**: Pull down a dataframe for custom analysis in a Jupyter Notebook. Once you have explored the data, you can sync your findings by creating a new analysis run and logging results, for example: `wandb.init(job_type="analysis")`
+- **Update Existing Runs**: You can update the data logged in association with a W&B run. For example, you might want to update the config of a set of runs to include additional information, like the architecture or a hyperparameter that wasn't originally logged.
 
 See the [Generated Reference Docs](../../ref/python/public-api/README.md) for details on available functions.
 
@@ -114,10 +207,10 @@ run = api.run("<entity>/<project>/<run_id>")
 
 The most commonly used attributes of a run object are:
 
-| Attribute       | Meaning                     |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `run.config`    | A dictionary of the run's configuration information, such as the hyperparameters for a training run or the preprocessing methods for a run that creates a dataset Artifact. Think of these as the run's "inputs".     |
-| `run.history()` | A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.log()` appends to this object.      |
+| Attribute       | Meaning                                                                                                                                                                                                                                                                                                              |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run.config`    | A dictionary of the run's configuration information, such as the hyperparameters for a training run or the preprocessing methods for a run that creates a dataset Artifact. Think of these as the run's "inputs".                                                                                                    |
+| `run.history()` | A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.log()` appends to this object.                                                                                                                                                                 |
 | `run.summary`   | A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged time series. The contents of the summary can also be set directly. Think of the summary as the run's "outputs". |
 
 You can also modify or update the data of past runs. By default a single instance of an api object will cache all network requests. If your use case requires real time information in a running script, call `api.flush()` to get updated values.
@@ -167,33 +260,33 @@ these are the different outputs for the above run object attributes
 
 ### Sampling
 
-The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` __ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](https://docs.wandb.ai/ref/python/public-api).
+The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` \_\_ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](https://docs.wandb.ai/ref/python/public-api).
 
 ### Querying Multiple Runs
 
 <Tabs
-  defaultValue="dataframes_csvs"
-  values={[
-    {label: 'Dataframes and CSVs', value: 'dataframes_csvs'},
-    {label: 'MongoDB Style', value: 'mongoDB'},
-  ]}>
-  <TabItem value="dataframes_csvs">
+defaultValue="dataframes_csvs"
+values={[
+{label: 'Dataframes and CSVs', value: 'dataframes_csvs'},
+{label: 'MongoDB Style', value: 'mongoDB'},
+]}>
+<TabItem value="dataframes_csvs">
 
-This example script finds a project and outputs a CSV of runs with name, configs and summary stats. Replace  `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
+This example script finds a project and outputs a CSV of runs with name, configs and summary stats. Replace `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
 
 ```python
-import pandas as pd 
+import pandas as pd
 import wandb
 
 api = wandb.Api()
-entity, project = "<entity>", "<project>"  
-runs = api.runs(entity + "/" + project) 
+entity, project = "<entity>", "<project>"
+runs = api.runs(entity + "/" + project)
 
 summary_list, config_list, name_list = [], [], []
-for run in runs: 
-    # .summary contains output keys/values for 
+for run in runs:
+    # .summary contains output keys/values for
     # metrics such as accuracy.
-    #  We call ._json_dict to omit large files 
+    #  We call ._json_dict to omit large files
     summary_list.append(run.summary._json_dict)
 
     # .config contains the hyperparameters.
@@ -213,6 +306,7 @@ runs_df = pd.DataFrame({
 
 runs_df.to_csv("project.csv")
 ```
+
   </TabItem>
   <TabItem value="mongoDB">
 
@@ -226,6 +320,7 @@ runs = api.runs("username/project",
     })
 print(f"Found {len(runs)} runs")
 ```
+
   </TabItem>
 </Tabs>
 
@@ -251,22 +346,22 @@ Check out our [API examples](../../ref/python/public-api/README.md) for some com
 
 After calling `wandb.init()` you can access the random run ID or the human readable run name from your script like this:
 
-* Unique run ID (8 character hash): `wandb.run.id`
-* Random run name (human readable): `wandb.run.name`
+- Unique run ID (8 character hash): `wandb.run.id`
+- Random run name (human readable): `wandb.run.name`
 
 If you're thinking about ways to set useful identifiers for your runs, here's what we recommend:
 
-* **Run ID**: leave it as the generated hash. This needs to be unique across runs in your project.
-* **Run name**: This should be something short, readable, and preferably unique so that you can tell the difference between different lines on your charts.
-* **Run notes**: This is a great place to put a quick description of what you're doing in your run. You can set this with `wandb.init(notes="your notes here")`
-* **Run tags**: Track things dynamically in run tags, and use filters in the UI to filter your table down to just the runs you care about. You can set tags from your script and then edit them in the UI, both in the runs table and the overview tab of the run page. See the detailed instructions [here](../app/features/tags.md).
+- **Run ID**: leave it as the generated hash. This needs to be unique across runs in your project.
+- **Run name**: This should be something short, readable, and preferably unique so that you can tell the difference between different lines on your charts.
+- **Run notes**: This is a great place to put a quick description of what you're doing in your run. You can set this with `wandb.init(notes="your notes here")`
+- **Run tags**: Track things dynamically in run tags, and use filters in the UI to filter your table down to just the runs you care about. You can set tags from your script and then edit them in the UI, both in the runs table and the overview tab of the run page. See the detailed instructions [here](../app/features/tags.md).
 
 ## Public API Examples
 
 ### Read metrics from a run
 
-This example outputs timestamp and accuracy saved with `wandb.log({"accuracy": acc})` for a run saved to `"<entity>/<project>/<run_id>"`. 
- 
+This example outputs timestamp and accuracy saved with `wandb.log({"accuracy": acc})` for a run saved to `"<entity>/<project>/<run_id>"`.
+
 ```python
 import wandb
 api = wandb.Api()
@@ -422,21 +517,21 @@ run.scan_history(keys=sorted(cols), page_size=100)
 
 ### Export metrics from all runs in a project to a CSV file
 
-This script pulls down the runs in a project and produces a dataframe and a CSV of runs including their names, configs, and summary stats. Replace  `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
+This script pulls down the runs in a project and produces a dataframe and a CSV of runs including their names, configs, and summary stats. Replace `<entity>` and `<project>` with your W&B entity and the name of your project, respectively.
 
 ```python
-import pandas as pd 
+import pandas as pd
 import wandb
 
 api = wandb.Api()
-entity, project = "<entity>", "<project>"  
-runs = api.runs(entity + "/" + project) 
+entity, project = "<entity>", "<project>"
+runs = api.runs(entity + "/" + project)
 
 summary_list, config_list, name_list = [], [], []
-for run in runs: 
-    # .summary contains the output keys/values 
+for run in runs:
+    # .summary contains the output keys/values
     #  for metrics such as accuracy.
-    #  We call ._json_dict to omit large files 
+    #  We call ._json_dict to omit large files
     summary_list.append(run.summary._json_dict)
 
     # .config contains the hyperparameters.
