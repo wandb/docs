@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 # Ultralytics
 
-[Ultralytics](https://github.com/ultralytics/ultralytics) is the home for cutting-edge, state-of-the-art computer vision models for tasks like image classification, object detection, image segmentation, and pose estimation. Not only it hosts [YOLOv8](https://docs.ultralytics.com/models/yolov8/), the latest iteration in the YOLO series of real-time object detection models, but other powerful computer vision models such as [SAM (Segment Anything Model)](https://docs.ultralytics.com/models/sam/#introduction-to-sam-the-segment-anything-model), [RT-DETR](https://docs.ultralytics.com/models/rtdetr/), [YOLO-NAS](https://docs.ultralytics.com/models/yolo-nas/), etc. Besides providing implementations of these models, Ultralytics also provides us with out-of-the-box workflows for training, fine-tuning, and applying these models using an easy-to-use API.
+[**Ultralytics**](https://github.com/ultralytics/ultralytics) is the home for cutting-edge, state-of-the-art computer vision models for tasks like image classification, object detection, image segmentation, and pose estimation. Not only it hosts [**YOLOv8**](https://docs.ultralytics.com/models/yolov8/), the latest iteration in the **YOLO** series of real-time object detection models, but other powerful computer vision models such as [**SAM (Segment Anything Model)**](https://docs.ultralytics.com/models/sam/#introduction-to-sam-the-segment-anything-model), [**RT-DETR**](https://docs.ultralytics.com/models/rtdetr/), [**YOLO-NAS**](https://docs.ultralytics.com/models/yolo-nas/), etc. Besides providing implementations of these models, Ultralytics also provides us with out-of-the-box workflows for training, fine-tuning, and applying these models using an easy-to-use API.
 
 ## Getting Started
 
@@ -62,15 +62,15 @@ pip install git+https://github.com/wandb/wandb@feat/ultralytics
   </TabItem>
 </Tabs>
 
-Note: The Ultralytcs integration will be soon available as a fully supported feature on W&B once [this pull request](https://github.com/wandb/wandb/pull/5867) is merged.
+**Note:** The Ultralytcs integration will be soon available as a fully supported feature on Weights & Biases once [this pull request](https://github.com/wandb/wandb/pull/5867) is merged.
 
 ## Experiment Tracking and Visualizing Validation Results
 
-This section demonstrates a typical workflow of using an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for training, fine-tuning, and validation and performing experiment tracking, model-checkpointing, and visualization of the model's performance using [W&B](https://wandb.ai/site).
+This section demonstrates a typical workflow of using an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for training, fine-tuning, and validation and performing experiment tracking, model-checkpointing, and visualization of the model's performance using [Weights & Biases](https://wandb.ai/site).
 
 You can try out the code in Google Colab: [Open In Colab](http://wandb.me/ultralytics-train)
 
-You can also check out about the integration in this report: [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+You can also check out about the integration in this report: [**Supercharging Ultralytics with Weights & Biases**](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
 
 In order to use the W&B integration with Ultralytics, we need to import the `wandb.yolov8.add_wandb_callback` function.
 
@@ -90,7 +90,7 @@ dataset_name = "coco128.yaml" #@param {type:"string"}
 # Initialize YOLO Model
 model = YOLO(f"{model_name}.pt")
 
-# Add W&B callback for Ultralytics
+# Add Weights & Biases callback for Ultralytics
 add_wandb_callback(model, enable_model_checkpointing=True)
 
 # Train/fine-tune your model
@@ -104,21 +104,21 @@ model.val()
 wandb.finish()
 ```
 
-Here's how experiments tracked using W&B for an Ultralytics training or fine-tuning workflow looks like:
+Here's how experiments tracked using Weights & Biases for an Ultralytics training or fine-tuning workflow looks like:
 
 ![](@site/static/images/integrations/ultralytics/experiment.gif)
 
-Here's how epoch-wise validation results are visualized using a [W&B Table](../data-vis/intro.md):
+Here's how epoch-wise validation results are visualized using a [Weights & Biases Table](../data-vis/intro.md):
 
 ![](@site/static/images/integrations/ultralytics/table.gif)
 
 ## Visualizing Prediction Results
 
-This section demonstrates a typical workflow of using an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for inference and visualizing the results using [W&B](https://wandb.ai/site).
+This section demonstrates a typical workflow of using an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for inference and visualizing the results using [Weights & Biases](https://wandb.ai/site).
 
-You can try out the code in Google Colab: [Open in Colab](http://wandb.me/ultralytics-inference).
+You can try out the code in Google Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/ultralytics-inference)
 
-You can also check out about the integration in this report: [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+You can also check out about the integration in this report: [**Supercharging Ultralytics with Weights & Biases**](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
 
 In order to use the W&B integration with Ultralytics, we need to import the `wandb.yolov8.add_wandb_callback` function.
 
@@ -141,7 +141,7 @@ Now, let us download a few images to test the integration on. You can use your o
 Next, we initialize a W&B [run](../runs/intro.md) using `wandb.init`.
 
 ```python
-# Initialize W&B run
+# Initialize Weights & Biases run
 wandb.init(project="ultralytics", job_type="inference")
 ```
 
@@ -153,7 +153,7 @@ model_name = 'yolov8n' #@param {type:"string"}
 # Initialize YOLO Model
 model = YOLO(f"{model_name}.pt")
 
-# Add W&B callback for Ultralytics
+# Add Weights & Biases callback for Ultralytics
 add_wandb_callback(model, enable_model_checkpointing=True)
 
 # Perform prediction which automatically logs to a W&B Table
@@ -164,7 +164,7 @@ model(["./assets/img1.jpeg", "./assets/img3.png", "./assets/img4.jpeg", "./asset
 wandb.finish()
 ```
 
-Note: We do not need to explicitly initialize a run using `wandb.init()` in case of a training or fine-tuning workflow. However, tt is necessary to explicitly create a run, if the code only involves prediction.
+**Note:** We do not need to explicitly initialize a run using `wandb.init()` in case of a training or fine-tuning workflow. However, tt is necessary to explicitly create a run, if the code only involves prediction.
 
 Here's how the interactive bbox overlay looks:
 
