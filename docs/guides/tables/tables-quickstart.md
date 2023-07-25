@@ -2,6 +2,8 @@
 description: Explore how to use W&B Tables with this 5 minute Quickstart.
 displayed_sidebar: default
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Quickstart
 
@@ -12,11 +14,22 @@ Select the button below to try a PyTorch Quickstart example project on MNIST dat
 
 ## 1. Log a table
 
-Follow the procedure describes how to log a table to W&B:
-1. Initialize a W&B [Run](../runs/intro.md) with [`wandb.init()`](../../ref/python/init.md). 
-2. Create a [`wandb.Table()`](../../ref/python/data-types/table.md) object. Pass the name of the columns in your table along with the data for the `columns` and `data` parameters, respectively.  
-3. Log the table with [`run.log()`](../../ref/python/log.md) as a key-value pair. Provide a name for your table for the key, and pass the object instance of `wandb.Table` as the value.
+<Tabs
+  defaultValue="construct"
+  values={[
+    {label: 'Construct a table', value: 'construct'},
+    {label: 'Pandas DataFrame', value: 'pandas'},
+  ]}>
+  <TabItem value="construct">
 
+To construct and log a new Table, you will use:
+- [`wandb.init()`](../../ref/python/init.md): Create a [run](../runs/intro.md) to track results.
+- [`wandb.Table()`](../../ref/python/data-types/table.md): Create a new table object.
+  - `columns`: Set the column names.
+  - `data`: Set the contents of each row.
+- [`run.log()`](../../ref/python/log.md): Log the table to save it to W&B.
+
+Here's an example:
 ```python
 import wandb
 
@@ -27,8 +40,27 @@ my_table = wandb.Table(
     )
 run.log({"Table Name": my_table})   
 ```
+  </TabItem>
+  <TabItem value="pandas">
 
-You can optionally pass in a Pandas DataFrame to `wandb.Table()` Class. For more information on supported data types, see the [`wandb.Table`](../../ref/python/data-types/table.md) in the W&B API Reference Guide.
+Pass a Pandas DataFrame to `wandb.Table()` to create a new table.
+
+```python
+import wandb
+import pandas as pd
+
+df = pd.read_csv('my_data.csv')
+
+run = wandb.init(project="df-table")
+my_table = wandb.Table(dataframe=df)
+wandb.log({"Table Name": my_table})
+```
+
+For more information on supported data types, see the [`wandb.Table`](../../ref/python/data-types/table.md) in the W&B API Reference Guide.
+
+  </TabItem>
+</Tabs>
+
 
 ## 2. Visualize tables in your project workspace
 

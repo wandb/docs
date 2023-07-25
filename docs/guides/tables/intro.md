@@ -43,10 +43,7 @@ my_table = wandb.Table(
 run.log({"Table Name": my_table})   
 ```
 
-
-
 ## How to get started
-<!-- * If this is your first time using W&B Artifacts, we recommend you go through the [Artifacts Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W&B.ipynb#scrollTo=fti9TCdjOfHT). -->
 * [Quickstart](./tables-quickstart.md): Learn to log data tables, visualize data, and query data.
 * [Tables Gallery](./tables-gallery.md): See example use cases for Tables.
 
