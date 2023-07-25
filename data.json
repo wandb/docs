@@ -178,7 +178,7 @@
     },
     {
       "from": "guides/data-vis/tables-quickstart",
-      "to": "guides/tables/tables-quickstart"
+      "to": "guides/tables/tables-walkthrough"
     },
     {
       "from": "/datasets-and-predictions",

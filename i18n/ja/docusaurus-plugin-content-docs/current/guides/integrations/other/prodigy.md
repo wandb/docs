@@ -6,7 +6,7 @@ displayed_sidebar: ja
 
 # Prodigy
 
-[Prodigy](https://prodi.gy/)は、機械学習モデルのトレーニングや評価データ、エラー分析、データ検査・クリーニングのための注釈ツールです。[W&Bテーブル](../../tables/tables-quickstart.md)を使用すると、データセット（やそれ以上のもの！）をW&B内にログ、可視化、分析、共有することができます。
+[Prodigy](https://prodi.gy/)は、機械学習モデルのトレーニングや評価データ、エラー分析、データ検査・クリーニングのための注釈ツールです。W&Bテーブルを使用すると、データセット（やそれ以上のもの！）をW&B内にログ、可視化、分析、共有することができます。
 
 [ProdigyとW&Bの統合](https://github.com/wandb/wandb/blob/master/wandb/integration/prodigy/prodigy.py)により、Prodigyで注釈付きデータセットをW&Bに直接アップロードし、テーブルで使用するためのシンプルで使いやすい機能が追加されます。
 

@@ -105,7 +105,7 @@ const sidebars = {
       label: 'Tables',
       link: { type: 'doc', id: 'guides/tables/intro' },
       items: [
-        'guides/tables/tables-quickstart',
+        'guides/tables/tables-walkthrough',
         'guides/tables/visualize-tables',
         'guides/tables/tables-gallery',
       ],
@@ -489,7 +489,7 @@ const sidebars = {
       label: 'テーブル',
       link: {type: 'doc', id: 'guides/tables/intro'},
       items: [
-        'guides/tables/tables-quickstart',
+        'guides/tables/tables-walkthrough',
         'guides/tables/visualize-tables',
         'guides/tables/tables-gallery',
       ],
