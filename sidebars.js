@@ -116,7 +116,7 @@ const sidebars = {
       link: { type: 'doc', id: 'guides/sweeps/intro' },
       items: [
         // 'guides/sweeps/intro',
-        'guides/sweeps/quickstart',
+        'guides/sweeps/walkthrough',
         'guides/sweeps/add-w-and-b-to-your-code',
         'guides/sweeps/define-sweep-configuration',
         'guides/sweeps/initialize-sweeps',
@@ -499,7 +499,7 @@ const sidebars = {
       label: 'スイープ',
       link: {type: 'doc', id: 'guides/sweeps/intro'},
       items: [
-        'guides/sweeps/quickstart',
+        'guides/sweeps/walkthrough',
         'guides/sweeps/add-w-and-b-to-your-code',
         'guides/sweeps/define-sweep-configuration',
         'guides/sweeps/initialize-sweeps',

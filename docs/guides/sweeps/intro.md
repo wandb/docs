@@ -14,7 +14,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
   <title>Tune Hyperparameters with Sweeps</title>
 </head>
 
-Use W&B Sweeps to automate hyperparameter search and explore the space of possible models. Create a sweep with a few lines of code. Sweeps combines the benefits of automated hyperparameter search with our visualization-rich, interactive experiment tracking. Pick from popular search methods such as Bayesian, grid search, and random to search the hyperparameter space.  Scale and parallelize Sweep jobs across one or more machines.
+Use W&B Sweeps to automate hyperparameter search and visualize rich, interactive experiment tracking. Pick from popular search methods such as Bayesian, grid search, and random to search the hyperparameter space. Scale and parallelize sweep across one or more machines.
 
 ![Draw insights from large hyperparameter tuning experiments with interactive dashboards.](/images/sweeps/intro_what_it_is.png)
 
@@ -35,7 +35,7 @@ wandb agent <sweep-ID>
 ```
 
 :::tip
-The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with wht W&B CLI. See the Sweeps [Walkthrough] for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
+The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with wht W&B CLI. See the Sweeps [Walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
 :::
 
 
@@ -44,8 +44,8 @@ The preceding code snippet, and the colab linked on this page, show how to initi
 
 Depending on your use case, explore the following resources to get started with W&B Sweeps:
 
-* If this is your first time using W&B Sweeps, we recommend you go through the Sweeps Colab notebook.
-* Read through the [sweeps walkthrough](./quickstart.md) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
+* If this is your first time using W&B Sweeps, we recommend you go through the [Sweeps Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb).
+* Read through the [sweeps walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
 * Explore this chapter to learn how to:
   * [Add W&B to your code](./add-w-and-b-to-your-code.md)
   * [Define sweep configuration](./define-sweep-configuration.md)

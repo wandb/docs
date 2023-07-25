@@ -1570,11 +1570,11 @@
     },
     {
       "from": "/sweeps/overview/getting-started",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/overview/quickstart",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/python",
@@ -1586,7 +1586,7 @@
     },
     {
       "from": "/sweeps/quickstart",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/ray-tune",
