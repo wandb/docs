@@ -2,6 +2,7 @@
 description: Import data from MLFlow, export or update data that you have saved to W&B
 displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -16,8 +17,6 @@ Export data or import data from MLFlow or between W&B instances with W&B Public 
 ## Import Data from MLFlow
 
 W&B supports importing data from MLFlow, including experiments, runs, artifacts, metrics, and other metadata.
-
-
 
 Install dependencies:
 
@@ -90,7 +89,6 @@ for run in importer.download_all_runs():
 :::info
 This feature is in beta, and only supports importing from the W&B public cloud.
 :::
-
 
 Install dependencies:
 
@@ -171,13 +169,15 @@ importer.import_all_reports(
 )
 ```
 
-### Advanced
+### Import individual runs and reports
 
 The importer supports more granular control over imports as well.
 
 You can import individual runs and reports with `import_run` and `import_report` respectively.
 
-You can also collect and import a list of runs based on your own custom logic. For example:
+### Import runs and reports with custom logic
+
+You can also collect and import a list of runs and reports based on your own custom logic. For example:
 
 ```py
 runs = importer.collect_runs(src_entity)
