@@ -13,6 +13,7 @@ The following Quickstart demonstrates how to log data tables, visualize data, an
 Select the button below to try a PyTorch Quickstart example project on MNIST data. 
 
 ## 1. Log a table
+Log a table with W&B. You can either construct a new table or pass a Pandas DataFrame.
 
 <Tabs
   defaultValue="construct"
