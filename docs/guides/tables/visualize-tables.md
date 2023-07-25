@@ -46,13 +46,7 @@ In the following image we demonstrate a model's predictions on MNIST validation 
 ![Preparing to compare model predictions after training for 1 epoch (v0, shown here) vs 5 epochs (v4)](@site/static/images/data_vis/preds_2.png)
 
 ### Merged view
-Merge two tables together. 
-
 <!-- To do, add steps -->
-<!-- 1. From the dropdown  -->
-
-
-
 Initially you will see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 
 ![In the merged view, numerical columns will appear as histograms by default](@site/static/images/data_vis/merged_view.png)
