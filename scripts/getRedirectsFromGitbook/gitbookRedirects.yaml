@@ -143,9 +143,9 @@ redirects:
   sweeps/existing-project: ./guides/sweeps/existing-project.md
   sweeps/configuration: ./guides/sweeps/configuration.md
   sweeps/python-api: ./guides/sweeps/python-api.md
-  sweeps/sweeps-examples: ./guides/sweeps/quickstart.md
-  sweeps/quickstart: ./guides/sweeps/quickstart.md
-  sweeps/visualize-sweep-results: ./guides/sweeps/quickstart.md
+  sweeps/sweeps-examples: ./guides/sweeps/walkthrough.md
+  sweeps/walkthrough: ./guides/sweeps/walkthrough.md
+  sweeps/visualize-sweep-results: ./guides/sweeps/walkthrough.md
   sweeps/faq: ./guides/sweeps/faq.md
   sweeps/local-controller: ./guides/sweeps/advanced-sweeps/local-controller.md
   sweeps/local: ./guides/sweeps/advanced-sweeps/local-controller.md
@@ -156,7 +156,7 @@ redirects:
   library/sweeps/advanced: ./guides/sweeps/advanced-sweeps/README.md
   library/sweeps/local-controller: ./guides/sweeps/advanced-sweeps/local-controller.md
   library/sweeps/python-api: ./guides/sweeps/python-api.md
-  guides/sweeps/visualize-sweep-results: ./guides/sweeps/quickstart.md
+  guides/sweeps/visualize-sweep-results: ./guides/sweeps/walkthrough.md
   guides/artifacts-1: ./guides/data-and-model-versioning/README.md
   guides/artifacts-1/dataset-versioning: ./guides/data-and-model-versioning/dataset-versioning.md
   guides/artifacts-1/model-versioning: ./guides/data-and-model-versioning/model-versioning.md

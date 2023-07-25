@@ -1,11 +1,11 @@
 ---
 description: Explore how to use W&B Tables with this 5 minute Quickstart.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Quickstart
+# Walkthrough
 
 The following Quickstart demonstrates how to log data tables, visualize data, and query data.
 

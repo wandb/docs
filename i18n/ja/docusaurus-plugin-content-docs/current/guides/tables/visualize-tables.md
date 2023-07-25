@@ -131,7 +131,7 @@ W&Bアプリを使って、W&Bテーブルをソート、フィルタ、グル�
 
 ![各ラベルで、モデルは 5 回のトレーニング後のエポック（右）では 1 回（左）よりも間違えが少なくなります。](/images/data_vis/compare_across_time.png)
 
-トレーニング時間をまたいで予測を視覚化するより詳細なウォークスルーについては、[こちらのレポート](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)や、このインタラクティブな[ノートブック例 →](http://wandb.me/tables-quickstart)をご覧ください。
+トレーニング時間をまたいで予測を視覚化するより詳細なウォークスルーについては、[こちらのレポート](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)や、このインタラクティブな[ノートブック例 →](http://wandb.me/tables-walkthrough)をご覧ください。
 
 ### モデルバリアント間の比較
 

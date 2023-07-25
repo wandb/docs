@@ -179,7 +179,7 @@ Start a new [sweep](../../sweeps/intro.md) from your project.
 
 ## Artifacts Tab
 
-View all the [artifacts](../../artifacts/intro.md) associated with a project, from training datasets and [fine-tuned models](../../models/intro.md) to [tables of metrics and media](../../tables/tables-quickstart.md).
+View all the [artifacts](../../artifacts/intro.md) associated with a project, from training datasets and [fine-tuned models](../../models/intro.md) to [tables of metrics and media](../../tables/tables-walkthrough.md).
 
 ### Overview panel
 
@@ -205,7 +205,7 @@ The Usage panel provides a code snippet for downloading the artifact for use out
 
 The files panel lists the files and folders associated with the artifact. You can navigate through this file tree and view the contents directly in the W&B web app.
 
-[Tables](../../tables/tables-quickstart.md) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here](../../tables/visualize-tables.md).
+[Tables](../../tables/tables-walkthrough.md) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here](../../tables/visualize-tables.md).
 
 ![](/images/app_ui/files_panel_table.png)
 

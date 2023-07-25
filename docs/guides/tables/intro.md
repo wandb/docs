@@ -44,6 +44,6 @@ run.log({"Table Name": my_table})
 ```
 
 ## How to get started
-* [Quickstart](./tables-quickstart.md): Learn to log data tables, visualize data, and query data.
+* [Quickstart](./tables-walkthrough.md): Learn to log data tables, visualize data, and query data.
 * [Tables Gallery](./tables-gallery.md): See example use cases for Tables.
 

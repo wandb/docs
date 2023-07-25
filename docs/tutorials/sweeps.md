@@ -44,7 +44,7 @@ When you're setting up a Sweep in a notebook like this,
 that config object is a nested dictionary.
 When you run a Sweep via the command line,
 the config object is a
-[YAML file](https://docs.wandb.com/sweeps/quickstart#2-sweep-config).
+[YAML file](https://docs.wandb.com/sweeps/walkthrough#2-sweep-config).
 
 Let's walk through the definition of a Sweep config together.
 We'll do it slowly, so we get a chance to explain each component.
@@ -224,7 +224,7 @@ This function returns a `sweep_id` that we will later user to assign agents to t
 ```python
 wandb sweep config.yaml
 ```
-[Learn more about using Sweeps in the command line ➡](https://docs.wandb.com/sweeps/quickstart)
+[Learn more about using Sweeps in the command line ➡](https://docs.wandb.com/sweeps/walkthrough)
 
 
 ```python
@@ -356,7 +356,7 @@ This makes it trivially easy to scale your Sweeps across as many nodes as you ca
 ```bash
 wandb agent sweep_id
 ```
-[Learn more about using Sweeps in the command line ➡](https://docs.wandb.com/sweeps/quickstart)
+[Learn more about using Sweeps in the command line ➡](https://docs.wandb.com/sweeps/walkthrough)
 
 The cell below will launch an `agent` that runs `train` 5 times,
 usingly the randomly-generated hyperparameter values returned by the Sweep Controller. Execution takes under 5 minutes.
