@@ -1,26 +1,16 @@
 # Projects
 
-
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/apis/public.py#L1380-L1437)
-
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/apis/public.py#L1449-L1506' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 An iterable collection of `Project` objects.
 
 ```python
 Projects(
- client, entity, per_page=50
+    client, entity, per_page=50
 )
 ```
 
-
-
-
-
-
-
-| Class Variables | |
+| Class Variables |  |
 | :--- | :--- |
-| `QUERY` | |
-
+|  `QUERY`<a id="QUERY"></a> |   |
