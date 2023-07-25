@@ -17,9 +17,6 @@ Launch or queue a W&B Job. See https://wandb.me/launch
 | run the project file with the specified name | as a script, using 'python' to run .py files |
 | and the default shell (specified by | environment variable $SHELL) to run .sh |
 | files. If passed in, will override the | entrypoint value passed in using a config |
-| -a, --args-list | An argument for the run, of the form -a   name=value. Provided arguments that are not |
-| in the list of arguments for an entry point | will be passed to the corresponding entry |
-| point as command-line arguments in the form | `--name value` |
 | --name | Name of the run under which to launch the   run. If not specified, a random run name |
 | will be used to launch run. If passed in, | will override the name passed in using a |
 | -e, --entity (str) | Name of the target entity which the new run   will be sent to. Defaults to using the |
@@ -43,6 +40,5 @@ Launch or queue a W&B Job. See https://wandb.me/launch
 | --resource-args | Path to JSON file (must end in '.json') or   JSON string which will be passed as resource |
 | args to the compute resource. The exact | content which should be provided is |
 | different for each execution backend. See | documentation for layout of this file. |
-| -pq, --project-queue | Name of the project containing the queue to   push to. If none, defaults to entity level |
 | --help | Show this message and exit. |
 

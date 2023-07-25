@@ -27,6 +27,7 @@
 | init | Configure a directory with Weights & Biases |
 | launch | Launch or queue a W&B Job. |
 | launch-agent | Run a W&B launch agent. |
+| launch-sweep | Run a W&B launch sweep (Experimental). |
 | login | Login to Weights & Biases |
 | offline | Disable W&B sync |
 | online | Enable W&B sync |
