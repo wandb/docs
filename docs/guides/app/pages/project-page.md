@@ -4,6 +4,9 @@ description: >-
   export findings to a report to save notes and visualizations
 displayed_sidebar: default
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 
 # Project Page
 
@@ -102,6 +105,66 @@ Use the table to filter, group, and sort your results.
 
 ![](/images/app_ui/table_tab.png)
 
+
+
+<!-- start -->
+### Table operations
+
+Use the W&B App to sort, filter, and group your W&B Tables. 
+
+<!-- [Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) -->
+
+<Tabs
+  defaultValue="sort"
+  values={[
+    {label: 'Sort', value: 'sort'},
+    {label: 'Filter', value: 'filter'},
+    {label: 'Group', value: 'group'},
+  ]}>
+  <TabItem value="sort">
+
+Sort all rows in a Table by the value in a given column. 
+
+1. Hover your mouse over the column title. A kebob menu will appear (three vertical docs).
+2. Select on the kebob menu (three vertical dots).
+3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
+
+![See the digits for which the model most confidently guessed "0".](/images/data_vis/data_vis_sort_kebob.png)
+
+The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.
+
+</TabItem>
+  <TabItem value="filter">
+  
+Filter all rows by an expression with the **Filter** button on the top left of the dashboard. 
+
+![See only examples which the model gets wrong.](/images/data_vis/filter.png)
+
+Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
+
+|                   | Column name | Binary relation    | Value       |
+| -----------       | ----------- | ----------- | ----------- |
+| Accepted values   | String       |  &equals;, &ne;, &le;, &ge;, IN, NOT IN,  | Integer, float, string, timestamp, null |
+
+
+The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
+
+![](/images/data_vis/filter_example.png)
+The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.
+
+</TabItem>
+  <TabItem value="group">
+
+Group all rows by the value in a particular column with the **Group by** button in a column header. 
+
+![The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s.](/images/data_vis/group.png)
+
+By default, this turns other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.
+
+  </TabItem>
+</Tabs>
+
+
 ## Reports Tab
 
 See all the snapshots of results in one place, and share findings with your team.
@@ -116,7 +179,7 @@ Start a new [sweep](../../sweeps/intro.md) from your project.
 
 ## Artifacts Tab
 
-View all the [artifacts](../../artifacts/intro.md) associated with a project, from training datasets and [fine-tuned models](../../models/intro.md) to [tables of metrics and media](../../data-vis/tables-quickstart.md).
+View all the [artifacts](../../artifacts/intro.md) associated with a project, from training datasets and [fine-tuned models](../../models/intro.md) to [tables of metrics and media](../../tables/tables-quickstart.md).
 
 ### Overview panel
 
@@ -142,7 +205,7 @@ The Usage panel provides a code snippet for downloading the artifact for use out
 
 The files panel lists the files and folders associated with the artifact. You can navigate through this file tree and view the contents directly in the W&B web app.
 
-[Tables](../../data-vis/tables-quickstart.md) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here](../../data-vis/tables.md).
+[Tables](../../tables/tables-quickstart.md) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here](../../tables/visualize-tables.md).
 
 ![](/images/app_ui/files_panel_table.png)
 

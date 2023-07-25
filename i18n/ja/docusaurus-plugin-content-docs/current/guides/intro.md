@@ -31,5 +31,5 @@ W&Bの初めてのユーザーであれば、以下のセクションをこの�
 3. データセットとモデルのバージョン管理の柔軟で軽量なビルディングブロック、[Artifacts](./artifacts/intro.md) について学びます。
 4. [Sweeps](./sweeps/intro.md) を使ってハイパーパラメーターの探索を自動化し、可能性のあるモデルの空間を探索します。
 5. [Model Management](./models/intro.md) を使って、モデルのライフサイクルをトレーニングからプロダクションまで管理します。
-6. [Data Visualization](./data-vis/intro.md) ガイドで、モデルバージョン間の予測を視覚化します。
+6. [Data Visualization](./tables/intro.md) ガイドで、モデルバージョン間の予測を視覚化します。
 7. [Reports](./reports/intro.md) を使って、W&BのRunを整理し、視覚化を埋め込み、自動化し、発見を説明し、共同作業者とアップデートを共有します。

@@ -111,7 +111,7 @@ W&Bのエコシステムをさらに探索してみましょう。
 
 4. [W&Bスイープ](./guides/sweeps/intro.md)でハイパーパラメーター探索を自動化し、可能なモデルのスペースを探索します。
 
-5. [中央ダッシュボード](./guides/data-vis/intro.md)でデータセットを理解し、モデルの予測を可視化し、洞察を共有します。
+5. [中央ダッシュボード](./guides/tables/intro.md)でデータセットを理解し、モデルの予測を可視化し、洞察を共有します。
 
 ![](/images/quickstart/wandb_demo_experiments.gif) 
 
