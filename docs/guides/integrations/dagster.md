@@ -447,7 +447,7 @@ def create_my_daily_partitioned_asset(context):
     context.log.info(f"Creating partitioned asset for {partition_key}")
     return random.randint(0, 100)
 ```
-This code will produce one W&B Artifact for each partition. They can be located under the Artifact name, which will be appended with the partition key, for example `my_daily_partitioned_asset.2023-01-01`. Assets that are partitioned across multiple dimensions will have each partition divided by a dot e.g. `my_asset.car.blue`.
+This code will produce one W&B Artifact for each partition. They can be found in the Artifact panel (UI) under the asset name, which will be appended with the partition key, for example `my_daily_partitioned_asset.2023-01-01`, `my_daily_partitioned_asset.2023-01-02`, `my_daily_partitioned_asset.2023-01-03` and so on. Assets that are partitioned across multiple dimensions will have each dimension divided by a dot e.g. `my_asset.car.blue`.
 
 :::caution
 The integration does not allow for the materialization of multiple partitions within one run. You will need to carry out multiple runs to materialize your assets. This can be executed in Dagit when you're materializing your assets.
