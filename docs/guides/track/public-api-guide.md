@@ -2,7 +2,6 @@
 description: Import data from MLFlow, export or update data that you have saved to W&B
 displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -18,7 +17,7 @@ Export data or import data from MLFlow or between W&B instances with W&B Public 
 
 W&B supports importing data from MLFlow, including experiments, runs, artifacts, metrics, and other metadata.
 
-#### Quickstart
+
 
 Install dependencies:
 
@@ -92,7 +91,6 @@ for run in importer.download_all_runs():
 This feature is in beta, and only supports importing from the W&B public cloud.
 :::
 
-### Quickstart
 
 Install dependencies:
 
@@ -100,7 +98,7 @@ Install dependencies:
 pip install wandb>=0.15.6 polars tqdm
 ```
 
-Log in to W&B (follow prompts if you haven't logged in before)
+Log in to W&B. Follow the prompts if you have not logged in before.
 
 ```sh
 wandb login
@@ -119,15 +117,15 @@ importer = WandbParquetImporter(
 )
 ```
 
-#### Import runs
+### Import runs
 
-Import all runs from an entity:
+Import all W&B runs from an entity:
 
 ```py
 importer.import_all_runs(src_entity)
 ```
 
-You can optionally specify a project if you don't want to import all projects by default:
+You can optionally specify a project if you do not want to import all projects by default:
 
 ```py
 importer.import_all_runs(src_entity, src_project)
@@ -146,7 +144,7 @@ importer.import_all_runs(
 )
 ```
 
-#### Import reports
+### Import reports
 
 Import all reports from an entity:
 
@@ -160,7 +158,7 @@ You can optionally specify a project if you don't want to import all projects by
 importer.import_all_reports(src_entity, src_project)
 ```
 
-If you would prefer the data to be imported to a different entity or project, you can specify with `overrides`. Report overrides also support different names and descriptions.:
+Specify the `overrides` parameter if you prefer the data to be imported to a different entity or project. Report overrides also support different names and descriptions:
 
 ```py
 importer.import_all_reports(
@@ -173,7 +171,7 @@ importer.import_all_reports(
 )
 ```
 
-#### Advanced
+### Advanced
 
 The importer supports more granular control over imports as well.
 
