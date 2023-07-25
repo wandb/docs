@@ -3,7 +3,7 @@ description: Getting started guide for W&B Launch.
 displayed_sidebar: default
 ---
 
-# Quickstart
+# Walkthrough
 
 Follow this guide to get started using W&B Launch. This guide will walk you through the setup of the fundamental components of a launch workflow: a **job**, **launch queue**, and **launch agent**. Specifically, you will create a job that trains a neural network, create a launch queue that will be used to submit jobs for execution on your local machine, and then create a launch agent that will poll on the queue and execute the jobs that it pops from the queue with Docker.
 
@@ -28,7 +28,7 @@ config = {
     "epochs": 10
 }
 
-with wandb.init(config=config):
+with wandb.init(config=config, project="launch-quickstart"):
     config = wandb.config
     for epoch in range(1, config.epochs):
         loss = config.epochs / epoch

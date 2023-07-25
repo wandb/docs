@@ -48,7 +48,7 @@ Add a job to your queue with the W&B App.
   </TabItem>
     <TabItem value="cli">
 
-Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Quickstart](./quickstart.md) guide, we create a JSON file with the following overrides:
+Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Quickstart](./walkthrough.md) guide, we create a JSON file with the following overrides:
 
 ```json
 // config.json

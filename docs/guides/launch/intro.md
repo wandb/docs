@@ -15,22 +15,22 @@ Easily scale training [runs](../runs/intro.md) from your desktop to your GPUs, q
 
 Launch is composed of three fundamental components: **jobs, queues, and agents**.
 
-A [job](./create-job.md) is a blueprint for configuring and running tasks in your ML workflow.  Once you have a job, you can add it to a [*launch queue*](./create-queue.md). A launch queue is a first-in, first-out (FIFO) queues where you can configure and submit your jobs to a particular compute resource. 
+A [*job*](./create-job.md) is a blueprint for configuring and running tasks in your ML workflow.  Once you have a job, you can add it to a [*launch queue*](./create-queue.md). A launch queue is a first-in, first-out (FIFO) queues where you can configure and submit your jobs to a particular compute resource. 
 
-![](/images/launch/mlOps_flow.png)
+<!-- ![](/images/launch/mlOps_flow.png) -->
 
 As jobs are added to the queue, a [*launch agent*](./run-agent.md) will poll that queue and execute the job on the system targeted by the queue this job was taken from.
 
-![](/images/launch/ml_user_flow.png)
+<!-- ![](/images/launch/ml_user_flow.png) -->
 
-<!-- ![](/images/launch/Launch_Diagram.png) -->
+![](/images/launch/Launch_Diagram.png)
 
 
 ## How to get started
 
 Depending on your use case, explore the following resources to get started with W&B Launch:
 
-* If this is your first time using W&B Launch, we recommend you go through the [Quickstart](./quickstart.md) guide.
+* If this is your first time using W&B Launch, we recommend you go through the [Walkthrough](./walkthrough.md) guide.
 * Check out the W&B Launch [public jobs repo](https://github.com/wandb/launch-jobs) for templates of common tasks like [deploying to Triton](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton), [evaluating an LLM](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals), or more. 
     * These jobs are also visible in the public [`wandb/jobs` project](https://wandb.ai/wandb/jobs/jobs). (Be sure to uncheck the toggle to see the full list.)
 * Explore topics about W&B Launch in this Developer Guide, such as:
