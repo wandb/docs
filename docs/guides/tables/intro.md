@@ -10,16 +10,16 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 <CTAButtons productLink="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb"/>
 
-Use W&B Tables to visualize and query tabular data.
+Use W&B Tables to visualize and query tabular data. For example:
 
+* Compare how different models perform on the same test set
+* Identify patterns in your data
 * Look at sample model predictions visually
 * Query to find commonly misclassified examples
-* Compare how different models perform on the same test set
-* Identify higher level patterns in your data, like an under-represented class
 
 
-Here is [an example Table](https://wandb.ai/av-team/mlops-course-001) with interactive semantic segmentation and calculated metrics.
 ![](/images/data_vis/tables_sample_predictions.png)
+The above image shows a table with semantic segmentation and custom metrics. View this table here in this [sample project from the W&B ML Course](https://wandb.ai/av-team/mlops-course-001).
 
 ## How it works
 
