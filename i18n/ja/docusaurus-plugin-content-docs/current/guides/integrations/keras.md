@@ -15,7 +15,7 @@ displayed_sidebar: ja
 
 **`WandbModelCheckpoint`** : このコールバックを使用して、モデルのチェックポイントをWeights and Biasesの[アーティファクト](https://docs.wandb.ai/guides/data-and-model-versioning)に記録します。
 
-**`WandbEvalCallback`**: このベースコールバックは、モデルの予測をWeights and Biasesの[テーブル](https://docs.wandb.ai/guides/data-vis)に記録し、インタラクティブな可視化を行います。
+**`WandbEvalCallback`**: このベースコールバックは、モデルの予測をWeights and Biasesの[テーブル](https://docs.wandb.ai/guides/tables)に記録し、インタラクティブな可視化を行います。
 
 これらの新しいコールバックには、
 

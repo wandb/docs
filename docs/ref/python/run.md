@@ -387,7 +387,7 @@ for all of the different supported types or check out our
 [guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
 from 3D molecular structures and segmentation masks to PR curves and histograms.
 `wandb.Table`s can be used to logged structured data. See our
-[guide to logging tables](https://docs.wandb.ai/guides/data-vis/log-tables)
+[guide to logging tables](https://docs.wandb.ai/guides/tables/log-tables)
 for details.
 
 Logging nested metrics is encouraged and is supported in the W&B UI.

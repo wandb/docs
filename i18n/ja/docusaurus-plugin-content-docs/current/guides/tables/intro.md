@@ -1,5 +1,5 @@
 ---
-slug: /guides/data-vis
+slug: /guides/tables
 description: Iterate on datasets and understand model predictions
 displayed_sidebar: ja
 ---

@@ -92,7 +92,7 @@ Any run in `wandb` automatically logs [metrics](https://docs.wandb.ai/ref/app/pa
 [system information](https://docs.wandb.ai/ref/app/pages/run-page#system-tab),
 [hyperparameters](https://docs.wandb.ai/ref/app/pages/run-page#overview-tab),
 [terminal output](https://docs.wandb.ai/ref/app/pages/run-page#logs-tab) and
-you'll see an [interactive table](https://docs.wandb.ai/guides/data-vis)
+you'll see an [interactive table](https://docs.wandb.ai/guides/tables)
 with model inputs and outputs.
 
 ## Set up Dataloader
