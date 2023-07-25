@@ -27,13 +27,14 @@ A Table is a two-dimensional grid of data where each column has a single type of
 
 Log a table with a few lines of code:
 
-- [`wandb.init()`](../../ref/python/init.md): Create a [run](/guides/runs.md) to track results.
+- [`wandb.init()`](../../ref/python/init.md): Create a [run](../runs/intro.md) to track results.
 - [`wandb.Table()`](../../ref/python/data-types/table.md): Create a new table object.
   - `columns`: Set the column names.
   - `data`: Set the contents of the table.
 - [`run.log()`](../../ref/python/log.md): Log the table to save it to W&B.
 
 ```python showLineNumbers
+import wandb
 run = wandb.init(project="table-test")
 my_table = wandb.Table(
     columns=["a", "b"], 
