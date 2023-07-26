@@ -16,19 +16,16 @@ W&B strongly recommends and encourages user management with Single Sign-On (SSO)
 
 The first user to sign up to W&B, after you have deployed the W&B Server, is automatically assigned admin permissions. The admin can then add additional users to the instance and create teams.
 ## Manage your organization
-As an admin, you can invite, remove, and change a user's role.
+As an admin, you can invite, remove, and change a user's role. To do so, navigate to the Organization dashboard and follow the instructions described below.
 
-<!-- When you invite a user to an organization, you can assign them one of the following roles:
+1. Select your profile image in the upper right hand corner.
+2. A dropdown will appear, click on **Organization dashboard**.
 
-| Role      | Definition                                                                                                                                                                                                                                                                                       |
-|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Admin     | A team member who can add and remove other admins and members of the team.                                                                                                                                                                                                                       |
-| Member    | A regular member of your team, invited by email by the team admin. A team member cannot invite other members to the team.                                                                                                                                                                        |
-| View      | A view-only member of your team, invited by email by the team admin. A view-only member only has read access to the team and its contents.                                                                                                                                                       | -->
+![](/images/hosting/how_get_to_dashboard.png)
 
 ### Invite users
 
-1. Navigate to the W&B Organization dashboard at [INSERT URL].
+1. Navigate to the W&B Organization dashboard.
 2. Click the **Add user** button.
 3. Add the user's email in the Email field.
 4. Select the user role type you want to apply to the user. By default, all users are assigned a Member role.
@@ -45,15 +42,16 @@ An invite link will be sent to the user by email. The new admin or member will n
 W&B uses third-party email server to send these invite emails. If your organization firewall rules prohibit from sending traffic outside the corporate network, W&B provides an option to set up internal SMTP server. Please refer to [these instructions](./smtp.md) to setup the SMTP server.
 
 ### Remove a user
-1. Navigate to the W&B Organization dashboard at [INSERT URL].
+1. Navigate to the W&B Organization dashboard.
 2. Search for the user you want to modify in the search bar.
 3. Click on the meatball menu (three horizontal dots).
 4. Select **Remove user**.
 
+![](/images/hosting/remove_user_from_org.png)
 
-### Change user roles
+### Change a user's role
 
-1. Navigate to the W&B Organization dashboard at [INSERT URL].
+1. Navigate to the W&B Organization dashboard.
 2. Search for the user you want to modify in the search bar.
 3. Hover your mouse to the **Role** column. Click on the pencil icon that appears.
 4. From the dropdown, select the new role you want to assign.
@@ -72,8 +70,9 @@ For more information on team roles and permissions, [see Team Roles and Permissi
 
 ### Create a team
 
-1. Navigate to the W&B Organization dashboard at [INSERT URL].
+1. Navigate to the W&B Organization dashboard.
 2. Select the **Create new team** button on the left navigation panel.
+![](/images/hosting/create_new_team.png)
 3. A modal will appear. Prove a name for your team in the **Team name** field. 
 4. Select a storage type. 
 5. Click on the **Create team** button.
@@ -121,7 +120,7 @@ Use the organization dashboard to get a holistic view of members that belong to 
 
 * **Name**: The name of the user and their W&B username.
 * **Last active**: The time the user last used W&B. This includes any activity that requires authentication, including viewing pages in the product, logging runs or taking any other action, or logging in.
-* **Role**: The role of the user. [LINK to team role section]
+* **Role**: The role of the user. 
 * **Email**: The email of the user.
 * **Team**: The names of teams the user belongs to.
 
