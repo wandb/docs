@@ -128,19 +128,30 @@ Use the organization dashboard to get a holistic view of members that belong to 
 ### View the status of a user
 The **Last Active** column shows if a user is pending an invitation or an active user.  A user is one of three states:
 
-* Pending invitation:
-* Active: 
-* Deactivated: 
+* Pending invitation: Admin has sent invite but user has not accepted invitation. 
+* Active: User has accepted the invite and created an account.
+* Deactivated: Admin has revoked access of the user.
 
 ![](/images/hosting/view_status_of_user.png)
 
 The **Role** column will display **Deactivated** if a user was deactivated. 
 
+### View and share how your organization uses W&B
 
+View how your organization uses W&B in CSV format.
 
+1. Select the hamburger menu (three horizontal dots) next to the **Add user** button.
+2. From the dropdown, select **Export as CSV**.
+
+![](/images/hosting/export_org_usage.png)
+
+This will export a CSV file that lists all users of an organization along with their: user name, time stamp of when they were last active, role, email, teams they belong to, and their status (active, pending, or deactivated). 
 
 ### View user activity
-Use the **Last Active** column to view if a user is active. Hover your mouse over the **Last Active** entry for a user. A tooltip will appear and describe a summary of information such as: when that user was added, the last time that user was active,  a count of any runs or reports created by that user, and how many days the user has been active since they signed up. 
+Use the **Last Active** column to get an **Activity summary** of an individual user. 
+
+1. Hover your mouse over the **Last Active** entry for a user. 
+2. A tooltip will appear and describe a summary of information such as: when that user was added, the last time that user was active,  a count of any runs or reports created by that user, and how many days the user has been active since they signed up. 
 
 
 ![](/images/hosting/activity_tooltip.png)
