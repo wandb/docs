@@ -16,15 +16,15 @@ W&B strongly recommends and encourages user management with Single Sign-On (SSO)
 
 The first user to sign up to W&B, after you have deployed the W&B Server, is automatically assigned admin permissions. The admin can then add additional users to the instance and create teams.
 ## Manage your organization
-[INSERT intro blurb]
+As an admin, you can invite, remove, and change a user's role.
 
-When you invite a user to an organization, you can assign them one of the following roles:
+<!-- When you invite a user to an organization, you can assign them one of the following roles:
 
 | Role      | Definition                                                                                                                                                                                                                                                                                       |
 |-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Admin     | A team member who can add and remove other admins and members of the team.                                                                                                                                                                                                                       |
 | Member    | A regular member of your team, invited by email by the team admin. A team member cannot invite other members to the team.                                                                                                                                                                        |
-| View      | A view-only member of your team, invited by email by the team admin. A view-only member only has read access to the team and its contents.                                                                                                                                                       |
+| View      | A view-only member of your team, invited by email by the team admin. A view-only member only has read access to the team and its contents.                                                                                                                                                       | -->
 
 ### Invite users
 
@@ -34,7 +34,7 @@ When you invite a user to an organization, you can assign them one of the follow
 4. Select the user role type you want to apply to the user. By default, all users are assigned a Member role.
 5. Click the **Add new user** button.
 
-[INSERT IMAGE]
+![](/images/hosting/org_dashboard_add_user.png)
 
 :::info
 Note that an option may be greyed out if there are no more seats in the license.
@@ -119,14 +119,12 @@ W&B runs logged by team members remain after a team member is removed.
 ## View organization usage of W&B
 Use the organization dashboard to get a holistic view of members that belong to your organization, how members of your organization use W&B, along with properties such as:
 
-* Name: The name of the user and their W&B username.
-* Last active: The time the user last used W&B. Or status of user if pending an invitation.
-* Role: The role of the user. [LINK to team role section]
-* Email: The email of the user.
-* Team: The names of teams the user belongs to.
+* **Name**: The name of the user and their W&B username.
+* **Last active**: The time the user last used W&B. This includes any activity that requires authentication, including viewing pages in the product, logging runs or taking any other action, or logging in.
+* **Role**: The role of the user. [LINK to team role section]
+* **Email**: The email of the user.
+* **Team**: The names of teams the user belongs to.
 
-
-View your organization board at [INSERT link and/or pattern]
 
 ### View the status of a user
 The **Last Active** column shows if a user is pending an invitation or an active user.  A user is one of three states:
@@ -135,22 +133,27 @@ The **Last Active** column shows if a user is pending an invitation or an active
 * Active: 
 * Deactivated: 
 
+![](/images/hosting/view_status_of_user.png)
+
 The **Role** column will display **Deactivated** if a user was deactivated. 
 
-[INSERT IMAGE]
+
 
 
 ### View user activity
-The **Last Active** column describes the last time the user used W&B. A user is considered active if that user logs in to W&B, uses the SDK to track an experiment, views information on the W&B app, or interacts with the server in any way.
+Use the **Last Active** column to view if a user is active. Hover your mouse over the **Last Active** entry for a user. A tooltip will appear and describe a summary of information such as: when that user was added, the last time that user was active,  a count of any runs or reports created by that user, and how many days the user has been active since they signed up. 
 
-Hover your mouse over the Last Active entry for a user. A tooltip will appear and describe a summary of when that user was added along with the last time that user was active.
 
-[INSERT IMAGE]
+![](/images/hosting/activity_tooltip.png)
+
+:::info
+A user is considered active if they: log in to W&B, view any page in the W&B App, log runs, use the SDK to track an experiment, or interact with the  W&B server in any way.
+:::
 
 ### View active users over time
-Use the **Users active over time**  plot in the Organization dashboard to get an aggregate overview of how many users are active over time. 
+Use the **Users active over time**  plot in the Organization dashboard to get an aggregate overview of how many users are active over time (right most plot in image below). 
 
-[INSERT image]
+![](/images/hosting/dashboard_summary.png)
 
-You can use the dropdown menu to filer results based on days, months, or all time.
+You can use the dropdown menu to filter results based on days, months, or all time.
 
