@@ -1,41 +1,40 @@
 ---
 displayed_sidebar: default
 ---
+# Manage users
+Manage W&B users in your organization or team.
 
-
-# User Management
-
-W&B strongly recommends and encourages user management via Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to the [SSO Configuration documentation](./sso.md).
-
-:::tip
-Users are classified as either an _admin_ or _member_ when using W&B. Admins can add and remove other admins or team members. A team member is invited by email by the team admin. A team member cannot invite other members.
-
-For more information on roles and permissions, [see Team Roles and Permissions](../app/features/teams.md#team-roles-and-permissions).
+:::info
+Users are classified as either an _admin_ or _member_. Admins can add and remove other admins or members.
 :::
+
+W&B strongly recommends and encourages user management with Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to the [SSO Configuration documentation](./sso.md).
+
+
 
 ## Instance Admins
 
-The first user to sign up to W&B, after you have deployed the W&B Server, will automatically be assigned admin permissions. The admin can then add additional users to the instance and create teams.
+The first user to sign up to W&B, after you have deployed the W&B Server, is automatically assigned admin permissions. The admin can then add additional users to the instance and create teams.
+## Manage your organization
+[INSERT intro blurb]
 
-## Invite Users
+When you invite a user to an organization, you can assign them one of the following roles:
 
-Invite fellow admin or members from the `https://<YOUR-WANDB-URL>/admin/users` page.
+| Role      | Definition                                                                                                                                                                                                                                                                                       |
+|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Admin     | A team member who can add and remove other admins and members of the team.                                                                                                                                                                                                                       |
+| Member    | A regular member of your team, invited by email by the team admin. A team member cannot invite other members to the team.                                                                                                                                                                        |
+| View      | A view-only member of your team, invited by email by the team admin. A view-only member only has read access to the team and its contents.                                                                                                                                                       |
 
-1.  Navigate to `https://<YOUR-WANDB-URL>/admin/users`.
+### Invite users
 
-![](/images/hosting/invite_users.png)
+1. Navigate to the W&B Organization dashboard at [INSERT URL].
+2. Click the **Add user** button.
+3. Add the user's email in the Email field.
+4. Select the user role type you want to apply to the user. By default, all users are assigned a Member role.
+5. Click the **Add new user** button.
 
-2. Click on **Add User**.
-
-3. Enter the user's email in the **Email** field. 
-
-![](/images/hosting/add_user_empty_field.png)
-
-4. Select the user role type you want to apply to the user. By default, all users are assigned a **Members** role. 
-
-5. Click **Submit**. 
-
-![](/images/hosting/add_user_field_filled.png)
+[INSERT IMAGE]
 
 :::info
 Note that an option may be greyed out if there are no more seats in the license.
@@ -45,55 +44,43 @@ An invite link will be sent to the user by email. The new admin or member will n
 
 W&B uses third-party email server to send these invite emails. If your organization firewall rules prohibit from sending traffic outside the corporate network, W&B provides an option to set up internal SMTP server. Please refer to [these instructions](./smtp.md) to setup the SMTP server.
 
-<!-- To do: Add this doc -->
-<!-- Refer to SMTP configuration documentation for instructions on how to do this. -->
+### Remove a user
+1. Navigate to the W&B Organization dashboard at [INSERT URL].
+2. Search for the user you want to modify in the search bar.
+3. Click on the meatball menu (three horizontal dots).
+4. Select **Remove user**.
 
-## Change User Roles
 
-Navigate to `https://<YOUR-WANDB-URL>/admin/users` to change the roles of users.
+### Change user roles
 
-1. Search the user role you want to modify.
+1. Navigate to the W&B Organization dashboard at [INSERT URL].
+2. Search for the user you want to modify in the search bar.
+3. Hover your mouse to the **Role** column. Click on the pencil icon that appears.
+4. From the dropdown, select the new role you want to assign.
 
-2. Select the new role from the dropdown menu.
 
-![](/images/hosting/change_user_role.png)
 
-3. Select **Change User Role** to confirm the change on the modal.
 
-![](/images/hosting/change_user_role_modal.png)
+## Manage a team
+Use a team home page as a central hub to explore projects, reports, and runs. Within the team home page there is a **Settings** tab. Use the Settings tab to manage members, set a team avatar, adjust privacy settings, set up alerts, track usage, and more. For more information, see the [Team settings](../app/settings-page/team-settings.md) page.
 
-## Create Teams
+:::tip
+Admins can add and remove team members. A team member is invited by email by the team admin. A team member cannot invite other members.
 
-Navigate to `https://<YOUR-WANDB-URL>/admin/users` to create a new W&B Team.
-
-1. Go to `https://<YOUR-WANDB-URL>/admin/users` page and click on **Teams**.
-
-![](/images/hosting/manage_users_teams.png)
-
-<!-- ![Screen Shot 2023-01-09 at 10.22.50 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7d59520c-4a00-4596-9e2e-428b1b53c589/Screen_Shot_2023-01-09_at_10.22.50_PM.png) -->
-
-2. Click on **New Team** and enter a name for the team in the **Team name** field.
-
-![](/images/hosting/manage_users_teams_filled.png)
-
-<!-- ![Screen Shot 2023-01-09 at 10.25.10 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/180f26ae-fa96-4dc4-b421-f9676ff73477/Screen_Shot_2023-01-09_at_10.25.10_PM.png) -->
-
-Each team has its own profile page. Navigate to `https://<YOUR-WANDB-URL>/<team-name>` to view a team's profile page.
-
-![](/images/hosting/add_teams_server.png)
-
-<!-- ![Screen Shot 2023-01-09 at 10.29.14 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7dbd7cac-9300-4a48-a67c-a696548b0153/Screen_Shot_2023-01-09_at_10.29.14_PM.png) -->
-
-## Managing Team Settings
-
-The Team home page includes the option for Team settings, which allows you to manage members, set a team avatar, adjust privacy settings, set up alerts, track usage, and more. For more information, see the [Team settings](../app/settings-page/team-settings.md) page.
-
-## Invite members to a team
-
-:::info
-Members must first be part of the instance before they can be invited to a team. For instructions on inviting users to the instance, refer to the [Invite Users](#invite-users) section.
+For more information on team roles and permissions, [see Team Roles and Permissions](../app/features/teams.md#team-roles-and-permissions).
 :::
 
+### Create a team
+
+1. Navigate to the W&B Organization dashboard at [INSERT URL].
+2. Select the **Create new team** button on the left navigation panel.
+3. A modal will appear. Prove a name for your team in the **Team name** field. 
+4. Select a storage type. 
+5. Click on the **Create team** button.
+
+This will redirect you to a newly created Team home page. 
+
+### Team roles
 When you invite a user to a team you can assign them one of the following roles:
 
 | Role      | Definition                                                                                                                                                                                                                                                                                       |
@@ -103,23 +90,67 @@ When you invite a user to a team you can assign them one of the following roles:
 | View-Only | A view-only member of your team, invited by email by the team admin. A view-only member only has read access to the team and its contents.                                                                                                                                                       |
 | Service   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure that the environment variable `WANDB_USERNAME` is set to correctly attribute runs to the appropriate user. |
 
-![](/images/hosting/team_settings_wand_server_example.png)
 
-<!-- **Admin**: A team member who can add and remove other admins and members of the team.
+### Invite members to a team
+Use the Team's settings page to invite members.
 
-**Member**: A regular member of your team, invited by email by the team admin. A team member cannot invite other members to the team.
+:::info
+Members must first be part of the instance before they can be invited to a team.
+:::
 
-**Service**: A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure that the environment variable `WANDB_USERNAME` is set to correctly attribute runs to the appropriate user. -->
+1. Navigate to the Team's Settings page.
+2. Select the **Members** tab.
+3. Enter an email or W&B username in the search bar.
+4. Once you have found the user, click the **Invite** button.
 
-<!-- ![Screen Shot 2023-01-09 at 10.48.49 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2eb67576-e0c5-4951-95ba-7a6fa49a8d68/Screen_Shot_2023-01-09_at_10.48.49_PM.png) -->
 
-## Remove members from a team
+### Remove members from a team
 
 Use the Team's settings page to remove members.
 
-1. Navigate to the team settings page.
+1. Navigate to the Team's settings page.
 2. Select the Delete button next the to member's name.
 
 :::info
 W&B runs logged by team members remain after a team member is removed.
 :::
+
+
+## View organization usage of W&B
+Use the organization dashboard to get a holistic view of members that belong to your organization, how members of your organization use W&B, along with properties such as:
+
+* Name: The name of the user and their W&B username.
+* Last active: The time, in hours, the user last used W&B. Or status of user if pending an invitation.
+* Role: The role of the user. [LINK to team role section]
+* Email: The email of the user.
+* Team: The names of teams the user belongs to.
+
+
+View your organization board at [INSERT link and/or pattern]
+
+### View the status of a user
+The **Last Active** column shows if a user is pending an invitation or an active user.  A user is one of three states:
+
+* Pending invitation:
+* Active: 
+* Deactivated: 
+
+The **Role** column will display **Deactivated** if a user was deactivated. 
+
+[INSERT IMAGE]
+
+
+### View user activity
+The **Last Active** column describes the time, in hours, the user last used W&B. A user is considered active if that user logs in to W&B, uses the SDK to track an experiment, views information on the W&B app, or interacts with the server in any way.
+
+Hover your mouse over the Last Active entry for a user. A tooltip will appear and describe a summary of when that user was added along with the last time that user was active.
+
+[INSERT IMAGE]
+
+### View active users over time
+Use the **Users active over time**  plot in the Organization dashboard to get an aggregate overview of how many users are active over time. 
+
+[INSERT image]
+
+You can use the dropdown menu to filer results based on days, months, or all time.
+
