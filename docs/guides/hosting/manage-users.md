@@ -120,7 +120,7 @@ W&B runs logged by team members remain after a team member is removed.
 Use the organization dashboard to get a holistic view of members that belong to your organization, how members of your organization use W&B, along with properties such as:
 
 * Name: The name of the user and their W&B username.
-* Last active: The time, in hours, the user last used W&B. Or status of user if pending an invitation.
+* Last active: The time the user last used W&B. Or status of user if pending an invitation.
 * Role: The role of the user. [LINK to team role section]
 * Email: The email of the user.
 * Team: The names of teams the user belongs to.
@@ -141,7 +141,7 @@ The **Role** column will display **Deactivated** if a user was deactivated.
 
 
 ### View user activity
-The **Last Active** column describes the time, in hours, the user last used W&B. A user is considered active if that user logs in to W&B, uses the SDK to track an experiment, views information on the W&B app, or interacts with the server in any way.
+The **Last Active** column describes the last time the user used W&B. A user is considered active if that user logs in to W&B, uses the SDK to track an experiment, views information on the W&B app, or interacts with the server in any way.
 
 Hover your mouse over the Last Active entry for a user. A tooltip will appear and describe a summary of when that user was added along with the last time that user was active.
 
