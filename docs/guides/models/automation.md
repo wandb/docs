@@ -5,7 +5,7 @@ displayed_sidebar: default
 
 # Automations
 
-An Automation is an event, action pair where a specific event in W&B will kick off a downstream action, such as a [Launch Job](https://docs.wandb.ai/guides/launch/create-job). Use Automations to easily trigger workflow steps, such as automated model testing and deployment, on your own infrastructure with a lightweight Launch connector. 
+An Automation is an event, action pair where a specific event in W&B will kick off a downstream action, such as a [Launch Job](../launch/create-job.md). Use Automations to easily trigger workflow steps, such as automated model testing and deployment, on your own infrastructure with a lightweight Launch connector. 
 
 ![](/images/models/automations_section_in_registry.png)
 
@@ -21,7 +21,7 @@ You can automatically trigger actions based on two types of events:
 
 ## Infrastructure
 
-Use [Launch](https://docs.wandb.ai/guides/launch) to set up a connection to your own compute resources, whether that’s a GPU machine at your desk or a scalable cloud Kubernetes cluster.
+Use [Launch](../launch/intro.md) to set up a connection to your own compute resources, whether that’s a GPU machine at your desk or a scalable cloud Kubernetes cluster.
 
 ## Walkthrough
 For a step by step guide on how to use Automations for Model CI, check out [this](https://wandb.ai/examples/wandb_automations/reports/Model-CI-with-W-B-Automations--Vmlldzo0NDY5OTIx) report.
