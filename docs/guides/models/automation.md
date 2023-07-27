@@ -5,7 +5,7 @@ displayed_sidebar: default
 
 # Automations
 
-An Automation is an event, action pair where a specific event in W&B will kick off a downstream action, such as a [Launch Job]([https://docs.wandb.ai/guides/launch](https://docs.wandb.ai/guides/launch/create-job). Use Automations to easily trigger workflow steps, such as automated model testing and deployment, on your own infrastructure with a lightweight Launch connector. 
+An Automation is an event, action pair where a specific event in W&B will kick off a downstream action, such as a [Launch Job](https://docs.wandb.ai/guides/launch/create-job). Use Automations to easily trigger workflow steps, such as automated model testing and deployment, on your own infrastructure with a lightweight Launch connector. 
 
 ![](/images/models/automations_section_in_registry.png)
 
