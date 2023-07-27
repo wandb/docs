@@ -106,11 +106,11 @@ wandb.finish()
 
 Here's how experiments tracked using W&B for an Ultralytics training or fine-tuning workflow looks like:
 
-![](@site/static/images/integrations/ultralytics/experiment.gif)
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/TB76U9O"  ><a href="//imgur.com/a/TB76U9O">YOLO Fine-tuning Experiments</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 Here's how epoch-wise validation results are visualized using a [W&B Table](../data-vis/intro.md):
 
-![](@site/static/images/integrations/ultralytics/table.gif)
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/kU5h7W4"  ><a href="//imgur.com/a/kU5h7W4">WandB Validation Visualization Table</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 ## Visualizing Prediction Results
 
@@ -168,7 +168,7 @@ Note: We do not need to explicitly initialize a run using `wandb.init()` in case
 
 Here's how the interactive bbox overlay looks:
 
-![](@site/static/images/integrations/ultralytics/interactive_bbox.gif)
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/UTSiufs"  ><a href="//imgur.com/a/UTSiufs">WandB Image Overlay</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 You can fine more information on the W&B image overlays [here](../track/log/media.md#image-overlays).
 
