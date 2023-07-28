@@ -510,8 +510,8 @@ Reading an artifact created by another `@asset`
    name="my_asset",
    ins={
        "artifact": AssetIn(
-           # if you don't want to rename the input argument you can remove 'asset_key'
-           asset_key="parent_dagster_asset_name",
+           # if you don't want to rename the input argument you can remove 'key'
+           key="parent_dagster_asset_name",
            input_manager_key="wandb_artifacts_manager",
        )
    },
@@ -551,7 +551,7 @@ The proceeding configuration is used to indicate what the IO Manager should coll
 @asset(
    ins={
        "table": AssetIn(
-           asset_key="my_artifact_with_table",
+           key="my_artifact_with_table",
            metadata={
                "wandb_artifact_configuration": {
                    "get": "my_table",
@@ -572,7 +572,7 @@ def get_table(context, table):
 @asset(
    ins={
        "path": AssetIn(
-           asset_key="my_artifact_with_file",
+           key="my_artifact_with_file",
            metadata={
                "wandb_artifact_configuration": {
                    "get_path": "name_of_file",
@@ -591,7 +591,7 @@ def get_path(context, path):
 @asset(
    ins={
        "artifact": AssetIn(
-           asset_key="my_artifact",
+           key="my_artifact",
            input_manager_key="wandb_artifacts_manager",
        )
    },
