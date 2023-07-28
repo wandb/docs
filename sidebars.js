@@ -382,6 +382,7 @@ const sidebars = {
         'guides/integrations/other/w-and-b-for-julia',
         'guides/integrations/xgboost',
         'guides/integrations/yolov5',
+        'guides/integrations/ultralytics',
         'guides/integrations/other/yolox',
       ],
     },
