@@ -11,25 +11,7 @@ import TabItem from '@theme/TabItem';
   <title>Walkthrough of how to use Model Management</title>
 </head>
 
-
-![](/images/models/walkthrough.png)
-
-In this walkthrough you'll learn how to use W&B for Model Management. Track, visualize, and report on the complete production model workflow.
-
-1. **Model Versioning**: Save and restore every version of your model & learned parameters - organize versions by use case and objective. Track training metrics, assign custom metadata, and document rich markdown descriptions of your models.
-2. **Model Lineage:** Track the exact code, hyperparameters, & training dataset used to produce the model. Enable model reproducibility.
-3. **Model Lifecycle:** Promote promising models to positions like "staging" or "production" - allowing downstream users to fetch the best model automatically. Communicate progress collaboratively in Reports.
-
-_We are actively building new Model Management features. Please reach out with questions or suggestions at support@wandb.com._
-
-:::info
-Please see the[ Artifact Tab](../app/pages/project-page.md#artifacts-tab) details for a discussion of all content available in the Model Registry!
-:::
-
-
-## Workflow
-
-Now we will walk through a canonical workflow for producing, organizing, and consuming trained models:
+In this walkthrough you will learn how to use W&B for model management. More specifically, we cover how to track, visualize, and report on a complete production model workflow.
 
 1. [Create a new Registered Model](#1-create-a-new-registered-model)
 2. [Train & log Model Versions](#2-train--log-model-versions)
@@ -40,15 +22,14 @@ Now we will walk through a canonical workflow for producing, organizing, and con
 7. [Use the Production Model for Inference](#7-consume-the-production-model)
 8. [Build a Reporting Dashboard](#8-build-a-reporting-dashboard)
 
-:::tip
-This [companion colab notebook](http://wandb.me/models_quickstart) covers step 2-3 in the first code block and steps 4-6 in the second code block.
-:::
 
-![](/images/models/workflow_dag.png)
+![](/images/models/models_landing_page.png)
 
-### 1. Create a new Registered Model
 
-First, create a Registered Model to hold all the candidate models for your particular modeling task. In this tutorial, we will use the classic [MNIST Dataset](https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST) - 28x28 grayscale input images with output classes from 0-9. The video below demonstrates how to create a new Registered Model.
+
+## 1. Create a new Registered Model
+
+First, create a registered model to hold all the candidate models for your modeling task. In this guide, we use [MNIST Dataset](https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST) as input 28 X 28 images with output classes from 0-9. 
 
 <Tabs
   defaultValue="registry"
@@ -59,7 +40,7 @@ First, create a Registered Model to hold all the candidate models for your parti
   ]}>
   <TabItem value="registry">
 
-1. Visit your Model Registry at [wandb.ai/registry/model](https://wandb.ai/registry/model) (linked from homepage).
+1. Navigate to your model registry at [wandb.ai/registry/model](https://wandb.ai/registry/model).
 
 ![](/images/models/create_registered_model_1.png)
 
@@ -125,7 +106,7 @@ wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
   </TabItem>
 </Tabs>
 
-### 2. Train & log Model Versions
+## 2. Train & log Model Versions
 
 Next, you will log a model from your training script:
 
@@ -212,7 +193,7 @@ If you are following along the example notebook, you should see a Run Workspace 
 
 ![](/images/models/train_log_model_version_notebook.png)
 
-### 3. Link Model Versions to the Registered Model
+## 3. Link Model Versions to the Registered Model
 
 Now, let's say that we are ready to link one of our Model Versions to the Registered Model. We can accomplish this manually as well as via an API.
 
@@ -289,7 +270,13 @@ After you link the Model Version, you will see hyperlinks connecting the Version
 
 ![](@site/static/images/models/train_log_model_version.png)
 
-### 4. Use a Model Version
+
+:::tip
+This [companion colab notebook](http://wandb.me/models_quickstart) covers step 2-3 in the first code block and steps 4-6 in the second code block.
+:::
+
+
+## 4. Use a Model Version
 
 Now we are ready to consume a Model - perhaps to evaluate its performance, make predictions against a dataset, or use in a live production context. Similar to logging a Model, you may choose to use the raw Artifact API:
 
@@ -310,7 +297,7 @@ path = wandb.use_artifact("[[entity/]project/]collectionName:latest").download()
 model = make_model_from_data(path)
 ```
 
-### 5. Evaluate Model Performance
+## 5. Evaluate Model Performance
 
 After training many Models, you will likely want to evaluate the performance of those models. In most circumstances you will have some held-out data which serves as a test dataset, independent of the dataset your models have access to during training. To evaluate a Model Version, you will want to first complete step 4 above to load a model into memory. Then:
 
@@ -338,7 +325,7 @@ If you are executing similar code, as demonstrated in the notebook, you should s
 
 ![](/images/models/evaluate_model_performance.png)
 
-### 6. Promote a Version to Production
+## 6. Promote a Version to Production
 
 Next, you will likely want to denote which version in the Registered Model is intended to be used for Production. Here, we use the concept of aliases. Each Registered Model can have any aliases which make sense for your use case - however we often see `production` as the most common alias. Each alias can only be assigned to a single Version at a time.
 
@@ -362,7 +349,7 @@ The image below shows the new `production` alias added to v1 of the Registered M
 
 ![](/images/models/promote_version_to_prod_2.png)
 
-### 7. Consume the Production Model
+## 7. Consume the Production Model
 
 <!-- Finally, you will likely want to use your production Model for inference. To do so, simply follow the steps outlined in [Part 4. Using a Model Version](walkthrough.md#4.-evaluate-model-performance), with the `production` alias. For example: -->
 
@@ -376,7 +363,7 @@ You can reference a Version within the Registered Model using different alias st
 * `v#` - using `v0`, `v1`, `v2`, ... you can fetch a specific version in the Registered Model
 * `production` - you can use any custom alias that you and your team have assigned
 
-### 8. Build a Reporting Dashboard
+## 8. Build a Reporting Dashboard
 
 Using Weave Panels, you can display any of the Model Registry/Artifact views inside of Reports! See a [demo here](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/reports/MNIST-Grayscale-28x28-Model-Dashboard--VmlldzoyMDI0Mzc1). Below is a full-page screenshot of an example Model Dashboard.
 

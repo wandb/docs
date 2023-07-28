@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
   <title>モデル管理の使い方を解説</title>
 </head>
 
-![](/images/models/walkthrough.png)
+![](/images/models/models_landing_page.png)
 
 この解説では、Weights & Biasesを使ってモデル管理を行う方法を学びます。プロダクションモデルワークフローのトラッキング、データ可視化、レポーティングを完全にサポートします。
 
@@ -41,7 +41,6 @@ _私たちは現在、新しいモデル管理機能を積極的に開発して�
 **ステップ2〜3をカバーする最初のコードブロックと、ステップ4〜6をカバーする2つ目のコードブロックが含まれる** [**Colabノートブックが提供されています**](https://colab.research.google.com/drive/1wjgr9AHICOa3EM1Ikr_Ps_MAm5D7QnCC) **。**
 :::
 
-![](/images/models/workflow_dag.png)
 
 ### 1. 新しいRegistered Modelを作成する
 
