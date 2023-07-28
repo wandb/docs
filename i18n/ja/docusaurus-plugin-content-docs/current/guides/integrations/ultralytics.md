@@ -81,7 +81,7 @@ from wandb.yolov8 import add_wandb_callback
 from ultralytics.engine.model import YOLO
 ```
 
-Next, we initialize the `YOLO` model of our choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This would ensure that when we perform training, fine-tuning, validation, or inference, it would automatically log the experiment logs and the images over laid with both ground-truth and the respective prediction results using the [interactive overlays for computer vision tasks](../track/log/media#image-overlays-in-tables) on W&B along with additional insights in a [`wandb.Table`](../data-vis/intro.md).
+Next, we initialize the `YOLO` model of our choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This would ensure that when we perform training, fine-tuning, validation, or inference, it would automatically log the experiment logs and the images over laid with both ground-truth and the respective prediction results using the [interactive overlays for computer vision tasks](../track/log/media#image-overlays-in-tables) on W&B along with additional insights in a [`wandb.Table`](../tables/intro.md).
 
 ```python
 model_name = "yolov8n" #@param {type:"string"}
@@ -106,11 +106,10 @@ wandb.finish()
 
 Here's how experiments tracked using Weights & Biases for an Ultralytics training or fine-tuning workflow looks like:
 
-![](@site/static/images/integrations/ultralytics/experiment.gif)
 
-Here's how epoch-wise validation results are visualized using a [Weights & Biases Table](../data-vis/intro.md):
+Here's how epoch-wise validation results are visualized using a [Weights & Biases Table](../tables/intro.md):
 
-![](@site/static/images/integrations/ultralytics/table.gif)
+
 
 ## Visualizing Prediction Results
 
@@ -145,7 +144,7 @@ Next, we initialize a W&B [run](../runs/intro.md) using `wandb.init`.
 wandb.init(project="ultralytics", job_type="inference")
 ```
 
-Next, we initialize the `YOLO` model of our choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This would ensure that when we perform inference, it would automatically log the images overlaid with our [interactive overlays for computer vision tasks](../track/log/media#image-overlays-in-tables) along with additional insights in a [`wandb.Table`](../data-vis/intro.md).
+Next, we initialize the `YOLO` model of our choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This would ensure that when we perform inference, it would automatically log the images overlaid with our [interactive overlays for computer vision tasks](../track/log/media#image-overlays-in-tables) along with additional insights in a [`wandb.Table`](../tables/intro.md).
 
 ```python
 model_name = 'yolov8n' #@param {type:"string"}
@@ -168,7 +167,6 @@ wandb.finish()
 
 Here's how the interactive bbox overlay looks:
 
-![](@site/static/images/integrations/ultralytics/interactive_bbox.gif)
 
 You can fine more information on the W&B image overlays [here](../track/log/media.md#image-overlays).
 
