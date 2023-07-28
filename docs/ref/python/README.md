@@ -1,19 +1,18 @@
 # Python Library
 
+<!-- Insert buttons and diff -->
 
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/__init__.py)
-
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/__init__.py' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Use wandb to track machine learning work.
 
-
 The most commonly used functions/objects are:
- - wandb.init — initialize a new run at the top of your training script
- - wandb.config — track hyperparameters and metadata
- - wandb.log — log metrics and media over time within your training loop
+
+- wandb.init — initialize a new run at the top of your training script
+- wandb.config — track hyperparameters and metadata
+- wandb.log — log metrics and media over time within your training loop
 
 For guides and examples, see https://docs.wandb.ai.
 
@@ -45,11 +44,8 @@ For reference documentation, see https://docs.wandb.com/ref/python.
 
 [`watch(...)`](./watch.md): Hook into the torch model to collect gradients and the topology.
 
-
-
-| Other Members | |
+| Other Members |  |
 | :--- | :--- |
-| `__version__` | `'0.15.5'` |
-| `config` | |
-| `summary` | |
-
+|  `__version__`<a id="__version__"></a> |  `'0.15.7'` |
+|  `config`<a id="config"></a> |   |
+|  `summary`<a id="summary"></a> |   |

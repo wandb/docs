@@ -103,11 +103,11 @@ const sidebars = {
     {
       type: 'category',
       label: 'Tables',
-      link: { type: 'doc', id: 'guides/data-vis/intro' },
+      link: { type: 'doc', id: 'guides/tables/intro' },
       items: [
-        // 'guides/data-vis/intro',
-        'guides/data-vis/tables-quickstart',
-        'guides/data-vis/tables',
+        'guides/tables/tables-walkthrough',
+        'guides/tables/visualize-tables',
+        'guides/tables/tables-gallery',
       ],
     },
     {
@@ -116,7 +116,7 @@ const sidebars = {
       link: { type: 'doc', id: 'guides/sweeps/intro' },
       items: [
         // 'guides/sweeps/intro',
-        'guides/sweeps/quickstart',
+        'guides/sweeps/walkthrough',
         'guides/sweeps/add-w-and-b-to-your-code',
         'guides/sweeps/define-sweep-configuration',
         'guides/sweeps/initialize-sweeps',
@@ -155,7 +155,7 @@ const sidebars = {
         id: 'guides/launch/intro',
       },
       items: [
-        'guides/launch/quickstart',
+        'guides/launch/walkthrough',
         'guides/launch/create-job',
         'guides/launch/create-queue',
         'guides/launch/run-agent',
@@ -488,10 +488,11 @@ const sidebars = {
     {
       type: 'category',
       label: 'テーブル',
-      link: {type: 'doc', id: 'guides/data-vis/intro'},
+      link: {type: 'doc', id: 'guides/tables/intro'},
       items: [
-        'guides/data-vis/tables-quickstart',
-        'guides/data-vis/tables',
+        'guides/tables/tables-walkthrough',
+        'guides/tables/visualize-tables',
+        'guides/tables/tables-gallery',
       ],
     },
     {
@@ -499,7 +500,7 @@ const sidebars = {
       label: 'スイープ',
       link: {type: 'doc', id: 'guides/sweeps/intro'},
       items: [
-        'guides/sweeps/quickstart',
+        'guides/sweeps/walkthrough',
         'guides/sweeps/add-w-and-b-to-your-code',
         'guides/sweeps/define-sweep-configuration',
         'guides/sweeps/initialize-sweeps',
@@ -537,7 +538,7 @@ const sidebars = {
         id: 'guides/launch/intro',
       },
       items: [
-        'guides/launch/quickstart',
+        'guides/launch/walkthrough',
         'guides/launch/create-job',
         'guides/launch/create-queue',
         'guides/launch/run-agent',

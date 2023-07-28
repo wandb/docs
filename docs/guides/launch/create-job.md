@@ -8,10 +8,16 @@ import TabItem from '@theme/TabItem';
 
 # Create a job
 
+
 A job is a complete blueprint of how to perform a step in your ML workflow, like training a model, running an evaluation, or deploying a model to an inference server. Each job contains contextual information about the run it is being created from, including the source code, entrypoint, software dependencies, hyperparameters, dataset version, and so on.
 
+A job is an [Artifact](../../guides/artifacts/intro.md) that is created automatically when you track a run with W&B. Each job contains contextual information about the run it is being created from, including the source code, entrypoint, software dependencies, hyperparameters, dataset version, etc.
+
 :::info
-`wandb>=0.13.8` is required in order to create jobs.
+Ensure you have W&B Python SDK version 0.14.0 or higher by running ```
+wandb --version```.
+
+If you're on W&B Dedicated Cloud or a Customer-Managed W&B deployment, please ensure you are on version 0.30 or higher of W&B Server.
 :::
 
 Once you have one or more jobs created, you can add them to a [launch queue](./create-queue.md). W&B will then execute your jobs based on your queue configuration. See the [Launch a job](./launch-jobs.md) section for information on how to add jobs to your queue.

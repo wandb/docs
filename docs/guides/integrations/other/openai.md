@@ -158,7 +158,7 @@ In addition your training and validation files are logged and versioned, as well
 
 ### 🔍 Inspect sample predictions
 
-Use [Tables](../../data-vis/intro.md) to better visualize sample predictions and compare models.
+Use [Tables](../../tables/intro.md) to better visualize sample predictions and compare models.
 
 ![](/images/integrations/open_ai_inspect_sample.png)
 

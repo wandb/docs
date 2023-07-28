@@ -5,13 +5,13 @@ description: >-
 displayed_sidebar: default
 ---
 
-# Quickstart
+# Walkthrough
 
 <head>
-  <title>Sweeps Quickstart</title>
+  <title>Sweeps Walkthrough</title>
 </head>
 
-The proceeding Quickstart demonstrates how to define, initialize, and run a sweep. There are four main steps:
+This page shows how to define, initialize, and run a sweep. There are four main steps:
 
 1. [Set up your training code](#set-up-your-training-code)
 2. [Define the search space with a sweep configuration](#define-the-search-space-with-a-sweep-configuration)
@@ -19,7 +19,7 @@ The proceeding Quickstart demonstrates how to define, initialize, and run a swee
 4. [Start the sweep agent](#start-the-sweep)
 
 
-Copy and paste the following Sweep Quickstart code into a Jupyter Notebook or Python script:
+Copy and paste the following code into a Jupyter Notebook or Python script:
 
 ```python
 # Import the W&B Python Library and log into W&B
@@ -60,9 +60,7 @@ sweep_id = wandb.sweep(
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-The following sections break down and explains each step in the Quickstart code sample.
-
-
+The following sections break down and explains each step in the code sample.
 
 
 ## Set up your training code
@@ -70,8 +68,8 @@ Define a training function that takes in hyperparameter values from `wandb.confi
 
 Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init`](../../ref/python/init.md)). If the project is not specified, the run is put in an "Uncategorized" project.
 
-:::caution
-Both the W&B Sweep and the W&B Run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a W&B Sweep.
+:::tip
+Both the sweep and the run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a sweep.
 :::
 
 ```python
@@ -124,7 +122,7 @@ For more information about initializing sweeps, see [Initialize sweeps](./initia
 
 ## Start the Sweep
 
-Use the [`wandb.agent`](../../ref/python/agent.md) API call to start a W&B sweep.
+Use the [`wandb.agent`](../../ref/python/agent.md) API call to start a sweep.
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
@@ -132,9 +130,9 @@ wandb.agent(sweep_id, function=main, count=10)
 
 ## Visualize results (optional)
 
-Open your project to see your live results in the W&B Sweep dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyzes](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
+Open your project to see your live results in the W&B App dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots](../app/features/panels/parallel-coordinates.md),[ parameter importance analyzes](../app/features/panels/parameter-importance.md), and [more](../app/features/panels/intro.md).
 
-![Quickstart Sweeps Dashboard example](/images/sweeps/quickstart_dashboard_example.png)
+![Sweeps Dashboard example](/images/sweeps/quickstart_dashboard_example.png)
 
 For more information about how to visualize results, see [Visualize sweep results](./visualize-sweep-results.md). For an example dashboard, see this sample [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3).
 

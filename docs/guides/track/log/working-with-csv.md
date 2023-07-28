@@ -54,7 +54,7 @@ For more information about W&B Artifacts, see the [Artifacts chapter](../../arti
 
 ```python
 # Start a W&B run to log data
-run = wandb.init(project="Tables-Quickstart")
+run = wandb.init(project="tables-walkthrough")
 
 # Log the table to visualize with a run...
 run.log({"iris": iris_table})
@@ -92,7 +92,7 @@ iris_table_artifact.add(iris_table, "iris_table")
 iris_table_artifact.add_file("iris.csv")
 
 # Start a W&B run to log data
-run = wandb.init(project="Tables-Quickstart")
+run = wandb.init(project="tables-walkthrough")
 
 # Log the table to visualize with a run...
 run.log({"iris": iris_table})

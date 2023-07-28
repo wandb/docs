@@ -26,7 +26,7 @@ UIでは、サマリー値がrunテーブルに表示され、run間の単一値
 ログされる値はスカラーである必要はありません。wandbオブジェクトのログがサポートされています。
 例えば、`wandb.log({"example": wandb.Image("myimage.jpg")})`は、W&B UIで適切に表示されるサンプル画像をログします。
 サポートされているすべてのタイプについては、[リファレンスドキュメント](https://docs.wandb.com/ref/python/data-types)を参照していただくか、3D分子構造やセグメンテーションマスク、PR曲線やヒストグラムの例がある[ログガイド](https://docs.wandb.ai/guides/track/log)を参照してください。
-`wandb.Table`は、構造化データのログに使用できます。詳細については、[テーブルのログガイド](https://docs.wandb.ai/guides/data-vis/log-tables)を参照してください。
+`wandb.Table`は、構造化データのログに使用できます。詳細については、[テーブルのログガイド](https://docs.wandb.ai/guides/tables/log-tables)を参照してください。
 
 W&B UIでは、入れ子になったメトリクスのログが推奨され、サポートされています。
 `wandb.log({"train": {"acc": 0.9}, "val": {"acc": 0.8}})`のような入れ子の辞書でログすると、W&B UIでは、メトリクスが`train`および`val`セクションに整理されます。

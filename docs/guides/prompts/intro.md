@@ -10,7 +10,7 @@ Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyz
 
 ![](/images/prompts/trace_timeline.png)
 
-W&B Prompts complements [W&B Experiments](../track/intro.md) and [W&B Tables](../data-vis/intro.md) to give an LLM developer everything they need to explore and experiment with confidence.
+W&B Prompts complements [W&B Experiments](../track/intro.md) and [W&B Tables](../tables/intro.md) to give an LLM developer everything they need to explore and experiment with confidence.
 
 <!-- ## Prompts Product Suite
 

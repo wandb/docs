@@ -24,4 +24,4 @@ Weights & Biasesスイープの結果をW&B App UIで可視化しましょう。
 ![散布図の例（左）とパラメータ重要度プロット（右）](/images/sweeps/scatter_and_parameter_importance.png)
 自動的に使用される従属変数と独立変数（x軸とy軸）を変更することができます。各パネルには、**編集パネル**と呼ばれる鉛筆アイコンがあります。 **編集パネル**を選択してください。モーダルが表示されます。モーダル内で、グラフの振る舞いを変更することができます。
 
-すべてのデフォルトのW&B可視化オプションについての詳細は、[Panels](../app/features/panels/intro.md)を参照してください。W&Bスイープの一部ではないW&B Runsからプロットを作成する方法についての情報は、[データ可視化ドキュメント](https://docs.wandb.ai/guides/data-vis)を参照してください。
+すべてのデフォルトのW&B可視化オプションについての詳細は、[Panels](../app/features/panels/intro.md)を参照してください。W&Bスイープの一部ではないW&B Runsからプロットを作成する方法についての情報は、[データ可視化ドキュメント](https://docs.wandb.ai/guides/tables)を参照してください。
