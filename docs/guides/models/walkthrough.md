@@ -27,16 +27,18 @@ In this walkthrough you will learn how to use W&B for model management. More spe
 
 
 
-## 1. Create a new Registered Model
+## 1. Create a new registered model
 
 First, create a registered model to hold all the candidate models for your modeling task. In this guide, we use [MNIST Dataset](https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST) as input 28 X 28 images with output classes from 0-9. 
+
+The following tabs describe how to create a registered model interactively with the W&B App (Model registry and Artifact browser, respectively). The "Python SDK" tab describes how to programmatically create a registered model with W&B Python SDK.
 
 <Tabs
   defaultValue="registry"
   values={[
-    {label: 'Using Model Registry', value: 'registry'},
-    {label: 'Using Artifact Browser', value: 'browser'},
-    {label: 'Programmatic Linking', value: 'programmatic'},
+    {label: 'Model Registry', value: 'registry'},
+    {label: 'Artifact Browser', value: 'browser'},
+    {label: 'Python SDK', value: 'programmatic'},
   ]}>
   <TabItem value="registry">
 
@@ -108,7 +110,7 @@ wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
 
 ## 2. Train & log Model Versions
 
-Next, you will log a model from your training script:
+Next, log a model from your training script:
 
 1. (Optional) Declare your dataset as a dependency so that it is tracked for reproducibility and audibility
 2. **Serialize** your model to disk periodically (and/or at the end of training) using the serialization process provided by your modeling library (eg [PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) & [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)).
