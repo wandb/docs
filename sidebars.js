@@ -134,16 +134,16 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Models',
+      label: 'Model Registry',
       link: { type: 'doc', id: 'guides/models/intro' },
       items: [
         // 'guides/models/intro',
         // 'guides/models/quickstart',
         'guides/models/walkthrough',
+        'guides/models/model_tags',
         'guides/models/access_controls',
         'guides/models/automation',
         'guides/models/notifications',
-        'guides/models/model_tags',
         'guides/models/model-management-concepts',
       ],
     },
