@@ -34,31 +34,38 @@ const buttonProps = {
     as:'a'
 }
 
+const content = {
+    colab: 'Try in Colab',
+    product: 'Try in W & B',
+    github: 'Try the code',
+    event: 'Docs button clicked'
+}
+
 export const ColabButton = ({colabLink}: {colabLink:string}) => 
     <Button 
         href={colabLink} 
         Icon={<StyledColabLogo height={24} width={24}/>} 
-        onClick={() => window.analytics?.track('Docs button clicked', {type: 'Try in colab'})}
+        onClick={() => window.analytics?.track(content.event, {type: content.colab})}
         {...buttonProps}>
-        Try in colab
+        {content.colab}
     </Button>
 
 export const ProductButton = ({productLink}: {productLink:string}) =>
     <Button 
         href={productLink} 
         Icon={<StyledWBLogo height={35} width={35}/>} 
-        onClick={() => window.analytics?.track('Docs button clicked', {type: 'Try in product'})}
+        onClick={() => window.analytics?.track(content.event, {type: content.product})}
         {...buttonProps}>
-        Try in product
+        {content.product}
     </Button>
 
 export const GithubButton = ({githubLink}: {githubLink:string}) =>
     <Button 
         href={githubLink} 
         Icon={<StyledGithubLogo height={24} width={24}/>} 
-        onClick={() => window.analytics?.track('Docs button clicked', {type: 'Try the code'})}
+        onClick={() => window.analytics?.track(content.event, {type: content.github})}
         {...buttonProps}>
-        Try the code
+        {content.github}
     </Button>
 
 export const CTAButtons = ({productLink, colabLink, githubLink}: {productLink?:string, colabLink?:string, githubLink?:string}) => 
