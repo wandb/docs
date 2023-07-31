@@ -46,15 +46,15 @@ The following tabs describe how to create a registered model interactively with 
 
 ![](/images/models/create_registered_model_1.png)
 
-![](/images/models/create_registered_model_2.png)
 
-2. Click the `Create Registered Model` button at the top of the Model Registry.
+2. Click the **New registered model** button at the top of the Model Registry page.
 
 ![](/images/models/create_registered_model_3.png)
 
-3. Make sure the `Owning Entity` and `Owning Project` are set correctly to the values you desire. Enter a unique name for your new Registered Model that describes the modeling task or use-case of interest.
+3. Select the entity the registered model will belong to from the **Owning Entity** dropdown.
+4. Provide a name for your model in the **Model Name** field. 
 
-![](/images/models/create_registered_model_4.png)
+
   </TabItem>
   <TabItem value="browser">
 
@@ -108,7 +108,7 @@ wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
   </TabItem>
 </Tabs>
 
-## 2. Train & log Model Versions
+## 2. Train and log model versions
 
 Next, log a model from your training script:
 
@@ -195,9 +195,9 @@ If you are following along the example notebook, you should see a Run Workspace 
 
 ![](/images/models/train_log_model_version_notebook.png)
 
-## 3. Link Model Versions to the Registered Model
+## 3. Link model versions to the registered model
 
-Now, let's say that we are ready to link one of our Model Versions to the Registered Model. We can accomplish this manually as well as via an API.
+Link a model version to the registered model with the W&B App or programmatically with the Python SDK.
 
 <Tabs
   defaultValue="manual_link"
@@ -207,7 +207,6 @@ Now, let's say that we are ready to link one of our Model Versions to the Regist
   ]}>
   <TabItem value="manual_link">
 
-The following video below demonstrates how to manually link a Model Version to your newly created Registered Model:
 
 1. Navigate to the Model Version of interest
 2. Click the link icon
@@ -218,7 +217,7 @@ The following video below demonstrates how to manually link a Model Version to y
   </TabItem>
   <TabItem value="program_link">
 
-While manual linking is useful for one-off Models, it is often useful to programmatically link Model Versions to a Collection - consider a nightly job or CI pipeline that wants to link the best Model Version from every training job. Depending on your context and use case, you may use one of 3 different linking APIs:
+The following code snippets demonstrate different linking API you can use to programmatically link a model version to a registered model:
 
 **Fetch Model Artifact from Public API:**
 
@@ -268,7 +267,7 @@ wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
 </Tabs>
 
 
-After you link the Model Version, you will see hyperlinks connecting the Version in the Registered Model to the source Artifact and visa versa.
+After you link the model version, you will see hyperlinks that connect the version in the registered model to the source artifact. The artifact will also have hyperlinks that connect to the model version.
 
 ![](@site/static/images/models/train_log_model_version.png)
 
@@ -278,11 +277,9 @@ This [companion colab notebook](http://wandb.me/models_quickstart) covers step 2
 :::
 
 
-## 4. Use a Model Version
+## 4. Use a model version
 
-Now we are ready to consume a Model - perhaps to evaluate its performance, make predictions against a dataset, or use in a live production context. Similar to logging a Model, you may choose to use the raw Artifact API:
-
-You can load in a Model Version using the `use_artifact` method.
+Next, consume the model. For example, perhaps to you want to evaluate its performance, make predictions against a dataset, or use in a live production context. The following code snippet shows how to  use a model with the Python SDK:
 
 ```python
 import wandb
@@ -299,12 +296,12 @@ path = wandb.use_artifact("[[entity/]project/]collectionName:latest").download()
 model = make_model_from_data(path)
 ```
 
-## 5. Evaluate Model Performance
+## 5. Evaluate model performance
 
-After training many Models, you will likely want to evaluate the performance of those models. In most circumstances you will have some held-out data which serves as a test dataset, independent of the dataset your models have access to during training. To evaluate a Model Version, you will want to first complete step 4 above to load a model into memory. Then:
+After training many models, you will likely want to evaluate the performance of those models. In most circumstances you will have a test dataset that was not used for training or validation. To evaluate a model version, you will want to first complete step 4 above to load a model into memory. Then:
 
 1. (Optional) Declare a data dependency to your evaluation data
-2. **Log** metrics, media, tables, and anything else useful for evaluation
+2. Log metrics, media, tables, and anything else useful for evaluation
 
 ```python
 # ... continuation from 4
@@ -327,15 +324,21 @@ If you are executing similar code, as demonstrated in the notebook, you should s
 
 ![](/images/models/evaluate_model_performance.png)
 
-## 6. Promote a Version to Production
+## 6. Promote a version to production
 
-Next, you will likely want to denote which version in the Registered Model is intended to be used for Production. Here, we use the concept of aliases. Each Registered Model can have any aliases which make sense for your use case - however we often see `production` as the most common alias. Each alias can only be assigned to a single Version at a time.
+Next, specify a model version to use for production with an alias. Each registered model can have one or more aliases. Each alias can only be assigned to a single Version at a time.
+
+:::tip
+The `production` alias is one of the most common aliases we see used to mark a model as production-ready.
+:::
+
+The following tabs demonstrate how to add an alias with the interactively with the W&B App and programmatically with the Python SDK:
 
 <Tabs
   defaultValue="UI_interface"
   values={[
-    {label: 'with UI Interface', value: 'UI_interface'},
-    {label: 'with API', value: 'api'},
+    {label: 'W&B App UI', value: 'UI_interface'},
+    {label: 'Python SDK', value: 'api'},
   ]}>
   <TabItem value="UI_interface">
 
@@ -351,21 +354,21 @@ The image below shows the new `production` alias added to v1 of the Registered M
 
 ![](/images/models/promote_version_to_prod_2.png)
 
-## 7. Consume the Production Model
+## 7. Consume the production model
 
-<!-- Finally, you will likely want to use your production Model for inference. To do so, simply follow the steps outlined in [Part 4. Using a Model Version](walkthrough.md#4.-evaluate-model-performance), with the `production` alias. For example: -->
+Finally, use your production model for inference. See the [Use a model version](#4-use-a-model-version) for more information. In this example, we use the Python SDK:
 
 ```python
 wandb.use_artifact("[[entity/]project/]registeredModelName:production")
 ```
 
-You can reference a Version within the Registered Model using different alias strategies:
+You can reference a version within a registered model using different alias strategies:
 
 * `latest` - which will fetch the most recently linked Version
 * `v#` - using `v0`, `v1`, `v2`, ... you can fetch a specific version in the Registered Model
 * `production` - you can use any custom alias that you and your team have assigned
 
-## 8. Build a Reporting Dashboard
+## 8. Build a reporting dashboard
 
 Using Weave Panels, you can display any of the Model Registry/Artifact views inside of Reports! See a [demo here](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/reports/MNIST-Grayscale-28x28-Model-Dashboard--VmlldzoyMDI0Mzc1). Below is a full-page screenshot of an example Model Dashboard.
 

@@ -3,7 +3,7 @@ description: Get Slack notifications when a new model version is linked to the m
 displayed_sidebar: default
 ---
 
-# Slack notification for new model versions
+# Notifications for new model versions
 Get Slack notifications when a new model version is linked to the model registry. 
 
 

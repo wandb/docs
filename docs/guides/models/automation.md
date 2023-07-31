@@ -2,10 +2,16 @@
 description: Use an Automation for model CI (automated model evaluation pipelines) and model deployment.
 displayed_sidebar: default
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Automate workflows
 Create an automation to trigger workflow steps based on an event you configure. For example, you can create an event that automatically tests new models versions added to a registered model. Automations are executed on your own infrastructure with [W&B Launch](../launch/intro.md).  
 
+:::tip
+Before you get started, ensure you create a W&B Launch [job](../launch/create-job.md), [queue](../launch/create-queue.md), and have an [agent polling](../launch/run-agent.md). For more information, see the [Launch documentation](../launch/intro.md).
+
+:::
 
 ## Automation event types
 There are two types of events that can trigger an action:
@@ -26,12 +32,9 @@ There are two types of events that can trigger an action:
 3. Scroll down the page to the **Automations** section.
 ![](/images/models/automations_section_in_registry.png)
 4. Click on the **New automation** button. 
-5. A model will appear. From the **Event type** dropdown, select an event type.
+5. A UI modal will appear. Complete the steps described in the modal.
 
-Select a tab based on the event type you defined:
-
-
-
+<!-- Will complete this with the new webhook docs  -->
 
 
 <!-- ## Walkthrough

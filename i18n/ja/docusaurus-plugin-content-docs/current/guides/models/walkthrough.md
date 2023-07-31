@@ -58,7 +58,7 @@ _私たちは現在、新しいモデル管理機能を積極的に開発して�
 1. [wandb.ai/registry/model](https://wandb.ai/registry/model)（ホームページからリンクされている）で、モデルレジストリを開きます。
 ![](/images/models/create_registered_model_1.png)
 
-![](/images/models/create_registered_model_2.png)
+
 
 2. モデルレジストリの上部にある `Create Registered Model` ボタンをクリックします。
 
@@ -66,7 +66,6 @@ _私たちは現在、新しいモデル管理機能を積極的に開発して�
 
 3. `Owning Entity` と `Owning Project` が望む値に正しく設定されていることを確認してください。新しい登録済みモデルには、モデリングタスクや関心のあるユースケースを説明するユニークな名前を入力します。
 
-![](/images/models/create_registered_model_4.png)
   </TabItem>
   <TabItem value="browser">
 
