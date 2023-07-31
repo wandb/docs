@@ -3,11 +3,13 @@ description: Use tags to organize registered models into categories, and search 
 displayed_sidebar: default
 ---
 
-# Registered model tags
+# Organize models with tags
 Use tags to organize registered models into categories and to search over those categories. 
 
-1. Pick a registered model from the Model Registry.
-2. Go to the **Overview** section to add a new tag. 
-3. Click the plus button (square with a plus icon) and search over existing tags or create a new tag.
+1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+2. Select a registered model.
+2. Go to the ** Model overview** section.
+3. Click the plus button (**+**).
+4. Search or create a new tag.
 
 ![](/images/models/model_tags.png)
