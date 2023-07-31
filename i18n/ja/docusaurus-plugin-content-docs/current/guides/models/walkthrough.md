@@ -46,78 +46,7 @@ _私たちは現在、新しいモデル管理機能を積極的に開発して�
 
 まず、特定のモデリングタスクに対するすべての候補モデルを格納するRegistered Modelを作成します。このチュートリアルでは、古典的な[MNIST Dataset](https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST)（0-9の出力クラスを持つ28x28グレースケール入力画像）を使用します。以下のビデオでは、新しいRegistered Modelの作成方法を説明しています。
 
-<Tabs
-  defaultValue="registry"
-  values={[
-    {label: 'モデルレジストリを使用', value: 'registry'},
-    {label: 'アーティファクトブラウザを使用', value: 'browser'},
-    {label: 'プログラマティックリンク', value: 'programmatic'},
-  ]}>
-  <TabItem value="registry">
 
-1. [wandb.ai/registry/model](https://wandb.ai/registry/model)（ホームページからリンクされている）で、モデルレジストリを開きます。
-![](/images/models/create_registered_model_1.png)
-
-
-
-2. モデルレジストリの上部にある `Create Registered Model` ボタンをクリックします。
-
-![](/images/models/create_registered_model_3.png)
-
-3. `Owning Entity` と `Owning Project` が望む値に正しく設定されていることを確認してください。新しい登録済みモデルには、モデリングタスクや関心のあるユースケースを説明するユニークな名前を入力します。
-
-  </TabItem>
-  <TabItem value="browser">
-
-1. プロジェクトのアーティファクトブラウザにアクセスします: `wandb.ai/<entity>/<project>/artifacts`
-2. アーティファクトブラウザのサイドバーの下部にある `+` アイコンをクリックします
-3. `Type: model`, `Style: Collection`, および名前を選択します。この例では、`MNIST Grayscale 28x28` です。コレクションはモデリングタスクにマッピングする必要があります。ユースケースを説明するユニークな名前を入力してください。
-
-![](/images/models/browser.gif)
-  </TabItem>
-    <TabItem value="programmatic">
-
-すでにログされたモデルのバージョンがある場合、SDKから直接登録済みモデルにリンクできます。指定された登録済みモデルが存在しない場合、自動的に作成されます。
-
-手動でのリンクは一度限りのモデルに便利ですが、モデルのバージョンをコレクションにプログラムでリンクすることがよくある場面でも便利です。例えば、毎晩のジョブやCIパイプラインが、すべてのトレーニングジョブから最良のモデルバージョンをリンクしたい場合です。コンテキストとユースケースに応じて、3つの異なるリンクAPIのいずれかを使用することがあります。
-
-**Public APIからモデルアーティファクトを取得:**
-
-```python
-import wandb
-# API経由でモデルバージョンを取得
-art = wandb.Api().artifact(...)
-# モデルバージョンをモデルコレクションにリンク
-art.link("[[entity/]project/]collectionName")
-```
-
-**現在のRunではモデルアーティファクトが「使用されている」:**
-
-```python
-import wandb
-# W&B runを初期化してトラッキングを開始
-wandb.init()
-# モデルバージョンの参照を取得
-art = wandb.use_artifact(...)
-# モデルバージョンをモデルコレクションにリンク
-art.link("[[entity/]project/]collectionName")
-```
-
-**現在のRunではモデルアーティファクトがログされている：**
-
-```python
-import wandb
-# W&B runを初期化してトラッキングを開始
-wandb.init()
-# モデルバージョンを作成
-art = wandb.Artifact(...)
-# モデルバージョンをログ
-wandb.log_artifact(art)
-# モデルバージョンをコレクションにリンク
-wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
-```
-  </TabItem>
-</Tabs>
 ### 2. モデルのバージョンをトレーニング＆ログに残す
 
 次に、トレーニングスクリプトからモデルをログに記録します。
