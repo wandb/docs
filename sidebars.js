@@ -134,7 +134,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Models',
+      label: 'Model Registry',
       link: { type: 'doc', id: 'guides/models/intro' },
       items: [
         // 'guides/models/intro',

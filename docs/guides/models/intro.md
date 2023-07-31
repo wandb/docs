@@ -4,7 +4,7 @@ description: Model registry to manage the model lifecycle from training to produ
 displayed_sidebar: default
 ---
 
-# Models 
+# Model registry
 
 Use W&B Models as a central system of record for your best models, standardized and organized in a model registry across projects and teams. 
 
