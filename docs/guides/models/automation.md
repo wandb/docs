@@ -26,22 +26,20 @@ An *action* is a [INSERT]. There are two types of actions you can create in the 
 * Webhooks: Communicate with an external web server from W&B with HTTP requests.
 * W&B Launch job: [Jobs](../launch/create-job.md) are reusable, configurable run templates that allow you to quickly launch new [runs](../runs/intro.md) locally on your desktop or external compute resources such as Kubernetes on EKS, Amazon SageMaker, and more. 
 
-
 :::tip
 Question: When should I use a webhook as opposed to a W&B Launch job? Answer: [INSERT]
 :::
 
 The following sections describe how to create webhook or launch automation.
 
-## Create a webhook automation
+## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation.
 
 ### Establish a webhook
 Configure a webhook in the W&B App UI.
 1. Navigate to the W&B App UI.
-2. Click on your user icon located on the top right of the page.
-3. From the dropdown, select **User settings**.
-4. Scroll down the page until you find the **Webhooks** block.
+2. Click on **Team Settings**.
+4. Scroll down the page until you find the **Webhooks** section.
 5. Click on the **New webhook** button.  
 6. Provide a name for your webhook in the **Name** field.
 7. Provide the endpoint URL for the webhook in the **URL** field.
@@ -49,16 +47,194 @@ Configure a webhook in the W&B App UI.
 ### Add a secret for authentication
 Define a secret to ensure the authenticity and integrity of data transmitted from payloads. Skip this section if the external server you use does not have secrets.
 
-Configure a webhook in the W&B App UI.
 1. Navigate to the W&B App UI.
-2. Click on your user icon located on the top right of the page.
-3. From the dropdown, select **User settings**.
-4. Scroll down the page until you find the **Webhooks** block.
+2. Click on **Team Settings**.
+3. Scroll down the page until you find the **Team secrets** section.
+4. Click on the **New secret** button.
+5. A modal will appear. Provide a name for your secret in the **Secret name** field.
+6. Add your secret into the **Secret** field. 
+
+Once you create a secret, you can access that secret in your W&B workflows with `$`.
+
+### Configure a webhook 
+Once you have a webhook, navigate to the Model Registry App.
+
+1. From the **Event type** dropdown, select an event type. See the [Event types](#event-types) section for information on supported events.
+2. (Optional) If you selected **A new version is added to a registered model** event, provide the name of a registered model from the **Registered model** dropdown. 
+3. Select **Webhooks** from the **Action type** dropdown. 
+4. Click on the **Next step** button.
+5. Select an existing webhook from the **Webhook** dropdown.
+6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload](#example-payloads) section for some common examples. 
+7. Click on **Next step**
+8. Provide a name for your webhook automation in the **Automation name** field. 
+9. (Optional) Provide a description for your webhook. 
+10. Click on the **Create automation** button.
+
+### Example payloads
+The following tabs demonstrate example payloads based on common use case. 
+
+
+<Tabs
+  defaultValue="github"
+  values={[
+    {label: 'GitHub repository dispatch', value: 'github'},
+    {label: 'Microsoft Teams Notification', value: 'microsoft'},
+    {label: 'Slack notifications', value: 'slack'},
+  ]}>
+  <TabItem value="github">
+
+  
+  Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
+
+  ```yaml
+  on:
+    repository_dispatch:
+  ```
+
+  The payload for the repository might look something like:
+
+  ```json
+{
+	"event_type": "my_event_type",
+	"client_payload": {
+		"champion": "Nature Classification:production",
+	  "challenger": "Nature Classification:staging"
+		}
+}
+  ```
+
+  Where the keys are defined as:
+  * `event-type`: A custom webhook event name.
+  * `client-payload`: JSON payload with extra information about the webhook event that your action or workflow may use.
+  * `Champion`:
+  * `Challenger`: 
+  
+
+  For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
+
+  </TabItem>
+  <TabItem value="microsoft">
+
+  Configure an ‘Incoming Webhook' to get the webhook URL for your Teams Channel by configuring. The following is an example payload:
+  
+  ```json 
+  {
+  "@type": "MessageCard",
+  "@context": "http://schema.org/extensions",
+  "summary": "New Notification",
+  "sections": [
+    {
+      "activityTitle": "Notification from WANDB",
+      "text": "This is an example message sent via Teams webhook.",
+      "facts": [
+        {
+          "name": "Author",
+          "value": "${event_author}"
+        },
+        {
+          "name": "Event Type",
+          "value": "${event_type}"
+        }
+      ],
+      "markdown": true
+    }
+  ]
+  }
+  ```
+  You can use template strings to inject W&B data into your payload at the time of execution (as shown in the Teams example above).
+
+
+  </TabItem>
+  <TabItem value="slack">
+
+  Setup your Slack app and add an incoming webhook integration with the instructions highlighted in the [Slack API documentation](https://api.slack.com/messaging/webhooks). Ensure that you have the secret specified under `Bot User OAuth Toke`n as your W&B webhook’s access token. 
+  
+  The following is an example payload:
+
+  ```json
+    {
+        "text": "New alert from WANDB!",
+    "blocks": [
+        {
+                "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "Registry event: ${event_type}"
+            }
+        },
+            {
+                "type":"section",
+                "text": {
+                "type": "mrkdwn",
+                "text": "New version: ${artifact_version_string}"
+            }
+            },
+            {
+            "type": "divider"
+        },
+            {
+                "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "Author: ${event_author}"
+            }
+            }
+        ]
+    }
+  ```
+
+  </TabItem>
+</Tabs>
+
+
 
 
 ## Create a launch automation
+Automatically start a W&B Job. 
+
+:::info
+This section assumes you already have created a job, a queue, and have an active agent polling. For more information, see the [W&B Launch docs](../launch/intro.md). 
+:::
 
 
+1. From the **Event type** dropdown, select an event type. See the [Event type](link to future doc) section for information on supported events.
+2. (Optional) If you selected **A new version is added to a registered model** event, provide the name of a registered model from the **Registered model** dropdown. 
+3. Select **Jobs** from the **Action type** dropdown. 
+4. Select a W&B Launch job from the **Job** dropdown.  
+5. Select a version from the **Job version** dropdown.
+6. (Optional) Provide hyperparameter overrides for the new job.
+7. Select a project from the **Destination project** dropdown.
+8. Select a queue to enqueue your job to.  
+9. Click on **Next step**.
+10. Provide a name for your webhook automation in the **Automation name** field. 
+11. (Optional) Provide a description for your webhook. 
+12. Click on the **Create automation** button.
+
+
+## View automation
+
+View automations associated to a registered model from the W&B App UI. 
+
+1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+2. Select on a registered model. 
+3. Scroll to the bottom of the page to the **Automations** section.
+
+Within the Automations section you can find the following properties of automations created for the model you selected:
+
+- **Automation**:
+- **Trigger type**:
+- **Action type**: The action type that triggers the automation. Available options are Webhooks and Launch.
+- **Action name**: The action name you provided when you created the automation.
+- **Queue**: The name of the queue the job was enqueued to. This field is left empty if you selected a webhook action type.
+
+## Delete an automation
+Delete an automation associated with a model. Actions in progress are not affected if you delete that automation before the action completes. 
+
+1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+2. Click on a registered model. 
+3. Scroll to the bottom of the page to the **Automations** section.
+4. Hover your mouse next to the name of the automation and click on the kebob (three vertical dots) menu. 
+5. Select **Delete**.
 
 <!-- # Automate workflows
 Create an automation to trigger workflow steps based on an event you configure. For example, you can create an event that automatically tests new models versions added to a registered model. Automations are executed on your own infrastructure with [W&B Launch](../launch/intro.md).  
