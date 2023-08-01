@@ -36,7 +36,7 @@ const buttonProps = {
 
 const content = {
     colab: 'Try in Colab',
-    product: 'Try in W & B',
+    product: 'Try in W&B',
     github: 'Try the code',
     event: 'Docs button clicked'
 }
