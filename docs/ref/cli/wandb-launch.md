@@ -20,7 +20,7 @@ Launch or queue a W&B Job. See https://wandb.me/launch
 | --name | Name of the run under which to launch the   run. If not specified, a random run name |
 | will be used to launch run. If passed in, | will override the name passed in using a |
 | -e, --entity (str) | Name of the target entity which the new run   will be sent to. Defaults to using the |
-| entity set by local wandb/settings folder.If | passed in, will override the entity value |
+| entity set by local wandb/settings folder. | If passed in, will override the entity value |
 | -p, --project (str) | Name of the target project which the new run   will be sent to. Defaults to using the |
 | project name given by the source uri or for | github runs, the git repo name. If passed |
 | in, will override the project value passed | in using a config file. |
