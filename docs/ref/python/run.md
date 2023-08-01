@@ -1,6 +1,6 @@
 # Run
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L402-L3633' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L402-L3639' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 A unit of computation logged by wandb. Typically, this is an ML experiment.
@@ -102,7 +102,7 @@ two objects will be merged.
 
 ### `alert`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L3006-L3039)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L3012-L3045)
 
 ```python
 alert(
@@ -124,7 +124,7 @@ Launch an alert with the given title and text.
 
 ### `define_metric`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L2430-L2464)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L2436-L2470)
 
 ```python
 define_metric(
@@ -156,7 +156,7 @@ Define metric properties which will later be logged with `wandb.log()`.
 
 ### `detach`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L2586-L2587)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L2592-L2593)
 
 ```python
 detach() -> None
@@ -164,7 +164,7 @@ detach() -> None
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1249-L1257)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1249-L1257)
 
 ```python
 display(
@@ -177,7 +177,7 @@ Display this run in jupyter.
 
 ### `finish`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1865-L1879)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1871-L1885)
 
 ```python
 finish(
@@ -198,7 +198,7 @@ call this method when your script exits or if you use the run context manager.
 
 ### `finish_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L2832-L2884)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L2838-L2890)
 
 ```python
 finish_artifact(
@@ -228,7 +228,7 @@ Subsequent "upserts" with the same distributed ID will result in a new version.
 
 ### `get_project_url`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1131-L1139)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1131-L1139)
 
 ```python
 get_project_url() -> Optional[str]
@@ -240,7 +240,7 @@ Offline runs will not have a project url.
 
 ### `get_sweep_url`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1141-L1146)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1141-L1146)
 
 ```python
 get_sweep_url() -> Optional[str]
@@ -250,7 +250,7 @@ Return the url for the sweep associated with the run, if there is one.
 
 ### `get_url`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1121-L1129)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1121-L1129)
 
 ```python
 get_url() -> Optional[str]
@@ -262,7 +262,7 @@ Offline runs will not have a url.
 
 ### `join`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1913-L1923)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1919-L1929)
 
 ```python
 join(
@@ -274,7 +274,7 @@ Deprecated alias for `finish()` - use finish instead.
 
 ### `link_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L2589-L2631)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L2595-L2637)
 
 ```python
 link_artifact(
@@ -300,7 +300,7 @@ The linked artifact will be visible in the UI for the specified portfolio.
 
 ### `log`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1551-L1746)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1551-L1752)
 
 ```python
 log(
@@ -311,7 +311,7 @@ log(
 ) -> None
 ```
 
-Log a dictonary of data to the current run's history.
+Log a dictionary of data to the current run's history.
 
 Use `wandb.log` to log data from runs, such as scalars, images, video,
 histograms, plots, and tables.
@@ -377,8 +377,8 @@ For more and more detailed examples, see
 ```python
 import wandb
 
-wandb.init()
-wandb.log({"accuracy": 0.9, "epoch": 5})
+run = wandb.init()
+run.log({"accuracy": 0.9, "epoch": 5})
 ```
 
 ### Incremental logging
@@ -389,10 +389,10 @@ wandb.log({"accuracy": 0.9, "epoch": 5})
 ```python
 import wandb
 
-wandb.init()
-wandb.log({"loss": 0.2}, commit=False)
+run = wandb.init()
+run.log({"loss": 0.2}, commit=False)
 # Somewhere else when I'm ready to report this step:
-wandb.log({"accuracy": 0.8})
+run.log({"accuracy": 0.8})
 ```
 
 ### Histogram
@@ -406,8 +406,8 @@ import wandb
 
 # sample gradients at random from normal distribution
 gradients = np.random.randn(100, 100)
-wandb.init()
-wandb.log({"gradients": wandb.Histogram(gradients)})
+run = wandb.init()
+run.log({"gradients": wandb.Histogram(gradients)})
 ```
 
 ### Image from numpy
@@ -419,13 +419,13 @@ wandb.log({"gradients": wandb.Histogram(gradients)})
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 examples = []
 for i in range(3):
     pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
     image = wandb.Image(pixels, caption=f"random field {i}")
     examples.append(image)
-wandb.log({"examples": examples})
+run.log({"examples": examples})
 ```
 
 ### Image from PIL
@@ -438,14 +438,14 @@ import numpy as np
 from PIL import Image as PILImage
 import wandb
 
-wandb.init()
+run = wandb.init()
 examples = []
 for i in range(3):
     pixels = np.random.randint(low=0, high=256, size=(100, 100, 3), dtype=np.uint8)
     pil_image = PILImage.fromarray(pixels, mode="RGB")
     image = wandb.Image(pil_image, caption=f"random field {i}")
     examples.append(image)
-wandb.log({"examples": examples})
+run.log({"examples": examples})
 ```
 
 ### Video from numpy
@@ -457,10 +457,10 @@ wandb.log({"examples": examples})
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 # axes are (time, channel, height, width)
 frames = np.random.randint(low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8)
-wandb.log({"video": wandb.Video(frames, fps=4)})
+run.log({"video": wandb.Video(frames, fps=4)})
 ```
 
 ### Matplotlib Plot
@@ -473,24 +473,30 @@ from matplotlib import pyplot as plt
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 fig, ax = plt.subplots()
 x = np.linspace(0, 10)
 y = x * x
 ax.plot(x, y)  # plot y = x^2
-wandb.log({"chart": fig})
+run.log({"chart": fig})
 ```
 
 ### PR Curve
 
 ```python
-wandb.log({"pr": wandb.plots.precision_recall(y_test, y_probas, labels)})
+import wandb
+
+run = wandb.init()
+run.log({"pr": wandb.plots.precision_recall(y_test, y_probas, labels)})
 ```
 
 ### 3D Object
 
 ```python
-wandb.log(
+import wandb
+
+run = wandb.init()
+run.log(
     {
         "generated_samples": [
             wandb.Object3D(open("sample.obj")),
@@ -508,7 +514,7 @@ wandb.log(
 
 ### `log_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L2741-L2776)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L2747-L2782)
 
 ```python
 log_artifact(
@@ -534,7 +540,7 @@ Declare an artifact as an output of a run.
 
 ### `log_code`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1047-L1119)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1047-L1119)
 
 ```python
 log_code(
@@ -578,7 +584,7 @@ run.log_code(
 
 ### `mark_preempting`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L3054-L3062)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L3060-L3068)
 
 ```python
 mark_preempting() -> None
@@ -590,7 +596,7 @@ Also tells the internal process to immediately report this to server.
 
 ### `plot_table`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1950-L1968)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1956-L1974)
 
 ```python
 @staticmethod
@@ -613,7 +619,7 @@ Create a custom plot on a table.
 
 ### `project_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L993-L994)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L993-L994)
 
 ```python
 project_name() -> str
@@ -621,7 +627,7 @@ project_name() -> str
 
 ### `restore`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1850-L1863)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1856-L1869)
 
 ```python
 restore(
@@ -655,7 +661,7 @@ By default, will only download the file if it doesn't already exist.
 
 ### `save`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1748-L1778)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1754-L1784)
 
 ```python
 save(
@@ -675,7 +681,7 @@ Ensure all files matching `glob_str` are synced to wandb with the policy specifi
 
 ### `status`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1925-L1948)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1931-L1954)
 
 ```python
 status() -> RunStatus
@@ -685,7 +691,7 @@ Get sync info from the internal backend, about the current run's sync status.
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1259-L1268)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1259-L1268)
 
 ```python
 to_html(
@@ -698,7 +704,7 @@ Generate HTML containing an iframe displaying the current run.
 
 ### `unwatch`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L2547-L2549)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L2553-L2555)
 
 ```python
 unwatch(
@@ -708,7 +714,7 @@ unwatch(
 
 ### `upsert_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L2778-L2830)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L2784-L2836)
 
 ```python
 upsert_artifact(
@@ -739,7 +745,7 @@ This is useful when distributed jobs need to all contribute to the same artifact
 
 ### `use_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L2633-L2739)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L2639-L2745)
 
 ```python
 use_artifact(
@@ -767,7 +773,7 @@ Call `download` or `file` on the returned object to get the contents locally.
 
 ### `watch`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L2534-L2544)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L2540-L2550)
 
 ```python
 watch(
@@ -778,7 +784,7 @@ watch(
 
 ### `__enter__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L3041-L3042)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L3047-L3048)
 
 ```python
 __enter__() -> "Run"
@@ -786,7 +792,7 @@ __enter__() -> "Run"
 
 ### `__exit__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L3044-L3052)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L3050-L3058)
 
 ```python
 __exit__(
