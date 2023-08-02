@@ -1,22 +1,21 @@
 # Import & Export API
 
+<!-- Insert buttons and diff -->
 
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/v0.15.5/wandb/__init__.py)
-
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/__init__.py' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Use the Public API to export or update data that you have saved to W&B.
-
 
 Before using this API, you'll want to log data from your script — check the
 [Quickstart](https://docs.wandb.ai/quickstart) for more details.
 
 You might use the Public API to
- - update metadata or metrics for an experiment after it has been completed,
- - pull down your results as a dataframe for post-hoc analysis in a Jupyter notebook, or
- - check your saved model artifacts for those tagged as `ready-to-deploy`.
+
+- update metadata or metrics for an experiment after it has been completed,
+- pull down your results as a dataframe for post-hoc analysis in a Jupyter notebook, or
+- check your saved model artifacts for those tagged as `ready-to-deploy`.
 
 For more on using the Public API, check out [our guide](https://docs.wandb.com/guides/track/public-api-guide).
 
@@ -37,4 +36,3 @@ For more on using the Public API, check out [our guide](https://docs.wandb.com/g
 [`class Runs`](./runs.md): An iterable collection of runs associated with a project and optional filter.
 
 [`class Sweep`](./sweep.md): A set of runs associated with a sweep.
-

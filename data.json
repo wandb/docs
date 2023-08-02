@@ -166,11 +166,23 @@
     },
     {
       "from": "/data-vis",
-      "to": "/guides/data-vis"
+      "to": "/guides/tables"
     },
     {
       "from": "/data-vis/log-tables",
       "to": "/guides/track/log/log-tables"
+    },
+    {
+      "from": "guides/tables/log-tables",
+      "to": "guides/track/log/log-tables"
+    },
+    {
+      "from": "guides/data-vis/tables",
+      "to: ": "guides/tables/visualize-tables"
+    },
+    {
+      "from": "guides/data-vis/tables-quickstart",
+      "to": "guides/tables/tables-walkthrough"
     },
     {
       "from": "/datasets-and-predictions",
@@ -295,6 +307,10 @@
     {
       "from": "/guides/artifacts-1",
       "to": "/guides/artifacts"
+    },
+    {
+      "from": "/guides/artifacts/quickstart",
+      "to": "/guides/artifacts/artifacts-walkthrough"
     },
     {
       "from": "/guides/artifacts/api",
@@ -658,7 +674,7 @@
     },
     {
       "from": "/guides/launch/getting-started",
-      "to": "/guides/launch/quickstart"
+      "to": "/guides/launch/walkthrough"
     },
     {
       "from": "/guides/manage-runs",
@@ -1558,11 +1574,11 @@
     },
     {
       "from": "/sweeps/overview/getting-started",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/overview/quickstart",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/python",
@@ -1574,7 +1590,7 @@
     },
     {
       "from": "/sweeps/quickstart",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/ray-tune",

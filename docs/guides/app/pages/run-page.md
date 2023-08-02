@@ -75,7 +75,7 @@ The Python details are private, even if you make the page itself public. Here is
   [View a live example →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images)
 
 :::info
-The W&B [Artifacts](../../artifacts/intro.md) system adds extra features for handling, versioning, and deduplicating large files like datasets and models. We recommend you use Artifacts for tracking inputs and outputs of runs, rather than `wandb.save`. Check out the Artifacts quickstart [here](../../artifacts/quickstart.md).
+The W&B [Artifacts](../../artifacts/intro.md) system adds extra features for handling, versioning, and deduplicating large files like datasets and models. We recommend you use Artifacts for tracking inputs and outputs of runs, rather than `wandb.save`. Check out the Artifacts quickstart [here](../../artifacts/artifacts-walkthrough.md).
 :::
 
 ![](/images/app_ui/wandb_run_page_files_tab.png)

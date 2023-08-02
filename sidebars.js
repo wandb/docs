@@ -75,6 +75,7 @@ const sidebars = {
         'guides/reports/clone-and-export-reports',
         'guides/reports/embed-reports',
         'guides/reports/cross-project-reports',
+        'guides/reports/reports-gallery',
         'guides/reports/reports-faq',
       ],
     },
@@ -84,7 +85,7 @@ const sidebars = {
       link: { type: 'doc', id: 'guides/artifacts/intro' },
       items: [
         // 'guides/artifacts/intro',
-        'guides/artifacts/quickstart',
+        'guides/artifacts/artifacts-walkthrough',
         'guides/artifacts/construct-an-artifact',
         'guides/artifacts/download-and-use-an-artifact',
         'guides/artifacts/update-an-artifact',
@@ -102,11 +103,11 @@ const sidebars = {
     {
       type: 'category',
       label: 'Tables',
-      link: { type: 'doc', id: 'guides/data-vis/intro' },
+      link: { type: 'doc', id: 'guides/tables/intro' },
       items: [
-        // 'guides/data-vis/intro',
-        'guides/data-vis/tables-quickstart',
-        'guides/data-vis/tables',
+        'guides/tables/tables-walkthrough',
+        'guides/tables/visualize-tables',
+        'guides/tables/tables-gallery',
       ],
     },
     {
@@ -115,7 +116,7 @@ const sidebars = {
       link: { type: 'doc', id: 'guides/sweeps/intro' },
       items: [
         // 'guides/sweeps/intro',
-        'guides/sweeps/quickstart',
+        'guides/sweeps/walkthrough',
         'guides/sweeps/add-w-and-b-to-your-code',
         'guides/sweeps/define-sweep-configuration',
         'guides/sweeps/initialize-sweeps',
@@ -133,17 +134,17 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Models',
+      label: 'Model Registry',
       link: { type: 'doc', id: 'guides/models/intro' },
       items: [
         // 'guides/models/intro',
-        'guides/models/quickstart',
+        // 'guides/models/quickstart',
+        'guides/models/walkthrough',
+        'guides/models/model_tags',
         'guides/models/access_controls',
         'guides/models/automation',
         'guides/models/notifications',
-        'guides/models/model_tags',
         'guides/models/model-management-concepts',
-        'guides/models/walkthrough',
       ],
     },
     {
@@ -154,7 +155,7 @@ const sidebars = {
         id: 'guides/launch/intro',
       },
       items: [
-        'guides/launch/quickstart',
+        'guides/launch/walkthrough',
         'guides/launch/create-job',
         'guides/launch/create-queue',
         'guides/launch/run-agent',
@@ -175,6 +176,16 @@ const sidebars = {
       },
       items: [
         'guides/prompts/quickstart',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Weave',
+      link: { type: 'doc', id: 'guides/weave/intro' },
+      items: [
+        'guides/weave/boards',
+        'guides/weave/streamtable',
+        'guides/weave/prod-mon'
       ],
     },
     {
@@ -371,6 +382,7 @@ const sidebars = {
         'guides/integrations/other/w-and-b-for-julia',
         'guides/integrations/xgboost',
         'guides/integrations/yolov5',
+        'guides/integrations/ultralytics',
         'guides/integrations/other/yolox',
       ],
     },
@@ -450,6 +462,7 @@ const sidebars = {
         'guides/reports/clone-and-export-reports',
         'guides/reports/embed-reports',
         'guides/reports/cross-project-reports',
+        'guides/reports/reports-gallery',
         'guides/reports/reports-faq',
       ],
     },
@@ -458,7 +471,7 @@ const sidebars = {
       label: 'アーティファクト',
       link: {type: 'doc', id: 'guides/artifacts/intro'},
       items: [
-        'guides/artifacts/quickstart',
+        'guides/artifacts/artifacts-walkthrough',
         'guides/artifacts/construct-an-artifact',
         'guides/artifacts/download-and-use-an-artifact',
         'guides/artifacts/update-an-artifact',
@@ -475,10 +488,11 @@ const sidebars = {
     {
       type: 'category',
       label: 'テーブル',
-      link: {type: 'doc', id: 'guides/data-vis/intro'},
+      link: {type: 'doc', id: 'guides/tables/intro'},
       items: [
-        'guides/data-vis/tables-quickstart',
-        'guides/data-vis/tables',
+        'guides/tables/tables-walkthrough',
+        'guides/tables/visualize-tables',
+        'guides/tables/tables-gallery',
       ],
     },
     {
@@ -486,7 +500,7 @@ const sidebars = {
       label: 'スイープ',
       link: {type: 'doc', id: 'guides/sweeps/intro'},
       items: [
-        'guides/sweeps/quickstart',
+        'guides/sweeps/walkthrough',
         'guides/sweeps/add-w-and-b-to-your-code',
         'guides/sweeps/define-sweep-configuration',
         'guides/sweeps/initialize-sweeps',
@@ -524,7 +538,7 @@ const sidebars = {
         id: 'guides/launch/intro',
       },
       items: [
-        'guides/launch/quickstart',
+        'guides/launch/walkthrough',
         'guides/launch/create-job',
         'guides/launch/create-queue',
         'guides/launch/run-agent',

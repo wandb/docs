@@ -426,6 +426,42 @@ from dagster_wandb import WandbArtifactConfiguration
 ```
 :::
 
+### Using partitions
+
+The integration natively supports [Dagster partitions](https://docs.dagster.io/concepts/partitions-schedules-sensors/partitions).
+
+The following is an example with a partitioned using `DailyPartitionsDefinition`.
+```python
+@asset(
+    partitions_def=DailyPartitionsDefinition(start_date="2023-01-01", end_date="2023-02-01"),
+    name="my_daily_partitioned_asset",
+    compute_kind="wandb",
+    metadata={
+        "wandb_artifact_configuration": {
+            "type": "dataset",
+        }
+    },
+)
+def create_my_daily_partitioned_asset(context):
+    partition_key = context.asset_partition_key_for_output()
+    context.log.info(f"Creating partitioned asset for {partition_key}")
+    return random.randint(0, 100)
+```
+This code will produce one W&B Artifact for each partition. They can be found in the Artifact panel (UI) under the asset name, which will be appended with the partition key, for example `my_daily_partitioned_asset.2023-01-01`, `my_daily_partitioned_asset.2023-01-02`, `my_daily_partitioned_asset.2023-01-03` and so on. Assets that are partitioned across multiple dimensions will have each dimension divided by a dot e.g. `my_asset.car.blue`.
+
+:::caution
+The integration does not allow for the materialization of multiple partitions within one run. You will need to carry out multiple runs to materialize your assets. This can be executed in Dagit when you're materializing your assets.
+
+![](/images/integrations/dagster_multiple_runs.png)
+:::
+
+#### Advanced usage
+- [Partitioned job](https://github.com/dagster-io/dagster/blob/master/examples/with_wandb/with_wandb/ops/partitioned_job.py)
+- [Simple partitioned asset](https://github.com/wandb/dagster/blob/master/examples/with_wandb/with_wandb/assets/simple_partitions_example.py)
+- [Multi-partitioned asset](https://github.com/wandb/dagster/blob/master/examples/with_wandb/with_wandb/assets/multi_partitions_example.py)
+- [Advanced partitioned usage](https://github.com/wandb/dagster/blob/master/examples/with_wandb/with_wandb/assets/advanced_partitions_example.py)
+
+
 ## Read W&B Artifacts
 Reading W&B Artifacts is similar to writing them. A configuration dictionary called `wandb_artifact_configuration` can be set on an `@op` or `@asset`. The only difference is that we must set the configuration on the input instead of the output.
 
@@ -474,8 +510,8 @@ Reading an artifact created by another `@asset`
    name="my_asset",
    ins={
        "artifact": AssetIn(
-           # if you don't want to rename the input argument you can remove 'asset_key'
-           asset_key="parent_dagster_asset_name",
+           # if you don't want to rename the input argument you can remove 'key'
+           key="parent_dagster_asset_name",
            input_manager_key="wandb_artifacts_manager",
        )
    },
@@ -515,7 +551,7 @@ The proceeding configuration is used to indicate what the IO Manager should coll
 @asset(
    ins={
        "table": AssetIn(
-           asset_key="my_artifact_with_table",
+           key="my_artifact_with_table",
            metadata={
                "wandb_artifact_configuration": {
                    "get": "my_table",
@@ -536,7 +572,7 @@ def get_table(context, table):
 @asset(
    ins={
        "path": AssetIn(
-           asset_key="my_artifact_with_file",
+           key="my_artifact_with_file",
            metadata={
                "wandb_artifact_configuration": {
                    "get_path": "name_of_file",
@@ -555,7 +591,7 @@ def get_path(context, path):
 @asset(
    ins={
        "artifact": AssetIn(
-           asset_key="my_artifact",
+           key="my_artifact",
            input_manager_key="wandb_artifacts_manager",
        )
    },
@@ -715,11 +751,148 @@ def use_onnx_model(context, my_onnx_model, my_test_set):
     return pred_onx
 ```
 
-<!-- ### Advanced usage
+### Using partitions
+
+The integration natively supports [Dagster partitions](https://docs.dagster.io/concepts/partitions-schedules-sensors/partitions).
+
+You can selectively read one, multiple or all partitions of an asset.
+
+All partitions are provided in a dictionary, with the key and value representing the partition key and the Artifact content, respectively.
+
+<!-- 
+<Tabs
+  defaultValue="op"
+  values={[
+    {label: 'From an @op', value: 'all'},
+  ]}>
+  <TabItem value="all">
+  Read all partitions
+```python
+@asset(
+    compute_kind="wandb",
+    ins={"my_daily_partitioned_asset": AssetIn()},
+    output_required=False,
+)
+def read_all_partitions(context, my_daily_partitioned_asset):
+    for partition, content in my_daily_partitioned_asset.items():
+        context.log.info(f"partition={partition}, content={content}")
+```
+  </TabItem>
+</Tabs> -->
+
+<Tabs
+  defaultValue="all"
+  values={[
+    {label: 'Read all partitions', value: 'all'},
+    {label: 'Read specific partitions', value: 'specific'},
+  ]}>
+  <TabItem value="all">
+
+It reads all partitions of the upstream `@asset`, which are given as a dictionary. In this dictionary, the key and value correlate to the partition key and the Artifact content, respectively.
+```python
+@asset(
+    compute_kind="wandb",
+    ins={"my_daily_partitioned_asset": AssetIn()},
+    output_required=False,
+)
+def read_all_partitions(context, my_daily_partitioned_asset):
+    for partition, content in my_daily_partitioned_asset.items():
+        context.log.info(f"partition={partition}, content={content}")
+```
+  </TabItem>
+  <TabItem value="specific">
+
+The `AssetIn`'s `partition_mapping` configuration allows you to choose specific partitions. In this case, we are employing the `TimeWindowPartitionMapping`.
+```python
+@asset(
+    partitions_def=DailyPartitionsDefinition(start_date="2023-01-01", end_date="2023-02-01"),
+    compute_kind="wandb",
+    ins={
+        "my_daily_partitioned_asset": AssetIn(
+            partition_mapping=TimeWindowPartitionMapping(start_offset=-1)
+        )
+    },
+    output_required=False,
+)
+def read_specific_partitions(context, my_daily_partitioned_asset):
+    for partition, content in my_daily_partitioned_asset.items():
+        context.log.info(f"partition={partition}, content={content}")
+```
+  </TabItem>
+</Tabs>
+
+The configuration object, `metadata`, is used to configure how Weights & Biases (wandb) interacts with different artifact partitions in your project.
+
+The object `metadata` contains a key named `wandb_artifact_configuration` which further contains a nested object `partitions`.
+
+The `partitions` object maps the name of each partition to its configuration. The configuration for each partition can specify how to retrieve data from it. These configurations can contain different keys, namely `get`, `version`, and `alias`, depending on the requirements of each partition.
+
+**Configuration keys**
+
+1. `get`:
+The `get` key specifies the name of the W&B Object (Table, Image...) where to fetch the data. 
+2. `version`:
+The `version` key is used when you want to fetch a specific version for the Artifact. 
+3. `alias`:
+The `alias` key allows you to get the Artifact by its alias.
+
+**Wildcard configuration**
+
+The wildcard `"*"` stands for all non-configured partitions. This provides a default configuration for partitions that are not explicitly mentioned in the `partitions` object. 
+
+For example, 
+
+```python
+"*": {
+    "get": "default_table_name",
+},
+```
+This configuration means that for all partitions not explicitly configured, data is fetched from the table named `default_table_name`.
+
+**Specific partition configuration**
+
+You can override the wildcard configuration for specific partitions by providing their specific configurations using their keys.
+
+For example,
+
+```python
+"yellow": {
+    "get": "custom_table_name",
+},
+```
+
+This configuration means that for the partition named `yellow`, data will be fetched from the table named `custom_table_name`, overriding the wildcard configuration.
+
+**Versioning and aliasing**
+
+For versioning and aliasing purposes, you can provide specific `version` and `alias` keys in your configuration.
+
+For versions,
+
+```python
+"orange": {
+    "version": "v0",
+},
+```
+
+This configuration will fetch data from the version `v0` of the `orange` Artifact partition.
+
+For aliases,
+
+```python
+"blue": {
+    "alias": "special_alias",
+},
+```
+
+This configuration will fetch data from the table `default_table_name` of the Artifact partition with the alias `special_alias` (referred to as `blue` in the configuration).
+
+### Advanced usage
 To view advanced usage of the integration please refer to the following full code examples:
-* Advanced usage example for assets: TODO: 
-* Partitioned job example: TODO: link
-* Linking a model to the Model Registry: TODO: link -->
+* [Advanced usage example for assets](https://github.com/dagster-io/dagster/blob/master/examples/with_wandb/with_wandb/assets/advanced_example.py) 
+* [Partitioned job example](https://github.com/dagster-io/dagster/blob/master/examples/with_wandb/with_wandb/ops/partitioned_job.py)
+* [Linking a model to the Model Registry](https://github.com/dagster-io/dagster/blob/master/examples/with_wandb/with_wandb/assets/model_registry_example.py)
+
 
 ## Using W&B Launch
 
@@ -741,7 +914,7 @@ The integration provides an importable `@op` called `run_launch_agent`. It start
 
 Agents are processes that poll launch queues and execute the jobs (or dispatch them to external services to be executed) in order.
 
-<!-- Please refer to the reference documentation for configuration: TODO: link -->
+Refer to the [reference documentation](../launch/intro.md) for configuration
 
 You can also view useful descriptions for all properties in Launchpad.
 
@@ -789,7 +962,7 @@ The integration provides an importable `@op` called `run_launch_job`. It execute
 
 A Launch job is assigned to a queue in order to be executed. You can create a queue or use the default one. Make sure you have an active agent listening to that queue. You can run an agent inside your Dagster instance but can also consider using a deployable agent in Kubernetes.
 
-<!-- Please refer to the reference documentation for configuration: TODO: link -->
+Refer to the [reference documentation](../launch/intro.md) for configuration.
 
 You can also view useful descriptions for all properties in Launchpad.
 

@@ -41,6 +41,7 @@ Weights & Biases integrations make it fast and easy to set up experiment trackin
 * [Hugging Face](huggingface.md)
 * [PyTorch Geometric](pytorch-geometric.md)
 * [spaCy](spacy.md)
+* [Ultralytics](ultralytics.md)
 * [YOLOv5](yolov5.md)
 * [Simple Transformers](other/simpletransformers.md)
 * [spaCy](spacy.md)

@@ -22,6 +22,7 @@ Track your scripts with [`wandb`](https://github.com/wandb/wandb) in 5 minutes, 
 Here's an overview of the tools we offer for machine learning workflows, which support enterprise hosting. 
 ![](@site/static/images/general/wandb_diagram_july23.png)
 
+
 ## Resources
 
 - **[W&B Server](./hosting/intro.md)**: Learn about options for secure deployments of W&B in dedicated cloud or customer-managed infrastructure.
