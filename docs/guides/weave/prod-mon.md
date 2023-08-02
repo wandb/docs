@@ -6,6 +6,10 @@ displayed_sidebar: default
 
 # Production monitoring
 
+:::info
+Production monitoring is currently in preview and under active development.
+:::
+
 Production monitoring for AI means real-time observability and analytics for any models served from your application. For models deployed to production, monitoring tools and dashboards help track key performance metrics like query rates and latency and enable interactive analytics around model prediction quality and trends, patterns of errors or edge cases, data drift, etc.
 
 ![](/images/weave/prodmon_mini_overview.gif)
