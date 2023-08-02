@@ -104,6 +104,7 @@ The following tabs demonstrate example payloads based on common use cases.
   ```yaml
   on:
     repository_dispatch:
+      types: LINK_MODEL
   ```
 
   The payload for the repository might look something like:
@@ -136,7 +137,7 @@ The following tabs demonstrate example payloads based on common use cases.
   ${entity_name} --> "<entity>"
   ```
 
-  Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume the registered model artifacts through the [W&B API](../../ref/python/artifact.md).
+  Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume the registered model artifacts through the [W&B API](../artifacts/download-and-use-an-artifact.md).
 
   For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
 
@@ -280,9 +281,6 @@ There are two types of events that can trigger an action:
 2. **An artifact alias is added**: Specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied, it will automatically run this automation. This would let you automatically trigger a deployment job.
 
 ![](/images/models/automations_sidebar_step_1.png)
-
-
-
 
 
 ## Create an automation
