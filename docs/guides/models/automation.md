@@ -9,11 +9,12 @@ import TabItem from '@theme/TabItem';
 
 # Model CI/CD
 
-Create an automation to trigger workflow steps, such as automated model testing and deployment.  The [action](#action-types) that is automatically started occurs when an [event type](#event-types) that you define is completed.  
+Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).
 
+For example, you can create a trigger that automatically deploys a model to GitHub when you add a new version of a registered model.
 
 ## Event types
-An *event* is a change that takes place in the W&B ecosystem, for example a mutation. The Model Registry supports two event types: **Linking a new artifact to a registered model** and **Adding a new alias to a version of the registered model**.
+An *event* is a change that takes place in the W&B ecosystem. The Model Registry supports two event types: **Linking a new artifact to a registered model** and **Adding a new alias to a version of the registered model**.
 
 :::tip
 Use the **Linking a new artifact to a registered model** event type to test new model candidates. Use the **Adding a new alias to a version of the registered model** event type to specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied.
@@ -45,7 +46,7 @@ Configure a webhook in the W&B App UI.
 7. Provide the endpoint URL for the webhook in the **URL** field.
 
 ### Add a secret for authentication
-Define a secret to ensure the authenticity and integrity of data transmitted from payloads. Skip this section if the external server you use does not have secrets.
+Define a secret to ensure the authenticity and integrity of data transmitted from payloads. Skip this section if the external server you will send the HTTP POST request does not have secrets.
 
 1. Navigate to the W&B App UI.
 2. Click on **Team Settings**.
@@ -57,16 +58,20 @@ Define a secret to ensure the authenticity and integrity of data transmitted fro
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
 
 ### Configure a webhook 
-Once you have a webhook, navigate to the Model Registry App.
+Once you have a webhook, navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 
-1. From the **Event type** dropdown, select an event type. See the [Event types](#event-types) section for information on supported events.
+1. From the **Event type** dropdown, select an [event type](#event-types).
+![](/images/models/webhook_select_event.png)
 2. (Optional) If you selected **A new version is added to a registered model** event, provide the name of a registered model from the **Registered model** dropdown. 
+![](/images/models/webhook_new_version_reg_model.png)
 3. Select **Webhooks** from the **Action type** dropdown. 
 4. Click on the **Next step** button.
-5. Select an existing webhook from the **Webhook** dropdown.
+5. Select a webhook from the **Webhook** dropdown.
+![](/images/models/webhooks_select_from_dropdown.png)
 6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload](#example-payloads) section for some common examples. 
-7. Click on **Next step**
+7. Click on **Next step**.
 8. Provide a name for your webhook automation in the **Automation name** field. 
+![](/images/models/webhook_name_automation.png)
 9. (Optional) Provide a description for your webhook. 
 10. Click on the **Create automation** button.
 
