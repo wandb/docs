@@ -169,13 +169,13 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Prompts',
+      label: 'Tracer',
       link: {
         type: 'doc',
-        id: 'guides/prompts/intro',
+        id: 'guides/tracer/intro',
       },
       items: [
-        'guides/prompts/quickstart',
+        'guides/tracer/quickstart',
       ],
     },
     {
@@ -553,10 +553,10 @@ const sidebars = {
       label: 'プロンプト',
       link: {
         type: 'doc',
-        id: 'guides/prompts/intro',
+        id: 'guides/tracer/intro',
       },
       items: [
-        'guides/prompts/quickstart',
+        'guides/tracer/quickstart',
       ],
     },
     {
