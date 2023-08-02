@@ -6,6 +6,10 @@ displayed_sidebar: default
 
 # Tracer for LLMs
 
+:::info
+Tracer is currently in preview and under active development.
+:::
+
 W&B Tracer is a suite of LLMOps tools built for the development of LLM-powered applications.
 Use W&B Tracer to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your tracer and LLM chain configurations.
 
