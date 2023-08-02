@@ -31,13 +31,18 @@ An action is a responsive mutation (internal or external) that occurs as a resul
 Question: When should I use a webhook as opposed to a W&B Launch job? Answer: [INSERT]
 :::
 
-The following sections describe how to create webhook or launch automation.
+The following sections describe how to create an automation with webhooks and W&B Launch.
 
 ## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation.
 
-### Establish a webhook
-Configure a webhook in the W&B App UI.
+### Configure a webhook
+Before you can use a webhook, you will first need to configure that webhook in the W&B App UI.
+
+:::info
+Only W&B Admins can configure a webhook for a W&B Team.
+:::
+
 1. Navigate to the W&B App UI.
 2. Click on **Team Settings**.
 4. Scroll down the page until you find the **Webhooks** section.
@@ -46,7 +51,11 @@ Configure a webhook in the W&B App UI.
 7. Provide the endpoint URL for the webhook in the **URL** field.
 
 ### Add a secret for authentication
-Define a secret to ensure the authenticity and integrity of data transmitted from payloads. Skip this section if the external server you will send the HTTP POST request does not have secrets.
+Define a team secret to ensure the authenticity and integrity of data transmitted from payloads. Skip this section if the external server you will send the HTTP POST request does not have secrets.
+
+:::info
+Only W&B Admins can create, edit, or delete a secret.
+:::
 
 1. Navigate to the W&B App UI.
 2. Click on **Team Settings**.
@@ -57,8 +66,9 @@ Define a secret to ensure the authenticity and integrity of data transmitted fro
 
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
 
-### Configure a webhook 
-Once you have a webhook, navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+
+### Add a webhook 
+Once you have a webhook configured and (optionally) a secret, navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 
 1. From the **Event type** dropdown, select an [event type](#event-types).
 ![](/images/models/webhook_select_event.png)
@@ -76,14 +86,14 @@ Once you have a webhook, navigate to the Model Registry App at [https://wandb.ai
 10. Click on the **Create automation** button.
 
 ### Example payloads
-The following tabs demonstrate example payloads based on common use case. 
+The following tabs demonstrate example payloads based on common use cases. 
 
 
 <Tabs
   defaultValue="github"
   values={[
     {label: 'GitHub repository dispatch', value: 'github'},
-    {label: 'Microsoft Teams Notification', value: 'microsoft'},
+    {label: 'Microsoft Teams notification', value: 'microsoft'},
     {label: 'Slack notifications', value: 'slack'},
   ]}>
   <TabItem value="github">
@@ -99,21 +109,34 @@ The following tabs demonstrate example payloads based on common use case.
   The payload for the repository might look something like:
 
   ```json
-{
-	"event_type": "my_event_type",
-	"client_payload": {
-		"champion": "Nature Classification:production",
-	  "challenger": "Nature Classification:staging"
-		}
-}
+  {
+    "event_type": "${event_type}",
+    "client_payload": 
+    {
+      "event_author": "${event_author}",
+      "artifact_version": "${artifact_version}",
+      "artifact_version_string": "${artifact_version_string}",
+      "artifact_collection_name": "${artifact_collection_name}",
+      "project_name": "${project_name}",
+      "entity_name": "${entity_name}"
+      }
+  }
+
   ```
 
-  Where the keys are defined as:
-  * `event-type`: A custom webhook event name.
-  * `client-payload`: JSON payload with extra information about the webhook event that your action or workflow may use.
-  * `Champion`:
-  * `Challenger`: 
-  
+  Where template strings render depending on the event or model version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
+
+  ```json
+  ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
+  ${event_author} --> "<wandb-user>"
+  ${artifact_version} --> "wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3""
+  ${artifact_version_string} --> "<entity>/model-registry/<registered_model_name>:<alias>"
+  ${artifact_collection_name} --> "<registered_model_name>"
+  ${project_name} --> "model-registry"
+  ${entity_name} --> "<entity>"
+  ```
+
+  Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume the registered model artifacts through the [W&B API](../../ref/python/artifact.md).
 
   For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
 
