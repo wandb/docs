@@ -37,6 +37,29 @@ The following sections describe how to create an automation with webhooks and W&
 ## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation.
 
+### Add a secret for authentication
+Define a team secret to ensure the authenticity and integrity of data transmitted from payloads. 
+
+:::tip
+Skip this section if one of the following applies to your use case:
+- The external server you will send the HTTP POST request does not need secrets.
+- You are do not use the [W&B Public Cloud](../hosting/intro.md).
+:::
+
+
+1. Navigate to the W&B App UI.
+2. Click on **Team Settings**.
+3. Scroll down the page until you find the **Team secrets** section.
+4. Click on the **New secret** button.
+5. A modal will appear. Provide a name for your secret in the **Secret name** field.
+6. Add your secret into the **Secret** field. 
+
+:::info
+Only W&B Admins can create, edit, or delete a secret.
+:::
+
+Once you create a secret, you can access that secret in your W&B workflows with `$`.
+
 ### Configure a webhook
 Before you can use a webhook, you will first need to configure that webhook in the W&B App UI.
 
@@ -50,22 +73,6 @@ Only W&B Admins can configure a webhook for a W&B Team.
 5. Click on the **New webhook** button.  
 6. Provide a name for your webhook in the **Name** field.
 7. Provide the endpoint URL for the webhook in the **URL** field.
-
-### Add a secret for authentication
-Define a team secret to ensure the authenticity and integrity of data transmitted from payloads. Skip this section if the external server you will send the HTTP POST request does not have secrets.
-
-:::info
-Only W&B Admins can create, edit, or delete a secret.
-:::
-
-1. Navigate to the W&B App UI.
-2. Click on **Team Settings**.
-3. Scroll down the page until you find the **Team secrets** section.
-4. Click on the **New secret** button.
-5. A modal will appear. Provide a name for your secret in the **Secret name** field.
-6. Add your secret into the **Secret** field. 
-
-Once you create a secret, you can access that secret in your W&B workflows with `$`.
 
 
 ### Add a webhook 
