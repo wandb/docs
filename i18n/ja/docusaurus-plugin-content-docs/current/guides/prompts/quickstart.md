@@ -78,7 +78,7 @@ for question in questions:
 
 作成したrunを選択して、LLMのトレーステーブル、トレースタイムライン、およびアーキテクチャーを表示します。
 
-![](/images/tracer/trace_timeline_detailed.png)
+![](/images/prompts/trace_timeline_detailed.png)
 
 ### 5. 監視を停止する
 開発が終わったら、`WandbTracer.finish`を呼び出してすべてのW&Bプロセスを閉じることをお勧めします。

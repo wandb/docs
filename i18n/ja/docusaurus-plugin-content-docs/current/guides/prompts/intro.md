@@ -8,7 +8,7 @@ displayed_sidebar: ja
 Weights & Biases Promptsは、LLM搭載アプリケーションの開発のために作られたLLMOpsツールのスイートです。
 W&Bプロンプトを使って、LLMの実行フローを可視化・検査し、LLMの入力と出力を解析し、中間結果を表示、プロンプトやLLMチェーン設定を安全に保管・管理できます。
 
-![](/images/tracer/trace_timeline.png)
+![](/images/prompts/trace_timeline.png)
 
 W&B Promptsは、[W&B実験](../track/intro.md) および [W&Bテーブル](../tables/intro.md) と補完し合い、LLM開発者が確信を持って開発・実験する際のすべての道具が揃うようになります。
 
@@ -30,7 +30,7 @@ W&Bでは、_トレース_ と呼ばれるツールが現在サポートされ�
 
 ### トレーステーブル
 トレーステーブルでは、チェーンの入力と出力の概要が提供されます。また、トレーステーブルは、チェーン内のトレースイベントの構成やチェーンが成功して実行されたかどうか、チェーンの実行時に返されたエラーメッセージに関する情報も提供します。
-![](/images/tracer/trace_table.png)
+![](/images/prompts/trace_table.png)
 
 チェーンのインスタンスに対する[トレースタイムライン](#trace-timeline)を表示するには、テーブルの左側の行番号をクリックしてください。
 
@@ -38,17 +38,17 @@ W&Bでは、_トレース_ と呼ばれるツールが現在サポートされ�
 
 トレースタイムラインビューは、チェーンの実行フローを表示し、コンポーネントの種類に応じて色分けされています。トレースイベントを選択すると、そのトレースの入力、出力、およびメタデータが表示されます。
 
-![](/images/tracer/trace_timeline.png)
+![](/images/prompts/trace_timeline.png)
 
 エラーが発生するトレースイベントは赤で枠が示されています。赤で色付けされたトレースイベントをクリックすると、エラーメッセージが表示されます。
 
-![](/images/tracer/trace_timeline_error.png)
+![](/images/prompts/trace_timeline_error.png)
 
 ### モデルアーキテクチャー
 
 モデルアーキテクチャービューでは、チェーンの構造と各コンポーネントを初期化するために使用されるパラメータの詳細が提供されます。トレースイベントをクリックして、そのイベントに関する詳細情報を表示してください。
 
-![](/images/tracer/model_architecture.png)
+![](/images/prompts/model_architecture.png)
 
 ## はじめ方
 
