@@ -28,9 +28,9 @@ An action is a responsive mutation (internal or external) that occurs as a resul
 * Webhooks: Communicate with an external web server from W&B with HTTP requests.
 * W&B Launch job: [Jobs](../launch/create-job.md) are reusable, configurable run templates that allow you to quickly launch new [runs](../runs/intro.md) locally on your desktop or external compute resources such as Kubernetes on EKS, Amazon SageMaker, and more. 
 
-:::tip
+<!-- :::tip
 Question: When should I use a webhook as opposed to a W&B Launch job? Answer: [INSERT]
-:::
+::: -->
 
 The following sections describe how to create an automation with webhooks and W&B Launch.
 
@@ -42,7 +42,7 @@ Define a team secret to ensure the authenticity and integrity of data transmitte
 
 :::tip
 Skip this section if one of the following applies to your use case:
-- The external server you will send the HTTP POST request does not need secrets.
+- The external server you will send the HTTP POST request does not use secrets.
 - You are do not use the [W&B Public Cloud](../hosting/intro.md).
 :::
 
@@ -86,15 +86,25 @@ Once you have a webhook configured and (optionally) a secret, navigate to the Mo
 4. Click on the **Next step** button.
 5. Select a webhook from the **Webhook** dropdown.
 ![](/images/models/webhooks_select_from_dropdown.png)
-6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload](#example-payloads) section for some common examples. 
+6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload](#example-payloads) section for common use case examples.
 7. Click on **Next step**.
 8. Provide a name for your webhook automation in the **Automation name** field. 
 ![](/images/models/webhook_name_automation.png)
 9. (Optional) Provide a description for your webhook. 
 10. Click on the **Create automation** button.
 
+
+
 ### Example payloads
-The following tabs demonstrate example payloads based on common use cases. 
+
+The following tabs demonstrate example payloads based on common use cases. Within the examples they reference the following keys to refer to condition objects in the payload parameters:
+* `${event_type}` Refers to the type of event that triggered the action.
+* `${event_author}` Refers to the user that triggered the action.
+* `${artifact_version}` Refers to the specific artifact version that triggered the action. Passed as an artifact instance.
+* `${artifact_version_string}` Refers to the specific artifact version that triggered the action. Passed as a string.
+* `${artifact_collection_name}` Refers to the name of the artifact collection that the artifact version is linked to.
+* `${project_name}` Refers to the name of the project owning the mutation that triggered the action.
+* `${entity_name}` Refers to the name of the entity owning the mutation that triggered the action.
 
 
 <Tabs
@@ -258,8 +268,7 @@ View automations associated to a registered model from the W&B App UI.
 
 Within the Automations section you can find the following properties of automations created for the model you selected:
 
-- **Automation**:
-- **Trigger type**:
+- **Trigger type**: The type of trigger that was configured.
 - **Action type**: The action type that triggers the automation. Available options are Webhooks and Launch.
 - **Action name**: The action name you provided when you created the automation.
 - **Queue**: The name of the queue the job was enqueued to. This field is left empty if you selected a webhook action type.
