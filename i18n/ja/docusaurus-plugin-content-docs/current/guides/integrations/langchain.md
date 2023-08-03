@@ -11,6 +11,6 @@ import TabItem from '@theme/TabItem';
 
 ## Weights & BiasesでのLangChainの使用方法
 
-Weights & BiasesのLangChain統合を利用する方法については、[W&B Prompts クイックスタート](../prompts/quickstart.md) をご覧ください。
+Weights & BiasesのLangChain統合を利用する方法については、[W&B Prompts クイックスタート](../tracer/quickstart.md) をご覧ください。
 
 または、[Google Colab Jupyterノートブック](http://wandb.me/prompts-quickstart) をお試しください。

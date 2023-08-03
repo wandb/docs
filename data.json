@@ -689,6 +689,18 @@
       "to": "/"
     },
     {
+      "from": "/guides/prompts",
+      "to": "/guides/tracer"
+    },
+    {
+      "from": "/guides/prompts/intro",
+      "to": "/guides/tracer/intro"
+    },
+    {
+      "from": "/guides/prompts/quickstart",
+      "to": "/guides/tracer/quickstart"
+    },
+    {
       "from": "/guides/reference/data_types",
       "to": "/ref/python/data-types"
     },

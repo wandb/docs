@@ -1,6 +1,6 @@
 # WandbCallback
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/integration/keras/keras.py#L296-L1093' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/integration/keras/keras.py#L289-L1078' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 `WandbCallback` automatically integrates keras with wandb.
@@ -9,7 +9,7 @@
 WandbCallback(
     monitor="val_loss", verbose=0, mode="auto", save_weights_only=(False),
     log_weights=(False), log_gradients=(False), save_model=(True),
-    training_data=None, validation_data=None, labels=[], predictions=36,
+    training_data=None, validation_data=None, labels=None, predictions=36,
     generator=None, input_type=None, output_type=None, log_evaluation=(False),
     validation_steps=None, class_colors=None, log_batch_frequency=None,
     log_best_prefix="best_", save_graph=(True), validation_indexes=None,
@@ -74,18 +74,19 @@ associated with the best `epoch`.
 
 ### `get_flops`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/integration/keras/keras.py#L1047-L1093)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/integration/keras/keras.py#L1032-L1078)
 
 ```python
 get_flops() -> float
 ```
 
-Calculate FLOPS [GFLOPs] for a tf.keras.Model or tf.keras.Sequential model
-in inference mode. It uses tf.compat.v1.profiler under the hood.
+Calculate FLOPS [GFLOPs] for a tf.keras.Model or tf.keras.Sequential model in inference mode.
+
+It uses tf.compat.v1.profiler under the hood.
 
 ### `set_model`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/integration/keras/keras.py#L558-L567)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/integration/keras/keras.py#L552-L561)
 
 ```python
 set_model(
@@ -95,7 +96,7 @@ set_model(
 
 ### `set_params`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/integration/keras/keras.py#L555-L556)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/integration/keras/keras.py#L549-L550)
 
 ```python
 set_params(

@@ -1,9 +1,9 @@
 # log
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/sdk/wandb_run.py#L1551-L1746' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/sdk/wandb_run.py#L1551-L1752' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
-Log a dictonary of data to the current run's history.
+Log a dictionary of data to the current run's history.
 
 ```python
 log(
@@ -78,8 +78,8 @@ For more and more detailed examples, see
 ```python
 import wandb
 
-wandb.init()
-wandb.log({"accuracy": 0.9, "epoch": 5})
+run = wandb.init()
+run.log({"accuracy": 0.9, "epoch": 5})
 ```
 
 ### Incremental logging
@@ -90,10 +90,10 @@ wandb.log({"accuracy": 0.9, "epoch": 5})
 ```python
 import wandb
 
-wandb.init()
-wandb.log({"loss": 0.2}, commit=False)
+run = wandb.init()
+run.log({"loss": 0.2}, commit=False)
 # Somewhere else when I'm ready to report this step:
-wandb.log({"accuracy": 0.8})
+run.log({"accuracy": 0.8})
 ```
 
 ### Histogram
@@ -107,8 +107,8 @@ import wandb
 
 # sample gradients at random from normal distribution
 gradients = np.random.randn(100, 100)
-wandb.init()
-wandb.log({"gradients": wandb.Histogram(gradients)})
+run = wandb.init()
+run.log({"gradients": wandb.Histogram(gradients)})
 ```
 
 ### Image from numpy
@@ -120,13 +120,13 @@ wandb.log({"gradients": wandb.Histogram(gradients)})
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 examples = []
 for i in range(3):
     pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
     image = wandb.Image(pixels, caption=f"random field {i}")
     examples.append(image)
-wandb.log({"examples": examples})
+run.log({"examples": examples})
 ```
 
 ### Image from PIL
@@ -139,14 +139,14 @@ import numpy as np
 from PIL import Image as PILImage
 import wandb
 
-wandb.init()
+run = wandb.init()
 examples = []
 for i in range(3):
     pixels = np.random.randint(low=0, high=256, size=(100, 100, 3), dtype=np.uint8)
     pil_image = PILImage.fromarray(pixels, mode="RGB")
     image = wandb.Image(pil_image, caption=f"random field {i}")
     examples.append(image)
-wandb.log({"examples": examples})
+run.log({"examples": examples})
 ```
 
 ### Video from numpy
@@ -158,10 +158,10 @@ wandb.log({"examples": examples})
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 # axes are (time, channel, height, width)
 frames = np.random.randint(low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8)
-wandb.log({"video": wandb.Video(frames, fps=4)})
+run.log({"video": wandb.Video(frames, fps=4)})
 ```
 
 ### Matplotlib Plot
@@ -174,24 +174,30 @@ from matplotlib import pyplot as plt
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 fig, ax = plt.subplots()
 x = np.linspace(0, 10)
 y = x * x
 ax.plot(x, y)  # plot y = x^2
-wandb.log({"chart": fig})
+run.log({"chart": fig})
 ```
 
 ### PR Curve
 
 ```python
-wandb.log({"pr": wandb.plots.precision_recall(y_test, y_probas, labels)})
+import wandb
+
+run = wandb.init()
+run.log({"pr": wandb.plots.precision_recall(y_test, y_probas, labels)})
 ```
 
 ### 3D Object
 
 ```python
-wandb.log(
+import wandb
+
+run = wandb.init()
+run.log(
     {
         "generated_samples": [
             wandb.Object3D(open("sample.obj")),

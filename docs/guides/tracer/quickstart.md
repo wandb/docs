@@ -1,5 +1,5 @@
 ---
-description: The Prompts Quickstart shows how to visualise and debug the execution flow of your LLM chains and pipelines
+description: The Tracer Quickstart shows how to visualise and debug the execution flow of your LLM chains and pipelines
 displayed_sidebar: default
 ---
 
@@ -101,7 +101,7 @@ Click on the W&B [run](../runs/intro.md) link generated in the previous step. Th
 
 Select a run you created to view the trace table, trace timeline and the model architecture of your LLM. 
 
-![](/images/prompts/trace_timeline_detailed.png)
+![](/images/tracer/trace_timeline_detailed.png)
 
 
 ### 6. LangChain Context Manager
@@ -402,7 +402,7 @@ for q in questions:
 
 Click on the Weights and Biases run link generated while initializing the `WandbCallbackHandler` in step 1. This will take you to your project workspace in the W&B App where you will find a trace table and a trace timeline.
 
-![](/images/prompts/llama_index_trace.png)
+![](/images/tracer/llama_index_trace.png)
 
 ### 5. Finish tracking
 
