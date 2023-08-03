@@ -54,7 +54,7 @@ Trace events that raise an error are outlined in red. Click on a trace event col
 
 The Model Architecture view provides details about the structure of the chain and the parameters used to initialize each component of the chain. Click on a trace event to learn more details about that event.
 
-![](/images/Tracer/model_architecture.png)
+![](/images/tracer/model_architecture.png)
 
 ## How to get started
 
