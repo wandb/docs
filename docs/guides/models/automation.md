@@ -244,7 +244,7 @@ This section assumes you already have created a job, a queue, and have an active
 :::
 
 
-1. From the **Event type** dropdown, select an event type. See the [Event type](link to future doc) section for information on supported events.
+1. From the **Event type** dropdown, select an event type. See the [Event type](#event-types) section for information on supported events.
 2. (Optional) If you selected **A new version is added to a registered model** event, provide the name of a registered model from the **Registered model** dropdown. 
 3. Select **Jobs** from the **Action type** dropdown. 
 4. Select a W&B Launch job from the **Job** dropdown.  
