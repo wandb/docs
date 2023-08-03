@@ -689,6 +689,10 @@
       "to": "/"
     },
     {
+      "from": "/guides/prompts",
+      "to": "/guides/tracer"
+    },
+    {
       "from": "/guides/prompts/intro",
       "to": "/guides/tracer/intro"
     },
