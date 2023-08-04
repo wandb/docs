@@ -13,9 +13,8 @@ Run a W&B launch agent.
 | **Option** | **Description** |
 | :--- | :--- |
 | -q, --queue <queue(s)> | The name of a queue for the agent to watch. Multiple   -q flags supported. |
-| -p, --project | Name of the project which the agent will watch. If   passed in, will override the project value passed in |
+| -p, --project | Name of the project which the agent will watch. If   passed in, will override the project value passed inusing a config file. |
 | -e, --entity | The entity to use. Defaults to current logged-in   user |
-| -j, --max-jobs | The maximum number of launch jobs this agent can run   in parallel. Defaults to 1. Set to -1 for no upper |
+| -j, --max-jobs | The maximum number of launch jobs this agent can run   in parallel. Defaults to 1. Set to -1 for no upperlimit |
 | -c, --config | path to the agent config yaml to use |
-| --help | Show this message and exit. |
 

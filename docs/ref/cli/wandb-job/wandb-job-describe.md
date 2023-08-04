@@ -1,12 +1,12 @@
-# wandb server stop
+# wandb job describe
 
 **Usage**
 
-`wandb server stop [OPTIONS]`
+`wandb job describe [OPTIONS] JOB`
 
 **Summary**
 
-Stop a local W&B server
+Describe a job
 
 **Options**
 
