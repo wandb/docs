@@ -23,5 +23,4 @@ Create a sweep
 | --cancel | Cancel a sweep to kill all running runs and stop running   new runs. |
 | --pause | Pause a sweep to temporarily stop running new runs. |
 | --resume | Resume a sweep to continue running new runs. |
-| --help | Show this message and exit. |
 
