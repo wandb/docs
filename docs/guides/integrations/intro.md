@@ -44,7 +44,6 @@ Weights & Biases integrations make it fast and easy to set up experiment trackin
 * [Ultralytics](ultralytics.md)
 * [YOLOv5](yolov5.md)
 * [Simple Transformers](other/simpletransformers.md)
-* [spaCy](spacy.md)
 * [Catalyst](other/catalyst.md)
 * [XGBoost](xgboost.md)
 * [LightGBM](lightgbm.md)
