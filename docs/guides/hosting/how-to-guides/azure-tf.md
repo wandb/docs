@@ -1,5 +1,6 @@
 ---
 description: Hosting W&B Server on Azure.
+displayed_sidebar: default
 ---
 
 # Azure
