@@ -282,6 +282,11 @@ Delete an automation associated with a model. Actions in progress are not affect
 4. Hover your mouse next to the name of the automation and click on the kebob (three vertical dots) menu. 
 5. Select **Delete**.
 
+
+## Getting Started
+- To learn how to use launch automations for Model CI, check out [this](https://wandb.ai/examples/wandb_automations/reports/Model-CI-with-W-B-Automations--Vmlldzo0NDY5OTIx) report.
+- To learn how to use webhook automations for Model CI, check out [this](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) report which uses a Github Actions webhook, or [this](https://github.com/hamelsmu/wandb-modal-webhook) repo which walks through a similar workflow but with a Modal Labs webhook. 
+
 <!-- # Automate workflows
 Create an automation to trigger workflow steps based on an event you configure. For example, you can create an event that automatically tests new models versions added to a registered model. Automations are executed on your own infrastructure with [W&B Launch](../launch/intro.md).  
 
