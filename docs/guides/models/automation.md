@@ -35,7 +35,9 @@ Question: When should I use a webhook as opposed to a W&B Launch job? Answer: [I
 The following sections describe how to create an automation with webhooks and W&B Launch.
 
 ## Create a webhook automation 
-Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation.
+Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
+
+See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) to learn how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
 
 ### Add a secret for authentication
 Define a team secret to ensure the authenticity and integrity of data transmitted from payloads. 
@@ -233,9 +235,6 @@ The following tabs demonstrate example payloads based on common use cases. Withi
   </TabItem>
 </Tabs>
 
-
-
-
 ## Create a launch automation
 Automatically start a W&B Job. 
 
@@ -257,7 +256,7 @@ This section assumes you already have created a job, a queue, and have an active
 11. (Optional) Provide a description for your webhook. 
 12. Click on the **Create automation** button.
 
-
+See this example [report](https://wandb.ai/examples/wandb_automations/reports/Model-CI-with-W-B-Automations--Vmlldzo0NDY5OTIx) for an end to end example on how to create an automation for model CI with W&B Launch.
 ## View automation
 
 View automations associated to a registered model from the W&B App UI. 
@@ -282,10 +281,6 @@ Delete an automation associated with a model. Actions in progress are not affect
 4. Hover your mouse next to the name of the automation and click on the kebob (three vertical dots) menu. 
 5. Select **Delete**.
 
-
-## Getting Started
-- To learn how to use launch automations for Model CI, check out [this](https://wandb.ai/examples/wandb_automations/reports/Model-CI-with-W-B-Automations--Vmlldzo0NDY5OTIx) report.
-- To learn how to use webhook automations for Model CI, check out [this](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) report which uses a Github Actions webhook, or [this](https://github.com/hamelsmu/wandb-modal-webhook) repo which walks through a similar workflow but with a Modal Labs webhook. 
 
 <!-- # Automate workflows
 Create an automation to trigger workflow steps based on an event you configure. For example, you can create an event that automatically tests new models versions added to a registered model. Automations are executed on your own infrastructure with [W&B Launch](../launch/intro.md).  
