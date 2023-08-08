@@ -62,7 +62,7 @@ Depending on your use case, explore the following resources to get started with 
 * Read the [models walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
 * Explore this chapter to learn how about:
    * [Role based access controls (RBAC)](./access_controls.md).
-   * [How to automate model testing and deployment](./automation.md).
+   * [How to automate model testing and deployment](./automations.md).
    * [Use tags to organize registered models](./model_tags.md).
    * Set up [Slack notifications](./notifications.md) when a new model version is linked to a model registry.
 
