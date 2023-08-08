@@ -681,6 +681,10 @@
       "to": "/guides/runs/manage-runs"
     },
     {
+      "from": "/guides/models/autoamtion",
+      "to": "/guides/models/autoamtions"
+    },
+    {
       "from": "/guides/projects/campaigns",
       "to": "/"
     },
