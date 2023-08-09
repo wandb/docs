@@ -176,7 +176,7 @@ This is the most straightforward deployment option configuration that will creat
    terraform apply -var-file=terraform.tfvars
    ```
 
-## Enabling REDIS
+## Deployment with REDIS Cache
 
 Another deployment option uses `Redis` to cache the SQL queries and speedup the application response when loading the metrics for the experiments.
 
@@ -200,7 +200,7 @@ module "wandb" {
 [...]
 ```
 
-## Enabling message broker (queue)
+## Deployment with External Queue
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
