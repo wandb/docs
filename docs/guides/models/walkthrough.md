@@ -14,7 +14,7 @@ import TabItem from '@theme/TabItem';
 In this walkthrough you will learn how to use W&B for model management. More specifically, we cover how to track, visualize, and report on a complete production model workflow.
 
 1. [Create a new Registered Model](#1-create-a-new-registered-model)
-2. [Train & log Model Versions](#2-train--log-model-versions)
+2. [Train & log Model Versions](#2-train-and-log-model-versions)
 3. [Link Model Versions to the Registered Model](#3-link-model-versions-to-the-registered-model)
 4. [Using a Model Version](#4-use-a-model-version)
 5. [Evaluate Model Performance](#5-evaluate-model-performance)
