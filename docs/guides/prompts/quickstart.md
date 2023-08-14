@@ -160,7 +160,7 @@ You can see the full description of the arguments to the Trace class [here](http
 ```python
 import openai
 import datetime
-from wandb_addons.prompts import Trace
+from wandb.sdk.data_types.trace_tree import Trace
 
 openai.api_key = "<YOUR_OPENAI_API_KEY>"
 
