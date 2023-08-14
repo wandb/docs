@@ -155,7 +155,7 @@ You can also set the `entity` argument in `wandb.init` if logging to a W&B Team.
 ### 2. Log to a Trace
 Now we will query OpenAI times and log the results to a W&B Trace. We will log the inputs and outputs, start and end times, whether the OpenAI call was successful, the token usage, and additional metadata.
 
-You can see the full description of the arguments to the Trace class [here](https://soumik12345.github.io/wandb-addons/prompts/tracer/).
+You can see the full description of the arguments to the Trace class [here](https://github.com/wandb/wandb/blob/653015a014281f45770aaf43627f64d9c4f04a32/wandb/sdk/data_types/trace_tree.py#L166).
 
 ```python
 import openai
