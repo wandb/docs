@@ -112,7 +112,7 @@ wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
 
 Next, log a model from your training script:
 
-1. (Optional) Declare your dataset as a dependency so that it is tracked for reproducibility and audibility
+1. (Optional) Declare your dataset as a dependency so that it is tracked for reproducibility and auditability.
 2. **Serialize** your model to disk periodically (and/or at the end of training) using the serialization process provided by your modeling library (eg [PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) & [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)).
 3. **Add** your model files to an Artifact of type "model"
    * Note: We use the name `f'mnist-nn-{wandb.run.id}'`. While not required, it is advisable to name-space your "draft" Artifacts with the Run id in order to stay organized
