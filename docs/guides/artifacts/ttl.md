@@ -30,7 +30,7 @@ The steps are as follows:
 
 1. [Create an artifact](./construct-an-artifact.md).
 2. [Add content to the artifact](./construct-an-artifact.md#add-files-to-an-artifact) such as files, a directory, or a reference.
-3. Define a TTL time limit with the [`datetime`](https://docs.python.org/3/library/datetime.html) data type part of Python's standard library. Pass this time delta to the artifact's `ttl_duration` attribute. 
+3. Define a TTL time limit using the [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) data type part of Python's standard library.
 4. [Log the artifact](./construct-an-artifact.md#3-save-your-artifact-to-the-wb-server).
 
 The following code snippet demonstrates how to create an artifact and set a TTL policy. 
