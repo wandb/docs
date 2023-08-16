@@ -155,14 +155,26 @@ const sidebars = {
       },
       items: [
         'guides/launch/walkthrough',
-        'guides/launch/create-job',
-        'guides/launch/create-queue',
-        'guides/launch/run-agent',
-        'guides/launch/launch-jobs',
+        {
+          type: 'category',
+          label: 'Set up Launch',
+          items: [
+            'guides/launch/create-queue',
+            'guides/launch/run-agent',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Create and deploy jobs',
+          items: [
+            'guides/launch/create-job',
+            'guides/launch/launch-jobs',
+            'guides/launch/sweeps-on-launch',
+          ],
+        },
         'guides/launch/docker',
         'guides/launch/kubernetes',
         'guides/launch/sagemaker',
-        'guides/launch/sweeps-on-launch',
         'guides/launch/launch-faqs',
       ],
     },
