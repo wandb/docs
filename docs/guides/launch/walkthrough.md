@@ -41,6 +41,10 @@ with wandb.init(config=config, project="launch-quickstart"):
 
 ```
 
+:::note
+Ensure that `wandb` is not in the path to the created file. This will prevent a code artifact from being created, and therefore a job from being created.
+:::
+
 To install dependencies and run the script, execute the following commands in your terminal:
 
 ```bash
