@@ -158,14 +158,22 @@ const sidebars = {
         {
           type: 'category',
           label: 'Set up Launch',
+          link: {
+            type: 'doc',
+            id: 'guides/launch/setup_launch',
+          },
           items: [
-            'guides/launch/create-queue',
+            // 'guides/launch/create-queue',
             'guides/launch/run-agent',
           ],
         },
         {
           type: 'category',
           label: 'Create and deploy jobs',
+          link: {
+            type: 'doc',
+            id: 'guides/launch/create_deploy_launch',
+          },
           items: [
             'guides/launch/create-job',
             'guides/launch/launch-jobs',
