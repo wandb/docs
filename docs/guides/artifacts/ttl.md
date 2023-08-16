@@ -76,7 +76,7 @@ Note: Artifact versions with a disabled TTL will not inherit an Artifact collect
 3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
 
 
-The following code snippet shows how to deactivate a TTL policy for an artifact:
+The following code snippet shows how to disable a TTL policy for an artifact:
 ```python
 art = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
 art.ttl = None
