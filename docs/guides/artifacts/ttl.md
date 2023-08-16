@@ -62,7 +62,7 @@ import wandb
 from datetime import timedelta
 
 art = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
-art.ttl_duration = timedelta(days=365*7) # pass in a new TTL
+art.ttl = timedelta(days=365*7) # pass in a new TTL
 art.save()
 ```
 
