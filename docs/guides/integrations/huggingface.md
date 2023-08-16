@@ -19,11 +19,6 @@ trainer = Trainer(... , args=args)
 ```
 ![Explore your experiment results in the W&B interactive dashboard](@site/static/images/integrations/huggingface_gif.gif)
 
-## This guide covers
-
-* how to [**get started using W&B with Hugging Face Transformers**](huggingface.md#getting-started-track-and-save-your-models) to track your NLP experiments and
-* how to use [**advanced features of the W&B Hugging Face integration**](../track/intro.md) to get the most out of experiment tracking.
-
 :::info
 If you'd rather dive straight into working code, check out this [Google Colab](https://wandb.me/hf).
 :::
@@ -152,93 +147,7 @@ trainer.train()  # start training and logging to W&B
   </TabItem>
 </Tabs>
 
-#### (Notebook only) Finish your W&B Run
-
-If your training is encapsulated in a Python script, the W&B run will end when your script finishes.
-
-If you are using a Jupyter or Google Colab notebook, you'll need to tell us when you're done with training by calling `wandb.finish()`.
-
-```python
-trainer.train()  # start training and logging to W&B
-
-# post-training analysis, testing, other logged code
-
-wandb.finish()
-```
-
-### 4) Visualize your results
-
-Once you have logged your training results you can explore your results dynamically in the [W&B Dashboard](../track/app.md). It's easy to compare across dozens of runs at once, zoom in on interesting findings, and coax insights out of complex data with flexible, interactive visualizations.
-
-## Highlighted Articles
-
-Below are 6 Transformers and W&B related articles you might enjoy
-
-<details>
-
-<summary>Hyperparameter Optimization for Hugging Face Transformers</summary>
-
-* Three strategies for hyperparameter optimization for Hugging Face Transformers are compared - Grid Search, Bayesian Optimization, and Population Based Training.
-* We use a standard uncased BERT model from Hugging Face transformers, and we want to fine-tune on the RTE dataset from the SuperGLUE benchmark
-* Results show that Population Based Training is the most effective approach to hyperparameter optimization of our Hugging Face transformer model.
-
-Read the full report [here](https://wandb.ai/amogkam/transformers/reports/Hyperparameter-Optimization-for-Hugging-Face-Transformers--VmlldzoyMTc2ODI).
-</details>
-
-<details>
-
-<summary>Hugging Tweets: Train a Model to Generate Tweets</summary>
-
-* In the article, the author demonstrates how to fine-tune a pre-trained GPT2 HuggingFace Transformer model on anyone's Tweets in five minutes.
-* The model uses the following pipeline: Downloading Tweets, Optimizing the Dataset, Initial Experiments, Comparing Losses Between Users, Fine-Tuning the Model.
-
-Read the full report [here](https://wandb.ai/wandb/huggingtweets/reports/HuggingTweets-Train-a-Model-to-Generate-Tweets--VmlldzoxMTY5MjI).
-</details>
-
-<details>
-
-<summary>Sentence Classification With Hugging Face BERT and WB</summary>
-
-* In this article, we'll build a sentence classifier leveraging the power of recent breakthroughs in Natural Language Processing, focusing on an application of transfer learning to NLP.
-* We'll be using The Corpus of Linguistic Acceptability (CoLA) dataset for single sentence classification, which is a set of sentences labeled as grammatically correct or incorrect that was first published in May 2018.
-* We'll use Google's BERT to create high performance models with minimal effort on a range of NLP tasks.
-
-Read the full report [here](https://wandb.ai/cayush/bert-finetuning/reports/Sentence-Classification-With-Huggingface-BERT-and-W-B--Vmlldzo4MDMwNA).
-</details>
-
-<details>
-
-<summary>A Step by Step Guide to Tracking Hugging Face Model Performance</summary>
-
-* We use Weights & Biases and Hugging Face transformers to train DistilBERT, a Transformer that's 40% smaller than BERT but retains 97% of BERT's accuracy, on the GLUE benchmark
-* The GLUE benchmark is a collection of nine datasets and tasks for training NLP models
-
-Read the full report [here](https://wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-HuggingFace-Model-Performance--VmlldzoxMDE2MTU).
-</details>
-
-<details>
-
-<summary>Early Stopping in HuggingFace - Examples</summary>
-
-* Fine-tuning a Hugging Face Transformer using Early Stopping regularization can be done natively in PyTorch or TensorFlow.
-* Using the EarlyStopping callback in TensorFlow is straightforward with the `tf.keras.callbacks.EarlyStopping`callback.
-* In PyTorch, there is not an off-the-shelf early stopping method, but there is a working early stopping hook available on GitHub Gist.
-
-Read the full report [here](https://wandb.ai/ayush-thakur/huggingface/reports/Early-Stopping-in-HuggingFace-Examples--Vmlldzo0MzE2MTM).
-</details>
-
-<details>
-
-<summary>How to Fine-Tune Hugging Face Transformers on a Custom Dataset</summary>
-
-We fine tune a DistilBERT transformer for sentiment analysis (binary classification) on a custom IMDB dataset.
-
-Read the full report [here](https://wandb.ai/ayush-thakur/huggingface/reports/How-to-Fine-Tune-HuggingFace-Transformers-on-a-Custom-Dataset--Vmlldzo0MzQ2MDc).
-</details>
-
-## Advanced features
-
-### Turn on model versioning
+### 4) Turn on model Checkpoint and Versioning
 
 Using [Weights & Biases' Artifacts](https://docs.wandb.ai/artifacts), you can store up to 100GB of models and datasets. Logging your Hugging Face model to W&B Artifacts can be done by setting a W&B environment variable called `WANDB_LOG_MODEL` to one of `'end'` or `'checkpoint'`.
 `'end'` logs only the final model while `'checkpoint'` logs the model checkpoints every [`save_steps`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.save_steps) in the [`TrainingArguments`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments).
@@ -271,9 +180,31 @@ By default, your model will be saved to W&B Artifacts as `model-{run_id}` when `
 However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.run_name) in your `TrainingArguments`, the model will be saved as `model-{run_name}` or `checkpoint-{run_name}`.
 :::
 
-Any `Trainer` you initialize from now on will upload models to your W&B project. Your model file will be viewable through the W&B Artifacts UI. See the [Weights & Biases' Artifacts guide](https://docs.wandb.ai/artifacts) for more about how to use Artifacts for model and dataset versioning.
+Any `Trainer` you initialize from now on will upload models to your W&B project.
+The models will be viewable through the W&B Artifacts UI and also become available from [W&B Models](https://docs.wandb.ai/guides/models) which facilitates and streamlines workflows for easy tracking and auditing throughout the ML lifecycle in an organized manner.
+Checkout the [Weights & Biases' Artifacts guide](https://docs.wandb.ai/artifacts) to know more about how to use Artifacts for model and dataset versioning.
 
-#### How do I save the best model?
+#### (Notebook only) Finish your W&B Run
+
+If your training is encapsulated in a Python script, the W&B run will end when your script finishes.
+
+If you are using a Jupyter or Google Colab notebook, you'll need to tell us when you're done with training by calling `wandb.finish()`.
+
+```python
+trainer.train()  # start training and logging to W&B
+
+# post-training analysis, testing, other logged code
+
+wandb.finish()
+```
+
+### 5) Visualize your results
+
+Once you have logged your training results you can explore your results dynamically in the [W&B Dashboard](../track/app.md). It's easy to compare across dozens of runs at once, zoom in on interesting findings, and coax insights out of complex data with flexible, interactive visualizations.
+
+## Advanced features and FAQs
+
+### How do I save the best model?
 
 If `load_best_model_at_end=True` is passed to `Trainer`, then W&B will save the best performing model to Artifacts.
 
@@ -299,6 +230,7 @@ with wandb.init(project="amazon_sentiment_analysis") as run:
 
   # Do additional training, or run inference
 ```
+
 ### Resume training from a checkpoint 
 If you had set `WANDB_LOG_MODEL='checkpoint'` you can also resume training by you can using the `model_dir` as the `model_name_or_path` argument in your `TrainingArguments` and pass `resume_from_checkpoint=True` to `Trainer`.
 
@@ -386,6 +318,72 @@ wandb.init(project="amazon_sentiment_analysis",
 ### Custom logging
 
 Logging to Weights & Biases via the [Transformers `Trainer` ](https://huggingface.co/transformers/main\_classes/trainer.html)is taken care of by the `WandbCallback` ([reference documentation](https://huggingface.co/transformers/main\_classes/callback.html#transformers.integrations.WandbCallback)) in the Transformers library. If you need to customize your Hugging Face logging you can modify this callback.
+
+## Highlighted Articles
+
+Below are 6 Transformers and W&B related articles you might enjoy
+
+<details>
+
+<summary>Hyperparameter Optimization for Hugging Face Transformers</summary>
+
+* Three strategies for hyperparameter optimization for Hugging Face Transformers are compared - Grid Search, Bayesian Optimization, and Population Based Training.
+* We use a standard uncased BERT model from Hugging Face transformers, and we want to fine-tune on the RTE dataset from the SuperGLUE benchmark
+* Results show that Population Based Training is the most effective approach to hyperparameter optimization of our Hugging Face transformer model.
+
+Read the full report [here](https://wandb.ai/amogkam/transformers/reports/Hyperparameter-Optimization-for-Hugging-Face-Transformers--VmlldzoyMTc2ODI).
+</details>
+
+<details>
+
+<summary>Hugging Tweets: Train a Model to Generate Tweets</summary>
+
+* In the article, the author demonstrates how to fine-tune a pre-trained GPT2 HuggingFace Transformer model on anyone's Tweets in five minutes.
+* The model uses the following pipeline: Downloading Tweets, Optimizing the Dataset, Initial Experiments, Comparing Losses Between Users, Fine-Tuning the Model.
+
+Read the full report [here](https://wandb.ai/wandb/huggingtweets/reports/HuggingTweets-Train-a-Model-to-Generate-Tweets--VmlldzoxMTY5MjI).
+</details>
+
+<details>
+
+<summary>Sentence Classification With Hugging Face BERT and WB</summary>
+
+* In this article, we'll build a sentence classifier leveraging the power of recent breakthroughs in Natural Language Processing, focusing on an application of transfer learning to NLP.
+* We'll be using The Corpus of Linguistic Acceptability (CoLA) dataset for single sentence classification, which is a set of sentences labeled as grammatically correct or incorrect that was first published in May 2018.
+* We'll use Google's BERT to create high performance models with minimal effort on a range of NLP tasks.
+
+Read the full report [here](https://wandb.ai/cayush/bert-finetuning/reports/Sentence-Classification-With-Huggingface-BERT-and-W-B--Vmlldzo4MDMwNA).
+</details>
+
+<details>
+
+<summary>A Step by Step Guide to Tracking Hugging Face Model Performance</summary>
+
+* We use Weights & Biases and Hugging Face transformers to train DistilBERT, a Transformer that's 40% smaller than BERT but retains 97% of BERT's accuracy, on the GLUE benchmark
+* The GLUE benchmark is a collection of nine datasets and tasks for training NLP models
+
+Read the full report [here](https://wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-HuggingFace-Model-Performance--VmlldzoxMDE2MTU).
+</details>
+
+<details>
+
+<summary>Early Stopping in HuggingFace - Examples</summary>
+
+* Fine-tuning a Hugging Face Transformer using Early Stopping regularization can be done natively in PyTorch or TensorFlow.
+* Using the EarlyStopping callback in TensorFlow is straightforward with the `tf.keras.callbacks.EarlyStopping`callback.
+* In PyTorch, there is not an off-the-shelf early stopping method, but there is a working early stopping hook available on GitHub Gist.
+
+Read the full report [here](https://wandb.ai/ayush-thakur/huggingface/reports/Early-Stopping-in-HuggingFace-Examples--Vmlldzo0MzE2MTM).
+</details>
+
+<details>
+
+<summary>How to Fine-Tune Hugging Face Transformers on a Custom Dataset</summary>
+
+We fine tune a DistilBERT transformer for sentiment analysis (binary classification) on a custom IMDB dataset.
+
+Read the full report [here](https://wandb.ai/ayush-thakur/huggingface/reports/How-to-Fine-Tune-HuggingFace-Transformers-on-a-Custom-Dataset--Vmlldzo0MzQ2MDc).
+</details>
 
 ## Issues, questions, feature requests
 
