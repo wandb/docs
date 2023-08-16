@@ -213,7 +213,8 @@ class My_LitModule(LightningModule):
 
 ### Model Checkpointing
 
-Custom checkpointing to W&B can be set up through the PyTorch Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch\_lightning.callbacks.ModelCheckpoint.html#pytorch\_lightning.callbacks.ModelCheckpoint) when the log\_model argument is used in the `WandbLogger`:
+To save model checkpoints as W&B [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning),
+use the Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch\_lightning.callbacks.ModelCheckpoint.html#pytorch\_lightning.callbacks.ModelCheckpoint) callback and set the `log_model` argument in the `WandbLogger`:
 
 ```python
 # log model only if `val_accuracy` increases
@@ -222,7 +223,7 @@ checkpoint_callback = ModelCheckpoint(monitor="val_accuracy", mode="max")
 trainer = Trainer(logger=wandb_logger, callbacks=[checkpoint_callback])
 ```
 
-The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from W&B Artifacts:
+The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from a W&B [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning):
 
 ```python
 # reference can be retrieved in artifacts panel
@@ -237,6 +238,8 @@ artifact_dir = artifact.download()
 # load checkpoint
 model = LitModule.load_from_checkpoint(Path(artifact_dir) / "model.ckpt")
 ```
+
+Once logged, these model checkpoints can also be seamlessly integrated into [W&B Models](https://docs.wandb.ai/guides/models). The model registry not only serves as a system of record for your best models across projects and teams but also facilitates easy tracking and auditing throughout the ML lifecycle. Whether you're moving a model from staging to production or auditing changes, you can leverage [W&B Models](https://docs.wandb.ai/guides/models) to streamline these workflows in an organized manner. 
 
 ### Log images, text and more
 
