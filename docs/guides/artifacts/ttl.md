@@ -43,7 +43,7 @@ run = wandb.init(project="<my-project-name>", entity='<your-entity>')
 art = wandb.Artifact(name="<artifact-name>", type="<type>")
 art.add_file("my_file")
 
-art.ttl_duration = timedelta(days=30) # Set TTL policy
+art.ttl = timedelta(days=30) # Set TTL policy
 run.log_artifact(art)
 ```
 
