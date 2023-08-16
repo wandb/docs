@@ -71,7 +71,7 @@ art.save()
 Use the W&B Python SDK to deactivate a TTL policy.
 
 1. [Download your artifact](./download-and-use-an-artifact.md).
-2. Set the artifact's `ttl_duration` attribute to `None`.
+2. Set the artifact's `ttl` attribute to `None`.
 3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
 
 
