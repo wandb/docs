@@ -68,7 +68,8 @@ art.save()
 
 
 ## Deactivate a TTL policy
-Use the W&B Python SDK to deactivate a TTL policy.
+Use the W&B Python SDK to disable a TTL policy. 
+Note: Artifact versions with a disabled TTL will not inherit an Artifact collection's TTL. Refer to (## Inherit TTL Policy) on how to delete version TTL and inherit from the collection level TTL
 
 1. [Download your artifact](./download-and-use-an-artifact.md).
 2. Set the artifact's `ttl` attribute to `None`.
