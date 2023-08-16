@@ -67,6 +67,25 @@ art.save()
 ```
 
 
+## Inherit TTL policy
+Let an artifact version, that does not have a TTL policy, inherit the TTL policy of the artifact collection it belongs to. An artifact version can only inherit a TTL policy from the artifact collection it belongs to if the artifact collection possesses a TTL policy.  Otherwise, no TTL policy is inherited.
+
+:::note
+An artifact version will not inherit a TTL policy from its artifact collection if a TTL policy already exists for that artifact version.
+:::
+
+1. [Download your artifact](./download-and-use-an-artifact.md).
+2. Set the artifact's `ttl` attribute to the W&B environment variable `wandb.ArtifactTTL.INHERIT`.
+3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
+
+```python
+art = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
+art.ttl_duration = wandb.ArtifactTTL.INHERIT
+art.save()
+```
+
+
+
 ## Deactivate a TTL policy
 Use the W&B Python SDK to disable a TTL policy. 
 Note: Artifact versions with a disabled TTL will not inherit an Artifact collection's TTL. Refer to (## Inherit TTL Policy) on how to delete version TTL and inherit from the collection level TTL
