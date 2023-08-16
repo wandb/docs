@@ -78,7 +78,7 @@ Use the W&B Python SDK to deactivate a TTL policy.
 The following code snippet shows how to deactivate a TTL policy for an artifact:
 ```python
 art = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
-art.ttl_duration = None
+art.ttl = None
 art.save()
 ```
 
