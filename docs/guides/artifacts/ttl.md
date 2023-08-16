@@ -20,7 +20,7 @@ Set a TTL policy for an artifact either when you create the artifact or retroact
 For all the code snippets below, replace the content wrapped in `<>` with your information to use the code snippet. 
 
 ### Set a TTL policy when you create an artifact
-Use the W&B Python SDK to define a TTL policy when you create an artifact version. TTL policies are defined in days.    
+Use the W&B Python SDK to define a TTL policy when you create an artifact version. TTL policies are typically defined in days.    
 
 :::tip
 Defining a TTL policy when you create an artifact version is similar to how you normally [create an artifact](./construct-an-artifact.md). With the exception that you pass in a time delta to the artifact's `ttl` attribute.
