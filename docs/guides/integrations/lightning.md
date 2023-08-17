@@ -17,7 +17,7 @@ PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch cod
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning import Trainer
 
-wandb_logger = WandbLogger()
+wandb_logger = WandbLogger(log_model="all")
 trainer = Trainer(logger=wandb_logger)
 ```
 
@@ -223,7 +223,7 @@ checkpoint_callback = ModelCheckpoint(monitor="val_accuracy", mode="max")
 trainer = Trainer(logger=wandb_logger, callbacks=[checkpoint_callback])
 ```
 
-The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from a W&B [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning):
+The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from a W&B [Artifact](https://docs.wandb.ai/guides/data-and-model-versioning):
 
 ```python
 # reference can be retrieved in artifacts panel
@@ -239,7 +239,7 @@ artifact_dir = artifact.download()
 model = LitModule.load_from_checkpoint(Path(artifact_dir) / "model.ckpt")
 ```
 
-Once logged, these model checkpoints can also be seamlessly integrated into [W&B Models](https://docs.wandb.ai/guides/models). The model registry not only serves as a system of record for your best models across projects and teams but also facilitates easy tracking and auditing throughout the ML lifecycle. Whether you're moving a model from staging to production or auditing changes, you can leverage [W&B Models](https://docs.wandb.ai/guides/models) to streamline these workflows in an organized manner. 
+Once logged, these model checkpoints can also be seamlessly integrated into [W&B Model Registry](https://docs.wandb.ai/guides/models). The model registry not only serves as a system of record for your best models across projects and teams but also facilitates easy tracking and auditing throughout the ML lifecycle. Whether you're moving a model from staging to production or auditing changes, you can leverage [W&B Model Registry](https://docs.wandb.ai/guides/models) to streamline these workflows in an organized manner. 
 
 ### Log images, text and more
 

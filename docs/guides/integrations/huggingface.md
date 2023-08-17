@@ -9,9 +9,12 @@ import TabItem from '@theme/TabItem';
 
 The [Hugging Face Transformers](https://huggingface.co/transformers/) library makes state-of-the-art NLP models like BERT and training techniques like mixed precision and gradient checkpointing easy to use. The [W&B integration](https://huggingface.co/transformers/main\_classes/callback.html#transformers.integrations.WandbCallback) adds rich, flexible experiment tracking and model versioning to interactive centralized dashboards without compromising that ease of use.
 
-## 🤗 Next-level logging in 2 lines
+## 🤗 Next-level logging in few lines
 
 ```python
+os.eviron["WANDB_PROJECT"] = "<my-amazing-project>" # log to your project 
+os.eviron["WANDB_LOG_MODEL"] = "all" # log your models
+
 from transformers import TrainingArguments, Trainer
 
 args = TrainingArguments(... , report_to="wandb")
@@ -147,7 +150,7 @@ trainer.train()  # start training and logging to W&B
   </TabItem>
 </Tabs>
 
-### 4) Turn on model Checkpoint and Versioning
+### 4) Turn on model Checkpoints and Versioning
 
 Using [Weights & Biases' Artifacts](https://docs.wandb.ai/artifacts), you can store up to 100GB of models and datasets. Logging your Hugging Face model to W&B Artifacts can be done by setting a W&B environment variable called `WANDB_LOG_MODEL` to one of `'end'` or `'checkpoint'`.
 `'end'` logs only the final model while `'checkpoint'` logs the model checkpoints every [`save_steps`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.save_steps) in the [`TrainingArguments`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments).
@@ -181,7 +184,7 @@ However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/mai
 :::
 
 Any `Trainer` you initialize from now on will upload models to your W&B project.
-The models will be viewable through the W&B Artifacts UI and also become available from [W&B Models](https://docs.wandb.ai/guides/models) which facilitates and streamlines workflows for easy tracking and auditing throughout the ML lifecycle in an organized manner.
+The models will be viewable through the W&B Artifacts UI and also become available from [W&B Model Registry](https://docs.wandb.ai/guides/models) which facilitates and streamlines workflows for easy tracking and auditing models throughout the ML lifecycle in an organized manner.
 Checkout the [Weights & Biases' Artifacts guide](https://docs.wandb.ai/artifacts) to know more about how to use Artifacts for model and dataset versioning.
 
 #### (Notebook only) Finish your W&B Run
