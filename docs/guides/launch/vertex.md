@@ -197,6 +197,4 @@ wandb launch-agent -e <your-entity> -q <queue-name>  \\
     -c <path-to-agent-config>
 ```
 
-For more information on launch agents, see the [Start an agent](./run-agent.md) page.
-
 Another common pattern is to run the agent on a GCP Compute Engine instance. The agent can perform container builds and push them to Artifact Registry if you install Docker on the Compute Engine instance where the agent is running. The launch agent can then launch jobs on Vertex AI using the GCP credentials associated with the Compute Engine instance. Google provides a guide to installing Docker on Compute Engine instances [here](https://cloud.google.com/compute/docs/containers/deploying-containers#installing_docker_on_a_compute_engine_instance).
