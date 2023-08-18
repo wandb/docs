@@ -57,7 +57,7 @@ run = wandb.init()
 run.log_code(".", include_fn=lambda path: path.endswith(".py"))
 ```
 :::note
-By default, `Run.log_code()` ignores all paths under the `wandb` library's metadata directories. (`<project_root>/.wandb` and `<project_root/wandb`)
+By default, `Run.log_code()` ignores all paths under the `wandb` library's metadata directories: `<project_root>/.wandb` and `<project_root>/wandb`
 :::
 </TabItem>
 
