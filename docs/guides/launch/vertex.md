@@ -12,10 +12,6 @@ Use W&B Launch to send your runs to GCP Vertex. There are two ways to use Launch
 1. Bring your own image (BYOI) and push it to your GCP Artifact Registry.
 2. Let the W&B Launch agent build a container for your and push it to your Artifact Registry.
 
-:::info
-If you bring your own image (1), it must already be SageMaker compatible. If you let W&B build and push the image for you (2), W&B will make your image SageMaker compatible.
-:::
-
 The following table highlights the key differences between the two workflows listed above:
 
 |                             | BYOI                    | Default W&B Launch                                       |
@@ -62,53 +58,90 @@ values={[
 <TabItem value="JSON">
 
 ```json
-
+{
+  "spec": {
+    "worker_pool_specs": [
+      {
+        "machine_spec": {
+          "machine_type": "n1-standard-4",
+          "accelerator_type": "ACCELERATOR_TYPE_UNSPECIFIED",
+          "accelerator_count": 0
+        },
+        "replica_count": 1,
+        "container_spec": {
+          "image_uri": "${image_uri}"
+        }
+      }
+    ],
+    "staging_bucket": "<REQUIRED>"
+  },
+  "run": {
+    "restart_job_on_worker_restart": false
+  }
+}
 ```
 
   </TabItem>
   <TabItem value="YAML">
 
 ```yaml
-
+spec:
+  worker_pool_specs:
+    - machine_spec:
+        machine_type: n1-standard-4
+        accelerator_type: ACCELERATOR_TYPE_UNSPECIFIED
+        accelerator_count: 0
+      replica_count: 1
+      container_spec:
+        image_uri: ${image_uri}
+  staging_bucket: <REQUIRED>
+run:
+  restart_job_on_worker_restart: false
 ```
 
   </TabItem>
 </Tabs>
 
-Specify your:
-
-:::tip
-
-:::
-
 7. After you configure your queue, click on the **Create Queue** button.
 
-<!-- ### Configure a SageMaker queue -->
+## Vertex queue configuration
+
+The Vertex AI resource arguments are stored under the `spec` and `run` keys.
+The `spec` key contains values for the named arguments of the [`CustomJob` constructor](https://cloud.google.com/ai-platform/training/docs/reference/rest/v1beta1/projects.locations.customJobs#CustomJob.FIELDS.spec) in the Vertex AI Python SDK. The `run` key contains values for the named arguments of the `run` method of the `CustomJob` class in the Vertex AI Python SDK.
+in the Vertex AI Python SDK. The `run` key contains values for the named arguments of
+the `run` method of the `CustomJob` class in the Vertex AI Python SDK. For more
+information of how to customize your Vertex jobs, see the [Vertex AI documentation](https://cloud.google.com/python/docs/reference/aiplatform/latest/google.cloud.aiplatform.CustomJob#google_cloud_aiplatform_CustomJob)
+
+Most useful customization should happen in the `spec.worker_pool_specs` list.
+A worker pool spec defines a group of workers that will run your job. The worker
+spec in the default config asks for a single `n1-standard-4` machine with no
+accelerators. You can change the machine type and accelerator type and count
+to suit your needs. For more information on the available machine types and
+accelerator types, see the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec).
+
+:::warning
+Some of the VertexAI docs show worker pool specifications with all keys in
+camel case, e.g. `workerPoolSpecs`. The Vertex AI Python SDK uses snake case
+for these keys, e.g. `worker_pool_specs`. The launch queue configuration
+should use snake case.
+:::
 
 ## Configure the launch agent
 
-Configure a launch agent to execute jobs from your queues with SageMaker. The following steps outline how to configure your launch agent to use SageMaker with Launch.
+Configure a launch agent to execute jobs from your queues with Vertex. The following steps outline how to configure your launch agent to use Vertex with Launch.
 
-1. **Set the AWS credentials** you want the agent to use either by:
+1. **Set the GCP credentials** you want the agent to use either by:
 
-   - Set [AWS SDK for Python environment variables](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#environment-variables)
-     or
-   - Set a `default` profile in your [AWS config](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#shared-credentials-file)(`~/.aws/config`).
+   - Set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to the path of your GCP service account key file.
+   - Use the `gcloud auth application-default login` command to set the default credentials for your local machine.
+   - Set up a [GCP workload identity pool](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) and configure your agent to use it.
 
-   The following code snippet shows an example of how to set your AWS config `~/.aws/config` file. Replace the `<>` with your own values:
-
-   ```yaml title="~/.aws/config"
-   [default]
-   aws_access_key_id=<your_aws_access_key_id>
-   aws_secret_access_key=<your_aws_secret_access_key>
-   aws_session_token=<your_aws_session_token>
-   ```
-
-   For more information about AWS CLI credentials, see the [Configure the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) documentation for more information.
+   Google's APIs support many additional authentication methods, the agent will work with any
+   form of authentication that can loaded by [`google.auth.default()`](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default)
 
 2. **Define the agent config**. Add the `environment` block in your agent config file (`~/.config/wandb/launch-config.yaml`).
 
-   The following code snippet shows an example `launch-config.yaml` file. Ensure you specify the type as AWS and the region of your Amazon S3 bucket and ECR repository:
+   The following code snippet shows an example `launch-config.yaml` file. Ensure you specify the type as AWS and the region of your GCS bucket and Artifact Registry:
 
    ```yaml title="~/.config/wandb/launch-config.yaml"
    environment:
@@ -140,7 +173,7 @@ Skip the next two steps and move on to the [Add jobs to your queue section] if y
      build-context-store: gs://<gcs-bucket>/<prefix>
    ```
 
-   Kaniko will store compressed build contexts in the local specified under `build-context-store` and then push any container images it builds to the Artifact Registry configured in the `registry` block. Kaniko pods will need permission to access the S3 bucket specified in `build-context-store` and read/write access to the ECR repository specified in `registry.repository`.
+   Kaniko will store compressed build contexts in the local specified under `build-context-store` and then push any container images it builds to the Artifact Registry configured in the `registry` block. Kaniko pods will need permission to access the GCS bucket specified in `build-context-store` and read/write access to the Registy repository specified in `registry.uri`.
 
 ## Add jobs to your queue
 
