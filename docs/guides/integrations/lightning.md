@@ -239,7 +239,11 @@ artifact_dir = artifact.download()
 model = LitModule.load_from_checkpoint(Path(artifact_dir) / "model.ckpt")
 ```
 
-Once logged, these model checkpoints can also be seamlessly integrated into [W&B Model Registry](https://docs.wandb.ai/guides/models). The model registry not only serves as a system of record for your best models across projects and teams but also facilitates easy tracking and auditing throughout the ML lifecycle. Whether you're moving a model from staging to production or auditing changes, you can leverage [W&B Model Registry](https://docs.wandb.ai/guides/models) to streamline these workflows in an organized manner. 
+The model checkpoints you log will be viewable through the [W&B Artifacts](https://docs.wandb.ai/guides/artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
+
+To bookmark your best model checkpoints and centralize them across your team, you can link them to the [W&B Model Registry](https://docs.wandb.ai/guides/models).
+
+Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](https://docs.wandb.ai/guides/models/automation) downstream actions with webhooks or jobs. 
 
 ### Log images, text and more
 

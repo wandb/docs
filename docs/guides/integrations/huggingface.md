@@ -184,8 +184,12 @@ However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/mai
 :::
 
 Any `Trainer` you initialize from now on will upload models to your W&B project.
-The models will be viewable through the W&B Artifacts UI and also become available from [W&B Model Registry](https://docs.wandb.ai/guides/models) which facilitates and streamlines workflows for easy tracking and auditing models throughout the ML lifecycle in an organized manner.
-Checkout the [Weights & Biases' Artifacts guide](https://docs.wandb.ai/artifacts) to know more about how to use Artifacts for model and dataset versioning.
+
+The model checkpoints you log will be viewable through the [W&B Artifacts](https://docs.wandb.ai/guides/artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)). 
+
+To bookmark your best model checkpoints and centralize them across your team, you can link them to the [W&B Model Registry](https://docs.wandb.ai/guides/models). Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](https://docs.wandb.ai/guides/models/automation) downstream actions with webhooks or jobs.
+
+To learn more on how to version your models and datasets in W&B, checkout the [Weights & Biases' Artifacts guide](https://docs.wandb.ai/artifacts). 
 
 #### (Notebook only) Finish your W&B Run
 
