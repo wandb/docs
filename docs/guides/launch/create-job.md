@@ -57,7 +57,7 @@ run = wandb.init()
 run.log_code(".", include_fn=lambda path: path.endswith(".py"))
 ```
 :::note
-Ensure that `wandb` is not in the path to the created file. This will prevent a code artifact from being created, and therefore a job from being created.
+By default, `Run.log_code()` ignores all paths under the `wandb` library's metadata directories. (`<project_root>/.wandb` and `<project_root/wandb`)
 :::
 </TabItem>
 
