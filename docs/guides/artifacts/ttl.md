@@ -6,10 +6,10 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Manage data retention with TTL
-Use a time-to-live (TTL) policy to automatically remove an artifact version from W&B.
+Schedule when artifact version are deleted from W&B with W&B Artifact time-to-live (TTL) policy.
 
 :::note
-W&B does not support setting TTL policies for artifacts that are linked to the W&B Model Registry.
+W&B deactivates the option to set a TTL policy for model artifacts linked to the Model Registry. This is to help ensure that models are not deleted by mistake.
 :::
 
 
@@ -30,7 +30,7 @@ The steps are as follows:
 
 1. [Create an artifact](./construct-an-artifact.md).
 2. [Add content to the artifact](./construct-an-artifact.md#add-files-to-an-artifact) such as files, a directory, or a reference.
-3. Define a TTL time limit using the [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) data type part of Python's standard library.
+3. Define a TTL time limit with the [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) data type that is part of Python's standard library.
 4. [Log the artifact](./construct-an-artifact.md#3-save-your-artifact-to-the-wb-server).
 
 The following code snippet demonstrates how to create an artifact and set a TTL policy. 
@@ -40,13 +40,14 @@ import wandb
 from datetime import timedelta
 
 run = wandb.init(project="<my-project-name>", entity='<your-entity>')
-art = wandb.Artifact(name="<artifact-name>", type="<type>")
-art.add_file("my_file")
+artifact_version = wandb.Artifact(name="<artifact-name>", type="<type>")
+artifact_version.add_file("my_file")
 
-art.ttl = timedelta(days=30) # Set TTL policy
-run.log_artifact(art)
+artifact_version.ttl = timedelta(days=30) # Set TTL policy
+run.log_artifact(artifact_version)
 ```
 
+The code snippet above sets the TTL policy for the artifact version to 30 days. In other words, the artifact version is deleted by W&B in 30 days.
 
 ### Set or edit a TTL policy after you create an artifact
 Use the W&B Python SDK to define a TTL policy for an artifact that already exists.
@@ -56,16 +57,17 @@ Use the W&B Python SDK to define a TTL policy for an artifact that already exist
 3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
 
 
-The following code snippet shows how to retrieve, view and set a new TTL policy:
+The following code snippet shows how to set a TTL policy for an artifact:
 ```python
 import wandb
 from datetime import timedelta
 
-art = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
-art.ttl = timedelta(days=365*7) # pass in a new TTL
-art.save()
+artifact_version = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
+artifact_version.ttl = timedelta(days=365*2)  # Delete in two years
+artifact_version.save()
 ```
 
+In the above example, the TTL policy is set to two years.
 
 ## Inherit TTL policy
 Let an artifact version, that does not have a TTL policy, inherit the TTL policy of the artifact collection it belongs to. An artifact version can only inherit a TTL policy from the artifact collection it belongs to if the artifact collection possesses a TTL policy.  Otherwise, no TTL policy is inherited.
@@ -79,15 +81,15 @@ An artifact version will not inherit a TTL policy from its artifact collection i
 3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
 
 ```python
-art = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
-art.ttl_duration = wandb.ArtifactTTL.INHERIT
-art.save()
+artifact_version = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
+artifact_version.ttl_duration = wandb.ArtifactTTL.INHERIT
+artifact_version.save()
 ```
 
 
 
 ## Deactivate a TTL policy
-Use the W&B Python SDK to disable a TTL policy. 
+Use the W&B Python SDK to deactivate a TTL policy. 
 Note: Artifact versions with a disabled TTL will not inherit an Artifact collection's TTL. Refer to (## Inherit TTL Policy) on how to delete version TTL and inherit from the collection level TTL
 
 1. [Download your artifact](./download-and-use-an-artifact.md).
@@ -97,9 +99,9 @@ Note: Artifact versions with a disabled TTL will not inherit an Artifact collect
 
 The following code snippet shows how to disable a TTL policy for an artifact:
 ```python
-art = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
-art.ttl = None
-art.save()
+artifact_version = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
+artifact_version.ttl = None
+artifact_version.save()
 ```
 
 
@@ -115,10 +117,10 @@ View TTL policies for artifacts with the Python SDK or with the W&B App UI.
   ]}>
   <TabItem value="python">
 
-Use a print statement to view a TTL policy for an artifact. The following example shows how to retrieve an artifact and view its TTL policy:
+Use a print statement to view an artifact's TTL policy. The following example shows how to retrieve an artifact and view its TTL policy:
 
 ```python
-art = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
+artifact_version = run.use_artifact(artifact_or_name="<entity/project/your-artifact-name:alias>", type="<type>")
 print(art.ttl_duration)
 ```
 
