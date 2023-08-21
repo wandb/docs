@@ -25,7 +25,11 @@ wandb launch -d <docker-image-uri> -q <queue-name> -E <entrypoint>
 
 This will build a job when you create a run.
 
-Alternatively, you can make a launch job based on a docker image. See the [Create a job](https://docs.wandb.ai/guides/launch/create-job) page for more information. 
+Or you can make a job from an image:
+
+```bash
+wandb job create image <image-name> -p <project> -e <entity>
+```
 
 ### Are there best practices for using Launch effectively?
 
@@ -43,7 +47,7 @@ Alternatively, you can make a launch job based on a docker image. See the [Creat
 
 ### Can Launch automatically provision (and spin down) compute resources for me in the target environment?
 
-No. Launch uses existing resources you have created.  However, the Solution Architects at W&B are happy to work with you to configure your underlying Kubernetes infrastructure to facilitate retries, autoscaling, and use of spot instance node pools.  Reach out to support@wandb.com or your shared Slack channel.
+This depends on the environment, we are able to provision resources in SageMaker, and Vertex. In Kubernetes, autoscalers can be used to automatically spin up and spin down resources when required. The Solution Architects at W&B are happy to work with you to configure your underlying Kubernetes infrastructure to facilitate retries, autoscaling, and use of spot instance node pools. Reach out to support@wandb.com or your shared Slack channel.
 
 ### Is `wandb launch -d` uploading a whole docker artifact and not pulling from a registry? 
 No. The  `wandb launch -d` command will not upload to a registry for you. You need to upload your image to a registry yourself. Her are the general steps:
@@ -51,15 +55,17 @@ No. The  `wandb launch -d` command will not upload to a registry for you. You ne
 1. Build an image. 
 2. Push the image to a registry.
 
-From there, the launch agent will spin up a job pointing to that container. 
-
-For Kubernetes, the k8s cluster pods will need access to the registry you are pushing to. The workflow looks like:
+The workflow looks like:
 
 ```bash
 docker build -t <repo-url>:<tag> .
 docker push <repo-url>:<tag>
 wandb launch -d <repo-url>:<tag>
 ```
+
+From there, the launch agent will spin up a job pointing to that container. 
+
+For Kubernetes, the k8s cluster pods will need access to the registry you are pushing to.
 
 
 ## Permissions and Resources
@@ -69,7 +75,7 @@ wandb launch -d <repo-url>:<tag>
 Queues are scoped to a team of users. You define the owning entity when you create the queue.  To restrict access, you can change the team membership.
 
 ### What permissions does the agent require in Kubernetes?
-1. [https://docs.wandb.ai/guides/launch/kubernetes](https://docs.wandb.ai/guides/launch/kubernetes)
+1. [https://docs.wandb.ai/guides/launch/kubernetes#service-account-and-roles](https://docs.wandb.ai/guides/launch/kubernetes#service-account-and-roles)
 
  “The following kubernetes manifest will create a role named
   `wandb-launch-agent` in the`wandb`namespace. This role will allow the agent to create pods, configmaps, secrets, and pods/log in the `wandb` namespace. The `wandb-cluster-role` will allow the agent to create pods, pods/log, secrets, jobs, and jobs/status in any namespace of your choice.”
@@ -85,6 +91,7 @@ Queues are scoped to a team of users. You define the owning entity when you crea
     scheduler:
     
     num_workers: 4
+  To limit the number of concurrent runs from a sweep that will be run in parallel.
 
 ### When using Docker queues to run multiple jobs that download the same artifact with `use_artifact`, do we re-download the artifact for every single run of the job, or is there any caching going on under the hood?
 
@@ -101,20 +108,15 @@ Yes. The suggested way is:
 
  2. Once that secret is created, you can specify a queue config to inject the secret when runs start. The end users cannot see the secret, only cluster admins can. An example is done in the `W&B Global CPU` queue:[https://wandb.ai/wandb/launch/UnVuUXVldWU6MTcxODMwOA==/config](https://wandb.ai/wandb/launch/UnVuUXVldWU6MTcxODMwOA==/config) . Specifically:
             
-            ```
-            {
-                                    "env": [
-                                        {
-                                            "name": "OPENAI_API_KEY",
-                                            "valueFrom": {
-                                                "secretKeyRef": {
-                                                    "key": "password",
-                                                    "name": "openai-api-key"
-                                                }
-                                            }
-                                        }
-                                    ],
-            ```
+```yaml
+env:
+  - name: OPENAI_API_KEY
+    valueFrom:
+      secretKeyRef:
+        key: password
+        name: openai-api-key
+
+```
 
 ### How can admins restrict what ML engineers have access to modify? For example, changing an image tag may be fine but other job settings may not be.
   

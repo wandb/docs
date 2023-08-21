@@ -97,9 +97,9 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. From the d
   </TabItem>
   <TabItem value="sdk">
 
-Add run sets from projects with the `wr.RunSet()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
+Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
 
-1. Create a `wr.RunSet()` object instance. Provide the name of the project that contains the runsets for the project parameter and the entity that owns the project for the entity parameter.
+1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the runsets for the project parameter and the entity that owns the project for the entity parameter.
 2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `runsets` parameter.
 3. Store one or more `wr.PanelGrid()` object instances in a list.
 4. Update the report instance blocks attribute with the list of panel grid instances.
@@ -115,7 +115,7 @@ report = wr.Report(
 )
 
 panel_grids = wr.PanelGrid(
-    runsets=[wr.RunSet(project='<project-name>', entity='<entity-name>')]
+    runsets=[wr.Runset(project='<project-name>', entity='<entity-name>')]
 )
 
 report.blocks = [panel_grids]
@@ -174,7 +174,7 @@ panel_grids = wr.PanelGrid(
                 regression=True,
             )
 				],
-	runsets=[wr.RunSet(project='<project-name>', entity='<entity-name>')]
+	runsets=[wr.Runset(project='<project-name>', entity='<entity-name>')]
 		)
 
 report.blocks = [panel_grids]
