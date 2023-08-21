@@ -5,7 +5,8 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Manage data retention with TTL
+# Manage data retention with ARtifact TTL policy
+
 Schedule when artifact version are deleted from W&B with W&B Artifact time-to-live (TTL) policy.
 
 :::note
