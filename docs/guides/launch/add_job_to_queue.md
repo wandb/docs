@@ -4,9 +4,60 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Start launch jobs
+# Enqueue jobs
 
 TEXT.
+
+
+## Launch job names
+
+By default, W&B automatically generates a job name for you. The name is generated depending on how the job is created (GitHub, code artifact, or Docker image). Alternatively, you can define a launch job's name with environment variables or with the W&B Python SDK.
+
+### Default launch job names
+
+The following table describes the job naming convention used by default based on job source:
+
+| Source        | Naming convention                       |
+| ------------- | --------------------------------------- |
+| GitHub        | `job-<git-remote-url>-<path-to-script>` |
+| Code artifact | `job-<code-artifact-name>`              |
+| Docker image  | `job-<image-name>`                      |
+
+
+### Name your launch job
+Name your job with a W&B environment variable or with the W&B Python SDK
+
+<Tabs
+  defaultValue="env_var"
+  values={[
+    {label: 'Environment variable', value: 'env_var'},
+    {label: 'W&B Python SDK', value: 'python_sdk'},
+  ]}>
+  <TabItem value="env_var">
+
+Set the `WANDB_JOB_NAME` environment variable to your preferred job name. For example:
+
+```bash
+WANDB_JOB_NAME=awesome-job-name
+```
+
+  </TabItem>
+  <TabItem value="python_sdk">
+
+Define the name of your job with `wandb.Settings`. Then pass this object when you initialize W&B with `wandb.init`. For example:
+
+```python
+settings = wandb.Settings(job_name="my-job-name")
+wandb.init(settings=settings)
+```
+
+  </TabItem>
+</Tabs>
+
+
+:::note
+For docker image jobs, the image tag is automatically added as an alias to the job.
+:::
 
 ## Add jobs to your queue
 
@@ -71,46 +122,3 @@ If you work within a W&B Team, we suggest you specify the `entity` flag (`-e`) t
 </Tabs>
 
 
-## View enqueued launch jobs
-
-View jobs added to a queue with the W&B App.
-
-1. Navigate to the W&B App at https://wandb.ai/home.
-2. Select **Launch** within the **Applications** section of the left sidebar.
-3. Select the **All entities** dropdown and select the entity to filter with.
-4. Expand the collapsible queue UI from the Launch Application page to view jobs added to a specific queue.
-
-:::info
-A run is created when the launch agent executes a launch job. In other words, each run listed corresponds to a specific job that was added to that queue.
-:::
-
-For example, the following image shows two runs that were created from a job called `job-source-launch_demo-canonical`. The job was added to a queue called `Start queue`. The first run listed in the queue called `resilient-snowball` and the second run listed is called `earthy-energy-165`.
-
-
-![](/images/launch/launch_jobs_status.png)
-
-Within the W&B App UI you can find additional information about runs created from launch jobs such as the:
-   - **Run**: The name of the W&B run assigned to that job.
-   - **Job ID**: The name of the job. See Job naming conventions[LINK] page for information on the default naming assigned to a job.
-   - **Project**: The name of the project the run belongs to.
-   - **Status**: The status of the queued run. 
-   - **Author**: The W&B entity that created the run.
-   - **Creation date**: The timestamp when the queue was created.
-   - **Start time**: The timestamp when the job started.
-   - **Duration**: Time, in seconds, it took to complete the job’s run.
-
-## Check the status of a job
-
-The following table defines the status a queued run can have:
-
-
-| Status | Description |
-| --- | --- |
-| **Idle** | The run is in a queue with no active agents. |
-| **Queued** | The run is in a queue waiting for an agent to process it. |
-| **Starting** | The run has been picked up by an agent but has not yet started. |
-| **Running** | The run is currently executing. |
-| **Killed** | The job was killed by the user. |
-| **Crashed** | The run stopped sending data or did not successfully start. |
-| **Failed** | The run ended with a non-zero exit code. |
-| **Finished** | The job completed successfully. |

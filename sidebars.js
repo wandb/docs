@@ -176,7 +176,8 @@ const sidebars = {
           label: 'Create and deploy jobs',
           items: [
             'guides/launch/create-launch-job',
-            'guides/launch/add_job_to_queue'
+            'guides/launch/add_job_to_queue',
+            'guides/launch/launch-view-jobs',
             // 'guides/launch/create-job',
             // 'guides/launch/launch-jobs',
           ],
