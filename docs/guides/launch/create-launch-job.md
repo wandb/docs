@@ -125,10 +125,6 @@ def run_training_run(epochs, lr):
 run_training_run(epochs=10, lr=0.01)
 ```
 
-:::tip
-Ensure that the `wandb` environment variable is not in the path to the created file. This will prevent a code artifact from being created, and therefore a job from being created.
-:::
-
 For more information on the `run.log_code()` command, see the API Reference guide. [LINK]
 
 ### Associate your run with a git commit
