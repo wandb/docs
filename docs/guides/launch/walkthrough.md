@@ -53,7 +53,6 @@ with wandb.init(config=config, project="launch-quickstart") as run:
 
 In this example, we log our code during a W&B run with the `log_code()`[INSERT] (see the highlighted portion of the code example).
 
-
 :::tip
 There are different ways to create job templates. For more information, see the Create and deploy jobs section.[LINK]
 :::
@@ -64,9 +63,6 @@ Execute the Python script and let the script run until it completes:
 ```bash
 python train.py
 ```
-
-
-
 
 
 ## Add your job template to a queue
@@ -86,9 +82,11 @@ Click the **Launch** button in the top right to launch a new run from this job. 
 
 Once you have configured your job as desired, click the **Launch now** button at the bottom of the drawer to enqueue your launch job.
 
-For more information about launch queues, see the [INSERT].
 
 
+:::tip
+The contents of your launch queue configuration will vary depending on the queue's target resource[LINK]. For more information about launch queues, see the [INSERT].
+:::
 
 
 ## Start a launch agent
@@ -108,6 +106,11 @@ wandb launch-agent -e <entity-name> -q <queue-name>
 
 Within your terminal, you will see the agent begin to poll for queues. 
 
+:::tip
+Launch agents can poll for queues in non-local environments such as a Kubernetes cluster. For more information, see [LINK].
+:::
+
+
 ## View your launch job
 
 Navigate to your new **launch-quickstart** project in your W&B account and open the jobs tab from the navigation on the left side of the screen.
@@ -117,5 +120,5 @@ Navigate to your new **launch-quickstart** project in your W&B account and open 
 The **Jobs** page displays a list of W&B Jobs that were created from previously executed runs. You should see a job named **job-source-launch-quickstart-train.py:v0**. Click on your launch job to view source code dependencies and a list of runs that were created by the launch job.
 
 :::tip
-You can edit the name of the job from the jobs page if you would like to make the job a bit more memorable. 
+You can edit the name of the job from the jobs page if you would like to make the job a bit more memorable. For more information, see [LINK]. 
 :::
