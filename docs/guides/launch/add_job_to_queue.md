@@ -77,14 +77,15 @@ Add a job to your queue with the W&B App.
 
 ![](/images/launch/project_jobs_tab_gs.png)
 
-3. The **Jobs** page displays a list of W&B Jobs that were created from previously executed W&B Runs. 
+3. The **Jobs** page displays a list of W&B launch jobs that were created from previously executed W&B runs. 
 
 ![](/images/launch/view_jobs.png)
 
 4. Select the **Launch** button next to the name of the Job name. A modal will appear on the right side of the page.
 5. Within the modal select the:
-    * Job version you want to add to your queue from the **Job version** dropdown. In this example we only have one version, so we select `v0`.
-    * Select the **Paste from…** button to automatically propagate hyperparameters used from a specific W&B Run. In the following image, we have two runs to choose from.
+  * **Job version**: the version of the job to launch. Jobs are versioned like any other W&B Artifact. Different versions of the same job will be created if you make modifications to the software dependencies or source code used to run the job. Since we only have one version, we will select the default **@latest** version.
+  * **Overrides**: new values for any of jobs inputs. These can be used to change the entrypoint command, arguments, or values in the `wandb.config` of your new run. Our run had one value in the `wandb.config`: `epochs`. We can override this value by in the overrides field. We can also paste values from other runs using this job by clicking the **Paste from...** button.
+  * **Queue**: the queue to launch the run on. If you have not created any queues yet, you should have the option to create a **Starter Queue**. This queue will be used to launch runs on your local machine using Docker.
 
 ![](/images/launch/create_starter_queue_gs.png)
 

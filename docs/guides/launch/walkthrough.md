@@ -21,11 +21,20 @@ wandb --version```.
 :::
 
 ## Before you get started
-Before you get started, install Docker. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker, and make sure the docker daemon is running on your machine before you proceed.
+
+
+
+Before you get started, ensure you have satisfied the following prerequisites:
+1. Install W&B Python SDK version 0.14.0 or higher:
+    ```bash
+    pip install wandb>=0.14.0
+    ```
+2. Sign up for a free account at https://wandb.ai/site and then login to your wandb account. 
+3. Install Docker. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker, and make sure the docker daemon is running on your machine before you proceed.
 
 ## Create a job template
 
-Launch job templates can be created automatically from any W&B run that has associated source code. Copy the following Python code to your machine in a file named `train.py`.
+The following code creates a job template from the W&B run. Copy the following Python code to your machine in a file named `train.py`.
 
 ```python title="train.py"
 import wandb
@@ -44,23 +53,26 @@ with wandb.init(config=config, project="launch-quickstart"):
             "accuracy": accuracy, 
             "epoch": epoch})
     
+    # highlight-next-line
     wandb.run.log_code()  
 
 ```
 
+In this example, we log our code during the W&B run with the `log_code()`[INSERT] (see the highlighted portion of the code example).
+
+
 :::tip
-You can manage how job templates are created. For more information, see the Create and deploy jobs section.[LINK]
+There are different ways to create job templates. For more information, see the Create and deploy jobs section.[LINK]
 :::
 
 
-To install dependencies and run the script, execute the following commands in your terminal:
+Execute the Python script:
 
 ```bash
-pip install wandb>=0.14.0
 python train.py
 ```
 
-Let the script run to completion and then move on to the next step. Your console output should look roughly like:
+Let the script run to completion and then move on to the next step. Your console output should look similar to the following:
 
 ```
 wandb: Syncing run trim-planet-100
@@ -90,23 +102,24 @@ The **Jobs** page displays a list of W&B Jobs that were created from previously 
 
 ## Queue your job template
 
-Head back to the page for your job. It should look something like the image below:
+Navigate back to the page for your job. It should look something like the image below:
 
 ![](/images/launch/simple-job.png)
 
 Click the **Launch** button in the top right to launch a new run from this job. A drawer will slide from the right side of your screen and present you with some options for your new run:
 
-* **Job version**: the version of the job to launch. Jobs are versioned like any other W&B Artifact. Different versions of the same job will be created if you make modifications to the software dependencies or source code used to run the job. Since we only have one version, we will select the default **@latest** version.
-* **Overrides**: new values for any of jobs inputs. These can be used to change the entrypoint command, arguments, or values in the `wandb.config` of your new run. Our run had one value in the `wandb.config`: `epochs`. We can override this value by in the overrides field. We can also paste values from other runs using this job by clicking the **Paste from...** button.
-* **Queue**: the queue to launch the run on. If you have not created any queues yet, you should have the option to create a **Starter Queue**. This queue will be used to launch runs on your local machine using Docker.
+* **Job version**: the version of the job to launch.  Since we only have one version, we will select the default **@latest** version.
+* **Overrides**: new values for any of the launch job's inputs. Our run had one value in the `wandb.config`: `epochs`. We can override this value by in the overrides field. We can also paste values from other runs using this job by clicking the **Paste from...** button.
+* **Queue**: the queue to launch the run on.
 
 ![](/images/launch/starter-launch.gif)
 
 Once you have configured your job as desired, click the **launch now** button at the bottom of the drawer to enqueue your launch job.
 
+For general information about launch queues, see the [INSERT].
 ## Start a launch agent
 
-To execute your job, you will need to start a launch agent polling on your launch queue.
+To execute your job, you will need a launch agent that is polling your launch queue. To do so, create and start the agent:
 
 1. From [wandb.ai/launch](https://wandb.ai/launch) navigate to the page for your launch queue.
 2. Click the **Add an agent** button.
