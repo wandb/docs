@@ -245,7 +245,6 @@ builder:
 ```
 
 </TabItem>
-
 </Tabs>
 
 ## Cloud permissions

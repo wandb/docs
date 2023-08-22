@@ -110,14 +110,24 @@ Any custom macro, such as `${MY_ENV_VAR}`, is substituted with an environment va
 :::
 
 
-## Configure an agent
-W&B Launch uses a launch agent to poll one or more launch queues for jobs. The launch agent will pop jobs from the queue (FIFO) and execute them based on the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/`. 
+## Configure a launch agent
 
-When the launch agent pops a job from the queue, it will build a container image for that job. How the agent builds the container depends on the type of queue the job was in. 
 
-[INSERT IMAGE]
+
+
+<!-- Start -->
+W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will pop launch jobs from the queue (FIFO) and execute them based on the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/`. 
+
+When the launch agent pops a launch job from the queue, it will build a container image for that launch job. By default, W&B will build the image with Docker. See the [Container builder section](#container-builder-options) for alternative Docker image builders.
+
+The environment that a launch agent is running in, and polling for launch jobs, is called the *agent environment*. Example agent environments include: locally on your machine and Kubernetes clusters. See the [Launch agent environments](#launch-agent-environments) section for more information.
+
+Depending on your target resource, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
 
 For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the Kubernetes API.
+
+<!-- End -->
+
 
 
 
@@ -137,40 +147,6 @@ queues:
   - default
 ```
 
-
-You can also specify an environment, registry, and [builder](#builders) in your agent configuration. 
-
-:::tip
-The following sections describe optional agent configuration options for specifying cloud environments, a specific Docker image builder, and container registries. 
-:::
-
-<!-- 
-For example: 
-
-
-```yaml title="~/.config/wandb/launch-config.yaml"
-# W&B entity (i.e. user or team) name
-entity: <entity-name>
-
-# Max number of concurrent runs to perform. -1 = no limit
-max_jobs: -1
-
-# List of queues to poll.
-queues:
-  - default
-
-# Cloud environment config.
-environment:
-  type: aws|gcp|azure
-
-# Container registry config.
-registry:
-  type: ecr|gcr|acr
-
-# Container build config.
-builder:
-  type: docker|kaniko|noop
-``` -->
 
 ### Container builder options
 
@@ -271,14 +247,10 @@ builder:
   secret-name: <Kubernetes-secret-name>
   secret-key: <secret-file-name>
 ```
-
 </TabItem>
-
 <TabItem value="noop">
 
 Set the builder type to `noop` (no operation) to prevent your agent from building images.
-
-
 
 ```yaml title="~/.config/wandb/launch-config.yaml"
 # W&B entity (i.e. user or team) name
@@ -302,7 +274,126 @@ Setting the builder type to `noop` is useful if you want to limit the agent to r
 </TabItem>
 </Tabs>
 
-### Cloud environments
 
+### Launch agent environments
+Within your launch agent configuration, you can specify the agent environment. The agent environment is the environment where a launch agent is running, polling for jobs. The following table describes the possible agent environments you can use based on your target resource:
+
+| Target resource |    Launch agent environment     |
+| --------------- | ------------------------------- |
+| SageMaker       |   Local machine, AWS, GCR, ACR  |
+| Docker          |   Local machine, AWS, GCR, ACR  |
+| Kubernetes      |   Kubernetes cluster            |
+
+
+Based on your use case, see the following tabs for information on how to specify the agent environment in your launch agent configuration file (`~/.config/wandb/launch-config.yaml`).
+
+<Tabs
+defaultValue="aws"
+values={[
+{label: 'AWS', value: 'aws'},
+{label: 'GCP', value: 'gcp'},
+{label: 'Azure', value: 'azure'}
+]}>
+
+<TabItem value="aws">
+
+The AWS environment configuration requires the `region` key to be set. The region should be the AWS region that the agent will be running in. When the agent starts, it will use `boto3` to load the default AWS credentials. See the [boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#overview) for more information on how to configure default AWS credentials.
+
+```yaml
+environment:
+  type: aws
+  region: <aws-region>
+```
+
+</TabItem>
+
+<TabItem value="gcp">
+
+The GCP environment requires the `region` and `project` keys to be set. The region should be the GCP region that the agent will be running in. The project should be the GCP project that the agent will be running in. When the agent starts, it will use `google.auth.default()` to load the default GCP credentials. See the [google-auth documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) for more information on how to configure default GCP credentials.
+
+```yaml
+environment:
+  type: gcp
+  region: <gcp-region>
+  project: <gcp-project-id>
+```
+
+</TabItem>
+
+<TabItem value="azure">
+
+The Azure environment does not require any additional keys to be set. When the agent starts, it will use `azure.identity.DefaultAzureCredential()` to load the default Azure credentials. See the [azure-identity documentation](https://docs.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) for more information on how to configure default Azure credentials.
+
+```yaml
+environment:
+  type: azure
+```
+
+</TabItem>
+
+</Tabs>
 
 ### Container registries
+The `registry` key is used to configure the container registry that the agent will use to store container images. If the agent does not require access to a container registry, this key should be omitted.
+
+<Tabs
+defaultValue="ecr"
+values={[
+{label: 'AWS ECR', value: 'ecr'},
+{label: 'GCP Artifact Registry', value: 'gcr'},
+{label: 'Azure Container Registry', value: 'acr'}
+]}>
+
+<TabItem value="ecr">
+
+Set `type: ecr` to use AWS Elastic Container Registry. In order to use `ecr`, must configure an AWS environment. The `repository` key is required and should be the name of the ECR repository that the agent will use to store container images. The agent will use the region configured in the `environment` key to determine which registry to use.
+
+```yaml
+registry:
+  # Requires an aws environment configuration.
+  type: ecr
+  # URI of the ECR repository where the agent will store images.
+  # Make sure the region matches what you have configured in your
+  # environment.
+  uri: <account-id>.ecr.<region>.amazonaws.com/<repository-name>
+  # Alternatively, you can simply set the repository name
+  # repository: my-repository-name
+```
+
+</TabItem>
+<TabItem value="gcr">
+
+Set `type: gcr` to use GCP Artifact Registry. In order to use `gcr`, must configure a GCP environment. The `repository` and `image-name` keys are required. The `repository` key should be the name of the Artifact Registry repository that the agent will use to store container images. The agent will use the region and project configured in the `environment` key to determine which registry to use. The `image-name` key should be the name of the image within the repository that the agent will use to store container images.
+
+```yaml
+registry:
+  # Requires a gcp environment configuration.
+  type: gcr
+  # URI of the Artifact Registry repository and image name where the agent
+  # will store images. Make sure the region and project match what you have
+  # configured in your environment.
+  uri: <region>-docker.pkg.dev/<project-id>/<repository-name>/<image-name>
+  # Alternatively, you may set the repository and image-name keys.
+  # repository: my-artifact-repo
+  # image-name: my-image-name
+```
+
+</TabItem>
+<TabItem value="acr">
+
+Set `type: acr` to use Azure Container Registry. In order to use `acr`, must configure an Azure environment. You must set the `uri` key to the URI of a repository within an Azure Container Registry. The agent will push images to the repository specified in the URI.
+
+```yaml
+registry:
+  type: acr
+  uri: https://my-registry.azurecr.io/my-repository
+```
+
+</TabItem>
+</Tabs>
+
+
+
+## Permissions 
+Text.
+

@@ -9,7 +9,7 @@ import Translate, {translate} from '@docusaurus/Translate';
 
 Easily scale training [runs](../runs/intro.md) from your desktop to your GPUs, quickly spin up intensive model evaluation suites, and prepare models for production inference, all without the friction of complex infrastructure.
 
-![](/images/launch/ready_to_launch.png)
+<!-- ![](/images/launch/ready_to_launch.png) -->
 
 ## How it works
 
@@ -21,10 +21,11 @@ A [*job*](./create-job.md) is a blueprint for configuring and running tasks in y
 
 As jobs are added to the queue, a [*launch agent*](./run-agent.md) will poll that queue and execute the job on the system targeted by the queue this job was taken from.
 
-<!-- ![](/images/launch/ml_user_flow.png) -->
+![](/images/launch/ml_user_flow.png)
 
-![](/images/launch/Launch_Diagram.png)
+<!-- ![](/images/launch/Launch_Diagram.png) -->
 
+[INSERT NEW IMAGE]
 
 ## How to get started
 

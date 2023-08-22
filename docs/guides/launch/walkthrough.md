@@ -5,7 +5,15 @@ displayed_sidebar: default
 
 # Walkthrough
 
-Follow this guide to get started using W&B Launch. This guide will walk you through the setup of the fundamental components of a launch workflow: a **job**, **launch queue**, and **launch agent**. Specifically, you will create a job that trains a neural network, create a launch queue that will be used to submit jobs for execution on your local machine, and then create a launch agent that will poll on the queue and execute the jobs that it pops from the queue with Docker.
+This guide will walk you through how to setup of the fundamental components W&B launch:  **job templates**, **launch queue**, and **launch agent**. In this walkthrough you will:
+
+1. Create a job template that trains a neural network.
+2. Create a launch queue that will be used to submit jobs for execution on your local machine.
+3. Create a launch agent that will poll the queue and execute launch jobs that it pops from the queue with Docker.
+
+:::note
+The steps outlined on this page are designed to run on your local machine with Docker.
+:::
 
 :::info
 Ensure you have W&B Python SDK version 0.14.0 or higher by running ```
@@ -13,15 +21,13 @@ wandb --version```.
 :::
 
 ## Before you get started
-Before you get started, install Docker on the machine where you will run your launch agent. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker, and make sure the docker daemon is running on your machine before you proceed.
+Before you get started, install Docker. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker, and make sure the docker daemon is running on your machine before you proceed.
 
-## Create a job
+## Create a job template
 
-Jobs are created automatically from any W&B run that has associated source code. For more details on how source code can be associated with a run, see [these docs](create-job.md).
+Launch job templates can be created automatically from any W&B run that has associated source code. Copy the following Python code to your machine in a file named `train.py`.
 
-Copy the following Python code to your machine in a file named `train.py`.
-
-```python
+```python title="train.py"
 import wandb
 
 config = {
@@ -41,6 +47,11 @@ with wandb.init(config=config, project="launch-quickstart"):
     wandb.run.log_code()  
 
 ```
+
+:::tip
+You can manage how job templates are created. For more information, see the Create and deploy jobs section.[LINK]
+:::
+
 
 To install dependencies and run the script, execute the following commands in your terminal:
 
@@ -77,7 +88,7 @@ Navigate to your new **launch-quickstart** project in your W&B account and open 
 
 The **Jobs** page displays a list of W&B Jobs that were created from previously executed W&B Runs. You should see a job named **job-source-launch-quickstart-train.py:v0**. You can edit the name of the job from the jobs page if you would like to make the job a bit more memorable. Click on your job to open a detailed view of your job including the source code and dependencies for the job and a list of runs that have been launched from this job.
 
-## Queue your job
+## Queue your job template
 
 Head back to the page for your job. It should look something like the image below:
 
