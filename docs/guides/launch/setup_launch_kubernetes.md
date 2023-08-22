@@ -14,13 +14,13 @@ Before you get started, ensure you have the:
 2. **W&B API Key** [LINK]
 
 ## Configure a queue for Kubernetes
-Create a queue in the W&B App that uses SageMaker as its compute resource:
+Create a queue in the W&B App that uses Kubernetes as its compute resource:
 
 1. Navigate to the [Launch page](https://wandb.ai/launch).
 2. Click on the **Create Queue** button.
 3. Select the **Entity** you would like to create the queue in.
 4. Provide a name for your queue in the **Name** field.
-5. Select **SageMaker** as the **Resource**.
+5. Select **Kubernetes** as the **Resource**.
 6. Within the **Configuration** field, provide information about your Kubernetes job. The launch queue configuration follows the same schema as a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec), except that it also supports additional universal queue configuration fields, such as `builder`. 
 W&B will populate a YAML and JSON a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec) request body:
 
