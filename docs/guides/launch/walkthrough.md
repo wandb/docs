@@ -5,24 +5,17 @@ displayed_sidebar: default
 
 # Walkthrough
 
-This guide will walk you through how to setup of the fundamental components W&B launch:  **job templates**, **launch queue**, and **launch agent**. In this walkthrough you will:
+This guide will walk you through how to setup of the fundamental components W&B launch:  **job templates**, **launch queue**, and **launch agents**. By the end of this walkthrough you will:
 
 1. Create a job template that trains a neural network.
-2. Create a launch queue that will be used to submit jobs for execution on your local machine.
-3. Create a launch agent that will poll the queue and execute launch jobs that it pops from the queue with Docker.
+2. Create a launch queue that is used to submit jobs for execution on your local machine.
+3. Create a launch agent that polls the queue and executes launch with Docker.
 
 :::note
 The steps outlined on this page are designed to run on your local machine with Docker.
 :::
 
-:::info
-Ensure you have W&B Python SDK version 0.14.0 or higher by running ```
-wandb --version```.
-:::
-
 ## Before you get started
-
-
 
 Before you get started, ensure you have satisfied the following prerequisites:
 1. Install W&B Python SDK version 0.14.0 or higher:
@@ -30,11 +23,11 @@ Before you get started, ensure you have satisfied the following prerequisites:
     pip install wandb>=0.14.0
     ```
 2. Sign up for a free account at https://wandb.ai/site and then login to your wandb account. 
-3. Install Docker. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker, and make sure the docker daemon is running on your machine before you proceed.
+3. Install Docker. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker, and make sure the docker daemon is running on your machine.
 
 ## Create a job template
 
-The following code creates a job template from the W&B run. Copy the following Python code to your machine in a file named `train.py`.
+The following code creates a job template from a W&B [run](../../ref/python/run.md). Copy the following Python code to your machine in a file named `train.py`.
 
 ```python title="train.py"
 import wandb
@@ -43,7 +36,7 @@ config = {
     "epochs": 10
 }
 
-with wandb.init(config=config, project="launch-quickstart"):
+with wandb.init(config=config, project="launch-quickstart") as run:
     config = wandb.config
     for epoch in range(1, config.epochs):
         loss = config.epochs / epoch
@@ -58,68 +51,48 @@ with wandb.init(config=config, project="launch-quickstart"):
 
 ```
 
-In this example, we log our code during the W&B run with the `log_code()`[INSERT] (see the highlighted portion of the code example).
+In this example, we log our code during a W&B run with the `log_code()`[INSERT] (see the highlighted portion of the code example).
 
 
 :::tip
 There are different ways to create job templates. For more information, see the Create and deploy jobs section.[LINK]
 :::
 
+Execute the Python script and let the script run until it completes:
 
-Execute the Python script:
 
 ```bash
 python train.py
 ```
 
-Let the script run to completion and then move on to the next step. Your console output should look similar to the following:
 
-```
-wandb: Syncing run trim-planet-100
-wandb: ⭐️ View project at https://wandb.ai/bcanfieldsherman/uncategorized
-wandb: 🚀 View run at https://wandb.ai/bcanfieldsherman/uncategorized/runs/5av9db29
-wandb: Waiting for W&B process to finish... (success).
-wandb: 
-wandb: Run history:
-wandb: accuracy ▁▂▃▄▅▅▆▇█
-wandb:    epoch ▁▂▃▄▅▅▆▇█
-wandb:     loss █▄▃▂▂▁▁▁▁
-wandb: 
-wandb: Run summary:
-wandb: accuracy 0.95
-wandb:    epoch 9
-wandb:     loss 1.11111
-wandb: 
-wandb: 🚀 View run trim-planet-100 at: https://wandb.ai/bcanfieldsherman/uncategorized/runs/5av9db29
-wandb: Synced 4 W&B file(s), 0 media file(s), 9 artifact file(s) and 1 other file(s)
-```
 
-Navigate to your new **launch-quickstart** project in your W&B account and open the jobs tab from the nav on the left side of the screen.
 
-![](/images/launch/jobs-tab.png)
 
-The **Jobs** page displays a list of W&B Jobs that were created from previously executed W&B Runs. You should see a job named **job-source-launch-quickstart-train.py:v0**. You can edit the name of the job from the jobs page if you would like to make the job a bit more memorable. Click on your job to open a detailed view of your job including the source code and dependencies for the job and a list of runs that have been launched from this job.
-
-## Queue your job template
+## Add your job template to a queue
 
 Navigate back to the page for your job. It should look something like the image below:
 
 ![](/images/launch/simple-job.png)
 
-Click the **Launch** button in the top right to launch a new run from this job. A drawer will slide from the right side of your screen and present you with some options for your new run:
+Click the **Launch** button in the top right to launch a new run from this job. A drawer will slide from the right side of your screen. Select the following:
 
-* **Job version**: the version of the job to launch.  Since we only have one version, we will select the default **@latest** version.
-* **Overrides**: new values for any of the launch job's inputs. Our run had one value in the `wandb.config`: `epochs`. We can override this value by in the overrides field. We can also paste values from other runs using this job by clicking the **Paste from...** button.
-* **Queue**: the queue to launch the run on.
+1. **Job version**: the version of the job to launch.  Since we only have one version, select the default **@latest** version.
+2. **Overrides**: new values for the launch job's inputs. Our run had one value in the `wandb.config`: `epochs`. We can override this value within the overrides field. For this walkthrough, leave the number of epochs as is.
+3. **Queue**: the queue to launch the run on. From the dropdown, select **Create a 'Starter' queue**.
 
 ![](/images/launch/starter-launch.gif)
 
-Once you have configured your job as desired, click the **launch now** button at the bottom of the drawer to enqueue your launch job.
 
-For general information about launch queues, see the [INSERT].
+Once you have configured your job as desired, click the **Launch now** button at the bottom of the drawer to enqueue your launch job.
+
+For more information about launch queues, see the [INSERT].
+
+
+
+
 ## Start a launch agent
-
-To execute your job, you will need a launch agent that is polling your launch queue. To do so, create and start the agent:
+To execute the launch job you create, you will need a launch agent that is polling your launch queue.  Follow these steps to create and start a launch agent:
 
 1. From [wandb.ai/launch](https://wandb.ai/launch) navigate to the page for your launch queue.
 2. Click the **Add an agent** button.
@@ -133,6 +106,16 @@ In general, the command to start a launch agent is:
 wandb launch-agent -e <entity-name> -q <queue-name>
 ```
 
-Within your terminal, you will see the agent begin to poll for queues. The agent should pick up the job you enqueued earlier and begin to execute. First, the agent will build a container image from the job version you selected. Then, the agent will execute the job on its local host via `docker run`.
+Within your terminal, you will see the agent begin to poll for queues. 
 
-That’s it! Navigate to your Launch workspace or your terminal to see the status of your launch job. Jobs are executed in first in, first out order (FIFO). All jobs pushed to the queue will use the same resource type and resource arguments.
+## View your launch job
+
+Navigate to your new **launch-quickstart** project in your W&B account and open the jobs tab from the navigation on the left side of the screen.
+
+![](/images/launch/jobs-tab.png)
+
+The **Jobs** page displays a list of W&B Jobs that were created from previously executed runs. You should see a job named **job-source-launch-quickstart-train.py:v0**. Click on your launch job to view source code dependencies and a list of runs that were created by the launch job.
+
+:::tip
+You can edit the name of the job from the jobs page if you would like to make the job a bit more memorable. 
+:::
