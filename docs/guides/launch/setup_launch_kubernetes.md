@@ -1,25 +1,78 @@
 ---
 displayed_sidebar: default
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Set up Kubernetes
 
 TEXT.
 
 ## Prerequisites
-Before you get started, ensure you have:
-1. **Kubernetes cluster**
-2. **W&B API Key**: If you created a queue in your personal entity, head to [wandb.ai/authorize](https://wandb.ai/authorize) to get a personal API key. If you created a queue for a W&B, you will need to create a service account in that team or use an API key from a prior service account. For more information on generating service accounts, see these docs.
+Before you get started, ensure you have the:
+1. **Kubernetes cluster** [LINK]
+2. **W&B API Key** [LINK]
 
 ## Configure a queue for Kubernetes
+Create a queue in the W&B App that uses SageMaker as its compute resource:
 
-The launch agent creates a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each run that is popped from the launch queue that is configured to use Kubernetes.  The configuration you define for a Kubernetes queue is used to modify the [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec) that the launch agent submits to your Kubernetes cluster.
+1. Navigate to the [Launch page](https://wandb.ai/launch).
+2. Click on the **Create Queue** button.
+3. Select the **Entity** you would like to create the queue in.
+4. Provide a name for your queue in the **Name** field.
+5. Select **SageMaker** as the **Resource**.
+6. Within the **Configuration** field, provide information about your Kubernetes job. The launch queue configuration follows the same schema as a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec), except that it also supports additional universal queue configuration fields, such as `builder`. 
+W&B will populate a YAML and JSON a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec) request body:
 
-:::note
-The launch queue configuration follows the same schema as a Kubernetes Job spec, except that it also supports additional, universal queue configuration fields, such as `builder`.
+
+<Tabs
+  defaultValue="YAML"
+  values={[
+    {label: 'JSON', value: 'JSON'},
+    {label: 'YAML', value: 'YAML'},
+  ]}>
+  <TabItem value="JSON">
+
+```json title='Queue configuration'
+{
+  "spec": {
+    "backoffLimit": 0,
+    "ttlSecondsAfterFinished": 60,
+    "template": {
+      "spec": {
+        "restartPolicy": "Never"
+      }
+    }
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="YAML">
+
+```yaml title='Queue configuration'
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+```
+
+  </TabItem>
+</Tabs>
+
+
+
+
+
+
+:::tip
+The launch agent creates a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each W&B run that is popped from a launch queue that targets Kubernetes cluster. The launch queue modifies the [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec) that the launch agent submits to your Kubernetes cluster.
 :::
 
-The launch agent will automatically apply set the following values in the top level of the Kubernetes Job spec:
+
+The launch agent will automatically set the following values in the top level of a Kubernetes Job spec:
 
 ```yaml title="job.yaml"
 spec:
@@ -40,14 +93,14 @@ spec:
 
 
 ## Configure a launch agent for Kubernetes
-Create a YAML configuration file for the agent you will deploy. The config should contain, at a minimum your W&B entity and a list of all queues to poll:
+Create and configure a YAML configuration file for the launch agent. The config should contain, at a minimum your W&B entity and a list of all queues to poll:
 
 ```yaml title="~/.config/wandb/launch-config.yaml"
 entity: <your-entity>
 queues: [ <your-queue> ]
 ```
 
-For example, the following the following code snippet shows an example `launch-config.yaml` file with optional metadata and max number of concurrent runs to perform (`max_jobs`):
+For example, the following code snippet shows an example `launch-config.yaml` file with optional metadata and max number of concurrent runs to perform (`max_jobs`):
 
 ```yaml title="~/.config/wandb/launch-config.yaml"
 metadata:
@@ -85,7 +138,7 @@ The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) t
 If you want to use the Launch agent without the ability to build new images, you can use the `noop` builder type when you configure your launch agent. More info [here](../launch/run-agent.md#builders).
 :::
 
-### Deploy with helm
+### Deploy your launch agent with helm charts
 Deploy your agent with the launch agent chart from [W&B's official helm-charts repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent).
 
 1. Install the wandb/helm-charts repo:
@@ -94,7 +147,7 @@ helm repo add wandb https://wandb.github.io/helm-charts
 ```
 2. Add your W&B API key and the literal contents of your launch config (`launch-config.yaml`) to the Helm chart `values.yml` in  [`wandb/helm-charts/charts/launch-agent/`](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml). For more information, see the [README.md](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/README.md). 
 
-    For example, supposed you have a launch agent config file defined earlier in this page:
+    For example, suppose we use launch agent config file defined earlier in this page:
 
     ```yaml title="~/.config/wandb/launch-config.yaml"
     metadata:
@@ -173,7 +226,7 @@ helm repo add wandb https://wandb.github.io/helm-charts
     ```
 
 
-3. Navigate to the terminal where you will deploy the launch agent to. Use the helm upgrade (with --install flag specified) command to create install and create a release namespace for the helm chart:
+3. Navigate to the terminal where you will deploy the launch agent to. Use the helm upgrade (with `--install` flag specified) command to create install and create a release namespace for the helm chart:
 
     ```bash
     helm upgrade --namespace=wandb \ 
@@ -182,7 +235,7 @@ helm repo add wandb https://wandb.github.io/helm-charts
     ```
 
 
-### Deploy with a manual cluster configuration
+### Deploy your launch agent with manual cluster configuration
 In order to run a launch agent in your cluster without the use of Helm, you will need to create a few other resources in your cluster:
 
 * Namespace
