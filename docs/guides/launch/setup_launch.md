@@ -36,18 +36,31 @@ Jobs place on a queue will use the default configuration specified when you crea
 :::
 
 ## Configure a queue
-The schema of your launch queue configuration depends on the compute resource you will use for your jobs. You can provide your configuration in JSON or YAML format. 
+Launch queues are first in, first out (FIFO) queues that pop off launch jobs. The launch queue uses the target resource you define in a launch queue configuration to execute the jobs on that queue. The schema of your launch queue configuration depends on the target compute resource jobs are executed on. 
+
+For example, the queue configuration for an Amazon SageMaker queue target resource will differ from that of a Kubernetes cluster queue target resource.
+
+The table below describes the configuration schema for each queue target resource along with links to each target resources' documentation:
+
+| Queue target resource | Configuration schema | Official documentation |
+|-----------------------|----------------------|------------------------|
+| Docker     | Named arguments to `docker run`. | [Docker CLI documentation](https://docs.docker.com/engine/reference/commandline/run/) |
+| SageMaker  | Partial contents of SageMaker API's `CreateTrainingJob` request.| [Amazon SageMaker `CreateTrainingJob` API Reference ](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html)
+| Kubernetes | Kubernetes Job spec or custom object. | [Kubernetes Job documentation](https://kubernetes.io/docs/concepts/workloads/controllers/job/)
 
 
-The following tabs show example configurations for SageMaker and Kubernetes:
+
+The following tabs show example queue configurations for SageMaker and Minikube target resources:
 
 <Tabs
   defaultValue="sagemaker"
   values={[
     {label: 'Sagemaker', value: 'sagemaker'},
-    {label: 'Kubernetes', value: 'kubernetes'},
+    {label: 'Minikube', value: 'kubernetes'},
   ]}>
   <TabItem value="sagemaker">
+  
+We use Amazon SageMaker's `CreateTrainingJob` request schema to define a queue configuration:
 
 ```json title='Queue configuration in W&B App UI'
 {
@@ -68,29 +81,28 @@ The following tabs show example configurations for SageMaker and Kubernetes:
 
   </TabItem>
   <TabItem value="kubernetes">
+We use a Kubernetes Job spec schema to define a queue configuration:
 
 ```yaml title='Queue configuration in W&B App UI'
+kind: Job
 spec:
-  backoffLimit: 0
-  ttlSecondsAfterFinished: 60
   template:
     spec:
+      containers:
+        - name: launch-job-minikube
+          image: canon:latest
+          imagePullPolicy: IfNotPresent
       restartPolicy: Never
+metadata:
+  name: launch-job-minikube
+apiVersion: batch/v1
 ```
 
   </TabItem>
 </Tabs>
 
-<!-- Uncomment this when you fix the other pages. -->
 
-<!-- 
-The rough nature of each queue is:
 
-| Queue type | Configuration | Additional docs |
-|------------|---------------|-----------------|
-| Docker     | Named arguments to `docker run`. | [Link](./docker.md#docker-queues) |
-| SageMaker  | Partial contents of [SageMaker API's `CreateTrainingJob` request.](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html) | [Link](./sagemaker.md#queue-configuration)
-| Kubernetes | Kubernetes job spec or custom object. | [Link](./kubernetes.md#queue-configuration) -->
 
 ### Optional - Dynamically configure queue
 Queue configs can be dynamically configured using macros that are evaluated when the agent launches a job from the queue.  You can set the following macros:
@@ -112,26 +124,21 @@ Any custom macro, such as `${MY_ENV_VAR}`, is substituted with an environment va
 
 ## Configure a launch agent
 
-
-
-
 <!-- Start -->
-W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will pop launch jobs from the queue (FIFO) and execute them based on the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/`. 
+W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will pop launch jobs from the queue (FIFO) and execute them based on the queue configuration and the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/`. 
 
 When the launch agent pops a launch job from the queue, it will build a container image for that launch job. By default, W&B will build the image with Docker. See the [Container builder section](#container-builder-options) for alternative Docker image builders.
 
-The environment that a launch agent is running in, and polling for launch jobs, is called the *agent environment*. Example agent environments include: locally on your machine and Kubernetes clusters. See the [Launch agent environments](#launch-agent-environments) section for more information.
+The environment that a launch agent is running in, and polling for launch jobs, is called the *agent environment*. Example agent environments include: locally on your machine or Kubernetes clusters. See the [Launch agent environments](#launch-agent-environments) section for more information.
 
-Depending on your target resource, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
+Depending on the target resource of the queue, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
 
 For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the Kubernetes API.
 
 <!-- End -->
 
 
-
-
-The contents of your agent configuration file (`launch-config.yaml`) will depend on the compute resource that is targeted by the launch queue. However, you must specify your W&B entity, the maximum number of jobs, and the name of the queue to use for the `entity`, `max_jobs`, and `queues` keys, respectively.
+The contents of your agent configuration file (`~/.config/wandb/launch-config.yaml`) depend on the launch queue's target resource. However, at a minimum, you must specify your W&B entity, the maximum number of jobs, and the name of the queue to use for the `entity`, `max_jobs`, and `queues` keys, respectively.
 
 The following YAML snippet lists the required keys you must specify for your agent configuration:
 

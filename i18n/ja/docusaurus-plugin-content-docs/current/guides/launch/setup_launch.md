@@ -36,7 +36,8 @@ Jobs place on a queue will use the default configuration specified when you crea
 :::
 
 ## Configure a queue
-The schema of your launch queue configuration depends on the compute resource you will use for your jobs. You can provide your configuration in JSON or YAML format. 
+The schema of your launch queue configuration depends on the target compute resource you want the job to be executed. For example, the queue configuration required for an Amazon SageMaker queue target resource will differ from that of a Kubernetes cluster queue target resource.
+
 
 
 The following tabs show example configurations for SageMaker and Kubernetes:
@@ -113,8 +114,6 @@ Any custom macro, such as `${MY_ENV_VAR}`, is substituted with an environment va
 ## Configure a launch agent
 
 
-
-
 <!-- Start -->
 W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will pop launch jobs from the queue (FIFO) and execute them based on the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/`. 
 
@@ -122,7 +121,7 @@ When the launch agent pops a launch job from the queue, it will build a containe
 
 The environment that a launch agent is running in, and polling for launch jobs, is called the *agent environment*. Example agent environments include: locally on your machine and Kubernetes clusters. See the [Launch agent environments](#launch-agent-environments) section for more information.
 
-Depending on your target resource, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
+Depending on the target resource of the queue, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
 
 For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the Kubernetes API.
 

@@ -3,7 +3,7 @@ displayed_sidebar: default
 ---
 
 # Set up Docker
-TEXT.
+The following sections outline the steps required to set up and run jobs in Docker with W&B Launch.
 
 ## Configure a queue for Docker
 

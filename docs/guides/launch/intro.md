@@ -13,9 +13,9 @@ Easily scale training [runs](../runs/intro.md) from your desktop to your GPUs, q
 
 ## How it works
 
-Launch is composed of three fundamental components: **jobs, queues, and agents**.
+Launch is composed of three fundamental components: **job templates**, **queues**, and **agents**.
 
-A [*job*](./create-job.md) is a blueprint for configuring and running tasks in your ML workflow.  Once you have a job, you can add it to a [*launch queue*](./create-queue.md). A launch queue is a first-in, first-out (FIFO) queues where you can configure and submit your jobs to a particular compute resource. 
+A [*job template*](./create-job.md) is a blueprint for configuring and running tasks in your ML workflow.  Once you have a job template, you can add it to a [*launch queue*](./create-queue.md). A launch queue is a first-in, first-out (FIFO) queue where you can configure and submit your jobs to a particular target resource, such as Amazon SageMaker or a Kubernetes cluster. 
 
 <!-- ![](/images/launch/mlOps_flow.png) -->
 
@@ -26,6 +26,8 @@ As jobs are added to the queue, a [*launch agent*](./run-agent.md) will poll tha
 <!-- ![](/images/launch/Launch_Diagram.png) -->
 
 [INSERT NEW IMAGE]
+
+See the [Terms and concepts](./launch_terminology.md) page for more information on job templates, how queues work, launch agents, and additional information on how W&B Launch works.
 
 ## How to get started
 

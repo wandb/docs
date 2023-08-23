@@ -6,7 +6,7 @@ import TabItem from '@theme/TabItem';
 
 # Set up Kubernetes
 
-TEXT.
+The following sections outline the steps required to set up and run jobs on Kubernetes with W&B Launch
 
 ## Prerequisites
 Before you get started, ensure you have the:
