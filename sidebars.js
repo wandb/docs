@@ -20,6 +20,7 @@ const sidebars = {
       type: 'category',
       label: 'Experiments',
       link: { type: 'doc', id: 'guides/track/intro' },
+      collapsed: false,
       items: [
         // 'guides/track/intro',
         'guides/track/launch',
@@ -66,6 +67,7 @@ const sidebars = {
       type: 'category',
       label: 'Reports',
       link: { type: 'doc', id: 'guides/reports/intro' },
+      collapsed: false,
       items: [
         // 'guides/reports/intro',
         'guides/reports/create-a-report',
@@ -82,6 +84,7 @@ const sidebars = {
       type: 'category',
       label: 'Artifacts',
       link: { type: 'doc', id: 'guides/artifacts/intro' },
+      collapsed: false,
       items: [
         // 'guides/artifacts/intro',
         'guides/artifacts/artifacts-walkthrough',
@@ -103,6 +106,7 @@ const sidebars = {
       type: 'category',
       label: 'Tables',
       link: { type: 'doc', id: 'guides/tables/intro' },
+      collapsed: false,
       items: [
         'guides/tables/tables-walkthrough',
         'guides/tables/visualize-tables',
@@ -113,6 +117,7 @@ const sidebars = {
       type: 'category',
       label: 'Sweeps',
       link: { type: 'doc', id: 'guides/sweeps/intro' },
+      collapsed: false,
       items: [
         // 'guides/sweeps/intro',
         'guides/sweeps/walkthrough',
@@ -135,6 +140,7 @@ const sidebars = {
       type: 'category',
       label: 'Model Registry',
       link: { type: 'doc', id: 'guides/models/intro' },
+      collapsed: false,
       items: [
         // 'guides/models/intro',
         // 'guides/models/quickstart',
@@ -153,6 +159,7 @@ const sidebars = {
         type: 'doc',
         id: 'guides/launch/intro',
       },
+      collapsed: false,
       items: [
         'guides/launch/walkthrough',
         'guides/launch/create-job',
@@ -169,6 +176,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Prompts',
+      collapsed: false,
       link: {
         type: 'doc',
         id: 'guides/prompts/intro',
@@ -180,6 +188,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Weave',
+      collapsed: false,
       link: { type: 'doc', id: 'guides/weave/intro' },
       items: [
         'guides/weave/boards',
@@ -190,6 +199,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'App Reference',
+      collapsed: false,
       link: { type: 'doc', id: 'guides/app/intro' },
       items: [
         // 'guides/app/intro',
@@ -289,6 +299,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Server',
+      collapsed: false,
       link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
         {
@@ -330,6 +341,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Integrations',
+      collapsed: false,
       link: { type: 'doc', id: 'guides/integrations/intro' },
       items: [
         // 'guides/integrations/intro',
@@ -388,6 +400,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Technical FAQ',
+      collapsed: false,
       link: { type: 'doc', id: 'guides/technical-faq/intro' },
       items: [
         // 'guides/hosting/technical-faq/intro',
