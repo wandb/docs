@@ -6,7 +6,9 @@ import TabItem from '@theme/TabItem';
 
 # Set up SageMaker
 
-The following sections outline the steps required to set up and run jobs on SageMaker with Launch.
+The following sections outline how to configure a launch queue and agent to execute jobs on Amazon SageMaker. 
+
+
 ## Prerequisites
 Create and make note of the following AWS resources:
 

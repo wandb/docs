@@ -3,7 +3,7 @@ displayed_sidebar: default
 ---
 
 # Set up Docker
-The following sections outline the steps required to set up and run jobs in Docker with W&B Launch.
+The following sections outline how to configure a launch queue and agent to execute jobs in Docker. 
 
 ## Configure a queue for Docker
 

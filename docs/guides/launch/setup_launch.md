@@ -49,7 +49,6 @@ The table below describes the configuration schema for each queue target resourc
 | Kubernetes | Kubernetes Job spec or custom object. | [Kubernetes Job documentation](https://kubernetes.io/docs/concepts/workloads/controllers/job/)
 
 
-
 The following tabs show example queue configurations for SageMaker and Minikube target resources:
 
 <Tabs
@@ -139,6 +138,10 @@ For example, if the job was in a Docker queue, the agent will execute the run lo
 
 
 The contents of your agent configuration file (`~/.config/wandb/launch-config.yaml`) depend on the launch queue's target resource. However, at a minimum, you must specify your W&B entity, the maximum number of jobs, and the name of the queue to use for the `entity`, `max_jobs`, and `queues` keys, respectively.
+
+:::note
+The launch agent environment is independent of a queue's launch target resource.
+:::
 
 The following YAML snippet lists the required keys you must specify for your agent configuration:
 
@@ -270,8 +273,10 @@ max_jobs: -1
 queues:
   - default
 
+// highlight-start
 builder:
   type: noop
+// highlight-end
 ```
 
 :::tip

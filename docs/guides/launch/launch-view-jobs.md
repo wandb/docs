@@ -4,6 +4,8 @@ displayed_sidebar: default
 
 # View launch jobs
 
+The following page describes how to view information, such as the status of a job, of launch jobs that were added to a queue.
+
 View jobs added to a queue with the W&B App.
 
 1. Navigate to the W&B App at https://wandb.ai/home.

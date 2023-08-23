@@ -6,7 +6,11 @@ import TabItem from '@theme/TabItem';
 
 # Enqueue jobs
 
-TEXT.
+The following page describes how to add launch jobs to a launch queue.
+
+:::info
+Ensure that you, or someone on your team, has already configured a launch queue. For more information, see the [LINK].
+:::
 
 
 ## Launch job names

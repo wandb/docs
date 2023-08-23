@@ -27,6 +27,7 @@ Text
 The compute environment that a queue is configured to execute jobs on is called the *target resource*.
 
 For example, if a launch job is popped off a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the Kubernetes API.
+
 #### Queue
 Launch *queues* are first in, first out (FIFO) queues that pop off launch jobs. The launch queue uses the target resource you define in a launch queue configuration to execute the jobs on that queue. 
 
@@ -44,3 +45,5 @@ These container builds and executions happen asynchronously.
 
 #### Agent environment
 The environment that a launch agent is running in, and polling for launch jobs, is called the *agent environment*. Example agent environments include: locally on your machine or Kubernetes clusters. See the Launch agent environments[LINK] section for more information.
+
+The launch agent environment is independent of a queue's launch target resource.

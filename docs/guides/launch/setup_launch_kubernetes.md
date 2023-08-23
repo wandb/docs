@@ -6,7 +6,7 @@ import TabItem from '@theme/TabItem';
 
 # Set up Kubernetes
 
-The following sections outline the steps required to set up and run jobs on Kubernetes with W&B Launch
+The following sections outline how to configure a launch queue and agent to execute jobs on a Kubernetes cluster such as Amazon Elastic Kubernetes Service (Amazon EKS) or Google Kubernetes Engine (GKE). 
 
 ## Prerequisites
 Before you get started, ensure you have the:
