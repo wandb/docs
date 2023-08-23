@@ -60,7 +60,7 @@ wandb.init(settings=settings)
 
 
 :::note
-For docker image jobs, the image tag is automatically added as an alias to the job.
+For docker image jobs, the version alias is automatically added as an alias to the job.
 :::
 
 ## Add jobs to your queue
