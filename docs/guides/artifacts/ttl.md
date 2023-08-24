@@ -40,12 +40,12 @@ The following code snippet demonstrates how to create an artifact and set a TTL 
 import wandb
 from datetime import timedelta
 
-run = wandb.init(project="<my-project-name>", entity='<your-entity>')
-artifact_version = wandb.Artifact(name="<artifact-name>", type="<type>")
-artifact_version.add_file("my_file")
+run = wandb.init(project="<my-project-name>", entity="<my-entity>")
+artifact = wandb.Artifact(name="<artifact-name>", type="<type>")
+artifact.add_file("<my_file>")
 
-artifact_version.ttl = timedelta(days=30) # Set TTL policy
-run.log_artifact(artifact_version)
+artifact.ttl = timedelta(days=30)  # Set TTL policy
+run.log_artifact(artifact)
 ```
 
 The code snippet above sets the TTL policy for the artifact version to 30 days. In other words, the artifact version is deleted by W&B in 30 days.
