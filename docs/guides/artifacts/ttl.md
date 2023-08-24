@@ -145,4 +145,3 @@ Within the collection view you can see all of the artifacts in the selected coll
 
   </TabItem>
 </Tabs>
-
