@@ -24,7 +24,7 @@ For all the code snippets below, replace the content wrapped in `<>` with your i
 Use the W&B Python SDK to define a TTL policy when you create an artifact. TTL policies are typically defined in days.    
 
 :::tip
-Defining a TTL policy when you create an artifact version is similar to how you normally [create an artifact](./construct-an-artifact.md). With the exception that you pass in a time delta to the artifact's `ttl` attribute.
+Defining a TTL policy when you create an artifact is similar to how you normally [create an artifact](./construct-an-artifact.md). With the exception that you pass in a time delta to the artifact's `ttl` attribute.
 :::
 
 The steps are as follows: 
