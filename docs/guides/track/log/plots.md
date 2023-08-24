@@ -235,10 +235,12 @@ fields = {"x": "step",
 
 # Use the table to populate the new custom chart preset
 # To use your own saved chart preset, change the vega_spec_name
+# To edit the title, change the string_fields
 my_custom_chart = wandb.plot_table(
     vega_spec_name="carey/new_chart",
     data_table=table,
-    fields=fields)
+    fields=fields, 
+    string_fields={"title": "Height Histogram"})
 ```
 
 [Run the code →](https://tiny.cc/custom-charts)
