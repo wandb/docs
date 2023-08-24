@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 # Manage data retention with Artifact TTL policy
 
-Schedule when artifact version are deleted from W&B with W&B Artifact time-to-live (TTL) policy.
+Schedule when artifacts are deleted from W&B with W&B Artifact time-to-live (TTL) policy.
 
 :::note
 W&B deactivates the option to set a TTL policy for model artifacts linked to the Model Registry. This is to help ensure that models are not deleted by mistake.
