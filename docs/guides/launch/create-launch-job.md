@@ -1,7 +1,8 @@
 ---
 displayed_sidebar: default
 ---
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Create a launch job
 
@@ -12,9 +13,9 @@ Once you have one or more jobs, you can add them to a pre-configured launch queu
 
 There are three ways to create a launch job:
 
-* Track your code with an artifact.
-* Associate your run with a git commit.
-* Associate your run with a Docker image.
+* With a Python script
+* With a Docker image
+* With Git
 
 The following tabs show how to create a job based on each use case. 
 
@@ -23,13 +24,13 @@ The following tabs show how to create a job based on each use case.
 ## Before you get started
 Before you create a job, make sure:
 
-1. Make your code job-friendly. [LINK]
-2. A launch queue exists for you to add jobs to. [LINK]
-3. A launch agent is polling the queue you want to add jobs to. [LINK]
+<!-- 1. Make your code job-friendly. [LINK] -->
+1. A launch queue exists for you to add jobs to. [LINK]
+2. A launch agent is polling the queue you want to add jobs to. [LINK]
 
 
 
-### Make your code job-friendly
+<!-- ### Make your code job-friendly
 Store your hyperparameters as a dictionary within the `wandb.config` object. Launch jobs are parameterized by the values in your `wandb.config`. This means that When your job is executed (and `wandb.init` is called), your `wandb.config` is populated with the values specified for that run.
 
 In other words, you can change the hyperparameters for future runs created by jobs if you pass your hyperparameters to `wandb.config`.
@@ -49,11 +50,9 @@ run = wandb.init(
     })
 ```
 
-
 If you read and store your parameters using a different method, you can still use W&B Launch to run your job, you will need to update your code to use the `wandb.config`.
 
 For example, if you use `argparse` to parse your command line arguments, you can easily adapt your script to use the `wandb.config` to store the values of your arguments. For example:
-
 
 ```python
 import argparse
@@ -70,7 +69,7 @@ wandb.init(config=args)
 
 # Use the values in wandb.config instead of args.
 args = wandb.config
-```
+``` -->
 
 
 
@@ -79,15 +78,34 @@ args = wandb.config
 TEXT. 
 
 
-## Create a launch job
+<!-- ## Create a launch job -->
 
-:::info
+<!-- :::info
 W&B will check and create jobs based on what requirements you satisfy (if you log a code artifact, associate a run with a git commit, or associate a run with a Docker image).
 
 You can explicitly tell W&B how to create a launch job with wandb.Settings Class. Set the `job_source` parameter to either: `artifact`, `git`, or `image`.
-:::
+::: -->
 
-### Track your code with an artifact.
+
+
+## Create a job with a Python script
+
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'CLI', value: 'cli'},
+    {label: 'Python SDK', value: 'sdk'},
+  ]}>
+  <TabItem value="cli">
+
+```bash
+wandb job create --project "project-name" -e <wandb-entity> \ 
+--name "name-for-job" code ./<path-to-python-script>
+```
+
+  </TabItem>
+  <TabItem value="sdk">
+
 Log your code as an artifact to create a launch job. To do so, log your code to your run as an artifact by calling `run.log_code()`[LINK]. 
 
 The following sample Python code shows how to integrate the `run.log_code()` command (see highlighted portion) into a Python script.
@@ -127,8 +145,45 @@ run_training_run(epochs=10, lr=0.01)
 
 For more information on the `run.log_code()` command, see the API Reference guide. [LINK]
 
-### Associate your run with a git commit
-TEXT.
+  </TabItem>
+</Tabs>
 
-### Associate your run with a Docker image
-TEXT.
+
+
+
+## Create a job with a Docker image
+Create an image-based job with Docker. 
+
+
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'CLI', value: 'cli'},
+    {label: 'Autogenerate from Docker image', value: 'orange'},
+  ]}>
+  <TabItem value="cli">Text.</TabItem>
+  <TabItem value="orange">Text.</TabItem>
+</Tabs>
+
+
+
+## Create a job with Git
+Text.
+
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'CLI', value: 'cli'},
+    {label: 'Autogenerate from git commit', value: 'git'},
+  ]}>
+  <TabItem value="cli">
+
+```bash
+wandb job create --project "project-name" --entity "your-entity" \ 
+--name "name-for-job" git https://github.com/repo-name \ 
+--entry-point 'path-to-script/code.py'
+```
+
+  </TabItem>
+  <TabItem value="git">Text.</TabItem>
+</Tabs>
