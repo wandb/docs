@@ -11,8 +11,10 @@ On the project page, we show runs in a sidebar. Expand the sidebar to view a tab
 
 We support full [regex](https://dev.mysql.com/doc/refman/8.0/en/regexp.html) search on run names in the table. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
 
-## Find min/max of a run metric
-Sort by the minimum or maximum of a run metric. 
+## Sort runs by a specific metric
+Sort the runs table by the minimum or maximum value of a logged metric. This is particularly useful if you want to view the best (or worst) recorded value.
+
+The following steps describe how to sort the run table by a specific metric based on the minimum or maximum recorded value:
 
 1. Hover your mouse over the column with the metric you want to sort with.
 2. Select the kebob menu (three vertical lines).
