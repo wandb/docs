@@ -28,17 +28,32 @@ Follow the bring your own image (BYOI) method if you uses packages that are not 
 In which case, we appreciate feedback about the specific problem so we can fix it in future releases.
 :::
 
-The following sections outline the steps to set up and run a job on SageMaker with Launch.
+The following sections outline the steps to set up and run a job on Vertex with Launch.
 
 ## Prerequisites
 
 Create and make note of the following GCP resources:
 
-<!-- TODO: Add links to GCP docs -->
+1. **Setup GCP Vertex in your GCP account.** See the [GCP Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/start) for more information.
+
+## Setup Google Cloud authentication
+
+To authenticate with Google Cloud, you can use the Google Cloud SDK or the Google Cloud Python SDK. Here's how to authenticate with the Python SDK:
+
+1. **Install the Google Cloud Python SDK** by running `pip install google-cloud-storage google-cloud-artifact-registry google-cloud-pubsub google-auth google-auth-oauthlib google-auth-httplib2`.
+2. **Create a service account** with the necessary permissions to access GCP systems like GCS and Artifact Registry. See the [GCP IAM documentation](https://cloud.google.com/iam/docs/creating-managing-service-accounts) for more information.
+3. **Download the JSON key** file for the service account.
+4. **Set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable** to the path of the JSON key file.
+5. **Create a GCP Artifact Registry repository** to store images you want to execute on Vertex. See the [GCP Artifact Registry documentation](https://cloud.google.com/artifact-registry/docs/overview) for more information.
+6. **(If W&B creates your image) Create a GCS bucket** to store build contexts. See the [GCP Storage documentation](https://cloud.google.com/storage/docs/creating-buckets) for more information.
+7. **Create a staging GCS bucket** for Vertex AI to store its metadata. Note that this bucket must be in the same region as your Vertex AI workloads in order to be used as a staging bucket.
+8. **Grant your service account permission** to access the GCS bucket and Artifact Registry repository. See the [GCP IAM documentation](https://cloud.google.com/iam/docs/creating-managing-service-accounts) for more information.
+
+:::tip
 
 ## Create a queue
 
-Create a queue in the W&B App that uses SageMaker as its compute resource:
+Create a queue in the W&B App that uses Vertex as its compute resource:
 
 1. Navigate to the [Launch page](https://wandb.ai/launch).
 2. Click on the **Create Queue** button.
@@ -119,7 +134,7 @@ accelerators. You can change the machine type and accelerator type and count
 to suit your needs. For more information on the available machine types and
 accelerator types, see the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec).
 
-:::warning
+:::caution
 Some of the VertexAI docs show worker pool specifications with all keys in
 camel case, e.g. `workerPoolSpecs`. The Vertex AI Python SDK uses snake case
 for these keys, e.g. `worker_pool_specs`. The launch queue configuration
