@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 # OpenAI Fine-Tuning
 
-With Weights & Biases you can log your OpenAI model's fine-tuning metrics and configuration to Weights & Biases to analyse and understand the performance of your newly fine-tuned models and share the results with your colleagues.
+With Weights & Biases you can log your OpenAI ChatGPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to Weights & Biases to analyse and understand the performance of your newly fine-tuned models and share the results with your colleagues.
 
 ## Sync your OpenAI Fine-Tuning Results in 1 Line
 
