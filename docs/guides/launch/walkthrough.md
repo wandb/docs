@@ -29,7 +29,7 @@ Before you get started, ensure you have satisfied the following prerequisites:
 
 The following code creates a launch job from a W&B [run](../../ref/python/run.md) using the W&B Python SDK. In this example, we log our code during a W&B run with the `log_code()`[INSERT] (see the highlighted portion of the code example).
 
-1. Copy the following Python code to your machine in a file named `train.py`.
+1. Copy the following Python code to a file named `train.py`. Save the file on your local machine. Replace the `"<your entity>"` string with your W&B entity.
 
     ```python title="train.py"
     import wandb
@@ -38,7 +38,9 @@ The following code creates a launch job from a W&B [run](../../ref/python/run.md
         "epochs": 10
     }
 
-    with wandb.init(config=config, project="launch-quickstart") as run:
+    entity = "<your entity>"
+
+    with wandb.init(entity=entity, config=config, project="launch-quickstart") as run:
         config = wandb.config
         for epoch in range(1, config.epochs):
             loss = config.epochs / epoch
@@ -57,6 +59,8 @@ The following code creates a launch job from a W&B [run](../../ref/python/run.md
     python train.py
     ```
 
+This will create a launch job.  In the above example, the launch job was created in a `launch-quickstart` project.
+
 Next, we will add the newly created launch job to a queue.
 
 :::tip
@@ -64,7 +68,7 @@ There are numerous ways to create launch job. As an example, you can create laun
 :::
 
 ## Add your launch job to a queue
-
+Once you have created a launch job, add that job to a launch queue. The following steps describe how to create a basic launch queue that will use a Docker container as its compute target resource:
 <!-- ![](/images/launch/simple-job.png) -->
 
 1. Navigate to your W&B project. 
@@ -79,14 +83,12 @@ There are numerous ways to create launch job. As an example, you can create laun
 5. Once you have configured your job as desired, click the **Launch now** button at the bottom of the drawer to enqueue your launch job.
 
 
-
 :::tip
-The contents of your launch queue configuration will vary depending on the queue's target resource[LINK]. For more information about launch queues, see the [INSERT].
+The contents of your launch queue configuration will vary depending on the queue's target resource. For more information about launch queues, see the [INSERT].
 :::
 
-
 ## Start a launch agent
-To execute the launch job you created in previous steps, you will need a launch agent that polls your launch queue. Follow these steps to create and start a launch agent:
+To execute a launch job, you will need a launch agent to poll the launch queue the job was added to. Follow these steps to create and start a launch agent:
 
 1. From [wandb.ai/launch](https://wandb.ai/launch) navigate to the page for your launch queue.
 2. Click the **Add agent** button.
@@ -100,7 +102,7 @@ In general, the command to start a launch agent is:
 wandb launch-agent -e <entity-name> -q <queue-name>
 ```
 
-Within your terminal, you will see the agent begin to poll for queues. 
+Within your terminal, you will see the agent begin to poll for queues. Wait a few seconds to a minute and you will see your agent execute the launch job you added to it.
 
 :::tip
 Launch agents can poll for queues in non-local environments such as a Kubernetes cluster. For more information, see [LINK].
