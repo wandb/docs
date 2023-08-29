@@ -36,7 +36,7 @@ Jobs place on a queue will use the default configuration specified when you crea
 :::
 
 ## Configure a queue
-Launch queues are first in, first out (FIFO) queues that pop off launch jobs. The launch queue uses the target resource you define in a launch queue configuration to execute the jobs on that queue. The schema of your launch queue configuration depends on the target compute resource jobs are executed on. 
+Launch queues are first in, first out (FIFO) queues. The launch queue uses the target resource you define in a launch queue configuration to execute the jobs on that queue. The schema of your launch queue configuration depends on the target compute resource jobs are executed on. 
 
 For example, the queue configuration for an Amazon SageMaker queue target resource will differ from that of a Kubernetes cluster queue target resource.
 
@@ -124,15 +124,15 @@ Any custom macro, such as `${MY_ENV_VAR}`, is substituted with an environment va
 ## Configure a launch agent
 
 <!-- Start -->
-W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will pop launch jobs from the queue (FIFO) and execute them based on the queue configuration and the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/`. 
+W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will pop launch jobs from the queue (FIFO) and execute them based on the queue configuration and the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/launch-config.yaml`. 
 
-When the launch agent pops a launch job from the queue, it will build a container image for that launch job. By default, W&B will build the image with Docker. See the [Container builder section](#container-builder-options) for alternative Docker image builders.
+When the launch agent removes a launch job from the queue, it will build a container image for that launch job. By default, W&B will build the image with Docker. See the [Container builder section](#container-builder-options) for alternative Docker image builders.
 
 The environment that a launch agent is running in, and polling for launch jobs, is called the *agent environment*. Example agent environments include: locally on your machine or Kubernetes clusters. See the [Launch agent environments](#launch-agent-environments) section for more information.
 
-Depending on the target resource of the queue, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
+Depending on the compute target resource of the queue, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
 
-For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the Kubernetes API.
+<!-- For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the Kubernetes API. -->
 
 <!-- End -->
 

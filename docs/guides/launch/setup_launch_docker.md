@@ -7,42 +7,41 @@ The following sections outline how to configure a launch queue and agent to exec
 
 ## Configure a queue for Docker
 
-Create a queue in the W&B App that uses Docker as its compute resource:
+Create a queue in the W&B App that uses Docker as its compute resource. Docker queue configurations are used to populate `docker run` arguments. Therefore, you can specify any arguments available for the [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command in your queue configuration.
 
 1. Navigate to the [Launch page](https://wandb.ai/launch).
 3. Click on the **Create Queue** button.
 4. Select the **Entity** you would like to create the queue in.
 5. Enter a name for your queue in the **Name** field.
 6. Select **Docker** as the **Resource**. 
-7. Define your Docker queue configuration in the **Configuration** field. Resource arguments populate docker run arguments. Therefore, you can pass in any arguments available for the [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command. 
-
-
-Place the values in a list within the **Configuration** field to handle options that can be specified more than once:
-
-```json
-{
-    "env": [
-        "MY_ENV_VAR=value",
-        "MY_EXISTING_ENV_VAR"
-    ],
-    "volume": [
-         "/mnt/datasets:/mnt/datasets"
-    ]
-}
-```
-
-
-
-
-
-8. After you configure your queue, click on the **Create Queue** button.
+7. Define your Docker queue configuration in the **Configuration** field.  
+    Place the values in a list within the **Configuration** field to handle options that can be specified more than once:
+    For example, the following queue configuration specifies a set of environment variables(`"env"` key) and to bind mount a volume (`"volume"` key):
+    ```json title="Queue configuration"
+    {
+        "env": [
+            "MY_ENV_VAR=value",
+            "MY_EXISTING_ENV_VAR"
+        ],
+        "volume": [
+            "/mnt/datasets:/mnt/datasets"
+        ]
+    }
+    ```
+7. After you configure your queue, click on the **Create Queue** button.
 
 ![](/images/launch/create-queue.gif)
 
 
 ## Configure a launch agent for Docker
-TEXT.
+Create and configure a YAML configuration file for the launch agent. The config should contain, at a minimum your W&B entity and a list of all queues to poll:
 
+```yaml title="~/.config/wandb/launch-config.yaml"
+entity: <your-entity>
+queues: [ <your-queue> ]
+```
+
+Text.
 
 ## Start your agent
 1. Go to the Launch page at [https://wandb.ai/launch](https://wandb.ai/launch). 
