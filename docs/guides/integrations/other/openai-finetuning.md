@@ -11,11 +11,35 @@ import TabItem from '@theme/TabItem';
 
 Log your OpenAI model's fine-tuning metrics and configuration to Weights & Biases to analyse and understand the performance of your newly fine-tuned models and share the results with your colleagues.
 
+## Sync your OpenAI Fine-Tuning Results in 1 Line
+
 If you use OpenAI's API to [fine-tune OpenAI models](https://platform.openai.com/docs/guides/fine-tuning/), you can now use the W&B integration to track experiments, models, and datasets in your central dashboard.
 
-![](/images/integrations/open_ai_api.png)
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'Command Line', value: 'cli'},
+    {label: 'Python', value: 'python_sdk'},
+  ]}>
+  <TabItem value="cli">
 
-All it takes is one line: `openai wandb sync`
+```shell-session
+openai wandb sync
+```
+
+  </TabItem>
+  <TabItem value="python_sdk">
+
+```python
+from openai.wandb_logger import WandbLogger
+
+WandbLogger.sync(project="OpenAI-Fine-Tune")
+```
+  </TabItem>
+</Tabs>
+
+<!-- ![](/images/integrations/open_ai_api.png) -->
+![](/images/integrations/open_ai_auto_scan.png)
 
 ### :sparkles: Check out interactive examples
 
@@ -69,9 +93,7 @@ WandbLogger.sync(
   </TabItem>
 </Tabs>
 
-We scan for new completed fine-tunes and automatically add them to your dashboard.
-
-![](/images/integrations/open_ai_auto_scan.png)
+When you sync your results, wandb checks OpenAI for newly completed fine-tunes and automatically adds them to your dashboard.
 
 In addition your training and validation files are logged and versioned, as well as details of your fine-tune results. This let you interactively explore your training and validation data.
 
@@ -86,6 +108,7 @@ In addition your training and validation files are logged and versioned, as well
 | --project PROJECT        | Name of the project where you're sending runs. By default, it is "GPT-3".                                                 |
 | --entity ENTITY          | Username or team name where you're sending runs. By default, your default entity is used, which is usually your username. |
 | --force                  | Forces logging and overwrite existing wandb run of the same fine-tune.                                                    |
+| --legacy                  | Log results from the legacy OpenAI GPT-3 fine-tune api.                                                    |
 | \*\*kwargs\_wandb\_init  | In python, any additional argument is directly passed to [`wandb.init()`](../../../ref/python/init.md)                    |
 
 ### 🔍 Inspect sample predictions
@@ -123,7 +146,7 @@ Perform some inferences using OpenAI API:
 my_prompts = ["PROMPT_1", "PROMPT_2"]
 results = []
 for prompt in my_prompts:
-    res = openai.Completion.create(model=fine_tuned_model,
+    res = openai.ChatCompletion.create(model=fine_tuned_model,
                                    prompt=prompt,
                                    ...)
     results.append(res["choices"][0]["text"])
@@ -188,6 +211,6 @@ This will allow complete traceability of your models.
 
 ## :books: Resources
 
-* [OpenAI Fine-tuning Documentation](https://beta.openai.com/docs/guides/fine-tuning) is very thorough and contains many useful tips
+* [OpenAI Fine-tuning Documentation](https://platform.openai.com/docs/guides/fine-tuning/) is very thorough and contains many useful tips
 * [Demo Colab](http://wandb.me/openai-colab)
 * [Report - OpenAI Fine-Tuning Exploration & Tips](http://wandb.me/openai-report)
