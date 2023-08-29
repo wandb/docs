@@ -68,7 +68,7 @@ Select the **Publish** button in the top right of your view to share your Weave 
 
 If this is your first time using Weave, we suggest that you explore the following topics:
 
-* [Try Weave in a Jupyter notebook](https://github.com/wandb/weave/blob/master/examples/experimental/skip_test/weave_demo_quickstart.ipynb).
+* [Try Weave in a Jupyter notebook](https://colab.research.google.com/github/wandb/weave/blob/master/examples/get_started.ipynb).
 * Explore the following topics:
    * [Stream data of any shape and type to W&B for analysis with Weave.](./streamtable.md)
    * [Create, share, and edit Weave Boards for analysis](./boards.md)
