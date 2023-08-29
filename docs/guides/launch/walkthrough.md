@@ -27,43 +27,41 @@ Before you get started, ensure you have satisfied the following prerequisites:
 
 ## Create a launch job
 
-The following code creates a launch job from a W&B [run](../../ref/python/run.md). Copy the following Python code to your machine in a file named `train.py`.
+The following code creates a launch job from a W&B [run](../../ref/python/run.md) using the W&B Python SDK. In this example, we log our code during a W&B run with the `log_code()`[INSERT] (see the highlighted portion of the code example).
 
-```python title="train.py"
-import wandb
+1. Copy the following Python code to your machine in a file named `train.py`.
 
-config = {
-    "epochs": 10
-}
+    ```python title="train.py"
+    import wandb
 
-with wandb.init(config=config, project="launch-quickstart") as run:
-    config = wandb.config
-    for epoch in range(1, config.epochs):
-        loss = config.epochs / epoch
-        accuracy = (1 + (epoch / config.epochs))/2
-        wandb.log({
-            "loss": loss, 
-            "accuracy": accuracy, 
-            "epoch": epoch})
-    
-    # highlight-next-line
-    wandb.run.log_code()  
+    config = {
+        "epochs": 10
+    }
 
-```
+    with wandb.init(config=config, project="launch-quickstart") as run:
+        config = wandb.config
+        for epoch in range(1, config.epochs):
+            loss = config.epochs / epoch
+            accuracy = (1 + (epoch / config.epochs))/2
+            wandb.log({
+                "loss": loss, 
+                "accuracy": accuracy, 
+                "epoch": epoch})
+        
+        # highlight-next-line
+        wandb.run.log_code()  
+    ```
 
-In this example, we log our code during a W&B run with the `log_code()`[INSERT] (see the highlighted portion of the code example).
+2. Execute the Python script and let the script run until it completes:
+    ```bash
+    python train.py
+    ```
+
+Next, we will add the newly created launch job to a queue.
 
 :::tip
-There are different ways to create launch job. For more information, see the Create and deploy jobs section.[LINK]
+There are numerous ways to create launch job. As an example, you can create launch jobs from Docker images with the W&B CLI. To find out all the ways you can create a launch job, see the Create and deploy jobs section.[LINK]
 :::
-
-Execute the Python script and let the script run until it completes:
-
-
-```bash
-python train.py
-```
-
 
 ## Add your launch job to a queue
 
@@ -91,7 +89,7 @@ The contents of your launch queue configuration will vary depending on the queue
 To execute the launch job you created in previous steps, you will need a launch agent that polls your launch queue. Follow these steps to create and start a launch agent:
 
 1. From [wandb.ai/launch](https://wandb.ai/launch) navigate to the page for your launch queue.
-2. Click the 
+2. Click the **Add agent** button.
 3. A modal will appear with a W&B CLI command. Copy this and paste this command into your terminal.
 
 ![](/images/launch/activate_starter_queue_agent.png)

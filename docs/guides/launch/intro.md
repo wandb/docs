@@ -19,7 +19,7 @@ A *launch job*[LINK] is a blueprint for configuring and running tasks in your ML
 
 <!-- ![](/images/launch/mlOps_flow.png) -->
 
-As jobs are added to the queue, a [*launch agent*](./run-agent.md) will poll that queue and execute the job on the system targeted by the queue this job was taken from.
+As jobs are added to the queue, one or more [*launch agents*](./run-agent.md) will poll that queue and execute the job on the system targeted by the queue this job was taken from.
 
 ![](/images/launch/ml_user_flow.png)
 
