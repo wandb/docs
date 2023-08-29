@@ -5,9 +5,9 @@ displayed_sidebar: default
 
 # Walkthrough
 
-This guide will walk you through how to setup of the fundamental components W&B launch:  **job templates**, **launch queue**, and **launch agents**. By the end of this walkthrough you will:
+This guide will walk you through how to setup of the fundamental components W&B launch:  **launch jobs**, **launch queue**, and **launch agents**. By the end of this walkthrough you will:
 
-1. Create a job template that trains a neural network.
+1. Create a launch job that trains a neural network.
 2. Create a launch queue that is used to submit jobs for execution on your local machine.
 3. Create a launch agent that polls the queue and executes launch with Docker.
 
@@ -25,9 +25,9 @@ Before you get started, ensure you have satisfied the following prerequisites:
 2. Sign up for a free account at https://wandb.ai/site and then login to your wandb account. 
 3. Install Docker. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker, and make sure the docker daemon is running on your machine.
 
-## Create a job template
+## Create a launch job
 
-The following code creates a job template from a W&B [run](../../ref/python/run.md). Copy the following Python code to your machine in a file named `train.py`.
+The following code creates a launch job from a W&B [run](../../ref/python/run.md). Copy the following Python code to your machine in a file named `train.py`.
 
 ```python title="train.py"
 import wandb
@@ -54,7 +54,7 @@ with wandb.init(config=config, project="launch-quickstart") as run:
 In this example, we log our code during a W&B run with the `log_code()`[INSERT] (see the highlighted portion of the code example).
 
 :::tip
-There are different ways to create job templates. For more information, see the Create and deploy jobs section.[LINK]
+There are different ways to create launch job. For more information, see the Create and deploy jobs section.[LINK]
 :::
 
 Execute the Python script and let the script run until it completes:
@@ -65,22 +65,20 @@ python train.py
 ```
 
 
-## Add your job template to a queue
+## Add your launch job to a queue
 
-Navigate back to the page for your job. It should look something like the image below:
+<!-- ![](/images/launch/simple-job.png) -->
 
-![](/images/launch/simple-job.png)
-
-Click the **Launch** button in the top right to launch a new run from this job. A drawer will slide from the right side of your screen. Select the following:
-
-1. **Job version**: the version of the job to launch.  Since we only have one version, select the default **@latest** version.
-2. **Overrides**: new values for the launch job's inputs. Our run had one value in the `wandb.config`: `epochs`. We can override this value within the overrides field. For this walkthrough, leave the number of epochs as is.
-3. **Queue**: the queue to launch the run on. From the dropdown, select **Create a 'Starter' queue**.
+1. Navigate to your W&B project. 
+2. Select the Jobs tab on the left panel (thunderbolt icon).
+3. Hover your mouse next the name of the job you created and select the **Launch** button.
+4. A drawer will slide from the right side of your screen. Select the following:
+    1. **Job version**: the version of the job to launch.  Since we only have one version, select the default **@latest** version.
+    2. **Overrides**: new values for the launch job's inputs. Our run had one value in the `wandb.config`: `epochs`. We can override this value within the overrides field. For this walkthrough, leave the number of epochs as is.
+    3. **Queue**: the queue to launch the run on. From the dropdown, select **Create a 'Starter' queue**.
 
 ![](/images/launch/starter-launch.gif)
-
-
-Once you have configured your job as desired, click the **Launch now** button at the bottom of the drawer to enqueue your launch job.
+5. Once you have configured your job as desired, click the **Launch now** button at the bottom of the drawer to enqueue your launch job.
 
 
 
@@ -90,10 +88,10 @@ The contents of your launch queue configuration will vary depending on the queue
 
 
 ## Start a launch agent
-To execute the launch job you create, you will need a launch agent that is polling your launch queue.  Follow these steps to create and start a launch agent:
+To execute the launch job you created in previous steps, you will need a launch agent that polls your launch queue. Follow these steps to create and start a launch agent:
 
 1. From [wandb.ai/launch](https://wandb.ai/launch) navigate to the page for your launch queue.
-2. Click the **Add an agent** button.
+2. Click the 
 3. A modal will appear with a W&B CLI command. Copy this and paste this command into your terminal.
 
 ![](/images/launch/activate_starter_queue_agent.png)

@@ -9,12 +9,8 @@ The following are basic terms and concepts that will help you get started with W
 [INSERT bullet points w/ hyperlinks to each term here]
 
 
-#### Job template
-A job is an Artifact that is created automatically when you track a run with W&B. Each job template contains contextual information about the run it is being created from, including the source code, entrypoint, software dependencies, hyperparameters, dataset version, etc.
-
-#### Job
-Text.
-
+#### Launch job
+A job is an Artifact that is created automatically when you track a run with W&B. Each launch job contains contextual information about the run it is being created from, including the source code, entrypoint, software dependencies, hyperparameters, dataset version, etc.
 
 
 #### Job config
