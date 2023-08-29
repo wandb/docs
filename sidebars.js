@@ -176,6 +176,7 @@ const sidebars = {
       },
       items: [
         'guides/prompts/quickstart',
+        'guides/prompts/openai',
       ],
     },
     {
