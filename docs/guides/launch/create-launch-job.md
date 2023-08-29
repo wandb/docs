@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 A job is a blueprint that contains contextual information about a W&B run it is created from; such as the run's source code, software dependencies, hyperparameters, artifact dataset version, and so forth.
 
-Once you have one or more jobs, you can add them to a pre-configured launch queue[LINK]. A launch agent will poll that queue and send the job (as a Docker image) to the compute resource that was configured on launch queue.
+Once you have a launch job, you can add them to a pre-configured launch queue[LINK]. A launch agent will poll that queue and send the job (as a Docker image) to the compute resource that was configured on launch queue.
 
 
 There are three ways to create a launch job:
@@ -22,11 +22,11 @@ The following tabs show how to create a job based on each use case.
 
 
 ## Before you get started
-Before you create a job, make sure:
+Before you create a job, make sure you confirm that:
 
 <!-- 1. Make your code job-friendly. [LINK] -->
-1. A launch queue exists for you to add jobs to. [LINK]
-2. A launch agent is polling the queue you want to add jobs to. [LINK]
+1. A launch queue exists that you have permission to add jobs to it. [LINK]
+2. A launch agent is polling the queue you will add launch jobs to. [LINK]
 
 
 
@@ -71,13 +71,6 @@ wandb.init(config=args)
 args = wandb.config
 ``` -->
 
-
-
-### Check queue exists and agent is polling
-
-TEXT. 
-
-
 <!-- ## Create a launch job -->
 
 <!-- :::info
@@ -85,6 +78,17 @@ W&B will check and create jobs based on what requirements you satisfy (if you lo
 
 You can explicitly tell W&B how to create a launch job with wandb.Settings Class. Set the `job_source` parameter to either: `artifact`, `git`, or `image`.
 ::: -->
+
+
+### Check queue exists and agent is polling
+Find out the name of your queue and the entity it belongs to. Then, follow these instructions to find out the status of your queue and if an agent is polling that queue:
+
+1. Navigate to [wandb.ai/launch](https://wandb.ai/launch).
+2. From the **All entities** dropdown, select the entity the launch queue belongs to. 
+This will filter queues based on W&B entities.
+3. From the filtered results, check that the queue exists.
+4. Hover your mouse to the right of the launch queue and select `View queue`.
+5. Select the **Agents** tab. Within the **Agents** tab you sill see a list of Agent IDs and their statuses. Ensure that one of the agent IDs has a **polling** status.
 
 
 
@@ -98,17 +102,27 @@ You can explicitly tell W&B how to create a launch job with wandb.Settings Class
   ]}>
   <TabItem value="cli">
 
+
+Create a launch job with with the  W&B CLI. Ensure the path with your Python script has a requirements.txt file with the Python libraries required to run your code.
+
+Replace the values within `"<>"` based on your use case:
+
 ```bash
-wandb job create --project "project-name" -e <wandb-entity> \ 
---name "name-for-job" code ./<path-to-python-script>
+wandb job create --project "<project-name>" -e "<your-entity>" \ 
+--name "<name-for-job>" code "<path-to-script/code.py>"
 ```
+
+:::note
+You do not need to use the `run.log_code()` function within your Python script when you create a launch job with the W&B CLI.
+:::
+
 
   </TabItem>
   <TabItem value="sdk">
 
 Log your code as an artifact to create a launch job. To do so, log your code to your run as an artifact by calling `run.log_code()`[LINK]. 
 
-The following sample Python code shows how to integrate the `run.log_code()` command (see highlighted portion) into a Python script.
+The following sample Python code shows how to integrate the `run.log_code()` function (see highlighted portion) into a Python script.
 
 ```python title="create_simple_job.py"
 import random
@@ -152,17 +166,59 @@ For more information on the `run.log_code()` command, see the API Reference guid
 
 
 ## Create a job with a Docker image
-Create an image-based job with Docker. 
+Create a job with a Docker image with the W&B CLI or by creating a Docker container from the image. To create an image-based job, you must first create the Docker image. The Docker image should contain the source code (such as the Dockerfile, requirements.txt file, and so on) required to execute the W&B run. 
+
+As an example, suppose we have a directory called [`fashion_mnist_train`](https://github.com/wandb/launch-jobs/tree/main/jobs/fashion_mnist_train) with the following directory structure:
+
+
+```
+fashion_mnist_train
+│   data_loader.py
+│   Dockerfile
+│   job.py
+│   requirements.txt
+└───configs
+│   │   example.yml
+```
+
+We create a Docker image called `fashion-mnist` with the `docker build` command:
+
+```bash
+docker build . -t fashion-mnist 
+```
+For more information on how to build Docker images, see the [Docker build reference documentation](https://docs.docker.com/engine/reference/commandline/build/). 
 
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'CLI', value: 'cli'},
-    {label: 'Autogenerate from Docker image', value: 'orange'},
+    {label: 'W&B CLI', value: 'cli'},
+    {label: 'Docker build', value: 'build'},
   ]}>
-  <TabItem value="cli">Text.</TabItem>
-  <TabItem value="orange">Text.</TabItem>
+  <TabItem value="cli">
+
+Create a launch job with the W&B CLI. Copy the following code snippet and replace the values within `"<>"` based on your use case:
+
+```bash
+wandb job create --project "<project-name>" --entity "<your-entity>" \ 
+--name "<name-for-job>" image image-name:tag
+```
+
+  </TabItem>
+  <TabItem value="build">
+
+Create a launch job by building a Docker container from the image. Copy the following code snippet and replace the values within `"<>"` based on your use case:
+
+```bash
+docker run -e WANDB_PROJECT="<project-name>" \
+-e WANDB_ENTITY="<your-entity>" \
+-e WANDB_API_KEY="<your-w&B-api-key>" \
+-e WANDB_DOCKER="<docker-image-name>" image:tag
+```
+
+Get your W&B API key from [https://wandb.ai/authorize](https://wandb.ai/authorize).
+ 
+  </TabItem>
 </Tabs>
 
 
@@ -179,9 +235,9 @@ Text.
   <TabItem value="cli">
 
 ```bash
-wandb job create --project "project-name" --entity "your-entity" \ 
---name "name-for-job" git https://github.com/repo-name \ 
---entry-point 'path-to-script/code.py'
+wandb job create --project "<project-name>" --entity "<your-entity>" \ 
+--name "<name-for-job>" git https://github.com/repo-name \ 
+--entry-point "<path-to-script/code.py>"
 ```
 
   </TabItem>
