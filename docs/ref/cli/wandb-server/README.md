@@ -12,7 +12,6 @@ Commands for operating a local W&B server
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --help | Show this message and exit. |
 
 **Commands**
 

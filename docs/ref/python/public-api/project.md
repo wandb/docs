@@ -1,6 +1,6 @@
 # Project
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/apis/public.py#L1617-L1699' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.9/wandb/apis/public.py#L1617-L1699' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 A project is a namespace for runs.
@@ -18,7 +18,7 @@ Project(
 
 ### `artifacts_types`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/apis/public.py#L1650-L1652)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.9/wandb/apis/public.py#L1650-L1652)
 
 ```python
 artifacts_types(
@@ -28,7 +28,7 @@ artifacts_types(
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/apis/public.py#L1131-L1142)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.9/wandb/apis/public.py#L1131-L1142)
 
 ```python
 display(
@@ -40,7 +40,7 @@ Display this object in jupyter.
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/apis/public.py#L1127-L1129)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.9/wandb/apis/public.py#L1127-L1129)
 
 ```python
 snake_to_camel(
@@ -50,7 +50,7 @@ snake_to_camel(
 
 ### `sweeps`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/apis/public.py#L1654-L1699)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.9/wandb/apis/public.py#L1654-L1699)
 
 ```python
 sweeps()
@@ -58,7 +58,7 @@ sweeps()
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.8/wandb/apis/public.py#L1634-L1642)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.9/wandb/apis/public.py#L1634-L1642)
 
 ```python
 to_html(

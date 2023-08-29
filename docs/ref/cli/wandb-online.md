@@ -12,5 +12,4 @@ Enable W&B sync
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --help | Show this message and exit. |
 
