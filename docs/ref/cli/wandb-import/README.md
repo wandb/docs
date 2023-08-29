@@ -12,7 +12,6 @@ Commands for importing data from other systems
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --help | Show this message and exit. |
 
 **Commands**
 

@@ -39,5 +39,4 @@ command, see the wandb docker-run command.
 | --port | The host port to bind jupyter on |
 | --cmd | The command to run in the container |
 | --no-tty | Run the command without a tty |
-| --help | Show this message and exit. |
 

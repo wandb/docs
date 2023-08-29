@@ -28,5 +28,4 @@ Upload an offline training directory to W&B
 | --clean-force | Clean without confirmation prompt. |
 | --show | Number of runs to show |
 | --append | Append run |
-| --help | Show this message and exit. |
 

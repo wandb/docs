@@ -10,7 +10,6 @@
 | **Option** | **Description** |
 | :--- | :--- |
 | --version | Show the version and exit. |
-| --help | Show this message and exit. |
 
 **Commands**
 
