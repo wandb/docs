@@ -133,7 +133,9 @@ Depending on the compute target resource of the queue, you might need to specify
 <!-- End -->
 
 
-The contents of your agent configuration file (`~/.config/wandb/launch-config.yaml`) depend on the launch queue's target resource. However, at a minimum, you must specify your W&B entity, the maximum number of jobs, and the name of the queue to use for the `entity`, `max_jobs`, and `queues` keys, respectively.
+:::tip
+The contents of your agent configuration file (`~/.config/wandb/launch-config.yaml`) depend on the launch queue's target resource. At a minimum, you must specify your W&B entity, the maximum number of jobs, and the name of the queue to use for the `entity`, `max_jobs`, and `queues` keys, respectively.
+:::
 
 :::note
 The launch agent environment is independent of a queue's launch target resource.
@@ -286,11 +288,11 @@ Setting the builder type to `noop` is useful if you want to limit the agent to r
 ### Launch agent environments
 Within your launch agent configuration, you can specify the agent environment. The agent environment is the environment where a launch agent is running, polling for jobs. The following table describes the possible agent environments you can use based on your target resource:
 
-| Target resource |    Launch agent environment     |
-| --------------- | ------------------------------- |
-| SageMaker       |   Local machine, AWS, GCR, ACR  |
-| Docker          |   Local machine, AWS, GCR, ACR  |
-| Kubernetes      |   Kubernetes cluster            |
+| Target resource |    Possible Launch agent environments     |
+| --------------- | ----------------------------------------- |
+| SageMaker       |   Local machine, AWS, GCP, Azure  |
+| Docker          |   Local machine, AWS, GCP, Azure  |
+| Kubernetes      |   Kubernetes cluster              |
 
 
 Based on your use case, see the following tabs for information on how to specify the agent environment in your launch agent configuration file (`~/.config/wandb/launch-config.yaml`).

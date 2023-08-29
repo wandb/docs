@@ -7,7 +7,7 @@ The following sections outline how to configure a launch queue and agent to exec
 
 ## Configure a queue for Docker
 
-Create a queue in the W&B App that uses Docker as its compute resource. Docker queue configurations are used to populate `docker run` arguments. Therefore, you can specify any arguments available for the [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command in your queue configuration.
+Create and configure a queue that uses Docker as its compute resource. Docker queue configurations are used to populate `docker run` arguments. Therefore, you can specify any arguments available for the [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command in your queue configuration.
 
 1. Navigate to the [Launch page](https://wandb.ai/launch).
 3. Click on the **Create Queue** button.
@@ -28,20 +28,33 @@ Create a queue in the W&B App that uses Docker as its compute resource. Docker q
         ]
     }
     ```
-7. After you configure your queue, click on the **Create Queue** button.
+7. After you configure your queue, click on the **Create Queue** button to create the queue.
 
 ![](/images/launch/create-queue.gif)
 
 
 ## Configure a launch agent for Docker
-Create and configure a YAML configuration file for the launch agent. The config should contain, at a minimum your W&B entity and a list of all queues to poll:
+Create and configure a YAML configuration file for the launch agent. At a minimum, you must specify your W&B entity, the maximum number of jobs, and the name of the queue to use for the `entity`, `max_jobs`, and `queues` keys, respectively.
+
+Copy and paste the code block below. Replace the values based on your use case:
+
 
 ```yaml title="~/.config/wandb/launch-config.yaml"
-entity: <your-entity>
-queues: [ <your-queue> ]
+# W&B entity (i.e. user or team) name
+entity: entity-name
+
+# Max number of concurrent runs to perform. -1 = no limit
+max_jobs: -1
+
+# List of queues to poll.
+queues:
+  - default
 ```
 
-Text.
+You can also specify a specific environment to run the agent on, specify a container registry, and specify a specific Docker builder. 
+
+For more information on optional launch agent configuration options, see the Configure a launch agent page. [LINK]
+
 
 ## Start your agent
 1. Go to the Launch page at [https://wandb.ai/launch](https://wandb.ai/launch). 
