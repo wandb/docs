@@ -15,7 +15,7 @@ There are three ways to create a launch job:
 
 * With a Python script
 * With a Docker image
-* With Git
+* With code Git repository
 
 The following tabs show how to create a job based on each use case. 
 
@@ -103,14 +103,18 @@ This will filter queues based on W&B entities.
   <TabItem value="cli">
 
 
-Create a launch job with with the  W&B CLI. Ensure the path with your Python script has a requirements.txt file with the Python libraries required to run your code.
+Create a launch job with with the  W&B CLI. 
 
-Replace the values within `"<>"` based on your use case:
+Ensure the path with your Python script has a `requirements.txt` file with the Python dependencies required to run your code. A Python runtime is also required. The python runtime can either be specified manually with the runtime parameter or can be auto-detected from a `runtime.txt` or `.python-version file`.
+
+Copy and paste the following code snippet. Replace the values within `"<>"` based on your use case:
 
 ```bash
 wandb job create --project "<project-name>" -e "<your-entity>" \ 
 --name "<name-for-job>" code "<path-to-script/code.py>"
 ```
+
+For a full list of flags you can use, see the `wandb job create` command documentation. [LINK]
 
 :::note
 You do not need to use the `run.log_code()` function within your Python script when you create a launch job with the W&B CLI.
@@ -156,6 +160,17 @@ def run_training_run(epochs, lr):
 
 run_training_run(epochs=10, lr=0.01)
 ```
+
+You can specify a name for your job with the `WANDB_JOB_NAME` environment variable. You can also specify a name by setting the `job_name` parameter in `wandb.Settings` and passing it to `wandb.init`. For example:
+
+```python
+settings = wandb.Settings(job_name="my-job-name")
+wandb.init(settings=settings)
+```
+
+ If you do not specify a name, W&B will automatically generate a launch job name for you. It will create a job name with the following format: `job-<code-artifact-name>`. 
+
+
 
 For more information on the `run.log_code()` command, see the API Reference guide. [LINK]
 
@@ -204,6 +219,8 @@ wandb job create --project "<project-name>" --entity "<your-entity>" \
 --name "<name-for-job>" image image-name:tag
 ```
 
+For a full list of flags you can use, see the `wandb job create` command documentation. [LINK]
+
   </TabItem>
   <TabItem value="build">
 
@@ -216,7 +233,7 @@ docker run -e WANDB_PROJECT="<project-name>" \
 -e WANDB_DOCKER="<docker-image-name>" image:tag
 ```
 
-Get your W&B API key from [https://wandb.ai/authorize](https://wandb.ai/authorize).
+You can specify a name for your job with the `WANDB_JOB_NAME` environment variable. If you do not specify a name, W&B will automatically generate a launch job name for you. It will create a job name with the following format: `job-<image>-<name>`. 
  
   </TabItem>
 </Tabs>
@@ -241,5 +258,14 @@ wandb job create --project "<project-name>" --entity "<your-entity>" \
 ```
 
   </TabItem>
-  <TabItem value="git">Text.</TabItem>
+  <TabItem value="git">
+Text.
+
+
+Ensure the path with your Python script has a `requirements.txt` file with the Python dependencies required to run your code. A Python runtime is also required. The python runtime can either be specified manually with the runtime parameter or can be auto-detected from a `runtime.txt` or `.python-version file`.
+
+
+You can specify a name for your job with the `WANDB_JOB_NAME` environment variable. If you do not specify a name, W&B will automatically generate a launch job name for you. It will create a job name with the following format: `job-<git-remote-url>-<path-to-script>`. 
+
+</TabItem>
 </Tabs>
