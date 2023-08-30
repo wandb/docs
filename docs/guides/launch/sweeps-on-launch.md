@@ -49,7 +49,7 @@ Create a sweep interactively with the W&B App.
 9. Click **Save**
 10. Select **Launch Sweep**.
 
-![](/images/launch/create_sweep_with_launch_2.png)
+![](/images/launch/create_sweep_with_launch.png)
 
   </TabItem>
   <TabItem value="cli">
