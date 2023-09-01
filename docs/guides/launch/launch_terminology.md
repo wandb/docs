@@ -26,7 +26,7 @@ There are three main kinds of job definitions:
 
 - Artifact-based (or code-based) jobs, where your code and other assets are saved as a W&B artifact.  To run artifact-based jobs, Launch agent must be configured with a [builder](#TBD).
 - Git-based jobs, where your code and other assets are cloned from a certain commit, branch or tag in a git repository.  To run git-based jobs, Launch agent must be configured with a [builder](#TBD) and [git repo credentials](#TBD).
-- As an image-based job, where your code and other assets are baked into a Docker image.  To run image-based jobs, Launch agent may need to be configured with [image repository credentials](#TBD).
+- Image-based jobs, where your code and other assets are baked into a Docker image.  To run image-based jobs, Launch agent may need to be configured with [image repository credentials](#TBD).
 
 Artifact-based jobs are created automatically when you track a run with W&B.  Jobs of all kinds can be created manually via the SDK's `wandb job create` [command](#TBD).  See [these docs](#TBD) for how to create git- or image-based jobs.
 
