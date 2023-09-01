@@ -45,6 +45,8 @@ W&B Launch supports the following target resources:
 - [AWS SageMaker](#TBD)
 - [GCP Vertex](#TBD)
 
+Each target resource accepts a different set of configuration parameters.  So-called "resource configurations" take on default values defined by each Launch queue, but can be overridden independently by each job.  See the documentation for each target resource for more details.
+
 #### Launch agent
 Launch agents are lightweight, persistent programs that periodically check Launch queues for jobs to execute.  When a Launch agent receives a job, it first creates or pulls the image from the job definition then runs it on the target resource.
 
