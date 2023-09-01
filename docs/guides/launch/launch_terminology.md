@@ -2,44 +2,50 @@
 displayed_sidebar: default
 ---
 
-# Terms and concepts
+# Overview
 
-The following are basic terms and concepts that will help you get started with W&B Launch:
+W&B Launch has four main concepts to keep in mind: Jobs, Queues, Target Resources and Agents.
+
+Users enqueue [jobs](#TBD) onto [queues](#TBD), which are then run on a [target resource](#TBD) by an [agent](#TBD).
 
 [INSERT bullet points w/ hyperlinks to each term here]
 
-
 #### Launch job
-A job is an Artifact that is created automatically when you track a run with W&B. Each launch job contains contextual information about the run it is being created from, including the source code, entrypoint, software dependencies, hyperparameters, dataset version, etc.
+A job is a special type of [W&B Artifact](#TBD) that represents some work to be done.  Job definitions include:
 
+- Python code and other file assets, including at least one runnable entrypoint.
+- Information about inputs (config parameters, used artifacts) and outputs. (metrics, created artifacts)
+- Information about the environment. (e.g., `requirements.txt`, base `Dockerfile`).
 
-#### Job config
-Text
+All jobs have some important constraints and limitations to keep in mind:
 
-#### Resources
-Text
+- The python script must use the `wandb` library and call `wandb.init(...)` at some point.
+- TBD...
+
+There are three main kinds of job definitions:
+
+- Artifact-based (or code-based) jobs, where your code and other assets are saved as a W&B artifact.  To run artifact-based jobs, Launch agent must be configured with a [builder](#TBD).
+- Git-based jobs, where your code and other assets are cloned from a certain commit, branch or tag in a git repository.  To run git-based jobs, Launch agent must be configured with a [builder](#TBD) and [git repo credentials](#TBD).
+- As an image-based job, where your code and other assets are baked into a Docker image.  To run image-based jobs, Launch agent may need to be configured with [image repository credentials](#TBD).
+
+Artifact-based jobs are created automatically when you track a run with W&B.  Jobs of all kinds can be created manually via the SDK's `wandb job create` [command](#TBD).  See [these docs](#TBD) for how to create git- or image-based jobs.
+
+Once a job is defined, it can be found in the W&B app under the `Jobs` tab of your project workspace.  From there, jobs can be configured and sent to a [Launch queue](#TBD) to be executed on a variety of [target resources](#TBD).
+
+#### Launch queue
+Launch *queues* are ordered lists of jobs to execute on a specific target resource.  Launch queues are first-in, first-out. (FIFO).  There is no practical limit to the number of queues you can have, but a good guideline is one queue per target resource.  Jobs can be enqueued via UI, CLI or SDK.  Then, one or more Launch agents can be configured to pull items from the queue and execute them on the queue's target resource.
 
 #### Target resources
-The compute environment that a queue is configured to execute jobs on is called the *target resource*.
+The compute environment that a Launch queue is configured to execute jobs on is called the *target resource*.
 
-For example, if a launch job is popped off a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the Kubernetes API.
+W&B Launch supports the following target resources:
 
-#### Queue
-Launch *queues* are first in, first out (FIFO) queues that pop off launch jobs. The launch queue uses the target resource you define in a launch queue configuration to execute the jobs on that queue. 
+- [Docker](#TBD)
+- [Kubernetes](#TBD)
+- [AWS SageMaker](#TBD)
+- [GCP Vertex](#TBD)
 
-#### Queue configuration
-The configuration of your launch queue. You specify the launch queue when you create a queue. The schema of your launch queue configuration depends on the target compute resource jobs are executed on. 
+#### Launch agent
+Launch agents are lightweight, persistent programs that periodically check Launch queues for jobs to execute.  When a Launch agent receives a job, it first creates or pulls the image from the job definition then runs it on the target resource.
 
-For example, the queue configuration for an Amazon SageMaker queue target resource will differ from that of a Kubernetes cluster queue target resource.
-
-#### Agent
-
-The agent polls on one or more queues. When the launch agent pops an item from a queue, it will, if necessary, build a container image to execute the run within and then execute that container image on the compute platform targeted by the queue.
-
-These container builds and executions happen asynchronously. 
-
-
-#### Agent environment
-The environment that a launch agent is running in, and polling for launch jobs, is called the *agent environment*. Example agent environments include: locally on your machine or Kubernetes clusters. See the Launch agent environments[LINK] section for more information.
-
-The launch agent environment is independent of a queue's launch target resource.
+One agent may poll multiple queues, however the agent must be configured properly to support all of the backing target resources for each queue it is polling.  The agent's runtime environment is independent of the target resources.  In other words, agents may be deployed anywhere as long as they are configured sufficiently to access the required resources.
