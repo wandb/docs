@@ -157,12 +157,10 @@ queues:
 
 
 ### Container builder options
-You can optionally specify a container builder (`builder` key) within your launch agent configuration.
-
-The agent will use the container builder you specify to build [INSERT].
+Launch agents poll queues and send launch jobs (as a Docker image) to the compute resource that was configured for the launch queue. You can optionally specify the container builder (`builder` key) you want to use in your launch agent configuration.
 
 :::info
-The `builder` key is not required and if omitted, the agent will use Docker to build images locally.
+The `builder` key is not required and, if omitted, the agent will use Docker to build images locally.
 :::
 
 <Tabs
@@ -406,5 +404,149 @@ registry:
 
 
 ## Permissions 
-Text.
+The launch agent requires access to a cloud environment if it is configured to use a cloud environment. The agent will search for specific credentials based on the `environment` key defined in the `~/.config/wandb/launch-config.yaml`. The agent will use these credentials to push and pull container images, access cloud storage, and trigger on demand compute through cloud services.
 
+For example, if you specified `environment: aws`, the launch agent will look for for an IAM Role[LINK] that grants access to an Amazon S3 bucket.
+
+<Tabs
+defaultValue="aws"
+values={[
+{label: 'AWS IAM role', value: 'aws'},
+{label: 'GCP', value: 'gcp'},
+{label: 'Azure', value: 'azure'}
+]}>
+
+<TabItem value="aws">
+
+<!-- 
+The agent requires credentials to access ECR to push and pull container images if you are using a builder, and access to an S3 bucket if you want to use the kaniko builder. The following policy can be used to grant the agent access to ECR and S3.  -->
+
+Ensure your launch agent has access to the Amazon Elastic Container Registry (ECR). To do so, create an IAM role[LINK] and attach the following permissions (see code snippet below). Replace content within `<>` with your appropriate values:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:PutLifecyclePolicy",
+        "ecr:PutImageTagMutability",
+        "ecr:StartImageScan",
+        "ecr:CreateRepository",
+        "ecr:PutImageScanningConfiguration",
+        "ecr:UploadLayerPart",
+        "ecr:BatchDeleteImage",
+        "ecr:DeleteLifecyclePolicy",
+        "ecr:DeleteRepository",
+        "ecr:PutImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:StartLifecyclePolicyPreview",
+        "ecr:InitiateLayerUpload",
+        "ecr:DeleteRepositoryPolicy"
+      ],
+      "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:BatchCheckLayerAvailability",
+      "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
+    },
+    {
+      "Sid": "ListObjectsInBucket",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::<BUCKET-NAME>"]
+    },
+    {
+      "Sid": "AllObjectActions",
+      "Effect": "Allow",
+      "Action": "s3:*Object",
+      "Resource": ["arn:aws:s3:::<BUCKET-NAME>/*"]
+    }
+  ]
+}
+```
+
+In order to use SageMaker queues, you will also need to create a separate execution role that is assumed by your jobs running in Amazon SageMaker. The agent should be granted the following permissions to be allowed to create training jobs:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sagemaker:CreateTrainingJob",
+      "Resource": "arn:aws:sagemaker:<REGION>:<ACCOUNT-ID>/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": "<ARN-OF-ROLE-TO-PASS>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "kms:CreateGrant",
+      "Resource": "<ARN-OF-KMS-KEY>",
+      "Condition": {
+        "StringEquals": {
+          "kms:ViaService": "sagemaker.<REGION>.amazonaws.com",
+          "kms:GrantIsForAWSResource": "true"
+        }
+      }
+    }
+  ]
+}
+```
+
+:::note
+The `kms:CreateGrant` permission for SageMaker queues is required only if the associated ResourceConfig has a specified VolumeKmsKeyId and the associated role does not have a policy that permits this action.
+:::
+
+</TabItem>
+
+<TabItem value="gcp">
+
+The gcp credentials in the agents environment must include the following permissions in order to access various services:
+
+```yaml
+# Permissions for accessing cloud storage. Required for kaniko build.
+storage.buckets.get
+storage.objects.create
+storage.objects.delete
+storage.objects.get
+
+# Permissions for accessing artifact registry. Required for any container build.
+artifactregistry.dockerimages.list
+artifactregistry.repositories.downloadArtifacts
+artifactregistry.repositories.list
+artifactregistry.repositories.uploadArtifacts
+
+# Permissions for listing accessible compute regions. Required always.
+compute.regions.get
+
+# Permissions for managing Vertex AI jobs. Required for Vertex queues.
+ml.jobs.create
+ml.jobs.list
+ml.jobs.get
+```
+
+</TabItem>
+
+<TabItem value="azure">
+
+The agent requires the following roles be assigned to its service principal in order to access various services:
+
+- **Storage Blob Data Contributor**: Required for kaniko build ([docs](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor))
+- **AcrPush**: Required for kaniko build ([docs](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-roles#acrpush))
+
+These permissions should be scoped to any storage containers and containers registries that you plan to access with the agent.
+
+</TabItem>
+
+</Tabs>

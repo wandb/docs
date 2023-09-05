@@ -61,8 +61,11 @@ Each target resource accepts a different set of configuration parameters.  So-ca
 #### Launch agent
 Launch agents are lightweight, persistent programs that periodically check Launch queues for jobs to execute.  When a Launch agent receives a job, it first creates or pulls the image from the job definition then runs it on the target resource.
 
-One agent may poll multiple queues, however the agent must be configured properly to support all of the backing target resources for each queue it is polling.  
+One agent may poll multiple queues, however the agent must be configured properly to support all of the backing target resources for each queue it is polling.  [LINK]
+
+#### Launch agent environment
+The agent environment is the environment where a launch agent is running, polling for jobs. [LINK]
 
 :::info
-The agent's runtime environment is independent of the target resources.  In other words, agents may be deployed anywhere as long as they are configured sufficiently to access the required resources.
+The agent's runtime environment is independent of a queue's target resource.  In other words, agents can be deployed anywhere as long as they are configured sufficiently to access the required target resources.
 :::
