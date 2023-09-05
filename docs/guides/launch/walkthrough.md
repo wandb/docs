@@ -5,14 +5,14 @@ displayed_sidebar: default
 
 # Walkthrough
 
-This guide will walk you through how to setup of the fundamental components W&B launch:  **launch jobs**, **launch queue**, and **launch agents**. By the end of this walkthrough you will:
+This guide will walk you through how to setup the fundamental components W&B launch:  **launch jobs**, **launch queue**, and **launch agents**. By the end of this walkthrough, you will:
 
 1. Create a launch job that trains a neural network.
 2. Create a launch queue that is used to submit jobs for execution on your local machine.
 3. Create a launch agent that polls the queue and executes launch with Docker.
 
 :::note
-The steps outlined on this page are designed to run on your local machine with Docker.
+The walkthrough outlined on this page is designed to run on your local machine with Docker.  
 :::
 
 ## Before you get started
@@ -61,14 +61,14 @@ The following code creates a launch job from a W&B [run](../../ref/python/run.md
 
 This will create a launch job.  In the above example, the launch job was created in a `launch-quickstart` project.
 
-Next, we will add the newly created launch job to a queue.
+Next, we will add the newly created launch job to a launch queue.
 
 :::tip
 There are numerous ways to create launch job. As an example, you can create launch jobs from Docker images with the W&B CLI. To find out all the ways you can create a launch job, see the Create and deploy jobs section.[LINK]
 :::
 
 ## Add your launch job to a queue
-Once you have created a launch job, add that job to a launch queue. The following steps describe how to create a basic launch queue that will use a Docker container as its compute target resource:
+Once you have created a launch job, add that job to a launch queue. The following steps describe how to create a basic launch queue that will use a Docker container as its [target resource](LINK):
 <!-- ![](/images/launch/simple-job.png) -->
 
 1. Navigate to your W&B project. 
@@ -80,12 +80,13 @@ Once you have created a launch job, add that job to a launch queue. The followin
     3. **Queue**: the queue to launch the run on. From the dropdown, select **Create a 'Starter' queue**.
 
 ![](/images/launch/starter-launch.gif)
-5. Once you have configured your job as desired, click the **Launch now** button at the bottom of the drawer to enqueue your launch job.
+5. Once you have configured your job, click the **Launch now** button at the bottom of the drawer to enqueue your launch job.
 
 
 :::tip
-The contents of your launch queue configuration will vary depending on the queue's target resource. For more information about launch queues, see the [INSERT].
+The contents of your launch queue configuration will vary depending on the queue's target resource. For more information about launch queues, and target resources see the [INSERT].
 :::
+
 
 ## Start a launch agent
 To execute a launch job, you will need a launch agent to poll the launch queue the job was added to. Follow these steps to create and start a launch agent:

@@ -4,9 +4,9 @@ displayed_sidebar: default
 
 # Terms and concepts
 
-W&B Launch has four main concepts to keep in mind: Jobs, Queues, Target Resources and Agents.
+W&B Launch has four main concepts: Jobs, Queues, Target Resources and Agents.
 
-When you use W&B Launch, you enqueue [jobs](#TBD) onto [queues](#TBD). Queues run on a [target resource](#TBD) by an [agent](#TBD).
+When you use W&B Launch, you enqueue [jobs](#TBD) onto [queues](#TBD). Queues run on a [target resource](#TBD). [Agents](#TBD) poll queues and execute jobs on target resource based on the content's of the queue's configuration.
 
 
 * Launch job

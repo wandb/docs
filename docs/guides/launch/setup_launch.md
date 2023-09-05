@@ -12,7 +12,7 @@ The following page describes the high-level steps required to set up W&B Launch:
 3. Configure an agent. 
 
 :::info
-For detailed information on how to complete these steps based on your compute resource, see the associated pages:
+For detailed information on how to complete these steps based on different compute resources, see these associated pages:
 
 * Set up Launch for Docker[LINK]
 * Set up Launch for SageMaker[LINK]
@@ -32,7 +32,7 @@ For detailed information on how to complete these steps based on your compute re
 6. Provide a resource configuration in either JSON or YAML format in the **Configuration** field.  The next section, [Configure a queue](#configure-a-queue), gives a high level overview of how to configure queues based on the compute resource type you select in the previous step.
 
 ## Configure a queue
-Launch queues are first in, first out (FIFO) queues. The launch queue uses the launch configuration to figure out where and how execute jobs. The schema of your launch queue configuration depends on the target compute resource jobs are executed on. 
+Launch queues are first in, first out (FIFO) queues. When you create a queue, you specify a configuration for that queue. Launch queue use this configuration to figure out where and how execute jobs. The schema of your launch queue configuration depends on the target compute resource you want jobs to be executed on. 
 
 For example, the queue configuration for an Amazon SageMaker queue target resource will differ from that of a Kubernetes cluster queue target resource.
 
@@ -120,7 +120,7 @@ Any custom macro, such as `${MY_ENV_VAR}`, is substituted with an environment va
 ## Configure a launch agent
 
 <!-- Start -->
-W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will remove launch jobs from the queue (FIFO) and execute them based on the queue configuration and the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/launch-config.yaml`. 
+W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will remove launch jobs from the queue (FIFO) and execute them based on the queue's target resource (defined in the W&B App UI) and the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/launch-config.yaml`. 
 
 When the launch agent removes a launch job from the queue, it will build a container image for that launch job. By default, W&B will build the image with Docker. See the [Container builder section](#container-builder-options) for alternative Docker image builders.
 
@@ -157,8 +157,9 @@ queues:
 
 
 ### Container builder options
+You can optionally specify a container builder (`builder` key) within your launch agent configuration.
 
-The `builder` key is used to specify the container builder the agent will use to build container images. 
+The agent will use the container builder you specify to build [INSERT].
 
 :::info
 The `builder` key is not required and if omitted, the agent will use Docker to build images locally.
