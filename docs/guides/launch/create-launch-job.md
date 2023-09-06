@@ -224,7 +224,10 @@ For a full list of flags you can use, see the `wandb job create` command documen
   </TabItem>
   <TabItem value="build">
 
-Create a launch job by building a Docker container from the image. Copy the following code snippet and replace the values within `"<>"` based on your use case:
+Associate your run with a Docker image. W&B will look for an image tag in the `WANDB_DOCKER` environment variable, and if `WANDB_DOCKER` is set, a job will be created from the specified image tag. Ensure that the `WANDB_DOCKER` environment variable is set to the full image tag.
+
+
+Create a launch job by building a Docker container from a Docker image. Copy the following code snippet and replace the values within `"<>"` based on your use case:
 
 ```bash
 docker run -e WANDB_PROJECT="<project-name>" \
@@ -233,15 +236,21 @@ docker run -e WANDB_PROJECT="<project-name>" \
 -e WANDB_DOCKER="<docker-image-name>" image:tag
 ```
 
-You can specify a name for your job with the `WANDB_JOB_NAME` environment variable. If you do not specify a name, W&B will automatically generate a launch job name for you. It will create a job name with the following format: `job-<image>-<name>`. 
+You can specify a name for your job with the `WANDB_JOB_NAME` environment variable. If you do not specify a name, W&B will automatically generate a launch job name for you. W&B will create a job name with the following format: `job-<image>-<name>`. 
  
+:::tip
+Make sure you specify is set to the full image tag. For example, if your agent will run images from an ECR repository, you should set `WANDB_DOCKER` to the full image tag, including the ECR repository URL: `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-image:develop`. The docker tag, in this case `'develop'`, is added as an alias to the resulting job.
+:::
+
+
+
   </TabItem>
 </Tabs>
 
 
 
 ## Create a job with Git
-Text.
+Create a Git-based job with W&B Launch. Code and other assets are cloned from a certain commit, branch, or tag in a git repository.
 
 <Tabs
   defaultValue="cli"
@@ -259,8 +268,6 @@ wandb job create --project "<project-name>" --entity "<your-entity>" \
 
   </TabItem>
   <TabItem value="git">
-Text.
-
 
 Ensure the path with your Python script has a `requirements.txt` file with the Python dependencies required to run your code. A Python runtime is also required. The python runtime can either be specified manually with the runtime parameter or can be auto-detected from a `runtime.txt` or `.python-version file`.
 
