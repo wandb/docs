@@ -68,7 +68,7 @@ There are numerous ways to create launch job. As an example, you can create laun
 :::
 
 ## Add your launch job to a queue
-Once you have created a launch job, add that job to a launch queue. The following steps describe how to create a basic launch queue that will use a Docker container as its [target resource](LINK):
+Once you have created a launch job, add that job to a launch queue. The following steps describe how to create a basic launch queue that will use a Docker container as its target resource[LINK]:
 <!-- ![](/images/launch/simple-job.png) -->
 
 1. Navigate to your W&B project. 
