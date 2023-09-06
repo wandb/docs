@@ -6,7 +6,32 @@ import TabItem from '@theme/TabItem';
 
 # Set up SageMaker
 
-The following sections outline how to configure a launch queue and agent to execute jobs on Amazon SageMaker. 
+Use W&B Launch to send your runs to AWS SageMaker. There are two ways to use Launch on SageMaker:
+
+1. Bring your own image (BYOI) and push it to your Amazon ECR repository. 
+2. Let the W&B Launch agent build a container for your and push it to your ECR repository.
+
+:::info
+If you bring your own image (1), it must already be SageMaker compatible. If you let W&B build and push the image for you (2), W&B will make your image SageMaker compatible.
+:::
+
+The following table highlights the key differences between the two workflows listed above:
+
+|       | BYOI  | Default W&B Launch  |
+| ----- | ----- | ----- |
+| Allowed job type            | Image source-job                                   | Git or code artifact sourced job                      | 
+| Queue configuration options | Same for both workflows                            | Same for both workflows                               |
+| Agent configuration options |                 N/A                                | Must have the `registry` block in your agent config file |
+| Builder options             |         Docker, Kaniko, Noop                       | Docker, Kaniko |
+
+
+:::tip
+**Should I bring my own image or let W&B build and push the image for me?**
+
+Follow the bring your own image (BYOI) method if you uses packages that are not available on PyPi or find that you are having issues with W&B building your images. 
+In which case, we appreciate feedback about the specific problem so we can fix it in future releases.
+:::
+
 
 
 ## Prerequisites
@@ -24,7 +49,7 @@ Ensure that the AWS account associated with the launch agent has access to the A
 ## Configure a queue for SageMaker
 Create a queue in the W&B App that uses SageMaker as its compute resource:
 
-1. Navigate to the [Launch page](https://wandb.ai/launch).
+1. Navigate to the [Launch App](https://wandb.ai/launch).
 3. Click on the **Create Queue** button.
 4. Select the **Entity** you would like to create the queue in.
 5. Provide a name for your queue in the **Name** field.
@@ -77,7 +102,7 @@ StoppingCondition:
 Specify your:
 
 - `RoleArn` : ARN of the role the IAM role that will be assumed by the job.
-- `OutputDataConfig.S3OutputPath` : An Amazon S3 URI specifying where SageMaker outputs will be stored.
+- `OutputDataConfig.S3OutputPath` : An Amazon S3 URI specifying where SageMaker outputs will be stored. 
 
 :::tip
 The launch queue configuration for a SageMaker compute resource is passed to the [`CreateTrainingJob` SageMaker API request](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). This means that you can optionally add additional arguments to your launch queue configuration that correspond to SageMaker CreateTrainingJob request parameters.
@@ -119,7 +144,7 @@ Configure a launch agent to execute jobs from your queues with SageMaker. The fo
 :::note
 Continue to complete the following steps if you want W&B to build and push your image for you. 
 
-Skip the next two steps and move on to the [Add jobs to your queue section] if you brought your own imaged and you pushed that image to your ECR repository.
+Skip to the [Start your agent](#start-your-agent) section if you brought your own image and you pushed that image to your ECR repository.
 :::
 
 
@@ -156,9 +181,6 @@ wandb launch-agent -e <your-entity> -q <queue-name>  \\
     -c <path-to-agent-config>
 ```
 
-For more information on launch agents, see the [Start an agent][LINK] page.
-
-
 
 Another common pattern is to run the agent on an Amazon EC2 instance. The agent can perform container builds and push them to Amazon ECR if you install Docker on an Amazon Linux 2 instance. The launch agent can then launch jobs on SageMaker using the AWS credentials associated with the EC2 instance. AWS provides a guide to installing Docker in Amazon Linux 2 [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html#prequisites).
 
@@ -168,7 +190,7 @@ Another common pattern is to run the agent on an Amazon EC2 instance. The agent 
 
 
 ## (Optional) Additional permissions for Kaniko builder
-Add the following permissions to the IAM Role you specify in your [SageMaker queue configuration](#configure-a-queue-for-sagemaker) if you use Kaniko to build containers with Amazon SageMaker, a
+Add the following permissions to the IAM Role you specify in your [SageMaker queue configuration](#configure-a-queue-for-sagemaker) if you use Kaniko to build containers with Amazon SageMaker.
 
 The launch agent requires access to Amazon ECR. More specifically, the launch agent requires permission to push and pull container images and access to an Amazon S3 bucket.
 
