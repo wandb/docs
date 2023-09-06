@@ -41,7 +41,7 @@ run = wandb.init(project="<例>", job_type="<ジョブタイプ>")
 以下のように、[`use_artifact`](https://docs.wandb.ai/ref/python/run#use_artifact)メソッドを使用して、使用するアーティファクトを指定します。これはrunオブジェクトを返します。次のコードスニペットでは、エイリアスが`'latest'`の`'bike-dataset'`というアーティファクトを指定しています：
 
 ```python
-artifact = run.use_artifact('bike-dataset:latest')
+artifact = run.use_artifact("bike-dataset:latest")
 ```
 
 返されたオブジェクトを使用して、アーティファクトの内容をすべてダウンロードします：
@@ -75,7 +75,7 @@ Weights & Biasesが扱い方を知っているスキームを持つ参照は、�
   import wandb
 
   api = wandb.Api()
-  artifact = api.artifact('entity/project/artifact:alias')
+  artifact = api.artifact("entity/project/artifact:alias")
   ```
 
   アーティファクトの内容をダウンロードするために、返されたオブジェクトを使用します：
@@ -111,9 +111,9 @@ import wandb
 run = wandb.init(project="<example>", job_type="<job-type>")
 # W&Bから別のプロジェクトのアーティファクトを取得し、
 # このrunの入力としてマークする。
-artifact = run.use_artifact('my-project/artifact:エイリアス')
+artifact = run.use_artifact("my-project/artifact:エイリアス")
 # 他のエンティティのアーティファクトを使用し、それをこのrunの入力としてマークする
-artifact = run.use_artifact('my-entity/my-project/artifact:エイリアス')
+artifact = run.use_artifact("my-entity/my-project/artifact:エイリアス")
 ```
 
 ### アーティファクトの同時構築と使用
@@ -121,8 +121,9 @@ artifact = run.use_artifact('my-entity/my-project/artifact:エイリアス')
 
 ```python
 import wandb
-artifact = wandb.Artifact('reference model')
-artifact.add_file('model.h5')
+
+artifact = wandb.Artifact("reference model")
+artifact.add_file("model.h5")
 run.use_artifact(artifact)
 ```
 アーティファクトの構築に関する詳細は、[アーティファクトの構築](https://docs.wandb.ai/guides/artifacts/construct-an-artifact)を参照してください。

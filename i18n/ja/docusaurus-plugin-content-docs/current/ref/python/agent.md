@@ -4,7 +4,7 @@
 
 サーバーによって指定された設定パラメーターを使用して、関数やプログラムを実行します。
 ```python
- sweep_id, function=None, entity=None, project=None, count=None
+sweep_id, function = None, entity = None, project = None, count = None
 ```
 
 
@@ -20,19 +20,19 @@
 import wandb
 
 sweep_configuration = {
- "name": "my-awesome-sweep",
- "metric": {"name": "accuracy", "goal": "maximize"},
- "method": "grid",
- "parameters": {"a": {"values": [1, 2, 3, 4]}},
+    "name": "my-awesome-sweep",
+    "metric": {"name": "accuracy", "goal": "maximize"},
+    "method": "grid",
+    "parameters": {"a": {"values": [1, 2, 3, 4]}},
 }
 
 
 def my_train_func():
- # wandb.config からパラメータ "a" の現在の値を読み取る
- wandb.init()
- a = wandb.config.a
+    # wandb.config からパラメータ "a" の現在の値を読み取る
+    wandb.init()
+    a = wandb.config.a
 
- wandb.log({"a": a, "accuracy": a + 1})
+    wandb.log({"a": a, "accuracy": a + 1})
 
 
 sweep_id = wandb.sweep(sweep_configuration)

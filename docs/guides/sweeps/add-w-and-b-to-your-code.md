@@ -20,42 +20,43 @@ Suppose you have the following code in a Jupyter Notebook cell or Python script.
 We defined a dictionary called `config` where we store hyperparameters values (line 15). At the end of the cell, we call the `main` function to execute the mock training code.
 
 ```python showLineNumbers
-#train.py
+# train.py
 import random
 import numpy as np
 
-def train_one_epoch(epoch, lr, bs): 
-  acc = 0.25 + ((epoch/30) +  (random.random()/10))
-  loss = 0.2 + (1 - ((epoch-1)/10 +  random.random()/5))
-  return acc, loss
 
-def evaluate_one_epoch(epoch): 
-  acc = 0.1 + ((epoch/20) +  (random.random()/10))
-  loss = 0.25 + (1 - ((epoch-1)/10 +  random.random()/6))
-  return acc, loss
-  
-config = {
-    'lr' : 0.0001,
-    'bs' : 16,
-    'epochs': 5
-}
+def train_one_epoch(epoch, lr, bs):
+    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
+    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
+    return acc, loss
+
+
+def evaluate_one_epoch(epoch):
+    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
+    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
+    return acc, loss
+
+
+config = {"lr": 0.0001, "bs": 16, "epochs": 5}
+
 
 def main():
-    # Note that we define values from `wandb.config` 
+    # Note that we define values from `wandb.config`
     # instead of defining hard values
-    lr = config['lr']
-    bs = config['bs']
-    epochs = config['epochs']
+    lr = config["lr"]
+    bs = config["bs"]
+    epochs = config["epochs"]
 
     for epoch in np.arange(1, epochs):
-      train_acc, train_loss = train_one_epoch(epoch, lr, bs)
-      val_acc, val_loss = evaluate_one_epoch(epoch)
-      
-      print('epoch: ', epoch)
-      print('training accuracy:', train_acc,'training loss:', train_loss)
-      print('validation accuracy:', val_acc,'training loss:', val_loss)
+        train_acc, train_loss = train_one_epoch(epoch, lr, bs)
+        val_acc, val_loss = evaluate_one_epoch(epoch)
 
-# Call the main function.       
+        print("epoch: ", epoch)
+        print("training accuracy:", train_acc, "training loss:", train_loss)
+        print("validation accuracy:", val_acc, "training loss:", val_loss)
+
+
+# Call the main function.
 main()
 ```
 
@@ -85,62 +86,64 @@ The following code examples demonstrate how to add the W&B Python SDK into your 
 
 ```python showLineNumbers
 import wandb
-import numpy as np 
+import numpy as np
 import random
 
 # Define sweep config
 sweep_configuration = {
-    'method': 'random',
-    'name': 'sweep',
-    'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    'parameters': 
-    {
-        'batch_size': {'values': [16, 32, 64]},
-        'epochs': {'values': [5, 10, 15]},
-        'lr': {'max': 0.1, 'min': 0.0001}
-     }
+    "method": "random",
+    "name": "sweep",
+    "metric": {"goal": "maximize", "name": "val_acc"},
+    "parameters": {
+        "batch_size": {"values": [16, 32, 64]},
+        "epochs": {"values": [5, 10, 15]},
+        "lr": {"max": 0.1, "min": 0.0001},
+    },
 }
 
-# Initialize sweep by passing in config. 
+# Initialize sweep by passing in config.
 # (Optional) Provide a name of the project.
-sweep_id = wandb.sweep(
-  sweep=sweep_configuration, 
-  project='my-first-sweep'
-  )
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
-# Define training function that takes in hyperparameter 
-# values from `wandb.config` and uses them to train a 
+
+# Define training function that takes in hyperparameter
+# values from `wandb.config` and uses them to train a
 # model and return metric
-def train_one_epoch(epoch, lr, bs): 
-  acc = 0.25 + ((epoch/30) +  (random.random()/10))
-  loss = 0.2 + (1 - ((epoch-1)/10 +  random.random()/5))
-  return acc, loss
+def train_one_epoch(epoch, lr, bs):
+    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
+    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
+    return acc, loss
 
-def evaluate_one_epoch(epoch): 
-  acc = 0.1 + ((epoch/20) +  (random.random()/10))
-  loss = 0.25 + (1 - ((epoch-1)/10 +  random.random()/6))
-  return acc, loss
+
+def evaluate_one_epoch(epoch):
+    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
+    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
+    return acc, loss
+
 
 def main():
     run = wandb.init()
 
-    # note that we define values from `wandb.config`  
+    # note that we define values from `wandb.config`
     # instead of defining hard values
-    lr  =  wandb.config.lr
+    lr = wandb.config.lr
     bs = wandb.config.batch_size
     epochs = wandb.config.epochs
 
     for epoch in np.arange(1, epochs):
-      train_acc, train_loss = train_one_epoch(epoch, lr, bs)
-      val_acc, val_loss = evaluate_one_epoch(epoch)
+        train_acc, train_loss = train_one_epoch(epoch, lr, bs)
+        val_acc, val_loss = evaluate_one_epoch(epoch)
 
-      wandb.log({
-        'epoch': epoch, 
-        'train_acc': train_acc,
-        'train_loss': train_loss, 
-        'val_acc': val_acc, 
-        'val_loss': val_loss
-      })
+        wandb.log(
+            {
+                "epoch": epoch,
+                "train_acc": train_acc,
+                "train_loss": train_loss,
+                "val_acc": val_acc,
+                "val_loss": val_loss,
+            }
+        )
+
 
 # Start sweep job.
 wandb.agent(sweep_id, function=main, count=4)
@@ -187,42 +190,48 @@ import yaml
 import random
 import numpy as np
 
-def train_one_epoch(epoch, lr, bs): 
-  acc = 0.25 + ((epoch/30) +  (random.random()/10))
-  loss = 0.2 + (1 - ((epoch-1)/10 +  random.random()/5))
-  return acc, loss
 
-def evaluate_one_epoch(epoch): 
-  acc = 0.1 + ((epoch/20) +  (random.random()/10))
-  loss = 0.25 + (1 - ((epoch-1)/10 +  random.random()/6))
-  return acc, loss  
+def train_one_epoch(epoch, lr, bs):
+    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
+    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
+    return acc, loss
+
+
+def evaluate_one_epoch(epoch):
+    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
+    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
+    return acc, loss
+
 
 def main():
     # Set up your default hyperparameters
-    with open('./config.yaml') as file:
+    with open("./config.yaml") as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
-    
+
     run = wandb.init(config=config)
 
-    # Note that we define values from `wandb.config` 
+    # Note that we define values from `wandb.config`
     # instead of  defining hard values
-    lr  =  wandb.config.lr
+    lr = wandb.config.lr
     bs = wandb.config.batch_size
     epochs = wandb.config.epochs
 
     for epoch in np.arange(1, epochs):
-      train_acc, train_loss = train_one_epoch(epoch, lr, bs)
-      val_acc, val_loss = evaluate_one_epoch(epoch)
-      
-      wandb.log({
-        'epoch': epoch, 
-        'train_acc': train_acc,
-        'train_loss': train_loss, 
-        'val_acc': val_acc, 
-        'val_loss': val_loss
-      })
+        train_acc, train_loss = train_one_epoch(epoch, lr, bs)
+        val_acc, val_loss = evaluate_one_epoch(epoch)
 
-# Call the main function.       
+        wandb.log(
+            {
+                "epoch": epoch,
+                "train_acc": train_acc,
+                "train_loss": train_loss,
+                "val_acc": val_acc,
+                "val_loss": val_loss,
+            }
+        )
+
+
+# Call the main function.
 main()
 ```
 

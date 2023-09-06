@@ -8,6 +8,7 @@ TensorBoardをすでに使用している場合、wandbとの統合も簡単で�
 ```python
 import tensorflow as tf
 import wandb
+
 wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
 ```
 
@@ -46,18 +47,18 @@ with tf.Session() as sess:
 TensorFlow 2では、カスタムループでモデルをトレーニングする推奨される方法は、`tf.GradientTape`を使用することです。詳しくは[こちら](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough)をご覧ください。カスタムTensorFlowトレーニングループで`wandb`を使用してメトリクスをログに記録する方法は、以下のスニペットに従ってください。
 
 ```python
-    with tf.GradientTape() as tape:
-        # 確率を取得
-        predictions = model(features)
-        # 損失を計算
-        loss = loss_func(labels, predictions)
+with tf.GradientTape() as tape:
+    # 確率を取得
+    predictions = model(features)
+    # 損失を計算
+    loss = loss_func(labels, predictions)
 
-    # メトリクスを記録
-    wandb.log({"loss": loss.numpy()})
-    # 勾配を取得
-    gradients = tape.gradient(loss, model.trainable_variables)
-    # 重みを更新
-    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+# メトリクスを記録
+wandb.log({"loss": loss.numpy()})
+# 勾配を取得
+gradients = tape.gradient(loss, model.trainable_variables)
+# 重みを更新
+optimizer.apply_gradients(zip(gradients, model.trainable_variables))
 ```
 
 完全な例は[こちら](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2)で利用できます。

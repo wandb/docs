@@ -27,7 +27,7 @@ WANDB_PROJECT=$project
 
 ```python
 # If you don't want your script to sync to the cloud
-os.environ['WANDB_MODE'] = 'offline'
+os.environ["WANDB_MODE"] = "offline"
 ```
 
 ## Optional Environment Variables
@@ -97,6 +97,7 @@ To quiet the warning messages:
 
 ```python
 import logging
+
 logger = logging.getLogger("wandb")
 logger.setLevel(logging.WARNING)
 ```

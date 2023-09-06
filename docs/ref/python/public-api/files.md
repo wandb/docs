@@ -6,9 +6,7 @@
 An iterable collection of `File` objects.
 
 ```python
-Files(
-    client, run, names=None, per_page=50, upload=(False)
-)
+Files(client, run, names=None, per_page=50, upload=(False))
 ```
 
 | Class Variables |  |

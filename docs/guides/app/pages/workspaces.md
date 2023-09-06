@@ -19,7 +19,7 @@ run = wandb.init()
 with run:
     for idx in range(100):
         run.log({"section-a/metric": idx})
-        run.log({"section-b/metric": idx*2})
+        run.log({"section-b/metric": idx * 2})
 ```
 
 ![](/images/app_ui/workspaces_bar1.png)

@@ -20,8 +20,9 @@ Weights & Biasesの組み込みチャートを超えて、新しい**カスタ�
 ```python
 # カスタムデータテーブルの記録
 my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
-wandb.log({"custom_data_table": wandb.Table(data=my_custom_data,
-                                columns = ["x", "y", "z"])})
+wandb.log(
+    {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
+)
 ```
 
 データテーブルを記録するための[クイックな例ノートブック](https://bit.ly/custom-charts-colab)を試してみてください。次のステップではカスタムチャートを設定します。[ライブレポート](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc)で結果のチャートを確認してください。

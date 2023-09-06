@@ -95,7 +95,7 @@ APIキーは、チーム設定ページ`/teams/<your-team-name>`で取得でき�
 
 ```python
 if os.path.exists("~/keys.json"):
-   os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
+    os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
 ```
 
 ### ダークモードはありますか？

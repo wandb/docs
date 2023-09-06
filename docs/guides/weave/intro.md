@@ -36,7 +36,7 @@ pip install weave --upgrade
 import weave
 from sklearn.datasets import load_iris
 
-# We load in the iris dataset for demonstrative purposes 
+# We load in the iris dataset for demonstrative purposes
 iris = load_iris(as_frame=True)
 df = iris.data.assign(target=iris.target_names[iris.target])
 

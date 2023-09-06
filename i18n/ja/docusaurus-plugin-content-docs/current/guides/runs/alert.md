@@ -19,10 +19,7 @@ W&B Alertsを使用すると、W&B Runがクラッシュした場合や、損失
 ```python
 text = f"精度 {acc} は許容範囲 {thresh} を下回っています"
 
-wandb.alert(
-    title="低い精度", 
-    text=text
-)
+wandb.alert(title="低い精度", text=text)
 ```
 
 そして、Slack（またはメール）でW&B Alertsメッセージを確認できます:
@@ -59,10 +56,7 @@ W&Bアラートの設定を初めて行う場合や、アラートの受信方�
 コード（ノートブックまたはPythonスクリプト）に`wandb.alert()`を追加し、アラートがトリガーされる場所を選択します。
 
 ```python
-wandb.alert(
-    title="High Loss", 
-    text="Loss is increasing rapidly"
-)
+wandb.alert(title="High Loss", text="Loss is increasing rapidly")
 ```
 
 #### Slackまたはメールを確認してください
@@ -91,10 +85,10 @@ from wandb import AlertLevel
 
 if acc < threshold:
     wandb.alert(
-        title="低い精度", 
+        title="低い精度",
         text=f"精度 {acc} は許容範囲 {threshold} を下回っています",
         level=AlertLevel.WARN,
-        wait_duration=300
+        wait_duration=300,
     )
 ```
 
@@ -105,10 +99,7 @@ if acc < threshold:
 Slackでアラートを送る際、自分自身や同僚にメンションを送ることができます。そのためには、アラートのタイトルやテキスト内にSlackユーザーIDを `<@USER_ID>` として追加してください。SlackプロフィールページからSlackユーザーIDを見つけることができます。
 
 ```python
-wandb.alert(
-    title="Loss is NaN", 
-    text=f"Hey <@U1234ABCD> lossがNaNになってしまいました"
-)
+wandb.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> lossがNaNになってしまいました")
 ```
 
 ### W&Bチームアラート

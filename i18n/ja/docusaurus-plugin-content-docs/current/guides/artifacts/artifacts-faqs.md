@@ -109,13 +109,11 @@ wandb.Artifact(name="sweep_name", type="model")
 ```python
 api = wandb.Api()
 sweep = api.sweep("entity/project/sweep_id")
-runs = sorted(sweep.runs,
-              key=lambda run: run.summary.get("val_acc", 0), 
-              reverse=True)
+runs = sorted(sweep.runs, key=lambda run: run.summary.get("val_acc", 0), reverse=True)
 best_run = runs[0]
 for artifact in best_run.logged_artifacts():
-  artifact_path = artifact.download()
-  print(artifact_path)
+    artifact_path = artifact.download()
+    print(artifact_path)
 ```
 
 ### コードを保存する方法は？
@@ -144,10 +142,9 @@ wandb.log_artifact(code_artifact)
 W&Bでアーティファクト参照をログし、バケットでバージョン管理が有効になっている場合、バージョンIDはS3 UIで表示できます。W&BでこれらのバージョンIDとETagsを取得するには、公開API を使って対応するマニフェストエントリを取得できます。例えば以下のようになります。
 
 ```python
-artifact = run.use_artifact('my_table:latest')
+artifact = run.use_artifact("my_table:latest")
 
 for entry in artifact.manifest.entries.values():
-
     versionID = entry.extra.get("versionID")
 
     etag = manifest_entry.extra.get("etag")

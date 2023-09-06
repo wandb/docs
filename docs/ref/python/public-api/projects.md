@@ -6,9 +6,7 @@
 An iterable collection of `Project` objects.
 
 ```python
-Projects(
-    client, entity, per_page=50
-)
+Projects(client, entity, per_page=50)
 ```
 
 | Class Variables |  |
