@@ -35,11 +35,11 @@ The proceeding code example demonstrates how to update the description of an art
 import wandb
 
 run = wandb.init(project="<example>", job_type="<job-type>")
-artifact = run.use_artifact('<artifact-name>:<alias>')
+artifact = run.use_artifact("<artifact-name>:<alias>")
 
-artifact = wandb.Artifact('')
+artifact = wandb.Artifact("")
 run.use_artifact(artifact)
-artifact.description = '<description>'
+artifact.description = "<description>"
 artifact.save()
 ```
   </TabItem>
@@ -52,7 +52,7 @@ import wandb
 
 api = wandb.Api()
 
-artifact = api.artifact('entity/project/artifact:alias')
+artifact = api.artifact("entity/project/artifact:alias")
 
 # Update the description
 artifact.description = "My new description"
@@ -64,13 +64,13 @@ artifact.metadata["oldKey"] = "new value"
 artifact.metadata = {"newKey": "new value"}
 
 # Add an alias
-artifact.aliases.append('best')
+artifact.aliases.append("best")
 
 # Remove an alias
-artifact.aliases.remove('latest')
+artifact.aliases.remove("latest")
 
 # Completely replace the aliases
-artifact.aliases = ['replaced']
+artifact.aliases = ["replaced"]
 
 # Persist all artifact modifications
 artifact.save()

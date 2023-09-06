@@ -31,10 +31,7 @@ Use the [`wandb.init()`](../../ref/python/init.md) API to generate a background 
 ```python
 # Create a W&B Run. Here we specify 'dataset' as the job type since this example
 # shows how to create a dataset artifact.
-run = wandb.init(
-    project="artifacts-example", 
-    job_type='upload-dataset'
-    )
+run = wandb.init(project="artifacts-example", job_type="upload-dataset")
 ```
 
 ## 3. Create an artifact object
@@ -44,10 +41,7 @@ Create an artifact object with the [`wandb.Artifact()`](../../ref/python/artifac
 For example, the following code snippet demonstrates how to create an artifact called `‘bicycle-dataset’` with a `‘dataset’` label:
 
 ```python
-artifact = wandb.Artifact(
-    name='bicycle-dataset', 
-    type='dataset'
-    )    
+artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
 ```
 
 For more information about how to construct an artifact, see [Construct artifacts](./construct-an-artifact.md).
@@ -58,7 +52,7 @@ Add a file to the artifact. Common file types include models and datasets. The f
 
 ```python
 # Add a file to the artifact's contents
-artifact.add_file(local_path='dataset.h5')
+artifact.add_file(local_path="dataset.h5")
 ```
 
 Replace the filename `dataset.h5` in the preceding code snippet with the path to the file you want to add to the artifact.
@@ -68,7 +62,7 @@ Replace the filename `dataset.h5` in the preceding code snippet with the path to
 Use the W&B run objects `log_artifact()` method to both save your artifact version and declare the artifact as an output of the run.
 
 ```python
-# Save the artifact version to W&B and mark it 
+# Save the artifact version to W&B and mark it
 # as the output of this run
 run.log_artifact(artifact)
 ```
@@ -84,15 +78,12 @@ The following code example demonstrates the steps you can take to use an artifac
 3. Third, use the artifacts [`download()`](../../ref/python/artifact.md#download) method to download the contents of the artifact.
 
 ```python
-# Create a W&B Run. Here we specify 'training' for 'type' 
+# Create a W&B Run. Here we specify 'training' for 'type'
 # because we will use this run to track training.
-run = wandb.init(
-    project="artifacts-example", 
-    job_type='training'
-    )
+run = wandb.init(project="artifacts-example", job_type="training")
 
 # Query W&B for an artifact and mark it as input to this run
-artifact = run.use_artifact('bicycle-dataset:latest')
+artifact = run.use_artifact("bicycle-dataset:latest")
 
 # Download the artifact's contents
 artifact_dir = artifact.download()

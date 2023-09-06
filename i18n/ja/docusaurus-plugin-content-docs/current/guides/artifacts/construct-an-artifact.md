@@ -34,7 +34,7 @@ W&BアプリUI内でアーティファクトの履歴を表示することがで
 ```python
 import wandb
 
-artifact = wandb.Artifact(name='<置き換え>', type='<置き換え>')
+artifact = wandb.Artifact(name="<置き換え>", type="<置き換え>")
 ```
 
 上記のコードスニペットの文字列引数を、独自の名前とタイプに置き換えてください。
@@ -43,10 +43,7 @@ artifact = wandb.Artifact(name='<置き換え>', type='<置き換え>')
 ファイル、ディレクトリ、外部URI参照（Amazon S3など）をアーティファクトのメソッドで追加できます。例えば、1つのテキストファイルを追加するには、[`add_file`](https://docs.wandb.ai/ref/python/artifact#add\_file) メソッドを使用します。
 
 ```python
-artifact.add_file(
-    local_path='hello_world.txt', 
-    name='optional-name'
-    )    
+artifact.add_file(local_path="hello_world.txt", name="optional-name")
 ```
 ファイルの追加方法については、[`add_dir`](https://docs.wandb.ai/ref/python/artifact#add\_dir) メソッドを使って複数のファイルを追加することもできます。ファイルの追加方法の詳細については、[アーティファクトの更新](https://docs.wandb.ai/guides/artifacts/update-an-artifact)をご覧ください。
 
@@ -55,12 +52,8 @@ artifact.add_file(
 最後に、アーティファクトをWeights & Biasesサーバーに保存します。アーティファクトはrunと関連付けられています。そのため、runオブジェクトの[`log_artifact()`](https://docs.wandb.ai/ref/python/run#log\_artifact)メソッドを使ってアーティファクトを保存します。
 
 ```python
-
 # W&B Runを作成します。'job-type'を置き換えてください。
-run = wandb.init(
-    project="artifacts-example", 
-    job_type='job-type'
-    )    
+run = wandb.init(project="artifacts-example", job_type="job-type")
 
 run.log_artifact(artifact)
 ```
@@ -71,9 +64,13 @@ W&B runの外でアーティファクトをオプションで構築すること�
 
 ```python
 for i in range(10):
-    a = wandb.Artifact('race', type='dataset', metadata={
-        "index": i,
-    })
+    a = wandb.Artifact(
+        "race",
+        type="dataset",
+        metadata={
+            "index": i,
+        },
+    )
     # ... アーティファクトaにファイルを追加 ...
     run.log_artifact(a)
 ```
@@ -100,12 +97,12 @@ for i in range(10):
 
 ```python
 # シングルファイルの追加
-artifact.add_file(local_path='path/file.format')
+artifact.add_file(local_path="path/file.format")
 ```
 例えば、作業用のローカルディレクトリーに`'file.txt'`という名前のファイルがあるとします。
 
 ```python
-artifact.add_file('path/file.txt') # `file.txt`として追加されます
+artifact.add_file("path/file.txt")  # `file.txt`として追加されます
 ```
 
 アーティファクトには、次のような内容が含まれています:
@@ -117,10 +114,7 @@ file.txt
 オプションとして、`name`パラメータにアーティファクト内での希望のパスを指定できます。
 
 ```python
-artifact.add_file(
-    local_path='path/file.format', 
-    name='new/path/file.format'
-    )     
+artifact.add_file(local_path="path/file.format", name="new/path/file.format")
 ```
 アーティファクトは次のように保存されます:
 
@@ -139,10 +133,7 @@ new/path/file.txt
 
 ```python
 # ディレクトリを再帰的に追加する
-artifact.add_dir(
-    local_path='path/file.format', 
-    name='optional-prefix'
-    )
+artifact.add_dir(local_path="path/file.format", name="optional-prefix")
 ```
 以下のAPI呼び出しは、以下のアーティファクトの内容を生成します:
 
@@ -159,7 +150,7 @@ URIがW&Bライブラリが扱い方を知っているスキームを持って�
 
 ```python
 # URI参照の追加
-artifact.add_reference(uri='uri', name='optional-name')
+artifact.add_reference(uri="uri", name="optional-name")
 ```
 
 アーティファクトは現在以下のURIスキームをサポートしています。
@@ -183,6 +174,7 @@ artifact.add_reference(uri='uri', name='optional-name')
 ```python
 import wandb
 import time
+
 # rayを使って並列で実行するrunsを起動します
 # これはデモ目的です。並列で実行する方法は
 # あなたが望むように調整できます。
@@ -200,25 +192,25 @@ num_parallel = 5
 # 持っている必要があります。
 group_name = "writer-group-{}".format(round(time.time()))
 
+
 @ray.remote
 def train(i):
-  """
-  書き込みジョブです。各ライターは、アーティファクトに1つの画像を追加します。
-  """
-  with wandb.init(group=group_name) as run:
-    artifact = wandb.Artifact(
-        name=artifact_name, 
-        type=artifact_type
-        )
+    """
+    書き込みジョブです。各ライターは、アーティファクトに1つの画像を追加します。
+    """
+    with wandb.init(group=group_name) as run:
+        artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
 
-# wandbテーブルにデータを追加します。 この場合は、例のデータを使用します
-    table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
+        # wandbテーブルにデータを追加します。 この場合は、例のデータを使用します
+        table = wandb.Table(columns=["a", "b", "c"], data=[[i, i * 2, 2**i]])
 
-    # アーティファクト内のフォルダにテーブルを追加します
-    artifact.add(table, "{}/table_{}".format(parts_path, i))
+        # アーティファクト内のフォルダにテーブルを追加します
+        artifact.add(table, "{}/table_{}".format(parts_path, i))
 
-    # アーティファクトをアップサートすると、アーティファクトにデータが作成されたり、追加されたりします
-    run.upsert_artifact(artifact)
+        # アーティファクトをアップサートすると、アーティファクトにデータが作成されたり、追加されたりします
+        run.upsert_artifact(artifact)
+
+
 # 並行してrunを実行する
 result_ids = [train.remote(i) for i in range(num_parallel)]
 
@@ -229,17 +221,11 @@ ray.get(result_ids)
 # すべてのライターが終了したら、アーティファクトを
 # 完了して準備ができていることを示します。
 with wandb.init(group=group_name) as run:
-  artifact = wandb.Artifact(
-    artifact_name, 
-    type=artifact_type
-    )
-# テーブルのフォルダを指す"PartitionTable"を作成し
-  # アーティファクトに追加します。
-  artifact.add(
-    wandb.data_types.PartitionedTable(parts_path), 
-    table_name
-    )
+    artifact = wandb.Artifact(artifact_name, type=artifact_type)
+    # テーブルのフォルダを指す"PartitionTable"を作成し
+    # アーティファクトに追加します。
+    artifact.add(wandb.data_types.PartitionedTable(parts_path), table_name)
 
-# Finish artifact は、アーティファクトの確定を行い、今後このバージョンへの"upserts"を禁止します
-  run.finish_artifact(artifact)
+    # Finish artifact は、アーティファクトの確定を行い、今後このバージョンへの"upserts"を禁止します
+    run.finish_artifact(artifact)
 ```

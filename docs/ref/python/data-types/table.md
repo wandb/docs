@@ -7,8 +7,13 @@ The Table class used to display and analyze tabular data.
 
 ```python
 Table(
-    columns=None, data=None, rows=None, dataframe=None, dtype=None, optional=(True),
-    allow_mixed_types=(False)
+    columns=None,
+    data=None,
+    rows=None,
+    dataframe=None,
+    dtype=None,
+    optional=(True),
+    allow_mixed_types=(False),
 )
 ```
 
@@ -112,9 +117,7 @@ due to lack of consistent typing.
 [View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/data_types.py#L834-L873)
 
 ```python
-add_column(
-    name, data, optional=(False)
-)
+add_column(name, data, optional=(False))
 ```
 
 Add a column of data to the table.
@@ -130,9 +133,7 @@ Add a column of data to the table.
 [View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/data_types.py#L924-L946)
 
 ```python
-add_computed_columns(
-    fn
-)
+add_computed_columns(fn)
 ```
 
 Add one or more computed columns based on existing data.
@@ -146,9 +147,7 @@ Add one or more computed columns based on existing data.
 [View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/data_types.py#L460-L493)
 
 ```python
-add_data(
-    *data
-)
+add_data(*data)
 ```
 
 Add a row of data to the table.
@@ -160,9 +159,7 @@ Argument length should match column length.
 [View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/data_types.py#L455-L458)
 
 ```python
-add_row(
-    *row
-)
+add_row(*row)
 ```
 
 Deprecated: use add_data instead.
@@ -172,9 +169,7 @@ Deprecated: use add_data instead.
 [View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/data_types.py#L354-L408)
 
 ```python
-cast(
-    col_name, dtype, optional=(False)
-)
+cast(col_name, dtype, optional=(False))
 ```
 
 Cast a column to a specific type.
@@ -190,9 +185,7 @@ Cast a column to a specific type.
 [View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/data_types.py#L875-L898)
 
 ```python
-get_column(
-    name, convert_to=None
-)
+get_column(name, convert_to=None)
 ```
 
 Retrieve a column of data from the table.
@@ -227,9 +220,7 @@ Return an array of row indexes for use in other tables to create links.
 [View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/data_types.py#L917-L922)
 
 ```python
-index_ref(
-    index
-)
+index_ref(index)
 ```
 
 Get a reference to a particular row index in the table.
@@ -260,9 +251,7 @@ The data of the row.
 [View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/data_types.py#L732-L736)
 
 ```python
-set_fk(
-    col_name, table, table_col
-)
+set_fk(col_name, table, table_col)
 ```
 
 ### `set_pk`
@@ -270,9 +259,7 @@ set_fk(
 [View source](https://www.github.com/wandb/wandb/tree/v0.15.7/wandb/data_types.py#L727-L730)
 
 ```python
-set_pk(
-    col_name
-)
+set_pk(col_name)
 ```
 
 | Class Variables |  |

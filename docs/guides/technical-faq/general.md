@@ -99,7 +99,7 @@ If you have two W&B accounts working from the same machine, you'll need a nice w
 
 ```python
 if os.path.exists("~/keys.json"):
-   os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
+    os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
 ```
 
 ### Is there a dark mode?

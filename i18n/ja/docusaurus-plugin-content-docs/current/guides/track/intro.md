@@ -31,8 +31,9 @@ W&Bの実験は、以下の構成要素で構成されています:
 ```python
 # 任意のPythonスクリプトに対する柔軟なインテグレーション
 import wandb
+
 # 1. W&B Runを開始する
-wandb.init(project='my-project-name')
+wandb.init(project="my-project-name")
 
 # 2. モード入力とハイパーパラメーターを保存する
 config = wandb.config
@@ -48,7 +49,6 @@ wandb.log({"loss": loss})
 
 # 4. W&Bにアーティファクトをログする
 wandb.log_artifact(model)
-
 ```
 
 ## はじめ方

@@ -19,10 +19,7 @@ You can set an alert like this:
 ```python
 text = f"Accuracy {acc} is below acceptable threshold {thresh}"
 
-wandb.alert(
-    title="Low accuracy", 
-    text=text
-)
+wandb.alert(title="Low accuracy", text=text)
 ```
 
 And then see W&B Alerts messages in Slack (or your email):
@@ -61,10 +58,7 @@ You will only have to do this the first time you set up W&B Alerts, or when you'
 Add `wandb.alert()` to your code (either in a Notebook or Python script) wherever you'd like it to be triggered
 
 ```python
-wandb.alert(
-    title="High Loss", 
-    text="Loss is increasing rapidly"
-)
+wandb.alert(title="High Loss", text="Loss is increasing rapidly")
 ```
 
 #### Check your Slack or email
@@ -93,10 +87,10 @@ from wandb import AlertLevel
 
 if acc < threshold:
     wandb.alert(
-        title="Low accuracy", 
+        title="Low accuracy",
         text=f"Accuracy {acc} is below the acceptable threshold {threshold}",
         level=AlertLevel.WARN,
-        wait_duration=300
+        wait_duration=300,
     )
 ```
 
@@ -107,10 +101,7 @@ if acc < threshold:
 When sending Alerts on Slack you can @ yourself or your colleagues by adding their Slack user id as `<@USER_ID>` in either the title or the text of the Alert. You can find a Slack user id from their Slack profile page.
 
 ```python
-wandb.alert(
-    title="Loss is NaN", 
-    text=f"Hey <@U1234ABCD> loss has gone to NaN"
-)
+wandb.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> loss has gone to NaN")
 ```
 
 ### W&B Team Alerts

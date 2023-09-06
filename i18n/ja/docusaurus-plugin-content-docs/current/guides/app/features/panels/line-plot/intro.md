@@ -72,7 +72,7 @@ x軸は、グラフレベルだけでなく、プロジェクトページやレ�
 `wandb.log`を用いて、PyTorchテンソルを含む`NaN`値を折れ線グラフにプロットすることもできます。例えば、以下のように表現できます。
 
 ```python
-wandb.log({'test': [..., float("nan"), ...]})
+wandb.log({"test": [..., float("nan"), ...]})
 ```
 
 ![](/images/app_ui/visualize_nan.png)

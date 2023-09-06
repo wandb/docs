@@ -55,7 +55,7 @@ from sklearn import metrics
 from sklearn import model_selection
 import xgboost as xgb
 
-pd.set_option('display.max_columns', None)
+pd.set_option("display.max_columns", None)
 ```
 
 # Data
@@ -77,9 +77,9 @@ The artifact only consists of metadata about the S3/GCS object such as its ETag,
 
 ```python
 run = wandb.init()
-artifact = wandb.Artifact('mnist', type='dataset')
-artifact.add_reference('s3://my-bucket/datasets/mnist')
-run.log_artifact(artifact)   
+artifact = wandb.Artifact("mnist", type="dataset")
+artifact.add_reference("s3://my-bucket/datasets/mnist")
+run.log_artifact(artifact)
 ```
 
 **Download the artifact locally when needed**
@@ -87,7 +87,7 @@ run.log_artifact(artifact)
 W&B will use the metadata recorded when the artifact was logged to retrieve the files from the underlying bucket.
 
 ```python
-artifact = run.use_artifact('mnist:latest', type='dataset')
+artifact = run.use_artifact("mnist:latest", type="dataset")
 artifact_dir = artifact.download()
 ```
 
@@ -99,9 +99,10 @@ Login to Weights and Biases
 
 ```python
 import wandb
+
 wandb.login()
 
-WANDB_PROJECT ='vehicle_loan_default'
+WANDB_PROJECT = "vehicle_loan_default"
 ```
 
 ## Vehicle Loan Dataset
@@ -111,12 +112,12 @@ We will be using a simplified version of the [Vehicle Loan Default Prediction da
 
 ```python
 # specify a folder to save the data, a new folder will be created if it doesn't exist
-data_dir = Path('.')
-model_dir = Path('models')
+data_dir = Path(".")
+model_dir = Path("models")
 model_dir.mkdir(exist_ok=True)
 
-id_vars = ['UniqueID']
-targ_var = 'loan_default'
+id_vars = ["UniqueID"]
+targ_var = "loan_default"
 ```
 
 Create function to pickle functions
@@ -124,7 +125,7 @@ Create function to pickle functions
 
 ```python
 def function_to_string(fn):
-    return getsource(detect.code(fn)) 
+    return getsource(detect.code(fn))
 ```
 
 #### Download Data from W&B Artifacts
@@ -133,15 +134,15 @@ We will download our dataset from W&B Artifacts. First we need to create a W&B r
 
 
 ```python
-run = wandb.init(project=WANDB_PROJECT, job_type='preprocess-data')
+run = wandb.init(project=WANDB_PROJECT, job_type="preprocess-data")
 ```
 
 Download the subset of the vehicle loan default data from W&B, this contains `train.csv` and `val.csv` files as well as some utils files.
 
 
 ```python
-ARTIFACT_PATH = 'morgan/credit_scorecard/vehicle_loan_defaults:latest'
-dataset_art = run.use_artifact(ARTIFACT_PATH, type='dataset')
+ARTIFACT_PATH = "morgan/credit_scorecard/vehicle_loan_defaults:latest"
+dataset_art = run.use_artifact(ARTIFACT_PATH, type="dataset")
 dataset_dir = dataset_art.download(data_dir)
 ```
 
@@ -159,13 +160,13 @@ from data_utils import (
 
 ```python
 # Load data into Dataframe
-dataset = pd.read_csv(data_dir/'vehicle_loans_subset.csv')
+dataset = pd.read_csv(data_dir / "vehicle_loans_subset.csv")
 
 # One Hot Encode Data
 dataset, p_vars = one_hot_encode_data(dataset, id_vars, targ_var)
 
 # Save Preprocessed data
-processed_data_path = data_dir/'proc_ds.csv'
+processed_data_path = data_dir / "proc_ds.csv"
 dataset.to_csv(processed_data_path, index=False)
 ```
 
@@ -174,17 +175,18 @@ dataset.to_csv(processed_data_path, index=False)
 
 ```python
 # Create a new artifact for the processed data, including the function that created it, to Artifacts
-processed_ds_art = wandb.Artifact(name='vehicle_defaults_processed', 
-                                    type='processed_dataset',
-                                    description='One-hot encoded dataset',
-                                    metadata={'preprocessing_fn': function_to_string(one_hot_encode_data)}
-                                 )
+processed_ds_art = wandb.Artifact(
+    name="vehicle_defaults_processed",
+    type="processed_dataset",
+    description="One-hot encoded dataset",
+    metadata={"preprocessing_fn": function_to_string(one_hot_encode_data)},
+)
 
-# Attach our processed data to the Artifact 
+# Attach our processed data to the Artifact
 processed_ds_art.add_file(processed_data_path)
 
 # Log this Artifact to the current wandb run
-run.log_artifact(processed_ds_art);
+run.log_artifact(processed_ds_art)
 
 run.finish()
 ```
@@ -203,44 +205,52 @@ Here we will:
 
 
 ```python
-with wandb.init(project=WANDB_PROJECT, job_type='train-val-split') as run:     # config is optional here
-    
+with wandb.init(
+    project=WANDB_PROJECT, job_type="train-val-split"
+) as run:  # config is optional here
     # Download the subset of the vehicle loan default data from W&B
-    dataset_art = run.use_artifact('vehicle_defaults_processed:latest', type='processed_dataset')
+    dataset_art = run.use_artifact(
+        "vehicle_defaults_processed:latest", type="processed_dataset"
+    )
     dataset_dir = dataset_art.download(data_dir)
     dataset = pd.read_csv(processed_data_path)
-    
+
     # Set Split Params
     test_size = 0.25
     random_state = 42
-    
-    # Log the splilt params
-    run.config.update({'test_size':test_size, 'random_state': random_state})
-    
-    # Do the Train/Val Split
-    trndat, valdat = model_selection.train_test_split(dataset, test_size=test_size, 
-                                                      random_state=random_state, stratify=dataset[[targ_var]])
 
-    print(f'Train dataset size: {trndat[targ_var].value_counts()} \n')
-    print(f'Validation dataset sizeL {valdat[targ_var].value_counts()}')
-    
+    # Log the splilt params
+    run.config.update({"test_size": test_size, "random_state": random_state})
+
+    # Do the Train/Val Split
+    trndat, valdat = model_selection.train_test_split(
+        dataset,
+        test_size=test_size,
+        random_state=random_state,
+        stratify=dataset[[targ_var]],
+    )
+
+    print(f"Train dataset size: {trndat[targ_var].value_counts()} \n")
+    print(f"Validation dataset sizeL {valdat[targ_var].value_counts()}")
+
     # Save split datasets
-    train_path = data_dir/'train.csv'
-    val_path = data_dir/'val.csv'
+    train_path = data_dir / "train.csv"
+    val_path = data_dir / "val.csv"
     trndat.to_csv(train_path, index=False)
     valdat.to_csv(val_path, index=False)
-    
+
     # Create a new artifact for the processed data, including the function that created it, to Artifacts
-    split_ds_art = wandb.Artifact(name='vehicle_defaults_split', 
-                                        type='train-val-dataset',
-                                        description='Processed dataset split into train and valiation',
-                                        metadata={'test_size': test_size, 'random_state': random_state}
-                                     )
-    
-    # Attach our processed data to the Artifact 
+    split_ds_art = wandb.Artifact(
+        name="vehicle_defaults_split",
+        type="train-val-dataset",
+        description="Processed dataset split into train and valiation",
+        metadata={"test_size": test_size, "random_state": random_state},
+    )
+
+    # Attach our processed data to the Artifact
     split_ds_art.add_file(train_path)
     split_ds_art.add_file(val_path)
-    
+
     # Log the Artifact
     run.log_artifact(split_ds_art)
 ```
@@ -261,13 +271,15 @@ With W&B Tables you can log, query, and analyze tabular data that contains rich 
 
 ```python
 # Create a wandb run, with an optional "log-dataset" job type to keep things tidy
-run = wandb.init(project=WANDB_PROJECT, job_type='log-dataset')  # config is optional here
+run = wandb.init(
+    project=WANDB_PROJECT, job_type="log-dataset"
+)  # config is optional here
 
 # Create a W&B Table and log 1000 random rows of the dataset to explore
 table = wandb.Table(dataframe=trndat.sample(1000))
 
 # Log the Table to your W&B workspace
-wandb.log({'processed_dataset': table})
+wandb.log({"processed_dataset": table})
 
 # Close the wandb run
 wandb.finish()
@@ -283,41 +295,41 @@ We will now fit an XGBoost model to classify whether a vehicle loan application 
 If you'd like to train your XGBoost model on your GPU, simply change set the following in the parameters you pass to XGBoost:
 
 ```python
-'tree_method': 'gpu_hist'
+"tree_method": "gpu_hist"
 ```
 
 #### 1) Initialise a W&B Run
 
 
 ```python
-run = wandb.init(project=WANDB_PROJECT, job_type='train-model')
+run = wandb.init(project=WANDB_PROJECT, job_type="train-model")
 ```
 
 #### 2) Setup and Log the Model Parameters
 
 
 ```python
-base_rate = round(trndict['base_rate'], 6) 
+base_rate = round(trndict["base_rate"], 6)
 early_stopping_rounds = 40
 ```
 
 
 ```python
 bst_params = {
-        'objective': 'binary:logistic'
-        , 'base_score': base_rate
-        , 'gamma': 1               ## def: 0
-        , 'learning_rate': 0.1     ## def: 0.1
-        , 'max_depth': 3
-        , 'min_child_weight': 100  ## def: 1
-        , 'n_estimators': 25
-        , 'nthread': 24 
-        , 'random_state': 42
-        , 'reg_alpha': 0
-        , 'reg_lambda': 0          ## def: 1
-        , 'eval_metric': ['auc', 'logloss']
-        , 'tree_method': 'hist'  # use `gpu_hist` to train on GPU
-    }
+    "objective": "binary:logistic",
+    "base_score": base_rate,
+    "gamma": 1,  ## def: 0
+    "learning_rate": 0.1,  ## def: 0.1
+    "max_depth": 3,
+    "min_child_weight": 100,  ## def: 1
+    "n_estimators": 25,
+    "nthread": 24,
+    "random_state": 42,
+    "reg_alpha": 0,
+    "reg_lambda": 0,  ## def: 1
+    "eval_metric": ["auc", "logloss"],
+    "tree_method": "hist",  # use `gpu_hist` to train on GPU
+}
 ```
 
 Log the xgboost training parameters to the W&B run config 
@@ -325,7 +337,7 @@ Log the xgboost training parameters to the W&B run config
 
 ```python
 run.config.update(dict(bst_params))
-run.config.update({'early_stopping_rounds':early_stopping_rounds})
+run.config.update({"early_stopping_rounds": early_stopping_rounds})
 ```
 
 #### 3) Load the Training Data from W&B Artifacts
@@ -333,12 +345,13 @@ run.config.update({'early_stopping_rounds':early_stopping_rounds})
 
 ```python
 # Load our training data from Artifacts
-trndat, valdat = load_training_data(run=run, data_dir=data_dir, 
-                                    artifact_name='vehicle_defaults_split:latest')
+trndat, valdat = load_training_data(
+    run=run, data_dir=data_dir, artifact_name="vehicle_defaults_split:latest"
+)
 
 ## Extract target column as a series
-y_trn = trndat.loc[:,targ_var].astype(int)
-y_val = valdat.loc[:,targ_var].astype(int)
+y_trn = trndat.loc[:, targ_var].astype(int)
+y_val = valdat.loc[:, targ_var].astype(int)
 ```
 
 #### 4) Fit the model, log results to W&B and save model to W&B Artifacts
@@ -350,13 +363,14 @@ To log all our xgboost model parameters we used the `WandbCallback`. This will .
 from wandb.xgboost import WandbCallback
 
 # Initialize the XGBoostClassifier with the WandbCallback
-xgbmodel = xgb.XGBClassifier(**bst_params, 
-                             callbacks=[WandbCallback(log_model=True)],
-                             early_stopping_rounds=run.config['early_stopping_rounds'])
+xgbmodel = xgb.XGBClassifier(
+    **bst_params,
+    callbacks=[WandbCallback(log_model=True)],
+    early_stopping_rounds=run.config["early_stopping_rounds"]
+)
 
 # Train the model
-xgbmodel.fit(trndat[p_vars], y_trn, 
-             eval_set=[(valdat[p_vars], y_val)])
+xgbmodel.fit(trndat[p_vars], y_trn, eval_set=[(valdat[p_vars], y_val)])
 ```
 
 #### 5) Log Additional Train and Evaluation Metrics to W&B
@@ -366,23 +380,30 @@ xgbmodel.fit(trndat[p_vars], y_trn,
 bstr = xgbmodel.get_booster()
 
 # Get train and validation predictions
-trnYpreds = xgbmodel.predict_proba(trndat[p_vars])[:,1]
-valYpreds = xgbmodel.predict_proba(valdat[p_vars])[:,1] 
+trnYpreds = xgbmodel.predict_proba(trndat[p_vars])[:, 1]
+valYpreds = xgbmodel.predict_proba(valdat[p_vars])[:, 1]
 
 # Log additional Train metrics
-false_positive_rate, true_positive_rate, thresholds = metrics.roc_curve(y_trn, trnYpreds) 
-run.summary['train_ks_stat'] = max(true_positive_rate - false_positive_rate)
-run.summary['train_auc'] = metrics.auc(false_positive_rate, true_positive_rate)
-run.summary['train_log_loss'] = -(y_trn * np.log(trnYpreds) + (1-y_trn) * np.log(1-trnYpreds)).sum() / len(y_trn)
+false_positive_rate, true_positive_rate, thresholds = metrics.roc_curve(
+    y_trn, trnYpreds
+)
+run.summary["train_ks_stat"] = max(true_positive_rate - false_positive_rate)
+run.summary["train_auc"] = metrics.auc(false_positive_rate, true_positive_rate)
+run.summary["train_log_loss"] = -(
+    y_trn * np.log(trnYpreds) + (1 - y_trn) * np.log(1 - trnYpreds)
+).sum() / len(y_trn)
 
 # Log additional Validation metrics
-ks_stat, ks_pval = ks_2samp(valYpreds[y_val==1], valYpreds[y_val==0])
+ks_stat, ks_pval = ks_2samp(valYpreds[y_val == 1], valYpreds[y_val == 0])
 run.summary["val_ks_2samp"] = ks_stat
 run.summary["val_ks_pval"] = ks_pval
 run.summary["val_auc"] = metrics.roc_auc_score(y_val, valYpreds)
-run.summary["val_acc_0.5"] = metrics.accuracy_score(y_val, np.where(valYpreds >= 0.5, 1, 0))
-run.summary["val_log_loss"] = -(y_val * np.log(valYpreds) 
-                                     + (1-y_val) * np.log(1-valYpreds)).sum() / len(y_val)
+run.summary["val_acc_0.5"] = metrics.accuracy_score(
+    y_val, np.where(valYpreds >= 0.5, 1, 0)
+)
+run.summary["val_log_loss"] = -(
+    y_val * np.log(valYpreds) + (1 - y_val) * np.log(1 - valYpreds)
+).sum() / len(y_val)
 ```
 
 #### 6) Log the ROC Curve To W&B
@@ -390,17 +411,24 @@ run.summary["val_log_loss"] = -(y_val * np.log(valYpreds)
 
 ```python
 # Log the ROC curve to W&B
-valYpreds_2d = np.array([1-valYpreds, valYpreds])  # W&B expects a 2d array
+valYpreds_2d = np.array([1 - valYpreds, valYpreds])  # W&B expects a 2d array
 y_val_arr = y_val.values
 d = 0
 while len(valYpreds_2d.T) > 10000:
-    d +=1
+    d += 1
     valYpreds_2d = valYpreds_2d[::1, ::d]
     y_val_arr = y_val_arr[::d]
-    
-run.log({"ROC_Curve" : wandb.plot.roc_curve(y_val_arr, valYpreds_2d.T,
-                                           labels=['no_default','loan_default'],
-                                           classes_to_plot=[1])})
+
+run.log(
+    {
+        "ROC_Curve": wandb.plot.roc_curve(
+            y_val_arr,
+            valYpreds_2d.T,
+            labels=["no_default", "loan_default"],
+            classes_to_plot=[1],
+        )
+    }
+)
 ```
 
 #### Finish the W&B Run
@@ -424,24 +452,13 @@ First we define the hyperparameters to sweep over as well as the type of sweep t
 
 ```python
 sweep_config = {
-  "method" : "random",
-  "parameters" : {
-    "learning_rate" :{
-      "min": 0.001,
-      "max": 1.0
+    "method": "random",
+    "parameters": {
+        "learning_rate": {"min": 0.001, "max": 1.0},
+        "gamma": {"min": 0.001, "max": 1.0},
+        "min_child_weight": {"min": 1, "max": 150},
+        "early_stopping_rounds": {"values": [10, 20, 30, 40]},
     },
-    "gamma" :{
-      "min": 0.001,
-      "max": 1.0
-    },
-    "min_child_weight" :{
-      "min": 1,
-      "max": 150
-    },
-    "early_stopping_rounds" :{
-      "values" : [10, 20, 30, 40]
-    },
-  }
 }
 
 sweep_id = wandb.sweep(sweep_config, project=WANDB_PROJECT)
@@ -453,64 +470,71 @@ Then we define the function that will train our model using these hyperparameter
 
 
 ```python
-def train():     
+def train():
     with wandb.init(job_type="sweep") as run:
-    
         bst_params = {
-            'objective': 'binary:logistic'
-            , 'base_score': base_rate
-            , 'gamma': run.config['gamma']
-            , 'learning_rate': run.config['learning_rate']
-            , 'max_depth': 3
-            , 'min_child_weight': run.config['min_child_weight']
-            , 'n_estimators': 25
-            , 'nthread': 24 
-            , 'random_state': 42
-            , 'reg_alpha': 0
-            , 'reg_lambda': 0          ## def: 1
-            , 'eval_metric': ['auc', 'logloss']
-            , 'tree_method': 'hist' 
+            "objective": "binary:logistic",
+            "base_score": base_rate,
+            "gamma": run.config["gamma"],
+            "learning_rate": run.config["learning_rate"],
+            "max_depth": 3,
+            "min_child_weight": run.config["min_child_weight"],
+            "n_estimators": 25,
+            "nthread": 24,
+            "random_state": 42,
+            "reg_alpha": 0,
+            "reg_lambda": 0,  ## def: 1
+            "eval_metric": ["auc", "logloss"],
+            "tree_method": "hist",
         }
-        
+
         # Initialize the XGBoostClassifier with the WandbCallback
-        xgbmodel = xgb.XGBClassifier(**bst_params, 
-                                     callbacks=[WandbCallback()],
-                                     early_stopping_rounds=run.config['early_stopping_rounds'])
+        xgbmodel = xgb.XGBClassifier(
+            **bst_params,
+            callbacks=[WandbCallback()],
+            early_stopping_rounds=run.config["early_stopping_rounds"]
+        )
 
         # Train the model
-        xgbmodel.fit(trndat[p_vars], y_trn, 
-                     eval_set=[(valdat[p_vars], y_val)])
+        xgbmodel.fit(trndat[p_vars], y_trn, eval_set=[(valdat[p_vars], y_val)])
 
         bstr = xgbmodel.get_booster()
 
         # Log booster metrics
         run.summary["best_ntree_limit"] = bstr.best_ntree_limit
-        
+
         # Get train and validation predictions
-        trnYpreds = xgbmodel.predict_proba(trndat[p_vars])[:,1]
-        valYpreds = xgbmodel.predict_proba(valdat[p_vars])[:,1] 
+        trnYpreds = xgbmodel.predict_proba(trndat[p_vars])[:, 1]
+        valYpreds = xgbmodel.predict_proba(valdat[p_vars])[:, 1]
 
         # Log additional Train metrics
-        false_positive_rate, true_positive_rate, thresholds = metrics.roc_curve(y_trn, trnYpreds) 
-        run.summary['train_ks_stat'] = max(true_positive_rate - false_positive_rate)
-        run.summary['train_auc'] = metrics.auc(false_positive_rate, true_positive_rate)
-        run.summary['train_log_loss'] = -(y_trn * np.log(trnYpreds) + (1-y_trn) * np.log(1-trnYpreds)).sum() / len(y_trn)
+        false_positive_rate, true_positive_rate, thresholds = metrics.roc_curve(
+            y_trn, trnYpreds
+        )
+        run.summary["train_ks_stat"] = max(true_positive_rate - false_positive_rate)
+        run.summary["train_auc"] = metrics.auc(false_positive_rate, true_positive_rate)
+        run.summary["train_log_loss"] = -(
+            y_trn * np.log(trnYpreds) + (1 - y_trn) * np.log(1 - trnYpreds)
+        ).sum() / len(y_trn)
 
         # Log additional Validation metrics
-        ks_stat, ks_pval = ks_2samp(valYpreds[y_val==1], valYpreds[y_val==0])
+        ks_stat, ks_pval = ks_2samp(valYpreds[y_val == 1], valYpreds[y_val == 0])
         run.summary["val_ks_2samp"] = ks_stat
         run.summary["val_ks_pval"] = ks_pval
         run.summary["val_auc"] = metrics.roc_auc_score(y_val, valYpreds)
-        run.summary["val_acc_0.5"] = metrics.accuracy_score(y_val, np.where(valYpreds >= 0.5, 1, 0))
-        run.summary["val_log_loss"] = -(y_val * np.log(valYpreds) 
-                                             + (1-y_val) * np.log(1-valYpreds)).sum() / len(y_val)
+        run.summary["val_acc_0.5"] = metrics.accuracy_score(
+            y_val, np.where(valYpreds >= 0.5, 1, 0)
+        )
+        run.summary["val_log_loss"] = -(
+            y_val * np.log(valYpreds) + (1 - y_val) * np.log(1 - valYpreds)
+        ).sum() / len(y_val)
 ```
 
 #### Run the Sweeps Agent
 
 
 ```python
-count = 10 # number of runs to execute
+count = 10  # number of runs to execute
 wandb.agent(sweep_id, function=train, count=count)
 ```
 

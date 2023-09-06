@@ -6,9 +6,7 @@
 Run a function or program with configuration parameters specified by server.
 
 ```python
-agent(
-    sweep_id, function=None, entity=None, project=None, count=None
-)
+agent(sweep_id, function=None, entity=None, project=None, count=None)
 ```
 
 Generic agent entrypoint, used for CLI or jupyter.

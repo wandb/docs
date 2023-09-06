@@ -6,7 +6,7 @@
 Start a new run to track and log to W&B.
 
 ```python
-init(
+def init(
     job_type: Optional[str] = None,
     dir: Optional[StrPath] = None,
     config: Union[Dict, str, None] = None,
@@ -30,8 +30,9 @@ init(
     monitor_gym: Optional[bool] = None,
     save_code: Optional[bool] = None,
     id: Optional[str] = None,
-    settings: Union[Settings, Dict[str, Any], None] = None
-) -> Union[Run, RunDisabled, None]
+    settings: Union[Settings, Dict[str, Any], None] = None,
+) -> Union[Run, RunDisabled, None]:
+    ...
 ```
 
 In an ML training pipeline, you could add `wandb.init()`

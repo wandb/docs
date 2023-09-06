@@ -87,6 +87,7 @@ _私たちは現在、新しいモデル管理機能を積極的に開発して�
 
 ```python
 import wandb
+
 # API経由でモデルバージョンを取得
 art = wandb.Api().artifact(...)
 # モデルバージョンをモデルコレクションにリンク
@@ -97,6 +98,7 @@ art.link("[[entity/]project/]collectionName")
 
 ```python
 import wandb
+
 # W&B runを初期化してトラッキングを開始
 wandb.init()
 # モデルバージョンの参照を取得
@@ -109,6 +111,7 @@ art.link("[[entity/]project/]collectionName")
 
 ```python
 import wandb
+
 # W&B runを初期化してトラッキングを開始
 wandb.init()
 # モデルバージョンを作成
@@ -157,7 +160,7 @@ dataset = wandb.use_artifact("mnist:latest")
 # ... モデルをシリアル化します
 model.save("path/to/model.pt")
 # ... モデルバージョンを作成
-art = wandb.Artifact(f'mnist-nn-{wandb.run.id}', type="model")
+art = wandb.Artifact(f"mnist-nn-{wandb.run.id}", type="model")
 # ... シリアル化されたファイルを追加
 art.add_file("path/to/model.pt", "model.pt")
 # （オプション）トレーニングメトリクスをログに記録
@@ -184,7 +187,7 @@ dataset = wandb.use_artifact("[[entity/]project/]name:alias")
 
 ```python
 art = wandb.Artifact("dataset_name", "dataset")
-art.add_dir("path/to/data") # または art.add_file("path/to/data.csv")
+art.add_dir("path/to/data")  # または art.add_file("path/to/data.csv")
 dataset = wandb.use_artifact(art)
 ```
 
@@ -321,11 +324,7 @@ dataset = wandb.use_artifact("mnist-evaluation:latest")
 loss, accuracy, predictions = evaluate_model(model, dataset)
 
 # メトリクス、画像、テーブル、評価に役立つデータをログに出力する。
-wandb.log(
-    {
-        "loss": loss, "accuracy": accuracy, 
-        "predictions": predictions
-        })
+wandb.log({"loss": loss, "accuracy": accuracy, "predictions": predictions})
 ```
 
 ノートブックで示されているような類似のコードを実行している場合、以下の画像に似たワークスペースが表示されるはずです。ここでは、テストデータに対するモデルの予測まで表示しています！

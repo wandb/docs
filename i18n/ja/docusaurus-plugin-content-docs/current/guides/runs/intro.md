@@ -28,7 +28,7 @@ W&B Runsは以下のようなタスクに使用します。
 ```python
 import wandb
 
-run = wandb.init(project='my-project-name')
+run = wandb.init(project="my-project-name")
 ```
 `project`フィールドにプロジェクト名をオプションで指定できます。Runオブジェクトを作成する際にプロジェクト名を指定することをお勧めします。指定された名前のプロジェクトがまだ存在しない場合、W&Bは新しいプロジェクトを作成します。プロジェクトは、実験、runs、アーティファクトなどを一か所で便利に整理するのに役立ちます。これを*プロジェクトワークスペース*と呼びます。プロジェクトのワークスペースは、runを比較するための個人用の砂場のようなものです。
 
@@ -68,7 +68,7 @@ wandb.finish()
 assert wandb.run is None
 
 with wandb.init() as run:
- pass # ここでデータをログに記録
+    pass  # ここでデータをログに記録
 
 assert wandb.run is None
 ```

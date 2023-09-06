@@ -43,10 +43,7 @@ wandb.init(config={"bs": 12})
 
 # WandbMetricsLoggerをmodel.fitに渡す
 model.fit(
-    X_train,
-    y_train,
-    validation_data=(X_test, y_test),
-    callbacks=[WandbMetricsLogger()]
+    X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbMetricsLogger()]
 )
 ```
 
@@ -83,13 +80,13 @@ wandb.init(config={"bs": 12})
 
 # WandbModelCheckpointをmodel.fitに渡す
 model.fit(
-  X_train,
-  y_train,
-  validation_data=(X_test, y_test),
-  callbacks=[
-    WandbMetricsLogger(),
-    WandbModelCheckpoint("models"),
-  ]
+    X_train,
+    y_train,
+    validation_data=(X_test, y_test),
+    callbacks=[
+        WandbMetricsLogger(),
+        WandbModelCheckpoint("models"),
+    ],
 )
 ```
 **`WandbModelCheckpoint` リファレンス**
@@ -129,6 +126,7 @@ model.fit(
 import wandb
 from wandb.keras import WandbMetricsLogger, WandbEvalCallback
 
+
 # モデル予測の可視化コールバックを実装
 class WandbClfEvalCallback(WandbEvalCallback):
     def __init__(
@@ -158,6 +156,8 @@ class WandbClfEvalCallback(WandbEvalCallback):
                 self.data_table_ref.data[idx][2],
                 pred,
             )
+
+
 # ...
 
 # W&B runを新規作成
@@ -174,8 +174,8 @@ model.fit(
             validation_data=(X_test, y_test),
             data_table_columns=["idx", "image", "label"],
             pred_table_columns=["epoch", "idx", "image", "label", "pred"],
-	),
-    ]
+        ),
+    ],
 )
 ```
 
@@ -215,10 +215,7 @@ wandb.init(config={"hyper": "parameter"})
 
 # コールバックをmodel.fitに渡す
 model.fit(
-  X_train,
-  y_train,
-  validation_data=(X_test, y_test),
-  callbacks=[WandbCallback()]
+    X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
 )
 ```
 ## 使用例
@@ -286,7 +283,7 @@ W&BとKerasを初めて組み合わせる場合は、この1分間のステッ�
 `use_multiprocessing=True`を設定して、次のようなエラーが表示される場合：
 
 ```python
-Error('You must call wandb.init() before wandb.config.batch_size')
+Error("You must call wandb.init() before wandb.config.batch_size")
 ```
 
 次の手順を試してみてください：

@@ -39,12 +39,16 @@ Gradioアプリケーション内にW&Bレポートを埋め込んで、Hugging 
 ```python
 import gradio as gr
 
+
 def wandb_report(url):
     iframe = f'<iframe src={url} style="border:none;height:1024px;width:100%">'
     return gr.HTML(iframe)
 
+
 with gr.Blocks() as demo:
-    report = wandb_report('https://wandb.ai/_scott/pytorch-sweeps-demo/reports/loss-22-10-07-16-00-17---VmlldzoyNzU2NzAx')
+    report = wandb_report(
+        "https://wandb.ai/_scott/pytorch-sweeps-demo/reports/loss-22-10-07-16-00-17---VmlldzoyNzU2NzAx"
+    )
 
 demo.launch()
 ```

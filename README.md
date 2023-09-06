@@ -43,6 +43,7 @@ Install pre-commit hooks to ensure that the code snippets in the docs are format
 ```bash
 pip install pre-commit
 pre-commit install
+# pre-commit run blacken-docs --all-files  # to run manually on all files
 ```
 
 &nbsp;

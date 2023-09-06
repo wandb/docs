@@ -14,7 +14,7 @@ import lightgbm as lgb
 # Log metrics to W&B
 gbm = lgb.train(..., callbacks=[wandb_callback()])
 
-# Log feature importance plot and upload model checkpoint to W&B 
+# Log feature importance plot and upload model checkpoint to W&B
 log_summary(gbm, save_model_checkpoint=True)
 ```
 

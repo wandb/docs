@@ -45,7 +45,7 @@ The proceeding example demonstrates how to create a dataset artifact:
 ```python
 import wandb
 
-artifact = wandb.Artifact(name='<replace>', type='<replace>')
+artifact = wandb.Artifact(name="<replace>", type="<replace>")
 ```
 
 Replace the string arguments in the preceding code snippet with your own name and type.
@@ -55,10 +55,7 @@ Replace the string arguments in the preceding code snippet with your own name an
 Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the [`add_file`](../../ref/python/artifact.md#add_file) method:
 
 ```python
-artifact.add_file(
-    local_path='hello_world.txt', 
-    name='optional-name'
-    )    
+artifact.add_file(local_path="hello_world.txt", name="optional-name")
 ```
 
 You can also add multiple files with the [`add_dir`](../../ref/python/artifact.md#add_dir) method. For more information on how to add files, see [Update an artifact](./update-an-artifact.md).
@@ -69,10 +66,7 @@ Finally, save your artifact to the W&B server. Artifacts are associated with a r
 
 ```python
 # Create a W&B Run. Replace 'job-type'.
-run = wandb.init(
-    project="artifacts-example", 
-    job_type='job-type'
-    )    
+run = wandb.init(project="artifacts-example", job_type="job-type")
 
 run.log_artifact(artifact)
 ```
@@ -84,9 +78,13 @@ Calls to `log_artifact` are performed asynchronously for performant uploads. Thi
 
 ```python
 for i in range(10):
-    a = wandb.Artifact('race', type='dataset', metadata={
-        "index": i,
-    })
+    a = wandb.Artifact(
+        "race",
+        type="dataset",
+        metadata={
+            "index": i,
+        },
+    )
     # ... add files to artifact a ...
     run.log_artifact(a)
 ```
@@ -116,13 +114,13 @@ The proceeding code snippet demonstrates how to add a single, local file to your
 
 ```python
 # Add a single file
-artifact.add_file(local_path='path/file.format')
+artifact.add_file(local_path="path/file.format")
 ```
 
 For example, suppose you had a file called `'file.txt'` in your working local directory.
 
 ```python
-artifact.add_file('path/file.txt') # Added as `file.txt'
+artifact.add_file("path/file.txt")  # Added as `file.txt'
 ```
 
 The artifact now has the following content:
@@ -134,10 +132,7 @@ file.txt
 Optionally, pass the desired path within the artifact for the `name` parameter.
 
 ```python
-artifact.add_file(
-    local_path='path/file.format', 
-    name='new/path/file.format'
-    )     
+artifact.add_file(local_path="path/file.format", name="new/path/file.format")
 ```
 
 The artifact is stored as:
@@ -158,10 +153,7 @@ The proceeding code snippet demonstrates how to add an entire, local directory t
 
 ```python
 # Recursively add a directory
-artifact.add_dir(
-    local_path='path/file.format', 
-    name='optional-prefix'
-    )
+artifact.add_dir(local_path="path/file.format", name="optional-prefix")
 ```
 
 The proceeding API calls produce the proceeding artifact content:
@@ -180,7 +172,7 @@ Add an external URI reference to an artifact with the [`add_reference`](../../re
 
 ```python
 # Add a URI reference
-artifact.add_reference(uri='uri', name='optional-name')
+artifact.add_reference(uri="uri", name="optional-name")
 ```
 
 Artifacts currently support the following URI schemes:
@@ -224,49 +216,42 @@ num_parallel = 5
 # unique group name.
 group_name = "writer-group-{}".format(round(time.time()))
 
+
 @ray.remote
 def train(i):
-  """
-  Our writer job. Each writer will add one image to the artifact.
-  """
-  with wandb.init(group=group_name) as run:
-    artifact = wandb.Artifact(
-        name=artifact_name, 
-        type=artifact_type
-        )       
-        
-    # Add data to a wandb table. In this case we use example data
-    table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
+    """
+    Our writer job. Each writer will add one image to the artifact.
+    """
+    with wandb.init(group=group_name) as run:
+        artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
 
-    # Add the table to folder in the artifact
-    artifact.add(table, "{}/table_{}".format(parts_path, i))
+        # Add data to a wandb table. In this case we use example data
+        table = wandb.Table(columns=["a", "b", "c"], data=[[i, i * 2, 2**i]])
 
-    # Upserting the artifact creates or appends data to the artifact
-    run.upsert_artifact(artifact)
-  
+        # Add the table to folder in the artifact
+        artifact.add(table, "{}/table_{}".format(parts_path, i))
+
+        # Upserting the artifact creates or appends data to the artifact
+        run.upsert_artifact(artifact)
+
+
 # Launch your runs in parallel
 result_ids = [train.remote(i) for i in range(num_parallel)]
 
 # Join on all the writers to make sure their files have
-# been added before finishing the artifact. 
+# been added before finishing the artifact.
 ray.get(result_ids)
 
 # Once all the writers are finished, finish the artifact
 # to mark it ready.
 with wandb.init(group=group_name) as run:
-  artifact = wandb.Artifact(
-    artifact_name, 
-    type=artifact_type
-    )
-  
-  # Create a "PartitionTable" pointing to the folder of tables
-  # and add it to the artifact.
-  artifact.add(
-    wandb.data_types.PartitionedTable(parts_path), 
-    table_name
-    )
-  
-  # Finish artifact finalizes the artifact, disallowing future "upserts"
-  # to this version.
-  run.finish_artifact(artifact)
+    artifact = wandb.Artifact(artifact_name, type=artifact_type)
+
+    # Create a "PartitionTable" pointing to the folder of tables
+    # and add it to the artifact.
+    artifact.add(wandb.data_types.PartitionedTable(parts_path), table_name)
+
+    # Finish artifact finalizes the artifact, disallowing future "upserts"
+    # to this version.
+    run.finish_artifact(artifact)
 ```

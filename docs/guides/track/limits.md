@@ -24,12 +24,15 @@ Use `wandb.log` to track experiment metrics. Once logged, these metrics generate
 Keep the total number of distinct metrics under 10,000.
 
 ```python
-wandb.log({
-  "a": 1, # "a" is a distinct metric
-  "b": {
-    "c": "hello",  # "b.c" is a distinct metric
-    "d": [1, 2, 3] # "b.d" is a distinct metric
-}) # 3 distinct metrics logged
+wandb.log(
+    {
+        "a": 1,  # "a" is a distinct metric
+        "b": {
+            "c": "hello",  # "b.c" is a distinct metric
+            "d": [1, 2, 3],  # "b.d" is a distinct metric
+        },
+    }
+) # 3 distinct metrics logged
 ```
 
 :::caution
@@ -40,15 +43,11 @@ Log related media to the same metric name:
 
 ```python
 for i, img in enumerate(images):
-  # ❌ not recommended
-  wandb.log({
-   f"pred_img_{i}": wandb.Image(image)
-  })
+    # ❌ not recommended
+    wandb.log({f"pred_img_{i}": wandb.Image(image)})
   
- # ✅ recommended
- wandb.log({
-   "pred_imgs": [wandb.Image(image) for image in images]
- }) 
+    # ✅ recommended
+    wandb.log({"pred_imgs": [wandb.Image(image) for image in images]}) 
 ```
 
 Logging beyond 10,000 distinct metrics can slow down your project workspaces and runs table operations.

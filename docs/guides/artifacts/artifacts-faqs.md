@@ -105,13 +105,11 @@ You can use the following code to retrieve the artifacts associated with the bes
 ```python
 api = wandb.Api()
 sweep = api.sweep("entity/project/sweep_id")
-runs = sorted(sweep.runs,
-              key=lambda run: run.summary.get("val_acc", 0), 
-              reverse=True)
+runs = sorted(sweep.runs, key=lambda run: run.summary.get("val_acc", 0), reverse=True)
 best_run = runs[0]
 for artifact in best_run.logged_artifacts():
-  artifact_path = artifact.download()
-  print(artifact_path)
+    artifact_path = artifact.download()
+    print(artifact_path)
 ```
 
 ### How do I save code?‌
@@ -139,7 +137,7 @@ There are many ways in which you can think of _version_ a model. Artifacts provi
 If you've logged an artifact reference with W&B and if the versioning is enabled on your buckets then the version IDs can be seen in the S3 UI. To fetch these version IDs and ETags in W&B, you can fetch the artifact and then get the corresponding manifest entries. For example:
 
 ```python
-artifact = run.use_artifact('my_table:latest')
+artifact = run.use_artifact("my_table:latest")
 for entry in artifact.manifest.entries.values():
     versionID = entry.extra.get("versionID")
     etag = manifest_entry.extra.get("etag")

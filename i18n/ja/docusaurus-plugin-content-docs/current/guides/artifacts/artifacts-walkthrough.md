@@ -38,10 +38,7 @@ wandb.login()
 ```python
 # W&B Runを作成します。ここでは、データセットアーティファクトの作成方法を示すため、
 # ジョブタイプとして'dataset'を指定しています。
-run = wandb.init(
-    project="artifacts-example", 
-    job_type='upload-dataset'
-    )
+run = wandb.init(project="artifacts-example", job_type="upload-dataset")
 ```
 
 ### アーティファクトオブジェクトの作成
@@ -51,10 +48,7 @@ run = wandb.init(
 例えば、以下のコードスニペットは、`‘dataset’`ラベルの`‘bicycle-dataset’`というアーティファクトを作成する方法を示しています：
 
 ```python
-artifact = wandb.Artifact(
-    name='bicycle-dataset', 
-    type='dataset'
-    )    
+artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
 ```
 アーティファクトの構築方法についての詳細は、[アーティファクトの構築](https://docs.wandb.ai/guides/artifacts/construct-an-artifact)を参照してください。
 
@@ -64,7 +58,7 @@ artifact = wandb.Artifact(
 
 ```python
 # アーティファクトの内容にファイルを追加
-artifact.add_file(local_path='dataset.h5')
+artifact.add_file(local_path="dataset.h5")
 ```
 
 上記のコードスニペットの`dataset.h5`というファイル名を、アーティファクトに追加したいファイルへのパスに置き換えてください。
@@ -90,13 +84,10 @@ run.log_artifact(artifact)
 ```python
 # W&B Runを作成します。ここでは'type'に'training'を指定しています
 # なぜなら、このrunでトレーニングのトラッキングを行うためです。
-run = wandb.init(
-    project="artifacts-example", 
-    job_type='training'
-    )
+run = wandb.init(project="artifacts-example", job_type="training")
 
 # アーティファクトをW&Bから取得し、このrunの入力としてマークします
-artifact = run.use_artifact('bicycle-dataset:latest')
+artifact = run.use_artifact("bicycle-dataset:latest")
 
 # アーティファクトの内容をダウンロードします
 artifact_dir = artifact.download()

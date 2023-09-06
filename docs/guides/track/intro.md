@@ -34,7 +34,7 @@ The proceeding pseudocode demonstrates a common W&B Experiment tracking workflow
 
 ```python showLineNumbers
 # 1. Start a W&B Run
-wandb.init(entity='', project='my-project-name')
+wandb.init(entity="", project="my-project-name")
 
 # 2. Save mode inputs and hyperparameters
 wandb.config.learning_rate = 0.01

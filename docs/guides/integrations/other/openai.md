@@ -36,7 +36,7 @@ import os
 import openai
 from wandb.integration.openai import autolog
 
-autolog({"project":"gpt5"})
+autolog({"project": "gpt5"})
 ```
 
 You can optionally pass a dictionary with argument that `wandb.init()` accepts to `autolog`. This includes a project name, team name, entity, and more. For more information about [`wandb.init`](../../../ref/python/init.md), see the API Reference Guide.
@@ -191,17 +191,16 @@ Perform some inferences using OpenAI API:
 my_prompts = ["PROMPT_1", "PROMPT_2"]
 results = []
 for prompt in my_prompts:
-    res = openai.Completion.create(model=fine_tuned_model,
-                                   prompt=prompt,
-                                   ...)
+    res = openai.Completion.create(model=fine_tuned_model, prompt=prompt, ...)
     results.append(res["choices"][0]["text"])
 ```
 
 Log your results with a Table:
 
 ```python
-table = wandb.Table(columns=['prompt', 'completion'],
-                    data=list(zip(my_prompts, results)))
+table = wandb.Table(
+    columns=["prompt", "completion"], data=list(zip(my_prompts, results))
+)
 ```
 
 ## :question:Frequently Asked Questions
@@ -229,7 +228,7 @@ Fine-tune details are logged to W&B as artifacts and can be accessed with:
 ```python
 import wandb
 
-artifact_job = wandb.run.use_artifact('USERNAME/PROJECT/job_details:VERSION')
+artifact_job = wandb.run.use_artifact("USERNAME/PROJECT/job_details:VERSION")
 ```
 
 where `VERSION` is either:

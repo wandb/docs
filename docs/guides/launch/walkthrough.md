@@ -24,21 +24,15 @@ Copy the following Python code to your machine in a file named `train.py`.
 ```python
 import wandb
 
-config = {
-    "epochs": 10
-}
+config = {"epochs": 10}
 
 with wandb.init(config=config, project="launch-quickstart"):
     config = wandb.config
     for epoch in range(1, config.epochs):
         loss = config.epochs / epoch
-        accuracy = (1 + (epoch / config.epochs))/2
-        wandb.log({
-            "loss": loss, 
-            "accuracy": accuracy, 
-            "epoch": epoch})
-    wandb.run.log_code()  
-
+        accuracy = (1 + (epoch / config.epochs)) / 2
+        wandb.log({"loss": loss, "accuracy": accuracy, "epoch": epoch})
+    wandb.run.log_code()
 ```
 
 To install dependencies and run the script, execute the following commands in your terminal:
