@@ -138,13 +138,11 @@ job = wandb.create_job(
     description="Fine tune pass over base auto-suggester",
     aliases=["first-pass", "dev"],
     runtime="3.10",
-    entrypoint="fine_tune.py"
+    entrypoint="fine_tune.py",
 )
 
 # Launch the job onto a queue
-job.call(
-  queue="kubernetes-launch-queue"
-)
+job.call(queue="kubernetes-launch-queue")
 ```
 
 :::note
