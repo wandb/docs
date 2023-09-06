@@ -1,0 +1,12 @@
+# Install pre-commit hooks via `pip install pre-commit && pre-commit install`
+default_stages:
+  - pre-push
+repos:
+  - repo: https://github.com/psf/black
+    rev: 23.7.0
+    hooks:
+      - id: black-jupyter
+  - repo: https://github.com/asottile/blacken-docs
+    rev: 1.16.0
+    hooks:
+      - id: blacken-docs
