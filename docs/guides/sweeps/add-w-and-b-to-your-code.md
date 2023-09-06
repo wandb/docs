@@ -74,7 +74,7 @@ The following code examples demonstrate how to add the W&B Python SDK into your 
   <TabItem value="script">
   To create a W&B Sweep, we added the following to the code example:
 
-1. Line 1: Import the Wights & Biases Python SDK.
+1. Line 1: Import the Weights & Biases Python SDK.
 2. Line 6: Create a dictionary object where the key-value pairs define the sweep configuration. In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep. For more information on how to create a sweep configuration, see [Define sweep configuration](./define-sweep-configuration.md).
 3. Line 19: Pass the sweep configuration dictionary to [`wandb.sweep`](../../ref/python/sweep). This initializes the sweep. This returns a sweep ID (`sweep_id`). For more information on how to initialize sweeps, see [Initialize sweeps](./initialize-sweeps.md).
 4. Line 33: Use the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a [W&B Run](../../ref/python/run.md).
