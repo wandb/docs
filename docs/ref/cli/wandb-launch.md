@@ -23,4 +23,5 @@ Launch or queue a W&B Job. See https://wandb.me/launch
 | -q, --queue | Name of run queue to push to. If none,   launches single run directly. If supplied without an argument (`--queue`), defaults to   queue 'default'. Else, if name supplied, specified run queue must exist under the   project and entity supplied. |
 | --async | Flag to run the job asynchronously. Defaults   to false, i.e. unless --async is set, wandb launch will wait for the job to finish. This   option is incompatible with --queue; asynchronous options when running with an   agent should be set on wandb launch-agent. |
 | --resource-args | Path to JSON file (must end in '.json') or   JSON string which will be passed as resource args to the compute resource. The exact   content which should be provided is different for each execution backend. See   documentation for layout of this file. |
+| --dockerfile | Path to the Dockerfile used to build the   job, relative to the job's root |
 
