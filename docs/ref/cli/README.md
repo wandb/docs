@@ -24,6 +24,7 @@
 | enabled | Enable W&B. |
 | import | Commands for importing data from other systems |
 | init | Configure a directory with Weights & Biases |
+| job | Commands for managing and viewing W&B jobs |
 | launch | Launch or queue a W&B Job. |
 | launch-agent | Run a W&B launch agent. |
 | launch-sweep | Run a W&B launch sweep (Experimental). |
