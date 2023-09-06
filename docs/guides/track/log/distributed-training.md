@@ -113,6 +113,7 @@ Modify your Python script to enable W&B Service for W&B SDK version 0.12.5 and a
 if __name__ == "__main__":
     main()
 
+
 def main():
     wandb.require("service")
     # rest-of-your-script-goes-here
@@ -135,14 +136,17 @@ Use the `wandb.setup()[line 8]`method in your main function if you initiate a W&
 ```python showLineNumbers
 import multiprocessing as mp
 
+
 def do_work(n):
     run = wandb.init(config=dict(n=n))
-    run.log(dict(this=n*n))
+    run.log(dict(this=n * n))
+
 
 def main():
     wandb.setup()
     pool = mp.Pool(processes=4)
     pool.map(do_work, range(4))
+
 
 if __name__ == "__main__":
     main()
@@ -156,12 +160,14 @@ Pass a W&B Run object as an argument to share W&B Runs between processes:
 def do_work(run):
     run.log(dict(this=1))
 
+
 def main():
     run = wandb.init()
     p = mp.Process(target=do_work, kwargs=dict(run=run))
     p.start()
     p.join()
-        
+
+
 if __name__ == "__main__":
     main()
 ```

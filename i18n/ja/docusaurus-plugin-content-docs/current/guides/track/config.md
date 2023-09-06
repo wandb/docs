@@ -40,12 +40,12 @@ import wandb
 
 # configディクショナリオブジェクトを定義する
 config = {
-  "hidden_layer_sizes": [32, 64],
-  "kernel_sizes": [3],
-  "activation": "ReLU",
-  "pool_sizes": [2],
-  "dropout": 0.5,
-  "num_classes": 10
+    "hidden_layer_sizes": [32, 64],
+    "kernel_sizes": [3],
+    "activation": "ReLU",
+    "pool_sizes": [2],
+    "dropout": 0.5,
+    "num_classes": 10,
 }
 
 # W&Bを初期化するときにconfigディクショナリを渡す
@@ -60,14 +60,14 @@ run = wandb.init(project="config_example", config=config)
 
 ```python
 # キーをインデックス値として値にアクセスする
-hidden_layer_sizes = wandb.config['hidden_layer_sizes']
-kernel_sizes = wandb.config['kernel_sizes']
-activation = wandb.config['activation']
+hidden_layer_sizes = wandb.config["hidden_layer_sizes"]
+kernel_sizes = wandb.config["kernel_sizes"]
+activation = wandb.config["activation"]
 
 # Pythonの辞書型のget()メソッド
-hidden_layer_sizes = wandb.config.get('hidden_layer_sizes')
-kernel_sizes = wandb.config.get('kernel_sizes')
-activation = wandb.config.get('activation')
+hidden_layer_sizes = wandb.config.get("hidden_layer_sizes")
+kernel_sizes = wandb.config.get("kernel_sizes")
+activation = wandb.config.get("activation")
 ```
 
 :::note
@@ -85,66 +85,57 @@ argparseオブジェクトで設定を行うことができます。[argparse](h
 # config_experiment.py
 import wandb
 import argparse
-import numpy as np 
+import numpy as np
 import random
+
+
 # トレーニングと評価デモコード
-def train_one_epoch(epoch, lr, bs): 
-    acc = 0.25 + ((epoch/30) +  (random.random()/10))
-    loss = 0.2 + (1 - ((epoch-1)/10 +  random.random()/5))
+def train_one_epoch(epoch, lr, bs):
+    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
+    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
     return acc, loss
 
-def evaluate_one_epoch(epoch): 
-    acc = 0.1 + ((epoch/20) +  (random.random()/10))
-    loss = 0.25 + (1 - ((epoch-1)/10 +  random.random()/6))
+
+def evaluate_one_epoch(epoch):
+    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
+    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
     return acc, loss
+
 
 def main(args):
     # W&B Runを開始
     run = wandb.init(project="config_example", config=args)
 
     # config辞書から値を取得し、読みやすさのために変数に保存する
-    lr  =  wandb.config['learning_rate']
-    bs = wandb.config['batch_size']
-    epochs = wandb.config['epochs']
+    lr = wandb.config["learning_rate"]
+    bs = wandb.config["batch_size"]
+    epochs = wandb.config["epochs"]
 
     # トレーニングとW&Bへの値のロギングをシミュレーションする
     for epoch in np.arange(1, epochs):
         train_acc, train_loss = train_one_epoch(epoch, lr, bs)
         val_acc, val_loss = evaluate_one_epoch(epoch)
 
-        wandb.log({
-        'epoch': epoch, 
-        'train_acc': train_acc,
-        'train_loss': train_loss, 
-        'val_acc': val_acc, 
-        'val_loss': val_loss
-        })
+        wandb.log(
+            {
+                "epoch": epoch,
+                "train_acc": train_acc,
+                "train_loss": train_loss,
+                "val_acc": val_acc,
+                "val_loss": val_loss,
+            }
+        )
 ```
 
 ```python
 if __name__ == "__main__":
-  parser = argparse.ArgumentParser(
-    formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
-  parser.add_argument(
-    "-b",
-    "--batch_size",
-    type=int,
-    default=32,
-    help="バッチサイズ")
-  parser.add_argument(
-    "-e",
-    "--epochs",
-    type=int,
-    default=50,
-    help="トレーニングエポック数")
-  parser.add_argument(
-    "-lr",
-    "--learning_rate",
-    type=int,
-    default=0.001,
-    help="学習率")    
+    parser.add_argument("-b", "--batch_size", type=int, default=32, help="バッチサイズ")
+    parser.add_argument("-e", "--epochs", type=int, default=50, help="トレーニングエポック数")
+    parser.add_argument("-lr", "--learning_rate", type=int, default=0.001, help="学習率")
 
 
 args = parser.parse_args()
@@ -159,19 +150,19 @@ import wandb
 
 # config辞書オブジェクトを定義
 config = {
-  "hidden_layer_sizes": [32, 64],
-  "kernel_sizes": [3],
-  "activation": "ReLU",
-  "pool_sizes": [2],
-  "dropout": 0.5,
-  "num_classes": 10
+    "hidden_layer_sizes": [32, 64],
+    "kernel_sizes": [3],
+    "activation": "ReLU",
+    "pool_sizes": [2],
+    "dropout": 0.5,
+    "num_classes": 10,
 }
 
 # W&Bを初期化するときにconfig辞書を渡す
 run = wandb.init(project="config_example", config=config)
 
 # W&Bを初期化した後でconfigを更新する
-wandb.config['dropout'] = 0.2
+wandb.config["dropout"] = 0.2
 wandb.config.epochs = 4
 wandb.config["batch_size"] = 32
 ```
@@ -222,10 +213,9 @@ wandb.config.update(args) # 引数をすべて設定変数として追加
 [`absl`フラグ](https://abseil.io/docs/python/guides/flags)も渡すことができます。
 
 ```python
-flags.DEFINE_string(
-    "model", None, "実行するモデル") # 名前、デフォルト、ヘルプ
-        
-wandb.config.update(flags.FLAGS) # abslフラグをconfigに追加
+flags.DEFINE_string("model", None, "実行するモデル")  # 名前、デフォルト、ヘルプ
+
+wandb.config.update(flags.FLAGS)  # abslフラグをconfigに追加
 ```
 
 ## ファイルベースの設定
@@ -254,12 +244,12 @@ hyperparameter_defaults = dict(
     dropout=0.5,
     batch_size=100,
     learning_rate=0.001,
-    )
+)
 
 config_dictionary = dict(
     yaml=my_yaml_file,
     params=hyperparameter_defaults,
-    )
+)
 
 wandb.init(config=config_dictionary)
 ```
@@ -275,7 +265,7 @@ wandb.config.epochs = 4
 flags = tf.app.flags
 flags.DEFINE_string("data_dir", "/tmp/data")
 flags.DEFINE_integer("batch_size", 128, "Batch size.")
-wandb.config.update(flags.FLAGS) # add tensorflow flags as config
+wandb.config.update(flags.FLAGS)  # add tensorflow flags as config
 ```
 <!-- ## データセット識別子 -->
 
@@ -291,6 +281,7 @@ wandb.config.update({"dataset": "ab131"})
 
 ```python
 import wandb
+
 api = wandb.Api()
 run = api.run("username/project/run_id")
 run.config["foo"] = 32

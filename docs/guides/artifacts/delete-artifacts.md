@@ -33,7 +33,7 @@ The following code example demonstrates how to delete artifacts that have aliase
 ```python
 import wandb
 
-run = api.run('entity/project/run_id')
+run = api.run("entity/project/run_id")
 
 for artifact in run.logged_artifacts():
     artifact.delete()
@@ -44,10 +44,10 @@ Set the `delete_aliases` parameter to the boolean value, `True` to delete aliase
 ```python
 import wandb
 
-run = api.run('entity/project/run_id')
+run = api.run("entity/project/run_id")
 
 for artifact in run.logged_artifacts():
-    # Set delete_aliases=True in order to delete 
+    # Set delete_aliases=True in order to delete
     # artifacts with one more aliases
     artifact.delete(delete_aliases=True)
 ```
@@ -59,13 +59,13 @@ The proceeding code demonstrates how to delete multiple artifact versions that h
 ```python
 import wandb
 
-runs = api.run('entity/project_name/run_id')
+runs = api.run("entity/project_name/run_id")
 
 # Delete artifact ith alias 'v3' and 'v4
 for artifact_version in runs.logged_artifacts():
-  # Replace with your own deletion logic.
-  if artifact_version.name[-2:] == 'v3' or artifact_version.name[-2:] == 'v4':
-    artifact.delete(delete_aliases=True)
+    # Replace with your own deletion logic.
+    if artifact_version.name[-2:] == "v3" or artifact_version.name[-2:] == "v4":
+        artifact.delete(delete_aliases=True)
 ```
 
 ### Delete all versions of an artifact that do not have an alias
@@ -75,17 +75,14 @@ The following code snippet demonstrates how to delete all versions of an artifac
 ```python
 import wandb
 
-# Provide your entity and a project name when you 
+# Provide your entity and a project name when you
 # use wandb.Api methods.
-api = wandb.Api(overrides={
-        "project": "project", 
-        "entity": "entity"
-        })
+api = wandb.Api(overrides={"project": "project", "entity": "entity"})
 
-artifact_type, artifact_name = ... # provide type and name
+artifact_type, artifact_name = ...  # provide type and name
 for v in api.artifact_versions(artifact_type, artifact_name):
-  # Clean up versions that don't have an alias such as 'latest'.
-	# NOTE: You can put whatever deletion logic you want here.
-  if len(v.aliases) == 0:
-      v.delete()
+    # Clean up versions that don't have an alias such as 'latest'.
+    # NOTE: You can put whatever deletion logic you want here.
+    if len(v.aliases) == 0:
+        v.delete()
 ```

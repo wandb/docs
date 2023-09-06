@@ -41,7 +41,7 @@ import wandb
 
 api = wandb.Api()
 
-artifact = api.artifact('プロジェクト/アーティファクト:エイリアス')
+artifact = api.artifact("プロジェクト/アーティファクト:エイリアス")
 ```
 アーティファクトからグラフを辿るために、アーティファクトオブジェクトの[`logged_by`](https://docs.wandb.ai/ref/python/public-api/artifact#logged\_by)メソッドと[`used_by`](https://docs.wandb.ai/ref/python/public-api/artifact#used\_by)メソッドを使用します。
 
@@ -56,9 +56,10 @@ W&B Public API（[wandb.Api.Run](https://docs.wandb.ai/ref/python/public-api/run
 
 ```python
 import wandb
+
 api = wandb.Api()
 
-artifact = api.run('エンティティ/プロジェクト/run_id')
+artifact = api.run("エンティティ/プロジェクト/run_id")
 ```
 
 与えられたrunからグラフをたどるために、[`logged_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#logged_artifacts) および [`used_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#used_artifacts) メソッドを使用します。

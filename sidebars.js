@@ -91,9 +91,18 @@ const sidebars = {
         'guides/artifacts/create-a-custom-alias',
         'guides/artifacts/create-a-new-artifact-version',
         'guides/artifacts/track-external-files',
-        'guides/artifacts/delete-artifacts',
+        {
+          type: 'category',
+          label: 'Manage data',
+          items: [
+            'guides/artifacts/delete-artifacts',
+            'guides/artifacts/storage',
+            'guides/artifacts/ttl',
+          ],
+        },
+        
         'guides/artifacts/explore-and-traverse-an-artifact-graph',
-        'guides/artifacts/storage',
+        
         'guides/artifacts/data-privacy-and-compliance',
         'guides/artifacts/artifacts-faqs',
         // 'guides/artifacts/examples',
@@ -169,6 +178,7 @@ const sidebars = {
             'guides/launch/setup_launch_sagemaker',
             'guides/launch/setup_launch_docker',
             'guides/launch/setup_launch_kubernetes',
+            'guides/launch/vertex',
           ],
         },
         {

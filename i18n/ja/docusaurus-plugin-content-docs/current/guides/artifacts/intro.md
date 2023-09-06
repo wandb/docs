@@ -39,10 +39,10 @@ W&Bアーティファクトを使って、データセット、モデル、依�
 ```python
 import wandb
 
-run = wandb.init() # W&B Runを初期化
-artifact = wandb.Artifact('animals', type='dataset')
-artifact.add_dir('images') # 複数のファイルをアーティファクトに追加します
-run.log_artifact(artifact) # `animals:v0`を作成します
+run = wandb.init()  # W&B Runを初期化
+artifact = wandb.Artifact("animals", type="dataset")
+artifact.add_dir("images")  # 複数のファイルをアーティファクトに追加します
+run.log_artifact(artifact)  # `animals:v0`を作成します
 ```
 
 W&Bは、新しいアーティファクトオブジェクトをW&Bに作成してログするときに、自動的に`v0`というバージョンを割り当て、`latest`というエイリアスを付けます。_エイリアス_は、アーティファクトバージョンに人間が読める名前を付けることができます。
@@ -68,7 +68,7 @@ images
 import wandb
 
 run = wandb.init()
-animals = run.use_artifact('animals:latest')
+animals = run.use_artifact("animals:latest")
 directory = animals.download()
 ```
 

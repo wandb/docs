@@ -64,9 +64,7 @@ from langchain.agents import load_tools, initialize_agent, AgentType
 
 llm = ChatOpenAI(temperature=0)
 tools = load_tools(["llm-math"], llm=llm)
-math_agent = initialize_agent(tools, 
-                              llm, 
-                              agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION)
+math_agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION)
 ```
 
 
@@ -76,20 +74,20 @@ Use LangChain as normal by calling your Agent. You will see a Weights & Biases r
 ```python
 # some sample maths questions
 questions = [
-  "Find the square root of 5.4.",
-  "What is 3 divided by 7.34 raised to the power of pi?",
-  "What is the sin of 0.47 radians, divided by the cube root of 27?"
+    "Find the square root of 5.4.",
+    "What is 3 divided by 7.34 raised to the power of pi?",
+    "What is the sin of 0.47 radians, divided by the cube root of 27?",
 ]
 
 for question in questions:
-  try:
-    # call your Agent as normal
-    answer = math_agent.run(question)
-    print(answer)
-  except Exception as e:
-    # any errors will be also logged to Weights & Biases
-    print(e)
-    pass
+    try:
+        # call your Agent as normal
+        answer = math_agent.run(question)
+        print(answer)
+    except Exception as e:
+        # any errors will be also logged to Weights & Biases
+        print(e)
+        pass
 ```
 
 Once each Agent execution completes, all calls in your LangChain object will be logged to Weights & Biases
@@ -170,53 +168,57 @@ temperature = 0.7
 system_message = "You are a helpful assistant that always replies in 3 concise bullet points using markdown."
 
 queries_ls = [
-  "What is the capital of France?",
-  "How do I boil an egg?" * 10000,  # deliberately trigger an openai error
-  "What to do if the aliens arrive?" 
+    "What is the capital of France?",
+    "How do I boil an egg?" * 10000,  # deliberately trigger an openai error
+    "What to do if the aliens arrive?",
 ]
 
 for query in queries_ls:
-    messages=[
-      {"role": "system", "content": system_message},
-      {"role": "user", "content": query}
+    messages = [
+        {"role": "system", "content": system_message},
+        {"role": "user", "content": query},
     ]
 
     start_time_ms = datetime.datetime.now().timestamp() * 1000
     try:
-      response = openai.ChatCompletion.create(model=model_name,
-                                              messages=messages,
-                                              temperature=temperature
-                                              )   
+        response = openai.ChatCompletion.create(
+            model=model_name, messages=messages, temperature=temperature
+        )
 
-      end_time_ms = round(datetime.datetime.now().timestamp() * 1000)  # logged in milliseconds
-      status="success"
-      status_message=None,
-      response_text = response["choices"][0]["message"]["content"]
-      token_usage = response["usage"].to_dict()
-      
-    
+        end_time_ms = round(
+            datetime.datetime.now().timestamp() * 1000
+        )  # logged in milliseconds
+        status = "success"
+        status_message = (None,)
+        response_text = response["choices"][0]["message"]["content"]
+        token_usage = response["usage"].to_dict()
+
     except Exception as e:
-      end_time_ms = round(datetime.datetime.now().timestamp() * 1000)  # logged in milliseconds
-      status="error"
-      status_message=str(e)
-      response_text = ""
-      token_usage = {}
+        end_time_ms = round(
+            datetime.datetime.now().timestamp() * 1000
+        )  # logged in milliseconds
+        status = "error"
+        status_message = str(e)
+        response_text = ""
+        token_usage = {}
 
     # create a span in wandb
     root_span = Trace(
-          name="root_span",
-          kind="llm",  # kind can be "llm", "chain", "agent" or "tool"
-          status_code=status,
-          status_message=status_message,
-          metadata={"temperature": temperature,
-                    "token_usage": token_usage, 
-                    "model_name": model_name},
-          start_time_ms=start_time_ms,
-          end_time_ms=end_time_ms,
-          inputs={"system_prompt": system_message, "query": query},
-          outputs={"response": response_text},
-          )
-    
+        name="root_span",
+        kind="llm",  # kind can be "llm", "chain", "agent" or "tool"
+        status_code=status,
+        status_message=status_message,
+        metadata={
+            "temperature": temperature,
+            "token_usage": token_usage,
+            "model_name": model_name,
+        },
+        start_time_ms=start_time_ms,
+        end_time_ms=end_time_ms,
+        inputs={"system_prompt": system_message, "query": query},
+        outputs={"response": response_text},
+    )
+
     # log the span to wandb
     root_span.log(name="openai_trace")
 ```
@@ -241,56 +243,56 @@ query = "How many days until the next US election?"
 start_time_ms = round(datetime.datetime.now().timestamp() * 1000)
 
 root_span = Trace(
-      name="MyAgent",
-      kind="agent",
-      start_time_ms=start_time_ms,
-      metadata={"user": "optimus_12"})
+    name="MyAgent",
+    kind="agent",
+    start_time_ms=start_time_ms,
+    metadata={"user": "optimus_12"},
+)
 
 
 # part 2 - The Agent calls into a LLMChain..
-chain_span = Trace(
-      name="LLMChain",
-      kind="chain",
-      start_time_ms=start_time_ms)
+chain_span = Trace(name="LLMChain", kind="chain", start_time_ms=start_time_ms)
 
 # add the Chain span as a child of the root
 root_span.add_child(chain_span)
 
 
 # part 3 - the LLMChain calls an OpenAI LLM...
-messages=[
-  {"role": "system", "content": system_message},
-  {"role": "user", "content": query}
+messages = [
+    {"role": "system", "content": system_message},
+    {"role": "user", "content": query},
 ]
 
-response = openai.ChatCompletion.create(model=model_name,
-                                        messages=messages,
-                                        temperature=temperature)   
+response = openai.ChatCompletion.create(
+    model=model_name, messages=messages, temperature=temperature
+)
 
 llm_end_time_ms = round(datetime.datetime.now().timestamp() * 1000)
 response_text = response["choices"][0]["message"]["content"]
 token_usage = response["usage"].to_dict()
 
 llm_span = Trace(
-      name="OpenAI",
-      kind="llm",
-      status_code="success",
-      metadata={"temperature":temperature,
-                "token_usage": token_usage, 
-                "model_name":model_name},
-      start_time_ms=start_time_ms,
-      end_time_ms=llm_end_time_ms,
-      inputs={"system_prompt":system_message, "query":query},
-      outputs={"response": response_text},
-      )
+    name="OpenAI",
+    kind="llm",
+    status_code="success",
+    metadata={
+        "temperature": temperature,
+        "token_usage": token_usage,
+        "model_name": model_name,
+    },
+    start_time_ms=start_time_ms,
+    end_time_ms=llm_end_time_ms,
+    inputs={"system_prompt": system_message, "query": query},
+    outputs={"response": response_text},
+)
 
 # add the LLM span as a child of the Chain span...
 chain_span.add_child(llm_span)
 
 # update the end time of the Chain span
 chain_span.add_inputs_and_outputs(
-      inputs={"query":query},
-      outputs={"response": response_text})
+    inputs={"query": query}, outputs={"response": response_text}
+)
 
 # update the Chain span's end time
 chain_span._span.end_time_ms = llm_end_time_ms
@@ -301,23 +303,25 @@ time.sleep(3)
 days_to_election = 117
 tool_end_time_ms = round(datetime.datetime.now().timestamp() * 1000)
 
-# create a Tool span 
+# create a Tool span
 tool_span = Trace(
-      name="Calculator",
-      kind="tool",
-      status_code="success",
-      start_time_ms=llm_end_time_ms,
-      end_time_ms=tool_end_time_ms,
-      inputs={"input": response_text},
-      outputs={"result": days_to_election})
+    name="Calculator",
+    kind="tool",
+    status_code="success",
+    start_time_ms=llm_end_time_ms,
+    end_time_ms=tool_end_time_ms,
+    inputs={"input": response_text},
+    outputs={"result": days_to_election},
+)
 
 # add the TOOL span as a child of the root
 root_span.add_child(tool_span)
 
 
-# part 5 - the final results from the tool are added 
-root_span.add_inputs_and_outputs(inputs={"query": query},
-                                 outputs={"result": days_to_election})
+# part 5 - the final results from the tool are added
+root_span.add_inputs_and_outputs(
+    inputs={"query": query}, outputs={"result": days_to_election}
+)
 root_span._span.end_time_ms = tool_end_time_ms
 
 
@@ -353,7 +357,7 @@ from llama_index import ServiceContext
 from llama_index.callbacks import CallbackManager, WandbCallbackHandler
 
 # initialise WandbCallbackHandler and pass any wandb.init args
-wandb_args = {"project":"llamaindex"}
+wandb_args = {"project": "llamaindex"}
 wandb_callback = WandbCallbackHandler(run_args=wandb_args)
 
 # pass wandb_callback to the service context
@@ -376,15 +380,15 @@ With the loaded index, start querying over your documents. Every call to your in
 
 ```python
 questions = [
-  "What did the author do growing up?",
-  "Did the author travel anywhere?",
-  "What does the author love to do?"
+    "What did the author do growing up?",
+    "Did the author travel anywhere?",
+    "What does the author love to do?",
 ]
 
 query_engine = index.as_query_engine()
 
 for q in questions:
-  response = query_engine.query(q)
+    response = query_engine.query(q)
 ```
 
 ### 4. View the trace in Weights & Biases
@@ -424,7 +428,9 @@ When you load an index from Artifacts you'll return a [`StorageContext`](https:/
 ```python
 from llama_index import load_index_from_storage
 
-storage_context = wandb_callback.load_storage_context(artifact_url="<entity/project/index_name:version>")
+storage_context = wandb_callback.load_storage_context(
+    artifact_url="<entity/project/index_name:version>"
+)
 index = load_index_from_storage(storage_context, service_context=service_context)
 ```
 

@@ -60,16 +60,16 @@ math_agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRI
 questions = [
     "5.4の平方根を求めてください。",
     "3を7.34で割った数をπのべき乗にしてください。",
-    "0.47ラジアンのsinを27の立方根で割ってください。"
+    "0.47ラジアンのsinを27の立方根で割ってください。",
 ]
 
 for question in questions:
-  try:
-    answer = math_agent.run(question)
-    print(answer)
-  except Exception as e:
-    print(e)
-    pass
+    try:
+        answer = math_agent.run(question)
+        print(answer)
+    except Exception as e:
+        print(e)
+        pass
 ```
 
 ### 4. トレースを表示する
@@ -100,7 +100,7 @@ from wandb.sdk.data_types import trace_tree
 
 # span = trace_tree.Span(name="Example Span")
 # 親Span - 高レベルエージェントのためのSpanを作成します
-agent_span = trace_tree.Span(name="Auto-GPT", span_kind = trace_tree.SpanKind.AGENT)
+agent_span = trace_tree.Span(name="Auto-GPT", span_kind=trace_tree.SpanKind.AGENT)
 ```
 
 Spanは、`AGENT`、`CHAIN`、`TOOL`、`LLM`のタイプがあります。
@@ -109,17 +109,11 @@ Spanは、`AGENT`、`CHAIN`、`TOOL`、`LLM`のタイプがあります。
 親Span内に子Spanをネストさせて、Traceのタイムラインビューで正しい順序でネストされるようにします。以下では、2つの子Spanと1つの孫Spanが作成されます。
 
 ```python
-tool_span = trace_tree.Span(
-  name="Tool 1", span_kind = trace_tree.SpanKind.TOOL
-)
+tool_span = trace_tree.Span(name="Tool 1", span_kind=trace_tree.SpanKind.TOOL)
 
-chain_span = trace_tree.Span(
-  name="LLM CHAIN 1", span_kind = trace_tree.SpanKind.CHAIN
-)
+chain_span = trace_tree.Span(name="LLM CHAIN 1", span_kind=trace_tree.SpanKind.CHAIN)
 
-llm_span = trace_tree.Span(
-  name="LLM 1", span_kind = trace_tree.SpanKind.LLM
-)
+llm_span = trace_tree.Span(name="LLM 1", span_kind=trace_tree.SpanKind.LLM)
 
 chain_span.add_child_span(llm_span)
 agent_span.add_child_span(tool_span)
@@ -132,29 +126,17 @@ agent_span.add_child_span(chain_span)
 
 ```python
 tool_span.add_named_result(
-  {"input": "search: google founded in year"}, 
-  {"response": "1998"}
+    {"input": "search: google founded in year"}, {"response": "1998"}
 )
 
-chain_span.add_named_result(
-  {"input": "calculate: 2023 - 1998"}, 
-  {"response": "25"}
-)
+chain_span.add_named_result({"input": "calculate: 2023 - 1998"}, {"response": "25"})
 
 llm_span.add_named_result(
-  {"system": "you are a helpful assistant", 
-    "input": "calculate: 2023 - 1998"}, 
-  {"response": "25", "tokens_used": 218}
+    {"system": "you are a helpful assistant", "input": "calculate: 2023 - 1998"},
+    {"response": "25", "tokens_used": 218},
 )
 
-agent_span.add_named_result(
-
-  {"user": "Googleは何歳ですか？"},
-
-  {"response": "25歳"}
-
-)
-
+agent_span.add_named_result({"user": "Googleは何歳ですか？"}, {"response": "25歳"})
 ```
 
 ### 4. スパンをWeights & BiasesのTraceにログ
@@ -162,9 +144,7 @@ agent_span.add_named_result(
 これにより、Trace Table、Trace Timeline、およびモデルアーキテクチャを視覚化できます。
 
 ```python
-
-import wandb 
-
+import wandb
 
 
 trace = trace_tree.WBTraceTree(agent_span)
@@ -174,7 +154,6 @@ run = wandb.init(project="wandb_prompts")
 run.log({"trace": trace})
 
 run.finish()
-
 ```
 
 ### 5. トレースを表示

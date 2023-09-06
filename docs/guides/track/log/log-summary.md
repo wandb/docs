@@ -14,10 +14,10 @@ wandb.init(config=args)
 
 best_accuracy = 0
 for epoch in range(1, args.epochs + 1):
-  test_loss, test_accuracy = test()
-  if (test_accuracy > best_accuracy):
-    wandb.run.summary["best_accuracy"] = test_accuracy
-    best_accuracy = test_accuracy
+    test_loss, test_accuracy = test()
+    if test_accuracy > best_accuracy:
+        wandb.run.summary["best_accuracy"] = test_accuracy
+        best_accuracy = test_accuracy
 ```
 
 You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API](../../../ref/python/public-api/README.md) to update the summary attribute:
@@ -46,11 +46,11 @@ wandb.define_metric("loss", summary="min")
 # define a metric we are interested in the maximum of
 wandb.define_metric("acc", summary="max")
 for i in range(10):
-  log_dict = {
-      "loss": random.uniform(0,1/(i+1)),
-      "acc": random.uniform(1/(i+1),1),
-  }
-  wandb.log(log_dict)
+    log_dict = {
+        "loss": random.uniform(0, 1 / (i + 1)),
+        "acc": random.uniform(1 / (i + 1), 1),
+    }
+    wandb.log(log_dict)
 ```
 
 Here's what the resulting min and max summary values look like, in pinned columns in the sidebar on the Project Page workspace:

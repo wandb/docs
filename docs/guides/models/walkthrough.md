@@ -74,6 +74,7 @@ While manual linking is useful for one-off Models, it is often useful to program
 
 ```python
 import wandb
+
 # Fetch the Model Version via API
 art = wandb.Api().artifact(...)
 # Link the Model Version to the Model Collection
@@ -84,6 +85,7 @@ art.link("[[entity/]project/]collectionName")
 
 ```python
 import wandb
+
 # Initialize a W&B run to start tracking
 wandb.init()
 # Obtain a reference to a Model Version
@@ -96,6 +98,7 @@ art.link("[[entity/]project/]collectionName")
 
 ```python
 import wandb
+
 # Initialize a W&B run to start tracking
 wandb.init()
 # Create an Model Version
@@ -144,7 +147,7 @@ dataset = wandb.use_artifact("mnist:latest")
 # ... Serialize your model
 model.save("path/to/model.pt")
 # ... Create a Model Version
-art = wandb.Artifact(f'mnist-nn-{wandb.run.id}', type="model")
+art = wandb.Artifact(f"mnist-nn-{wandb.run.id}", type="model")
 # ... Add the serialized files
 art.add_file("path/to/model.pt", "model.pt")
 # (optional) Log training metrics
@@ -172,7 +175,7 @@ dataset = wandb.use_artifact("[[entity/]project/]name:alias")
 
 ```python
 art = wandb.Artifact("dataset_name", "dataset")
-art.add_dir("path/to/data") # or art.add_file("path/to/data.csv")
+art.add_dir("path/to/data")  # or art.add_file("path/to/data.csv")
 dataset = wandb.use_artifact(art)
 ```
 
@@ -313,11 +316,7 @@ dataset = wandb.use_artifact("mnist-evaluation:latest")
 loss, accuracy, predictions = evaluate_model(model, dataset)
 
 # Log out metrics, images, tables, or any data useful for evaluation.
-wandb.log(
-    {
-        "loss": loss, "accuracy": accuracy, 
-        "predictions": predictions
-        })
+wandb.log({"loss": loss, "accuracy": accuracy, "predictions": predictions})
 ```
 
 If you are executing similar code, as demonstrated in the notebook, you should see a workspace similar to the image below - here we even show model predictions against the test data!

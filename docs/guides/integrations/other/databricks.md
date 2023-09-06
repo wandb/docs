@@ -56,7 +56,8 @@ Setup required (temporary) for notebooks attempting to use wandb.sweep() or wand
 
 ```python
 import os
+
 # These will not be necessary in the future
-os.environ['WANDB_ENTITY'] = "my-entity"
-os.environ['WANDB_PROJECT'] = "my-project-that-exists"
+os.environ["WANDB_ENTITY"] = "my-entity"
+os.environ["WANDB_PROJECT"] = "my-project-that-exists"
 ```

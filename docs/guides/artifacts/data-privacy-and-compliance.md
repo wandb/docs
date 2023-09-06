@@ -27,8 +27,8 @@ Create a reference artifact similar to how you create a non reference artifact:
 import wandb
 
 run = wandb.init()
-artifact = wandb.Artifact('animals', type='dataset')
-artifact.add_reference('s3://my-bucket/animals')
+artifact = wandb.Artifact("animals", type="dataset")
+artifact.add_reference("s3://my-bucket/animals")
 ```
 
 For alternatives, contact us at [contact@wandb.com](mailto:contact@wandb.com) to talk about private cloud and on-premises installations.

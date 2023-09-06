@@ -13,12 +13,12 @@ This colab notebook introduces the `WandbEvalCallback` which is an abstract call
 First, let us install the latest version of Weights and Biases. We will then authenticate this colab instance to use W&B.
 
 
-```python
-!pip install -qq -U wandb
+```shell
+pip install -qq -U wandb
 ```
 
 
-```pythonpython
+```python
 import os
 import numpy as np
 import tensorflow as tf
@@ -47,14 +47,14 @@ Use of proper config system is a recommended best practice for reproducible mach
 
 ```python
 configs = dict(
-    num_classes = 10,
-    shuffle_buffer = 1024,
-    batch_size = 64,
-    image_size = 28,
-    image_channels = 1,
-    earlystopping_patience = 3,
-    learning_rate = 1e-3,
-    epochs = 10
+    num_classes=10,
+    shuffle_buffer=1024,
+    batch_size=64,
+    image_size=28,
+    image_channels=1,
+    earlystopping_patience=3,
+    learning_rate=1e-3,
+    epochs=10,
 )
 ```
 
@@ -64,7 +64,7 @@ In this colab, we will be using [CIFAR100](https://www.tensorflow.org/datasets/c
 
 
 ```python
-train_ds, valid_ds = tfds.load('fashion_mnist', split=['train', 'test'])
+train_ds, valid_ds = tfds.load("fashion_mnist", split=["train", "test"])
 ```
 
 
@@ -110,12 +110,16 @@ validloader = get_dataloader(valid_ds, configs, dataloader_type="valid")
 
 ```python
 def get_model(configs):
-    backbone = tf.keras.applications.mobilenet_v2.MobileNetV2(weights='imagenet', include_top=False)
+    backbone = tf.keras.applications.mobilenet_v2.MobileNetV2(
+        weights="imagenet", include_top=False
+    )
     backbone.trainable = False
 
-    inputs = layers.Input(shape=(configs["image_size"], configs["image_size"], configs["image_channels"]))
+    inputs = layers.Input(
+        shape=(configs["image_size"], configs["image_size"], configs["image_channels"])
+    )
     resize = layers.Resizing(32, 32)(inputs)
-    neck = layers.Conv2D(3, (3,3), padding="same")(resize)
+    neck = layers.Conv2D(3, (3, 3), padding="same")(resize)
     preprocess_input = tf.keras.applications.mobilenet.preprocess_input(neck)
     x = backbone(preprocess_input)
     x = layers.GlobalAveragePooling2D()(x)
@@ -136,9 +140,12 @@ model.summary()
 
 ```python
 model.compile(
-    optimizer = "adam",
-    loss = "categorical_crossentropy",
-    metrics = ["accuracy", tf.keras.metrics.TopKCategoricalAccuracy(k=5, name='top@5_accuracy')]
+    optimizer="adam",
+    loss="categorical_crossentropy",
+    metrics=[
+        "accuracy",
+        tf.keras.metrics.TopKCategoricalAccuracy(k=5, name="top@5_accuracy"),
+    ],
 )
 ```
 
@@ -175,11 +182,7 @@ class WandbClfEvalCallback(WandbEvalCallback):
 
     def add_ground_truth(self, logs=None):
         for idx, (image, label) in enumerate(self.val_data):
-            self.data_table.add_data(
-                idx,
-                wandb.Image(image),
-                np.argmax(label, axis=-1)
-            )
+            self.data_table.add_data(idx, wandb.Image(image), np.argmax(label, axis=-1))
 
     def add_model_predictions(self, epoch, logs=None):
         # Get predictions
@@ -193,17 +196,17 @@ class WandbClfEvalCallback(WandbEvalCallback):
                 self.data_table_ref.data[idx][0],
                 self.data_table_ref.data[idx][1],
                 self.data_table_ref.data[idx][2],
-                pred
+                pred,
             )
 
     def _inference(self):
-      preds = []
-      for image, label in self.val_data:
-          pred = self.model(tf.expand_dims(image, axis=0))
-          argmax_pred = tf.argmax(pred, axis=-1).numpy()[0]
-          preds.append(argmax_pred)
+        preds = []
+        for image, label in self.val_data:
+            pred = self.model(tf.expand_dims(image, axis=0))
+            argmax_pred = tf.argmax(pred, axis=-1).numpy()[0]
+            preds.append(argmax_pred)
 
-      return preds
+        return preds
 ```
 
 # 🌻 Train
@@ -211,24 +214,21 @@ class WandbClfEvalCallback(WandbEvalCallback):
 
 ```python
 # Initialize a W&B run
-run = wandb.init(
-    project = "intro-keras",
-    config = configs
-)
+run = wandb.init(project="intro-keras", config=configs)
 
 # Train your model
 model.fit(
     trainloader,
-    epochs = configs["epochs"],
-    validation_data = validloader,
-    callbacks = [
+    epochs=configs["epochs"],
+    validation_data=validloader,
+    callbacks=[
         WandbMetricsLogger(log_freq=10),
         WandbClfEvalCallback(
             validloader,
             data_table_columns=["idx", "image", "ground_truth"],
-            pred_table_columns=["epoch", "idx", "image", "ground_truth", "prediction"]
-        ) # Notice the use of WandbEvalCallback here
-    ]
+            pred_table_columns=["epoch", "idx", "image", "ground_truth", "prediction"],
+        ),  # Notice the use of WandbEvalCallback here
+    ],
 )
 
 # Close the W&B run
