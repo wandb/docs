@@ -35,6 +35,10 @@ with wandb.init(config=config, project="launch-quickstart"):
     wandb.run.log_code()
 ```
 
+:::note
+By default, `Run.log_code()` ignores all paths under the `wandb` library's metadata directories: `<project_root>/.wandb` and `<project_root>/wandb`
+:::
+
 To install dependencies and run the script, execute the following commands in your terminal:
 
 ```bash

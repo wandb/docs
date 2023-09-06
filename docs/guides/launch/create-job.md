@@ -56,7 +56,9 @@ Example:
 run = wandb.init()
 run.log_code(".", include_fn=lambda path: path.endswith(".py"))
 ```
-
+:::note
+By default, `Run.log_code()` ignores all paths under the `wandb` library's metadata directories: `<project_root>/.wandb` and `<project_root>/wandb`
+:::
 </TabItem>
 
 <TabItem value="git">
@@ -105,6 +107,51 @@ wandb.init(settings=settings)
 :::note
 For docker image jobs, the image tag is automatically added as an alias to the job.
 :::
+
+## Manually create jobs
+
+:::info
+In W&B Python SDK versions >= 0.15.6, jobs can be directly specified, using the CLI command: ```wandb job create``` or with the SDK path `wandb.sdk.launch.create_job`
+:::
+
+Jobs can also be directly created, without a run, using the W&B Python SDK and CLI. All three types of jobs can be created, by specifying the type as "git", "code" or "image". See the [job creation reference docs](../../ref/cli/wandb-job/wandb-job-create) for specifics. 
+
+To use the CLI to create an image sourced job, first ensure that the version of W&B is up to date, then run: 
+
+```
+wandb job create image <docker-image> --name <job-name> 
+```
+
+where `<docker-image>` is an image name that is accessible wherever the job will be run.
+
+Alternatively, to use the SDK, first ensure that the version of W&B is up to date, then run:
+
+```python
+from wandb.sdk.launch.create_job import create_job
+
+
+# Create a code-artifact job
+job = wandb.create_job(
+    job_type="code",
+    entity="wandb",
+    project="Autosuggest Cats",
+    description="Fine tune pass over base auto-suggester",
+    aliases=["first-pass", "dev"],
+    runtime="3.10",
+    entrypoint="fine_tune.py"
+)
+
+# Launch the job onto a queue
+job.call(
+  queue="kubernetes-launch-queue"
+)
+```
+
+:::note
+For git and code jobs, a requirements file and python runtime are required. Python requirements will automatically be loaded from found `requirements.txt` files in the git-root or code path. The python runtime can either be specified manually with the `runtime` parameter or can be auto-detected from a `runtime.txt` or `.python-version` file. 
+:::
+
+
 
 ## Make your code job-friendly
 

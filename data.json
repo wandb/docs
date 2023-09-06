@@ -877,6 +877,10 @@
       "to": "/guides/track/log/plots"
     },
     {
+      "from": "/guides/track/save-restore",
+      "to": "/guides/artifacts"
+    },
+    {
       "from": "/guides/track/summary-metrics",
       "to": "/guides/track/log/log-summary"
     },

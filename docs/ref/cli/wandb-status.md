@@ -13,5 +13,4 @@ Show configuration settings
 | **Option** | **Description** |
 | :--- | :--- |
 | --settings / --no-settings | Show the current settings |
-| --help | Show this message and exit. |
 

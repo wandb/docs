@@ -59,7 +59,6 @@ const sidebars = {
         'guides/track/limits',
         'guides/track/public-api-guide',
         'guides/track/tracking-faq',
-        'guides/track/save-restore',
         'guides/track/environment-variables',
       ],
     },
@@ -134,16 +133,16 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Models',
+      label: 'Model Registry',
       link: { type: 'doc', id: 'guides/models/intro' },
       items: [
         // 'guides/models/intro',
         // 'guides/models/quickstart',
         'guides/models/walkthrough',
+        'guides/models/model_tags',
         'guides/models/access_controls',
         'guides/models/automation',
         'guides/models/notifications',
-        'guides/models/model_tags',
         'guides/models/model-management-concepts',
       ],
     },
@@ -162,6 +161,7 @@ const sidebars = {
         'guides/launch/launch-jobs',
         'guides/launch/docker',
         'guides/launch/kubernetes',
+        'guides/launch/vertex',
         'guides/launch/sagemaker',
         'guides/launch/sweeps-on-launch',
         'guides/launch/launch-faqs',
@@ -322,7 +322,7 @@ const sidebars = {
             'guides/hosting/how-to-guides/basic-setup',
             'guides/hosting/how-to-guides/aws-tf',
             'guides/hosting/how-to-guides/gcp-tf',
-            // 'guides/hosting/how-to-guides/azure-tf',
+            'guides/hosting/how-to-guides/azure-tf',
             'guides/hosting/how-to-guides/bare-metal',
           ],
         },
@@ -382,6 +382,7 @@ const sidebars = {
         'guides/integrations/other/w-and-b-for-julia',
         'guides/integrations/xgboost',
         'guides/integrations/yolov5',
+        'guides/integrations/ultralytics',
         'guides/integrations/other/yolox',
       ],
     },
@@ -411,14 +412,14 @@ const sidebars = {
     {
       type: 'category',
       label: '実験管理',
-      link: {type: 'doc', id: 'guides/track/intro'},
+      link: { type: 'doc', id: 'guides/track/intro' },
       items: [
         'guides/track/launch',
         'guides/track/config',
         {
           type: 'category',
           label: 'Runとは',
-          link: {type: 'doc', id: 'guides/runs/intro'},
+          link: { type: 'doc', id: 'guides/runs/intro' },
           items: [
             'guides/runs/grouping',
             'guides/runs/resuming',
@@ -429,7 +430,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'メディアとオブジェクトのログ',
-          link: {type: 'doc', id: 'guides/track/log/intro'},
+          link: { type: 'doc', id: 'guides/track/log/intro' },
           items: [
             'guides/track/log/plots',
             'guides/track/log/log-tables',
@@ -446,14 +447,13 @@ const sidebars = {
         'guides/track/limits',
         'guides/track/public-api-guide',
         'guides/track/tracking-faq',
-        'guides/track/save-restore',
         'guides/track/environment-variables',
       ],
     },
     {
       type: 'category',
       label: 'レポート',
-      link: {type: 'doc', id: 'guides/reports/intro'},
+      link: { type: 'doc', id: 'guides/reports/intro' },
       items: [
         'guides/reports/create-a-report',
         'guides/reports/edit-a-report',
@@ -468,7 +468,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'アーティファクト',
-      link: {type: 'doc', id: 'guides/artifacts/intro'},
+      link: { type: 'doc', id: 'guides/artifacts/intro' },
       items: [
         'guides/artifacts/artifacts-walkthrough',
         'guides/artifacts/construct-an-artifact',
@@ -487,7 +487,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'テーブル',
-      link: {type: 'doc', id: 'guides/tables/intro'},
+      link: { type: 'doc', id: 'guides/tables/intro' },
       items: [
         'guides/tables/tables-walkthrough',
         'guides/tables/visualize-tables',
@@ -497,7 +497,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'スイープ',
-      link: {type: 'doc', id: 'guides/sweeps/intro'},
+      link: { type: 'doc', id: 'guides/sweeps/intro' },
       items: [
         'guides/sweeps/walkthrough',
         'guides/sweeps/add-w-and-b-to-your-code',
@@ -518,7 +518,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'モデル',
-      link: {type: 'doc', id: 'guides/models/intro'},
+      link: { type: 'doc', id: 'guides/models/intro' },
       items: [
         // 'guides/models/quickstart',
         // 'guides/models/access_controls',
@@ -561,17 +561,17 @@ const sidebars = {
     {
       type: 'category',
       label: 'Appリファレンス',
-      link: {type: 'doc', id: 'guides/app/intro'},
+      link: { type: 'doc', id: 'guides/app/intro' },
       items: [
         {
           type: 'category',
           label: '機能',
-          link: {type: 'doc', id: 'guides/app/features/intro'},
+          link: { type: 'doc', id: 'guides/app/features/intro' },
           items: [
             {
               type: 'category',
               label: 'Panels',
-              link: {type: 'doc', id: 'guides/app/features/panels/intro'},
+              link: { type: 'doc', id: 'guides/app/features/panels/intro' },
               items: [
                 {
                   type: 'category',
@@ -628,7 +628,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'ページ',
-          link: {type: 'doc', id: 'guides/app/pages/intro'},
+          link: { type: 'doc', id: 'guides/app/pages/intro' },
           items: [
             'guides/app/pages/gradient-panel',
             'guides/app/pages/project-page',
@@ -639,7 +639,7 @@ const sidebars = {
         {
           type: 'category',
           label: '設定',
-          link: {type: 'doc', id: 'guides/app/settings-page/intro'},
+          link: { type: 'doc', id: 'guides/app/settings-page/intro' },
           items: [
             'guides/app/settings-page/user-settings',
             'guides/app/settings-page/team-settings',
@@ -651,12 +651,12 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&Bサーバー',
-      link: {type: 'doc', id: 'guides/hosting/intro'},
+      link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
         {
           type: 'category',
           label: 'ホスティングオプション',
-          link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
+          link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
             'guides/hosting/hosting-options/wb-managed',
             'guides/hosting/hosting-options/self-managed',
@@ -686,7 +686,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'インテグレーション',
-      link: {type: 'doc', id: 'guides/integrations/intro'},
+      link: { type: 'doc', id: 'guides/integrations/intro' },
       items: [
         'guides/integrations/add-wandb-to-any-library',
         'guides/integrations/other/catalyst',
@@ -698,7 +698,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Fastai',
-          link: {type: 'doc', id: 'guides/integrations/fastai/README'},
+          link: { type: 'doc', id: 'guides/integrations/fastai/README' },
           items: [
             'guides/integrations/fastai/v1',
           ],
@@ -741,14 +741,14 @@ const sidebars = {
     {
       type: 'category',
       label: '技術FAQ',
-      link: {type: 'doc', id: 'guides/technical-faq/intro'},
+      link: { type: 'doc', id: 'guides/technical-faq/intro' },
       items: [
         'guides/technical-faq/general',
         'guides/technical-faq/metrics-and-performance',
         'guides/technical-faq/setup',
         'guides/technical-faq/troubleshooting',
       ],
-    },                                            
+    },
   ],
   tutorials: [
     {

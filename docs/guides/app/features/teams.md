@@ -65,12 +65,16 @@ Team settings allow you to manage the settings for your team and its members. Wi
 ### Model Registry
 The proceeding table lists permissions that apply to all projects across a given team.
 
-| Permissions                | View-Only | Team Member | Team Admin | 
-| ---------------------------| --------- | ----------- | ---------- |
-| Add aliases                |           | X           | X          |
-| Add models to the registry |           | X           | X          |
-| View models in the registry| X         | X           | X          |
-|Download models             |           | X           | X          |
+| Permissions                | View-Only | Team Member | Model Registry Admin | Team Admin | 
+| ---------------------------| --------- | ----------- | -------------- | ---------- |
+| Add aliases                |           | X           | X              | X |
+| Add models to the registry |           | X           | X              | X |
+| View models in the registry| X         | X           | X              | X |
+|Download models             |           | X           | X              | X |
+|Add/Remove Registry Admins  |           |             | X              | X | 
+|Add/Remove Protected Aliases|           |             | X              |   | 
+
+See the [Model Registry](../../models/access_controls.md) chapter for more information about protected aliases.
 
 ### Reports
 Report permissions grant access to create, view, and edit reports. The proceeding table lists permissions that apply to all reports across a given team.

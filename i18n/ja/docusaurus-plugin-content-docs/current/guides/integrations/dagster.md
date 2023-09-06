@@ -461,8 +461,8 @@ def read_artifact(context, artifact):
    name="my_asset",
    ins={
        "artifact": AssetIn(
-           # 入力引数の名前を変更したくない場合は、'asset_key' を削除できます
-           asset_key="parent_dagster_asset_name",
+           # 入力引数の名前を変更したくない場合は、'key' を削除できます
+           key="parent_dagster_asset_name",
            input_manager_key="wandb_artifacts_manager",
        )
    },
@@ -500,7 +500,7 @@ def read_artifact(context, my_artifact):
 @asset(
    ins={
        "table": AssetIn(
-           asset_key="my_artifact_with_table",
+           key="my_artifact_with_table",
            metadata={
                "wandb_artifact_configuration": {
                    "get": "my_table",
@@ -518,7 +518,7 @@ def get_table(context, table):
 @asset(
    ins={
        "path": AssetIn(
-           asset_key="my_artifact_with_file",
+           key="my_artifact_with_file",
            metadata={
                "wandb_artifact_configuration": {
                    "get_path": "name_of_file",
@@ -537,7 +537,7 @@ def get_path(context, path):
 @asset(
    ins={
        "artifact": AssetIn(
-           asset_key="my_artifact",
+           key="my_artifact",
            input_manager_key="wandb_artifacts_manager",
        )
    },

@@ -22,7 +22,7 @@ Reports consist of _blocks_. Blocks make up the body of a report. Within these b
 
 _Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
 
-:::caution
+:::info
 Editing Reports programmatically with the Python SDK is in Beta and in active development.
 :::
 
@@ -97,9 +97,9 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. From the d
   </TabItem>
   <TabItem value="sdk">
 
-Add run sets from projects with the `wr.RunSet()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
+Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
 
-1. Create a `wr.RunSet()` object instance. Provide the name of the project that contains the runsets for the project parameter and the entity that owns the project for the entity parameter.
+1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the runsets for the project parameter and the entity that owns the project for the entity parameter.
 2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `runsets` parameter.
 3. Store one or more `wr.PanelGrid()` object instances in a list.
 4. Update the report instance blocks attribute with the list of panel grid instances.
@@ -177,6 +177,7 @@ panel_grids = wr.PanelGrid(
     ],
     runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")],
 )
+
 
 report.blocks = [panel_grids]
 report.save()

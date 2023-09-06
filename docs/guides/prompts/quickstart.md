@@ -136,18 +136,7 @@ When logging with Trace, a single W&B run can have multiple calls to a LLM, Tool
 
 In this quickstart, we will how to log a single call to an OpenAI model to W&B Trace as a single span. Then we will show how to log a more complex series of nested spans.
 
-### 1. Install wandb-addons
-For now, a high-level Trace api is available from the [`wandb-addon`](https://github.com/soumik12345/wandb-addons) community library from [@soumik12345](https://github.com/soumik12345). This will shortly be replaced by a wandb-native integration shortly. 
-
-Install the `prompts` module of `wandb-addons`:
-
-```python
-!git clone https://github.com/soumik12345/wandb-addons.git
-!pip install ./wandb-addons[prompts] openai wandb -qqq 
-```
-
-
-### 2. Import Trace and start a Weights & Biases run
+### 1. Import Trace and start a Weights & Biases run
 
 Call `wandb.init` to start a W&B run. Here you can pass a W&B project name as well as an entity name (if logging to a W&B Team), as well as a config and more. See [`wandb.init`](../../ref/python/init.md) for the full list of arguments.
 
@@ -163,15 +152,15 @@ wandb.init(project="trace-example")
 
 You can also set the `entity` argument in `wandb.init` if logging to a W&B Team.
 
-### 3. Log to a Trace
+### 2. Log to a Trace
 Now we will query OpenAI times and log the results to a W&B Trace. We will log the inputs and outputs, start and end times, whether the OpenAI call was successful, the token usage, and additional metadata.
 
-You can see the full description of the arguments to the Trace class [here](https://soumik12345.github.io/wandb-addons/prompts/tracer/).
+You can see the full description of the arguments to the Trace class [here](https://github.com/wandb/wandb/blob/653015a014281f45770aaf43627f64d9c4f04a32/wandb/sdk/data_types/trace_tree.py#L166).
 
 ```python
 import openai
 import datetime
-from wandb_addons.prompts import Trace
+from wandb.sdk.data_types.trace_tree import Trace
 
 openai.api_key = "<YOUR_OPENAI_API_KEY>"
 
@@ -232,12 +221,12 @@ for query in queries_ls:
     root_span.log(name="openai_trace")
 ```
 
-### 4. View the trace in Weights & Biases
+### 3. View the trace in Weights & Biases
 
 Click on the W&B [run](../runs/intro.md) link generated in step 2. Here you should be able to view the trace table and trace timeline of your LLM. 
 
 
-### 5. Logging a LLM pipeline using nested spans
+### 4. Logging a LLM pipeline using nested spans
 In this example we will simulate an Agent being called, which then calls a LLM Chain, which calls an OpenAI LLM and then the Agent "calls" a Calculator tool.
 
 The inputs, outputs and metadata for each step in the execution of our "Agent" is logged in its own span. Spans can have child

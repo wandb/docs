@@ -11,6 +11,18 @@ On the project page, we show runs in a sidebar. Expand the sidebar to view a tab
 
 We support full [regex](https://dev.mysql.com/doc/refman/8.0/en/regexp.html) search on run names in the table. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
 
+## Filter and sort runs by minimum and maximum values
+Sort the runs table by the minimum or maximum value of a logged metric. This is particularly useful if you want to view the best (or worst) recorded value.
+
+The following steps describe how to sort the run table by a specific metric based on the minimum or maximum recorded value:
+
+1. Hover your mouse over the column with the metric you want to sort with.
+2. Select the kebob menu (three vertical lines).
+3. From the dropdown, select either **Show min** or **Show max**.
+4. From the same dropdown, select **Sort by asc** or **Sort by desc** to sort in ascending or descending order, respectively. 
+
+![](/images/app_ui/runs_min_max.gif)
+
 #### What to do in case regex fails?
 
 If regex doesn't provide you the desired results, you can make use of [tags](tags.md) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
