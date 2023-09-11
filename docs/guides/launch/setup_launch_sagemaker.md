@@ -4,7 +4,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Set up SageMaker
+# Set up for SageMaker
 
 Use W&B Launch to send your runs to AWS SageMaker. There are two ways to use Launch on SageMaker:
 
@@ -19,7 +19,7 @@ The following table highlights the key differences between the two workflows lis
 
 |       | BYOI  | Default W&B Launch  |
 | ----- | ----- | ----- |
-| Allowed job type            | Image source-job                                   | Git or code artifact sourced job                      | 
+| Allowed job type            | Image sourced-job                                   | Git or code artifact sourced job                      | 
 | Queue configuration options | Same for both workflows                            | Same for both workflows                               |
 | Agent configuration options |                 N/A                                | Must have the `registry` block in your agent config file |
 | Builder options             |         Docker, Kaniko, Noop                       | Docker, Kaniko |
@@ -38,12 +38,16 @@ In which case, we appreciate feedback about the specific problem so we can fix i
 Create and make note of the following AWS resources:
 
 1. **Setup SageMaker in your AWS account.** See the [SageMaker Developer guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) for more information. 
-2. **Create an IAM execution role.** Attach the [AmazonSageMakerFullAccess policy to your role](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
+2. **Create an IAM execution role.** See the [INSERT] section to view the JSON policy to add to your IAM role. 
 3. **Create an Amazon ECR repository**  to store images you want to execute on SageMaker. See the [Amazon ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for more information.
 4. **(If W&B creates your image) Create an Amazon S3 bucket** to store SageMaker outputs from your runs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information. 
 
 Ensure that the AWS account associated with the launch agent has access to the Amazon ECR repo, Amazon S3 bucket and the ability to create Sagemaker jobs. 
 
+
+### IAM Role policy
+
+Text.
 
 
 ## Configure a queue for SageMaker
@@ -101,7 +105,7 @@ StoppingCondition:
 
 Specify your:
 
-- `RoleArn` : ARN of the role the IAM role that will be assumed by the job.
+- `RoleArn` : ARN of the IAM role that you created that satisfied the prerequisites. [LINK]
 - `OutputDataConfig.S3OutputPath` : An Amazon S3 URI specifying where SageMaker outputs will be stored. 
 
 :::tip
@@ -153,7 +157,7 @@ Skip to the [Start your agent](#start-your-agent) section if you brought your ow
     ```yaml title="~/.config/wandb/launch-config.yaml"
     registry:
         type: ecr
-        repository: <ecr-repo-name>
+        uri: <ecr-repo-uri>
     ```
 
 4. **(Optional) Enable Kaniko**
@@ -246,7 +250,7 @@ Replace the  values in `<PLACEHOLDER>` with your own values:
   ]
 }
 ```
-
+<!-- 
 In order to use SageMaker queues, you will also need to create a separate execution role that is assumed by your jobs running in SageMaker. The agent should be granted the following permissions to be allowed to create training jobs:
 
 ```json
@@ -276,7 +280,7 @@ In order to use SageMaker queues, you will also need to create a separate execut
     }
   ]
 }
-```
+``` -->
 
 :::note
 The `kms:CreateGrant` permission for SageMaker queues is required only if the associated ResourceConfig has a specified VolumeKmsKeyId and the associated role does not have a policy that permits this action.

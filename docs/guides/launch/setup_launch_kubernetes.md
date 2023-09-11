@@ -4,7 +4,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Set up Kubernetes
+# Set up for Kubernetes
 
 The following sections outline how to configure a launch queue and agent to execute jobs on a Kubernetes cluster such as Amazon Elastic Kubernetes Service (Amazon EKS) or Google Kubernetes Engine (GKE). 
 
@@ -63,8 +63,40 @@ spec:
 </Tabs>
 
 
+
+## Configure a launch agent for Kubernetes
+Create and configure a YAML configuration file for the launch agent. The config should contain, at a minimum your W&B entity and a list of all queues to poll. Copy and paste the code block below. Replace the values based on your use case:
+
+```yaml title="~/.config/wandb/launch-config.yaml"
+# W&B entity (i.e. user or team) name
+entity: entity-name
+
+# Max number of concurrent runs to perform. -1 = no limit
+max_jobs: -1
+
+# List of queues to poll.
+queues:
+  - default
+```
+
+For example, the following code snippet shows an example `launch-config.yaml` file with optional metadata and max number of concurrent runs to perform (`max_jobs`):
+
+```yaml title="~/.config/wandb/launch-config.yaml"
+# W&B entity (i.e. user or team) name
+entity: awesome-person-entity
+
+# Max number of concurrent runs to perform. -1 = no limit
+max_jobs: -1
+
+# List of queues to poll.
+queues:
+- minikube
+```
+
+You can also specify a specific environment to run the agent on, specify a container registry, and specify a specific Docker builder. 
+
 :::tip
-The launch agent creates a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each W&B run that is popped from a launch queue that targets Kubernetes cluster. The launch queue modifies the [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec) that the launch agent submits to your Kubernetes cluster.
+The launch agent creates a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each W&B run that is removed from a launch queue that targets Kubernetes cluster.
 :::
 
 
@@ -86,41 +118,6 @@ spec:
           seccompProfile:
             type: RuntimeDefault
 ```
-
-
-## Configure a launch agent for Kubernetes
-Create and configure a YAML configuration file for the launch agent. The config should contain, at a minimum your W&B entity and a list of all queues to poll. Copy and paste the code block below. Replace the values based on your use case:
-
-```yaml title="~/.config/wandb/launch-config.yaml"
-# W&B entity (i.e. user or team) name
-entity: entity-name
-
-# Max number of concurrent runs to perform. -1 = no limit
-max_jobs: -1
-
-# List of queues to poll.
-queues:
-  - default
-```
-
-For example, the following code snippet shows an example `launch-config.yaml` file with optional metadata and max number of concurrent runs to perform (`max_jobs`):
-
-```yaml title="~/.config/wandb/launch-config.yaml"
-metadata:
-  name: minikube
-
-# W&B entity (i.e. user or team) name
-entity: awesome-person-entity
-
-# Max number of concurrent runs to perform. -1 = no limit
-max_jobs: -1
-
-# List of queues to poll.
-queues:
-- minikube
-```
-
-You can also specify a specific environment to run the agent on, specify a container registry, and specify a specific Docker builder. 
 
 For more information on optional launch agent configuration options, see the Configure a launch agent page. [LINK]
 
@@ -157,9 +154,6 @@ helm repo add wandb https://wandb.github.io/helm-charts
     For example, suppose we use launch agent config file defined earlier in this page:
 
     ```yaml title="~/.config/wandb/launch-config.yaml"
-    metadata:
-    name: minikube
-
     # W&B entity (i.e. user or team) name
     entity: awesome-person-entity
 

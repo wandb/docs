@@ -175,8 +175,8 @@ const sidebars = {
           items: [
             // 'guides/launch/create-queue',
             // 'guides/launch/run-agent',
-            'guides/launch/setup_launch_sagemaker',
             'guides/launch/setup_launch_docker',
+            'guides/launch/setup_launch_sagemaker',
             'guides/launch/setup_launch_kubernetes',
             'guides/launch/vertex',
           ],

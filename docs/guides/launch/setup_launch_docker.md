@@ -2,8 +2,8 @@
 displayed_sidebar: default
 ---
 
-# Set up Docker
-The following sections outline how to configure a launch queue and agent to execute jobs in Docker. 
+# Set up for Docker
+The following sections outline how to configure a launch queue and agent to execute jobs in Docker on a local machine. 
 
 ## Configure a queue for Docker
 

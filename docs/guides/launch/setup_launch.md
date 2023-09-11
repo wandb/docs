@@ -45,13 +45,13 @@ The table below describes the configuration schema for each queue target resourc
 | Kubernetes | Kubernetes Job spec or custom object. | [Kubernetes Job documentation](https://kubernetes.io/docs/concepts/workloads/controllers/job/)
 
 
-The following tabs show example queue configurations for SageMaker and Minikube target resources:
+The following tabs show example queue configurations for SageMaker and Kubernetes target resources:
 
 <Tabs
   defaultValue="sagemaker"
   values={[
     {label: 'Sagemaker', value: 'sagemaker'},
-    {label: 'Minikube', value: 'kubernetes'},
+    {label: 'Kubernetes', value: 'kubernetes'},
   ]}>
   <TabItem value="sagemaker">
   
@@ -84,12 +84,11 @@ spec:
   template:
     spec:
       containers:
-        - name: launch-job-minikube
-          image: canon:latest
-          imagePullPolicy: IfNotPresent
+        - name: image-name
+          image: image-name:latest
       restartPolicy: Never
 metadata:
-  name: launch-job-minikube
+  name: image-name
 apiVersion: batch/v1
 ```
 
@@ -126,7 +125,7 @@ When the launch agent removes a launch job from the queue, it will build a conta
 
 The environment that a launch agent is running in, and polling for launch jobs, is called the *agent environment*. Example agent environments include: locally on your machine or Kubernetes clusters. See the [Launch agent environments](#launch-agent-environments) section for more information.
 
-Depending on the compute target resource of the queue, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
+Depending on the compute target resource of the queue and your Docker builder, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
 
 <!-- For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the Kubernetes API. -->
 
@@ -195,7 +194,14 @@ builder:
 
 <TabItem value="kaniko">
 
-You can use Kaniko to build container images in Kubernetes. To use Kaniko, you must configure a storage bucket and provide the following in your agent configuration file:
+You can use Kaniko to build container images in Kubernetes. To use Kaniko, you must configure:
+
+* a storage bucket
+* specify a registry key in the agent config 
+* specify an environment key in the agent config  
+
+
+And provide the following in your agent configuration file:
 
 :::note
 W&B Launch supports: Amazon S3, Google Cloud Storage (GCS), or Microsoft Azure Blob Storage

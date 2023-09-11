@@ -3,9 +3,6 @@ displayed_sidebar: default
 ---
 
 # Terms and concepts
-
-W&B Launch has four main concepts: Jobs, Queues, Target Resources and Agents.
-
 When you use W&B Launch, you enqueue [jobs](#TBD) onto [queues](#TBD). Queues run on a [target resource](#TBD). [Agents](#TBD) poll queues and execute jobs on target resource based on the content's of the queue's configuration.
 
 
@@ -22,15 +19,11 @@ A job is a specific type of [W&B Artifact](#TBD) that represents some work to be
 - Information about inputs (config parameters, used artifacts) and outputs. (metrics, created artifacts)
 - Information about the environment. (e.g., `requirements.txt`, base `Dockerfile`).
 
-All jobs have some important constraints and limitations to keep in mind:
-
-- The python script must use the `wandb` library and call `wandb.init(...)` at some point.
-- TBD...
 
 There are three main kinds of job definitions:
 
 
-| Job types | Definition | How to run job | 
+| Job types | Definition | How to run this job type | 
 | ---------- | --------- | -------------- |
 |Artifact-based (or code-based) jobs| Code and other assets are saved as a W&B artifact.| To run artifact-based jobs, Launch agent must be configured with a [builder](#TBD). |
 |Git-based jobs|  Code and other assets are cloned from a certain commit, branch, or tag in a git repository. | To run git-based jobs, Launch agent must be configured with a [builder](#TBD) and [git repo credentials](#TBD). |
@@ -38,7 +31,7 @@ There are three main kinds of job definitions:
 
 
 :::tip
-Artifact-based jobs are created automatically when you track a run[LINK] with W&B.  Jobs of all kinds can be created manually with the W&B CLI's `wandb job create` [command](#TBD).  See [these docs](#TBD) for how to create git- or image-based jobs.
+Launch jobs are created automatically when you track a run[LINK] with W&B. You can manually specify what type of launch job is created with the W&B CLI's `wandb job create` [command](#TBD).  See [these docs](#TBD) for more information on how to create launch jobs.
 :::
 
 Once a job is defined, it can be found in the W&B app under the `Jobs` tab of your project workspace.  From there, jobs can be configured and sent to a [Launch queue](#TBD) to be executed on a variety of [target resources](#TBD).
@@ -59,7 +52,7 @@ W&B Launch supports the following target resources:
 Each target resource accepts a different set of configuration parameters.  So-called "resource configurations" take on default values defined by each Launch queue, but can be overridden independently by each job.  See the documentation for each target resource for more details.
 
 #### Launch agent
-Launch agents are lightweight, persistent programs that periodically check Launch queues for jobs to execute.  When a Launch agent receives a job, it first creates or pulls the image from the job definition then runs it on the target resource.
+Launch agents are lightweight, persistent programs that periodically check Launch queues for jobs to execute.  When a launch agent receives a job, it first builds or pulls the image from the job definition then runs it on the target resource.
 
 One agent may poll multiple queues, however the agent must be configured properly to support all of the backing target resources for each queue it is polling.  [LINK]
 

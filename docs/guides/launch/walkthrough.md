@@ -5,11 +5,11 @@ displayed_sidebar: default
 
 # Walkthrough
 
-This guide will walk you through how to setup the fundamental components W&B launch:  **launch jobs**, **launch queue**, and **launch agents**. By the end of this walkthrough, you will:
+This guide will walk you through how to setup the fundamental components W&B launch:  **launch jobs**, **launch queues**, and **launch agents**. By the end of this walkthrough, you will:
 
 1. Create a launch job that trains a neural network.
 2. Create a launch queue that is used to submit jobs for execution on your local machine.
-3. Create a launch agent that polls the queue and executes launch with Docker.
+3. Create a launch agent that polls the queue and starts your launch job with Docker.
 
 :::note
 The walkthrough outlined on this page is designed to run on your local machine with Docker.  
@@ -27,7 +27,7 @@ Before you get started, ensure you have satisfied the following prerequisites:
 
 ## Create a launch job
 
-The following code creates a launch job from a W&B [run](../../ref/python/run.md) using the W&B Python SDK. In this example, we log our code during a W&B run with the `log_code()`[INSERT] (see the highlighted portion of the code example).
+The following code creates a launch job from a W&B [run](../../ref/python/run.md) using the W&B Python SDK. In this example, we log our code within a W&B run (see the highlighted portion of the code example).
 
 1. Copy the following Python code to a file named `train.py`. Save the file on your local machine. Replace the `"<your entity>"` string with your W&B entity.
 
@@ -39,8 +39,10 @@ The following code creates a launch job from a W&B [run](../../ref/python/run.md
     }
 
     entity = "<your entity>"
+    project = "launch-quickstart"
+    job_name = "walkthrough_example"
 
-    with wandb.init(entity=entity, config=config, project="launch-quickstart") as run:
+    with wandb.init(entity=entity, config=config, project=project, job_name=job_name) as run:
         config = wandb.config
         for epoch in range(1, config.epochs):
             loss = config.epochs / epoch
@@ -64,7 +66,7 @@ This will create a launch job.  In the above example, the launch job was created
 Next, we will add the newly created launch job to a launch queue.
 
 :::tip
-There are numerous ways to create launch job. As an example, you can create launch jobs from Docker images with the W&B CLI. To find out all the ways you can create a launch job, see the Create and deploy jobs section.[LINK]
+There are numerous ways to create launch job. To learn more about all the ways you can create a launch job, see the Create and deploy jobs section.[LINK]
 :::
 
 ## Add your launch job to a queue
