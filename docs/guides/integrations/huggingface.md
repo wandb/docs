@@ -186,6 +186,7 @@ By default, your model will be saved to W&B Artifacts as `model-{run_id}` when `
 However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.run_name) in your `TrainingArguments`, the model will be saved as `model-{run_name}` or `checkpoint-{run_name}`.
 :::
 
+
 Any `Trainer` you initialize from now on will upload models to your W&B project.
 
 The model checkpoints you log will be viewable through the [W&B Artifacts](https://docs.wandb.ai/guides/artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..). 
@@ -215,7 +216,7 @@ Once you have logged your training results you can explore your results dynamica
 
 ### How do I save the best model?
 Want to centralize all your best model versions across your team to organize them by ML task, stage them for production, bookmark them for further evaluation, or kick off downstream Model CI/CD processes?
-Check out the [Model Registry](./guides/models/intro.md)
+Check out the [Model Registry](/guides/models/intro.md)
 
 If `load_best_model_at_end=True` is passed to `Trainer`, then W&B will save the best performing model to Artifacts.
 
