@@ -93,6 +93,10 @@ a:hover {
   height: var(--ifm-navbar-height);
 }
 
+.theme-doc-sidebar-item-link-level-1 {
+  font-weight: 200;
+}
+
 .main-wrapper {
   width: 100%;
   max-width: 1198px;
