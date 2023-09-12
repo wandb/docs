@@ -10,7 +10,6 @@ displayed_sidebar: default
 
 We have added three new callbacks for Keras and TensorFlow users, available from `wandb` v0.13.4. For the legacy `WandbCallback` scroll down.
 
-### Callbacks
 
 **`WandbMetricsLogger`** : Use this callback for [Experiment Tracking](https://docs.wandb.ai/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
 
@@ -24,7 +23,7 @@ These new callbacks,
 * Reduce the cognitive load of using a single callback (`WandbCallback`) for everything,
 * Make it easy for Keras users to modify the callback by subclassing it to support their niche use case.
 
-### Experiment Tracking with `WandbMetricsLogger`
+## Experiment Tracking with `WandbMetricsLogger`
 
 [**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/master/colabs/keras/Use\_WandbMetricLogger\_in\_your\_Keras\_workflow.ipynb)
 
@@ -49,7 +48,7 @@ model.fit(
 )
 ```
 
-### `WandbMetricsLogger` Reference
+**`WandbMetricsLogger` Reference**
 
 
 | Parameter | Description | 
@@ -108,6 +107,30 @@ model.fit(
 | `save_freq`               | ("epoch" or int): When using ‘epoch’, the callback saves the model after each epoch. When using an integer, the callback saves the model at end of this many batches. Note that when monitoring validation metrics such as `val_acc` or `val_loss`, `save_freq` must be set to "epoch" as those metrics are only available at the end of an epoch. |
 | `options`                 | (str): Optional `tf.train.CheckpointOptions` object if `save_weights_only` is true or optional `tf.saved_model.SaveOptions` object if `save_weights_only` is false.    |
 | `initial_value_threshold` | (float): Floating point initial "best" value of the metric to be monitored.       |
+
+### How to log checkpoints after N epochs?
+
+By default (`save_freq="epoch"`) the callback creates a checkpoint and uploads it as an artifact after each epoch. If we pass an integer to `save_freq` the checkpoint will be created after that many batches. To checkpoint after `N` epochs, compute the cardinality of the train dataloader and pass it to `save_freq`:
+
+```
+WandbModelCheckpoint(
+    filepath="models/",
+    save_freq=int((trainloader.cardinality()*N).numpy())
+)
+```
+
+### How to log checkpoints on a TPU Node architecture efficiently?
+
+While checkpointing on TPUs you might encounter `UnimplementedError: File system scheme '[local]' not implemented` error message. This happens because the model directory (`filepath`) must use a cloud storage bucket path (`gs://bucket-name/...`), and this bucket must be accessible from the TPU server. We can however, use the local path for checkpointing which in turn is uploaded as an Artifacts.
+
+```
+checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
+
+WandbModelCheckpoint(
+    filepath="models/,
+    options=checkpoint_options,
+)
+```
 
 ## Model Prediction Visualization using `WandbEvalCallback`
 
@@ -190,6 +213,13 @@ model.fit(
 💡 The Tables are logged to the W&B [Artifact page](https://docs.wandb.ai/ref/app/pages/project-page#artifacts-tab) by default and not the [Workspace](https://docs.wandb.ai/ref/app/pages/workspaces) page.
 :::
 
+**`WandbEvalCallback` Reference**
+
+| Parameter            | Description                                      |
+| -------------------- | ------------------------------------------------ |
+| `data_table_columns` | (list) List of column names for the `data_table` |
+| `pred_table_columns` | (list) List of column names for the `pred_table` |
+
 ### How the memory footprint is reduced?
 
 We log the `data_table` to W&B when the `on_train_begin` method is invoked. Once it's uploaded as a W&B Artifact, we get a reference to this table which can be accessed using `data_table_ref` class variable. The `data_table_ref` is a 2D list that can be indexed like `self.data_table_ref[idx][n]`, where `idx` is the row number while `n` is the column number. Let's see the usage in the example below.
@@ -201,13 +231,6 @@ You can override the `on_train_begin` or `on_epoch_end` methods to have more fin
 :::info
 💡 If you are implementing a callback for model prediction visualization by inheriting `WandbEvalCallback` and something needs to be clarified or fixed, please let us know by opening an [issue](https://github.com/wandb/wandb/issues).
 :::
-
-### `WandbEvalCallback` Reference
-
-| Parameter            | Description                                      |
-| -------------------- | ------------------------------------------------ |
-| `data_table_columns` | (list) List of column names for the `data_table` |
-| `pred_table_columns` | (list) List of column names for the `pred_table` |
 
 ## WandbCallback [Legacy]
 
@@ -227,7 +250,7 @@ model.fit(
 )
 ```
 
-## Usage examples
+**Usage examples**
 
 See this one minute, step-by-step video if this is your first time integrating W&B with Keras: [Get Started with Keras and Weights & Biases in Less Than a Minute](https://www.youtube.com/watch?ab_channel=Weights&Biases&v=4FjDIJ-vO_M)
 
@@ -236,8 +259,6 @@ For a more detailed video, see [Integrate Weights & Biases with Keras](https://w
 :::info
 Try W&B and Keras integration example from the video above in a [colab notebook](http://wandb.me/keras-colab). Or see our [example repo](https://github.com/wandb/examples) for scripts, including a [Fashion MNIST example](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py) and the [W&B Dashboard](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) it generates.
 :::
-
-## Configuring the `WandbCallback`
 
 The `WandbCallback` class supports a wide variety of logging configuration options: specifying a metric to monitor, tracking of weights and gradients, logging of predictions on training\_data and validation\_data, and more.
 
@@ -250,7 +271,7 @@ The `WandbCallback`
 * can optionally log gradient and parameter histogram
 * can optionally save training and validation data for wandb to visualize.
 
-### `WandbCallback` Reference
+**`WandbCallback` Reference**
 
 | Arguments                  |                                    |
 | -------------------------- | ------------------------------------------- |
