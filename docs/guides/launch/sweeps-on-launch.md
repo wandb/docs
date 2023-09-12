@@ -11,14 +11,14 @@ Create a hyperparameter tuning job ([sweeps](../sweeps/intro.md)) with W&B Launc
 You can use the default W&B Sweep scheduling engine or implement your own custom scheduler:
 
 1. Standard sweep scheduler: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps](../sweeps/intro.md). The familiar `bayes`, `grid`, and `random` methods are available.
-2. Custom sweep scheduler: Configure the sweep scheduler to run as a job. This option enables full customization. An example of how to extend the standard sweep scheduler to include more logging can be found below in the "advanced" section.
-
+2. Custom sweep scheduler: Configure the sweep scheduler to run as a job. This option enables full customization. An example of how to extend the standard sweep scheduler to include more logging can be found in the section below.
+ 
 :::note
 This guide assumes that W&B Launch has been previously configured. If W&B Launch has is not configured, see the [how to get started](./intro.md#how-to-get-started) section of the launch documentation. 
 :::
 
 :::tip
-We recommend you create a sweep on launch using the 'basic' method if you are a first time users of sweeps on launch. Use a custom sweeps on launch when the standard W&B scheduling engine does not meet your needs.
+We recommend you create a sweep on launch using the 'basic' method if you are a first time users of sweeps on launch. Use a custom sweeps on launch scheduler when the standard W&B scheduling engine does not meet your needs.
 :::
 
 ## Create a sweep with a W&B standard scheduler

@@ -8,6 +8,7 @@ import TabItem from '@theme/TabItem';
 
 The following sections outline how to configure a launch queue and agent to execute jobs on a Kubernetes cluster such as Amazon Elastic Kubernetes Service (Amazon EKS) or Google Kubernetes Engine (GKE). 
 
+:
 ## Prerequisites
 Before you get started, ensure you have the:
 1. **Kubernetes cluster** [LINK]
@@ -65,7 +66,9 @@ spec:
 
 
 ## Configure a launch agent for Kubernetes
-Create and configure a YAML configuration file for the launch agent. The config should contain, at a minimum your W&B entity and a list of all queues to poll. Copy and paste the code block below. Replace the values based on your use case:
+Create and configure a YAML configuration file for the launch agent. The config should contain, at a minimum your W&B entity and a list of all queues to poll. 
+
+Copy and paste the code block below. Replace the values based on your use case:
 
 ```yaml title="~/.config/wandb/launch-config.yaml"
 # W&B entity (i.e. user or team) name
@@ -79,45 +82,26 @@ queues:
   - default
 ```
 
-For example, the following code snippet shows an example `launch-config.yaml` file with optional metadata and max number of concurrent runs to perform (`max_jobs`):
+<!-- <Tabs
+  defaultValue="manually"
+  values={[
+    {label: 'Manually', value: 'manually'},
+    {label: 'Helm charts', value: 'helm'},
+  ]}>
+  <TabItem value="manually">
 
-```yaml title="~/.config/wandb/launch-config.yaml"
-# W&B entity (i.e. user or team) name
-entity: awesome-person-entity
 
-# Max number of concurrent runs to perform. -1 = no limit
-max_jobs: -1
 
-# List of queues to poll.
-queues:
-- minikube
-```
+  </TabItem>
+  <TabItem value="helm">This is an orange 🍊</TabItem>
+</Tabs> -->
+
+
+### Agent environments
 
 You can also specify a specific environment to run the agent on, specify a container registry, and specify a specific Docker builder. 
 
-:::tip
-The launch agent creates a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each W&B run that is removed from a launch queue that targets Kubernetes cluster.
-:::
 
-
-The launch agent will automatically set the following values in the top level of a Kubernetes Job spec:
-
-```yaml title="job.yaml"
-spec:
-  backoffLimit: 0
-  ttlSecondsAfterFinished: 60
-  template:
-    spec:
-      restartPolicy: Never
-      containers:  # These security defaults are applied to all containers in the pod spec.
-      - securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
-          seccompProfile:
-            type: RuntimeDefault
-```
 
 For more information on optional launch agent configuration options, see the Configure a launch agent page. [LINK]
 
@@ -162,7 +146,7 @@ helm repo add wandb https://wandb.github.io/helm-charts
 
     # List of queues to poll.
     queues:
-    - minikube
+    - queue-name
     ```
 
     The helm `values.yaml` file we created looks like: 
@@ -199,11 +183,11 @@ helm repo add wandb https://wandb.github.io/helm-charts
     # highlight-start
     launchConfig: |
     metadata:
-        name: minikube
+        name: queue-name
     entity: awesome-person-entity
     max_jobs: -1
     queues:
-    - minikube
+    - queue-name
     # highlight-end  
 
     # Set to false to disable volcano install.
@@ -380,7 +364,7 @@ Now that you have created all the resources needed to run the agent, you can dep
 
 The following manifest defines a Kubernetes cluster deployment that will run the agent in your cluster in one container. The agent will run in the `wandb` namespace, use the `wandb-launch-agent` service account. Our API key will be mounted as the `WANDB_API_KEY` environment variable in the container. Our configmap will be mounted as a volume in the container at `/home/launch-agent/launch-config.yaml`.
 
-```yaml title="launch-config.yaml"
+```yaml title="launch-agent.yaml"
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -443,3 +427,29 @@ kubectl -n wandb describe deployment launch-agent
 
 
 
+
+
+<!-- 
+::tip
+The launch agent creates a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each W&B run that is removed from a launch queue that targets Kubernetes cluster.
+:::
+
+
+The launch agent will automatically set the following values in the top level of a Kubernetes Job spec:
+
+```yaml title="job.yaml"
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+      containers:  # These security defaults are applied to all containers in the pod spec.
+      - securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          seccompProfile:
+            type: RuntimeDefault
+``` -->

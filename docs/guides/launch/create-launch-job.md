@@ -6,82 +6,25 @@ import TabItem from '@theme/TabItem';
 
 # Create a launch job
 
-A job is a blueprint that contains contextual information about a W&B run it is created from; such as the run's source code, software dependencies, hyperparameters, artifact dataset version, and so forth.
+A job is a blueprint that contains contextual information about a W&B run it is created from; such as the run's source code, software dependencies, hyperparameters, artifact version, and so forth.
 
-Once you have a launch job, you can add them to a pre-configured launch queue[LINK]. A launch agent will poll that queue and send the job (as a Docker image) to the compute resource that was configured on launch queue.
+Once you have a launch job, you can add them to a pre-configured launch queue[LINK]. The launch agent that was deployed by you or someone on your team, will poll that queue and send the job (as a Docker image) to the compute resource that was configured on launch queue.
 
 
 There are three ways to create a launch job:
 
 * With a Python script
 * With a Docker image
-* With code Git repository
+* With Git repository
 
-The following tabs show how to create a job based on each use case. 
-
-
-
-## Before you get started
-Before you create a job, make sure you confirm that:
-
-<!-- 1. Make your code job-friendly. [LINK] -->
-1. A launch queue exists that you have permission to add jobs to it. [LINK]
-2. A launch agent is polling the queue you will add launch jobs to. [LINK]
+The following sections show how to create a job based on each use case. 
 
 
 
-<!-- ### Make your code job-friendly
-Store your hyperparameters as a dictionary within the `wandb.config` object. Launch jobs are parameterized by the values in your `wandb.config`. This means that When your job is executed (and `wandb.init` is called), your `wandb.config` is populated with the values specified for that run.
-
-In other words, you can change the hyperparameters for future runs created by jobs if you pass your hyperparameters to `wandb.config`.
 
 
-The following code snippet shows how you can pass hyperparameters to wandb.config when you initialize a W&B run:
-```python
-epochs=10, 
-lr=0.01
-
-run = wandb.init(
-    project="<your-project-name>",
-    entity='<your-entity>',
-    config={
-        "learning_rate": lr,
-        "epochs": epochs,
-    })
-```
-
-If you read and store your parameters using a different method, you can still use W&B Launch to run your job, you will need to update your code to use the `wandb.config`.
-
-For example, if you use `argparse` to parse your command line arguments, you can easily adapt your script to use the `wandb.config` to store the values of your arguments. For example:
-
-```python
-import argparse
-import wandb
-
-parser = argparse.ArgumentParser()
-parser.add_argument("--learning_rate", type=float, default=0.01)
-parser.add_argument("--batch_size", type=int, default=32)
-args = parser.parse_args()
-
-# Pass the arguments to wandb.init to store them in
-# wandb.config and allow the launch agent to modify them.
-wandb.init(config=args)
-
-# Use the values in wandb.config instead of args.
-args = wandb.config
-``` -->
-
-<!-- ## Create a launch job -->
-
-<!-- :::info
-W&B will check and create jobs based on what requirements you satisfy (if you log a code artifact, associate a run with a git commit, or associate a run with a Docker image).
-
-You can explicitly tell W&B how to create a launch job with wandb.Settings Class. Set the `job_source` parameter to either: `artifact`, `git`, or `image`.
-::: -->
-
-
-### Check queue exists and agent is polling
-Find out the name of your queue and the entity it belongs to. Then, follow these instructions to find out the status of your queue and if an agent is polling that queue:
+## Before you get started 
+Before you create a launch job, find out the name of your queue and the entity it belongs to. Then, follow these instructions to find out the status of your queue and to check if an agent is polling that queue:
 
 1. Navigate to [wandb.ai/launch](https://wandb.ai/launch).
 2. From the **All entities** dropdown, select the entity the launch queue belongs to. 
@@ -91,7 +34,6 @@ This will filter queues based on W&B entities.
 5. Select the **Agents** tab. Within the **Agents** tab you sill see a list of Agent IDs and their statuses. Ensure that one of the agent IDs has a **polling** status.
 
 
-
 ## Create a job with a Python script
 
 <Tabs
@@ -99,6 +41,7 @@ This will filter queues based on W&B entities.
   values={[
     {label: 'CLI', value: 'cli'},
     {label: 'Python SDK', value: 'sdk'},
+    {label: 'Within a run', value: 'run'},
   ]}>
   <TabItem value="cli">
 
@@ -173,6 +116,11 @@ wandb.init(settings=settings)
 
 
 For more information on the `run.log_code()` command, see the API Reference guide. [LINK]
+
+  </TabItem>
+  <TabItem>
+
+  Text.
 
   </TabItem>
 </Tabs>
@@ -276,3 +224,55 @@ You can specify a name for your job with the `WANDB_JOB_NAME` environment variab
 
 </TabItem>
 </Tabs>
+
+
+
+## Launch job names
+
+By default, W&B automatically generates a job name for you. The name is generated depending on how the job is created (GitHub, code artifact, or Docker image). Alternatively, you can define a launch job's name with environment variables or with the W&B Python SDK.
+
+### Default launch job names
+
+The following table describes the job naming convention used by default based on job source:
+
+| Source        | Naming convention                       |
+| ------------- | --------------------------------------- |
+| GitHub        | `job-<git-remote-url>-<path-to-script>` |
+| Code artifact | `job-<code-artifact-name>`              |
+| Docker image  | `job-<image-name>`                      |
+
+
+### Name your launch job
+Name your job with a W&B environment variable or with the W&B Python SDK
+
+<Tabs
+  defaultValue="env_var"
+  values={[
+    {label: 'Environment variable', value: 'env_var'},
+    {label: 'W&B Python SDK', value: 'python_sdk'},
+  ]}>
+  <TabItem value="env_var">
+
+Set the `WANDB_JOB_NAME` environment variable to your preferred job name. For example:
+
+```bash
+WANDB_JOB_NAME=awesome-job-name
+```
+
+  </TabItem>
+  <TabItem value="python_sdk">
+
+Define the name of your job with `wandb.Settings`. Then pass this object when you initialize W&B with `wandb.init`. For example:
+
+```python
+settings = wandb.Settings(job_name="my-job-name")
+wandb.init(settings=settings)
+```
+
+  </TabItem>
+</Tabs>
+
+
+:::note
+For docker image jobs, the version alias is automatically added as an alias to the job.
+:::

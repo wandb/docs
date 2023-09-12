@@ -13,55 +13,7 @@ Ensure that you, or someone on your team, has already configured a launch queue.
 :::
 
 
-## Launch job names
 
-By default, W&B automatically generates a job name for you. The name is generated depending on how the job is created (GitHub, code artifact, or Docker image). Alternatively, you can define a launch job's name with environment variables or with the W&B Python SDK.
-
-### Default launch job names
-
-The following table describes the job naming convention used by default based on job source:
-
-| Source        | Naming convention                       |
-| ------------- | --------------------------------------- |
-| GitHub        | `job-<git-remote-url>-<path-to-script>` |
-| Code artifact | `job-<code-artifact-name>`              |
-| Docker image  | `job-<image-name>`                      |
-
-
-### Name your launch job
-Name your job with a W&B environment variable or with the W&B Python SDK
-
-<Tabs
-  defaultValue="env_var"
-  values={[
-    {label: 'Environment variable', value: 'env_var'},
-    {label: 'W&B Python SDK', value: 'python_sdk'},
-  ]}>
-  <TabItem value="env_var">
-
-Set the `WANDB_JOB_NAME` environment variable to your preferred job name. For example:
-
-```bash
-WANDB_JOB_NAME=awesome-job-name
-```
-
-  </TabItem>
-  <TabItem value="python_sdk">
-
-Define the name of your job with `wandb.Settings`. Then pass this object when you initialize W&B with `wandb.init`. For example:
-
-```python
-settings = wandb.Settings(job_name="my-job-name")
-wandb.init(settings=settings)
-```
-
-  </TabItem>
-</Tabs>
-
-
-:::note
-For docker image jobs, the version alias is automatically added as an alias to the job.
-:::
 
 ## Add jobs to your queue
 
@@ -102,24 +54,48 @@ Add a job to your queue with the W&B App.
 
 Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Quickstart](./walkthrough.md) guide, we create a JSON file with the following overrides:
 
-```json
-// config.json
+```json title="config.json"
+{
+    "args": [],
+    "run_config": {
+        "learning_rate": 0,
+        "epochs": 0
+    },   
+    "entry_point": []
+}
+```
+
+:::note
+W&B Launch will use the default parameters if you do not provide a JSON configuration file.
+:::
+
+If you want to override the queue configuration, or if your your launch queue does not have a configuration resource defined, you can specify the `resource_args` key in your config.json file. For example, following continuing the example above, your config.json file might look similar to the following:
+
+```json title="config.json"
 {
     "args": [],
     "run_config": {
         "learning_rate": 0,
         "epochs": 0
     },
+    "resource_args": {
+      "<resource-type>" : {
+        "<key>": "<value>",
+        }
+    },
     "entry_point": []
 }
 ```
-W&B Launch will use the default parameters if you do not provide a JSON configuration file.
+
+Replace values within the `<>` with your own values.
+
 
 
 Provide the name of the queue for the `queue`(`-q`) flag, the name of the job for the `job`(`-j`) flag, and the path to the configuration file for the `config`(`-c`) flag.
 
 ```bash
-wandb launch -j <job> -q <queue-name> -e <entity-name> -c path/to/config.json
+wandb launch -j <job> -q <queue-name> \ 
+-e <entity-name> -c path/to/config.json
 ```
 If you work within a W&B Team, we suggest you specify the `entity` flag (`-e`) to indicate which entity the queue will use.
 
