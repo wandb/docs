@@ -114,7 +114,7 @@ model.fit(
 
 ### How to log checkpoints after N epochs?
 
-By default (`save_freq="epoch"`) the callback creates checkpoint and upload it as an artifact after each epoch. If we pass an `int` to `save_freq` the checkpoint will be created after that many batches. To checkpoint after `N` epochs compute the cardinality of the train dataloader and pass it to `save_freq`:
+By default (`save_freq="epoch"`) the callback creates a checkpoint and uploads it as an artifact after each epoch. If we pass an integer to `save_freq` the checkpoint will be created after that many batches. To checkpoint after `N` epochs, compute the cardinality of the train dataloader and pass it to `save_freq`:
 
 ```
 WandbModelCheckpoint(
@@ -125,7 +125,7 @@ WandbModelCheckpoint(
 
 ### How to log checkpoints on a TPU Node architecture efficiently?
 
-While checkpointing on TPUs you might encounter `UnimplementedError: File system scheme '[local]' not implemented` error message. This happens because the model directory (`filepath`) must use a cloud storage bucket path (`gs://bucket-name/...`), and this bucket must be accessible from the TPU server. We can however, use the local path for checkpointing which in turn is uploaded as Artifacts.
+While checkpointing on TPUs you might encounter `UnimplementedError: File system scheme '[local]' not implemented` error message. This happens because the model directory (`filepath`) must use a cloud storage bucket path (`gs://bucket-name/...`), and this bucket must be accessible from the TPU server. We can however, use the local path for checkpointing which in turn is uploaded as an Artifacts.
 
 ```
 checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
