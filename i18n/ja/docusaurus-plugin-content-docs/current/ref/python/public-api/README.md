@@ -8,7 +8,7 @@ Public APIを使って、
 Public APIの使用方法については、[ガイド](https://docs.wandb.com/guides/track/public-api-guide)をチェックしてください。
 ## クラス
 [`class Api`](./api.md): wandbサーバーへの問い合わせに使用されます。
-[`class Artifact`](./artifact.md): wandbのアーティファクト。
+`class Artifact`: wandbのアーティファクト。
 [`class File`](./file.md): wandbによって保存されたファイルに関連するクラス。
 [`class Files`](./files.md): `File`オブジェクトの反復可能なコレクション。
 

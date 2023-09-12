@@ -1,171 +1,161 @@
 ---
-description: Learn how to use Weights & Biases for Model Management
-displayed_sidebar: ja
+description: Learn how to use W&B for Model Management
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# クイックスタート
+# Walkthrough
 
 <head>
-  <title>モデル管理の使い方を解説</title>
+  <title>Walkthrough of how to use Model Management</title>
 </head>
 
-![](/images/models/walkthrough.png)
+In this walkthrough you will learn how to use W&B for model management. More specifically, we cover how to track, visualize, and report on a complete production model workflow.
 
-この解説では、Weights & Biasesを使ってモデル管理を行う方法を学びます。プロダクションモデルワークフローのトラッキング、データ可視化、レポーティングを完全にサポートします。
+1. [Create a new Registered Model](#1-create-a-new-registered-model)
+2. [Train & log Model Versions](#2-train-and-log-model-versions)
+3. [Link Model Versions to the Registered Model](#3-link-model-versions-to-the-registered-model)
+4. [Using a Model Version](#4-use-a-model-version)
+5. [Evaluate Model Performance](#5-evaluate-model-performance)
+6. [Promote a Version to Production](#6-promote-a-version-to-production)
+7. [Use the Production Model for Inference](#7-consume-the-production-model)
+8. [Build a Reporting Dashboard](#8-build-a-reporting-dashboard)
 
-1. **モデルバージョン管理**: モデルと学習済みパラメータのすべてのバージョンを保存・復元し、ユースケースや目的別にバージョンを整理します。トレーニングのメトリクスをトラッキングし、カスタムメタデータを追加し、モデルのリッチなマークダウン説明を文書化します。
-2. **モデルの履歴:** モデルを生成するために使用された正確なコード、ハイパーパラメータ、およびトレーニングデータセットをトラッキングします。モデルの再現性を実現します。
-3. **モデルライフサイクル:** 「ステージング」や「プロダクション」のような位置に有望なモデルを昇格させ、ダウンストリームのユーザーが最適なモデルを自動的に取得できるようにします。レポートでコラボレーションしながら進捗を共有します。
 
-_私たちは現在、新しいモデル管理機能を積極的に開発しています。質問や提案がありましたら、support@wandb.comまでお気軽にお問い合わせください。_
+![](/images/models/models_landing_page.png)
 
-:::info
-モデルレジストリのすべての利用可能なコンテンツについては、[アーティファクトタブ](https://docs.wandb.ai/ref/app/pages/project-page#artifacts-tab)の詳細を参照してください！
-:::
 
-## ワークフロー
 
-ここからは、トレーニング済みモデルの生成、整理、利用における標準的なワークフローについて解説します。
-1. [新しいRegistered Modelを作成する](walkthrough.md#1.-create-a-new-model-portfolio)
-2. [モデルバージョンのトレーニングとログ](walkthrough.md#2.-train-and-log-model-versions)
-3. [Registered Modelにモデルバージョンをリンクする](walkthrough.md#3.-link-model-versions-to-the-portfolio)
-4. [モデルバージョンの使用方法](walkthrough.md#4.-use-a-model-version)
-5. [モデルパフォーマンスを評価する](walkthrough.md#5.-evaluate-model-performance)
-6. [バージョンをプロダクションに昇格させる](walkthrough.md#6.-promote-a-version-to-production)
-7. [プロダクションモデルを推論に利用する](walkthrough.md#7.-consume-the-production-model)
-8. [レポートダッシュボードを作成する](walkthrough.md#8.-build-a-reporting-dashboard)
+## 1. Create a new registered model
 
-:::tip
-**ステップ2〜3をカバーする最初のコードブロックと、ステップ4〜6をカバーする2つ目のコードブロックが含まれる** [**Colabノートブックが提供されています**](https://colab.research.google.com/drive/1wjgr9AHICOa3EM1Ikr_Ps_MAm5D7QnCC) **。**
-:::
+First, create a registered model to hold all the candidate models for your modeling task. In this guide, we use [MNIST Dataset](https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST) as input 28 X 28 images with output classes from 0-9. 
 
-![](/images/models/workflow_dag.png)
-
-### 1. 新しいRegistered Modelを作成する
-
-まず、特定のモデリングタスクに対するすべての候補モデルを格納するRegistered Modelを作成します。このチュートリアルでは、古典的な[MNIST Dataset](https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST)（0-9の出力クラスを持つ28x28グレースケール入力画像）を使用します。以下のビデオでは、新しいRegistered Modelの作成方法を説明しています。
+The following tabs describe how to create a registered model interactively with the W&B App (Model registry and Artifact browser, respectively). The "Python SDK" tab describes how to programmatically create a registered model with W&B Python SDK.
 
 <Tabs
   defaultValue="registry"
   values={[
-    {label: 'モデルレジストリを使用', value: 'registry'},
-    {label: 'アーティファクトブラウザを使用', value: 'browser'},
-    {label: 'プログラマティックリンク', value: 'programmatic'},
+    {label: 'Model Registry', value: 'registry'},
+    {label: 'Artifact Browser', value: 'browser'},
+    {label: 'Python SDK', value: 'programmatic'},
   ]}>
   <TabItem value="registry">
 
-1. [wandb.ai/registry/model](https://wandb.ai/registry/model)（ホームページからリンクされている）で、モデルレジストリを開きます。
+1. Navigate to your model registry at [wandb.ai/registry/model](https://wandb.ai/registry/model).
+
 ![](/images/models/create_registered_model_1.png)
 
-![](/images/models/create_registered_model_2.png)
 
-2. モデルレジストリの上部にある `Create Registered Model` ボタンをクリックします。
+2. Click the **New registered model** button at the top of the Model Registry page.
 
 ![](/images/models/create_registered_model_3.png)
 
-3. `Owning Entity` と `Owning Project` が望む値に正しく設定されていることを確認してください。新しい登録済みモデルには、モデリングタスクや関心のあるユースケースを説明するユニークな名前を入力します。
+3. Select the entity the registered model will belong to from the **Owning Entity** dropdown.
+4. Provide a name for your model in the **Model Name** field. 
 
-![](/images/models/create_registered_model_4.png)
+
   </TabItem>
   <TabItem value="browser">
 
-1. プロジェクトのアーティファクトブラウザにアクセスします: `wandb.ai/<entity>/<project>/artifacts`
-2. アーティファクトブラウザのサイドバーの下部にある `+` アイコンをクリックします
-3. `Type: model`, `Style: Collection`, および名前を選択します。この例では、`MNIST Grayscale 28x28` です。コレクションはモデリングタスクにマッピングする必要があります。ユースケースを説明するユニークな名前を入力してください。
+1. Visit your Project's Artifact Browser: `wandb.ai/<entity>/<project>/artifacts`
+2. Click the `+` icon on the bottom of the Artifact Browser Sidebar
+3. Select `Type: model`, `Style: Collection`, and enter a name. In our case `MNIST Grayscale 28x28`. Remember, a Collection should map to a modeling task - enter a unique name that describes the use case.
 
 ![](/images/models/browser.gif)
   </TabItem>
     <TabItem value="programmatic">
 
-すでにログされたモデルのバージョンがある場合、SDKから直接登録済みモデルにリンクできます。指定された登録済みモデルが存在しない場合、自動的に作成されます。
+If you already have a logged model version, you can link directly to a registered model from the SDK. If the registered model you specify doesn't exist, we will created it for you.
 
-手動でのリンクは一度限りのモデルに便利ですが、モデルのバージョンをコレクションにプログラムでリンクすることがよくある場面でも便利です。例えば、毎晩のジョブやCIパイプラインが、すべてのトレーニングジョブから最良のモデルバージョンをリンクしたい場合です。コンテキストとユースケースに応じて、3つの異なるリンクAPIのいずれかを使用することがあります。
+While manual linking is useful for one-off Models, it is often useful to programmatically link Model Versions to a Collection - consider a nightly job or CI pipeline that wants to link the best Model Version from every training job. Depending on your context and use case, you may use one of 3 different linking APIs:
 
-**Public APIからモデルアーティファクトを取得:**
+**Fetch Model Artifact from Public API:**
 
 ```python
 import wandb
-# API経由でモデルバージョンを取得
+
+# Fetch the Model Version via API
 art = wandb.Api().artifact(...)
-# モデルバージョンをモデルコレクションにリンク
+# Link the Model Version to the Model Collection
 art.link("[[entity/]project/]collectionName")
 ```
 
-**現在のRunではモデルアーティファクトが「使用されている」:**
+**Model Artifact is "used" by the current Run:**
 
 ```python
 import wandb
-# W&B runを初期化してトラッキングを開始
+
+# Initialize a W&B run to start tracking
 wandb.init()
-# モデルバージョンの参照を取得
+# Obtain a reference to a Model Version
 art = wandb.use_artifact(...)
-# モデルバージョンをモデルコレクションにリンク
+# Link the Model Version to the Model Collection
 art.link("[[entity/]project/]collectionName")
 ```
 
-**現在のRunではモデルアーティファクトがログされている：**
+**Model Artifact is logged by the current Run:**
 
 ```python
 import wandb
-# W&B runを初期化してトラッキングを開始
+
+# Initialize a W&B run to start tracking
 wandb.init()
-# モデルバージョンを作成
+# Create an Model Version
 art = wandb.Artifact(...)
-# モデルバージョンをログ
+# Log the Model Version
 wandb.log_artifact(art)
-# モデルバージョンをコレクションにリンク
+# Link the Model Version to the Collection
 wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
 ```
   </TabItem>
 </Tabs>
-### 2. モデルのバージョンをトレーニング＆ログに残す
 
-次に、トレーニングスクリプトからモデルをログに記録します。
+## 2. Train and log model versions
 
-1. （オプション）データセットを依存関係として宣言し、再現性と監査性のために追跡できるようにします
-2. モデリングライブラリ（例：[PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) や [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)）が提供するシリアル化プロセスを使って、定期的に（および/またはトレーニング終了時に）モデルをディスクに**シリアル化**します。
-3. "model"というタイプのArtifactにモデルファイルを**追加**します
-   * 注：`f'mnist-nn-{wandb.run.id}'`という名前を使用しています。必須ではありませんが、Run idで"下書き"のアーティファクトを名前空間化することで、整理された状態を維持することが望ましいです。
-4. （オプション）トレーニング中のモデルのパフォーマンスに関連するトレーニングメトリクスをログに記録します。
-   * 注：モデルバージョンをログに記録する直前にログに記録されたデータは、そのバージョンに自動的に関連付けられます。
-5. モデルを**ログ**に記録します。
-   * 注：複数のバージョンをログに記録している場合、以前のバージョンよりもパフォーマンスが向上したモデルバージョンに "best" のエイリアスを追加することが望ましいです。これにより、特にトレーニングの末尾で過学習が発生する場合に、最高のパフォーマンスを持つモデルを簡単に見つけることができます。
+Next, log a model from your training script:
 
-デフォルトでは、シリアル化されたモデルをログに記録するために、ネイティブのW&B Artifacts APIを使用する必要があります。ただし、このパターンは非常に一般的であるため、シリアル化、Artifactの作成、ログの記録を組み合わせた単一のメソッドが提供されています。詳細については、「(Beta) `log_model`を使用する」タブを参照してください。
+1. (Optional) Declare your dataset as a dependency so that it is tracked for reproducibility and auditability.
+2. **Serialize** your model to disk periodically (and/or at the end of training) using the serialization process provided by your modeling library (eg [PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) & [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)).
+3. **Add** your model files to an Artifact of type "model"
+   * Note: We use the name `f'mnist-nn-{wandb.run.id}'`. While not required, it is advisable to name-space your "draft" Artifacts with the Run id in order to stay organized
+4. (Optional) Log training metrics associated with the performance of your model during training.
+   * Note: The data logged immediately before logging your Model Version will automatically be associated with that version
+5. **Log** your model
+   * Note: If you are logging multiple versions, it is advisable to add an alias of "best" to your Model Version when it outperforms the prior versions. This will make it easy to find the model with peak performance - especially when the tail end of training may overfit!
 
 <Tabs
   defaultValue="withartifacts"
   values={[
-    {label: 'Artifactsを使用する', value: 'withartifacts'},
-    {label: 'データセット依存関係を宣言する', value: 'datasetdependency'},
+    {label: 'Using Artifacts', value: 'withartifacts'},
+    {label: 'Declare Dataset Dependency', value: 'datasetdependency'},
   ]}>
   <TabItem value="withartifacts">
 
 ```python
 import wandb
 
-# W&B runを常に初期化して追跡を開始する
+# Always initialize a W&B run to start tracking
 wandb.init()
-# （オプション）上流のデータセット依存関係を宣言する
-# `Declare Dataset Dependency`タブを参照してください
-# 代替の例については。
+
+# (Optional) Declare an upstream dataset dependency
+# see the `Declare Dataset Dependency` tab for
+# alternative examples.
 dataset = wandb.use_artifact("mnist:latest")
 
-# 各エポックの終わりに（またはスクリプトの終わりに）...
-# ... モデルをシリアル化します
+# At the end of every epoch (or at the end of your script)...
+# ... Serialize your model
 model.save("path/to/model.pt")
-# ... モデルバージョンを作成
-art = wandb.Artifact(f'mnist-nn-{wandb.run.id}', type="model")
-# ... シリアル化されたファイルを追加
+# ... Create a Model Version
+art = wandb.Artifact(f"mnist-nn-{wandb.run.id}", type="model")
+# ... Add the serialized files
 art.add_file("path/to/model.pt", "model.pt")
-# （オプション）トレーニングメトリクスをログに記録
+# (optional) Log training metrics
 wandb.log({"train_loss": 0.345, "val_loss": 0.456})
-# ... バージョンをログに記録
+# ... Log the Version
 if model_is_best:
-    # モデルがこれまでの最高のモデルである場合、
-    # エイリアスに "best" を追加
+    # If the model is the best model so far,
+    #  add "best" to the aliases
     wandb.log_artifact(art, aliases=["latest", "best"])
 else:
     wandb.log_artifact(art)
@@ -173,22 +163,23 @@ else:
   </TabItem>
   <TabItem value="datasetdependency">
 
-トレーニングデータをトラッキングしたい場合は、データセットで `wandb.use_artifact` を呼び出すことで依存関係を宣言できます。以下は、データセット依存関係を宣言する方法の3つの例です。
+If you would like to track your training data, you can declare a dependency by calling `wandb.use_artifact` on your dataset. Here are 3 examples of how you can declare a dataset dependency:
 
-**W&Bに保存されているデータセット**
+**Dataset stored in W&B**
 
-``` python
+```python
 dataset = wandb.use_artifact("[[entity/]project/]name:alias")
 ```
-**ローカルファイルシステムに保存されたデータセット**
+
+**Dataset stored on Local Filesystem**
 
 ```python
 art = wandb.Artifact("dataset_name", "dataset")
-art.add_dir("path/to/data") # または art.add_file("path/to/data.csv")
+art.add_dir("path/to/data")  # or art.add_file("path/to/data.csv")
 dataset = wandb.use_artifact(art)
 ```
 
-**リモートバケットに保存されたデータセット**
+**Dataset stored on Remote Bucket**
 
 ```python
 art = wandb.Artifact("dataset_name", "dataset")
@@ -199,147 +190,154 @@ dataset = wandb.use_artifact(art)
 </Tabs>
 
 
-1つまたは複数のモデルバージョンをログした後、Artifact Browserに新しいモデルアーティファクトが表示されることに気付くでしょう。ここでは、`mnist_nn-1r9jjogr`という名前のアーティファクトに5つのバージョンをログした結果を見ることができます。
+After logging 1 or more Model Versions, you will notice that your will have a new Model Artifact in your Artifact Browser. Here, we can see the results of logging 5 versions to an artifact named `mnist_nn-1r9jjogr`.
 
 ![](/images/models/train_log_model_version_browser.png)
 
-例のノートブックに沿っている場合、以下の画像に似たチャートが表示されるRun Workspaceが表示されるはずです。
+If you are following along the example notebook, you should see a Run Workspace with charts similar to the image below
 
 ![](/images/models/train_log_model_version_notebook.png)
 
-### 3. モデルバージョンを登録モデルにリンクする
+## 3. Link model versions to the registered model
 
-さて、モデルバージョンのどれかを登録モデルにリンクする準備ができたとしましょう。これは、手動でもAPI経由でも実行できます。
+Link a model version to the registered model with the W&B App or programmatically with the Python SDK.
 
 <Tabs
   defaultValue="manual_link"
   values={[
-    {label: '手動でのリンク', value: 'manual_link'},
-    {label: 'プログラムでのリンク', value: 'program_link'},
+    {label: 'Manual Linking', value: 'manual_link'},
+    {label: 'Programmatic Linking', value: 'program_link'},
   ]}>
   <TabItem value="manual_link">
-以下のビデオは、モデルバージョンを新しく作成した登録済みモデルに手動でリンクする方法を説明しています。
 
-1. 対象のモデルバージョンに移動する
-2. リンクアイコンをクリックする
-3. ターゲットとする登録済みモデルを選択する
-4. （オプション）：追加のエイリアスを追加する
+
+1. Navigate to the Model Version of interest
+2. Click the link icon
+3. Select the target Registered Model
+4. (optional): Add additional aliases
 
 ![](/images/models/link_model_versions.gif)
   </TabItem>
   <TabItem value="program_link">
 
-手動でのリンクは1回限りのモデルに便利ですが、モデルバージョンをコレクションにプログラムでリンクすることがよくあります。例えば、毎晩のジョブやCI開発フローで、すべてのトレーニングジョブから最良のモデルバージョンをリンクしたい場合などです。コンテキストやユースケースに応じて、以下の3種類のリンクAPIのいずれかを使用することがあります。
+The following code snippets demonstrate different linking API you can use to programmatically link a model version to a registered model:
 
-**パブリックAPIからモデルアーティファクトを取得する：**
+**Fetch Model Artifact from Public API:**
 
 ```python
 import wandb
 
-# APIを使ってモデルバージョンを取得する
+# Fetch the Model Version via API
 art = wandb.Api().artifact(...)
 
-# モデルバージョンをモデルコレクションにリンクする
+# Link the Model Version to the Model Collection
 art.link("[[entity/]project/]collectionName")
 ```
 
-**現在のRunでモデルアーティファクトが「使用」される：**
+**Model Artifact is "used" by the current Run:**
 
 ```python
 import wandb
 
-# W&B runを開始してトラッキングを開始
+# Initialize a W&B run to start tracking
 wandb.init()
 
-# モデルバージョンへの参照を取得
+# Obtain a reference to a Model Version
 art = wandb.use_artifact(...)
 
-# モデルバージョンをモデルコレクションにリンク
+# Link the Model Version to the Model Collection
 art.link("[[entity/]project/]collectionName")
 ```
 
-**モデルアーティファクトは現在のRunによってログされます：**
+**Model Artifact is logged by the current Run:**
 
 ```python
 import wandb
 
-# W&B runを開始してトラッキングを開始
+# Initialize a W&B run to start tracking
 wandb.init()
 
-# モデルバージョンを作成
+# Create an Model Version
 art = wandb.Artifact(...)
 
-# モデルバージョンをログ
+# Log the Model Version
 wandb.log_artifact(art)
 
-# モデルバージョンをコレクションにリンク
+# Link the Model Version to the Collection
 wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
 ```
   </TabItem>
 </Tabs>
 
 
-モデルバージョンをリンクすると、登録されたモデルのバージョンとソースアーティファクトとの間に、相互にハイパーリンクが表示されます。
+After you link the model version, you will see hyperlinks that connect the version in the registered model to the source artifact. The artifact will also have hyperlinks that connect to the model version.
 
 ![](@site/static/images/models/train_log_model_version.png)
 
-### 4. モデルバージョンの使用
 
-さて、モデルを使って評価を行ったり、データセットに対して予測を行ったり、ライブプロダクション環境で使用する準備が整いました。モデルをログに記録するときと同様に、生のArtifact APIを使用するか、もっと指向性のあるbeta APIを使用するかを選ぶことができます。
+:::tip
+This [companion colab notebook](http://wandb.me/models_quickstart) covers step 2-3 in the first code block and steps 4-6 in the second code block.
+:::
 
-モデルバージョンを`use_artifact`メソッドを使ってロードすることができます。
+
+## 4. Use a model version
+
+Next, consume the model. For example, perhaps to you want to evaluate its performance, make predictions against a dataset, or use in a live production context. The following code snippet shows how to  use a model with the Python SDK:
 
 ```python
 import wandb
 
-# 常にW&B runを初期化してトラッキングを開始する
+# Always initialize a W&B run to start tracking
 wandb.init()
 
-# モデルバージョンファイルをダウンロードする
+# Download your Model Version files
 path = wandb.use_artifact("[[entity/]project/]collectionName:latest").download()
 
-# メモリ内でモデルオブジェクトを再構築する:
-# 以下の`make_model_from_data`は、ディスクからモデルをロードするための
-# あなたのデシリアル化ロジックを表しています
+# Reconstruct your model object in memory:
+# `make_model_from_data` below represents your deserialization logic
+# to load in a model from disk
 model = make_model_from_data(path)
 ```
 
-### 5. モデル性能の評価
+## 5. Evaluate model performance
 
-多くのモデルをトレーニングした後、それらのモデルのパフォーマンスを評価したくなるでしょう。ほとんどの場合、モデルがトレーニング中にアクセスできるデータセットとは独立したテストデータセットとして機能するホールドアウトデータがあります。モデルのバージョンを評価するには、まず上記のステップ4を完了して、モデルをメモリにロードする必要があります。そして:
+After training many models, you will likely want to evaluate the performance of those models. In most circumstances you will have a test dataset that was not used for training or validation. To evaluate a model version, you will want to first complete step 4 above to load a model into memory. Then:
 
-1. （オプション）評価データに対してデータ依存関係を宣言する
-2. メトリクス、メディア、テーブル、評価に役立つその他のものを**ログ**する
+1. (Optional) Declare a data dependency to your evaluation data
+2. Log metrics, media, tables, and anything else useful for evaluation
 
 ```python
-# ... 4からの続き
+# ... continuation from 4
 
-# (オプション) 上流の評価データセット依存関係を宣言する
+# (Optional) Declare an upstream evaluation dataset dependency
 dataset = wandb.use_artifact("mnist-evaluation:latest")
 
-# ユースケースに応じてモデルを評価する
+# Evaluate your model according to your use-case
 loss, accuracy, predictions = evaluate_model(model, dataset)
 
-# メトリクス、画像、テーブル、評価に役立つデータをログに出力する。
-wandb.log(
-    {
-        "loss": loss, "accuracy": accuracy, 
-        "predictions": predictions
-        })
+# Log out metrics, images, tables, or any data useful for evaluation.
+wandb.log({"loss": loss, "accuracy": accuracy, "predictions": predictions})
 ```
 
-ノートブックで示されているような類似のコードを実行している場合、以下の画像に似たワークスペースが表示されるはずです。ここでは、テストデータに対するモデルの予測まで表示しています！
+If you are executing similar code, as demonstrated in the notebook, you should see a workspace similar to the image below - here we even show model predictions against the test data!
 
 ![](/images/models/evaluate_model_performance.png)
 
-### 6. バージョンをプロダクションに昇格させる
-次に、登録済みモデルの中でどのバージョンをプロダクション用として使うかを示すことができます。この際、エイリアスの概念を利用します。各登録済みモデルは、ユースケースに適した任意のエイリアスを持つことができますが、一般的には `production` が最も一般的なエイリアスです。各エイリアスは、一度に1つのバージョンにしか割り当てられません。
+## 6. Promote a version to production
+
+Next, specify a model version to use for production with an alias. Each registered model can have one or more aliases. Each alias can only be assigned to a single Version at a time.
+
+:::tip
+The `production` alias is one of the most common aliases we see used to mark a model as production-ready.
+:::
+
+The following tabs demonstrate how to add an alias with the interactively with the W&B App and programmatically with the Python SDK:
 
 <Tabs
   defaultValue="UI_interface"
   values={[
-    {label: 'UIインターフェースとともに', value: 'UI_interface'},
-    {label: 'APIとともに', value: 'api'},
+    {label: 'W&B App UI', value: 'UI_interface'},
+    {label: 'Python SDK', value: 'api'},
   ]}>
   <TabItem value="UI_interface">
 
@@ -347,40 +345,30 @@ wandb.log(
   </TabItem>
   <TabItem value="api">
 
-[パート3. モデルバージョンをコレクションにリンクする](walkthrough.md#3.-linking-model-versions-to-the-portfolio)の手順に従い、`aliases` パラメータに追加したいエイリアスを追加してください。
+Follow steps in [Part 3. Link Model Versions to the Collection](#3-link-model-versions-to-the-registered-model) and add the aliases you want to the `aliases` parameter.
   </TabItem>
 </Tabs>
 
-
-以下の画像は、登録済みモデルのv1に新しく追加された `production` エイリアスを示しています！
+The image below shows the new `production` alias added to v1 of the Registered Model!
 
 ![](/images/models/promote_version_to_prod_2.png)
 
-### 7. プロダクションモデルの利用
+## 7. Consume the production model
 
-<!-- 最後に、プロダクションモデルを推論に使用したい場合があります。これを行うには、単に [パート4. モデルバージョンの使用](walkthrough.md#4.-evaluate-model-performance) で概説されている手順に従い、`production` エイリアスを使用します。例えば： -->
+Finally, use your production model for inference. See the [Use a model version](#4-use-a-model-version) for more information. In this example, we use the Python SDK:
 
 ```python
 wandb.use_artifact("[[entity/]project/]registeredModelName:production")
 ```
-バージョンを登録済みモデル内で参照するには、異なるエイリアス戦略を使用できます。
 
+You can reference a version within a registered model using different alias strategies:
 
+* `latest` - which will fetch the most recently linked Version
+* `v#` - using `v0`, `v1`, `v2`, ... you can fetch a specific version in the Registered Model
+* `production` - you can use any custom alias that you and your team have assigned
 
-* `latest` - 最も最近リンクされたバージョンを取得します
+## 8. Build a reporting dashboard
 
-* `v#` - `v0`、`v1`、`v2`などを使用して、登録済みモデルの特定のバージョンを取得できます
-
-* `production` - あなたとあなたのチームが割り当てた任意のカスタムエイリアスを使用できます
-
-
-
-### 8. レポーティングダッシュボードの構築
-
-
-
-Weaveパネルを使って、モデルレジストリ/アーティファクトのビューをレポート内に表示できます！[こちらのデモ](https://wandb.ai/timssweeney/model_management_docs_official_v0/reports/MNIST-Grayscale-28x28-Model-Dashboard--VmlldzoyMDI0Mzc1)をご覧ください。以下は、例のモデルダッシュボードの全画面スクリーンショットです。
-
-
+Using Weave Panels, you can display any of the Model Registry/Artifact views inside of Reports! See a [demo here](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/reports/MNIST-Grayscale-28x28-Model-Dashboard--VmlldzoyMDI0Mzc1). Below is a full-page screenshot of an example Model Dashboard.
 
 ![](/images/models/build_reporting_dashboard.png)

@@ -21,9 +21,10 @@ PyTorchは、特に研究者の間で、Pythonにおけるディープラーニ�
 
 ```python
 import wandb
+
 wandb.init(config=args)
 
-model = ... # モデルの設定
+model = ...  # モデルの設定
 
 # Magic
 wandb.watch(model, log_freq=100)
@@ -50,7 +51,7 @@ PyTorchの`Tensors`に画像データを渡すと、[`wandb.Image`](../../ref/py
 
 ```python
 images_t = ...  # PyTorch Tensorsとして画像を生成または読み込み
-wandb.log({"examples" : [wandb.Image(im) for im in images_t]})
+wandb.log({"examples": [wandb.Image(im) for im in images_t]})
 ```
 
 PyTorchや他のフレームワークでW&Bにリッチメディアをログに記録する方法については、[media logging guide](../track/log/media.md)を参照してください。
@@ -71,7 +72,7 @@ wandb.log({"mnist_predictions": my_table})
 上のコードでこのようなテーブルが生成されます。このモデルは良さそうです！
 ![The code above generates a table like this one. This model's looking good!](/images/integrations/pytorch_example_table.png)
 
-データセットとモデルのログや可視化について詳しくは、[W&B Tables のガイド](../data-vis/intro.md)を参照してください。
+データセットとモデルのログや可視化について詳しくは、[W&B Tables のガイド](../tables/intro.md)を参照してください。
 
 ## PyTorch コードのプロファイリング
 
@@ -84,7 +85,8 @@ profile_dir = "path/to/run/tbprofile/"
 profiler = torch.profiler.profile(
     schedule=schedule,  # スケジューリングの詳細についてはプロファイラのドキュメントを参照してください
     on_trace_ready=torch.profiler.tensorboard_trace_handler(profile_dir),
-    with_stack=True)
+    with_stack=True,
+)
 
 with profiler:
     ...  # ここでプロファイリングしたいコードを実行

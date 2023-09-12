@@ -16,7 +16,7 @@ We have added three new callbacks for Keras and TensorFlow users, available from
 
 **`WandbModelCheckpoint`** : Use this callback to log your model checkpoints to Weight and Biases [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning).
 
-**`WandbEvalCallback`**: This base callback will log model predictions to Weights and Biases [Tables](https://docs.wandb.ai/guides/data-vis) for interactive visualization.
+**`WandbEvalCallback`**: This base callback will log model predictions to Weights and Biases [Tables](https://docs.wandb.ai/guides/tables) for interactive visualization.
 
 These new callbacks,
 
@@ -45,10 +45,7 @@ wandb.init(config={"bs": 12})
 
 # Pass the WandbMetricsLogger to model.fit
 model.fit(
-    X_train,
-    y_train,
-    validation_data=(X_test, y_test),
-    callbacks=[WandbMetricsLogger()]
+    X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbMetricsLogger()]
 )
 ```
 
@@ -87,13 +84,13 @@ wandb.init(config={"bs": 12})
 
 # Pass the WandbModelCheckpoint to model.fit
 model.fit(
-  X_train,
-  y_train,
-  validation_data=(X_test, y_test),
-  callbacks=[
-    WandbMetricsLogger(),
-    WandbModelCheckpoint("models"),
-  ]
+    X_train,
+    y_train,
+    validation_data=(X_test, y_test),
+    callbacks=[
+        WandbMetricsLogger(),
+        WandbModelCheckpoint("models"),
+    ],
 )
 ```
 
@@ -136,6 +133,7 @@ For example, we have implemented `WandbClfEvalCallback` below for an image class
 import wandb
 from wandb.keras import WandbMetricsLogger, WandbEvalCallback
 
+
 # Implement your model prediction visualization callback
 class WandbClfEvalCallback(WandbEvalCallback):
     def __init__(
@@ -166,8 +164,9 @@ class WandbClfEvalCallback(WandbEvalCallback):
                 pred,
             )
 
+
 # ...
-           
+
 # Initialize a new W&B run
 wandb.init(config={"hyper": "parameter"})
 
@@ -182,8 +181,8 @@ model.fit(
             validation_data=(X_test, y_test),
             data_table_columns=["idx", "image", "label"],
             pred_table_columns=["epoch", "idx", "image", "label", "pred"],
-	),
-    ]
+        ),
+    ],
 )
 ```
 
@@ -224,10 +223,7 @@ wandb.init(config={"hyper": "parameter"})
 
 # Pass the callback to model.fit
 model.fit(
-  X_train,
-  y_train,
-  validation_data=(X_test, y_test),
-  callbacks=[WandbCallback()]
+    X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
 )
 ```
 
@@ -290,7 +286,7 @@ The `WandbCallback`
 If you're setting `use_multiprocessing=True` and seeing an error like:
 
 ```python
-Error('You must call wandb.init() before wandb.config.batch_size')
+Error("You must call wandb.init() before wandb.config.batch_size")
 ```
 
 then try this:

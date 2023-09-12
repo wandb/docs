@@ -20,7 +20,11 @@ The following shared responsibility matrix outlines the respective responsibilit
 
 ## Obtain your license
 
-Talk to your W&B Sales Team to obtain a license. The sales team will provide a URL that you can use to create a local license and deployment.
+You need a W&B license to complete your configuration of a W&B server. Open the [Deploy Manager](https://deploy.wandb.ai/deploy) to generate a free license. 
+
+:::note
+If you do not already have a cloud W&B account then you will need to create one to generate your free license.
+:::
 
 The URL will redirect you to a **Get a License for W&B Local** form. Provide the following information:
 

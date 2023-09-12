@@ -25,8 +25,7 @@ run = wandb.init()
 
 # Pass WandbCallback to the model
 bst = XGBClassifier()
-bst.fit(X_train, y_train, 
-    callbacks=[WandbCallback(log_model=True)])
+bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
 
 # Close your wandb run
 run.finish()

@@ -59,7 +59,8 @@ wandb.sweep() や wandb.agent() を使用しようとするノートブック用
 
 ```python
 import os
+
 # これらは将来的に必要がなくなるでしょう。
-os.environ['WANDB_ENTITY'] = "my-entity"
-os.environ['WANDB_PROJECT'] = "my-project-that-exists"
+os.environ["WANDB_ENTITY"] = "my-entity"
+os.environ["WANDB_PROJECT"] = "my-project-that-exists"
 ```

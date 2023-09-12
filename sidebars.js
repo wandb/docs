@@ -19,7 +19,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Experiments',
-      link: {type: 'doc', id: 'guides/track/intro'},
+      link: { type: 'doc', id: 'guides/track/intro' },
       items: [
         // 'guides/track/intro',
         'guides/track/launch',
@@ -27,7 +27,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'What are Runs?',
-          link: {type: 'doc', id: 'guides/runs/intro'},
+          link: { type: 'doc', id: 'guides/runs/intro' },
           items: [
             // 'guides/runs/intro',
             // 'guides/runs/create-run',
@@ -40,7 +40,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Log Objects and Media',
-          link: {type: 'doc', id: 'guides/track/log/intro'},
+          link: { type: 'doc', id: 'guides/track/log/intro' },
           items: [
             // 'guides/track/log/intro',
             'guides/track/log/plots',
@@ -59,14 +59,13 @@ const sidebars = {
         'guides/track/limits',
         'guides/track/public-api-guide',
         'guides/track/tracking-faq',
-        'guides/track/save-restore',
         'guides/track/environment-variables',
       ],
     },
     {
       type: 'category',
       label: 'Reports',
-      link: {type: 'doc', id: 'guides/reports/intro'},
+      link: { type: 'doc', id: 'guides/reports/intro' },
       items: [
         // 'guides/reports/intro',
         'guides/reports/create-a-report',
@@ -75,25 +74,35 @@ const sidebars = {
         'guides/reports/clone-and-export-reports',
         'guides/reports/embed-reports',
         'guides/reports/cross-project-reports',
+        'guides/reports/reports-gallery',
         'guides/reports/reports-faq',
       ],
     },
     {
       type: 'category',
       label: 'Artifacts',
-      link: {type: 'doc', id: 'guides/artifacts/intro'},
+      link: { type: 'doc', id: 'guides/artifacts/intro' },
       items: [
         // 'guides/artifacts/intro',
-        'guides/artifacts/quickstart',
+        'guides/artifacts/artifacts-walkthrough',
         'guides/artifacts/construct-an-artifact',
         'guides/artifacts/download-and-use-an-artifact',
         'guides/artifacts/update-an-artifact',
         'guides/artifacts/create-a-custom-alias',
         'guides/artifacts/create-a-new-artifact-version',
         'guides/artifacts/track-external-files',
-        'guides/artifacts/delete-artifacts',
+        {
+          type: 'category',
+          label: 'Manage data',
+          items: [
+            'guides/artifacts/delete-artifacts',
+            'guides/artifacts/storage',
+            'guides/artifacts/ttl',
+          ],
+        },
+        
         'guides/artifacts/explore-and-traverse-an-artifact-graph',
-        'guides/artifacts/storage',
+        
         'guides/artifacts/data-privacy-and-compliance',
         'guides/artifacts/artifacts-faqs',
         // 'guides/artifacts/examples',
@@ -102,20 +111,20 @@ const sidebars = {
     {
       type: 'category',
       label: 'Tables',
-      link: {type: 'doc', id: 'guides/data-vis/intro'},
+      link: { type: 'doc', id: 'guides/tables/intro' },
       items: [
-        // 'guides/data-vis/intro',
-        'guides/data-vis/tables-quickstart',
-        'guides/data-vis/tables',
+        'guides/tables/tables-walkthrough',
+        'guides/tables/visualize-tables',
+        'guides/tables/tables-gallery',
       ],
     },
     {
       type: 'category',
       label: 'Sweeps',
-      link: {type: 'doc', id: 'guides/sweeps/intro'},
+      link: { type: 'doc', id: 'guides/sweeps/intro' },
       items: [
         // 'guides/sweeps/intro',
-        'guides/sweeps/quickstart',
+        'guides/sweeps/walkthrough',
         'guides/sweeps/add-w-and-b-to-your-code',
         'guides/sweeps/define-sweep-configuration',
         'guides/sweeps/initialize-sweeps',
@@ -133,17 +142,17 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Models',
-      link: {type: 'doc', id: 'guides/models/intro'},
+      label: 'Model Registry',
+      link: { type: 'doc', id: 'guides/models/intro' },
       items: [
         // 'guides/models/intro',
-        'guides/models/quickstart',
+        // 'guides/models/quickstart',
+        'guides/models/walkthrough',
+        'guides/models/model_tags',
         'guides/models/access_controls',
         'guides/models/automation',
         'guides/models/notifications',
-        'guides/models/model_tags',
         'guides/models/model-management-concepts',
-        'guides/models/walkthrough',
       ],
     },
     {
@@ -154,15 +163,17 @@ const sidebars = {
         id: 'guides/launch/intro',
       },
       items: [
-        'guides/launch/quickstart',
+        'guides/launch/walkthrough',
         'guides/launch/create-job',
         'guides/launch/create-queue',
         'guides/launch/run-agent',
         'guides/launch/launch-jobs',
         'guides/launch/docker',
         'guides/launch/kubernetes',
+        'guides/launch/vertex',
         'guides/launch/sagemaker',
         'guides/launch/sweeps-on-launch',
+        'guides/launch/launch-faqs',
       ],
     },
     {
@@ -178,20 +189,30 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Weave',
+      link: { type: 'doc', id: 'guides/weave/intro' },
+      items: [
+        'guides/weave/boards',
+        'guides/weave/streamtable',
+        'guides/weave/prod-mon'
+      ],
+    },
+    {
+      type: 'category',
       label: 'App Reference',
-      link: {type: 'doc', id: 'guides/app/intro'},
+      link: { type: 'doc', id: 'guides/app/intro' },
       items: [
         // 'guides/app/intro',
         {
           type: 'category',
           label: 'Features',
-          link: {type: 'doc', id: 'guides/app/features/intro'},
+          link: { type: 'doc', id: 'guides/app/features/intro' },
           items: [
             // 'guides/app/features/intro',
             {
               type: 'category',
               label: 'Panels',
-              link: {type: 'doc', id: 'guides/app/features/panels/intro'},
+              link: { type: 'doc', id: 'guides/app/features/panels/intro' },
               items: [
                 // 'guides/app/features/panels/intro',
                 {
@@ -253,7 +274,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Pages',
-          link: {type: 'doc', id: 'guides/app/pages/intro'},
+          link: { type: 'doc', id: 'guides/app/pages/intro' },
           items: [
             // 'guides/app/pages/intro',
             'guides/app/pages/gradient-panel',
@@ -265,7 +286,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Settings',
-          link: {type: 'doc', id: 'guides/app/settings-page/intro'},
+          link: { type: 'doc', id: 'guides/app/settings-page/intro' },
           items: [
             // 'guides/app/settings-page/intro',
             'guides/app/settings-page/user-settings',
@@ -278,12 +299,12 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Server',
-      link: {type: 'doc', id: 'guides/hosting/intro'},
+      link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
         {
           type: 'category',
           label: 'Hosting options',
-          link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
+          link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
             'guides/hosting/hosting-options/wb-managed',
             'guides/hosting/hosting-options/self-managed',
@@ -310,7 +331,7 @@ const sidebars = {
             'guides/hosting/how-to-guides/basic-setup',
             'guides/hosting/how-to-guides/aws-tf',
             'guides/hosting/how-to-guides/gcp-tf',
-            // 'guides/hosting/how-to-guides/azure-tf',
+            'guides/hosting/how-to-guides/azure-tf',
             'guides/hosting/how-to-guides/bare-metal',
           ],
         },
@@ -319,7 +340,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Integrations',
-      link: {type: 'doc', id: 'guides/integrations/intro'},
+      link: { type: 'doc', id: 'guides/integrations/intro' },
       items: [
         // 'guides/integrations/intro',
         'guides/integrations/add-wandb-to-any-library',
@@ -332,7 +353,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Fastai',
-          link: {type: 'doc', id: 'guides/integrations/fastai/README'},
+          link: { type: 'doc', id: 'guides/integrations/fastai/README' },
           items: [
             // 'guides/integrations/fastai/README',
             'guides/integrations/fastai/v1',
@@ -370,13 +391,14 @@ const sidebars = {
         'guides/integrations/other/w-and-b-for-julia',
         'guides/integrations/xgboost',
         'guides/integrations/yolov5',
+        'guides/integrations/ultralytics',
         'guides/integrations/other/yolox',
       ],
     },
     {
       type: 'category',
       label: 'Technical FAQ',
-      link: {type: 'doc', id: 'guides/technical-faq/intro'},
+      link: { type: 'doc', id: 'guides/technical-faq/intro' },
       items: [
         // 'guides/hosting/technical-faq/intro',
         'guides/technical-faq/general',
@@ -399,14 +421,14 @@ const sidebars = {
     {
       type: 'category',
       label: '実験管理',
-      link: {type: 'doc', id: 'guides/track/intro'},
+      link: { type: 'doc', id: 'guides/track/intro' },
       items: [
         'guides/track/launch',
         'guides/track/config',
         {
           type: 'category',
           label: 'Runとは',
-          link: {type: 'doc', id: 'guides/runs/intro'},
+          link: { type: 'doc', id: 'guides/runs/intro' },
           items: [
             'guides/runs/grouping',
             'guides/runs/resuming',
@@ -417,7 +439,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'メディアとオブジェクトのログ',
-          link: {type: 'doc', id: 'guides/track/log/intro'},
+          link: { type: 'doc', id: 'guides/track/log/intro' },
           items: [
             'guides/track/log/plots',
             'guides/track/log/log-tables',
@@ -434,14 +456,13 @@ const sidebars = {
         'guides/track/limits',
         'guides/track/public-api-guide',
         'guides/track/tracking-faq',
-        'guides/track/save-restore',
         'guides/track/environment-variables',
       ],
     },
     {
       type: 'category',
       label: 'レポート',
-      link: {type: 'doc', id: 'guides/reports/intro'},
+      link: { type: 'doc', id: 'guides/reports/intro' },
       items: [
         'guides/reports/create-a-report',
         'guides/reports/edit-a-report',
@@ -449,15 +470,16 @@ const sidebars = {
         'guides/reports/clone-and-export-reports',
         'guides/reports/embed-reports',
         'guides/reports/cross-project-reports',
+        'guides/reports/reports-gallery',
         'guides/reports/reports-faq',
       ],
     },
     {
       type: 'category',
       label: 'アーティファクト',
-      link: {type: 'doc', id: 'guides/artifacts/intro'},
+      link: { type: 'doc', id: 'guides/artifacts/intro' },
       items: [
-        'guides/artifacts/quickstart',
+        'guides/artifacts/artifacts-walkthrough',
         'guides/artifacts/construct-an-artifact',
         'guides/artifacts/download-and-use-an-artifact',
         'guides/artifacts/update-an-artifact',
@@ -474,18 +496,19 @@ const sidebars = {
     {
       type: 'category',
       label: 'テーブル',
-      link: {type: 'doc', id: 'guides/data-vis/intro'},
+      link: { type: 'doc', id: 'guides/tables/intro' },
       items: [
-        'guides/data-vis/tables-quickstart',
-        'guides/data-vis/tables',
+        'guides/tables/tables-walkthrough',
+        'guides/tables/visualize-tables',
+        'guides/tables/tables-gallery',
       ],
     },
     {
       type: 'category',
       label: 'スイープ',
-      link: {type: 'doc', id: 'guides/sweeps/intro'},
+      link: { type: 'doc', id: 'guides/sweeps/intro' },
       items: [
-        'guides/sweeps/quickstart',
+        'guides/sweeps/walkthrough',
         'guides/sweeps/add-w-and-b-to-your-code',
         'guides/sweeps/define-sweep-configuration',
         'guides/sweeps/initialize-sweeps',
@@ -504,7 +527,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'モデル',
-      link: {type: 'doc', id: 'guides/models/intro'},
+      link: { type: 'doc', id: 'guides/models/intro' },
       items: [
         // 'guides/models/quickstart',
         // 'guides/models/access_controls',
@@ -523,7 +546,7 @@ const sidebars = {
         id: 'guides/launch/intro',
       },
       items: [
-        'guides/launch/quickstart',
+        'guides/launch/walkthrough',
         'guides/launch/create-job',
         'guides/launch/create-queue',
         'guides/launch/run-agent',
@@ -547,17 +570,17 @@ const sidebars = {
     {
       type: 'category',
       label: 'Appリファレンス',
-      link: {type: 'doc', id: 'guides/app/intro'},
+      link: { type: 'doc', id: 'guides/app/intro' },
       items: [
         {
           type: 'category',
           label: '機能',
-          link: {type: 'doc', id: 'guides/app/features/intro'},
+          link: { type: 'doc', id: 'guides/app/features/intro' },
           items: [
             {
               type: 'category',
               label: 'Panels',
-              link: {type: 'doc', id: 'guides/app/features/panels/intro'},
+              link: { type: 'doc', id: 'guides/app/features/panels/intro' },
               items: [
                 {
                   type: 'category',
@@ -614,7 +637,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'ページ',
-          link: {type: 'doc', id: 'guides/app/pages/intro'},
+          link: { type: 'doc', id: 'guides/app/pages/intro' },
           items: [
             'guides/app/pages/gradient-panel',
             'guides/app/pages/project-page',
@@ -625,7 +648,7 @@ const sidebars = {
         {
           type: 'category',
           label: '設定',
-          link: {type: 'doc', id: 'guides/app/settings-page/intro'},
+          link: { type: 'doc', id: 'guides/app/settings-page/intro' },
           items: [
             'guides/app/settings-page/user-settings',
             'guides/app/settings-page/team-settings',
@@ -637,12 +660,12 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&Bサーバー',
-      link: {type: 'doc', id: 'guides/hosting/intro'},
+      link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
         {
           type: 'category',
           label: 'ホスティングオプション',
-          link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
+          link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
             'guides/hosting/hosting-options/wb-managed',
             'guides/hosting/hosting-options/self-managed',
@@ -672,7 +695,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'インテグレーション',
-      link: {type: 'doc', id: 'guides/integrations/intro'},
+      link: { type: 'doc', id: 'guides/integrations/intro' },
       items: [
         'guides/integrations/add-wandb-to-any-library',
         'guides/integrations/other/catalyst',
@@ -684,7 +707,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Fastai',
-          link: {type: 'doc', id: 'guides/integrations/fastai/README'},
+          link: { type: 'doc', id: 'guides/integrations/fastai/README' },
           items: [
             'guides/integrations/fastai/v1',
           ],
@@ -727,14 +750,14 @@ const sidebars = {
     {
       type: 'category',
       label: '技術FAQ',
-      link: {type: 'doc', id: 'guides/technical-faq/intro'},
+      link: { type: 'doc', id: 'guides/technical-faq/intro' },
       items: [
         'guides/technical-faq/general',
         'guides/technical-faq/metrics-and-performance',
         'guides/technical-faq/setup',
         'guides/technical-faq/troubleshooting',
       ],
-    },                                            
+    },
   ],
   tutorials: [
     {
@@ -742,32 +765,39 @@ const sidebars = {
       id: 'tutorials/intro_to_tutorials', // document ID
       label: 'W&B Tutorials', // sidebar label
     },
-        // 'guides/tutorials/intro_to_tutorials',
-        'tutorials/experiments',
-        'tutorials/tables',
-        'tutorials/sweeps',
-        'tutorials/artifacts',
-        'tutorials/models',
-        'tutorials/prompts',
-        {
-          type: 'category',
-          label: 'Integration Tutorials',
-          // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
-          items: [
-            'tutorials/pytorch',
-            'tutorials/lightning',
-            'tutorials/huggingface',
-            'tutorials/tensorflow',
-            'tutorials/tensorflow_sweeps',
-            'tutorials/keras',
-            'tutorials/keras_tables',
-            'tutorials/keras_models',
-            'tutorials/xgboost',
-            'tutorials/xgboost_sweeps',
-            'tutorials/lightgbm',
+    // 'guides/tutorials/intro_to_tutorials',
+    'tutorials/experiments',
+    'tutorials/tables',
+    'tutorials/sweeps',
+    'tutorials/artifacts',
+    'tutorials/models',
+    {
+      type: 'category',
+      label: 'Integration Tutorials',
+      // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+      items: [
+        'tutorials/pytorch',
+        'tutorials/lightning',
+        'tutorials/huggingface',
+        'tutorials/tensorflow',
+        'tutorials/tensorflow_sweeps',
+        'tutorials/keras',
+        'tutorials/keras_tables',
+        'tutorials/keras_models',
+        'tutorials/xgboost',
+        'tutorials/xgboost_sweeps',
+        'tutorials/lightgbm',
 
-          ],
-        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Launch Tutorials',
+      // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+      items: [
+        'tutorials/volcano',
+      ],
+    },
   ],
 };
 

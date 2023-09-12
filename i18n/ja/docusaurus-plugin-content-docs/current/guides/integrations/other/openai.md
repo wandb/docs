@@ -30,7 +30,7 @@ import os
 import openai
 from wandb.integration.openai import autolog
 
-autolog({"project":"gpt5"})
+autolog({"project": "gpt5"})
 ```
 
 必要に応じて、`autolog`に`wandb.init()`が受け付ける引数を含むディクショナリを渡すことができます。これには、プロジェクト名、チーム名、エンティティなどが含まれます。 [`wandb.init`](../../../ref/python/init.md)についての詳細は、APIリファレンスガイドを参照してください。
@@ -147,7 +147,7 @@ WandbLogger.sync(
 
 ## 🔍 サンプル予測の検証
 
-[Tables](../../data-vis/intro.md)を使用して、サンプル予測をより良く可視化し、モデルを比較します。
+[Tables](../../tables/intro.md)を使用して、サンプル予測をより良く可視化し、モデルを比較します。
 
 ![](/images/integrations/open_ai_inspect_sample.png)
 
@@ -179,16 +179,15 @@ OpenAI APIを使っていくつかの推論を行います。
 my_prompts = ["PROMPT_1", "PROMPT_2"]
 results = []
 for prompt in my_prompts:
-    res = openai.Completion.create(model=fine_tuned_model,
-                                   prompt=prompt,
-                                   ...)
+    res = openai.Completion.create(model=fine_tuned_model, prompt=prompt, ...)
     results.append(res["choices"][0]["text"])
 ```
 
 結果をテーブルでログします。
 ```python
-table = wandb.Table(columns=['prompt', 'completion'],
-                    data=list(zip(my_prompts, results)))
+table = wandb.Table(
+    columns=["prompt", "completion"], data=list(zip(my_prompts, results))
+)
 ```
 
 ## :question:よくある質問

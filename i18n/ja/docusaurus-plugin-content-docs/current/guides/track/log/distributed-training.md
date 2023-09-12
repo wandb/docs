@@ -110,6 +110,7 @@ W&B SDKバージョン0.12.5以降のW&Bサービスを有効にするには、P
 if __name__ == "__main__":
     main()
 
+
 def main():
     wandb.require("service")
     # ここに残りのスクリプトを記述
@@ -131,14 +132,17 @@ def main():
 ```python showLineNumbers
 import multiprocessing as mp
 
+
 def do_work(n):
     run = wandb.init(config=dict(n=n))
-    run.log(dict(this=n*n))
+    run.log(dict(this=n * n))
+
 
 def main():
     wandb.setup()
     pool = mp.Pool(processes=4)
     pool.map(do_work, range(4))
+
 
 if __name__ == "__main__":
     main()
@@ -148,15 +152,11 @@ if __name__ == "__main__":
 
 W&B Runオブジェクトを引数として渡すことで、プロセス間でW&B Runsを共有できます。
 ```python showLineNumbers
-
 def do_work(run):
-
     run.log(dict(this=1))
 
 
-
 def main():
-
     run = wandb.init()
 
     p = mp.Process(target=do_work, kwargs=dict(run=run))
@@ -165,12 +165,9 @@ def main():
 
     p.join()
 
-        
 
 if __name__ == "__main__":
-
     main()
-
 ```
 
 

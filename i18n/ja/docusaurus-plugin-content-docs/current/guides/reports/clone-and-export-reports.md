@@ -37,13 +37,9 @@ import TabItem from '@theme/TabItem';
 URLからレポートをロードして、テンプレートとして使用します。
 
 ```python
-report = wr.Report(
-    project=PROJECT,
-    title='クイックスタート レポート',
-    description="簡単だった！"
-)                                              # 作成
-report.save()                                  # 保存
-new_report = wr.Report.from_url(report.url)    # ロード
+report = wr.Report(project=PROJECT, title="クイックスタート レポート", description="簡単だった！")  # 作成
+report.save()  # 保存
+new_report = wr.Report.from_url(report.url)  # ロード
 ```
 
 `new_report.blocks`の中身を編集します。
@@ -55,11 +51,11 @@ pg = wr.PanelGrid(
         wr.Runset(ENTITY, PROJECT, "象のみ！", query="elephant"),
     ],
     panels=[
-        wr.LinePlot(x='Step', y=['val_acc'], smoothing_factor=0.8),
-        wr.BarPlot(metrics=['acc']),
-        wr.MediaBrowser(media_keys='img', num_columns=1),
-        wr.RunComparer(diff_only='split', layout={'w': 24, 'h': 9}),
-    ]
+        wr.LinePlot(x="Step", y=["val_acc"], smoothing_factor=0.8),
+        wr.BarPlot(metrics=["acc"]),
+        wr.MediaBrowser(media_keys="img", num_columns=1),
+        wr.RunComparer(diff_only="split", layout={"w": 24, "h": 9}),
+    ],
 )
 new_report.blocks = report.blocks[:1] + [wr.H1("パネルグリッドの例"), pg] + report.blocks[1:]
 new_report.save()

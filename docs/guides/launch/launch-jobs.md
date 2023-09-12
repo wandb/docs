@@ -5,9 +5,13 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Launch a run
+# Launch a job
 
 Use W&B launch to queue jobs for execution by a launch agent. The following guide demonstrates how to submit runs to a queue.
+
+:::tip
+Both the launch queue and the jobs you want to enqueue must belong to the same W&B entity.
+:::
 
 ## Add jobs to your queue
 Add jobs to your queue interactively with the W&B App or programmatically with the CLI.
@@ -44,7 +48,7 @@ Add a job to your queue with the W&B App.
   </TabItem>
     <TabItem value="cli">
 
-Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Quickstart](./quickstart.md) guide, we create a JSON file with the following overrides:
+Use the `wandb launch` command to add jobs to a queue. Create a JSON configuration with hyperparameter overrides. For example, using the script from the [Quickstart](./walkthrough.md) guide, we create a JSON file with the following overrides:
 
 ```json
 // config.json
