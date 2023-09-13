@@ -326,7 +326,7 @@
     },
     {
       "from": "/guides/artifacts/model-versioning",
-      "to": "/guides/models"
+      "to": "/guides/model_registry"
     },
     {
       "from": "/guides/artifacts/references",
@@ -362,7 +362,7 @@
     },
     {
       "from": "/guides/data-and-model-versioning/model-versioning",
-      "to": "/guides/models"
+      "to": "/guides/model_registry"
     },
     {
       "from": "/guides/data-vis/log-tables",
@@ -675,6 +675,34 @@
     {
       "from": "/guides/launch/getting-started",
       "to": "/guides/launch/walkthrough"
+    },
+    {
+      "from": "/guides/models/intro",
+      "to" : "/guides/model_registry/intro"
+    },
+    {
+      "from": "/guides/models/walkthrough",
+      "to" : "/guides/model_registry/walkthrough"
+    },
+    {
+      "from": "/guides/models/model_tags",
+      "to" : "/guides/model_registry/model_tags"
+    },
+    {
+      "from": "/guides/models/access_controls",
+      "to" : "/guides/model_registry/access_controls"
+    },
+    {
+      "from": "/guides/models/automation",
+      "to" : "/guides/model_registry/automation"
+    },
+    {
+      "from": "/guides/models/notifications",
+      "to" : "/guides/model_registry/notifications"
+    },
+    {
+      "from": "/guides/models/model-management-concepts",
+      "to" : "/guides/model_registry/model-management-concepts"
     },
     {
       "from": "/guides/manage-runs",

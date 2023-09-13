@@ -74,7 +74,7 @@ The proceeding table lists permissions that apply to all projects across a given
 |Add/Remove Registry Admins  |           |             | X              | X | 
 |Add/Remove Protected Aliases|           |             | X              |   | 
 
-See the [Model Registry](../../models/access_controls.md) chapter for more information about protected aliases.
+See the [Model Registry](../../model_registry/access_controls.md) chapter for more information about protected aliases.
 
 ### Reports
 Report permissions grant access to create, view, and edit reports. The proceeding table lists permissions that apply to all reports across a given team.
