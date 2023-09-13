@@ -26,7 +26,9 @@ To delete an artifact version:
 3. On the right hand side of the workspace, select the kebab dropdown.
 4. Choose Delete.
 
-### Delete multiple artifacts with aliases
+An artifact version can also be deleted programatically via the [delete()](https://docs.wandb.ai/ref/python/artifact#delete) method. See the examples below. 
+
+### Delete multiple artifact versions with aliases
 
 The following code example demonstrates how to delete artifacts that have aliases associated with them. Provide the entity, project name, and run ID that created the artifacts.
 
@@ -52,7 +54,7 @@ for artifact in run.logged_artifacts():
     artifact.delete(delete_aliases=True)
 ```
 
-### Delete multiple artifact version with a specific alias
+### Delete multiple artifact versions with a specific alias
 
 The proceeding code demonstrates how to delete multiple artifact versions that have a specific alias. Provide the entity, project name, and run ID that created the artifacts. Replace the deletion logic with your own:
 
@@ -85,4 +87,25 @@ for v in api.artifact_versions(artifact_type, artifact_name):
     # NOTE: You can put whatever deletion logic you want here.
     if len(v.aliases) == 0:
         v.delete()
+```
+
+### Delete an artifact collection
+
+To delete an artifact collection:
+
+1. Navigate to the artifact collection you want to delete and hover over it.
+3. Select the kebab dropdown next to the artifact collection name.
+4. Choose Delete.
+
+An artifact collection can also be deleted programatically via the [delete()](https://docs.wandb.ai/ref/python/artifact#delete) method, shown in the code snippet below: 
+```python
+import wandb
+
+# Provide your entity and a project name when you
+# use wandb.Api methods.
+api = wandb.Api(overrides={"project": "project", "entity": "entity"})
+
+artifact_name = ...  # provide artifact name
+artifact = api.artifact(artifact_name)  
+artifact.collection.delete()
 ```
