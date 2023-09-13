@@ -38,6 +38,10 @@ with wandb.init(id="existing_run_id", resume="allow") as run:
     run.log_artifact(artifact)
 ```
 
+### How do I set a retention or expiration policy on my artifact?
+
+If you have artifacts that are subject to data privacy regulations such as dataset artifacts containing PII, or want to schedule the deletion of an artifact version to manage your storage, you can set a TTL (time-to-live) policy. Learn more in [this](./ttl.md) guide. 
+
 ### How can I find the artifacts logged or consumed by a run? How can I find the runs that produced or consumed an artifact?
 
 W&B automatically tracks the artifacts a given run has logged as well as the artifacts a given run has used and uses the information to construct an artifact graph -- a bipartite, directed, acyclic graph whose nodes are runs and artifacts, like [this one](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (click "Explode" to see the full graph).
@@ -129,7 +133,7 @@ There are many ways in which you can think of _version_ a model. Artifacts provi
 1. Create a new artifact for each different model architecture. You can use `metadata` attribute of artifacts to describe the architecture in more detail (similar to how you would use `config` for a run).
 2. For each model, periodically log checkpoints with `log_artifact`. W&B will automatically build a history of those checkpoints, annotating the most recent checkpoint with the `latest` alias so you can refer to the latest checkpoint for any given model architecture using `architecture-name:latest`
 
-## Artifact References FAQs
+## Reference Artifact FAQs
 
 
 ### How can I fetch these Version IDs and ETags in W&B?
