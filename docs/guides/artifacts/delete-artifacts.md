@@ -72,7 +72,7 @@ for artifact_version in runs.logged_artifacts():
 
 ### Delete all versions of an artifact that do not have an alias
 
-The following code snippet demonstrates how to delete all versions of an artifact that do not have an alias. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
+The following code snippet demonstrates how to delete all versions of an artifact that do not have an alias. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively. Replace the `<>` with the name of your artifact:
 
 ```python
 import wandb
@@ -81,7 +81,7 @@ import wandb
 # use wandb.Api methods.
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
 
-artifact_type, artifact_name = ...  # provide type and name
+artifact_type, artifact_name = "<>"  # provide type and name
 for v in api.artifact_versions(artifact_type, artifact_name):
     # Clean up versions that don't have an alias such as 'latest'.
     # NOTE: You can put whatever deletion logic you want here.
@@ -97,7 +97,8 @@ To delete an artifact collection:
 3. Select the kebab dropdown next to the artifact collection name.
 4. Choose Delete.
 
-An artifact collection can also be deleted programatically via the [delete()](https://docs.wandb.ai/ref/python/artifact#delete) method, shown in the code snippet below: 
+You can also delete artifact version programmatically with the [delete()](../../ref/python/artifact.md#delete) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively. Replace the `<>` with the name of your artifact:
+
 ```python
 import wandb
 
@@ -105,7 +106,7 @@ import wandb
 # use wandb.Api methods.
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
 
-artifact_name = ...  # provide artifact name
+artifact_name = "<>"  # provide artifact name
 artifact = api.artifact(artifact_name)  
 artifact.collection.delete()
 ```
