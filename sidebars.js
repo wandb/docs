@@ -129,6 +129,17 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'W&B Prompts',
+      link: {
+        type: 'doc',
+        id: 'guides/prompts/intro',
+      },
+      items: [
+        'guides/prompts/quickstart',
+      ],
+    },    
+    {
+      type: 'category',
       label: 'W&B Platform',
       link: {type: 'doc', id: 'guides/platform'},
       items: [
@@ -296,18 +307,7 @@ const sidebars = {
           ],
         },                        
       ]
-    },  
-    {
-      type: 'category',
-      label: 'W&B Prompts',
-      link: {
-        type: 'doc',
-        id: 'guides/prompts/intro',
-      },
-      items: [
-        'guides/prompts/quickstart',
-      ],
-    },
+    }, 
     {
       type: 'category',
       label: 'W&B Server',
