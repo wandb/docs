@@ -19,7 +19,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Models',
-      link: {type: 'doc', id: 'guides/model_registry'},
+      link: {type: 'doc', id: 'guides/models'},
       items: [
         {
           type: 'category',

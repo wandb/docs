@@ -15,8 +15,6 @@ With W&B Models, you can:
 * Track and audit the history of changes to production models.
 
 
-
-
 ![](/images/models/models_landing_page.png)
 
 ## How it works

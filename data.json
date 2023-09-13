@@ -677,8 +677,8 @@
       "to": "/guides/launch/walkthrough"
     },
     {
-      "from": "/guides/models/intro",
-      "to" : "/guides/model_registry/intro"
+      "from": "/guides/models",
+      "to" : "/guides/model_registry"
     },
     {
       "from": "/guides/models/walkthrough",
