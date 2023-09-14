@@ -5,7 +5,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Launch on Vertex
+# Set up for Vertex
 
 Use W&B Launch to send your runs to GCP Vertex. There are two ways to use Launch on Vertex:
 
@@ -48,8 +48,6 @@ To authenticate with Google Cloud, you can use the Google Cloud SDK or the Googl
 6. **(If W&B creates your image) Create a GCS bucket** to store build contexts. See the [GCP Storage documentation](https://cloud.google.com/storage/docs/creating-buckets) for more information.
 7. **Create a staging GCS bucket** for Vertex AI to store its metadata. Note that this bucket must be in the same region as your Vertex AI workloads in order to be used as a staging bucket.
 8. **Grant your service account permission** to access the GCS bucket and Artifact Registry repository. See the [GCP IAM documentation](https://cloud.google.com/iam/docs/creating-managing-service-accounts) for more information.
-
-:::tip
 
 ## Create a queue
 
