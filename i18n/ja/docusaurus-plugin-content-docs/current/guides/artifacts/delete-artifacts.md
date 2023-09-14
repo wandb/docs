@@ -42,7 +42,7 @@ for artifact in run.logged_artifacts():
 ```python
 import wandb
 
-run = api.run('entity/project/run_id')
+run = api.run("entity/project/run_id")
 
 for artifact in run.logged_artifacts():
     # エイリアスが1つ以上あるアーティファクトを削除するためには、

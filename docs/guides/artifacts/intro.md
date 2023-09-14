@@ -34,10 +34,10 @@ Create an artifact with four lines of code:
 
 
 ```python showLineNumbers
-run = wandb.init(project="artifacts-example", job_type='add-dataset')
-artifact = wandb.Artifact(name='my_data', type='dataset')
-artifact.add_dir(local_path='./dataset.h5') # Add dataset directory to artifact
-run.log_artifact(artifact) # Logs the artifact version "my_data:v0"
+run = wandb.init(project="artifacts-example", job_type="add-dataset")
+artifact = wandb.Artifact(name="my_data", type="dataset")
+artifact.add_dir(local_path="./dataset.h5")  # Add dataset directory to artifact
+run.log_artifact(artifact)  # Logs the artifact version "my_data:v0"
 ```
 
 :::tip

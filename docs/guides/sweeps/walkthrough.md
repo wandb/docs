@@ -24,38 +24,34 @@ Copy and paste the following code into a Jupyter Notebook or Python script:
 ```python
 # Import the W&B Python Library and log into W&B
 import wandb
+
 wandb.login()
+
 
 # 1: Define objective/training function
 def objective(config):
-    score = config.x ** 3 + config.y
+    score = config.x**3 + config.y
     return score
 
+
 def main():
-    wandb.init(project='my-first-sweep')
+    wandb.init(project="my-first-sweep")
     score = objective(wandb.config)
-    wandb.log({'score': score})
+    wandb.log({"score": score})
+
 
 # 2: Define the search space
 sweep_configuration = {
-    'method': 'random',
-    'metric': 
-    {
-        'goal': 'minimize', 
-        'name': 'score'
-        },
-    'parameters': 
-    {
-        'x': {'max': 0.1, 'min': 0.01},
-        'y': {'values': [1, 3, 7]},
-     }
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "score"},
+    "parameters": {
+        "x": {"max": 0.1, "min": 0.01},
+        "y": {"values": [1, 3, 7]},
+    },
 }
 
 # 3: Start the sweep
-sweep_id = wandb.sweep(
-    sweep=sweep_configuration, 
-    project='my-first-sweep'
-    )
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
 wandb.agent(sweep_id, function=main, count=10)
 ```
@@ -75,13 +71,14 @@ Both the sweep and the run must be in the same project. Therefore, the name you 
 ```python
 # 1: Define objective/training function
 def objective(config):
-    score = config.x ** 3 + config.y
+    score = config.x**3 + config.y
     return score
 
+
 def main():
-    wandb.init(project='my-first-sweep')
+    wandb.init(project="my-first-sweep")
     score = objective(wandb.config)
-    wandb.log({'score': score})
+    wandb.log({"score": score})
 ```
 
 ## Define the search space with a sweep configuration
@@ -95,13 +92,12 @@ Throughout the sweeps, W&B will maximize the metric specified in the metric key 
 ```python
 # 2: Define the search space
 sweep_configuration = {
-    'method': 'random',
-    'metric': {'goal': 'minimize', 'name': 'score'},
-    'parameters': 
-    {
-        'x': {'max': 0.1, 'min': 0.01},
-        'y': {'values': [1, 3, 7]},
-     }
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "score"},
+    "parameters": {
+        "x": {"max": 0.1, "min": 0.01},
+        "y": {"values": [1, 3, 7]},
+    },
 }
 ```
 
@@ -112,10 +108,7 @@ W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally 
 A sweep identification number is returned when you initialize a sweep:
 
 ```python
-sweep_id = wandb.sweep(
-    sweep=sweep_configuration, 
-    project='my-first-sweep'
-    )
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
 For more information about initializing sweeps, see [Initialize sweeps](./initialize-sweeps.md).

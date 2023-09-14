@@ -34,6 +34,7 @@ wandb configエントリの内容は、キーワード引数として`wandb.init
 ```python
 from ray.tune.logger import DEFAULT_LOGGERS
 from ray.tune.integration.wandb import WandbLogger
+
 tune.run(
     train_fn,
     config={
@@ -44,10 +45,11 @@ tune.run(
         "wandb": {
             "project": "Optimization_Project",
             "api_key_file": "/path/to/file",
-            "log_config": True
-        }
+            "log_config": True,
+        },
     },
-    loggers=DEFAULT_LOGGERS + (WandbLogger, ))
+    loggers=DEFAULT_LOGGERS + (WandbLogger,),
+)
 ```
 
 ## wandb\_mixin
@@ -62,6 +64,7 @@ ray.tune.integration.wandb.wandb_mixin(func)
 
 ```python
 from ray.tune.integration.wandb import wandb_mixin
+
 
 @wandb_mixin
 def train_fn(config):
@@ -88,36 +91,25 @@ Wandbの`group`、`run_id`、`run_name`はTuneによって自動的に選択さ�
 from ray import tune
 from ray.tune.integration.wandb import wandb_mixin
 
+
 @wandb_mixin
 def train_fn(config):
     for i in range(10):
         loss = self.config["a"] + self.config["b"]
         wandb.log({"loss": loss})
         tune.report(loss=loss)
+
+
 tune.run(
-
     train_fn,
-
     config={
-
         # ここで検索範囲を定義する
-
         "a": tune.choice([1, 2, 3]),
-
         "b": tune.choice([4, 5, 6]),
-
         # wandbの設定
-
-        "wandb": {
-
-            "project": "Optimization_Project",
-
-            "api_key_file": "/path/to/file"
-
-        }
-
-    })
-
+        "wandb": {"project": "Optimization_Project", "api_key_file": "/path/to/file"},
+    },
+)
 ```
 
 

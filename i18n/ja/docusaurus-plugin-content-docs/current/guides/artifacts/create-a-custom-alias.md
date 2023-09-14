@@ -17,19 +17,16 @@ displayed_sidebar: ja
 ```python
 import wandb
 
-run = wandb.init(project='<example-project>')
+run = wandb.init(project="<example-project>")
 
-アーティファクト = run.use_artifact('bike-dataset:latest')
+アーティファクト = run.use_artifact("bike-dataset:latest")
 
 アーティファクト.download()
 ```
 アーティファクトのバージョンにカスタムエイリアスを適用することもできます。例えば、モデルのチェックポイントがメトリックAP-50で最も優れていることを示すために、モデルのアーティファクトをログするときに文字列`'best-ap50'`をエイリアスとして追加できます。
 
 ```python
-artifact = wandb.Artifact(
-    'run-3nq3ctyy-bike-model', 
-    type='model'
-    )  
-artifact.add_file('model.h5')
-run.log_artifact(artifact, aliases=['latest','best-ap50'])
+artifact = wandb.Artifact("run-3nq3ctyy-bike-model", type="model")
+artifact.add_file("model.h5")
+run.log_artifact(artifact, aliases=["latest", "best-ap50"])
 ```

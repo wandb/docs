@@ -94,9 +94,9 @@ App UIまたはWeights & Biases SDKを使って、プロジェクトからイン
   </TabItem>
   <TabItem value="sdk">
 
-`wr.RunSet()` および `wr.PanelGrid` クラスを使用して、プロジェクトからランセットを追加します。以下の手順でランセットを追加する方法を説明します。
+`wr.Runset()` および `wr.PanelGrid` クラスを使用して、プロジェクトからランセットを追加します。以下の手順でランセットを追加する方法を説明します。
 
-1. `wr.RunSet()` オブジェクトのインスタンスを作成します。プロジェクトパラメータにランセットが含まれるプロジェクトの名前を指定し、エンティティパラメータにプロジェクトの所有者であるエンティティを指定します。
+1. `wr.Runset()` オブジェクトのインスタンスを作成します。プロジェクトパラメータにランセットが含まれるプロジェクトの名前を指定し、エンティティパラメータにプロジェクトの所有者であるエンティティを指定します。
 2. `wr.PanelGrid()` オブジェクトのインスタンスを作成します。`runsets` パラメータに1つ以上のランセットオブジェクトのリストを渡します。
 3. 1つ以上の `wr.PanelGrid()` オブジェクトのインスタンスをリストに格納します。
 4. リスト内のパネルグリッドインスタンスでレポートインスタンスのブロック属性を更新します。
@@ -112,7 +112,7 @@ import wandb.apis.reports as wr
 )
 
 panel_grids = wr.PanelGrid(
-    runsets=[wr.RunSet(project='<プロジェクト名>', entity='<エンティティ名>')]
+    runsets=[wr.Runset(project='<プロジェクト名>', entity='<エンティティ名>')]
 )
 
 report.blocks = [panel_grids]
@@ -171,7 +171,7 @@ panel_grids = wr.PanelGrid(
                 regression=True,
             )
 				],
-	runsets=[wr.RunSet(project='<プロジェクト名>', entity='<エンティティ名>')]
+	runsets=[wr.Runset(project='<プロジェクト名>', entity='<エンティティ名>')]
 		)
 
 report.blocks = [panel_grids]

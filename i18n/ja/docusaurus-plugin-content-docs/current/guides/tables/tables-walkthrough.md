@@ -35,11 +35,8 @@ Here's an example:
 import wandb
 
 run = wandb.init(project="table-test")
-my_table = wandb.Table(
-    columns=["a", "b"], 
-    data=[["a1", "b1"], ["a2", "b2"]]
-    )
-run.log({"Table Name": my_table})   
+my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
+run.log({"Table Name": my_table})
 ```
   </TabItem>
   <TabItem value="pandas">
@@ -50,7 +47,7 @@ Pass a Pandas DataFrame to `wandb.Table()` to create a new table.
 import wandb
 import pandas as pd
 
-df = pd.read_csv('my_data.csv')
+df = pd.read_csv("my_data.csv")
 
 run = wandb.init(project="df-table")
 my_table = wandb.Table(dataframe=df)

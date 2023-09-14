@@ -18,9 +18,9 @@ For example, if you want your training script to pull the most recent version of
 ```python
 import wandb
 
-run = wandb.init(project='<example-project>')
+run = wandb.init(project="<example-project>")
 
-artifact = run.use_artifact('bike-dataset:latest')
+artifact = run.use_artifact("bike-dataset:latest")
 
 artifact.download()
 ```
@@ -28,10 +28,7 @@ artifact.download()
 You can also apply a custom alias to an artifact version. For example, if you want to mark that model checkpoint is the best on the metric AP-50, you could add the string `'best-ap50'` as an alias when you log the model artifact.
 
 ```python
-artifact = wandb.Artifact(
-    'run-3nq3ctyy-bike-model', 
-    type='model'
-    )  
-artifact.add_file('model.h5')
-run.log_artifact(artifact, aliases=['latest','best-ap50'])
+artifact = wandb.Artifact("run-3nq3ctyy-bike-model", type="model")
+artifact.add_file("model.h5")
+run.log_artifact(artifact, aliases=["latest", "best-ap50"])
 ```

@@ -59,6 +59,7 @@ run = wandb.init(
     save_code=True,  # 任意
 )
 
+
 def make_env():
     env = gym.make(config["env_name"])
     env = Monitor(env)  # 例えばリターンのような統計を記録

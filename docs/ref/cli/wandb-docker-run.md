@@ -18,5 +18,4 @@ See `docker run --help` for more details.
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --help | Show this message and exit. |
 

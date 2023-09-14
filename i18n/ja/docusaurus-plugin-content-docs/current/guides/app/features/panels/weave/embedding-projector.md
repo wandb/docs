@@ -22,19 +22,17 @@ W&Bでは、 `wandb.Table` クラスを使用して、埋め込みをログに�
 
 ```python
 import wandb
+
 wandb.init(project="embedding_tutorial")
 embeddings = [
     # D1   D2   D3   D4   D5
-    [0.2, 0.4, 0.1, 0.7, 0.5], # embedding 1
-    [0.3, 0.1, 0.9, 0.2, 0.7], # embedding 2
-    [0.4, 0.5, 0.2, 0.2, 0.1], # embedding 3
+    [0.2, 0.4, 0.1, 0.7, 0.5],  # embedding 1
+    [0.3, 0.1, 0.9, 0.2, 0.7],  # embedding 2
+    [0.4, 0.5, 0.2, 0.2, 0.1],  # embedding 3
 ]
-wandb.log({
-    "embeddings": wandb.Table(
-        columns = ["D1", "D2", "D3", "D4", "D5"], 
-        data    = embeddings
-    )
-})
+wandb.log(
+    {"embeddings": wandb.Table(columns=["D1", "D2", "D3", "D4", "D5"], data=embeddings)}
+)
 wandb.finish()
 ```
 上記のコードを実行すると、W&Bダッシュボードにデータが含まれる新しいTableが表示されます。右上のパネルセレクタから `2D Projection` を選択して、2次元で埋め込みをプロットすることができます。スマートデフォルトが自動的に選択されますが、歯車アイコンをクリックして設定メニューにアクセスすることで簡単に上書きできます。この例では、利用可能な5つの数値次元すべてを自動的に使用します。
@@ -61,7 +59,9 @@ cols = df.columns.tolist()
 df = df[cols[-1:] + cols[:-1]]
 
 # "image"列を作成
-df["image"] = df.apply(lambda row: wandb.Image(row[1:].values.reshape(8, 8) / 16.0), axis=1)
+df["image"] = df.apply(
+    lambda row: wandb.Image(row[1:].values.reshape(8, 8) / 16.0), axis=1
+)
 cols = df.columns.tolist()
 df = df[cols[-1:] + cols[:-1]]
 

@@ -5,9 +5,7 @@
 `File`オブジェクトのイテラブルなコレクションです。
 
 ```python
-Files(
- client, run, names=None, per_page=50, upload=(False)
-)
+Files(client, run, names=None, per_page=50, upload=(False))
 ```
 
 | クラス変数 | |

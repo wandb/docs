@@ -34,22 +34,22 @@ import random
 
 # Start a new W&B run
 with wandb.init(project="models_quickstart") as run:
+    # Simulate logging model metrics
+    run.log({"acc": random.random()})
 
-  # Simulate logging model metrics
-  run.log({"acc": random.random()})
+    # Create a simulated model file
+    with open("my_model.h5", "w") as f:
+        f.write("Model: " + str(random.random()))
 
-  # Create a simulated model file
-  with open("my_model.h5", "w") as f: f.write("Model: " + str(random.random()))
+    # Save the dummy model to W&B
+    best_model = wandb.Artifact(f"model_{run.id}", type="model")
+    best_model.add_file("my_model.h5")
+    run.log_artifact(best_model)
 
-  # Save the dummy model to W&B
-  best_model = wandb.Artifact(f"model_{run.id}", type='model')
-  best_model.add_file('my_model.h5')
-  run.log_artifact(best_model)
+    # Link the model to the Model Registry
+    run.link_artifact(best_model, "model-registry/My Registered Model")
 
-  # Link the model to the Model Registry
-  run.link_artifact(best_model, 'model-registry/My Registered Model')
-
-  run.finish()
+    run.finish()
 ```
 
 4. **Test and deploy your model**: Transition model versions through customizable workflows stages, such as `staging` and `production`.
@@ -60,6 +60,7 @@ Depending on your use case, explore the following resources to get started with 
 <!-- * [Try the Quickstart](./quickstart.md) to log and link a sample model in just two minutes. -->
 * Check out the [Model Registry Quickstart YouTube](https://www.youtube.com/watch?v=jy9Pk9riwZI&ab_channel=Weights%26Biases) video.
 * Read the [models walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
+* Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
 * Explore this chapter to learn how about:
    * [Role based access controls (RBAC)](./access_controls.md).
    * [How to automate model testing and deployment](./automation.md).

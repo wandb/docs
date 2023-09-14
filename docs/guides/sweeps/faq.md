@@ -36,6 +36,7 @@ config_defaults = {"lr": 0.1, "batch_size": 256}
 #   that can be over-ridden by the sweep
 with wandb.init(config=config_default) as run:
     # add your training code here
+    ...
 ```
 
   </TabItem>
@@ -49,7 +50,7 @@ config_defaults = {"lr": 0.1, "batch_size": 256}
 with wandb.init() as run:
     # update any values not set by sweep
     run.config.setdefaults(config_defaults)
-    
+
     # add your training code here
 ```
 
@@ -158,7 +159,7 @@ os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
 If you want to optimize multiple metrics in the same run, you can use a weighted sum of the individual metrics.
 
 ```python
-metric_combined = 0.3*metric_a + 0.2*metric_b + ... + 1.5*metric_n
+metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
 wandb.log({"metric_combined": metric_combined})
 ```
 
@@ -190,8 +191,10 @@ The cartesian product in this example is 9. W&B shows this number in the W&B App
 You can obtain the estimated Run count with the W&B SDK as well. Use the Sweep object's `expected_run_count` attribute to obtain the estimated Run count:
 
 ```python
-sweep_id = wandb.sweep(sweep_configs, project="your_project_name", entity='your_entity_name')
+sweep_id = wandb.sweep(
+    sweep_configs, project="your_project_name", entity="your_entity_name"
+)
 api = wandb.Api()
-sweep=api.sweep(f"your_entity_name/your_project_name/sweeps/{sweep_id}")
+sweep = api.sweep(f"your_entity_name/your_project_name/sweeps/{sweep_id}")
 print(f"EXPECTED RUN COUNT = {sweep.expected_run_count}")
 ```

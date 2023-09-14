@@ -29,7 +29,7 @@ Create a W&B Run with [`wandb.init()`](../../ref/python/init.md):
 ```python
 import wandb
 
-run = wandb.init(project='my-project-name')
+run = wandb.init(project="my-project-name")
 ```
 
 Optionally provide the name of a project for the `project` field. We recommend you specify a project name when you create a Run object. W&B creates a new project if a project does not already exist with the name you provide.  Projects help organize experiments, runs, artifacts, and more in one convenient location called a *Project Workspace*. A Project's Workspace gives you a personal sandbox to compare runs.
@@ -75,7 +75,7 @@ wandb.finish()
 assert wandb.run is None
 
 with wandb.init() as run:
- pass # log data here
+    pass  # log data here
 
 assert wandb.run is None
 ```

@@ -14,7 +14,7 @@ import TabItem from '@theme/TabItem';
 In this walkthrough you will learn how to use W&B for model management. More specifically, we cover how to track, visualize, and report on a complete production model workflow.
 
 1. [Create a new Registered Model](#1-create-a-new-registered-model)
-2. [Train & log Model Versions](#2-train--log-model-versions)
+2. [Train & log Model Versions](#2-train-and-log-model-versions)
 3. [Link Model Versions to the Registered Model](#3-link-model-versions-to-the-registered-model)
 4. [Using a Model Version](#4-use-a-model-version)
 5. [Evaluate Model Performance](#5-evaluate-model-performance)
@@ -74,6 +74,7 @@ While manual linking is useful for one-off Models, it is often useful to program
 
 ```python
 import wandb
+
 # Fetch the Model Version via API
 art = wandb.Api().artifact(...)
 # Link the Model Version to the Model Collection
@@ -84,6 +85,7 @@ art.link("[[entity/]project/]collectionName")
 
 ```python
 import wandb
+
 # Initialize a W&B run to start tracking
 wandb.init()
 # Obtain a reference to a Model Version
@@ -96,6 +98,7 @@ art.link("[[entity/]project/]collectionName")
 
 ```python
 import wandb
+
 # Initialize a W&B run to start tracking
 wandb.init()
 # Create an Model Version
@@ -112,7 +115,7 @@ wandb.run.link_artifact(art, "[[entity/]project/]collectionName")
 
 Next, log a model from your training script:
 
-1. (Optional) Declare your dataset as a dependency so that it is tracked for reproducibility and audibility
+1. (Optional) Declare your dataset as a dependency so that it is tracked for reproducibility and auditability.
 2. **Serialize** your model to disk periodically (and/or at the end of training) using the serialization process provided by your modeling library (eg [PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) & [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)).
 3. **Add** your model files to an Artifact of type "model"
    * Note: We use the name `f'mnist-nn-{wandb.run.id}'`. While not required, it is advisable to name-space your "draft" Artifacts with the Run id in order to stay organized
@@ -144,7 +147,7 @@ dataset = wandb.use_artifact("mnist:latest")
 # ... Serialize your model
 model.save("path/to/model.pt")
 # ... Create a Model Version
-art = wandb.Artifact(f'mnist-nn-{wandb.run.id}', type="model")
+art = wandb.Artifact(f"mnist-nn-{wandb.run.id}", type="model")
 # ... Add the serialized files
 art.add_file("path/to/model.pt", "model.pt")
 # (optional) Log training metrics
@@ -172,7 +175,7 @@ dataset = wandb.use_artifact("[[entity/]project/]name:alias")
 
 ```python
 art = wandb.Artifact("dataset_name", "dataset")
-art.add_dir("path/to/data") # or art.add_file("path/to/data.csv")
+art.add_dir("path/to/data")  # or art.add_file("path/to/data.csv")
 dataset = wandb.use_artifact(art)
 ```
 
@@ -313,11 +316,7 @@ dataset = wandb.use_artifact("mnist-evaluation:latest")
 loss, accuracy, predictions = evaluate_model(model, dataset)
 
 # Log out metrics, images, tables, or any data useful for evaluation.
-wandb.log(
-    {
-        "loss": loss, "accuracy": accuracy, 
-        "predictions": predictions
-        })
+wandb.log({"loss": loss, "accuracy": accuracy, "predictions": predictions})
 ```
 
 If you are executing similar code, as demonstrated in the notebook, you should see a workspace similar to the image below - here we even show model predictions against the test data!
