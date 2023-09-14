@@ -43,9 +43,10 @@ See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-C
 Define a team secret to ensure the authenticity and integrity of data transmitted from payloads. 
 
 :::note
-* Skip this section if the external server you send HTTP POST requests to does not use secrets.
-
-* Secrets are available if you use the W&B SaaS public cloud or if you deploy W&B Server in a Kubernetes cluster.
+* Secrets are available if you use:
+  * W&B SaaS public cloud; or
+  * W&B Server in a Kubernetes cluster
+* Skip this section if the external server you send HTTP POST requests to does not use secrets.  
 :::
 
 
