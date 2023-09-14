@@ -27,7 +27,7 @@ WANDB_PROJECT=$project
 
 ```python
 # スクリプトをクラウドに同期させたくない場合
-os.environ['WANDB_MODE'] = 'offline'
+os.environ["WANDB_MODE"] = "offline"
 ```
 
 ## 任意の環境変数
@@ -96,6 +96,7 @@ W&Bにログを送信する実行を起動する自動テストや内部ツー�
 
 ```python
 import logging
+
 logger = logging.getLogger("wandb")
 logger.setLevel(logging.WARNING)
 ```

@@ -52,22 +52,20 @@ import wandb
 import wandb.apis.reports as wr
 
 # レポート変更の誤操作を避けるためのW&B要件
-wandb.require('report-editing')
+wandb.require("report-editing")
 ```
 
 レポートクラスの Public API（[`wandb.apis.reports`](https://docs.wandb.ai/ref/python/public-api/api#reports)）を使って、プロジェクトの名前を指定してレポートインスタンスを作成します。
 
 ```python
-report = wr.Report(project='report_standard')
+report = wr.Report(project="report_standard")
 ```
 レポートは、.`save()`メソッドを呼び出すまで、Weights & Biasesサーバーにアップロードされません:
 
 
 
 ```python
-
 report.save()
-
 ```
 
 

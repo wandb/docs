@@ -23,8 +23,32 @@ If you use OpenAI's API to [fine-tune OpenAI models](https://platform.openai.com
   ]}>
   <TabItem value="cli">
 
+<<<<<<< HEAD:i18n/ja/docusaurus-plugin-content-docs/current/guides/integrations/other/openai-finetuning.md
 ```shell-session
 openai wandb sync
+=======
+## Log OpenAI API calls in 1 line of code
+
+**[Try in a Colab Notebook here →](https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb)**
+
+With just 1 line of code you can now automatically log inputs and outputs from the OpenAI Python SDK to Weights & Biases! 
+
+![](/images/integrations/open_ai_autolog.png)
+
+Once you start logging your API inputs and outputs you can quickly evaluate the performance of difference prompts, compare different model settings (such as temperature), and track other usage metrics such as token usage.
+
+To get started, pip install the `wandb` library, then follow the steps below:
+
+### 1. Import autolog and initialise it
+First, import `autolog` from `wandb.integration.openai` and initialise it.  
+
+```python
+import os
+import openai
+from wandb.integration.openai import autolog
+
+autolog({"project": "gpt5"})
+>>>>>>> 80e3194f4edf963a4f24122b9ad4d89ec9014953:docs/guides/integrations/other/openai.md
 ```
 
   </TabItem>
@@ -146,17 +170,22 @@ Perform some inferences using OpenAI API:
 my_prompts = ["PROMPT_1", "PROMPT_2"]
 results = []
 for prompt in my_prompts:
+<<<<<<< HEAD:i18n/ja/docusaurus-plugin-content-docs/current/guides/integrations/other/openai-finetuning.md
     res = openai.ChatCompletion.create(model=fine_tuned_model,
                                    prompt=prompt,
                                    ...)
+=======
+    res = openai.Completion.create(model=fine_tuned_model, prompt=prompt, ...)
+>>>>>>> 80e3194f4edf963a4f24122b9ad4d89ec9014953:docs/guides/integrations/other/openai.md
     results.append(res["choices"][0]["text"])
 ```
 
 Log your results with a Table:
 
 ```python
-table = wandb.Table(columns=['prompt', 'completion'],
-                    data=list(zip(my_prompts, results)))
+table = wandb.Table(
+    columns=["prompt", "completion"], data=list(zip(my_prompts, results))
+)
 ```
 
 ## :question:Frequently Asked Questions
@@ -184,7 +213,11 @@ Fine-tune details are logged to W&B as artifacts and can be accessed with:
 ```python
 import wandb
 
+<<<<<<< HEAD:i18n/ja/docusaurus-plugin-content-docs/current/guides/integrations/other/openai-finetuning.md
 ft_artifact = wandb.run.use_artifact('USERNAME/PROJECT/job_details:VERSION')
+=======
+artifact_job = wandb.run.use_artifact("USERNAME/PROJECT/job_details:VERSION")
+>>>>>>> 80e3194f4edf963a4f24122b9ad4d89ec9014953:docs/guides/integrations/other/openai.md
 ```
 
 where `VERSION` is either:

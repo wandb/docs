@@ -14,20 +14,20 @@ import random
 
 # Start a new W&B run
 with wandb.init(project="models_quickstart") as run:
+    # Simulate logging model metrics
+    run.log({"acc": random.random()})
 
-  # Simulate logging model metrics
-  run.log({"acc": random.random()})
+    # Create a simulated model file
+    with open("my_model.h5", "w") as f:
+        f.write("Model: " + str(random.random()))
 
-  # Create a simulated model file
-  with open("my_model.h5", "w") as f: f.write("Model: " + str(random.random()))
+    # Save the dummy model to W&B
+    best_model = wandb.Artifact(f"model_{run.id}", type="model")
+    best_model.add_file("my_model.h5")
+    run.log_artifact(best_model)
 
-  # Save the dummy model to W&B
-  best_model = wandb.Artifact(f"model_{run.id}", type='model')
-  best_model.add_file('my_model.h5')
-  run.log_artifact(best_model)
+    # Link the model to the Model Registry
+    run.link_artifact(best_model, "model-registry/My Registered Model")
 
-  # Link the model to the Model Registry
-  run.link_artifact(best_model, 'model-registry/My Registered Model')
-
-  run.finish()
+    run.finish()
 ```

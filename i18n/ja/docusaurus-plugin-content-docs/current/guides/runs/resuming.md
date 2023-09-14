@@ -31,19 +31,21 @@ wandb.init(project="preemptible", resume=True)
 
 if wandb.run.resumed:
     # ベストモデルを復元する
-    model = keras.models.load_model(
-        wandb.restore("model-best.h5").name
-        )
+    model = keras.models.load_model(wandb.restore("model-best.h5").name)
 else:
     a = keras.layers.Input(shape=(32,))
     b = keras.layers.Dense(10)(a)
     model = keras.models.Model(input=a, output=b)
 モデル.compile("adam", loss="mse")
-モデル.fit(np.random.rand(100, 32), np.random.rand(100, 10),
+モデル.fit(
+    np.random.rand(100, 32),
+    np.random.rand(100, 10),
     # 再開時のエポックを設定
-    initial_epoch=wandb.run.step, epochs=300,
+    initial_epoch=wandb.run.step,
+    epochs=300,
     # 各エポックで改善された場合、最良のモデルを保存
-    callbacks=[WandbCallback(save_model=True, monitor="loss")])
+    callbacks=[WandbCallback(save_model=True, monitor="loss")],
+)
 ```
   </TabItem>
   <TabItem value="pytorch">T
@@ -54,29 +56,24 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-PROJECT_NAME = 'pytorch-resume-run'
-CHECKPOINT_PATH = './checkpoint.tar'
+PROJECT_NAME = "pytorch-resume-run"
+CHECKPOINT_PATH = "./checkpoint.tar"
 N_EPOCHS = 100
 
 # ダミーデータ
 X = torch.randn(64, 8, requires_grad=True)
 Y = torch.empty(64, 1).random_(2)
-model = nn.Sequential(
-    nn.Linear(8, 16),
-    nn.ReLU(),
-    nn.Linear(16, 1),
-    nn.Sigmoid()
-)
+model = nn.Sequential(nn.Linear(8, 16), nn.ReLU(), nn.Linear(16, 1), nn.Sigmoid())
 metric = nn.BCELoss()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 epoch = 0
 run = wandb.init(project=PROJECT_NAME, resume=True)
 if wandb.run.resumed:
     checkpoint = torch.load(wandb.restore(CHECKPOINT_PATH))
-    model.load_state_dict(checkpoint['model_state_dict'])
-    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-    epoch = checkpoint['epoch']
-    loss = checkpoint['loss']
+    model.load_state_dict(checkpoint["model_state_dict"])
+    optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+    epoch = checkpoint["epoch"]
+    loss = checkpoint["loss"]
 ```
 
 ```python
@@ -85,17 +82,20 @@ while epoch < N_EPOCHS:
     optimizer.zero_grad()
     output = model(X)
     loss = metric(output, Y)
-    wandb.log({'loss': loss.item()}, step=epoch)
+    wandb.log({"loss": loss.item()}, step=epoch)
     loss.backward()
     optimizer.step()
 
-    torch.save({ # チェックポイントの場所を保存
-        'epoch': epoch,
-        'model_state_dict': model.state_dict(),
-        'optimizer_state_dict': optimizer.state_dict(),
-        'loss': loss,
-        }, CHECKPOINT_PATH)
-    wandb.save(CHECKPOINT_PATH) # wandbにチェックポイントを保存
+    torch.save(
+        {  # チェックポイントの場所を保存
+            "epoch": epoch,
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict(),
+            "loss": loss,
+        },
+        CHECKPOINT_PATH,
+    )
+    wandb.save(CHECKPOINT_PATH)  # wandbにチェックポイントを保存
     epoch += 1
 ```
   </TabItem>

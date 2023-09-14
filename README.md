@@ -38,6 +38,14 @@ yarn start
 
 This will return the port number where you can preview your changes to the docs. A full list of yarn commands can be found in `docusaurus/package.json`
 
+Install pre-commit hooks to ensure that the code snippets in the docs are formatted correctly:
+
+```bash
+pip install pre-commit
+pre-commit install
+# pre-commit run blacken-docs --all-files  # to run manually on all files
+```
+
 &nbsp;
 
 ## How to edit the docs locally

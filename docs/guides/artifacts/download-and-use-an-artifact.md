@@ -43,7 +43,7 @@ run = wandb.init(project="<example>", job_type="<job-type>")
 Indicate the artifact you want to use with the [`use_artifact`](../../ref/python/run.md#use_artifact) method. This returns a run object. In the proceeding code snippet we specify an artifact called `'bike-dataset'` with alias `'latest'`:
 
 ```python
-artifact = run.use_artifact('bike-dataset:latest')
+artifact = run.use_artifact("bike-dataset:latest")
 ```
 
 Use the object returned to download all the contents of the artifact:
@@ -76,7 +76,7 @@ First, import the W&B SDK. Next, create an artifact from the Public API Class. P
 import wandb
 
 api = wandb.Api()
-artifact = api.artifact('entity/project/artifact:alias')
+artifact = api.artifact("entity/project/artifact:alias")
 ```
 
 Use the object returned to download the contents of the artifact:
@@ -111,11 +111,11 @@ import wandb
 run = wandb.init(project="<example>", job_type="<job-type>")
 # Query W&B for an artifact from another project and mark it
 # as an input to this run.
-artifact = run.use_artifact('my-project/artifact:alias')
+artifact = run.use_artifact("my-project/artifact:alias")
 
 # Use an artifact from another entity and mark it as an input
 # to this run.
-artifact = run.use_artifact('my-entity/my-project/artifact:alias')
+artifact = run.use_artifact("my-entity/my-project/artifact:alias")
 ```
 
 ### Construct and use an artifact simultaneously
@@ -124,8 +124,9 @@ Simultaneously construct and use an artifact. Create an artifact object and pass
 
 ```python
 import wandb
-artifact = wandb.Artifact('reference model')
-artifact.add_file('model.h5')
+
+artifact = wandb.Artifact("reference model")
+artifact.add_file("model.h5")
 run.use_artifact(artifact)
 ```
 

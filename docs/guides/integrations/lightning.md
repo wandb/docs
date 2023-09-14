@@ -17,7 +17,7 @@ PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch cod
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning import Trainer
 
-wandb_logger = WandbLogger()
+wandb_logger = WandbLogger(log_model="all")
 trainer = Trainer(logger=wandb_logger)
 ```
 
@@ -213,7 +213,8 @@ class My_LitModule(LightningModule):
 
 ### Model Checkpointing
 
-Custom checkpointing to W&B can be set up through the PyTorch Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch\_lightning.callbacks.ModelCheckpoint.html#pytorch\_lightning.callbacks.ModelCheckpoint) when the log\_model argument is used in the `WandbLogger`:
+To save model checkpoints as W&B [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning),
+use the Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch\_lightning.callbacks.ModelCheckpoint.html#pytorch\_lightning.callbacks.ModelCheckpoint) callback and set the `log_model` argument in the `WandbLogger`:
 
 ```python
 # log model only if `val_accuracy` increases
@@ -222,7 +223,7 @@ checkpoint_callback = ModelCheckpoint(monitor="val_accuracy", mode="max")
 trainer = Trainer(logger=wandb_logger, callbacks=[checkpoint_callback])
 ```
 
-The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from W&B Artifacts:
+The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from a W&B [Artifact](https://docs.wandb.ai/guides/data-and-model-versioning):
 
 ```python
 # reference can be retrieved in artifacts panel
@@ -237,6 +238,12 @@ artifact_dir = artifact.download()
 # load checkpoint
 model = LitModule.load_from_checkpoint(Path(artifact_dir) / "model.ckpt")
 ```
+
+The model checkpoints you log will be viewable through the [W&B Artifacts](https://docs.wandb.ai/guides/artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
+
+To bookmark your best model checkpoints and centralize them across your team, you can link them to the [W&B Model Registry](https://docs.wandb.ai/guides/models).
+
+Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](https://docs.wandb.ai/guides/models/automation) downstream actions with webhooks or jobs. 
 
 ### Log images, text and more
 

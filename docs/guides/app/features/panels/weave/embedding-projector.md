@@ -22,19 +22,17 @@ W&B allows you to log embeddings using the `wandb.Table` class. Consider the fol
 
 ```python
 import wandb
+
 wandb.init(project="embedding_tutorial")
 embeddings = [
     # D1   D2   D3   D4   D5
-    [0.2, 0.4, 0.1, 0.7, 0.5], # embedding 1
-    [0.3, 0.1, 0.9, 0.2, 0.7], # embedding 2
-    [0.4, 0.5, 0.2, 0.2, 0.1], # embedding 3
+    [0.2, 0.4, 0.1, 0.7, 0.5],  # embedding 1
+    [0.3, 0.1, 0.9, 0.2, 0.7],  # embedding 2
+    [0.4, 0.5, 0.2, 0.2, 0.1],  # embedding 3
 ]
-wandb.log({
-    "embeddings": wandb.Table(
-        columns = ["D1", "D2", "D3", "D4", "D5"], 
-        data    = embeddings
-    )
-})
+wandb.log(
+    {"embeddings": wandb.Table(columns=["D1", "D2", "D3", "D4", "D5"], data=embeddings)}
+)
 wandb.finish()
 ```
 
@@ -62,7 +60,9 @@ cols = df.columns.tolist()
 df = df[cols[-1:] + cols[:-1]]
 
 # Create an "image" column
-df["image"] = df.apply(lambda row: wandb.Image(row[1:].values.reshape(8, 8) / 16.0), axis=1)
+df["image"] = df.apply(
+    lambda row: wandb.Image(row[1:].values.reshape(8, 8) / 16.0), axis=1
+)
 cols = df.columns.tolist()
 df = df[cols[-1:] + cols[:-1]]
 

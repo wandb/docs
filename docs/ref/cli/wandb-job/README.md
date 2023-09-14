@@ -18,5 +18,5 @@ Commands for managing and viewing W&B jobs
 | **Command** | **Description** |
 | :--- | :--- |
 | create | Create a job from a source, without a wandb run. |
-| describe | Describe a job |
+| describe | Describe a launch job. |
 | list | List jobs in a project |

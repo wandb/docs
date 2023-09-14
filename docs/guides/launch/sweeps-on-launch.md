@@ -25,7 +25,7 @@ We recommend you create a sweep on launch using the 'basic' method if you are a 
 Create W&B Sweeps with Launch. You can create a sweep interactively with the W&B App or programmatically with the W&B CLI. For advanced configurations of Launch sweeps, including the ability to customize the scheduler, use the CLI. 
 
 :::info
-Before you create a sweep with W&B Launch, ensure that you create a job first. Inspect that the run you want to create a job from has a code artifact. See the [Create a Job](./create-job.md) page for more information. 
+Before you create a sweep with W&B Launch, ensure that you first create a job to sweep over. See the [Create a Job](./create-job.md) page for more information. 
 :::
 
 
@@ -38,13 +38,16 @@ Before you create a sweep with W&B Launch, ensure that you create a job first. I
   <TabItem value="app">
 Create a sweep interactively with the W&B App.
 
-1. Navigate to you W&B project on the W&B App.  
+1. Navigate to your W&B project on the W&B App.  
 2. Select the sweeps icon on the left panel (broom image). 
 3. Next, select the **Create Sweep** button.
-4. Toggle the **Use Launch 🚀** slider.
-5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from. 
-6. Select the queue to add the job to from the **Queue** dropdown menu.
-7. Select **Initialize Sweep**.
+4. Click the **Configure Launch 🚀** button.
+5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from.
+6. Select a queue to run the sweep on using the **Queue** dropdown menu.
+7. (Optional) Configure override args for the run or sweep scheduler. For example, using the scheduler overrides, configure the number of concurrent runs the scheduler manages using `num_workers`.
+8. (Optional) Select a project to save the sweep to using the **Destination Project** dropdown menu.
+9. Click **Save**
+10. Select **Launch Sweep**.
 
 ![](/images/launch/create_sweep_with_launch.png)
 
@@ -54,11 +57,11 @@ Create a sweep interactively with the W&B App.
 Programmatically create a W&B Sweep with Launch with the W&B CLI.
 
 1. Create a Sweep configuration
-2. Specify the full job name within you sweep configuration
+2. Specify the full job name within your sweep configuration
 3. Initialize a sweep agent.
 
 :::info
-Steps 1 and 3 are the same steps you normally take when you create a W&B Sweep. With the exception that you need to specify the name of the job within your sweep YAML configuration file. 
+Steps 1 and 3 are the same steps you normally take when you create a W&B Sweep.
 :::
 
 For example, in the following code snippet, we specify `'wandb/jobs/Hello World 2:latest'` for the job value:

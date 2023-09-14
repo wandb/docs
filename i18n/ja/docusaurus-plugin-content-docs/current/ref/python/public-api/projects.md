@@ -5,9 +5,7 @@
 `Project`オブジェクトの反復可能なコレクションです。
 
 ```python
-Projects(
-  client, entity, per_page=50
-)
+Projects(client, entity, per_page=50)
 ```
 
 | クラス変数 | |

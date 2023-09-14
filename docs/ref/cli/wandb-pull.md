@@ -14,5 +14,4 @@ Pull files from Weights & Biases
 | :--- | :--- |
 | -p, --project | The project you want to download. |
 | -e, --entity | The entity to scope the listing to. |
-| --help | Show this message and exit. |
 
