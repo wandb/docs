@@ -38,9 +38,9 @@ Create and make note of the following GCP resources:
 
 ## Setup Google Cloud authentication
 
-To authenticate with Google Cloud, you can use the Google Cloud SDK or the Google Cloud Python SDK. Here's how to authenticate with the Python SDK:
+W&B Launch uses the Google Cloud Python SDK to interact with GCP systems like GCS and Artifact Registry. Follow these steps to set up your GCP authentication for the python SDK:
 
-1. **Install the Google Cloud Python SDK** by running `pip install google-cloud-storage google-cloud-artifact-registry google-cloud-pubsub google-auth google-auth-oauthlib google-auth-httplib2`.
+1. **Install the necessary Google Cloud Python SDKs** by running `pip install --upgrade 'wandb[launch]'`.
 2. **Create a service account** with the necessary permissions to access GCP systems like GCS and Artifact Registry. See the [GCP IAM documentation](https://cloud.google.com/iam/docs/creating-managing-service-accounts) for more information.
 3. **Download the JSON key** file for the service account.
 4. **Set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable** to the path of the JSON key file.
