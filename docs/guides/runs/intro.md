@@ -33,15 +33,15 @@ import wandb
 run = wandb.init()
 ```
 
-We recommend you specify a project name and a W&B entity when you create a new run. For example:
+We recommend you specify a project name and a W&B entity when you create a new run. W&B creates a new project (if the project does not already exist) within the W&B entity you provide. If the project already exists, W&B will store the run in that project.
+
+For example, the following code snippet initializes a run that is stored in a project called `awesome project` that is scoped with a `wandbee` entity:
 
 ```python
 import wandb
 
-run = wandb.init(entity="entity", project="awesome-project")
+run = wandb.init(entity="wandbee", project="awesome project")
 ```
-W&B creates a new project (if the project does not already exist) within the W&B entity you provide. If the project already exists, W&B will store the run in that project.
-
 
 :::info
 W&B stores runs in a project called "Uncategorized" if a project is not specified.
@@ -73,7 +73,7 @@ run = wandb.init(
   )
 ```
 
-
+For a full list of parameters you can use, see the `wandb.init`[LINK] reference documentation. 
 
 <!-- There is only ever at most one active [`wandb.Run`](../../ref/python/run.md) in any process,
 and it is accessible as `wandb.run`:
