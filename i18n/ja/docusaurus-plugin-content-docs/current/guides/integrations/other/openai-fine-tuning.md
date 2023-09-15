@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/openai
 description: How to Fine-Tune OpenAI models using W&B.
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';
@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 # OpenAI Fine-Tuning
 
-Log your OpenAI model's fine-tuning metrics and configuration to Weights & Biases to analyse and understand the performance of your newly fine-tuned models and share the results with your colleagues.
+With Weights & Biases you can log your OpenAI ChatGPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to Weights & Biases to analyse and understand the performance of your newly fine-tuned models and share the results with your colleagues.
 
 ## Sync your OpenAI Fine-Tuning Results in 1 Line
 
@@ -23,27 +23,8 @@ If you use OpenAI's API to [fine-tune OpenAI models](https://platform.openai.com
   ]}>
   <TabItem value="cli">
 
-## Log OpenAI API calls in 1 line of code
-
-**[Try in a Colab Notebook here →](https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb)**
-
-With just 1 line of code you can now automatically log inputs and outputs from the OpenAI Python SDK to Weights & Biases! 
-
-![](/images/integrations/open_ai_autolog.png)
-
-Once you start logging your API inputs and outputs you can quickly evaluate the performance of difference prompts, compare different model settings (such as temperature), and track other usage metrics such as token usage.
-
-To get started, pip install the `wandb` library, then follow the steps below:
-
-### 1. Import autolog and initialise it
-First, import `autolog` from `wandb.integration.openai` and initialise it.  
-
-```python
-import os
-import openai
-from wandb.integration.openai import autolog
-
-autolog({"project": "gpt5"})
+```shell-session
+openai wandb sync
 ```
 
   </TabItem>
@@ -60,17 +41,17 @@ WandbLogger.sync(project="OpenAI-Fine-Tune")
 <!-- ![](/images/integrations/open_ai_api.png) -->
 ![](/images/integrations/open_ai_auto_scan.png)
 
-### :sparkles: Check out interactive examples
+### Check out interactive examples
 
 * [Demo Colab](http://wandb.me/openai-colab)
 * [Report - OpenAI Fine-Tuning Exploration and Tips](http://wandb.me/openai-report)
 
-### :tada: Sync your fine-tunes with one line!
+### Sync your fine-tunes with one line
 
 Make sure you are using latest version of openai and wandb.
 
 ```shell-session
-$ pip install --upgrade openai wandb
+pip install --upgrade openai wandb
 ```
 
 Then sync your results from the command line or from your script.
@@ -84,11 +65,11 @@ Then sync your results from the command line or from your script.
   <TabItem value="cli">
 
 ```shell-session
-$ # one line command
-$ openai wandb sync
+# one line command
+openai wandb sync
 
-$ # passing optional parameters
-$ openai wandb sync --help
+# passing optional parameters
+openai wandb sync --help
 ```
   </TabItem>
   <TabItem value="python_sdk">
@@ -114,23 +95,19 @@ WandbLogger.sync(
 
 When you sync your results, wandb checks OpenAI for newly completed fine-tunes and automatically adds them to your dashboard.
 
-In addition your training and validation files are logged and versioned, as well as details of your fine-tune results. This let you interactively explore your training and validation data.
-
-![](/images/integrations/open_ai_validation_files.png)
-
-### :gear: Optional arguments
+### Optional arguments
 
 | Argument                 | Description                                                                                                               |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
 | -i ID, --id ID           | The id of the fine-tune (optional)                                                                                        |
 | -n N, --n\_fine\_tunes N | Number of most recent fine-tunes to log when an id is not provided. By default, every fine-tune is synced.                |
-| --project PROJECT        | Name of the project where you're sending runs. By default, it is "GPT-3".                                                 |
-| --entity ENTITY          | Username or team name where you're sending runs. By default, your default entity is used, which is usually your username. |
+| --project PROJECT        | Name of the Weights & Biases project where you're sending runs. By default, it is "OpenAI-Fine-Tune".                                                 |
+| --entity ENTITY          | Weights & Biases Username or team name where you're sending runs. By default, your default entity is used, which is usually your username. |
 | --force                  | Forces logging and overwrite existing wandb run of the same fine-tune.                                                    |
 | --legacy                  | Log results from the legacy OpenAI GPT-3 fine-tune api.                                                    |
 | \*\*kwargs\_wandb\_init  | In python, any additional argument is directly passed to [`wandb.init()`](../../../ref/python/init.md)                    |
 
-### 🔍 Inspect sample predictions
+### Inspect sample predictions
 
 Use [Tables](../../tables/intro.md) to better visualize sample predictions and compare models.
 
@@ -165,32 +142,27 @@ Perform some inferences using OpenAI API:
 my_prompts = ["PROMPT_1", "PROMPT_2"]
 results = []
 for prompt in my_prompts:
-<<<<<<< HEAD:i18n/ja/docusaurus-plugin-content-docs/current/guides/integrations/other/openai-finetuning.md
     res = openai.ChatCompletion.create(model=fine_tuned_model,
                                    prompt=prompt,
                                    ...)
-=======
-    res = openai.Completion.create(model=fine_tuned_model, prompt=prompt, ...)
->>>>>>> 80e3194f4edf963a4f24122b9ad4d89ec9014953:docs/guides/integrations/other/openai.md
     results.append(res["choices"][0]["text"])
 ```
 
 Log your results with a Table:
 
 ```python
-table = wandb.Table(
-    columns=["prompt", "completion"], data=list(zip(my_prompts, results))
-)
+table = wandb.Table(columns=['prompt', 'completion'],
+                    data=list(zip(my_prompts, results)))
 ```
 
-## :question:Frequently Asked Questions
+## Frequently Asked Questions
 
 ### How do I share my fine-tune resutls with my team in W&B?
 
 Sync all your runs to your team account with:
 
 ```shell-session
-$ openai wandb sync --entity MY_TEAM_ACCOUNT
+openai wandb sync --entity MY_TEAM_ACCOUNT
 ```
 
 ### How can I organize my runs?
@@ -208,11 +180,7 @@ Fine-tune details are logged to W&B as artifacts and can be accessed with:
 ```python
 import wandb
 
-<<<<<<< HEAD:i18n/ja/docusaurus-plugin-content-docs/current/guides/integrations/other/openai-finetuning.md
 ft_artifact = wandb.run.use_artifact('USERNAME/PROJECT/job_details:VERSION')
-=======
-artifact_job = wandb.run.use_artifact("USERNAME/PROJECT/job_details:VERSION")
->>>>>>> 80e3194f4edf963a4f24122b9ad4d89ec9014953:docs/guides/integrations/other/openai.md
 ```
 
 where `VERSION` is either:
@@ -237,7 +205,7 @@ This will allow complete traceability of your models.
 
 ![](/images/integrations/open_ai_faq_can_track.png)
 
-## :books: Resources
+## Resources
 
 * [OpenAI Fine-tuning Documentation](https://platform.openai.com/docs/guides/fine-tuning/) is very thorough and contains many useful tips
 * [Demo Colab](http://wandb.me/openai-colab)

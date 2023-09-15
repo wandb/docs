@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/openai-api
 description: How to use W&B with the OpenAI API.
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';
@@ -32,7 +32,7 @@ from wandb.integration.openai import autolog
 autolog({"project":"gpt5"})
 ```
 
-You can optionally pass a dictionary with argument that `wandb.init()` accepts to `autolog`. This includes a project name, team name, entity, and more. 
+You can optionally pass a dictionary with argument that `wandb.init()` accepts to `autolog`. This includes a project name, team name, entity, and more. For more information about [`wandb.init`](../../../ref/python/init.md), see the API Reference Guide.
 
 ### 2. Call the OpenAI API
 Each call you make to the OpenAI API will now be logged to Weights & Biases automatically.
