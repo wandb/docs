@@ -7,11 +7,11 @@ displayed_sidebar: default
 
 A single unit of computation logged by W&B is called a *run*. You can think of a W&B run as an atomic element of your whole project. You should create and initiate a new run if you:
 
-* Each time you train a model.
+* Train a model
 * Change a hyperparameter
 * Use a different model
-* Log data or a model as a [W&B Artifact](../artifacts/intro.md).
-* [Download a W&B Artifact](../artifacts/download-and-use-an-artifact.md).
+* Log data or a model as a [W&B Artifact](../artifacts/intro.md)
+* [Download a W&B Artifact](../artifacts/download-and-use-an-artifact.md)
 
 For example, during a [Sweep](../sweeps/intro.md) W&B explores a hyperparameter search and explores the space of possible models. Each new hyperparameter combination is implemented as a new W&B run. 
 
@@ -35,7 +35,7 @@ run = wandb.init()
 
 We recommend you specify a project name and a W&B entity when you create a new run. W&B creates a new project (if the project does not already exist) within the W&B entity you provide. If the project already exists, W&B will store the run in that project.
 
-For example, the following code snippet initializes a run that is stored in a project called `awesome project` that is scoped with a `wandbee` entity:
+For example, the following code snippet initializes a run that is stored in a project called `awesome project` that is scoped within a `wandbee` entity:
 
 ```python
 import wandb
@@ -94,12 +94,13 @@ You need to finish a run that has not completed in order to start one or more Ru
 
 ## View a run
 
-Use the run page to explore detailed information about a specific run. 
+View a specific run within the project the run was logged to:
 
 1. Navigate to the W&B App UI [LINK].
-2. Navigate to your W&B project.
-3. Select a run from the **Runs Sidebar**.
-2. Next, select the **Overview Tab** icon. 
+2. Navigate to the W&B project you specified when you initialized the run.
+3. Within your project's workspace, you will see a table labeled **Runs**. This table lists all the runs that are in your project. From the list of runs shown, select the run you want to view.
+  ![Example project workspace called 'sweep-demo'](/images/app_ui/workspace_tab_example.png)
+4. Next, select the **Overview Tab** icon. 
 
 The following image demonstrates information about a Run called "sparkling-glade-2":
 
@@ -143,6 +144,10 @@ Below the overview section, you will additionally find information about:
 
 
 
+For more information about how to organize multiple Runs in a project, see the [Runs Table](../app/features/runs-table.md) documentation. 
+
+For a live example of a Project's Workspace, [see this example project](https://app.wandb.ai/example-team/sweep-demo). 
+
 ## End a run
 W&B automatically calls [`wandb.finish`](../../ref/python/finish.md) to finalize and cleanup a run. However, if you call [`wandb.init`](../../ref/python/init.md) from a child process, you must explicitly call `wandb.finish` at the end of the child process. 
 
@@ -168,36 +173,7 @@ assert wandb.run is None
 
 
 
-## View runs within a project
-View runs associated to a project with the W&B App UI. Navigate to the W&B App and search for the name of your project. 
 
-In the following example we search for a project called "my-first-run":
-
-![](/images/runs/search_run_name_landing_page.png)
-
-Select the project. This will redirect you to that project's Workspace. A Project's Workspace gives you a personal sandbox to compare runs. Use projects to organize models that can be compared, working on the same problem with different architectures, hyperparameters, datasets, preprocessing and so on.
-
-Within your project's workspace, you will see a table labeled **Runs**. This table lists all the Runs that are in your project. In other words, these runs were provided a `project` argument when it was created.
-
-The following image demonstrates a project workspace called "sweep-demo":
-
-![Example project workspace called 'sweep-demo'](/images/app_ui/workspace_tab_example.png)
-
-The **Runs Sidebar** lists of all the runs in your project. Hover your mouse over a single Run to modify or view the following:
-
-* **Kebob menu**: Use this kebob menu to rename a Run, delete a Run, or stop an active Run.
-* **Visibility icon**: Select the eye icon to hide specific run.
-* **Color**: change the run color to another one of our presets or a custom color.
-* **Search**: search runs by name. This also filters visible runs in the plots.
-* **Filter**: use the sidebar filter to narrow down the set of runs visible.
-* **Group**: select a config column to dynamically group your runs, for example by architecture. Grouping makes plots show up with a line along the mean value, and a shaded region for the variance of points on the graph.
-* **Sort**: pick a value to sort your runs by, for example runs with the lowest loss or highest accuracy. Sorting will affect which runs show up on the graphs.
-* **Expand button**: expand the sidebar into the full table
-* **Run count**: the number in parentheses at the top is the total number of runs in the project. The number (N visualized) is the number of runs that have the eye turned on and are available to be visualized in each plot. In the example below, the graphs are only showing the first 10 of 183 runs. Edit a graph to increase the max number of runs visible.
-
-For more information about how to organize multiple Runs in a project, see the [Runs Table](../app/features/runs-table.md) documentation. 
-
-For a live example of a Project's Workspace, [see this example project](https://app.wandb.ai/example-team/sweep-demo). 
 
 
 
