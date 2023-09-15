@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/openai
 description: How to Fine-Tune OpenAI models using W&B.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';
@@ -23,10 +23,6 @@ If you use OpenAI's API to [fine-tune OpenAI models](https://platform.openai.com
   ]}>
   <TabItem value="cli">
 
-<<<<<<< HEAD:i18n/ja/docusaurus-plugin-content-docs/current/guides/integrations/other/openai-finetuning.md
-```shell-session
-openai wandb sync
-=======
 ## Log OpenAI API calls in 1 line of code
 
 **[Try in a Colab Notebook here →](https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb)**
@@ -48,7 +44,6 @@ import openai
 from wandb.integration.openai import autolog
 
 autolog({"project": "gpt5"})
->>>>>>> 80e3194f4edf963a4f24122b9ad4d89ec9014953:docs/guides/integrations/other/openai.md
 ```
 
   </TabItem>
