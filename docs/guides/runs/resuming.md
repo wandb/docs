@@ -11,20 +11,22 @@ import TabItem from '@theme/TabItem';
   <title>Resume W&B Runs</title>
 </head>
 
-Use the `resume` parameter to resume runs that have crashed or or stopped. If the `resume` parameter is left unspecified W&B will, by default, create a new run and overwrite the data of the crashed run if you start a new run that has the same run ID as the run that crashed.
+This page covers how to enable W&B to automatically resume runs that have crashed or finished.
+
+<!-- If the `resume` parameter is left unspecified W&B will, by default, create a new run and overwrite the data of the crashed run if you start a new run that has the same run ID as the run that crashed. -->
 
 ## Automatically resume runs
 Enable W&B to automatically resume runs.
 
 ### Resume a run without overriding the stopped or crashed run
-Set resume to True (`resume=True`) when you initialize a run to automatically resume a run if it crashes or it is stopped. Otherwise, W&B will start a new run. 
+Set the `resume` parameter to True (`resume=True`) when you initialize a run with W&B (`wandb.init`). 
 
 ```python
 run = wandb.init(resume=True)
 ```
 
 :::note
-This only works if you are running your script in the same directory as the one that failed as the file is stored at: `wandb/wandb-resume.json`.
+This only works if you run your script in the same directory as the one that failed as the file is stored at: `wandb/wandb-resume.json`.
 :::
 
 ### Resume an identical run with the same run ID
