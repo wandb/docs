@@ -66,7 +66,7 @@ The following tabs describe how to create a registered model interactively with 
   </TabItem>
     <TabItem value="programmatic">
 
-If you already have a logged model version, you can link directly to a registered model from the SDK. If the registered model you specify doesn't exist, we will created it for you.
+If you already have a logged model version, you can link directly to a registered model from the SDK. If the registered model you specify doesn't exist, we will create it for you.
 
 While manual linking is useful for one-off Models, it is often useful to programmatically link Model Versions to a Collection - consider a nightly job or CI pipeline that wants to link the best Model Version from every training job. Depending on your context and use case, you may use one of 3 different linking APIs:
 
