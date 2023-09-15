@@ -350,6 +350,7 @@ const sidebars = {
         'guides/integrations/other/deepchecks',
         'guides/integrations/other/deepchem',
         'guides/integrations/other/docker',
+        'guides/integrations/other/farama-gymnasium',
         {
           type: 'category',
           label: 'Fastai',
