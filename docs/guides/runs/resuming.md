@@ -11,9 +11,13 @@ import TabItem from '@theme/TabItem';
   <title>Resume W&B Runs</title>
 </head>
 
-This page covers how to enable W&B to automatically resume runs that have crashed or finished.
+This page covers how to automatically resume runs that have crashed or finished.
 
 <!-- If the `resume` parameter is left unspecified W&B will, by default, create a new run and overwrite the data of the crashed run if you start a new run that has the same run ID as the run that crashed. -->
+
+:::tip
+Before you get started, ensure you have your run ID noted. 
+:::
 
 ## Automatically resume runs
 Enable W&B to automatically resume runs.
@@ -29,26 +33,29 @@ run = wandb.init(resume=True)
 This only works if you run your script in the same directory as the one that failed as the file is stored at: `wandb/wandb-resume.json`.
 :::
 
-### Resume an identical run with the same run ID
-Determine how W&B resumes identical runs based on the run ID. Define the run ID either with the `id` parameter when you initialize a run with `wandb.intit` or set the`WANDB_RUN_ID` environment variable. Ensure that you provide the ID of the run, the project the ID belongs to, along with the project the run belongs to.
+### Resume a run using the same run ID
+Resume a run that uses the same run ID when it crashed or failed. To do so, ensure you satisfy the following requirements when you initialize a run with `wandb.init`:
 
-Based on your use case, specify one of the following:
-- `"allow"`:  W&B automatically resumes the run with the run ID specified. Otherwise, W&B will start a new run.
-- `"never"`:  W&B will crash.
-- `"must"`:   W&B automatically resumes the run with the ID specified. Otherwise, W&B will crash.
+1. Define the run ID. Pass a unique identifier to the `id` parameter (`id`).
+2. Specify a project for the run (`project` parameter).
+3. Specify one of three options for the `resume` parameter; `allow`, `never`, or `must`. They are defined as follows:
+  - `"allow"`:  W&B checks if the run exists. If the run exists, W&B uses that run. Otherwise, W&B initializes a new run with the specified run ID. 
+  - `"never"`: W&B checks if the run exists. If the run exists, the run will fail. Otherwise, W&B will start a new run with the specified run id.
+  - `"must"`: W&B checks if the run exists. If the run exists, W&B uses that run. Otherwise, the run will fail.
 
-For example:
+Your code will look similar to the following code snippet. Replace values enclosed within `<>` with your own:
 
 ```python
-run = wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="must")
+run = wandb.init(
+  entity="<entity>", project="<project>", 
+  id="<run ID>", resume="must"
+  )
 ```
-
-
-<!-- START -->
 
 ### Automatic and controlled resuming
 
 Automatic resuming only works if the process is restarted on top of the same filesystem as the failed process. Set the `WANDB_RUN_ID` environment variable if you can not share a filesystem. For example:
+
 
 
 ```python
@@ -61,8 +68,6 @@ os.environ["WANDB_RUN_ID"] = wandb.util.generate_id()
 wandb.init()
 ```
 
-If you set `WANDB_RESUME` equal to `"allow"`, you can always set `WANDB_RUN_ID` to a unique string and restarts of the process will be handled automatically. If you set `WANDB_RESUME` equal to `"must"`, W&B will throw an error if the run to be resumed does not exist yet instead of auto-creating a new run.
-
 :::caution
 If multiple processes use the same `run_id` concurrently unexpected results will be recorded and rate limiting will occur.
 :::
@@ -71,23 +76,25 @@ If multiple processes use the same `run_id` concurrently unexpected results will
 If you resume a run and you have `notes` specified in `wandb.init()`, those notes will overwrite any notes that you have added in the UI.
 :::
 
-<!-- END -->
-
 
 
 
 ## Resume preemptible Sweeps runs
-Automatically requeue interrupted sweep runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption (for example, a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM).
+Automatically requeue interrupted [sweep](../sweeps/intro.md) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
 
-Use the [`mark_preempting`](../../ref/python/run.md#markpreempting) to enable W&B to automatically requeue interrupted sweep runs:
+Use the [`mark_preempting`](../../ref/python/run.md#markpreempting) function to enable W&B to automatically requeue interrupted sweep runs. For example, the following code snippet
 
 ```python
-wandb.mark_preempting()
+run = wandb.init() # Initialize a run
+run.mark_preempting()
 ```
+The following table outlines how W&B handles runs based on the exit status of the a sweep run.
 
-If a run that is marked preempting exits with status code 0, W&B will consider the run to have terminated successfully and it will not be requeued. If a preempting run exits with a nonzero status, W&B will consider the run to have been preempted, and it will automatically append the run to a run queue associated with the sweep. If a run exits with no status, W&B will mark the run preempted 5 minutes after the run's final heartbeat, then add it to the sweep run queue. Sweep agents will consume runs off the run queue until the queue is exhausted, at which point they will resume generating new runs based on the standard sweep search algorithm.
+|Status| Behavior |
+|------| ---------|
+|Status code 0| Run is considered to have terminated successfully and it will not be requeued.  |
+|Nonzero status| W&B automatically appends the run to a run queue associated with the sweep.|
+|No status| Run is added to the sweep run queue. Sweep agents consume runs off the run queue until the queue is empty. Once the queue is empty, the sweep queue resumes generating new runs based on the sweep search algorithm.|
 
-:::tip
-By default, requeued runs begin logging from their initial step. To instruct a run to resume logging at the step where it was interrupted, initialize the resumed run with `wandb.init(resume=True)`. 
-:::
+
 

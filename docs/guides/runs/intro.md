@@ -72,8 +72,8 @@ import wandb
 run = wandb.init(
   entity="entity", 
   project="awesome-project", 
-  name="", 
-  id=""
+  name="run-name", 
+  id="abcdefgh"
   )
 ```
 
