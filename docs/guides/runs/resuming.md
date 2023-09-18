@@ -23,7 +23,7 @@ Unexpected results will occur if multiple processes use the same `run_id` concur
 
 
 ## Enable runs to automatically resume 
-Automatic resuming only works if the process is restarted on top of the same filesystem as the failed process. In other words, 
+Automatic resuming only works if the process is restarted on top of the same filesystem as the failed process. 
 
 <!-- This only works if you run your script in the same directory as the one that failed as the file is stored at: `wandb/wandb-resume.json`. -->
 
