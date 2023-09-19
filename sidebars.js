@@ -132,11 +132,18 @@ const sidebars = {
       label: 'W&B Prompts',
       link: {
         type: 'doc',
-        id: 'guides/prompts/intro',
+        id: 'guides/prompts_platform',
       },
       items: [
-        'guides/prompts/quickstart',
-        'guides/prompts/openai',
+        {
+          type: "category",
+          label: "Prompts",
+          link: {type:'doc', id:'guides/prompts/intro'},
+          items: [
+            'guides/prompts/quickstart',
+            'guides/prompts/openai',
+          ]
+        },
       ],
     },    
     {
