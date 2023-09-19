@@ -42,10 +42,11 @@ See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-C
 ### Add a secret for authentication
 Define a team secret to ensure the authenticity and integrity of data transmitted from payloads. 
 
-:::tip
-Skip this section if one of the following applies to your use case:
-- The external server you will send the HTTP POST request does not use secrets.
-- You do not use the [W&B Public Cloud](../hosting/intro.md).
+:::note
+* Secrets are available if you use:
+  * W&B SaaS public cloud; or
+  * W&B Server in a Kubernetes cluster
+* Skip this section if the external server you send HTTP POST requests to does not use secrets.  
 :::
 
 

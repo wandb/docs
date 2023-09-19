@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 Use W&B Launch to send your runs to GCP Vertex. There are two ways to use Launch on Vertex:
 
 1. Bring your own image (BYOI) and push it to your GCP Artifact Registry.
-2. Let the W&B Launch agent build a container for your and push it to your Artifact Registry.
+2. Let the W&B Launch agent build a container for you and push it to your Artifact Registry.
 
 The following table highlights the key differences between the two workflows listed above:
 
