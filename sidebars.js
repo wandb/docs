@@ -208,6 +208,7 @@ const sidebars = {
       },
       items: [
         'guides/prompts/quickstart',
+        'guides/prompts/openai',
       ],
     },
     {
@@ -373,6 +374,7 @@ const sidebars = {
         'guides/integrations/other/deepchecks',
         'guides/integrations/other/deepchem',
         'guides/integrations/other/docker',
+        'guides/integrations/other/farama-gymnasium',
         {
           type: 'category',
           label: 'Fastai',
@@ -393,7 +395,8 @@ const sidebars = {
         'guides/integrations/mmdetection',
         'guides/integrations/other/mmf',
         'guides/integrations/other/composer',
-        'guides/integrations/other/openai',
+        'guides/integrations/other/openai-api',
+        'guides/integrations/other/openai-fine-tuning',
         'guides/integrations/other/openai-gym',
         'guides/integrations/other/paddledetection',
         'guides/integrations/other/paddleocr',
@@ -588,6 +591,7 @@ const sidebars = {
       },
       items: [
         'guides/prompts/quickstart',
+        'guides/prompts/openai',
       ],
     },
     {
@@ -746,7 +750,8 @@ const sidebars = {
         'guides/integrations/mmdetection',
         'guides/integrations/other/mmf',
         'guides/integrations/other/composer',
-        'guides/integrations/other/openai',
+        'guides/integrations/other/openai-api',
+        'guides/integrations/other/openai-fine-tuning',
         'guides/integrations/other/openai-gym',
         'guides/integrations/other/paddledetection',
         'guides/integrations/other/paddleocr',
