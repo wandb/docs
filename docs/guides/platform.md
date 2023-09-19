@@ -5,7 +5,7 @@ displayed_sidebar: default
 # W&B Platform
 W&B Core is the foundational framework supporting W&B Models and W&B Prompts, with secure enterprise deployment options and flexible multi-cloud support with all industry leaders. 
 
-[IMAGE]
+![](/images/wb_marketing/wb_core.png)
 
 W&B core provides capabilities across the entire ML lifecycle. With W&B core, you can:
 
