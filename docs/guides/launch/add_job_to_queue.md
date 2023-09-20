@@ -56,12 +56,14 @@ Use the `wandb launch` command to add jobs to a queue. Create a JSON configurati
 
 ```json title="config.json"
 {
-    "args": [],
-    "run_config": {
-        "learning_rate": 0,
-        "epochs": 0
-    },   
-    "entry_point": []
+    "overrides": {
+        "args": [],
+        "run_config": {
+            "learning_rate": 0,
+            "epochs": 0
+        },   
+        "entry_point": []
+    }
 }
 ```
 
@@ -73,17 +75,19 @@ If you want to override the queue configuration, or if your your launch queue do
 
 ```json title="config.json"
 {
-    "args": [],
-    "run_config": {
-        "learning_rate": 0,
-        "epochs": 0
+    "overrides": {
+        "args": [],
+        "run_config": {
+            "learning_rate": 0,
+            "epochs": 0
+        },
+        "entry_point": []
     },
     "resource_args": {
-      "<resource-type>" : {
-        "<key>": "<value>",
-        }
-    },
-    "entry_point": []
+         "<resource-type>" : {
+             "<key>": "<value>"
+          }
+    }
 }
 ```
 

@@ -20,9 +20,6 @@ There are three ways to create a launch job:
 The following sections show how to create a job based on each use case. 
 
 
-
-
-
 ## Before you get started 
 Before you create a launch job, find out the name of your queue and the entity it belongs to. Then, follow these instructions to find out the status of your queue and to check if an agent is polling that queue:
 
@@ -34,14 +31,13 @@ This will filter queues based on W&B entities.
 5. Select the **Agents** tab. Within the **Agents** tab you sill see a list of Agent IDs and their statuses. Ensure that one of the agent IDs has a **polling** status.
 
 
-## Create a job with a Python script
+## Create a job with a W&B artifact
 
 <Tabs
   defaultValue="cli"
   values={[
     {label: 'CLI', value: 'cli'},
-    {label: 'Python SDK', value: 'sdk'},
-    {label: 'Within a run', value: 'run'},
+    {label: 'Python SDK', value: 'sdk'}
   ]}>
   <TabItem value="cli">
 
@@ -118,11 +114,6 @@ wandb.init(settings=settings)
 For more information on the `run.log_code()` command, see the API Reference guide. [LINK]
 
   </TabItem>
-  <TabItem>
-
-  Text.
-
-  </TabItem>
 </Tabs>
 
 
@@ -156,7 +147,7 @@ For more information on how to build Docker images, see the [Docker build refere
   defaultValue="cli"
   values={[
     {label: 'W&B CLI', value: 'cli'},
-    {label: 'Docker build', value: 'build'},
+    {label: 'Docker run', value: 'build'},
   ]}>
   <TabItem value="cli">
 

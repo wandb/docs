@@ -16,7 +16,7 @@ When you use W&B Launch, you enqueue [jobs](#TBD) onto [queues](#TBD). Queues ru
 A job is a specific type of [W&B Artifact](#TBD) that represents some work to be done.  Job definitions include:
 
 - Python code and other file assets, including at least one runnable entrypoint.
-- Information about inputs (config parameters, used artifacts) and outputs. (metrics, created artifacts)
+- Information about the input (config parameter) and output (metrics logged).
 - Information about the environment. (e.g., `requirements.txt`, base `Dockerfile`).
 
 

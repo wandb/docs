@@ -19,12 +19,14 @@ A *launch job*[LINK] is a blueprint for configuring and running tasks in your ML
 
 <!-- ![](/images/launch/mlOps_flow.png) -->
 
-As jobs are added to the queue, one or more [*launch agents*](./run-agent.md) will poll that queue and execute the job on the system targeted by the queue this job was taken from.
+As jobs are added to the queue, one or more [*launch agents*](./run-agent.md) will poll that queue and execute the job on the system targeted by the queue.
 
 ![](/images/launch/ml_user_flow.png)
 <!-- ![](/images/launch/Launch_Diagram.png) -->
 
-Based on your use case, you (or someone on your team) will configure the launch queue and the agent based on your compute resource target [LINK] (for example Amazon SageMaker) of where you want the agent to exist and polls from. [LINK]
+Based on your use case, you (or someone on your team) will configure the launch queue according to your chosen compute resource target [LINK] (for example Amazon SageMaker) and deploy a launch agent on your own infrastructure. [LINK]
+
+
 
 [INSERT NEW IMAGE]
 

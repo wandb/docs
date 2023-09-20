@@ -37,17 +37,178 @@ In which case, we appreciate feedback about the specific problem so we can fix i
 ## Prerequisites
 Create and make note of the following AWS resources:
 
-1. **Setup SageMaker in your AWS account.** See the [SageMaker Developer guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) for more information. 
-2. **Create an IAM execution role.** See the [INSERT] section to view the JSON policy to add to your IAM role. 
+1. **Setup SageMaker in your AWS account.** See the [SageMaker Developer guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) for more information. Ensure that the AWS account associated with the launch agent has access to the Amazon ECR repo, Amazon S3 bucket and the ability to create Sagemaker jobs. 
+2. **Create IAM execution role for the launch queue.** See the [INSERT] section to view the JSON policy to add to your IAM role.
+2. **Create IAM execution role for the launch agent.** See the [INSERT] section to view the JSON policy to add to your IAM role. 
 3. **Create an Amazon ECR repository**  to store images you want to execute on SageMaker. See the [Amazon ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for more information.
 4. **(If W&B creates your image) Create an Amazon S3 bucket** to store SageMaker outputs from your runs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information. 
 
-Ensure that the AWS account associated with the launch agent has access to the Amazon ECR repo, Amazon S3 bucket and the ability to create Sagemaker jobs. 
 
 
-### IAM Role policy
 
-Text.
+### IAM role for launch queue
+The W&B Launch queue needs permissions to execute launch jobs on Amazon SageMaker. More specifically, the launch queue needs [permission to create a SageMaker training job](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html#sagemaker-roles-createtrainingjob-perms) with the CreateTrainingJob API. This means that the IAM Role we create for the queue needs access to both Amazon ECR and an Amazon S3 bucket.
+
+Create an AWS IAM role and attach the following policy to that role:
+
+```json 
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:PutMetricData",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:CreateLogGroup",
+                "logs:DescribeLogStreams",
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<input-bucket>"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<input-bucket>/<object>",
+                "arn:aws:s3:::<output-bucket>/<path>"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage"
+            ],
+            "Resource": "arn:aws:ecr:<region>:<account-id>:repository/<repo>"
+        }
+    ]
+}
+```
+
+:::info
+Note your IAM role's Amazon Resource Name (ARN). You will provide the role ARN you created for the launch queue to use when you [configure your launch queue](#configure-a-queue-for-sagemaker).
+:::
+
+
+For more information about AWS IAM roles see the [AWS Identity and Access Management documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html). For more information about permissions required to create a training job in SageMaker, see the [CreateTrainingJob API: Execution Role Permissions documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html#sagemaker-roles-createtrainingjob-perms). 
+
+
+### IAM role for launch agent
+The launch agent needs permission to build (or pull) the launch job you created and run that launch job image on Amazon SageMaker.
+
+There are two basic approaches to enabling the launch agent to interact with Amazon SageMaker:
+
+1. An IAM role that enables the agent to submit launch job images directly on Amazon SageMaker.
+2. An IAM role that uses a Docker builder with Amazon ECR.  
+
+Select one of the tabs below based on your use case:
+
+<Tabs
+  defaultValue="base"
+  values={[
+    {label: 'Submits jobs to Amazon SageMaker', value: 'base'},
+    {label: 'Build with Amazon ECR', value: 'builder'},
+  ]}>
+  <TabItem value="base">
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:DescribeLogStreams",
+        "sagemaker:AddTags",
+        "sagemaker:CreateTrainingJob",
+        "sagemaker:DescribeTrainingJob"
+      ],
+      "Resource": "arn:aws:sagemaker:<region>:<account-id>:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": "arn:aws:iam::<account-id>:role/<RoleArn-from-Queue-config>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "kms:CreateGrant",
+      "Resource": "<ARN-OF-KMS-KEY>",
+      "Condition": {
+        "StringEquals": {
+          "kms:ViaService": "sagemaker.<region>.amazonaws.com",
+          "kms:GrantIsForAWSResource": "true"
+        }
+      }
+    }
+  ]
+}
+```
+
+  </TabItem>
+  <TabItem value="builder">
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:PutLifecyclePolicy",
+        "ecr:PutImageTagMutability",
+        "ecr:StartImageScan",
+        "ecr:CreateRepository",
+        "ecr:PutImageScanningConfiguration",
+        "ecr:UploadLayerPart",
+        "ecr:BatchDeleteImage",
+        "ecr:DeleteLifecyclePolicy",
+        "ecr:DeleteRepository",
+        "ecr:PutImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:StartLifecyclePolicyPreview",
+        "ecr:InitiateLayerUpload",
+        "ecr:DeleteRepositoryPolicy",
+        "ecr:DescribeRepositories",
+        "ecr:DescribeImages"
+      ],
+      "Resource": "arn:aws:ecr:<region>:<account-id>:repository/<repository>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:BatchCheckLayerAvailability",
+      "Resource": "arn:aws:ecr:<region>:<account-id>:repository/<repository>"
+    }
+  ]
+}
+```
+
+  </TabItem>
+</Tabs>
+
+
+
+
 
 
 ## Configure a queue for SageMaker
