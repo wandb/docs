@@ -38,15 +38,14 @@ In which case, we appreciate feedback about the specific problem so we can fix i
 Create and make note of the following AWS resources:
 
 1. **Setup SageMaker in your AWS account.** See the [SageMaker Developer guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) for more information. Ensure that the AWS account associated with the launch agent has access to the Amazon ECR repo, Amazon S3 bucket and the ability to create Sagemaker jobs. 
-2. **Create IAM execution role for the launch queue.** See the [INSERT] section to view the JSON policy to add to your IAM role.
-2. **Create IAM execution role for the launch agent.** See the [INSERT] section to view the JSON policy to add to your IAM role. 
+2. **Create IAM execution role .** See the [Create an IAM role](#create-an-iam-role) section on this page to view the JSON policy to add to your IAM role.
 3. **Create an Amazon ECR repository**  to store images you want to execute on SageMaker. See the [Amazon ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for more information.
 4. **(If W&B creates your image) Create an Amazon S3 bucket** to store SageMaker outputs from your runs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information. 
 
 
 
 
-### IAM role for launch queue
+### Create an IAM role 
 The W&B Launch queue needs permissions to execute launch jobs on Amazon SageMaker. More specifically, the launch queue needs [permission to create a SageMaker training job](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html#sagemaker-roles-createtrainingjob-perms) with the CreateTrainingJob API. This means that the IAM Role we create for the queue needs access to both Amazon ECR and an Amazon S3 bucket.
 
 Create an AWS IAM role and attach the following policy to that role:
@@ -108,15 +107,19 @@ Note your IAM role's Amazon Resource Name (ARN). You will provide the role ARN y
 For more information about AWS IAM roles see the [AWS Identity and Access Management documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html). For more information about permissions required to create a training job in SageMaker, see the [CreateTrainingJob API: Execution Role Permissions documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html#sagemaker-roles-createtrainingjob-perms). 
 
 
-### IAM role for launch agent
+### Launch agent permissions
 The launch agent needs permission to build (or pull) the launch job you created and run that launch job image on Amazon SageMaker.
 
-There are two basic approaches to enabling the launch agent to interact with Amazon SageMaker:
+There are two basic ways that the launch agent interacts with Amazon SageMaker:
 
-1. An IAM role that enables the agent to submit launch job images directly on Amazon SageMaker.
-2. An IAM role that uses a Docker builder with Amazon ECR.  
+1. The launch agent submits launch job images directly to Amazon SageMaker.
+2. The launch agent first builds the launch job image (based on the builder type you specify in `launch-config.yaml`). Then the agent submits the image to Amazon ECR that is then used by Amazon SageMaker.
 
-Select one of the tabs below based on your use case:
+
+Attach the permissions that the launch agent needs to the IAM role you created for the launch queue in the [Create an IAM role section](#create-an-iam-role), or [you can attach the policies to the role that is assumed by the agent](https://docs.aws.amazon.com/sdkref/latest/guide/feature-assume-role-credentials.html).
+
+
+Copy and paste the a policy from one of the tabs below based on your use case:
 
 <Tabs
   defaultValue="base"
@@ -280,23 +283,9 @@ The launch queue configuration for a SageMaker compute resource is passed to the
 
 Configure a launch agent to execute jobs from your queues with SageMaker. The following steps outline how to configure your launch agent to use SageMaker with Launch. 
 
-1. **Set the AWS credentials** you want the agent to use either by: 
-    * Set [AWS SDK for Python environment variables](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#environment-variables) 
-    or
-    * Set a `default` profile in your [AWS config](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#shared-credentials-file)(`~/.aws/config`). 
-    
-    The following code snippet shows an example of how to set your AWS config `~/.aws/config` file. Replace the `<>` with your own values:
 
-    ```yaml title="~/.aws/config"
-    [default]
-    aws_access_key_id=<your_aws_access_key_id>
-    aws_secret_access_key=<your_aws_secret_access_key>
-    aws_session_token=<your_aws_session_token>
-    ```
 
-    For more information about AWS CLI credentials, see the [Configure the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) documentation for more information.
-
-2. **Define the agent config**. Add the `environment` block in your agent config file (`~/.config/wandb/launch-config.yaml`). 
+1. **Define the agent config**. Add the `environment` block in your agent config file (`~/.config/wandb/launch-config.yaml`). 
 
     The following code snippet shows an example `launch-config.yaml` file. Ensure you specify the type as AWS and the region of your Amazon S3 bucket and ECR repository:
 
@@ -306,12 +295,33 @@ Configure a launch agent to execute jobs from your queues with SageMaker. The fo
         region: <aws-region>  # E.g. us-east-2
     ```
 
+
+2. **(Optional) Set the AWS credentials** you want the agent to use. Optionally set AWS credentials for your agent to use if satisfy the following conditions:
+    * You will not deploy the agent to a Kubernetes cluster.
+    * You did not attach the IAM policy permissions outlined in the [Launch agent permissions](#launch-agent-permissions) section to your IAM role.
+    * You want the launch agent to [assume a role](https://docs.aws.amazon.com/sdkref/latest/guide/feature-assume-role-credentials.html) that contains the required permissions.
+
+  If the previous conditions are met, set the AWS credentials you want the agent to use either by: 
+  
+    * Set [AWS SDK for Python environment variables](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#environment-variables) 
+    * Set a `default` profile in your [AWS config](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#shared-credentials-file)(`~/.aws/config`). 
+
+  The following code snippet shows an example of how to set your AWS config `~/.aws/config` file. Replace the `<>` with your own values:
+
+  ```yaml title="~/.aws/config"
+  [default]
+  aws_access_key_id=<your_aws_access_key_id>
+  aws_secret_access_key=<your_aws_secret_access_key>
+  aws_session_token=<your_aws_session_token>
+  ```
+
+<!-- For more information about AWS CLI credentials, see the [Configure the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) documentation for more information. -->
+
 :::note
 Continue to complete the following steps if you want W&B to build and push your image for you. 
 
 Skip to the [Start your agent](#start-your-agent) section if you brought your own image and you pushed that image to your ECR repository.
 :::
-
 
 3. **(Optional) Specify a `registry`**: If you want the W&B agent to build new containers and push them to ECR for you, you will need to add a `registry` block to your agent config.
 
