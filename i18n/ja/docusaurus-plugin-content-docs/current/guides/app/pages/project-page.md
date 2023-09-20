@@ -113,7 +113,7 @@ displayed_sidebar: ja
 
 ## アーティファクトタブ
 
-プロジェクトに関連するすべての[アーティファクト](../../artifacts/intro.md)を表示し、トレーニングデータセットや[微調整されたモデル](../../models/intro.md)、[メトリクスとメディアのテーブル](../../tables/tables-walkthrough.md)を確認します。
+プロジェクトに関連するすべての[アーティファクト](../../artifacts/intro.md)を表示し、トレーニングデータセットや[微調整されたモデル](../../model_registry/intro.md)、[メトリクスとメディアのテーブル](../../tables/tables-walkthrough.md)を確認します。
 
 ### 概要パネル
 

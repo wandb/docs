@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 Use Dagster and W&B (W&B) to orchestrate your MLOps pipelines and maintain ML assets. The integration with W&B makes it easy within Dagster to:
 
 * Use and create [W&B Artifacts](../artifacts/intro.md).
-* Use and create Registered Models in [W&B Model Registry](../models/intro.md).
+* Use and create Registered Models in [W&B Model Registry](../model_registry/intro.md).
 * Run training jobs on dedicated compute using [W&B Launch](../launch/intro.md).
 * Use the [wandb](../../ref/python/README.md) client in ops and assets.
 
