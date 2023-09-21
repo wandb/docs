@@ -3,13 +3,7 @@ displayed_sidebar: default
 ---
 
 # Terms and concepts
-When you use W&B Launch, you enqueue [jobs](#TBD) onto [queues](#TBD). Queues run on a [target resource](#TBD). [Agents](#TBD) poll queues and execute jobs on target resource based on the content's of the queue's configuration.
-
-
-* Launch job
-* Launch queue
-* Target resource
-* Launch agent
+When you use W&B Launch, you enqueue [jobs](#TBD) onto [queues](#TBD). Jobs are python scripts [instrumented with W&B](#TBD). Queues hold a list of jobs to run on a [target resource](#TBD). [Agents](#TBD) pull jobs from queues and execute them on target resources. Launch jobs are tracked similarly to other W&B [runs](#TBD).
 
 
 #### Launch job

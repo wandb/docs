@@ -5,7 +5,7 @@ displayed_sidebar: default
 
 # Walkthrough
 
-This guide will walk you through how to setup the fundamental components W&B launch:  **launch jobs**, **launch queues**, and **launch agents**. By the end of this walkthrough, you will:
+This guide will walk you through how to setup the fundamental components of W&B launch:  **launch jobs**, **launch queues**, and **launch agents**. By the end of this walkthrough, you will:
 
 1. Create a launch job that trains a neural network.
 2. Create a launch queue that is used to submit jobs for execution on your local machine.
@@ -27,9 +27,9 @@ Before you get started, ensure you have satisfied the following prerequisites:
 
 ## Create a launch job
 
-The following code creates a launch job from a W&B [run](../../ref/python/run.md) using the W&B Python SDK. In this example, we log our code within a W&B run (see the highlighted portion of the code example).
+[Launch jobs](./launch_terminology#launch-job) are the basic unit of work in W&B launch. The following code creates a launch job from a W&B [run](../../ref/python/run.md) using the W&B Python SDK. In this example, we log our code within a W&B run (see the highlighted portion of the code example).
 
-1. Copy the following Python code to a file named `train.py`. Save the file on your local machine. Replace the `"<your entity>"` string with your W&B entity.
+1. Copy the following Python code to a file named `train.py`. Save the file on your local machine. Replace `<your entity>` with your W&B entity.
 
     ```python title="train.py"
     import wandb
@@ -66,7 +66,7 @@ This will create a launch job.  In the above example, the launch job was created
 Next, we will add the newly created launch job to a launch queue.
 
 :::tip
-There are numerous ways to create launch job. To learn more about all the ways you can create a launch job, see the Create and deploy jobs section.[LINK]
+There are numerous ways to create a launch job. See the [Create a launch job](./create-launch-job.md) page to learn more about the different ways you can create a launch job,.
 :::
 
 ## Add your launch job to a queue
