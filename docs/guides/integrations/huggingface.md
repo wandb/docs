@@ -216,7 +216,7 @@ Once you have logged your training results you can explore your results dynamica
 
 ### How do I save the best model?
 Want to centralize all your best model versions across your team to organize them by ML task, stage them for production, bookmark them for further evaluation, or kick off downstream Model CI/CD processes?
-Check out the [Model Registry](/guides/models/intro.md)
+Check out the [Model Registry](../model_registry/intro.md)
 
 If `load_best_model_at_end=True` is passed to `Trainer`, then W&B will save the best performing model to Artifacts.
 

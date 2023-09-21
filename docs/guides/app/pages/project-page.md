@@ -179,7 +179,7 @@ Start a new [sweep](../../sweeps/intro.md) from your project.
 
 ## Artifacts Tab
 
-View all the [artifacts](../../artifacts/intro.md) associated with a project, from training datasets and [fine-tuned models](../../models/intro.md) to [tables of metrics and media](../../tables/tables-walkthrough.md).
+View all the [artifacts](../../artifacts/intro.md) associated with a project, from training datasets and [fine-tuned models](../../model_registry/intro.md) to [tables of metrics and media](../../tables/tables-walkthrough.md).
 
 ### Overview panel
 
