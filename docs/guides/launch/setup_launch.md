@@ -31,7 +31,7 @@ For detailed information on how to complete these steps based on different compu
 5. From the **Resource** dropdown, select the compute resource you want jobs added to this queue to use.
 6. Provide a resource configuration in either JSON or YAML format in the **Configuration** field.  The next section, [Configure a queue](#configure-a-queue), gives a high level overview of how to configure queues based on the compute resource type you select in the previous step.
 
-## Configure a queue
+## Configure the queue
 Launch queues are first in, first out (FIFO) queues. When you create a queue, you specify a configuration for that queue. Launch queue use this configuration to figure out where and how execute jobs. The schema of your launch queue configuration depends on the target compute resource you want jobs to be executed on. 
 
 For example, the queue configuration for an Amazon SageMaker queue target resource will differ from that of a Kubernetes cluster queue target resource.
@@ -96,10 +96,11 @@ apiVersion: batch/v1
 </Tabs>
 
 
+Queue configs can be dynamically configured with macros. These macros are evaluated when the agent dequeues a job from the queue it is polling
 
+launches a job from the queue.  
 
-### Optional - Dynamically configure queue
-Queue configs can be dynamically configured using macros that are evaluated when the agent launches a job from the queue.  You can set the following macros:
+You can set the following macros:
 
 
 | Macro             | Description                                           |
