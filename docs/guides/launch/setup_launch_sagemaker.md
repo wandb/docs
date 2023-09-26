@@ -296,14 +296,15 @@ Configure a launch agent to execute jobs from your queues with SageMaker. The fo
     ```
 
 
-2. **(Optional) Set the AWS credentials** you want the agent to use. Optionally set AWS credentials for your agent to use if satisfy the following conditions:
-    * You will not deploy the agent to a Kubernetes cluster.
-    * You did not attach the IAM policy permissions outlined in the [Launch agent permissions](#launch-agent-permissions) section to your IAM role.
-    * You want the launch agent to [assume a role](https://docs.aws.amazon.com/sdkref/latest/guide/feature-assume-role-credentials.html) that contains the required permissions.
+2. **Set AWS credentials** for your agent to use. Define your AWS credentials either with:
 
-  If the previous conditions are met, set the AWS credentials you want the agent to use either by: 
+  :::important
+  Set AWS credentials for your agent to use only if you satisfy the following conditions:
+    * You want the launch agent to [assume a role](https://docs.aws.amazon.com/sdkref/latest/guide/feature-assume-role-credentials.html) that contains the required permissions.
+    * You did not attach the IAM policy permissions outlined in the [Launch agent permissions](#launch-agent-permissions) section to your IAM role.
+  :::
   
-    * Set [AWS SDK for Python environment variables](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#environment-variables) 
+    * [AWS SDK for Python environment variables](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#environment-variables) or
     * Set a `default` profile in your [AWS config](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#shared-credentials-file)(`~/.aws/config`). 
 
   The following code snippet shows an example of how to set your AWS config `~/.aws/config` file. Replace the `<>` with your own values:
@@ -315,7 +316,7 @@ Configure a launch agent to execute jobs from your queues with SageMaker. The fo
   aws_session_token=<your_aws_session_token>
   ```
 
-<!-- For more information about AWS CLI credentials, see the [Configure the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) documentation for more information. -->
+  For more information about AWS CLI credentials, see the [Configure the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) documentation for more information.
 
 :::note
 Continue to complete the following steps if you want W&B to build and push your image for you. 

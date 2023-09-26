@@ -408,7 +408,7 @@ registry:
 </Tabs>
 
 
-
+<!-- 
 ## Permissions 
 The launch agent requires access to a cloud environment if it is configured to use a cloud environment. The agent will search for specific credentials based on the `environment` key defined in the `~/.config/wandb/launch-config.yaml`. The agent will use these credentials to push and pull container images, access cloud storage, and trigger on demand compute through cloud services.
 
@@ -426,7 +426,7 @@ values={[
 
 <!-- 
 The agent requires credentials to access ECR to push and pull container images if you are using a builder, and access to an S3 bucket if you want to use the kaniko builder. The following policy can be used to grant the agent access to ECR and S3.  -->
-
+<!-- 
 Ensure your launch agent has access to the Amazon Elastic Container Registry (ECR). To do so, create an IAM role[LINK] and attach the following permissions (see code snippet below). Replace content within `<>` with your appropriate values:
 
 ```json
@@ -555,4 +555,4 @@ These permissions should be scoped to any storage containers and containers regi
 
 </TabItem>
 
-</Tabs>
+</Tabs> --> -->
