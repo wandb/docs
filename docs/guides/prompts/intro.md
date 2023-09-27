@@ -12,6 +12,10 @@ Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyz
 
 W&B Prompts complements [W&B Experiments](../track/intro.md) and [W&B Tables](../tables/intro.md) to give an LLM developer everything they need to explore and experiment with confidence.
 
+:::info
+Want to check out the future of Prompts in our new interactive toolkit, Weave? We'd love your feedback. [**Try this colab→**](https://colab.research.google.com/github/wandb/weave/blob/master/examples/prompts/trace_debugging/trace_quickstart_langchain.ipynb)
+:::
+
 <!-- ## Prompts Product Suite
 
 [Trace](#Trace) is the first of our Prompts tools -->
