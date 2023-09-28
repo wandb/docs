@@ -8,10 +8,18 @@ displayed_sidebar: default
 
 # What is W&B?
 
-W&B is the machine learning platform for developers to build better models faster. Use W&B's lightweight, interoperable tools to quickly track experiments, version and iterate on datasets, evaluate model performance, reproduce models, visualize results and spot regressions, and share findings with colleagues.
-Set up W&B in 5 minutes, then quickly iterate on your machine learning pipeline with the confidence that your datasets and models are tracked and versioned in a reliable system of record.
+Weights & Biases (W&B) is the AI developer platform, with tools for training models, fine-tuning models, and leveraging foundation models. Set up W&B in 5 minutes, then quickly iterate on your machine learning pipeline with the confidence that your datasets and models are tracked and versioned in a reliable system of record.
 
-<!-- ![](@site/static/images/general/diagram_2021.png) -->
+![](@site/static/images/general/product_architecture.png)
+
+[W&B Models](/guides/models.md) is a set of lightweight, interoperable tools for machine learning practitioners training and fine-tuning models.
+- [Experiments](/guides/track/intro.md): Machine learning experiment tracking
+- [Model Registry](/guides/model_registry/intro.md): quickly track experiments
+- [Launch](/guides/launch/intro.md): Scale and automate workloads
+- [Sweeps](/guides/sweeps/intro.md): Hyperparameter tuning and model optimization
+
+[W&B Prompts](/guides/prompts_platform)
+
 
 ## Are you a first-time user of W&B?
 
