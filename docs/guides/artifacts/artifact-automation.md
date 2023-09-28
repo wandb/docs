@@ -83,17 +83,13 @@ Only W&B Admins can configure a webhook for a W&B Team.
 Once you have a webhook configured and (optionally) a secret, navigate to your project workspace. Click on the **Automations** tab on the left sidebar.
 
 1. From the **Event type** dropdown, select an [event type](#event-types).
-![](/images/models/webhook_select_event.png)
-2. (Optional) If you selected **A new version is added to a registered model** event, provide the name of a registered model from the **Registered model** dropdown. 
-![](/images/models/webhook_new_version_reg_model.png)
+2. (Optional) If you selected **A new version of an artifacts is created in a collection** event, provide the name of a registered model from the **Artifact collection** dropdown. 
 3. Select **Webhooks** from the **Action type** dropdown. 
 4. Click on the **Next step** button.
 5. Select a webhook from the **Webhook** dropdown.
-![](/images/models/webhooks_select_from_dropdown.png)
 6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload](#example-payloads) section for common use case examples.
 7. Click on **Next step**.
 8. Provide a name for your webhook automation in the **Automation name** field. 
-![](/images/models/webhook_name_automation.png)
 9. (Optional) Provide a description for your webhook. 
 10. Click on the **Create automation** button.
 
@@ -126,7 +122,7 @@ The following tabs demonstrate example payloads based on common use cases. Withi
   ```yaml
   on:
     repository_dispatch:
-      types: LINK_MODEL
+      types: LINK_ARTIFACT
   ```
 
   The payload for the repository might look something like:
@@ -147,19 +143,19 @@ The following tabs demonstrate example payloads based on common use cases. Withi
 
   ```
 
-  Where template strings render depending on the event or model version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
+  Where template strings render depending on the event or artifact version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
 
   ```json
   ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
   ${event_author} --> "<wandb-user>"
   ${artifact_version} --> "wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3""
-  ${artifact_version_string} --> "<entity>/model-registry/<registered_model_name>:<alias>"
-  ${artifact_collection_name} --> "<registered_model_name>"
-  ${project_name} --> "model-registry"
+  ${artifact_version_string} --> "<entity>/<project_name>/<artifact_name>:<alias>"
+  ${artifact_collection_name} --> "<artifact_collection_name>"
+  ${project_name} --> "<project_name>"
   ${entity_name} --> "<entity>"
   ```
 
-  Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume the registered model artifacts through the [W&B API](../artifacts/download-and-use-an-artifact.md).
+  Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume W&B artifacts through the [W&B API](../artifacts/download-and-use-an-artifact.md).
 
   For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
 
@@ -210,7 +206,7 @@ The following tabs demonstrate example payloads based on common use cases. Withi
                 "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "Registry event: ${event_type}"
+                "text": "Artifact event: ${event_type}"
             }
         },
             {
