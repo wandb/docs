@@ -92,7 +92,7 @@ const sidebars = {
           },
           items: [
             'guides/launch/walkthrough',
-            'guides/launch/launch_terminology',
+            'guides/launch/launch-terminology',
             {
               type: 'category',
               label: 'Set up Launch',

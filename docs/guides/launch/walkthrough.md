@@ -27,7 +27,7 @@ Before you get started, ensure you have satisfied the following prerequisites:
 
 ## Create a launch job
 
-[Launch jobs](./launch_terminology#launch-job) are the basic unit of work in W&B launch. The following code creates a launch job from a W&B [run](../../ref/python/run.md) using the W&B Python SDK. In this example, we log our code within a W&B run (see the highlighted portion of the code example).
+[Launch jobs](./launch-terminology#launch-job) are the basic unit of work in W&B launch. The following code creates a launch job from a W&B [run](../../ref/python/run.md) using the W&B Python SDK. In this example, we log our code within a W&B run (see the highlighted portion of the code example).
 
 1. Copy the following Python code to a file named `train.py`. Save the file on your local machine. Replace `<your entity>` with your W&B entity.
 
