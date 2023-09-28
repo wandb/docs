@@ -1,12 +1,12 @@
 ---
-description: 'Model Management: Data Model & Terminology'
+description: 'Model Registry terms and concepts'
 displayed_sidebar: default
 ---
 
-# Concepts
+# Terms and concepts
 
 <head>
-  <title>Model Management Concepts</title>
+  <title>Model Registry terms and concepts</title>
 </head>
 
 The following are data model and terminology used to describe the W&B Model Registry:

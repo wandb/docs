@@ -3,7 +3,9 @@ description: Use model registry role based access controls (RBAC) to control who
 displayed_sidebar: default
 ---
 
-# Protect model aliases
+# Data governance and access control
+
+<!-- # Protect model aliases
 Use *protected aliases* to represent key stages of your model development pipeline. Protected aliases can only be added, modified, or removed by *Model Registry Admins*. Model registry admins can define and use protected aliases. Non admin users are blocked from adding and removing protected aliases from model versions.
 
 :::info
@@ -34,4 +36,4 @@ The following steps describe how to set up access controls for your team’s mod
 ![](/images/models/rbac_gear_button.png)
 3. Scroll down to the **Protected Aliases** section.
 4. Click on the plus icon (**+**) icon to add new a new alias.
-![](/images/models/access_controls_add_protected_aliases.gif)
+![](/images/models/access_controls_add_protected_aliases.gif) -->

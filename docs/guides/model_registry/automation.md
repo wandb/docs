@@ -1,6 +1,6 @@
 ---
 description: Use an Automation for model CI (automated model evaluation pipelines) and model deployment.
-title: Automations 
+title: Automations for Model CI/CD
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';

@@ -3,7 +3,9 @@ description: Get Slack notifications when a new model version is linked to the m
 displayed_sidebar: default
 ---
 
-# Notifications for new model versions
+# Create alerts and notifications
+
+<!-- # Notifications for new model versions
 Get Slack notifications when a new model version is linked to the model registry. 
 
 
@@ -24,4 +26,4 @@ A toggle that reads **New model version linked to...** will appear instead of a 
 
 In the example below, the FMNIST Classification registered model has Slack notifications turned on. A message is automatically posted to the connected Slack channel when a new model version is linked to this registered model.
 
-![](/images/models/notifications_example.png)
+![](/images/models/notifications_example.png) -->
