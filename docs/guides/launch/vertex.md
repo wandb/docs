@@ -5,7 +5,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Set up for Vertex
+# Launch on Vertex
 
 Use W&B Launch to send your runs to GCP Vertex. There are two ways to use Launch on Vertex:
 

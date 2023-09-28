@@ -96,16 +96,19 @@ const sidebars = {
             {
               type: 'category',
               label: 'Set up Launch',
-              link: {
-                type: 'doc',
-                id: 'guides/launch/setup_launch',
-              },
+              // link: {
+              //   type: 'doc',
+              //   id: 'guides/launch/setup-launch',
+              // },
               items: [
-                // 'guides/launch/create-queue',
-                // 'guides/launch/run-agent',
-                'guides/launch/setup_launch_docker',
-                'guides/launch/setup_launch_sagemaker',
-                'guides/launch/setup_launch_kubernetes',
+                'guides/launch/create-queue',
+                'guides/launch/run-agent',
+                'guides/launch/docker',
+                'guides/launch/kubernetes',
+                'guides/launch/sagemaker',                
+                // 'guides/launch/setup-launch-docker',
+                // 'guides/launch/setup-launch-sagemaker',
+                // 'guides/launch/setup-launch-kubernetes',
                 'guides/launch/vertex',
               ],
             },
@@ -114,15 +117,11 @@ const sidebars = {
               label: 'Create and deploy jobs',
               items: [
                 'guides/launch/create-launch-job',
-                'guides/launch/add_job_to_queue',
+                'guides/launch/add-job-to-queue',
                 'guides/launch/launch-view-jobs',
-                // 'guides/launch/create-job',
-                // 'guides/launch/launch-jobs',
               ],
             },
-            // 'guides/launch/docker',
-            // 'guides/launch/kubernetes',
-            // 'guides/launch/sagemaker',
+
             'guides/launch/sweeps-on-launch',
             'guides/launch/launch-faqs',
           ]
@@ -595,10 +594,8 @@ const sidebars = {
       },
       items: [
         'guides/launch/walkthrough',
-        'guides/launch/create-job',
         'guides/launch/create-queue',
         'guides/launch/run-agent',
-        'guides/launch/launch-jobs',
         'guides/launch/docker',
         'guides/launch/kubernetes',
         'guides/launch/sweeps-on-launch',

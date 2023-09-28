@@ -673,9 +673,17 @@
       "to": "/guides/launch/create-queue"
     },
     {
+      "from": "/guides/launch/create-job",
+      "to": "/guides/launch/create-launch-job"
+    },    
+    {
       "from": "/guides/launch/getting-started",
       "to": "/guides/launch/walkthrough"
     },
+    {
+      "from": "/guides/launch/launch-jobs",
+      "to": "/guides/launch/add-job-to-queue"
+    },    
     {
       "from": "/guides/models",
       "to" : "/guides/model_registry"
