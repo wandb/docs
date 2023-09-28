@@ -6,13 +6,13 @@ import TabItem from '@theme/TabItem';
 
 # Set up Launch
 
-The following page describes the general steps required to set up W&B Launch: 
+The following page describes the high-level steps required to set up W&B Launch: 
 1. Create a queue
 2. Configure a queue
 3. Configure an agent. 
 
 :::info
-For detailed information on how to complete these steps based on your compute resource, see the associated pages:
+For detailed information on how to complete these steps based on different compute resources, see these associated pages:
 
 * Set up Launch for Docker[LINK]
 * Set up Launch for SageMaker[LINK]
@@ -31,16 +31,21 @@ For detailed information on how to complete these steps based on your compute re
 5. From the **Resource** dropdown, select the compute resource you want jobs added to this queue to use.
 6. Provide a resource configuration in either JSON or YAML format in the **Configuration** field.  The next section, [Configure a queue](#configure-a-queue), gives a high level overview of how to configure queues based on the compute resource type you select in the previous step.
 
-:::tip
-Jobs place on a queue will use the default configuration specified when you created the queue.  Defaults can be overridden when you enqueue a job. 
-:::
+## Configure the queue
+Launch queues are first in, first out (FIFO) queues. When you create a queue, you specify a configuration for that queue. Launch queue use this configuration to figure out where and how execute jobs. The schema of your launch queue configuration depends on the target compute resource you want jobs to be executed on. 
 
-## Configure a queue
-The schema of your launch queue configuration depends on the target compute resource you want the job to be executed. For example, the queue configuration required for an Amazon SageMaker queue target resource will differ from that of a Kubernetes cluster queue target resource.
+For example, the queue configuration for an Amazon SageMaker queue target resource will differ from that of a Kubernetes cluster queue target resource.
+
+The table below describes the configuration schema for each queue target resource along with links to each target resources' documentation:
+
+| Queue target resource | Configuration schema | Official documentation |
+|-----------------------|----------------------|------------------------|
+| Docker     | Named arguments to `docker run`. | [Docker CLI documentation](https://docs.docker.com/engine/reference/commandline/run/) |
+| SageMaker  | Partial contents of SageMaker API's `CreateTrainingJob` request.| [Amazon SageMaker `CreateTrainingJob` API Reference ](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html)
+| Kubernetes | Kubernetes Job spec or custom object. | [Kubernetes Job documentation](https://kubernetes.io/docs/concepts/workloads/controllers/job/)
 
 
-
-The following tabs show example configurations for SageMaker and Kubernetes:
+The following tabs show example queue configurations for SageMaker and Kubernetes target resources:
 
 <Tabs
   defaultValue="sagemaker"
@@ -49,6 +54,8 @@ The following tabs show example configurations for SageMaker and Kubernetes:
     {label: 'Kubernetes', value: 'kubernetes'},
   ]}>
   <TabItem value="sagemaker">
+  
+We use Amazon SageMaker's `CreateTrainingJob` request schema to define a queue configuration:
 
 ```json title='Queue configuration in W&B App UI'
 {
@@ -69,32 +76,31 @@ The following tabs show example configurations for SageMaker and Kubernetes:
 
   </TabItem>
   <TabItem value="kubernetes">
+We use a Kubernetes Job spec schema to define a queue configuration:
 
 ```yaml title='Queue configuration in W&B App UI'
+kind: Job
 spec:
-  backoffLimit: 0
-  ttlSecondsAfterFinished: 60
   template:
     spec:
+      containers:
+        - name: image-name
+          image: image-name:latest
       restartPolicy: Never
+metadata:
+  name: image-name
+apiVersion: batch/v1
 ```
 
   </TabItem>
 </Tabs>
 
-<!-- Uncomment this when you fix the other pages. -->
 
-<!-- 
-The rough nature of each queue is:
+Queue configs can be dynamically configured with macros. These macros are evaluated when the agent dequeues a job from the queue it is polling
 
-| Queue type | Configuration | Additional docs |
-|------------|---------------|-----------------|
-| Docker     | Named arguments to `docker run`. | [Link](./docker.md#docker-queues) |
-| SageMaker  | Partial contents of [SageMaker API's `CreateTrainingJob` request.](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html) | [Link](./sagemaker.md#queue-configuration)
-| Kubernetes | Kubernetes job spec or custom object. | [Link](./kubernetes.md#queue-configuration) -->
+launches a job from the queue.  
 
-### Optional - Dynamically configure queue
-Queue configs can be dynamically configured using macros that are evaluated when the agent launches a job from the queue.  You can set the following macros:
+You can set the following macros:
 
 
 | Macro             | Description                                           |
@@ -113,26 +119,29 @@ Any custom macro, such as `${MY_ENV_VAR}`, is substituted with an environment va
 
 ## Configure a launch agent
 
-
 <!-- Start -->
-W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will pop launch jobs from the queue (FIFO) and execute them based on the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/`. 
+W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will remove launch jobs from the queue (FIFO) and execute them based on the queue's target resource (defined in the W&B App UI) and the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/launch-config.yaml`. 
 
-When the launch agent pops a launch job from the queue, it will build a container image for that launch job. By default, W&B will build the image with Docker. See the [Container builder section](#container-builder-options) for alternative Docker image builders.
+When the launch agent removes a launch job from the queue, it will build a container image for that launch job. By default, W&B will build the image with Docker. See the [Container builder section](#container-builder-options) for alternative Docker image builders.
 
-The environment that a launch agent is running in, and polling for launch jobs, is called the *agent environment*. Example agent environments include: locally on your machine and Kubernetes clusters. See the [Launch agent environments](#launch-agent-environments) section for more information.
+The environment that a launch agent is running in, and polling for launch jobs, is called the *agent environment*. Example agent environments include: locally on your machine or Kubernetes clusters. See the [Launch agent environments](#launch-agent-environments) section for more information.
 
-Depending on the target resource of the queue, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
+Depending on the compute target resource of the queue and your Docker builder, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
 
-For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the Kubernetes API.
+<!-- For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the Kubernetes API. -->
 
 <!-- End -->
 
 
+:::tip
+The contents of your agent configuration file (`~/.config/wandb/launch-config.yaml`) depend on the launch queue's target resource. At a minimum, you must specify your W&B entity, the maximum number of jobs, and the name of the queue to use for the `entity`, `max_jobs`, and `queues` keys, respectively.
+:::
 
+:::note
+The launch agent environment is independent of a queue's launch target resource.
+:::
 
-The contents of your agent configuration file (`launch-config.yaml`) will depend on the compute resource that is targeted by the launch queue. However, you must specify your W&B entity, the maximum number of jobs, and the name of the queue to use for the `entity`, `max_jobs`, and `queues` keys, respectively.
-
-The following YAML snippet lists the required keys you must specify for your agent configuration:
+The following YAML snippet lists the required keys you must specify in your agent configuration:
 
 ```yaml title="~/.config/wandb/launch-config.yaml"
 # W&B entity (i.e. user or team) name
@@ -148,11 +157,10 @@ queues:
 
 
 ### Container builder options
-
-The `builder` key is used to specify the container builder the agent will use to build container images. 
+Launch agents poll queues and send launch jobs (as a Docker image) to the compute resource that was configured for the launch queue. You can optionally specify the container builder (`builder` key) you want to use in your launch agent configuration.
 
 :::info
-The `builder` key is not required and if omitted, the agent will use Docker to build images locally.
+The `builder` key is not required and, if omitted, the agent will use Docker to build images locally.
 :::
 
 <Tabs
@@ -187,7 +195,14 @@ builder:
 
 <TabItem value="kaniko">
 
-You can use Kaniko to build container images in Kubernetes. To use Kaniko, you must configure a storage bucket and provide the following in your agent configuration file:
+You can use Kaniko to build container images in Kubernetes. To use Kaniko, you must configure:
+
+* a storage bucket
+* specify a registry key in the agent config 
+* specify an environment key in the agent config  
+
+
+And provide the following in your agent configuration file:
 
 :::note
 W&B Launch supports: Amazon S3, Google Cloud Storage (GCS), or Microsoft Azure Blob Storage
@@ -262,8 +277,10 @@ max_jobs: -1
 queues:
   - default
 
+// highlight-start
 builder:
   type: noop
+// highlight-end
 ```
 
 :::tip
@@ -277,11 +294,11 @@ Setting the builder type to `noop` is useful if you want to limit the agent to r
 ### Launch agent environments
 Within your launch agent configuration, you can specify the agent environment. The agent environment is the environment where a launch agent is running, polling for jobs. The following table describes the possible agent environments you can use based on your target resource:
 
-| Target resource |    Launch agent environment     |
-| --------------- | ------------------------------- |
-| SageMaker       |   Local machine, AWS, GCR, ACR  |
-| Docker          |   Local machine, AWS, GCR, ACR  |
-| Kubernetes      |   Kubernetes cluster            |
+| Target resource |    Possible Launch agent environments     |
+| --------------- | ----------------------------------------- |
+| SageMaker       |   Local machine, AWS, GCP, Azure  |
+| Docker          |   Local machine, AWS, GCP, Azure  |
+| Kubernetes      |   Kubernetes cluster              |
 
 
 Based on your use case, see the following tabs for information on how to specify the agent environment in your launch agent configuration file (`~/.config/wandb/launch-config.yaml`).
@@ -392,7 +409,151 @@ registry:
 </Tabs>
 
 
-
+<!-- 
 ## Permissions 
-Text.
+The launch agent requires access to a cloud environment if it is configured to use a cloud environment. The agent will search for specific credentials based on the `environment` key defined in the `~/.config/wandb/launch-config.yaml`. The agent will use these credentials to push and pull container images, access cloud storage, and trigger on demand compute through cloud services.
 
+For example, if you specified `environment: aws`, the launch agent will look for for an IAM Role[LINK] that grants access to an Amazon S3 bucket.
+
+<Tabs
+defaultValue="aws"
+values={[
+{label: 'AWS IAM role', value: 'aws'},
+{label: 'GCP', value: 'gcp'},
+{label: 'Azure', value: 'azure'}
+]}>
+
+<TabItem value="aws">
+
+<!-- 
+The agent requires credentials to access ECR to push and pull container images if you are using a builder, and access to an S3 bucket if you want to use the kaniko builder. The following policy can be used to grant the agent access to ECR and S3.  -->
+<!-- 
+Ensure your launch agent has access to the Amazon Elastic Container Registry (ECR). To do so, create an IAM role[LINK] and attach the following permissions (see code snippet below). Replace content within `<>` with your appropriate values:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:PutLifecyclePolicy",
+        "ecr:PutImageTagMutability",
+        "ecr:StartImageScan",
+        "ecr:CreateRepository",
+        "ecr:PutImageScanningConfiguration",
+        "ecr:UploadLayerPart",
+        "ecr:BatchDeleteImage",
+        "ecr:DeleteLifecyclePolicy",
+        "ecr:DeleteRepository",
+        "ecr:PutImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:StartLifecyclePolicyPreview",
+        "ecr:InitiateLayerUpload",
+        "ecr:DeleteRepositoryPolicy"
+      ],
+      "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:BatchCheckLayerAvailability",
+      "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
+    },
+    {
+      "Sid": "ListObjectsInBucket",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::<BUCKET-NAME>"]
+    },
+    {
+      "Sid": "AllObjectActions",
+      "Effect": "Allow",
+      "Action": "s3:*Object",
+      "Resource": ["arn:aws:s3:::<BUCKET-NAME>/*"]
+    }
+  ]
+}
+```
+
+In order to use SageMaker queues, you will also need to create a separate execution role that is assumed by your jobs running in Amazon SageMaker. The agent should be granted the following permissions to be allowed to create training jobs:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sagemaker:CreateTrainingJob",
+      "Resource": "arn:aws:sagemaker:<REGION>:<ACCOUNT-ID>/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": "<ARN-OF-ROLE-TO-PASS>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "kms:CreateGrant",
+      "Resource": "<ARN-OF-KMS-KEY>",
+      "Condition": {
+        "StringEquals": {
+          "kms:ViaService": "sagemaker.<REGION>.amazonaws.com",
+          "kms:GrantIsForAWSResource": "true"
+        }
+      }
+    }
+  ]
+}
+```
+
+:::note
+The `kms:CreateGrant` permission for SageMaker queues is required only if the associated ResourceConfig has a specified VolumeKmsKeyId and the associated role does not have a policy that permits this action.
+:::
+
+</TabItem>
+
+<TabItem value="gcp">
+
+The gcp credentials in the agents environment must include the following permissions in order to access various services:
+
+```yaml
+# Permissions for accessing cloud storage. Required for kaniko build.
+storage.buckets.get
+storage.objects.create
+storage.objects.delete
+storage.objects.get
+
+# Permissions for accessing artifact registry. Required for any container build.
+artifactregistry.dockerimages.list
+artifactregistry.repositories.downloadArtifacts
+artifactregistry.repositories.list
+artifactregistry.repositories.uploadArtifacts
+
+# Permissions for listing accessible compute regions. Required always.
+compute.regions.get
+
+# Permissions for managing Vertex AI jobs. Required for Vertex queues.
+ml.jobs.create
+ml.jobs.list
+ml.jobs.get
+```
+
+</TabItem>
+
+<TabItem value="azure">
+
+The agent requires the following roles be assigned to its service principal in order to access various services:
+
+- **Storage Blob Data Contributor**: Required for kaniko build ([docs](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor))
+- **AcrPush**: Required for kaniko build ([docs](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-roles#acrpush))
+
+These permissions should be scoped to any storage containers and containers registries that you plan to access with the agent.
+
+</TabItem>
+
+</Tabs> --> -->
