@@ -20,6 +20,7 @@ const sidebars = {
       type: 'category',
       label: 'W&B Models',
       link: {type: 'doc', id: 'guides/models'},
+      collapsed: false,
       items: [
         {
           type: 'category',
@@ -157,6 +158,7 @@ const sidebars = {
         type: 'doc',
         id: 'guides/prompts_platform',
       },
+      collapsed: false,
       items: [
         {
           type: "category",
@@ -173,6 +175,7 @@ const sidebars = {
       type: 'category',
       label: 'W&B Core',
       link: {type: 'doc', id: 'guides/platform'},
+      collapsed: false,
       items: [
         {
           type: 'category',
