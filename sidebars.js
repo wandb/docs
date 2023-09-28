@@ -176,6 +176,7 @@ const sidebars = {
                 'guides/artifacts/ttl',
               ],
             },
+            'guides/artifacts/artifact-automation',
             'guides/artifacts/explore-and-traverse-an-artifact-graph',
             'guides/artifacts/data-privacy-and-compliance',
             'guides/artifacts/artifacts-faqs',
