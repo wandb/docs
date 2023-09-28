@@ -1,6 +1,6 @@
 # File
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.11/wandb/apis/public.py#L3143-L3222' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/a8b0374a129d723f15c8e78682dd743ef90f3dfb/wandb/apis/public.py#L3143-L3222' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 File is a class associated with a file saved by wandb.
@@ -18,7 +18,7 @@ File(
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.11/wandb/apis/public.py#L3202-L3215)
+[View source](https://www.github.com/wandb/wandb/tree/a8b0374a129d723f15c8e78682dd743ef90f3dfb/wandb/apis/public.py#L3202-L3215)
 
 ```python
 delete()
@@ -26,7 +26,7 @@ delete()
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.11/wandb/apis/public.py#L1137-L1148)
+[View source](https://www.github.com/wandb/wandb/tree/a8b0374a129d723f15c8e78682dd743ef90f3dfb/wandb/apis/public.py#L1137-L1148)
 
 ```python
 display(
@@ -38,7 +38,7 @@ Display this object in jupyter.
 
 ### `download`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.11/wandb/apis/public.py#L3169-L3200)
+[View source](https://www.github.com/wandb/wandb/tree/a8b0374a129d723f15c8e78682dd743ef90f3dfb/wandb/apis/public.py#L3169-L3200)
 
 ```python
 download(
@@ -60,7 +60,7 @@ Downloads a file previously saved by a run from the wandb server.
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.11/wandb/apis/public.py#L1133-L1135)
+[View source](https://www.github.com/wandb/wandb/tree/a8b0374a129d723f15c8e78682dd743ef90f3dfb/wandb/apis/public.py#L1133-L1135)
 
 ```python
 snake_to_camel(
@@ -70,7 +70,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.11/wandb/apis/public.py#L1150-L1151)
+[View source](https://www.github.com/wandb/wandb/tree/a8b0374a129d723f15c8e78682dd743ef90f3dfb/wandb/apis/public.py#L1150-L1151)
 
 ```python
 to_html(
