@@ -396,7 +396,7 @@ These permissions should be scoped to any storage containers and containers regi
 Navigate to the page for a particular launch queue, and the navigate to the **Agents** tab to view active and inactive agents assigned to the queue. Within this tab you can view the:
 
 - **Agent ID**: Unique agent identification
-- **Status:** The status of the agent. An agent can have a **Killed** or **Polling** status. See status types in the [Launch a run, status of queued runs](add-job-to-queue.md) section.
+- **Status:** The status of the agent.
 - **Start date:** The date the agent was activated.
 - **Host:** The machine the agent is polling on.
 
