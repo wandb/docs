@@ -53,17 +53,17 @@ wandb job create --project "<project-name>" -e "<your-entity>" \
 --name "<name-for-job>" code "<path-to-script/code.py>"
 ```
 
-For a full list of flags you can use, see the [`wandb job create`](../../ref/cli/wandb-job/wandb-job-create.md) command documentation. 
+For a full list of flags you can use, see the `wandb job create` command documentation. 
 
 :::note
-You do not need to use the [`run.log_code()`](../../ref/python/run.md#log_code) function within your Python script when you create a launch job with the W&B CLI.
+You do not need to use the `run.log_code()` function within your Python script when you create a launch job with the W&B CLI.
 :::
 
 
   </TabItem>
   <TabItem value="sdk">
 
-Log your code as an artifact to create a launch job. To do so, log your code to your run as an artifact with [`run.log_code()`](../../ref/python/run.md#log_code). 
+Log your code as an artifact to create a launch job. To do so, log your code to your run as an artifact with `run.log_code()`. 
 
 The following sample Python code shows how to integrate the `run.log_code()` function (see highlighted portion) into a Python script.
 
@@ -111,7 +111,7 @@ wandb.init(settings=settings)
 
 
 
-For more information on the [`run.log_code()`](../../ref/python/run.md#log_code) command, see the [API Reference guide](../../ref/README.md).
+For more information on the `run.log_code()` command, see the [API Reference guide](../../ref/README.md).
 
   </TabItem>
 </Tabs>
@@ -158,7 +158,7 @@ wandb job create --project "<project-name>" --entity "<your-entity>" \
 --name "<name-for-job>" image image-name:tag
 ```
 
-For a full list of flags you can use, see the [`wandb job create`](../../ref/cli/wandb-job/wandb-job-create.md) command documentation.
+For a full list of flags you can use, see the `wandb job create` command documentation.
 
   </TabItem>
   <TabItem value="build">

@@ -25,7 +25,7 @@ There are three main kinds of job definitions:
 
 
 :::tip
-Launch jobs are created automatically when you track a run with W&B. You can manually specify what type of launch job is created with the W&B CLI's `wandb job create` [command](../../ref/cli/wandb-job/wandb-job-create.md).  See [these docs](./create-launch-job.md) for more information on how to create launch jobs.
+Launch jobs are created automatically when you track a run with W&B. You can manually specify what type of launch job is created with the W&B CLI's `wandb job create` command.  See [these docs](./create-launch-job.md) for more information on how to create launch jobs.
 :::
 
 Find jobs you created in the W&B App under the `Jobs` tab of your project workspace.  From there, jobs can be configured and sent to a [launch queue](#launch-queue) to be executed on a variety of [target resources](#target-resources).
