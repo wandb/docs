@@ -35,7 +35,7 @@ wandb job create image <image-name> -p <project> -e <entity>
 
   1. Create your queue before you start your agent, so that you can set your agent to point to it easily.  If you don’t do this, your agent will give errors and not work until you add a queue.
   2. Create a W&B service account to start up the agent, so that it's not tied to an individual user account.
-  3. Use `wandb.config` to read and write your hyperparameters, so that they can be overwritten when re-running a job.  Check out [this guide](https://docs.wandb.ai/guides/launch/create-job#making-your-code-job-friendly) if you use argsparse.
+  3. Use `wandb.config` to read and write your hyperparameters, so that they can be overwritten when re-running a job.  Check out [this guide](https://docs.wandb.ai/guides/launch/create-launch-job#making-your-code-job-friendly) if you use argsparse.
 
 ### I do not like clicking- can I use Launch without going through the UI?
   
