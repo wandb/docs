@@ -22,7 +22,7 @@ First, we need to install `ultralytics` and `wandb`.
   <TabItem value="script">
 
 ```shell
-pip install --upgrade ultralytics wandb
+pip install --upgrade ultralytics==8.0.186 wandb
 
 # or
 # conda install ultralytics
@@ -32,11 +32,13 @@ pip install --upgrade ultralytics wandb
   <TabItem value="notebook">
 
 ```python
-!pip install --upgrade ultralytics wandb
+!pip install --upgrade ultralytics==8.0.186 wandb
 ```
 
   </TabItem>
 </Tabs>
+
+**Note:** The integration currently has been tested with `ultralyticsv8.0.186` and below. Please report any issues to https://github.com/wandb/wandb/issues with the tag `yolov8`.
 
 ## Experiment Tracking and Visualizing Validation Results
 
