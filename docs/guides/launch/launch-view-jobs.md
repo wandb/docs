@@ -26,7 +26,7 @@ For example, the following image shows two runs that were created from a job cal
 
 Within the W&B App UI you can find additional information about runs created from launch jobs such as the:
    - **Run**: The name of the W&B run assigned to that job.
-   - **Job ID**: The name of the job. See Job naming conventions[LINK] page for information on the default naming assigned to a job.
+   - **Job ID**: The name of the job. 
    - **Project**: The name of the project the run belongs to.
    - **Status**: The status of the queued run. 
    - **Author**: The W&B entity that created the run.
