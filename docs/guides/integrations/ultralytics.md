@@ -46,7 +46,7 @@ You can try out the code in Google Colab: [Open In Colab](http://wandb.me/ultral
 
 You can also check out about the integration in this report: [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
 
-In order to use the W&B integration with Ultralytics, we need to import the `wandb.yolov8.add_wandb_callback` function.
+In order to use the W&B integration with Ultralytics, we need to import the `wandb.integration.ultralytics.add_wandb_callback` function.
 
 ```python
 import wandb
@@ -94,11 +94,11 @@ You can try out the code in Google Colab: [Open in Colab](http://wandb.me/ultral
 
 You can also check out about the integration in this report: [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
 
-In order to use the W&B integration with Ultralytics, we need to import the `wandb.yolov8.add_wandb_callback` function.
+In order to use the W&B integration with Ultralytics, we need to import the `wandb.integration.ultralytics.add_wandb_callback` function.
 
 ```python
 import wandb
-from wandb.yolov8 import add_wandb_callback
+from wandb.integration.ultralytics import add_wandb_callback
 
 from ultralytics.engine.model import YOLO
 ```
