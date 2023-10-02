@@ -12,12 +12,17 @@ import TabItem from '@theme/TabItem';
 
 <!-- change description to: Use an Automation on artifacts in your project to trigger actions when aliases or versions in an artifact collection are created or changed. For example, you can trigger a launch job whenever a new version is added to a dataset artifact to automatically retrain a model. -->
 
-Create an automation to trigger workflow steps. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types). For example, you can create a trigger that automatically retrains a model when a dataset is updated. 
+Create an automation on artifacts to trigger actions when aliases or versions in an artifact collection are created or changed. For example, you can trigger a launch job whenever a new version is added to a dataset artifact to automatically retrain a model. Artifact automations have project-level scope.
+
+
+To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types). For example, you can create a trigger that automatically retrains a model when a dataset is updated. 
 
 The following page describes how to create, view, and delete automations that apply to artifacts in a project.
 
-:::info
-For information on how to create an automation specifically for models, see the [Automations for Model CI/CD](../model_registry/automation.md) page in the [Model Registry chapter](../model_registry/intro.md).
+:::tip
+Artifact automations have project-level scope. This means that only events within a project will trigger an artifact automation.
+
+This is in contrast to model automations created in the W&B Model Registry. Automations created in the W&B Model Registry are scoped to the Model Registry. For information on how to create an automation specifically for models, see the [Automations for Model CI/CD](../model_registry/automation.md) page in the [Model Registry chapter](../model_registry/intro.md).
 :::
 
 ## Event types
