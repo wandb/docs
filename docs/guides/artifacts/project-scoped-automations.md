@@ -1,5 +1,5 @@
 ---
-description: Use an Automation to retrain models as new data comes in
+description: Use an artifacts automation in your project to trigger actions when aliases or versions in an artifact collection are created or changed. 
 title: Artifact automations
 displayed_sidebar: default
 ---
@@ -10,30 +10,44 @@ import TabItem from '@theme/TabItem';
 
 # Artifact automations
 
-Create an automation to trigger workflow steps. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).
+<!-- change description to: Use an Automation on artifacts in your project to trigger actions when aliases or versions in an artifact collection are created or changed. For example, you can trigger a launch job whenever a new version is added to a dataset artifact to automatically retrain a model. -->
 
-For example, you can create a trigger that automatically retrains a model when a dataset is updated. 
+Create an automation to trigger workflow steps. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types). For example, you can create a trigger that automatically retrains a model when a dataset is updated. 
+
+The following page describes how to create, view, and delete automations that apply to artifacts in a project.
+
+:::info
+For information on how to create an automation specifically for models, see the [Automations for Model CI/CD](../model_registry/automation.md) page in the [Model Registry chapter](../model_registry/intro.md).
+:::
 
 ## Event types
-An *event* is a change that takes place in the W&B ecosystem. You can define two different event types: **A new version of an artifact is added in a collection** and **An artifact alias is created**.
+An *event* is a change that takes place in the W&B ecosystem. For automations that apply to artifacts in a project, the event types are for changes applied to an artifact collection. 
+
+You can define two different event types for artifact collections in your project: **A new version of an artifact is added in a collection** and **An artifact alias is created**.
 
 
 :::tip
-Use the [INSERT].
+Use the **A new version of an artifact is added in a collection** event type for model retraining
 
-Use the **A new version of an artifact is added in a collection** event type to specify an alias that represents a special step of your workflow, such as `staging`.
+new version: model re-training - automation is applied to a dataset artifact and it kicks off a retraining job when fresh data comes in (a new version is added to the dataset artifact)
+
+alias is added: model evaluation - like Ken suggested when an alias 'golden-dataset', or thinking out loud 'test-set' is added then model evaluation job is triggered and an evaluation report is produced showing model results on this dataset version. The alias 'test-set' is listened for b/c only a version w this alias has a balanced test set for example.
+
 :::
 
 
+
+<!-- :::info
+For example, if your automation starts retraining a model when new data comes in, you might have an artifact collection named "labeled-datasets". The automation will start when a new version is added to the "labeled-datasets" collection.
+::: -->
+
+
 ## Action types
-An action is a responsive mutation (internal or external) that occurs as a result of some trigger. There are two types of actions you can create for artifacts: webhooks and [W&B Launch Jobs](../launch/intro.md).
+An action is a responsive mutation (internal or external) that occurs as a result of some trigger. There are two types of actions you can create in response to events on artifact collections in your project: webhooks and [W&B Launch Jobs](../launch/intro.md).
 
 * Webhooks: Communicate with an external web server from W&B with HTTP requests.
 * W&B Launch job: [Jobs](../launch/create-job.md) are reusable, configurable run templates that allow you to quickly launch new [runs](../runs/intro.md) locally on your desktop or external compute resources such as Kubernetes on EKS, Amazon SageMaker, and more. 
 
-<!-- :::tip
-Question: When should I use a webhook as opposed to a W&B Launch job? Answer: [INSERT]
-::: -->
 
 The following sections describe how to create an automation with webhooks and W&B Launch.
 
@@ -83,13 +97,17 @@ Only W&B Admins can configure a webhook for a W&B Team.
 Once you have a webhook configured and (optionally) a secret, navigate to your project workspace. Click on the **Automations** tab on the left sidebar.
 
 1. From the **Event type** dropdown, select an [event type](#event-types).
-2. (Optional) If you selected **A new version of an artifacts is created in a collection** event, provide the name of a registered model from the **Artifact collection** dropdown. 
+![](/images/artifacts/artifact_webhook_select_event.png)
+2. (Optional) If you selected **A new version of an artifact is created in a collection** event, provide the name of the artifact collection that the automation should respond to from the **Artifact collection** dropdown. 
+![](/images/artifacts/webhook_new_version_artifact.png)
 3. Select **Webhooks** from the **Action type** dropdown. 
 4. Click on the **Next step** button.
 5. Select a webhook from the **Webhook** dropdown.
+![](/images/artifacts/artifacts_webhooks_select_from_dropdown.png)
 6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload](#example-payloads) section for common use case examples.
 7. Click on **Next step**.
 8. Provide a name for your webhook automation in the **Automation name** field. 
+![](/images/artifacts/artifacts_webhook_name_automation.png)
 9. (Optional) Provide a description for your webhook. 
 10. Click on the **Create automation** button.
 
