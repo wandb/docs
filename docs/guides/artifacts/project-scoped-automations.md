@@ -30,21 +30,12 @@ An *event* is a change that takes place in the W&B ecosystem. For automations th
 
 You can define two different event types for artifact collections in your project: **A new version of an artifact is added in a collection** and **An artifact alias is created**.
 
-
 :::tip
-Use the **A new version of an artifact is added in a collection** event type for model retraining
+Use the **A new version of an artifact is added in a collection** event type for applying reoccurring actions to each version of an artifact. For example, you can create an automation that automatically starts a training job when a new dataset artifact version is created.
 
-new version: model re-training - automation is applied to a dataset artifact and it kicks off a retraining job when fresh data comes in (a new version is added to the dataset artifact)
-
-alias is added: model evaluation - like Ken suggested when an alias 'golden-dataset', or thinking out loud 'test-set' is added then model evaluation job is triggered and an evaluation report is produced showing model results on this dataset version. The alias 'test-set' is listened for b/c only a version w this alias has a balanced test set for example.
-
+Use the **An artifact alias is added** event type to create an automation that applies to a specific dataset version. For example, you could create an automation that triggers an action when someone adds "test-set-quality-check" alias to an artifact that then triggers downstream processing on that dataset. 
 :::
 
-
-
-<!-- :::info
-For example, if your automation starts retraining a model when new data comes in, you might have an artifact collection named "labeled-datasets". The automation will start when a new version is added to the "labeled-datasets" collection.
-::: -->
 
 
 ## Action types
@@ -117,6 +108,7 @@ Once you have a webhook configured and (optionally) a secret, navigate to your p
 10. Click on the **Create automation** button.
 
 
+<!-- INSERT -->
 
 ### Example payloads
 
@@ -166,10 +158,10 @@ The following tabs demonstrate example payloads based on common use cases. Withi
 
   ```
 
-  Where template strings render depending on the event or artifact version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
+  Where template strings render depending on the event or artifact version the automation is configured for. `${event_type}` will render as an "ADD_ARTIFACT_ALIAS". See below for an example mapping:
 
   ```json
-  ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
+  ${event_type} --> "ADD_ARTIFACT_ALIAS"
   ${event_author} --> "<wandb-user>"
   ${artifact_version} --> "wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3""
   ${artifact_version_string} --> "<entity>/<project_name>/<artifact_name>:<alias>"
@@ -276,10 +268,9 @@ This section assumes you already have created a job, a queue, and have an active
 9. Click on **Next step**.
 10. Provide a name for your webhook automation in the **Automation name** field. 
 11. (Optional) Provide a description for your webhook. 
-12. Click on the **Create automation** button.
+12. Click on the **Create automation** button. 
 
-
-## View automation
+## View automations
 
 View automations associated to an artifact from the W&B App UI. 
 
