@@ -1,5 +1,5 @@
 ---
-description: Use an artifacts automation in your project to trigger actions when aliases or versions in an artifact collection are created or changed. 
+description: Use an project scoped artifact automation in your project to trigger actions when aliases or versions in an artifact collection are created or changed. 
 title: Artifact automations
 displayed_sidebar: default
 ---
@@ -20,10 +20,15 @@ To create an automation, define the [action](#action-types) you want to occur ba
 The following page describes how to create, view, and delete automations that apply to artifacts in a project.
 
 :::tip
-Artifact automations have project-level scope. This means that only events within a project will trigger an artifact automation.
-
-This is in contrast to model automations created in the W&B Model Registry. Automations created in the W&B Model Registry are scoped to the Model Registry. For information on how to create an automation specifically for models, see the [Automations for Model CI/CD](../model_registry/automation.md) page in the [Model Registry chapter](../model_registry/intro.md).
+Consider project-scoped automations (artifact automations) when you want to automate downstream actions for versioning artifacts that are not of type "model".
 :::
+
+:::info
+Artifact automations are project-scope. This means that only events within a project will trigger an artifact automation.
+
+This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry have Model Registry scope; they are triggered when events are performed on model versions linked to the [Model Registry](../model_registry/intro.md). For information on how to create an automations for models versions, see the [Automations for Model CI/CD](../model_registry/automation.md) page in the [Model Registry chapter](../model_registry/intro.md).
+:::
+
 
 ## Event types
 An *event* is a change that takes place in the W&B ecosystem. For automations that apply to artifacts in a project, the event types are for changes applied to an artifact collection. 
@@ -31,9 +36,9 @@ An *event* is a change that takes place in the W&B ecosystem. For automations th
 You can define two different event types for artifact collections in your project: **A new version of an artifact is added in a collection** and **An artifact alias is created**.
 
 :::tip
-Use the **A new version of an artifact is added in a collection** event type for applying reoccurring actions to each version of an artifact. For example, you can create an automation that automatically starts a training job when a new dataset artifact version is created.
+Use the **A new version of an artifact is added in a collection** event type for applying recurring actions to each version of an artifact. For example, you can create an automation that automatically starts a training job when a new dataset artifact version is created.
 
-Use the **An artifact alias is added** event type to create an automation that applies to a specific dataset version. For example, you could create an automation that triggers an action when someone adds "test-set-quality-check" alias to an artifact that then triggers downstream processing on that dataset. 
+Use the **An artifact alias is added** event type to create an automation that activates when a specific alias is applied to an artifact version. For example, you could create an automation that triggers an action when someone adds "test-set-quality-check" alias to an artifact that then triggers downstream processing on that dataset. 
 :::
 
 
@@ -137,7 +142,7 @@ The following tabs demonstrate example payloads based on common use cases. Withi
   ```yaml
   on:
     repository_dispatch:
-      types: LINK_ARTIFACT
+      types: ADD_ARTIFACT_ALIAS
   ```
 
   The payload for the repository might look something like:
@@ -158,10 +163,10 @@ The following tabs demonstrate example payloads based on common use cases. Withi
 
   ```
 
-  Where template strings render depending on the event or artifact version the automation is configured for. `${event_type}` will render as an "ADD_ARTIFACT_ALIAS". See below for an example mapping:
+  Where template strings render depending on the event or artifact version the automation is configured for. `${event_type}` will render as an "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
 
   ```json
-  ${event_type} --> "ADD_ARTIFACT_ALIAS"
+  ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
   ${event_author} --> "<wandb-user>"
   ${artifact_version} --> "wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3""
   ${artifact_version_string} --> "<entity>/<project_name>/<artifact_name>:<alias>"
@@ -270,13 +275,15 @@ This section assumes you already have created a job, a queue, and have an active
 11. (Optional) Provide a description for your webhook. 
 12. Click on the **Create automation** button. 
 
-## View automations
+## View an automation
 
 View automations associated to an artifact from the W&B App UI. 
 
 1. Navigate to your project workspace on the W&B App. 
 2. Click on the **Automations** tab on the left sidebar.
 3. From the list, select the name of the automation you want to view.
+
+![](/images/artifacts/automations_sidebar.gif)
 
 Within the Automations section you can find the following properties of automations created for the artifact you selected:
 
