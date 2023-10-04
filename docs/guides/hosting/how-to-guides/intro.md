@@ -31,6 +31,6 @@ To allow the users try Weights and Biases server without having to provisioning 
 
 This mode is **NOT RECOMMENDED FOR PRODUCTION**
 
-# Upgrade
+<!-- # Upgrade
 
-- [Upgrade W&B Server](../upgrade.md) 
+- Upgrade W&B Server  -->
