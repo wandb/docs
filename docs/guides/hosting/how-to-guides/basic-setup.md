@@ -31,7 +31,7 @@ Follow the procedure below to send metrics to the shared private instance. Ensur
 2. Set the environment variable `WANDB_BASE_URL` to the address of the local instance:
 
 ```python
-export WANDB_BASE_URL = "http://wandb.your-shared-local-host.com"
+export WANDB_BASE_URL="http://wandb.your-shared-local-host.com"
 ```
 
 In an automated environment, you can set the `WANDB_API_KEY`. Find your key at [wandb.your-shared-local-host.com/authorize](http://wandb.your-shared-local-host.com/authorize).
@@ -45,7 +45,7 @@ wandb login --cloud
 or
 
 ```bash
-export WANDB_BASE_URL = "https://api.wandb.ai"
+export WANDB_BASE_URL="https://api.wandb.ai"
 ```
 
 You can also switch to your cloud API key, available at [https://wandb.ai/settings](https://wandb.ai/settings) when you are logged in to your cloud-hosted wandb account in your browser.
@@ -112,4 +112,4 @@ For production work, set up a scalable file system to avoid data loss. We sugges
 The instance will stop working if you run out of space. In this case, any additional data will be lost.
 :::
 
-[Contact sales](https://wandb.ai/site/local-contact) to learn more about Enterprise options for W&B server.
+[Contact sales](https://wandb.ai/site/contact) to learn more about Enterprise options for W&B server.

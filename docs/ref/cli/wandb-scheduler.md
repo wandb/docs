@@ -12,5 +12,4 @@ Run a W&B launch sweep scheduler (Experimental)
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --help | Show this message and exit. |
 

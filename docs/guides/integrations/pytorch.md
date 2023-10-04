@@ -22,9 +22,10 @@ To automatically log gradients, you can call [`wandb.watch`](../../ref/python/wa
 
 ```python
 import wandb
+
 wandb.init(config=args)
 
-model = ... # set up your model
+model = ...  # set up your model
 
 # Magic
 wandb.watch(model, log_freq=100)
@@ -51,7 +52,7 @@ You can pass PyTorch `Tensors` with image data into [`wandb.Image`](../../ref/py
 
 ```python
 images_t = ...  # generate or load images as PyTorch Tensors
-wandb.log({"examples" : [wandb.Image(im) for im in images_t]})
+wandb.log({"examples": [wandb.Image(im) for im in images_t]})
 ```
 
 For more on logging rich media to W&B in PyTorch and other frameworks, check out our [media logging guide](../track/log/media.md).
@@ -71,7 +72,7 @@ wandb.log({"mnist_predictions": my_table})
 
 ![The code above generates a table like this one. This model's looking good!](/images/integrations/pytorch_example_table.png)
 
-For more on logging and visualizing datasets and models, check out our [guide to W&B Tables](../data-vis/intro.md).
+For more on logging and visualizing datasets and models, check out our [guide to W&B Tables](../tables/intro.md).
 
 ## Profiling PyTorch code
 
@@ -84,7 +85,8 @@ profile_dir = "path/to/run/tbprofile/"
 profiler = torch.profiler.profile(
     schedule=schedule,  # see the profiler docs for details on scheduling
     on_trace_ready=torch.profiler.tensorboard_trace_handler(profile_dir),
-    with_stack=True)
+    with_stack=True,
+)
 
 with profiler:
     ...  # run the code you want to profile here

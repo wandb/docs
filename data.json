@@ -166,11 +166,23 @@
     },
     {
       "from": "/data-vis",
-      "to": "/guides/data-vis"
+      "to": "/guides/tables"
     },
     {
       "from": "/data-vis/log-tables",
       "to": "/guides/track/log/log-tables"
+    },
+    {
+      "from": "guides/tables/log-tables",
+      "to": "guides/track/log/log-tables"
+    },
+    {
+      "from": "guides/data-vis/tables",
+      "to: ": "guides/tables/visualize-tables"
+    },
+    {
+      "from": "guides/data-vis/tables-quickstart",
+      "to": "guides/tables/tables-walkthrough"
     },
     {
       "from": "/datasets-and-predictions",
@@ -297,8 +309,12 @@
       "to": "/guides/artifacts"
     },
     {
+      "from": "/guides/artifacts/quickstart",
+      "to": "/guides/artifacts/artifacts-walkthrough"
+    },
+    {
       "from": "/guides/artifacts/api",
-      "to": "/ref/python/public-api/artifact"
+      "to": "ref/python/public-api/api#artifact"
     },
     {
       "from": "/guides/artifacts/artifacts-core-concepts",
@@ -310,7 +326,7 @@
     },
     {
       "from": "/guides/artifacts/model-versioning",
-      "to": "/guides/models"
+      "to": "/guides/model_registry"
     },
     {
       "from": "/guides/artifacts/references",
@@ -346,7 +362,7 @@
     },
     {
       "from": "/guides/data-and-model-versioning/model-versioning",
-      "to": "/guides/models"
+      "to": "/guides/model_registry"
     },
     {
       "from": "/guides/data-vis/log-tables",
@@ -653,8 +669,44 @@
       "to": "/guides/launch/create-queue"
     },
     {
+      "from": "/guides/launch/create-job",
+      "to": "/guides/launch/create-launch-job"
+    },    
+    {
       "from": "/guides/launch/getting-started",
-      "to": "/guides/launch/quickstart"
+      "to": "/guides/launch/walkthrough"
+    },
+    {
+      "from": "/guides/launch/launch-jobs",
+      "to": "/guides/launch/add-job-to-queue"
+    },    
+    {
+      "from": "/guides/models",
+      "to" : "/guides/model_registry"
+    },
+    {
+      "from": "/guides/models/walkthrough",
+      "to" : "/guides/model_registry/walkthrough"
+    },
+    {
+      "from": "/guides/models/model_tags",
+      "to" : "/guides/model_registry/model_tags"
+    },
+    {
+      "from": "/guides/models/access_controls",
+      "to" : "/guides/model_registry/access_controls"
+    },
+    {
+      "from": "/guides/models/automation",
+      "to" : "/guides/model_registry/automation"
+    },
+    {
+      "from": "/guides/models/notifications",
+      "to" : "/guides/model_registry/notifications"
+    },
+    {
+      "from": "/guides/models/model-management-concepts",
+      "to" : "/guides/model_registry/model-management-concepts"
     },
     {
       "from": "/guides/manage-runs",
@@ -855,6 +907,10 @@
     {
       "from": "/guides/track/plots",
       "to": "/guides/track/log/plots"
+    },
+    {
+      "from": "/guides/track/save-restore",
+      "to": "/guides/artifacts"
     },
     {
       "from": "/guides/track/summary-metrics",
@@ -1554,11 +1610,11 @@
     },
     {
       "from": "/sweeps/overview/getting-started",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/overview/quickstart",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/python",
@@ -1570,7 +1626,7 @@
     },
     {
       "from": "/sweeps/quickstart",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/ray-tune",
@@ -1660,7 +1716,6 @@
     "/ref/java/wandbrun.md",
     "/ref/python/data-types/histogram",
     "/ref/python/init%20for%20more%20init%20arguments.",
-    "/ref/python/public-api/artifact",
     "/ref/python/sweep",
     "/ref/weave/artifact.md",
     "/ref/weave/int",

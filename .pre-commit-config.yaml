@@ -1,0 +1,6 @@
+# Install pre-commit hooks via `pip install pre-commit && pre-commit install`
+repos:
+  - repo: https://github.com/adamchainz/blacken-docs
+    rev: 1.16.0
+    hooks:
+      - id: blacken-docs

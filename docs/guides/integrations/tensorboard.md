@@ -18,8 +18,9 @@ With Weight & Biases you can easily upload your TensorBoard logs to the cloud, q
 
 ```python
 import wandb
+
 # Start a wandb run with `sync_tensorboard=True`
-wandb.init(project='my-project', sync_tensorboard=True)
+wandb.init(project="my-project", sync_tensorboard=True)
 
 # Your training code using TensorBoard
 ...
@@ -52,6 +53,7 @@ If you want more control over how TensorBoard is patched you can call `wandb.ten
 
 ```python
 import wandb
+
 wandb.tensorboard.patch(root_logdir="<logging_directory>")
 wandb.init()
 
@@ -65,6 +67,7 @@ By default, we also sync the `tfevents` files and any `.pbtxt` files. This enabl
 
 ```python
 import wandb
+
 wandb.init()
 wandb.tensorboard.patch(save=False, tensorboard_x=True)
 

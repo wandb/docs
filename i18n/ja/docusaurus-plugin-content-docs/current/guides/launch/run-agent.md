@@ -1,81 +1,84 @@
 ---
 description: Launch agent documentation
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# エージェントの開始
+# Start an agent
 
-あなたのキューからジョブを実行するために、launch agentを開始します。
+Start a launch agent to execute jobs from your queues.
 
-## 概要
+## Overview
 
-**launch agent**は、1つ以上のlaunchキューをポーリングし、キューから取り出したジョブを実行する長時間実行プロセスです。`wandb launch-agent`コマンドでlaunch agentを開始し、Docker、Kubernetes、SageMakerなど、多数のコンピューティングプラットフォームでジョブを実行できます。launch agentは、[オープンソースのクライアントライブラリ](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch)で完全に実装されています。
+A **launch agent** is a long-running process that polls on one or more launch queues and executes the jobs that it pops from the queue. A launch agent can be started with the `wandb launch-agent` command and is capable on launching jobs onto a multitude of compute platforms, including Docker, Kubernetes, sagemaker, and more. The launch agent is implemented entirely in our [open source client library](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch).
 
-## 動作の仕組み
+## How it works
 
-エージェントは、1つ以上のキューをポーリングします。launch agentがキューからアイテムを取り出すと、必要に応じて、実行するコンテナイメージをビルドし、そのコンテナイメージをキューによってターゲット指定された計算プラットフォームで実行します。
+The agent polls on one or more queues. When the launch agent pops an item from a queue, it will, if necessary, build a container image to execute the run within and then execute that container image on the compute platform targeted by the queue.
 
-これらのコンテナビルドと実行は非同期に行われます。エージェントが実行できる最大同時ジョブ数を制御するには、`wandb launch-agent`コマンドに`-j <num-max-jobs>`を渡すか、エージェントの設定ファイルで`max_jobs`フィールドを設定します。
+These container builds and executions happen asynchronously. To control the max number of concurrent jobs that an agent can perform, pass `-j <num-max-jobs>` to `wandb launch-agent` command or set the `max_jobs` field in the agent config file.
 
-### ジョブをコンテナイメージにコンパイルする
+### Compile the job into a container image
 
-ジョブがGitリポジトリ内のソースコードやコードアーティファクトを含んでいる場合、launch agentはそのコードとジョブで指定されたすべての依存関係を含むコンテナイメージをビルドします。
+If your job contains source code from a git repository or code artifact, the launch agent will build a container image that contains the code and all of the dependencies specified in the job.
 
-ジョブが`WANDB_DOCKER`環境変数経由でコンテナイメージからソースされている場合、この手順はスキップされます。
+If your job was sourced from a container image via the `WANDB_DOCKER` environment variable, then this step is skipped.
 
-Launchでは、現在[Docker](https://docker.com)と[Kaniko](https://github.com/GoogleContainerTools/kaniko)でコンテナイメージをビルドすることができます。Kanikoは、エージェントをコンテナ内で実行するときにのみ使用し、Docker-in-Dockerのセキュリティリスクを回避してください。
+Launch currently supports building container images with [Docker](https://docker.com) and [Kaniko](https://github.com/GoogleContainerTools/kaniko). Kaniko should only be used when running the agent in a container, to avoid the security risks associated with running Docker-in-Docker.
 
-### 実行を実行する
+### Execute the run
 
-launch agentは、前の手順でビルドされたコンテナイメージ内で、またはジョブで指定されたコンテナイメージ内で実行を実行します。エージェントが実行を実行する方法は、ジョブが所属していたキューのタイプによります。
-たとえば、ジョブがDockerキューにある場合、エージェントは`docker run`コマンドでローカルにrunを実行します。ジョブがKubernetesキューにある場合、エージェントはk8sクラスター上で[k8s Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/)としてrunを実行し、k8s APIを介して実行します。
+The launch agent will execute the run in the container image that was built in the previous step or specified in the job. How the agent executes the run depends on the type of queue the job was in.
 
-## エージェントの設定
+For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) via the Kubernetes API.
 
-ローンチエージェントは、さまざまなフラグとオプションで構成できます。 エージェントは、設定ファイルまたはコマンドラインフラグで構成できます。 設定ファイルはデフォルトで`~/.config/wandb/launch-config.yaml`に配置されていますが、`--config`フラグで設定ファイルの場所を上書きできます。 設定ファイルは、次の構造を持つYAMLファイルです：
+## Agent configuration
+
+The launch agent can be configured with a variety of flags and options. The agent can be configured with a config file or with command line flags. The config file is located at `~/.config/wandb/launch-config.yaml` by default, but the location of the config can be overridden with the `--config` flag. The config file is a YAML file with the following structure:
 
 ```yaml
-# W&Bエンティティ（ユーザーまたはチーム）名
+# W&B entity (i.e. user or team) name
 entity: <entity-name>
 
-# 並行して実行できるrunの最大数。-1 = 制限なし
+# Max number of concurrent runs to perform. -1 = no limit
 max_jobs: -1
 
-# プーリングするキューのリスト。
+# List of queues to poll.
 queues:
-- default
+  - default
 
-# クラウド環境の設定。
+# Cloud environment config.
 environment:
-  type: aws|gcp
+  type: aws|gcp|azure
 
-# コンテナレジストリの設定。
+# Container registry config.
 registry:
-  type: ecr|gcr
+  type: ecr|gcr|acr
 
-# コンテナビルド設定
-builder：
-  type：docker|kaniko|noop
+# Container build config.
+builder:
+  type: docker|kaniko|noop
 ```
 
-`environment`、`registry`、および`builder`キーはオプションです。デフォルトでは、エージェントはクラウド環境を使用せず、ローカルのDockerレジストリとDockerビルダーを使用します。
+The `environment`, `registry`, and `builder` keys are optional. By default, the agent will use no cloud environment, a local Docker registry, and a Docker builder.
 
-### 環境
+### Environments
 
-`environment`キーは、エージェントがその仕事をするためにアクセスする必要のあるクラウド環境を設定するために使用されます。 エージェントがクラウドリソースへのアクセスを必要としない場合、このキーは省略される必要があります。AWSまたはGCP環境の設定方法については、以下のリファレンスを参照してください。
+The `environment` key is used to configure the cloud environment that the agent will need to access in order to do its job. If the agent does not require access to cloud resources, this key should be omitted. See the following references for configuring an AWS or GCP environment.
 
 <Tabs
-  defaultValue="aws"
-  values={[
-    {label: 'AWS', value: 'aws'},
-    {label: 'GCP', value: 'gcp'},
-  ]}>
+defaultValue="aws"
+values={[
+{label: 'AWS', value: 'aws'},
+{label: 'GCP', value: 'gcp'},
+{label: 'Azure', value: 'azure'}
+]}>
 
 <TabItem value="aws">
 
-AWS環境の設定では、`region`キーの設定が必要です。リージョンは、エージェントが実行されるAWSリージョンにする必要があります。 エージェントが起動すると、`boto3`を使用してデフォルトのAWS資格情報をロードします。 デフォルトのAWS資格情報の設定方法については、[boto3のドキュメント](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#overview)を参照してください。
+The AWS environment configuration requires the `region` key to be set. The region should be the AWS region that the agent will be running in. When the agent starts, it will use `boto3` to load the default AWS credentials. See the [boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#overview) for more information on how to configure default AWS credentials.
 
 ```yaml
 environment:
@@ -86,7 +89,8 @@ environment:
 </TabItem>
 
 <TabItem value="gcp">
-GCP環境では、`region` と `project` キーを設定する必要があります。regionは、エージェントが実行されるGCPのリージョンであるべきです。projectは、エージェントが実行されるGCPのプロジェクトであるべきです。エージェントが開始されると、`google.auth.default()` を使ってデフォルトのGCPの認証情報をロードします。デフォルトの GCP 資格情報の設定方法については、[google-auth documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) を参照してください。
+
+The GCP environment requires the `region` and `project` keys to be set. The region should be the GCP region that the agent will be running in. The project should be the GCP project that the agent will be running in. When the agent starts, it will use `google.auth.default()` to load the default GCP credentials. See the [google-auth documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) for more information on how to configure default GCP credentials.
 
 ```yaml
 environment:
@@ -97,65 +101,97 @@ environment:
 
 </TabItem>
 
+<TabItem value="azure">
+
+The Azure environment does not require any additional keys to be set. When the agent starts, it will use `azure.identity.DefaultAzureCredential()` to load the default Azure credentials. See the [azure-identity documentation](https://docs.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) for more information on how to configure default Azure credentials.
+
+```yaml
+environment:
+  type: azure
+```
+
+</TabItem>
+
 </Tabs>
 
-### レジストリ
+### Registries
 
-`registry` キーは、エージェントがコンテナイメージを格納するために使用するコンテナレジストリを設定するために使用されます。エージェントがコンテナレジストリへのアクセスを必要としない場合、このキーは省略されるべきです。
+The `registry` key is used to configure the container registry that the agent will use to store container images. If the agent does not require access to a container registry, this key should be omitted.
 
 <Tabs
-  defaultValue="ecr"
-  values={[
-    {label: 'AWS ECR', value: 'ecr'},
-    {label: 'GCP Artifact Registry', value: 'gcr'},
-  ]}>
+defaultValue="ecr"
+values={[
+{label: 'AWS ECR', value: 'ecr'},
+{label: 'GCP Artifact Registry', value: 'gcr'},
+{label: 'Azure Container Registry', value: 'acr'}
+]}>
 
 <TabItem value="ecr">
 
-`type: ecr` を設定して AWS Elastic Container Registry を使用します。`ecr` を使用するためには、AWS 環境を設定する必要があります。`repository` キーは必須で、エージェントがコンテナイメージを格納するために使用する ECR リポジトリの名前であるべきです。エージェントは、`environment` キーで設定されたリージョンを使用して、どのレジストリを使用するかを決定します。
+Set `type: ecr` to use AWS Elastic Container Registry. In order to use `ecr`, must configure an AWS environment. The `repository` key is required and should be the name of the ECR repository that the agent will use to store container images. The agent will use the region configured in the `environment` key to determine which registry to use.
 
 ```yaml
 registry:
-  # aws 環境設定が必要です。
+  # Requires an aws environment configuration.
   type: ecr
-  # 環境で設定されたリージョンのECRリポジトリ名。
-  repository: my-ecr-repo.
+  # URI of the ECR repository where the agent will store images.
+  # Make sure the region matches what you have configured in your
+  # environment.
+  uri: <account-id>.ecr.<region>.amazonaws.com/<repository-name>
+  # Alternatively, you can simply set the repository name
+  # repository: my-repository-name
 ```
+
 </TabItem>
 
 <TabItem value="gcr">
 
-`type: gcr`を設定して、GCPアーティファクトレジストリを使用します。 `gcr`を使用するには、GCP環境を設定する必要があります。`repository`と`image-name`のキーが必要です。`repository`キーは、エージェントがコンテナイメージを格納するために使用するArtifact Registryリポジトリの名前である必要があります。エージェントは、`environment`キーで設定された領域とプロジェクトを使用して、どのレジストリを使用するかを決定します。`image-name`キーは、エージェントがコンテナイメージを格納するリポジトリ内のイメージの名前である必要があります。
+Set `type: gcr` to use GCP Artifact Registry. In order to use `gcr`, must configure a GCP environment. The `repository` and `image-name` keys are required. The `repository` key should be the name of the Artifact Registry repository that the agent will use to store container images. The agent will use the region and project configured in the `environment` key to determine which registry to use. The `image-name` key should be the name of the image within the repository that the agent will use to store container images.
 
 ```yaml
 registry:
-  # GCP環境設定が必要です。
+  # Requires a gcp environment configuration.
   type: gcr
-  # 環境で設定したプロジェクト/リージョン内のアーティファクトリポジトリの名前
-  repository: my-artifact-repo
-  # エージェントがイメージを格納するリポジトリ内のイメージ名（タグではありません！）。
-  image-name: my-image-name
+  # URI of the Artifact Registry repository and image name where the agent
+  # will store images. Make sure the region and project match what you have
+  # configured in your environment.
+  uri: <region>-docker.pkg.dev/<project-id>/<repository-name>/<image-name>
+  # Alternatively, you may set the repository and image-name keys.
+  # repository: my-artifact-repo
+  # image-name: my-image-name
+```
+
+</TabItem>
+
+<TabItem value="acr">
+
+Set `type: acr` to use Azure Container Registry. In order to use `acr`, must configure an Azure environment. You must set the `uri` key to the URI of a repository within an Azure Container Registry. The agent will push images to the repository specified in the URI.
+
+```yaml
+registry:
+  type: acr
+  uri: https://my-registry.azurecr.io/my-repository
 ```
 
 </TabItem>
 
 </Tabs>
 
+### Builders
 
-### ビルダー
-
-`builder`キーは、エージェントがコンテナイメージを構築するために使用するコンテナビルダーを設定するために使用されます。`builder`キーは必須ではなく、省略された場合、エージェントはDockerを使用してローカルでイメージを構築します。
+The `builder` key is used to configure the container builder that the agent will use to build container images. The `builder` key is not required and if omitted, the agent will use Docker to build images locally.
 
 <Tabs
-  defaultValue="docker"
-  values={[
-    {label: 'Docker', value: 'docker'},
-    {label: 'Kaniko', value: 'kaniko'},
-    {label: 'Noop', value: 'noop'}
-  ]}>
+defaultValue="docker"
+values={[
+{label: 'Docker', value: 'docker'},
+{label: 'Kaniko', value: 'kaniko'},
+{label: 'Noop', value: 'noop'}
+]}>
+
 <TabItem value="docker">
 
-`type: docker`を設定して、Dockerを使ってローカルでイメージをビルドします。`docker`ビルダーはデフォルトで選択されており、追加の設定は必要ありません。
+Set `type: docker` to use Docker to build images locally. The `docker` builder is selected by default and does not require any additional configuration.
 
 ```yaml
 builder:
@@ -166,31 +202,42 @@ builder:
 
 <TabItem value="kaniko">
 
-`type: kaniko`を設定し、GCPまたはAWS環境を設定して、KubernetesでKanikoを使ってコンテナイメージをビルドします。`kaniko`ビルダーは`build-context-store`キーを設定する必要があります。`build-context-store`キーは、設定された環境に応じて、エージェントがビルドコンテキストを保存するために使用するS3またはGCSのプレフィックスである必要があります。`build-job-name`を使用して、エージェントがイメージをビルドするために使用するk8sジョブの名前プレフィックスを指定できます。
+Set `type: kaniko` and configure a GCP, AWS, or Azure environment to use Kaniko to build container images in Kubernetes. The `kaniko` builder requires the `build-context-store` key to be set. The `build-context-store` key should be an S3, GCS, or Azure Blob Storage prefix that the agent will use to store build contexts, depending on the environment that is configured. The `build-job-name` can be used to specify a name prefix for the Kubernetes job that the agent will use to build images.
 
 ```yaml
 builder:
   type: kaniko
-  build-context-store: s3://my-bucket/build-contexts/  # ビルドコンテキストストレージ用のs3またはgcsプレフィックス
-  build-job-name: wandb-image-build  # すべてのビルドに対するk8sジョブ名プレフィックス
+  build-context-store: s3://my-bucket/build-contexts/ # s3, gcs, or azure blob storage uri for build context storage
+  build-job-name: wandb-image-build # Kubernetes job name prefix for all builds
 ```
 
-Kanikoビルドがk8sで実行されている場合、Kanikoビルドがクラウドでのブロブストレージとコンテナストレージにアクセスするために、GKEを使用している場合は[ワークロードアイデンティティ](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity)、EKSを使用している場合は[IAMロールとサービスアカウント](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)を使用することが強くお勧めされています。
+To specify the `build-context-store` for the `kaniko` builder, you must also configure a cloud environment. The `kaniko` builder supports GCP, AWS, and Azure environments. Please provide the uri in the following formats:
 
-独自のk8sクラスターを実行している場合は、クラウド環境の資格情報が含まれたk8sシークレットを作成する必要があります。GCPにアクセス権を付与するには、このシークレットに[サービスアカウントのjson](https://cloud.google.com/iam/docs/keys-create-delete#creating)が含まれる必要があります。AWSへのアクセス権を付与するには、このシークレットに[AWS認証情報ファイル](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html)が含まれる必要があります。Kanikoビルダーでこのシークレットを使用するには、ビルダーの設定で以下のキーを設定します。
+| Cloud | URI                                                       |
+| ----- | --------------------------------------------------------- |
+| GCP   | `gs://my-bucket/build-contexts/`                          |
+| AWS   | `s3://my-bucket/build-contexts/`                          |
+| Azure | `https://my-bucket.blob.core.windows.net/build-contexts/` |
+
+To grant Kaniko builds running in Kubernetes access to your blob and container storage in the cloud, it is strongly recommended that you use either [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) if you are using GKE and [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) if you are using EKS.
+
+You must use [Azure AD Workload Identity](https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview) to provide the agent credentials if you are using AKS.
+
+If you are running your own Kubernetes cluster rather than using AKS, EKS, or GKE, you will need to create a Kubernetes secret that contains the credentials for your cloud environment. To grant access to GCP, this secret should contain a [service account json](https://cloud.google.com/iam/docs/keys-create-delete#creating). To grant access to AWS, this secret should contain an [AWS credentials file](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html). You can configure the Kaniko builder to use this secret by setting the following keys in your builder config:
 
 ```yaml
 builder:
   type: kaniko
   build-context-store: <my-build-context-store>
-  secret-name: <k8s-secret-name>
+  secret-name: <Kubernetes-secret-name>
   secret-key: <secret-file-name>
 ```
+
 </TabItem>
 
 <TabItem value="noop">
 
-`noop`ビルダーは、エージェントを事前にビルドされたコンテナイメージの実行に制限したい場合に便利です。`type: noop`を設定するだけで、エージェントがイメージをビルドするのを防ぐことができます。
+The `noop` builder is useful if you want to limit the agent to running pre-built container images. Simply set `type: noop` to prevent your agent from building images.
 
 ```yaml
 builder:
@@ -198,19 +245,159 @@ builder:
 ```
 
 </TabItem>
+</Tabs>
+
+## Cloud permissions
+
+The agent requires access to the cloud environment that it is configured to use. The agent will use the credentials configured in the `environment` key to access the cloud environment. The agent will use these credentials to access the cloud environment to push and pull container images, access cloud storage, and trigger on demand compute through cloud services like SageMaker and Vertex AI.
+
+<Tabs
+defaultValue="aws"
+values={[
+{label: 'AWS', value: 'aws'},
+{label: 'GCP', value: 'gcp'},
+{label: 'Azure', value: 'azure'}
+]}>
+
+<TabItem value="aws">
+
+The agent requires credentials to access ECR to push and pull container images if you are using a builder, and acess to an S3 bucket if you want to use the kaniko builder. The following policy can be used to grant the agent access to ECR and S3. The policy should be attached to the IAM role that the agent is running as and the `<PLACEHOLDER>` values should be replaced with the appropriate values for your environment.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:PutLifecyclePolicy",
+        "ecr:PutImageTagMutability",
+        "ecr:StartImageScan",
+        "ecr:CreateRepository",
+        "ecr:PutImageScanningConfiguration",
+        "ecr:UploadLayerPart",
+        "ecr:BatchDeleteImage",
+        "ecr:DeleteLifecyclePolicy",
+        "ecr:DeleteRepository",
+        "ecr:PutImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:StartLifecyclePolicyPreview",
+        "ecr:InitiateLayerUpload",
+        "ecr:DeleteRepositoryPolicy"
+      ],
+      "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:BatchCheckLayerAvailability",
+      "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
+    },
+    {
+      "Sid": "ListObjectsInBucket",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::<BUCKET-NAME>"]
+    },
+    {
+      "Sid": "AllObjectActions",
+      "Effect": "Allow",
+      "Action": "s3:*Object",
+      "Resource": ["arn:aws:s3:::<BUCKET-NAME>/*"]
+    }
+  ]
+}
+```
+
+In order to use SageMaker queues, you will also need to create a separate execution role that is assumed by your jobs running in SageMaker. The agent should be granted the following permissions to be allowed to create training jobs:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sagemaker:CreateTrainingJob",
+      "Resource": "arn:aws:sagemaker:<REGION>:<ACCOUNT-ID>/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": "<ARN-OF-ROLE-TO-PASS>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "kms:CreateGrant",
+      "Resource": "<ARN-OF-KMS-KEY>",
+      "Condition": {
+        "StringEquals": {
+          "kms:ViaService": "sagemaker.<REGION>.amazonaws.com",
+          "kms:GrantIsForAWSResource": "true"
+        }
+      }
+    }
+  ]
+}
+```
+
+:::note
+The `kms:CreateGrant` permission for SageMaker queues is required only if the associated ResourceConfig has a specified VolumeKmsKeyId and the associated role does not have a policy that permits this action.
+:::
+
+</TabItem>
+
+<TabItem value="gcp">
+
+The gcp credentials in the agents environment must include the following permissions in order to access various services:
+
+```yaml
+# Permissions for accessing cloud storage. Required for kaniko build.
+storage.buckets.get
+storage.objects.create
+storage.objects.delete
+storage.objects.get
+
+# Permissions for accessing artifact registry. Required for any container build.
+artifactregistry.dockerimages.list
+artifactregistry.repositories.downloadArtifacts
+artifactregistry.repositories.list
+artifactregistry.repositories.uploadArtifacts
+
+# Permissions for listing accessible compute regions. Required always.
+compute.regions.get
+
+# Permissions for managing Vertex AI jobs. Required for Vertex queues.
+ml.jobs.create
+ml.jobs.list
+ml.jobs.get
+```
+
+</TabItem>
+
+<TabItem value="azure">
+
+The agent requires the following roles be assigned to its service principal in order to access various services:
+
+- **Storage Blob Data Contributor**: Required for kaniko build ([docs](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor))
+- **AcrPush**: Required for kaniko build ([docs](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-roles#acrpush))
+
+These permissions should be scoped to any storage containers and containers registries that you plan to access with the agent.
+
+</TabItem>
 
 </Tabs>
 
-## エージェントを表示
+## View agents
 
-特定の起動キューのページに移動し、**Agents**タブに移動して、キューに割り当てられたアクティブおよび非アクティブなエージェントを表示します。このタブ内では、以下を表示できます:
+Navigate to the page for a particular launch queue, and the navigate to the **Agents** tab to view active and inactive agents assigned to the queue. Within this tab you can view the:
 
-- **Agent ID**： ユニークなエージェント識別子
-
-- **Status:** エージェントの状態。エージェントは**Killed**または**Polling**の状態を持つことができます。
-
-- **Start date:** エージェントがアクティブになった日付。
-
-- **Host:** エージェントがポーリングしているマシン。
+- **Agent ID**: Unique agent identification
+- **Status:** The status of the agent.
+- **Start date:** The date the agent was activated.
+- **Host:** The machine the agent is polling on.
 
 ![](/images/launch/queues_all_agents.png)

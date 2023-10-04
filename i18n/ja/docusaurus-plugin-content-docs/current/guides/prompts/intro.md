@@ -10,7 +10,7 @@ W&Bプロンプトを使って、LLMの実行フローを可視化・検査し�
 
 ![](/images/prompts/trace_timeline.png)
 
-W&B Promptsは、[W&B実験](../track/intro.md) および [W&Bテーブル](../data-vis/intro.md) と補完し合い、LLM開発者が確信を持って開発・実験する際のすべての道具が揃うようになります。
+W&B Promptsは、[W&B実験](../track/intro.md) および [W&Bテーブル](../tables/intro.md) と補完し合い、LLM開発者が確信を持って開発・実験する際のすべての道具が揃うようになります。
 
 <!-- ## プロンプト製品スイート
 

@@ -6,26 +6,26 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Sweeps on Launch
-Create a hyperparameter tuning job ([sweeps](../sweeps/intro.md)) with W&B Launch. With sweeps on launch, a sweep scheduler is pushed to a Launch Queue with the specified hyperparameters to sweep over. The sweep schedular starts as it is picked up by the agent, launching sweep runs onto the same queue with chosen hyperparameters. This continues until the sweep finishes or is stopped. 
+Create a hyperparameter tuning job ([sweeps](../sweeps/intro.md)) with W&B Launch. With sweeps on launch, a sweep scheduler is pushed to a Launch Queue with the specified hyperparameters to sweep over. The sweep scheduler starts as it is picked up by the agent, launching sweep runs onto the same queue with chosen hyperparameters. This continues until the sweep finishes or is stopped. 
 
 You can use the default W&B Sweep scheduling engine or implement your own custom scheduler:
 
-1. Standard sweep schedular: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps](../sweeps/intro.md). The familiar `bayes`, `grid`, and `random` methods are available.
-2. Custom sweep schedular: Configure the sweep scheduler to run as a job. This option enables full customization. An example of how to extend the standard sweep scheduler to include more logging can be found below in the "advanced" section.
-
+1. Standard sweep scheduler: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps](../sweeps/intro.md). The familiar `bayes`, `grid`, and `random` methods are available.
+2. Custom sweep scheduler: Configure the sweep scheduler to run as a job. This option enables full customization. An example of how to extend the standard sweep scheduler to include more logging can be found in the section below.
+ 
 :::note
 This guide assumes that W&B Launch has been previously configured. If W&B Launch has is not configured, see the [how to get started](./intro.md#how-to-get-started) section of the launch documentation. 
 :::
 
 :::tip
-We recommend you create a sweep on launch using the 'basic' method if you are a first time users of sweeps on launch. Use a custom sweeps on launch when the standard W&B scheduling engine does not meet your needs.
+We recommend you create a sweep on launch using the 'basic' method if you are a first time users of sweeps on launch. Use a custom sweeps on launch scheduler when the standard W&B scheduling engine does not meet your needs.
 :::
 
-## Create a sweep with a W&B standard schedular
+## Create a sweep with a W&B standard scheduler
 Create W&B Sweeps with Launch. You can create a sweep interactively with the W&B App or programmatically with the W&B CLI. For advanced configurations of Launch sweeps, including the ability to customize the scheduler, use the CLI. 
 
 :::info
-Before you create a sweep with W&B Launch, ensure that you create a job first. Inspect that the run you want to create a job from has a code artifact. See the [Create a Job](./create-job.md) page for more information. 
+Before you create a sweep with W&B Launch, ensure that you first create a job to sweep over. See the [Create a Job](./create-launch-job.md) page for more information. 
 :::
 
 
@@ -38,13 +38,16 @@ Before you create a sweep with W&B Launch, ensure that you create a job first. I
   <TabItem value="app">
 Create a sweep interactively with the W&B App.
 
-1. Navigate to you W&B project on the W&B App.  
+1. Navigate to your W&B project on the W&B App.  
 2. Select the sweeps icon on the left panel (broom image). 
 3. Next, select the **Create Sweep** button.
-4. Toggle the **Use Launch 🚀** slider.
-5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from. 
-6. Select the queue to add the job to from the **Queue** dropdown menu.
-7. Select **Initialize Sweep**.
+4. Click the **Configure Launch 🚀** button.
+5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from.
+6. Select a queue to run the sweep on using the **Queue** dropdown menu.
+7. (Optional) Configure override args for the run or sweep scheduler. For example, using the scheduler overrides, configure the number of concurrent runs the scheduler manages using `num_workers`.
+8. (Optional) Select a project to save the sweep to using the **Destination Project** dropdown menu.
+9. Click **Save**
+10. Select **Launch Sweep**.
 
 ![](/images/launch/create_sweep_with_launch.png)
 
@@ -54,11 +57,11 @@ Create a sweep interactively with the W&B App.
 Programmatically create a W&B Sweep with Launch with the W&B CLI.
 
 1. Create a Sweep configuration
-2. Specify the full job name within you sweep configuration
+2. Specify the full job name within your sweep configuration
 3. Initialize a sweep agent.
 
 :::info
-Steps 1 and 3 are the same steps you normally take when you create a W&B Sweep. With the exception that you need to specify the name of the job within your sweep YAML configuration file. 
+Steps 1 and 3 are the same steps you normally take when you create a W&B Sweep.
 :::
 
 For example, in the following code snippet, we specify `'wandb/jobs/Hello World 2:latest'` for the job value:
@@ -114,8 +117,8 @@ For more information on W&B Sweeps, see the [Tune Hyperparameters](../sweeps/int
 </Tabs>
 
 
-## Create a custom sweep schedular
-Create a custom sweep schedular either with the W&B schedular or a custom schedular.
+## Create a custom sweep scheduler
+Create a custom sweep scheduler either with the W&B scheduler or a custom scheduler.
 
 :::info
 Using scheduler jobs requires wandb cli version >= `0.15.4`
@@ -132,8 +135,8 @@ Using scheduler jobs requires wandb cli version >= `0.15.4`
 
   Create a launch sweep using the W&B sweep scheduling logic as a job.
   
-  1. Identify the 'Wandb Sweep Scheduler' job in the public wandb/jobs project, or use the job name:
-  `'wandb/jobs/Wandb Sweep Scheduler:latest'`
+  1. Identify the Wandb scheduler job in the public wandb/sweep-jobs project, or use the job name:
+  `'wandb/sweep-jobs/job-wandb-sweep-scheduler:latest'`
   2. Construct a configuration yaml with an additional `scheduler` block that includes a `job` key pointing to this name, example below.
   3. Use the `wandb launch-sweep` command with the new config.
 
@@ -176,17 +179,20 @@ scheduler:
   </TabItem>
   <TabItem value="optuna-scheduler">
 
-  Create a launch sweep using Optuna's scheduling logic with a Job. You can either create your own job or use a pre-built Optuna shedular image job. To use the pre-built image, navigate to `Optuna Scheduler Image Job` in the `wandb/jobs` project, or just use the job name: `wandb/sweep-jobs/job-optuna-sweep-scheduler:latest`. See the [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/jobs/sweep_schedulers/optuna_scheduler) repo for examples on how to create your own job.
+  Optuna is a hyperparameter optimization framework that uses a variety of algorithms to find the best hyperparameters for a given model (similar to W&B). In addition to the [sampling algorithms](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna also provides a variety of [pruning algorithms](https://optuna.readthedocs.io/en/stable/reference/pruners.html) that can be used to terminate poorly performing runs early. This is especially useful when running a large number of runs, as it can save time and resources. The classes are highly configurable, just pass in the expected parameters in the `scheduler.settings.pruner/sampler.args` block of the config file.
 
- After you create a job, you can now create a sweep... Construct a sweep config that includes a `scheduler` block with a `job` key pointing to the Optuna scheduler job (example below).
 
-  Lastly, launch the sweep to a an active queue with the launch-sweep command:
-  
-  ```bash
-  wandb launch-sweep <config.yaml> -q <queue> -p <project> -e <entity>
-  ```
 
-  ```yaml
+Create a launch sweep using Optuna's scheduling logic with a job.
+
+1. First, create your own job or use a pre-built Optuna scheduler image job. 
+    * See the [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers) repo for examples on how to create your own job.
+    * To use a pre-built Optuna image, you can either navigate to `job-optuna-sweep-scheduler` in the `wandb/sweep-jobs` project or use can use the job name: `wandb/sweep-jobs/job-optuna-sweep-scheduler:latest`. 
+    
+
+2. After you create a job, you can now create a sweep. Construct a sweep config that includes a `scheduler` block with a `job` key pointing to the Optuna scheduler job (example below).
+
+```yaml
   # optuna_config_basic.yaml
   description: A basic Optuna scheduler
   job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
@@ -214,13 +220,15 @@ scheduler:
       max: 0.1
   ```
 
-  ### Why use Optuna? 
+
+  3. Lastly, launch the sweep to an active queue with the launch-sweep command:
   
-  Optuna is a hyperparameter optimization framework that uses a variety of algorithms to find the best hyperparameters for a given model (similar to W&B). In addition to the [sampling algorithms](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna also provides a variety of [pruning algorithms](https://optuna.readthedocs.io/en/stable/reference/pruners.html) that can be used to terminate poorly performing runs early. This is especially useful when running a large number of runs, as it can save time and resources. The classes are highly configurable, just pass in the expected parameters in the `scheduler.settings.pruner/sampler.args` block of the config file.
+  ```bash
+  wandb launch-sweep <config.yaml> -q <queue> -p <project> -e <entity>
+  ```
 
-  For the exact implementation of the Optuna sweep scheduler job, see [wandb/launch-jobs](https://github.com/wandb/launch-jobs/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py).
 
-  For more examples of what is possible with the Optuna scheduler, check out [wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler).
+  For the exact implementation of the Optuna sweep scheduler job, see [wandb/launch-jobs](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py). For more examples of what is possible with the Optuna scheduler, check out [wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler).
 
 
   </TabItem>

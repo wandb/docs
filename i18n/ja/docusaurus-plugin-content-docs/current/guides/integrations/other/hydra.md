@@ -17,6 +17,7 @@ Hydraを設定管理のために使用しながら、W&Bの力を利用するこ
 ```python
 import wandb
 
+
 @hydra.main(config_path="configs/", config_name="defaults")
 def run_experiment(cfg):
     run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)
