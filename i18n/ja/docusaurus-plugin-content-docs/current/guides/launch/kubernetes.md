@@ -1,43 +1,43 @@
 ---
-description: Visualize the gradients of your parameters
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
-# Kubernetesで起動
 
-このガイドでは、W&B Launchを使用して、kubernetes（k8s）クラスター上でMLワークロードを実行する方法を示します。
+# Launch on Kubernetes
 
-<!-- TODO: どのメールアドレスをここで使用しますか？ -->
-:::info
+This guide demonstrates how to use W&B Launch to run ML workloads on a kubernetes (k8s) cluster.
 
-Kubernetesでの起動はエンタープライズ機能です。アクセスを取得するには、[このページ](https://wandb.ai/site/pricing)で弊社の営業チームにお問い合わせください。
-:::
+## Building images in Kubernetes
 
-## Kubernetesでのイメージのビルド
-
-Launchエージェントは、[Kaniko](https://github.com/GoogleContainerTools/kaniko)を使用してk8s内でコンテナイメージをビルドします。Kanikoは、Dockerfileを使用してコンテナまたはk8sクラスター内でコンテナイメージをビルドするツールです。KanikoはDockerデーモンに依存せず、Dockerfile内の各コマンドを完全にユーザースペースで実行します。これにより、標準的なk8sクラスターなど、Dockerデーモンを簡単にまたは安全に実行できない環境でコンテナイメージをビルドできます。
+The launch agent uses [Kaniko](https://github.com/GoogleContainerTools/kaniko) to build container images inside of k8s. Kaniko is a tool to build container images from a Dockerfile, inside a container or k8s cluster. Kaniko doesn’t depend on a Docker daemon and executes each command within a Dockerfile completely in userspace. This enables building container images in environments that can’t easily or securely run a Docker daemon, such as a standard k8s cluster.
 
 :::tip
-新しいイメージをビルドする機能なしでlaunchエージェントを使用したい場合は、launchエージェントを設定するときに`noop`ビルダータイプを使用できます。詳細は[こちら](../launch/run-agent.md#builders)。
+
+* If you want to use the Launch agent without the ability to build new images, you can use the `noop` builder type when you configure your launch agent. More info [here](../launch/run-agent.md#builders).
+
+* You can use Launch with any Kubernetes system if you use an image based job and you do not require a build for your launch job.
 :::
 
-## キューの作成
+## Create a queue
 
-k8sでジョブを起動する前に、W&Bアプリでk8sキューを作成する必要があります。k8sキューを作成するには次の手順を実行します。
+Before you can launch a job on k8s, you need to create a k8s queue in the W&B App. To create a k8s queue:
 
-1. [Launchアプリケーション](https://wandb.ai/launch)に移動します。
-2. **キュー**タブをクリックします。
-3. **キューの作成**ボタンをクリックします。
-4. キューを作成する**エンティティ**を選択します。
-5. キューの名前を入力します。
-6. キューの設定を入力します。
-7. **キューの作成**ボタンをクリックします。
+1. Navigate to the [Launch application](https://wandb.ai/launch).
+2. Click on the **Queues** tab.
+3. Click on the **Create Queue** button.
+4. Select the **entity** you would like to create the queue in.
+5. Enter a name for your queue.
+6. Enter a configuration for your queue.
+7. Click on the **Create Queue** button.
 
-おめでとうございます！k8sキューが作成されました。
-### キュー設定
+Congratulations! You have created a k8s queue.
 
-起動エージェントは、Kubernetesキューから取り出された各runに対して、[Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/)を作成します。Kubernetesキュー用のJSON設定は、エージェントがクラスターに送信するJob specを変更するために使用されます。設定は、[Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec)と同じスキーマに従いますが、YAMLではなくJSONでフォーマットされ、`builder`などの追加の、ユニバーサルなキュー設定フィールドもサポートされています。
+### Queue configuration
 
-ジョブ仕様の制御により、キューレベルでリソース要求、ボリュームマウント、リトライ戦略などを指定できます。たとえば、キューから起動されたすべてのrunに対してカスタム環境変数、リソース要求、およびラベルを設定するには、次の設定のバリエーションを使用できます。
+The launch agent will create a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for each run that is popped from a Kubernetes queue. The configuration for a Kubernetes queue is used to modify the Job spec that the agent submits to your cluster. The configuration follows the same schema as a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/#writing-a-job-spec), except that it supports additional, universal queue configuration fields, such as `builder`. You can configure your config in either JSON or YAML format.
+
+
+
+Control over the job spec allows you to specify resource requests, volume mounts, retry strategies, and more for your runs at the queue level. For example, to set a custom environment variable, resource requests, and labels for all runs launched from a queue, you can use a variation of the following configuration:
 
 ```json
 {
@@ -72,7 +72,7 @@ k8sでジョブを起動する前に、W&Bアプリでk8sキューを作成す�
 }
 ```
 
-エージェントは、ジョブ仕様の最上位で自動的に以下の値を設定します。
+The agent will automatically apply set the following values in the top level of the job spec:
 
 ```yaml
 spec:
@@ -81,7 +81,7 @@ spec:
   template:
     spec:
       restartPolicy: Never
-      containers:  # これらのセキュリティデフォルトは、pod spec内のすべてのコンテナに適用されます。
+      containers:  # These security defaults are applied to all containers in the pod spec.
       - securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -91,20 +91,102 @@ spec:
             type: RuntimeDefault
 ```
 
-## エージェントのデプロイ
+### Custom controllers
 
-k8s上でrunを開始する前に、クラスターにエージェントをデプロイする必要があります。
+If you specify an API version other than `batch/v1` or `batch/v1beta1`, the agent will launch an object of the specified API version instead of a standard Kubernetes Job. This may be useful if you have a custom controller that you would like to use to run your jobs, or if you want to make use of [volcano](https://volcano.sh) or [kubeflow pipelines](https://kubeflow.org). If you provide a custom API version, you will also need to specify a few values in the spec using macros that will be evaluated when the agent is launching your job. The following macros are available:
 
-### クラスター設定
+| Macro             | Description                                           |
+|-------------------|-------------------------------------------------------|
+| `${project_name}` | The name of the project the run is being launched to. |
+| `${entity_name}`  | The owner of the project the run being launched to.   |
+| `${run_id}`       | The id of the run being launched.                     |
+| `${run_name}`     | The name of the run that is launching.                |
+| `${image_uri}`    | The URI of the container image for this run.          |
 
-クラスター内でランチエージェントを実行するためには、クラスター内に他のリソースも作成する必要があります。ここではデモンストレーションの目的のため、それらは別々に配置されていますが、1つのファイルにまとめて一度に適用することもできます。
+For example, to launch a multinode pytorch jobs on with volcano, you could use the following configuration:
+
+```json
+{
+  "kind": "Job",
+  "spec": {
+    "tasks": [
+      {
+        "name": "master",
+        "policies": [
+          {
+            "event": "TaskCompleted",
+            "action": "CompleteJob"
+          }
+        ],
+        "replicas": 1,
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "master",
+                "image": "${image_uri}",
+                "imagePullPolicy": "IfNotPresent"
+              }
+            ],
+            "restartPolicy": "OnFailure"
+          }
+        }
+      },
+      {
+        "name": "worker",
+        "replicas": 3,
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "worker",
+                "image": "${image_uri}",
+                "workingDir": "/home",
+                "imagePullPolicy": "IfNotPresent"
+              }
+            ],
+            "restartPolicy": "OnFailure"
+          }
+        }
+      }
+    ],
+    "plugins": {
+      "pytorch": [
+        "--master=master",
+        "--worker=worker",
+        "--port=23456"
+      ]
+    },
+    "minAvailable": 1,
+    "schedulerName": "volcano"
+  },
+  "metadata": {
+    "name": "wandb-job-${run_id}",
+    "labels": {
+      "wandb_entity": "${entity_name}",
+      "wandb_project": "${project_name}"
+    }
+  },
+  "apiVersion": "batch.volcano.sh/v1alpha1"
+}
+```
+
+
+## Deploying an agent
+
+Before you can launch a run on k8s, you need to deploy an agent to your cluster.
 
 :::tip
-EKSやGKEなど、特定のKubernetesサービス用に準備されたリソースが含まれたk8sマニフェストを、[こちら](https://github.com/wandb/wandb/tree/main/wandb/sdk/launch/deploys)のsdkリポジトリで見つけることができます。
+It is **strongly recommended** that you install the launch agent through the [official helm repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent). Consult the [`README.md` in the chart directory](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent/README.md) for detailed instructions on how to configure and deploy your agent.
 :::
-#### ネームスペース
 
-以下のKubernetesマニフェストは、`pod-security.kubernetes.io/enforce` および `pod-security.kubernetes.io/warn` ラベルを `baseline` および `latest` に設定した `wandb` という名前の名前空間を作成します。これにより、この名前空間で作成されるすべてのポッドはベースラインのポッドセキュリティポリシーが適用されます。
+### Manual cluster configuration
+
+In order to run a launch agent in your cluster without the use of Helm, you will need to create a few other resources in your cluster. Here, these are all laid out separately but the purpose of demonstration, but you can aggregate them into a single file and apply them all at once.
+
+#### Namespace
+
+The following kubernetes manifest will create a namespace called `wandb` with the `pod-security.kubernetes.io/enforce` and `pod-security.kubernetes.io/warn` labels set to `baseline` and `latest`. This will ensure that all pods created in this namespace will be subject to the baseline pod security policy.
 
 ```yaml
 apiVersion: v1
@@ -118,11 +200,11 @@ metadata:
     pod-security.kubernetes.io/warn-version: latest
 ```
 
-#### サービスアカウントとロール
+#### Service account and roles
 
-以下の Kubernetes マニフェストは、`wandb` ネームスペースに `wandb-launch-agent` という名前のロールを作成します。このロールを使って、エージェントは `wandb` ネームスペースでポッド、コンフィグマップ、シークレット、およびポッド/ログを作成できます。`wandb-cluster-role` は、エージェントが任意の名前空間でポッド、ポッド/ログ、シークレット、ジョブ、およびジョブ/ステータスを作成できるようにします。`ClusterRoleBinding`でTODOを記入して、実行する名前空間を指定してください。
+The following kubernetes manifest will create a role named `wandb-launch-agent` in the `wandb` namespace. This role will allow the agent to create pods, configmaps, secrets, and pods/log in the `wandb` namespace. The `wandb-cluster-role` will allow the agent to create pods, pods/log, secrets, jobs, and jobs/status in any namespace of your choice. Make you sure fill in the TODO in the `ClusterRoleBinding` to specify the namespace you want to launch your runs into.
 
-このロールは、`wandb-launch-agent` サービスアカウントにバインドされます。
+This role will be bound to the `wandb-launch-agent` service account.
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -147,6 +229,9 @@ rules:
     resources: ["pods", "pods/log", "secrets"]
     verbs: ["create", "get", "watch", "list", "update", "delete", "patch"]
   - apiGroups: ["batch"]
+    resources: ["jobs", "jobs/status"]
+    verbs: ["create", "get", "watch", "list", "update", "delete", "patch"]
+  - apiGroups: ["batch.volcano.sh"]  # Add permission to create and maintain objects from any custom API you wish to use.
     resources: ["jobs", "jobs/status"]
     verbs: ["create", "get", "watch", "list", "update", "delete", "patch"]
 ---
@@ -174,7 +259,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: wandb-launch-cluster-role-binding
-  namespace: default #TODO: あなたのトレーニングNAMESPACEを設定してください
+  namespace: default #TODO: SET YOUR TRAINING NAMESPACE
 subjects:
   - kind: ServiceAccount
     name: wandb-launch-serviceaccount
@@ -186,19 +271,20 @@ roleRef:
 ---
 ```
 
-#### W&B APIキー
+#### W&B API key
 
-`wandb`の名前空間に、W&B APIキーを含むシークレットを作成する必要があります。このシークレットは、エージェントがW&B APIとの認証を行い、キューからジョブを取得し、起動されたrunsからメトリクスを報告するために使用されます。
+You will need to create a secret in the `wandb` namespace that contains your W&B API key. This secret will be used by the agent to authenticate with the W&B API so it can pop jobs from your queue and report metrics from launched runs.
 
 ```sh
 kubectl -n wandb create secret  \
     generic wandb-api-key       \
-    --from-literal=password=<あなたのwandb-api-キー>
+    --from-literal=password=<your-wandb-api-key>
 ```
 
-#### エージェントの設定
+#### Agent configuration
 
-最後に、`wandb`の名前空間に、エージェントの設定を含むconfigmapを作成する必要があります。このconfigmapは、エージェント自体の設定に使用されます。この設定は、使用するクラウドプロバイダと利用可能なリソースに大きく依存します。詳細については、[エージェントドキュメント](../launch/run-agent.md#agent-configuration)で確認できます。
+Lastly, you will need to create a configmap in the `wandb` namespace that contains the configuration for your agent. This configmap will be used by the agent to configure the agent itself. This configuration will depend heavily on your cloud provider and the resources you have available to you. You can find more information in our [agent documentation](../launch/run-agent.md#agent-configuration).
+
 ```yaml
 apiVersion: v1
 kind: ConfigMap
@@ -206,28 +292,29 @@ metadata:
   name: wandb-launch-configmap
   namespace: wandb
 data:
-  wandb-base-url: https://api.wandb.ai # TODO: wandb base urlを設定してください
+  wandb-base-url: https://api.wandb.ai # TODO: set your base_url here
   launch-config.yaml: |
-    max_jobs: -1 # TODO: ここで最大同時ジョブ数を設定してください
+    max_jobs: -1 # TODO: set max concurrent jobs here
     queues:
-    - default # TODO: ここでキュー名を設定してください
+    - default # TODO: set queue name here
     environment:
       type: gcp
-      region: us-central1 # TODO: ここでgcpリージョンを設定してください
+      region: us-central1 # TODO: set gcp region here
     registry:
       type: gcr
-      repository: # TODO: ここでアーティファクトリポジトリ名を設定してください
-      image-name: launch-images # TODO: ここでイメージ名を設定してください
+      repository: # TODO: set name of artifact repository name here
+      image-name: launch-images # TODO: set name of image here
     builder:
       type: kaniko
-      build-context-store: gs://my-bucket/... # TODO: ここでビルドコンテキストストアを設定してください
+      build-context-store: gs://my-bucket/... # TODO: set your build context store here
 ```
 
-### エージェントのデプロイ
+### Deploying the agent
 
-エージェントを実行するために必要なすべてのリソースを作成したので、エージェントをクラスターにデプロイできるようになりました。以下のマニフェストは、クラスター内の1つのコンテナでエージェントを実行するk8sデプロイメントを定義します。エージェントは`wandb`名前空間で実行され、`wandb-launch-agent`サービスアカウントを使用します。APIキーはコンテナ内の`WANDB_API_KEY`環境変数としてマウントされます。configmapはコンテナ内の`/home/launch-agent/launch-config.yaml`にボリュームとしてマウントされます。
+Now that you have created all the resources needed to run the agent, you can deploy the agent to your cluster. The following manifest defines a k8s deployment that will run the agent in your cluster in one container. The agent will run in the `wandb` namespace, use the `wandb-launch-agent` service account. Our API key will be mounted as the `WANDB_API_KEY` environment variable in the container. Our configmap will be mounted as a volume in the container at `/home/launch-agent/launch-config.yaml`.
 
-最新のエージェントイメージを弊社のパブリックdockerレジストリからプルすることをお勧めします。最新のイメージタグは[こちら](https://hub.docker.com/r/wandb/launch-agent-dev/tags?page=1&ordering=last_updated)で見つけることができます。
+We recommend you pull the latest agent image from our public docker registry. You can find the latest image tag [here](https://hub.docker.com/r/wandb/launch-agent-dev/tags?page=1&ordering=last_updated).
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -280,8 +367,27 @@ spec:
           configMap:
             name: wandb-launch-configmap
 ```
-デプロイメントを作成した後、以下のコマンドを実行してエージェントのステータスを確認できます。
+
+After you have created the deployment, you can check the status of the agent by running the following command:
 
 ```sh
 kubectl -n wandb describe deployment launch-agent
 ```
+
+### Automatic run re-queuing on preemption
+
+In some cases, it can be useful to set up jobs to be resumed after they are interrupted.  For example, you might run broad hyperparameter sweeps on spot instances, and want them to pick up again when more spot instances spin up.  Launch can support this configuration on Kubernetes clusters.
+
+If your Kubernetes queue is running a job on a node that’s pre-empted by a scheduler, the job will be automatically added back to the end of the queue so it can resume later. This resumed run will have the same name as the original, and can be followed from the same page in the UI as the original. A job can be automatically re-queued this way up to five times. 
+
+Launch detects whether a pod is preempted by a scheduler by checking if the pod has the condition `DisruptionTarget` with one of the following reasons:
+
+- `EvictionByEvictionAPI`
+- `PreemptionByScheduler`
+- `TerminationByKubelet`
+    
+If your job’s code is structured to allow resuming, it will enable these re-queued runs to pick up where they left off. Otherwise, runs will start from the beginning when they are re-queued. See our guide for [resuming runs](https://docs.wandb.ai/guides/runs/resuming) for more info.   
+
+There is currently no way to opt out of automatic run re-queuing for preempted nodes. However, if you delete a run from the UI or delete the node directly, it will not be re-queued.
+
+

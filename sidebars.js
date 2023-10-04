@@ -92,17 +92,39 @@ const sidebars = {
           },
           items: [
             'guides/launch/walkthrough',
-            'guides/launch/create-job',
-            'guides/launch/create-queue',
-            'guides/launch/run-agent',
-            'guides/launch/launch-jobs',
-            'guides/launch/docker',
-            'guides/launch/kubernetes',
-            'guides/launch/vertex',
-            'guides/launch/sagemaker',
+            'guides/launch/launch-terminology',
+            {
+              type: 'category',
+              label: 'Set up Launch',
+              // link: {
+              //   type: 'doc',
+              //   id: 'guides/launch/setup-launch',
+              // },
+              items: [
+                'guides/launch/create-queue',
+                'guides/launch/run-agent',
+                'guides/launch/docker',
+                'guides/launch/kubernetes',
+                'guides/launch/sagemaker',                
+                // 'guides/launch/setup-launch-docker',
+                // 'guides/launch/setup-launch-sagemaker',
+                // 'guides/launch/setup-launch-kubernetes',
+                'guides/launch/vertex',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'Create and deploy jobs',
+              items: [
+                'guides/launch/create-launch-job',
+                'guides/launch/add-job-to-queue',
+                'guides/launch/launch-view-jobs',
+              ],
+            },
+
             'guides/launch/sweeps-on-launch',
             'guides/launch/launch-faqs',
-          ],
+          ]
         },
         {
           type: 'category',
@@ -125,7 +147,7 @@ const sidebars = {
             'guides/sweeps/useful-resources',
             'guides/sweeps/existing-project',
           ],
-        },                                
+        },             
       ],
     },
     {
@@ -573,15 +595,40 @@ const sidebars = {
       },
       items: [
         'guides/launch/walkthrough',
-        'guides/launch/create-job',
-        'guides/launch/create-queue',
-        'guides/launch/run-agent',
-        'guides/launch/launch-jobs',
-        'guides/launch/docker',
-        'guides/launch/kubernetes',
+        'guides/launch/launch-terminology',
+        {
+          type: 'category',
+          label: 'Set up Launch',
+          // link: {
+          //   type: 'doc',
+          //   id: 'guides/launch/setup-launch',
+          // },
+          items: [
+            'guides/launch/create-queue',
+            'guides/launch/run-agent',
+            'guides/launch/docker',
+            'guides/launch/kubernetes',
+            'guides/launch/sagemaker',                
+            // 'guides/launch/setup-launch-docker',
+            // 'guides/launch/setup-launch-sagemaker',
+            // 'guides/launch/setup-launch-kubernetes',
+            'guides/launch/vertex',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Create and deploy jobs',
+          items: [
+            'guides/launch/create-launch-job',
+            'guides/launch/add-job-to-queue',
+            'guides/launch/launch-view-jobs',
+          ],
+        },
+
         'guides/launch/sweeps-on-launch',
-      ],
-    },
+        'guides/launch/launch-faqs',
+      ]
+    },    
     {
       type: 'category',
       label: 'プロンプト',
