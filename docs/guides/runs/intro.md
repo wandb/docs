@@ -42,10 +42,7 @@ For example, the following code snippet initializes a run that is stored in a pr
 ```python
 import wandb
 
-run = wandb.init(
-  entity="wandbee", 
-  project="model_registry_example"
-  )
+run = wandb.init(entity="wandbee", project="model_registry_example")
 ```
 
 
@@ -76,11 +73,8 @@ You can optionally provide a unique run ID identifier with the `id` parameter an
 import wandb
 
 run = wandb.init(
-  entity="entity", 
-  project="awesome-project", 
-  name="run-name", 
-  id="abcdefgh"
-  )
+    entity="entity", project="awesome-project", name="run-name", id="abcdefgh"
+)
 ```
 
 For a full list of parameters you can use, see the [`wandb.init`](../../ref/python/init.md) reference documentation. 
@@ -142,13 +136,23 @@ For more information about how to organize multiple Runs in a project, see the [
 For a live example of a Project's Workspace, [see this example project](https://app.wandb.ai/example-team/sweep-demo). 
 
 ## End a run
-W&B automatically calls [`wandb.finish`](../../ref/python/finish.md) to finalize and cleanup a run. However, if you call [`wandb.init`](../../ref/python/init.md) from a child process, you must explicitly call `wandb.finish` at the end of the child process. 
+W&B automatically ends runs and logs data from that run to your W&B project. You can end a run manually with the [`run.finish`](../../ref/python/run.md#finish) command. For example:
 
-:::note
-The wandb.finish API is automatically called when your script exits.
+```python
+import wandb
+
+run = wandb.init()
+run.finish()
+```
+
+:::info
+If you call [`wandb.init`](../../ref/python/init.md) from a child process, you must explicitly call [`wandb.finish`](../../ref/python/finish.md) at the end of the child process. 
 :::
 
-You can end a run manually with the [`wandb.finish`](../../ref/python/finish.md) API or end a Run using a `with` statement. The following code example demonstrates how to end a run from a `with` Python statement:
+<!-- 
+You can end a run manually with the [`wandb.finish`](../../ref/python/finish.md) API or end a run using a `with` statement. 
+
+The following code example demonstrates how to end a run from a `with` Python statement:
 
 ```python
 import wandb
@@ -162,7 +166,7 @@ with wandb.init() as run:
     pass  # log data here
 
 assert wandb.run is None
-```
+``` -->
 
 
 
