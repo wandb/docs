@@ -1,5 +1,5 @@
 ---
-slug: /guides/models
+slug: /guides/model_registry
 description: Model registry to manage the model lifecycle from training to production
 displayed_sidebar: default
 ---
@@ -13,8 +13,6 @@ With W&B Models, you can:
 * [Bookmark your best model versions for each machine learning task.](./model_tags.md)
 * Move model versions through its ML lifecycle; from staging to production.
 * Track and audit the history of changes to production models.
-
-
 
 
 ![](/images/models/models_landing_page.png)

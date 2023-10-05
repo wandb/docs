@@ -8,12 +8,6 @@ displayed_sidebar: default
 
 When `wandb.init()` is called from your training script an API call is made to create a run object on our servers. A new process is started to stream and collect metrics, thereby keeping all threads and logic out of your primary process. Your script runs normally and writes to local files, while the separate process streams them to our servers along with system metrics. You can always turn off streaming by running `wandb off` from your training directory, or setting the `WANDB_MODE` environment variable to `offline`.
 
-### Can I disable wandb when testing my code?
-
-By using `wandb.init(mode="disabled")` or by setting `WANDB_MODE=disabled` you will make wandb act like a NOOP which is perfect for testing your code.
-
-**Note**: Setting `wandb.init(mode=“disabled”)` does not prevent `wandb` from saving artifacts to `WANDB_CACHE_DIR`
-
 ### Does your tool track or store training data?
 
 You can pass a SHA or other unique identifier to `wandb.config.update(...)` to associate a dataset with a training run. W&B does not store any data unless `wandb.save` is called with the local file name.
@@ -109,3 +103,9 @@ Yes. To enable dark mode:
 1. Navigate to your account settings at [https://wandb.ai/settings](https://wandb.ai/settings).
 2. Scroll to the **Beta Features** section.
 3. Toggle the **Night mode** option.
+
+### Can I disable wandb when testing my code?
+
+By using `wandb.init(mode="disabled")` or by setting `WANDB_MODE=disabled` you will make wandb act like a NOOP which is perfect for testing your code.
+
+**Note**: Setting `wandb.init(mode=“disabled”)` does not prevent `wandb` from saving artifacts to `WANDB_CACHE_DIR`

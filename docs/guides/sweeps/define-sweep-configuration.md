@@ -434,6 +434,7 @@ Specify either `min_iter` or `max_iter` to create a bracket schedule.
 | `max_iter` | Specify the maximum number of iterations.                      |
 | `s`        | Specify the total number of brackets (required for `max_iter`) |
 | `eta`      | Specify the bracket multiplier schedule (default: `3`).        |
+| `strict`   | Enable 'strict' mode that prunes runs aggressively, more closely following the original Hyperband paper. Defaults to false. |
 
 :::info
 The hyperband early terminator checks what [W&B Runs](../../ref/python/run.md) to terminate once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.

@@ -82,7 +82,7 @@ W&Bで記録できるさまざまなデータタイプの詳細については�
 ```python
 wandb.log_artifact(model)
 ```
-Artifactsに関する詳細は、[Artifactsの章](../artifacts/intro.md) を参照してください。モデルのバージョン管理に関する詳細は、[モデル管理](../models/intro.md) を参照してください。
+Artifactsに関する詳細は、[Artifactsの章](../artifacts/intro.md) を参照してください。モデルのバージョン管理に関する詳細は、[モデル管理](../model_registry/intro.md) を参照してください。
 
 ### すべてをまとめる
 上記のコードスニペットを含む完全なスクリプトは以下にあります：

@@ -122,7 +122,7 @@ Follow these steps to add your launch job to your queue:
 
 
 ## Start your agent
-1. Go to the Launch page at [https://wandb.ai/launch](https://wandb.ai/launch). 
+1. Go to the Launch App at [https://wandb.ai/launch](https://wandb.ai/launch). 
 2. Select the entity from the **Entity** dropdown that contains your queue.
 3. Find your queue and click on **View queue**.
 4. Click on **Add an agent**. 
