@@ -11,25 +11,15 @@ import TabItem from '@theme/TabItem';
   <title>Resume W&B Runs</title>
 </head>
 
-This page covers how to automatically resume runs that crashed or finished. If you do not specify that you want runs to automatically resume crashed or finished runs, W&B will (by default), create a new run. This new run will overwrite the data of the crashed run if you the new run has the same run ID.
-
-:::caution
-Unexpected results will occur if multiple processes use the same `run_id` concurrently. 
-:::
+This page covers how to automatically resume runs that crashed or finished. If you do not specify that you want to automatically resume crashed or finished runs, W&B will (by default), create a new run. This new run will overwrite the data of the crashed run if you the new run has the same run ID.
 
 :::info
-* If you resume a run and specify `notes` in `wandb.init()`, those notes will overwrite any notes that you make in the W&B App UI.
+If you resume a run and specify `notes` in `wandb.init()`, those notes will overwrite any notes that you make in the W&B App UI.
 :::
 
 
 ## Enable runs to automatically resume 
-Automatic resuming only works if the process is restarted on top of the same filesystem as the failed process. 
-
-<!-- This only works if you run your script in the same directory as the one that failed as the file is stored at: `wandb/wandb-resume.json`. -->
-
-
-If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See the [Create a run](./intro.md#create-a-run) section in the "What are runs?" page for more information on run IDs.
-
+The following code snippet shows how to enable runs to automatically resume with the Python SDK or with environment variables. 
 
 <Tabs
   defaultValue="python"
@@ -39,12 +29,16 @@ If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variab
   ]}>
   <TabItem value="python">
 
-The following code snippet shows how to specify a W&B run ID with the Python SDK. Your code will look similar to the following code snippet. Replace values enclosed within `<>` with your own:
+The following code snippet shows how to specify a W&B run ID with the Python SDK. 
+
+Replace values enclosed within `<>` with your own:
 
 ```python
 run = wandb.init(
-  entity="<entity>", project="<project>", 
-  id="<run ID>", resume="must"
+  entity="<entity>", 
+  project="<project>", 
+  id="<run ID>", 
+  resume="auto"
   )
 ```
 
@@ -56,7 +50,7 @@ The following example shows how to specify the W&B `WANDB_RUN_ID` variable in a 
 ```bash title="run_experiment.sh"
 RUN_ID="$1"
 
-WANDB_RESUME=allow WANDB_RUN_ID="$RUN_ID" python eval.py
+WANDB_RESUME=auto WANDB_RUN_ID="$RUN_ID" python eval.py
 ```
 Within your terminal, you could run the shell script along with the W&B run ID. The following code snippet passes the run ID `akj172`: 
 
@@ -67,12 +61,22 @@ sh run_experiment.sh akj172
   </TabItem>
 </Tabs>
 
+:::important
+Automatic resuming only works if the process is restarted on top of the same filesystem as the failed process. 
+:::
+
+For example, suppose you execute a python script called `train.py` in a directory called called `Users/AwesomeEmployee/Desktop/ImageClassify/training/`. Within `train.py`, the script creates a run that enables automatic resuming. Suppose next that the training script is stopped.  To resume this run, you would need to restart your `train.py` script within `Users/AwesomeEmployee/Desktop/ImageClassify/training/` .
+
+
+:::tip
+If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See the [Create a run](./intro.md#create-a-run) section in the "What are runs?" page for more information on run IDs.
+:::
 
 
 ## Resume a run without overriding the existing run
 Resume a run that stopped or crashed without overriding the existing run. This is especially helpful if  if your process doesn't exit successfully. The next time you start W&B, W&B will start logging from the last step.
 
-Set the `resume` parameter to True (`resume=True`) when you initialize a run with W&B (`wandb.init`). The following code snippet shows how to accomplish this with the W&B Python SDK:
+Set the `resume` parameter to `"auto"` (`resume="auto"`) when you initialize a run with W&B. The following code snippet shows how to accomplish this with the W&B Python SDK:
 
 ```python
 import wandb
@@ -80,7 +84,7 @@ import wandb
 run = wandb.init(
   entity="<entity>", 
   project="<project>", 
-  resume=True
+  resume="auto"
   )
 ```
 
@@ -101,12 +105,19 @@ Replace values enclosed within `<>` with your own:
 
 ```python
 run = wandb.init(
-  entity="<entity>", project="<project>", 
-  id="<run ID>", resume="must"
+  entity="<entity>", 
+  project="<project>", 
+  id="<run ID>", 
+  resume="must"
   )
 ```
 
+:::caution
+Unexpected results will occur if multiple processes use the same `run_id` concurrently. 
 
+
+For more information on  how to manage multiple processes, see the [Log distributed training experiments](../track/log/distributed-training.md) 
+:::
 
 
 ## Resume preemptible Sweeps runs
