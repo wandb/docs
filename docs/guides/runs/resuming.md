@@ -13,9 +13,9 @@ import TabItem from '@theme/TabItem';
 
 This page covers how to resume runs that stopped or crashed. 
 
-:::info
-If you resume a run and specify `notes` in `wandb.init()`, those notes will overwrite any notes that you make in the W&B App UI.
-:::
+<!-- :::info
+Notes added to a run on the W&B App UI are overwritten when you resume a run with notes programmatically with `wandb.init(notes="some-note")`.
+::: -->
 
 For most use cases, specify `resume` when you initialize a run with `wandb.init`. In addition, ensure you make note of:
 
