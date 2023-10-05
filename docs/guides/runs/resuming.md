@@ -11,11 +11,54 @@ import TabItem from '@theme/TabItem';
   <title>Resume W&B Runs</title>
 </head>
 
-This page covers how to automatically resume runs that crashed or finished. If you do not specify that you want to automatically resume crashed or finished runs, W&B will (by default), create a new run. This new run will overwrite the data of the crashed run if you the new run has the same run ID.
+This page covers how to resume runs that stopped or crashed. 
 
 :::info
 If you resume a run and specify `notes` in `wandb.init()`, those notes will overwrite any notes that you make in the W&B App UI.
 :::
+
+For most use cases, specify `resume` when you initialize a run with `wandb.init`. In addition, ensure you make note of:
+
+1. The unique run ID of the stopped or crashed run.
+2. (Optional-but encouraged): The name of the desired project you want to store the run to.
+
+We recommend that you use one of the the following resume options:
+
+- `"allow"`:  W&B checks if the run exists. If the run exists, W&B uses that run. Otherwise, W&B initializes a new run with the specified run ID. 
+- `"never"`: W&B checks if the run exists. If the run exists, the run will fail. Otherwise, W&B will start a new run with the specified run id.
+- `"must"`: W&B checks if the run exists. If the run exists, W&B uses that run. Otherwise, the run will fail.
+
+You can also specify `resume="auto"` to let W&B to automatically try to restart the run on your behalf. However, you will need to ensure that you restart your run from the same directory. See the [Enable runs to automatically resume](#enable-runs-to-automatically-resume) section for more information.
+
+
+## Resume a run using the same run ID
+Resume a run that uses the same run ID when it crashed or failed. Provide the run ID of the run that stopped or crashed.
+
+Set the `resume` parameter to `"must"` (`resume="must"`) when you initialize a run with W&B. Provide the run ID of the run that stopped or crashed. The following code snippet shows how to accomplish this with the W&B Python SDK:
+
+Replace values enclosed within `<>` with your own:
+
+```python
+run = wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="must")
+```
+
+:::caution
+Unexpected results will occur if multiple processes use the same `run_id` concurrently. 
+
+
+For more information on  how to manage multiple processes, see the [Log distributed training experiments](../track/log/distributed-training.md) 
+:::
+
+## Resume a run without overriding the existing run
+Resume a run that stopped or crashed without overriding the existing run. This is especially helpful if your process doesn't exit successfully. The next time you start W&B, W&B will start logging from the last step.
+
+Set the `resume` parameter to `"allow"` (`resume="allow"`) when you initialize a run with W&B. Provide the run ID of the run that stopped or crashed. The following code snippet shows how to accomplish this with the W&B Python SDK:
+
+```python
+import wandb
+
+run = wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="allow")
+```
 
 
 ## Enable runs to automatically resume 
@@ -34,12 +77,7 @@ The following code snippet shows how to specify a W&B run ID with the Python SDK
 Replace values enclosed within `<>` with your own:
 
 ```python
-run = wandb.init(
-  entity="<entity>", 
-  project="<project>", 
-  id="<run ID>", 
-  resume="auto"
-  )
+run = wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="auto")
 ```
 
   </TabItem>
@@ -73,51 +111,7 @@ If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variab
 :::
 
 
-## Resume a run without overriding the existing run
-Resume a run that stopped or crashed without overriding the existing run. This is especially helpful if  if your process doesn't exit successfully. The next time you start W&B, W&B will start logging from the last step.
 
-Set the `resume` parameter to `"auto"` (`resume="auto"`) when you initialize a run with W&B. The following code snippet shows how to accomplish this with the W&B Python SDK:
-
-```python
-import wandb
-
-run = wandb.init(
-  entity="<entity>", 
-  project="<project>", 
-  resume="auto"
-  )
-```
-
-## Resume a run using the same run ID
-Resume a run that uses the same run ID when it crashed or failed. To do so, ensure you satisfy the following requirements when you initialize a run with `wandb.init`:
-
-1. Define the run ID. Pass a unique identifier to the `id` parameter (`id`).
-2. Specify a project for the run (`project` parameter).
-3. Specify one of three options for the `resume` parameter; `allow`, `never`, or `must`. They are defined as follows:
-  - `"allow"`:  W&B checks if the run exists. If the run exists, W&B uses that run. Otherwise, W&B initializes a new run with the specified run ID. 
-  - `"never"`: W&B checks if the run exists. If the run exists, the run will fail. Otherwise, W&B will start a new run with the specified run id.
-  - `"must"`: W&B checks if the run exists. If the run exists, W&B uses that run. Otherwise, the run will fail.
-
-
-The following code snippet shows how to resume  a run that uses the same run ID with the W&B Python SDK. Your code will look similar to the following code snippet. 
-
-Replace values enclosed within `<>` with your own:
-
-```python
-run = wandb.init(
-  entity="<entity>", 
-  project="<project>", 
-  id="<run ID>", 
-  resume="must"
-  )
-```
-
-:::caution
-Unexpected results will occur if multiple processes use the same `run_id` concurrently. 
-
-
-For more information on  how to manage multiple processes, see the [Log distributed training experiments](../track/log/distributed-training.md) 
-:::
 
 
 ## Resume preemptible Sweeps runs
@@ -126,7 +120,7 @@ Automatically requeue interrupted [sweep](../sweeps/intro.md) runs. This is part
 Use the [`mark_preempting`](../../ref/python/run.md#markpreempting) function to enable W&B to automatically requeue interrupted sweep runs. For example, the following code snippet
 
 ```python
-run = wandb.init() # Initialize a run
+run = wandb.init()  # Initialize a run
 run.mark_preempting()
 ```
 The following table outlines how W&B handles runs based on the exit status of the a sweep run.
