@@ -5,7 +5,7 @@ displayed_sidebar: default
 # W&B Platform
 W&B Platform is the foundational framework supporting W&B Models and W&B Prompts, with secure enterprise deployment options and flexible multi-cloud support with all industry leaders. 
 
-![](/images/wb_marketing/wb_core.png)
+![](@site/static/images/general/platform.png)
 
 W&B Platform provides capabilities across the entire ML lifecycle. With W&B Platform, you can:
 
