@@ -18,8 +18,12 @@ Weights & Biases (W&B) is the AI developer platform, with tools for training mod
 - [Launch](/guides/launch/intro.md): Scale and automate workloads
 - [Sweeps](/guides/sweeps/intro.md): Hyperparameter tuning and model optimization
 
-[W&B Prompts](/guides/prompts_platform)
+[W&B Prompts](/guides/prompts/intro.md) is for LLM debugging and monitoring, including usage of OpenAI's GPT API.
 
+[W&B Platform](/guides/platform.md) is a core set of powerful building blocks for tracking and visualizing data and models, and communicating results.
+- [Artifacts](/guides/artifacts/intro.md): Version and manage ML pipelines with full lineage tracing for easy auditing and reproducibility.
+- [Tables](/guides/tables/intro.md): 
+- [Artifacts](/guides/artifacts/intro.md):
 
 ## Are you a first-time user of W&B?
 
