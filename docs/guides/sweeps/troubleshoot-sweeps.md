@@ -1,5 +1,6 @@
 ---
 description: Troubleshoot common W&B Sweep issues.
+displayed_sidebar: default
 ---
 
 # Troubleshoot Sweeps
@@ -18,11 +19,11 @@ Your W&B Run ID might be defined if these two error messages are both returned. 
 wandb.init(id="some-string")
 ```
 
-You can not set a Run ID for W&B Sweeps because Weights & Biases automatically generates random, unique IDs for Runs created by W&B Sweeps.
+You can not set a Run ID for W&B Sweeps because W&B automatically generates random, unique IDs for Runs created by W&B Sweeps.
 
 W&B Run IDs need to be unique within a project.
 
-We recommend you pass a name to the name parameter when you initialized Weights & Biases, if you want to set a custom name that will appear on tables and graphs. For example:
+We recommend you pass a name to the name parameter when you initialized W&B, if you want to set a custom name that will appear on tables and graphs. For example:
 
 ```python
 wandb.init(name="a helpful readable run name")
@@ -61,7 +62,7 @@ Navigate to your CLI and initialize a W&B Sweep with wandb sweep:
 wandb sweep config.yaml
 ```
 
-Make a note of the W&B Sweep ID that is returned. Next, start the Sweep job with [`wandb agent`](https://docs.wandb.ai/ref/cli/wandb-agent) with the CLI instead of the Python SDK ([`wandb.agent`](https://docs.wandb.ai/ref/python/agent)). Replace `sweep_ID` in the code snippet below with the Sweep ID that was returned in the previous step:
+Make a note of the W&B Sweep ID that is returned. Next, start the Sweep job with [`wandb agent`](../../ref/cli/wandb-agent.md) with the CLI instead of the Python SDK ([`wandb.agent`](../../ref/python/agent.md)). Replace `sweep_ID` in the code snippet below with the Sweep ID that was returned in the previous step:
 
 ```
 wandb agent sweep_ID
@@ -76,4 +77,4 @@ wandb: ERROR Error while calling W&B API: anaconda 400 error:
 {"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
 ```
 
-Within your YAML file or nested dictionary you specify a key named "metric" to optimize. Ensure that you log (`wandb.log`) this metric. In addition, ensure you use the _exact_ metric name that you defined the sweep to optimize within your Python script or Jupyter Notebook. For more information about configuration files, see [Define sweep configuration](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration).
+Within your YAML file or nested dictionary you specify a key named "metric" to optimize. Ensure that you log (`wandb.log`) this metric. In addition, ensure you use the _exact_ metric name that you defined the sweep to optimize within your Python script or Jupyter Notebook. For more information about configuration files, see [Define sweep configuration](./define-sweep-configuration.md).

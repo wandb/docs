@@ -1,5 +1,6 @@
 ---
 description: Create and track plots from machine learning experiments.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -34,7 +35,8 @@ Log a custom line plot—a list of connected and ordered points on arbitrary axe
 ```python
 data = [[x, y] for (x, y) in zip(x_values, y_values)]
 table = wandb.Table(data=data, columns = ["x", "y"])
-wandb.log({"my_custom_plot_id" : wandb.plot.line(table, "x", "y",
+wandb.log(
+    {"my_custom_plot_id" : wandb.plot.line(table, "x", "y",
            title="Custom Y vs X Line Plot")})
 ```
 
@@ -233,10 +235,12 @@ fields = {"x": "step",
 
 # Use the table to populate the new custom chart preset
 # To use your own saved chart preset, change the vega_spec_name
+# To edit the title, change the string_fields
 my_custom_chart = wandb.plot_table(
     vega_spec_name="carey/new_chart",
     data_table=table,
-    fields=fields)
+    fields=fields, 
+    string_fields={"title": "Height Histogram"})
 ```
 
 [Run the code →](https://tiny.cc/custom-charts)
@@ -261,7 +265,7 @@ If you’re getting an error “You attempted to log an empty plot” then you c
 
 ### Log Custom HTML to W&B Tables
 
-Weights & Biases supports logging interactive charts from Plotly and Bokeh as HTML and adding them to Tables.
+W&B supports logging interactive charts from Plotly and Bokeh as HTML and adding them to Tables.
 
 #### Log Plotly figures to Tables as HTML
 
@@ -272,7 +276,9 @@ import wandb
 import plotly.express as px
 
 # Initialize a new run
-run = wandb.init(project="log-plotly-fig-tables", name="plotly_html")
+run = wandb.init(
+    project="log-plotly-fig-tables", name="plotly_html"
+    )
 
 # Create a table
 table = wandb.Table(columns = ["plotly_figure"])
@@ -284,7 +290,9 @@ path_to_plotly_html = "./plotly_figure.html"
 fig = px.scatter(x = [0, 1, 2, 3, 4], y = [0, 1, 4, 9, 16])
 
 # Write Plotly figure to HTML
-fig.write_html(path_to_plotly_html, auto_play = False) # Setting auto_play to False prevents animated Plotly charts from playing in the table automatically
+# Set auto_play to False prevents animated Plotly charts 
+# from playing in the table automatically
+fig.write_html(path_to_plotly_html, auto_play = False) 
 
 # Add Plotly figure as HTML file into Table
 table.add_data(wandb.Html(path_to_plotly_html))

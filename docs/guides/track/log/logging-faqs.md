@@ -1,5 +1,8 @@
 ---
-description: Answers to frequently asked questions about tracking data from machine learning experiments with W&B Experiments.
+description: >-
+  Answers to frequently asked questions about tracking data from machine
+  learning experiments with W&B Experiments.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -15,8 +18,8 @@ import TabItem from '@theme/TabItem';
 We treat `/` as a separator for organizing logged panels in the W&B UI. By default, the component of the logged item's name before a `/` is used to define a group of panel called a "Panel Section".
 
 ```python
-wandb.log({'val/loss': 1.1, 'val/acc': 0.3})  # charts in val/ Panel Section
-wandb.log({'train/loss': 0.1, 'train/acc': 0.94})  # charts in train/ Panel Section
+wandb.log({'val/loss': 1.1, 'val/acc': 0.3})  
+wandb.log({'train/loss': 0.1, 'train/acc': 0.94})  
 ```
 
 In the [Workspace](../../app/pages/workspaces.md) settings, you can change whether panels are grouped by just the first component or by all components separated by `/`.
@@ -60,7 +63,7 @@ wandb.log({"losses": wandb.Histogram(losses)})  # converts losses to a histogram
 
 ### How do I plot multiple lines on a plot with a legend?
 
-Multi-line custom chart can be created by using `wandb.plot.line_series()`. You'll need to navigate to the [project page](https://docs.wandb.ai/ref/app/pages/project-page) to see the line chart. To add a legend to the plot, pass the keys argument within `wandb.plot.line_series()`. For example:
+Multi-line custom chart can be created by using `wandb.plot.line_series()`. You'll need to navigate to the [project page](../../app/pages/project-page.md) to see the line chart. To add a legend to the plot, pass the keys argument within `wandb.plot.line_series()`. For example:
 
 ```python
 wandb.log({"my_plot" : wandb.plot.line_series(
@@ -69,7 +72,7 @@ wandb.log({"my_plot" : wandb.plot.line_series(
                          keys = ["metric_A", "metric_B"])}] 
 ```
 
-You can find more information about Multi-line plots [here](https://docs.wandb.ai/guides/track/log/plots#basic-charts) under the Multi-line tab.
+You can find more information about Multi-line plots [here](../../track/log/plots.md#basic-charts) under the Multi-line tab.
 
 ### How do I add Plotly/Bokeh Charts into Tables?
 
@@ -88,7 +91,10 @@ import wandb
 import plotly.express as px
 
 # Initialize a new run
-run = wandb.init(project="log-plotly-fig-tables", name="plotly_html")
+run = wandb.init(
+    project="log-plotly-fig-tables", 
+    name="plotly_html"
+    )    
 
 # Create a table
 table = wandb.Table(columns = ["plotly_figure"])
@@ -100,7 +106,9 @@ path_to_plotly_html = "./plotly_figure.html"
 fig = px.scatter(x = [0, 1, 2, 3, 4], y = [0, 1, 4, 9, 16])
 
 # Write Plotly figure to HTML
-fig.write_html(path_to_plotly_html, auto_play = False) # Setting auto_play to False prevents animated Plotly charts from playing in the table automatically
+# Setting auto_play to False prevents animated Plotly 
+# charts from playing in the table automatically
+fig.write_html(path_to_plotly_html, auto_play = False) 
 
 # Add Plotly figure as HTML file into Table
 table.add_data(wandb.Html(path_to_plotly_html))
@@ -160,7 +168,7 @@ We store metrics in a case-insensitive fashion, so make sure you don't have two 
 
 ### How can I access the data logged to my runs directly and programmatically?
 
-The history object is used to track metrics logged by `wandb.log`. Using [our API](../public-api-guide), you can access the history object via `run.history()`.
+The history object is used to track metrics logged by `wandb.log`. Using [our API](../public-api-guide.md), you can access the history object via `run.history()`.
 
 ```python
 api = wandb.Api()
@@ -171,8 +179,6 @@ print(run.history())
 ### What happens when I log millions of steps to W&B? How is that rendered in the browser?
 
 The more points you send us, the longer it will take to load your graphs in the UI. If you have more than 1000 points on a line, we sample down to 1000 points on the backend before we send your browser the data. This sampling is nondeterministic, so if you refresh the page you'll see a different set of sampled points.
-
-If you'd like all the original data, you can use our [data API](https://docs.wandb.com/library/api) to pull down unsampled data.
 
 **Guidelines**
 

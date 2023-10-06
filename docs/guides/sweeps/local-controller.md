@@ -1,6 +1,8 @@
 ---
-description: 
-  Search and stop algorithms locally instead of using the Weights & Biases cloud-hosted service.
+description: >-
+  Search and stop algorithms locally instead of using the W&B
+  cloud-hosted service.
+displayed_sidebar: default
 ---
 
 # Search and stop algorithms locally
@@ -17,13 +19,13 @@ The local controller feature allows the user to commence search and stop algorit
 This feature is offered to support faster development and debugging of new algorithms for the Sweeps tool. It is not intended for actual hyperparameter optimization workloads.
 :::
 
-Before you get start, you must install the Weights & Biases SDK(`wandb`). Type the following code snippet into your command line:
+Before you get start, you must install the W&B SDK(`wandb`). Type the following code snippet into your command line:
 
 ```
 pip install wandb sweeps 
 ```
 
-The following examples assume you already have a configuration file and a training loop defined in a python script or Jupyter Notebook. For more information about how to define a configuration file, see [Define sweep configuration](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration).
+The following examples assume you already have a configuration file and a training loop defined in a python script or Jupyter Notebook. For more information about how to define a configuration file, see [Define sweep configuration](./define-sweep-configuration.md).
 
 ### Run the local controller from the command line
 
@@ -48,14 +50,14 @@ Next, initialize the sweep:
 wandb sweep config.yaml
 ```
 
-After you initialized the sweep, start a controller with [`wandb controller`](https://docs.wandb.ai/ref/python/controller):
+After you initialized the sweep, start a controller with [`wandb controller`](../../ref/python/controller.md):
 
 ```python
 # wandb sweep command will print a sweep_id
 wandb controller {user}/{entity}/{sweep_id}
 ```
 
-Once you have specified you want to use a local controller, start one or more Sweep agents to execute the sweep. Start a W&B Sweep similar to how you normally would. See [Start sweep agents](https://docs.wandb.ai/guides/sweeps/start-sweep-agents), for more information.
+Once you have specified you want to use a local controller, start one or more Sweep agents to execute the sweep. Start a W&B Sweep similar to how you normally would. See [Start sweep agents](../../guides/sweeps/start-sweep-agents.md), for more information.
 
 ```
 wandb sweep sweep_ID
@@ -63,9 +65,9 @@ wandb sweep sweep_ID
 
 ### Run a local controller with W&B Python SDK
 
-The following code snippets demonstrate how to specify and use a local controller with the Weights & Biases Python SDK.
+The following code snippets demonstrate how to specify and use a local controller with the W&B Python SDK.
 
-The simplest way to use a controller with the Python SDK is to pass the sweep ID to the [`wandb.controller`](https://docs.wandb.ai/ref/python/controller) method. Next, use the return objects `run` method to start the sweep job:
+The simplest way to use a controller with the Python SDK is to pass the sweep ID to the [`wandb.controller`](../../ref/python/controller.md) method. Next, use the return objects `run` method to start the sweep job:
 
 ```python
 sweep = wandb.controller(sweep_id)

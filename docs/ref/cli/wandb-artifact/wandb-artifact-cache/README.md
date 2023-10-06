@@ -12,7 +12,6 @@ Commands for interacting with the artifact cache
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --help | Show this message and exit. |
 
 **Commands**
 

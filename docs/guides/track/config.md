@@ -1,5 +1,6 @@
 ---
 description: Use a dictionary-like object to save your experiment configuration
+displayed_sidebar: default
 ---
 
 # Configure Experiments
@@ -8,7 +9,7 @@ description: Use a dictionary-like object to save your experiment configuration
   <title>Configure a Machine Learning Experiment</title>
 </head>
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/config-colab)
+[**Try in a Colab Notebook here →**](http://wandb.me/config-colab)
 
 Use the `wandb.config` object to save your training configuration such as: 
 - hyperparameters
@@ -21,7 +22,6 @@ The `wandb.config` attribute makes it easy to analyze your experiments and repro
 Dependent variables (like loss and accuracy) or output metrics should be saved with `wandb.log`instead.
 :::
 
-## 
 
 
 ## Set up an experiment configuration
@@ -109,12 +109,13 @@ def main(args):
     # Start a W&B Run
     run = wandb.init(project="config_example", config=args)
 
-    # Access values from config dictionary and store them into variables for readability
+    # Access values from config dictionary and store them 
+    # into variables for readability
     lr  =  wandb.config['learning_rate']
     bs = wandb.config['batch_size']
     epochs = wandb.config['epochs']
 
-    # Simulate training and logging values to W&B for demo purposes
+    # Simulate training and logging values to W&B 
     for epoch in np.arange(1, epochs):
         train_acc, train_loss = train_one_epoch(epoch, lr, bs)
         val_acc, val_loss = evaluate_one_epoch(epoch)
@@ -128,7 +129,9 @@ def main(args):
         })
 
 if __name__ == "__main__":
-  parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+  parser = argparse.ArgumentParser(
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
   parser.add_argument(
     "-b",
@@ -194,7 +197,8 @@ Provide your `entity`, `project name`, and the `Run ID` to update your configura
 ```python
 api = wandb.Api()
 
-# Access attributes directly from the run object or from the W&B App 
+# Access attributes directly from the run object 
+# or from the W&B App 
 username = wandb.run.entity
 project = wandb.run.project
 run_id = wandb.run.id
@@ -220,15 +224,18 @@ parser.add_argument('-b', '--batch-size', type=int, default=8, metavar='N',
                      help='input batch size for training (default: 8)')
 args = parser.parse_args()
 wandb.config.update(args) # adds all of the arguments as config variables -->
-```
+<!-- ``` -->
 
 ## `absl.FLAGS`
+
 
 You can also pass in [`absl` flags](https://abseil.io/docs/python/guides/flags).
 
 ```python
-flags.DEFINE_string("model", None, "model to run") # name, default, help
-wandb.config.update(flags.FLAGS) # adds all absl flags to config
+flags.DEFINE_string(
+    "model", None, "model to run") # name, default, help
+        
+wandb.config.update(flags.FLAGS) # adds absl flags to config
 ```
 
 ## File-Based Configs
@@ -279,7 +286,7 @@ wandb.config.epochs = 4
 flags = tf.app.flags
 flags.DEFINE_string("data_dir", "/tmp/data")
 flags.DEFINE_integer("batch_size", 128, "Batch size.")
-wandb.config.update(flags.FLAGS)  # adds all of the tensorflow flags as config
+wandb.config.update(flags.FLAGS) # add tensorflow flags as config
 ```
 
 <!-- ## Dataset Identifier
@@ -305,5 +312,3 @@ run.update()
 <!-- ## Key-Value Pairs
 
 You can log any key-value pairs into `wandb.config`. They can be different for every type of model you are training, e.g.`wandb.config.update({"my_param": 10, "learning_rate": 0.3, "model_architecture": "B"})`. -->
-
-

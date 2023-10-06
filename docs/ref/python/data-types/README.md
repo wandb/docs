@@ -1,14 +1,12 @@
 # Data Types
 
+<!-- Insert buttons and diff -->
 
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/__init__.py)
-
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/__init__.py' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 This module defines data types for logging rich, interactive visualizations to W&B.
-
 
 Data types include common media types, like images, audio, and videos,
 flexible containers for information, like tables and HTML, and more.
@@ -28,23 +26,24 @@ and upload them to the W&B server.
 
 [`class BoundingBoxes2D`](./boundingboxes2d.md): Format images with 2D bounding box overlays for logging to W&B.
 
-[`class Graph`](./graph.md): Wandb class for graphs
+[`class Graph`](./graph.md): Wandb class for graphs.
 
 [`class Histogram`](./histogram.md): wandb class for histograms.
 
-[`class Html`](./html.md): Wandb class for arbitrary html
+[`class Html`](./html.md): Wandb class for arbitrary html.
 
 [`class Image`](./image.md): Format images for logging to W&B.
 
 [`class ImageMask`](./imagemask.md): Format image masks or overlays for logging to W&B.
 
-[`class Molecule`](./molecule.md): Wandb class for 3D Molecular data
+[`class Molecule`](./molecule.md): Wandb class for 3D Molecular data.
 
 [`class Object3D`](./object3d.md): Wandb class for 3D point clouds.
 
 [`class Plotly`](./plotly.md): Wandb class for plotly plots.
 
-[`class Table`](./table.md): The Table class is used to display and analyze tabular data.
+[`class Table`](./table.md): The Table class used to display and analyze tabular data.
 
 [`class Video`](./video.md): Format a video for logging to W&B.
 
+[`class WBTraceTree`](./wbtracetree.md): Media object for trace tree data.

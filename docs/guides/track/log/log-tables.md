@@ -1,15 +1,16 @@
 ---
 description: Log tables with W&B.
+displayed_sidebar: default
 ---
 
 # Log Tables
 
 Use `wandb.Table` to log data to visualize and query with W&B. In this guide, learn how to:
 
-1. [Create Tables](./log-tables#create-tables)
-2. [Add Data](./log-tables#add-data)
-3. [Retrieve Data](./log-tables#retrieve-data)
-4. [Save Tables](./log-tables#save-tables)
+1. [Create Tables](./log-tables.md#create-tables)
+2. [Add Data](./log-tables.md#add-data)
+3. [Retrieve Data](./log-tables.md#retrieve-data)
+4. [Save Tables](./log-tables.md#save-tables)
 
 ## Create Tables
 
@@ -83,7 +84,7 @@ Once data is in a Table, access it by column or by row:
 
 ## Save Tables
 
-After you generate a table of data in your script, for example a table of model predictions, save it to W&B to visualize the results live. Explore [Artifact Tables](https://docs.wandb.ai/guides/data-vis/log-tables#advanced-artifact-tables) for information on how to save and version larger datasets.
+After you generate a table of data in your script, for example a table of model predictions, save it to W&B to visualize the results live. 
 
 ### Log a table to a run
 
@@ -100,7 +101,7 @@ Each time a table is logged to the same key, a new version of the table is creat
 :::info
 To log more than 200,000 rows, you can override the limit with:
 
-`wandb.Table.MAX_ROWS = X`
+`wandb.Table.MAX_ARTIFACTS_ROWS = X`
 
 However, this would likely cause performance issues, such as slower queries, in the UI.
 :::
@@ -118,7 +119,7 @@ For more information on Artifacts, see the [Artifacts Chapter](../../artifacts/i
 
 ## Visualize tables
 
-Any table logged this way will show up in your Workspace on both the Run Page and the Project Page. For more information, see [Visualize and Analyze Tables](./tables).
+Any table logged this way will show up in your Workspace on both the Run Page and the Project Page. For more information, see [Visualize and Analyze Tables](../../tables/visualize-tables.md).
 
 
 ## Advanced: Artifact Tables

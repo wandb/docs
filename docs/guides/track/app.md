@@ -1,5 +1,6 @@
 ---
 description: Create centralized, interactive, visual dashboards for your ML experiments
+displayed_sidebar: default
 ---
 
 # View results from experiments
@@ -8,7 +9,7 @@ description: Create centralized, interactive, visual dashboards for your ML expe
   <title>Organize and visualize results from your machine learning models</title>
 </head>
 
-Use the Weights & Biases Dashboard as a central place to organize and visualize results from your machine learning models.
+Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models.
 
 <!-- {% embed url="https://youtu.be/gnD8BFuyVUA" %} -->
 
@@ -28,7 +29,7 @@ Compare each training run and see what hyperparameters changed. Search, filter, 
 
 ### Reproducible models
 
-Weights & Biases is good for experimentation, exploration, and reproducing models later. We capture not just the metrics, but also the hyperparameters and version of the code, and we can save your model checkpoints for you so your project is reproducible.
+W&B is good for experimentation, exploration, and reproducing models later. We capture not just the metrics, but also the hyperparameters and version of the code, and we can save your model checkpoints for you so your project is reproducible.
 
 ### Fast, flexible integration
 

@@ -1,5 +1,6 @@
 ---
 description: Group training and evaluation runs into larger experiments
+displayed_sidebar: default
 ---
 
 # Group Runs
@@ -66,4 +67,4 @@ Click the edit button in the upper right corner of a graph and select the **Adva
 
 ### Can we group runs by tags?
 
-Because a run can have multiple tags we don't support grouping by this field. Our recommendation would be to add a value to the [`config`](../track/config.md) object of these runs and then group by this config value. You can do this with [our API](../track/config#update-config-files).
+Because a run can have multiple tags we don't support grouping by this field. Our recommendation would be to add a value to the [`config`](../track/config.md) object of these runs and then group by this config value. You can do this with [our API](../track/config.md#update-config-files).

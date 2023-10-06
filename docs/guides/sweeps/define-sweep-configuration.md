@@ -1,7 +1,7 @@
 ---
 description: Learn how to create configuration files for sweeps.
+displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
   <title>Define sweep configuration for hyperparameter tuning.</title>
 </head>
 
-A Weights & Biases Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
+A W&B Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
 
 Define your strategy in the form of a sweep configuration. Specify the configuration either in a:
 
@@ -31,7 +31,7 @@ The following code snippets demonstrate examples of how to define a Sweep config
 
 ```python
 sweep_configuration = {
-    'method': 'random',
+    'method': 'bayes',
     'name': 'sweep',
     'metric': {
         'goal': 'minimize', 
@@ -84,6 +84,8 @@ wandb.log({
         'val_loss': validation_loss
       })
 ```
+
+Defining the metric in the sweep configuration is only required when using the bayes method for the sweep. 
 
 ### Sweep configuration structure
 
@@ -417,7 +419,7 @@ We support the following stopping algorithm(s):
 
 #### `hyperband`
 
-[Hyperband](https://arxiv.org/abs/1603.06560) stopping evaluates if a program should be stopped or permitted to continue at one or more pre-set iteration counts, called "brackets". When a run reaches a bracket, its metric value is compared to all previous reported metric values and the [W&B Run](https://docs.wandb.ai/ref/python/run) is terminated if its value is too high (when the goal is minimization) or low (when the goal is maximization).
+[Hyperband](https://arxiv.org/abs/1603.06560) stopping evaluates if a program should be stopped or permitted to continue at one or more pre-set iteration counts, called "brackets". When a run reaches a bracket, its metric value is compared to all previous reported metric values and the [W&B Run](../../ref/python/run.md) is terminated if its value is too high (when the goal is minimization) or low (when the goal is maximization).
 
 Brackets are based on the number of logged iterations. The number of brackets corresponds to the number of times you log the metric you are optimizing. The iterations can correspond to steps, epochs, or something in between. The numerical value of the step counter is not used in bracket calculations.
 
@@ -432,9 +434,10 @@ Specify either `min_iter` or `max_iter` to create a bracket schedule.
 | `max_iter` | Specify the maximum number of iterations.                      |
 | `s`        | Specify the total number of brackets (required for `max_iter`) |
 | `eta`      | Specify the bracket multiplier schedule (default: `3`).        |
+| `strict`   | Enable 'strict' mode that prunes runs aggressively, more closely following the original Hyperband paper. Defaults to false. |
 
 :::info
-The hyperband early terminator checks what [W&B Runs](https://docs.wandb.ai/ref/python/run) to terminate once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
+The hyperband early terminator checks what [W&B Runs](../../ref/python/run.md) to terminate once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
 :::
 
 
@@ -511,7 +514,7 @@ We support the following macros for variable components of the command:
 | `${args_no_hyphens}`       | Hyperparameters and their values in the form `param1=value1 param2=value2`.                                                                                           |
 | `${args_json}`             | Hyperparameters and their values encoded as JSON.                                                                                                                     |
 | `${args_json_file}`        | The path to a file containing the hyperparameters and their values encoded as JSON.                                                                                   |
-| `${envvar}`                | A way to pass environment variables. `${envvar: MYENVVAR}` __ expands to the value of MYENVVAR environment variable. __                                               |
+| `${envvar}`                | A way to pass environment variables. `${envvar:MYENVVAR}` __ expands to the value of MYENVVAR environment variable. __                                               |
 
 The default command format is defined as:
 

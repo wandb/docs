@@ -1,5 +1,8 @@
 ---
-description: se Weights & Biases with Jupyter to get interactive visualizations without leaving your notebook.
+description: >-
+  se W&B with Jupyter to get interactive visualizations without
+  leaving your notebook.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -10,7 +13,7 @@ import TabItem from '@theme/TabItem';
   <title>Track Jupyter Notebooks</title>
 </head>
 
-Use Weights & Biases with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged!
+Use W&B with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged!
 
 ## Use Cases for W&B with Jupyter notebooks
 

@@ -1,5 +1,8 @@
 ---
-description: eep your pages in W&B faster and more responsive by logging within these suggested bounds.
+description: >-
+  eep your pages in W&B faster and more responsive by logging within these
+  suggested bounds.
+displayed_sidebar: default
 ---
 
 # Limits & Performance
@@ -21,12 +24,15 @@ Use `wandb.log` to track experiment metrics. Once logged, these metrics generate
 Keep the total number of distinct metrics under 10,000.
 
 ```python
-wandb.log({
-  "a": 1, # "a" is a distinct metric
-  "b": {
-    "c": "hello",  # "b.c" is a distinct metric
-    "d": [1, 2, 3] # "b.d" is a distinct metric
-}) # 3 distinct metrics logged
+wandb.log(
+    {
+        "a": 1,  # "a" is a distinct metric
+        "b": {
+            "c": "hello",  # "b.c" is a distinct metric
+            "d": [1, 2, 3],  # "b.d" is a distinct metric
+        },
+    }
+)  # 3 distinct metrics logged
 ```
 
 :::caution
@@ -37,15 +43,11 @@ Log related media to the same metric name:
 
 ```python
 for i, img in enumerate(images):
-  # ❌ not recommended
-  wandb.log({
-   f"pred_img_{i}": wandb.Image(image)
-  })
-  
- # ✅ recommended
- wandb.log({
-   "pred_imgs": [wandb.Image(image) for image in images]
- }) 
+    # ❌ not recommended
+    wandb.log({f"pred_img_{i}": wandb.Image(image)})
+
+    # ✅ recommended
+    wandb.log({"pred_imgs": [wandb.Image(image) for image in images]})
 ```
 
 Logging beyond 10,000 distinct metrics can slow down your project workspaces and runs table operations.
@@ -56,14 +58,12 @@ Limit the size of a single logged value to under 1 MB and the total size of a si
 
 ```python
 # ❌ not recommended
-wandb.log({
-  "wide_key": range(10000000)
-})
+wandb.log({"wide_key": range(10000000)})
 
 # ❌ not recommended
-with f as open('large_file.json', 'r'):
-  large_data = json.load(f)
-  wandb.log(large_data) 
+with f as open("large_file.json", "r"):
+    large_data = json.load(f)
+    wandb.log(large_data)
 ```
 
 If you log values wider than these recommendations your data will be saved and tracked, but your plots may load more slowly. Note that wide values can affect the plot load times for all metrics in the run, not just the metric with the wide values.
@@ -84,26 +84,37 @@ Pick a logging frequency that is appropriate to the metric you are logging. As a
 ```python
 # Training loop with 1m total steps
 for step in range(1000000):
-  # ❌ not recommended
-  wandb.log({
-  'scalar': step, # 100,000 scalars
-  'media': wandb.Image(...), # 100,000 images
-  'histogram': wandb.Histogram(...) # 100,000 histograms
-  })
-  
-  # ✅ recommended
-  if step % 1000 == 0:
-    wandb.log({
-      'histogram': wandb.Histogram(...), # 10,000 histograms
-    }, commit=False)
-  if step % 200 == 0:
-    wandb.log({
-      'media': wandb.Image(...), # 50,000 images
-    }, commit=False)
-  if step % 100 == 0:
-    wandb.log({
-      'scalar': step, # 100,000 scalars
-    }, commit=True) # Commit batched, per-step metrics together
+    # ❌ not recommended
+    wandb.log(
+        {
+            "scalar": step,  # 100,000 scalars
+            "media": wandb.Image(...),  # 100,000 images
+            "histogram": wandb.Histogram(...),  # 100,000 histograms
+        }
+    )
+
+    # ✅ recommended
+    if step % 1000 == 0:
+        wandb.log(
+            {
+                "histogram": wandb.Histogram(...),  # 10,000 histograms
+            },
+            commit=False,
+        )
+    if step % 200 == 0:
+        wandb.log(
+            {
+                "media": wandb.Image(...),  # 50,000 images
+            },
+            commit=False,
+        )
+    if step % 100 == 0:
+        wandb.log(
+            {
+                "scalar": step,  # 100,000 scalars
+            },
+            commit=True,
+        )  # Commit batched, per-step metrics together
 ```
 
 <!-- Enable batching in calls to `wandb.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs](../../ref/python/log.md) for `wandb.log` for more details. -->
@@ -116,21 +127,25 @@ Limit the total size of your run config to <10MB. Logging large values could slo
 
 ```python
 # ✅ recommended
-wandb.init(config={
-  "lr": 0.1,
-  "batch_size": 32,
-  "epochs": 4,
-})
+wandb.init(
+    config={
+        "lr": 0.1,
+        "batch_size": 32,
+        "epochs": 4,
+    }
+)
 
 # ❌ not recommended
-wandb.init(config={
-  "steps": range(10000000),
-})
- 
+wandb.init(
+    config={
+        "steps": range(10000000),
+    }
+)
+
 # ❌ not recommended
-with f as open('large_config.json', 'r'):
-  large_config = json.load(f)
-  wandb.init(config=large_config)
+with f as open("large_config.json", "r"):
+    large_config = json.load(f)
+    wandb.init(config=large_config)
 ```
 
 #### Run Count
@@ -157,6 +172,6 @@ We do not assert any limits beyond rate limiting. Our Python client will automat
 
 ### Rate Limits
 
-The W&B API is rate limited by IP and API key. New accounts are restricted to 200 requests per minute. This rate allows you to run approximately 15 processes in parallel and have them report without being throttled. If the **wandb** client detects it's being limited, it will backoff and retry sending the data in the future. If you need to run more than 15 processes in parallel send an email to [contact@wandb.com](mailto:contact@wandb.com).
+The W&B API is rate limited by IP and API key. Free accounts are restricted to 50 requests per minute. Paid accounts are restricted to 200 requests per minute. This rate allows you to run approximately 15 processes in parallel and have them report without being throttled. If the **wandb** client detects it's being limited, it will backoff and retry sending the data in the future. If you need to run more than 15 processes in parallel send an email to [contact@wandb.com](mailto:contact@wandb.com).
 
 For sweeps, we support up to 20 parallel agents.

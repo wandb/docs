@@ -12,7 +12,6 @@ Commands for interacting with artifacts
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --help | Show this message and exit. |
 
 **Commands**
 

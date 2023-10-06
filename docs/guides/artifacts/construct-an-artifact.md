@@ -1,5 +1,8 @@
 ---
-description: Create, construct a W&B Artifact. Learn how to add one or more files or a URI reference to an Artifact.
+description: >-
+  Create, construct a W&B Artifact. Learn how to add one or more files or a URI
+  reference to an Artifact.
+displayed_sidebar: default
 ---
 
 # Construct artifacts
@@ -8,66 +11,80 @@ description: Create, construct a W&B Artifact. Learn how to add one or more file
   <title>Construct Artifacts</title>
 </head>
 
-Use the Weights & Biases SDK to construct an artifact during or outside of a [Weights & Biases Run](https://docs.wandb.ai/ref/python/run). Add files, directories, URIs, and files from parallel runs to artifacts. Once a file or URI is added, save your artifact to Weights & Biases with a W&B Run. For information on how to track an external file outside of a Weights & Biases Run, see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files).
+Use the W&B Python SDK to construct artifacts from [W&B Runs](../../ref/python/run.md). You can add [files, directories, URIs, and files from parallel runs to artifacts](#add-files-to-an-artifact). After you add a file to an artifact, save the artifact to the W&B Server or [your own private server](../hosting/hosting-options/self-managed.md).
 
-### How to construct an artifact
+For information on how to track external files, such as files stored in Amazon S3, see the [Track external files](./track-external-files.md) page.
 
-Constructing a [Weights & Biases Artifact](https://docs.wandb.ai/ref/python/artifact) within a run is a three step process:
+## How to construct an artifact
 
-#### 1. Create an artifact Python object with `wandb.Artifact()`
+Construct a [W&B Artifact](../../ref/python/artifact.md) in three steps:
 
-Initialize the [`wandb.Artifact()`](https://docs.wandb.ai/ref/python/artifact) class to create an artifact. Specify the following parameters:
+### 1. Create an artifact Python object with `wandb.Artifact()`
+
+Initialize the [`wandb.Artifact()`](../../ref/python/artifact.md) class to create an artifact object. Specify the following parameters:
 
 * **Name**: Specify a name for your artifact. The name should be unique, descriptive, and easy to remember. Use an artifacts name to both: identify the artifact in the W&B App UI and when you want to use that artifact.
 * **Type**: Provide a type. The type should be simple, descriptive and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
 
-:::note
+
+:::tip
+The "name" and "type" you provide is used to create a directed acyclic graph. This means you can view the lineage of an artifact on the W&B App. 
+
+See the [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph.md) for more information.
+:::
+
+
+:::caution
 Artifacts can not have the same name, even if you specify a different type for the types parameter. In other words, you can not create an artifact named ‘cats’ of type ‘dataset’ and another artifact with the same name of type ‘model’.
 :::
 
-You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see [wandb.Artifact](https://docs.wandb.ai/ref/python/artifact) Class definition in the Python SDK Reference Guide.
+You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see [wandb.Artifact](../../ref/python/artifact.md) Class definition in the Python SDK Reference Guide.
 
 The proceeding example demonstrates how to create a dataset artifact:
 
 ```python
 import wandb
 
-artifact = wandb.Artifact(name='<replace>', type='<replace>')
+artifact = wandb.Artifact(name="<replace>", type="<replace>")
 ```
 
 Replace the string arguments in the preceding code snippet with your own name and type.
 
-#### 2. Add one more files to the artifact
+### 2. Add one more files to the artifact
 
-Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the [`add_file`](https://docs.wandb.ai/ref/python/artifact#add\_file) method:
+Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the [`add_file`](../../ref/python/artifact.md#add_file) method:
 
 ```python
-artifact.add_file(local_path='hello_world.txt', name='optional-name')
+artifact.add_file(local_path="hello_world.txt", name="optional-name")
 ```
 
-You can also add multiple files with the [`add_dir`](https://docs.wandb.ai/ref/python/artifact#add\_dir) method. For more information on how to add files, see [Update an artifact](https://docs.wandb.ai/guides/artifacts/update-an-artifact).
+You can also add multiple files with the [`add_dir`](../../ref/python/artifact.md#add_dir) method. For more information on how to add files, see [Update an artifact](./update-an-artifact.md).
 
-#### 3. Save your artifact to the Weights & Biases server
+### 3. Save your artifact to the W&B server
 
-Finally, save your artifact to the Weights & Biases server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`](https://docs.wandb.ai/ref/python/run#log\_artifact) method to save the artifact.
+Finally, save your artifact to the W&B server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`](../../ref/python/run#log\_artifact) method to save the artifact.
 
 ```python
 # Create a W&B Run. Replace 'job-type'.
-run = wandb.init(project="artifacts-example", job_type='job-type')
+run = wandb.init(project="artifacts-example", job_type="job-type")
 
 run.log_artifact(artifact)
 ```
 
-You can optionally construct an artifact outside of a W&B run. For more information, see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files).
+You can optionally construct an artifact outside of a W&B run. For more information, see [Track external files](./track-external-files).
 
 :::caution
 Calls to `log_artifact` are performed asynchronously for performant uploads. This can cause surprising behavior when logging artifacts in a loop. For example:
 
 ```python
 for i in range(10):
-    a = wandb.Artifact('race', type='dataset', metadata={
-        "index": i,
-    })
+    a = wandb.Artifact(
+        "race",
+        type="dataset",
+        metadata={
+            "index": i,
+        },
+    )
     # ... add files to artifact a ...
     run.log_artifact(a)
 ```
@@ -97,13 +114,13 @@ The proceeding code snippet demonstrates how to add a single, local file to your
 
 ```python
 # Add a single file
-artifact.add_file(local_path='path/file.format')
+artifact.add_file(local_path="path/file.format")
 ```
 
 For example, suppose you had a file called `'file.txt'` in your working local directory.
 
 ```python
-artifact.add_file('path/file.txt') # Added as `file.txt'
+artifact.add_file("path/file.txt")  # Added as `file.txt'
 ```
 
 The artifact now has the following content:
@@ -115,7 +132,7 @@ file.txt
 Optionally, pass the desired path within the artifact for the `name` parameter.
 
 ```python
-artifact.add_file('path/file.format', name='new/path/file.format') 
+artifact.add_file(local_path="path/file.format", name="new/path/file.format")
 ```
 
 The artifact is stored as:
@@ -136,7 +153,7 @@ The proceeding code snippet demonstrates how to add an entire, local directory t
 
 ```python
 # Recursively add a directory
-artifact.add_dir(local_path='path/file.format', name='optional-prefix')
+artifact.add_dir(local_path="path/file.format", name="optional-prefix")
 ```
 
 The proceeding API calls produce the proceeding artifact content:
@@ -144,18 +161,18 @@ The proceeding API calls produce the proceeding artifact content:
 | API Call                                    | Resulting artifact                                     |
 | ------------------------------------------- | ------------------------------------------------------ |
 | `artifact.add_dir('images')`                | <p><code>cat.png</code></p><p><code>dog.png</code></p> |
-| `artifact.add_dir('images', name='images')` | `name='images')images/cat.pngimages/dog.png`           |
+| `artifact.add_dir('images', name='images')` | <p><code>images/cat.png</code></p><p><code>images/dog.png</code></p> |
 | `artifact.new_file('hello.txt')`            | `hello.txt`                                            |
 
 ### Add a URI reference
 
 Artifacts track checksums and other information for reproducibility if the URI has a scheme that W&B library knows how to handle.
 
-Add an external URI reference to an artifact with the [`add_reference`](https://docs.wandb.ai/ref/python/artifact#add\_reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
+Add an external URI reference to an artifact with the [`add_reference`](../../ref/python/artifact#add\_reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
 
 ```python
 # Add a URI reference
-artifact.add_reference(uri='uri', name='optional-name')
+artifact.add_reference(uri="uri", name="optional-name")
 ```
 
 Artifacts currently support the following URI schemes:
@@ -199,40 +216,42 @@ num_parallel = 5
 # unique group name.
 group_name = "writer-group-{}".format(round(time.time()))
 
+
 @ray.remote
 def train(i):
-  """
-  Our writer job. Each writer will add one image to the artifact.
-  """
-  with wandb.init(group=group_name) as run:
-    artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
-    
-    # Add data to a wandb table. In this case we use example data
-    table = wandb.Table(columns=["a", "b", "c"], data=[[i, i*2, 2**i]])
-    
-    # Add the table to folder in the artifact
-    artifact.add(table, "{}/table_{}".format(parts_path, i))
-    
-    # Upserting the artifact creates or appends data to the artifact
-    run.upsert_artifact(artifact)
-  
+    """
+    Our writer job. Each writer will add one image to the artifact.
+    """
+    with wandb.init(group=group_name) as run:
+        artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
+
+        # Add data to a wandb table. In this case we use example data
+        table = wandb.Table(columns=["a", "b", "c"], data=[[i, i * 2, 2**i]])
+
+        # Add the table to folder in the artifact
+        artifact.add(table, "{}/table_{}".format(parts_path, i))
+
+        # Upserting the artifact creates or appends data to the artifact
+        run.upsert_artifact(artifact)
+
+
 # Launch your runs in parallel
 result_ids = [train.remote(i) for i in range(num_parallel)]
 
 # Join on all the writers to make sure their files have
-# been added before finishing the artifact. 
+# been added before finishing the artifact.
 ray.get(result_ids)
 
 # Once all the writers are finished, finish the artifact
 # to mark it ready.
 with wandb.init(group=group_name) as run:
-  artifact = wandb.Artifact(artifact_name, type=artifact_type)
-  
-  # Create a "PartitionTable" pointing to the folder of tables
-  # and add it to the artifact.
-  artifact.add(wandb.data_types.PartitionedTable(parts_path), table_name)
-  
-  # Finish artifact finalizes the artifact, disallowing future "upserts"
-  # to this version.
-  run.finish_artifact(artifact)
+    artifact = wandb.Artifact(artifact_name, type=artifact_type)
+
+    # Create a "PartitionTable" pointing to the folder of tables
+    # and add it to the artifact.
+    artifact.add(wandb.data_types.PartitionedTable(parts_path), table_name)
+
+    # Finish artifact finalizes the artifact, disallowing future "upserts"
+    # to this version.
+    run.finish_artifact(artifact)
 ```

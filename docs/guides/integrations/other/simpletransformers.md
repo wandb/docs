@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/simpletransformers
-description: How to integrate W&B with the Transformers library by Hugging Face. 
+description: How to integrate W&B with the Transformers library by Hugging Face.
+displayed_sidebar: default
 ---
 
 # Simple Transformers
@@ -136,4 +137,3 @@ global_args = {
 Refer to [simpletransformers on github](https://github.com/ThilinaRajapakse/simpletransformers) for more detailed documentation.
 
 Checkout [this Weights and Biases report](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA) that covers training transformers on some the most popular GLUE benchmark datasets. Try it out yourself on colab [![Open In Colab](https://camo.githubusercontent.com/52feade06f2fecbf006889a904d221e6a730c194/68747470733a2f2f636f6c61622e72657365617263682e676f6f676c652e636f6d2f6173736574732f636f6c61622d62616467652e737667)](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing)
-

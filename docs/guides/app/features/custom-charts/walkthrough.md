@@ -1,10 +1,11 @@
 ---
-description: Tutorial of using the custom charts feature in the Weights & Biases UI
+description: Tutorial of using the custom charts feature in the W&B UI
+displayed_sidebar: default
 ---
 
 # Custom Charts Walkthrough
 
-To go beyond the built-in charts in Weights & Biases, use the new **Custom Charts** feature to control the details of exactly what data you're loading in to a panel and how you visualize that data.
+To go beyond the built-in charts in W&B, use the new **Custom Charts** feature to control the details of exactly what data you're loading in to a panel and how you visualize that data.
 
 **Overview**
 
@@ -19,8 +20,9 @@ First, log data in your script. Use [wandb.config](../../../../guides/track/conf
 ```python
 # Logging a custom table of data
 my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
-wandb.log({"custom_data_table": wandb.Table(data=my_custom_data,
-                                columns = ["x", "y", "z"])})
+wandb.log(
+    {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
+)
 ```
 
 [Try a quick example notebook](https://bit.ly/custom-charts-colab) to log the data tables, and in the next step we'll set up custom charts. See what the resulting charts look like in the [live report](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc).

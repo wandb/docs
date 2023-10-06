@@ -2,6 +2,7 @@
 description: >-
   Manage a team's members, avatar, alerts, and privacy settings with the Team
   Settings page.
+displayed_sidebar: default
 ---
 
 # Team settings
@@ -35,7 +36,7 @@ Allow new users within your organization discover Teams within your organization
 An organization administrator (Admin) must enable this feature. To enable this feature, follow these steps:
 
 1. Navigate to the **Privacy** section of the Teams Setting page.
-2. Select the **Request Access** button next to text "Allow users with matching organization email domain to join this team". Weights & Biases Support will be notified of the request.
+2. Select the **Request Access** button next to text "Allow users with matching organization email domain to join this team". W&B Support will be notified of the request.
 3. The **Request Access** button will disappear and the toggle is enabled when W&B Support verifies the request.
 4. Select the newly enabled toggle.
 
@@ -67,3 +68,7 @@ Navigate to the **Privacy** section to change privacy settings. Only members wit
 ### Usage
 
 The **Usage** section describes the total memory usage the team has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+
+### Storage
+
+The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector](../features/teams.md#secure-storage-connector) or check out our [W&B Server](../../hosting/secure-storage-connector.md) docs if you are self-hosting. 

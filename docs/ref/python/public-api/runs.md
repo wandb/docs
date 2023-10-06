@@ -1,32 +1,24 @@
 # Runs
 
-
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/apis/public.py#L1544-L1654)
-
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/apis/public.py#L1708-L1819' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 An iterable collection of runs associated with a project and optional filter.
 
 ```python
 Runs(
- client: "RetryingClient",
- entity: str,
- project: str,
- filters: Optional[Dict[str, Any]] = None,
- order: Optional[str] = None,
- per_page: int = 50,
- include_sweeps: bool = (True)
+    client: "RetryingClient",
+    entity: str,
+    project: str,
+    filters: Optional[Dict[str, Any]] = None,
+    order: Optional[str] = None,
+    per_page: int = 50,
+    include_sweeps: bool = (True)
 )
 ```
 
+This is generally used indirectly via the `Api`.runs method.
 
-
-This is generally used indirectly via the `Api`.runs method
-
-
-
-| Class Variables | |
+| Class Variables |  |
 | :--- | :--- |
-| `QUERY` | |
-
+|  `QUERY`<a id="QUERY"></a> |   |

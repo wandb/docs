@@ -1,15 +1,14 @@
 # Keras
 
+<!-- Insert buttons and diff -->
 
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/integration/keras/__init__.py)
-
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/integration/keras/__init__.py' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
-Tools for integrating `wandb` with [`Keras`](https://keras.io/),
+Tools for integrating `wandb` with [`Keras`](https://keras.io/).
 
-a deep learning API for [`TensorFlow`](https://www.tensorflow.org/).
+Keras is a deep learning API for [`TensorFlow`](https://www.tensorflow.org/).
 
 ## Classes
 
@@ -17,7 +16,6 @@ a deep learning API for [`TensorFlow`](https://www.tensorflow.org/).
 
 [`class WandbEvalCallback`](./wandbevalcallback.md): Abstract base class to build Keras callbacks for model prediction visualization.
 
-[`class WandbMetricsLogger`](./wandbmetricslogger.md): `WandbMetricsLogger` automatically logs the `logs` dictionary
+[`class WandbMetricsLogger`](./wandbmetricslogger.md): Logger that sends system metrics to W&B.
 
-[`class WandbModelCheckpoint`](./wandbmodelcheckpoint.md): `WandbModelCheckpoint` periodically saves a Keras model or model weights
-
+[`class WandbModelCheckpoint`](./wandbmodelcheckpoint.md): A checkpoint that periodically saves a Keras model or model weights.

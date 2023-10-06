@@ -10,7 +10,6 @@
 | **Option** | **Description** |
 | :--- | :--- |
 | --version | Show the version and exit. |
-| --help | Show this message and exit. |
 
 **Commands**
 
@@ -20,12 +19,15 @@
 | artifact | Commands for interacting with artifacts |
 | controller | Run the W&B local sweep controller |
 | disabled | Disable W&B. |
-| docker | W&B docker lets you run your code in a docker image... |
-| docker-run | Simple wrapper for `docker run` which adds WANDB_API_KEY... |
+| docker | Run your code in a docker container. |
+| docker-run | Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER... |
 | enabled | Enable W&B. |
+| import | Commands for importing data from other systems |
 | init | Configure a directory with Weights & Biases |
-| launch | Launch or queue a job from a uri (Experimental). |
-| launch-agent | Run a W&B launch agent (Experimental) |
+| job | Commands for managing and viewing W&B jobs |
+| launch | Launch or queue a W&B Job. |
+| launch-agent | Run a W&B launch agent. |
+| launch-sweep | Run a W&B launch sweep (Experimental). |
 | login | Login to Weights & Biases |
 | offline | Disable W&B sync |
 | online | Enable W&B sync |

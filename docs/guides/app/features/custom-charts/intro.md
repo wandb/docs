@@ -1,5 +1,6 @@
 ---
 slug: /guides/app/features/custom-charts
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';
@@ -48,8 +49,14 @@ Log a custom line plot—a list of connected and ordered points (x,y) on arbitra
 
 ```python
 data = [[x, y] for (x, y) in zip(x_values, y_values)]
-table = wandb.Table(data=data, columns = ["x", "y"])
-wandb.log({"my_custom_plot_id" : wandb.plot.line(table, "x", "y", title="Custom Y vs X Line Plot")})
+table = wandb.Table(data=data, columns=["x", "y"])
+wandb.log(
+    {
+        "my_custom_plot_id": wandb.plot.line(
+            table, "x", "y", title="Custom Y vs X Line Plot"
+        )
+    }
+)
 ```
 
 You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
@@ -69,8 +76,8 @@ Log a custom scatter plot—a list of points (x, y) on a pair of arbitrary axes 
 
 ```python
 data = [[x, y] for (x, y) in zip(class_x_prediction_scores, class_y_prediction_scores)]
-table = wandb.Table(data=data, columns = ["class_x", "class_y"])
-wandb.log({"my_custom_id" : wandb.plot.scatter(table, "class_x", "class_y")})
+table = wandb.Table(data=data, columns=["class_x", "class_y"])
+wandb.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
 ```
 
 You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
@@ -90,8 +97,14 @@ Log a custom bar chart—a list of labeled values as bars—natively in a few li
 
 ```python
 data = [[label, val] for (label, val) in zip(labels, values)]
-table = wandb.Table(data=data, columns = ["label", "value"])
-wandb.log({"my_bar_chart_id" : wandb.plot.bar(table, "label", "value", title="Custom Bar Chart")})
+table = wandb.Table(data=data, columns=["label", "value"])
+wandb.log(
+    {
+        "my_bar_chart_id": wandb.plot.bar(
+            table, "label", "value", title="Custom Bar Chart"
+        )
+    }
+)
 ```
 
 You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
@@ -112,7 +125,7 @@ Log a custom histogram—sort list of values into bins by count/frequency of occ
 ```python
 data = [[s] for s in scores]
 table = wandb.Table(data=data, columns=["scores"])
-wandb.log({'my_histogram': wandb.plot.histogram(table, "scores", title=None)})
+wandb.log({"my_histogram": wandb.plot.histogram(table, "scores", title=None)})
 ```
 
 You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
@@ -131,11 +144,9 @@ You can use this to log arbitrary histograms. Note that `data` is a list of list
 Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision\_recall\_curve.html#sklearn.metrics.precision\_recall\_curve) in one line:
 
 ```python
-plot = wandb.plot.pr_curve(
-    ground_truth, predictions,
-    labels=None, classes_to_plot=None)
-    
-wandb.log({"pr":})
+plot = wandb.plot.pr_curve(ground_truth, predictions, labels=None, classes_to_plot=None)
+
+wandb.log({"pr": plot})
 ```
 
 You can log this whenever your code has access to:
@@ -161,9 +172,9 @@ Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.
 
 ```python
 plot = wandb.plot.roc_curve(
-    ground_truth, predictions,
-    labels=None, classes_to_plot=None)
-    
+    ground_truth, predictions, labels=None, classes_to_plot=None
+)
+
 wandb.log({"roc": plot})
 ```
 
@@ -192,15 +203,15 @@ Tweak a builtin preset, or create a new preset, then save the chart. Use the cha
 table = wandb.Table(data=data, columns=["step", "height"])
 
 # Map from the table's columns to the chart's fields
-fields = {"x": "step",
-          "value": "height"}
+fields = {"x": "step", "value": "height"}
 
 # Use the table to populate the new custom chart preset
 # To use your own saved chart preset, change the vega_spec_name
-my_custom_chart = wandb.plot_table(vega_spec_name="carey/new_chart",
-              data_table=table,
-              fields=fields,
-              )
+my_custom_chart = wandb.plot_table(
+    vega_spec_name="carey/new_chart",
+    data_table=table,
+    fields=fields,
+)
 ```
 
 [Run the code →](https://tiny.cc/custom-charts)
@@ -226,8 +237,9 @@ Use `wandb.Table()` to log your data as a 2D array. Typically each row of this t
 ```python
 # Logging a custom table of data
 my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
-wandb.log({"custom_data_table": wandb.Table(data=my_custom_data,
-                                columns = ["x", "y", "z"])})
+wandb.log(
+    {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
+)
 ```
 
 ## Customize the chart

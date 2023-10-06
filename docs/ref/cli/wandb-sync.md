@@ -27,5 +27,5 @@ Upload an offline training directory to W&B
 | --clean-old-hours | Delete runs created before this many hours.   To be used alongside --clean flag. |
 | --clean-force | Clean without confirmation prompt. |
 | --show | Number of runs to show |
-| --help | Show this message and exit. |
+| --append | Append run |
 

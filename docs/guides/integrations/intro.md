@@ -1,5 +1,6 @@
 ---
 slug: /guides/integrations
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';
@@ -38,10 +39,11 @@ Weights & Biases integrations make it fast and easy to set up experiment trackin
   <TabItem value="repositories">
 
 * [Hugging Face](huggingface.md)
+* [PyTorch Geometric](pytorch-geometric.md)
 * [spaCy](spacy.md)
+* [Ultralytics](ultralytics.md)
 * [YOLOv5](yolov5.md)
 * [Simple Transformers](other/simpletransformers.md)
-* [spaCy](spacy.md)
 * [Catalyst](other/catalyst.md)
 * [XGBoost](xgboost.md)
 * [LightGBM](lightgbm.md)

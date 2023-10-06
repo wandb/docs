@@ -1,5 +1,6 @@
 ---
 description: Use W&B to log distributed training experiments with multiple GPUs.
+displayed_sidebar: default
 ---
 
 # Log distributed training experiments
@@ -11,8 +12,8 @@ description: Use W&B to log distributed training experiments with multiple GPUs.
 
 In distributed training, models are trained using multiple GPUs in parallel. W&B supports two patterns to track distributed training experiments:
 
-1. **One process**: Initialize W&B ([`wandb.init`](https://docs.wandb.ai/ref/python/init)) and log experiments ([`wandb.log`](https://docs.wandb.ai/ref/python/log)) from a single process. This is a common solution for logging distributed training experiments with the [PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) Class. In some cases, users funnel data over from other processes using a multiprocessing queue (or another communication primitive) to the main logging process.
-2. **Many processes**: Initialize W&B ([`wandb.init`](https://docs.wandb.ai/ref/python/init)) and log experiments ([`wandb.log`](https://docs.wandb.ai/ref/python/log)) in every process. Each process is effectively a separate experiment. Use the `group` parameter when you initialize W&B (`wandb.init(group='group-name')`) to define a shared experiment and group the logged values together in the W&B App UI.
+1. **One process**: Initialize W&B ([`wandb.init`](../../../ref//python/init.md)) and log experiments ([`wandb.log`](../../../ref//python/log.md)) from a single process. This is a common solution for logging distributed training experiments with the [PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) Class. In some cases, users funnel data over from other processes using a multiprocessing queue (or another communication primitive) to the main logging process.
+2. **Many processes**: Initialize W&B ([`wandb.init`](../../../ref//python/init.md)) and log experiments ([`wandb.log`](../../../ref//python/log.md)) in every process. Each process is effectively a separate experiment. Use the `group` parameter when you initialize W&B (`wandb.init(group='group-name')`) to define a shared experiment and group the logged values together in the W&B App UI.
 
 The proceeding examples demonstrate how to track metrics with W&B using PyTorch DDP on two GPUs on a single machine. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp\_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the details of implementation may differ.
 
@@ -112,6 +113,7 @@ Modify your Python script to enable W&B Service for W&B SDK version 0.12.5 and a
 if __name__ == "__main__":
     main()
 
+
 def main():
     wandb.require("service")
     # rest-of-your-script-goes-here
@@ -134,14 +136,17 @@ Use the `wandb.setup()[line 8]`method in your main function if you initiate a W&
 ```python showLineNumbers
 import multiprocessing as mp
 
+
 def do_work(n):
     run = wandb.init(config=dict(n=n))
-    run.log(dict(this=n*n))
+    run.log(dict(this=n * n))
+
 
 def main():
     wandb.setup()
     pool = mp.Pool(processes=4)
     pool.map(do_work, range(4))
+
 
 if __name__ == "__main__":
     main()
@@ -155,12 +160,14 @@ Pass a W&B Run object as an argument to share W&B Runs between processes:
 def do_work(run):
     run.log(dict(this=1))
 
+
 def main():
     run = wandb.init()
     p = mp.Process(target=do_work, kwargs=dict(run=run))
     p.start()
     p.join()
-        
+
+
 if __name__ == "__main__":
     main()
 ```

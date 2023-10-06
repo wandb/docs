@@ -1,5 +1,6 @@
 ---
 description: Importing and logging data into W&B
+displayed_sidebar: default
 ---
 
 # Log data and experiments from a CSV file
@@ -36,11 +37,12 @@ iris_table = wandb.Table(dataframe=new_iris_dataframe)
 3. Next, create a W&B Artifact and add the table to the Artifact:
 
 ```python
-# Add the table to an Artifact to increase the row limit to 200000 and make it easier to reuse!
+# Add the table to an Artifact to increase the row
+# limit to 200000 and make it easier to reuse
 iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
 iris_table_artifact.add(iris_table, "iris_table")
 
-# We will also log the raw csv file within an artifact to preserve our data
+# Log the raw csv file within an artifact to preserve our data
 iris_table_artifact.add_file("iris.csv")
 ```
 For more information about W&B Artifacts, see the [Artifacts chapter](../../artifacts/intro.md).  
@@ -49,7 +51,7 @@ For more information about W&B Artifacts, see the [Artifacts chapter](../../arti
 
 ```python
 # Start a W&B run to log data
-run = wandb.init(project="Tables-Quickstart")
+run = wandb.init(project="tables-walkthrough")
 
 # Log the table to visualize with a run...
 run.log({"iris": iris_table})
@@ -60,7 +62,7 @@ run.log_artifact(iris_table_artifact)
 
 The `wandb.init()` API spawns a new background process to log data to a Run, and it synchronizes data to wandb.ai (by default). View live visualizations on your W&B Workspace Dashboard. The following image demonstrates the output of the code snippet demonstration.
 
-![CSV file imported into W&B Dashboard](../../../../static/images/track/import_csv_tutorial.png)
+![CSV file imported into W&B Dashboard](/images/track/import_csv_tutorial.png)
 
 
 The full script with the preceding code snippets is found below:
@@ -75,15 +77,16 @@ new_iris_dataframe = pd.read_csv("iris.csv")
 # Convert the DataFrame into a W&B Table
 iris_table = wandb.Table(dataframe=new_iris_dataframe)
 
-# Add the table to an Artifact to increase the row limit to 200000 and make it easier to reuse!
+# Add the table to an Artifact to increase the row
+# limit to 200000 and make it easier to reuse
 iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
 iris_table_artifact.add(iris_table, "iris_table")
 
-# We will also log the raw csv file within an artifact to preserve our data
+# log the raw csv file within an artifact to preserve our data
 iris_table_artifact.add_file("iris.csv")
 
 # Start a W&B run to log data
-run = wandb.init(project="Tables-Quickstart")
+run = wandb.init(project="tables-walkthrough")
 
 # Log the table to visualize with a run...
 run.log({"iris": iris_table})
@@ -138,7 +141,6 @@ METRIC_COLS = ["Training Losses"]
 
 # Format Pandas DataFrame to make it easier to work with
 for i, row in loaded_experiment_df.iterrows():
-    
     run_name = row[EXPERIMENT_NAME_COL]
     notes = row[NOTES_COL]
     tags = row[TAGS_COL]
@@ -150,7 +152,7 @@ for i, row in loaded_experiment_df.iterrows():
     metrics = {}
     for metric_col in METRIC_COLS:
         metrics[metric_col] = row[metric_col]
-    
+
     summaries = {}
     for summary_col in SUMMARY_COLS:
         summaries[summary_col] = row[summary_col]
@@ -160,7 +162,9 @@ for i, row in loaded_experiment_df.iterrows():
 2. Next,  start a new W&B Run to track and log to W&B with [`wandb.init()`](../../../ref/python/init.md):
 
 ```python
-run = wandb.init(project=PROJECT_NAME, name=run_name, tags=tags, notes=notes, config=config)
+run = wandb.init(
+    project=PROJECT_NAME, name=run_name, tags=tags, notes=notes, config=config
+)
 ```
 
 As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`](../../../ref/python/log.md) command to accomplish this:
@@ -193,7 +197,6 @@ SUMMARY_COLS = ["Final Train Acc", "Final Val Acc"]
 METRIC_COLS = ["Training Losses"]
 
 for i, row in loaded_experiment_df.iterrows():
-    
     run_name = row[EXPERIMENT_NAME_COL]
     notes = row[NOTES_COL]
     tags = row[TAGS_COL]
@@ -205,14 +208,14 @@ for i, row in loaded_experiment_df.iterrows():
     metrics = {}
     for metric_col in METRIC_COLS:
         metrics[metric_col] = row[metric_col]
-    
+
     summaries = {}
     for summary_col in SUMMARY_COLS:
         summaries[summary_col] = row[summary_col]
 
-
-    run = wandb.init(project=PROJECT_NAME, name=run_name,\
-    tags=tags, notes=notes, config=config)
+    run = wandb.init(
+        project=PROJECT_NAME, name=run_name, tags=tags, notes=notes, config=config
+    )
 
     for key, val in metrics.items():
         if isinstance(val, list):
@@ -220,7 +223,7 @@ for i, row in loaded_experiment_df.iterrows():
                 run.log({key: _val})
         else:
             run.log({key: val})
-            
+
     run.summary.update(summaries)
     run.finish()
 ```

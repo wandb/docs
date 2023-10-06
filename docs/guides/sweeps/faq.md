@@ -1,7 +1,7 @@
 ---
 description: Answers to frequently asked question about W&B Sweeps.
+displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -36,6 +36,7 @@ config_defaults = {"lr": 0.1, "batch_size": 256}
 #   that can be over-ridden by the sweep
 with wandb.init(config=config_default) as run:
     # add your training code here
+    ...
 ```
 
   </TabItem>
@@ -49,7 +50,7 @@ config_defaults = {"lr": 0.1, "batch_size": 256}
 with wandb.init() as run:
     # update any values not set by sweep
     run.config.setdefaults(config_defaults)
-    
+
     # add your training code here
 ```
 
@@ -158,7 +159,7 @@ os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
 If you want to optimize multiple metrics in the same run, you can use a weighted sum of the individual metrics.
 
 ```python
-metric_combined = 0.3*metric_a + 0.2*metric_b + ... + 1.5*metric_n
+metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
 wandb.log({"metric_combined": metric_combined})
 ```
 
@@ -172,7 +173,7 @@ metric:
 
 ### How do I enable code logging with Sweeps?
 
-To enable code logging for sweeps, simply add `wandb.log_code()` after you have initialized your W&B Run. This is necessary even when you have enabled code logging in the settings page of your W&B profile in the app. For more advanced code logging, see the [docs for `wandb.log_code()` here](https://docs.wandb.ai/ref/python/run#log\_code).
+To enable code logging for sweeps, simply add `wandb.log_code()` after you have initialized your W&B Run. This is necessary even when you have enabled code logging in the settings page of your W&B profile in the app. For more advanced code logging, see the [docs for `wandb.log_code()` here](../../ref/python/run.md#log_code).
 
 ### What is the "Est. Runs" column?
 
@@ -180,18 +181,20 @@ W&B provides an estimated number of Runs that will occur when you create a W&B S
 
 For example, suppose you provide the following search space:
 
-![](../../../static/images/sweeps/sweeps_faq_whatisestruns_1.png)
+![](/images/sweeps/sweeps_faq_whatisestruns_1.png)
 
 The cartesian product in this example is 9. W&B shows this number in the W&B App UI as the estimated run count (**Est. Runs**):
 
-![](../../../static/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp)
+![](/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp)
 
 
 You can obtain the estimated Run count with the W&B SDK as well. Use the Sweep object's `expected_run_count` attribute to obtain the estimated Run count:
 
 ```python
-sweep_id = wandb.sweep(sweep_configs, project="your_project_name", entity='your_entity_name')
+sweep_id = wandb.sweep(
+    sweep_configs, project="your_project_name", entity="your_entity_name"
+)
 api = wandb.Api()
-sweep=api.sweep(f"your_entity_name/your_project_name/sweeps/{sweep_id}")
+sweep = api.sweep(f"your_entity_name/your_project_name/sweeps/{sweep_id}")
 print(f"EXPECTED RUN COUNT = {sweep.expected_run_count}")
 ```

@@ -20,3 +20,13 @@ yarn-debug.log*
 yarn-error.log*
 
 /.quarto/
+.idea
+
+# Yarn stuff
+.yarnrc.yml
+.yarn/
+
+#wandb
+wandb/
+translate_dev/
+chatgpt*

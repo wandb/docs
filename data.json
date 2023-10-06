@@ -1,0 +1,1737 @@
+{
+  "redirects": [
+    {
+      "from": "/app",
+      "to": "/guides/app"
+    },
+    {
+      "from": "/app/features",
+      "to": "/guides/app/features"
+    },
+    {
+      "from": "/app/features/alerts",
+      "to": "/guides/runs/alert"
+    },
+    {
+      "from": "/app/features/custom-charts",
+      "to": "/guides/app/features/custom-charts"
+    },
+    {
+      "from": "/app/features/custom-charts-beta",
+      "to": "/guides/app/features/custom-charts-beta"
+    },
+    {
+      "from": "/app/features/custom-charts/walkthrough",
+      "to": "/guides/app/features/custom-charts/walkthrough"
+    },
+    {
+      "from": "/app/features/notes",
+      "to": "/guides/app/features/notes"
+    },
+    {
+      "from": "/app/features/panels",
+      "to": "/guides/app/features/panels"
+    },
+    {
+      "from": "/app/features/panels/code",
+      "to": "/guides/app/features/panels/code"
+    },
+    {
+      "from": "/app/features/panels/compare-metrics",
+      "to": "/guides/app/features/panels"
+    },
+    {
+      "from": "/app/features/panels/compare-metrics/reference",
+      "to": "/guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart"
+    },
+    {
+      "from": "/app/features/panels/compare-metrics/smoothing",
+      "to": "/guides/app/features/panels/compare-metrics/smoothing"
+    },
+    {
+      "from": "/app/features/panels/parameter-importance",
+      "to": "/guides/app/features/panels/parameter-importance"
+    },
+    {
+      "from": "/app/features/panels/run-colors",
+      "to": "/guides/app/features/panels/run-colors"
+    },
+    {
+      "from": "/app/features/panels/weave",
+      "to": "/guides/app/features/panels/weave"
+    },
+    {
+      "from": "/app/features/sidebar",
+      "to": "/guides/app/features/runs-table#add-sidebar-columns"
+    },
+    {
+      "from": "/app/features/sweeps",
+      "to": "/guides/sweeps"
+    },
+    {
+      "from": "/app/features/system-metrics",
+      "to": "/guides/app/features/system-metrics"
+    },
+    {
+      "from": "/app/features/tags",
+      "to": "/guides/app/features/tags"
+    },
+    {
+      "from": "/app/features/teams",
+      "to": "/guides/app/features/teams"
+    },
+    {
+      "from": "/app/pages/project-page",
+      "to": "/guides/app/pages/project-page"
+    },
+    {
+      "from": "/app/panels/parameter-importance",
+      "to": "/guides/app/features/panels/parameter-importance"
+    },
+    {
+      "from": "/app/visualizations",
+      "to": "/guides/app"
+    },
+    {
+      "from": "/artifacts",
+      "to": "/guides/artifacts"
+    },
+    {
+      "from": "/artifacts/api",
+      "to": "/ref/python/artifact"
+    },
+    {
+      "from": "/artifacts/dataset-versioning",
+      "to": "/guides/artifacts/create-a-new-artifact-version"
+    },
+    {
+      "from": "/artifacts/overview",
+      "to": "/guides/artifacts"
+    },
+    {
+      "from": "/artifacts/references",
+      "to": "/guides/artifacts/track-external-files"
+    },
+    {
+      "from": "/authenticate",
+      "to": "/"
+    },
+    {
+      "from": "/authorize",
+      "to": "/"
+    },
+    {
+      "from": "/classes",
+      "to": "/"
+    },
+    {
+      "from": "/cli",
+      "to": "/ref/cli"
+    },
+    {
+      "from": "/cn",
+      "to": "/"
+    },
+    {
+      "from": "/company",
+      "to": "https://wandb.ai/site/company"
+    },
+    {
+      "from": "/company/academics",
+      "to": "https://wandb.ai/site/research"
+    },
+    {
+      "from": "/company/beginner-faq",
+      "to": "/"
+    },
+    {
+      "from": "/company/classes",
+      "to": "/"
+    },
+    {
+      "from": "/company/classes/talks",
+      "to": "/"
+    },
+    {
+      "from": "/company/company-faq",
+      "to": "/"
+    },
+    {
+      "from": "/company/data-and-privacy",
+      "to": "https://security.wandb.ai"
+    },
+    {
+      "from": "/company/getting-help",
+      "to": "/"
+    },
+    {
+      "from": "/data-vis",
+      "to": "/guides/tables"
+    },
+    {
+      "from": "/data-vis/log-tables",
+      "to": "/guides/track/log/log-tables"
+    },
+    {
+      "from": "guides/tables/log-tables",
+      "to": "guides/track/log/log-tables"
+    },
+    {
+      "from": "guides/data-vis/tables",
+      "to: ": "guides/tables/visualize-tables"
+    },
+    {
+      "from": "guides/data-vis/tables-quickstart",
+      "to": "guides/tables/tables-walkthrough"
+    },
+    {
+      "from": "/datasets-and-predictions",
+      "to": "/guides/integrations/mmdetection#visualize-dataset-and-model-prediction"
+    },
+    {
+      "from": "/define-sweep-configuration",
+      "to": "/guides/sweeps/define-sweep-configuration"
+    },
+    {
+      "from": "/deployment",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/docs/config.html",
+      "to": "/ref/weave/run#run-config"
+    },
+    {
+      "from": "/docs/configs.html",
+      "to": "/guides/track/config"
+    },
+    {
+      "from": "/docs/frameworks/fastai.html",
+      "to": "/guides/integrations/fastai"
+    },
+    {
+      "from": "/docs/init.html",
+      "to": "/ref/python/init"
+    },
+    {
+      "from": "/docs/integrations/api.html",
+      "to": "/ref/python/public-api/api"
+    },
+    {
+      "from": "/docs/integrations/docker.html",
+      "to": "/guides/integrations/docker"
+    },
+    {
+      "from": "/docs/integrations/sagemaker.html",
+      "to": "/guides/integrations/sagemaker"
+    },
+    {
+      "from": "/docs/restoring.html",
+      "to": "/"
+    },
+    {
+      "from": "/docs/resuming.html",
+      "to": "/guides/runs/resuming"
+    },
+    {
+      "from": "/docs/saving.html",
+      "to": "/guides/app/features/panels/code"
+    },
+    {
+      "from": "/docs/started.html",
+      "to": "/quickstart"
+    },
+    {
+      "from": "/docs/sweep.html",
+      "to": "/guides/sweeps"
+    },
+    {
+      "from": "/examples",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/frameworks/keras",
+      "to": "/guides/integrations/keras"
+    },
+    {
+      "from": "/frameworks/pytorch",
+      "to": "/guides/integrations/pytorch"
+    },
+    {
+      "from": "/getting-started",
+      "to": "/quickstart"
+    },
+    {
+      "from": "/guides/app//settings-page/team-settings",
+      "to": "/guides/app/settings-page/team-settings"
+    },
+    {
+      "from": "/guides/app/features/app/features/panels/parallel-coordinates",
+      "to": "/guides/app/features/app/features/panels/parallel-coordinates"
+    },
+    {
+      "from": "/guides/app/features/panels/compare-metrics",
+      "to": "/guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart"
+    },
+    {
+      "from": "/guides/app/features/panels/compare-metrics/reference",
+      "to": "/guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart"
+    },
+    {
+      "from": "/guides/app/features/panels/panels",
+      "to": "/guides/app/features/panels"
+    },
+    {
+      "from": "/guides/app/pages/guides/app/settings-page",
+      "to": "/guides/app/pages"
+    },
+    {
+      "from": "/guides/app/pages/intro",
+      "to": "/guides/app/pages"
+    },
+    {
+      "from": "/guides/app/pages/settings-page",
+      "to": "/guides/app/settings-page"
+    },
+    {
+      "from": "/guides/app/pages/settings-page/team-settings",
+      "to": "/guides/app/pages/settings-page/team-settings"
+    },
+    {
+      "from": "/guides/app/pages/settings-page/user-settings",
+      "to": "/guides/app/pages/settings-page/user-settings"
+    },
+    {
+      "from": "/guides/app/settings-page/intro",
+      "to": "/guides/app/settings-page"
+    },
+    {
+      "from": "/guides/artifacts-1",
+      "to": "/guides/artifacts"
+    },
+    {
+      "from": "/guides/artifacts/quickstart",
+      "to": "/guides/artifacts/artifacts-walkthrough"
+    },
+    {
+      "from": "/guides/artifacts/api",
+      "to": "ref/python/public-api/api#artifact"
+    },
+    {
+      "from": "/guides/artifacts/artifacts-core-concepts",
+      "to": "/guides/artifacts"
+    },
+    {
+      "from": "/guides/artifacts/dataset-versioning",
+      "to": "/guides/artifacts"
+    },
+    {
+      "from": "/guides/artifacts/model-versioning",
+      "to": "/guides/model_registry"
+    },
+    {
+      "from": "/guides/artifacts/references",
+      "to": "/guides/artifacts"
+    },
+    {
+      "from": "/guides/artifacts/using-artifacts",
+      "to": "/guides/artifacts/download-and-use-an-artifact"
+    },
+    {
+      "from": "/guides/comparing-runs",
+      "to": "/guides/runs"
+    },
+    {
+      "from": "/guides/config",
+      "to": "/guides/sweeps/define-sweep-configuration"
+    },
+    {
+      "from": "/guides/configurations",
+      "to": "/guides/track/config"
+    },
+    {
+      "from": "/guides/data-and-model-versioning",
+      "to": "/"
+    },
+    {
+      "from": "/guides/data-and-model-versioning/dataset-versioning",
+      "to": "/guides/artifacts"
+    },
+    {
+      "from": "/guides/data-and-model-versioning/intro",
+      "to": "/"
+    },
+    {
+      "from": "/guides/data-and-model-versioning/model-versioning",
+      "to": "/guides/model_registry"
+    },
+    {
+      "from": "/guides/data-vis/log-tables",
+      "to": "/guides/track/log/log-tables"
+    },
+    {
+      "from": "/guides/data-vis/log-tables](https://docs.wandb.ai/guides/data-vis/log-tables",
+      "to": "/guides/data-vis"
+    },
+    {
+      "from": "/guides/data_types",
+      "to": "/ref/python/data-types"
+    },
+    {
+      "from": "/guides/datasets-and-predictions",
+      "to": "/"
+    },
+    {
+      "from": "/guides/experiments/track",
+      "to": "/guides/track"
+    },
+    {
+      "from": "/guides/hosting/intro",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/basic-setup",
+      "to": "/guides/hosting/how-to-guides/basic-setup"
+    },
+    {
+      "from": "/guides/hosting/hosting-upgrade",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/local",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/quickstart",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/setup",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/setup/configuration",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/setup/intro",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/system-admin",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/integrations/boosting",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/guides/integrations/fastai/v2",
+      "to": "/guides/integrations/fastai"
+    },
+    {
+      "from": "/guides/integrations/jax",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/guides/integrations/kerasyou",
+      "to": "/guides/integrations/keras"
+    },
+    {
+      "from": "/guides/integrations/kubeflow",
+      "to": "/guides/integrations/kubeflow-pipelines-kfp"
+    },
+    {
+      "from": "/guides/integrations/mmsegmentation",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/guides/integrations/open",
+      "to": "/guides/integrations/openai"
+    },
+    {
+      "from": "/guides/integrations/other",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/guides/integrations/other/accelerate",
+      "to": "/guides/integrations/accelerate"
+    },
+    {
+      "from": "/guides/integrations/other/add-wandb-to-any-library",
+      "to": "/guides/integrations/add-wandb-to-any-library"
+    },
+    {
+      "from": "/guides/integrations/other/catalyst",
+      "to": "/guides/integrations/catalyst"
+    },
+    {
+      "from": "/guides/integrations/other/composer",
+      "to": "/guides/integrations/composer"
+    },
+    {
+      "from": "/guides/integrations/other/dagster",
+      "to": "/guides/integrations/dagster"
+    },
+    {
+      "from": "/guides/integrations/other/dagster](https://docs.wandb.ai/guides/integrations/other/dagster",
+      "to": "/guides/integrations/dagster"
+    },
+    {
+      "from": "/guides/integrations/other/databricks",
+      "to": "/guides/integrations/databricks"
+    },
+    {
+      "from": "/guides/integrations/other/deepchecks",
+      "to": "/guides/integrations/deepchecks"
+    },
+    {
+      "from": "/guides/integrations/other/deepchem",
+      "to": "/guides/integrations/deepchem"
+    },
+    {
+      "from": "/guides/integrations/other/docker",
+      "to": "/guides/integrations/docker"
+    },
+    {
+      "from": "/guides/integrations/other/fastai",
+      "to": "/guides/integrations/fastai"
+    },
+    {
+      "from": "/guides/integrations/other/fastai/v1",
+      "to": "/guides/integrations/fastai/v1"
+    },
+    {
+      "from": "/guides/integrations/other/huggingface",
+      "to": "/guides/integrations/huggingface"
+    },
+    {
+      "from": "/guides/integrations/other/hydra",
+      "to": "/guides/integrations/hydra"
+    },
+    {
+      "from": "/guides/integrations/other/ignite",
+      "to": "/guides/integrations/ignite"
+    },
+    {
+      "from": "/guides/integrations/other/keras",
+      "to": "/guides/integrations/keras"
+    },
+    {
+      "from": "/guides/integrations/other/kubeflow",
+      "to": "/guides/integrations/kubeflow-pipelines-kfp"
+    },
+    {
+      "from": "/guides/integrations/other/kubeflow-pipelines-kfp",
+      "to": "/guides/integrations/kubeflow-pipelines-kfp"
+    },
+    {
+      "from": "/guides/integrations/other/lightgbm",
+      "to": "/guides/integrations/lightgbm"
+    },
+    {
+      "from": "/guides/integrations/other/lightning",
+      "to": "/guides/integrations/lightning"
+    },
+    {
+      "from": "/guides/integrations/other/metaflow",
+      "to": "/guides/integrations/metaflow"
+    },
+    {
+      "from": "/guides/integrations/other/mmdetection",
+      "to": "/guides/integrations/mmdetection"
+    },
+    {
+      "from": "/guides/integrations/other/mmf",
+      "to": "/guides/integrations/mmf"
+    },
+    {
+      "from": "/guides/integrations/other/openai",
+      "to": "/guides/integrations/openai"
+    },
+    {
+      "from": "/guides/integrations/other/openai-gym",
+      "to": "/guides/integrations/openai-gym"
+    },
+    {
+      "from": "/guides/integrations/other/openai/)",
+      "to": "/guides/integrations/openai"
+    },
+    {
+      "from": "/guides/integrations/other/paddledetection",
+      "to": "/guides/integrations/paddledetection"
+    },
+    {
+      "from": "/guides/integrations/other/paddleocr",
+      "to": "/guides/integrations/paddleocr"
+    },
+    {
+      "from": "/guides/integrations/other/prodigy",
+      "to": "/guides/integrations/prodigy"
+    },
+    {
+      "from": "/guides/integrations/other/pytorch",
+      "to": "/guides/integrations/pytorch"
+    },
+    {
+      "from": "/guides/integrations/other/ray-tune",
+      "to": "/guides/integrations/ray-tune"
+    },
+    {
+      "from": "/guides/integrations/other/sagemaker",
+      "to": "/guides/integrations/sagemaker"
+    },
+    {
+      "from": "/guides/integrations/other/scikit",
+      "to": "/guides/integrations/scikit"
+    },
+    {
+      "from": "/guides/integrations/other/simpletransformers",
+      "to": "/guides/integrations/simpletransformers"
+    },
+    {
+      "from": "/guides/integrations/other/skorch",
+      "to": "/guides/integrations/skorch"
+    },
+    {
+      "from": "/guides/integrations/other/spacy",
+      "to": "/guides/integrations/spacy"
+    },
+    {
+      "from": "/guides/integrations/other/stable-baselines-3",
+      "to": "/guides/integrations/stable-baselines-3"
+    },
+    {
+      "from": "/guides/integrations/other/tensorboard",
+      "to": "/guides/integrations/tensorboard"
+    },
+    {
+      "from": "/guides/integrations/other/tensorflow",
+      "to": "/guides/integrations/tensorflow"
+    },
+    {
+      "from": "/guides/integrations/other/w-and-b-for-julia",
+      "to": "/guides/integrations/w-and-b-for-julia"
+    },
+    {
+      "from": "/guides/integrations/other/xgboost",
+      "to": "/guides/integrations/xgboost"
+    },
+    {
+      "from": "/guides/integrations/other/yolov5",
+      "to": "/guides/integrations/yolov5"
+    },
+    {
+      "from": "/guides/integrations/other/yolox",
+      "to": "/guides/integrations/yolox"
+    },
+    {
+      "from": "/guides/integrations/otherray-tune",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/guides/integrations/r",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/guides/integrations/tensorboardgetting%20recal%20from%20precision",
+      "to": "/guides/integrations/tensorboard"
+    },
+    {
+      "from": "/guides/integrations/w-and-b-for-r",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/guides/integrations/yolov8",
+      "to": "/guides/integrations/yolov5"
+    },
+    {
+      "from": "/guides/intro",
+      "to": "/"
+    },
+    {
+      "from": "/guides/launch/containers",
+      "to": "/guides/launch"
+    },
+    {
+      "from": "/guides/launch/integrations",
+      "to": "/guides/launch"
+    },
+    {
+      "from": "/guides/launch/integrations/sagemaker",
+      "to": "/guides/launch"
+    },
+    {
+      "from": "/guides/launch/prerequisites",
+      "to": "/guides/launch/getting-started"
+    },
+    {
+      "from": "/guides/launch/add-jobs-to-queue",
+      "to": "/guides/launch/create-queue"
+    },
+    {
+      "from": "/guides/launch/create-job",
+      "to": "/guides/launch/create-launch-job"
+    },    
+    {
+      "from": "/guides/launch/getting-started",
+      "to": "/guides/launch/walkthrough"
+    },
+    {
+      "from": "/guides/launch/launch-jobs",
+      "to": "/guides/launch/add-job-to-queue"
+    },    
+    {
+      "from": "/guides/models",
+      "to" : "/guides/model_registry"
+    },
+    {
+      "from": "/guides/models/walkthrough",
+      "to" : "/guides/model_registry/walkthrough"
+    },
+    {
+      "from": "/guides/models/model_tags",
+      "to" : "/guides/model_registry/model_tags"
+    },
+    {
+      "from": "/guides/models/access_controls",
+      "to" : "/guides/model_registry/access_controls"
+    },
+    {
+      "from": "/guides/models/automation",
+      "to" : "/guides/model_registry/automation"
+    },
+    {
+      "from": "/guides/models/notifications",
+      "to" : "/guides/model_registry/notifications"
+    },
+    {
+      "from": "/guides/models/model-management-concepts",
+      "to" : "/guides/model_registry/model-management-concepts"
+    },
+    {
+      "from": "/guides/manage-runs",
+      "to": "/guides/runs/manage-runs"
+    },
+    {
+      "from": "/guides/projects/campaigns",
+      "to": "/"
+    },
+    {
+      "from": "/guides/projects/sharing-and-visibility",
+      "to": "/"
+    },
+    {
+      "from": "/guides/reference/data_types",
+      "to": "/ref/python/data-types"
+    },
+    {
+      "from": "/guides/reports/reports-walkthrough",
+      "to": "/guides/reports"
+    },
+    {
+      "from": "/guides/run/grouping",
+      "to": "/guides/runs/grouping"
+    },
+    {
+      "from": "/guides/self-hosted",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/self-hosted/)",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/self-hosted/).ai/authorizerl+c",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/self-hosted/)wandb",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/self-hosted/)wandb:YoucanfindyourAPI",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/self-hosted/configuration",
+      "to": "/guides/hosting/env-vars"
+    },
+    {
+      "from": "/guides/self-hosted/local",
+      "to": "/guides/hosting/basic-setup"
+    },
+    {
+      "from": "/guides/self-hosted/local-common-questions",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/self-hosted/setup",
+      "to": "/guides/hosting/setup"
+    },
+    {
+      "from": "/guides/self-hosted/setup/configuration",
+      "to": "/guides/hosting/env-vars"
+    },
+    {
+      "from": "/guides/self-hosted/setup/dedicated-cloud",
+      "to": "/guides/hosting/hosting-options/wb-managed"
+    },
+    {
+      "from": "/guides/self-hosted/setup/on-premise-baremetal",
+      "to": "/guides/hosting/hosting-options/self-managed#on-prem-bare-metal"
+    },
+    {
+      "from": "/guides/self-hosted/setup/private-cloud",
+      "to": "/guides/hosting/hosting-options"
+    },
+    {
+      "from": "/guides/self-hosted/system-admin",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/sweeps/advanced-sweeps/ray-tune",
+      "to": "/guides/integrations/ray-tune"
+    },
+    {
+      "from": "/guides/sweeps/configuration",
+      "to": "/guides/sweeps/define-sweep-configuration"
+    },
+    {
+      "from": "/guides/sweeps/parallelize-agent",
+      "to": "/guides/sweeps/parallelize-agents"
+    },
+    {
+      "from": "/guides/sweeps/python-api",
+      "to": "/ref/python/public-api/api"
+    },
+    {
+      "from": "/guides/track/advanced",
+      "to": "/guides/track"
+    },
+    {
+      "from": "/guides/track/advanced/alert",
+      "to": "/guides/runs/alert"
+    },
+    {
+      "from": "/guides/track/advanced/customizing-runs",
+      "to": "/guides/runs"
+    },
+    {
+      "from": "/guides/track/advanced/distributed-training",
+      "to": "/guides/track/log/distributed-training"
+    },
+    {
+      "from": "/guides/track/advanced/environment-variables",
+      "to": "/guides/track/environment-variables"
+    },
+    {
+      "from": "/guides/track/advanced/grouping",
+      "to": "/guides/runs/grouping"
+    },
+    {
+      "from": "/guides/track/advanced/init",
+      "to": "/guides/track"
+    },
+    {
+      "from": "/guides/track/advanced/integrations",
+      "to": "/guides/track"
+    },
+    {
+      "from": "/guides/track/advanced/integrations/google-colab",
+      "to": "/guides/track/jupyter"
+    },
+    {
+      "from": "/guides/track/advanced/offline",
+      "to": "/guides/track"
+    },
+    {
+      "from": "/guides/track/advanced/resuming",
+      "to": "/guides/runs/resuming"
+    },
+    {
+      "from": "/guides/track/advanced/save-restore",
+      "to": "/guides/track/save-restore"
+    },
+    {
+      "from": "/guides/track/alert",
+      "to": "/guides/runs/alert"
+    },
+    {
+      "from": "/guides/track/colab",
+      "to": "/guides/track/jupyter"
+    },
+    {
+      "from": "/guides/track/configurations",
+      "to": "/guides/track/config"
+    },
+    {
+      "from": "/guides/track/data-offline",
+      "to": "/guides/track"
+    },
+    {
+      "from": "/guides/track/distributed-training",
+      "to": "/guides/track/log/distributed-training"
+    },
+    {
+      "from": "/guides/track/grouping",
+      "to": "/guides/runs/grouping"
+    },
+    {
+      "from": "/guides/track/local",
+      "to": "/guides/track"
+    },
+    {
+      "from": "/guides/track/log-a-model",
+      "to": "/guides/track/log"
+    },
+    {
+      "from": "/guides/track/log-interactive-plots",
+      "to": "/guides/track/log"
+    },
+    {
+      "from": "/guides/track/log/intro",
+      "to": "/guides/track/log"
+    },
+    {
+      "from": "/guides/track/log/media/image-logging-de-duplication",
+      "to": "/guides/track/log/media"
+    },
+    {
+      "from": "/guides/track/log/tables",
+      "to": "/guides/track/log/log-tables"
+    },
+    {
+      "from": "/guides/track/media",
+      "to": "/guides/track/log/media"
+    },
+    {
+      "from": "/guides/track/plots",
+      "to": "/guides/track/log/plots"
+    },
+    {
+      "from": "/guides/track/save-restore",
+      "to": "/guides/artifacts"
+    },
+    {
+      "from": "/guides/track/summary-metrics",
+      "to": "/guides/track/log/log-summary"
+    },
+    {
+      "from": "/guides/troubleshooting/network",
+      "to": "/guides/technical-faq"
+    },
+    {
+      "from": "/home",
+      "to": "/"
+    },
+    {
+      "from": "/hosting",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/hosting/setup",
+      "to": "/hosting"
+    },
+    {
+      "from": "/huggingface",
+      "to": "/guides/integrations/huggingface"
+    },
+    {
+      "from": "/integrations",
+      "to": "/guides/intgrations"
+    },
+    {
+      "from": "/integrations/databricks",
+      "to": "/guides/integrations/databricks"
+    },
+    {
+      "from": "/integrations/docker",
+      "to": "/guides/integrations/docker"
+    },
+    {
+      "from": "/integrations/huggingface",
+      "to": "/guides/integrations/huggingface"
+    },
+    {
+      "from": "/integrations/jupyter",
+      "to": "/guides/track/jupyter"
+    },
+    {
+      "from": "/integrations/jupyter.html",
+      "to": "/guides/track/jupyter"
+    },
+    {
+      "from": "/integrations/keras",
+      "to": "/guides/integrations/keras"
+    },
+    {
+      "from": "/integrations/lightning",
+      "to": "/guides/integrations/lightning"
+    },
+    {
+      "from": "/integrations/lightning%3E%60_",
+      "to": "/guides/integrations/lightning"
+    },
+    {
+      "from": "/integrations/openai-gym",
+      "to": "/guides/integrations/openai-gym"
+    },
+    {
+      "from": "/integrations/pytorch",
+      "to": "/guides/integrations/pytorch"
+    },
+    {
+      "from": "/integrations/ray-tune",
+      "to": "/guides/integrations/ray-tune"
+    },
+    {
+      "from": "/integrations/scikit",
+      "to": "/guides/integrations/scikit"
+    },
+    {
+      "from": "/integrations/simpletransformers",
+      "to": "/guides/integrations/simpletransformers"
+    },
+    {
+      "from": "/integrations/tensorboard",
+      "to": "/guides/integrations/tensorboard"
+    },
+    {
+      "from": "/integrations/tensorflow",
+      "to": "/guides/integrations/tensorflow"
+    },
+    {
+      "from": "/integrations/yolov5",
+      "to": "/guides/integrations/yolov5"
+    },
+    {
+      "from": "/java",
+      "to": "/ref"
+    },
+    {
+      "from": "/ref/java",
+      "to": "/ref"
+    },
+    {
+      "from": "/ref/java/wandbrun-builder",
+      "to": "/ref"
+    },
+    {
+      "from": "/ref/java/wandbrun",
+      "to": "/ref"
+    },
+    {
+      "from": "/jp",
+      "to": "/"
+    },
+    {
+      "from": "/ko",
+      "to": "/"
+    },
+    {
+      "from": "/library",
+      "to": "/ref/python"
+    },
+    {
+      "from": "/library/advanced/environment-variables",
+      "to": "/guides/track/environment-variables"
+    },
+    {
+      "from": "/library/advanced/grouping",
+      "to": "/guides/runs/grouping"
+    },
+    {
+      "from": "/library/advanced/limits",
+      "to": "/guides/track/limits"
+    },
+    {
+      "from": "/library/advanced/resuming",
+      "to": "/guides/runs/resuming"
+    },
+    {
+      "from": "/library/agents",
+      "to": "/ref/python/agent"
+    },
+    {
+      "from": "/library/api",
+      "to": "/ref/python/public-api/api"
+    },
+    {
+      "from": "/library/api/examples",
+      "to": "/ref/python/public-api/api"
+    },
+    {
+      "from": "/library/cli",
+      "to": "/ref/cli"
+    },
+    {
+      "from": "/library/config",
+      "to": "/ref/weave/run#run-config"
+    },
+    {
+      "from": "/library/distributed-training",
+      "to": "/guides/track/log/distributed-training"
+    },
+    {
+      "from": "/library/environment-variables",
+      "to": "/guides/track/environment-variables"
+    },
+    {
+      "from": "/library/example-projects",
+      "to": "/guides/integrations/tensorflow#examples"
+    },
+    {
+      "from": "/library/frameworks",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/library/frameworks/keras",
+      "to": "/guides/integrations/keras"
+    },
+    {
+      "from": "/library/frameworks/pytorch",
+      "to": "/guides/integrations/pytorch"
+    },
+    {
+      "from": "/library/frameworks/pytorch/lightning",
+      "to": "/guides/integrations/lightning"
+    },
+    {
+      "from": "/library/frameworks/scikit",
+      "to": "/guides/integrations/scikit"
+    },
+    {
+      "from": "/library/frameworks/xgboost",
+      "to": "/guides/integrations/xgboost"
+    },
+    {
+      "from": "/library/graphs/graph-edit-axes",
+      "to": "/"
+    },
+    {
+      "from": "/library/grouping",
+      "to": "/guides/runs/grouping"
+    },
+    {
+      "from": "/library/hyperparameter-sweeps",
+      "to": "/guides/sweeps"
+    },
+    {
+      "from": "/library/init",
+      "to": "/ref/python/init"
+    },
+    {
+      "from": "/library/integrations",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/library/integrations/catalyst",
+      "to": "/guides/integrations/catalyst"
+    },
+    {
+      "from": "/library/integrations/cpp",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/library/integrations/docker",
+      "to": "/guides/integrations/docker"
+    },
+    {
+      "from": "/library/integrations/fastai",
+      "to": "/guides/integrations/fastai"
+    },
+    {
+      "from": "/library/integrations/huggingface",
+      "to": "/guides/integrations/huggingface"
+    },
+    {
+      "from": "/library/integrations/jupyter",
+      "to": "/guides/integrations"
+    },
+    {
+      "from": "/library/integrations/keras",
+      "to": "/guides/integrations/keras"
+    },
+    {
+      "from": "/library/integrations/lightgbm",
+      "to": "/guides/integrations/lightgbm"
+    },
+    {
+      "from": "/library/integrations/lightning",
+      "to": "/guides/integrations/lightning"
+    },
+    {
+      "from": "/library/integrations/openai-gym",
+      "to": "/guides/integrations/openai-gym"
+    },
+    {
+      "from": "/library/integrations/pytorch",
+      "to": "/guides/integrations/pytorch"
+    },
+    {
+      "from": "/library/integrations/pytorch-lightning",
+      "to": "/guides/integrations/lightning"
+    },
+    {
+      "from": "/library/integrations/ray-tune",
+      "to": "/guides/integrations/ray-tune"
+    },
+    {
+      "from": "/library/integrations/scikit",
+      "to": "/guides/integrations/scikit"
+    },
+    {
+      "from": "/library/integrations/tensorflow",
+      "to": "/guides/integrations/tensorflow"
+    },
+    {
+      "from": "/library/integrations/xgboost",
+      "to": "/guides/integrations/xgboost"
+    },
+    {
+      "from": "/library/log",
+      "to": "/ref/python/log"
+    },
+    {
+      "from": "/library/plots",
+      "to": "/guides/app"
+    },
+    {
+      "from": "/library/plots/heatmap",
+      "to": "/guides/track/log/media"
+    },
+    {
+      "from": "/library/public-api-guide",
+      "to": "/ref/python/public-api/api"
+    },
+    {
+      "from": "/library/python/config",
+      "to": "/ref/python"
+    },
+    {
+      "from": "/library/python/log",
+      "to": "/ref/python/log"
+    },
+    {
+      "from": "/library/reference/data_types",
+      "to": "/ref/python/data-types"
+    },
+    {
+      "from": "/library/restore",
+      "to": "/ref/python"
+    },
+    {
+      "from": "/library/resuming",
+      "to": "/guides/runs/resuming"
+    },
+    {
+      "from": "/library/save",
+      "to": "/ref/python/public-api/run#save"
+    },
+    {
+      "from": "/library/security",
+      "to": "https://security.wandb.ai"
+    },
+    {
+      "from": "/library/sweeps",
+      "to": "/ref/python/sweep"
+    },
+    {
+      "from": "/library/sweeps/configuration",
+      "to": "/ref/python/sweep"
+    },
+    {
+      "from": "/library/sweeps/local-controller",
+      "to": "/guides/sweeps/local-controller"
+    },
+    {
+      "from": "/library/sweeps/python-api",
+      "to": "/ref/python/public-api/sweep"
+    },
+    {
+      "from": "/library/tables",
+      "to": "/ref/python/data-types/table"
+    },
+    {
+      "from": "/library/technical-faq",
+      "to": "/guides/hosting/faq"
+    },
+    {
+      "from": "/library/wandb.alert",
+      "to": "/ref/python/"
+    },
+    {
+      "from": "/library/wandb.init",
+      "to": "/ref/python/init"
+    },
+    {
+      "from": "/library/wandb.save",
+      "to": "/ref/python"
+    },
+    {
+      "from": "/python",
+      "to": "/ref/python"
+    },
+    {
+      "from": "/quickstar",
+      "to": "/quickstart"
+    },
+    {
+      "from": "/quickstart/korea",
+      "to": "/quickstart"
+    },
+    {
+      "from": "/quickstart/korean",
+      "to": "/quickstart"
+    },
+    {
+      "from": "/ref/README",
+      "to": "/ref"
+    },
+    {
+      "from": "/ref/api/public-methods",
+      "to": "/ref/python/public-api"
+    },
+    {
+      "from": "/ref/app",
+      "to": "/guides/app"
+    },
+    {
+      "from": "/ref/app/feature",
+      "to": "/guides/app/features"
+    },
+    {
+      "from": "/ref/app/features",
+      "to": "/guides/app/features"
+    },
+    {
+      "from": "/ref/app/features/alerts",
+      "to": "/guides/app"
+    },
+    {
+      "from": "/ref/app/features/anon",
+      "to": "/guides/app/features/anon"
+    },
+    {
+      "from": "/ref/app/features/custom-charts",
+      "to": "/guides/app/features/custom-charts"
+    },
+    {
+      "from": "/ref/app/features/custom-charts/walkthrough",
+      "to": "/guides/app/features/custom-charts"
+    },
+    {
+      "from": "/ref/app/features/notes",
+      "to": "/guides/app/features/notes"
+    },
+    {
+      "from": "/ref/app/features/panels",
+      "to": "/guides/app/features/panels"
+    },
+    {
+      "from": "/ref/app/features/panels/bar-plot",
+      "to": "/guides/app/features/panels/bar-plot"
+    },
+    {
+      "from": "/ref/app/features/panels/code",
+      "to": "/guides/app/features/panels/code"
+    },
+    {
+      "from": "/ref/app/features/panels/line-plot",
+      "to": "/guides/app/features/panels/line-plot"
+    },
+    {
+      "from": "/ref/app/features/panels/line-plot/reference",
+      "to": "/guides/app/features/panels/line-plot/reference"
+    },
+    {
+      "from": "/ref/app/features/panels/line-plot/sampling",
+      "to": "/guides/app/features/panels/line-plot"
+    },
+    {
+      "from": "/ref/app/features/panels/line-plot/smoothing",
+      "to": "/guides/app/features/panels/line-plot/smoothing"
+    },
+    {
+      "from": "/ref/app/features/panels/parallel-coordinates",
+      "to": "/guides/app/features/panels/parallel-coordinates"
+    },
+    {
+      "from": "/ref/app/features/panels/parameter-importance",
+      "to": "/guides/app/features/panels/parameter-importance"
+    },
+    {
+      "from": "/ref/app/features/panels/run-colors",
+      "to": "/guides/app/features/panels/run-colors"
+    },
+    {
+      "from": "/ref/app/features/panels/run-comparer",
+      "to": "/guides/app/features/panels/run-comparer"
+    },
+    {
+      "from": "/ref/app/features/panels/scatter-plot",
+      "to": "/guides/app/features/panels/scatter-plot"
+    },
+    {
+      "from": "/ref/app/features/panels/weave",
+      "to": "/guides/app/features/panels/weave"
+    },
+    {
+      "from": "/ref/app/features/panels/weave/embedding-projector",
+      "to": "/guides/app/features/panels/weave/embedding-projector"
+    },
+    {
+      "from": "/ref/app/features/runs-table",
+      "to": "/guides/app/features/runs-table"
+    },
+    {
+      "from": "/ref/app/features/sweeps",
+      "to": "/guides/sweeps"
+    },
+    {
+      "from": "/ref/app/features/system-metrics",
+      "to": "/guides/app/features/system-metrics"
+    },
+    {
+      "from": "/ref/app/features/tags",
+      "to": "/guides/app/features/tags"
+    },
+    {
+      "from": "/ref/app/features/teams",
+      "to": "/guides/app/features/teams"
+    },
+    {
+      "from": "/ref/app/pages",
+      "to": "/guides/app/pages"
+    },
+    {
+      "from": "/ref/app/pages/gradient-panel",
+      "to": "/guides/app/pages/gradient-panel"
+    },
+    {
+      "from": "/ref/app/pages/project-page",
+      "to": "/guides/app/pages/project-page"
+    },
+    {
+      "from": "/ref/app/pages/run-page",
+      "to": "/guides/app/pages/run-page"
+    },
+    {
+      "from": "/ref/app/pages/settings-page",
+      "to": "/guides/app/settings-page"
+    },
+    {
+      "from": "/ref/app/pages/settings-page/emails",
+      "to": "/guides/app/settings-page/emails"
+    },
+    {
+      "from": "/ref/app/pages/settings-page/team-settings",
+      "to": "/guides/app/settings-page/team-settings"
+    },
+    {
+      "from": "/ref/app/pages/settings-page/user-settings",
+      "to": "/guides/app/settings-page/user-settings"
+    },
+    {
+      "from": "/ref/app/pages/workspaces",
+      "to": "/guides/app/pages/workspaces"
+    },
+    {
+      "from": "/ref/cli/wandb-server-start",
+      "to": "/ref/cli/wandb-server"
+    },
+    {
+      "from": "/ref/data-types",
+      "to": "/ref/python/data-types"
+    },
+    {
+      "from": "/ref/data_types",
+      "to": "/ref/python/data-types"
+    },
+    {
+      "from": "/ref/export-api/examples",
+      "to": "/ref/python/public-api"
+    },
+    {
+      "from": "/ref/history",
+      "to": "/"
+    },
+    {
+      "from": "/ref/init-1",
+      "to": "/ref/python/init"
+    },
+    {
+      "from": "/ref/public-api",
+      "to": "/ref/python/public-api/api"
+    },
+    {
+      "from": "/ref/python/README",
+      "to": "/ref/python"
+    },
+    {
+      "from": "/ref/python/config",
+      "to": "/ref/python"
+    },
+    {
+      "from": "/ref/python/data_types",
+      "to": "/ref/python/data-types"
+    },
+    {
+      "from": "/ref/python/errors",
+      "to": "/ref/python"
+    },
+    {
+      "from": "/ref/python/ini",
+      "to": "/ref/python/init"
+    },
+    {
+      "from": "/ref/python/inittorch.view_as_real",
+      "to": "/ref/python/init"
+    },
+    {
+      "from": "/ref/python/integrations/sklearn",
+      "to": "/guides/integrations/scikit"
+    },
+    {
+      "from": "/ref/python/join",
+      "to": "/ref/python"
+    },
+    {
+      "from": "/ref/python/wandb.ai/settings",
+      "to": "/ref/python"
+    },
+    {
+      "from": "/ref/run/summary",
+      "to": "/ref/python/run"
+    },
+    {
+      "from": "/ref/sweep/configurations",
+      "to": "/guides/sweeps/define-sweep-configuration"
+    },
+    {
+      "from": "/ref/weave/README",
+      "to": "/ref/weave"
+    },
+    {
+      "from": "/reports",
+      "to": "/guides/reports/create-a-report"
+    },
+    {
+      "from": "/resources/technical-faq",
+      "to": "/"
+    },
+    {
+      "from": "/runner",
+      "to": "/"
+    },
+    {
+      "from": "/scikit",
+      "to": "/guides/integrations/scikit"
+    },
+    {
+      "from": "/search.json",
+      "to": "/"
+    },
+    {
+      "from": "/self-hosted",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/self-hosted/configuration",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/self-hosted/local",
+      "to": "/guides/hosting/basic-setup"
+    },
+    {
+      "from": "/self-hosted/local%EF%BC%8C",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/self-hosted/local-common-questions",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/self-hosted/local]",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/self-hosted/run-docker-server",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/self-hosted/setup",
+      "to": "/guides/hosting/setup"
+    },
+    {
+      "from": "/self-hoted/local",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/site",
+      "to": "/"
+    },
+    {
+      "from": "/start/windows",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/sweeps",
+      "to": "/guides/sweeps"
+    },
+    {
+      "from": "/sweeps/add-to-existing",
+      "to": "/guides/sweeps/add-w-and-b-to-your-code"
+    },
+    {
+      "from": "/sweeps/configuration",
+      "to": "/guides/sweeps/define-sweep-configuration"
+    },
+    {
+      "from": "/sweeps/early-stopping",
+      "to": "/guides/sweeps/define-sweep-configuration"
+    },
+    {
+      "from": "/sweeps/existing-project",
+      "to": "/guides/sweeps/existing-project"
+    },
+    {
+      "from": "/sweeps/faq",
+      "to": "/guides/sweeps/faq"
+    },
+    {
+      "from": "/sweeps/overview",
+      "to": "/guides/sweeps"
+    },
+    {
+      "from": "/sweeps/overview/add-to-existing",
+      "to": "/guides/sweeps/add-w-and-b-to-your-code"
+    },
+    {
+      "from": "/sweeps/overview/getting-started",
+      "to": "/guides/sweeps/walkthrough"
+    },
+    {
+      "from": "/sweeps/overview/quickstart",
+      "to": "/guides/sweeps/walkthrough"
+    },
+    {
+      "from": "/sweeps/python",
+      "to": "/guides/sweeps"
+    },
+    {
+      "from": "/sweeps/python-api",
+      "to": "/ref/python/public-api/sweep"
+    },
+    {
+      "from": "/sweeps/quickstart",
+      "to": "/guides/sweeps/walkthrough"
+    },
+    {
+      "from": "/sweeps/ray-tune",
+      "to": "/guides/integrations/ray-tune"
+    },
+    {
+      "from": "/sweeps/sweeps-examples",
+      "to": "/guides/sweeps"
+    },
+    {
+      "from": "/sweeps/visualize-sweep-results",
+      "to": "/guides/sweeps/visualize-sweep-results"
+    },
+    {
+      "from": "/teams",
+      "to": "/guides/app/features/teams"
+    },
+    {
+      "from": "/v",
+      "to": "/"
+    },
+    {
+      "from": "/wandb/config",
+      "to": "/ref/python/init"
+    },
+    {
+      "from": "/wandb/init",
+      "to": "/ref/python/init"
+    },
+    {
+      "from": "/wandb/log",
+      "to": "/ref/python/log"
+    },
+    {
+      "from": "/zh",
+      "to": "/"
+    }
+  ],
+  "ignoredPaths": [
+    "/",
+    "/&",
+    "/)",
+    "//classes",
+    "/adfsdafsadfs",
+    "/adsfasdf",
+    "/afs",
+    "/asdfasdfadsf",
+    "/docodile/docs/guides/app/features/custom-charts",
+    "/docs/automated.html",
+    "/docs/examples.html",
+    "/docs/grouping.html",
+    "/docs/histograms.html",
+    "/docs/logs.html",
+    "/",
+    "/guides/%3Cscript%3Ealert(1)%3C/script%3E",
+    "/guides/'",
+    "/guides/--",
+    "/guides/artifacts/artifacts-faqs.md",
+    "/guides/artifacts/storagecifar10%20clustering",
+    "/guides/data-and-model-versioning%7Cdataset",
+    "/guides/guides/integrations",
+    "/guides/hosting/setup/configurationhttp://10.0.7.62:8080/authorize",
+    "/guides/integrat",
+    "/guides/integrations/dagster'",
+    "/guides/integrations/mmf",
+    "/guides/integrations/yolov6",
+    "/guides/repors",
+    "/guides/runs",
+    "/guides/runs/r",
+    "/guides/self-hosted/)%20wandb:%20You%20can%20find%20your%20API%20key%20in%20your%20browser%20here:%20https://wandb.ai/authorize",
+    "/guides/self-hosted/)i",
+    "/guides/sweeps/uncategorized%20during%20createAgentarallelize-agents",
+    "/guides/t",
+    "/guides/track/jupyter",
+    "/guides/track/log/log-tables",
+    "/guides/track/log/media",
+    "/guides/track/log/mediaraise%20TypeError(%22iteration%20over%20a%200-d%20tensor%22)TypeError:%20iteration%20over%20a%200-d%20tensor",
+    "/guides/track/log/plothydra.errors.InstantiationException:%20Error%20in%20call%20to%20target%20'pytorch_lightning.loggers.wandb.WandbLogger':",
+    "/integrations/lightningg",
+    "/manan-goel/gnn-recommender/amazon_product_graph:latest",
+    "/plots",
+    "/quickstart]",
+    "/quickstarthttps://docs.wandb.ai/quickstarthttps://esl.hohoweiya.xyz/01-Introduction/1.1-Introduction/index.htmlhttps://esl.hohoweiya.xyz/01-Introduction/1.1-Introduction/index.htmlhttps://sebastianraschka.com/pdf/slides/2022-07-scipy-corn.pdfhttps://sebastianraschka.com/pdf/slides/2022-07-scipy-corn.pdfhttps://scikit-learn.org/stable/modules/classes.htmlhttps://scikit-learn.org/stable/modules/classes.htmlhttps://github.com/TheAlgorithmshttps://github.com/TheAlgorithmshttps://github.com/TheAlgorithms/C-Plus-Plushttps://github.com/TheAlgorithms/C-Plus-Plushttps://gist.github.com/RaulSanchezVazquez/d338c271ace3e218d83e3cb6400a769chttps://gist.github.com/RaulSanchezVazquez/d338c271ace3e218d83e3cb6400a769chttps://zhuanlan.zhihu.com/p/108493730https://zhuanlan.zhihu.com/p/108493730https://zhuanlan.zhihu.com/p/68191407https://zhuanlan.zhihu.com/p/68191407https://www.zhihu.com/question/68730628https://www.zhihu.com/question/68730628https://www.zhihu.com/question/536012286https://www.zhihu.com/question/536012286https://www.zhihu.com/question/306135761https://www.zhihu.com/question/306135761https://www.zhihu.com/question/31167170https://www.zhihu.com/question/31167170https://www.zhihu.com/question/517340666https://www.zhihu.com/question/517340666https://www.zhihu.com/question/51211064https://www.zhihu.com/question/51211064https://www.zhihu.com/question/350078061https://www.zhihu.com/question/350078061https://www.zhihu.com/question/338066667https://www.zhihu.com/question/338066667https://www.zhihu.com/question/519893352https://www.zhihu.com/question/519893352https://www.google.com.hk/search",
+    "/ref",
+    "/ref/app/features/panels/weave/embedding-projector.",
+    "/ref/cli/wandb-log",
+    "/ref/java/wandbrun.md",
+    "/ref/python/data-types/histogram",
+    "/ref/python/init%20for%20more%20init%20arguments.",
+    "/ref/python/sweep",
+    "/ref/weave/artifact.md",
+    "/ref/weave/int",
+    "/ref/weave/run.md",
+    "/ref/weave]",
+    "/robot.txt",
+    "/robots.txt",
+    "/ryh",
+    "/sauravm/Optimizers/reports/How-to-Compare-Keras-Optimizers-in-Tensorflow-for-Deep-Learning--VmlldzoxNjU1OTA4",
+    "/sweep%20confuration%20method%20w&/sweeps/add-w-and-b-to-your-code",
+    "/sweeps]",
+    "/tensorflow",
+    "/translate-war/webTransUrl",
+    "/tutorials",
+    "/tutorials/wandb",
+    "/weave/run.md",
+    "/zh-hans"
+  ]
+}

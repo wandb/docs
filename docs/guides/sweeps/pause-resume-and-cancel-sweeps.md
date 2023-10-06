@@ -1,5 +1,6 @@
 ---
-description: Pause, resume, and cancel a W&B Sweep with the CLI. 
+description: Pause, resume, and cancel a W&B Sweep with the CLI.
+displayed_sidebar: default
 ---
 
 # Pause, resume, stop and cancel sweeps
@@ -46,7 +47,7 @@ Cancel a sweep to kill all running runs and stop running new runs. Use the `wand
 wandb sweep --cancel entity/project/sweep_ID
 ```
 
-For a full list of CLI command options, see the [wandb sweep](https://docs.wandb.ai/ref/cli/wandb-sweep) CLI Reference Guide.
+For a full list of CLI command options, see the [wandb sweep](../../ref/cli/wandb-sweep.md) CLI Reference Guide.
 
 ### Pause, resume, stop, and cancel a sweep across multiple agents
 
@@ -64,4 +65,4 @@ Specify the `--resume` flag along with the Sweep ID to resume the Sweep across y
 wandb sweep --resume entity/project/sweep_ID
 ```
 
-For more information on how to parallelize W&B agents, see [Parallelize agents](https://docs.wandb.ai/guides/sweeps/parallelize-agents).
+For more information on how to parallelize W&B agents, see [Parallelize agents](./parallelize-agents.md).

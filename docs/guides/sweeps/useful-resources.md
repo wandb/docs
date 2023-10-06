@@ -1,5 +1,6 @@
 ---
-description: Collection of useful sources for Sweeps. 
+description: Collection of useful sources for Sweeps.
+displayed_sidebar: default
 ---
 
 # Useful resources
@@ -20,7 +21,7 @@ The following W&B Reports demonstrate examples of projects that explore hyperpar
   * Description: Developing the baseline and exploring submissions to the Drought Watch benchmark.
 * [Tuning Safety Penalties in Reinforcement Learning](https://wandb.ai/safelife/benchmark-sweeps/reports/Tuning-Safety-Penalties-in-Reinforcement-Learning---VmlldzoyNjQyODM)
   * Description: We examine agents trained with different side effect penalties on three different tasks: pattern creation, pattern removal, and navigation.
-* [Meaning and Noise in Hyperparameter Search with Weights & Biases](https://wandb.ai/stacey/pytorch\_intro/reports/Meaning-and-Noise-in-Hyperparameter-Search--Vmlldzo0Mzk5MQ) [Stacey Svetlichnaya](https://wandb.ai/stacey)
+* [Meaning and Noise in Hyperparameter Search with W&B](https://wandb.ai/stacey/pytorch\_intro/reports/Meaning-and-Noise-in-Hyperparameter-Search--Vmlldzo0Mzk5MQ) [Stacey Svetlichnaya](https://wandb.ai/stacey)
   * Description: How do we distinguish signal from pareidolia (imaginary patterns)? This article is showcases what is possible with W&B and aims to inspire further exploration.
 * [Who is Them? Text Disambiguation with Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc)
   * Description: Using Hugging Face to explore models for natural language understanding
@@ -31,12 +32,11 @@ The following W&B Reports demonstrate examples of projects that explore hyperpar
 
 ### How-to-guides
 
-The following how-to-guide demonstrates how to solve real-world problems with Weights & Biases:
+The following how-to-guide demonstrates how to solve real-world problems with W&B:
 
 * [Sweeps with XGBoost ](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost\_tune.py)
   * Description: How to use W&B Sweeps for hyperparameter tuning using XGBoost.
 
 ### Sweep GitHub repository
 
-Weights & Biases advocates open source and welcome contributions from the community. Find the GitHub repository at [https://github.com/wandb/sweeps](https://github.com/wandb/sweeps). For information on how to contribute to the Weights & Biases open source repo, see the W&B GitHub [Contribution guidelines](https://github.com/wandb/wandb/blob/master/CONTRIBUTING.md).
-
+W&B advocates open source and welcome contributions from the community. Find the GitHub repository at [https://github.com/wandb/sweeps](https://github.com/wandb/sweeps). For information on how to contribute to the W&B open source repo, see the W&B GitHub [Contribution guidelines](https://github.com/wandb/wandb/blob/master/CONTRIBUTING.md).

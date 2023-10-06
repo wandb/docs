@@ -1,14 +1,12 @@
+---
+displayed_sidebar: default
+---
+
 # General
 
 ### What does `wandb.init` do to my training process?
 
 When `wandb.init()` is called from your training script an API call is made to create a run object on our servers. A new process is started to stream and collect metrics, thereby keeping all threads and logic out of your primary process. Your script runs normally and writes to local files, while the separate process streams them to our servers along with system metrics. You can always turn off streaming by running `wandb off` from your training directory, or setting the `WANDB_MODE` environment variable to `offline`.
-
-### Can I disable wandb when testing my code?
-
-By using `wandb.init(mode="disabled")` or by setting `WANDB_MODE=disabled` you will make wandb act like a NOOP which is perfect for testing your code.
-
-**Note**: Setting `wandb.init(mode=“disabled”)` does not prevent `wandb` from saving artifacts to `WANDB_CACHE_DIR`
 
 ### Does your tool track or store training data?
 
@@ -36,7 +34,7 @@ The reason we have both is that some people like to set the summary manually bec
 
 We love the TensorBoard folks, and we have a [TensorBoard integration](../integrations/tensorboard.md)! We were inspired to improve experiment tracking tools for everyone. When the co-founders started working on W&B, they were inspired to build a tool for the frustrated TensorBoard users at OpenAI. Here are a few things we focused on improving:
 
-1. **Reproduce models**: Weights & Biases is good for experimentation, exploration, and reproducing models later. We capture not just the metrics, but also the hyperparameters and version of the code, and we can save your model checkpoints for you so your project is reproducible.
+1. **Reproduce models**: W&B is good for experimentation, exploration, and reproducing models later. We capture not just the metrics, but also the hyperparameters and version of the code, and we can save your model checkpoints for you so your project is reproducible.
 2. **Automatic organization**: If you hand off a project to a collaborator or take a vacation, W&B makes it easy to see all the models you've tried so you're not wasting hours re-running old experiments.
 3. **Fast, flexible integration**: Add W&B to your project in 5 minutes. Install our free open-source Python package and add a couple of lines to your code, and every time you run your model you'll have nice logged metrics and records.
 4. **Persistent, centralized dashboard**: Anywhere you train your models, whether on your local machine, your lab cluster, or spot instances in the cloud, we give you the same centralized dashboard. You don't need to spend your time copying and organizing TensorBoard files from different machines.
@@ -95,7 +93,7 @@ If you have two W&B accounts working from the same machine, you'll need a nice w
 
 ```python
 if os.path.exists("~/keys.json"):
-   os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
+    os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
 ```
 
 ### Is there a dark mode?
@@ -105,3 +103,9 @@ Yes. To enable dark mode:
 1. Navigate to your account settings at [https://wandb.ai/settings](https://wandb.ai/settings).
 2. Scroll to the **Beta Features** section.
 3. Toggle the **Night mode** option.
+
+### Can I disable wandb when testing my code?
+
+By using `wandb.init(mode="disabled")` or by setting `WANDB_MODE=disabled` you will make wandb act like a NOOP which is perfect for testing your code.
+
+**Note**: Setting `wandb.init(mode=“disabled”)` does not prevent `wandb` from saving artifacts to `WANDB_CACHE_DIR`

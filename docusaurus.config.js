@@ -11,8 +11,8 @@ const config = {
   tagline: 'The developer-first MLOps platform',
   url: 'https://docs.wandb.ai',
   baseUrl: '/',
-  // onBrokenLinks: 'throw',
-  onBrokenLinks: 'ignore',
+  onBrokenLinks: 'throw',
+  // onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'warn',
   favicon: '/img/docs-favicon.png',
 
@@ -26,7 +26,18 @@ const config = {
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'ja'],
+    path: 'i18n',
+    localeConfigs: {
+      en : {
+        label: 'English',
+        path: 'en'
+      },
+      ja : {
+        label: 'Japanese',
+        path: 'ja'
+      },
+    },
   },
 
   presets: [
@@ -51,14 +62,29 @@ const config = {
 
   plugins: [
     [
-      'docusaurus-plugin-segment',
+      '@laxels/docusaurus-plugin-segment',
       {
         apiKey: 'NYcqWZ8sgOCplYnItFyBaZ5ZRClWlVgl',
         host: 'wandb.ai',
         ajsPath: '/sa-docs.min.js',
+        page: false,
+        excludeUserAgents: ['GoogleSecurityScanner'],
       },
-    ], 
-    'plugin-image-zoom'
+    ],
+    [
+      '@docusaurus/plugin-google-tag-manager',
+      {
+        containerId: 'GTM-TCTWFHR',
+      },
+    ],
+    [
+      '@docusaurus/plugin-google-gtag',
+      {
+        trackingID: 'G-5JYCHZZP7K',
+        anonymizeIP: true,
+      },
+    ],
+    require.resolve('docusaurus-plugin-image-zoom'),
     // require.resolve('docusaurus-lunr-search'),
   ],
 
@@ -116,6 +142,16 @@ const config = {
             position: 'right',
           },
           {
+            type: 'doc',
+            docId: 'tutorials/intro_to_tutorials',
+            label: 'Tutorials',
+            position: 'right',
+          },
+          {
+            type: 'localeDropdown',
+            position: 'right',
+          },
+          {
             href: 'https://github.com/wandb/wandb',
             html: 'GitHub<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
             position: 'right',
@@ -132,7 +168,7 @@ const config = {
           autoCollapseCategories: true,
         },
       },
-      imageZoom: {
+      zoom: {
         // CSS selector to apply the plugin to, defaults to '.markdown img'
         selector: '.markdown img',
         // Optional medium-zoom options

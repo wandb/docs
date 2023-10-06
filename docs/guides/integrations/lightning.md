@@ -1,9 +1,13 @@
+---
+displayed_sidebar: default
+---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # PyTorch Lightning
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://wandb.me/lightning)
+[**Try in a Colab Notebook here →**](https://wandb.me/lightning)
 
 PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch code and easily adding advanced features such as distributed training and 16-bit precision. W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: Weights & Biases is incorporated directly into the PyTorch Lightning library via the [**`WandbLogger`**](https://pytorch-lightning.readthedocs.io/en/stable/extensions/generated/pytorch\_lightning.loggers.WandbLogger.html#pytorch\_lightning.loggers.WandbLogger).
 
@@ -13,11 +17,19 @@ PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch cod
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning import Trainer
 
-wandb_logger = WandbLogger()
+wandb_logger = WandbLogger(log_model="all")
 trainer = Trainer(logger=wandb_logger)
 ```
 
 ![Interactive dashboards accessible anywhere, and more!](@site/static/images/integrations/n6P7K4M.gif)
+
+:::info
+**Using wandb.log():** Please note that the `WandbLogger` logs to W&B using the Trainer's `global_step`. If you are making additional calls to `wandb.log` directly in your code, **do not** use the `step` argument in `wandb.log()`. 
+
+Instead, log the Trainer's `global_step` like your other metrics, like so:
+
+`wandb.log({"accuracy":0.99, "trainer/global_step": step})`
+:::
 
 ## Sign up and Log in to wandb
 
@@ -58,7 +70,7 @@ wandb.login()
 
 ## Using PyTorch Lightning's `WandbLogger`
 
-PyTorch Lightning has a [**`WandbLogger`**](https://pytorch-lightning.readthedocs.io/en/latest/extensions/generated/pytorch\_lightning.loggers.WandbLogger.html?highlight=wandblogger) class that can be used to seamlessly log metrics, model weights, media and more. Just instantiate the WandbLogger and pass it to Lightning's `Trainer`.
+PyTorch Lightning has a [**`WandbLogger`**](https://pytorch-lightning.readthedocs.io/en/1.4.9/extensions/generated/pytorch_lightning.loggers.WandbLogger.html) class that can be used to seamlessly log metrics, model weights, media and more. Just instantiate the WandbLogger and pass it to Lightning's `Trainer`.
 
 ```
 wandb_logger = WandbLogger()
@@ -67,7 +79,7 @@ trainer = Trainer(logger=wandb_logger)
 
 ### Logger arguments
 
-Below are some of the most used parameters in WandbLogger, see the PyTorch Lightning [**`WandbLogger` documentation**](https://pytorch-lightning.readthedocs.io/en/latest/extensions/generated/pytorch\_lightning.loggers.WandbLogger.html?highlight=wandblogger) for a full list and description
+Below are some of the most used parameters in WandbLogger, see the PyTorch Lightning [**`WandbLogger` documentation**](https://pytorch-lightning.readthedocs.io/en/1.4.9/extensions/generated/pytorch_lightning.loggers.WandbLogger.html) for a full list and description
 
 | Parameter   | Description                                                                   |
 | ----------- | ----------------------------------------------------------------------------- |
@@ -100,7 +112,7 @@ wandb.config.update()
 
 ### Log gradients, parameter histogram and model topology
 
-You can pass your model object to `wandblogger.watch()` to monitor your models's gradients and parameters as you train. See the PyTorch Lightning [**`WandbLogger` documentation**](https://pytorch-lightning.readthedocs.io/en/latest/extensions/generated/pytorch\_lightning.loggers.WandbLogger.html?highlight=wandblogger) for a full description
+You can pass your model object to `wandblogger.watch()` to monitor your models's gradients and parameters as you train. See the PyTorch Lightning [**`WandbLogger` documentation**](https://pytorch-lightning.readthedocs.io/en/1.4.9/extensions/generated/pytorch_lightning.loggers.WandbLogger.html) for a full description
 
 ### Log metrics
 
@@ -201,7 +213,8 @@ class My_LitModule(LightningModule):
 
 ### Model Checkpointing
 
-Custom checkpointing to W&B can be set up through the PyTorch Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch\_lightning.callbacks.ModelCheckpoint.html#pytorch\_lightning.callbacks.ModelCheckpoint) when the log\_model argument is used in the `WandbLogger`:
+To save model checkpoints as W&B [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning),
+use the Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch\_lightning.callbacks.ModelCheckpoint.html#pytorch\_lightning.callbacks.ModelCheckpoint) callback and set the `log_model` argument in the `WandbLogger`:
 
 ```python
 # log model only if `val_accuracy` increases
@@ -210,7 +223,7 @@ checkpoint_callback = ModelCheckpoint(monitor="val_accuracy", mode="max")
 trainer = Trainer(logger=wandb_logger, callbacks=[checkpoint_callback])
 ```
 
-The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from W&B Artifacts:
+The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from a W&B [Artifact](https://docs.wandb.ai/guides/data-and-model-versioning):
 
 ```python
 # reference can be retrieved in artifacts panel
@@ -226,15 +239,19 @@ artifact_dir = artifact.download()
 model = LitModule.load_from_checkpoint(Path(artifact_dir) / "model.ckpt")
 ```
 
+The model checkpoints you log will be viewable through the [W&B Artifacts](https://docs.wandb.ai/guides/artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
+
+To bookmark your best model checkpoints and centralize them across your team, you can link them to the [W&B Model Registry](https://docs.wandb.ai/guides/models).
+
+Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](https://docs.wandb.ai/guides/models/automation) downstream actions with webhooks or jobs. 
+
 ### Log images, text and more
 
 The `WandbLogger` has `log_image`, `log_text` and `log_table` methods for logging media.
 
 You can also directly call `wandb.log` or `trainer.logger.experiment.log` to log other media types such as Audio, Molecules, Point Clouds, 3D Objects and more.
 
-:::info
-When using `wandb.log` or `trainer.logger.experiment.log` within your `trainer` make sure to also include`"global_step": trainer.global_step` in the dictionary being passed. That way, you can line up the information you're currently logging with information logged via other methods.
-:::
+
 
 <Tabs
   defaultValue="images"
@@ -259,7 +276,7 @@ wandb_logger.log_image(key="samples", images=["img_1.jpg", "img_2.jpg"])
 trainer.logger.experiment.log({
     "samples": [wandb.Image(img, caption=caption) 
     for (img, caption) in my_images]
-})
+}, step = current_trainer_global_step)
 ```
   </TabItem>
   <TabItem value="text">

@@ -1,21 +1,20 @@
 # Python Library
 
+<!-- Insert buttons and diff -->
 
 
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/1725d84a5bc68d5ecf9aedcbcc447e7e2fb1a1cf/wandb/__init__.py)
-
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/__init__.py' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Use wandb to track machine learning work.
 
-
 The most commonly used functions/objects are:
- - wandb.init — initialize a new run at the top of your training script
- - wandb.config — track hyperparameters and metadata
- - wandb.log — log metrics and media over time within your training loop
 
-For guides and examples, see https://docs.wandb.com/guides.
+- wandb.init — initialize a new run at the top of your training script
+- wandb.config — track hyperparameters and metadata
+- wandb.log — log metrics and media over time within your training loop
+
+For guides and examples, see https://docs.wandb.ai.
 
 For scripts and interactive notebooks, see https://github.com/wandb/examples.
 
@@ -29,27 +28,26 @@ For reference documentation, see https://docs.wandb.com/ref/python.
 
 ## Functions
 
-[`agent(...)`](./agent.md): Generic agent entrypoint, used for CLI or jupyter.
+[`agent(...)`](./agent.md): Run a function or program with configuration parameters specified by server.
 
 [`controller(...)`](./controller.md): Public sweep controller constructor.
 
-[`finish(...)`](./finish.md): Marks a run as finished, and finishes uploading all data.
+[`finish(...)`](./finish.md): Mark a run as finished, and finish uploading all data.
 
-[`init(...)`](./init.md): Starts a new run to track and log to W&B.
+[`init(...)`](./init.md): Start a new run to track and log to W&B.
 
-[`log(...)`](./log.md): Logs a dictonary of data to the current run's history.
+[`log(...)`](./log.md): Log a dictionary of data to the current run's history.
+
+[`login(...)`](./login.md): Log in to W&B.
 
 [`save(...)`](./save.md): Ensure all files matching `glob_str` are synced to wandb with the policy specified.
 
 [`sweep(...)`](./sweep.md): Initialize a hyperparameter sweep.
 
-[`watch(...)`](./watch.md): Hooks into the torch model to collect gradients and the topology.
+[`watch(...)`](./watch.md): Hook into the torch model to collect gradients and the topology.
 
-
-
-| Other Members | |
+| Other Members |  |
 | :--- | :--- |
-| `__version__` | `'0.13.9'` |
-| `config` | |
-| `summary` | |
-
+|  `__version__`<a id="__version__"></a> |  `'0.15.12'` |
+|  `config`<a id="config"></a> |   |
+|  `summary`<a id="summary"></a> |   |

@@ -1,6 +1,7 @@
 ---
 slug: /guides/app/pages
 description: An overview of the different pages in app.wandb.ai
+displayed_sidebar: default
 ---
 
 # Pages
@@ -25,13 +26,13 @@ Visualize the metrics and dataset examples from a single run. Learn more [here](
 
 ## Report Page
 
-Compare results and describe your findings, then share links with colleagues. Learn more about Reports [here](../../../guides/reports/).
+Compare results and describe your findings, then share links with colleagues. Learn more about Reports [here](../../../guides/reports/intro.md).
 
 ![](/images/app_ui/example_report_for_molecules.png)
 
 ## Profile Page
 
-![](../../../../static/images/app_ui/profile_page_overview.webp)
+![](/images/app_ui/profile_page_overview.webp)
 
 Use your personal or team's profile page to showcase your work, find collaborators and easily navigate between projects.
 

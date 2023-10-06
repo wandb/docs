@@ -1,5 +1,6 @@
 ---
 description: Send alerts, triggered from your Python code, to your Slack or email
+displayed_sidebar: default
 ---
 
 # Send Alerts with wandb.alert
@@ -9,17 +10,16 @@ description: Send alerts, triggered from your Python code, to your Slack or emai
 </head>
 
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/alerts-colab)
+[**Try in a Colab Notebook here →**](http://wandb.me/alerts-colab)
 
 With W&B Alerts you can be notified via Slack or email if your W&B Run has crashed or whether a custom trigger, such as your loss going to NaN or a step in your ML pipeline has completed, has been reached. W&B Alerts apply all projects where you launch runs, including both personal and Team projects.
 
 You can set an alert like this:
 
 ```python
-wandb.alert(
-    title="Low accuracy", 
-    text=f"Accuracy {acc} is below the acceptable threshold {thresh}"
-)
+text = f"Accuracy {acc} is below acceptable threshold {thresh}"
+
+wandb.alert(title="Low accuracy", text=text)
 ```
 
 And then see W&B Alerts messages in Slack (or your email):
@@ -31,8 +31,9 @@ And then see W&B Alerts messages in Slack (or your email):
 :::info
 Please note that these following steps are to turn on alerts in public cloud _only_.
 
-If you're using [W&B Server](../hosting/intro.md) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation](https://docs.wandb.ai/guides/hosting/setup/configuration#slack) to setup Slack alerts.
+If you're using [W&B Server](../hosting/intro.md) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation](../hosting/slack-alerts.md) to setup Slack alerts.
 :::
+
 
 There are 2 steps to follow the first time you'd like to send a Slack or email alert, triggered from your code:
 
@@ -57,10 +58,7 @@ You will only have to do this the first time you set up W&B Alerts, or when you'
 Add `wandb.alert()` to your code (either in a Notebook or Python script) wherever you'd like it to be triggered
 
 ```python
-wandb.alert(
-    title="High Loss", 
-    text="Loss is increasing rapidly"
-)
+wandb.alert(title="High Loss", text="Loss is increasing rapidly")
 ```
 
 #### Check your Slack or email
@@ -89,10 +87,10 @@ from wandb import AlertLevel
 
 if acc < threshold:
     wandb.alert(
-        title="Low accuracy", 
+        title="Low accuracy",
         text=f"Accuracy {acc} is below the acceptable threshold {threshold}",
         level=AlertLevel.WARN,
-        wait_duration=300
+        wait_duration=300,
     )
 ```
 
@@ -103,10 +101,7 @@ if acc < threshold:
 When sending Alerts on Slack you can @ yourself or your colleagues by adding their Slack user id as `<@USER_ID>` in either the title or the text of the Alert. You can find a Slack user id from their Slack profile page.
 
 ```python
-wandb.alert(
-    title="Loss is NaN", 
-    text=f"Hey <@U1234ABCD> loss has gone to NaN"
-)
+wandb.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> loss has gone to NaN")
 ```
 
 ### W&B Team Alerts

@@ -1,6 +1,7 @@
 ---
 slug: /guides/integrations/metaflow
 description: How to integrate W&B with Metaflow.
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';
@@ -131,7 +132,7 @@ class WandbExampleFlow(FlowSpec):
 
 ## Where is my data? Can I access it programmatically?
 
-You can access the information we've captured in three ways: inside the original Python process being logged using the [`wandb` client library](../../../ref/python/), via the [web app UI](../../app/), or programmatically using [our Public API](../../../ref/python/public-api/). `Parameter`s are saved to W&B's [`config`](../../track/config.md) and can be found in the [Overview tab](../../app/pages/run-page.md#overview-tab). `datasets`, `models`, and `others` are saved to [W&B Artifacts](../../artifacts/intro.md) and can be found in the [Artifacts tab](../../app/pages/run-page.md#artifacts-tab). Base python types are saved to W&B's [`summary`](../../track/log/intro.md) dict and can be found in the Overview tab. See our [guide to the Public API](../../track/public-api-guide.md) for details on using the API to get this information programmatically from outside .
+You can access the information we've captured in three ways: inside the original Python process being logged using the [`wandb` client library](../../../ref/python/README.md), via the [web app UI](../../app/intro.md), or programmatically using [our Public API](../../../ref/python/public-api/README.md). `Parameter`s are saved to W&B's [`config`](../../track/config.md) and can be found in the [Overview tab](../../app/pages/run-page.md#overview-tab). `datasets`, `models`, and `others` are saved to [W&B Artifacts](../../artifacts/intro.md) and can be found in the [Artifacts tab](../../app/pages/run-page.md#artifacts-tab). Base python types are saved to W&B's [`summary`](../../track/log/intro.md) dict and can be found in the Overview tab. See our [guide to the Public API](../../track/public-api-guide.md) for details on using the API to get this information programmatically from outside .
 
 Here's a cheatsheet:
 

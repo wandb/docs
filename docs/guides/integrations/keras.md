@@ -1,23 +1,21 @@
+---
+displayed_sidebar: default
+---
+
 # Keras
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/intro-keras)
-
-:::caution
-For  our legacy Keras `WandbCallback`, scroll down to the `WandbCallback` section.
-:::
-
+[**Try in a Colab Notebook here →**](http://wandb.me/intro-keras)
 
 ## The Weights & Biases Keras Callbacks
 
-We have added three new callbacks for Keras and TensorFlow users, available from `wandb` v0.13.4
+We have added three new callbacks for Keras and TensorFlow users, available from `wandb` v0.13.4. For the legacy `WandbCallback` scroll down.
 
-### Callbacks
 
 **`WandbMetricsLogger`** : Use this callback for [Experiment Tracking](https://docs.wandb.ai/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
 
 **`WandbModelCheckpoint`** : Use this callback to log your model checkpoints to Weight and Biases [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning).
 
-**`WandbEvalCallback`**: This base callback will log model predictions to Weights and Biases [Tables](https://docs.wandb.ai/guides/data-vis) for interactive visualization.
+**`WandbEvalCallback`**: This base callback will log model predictions to Weights and Biases [Tables](https://docs.wandb.ai/guides/tables) for interactive visualization.
 
 These new callbacks,
 
@@ -25,9 +23,9 @@ These new callbacks,
 * Reduce the cognitive load of using a single callback (`WandbCallback`) for everything,
 * Make it easy for Keras users to modify the callback by subclassing it to support their niche use case.
 
-### Experiment Tracking with `WandbMetricsLogger`
+## Experiment Tracking with `WandbMetricsLogger`
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/wandb/examples/blob/master/colabs/keras/Use\_WandbMetricLogger\_in\_your\_Keras\_workflow.ipynb)
+[**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/master/colabs/keras/Use\_WandbMetricLogger\_in\_your\_Keras\_workflow.ipynb)
 
 `WandbMetricsLogger` automatically logs Keras' `logs` dictionary that callback methods such as `on_epoch_end`, `on_batch_end` etc, take as an argument.
 
@@ -46,14 +44,11 @@ wandb.init(config={"bs": 12})
 
 # Pass the WandbMetricsLogger to model.fit
 model.fit(
-    X_train,
-    y_train,
-    validation_data=(X_test, y_test),
-    callbacks=[WandbMetricsLogger()]
+    X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbMetricsLogger()]
 )
 ```
 
-### `WandbMetricsLogger` Reference
+**`WandbMetricsLogger` Reference**
 
 
 | Parameter | Description | 
@@ -63,9 +58,9 @@ model.fit(
 
 ## Model Checkpointing using `WandbModelCheckpoint`
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/wandb/examples/blob/master/colabs/keras/Use\_WandbModelCheckpoint\_in\_your\_Keras\_workflow.ipynb)
+[**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/master/colabs/keras/Use\_WandbModelCheckpoint\_in\_your\_Keras\_workflow.ipynb)
 
-Use `WandbModelCheckpoint` callback to save the Keras model (`SavedModel` format) or model weights periodically and uploads them to W&B as a `wandb.Artifact` for model versioning. You can learn more about model versioning [here](https://docs.wandb.ai/guides/data-and-model-versioning/model-versioning).
+Use `WandbModelCheckpoint` callback to save the Keras model (`SavedModel` format) or model weights periodically and uploads them to W&B as a `wandb.Artifact` for model versioning. 
 
 This callback is subclassed from [`tf.keras.callbacks.ModelCheckpoint`](https://www.tensorflow.org/api\_docs/python/tf/keras/callbacks/ModelCheckpoint) ,thus the checkpointing logic is taken care of by the parent callback.
 
@@ -88,13 +83,13 @@ wandb.init(config={"bs": 12})
 
 # Pass the WandbModelCheckpoint to model.fit
 model.fit(
-  X_train,
-  y_train,
-  validation_data=(X_test, y_test),
-  callbacks=[
-    WandbMetricsLogger(),
-    WandbModelCheckpoint("models"),
-  ]
+    X_train,
+    y_train,
+    validation_data=(X_test, y_test),
+    callbacks=[
+        WandbMetricsLogger(),
+        WandbModelCheckpoint("models"),
+    ],
 )
 ```
 
@@ -113,9 +108,33 @@ model.fit(
 | `options`                 | (str): Optional `tf.train.CheckpointOptions` object if `save_weights_only` is true or optional `tf.saved_model.SaveOptions` object if `save_weights_only` is false.    |
 | `initial_value_threshold` | (float): Floating point initial "best" value of the metric to be monitored.       |
 
+### How to log checkpoints after N epochs?
+
+By default (`save_freq="epoch"`) the callback creates a checkpoint and uploads it as an artifact after each epoch. If we pass an integer to `save_freq` the checkpoint will be created after that many batches. To checkpoint after `N` epochs, compute the cardinality of the train dataloader and pass it to `save_freq`:
+
+```
+WandbModelCheckpoint(
+    filepath="models/",
+    save_freq=int((trainloader.cardinality()*N).numpy())
+)
+```
+
+### How to log checkpoints on a TPU Node architecture efficiently?
+
+While checkpointing on TPUs you might encounter `UnimplementedError: File system scheme '[local]' not implemented` error message. This happens because the model directory (`filepath`) must use a cloud storage bucket path (`gs://bucket-name/...`), and this bucket must be accessible from the TPU server. We can however, use the local path for checkpointing which in turn is uploaded as an Artifacts.
+
+```
+checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
+
+WandbModelCheckpoint(
+    filepath="models/,
+    options=checkpoint_options,
+)
+```
+
 ## Model Prediction Visualization using `WandbEvalCallback`
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/wandb/examples/blob/e66f16fbe7ae7a2e636d59350a50059d3f7e5494/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb)
+[**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/e66f16fbe7ae7a2e636d59350a50059d3f7e5494/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb)
 
 The `WandbEvalCallback` is an abstract base class to build Keras callbacks primarily for model prediction and, secondarily, dataset visualization.
 
@@ -136,6 +155,7 @@ For example, we have implemented `WandbClfEvalCallback` below for an image class
 ```python
 import wandb
 from wandb.keras import WandbMetricsLogger, WandbEvalCallback
+
 
 # Implement your model prediction visualization callback
 class WandbClfEvalCallback(WandbEvalCallback):
@@ -167,8 +187,9 @@ class WandbClfEvalCallback(WandbEvalCallback):
                 pred,
             )
 
+
 # ...
-           
+
 # Initialize a new W&B run
 wandb.init(config={"hyper": "parameter"})
 
@@ -183,14 +204,21 @@ model.fit(
             validation_data=(X_test, y_test),
             data_table_columns=["idx", "image", "label"],
             pred_table_columns=["epoch", "idx", "image", "label", "pred"],
-	),
-    ]
+        ),
+    ],
 )
 ```
 
 :::info
 💡 The Tables are logged to the W&B [Artifact page](https://docs.wandb.ai/ref/app/pages/project-page#artifacts-tab) by default and not the [Workspace](https://docs.wandb.ai/ref/app/pages/workspaces) page.
 :::
+
+**`WandbEvalCallback` Reference**
+
+| Parameter            | Description                                      |
+| -------------------- | ------------------------------------------------ |
+| `data_table_columns` | (list) List of column names for the `data_table` |
+| `pred_table_columns` | (list) List of column names for the `pred_table` |
 
 ### How the memory footprint is reduced?
 
@@ -203,13 +231,6 @@ You can override the `on_train_begin` or `on_epoch_end` methods to have more fin
 :::info
 💡 If you are implementing a callback for model prediction visualization by inheriting `WandbEvalCallback` and something needs to be clarified or fixed, please let us know by opening an [issue](https://github.com/wandb/wandb/issues).
 :::
-
-### `WandbEvalCallback` Reference
-
-| Parameter            | Description                                      |
-| -------------------- | ------------------------------------------------ |
-| `data_table_columns` | (list) List of column names for the `data_table` |
-| `pred_table_columns` | (list) List of column names for the `pred_table` |
 
 ## WandbCallback [Legacy]
 
@@ -225,14 +246,11 @@ wandb.init(config={"hyper": "parameter"})
 
 # Pass the callback to model.fit
 model.fit(
-  X_train,
-  y_train,
-  validation_data=(X_test, y_test),
-  callbacks=[WandbCallback()]
+    X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
 )
 ```
 
-## Usage examples
+**Usage examples**
 
 See this one minute, step-by-step video if this is your first time integrating W&B with Keras: [Get Started with Keras and Weights & Biases in Less Than a Minute](https://www.youtube.com/watch?ab_channel=Weights&Biases&v=4FjDIJ-vO_M)
 
@@ -241,8 +259,6 @@ For a more detailed video, see [Integrate Weights & Biases with Keras](https://w
 :::info
 Try W&B and Keras integration example from the video above in a [colab notebook](http://wandb.me/keras-colab). Or see our [example repo](https://github.com/wandb/examples) for scripts, including a [Fashion MNIST example](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py) and the [W&B Dashboard](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) it generates.
 :::
-
-## Configuring the `WandbCallback`
 
 The `WandbCallback` class supports a wide variety of logging configuration options: specifying a metric to monitor, tracking of weights and gradients, logging of predictions on training\_data and validation\_data, and more.
 
@@ -255,7 +271,7 @@ The `WandbCallback`
 * can optionally log gradient and parameter histogram
 * can optionally save training and validation data for wandb to visualize.
 
-### `WandbCallback` Reference
+**`WandbCallback` Reference**
 
 | Arguments                  |                                    |
 | -------------------------- | ------------------------------------------- |
@@ -291,7 +307,7 @@ The `WandbCallback`
 If you're setting `use_multiprocessing=True` and seeing an error like:
 
 ```python
-Error('You must call wandb.init() before wandb.config.batch_size')
+Error("You must call wandb.init() before wandb.config.batch_size")
 ```
 
 then try this:

@@ -1,5 +1,6 @@
 ---
 description: Save files to the cloud and restore them locally later
+displayed_sidebar: default
 ---
 
 # Save & Restore Files
@@ -33,10 +34,10 @@ See [this report](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/
 # Save a model file from the current directory
 wandb.save('model.h5')
 
-# Save all files that currently exist containing the substring "ckpt"
+# Save all files that exist containing the substring "ckpt"
 wandb.save('../logs/*ckpt*')
 
-# Save any files starting with "checkpoint" as they're written to
+# Save files starting with "checkpoint" as they're written to
 wandb.save(os.path.join(wandb.run.dir, "checkpoint*"))
 ```
 
@@ -55,7 +56,11 @@ W&B's local run directories are by default inside the `./wandb` directory relati
 You can also specify the **base\_path** argument to `wandb.save`. This would allow you to maintain a directory hierarchy, for example:
 
 ```python
-wandb.save("./results/eval/*", base_path="./results", policy="now")
+wandb.save(
+    path="./results/eval/*", 
+    base_path="./results", 
+    policy="now"
+    )    
 ```
 
 Would result in all files matching the pattern being saved in an `eval` folder instead of at the root.
@@ -117,9 +122,6 @@ my_predefined_model.load_weights(weights_file.name)
 
 You can edit the `wandb/settings` file and set `ignore_globs` equal to a comma separated list of [globs](https://en.wikipedia.org/wiki/Glob\_\(programming\)). You can also set the `WANDB_IGNORE_GLOBS` [environment variable](./environment-variables.md). A common use case is to prevent the git patch that we automatically create from being uploaded i.e. `WANDB_IGNORE_GLOBS=*.patch`.
 
-### How can I sync files before the run ends?
-
-If you have a long run, you might want to see files like model checkpoints uploaded to the cloud before the end of the run. By default, we wait to upload most files until the end of the run. You can add a `wandb.save('*.pth')` or just `wandb.save('latest.pth')` in your script to upload those files whenever they are written or updated.
 
 ### Change directory for saving files
 

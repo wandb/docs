@@ -1,11 +1,12 @@
 ---
 slug: /guides/integrations/prodigy
 description: How to integrate W&B with Prodigy.
+displayed_sidebar: default
 ---
 
 # Prodigy
 
-[Prodigy](https://prodi.gy/) is an annotation tool for creating training and evaluation data for machine learning models, error analysis, data inspection & cleaning. [W&B Tables](../../data-vis/tables-quickstart.md) allow you to log, visualize, analyze, and share datasets (and more!) inside W&B.
+[Prodigy](https://prodi.gy/) is an annotation tool for creating training and evaluation data for machine learning models, error analysis, data inspection & cleaning. [W&B Tables](../../tables/tables-walkthrough.md) allow you to log, visualize, analyze, and share datasets (and more!) inside W&B.
 
 The [W&B integration with Prodigy](https://github.com/wandb/wandb/blob/master/wandb/integration/prodigy/prodigy.py) adds simple and easy-to-use functionality to upload your Prodigy-annotated dataset directly to W&B for use with Tables.
 

@@ -2,7 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const static = require('@laxels/serve-static');
 const url = require('url');
-const REDIRECTS = require('./redirects.json');
+const data = require('./data.json');
 
 const app = express();
 
@@ -14,7 +14,7 @@ const isDev = !isProduction;
 app.use(helmet.hsts());
 
 // Serve 301 redirects for old links in the wild
-const redirectMap = new Map(REDIRECTS.map(({from, to}) => [from, to]));
+const redirectMap = new Map(data.redirects.map(({from, to}) => [from, to]));
 app.use((req, res, next) => {
   const {pathname, search, hash} = url.parse(req.originalUrl);
 
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
     : pathname;
 
   const redirectTo = redirectMap.get(pathnameWithoutTrailingSlash);
-  if (redirectTo == null) {
+  if (redirectTo == null || redirectTo === pathname) {
     next();
     return;
   }
