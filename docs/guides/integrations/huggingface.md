@@ -382,6 +382,7 @@ class WandbPredictionProgressCallback(WandbCallback):
         tokenizer (AutoTokenizer): The tokenizer associated with the model.
         sample_dataset (Dataset): A subset of the validation dataset for generating predictions.
         num_samples (int, optional): Number of samples to select from the validation dataset for generating predictions. Defaults to 100.
+        freq (int, optional): Frequency of logging. Defaults to 2.
     """
 
     def __init__(self, trainer, tokenizer, val_dataset, num_samples=100, freq=2):
