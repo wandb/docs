@@ -236,7 +236,7 @@ Read the full report [here](https://wandb.ai/ayush-thakur/huggingface/reports/Ho
 
 ### Turn on model versioning
 
-Using [Weights & Biases' Artifacts](https://docs.wandb.ai/artifacts), you can store up to 100GB of models and datasets. Logging your Hugging Face model to W&B Artifacts can be done by setting a W&B environment variable called `WANDB_LOG_MODEL` to `true`.
+Using [Weights & Biases' Artifacts](https://docs.wandb.ai/artifacts), you can store up to 100GB of models and datasets. Logging your Hugging Face model to W&B Artifacts can be done by setting a W&B environment variable called `WANDB_LOG_MODEL` to one of `end`, `checkpoint` or `"false"`. If set to "end", the model will be uploaded at the end of training. If set to "checkpoint", the checkpoint will be uploaded every args.save_steps . If set to "false", the model will not be uploaded. Use along with `load_best_model_at_end` to upload best model.
 
 <Tabs
   defaultValue="cli"
@@ -247,14 +247,14 @@ Using [Weights & Biases' Artifacts](https://docs.wandb.ai/artifacts), you can st
   <TabItem value="cli">
 
 ```bash
-WANDB_LOG_MODEL=true
+WANDB_LOG_MODEL="checkpoint"
 ```
 
   </TabItem>
   <TabItem value="notebook">
 
 ```python
-%env WANDB_LOG_MODEL=true
+%env WANDB_LOG_MODEL="checkpoint"
 ```
 
   </TabItem>
@@ -346,6 +346,58 @@ wandb.init(project="amazon_sentiment_analysis",
 ### Custom logging
 
 Logging to Weights & Biases via the [Transformers `Trainer` ](https://huggingface.co/transformers/main\_classes/trainer.html)is taken care of by the `WandbCallback` ([reference documentation](https://huggingface.co/transformers/main\_classes/callback.html#transformers.integrations.WandbCallback)) in the Transformers library. If you need to customize your Hugging Face logging you can modify this callback.
+For instance here's how you could modify the callback to log predictions to a Weights & Biases table after each evaluation
+
+```python
+from transformers.integrations import WandbCallback
+
+def decode_predictions(tokenizer, predictions):
+    labels = tokenizer.batch_decode(predictions.label_ids)
+    prediction_text = tokenizer.batch_decode(predictions.predictions.argmax(axis=-1))
+    return {"labels": labels, "predictions": prediction_text}
+
+
+class WandbPredictionProgressCallback(WandbCallback):
+    """Custom WandbCallback to log model predictions during training.
+
+    This callback logs model predictions and labels to a wandb.Table at each logging step during training.
+    It allows to visualize the model predictions as the training progresses.
+
+    Attributes:
+        trainer (Trainer): The Hugging Face Trainer instance.
+        tokenizer (AutoTokenizer): The tokenizer associated with the model.
+        sample_dataset (Dataset): A subset of the validation dataset for generating predictions.
+        num_samples (int, optional): Number of samples to select from the validation dataset for generating predictions. Defaults to 100.
+    """
+
+    def __init__(self, trainer, tokenizer, val_dataset, num_samples=100):
+        """Initializes the WandbPredictionProgressCallback instance.
+
+        Args:
+            trainer (Trainer): The Hugging Face Trainer instance.
+            tokenizer (AutoTokenizer): The tokenizer associated with the model.
+            val_dataset (Dataset): The validation dataset.
+            num_samples (int, optional): Number of samples to select from the validation dataset for generating predictions. Defaults to 100.
+        """
+        super().__init__()
+        self.trainer = trainer
+        self.tokenizer = tokenizer
+        self.sample_dataset = val_dataset.select(range(num_samples))
+
+
+    def on_evaluate(self, args, state, control,  **kwargs):
+        super().on_evaluate(args, state, control, **kwargs)
+        predictions = self.trainer.predict(self.sample_dataset)
+        predictions = decode_predictions(self.tokenizer, predictions)
+        predictions_df = pd.DataFrame(predictions)
+        predictions_df["epoch"] = state.epoch
+        records_table = self._wandb.Table(dataframe=predictions_df)
+        self._wandb.log({"sample_predictions": records_table})
+
+```
+
+For a more detailed example please refer to this [colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Custom_Progress_Callback.ipynb)
+
 
 ## Issues, questions, feature requests
 
