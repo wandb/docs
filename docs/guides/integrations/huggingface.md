@@ -353,7 +353,7 @@ For instance here's how you could modify the callback to log predictions to a We
 
 In the following example, we log the predictions of a language model every `eval_steps`.
 We can use the `on_evaluate` method of the callback to log the predictions to a Weights & Biases table.
-Here, we use the `decode_predictions` function to decode the predictions and labels from the model output and the tokenizer.
+Here, we use the `decode_predictions` function to decode the predictions and labels from the model output using the tokenizer.
 Then, we create a pandas DataFrame from the predictions and labels and add an `epoch` column to the DataFrame.
 Finally, we create a `wandb.Table` from the DataFrame and log it to wandb.
 Additionally, we can control the frequency of logging by logging the predictions every `freq` epochs.
