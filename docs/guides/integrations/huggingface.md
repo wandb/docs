@@ -346,10 +346,24 @@ wandb.init(project="amazon_sentiment_analysis",
 ### Custom logging
 
 Logging to Weights & Biases via the [Transformers `Trainer` ](https://huggingface.co/transformers/main\_classes/trainer.html)is taken care of by the `WandbCallback` ([reference documentation](https://huggingface.co/transformers/main\_classes/callback.html#transformers.integrations.WandbCallback)) in the Transformers library. If you need to customize your Hugging Face logging you can modify this callback.
+The following section shows how to customize the `WandbCallback` to run model predictions and log evaluation samples during training.
+
+### View evaluation samples during training
 For instance here's how you could modify the callback to log predictions to a Weights & Biases table after each evaluation
+
+In the following example, we log the predictions of a language model every `eval_steps`.
+We can use the `on_evaluate` method of the callback to log the predictions to a Weights & Biases table.
+Here, we use the `decode_predictions` function to decode the predictions and labels from the model output and the tokenizer.
+Then, we create a pandas DataFrame from the predictions and labels and add an `epoch` column to the DataFrame.
+Finally, we create a `wandb.Table` from the DataFrame and log it to wandb.
+Additionally, we can control the frequency of logging by logging the predictions every `freq` epochs.
+
+**Note**: Unlike the regular `WandbCallback` this custom callback needs to be added to the trainer **after** the `Trainer` is instantiated and not during initialization of the `Trainer`.
+This is because the `Trainer` instance is passed to the callback during initialization.
 
 ```python
 from transformers.integrations import WandbCallback
+import pandas as pd
 
 def decode_predictions(tokenizer, predictions):
     labels = tokenizer.batch_decode(predictions.label_ids)
@@ -370,7 +384,7 @@ class WandbPredictionProgressCallback(WandbCallback):
         num_samples (int, optional): Number of samples to select from the validation dataset for generating predictions. Defaults to 100.
     """
 
-    def __init__(self, trainer, tokenizer, val_dataset, num_samples=100):
+    def __init__(self, trainer, tokenizer, val_dataset, num_samples=100, freq=2):
         """Initializes the WandbPredictionProgressCallback instance.
 
         Args:
@@ -378,21 +392,43 @@ class WandbPredictionProgressCallback(WandbCallback):
             tokenizer (AutoTokenizer): The tokenizer associated with the model.
             val_dataset (Dataset): The validation dataset.
             num_samples (int, optional): Number of samples to select from the validation dataset for generating predictions. Defaults to 100.
+            freq (int, optional): Frequency of logging. Defaults to 2.
         """
         super().__init__()
         self.trainer = trainer
         self.tokenizer = tokenizer
         self.sample_dataset = val_dataset.select(range(num_samples))
+        self.freq = freq
 
 
     def on_evaluate(self, args, state, control,  **kwargs):
         super().on_evaluate(args, state, control, **kwargs)
-        predictions = self.trainer.predict(self.sample_dataset)
-        predictions = decode_predictions(self.tokenizer, predictions)
-        predictions_df = pd.DataFrame(predictions)
-        predictions_df["epoch"] = state.epoch
-        records_table = self._wandb.Table(dataframe=predictions_df)
-        self._wandb.log({"sample_predictions": records_table})
+        # control the frequency of logging by logging the predictions every `freq` epochs
+        if state.epoch % self.freq == 0:
+          # generate predictions
+          predictions = self.trainer.predict(self.sample_dataset)
+          # decode predictions and labels
+          predictions = decode_predictions(self.tokenizer, predictions)
+          # add predictions to a wandb.Table
+          predictions_df = pd.DataFrame(predictions)
+          predictions_df["epoch"] = state.epoch
+          records_table = self._wandb.Table(dataframe=predictions_df)
+          # log the table to wandb
+          self._wandb.log({"sample_predictions": records_table})
+
+# First, instantiate the Trainer
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=lm_datasets["train"],
+    eval_dataset=lm_datasets["validation"],
+
+)
+
+# Instantiate the WandbPredictionProgressCallback
+progress_callback = WandbPredictionProgressCallback(trainer, tokenizer, lm_dataset["validation"], 10, 2)
+# Add the callback to the trainer
+trainer.add_callback(progress_callback)
 
 ```
 
