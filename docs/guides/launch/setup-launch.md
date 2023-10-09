@@ -6,32 +6,32 @@ import TabItem from '@theme/TabItem';
 
 # Set up Launch
 
-The following page describes the high-level steps required to set up W&B Launch: 
-1. Create a queue
-2. Configure a queue
-3. Configure an agent. 
+This page describes the high-level steps required to set up W&B Launch:
 
-:::info
-For detailed information on how to complete these steps based on different compute resources, see these associated pages:
-
-* Set up Launch for Docker[LINK]
-* Set up Launch for SageMaker[LINK]
-* Set up Launch for Kubernetes[LINK]
-:::
+1. **Set up a queue**: Queues are FIFO and possess a queue configuration. A queue's configuration controls where and how jobs are are run on a target resource, such as Docker or a Kubernetes cluster.
+2. **Set up an agent**: Agents run on your machine/infrastructure and polls one or more queues for jobs. When a job is pulled, the agent ensures that the image is built and available. The agent then submits the job to the target resource.
 
 
-## Create a queue
+## Set up a queue
+Launch queues must be configured to point to a specific target resource along with any additional configuration specific to that resource.  For example, a Launch queue that is pointing to a kubernetes cluster might specify in its configuration some environment variables or set a custom namespace.  During queue creation, you’ll be prompted to select a resource type and provide a configuration.
+
+When an agent receives a job from a queue, it also receives the queue configuration.  When the agent submits the job to the target resource, it includes the queue configuration along with any overrides from the job itself. For example, job configuration can be used to specify the SageMaker instance type for that job instance only.
+
+### Create a queue
 1. Navigate to Launch App at [wandb.ai/launch](https://wandb.ai/launch). 
 2. Click the **create queue** button on the top right of the screen. 
 
 ![](/images/launch/create-queue.gif)
 
 3. From the **Entity** dropdown menu, select the entity the queue will belong to. 
+  :::tip
+  If you choose a team entity, all members of the team will be able to send jobs to this queue. Choosing a personal entity (associated with a username) will create a private queue that only that user can use.
+  :::
 4. Provide a name for your queue in the **Queue** field. 
 5. From the **Resource** dropdown, select the compute resource you want jobs added to this queue to use.
-6. Provide a resource configuration in either JSON or YAML format in the **Configuration** field.  The next section, [Configure a queue](#configure-a-queue), gives a high level overview of how to configure queues based on the compute resource type you select in the previous step.
+6. Provide a resource configuration in either JSON or YAML format in the Configuration field. The structure and semantics of your configuration document will depend on the resource type that the queue is pointing to. For more details, see the dedicated Set up … page[LINK] for your target resource.
 
-## Configure the queue
+<!-- ## Configure the queue
 Launch queues are first in, first out (FIFO) queues. When you create a queue, you specify a configuration for that queue. Launch queue use this configuration to figure out where and how execute jobs. The schema of your launch queue configuration depends on the target compute resource you want jobs to be executed on. 
 
 For example, the queue configuration for an Amazon SageMaker queue target resource will differ from that of a Kubernetes cluster queue target resource.
@@ -114,13 +114,100 @@ You can set the following macros:
 
 :::info
 Any custom macro, such as `${MY_ENV_VAR}`, is substituted with an environment variable from the agent's environment.
+::: -->
+
+
+## Set up a launch agent
+Launch agents are long running processes that poll one or more launch queues for jobs. Launch agents dequeues jobs off of queues in first in, first out (FIFO) order. When an agent dequeues a job from a queue, it potentially builds an image for that job. The agent then submits the job to the target resource along with configuration options provided by the queue configuration.
+
+<!-- Future: Insert image -->
+
+:::info
+Agents are highly flexible and can be configured to support a wide variety of use cases.  The required configuration for your agent(s) will depend on your specific use case. See the dedicated [LINK] to learn more.
 :::
 
 
-## Configure a launch agent
+### Agent configuration
+<!-- Launch agents can be configured via the launch config file, or more basic options can be configured via the wandb lauinch-agent CLI command. By default agents only one run job concurrently, but this can be controlled. -->
+Configure the launch agent with a YAML file named `launch-config.yaml` in a standard location: `~/.config/wandb/launch-config.yaml`. 
 
+You must, at a minimum, specify the following in a launch config:
+* `queues`: The name of the launch queue
+* `max_job`: Maximum number of jobs
+* `entity`: The W&B entity
+
+The following YAML snippet lists the required keys you must specify in your agent configuration:
+
+```yaml title="launch-config.yaml"
+# Max number of concurrent runs to perform. -1 = no limit
+max_jobs: -1
+
+entity: <entity-name>
+
+# List of queues to poll.
+queues:
+  - default
+```
+
+:::tip
+You can use the W&B CLI to configure a launch agent (instead of a YAML file) to specify the required configuration keys. See the `wandb launch-agent` command for more information. [LINK]
+:::
+
+
+### Configure a container builder
+The launch agent can be configured to build images. This is necessary if you intend on using launch jobs created from git repos or code Artifacts (see Creating Launch jobs[LINK]). 
+
+W&B Launch supports two builders:
+
+* Docker: The Docker builder uses a local Docker daemon to build images.
+* [Kaniko](https://github.com/GoogleContainerTools/kaniko):  Kaniko is a Google project that enables image building in environments where a Docker daemon is unavailable. 
+
+:::tip
+Use the Kaniko builder if your agent is running in an environment where a Docker daemon is unavailable, such as in a Kubernetes cluster. See Launch on Kubernetes for details about the Kaniko builder. [LINK]
+:::
+
+To specify an image builder, include the builder key in your agent configuration. For example, the following code snippet shows a portion of the launch config (`launch-config.yaml`) that specifies to use Docker or Kaniko:
+
+```yaml title="launch-config.yaml"
+builder:
+	type: docker | kaniko
+```
+
+### Configure a cloud registry
+In some cases, you might want to connect a launch agent to a cloud registry. Common scenarios where this can happen are:
+
+* You want to use the agent to build images and run these images on Amazon SageMaker or VertexAI.
+* You want the launch agent to provide credentials to pull from an image repository.
+
+To learn more about this see [LINK].
+
+## Activate the launch agent
+Activate the launch agent with the `launch-agent`[LINK] W&B CLI command:
+
+```bash
+wandb launch-agent -q <queue-1> -q <queue-2> --max-jobs 5
+```
+
+In some use cases, you might want to have a launch agent polling queues from within a Kubernetes cluster. See the [LINK] for more information. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- OLD -->
 <!-- Start -->
-W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will remove launch jobs from the queue (FIFO) and execute them based on the queue's target resource (defined in the W&B App UI) and the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/launch-config.yaml`. 
+<!-- W&B Launch uses a launch agent to poll one or more launch queues for launch jobs. The launch agent will remove launch jobs from the queue (FIFO) and execute them based on the queue's target resource (defined in the W&B App UI) and the agent configuration file you define in a YAML file called `launch-config.yaml`. By default, the agent configuration file is stored in `~/.config/wandb/launch-config.yaml`. 
 
 When the launch agent removes a launch job from the queue, it will build a container image for that launch job. By default, W&B will build the image with Docker. See the [Container builder section](#container-builder-options) for alternative Docker image builders.
 
@@ -128,9 +215,7 @@ The environment that a launch agent is running in, and polling for launch jobs, 
 
 Depending on the compute target resource of the queue and your Docker builder, you might need to specify a container registry for the launch agent to store container images. See the [Container registries](#container-registries) section for more information.
 
-<!-- For example, if the job was in a Docker queue, the agent will execute the run locally with the `docker run` command. If the job was in a Kubernetes queue, the agent will execute the run on a Kubernetes cluster as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) with the Kubernetes API. -->
 
-<!-- End -->
 
 
 :::tip
@@ -406,7 +491,11 @@ registry:
 ```
 
 </TabItem>
-</Tabs>
+</Tabs> -->
+
+
+
+
 
 
 <!-- 

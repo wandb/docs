@@ -96,10 +96,10 @@ const sidebars = {
             {
               type: 'category',
               label: 'Set up Launch',
-              // link: {
-              //   type: 'doc',
-              //   id: 'guides/launch/setup-launch',
-              // },
+              link: {
+                type: 'doc',
+                id: 'guides/launch/setup-launch',
+              },
               items: [
                 'guides/launch/create-queue',
                 'guides/launch/run-agent',
