@@ -128,15 +128,21 @@ Agents are highly flexible and can be configured to support a wide variety of us
 
 
 ### Agent configuration
-<!-- Launch agents can be configured via the launch config file, or more basic options can be configured via the wandb lauinch-agent CLI command. By default agents only one run job concurrently, but this can be controlled. -->
-Configure the launch agent with a YAML file named `launch-config.yaml` in a standard location: `~/.config/wandb/launch-config.yaml`. 
+Configure the launch agent with a configuration (config) YAML file named `launch-config.yaml`. By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent[LINK].
 
-You must, at a minimum, specify the following in a launch config:
-* `queues`: The name of the launch queue
-* `max_job`: Maximum number of jobs
-* `entity`: The W&B entity
+The contents of your launch agent's configuration file will depend on your launch agent's environment, the launch queue's target resource, Docker builder requirements, cloud registry requirements, and so forth. 
 
-The following YAML snippet lists the required keys you must specify in your agent configuration:
+Independent of your use case, there are core configurable options for the launch agent:
+* maximum number of jobs the agent can execute in parallel
+* W&B entity 
+* the name of the queue for the agent to watch.
+
+:::tip
+You can use the W&B CLI to specify universal configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the `wandb launch-agent` command for more information. [LINK]
+:::
+
+
+The following YAML snippet shows how to specify core launch agent config keys:
 
 ```yaml title="launch-config.yaml"
 # Max number of concurrent runs to perform. -1 = no limit
@@ -148,11 +154,6 @@ entity: <entity-name>
 queues:
   - default
 ```
-
-:::tip
-You can use the W&B CLI to configure a launch agent (instead of a YAML file) to specify the required configuration keys. See the `wandb launch-agent` command for more information. [LINK]
-:::
-
 
 ### Configure a container builder
 The launch agent can be configured to build images. This is necessary if you intend on using launch jobs created from git repos or code Artifacts (see Creating Launch jobs[LINK]). 
