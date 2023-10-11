@@ -108,7 +108,7 @@ const sidebars = {
                 // 'guides/launch/sagemaker',                
                 'guides/launch/setup-launch-docker',
                 'guides/launch/setup-launch-sagemaker',
-                // 'guides/launch/setup-launch-kubernetes',
+                'guides/launch/setup-launch-kubernetes',
                 'guides/launch/vertex',
               ],
             },
