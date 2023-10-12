@@ -14,6 +14,8 @@ Set up W&B in 5 minutes, then quickly iterate on your machine learning pipeline 
 
 ![](@site/static/images/general/architecture.png)
 
+This diagram outlines the relationship between W&B products.
+
 **[W&B Models](/guides/models.md)** is a set of lightweight, interoperable tools for machine learning practitioners training and fine-tuning models.
 - [Experiments](/guides/track/intro.md): Machine learning experiment tracking
 - [Model Registry](/guides/model_registry/intro.md): quickly track experiments
