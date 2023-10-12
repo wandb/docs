@@ -23,32 +23,38 @@ W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to
 ## Configure a queue for Kubernetes
 The launch queue configuration for a Kubernetes target resource will resemble either a Kubernetes Job spec or a Kubernetes Custom Resource spec.  You can control any aspect of the Kubernetes workload resource spec when you create a launch queue. 
 
-For security reasons, W&B will inject the following resources into your launch queue if they are not specified:
+<Tabs
+  defaultValue="job"
+  values={[
+    {label: 'Kubernetes Job Spec', value: 'job'},
+    {label: 'Custom Resource Spec', value: 'custom'},
+  ]}>
+  <TabItem value="job">
 
-* `securityContext`
-* `backOffLimit`
-* `ttlSecondsAfterFinished`
-
-The following YAML snippet demonstrates how these values will appear in your launch queue:
-
-```yaml title="example-spec.yaml"
-spec: 
+```yaml
+spec:
   template:
-    `backOffLimit`: 0
-    ttlSecondsAfterFinished: 60
-    securityContext:
-      allowPrivilegeEscalation: False,
-      capabilities:
-        drop:
-          - ALL,
-      seccompProfile: 
-        type: "RuntimeDefault"
+    spec:
+      containers:
+        - env:
+            - name: MY_ENV_VAR
+              value: some-value
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 1Gi
+metadata:
+  labels:
+    queue: k8s-test
+namespace: wandb
 ```
 
-### How to use CustomResource definitions
-In some use cases, you might want to use `CustomResource` definitions. `CustomResource` definitions are useful if, for example, you want to perform multi-node distributed training. See the tutorial for using Launch with multinode jobs using Volcano for an example application. 
+  </TabItem>
+  <TabItem value="custom">
 
-Another use case might be that you want to use W&B Launch with Kubeflow. The following YAML snippet shows a sample launch queue config that uses Kubeflow:
+In some use cases, you might want to use `CustomResource` definitions. `CustomResource` definitions are useful if, for example, you want to perform multi-node distributed training. See the tutorial for using Launch with multinode jobs using Volcano for an example application.  Another use case might be that you want to use W&B Launch with Kubeflow.
+
+ The following YAML snippet shows a sample launch queue config that uses Kubeflow:
 
 ```yaml
 kubernetes:
@@ -77,8 +83,35 @@ kubernetes:
   metadata:
     name: '${run_id}-pytorch-job'
   apiVersion: kubeflow.org/v1
-
 ```
+
+  </TabItem>
+</Tabs>
+
+
+For security reasons, W&B will inject the following resources into your launch queue if they are not specified:
+
+* `securityContext`
+* `backOffLimit`
+* `ttlSecondsAfterFinished`
+
+The following YAML snippet demonstrates how these values will appear in your launch queue:
+
+```yaml title="example-spec.yaml"
+spec: 
+  template:
+    `backOffLimit`: 0
+    ttlSecondsAfterFinished: 60
+    securityContext:
+      allowPrivilegeEscalation: False,
+      capabilities:
+        drop:
+          - ALL,
+      seccompProfile: 
+        type: "RuntimeDefault"
+```
+
+
 
 ## Create a queue 
 
@@ -89,26 +122,7 @@ Create a queue in the W&B App that uses Kubernetes as its compute resource:
 3. Select the **Entity** you would like to create the queue in.
 4. Provide a name for your queue in the **Name** field.
 5. Select **Kubernetes** as the **Resource**.
-6. Within the **Configuration** field, provide the Kubernetes Job workflow spec or Customer resource spec you defined in the previous section[LINK].
-
-```yaml
-spec:
-  template:
-    spec:
-      containers:
-        - env:
-            - name: MY_ENV_VAR
-              value: some-value
-          resources:
-            requests:
-              cpu: 1000m
-              memory: 1Gi
-metadata:
-  labels:
-    queue: k8s-test
-namespace: wandb
-```
-
+6. Within the **Configuration** field, provide the Kubernetes Job workflow spec or custom resource spec you defined in the previous section[LINK].
 
 
 ## Configure a launch agent with helm
