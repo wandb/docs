@@ -7,20 +7,25 @@ import TabItem from '@theme/TabItem';
 # Advanced agent set up
 How you configure the launch agent will depend on numerous factors. One of those factors is whether or not the launch agent will build an image for you. 
 
+:::tip
+The W&B launch agent will build an image for you if you provide a Git repo based or artifact based jobs.
+:::
+
 In the simplest use case, you provide an image-based launch job that is executed in a launch queue target environment that has access to your image repository More requirements must be satisfied if you use the launch agent to build images for you. 
 
 
 ## Builders
-Launch agents can build images from W&B artifacts and Git repo sourced jobs[LINK]. To enable this, the launch agent must be configured with a builder option. The launch agent supports two builders: Kaniko and Docker. 
+Launch agents build images for W&B artifacts and Git repo sourced jobs[LINK]. This means that the launch agent config file (`launch-config.yaml`) must have a builder option specified. W&B Launch supports two builders: Kaniko and Docker. 
 
-* Kaniko: used when the agent polls launch queues  in a Kubernetes cluster
-* Docker: for all other cases.
+We suggest that you use either Kaniko or Docker based on the following scenarios:
 
+* Kaniko: Use Kaniko when the agent polls launch queues in a Kubernetes cluster
+* Docker: Use Docker for all other cases.
 
 ### Docker
 We recommend that you use the Docker builder if you want the agent to build images on a local machine (that has Docker installed). Specify the Docker builder in the launch agent config with the builder key. 
 
-For example, the following YAML snippet shows how to specify this in your launch agent config file (`launch-config.yaml`):
+For example, the following YAML snippet shows how to specify this in a launch agent config file (`launch-config.yaml`):
 
 ```yaml title="launch-config.yaml"
 builder:
@@ -28,14 +33,15 @@ builder:
 ```
 
 ### Kaniko
-The Kaniko builder also requires a registry and environment configuration. See Set up Registry and Environment blocks[LINK]
+To use the Kaniko builder, you must specify a container registry and environment option. See Set up Registry and Environment blocks[LINK]
 
-For example, the following YAML snippet shows how to specify Kaniko in your launch agent config file (`launch-config.yaml`):
+For example, the following YAML snippet shows how to specify Kaniko in a launch agent config file (`launch-config.yaml`):
+
 ```yaml title="launch-config.yaml"
 builder:
-	type: kaniko
+    type: kaniko
 	build-context-store: s3://my-bucket/build-contexts/ 
-  build-job-name: wandb-image-build # Kubernetes job name prefix for all builds
+    build-job-name: wandb-image-build # Kubernetes job name prefix for all builds
 ```
 For specific policies the Kaniko job can use to interact with the context store see Put in Bucket[LINK].
 
@@ -59,11 +65,12 @@ The Kaniko builder requires permissions to put data into cloud storage (such as 
 :::
 
 ## Connect an agent to a cloud registry
-You can connect a launch agent to a cloud container registry such Amazon Elastic Container Registry (Amazon ECR), Google Artifact Registry on GCP, or Azure Container Registry. The following describes common use cases as to why you might want to connect the launch agent to a cloud container registry:
+You can connect the launch agent to a cloud container registry such Amazon Elastic Container Registry (Amazon ECR), Google Artifact Registry on GCP, or Azure Container Registry. The following describes common use cases as to why you might want to connect the launch agent to a cloud container registry:
 
 - you do not want to store images you are building on your local machine
-- you want to share images amongst multiple machines
-- you use a path that requires connecting to a registry like having the agent build images to work with Amazon SageMaker or VertexAI.
+- you want to share images across multiple machines
+- if the agent builds an image for you and you use a cloud compute resource such as Amazon SageMaker or VertexAI.
+
 
 To connect the launch agent to a cloud container registry, you will need to provide additional information about the cloud environment and registry you want to use in the launch agent config. In addition, you will need to grant the agent permissions within the cloud environment to interact with required components based on your use case.
 
@@ -97,12 +104,12 @@ registry:
   # Alternatively, you can simply set the repository name
   # repository: my-repository-name
 ```
-See the boto3 documentation for more information on how to configure default AWS credentials.
+See the boto3 documentation[LINK] for more information on how to configure default AWS credentials.
 
   </TabItem>
   <TabItem value="gcp">
 
-The GCP environment requires the region and project keys to be set. The region should be the GCP region that the agent will be running in. The project should be the GCP project that the agent will be running in. When the agent starts, it will use google.auth.default() to load the default GCP credentials. 
+The GCP environment requires the region and project keys to be set. The region should be the GCP region that the agent will be running in. The project should be the GCP project that the agent will be running in. When the agent starts, it will use `google.auth.default()` to load the default GCP credentials. 
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -121,12 +128,12 @@ registry:
   # image-name: my-image-name
 ```
 
-See the google-auth documentation for more information on how to configure default GCP credentials.
+See the `google-auth` documentation[LINK] for more information on how to configure default GCP credentials.
 
   </TabItem>
   <TabItem value="azure">
 
-The Azure environment does not require any additional keys to be set. When the agent starts, it will use azure.identity.DefaultAzureCredential() to load the default Azure credentials. 
+The Azure environment does not require any additional keys to be set. When the agent starts, it will use `azure.identity.DefaultAzureCredential()` to load the default Azure credentials. 
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -136,7 +143,7 @@ registry:
   uri: https://my-registry.azurecr.io/my-repository
 ```
 
-See the azure-identity documentation for more information on how to configure default Azure credentials.
+See the `azure-identity` documentation[LINK] for more information on how to configure default Azure credentials.
 
   </TabItem>
 </Tabs>
@@ -146,7 +153,6 @@ See the azure-identity documentation for more information on how to configure 
 
 ### Cloud registry permissions
 Below are the permissions that are generally required by launch agents to interact with cloud registries.
-
 
 <Tabs
   defaultValue="aws"
@@ -200,8 +206,7 @@ artifactregistry.repositories.uploadArtifacts
 </Tabs>
 
 ### Kaniko permissions
-Pushing to cloud storage is a required permission for the agent when the agent is using the Kaniko builder. Kaniko uses a context store outside of the pod running the build job.
-
+The launch agent requires permission to push to cloud storage if the agent uses the Kaniko builder. Kaniko uses a context store outside of the pod running the build job.
 
 
 <Tabs
@@ -212,6 +217,8 @@ Pushing to cloud storage is a required permission for the agent when the agent i
     {label: 'Azure', value: 'azure'},
   ]}>
   <TabItem value="aws">
+
+The recommended context store for the Kaniko builder on AWS is Amazon S3. The following policy can be used to give the agent access to an S3 bucket:
 
 ```json
 {
@@ -246,14 +253,6 @@ storage.objects.get
   </TabItem>
   <TabItem value="azure">This is a azure 🍌</TabItem>
 </Tabs>
-
-
-
-
-
-
-
-
 
 
 
