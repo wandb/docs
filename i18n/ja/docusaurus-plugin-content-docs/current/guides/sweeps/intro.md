@@ -33,7 +33,7 @@ Weights & Biases スイープには、_コントローラー_ と 1 つ以上の
 
 
 
-* Weights & Biases Sweepsで初めてハイパーパラメータチューニングを行う場合は、[Quickstart](./quickstart.md)をお読みいただくことをお勧めします。クイックスタートでは、最初のW&Bスイープの設定方法を説明しています。
+* Weights & Biases Sweepsで初めてハイパーパラメータチューニングを行う場合は、[Quickstart](./walkthrough.md)をお読みいただくことをお勧めします。クイックスタートでは、最初のW&Bスイープの設定方法を説明しています。
 
 * Weights and Biases Developer Guideで、Sweepsに関する以下のトピックを探索してください:
 

@@ -29,7 +29,7 @@ The following table lists all the different keys that might be present in your a
 |actor_ip                | IP address of the logged-in user.
 |actor_email             | if present, action was taken on this actor email.
 |artifact_digest         | if present, action was taken on this artifact digest.
-|artifact_sequence_name  | if present, action was taken on this artifact sequence name.
+|artifact_qualified_name | if present, action was taken on this artifact.
 |entity_name             | if present, action was taken on this entity or team name.
 |project_name            | if present, action was taken on this project name.
 |report_name             | if present, action was taken on this report name.

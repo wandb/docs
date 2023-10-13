@@ -28,4 +28,4 @@ The parameter importance plot(right) lists the hyperparameters that were the bes
 
 You can alter the dependent and independent values (x and y axis) that are automatically used. Within each panel there is a pencil icon called **Edit panel**. Choose **Edit panel**. A model will appear. Within the modal, you can alter the behavior of the graph.
 
-For more information on all default W&B visualization options, see [Panels](../app/features/panels/intro.md). See the [Data Visualization docs](../data-vis/intro.md) for information on how to create plots from W&B Runs that are not part of a W&B Sweep.
+For more information on all default W&B visualization options, see [Panels](../app/features/panels/intro.md). See the [Data Visualization docs](../tables/intro.md) for information on how to create plots from W&B Runs that are not part of a W&B Sweep.

@@ -36,9 +36,9 @@ import wandb
 
 # 1. W&BのRunを開始
 run = wandb.init(
-  project="cat-classification",
-  notes="My first experiment",
-  tags=["baseline", "paper1"]
+    project="cat-classification",
+    notes="My first experiment",
+    tags=["baseline", "paper1"],
 )
 ```
 `wandb.init()`を使ってW&Bを初期化すると、[Run](../../ref/python/run.md)オブジェクトが返されます。 さらに、W&Bはすべてのログとファイルが保存され、非同期でW&Bサーバーにストリーミングされるローカルディレクトリを作成します。
@@ -51,12 +51,8 @@ run = wandb.init(
 学習率やモデルタイプなどのハイパーパラメーターの辞書を保存します。後で実験結果を整理したり問い合わせたりする際に、configで取得したモデル設定が役立ちます。
 
 ```python
-# 2. ハイパーパラメータの辞書を取得する
-wandb.config = {
-  "epochs": 100, 
-  "learning_rate": 0.001, 
-  "batch_size": 128
-}
+#  2. ハイパーパラメータの辞書を取得する
+wandb.config = {"epochs": 100, "learning_rate": 0.001, "batch_size": 128}
 ```
 実験の設定方法についての詳細は、[実験の設定](./config.md)を参照してください。
 
@@ -75,7 +71,7 @@ model, dataloader = get_model(), get_data()
 for epoch in range(wandb.config.epochs):
     for batch in dataloader:
         loss, accuracy = model.training_step()
-        # 3. トレーニングループ内でメトリクスを記録し、
+        #  3. トレーニングループ内でメトリクスを記録し、
         # モデルのパフォーマンスを視覚化する
         wandb.log({"accuracy": accuracy, "loss": loss})
 ```
@@ -86,7 +82,7 @@ W&Bで記録できるさまざまなデータタイプの詳細については�
 ```python
 wandb.log_artifact(model)
 ```
-Artifactsに関する詳細は、[Artifactsの章](../artifacts/intro.md) を参照してください。モデルのバージョン管理に関する詳細は、[モデル管理](../models/intro.md) を参照してください。
+Artifactsに関する詳細は、[Artifactsの章](../artifacts/intro.md) を参照してください。モデルのバージョン管理に関する詳細は、[モデル管理](../model_registry/intro.md) を参照してください。
 
 ### すべてをまとめる
 上記のコードスニペットを含む完全なスクリプトは以下にあります：
@@ -95,18 +91,10 @@ Artifactsに関する詳細は、[Artifactsの章](../artifacts/intro.md) を参
 import wandb
 
 # 1. W&BのRunを開始する
-run = wandb.init(
-    project="cat-classification",
-    notes="",
-    tags=["baseline", "paper1"]
-)
+run = wandb.init(project="cat-classification", notes="", tags=["baseline", "paper1"])
 
-# 2. ハイパーパラメーターの辞書を取得する
-wandb.config = {
-        "epochs": 100, 
-        "learning_rate": 0.001, 
-        "batch_size": 128
-}
+#  2. ハイパーパラメーターの辞書を取得する
+wandb.config = {"epochs": 100, "learning_rate": 0.001, "batch_size": 128}
 
 # モデルとデータをセットアップ
 model, dataloader = get_model(), get_data()
@@ -114,7 +102,7 @@ model, dataloader = get_model(), get_data()
 for epoch in range(wandb.config.epochs):
     for batch in dataloader:
         loss, accuracy = model.training_step()
-    # 3. トレーニングループ内でメトリクスを記録し、モデルの性能を可視化する
+        #  3. トレーニングループ内でメトリクスを記録し、モデルの性能を可視化する
         wandb.log({"accuracy": accuracy, "loss": loss})
 
 # 4. アーティファクトをW&Bにログする
@@ -145,24 +133,15 @@ W&Bダッシュボードを、機械学習モデルの結果を整理・可視�
 ```python
 import wandb
 
-config = dict (
-  learning_rate = 0.01,
-  momentum = 0.2,
-  architecture = "CNN",
-  dataset_id = "cats-0192"
+config = dict(
+    learning_rate=0.01, momentum=0.2, architecture="CNN", dataset_id="cats-0192"
 )
 wandb.init(
-
-  project="detect-cats",
-
-  notes="ベースラインの調整",
-
-  tags=["ベースライン", "paper1"],
-
-  config=config,
-
+    project="detect-cats",
+    notes="ベースラインの調整",
+    tags=["ベースライン", "paper1"],
+    config=config,
 )
-
 ```
 
 

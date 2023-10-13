@@ -15,8 +15,9 @@ Weight & Biasesを使えば、TensorBoardのログを簡単にクラウドにア
 
 ```python
 import wandb
+
 # `sync_tensorboard=True`でwandb runを開始
-wandb.init(project='my-project', sync_tensorboard=True)
+wandb.init(project="my-project", sync_tensorboard=True)
 
 # TensorBoardを使用したトレーニングコード
 ...
@@ -48,6 +49,7 @@ TensorBoardにパッチを当てる方法をより制御したい場合は、`wa
 
 ```python
 import wandb
+
 wandb.tensorboard.patch(root_logdir="<logging_directory>")
 wandb.init()
 
@@ -61,12 +63,12 @@ wandb.finish()
 
 ```python
 import wandb
+
 wandb.init()
 wandb.tensorboard.patch(save=False, tensorboard_x=True)
 # ノートブックで実行している場合は、wandb runを終了して、TensorBoardのログをW&Bにアップロード
 
 wandb.finish()
-
 ```
 
 :::caution

@@ -43,10 +43,7 @@ from wandb.apis.importers import MlflowImporter
 
 
 # すべてのインポートされたrunsの設定を上書きするためのオプションのdict
-overrides = {
-    "entity": "my_custom_entity",
-    "project": "my_custom_project"
-}
+overrides = {"entity": "my_custom_entity", "project": "my_custom_project"}
 
 importer = MlflowImporter(mlflow_tracking_uri="...")
 importer.import_all_parallel()
@@ -54,15 +51,9 @@ importer.import_all_parallel()
 
 さらに詳細な制御を行いたい場合は、実験を選択的にインポートしたり、独自のカスタムロジックに基づいて上書き設定を指定したりできます。たとえば、次のコードは、カスタムタグが付いたrunsを作成し、指定されたプロジェクトにインポートする方法を示しています。
 ```py
-default_settings = {
-    "entity": "default_entity",
-    "project": "default_project"
-}
+default_settings = {"entity": "default_entity", "project": "default_project"}
 
-special_tag_settings = {
-    "entity": "special_entity",
-    "project": "special_project"
-}
+special_tag_settings = {"entity": "special_entity", "project": "special_project"}
 
 for run in importer.download_all_runs():
     if "special_tag" in run.tags():
@@ -101,6 +92,7 @@ Public APIを使用するには、よく `<entity>/<project>/<run_id>` 形式の
 
 ```python
 import wandb
+
 api = wandb.Api()
 run = api.run("<entity>/<project>/<run_id>")
 ```
@@ -124,7 +116,9 @@ n_epochs = 5
 config = {"n_epochs": n_epochs}
 run = wandb.init(project=project, config=config)
 for n in range(run.config.get("n_epochs")):
-    run.log({"val": random.randint(0,1000), "loss": (random.randint(0,1000)/1000.00)})
+    run.log(
+        {"val": random.randint(0, 1000), "loss": (random.randint(0, 1000) / 1000.00)}
+    )
 run.finish()
 ```
 これらは、上記のrunオブジェクト属性に対する異なる出力です
@@ -132,12 +126,12 @@ run.finish()
 #### `run.config`
 
 ```python
-{'n_epochs': 5}
+{"n_epochs": 5}
 ```
 
 #### `run.history()`
 
-```python
+```
    _step  val   loss  _runtime  _timestamp
 0      0  500  0.244         4  1644345412
 1      1   45  0.521         4  1644345412
@@ -149,12 +143,14 @@ run.finish()
 #### `run.summary`
 
 ```python
-{'_runtime': 4,
- '_step': 4,
- '_timestamp': 1644345412,
- '_wandb': {'runtime': 3},
- 'loss': 0.041,
- 'val': 525}
+{
+    "_runtime": 4,
+    "_step": 4,
+    "_timestamp": 1644345412,
+    "_wandb": {"runtime": 3},
+    "loss": 0.041,
+    "val": 525,
+}
 ```
 
 ### サンプリング
@@ -191,18 +187,14 @@ for run in runs:
 
     # .configにはハイパーパラメーターが含まれます。
     # '_'で始まる特別な値を削除します。
-    config_list.append(
-        {k: v for k, v in run.config.items()
-         if not k.startswith('_')})
+    config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
 
     # .nameは、runの人間が読める名前です。
     name_list.append(run.name)
 
-runs_df = pd.DataFrame({
-    "summary": summary_list,
-    "config": config_list,
-    "name": name_list
-    })
+runs_df = pd.DataFrame(
+    {"summary": summary_list, "config": config_list, "name": name_list}
+)
 
 runs_df.to_csv("project.csv")
 ```
@@ -213,11 +205,10 @@ runs_df.to_csv("project.csv")
 W&B APIはまた、api.runs()を使用してプロジェクト内の複数のrunを横断して問い合わせる方法も提供しています。最も一般的なユースケースは、カスタム分析のためにrunデータをエクスポートすることです。クエリインターフェイスは、[MongoDBが使用するもの](https://docs.mongodb.com/manual/reference/operator/query)と同じです。
 
 ```python
-runs = api.runs("username/project",
-    {"$or": [
-        {"config.experiment_name": "foo"},
-        {"config.experiment_name": "bar"}]
-    })
+runs = api.runs(
+    "username/project",
+    {"$or": [{"config.experiment_name": "foo"}, {"config.experiment_name": "bar"}]},
+)
 print(f"Found {len(runs)} runs")
 ```
 
@@ -264,12 +255,13 @@ runsに有用な識別子を設定する方法を考えている場合、以下�
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
 if run.state == "finished":
-   for i, row in run.history().iterrows():
-      print(row["_timestamp"], row["accuracy"])
+    for i, row in run.history().iterrows():
+        print(row["_timestamp"], row["accuracy"])
 ```
 
 ### ランを絞り込む
@@ -279,14 +271,10 @@ MongoDBのクエリ言語を使用して、ランをフィルタリングでき�
 #### 日付
 
 ```python
-runs = api.runs('<entity>/<project>', {
-    "$and": [{
-    'created_at': {
-        "$lt": 'YYYY-MM-DDT##',
-        "$gt": 'YYYY-MM-DDT##'
-        }
-    }]
-})
+runs = api.runs(
+    "<entity>/<project>",
+    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
+)
 ```
 
 ### ランから特定のメトリクスを取得する
@@ -295,12 +283,13 @@ runs = api.runs('<entity>/<project>', {
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
 if run.state == "finished":
-   for i, row in run.history(keys=["accuracy"]).iterrows():
-      print(row["_timestamp"], row["accuracy"])
+    for i, row in run.history(keys=["accuracy"]).iterrows():
+        print(row["_timestamp"], row["accuracy"])
 ```
 
 ### 2つのランを比較する
@@ -309,6 +298,7 @@ if run.state == "finished":
 ```python
 import pandas as pd
 import wandb
+
 api = wandb.Api()
 
 # あなたの<entity>、<project>、<run_id>に置き換えてください
@@ -337,6 +327,7 @@ optimizer                             rmsprop                 adam
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -350,11 +341,12 @@ run.summary.update()
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
-run.summary['new_name'] = run.summary['old_name']
-del run.summary['old_name']
+run.summary["new_name"] = run.summary["old_name"]
+del run.summary["old_name"]
 run.summary.update()
 ```
 
@@ -368,6 +360,7 @@ run.summary.update()
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -393,6 +386,7 @@ system_metrics.to_csv("sys_metrics.csv")
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -406,6 +400,7 @@ losses = [row["loss"] for row in history]
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -431,21 +426,16 @@ for run in runs:
     #  ._'json_dict' を呼ぶことで大きなファイルが省略されます
     summary_list.append(run.summary._json_dict)
 
-
-# .configはハイパーパラメータを含んでいます。
+    # .configはハイパーパラメータを含んでいます。
     # ここでは、_で始まる特別な値を削除します。
-    config_list.append(
-        {k: v for k,v in run.config.items()
-         if not k.startswith('_')})
+    config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
 
     # .nameはrunの人間が読める名前です。
     name_list.append(run.name)
 
-runs_df = pd.DataFrame({
-    "summary": summary_list,
-    "config": config_list,
-    "name": name_list
-    })
+runs_df = pd.DataFrame(
+    {"summary": summary_list, "config": config_list, "name": name_list}
+)
 
 runs_df.to_csv("project.csv")
 ```
@@ -456,6 +446,7 @@ runs_df.to_csv("project.csv")
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("entity/project/run_id")
@@ -468,6 +459,7 @@ start_time = run.created_at
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("entity/project/run_id")
@@ -479,6 +471,7 @@ run.upload_file("file_name.extension")
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -491,6 +484,7 @@ run.file("model-best.h5").download()
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -504,6 +498,7 @@ for file in run.files():
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 sweep = api.sweep("<entity>/<project>/<sweep_id>")
@@ -515,6 +510,7 @@ sweep_runs = sweep.runs
 次のスニペットは、与えられたスイープから最良のrunを取得します。
 ```python
 import wandb
+
 api = wandb.Api()
 
 sweep = api.sweep("<entity>/<project>/<sweep_id>")
@@ -529,11 +525,11 @@ best_run = sweep.best_run()
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 sweep = api.sweep("<entity>/<project>/<sweep_id>")
-runs = sorted(sweep.runs,
-    key=lambda run: run.summary.get("val_acc", 0), reverse=True)
+runs = sorted(sweep.runs, key=lambda run: run.summary.get("val_acc", 0), reverse=True)
 val_acc = runs[0].summary.get("val_acc", 0)
 print(f"Best run {runs[0].name} with {val_acc}% val accuracy")
 
@@ -547,6 +543,7 @@ print("Best model saved to model-best.h5")
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -554,8 +551,8 @@ run = api.run("<entity>/<project>/<run_id>")
 extension = ".png"
 files = run.files()
 for file in files:
-	if file.name.endswith(extension):
-		file.delete()
+    if file.name.endswith(extension):
+        file.delete()
 ```
 ### システムメトリクスデータのダウンロード
 
@@ -563,6 +560,7 @@ for file in files:
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -584,6 +582,7 @@ summary.update({"key": val})
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")

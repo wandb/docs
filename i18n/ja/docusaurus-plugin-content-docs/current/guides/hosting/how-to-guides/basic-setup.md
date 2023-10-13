@@ -30,7 +30,7 @@ wandb server start
 
 - 環境変数`WANDB_BASE_URL`をローカルインスタンスのアドレスに設定します:
 ```python
-export WANDB_BASE_URL = "http://wandb.your-shared-local-host.com"
+export WANDB_BASE_URL="http://wandb.your-shared-local-host.com"
 ```
 
 自動化された環境では、`WANDB_API_KEY` を [wandb.your-shared-local-host.com/authorize](http://wandb.your-shared-local-host.com/authorize) でアクセスできるように設定できます。
@@ -44,7 +44,7 @@ wandb login --cloud
 または
 
 ```python
-export WANDB_BASE_URL = "https://api.wandb.ai"
+export WANDB_BASE_URL="https://api.wandb.ai"
 ```
 
 また、ブラウザでクラウド上のwandbアカウントにログインしている場合、[https://wandb.ai/settings](https://wandb.ai/settings) でクラウドAPIキーに切り替えることもできます。

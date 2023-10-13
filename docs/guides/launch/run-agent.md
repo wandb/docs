@@ -2,6 +2,7 @@
 description: Launch agent documentation
 displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -46,15 +47,15 @@ max_jobs: -1
 
 # List of queues to poll.
 queues:
-- default
+  - default
 
 # Cloud environment config.
 environment:
-  type: aws|gcp
+  type: aws|gcp|azure
 
 # Container registry config.
 registry:
-  type: ecr|gcr
+  type: ecr|gcr|acr
 
 # Container build config.
 builder:
@@ -68,12 +69,12 @@ The `environment`, `registry`, and `builder` keys are optional. By default, the 
 The `environment` key is used to configure the cloud environment that the agent will need to access in order to do its job. If the agent does not require access to cloud resources, this key should be omitted. See the following references for configuring an AWS or GCP environment.
 
 <Tabs
-  defaultValue="aws"
-  values={[
-    {label: 'AWS', value: 'aws'},
-    {label: 'GCP', value: 'gcp'},
-    {label: 'Azure', value: 'azure'}
-  ]}>
+defaultValue="aws"
+values={[
+{label: 'AWS', value: 'aws'},
+{label: 'GCP', value: 'gcp'},
+{label: 'Azure', value: 'azure'}
+]}>
 
 <TabItem value="aws">
 
@@ -118,12 +119,12 @@ environment:
 The `registry` key is used to configure the container registry that the agent will use to store container images. If the agent does not require access to a container registry, this key should be omitted.
 
 <Tabs
-  defaultValue="ecr"
-  values={[
-    {label: 'AWS ECR', value: 'ecr'},
-    {label: 'GCP Artifact Registry', value: 'gcr'},
-    {label: 'Azure Container Registry', value: 'acr'}
-  ]}>
+defaultValue="ecr"
+values={[
+{label: 'AWS ECR', value: 'ecr'},
+{label: 'GCP Artifact Registry', value: 'gcr'},
+{label: 'Azure Container Registry', value: 'acr'}
+]}>
 
 <TabItem value="ecr">
 
@@ -151,7 +152,7 @@ Set `type: gcr` to use GCP Artifact Registry. In order to use `gcr`, must config
 registry:
   # Requires a gcp environment configuration.
   type: gcr
-  # URI of the Artifact Registry repository and image name where the agent 
+  # URI of the Artifact Registry repository and image name where the agent
   # will store images. Make sure the region and project match what you have
   # configured in your environment.
   uri: <region>-docker.pkg.dev/<project-id>/<repository-name>/<image-name>
@@ -181,12 +182,12 @@ registry:
 The `builder` key is used to configure the container builder that the agent will use to build container images. The `builder` key is not required and if omitted, the agent will use Docker to build images locally.
 
 <Tabs
-  defaultValue="docker"
-  values={[
-    {label: 'Docker', value: 'docker'},
-    {label: 'Kaniko', value: 'kaniko'},
-    {label: 'Noop', value: 'noop'}
-  ]}>
+defaultValue="docker"
+values={[
+{label: 'Docker', value: 'docker'},
+{label: 'Kaniko', value: 'kaniko'},
+{label: 'Noop', value: 'noop'}
+]}>
 
 <TabItem value="docker">
 
@@ -206,16 +207,16 @@ Set `type: kaniko` and configure a GCP, AWS, or Azure environment to use Kaniko 
 ```yaml
 builder:
   type: kaniko
-  build-context-store: s3://my-bucket/build-contexts/  # s3, gcs, or azure blob storage uri for build context storage
-  build-job-name: wandb-image-build  # Kubernetes job name prefix for all builds
+  build-context-store: s3://my-bucket/build-contexts/ # s3, gcs, or azure blob storage uri for build context storage
+  build-job-name: wandb-image-build # Kubernetes job name prefix for all builds
 ```
 
 To specify the `build-context-store` for the `kaniko` builder, you must also configure a cloud environment. The `kaniko` builder supports GCP, AWS, and Azure environments. Please provide the uri in the following formats:
 
-| Cloud | URI |
-| --- | --- |
-| GCP | `gs://my-bucket/build-contexts/` |
-| AWS | `s3://my-bucket/build-contexts/` |
+| Cloud | URI                                                       |
+| ----- | --------------------------------------------------------- |
+| GCP   | `gs://my-bucket/build-contexts/`                          |
+| AWS   | `s3://my-bucket/build-contexts/`                          |
 | Azure | `https://my-bucket.blob.core.windows.net/build-contexts/` |
 
 To grant Kaniko builds running in Kubernetes access to your blob and container storage in the cloud, it is strongly recommended that you use either [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) if you are using GKE and [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) if you are using EKS.
@@ -244,7 +245,6 @@ builder:
 ```
 
 </TabItem>
-
 </Tabs>
 
 ## Cloud permissions
@@ -252,12 +252,12 @@ builder:
 The agent requires access to the cloud environment that it is configured to use. The agent will use the credentials configured in the `environment` key to access the cloud environment. The agent will use these credentials to access the cloud environment to push and pull container images, access cloud storage, and trigger on demand compute through cloud services like SageMaker and Vertex AI.
 
 <Tabs
-  defaultValue="aws"
-  values={[
-    {label: 'AWS', value: 'aws'},
-    {label: 'GCP', value: 'gcp'},
-    {label: 'Azure', value: 'azure'}
-  ]}>
+defaultValue="aws"
+values={[
+{label: 'AWS', value: 'aws'},
+{label: 'GCP', value: 'gcp'},
+{label: 'Azure', value: 'azure'}
+]}>
 
 <TabItem value="aws">
 
@@ -265,58 +265,57 @@ The agent requires credentials to access ECR to push and pull container images i
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ecr:PutLifecyclePolicy",
-                "ecr:PutImageTagMutability",
-                "ecr:StartImageScan",
-                "ecr:CreateRepository",
-                "ecr:PutImageScanningConfiguration",
-                "ecr:UploadLayerPart",
-                "ecr:BatchDeleteImage",
-                "ecr:DeleteLifecyclePolicy",
-                "ecr:DeleteRepository",
-                "ecr:PutImage",
-                "ecr:CompleteLayerUpload",
-                "ecr:StartLifecyclePolicyPreview",
-                "ecr:InitiateLayerUpload",
-                "ecr:DeleteRepositoryPolicy"
-            ],
-            "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "ecr:GetAuthorizationToken",
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "ecr:BatchCheckLayerAvailability",
-            "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
-        },
+  "Version": "2012-10-17",
+  "Statement": [
     {
-            "Sid": "ListObjectsInBucket",
-            "Effect": "Allow",
-            "Action": ["s3:ListBucket"],
-            "Resource": ["arn:aws:s3:::<BUCKET-NAME>"]
-        },
-        {
-            "Sid": "AllObjectActions",
-            "Effect": "Allow",
-            "Action": "s3:*Object",
-            "Resource": ["arn:aws:s3:::<BUCKET-NAME>/*"]
-        }
-    ]
+      "Effect": "Allow",
+      "Action": [
+        "ecr:PutLifecyclePolicy",
+        "ecr:PutImageTagMutability",
+        "ecr:StartImageScan",
+        "ecr:CreateRepository",
+        "ecr:PutImageScanningConfiguration",
+        "ecr:UploadLayerPart",
+        "ecr:BatchDeleteImage",
+        "ecr:DeleteLifecyclePolicy",
+        "ecr:DeleteRepository",
+        "ecr:PutImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:StartLifecyclePolicyPreview",
+        "ecr:InitiateLayerUpload",
+        "ecr:DeleteRepositoryPolicy"
+      ],
+      "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:BatchCheckLayerAvailability",
+      "Resource": "arn:aws:ecr:<REGION>:<ACCOUNT-ID>:repository/<YOUR-REPO-NAME>"
+    },
+    {
+      "Sid": "ListObjectsInBucket",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::<BUCKET-NAME>"]
+    },
+    {
+      "Sid": "AllObjectActions",
+      "Effect": "Allow",
+      "Action": "s3:*Object",
+      "Resource": ["arn:aws:s3:::<BUCKET-NAME>/*"]
+    }
+  ]
 }
 ```
 
 In order to use SageMaker queues, you will also need to create a separate execution role that is assumed by your jobs running in SageMaker. The agent should be granted the following permissions to be allowed to create training jobs:
 
 ```json
-
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -343,7 +342,6 @@ In order to use SageMaker queues, you will also need to create a separate execut
     }
   ]
 }
-
 ```
 
 :::note
@@ -397,8 +395,8 @@ These permissions should be scoped to any storage containers and containers regi
 
 Navigate to the page for a particular launch queue, and the navigate to the **Agents** tab to view active and inactive agents assigned to the queue. Within this tab you can view the:
 
-- **Agent ID**:  Unique agent identification
-- **Status:** The status of the agent. An agent can have a **Killed** or **Polling** status. See status types in the [Launch a run, status of queued runs](launch-jobs.md#status-of-queued-runs) section.
+- **Agent ID**: Unique agent identification
+- **Status:** The status of the agent.
 - **Start date:** The date the agent was activated.
 - **Host:** The machine the agent is polling on.
 

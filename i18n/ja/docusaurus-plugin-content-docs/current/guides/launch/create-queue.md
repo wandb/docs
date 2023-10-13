@@ -1,39 +1,72 @@
 ---
 description: Discover how to create a queue for W&B Launch.
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
 
-# キューの作成
+# Create a queue
 
-**Launchキュー**は、ユーザーが設定し、投稿したジョブを任意のポーリングランチエージェントが実行するための先入れ先出し（FIFO）キューです。ランチキューの各項目は、ジョブとそのジョブのパラメータ設定で構成されています。ランチキューは、W&BまたはW&Bチームが所有しています。このガイドでは、ランチキューの作成と設定方法を学びます。
+**Launch queues** are first-in, first-out (FIFO) configurable queues you can submit your jobs to. The jobs are then executed by any polling launch agents. Each item in a launch queue consists of a job and settings for the parameters of that job.  You can configure your queue in either JSON or YAML format.
 
-## キューの作成
+:::tip
+Similar to [launch jobs](./create-launch-job.md), a launch queue belongs to a W&B entity. Both the launch queue and the jobs you want to enqueue must belong to the same W&B entity.
+:::
 
-[wandb.ai/launch](https://wandb.ai/launch)に移動してください。右上の画面で**キューの作成**ボタンをクリックし、新しいランチキューの作成を開始します。
 
-ボタンをクリックすると、画面右側から引き出しがスライドし、新しいキューについていくつかのオプションが表示されます。
+Follow this guide to learn how to create, configure, and view launch queues.
 
-* **Entity**: キューの所有者で、W&Bアカウントまたは所属しているW&Bチームのどちらかです。このチュートリアルでは、個人用キューを設定することをお勧めします。
-* **キュー名**: キューの名前です。好きな名前を付けてください！
-* **リソース**: このキュー内のジョブ用のコンピューティングリソースタイプ。
-* **設定**: キューに配置されたすべてのジョブのデフォルトのリソース設定。キュー内の任意のジョブが実行されるコンピューティングリソースを設定するために使用されます。これらのデフォルトは、ジョブをエンキューするときに上書きできます。
+## Create a queue
+
+1. Navigate to [wandb.ai/launch](https://wandb.ai/launch). 
+2. Click **create queue** button in the top right of the screen to start creating a new launch queue.
+
+When you click the button, a drawer will slide from the right side of your screen and present you with some options for your new queue:
+
+* **Entity**: the owner of the queue. The entity can either be your W&B account or any W&B team you are a member of.
+* **Queue name**: the name of the queue. 
+* **Resource**: the compute resource type for jobs in this queue.
+* **Configuration**: default resource configurations for all jobs placed on this queue. Used to configure the compute resources that any job in this queue will run on. These defaults can be overridden when you enqueue a job.
 
 ![](/images/launch/create-queue.gif)
 
-## キューの表示
-W&Bエンティティに関連するキューをW&Bアプリで表示します。
+3. Select **Create queue** to create the queue.
 
-1. W&Bアプリに[moving to https://wandb.ai/home](https://wandb.ai/home)に移動します。
-2. 左側のサイドバーの**Applications**セクションで**Launch**を選択します。
-3. **すべてのエンティティ**ドロップダウンを選択し、フィルタリングするエンティティを選択します。
+## Queue configuration
 
-Launchワークスペースにキューのリストが表示されます。左から右に、各キューにはキューの名前、キューが属するエンティティ、そのキューに設定されたコンピューティングリソース、キューの状態が表示されます。
-例えば、次の画像では、**Starter queue**というキューがあります。これはwandbエンティティに属しています。キューはDockerを使用するように設定されています。そして、キューは**非アクティブ（実行されていない）**状態です。
+The schema and meaning of launch queue configuration depends on the queue type. By queue type, the rough nature of each queue is:
+
+| Queue type | Configuration | Additional docs |
+|------------|---------------|-----------------|
+| Docker     | Named arguments to `docker run`. | [Link](./docker.md#docker-queues) |
+| SageMaker  | Partial contents of [SageMaker API's `CreateTrainingJob` request.](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html) | [Link](./sagemaker.md#queue-configuration)
+| Kubernetes | Kubernetes job spec or custom object. | [Link](./kubernetes.md#queue-configuration)
+
+While the format of configuration is different for each queue, there are some shared properties. Queue configs can be dynamically configured using macros that will be evaluated when the agent actually launches a job from the queue. The list of available macros at this time is:
+
+| Macro             | Description                                           |
+|-------------------|-------------------------------------------------------|
+| `${project_name}` | The name of the project the run is being launched to. |
+| `${entity_name}`  | The owner of the project the run being launched to.   |
+| `${run_id}`       | The id of the run being launched.                     |
+| `${run_name}`     | The name of the run that is launching.                |
+| `${image_uri}`    | The URI of the container image for this run.          |
+
+Additionally, any custom macro, e.g. `${MY_ENV_VAR}` will be substituted with an environment variable from the agent's environment, if present.
+
+## View queues
+
+View queues associated with a W&B entity with the W&B App.
+
+1. Navigate to the W&B App at [https://wandb.ai/home](https://wandb.ai/home).
+2. Select **Launch** within the **Applications** section of the left sidebar.
+3. Select the **All entities** dropdown and select the entity to filter with.
+
+A list of queues will appear in the Launch workspace. From left to right, each queue listed shows the name of the queue, the entity the queue belongs to, the compute resource configured for that queue and the state of the queue.
+
+For example, in the following image, we have a queue called **Starter queue**. It belongs the the wandb entity. The queue is configured to use Docker. And the queue is in an **inactive (Not running)** state.
 
 ![](/images/launch/launch_queues_all.png)
 
-キューは**アクティブ**または**実行されていない**（非アクティブ）のいずれかです。
+A queue is either **Active** or **Not running** (inactive).
 
-* **アクティブ**：少なくとも1つのエージェントがそのキューのジョブをポーリングまたは実行している場合、キューはアクティブです。
-
-* **実行されていない**：エージェントがそのキューのジョブをポーリングまたは実行していない場合、キューは実行されていません。
+* **Active**: A queue is active if at least one agent is either polling or executing jobs for that queue.
+* **Not running**: A queue is not running if there is no agent polling or executing jobs for that queue.

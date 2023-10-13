@@ -35,6 +35,7 @@ The content of the wandb config entry is passed to `wandb.init()` as keyword arg
 ```python
 from ray.tune.logger import DEFAULT_LOGGERS
 from ray.air.integrations.wandb import WandbLoggerCallback
+
 tune.run(
     train_fn,
     config={
@@ -45,10 +46,11 @@ tune.run(
         "wandb": {
             "project": "Optimization_Project",
             "api_key_file": "/path/to/file",
-            "log_config": True
-        }
+            "log_config": True,
+        },
     },
-    loggers=DEFAULT_LOGGERS + (WandbLoggerCallback, ))
+    loggers=DEFAULT_LOGGERS + (WandbLoggerCallback,),
+)
 ```
 
 ## wandb\_mixin
@@ -63,6 +65,7 @@ For basic usage, just prepend your training function with the `@wandb_mixin` dec
 
 ```python
 from ray.tune.integration.wandb import wandb_mixin
+
 
 @wandb_mixin
 def train_fn(config):
@@ -89,12 +92,14 @@ Please see here for all other valid configuration settings: [https://docs.wandb.
 from ray import tune
 from ray.tune.integration.wandb import wandb_mixin
 
+
 @wandb_mixin
 def train_fn(config):
     for i in range(10):
         loss = self.config["a"] + self.config["b"]
         wandb.log({"loss": loss})
         tune.report(loss=loss)
+
 
 tune.run(
     train_fn,
@@ -103,11 +108,9 @@ tune.run(
         "a": tune.choice([1, 2, 3]),
         "b": tune.choice([4, 5, 6]),
         # wandb configuration
-        "wandb": {
-            "project": "Optimization_Project",
-            "api_key_file": "/path/to/file"
-        }
-    })
+        "wandb": {"project": "Optimization_Project", "api_key_file": "/path/to/file"},
+    },
+)
 ```
 
 ## Example Code

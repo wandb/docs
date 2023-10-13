@@ -34,12 +34,12 @@ import TabItem from '@theme/TabItem';
 import wandb
 
 run = wandb.init(project="<example>", job_type="<job-type>")
-artifact = run.use_artifact('<artifact-name>:<alias>')
+artifact = run.use_artifact("<artifact-name>:<alias>")
 
 
-アーティファクト = wandb.Artifact('')
+アーティファクト = wandb.Artifact("")
 run.use_artifact(artifact)
-アーティファクトの説明 = '<説明>'
+アーティファクトの説明 = "<説明>"
 アーティファクト.save()
 ```
 
@@ -53,7 +53,7 @@ import wandb
 
 api = wandb.Api()
 
-artifact = api.artifact('entity/project/artifact:エイリアス')
+artifact = api.artifact("entity/project/artifact:エイリアス")
 
 # 説明を更新する
 artifact.description = "新しい説明"
@@ -64,12 +64,12 @@ artifact.metadata["oldKey"] = "新しい値"
 artifact.metadata = {"newKey": "新しい値"}
 
 # エイリアスを追加する
-artifact.aliases.append('best')
+artifact.aliases.append("best")
 # エイリアスを削除する
-artifact.aliases.remove('latest')
+artifact.aliases.remove("latest")
 
 # エイリアスを完全に置き換える
-artifact.aliases = ['replaced']
+artifact.aliases = ["replaced"]
 
 # すべてのアーティファクトの変更を保存する
 artifact.save()

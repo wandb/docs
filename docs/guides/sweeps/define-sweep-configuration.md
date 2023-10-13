@@ -31,7 +31,7 @@ The following code snippets demonstrate examples of how to define a Sweep config
 
 ```python
 sweep_configuration = {
-    'method': 'random',
+    'method': 'bayes',
     'name': 'sweep',
     'metric': {
         'goal': 'minimize', 
@@ -84,6 +84,8 @@ wandb.log({
         'val_loss': validation_loss
       })
 ```
+
+Defining the metric in the sweep configuration is only required when using the bayes method for the sweep. 
 
 ### Sweep configuration structure
 
@@ -200,14 +202,14 @@ Describe the hyperparameters to explore during the sweep. For each hyperparamete
 
   ```yaml
   parameter_name:
-  values:
-    - 8
-    - 6
-    - 7
-    - 5
-    - 3
-    - 0
-    - 9
+    values:
+      - 8
+      - 6
+      - 7
+      - 5
+      - 3
+      - 0
+      - 9
   ```
   </TabItem>
   <TabItem value="probabilities">
@@ -432,6 +434,7 @@ Specify either `min_iter` or `max_iter` to create a bracket schedule.
 | `max_iter` | Specify the maximum number of iterations.                      |
 | `s`        | Specify the total number of brackets (required for `max_iter`) |
 | `eta`      | Specify the bracket multiplier schedule (default: `3`).        |
+| `strict`   | Enable 'strict' mode that prunes runs aggressively, more closely following the original Hyperband paper. Defaults to false. |
 
 :::info
 The hyperband early terminator checks what [W&B Runs](../../ref/python/run.md) to terminate once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.

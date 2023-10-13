@@ -14,7 +14,7 @@ Table(
 従来のスプレッドシートとは異なり、Tableは様々なタイプのデータに対応しています：スカラー値、文字列、numpy配列、そしてほとんどの`wandb.data_types.Media`のサブクラスも対応しています。
 これにより、`Images`、`Video`、`Audio`などのリッチでアノテーションされたメディアを、他の従来のスカラー値と並べてTableに埋め込むことができます。
 
-このクラスは、UIのTable Visualizerを生成する主要なクラスです：https://docs.wandb.ai/guides/data-vis/tables.
+このクラスは、UIのTable Visualizerを生成する主要なクラスです：https://docs.wandb.ai/guides/tables/tables.
 
 Tableは、`data`または`dataframe` パラメータを使用して初期データを含めて作成することができます：
 

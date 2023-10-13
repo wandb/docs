@@ -55,12 +55,9 @@ Create an artifact version within a W&B run:
 
 ```python showLineNumbers
 with wandb.init() as run:
-    artifact = wandb.Artifact(
-        "artifact_name", 
-        "artifact_type"
-        )
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
 
-    # Add Files and Assets to the artifact using 
+    # Add Files and Assets to the artifact using
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image1.png")
     run.log_artifact(artifact)
@@ -77,7 +74,7 @@ Create an artifact version outside of a W&B run:
 
 ```python showLineNumbers
 artifact = wandb.Artifact("artifact_name", "artifact_type")
-# Add Files and Assets to the artifact using 
+# Add Files and Assets to the artifact using
 # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
 artifact.add_file("image1.png")
 artifact.save()
@@ -108,10 +105,7 @@ with wandb.init() as run:
     # Add Files and Assets to the artifact using
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image1.png")
-    run.upsert_artifact(
-        artifact,
-        distributed_id="my_dist_artifact"
-    )
+    run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
 #### Run 2:
@@ -122,10 +116,7 @@ with wandb.init() as run:
     # Add Files and Assets to the artifact using
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image2.png")
-    run.upsert_artifact(
-        artifact,
-        distributed_id="my_dist_artifact"
-    )
+    run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
 #### Run 3
@@ -138,10 +129,7 @@ with wandb.init() as run:
     # Add Files and Assets to the artifact
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image3.png")
-    run.finish_artifact(
-        artifact,
-        distributed_id="my_dist_artifact"
-    )
+    run.finish_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
 
@@ -313,13 +301,13 @@ with wandb.init(job_type="modify dataset") as run:
 
 ```python
 client = wandb.Api()
-saved_artifact = client.artifact("my_artifact:latest") # load your artifact
-draft_artifact = saved_artifact.new_draft() # create a draft version
+saved_artifact = client.artifact("my_artifact:latest")  # load your artifact
+draft_artifact = saved_artifact.new_draft()  # create a draft version
 
 # modify a subset of files in the draft version
 draft_artifact.remove("deleted_file.txt")
 draft_artifact.add_file("modified_file.txt")
-draft_artifact.save() # commit changes to the draft
+draft_artifact.save()  # commit changes to the draft
 ```
 
   </TabItem>

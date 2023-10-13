@@ -39,12 +39,10 @@ Load a Report from a URL to use it as a template.
 
 ```python
 report = wr.Report(
-    project=PROJECT,
-    title='Quickstart Report',
-    description="That was easy!"
-)                                              # Create
-report.save()                                  # Save
-new_report = wr.Report.from_url(report.url)    # Load
+    project=PROJECT, title="Quickstart Report", description="That was easy!"
+)  # Create
+report.save()  # Save
+new_report = wr.Report.from_url(report.url)  # Load
 ```
 
 Edit the content within `new_report.blocks`.
@@ -56,13 +54,15 @@ pg = wr.PanelGrid(
         wr.Runset(ENTITY, PROJECT, "Elephants Only!", query="elephant"),
     ],
     panels=[
-        wr.LinePlot(x='Step', y=['val_acc'], smoothing_factor=0.8),
-        wr.BarPlot(metrics=['acc']),
-        wr.MediaBrowser(media_keys='img', num_columns=1),
-        wr.RunComparer(diff_only='split', layout={'w': 24, 'h': 9}),
-    ]
+        wr.LinePlot(x="Step", y=["val_acc"], smoothing_factor=0.8),
+        wr.BarPlot(metrics=["acc"]),
+        wr.MediaBrowser(media_keys="img", num_columns=1),
+        wr.RunComparer(diff_only="split", layout={"w": 24, "h": 9}),
+    ],
 )
-new_report.blocks = report.blocks[:1] + [wr.H1("Panel Grid Example"), pg] + report.blocks[1:]
+new_report.blocks = (
+    report.blocks[:1] + [wr.H1("Panel Grid Example"), pg] + report.blocks[1:]
+)
 new_report.save()
 ```
   </TabItem>
