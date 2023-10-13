@@ -172,7 +172,7 @@ const sidebars = {
     },    
     {
       type: 'category',
-      label: 'W&B Core',
+      label: 'W&B Platform',
       link: {type: 'doc', id: 'guides/platform'},
       collapsed: false,
       items: [
