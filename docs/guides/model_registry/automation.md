@@ -37,10 +37,11 @@ The following sections describe how to create an automation with webhooks and W&
 ## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
 
-See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) to learn how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
+### Add a secret for authentication or authorization
+Create team secrets to define:
 
-### Add a secret for authentication
-Define a team secret to ensure the authenticity and integrity of data transmitted from payloads. 
+* **Access token**: Authorize senders
+* **Consumer secret**: ensure the authenticity and integrity of data transmitted from payloads
 
 :::note
 * Secrets are available if you use:
@@ -49,7 +50,6 @@ Define a team secret to ensure the authenticity and integrity of data transmitte
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
 :::
 
-
 1. Navigate to the W&B App UI.
 2. Click on **Team Settings**.
 3. Scroll down the page until you find the **Team secrets** section.
@@ -57,11 +57,14 @@ Define a team secret to ensure the authenticity and integrity of data transmitte
 5. A modal will appear. Provide a name for your secret in the **Secret name** field.
 6. Add your secret into the **Secret** field. 
 
+You can choose which access tokens or consumer secrets to use when you create a webhook.  See the [Configure a webhook](#configure-a-webhook) section for more information. 
+
 :::info
 Only W&B Admins can create, edit, or delete a secret.
 :::
 
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
+
 
 ### Configure a webhook
 Before you can use a webhook, you will first need to configure that webhook in the W&B App UI.
@@ -76,6 +79,8 @@ Only W&B Admins can configure a webhook for a W&B Team.
 5. Click on the **New webhook** button.  
 6. Provide a name for your webhook in the **Name** field.
 7. Provide the endpoint URL for the webhook in the **URL** field.
+8. (Optional) From the **Secret** dropdown menu, select the secret you want to use to authenticate the webhook payload.
+9. (Optional) From the **Access token** dropdown menu, select the access token you want to use to authorize the sender.
 
 
 ### Add a webhook 
@@ -235,6 +240,47 @@ The following tabs demonstrate example payloads based on common use cases. Withi
 
   </TabItem>
 </Tabs>
+
+:::info
+See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) to learn how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
+:::
+
+### Troubleshoot your webhook
+
+The following bash script generates a POST request similar to the POST request W&B sends to your webhook automation when it is triggered.
+
+Copy and paste the code below into a shell script to troubleshoot your webhook. Ensure to replace the following values with your own:
+
+* `ACCESS_TOKEN`
+* `SECRET`
+* API endpoint
+
+
+```sh title="webhook_test.sh"
+#!/bin/bash
+
+# Your access token and secret
+ACCESS_TOKEN="your_api_key" 
+SECRET="your_api_secret"
+
+# The data you want to send (for example, in JSON format)
+PAYLOAD='{"key1": "value1", "key2": "value2"}'
+
+# Generate the HMAC signature
+# For security, Wandb includes the X-Wandb-Signature in the header computed 
+# from the payload and the shared secret key associated with the webhook 
+# using the HMAC with SHA-256 algorithm.
+SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" -binary | base64)
+
+# Make the cURL request
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "X-Wandb-Signature: $SIGNATURE" \
+  -d "$PAYLOAD" \
+  https://api.example.com/endpoint
+```
+
 
 ## Create a launch automation
 Automatically start a W&B Job. 
