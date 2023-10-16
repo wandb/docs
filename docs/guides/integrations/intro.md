@@ -12,8 +12,10 @@ Weights & Biases integrations make it fast and easy to set up experiment trackin
 
 ### Related Links
 
-* [Examples](https://github.com/wandb/examples): Working, end-to-end Google Colabs and script examples for all of our integrations
-* [Video Tutorials](https://www.youtube.com/playlist?list=PLD80i8An1OEGajeVo15ohAQYF1Ttle0lk): Learn to use W&B with YouTube videos for PyTorch, Keras, and more.
+* [Examples](https://github.com/wandb/examples): Try the code with notebook and script examples for each integration
+* [Video Tutorials](https://www.youtube.com/playlist?list=PLD80i8An1OEGajeVo15ohAQYF1Ttle0lk): Learn to use W&B with YouTube video tutorials
+
+<iframe width="668" height="376" src="https://www.youtube.com/embed/hmewPDNUNJs?list=PLD80i8An1OEGajeVo15ohAQYF1Ttle0lk" title="Log Your First Run With W&amp;B" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## Guides for Specific Integrations
 
