@@ -1,6 +1,6 @@
 ---
 description: Use an Automation for model CI (automated model evaluation pipelines) and model deployment.
-title: Automations 
+title:  Model registry automations 
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 
 
-# Automations for Model CI/CD
+# Triggering CI/CD events with model registry changes
 
 Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).
 

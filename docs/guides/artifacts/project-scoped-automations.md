@@ -8,32 +8,24 @@ import TabItem from '@theme/TabItem';
 
 
 
-# Artifact automations
-
-<!-- change description to: Use an Automation on artifacts in your project to trigger actions when aliases or versions in an artifact collection are created or changed. For example, you can trigger a launch job whenever a new version is added to a dataset artifact to automatically retrain a model. -->
-
-Create an automation on artifacts to trigger actions when aliases or versions in an artifact collection are created or changed. For example, you can trigger a launch job whenever a new version is added to a dataset artifact to automatically retrain a model. Artifact automations have project-level scope.
+# Trigger CI/CD events with artifact changes
 
 
-To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types). For example, you can create a trigger that automatically retrains a model when a dataset is updated. 
+Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts that are not of type "model".
 
-The following page describes how to create, view, and delete automations that apply to artifacts in a project.
+For example, you can create an automation that triggers a [launch job](../launch/intro.md) when a new artifact version is added. 
 
-:::tip
-Consider project-scoped automations (artifact automations) when you want to automate downstream actions for versioning artifacts that are not of type "model".
-:::
+To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).  
 
 :::info
-Artifact automations are project-scope. This means that only events within a project will trigger an artifact automation.
+Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
 
-This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry have Model Registry scope; they are triggered when events are performed on model versions linked to the [Model Registry](../model_registry/intro.md). For information on how to create an automations for models versions, see the [Automations for Model CI/CD](../model_registry/automation.md) page in the [Model Registry chapter](../model_registry/intro.md).
+This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry; they are triggered when events are performed on model versions linked to the [Model Registry](../model_registry/intro.md). For information on how to create an automations for model versions, see the [Automations for Model CI/CD](../model_registry/automation.md) page in the [Model Registry chapter](../model_registry/intro.md).
 :::
 
 
 ## Event types
-An *event* is a change that takes place in the W&B ecosystem. For automations that apply to artifacts in a project, the event types are for changes applied to an artifact collection. 
-
-You can define two different event types for artifact collections in your project: **A new version of an artifact is added in a collection** and **An artifact alias is created**.
+An *event* is a change that takes place in the W&B ecosystem. You can define two different event types for artifact collections in your project: **A new version of an artifact is added in a collection** and **An artifact alias is created**.
 
 :::tip
 Use the **A new version of an artifact is added in a collection** event type for applying recurring actions to each version of an artifact. For example, you can create an automation that automatically starts a training job when a new dataset artifact version is created.
@@ -99,7 +91,7 @@ Once you have a webhook configured and (optionally) a secret, navigate to your p
 
 1. From the **Event type** dropdown, select an [event type](#event-types).
 ![](/images/artifacts/artifact_webhook_select_event.png)
-2. (Optional) If you selected **A new version of an artifact is created in a collection** event, provide the name of the artifact collection that the automation should respond to from the **Artifact collection** dropdown. 
+2. If you selected **A new version of an artifact is created in a collection** event, provide the name of the artifact collection that the automation should respond to from the **Artifact collection** dropdown. 
 ![](/images/artifacts/webhook_new_version_artifact.png)
 3. Select **Webhooks** from the **Action type** dropdown. 
 4. Click on the **Next step** button.
@@ -281,11 +273,10 @@ View automations associated to an artifact from the W&B App UI.
 
 1. Navigate to your project workspace on the W&B App. 
 2. Click on the **Automations** tab on the left sidebar.
-3. From the list, select the name of the automation you want to view.
 
 ![](/images/artifacts/automations_sidebar.gif)
 
-Within the Automations section you can find the following properties of automations created for the artifact you selected:
+Within the Automations section you can find the following properties for each automations that was created in your project"
 
 - **Trigger type**: The type of trigger that was configured.
 - **Action type**: The action type that triggers the automation. Available options are Webhooks and Launch.
