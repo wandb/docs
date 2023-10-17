@@ -152,10 +152,8 @@ if __name__ == "__main__":
     default=0.001,
     help="Learning rate")    
 
-
-args = parser.parse_args()
-
-main(args)
+  args = parser.parse_args()
+  main(args)
 ```
 ### Set the configuration throughout your script
 You can add more parameters to your config object throughout your script. The proceeding code snippet demonstrates how to add new key-value pairs to your config object:

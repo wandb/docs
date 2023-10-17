@@ -81,7 +81,7 @@ The steps on this topic are common for any deployment option covered by this doc
    }
    ```
 
-   Optionally, **but highly recommended**, you can add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
+   Optionally (but highly recommended) you can add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
 
 4. Create the file `variables.tf`
 

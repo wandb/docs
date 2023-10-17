@@ -33,15 +33,13 @@ The simplest way to get the AzureRM provider configured is via [Azure CLI](https
 Regardless the authentication method used, the account that will run the Terraform needs to be able to create all components described in the Introduction.
 
 ## General steps
-
 The steps on this topic are common for any deployment option covered by this documentation.
 
 1. Prepare the development environment.
-   - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-   - We recommend creating a Git repository with the code that will be used, but you can keep your files locally.
-2. Create the `terraform.tfvars` file.
+  * Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+  * We recommend creating a Git repository with the code that will be used, but you can keep your files locally.
 
-   The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
+2. **Create the `terraform.tfvars` file** The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
 
    ```bash
     namespace     = "wandb"
@@ -55,30 +53,25 @@ The steps on this topic are common for any deployment option covered by this doc
 
    The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
 
-3. Create the file `versions.tf`
+3. **Create the file `versions.tf`** This file will contain the Terraform and Terraform provider versions required to deploy W&B in AWS
+  ```bash
+  terraform {
+    required_version = "~> 1.3"
 
-   This file will contain the Terraform and Terraform provider versions required to deploy W&B in AWS
-
-   ```bash
-    terraform {
-      required_version = "~> 1.3"
-
-      required_providers {
-        azurerm = {
-          source  = "hashicorp/azurerm"
-          version = "~> 3.17"
-        }
+    required_providers {
+      azurerm = {
+        source  = "hashicorp/azurerm"
+        version = "~> 3.17"
       }
     }
-   ```
+  }
+  ```
 
-   Please, refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
+  Refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
 
-   Optionally, **but highly recommended**, you can add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
+  Optionally, **but highly recommended**, you can add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
 
-4. Create the file `variables.tf`
-
-   For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
+4. **Create the file** `variables.tf`. For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
 
    ```bash
     variable "namespace" {
@@ -112,11 +105,9 @@ The steps on this topic are common for any deployment option covered by this doc
 
 This is the most straightforward deployment option configuration that will create all `Mandatory` components and install in the `Kubernetes Cluster` the latest version of `W&B`.
 
-1. Create the `main.tf`
+1. **Create the `main.tf`** In the same directory where you created the files in the `General Steps`, create a file `main.tf` with the following content:
 
-   In the same directory where you created the files in the `General Steps`, create a file `main.tf` with the following content:
-
-   ```bash
+  ```bash
   provider "azurerm" {
     features {}
   }
@@ -142,7 +133,6 @@ This is the most straightforward deployment option configuration that will creat
     source  = "wandb/wandb/azurerm"
     version = "~> 1.2"
 
-
     namespace   = var.namespace
     location    = var.location
     license     = var.license
@@ -163,11 +153,9 @@ This is the most straightforward deployment option configuration that will creat
   output "url" {
     value = module.wandb.url
   }
-   ```
+  ```
 
-2. Deploy W&B
-
-   To deploy W&B, execute the following commands:
+2. **Deploy to W&B** To deploy W&B, execute the following commands:
 
    ```
    terraform init
@@ -217,11 +205,10 @@ module "wandb" {
 
   use_internal_queue       = false # Enable Azure Event Grid
   [...]
+}
 ```
 
 ## Other deployment options
 
 You can combine all three deployment options adding all configurations to the same file.
 The [Terraform Module](https://github.com/wandb/terraform-azure-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in [Deployment Recommended](azure-tf.md#deployment---recommended-20-mins)
-
-## Upgrades (coming soon)
