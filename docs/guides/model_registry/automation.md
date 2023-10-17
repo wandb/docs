@@ -38,17 +38,22 @@ The following sections describe how to create an automation with webhooks and W&
 Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
 
 ### Add a secret for authentication or authorization
-Create team secrets to define:
+Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B considers secrets as any string that you want to protect its plain text content. 
 
-* **Access token**: Authorize senders
-* **Consumer secret**: ensure the authenticity and integrity of data transmitted from payloads
-
-:::note
+:::info
+* Only W&B Admins can create, edit, or delete a secret.
 * Secrets are available if you use:
   * W&B SaaS public cloud; or
   * W&B Server in a Kubernetes cluster
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
 :::
+
+There are two types of secrets W&B suggests that you create when you use a webhook automation:
+
+* **Access tokens**: Authorize senders to help secure webhook requests 
+* **Secret**: Ensure the authenticity and integrity of data transmitted from payloads
+
+Follow the instructions below to create a webhook:
 
 1. Navigate to the W&B App UI.
 2. Click on **Team Settings**.
@@ -56,15 +61,13 @@ Create team secrets to define:
 4. Click on the **New secret** button.
 5. A modal will appear. Provide a name for your secret in the **Secret name** field.
 6. Add your secret into the **Secret** field. 
+7. (Optional) Repeat steps 5 and 6 to create another secret (such as an access token).
 
-You can choose which access tokens or consumer secrets to use when you create a webhook.  See the [Configure a webhook](#configure-a-webhook) section for more information. 
+You will specify which secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook](#configure-a-webhook) section for more information. 
 
-:::info
-Only W&B Admins can create, edit, or delete a secret.
-:::
-
+:::tip
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
-
+:::
 
 ### Configure a webhook
 Before you can use a webhook, you will first need to configure that webhook in the W&B App UI.
