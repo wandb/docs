@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 How you configure the launch agent will depend on numerous factors. One of those factors is whether or not the launch agent will build an image for you. 
 
 :::tip
-The W&B launch agent will build an image for you if you provide a Git repo based or artifact based jobs.
+The W&B launch agent will build an image for you if you provide a Git repo based or artifact based jobs. [LINK]
 :::
 
 In the simplest use case, you provide an image-based launch job that is executed in a launch queue target environment that has access to your image repository More requirements must be satisfied if you use the launch agent to build images for you. 
@@ -150,7 +150,7 @@ See the `azure-identity` documentation[LINK] for more information on how to co
 
 
 ## Agent permissions
-
+The agent permissions required will depend on your use case. The policies outlined below are used by launch agents.
 ### Cloud registry permissions
 Below are the permissions that are generally required by launch agents to interact with cloud registries.
 

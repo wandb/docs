@@ -50,7 +50,6 @@ Create and make note of the following AWS resources:
 2. **Create an Amazon ECR repository**  to store images you want to execute on Amazon SageMaker. See the [Amazon ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for more information.
 3. **Create an Amazon S3 bucket(s)** to store SageMaker inputs and outputs for your SageMaker training jobs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information. Make note of the S3 bucket URI and directory [LINK].
 4. **Create IAM execution role.** The role used in the SageMaker training job requires the following permissions to work. These permissions allow for logging events, pulling from ECR, and interacting with input and output buckets. 
-
   ```json title="IAM role policy"
   {
     "Version": "2012-10-17",
@@ -100,7 +99,6 @@ Create and make note of the following AWS resources:
   }
   ```
   Make note of the IAM role ARN. You will provide the role ARN created in this step when you configure the launch queue.
-
 5. **Create an IAM role for the launch agent** The launch agent needs permission to create SageMaker training jobs. Attach the following policy to the IAM role that you will use for the launch agent. Make note of the IAM role ARN that you create for the launch agent:
 
   ```yaml
@@ -153,7 +151,7 @@ Create a queue in the W&B App that uses SageMaker as its compute resource:
 4. Select the **Entity** you would like to create the queue in.
 5. Provide a name for your queue in the **Name** field.
 6. Select **SageMaker** as the **Resource**.
-7. Within the **Configuration** field, provide information about your SageMaker job. By default, W&B will populate a YAML and JSON CreateTrainingJob request body:
+7. Within the **Configuration** field, provide information about your SageMaker job. By default, W&B will populate a YAML and JSON `CreateTrainingJob` request body:
 ```json
 {
   "RoleArn": "<REQUIRED>",
