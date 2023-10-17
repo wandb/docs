@@ -252,11 +252,12 @@ See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-C
 
 The following bash script generates a POST request similar to the POST request W&B sends to your webhook automation when it is triggered.
 
-Copy and paste the code below into a shell script to troubleshoot your webhook. Ensure to replace the following values with your own:
+Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for the following:
 
 * `ACCESS_TOKEN`
 * `SECRET`
-* API endpoint
+* `PAYLOAD`
+* `API_ENDPOINT`
 
 
 ```sh title="webhook_test.sh"
@@ -280,10 +281,8 @@ curl -X POST \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "X-Wandb-Signature: $SIGNATURE" \
-  -d "$PAYLOAD" \
-  https://api.example.com/endpoint
+  -d "$PAYLOAD" API_ENDPOINT
 ```
-
 
 ## Create a launch automation
 Automatically start a W&B Job. 
