@@ -15,8 +15,8 @@ The [Hugging Face Transformers](https://huggingface.co/transformers/) library ma
 ## 🤗 Next-level logging in few lines
 
 ```python
-os.eviron["WANDB_PROJECT"] = "<my-amazing-project>" # name your W&B project 
-os.eviron["WANDB_LOG_MODEL"] = "checkpoint" # log all model checkpoints
+os.environ["WANDB_PROJECT"] = "<my-amazing-project>" # name your W&B project 
+os.environ["WANDB_LOG_MODEL"] = "checkpoint" # log all model checkpoints
 
 from transformers import TrainingArguments, Trainer
 
