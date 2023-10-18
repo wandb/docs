@@ -1,19 +1,14 @@
 # Table
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L155-L946' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L155-L946' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 The Table class used to display and analyze tabular data.
 
 ```python
 Table(
-    columns=None,
-    data=None,
-    rows=None,
-    dataframe=None,
-    dtype=None,
-    optional=(True),
-    allow_mixed_types=(False),
+    columns=None, data=None, rows=None, dataframe=None, dtype=None, optional=(True),
+    allow_mixed_types=(False)
 )
 ```
 
@@ -114,10 +109,12 @@ due to lack of consistent typing.
 
 ### `add_column`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L834-L873)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L834-L873)
 
 ```python
-add_column(name, data, optional=(False))
+add_column(
+    name, data, optional=(False)
+)
 ```
 
 Add a column of data to the table.
@@ -130,10 +127,12 @@ Add a column of data to the table.
 
 ### `add_computed_columns`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L924-L946)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L924-L946)
 
 ```python
-add_computed_columns(fn)
+add_computed_columns(
+    fn
+)
 ```
 
 Add one or more computed columns based on existing data.
@@ -144,10 +143,12 @@ Add one or more computed columns based on existing data.
 
 ### `add_data`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L460-L493)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L460-L493)
 
 ```python
-add_data(*data)
+add_data(
+    *data
+)
 ```
 
 Add a row of data to the table.
@@ -156,20 +157,24 @@ Argument length should match column length.
 
 ### `add_row`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L455-L458)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L455-L458)
 
 ```python
-add_row(*row)
+add_row(
+    *row
+)
 ```
 
 Deprecated: use add_data instead.
 
 ### `cast`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L354-L408)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L354-L408)
 
 ```python
-cast(col_name, dtype, optional=(False))
+cast(
+    col_name, dtype, optional=(False)
+)
 ```
 
 Cast a column to a specific type.
@@ -182,10 +187,12 @@ Cast a column to a specific type.
 
 ### `get_column`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L875-L898)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L875-L898)
 
 ```python
-get_column(name, convert_to=None)
+get_column(
+    name, convert_to=None
+)
 ```
 
 Retrieve a column of data from the table.
@@ -197,7 +204,7 @@ Retrieve a column of data from the table.
 
 ### `get_dataframe`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L909-L915)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L909-L915)
 
 ```python
 get_dataframe()
@@ -207,7 +214,7 @@ Returns a pandas.DataFrame of the table.
 
 ### `get_index`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L900-L907)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L900-L907)
 
 ```python
 get_index()
@@ -217,17 +224,19 @@ Return an array of row indexes for use in other tables to create links.
 
 ### `index_ref`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L917-L922)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L917-L922)
 
 ```python
-index_ref(index)
+index_ref(
+    index
+)
 ```
 
 Get a reference to a particular row index in the table.
 
 ### `iterrows`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L711-L725)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L711-L725)
 
 ```python
 iterrows()
@@ -248,18 +257,22 @@ The data of the row.
 
 ### `set_fk`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L732-L736)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L732-L736)
 
 ```python
-set_fk(col_name, table, table_col)
+set_fk(
+    col_name, table, table_col
+)
 ```
 
 ### `set_pk`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/data_types.py#L727-L730)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/data_types.py#L727-L730)
 
 ```python
-set_pk(col_name)
+set_pk(
+    col_name
+)
 ```
 
 | Class Variables |  |

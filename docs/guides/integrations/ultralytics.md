@@ -22,7 +22,7 @@ First, we need to install `ultralytics` and `wandb`.
   <TabItem value="script">
 
 ```shell
-pip install --upgrade ultralytics wandb
+pip install --upgrade ultralytics==8.0.186 wandb
 
 # or
 # conda install ultralytics
@@ -32,11 +32,13 @@ pip install --upgrade ultralytics wandb
   <TabItem value="notebook">
 
 ```python
-!pip install --upgrade ultralytics wandb
+!pip install --upgrade ultralytics==8.0.186 wandb
 ```
 
   </TabItem>
 </Tabs>
+
+**Note:** The integration currently has been tested with `ultralyticsv8.0.186` and below. Please report any issues to https://github.com/wandb/wandb/issues with the tag `yolov8`.
 
 ## Experiment Tracking and Visualizing Validation Results
 
@@ -46,7 +48,7 @@ You can try out the code in Google Colab: [Open In Colab](http://wandb.me/ultral
 
 You can also check out about the integration in this report: [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
 
-In order to use the W&B integration with Ultralytics, we need to import the `wandb.yolov8.add_wandb_callback` function.
+In order to use the W&B integration with Ultralytics, we need to import the `wandb.integration.ultralytics.add_wandb_callback` function.
 
 ```python
 import wandb
@@ -94,11 +96,11 @@ You can try out the code in Google Colab: [Open in Colab](http://wandb.me/ultral
 
 You can also check out about the integration in this report: [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
 
-In order to use the W&B integration with Ultralytics, we need to import the `wandb.yolov8.add_wandb_callback` function.
+In order to use the W&B integration with Ultralytics, we need to import the `wandb.integration.ultralytics.add_wandb_callback` function.
 
 ```python
 import wandb
-from wandb.yolov8 import add_wandb_callback
+from wandb.integration.ultralytics import add_wandb_callback
 
 from ultralytics.engine.model import YOLO
 ```

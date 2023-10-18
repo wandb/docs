@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 DagsterとWeights & Biases（W&B）を使ってMLOpsの開発フローを組織化し、MLアセットを維持します。DagsterでのW&Bとの統合により、次のことが簡単に行えます:
 
 * [W&Bアーティファクト](../artifacts/intro.md)の使用と作成。
-* [W&Bモデルレジストリ](../models/intro.md)内のRegistered Modelsの使用と作成。
+* [W&Bモデルレジストリ](../model_registry/intro.md)内のRegistered Modelsの使用と作成。
 * [W&B Launch](../launch/intro.md)を使用して専用の計算リソースでトレーニングジョブを実行。
 * opsとアセットで[wandb](../../ref/python/README.md)クライアントを使用。
 

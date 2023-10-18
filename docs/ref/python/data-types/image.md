@@ -1,6 +1,6 @@
 # Image
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/sdk/data_types/image.py#L64-L659' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/sdk/data_types/image.py#L64-L659' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Format images for logging to W&B.
@@ -20,7 +20,7 @@ Image(
 | Arguments |  |
 | :--- | :--- |
 |  `data_or_path` |  (numpy array, string, io) Accepts numpy array of image data, or a PIL image. The class attempts to infer the data format and converts it. |
-|  `mode` |  (string) The PIL mode for an image. Most common are "L", "RGB", "RGBA". Full explanation at https://pillow.readthedocs.io/en/4.2.x/handbook/concepts.html#concept-modes. |
+|  `mode` |  (string) The PIL mode for an image. Most common are "L", "RGB", "RGBA". Full explanation at https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes. |
 |  `caption` |  (string) Label for display of image. |
 
 Note : When logging a `torch.Tensor` as a `wandb.Image`, images are normalized. If you do not want to normalize your images, please convert your tensors to a PIL Image.
@@ -72,7 +72,7 @@ wandb.log({"examples": examples})
 
 ### `all_boxes`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/sdk/data_types/image.py#L580-L601)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/sdk/data_types/image.py#L580-L601)
 
 ```python
 @classmethod
@@ -86,7 +86,7 @@ all_boxes(
 
 ### `all_captions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/sdk/data_types/image.py#L603-L607)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/sdk/data_types/image.py#L603-L607)
 
 ```python
 @classmethod
@@ -97,7 +97,7 @@ all_captions(
 
 ### `all_masks`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/sdk/data_types/image.py#L557-L578)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/sdk/data_types/image.py#L557-L578)
 
 ```python
 @classmethod
@@ -111,7 +111,7 @@ all_masks(
 
 ### `guess_mode`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/sdk/data_types/image.py#L444-L456)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/sdk/data_types/image.py#L444-L456)
 
 ```python
 guess_mode(
@@ -123,7 +123,7 @@ Guess what type of image the np.array is representing.
 
 ### `to_uint8`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.15.10/wandb/sdk/data_types/image.py#L458-L481)
+[View source](https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/sdk/data_types/image.py#L458-L481)
 
 ```python
 @classmethod

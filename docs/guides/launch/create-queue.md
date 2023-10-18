@@ -8,7 +8,7 @@ displayed_sidebar: default
 **Launch queues** are first-in, first-out (FIFO) configurable queues you can submit your jobs to. The jobs are then executed by any polling launch agents. Each item in a launch queue consists of a job and settings for the parameters of that job.  You can configure your queue in either JSON or YAML format.
 
 :::tip
-Similar to [launch jobs](./create-job.md), a launch queue belongs to a W&B entity. Both the launch queue and the jobs you want to enqueue must belong to the same W&B entity.
+Similar to [launch jobs](./create-launch-job.md), a launch queue belongs to a W&B entity. Both the launch queue and the jobs you want to enqueue must belong to the same W&B entity.
 :::
 
 
