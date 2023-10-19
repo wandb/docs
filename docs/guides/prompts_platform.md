@@ -12,4 +12,4 @@ W&B Prompts is the solution for building and monitoring LLM-based apps. Software
 - Monitor and observe LLMs to better understand and evaluate performance, usage, and budgets
 
 
-![](/images/wb_marketing/wb_prompts.png)
+![](@site/static/images/general/prompts.png)
