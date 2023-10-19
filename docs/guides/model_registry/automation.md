@@ -23,7 +23,7 @@ Use the **Linking a new artifact to a registered model** event type to test new 
 
 
 ## Action types
-An action is a responsive mutation (internal or external) that occurs as a result of some trigger. There are two types of actions you can create in the Model Registry: webhooks and [W&B Launch Jobs](../launch/intro.md).
+An action is a responsive mutation (internal or external) that occurs as a result of some trigger. There are two types of actions you can create in the Model Registry: [webhooks](#create-a-webhook-automation) and [W&B Launch Jobs](../launch/intro.md).
 
 * Webhooks: Communicate with an external web server from W&B with HTTP requests.
 * W&B Launch job: [Jobs](../launch/create-launch-job.md) are reusable, configurable run templates that allow you to quickly launch new [runs](../runs/intro.md) locally on your desktop or external compute resources such as Kubernetes on EKS, Amazon SageMaker, and more. 
@@ -38,7 +38,9 @@ The following sections describe how to create an automation with webhooks and W&
 Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
 
 ### Add a secret for authentication or authorization
-Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B considers secrets as any string that you want to protect its plain text content. 
+Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
+
+To use a secret in your webhook, you must first add that secret to your team's secret manager.
 
 :::info
 * Only W&B Admins can create, edit, or delete a secret.
@@ -61,9 +63,9 @@ Follow the instructions below to create a webhook:
 4. Click on the **New secret** button.
 5. A modal will appear. Provide a name for your secret in the **Secret name** field.
 6. Add your secret into the **Secret** field. 
-7. (Optional) Repeat steps 5 and 6 to create another secret (such as an access token).
+7. (Optional) Repeat steps 5 and 6 to create another secret (such as an access token) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 
-You will specify which secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook](#configure-a-webhook) section for more information. 
+Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook](#configure-a-webhook) section for more information. 
 
 :::tip
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
@@ -73,7 +75,8 @@ Once you create a secret, you can access that secret in your W&B workflows with 
 Before you can use a webhook, you will first need to configure that webhook in the W&B App UI.
 
 :::info
-Only W&B Admins can configure a webhook for a W&B Team.
+* Only W&B Admins can configure a webhook for a W&B Team.
+* Ensure you already [created one or more secrets](#add-a-secret-for-authentication-or-authorization) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 :::
 
 1. Navigate to the W&B App UI.
@@ -84,6 +87,12 @@ Only W&B Admins can configure a webhook for a W&B Team.
 7. Provide the endpoint URL for the webhook in the **URL** field.
 8. (Optional) From the **Secret** dropdown menu, select the secret you want to use to authenticate the webhook payload.
 9. (Optional) From the **Access token** dropdown menu, select the access token you want to use to authorize the sender.
+9. (Optional) From the **Access token** dropdown menu select additional secret keys or tokens required to authenticate a webhook  (such as an access token).
+
+:::note
+See the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to view where the secret and access token are specified in
+the POST request.
+:::
 
 
 ### Add a webhook 
