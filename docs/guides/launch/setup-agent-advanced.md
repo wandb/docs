@@ -202,7 +202,11 @@ artifactregistry.repositories.uploadArtifacts
 ```
 
   </TabItem>
-  <TabItem value="azure">This is a azure 🍌</TabItem>
+  <TabItem value="azure">
+
+Add the [`AcrPush` role](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush) if you use the Kaniko builder.
+
+</TabItem>
 </Tabs>
 
 ### Kaniko permissions
@@ -243,6 +247,8 @@ The recommended context store for the Kaniko builder on AWS is Amazon S3. The fo
   </TabItem>
   <TabItem value="gcp">
 
+On GCP, the following IAM permissions are required for the agent to upload build contexts to GCS:
+
 ```js
 storage.buckets.get
 storage.objects.create
@@ -251,7 +257,12 @@ storage.objects.get
 ```
 
   </TabItem>
-  <TabItem value="azure">This is a azure 🍌</TabItem>
+  <TabItem value="azure">
+
+The [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) role is required in order for the agent to upload build contexts to Azure Blob Storage.
+
+
+  </TabItem>
 </Tabs>
 
 
