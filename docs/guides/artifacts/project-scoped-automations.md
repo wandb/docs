@@ -10,8 +10,7 @@ import TabItem from '@theme/TabItem';
 
 # Trigger CI/CD events with artifact changes
 
-
-Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts that are not of type "model".
+Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts.
 
 For example, you can create an automation that triggers a [launch job](../launch/intro.md) when a new artifact version is added. 
 
@@ -25,10 +24,10 @@ This is in contrast to automations created in the W&B Model Registry. Automation
 
 
 ## Event types
-An *event* is a change that takes place in the W&B ecosystem. You can define two different event types for artifact collections in your project: **A new version of an artifact is added in a collection** and **An artifact alias is created**.
+An *event* is a change that takes place in the W&B ecosystem. You can define two different event types for artifact collections in your project: **A new version of an artifact is created in a collection** and **An artifact alias is added**.
 
 :::tip
-Use the **A new version of an artifact is added in a collection** event type for applying recurring actions to each version of an artifact. For example, you can create an automation that automatically starts a training job when a new dataset artifact version is created.
+Use the **A new version of an artifact is created in a collection** event type for applying recurring actions to each version of an artifact. For example, you can create an automation that automatically starts a training job when a new dataset artifact version is created.
 
 Use the **An artifact alias is added** event type to create an automation that activates when a specific alias is applied to an artifact version. For example, you could create an automation that triggers an action when someone adds "test-set-quality-check" alias to an artifact that then triggers downstream processing on that dataset. 
 :::
@@ -254,7 +253,7 @@ This section assumes you already have created a job, a queue, and have an active
 
 
 1. From the **Event type** dropdown, select an event type. See the [Event type](#event-types) section for information on supported events.
-2. (Optional) If you selected **A new version of an artifact is added in a collection** event, provide the name of the artifact collection from the **Artifact collection** dropdown. 
+2. (Optional) If you selected **A new version of an artifact is created in a collection** event, provide the name of the artifact collection from the **Artifact collection** dropdown. 
 3. Select **Jobs** from the **Action type** dropdown. 
 4. Click **Next step**.
 4. Select a W&B Launch job from the **Job** dropdown.  
