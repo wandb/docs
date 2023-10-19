@@ -31,6 +31,8 @@ Percentage of CPU usage by the process, normalized by the number of available CP
 psutil.Process(pid).cpu_percent() / psutil.cpu_count()
 ```
 
+W&B assigns a `cpu` tag to this metric.
+
 ### CPU Percent
 CPU usage of the system on a per-core basis. The metric is computed using the `psutil` library as:
 
@@ -38,6 +40,7 @@ CPU usage of the system on a per-core basis. The metric is computed using the `p
 psutil.cpu_percent(interval, percpu=True)
 ```
 
+W&B assigns a `cpu.{i}.cpu_percent` tag to this metric.
 
 ### Process CPU Threads 
 The number of threads utilized by the process. The metric is computed using the `psutil` library as:
@@ -45,6 +48,8 @@ The number of threads utilized by the process. The metric is computed using the 
 ```python
 psutil.Process(pid).num_threads()
 ```
+
+W&B assigns a `proc.cpu.threads` tag to this metric.
 
 <!-- New section -->
 
@@ -66,6 +71,7 @@ Represents the total system disk usage in percentage for specified paths. This m
 ```python
 psutil.disk_usage(path).percent
 ```
+W&B assigns a `disk.{path}.usagePercen` tag to this metric.
 
 ### Disk Usage
 Represents the total system disk usage in gigabytes (GB) for specified paths. The metric is calculated using the `psutil` library as:
@@ -76,6 +82,8 @@ psutil.disk_usage(path).used / 1024 / 1024 / 1024
 The paths that are accessible are sampled, and the disk usage (in GB) for each path is appended to the samples.
 
 
+W&B assigns a `disk.{path}.usageGB)` tag to this metric.
+
 ### Disk In
 Indicates the total system disk read in megabytes (MB). The metric is computed using the `psutil` library with the formula:
 
@@ -85,6 +93,8 @@ Indicates the total system disk read in megabytes (MB). The metric is computed u
 
 The initial disk read bytes are recorded when the first sample is taken. Subsequent samples calculate the difference between the current read bytes and the initial value.
 
+W&B assigns a `disk.in` tag to this metric.
+
 ### Disk Out
 Represents the total system disk write in megabytes (MB). This metric is computed using the `psutil` library with the formula:
 
@@ -93,6 +103,8 @@ Represents the total system disk write in megabytes (MB). This metric is compute
 ```
 
 Similar to [Disk In](#disk-in), the initial disk write bytes are recorded when the first sample is taken. Subsequent samples calculate the difference between the current write bytes and the initial value.
+
+W&B assigns a `disk.out` tag to this metric.
 
 <!-- New section -->
 
@@ -108,6 +120,8 @@ psutil.Process(pid).memory_info().rss / 1024 / 1024
 ```
 This captures the RSS of the process and converts it to MB.
 
+W&B assigns a `proc.memory.rssMB` tag to this metric.
+
 ### Process Memory Percent
 Indicates the memory usage of the process as a percentage of the total available memory.
 
@@ -116,6 +130,8 @@ The metric is computed using the `psutil` library as:
 ```python
 psutil.Process(pid).memory_percent()
 ```
+
+W&B assigns a `proc.memory.percent` tag to this metric.
 
 ### Memory Percent
 Represents the total system memory usage as a percentage of the total available memory.
@@ -128,6 +144,8 @@ psutil.virtual_memory().percent
 
 This captures the percentage of total memory usage for the entire system.
 
+W&B assigns a `memory` tag to this metric.
+
 ### Memory Available
 Indicates the total available system memory in megabytes (MB).
 
@@ -137,6 +155,8 @@ The metric is computed using the `psutil` library as:
 psutil.virtual_memory().available / 1024 / 1024
 ```
 This retrieves the amount of available memory in the system and converts it to MB.
+
+W&B assigns a `proc.memory.availableMB` tag to this metric.
 
 <!-- New section -->
 ## Network
@@ -151,6 +171,8 @@ psutil.net_io_counters().bytes_sent - initial_bytes_sent
 ```
 The initial bytes sent are recorded when the metric is first initialized. Subsequent samples calculate the difference between the current bytes sent and the initial value.
 
+W&B assigns a `network.sent` tag to this metric.
+
 ### Network Received
 
 Indicates the total bytes received over the network.
@@ -161,6 +183,8 @@ The metric is computed using the `psutil` library with the formula:
 psutil.net_io_counters().bytes_recv - initial_bytes_received
 ```
 Similar to [Network Sent](#network-sent), the initial bytes received are recorded when the metric is first initialized. Subsequent samples calculate the difference between the current bytes received and the initial value.
+
+W&B assigns a `network.recv` tag to this metric.
 
 <!-- New section -->
 ## NVIDIA GPU
@@ -209,6 +233,8 @@ handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 pynvml.nvmlDeviceGetUtilizationRates(handle).memory
 ```
 
+W&B assigns a `gpu.{gpu_index}.memory` tag to this metric.
+
 ### GPU Memory Allocated
 Indicates the GPU memory allocated as a percentage of the total available memory for each GPU.
 
@@ -218,6 +244,9 @@ memory_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
 memory_info.used / memory_info.total * 100
 ```
 This computes the percentage of GPU memory allocated for each GPU.
+
+W&B assigns a `gpu.{gpu_index}.memoryAllocated` tag to this metric.
+
 ### GPU Memory Allocated Bytes
 Specifies the GPU memory allocated in bytes for each GPU.
 
@@ -227,6 +256,8 @@ memory_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
 memory_info.used
 ```
 
+W&B assigns a `gpu.{gpu_index}.memoryAllocatedBytes` tag to this metric.
+
 ### GPU Utilization
 Reflects the GPU utilization in percent for each GPU.
 
@@ -235,6 +266,7 @@ handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 pynvml.nvmlDeviceGetUtilizationRates(handle).gpu
 ```
 
+W&B assigns a `gpu.{gpu_index}.gpu` tag to this metric.
 ### GPU Temperature
 The GPU temperature in Celsius for each GPU.
 
@@ -242,6 +274,8 @@ The GPU temperature in Celsius for each GPU.
 handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 pynvml.nvmlDeviceGetTemperature(handle, pynvml.NVML_TEMPERATURE_GPU)
 ```
+
+W&B assigns a `gpu.{gpu_index}.temp` tag to this metric.
 
 ### GPU Power Usage Watts
 Indicates the GPU power usage in Watts for each GPU.
@@ -251,6 +285,8 @@ handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 pynvml.nvmlDeviceGetPowerUsage(handle) / 1000
 ```
 
+W&B assigns a `gpu.{gpu_index}.powerWatts` tag to this metric.
+
 ### GPU Power Usage Percent
 
 Reflects the GPU power usage as a percentage of its power capacity for each GPU.
@@ -259,6 +295,8 @@ Reflects the GPU power usage as a percentage of its power capacity for each GPU.
 handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 (power_watts / power_capacity_watts) * 100
 ```
+
+W&B assigns a `gpu.{gpu_index}.powerPercent` tag to this metric.
 
 <!-- New section -->
 ## AMD GPU
@@ -271,12 +309,16 @@ Represents the GPU utilization in percent for each AMD GPU device.
 stats.get("GPU use (%)")
 ```
 
+W&B assigns a `gpu.{gpu_index}.gpu` tag to this metric.
+
 ### AMD GPU Memory Allocated
 Indicates the GPU memory allocated as a percentage of the total available memory for each AMD GPU device.
 
 ```python
 stats.get("GPU memory use (%)")
 ```
+
+W&B assigns a `gpu.{gpu_index}.memoryAllocated` tag to this metric.
 
 ### AMD GPU Temperature
 Displays the GPU temperature in Celsius for each AMD GPU device.
@@ -286,6 +328,8 @@ stats.get("Temperature (Sensor memory) (C)")
 ```
 This fetches the temperature for each AMD GPU.
 
+W&B assigns a `gpu.{gpu_index}.temp` tag to this metric.
+
 ### AMD GPU Power Usage Watts
 Indicates the GPU power usage in Watts for each AMD GPU device.
 
@@ -293,7 +337,9 @@ Indicates the GPU power usage in Watts for each AMD GPU device.
 stats.get("Average Graphics Package Power (W)")
 ```
 
-### AMD GPU Usage Percent
+W&B assigns a `gpu.{gpu_index}.powerWatts` tag to this metric.
+
+### AMD GPU Power Usage Percent
 Reflects the GPU power usage as a percentage of its power capacity for each AMD GPU device.
 
 ```python
@@ -303,6 +349,8 @@ Reflects the GPU power usage as a percentage of its power capacity for each AMD 
     * 100
 )
 ```
+
+W&B assigns a `gpu.{gpu_index}.powerPercent` to this metric.
 
 <!-- New section -->
 ## Apple ARM Mac GPU
@@ -314,7 +362,7 @@ The metric is derived from the `apple_gpu_stats` binary:
 ```python
 raw_stats["utilization"]
 ```
-
+W&B assigns a `gpu.0.gpu` tag to this metric.
 ### Apple GPU Memory Allocated
 Represents the GPU memory allocated as a percentage of the total available memory for Apple GPU devices on ARM Macs.
 
@@ -323,6 +371,9 @@ Extracted using the `apple_gpu_stats` binary:
 raw_stats["mem_used"]
 ```
 This computes the percentage of GPU memory allocated for the Apple GPU.
+
+W&B assigns a `gpu.0.memoryAllocated` tag to this metric.
+
 ### Apple GPU Temperature
 Displays the GPU temperature in Celsius for Apple GPU devices on ARM Macs.
 
@@ -330,6 +381,8 @@ Derived using the `apple_gpu_stats` binary:
 ```python
 raw_stats["temperature"]
 ```
+
+W&B assigns a `gpu.0.temp` tag to this metric.
 
 ### Apple GPU Power Usage Watts
 Indicates the GPU power usage in Watts for Apple GPU devices on ARM Macs.
@@ -340,6 +393,8 @@ raw_stats["power"]
 ```
 This computes the power usage in watts for the Apple GPU. The max power usage is hardcoded as 16.5W.
 
+W&B assigns a `gpu.0.powerWatts` tag to this metric.
+
 ### Apple GPU Power Usage Percent
 Reflects the GPU power usage as a percentage of its power capacity for Apple GPU devices on ARM Macs.
 
@@ -348,12 +403,15 @@ Computed using the `apple_gpu_stats` binary:
 (raw_stats["power"] / MAX_POWER_WATTS) * 100
 ```
 This calculates the power usage as a percentage of the GPU's power capacity. The max power usage is hardcoded as 16.5W.
+
+W&B assigns a `gpu.0.powerPercent` tag to this metric.
+
 <!-- New section -->
 ## Graphcore IPU
 Graphcore IPUs (Intelligence Processing Units) are unique hardware accelerators designed specifically for machine intelligence tasks.
 
 ### IPU Device Metrics
-These metrics represent various statistics for a specific IPU device. Each metric has a device ID (`device_id`) and a metric key (`metric_key`) to identify it.
+These metrics represent various statistics for a specific IPU device. Each metric has a device ID (`device_id`) and a metric key (`metric_key`) to identify it. W&B assigns a `ipu.{device_id}.{metric_key}` tag to this metric.
 
 Metrics are extracted using the proprietary `gcipuinfo` library, which interacts with Graphcore's `gcipuinfo` binary. The `sample` method fetches these metrics for each IPU device associated with the process ID (`pid`). Only the metrics that change over time, or the first time a device's metrics are fetched, are logged to avoid logging redundant data.
 
@@ -398,6 +456,8 @@ from tensorflow.python.profiler import profiler_client
 result = profiler_client.monitor(service_addr, duration_ms=100, level=2)
 ```
 
+W&B assigns a `tpu` tags to this metric.
+
 <!-- New section -->
 
 ## AWS Trainium
@@ -406,11 +466,17 @@ result = profiler_client.monitor(service_addr, duration_ms=100, level=2)
 ### Trainium Neuron Core Utilization
 Measures the utilization percentage of each NeuronCore. It's reported on a per-core basis.
 
-### Trainium Host Memory Usage, total 
+W&B assigns a `trn.{core_index}.neuroncore_utilization` tag to this metric.
+
+### Trainium Host Memory Usage, Total 
 Represents the total memory consumption on the host in bytes.
+
+W&B assigns a `trn.host_total_memory_usage` tag to this metric.
 
 ### Trainium Neuron Device Total Memory Usage 
 Denotes the total memory usage on the Neuron device in bytes.
+
+W&B assigns a  `trn.neuron_device_total_memory_usage)` tag to this metric.
 
 ### Trainium Host Memory Usage Breakdown:
 
