@@ -8,14 +8,14 @@ import TabItem from '@theme/TabItem';
 How you configure the launch agent will depend on numerous factors. One of those factors is whether or not the launch agent will build an image for you. 
 
 :::tip
-The W&B launch agent will build an image for you if you provide a Git repo based or artifact based jobs. [LINK]
+The W&B launch agent will build an image for you if you provide a Git repo based or artifact based jobs.
 :::
 
 In the simplest use case, you provide an image-based launch job that is executed in a launch queue target environment that has access to your image repository More requirements must be satisfied if you use the launch agent to build images for you. 
 
 
 ## Builders
-Launch agents build images for W&B artifacts and Git repo sourced jobs[LINK]. This means that the launch agent config file (`launch-config.yaml`) must have a builder option specified. W&B Launch supports two builders: Kaniko and Docker. 
+Launch agents build images for W&B artifacts and Git repo sourced jobs. This means that the launch agent config file (`launch-config.yaml`) must have a builder option specified. W&B Launch supports two builders: Kaniko and Docker. 
 
 We suggest that you use either Kaniko or Docker based on the following scenarios:
 
@@ -33,7 +33,7 @@ builder:
 ```
 
 ### Kaniko
-To use the Kaniko builder, you must specify a container registry and environment option. See Set up Registry and Environment blocks[LINK]
+To use the Kaniko builder, you must specify a container registry and environment option.
 
 For example, the following YAML snippet shows how to specify Kaniko in a launch agent config file (`launch-config.yaml`):
 
@@ -43,7 +43,7 @@ builder:
 	build-context-store: s3://my-bucket/build-contexts/ 
     build-job-name: wandb-image-build # Kubernetes job name prefix for all builds
 ```
-For specific policies the Kaniko job can use to interact with the context store see Put in Bucket[LINK].
+<!-- For specific policies the Kaniko job can use to interact with the context store see Put in Bucket[LINK]. -->
 
 If you run a Kubernetes cluster other than using AKS, EKS, or GKE, you will need to create a Kubernetes secret that contains the credentials for your cloud environment.
 
@@ -61,7 +61,7 @@ builder:
 ```
 
 :::note
-The Kaniko builder requires permissions to put data into cloud storage (such as Amazon S3) see Pushing to Cloud Storage[LINK], along with permissions to push and pull from the registry.
+The Kaniko builder requires permissions to put data into cloud storage (such as Amazon S3) see the [Agent permissions](#agent-permissions) section for more information.
 :::
 
 ## Connect an agent to a cloud registry
@@ -104,7 +104,7 @@ registry:
   # Alternatively, you can simply set the repository name
   # repository: my-repository-name
 ```
-See the boto3 documentation[LINK] for more information on how to configure default AWS credentials.
+See the [boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) for more information on how to configure default AWS credentials.
 
   </TabItem>
   <TabItem value="gcp">
@@ -128,7 +128,7 @@ registry:
   # image-name: my-image-name
 ```
 
-See the `google-auth` documentation[LINK] for more information on how to configure default GCP credentials.
+See the [`google-auth` documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default for more information on how to configure default GCP credentials.
 
   </TabItem>
   <TabItem value="azure">
@@ -143,7 +143,7 @@ registry:
   uri: https://my-registry.azurecr.io/my-repository
 ```
 
-See the `azure-identity` documentation[LINK] for more information on how to configure default Azure credentials.
+See the [`azure-identity` documentation](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) for more information on how to configure default Azure credentials.
 
   </TabItem>
 </Tabs>

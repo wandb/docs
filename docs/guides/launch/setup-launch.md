@@ -40,12 +40,12 @@ Launch agents are long running processes that poll one or more launch queues for
 <!-- Future: Insert image -->
 
 :::info
-Agents are highly flexible and can be configured to support a wide variety of use cases.  The required configuration for your agent(s) will depend on your specific use case. See the dedicated [LINK] to learn more.
+Agents are highly flexible and can be configured to support a wide variety of use cases.  The required configuration for your agent(s) will depend on your specific use case. See the dedicated page for [Docker](./setup-launch-docker.md), [Amazon SageMaker](./setup-launch-sagemaker.md), [Kubernetes](./setup-launch-kubernetes.md), or [Vertex AI](./setup-vertex.md).
 :::
 
 
 ### Agent configuration
-Configure the launch agent with a configuration (config) YAML file named `launch-config.yaml`. By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent[LINK].
+Configure the launch agent with a configuration (config) YAML file named `launch-config.yaml`. By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
 
 The contents of your launch agent's configuration file will depend on your launch agent's environment, the launch queue's target resource, Docker builder requirements, cloud registry requirements, and so forth. 
 
@@ -55,7 +55,7 @@ Independent of your use case, there are core configurable options for the launch
 * `queues`: the name of one or more queues for the agent to watch
 
 :::tip
-You can use the W&B CLI to specify universal configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the `wandb launch-agent` command for more information. [LINK]
+You can use the W&B CLI to specify universal configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) command for more information.
 :::
 
 
@@ -73,7 +73,7 @@ queues:
 ```
 
 ### Configure a container builder
-The launch agent can be configured to build images. You must configure the agent to use a container builder if you intend to use launch jobs created from git repos or code artifacts (see Creating Launch jobs[LINK]). 
+The launch agent can be configured to build images. You must configure the agent to use a container builder if you intend to use launch jobs created from git repos or code artifacts. See the [Create a launch job](./create-launch-job.md) for more information on how to create a launch job. 
 
 W&B Launch supports two builders:
 
@@ -83,7 +83,7 @@ W&B Launch supports two builders:
 :::tip
 Use the Kaniko builder if your agent is polling in an environment where a Docker daemon is unavailable (for example, a Kubernetes cluster).
 
-See Launch on Kubernetes for details about the Kaniko builder. [LINK]
+See the [Set up Kubernetes](./setup-launch-kubernetes.md) for details about the Kaniko builder.
 :::
 
 To specify an image builder, include the builder key in your agent configuration. For example, the following code snippet shows a portion of the launch config (`launch-config.yaml`) that specifies to use Docker or Kaniko:
@@ -99,15 +99,15 @@ In some cases, you might want to connect a launch agent to a cloud registry. Com
 * You want to use the agent to build images and run these images on Amazon SageMaker or VertexAI.
 * You want the launch agent to provide credentials to pull from an image repository.
 
-To learn more about this see [LINK].
+To learn more about how to configure the agent to interact with a cloud registry, see the [Advanced agent set](./setup-agent-advanced.md) up page.
 
 ## Activate the launch agent
-Activate the launch agent with the `launch-agent`[LINK] W&B CLI command:
+Activate the launch agent with the `launch-agent` W&B CLI command:
 
 ```bash
 wandb launch-agent -q <queue-1> -q <queue-2> --max-jobs 5
 ```
 
-In some use cases, you might want to have a launch agent polling queues from within a Kubernetes cluster. See the [LINK] for more information. 
+In some use cases, you might want to have a launch agent polling queues from within a Kubernetes cluster. See the [Advanced queue set up page](./setup-queue-advanced.md) for more information. 
 
 
