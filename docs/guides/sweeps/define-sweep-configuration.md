@@ -202,14 +202,14 @@ Describe the hyperparameters to explore during the sweep. For each hyperparamete
 
   ```yaml
   parameter_name:
-  values:
-    - 8
-    - 6
-    - 7
-    - 5
-    - 3
-    - 0
-    - 9
+    values:
+      - 8
+      - 6
+      - 7
+      - 5
+      - 3
+      - 0
+      - 9
   ```
   </TabItem>
   <TabItem value="probabilities">
