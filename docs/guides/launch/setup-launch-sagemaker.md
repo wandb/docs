@@ -198,5 +198,5 @@ aws_session_token=<session-token>
 
 <!-- Alternatively, you can use environment variables to specify your  -->
 
-### Agent polls within AWS (such EC2)
-Create an IAM instance role if you want the agent to poll within an AWS service such as Amazon Elastic Compute Container.  
+### Agent polls within AWS (such as EC2)
+You can use an instance role to provide permissions to the agent if you want to run the agent within an AWS service like EC2. 
