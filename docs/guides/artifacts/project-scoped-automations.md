@@ -10,9 +10,17 @@ import TabItem from '@theme/TabItem';
 
 # Trigger CI/CD events with artifact changes
 
-Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. For example, you can trigger a [launch job](#create-a-launch-automation) when a new version is added to a dataset artifact to automatically retrain a model.
+Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).  
 
-To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).  
+Some common use cases for automations that are triggered from changes to an artifact include:
+
+* When a new version of an evaluation/holdout dataset is uploaded, [trigger a launch job](#create-a-launch-automation) that performs inference using the best training model in the model registry and creates a report with performance information.
+* When a new version of the training dataset is labeled as "production," [trigger a retraining launch](#create-a-launch-automation) job with the configs from the current best-performing model.
+
+
+
+
+
 
 :::info
 Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
