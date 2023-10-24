@@ -38,7 +38,7 @@ The following JSON snippet demonstrates how to specify the TensorFlow base image
 
 ```json title="Queue config"
 {
-		... rest of queue configuration
+    ... rest of queue configuration
     "builder": {
         "accelerator": {
             "base_image": "tensorflow/tensorflow:latest-gpu"

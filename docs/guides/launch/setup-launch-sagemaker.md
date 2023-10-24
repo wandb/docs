@@ -161,7 +161,7 @@ The following YAML snippet demonstrates how to specify the core config agent opt
 ```yaml title="launch-config.yaml"
 max_jobs: <n-concurrent-jobs>
 queues:
-	- <queue-name>
+  - <queue-name>
 ```
 
 :::tip

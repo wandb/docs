@@ -83,7 +83,7 @@ The launch agent is configurable through a config file that is, by default, loca
 ```yaml
 max_jobs: <n-concurrent-jobs>
 queues:
-	- <queue-name>
+  - <queue-name>
 ```
 
 If you intend on having the launch agent build images to be run in Vertex AI see Advanced agent set up.

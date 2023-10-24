@@ -39,7 +39,7 @@ For example, the following queue configuration:
         "MY_EXISTING_ENV_VAR"
     ],
     "volume": "/mnt/datasets:/mnt/datasets",
-		"rm": True
+		"rm": true
 }
 ```
 

@@ -29,7 +29,7 @@ For example, the following YAML snippet shows how to specify this in a launch ag
 
 ```yaml title="launch-config.yaml"
 builder:
-    type: docker
+  type: docker
 ```
 
 ### Kaniko
@@ -39,9 +39,9 @@ For example, the following YAML snippet shows how to specify Kaniko in a launch 
 
 ```yaml title="launch-config.yaml"
 builder:
-    type: kaniko
-	build-context-store: s3://my-bucket/build-contexts/ 
-    build-job-name: wandb-image-build # Kubernetes job name prefix for all builds
+  type: kaniko
+  build-context-store: s3://my-bucket/build-contexts/ 
+  build-job-name: wandb-image-build # Kubernetes job name prefix for all builds
 ```
 <!-- For specific policies the Kaniko job can use to interact with the context store see Put in Bucket[LINK]. -->
 
@@ -93,8 +93,8 @@ The AWS environment configuration requires the region key to be set. The regio
 
 ```yaml title="launch-config.yaml"
 environment:
-	type: aws
-	region: <aws-region>
+  type: aws
+  region: <aws-region>
 registry:
   type: ecr
   # URI of the ECR repository where the agent will store images.
@@ -177,8 +177,8 @@ Below are the permissions that are generally required by launch agents to intera
         "ecr:InitiateLayerUpload",
         "ecr:DescribeRepositories",
         "ecr:DescribeImages",
-				"ecr:BatchCheckLayerAvailability",
-        "ecr:BatchDeleteImage",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchDeleteImage"
       ],
       "Resource": "arn:aws:ecr:<region>:<account-id>:repository/<repository>"
     },

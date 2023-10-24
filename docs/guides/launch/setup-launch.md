@@ -90,7 +90,7 @@ To specify an image builder, include the builder key in your agent configuration
 
 ```yaml title="launch-config.yaml"
 builder:
-	type: docker | kaniko
+  type: docker | kaniko
 ```
 
 ### Configure a cloud registry
