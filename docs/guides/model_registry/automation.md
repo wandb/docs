@@ -346,7 +346,7 @@ Delete an automation associated with a model. Actions in progress are not affect
 Create an automation to trigger workflow steps based on an event you configure. For example, you can create an event that automatically tests new models versions added to a registered model. Automations are executed on your own infrastructure with [W&B Launch](../launch/intro.md).  
 
 :::tip
-Before you get started, ensure you create a W&B Launch [job](../launch/create-launch-job.md), [queue](../launch/create-queue.md), and have an [agent polling](../launch/run-agent.md). For more information, see the [Launch documentation](../launch/intro.md).
+Before you get started, ensure you create a W&B Launch [job](../launch/create-launch-job.md), [queue](../launch/setup-launch.md), and have an [agent polling](../launch/run-agent.md). For more information, see the [Launch documentation](../launch/intro.md).
 
 :::
 
