@@ -9,11 +9,6 @@ import TabItem from '@theme/TabItem';
 
 Create a registered model to hold all the candidate models for your modeling tasks.
 
-<!-- Create a registered model directly with the W&B App UI. Alternatively, you can use the Python SDK to link a model to a registry that does not exist.  W&B will create a model registry for you. If you already have a logged model version, you can link directly to a registered model from the SDK. 
-
-The following sections describe how to create a registered model interactively with the W&B App (Model registry and Artifact browser, respectively) and the W&B Python SDK. -->
-
-
 You can create a registered model interactively within the Model Registry or Artifact browser in the W&B App UI. 
 
 <Tabs

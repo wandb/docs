@@ -12,4 +12,3 @@ Use tags to organize registered models into categories and to search over those 
 3. Click the plus button (**+**).
 4. Search or create a new tag.
 
-![](/images/models/model_tags.png)
