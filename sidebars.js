@@ -102,20 +102,17 @@ const sidebars = {
             {
               type: 'category',
               label: 'Set up Launch',
-              // link: {
-              //   type: 'doc',
-              //   id: 'guides/launch/setup-launch',
-              // },
-              items: [
-                'guides/launch/create-queue',
-                'guides/launch/run-agent',
-                'guides/launch/docker',
-                'guides/launch/kubernetes',
-                'guides/launch/sagemaker',                
-                // 'guides/launch/setup-launch-docker',
-                // 'guides/launch/setup-launch-sagemaker',
-                // 'guides/launch/setup-launch-kubernetes',
-                'guides/launch/vertex',
+              link: {
+                type: 'doc',
+                id: 'guides/launch/setup-launch',
+              },
+              items: [               
+                'guides/launch/setup-launch-docker',
+                'guides/launch/setup-launch-sagemaker',
+                'guides/launch/setup-launch-kubernetes',
+                'guides/launch/setup-vertex',
+                'guides/launch/setup-agent-advanced',
+                'guides/launch/setup-queue-advanced',
               ],
             },
             {
@@ -204,6 +201,7 @@ const sidebars = {
                 'guides/artifacts/ttl',
               ],
             },
+            'guides/artifacts/project-scoped-automations',
             'guides/artifacts/explore-and-traverse-an-artifact-graph',
             'guides/artifacts/data-privacy-and-compliance',
             'guides/artifacts/artifacts-faqs',
@@ -608,20 +606,17 @@ const sidebars = {
         {
           type: 'category',
           label: 'Set up Launch',
-          // link: {
-          //   type: 'doc',
-          //   id: 'guides/launch/setup-launch',
-          // },
-          items: [
-            'guides/launch/create-queue',
-            'guides/launch/run-agent',
-            'guides/launch/docker',
-            'guides/launch/kubernetes',
-            'guides/launch/sagemaker',                
-            // 'guides/launch/setup-launch-docker',
-            // 'guides/launch/setup-launch-sagemaker',
-            // 'guides/launch/setup-launch-kubernetes',
-            'guides/launch/vertex',
+          link: {
+            type: 'doc',
+            id: 'guides/launch/setup-launch',
+          },
+          items: [               
+            'guides/launch/setup-launch-docker',
+            'guides/launch/setup-launch-sagemaker',
+            'guides/launch/setup-launch-kubernetes',
+            'guides/launch/setup-vertex',
+            'guides/launch/setup-agent-advanced',
+            'guides/launch/setup-queue-advanced',
           ],
         },
         {
@@ -637,7 +632,7 @@ const sidebars = {
         'guides/launch/sweeps-on-launch',
         'guides/launch/launch-faqs',
       ]
-    },    
+    },   
     {
       type: 'category',
       label: 'プロンプト',

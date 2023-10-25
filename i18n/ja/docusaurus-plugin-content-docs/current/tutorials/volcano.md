@@ -25,7 +25,7 @@ The first step is to create a launch queue. Head to [wandb.ai/launch](https://wa
 
 In the configuration section, we will enter a [volcano job](https://volcano.sh/en/docs/vcjob/) template. Any runs launched from this queue will be created using this job specification, so you can modify this configuration as needed to customize your jobs.
 
-This configuration block can accept a Kubernetes job specification, volcano job specification, or any other custom resource definition (CRD) that you are interested in launching. You can make use of [macros in the configuration block](../guides/launch/kubernetes#custom-controllers) to dynamically set the contents of this spec.
+This configuration block can accept a Kubernetes job specification, volcano job specification, or any other custom resource definition (CRD) that you are interested in launching. You can make use of [macros in the configuration block](../guides/launch/setup-launch.md) to dynamically set the contents of this spec.
 
 In this tutorial, we will use a configuration for multinode pytorch training that makes use of [volcano's pytorch plugin](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin.md). You can copy and paste the following config:
 
@@ -111,7 +111,7 @@ Keep the API key you plan to deploy your agent with handy for later steps.
 
 ### Create a config for the agent
 
-Create a yaml configuration file for the agent you will deploy. Refer [here](../guides/launch/run-agent.md#agent-configuration) for complete documentation of the agent configuration file. The config should contain (at least):
+Create a yaml configuration file for the agent you will deploy. Refer [here](../guides/launch/setup-launch.md) for complete documentation of the agent configuration file. The config should contain (at least):
 
 ```yaml
 entity: <your-entity>

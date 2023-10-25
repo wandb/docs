@@ -63,7 +63,7 @@ You do not need to use the `run.log_code()` function within your Python script w
   </TabItem>
   <TabItem value="sdk">
 
-Log your code as an artifact to create a launch job. To do so, log your code to your run as an artifact with `run.log_code()`. 
+Log your code as an artifact to create a launch job. To do so, log your code to your run as an artifact with `run.log_code()`.
 
 The following sample Python code shows how to integrate the `run.log_code()` function (see highlighted portion) into a Python script.
 
@@ -71,31 +71,34 @@ The following sample Python code shows how to integrate the `run.log_code()` fun
 import random
 import wandb
 
+
 def run_training_run(epochs, lr):
     settings = wandb.Settings(job_source="artifact")
     run = wandb.init(
         project="launch_demo",
         job_type="eval",
         settings=settings,
-        entity='<your-entity>',
+        entity="<your-entity>",
         # Simulate tracking hyperparameters
         config={
-        "learning_rate": lr,
-        "epochs": epochs,
-        })
+            "learning_rate": lr,
+            "epochs": epochs,
+        },
+    )
 
     offset = random.random() / 5
     print(f"lr: {lr}")
 
     for epoch in range(2, epochs):
         # simulating a training run
-        acc = 1 - 2 ** -epoch - random.random() / epoch - offset
-        loss = 2 ** -epoch + random.random() / epoch + offset
+        acc = 1 - 2**-epoch - random.random() / epoch - offset
+        loss = 2**-epoch + random.random() / epoch + offset
         wandb.log({"acc": acc, "loss": loss})
 
     # highlight-next-line
     run.log_code()
     run.finish()
+
 
 run_training_run(epochs=10, lr=0.01)
 ```
@@ -111,7 +114,7 @@ wandb.init(settings=settings)
 
 
 
-For more information on the `run.log_code()` command, see the [API Reference guide](../../ref/README.md).
+For more information on the `run.log_code()` command, see the API Reference guide.
 
   </TabItem>
 </Tabs>

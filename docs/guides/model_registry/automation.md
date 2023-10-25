@@ -1,6 +1,6 @@
 ---
 description: Use an Automation for model CI (automated model evaluation pipelines) and model deployment.
-title: Automations for Model CI/CD
+title:  Model registry automations 
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 
 
-# Automations for Model CI/CD
+# Triggering CI/CD events with model registry changes
 
 Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).
 
@@ -46,8 +46,10 @@ To use a secret in your webhook, you must first add that secret to your team's s
 * Only W&B Admins can create, edit, or delete a secret.
 * Secrets are available if you use:
   * W&B SaaS public cloud; or
-  * W&B Server in a Kubernetes cluster
+  * W&B Server in an Azure deployment
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
+
+If you are on deployment type or environment not listed above, please connect with your account team to discuss what options are available for using secrets in W&B and the timeline for integration with GCP's and AWS's secret store. 
 :::
 
 There are two types of secrets W&B suggests that you create when you use a webhook automation:
@@ -344,7 +346,7 @@ Delete an automation associated with a model. Actions in progress are not affect
 Create an automation to trigger workflow steps based on an event you configure. For example, you can create an event that automatically tests new models versions added to a registered model. Automations are executed on your own infrastructure with [W&B Launch](../launch/intro.md).  
 
 :::tip
-Before you get started, ensure you create a W&B Launch [job](../launch/create-launch-job.md), [queue](../launch/create-queue.md), and have an [agent polling](../launch/run-agent.md). For more information, see the [Launch documentation](../launch/intro.md).
+Before you get started, ensure you create a W&B Launch [job](../launch/create-launch-job.md), [queue](../launch/setup-launch.md), and have an [agent polling](../launch/run-agent.md). For more information, see the [Launch documentation](../launch/intro.md).
 
 :::
 

@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 The following page describes how to add launch jobs to a launch queue.
 
 :::info
-Ensure that you, or someone on your team, has already configured a launch queue. For more information, see the [Create a queue](./create-queue.md) page.
+Ensure that you, or someone on your team, has already configured a launch queue. For more information, see the [Set up Launch](./setup-launch.md) page.
 :::
 
 
