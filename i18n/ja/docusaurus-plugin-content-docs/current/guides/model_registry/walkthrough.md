@@ -216,7 +216,6 @@ Link a model version to the registered model with the W&B App or programmaticall
 3. Select the target Registered Model
 4. (optional): Add additional aliases
 
-![](/images/models/link_model_versions.gif)
   </TabItem>
   <TabItem value="program_link">
 
