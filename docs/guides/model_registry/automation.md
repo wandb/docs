@@ -1,6 +1,6 @@
 ---
 description: Use an Automation for model CI (automated model evaluation pipelines) and model deployment.
-title: Automations 
+title:  Model registry automations 
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 
 
-# Automations for Model CI/CD
+# Triggering CI/CD events with model registry changes
 
 Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).
 
@@ -23,7 +23,7 @@ Use the **Linking a new artifact to a registered model** event type to test new 
 
 
 ## Action types
-An action is a responsive mutation (internal or external) that occurs as a result of some trigger. There are two types of actions you can create in the Model Registry: webhooks and [W&B Launch Jobs](../launch/intro.md).
+An action is a responsive mutation (internal or external) that occurs as a result of some trigger. There are two types of actions you can create in the Model Registry: [webhooks](#create-a-webhook-automation) and [W&B Launch Jobs](../launch/intro.md).
 
 * Webhooks: Communicate with an external web server from W&B with HTTP requests.
 * W&B Launch job: [Jobs](../launch/create-launch-job.md) are reusable, configurable run templates that allow you to quickly launch new [runs](../runs/intro.md) locally on your desktop or external compute resources such as Kubernetes on EKS, Amazon SageMaker, and more. 
@@ -37,18 +37,27 @@ The following sections describe how to create an automation with webhooks and W&
 ## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
 
-See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) to learn how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
+### Add a secret for authentication or authorization
+Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
 
-### Add a secret for authentication
-Define a team secret to ensure the authenticity and integrity of data transmitted from payloads. 
+To use a secret in your webhook, you must first add that secret to your team's secret manager.
 
-:::note
+:::info
+* Only W&B Admins can create, edit, or delete a secret.
 * Secrets are available if you use:
   * W&B SaaS public cloud; or
-  * W&B Server in a Kubernetes cluster
+  * W&B Server in an Azure deployment
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
+
+If you are on deployment type or environment not listed above, please connect with your account team to discuss what options are available for using secrets in W&B and the timeline for integration with GCP's and AWS's secret store. 
 :::
 
+There are two types of secrets W&B suggests that you create when you use a webhook automation:
+
+* **Access tokens**: Authorize senders to help secure webhook requests 
+* **Secret**: Ensure the authenticity and integrity of data transmitted from payloads
+
+Follow the instructions below to create a webhook:
 
 1. Navigate to the W&B App UI.
 2. Click on **Team Settings**.
@@ -56,18 +65,20 @@ Define a team secret to ensure the authenticity and integrity of data transmitte
 4. Click on the **New secret** button.
 5. A modal will appear. Provide a name for your secret in the **Secret name** field.
 6. Add your secret into the **Secret** field. 
+7. (Optional) Repeat steps 5 and 6 to create another secret (such as an access token) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 
-:::info
-Only W&B Admins can create, edit, or delete a secret.
-:::
+Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook](#configure-a-webhook) section for more information. 
 
+:::tip
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
+:::
 
 ### Configure a webhook
 Before you can use a webhook, you will first need to configure that webhook in the W&B App UI.
 
 :::info
-Only W&B Admins can configure a webhook for a W&B Team.
+* Only W&B Admins can configure a webhook for a W&B Team.
+* Ensure you already [created one or more secrets](#add-a-secret-for-authentication-or-authorization) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 :::
 
 1. Navigate to the W&B App UI.
@@ -76,6 +87,14 @@ Only W&B Admins can configure a webhook for a W&B Team.
 5. Click on the **New webhook** button.  
 6. Provide a name for your webhook in the **Name** field.
 7. Provide the endpoint URL for the webhook in the **URL** field.
+8. (Optional) From the **Secret** dropdown menu, select the secret you want to use to authenticate the webhook payload.
+9. (Optional) From the **Access token** dropdown menu, select the access token you want to use to authorize the sender.
+9. (Optional) From the **Access token** dropdown menu select additional secret keys or tokens required to authenticate a webhook  (such as an access token).
+
+:::note
+See the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to view where the secret and access token are specified in
+the POST request.
+:::
 
 
 ### Add a webhook 
@@ -236,6 +255,46 @@ The following tabs demonstrate example payloads based on common use cases. Withi
   </TabItem>
 </Tabs>
 
+:::info
+See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) to learn how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
+:::
+
+### Troubleshoot your webhook
+
+The following bash script generates a POST request similar to the POST request W&B sends to your webhook automation when it is triggered.
+
+Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for the following:
+
+* `ACCESS_TOKEN`
+* `SECRET`
+* `PAYLOAD`
+* `API_ENDPOINT`
+
+
+```sh title="webhook_test.sh"
+#!/bin/bash
+
+# Your access token and secret
+ACCESS_TOKEN="your_api_key" 
+SECRET="your_api_secret"
+
+# The data you want to send (for example, in JSON format)
+PAYLOAD='{"key1": "value1", "key2": "value2"}'
+
+# Generate the HMAC signature
+# For security, Wandb includes the X-Wandb-Signature in the header computed 
+# from the payload and the shared secret key associated with the webhook 
+# using the HMAC with SHA-256 algorithm.
+SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" -binary | base64)
+
+# Make the cURL request
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "X-Wandb-Signature: $SIGNATURE" \
+  -d "$PAYLOAD" API_ENDPOINT
+```
+
 ## Create a launch automation
 Automatically start a W&B Job. 
 
@@ -287,7 +346,7 @@ Delete an automation associated with a model. Actions in progress are not affect
 Create an automation to trigger workflow steps based on an event you configure. For example, you can create an event that automatically tests new models versions added to a registered model. Automations are executed on your own infrastructure with [W&B Launch](../launch/intro.md).  
 
 :::tip
-Before you get started, ensure you create a W&B Launch [job](../launch/create-launch-job.md), [queue](../launch/create-queue.md), and have an [agent polling](../launch/run-agent.md). For more information, see the [Launch documentation](../launch/intro.md).
+Before you get started, ensure you create a W&B Launch [job](../launch/create-launch-job.md), [queue](../launch/setup-launch.md), and have an [agent polling](../launch/run-agent.md). For more information, see the [Launch documentation](../launch/intro.md).
 
 :::
 
