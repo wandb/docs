@@ -8,14 +8,14 @@ import TabItem from '@theme/TabItem';
 
 This page describes the high-level steps required to set up W&B Launch:
 
-1. **Set up a queue**: Queues are FIFO and possess a queue configuration. A queue's configuration controls where and how jobs are are executed on a target resource.
+1. **Set up a queue**: Queues are FIFO and possess a queue configuration. A queue's configuration controls where and how jobs are executed on a target resource.
 2. **Set up an agent**: Agents run on your machine/infrastructure and poll one or more queues for launch jobs. When a job is pulled, the agent ensures that the image is built and available. The agent then submits the job to the target resource.
 
 
 ## Set up a queue
 Launch queues must be configured to point to a specific target resource along with any additional configuration specific to that resource. For example, a launch queue that points to a Kubernetes cluster might include environment variables or set a custom namespace its launch queue configuration. When you create a queue, you will specify both the target resource you want to use and the configuration for that resource to use.
 
-When an agent receives a job from a queue, it also receives the queue configuration.  When the agent submits the job to the target resource, it includes the queue configuration along with any overrides from the job itself. For example, you can use a job configuration to specify the Amazon SageMaker instance type for that job instance only.
+When an agent receives a job from a queue, it also receives the queue configuration. When the agent submits the job to the target resource, it includes the queue configuration along with any overrides from the job itself. For example, you can use a job configuration to specify the Amazon SageMaker instance type for that job instance only.
 
 ### Create a queue
 1. Navigate to Launch App at [wandb.ai/launch](https://wandb.ai/launch). 
@@ -40,7 +40,7 @@ Launch agents are long running processes that poll one or more launch queues for
 <!-- Future: Insert image -->
 
 :::info
-Agents are highly flexible and can be configured to support a wide variety of use cases.  The required configuration for your agent(s) will depend on your specific use case. See the dedicated page for [Docker](./setup-launch-docker.md), [Amazon SageMaker](./setup-launch-sagemaker.md), [Kubernetes](./setup-launch-kubernetes.md), or [Vertex AI](./setup-vertex.md).
+Agents are highly flexible and can be configured to support a wide variety of use cases. The required configuration for your agent will depend on your specific use case. See the dedicated page for [Docker](./setup-launch-docker.md), [Amazon SageMaker](./setup-launch-sagemaker.md), [Kubernetes](./setup-launch-kubernetes.md), or [Vertex AI](./setup-vertex.md).
 :::
 
 
@@ -73,7 +73,7 @@ queues:
 ```
 
 ### Configure a container builder
-The launch agent can be configured to build images. You must configure the agent to use a container builder if you intend to use launch jobs created from git repos or code artifacts. See the [Create a launch job](./create-launch-job.md) for more information on how to create a launch job. 
+The launch agent can be configured to build images. You must configure the agent to use a container builder if you intend to use launch jobs created from git repositories or code artifacts. See the [Create a launch job](./create-launch-job.md) for more information on how to create a launch job. 
 
 W&B Launch supports two builders:
 

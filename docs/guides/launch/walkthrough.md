@@ -22,7 +22,7 @@ Before you get started, ensure you have satisfied the following prerequisites:
     ```bash
     pip install wandb>=0.14.0
     ```
-2. Sign up for a free account at https://wandb.ai/site and then login to your wandb account. 
+2. Sign up for a free account at https://wandb.ai/site and then login to your W&B account. 
 3. Install Docker. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker. Make sure the docker daemon is running on your machine.
 
 ## Create a launch job
@@ -34,26 +34,23 @@ Before you get started, ensure you have satisfied the following prerequisites:
     ```python title="train.py"
     import wandb
 
-    config = {
-        "epochs": 10
-    }
+    config = {"epochs": 10}
 
     entity = "<your entity>"
     project = "launch-quickstart"
     job_name = "walkthrough_example"
 
-    with wandb.init(entity=entity, config=config, project=project, job_name=job_name) as run:
+    with wandb.init(
+        entity=entity, config=config, project=project, job_name=job_name
+    ) as run:
         config = wandb.config
         for epoch in range(1, config.epochs):
             loss = config.epochs / epoch
-            accuracy = (1 + (epoch / config.epochs))/2
-            wandb.log({
-                "loss": loss, 
-                "accuracy": accuracy, 
-                "epoch": epoch})
-        
+            accuracy = (1 + (epoch / config.epochs)) / 2
+            wandb.log({"loss": loss, "accuracy": accuracy, "epoch": epoch})
+
         # highlight-next-line
-        wandb.run.log_code()  
+        wandb.run.log_code()
     ```
 
 2. Execute the Python script and let the script run until it completes:
@@ -61,7 +58,7 @@ Before you get started, ensure you have satisfied the following prerequisites:
     python train.py
     ```
 
-This will create a launch job.  In the above example, the launch job was created in a `launch-quickstart` project.
+This will create a launch job. In the above example, the launch job was created in a `launch-quickstart` project.
 
 Next, we will add the newly created launch job to a *launch queue*.
 
@@ -77,7 +74,7 @@ Once you have created a launch job, add that job to a [launch queue](./launch-te
 2. Select the Jobs tab on the left panel (thunderbolt icon).
 3. Hover your mouse next the name of the job you created and select the **Launch** button.
 4. A drawer will slide from the right side of your screen. Select the following:
-    1. **Job version**: the version of the job to launch.  Since we only have one version, select the default **@latest** version.
+    1. **Job version**: the version of the job to launch. Since we only have one version, select the default **@latest** version.
     2. **Overrides**: new values for the launch job's inputs. Our run had one value in the `wandb.config`: `epochs`. We can override this value within the overrides field. For this walkthrough, leave the number of epochs as is.
     3. **Queue**: the queue to launch the run on. From the dropdown, select **Create a 'Starter' queue**.
 

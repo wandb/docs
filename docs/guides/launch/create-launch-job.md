@@ -42,7 +42,7 @@ This will filter queues based on W&B entities.
   <TabItem value="cli">
 
 
-Create a launch job with with the  W&B CLI. 
+Create a launch job with the  W&B CLI. 
 
 Ensure the path with your Python script has a `requirements.txt` file with the Python dependencies required to run your code. A Python runtime is also required. The python runtime can either be specified manually with the runtime parameter or can be auto-detected from a `runtime.txt` or `.python-version file`.
 
@@ -71,31 +71,34 @@ The following sample Python code shows how to integrate the `run.log_code()` fun
 import random
 import wandb
 
+
 def run_training_run(epochs, lr):
     settings = wandb.Settings(job_source="artifact")
     run = wandb.init(
         project="launch_demo",
         job_type="eval",
         settings=settings,
-        entity='<your-entity>',
+        entity="<your-entity>",
         # Simulate tracking hyperparameters
         config={
-        "learning_rate": lr,
-        "epochs": epochs,
-        })
+            "learning_rate": lr,
+            "epochs": epochs,
+        },
+    )
 
     offset = random.random() / 5
     print(f"lr: {lr}")
 
     for epoch in range(2, epochs):
         # simulating a training run
-        acc = 1 - 2 ** -epoch - random.random() / epoch - offset
-        loss = 2 ** -epoch + random.random() / epoch + offset
+        acc = 1 - 2**-epoch - random.random() / epoch - offset
+        loss = 2**-epoch + random.random() / epoch + offset
         wandb.log({"acc": acc, "loss": loss})
 
     # highlight-next-line
     run.log_code()
     run.finish()
+
 
 run_training_run(epochs=10, lr=0.01)
 ```
