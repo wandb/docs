@@ -8,14 +8,14 @@ import TabItem from '@theme/TabItem';
 How you configure the launch agent will depend on numerous factors. One of those factors is whether or not the launch agent will build an image for you. 
 
 :::tip
-The W&B launch agent will build an image for you if you provide a Git repo based or artifact based jobs.
+The W&B launch agent will build an image for you if you provide a Git repository based or artifact based jobs.
 :::
 
 In the simplest use case, you provide an image-based launch job that is executed in a launch queue target environment that has access to your image repository More requirements must be satisfied if you use the launch agent to build images for you. 
 
 
 ## Builders
-Launch agents build images for W&B artifacts and Git repo sourced jobs. This means that the launch agent config file (`launch-config.yaml`) must have a builder option specified. W&B Launch supports two builders: Kaniko and Docker. 
+Launch agents build images for W&B artifacts and Git repository sourced jobs. This means that the launch agent config file (`launch-config.yaml`) must have a builder option specified. W&B Launch supports two builders: Kaniko and Docker. 
 
 We suggest that you use either Kaniko or Docker based on the following scenarios:
 
@@ -47,7 +47,7 @@ builder:
 
 If you run a Kubernetes cluster other than using AKS, EKS, or GKE, you will need to create a Kubernetes secret that contains the credentials for your cloud environment.
 
-- To grant access to GCP, this secret should contain a [service account json](https://cloud.google.com/iam/docs/keys-create-delete#creating).
+- To grant access to GCP, this secret should contain a [service account JSON](https://cloud.google.com/iam/docs/keys-create-delete#creating).
 - To grant access to AWS, this secret should contain an [AWS credentials file](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html).
 
 Within your agent configuration file, and within the builder section, set the `secret-name` and `secret-key` keys to let Kaniko use the secrets:
@@ -268,7 +268,7 @@ The [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role
 
 
 ### Permissions to execute jobs
-The agent needs permission in your AWS or GCP cloud to start jobs on Sagemaker or Vertex AI, respectively.
+The agent needs permission in your AWS or GCP cloud to start jobs on Amazon SageMaker or Vertex AI, respectively.
 
 <Tabs
   defaultValue="aws"

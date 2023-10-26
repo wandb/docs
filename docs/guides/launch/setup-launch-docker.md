@@ -13,7 +13,7 @@ Using Docker to execute jobs and as the launch agent's environment on the same l
 This set up is common for users who perform experiments on their local machine, or that have a remote machine that they SSH in to, to submit launch jobs. 
 :::
 
-When you use Docker with W&B Launch, W&B will first build an image, and then build and run a container from that image. The image is built with Docker's `docker run <image-uri>` command. The queue configuration is interpreted as additional arguments that are passed to the `docker run` command.
+When you use Docker with W&B Launch, W&B will first build an image, and then build and run a container from that image. The image is built with the Docker `docker run <image-uri>` command. The queue configuration is interpreted as additional arguments that are passed to the `docker run` command.
 
 <!-- Future: Insert diagram -->
 
@@ -21,14 +21,14 @@ When you use Docker with W&B Launch, W&B will first build an image, and then bui
 
 <!-- The launch queue configuration for a Docker target compute resource accepts the same options defined for the [docker run command](https://www.notion.so/Set-up-for-Docker-e784819393af47e3bba43c648abc67cb?pvs=21). W&B Launch will take the launch queue's configuration you define and reformat it execute the `docker run` command. There are two transformations that take place: -->
 
-The launch queue configuration (for a Docker target resource) accepts the same options defined in Docker's [`docker run`](../../ref/cli/wandb-docker-run.md) CLI command.
+The launch queue configuration (for a Docker target resource) accepts the same options defined in the [`docker run`](../../ref/cli/wandb-docker-run.md) CLI command.
 
 The agent receives options defined in the queue configuration. The agent then merges the received options with any overrides from the launch job’s configuration to produce a final `docker run` command that is executed on the target resource (in this case, a local machine).
 
 There are two syntax transformations that take place:
 
 1. Repeated options are defined in the queue configuration as a list.
-2. Flag options are defined in the queue configuration as booleans with the value `true`.
+2. Flag options are defined in the queue configuration as a Boolean with the value `true`.
 
 For example, the following queue configuration:
 
@@ -56,12 +56,12 @@ docker run \
 :::note
 * Volumes can be specified either as a list of strings, or a single string. Use a list if you specify multiple volumes.
 
-* Docker automatically passes environment variables, that are not assigned a value, through from the launch agent environment. This means that, if the launch agent has an env var `MY_EXISTING_ENV_VAR`, that that environment variable is available in the container. This is useful if you want to use other config keys without publishing them in the queue configuration.
+* Docker automatically passes environment variables, that are not assigned a value, through from the launch agent environment. This means that, if the launch agent has an environment variable `MY_EXISTING_ENV_VAR`, that environment variable is available in the container. This is useful if you want to use other config keys without publishing them in the queue configuration.
 :::
 
 ## Create a queue
 
-Create a queue that uses Docker as compute resource with the W&B cli:
+Create a queue that uses Docker as compute resource with the W&B CLI:
 
 1. Navigate to the [Launch page](https://wandb.ai/launch).
 2. Click on the **Create Queue** button.
@@ -85,12 +85,12 @@ You can use the W&B CLI to specify core configurable options for the launch agen
 The following tabs demonstrate how to specify the core config agent options with the W&B CLI and with a YAML config file:
 
 <Tabs
-  defaultValue="cli"
+  defaultValue="CLI"
   values={[
-    {label: 'W&B CLI', value: 'cli'},
+    {label: 'W&B CLI', value: 'CLI'},
     {label: 'Config file', value: 'config'},
   ]}>
-  <TabItem value="cli">
+  <TabItem value="CLI">
 
 ```bash
 wandb launch-agent -q <queue-name> --max-jobs <n>

@@ -18,7 +18,7 @@ Queue configs can be dynamically configured using macros that are evaluated when
 Any custom macro not listed in the preceding table (for example `${MY_ENV_VAR}`), is substituted with an environment variable from the agent's environment.
 :::
 
-## Use the launch agent to build images that execute on accelerators (eg. GPUs)
+## Use the launch agent to build images that execute on accelerators (GPUs)
 You might need to specify an accelerator base image if you use launch to build images that are executed in an accelerator environment.
 
 This accelerator base image must satisfy the following requirements:
