@@ -18,7 +18,7 @@ W&B Prompts provides several solutions for building and monitoring LLM-based app
 
 ### Traces
 
-W&B’s legacy LLM tool is called *Traces*. **Traces** allow you to track and visualize the inputs and outputs, execution flow, model architecture, and any intermediate results of your LLM chains.
+W&B’s LLM tool is called *Traces*. **Traces** allow you to track and visualize the inputs and outputs, execution flow, model architecture, and any intermediate results of your LLM chains.
 
 Use Traces for LLM chaining, plug-in or pipelining use cases. You can use your own LLM chaining implementation or use a W&B integration provided by LLM libraries such as LangChain.
 
@@ -72,7 +72,7 @@ pip install weave --upgrade
 ```
 
 1. Load your dataframe into your notebook.
-2. View your dataframe with `weave.show`.
+2. View your dataframe with `weave.show(df)`.
 
 ```python
 import weave
@@ -105,5 +105,5 @@ We recommend you go through the Prompts [Quickstart](https://docs.wandb.ai/guid
 
 ## Next Steps
 
-- Check out more detailed documentation on Weave, Trace, or our [OpenAI](https://docs.wandb.ai/guides/prompts/openai) Integration.
+- Check out more detailed documentation on [Weave](https://github.com/wandb/weave/tree/master/examples), [Trace](https://colab.research.google.com/github/wandb/weave/blob/master/examples/prompts/trace_debugging/trace_quickstart_langchain.ipynb), or our [OpenAI](https://docs.wandb.ai/guides/prompts/openai) Integration.
 - Try one of our [demo colabs](https://github.com/wandb/weave/tree/master/examples), which offer more detailed explanations of how to use Prompts for LLM ops and building interactive data applications.
