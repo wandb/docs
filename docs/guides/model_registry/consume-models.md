@@ -33,4 +33,10 @@ artifact_dir = artifact.download()
 wandb.finish()
 ```
 
+You can reference a version within a registered model using different alias strategies:
+
+* `latest` - which will fetch the most recently linked Version
+* `v#` - using `v0`, `v1`, `v2`, ... you can fetch a specific version in the Registered Model
+* `production` - you can use any custom alias that you and your team have assigned
+
 
