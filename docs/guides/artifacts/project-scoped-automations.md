@@ -109,6 +109,11 @@ Once you have a webhook configured and (optionally) a secret, navigate to your p
 9. (Optional) Provide a description for your webhook. 
 10. Click on the **Create automation** button.
 
+:::note
+See the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to view where the secret and access token are specified in
+the POST request.
+:::
+
 
 <!-- INSERT -->
 
