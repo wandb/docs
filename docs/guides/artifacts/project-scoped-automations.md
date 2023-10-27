@@ -17,11 +17,6 @@ Some common use cases for automations that are triggered from changes to an arti
 * When a new version of an evaluation/holdout dataset is uploaded, [trigger a launch job](#create-a-launch-automation) that performs inference using the best training model in the model registry and creates a report with performance information.
 * When a new version of the training dataset is labeled as "production," [trigger a retraining launch](#create-a-launch-automation) job with the configs from the current best-performing model.
 
-
-
-
-
-
 :::info
 Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
 
@@ -52,16 +47,27 @@ The following sections describe how to create an automation with webhooks and W&
 ## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
 
-### Add a secret for authentication
-Define a team secret to ensure the authenticity and integrity of data transmitted from payloads. 
+### Add a secret for authentication or authorization
+Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
 
-:::note
+To use a secret in your webhook, you must first add that secret to your team's secret manager.
+
+:::info
+* Only W&B Admins can create, edit, or delete a secret.
 * Secrets are available if you use:
   * W&B SaaS public cloud; or
-  * W&B Server in a Kubernetes cluster
+  * W&B Server in an Azure deployment
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
+
+If you are on deployment type or environment not listed above, connect with your account team to discuss what options are available for using secrets in W&B and the timeline for integration with GCP's and AWS's secret store. 
 :::
 
+There are two types of secrets W&B suggests that you create when you use a webhook automation:
+
+* **Access tokens**: Authorize senders to help secure webhook requests 
+* **Secret**: Ensure the authenticity and integrity of data transmitted from payloads
+
+Follow the instructions below to create a webhook:
 
 1. Navigate to the W&B App UI.
 2. Click on **Team Settings**.
@@ -69,18 +75,20 @@ Define a team secret to ensure the authenticity and integrity of data transmitte
 4. Click on the **New secret** button.
 5. A modal will appear. Provide a name for your secret in the **Secret name** field.
 6. Add your secret into the **Secret** field. 
+7. (Optional) Repeat steps 5 and 6 to create another secret (such as an access token) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 
-:::info
-Only W&B Admins can create, edit, or delete a secret.
-:::
+Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook](#configure-a-webhook) section for more information. 
 
+:::tip
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
+:::
 
 ### Configure a webhook
 Before you can use a webhook, you will first need to configure that webhook in the W&B App UI.
 
 :::info
-Only W&B Admins can configure a webhook for a W&B Team.
+* Only W&B Admins can configure a webhook for a W&B Team.
+* Ensure you already [created one or more secrets](#add-a-secret-for-authentication-or-authorization) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 :::
 
 1. Navigate to the W&B App UI.
@@ -89,8 +97,14 @@ Only W&B Admins can configure a webhook for a W&B Team.
 5. Click on the **New webhook** button.  
 6. Provide a name for your webhook in the **Name** field.
 7. Provide the endpoint URL for the webhook in the **URL** field.
+8. (Optional) From the **Secret** dropdown menu, select the secret you want to use to authenticate the webhook payload.
+9. (Optional) From the **Access token** dropdown menu, select the access token you want to use to authorize the sender.
+9. (Optional) From the **Access token** dropdown menu select additional secret keys or tokens required to authenticate a webhook  (such as an access token).
 
-
+:::note
+See the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to view where the secret and access token are specified in
+the POST request.
+:::
 ### Add a webhook 
 Once you have a webhook configured and (optionally) a secret, navigate to your project workspace. Click on the **Automations** tab on the left sidebar.
 
@@ -108,14 +122,6 @@ Once you have a webhook configured and (optionally) a secret, navigate to your p
 ![](/images/artifacts/artifacts_webhook_name_automation.png)
 9. (Optional) Provide a description for your webhook. 
 10. Click on the **Create automation** button.
-
-:::note
-See the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to view where the secret and access token are specified in
-the POST request.
-:::
-
-
-<!-- INSERT -->
 
 ### Example payloads
 
