@@ -59,8 +59,7 @@ To use a secret in your webhook, you must first add that secret to your team's s
   * W&B Server in an Azure or GCS deployment (secrets to be stored in a W&B instance of the cloud provider's respective secrets manager)
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
 
-If you are on deployment type or environment not listed above, please connect with your account team to discuss what options are available for using secrets in W&B and the timeline for integration with AWS Secrets Manager. 
-:::
+If you are on deployment type or environment not listed above, please connect with your account team to discuss what options are available for using secrets in W&B.:::
 
 There are two types of secrets W&B suggests that you create when you use a webhook automation:
 
