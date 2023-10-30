@@ -21,6 +21,10 @@ Weave Panels allow users to directly query W&B for data, visualize the results, 
 
 To try out Weave, Tables, and Plots right away, please checkout this [interactive Report](https://wandb.ai/timssweeney/keras\_learning\_rate/reports/Announcing-W-B-Weave-Plot--VmlldzoxMDIyODM1).
 
+## Report
+
+If you want to learn how to write your own Weave queries and get more from your data, check [this](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr) report, which goes from the basic operations available in Weave to other advanced visualizations of your data.
+
 ## Components
 
 ### Weave Expression
