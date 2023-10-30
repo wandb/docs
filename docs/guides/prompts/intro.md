@@ -28,25 +28,25 @@ Traces consists of three main components:
 - [Trace timeline](https://docs.wandb.ai/guides/prompts#trace-timeline): Displays the execution flow of the chain and is color-coded according to component types.
 - [Model architecture](https://docs.wandb.ai/guides/prompts#model-architecture): View details about the structure of the chain and the parameters used to initialize each component of the chain.
 
-Trace Table[](https://docs.wandb.ai/guides/prompts#trace-table)
+**Trace Table**
 
 The Trace Table provides an overview of the inputs and outputs of a chain. The trace table also provides information about the composition of a trace event in the chain, whether or not the chain ran successfully, and any error messages returned when running the chain.
 
-![https://docs.wandb.ai/assets/images/trace_table-57eb68a60826f03a3f8f126451aa81ce.png](https://docs.wandb.ai/assets/images/trace_table-57eb68a60826f03a3f8f126451aa81ce.png)
+![Screenshot of a trace table.](/images/prompts/trace_table.png)
 
-Click on a row number on the left hand side of the Table to view the [Trace Timeline](https://docs.wandb.ai/guides/prompts#trace-timeline) for that instance of the chain.
+Click on a row number on the left hand side of the Table to view the Trace Timeline for that instance of the chain.
 
-Trace Timeline[](https://docs.wandb.ai/guides/prompts#trace-timeline)
+**Trace Timeline**
 
 The Trace Timeline view displays the execution flow of the chain and is color-coded according to component types. Select a trace event to display the inputs, outputs, and metadata of that trace.
 
-![https://docs.wandb.ai/assets/images/trace_timeline-f07114232900c314bbe06450a996793f.png](https://docs.wandb.ai/assets/images/trace_timeline-f07114232900c314bbe06450a996793f.png)
+![Screenshot of a Trace Timeline.](/images/prompts/trace_timeline.png)
 
 Trace events that raise an error are outlined in red. Click on a trace event colored in red to view the returned error message.
 
-![https://docs.wandb.ai/assets/images/trace_timeline_error-272973623be6a00c28395c3ca31eb099.png](https://docs.wandb.ai/assets/images/trace_timeline_error-272973623be6a00c28395c3ca31eb099.png)
+![Screenshot of a Trace Timeline error.](/images/prompts/trace_timeline_error.png)
 
-Model Architecture[](https://docs.wandb.ai/guides/prompts#model-architecture)
+**Model Architecture**
 
 The Model Architecture view provides details about the structure of the chain and the parameters used to initialize each component of the chain. Click on a trace event to learn more details about that event.
 
@@ -61,7 +61,7 @@ Use Weave to:
 - [Monitor AI applications and models in production](https://docs.wandb.ai/guides/weave/prod-mon) with real-time metrics, customizable visualizations, and interactive analysis.
 - Generate Boards to address common use cases when monitoring production models and working with LLMs.
 
-**How it works**[](https://docs.wandb.ai/guides/weave#how-it-works)
+### How it works
 
 Use Weave to view your dataframe in your notebook with only a few lines of code:
 
