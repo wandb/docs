@@ -11,11 +11,24 @@ displayed_sidebar: default
   <title>Delete W&B Artifacts</title>
 </head>
 
-Delete artifacts interactively with the App UI or programmatically with the W&B SDK. W&B first checks if the artifact and its associated files are not used by a previous or subsequent artifact version before it deletes an artifact. You can delete a specific artifact version or delete the entire artifact.
+Delete artifacts interactively with the App UI or programmatically with the W&B SDK. You can delete a specific artifact version or delete the entire artifact. 
 
-You can delete aliases before you delete an artifact or you can delete an artifact and pass an additional flag to the API call. It is recommended that you remove aliases associated to the artifact you want to delete before you delete the artifact.
+<!-- You can delete aliases before you delete an artifact or you can delete an artifact and pass an additional flag to the API call. -->
 
-See the Update an artifact documentation for information on how to programmatically or interactively update an alias with the W&B SDK or App UI, respectively.
+:::tip
+It is recommended that you remove aliases associated to the artifact you want to delete before you delete that artifact. See the [Update an artifact](./update-an-artifact.md) documentation for information on how to programmatically or interactively update an alias with the W&B SDK or App UI, respectively.
+:::
+
+When you delete an artifact, W&B marks that artifact as a *soft-delete*. The artifact remains as a soft-delete internally until it passes a garbage collection algorithm. The garbage collection consists of:
+
+1. First, W&B reviews all artifacts that are marked for deletion. 
+2. Next, W&B checks if the artifact and its associated files are not used by a previous or subsequent artifact version. 
+3. Lastly, if the artifact satisfies the conditions stated in the second step, W&B will conduct a *hard delete*.
+
+
+:::note
+Garbage collection is not automatically enabled for W&B Server. Contact your INSERT for more information.
+:::
 
 ### Delete an artifact version
 
@@ -107,6 +120,6 @@ import wandb
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
 
 artifact_name = "<>"  # provide artifact name
-artifact = api.artifact(artifact_name)  
+artifact = api.artifact(artifact_name)
 artifact.collection.delete()
 ```
