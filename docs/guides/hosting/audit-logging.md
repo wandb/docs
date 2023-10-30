@@ -61,7 +61,7 @@ The following table describes possible actions that can be recorded by W&B:
 |-----|-----|
 | artifact:create             | Artifact is created.
 | artifact:delete             | Artifact is deleted.
-| artifact:read               | Aritfact is read.
+| artifact:read               | Artifact is read.
 | project:delete              | Project is deleted.
 | project:read                | Project is read.
 | report:read                 | Report is read.
