@@ -21,7 +21,7 @@ W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to
 <!-- Future: insert diagram here -->
 
 ## Configure a queue for Kubernetes
-The launch queue configuration for a Kubernetes target resource will resemble either a Kubernetes Job spec or a Kubernetes Custom Resource spec.  You can control any aspect of the Kubernetes workload resource spec when you create a launch queue. 
+The launch queue configuration for a Kubernetes target resource will resemble either a Kubernetes Job spec or a Kubernetes Custom Resource spec. You can control any aspect of the Kubernetes workload resource spec when you create a launch queue. 
 
 <Tabs
   defaultValue="job"
@@ -52,7 +52,7 @@ namespace: wandb
   </TabItem>
   <TabItem value="custom">
 
-In some use cases, you might want to use `CustomResource` definitions. `CustomResource` definitions are useful if, for example, you want to perform multi-node distributed training. See the tutorial for using Launch with multinode jobs using Volcano for an example application.  Another use case might be that you want to use W&B Launch with Kubeflow.
+In some use cases, you might want to use `CustomResource` definitions. `CustomResource` definitions are useful if, for example, you want to perform multi-node distributed training. See the tutorial for using Launch with multi-node jobs using Volcano for an example application. Another use case might be that you want to use W&B Launch with Kubeflow.
 
  The following YAML snippet shows a sample launch queue config that uses Kubeflow:
 
@@ -216,4 +216,4 @@ You can control whether the Volcano scheduler is installed into your cluster.
 
 For more information on registries, environments and required agent permissions see [Advanced agent set up](./setup-agent-advanced.md).
 
-Follow the instructions in the [helm chart repo](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) to deploy your agent.
+Follow the instructions in the [helm chart repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) to deploy your agent.

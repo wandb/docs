@@ -13,7 +13,7 @@ W&B Launch works with Vertex AI through the `CustomJob` class in the `google-clo
 
 ## Prerequisites 
 
-1. **Create or access a GCP project with the Vertex AI API enabled.** See the [GCP API Console docs](https://support.google.com/googleapi/answer/6158841?hl=en) for more information on enabling APIs.
+1. **Create or access a GCP project with the Vertex AI API enabled.** See the [GCP API Console docs](https://support.google.com/googleapi/answer/6158841?hl=en) for more information on enabling an API.
 2. **Create a GCP Artifact Registry repository** to store images you want to execute on Vertex. See the [GCP Artifact Registry documentation](https://cloud.google.com/artifact-registry/docs/overview) for more information.
 3. **Create a staging GCS bucket** for Vertex AI to store its metadata. Note that this bucket must be in the same region as your Vertex AI workloads in order to be used as a staging bucket. The same bucket can be used for staging and build contexts.
 4. **Create a service account** with the necessary permissions to spin up Vertex AI jobs. See the [GCP IAM documentation](https://cloud.google.com/iam/docs/creating-managing-service-accounts) for more information on assigning permissions to service accounts.
@@ -49,7 +49,7 @@ Create a queue in the W&B App that uses Vertex AI as its compute resource:
 3. Select the **Entity** you would like to create the queue in.
 4. Provide a name for your queue in the **Name** field.
 5. Select **GCP Vertex** as the **Resource**.
-6. Within the **Configuration** field, provide information about your Vertex AI `CustomJob` you defined in the previous section.  By default, W&B will populate a YAML and JSON request body similar to the following:
+6. Within the **Configuration** field, provide information about your Vertex AI `CustomJob` you defined in the previous section. By default, W&B will populate a YAML and JSON request body similar to the following:
   ```yaml
   spec:
     worker_pool_specs:
@@ -72,7 +72,7 @@ You must at minimum specify:
 * `spec.staging_bucket` : GCS bucket to be used for staging Vertex AI assets and metadata.
 
 :::caution
-Some of the Vertex AI docs show worker pool specifications with all keys in camel case, e.g.` workerPoolSpecs`. The Vertex AI Python SDK uses snake case for these keys, for example `worker_pool_specs`. 
+Some of the Vertex AI docs show worker pool specifications with all keys in camel case,for example, ` workerPoolSpecs`. The Vertex AI Python SDK uses snake case for these keys, for example `worker_pool_specs`. 
 
 Every key in the launch queue configuration should use snake case.
 :::
@@ -92,4 +92,4 @@ If you want the launch agent to build images for you that are executed in Vertex
 
 
 ## Set up agent permissions
-There are multiple methods to authenticate as this service account. This can be achieved through Workload Identity, a downloaded service account JSON, environment variables, the gcloud command-line tool, or a combination of these methods.
+There are multiple methods to authenticate as this service account. This can be achieved through Workload Identity, a downloaded service account JSON, environment variables, the Google Cloud Platform command-line tool, or a combination of these methods.

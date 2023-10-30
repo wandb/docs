@@ -71,7 +71,7 @@ Use the `wandb launch` command to add jobs to a queue. Create a JSON configurati
 W&B Launch will use the default parameters if you do not provide a JSON configuration file.
 :::
 
-If you want to override the queue configuration, or if your your launch queue does not have a configuration resource defined, you can specify the `resource_args` key in your config.json file. For example, following continuing the example above, your config.json file might look similar to the following:
+If you want to override the queue configuration, or if your launch queue does not have a configuration resource defined, you can specify the `resource_args` key in your config.json file. For example, following continuing the example above, your config.json file might look similar to the following:
 
 ```json title="config.json"
 {
