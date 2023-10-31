@@ -11,16 +11,18 @@ displayed_sidebar: default
   <title>Delete W&B Artifacts</title>
 </head>
 
-Delete artifacts interactively with the App UI or programmatically with the W&B SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion bu files are not immediately deleted from storage. 
+Delete artifacts interactively with the App UI or programmatically with the W&B SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. 
 
-The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection job reviews all artifacts marked for deletion. W&B will delete the associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions.
+The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection job reviews all artifacts marked for deletion. The garbage collection algorithm deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
 
 
 :::note
 Garbage collection is not automatically enabled for W&B Server. Satisfy the following requirements to enable garbage collection in W&B Server:
 * Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
-* Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html) or [GCP](https://cloud.google.com/storage/docs/object-versioning). See your cloud provider's documentation for more information on how to enable bucket versioning.
+* Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html) or [GCP](https://cloud.google.com/storage/docs/object-versioning).
 * [Enable soft delete for blobs if you use Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview).
+
+Bucket versioning (AWS and GCP) and blob soft deletion (Azure) are programmatically enforced by W&B to ensure data loss prevention.
 :::
 
 The sections in this page describe how to delete 
