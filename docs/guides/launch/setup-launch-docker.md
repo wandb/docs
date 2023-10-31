@@ -38,7 +38,8 @@ For example, the following queue configuration:
 {
   "env": ["MY_ENV_VAR=value", "MY_EXISTING_ENV_VAR"],
   "volume": "/mnt/datasets:/mnt/datasets",
-  "rm": true
+  "rm": true,
+  "gpus": "all"
 }
 ```
 
@@ -49,7 +50,8 @@ docker run \
   --env MY_ENV_VAR=value \
   --env MY_EXISTING_ENV_VAR \
   --volume "/mnt/datasets:/mnt/datasets" \
-  --rm <image-uri>
+  --rm <image-uri> \
+  --gpus all
 ```
 
 :::note
@@ -80,7 +82,7 @@ Configure the launch agent with a YAML config file named `launch-config.yaml`. B
 You can use the W&B CLI to specify core configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) command for more information.
 :::
 
-### Nvidia GPU
+### Enable Nvidia GPU on Docker
 
 In order to use GPU from within a Docker container, you must install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker). To test your toolkit install, try running:
 
@@ -94,7 +96,7 @@ The `--gpus` flag of the `docker run` command allows you to specify which GPU ar
 Use the `gpus` key in the launch queue configuration to specify the value that will be passed to `--gpus` when the agent runs your job on Docker. See [configure a Docker queue](#configure-a-docker-queue) for more information on customizing `docker run` argument set by the agent.
 
 :::tip
-To have each run use all available GPU, add:
+To have each run use all available GPU, add the following assignment in your launch queue configuration:
 
 ```json
 {
@@ -102,7 +104,20 @@ To have each run use all available GPU, add:
 }
 ```
 
-to your launch queue configuration.
+If you are building images from a code or artifact-sourced job, you can also override the base image used by the agent to include the NVIDIA Container Toolkit. For example, to set the base image to `tensorflow/tensorflow:latest-gpu` set:
+
+```json
+{
+  "builder": {
+    "accelerator": {
+      "base_image": "tensorflow/tensorflow:latest-gpu"
+    }
+  }
+}
+```
+
+in your launch queue configuration.
+
 :::
 
 For more information on how to use the `gpus` flag, see the [Docker documentation](https://docs.docker.com/config/containers/resource_constraints/#gpu).
