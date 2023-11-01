@@ -44,7 +44,7 @@ When you're setting up a Sweep in a notebook like this,
 that config object is a nested dictionary.
 When you run a Sweep via the command line,
 the config object is a
-[YAML file](https://docs.wandb.com/sweeps/walkthrough#2-sweep-config).
+[YAML file](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration).
 
 Let's walk through the definition of a Sweep config together.
 We'll do it slowly, so we get a chance to explain each component.
@@ -224,7 +224,7 @@ This function returns a `sweep_id` that we will later user to assign agents to t
 ```python
 wandb sweep config.yaml
 ```
-[Learn more about using Sweeps in the command line ➡](https://docs.wandb.com/sweeps/walkthrough)
+[Learn more about using Sweeps in the command line ➡](https://docs.wandb.ai/guides/sweeps/walkthrough)
 
 
 ```python
@@ -240,7 +240,7 @@ we need to define the training procedure that uses those values.
 
 In the functions below, we define a simple fully-connected neural network in PyTorch, and add the following `wandb` tools to log model metrics, visualize performance and output and track our experiments:
 * [**`wandb.init()`**](https://docs.wandb.com/library/init) – Initialize a new W&B Run. Each Run is a single execution of the training function.
-* [**`wandb.config`**](https://docs.wandb.com/library/config) – Save all your hyperparameters in a configuration object so they can be logged. Read more about how to use `wandb.config` [here](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-config/Configs_in_W%26B.ipynb).
+* [**`wandb.config`**](https://docs.wandb.com/library/config) – Save all your hyperparameters in a configuration object so they can be logged. Read more about how to use `wandb.config` [here](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb).
 * [**`wandb.log()`**](https://docs.wandb.com/library/log) – log model behavior to W&B. Here, we just log the performance; see [this Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb) for all the other rich media that can be logged with `wandb.log`.
 
 For more details on instrumenting W&B with PyTorch, see [this Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb).
