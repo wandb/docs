@@ -25,11 +25,7 @@ Garbage collection is not automatically enabled for W&B Server. Satisfy the foll
 W&B suggests that you set the number of bucket version copies to 1 because it helps reduce storage costs and can help recover accidentally deleted data.
 :::
 
-The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You cam schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl.md).
-
-:::tip
-It is recommended that you remove aliases associated to the artifact you want to delete before you delete that artifact. See the [Update an artifact](./update-an-artifact.md) documentation for information on how to programmatically or interactively update an alias with the W&B SDK or App UI, respectively.
-:::
+The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl.md).
 
 ### Delete an artifact version
 
