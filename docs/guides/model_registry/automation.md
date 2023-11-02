@@ -45,6 +45,7 @@ To use a secret in your webhook, you must first add that secret to your team's s
 :::info
 * Only W&B Admins can create, edit, or delete a secret.
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
+* Secrets are also available if you use [W&B Server](../hosting/intro.md) in an Azure or GCP deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
 :::
 
 There are two types of secrets W&B suggests that you create when you use a webhook automation:
@@ -69,13 +70,13 @@ Once you create a secret, you can access that secret in your W&B workflows with 
 :::
 
 :::caution
-Secrets are available if you use either:
-* W&B SaaS public cloud or 
-* W&B Server in an Azure or GCP deployment. 
+Considerations if you use secrets in W&B Server:
 
-Connect with your W&B account team to discuss how you can use secrets in W&B if you are on a deployment type or environment not listed above.
+You are responsible for configuring security measures that satisfy your security needs. 
 
-You are responsible for configuring security measures that satisfy your security needs. W&B strongly recommends that you store secrets in a W&B instance of a secrets manager provided by AWS, GCP, or Azure. Secret managers provided by AWS, GCP, and Azure are configured with advanced security capabilities.  
+W&B strongly recommends that you store secrets in a W&B instance of a cloud secrets manager provided by AWS, GCP, or Azure. Secret managers provided by AWS, GCP, and Azure are configured with advanced security capabilities.  
+
+W&B does not recommend that you use a Kubernetes cluster as the backend of your secrets store. Consider a Kubernetes cluster only if you are not able to use a W&B instance of a cloud secrets manager (AWS, GCP, or Azure), and you understand how to prevent security vulnerabilities that can occur if you use a cluster.
 :::
 
 ### Configure a webhook
