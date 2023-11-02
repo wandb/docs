@@ -13,7 +13,7 @@ displayed_sidebar: default
 
 Delete artifacts interactively with the App UI or programmatically with the W&B SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. 
 
-The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection job reviews all artifacts marked for deletion. The garbage collection algorithm deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
+The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
 
 
 :::note
