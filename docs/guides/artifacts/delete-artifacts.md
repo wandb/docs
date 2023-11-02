@@ -11,11 +11,19 @@ displayed_sidebar: default
   <title>Delete W&B Artifacts</title>
 </head>
 
-Delete artifacts interactively with the App UI or programmatically with the W&B SDK. W&B first checks if the artifact and its associated files are not used by a previous or subsequent artifact version before it deletes an artifact. You can delete a specific artifact version or delete the entire artifact.
+Delete artifacts interactively with the App UI or programmatically with the W&B SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. 
 
-You can delete aliases before you delete an artifact or you can delete an artifact and pass an additional flag to the API call. It is recommended that you remove aliases associated to the artifact you want to delete before you delete the artifact.
+The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
 
-See the Update an artifact documentation for information on how to programmatically or interactively update an alias with the W&B SDK or App UI, respectively.
+
+:::note
+Garbage collection is not automatically enabled for W&B Server. Satisfy the following requirements to enable garbage collection in W&B Server:
+* Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
+* Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html) or [GCP](https://cloud.google.com/storage/docs/object-versioning).
+* [Enable soft delete for blobs if you use Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview).
+:::
+
+The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl.md).
 
 ### Delete an artifact version
 
@@ -107,6 +115,6 @@ import wandb
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
 
 artifact_name = "<>"  # provide artifact name
-artifact = api.artifact(artifact_name)  
+artifact = api.artifact(artifact_name)
 artifact.collection.delete()
 ```
