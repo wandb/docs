@@ -75,9 +75,7 @@ Secrets are available if you use either:
 
 Connect with your W&B account team to discuss how you can use secrets in W&B if you are on a deployment type or environment not listed above.
 
-<!-- Store secrets in a W&B instance of the cloud provider's respective secrets manager) -->
-
-You are responsible for configuring security measures that satisfy your security needs. W&B strongly recommends that you use a secrets manager provided by AWS, GCP, or Azure. Secret managers provided by AWS, GCP, and Azure are configured with advanced security capabilities.  
+You are responsible for configuring security measures that satisfy your security needs. W&B strongly recommends that you store secrets in a W&B instance of a secrets manager provided by AWS, GCP, or Azure. Secret managers provided by AWS, GCP, and Azure are configured with advanced security capabilities.  
 :::
 
 ### Configure a webhook
