@@ -40,8 +40,10 @@ Before you get started, ensure you have satisfied the following prerequisites:
     project = "launch-quickstart"
     job_name = "walkthrough_example"
 
+    settings = wandb.Settings(job_name=job_name)
+
     with wandb.init(
-        entity=entity, config=config, project=project, job_name=job_name
+        entity=entity, config=config, project=project, settings=settings
     ) as run:
         config = wandb.config
         for epoch in range(1, config.epochs):
