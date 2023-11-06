@@ -54,13 +54,31 @@ docker run \
   --gpus all
 ```
 
-:::note
+Volumes can be specified either as a list of strings, or a single string. Use a list if you specify multiple volumes.
 
-- Volumes can be specified either as a list of strings, or a single string. Use a list if you specify multiple volumes.
+Docker automatically passes environment variables, that are not assigned a value, from the launch agent environment. This means that, if the launch agent has an environment variable `MY_EXISTING_ENV_VAR`, that environment variable is available in the container. This is useful if you want to use other config keys without publishing them in the queue configuration.
 
-- Docker automatically passes environment variables, that are not assigned a value, through from the launch agent environment. This means that, if the launch agent has an environment variable `MY_EXISTING_ENV_VAR`, that environment variable is available in the container. This is useful if you want to use other config keys without publishing them in the queue configuration.
+The `--gpus` flag of the `docker run` command allows you to specify GPUs that are available to a Docker container. For more information on how to use the `gpus` flag, see the [Docker documentation](https://docs.docker.com/config/containers/resource_constraints/#gpu).
 
+
+:::tip
+* Install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) to use GPUs within a Docker container.
+* If you build images from a code or artifact-sourced job, you can override the base image used by the [agent](#configure-a-launch-agent-on-a-local-machine) to include the NVIDIA Container Toolkit.
+  For example, within your launch queue, you can override the base image to `tensorflow/tensorflow:latest-gpu`:
+
+  ```json
+  {
+    "builder": {
+      "accelerator": {
+        "base_image": "tensorflow/tensorflow:latest-gpu"
+      }
+    }
+  }
+  ```
 :::
+
+
+
 
 ## Create a queue
 
@@ -82,45 +100,6 @@ Configure the launch agent with a YAML config file named `launch-config.yaml`. B
 You can use the W&B CLI to specify core configurable options for the launch agent (instead of the config YAML file): maximum number of jobs, W&B entity, and launch queues. See the [`wandb launch-agent`](../../ref/cli/wandb-launch-agent.md) command for more information.
 :::
 
-### Enable Nvidia GPU on Docker
-
-In order to use GPU from within a Docker container, you must install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker). To test your toolkit install, try running:
-
-```bash
-docker run --gpus all nvidia/cuda:11.0-base nvidia-smi
-```
-
-If you see the output from `nvidia-smi`, then your toolkit should be installed correctly!
-
-The `--gpus` flag of the `docker run` command allows you to specify which GPU are available to a container.
-Use the `gpus` key in the launch queue configuration to specify the value that will be passed to `--gpus` when the agent runs your job on Docker. See [configure a Docker queue](#configure-a-docker-queue) for more information on customizing `docker run` argument set by the agent.
-
-:::tip
-To have each run use all available GPU, add the following assignment in your launch queue configuration:
-
-```json
-{
-  "gpus": "all"
-}
-```
-
-If you are building images from a code or artifact-sourced job, you can also override the base image used by the agent to include the NVIDIA Container Toolkit. For example, to set the base image to `tensorflow/tensorflow:latest-gpu` set:
-
-```json
-{
-  "builder": {
-    "accelerator": {
-      "base_image": "tensorflow/tensorflow:latest-gpu"
-    }
-  }
-}
-```
-
-in your launch queue configuration.
-
-:::
-
-For more information on how to use the `gpus` flag, see the [Docker documentation](https://docs.docker.com/config/containers/resource_constraints/#gpu).
 
 ## Core agent config options
 
