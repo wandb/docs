@@ -120,17 +120,17 @@ artifact.collection.delete()
 ```
 
 
-## Garbage collection based on your W&B hosting
+## How to enable garbage collection based on how you host W&B 
 
 You might need to take additional steps to enable garbage collection if you use W&B Server. Based on your deployment type, you might need to satisfy the following requirements:
 
-
 * Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
-* Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html) or [GCP](https://cloud.google.com/storage/docs/object-versioning) or [enable soft delete for blobs if you use Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview).
-
+* Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/object-versioning) or any other storage provider such as [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). If you use Azure, [enable soft deletion](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview).
+  :::note
+  Soft deletion in Azure is equivalent to bucket versioning in other storage providers.
+  :::
 
 The following table describes how to satisfy requirements to enable garbage collection based on your deployment type. The `X` indicates you must satisfy the requirement.
-
 
 |                                                | Environment variable | Enable versioning | 
 | -----------------------------------------------| ---------------------| ----------------- |
@@ -138,3 +138,4 @@ The following table describes how to satisfy requirements to enable garbage coll
 | Customer-managed cloud                         | X                    | X                 |
 | Customer managed on-prem                       | X                    | X                 |
  
+
