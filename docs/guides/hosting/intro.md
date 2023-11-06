@@ -22,6 +22,7 @@ With W&B Server you can configure and leverage features such as:
 - [User Management](./manage-users.md)
 - [Prometheus Monitoring](./prometheus-logging.md)
 - [Slack Alerts](./slack-alerts.md) and more.
+- [Garbage Collect Deleted Artifacts](../artifacts/delete-artifacts.md#how-to-enable-garbage-collection-based-on-how-you-host-wb)
 
 The following sections of the documentation describes different options on how to install W&B Server, the shared responsibility model, step-by-step installation and configuration guides.
 
