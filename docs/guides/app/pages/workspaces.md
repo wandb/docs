@@ -92,4 +92,45 @@ with run:
 
 
 
-## Create multiple workspaces for a project (Public Preview) 
+## Create multiple workspace versions (Public Preview) 
+Save custom versions of a workspace that belongs to you or someone on your team. The default workspace created by the owner of the project is tagged with a **Primary** label. 
+
+
+### Create a new workspace version
+A new version of a workspace is automatically created for you when you land on a project workspace that you do not own. This workspace version branches off the primary, default workspace version saved by the entity that owns the project. In other words, by default, you work on a workspace that mirrors the original workspace.
+
+For example, in the following image a user renamed the automatically created workspace that branched off the **Primary** workspace to **DataScience-Member-initial-exploration**:
+
+![](/images/app_ui/workspace_versions_initial_branched.png)
+
+
+You can manually create a new version that is based off of [INSERT]. 
+
+1. Navigate to the project workspace
+2. Click on the name of the workspace
+3. From the dropdown, select **New workspace**
+
+![](/images/app_ui/create_manual_version.png)
+
+
+### View workspace versions
+Click on the name of the workspace to view workspace versions. A dropdown will appear that shows workspace versions and their lineage. Each workspace version created contains information of the workspace version that it was created from, including:
+
+* The original workspace that the current workspace version is based off of
+* When the branched version of the workspace was created
+* The W&B user who created a workspace version
+
+
+
+### Share your workspace version
+Share your customized workspace with your team. 
+
+1. Navigate to the project workspace
+2. Click on the name of the workspace
+3. Select the workspace version you want to share
+4. Copy the URL 
+
+Once you have the URL of the workspace version, share that URL to your team. 
+
+
+<!-- ### Delete workspace versions -->
