@@ -113,8 +113,8 @@ artifact.collection.delete()
 
 
 ## How to enable garbage collection based on how W&B is hosted
+Garbage collection is enabled by default if you use W&B's shared cloud. Based on how you host W&B, you might need to take additional steps to enable garbage collection, this includes:
 
-You might need to take additional steps to enable garbage collection if you use W&B Server. Based on your deployment type, you might need to satisfy the following requirements:
 
 * Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
 * Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/object-versioning) or any other storage provider such as [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). If you use Azure, [enable soft deletion](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview).
@@ -137,7 +137,7 @@ The `X` indicates you must satisfy the requirement:
  
 
 
-By default, dedicated cloud with [secure storage connector](../hosting/secure-storage-connector.md) can not edit the `GORILLA_ARTIFACT_GC_ENABLED` environment variable. Ask your account team to enable the environment variable, preferably before you enable versioning for your bucket.
+By default, dedicated cloud with [secure storage connector](../hosting/secure-storage-connector.md) can not edit the `GORILLA_ARTIFACT_GC_ENABLED` environment variable. 
 
 
 :::note
