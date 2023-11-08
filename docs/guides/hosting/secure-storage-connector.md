@@ -10,9 +10,9 @@ The team-level secure storage connector allows teams within W&B to utilize a sep
 This feature is currently only available for Google Cloud Platform and Amazon Web Services. To request a license to enable this feature, email contact@wandb.com.
 :::
 
-A cloud storage bucket can be configured only once for a team at the time of team creation. To provision a bucket, W&B recommends that you use a Terraform configuration managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector).
+A cloud storage bucket can be configured only once for a team at the time of team creation. To provision a bucket, W&B recommends that you use a Terraform module managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector).
 
-Select **External Storage** when you create a team tp configure a cloud storage bucket. Select your provider and fill out your bucket name and storage encryption key ID, if applicable, and select **Create Team**.
+Select **External Storage** when you create a team to configure a cloud storage bucket. Select your provider and fill out your bucket name and storage encryption key ID, if applicable, and select **Create Team**.
 
 An error or warning will appear at the bottom of the page if there are issues accessing the bucket or the bucket has invalid settings.
 

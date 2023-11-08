@@ -15,14 +15,6 @@ Delete artifacts interactively with the App UI or programmatically with the W&B 
 
 The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
 
-
-<!-- :::note
-Garbage collection is not automatically enabled for W&B Server. Satisfy the following requirements to enable garbage collection in W&B Server:
-* Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
-* Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html) or [GCP](https://cloud.google.com/storage/docs/object-versioning).
-* [Enable soft delete for blobs if you use Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview).
-::: -->
-
 The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl.md).
 
 ### Delete an artifact version
@@ -120,7 +112,7 @@ artifact.collection.delete()
 ```
 
 
-## How to enable garbage collection based on how you host W&B 
+## How to enable garbage collection based on how W&B is hosted
 
 You might need to take additional steps to enable garbage collection if you use W&B Server. Based on your deployment type, you might need to satisfy the following requirements:
 
@@ -130,12 +122,21 @@ You might need to take additional steps to enable garbage collection if you use 
   Soft deletion in Azure is equivalent to bucket versioning in other storage providers.
   :::
 
-The following table describes how to satisfy requirements to enable garbage collection based on your deployment type. The `X` indicates you must satisfy the requirement.
+The following table describes how to satisfy requirements to enable garbage collection based on your deployment type. 
+
+The `X` indicates you must satisfy the requirement:
 
 |                                                | Environment variable | Enable versioning | 
 | -----------------------------------------------| ---------------------| ----------------- |
-| Dedicated cloud with secure storage container  |                      | X                 |
+| Dedicated cloud with secure storage connector  |                      | X                 |
 | Customer-managed cloud                         | X                    | X                 |
 | Customer managed on-prem                       | X                    | X                 |
  
+
+
+By default, dedicated cloud with secure storage connector can not edit the `GORILLA_ARTIFACT_GC_ENABLED` environment variable. Ask your account team to enable the environment variable. 
+
+In addition, W&B encourages dedicated cloud users (with secure storage connector) to ask their account team to enable the environment variable before you enable bucket versioning (AWS, GCP, and so on) or soft deletion (Azure).
+
+
 
