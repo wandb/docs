@@ -21,5 +21,5 @@ An error or warning will appear at the bottom of the page if there are issues ac
 Only system administrators have the permissions to configure the secure storage connector. The same cloud storage bucket can be used amongst multiple teams by selecting an existing cloud storage bucket from the dropdown.
 
 :::note
-W&B uses a garbage collection process to delete W&B artifacts. For more information on how W&B deletes artifacts, and for information on how to enable garbage collection for secure storage container see the [How to enable garbage collection based on how you host W&B](../artifacts/delete-artifacts.md#how-to-enable-garbage-collection-based-on-how-you-host-wb) page.
+W&B uses a garbage collection process to delete W&B artifacts. For more information on how W&B deletes artifacts, and for information on how to enable garbage collection for secure storage container see the [How to enable garbage collection based on how you host W&B](../artifacts/delete-artifacts.md#how-to-enable-garbage-collection-based-on-how-wb-is-hosted) page.
 :::

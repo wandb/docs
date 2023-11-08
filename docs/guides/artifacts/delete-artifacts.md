@@ -126,17 +126,22 @@ The following table describes how to satisfy requirements to enable garbage coll
 
 The `X` indicates you must satisfy the requirement:
 
-|                                                | Environment variable | Enable versioning | 
-| -----------------------------------------------| ---------------------| ----------------- |
-| Dedicated cloud with secure storage connector  |                      | X                 |
-| Customer-managed cloud                         | X                    | X                 |
-| Customer managed on-prem                       | X                    | X                 |
+|                                                | Environment variable    | Enable versioning | 
+| -----------------------------------------------| ------------------------| ----------------- | 
+| Shared cloud                                   |                         |                   | 
+| Shared cloud with secure storage connector     |                         | X                 | 
+| Dedicated cloud                                |                         |                   | 
+| Dedicated cloud with secure storage connector  |                         | X                 | 
+| Customer-managed cloud                         | X                       | X                 | 
+| Customer managed on-prem                       | X                       | X                 |
  
 
 
-By default, dedicated cloud with secure storage connector can not edit the `GORILLA_ARTIFACT_GC_ENABLED` environment variable. Ask your account team to enable the environment variable. 
+By default, dedicated cloud with [secure storage connector](../hosting/secure-storage-connector.md) can not edit the `GORILLA_ARTIFACT_GC_ENABLED` environment variable. Ask your account team to enable the environment variable, preferably before you enable versioning for your bucket.
 
-In addition, W&B encourages dedicated cloud users (with secure storage connector) to ask their account team to enable the environment variable before you enable bucket versioning (AWS, GCP, and so on) or soft deletion (Azure).
 
+:::note
+Secure storage connector is currently only available for Google Cloud Platform and Amazon Web Services.
+:::
 
 
