@@ -10,7 +10,7 @@ Like all W&B Artifacts, Tables can be converted into pandas dataframes for easy 
 First, you'll need to convert the table to an artifact. The easiest way to do this using `artifact.get(table, "table_name")`:
 
 ```python
-# Run logging the artifact
+# Create and log a new table.
 with wandb.init() as r:
     artifact = wandb.Artifact("my_dataset", type="dataset")
     table = wandb.Table(
@@ -19,7 +19,7 @@ with wandb.init() as r:
     artifact.add(table, "my_table")
     wandb.log_artifact(artifact)
 
-# Run using the artifact
+# Retrieve the created table using the artifact you created.
 with wandb.init() as r:
     artifact = r.use_artifact("my_dataset:latest")
     table = artifact.get("my_table")
@@ -42,6 +42,6 @@ df.to_csv('example.csv', encoding='utf-8')
 ```
 
 # Next Steps
-- Check out the [reference documentation](docs/guides/artifacts/construct-an-artifact.md) on `artifacts`.
-- Go through our [Tables Walktrough](docs/guides/tables/tables-walkthrough.md) guide.
+- Check out the [reference documentation](/guides/artifacts/construct-an-artifact.md) on `artifacts`.
+- Go through our [Tables Walktrough](/guides/tables/tables-walkthrough.md) guide.
 - Check out the [Dataframe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) reference docs.
