@@ -149,6 +149,26 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'W&B Prompts',
+      link: {
+        type: 'doc',
+        id: 'guides/prompts_platform',
+      },
+      collapsed: false,
+      items: [
+        {
+          type: "category",
+          label: "Prompts",
+          link: {type:'doc', id:'guides/prompts/intro'},
+          items: [
+            'guides/prompts/quickstart',
+            'guides/prompts/openai',
+          ]
+        },
+      ],
+    },    
+    {
+      type: 'category',
       label: 'W&B Platform',
       link: {type: 'doc', id: 'guides/platform'},
       collapsed: false,
@@ -364,26 +384,6 @@ const sidebars = {
         },
       ],
     },
-    {
-      type: 'category',
-      label: 'LLMs',
-      link: {
-        type: 'doc',
-        id: 'guides/prompts_platform',
-      },
-      collapsed: false,
-      items: [
-        {
-          type: "category",
-          label: "Prompts",
-          link: {type:'doc', id:'guides/prompts/intro'},
-          items: [
-            'guides/prompts/quickstart',
-            'guides/prompts/openai',
-          ]
-        },
-      ],
-    },    
     {
       type: 'category',
       label: 'Integrations',
