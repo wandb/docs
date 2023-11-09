@@ -53,8 +53,9 @@ wandb login
   </TabItem>
   <TabItem value="notebook">
 
-```python
-wandb.login()
+
+```notebook
+!pip install wandb
 ```
 
 
