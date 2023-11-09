@@ -19,8 +19,8 @@ W&B Prompts provides several solutions for building and monitoring LLM-based app
 [LLM Monitoring](/guides/weave/prod-mon) provides large language model usage monitoring and diagnostics. Start simply, then customize and evolve your monitoring analytics over time.
 
 - Organizations can track and manage prompts usage statistics like cost across teams
-- Individuals can filter and drill down to analyze prompt performance, observe all inputs sent to the prompt and track custom metrics to use for analysis
-- (Coming soon) Use this monitored data to improve your pipeline by providing feedback and fine-tuning or evaluating with it.
+- You can filter and drill down to analyze prompt performance, observe all inputs sent to the prompt and track custom metrics to use for analysis
+- Usee monitored data to improve your pipeline by providing feedback and fine-tuning or evaluating with it.
 
 ## Integrations
 
