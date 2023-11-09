@@ -17,6 +17,10 @@ The contents of the artifact remain as a soft-delete, or pending deletion state,
 
 The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl.md).
 
+:::note
+Artifacts that are scheduled for deletion with a TTL policy, deleted with the W&B SDK, or deleted with the W&B App UI are first soft-deleted. Artifacts that are soft deleted undergo garbage collection before they are to marked for hard-deleted.
+:::
+
 ### Delete an artifact version
 
 To delete an artifact version:
@@ -129,15 +133,12 @@ The `X` indicates you must satisfy the requirement:
 |                                                | Environment variable    | Enable versioning | 
 | -----------------------------------------------| ------------------------| ----------------- | 
 | Shared cloud                                   |                         |                   | 
-| Shared cloud with secure storage connector     |                         | X                 | 
+| Shared cloud with [secure storage connector](../hosting/secure-storage-connector.md)|                         | X                 | 
 | Dedicated cloud                                |                         |                   | 
-| Dedicated cloud with secure storage connector  |                         | X                 | 
+| Dedicated cloud with [secure storage connector](../hosting/secure-storage-connector.md)|                         | X                 | 
 | Customer-managed cloud                         | X                       | X                 | 
 | Customer managed on-prem                       | X                       | X                 |
  
-
-
-By default, dedicated cloud with [secure storage connector](../hosting/secure-storage-connector.md) can not edit the `GORILLA_ARTIFACT_GC_ENABLED` environment variable. 
 
 
 :::note
