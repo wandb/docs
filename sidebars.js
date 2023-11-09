@@ -210,7 +210,7 @@ const sidebars = {
             'guides/tables/tables-walkthrough',
             'guides/tables/visualize-tables',
             'guides/tables/tables-gallery',
-            'guides/tables/tables-download.md',
+            'guides/tables/tables-download',
           ],
         },
         {
