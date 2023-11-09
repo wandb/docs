@@ -44,11 +44,9 @@ If you are using Weights and Biases for the first time you might want to check o
 
 ```bash
 pip install wandb
-```
-
-```bash
 wandb login
 ```
+
 
   </TabItem>
   <TabItem value="notebook">
@@ -56,6 +54,7 @@ wandb login
 
 ```notebook
 !pip install wandb
+wandb.login()
 ```
 
 
