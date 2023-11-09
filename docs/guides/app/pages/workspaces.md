@@ -27,7 +27,7 @@ Use default workspaces to set up a landing page for your public project, or help
 
 Changes that you make to your project workspace are saved automatically.  You can undo changes you make to your workspace with the undo buttons located at the bottom right of your workspace.
 
-[INSERT]
+![](/images/app_ui/undo_button.png)
 
 ## View and customize workspaces
 View and temporarily customize workspaces created by other W&B users. This is particularly useful if you want to conduct exploratory analysis of someone's work and possibly create a W&B report from it to share with others.
@@ -86,6 +86,7 @@ with run:
 2. Scroll down to the bottom of the panel section of your workspace.
 3. Click on the **Add section** button to add a new section.
 
+![](/images/app_ui/add_section_app.png)
 
   </TabItem>
 </Tabs>
