@@ -7,34 +7,34 @@ import TabItem from '@theme/TabItem';
 
 # Workspaces
 
-Your workspace is your personal sandbox to customize charts and explore model results.
+W&B workspace is your personal sandbox to customize charts and explore model results. Workspaces consist of two main components: 
 
-1. **Table**: All the runs in your project are listed in the table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
-2. **Panels**: Panels are organized into sections. Create new panels, organize them, and export to reports to save snapshots of your workspace.
+1. **Table**: All runs logged to your project are listed in the project's table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
+2. **Panel section**: [Panels](../features/panels/intro.md) are organized into panel sections. Create new panels, organize them, and export to reports to save snapshots of your workspace.
 
 ![](/images/app_ui/workspace_table_and_panels.png)
 
 
 
 ## Default workspace
-Each W&B projects has a *default workspace*. The default workspace shows the custom workspace that was saved by the owner of that project. Only the owner of that project can edit the default workspace. Each W&B user has one workspace that is unique to them and can be customized.
+Each W&B projects has a *default workspace*. The default workspace shows the custom workspace that was saved by the owner of that project. 
+
+Each W&B user has one workspace that is unique to them and can be customized.
 
 :::tip
 Use default workspaces to set up a landing page for your public project, or help your team members get started.
 :::
 
+Changes that you make to your project workspace are saved automatically.  You can undo changes you make to your workspace with the undo buttons located at the bottom right of your workspace.
 
-At the bottom of a project page there is a button labeled **My Workspace**. Click on My Workspace button to clear 
-
-
-Changes that you make to your project workspace are saved automatically.  You can undo those changes with the undo button located at the bottom right of your workspace.
+[INSERT]
 
 ## View and customize workspaces
 View and temporarily customize workspaces created by other W&B users. This is particularly useful if you want to conduct exploratory analysis of someone's work and possibly create a W&B report from it to share with others.
 
 Changes you make to another user's workspace do not override the default workspace created by the owning W&B user.
 
-Undo the temporary changes you make to a workspace you do not own with the **My Workspace** button located at the bottom of the W&B App UI:
+You can undo temporary changes you make to a workspace you do not own with the **My Workspace** button located at the bottom of the W&B App UI:
 
 1. Click on **My Workspace**
 2. Select **Clear workspace**
@@ -92,7 +92,7 @@ with run:
 
 
 
-## Create multiple workspace versions (Public Preview) 
+## Create multiple workspace versions (Beta)
 Save custom versions of a workspace that belongs to you or someone on your team. The default workspace created by the owner of the project is tagged with a **Primary** label. 
 
 
