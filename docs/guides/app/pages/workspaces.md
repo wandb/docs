@@ -135,3 +135,21 @@ Once you have the URL of the workspace version, share that URL to your team.
 
 
 <!-- ### Delete workspace versions -->
+
+## Read-only mode
+Create a duplicate version of a workspace to work off of if you have read-only access to that workspace.  To create a duplicate version, you will need to a *Draft* of that workspace. A draft workspace is a forked duplicate of a workspace.
+
+
+
+They do this by explicitly clicking Edit workspace in the top right. 
+
+### Create a draft
+1. Navigate to the workspace you want to work off of.
+2. Select **Edit workspace** in the top right of the workspace.
+
+<!-- ![](/images/app_ui/image.png) -->
+
+This will create a draft workspace. 
+
+### Publish a draft
+
