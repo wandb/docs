@@ -42,6 +42,6 @@ df.to_csv('example.csv', encoding='utf-8')
 ```
 
 # Next Steps
-- Check out the [reference documentation](/guides/artifacts/construct-an-artifact.md) on `artifacts`.
-- Go through our [Tables Walktrough](/guides/tables/tables-walkthrough.md) guide.
+- Check out the [reference documentation](artifacts/construct-an-artifact.md) on `artifacts`.
+- Go through our [Tables Walktrough](tables-walkthrough.md) guide.
 - Check out the [Dataframe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) reference docs.
