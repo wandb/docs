@@ -21,7 +21,16 @@ Before getting started, you will need:
    2. Drivers for any GPU you want to use
    3. Nvidia container toolkit
 
-When creating this tutorial, we used an `n1-standard-16` Google Cloud Compute Engine instance with 4 Nvidia Tesla T4 GPU connected. If you are running in the cloud, consider using a Kubernetes cluster directly. This tutorial is intended to guide users with direct access GPU, i.e. not renting by the hour.
+When creating this tutorial, we used an `n1-standard-16` Google Cloud Compute Engine instance with 4 Nvidia Tesla T4 GPU connected.
+
+:::tip
+This tutorial is intended to guide users with direct access to a machine with multiple GPU, i.e. not renting a cloud machine per hour.
+
+If you are aiming to setup a Minikube cluster on a cloud machine, we recommend you create a Kubernetes cluster with GPU support using your cloud provider’s tools. AWS, GCP, Azure, Coreweave, and others all have tools to create Kubernetes clusters with GPU support.
+
+If you are planning to set up a Minikube cluster for GPU scheduling on a machine with a single GPU, we would recommend you use our [Docker queue](../guides/launch/setup-launch.md#docker-queue) instead. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
+
+:::
 
 ## Create a queue for our jobs
 
@@ -136,7 +145,7 @@ Wed Nov  8 23:25:53 2023
 
 ## Setup Minikube
 
-Minikube’s GPU support requires version `v1.32.0-beta0` or later. Refer to [Minikube’s install documentation](https://minikube.sigs.k8s.io/docs/start/) for up to date installation help. For this tutorial, we installed the latest Minikube release using the command:
+Minikube’s GPU support requires version `v1.32.0` or later. Refer to [Minikube’s install documentation](https://minikube.sigs.k8s.io/docs/start/) for up to date installation help. For this tutorial, we installed the latest Minikube release using the command:
 
 ```yaml
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
@@ -200,7 +209,7 @@ However you start your NFS sever, keep note of the export location of the server
 
 Next, you will need to create a persistent volume and persistent volume claim for this NFS. Persistent volumes are highly customizable, but we will use straightforward configuration here for the sake of simplicity.
 
-Copy the yaml below into a file named `nfs-persistent-volume.yaml` , making sure to fill out your desired volume capacity and claim request. The `[PersistentVolume.spec.capcity.storage](http://PersistentVolume.spec.capcity.storage)` field controls the maximum size of the underlying volume. The `PersistentVolumeClaim.spec.resources.requests.stroage` can be used to limit the volume capacity allotted for a particular claim. For our use case, it makes sense to use the same value for each.
+Copy the yaml below into a file named `nfs-persistent-volume.yaml` , making sure to fill out your desired volume capacity and claim request. The `PersistentVolume.spec.capcity.storage` field controls the maximum size of the underlying volume. The `PersistentVolumeClaim.spec.resources.requests.stroage` can be used to limit the volume capacity allotted for a particular claim. For our use case, it makes sense to use the same value for each.
 
 ```yaml
 apiVersion: v1
