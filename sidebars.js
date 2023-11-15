@@ -873,6 +873,7 @@ const sidebars = {
       // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
       items: [
         'tutorials/volcano',
+        'tutorials/minikube_gpu'
       ],
     },
   ],
