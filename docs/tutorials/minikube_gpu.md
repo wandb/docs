@@ -5,6 +5,15 @@ import TabItem from '@theme/TabItem';
 
 Setup W&B Launch on a Minikube cluster that can schedule and run GPU workloads.
 
+:::info
+This tutorial is intended to guide users with direct access to a machine with multiple GPU, i.e. not renting a cloud machine per hour.
+
+If you are aiming to setup a Minikube cluster on a cloud machine, we recommend you create a Kubernetes cluster with GPU support using your cloud provider’s tools. AWS, GCP, Azure, Coreweave, and others all have tools to create Kubernetes clusters with GPU support.
+
+If you are planning to set up a Minikube cluster for GPU scheduling on a machine with a single GPU, we would recommend you use our [Docker queue](../guides/launch/setup-launch.md#docker-queue) instead. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
+
+:::
+
 ## Background
 
 If you are using Docker queues for workloads running on a single host, there is a compelling reason to use a Kubernetes queue with an agent connected to a local Kubernetes cluster instead: GPU scheduling. Docker queues control how the job is run through `docker run` arguments, which only allow requesting specific GPU on the host or `all` which severely limits the efficiency of parallel workloads. Kubernetes allows you to specify a number of desired GPU and then takes care of the scheduling.
@@ -22,15 +31,6 @@ Before getting started, you will need:
    3. Nvidia container toolkit
 
 When creating this tutorial, we used an `n1-standard-16` Google Cloud Compute Engine instance with 4 Nvidia Tesla T4 GPU connected.
-
-:::tip
-This tutorial is intended to guide users with direct access to a machine with multiple GPU, i.e. not renting a cloud machine per hour.
-
-If you are aiming to setup a Minikube cluster on a cloud machine, we recommend you create a Kubernetes cluster with GPU support using your cloud provider’s tools. AWS, GCP, Azure, Coreweave, and others all have tools to create Kubernetes clusters with GPU support.
-
-If you are planning to set up a Minikube cluster for GPU scheduling on a machine with a single GPU, we would recommend you use our [Docker queue](../guides/launch/setup-launch.md#docker-queue) instead. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
-
-:::
 
 ## Create a queue for our jobs
 
