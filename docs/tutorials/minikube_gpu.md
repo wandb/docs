@@ -10,7 +10,7 @@ This tutorial is intended to guide users with direct access to a machine with mu
 
 If you are aiming to setup a Minikube cluster on a cloud machine, we recommend you create a Kubernetes cluster with GPU support using your cloud provider’s tools. AWS, GCP, Azure, Coreweave, and others all have tools to create Kubernetes clusters with GPU support.
 
-If you are planning to set up a Minikube cluster for GPU scheduling on a machine with a single GPU, we would recommend you use our [Docker queue](../guides/launch/setup-launch.md#docker-queue) instead. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
+If you are planning to set up a Minikube cluster for GPU scheduling on a machine with a single GPU, we would recommend you use our [Docker queue](../guides/launch/setup-launch-docker) instead. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
 
 :::
 
