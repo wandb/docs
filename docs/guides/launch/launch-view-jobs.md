@@ -56,3 +56,5 @@ The following table defines the status a queued run can have:
 | **Crashed** | The run stopped sending data or did not successfully start. |
 | **Failed** | The run ended with a non-zero exit code or the run failed to start. |
 | **Finished** | The job completed successfully. |
+
+
