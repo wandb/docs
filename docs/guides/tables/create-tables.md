@@ -9,11 +9,9 @@ scalar values, strings, numpy arrays, and most subclasses of `wandb.data_types.M
 This means you can embed `Images`, `Video`, `Audio`, and other sorts of rich, annotated media
 directly in Tables, alongside other traditional scalar values.
 
+## Construct a table
 Tables can be constructed with initial data using the `data` or
-`dataframe` parameters:
-
-<!--yeadoc-test:table-construct-dataframe-->
-
+`dataframe` parameters.
 
 ```python
 import pandas as pd
@@ -29,10 +27,7 @@ assert all(tbl.get_column("feature_01") == df["feature_01"])
 
 Additionally, users can add data to Tables incrementally by using the
 `add_data`, `add_column`, and `add_computed_column` functions for
-adding rows, columns, and columns computed from data in other columns, respectively:
-
-<!--yeadoc-test:table-construct-rowwise-->
-
+adding rows, columns, and columns computed from data in other columns, respectively.
 
 ```python
 import wandb
@@ -54,10 +49,7 @@ assert tbl.get_column("feature_01") == [5, 7, 3]
 ```
 
 Tables can be logged directly to runs using `run.log({"my_table": table})`
-or added to artifacts using `artifact.add(table, "my_table")`:
-
-<!--yeadoc-test:table-logging-direct-->
-
+or added to artifacts using `artifact.add(table, "my_table")`.
 
 ```python
 import numpy as np
@@ -74,7 +66,9 @@ labels = ["panda", "gibbon"]
 wandb.log({"classifier_out": tbl})
 ```
 
-Tables added directly to runs as above will produce a corresponding Table Visualizer in the
+## Table Visualizer
+
+Tables added directly to runs as above will produce a corresponding [Table Visualizer](visualize-tables.md) in the
 Workspace which can be used for further analysis and exporting to reports.
 
 Tables added to artifacts can be viewed in the Artifact Tab and will render
