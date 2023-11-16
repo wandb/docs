@@ -103,9 +103,7 @@ A new version of a workspace is automatically created for you when you land on a
 For example, in the following image a user renamed the automatically created workspace that branched off the **Primary** workspace to **DataScience-Member-initial-exploration**:
 
 ![](/images/app_ui/workspace_versions_initial_branched.png)
-
-
-You can manually create a new version that is based off of [INSERT]. 
+ 
 
 1. Navigate to the project workspace
 2. Click on the name of the workspace
