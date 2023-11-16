@@ -211,6 +211,7 @@ const sidebars = {
             'guides/tables/visualize-tables',
             'guides/tables/tables-gallery',
             'guides/tables/tables-download',
+            'guides/tables/create-tables',
           ],
         },
         {
