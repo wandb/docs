@@ -411,4 +411,4 @@ PATCH /scim/Groups/ghi
 
 ### Delete Team
 
-- Deleting teams is currently unsupported by the SCIM API since there is additional data linked to teams. Please delete teams from the application to confirm you want everything deleted.
+- Deleting teams is currently unsupported by the SCIM API since there is additional data linked to teams. Delete teams from the application to confirm you want everything deleted.
