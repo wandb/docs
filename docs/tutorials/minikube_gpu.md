@@ -10,7 +10,7 @@ This tutorial is intended to guide users with direct access to a machine with mu
 
 If you are aiming to setup a Minikube cluster on a cloud machine, we recommend you create a Kubernetes cluster with GPU support using your cloud provider’s tools. AWS, GCP, Azure, Coreweave, and others all have tools to create Kubernetes clusters with GPU support.
 
-If you are planning to set up a Minikube cluster for GPU scheduling on a machine with a single GPU, we would recommend you use our [Docker queue](../guides/launch/setup-launch-docker) instead. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
+If you are planning to set up a Minikube cluster for GPU scheduling on a machine with a single GPU, we would recommend you use our [Docker queue](/guides/launch/setup-launch-docker) instead. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
 
 :::
 
@@ -34,7 +34,9 @@ When creating this tutorial, we used an `n1-standard-16` Google Cloud Compute En
 
 ## Create a queue for our jobs
 
-[Explain setting up a K8s queue, link to those docs]
+The first thing we will need to do is create a launch queue for our jobs. Head to [wandb.ai/launch](https://wandb.ai/launch) (or <your-wandb-url\>/launch if you are using a private W&B server) and in the top right corner of your screen, hit the blue **Create a queue** button. A queue creation drawer will slide out from the right side of your screen. Select an entity, enter a name, and select **Kubernetes** as the type for your queue.
+
+The **Config** section of the drawer is where we will enter a [Kubernetes job specification](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for our queue. Any runs launched from this queue will be created using this job specification, so you can modify this configuration as needed to customize your jobs. For more information, please refer to our [guide on setting up launch on Kubernetes](/guides/launch/setup-launch-kubernetes.md) and our [advanced queue setup guide](Feel free to copy and paste the sample config below as YAML or JSON:
 
 <Tabs
 defaultValue="yaml"
@@ -55,7 +57,7 @@ spec:
             limits:
               cpu: 4
               memory: 12Gi
-              nvidia.com/gpu: 1
+              nvidia.com/gpu: '{{gpus}}'
       restartPolicy: Never
   backoffLimit: 0
 ```
@@ -76,7 +78,7 @@ spec:
               "limits": {
                 "cpu": 4,
                 "memory": "12Gi",
-                "nvidia.com/gpu": 1
+                "nvidia.com/gpu": "{{gpus}}"
               }
             }
           }
@@ -91,6 +93,24 @@ spec:
 
 </TabItem>
 </Tabs>
+
+The `${image_uri}` and `{{gpus}}` strings are examples of the two kinds of
+variable templates that you can use in your queue configuration. The `${image_uri}`
+template will be replaced with the image URI of the job you are launching by the
+agent. The `{{gpus}}` template will be used to create a template variable that
+you can override from the launch UI, CLI, or SDK when submitting a job. These values
+are placed in the job specification so that they will modify the correct fields
+to control the image and GPU resources used by the job.
+
+Click the **Parse configuration** button to begin customizing your `gpus` template
+variable. Set the **Type** to `Integer` and the **Default**, **Min**, and **Max** to values of your choosing.
+Attempts to submit a run to this queue which violate the constraints of the template variable will
+be rejected.
+
+![Image of queue creation drawer with gpus template variable](/images/tutorials/minikube_gpu/create_queue.png)
+
+Click **Create queue** to create your queue. You should be redirected to the queue page for your new queue.
+Now, we will move on to setting up an agent that can pull and execute jobs from this queue.
 
 ## Setup Docker + Nvidia CTK
 
@@ -266,7 +286,7 @@ spec:
             limits:
               cpu: 4
               memory: 12Gi
-              nvidia.com/gpu: 1
+              nvidia.com/gpu: "{{gpus}}"
 					volumeMounts:
             - name: nfs-storage
               mountPath: /root/.cache
@@ -294,7 +314,7 @@ spec:
               "limits": {
                 "cpu": 4,
                 "memory": "12Gi",
-                "nvidia.com/gpu": 1
+                "nvidia.com/gpu": "{{gpus}}"
               },
               "volumeMounts": [
                 {
@@ -330,5 +350,28 @@ Now, our NFS will be mounted at `/root/.cache` in the containers running our job
 ## Playing with stable diffusion
 
 To test out our new system, we are going to experiment with stable diffusion’s inference parameters.
+To run a simple stable diffusion inference job with a default prompt and sane
+parameters, you can run:
 
-TODO: Link to the actual job, this is just a placeholder. We can show a CLI command or
+```
+wandb launch -d wandb/job_stable_diffusion_inference:main -p <target-wandb-project> -q <your-queue-name> -e <your-queue-entity>
+```
+
+The command above will submit the container image `wandb/job_stable_diffusion_inference:main` to your queue.
+Once your agent picks up the job and schedules it for execution on your cluster,
+it may take a while for the image to be pulled, depending on your connection.
+You can follow the status of the job on the queue page on [wandb.ai/launch](http://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server).
+
+Once the run has finished, you should have a job artifact in the project you specified.
+You can check your project's job page (`<project-url>/jobs`) to find the job artifact. Its default name should
+be `job-wandb_job_stable_diffusion_inference` but you can change that to whatever you like on the job's page
+by clicking the pencil icon next to the job name.
+
+You can now use this job to run more stable diffusion inference on your cluster!
+From the job page, we can click the **Launch** button in the top right hand corner
+to configure a new inference job and submit it to our queue. The job configuration
+page will be pre-populated with the parameters from the original run, but you can
+change them to whatever you like by modifying their values in the **Overrides** section
+of the launch drawer.
+
+![Image of launch UI for stable diffusion inference job](/images/tutorials/minikube_gpu/sd_launch_drawer.png)
