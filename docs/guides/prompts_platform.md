@@ -33,5 +33,5 @@ W&B also has lightweight integrations for:
 
 ## Next Steps
 
-- Check out more detailed documentation on [Prompts](prompts/intro.md) or [LLM Monitoring](weave/prod-mon.md).
+- Check out more detailed documentation on [Prompts](./prompts/intro.md) or [LLM Monitoring](weave/prod-mon.md).
 - Learn more about [Weave](weave/intro.md), our visual development environment that has many LLMOps tools built in.
