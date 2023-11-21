@@ -103,7 +103,7 @@ spec:
 </TabItem>
 </Tabs>
 
-For more information about queue configurations, see the [Set up Launch on Kubernetes](/guides/launch/setup-launch-kubernetes.md) and the [Advanced queue setup guide](../guides/launch/setup-queue-advanced.md).   
+For more information about queue configurations, see the [Set up Launch on Kubernetes](/guides/launch/setup-launch-kubernetes.md) and the [Advanced queue setup guide](/guides/launch/setup-queue-advanced.md).   
 
 
 The `${image_uri}` and `{{gpus}}` strings are examples of the two kinds of
