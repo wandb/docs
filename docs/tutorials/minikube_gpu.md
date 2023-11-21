@@ -3,40 +3,43 @@ import TabItem from '@theme/TabItem';
 
 # Spin up a single node GPU cluster with Minikube
 
-Setup W&B Launch on a Minikube cluster that can schedule and run GPU workloads.
+Set up W&B Launch on a Minikube cluster that can schedule and run GPU workloads.
 
 :::info
-This tutorial is intended to guide users with direct access to a machine with multiple GPU, i.e. not renting a cloud machine per hour.
+This tutorial is intended to guide users with direct access to a machine with multiple GPU. In other words, this tutorial is not intended for users who rent a cloud machine per hour.
 
-If you are aiming to setup a Minikube cluster on a cloud machine, we recommend you create a Kubernetes cluster with GPU support using your cloud provider’s tools. AWS, GCP, Azure, Coreweave, and others all have tools to create Kubernetes clusters with GPU support.
+If you want to setup a Minikube cluster on a cloud machine, we recommend you create a Kubernetes cluster with GPU support using your cloud provider’s tools. AWS, GCP, Azure, Coreweave, and other cloud providers have tools to create Kubernetes clusters with GPU support.
 
-If you are planning to set up a Minikube cluster for GPU scheduling on a machine with a single GPU, we would recommend you use our [Docker queue](/guides/launch/setup-launch-docker) instead. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
+If you want to set up a Minikube cluster for GPU scheduling on a machine with a single GPU, we would recommend you use a Launch [Docker queue](/guides/launch/setup-launch-docker) instead. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
 
 :::
 
 ## Background
 
-If you are using Docker queues for workloads running on a single host, there is a compelling reason to use a Kubernetes queue with an agent connected to a local Kubernetes cluster instead: GPU scheduling. Docker queues control how the job is run through `docker run` arguments, which only allow requesting specific GPU on the host or `all` which severely limits the efficiency of parallel workloads. Kubernetes allows you to specify a number of desired GPU and then takes care of the scheduling.
+If you use Docker queues for workloads running on a single host, there is a compelling reason to use a Kubernetes queue with an agent connected to a local Kubernetes cluster instead: GPU scheduling. Docker queues control how the job is run through `docker run` arguments, which only allow requesting specific GPU on the host or `all` which severely limits the efficiency of parallel workloads. Kubernetes allows you to specify a number of desired GPU and then takes care of the scheduling.
 
-The [Nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) has made it easy to run GPU-enabled workflows on Docker, but setting up a local Kubernetes cluster with GPU scheduling can take considerable time and effort, until recently. Minikube, one of the most popular tools for running single node Kubernetes clusters, recently released [support for GPU scheduling](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/) 🎉 making it very straightforward to spin up a single node Kubernetes cluster with multiple GPU- precisely what we will do in this tutorial.
+The [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) makes it easy to run GPU-enabled workflows on Docker. Before, setting up a local Kubernetes cluster with GPU scheduling could take considerable time and effort. Minikube, one of the most popular tools for running single node Kubernetes clusters, released [support for GPU scheduling](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/) 🎉. Support for GPU scheduling makes it easy to spin up a single node Kubernetes cluster with multiple GPU- precisely what we will do in this tutorial.
 
 ## Prerequisites
 
 Before getting started, you will need:
 
-1. A Weights & Biases account.
+1. A W&B account.
 2. Linux machine with the following installed and running:
    1. Docker runtime
    2. Drivers for any GPU you want to use
    3. Nvidia container toolkit
 
-When creating this tutorial, we used an `n1-standard-16` Google Cloud Compute Engine instance with 4 Nvidia Tesla T4 GPU connected.
+When we created this tutorial, we used an `n1-standard-16` Google Cloud Compute Engine instance with 4 NVIDIA Tesla T4 GPU connected.
 
-## Create a queue for our jobs
+## Create a queue for launch jobs
 
-The first thing we will need to do is create a launch queue for our jobs. Head to [wandb.ai/launch](https://wandb.ai/launch) (or <your-wandb-url\>/launch if you are using a private W&B server) and in the top right corner of your screen, hit the blue **Create a queue** button. A queue creation drawer will slide out from the right side of your screen. Select an entity, enter a name, and select **Kubernetes** as the type for your queue.
+First, create a launch queue for our launch jobs. 
 
-The **Config** section of the drawer is where we will enter a [Kubernetes job specification](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for our queue. Any runs launched from this queue will be created using this job specification, so you can modify this configuration as needed to customize your jobs. For more information, please refer to our [guide on setting up launch on Kubernetes](/guides/launch/setup-launch-kubernetes.md) and our [advanced queue setup guide](Feel free to copy and paste the sample config below as YAML or JSON:
+1. Navigate to [wandb.ai/launch](https://wandb.ai/launch) (or `<your-wandb-url>/launch` if you use a private W&B server).
+2. In the top right corner of your screen, click the blue **Create a queue** button. A queue creation drawer will slide out from the right side of your screen.
+3. Select an entity, enter a name, and select **Kubernetes** as the type for your queue.
+4. The **Config** section of the drawer is where you will enter a [Kubernetes job specification](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for the launch queue. Any runs launched from this queue will be created using this job specification, so you can modify this configuration as needed to customize your jobs. For this tutorial, you can copy and paste the sample config below in your queue config as YAML or JSON:
 
 <Tabs
 defaultValue="yaml"
@@ -94,6 +97,9 @@ spec:
 </TabItem>
 </Tabs>
 
+For more information about queue configurations, see the [Set up Launch on Kubernetes](/guides/launch/setup-launch-kubernetes.md) and the [Advanced queue setup guide](../guides/launch/setup-queue-advanced.md).   
+
+
 The `${image_uri}` and `{{gpus}}` strings are examples of the two kinds of
 variable templates that you can use in your queue configuration. The `${image_uri}`
 template will be replaced with the image URI of the job you are launching by the
@@ -102,17 +108,20 @@ you can override from the launch UI, CLI, or SDK when submitting a job. These va
 are placed in the job specification so that they will modify the correct fields
 to control the image and GPU resources used by the job.
 
-Click the **Parse configuration** button to begin customizing your `gpus` template
-variable. Set the **Type** to `Integer` and the **Default**, **Min**, and **Max** to values of your choosing.
+5. Click the **Parse configuration** button to begin customizing your `gpus` template
+variable. 
+6. Set the **Type** to `Integer` and the **Default**, **Min**, and **Max** to values of your choosing.
 Attempts to submit a run to this queue which violate the constraints of the template variable will
 be rejected.
 
 ![Image of queue creation drawer with gpus template variable](/images/tutorials/minikube_gpu/create_queue.png)
 
-Click **Create queue** to create your queue. You should be redirected to the queue page for your new queue.
-Now, we will move on to setting up an agent that can pull and execute jobs from this queue.
+7. Click **Create queue** to create your queue. You will be redirected to the queue page for your new queue.
 
-## Setup Docker + Nvidia CTK
+
+In the next section, we will set up an agent that can pull and execute jobs from the queue you created.
+
+## Setup Docker + NVIDIA CTK
 
 If you already have Docker and the Nvidia container toolkit setup on your machine, you can skip this section.
 
@@ -208,7 +217,7 @@ Now, time to send a job to our agent. You can launch a simple hello world from a
 wandb launch -d wandb/job_hello_world:main -p <target-wandb-project> -q <your-queue-name> -e <your-queue-entity>
 ```
 
-You can test with any job or image you like, but do make sure your cluster can pull your image. Please refer to [Minikube’s documentation](https://minikube.sigs.k8s.io/docs/handbook/registry/) for additional guidance. You can also [test using one of our public jobs](https://wandb.ai/wandb/jobs/jobs?workspace=user-bcanfieldsherman).
+You can test with any job or image you like, but do make sure your cluster can pull your image.  refer to [Minikube’s documentation](https://minikube.sigs.k8s.io/docs/handbook/registry/) for additional guidance. You can also [test using one of our public jobs](https://wandb.ai/wandb/jobs/jobs?workspace=user-bcanfieldsherman).
 
 ## (Optional) Model and data caching with NFS
 
