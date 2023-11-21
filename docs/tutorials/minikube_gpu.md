@@ -3,7 +3,7 @@ import TabItem from '@theme/TabItem';
 
 # Spin up a single node GPU cluster with Minikube
 
-Set up W&B Launch on a Minikube cluster that can schedule and run GPU workloads.
+Set up W&B Launch on a Minikube cluster that can schedule and run GPU workloads. 
 
 :::info
 This tutorial is intended to guide users with direct access to a machine with multiple GPU. In other words, this tutorial is not intended for users who rent a cloud machine per hour.
@@ -18,7 +18,11 @@ If you want to set up a Minikube cluster for GPU scheduling on a machine with a 
 
 If you use Docker queues for workloads running on a single host, there is a compelling reason to use a Kubernetes queue with an agent connected to a local Kubernetes cluster instead: GPU scheduling. Docker queues control how the job is run through `docker run` arguments, which only allow requesting specific GPU on the host or `all` which severely limits the efficiency of parallel workloads. Kubernetes allows you to specify a number of desired GPU and then takes care of the scheduling.
 
-The [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) makes it easy to run GPU-enabled workflows on Docker. Before, setting up a local Kubernetes cluster with GPU scheduling could take considerable time and effort. Minikube, one of the most popular tools for running single node Kubernetes clusters, released [support for GPU scheduling](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/) 🎉. Support for GPU scheduling makes it easy to spin up a single node Kubernetes cluster with multiple GPU- precisely what we will do in this tutorial.
+The [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) makes it easy to run GPU-enabled workflows on Docker. Before, setting up a local Kubernetes cluster with GPU scheduling could take considerable time and effort. Minikube, one of the most popular tools for running single node Kubernetes clusters, released [support for GPU scheduling](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/) 🎉. 
+
+In this tutorial, we will take advantage of Minikube and GPU scheduling to schedule anr run GPU workloads.
+
+
 
 ## Prerequisites
 
@@ -30,7 +34,9 @@ Before getting started, you will need:
    2. Drivers for any GPU you want to use
    3. Nvidia container toolkit
 
-When we created this tutorial, we used an `n1-standard-16` Google Cloud Compute Engine instance with 4 NVIDIA Tesla T4 GPU connected.
+:::note
+For testing and creating this tutorial, we used an `n1-standard-16` Google Cloud Compute Engine instance with 4 NVIDIA Tesla T4 GPU connected.
+:::
 
 ## Create a queue for launch jobs
 
@@ -191,37 +197,45 @@ The output of the command above will indicate whether a cluster has been success
 
 ## Start launch agent
 
-The launch agent for your new cluster can either be started by invoking `wandb launch-agent` directly or by deploying the launch agent using our [helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent). In this tutorial we will run the agent directly on our host machine for the sake of simplicity. Running the agent outside of a container also means we can use the local Docker host to build images for our cluster to run.
+The launch agent for your new cluster can either be started by invoking `wandb launch-agent` directly or by deploying the launch agent using a [helm chart managed by W&B](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent). 
 
-To run the agent locally, make sure your default Kubernetes API context refers to the Minikube cluster. Then, run
+In this tutorial we will run the agent directly on our host machine. 
 
-```
+:::tip
+Running the agent outside of a container also means we can use the local Docker host to build images for our cluster to run.
+:::
+
+To run the agent locally, make sure your default Kubernetes API context refers to the Minikube cluster. Then, execute the following:
+
+```bash
 pip install wandb[launch]
 ```
 
 to install the agent’s dependencies. To setup authentication for the agent, run `wandb login` or set the `WANDB_API_KEY` environment variable.
 
-To start the agent, run
+To start the agent, type and execute the following:
 
-```
+```bash
 wandb launch-agent -j <max-number-concurrent-jobs> -q <queue-name> -e <queue-entity>
 ```
 
-You should the launch agent start to print its polling message. Congratulations, you have a running launch agent! Now, when a job is added to your queue, your agent will pick it up and schedule it to run on your Minikube cluster.
+Within your terminal you should see the launch agent start to print polling message. 
+
+Congratulations, you have a launch agent polling your launch queue! When a job is added to your queue, your agent will pick it up and schedule it to run on your Minikube cluster.
 
 ## Launch a job
 
-Now, time to send a job to our agent. You can launch a simple hello world from a terminal logged into your W&B account with:
+Let's send a job to our agent. You can launch a simple "hello world" from a terminal logged into your W&B account with:
 
 ```yaml
 wandb launch -d wandb/job_hello_world:main -p <target-wandb-project> -q <your-queue-name> -e <your-queue-entity>
 ```
 
-You can test with any job or image you like, but do make sure your cluster can pull your image.  refer to [Minikube’s documentation](https://minikube.sigs.k8s.io/docs/handbook/registry/) for additional guidance. You can also [test using one of our public jobs](https://wandb.ai/wandb/jobs/jobs?workspace=user-bcanfieldsherman).
+You can test with any job or image you like, but make sure your cluster can pull your image.  See [Minikube’s documentation](https://minikube.sigs.k8s.io/docs/handbook/registry/) for additional guidance. You can also [test using one of our public jobs](https://wandb.ai/wandb/jobs/jobs?workspace=user-bcanfieldsherman).
 
 ## (Optional) Model and data caching with NFS
 
-For ML workloads we will often want multiple jobs to have access to the same data. For example, you may want to have a shared cache to avoid repeatedly downloading large assets like datasets or model weights. Kubernetes supports this through [persistent volumes and persistent volume claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/). These can be used to create `volumeMounts` in our Kubernetes workloads, providing direct filesystem access to the shared cache.
+For ML workloads we will often want multiple jobs to have access to the same data. For example, you might want to have a shared cache to avoid repeatedly downloading large assets like datasets or model weights. Kubernetes supports this through [persistent volumes and persistent volume claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/). Persistent volumes can be used to create `volumeMounts` in our Kubernetes workloads, providing direct filesystem access to the shared cache.
 
 In this step, we will set up a network file system (NFS) server that can be used as a shared cache for model weights. The first step is to install and configure NFS. This process varies by operating system. Since our VM is running Ubuntu, we installed nfs-kernel-server and configured an export at `/srv/nfs/kubedata`:
 
@@ -234,7 +248,7 @@ sudo exportfs -ra
 sudo systemctl restart nfs-kernel-server
 ```
 
-However you start your NFS sever, keep note of the export location of the server in your host filesystem, as well as the local IP address of your NFS server, i.e. your host machine. We will need this pieces of information in the next step.
+Keep note of the export location of the server in your host filesystem, as well as the local IP address of your NFS server, i.e. your host machine. We will need this pieces of information in the next step.
 
 Next, you will need to create a persistent volume and persistent volume claim for this NFS. Persistent volumes are highly customizable, but we will use straightforward configuration here for the sake of simplicity.
 
