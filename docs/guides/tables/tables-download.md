@@ -38,7 +38,7 @@ Now you can export using any method dataframe supports:
 
 ```python
 # Converting the table data to .csv
-df.to_csv('example.csv', encoding='utf-8')
+df.to_csv("example.csv", encoding="utf-8")
 ```
 
 # Next Steps
