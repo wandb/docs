@@ -20,19 +20,19 @@ W&B supports importing data from MLFlow, including experiments, runs, artifacts,
 
 Install dependencies:
 
-```sh
+```shell
 pip install mlflow wandb>=0.14.0
 ```
 
 Log in to W&B (follow prompts if you haven't logged in before)
 
-```sh
+```shell
 wandb login
 ```
 
 Import all runs from an existing MLFlow server:
 
-```sh
+```shell
 wandb import mlflow \ &&
     --mlflow-tracking-uri <mlflow_uri> \ &&
     --target-entity       <entity> \ &&
@@ -53,10 +53,7 @@ You can also import from Python. This can be useful if you want to specify overr
 from wandb.apis.importers import MlflowImporter
 
 # optional dict to override settings for all imported runs
-overrides = {
-    "entity": "my_custom_entity",
-    "project": "my_custom_project"
-}
+overrides = {"entity": "my_custom_entity", "project": "my_custom_project"}
 
 importer = MlflowImporter(mlflow_tracking_uri="...")
 importer.import_all_parallel()
@@ -65,15 +62,9 @@ importer.import_all_parallel()
 For even more fine-grained control, you can selectively import experiments or specify overrides based on your own custom logic. For example, the following code shows how to make runs with custom tags that are then imported into the specified project.
 
 ```py
-default_settings = {
-    "entity": "default_entity",
-    "project": "default_project"
-}
+default_settings = {"entity": "default_entity", "project": "default_project"}
 
-special_tag_settings = {
-    "entity": "special_entity",
-    "project": "special_project"
-}
+special_tag_settings = {"entity": "special_entity", "project": "special_project"}
 
 for run in importer.download_all_runs():
     if "special_tag" in run.tags():
@@ -133,12 +124,7 @@ If you would prefer the data to be imported to a different entity or project, yo
 
 ```py
 importer.import_all_runs(
-    src_entity,
-    src_project,
-    overrides={
-        'entity': dst_entity,
-        'project': dst_project
-    }
+    src_entity, src_project, overrides={"entity": dst_entity, "project": dst_project}
 )
 ```
 
@@ -160,12 +146,7 @@ Specify the `overrides` parameter if you prefer the data to be imported to a dif
 
 ```py
 importer.import_all_reports(
-    src_entity,
-    src_project,
-    overrides={
-        'entity': dst_entity,
-        'project': dst_project
-    }
+    src_entity, src_project, overrides={"entity": dst_entity, "project": dst_project}
 )
 ```
 
@@ -215,6 +196,7 @@ Download data from a finished or active run. Common usage includes downloading a
 
 ```python
 import wandb
+
 api = wandb.Api()
 run = api.run("<entity>/<project>/<run_id>")
 ```
@@ -238,7 +220,9 @@ n_epochs = 5
 config = {"n_epochs": n_epochs}
 run = wandb.init(project=project, config=config)
 for n in range(run.config.get("n_epochs")):
-    run.log({"val": random.randint(0,1000), "loss": (random.randint(0,1000)/1000.00)})
+    run.log(
+        {"val": random.randint(0, 1000), "loss": (random.randint(0, 1000) / 1000.00)}
+    )
 run.finish()
 ```
 
@@ -247,12 +231,12 @@ these are the different outputs for the above run object attributes
 #### `run.config`
 
 ```python
-{'n_epochs': 5}
+{"n_epochs": 5}
 ```
 
 #### `run.history()`
 
-```python
+```shell
    _step  val   loss  _runtime  _timestamp
 0      0  500  0.244         4  1644345412
 1      1   45  0.521         4  1644345412
@@ -264,12 +248,14 @@ these are the different outputs for the above run object attributes
 #### `run.summary`
 
 ```python
-{'_runtime': 4,
- '_step': 4,
- '_timestamp': 1644345412,
- '_wandb': {'runtime': 3},
- 'loss': 0.041,
- 'val': 525}
+{
+    "_runtime": 4,
+    "_step": 4,
+    "_timestamp": 1644345412,
+    "_wandb": {"runtime": 3},
+    "loss": 0.041,
+    "val": 525,
+}
 ```
 
 ### Sampling
@@ -305,18 +291,14 @@ for run in runs:
 
     # .config contains the hyperparameters.
     #  We remove special values that start with _.
-    config_list.append(
-        {k: v for k,v in run.config.items()
-         if not k.startswith('_')})
+    config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
 
     # .name is the human-readable name of the run.
     name_list.append(run.name)
 
-runs_df = pd.DataFrame({
-    "summary": summary_list,
-    "config": config_list,
-    "name": name_list
-    })
+runs_df = pd.DataFrame(
+    {"summary": summary_list, "config": config_list, "name": name_list}
+)
 
 runs_df.to_csv("project.csv")
 ```
@@ -327,11 +309,10 @@ runs_df.to_csv("project.csv")
 The W&B API also provides a way for you to query across runs in a project with api.runs(). The most common use case is exporting runs data for custom analysis. The query interface is the same as the one [MongoDB uses](https://docs.mongodb.com/manual/reference/operator/query).
 
 ```python
-runs = api.runs("username/project",
-    {"$or": [
-        {"config.experiment_name": "foo"},
-        {"config.experiment_name": "bar"}]
-    })
+runs = api.runs(
+    "username/project",
+    {"$or": [{"config.experiment_name": "foo"}, {"config.experiment_name": "bar"}]},
+)
 print(f"Found {len(runs)} runs")
 ```
 
@@ -378,12 +359,13 @@ This example outputs timestamp and accuracy saved with `wandb.log({"accuracy": a
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
 if run.state == "finished":
-   for i, row in run.history().iterrows():
-      print(row["_timestamp"], row["accuracy"])
+    for i, row in run.history().iterrows():
+        print(row["_timestamp"], row["accuracy"])
 ```
 
 ### Filter runs
@@ -393,14 +375,10 @@ You can filters by using the MongoDB Query Language.
 #### Date
 
 ```python
-runs = api.runs('<entity>/<project>', {
-    "$and": [{
-    'created_at': {
-        "$lt": 'YYYY-MM-DDT##',
-        "$gt": 'YYYY-MM-DDT##'
-        }
-    }]
-})
+runs = api.runs(
+    "<entity>/<project>",
+    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
+)
 ```
 
 ### Read specific metrics from a run
@@ -409,12 +387,13 @@ To pull specific metrics from a run, use the `keys` argument. The default number
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
 if run.state == "finished":
-   for i, row in run.history(keys=["accuracy"]).iterrows():
-      print(row["_timestamp"], row["accuracy"])
+    for i, row in run.history(keys=["accuracy"]).iterrows():
+        print(row["_timestamp"], row["accuracy"])
 ```
 
 ### Compare two runs
@@ -424,6 +403,7 @@ This will output the config parameters that are different between `run1` and `ru
 ```python
 import pandas as pd
 import wandb
+
 api = wandb.Api()
 
 # replace with your <entity>, <project>, and <run_id>
@@ -452,6 +432,7 @@ This example sets the accuracy of a previous run to `0.9`. It also modifies the 
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -466,11 +447,12 @@ This example renames a summary column in your tables.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
-run.summary['new_name'] = run.summary['old_name']
-del run.summary['old_name']
+run.summary["new_name"] = run.summary["old_name"]
+del run.summary["old_name"]
 run.summary.update()
 ```
 
@@ -484,6 +466,7 @@ This examples updates one of your configuration settings.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -510,6 +493,7 @@ When you pull data from history, by default it's sampled to 500 points. Get all 
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -523,6 +507,7 @@ If metrics are being fetched slowly on our backend or API requests are timing ou
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -550,18 +535,14 @@ for run in runs:
 
     # .config contains the hyperparameters.
     #  We remove special values that start with _.
-    config_list.append(
-        {k: v for k,v in run.config.items()
-         if not k.startswith('_')})
+    config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
 
     # .name is the human-readable name of the run.
     name_list.append(run.name)
 
-runs_df = pd.DataFrame({
-    "summary": summary_list,
-    "config": config_list,
-    "name": name_list
-    })
+runs_df = pd.DataFrame(
+    {"summary": summary_list, "config": config_list, "name": name_list}
+)
 
 runs_df.to_csv("project.csv")
 ```
@@ -572,6 +553,7 @@ This code snippet retrieves the time at which the run was created.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("entity/project/run_id")
@@ -584,6 +566,7 @@ The code snippet below uploads a selected file to a finished run.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("entity/project/run_id")
@@ -596,6 +579,7 @@ This finds the file "model-best.h5" associated with with run ID uxte44z7 in the 
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -608,6 +592,7 @@ This finds all files associated with a run and saves them locally.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -621,6 +606,7 @@ This snippet downloads all the runs associated with a particular sweep.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 sweep = api.sweep("<entity>/<project>/<sweep_id>")
@@ -633,6 +619,7 @@ The following snippet gets the best run from a given sweep.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 sweep = api.sweep("<entity>/<project>/<sweep_id>")
@@ -647,11 +634,11 @@ This snippet downloads the model file with the highest validation accuracy from 
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 sweep = api.sweep("<entity>/<project>/<sweep_id>")
-runs = sorted(sweep.runs,
-    key=lambda run: run.summary.get("val_acc", 0), reverse=True)
+runs = sorted(sweep.runs, key=lambda run: run.summary.get("val_acc", 0), reverse=True)
 val_acc = runs[0].summary.get("val_acc", 0)
 print(f"Best run {runs[0].name} with {val_acc}% val accuracy")
 
@@ -665,6 +652,7 @@ This snippet deletes files with a given extension from a run.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -672,8 +660,8 @@ run = api.run("<entity>/<project>/<run_id>")
 extension = ".png"
 files = run.files()
 for file in files:
-	if file.name.endswith(extension):
-		file.delete()
+    if file.name.endswith(extension):
+        file.delete()
 ```
 
 ### Download system metrics data
@@ -682,6 +670,7 @@ This snippet produces a dataframe with all the system resource consumption metri
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -703,6 +692,7 @@ Each run captures the command that launched it on the run overview page. To pull
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
