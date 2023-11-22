@@ -140,7 +140,7 @@ The **Role** column will display **Deactivated** if a user was deactivated.
 
 View how your organization uses W&B in CSV format.
 
-1. Select the hamburger menu (three horizontal dots) next to the **Add user** button.
+1. Select the three dots next to the **Add user** button.
 2. From the dropdown, select **Export as CSV**.
 
 ![](/images/hosting/export_org_usage.png)

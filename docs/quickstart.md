@@ -29,7 +29,7 @@ The following code snippets demonstrate how to install and log into W&B using th
 
 Install the CLI and Python library for interacting with the Weights and Biases API:
 
-```
+```bash
 pip install wandb
 ```
 
@@ -38,7 +38,8 @@ pip install wandb
 
 Install the CLI and Python library for interacting with the Weights and Biases API:
 
-```python
+
+```notebook
 !pip install wandb
 ```
 
@@ -59,13 +60,13 @@ Install the CLI and Python library for interacting with the Weights and Biases A
 
 Next, log in to W&B:
 
-```
+```bash
 wandb login
 ```
 
 Or if you are using [W&B Server:](./guides/hosting)
 
-```
+```bash
 wandb login --host=http://wandb.your-shared-local-host.com
 ```
 
@@ -97,36 +98,14 @@ run = wandb.init(
     config={
         "learning_rate": 0.01,
         "epochs": 10,
-    })
+    },
+)
 ```
 
-
-<!-- ```python
-run = wandb.init(project="my-awesome-project")
-``` -->
 
 A [run](./guides/runs) is the basic building block of W&B. You will use them often to [track metrics](./guides/track), [create logs](./guides/artifacts), [create jobs](./guides/launch), and more.
 
 
-<!-- ## Track metrics -->
-<!-- Pass a dictionary to the `config` parameter with key-value pairs of hyperparameter name and values when you initialize a run object:
-
-```python
-  # Track hyperparameters and run metadata
-  config={
-      "learning_rate": lr,
-      "epochs": epochs,
-  }
-``` -->
-
-
-<!-- Use [`wandb.log()`](./ref/python/log.md) to track metrics:
-
-```python
-wandb.log({'accuracy': acc, 'loss': loss})
-```
-
-Anything you log with `wandb.log` is stored in the run object that was most recently initialized. -->
 
 
 
@@ -138,13 +117,13 @@ Note that we added code that mimics machine learning training.
 ```python
 # train.py
 import wandb
-import random # for demo script
+import random  # for demo script
 
 # highlight-next-line
 wandb.login()
 
-epochs=10
-lr=0.01
+epochs = 10
+lr = 0.01
 
 # highlight-start
 run = wandb.init(
@@ -154,16 +133,17 @@ run = wandb.init(
     config={
         "learning_rate": lr,
         "epochs": epochs,
-    })
-# highlight-end    
+    },
+)
+# highlight-end
 
 offset = random.random() / 5
 print(f"lr: {lr}")
 
 # simulating a training run
 for epoch in range(2, epochs):
-    acc = 1 - 2 ** -epoch - random.random() / epoch - offset
-    loss = 2 ** -epoch + random.random() / epoch + offset
+    acc = 1 - 2**-epoch - random.random() / epoch - offset
+    loss = 2**-epoch + random.random() / epoch + offset
     print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
     # highlight-next-line
     wandb.log({"accuracy": acc, "loss": loss})
@@ -189,10 +169,7 @@ Follow the procedure outlined below to set up an alert:
 2. Add [`wandb.alert()`](./guides/runs/alert.md) to your code.
 
 ```python
-wandb.alert(
-    title="Low accuracy", 
-    text=f"Accuracy {acc} is below threshold {thresh}"
-)
+wandb.alert(title="Low accuracy", text=f"Accuracy {acc} is below threshold {thresh}")
 ```
 You will receive an email or Slack alert when your alert criteria is met. For example, the proceeding image demonstrates a Slack alert:
 

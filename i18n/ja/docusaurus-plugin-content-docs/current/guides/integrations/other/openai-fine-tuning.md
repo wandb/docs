@@ -111,7 +111,7 @@ When you sync your results, wandb checks OpenAI for newly completed fine-tunes a
 
 Use [Tables](../../tables/intro.md) to better visualize sample predictions and compare models.
 
-![](/images/integrations/open_ai_inspect_sample.png)
+
 
 Create a new run:
 
@@ -142,17 +142,16 @@ Perform some inferences using OpenAI API:
 my_prompts = ["PROMPT_1", "PROMPT_2"]
 results = []
 for prompt in my_prompts:
-    res = openai.ChatCompletion.create(model=fine_tuned_model,
-                                   prompt=prompt,
-                                   ...)
+    res = openai.ChatCompletion.create(model=fine_tuned_model, prompt=prompt, ...)
     results.append(res["choices"][0]["text"])
 ```
 
 Log your results with a Table:
 
 ```python
-table = wandb.Table(columns=['prompt', 'completion'],
-                    data=list(zip(my_prompts, results)))
+table = wandb.Table(
+    columns=["prompt", "completion"], data=list(zip(my_prompts, results))
+)
 ```
 
 ## Frequently Asked Questions
@@ -180,7 +179,7 @@ Fine-tune details are logged to W&B as artifacts and can be accessed with:
 ```python
 import wandb
 
-ft_artifact = wandb.run.use_artifact('USERNAME/PROJECT/job_details:VERSION')
+ft_artifact = wandb.run.use_artifact("USERNAME/PROJECT/job_details:VERSION")
 ```
 
 where `VERSION` is either:

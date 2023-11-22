@@ -83,7 +83,6 @@ iris = load_iris(as_frame=True)
 df = iris.data.assign(target=iris.target_names[iris.target])
 
 weave.show(df)
-
 ```
 
 An interactive weave dashboard will appear, similar to the animation shown below:

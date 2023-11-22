@@ -35,7 +35,7 @@ Refactor your code to use process-based executions if you see this error message
 
 As an example, suppose you rewrite your code to a Python script called  `train.py`. Add the name of the training script (`train.py`) to your YAML Sweep configuration file (`config.yaml` in this example):
 
-```
+```yaml
 program: train.py
 method: bayes
 metric:
@@ -58,13 +58,13 @@ if _name_ == "_main_":
 
 Navigate to your CLI and initialize a W&B Sweep with wandb sweep:
 
-```
+```shell
 wandb sweep config.yaml
 ```
 
 Make a note of the W&B Sweep ID that is returned. Next, start the Sweep job with [`wandb agent`](../../ref/cli/wandb-agent.md) with the CLI instead of the Python SDK ([`wandb.agent`](../../ref/python/agent.md)). Replace `sweep_ID` in the code snippet below with the Sweep ID that was returned in the previous step:
 
-```
+```shell
 wandb agent sweep_ID
 ```
 
@@ -72,7 +72,7 @@ wandb agent sweep_ID
 
 The following error usually occurs when you do not log the metric that you are optimizing:
 
-```python
+```shell
 wandb: ERROR Error while calling W&B API: anaconda 400 error: 
 {"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
 ```
