@@ -210,6 +210,7 @@ const sidebars = {
             'guides/tables/tables-walkthrough',
             'guides/tables/visualize-tables',
             'guides/tables/tables-gallery',
+            'guides/tables/tables-download',
           ],
         },
         {
@@ -367,6 +368,7 @@ const sidebars = {
             'guides/hosting/sso',
             'guides/hosting/smtp',
             'guides/hosting/slack-alerts',
+            'guides/hosting/scim',
           ],
         },
         // 'guides/hosting/debug',
@@ -752,6 +754,7 @@ const sidebars = {
         'guides/hosting/slack-alerts',
         'guides/hosting/smtp',
         'guides/hosting/env-vars',
+        'guides/hosting/scim',
         {
           type: 'category',
           label: 'ハウツーガイド',
