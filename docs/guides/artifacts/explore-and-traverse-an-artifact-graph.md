@@ -74,7 +74,7 @@ import wandb
 
 api = wandb.Api()
 
-artifact = api.run("entity/project/run_id")
+run = api.run("entity/project/run_id")
 ```
 
 Use the [`logged_artifacts`](../../ref/python/public-api/run.md#logged_artifacts) and [`used_artifacts`](../../ref/python/public-api/run.md#used_artifacts) methods to walk the graph from a given run:
