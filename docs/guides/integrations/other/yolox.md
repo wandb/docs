@@ -16,7 +16,7 @@ Then just use the `--logger wandb` command line argument to turn on logging with
 
 **Note:** `num_eval_imges` controls the number of validation set images and predictions that will be logged to Weights & Biases Tables for model evaluation.
 
-```python
+```shell
 # login to wandb
 wandb login
 

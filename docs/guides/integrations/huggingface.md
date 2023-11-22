@@ -15,13 +15,13 @@ The [Hugging Face Transformers](https://huggingface.co/transformers/) library ma
 ## 🤗 Next-level logging in few lines
 
 ```python
-os.environ["WANDB_PROJECT"] = "<my-amazing-project>" # name your W&B project 
-os.environ["WANDB_LOG_MODEL"] = "checkpoint" # log all model checkpoints
+os.environ["WANDB_PROJECT"] = "<my-amazing-project>"  # name your W&B project
+os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
 
 from transformers import TrainingArguments, Trainer
 
-args = TrainingArguments(... , report_to="wandb") # turn on W&B logging
-trainer = Trainer(... , args=args)
+args = TrainingArguments(..., report_to="wandb")  # turn on W&B logging
+trainer = Trainer(..., args=args)
 ```
 ![Explore your experiment results in the W&B interactive dashboard](@site/static/images/integrations/huggingface_gif.gif)
 
@@ -37,7 +37,7 @@ a) [**Sign up**](https://wandb.ai/site) for a free account
 
 b) Pip install the `wandb` library
 
-c) To login in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+c) To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
 If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)
 
@@ -49,7 +49,7 @@ If you are using Weights and Biases for the first time you might want to check o
   ]}>
   <TabItem value="cli">
 
-```python
+```shell
 pip install wandb
 
 wandb login
@@ -58,7 +58,7 @@ wandb login
   </TabItem>
   <TabItem value="python">
 
-```python
+```notebook
 !pip install wandb
 
 import wandb
@@ -90,14 +90,14 @@ WANDB_PROJECT=amazon_sentiment_analysis
   </TabItem>
   <TabItem value="notebook">
 
-```python
+```notebook
 %env WANDB_PROJECT=amazon_sentiment_analysis
 ```
 
   </TabItem>
   <TabItem value="python">
 
-```python
+```notebook
 import os
 os.environ["WANDB_PROJECT"]="amazon_sentiment_analysis"
 ```
@@ -128,7 +128,7 @@ That's it! Now your models will log losses, evaluation metrics, model topology, 
   ]}>
   <TabItem value="cli">
 
-```python
+```bash
 python run_glue.py \     # run your Python script
   --report_to wandb \    # enable logging to W&B
   --run_name bert-base-high-lr \   # name of the W&B run (optional)
@@ -145,7 +145,7 @@ args = TrainingArguments(
     # other args and kwargs here
     report_to="wandb",  # enable logging to W&B
     run_name="bert-base-high-lr",  # name of the W&B run (optional)
-    logging_steps=1  # how often to log to W&B
+    logging_steps=1,  # how often to log to W&B
 )
 
 trainer = Trainer(
@@ -189,7 +189,8 @@ Use `WANDB_LOG_MODEL` along with `load_best_model_at_end` to upload the best mod
 
 ```python
 import os
-os.environ["WANDB_LOG_MODEL"]="checkpoint"
+
+os.environ["WANDB_LOG_MODEL"] = "checkpoint"
 ```
 
   </TabItem>
@@ -202,7 +203,7 @@ WANDB_LOG_MODEL="checkpoint"
   </TabItem>
   <TabItem value="notebook">
 
-```python
+```notebook
 %env WANDB_LOG_MODEL="checkpoint"
 ```
 
@@ -268,20 +269,20 @@ If you saved your model to W&B Artifacts with `WANDB_LOG_MODEL`, you can downloa
 ```python
 # Create a new run
 with wandb.init(project="amazon_sentiment_analysis") as run:
+    # Pass the name and version of Artifact
+    my_model_name = "model-bert-base-high-lr:latest"
+    my_model_artifact = run.use_artifact(my_model_name)
 
-  # Pass the name and version of Artifact 
-  my_model_name = "model-bert-base-high-lr:latest"
-  my_model_artifact = run.use_artifact(my_model_name)
+    # Download model weights to a folder and return the path
+    model_dir = my_model_artifact.download()
 
-  # Download model weights to a folder and return the path
-  model_dir = my_model_artifact.download()
+    # Load your Hugging Face model from that folder
+    #  using the same model class
+    model = AutoModelForSequenceClassification.from_pretrained(
+        model_dir, num_labels=num_labels
+    )
 
-  # Load your Hugging Face model from that folder
-  #  using the same model class
-  model = AutoModelForSequenceClassification.from_pretrained(
-      model_dir, num_labels=num_labels)
-
-  # Do additional training, or run inference
+    # Do additional training, or run inference
 ```
 
 ### Resume training from a checkpoint 
@@ -294,28 +295,26 @@ last_run_id = "xxxxxxxx"  # fetch the run_id from your wandb workspace
 with wandb.init(
     project=os.environ["WANDB_PROJECT"],
     id=last_run_id,
-    resume="must",) as run:
-    
-  # Connect an Artifact to the run
-  my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
-  my_checkpoint_artifact = run.use_artifact(my_model_name)
-  
-  # Download checkpoint to a folder and return the path
-  checkpoint_dir = my_checkpoint_artifact.download()
-  
-  # reinitialize your model and trainer
-  model = AutoModelForSequenceClassification.from_pretrained(
-      <model_name>, num_labels=num_labels)
-  # your awesome training arguments here.
-  training_args = TrainingArguments(...) 
-  
-  trainer = Trainer(
-      model=model,
-      args=training_args,
-      ...)
-  
-  # make sure use the checkpoint dir to resume training from the checkpoint
-  trainer.train(resume_from_checkpoint=checkpoint_dir) 
+    resume="must",
+) as run:
+    # Connect an Artifact to the run
+    my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
+    my_checkpoint_artifact = run.use_artifact(my_model_name)
+
+    # Download checkpoint to a folder and return the path
+    checkpoint_dir = my_checkpoint_artifact.download()
+
+    # reinitialize your model and trainer
+    model = AutoModelForSequenceClassification.from_pretrained(
+        "<model_name>", num_labels=num_labels
+    )
+    # your awesome training arguments here.
+    training_args = TrainingArguments()
+
+    trainer = Trainer(model=model, args=training_args)
+
+    # make sure use the checkpoint dir to resume training from the checkpoint
+    trainer.train(resume_from_checkpoint=checkpoint_dir)
 ```
 
 ### Custom logging: log and view evaluation samples during training
@@ -327,7 +326,7 @@ Below is the general pattern to add this new callback to the HF Trainer, and fur
 
 ```python
 # Instantiate the Trainer as normal
-trainer = Trainer(...)
+trainer = Trainer()
 
 # Instantiate the new logging callback, passing it the Trainer object
 evals_callback = WandbEvalsCallback(trainer, tokenizer, ...)
@@ -356,6 +355,7 @@ This is because the `Trainer` instance is passed to the callback during initiali
 ```python
 from transformers.integrations import WandbCallback
 import pandas as pd
+
 
 def decode_predictions(tokenizer, predictions):
     labels = tokenizer.batch_decode(predictions.label_ids)
@@ -393,21 +393,21 @@ class WandbPredictionProgressCallback(WandbCallback):
         self.sample_dataset = val_dataset.select(range(num_samples))
         self.freq = freq
 
-
-    def on_evaluate(self, args, state, control,  **kwargs):
+    def on_evaluate(self, args, state, control, **kwargs):
         super().on_evaluate(args, state, control, **kwargs)
         # control the frequency of logging by logging the predictions every `freq` epochs
         if state.epoch % self.freq == 0:
-          # generate predictions
-          predictions = self.trainer.predict(self.sample_dataset)
-          # decode predictions and labels
-          predictions = decode_predictions(self.tokenizer, predictions)
-          # add predictions to a wandb.Table
-          predictions_df = pd.DataFrame(predictions)
-          predictions_df["epoch"] = state.epoch
-          records_table = self._wandb.Table(dataframe=predictions_df)
-          # log the table to wandb
-          self._wandb.log({"sample_predictions": records_table})
+            # generate predictions
+            predictions = self.trainer.predict(self.sample_dataset)
+            # decode predictions and labels
+            predictions = decode_predictions(self.tokenizer, predictions)
+            # add predictions to a wandb.Table
+            predictions_df = pd.DataFrame(predictions)
+            predictions_df["epoch"] = state.epoch
+            records_table = self._wandb.Table(dataframe=predictions_df)
+            # log the table to wandb
+            self._wandb.log({"sample_predictions": records_table})
+
 
 # First, instantiate the Trainer
 trainer = Trainer(
@@ -419,11 +419,11 @@ trainer = Trainer(
 
 # Instantiate the WandbPredictionProgressCallback
 progress_callback = WandbPredictionProgressCallback(
-  trainer=trainer, 
-  tokenizer=tokenizer, 
-  val_dataset=lm_dataset["validation"], 
-  num_samples=10, 
-  freq=2
+    trainer=trainer,
+    tokenizer=tokenizer,
+    val_dataset=lm_dataset["validation"],
+    num_samples=10,
+    freq=2,
 )
 
 # Add the callback to the trainer
@@ -461,7 +461,7 @@ WANDB_SILENT=true
   </TabItem>
   <TabItem value="notebook">
 
-```python
+```notebook
 %env WANDB_WATCH=all
 %env WANDB_SILENT=true
 ```
@@ -476,10 +476,12 @@ The `WandbCallback` that `Trainer` uses will call `wandb.init` under the hood wh
 An example of what you might want to pass to `init` is below. For more details on how to use `wandb.init`, [check out the reference documentation](../../ref/python/init.md).
 
 ```python
-wandb.init(project="amazon_sentiment_analysis", 
-           name="bert-base-high-lr",
-           tags=["baseline", "high-lr"],
-           group="bert")
+wandb.init(
+    project="amazon_sentiment_analysis",
+    name="bert-base-high-lr",
+    tags=["baseline", "high-lr"],
+    group="bert",
+)
 ```
 
 

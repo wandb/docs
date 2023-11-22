@@ -13,9 +13,9 @@ Install W&B and start tracking your machine learning experiments in minutes.
 ## 1. Create an account and install W&B
 Before you get started, make sure you create an account and install W&B:
 
-1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then login to your wandb account.  
+1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then log in to your wandb account.  
 2. Install the wandb library on your machine in a Python 3 environment using [`pip`](https://pypi.org/project/wandb/).  
-<!-- 3. Login to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).   -->
+
 
 The following code snippets demonstrate how to install and log into W&B using the W&B CLI and Python Library:
 
@@ -159,23 +159,6 @@ The image above (click to expand) shows the loss and accuracy that was tracked f
 
 
 ## What's next?
-<!-- ### Get alerts
-
-Get notified by Slack or email if your W&B Run has crashed or with a custom trigger. For example, you can create a trigger to notify you if your loss reports `NaN` or a step in your ML pipeline has completed.
-
-Follow the procedure outlined below to set up an alert: 
-
-1. Turn on Alerts in your W&B [User Settings](https://wandb.ai/settings).
-2. Add [`wandb.alert()`](./guides/runs/alert.md) to your code.
-
-```python
-wandb.alert(title="Low accuracy", text=f"Accuracy {acc} is below threshold {thresh}")
-```
-You will receive an email or Slack alert when your alert criteria is met. For example, the proceeding image demonstrates a Slack alert:
-
-![W&B Alerts in a Slack channel](/images/quickstart/get_alerts.png)
-
-See the [Alerts docs](./guides/runs/alert.md) for more information on how to set up an alert. For more information about setting options, see the [Settings](./guides/app/settings-page/intro.md) page.  -->
 
 Explore the rest of the W&B ecosystem.
 
