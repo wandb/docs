@@ -29,7 +29,7 @@ a) [**Sign up**](https://wandb.ai/site) for a free account
 
 b) Pip install the `wandb` library
 
-c) To login in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+c) To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
 If you are using Weights and Biases for the first time you might want to check out our [quickstart](../../quickstart.md)
 
