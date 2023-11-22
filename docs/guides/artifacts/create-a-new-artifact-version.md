@@ -286,13 +286,17 @@ Putting it all together, the code examples above look like:
 
 ```python
 with wandb.init(job_type="modify dataset") as run:
-	saved_artifact = run.use_artifact("my_artifact:latest") # fetch artifact and input it into your run
-	draft_artifact = saved_artifact.new_draft() # create a draft version
+    saved_artifact = run.use_artifact(
+        "my_artifact:latest"
+    )  # fetch artifact and input it into your run
+    draft_artifact = saved_artifact.new_draft()  # create a draft version
 
-	# modify a subset of files in the draft version
-	draft_artifact.add_file("file_to_add.txt")
-	draft_artifact.remove('dir_to_remove/') 
-	run.log_artifact(artifact) # log your changes to create a new version and mark it as output to your run
+    # modify a subset of files in the draft version
+    draft_artifact.add_file("file_to_add.txt")
+    draft_artifact.remove("dir_to_remove/")
+    run.log_artifact(
+        artifact
+    )  # log your changes to create a new version and mark it as output to your run
 ```
 
   </TabItem>
