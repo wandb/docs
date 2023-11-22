@@ -18,8 +18,8 @@ import TabItem from '@theme/TabItem';
 We treat `/` as a separator for organizing logged panels in the W&B UI. By default, the component of the logged item's name before a `/` is used to define a group of panel called a "Panel Section".
 
 ```python
-wandb.log({'val/loss': 1.1, 'val/acc': 0.3})  
-wandb.log({'train/loss': 0.1, 'train/acc': 0.94})  
+wandb.log({"val/loss": 1.1, "val/acc": 0.3})
+wandb.log({"train/loss": 0.1, "train/acc": 0.94})
 ```
 
 In the [Workspace](../../app/pages/workspaces.md) settings, you can change whether panels are grouped by just the first component or by all components separated by `/`.
@@ -33,8 +33,8 @@ Each time you log images from a step, we save them to show in the UI. Expand the
 If you'd like to log certain metrics in every batch and standardize plots, you can log x axis values that you want to plot with your metrics. Then in the custom plots, click edit and select a custom x-axis.
 
 ```python
-wandb.log({'batch': batch_idx, 'loss': 0.3})
-wandb.log({'epoch': epoch, 'val_acc': 0.94}) 
+wandb.log({"batch": batch_idx, "loss": 0.3})
+wandb.log({"epoch": epoch, "val_acc": 0.94})
 ```
 
 ### How do I log a list of values?
@@ -66,10 +66,13 @@ wandb.log({"losses": wandb.Histogram(losses)})  # converts losses to a histogram
 Multi-line custom chart can be created by using `wandb.plot.line_series()`. You'll need to navigate to the [project page](../../app/pages/project-page.md) to see the line chart. To add a legend to the plot, pass the keys argument within `wandb.plot.line_series()`. For example:
 
 ```python
-wandb.log({"my_plot" : wandb.plot.line_series(
-                         xs = x_data, 
-                         ys = y_data, 
-                         keys = ["metric_A", "metric_B"])}] 
+wandb.log(
+    {
+        "my_plot": wandb.plot.line_series(
+            xs=x_data, ys=y_data, keys=["metric_A", "metric_B"]
+        )
+    }
+)
 ```
 
 You can find more information about Multi-line plots [here](../../track/log/plots.md#basic-charts) under the Multi-line tab.
@@ -91,65 +94,67 @@ import wandb
 import plotly.express as px
 
 # Initialize a new run
-run = wandb.init(
-    project="log-plotly-fig-tables", 
-    name="plotly_html"
-    )    
+run = wandb.init(project="log-plotly-fig-tables", name="plotly_html")
 
 # Create a table
-table = wandb.Table(columns = ["plotly_figure"])
+table = wandb.Table(columns=["plotly_figure"])
 
 # Create path for Plotly figure
 path_to_plotly_html = "./plotly_figure.html"
 
 # Example Plotly figure
-fig = px.scatter(x = [0, 1, 2, 3, 4], y = [0, 1, 4, 9, 16])
+fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
 # Write Plotly figure to HTML
-# Setting auto_play to False prevents animated Plotly 
+# Setting auto_play to False prevents animated Plotly
 # charts from playing in the table automatically
-fig.write_html(path_to_plotly_html, auto_play = False) 
+fig.write_html(path_to_plotly_html, auto_play=False)
 
 # Add Plotly figure as HTML file into Table
 table.add_data(wandb.Html(path_to_plotly_html))
 
 # Log Table
 run.log({"test_table": table})
-wandb.finish()How do I use custom x-axes?
+wandb.finish()
 ```
+
   </TabItem>
   <TabItem value="bokeh">
 
 ```python
 from scipy.signal import spectrogram
-import holoviews as hv 
+import holoviews as hv
 import panel as pn
 from scipy.io import wavfile
 import numpy as np
 from bokeh.resources import INLINE
+
 hv.extension("bokeh", logo=False)
 import wandb
 
+
 def save_audio_with_bokeh_plot_to_html(audio_path, html_file_name):
     sr, wav_data = wavfile.read(audio_path)
-    duration = len(wav_data)/sr
+    duration = len(wav_data) / sr
     f, t, sxx = spectrogram(wav_data, sr)
-    spec_gram = hv.Image((t, f, np.log10(sxx)), ["Time (s)", "Frequency (hz)"]).opts(width=500, height=150, labelled=[])
-    audio = pn.pane.Audio(wav_data, sample_rate=sr, name='Audio', throttle=500)
+    spec_gram = hv.Image((t, f, np.log10(sxx)), ["Time (s)", "Frequency (hz)"]).opts(
+        width=500, height=150, labelled=[]
+    )
+    audio = pn.pane.Audio(wav_data, sample_rate=sr, name="Audio", throttle=500)
     slider = pn.widgets.FloatSlider(end=duration, visible=False)
-    line = hv.VLine(0).opts(color='white')
-    slider.jslink(audio, value='time', bidirectional=True)
-    slider.jslink(line, value='glyph.location')
-    combined = pn.Row(audio, spec_gram * line,  slider).save(html_file_name)
+    line = hv.VLine(0).opts(color="white")
+    slider.jslink(audio, value="time", bidirectional=True)
+    slider.jslink(line, value="glyph.location")
+    combined = pn.Row(audio, spec_gram * line, slider).save(html_file_name)
 
 
-html_file_name = 'audio_with_plot.html'
-audio_path = 'hello.wav'
+html_file_name = "audio_with_plot.html"
+audio_path = "hello.wav"
 save_audio_with_bokeh_plot_to_html(audio_path, html_file_name)
 
 wandb_html = wandb.Html(html_file_name)
-run = wandb.init(project='audio_test')
-my_table = wandb.Table(columns=['audio_with_plot'], data=[[wandb_html], [wandb_html]])
+run = wandb.init(project="audio_test")
+my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
 run.log({"audio_table": my_table})
 run.finish()
 ```
@@ -201,26 +206,23 @@ If you are visualizing your metrics against something other than `Step` on your 
 ****We recommend you bundle your metrics into the same `log()` call. If your code looks like this:
 
 ```python
-wandb.log({"Precision" : precision})
+wandb.log({"Precision": precision})
 ...
-wandb.log({"Recall" : recall})
+wandb.log({"Recall": recall})
 ```
 
 It would be better to log it as:
 
 ```python
-wandb.log({
-    "Precision" : precision,
-    "Recall" : recall
-})
+wandb.log({"Precision": precision, "Recall": recall})
 ```
 
 Alternatively, you can manually control the step parameter and synchronize your metrics in your own code:
 
 ```python
-wandb.log({"Precision" : precision}, step = step)
+wandb.log({"Precision": precision}, step=step)
 ...
-wandb.log({"Recall" : recall}, step = step)
+wandb.log({"Recall": recall}, step=step)
 ```
 
 If the value of `step` is the same in both the calls to `log()`, your metrics will be logged under the same step and be sampled together. Please note that step must be monotonically increasing in each call, otherwise the `step` value is ignored during your call to `log()`.
