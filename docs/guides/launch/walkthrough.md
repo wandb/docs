@@ -22,7 +22,7 @@ Before you get started, ensure you have satisfied the following prerequisites:
     ```bash
     pip install wandb>=0.14.0
     ```
-2. Sign up for a free account at https://wandb.ai/site and then login to your W&B account. 
+2. Sign up for a free account at https://wandb.ai/site and then log in to your W&B account. 
 3. Install Docker. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker. Make sure the docker daemon is running on your machine.
 
 ## Create a launch job
