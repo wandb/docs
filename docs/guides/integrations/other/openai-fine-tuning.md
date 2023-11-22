@@ -93,19 +93,21 @@ The datasets are also visualized as W&B Tables which allows you to explore, sear
 
 ## The fine-tuned model and model versioning
 
+OpenAI gives you an id of the fine-tuned model. Since we don't have access to the model weights, the `WandbLogger` creates a `model_metadata.json` file with all the details (hyperparameters, data file ids, etc.) of the model along with the `fine_tuned_model`` id and is logged as a W&B Artifact. 
 
+This model (metadata) artifact can further be linked to a model in the [W&B Model Registry](../../model_registry/intro.md) and even paired with [W&B Launch](../../launch/intro.md).
 
-
+![](/images/integrations/openai_model_metadata.png)
 
 
 ## Frequently Asked Questions
 
-### How do I share my fine-tune resutls with my team in W&B?
+### How do I share my fine-tune results with my team in W&B?
 
-Sync all your runs to your team account with:
+Log your fine-tune jobs to your team account with:
 
-```shell-session
-openai wandb sync --entity MY_TEAM_ACCOUNT
+```python
+WandbLogger.sync(entity='YOUR_TEAM_NAME')
 ```
 
 ### How can I organize my runs?
@@ -116,14 +118,15 @@ In addition, you can rename your runs, add notes or create tags to group them.
 
 Once you’re satisfied, you can save your workspace and use it to create report, importing data from your runs and saved artifacts (training/validation files).
 
-### How can I access my fine-tune details?
+### How can I access my fine-tuned model?
 
-Fine-tune details are logged to W&B as artifacts and can be accessed with:
+Fine-tuned model ID is logged to W&B as artifacts (`model_metadata.json`) as well config.
 
 ```python
 import wandb
 
-ft_artifact = wandb.run.use_artifact('USERNAME/PROJECT/job_details:VERSION')
+ft_artifact = wandb.run.use_artifact('ENTITY/PROJECT/model_metadata:VERSION')
+artifact_dir = artifact.download()
 ```
 
 where `VERSION` is either:
@@ -132,19 +135,24 @@ where `VERSION` is either:
 * the fine-tune id such as `ft-xxxxxxxxx`
 * an alias added automatically such as `latest` or manually
 
-You can then access fine-tune details through `artifact_job.metadata`. For example, the fine-tuned model can be retrieved with `artifact_job.metadata[`"`fine_tuned_model"]`.
+You can then access `fine_tuned_model` id by reading the downloaded `model_metadata.json` file.
 
 ### What if a fine-tune was not synced successfully?
 
-You can always call again `openai wandb sync` and we will re-sync any run that was not synced successfully.
+If a fine-tune was not logged to W&B successfully, you can use the `overwrite=True` and pass the fine-tune job id:
 
-If needed, you can call `openai wandb sync --id fine_tune_id --force` to force re-syncing a specific fine-tune.
+```python
+WandbLogger.sync(
+    fine_tune_job_id='FINE_TUNE_JOB_ID',
+    overwrite=True,
+)
+```
 
-### Can I track my datasets with W&B?
+### Can I track my datasets and models with W&B?
 
-Yes, you can integrate your entire pipeline to W&B through Artifacts, including creating your dataset, splitting it, training your models and evaluating them!
+The training and validation data are logged automatically to W&B as artifacts. The metadata including the ID for the fine-tuned model is also logged as artifacts.
 
-This will allow complete traceability of your models.
+You can always control the pipeline using low level wandb APIs like `wandb.Artifact`, `wandb.log`, etc. This will allow complete traceability of your data and models.
 
 ![](/images/integrations/open_ai_faq_can_track.png)
 
