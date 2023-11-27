@@ -169,6 +169,10 @@
       "to": "/guides/tables"
     },
     {
+      "from": "/data-vis/tables",
+      "to": "/guides/tables"
+    },
+    {
       "from": "/data-vis/log-tables",
       "to": "/guides/track/log/log-tables"
     },
