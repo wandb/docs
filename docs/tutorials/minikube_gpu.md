@@ -16,13 +16,9 @@ If you want to set up a Minikube cluster for GPU scheduling on a machine with a 
 
 ## Background
 
-If you use Docker queues for workloads running on a single host, there is a compelling reason to use a Kubernetes queue with an agent connected to a local Kubernetes cluster instead: GPU scheduling. Docker queues control how the job is run through `docker run` arguments, which only allow requesting specific GPU on the host or `all` which severely limits the efficiency of parallel workloads. Kubernetes allows you to specify a number of desired GPU and then takes care of the scheduling.
+<!-- Paraphrase commented paragraph below in more clear wording. -->
 
-The [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) makes it easy to run GPU-enabled workflows on Docker. Before, setting up a local Kubernetes cluster with GPU scheduling could take considerable time and effort. Minikube, one of the most popular tools for running single node Kubernetes clusters, released [support for GPU scheduling](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/) 🎉. 
-
-In this tutorial, we will take advantage of Minikube and GPU scheduling to schedule anr run GPU workloads.
-
-
+The [Nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) has made it easy to run GPU-enabled workflows on Docker. One limitation is a lack of native support for scheduling GPU by volume. If you want to use a GPU with the `docker run` command you must either request specific GPU by ID or all GPU present, which makes many distributed GPU enabled workloads impractical. Kubernetes offers support for scheduling by a volume request, but setting up a local Kubernetes cluster with GPU scheduling can take considerable time and effort, until recently. Minikube, one of the most popular tools for running single node Kubernetes clusters, recently released [support for GPU scheduling](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/) 🎉 In this tutorial, we will create a Minikube cluster on a multi-GPU machine and launch concurrent stable diffusion inference jobs to the cluster using W&B Launch 🚀
 
 ## Prerequisites
 
