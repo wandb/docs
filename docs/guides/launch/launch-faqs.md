@@ -142,6 +142,10 @@ Queues are scoped to a team of users. You define the owning entity when you crea
  “The following kubernetes manifest will create a role named
   `wandb-launch-agent` in the`wandb`namespace. This role will allow the agent to create pods, configmaps, secrets, and pods/log in the `wandb` namespace. The `wandb-cluster-role` will allow the agent to create pods, pods/log, secrets, jobs, and jobs/status in any namespace of your choice.”
 
+### Does the Launch agent automatically create image pull secrets for private images in Kubernetes?
+
+Generally, it is preferred to configure cluster or node level access to your registry. However, when running a job in Kubernetes, the Launch agent will automatically create an image pull secret for images in Google Artifact Regsitry and AWS Elastic Container Registry.
+
 ### Does Launch support parallelization?  How can I limit the resources consumed by a job?
    
   An individual Launch agent is configured with a `max_jobs` parameter that determines how many jobs that agent can be running simultaneously. Additionally, you can point to as many agents as you want at a particular queue, so long as those agents are connected to an infrastructure that they can launch into.
