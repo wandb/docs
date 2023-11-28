@@ -48,6 +48,3 @@ Tell the story of a project, which you and others can reference later to underst
 
 See the [Learning Dexterity End-to-End Using W&B Reports](https://bit.ly/wandb-learning-dexterity) for an example of how W&B Reports were used to explore how the OpenAI Robotics team used W&B Reports to run massive machine learning projects.
 
-<!-- Once you have [experiments in W&B](../../quickstart.md), easily visualize results in reports. Here's a quick overview video. -->
-
-<!-- {% embed url="https://www.youtube.com/watch?v=o2dOSIDDr1w" %} -->

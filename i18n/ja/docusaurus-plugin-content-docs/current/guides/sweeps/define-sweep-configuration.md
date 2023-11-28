@@ -466,7 +466,6 @@ early_terminate:
 
 ### `command` <a href="#command" id="command"></a>
 
-<!-- [`wandb agent`](../../ref/cli/wandb-agent.md) で作成されたエージェントは、デフォルトで以下の形式のコマンドを受信します: -->
 
 <Tabs
   defaultValue="unix"
