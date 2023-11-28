@@ -97,10 +97,10 @@ with run:
 Create customized workspaces for team collaboration. There are two types of workspaces:
 
 * **Primary workspace**: The initial workspace team members see. A bold **Primary** label appears next to the name of primary workspaces.
-* **Published workspace**: Publish a [draft](#workspace-modes) workspace that you can share with your team. When you publish a workspace you can either overwrite an existing workspace or create an entirely new version. For more information, see [Publish a draft workspace](#publish-a-draft-workspace).
+* **Published workspace**: Published workspaces are accessible and viewable by all team members. Use  published workspaces to show the latest configurations and settings made to that workspace. 
 
 
-You can branch off of a primary workspace or your can duplicate the primary workspace and branch off from the duplicate version. For more information on how to edit a branched version of a primary workspace, see [Edit drafts](#edit-drafts). For information on how to duplicate a primary workspace, see [Create a new workspace](#create-a-new-workspace).
+You can branch off of a primary workspace or your can duplicate the primary workspace and branch off from the duplicate version. For more information on how to edit a branched version of a primary workspace, see [Edit drafts](#edit-drafts). For information on how to duplicate a primary workspace, see [Create a new workspace](#create-a-new-workspace-based-off-the-primary-workspace).
 
 Access workspaces created by team member with a unique shareable URL and can be navigated through the workspace menu. For more information, see [Share a workspace version](#share-a-workspace-version).
 
@@ -121,8 +121,7 @@ For example, in the following image a user renamed a workspace draft that branch
 ![](/images/app_ui/workspace_versions_initial_branched.png)
  
 
-
-### Create a new workspace 
+### Create a new workspace based off the primary workspace
 Create a workspace that is cloned off of the primary workspace. In other words, work on a workspace that mirrors the original workspace without modifying the original workspace. The following describes how to create a new workspace:
 
 1. Navigate to the project workspace
@@ -134,13 +133,20 @@ You can create draft versions of your newly created workspace, similarly to bran
 
 
 ### Publish a workspace
-Once a draft is created you can keep it in draft state if it is a work-in-progress, or you can publish it others can see it from the dropdown menu. A published workspace is the final, collaborative state of a workspace. Published workspaces are accessible and viewable by all team members. Published workspaces reflect the latest configurations and settings made to that workspace. A draft is a personal, editable version of a workspace.
+A published workspace is the final, collaborative state of a workspace. 
 
-Click on the **Publish** button located in the upper right corner of the project to publish a workspace draft. 
+You can publish your workspace in one of two ways:
+* **Publish and override**: This will merge your draft back into the parent workspace that it was created from. This option will override the parent workspace with your draft changes.
+* **Publish as a new workspace**: This will create a new workspace.
 
-There are two options on how your draft is published:
-* Publish and override: This will merge your draft back into the parent workspace that it was created from. This option will override the parent workspace with your draft changes.
-* Publish as a new workspace: This will create a new workspace.
+Complete the following steps to publish a workspace:
+
+1. Navigate to your draft workspace
+2. Click on the **Publish changes** button located in the upper right corner of the project.
+![](/images/app_ui/workspaces_publish_button.png)
+3. A modal titled **Publish this draft** will appear. Based on your use case, select either **Publish and override** or **Publish as a new workspace**.
+![](/images/app_ui/workspaces_publish_types.png)
+
 
 
 <!-- 1. Navigate to the project workspace
