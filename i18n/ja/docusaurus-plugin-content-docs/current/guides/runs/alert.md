@@ -121,7 +121,7 @@ wandb.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> lossがNaNになって�
 
 
 
-#### [W&Bサーバー](../hosting/intro.md)でアラートを有効にする方法は？
+
 
 
 
