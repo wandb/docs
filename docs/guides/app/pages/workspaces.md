@@ -93,26 +93,64 @@ with run:
 
 
 
-## Create multiple workspace versions (Beta)
-Save custom versions of a workspace that belongs to you or someone on your team. The default workspace created by the owner of the project is tagged with a **Primary** label. 
+## Create multiple workspace views (Beta)
+Create customized workspaces for team collaboration. There are two types of workspaces:
+
+* **Primary workspace**: The initial workspace team members see. A bold **Primary** label appears next to the name of primary workspaces.
+* **Published workspace**: Publish a [draft](#workspace-modes) workspace that you can share with your team. When you publish a workspace you can either overwrite an existing workspace or create an entirely new version. For more information, see [Publish a draft workspace](#publish-a-draft-workspace).
 
 
-### Create a new workspace version
-A new version of a workspace is automatically created for you when you land on a project workspace that you do not own. This workspace version branches off the primary, default workspace version saved by the entity that owns the project. In other words, by default, you work on a workspace that mirrors the original workspace.
+You can branch off of a primary workspace or your can duplicate the primary workspace and branch off from the duplicate version. For more information on how to edit a branched version of a primary workspace, see [Edit drafts](#edit-drafts). For information on how to duplicate a primary workspace, see [Create a new workspace](#create-a-new-workspace).
 
-For example, in the following image a user renamed the automatically created workspace that branched off the **Primary** workspace to **DataScience-Member-initial-exploration**:
+Access workspaces created by team member with a unique shareable URL and can be navigated through the workspace menu. For more information, see [Share a workspace version](#share-a-workspace-version).
+
+### Workspace modes
+A workspace can exist in one of two modes: View-only or Draft mode.
+
+* **View-Only Mode**: Use View-Only mode to explore and analyze a workspace's layout and data without overwriting the original workspace. In other words, in View-Only mode you can not add panels, create sections, or adjust workspace settings.
+* **Draft Mode**: The draft version is a clone of the original workspace. In draft mode you can make any changes you want, without changing the original workspace your draft was cloned from. All modifications you make in your draft are saved to this draft. Use draft mode as a sandbox environment for experimentation and refinement. 
+
+
+### Edit drafts
+Use draft workspaces to modify panels and settings without impacting the published workspace. Drafts are unique to each user and can be shared for collaboration but remain private until published. Draft workspaces have a pencil label next to the name of the workspace. 
+
+A draft workspace is automatically created for you when you land on a project workspace that you do not own. This workspace version branches off the primary, default workspace version saved by the entity that owns the project. In other words, by default, you work on a workspace that mirrors the original workspace. 
+
+For example, in the following image a user renamed a workspace draft that branched off the Primary workspace to **DataScience-Member-initial-exploration**:
 
 ![](/images/app_ui/workspace_versions_initial_branched.png)
  
 
+
+### Create a new workspace 
+Create a workspace that is cloned off of the primary workspace. In other words, work on a workspace that mirrors the original workspace without modifying the original workspace. The following describes how to create a new workspace:
+
 1. Navigate to the project workspace
+2. Click on the hamburger menu in the upper left corner, next to the name of the workspace.
+3. From the dropdown, click on **New workspace**.
+
+
+You can create draft versions of your newly created workspace, similarly to branched workspace versions made on the Primary workspace. See the previous section, [Edit drafts](#edit-drafts), for more information. 
+
+
+### Publish a workspace
+Once a draft is created you can keep it in draft state if it is a work-in-progress, or you can publish it others can see it from the dropdown menu. A published workspace is the final, collaborative state of a workspace. Published workspaces are accessible and viewable by all team members. Published workspaces reflect the latest configurations and settings made to that workspace. A draft is a personal, editable version of a workspace.
+
+Click on the **Publish** button located in the upper right corner of the project to publish a workspace draft. 
+
+There are two options on how your draft is published:
+* Publish and override: This will merge your draft back into the parent workspace that it was created from. This option will override the parent workspace with your draft changes.
+* Publish as a new workspace: This will create a new workspace.
+
+
+<!-- 1. Navigate to the project workspace
 2. Click on the name of the workspace
-3. From the dropdown, select **New workspace**
+3. From the dropdown, select **New workspace** -->
 
-![](/images/app_ui/create_manual_version.png)
+<!-- ![](/images/app_ui/create_manual_version.png) -->
 
 
-### View workspace versions
+### View workspaces
 Click on the name of the workspace to view workspace versions. A dropdown will appear that shows workspace versions and their lineage. Each workspace version created contains information of the workspace version that it was created from, including:
 
 * The original workspace that the current workspace version is based off of
@@ -121,7 +159,7 @@ Click on the name of the workspace to view workspace versions. A dropdown will a
 
 
 
-### Share your workspace version
+### Share a workspace version
 Share your customized workspace with your team. 
 
 1. Navigate to the project workspace
@@ -132,22 +170,12 @@ Share your customized workspace with your team.
 Once you have the URL of the workspace version, share that URL to your team. 
 
 
-<!-- ### Delete workspace versions -->
-
-## Read-only mode
-Create a duplicate version of a workspace to work off of if you have read-only access to that workspace.  To create a duplicate version, you will need to a *Draft* of that workspace. A draft workspace is a forked duplicate of a workspace.
 
 
-
-They do this by explicitly clicking Edit workspace in the top right. 
-
-### Create a draft
-1. Navigate to the workspace you want to work off of.
-2. Select **Edit workspace** in the top right of the workspace.
 
 <!-- ![](/images/app_ui/image.png) -->
 
-This will create a draft workspace. 
 
-### Publish a draft
+
+
 
