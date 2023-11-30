@@ -6,12 +6,11 @@ import TabItem from '@theme/TabItem';
 Set up W&B Launch on a Minikube cluster that can schedule and run GPU workloads. 
 
 :::info
-This tutorial is intended to guide users with direct access to a machine with multiple GPU. In other words, this tutorial is not intended for users who rent a cloud machine per hour.
+This tutorial is intended to guide users with direct access to a machine that has multiple GPUs. This tutorial is not intended for users who rent a cloud machine.
 
-If you want to setup a Minikube cluster on a cloud machine, we recommend you create a Kubernetes cluster with GPU support using your cloud provider’s tools. AWS, GCP, Azure, Coreweave, and other cloud providers have tools to create Kubernetes clusters with GPU support.
+W&B recommends you create a Kubernetes cluster with GPU support that uses your cloud provider, if you want to set up a minikube cluster on a cloud machine. For example, AWS, GCP, Azure, Coreweave, and other cloud providers have tools to create Kubernetes clusters with GPU support.
 
-If you want to set up a Minikube cluster for GPU scheduling on a machine with a single GPU, we would recommend you use a Launch [Docker queue](/guides/launch/setup-launch-docker) instead. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
-
+W&B recommends you use a [Launch Docker queue](/guides/launch/setup-launch-docker) if you want to set up a minikube cluster for scheduling GPUs on a machine that has a single GPU. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
 :::
 
 ## Background
