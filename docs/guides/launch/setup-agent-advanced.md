@@ -75,7 +75,7 @@ To connect the launch agent to a container registry, you will need to provide ad
 
 
 :::note
-Launch agents support *pulling* from any container registry to which the nodes the agent is running on have access, including private Dockerhub, Jfrog, Quay, etc.  *Pushing* images to registries is currently only supported for ECR, ACR, and GCR.
+Launch agents support *pulling* from any container registry to which the nodes the job is running on have access, including private Dockerhub, JFrog, Quay, etc.  *Pushing* images to registries is currently only supported for ECR, ACR, and GCR.
 :::
 
 ### Agent configuration
