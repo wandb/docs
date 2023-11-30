@@ -15,12 +15,11 @@ In the simplest use case, you provide an image-based launch job that is executed
 
 
 ## Builders
-Launch agents build images for W&B artifacts and Git repository sourced jobs. This means that the launch agent config file (`launch-config.yaml`) must have a builder option specified. W&B Launch supports two builders: Kaniko and Docker. 
-
-We suggest that you use either Kaniko or Docker based on the following scenarios:
+Launch agents can build images from W&B artifacts and Git repository sourced jobs. This means that ML engineers can rapidly iterate over code without needing to rebuild Docker images themselves.  To allow this builder behavior, the launch agent config file (`launch-config.yaml`) must have a builder option specified. W&B Launch supports two builders, Kaniko and Docker, along with a `noop` option that will tell the agent to only use prebuilt images.
 
 * Kaniko: Use Kaniko when the agent polls launch queues in a Kubernetes cluster
-* Docker: Use Docker for all other cases.
+* Docker: Use Docker for all other cases in which you want to build images automatically.
+* Noop: Use when you *only* want to use prebuilt images. (Both Kaniko and Docker builders can use prebuilt images or build new ones.)
 
 ### Docker
 We recommend that you use the Docker builder if you want the agent to build images on a local machine (that has Docker installed). Specify the Docker builder in the launch agent config with the builder key. 
@@ -64,15 +63,20 @@ builder:
 The Kaniko builder requires permissions to put data into cloud storage (such as Amazon S3) see the [Agent permissions](#agent-permissions) section for more information.
 :::
 
-## Connect an agent to a cloud registry
-You can connect the launch agent to a cloud container registry such Amazon Elastic Container Registry (Amazon ECR), Google Artifact Registry on GCP, or Azure Container Registry. The following describes common use cases as to why you might want to connect the launch agent to a cloud container registry:
+## Connect an agent to a container registry
+You can connect the launch agent to a container registry such Amazon Elastic Container Registry (Amazon ECR), Google Artifact Registry on GCP, or Azure Container Registry. The following describes common use cases as to why you might want to connect the launch agent to a cloud container registry:
 
 - you do not want to store images you are building on your local machine
 - you want to share images across multiple machines
 - if the agent builds an image for you and you use a cloud compute resource such as Amazon SageMaker or VertexAI.
 
 
-To connect the launch agent to a cloud container registry, you will need to provide additional information about the cloud environment and registry you want to use in the launch agent config. In addition, you will need to grant the agent permissions within the cloud environment to interact with required components based on your use case.
+To connect the launch agent to a container registry, you will need to provide additional information about the environment and registry you want to use in the launch agent config. In addition, you will need to grant the agent permissions within the environment to interact with required components based on your use case. 
+
+
+:::note
+Launch agents support *pulling* from any container registry the nodes the job is running on have access to, including private Dockerhub, JFrog, Quay, etc.  *Pushing* images to registries is currently only supported for ECR, ACR, and GCR.
+:::
 
 ### Agent configuration
 Within your launch agent config (`launch-config.yaml`), provide the name of the target resource environment and the container registry for the `environment` and `registry` keys, respectively.
