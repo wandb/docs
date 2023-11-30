@@ -19,7 +19,7 @@ Launch agents can build images from W&B artifacts and Git repository sourced job
 
 * Kaniko: Use Kaniko when the agent polls launch queues in a Kubernetes cluster
 * Docker: Use Docker for all other cases in which you want to build images automatically.
-* Noop: Use when you want to pull prebuilt images.
+* Noop: Use when you *only* want to use prebuilt images. (Both other builders can use prebuilt images or build new ones.)
 
 ### Docker
 We recommend that you use the Docker builder if you want the agent to build images on a local machine (that has Docker installed). Specify the Docker builder in the launch agent config with the builder key. 
