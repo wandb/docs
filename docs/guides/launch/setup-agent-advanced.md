@@ -128,7 +128,7 @@ registry:
   # image-name: my-image-name
 ```
 
-See the [`google-auth` documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default for more information on how to configure default GCP credentials.
+See the [`google-auth` documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) for more information on how to configure default GCP credentials.
 
   </TabItem>
   <TabItem value="azure">
