@@ -3,7 +3,76 @@ displayed_sidebar: default
 ---
 
 # Advanced queue set up
+The following page describes how to configure additional launch queue options.
 
+## Set up queue allowlisting (Beta)
+Administer and manage guardrails on compute consumption with Queue Config Templates. Set defaults, minimums, and maximum values for fields such as memory consumption, GPU, and runtime duration.
+
+After you configure a queue with config templates, members of your team can alter fields you defined only within the specified range you defined.
+
+### Enable queue config templates
+1. Navigate to your team project's settings in the W&B App.
+2. Scroll down until you reach the **Beta Features** section.
+3. Toggle the **Enable the Launch config allow listing UI**.
+
+![](/images/launch/toggle_allow_listing.png)
+
+### Configure queue template
+You can configure a queue template on an existing queue or create a new queue.  
+
+1. Navigate to the Launch App at [https://wandb.ai/launch](https://wandb.ai/launch).
+2. Select **View queue** next to the name of the queue you want to add a template to.
+3. Select the **Config** tab. This will show information about your queue such as when the queue was created, the queue config, and existing launch-time overrides.
+4. Navigate to the **Queue config** section.
+5. Identify the config key-values you want to create a template for. 
+6. Replace the value in the config with a template field. Template fields take the form of `{{variable-name}}`. 
+:::tip
+You can provide any value within the template. W&B suggests you use a variable name that is easy to understand.
+:::
+7. Click on the **Parse configuration** button. When you parse your configuration, W&B will automatically create tiles below the queue config for each template you created.
+8. For each tile generated, you must first specify the data type (string, integer, or float) the queue config can allow. To do this, select the data type from the **Type** dropdown menu.
+9. Based on your data type, complete the fields that appear within each tile.
+10. Click on **Save config**.
+
+
+For example, suppose you want to create a template that limits which AWS instances your team can use. Before you add a template field, your queue config might look something similar to:
+
+```yaml title="launch config"
+RoleArn: arn:aws:iam:region:account-id:resource-type/resource-id
+ResourceConfig:
+  InstanceType: ml.m4.xlarge
+  InstanceCount: 1
+  VolumeSizeInGB: 2
+OutputDataConfig:
+  S3OutputPath: s3://bucketname
+StoppingCondition:
+  MaxRuntimeInSeconds: 3600
+```
+
+When you add a template field for the `InstanceType`, your config will look like:
+
+```yaml title="launch config"
+RoleArn: arn:aws:iam:region:account-id:resource-type/resource-id
+ResourceConfig:
+  InstanceType: {{aws-instance}}
+  InstanceCount: 1
+  VolumeSizeInGB: 2
+OutputDataConfig:
+  S3OutputPath: s3://bucketname
+StoppingCondition:
+  MaxRuntimeInSeconds: 3600
+```
+
+
+Next, you click on **Parse configuration**. A new tile labeled `aws-instance` will appear underneath the **Queue config**. 
+
+From there, you select String as the datatype from the **Type** dropdown. This will populate fields where you can specify values a user can choose from. For example, in the following image the Admin of the team configured two different AWS instance types that users can choose from (`ml.m4.xlarge` and `ml.p3.xlarge`):
+
+![](/images/launch/aws_template_example.png)
+
+
+
+## Dynamically configure launch jobs
 Queue configs can be dynamically configured using macros that are evaluated when the agent dequeues a job from the queue. You can set the following macros:
 
 | Macro             | Description                                           |
@@ -38,7 +107,6 @@ The following JSON snippet demonstrates how to specify the TensorFlow base image
 
 ```json title="Queue config"
 {
-    ... rest of queue configuration
     "builder": {
         "accelerator": {
             "base_image": "tensorflow/tensorflow:latest-gpu"
