@@ -171,10 +171,10 @@ Verify that your access tokens have required set of permissions to trigger your 
 
   ```
 :::note
-The `event_type` key in the automation payload must match the `types` field in the GitHub workflow YAML file.
+The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
 :::
 
-  Where template strings render depending on the event or model version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
+  Where template strings render depend on the event or model version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
 
   ```json
   ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
