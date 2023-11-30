@@ -142,20 +142,23 @@ The following tabs demonstrate example payloads based on common use cases. Withi
   ]}>
   <TabItem value="github">
 
-  
+:::info
+Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
+:::
+
   Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
 
   ```yaml
   on:
     repository_dispatch:
-      types: ADD_ARTIFACT_ALIAS
+      types: BUILD_AND_DEPLOY
   ```
 
   The payload for the repository might look something like:
 
   ```json
   {
-    "event_type": "${event_type}",
+    "event_type": "BUILD_AND_DEPLOY",
     "client_payload": 
     {
       "event_author": "${event_author}",
@@ -169,7 +172,11 @@ The following tabs demonstrate example payloads based on common use cases. Withi
 
   ```
 
-  Where template strings render depending on the event or artifact version the automation is configured for. `${event_type}` will render as an "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
+:::note
+The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
+:::
+
+  The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
 
   ```json
   ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
