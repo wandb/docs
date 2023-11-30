@@ -15,11 +15,11 @@ In the simplest use case, you provide an image-based launch job that is executed
 
 
 ## Builders
-Launch agents can build images from W&B artifacts and Git repository sourced jobs, allowing ML engineers to rapidly iterate over code without needing to rebuild Docker images themselves.  To allow this builder behavior, the launch agent config file (`launch-config.yaml`) must have a builder option specified. W&B Launch supports two builders, Kaniko and Docker, along with a `noop` option that will tell the agent to only use prebuilt images.
+Launch agents can build images from W&B artifacts and Git repository sourced jobs. This means that ML engineers can rapidly iterate over code without needing to rebuild Docker images themselves.  To allow this builder behavior, the launch agent config file (`launch-config.yaml`) must have a builder option specified. W&B Launch supports two builders, Kaniko and Docker, along with a `noop` option that will tell the agent to only use prebuilt images.
 
 * Kaniko: Use Kaniko when the agent polls launch queues in a Kubernetes cluster
 * Docker: Use Docker for all other cases in which you want to build images automatically.
-* Noop: Use when you *only* want to use prebuilt images. (Both other builders can use prebuilt images or build new ones.)
+* Noop: Use when you *only* want to use prebuilt images. (Both Kaniko and Docker builders can use prebuilt images or build new ones.)
 
 ### Docker
 We recommend that you use the Docker builder if you want the agent to build images on a local machine (that has Docker installed). Specify the Docker builder in the launch agent config with the builder key. 
