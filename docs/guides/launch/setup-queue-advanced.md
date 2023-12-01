@@ -5,7 +5,7 @@ displayed_sidebar: default
 # Advanced queue set up
 The following page describes how to configure additional launch queue options.
 
-## Set up queue allowlisting (Beta)
+## Set up queue config templates (Beta)
 Administer and manage guardrails on compute consumption with Queue Config Templates. Set defaults, minimums, and maximum values for fields such as memory consumption, GPU, and runtime duration.
 
 After you configure a queue with config templates, members of your team can alter fields you defined only within the specified range you defined.
@@ -54,7 +54,7 @@ When you add a template field for the `InstanceType`, your config will look like
 ```yaml title="launch config"
 RoleArn: arn:aws:iam:region:account-id:resource-type/resource-id
 ResourceConfig:
-  InstanceType: {{aws-instance}}
+  InstanceType: "{{aws_instance}}"
   InstanceCount: 1
   VolumeSizeInGB: 2
 OutputDataConfig:
@@ -66,7 +66,7 @@ StoppingCondition:
 
 Next, you click on **Parse configuration**. A new tile labeled `aws-instance` will appear underneath the **Queue config**. 
 
-From there, you select String as the datatype from the **Type** dropdown. This will populate fields where you can specify values a user can choose from. For example, in the following image the Admin of the team configured two different AWS instance types that users can choose from (`ml.m4.xlarge` and `ml.p3.xlarge`):
+From there, you select String as the datatype from the **Type** dropdown. This will populate fields where you can specify values a user can choose from. For example, in the following image the admin of the team configured two different AWS instance types that users can choose from (`ml.m4.xlarge` and `ml.p3.xlarge`):
 
 ![](/images/launch/aws_template_example.png)
 
