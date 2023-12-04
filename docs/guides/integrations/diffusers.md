@@ -10,7 +10,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/pixart-alpha-diffusers.ipynb"></CTAButtons>
 
-🤗 Diffusers is the go-to library for state-of-the-art pretrained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization and configuration managaement to interactive centralized dashboards without compromising that ease of use.
+[🤗 Diffusers](https://huggingface.co/docs/diffusers) is the go-to library for state-of-the-art pretrained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization and configuration managaement to interactive centralized dashboards without compromising that ease of use.
 
 ## Next-level logging in just 2 lines
 
@@ -115,9 +115,13 @@ images = pipeline(
 |:--:| 
 | **An example of how the results of your experiment are logged.** |
 
+:::info
+The arguments passed to the `autolog` function is just `init` which accepts a dictionary of keywork arguments that would be passed to [`wandb.init()`](https://docs.wandb.ai/ref/python/init).
+:::
+
 | ![An example of how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-1.gif) | 
 |:--:| 
-| **An example of how the results of your experiment are logged.** |
+| **An example of how the results of multiple experiments are logged in your workspace.** |
 
 | ![An example of how the autologger logs the configs of your experiment](@site/static/images/integrations/diffusers-autolog-3.gif) | 
 |:--:| 
