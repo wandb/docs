@@ -10,7 +10,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/pixart-alpha-diffusers.ipynb"></CTAButtons>
 
-[🤗 Diffusers](https://huggingface.co/docs/diffusers) is the go-to library for state-of-the-art pretrained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization and configuration managaement to interactive centralized dashboards without compromising that ease of use.
+[🤗 Diffusers](https://huggingface.co/docs/diffusers) is the go-to library for state-of-the-art pretrained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization, pipeline architecture, and configuration managaement to interactive centralized dashboards without compromising that ease of use.
 
 ## Next-level logging in just 2 lines
 
@@ -80,7 +80,7 @@ pip install --upgrade diffusers transformers accelerate wandb
 
 ## Weights & Biases Autologger for Diffusers
 
-This section demonstrates a typical text-conditional image generation workflow using the [`LatentConsistencyModelPipeline`](https://huggingface.co/docs/diffusers/v0.23.1/en/api/pipelines/latent_consistency_models). The autologger automatically logs the prompts, negative prompts, generated images, along with all associated configs for the experiment to Weights & Biases.
+This section demonstrates a typical text-conditional image generation workflow using the [`LatentConsistencyModelPipeline`](https://huggingface.co/docs/diffusers/v0.23.1/en/api/pipelines/latent_consistency_models). The autologger automatically logs the prompts, negative prompts, generated images, pipeline architecture, along with all associated configs for the experiment to Weights & Biases.
 
 ```python
 import torch
@@ -110,6 +110,8 @@ images = pipeline(
     num_inference_steps=10,
 )
 ```
+
+Calling the `autolog` creates a [W&B run](https://docs.wandb.ai/guides/runs). All subsequent pipeline calls are therefore registered and their inputs and outputs are logged to the run. The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`](https://docs.wandb.ai/guides/tables) while all other configs associated with the experiment including seed and the pipeline architecture are stored in the config section for the run. The generated media are also logged in [media panels](https://docs.wandb.ai/guides/track/log/media) in the run.
 
 | ![An example of how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-4.gif) | 
 |:--:| 
