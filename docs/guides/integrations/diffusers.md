@@ -4,10 +4,27 @@ displayed_sidebar: default
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Hugging Face Diffusers
 
-🤗 Diffusers is the go-to library for state-of-the-art pretrained diffusion models for generating images, audio, and even 3D structures of molecules. Whether you’re looking for a simple inference solution or want to train your own diffusion model, 🤗 Diffusers is a modular toolbox that supports both. 🤗 Diffusers is designed with a focus on [usability over performance](https://huggingface.co/docs/diffusers/v0.23.1/en/conceptual/philosophy#usability-over-performance), [simple over easy](https://huggingface.co/docs/diffusers/v0.23.1/en/conceptual/philosophy#simple-over-easy), and [customizability over abstractions](https://huggingface.co/docs/diffusers/v0.23.1/en/conceptual/philosophy#tweakable-contributorfriendly-over-abstraction).
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/pixart-alpha-diffusers.ipynb"></CTAButtons>
+
+🤗 Diffusers is the go-to library for state-of-the-art pretrained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization and configuration managaement to interactive centralized dashboards without compromising that ease of use.
+
+## Next-level logging in just 2 lines
+
+Log all the prompts, negative prompts, generated media, and configs associated with your experiment by simply including 2 lines of code.
+
+```python
+# import the autolog function
+from wandb.integration.diffusers import autolog
+
+# call the autolog function
+autolog(init=dict(project="diffusers-logging"))
+```
+
+![This gif shows how your workspace would look with multiple experiments](@site/static/images/integrations/diffusers-autolog-1.gif)
 
 ## Getting Started
 
@@ -74,10 +91,6 @@ images = pipeline(
 | ![This gif shows how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-2.gif) | 
 |:--:| 
 | **This gif shows how the results of your experiment are logged.** |
-
-| ![This gif shows how your workspace would look with multiple experiments](@site/static/images/integrations/diffusers-autolog-1.gif) | 
-|:--:| 
-| **This gif shows how your workspace would look with multiple experiments.** |
 
 | ![This gif shows how the autologger logs the configs of your experiment](@site/static/images/integrations/diffusers-autolog-3.gif) | 
 |:--:| 
