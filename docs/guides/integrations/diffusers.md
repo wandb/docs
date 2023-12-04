@@ -17,14 +17,40 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 Log all the prompts, negative prompts, generated media, and configs associated with your experiment by simply including 2 lines of code.
 
 ```python
+import torch
+from diffusers import DiffusionPipeline
+
 # import the autolog function
 from wandb.integration.diffusers import autolog
 
-# call the autolog function
-autolog(init=dict(project="diffusers-logging"))
+# call the autologger before calling the pipeline
+autolog(init=dict(project="diffusers_logging"))
+
+# Initialize the diffusion pipeline
+pipeline = DiffusionPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
+).to("cuda")
+
+# Define the prompts, negative prompts, and seed.
+prompt = [
+    "a photograph of an astronaut riding a horse",
+    "a photograph of a dragon"
+]
+negative_prompt = ["ugly, deformed", "ugly, deformed"]
+generator = torch.Generator(device="cpu").manual_seed(10)
+
+# call the pipeline to generate the images
+images = pipeline(
+    prompt,
+    negative_prompt=negative_prompt,
+    num_images_per_prompt=2,
+    generator=generator,
+)
 ```
 
-![This gif shows how your workspace would look with multiple experiments](@site/static/images/integrations/diffusers-autolog-1.gif)
+| ![An example of how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-2.gif) | 
+|:--:| 
+| **An example of how the results of your experiment are logged.** |
 
 ## Getting Started
 
@@ -54,7 +80,7 @@ pip install --upgrade diffusers transformers accelerate wandb
 
 ## Weights & Biases Autologger for Diffusers
 
-This section demonstrates a typical text-conditional image generation workflow using the [`StableDiffusionPipeline`](https://huggingface.co/docs/diffusers/v0.23.1/en/api/pipelines/stable_diffusion/text2img). The autologger automatically logs the prompts, negative prompts, generated images, along with all associated configs for the experiment to Weights & Biases.
+This section demonstrates a typical text-conditional image generation workflow using the [`LatentConsistencyModelPipeline`](https://huggingface.co/docs/diffusers/v0.23.1/en/api/pipelines/latent_consistency_models). The autologger automatically logs the prompts, negative prompts, generated images, along with all associated configs for the experiment to Weights & Biases.
 
 ```python
 import torch
@@ -62,41 +88,44 @@ from diffusers import DiffusionPipeline
 from wandb.integration.diffusers import autolog
 
 
-# Initialize the diffusion pipeline
-pipeline = DiffusionPipeline.from_pretrained(
-    "runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16
-).to("cuda")
+# call the autologger before calling the pipeline
+autolog(init=dict(project="diffusers_logging"))
+
+# Initialize the diffusion pipeline for latent consistency model
+pipeline = DiffusionPipeline.from_pretrained("SimianLuo/LCM_Dreamshaper_v7")
+pipeline = pipeline.to(torch_device="cuda", torch_dtype=torch.float32)
 
 # Define the prompts, negative prompts, and seed.
 prompt = [
     "a photograph of an astronaut riding a horse",
     "a photograph of a dragon"
 ]
-negative_prompt = ["ugly, deformed", "ugly, deformed"]
 generator = torch.Generator(device="cpu").manual_seed(10)
-
-# call the autologger before calling the pipeline
-autolog(init=dict(project="diffusers_logging"))
 
 # call the pipeline to generate the images
 images = pipeline(
     prompt,
-    negative_prompt=negative_prompt,
     num_images_per_prompt=2,
     generator=generator,
-    guidance_rescale=0.0,
+    num_inference_steps=10,
 )
 ```
 
-| ![This gif shows how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-2.gif) | 
+| ![An example of how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-4.gif) | 
 |:--:| 
-| **This gif shows how the results of your experiment are logged.** |
+| **An example of how the results of your experiment are logged.** |
 
-| ![This gif shows how the autologger logs the configs of your experiment](@site/static/images/integrations/diffusers-autolog-3.gif) | 
+| ![An example of how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-1.gif) | 
 |:--:| 
-| **This gif shows how the autologger logs the configs of your experiment.** |
+| **An example of how the results of your experiment are logged.** |
 
+| ![An example of how the autologger logs the configs of your experiment](@site/static/images/integrations/diffusers-autolog-3.gif) | 
+|:--:| 
+| **An example of how the autologger logs the configs of your experiment.** |
+
+:::info
 You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L67). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
+:::
 
 ## More Resources
 
