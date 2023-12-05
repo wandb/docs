@@ -32,10 +32,10 @@ Provide a name for your model artifact and the path where your model is saved to
 import wandb
 
 # Initialize a W&B run
-run = wandb.init(project='<your-project>', entity='<your-entity>')
+run = wandb.init(project="<your-project>", entity="<your-entity>")
 
 # Log the model
-run.log_model(model_name='<model_artifact_name>', path='<path-to-model>')
+run.log_model(model_name="<model_artifact_name>", path="<path-to-model>")
 run.finish()
 ```
 
@@ -50,10 +50,10 @@ In the proceeding code snippet, a path to the model file(s) `/local/dir/70154.h5
 ```python
 import wandb
 
-project="<your-project-name>"
-entity="<your-entity>"
-path="/local/dir/70154.h5"
-model_artifact_name="model.h5"
+project = "<your-project-name>"
+entity = "<your-entity>"
+path = "/local/dir/70154.h5"
+model_artifact_name = "model.h5"
 
 # Initialize a W&B run
 run = wandb.init(project=project, entity=entity)
@@ -79,7 +79,7 @@ W&B suggests that you prepend the entity and name of the project your model was 
 import wandb
 
 # Initialize a run
-run = wandb.init(project='<your-project>', entity='<your-entity>')
+run = wandb.init(project="<your-project>", entity="<your-entity>")
 
 # Access and download model. Returns path to downloaded artifact
 downloaded_model_path = run.use_model(model_name="<your-model-name>")
@@ -98,7 +98,7 @@ For example, the proceeding code snippet shows how to log a model with `log_mode
 import wandb
 
 alias = "v0"
-model_name=f'{entity}/{project}/{model_artifact_name}:{alias}'
+model_name = f"{entity}/{project}/{model_artifact_name}:{alias}"
 
 # Initialize a run
 run = wandb.init(project=project, entity=entity)
@@ -120,10 +120,12 @@ Use the `link_model` method to log model file(s) as a model [artifact](../../art
 The proceeding code snippet shows how to link a model with the `link_model` API. Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
-run.link_model(path=downloaded_model_path,
-                 registered_model_name="<model-registry-name>",
-                 linked_model_name="<linked-model=name>",
-                 aliases=["<aliases>"])
+run.link_model(
+    path=downloaded_model_path,
+    registered_model_name="<model-registry-name>",
+    linked_model_name="<linked-model=name>",
+    aliases=["<aliases>"],
+)
 
 run.finish()
 ```
@@ -144,13 +146,14 @@ For example, suppose you have a  model artifact named "mnist-testing" that exist
 For example, the proceeding code snippet links the model created in previous code snippets to a W&B Model Registry called `"MNIST"`. To do this, the user called the `link_model` API and provided the path of the downloaded model artifact, the name of the model registry the user wanted to link the model to, the name of the model, and an alias `"best"` for the `path`, `linked_model_name`, `model_name`, and `aliases` parameters, respectively. 
 
 ```python
-registered_model_name="MNIST"
+registered_model_name = "MNIST"
 
 run.link_model(
-    path=downloaded_model_path, 
+    path=downloaded_model_path,
     linked_model_name=registered_model_name,
-    model_name=model_artifact_name, 
-    aliases=['best'])
+    model_name=model_artifact_name,
+    aliases=["best"],
+)
 ```
 
 :::note
