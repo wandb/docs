@@ -118,7 +118,7 @@ Calling the `autolog` creates a [W&B run](https://docs.wandb.ai/guides/runs). Al
 | **An example of how the results of your experiment are logged.** |
 
 :::info
-The arguments passed to the `autolog` function is just `init` which accepts a dictionary of keywork arguments that would be passed to [`wandb.init()`](https://docs.wandb.ai/ref/python/init).
+The arguments passed to the `autolog` function is just `init` which accepts a dictionary of keyword arguments that would be passed to [`wandb.init()`](https://docs.wandb.ai/ref/python/init).
 :::
 
 | ![An example of how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-1.gif) | 
