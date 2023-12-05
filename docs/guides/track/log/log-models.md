@@ -4,25 +4,43 @@ displayed_sidebar: default
 
 # Log models
 
-Use W&B to log models that are created from W&B runs.
+Use W&B to log models to your experiment.
 
 The following guide describes how to log and interact with models logged to a W&B run. 
 
 :::tip
-The following APIs are useful for early model exploration and experiment tracking. Use the APIs listed on this page to quickly log models to a run, in addition to metrics, tables, media and other objects.
+The following APIs are useful for tracking models as a part of your experiment tracking workflow. Use the APIs listed on this page to quickly log models to a run, in addition to metrics, tables, media and other objects.
 
-The APIs listed on this page are not intended for [INSERT].
+W&B suggests that you use [W&B Artifacts](../../artifacts/intro.md) if you want to:
+- Create and keep track of different versions of serialized data besides models, such as datasets, prompts, and more.
+- Explore [lineage graphs](../../artifacts/explore-and-traverse-an-artifact-graph.md) of a model or any other objects tracked in W&B.
+- How to interact with the model artifacts these methods created, such as [updating properties](../../artifacts/update-an-artifact.md) (metadata, aliases, and descriptions) 
 
-
-W&B suggests that you use W&B Artifacts if you want to:
-- Create and keep track of different versions of serialized data such as models, datasets, prompts, and more.
-- Create lineage graphs of a model or any other objects tracked in W&B.
-- How to interact with the model artifacts these methods created, such as updating properties (metadata, aliases, and descriptions) 
+For more information on W&B Artifacts and for more information on advanced versioning use cases, see the [Artifacts](../../artifacts/intro.md) documentation.
 :::
 
 
 ## Log a model to a W&B run
-Declare a model artifact as an output of a run with the [`log_model`](../../../ref/python/run.md#logmodel) method. To do so, provide a name for your model artifact and the path where your model is saved to for the `model_name` and `path` parameters, respectively.
+Use the [`log_model`](../../../ref/python/run.md#logmodel) method to log a model artifact. The `log_model` methods also marks the model artifact as an output of the run. Associating a model to a run (with log_model, for example), enables you to track the lineage of the model. View the lineage of the model, such as the inputs and outputs of a run, within the W&B App UI. See the [Explore and traverse artifact graphs](../../artifacts/explore-and-traverse-an-artifact-graph.md) page within the [Artifacts](../../artifacts/intro.md) chapter for more information.
+
+Provide a name for your model artifact and the path where your model is saved to for the `model_name` and `path` parameters, respectively. Ensure to replace values enclosed in `<>` with your own.
+
+```python
+import wandb
+
+# Initialize a W&B run
+run = wandb.init(project='<your-project>', entity='<your-entity>')
+
+# Log the model
+run.log_model(model_name='<model_artifact_name>', path='<path-to-model>')
+run.finish()
+```
+
+<details>
+
+<summary>Example: Log a model to a run</summary>
+
+For example, in the proceeding code snippet, the model originally had a file name of `70154.h5` and was locally stored in the user's `/local/dir/` directory. When the user logged the model with `log_model`, they gave the model artifact a name of `model.h5`. 
 
 ```python
 import wandb
@@ -39,8 +57,7 @@ run = wandb.init(project=project, entity=entity)
 run.log_model(model_name=model_artifact_name, path=path)
 run.finish()
 ```
-
-In the preceding code snippet, the model originally had a file name of `70154.h5` and was locally stored in the user's `/local/dir/` directory. When the user logged the model with `log_model`, they gave the model artifact a name of `model.h5`. 
+</details>
 
 
 ## Download and use a logged model
@@ -52,7 +69,26 @@ Provide the name of your model artifact to the `model_name` field in `use_model`
 W&B suggests that you prepend the entity and name of the project your model was saved to.
 :::
 
-The proceeding code snippet shows how to download a logged model. The code snippet uses the same variables declared in the [Log a model to a W&B run](#log-a-model-to-a-wb-run).
+The proceeding code snippet shows how to download a logged model. Replace the values enclosed in `<>` with your own:
+
+```python
+import wandb
+
+# Initialize a run
+run = wandb.init(project='<your-project>', entity='<your-entity>')
+
+# Access and download model. Returns path to downloaded artifact
+downloaded_model_path = run.use_model(model_name="<your-model-name>")
+```
+
+The `use_model` function returns the path of downloaded artifact file(s). Keep track of this path, as you will need to have this path to link a model. In the preceeding code snippet, we stored the file path in a variable called `downloaded_model_path`.
+
+<details>
+
+<summary>Example: Download and use a logged model</summary>
+
+For example, the proceeding code snippet shows how to log a model with `log_model` method. First, the user defines a `model_name` variable that contains the full name of the model artifact. Then the user called the use_model API to access and download the model. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
+
 
 ```python
 import wandb
@@ -67,7 +103,11 @@ run = wandb.init(project=project, entity=entity)
 downloaded_model_path = run.use_model(model_name=model_name)
 ```
 
-The `use_model` function returns the path of downloaded artifact file(s). Keep track of this path, as you will need to have this path to link a model. In the preceeding code snippet, we stored the file path in a variable called `downloaded_model_path`.
+:::note
+The code shown in this example is a continuation of the code example shown in the dropdown of the [Log a model to a W&B run](#log-a-model-to-a-wb-run) section. The code in this example uses the same `entity`, `project`, and `model_artifact_name` variables declared.
+:::
+
+</details>
 
 
 ## Log and link a model to the W&B Model Registry
@@ -75,9 +115,7 @@ Use the `link_model` method to log model file(s) as a model [artifact](../../art
 
 When you link a model artifact to the registry, this creates a new version of that registered model. The new version is a pointer to the artifact version that exists in that project.
 
-The following code snippet is a continuation of the code snippet in [Download and use a logged model](#download-and-use-a-logged-model). The code snippet uses the 
-
-The proceeding code snippet shows how to link a model with the `link_model` API. The code snippet uses the `downloaded_model_path` variable defined in the [Download and use a logged model](#download-and-use-a-logged-model) section to provide the path of the model.
+The proceeding code snippet shows how to link a model with the `link_model` API. 
 
 ```python
 run.link_model(path=downloaded_model_path,
@@ -87,3 +125,29 @@ run.link_model(path=downloaded_model_path,
 
 run.finish()
 ```
+
+<details>
+
+<summary>Example: Log and link a model to the W&B Model Registry</summary>
+
+For example, the proceeding code snippet links the model created in previous code snippets to a W&B Model Registry called `"MNIST"`. To do this, the user called the `link_model` API and provided the path of the downloaded model artifact, the name of the model registry the user wanted to link the model to, the name of the model, and an alias `"best"` for the `path`, `linked_model_name`, `model_name`, and `aliases` parameters, respectively. 
+
+```python
+registered_model_name="MNIST"
+
+run.link_model(
+    path=downloaded_model_path, 
+    linked_model_name=registered_model_name,
+    model_name=model_artifact_name, 
+    aliases=['best'])
+```
+
+:::note
+The code shown in this example is a continuation of the code example shown in the dropdown of the [Download and use a logged model](#download-and-use-a-logged-model) section. The code in this example uses the same `downloaded_model_path` and `model_artifact_name` variables declared.
+:::
+
+:::tip
+W&B will create a model registry with the name you provide for `linked_model_name` parameter if you do not already have a registry with that name.
+:::
+
+</details>
