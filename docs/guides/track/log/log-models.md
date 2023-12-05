@@ -19,6 +19,9 @@ W&B suggests that you use [W&B Artifacts](../../artifacts/intro.md) if you want 
 For more information on W&B Artifacts and for more information on advanced versioning use cases, see the [Artifacts](../../artifacts/intro.md) documentation.
 :::
 
+:::info
+See this [Colab notebook](https://colab.research.google.com/drive/1Nvgz4VQHMbr4hoVGeUdDVfHE2lHFpvbs) for an end-to-end example of how to use the APIs described on this page.
+:::
 
 ## Log a model to a W&B run
 Use the [`log_model`](../../../ref/python/run.md#logmodel) method to log a model artifact. The `log_model` methods also marks the model artifact as an output of the run. Associating a model to a run (with log_model, for example), enables you to track the lineage of the model. View the lineage of the model, such as the inputs and outputs of a run, within the W&B App UI. See the [Explore and traverse artifact graphs](../../artifacts/explore-and-traverse-an-artifact-graph.md) page within the [Artifacts](../../artifacts/intro.md) chapter for more information.
