@@ -36,6 +36,8 @@ run.log_model(model_name='<model_artifact_name>', path='<path-to-model>')
 run.finish()
 ```
 
+The path can be a local file, directory, or [reference URI](../../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`. 
+
 <details>
 
 <summary>Example: Log a model to a run</summary>
@@ -63,14 +65,13 @@ run.finish()
 ## Download and use a logged model
 Use the [`use_model`](../../../ref/python/run.md#usemodel) function to access and download models files previously logged to a W&B run. 
 
-Provide the name of your model artifact to the `model_name` field in `use_model`. 
+Provide the name of your model artifact to the `model_name` field for the `use_model` parameter. Ensure to replace other the values enclosed in `<>` with your own:
 
 :::tip
 W&B suggests that you prepend the entity and name of the project your model was saved to.
 :::
 
-The proceeding code snippet shows how to download a logged model. Replace the values enclosed in `<>` with your own:
-
+ 
 ```python
 import wandb
 
@@ -113,18 +114,25 @@ The code shown in this example is a continuation of the code example shown in th
 ## Log and link a model to the W&B Model Registry
 Use the `link_model` method to log model file(s) as a model [artifact](../../artifacts/intro.md) to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). 
 
-When you link a model artifact to the registry, this creates a new version of that registered model. The new version is a pointer to the artifact version that exists in that project.
-
-The proceeding code snippet shows how to link a model with the `link_model` API. 
+The proceeding code snippet shows how to link a model with the `link_model` API. Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
 run.link_model(path=downloaded_model_path,
-                 registered_model_name="Industrial ViT",
-                 linked_model_name=f"model_vit-{wandb.run.id}",
-                 aliases=["staging", "QA"])
+                 registered_model_name="<model-registry-name>",
+                 linked_model_name="<linked-model=name>",
+                 aliases=["<aliases>"])
 
 run.finish()
 ```
+
+:::tip
+W&B will create a model registry with the name you provide for `linked_model_name` parameter if you do not already have a registry with that name.
+:::
+
+
+A new version of a registered model is created when you link a model artifact to a model registry that already exists within that model registry.
+
+For example, suppose you have a  model artifact named "mnist-testing" that exists within a model registry called "MNIST". And suppose that within the W&B App UI you see that the model artifact is marked as **Version 1**.  W&B will automatically create a **Version 2** of your model if you link a new model with the same name ("mnist-testing") to the same registry ("MNIST").
 
 <details>
 
@@ -146,8 +154,5 @@ run.link_model(
 The code shown in this example is a continuation of the code example shown in the dropdown of the [Download and use a logged model](#download-and-use-a-logged-model) section. The code in this example uses the same `downloaded_model_path` and `model_artifact_name` variables declared.
 :::
 
-:::tip
-W&B will create a model registry with the name you provide for `linked_model_name` parameter if you do not already have a registry with that name.
-:::
 
 </details>
