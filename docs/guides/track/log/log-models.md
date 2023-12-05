@@ -73,7 +73,7 @@ When the user called `log_model`, a model artifact with name `fine-tuned-model` 
 ## Download and use a logged model
 Use the [`use_model`](../../../ref/python/run.md#usemodel) function to access and download models files previously logged to a W&B run. 
 
-Provide the name of your model artifact to the `name` field. The name you provide must match the name of an existing logged model artifact. The name must adhere to one of the following schemas: 
+Provide the name of the model artifact where the model file(s) you are looking to retrieve are stored for the `name` parameter. The name you provide must match the name of an existing logged model artifact. The name must adhere to one of the following schemas: 
 
 * `model_artifact_name:version`
 * `model_artifact_name:alias`
@@ -87,8 +87,9 @@ run.use_model(
             name="my_entity/my_project/my_model_artifact:<digest>",
         )
 ```
-
 :::
+
+If you did not define `name` when originally logged the file(s) with `log_model`, the default name assigned is the basename of the input path, prepended with the run ID.
 
 Ensure to replace other the values enclosed in `<>` with your own:
  
