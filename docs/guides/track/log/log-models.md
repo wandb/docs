@@ -40,7 +40,7 @@ run.finish()
 
 <summary>Example: Log a model to a run</summary>
 
-For example, in the proceeding code snippet, the model originally had a file name of `70154.h5` and was locally stored in the user's `/local/dir/` directory. When the user logged the model with `log_model`, they gave the model artifact a name of `model.h5`. 
+In the proceeding code snippet, a path to the model file(s) `/local/dir/70154.h5` is passed in.  When the user logged the model with `log_model`, they gave the model artifact a name of `model.h5`. 
 
 ```python
 import wandb
