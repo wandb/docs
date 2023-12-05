@@ -4,7 +4,7 @@ displayed_sidebar: default
 
 # Log models
 
-The following guide describes how to log and interact with models logged to a W&B run. 
+The following guide describes how to log models to a W&B run and interact with them. 
 
 :::tip
 The following APIs are useful for tracking models as a part of your experiment tracking workflow. Use the APIs listed on this page to quickly log models to a run, in addition to metrics, tables, media and other objects.
@@ -22,9 +22,13 @@ See this [Colab notebook](https://colab.research.google.com/drive/1Nvgz4VQHMbr4h
 :::
 
 ## Log a model to a W&B run
-Use the [`log_model`](../../../ref/python/run.md#logmodel) method to log a model artifact. The `log_model` methods also marks the model artifact as an output of the run. Associating a model to a run (with log_model, for example), enables you to track the lineage of the model. View the lineage of the model, such as the inputs and outputs of a run, within the W&B App UI. See the [Explore and traverse artifact graphs](../../artifacts/explore-and-traverse-an-artifact-graph.md) page within the [Artifacts](../../artifacts/intro.md) chapter for more information.
+Use the [`log_model`](../../../ref/python/run.md#logmodel) to log a model artifact that contains content within a directory you specify. The `log_model` methods also marks the resulting model artifact as an output of the W&B run. 
 
-Provide a name for your model artifact and the path where your model is saved to for the `model_name` and `path` parameters, respectively. Ensure to replace values enclosed in `<>` with your own.
+Models that are associated to a W&B run enable you to track the lineage of that model. You can view the lineage of the model, such as the inputs and outputs of a run, within the W&B App UI. See the [Explore and traverse artifact graphs](../../artifacts/explore-and-traverse-an-artifact-graph.md) page within the [Artifacts](../../artifacts/intro.md) chapter for more information.
+
+Provide the path where your model file(s) are saved to the `path` parameter. The path can be a local file, directory, or [reference URI](../../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`. Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B will use the basename of the input path prepended with the run ID as the name. 
+
+Ensure to replace values enclosed in `<>` with your own.
 
 ```python
 import wandb
@@ -33,11 +37,9 @@ import wandb
 run = wandb.init(project="<your-project>", entity="<your-entity>")
 
 # Log the model
-run.log_model(model_name="<model_artifact_name>", path="<path-to-model>")
+run.log_model(name="<model_artifact_name>", path="<path-to-model>")
 run.finish()
 ```
-
-The path can be a local file, directory, or [reference URI](../../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`. 
 
 See [`log_model`](../../../ref/python/run.md#logmodel) in the API Reference guide for more information on possible parameters and return type.
 
@@ -45,7 +47,7 @@ See [`log_model`](../../../ref/python/run.md#logmodel) in the API Reference guid
 
 <summary>Example: Log a model to a run</summary>
 
-In the proceeding code snippet, a path to the model file(s) `/local/dir/70154.h5` is passed in.  When the user logged the model with `log_model`, they gave the model artifact a name of `model.h5`. 
+In the proceeding code snippet, a path to the model file `/local/dir/70154.h5` is provided to the `path` parameter.
 
 ```python
 import wandb
@@ -53,22 +55,42 @@ import wandb
 project = "<your-project-name>"
 entity = "<your-entity>"
 path = "/local/dir/70154.h5"
-model_artifact_name = "model.h5"
+model_artifact_name = "fine-tuned-model"
 
 # Initialize a W&B run
 run = wandb.init(project=project, entity=entity)
 
 # Log the model
-run.log_model(model_name=model_artifact_name, path=path)
+run.log_model(name=model_artifact_name, path=path)
 run.finish()
 ```
+
+When the user called `log_model`, a model artifact with name `fine-tuned-model` was created and the file `70154.h5` was added to the model artifact.
+
 </details>
 
 
 ## Download and use a logged model
 Use the [`use_model`](../../../ref/python/run.md#usemodel) function to access and download models files previously logged to a W&B run. 
 
-Provide the name of your model artifact to the `model_name` field for the `use_model` parameter. Ensure to replace other the values enclosed in `<>` with your own:
+Provide the name of your model artifact to the `name` field. The name you provide must match the name of an existing logged model artifact. The name must adhere to one of the following schemas: 
+
+* `model_artifact_name:version`
+* `model_artifact_name:alias`
+* `model_artifact_name:digest`
+
+:::info
+You can optionally prepend the the W&B entity and project to the name. For example, the following is valid:
+
+```python
+run.use_model(
+            name="my_entity/my_project/my_model_artifact:<digest>",
+        )
+```
+
+:::
+
+Ensure to replace other the values enclosed in `<>` with your own:
  
 ```python
 import wandb
@@ -77,7 +99,7 @@ import wandb
 run = wandb.init(project="<your-project>", entity="<your-entity>")
 
 # Access and download model. Returns path to downloaded artifact
-downloaded_model_path = run.use_model(model_name="<your-model-name>")
+downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
 The `use_model` function returns the path of downloaded artifact file(s). Keep track of this path, as you will need to have this path to link a model. In the preceding code snippet, we stored the file path in a variable called `downloaded_model_path`.
@@ -99,7 +121,7 @@ model_name = f"{entity}/{project}/{model_artifact_name}:{alias}"
 run = wandb.init(project=project, entity=entity)
 
 # Access and download model. Returns path to downloaded artifact
-downloaded_model_path = run.use_model(model_name=model_name)
+downloaded_model_path = run.use_model(name=model_name)
 ```
 
 :::note
