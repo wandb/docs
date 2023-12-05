@@ -4,8 +4,6 @@ displayed_sidebar: default
 
 # Log models
 
-Use W&B to log models to your experiment.
-
 The following guide describes how to log and interact with models logged to a W&B run. 
 
 :::tip
@@ -41,6 +39,8 @@ run.finish()
 
 The path can be a local file, directory, or [reference URI](../../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`. 
 
+See [`log_model`](../../../ref/python/run.md#logmodel) in the API Reference guide for more information on possible parameters and return type.
+
 <details>
 
 <summary>Example: Log a model to a run</summary>
@@ -69,11 +69,6 @@ run.finish()
 Use the [`use_model`](../../../ref/python/run.md#usemodel) function to access and download models files previously logged to a W&B run. 
 
 Provide the name of your model artifact to the `model_name` field for the `use_model` parameter. Ensure to replace other the values enclosed in `<>` with your own:
-
-:::tip
-W&B suggests that you prepend the entity and name of the project your model was saved to.
-:::
-
  
 ```python
 import wandb
@@ -85,7 +80,7 @@ run = wandb.init(project="<your-project>", entity="<your-entity>")
 downloaded_model_path = run.use_model(model_name="<your-model-name>")
 ```
 
-The `use_model` function returns the path of downloaded artifact file(s). Keep track of this path, as you will need to have this path to link a model. In the preceeding code snippet, we stored the file path in a variable called `downloaded_model_path`.
+The `use_model` function returns the path of downloaded artifact file(s). Keep track of this path, as you will need to have this path to link a model. In the preceding code snippet, we stored the file path in a variable called `downloaded_model_path`.
 
 <details>
 
@@ -113,15 +108,22 @@ The code shown in this example is a continuation of the code example shown in th
 
 </details>
 
+See [`use_model`](../../../ref/python/run.md#usemodel) in the API Reference guide for more information on possible parameters and return type.
 
 ## Log and link a model to the W&B Model Registry
-Use the `link_model` method to log model file(s) as a model [artifact](../../artifacts/intro.md) to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). 
+Use the [`link_model`](../../../ref/python/run.md#linkmodel) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). If no registered model exists, W&B will create a new for you with the name you provide for the `linked_model_name` parameter. 
+
+:::tip
+You can think of linking a model similar to 'bookmarking' or 'publishing' a model that others members of your team can view.
+:::
+
+A *Registered Model* is a collection or folder of linked model versions in the W&B Model Registry. Registered models typically represent a team’s ML task. 
 
 The proceeding code snippet shows how to link a model with the `link_model` API. Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
 run.link_model(
-    path=downloaded_model_path,
+    path="<path-to-model>",
     registered_model_name="<model-registry-name>",
     linked_model_name="<linked-model=name>",
     aliases=["<aliases>"],
@@ -130,14 +132,11 @@ run.link_model(
 run.finish()
 ```
 
-:::tip
-W&B will create a model registry with the name you provide for `linked_model_name` parameter if you do not already have a registry with that name.
-:::
-
-
 A new version of a registered model is created when you link a model artifact to a model registry that already exists within that model registry.
 
 For example, suppose you have a  model artifact named "mnist-testing" that exists within a model registry called "MNIST". And suppose that within the W&B App UI you see that the model artifact is marked as **Version 1**.  W&B will automatically create a **Version 2** of your model if you link a new model with the same name ("mnist-testing") to the same registry ("MNIST").
+
+See [`link_model`](../../../ref/python/run.md#linkmodel) in the API Reference guide for more information on possible parameters and return type.
 
 <details>
 
