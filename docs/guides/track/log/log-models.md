@@ -37,11 +37,10 @@ import wandb
 run = wandb.init(project="<your-project>", entity="<your-entity>")
 
 # Log the model
-run.log_model(name="<model_artifact_name>", path="<path-to-model>")
-run.finish()
+run.log_model(path="<path-to-model>")
 ```
 
-See [`log_model`](../../../ref/python/run.md#logmodel) in the API Reference guide for more information on possible parameters and return type.
+See [`log_model`](../../../ref/python/run.md#logmodel) in the API Reference guide for more information on possible parameters.
 
 <details>
 
@@ -52,16 +51,14 @@ In the proceeding code snippet, a path to the model file `/local/dir/70154.h5` i
 ```python
 import wandb
 
-project = "<your-project-name>"
-entity = "<your-entity>"
 path = "/local/dir/70154.h5"
 model_artifact_name = "fine-tuned-model"
 
 # Initialize a W&B run
-run = wandb.init(project=project, entity=entity)
+run = wandb.init(project="MNIST_Exploration", entity="charlie")
 
 # Log the model
-run.log_model(name=model_artifact_name, path=path)
+run.log_model(path=path, name=model_artifact_name)
 run.finish()
 ```
 
@@ -84,7 +81,7 @@ You can optionally prepend the the W&B entity and project to the name. For examp
 
 ```python
 run.use_model(
-            name="my_entity/my_project/my_model_artifact:<digest>",
+            name="<entity>/<project>/<model_artifact_name>:<digest>",
         )
 ```
 :::
@@ -103,19 +100,21 @@ run = wandb.init(project="<your-project>", entity="<your-entity>")
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-The `use_model` function returns the path of downloaded artifact file(s). Keep track of this path, as you will need to have this path to link a model. In the preceding code snippet, we stored the file path in a variable called `downloaded_model_path`.
+The `use_model` function returns the path of downloaded artifact file(s). Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
 
 <details>
 
 <summary>Example: Download and use a logged model</summary>
 
-For example, the proceeding code snippet shows how to log a model with `log_model` method. First, the user defines a `model_name` variable that contains the full name of the model artifact. Then the user called the use_model API to access and download the model. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
-
+For example, the proceeding code snippet shows how to log a model with `log_model` method. First, the user defines a `model_name` variable that contains the full name of the model artifact. Then the user called the `use_model` API to access and download the model. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
 
 ```python
 import wandb
 
-alias = "v0"
+entity="luka"
+project="NLP_Experiments"
+alias="latest"
+model_artifact_name = "fine-tuned-model"
 model_name = f"{entity}/{project}/{model_artifact_name}:{alias}"
 
 # Initialize a run
@@ -124,11 +123,6 @@ run = wandb.init(project=project, entity=entity)
 # Access and download model. Returns path to downloaded artifact
 downloaded_model_path = run.use_model(name=model_name)
 ```
-
-:::note
-The code shown in this example is a continuation of the code example shown in the dropdown of the [Log a model to a W&B run](#log-a-model-to-a-wb-run) section. The code in this example uses the same `entity`, `project`, and `model_artifact_name` variables declared.
-:::
-
 </details>
 
 See [`use_model`](../../../ref/python/run.md#usemodel) in the API Reference guide for more information on possible parameters and return type.
@@ -145,42 +139,42 @@ A *Registered Model* is a collection or folder of linked model versions in the W
 The proceeding code snippet shows how to link a model with the `link_model` API. Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
+import wandb
+
+run = wandb.init(entity="<your-entity>", project="<your-project>")
+
 run.link_model(
     path="<path-to-model>",
-    registered_model_name="<model-registry-name>",
-    linked_model_name="<linked-model=name>",
-    aliases=["<aliases>"],
+    registered_model_name="<model-registry-name>"
 )
-
-run.finish()
 ```
+
+See [`link_model`](../../../ref/python/run.md#linkmodel) in the API Reference guide for more information on optional parameters.
 
 A new version of a registered model is created when you link a model artifact to a model registry that already exists within that model registry.
 
 For example, suppose you have a  model artifact named "mnist-testing" that exists within a model registry called "MNIST". And suppose that within the W&B App UI you see that the model artifact is marked as **Version 1**.  W&B will automatically create a **Version 2** of your model if you link a new model with the same name ("mnist-testing") to the same registry ("MNIST").
 
-See [`link_model`](../../../ref/python/run.md#linkmodel) in the API Reference guide for more information on possible parameters and return type.
-
 <details>
 
 <summary>Example: Log and link a model to the W&B Model Registry</summary>
 
-For example, the proceeding code snippet links the model created in previous code snippets to a W&B Model Registry called `"MNIST"`. To do this, the user called the `link_model` API and provided the path of the downloaded model artifact, the name of the model registry the user wanted to link the model to, the name of the model, and an alias `"best"` for the `path`, `linked_model_name`, `model_name`, and `aliases` parameters, respectively. 
+For example, the proceeding code snippet logs model files and links the model model to a model registry called `"MNIST"`. 
+
+To do this, a user calls the `link_model` API. When they call the API, they provide a local filepath that points the content of the model (`path`) and they provide a name for the model registry (`registered_model_name`). 
 
 ```python
+import wandb
+
+path = "/local/dir/model.pt"
 registered_model_name = "MNIST"
 
+run = wandb.init(project="<your-project>", entity="<your-entity>")
+
 run.link_model(
-    path=downloaded_model_path,
-    linked_model_name=registered_model_name,
-    model_name=model_artifact_name,
-    aliases=["best"],
+    path=path,
+    registered_model_name=registered_model_name
 )
 ```
-
-:::note
-The code shown in this example is a continuation of the code example shown in the dropdown of the [Download and use a logged model](#download-and-use-a-logged-model) section. The code in this example uses the same `downloaded_model_path` and `model_artifact_name` variables declared.
-:::
-
 
 </details>
