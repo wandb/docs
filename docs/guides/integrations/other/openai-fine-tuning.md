@@ -22,7 +22,7 @@ If you use OpenAI's API to [fine-tune OpenAI models](https://platform.openai.com
 ```python
 from wandb.integration.openai.fine_tuning import WandbLogger
 
-## Finetuning logic
+# Finetuning logic
 
 WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
 ```
