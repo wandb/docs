@@ -411,6 +411,7 @@ const sidebars = {
           ],
         },
         'guides/integrations/huggingface',
+        'guides/integrations/diffusers',
         'guides/integrations/other/accelerate',
         'guides/integrations/other/hydra',
         'guides/integrations/keras',
