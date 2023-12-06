@@ -18,7 +18,7 @@ For more information on W&B Artifacts and for more information on advanced versi
 :::
 
 :::info
-See this [Colab notebook](https://colab.research.google.com/drive/1Nvgz4VQHMbr4hoVGeUdDVfHE2lHFpvbs) for an end-to-end example of how to use the APIs described on this page.
+See this [Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb) for an end-to-end example of how to use the APIs described on this page.
 :::
 
 ## Log a model to a W&B run
@@ -208,7 +208,7 @@ run.finish()
 ```
 
 :::info
-As a quick reminder, registered model houses a collection of bookmarked model versions. 
+As a quick reminder, registered model house a collection of bookmarked model versions. 
 :::
 
 </details>
