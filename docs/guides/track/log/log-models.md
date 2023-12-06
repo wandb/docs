@@ -22,9 +22,9 @@ See this [Colab notebook](https://colab.research.google.com/github/wandb/example
 :::
 
 ## Log a model to a W&B run
-Use the [`log_model`](../../../ref/python/run.md#log_model) to log a model artifact that contains content within a directory you specify. The `log_model` methods also marks the resulting model artifact as an output of the W&B run. 
+Use the [`log_model`](../../../ref/python/run.md#log_model) to log a model artifact that contains content within a directory you specify. The [`log_model`](../../../ref/python/run.md#log_model) method also marks the resulting model artifact as an output of the W&B run. 
 
-Models that are associated to a W&B run enable you to track the lineage of that model. You can view the lineage of the model, such as the inputs and outputs of a run, within the W&B App UI. See the [Explore and traverse artifact graphs](../../artifacts/explore-and-traverse-an-artifact-graph.md) page within the [Artifacts](../../artifacts/intro.md) chapter for more information.
+Models that are marked as the input or output to a run to track the lineage of that model. A model's lineage graph shows the model's dependencies and the model's associations. You can view the lineage of the model within the W&B App UI. See the [Explore and traverse artifact graphs](../../artifacts/explore-and-traverse-an-artifact-graph.md) page within the [Artifacts](../../artifacts/intro.md) chapter for more information.
 
 Provide the path where your model file(s) are saved to the `path` parameter. The path can be a local file, directory, or [reference URI](../../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`. 
 
@@ -112,7 +112,7 @@ Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
 ## Download and use a logged model
 Use the [`use_model`](../../../ref/python/run.md#use_model) function to access and download models files previously logged to a W&B run. 
 
-Provide the name of the model artifact where the model file(s) you are looking to retrieve are stored for the `name` parameter. The name you provide must match the name of an existing logged model artifact.
+Provide the name of the model artifact where the model file(s) you are want to retrieve are stored. The name you provide must match the name of an existing logged model artifact.
 
 If you did not define `name` when originally logged the file(s) with `log_model`, the default name assigned is the basename of the input path, prepended with the run ID.
 
@@ -156,7 +156,7 @@ downloaded_model_path = run.use_model(name=model_name)
 See [`use_model`](../../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
 
 ## Log and link a model to the W&B Model Registry
-Use the [`link_model`](../../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). If no registered model exists, W&B will create a new for you with the name you provide for the `linked_model_name` parameter. 
+Use the [`link_model`](../../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). If no registered model exists, W&B will create a new for you with the name you provide for the `registered_model_name` parameter. 
 
 :::tip
 You can think of linking a model similar to 'bookmarking' or 'publishing' a model to a centralized team repository of models that others members of your team can view and consume. 
@@ -164,9 +164,9 @@ You can think of linking a model similar to 'bookmarking' or 'publishing' a mode
 Note that when you link a model, that model is not duplicated in the Model Registry. That model is also not moved out of the project and intro the registry. A linked model is a pointer to the original model in your project.
 :::
 
-A *Registered Model* is a collection or folder of linked model versions in the W&B Model Registry. Registered Models typically represent candidate models for a single modeling use case or task. 
+A *Registered Model* is a collection or folder of linked model versions in the [W&B Model Registry](../../model_registry/intro.md). Registered models typically represent candidate models for a single modeling use case or task. 
 
-The proceeding code snippet shows how to link a model with the `link_model` API. Ensure to replace other the values enclosed in `<>` with your own:
+The proceeding code snippet shows how to link a model with the [`link_model`](../../../ref/python/run.md#link_model) API. Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
 import wandb
@@ -208,7 +208,7 @@ run.finish()
 ```
 
 :::info
-As a quick reminder, registered model house a collection of bookmarked model versions. 
+Reminder: A registered model houses a collection of bookmarked model versions. 
 :::
 
 </details>
