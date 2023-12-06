@@ -161,7 +161,9 @@ Use the [`link_model`](../../../ref/python/run.md#link_model) method to log mode
 :::tip
 You can think of linking a model similar to 'bookmarking' or 'publishing' a model to a centralized team repository of models that others members of your team can view and consume. 
 
-Note that when you link a model, that model is not duplicated in the Model Registry. That model is also not moved out of the project and intro the registry. A linked model is a pointer to the original model in your project.
+Note that when you link a model, that model is not duplicated in the [Model Registry](../../model_registry/intro.md). That model is also not moved out of the project and intro the registry. A linked model is a pointer to the original model in your project.
+
+Use the [Model Registry](../../model_registry/intro.md)to organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](../../model_registry/automation.md) downstream actions with webhooks or jobs.
 :::
 
 A *Registered Model* is a collection or folder of linked model versions in the [W&B Model Registry](../../model_registry/intro.md). Registered models typically represent candidate models for a single modeling use case or task. 
@@ -182,15 +184,14 @@ See [`link_model`](../../../ref/python/run.md#link_model) in the API Reference g
 
 If the `'registered-model-name'` matches the name of a registered model that already exists within the Model Registry, the model will be linked to that registered model. If no such registered model exists, a new one will be created and the model will be the first one linked. 
 
-For example, suppose you have an existing registered model named "Fine-Tuned Review Autocompletion" in your Model Registry (see example [here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models)). And suppose that a few model versions have already been linked to it: v0, v1, v2. If you call `link_model` with `registered-model-name="Fine-Tuned Review Autocompletion"`, the new model will be linked to this existing Registered Model as v4. If no Registered Model with this name exists, a new one will be created and the new model will be linked as v0. 
-
+For example, suppose you have an existing registered model named "Fine-Tuned-Review-Autocompletion" in your Model Registry (see example [here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models)). And suppose that a few model versions are already linked to it: v0, v1, v2. If you call `link_model` with `registered-model-name="Fine-Tuned-Review-Autocompletion"`, the new model will be linked to this existing registered model as v4. If no registered model with this name exists, a new one will be created and the new model will be linked as v0. 
 
 
 <details>
 
 <summary>Example: Log and link a model to the W&B Model Registry</summary>
 
-For example, the proceeding code snippet logs model files and links the model model to a registered model name `"Fine-Tuned Review Autocompletion"`. 
+For example, the proceeding code snippet logs model files and links the model model to a registered model name `"Fine-Tuned-Review-Autocompletion"`. 
 
 To do this, a user calls the `link_model` API. When they call the API, they provide a local filepath that points the content of the model (`path`) and they provide a name for the model registry (`registered_model_name`). 
 
@@ -198,7 +199,7 @@ To do this, a user calls the `link_model` API. When they call the API, they prov
 import wandb
 
 path = "/local/dir/model.pt"
-registered_model_name = "Fine-Tuned Review Autocompletion"
+registered_model_name = "Fine-Tuned-Review-Autocompletion"
 
 run = wandb.init(project="llm-evaluation", entity="noa")
 
