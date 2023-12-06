@@ -8,7 +8,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Hugging Face Diffusers
 
-<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/pixart-alpha-diffusers.ipynb"></CTAButtons>
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb"></CTAButtons>
 
 [🤗 Diffusers](https://huggingface.co/docs/diffusers) is the go-to library for state-of-the-art pretrained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization, pipeline architecture, and configuration managaement to interactive centralized dashboards without compromising that ease of use.
 
