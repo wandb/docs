@@ -49,6 +49,7 @@ const sidebars = {
               link: { type: 'doc', id: 'guides/track/log/intro' },
               items: [
                 // 'guides/track/log/intro',
+                'guides/track/log/log-models',
                 'guides/track/log/plots',
                 'guides/track/log/log-tables',
                 'guides/track/log/log-summary',
