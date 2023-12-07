@@ -134,7 +134,7 @@ The `[use_model](../../../ref/python/run.md#use_model)` function returns the pat
 
 <summary>Example: Download and use a logged model</summary>
 
-For example, the proceeding code snippet shows how to use a model with `use_model` method. The user called the `use_model` API and specified the name of the model artifact they are fetching along with a reference to the version in order to access and download the model. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
+For example, in the proceeding code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
 
 ```python
 import wandb
