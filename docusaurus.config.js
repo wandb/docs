@@ -158,7 +158,7 @@ const config = {
           },
           {
             href: 'https://app.wandb.ai/login',
-            html: 'Login<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
+            html: 'Log in<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
             position: 'right',
           },
         ],

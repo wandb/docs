@@ -63,6 +63,3 @@ W&Bレポートを使用して、Runsを整理し、可視化を埋め込み・�
 
 OpenAIロボティクスチームがどのようにしてWeights & Biases Reportsを使って大規模な機械学習プロジェクトを実行しているかを探るために、W&B Reportsがどのように使用されているのかを示す例として[Learning Dexterity End-to-End Using Weights & Biases Reports](https://bit.ly/wandb-learning-dexterity)をご覧ください。
 
-<!-- W&Bで[実験](../../quickstart.md)を行ったら、レポートで簡単に結果を可視化できます。以下にクイックオーバービデオをご紹介します。 -->
-
-<!-- {% embed url="https://www.youtube.com/watch?v=o2dOSIDDr1w" %} -->

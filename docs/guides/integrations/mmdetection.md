@@ -29,7 +29,7 @@ a) [**Sign up**](https://wandb.ai/site) for a free account
 
 b) Pip install the `wandb` library
 
-c) To login in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+c) To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
 If you are using Weights and Biases for the first time you might want to check out our [quickstart](../../quickstart.md)
 
@@ -41,20 +41,22 @@ If you are using Weights and Biases for the first time you might want to check o
   ]}>
   <TabItem value="cli">
 
-```
-pip install wandb
 
+```bash
+pip install wandb
 wandb login
 ```
+
 
   </TabItem>
   <TabItem value="notebook">
 
-```python
-!pip install wandb
 
+```notebook
+!pip install wandb
 wandb.login()
 ```
+
 
   </TabItem>
 </Tabs>
@@ -69,20 +71,24 @@ You can get started with Weights and Biases by adding the `MMDetWandbHook` to th
 
 ```python
 import wandb
+
 ...
 
-config_file = 'mmdetection/configs/path/to/config.py'
+config_file = "mmdetection/configs/path/to/config.py"
 cfg = Config.fromfile(config_file)
 
 cfg.log_config.hooks = [
-    dict(type='TextLoggerHook'),
-    dict(type='MMDetWandbHook',
-         init_kwargs={'project': 'mmdetection'},
-         interval=10,
-         log_checkpoint=True,
-         log_checkpoint_metadata=True,
-         num_eval_images=100,
-         bbox_score_thr=0.3)]
+    dict(type="TextLoggerHook"),
+    dict(
+        type="MMDetWandbHook",
+        init_kwargs={"project": "mmdetection"},
+        interval=10,
+        log_checkpoint=True,
+        log_checkpoint_metadata=True,
+        num_eval_images=100,
+        bbox_score_thr=0.3,
+    ),
+]
 ```
 
 | Name                      | Description                                                                                                                                                             |

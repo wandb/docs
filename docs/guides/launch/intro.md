@@ -4,8 +4,11 @@ description: Easily scale and manage ML jobs using W&B Launch.
 displayed_sidebar: default
 ---
 import Translate, {translate} from '@docusaurus/Translate';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Launch
+
+<CTAButtons colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP"/>
 
 Easily scale training [runs](../runs/intro.md) from your desktop to a compute resource like Amazon SageMaker, Kubernetes and more with W&B Launch. Once W&B Launch is configured, you can quickly run training scripts, model evaluation suites, prepare models for production inference, and more with a few clicks and commands. 
 

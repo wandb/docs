@@ -21,8 +21,7 @@ Use the `wandb.Table` constructor in one of two ways:
 1. **List of Rows:** Log named columns and rows of data. For example the proceeding code snippet generates a table with two rows and three columns:
 
 ```python
-wandb.Table(columns=["a", "b", "c"], 
-            data=[["1a", "1b", "1c"], ["2a", "2b", "2c"]])
+wandb.Table(columns=["a", "b", "c"], data=[["1a", "1b", "1c"], ["2a", "2b", "2c"]])
 ```
 
 
@@ -38,14 +37,14 @@ wandb.Table(columns=["a", "b", "c"],
 # - the model's predicted label
 # - the ground truth label
 my_data = [
-  [0, wandb.Image("img_0.jpg"), 0, 0],
-  [1, wandb.Image("img_1.jpg"), 8, 0],
-  [2, wandb.Image("img_2.jpg"), 7, 1],
-  [3, wandb.Image("img_3.jpg"), 1, 1]
+    [0, wandb.Image("img_0.jpg"), 0, 0],
+    [1, wandb.Image("img_1.jpg"), 8, 0],
+    [2, wandb.Image("img_2.jpg"), 7, 1],
+    [3, wandb.Image("img_3.jpg"), 1, 1],
 ]
-          
+
 # create a wandb.Table() with corresponding columns
-columns=["id", "image", "prediction", "truth"]
+columns = ["id", "image", "prediction", "truth"]
 test_table = wandb.Table(data=my_data, columns=columns)
 ```
 
@@ -61,7 +60,7 @@ Tables are mutable. As your script executes you can add more data to your table,
 ```python
 # create a Table with the same columns as above,
 # plus confidence scores for all labels
-columns=["id", "image", "guess", "truth"]
+columns = ["id", "image", "guess", "truth"]
 for digit in range(10):
     columns.append("score_" + str(digit))
 test_table = wandb.Table(columns=columns)
@@ -71,8 +70,7 @@ test_table = wandb.Table(columns=columns)
 for img_id, img in enumerate(mnist_test_data):
     true_label = mnist_test_data_labels[img_id]
     guess_label = my_model.predict(img)
-    test_table.add_data(img_id, wandb.Image(img), \
-                         guess_label, true_label)
+    test_table.add_data(img_id, wandb.Image(img), guess_label, true_label)
 ```
 
 ## Retrieve Data
@@ -112,7 +110,7 @@ In the backend, Tables are persisted as Artifacts. If you are interested in acce
 
 ```python
 with wandb.init() as run:
-   my_table = run.use_artifact("run-<run-id>-<table-name>:<tag>").get("<table-name>")
+    my_table = run.use_artifact("run-<run-id>-<table-name>:<tag>").get("<table-name>")
 ```
 
 For more information on Artifacts, see the [Artifacts Chapter](../../artifacts/intro.md) in the Developer Guide. 
@@ -129,9 +127,8 @@ Use `artifact.add()` to log tables to the Artifacts section of your run instead 
 ```python
 run = wandb.init(project="my_project")
 # create a wandb Artifact for each meaningful step
-test_predictions = wandb.Artifact("mnist_test_preds", 
-                                  type="predictions")
-                                  
+test_predictions = wandb.Artifact("mnist_test_preds", type="predictions")
+
 # [build up your predictions data as above]
 test_table = wandb.Table(data=data, columns=columns)
 test_predictions.add(test_table, "my_test_key")
@@ -156,18 +153,20 @@ To join two Tables you have logged previously in an artifact context, fetch them
 For example, demonstrates how to read one Table of original songs called `'original_songs'` and another Table of synthesized versions of the same songs called `'synth_songs'`. The proceeding code example joins the two tables on `"song_id"`, and uploads the resulting table as a new W&B Table:
 
 ```python
+import wandb
+
 run = wandb.init(project="my_project")
 
 # fetch original songs table
-orig_songs = run.use_artifact('original_songs:latest')
+orig_songs = run.use_artifact("original_songs:latest")
 orig_table = orig_songs.get("original_samples")
 
 # fetch synthesized songs table
-synth_songs = run.use_artifact('synth_songs:latest') 
+synth_songs = run.use_artifact("synth_songs:latest")
 synth_table = synth_songs.get("synth_samples")
 
 # join tables on "song_id"
-join_table = wandb.JoinedTable(orig_table, synth_table "song_id")
+join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
 join_at = wandb.Artifact("synth_summary", "analysis")
 
 # add table to artifact and log to W&B
