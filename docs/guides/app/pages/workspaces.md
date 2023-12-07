@@ -121,15 +121,15 @@ For example, in the following image a user renamed a workspace draft that branch
 ![](/images/app_ui/workspace_versions_initial_branched.png)
  
 
-### Create a new workspace based off the primary workspace
-Create a workspace that is cloned off of the primary workspace. In other words, work on a workspace that mirrors the original workspace without modifying the original workspace. The following describes how to create a new workspace:
+### Create a new workspace 
+Create a new workspace that includes all of the W&B runs and metrics from the original project workspace. Follow the procedure outlined below to create a new workspace:
 
 1. Navigate to the project workspace
 2. Click on the hamburger menu in the upper left corner, next to the name of the workspace.
 3. From the dropdown, click on **New workspace**.
 
 
-You can create draft versions of your newly created workspace, similarly to branched workspace versions made on the Primary workspace. See the previous section, [Edit drafts](#edit-drafts), for more information. 
+You can create draft versions of your newly created workspace. See the previous section, [Edit drafts](#edit-drafts), for more information. 
 
 
 ### Publish a workspace
