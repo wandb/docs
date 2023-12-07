@@ -310,6 +310,7 @@ const sidebars = {
                 'guides/app/features/notes',
                 'guides/app/features/teams',
                 'guides/app/features/organizations',
+                'guides/app/features/storage',
                 'guides/app/features/system-metrics',
                 'guides/app/features/anon',
               ],
