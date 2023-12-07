@@ -2,7 +2,7 @@
 displayed_sidebar: default
 ---
 
-# Log models
+# Log Models
 
 The following guide describes how to log models to a W&B run and interact with them. 
 
@@ -12,9 +12,9 @@ The following APIs are useful for tracking models as a part of your experiment t
 W&B suggests that you use [W&B Artifacts](../../artifacts/intro.md) if you want to:
 - Create and keep track of different versions of serialized data besides models, such as datasets, prompts, and more.
 - Explore [lineage graphs](../../artifacts/explore-and-traverse-an-artifact-graph.md) of a model or any other objects tracked in W&B.
-- How to interact with the model artifacts these methods created, such as [updating properties](../../artifacts/update-an-artifact.md) (metadata, aliases, and descriptions) 
+- Interact with the model artifacts these methods created, such as [updating properties](../../artifacts/update-an-artifact.md) (metadata, aliases, and descriptions) 
 
-For more information on W&B Artifacts and for more information on advanced versioning use cases, see the [Artifacts](../../artifacts/intro.md) documentation.
+For more information on W&B Artifacts and advanced versioning use cases, see the [Artifacts](../../artifacts/intro.md) documentation.
 :::
 
 :::info
@@ -43,7 +43,7 @@ run.log_model(path="<path-to-model>", name="<name>")
 Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B will use the basename of the input path prepended with the run ID as the name. 
 
 :::tip
-Keep track of the `'name'` that you, or W&B assigns, to the model. You will need the name of the model to retrieve the model path with the [`use_model`](https://docs.wandb.ai/ref/python/run#use_model) method. 
+Keep track of the `name` that you, or W&B assigns, to the model. You will need the name of the model to retrieve the model path with the [`use_model`](https://docs.wandb.ai/ref/python/run#use_model) method. 
 :::
 
 See [`log_model`](../../../ref/python/run.md#log_model) in the API Reference guide for more information on possible parameters.
@@ -128,45 +128,43 @@ run = wandb.init(project="<your-project>", entity="<your-entity>")
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-The `use_model` function returns the path of downloaded model file(s). Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
+The `[use_model](../../../ref/python/run.md#use_model)` function returns the path of downloaded model file(s). Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
 
 <details>
 
 <summary>Example: Download and use a logged model</summary>
 
-For example, the proceeding code snippet shows how to log a model with `log_model` method. First, the user defines a `model_name` variable that contains the full name of the model artifact. Then the user called the `use_model` API to access and download the model. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
+For example, in the proceeding code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
 
 ```python
 import wandb
 
 entity = "luka"
 project = "NLP_Experiments"
-alias = "latest"
+alias = "latest"  # semantic nickname or identifier for the model version
 model_artifact_name = "fine-tuned-model"
-model_name = f"{entity}/{project}/{model_artifact_name}:{alias}"
 
 # Initialize a run
 run = wandb.init(project=project, entity=entity)
-
 # Access and download model. Returns path to downloaded artifact
-downloaded_model_path = run.use_model(name=model_name)
+downloaded_model_path = run.use_model(name=f"{model_artifact_name}:{alias})
 ```
 </details>
 
 See [`use_model`](../../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
 
 ## Log and link a model to the W&B Model Registry
-Use the [`link_model`](../../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). If no registered model exists, W&B will create a new for you with the name you provide for the `registered_model_name` parameter. 
+Use the [`link_model`](../../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
 
 :::tip
 You can think of linking a model similar to 'bookmarking' or 'publishing' a model to a centralized team repository of models that others members of your team can view and consume. 
 
 Note that when you link a model, that model is not duplicated in the [Model Registry](../../model_registry/intro.md). That model is also not moved out of the project and intro the registry. A linked model is a pointer to the original model in your project.
 
-Use the [Model Registry](../../model_registry/intro.md)to organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](../../model_registry/automation.md) downstream actions with webhooks or jobs.
+Use the [Model Registry](../../model_registry/intro.md) to organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](../../model_registry/automation.md) downstream actions with webhooks or jobs.
 :::
 
-A *Registered Model* is a collection or folder of linked model versions in the [W&B Model Registry](../../model_registry/intro.md). Registered models typically represent candidate models for a single modeling use case or task. 
+A *Registered Model* is a collection or folder of linked model versions in the [Model Registry](../../model_registry/intro.md). Registered models typically represent candidate models for a single modeling use case or task. 
 
 The proceeding code snippet shows how to link a model with the [`link_model`](../../../ref/python/run.md#link_model) API. Ensure to replace other the values enclosed in `<>` with your own:
 
@@ -174,17 +172,15 @@ The proceeding code snippet shows how to link a model with the [`link_model`](..
 import wandb
 
 run = wandb.init(entity="<your-entity>", project="<your-project>")
-
 run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
-
 run.finish()
 ```
 
 See [`link_model`](../../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters.
 
-If the `'registered-model-name'` matches the name of a registered model that already exists within the Model Registry, the model will be linked to that registered model. If no such registered model exists, a new one will be created and the model will be the first one linked. 
+If the `registered-model-name` matches the name of a registered model that already exists within the Model Registry, the model will be linked to that registered model. If no such registered model exists, a new one will be created and the model will be the first one linked. 
 
-For example, suppose you have an existing registered model named "Fine-Tuned-Review-Autocompletion" in your Model Registry (see example [here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models)). And suppose that a few model versions are already linked to it: v0, v1, v2. If you call `link_model` with `registered-model-name="Fine-Tuned-Review-Autocompletion"`, the new model will be linked to this existing registered model as v4. If no registered model with this name exists, a new one will be created and the new model will be linked as v0. 
+For example, suppose you have an existing registered model named "Fine-Tuned-Review-Autocompletion" in your Model Registry (see example [here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models)). And suppose that a few model versions are already linked to it: v0, v1, v2. If you call `link_model` with `registered-model-name="Fine-Tuned-Review-Autocompletion"`, the new model will be linked to this existing registered model as v3. If no registered model with this name exists, a new one will be created and the new model will be linked as v0. 
 
 
 <details>
@@ -193,7 +189,7 @@ For example, suppose you have an existing registered model named "Fine-Tuned-Rev
 
 For example, the proceeding code snippet logs model files and links the model model to a registered model name `"Fine-Tuned-Review-Autocompletion"`. 
 
-To do this, a user calls the `link_model` API. When they call the API, they provide a local filepath that points the content of the model (`path`) and they provide a name for the model registry (`registered_model_name`). 
+To do this, a user calls the `link_model` API. When they call the API, they provide a local filepath that points the content of the model (`path`) and they provide a name for the registered model to link it to (`registered_model_name`). 
 
 ```python
 import wandb
@@ -202,9 +198,7 @@ path = "/local/dir/model.pt"
 registered_model_name = "Fine-Tuned-Review-Autocompletion"
 
 run = wandb.init(project="llm-evaluation", entity="noa")
-
 run.link_model(path=path, registered_model_name=registered_model_name)
-
 run.finish()
 ```
 
