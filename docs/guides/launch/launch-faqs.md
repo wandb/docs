@@ -49,8 +49,9 @@ wandb job create image <image-name> -p <project> -e <entity>
 
 This depends on the environment, we are able to provision resources in SageMaker, and Vertex. In Kubernetes, autoscalers can be used to automatically spin up and spin down resources when required. The Solution Architects at W&B are happy to work with you to configure your underlying Kubernetes infrastructure to facilitate retries, autoscaling, and use of spot instance node pools. Reach out to support@wandb.com or your shared Slack channel.
 
-### Is `wandb launch -d` uploading a whole docker artifact and not pulling from a registry? 
-No. The  `wandb launch -d` command will not upload to a registry for you. You need to upload your image to a registry yourself. Her are the general steps:
+### Is `wandb launch -d` or `wandb job create image` uploading a whole docker artifact and not pulling from a registry? 
+
+No. The  `wandb launch -d` command will not upload to a registry for you. You need to upload your image to a registry yourself. Here are the general steps:
 
 1. Build an image. 
 2. Push the image to a registry.
@@ -63,9 +64,9 @@ docker push <repo-url>:<tag>
 wandb launch -d <repo-url>:<tag>
 ```
 
-From there, the launch agent will spin up a job pointing to that container. 
+From there, the launch agent will spin up a job pointing to that container.  See [Advanced agent setup](./setup-agent-advanced.md#agent-configuration) for examples of how to give the agent access to pull an image from a container registry.
 
-For Kubernetes, the k8s cluster pods will need access to the registry you are pushing to.
+For Kubernetes, the Kubernetes cluster pods will need access to the registry you are pushing to. 
 
 
 ### Can I specify a Dockerfile and let W&B build a Docker image for me?
@@ -137,23 +138,25 @@ For example, the following JSON shows how to include a Dockerfile that is within
 Queues are scoped to a team of users. You define the owning entity when you create the queue.  To restrict access, you can change the team membership.
 
 ### What permissions does the agent require in Kubernetes?
-1. [https://docs.wandb.ai/guides/launch/kubernetes#service-account-and-roles](https://docs.wandb.ai/guides/launch/kubernetes#service-account-and-roles)
-
- “The following kubernetes manifest will create a role named
-  `wandb-launch-agent` in the`wandb`namespace. This role will allow the agent to create pods, configmaps, secrets, and pods/log in the `wandb` namespace. The `wandb-cluster-role` will allow the agent to create pods, pods/log, secrets, jobs, and jobs/status in any namespace of your choice.”
+“The following kubernetes manifest will create a role named
+`wandb-launch-agent` in the`wandb`namespace. This role will allow the agent to create pods, configmaps, secrets, and pods/log in the `wandb` namespace. The `wandb-cluster-role` will allow the agent to create pods, pods/log, secrets, jobs, and jobs/status in any namespace of your choice.”
 
 ### Does Launch support parallelization?  How can I limit the resources consumed by a job?
    
-  An individual Launch agent is configured with a `max_jobs` parameter that determines how many jobs that agent can be running simultaneously. Additionally, you can point to as many agents as you want at a particular queue, so long as those agents are connected to an infrastructure that they can launch into.
+Yes, Launch supports scaling jobs across mulitple GPUs and multiple nodes.  See [this guide](https://docs.wandb.ai/tutorials/volcano) for details.
+
+On an inter-job level, an individual launch agent is configured with a `max_jobs` parameter that determines how many jobs that agent can run simultaneously. Additionally, you can point to as many agents as you want at a particular queue, so long as those agents are connected to an infrastructure that they can launch into.
+  
+You can limit the CPU/GPU, memory, and other requirements at the launch queue or job run level, in the resource config. For more information about setting up queues with resource limits on Kubernetes see [here](https://docs.wandb.ai/guides/launch/kubernetes#queue-configuration). 
+
    
-  You can limit the CPU/GPU, memory, etc. requirements at either the queue or job run level, in the resource config. For more information about setting up queues with resource limits on Kubernetes see [here](https://docs.wandb.ai/guides/launch/kubernetes#queue-configuration). 
-   
-  For sweeps, in the SDK you can add a block to the config
-    
-    scheduler:
-    
+For sweeps, in the SDK you can add a block to the queue config
+
+```yaml title="queue config"
+  scheduler:
     num_workers: 4
-  To limit the number of concurrent runs from a sweep that will be run in parallel.
+```
+To limit the number of concurrent runs from a sweep that will be run in parallel.
 
 ### When using Docker queues to run multiple jobs that download the same artifact with `use_artifact`, do we re-download the artifact for every single run of the job, or is there any caching going on under the hood?
 

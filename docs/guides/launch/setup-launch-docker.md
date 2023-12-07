@@ -7,9 +7,11 @@ import TabItem from '@theme/TabItem';
 
 # Set up for Docker
 
-The following guide describes how to configure W&B Launch to utilize Docker on a local machine for both the launch agent environment and the queue's target resource.
+The following guide describes how to configure W&B Launch to use Docker on a local machine for both the launch agent environment and for the queue's target resource.
 
 Using Docker to execute jobs and as the launch agent's environment on the same local machine is particularly useful if your compute is installed on a machine that does not have a cluster management system (such as Kubernetes).
+
+You can also use Docker queues to run workloads on powerful workstations.
 
 :::tip
 This set up is common for users who perform experiments on their local machine, or that have a remote machine that they SSH in to, to submit launch jobs.
@@ -138,11 +140,17 @@ builder:
 	type: docker
 ```
 
-## Cloud registries
+If you don't want the agent to build Docker images, and instead use prebuilt images from a registry, set the `builder` key in the launch agent config to `noop`
 
-You might want to connect your launch agent with a cloud registry. Connecting your launch agent to a cloud registry enables you to:
+```yaml title="launch-config.yaml"
+builder:
+  type: noop
+```
 
-- Share built images with others
-- Limit the amount of data stored on your local machine
+## Container registries
 
-To learn more about how connect the launch agent with a cloud registry, see the [Advanced agent set](./setup-agent-advanced.md) up page.
+Launch uses external container registeries such as Dockerhub, Google Container Registry, Azure Container Registry, and Amazon ECR.  
+If you want to run a job on a different environment from where you built it, configure your agent to be able to pull from a container registry. 
+
+
+To learn more about how connect the launch agent with a cloud registry, see the [Advanced agent setup](./setup-agent-advanced.md#agent-configuration) page.
