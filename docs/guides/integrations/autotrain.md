@@ -66,6 +66,7 @@ autotrain llm \
     --train \
     --model HuggingFaceH4/zephyr-7b-alpha \
     --project-name zephyr-math \
+    --log wandb \
     --data-path data/ \
     --text-column text \
     --lr 2e-5 \
@@ -79,7 +80,6 @@ autotrain llm \
     --weight-decay 0.0 \
     --gradient-accumulation 4 \
     --logging_steps 10 \
-    --log wandb \
     --fp16 \
     --use-peft \
     --use-int4 \
@@ -106,13 +106,13 @@ lora_r = 16
 lora_alpha = 32
 lora_dropout = 0.05
 logging_steps = 10
-log = "wandb"
 
 # Run training
 !autotrain llm \
     --train \
     --model "HuggingFaceH4/zephyr-7b-alpha" \
     --project-name "zephyr-math" \
+    --log "wandb" \
     --data-path data/ \
     --text-column text \
     --lr str(learning_rate) \
@@ -126,7 +126,6 @@ log = "wandb"
     --weight-decay str(weight_decay) \
     --gradient-accumulation str(gradient_accumulation) \
     --logging-steps str(logging_steps) \
-    --log str(log) \
     --fp16 \
     --use-peft \
     --use-int4 \
