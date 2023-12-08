@@ -50,13 +50,15 @@ with wandb.init(project="models_quickstart") as run:
     run.finish()
 ```
 
-4. **Test and deploy your model**: Transition model versions through customizable workflows stages, such as `staging` and `production`, and [trigger](./automation.md) webhooks or jobs as a result.
+4. **Connect model transitions to CI/DC workflows**: transition candidate models through workflow stages and [automate downstream actions](./automation.md) with webhooks or jobs.
+
 
 ## How to get started
 Depending on your use case, explore the following resources to get started with W&B Models:
 
-<!-- * [Try the Quickstart](./quickstart.md) to log and link a sample model in just two minutes. -->
-* Check out the two-part video series on (1) [logging and registering models]([url](https://www.youtube.com/watch?si=MV7nc6v-pYwDyS-3&v=ZYipBwBeSKE&feature=youtu.be)) and (2) [consuming models and automating downstream processes]([url](https://www.youtube.com/watch?v=8PFCrDSeHzw)) in the Model Registry.
+* Check out the two-part video series:
+  1. [Logging and registering models](https://www.youtube.com/watch?si=MV7nc6v-pYwDyS-3&v=ZYipBwBeSKE&feature=youtu.be)
+  2. [Consuming models and automating downstream processes](https://www.youtube.com/watch?v=8PFCrDSeHzw) in the Model Registry.
 * Read the [models walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
 * Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
 * Explore this chapter to learn how about:
