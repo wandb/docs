@@ -34,7 +34,7 @@ pip install --upgrade autotrain-advanced wandb
   </TabItem>
   <TabItem value="notebook">
 
-```python
+```notebook
 !pip install --upgrade autotrain-advanced wandb
 ```
 
@@ -51,7 +51,7 @@ To demonstrate these changes we will fine-tune an LLM on a math dataset and try 
 
 ### Training using Autotrain Advanced
 
-We can start training using the Autotrain Advanced CLI. To leverage the logging functionality, we simplt use the `--log` argument. Specifying `--log wandb` will seamlessly log your results to a [W&B run](https://docs.wandb.ai/guides/runs). 
+We can start training using the Autotrain Advanced CLI. To leverage the logging functionality, we simply use the `--log` argument. Specifying `--log wandb` will seamlessly log your results to a [W&B run](https://docs.wandb.ai/guides/runs). 
 
 <Tabs
   defaultValue="script"
@@ -92,7 +92,7 @@ autotrain llm \
   </TabItem>
   <TabItem value="notebook">
 
-```python
+```notebook
 # Set hyperparameters
 learning_rate = 2e-5
 num_epochs = 3
