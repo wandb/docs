@@ -128,7 +128,7 @@ run = wandb.init(project="<your-project>", entity="<your-entity>")
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-The `[use_model](../../../ref/python/run.md#use_model)` function returns the path of downloaded model file(s). Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
+The [use_model](../../../ref/python/run.md#use_model) function returns the path of downloaded model file(s). Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
 
 <details>
 
