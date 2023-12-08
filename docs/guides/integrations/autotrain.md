@@ -4,7 +4,6 @@ displayed_sidebar: default
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Hugging Face Autotrain
 
