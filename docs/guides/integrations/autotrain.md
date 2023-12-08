@@ -108,7 +108,7 @@ lora_dropout = 0.05
 logging_steps = 10
 log = "wandb"
 
-
+# Run training
 !autotrain llm \
     --train \
     --model "HuggingFaceH4/zephyr-7b-alpha" \
