@@ -93,8 +93,8 @@ artifact_dir = artifact.download()
 
 See [Artifact References](https://docs.wandb.ai/guides/artifacts/references) for more on how to use Artifacts by reference, credentials setup etc.
 
-## Login to W&B
-Login to Weights and Biases 
+## Log in to W&B
+Log in to Weights and Biases 
 
 
 ```python

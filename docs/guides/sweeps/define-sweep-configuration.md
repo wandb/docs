@@ -31,17 +31,14 @@ The following code snippets demonstrate examples of how to define a Sweep config
 
 ```python
 sweep_configuration = {
-    'method': 'bayes',
-    'name': 'sweep',
-    'metric': {
-        'goal': 'minimize', 
-        'name': 'validation_loss'
-		},
-    'parameters': {
-        'batch_size': {'values': [16, 32, 64]},
-        'epochs': {'values': [5, 10, 15]},
-        'lr': {'max': 0.1, 'min': 0.0001}
-     }
+    "method": "bayes",
+    "name": "sweep",
+    "metric": {"goal": "minimize", "name": "validation_loss"},
+    "parameters": {
+        "batch_size": {"values": [16, 32, 64]},
+        "epochs": {"values": [5, 10, 15]},
+        "lr": {"max": 0.1, "min": 0.0001},
+    },
 }
 ```
   </TabItem>
@@ -80,9 +77,7 @@ metric:
 You must log the variable `val_loss` (in this example) within your Python script or Jupyter Notebook to W&B.
 
 ```python
-wandb.log({
-        'val_loss': validation_loss
-      })
+wandb.log({"val_loss": validation_loss})
 ```
 
 Defining the metric in the sweep configuration is only required when using the bayes method for the sweep. 
@@ -336,7 +331,7 @@ For example, if you want to minimize the validation loss of your model:
 
 ```python
 # model training code that returns validation loss as valid_loss
-wandb.log({"val_loss" : valid_loss})
+wandb.log({"val_loss": valid_loss})
 ```
 
 #### Examples
@@ -484,13 +479,13 @@ The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.
   ]}>
   <TabItem value="unix">
 
-```python
+```bash
 /usr/bin/env python train.py --param1=value1 --param2=value2
 ```
   </TabItem>
   <TabItem value="windows">
 
-```python
+```bash
 python train.py --param1=value1 --param2=value2
 ```
   </TabItem>

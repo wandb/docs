@@ -138,7 +138,7 @@ In this quickstart, we will how to log a single call to an OpenAI model to W&B T
 
 Call `wandb.init` to start a W&B run. Here you can pass a W&B project name as well as an entity name (if logging to a W&B Team), as well as a config and more. See [`wandb.init`](../../ref/python/init.md) for the full list of arguments.
 
-Once your start a W&B run you will be asked to login with your Weights & Biases **[API key](https:wwww.wandb.ai/authorize)**.
+Once your start a W&B run you will be asked to log in with your Weights & Biases **[API key](https:wwww.wandb.ai/authorize)**.
 
 
 ```python

@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 # Manage data retention with Artifact TTL policy
 
-Schedule when artifacts are deleted from W&B with W&B Artifact time-to-live (TTL) policy.
+Schedule when artifacts are deleted from W&B with W&B Artifact time-to-live (TTL) policy. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. For more information on how W&B deletes artifacts, see the [Delete artifacts](./delete-artifacts.md) page.
 
 :::note
 W&B deactivates the option to set a TTL policy for model artifacts linked to the Model Registry. This is to help ensure that models are not deleted by mistake.
@@ -74,22 +74,6 @@ In the above example, the TTL policy is set to two years.
 When an artifact's TTL is modified, the time the artifact takes to expire is still calculated using the artifact's `createdAt` timestamp.
 :::
 
-<!-- ## Inherit TTL policy [For incoming feature Artifact Collection level TTL]
-Let an artifact, that does not have a TTL policy, inherit the TTL policy of the artifact collection it belongs to. An artifact can only inherit a TTL policy from the artifact collection it belongs to if the artifact collection possesses a TTL policy.  Otherwise, no TTL policy is inherited.
-
-:::note
-An artifact will not inherit a TTL policy from its artifact collection if a TTL policy already exists for that artifact.
-:::
-
-1. [Fetch your artifact](./download-and-use-an-artifact.md).
-2. Set the artifact's `ttl` attribute to the constant `wandb.ArtifactTTL.INHERIT`.
-3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
-
-```python
-artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
-artifact.ttl = wandb.ArtifactTTL.INHERIT
-artifact.save()
-``` -->
 
 ## Deactivate a TTL policy
 Use the W&B Python SDK to deactivate a TTL policy.

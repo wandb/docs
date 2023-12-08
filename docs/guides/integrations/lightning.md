@@ -37,7 +37,7 @@ a) [**Sign up**](https://wandb.ai/site) for a free account
 
 b) Pip install the `wandb` library
 
-c) To login in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+c) To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
 If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)****
 
@@ -49,7 +49,7 @@ If you are using Weights and Biases for the first time you might want to check o
   ]}>
   <TabItem value="cli">
 
-```python
+```bash
 pip install wandb
 
 wandb login
@@ -58,7 +58,7 @@ wandb login
 </TabItem>
   <TabItem value="notebook">
 
-```python
+```notebook
 !pip install wandb
 
 import wandb
@@ -127,10 +127,10 @@ from torch.optim import Adam
 from torchmetrics.functional import accuracy
 from pytorch_lightning import LightningModule
 
-class My_LitModule(LightningModule):
 
+class My_LitModule(LightningModule):
     def __init__(self, n_classes=10, n_layer_1=128, n_layer_2=256, lr=1e-3):
-        '''method used to define our model parameters'''
+        """method used to define our model parameters"""
         super().__init__()
 
         # mnist images are (1, 28, 28) (channels, width, height)
@@ -145,8 +145,8 @@ class My_LitModule(LightningModule):
         self.save_hyperparameters()
 
     def forward(self, x):
-        '''method used for inference input -> output'''
-        
+        """method used for inference input -> output"""
+
         # (b, 1, 28, 28) -> (b, 1*28*28)
         batch_size, channels, width, height = x.size()
         x = x.view(batch_size, -1)
@@ -158,29 +158,29 @@ class My_LitModule(LightningModule):
         return x
 
     def training_step(self, batch, batch_idx):
-        '''needs to return a loss from a single batch'''
+        """needs to return a loss from a single batch"""
         _, loss, acc = self._get_preds_loss_accuracy(batch)
 
         # Log loss and metric
-        self.log('train_loss', loss)
-        self.log('train_accuracy', acc)
+        self.log("train_loss", loss)
+        self.log("train_accuracy", acc)
         return loss
 
     def validation_step(self, batch, batch_idx):
-        '''used for logging metrics'''
+        """used for logging metrics"""
         preds, loss, acc = self._get_preds_loss_accuracy(batch)
 
         # Log loss and metric
-        self.log('val_loss', loss)
-        self.log('val_accuracy', acc)
+        self.log("val_loss", loss)
+        self.log("val_accuracy", acc)
         return preds
-    
+
     def configure_optimizers(self):
-        '''defines model optimizer'''
+        """defines model optimizer"""
         return Adam(self.parameters(), lr=self.lr)
-    
+
     def _get_preds_loss_accuracy(self, batch):
-        '''convenience function since train/valid/test steps are similar'''
+        """convenience function since train/valid/test steps are similar"""
         x, y = batch
         logits = self(x)
         preds = torch.argmax(logits, dim=1)
@@ -198,16 +198,16 @@ To tell W&B to keep track of the max validation accuracy in the W&B summary metr
 ```python
 class My_LitModule(LightningModule):
     ...
-    
+
     def validation_step(self, batch, batch_idx):
-        if trainer.global_step == 0: 
-            wandb.define_metric('val_accuracy', summary='max')
-        
+        if trainer.global_step == 0:
+            wandb.define_metric("val_accuracy", summary="max")
+
         preds, loss, acc = self._get_preds_loss_accuracy(batch)
 
         # Log loss and metric
-        self.log('val_loss', loss)
-        self.log('val_accuracy', acc)
+        self.log("val_loss", loss)
+        self.log("val_accuracy", acc)
         return preds
 ```
 
@@ -273,10 +273,10 @@ wandb_logger.log_image(key="samples", images=[img1, img2], caption=["tree", "per
 wandb_logger.log_image(key="samples", images=["img_1.jpg", "img_2.jpg"])
 
 # using .log in the trainer
-trainer.logger.experiment.log({
-    "samples": [wandb.Image(img, caption=caption) 
-    for (img, caption) in my_images]
-}, step = current_trainer_global_step)
+trainer.logger.experiment.log(
+    {"samples": [wandb.Image(img, caption=caption) for (img, caption) in my_images]},
+    step=current_trainer_global_step,
+)
 ```
   </TabItem>
   <TabItem value="text">
@@ -301,8 +301,10 @@ wandb_logger.log_text(key="my_samples", dataframe=my_dataframe)
 columns = ["caption", "image", "sound"]
 
 # data should be a list of lists
-my_data = [["cheese", wandb.Image(img_1), wandb.Audio(snd_1)], 
-        ["wine", wandb.Image(img_2), wandb.Audio(snd_2)]]
+my_data = [
+    ["cheese", wandb.Image(img_1), wandb.Audio(snd_1)],
+    ["wine", wandb.Image(img_2), wandb.Audio(snd_2)],
+]
 
 # log the Table
 wandb_logger.log_table(key="my_samples", columns=columns, data=data)
@@ -321,45 +323,40 @@ import wandb
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 
+
 class LogPredictionSamplesCallback(Callback):
-    
     def on_validation_batch_end(
-        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx):
+        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx
+    ):
         """Called when the validation batch ends."""
- 
+
         # `outputs` comes from `LightningModule.validation_step`
         # which corresponds to our model predictions in this case
-        
+
         # Let's log 20 sample image predictions from the first batch
         if batch_idx == 0:
             n = 20
             x, y = batch
             images = [img for img in x[:n]]
-            captions = [f'Ground Truth: {y_i} - Prediction: {y_pred}' 
-                for y_i, y_pred in zip(y[:n], outputs[:n])]
-            
-            
-            # Option 1: log images with `WandbLogger.log_image`
-            wandb_logger.log_image(
-                key='sample_images', 
-                images=images, 
-                caption=captions)
+            captions = [
+                f"Ground Truth: {y_i} - Prediction: {y_pred}"
+                for y_i, y_pred in zip(y[:n], outputs[:n])
+            ]
 
+            # Option 1: log images with `WandbLogger.log_image`
+            wandb_logger.log_image(key="sample_images", images=images, caption=captions)
 
             # Option 2: log images and predictions as a W&B Table
-            columns = ['image', 'ground truth', 'prediction']
-            data = [[wandb.Image(x_i), y_i, y_pred] f
-                or x_i, y_i, y_pred in list(zip(x[:n], y[:n], outputs[:n]))]
-            wandb_logger.log_table(
-                key='sample_table',
-                columns=columns,
-                data=data)            
-...
+            columns = ["image", "ground truth", "prediction"]
+            data = [
+                [wandb.Image(x_i), y_i, y_pred] or x_i,
+                y_i,
+                y_pred in list(zip(x[:n], y[:n], outputs[:n])),
+            ]
+            wandb_logger.log_table(key="sample_table", columns=columns, data=data)
 
-trainer = pl.Trainer(
-    ...
-    callbacks=[LogPredictionSamplesCallback()]
-)
+
+trainer = pl.Trainer(callbacks=[LogPredictionSamplesCallback()])
 ```
 
 ### How to use multiple GPUs with Lightning and W&B?
@@ -381,62 +378,54 @@ class MNISTClassifier(pl.LightningModule):
             nn.ReLU(),
             nn.Linear(128, 10),
         )
-        
+
         self.loss = nn.CrossEntropyLoss()
-    
+
     def forward(self, x):
         return self.model(x)
-    
+
     def training_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self.forward(x)
         loss = self.loss(y_hat, y)
-        
+
         self.log("train/loss", loss)
         return {"train_loss": loss}
-    
+
     def validation_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self.forward(x)
         loss = self.loss(y_hat, y)
-        
+
         self.log("val/loss", loss)
         return {"val_loss": loss}
-    
+
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=0.001)
 
+
 def main():
     # Setting all the random seeds to the same value.
-    # This is important in a distributed training setting. 
-    # Each rank will get its own set of initial weights. 
+    # This is important in a distributed training setting.
+    # Each rank will get its own set of initial weights.
     # If they don't match up, the gradients will not match either,
     # leading to training that may not converge.
     pl.seed_everything(1)
 
-    train_loader = DataLoader(train_dataset,  batch_size = 64, 
-                              shuffle = True, 
-                              num_workers = 4)
-    val_loader = DataLoader(val_dataset, 
-                            batch_size = 64, 
-                            shuffle = False, 
-                            num_workers = 4)
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=4)
+    val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False, num_workers=4)
 
     model = MNISTClassifier()
-    wandb_logger = WandbLogger(project = "<project_name>")
+    wandb_logger = WandbLogger(project="<project_name>")
     callbacks = [
         ModelCheckpoint(
-            dirpath = "checkpoints",
+            dirpath="checkpoints",
             every_n_train_steps=100,
         ),
     ]
     trainer = pl.Trainer(
-        max_epochs = 3, 
-        gpus = 2, 
-        logger = wandb_logger, 
-        strategy="ddp", 
-        callbacks=callbacks
-    ) 
+        max_epochs=3, gpus=2, logger=wandb_logger, strategy="ddp", callbacks=callbacks
+    )
     trainer.fit(model, train_loader, val_loader)
 ```
 

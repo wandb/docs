@@ -49,6 +49,7 @@ const sidebars = {
               link: { type: 'doc', id: 'guides/track/log/intro' },
               items: [
                 // 'guides/track/log/intro',
+                'guides/track/log/log-models',
                 'guides/track/log/plots',
                 'guides/track/log/log-tables',
                 'guides/track/log/log-summary',
@@ -216,6 +217,7 @@ const sidebars = {
             'guides/tables/tables-walkthrough',
             'guides/tables/visualize-tables',
             'guides/tables/tables-gallery',
+            'guides/tables/tables-download',
           ],
         },
         {
@@ -373,6 +375,7 @@ const sidebars = {
             'guides/hosting/sso',
             'guides/hosting/smtp',
             'guides/hosting/slack-alerts',
+            'guides/hosting/scim',
           ],
         },
         // 'guides/hosting/debug',
@@ -414,6 +417,7 @@ const sidebars = {
           ],
         },
         'guides/integrations/huggingface',
+        'guides/integrations/diffusers',
         'guides/integrations/other/accelerate',
         'guides/integrations/other/hydra',
         'guides/integrations/keras',
@@ -758,6 +762,7 @@ const sidebars = {
         'guides/hosting/slack-alerts',
         'guides/hosting/smtp',
         'guides/hosting/env-vars',
+        'guides/hosting/scim',
         {
           type: 'category',
           label: 'ハウツーガイド',
@@ -876,6 +881,7 @@ const sidebars = {
       // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
       items: [
         'tutorials/volcano',
+        'tutorials/minikube_gpu'
       ],
     },
   ],

@@ -20,10 +20,11 @@ Use `wandb.init` and `run.finish()` to log multiple Runs from one script:
 
 ```python
 import wandb
+
 for x in range(10):
     run = wandb.init(reinit=True)
-    for y in range (100):
-        wandb.log({"metric": x+y})
+    for y in range(100):
+        wandb.log({"metric": x + y})
     run.finish()
 ```
 
@@ -31,11 +32,12 @@ Alternatively you can use a python context manager which will automatically fini
 
 ```python
 import wandb
+
 for x in range(10):
     run = wandb.init(reinit=True)
     with run:
         for y in range(100):
-            run.log({"metric": x+y})
+            run.log({"metric": x + y})
 ```
 
 ### `InitStartError: Error communicating with wandb process` <a href="#init-start-error" id="init-start-error"></a>
@@ -97,6 +99,7 @@ If you'd like to overwrite the run name (like snowy-owl-10) with the run ID (lik
 
 ```python
 import wandb
+
 wandb.init()
 wandb.run.name = wandb.run.id
 wandb.run.save()
@@ -131,17 +134,17 @@ os.environ["WANDB_API_KEY"] = YOUR_KEY_HERE
 os.environ["WANDB_MODE"] = "offline"
 
 config = {
-  "dataset": "CIFAR10",
-  "machine": "offline cluster",
-  "model": "CNN",
-  "learning_rate": 0.01,
-  "batch_size": 128,
+    "dataset": "CIFAR10",
+    "machine": "offline cluster",
+    "model": "CNN",
+    "learning_rate": 0.01,
+    "batch_size": 128,
 }
 
 wandb.init(project="offline-demo")
 
 for i in range(100):
-  wandb.log({"accuracy": i})
+    wandb.log({"accuracy": i})
 ```
 
 Here's a sample terminal output:
@@ -150,7 +153,7 @@ Here's a sample terminal output:
 
 And once you're ready, just run a sync command to send that folder to the cloud.
 
-```python
+```shell
 wandb sync wandb/dryrun-folder-name
 ```
 

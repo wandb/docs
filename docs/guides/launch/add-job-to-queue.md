@@ -14,7 +14,6 @@ Ensure that you, or someone on your team, has already configured a launch queue.
 
 
 
-
 ## Add jobs to your queue
 
 Add jobs to your queue interactively with the W&B App or programmatically with the W&B CLI.
@@ -26,27 +25,24 @@ Add jobs to your queue interactively with the W&B App or programmatically with t
     {label: 'W&B CLI', value: 'cli'},
   ]}>
   <TabItem value="app">
-Add a job to your queue with the W&B App.
+Add a job to your queue programmatically with the W&B App.
 
 1. Navigate to your W&B Project Page.
 2. Select the **Jobs** icon on the left panel:
-
-![](/images/launch/project_jobs_tab_gs.png)
-
+  ![](/images/launch/project_jobs_tab_gs.png)
 3. The **Jobs** page displays a list of W&B launch jobs that were created from previously executed W&B runs. 
-
-![](/images/launch/view_jobs.png)
-
+  ![](/images/launch/view_jobs.png)
 4. Select the **Launch** button next to the name of the Job name. A modal will appear on the right side of the page.
-5. Within the modal select the:
-  * **Job version**: the version of the job to launch. Jobs are versioned like any other W&B Artifact. Different versions of the same job will be created if you make modifications to the software dependencies or source code used to run the job. Since we only have one version, we will select the default **@latest** version.
-  * **Overrides**: new values for any of jobs inputs. These can be used to change the entrypoint command, arguments, or values in the `wandb.config` of your new run. Our run had one value in the `wandb.config`: `epochs`. We can override this value by in the overrides field. We can also paste values from other runs using this job by clicking the **Paste from...** button.
-  * **Queue**: the queue to launch the run on. If you have not created any queues yet, you should have the option to create a **Starter Queue**. This queue will be used to launch runs on your local machine using Docker.
-
-![](/images/launch/create_starter_queue_gs.png)
-
-6. Next, select **Starter queue** from the **Queue** dropdown to create a queue.
-7. Select the **Launch now** button. 
+5. From the **Job version** dropdown, select the version of hte launch job you want to use. Launch jobs are versioned like any other [W&B Artifact](../artifacts/create-a-new-artifact-version.md). Different versions of the same launch job will be created if you make modifications to the software dependencies or source code used to run the job.
+6. Within the **Overrides** section, provide new values for any inputs that are configured for your launch job. Common overrides include a new entrypoint command, arguments, or values in the `wandb.config` of your new W&B run.  
+  ![](/images/launch/create_starter_queue_gs.png)
+  You can copy and paste values from other W&B runs that used your launch job by clicking on the **Paste from...** button.
+7. From the **Queue** dropdown, select the name of the launch queue you want to add your launch job to. 
+8. **(Optional) Follow this step only if a queue config template was created by your team admin**  
+Within the **Queue Configurations** field, provide values for configuration options that were created by the admin of your team.  
+For example, in the following example, the team admin configured AWS instance types that can be used by the team. In this case, team members can pick either the `ml.m4.xlarge` or `ml.p3.xlarge` compute instance type to train their model.
+![](/images/launch/team_member_use_config_template.png)
+9. Select the **Launch now** button. 
 
 
   </TabItem>
@@ -56,14 +52,14 @@ Use the `wandb launch` command to add jobs to a queue. Create a JSON configurati
 
 ```json title="config.json"
 {
-    "overrides": {
-        "args": [],
-        "run_config": {
-            "learning_rate": 0,
-            "epochs": 0
-        },   
-        "entry_point": []
-    }
+  "overrides": {
+      "args": [],
+      "run_config": {
+          "learning_rate": 0,
+          "epochs": 0
+      },   
+      "entry_point": []
+  }
 }
 ```
 
@@ -71,23 +67,23 @@ Use the `wandb launch` command to add jobs to a queue. Create a JSON configurati
 W&B Launch will use the default parameters if you do not provide a JSON configuration file.
 :::
 
-If you want to override the queue configuration, or if your your launch queue does not have a configuration resource defined, you can specify the `resource_args` key in your config.json file. For example, following continuing the example above, your config.json file might look similar to the following:
+If you want to override the queue configuration, or if your launch queue does not have a configuration resource defined, you can specify the `resource_args` key in your config.json file. For example, following continuing the example above, your config.json file might look similar to the following:
 
 ```json title="config.json"
 {
-    "overrides": {
-        "args": [],
-        "run_config": {
-            "learning_rate": 0,
-            "epochs": 0
-        },
-        "entry_point": []
-    },
-    "resource_args": {
-         "<resource-type>" : {
-             "<key>": "<value>"
-          }
-    }
+  "overrides": {
+      "args": [],
+      "run_config": {
+          "learning_rate": 0,
+          "epochs": 0
+      },
+      "entry_point": []
+  },
+  "resource_args": {
+        "<resource-type>" : {
+            "<key>": "<value>"
+        }
+  }
 }
 ```
 

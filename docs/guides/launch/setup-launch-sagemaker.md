@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 <!-- You can use W&B Launch to submit jobs to run as SageMaker training jobs. Amazon SageMaker training jobs allow users to train machine learning models using provided or custom algorithms on the SageMaker platform. Once initiated, SageMaker handles the underlying infrastructure, scaling, and orchestration. -->
 
-You can use W&B Launch to submit launch jobs to Amazon SageMaker to train machine learning models using provided or custom algorithms on the SageMaker platform.
+You can use W&B Launch to submit launch jobs to Amazon SageMaker to train machine learning models using provided or custom algorithms on the SageMaker platform. SageMaker takes care of spinning up and releasing compute resources, so it can be good a choice for teams without an EKS cluster.
 
 Launch jobs sent to Amazon SageMaker are executed as SageMaker Training Jobs with the [CreateTrainingJob API](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). Arguments to the `CreateTrainingJob` API are controlled with the launch queue configuration. 
 
@@ -23,8 +23,8 @@ Create and make note of the following AWS resources:
 
 1. **Setup SageMaker in your AWS account.** See the [SageMaker Developer guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) for more information.
 2. **Create an Amazon ECR repository**  to store images you want to execute on Amazon SageMaker. See the [Amazon ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for more information.
-3. **Create an Amazon S3 bucket(s)** to store SageMaker inputs and outputs for your SageMaker training jobs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information. Make note of the S3 bucket URI and directory.
-4. **Create IAM execution role.** The role used in the SageMaker training job requires the following permissions to work. These permissions allow for logging events, pulling from ECR, and interacting with input and output buckets. 
+3. **Create an Amazon S3 buckets** to store SageMaker inputs and outputs for your SageMaker training jobs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information. Make note of the S3 bucket URI and directory.
+4. **Create IAM execution role.** The role used in the SageMaker training job requires the following permissions to work. These permissions allow for logging events, pulling from ECR, and interacting with input and output buckets.  (Note: if you already have this role for SageMaker training jobs, you do not need to create it again.)
   ```json title="IAM role policy"
   {
     "Version": "2012-10-17",
@@ -148,7 +148,7 @@ You must at minimum specify:
 - `RoleArn` : ARN of the IAM role that you created that satisfied the [prerequisites](#prerequisites).
 - `OutputDataConfig.S3OutputPath` : An Amazon S3 URI specifying where SageMaker outputs will be stored.
 - `ResourceConfig`: Required specification of a resource config. Options for resource config are outlined [here](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceConfig.html).
-- `StoppingCondition`: Required specification of the stopping conditions for the trainin job. Options outlined [here](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_StoppingCondition.html).
+- `StoppingCondition`: Required specification of the stopping conditions for the training job. Options outlined [here](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_StoppingCondition.html).
 7. Click on the **Create Queue** button.
 
 

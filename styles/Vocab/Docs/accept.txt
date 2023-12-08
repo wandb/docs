@@ -1,0 +1,16 @@
+CLI
+Autogenerate
+Colab
+[Cc]onfig
+[Dd]equeue
+[Dd]equeues
+Dockerfile
+[Ee]nqueued
+[Hh]yperparameters
+[Hh]yperparameter
+GPUs
+Kaniko
+Kubeflow
+[Nn]amespace
+Optuna
+[Ww]alkthrough

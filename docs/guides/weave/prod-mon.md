@@ -27,9 +27,10 @@ Get started in two steps:
 
 ```python
 from weave.monitoring import StreamTable
+
 table = StreamTable("prodmon_demo")
 for i in range(100):
-  table.log({"_id" : i, "text" : "hi " + str(i), "img" : gen_image()}
+    table.log({"_id": i, "text": "hi " + str(i), "img": gen_image()})
 ```
 Read more about the [Weave StreamTable API](https://github.com/wandb/weave/blob/master/examples/experimental/ProductionMonitoring/StreamTable.md)
 
@@ -49,13 +50,14 @@ Try a simple interactive example [in a Jupyter notebook](https://github.com/wand
 ```python
 from weave.monitoring import monitor
 
+
 @monitor()
 def ask_llm_calculator(prompt, question):
-	return agent.run(prompt + " " + question)
+    return agent.run(prompt + " " + question)
+
 
 ask_llm_calculator(
-	"Please accurately answer the following question:",
-	"Find the square root of 5.4"
+    "Please accurately answer the following question:", "Find the square root of 5.4"
 )
 ```
 

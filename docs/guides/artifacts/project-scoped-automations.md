@@ -17,11 +17,6 @@ Some common use cases for automations that are triggered from changes to an arti
 * When a new version of an evaluation/holdout dataset is uploaded, [trigger a launch job](#create-a-launch-automation) that performs inference using the best training model in the model registry and creates a report with performance information.
 * When a new version of the training dataset is labeled as "production," [trigger a retraining launch](#create-a-launch-automation) job with the configs from the current best-performing model.
 
-
-
-
-
-
 :::info
 Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
 
@@ -52,16 +47,25 @@ The following sections describe how to create an automation with webhooks and W&
 ## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
 
-### Add a secret for authentication
-Define a team secret to ensure the authenticity and integrity of data transmitted from payloads. 
+### Add a secret for authentication or authorization
+Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
 
-:::note
-* Secrets are available if you use:
-  * W&B SaaS public cloud; or
-  * W&B Server in a Kubernetes cluster
-* Skip this section if the external server you send HTTP POST requests to does not use secrets.  
+To use a secret in your webhook, you must first add that secret to your team's secret manager.
+
+:::info
+* Only W&B Admins can create, edit, or delete a secret.
+* Skip this section if the external server you send HTTP POST requests to does not use secrets.
+* Secrets are also available if you use [W&B Server](../hosting/intro.md) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
 :::
 
+
+
+There are two types of secrets W&B suggests that you create when you use a webhook automation:
+
+* **Access tokens**: Authorize senders to help secure webhook requests 
+* **Secret**: Ensure the authenticity and integrity of data transmitted from payloads
+
+Follow the instructions below to create a webhook:
 
 1. Navigate to the W&B App UI.
 2. Click on **Team Settings**.
@@ -69,18 +73,20 @@ Define a team secret to ensure the authenticity and integrity of data transmitte
 4. Click on the **New secret** button.
 5. A modal will appear. Provide a name for your secret in the **Secret name** field.
 6. Add your secret into the **Secret** field. 
+7. (Optional) Repeat steps 5 and 6 to create another secret (such as an access token) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 
-:::info
-Only W&B Admins can create, edit, or delete a secret.
-:::
+Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook](#configure-a-webhook) section for more information. 
 
+:::tip
 Once you create a secret, you can access that secret in your W&B workflows with `$`.
+:::
 
 ### Configure a webhook
 Before you can use a webhook, you will first need to configure that webhook in the W&B App UI.
 
 :::info
-Only W&B Admins can configure a webhook for a W&B Team.
+* Only W&B Admins can configure a webhook for a W&B Team.
+* Ensure you already [created one or more secrets](#add-a-secret-for-authentication-or-authorization) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 :::
 
 1. Navigate to the W&B App UI.
@@ -89,8 +95,14 @@ Only W&B Admins can configure a webhook for a W&B Team.
 5. Click on the **New webhook** button.  
 6. Provide a name for your webhook in the **Name** field.
 7. Provide the endpoint URL for the webhook in the **URL** field.
+8. (Optional) From the **Secret** dropdown menu, select the secret you want to use to authenticate the webhook payload.
+9. (Optional) From the **Access token** dropdown menu, select the access token you want to use to authorize the sender.
+9. (Optional) From the **Access token** dropdown menu select additional secret keys or tokens required to authenticate a webhook  (such as an access token).
 
-
+:::note
+See the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to view where the secret and access token are specified in
+the POST request.
+:::
 ### Add a webhook 
 Once you have a webhook configured and (optionally) a secret, navigate to your project workspace. Click on the **Automations** tab on the left sidebar.
 
@@ -108,9 +120,6 @@ Once you have a webhook configured and (optionally) a secret, navigate to your p
 ![](/images/artifacts/artifacts_webhook_name_automation.png)
 9. (Optional) Provide a description for your webhook. 
 10. Click on the **Create automation** button.
-
-
-<!-- INSERT -->
 
 ### Example payloads
 
@@ -133,20 +142,23 @@ The following tabs demonstrate example payloads based on common use cases. Withi
   ]}>
   <TabItem value="github">
 
-  
+:::info
+Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
+:::
+
   Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
 
   ```yaml
   on:
     repository_dispatch:
-      types: ADD_ARTIFACT_ALIAS
+      types: BUILD_AND_DEPLOY
   ```
 
   The payload for the repository might look something like:
 
   ```json
   {
-    "event_type": "${event_type}",
+    "event_type": "BUILD_AND_DEPLOY",
     "client_payload": 
     {
       "event_author": "${event_author}",
@@ -160,7 +172,11 @@ The following tabs demonstrate example payloads based on common use cases. Withi
 
   ```
 
-  Where template strings render depending on the event or artifact version the automation is configured for. `${event_type}` will render as an "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
+:::note
+The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
+:::
+
+  The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
 
   ```json
   ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
@@ -249,6 +265,43 @@ The following tabs demonstrate example payloads based on common use cases. Withi
 
   </TabItem>
 </Tabs>
+
+### Troubleshoot your webhook
+
+The following bash script generates a POST request similar to the POST request W&B sends to your webhook automation when it is triggered.
+
+Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for the following:
+
+* `ACCESS_TOKEN`
+* `SECRET`
+* `PAYLOAD`
+* `API_ENDPOINT`
+
+
+```sh title="webhook_test.sh"
+#!/bin/bash
+
+# Your access token and secret
+ACCESS_TOKEN="your_api_key" 
+SECRET="your_api_secret"
+
+# The data you want to send (for example, in JSON format)
+PAYLOAD='{"key1": "value1", "key2": "value2"}'
+
+# Generate the HMAC signature
+# For security, Wandb includes the X-Wandb-Signature in the header computed 
+# from the payload and the shared secret key associated with the webhook 
+# using the HMAC with SHA-256 algorithm.
+SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" -binary | base64)
+
+# Make the cURL request
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "X-Wandb-Signature: $SIGNATURE" \
+  -d "$PAYLOAD" API_ENDPOINT
+```
+
 
 ## Create a launch automation
 Automatically start a W&B Job. 

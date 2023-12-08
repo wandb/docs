@@ -22,6 +22,7 @@ The only required argument to create a StreamTable is the name of the StreamTabl
 
 ```python
 from weave.monitoring import StreamTable
+
 st = StreamTable("my_entity_name/my_project_name/my_table_name")
 ```
 If an entity (W&B username or shared team name) is not provided, this will attempt to default to the current logged-in entity.
@@ -31,11 +32,14 @@ If an entity (W&B username or shared team name) is not provided, this will attem
 Call `.log()` to add rows to a StreamTable:
 
 ```python
-st.log({"one_column_name" : "value_a", "another_column_name" : 7})
-st.log([
-    {"one_column_name" : "value_b", "another_column_name" : 19},
-    {"one_column_name" : "value_c", "another_column_name" : 28},
-    {"one_column_name" : "value_d", "another_column_name" : 36}])
+st.log({"one_column_name": "value_a", "another_column_name": 7})
+st.log(
+    [
+        {"one_column_name": "value_b", "another_column_name": 19},
+        {"one_column_name": "value_c", "another_column_name": 28},
+        {"one_column_name": "value_d", "another_column_name": 36},
+    ]
+)
 ```
 `.log()` accepts a single dictionary or a list of dictionaries, where each dictionary entry corresponds to one row of the table. In each dictionary, the keys are column names and the values are the corresponding cell values.
 
@@ -57,7 +61,7 @@ Continue logging as much data as you like! If you save the StreamTable Panel as 
 
 Create a StreamTable by providing a table name, with W&B entity (username or team name) and W&B project as prefixes (in the form `entity_name/project_name/table_name`) or separate arguments.
 
-```python
+```text
 StreamTable(
   table_name: str,
   project_name: typing.Optional[str] = None,
@@ -71,8 +75,8 @@ Append rows to the SteamTable. Each row is a dictionary, and `.log()` accepts a 
 
 ```python
 st = StreamTable("stream_table")
-st.log({"col_A" : 10, "col_B" : "x"})
-st.log([{"col_A" : 20, "col_B" : "y"}, {"col_A" : 30, "col_B" : "z"}])
+st.log({"col_A": 10, "col_B": "x"})
+st.log([{"col_A": 20, "col_B": "y"}, {"col_A": 30, "col_B": "z"}])
 ```
 
 ### .rows()
