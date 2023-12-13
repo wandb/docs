@@ -10,7 +10,7 @@ If you are approaching or exceeding your storage limit, there are multiple paths
 ## Manage storage consumption
 W&B offers different methods of optimizing your storage consumption:
 
--  Use **[reference artifacts](../../artifacts/track-external-files.md)** to track files saved outside the W&B system, instead of uploading them to W&B storage.
+-  Use [reference artifacts](../../artifacts/track-external-files.md) to track files saved outside the W&B system, instead of uploading them to W&B storage.
 - Use an [external cloud storage bucket](../features/teams.md) for storage. *(Enterprise only)*
 
 ## Delete data
