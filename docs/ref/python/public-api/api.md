@@ -187,7 +187,7 @@ Create a new user.
 
 | Arguments |  |
 | :--- | :--- |
-|  `email` |  (str) The name of the team |
+|  `email` |  (str) The email address of the user |
 |  `admin` |  (bool) Whether this user should be a global instance admin |
 
 | Returns |  |
