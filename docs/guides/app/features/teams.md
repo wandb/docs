@@ -145,8 +145,8 @@ You can see the privacy settings of all team projects on the team settings page:
 
 :::caution
 W&B does not currently support migrating buckets. More specifically W&B does not support:
-* Migrating from one bucket to another bucket.
-* Migrating from a W&B SaaS bucket, to a newly setup team-level bucket
+* Migrating from one team-level bucket to another team-level bucket
+* Migrating from a W&B SaaS bucket to a team-level bucket
 :::
 
 The team-level secure storage connector allows teams to use their own cloud storage bucket with W&B. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements.
