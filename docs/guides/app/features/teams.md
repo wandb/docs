@@ -92,6 +92,7 @@ The proceeding table lists permissions that apply to all experiments across a gi
 | Permissions | View-Only | Team Member | Team Admin | 
 | ------------------------------------------------------------------------------------ | --------- | ----------- | ---------- |
 | View experiment metadata (includes history metrics, system metrics, files, and logs) | X         | X           | X          |
+| Edit experiment panels and workspaces                                                |           | X           | X          |
 | Log experiments                                                                      |           | X           | X          |
 | Delete experiments                                                                   |           | X (team members can only delete experiments they created) |  X  |
 |Stop experiments                                                                      |           | X (team members can only stop experiments they created)   |  X  |
