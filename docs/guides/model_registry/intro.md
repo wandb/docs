@@ -31,23 +31,22 @@ import wandb
 import random
 
 # Start a new W&B run
-with wandb.init(project="models_quickstart") as run:
-    # Simulate logging model metrics
-    run.log({"acc": random.random()})
+run =  wandb.init(project="models_quickstart")
 
-    # Create a simulated model file
-    with open("my_model.h5", "w") as f:
-        f.write("Model: " + str(random.random()))
+# Simulate logging model metrics
+run.log({"acc": random.random()})
 
-    # Save the dummy model to W&B
-    best_model = wandb.Artifact(f"model_{run.id}", type="model")
-    best_model.add_file("my_model.h5")
-    run.log_artifact(best_model)
+# Create a simulated model file
+with open("my_model.h5", "w") as f:
+    f.write("Model: " + str(random.random()))
 
-    # Link the model to the Model Registry
-    run.link_artifact(best_model, "model-registry/My Registered Model")
+# Log the model to the W&B run
+run.log(path="./my_model.h5", name="MNIST",)
 
-    run.finish()
+# Link the model to the Model Registry
+run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
+
+run.finish()
 ```
 
 4. **Connect model transitions to CI/DC workflows**: transition candidate models through workflow stages and [automate downstream actions](./automation.md) with webhooks or jobs.
