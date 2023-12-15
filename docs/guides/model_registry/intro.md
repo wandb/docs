@@ -40,11 +40,8 @@ run.log({"acc": random.random()})
 with open("my_model.h5", "w") as f:
     f.write("Model: " + str(random.random()))
 
-# Log the model to the W&B run
-run.log(path="./my_model.h5", name="MNIST",)
-
-# Link the model to the Model Registry
-run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
+# Log and link the model to the Model Registry
+run.link_model(path="./my_model.h5", registered_model_name="MNIST")
 
 run.finish()
 ```
