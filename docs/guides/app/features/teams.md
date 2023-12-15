@@ -92,6 +92,7 @@ The proceeding table lists permissions that apply to all experiments across a gi
 | Permissions | View-Only | Team Member | Team Admin | 
 | ------------------------------------------------------------------------------------ | --------- | ----------- | ---------- |
 | View experiment metadata (includes history metrics, system metrics, files, and logs) | X         | X           | X          |
+| Edit experiment panels and workspaces                                                |           | X           | X          |
 | Log experiments                                                                      |           | X           | X          |
 | Delete experiments                                                                   |           | X (team members can only delete experiments they created) |  X  |
 |Stop experiments                                                                      |           | X (team members can only stop experiments they created)   |  X  |
@@ -141,6 +142,13 @@ You can see the privacy settings of all team projects on the team settings page:
 ## Advanced Configuration
 
 ### Secure Storage Connector
+
+:::caution
+W&B does not currently support migrating buckets. More specifically W&B does not support:
+* Migrating from one team-level bucket to another team-level bucket
+* Migrating from a W&B SaaS bucket to a team-level bucket and vice versa.
+:::
+
 The team-level secure storage connector allows teams to use their own cloud storage bucket with W&B. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements.
 
 :::info
