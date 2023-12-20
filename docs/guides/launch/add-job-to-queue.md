@@ -38,11 +38,12 @@ Add a job to your queue programmatically with the W&B App.
   ![](/images/launch/create_starter_queue_gs.png)
   You can copy and paste values from other W&B runs that used your launch job by clicking on the **Paste from...** button.
 7. From the **Queue** dropdown, select the name of the launch queue you want to add your launch job to. 
-8. **(Optional) Follow this step only if a queue config template was created by your team admin**  
+8. The **Job Priority** dropdown can be used to specify a higher or lower priority for your launch job.  Job Priority is locked to "Medium" if the Queue does not support prioritization.
+9. **(Optional) Follow this step only if a queue config template was created by your team admin**  
 Within the **Queue Configurations** field, provide values for configuration options that were created by the admin of your team.  
 For example, in the following example, the team admin configured AWS instance types that can be used by the team. In this case, team members can pick either the `ml.m4.xlarge` or `ml.p3.xlarge` compute instance type to train their model.
 ![](/images/launch/team_member_use_config_template.png)
-9. Select the **Launch now** button. 
+1. Select the **Launch now** button. 
 
 
   </TabItem>
