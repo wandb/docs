@@ -7,29 +7,23 @@ import TabItem from '@theme/TabItem';
 
 # Walkthrough
 
-The following guide shows you how to register and manage your ML models. By the end of this walkthrough you will:
+The following walkthrough shows you how to log a model to W&B. By the end of the walkthrough you will:
 
-* Log a Keras MNIST model to W&B Model Registry
-* Download the MNIST model from the Model Registry
-* ...[INSERT -  complete this bullet point after walkthrough is finalized]
+* Create and train a model with the MNIST dataset and the Keras framework.
+* Log the model that you trained to a W&B project
+* Mark the dataset you used as a dependency to the model you created
+* Link the model to the W&B Registry.
+* Evaluate the performance of the model you link to the registry
+* Mark a model version ready for production.
 
-
-:::note
-* Code snippets that are not required to use the W&B Model Registry are hidden in collapsible cells. 
-* Copy and paste the code snippets in the same order presented in this guide.
-:::
+It is expected that the following code snippets are executed in the order they are presented in this guide.
 
 ## Setting up
 
-Before you get started, install and import some Python dependencies:
-
-<details>
-
-<summary>Import Python modules</summary>
+Before you get started, import some Python dependencies:
 
 ```python
 import wandb
-
 import numpy as np
 from tensorflow import keras
 from tensorflow.keras import layers
@@ -37,75 +31,65 @@ from wandb.keras import WandbCallback
 from sklearn.model_selection import train_test_split
 ```
 
-</details>
 
 
-## Create a dataset artifact
+### Create a dataset artifact
 
-
-
-<details>
-
-<summary>Generate data</summary>
-
+First, create a dataset. The proceeding code snippet creates a function that downloads the MNIST dataset:
 ```python
-def generate_raw_data(train_size=train_size):
+def generate_raw_data(train_size=6000):
     eval_size = int(train_size / 6)
     (x_train, y_train), (x_eval, y_eval) = keras.datasets.mnist.load_data()
-
+    
     x_train = x_train.astype("float32") / 255
     x_eval = x_eval.astype("float32") / 255
     x_train = np.expand_dims(x_train, -1)
     x_eval = np.expand_dims(x_eval, -1)
-
+    
     print("Generated {} rows of training data.".format(train_size))
     print("Generated {} rows of eval data.".format(eval_size))
+    
+    return (x_train[:train_size], y_train[:train_size]), (x_eval[:eval_size], y_eval[:eval_size])
 
-    return (x_train[:train_size], y_train[:train_size]), (
-        x_eval[:eval_size],
-        y_eval[:eval_size],
-    )
-
-
+# Create dataset
 (x_train, y_train), (x_eval, y_eval) = generate_raw_data()
 ```
 
-</details>
+Next, upload the dataset to W&B. To do this, create an artifact and add the dataset to that artifact. [INSERT - add sentence why this is important/useful to do when tracking models]
 
-
-
-<details>
-
-<summary>Create dataset artifact</summary>
+Ensure to replace values enclosed in `<>` with your own.
 
 ```python
-entity = "<your-entity>"
-project = "<project-name>"
-job_type = "dataset_builder"
+entity              = "<entity>"
+project             = "model-registry-dev"
 
-run = wandb.init(
-    entity=entity,
-    project=project,
-    job_type=job_type,
-    settings=wandb.Settings(start_method="fork"),
-)
+model_use_case_id   = "mnist"
+job_type            = "build_dataset"
+
+# Initialize a W&B run
+run = wandb.init(entity=entity, 
+                 project=project, 
+                 job_type=job_type
+                )
 
 # Create W&B Table for training data
 train_table = wandb.Table(data=[], columns=[])
 train_table.add_column("x_train", x_train)
 train_table.add_column("y_train", y_train)
-train_table.add_computed_columns(lambda ndx, row: {"img": wandb.Image(row["x_train"])})
+train_table.add_computed_columns(lambda ndx, row: {
+    "img": wandb.Image(row["x_train"])
+})
 
 # Create W&B Table for eval data
 eval_table = wandb.Table(data=[], columns=[])
 eval_table.add_column("x_eval", x_eval)
 eval_table.add_column("y_eval", y_eval)
-eval_table.add_computed_columns(lambda ndx, row: {"img": wandb.Image(row["x_eval"])})
-
-
-artifact_name = model_use_case_id = "mnist_dataset"
+eval_table.add_computed_columns(lambda ndx, row: {
+    "img": wandb.Image(row["x_eval"])
+})
 
 # Create an artifact object
+artifact_name = "{}_dataset".format(model_use_case_id)
 artifact = wandb.Artifact(name=artifact_name, type="dataset")
 
 # Add wandb.WBValue obj to the artifact.
@@ -115,80 +99,55 @@ artifact.add(eval_table, "eval_table")
 # Persist any changes made to the artifact.
 artifact.save()
 
-print("Published data to Artifact {}".format(artifact_name))
-
 # Tell W&B this run is finished.
 run.finish()
 ```
 
 
-</details>
-
-
-## Download dataset from artifact
-
-Suppose at a later later date you want to use the dataset we uploaded. To do this, we download our dataset from W&B.
-
-
-
-<details>
-
-<summary>Download a dataset from artifact</summary>
-
-```python
-version = "latest"
-job_type = "download_data"
-name = "{}:{}".format("{}_ds".format(model_use_case_id), version)
-
-run = wandb.init(entity=entity, project=project, job_type=job_type)
-
-# Declare an artifact as an input to a run.
-artifact = wandb.run.use_artifact(name)
-
-print("Downlaoding Artifact {}".format(artifact.name))
-
-# Get the WBValue object located at the artifact relative name.
-train_table = artifact.get("train_table")
-x_train = train_table.get_column("x_train", convert_to="numpy")
-y_train = train_table.get_column("y_train", convert_to="numpy")
-```
-
-
-</details>
-
 
 
 ## Train a model
+Train a model with the artifact dataset you created in the previous step. 
 
+### Declare an artifact as an input to a run
 
+[INSERT - Add a line describing why we use the use_artifact API (it marks it an input to a run) ]
 
-<details>
+Download the dataset from W&B:
 
-<summary>Training script</summary>
-
-```python showLineNumbers
+```python
 job_type = "train_model"
-
-# Create a dictionary with hyperparameter values
 config = {
-    "optimizer": "adam",
+    "optimizer": 'adam',
     "batch_size": 128,
     "epochs": 5,
     "validation_split": 0.1,
 }
 
-run = wandb.init(entity=entity, project=project, job_type=job_type, config=config)
+# Initialize a W&B run
+run = wandb.init(project = project, job_type = job_type, config = config)
 
-# Store values from a config dictionary into variables for easy accessing
-num_classes = 10
-input_shape = (28, 28, 1)
-loss = "categorical_crossentropy"
-metrics = ["accuracy"]
+# Retrieve the dataset artifact
+version="latest"    
+name = "{}:{}".format("{}_dataset".format(model_use_case_id), version)
+artifact = wandb.run.use_artifact(artifact_or_name = name)
 
-optimizer = run.config["optimizer"]
-batch_size = run.config["batch_size"]
-epochs = run.config["epochs"]
-validation_split = run.config["validation_split"]
+train_table = artifact.get("train_table")
+x_train = train_table.get_column("x_train", convert_to="numpy")
+y_train = train_table.get_column("y_train", convert_to="numpy")
+```
+
+### Define and train model
+```python
+# Store values from our config dictionary into variables for easy accessing
+num_classes=10
+input_shape=(28, 28, 1)
+loss="categorical_crossentropy"
+optimizer=run.config["optimizer"]
+metrics=["accuracy"]
+batch_size=run.config["batch_size"]
+epochs=run.config["epochs"]
+validation_split=run.config["validation_split"]
 
 # Create model architecture
 model = keras.Sequential(
@@ -210,49 +169,93 @@ y_train = keras.utils.to_categorical(y_train, num_classes)
 
 # Create training and test set
 x_t, x_v, y_t, y_v = train_test_split(x_train, y_train, test_size=0.33)
-
+```
+Train the model
+```python
 # Train the model
-model.fit(
-    x=x_t,
-    y=y_t,
-    batch_size=batch_size,
-    epochs=epochs,
-    validation_data=(x_v, y_v),
-    callbacks=[WandbCallback(log_weights=True, log_evaluation=True)],
-)
-
-# Save model locally with random title
-path = "model.h5"
-model.save(path)
+model.fit(x=x_t, 
+          y=y_t, 
+          batch_size=batch_size, 
+          epochs=epochs, 
+          validation_data=(x_v, y_v), 
+          callbacks=[
+              WandbCallback(
+                  log_weights=True,
+                  log_evaluation=True
+              )
+          ]
+         )
 ```
 
-</details>
+Save the model
+```python
+# Save model locally
+path = "model.h5"
+model.save(path) 
+```
 
-## Log and link a model
+## Log and link a model to the Model Registry
 
 ```python
 path = "./model.h5"
-registered_model_name = "MNIST"  
+registered_model_name = "MNIST-dev"  
 
 run.link_model(path=path, registered_model_name=registered_model_name)
 run.finish()
 ```
 
+## Evaluate the performance of a model
 
-## Download a model to evaluate model performance
-After training many models, you will likely want to evaluate the performance of those models. 
 
-To evaluate a model version, you must first download a model version.
-
-[TO DO]
 
 ```python
+job_type = "evaluate_model"
+
 # Initialize a run
-run = wandb.init(project="<your-project>", entity="<your-entity>")
+run = wandb.init(project=project, entity=entity, job_type=job_type)
+```
+
+Get the evaluation dataset artifact that was stored in W&B in a previous step.
+
+```python
+# Get dataset artifact, mark it as a dependency
+model_use_case_id="mnist"
+version="latest"
+
+artifact = wandb.run.use_artifact("{}:{}".format("{}_dataset".format(model_use_case_id), version))
+eval_table = artifact.get("eval_table")
+x_eval = eval_table.get_column("x_eval", convert_to="numpy")
+y_eval = eval_table.get_column("y_eval", convert_to="numpy")
+```
+
+Download the model version from W&B that you want to evaluate. Use the `use_model` API to access and download your model.
+
+```python
+alias = "latest"  # semantic nickname or identifier for the model version
+name = "mnist_model" # model artifact name
 
 # Access and download model. Returns path to downloaded artifact
-downloaded_model_path = run.use_model(name="<your-model-name>")
+downloaded_model_path = run.use_model(name=f"{name}:{alias}") 
 ```
+
+Load the Keras model and compute the loss:
+
+```python
+model = keras.models.load_model(downloaded_model_path)
+
+y_eval = keras.utils.to_categorical(y_eval, 10)
+(loss, _) = model.evaluate(x_eval, y_eval)
+score = (loss, _)
+```
+
+Finally, log the loss metric to our W&B run:
+
+```python
+# # Log metrics, images, tables, or any data useful for evaluation.
+run.log(data={"loss": (loss, _) })
+```
+
+
 
 
 ## Promote a model version 
@@ -262,13 +265,6 @@ For example, suppose that after evaluating a model's performance, you are confid
 
 You can add an alias to a model version interactively with the W&B App UI or programmatically with the Python SDK. The following steps show how to add an alias with the W&B App UI:
 
-[TO DO - Insert steps]
+[INSERT -  To do]
 
-
-
-:::tip
-The `production` alias is one of the most common aliases we see used to mark a model as production-ready.
-:::
-
- 
 

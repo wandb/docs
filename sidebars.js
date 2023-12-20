@@ -80,6 +80,7 @@ const sidebars = {
             'guides/model_registry/log-model-to-experiment',
             'guides/model_registry/create-registered-model',
             'guides/model_registry/link-new-model-version',
+            'guides/model_registry/model-lineage',
             'guides/model_registry/consume-models',
             'guides/model_registry/create-model-cards',
             // 'guides/model_registry/model_tags',

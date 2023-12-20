@@ -51,8 +51,6 @@ You can create a registered model interactively within the Model Registry or Art
 ## Programmatically link a model
 Programmatically link a model with the W&B Python SDK. 
 
-Create a registered model with the W&B Python SDK. 
-
 When you create a registered model with the W&B App UI, you must first create a registered model. After you register a model with the W&B App UI, you link models (with the App UI or the Python SDK) to that registered model.
 
 In contrast, when you create a registered model with the Python SDK, you skip of first creating a registered model. Instead, you call an API to link a model.  If the registered model you specify doesn't exist, W&B will first create registered model for you. W&B will then link the model to that registered model.
