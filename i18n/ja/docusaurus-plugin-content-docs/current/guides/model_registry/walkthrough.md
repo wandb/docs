@@ -142,7 +142,7 @@ Link a model version to the registered model with the W&B App or programmaticall
 
 After you link the model version, you will see hyperlinks that connect the version in the registered model to the source artifact. The artifact will also have hyperlinks that connect to the model version.
 
-![](@site/static/images/models/train_log_model_version.png)
+
 
 
 :::tip
