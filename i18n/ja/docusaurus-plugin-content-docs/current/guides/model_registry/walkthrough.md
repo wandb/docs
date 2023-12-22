@@ -62,7 +62,7 @@ The following tabs describe how to create a registered model interactively with 
 2. Click the `+` icon on the bottom of the Artifact Browser Sidebar
 3. Select `Type: model`, `Style: Collection`, and enter a name. In our case `MNIST Grayscale 28x28`. Remember, a Collection should map to a modeling task - enter a unique name that describes the use case.
 
-![](/images/models/browser.gif)
+
   </TabItem>
     <TabItem value="programmatic">
 

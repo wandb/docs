@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 Track a model, the model's dependencies, and other information relevant to that model with the W&B Python SDK. 
 
-Under the hood, W&B creates a lineage of [model artifact](./model-management-concepts.md#model-artifact) that you can view with the W&B App UI or programmatically with the W&B Python SDK. See the [INSERT].
+Under the hood, W&B creates a lineage of [model artifact](./model-management-concepts.md#model-artifact) that you can view with the W&B App UI or programmatically with the W&B Python SDK. See the Create model lineage map for more information [LINK].
 
 ## How to log a model
 

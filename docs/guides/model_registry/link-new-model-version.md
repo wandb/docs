@@ -7,10 +7,11 @@ import TabItem from '@theme/TabItem';
 
 # Link a new model version
 
-Link a model version to the registered model with the W&B App or programmatically with the Python SDK.
+Link a model version to a registered model with the W&B App or programmatically with the Python SDK.
 
 ## Programmatically link a model
 
+Programmatically link a model to the W&B Model Registry within or outside of a [W&B run](../runs/intro.md).
 
 <Tabs
   defaultValue="within"
@@ -20,11 +21,9 @@ Link a model version to the registered model with the W&B App or programmaticall
   ]}>
   <TabItem value="within">
 
-Link a model version within a W&B run with the `link_model` API.
+Use the [`link_model`](../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](./intro.md). 
 
-Use the [`link_model`](../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](./intro.md). If the `registered-model-name` matches the name of a registered model that already exists within the Model Registry, the model will be linked to that registered model. If no such registered model exists, a new one will be created and the model will be the first one linked. 
-
-The proceeding code snippet shows how to link a model with the [`link_model`](../../ref/python/run.md#link_model) API. Ensure to replace other the values enclosed in `<>` with your own:
+Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
 import wandb
@@ -33,6 +32,8 @@ run = wandb.init(entity="<your-entity>", project="<your-project>")
 run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
 run.finish()
 ```
+
+W&B will create a registered model for you if the name you specify for `registered-model-name` does not already exist. 
 
   </TabItem>
   <TabItem value="public">
@@ -59,7 +60,6 @@ artifact.link(target_path=target_path)
 
 ## Interactively link a model
 
-
 1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
 2. Select the Artifacts icon on the left sidebar.
 3. Click on the model version you want to link to your registry.
@@ -75,8 +75,7 @@ artifact.link(target_path=target_path)
 
 There are two ways to view the source of linked models: The artifact browser within the project that the model was logged to and the model registry.
 
-After you link a [model version](./model-management-concepts.md#model-version), you will see a pointer that connects a specific model version in the model registry to the source model artifact (located within the project the model was logged to). The source model artifact will also have a pointer that points to the model registry.
-
+A pointer connects a specific model version in the model registry to the source model artifact (located within the project the model was logged to). The source model artifact will also have a pointer to the model registry.
 
 <Tabs
   defaultValue="registry"

@@ -46,7 +46,7 @@ While manual linking is useful for one-off Models, it is often useful to program
 3. From the **Style** dropdown, select **Collection**.
 4. Provide a name for your model registry in the **Name** field. W&B suggests that you enter a unique name that describes the use case for this model.
 
-![](/images/models/browser.gif)
+
 
   </TabItem>
 </Tabs>
