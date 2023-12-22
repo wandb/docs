@@ -31,7 +31,7 @@ import wandb
 import random
 
 # Start a new W&B run
-run =  wandb.init(project="models_quickstart")
+run = wandb.init(project="models_quickstart")
 
 # Simulate logging model metrics
 run.log({"acc": random.random()})

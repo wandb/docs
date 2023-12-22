@@ -40,16 +40,20 @@ First, create a dataset. The proceeding code snippet creates a function that dow
 def generate_raw_data(train_size=6000):
     eval_size = int(train_size / 6)
     (x_train, y_train), (x_eval, y_eval) = keras.datasets.mnist.load_data()
-    
+
     x_train = x_train.astype("float32") / 255
     x_eval = x_eval.astype("float32") / 255
     x_train = np.expand_dims(x_train, -1)
     x_eval = np.expand_dims(x_eval, -1)
-    
+
     print("Generated {} rows of training data.".format(train_size))
     print("Generated {} rows of eval data.".format(eval_size))
-    
-    return (x_train[:train_size], y_train[:train_size]), (x_eval[:eval_size], y_eval[:eval_size])
+
+    return (x_train[:train_size], y_train[:train_size]), (
+        x_eval[:eval_size],
+        y_eval[:eval_size],
+    )
+
 
 # Create dataset
 (x_train, y_train), (x_eval, y_eval) = generate_raw_data()
@@ -60,33 +64,26 @@ Next, upload the dataset to W&B. To do this, create an artifact and add the data
 Ensure to replace values enclosed in `<>` with your own.
 
 ```python
-entity              = "<entity>"
-project             = "model-registry-dev"
+entity = "<entity>"
+project = "model-registry-dev"
 
-model_use_case_id   = "mnist"
-job_type            = "build_dataset"
+model_use_case_id = "mnist"
+job_type = "build_dataset"
 
 # Initialize a W&B run
-run = wandb.init(entity=entity, 
-                 project=project, 
-                 job_type=job_type
-                )
+run = wandb.init(entity=entity, project=project, job_type=job_type)
 
 # Create W&B Table for training data
 train_table = wandb.Table(data=[], columns=[])
 train_table.add_column("x_train", x_train)
 train_table.add_column("y_train", y_train)
-train_table.add_computed_columns(lambda ndx, row: {
-    "img": wandb.Image(row["x_train"])
-})
+train_table.add_computed_columns(lambda ndx, row: {"img": wandb.Image(row["x_train"])})
 
 # Create W&B Table for eval data
 eval_table = wandb.Table(data=[], columns=[])
 eval_table.add_column("x_eval", x_eval)
 eval_table.add_column("y_eval", y_eval)
-eval_table.add_computed_columns(lambda ndx, row: {
-    "img": wandb.Image(row["x_eval"])
-})
+eval_table.add_computed_columns(lambda ndx, row: {"img": wandb.Image(row["x_eval"])})
 
 # Create an artifact object
 artifact_name = "{}_dataset".format(model_use_case_id)
@@ -118,19 +115,19 @@ Download the dataset from W&B:
 ```python
 job_type = "train_model"
 config = {
-    "optimizer": 'adam',
+    "optimizer": "adam",
     "batch_size": 128,
     "epochs": 5,
     "validation_split": 0.1,
 }
 
 # Initialize a W&B run
-run = wandb.init(project = project, job_type = job_type, config = config)
+run = wandb.init(project=project, job_type=job_type, config=config)
 
 # Retrieve the dataset artifact
-version="latest"    
+version = "latest"
 name = "{}:{}".format("{}_dataset".format(model_use_case_id), version)
-artifact = wandb.run.use_artifact(artifact_or_name = name)
+artifact = wandb.run.use_artifact(artifact_or_name=name)
 
 train_table = artifact.get("train_table")
 x_train = train_table.get_column("x_train", convert_to="numpy")
@@ -140,14 +137,14 @@ y_train = train_table.get_column("y_train", convert_to="numpy")
 ### Define and train model
 ```python
 # Store values from our config dictionary into variables for easy accessing
-num_classes=10
-input_shape=(28, 28, 1)
-loss="categorical_crossentropy"
-optimizer=run.config["optimizer"]
-metrics=["accuracy"]
-batch_size=run.config["batch_size"]
-epochs=run.config["epochs"]
-validation_split=run.config["validation_split"]
+num_classes = 10
+input_shape = (28, 28, 1)
+loss = "categorical_crossentropy"
+optimizer = run.config["optimizer"]
+metrics = ["accuracy"]
+batch_size = run.config["batch_size"]
+epochs = run.config["epochs"]
+validation_split = run.config["validation_split"]
 
 # Create model architecture
 model = keras.Sequential(
@@ -173,32 +170,28 @@ x_t, x_v, y_t, y_v = train_test_split(x_train, y_train, test_size=0.33)
 Train the model
 ```python
 # Train the model
-model.fit(x=x_t, 
-          y=y_t, 
-          batch_size=batch_size, 
-          epochs=epochs, 
-          validation_data=(x_v, y_v), 
-          callbacks=[
-              WandbCallback(
-                  log_weights=True,
-                  log_evaluation=True
-              )
-          ]
-         )
+model.fit(
+    x=x_t,
+    y=y_t,
+    batch_size=batch_size,
+    epochs=epochs,
+    validation_data=(x_v, y_v),
+    callbacks=[WandbCallback(log_weights=True, log_evaluation=True)],
+)
 ```
 
 Save the model
 ```python
 # Save model locally
 path = "model.h5"
-model.save(path) 
+model.save(path)
 ```
 
 ## Log and link a model to the Model Registry
 
 ```python
 path = "./model.h5"
-registered_model_name = "MNIST-dev"  
+registered_model_name = "MNIST-dev"
 
 run.link_model(path=path, registered_model_name=registered_model_name)
 run.finish()
@@ -219,10 +212,12 @@ Get the evaluation dataset artifact that was stored in W&B in a previous step.
 
 ```python
 # Get dataset artifact, mark it as a dependency
-model_use_case_id="mnist"
-version="latest"
+model_use_case_id = "mnist"
+version = "latest"
 
-artifact = wandb.run.use_artifact("{}:{}".format("{}_dataset".format(model_use_case_id), version))
+artifact = wandb.run.use_artifact(
+    "{}:{}".format("{}_dataset".format(model_use_case_id), version)
+)
 eval_table = artifact.get("eval_table")
 x_eval = eval_table.get_column("x_eval", convert_to="numpy")
 y_eval = eval_table.get_column("y_eval", convert_to="numpy")
@@ -232,10 +227,10 @@ Download the model version from W&B that you want to evaluate. Use the `use_mode
 
 ```python
 alias = "latest"  # semantic nickname or identifier for the model version
-name = "mnist_model" # model artifact name
+name = "mnist_model"  # model artifact name
 
 # Access and download model. Returns path to downloaded artifact
-downloaded_model_path = run.use_model(name=f"{name}:{alias}") 
+downloaded_model_path = run.use_model(name=f"{name}:{alias}")
 ```
 
 Load the Keras model and compute the loss:
@@ -252,7 +247,7 @@ Finally, log the loss metric to our W&B run:
 
 ```python
 # # Log metrics, images, tables, or any data useful for evaluation.
-run.log(data={"loss": (loss, _) })
+run.log(data={"loss": (loss, _)})
 ```
 
 

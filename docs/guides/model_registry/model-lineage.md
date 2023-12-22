@@ -39,7 +39,7 @@ Once you have retrieved your artifact, you can use that artifact to (for example
 job_type = "train_model"
 
 config = {
-    "optimizer": 'adam',
+    "optimizer": "adam",
     "batch_size": 128,
     "epochs": 5,
     "validation_split": 0.1,
@@ -47,7 +47,7 @@ config = {
 
 run = wandb.init(project=project, job_type=job_type, config=config)
 
-version="latest"    
+version = "latest"
 name = "{}:{}".format("{}_dataset".format(model_use_case_id), version)
 
 # highlight-start
@@ -59,14 +59,14 @@ x_train = train_table.get_column("x_train", convert_to="numpy")
 y_train = train_table.get_column("y_train", convert_to="numpy")
 
 # Store values from our config dictionary into variables for easy accessing
-num_classes=10
-input_shape=(28, 28, 1)
-loss="categorical_crossentropy"
-optimizer=run.config["optimizer"]
-metrics=["accuracy"]
-batch_size=run.config["batch_size"]
-epochs=run.config["epochs"]
-validation_split=run.config["validation_split"]
+num_classes = 10
+input_shape = (28, 28, 1)
+loss = "categorical_crossentropy"
+optimizer = run.config["optimizer"]
+metrics = ["accuracy"]
+batch_size = run.config["batch_size"]
+epochs = run.config["epochs"]
+validation_split = run.config["validation_split"]
 
 # Create model architecture
 model = keras.Sequential(
@@ -90,25 +90,21 @@ y_train = keras.utils.to_categorical(y_train, num_classes)
 x_t, x_v, y_t, y_v = train_test_split(x_train, y_train, test_size=0.33)
 
 # Train the model
-model.fit(x=x_t, 
-          y=y_t, 
-          batch_size=batch_size, 
-          epochs=epochs, 
-          validation_data=(x_v, y_v), 
-          callbacks=[
-              WandbCallback(
-                  log_weights=True,
-                  log_evaluation=True
-              )
-          ]
-         )
+model.fit(
+    x=x_t,
+    y=y_t,
+    batch_size=batch_size,
+    epochs=epochs,
+    validation_data=(x_v, y_v),
+    callbacks=[WandbCallback(log_weights=True, log_evaluation=True)],
+)
 
 # Save model locally
 path = "model.h5"
-model.save(path)   
+model.save(path)
 
 path = "./model.h5"
-registered_model_name = "MNIST-dev"  
+registered_model_name = "MNIST-dev"
 name = "mnist_model"
 
 run.link_model(path=path, registered_model_name=registered_model_name, name=name)

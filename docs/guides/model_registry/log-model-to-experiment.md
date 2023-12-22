@@ -44,23 +44,17 @@ import wandb
 from tensorflow import keras
 from tensorflow.keras import layers
 
-config = {
-    "optimizer": 'adam',
-    "loss" : "categorical_crossentropy"
-}
+config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
 
 # Initialize a W&B run
-run = wandb.init(entity="charlie", 
-                 project="mnist-project", 
-                 config=config
-                )
+run = wandb.init(entity="charlie", project="mnist-project", config=config)
 
 # Training algorithm
-loss=run.config["loss"]
-optimizer=run.config["optimizer"]
-metrics=["accuracy"]
-num_classes=10
-input_shape=(28, 28, 1)
+loss = run.config["loss"]
+optimizer = run.config["optimizer"]
+metrics = ["accuracy"]
+num_classes = 10
+input_shape = (28, 28, 1)
 
 model = keras.Sequential(
     [
@@ -81,7 +75,7 @@ model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 model_filename = "model.h5"
 local_filepath = "./"
 full_path = os.path.join(local_filepath, model_filename)
-model.save(filepath = full_path)
+model.save(filepath=full_path)
 
 # Log the model
 # highlight-next-line
