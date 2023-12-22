@@ -95,7 +95,7 @@ Refer to [Team Service Account Behavior](../app/features/teams.md#team-service-a
 :::
 
 :::note
-If you're on W&B Server (Dedicated Cloud or Self-managed deployment), you will need a updated enterprise license to use the **Custom Roles** feature.
+If you're on W&B Server (Dedicated Cloud or Self-managed deployment), you will need an updated enterprise license to use the **Custom Roles** feature.
 :::
 
 ### Invite members to a team
