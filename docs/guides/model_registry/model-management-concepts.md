@@ -16,11 +16,17 @@ A model version is an immutable directory of data and metadata that describes a 
 
 Store files within model versions that are produced from the serialization process provided by your modeling library (for example, [PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) and [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)).
 
-It is common practice to use aliases such as  "best", "latest", "production", or "staging" to mark model versions with special purposes.
+
+
+A model version belongs to one, and only one, [model artifact](#model-artifact). A model version can belong to zero or more, [registered models](#registered-model).
 
 <!-- [INSERT IMAGE] -->
 
-A model version belongs to one, and only one, [model artifact](#model-artifact). A model version can belong to zero or more, [registered models](#registered-model).
+## Model alias
+
+[INSERT - to do]
+
+It is common practice to use aliases such as  "best", "latest", "production", or "staging" to mark model versions with special purposes.
 
 ## Model artifact
 A model artifact is a sequence of logged model versions. 

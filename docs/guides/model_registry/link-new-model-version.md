@@ -60,9 +60,9 @@ artifact.link(target_path=target_path)
 ## Interactively link a model
 
 
-1. Navigate to the project that contain your logged models.
+1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
 2. Select the Artifacts icon on the left sidebar.
-3. Click the model version you want to link to your registry.
+3. Click on the model version you want to link to your registry.
 4. Within the **Version overview** section, click the **Link to registry** button.
 5. From the modal that appears on the right of the screen, select a registered model from the **Select a register model** menu dropdown. 
 6. Click **Next step**.
@@ -71,11 +71,46 @@ artifact.link(target_path=target_path)
 
 ![](/images/models/manual_linking.gif)
 
-## View linked models
+## View the source of linked models
 
-View models that are linked to the model registry.
+There are two ways to view the source of linked models: The artifact browser within the project that the model was logged to and the model registry.
 
-After you link the model version, you will see hyperlinks that connect the version in the registered model to the source artifact. The artifact will also have hyperlinks that connect to the model version.
+After you link a [model version](./model-management-concepts.md#model-version), you will see a pointer that connects a specific model version in the model registry to the source model artifact (located within the project the model was logged to). The source model artifact will also have a pointer that points to the model registry.
 
 
-[INSERT - photo]
+<Tabs
+  defaultValue="registry"
+  values={[
+    {label: 'Model Registry', value: 'registry'},
+    {label: 'Artifact browser', value: 'browser'},
+  ]}>
+  <TabItem value="registry">
+
+1. Navigate to your model registry at [wandb.ai/registry/model](https://wandb.ai/registry/model).
+![](/images/models/create_registered_model_1.png)
+2. Select **View details** next the name of your registered model.
+3. Within the **Versions** section, select **View** next to the model version you want to investigate.
+4. Click on the **Version** tab within the right panel.
+5. Within the **Version overview** section you will see a row that contains a **Source Version** field. The **Source Version** field shows both the name of the model and the model's version.
+
+For example, the following image shows that a `v0` [model version](./model-management-concepts.md#model-version) called `mnist_model`, was linked to the `MNIST-dev` model registry.
+
+![](/images/models/view_linked_model_registry.png)
+
+  </TabItem>
+  <TabItem value="browser">
+
+1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
+2. Select the Artifacts icon on the left sidebar.
+3. Expand the **model** dropdown menu from the Artifacts panel.
+4. Select the name and version of the model that is linked to the model registry.
+5. Click on the **Version** tab within the right panel.
+6. Within the **Version overview** section you will see a row that contains a **Linked To** field. The **Linked To** field shows both the name of the registered model and the version it was given (`registered-model-name:version`). 
+
+For example, the following image shows that a `v0` [model version](./model-management-concepts.md#model-version) called `mnist_model`, was linked to the `MNIST-dev` model registry. 
+
+![](/images/models/view_linked_model_artifacts_browser.png)
+
+
+  </TabItem>
+</Tabs>
