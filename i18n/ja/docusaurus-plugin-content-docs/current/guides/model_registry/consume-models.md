@@ -10,7 +10,7 @@ Use the W&B Python SDK to download a model that you have linked to the Model Reg
 :::info
 You are responsible for providing additional Python functions, API calls to reconstruct, deserialize your model into a form that you can work with. 
 
-W&B suggests that you document information on how to load models into memory with model cards. For more information, see the [Document machine learning models](./create-model-cards.md) page. 
+W&B suggests that you document information on how to load models into memory with model cards. 
 :::
 
 The following code snippet shows how to download a model version with the W&B Python SDK. Replace values within `<>` with your own:
@@ -55,4 +55,3 @@ downloaded_model_path = run.use_model(name=f"{model_artifact_name}:{alias}")
 </details>
 
 See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
-
