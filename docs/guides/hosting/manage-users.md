@@ -86,11 +86,16 @@ When you invite a user to a team you can assign them one of the following roles:
 |-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Admin     | A team member who can add and remove other admins and members of the team.                                                                                                                                                                                                                       |
 | Member    | A regular member of your team, invited by email by the team admin. A team member cannot invite other members to the team.                                                                                                                                                                        |
-| View-Only | A view-only member of your team, invited by email by the team admin. A view-only member only has read access to the team and its contents.                                                                                                                                                       |
-| Service   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure that the environment variable `WANDB_USERNAME` is set to correctly attribute runs to the appropriate user. |
+| View-Only (Enterprise-only feature) | A view-only member of your team, invited by email by the team admin. A view-only member only has read access to the team and its contents.                                                                                                                                                       |
+| Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure that the environment variable `WANDB_USERNAME` is set to correctly attribute runs to the appropriate user. |
+| Custom Roles (Enterprise-only feature)   | Custom roles allow organization admins to compose new roles by inheriting from the above View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
 
 :::note
 Refer to [Team Service Account Behavior](../app/features/teams.md#team-service-account-behavior) for more information.
+:::
+
+:::note
+If you're on W&B Server (Dedicated Cloud or Self-managed deployment), you will need an updated enterprise license to use the **Custom Roles** feature.
 :::
 
 ### Invite members to a team
