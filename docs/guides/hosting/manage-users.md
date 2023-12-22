@@ -89,6 +89,9 @@ When you invite a user to a team you can assign them one of the following roles:
 | View-Only | A view-only member of your team, invited by email by the team admin. A view-only member only has read access to the team and its contents.                                                                                                                                                       |
 | Service   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure that the environment variable `WANDB_USERNAME` is set to correctly attribute runs to the appropriate user. |
 
+:::note
+Refer to [Team Service Account Behavior](../app/features/teams.md#team-service-account-behavior) for more information.
+:::
 
 ### Invite members to a team
 Use the Team's settings page to invite members.
