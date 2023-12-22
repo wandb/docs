@@ -42,12 +42,12 @@ Fetch Model Artifact from Public API:
 ```python
 import wandb
 
-artifact_name = "artifact-collection:alias"  # Name of artifact collection
+artifact_name = "artifact-name:alias"  
 
-# Fetch the Model Version via API
+# Fetch the model version
 artifact = wandb.Api().artifact(name=artifact_name)
 
-# Link the Model Version to the Model Collection
+# Link the model version to the Model Registry
 target_path = f"{entity}/model-registry/{registered_model_name}"
 artifact.link(target_path=target_path)
 ```

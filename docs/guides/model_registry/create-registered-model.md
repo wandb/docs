@@ -62,84 +62,6 @@ For example, suppose you have an existing registered model named "Fine-Tuned-Rev
 
 Depending on your context and use case, use one of the APIs listed below.
 
-<!-- 
-<Tabs
-  defaultValue="public"
-  values={[
-    {label: 'Outside of a run', value: 'public'},
-    {label: 'Within a run', value: 'within'},
-    {label: 'Logged by current run', value: 'current'},
-  ]}>
-  <TabItem value="public">
-
-Fetch Model Artifact from Public API:
-
-```python
-import wandb
-
-artifact_name = "artifact-collection:alias"  # Name of artifact collection
-
-# Fetch the Model Version via API
-artifact = wandb.Api().artifact(name=artifact_name)
-
-# Link the Model Version to the Model Collection
-target_path = f"{entity}/model-registry/{registered_model_name}"
-artifact.link(target_path=target_path)
-```
-
-  </TabItem>
-  <TabItem value="within">
-
-Model Artifact is "used" by the current Run
-
-```python
-import wandb
-
-entity = "<entity>"
-project = "<project>"  # Project where your artifact exists
-artifact_name = "artifact-collection:alias"  # Name of artifact collection
-registered_model_name = "<model-name>"  # Name for your registered model
-
-# Initialize a W&B run to start tracking
-run = wandb.init(entity=entity, project=project)
-
-# Obtain a reference to a Model Version
-artifact = run.use_artifact(artifact_or_name=artifact_name)
-
-# Link the Model Version to the Model Collection
-target_path = f"{entity}/model-registry/{registered_model_name}"
-artifact.link(target_path=target_path)
-```
-  </TabItem>
-  <TabItem value="current">
-
-Model Artifact is logged by the current Run
-
-```python
-import wandb
-
-entity = "<entity>"
-project = "<project>"  # Project where your artifact exists
-artifact_name = "artifact-collection"  # Name of artifact collection
-registered_model_name = "<model-name>"  # Name for your registered model
-
-# Initialize a W&B run to start tracking
-run = wandb.init(entity=entity, project=project)
-
-# Create an Model Version
-artifact = wandb.Artifact(name=artifact_name, type="model")
-
-# Log the Model Version
-run.log_artifact(artifact)
-
-# Link the Model Version to the Collection
-target_path = f"{entity}/model-registry/{registered_model_name}"
-run.link_artifact(artifact=artifact, target_path=target_path, aliases=["Best"])
-```
-
-  </TabItem>
-</Tabs>  -->
-
 
 
 <Tabs
@@ -150,9 +72,9 @@ run.link_artifact(artifact=artifact, target_path=target_path, aliases=["Best"])
   ]}>
   <TabItem value="within">
 
-Use the [`link_model`](../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](./intro.md). If the `registered-model-name` matches the name of a registered model that already exists within the Model Registry, the model will be linked to that registered model. If no such registered model exists, a new one will be created and the model will be the first one linked. 
+Use the [`link_model`](../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](./intro.md).  
 
-The proceeding code snippet shows how to link a model with the [`link_model`](../../ref/python/run.md#link_model) API. Ensure to replace other the values enclosed in `<>` with your own:
+Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
 import wandb
@@ -162,10 +84,9 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
+W&B will create a registered model for you if the name you specify for `registered-model-name` does not already exist. 
+
 See [`link_model`](../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters.
-
-
-
 
   </TabItem>
     <TabItem value="public">
@@ -179,12 +100,12 @@ import wandb
 
 entity = "<entity>"
 registered_model_name = "<registered-model-name>"
-artifact_name = "artifact-collection:alias"  # Name of artifact collection
+artifact_name = "artifact-name:alias"  
 
 # Fetch the Model Version via API
 artifact = wandb.Api().artifact(name=artifact_name)
 
-# Link the Model Version to the Model Collection
+# Link the model version to the Model Registry
 target_path = f"{entity}/model-registry/{registered_model_name}"
 artifact.link(target_path=target_path)
 ```

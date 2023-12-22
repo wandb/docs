@@ -18,9 +18,12 @@ The following walkthrough shows you how to log a model to W&B. By the end of the
 
 It is expected that the following code snippets are executed in the order they are presented in this guide.
 
+:::note
+Code that is not unique to the Model Registry are hidden in collapsible cells.
+:::
 ## Setting up
 
-Before you get started, import some Python dependencies:
+Before you get started, import the Python dependencies required for this walkthrough:
 
 ```python
 import wandb
@@ -59,7 +62,7 @@ def generate_raw_data(train_size=6000):
 (x_train, y_train), (x_eval, y_eval) = generate_raw_data()
 ```
 
-Next, upload the dataset to W&B. To do this, create an artifact and add the dataset to that artifact. [INSERT - add sentence why this is important/useful to do when tracking models]
+Next, upload the dataset to W&B. To do this, create an [artifact](../artifacts/intro.md) object and add the dataset to that artifact. 
 
 Ensure to replace values enclosed in `<>` with your own.
 
@@ -100,7 +103,9 @@ artifact.save()
 run.finish()
 ```
 
-
+:::tip
+Storing files (such as datasets) to an artifact is useful in the context of logging models because you lets you track a model's dependencies.
+:::
 
 
 ## Train a model
@@ -108,9 +113,10 @@ Train a model with the artifact dataset you created in the previous step.
 
 ### Declare an artifact as an input to a run
 
-[INSERT - Add a line describing why we use the use_artifact API (it marks it an input to a run) ]
+The proceeding code snippet shows how to declare an artifact as an input to a W&B run. This is particularly useful in the context of logging models because declaring an artifact as an input to a run lets you track which dataset (and the version of the dataset) that was used to train a specific model.
 
-Download the dataset from W&B:
+
+Use the `use_artifact` API to both declare the dataset artifact as the input of the run and to retrieve the artifact itself.
 
 ```python
 job_type = "train_model"
@@ -129,12 +135,16 @@ version = "latest"
 name = "{}:{}".format("{}_dataset".format(model_use_case_id), version)
 artifact = wandb.run.use_artifact(artifact_or_name=name)
 
+# Get specific content from the dataframe
 train_table = artifact.get("train_table")
 x_train = train_table.get_column("x_train", convert_to="numpy")
 y_train = train_table.get_column("y_train", convert_to="numpy")
 ```
 
 ### Define and train model
+
+For this walkthrough, you will define a 2D Convolutional Neural Network (CNN) with Keras to classify images from the MNIST dataset.
+
 ```python
 # Store values from our config dictionary into variables for easy accessing
 num_classes = 10
@@ -167,7 +177,8 @@ y_train = keras.utils.to_categorical(y_train, num_classes)
 # Create training and test set
 x_t, x_v, y_t, y_v = train_test_split(x_train, y_train, test_size=0.33)
 ```
-Train the model
+Next, train the model:
+
 ```python
 # Train the model
 model.fit(
@@ -180,7 +191,8 @@ model.fit(
 )
 ```
 
-Save the model
+Finally, save the model locally on your machine: 
+
 ```python
 # Save model locally
 path = "model.h5"
@@ -188,6 +200,7 @@ model.save(path)
 ```
 
 ## Log and link a model to the Model Registry
+Use the [`link_model`](../../ref/python/run.md#link_model) API to log model file(s) to a W&B run and link it to the [W&B Model Registry](./intro.md).
 
 ```python
 path = "./model.h5"
@@ -197,27 +210,29 @@ run.link_model(path=path, registered_model_name=registered_model_name)
 run.finish()
 ```
 
+W&B will create a registered model for you if the name you specify for `registered-model-name` does not already exist. 
+
+See [`link_model`](../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters.
 ## Evaluate the performance of a model
+After training many models, you will likely want to evaluate the performance of those models. 
 
-
+First, get the evaluation dataset artifact that was stored in W&B in a previous step.
 
 ```python
 job_type = "evaluate_model"
 
 # Initialize a run
 run = wandb.init(project=project, entity=entity, job_type=job_type)
-```
 
-Get the evaluation dataset artifact that was stored in W&B in a previous step.
-
-```python
-# Get dataset artifact, mark it as a dependency
 model_use_case_id = "mnist"
 version = "latest"
 
+# Get dataset artifact, mark it as a dependency
 artifact = wandb.run.use_artifact(
     "{}:{}".format("{}_dataset".format(model_use_case_id), version)
 )
+
+# Get desired dataframe
 eval_table = artifact.get("eval_table")
 x_eval = eval_table.get_column("x_eval", convert_to="numpy")
 y_eval = eval_table.get_column("y_eval", convert_to="numpy")
@@ -226,8 +241,8 @@ y_eval = eval_table.get_column("y_eval", convert_to="numpy")
 Download the model version from W&B that you want to evaluate. Use the `use_model` API to access and download your model.
 
 ```python
-alias = "latest"  # semantic nickname or identifier for the model version
-name = "mnist_model"  # model artifact name
+alias = "latest"  # alias
+name = "mnist_model"  # name of the model artifact
 
 # Access and download model. Returns path to downloaded artifact
 downloaded_model_path = run.use_model(name=f"{name}:{alias}")
@@ -254,7 +269,7 @@ run.log(data={"loss": (loss, _)})
 
 
 ## Promote a model version 
-Mark a model version ready for the next stage of your machine learning workflow with an *alias*. An alias is a [INSERT]. Each registered model can have one or more aliases. Each alias can only be assigned to a single version at a time.
+Mark a model version ready for the next stage of your machine learning workflow with an *alias*. Each registered model can have one or more aliases. Each alias can only be assigned to a single model version at a time.
 
 For example, suppose that after evaluating a model's performance, you are confident that the model is ready for production. To promote that model version, add the `production` alias to that specific model version. 
 

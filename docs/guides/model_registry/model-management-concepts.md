@@ -53,16 +53,3 @@ Registered models often represent candidate models for a single modeling use cas
 
 View an [example Registered Model](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/artifacts/model/MNIST%20Grayscale%2028x28).
 
-<!-- This image is confusing; we show a model collection, but don't specify it's a model artifact. -->
-<!-- ![](/images/models/diagram_doc.png) -->
-
-
-
-<!-- Move this to another page -->
-<!-- The separation of artifacts and registered models allows you to produce a massive number of artifacts (think of them like "draft models"), and periodically _link_ your high performing versions to a the curated Registered Model. Then use aliases to mark which version in a registered model is at a certain stage in the lifecycle. Each person in your team can collaborate on a single use case, while having the freedom to explore and experiment without polluting namespaces or conflicting with others' work. -->
-
-
-
-<!-- :::info
-A model is an artifact with `type="model"`.  A model version is an artifact version that belongs to that artifact. A registered model is an artifact collection that has a type set to `model` (`type="model"`).
-::: -->
