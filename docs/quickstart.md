@@ -64,11 +64,13 @@ Next, log in to W&B:
 wandb login
 ```
 
-Or if you are using [W&B Server:](./guides/hosting)
+Or if you are using [W&B Server](./guides/hosting) (including **Dedicated Cloud** or **Self-managed**):
 
 ```bash
-wandb login --host=http://wandb.your-shared-local-host.com
+wandb login --relogin --host=http://your-shared-local-host.com
 ```
+
+If needed, ask your deployment admin for the hostname.
 
 Provide [your API key](https://wandb.ai/authorize) when prompted.
 

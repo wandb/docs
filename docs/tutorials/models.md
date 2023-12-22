@@ -33,6 +33,16 @@ This tutorial will walkthrough how to track the model development lifecycle for 
 !wandb login
 ```
 
+:::note
+When connecting to a [W&B Server](..//guides/hosting/intro.md) deployment (either **Dedicated Cloud**  or **Self-managed**), use the --relogin and --host options like:
+
+```notebook
+!wandb login --relogin --host=http://your-shared-local-host.com
+```
+
+If needed, ask your deployment admin for the hostname.
+:::
+
 ## Log Data and Model Checkpoints as Artifacts  
 W&B Artifacts allows you to track and version arbitrary serialized data (e.g. datasets, model checkpoints, evaluation results). When you create an artifact, you give it a name and a type, and that artifact is forever linked to the experimental system of record. If the underlying data changes, and you log that data asset again, W&B will automatically create new versions through checksummming its contents. W&B Artifacts can be thought of as a lightweight abstraction layer on top of shared unstructured file systems. 
 
