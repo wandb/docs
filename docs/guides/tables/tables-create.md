@@ -1,5 +1,5 @@
 ---
-description: How to create tables.
+description: Creating tables.
 displayed_sidebar: default
 ---
 
@@ -72,15 +72,14 @@ labels = ["panda", "gibbon"]
 wandb.log({"classifier_out": tbl})
 ```
 
-Tables added directly to runs as above will produce a corresponding Table Visualizer in the
-Workspace which can be used for further analysis and exporting to reports.
+Tables added directly to runs will produce a corresponding Table Visualizer in the Workspace that can be used for further analysis and exporting to reports.
 
 Tables added to artifacts can be viewed in the Artifact Tab and will render
 an equivalent Table Visualizer directly in the artifact browser.
 
 ## Best Practices
-Tables expect each value for a column to be of the same type. By default, a column supports optional values, but not mixed values. If you absolutely need to mix types, you can enable the `allow_mixed_types` flag which will disable type checking on the data. This will result in some table analytics features being disabled due to lack of consistent typing.
+Tables expect each value for a column to be of the same type. By default, a column supports optional values, but not mixed values. If you absolutely need to mix types, you can enable the `allow_mixed_types` flag that will disable type checking on the data. This will result in some table analytics features being disabled due to lack of consistent typing.
 
 ## Next Steps
-- For more information about visualizing tables, see our [table visualization guide](./visualize-tables.md).
-- For a more in-depth walkthrough of how to use tables, see our [walkthrough](tables-walkthrough.md).
+- For more information about visualizing tables, see the [table visualization guide](./visualize-tables.md).
+- For a more in-depth walkthrough of how to use tables, see the [walkthrough](tables-walkthrough.md).
