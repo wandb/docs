@@ -147,7 +147,7 @@ run.link_artifact(artifact=artifact, target_path=target_path, aliases=["Best"])
 7. (Optional) Select an alias from the **Aliases** dropdown. 
 8. Click **Link to registry**. 
 
-[INSERT - photo]
+![](/images/models/manual_linking.gif)
 
 ## View linked models
 

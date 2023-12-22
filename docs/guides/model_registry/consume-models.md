@@ -18,25 +18,40 @@ The following code snippet shows how to download a model version with the W&B Py
 ```python
 import wandb
 
-entity = "<entity>"
-project = "<project>"  # Project where your artifact exists
-job_type = "<>"  # (Optional)
-registered_model_name = "<model-name>"  # Name for your registered model
-alias = "<alias>"
+# Initialize a run
+run = wandb.init(project="<your-project>", entity="<your-entity>")
 
-artifact_name = f"{entity}/model-registry/{registered_model_name}:{alias}"
-
-run = wandb.init(project=project, entity=entity, job_type=job_type)
-
-artifact = run.use_artifact(artifact_or_name=artifact_name, type="model")
-artifact_dir = artifact.download()
-wandb.finish()
+# Access and download model. Returns path to downloaded artifact
+downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-You can reference a version within a registered model using different alias strategies:
+Reference a model version with one of the formats listed:
 
 * `latest` - which will fetch the most recently linked Version
 * `v#` - using `v0`, `v1`, `v2`, ... you can fetch a specific version in the Registered Model
-* `production` - you can use any custom alias that you and your team have assigned
+* `alias` - specify the custom alias that you and your team assigned to your model version
 
 
+<details>
+
+<summary>Example: Download and use a logged model</summary>
+
+For example, in the proceeding code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
+
+```python
+import wandb
+
+entity = "luka"
+project = "NLP_Experiments"
+alias = "latest"  # semantic nickname or identifier for the model version
+model_artifact_name = "fine-tuned-model"
+
+# Initialize a run
+run = wandb.init(project=project, entity=entity)
+# Access and download model. Returns path to downloaded artifact
+
+downloaded_model_path = run.use_model(name=f"{model_artifact_name}:{alias}")
+```
+</details>
+
+See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
