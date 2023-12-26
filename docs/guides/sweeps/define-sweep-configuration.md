@@ -589,3 +589,50 @@ command:
 ```
   </TabItem>
 </Tabs>
+
+### Nested Parameters
+
+The sweep configuration format supports specifying nested parameters. To delineate a nested parameter, use an additional `parameters` key under the top level parameter name. Multi-level nesting is allowed. For a complete sweep configuration example: 
+
+```yaml
+program: train.py
+method: bayes
+metric:
+  name: val_loss
+  goal: minimize
+top_level_param:
+  min: 0
+  max: 5
+nested_param:
+  parameters:  # required key
+    learning_rate:
+      values: [0.01, 0.001]
+    double_nested_param:
+      parameters:  # <--
+        x:
+          value: 0.9
+        y: 
+          value: 0.8
+```
+
+The above configuration might result in the following run config (in `train.py`):
+
+```json
+{
+  "top_level_param": 0,
+  "nested_param": {
+    "learning_rate": 0.01,
+    "double_nested_param": {
+      "x": 0.9,
+      "y": 0.8
+    }
+  }
+}
+```
+
+:::warning
+Nested parameters **overwrite** keys specified in run configurations.
+
+For example, take this run: `run = wandb.init(config={"nested_param": {"manual_key": 1}})`. If running in a sweep with the above sweep configuration, the `nested_param.manual_key` will **not** be available in the run. Instead, the `run.config` will look exactly like the json above.
+:::
+
