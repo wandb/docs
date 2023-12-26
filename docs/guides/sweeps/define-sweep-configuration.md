@@ -229,12 +229,19 @@ Describe the hyperparameters to explore during the sweep. For each hyperparamete
   <TabItem value="nested">
 
   ```yaml
-  optimizer:
-      parameters:
+  top_level_param:
+    min: 0
+    max: 5
+  nested_param:
+      parameters:  # required key
           learning_rate:
               values: [0.01, 0.001]
-          momentum:
-              value: 0.9
+          double_nested_param:
+            parameters:  # <--
+              x:
+                value: 0.9
+              y: 
+                value: 0.8
   ```
 
   </TabItem>
