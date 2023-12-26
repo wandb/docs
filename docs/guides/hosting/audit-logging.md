@@ -4,10 +4,16 @@ displayed_sidebar: default
 
 
 # Audit logs
-Use audit logs to track and understand activity within your team. Audit logs sync to your bucket store every 10 minutes. Optionally, download your audit logs and view them with your preferred tool, such as [Pandas](https://pandas.pydata.org/docs/index.html), [BigQuery](https://cloud.google.com/bigquery), and more.
+Use W&B Server audit logs to track user activity within your teams, and to conform to your enterprise governance requirements. If you've a **Self-managed** W&B Server deployment, or use the [secure storage connector (BYOB)](./secure-storage-connector.md) with your **Dedicated Cloud** deployment, JSON-formatted audit logs sync to your instance-level bucket every 10 minutes. Else when you have a **Dedicated Cloud** deployment without the secure storage connector (BYOB), [instance admins](./manage-users.md#instance-admins) can access audit logs using an API (see below).
 
-:::info
-This feature is currently in Private Preview.
+Whatever option you use to access the audit logs for your W&B server instance (using secure storage connector or the API), you can analyze those using your preferred tool, like [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric), and more. For some of the third-party tools, you may first have to transform the JSON-formatted audit logs into a format relevant to the tool. Discussing such transformations is outside the scope of W&B documentation.
+
+:::tip
+**Audit Log Retention:** If a compliance, security or risk team in your organization requires audit logs to be retained for a specific period of time, W&B recommends to periodically transfer the logs from your instance-level bucket to a long-term retention storage. If you're instead using the API to access the audit logs, you can implement a simple script that runs periodically (like daily or every few days) to fetch any logs that may have been generated since the time of the last script run, and store those in a short-term storage for analysis or directly transfer to a long-term retention storage.
+:::
+
+:::note
+**Audit logs are not available for W&B Multi-tenant SaaS Cloud yet.**
 :::
 
 ## Audit log schema
@@ -35,24 +41,22 @@ The following table lists all the different keys that might be present in your a
 |report_name             | if present, action was taken on this report name.
 |user_email              | if present, action was taken on this user email.
 
-Personally identifiable information (PII) like email ids, project, team and report names are returned only by the endpoint, and can be turned off as [described below](#view-audit-logs).
+Personally identifiable information (PII) like email ids, project, team and report names are available only using the API endpoint option, and can be turned off as [described below](#fetch-audit-logs-using-api).
 
-## View audit logs
-To view the audit logs for your W&B server instance, follow these steps:
-1. Admin users can go to `<wandb-server-url>/admin/audit_logs`
-2. Pass in the following URL parameters:
-    - `numDays` : logs will be fetch starting from `today - numdays` to most recent; defaults to `0`
+## Fetch audit logs using API
+To fetch the audit logs for your W&B server instance using API, an instance admin can follow these steps:
+1. Construct the full API endpoint using a combination of the base endpoint `<wandb-server-url>/admin/audit_logs` and the following URL parameters:
+    - `numDays` : logs will be fetched starting from `today - numdays` to most recent; defaults to `0` i.e. logs will be returned only for `today`
     - `anonymize` : if set to `true`, remove any PII; defaults to `false`
+2. Execute HTTP GET request on the constructed full API endpoint, either by directly running it within a modern browser, or by using a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), cURL command or more.
 
-Note that only W&B server admins are allowed to request this information. If you are not an admin you will an authentication error. The response contains new-line separated JSON objects. Objects will have fields described in the schema.
+If your W&B Server instance URL is `https://mycompany.wandb.io` and you would like to get anonymized audit logs for activity within the last week, your API endpoint will be `https://mycompany.wandb.io?numDays=7&anonymize=true`.
 
-All historical audit logs are stored in the storage bucket that backs your W&B Server installation. One file is uploaded per day. The files contain new-line separated JSON objects. These logs have the same format as the ones returned by the end points, except that they do not contain any PII for security reasons.
+:::note
+Only W&B Server [instance admins](./manage-users.md#instance-admins) are allowed to fetch audit logs using the API. If you are not an instance admin or not logged into your organization, you will get the `HTTP 403 Forbidden` error.
+:::
 
-To view your historical audit logs, complete the following steps:
-
-1. Navigate to your `/wandb-audit-logs` directory in your bucket.
-2. Download the files for the period you are interested in.
-
+The API response contains new-line separated JSON objects. Objects will include the fields described in the schema. It's the same format which is used when syncing audit log files to an instance-level bucket (wherever applicable as mentioned earlier). In those cases, the audit logs are located at the `/wandb-audit-logs` directory in your bucket.
 
 ## Actions
 The following table describes possible actions that can be recorded by W&B:
