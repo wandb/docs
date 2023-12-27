@@ -2,6 +2,7 @@ CLI
 Autogenerate
 Colab
 [Cc]onfig
+CTAButtons
 [Dd]equeue
 [Dd]equeues
 Dockerfile
