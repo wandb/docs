@@ -4,15 +4,19 @@ CLI
 Colab
 [Cc]onfig
 CTAButtons
+[Dd]ataframe
 [Dd]equeue
 [Dd]equeues
 Dockerfile
 [Ee]nqueued
 GPUs
+[Hh]ostname
 [Hh]yperparameters
 [Hh]yperparameter
 Kaniko
 Kubeflow
 [Nn]amespace
 Optuna
+[Pp]seudocode
 [Ww]alkthrough
+W&B Server
