@@ -4,9 +4,15 @@ displayed_sidebar: default
 
 
 # Audit logs
-Use W&B Server audit logs to track user activity within your teams, and to conform to your enterprise governance requirements. If you have a **Self-managed** W&B Server deployment, or use the [secure storage connector (BYOB)](./secure-storage-connector.md) with your **Dedicated Cloud** deployment, JSON-formatted audit logs sync to your instance-level bucket every 10 minutes. Else when you have a **Dedicated Cloud** deployment without the secure storage connector (BYOB), [instance admins](./manage-users.md#instance-admins) can access audit logs using an API (see below).
+Use W&B Server audit logs to track user activity within your teams, and to conform to your enterprise governance requirements. The audit logs are JSON-formatted, and their access mechanism(s) depend on your W&B Server deployment type:
 
-Whatever option you use to access the audit logs for your W&B server instance (using secure storage connector or the API), you can analyze those using your preferred tool, like [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric), and more. For some of the third-party tools, you may first have to transform the JSON-formatted audit logs into a format relevant to the tool. Discussing such transformations is outside the scope of W&B documentation.
+| W&B Server Deployment type | Audit logs access mechanism(s) |
+|----------------------------|--------------------------------|
+| Self-managed | Synced to instance-level bucket every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
+| Dedicated Cloud with [secure storage connector (BYOB)](./secure-storage-connector.md) | Synced to instance-level bucket (BYOB) every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
+| Dedicated Cloud with W&B managed storage (without BYOB) | Only available using [the API](#fetch-audit-logs-using-api). |
+
+Once you've access to your audit logs, analyze those using your preferred tools, such as [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric), and more. You may need to transform the JSON-formatted audit logs into a format relevant to the tool before analysis. Information on how to transform your audit logs for specific tools is outside the scope of W&B documentation.
 
 :::tip
 **Audit Log Retention:** If a compliance, security or risk team in your organization requires audit logs to be retained for a specific period of time, W&B recommends to periodically transfer the logs from your instance-level bucket to a long-term retention storage. If you're instead using the API to access the audit logs, you can implement a simple script that runs periodically (like daily or every few days) to fetch any logs that may have been generated since the time of the last script run, and store those in a short-term storage for analysis or directly transfer to a long-term retention storage.
@@ -44,7 +50,7 @@ The following table lists all the different keys that might be present in your a
 Personally identifiable information (PII) like email ids, project, team and report names are available only using the API endpoint option, and can be turned off as [described below](#fetch-audit-logs-using-api).
 
 ## Fetch audit logs using API
-To fetch the audit logs for your W&B server instance using API, an instance admin can follow these steps:
+An instance admin can fetch the audit logs for your W&B server instance using the following API:
 1. Construct the full API endpoint using a combination of the base endpoint `<wandb-server-url>/admin/audit_logs` and the following URL parameters:
     - `numDays` : logs will be fetched starting from `today - numdays` to most recent; defaults to `0` i.e. logs will be returned only for `today`
     - `anonymize` : if set to `true`, remove any PII; defaults to `false`
