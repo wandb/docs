@@ -5,6 +5,7 @@ Colab
 [Cc]onfig
 CTAButtons
 [Dd]ataframe
+[Dd]edicated cloud
 [Dd]equeue
 [Dd]equeues
 Dockerfile
@@ -18,5 +19,6 @@ Kubeflow
 [Nn]amespace
 Optuna
 [Pp]seudocode
+[Ss]elf-managed
 [Ww]alkthrough
 W&B Server
