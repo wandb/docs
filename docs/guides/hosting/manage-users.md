@@ -7,13 +7,13 @@ Manage W&B users in your organization or team.
 W&B strongly recommends and encourages that users authenticate to an enterprise W&B Server instance using Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to the [SSO Configuration documentation](./sso.md).
 
 :::note
-Whenever you see a mention of `W&B Server`, it refers to both **Dedicated Cloud** or **Self-managed** hosting options.
+`W&B Server` refers to both **Dedicated Cloud** or **Self-managed** hosting options.
 :::
 
 :::note
-When you see the the mention of `instance` or `organization`, they currently mean one and the same thing in the context of W&B Server. 
+`Instance` or `organization` terms are used interchangeably within the context of W&B Server.
 
-We are working to add the support for multiple organizations in an enterprise instance of W&B Server. If you're interested in utilizing that capability, reach out to your W&B team.
+W&B is actively developing support for multiple organizations in an enterprise instance of W&B Server. If you're interested in utilizing that capability, reach out to your W&B team.
 :::
 
 ## Instance Admins
@@ -42,7 +42,7 @@ As an instance admin, you can invite, remove, and change a user's role. To do so
 An invite link will be sent to the user by email. Once the user accepts the invite, they will have access to the W&B instance (organization).
 
 :::info
-Note that the add user option may be greyed out if there are no more seats in the license. Reach out to your W&B team in such a case.
+Note that the **Add user** option might be greyed out if there are no more seats in the license. Reach out to your W&B team if you have difficulty adding users. 
 :::
 
 :::note
