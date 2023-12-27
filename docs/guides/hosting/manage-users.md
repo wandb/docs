@@ -32,9 +32,9 @@ As an instance admin, you can invite, remove, and change a user's role. To do so
 2. Click the **Add user** button.
 3. Add the user's email in the Email field.
 4. Select the role you want to assign to the user, from `Admin, Member or Viewer`. By default, all users are assigned a `Member` role.
-    - Admin: A instance admin who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends more than one admin for an enterprise W&B server instance.
-    - Member - A regular user of the organization, invited by an instance admin. A organization user cannot invite other users or manage existing users in the organization. `Team admins` could add specific organization users to their respective teams (team-level roles described below in **Team roles**).
-    - Viewer - A view-only user of your organization, invited by an instance admin. A viewer only has read access to the organization and the underlying teams that they are added to by the respective `Team admins`.
+    - **Admin**: A instance admin who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends more than one admin for an enterprise W&B server instance.
+    - **Member** - A regular user of the organization, invited by an instance admin. A organization user cannot invite other users or manage existing users in the organization. `Team admins` could add specific organization users to their respective teams (team-level roles described below in **Team roles**).
+    - **Viewer** - A view-only user of your organization, invited by an instance admin. A viewer only has read access to the organization and the underlying teams that they are added to by the respective `Team admins`.
 5. Click the **Add new user** button.
 
 ![](/images/hosting/org_dashboard_add_user.png)
@@ -76,7 +76,7 @@ If auto-provisioning is on for your W&B Server instance, there may be a way to c
 Use a team home page as a central hub to explore projects, reports, and runs. Within the team home page there is a **Settings** tab. Use the Settings tab to manage users, set a team avatar, adjust privacy settings, set up alerts, track usage, and more. For more information, see the [Team settings](../app/settings-page/team-settings.md) page.
 
 :::tip
-Team admins can add and remove users in their teams. A user is invited to a team using email or their organization-level username by the respective team admin. A non-admin user in a team cannot invite other users to that team.
+Team admins can add and remove users in their teams. A user is invited to a team using email or their organization-level username by the respective team admin. A non-admin user in a team cannot invite other users to that team, **unless** team admin has enabled the relevant team setting.
 
 See **Team roles** below for what roles are available at the team-level.
 :::
@@ -111,7 +111,7 @@ If you're on W&B Server (Dedicated Cloud or Self-managed deployment), you will n
 :::
 
 ### Invite users to a team
-Use the Team's settings page to invite users to your team.
+Use the `Members` tab in the Team's settings page to invite users to your team.
 
 :::info
 If a user is not already a part of the organization when being added to a team, they will be automatically added at the organization-level as well.
@@ -123,7 +123,7 @@ If a user is not already a part of the organization when being added to a team, 
 4. Once you have found the user, click the **Invite** button.
 
 ### Remove users from a team
-Use the Team's settings page to remove users from your team.
+Use the `Members` tab in the Team's settings page to remove users from your team.
 
 1. Navigate to the Team's settings page.
 2. Select the Delete button next the to user's name.
@@ -136,19 +136,19 @@ W&B runs logged by team users remain after a team user is removed.
 User management within a W&B organization and its underlying teams can be done in a more efficient and repeatable way using the [SCIM API](./scim.md). It is especially useful when managing user provisioning & de-provisioning at scale, or when looking to do so from a [SCIM](https://scim.cloud/)-supporting Identity Provider. There are broadly two categories of SCIM API - **User** and **Group**.
 
 ### User SCIM API
-[User SCIM API](./scim.md#user-resource) allows for creating, disabling or getting the details of a user (or listing all users) in a W&B organization.
+[User SCIM API](./scim.md#user-resource) allows for creating, deactivating or getting the details of a user (or listing all users) in a W&B organization.
 
 :::info
-With the `DELETE User` endpoint, the user is disabled in the W&B organization such that they are not able to sign-in anymore, but they are still shown in the user list. To fully remove a disabled user from the user list, you must [remove the user from the oganization](#remove-a-user).
+With the `DELETE User` endpoint, the user is deactivated in the W&B organization such that they are not able to sign-in anymore, but they are still shown in the user list. To fully remove a deactivated user from the user list, you must [remove the user from the organization](#remove-a-user).
 
-It's not possible to re-enable a disabled user directly. Remove the user completely, and then add them again using the invite or auto-provisioning flows.
+It is possible to re-enable a deactivated user, if needed.
 :::
 
 ### Group SCIM API
 [Group SCIM API](./scim.md#group-resource) allows for creating or removing a W&B team in a organization. The `PATCH Group` endpoint can be used to **add** or **remove** users in an existing team.
 
 :::info
-There's no notion of a `group of users` having the same role within W&B Server yet. A W&B team closely resembles a group, but it should rather be seen as a mechanism that allows a mix of diverse personas with different roles work collaboratively on a set of related projects. So in a way, a team is meant to be comprised of different groups of users with each group assigned the roles of team admins, members, viewers, and custom roles. Due to this resemblance, The Group SCIM API endpoints map to W&B teams.
+There's no notion of a `group of users having the same role` within W&B Server yet. A W&B team closely resembles a group, but it should rather be seen as a mechanism that allows a mix of diverse personas with different roles work collaboratively on a set of related projects. So in a way, a team is meant to be comprised of different groups of users with each group assigned one of the roles from team admins, members, viewers, or custom roles. Due to this resemblance, we mapped the Group SCIM API endpoints to W&B teams.
 :::
 
 ## View organization usage of W&B
