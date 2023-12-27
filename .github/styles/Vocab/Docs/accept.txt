@@ -1,5 +1,6 @@
 Autogenerate
 [Cc]heckpointing
+CLI
 Colab
 [Cc]onfig
 CTAButtons
@@ -7,6 +8,7 @@ CTAButtons
 [Dd]equeues
 Dockerfile
 [Ee]nqueued
+GPUs
 [Hh]yperparameters
 [Hh]yperparameter
 Kaniko
