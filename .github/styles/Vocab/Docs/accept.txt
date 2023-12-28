@@ -1,5 +1,6 @@
 Autogenerate
 [Cc]heckpointing
+cloud
 CLI
 Colab
 [Cc]onfig
