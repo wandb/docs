@@ -27,7 +27,7 @@ As an instance admin, you can invite, remove, and change a user's role. To do so
 
 ![](/images/hosting/how_get_to_dashboard.png)
 
-If you're looking to simplify user management in your organization, refer to [Automate user and team management](#automate-user-and-team-management).
+If you are looking to simplify user management in your organization, refer to [Automate user and team management](#automate-user-and-team-management).
 
 ### Invite users
 1. Navigate to the W&B Organization dashboard.
@@ -139,13 +139,20 @@ W&B runs logged by team users remain after a team user is removed.
 ## Automate user and team management
 
 ### SCIM API
-Users within a W&B organization and in its underlying teams can be managed in a more efficient and repeatable way using the [SCIM API](./scim.md). It is especially useful when managing user provisioning & de-provisioning at scale, or when looking to do so from a [SCIM](https://scim.cloud/)-supporting Identity Provider. There are broadly two categories of SCIM API - **User** and **Group**.
+Use [SCIM API](./scim.md) to manage users, and the teams they belong to, in an efficient and repeatable manner. 
+
+
+SCIM API is especially useful if you want to:
+* manage user provisioning and de-provisioning at scale, 
+* mange users with a [SCIM](https://scim.cloud/)-supporting Identity Provider. 
+
+There are broadly two categories of SCIM API - **User** and **Group**.
 
 #### User SCIM API
 [User SCIM API](./scim.md#user-resource) allows for creating, deactivating or getting the details of a user (or listing all users) in a W&B organization.
 
 :::info
-With the `DELETE User` endpoint, the user is deactivated in the W&B organization such that they are not able to sign-in anymore, but they are still shown in the user list. To fully remove a deactivated user from the user list, you must [remove the user from the organization](#remove-a-user).
+With the `DELETE User` endpoint, the user is deactivated in the W&B organization such that they are not able to sign in anymore, but they are still shown in the user list. To fully remove a deactivated user from the user list, you must [remove the user from the organization](#remove-a-user).
 
 It is possible to re-enable a deactivated user, if needed.
 :::
@@ -154,22 +161,22 @@ It is possible to re-enable a deactivated user, if needed.
 [Group SCIM API](./scim.md#group-resource) allows for creating or removing a W&B team in a organization. The `PATCH Group` endpoint can be used to **add** or **remove** users in an existing team.
 
 :::info
-There's no notion of a `group of users having the same role` within W&B Server yet. A W&B team closely resembles a group, but it should rather be seen as a mechanism that allows a mix of diverse personas with different roles work collaboratively on a set of related projects. So in a way, a team is meant to be comprised of different groups of users with each group assigned one of the roles from team admins, members, viewers, or custom roles. Due to this resemblance, we mapped the Group SCIM API endpoints to W&B teams.
+There is no notion of a `group of users having the same role` within W&B Server yet. A W&B team closely resembles a group, but it should rather be seen as a mechanism that allows a mix of diverse personas with different roles work collaboratively on a set of related projects. So in a way, a team is meant to be comprised of different groups of users with each group assigned one of the roles from team admins, members, viewers, or custom roles. Due to this resemblance, we mapped the Group SCIM API endpoints to W&B teams.
 :::
 
-### Wandb SDK API
-Just like how SCIM API allows you to automate user and team management, you can also use some of the methods available in the [Wandb SDK API](../../ref/python/public-api/api.md) for that purpose. Keep a note of the following methods:
+### W&B Python SDK API
+Just like how SCIM API allows you to automate user and team management, you can also use some of the methods available in the [W&B Python SDK API](../../ref/python/public-api/api.md) for that purpose. Keep a note of the following methods:
 
 | Method name | Purpose |
 |-------------|---------|
-| create_user (email, admin=False) | Add a user to the organization and optionally make them the organization admin. |
-| user (userNameOrEmail) | Return an existing user in the organization. |
-| User.teams () | Return the teams for the user on which this method is invoked. You can get the user object using the user(userNameOrEmail) method. |
-| create_team (teamName, adminUserName) | Create a new team and optionally make an organization-level user the team admin. |
-| team (teamName) | Return an existing team in the organization. |
-| Team.invite (userNameOrEmail, admin=False) | Add a user to the team on which this method is invoked. You can get the team object using the team(teamName) method. |
-| Team.create_service_account (description) | Add a service account to the team on which this method is invoked. You can get the team object using the team(teamName) method. |
-| Member.delete () | Remove a member user from a team. You can get the list of member objects in a team using the team object's `members` attribute. And you can get the team object using the team(teamName) method. |
+| `create_user(email, admin=False)` | Add a user to the organization and optionally make them the organization admin. |
+| `user(userNameOrEmail)` | Return an existing user in the organization. |
+| `user.teams()` | Return the teams for the user. You can get the user object using the user(userNameOrEmail) method. |
+| `create_team(teamName, adminUserName)` | Create a new team and optionally make an organization-level user the team admin. |
+| `team(teamName)` | Return an existing team in the organization. |
+| `Team.invite(userNameOrEmail, admin=False)` | Add a user to the team. You can get the team object using the team(teamName) method. |
+| `Team.create_service_account(description)` | Add a service account to the team. You can get the team object using the team(teamName) method. |
+|` Member.delete()` | Remove a member user from a team. You can get the list of member objects in a team using the team object's `members` attribute. And you can get the team object using the team(teamName) method. |
 
 ### Role assignment API
 **Coming Soon!** Reach out to your W&B team if you would like to use the upcoming role assignment API.
