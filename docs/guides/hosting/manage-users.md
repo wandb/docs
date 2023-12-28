@@ -36,7 +36,7 @@ If you are looking to simplify user management in your organization, refer to [A
 4. Select the role you want to assign to the user, from `Admin, Member or Viewer`. By default, all users are assigned a `Member` role.
     - **Admin**: A instance admin who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends more than one admin for an enterprise W&B server instance.
     - **Member** - A regular user of the organization, invited by an instance admin. A organization user cannot invite other users or manage existing users in the organization. `Team admins` could add specific organization users to their respective teams (team-level roles described below in **Team roles**).
-    - **Viewer** - A view-only user of your organization, invited by an instance admin. A viewer only has read access to the organization and the underlying teams that they are added to by the respective `Team admins`.
+    - **Viewer** - A view-only user of your organization, invited by an instance admin. A viewer only has read access to the organization and the underlying teams that they are a part of.
 5. Click the **Add new user** button.
 
 ![](/images/hosting/org_dashboard_add_user.png)
@@ -44,7 +44,7 @@ If you are looking to simplify user management in your organization, refer to [A
 An invite link will be sent to the user by email. Once the user accepts the invite, they will have access to the W&B instance (organization).
 
 :::info
-Note that the **Add user** option might be greyed out if there are no more seats in the license. Reach out to your W&B team if you have difficulty adding users. 
+The **Add user** option might be not be available if there are no more seats in the license. Reach out to your W&B team if you have difficulty adding users. 
 :::
 
 :::note
@@ -54,7 +54,7 @@ W&B uses a third-party email server to send the user invites. If you've a self-m
 ### User auto-provisioning
 If Single Sign-On (SSO) is setup for your enterprise W&B Server instance, any user in your company who has access to the instance URL can sign-in to the organization, provided the settings in your SSO provider allow so. When a user signs in for the first time using SSO, their W&B organization user will be automatically created without needing an instance admin to generate a user invite. This is a good alternative for adding users to your W&B organization at scale.
 
-User auto-provisioning with SSO is turned on by default for W&B Server. It is possible to turn it `off` if you would like to selectively add specific users to your W&B organization. If you're on **Dedicated Cloud**, reach out to your W&B team. If you've a **Self-managed** deployment, you can configure the setting `DISABLE_SSO_PROVISIONING=true` for your W&B Server instance.
+User auto-provisioning with SSO on by default for W&B Server. It is possible to turn it `off` if you would like to selectively add specific users to your W&B organization. If you're on **Dedicated Cloud**, reach out to your W&B team. If you've a **Self-managed** deployment, you can configure the setting `DISABLE_SSO_PROVISIONING=true` for your W&B Server instance.
 
 :::note
 If auto-provisioning is on for your W&B Server instance, there may be a way to control which specific users can sign-in to the organization with your SSO provider to restrict the product use to relevant personnel. Extent of that configurability will depend on your SSO provider and is outside the scope of W&B documentation.
@@ -78,7 +78,7 @@ If auto-provisioning is on for your W&B Server instance, there may be a way to c
 Use a team home page as a central hub to explore projects, reports, and runs. Within the team home page there is a **Settings** tab. Use the Settings tab to manage users, set a team avatar, adjust privacy settings, set up alerts, track usage, and more. For more information, see the [Team settings](../app/settings-page/team-settings.md) page.
 
 :::tip
-Team admins can add and remove users in their teams. A user is invited to a team using email or their organization-level username by the respective team admin. A non-admin user in a team cannot invite other users to that team, **unless** team admin has enabled the relevant team setting.
+Team admins can add and remove users in their teams. Add a users to team with the user's email or use the user's organization-level username. A non-admin user in a team cannot invite other users to that team, **unless** team admin has enabled the relevant team setting.
 
 See **Team roles** below for what roles are available at the team-level.
 :::
@@ -103,7 +103,7 @@ When you (team admin) invite a user to a team you can assign them one of the fol
 | Admin     | A user who can add and remove other users in the team, change user roles, and configure team settings.                                                                                                                                                                                                                       |
 | Member    | A regular user of a team, invited by email or their organization-level username by the team admin. A member user cannot invite other users to the team.                                                                                                                                                                        |
 | View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team admin. A view-only user only has read access to the team and its contents.                                                                                                                                                       |
-| Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure that the environment variable `WANDB_USERNAME` is set to correctly attribute runs to the appropriate user. |
+| Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
 | Custom Roles (Enterprise-only feature)   | Custom roles allow organization admins to compose new roles by inheriting from the above View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
 
 :::note
@@ -118,7 +118,7 @@ If you're on W&B Server (Dedicated Cloud or Self-managed deployment), you will n
 Use the `Members` tab in the Team's settings page to invite users to your team.
 
 :::info
-If a user is not already a part of the organization when being added to a team, they will be automatically added at the organization-level as well.
+Members of a team inherit the organization that the team is a part of.
 :::
 
 1. Navigate to the Team's Settings page.
@@ -133,7 +133,7 @@ Use the `Members` tab in the Team's settings page to remove users from your team
 2. Select the Delete button next the to user's name.
 
 :::info
-W&B runs logged by team users remain after a team user is removed.
+W&B keeps runs logged by team members, even if they are no longer on the team.
 :::
 
 ## Automate user and team management
@@ -152,7 +152,7 @@ There are broadly two categories of SCIM API - **User** and **Group**.
 [User SCIM API](./scim.md#user-resource) allows for creating, deactivating or getting the details of a user (or listing all users) in a W&B organization.
 
 :::info
-Deactivate a user within a W&B organization with the `DELETE User` endpoint.  Users that are deactivated are no longer able to sign. However, deactivated users will still show up in the organization's user list.
+Deactivate a user within a W&B organization with the `DELETE User` endpoint. Deactivated users can no longer sign in. However, deactivated users will still show up in the organization's user list.
 
 To fully remove a deactivated user from the user list, you must [remove the user from the organization](#remove-a-user).
 
@@ -160,10 +160,13 @@ It is possible to re-enable a deactivated user, if needed.
 :::
 
 #### Group SCIM API
-[Group SCIM API](./scim.md#group-resource) allows for creating or removing a W&B team in a organization. The `PATCH Group` endpoint can be used to **add** or **remove** users in an existing team.
+[Group SCIM API](./scim.md#group-resource) allows for creating or removing a W&B team in a organization. Use the `PATCH Group` add or remove users in an existing team.
 
 :::info
-There is no notion of a `group of users having the same role` within W&B Server. A W&B team closely resembles a group. W&B teams are a mechanism that allows a mix of diverse personas with different roles work collaboratively on a set of related projects. Teams  are comprised of different groups of users with each group assigned one of the roles from team admins, members, viewers, or custom roles. W&B mapped Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
+There is no notion of a `group of users having the same role` within W&B Server. A W&B team closely resembles a group. Use W&B teams allows diverse personas, with different roles, work collaboratively on a set of related projects. Teams are consist of different groups of users. Assign each user in a group a role: team admins, members, viewers, or custom roles. 
+
+
+W&B mapped Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
 :::
 
 ### W&B Python SDK API
@@ -201,8 +204,6 @@ The **Last Active** column shows if a user is pending an invitation or an active
 
 ![](/images/hosting/view_status_of_user.png)
 
-The **Role** column will display **Deactivated** if a user was deactivated. 
-
 ### View and share how your organization uses W&B
 View how your organization uses W&B in CSV format.
 
@@ -217,13 +218,13 @@ This will export a CSV file that lists all users of an organization along with t
 Use the **Last Active** column to get an **Activity summary** of an individual user. 
 
 1. Hover your mouse over the **Last Active** entry for a user. 
-2. A tooltip will appear and describe a summary of information such as: when that user was added, the last time that user was active,  a count of any runs or reports created by that user, and how many days the user has been active since they signed up. 
+2. A tooltip appears and provides a summary of information about the user's activity.
 
 
 ![](/images/hosting/activity_tooltip.png)
 
 :::info
-A user is considered active if they: log in to W&B, view any page in the W&B App, log runs, use the SDK to track an experiment, or interact with the  W&B server in any way.
+A user is active if they: log in to W&B, view any page in the W&B App, log runs, use the SDK to track an experiment, or interact with the W&B server in any way.
 :::
 
 ### View active users over time
