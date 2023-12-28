@@ -161,7 +161,7 @@ It is possible to re-enable a deactivated user, if needed.
 [Group SCIM API](./scim.md#group-resource) allows for creating or removing a W&B team in a organization. The `PATCH Group` endpoint can be used to **add** or **remove** users in an existing team.
 
 :::info
-There is no notion of a `group of users having the same role` within W&B Server yet. A W&B team closely resembles a group, but it should rather be seen as a mechanism that allows a mix of diverse personas with different roles work collaboratively on a set of related projects. So in a way, a team is meant to be comprised of different groups of users with each group assigned one of the roles from team admins, members, viewers, or custom roles. Due to this resemblance, we mapped the Group SCIM API endpoints to W&B teams.
+There is no notion of a `group of users having the same role` within W&B Server. A W&B team closely resembles a group. W&B teams are a mechanism that allows a mix of diverse personas with different roles work collaboratively on a set of related projects. A team is meant to be comprised of different groups of users with each group assigned one of the roles from team admins, members, viewers, or custom roles. W&B mapped the Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
 :::
 
 ### W&B Python SDK API
