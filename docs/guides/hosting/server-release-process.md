@@ -28,12 +28,14 @@ Some new features start in private preview, which means they are only available 
 The release notes for all releases are available at [W&B Server Releases on GitHub](https://github.com/wandb/server/releases). Customers who use Slack can receive automatic release announcements in their W&B Slack channel. Ask your W&B team to enable these updates.
 
 ## Release update and downtime
-A server release does not generally require instance downtime for **Dedicated Cloud** instances and for customers with **Self-managed** deployments who have implemented a proper rolling update process. Downtime might be needed in the following scenarios:
+A server release does not generally require instance downtime for **Dedicated Cloud** instances and for customers with **Self-managed** deployments who have implemented a proper rolling update process. 
+
+Downtime might occur for the following scenarios:
 
 * A new feature or enhancement requires changes to the underlying infrastructure such as compute, storage or network. Account teams work with **Dedicated Cloud** customers in advance of such updates.
-* An infrastructure change is required as part of a security patch or to avoid `support end-of-life` for a particular version. For urgent changes, **Dedicated Cloud** customers might not receive notification in advance. The priority here is to keep the fleet secure and fully supported.
+* An infrastructure change due to a security patch or to avoid `support end-of-life` for a particular version. For urgent changes, **Dedicated Cloud** customers might not receive notification in advance. The priority here is to keep the fleet secure and fully supported.
 
-For both cases, such updates are applied to the whole **Dedicated Cloud** fleet in batches, and we can not exclude a particular instance from the process. Customers with **Self-managed** instances are responsible to manage such updates on their own schedule. Refer to [release support and end of life](#release-support-and-end-of-life).
+For both cases, updates are applied to the whole **Dedicated Cloud** fleet in batches. W&B can not exclude a particular instance from the process. Customers with **Self-managed** instances are responsible to manage updates on their own schedule. Refer to [release support and end of life](#release-support-and-end-of-life).
 
 ## Release support and end of life
-W&B supports server releases for six months. **Dedicated Cloud** instances are automatically updated. Customers with **Self-managed** instances need to run a process to update deployments with the latest released. Staying on a version older than six months will significantly limit support.
+W&B supports server releases for six months. **Dedicated Cloud** instances are automatically updated. Customers with **Self-managed** instances need to run a process to update deployments with the latest released. Staying on a version older than six months significantly limits support.
