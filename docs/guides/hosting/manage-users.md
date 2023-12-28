@@ -152,7 +152,9 @@ There are broadly two categories of SCIM API - **User** and **Group**.
 [User SCIM API](./scim.md#user-resource) allows for creating, deactivating or getting the details of a user (or listing all users) in a W&B organization.
 
 :::info
-With the `DELETE User` endpoint, the user is deactivated in the W&B organization such that they are not able to sign in anymore, but they are still shown in the user list. To fully remove a deactivated user from the user list, you must [remove the user from the organization](#remove-a-user).
+Deactivate a user within a W&B organization with the `DELETE User` endpoint.  Users that are deactivated are no longer able to sign. However, deactivated users will still show up in the organization's user list.
+
+To fully remove a deactivated user from the user list, you must [remove the user from the organization](#remove-a-user).
 
 It is possible to re-enable a deactivated user, if needed.
 :::
@@ -161,7 +163,7 @@ It is possible to re-enable a deactivated user, if needed.
 [Group SCIM API](./scim.md#group-resource) allows for creating or removing a W&B team in a organization. The `PATCH Group` endpoint can be used to **add** or **remove** users in an existing team.
 
 :::info
-There is no notion of a `group of users having the same role` within W&B Server. A W&B team closely resembles a group. W&B teams are a mechanism that allows a mix of diverse personas with different roles work collaboratively on a set of related projects. A team is meant to be comprised of different groups of users with each group assigned one of the roles from team admins, members, viewers, or custom roles. W&B mapped the Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
+There is no notion of a `group of users having the same role` within W&B Server. A W&B team closely resembles a group. W&B teams are a mechanism that allows a mix of diverse personas with different roles work collaboratively on a set of related projects. Teams  are comprised of different groups of users with each group assigned one of the roles from team admins, members, viewers, or custom roles. W&B mapped Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
 :::
 
 ### W&B Python SDK API
