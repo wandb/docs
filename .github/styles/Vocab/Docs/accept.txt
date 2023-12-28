@@ -1,6 +1,7 @@
 Autogenerate
 [Cc]heckpointing
 CLI
+[Cc]loud
 Colab
 [Cc]onfig
 CTAButtons
