@@ -40,5 +40,5 @@ For both cases, updates roll out to all **Dedicated Cloud** instances without ex
 W&B supports every server release for six months from the release date. **Dedicated Cloud** instances are automatically updated. Customers with **Self-managed** instances are responsible to update their deployments in time to comply with the support policy. Avoid staying on a version older than six months as it would significantly limit support from W&B.
 
 :::note
-W&B strongly recommends customers with **Self-managed** instances to update their deployments with the latest release at least every quarter. This will ensure that you are using the latest and greatest capabilities while also keeping well ahead of the release end of life.
+W&B strongly recommends customers with **Self-managed** instances to update their deployments with the latest release at least every quarter. This ensures that you are using the latest and greatest capabilities while also keeping well ahead of the release end of life.
 :::
