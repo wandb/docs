@@ -13,56 +13,9 @@ import TabItem from '@theme/TabItem';
 
 A W&B Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
 
-Define your strategy in the form of a sweep configuration. Specify the configuration either in a:
 
-1. Python nested dictionary data structure if you use a Jupyter Notebook or Python script.
-2. YAML file if you use the command line (CLI).
-
-The following code snippets demonstrate examples of how to define a Sweep configuration in a Jupyter Notebook or Python script or within a YAML file. Configuration keys are defined in detail in subsequent sections.
-
-<Tabs
-  defaultValue="script"
-  values={[
-    {label: 'Python script or Jupyter Notebook', value: 'script'},
-    {label: 'YAML', value: 'yaml'},
-  ]}>
-  <TabItem value="script">
-  Within your Jupyter Notebook or Python script, define a sweep in a dictionary Python data structure.
-
-```python
-sweep_configuration = {
-    "method": "bayes",
-    "name": "sweep",
-    "metric": {"goal": "minimize", "name": "validation_loss"},
-    "parameters": {
-        "batch_size": {"values": [16, 32, 64]},
-        "epochs": {"values": [5, 10, 15]},
-        "lr": {"max": 0.1, "min": 0.0001},
-    },
-}
-```
-  </TabItem>
-  <TabItem value="yaml">
-  Create a map in your YAML where the keys can have, as their values, further keys.
-
-```yaml
-program: train.py
-method: bayes
-metric:
-  name: validation_loss
-  goal: minimize
-parameters:
-  learning_rate:
-    min: 0.0001
-    max: 0.1
-  optimizer:
-    values: ["adam", "sgd"]
-```
-  </TabItem>
-</Tabs>
-
-:::caution
-1. Ensure that you log (`wandb.log`) the _exact_ metric name that you defined the sweep to optimize within your Python script or Jupyter Notebook.
+<!-- :::caution
+1. Ensure that you log (`wandb.log`) the _exact_ metric name that you define in your sweep configuration.
 2. You cannot change the Sweep configuration once you start the W&B Sweep agent.
 :::
 
@@ -80,176 +33,157 @@ You must log the variable `val_loss` (in this example) within your Python script
 wandb.log({"val_loss": validation_loss})
 ```
 
-Defining the metric in the sweep configuration is only required when using the bayes method for the sweep. 
+Defining the metric in the sweep configuration is only required if you use the bayes method for the sweep.  -->
 
-### Sweep configuration structure
+## Sweep configuration structure
 
-Sweep configurations are nested; keys can have, as their values, further keys. The top-level keys are listed and briefly described below, and then detailed in the following section.
+Define your sweep configuration with either a Python dictionary or a YAML file. Both sweep configuration format options utilize key-value pairs and nested structures. The top-level key of the Python dictionary or YAML is used to specify the [INSERT]. While values you specify in the (key-value pair) constrain the search space. [INSERT] 
 
-| Top-Level Key     | Description                                                                                                                   |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `program`         | (required) Training script to run.                                                                                            |
-| `method`          | (required) Specify the [search strategy](./define-sweep-configuration.md#configuration-keys).                                 |
-| `parameters`      | (required) Specify [parameters](define-sweep-configuration.md#parameters) bounds to search.                                   |
-| `name`            | The name of the sweep, displayed in the W&B UI.                                                                               |
-| `description`     | Text description of the sweep.                                                                                                |
-| `metric`          | Specify the metric to optimize (only used by certain search strategies and stopping criteria).                                |
-| `early_terminate` | Specify any [early stopping criteria](./define-sweep-configuration.md#early_terminate).                                       |
-| `command`         | Specify [command structure ](./define-sweep-configuration.md#command)for invoking and passing arguments to the training script. |
-| `project`         | Specify the project for this sweep.                                                                                           |
-| `entity`          | Specify the entity for this sweep.                                                                                            |
-| `run_cap` | Specify a maximum number of runs in a sweep.                                                                                          |
+:::info
+See the respective documentation for more information on syntax. [LINK]
+:::
 
-### Search type methods
+:::tip
+Use a YAML file if you want to create sweeps from the command line (CLI). Use Python dictionaries if you use a Jupyter Notebook or Python script. 
+:::
 
-The following list describes hyperparameter search methods. Specify the search strategy with the `method`:
+For example, use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep (`name` key), the parameters to search through (`parameter` key), the methodology to search the parameter space (`method` key), and more. The values you pass to the sweep configuration keys can include a dictionary of minimum and maximum learning rate values (in the case of a Python dictionary config) or a list of batch size values to search over (in the case of a YAML config).
 
-* **`grid`**  – Iterate over every combination of hyperparameter values. Can be computationally costly.
-* **`random`**  – Choose a random set of hyperparameter values on each iteration based on provided distributions.
-* **`bayes`** – Create a probabilistic model of a metric score as a function of the hyperparameters, and choose parameters with high probability of improving the metric. Bayesian hyperparameter search method uses a Gaussian Process to model the relationship between the parameters and the model metric and chooses parameters to optimize the probability of improvement. This strategy requires the `metric`key to be specified. Works well for small numbers of continuous parameters but scales poorly.
 
+The proceeding code snippets show example sweep configurations:
 
 <Tabs
-  defaultValue="random"
-  values={[
-    {label: 'Random search', value: 'random'},
-    {label: 'Grid search', value: 'grid'},
-    {label: 'Bayes search', value: 'bayes'},
+  defaultValue="yaml"
+  values={[    
+    {label: 'YAML', value: 'yaml'},
+    {label: 'Python script or Jupyter Notebook', value: 'script'},
   ]}>
-  <TabItem value="random">
+  <TabItem value="script">
+  Define a sweep in a Python dictionary data structure if your training algorithm is defined in a Python script or Colab notebook.
 
-  ```yaml  
-  method: random
-  ```
-
+```python title="train.py"
+sweep_configuration = {
+    "method": "bayes",
+    "name": "sweepdemo",
+    "metric": {
+      "goal": "minimize",
+      "name": "validation_loss"
+      },
+    "parameters": {
+      "learning_rate": {"min": 0.0001, "max": 0.1},
+      "batch_size": {"values": [16, 32, 64]},
+      "epochs": {"values": [5, 10, 15]},
+      "optimizer": {"values": ["adam", "sgd"]}
+    },
+}
+```
   </TabItem>
-  <TabItem value="grid">
+  <TabItem value="yaml">
 
-  ```yaml  
-  method: grid
-  ```
 
-  </TabItem>
-  <TabItem value="bayes">
-
-  ```yaml  
-  method: bayes
-  metric:
-    name: val_loss
-    goal: minimize
-  ```
-
+```yaml title="config.yaml"
+program: train.py
+name: sweepdemo
+method: bayes
+metric:
+  goal: minimize
+  name: validation_loss
+parameters:
+  learning_rate:
+    min: 0.0001
+    max: 0.1
+  batch_size:
+    values: [16, 32, 64]
+  epochs:
+    values: [5, 10, 15]
+  optimizer:
+    values: ["adam", "sgd"]
+```
   </TabItem>
 </Tabs>
 
-:::caution
-Random and Bayesian searches will run forever -- until you stop the process from the command line, within your python script, or [the UI](./sweeps-ui.md). Grid search will also run forever if it searches within in a continuous search space.
-:::
 
-## Configuration keys
+## Define a sweep configuration
+1. First, provide the name of your training script and the search method for the program and method keys, respectively. 
+  ```yaml title="sweep-config.yaml"
+  program: train.py
+  method: bayes
+  ```
+2. (Recommended) Specify the the metric to optimize (only used by certain search strategies and stopping criteria).
+  ```yaml title="sweep-config.yaml"
+  program: train.py
+  method: bayes
+  metric:
+    goal: minimize
+    name: validation_loss
+  ```
+2. Next, provide the name of your hyperparameter as a top-level key. Common hyperparameters include: learning rate, batch size, and epochs.
+  ```yaml title="sweep-config.yaml"
+  program: train.py
+  name: sweepdemo
+  method: bayes
+  metric:
+    goal: minimize
+    name: validation_loss
+  parameters:
+    learning_rate:
+      min: 0.0001
+      max: 0.1
+    batch_size:
+      values: [16, 32, 64]
+    epochs:
+      values: [5, 10, 15]
+    optimizer:
+      values: ["adam", "sgd"]
+  ```
+
+
+
+## Top-level sweep configuration keys
+
+The top-level sweep configuration keys are listed and briefly described below. See the respective sections for more information about each key. [LINK]
+
+| Key               | Description                                                                                                                   |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `program`         | (required) Training script to run.                                                                                            |
+| `entity`          | Specify the entity for this sweep.                                                                                            |
+| `project`         | Specify the project for this sweep.                                                                                           |
+| `description`     | Text description of the sweep.                                                                                                |
+| `name`            | The name of the sweep, displayed in the W&B UI.                                                                               |
+| [`method`](#method) | (required) Specify the [search strategy](./define-sweep-configuration.md#configuration-keys).                                 |
+| [`metric`](#metric) | Specify the metric to optimize (only used by certain search strategies and stopping criteria).                                |
+| [`parameters`](#parameters) | (required) Specify [parameters](define-sweep-configuration.md#parameters) bounds to search.                                   |
+| [`early_terminate`](#earlyterminate) | Specify any [early stopping criteria](./define-sweep-configuration.md#early_terminate).                                       |
+| [`command`](#command)         | Specify [command structure ](./define-sweep-configuration.md#command)for invoking and passing arguments to the training script. |
+| `run_cap` | Specify a maximum number of runs in a sweep.                                                                                          |
+
+
+The following sections describe in greater detail how to specify [INSERT].
 
 ### `method`
 
-Specify the search strategy with the `method` key in the sweep configuration.
+Specify the hyperparameter search strategy with the `method` key in your sweep configuration.
 
-| `method` | Description                                               |
-| -------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `grid`   | Grid search iterates over all possible combinations of parameter values.                                                         |
-| `random` | Random search chooses a random set of values on each iteration.        |
-| `bayes`  | Our Bayesian hyperparameter search method uses a Gaussian Process to model the relationship between the parameters and the model metric and chooses parameters to optimize the probability of improvement. This strategy requires the `metric` key to be specified. |
+The following table describes available hyperparameter search methods:
 
-### `parameters`
 
-Describe the hyperparameters to explore during the sweep. For each hyperparameter, specify the name and the possible values as a list of constants (for any `method`) or specify a `distribution` for `random` or `bayes`.
+| `method` | Description                                                                                           |
+| -------- | ----------------------------------------------------------------------------------------------------- |
+| `grid`   | Iterate over every combination of hyperparameter values. Can be computationally costly.               |
+| `random` | Choose a random set of hyperparameter values on each iteration based on provided distributions.       |
+| `bayes`  | Create a probabilistic model of a metric score as a function of the hyperparameters, and choose parameters with high probability of improving the metric. Bayesian hyperparameter search method uses a Gaussian Process to model the relationship between the parameters and the model metric and chooses parameters to optimize the probability of improvement. This strategy requires the `metric`key to be specified. Works well for small numbers of continuous parameters but scales poorly. |
 
-| Values          | Description                                                             |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `values`        | Specifies all valid values for this hyperparameter. Compatible with `grid`.     |
-| `value`         | Specifies the single valid value for this hyperparameter. Compatible with `grid`.                                                                                               |
-| `distribution`  | (`str`) Selects a distribution from the distribution table below. If not specified, will default to `categorical` if `values` is set, to `int_uniform` if `max` and `min` are set to integers, to `uniform` if `max` and `min` are set to floats, or to`constant` if `value` is set. |
-| `probabilities` | Specify the probability of selecting each element of `values` when using `random`.                                |
-| `min`, `max`    | (`int`or `float`) Maximum and minimum values. If `int`, for `int_uniform` -distributed hyperparameters. If `float`, for `uniform` -distributed hyperparameters.                |
-| `mu`            | (`float`) Mean parameter for `normal` - or `lognormal` -distributed hyperparameters.                                                       |
-| `sigma`         | (`float`) Standard deviation parameter for `normal` - or `lognormal` -distributed hyperparameters.                            |
-| `q`             | (`float`) Quantization step size for quantized hyperparameters.                          |
-| `parameters`    | Nest other parameters inside a root level parameter.           |
+:::caution
+Random and Bayesian searches will run forever unless you stop the process from the command line, within your python script, or [the W&B App UI](./sweeps-ui.md). Grid search will also run forever if it searches within in a continuous search space.
+:::
 
-#### Examples
+:::info
+See the next section if you chose a random or Bayesian search method.
+:::
 
-<Tabs
-  defaultValue="single"
-  values={[
-    {label: 'single value', value: 'single'},
-    {label: 'multiple values', value: 'multiple'},
-    {label: 'probabilities', value: 'probabilities'},
-    {label: 'distribution', value: 'distribution'},
-    {label: 'nested', value: 'nested'},
-  ]}>
-  <TabItem value="single">
+#### Specify a distribution for random or Bayesian search method
 
-  ```yaml
-  parameter_name:
-    value: 1.618
-  ```
-
-  </TabItem>
-  <TabItem value="multiple">
-
-  ```yaml
-  parameter_name:
-    values:
-      - 8
-      - 6
-      - 7
-      - 5
-      - 3
-      - 0
-      - 9
-  ```
-  </TabItem>
-  <TabItem value="probabilities">
-
-  ```yaml
-  parameter_name:
-    values: [1, 2, 3, 4, 5]
-    probabilities: [0.1, 0.2, 0.1, 0.25, 0.35]
-  ```
-
-  </TabItem>
-  <TabItem value="distribution">
-
-  ```yaml
-  parameter_name:
-    distribution: normal
-    mu: 100
-    sigma: 10
-  ```
-
-  </TabItem>
-  <TabItem value="nested">
-
-  ```yaml
-  top_level_param:
-    min: 0
-    max: 5
-  nested_param:
-      parameters:  # required key
-          learning_rate:
-              values: [0.01, 0.001]
-          double_nested_param:
-            parameters:  # <--
-              x:
-                value: 0.9
-              y: 
-                value: 0.8
-  ```
-
-  </TabItem>
-</Tabs>
-
-#### `distribution`
-
-Specify how to distribute values if you choose a random (`random)` or Bayesian (`bayes)` search method.
+Specify how to distribute values if you choose a random (`random`) or Bayesian (`bayes`) search method.
 
 | Value                    | Description            |
 | ------------------------ | ------------------------------------ |
@@ -324,24 +258,32 @@ parameter_name:
   </TabItem>
 </Tabs>
 
+
 ### `metric`
 
-Describes the metric to optimize. This metric should be logged explicitly to W&B by your training script.
+Use the metric top-level sweep configuration key to describe how to optimize the metric.
 
-| Key      | Description                                                                                                                                                                                                                                                   |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`   | Name of the metric to optimize.                                                                                                                                                                                                                               |
-| `goal`   | Either `minimize` or `maximize` (Default is `minimize`).                                                                                                                                                                                                      |
+|Key | Description |
+| -------- | --------------------------------------------------------- |
+| `name`   | Name of the metric to optimize.                           |
+| `goal`   | Either `minimize` or `maximize` (Default is `minimize`).  |
 | `target` | Goal value for the metric you're optimizing. When any run in the sweep achieves that target value, the sweep's state will be set to `finished`. This means all agents with active runs will finish those jobs, but no new runs will be launched in the sweep. |
 
-For example, if you want to minimize the validation loss of your model:
+:::info
+Ensure to log the metric you specify in you sweep configuration explicitly to W&B by your training script. For example, if you want to minimize the validation loss of your model:
 
 ```python
+import wandb
+
+run = wandb.init(entity="<entity>", project="<project>")
+
+# Training script goes here
+
 # model training code that returns validation loss as valid_loss
-wandb.log({"val_loss": valid_loss})
+run.log({"val_loss": valid_loss})
 ```
 
-#### Examples
+<!-- #### Examples
 
 <Tabs
   defaultValue="maximize"
@@ -375,16 +317,11 @@ metric:
   target: 0.95
 ```
   </TabItem>
-</Tabs>
+</Tabs> -->
 
-:::caution
-The metric you optimize must be a top-level metric.
-:::
+Do not log the metric for your sweep inside of a sub-directory. In the proceeding code example, a user wants to log the validation loss (`"loss": val_loss`). First they pass the values into a dictionary. However, the dictionary passed to `wandb.log` does not specify the key-value pair to track.
 
-
-Do not log the metric for your sweep inside of a sub-directory. In the proceeding code example, we want to log the validation loss (`"loss": val_loss`). First we define it in a dictionary. However, the dictionary passed to `wandb.log` does not specify the key-value pair to track.
-
-```
+```python
 val_metrics = {
         "loss": val_loss, 
         "acc": val_acc
@@ -396,7 +333,7 @@ wandb.log({"val_loss", val_metrics})
 
 Instead, log the metric at the top level. For example, after you create a dictionary, specify the key-value pair when you pass the dictionary to the `wandb.log` method:
 
-```
+```python
 val_metrics = {
         "loss": val_loss, 
         "acc": val_acc
@@ -404,6 +341,103 @@ val_metrics = {
 
 wandb.log({"val_loss", val_metrics["loss"]})
 ```
+
+:::
+
+
+
+
+
+### `parameters`
+
+Specify one or more hyperparameters to explore during a sweep. 
+
+For each hyperparameter, specify the name and the possible values as a list of constants (for any `method`) or specify a `distribution` for `random` or `bayes`.
+
+| Values          | Description                                                             |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `values`        | Specifies all valid values for this hyperparameter. Compatible with `grid`.     |
+| `value`         | Specifies the single valid value for this hyperparameter. Compatible with `grid`.                                                                                               |
+| `distribution`  | (`str`) Selects a distribution from the distribution table below. If not specified, will default to `categorical` if `values` is set, to `int_uniform` if `max` and `min` are set to integers, to `uniform` if `max` and `min` are set to floats, or to`constant` if `value` is set. See the [INSERT] for more information. |
+| `probabilities` | Specify the probability of selecting each element of `values` when using `random`.                                |
+| `min`, `max`    | (`int`or `float`) Maximum and minimum values. If `int`, for `int_uniform` -distributed hyperparameters. If `float`, for `uniform` -distributed hyperparameters.                |
+| `mu`            | (`float`) Mean parameter for `normal` - or `lognormal` -distributed hyperparameters.                                                       |
+| `sigma`         | (`float`) Standard deviation parameter for `normal` - or `lognormal` -distributed hyperparameters.                            |
+| `q`             | (`float`) Quantization step size for quantized hyperparameters.                          |
+| `parameters`    | Nest other parameters inside a root level parameter.           |
+<!-- 
+#### Examples
+
+<Tabs
+  defaultValue="single"
+  values={[
+    {label: 'single value', value: 'single'},
+    {label: 'multiple values', value: 'multiple'},
+    {label: 'probabilities', value: 'probabilities'},
+    {label: 'distribution', value: 'distribution'},
+    {label: 'nested', value: 'nested'},
+  ]}>
+  <TabItem value="single">
+
+  ```yaml
+  parameter_name:
+    value: 1.618
+  ```
+
+  </TabItem>
+  <TabItem value="multiple">
+
+  ```yaml
+  parameter_name:
+    values:
+      - 8
+      - 6
+      - 7
+      - 5
+      - 3
+      - 0
+      - 9
+  ```
+  </TabItem>
+  <TabItem value="probabilities">
+
+  ```yaml
+  parameter_name:
+    values: [1, 2, 3, 4, 5]
+    probabilities: [0.1, 0.2, 0.1, 0.25, 0.35]
+  ```
+
+  </TabItem>
+  <TabItem value="distribution">
+
+  ```yaml
+  parameter_name:
+    distribution: normal
+    mu: 100
+    sigma: 10
+  ```
+
+  </TabItem>
+  <TabItem value="nested">
+
+  ```yaml
+  top_level_param:
+    min: 0
+    max: 5
+  nested_param:
+      parameters:  # required key
+          learning_rate:
+              values: [0.01, 0.001]
+          double_nested_param:
+            parameters:  # <--
+              x:
+                value: 0.9
+              y: 
+                value: 0.8
+  ```
+
+  </TabItem>
+</Tabs> -->
 
 ### `early_terminate`
 
@@ -419,7 +453,7 @@ We support the following stopping algorithm(s):
 | ----------- | ------------------------------------------------------------- |
 | `hyperband` | Use the [hyperband method](https://arxiv.org/abs/1603.06560). |
 
-#### `hyperband`
+#### Use `hyperband` to stop a hyperparameter search
 
 [Hyperband](https://arxiv.org/abs/1603.06560) stopping evaluates if a program should be stopped or permitted to continue at one or more pre-set iteration counts, called "brackets". When a run reaches a bracket, its metric value is compared to all previous reported metric values and the [W&B Run](../../ref/python/run.md) is terminated if its value is too high (when the goal is minimization) or low (when the goal is maximization).
 
@@ -474,7 +508,7 @@ The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.
   </TabItem>
 </Tabs>
 
-### `command` <a href="#command" id="command"></a>
+### `command` 
 
 <!-- Agents created with [`wandb agent`](../../ref/cli/wandb-agent.md) receive a command in the following format by default: -->
 
@@ -590,7 +624,7 @@ command:
   </TabItem>
 </Tabs>
 
-### Nested Parameters
+## Nested Parameters
 
 The sweep configuration format supports specifying nested parameters. To delineate a nested parameter, use an additional `parameters` key under the top level parameter name. Multi-level nesting is allowed. For a complete sweep configuration example: 
 
@@ -636,12 +670,7 @@ Nested parameters overwrite keys specified in a run configuration.
 For example, suppose you initialize a W&B run with the following configuration:
 
 ```python
-run = wandb.init(config = {
-  "nested_param": { 
-    "manual_key": 1
-    }
-  }
-)
+run = wandb.init(config={"nested_param": {"manual_key": 1}})
 ```
 
 If you then create a sweep with the following sweep configuration:
