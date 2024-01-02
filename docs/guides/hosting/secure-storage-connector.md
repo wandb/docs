@@ -11,7 +11,7 @@ The secure storage connector allows you to store the artifacts and other files p
 * Team level: The team level secure storage allows teams within your organization to utilize a separate storage bucket from the one used at the instance level. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. This capability is available for all kinds of W&B organizations, including on **SaaS Cloud**.
 
 :::info
-In case of **Dedicated Cloud** or **Self-managed** instances, you could configure secure storage connector at both the instance level and separately for any or all teams within your organization. Taking an example, assume there are two teams called _Omega_ & _Kappa_ in a **Dedicated Cloud** instance, and you have configured secure storage connector at the instance level. If you also configure the secure storage connector separately for team _Omega_, then the files pertaining to that team’s runs are stored on the team level secure storage. On the other hand if you do not configure the secure storage connector for team _Kappa_, then the files pertaining to that team's runs are stored on the instance level secure storage.
+In case of **Dedicated Cloud** or **Self-managed** instances, you could configure secure storage connector at both the instance level and separately for any or all teams within your organization. Taking an example, assume there are two teams called _Omega_ & _Kappa_ in a **Dedicated Cloud** instance, and you have configured secure storage connector at the instance level. If you also configure the secure storage connector separately for team _Omega_, team level secure storage is used to store the files pertaining to that team’s runs. On the other hand if you do not configure the secure storage connector for team _Kappa_, instance level secure storage is used to store the files pertaining to that team’s runs.
 :::
 
 :::note
@@ -23,12 +23,12 @@ The following table shows the availability of different kinds of secure storage 
 
 | W&B Server deployment type | Instance level | Team level | Additional information |
 |----------------------------|--------------------|----------------|------------------------|
-| Dedicated Cloud | X | X | Both the instance and team level secure storage connector are available only for Amazon Web Services and Google Cloud Platform. For Azure Cloud, all files are stored on the default bucket which is fully managed by W&B. |
-| SaaS Cloud | | X | The team level secure storage connector is available only for Amazon Web Services and Google Cloud Platform. For Azure Cloud, all files are stored on the default bucket which is fully managed by W&B. |
+| Dedicated Cloud | X | X | Both the instance and team level secure storage connector are available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only bucket for Azure cloud. |
+| SaaS Cloud | | X | The team level secure storage connector is available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only bucket for Azure cloud. |
 | Self-managed | X | X | Refer to the preceding `note` on significance of secure storage connector for **Self-managed** instances. Also, you could use the S3-compatible secure storage like [MinIO](https://github.com/minio/minio) with such instances. |
 
 :::note
-When using **Dedicated Cloud**, you should configure the instance or team level secure storage connector with the bucket from the same cloud where your instance is set up. It is not possible to configure a bucket from a different cloud.
+You should configure your instance or team level secure storage connector with the bucket from the same cloud as your instance in **Dedicated Cloud**. It is not possible to configure a bucket from a different cloud.
 :::
 
 :::note
