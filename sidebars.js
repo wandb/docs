@@ -132,7 +132,14 @@ const sidebars = {
             // 'guides/sweeps/intro',
             'guides/sweeps/walkthrough',
             'guides/sweeps/add-w-and-b-to-your-code',
-            'guides/sweeps/define-sweep-configuration',
+            {
+              type: 'category',
+              label: 'Define a sweep configuration',
+              items: [
+                'guides/sweeps/define-sweep-configuration',
+                'guides/sweeps/sweep-config-keys',
+              ],
+            },
             'guides/sweeps/initialize-sweeps',
             'guides/sweeps/start-sweep-agents',
             'guides/sweeps/parallelize-agents',
