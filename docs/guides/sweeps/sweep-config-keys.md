@@ -1,11 +1,15 @@
 ---
 sidebar_display: default
 ---
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Sweep configuration options
 
-The top-level sweep configuration keys are listed and briefly described below. See the respective sections for more information about each key. [LINK]
+A sweep configuration is comprised of nested key-value pairs. Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`](./sweep-config-keys.md#name) key), the parameters to search through ([`parameter`](./sweep-config-keys.md#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys.md#method) key), and more. 
+
+Top-level sweep configuration keys are listed and briefly described below. See the respective sections for more information about each key. 
+
 
 | Key               | Description                                                                                                                   |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -17,13 +21,11 @@ The top-level sweep configuration keys are listed and briefly described below. S
 | [`method`](#method) | (required) Specify the [search strategy](./define-sweep-configuration.md#configuration-keys).                                 |
 | [`metric`](#metric) | Specify the metric to optimize (only used by certain search strategies and stopping criteria).                                |
 | [`parameters`](#parameters) | (required) Specify [parameters](define-sweep-configuration.md#parameters) bounds to search.                                   |
-| [`early_terminate`](#earlyterminate) | Specify any [early stopping criteria](./define-sweep-configuration.md#early_terminate).                                       |
+| [`early_terminate`](#early_terminate) | Specify any [early stopping criteria](./define-sweep-configuration.md#early_terminate).                                       |
 | [`command`](#command)         | Specify [command structure ](./define-sweep-configuration.md#command)for invoking and passing arguments to the training script. |
 | `run_cap` | Specify a maximum number of runs in a sweep.                                                                                          |
 
-
-The following sections describe in greater detail how to specify [INSERT].
-
+See the [Sweep configuration](./sweep-config-keys.md) structure for more information on how to structure your sweep configuration.
 
 ## `program`
 
@@ -37,15 +39,14 @@ The following sections describe in greater detail how to specify [INSERT].
 
 ## `method`
 
-Specify the hyperparameter search strategy with the `method` key in your sweep configuration. Each search strategy has its own pros and cons.
-
-There are three hyperparameter search strategies to choose from: grid, random, and bayesian. 
-
-:::tip
-Random and Bayesian search methods continue  will run forever unless you stop the process from the command line, within your python script, or [the W&B App UI](./sweeps-ui.md). 
-
-Grid search will run forever if it searches within in a continuous search space.
+:::info
+* Random and Bayesian search methods run forever unless you stop the process from the command line, within your python script, or [the W&B App UI](./sweeps-ui.md). Grid search will run forever if it searches within in a continuous search space.
+* Specify the distribution space with the metric key if you choose a random (`method: random`) or Bayesian (`method: bayes`) search method.
 :::
+
+Specify the hyperparameter search strategy with the `method` key. There are three hyperparameter search strategies to choose from: grid, random, and bayesian search. 
+
+
 
 <!-- | `method` | Description                                                                                           |
 | -------- | ----------------------------------------------------------------------------------------------------- |
@@ -53,60 +54,66 @@ Grid search will run forever if it searches within in a continuous search space.
 | `random` | Choose a random set of hyperparameter values on each iteration based on provided distributions.       |
 | `bayes`  | Create a probabilistic model of a metric score as a function of the hyperparameters, and choose parameters with high probability of improving the metric. Bayesian hyperparameter search method uses a Gaussian Process to model the relationship between the parameters and the model metric and chooses parameters to optimize the probability of improvement. This strategy requires the `metric`key to be specified. Works well for small numbers of continuous parameters but scales poorly. | -->
 
-### Grid search
+### Search method options
+
+
+#### Grid search
 Iterate over every combination of hyperparameter values.  Grid search makes uninformed decisions on the set of hyperparameter values to use on each iteration. Grid search can be computationally costly.     
 
 
-### Random search
-Choose a random, uninformed, set of hyperparameter values on each iteration based on a distribution. 
+#### Random search
+Choose a random, uninformed, set of hyperparameter values on each iteration based on a distribution. Random search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI](./sweeps-ui.md).
 
 
-### Bayesian search
-In contrast to random and grid search, Bayesian search chooses hyperparameter values based on past evaluations. Bayesian search uses a probabilistic model to create a probability of a metric score based on hyperparameters.
+#### Bayesian search
+In contrast to [random](#random-search) and [grid](#grid-search) search, Bayesian models make informed decisions. Bayesian optimization uses a probabilistic model to decide which values to use through an iterative process of testing values on a surrogate function before evaluating the objective function. Bayesian search works well for small numbers of continuous parameters but scales poorly.
 
-[INSERT]
-
-Hyperparameters values that have a higher probability of improving the score are used.
-<!-- Hyperparameter values are chosen based on a probability that they will improve the surrogate model. -->
+For more information about Bayesian search, see [LINK]. 
 
 There are different Bayesian optimization methods. W&B uses a Gaussian process to model the relationship between hyperparameters and the model metric. For more information, see this paper. [LINK]
 
+### Distribution options for random and Bayesian search
 
-This strategy requires the `metric`key to be specified. 
+Specify a probability distribution for your random variables if you use a Bayesian or random hyperparameter search. The proceeding tables lists the possible distributions W&B currently supports. To define 
 
+ Nest the typekey within early_terminate within your sweep configuration.
 
-Specify how to distribute values if you choose a random (`random`) or Bayesian (`bayes`) search method.
+<!-- Nest the typekey within early_terminate within your sweep configuration.
+For each hyperparameter, specify the name and the possible values as a list of constants (for any method) or specify a distribution for random or bayes. -->
 
-| Value                    | Description            |
+[INSERT]
+
+| Distribution             | Description            |
 | ------------------------ | ------------------------------------ |
-| `constant`               | Constant distribution. Must specify `value`.                         |
-| `categorical`            | Categorical distribution. Must specify `values`.                     |
+| `constant`               | Constant distribution. Must specify the constant value (`value`) to use.                    |
+| `categorical`            | Categorical distribution. Must specify all valid values (`values`) for this hyperparameter. |
 | `int_uniform`            | Discrete uniform distribution on integers. Must specify `max` and `min` as integers.     |
 | `uniform`                | Continuous uniform distribution. Must specify `max` and `min` as floats.      |
 | `q_uniform`              | Quantized uniform distribution. Returns `round(X / q) * q` where X is uniform. `q` defaults to `1`.|
 | `log_uniform`            | Log-uniform distribution. Returns a value `X` between `exp(min)` and `exp(max)`such that the natural logarithm is uniformly distributed between `min` and `max`.   |
 | `log_uniform_values`     | Log-uniform distribution. Returns a value `X` between `min` and `max` such that `log(`X`)` is uniformly distributed between `log(min)` and `log(max)`.     |
-| `q_log_uniform`          | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform`. `q` defaults to `1`.       |
-| `q_log_uniform_values`   | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform_values`. `q` defaults to `1`.     |
-| `inv_log_uniform`        | Inverse log uniform distribution. Returns `X`, where  `log(1/X)` is uniformly distributed between `min` and `max`.           |
+| `q_log_uniform`          | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform`. `q` defaults to `1`. |
+| `q_log_uniform_values`   | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform_values`. `q` defaults to `1`.  |
+| `inv_log_uniform`        | Inverse log uniform distribution. Returns `X`, where  `log(1/X)` is uniformly distributed between `min` and `max`. |
 | `inv_log_uniform_values` | Inverse log uniform distribution. Returns `X`, where  `log(1/X)` is uniformly distributed between `log(1/max)` and `log(1/min)`.    |
 | `normal`                 | Normal distribution. Return value is normally-distributed with mean `mu` (default `0`) and standard deviation `sigma` (default `1`).|
-| `q_normal`               | Quantized normal distribution. Returns `round(X / q) * q` where `X` is `normal`. Q defaults to 1.      |
+| `q_normal`               | Quantized normal distribution. Returns `round(X / q) * q` where `X` is `normal`. Q defaults to 1.  |
 | `log_normal`             | Log normal distribution. Returns a value `X` such that the natural logarithm `log(X)` is normally distributed with mean `mu` (default `0`) and standard deviation `sigma` (default `1`). |
-| `q_log_normal`  | Quantized log normal distribution. Returns `round(X / q) * q` where `X` is `log_normal`. `q` defaults to `1`.             |
-### Examples
+| `q_log_normal`  | Quantized log normal distribution. Returns `round(X / q) * q` where `X` is `log_normal`. `q` defaults to `1`. |
+
+The proceeding tabs demonstrate how to specify different distributions in a YAML file for random or Bayesian search:
 
 <Tabs
   defaultValue="constant"
   values={[
-    {label: 'constant', value: 'constant'},
-    {label: 'categorical', value: 'categorical'},
-    {label: 'uniform', value: 'uniform'},
-    {label: 'q_uniform', value: 'q_uniform'}
+    {label: 'Constant', value: 'constant'},
+    {label: 'Categorical', value: 'categorical'},
+    {label: 'Uniform', value: 'uniform'},
+    {label: 'Quantized log uniform', value: 'q_uniform'}
   ]}>
   <TabItem value="constant">
 
-```yaml
+```yaml title="config.yaml"
 parameter_name:
   distribution: constant
   value: 2.71828
@@ -114,7 +121,7 @@ parameter_name:
   </TabItem>
   <TabItem value="categorical">
 
-```yaml
+```yaml title="config.yaml"
 parameter_name:
   distribution: categorical
   values:
@@ -131,7 +138,7 @@ parameter_name:
   </TabItem>
   <TabItem value="uniform">
 
-```yaml
+```yaml title="config.yaml"
 parameter_name:
   distribution: uniform
   min: 0
@@ -140,7 +147,7 @@ parameter_name:
   </TabItem>
   <TabItem value="q_uniform">
 
-```yaml
+```yaml title="config.yaml"
 parameter_name:
   distribution: q_uniform
   min: 0
@@ -153,27 +160,97 @@ parameter_name:
 
 ## `metric`
 
-Use the metric top-level sweep configuration key to describe how to optimize the metric.
+Use the `metric` top-level sweep configuration key to specify the name, the goal, and the target metric to optimize.
 
 |Key | Description |
 | -------- | --------------------------------------------------------- |
 | `name`   | Name of the metric to optimize.                           |
 | `goal`   | Either `minimize` or `maximize` (Default is `minimize`).  |
 | `target` | Goal value for the metric you're optimizing. When any run in the sweep achieves that target value, the sweep's state will be set to `finished`. This means all agents with active runs will finish those jobs, but no new runs will be launched in the sweep. |
-
+<!-- 
 :::info
-Ensure to log the metric you specify in you sweep configuration explicitly to W&B by your training script. For example, if you want to minimize the validation loss of your model:
+Ensure to log the metric you specify in your sweep configuration explicitly to W&B. Do not log metrics for your sweep inside of a sub-directory. 
 
-```python
+For example, consider the proceeding psuedocode. A user wants to log the validation loss (`"val_loss": loss`). First they pass the values into a dictionary (line 16). However, the dictionary passed to `wandb.log` does not explicitly access the key-value pair in the dictionary:
+
+```python title="train.py" showLineNumbers
+# Import the W&B Python Library and log into W&B
 import wandb
+import random
 
-run = wandb.init(entity="<entity>", project="<project>")
 
-# Training script goes here
+def train():
+    offset = random.random() / 5
+    acc = 1 - 2**-epoch - random.random() / epoch - offset
+    loss = 2**-epoch + random.random() / epoch + offset
 
-# model training code that returns validation loss as valid_loss
-run.log({"val_loss": valid_loss})
+    val_metrics = {"val_loss": loss, "val_acc": acc}
+    return val_metrics
+
+
+def main():
+    wandb.init(entity="<entity>", project="my-first-sweep")
+    val_metrics = train()
+    # highlight-next-line
+    wandb.log({"val_loss": val_metrics})
+
+
+sweep_configuration = {
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "val_loss"},
+    "parameters": {
+        "x": {"max": 0.1, "min": 0.01},
+        "y": {"values": [1, 3, 7]},
+    },
+}
+
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
+
+wandb.agent(sweep_id, function=main, count=10)
 ```
+
+Instead, explicitly access the key-value pair within the Python dictionary. For example, the proceeding code (line after you create a dictionary, specify the key-value pair when you pass the dictionary to the `wandb.log` method:
+
+```python title="train.py" showLineNumbers
+# Import the W&B Python Library and log into W&B
+import wandb
+import random
+
+
+def train():
+    offset = random.random() / 5
+    acc = 1 - 2**-epoch - random.random() / epoch - offset
+    loss = 2**-epoch + random.random() / epoch + offset
+
+    val_metrics = {"val_loss": loss, "val_acc": acc}
+    return val_metrics
+
+
+def main():
+    wandb.init(entity="<entity>", project="my-first-sweep")
+    val_metrics = train()
+    # highlight-next-line
+    wandb.log({"val_loss", val_metrics["val_loss"]})
+
+
+sweep_configuration = {
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "val_loss"},
+    "parameters": {
+        "x": {"max": 0.1, "min": 0.01},
+        "y": {"values": [1, 3, 7]},
+    },
+}
+
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
+
+wandb.agent(sweep_id, function=main, count=10)
+```
+
+::: -->
+
+
+
 
 <!-- ### Examples
 
@@ -211,55 +288,94 @@ metric:
   </TabItem>
 </Tabs> -->
 
-Do not log the metric for your sweep inside of a sub-directory. In the proceeding code example, a user wants to log the validation loss (`"loss": val_loss`). First they pass the values into a dictionary. However, the dictionary passed to `wandb.log` does not specify the key-value pair to track.
-
-```python
-val_metrics = {
-        "loss": val_loss, 
-        "acc": val_acc
-        }
-
-# Incorrect. Dictionary key-value paired is not provided.
-wandb.log({"val_loss", val_metrics})
-```
-
-Instead, log the metric at the top level. For example, after you create a dictionary, specify the key-value pair when you pass the dictionary to the `wandb.log` method:
-
-```python
-val_metrics = {
-        "loss": val_loss, 
-        "acc": val_acc
-        }
-
-wandb.log({"val_loss", val_metrics["loss"]})
-```
-
-:::
-
-
-
 
 
 ## `parameters`
 
 Specify one or more hyperparameters to explore during a sweep. 
 
-For each hyperparameter, specify the name and the possible values as a list of constants (for any `method`) or specify a `distribution` for `random` or `bayes`.
+In your YAML file or Python script, specify `parameters` as a top level key. Within the `parameters` key, provide the name of a hyperparameter you want to optimize. Common hyperparameters include: learning rate, batch size, epochs, optimizers, and more.
 
-| Values          | Description                                                             |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `values`        | Specifies all valid values for this hyperparameter. Compatible with `grid`.     |
-| `value`         | Specifies the single valid value for this hyperparameter. Compatible with `grid`.                                                                                               |
-| `distribution`  | (`str`) Selects a distribution from the distribution table below. If not specified, will default to `categorical` if `values` is set, to `int_uniform` if `max` and `min` are set to integers, to `uniform` if `max` and `min` are set to floats, or to`constant` if `value` is set. See the [INSERT] for more information. |
-| `probabilities` | Specify the probability of selecting each element of `values` when using `random`.                                |
-| `min`, `max`    | (`int`or `float`) Maximum and minimum values. If `int`, for `int_uniform` -distributed hyperparameters. If `float`, for `uniform` -distributed hyperparameters.                |
-| `mu`            | (`float`) Mean parameter for `normal` - or `lognormal` -distributed hyperparameters.                                                       |
-| `sigma`         | (`float`) Standard deviation parameter for `normal` - or `lognormal` -distributed hyperparameters.                            |
-| `q`             | (`float`) Quantization step size for quantized hyperparameters.                          |
-| `parameters`    | Nest other parameters inside a root level parameter.           |
+For each hyperparameter, specify one of the following:
+* One or more values as a list
+* A probability distribution and constraints on the sample space. See [Distribution options for random and Bayesian search](#distribution-options-for-random-and-bayesian-search) for a list of supported distributions. 
+
+The proceeding table shows [INSERT]. See the code snippets that follow the proceeding code snippets for example sweep configurations that utilize various hyperparameter type, values, and distributions.
+
+
+| Values          | Description   |
+| --------------- | ------------------------------------------------------------------------------ |
+| `values`        | Specifies all valid values for this hyperparameter. Compatible with `grid`.    |
+| `value`         | Specifies the single valid value for this hyperparameter. Compatible with `grid`.  |
+| `distribution`  | Specify a probability [distribution](#distribution-options-for-random-and-bayesian-search). See the note following this table for information on default values. |
+| `probabilities` | Specify the probability of selecting each element of `values` when using `random`.  |
+| `min`, `max`    | (`int`or `float`) Maximum and minimum values. If `int`, for `int_uniform` -distributed hyperparameters. If `float`, for `uniform` -distributed hyperparameters. |
+| `mu`            | (`float`) Mean parameter for `normal` - or `lognormal` -distributed hyperparameters. |
+| `sigma`         | (`float`) Standard deviation parameter for `normal` - or `lognormal` -distributed hyperparameters. |
+| `q`             | (`float`) Quantization step size for quantized hyperparameters.     |
+| `parameters`    | Nest other parameters inside a root level parameter.    |
+
+
+:::note
+If not specified, W&B will set distribution based on the following conditions:
+* `categorical` if `values` is set
+* `int_uniform` if `max` and `min` are set to integers
+* `uniform` if `max` and `min` are set to floats
+* `constant` if `value` is set
+:::
+
+The proceeding tabs show sweep configurations that [INSERT].
+
+
+<details>
+<summary>Sweep config with multiple hyperparameter values specified</summary>
+
+```python title="train.py"
+sweep_configuration = {
+    "name": "sweepdemo",
+    "method": "bayes",
+    "metric": {"goal": "minimize", "name": "validation_loss"},
+    "parameters": {
+        "learning_rate": {"min": 0.0001, "max": 0.1},
+        "batch_size": {"values": [16, 32, 64]},
+        "epochs": {"values": [5, 10, 15]},
+        "optimizer": {"values": ["adam", "sgd"]},
+    },
+}
+```
+
+</details>
+<details>
+<summary>Sweep config with single, multiple, and distribution hyperparameter values specified</summary>
+
+```python title="train.py"
+sweep_configuration = {
+    "name": "sweepdemo",
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "loss"},
+    "parameters": {
+        "batch_size": {
+            "distribution": "q_log_uniform_values",
+            "max": 256,
+            "min": 32,
+            "q": 8,
+        },
+        "dropout": {"values": [0.3, 0.4, 0.5]},
+        "epochs": {"value": 1},
+        "fc_layer_size": {"values": [128, 256, 512]},
+        "learning_rate": {"distribution": "uniform", "max": 0.1, "min": 0},
+        "optimizer": {"values": ["adam", "sgd"]},
+    },
+}
+```
+</details>
+
+
+
+
+
+
 <!-- 
-### Examples
-
 <Tabs
   defaultValue="single"
   values={[
@@ -267,7 +383,6 @@ For each hyperparameter, specify the name and the possible values as a list of c
     {label: 'multiple values', value: 'multiple'},
     {label: 'probabilities', value: 'probabilities'},
     {label: 'distribution', value: 'distribution'},
-    {label: 'nested', value: 'nested'},
   ]}>
   <TabItem value="single">
 
@@ -310,48 +425,45 @@ For each hyperparameter, specify the name and the possible values as a list of c
   ```
 
   </TabItem>
-  <TabItem value="nested">
-
-  ```yaml
-  top_level_param:
-    min: 0
-    max: 5
-  nested_param:
-      parameters:  # required key
-          learning_rate:
-              values: [0.01, 0.001]
-          double_nested_param:
-            parameters:  # <--
-              x:
-                value: 0.9
-              y: 
-                value: 0.8
-  ```
-
-  </TabItem>
 </Tabs> -->
 
 ## `early_terminate`
 
-Early termination is an optional feature that speeds up hyperparameter search by stopping poorly-performing runs. When the early stopping is triggered, the agent stops the current run and gets the next set of hyperparameters to try.
+Use early termination (`early_terminate`) to stop poorly-performing runs. If early stopping is triggered, W&B will first stop the current run before it creates a new run with a new set of hyperparameter values. 
 
-| Key    | Description                    |
-| ------ | ------------------------------ |
-| `type` | Specify the stopping algorithm |
+You must specify a stopping algorithm if you use early terminate. Nest the `type`key within `early_terminate` within your sweep configuration.
 
-We support the following stopping algorithm(s):
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'CLI', value: 'cli'},
+    {label: 'Python script or Jupyter notebook', value: 'notebook'},
+  ]}>
+  <TabItem value="cli">
 
-| `type`      | Description                                                   |
-| ----------- | ------------------------------------------------------------- |
-| `hyperband` | Use the [hyperband method](https://arxiv.org/abs/1603.06560). |
+```yaml title="config.yaml"
+early_terminate: 
+    type: hyperband
+```
 
-### Use `hyperband` to stop a hyperparameter search
+  </TabItem>
+  <TabItem value="notebook">
 
-[Hyperband](https://arxiv.org/abs/1603.06560) stopping evaluates if a program should be stopped or permitted to continue at one or more pre-set iteration counts, called "brackets". When a run reaches a bracket, its metric value is compared to all previous reported metric values and the [W&B Run](../../ref/python/run.md) is terminated if its value is too high (when the goal is minimization) or low (when the goal is maximization).
+```python title="train.py"
+sweep_config = {"early_terminate": {"type": hyperband}}
+```
+
+  </TabItem>
+</Tabs>
+
+W&B currently supports hyperband stopping algorithm. 
+
+
+[Hyperband](https://arxiv.org/abs/1603.06560) hyperparameter optimization evaluates if a program should be stopped or permitted to continue at one or more pre-set iteration counts, called "brackets". When a run reaches a bracket, its metric value is compared to all previous reported metric values and the [W&B Run](../../ref/python/run.md) is terminated if its value is too high (when the goal is minimization) or low (when the goal is maximization).
 
 Brackets are based on the number of logged iterations. The number of brackets corresponds to the number of times you log the metric you are optimizing. The iterations can correspond to steps, epochs, or something in between. The numerical value of the step counter is not used in bracket calculations.
 
-:::caution
+:::info
 Specify either `min_iter` or `max_iter` to create a bracket schedule.
 :::
 
@@ -364,18 +476,13 @@ Specify either `min_iter` or `max_iter` to create a bracket schedule.
 | `eta`      | Specify the bracket multiplier schedule (default: `3`).        |
 | `strict`   | Enable 'strict' mode that prunes runs aggressively, more closely following the original Hyperband paper. Defaults to false. |
 
-:::info
-The hyperband early terminator checks what [W&B Runs](../../ref/python/run.md) to terminate once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
-:::
-
-
-### Examples
+The proceeding code snippets show example YAML sweep configurations that specify either a minimum or maximum number of iterations:
 
 <Tabs
   defaultValue="min_iter"
   values={[
-    {label: 'Hyperband (min_iter)', value: 'min_iter'},
-    {label: 'Hyperband (max_iter)', value: 'max_iter'},
+    {label: 'Minimum number of iterations specified', value: 'min_iter'},
+    {label: 'Maximum number of iterations specified', value: 'max_iter'},
   ]}>
   <TabItem value="min_iter">
 
@@ -399,6 +506,10 @@ early_terminate:
 The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.
   </TabItem>
 </Tabs>
+
+:::info
+The hyperband early terminator checks what [W&B runs](../../ref/python/run.md) to terminate once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
+:::
 
 ## `command` 
 
