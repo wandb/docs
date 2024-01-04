@@ -7,19 +7,19 @@ displayed_sidebar: default
 ## Introduction
 The secure storage connector allows you to store the artifacts and other files pertaining to your W&B runs within a storage bucket that's managed by you. It provides you with more control over where you store the files for your AI workflows, and may help conform to your enterprise governance requirements. There are two levels of secure storage:
 
-* Instance level: The instance level secure storage allows you to use your own managed bucket to store any files that your users may access as part of any runs in your W&B Server instance. This capability is only available for **Dedicated Cloud** and **Self-managed** instances. In the case of **SaaS Cloud**, the instance level bucket is fully managed by W&B, which is also the default for **Dedicated Cloud**. 
-* Team level: The team level secure storage allows teams within your organization to utilize a separate storage bucket from the one used at the instance level. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. This capability is available for all kinds of W&B organizations, including on **SaaS Cloud**.
+* Instance level: The instance level secure storage allows you to use your own managed bucket to store any files that your users may access as part of any runs in your W&B Server instance. This capability is only available for Dedicated Cloud and Self-Managed instances; for SaaS Cloud instances, the instance level bucket is fully managed by W&B. 
+* Team level: The team level secure storage allows teams within your organization to utilize a separate storage bucket from the one used at the instance level. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. This capability is available for all W&B organizations, including SaaS Cloud.
 
 :::info
-In case of **Dedicated Cloud** or **Self-managed** instances, you could configure secure storage connector at both the instance level and separately for any or all teams within your organization. Taking an example, assume there are two teams called _Omega_ & _Kappa_ in a **Dedicated Cloud** instance, and you have configured secure storage connector at the instance level. If you also configure the secure storage connector separately for team _Omega_, files pertaining to its runs are stored in team level secure storage. On the other hand if you do not configure the secure storage connector for team _Kappa_, files pertaining to its runs are stored in instance level secure storage.
+For Dedicated Cloud or Self-Managed instances, you could configure secure storage connector at both the instance level and separately for any or all teams within your organization. For example, if there are two teams called _Omega_ & _Kappa_ in a Dedicated Cloud instance, and you have configured secure storage connector at the instance level, if you also configure the secure storage connector separately for team _Omega_, files pertaining to its runs are stored in team level secure storage. On the other hand if you do not configure the secure storage connector for team _Kappa_, files pertaining to its runs are stored in instance level secure storage.
 :::
 
 :::note
-When it comes to **Self-managed** instances, the instance level secure storage connector is the default since the deployment is fully managed by the customer. In such a case the capability doesn't have a special significance, as compared to when you use it with **Dedicated Cloud**. Though the team level secure storage connector provides the same intended benefits even for **Self-managed** instances, especially when different business units and departments share an instance to efficiently utilize the infrastructure and administrative resources. That would also apply to firms that have separate project teams managing ML workflows for separate customer engagements.
+For Self-Managed instances, the instance level secure storage connector is the default since the deployment is fully managed by the customer. In such a case the capability doesn't have a special significance, as compared to when you use it with Dedicated Cloud. The team level secure storage connector provides the same benefits for Self-Managed instances, especially when different business units and departments share an instance to efficiently utilize the infrastructure and administrative resources. This also applies to firms that have separate project teams managing ML workflows for separate customer engagements.
 :::
 
 ## Availability matrix
-The following table shows the availability of different kinds of secure storage connector across different W&B Server deployment types. X means the feature is available on the specific deployment type.
+The following table shows the availability of different kinds of secure storage connector across different W&B Server deployment types. An `X` means the feature is available on the specific deployment type.
 
 | W&B Server deployment type | Instance level | Team level | Additional information |
 |----------------------------|--------------------|----------------|------------------------|
@@ -28,11 +28,11 @@ The following table shows the availability of different kinds of secure storage 
 | Self-managed | X | X | Refer to the preceding `note` on significance of secure storage connector for **Self-managed** instances. Also, you could use the S3-compatible secure storage like [MinIO](https://github.com/minio/minio) with such instances. |
 
 :::note
-You should configure your instance or team level secure storage connector with the bucket from the same cloud as your instance in **Dedicated Cloud**. It is not possible to configure a bucket from a different cloud.
+Configure your instance or team level secure storage connector with the bucket from the same cloud as your instance in Dedicated Cloud. It is not possible to configure a bucket from a different cloud.
 :::
 
 :::note
-W&B uses a garbage collection process to delete W&B artifacts. For more information on how W&B deletes artifacts, and for information on how to enable garbage collection based on how you W&B, see the [How to enable garbage collection based on how you host W&B](../artifacts/delete-artifacts.md#how-to-enable-garbage-collection-based-on-how-wb-is-hosted) page.
+W&B uses a garbage collection process to delete W&B artifacts. For more information on how W&B deletes artifacts and on how to enable garbage collection based on how you W&B, see the [garbage collection](../artifacts/delete-artifacts.md#how-to-enable-garbage-collection-based-on-how-wb-is-hosted) guide.
 :::
 
 ## Configure team level secure storage connector
