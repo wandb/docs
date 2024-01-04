@@ -25,7 +25,7 @@ The following table shows the availability of different kinds of secure storage 
 |----------------------------|--------------------|----------------|------------------------|
 | Dedicated Cloud | X | X | Both the instance and team level secure storage connector are available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only bucket for Azure cloud. |
 | SaaS Cloud | | X | The team level secure storage connector is available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only bucket for Azure cloud. |
-| Self-managed | X | X | Refer to the preceding `note` on significance of secure storage connector for **Self-managed** instances. Also, you could use the S3-compatible secure storage like [MinIO](https://github.com/minio/minio) with such instances. |
+| Self-managed | X | X | Refer to the preceding `note` on significance of secure storage connector for **Self-managed** instances. It is also possible to use a S3-compatible secure storage solution like [MinIO](https://github.com/minio/minio). |
 
 :::note
 Configure your instance or team level secure storage connector with the bucket from the same cloud as your instance in Dedicated Cloud. It is not possible to configure a bucket from a different cloud.
