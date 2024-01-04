@@ -11,7 +11,11 @@ The secure storage connector allows you to store the artifacts and other files p
 * Team level: The team level secure storage allows teams within your organization to utilize a separate storage bucket from the one used at the instance level. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. This capability is available for all W&B organizations, including SaaS Cloud.
 
 :::info
-For Dedicated Cloud or Self-Managed instances, you could configure secure storage connector at both the instance level and separately for any or all teams within your organization. For example, if there are two teams called _Omega_ & _Kappa_ in a Dedicated Cloud instance, and you have configured secure storage connector at the instance level, if you also configure the secure storage connector separately for team _Omega_, files pertaining to its runs are stored in team level secure storage. On the other hand if you do not configure the secure storage connector for team _Kappa_, files pertaining to its runs are stored in instance level secure storage.
+For Dedicated Cloud or Self-Managed instances, you could configure secure storage connector at both the instance level and separately for any or all teams within your organization. 
+
+For example, suppose you have two teams called Omega and Kappa in a Dedicated Cloud instance and that you configure secure storage connector at the instance level. Next, suppose you configure secure storage connector separately for team Omega. Files pertaining to runs made by team Omega are accessible at the team level secure storage. 
+
+Conversely, if you do not configure the secure storage connector for team Kappa, files pertaining to runs made by team Kappa are accessible in instance level secure storage.
 :::
 
 :::note
