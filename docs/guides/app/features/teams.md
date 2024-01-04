@@ -54,6 +54,10 @@ Select a team role when you invite colleagues to join a team. There are followin
 - **Custom roles (Enterprise-only feature)**: Custom roles allow organization admins to compose new roles by inheriting from the above **View-Only** or **Member** roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. 
 
 :::note
+W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
+:::
+
+:::note
 If you're on W&B Server (Dedicated Cloud or Self-managed deployment), you will need a updated enterprise license to use the **Custom Roles** feature.
 :::
 
