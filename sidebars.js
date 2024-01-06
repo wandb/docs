@@ -378,6 +378,7 @@ const sidebars = {
             'guides/hosting/smtp',
             'guides/hosting/slack-alerts',
             'guides/hosting/scim',
+            'guides/hosting/server-release-process',
           ],
         },
         // 'guides/hosting/debug',
@@ -766,6 +767,7 @@ const sidebars = {
         'guides/hosting/smtp',
         'guides/hosting/env-vars',
         'guides/hosting/scim',
+        'guides/hosting/server-release-process',
         {
           type: 'category',
           label: 'ハウツーガイド',

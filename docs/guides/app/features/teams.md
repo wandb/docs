@@ -45,13 +45,21 @@ Team admins can open the team settings page and click the delete button next to 
 
 
 ## Team Roles and Permissions
-Select a team role when you invite colleagues to join a team. There are four team role options:
+Select a team role when you invite colleagues to join a team. There are following team role options:
 
 - **Admin**: Team admins can add and remove other admins or team members. They have permissions to modify all projects and full deletion permissions. This includes, but is not limited to, deleting runs, projects, artifacts, and sweeps.
 - **Member**: A regular member of the team. A team member is invited by email by the team admin. A team member cannot invite other members. Team members can only delete runs and sweep runs created by that member. Suppose you have two members A and B. Member B moves a Run from team B's project to a different project owned by Member A. Member A can not delete the Run Member B moved to Member A's project. Only the member that creates the Run, or the team admin, can delete the run.
-
-- **Service (Enterprise-only feature)**: A service worker, an API key useful for using W&B with your run automation tools. If you use the API key from a service account for your team, make sure to set the environment variable **WANDB_USERNAME** to attribute runs to the correct user.
+- **Service (Enterprise-only feature)**: A service worker, an API key useful for using W&B with your run automation tools. If you use the API key from a service account for your team, make sure to set the environment variable **WANDB_USERNAME** to attribute runs to the correct user. See more on the relevant behavior below.
 - **View-Only (Enterprise-only feature)**: View-Only members can view assets within the team such as runs, reports, and workspaces. They can follow and comment on reports, but they can not create, edit, or delete project overview, reports, or runs. View-Only members do not have an API key.
+- **Custom roles (Enterprise-only feature)**: Custom roles allow organization admins to compose new roles by inheriting from the above **View-Only** or **Member** roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. 
+
+:::note
+W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
+:::
+
+:::note
+If you're on W&B Server (Dedicated Cloud or Self-managed deployment), you will need a updated enterprise license to use the **Custom Roles** feature.
+:::
 
 ### Team Settings
 Team settings allow you to manage the settings for your team and its members. With these privileges, you can effectively oversee and organize your team within W&B.
@@ -119,6 +127,11 @@ With system permissions, you have the ability to manage members, create and modi
 | Create/delete teams      |           |             |            | X            |
 | View activity dashboard  |           |             |            | X            |
 
+### Team Service Account Behavior
+
+* When you configure a team in your training environment, you can use a service account from that team to log runs in either of private or public projects within that team. Additionally, you can attribute those runs to a user if **WANDB_USERNAME** or **WANDB_USER_EMAIL** variable is configured in your environment and the referenced user is part of that team.
+* When you **do not** configure a team in your training environment and use a service account, the runs would be logged to the named project within that service account's parent team. In this case as well, you can attribute the runs to a user if **WANDB_USERNAME** or **WANDB_USER_EMAIL** variable is configured in your environment and the referenced user is part of the service account's parent team.
+* A service account can not be used to log runs to a private project in a team different from its parent team, but it can be used to log runs to public projects in other teams.
 
 #### Add Social Badges to your Intro
 
