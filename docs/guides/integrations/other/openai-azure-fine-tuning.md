@@ -49,21 +49,21 @@ pip install openai requests tiktoken wandb
 ```
 
 ### Fine-Tuning on Azure
+
 1. **Upload Datasets:** Use Azure OpenAI SDK to upload your training and validation datasets.
 
- ```python
-   from openai import AzureOpenAI
-   client = AzureOpenAI(azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"), api_key=os.getenv("AZURE_OPENAI_KEY"))
-   
-   training_response = client.files.create(file=open("training_set.jsonl", "rb"), purpose="fine-tune")
-   training_file_id = training_response.id
+```python
+from openai import AzureOpenAI
+client = AzureOpenAI(azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"), api_key=os.getenv("AZURE_OPENAI_KEY"))
+training_response = client.files.create(file=open("training_set.jsonl", "rb"), purpose="fine-tune")
+training_file_id = training_response.id
 ```
 
 2. **Start Fine-Tuning:** Initiate the fine-tuning process on Azure with the desired base model, like `gpt-35-turbo-0613`.
 
 ```python
-   response = client.fine_tuning.jobs.create(training_file=training_file_id, model="gpt-35-turbo-0613")
-   job_id = response.id
+response = client.fine_tuning.jobs.create(training_file=training_file_id, model="gpt-35-turbo-0613")
+job_id = response.id
 ```
 
 3. **Track the Fine-Tuning Job: Integrating with Weights & Biases**
