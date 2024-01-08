@@ -11,12 +11,12 @@ By exploring this tab, you can see when the queue was in heavy use or idle, visu
 :::info
 To turn on this capability, toggle on the `Launch observability` feature flag in your user settings.
 
-This feature requires W&B Weave, which is not available on some Customer-managed and Dedicated Cloud.  Contact your W&B representative to learn more.
+This feature requires W&B Weave, which is not available on some Customer-managed and Dedicated Cloud deployments.  Contact your W&B representative to learn more.
 :::
 
 ## Dashboard and plots
 
-Each queue now has a `Monitor` tab.   When you click on the tab, W&B will gather data over the last 7 days of activity for this queue.  Time ranges, grouping and filters can be controlled from the left panel.  
+Each queue now has a `Monitor` tab.   When you click on the tab, W&B will show data over the last 7 days of activity for this queue.  Time ranges, grouping and filters can be controlled from the left panel.  
 
 The dashboard contains a number of plots answering common questions about performance and efficiency.
 
@@ -36,7 +36,7 @@ Select a range to show more details in the plot below, or Zoom to filter the ent
 
 ![](/images/launch/launch_obs_queuedtime.png)
 
-This plot shows, for every time period, the amount of time in minutes that jobs were queued.  For example, if there were 10 jobs queued in that period, waiting for an average of 30 minutes each, the plot would show 300 minutes. 
+This plot shows, for every time period, the amount of time in seconds that jobs were queued.  For example, if there were 10 jobs queued in that period, waiting for an average of 60 seconds each, the plot would show 600 seconds. 
 
 This plot can be colored by the `Grouping` control in the left bar--which can be particularly helpful for identifying which users and jobs are feeling the pain of scarce queue capacity.
 
@@ -47,7 +47,7 @@ This plot can be colored by the `Grouping` control in the left bar--which can be
 
 This plot shows the start and end of every job executed in a time period, with distinct colors for each run.  This makes it easy to see at a glance what workloads the queue was processing at a given time.  
 
-Use the Select tool in the bottom right of the panel to brush over jobs to see more details in the table below.
+Use the Select tool in the bottom right of the panel to brush over jobs to populate details in the table below.
 
 
 
