@@ -19,6 +19,10 @@ W&B is actively developing support for multiple organizations in an enterprise i
 ## Instance Admins
 The first user to sign up after the W&B Server instance is initially deployed, is automatically assigned the instance `admin` role. The admin can then add additional users to the organization and create teams.
 
+:::note
+W&B recommends to have more than one instance admin in an organization. It is a best practice to ensure that admin operations can continue when the primary admin is not available. 
+:::
+
 ## Manage your organization
 As an instance admin, you can invite, remove, and change a user's role. To do so, navigate to the Organization dashboard and follow the instructions described below.
 
@@ -100,11 +104,15 @@ When you (team admin) invite a user to a team you can assign them one of the fol
 
 | Role      | Definition                                                                                                                                                                                                                                                                                       |
 |-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Admin     | A user who can add and remove other users in the team, change user roles, and configure team settings.                                                                                                                                                                                                                       |
+| Admin     | A user who can add and remove other users in the team, change user roles, and configure team settings.                                                                                                                                                                                                                      |
 | Member    | A regular user of a team, invited by email or their organization-level username by the team admin. A member user cannot invite other users to the team.                                                                                                                                                                        |
 | View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team admin. A view-only user only has read access to the team and its contents.                                                                                                                                                       |
 | Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
 | Custom Roles (Enterprise-only feature)   | Custom roles allow organization admins to compose new roles by inheriting from the above View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
+
+:::note
+W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
+:::
 
 :::note
 Refer to [Team Service Account Behavior](../app/features/teams.md#team-service-account-behavior) for more information.
