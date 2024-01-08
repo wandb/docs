@@ -18,11 +18,11 @@ This feature requires W&B Weave, which is not available on some Customer-managed
 
 Each queue now has a `Monitor` tab.   When you click on the tab, W&B will gather data over the last 7 days of activity for this queue.  Time ranges, grouping and filters can be controlled from the left panel.  
 
-[image]
+The dashboard contains a number of plots answering common questions about performance and efficiency.
 
 ### Job status
 
-[image]
+![](/images/launch/launch_obs_jobstatus.png)
 
 This plot shows how many jobs were running, pending, queued, or completed in each time interval.  
 
@@ -34,15 +34,16 @@ Select a range to show more details in the plot below, or Zoom to filter the ent
 
 ### Queued time
 
-[image]
+![](/images/launch/launch_obs_queuedtime.png)
 
 This plot shows, for every time period, the amount of time in minutes that jobs were queued.  For example, if there were 10 jobs queued in that period, waiting for an average of 30 minutes each, the plot would show 300 minutes. 
 
-This plot can be colored by the `Grouping` control in the left bar--which can be particularly helpful for identifying which users and jobs are feeling the pian of scarce queue capacity.
+This plot can be colored by the `Grouping` control in the left bar--which can be particularly helpful for identifying which users and jobs are feeling the pain of scarce queue capacity.
 
 ### Job runs
 
-[image]
+![](/images/launch/launch_obs_jobruns2.png)
+
 
 This plot shows the start and end of every job executed in a time period, with distinct colors for each run.  This makes it easy to see at a glance what workloads the queue was processing at a given time.  
 
@@ -52,13 +53,14 @@ Use the Select tool in the bottom right of the panel to brush over jobs to see m
 
 ### CPU and GPU Usage
 
-[image]
+![](/images/launch/launch_obs_gpu.png)
+
 This quartet of plots sheds light on the efficiency of job runs.  You can see, in particular, whether a job run has taken a long time on GPU (the x-axes) while using a low percentage of its cores or memory.  
 
 
 ### Errors
 
-[image]
+![](/images/launch/launch_obs_errors.png)
 
 Lastly, the page shows the last errors to occur on the queue, so that MLOps teams can help unblock ML engineers faster.
 
@@ -66,6 +68,8 @@ Lastly, the page shows the last errors to occur on the queue, so that MLOps team
 ## External links
 
 The queue observability dashboard's view is consistent across all queue types, but in many cases, it can be useful to jump directly into the environment-specific monitors.  To make this easier, you can add links to those consoles right in the queue observability dashboard.
+
+At the bottom of the page, click `Manage Links` to open a panel.  Add the full URL of the page you want, then a label.  Upon saving, a new link will appear under the External Links section, and clicking this link will take you to the external product.
 
 
 
