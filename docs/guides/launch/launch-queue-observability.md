@@ -28,7 +28,7 @@ This plot shows how many jobs were running, pending, queued, or completed in eac
 
 This can be useful for identifying periods of idleness in the queue--in the case of fixed resources (e.g. a DGX BasePod), that might suggest an opportunity to run lower-priority pre-emptible jobs such as sweeps.  Meanwhile, with cloud resources, recurring bursts might suggest an opportunity to save money by reserving resources for particular times.
 
-Seeing a lot of  `Queued` items might indicate an opportunities to shift worklaoads to other queues, while a spike in failures can identify users who might need help with their job setup.
+Seeing a many `Queued` items might indicate opportunities to shift workloads to other queues, while a spike in failures can identify users who might need help with their job setup.
 
 Select a range to show more details in the plot below, or Zoom to filter the entire page.
 
