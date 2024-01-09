@@ -15,7 +15,7 @@ This page describes the high-level steps required to set up W&B Launch:
 ## Set up a queue
 Launch queues must be configured to point to a specific target resource along with any additional configuration specific to that resource. For example, a launch queue that points to a Kubernetes cluster might include environment variables or set a custom namespace its launch queue configuration. When you create a queue, you will specify both the target resource you want to use and the configuration for that resource to use.
 
-When an agent receives a job from a queue, it also receives the queue configuration. When the agent submits the job to the target resource, it includes the queue configuration along with any overrides from the job itself. For example, you can use a job configuration to specify the Amazon SageMaker instance type for that job instance only (often, [queue config templates](./setup-queue-advanced.md#configure-queue-template) are used as the end user interface here). 
+When an agent receives a job from a queue, it also receives the queue configuration. When the agent submits the job to the target resource, it includes the queue configuration along with any overrides from the job itself. For example, you can use a job configuration to specify the Amazon SageMaker instance type for that job instance only. In this case, it is common to use [queue config templates](./setup-queue-advanced.md#configure-queue-template) as the end user interface. 
 
 ### Create a queue
 1. Navigate to Launch App at [wandb.ai/launch](https://wandb.ai/launch). 
