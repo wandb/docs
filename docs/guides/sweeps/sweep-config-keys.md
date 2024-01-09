@@ -11,7 +11,7 @@ A sweep configuration is comprised of nested key-value pairs. Use top-level keys
 Top-level sweep configuration keys are listed and briefly described below. See the respective sections for more information about each key. 
 
 
-| Key               | Description                                                                                                                   |
+| Top-level keys    | Description                                                                                                                   |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | `program`         | (required) Training script to run.                                                                                            |
 | `entity`          | Specify the entity for this sweep.                                                                                            |
@@ -40,6 +40,16 @@ See the [Sweep configuration](./sweep-config-keys.md) structure for more informa
 
 ## `method`
 
+## `metric`
+
+Use the `metric` top-level sweep configuration key to specify the name, the goal, and the target metric to optimize.
+
+|Key | Description |
+| -------- | --------------------------------------------------------- |
+| `name`   | Name of the metric to optimize.                           |
+| `goal`   | Either `minimize` or `maximize` (Default is `minimize`).  |
+| `target` | Goal value for the metric you're optimizing. When any run in the sweep achieves that target value, the sweep's state will be set to `finished`. This means all agents with active runs will finish those jobs, but no new runs will be launched in the sweep. |
+
 
 
 Specify the hyperparameter search strategy with the `method` key. There are three hyperparameter search strategies to choose from: grid, random, and bayesian search. 
@@ -65,67 +75,22 @@ In contrast to [random](#random-search) and [grid](#grid-search) search, Bayesia
 
 Bayesian search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI](./sweeps-ui.md). 
 
-Specify the distribution space with the metric key if you choose Bayesian (`method: bayes`) search method.
-
 ### Distribution options for random and Bayesian search
+Within the `parameter` key, nest the name of the hyperparameter.  Next, specify the `distribution` key and specify a distribution for the value. Lastly, specify 
 
-Specify a probability distribution for your random variables if you use a Bayesian or random hyperparameter search. For each hyperparameter:
+```yaml
+parameter:
+  hyperparameter_name:
+    distribution: 
 
-1. Create a top level `parameters` key in your sweep config.
-2. Within the `parameters`key, nest the following:
-   1. Specify the name of hyperparameter you want to optimize. 
-   2. Specify the distribution you want to use for the `distribution` key. Nest the `distribution` key-value pair underneath the hyperparameter name.
-   3. Specify one or more values to explore. The value (or values) should be inline with the distribution key.
-
-The general template to specify a distribution will look similar to the proceeding code snippet:
-
-```python title="train.py"
-sweep_config = {
-    "method": "bayes",
-    "metric" :  {
-        "goal": "minimize", 
-        "name": "validation_loss"
-        },
-    "parameters": {
-        "learning_rate" : {
-            "min": 0.0001
-            "max": 0.01 
-        },
-        "batch_size": {
-            "distribution": "q_log_uniform_values",
-            "max": 256,
-             "min": 32,
-             "q": 8,
-        }
-    }
-}
-```
-
-```yaml title="config.yaml"
-program: train.py
-method: bayes
-metric:
-  goal: minimize
-  name: validation_loss
-parameters:
-  learning_rate:
-    min: 0.0001
-    max: 0.1
-  batch_size:
-    values: [16, 32, 64]
-  epochs:
-    values: [5, 10, 15]
-  optimizer:
-    values: ["adam", "sgd"]
 ```
 
 The proceeding tables lists distributions W&B supports.
 <!-- Nest the typekey within early_terminate within your sweep configuration.
 For each hyperparameter, specify the name and the possible values as a list of constants (for any method) or specify a distribution for random or bayes. -->
 
-[INSERT]
 
-| Distribution             | Description            |
+| Value for `distribution` key  | Description            |
 | ------------------------ | ------------------------------------ |
 | `constant`               | Constant distribution. Must specify the constant value (`value`) to use.                    |
 | `categorical`            | Categorical distribution. Must specify all valid values (`values`) for this hyperparameter. |
@@ -143,78 +108,28 @@ For each hyperparameter, specify the name and the possible values as a list of c
 | `log_normal`             | Log normal distribution. Returns a value `X` such that the natural logarithm `log(X)` is normally distributed with mean `mu` (default `0`) and standard deviation `sigma` (default `1`). |
 | `q_log_normal`  | Quantized log normal distribution. Returns `round(X / q) * q` where `X` is `log_normal`. `q` defaults to `1`. |
 
-The proceeding tabs demonstrate how to specify different distributions in a YAML file for random or Bayesian search:
-
-<Tabs
-  defaultValue="constant"
-  values={[
-    {label: 'Constant', value: 'constant'},
-    {label: 'Categorical', value: 'categorical'},
-    {label: 'Uniform', value: 'uniform'},
-    {label: 'Quantized log uniform', value: 'q_uniform'}
-  ]}>
-  <TabItem value="constant">
-
-```yaml title="config.yaml"
-parameter_name:
-  distribution: constant
-  value: 2.71828
-```
-  </TabItem>
-  <TabItem value="categorical">
-
-```yaml title="config.yaml"
-parameter_name:
-  distribution: categorical
-  values:
-      - elu
-      - relu
-      - gelu
-      - selu
-      - relu
-      - prelu
-      - lrelu
-      - rrelu
-      - relu6
-```
-  </TabItem>
-  <TabItem value="uniform">
-
-```yaml title="config.yaml"
-parameter_name:
-  distribution: uniform
-  min: 0
-  max: 1
-```
-  </TabItem>
-  <TabItem value="q_uniform">
-
-```yaml title="config.yaml"
-parameter_name:
-  distribution: q_uniform
-  min: 0
-  max: 256
-  q: 1
-```
-  </TabItem>
-</Tabs>
-
-
-## `metric`
-
-Use the `metric` top-level sweep configuration key to specify the name, the goal, and the target metric to optimize.
-
-|Key | Description |
-| -------- | --------------------------------------------------------- |
-| `name`   | Name of the metric to optimize.                           |
-| `goal`   | Either `minimize` or `maximize` (Default is `minimize`).  |
-| `target` | Goal value for the metric you're optimizing. When any run in the sweep achieves that target value, the sweep's state will be set to `finished`. This means all agents with active runs will finish those jobs, but no new runs will be launched in the sweep. |
-
-
 
 ## `parameters`
-
 Specify one or more hyperparameters to explore during a sweep. 
+
+Replace `hyperparameter_name` with the name of your hyperparameter and any values enclosed in `<>`.
+```yaml title="config.yaml"
+parameter:
+  hyperparameter_name: 
+    distribution: <insert>
+    value: <insert>
+  hyperparameter_name:  
+    distribution: <insert>
+    min: <insert>
+    max: <insert>
+    q: <insert>
+  hyperparameter_name: 
+    distribution: <insert>
+    values:
+      - <list_of_values>
+      - <list_of_values>
+      - <list_of_values>
+```
 
 In your YAML file or Python script, specify `parameters` as a top level key. Within the `parameters` key, provide the name of a hyperparameter you want to optimize. Common hyperparameters include: learning rate, batch size, epochs, optimizers, and more.
 
@@ -245,56 +160,6 @@ If not specified, W&B will set distribution based on the following conditions:
 * `uniform` if `max` and `min` are set to floats
 * `constant` if `value` is set
 :::
-
-The proceeding tabs show sweep configurations that [INSERT].
-
-
-<details>
-<summary>Sweep config with multiple hyperparameter values specified</summary>
-
-```python title="train.py"
-sweep_configuration = {
-    "name": "sweepdemo",
-    "method": "bayes",
-    "metric": {"goal": "minimize", "name": "validation_loss"},
-    "parameters": {
-        "learning_rate": {"min": 0.0001, "max": 0.1},
-        "batch_size": {"values": [16, 32, 64]},
-        "epochs": {"values": [5, 10, 15]},
-        "optimizer": {"values": ["adam", "sgd"]},
-    },
-}
-```
-
-</details>
-<details>
-<summary>Sweep config with single, multiple, and distribution hyperparameter values specified</summary>
-
-```python title="train.py"
-sweep_configuration = {
-    "name": "sweepdemo",
-    "method": "random",
-    "metric": {"goal": "minimize", "name": "loss"},
-    "parameters": {
-        "batch_size": {
-            "distribution": "q_log_uniform_values",
-            "max": 256,
-            "min": 32,
-            "q": 8,
-        },
-        "dropout": {"values": [0.3, 0.4, 0.5]},
-        "epochs": {"value": 1},
-        "fc_layer_size": {"values": [128, 256, 512]},
-        "learning_rate": {"distribution": "uniform", "max": 0.1, "min": 0},
-        "optimizer": {"values": ["adam", "sgd"]},
-    },
-}
-```
-</details>
-
-
-
-
 
 
 <!-- 

@@ -22,7 +22,9 @@ Define your sweep configuration with either a [Python dictionary](https://docs.p
 Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`](./sweep-config-keys.md#name) key), the parameters to search through ([`parameter`](./sweep-config-keys.md#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys.md#method) key), and more. 
 
 
-The proceeding code snippets show the same sweep configuration defined within a YAML file and within a Python script or Jupyter notebook.
+For example, the proceeding code snippets show the same sweep configuration defined within a YAML file and within a Python script or Jupyter notebook. Within the sweep configuration there are five top level keys specified: `program`, `name`, `method`, `metric` and `parameters`. 
+
+Within the `parameters` top level key, the `learning_rate`, `batch_size`, `epoch`, and `optimizer` keys are nested. Values that are provided to the nested keys can take one or more `values`, a [`distribution`](./sweep-config-keys.md#distribution-options-for-random-and-bayesian-search), and more. 
 
 <Tabs
   defaultValue="cli"
@@ -76,11 +78,93 @@ parameters:
 
 For more information on available top level keys, see [Sweep configuration options](./sweep-config-keys.md).
 
-## Nested Parameters
+## Double nested parameters
 
 Sweep configurations support nested parameters. To delineate a nested parameter, use an additional `parameters` key under the top level parameter name. Multi-level nesting is allowed. 
 
-The proceeding code snippets show how to define a sweep configuration with a YAML file and within a Python script or Jupyter notebook. 
+
+Specify a probability distribution for your random variables if you use a Bayesian or random hyperparameter search. For each hyperparameter:
+
+1. Create a top level `parameters` key in your sweep config.
+2. Within the `parameters`key, nest the following:
+   1. Specify the name of hyperparameter you want to optimize. 
+   2. Specify the distribution you want to use for the `distribution` key. Nest the `distribution` key-value pair underneath the hyperparameter name.
+   3. Specify one or more values to explore. The value (or values) should be inline with the distribution key.  
+      1. (Optional) Use an additional parameters key under the top level parameter name to delineate a nested parameter.
+
+For example, the proceeding code snippets show a sweep config both in a YAML config file and a Python script.  
+
+[INSERT]
+
+<!-- To do: what is a double-nested parameter -->
+
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'CLI', value: 'cli'},
+    {label: 'Python script or Jupyter notebook', value: 'notebook'},
+  ]}>
+  <TabItem value="cli">
+
+
+```yaml title="config.yaml" 
+program: train.py
+method: random
+metric:
+  goal: minimize
+  name: loss
+parameters:
+  batch_size:
+    distribution: q_log_uniform_values
+    max: 256 
+    min: 32
+    q: 8
+  dropout: 
+    values: [0.3, 0.4, 0.5]
+  epochs:
+    value: 1
+  fc_layer_size: 
+    values: [128, 256, 512]
+  learning_rate:
+    distribution: uniform
+    max: 0.1
+    min: 0
+  optimizer:
+    values: ["adam", "sgd"]
+```
+
+  </TabItem>
+  <TabItem value="notebook">
+
+```python title="train.py" 
+sweep_config = {
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "loss"},
+    "parameters": {
+        "batch_size": {
+            "distribution": "q_log_uniform_values",
+            "max": 256,
+            "min": 32,
+            "q": 8,
+        },
+        "dropout": {"values": [0.3, 0.4, 0.5]},
+        "epochs": {"value": 1},
+        "fc_layer_size": {"values": [128, 256, 512]},
+        "learning_rate": {"distribution": "uniform", "max": 0.1, "min": 0},
+        "optimizer": {"values": ["adam", "sgd"]},
+    },
+}
+```
+
+  </TabItem>
+
+</Tabs>
+
+
+
+
+
+<!-- The proceeding code snippets show how to define a sweep configuration with a YAML file and within a Python script or Jupyter notebook. 
 
 <Tabs
   defaultValue="cli"
@@ -127,7 +211,7 @@ sweep_configuration = {
 ```
 
   </TabItem>
-</Tabs>
+</Tabs> -->
 
 
 :::caution
@@ -160,108 +244,4 @@ The `nested_param.manual_key` that was passed when the W&B run was initialized (
 :::
 
 
-## Consideration when logging metrics 
 
-
-
-Ensure to log the metric you specify in your sweep configuration explicitly to W&B. Do not log metrics for your sweep inside of a sub-directory. 
-
-For example, consider the proceeding psuedocode. A user wants to log the validation loss (`"val_loss": loss`). First they pass the values into a dictionary (line 16). However, the dictionary passed to `wandb.log` does not explicitly access the key-value pair in the dictionary:
-
-```python title="train.py" showLineNumbers
-# Import the W&B Python Library and log into W&B
-import wandb
-import random
-
-def train():
-    offset = random.random() / 5
-    acc = 1 - 2**-epoch - random.random() / epoch - offset
-    loss = 2**-epoch + random.random() / epoch + offset        
-
-    val_metrics = {"val_loss": loss, "val_acc": acc}
-    return val_metrics
-
-def main():
-    wandb.init(entity="<entity>", project="my-first-sweep")
-    val_metrics = train()
-    # highlight-next-line
-    wandb.log({"val_loss": val_metrics})
-
-sweep_configuration = {
-    "method": "random",
-    "metric": {
-        "goal": "minimize",
-        "name": "val_loss"
-        },
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
-
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
-
-wandb.agent(sweep_id, function=main, count=10)
-```
-
-Instead, explicitly access the key-value pair within the Python dictionary. For example, the proceeding code (line after you create a dictionary, specify the key-value pair when you pass the dictionary to the `wandb.log` method:
-
-```python title="train.py" showLineNumbers
-# Import the W&B Python Library and log into W&B
-import wandb
-import random
-
-def train():
-    offset = random.random() / 5
-    acc = 1 - 2**-epoch - random.random() / epoch - offset
-    loss = 2**-epoch + random.random() / epoch + offset        
-
-    val_metrics = {"val_loss": loss, "val_acc": acc}
-    return val_metrics
-
-def main():
-    wandb.init(entity="<entity>", project="my-first-sweep")
-    val_metrics = train()
-    # highlight-next-line
-    wandb.log({"val_loss", val_metrics["val_loss"]})
-
-sweep_configuration = {
-    "method": "random",
-    "metric": {
-        "goal": "minimize",
-        "name": "val_loss"
-        },
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
-
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
-
-wandb.agent(sweep_id, function=main, count=10)
-```
-
-
-
-
-<!-- :::caution
-1. Ensure that you log (`wandb.log`) the _exact_ metric name that you define in your sweep configuration.
-2. You cannot change the Sweep configuration once you start the W&B Sweep agent.
-:::
-
-For example, suppose you want W&B Sweeps to maximize the validation accuracy during training. Within your Python script you store the validation accuracy in a variable `val_loss`. In your YAML configuration file you define this as:
-
-```yaml
-metric:
-  goal: maximize
-  name: val_loss
-```
-
-You must log the variable `val_loss` (in this example) within your Python script or Jupyter Notebook to W&B.
-
-```python
-wandb.log({"val_loss": validation_loss})
-```
-
-Defining the metric in the sweep configuration is only required if you use the bayes method for the sweep.  -->
