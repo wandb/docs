@@ -10,7 +10,7 @@ displayed_sidebar: default
 
 [Composer](https://github.com/mosaicml/composer) is a library for training neural networks better, faster, and cheaper. It contains many state-of-the-art methods for accelerating neural network training and improving generalization, along with an optional [Trainer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/using_the_trainer.html) API that makes _composing_ many different enhancements easy.
 
-W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: Weights & Biases is incorporated directly into the Composer library via the [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts).
+W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: W&B is incorporated directly into the Composer library via the [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts).
 
 ## Start logging to W&B with 1 line of code
 
@@ -25,7 +25,7 @@ trainer = Trainer(..., logger=WandBLogger())
 
 ## Using Composer's `WandBLogger`
 
-Composer library has the [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts) class that can be used along the  `Trainer` to log metrics to Weights and Biases. It is a simple as instantiating the logger and passing it to the `Trainer`
+The Composer library uses [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts) class in the `Trainer` to log metrics to Weights and Biases. It is a simple as instantiating the logger and passing it to the `Trainer`
 
 ```
 wandb_logger = WandBLogger(project="gpt-5", log_artifacts=True)
@@ -40,11 +40,11 @@ Below the parameters for WandbLogger, see the [Composer documentation](https://d
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `project`                 | W&B project name (str, optional)
 | `group`                   | W&B group name (str, optional)
-| `name`                   |  W&B run name. If not specified, the State.run_name will be used (str, optional)
+| `name`                   |  W&B run name. If not specified, the State.run_name is used (str, optional)
 | `entity`                   | W&B entity name, such as your username or W&B Team name (str, optional)
 | `tags`                   | W&B tags (List[str], optional)
 | `log_artifacts`                 | Whether to log checkpoints to wandb, default: `false` (bool, optional)|
-| `rank_zero_only`         | Whether to log only on the rank-zero process. When logging artifacts, it is highly recommended to log on all ranks. Artifacts from ranks ≥1 will not be stored, which may discard pertinent information. For example, when using Deepspeed ZeRO, it would be impossible to restore from checkpoints without artifacts from all ranks, default: `True` (bool, optional)
+| `rank_zero_only`         | Whether to log only on the rank-zero process. When logging artifacts, it is highly recommended to log on all ranks. Artifacts from ranks ≥1 are not stored, which may discard pertinent information. For example, when using Deepspeed ZeRO, it would be impossible to restore from checkpoints without artifacts from all ranks, default: `True` (bool, optional)
 | `init_kwargs`                   | Params to pass to `wandb.init` such as your wandb `config` etc [See here](https://docs.wandb.ai/ref/python/init) for the full list `wandb.init` accepts                                                                                                                                                                                   
 
 
@@ -62,7 +62,7 @@ wandb_logger = WandBLogger(log_artifacts=True, init_kwargs=init_kwargs)
 
 ### Log prediction samples
 
-You can use [Composer's Callbacks](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) system to control when you log to Weights & Biases via the WandBLogger, in this example we log a sample of our validation images and predictions:
+You can use [Composer's Callbacks](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) system to control when you log to Weights & Biases via the WandBLogger, in this example a sample of the validation images and predictions is logged:
 
 ```python
 import wandb
