@@ -2,74 +2,91 @@
 displayed_sidebar: default
 ---
 
-# Queue observability (beta)
+# Queue dashboard (beta)
 
-Launch provides an interactive dashboard for each queue, allowing ML engineers and MLOps teams to make effective use of their available hardware. 
+Use the interactive **Queue dashboard** to view when a launch queue is in heavy use or idle, visualize workloads that are running, and spot inefficient jobs. The launch queue dashboard is especially useful for deciding whether or not you are effectively using your compute hardware or cloud resources.
 
-By exploring this tab, you can see when the queue was in heavy use or idle, visualize what workloads were running, and spot inefficient jobs.  For deeper analysis, the page links to the W&B experiment tracking workspace and to external infrastructure monitoring providers like Datadog, NVIDIA Base Command, or cloud consoles.
+
+For deeper analysis, the page links to the W&B experiment tracking workspace and to external infrastructure monitoring providers like Datadog, NVIDIA Base Command, or cloud consoles.
 
 :::info
-To turn on this capability, toggle on the `Launch observability` feature flag in your user settings.
+Toggle the `Launch observability` feature flag in your user settings to view queue dashboards.
 
-This feature requires W&B Weave, which is not available on some Customer-managed and Dedicated Cloud deployments.  Contact your W&B representative to learn more.
+Queue dashboards requires W&B Weave. W&B Weave is not available on some Customer-managed and Dedicated Cloud deployments. Contact your W&B representative to learn more.
 :::
 
 ## Dashboard and plots
+Use the **Monitor** tab to view the activity of a queue that occurred during the last seven days. Use the left panel to control time ranges, grouping and filters.
 
-Each queue now has a `Monitor` tab.   When you click on the tab, W&B will show data over the last 7 days of activity for this queue.  Time ranges, grouping and filters can be controlled from the left panel.  
-
-The dashboard contains a number of plots answering common questions about performance and efficiency.
+The dashboard contains a number of plots answering common questions about performance and efficiency. The proceeding sections describe UI elements of queue dashboards.
 
 ### Job status
+The **Job status** plot shows how many jobs are running, pending, queued, or completed in each time interval. Use the **Job status** plot for identifying periods of idleness in the queue. 
 
 ![](/images/launch/launch_obs_jobstatus.png)
 
-This plot shows how many jobs were running, pending, queued, or completed in each time interval.  
+For example, suppose you have a  fixed resource (such as DGX BasePod). If you observe an idle queue with the fixed resource, this might suggest an opportunity to run lower-priority pre-emptible launch jobs such as sweeps.
 
-This can be useful for identifying periods of idleness in the queue--in the case of fixed resources (e.g. a DGX BasePod), that might suggest an opportunity to run lower-priority pre-emptible jobs such as sweeps.  Meanwhile, with cloud resources, recurring bursts might suggest an opportunity to save money by reserving resources for particular times.
+On the other hand, suppose you use a cloud resource and you see periodic bursts of activity. Periodic bursts of activity might suggest an opportunity to save money by reserving resources for particular times.
 
-Seeing a many `Queued` items might indicate opportunities to shift workloads to other queues, while a spike in failures can identify users who might need help with their job setup.
+To the right of the plot is a key that shows which colors represent the [status of a launch job](./launch-view-jobs.md#check-the-status-of-a-job).
 
-Select a range to show more details in the plot below, or Zoom to filter the entire page.
+:::tip
+`Queued` items might indicate opportunities to shift workloads to other queues. A spike in failures can identify users who might need help with their launch job setup.
+:::
+
+<!-- Select a range to show more details in the plot below, or Zoom to filter the entire page. -->
 
 ### Queued time
 
+The **Queued time** plots shows the amount of time (in seconds) that a launch job was on a queue for a given date or time range. 
+
 ![](/images/launch/launch_obs_queuedtime.png)
 
-This plot shows, for every time period, the amount of time in seconds that jobs were queued.  For example, if there were 10 jobs queued in that period, waiting for an average of 60 seconds each, the plot would show 600 seconds. 
+The x-axis shows a time frame that you specify and the y-axis shows the time (in seconds) a launch job was on a launch queue. For example, suppose on a given day there are 10 launch jobs queued. The **Queue time** plot shows 600 seconds if those 10 launch jobs wait an average of 60 seconds each.
 
-This plot can be colored by the `Grouping` control in the left bar--which can be particularly helpful for identifying which users and jobs are feeling the pain of scarce queue capacity.
+:::tip
+Use the **Queued time** plot to identify users affected by long queue times. 
+:::
+
+Customize the color of each job with the `Grouping` control in the left bar.
+
+which can be particularly helpful for identifying which users and jobs are feeling the pain of scarce queue capacity.
 
 ### Job runs
 
 ![](/images/launch/launch_obs_jobruns2.png)
 
 
-This plot shows the start and end of every job executed in a time period, with distinct colors for each run.  This makes it easy to see at a glance what workloads the queue was processing at a given time.  
+This plot shows the start and end of every job executed in a time period, with distinct colors for each run. This makes it easy to see at a glance what workloads the queue was processing at a given time.  
 
 Use the Select tool in the bottom right of the panel to brush over jobs to populate details in the table below.
 
 
 
-### CPU and GPU Usage
+### CPU and GPU usage
+Use the **GPU use by a job**, **CPU use by a job**, **GPU memory by job**, and **System memory by job** to view the efficiency of your launch jobs. 
 
 ![](/images/launch/launch_obs_gpu.png)
 
-This quartet of plots sheds light on the efficiency of job runs.  You can see, in particular, whether a job run has taken a long time on GPU (the x-axes) while using a low percentage of its cores or memory.  
 
+For example, you can use the **GPU memory by job** to view if a W&B run took a long time to complete and whether or not it used a low percentage of its CPU cores.
+
+The x-axis of each plot shows the duration of a W&B run (created by a launch job) in seconds. Hover your mouse over a data point to view information about a W&B run such as the run ID, the project the run belongs to, the launch job that created the W&B run and more.
 
 ### Errors
 
+The **Errors** panel shows errors that occurred on a given launch queue. More specifically, the Errors panel shows a timestamp of when the error occurred, the name of the launch job where the error comes from, and the error message that was created. By default, errors are ordered from latest to oldest. 
+
 ![](/images/launch/launch_obs_errors.png)
 
-Lastly, the page shows the last errors to occur on the queue, so that MLOps teams can help unblock ML engineers faster.
-
+Use the **Errors** panel to identify and unblock users. 
 
 ## External links
 
-The queue observability dashboard's view is consistent across all queue types, but in many cases, it can be useful to jump directly into the environment-specific monitors.  To make this easier, you can add links to those consoles right in the queue observability dashboard.
+The queue observability dashboard's view is consistent across all queue types, but in many cases, it can be useful to jump directly into environment-specific monitors. To accomplish this, add a link from the console directly from the queue observability dashboard.
 
-At the bottom of the page, click `Manage Links` to open a panel.  Add the full URL of the page you want, then a label.  Upon saving, a new link will appear under the External Links section, and clicking this link will take you to the external product.
+At the bottom of the page, click `Manage Links` to open a panel. Add the full URL of the page you want. Next, add a label. Links that you add appear in the **External Links** section. 
 
 
 
