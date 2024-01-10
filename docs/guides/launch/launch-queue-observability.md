@@ -2,17 +2,15 @@
 displayed_sidebar: default
 ---
 
-# Queue dashboard (beta)
+# Queue monitoting dashboard (beta)
 
-Use the interactive **Queue dashboard** to view when a launch queue is in heavy use or idle, visualize workloads that are running, and spot inefficient jobs. The launch queue dashboard is especially useful for deciding whether or not you are effectively using your compute hardware or cloud resources.
+Use the interactive **Queue monitoring dashboard** to view when a launch queue is in heavy use or idle, visualize workloads that are running, and spot inefficient jobs. The launch queue dashboard is especially useful for deciding whether or not you are effectively using your compute hardware or cloud resources.
 
 
 For deeper analysis, the page links to the W&B experiment tracking workspace and to external infrastructure monitoring providers like Datadog, NVIDIA Base Command, or cloud consoles.
 
 :::info
-Toggle the `Launch observability` feature flag in your user settings to view queue dashboards.
-
-Queue dashboards requires W&B Weave. W&B Weave is not available on some Customer-managed and Dedicated Cloud deployments. Contact your W&B representative to learn more.
+Queue monitoring dashboards require W&B Weave.  W&B Weave is yet not available on Customer-managed or AWS/GCP Dedicated Cloud deployments. Contact your W&B representative to learn more.
 :::
 
 ## Dashboard and plots
@@ -25,7 +23,7 @@ The **Job status** plot shows how many jobs are running, pending, queued, or com
 
 ![](/images/launch/launch_obs_jobstatus.png)
 
-For example, suppose you have a  fixed resource (such as DGX BasePod). If you observe an idle queue with the fixed resource, this might suggest an opportunity to run lower-priority pre-emptible launch jobs such as sweeps.
+For example, suppose you have a fixed resource (such as DGX BasePod). If you observe an idle queue with the fixed resource, this might suggest an opportunity to run lower-priority pre-emptible launch jobs such as sweeps.
 
 On the other hand, suppose you use a cloud resource and you see periodic bursts of activity. Periodic bursts of activity might suggest an opportunity to save money by reserving resources for particular times.
 
