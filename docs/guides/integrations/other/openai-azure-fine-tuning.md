@@ -1,5 +1,5 @@
 ---
-slug: /guides/integrations/azure_openai
+slug: /guides/integrations/openai-azure-fine-tuning
 description: How to Fine-Tune Azure OpenAI models using W&B.
 displayed_sidebar: default
 ---
@@ -29,13 +29,14 @@ The Weights and Biases fine-tuning integration works with `openai >= 1.0`. Pleas
 
 ```python
 import os
-os.environ["AZURE_OPENAI_ENDPOINT"] = None # Replace with your endpoint
-os.environ["AZURE_OPENAI_KEY"] = None # Replace with your key
+
+os.environ["AZURE_OPENAI_ENDPOINT"] = None  # Replace with your endpoint
+os.environ["AZURE_OPENAI_KEY"] = None  # Replace with your key
 ```
 
 - Install necessary libraries (`openai`, `requests`, `tiktoken`, `wandb`).
 
-```python
+```shell-session
 pip install openai requests tiktoken wandb
 ```
 
@@ -54,15 +55,23 @@ pip install openai requests tiktoken wandb
 
 ```python
 from openai import AzureOpenAI
-client = AzureOpenAI(azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"), api_key=os.getenv("AZURE_OPENAI_KEY"))
-training_response = client.files.create(file=open("training_set.jsonl", "rb"), purpose="fine-tune")
+
+client = AzureOpenAI(
+    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+    api_key=os.getenv("AZURE_OPENAI_KEY"),
+)
+training_response = client.files.create(
+    file=open("training_set.jsonl", "rb"), purpose="fine-tune"
+)
 training_file_id = training_response.id
 ```
 
 2. **Start Fine-Tuning:** Initiate the fine-tuning process on Azure with the desired base model, like `gpt-35-turbo-0613`.
 
 ```python
-response = client.fine_tuning.jobs.create(training_file=training_file_id, model="gpt-35-turbo-0613")
+response = client.fine_tuning.jobs.create(
+    training_file=training_file_id, model="gpt-35-turbo-0613"
+)
 job_id = response.id
 ```
 
@@ -73,7 +82,10 @@ job_id = response.id
 
 ```python
 from wandb.integration.openai.fine_tuning import WandbLogger
-WandbLogger.sync(fine_tune_job_id=job_id, openai_client=client, project="your_project_name")
+
+WandbLogger.sync(
+    fine_tune_job_id=job_id, openai_client=client, project="your_project_name"
+)
 ```
 
 ## Visualization and Versioning in Weights & Biases
