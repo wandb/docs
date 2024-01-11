@@ -1,24 +1,25 @@
 ---
-description: Creating tables.
+description: Create tables with W&B.
 displayed_sidebar: default
 ---
 
 # Create a Table
 
-Unlike traditional spreadsheets, Tables support numerous types of data:
+Unlike traditional spreadsheets, Tables support numerous types of data. This includes
 scalar values, strings, numpy arrays, and most subclasses of `wandb.data_types.Media`.
-This means you can embed `Images`, `Video`, `Audio`, and other sorts of rich, annotated media
+You can embed `Images`, `Video`, `Audio`, and other sorts of rich, annotated media
 directly in Tables, alongside other traditional scalar values.
 
-Tables can be constructed with initial data using the `data` or
-`dataframe` parameters:
+Construct tables with initial data by creating a dataframe:
 
 
 ```python
 import pandas as pd
 import wandb
 
+#Intialize the data
 data = {"users": ["geoff", "juergen", "ada"], "feature_01": [1, 117, 42]}
+#Turn the data into a dataframe.
 df = pd.DataFrame(data)
 
 tbl = wandb.Table(data=df)
@@ -27,7 +28,7 @@ assert all(tbl.get_column("feature_01") == df["feature_01"])
 ```
 ## Add Data
 
-You can add data to Tables incrementally by using the
+Add data to Tables incrementally by using the
 `add_data`, `add_column`, and `add_computed_column` functions for
 adding rows, columns, and columns computed from data in other columns, respectively:
 
@@ -53,8 +54,8 @@ assert tbl.get_column("feature_01") == [5, 7, 3]
 
 ## Log Data
 
-Tables can be logged directly to runs using `run.log({"my_table": table})`
-or added to artifacts using `artifact.add(table, "my_table")`:
+Log tables directly to runs wih `run.log({"my_table": table})`
+or add them to artifacts using `artifact.add(table, "my_table")`:
 
 
 ```python
@@ -72,14 +73,15 @@ labels = ["panda", "gibbon"]
 wandb.log({"classifier_out": tbl})
 ```
 
-Tables added directly to runs will produce a corresponding Table Visualizer in the Workspace that can be used for further analysis and exporting to reports.
+Tables added directly to runs will produce a corresponding Table Visualizer in the
+Workspace which can be used for further analysis and exporting to reports.
 
-Tables added to artifacts can be viewed in the Artifact Tab and will render
+Tables added to artifacts appear in the Artifact Tab and render
 an equivalent Table Visualizer directly in the artifact browser.
 
 ## Best Practices
-Tables expect each value for a column to be of the same type. By default, a column supports optional values, but not mixed values. If you absolutely need to mix types, you can enable the `allow_mixed_types` flag that will disable type checking on the data. This will result in some table analytics features being disabled due to lack of consistent typing.
+Tables expect each value for a column to be of the same type. By default, a column supports optional values, but not mixed values. If you absolutely need to mix types, you can enable the `allow_mixed_types` flag which will disable type checking on the data. This will result in some table analytics features being disabled due to lack of consistent typing.
 
 ## Next Steps
-- For more information about visualizing tables, see the [table visualization guide](./visualize-tables.md).
-- For a more in-depth walkthrough of how to use tables, see the [walkthrough](tables-walkthrough.md).
+- For more information about visualizing tables, see our [table visualization guide](./visualize-tables.md).
+- For a more in-depth walkthrough of how to use tables, see our [walkthrough](tables-walkthrough.md).
