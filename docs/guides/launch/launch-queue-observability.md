@@ -2,7 +2,7 @@
 displayed_sidebar: default
 ---
 
-# Queue monitoting dashboard (beta)
+# Queue monitoring dashboard (beta)
 
 Use the interactive **Queue monitoring dashboard** to view when a launch queue is in heavy use or idle, visualize workloads that are running, and spot inefficient jobs. The launch queue dashboard is especially useful for deciding whether or not you are effectively using your compute hardware or cloud resources.
 
