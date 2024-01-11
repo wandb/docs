@@ -117,6 +117,7 @@ const sidebars = {
                 'guides/launch/create-launch-job',
                 'guides/launch/add-job-to-queue',
                 'guides/launch/launch-view-jobs',
+                'guides/launch/launch-queue-observability'
               ],
             },
 
@@ -312,6 +313,7 @@ const sidebars = {
                 'guides/app/features/notes',
                 'guides/app/features/teams',
                 'guides/app/features/organizations',
+                'guides/app/features/storage',
                 'guides/app/features/system-metrics',
                 'guides/app/features/anon',
               ],
@@ -372,6 +374,7 @@ const sidebars = {
             'guides/hosting/smtp',
             'guides/hosting/slack-alerts',
             'guides/hosting/scim',
+            'guides/hosting/server-release-process',
           ],
         },
         // 'guides/hosting/debug',
@@ -627,6 +630,7 @@ const sidebars = {
             'guides/launch/create-launch-job',
             'guides/launch/add-job-to-queue',
             'guides/launch/launch-view-jobs',
+            'guides/launch/launch-queue-observability'
           ],
         },
 
@@ -760,6 +764,7 @@ const sidebars = {
         'guides/hosting/smtp',
         'guides/hosting/env-vars',
         'guides/hosting/scim',
+        'guides/hosting/server-release-process',
         {
           type: 'category',
           label: 'ハウツーガイド',

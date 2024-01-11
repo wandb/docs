@@ -171,17 +171,7 @@ Yes. The suggested way is:
 
   1. Add the secret as a vanilla k8s secret in the namespace where the runs will be created. something like `kubectl create secret -n <namespace> generic <secret_name> <secret value>`
 
- 2. Once that secret is created, you can specify a queue config to inject the secret when runs start. The end users cannot see the secret, only cluster admins can. An example is done in the `W&B Global CPU` queue:[https://wandb.ai/wandb/launch/UnVuUXVldWU6MTcxODMwOA==/config](https://wandb.ai/wandb/launch/UnVuUXVldWU6MTcxODMwOA==/config) . Specifically:
-            
-```yaml
-env:
-  - name: OPENAI_API_KEY
-    valueFrom:
-      secretKeyRef:
-        key: password
-        name: openai-api-key
-
-```
+ 2. Once that secret is created, you can specify a queue config to inject the secret when runs start. The end users cannot see the secret, only cluster admins can.
 
 ### How can admins restrict what ML engineers have access to modify? For example, changing an image tag may be fine but other job settings may not be.
   

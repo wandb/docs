@@ -4,42 +4,65 @@ displayed_sidebar: default
 # Manage users
 Manage W&B users in your organization or team.
 
-:::info
-Users are classified as either an _admin_ or _member_. Admins can add and remove other admins or members.
+W&B strongly recommends and encourages that users authenticate to an enterprise W&B Server instance using Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to the [SSO Configuration documentation](./sso.md).
+
+:::note
+`W&B Server` refers to both **Dedicated Cloud** or **Self-managed** hosting options.
 :::
 
-W&B strongly recommends and encourages user management with Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to the [SSO Configuration documentation](./sso.md).
+:::note
+`Instance` or `organization` terms are used interchangeably within the context of W&B Server.
 
-
+W&B is actively developing support for multiple organizations in an enterprise instance of W&B Server. If you're interested in utilizing that capability, reach out to your W&B team.
+:::
 
 ## Instance Admins
+The first user to sign up after the W&B Server instance is initially deployed, is automatically assigned the instance `admin` role. The admin can then add additional users to the organization and create teams.
 
-The first user to sign up to W&B, after you have deployed the W&B Server, is automatically assigned admin permissions. The admin can then add additional users to the instance and create teams.
+:::note
+W&B recommends to have more than one instance admin in an organization. It is a best practice to ensure that admin operations can continue when the primary admin is not available. 
+:::
+
 ## Manage your organization
-As an admin, you can invite, remove, and change a user's role. To do so, navigate to the Organization dashboard and follow the instructions described below.
+As an instance admin, you can invite, remove, and change a user's role. To do so, navigate to the Organization dashboard and follow the instructions described below.
 
 1. Select your profile image in the upper right hand corner.
 2. A dropdown will appear, click on **Organization dashboard**.
 
 ![](/images/hosting/how_get_to_dashboard.png)
 
-### Invite users
+If you are looking to simplify user management in your organization, refer to [Automate user and team management](#automate-user-and-team-management).
 
+### Invite users
 1. Navigate to the W&B Organization dashboard.
 2. Click the **Add user** button.
 3. Add the user's email in the Email field.
-4. Select the user role type you want to apply to the user. By default, all users are assigned a Member role.
+4. Select the role you want to assign to the user, from `Admin, Member or Viewer`. By default, all users are assigned a `Member` role.
+    - **Admin**: A instance admin who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends more than one admin for an enterprise W&B server instance.
+    - **Member** - A regular user of the organization, invited by an instance admin. A organization user cannot invite other users or manage existing users in the organization. `Team admins` could add specific organization users to their respective teams (team-level roles described below in **Team roles**).
+    - **Viewer** - A view-only user of your organization, invited by an instance admin. A viewer only has read access to the organization and the underlying teams that they are a part of.
 5. Click the **Add new user** button.
 
 ![](/images/hosting/org_dashboard_add_user.png)
 
+An invite link will be sent to the user by email. Once the user accepts the invite, they will have access to the W&B instance (organization).
+
 :::info
-Note that an option may be greyed out if there are no more seats in the license.
+The **Add user** option might be not be available if there are no more seats in the license. Reach out to your W&B team if you have difficulty adding users. 
 :::
 
-An invite link will be sent to the user by email. The new admin or member will now have access to the W&B instance.
+:::note
+W&B uses a third-party email server to send the user invites. If you've a self-managed W&B Server instance and your organization firewall rules restrict sending traffic outside the corporate network, W&B provides an option to configure an internal SMTP server in the instance. Please refer to [these instructions](./smtp.md) to setup the SMTP server.
+:::
 
-W&B uses third-party email server to send these invite emails. If your organization firewall rules prohibit from sending traffic outside the corporate network, W&B provides an option to set up internal SMTP server. Please refer to [these instructions](./smtp.md) to setup the SMTP server.
+### User auto-provisioning
+If Single Sign-On (SSO) is setup for your enterprise W&B Server instance, any user in your company who has access to the instance URL can sign-in to the organization, provided the settings in your SSO provider allow so. When a user signs in for the first time using SSO, their W&B organization user will be automatically created without needing an instance admin to generate a user invite. This is a good alternative for adding users to your W&B organization at scale.
+
+User auto-provisioning with SSO on by default for W&B Server. It is possible to turn it `off` if you would like to selectively add specific users to your W&B organization. If you're on **Dedicated Cloud**, reach out to your W&B team. If you've a **Self-managed** deployment, you can configure the setting `DISABLE_SSO_PROVISIONING=true` for your W&B Server instance.
+
+:::note
+If auto-provisioning is on for your W&B Server instance, there may be a way to control which specific users can sign-in to the organization with your SSO provider to restrict the product use to relevant personnel. Extent of that configurability will depend on your SSO provider and is outside the scope of W&B documentation.
+:::
 
 ### Remove a user
 1. Navigate to the W&B Organization dashboard.
@@ -49,27 +72,24 @@ W&B uses third-party email server to send these invite emails. If your organizat
 
 ![](/images/hosting/remove_user_from_org.png)
 
-### Change a user's role
-
+### Change a user's organization-level role
 1. Navigate to the W&B Organization dashboard.
 2. Search for the user you want to modify in the search bar.
 3. Hover your mouse to the **Role** column. Click on the pencil icon that appears.
-4. From the dropdown, select the new role you want to assign.
-
-
-
+4. From the dropdown, select a different role you want to assign.
 
 ## Manage a team
-Use a team home page as a central hub to explore projects, reports, and runs. Within the team home page there is a **Settings** tab. Use the Settings tab to manage members, set a team avatar, adjust privacy settings, set up alerts, track usage, and more. For more information, see the [Team settings](../app/settings-page/team-settings.md) page.
+Use a team home page as a central hub to explore projects, reports, and runs. Within the team home page there is a **Settings** tab. Use the Settings tab to manage users, set a team avatar, adjust privacy settings, set up alerts, track usage, and more. For more information, see the [Team settings](../app/settings-page/team-settings.md) page.
 
 :::tip
-Admins can add and remove team members. A team member is invited by email by the team admin. A team member cannot invite other members.
+Team admins can add and remove users in their teams. Add a users to team with the user's email or use the user's organization-level username. A non-admin user in a team cannot invite other users to that team, **unless** team admin has enabled the relevant team setting.
 
-For more information on team roles and permissions, [see Team Roles and Permissions](../app/features/teams.md#team-roles-and-permissions).
+See **Team roles** below for what roles are available at the team-level.
 :::
 
-### Create a team
+If you're looking to simplify team management in your organization, refer to [Automate user and team management](#automate-user-and-team-management).
 
+### Create a team
 1. Navigate to the W&B Organization dashboard.
 2. Select the **Create new team** button on the left navigation panel.
 ![](/images/hosting/create_new_team.png)
@@ -80,21 +100,33 @@ For more information on team roles and permissions, [see Team Roles and Permissi
 This will redirect you to a newly created Team home page. 
 
 ### Team roles
-When you invite a user to a team you can assign them one of the following roles:
+When you (team admin) invite a user to a team you can assign them one of the following roles:
 
 | Role      | Definition                                                                                                                                                                                                                                                                                       |
 |-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Admin     | A team member who can add and remove other admins and members of the team.                                                                                                                                                                                                                       |
-| Member    | A regular member of your team, invited by email by the team admin. A team member cannot invite other members to the team.                                                                                                                                                                        |
-| View-Only | A view-only member of your team, invited by email by the team admin. A view-only member only has read access to the team and its contents.                                                                                                                                                       |
-| Service   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure that the environment variable `WANDB_USERNAME` is set to correctly attribute runs to the appropriate user. |
+| Admin     | A user who can add and remove other users in the team, change user roles, and configure team settings.                                                                                                                                                                                                                      |
+| Member    | A regular user of a team, invited by email or their organization-level username by the team admin. A member user cannot invite other users to the team.                                                                                                                                                                        |
+| View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team admin. A view-only user only has read access to the team and its contents.                                                                                                                                                       |
+| Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
+| Custom Roles (Enterprise-only feature)   | Custom roles allow organization admins to compose new roles by inheriting from the above View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
 
+:::note
+W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
+:::
 
-### Invite members to a team
-Use the Team's settings page to invite members.
+:::note
+Refer to [Team Service Account Behavior](../app/features/teams.md#team-service-account-behavior) for more information.
+:::
+
+:::note
+If you're on W&B Server (Dedicated Cloud or Self-managed deployment), you will need an updated enterprise license to use the **Custom Roles** feature.
+:::
+
+### Invite users to a team
+Use the `Members` tab in the Team's settings page to invite users to your team.
 
 :::info
-Members must first be part of the instance before they can be invited to a team.
+Members of a team inherit the organization that the team is a part of.
 :::
 
 1. Navigate to the Team's Settings page.
@@ -102,28 +134,74 @@ Members must first be part of the instance before they can be invited to a team.
 3. Enter an email or W&B username in the search bar.
 4. Once you have found the user, click the **Invite** button.
 
-
-### Remove members from a team
-
-Use the Team's settings page to remove members.
+### Remove users from a team
+Use the `Members` tab in the Team's settings page to remove users from your team.
 
 1. Navigate to the Team's settings page.
-2. Select the Delete button next the to member's name.
+2. Select the Delete button next the to user's name.
 
 :::info
-W&B runs logged by team members remain after a team member is removed.
+W&B keeps runs logged by team members, even if they are no longer on the team.
 :::
 
+## Automate user and team management
+
+### SCIM API
+Use [SCIM API](./scim.md) to manage users, and the teams they belong to, in an efficient and repeatable manner. 
+
+
+SCIM API is especially useful if you want to:
+* manage user provisioning and de-provisioning at scale, 
+* mange users with a [SCIM](https://scim.cloud/)-supporting Identity Provider. 
+
+There are broadly two categories of SCIM API - **User** and **Group**.
+
+#### User SCIM API
+[User SCIM API](./scim.md#user-resource) allows for creating, deactivating or getting the details of a user (or listing all users) in a W&B organization.
+
+:::info
+Deactivate a user within a W&B organization with the `DELETE User` endpoint. Deactivated users can no longer sign in. However, deactivated users still appears in the organization's user list.
+
+To fully remove a deactivated user from the user list, you must [remove the user from the organization](#remove-a-user).
+
+It is possible to re-enable a deactivated user, if needed.
+:::
+
+#### Group SCIM API
+[Group SCIM API](./scim.md#group-resource) allows for creating or removing a W&B team in a organization. Use the `PATCH Group` add or remove users in an existing team.
+
+:::info
+There is no notion of a `group of users having the same role` within W&B Server. A W&B team closely resembles a group. Use W&B teams allows diverse personas, with different roles, work collaboratively on a set of related projects. Teams are consist of different groups of users. Assign each user in a group a role: team admins, members, viewers, or custom roles. 
+
+
+W&B mapped Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
+:::
+
+### W&B Python SDK API
+Just like how SCIM API allows you to automate user and team management, you can also use some of the methods available in the [W&B Python SDK API](../../ref/python/public-api/api.md) for that purpose. Keep a note of the following methods:
+
+| Method name | Purpose |
+|-------------|---------|
+| `create_user(email, admin=False)` | Add a user to the organization and optionally make them the organization admin. |
+| `user(userNameOrEmail)` | Return an existing user in the organization. |
+| `user.teams()` | Return the teams for the user. You can get the user object using the user(userNameOrEmail) method. |
+| `create_team(teamName, adminUserName)` | Create a new team and optionally make an organization-level user the team admin. |
+| `team(teamName)` | Return an existing team in the organization. |
+| `Team.invite(userNameOrEmail, admin=False)` | Add a user to the team. You can get the team object using the team(teamName) method. |
+| `Team.create_service_account(description)` | Add a service account to the team. You can get the team object using the team(teamName) method. |
+|` Member.delete()` | Remove a member user from a team. You can get the list of member objects in a team using the team object's `members` attribute. And you can get the team object using the team(teamName) method. |
+
+### Role assignment API
+**Coming Soon!** Reach out to your W&B team if you would like to use the upcoming role assignment API.
 
 ## View organization usage of W&B
-Use the organization dashboard to get a holistic view of members that belong to your organization, how members of your organization use W&B, along with properties such as:
+Use the organization dashboard to get a holistic view of users that belong to your organization, how users of your organization use W&B, along with properties such as:
 
 * **Name**: The name of the user and their W&B username.
 * **Last active**: The time the user last used W&B. This includes any activity that requires authentication, including viewing pages in the product, logging runs or taking any other action, or logging in.
 * **Role**: The role of the user. 
 * **Email**: The email of the user.
 * **Team**: The names of teams the user belongs to.
-
 
 ### View the status of a user
 The **Last Active** column shows if a user is pending an invitation or an active user.  A user is one of three states:
@@ -134,10 +212,7 @@ The **Last Active** column shows if a user is pending an invitation or an active
 
 ![](/images/hosting/view_status_of_user.png)
 
-The **Role** column will display **Deactivated** if a user was deactivated. 
-
 ### View and share how your organization uses W&B
-
 View how your organization uses W&B in CSV format.
 
 1. Select the three dots next to the **Add user** button.
@@ -151,13 +226,13 @@ This will export a CSV file that lists all users of an organization along with t
 Use the **Last Active** column to get an **Activity summary** of an individual user. 
 
 1. Hover your mouse over the **Last Active** entry for a user. 
-2. A tooltip will appear and describe a summary of information such as: when that user was added, the last time that user was active,  a count of any runs or reports created by that user, and how many days the user has been active since they signed up. 
+2. A tooltip appears and provides a summary of information about the user's activity.
 
 
 ![](/images/hosting/activity_tooltip.png)
 
 :::info
-A user is considered active if they: log in to W&B, view any page in the W&B App, log runs, use the SDK to track an experiment, or interact with the  W&B server in any way.
+A user is active if they: log in to W&B, view any page in the W&B App, log runs, use the SDK to track an experiment, or interact with the W&B server in any way.
 :::
 
 ### View active users over time
