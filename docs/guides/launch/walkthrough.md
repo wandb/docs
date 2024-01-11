@@ -2,6 +2,7 @@
 description: Getting started guide for W&B Launch.
 displayed_sidebar: default
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Walkthrough
 
