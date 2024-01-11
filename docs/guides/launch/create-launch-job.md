@@ -3,8 +3,11 @@ displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
+
 
 # Create a launch job
+
 
 A job is a blueprint that contains contextual information about a W&B run it is created from; such as the run's source code, software dependencies, hyperparameters, artifact version, and so forth.
 
@@ -16,6 +19,8 @@ There are three ways to create a launch job:
 * With a Python script
 * With a Docker image
 * With Git repository
+
+<CTAButtons colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP"/>
 
 The following sections show how to create a job based on each use case. 
 
