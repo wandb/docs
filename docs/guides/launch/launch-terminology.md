@@ -3,11 +3,11 @@ displayed_sidebar: default
 ---
 
 # Terms and concepts
-With W&B Launch, you enqueue [jobs](#launch-job) onto [queues](#launch-queue). Jobs are python scripts instrumented with W&B. Queues hold a list of jobs to run on a [target resource](#target-resources). [Agents](#launch-agent) pull jobs from queues and execute the jobs on target resources. Launch jobs are tracked similarly to other W&B [runs](../runs/intro.md).
+With W&B Launch, you enqueue [jobs](#launch-job) onto [queues](#launch-queue) to create runs. Jobs are python scripts instrumented with W&B. Queues hold a list of jobs to execute on a [target resource](#target-resources). [Agents](#launch-agent) pull jobs from queues and execute the jobs on target resources. W&B tracks launch jobs similarly to how W&B tracks [runs](../runs/intro.md).
 
 
 ### Launch job
-A job is a specific type of [W&B Artifact](../artifacts/intro.md) that represents work to be done. Job definitions include:
+A launch job is a specific type of [W&B Artifact](../artifacts/intro.md) that represents a task to complete. For example, common launch jobs include training a model or triggering a model evaluation. Job definitions include:
 
 - Python code and other file assets, including at least one runnable entrypoint.
 - Information about the input (config parameter) and output (metrics logged).
@@ -25,7 +25,7 @@ There are three main kinds of job definitions:
 
 
 :::tip
-Launch jobs are created automatically when you track a run with W&B. You can manually specify what type of launch job is created with the W&B CLI's `wandb job create` [command](../../ref/cli/wandb-job/wandb-job-create.md).  See [these docs](./create-launch-job.md) for more information on how to create launch jobs.
+While Launch jobs can perform activities not related to model training--for example, deploy a model to a Triton inference server--all jobs must call `wandb.init` to complete successfully. This creates a run for tracking purposes in a W&B workspace.
 :::
 
 Find jobs you created in the W&B App under the `Jobs` tab of your project workspace. From there, jobs can be configured and sent to a [launch queue](#launch-queue) to be executed on a variety of [target resources](#target-resources).

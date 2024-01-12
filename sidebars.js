@@ -117,6 +117,7 @@ const sidebars = {
                 'guides/launch/create-launch-job',
                 'guides/launch/add-job-to-queue',
                 'guides/launch/launch-view-jobs',
+                'guides/launch/launch-queue-observability'
               ],
             },
 
@@ -634,6 +635,7 @@ const sidebars = {
             'guides/launch/create-launch-job',
             'guides/launch/add-job-to-queue',
             'guides/launch/launch-view-jobs',
+            'guides/launch/launch-queue-observability'
           ],
         },
 
