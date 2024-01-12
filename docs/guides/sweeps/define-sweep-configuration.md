@@ -13,7 +13,7 @@ import TabItem from '@theme/TabItem';
 
 A W&B Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
 
-Sweep configurations are defined either in a [Python dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) or a [YAML](https://yaml.org/) file. How you define your sweep configuration depends on how you want to manage your sweep.
+Define a wweep configuration either in a [Python dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) or a [YAML](https://yaml.org/) file. How you define your sweep configuration depends on how you want to manage your sweep.
 
 :::info
 Define your sweep configuration in a YAML file if you want to initialize a sweep and start a sweep agent from the command line. Define your sweep in a Python dictionary if you initialize a sweep and start a sweep entirely within a Python script or Jupyter notebook.
@@ -40,7 +40,7 @@ For example, the proceeding code snippets show the same sweep configuration defi
   ]}>
   <TabItem value="script">
 
-Define a sweep in a Python dictionary data structure if your training algorithm is defined in a Python script or Jupyter notebook. 
+Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or Jupyter notebook. 
 
 The proceeding code snippet stores a sweep configuration in a variable named `sweep_configuration`:
 
@@ -87,7 +87,7 @@ Within the top level `parameters` key, the following keys are nested: `learning_
 
 ## Double nested parameters
 
-Sweep configurations support nested parameters. To delineate a nested parameter, use an additional `parameters` key under the top level parameter name. Multi-level nesting is allowed. 
+Sweep configurations support nested parameters. To delineate a nested parameter, use an additional `parameters` key under the top level parameter name. Sweep configs support multi-level nesting.
 
 Specify a probability distribution for your random variables if you use a Bayesian or random hyperparameter search. For each hyperparameter:
 
@@ -130,8 +130,7 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 # Start sweep job.
 wandb.agent(sweep_id, function=main, count=4)
 ```
-The `nested_param.manual_key` that was passed when the W&B run was initialized (line 2) will not be available. Instead, the `run.config` will only possess the key-value pairs that were defined in the sweep configuration dictionary (lines 4-13).
-
+The `nested_param.manual_key` that is passed when the W&B run is initialized (line 2) is not accessible. The `run.config` only possess the key-value pairs that are defined in the sweep configuration dictionary (lines 4-13).
 :::
 
 
@@ -336,7 +335,7 @@ The proceeding tabs show how to specify common command macros:
   ]}>
   <TabItem value="python">
 
-Remove the `{$interpreter}` macro and provide a value explicitly in order to hardcode the python interpreter. For example, the following code snippet demonstrates how to do this:
+Remove the `{$interpreter}` macro and provide a value explicitly to hardcode the python interpreter. For example, the following code snippet demonstrates how to do this:
 
 ```yaml
 command:
@@ -348,7 +347,7 @@ command:
   </TabItem>
   <TabItem value="parameters">
 
-To add extra command line arguments not specified by sweep configuration parameters:
+The following shows how to add extra command line arguments not specified by sweep configuration parameters:
 
 ```
 command:
