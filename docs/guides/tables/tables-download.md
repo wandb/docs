@@ -34,7 +34,7 @@ df = table.get_dataframe()
 ```
 
 ## Export Data
-Now, export using any method dataframe supports:
+Next, export using any method dataframe supports:
 
 ```python
 # Converting the table data to .csv
