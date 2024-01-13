@@ -13,7 +13,7 @@ import TabItem from '@theme/TabItem';
 
 A W&B Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
 
-Define a wweep configuration either in a [Python dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) or a [YAML](https://yaml.org/) file. How you define your sweep configuration depends on how you want to manage your sweep.
+Define a sweep configuration either in a [Python dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) or a [YAML](https://yaml.org/) file. How you define your sweep configuration depends on how you want to manage your sweep.
 
 :::info
 Define your sweep configuration in a YAML file if you want to initialize a sweep and start a sweep agent from the command line. Define your sweep in a Python dictionary if you initialize a sweep and start a sweep entirely within a Python script or Jupyter notebook.
