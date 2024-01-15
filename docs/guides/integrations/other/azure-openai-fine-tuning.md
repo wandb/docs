@@ -62,4 +62,5 @@ WandbLogger.sync(
 
 ## Additional resources
 - [OpenAI Fine-tuning Documentation](https://platform.openai.com/docs/guides/fine-tuning/)
+- [Azure OpenAI Fine-tuning Documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)
 - [Demo Colab](http://wandb.me/azure-openai-colab)
