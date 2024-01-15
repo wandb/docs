@@ -7,7 +7,7 @@ displayed_sidebar: default
 # Azure OpenAI Fine-Tuning
 
 ## Introduction
-Fine-tuning GPT-3.5 or GPT-4 models on Microsoft Azure using Weights & Biases allows for detailed tracking and analysis of model performance. This guide extends the concepts from the [OpenAI Fine-Tuning guide](/guides/integrations/openai) with specific steps and features for Azure OpenAI.
+Fine-tuning GPT-3.5 or GPT-4 models on Microsoft Azure using W&B allows for detailed tracking and analysis of model performance. This guide extends the concepts from the [OpenAI Fine-Tuning guide](/guides/integrations/openai) with specific steps and features for Azure OpenAI.
 
 ![](/images/integrations/open_ai_auto_scan.png)
 
@@ -20,7 +20,7 @@ The Weights and Biases fine-tuning integration works with `openai >= 1.0`. Pleas
 - Azure OpenAI service set up as per [official Azure documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/tutorials/fine-tune).
 - Latest versions of `openai`, `wandb`, and other required libraries installed.
 
-## Sync Azure OpenAI Fine-Tuning Results in Weights & Biases in 2 lines
+## Sync Azure OpenAI fine-tuning results in W&B in 2 lines
 
 ```python
 from openai import AzureOpenAI
@@ -47,19 +47,19 @@ WandbLogger.sync(
 
 * [Demo Colab](http://wandb.me/azure-openai-colab)
 
-## Visualization and Versioning in Weights & Biases
-- Utilize Weights & Biases for versioning and visualizing training and validation data as Tables.
+## Visualization and versioning in W&B
+- Utilize W&B for versioning and visualizing training and validation data as Tables.
 - The datasets and model metadata are versioned as W&B Artifacts, allowing for efficient tracking and version control.
 
 ![](/images/integrations/openai_data_artifacts.png)
 
 ![](/images/integrations/openai_data_visualization.png)
 
-## Retrieving the Fine-Tuned Model
-- The fine-tuned model ID is retrievable from Azure OpenAI and is logged as a part of model metadata in Weights & Biases.
+## Retrieving the fine-tuned model
+- The fine-tuned model ID is retrievable from Azure OpenAI and is logged as a part of model metadata in W&B.
 
 ![](/images/integrations/openai_model_metadata.png)
 
-## Additional Resources
+## Additional resources
 - [OpenAI Fine-tuning Documentation](https://platform.openai.com/docs/guides/fine-tuning/)
 - [Demo Colab](http://wandb.me/azure-openai-colab)
