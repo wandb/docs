@@ -397,6 +397,7 @@ const sidebars = {
       items: [
         // 'guides/integrations/intro',
         'guides/integrations/add-wandb-to-any-library',
+        'guides/integrations/other/azure-openai-fine-tuning',
         'guides/integrations/other/catalyst',
         'guides/integrations/dagster',
         'guides/integrations/other/databricks',
@@ -782,6 +783,7 @@ const sidebars = {
       link: { type: 'doc', id: 'guides/integrations/intro' },
       items: [
         'guides/integrations/add-wandb-to-any-library',
+        'guides/integrations/other/azure-openai-fine-tuning',
         'guides/integrations/other/catalyst',
         'guides/integrations/dagster',
         'guides/integrations/other/databricks',
