@@ -21,7 +21,10 @@ Define who can set and edit TTL policies within a team. You can either grant TTL
 2. Select the **Settings** tab.
 3. Navigate to the **Artifacts time-to-live (TTL) section**.
 4. From the **TTL permissions dropdown**, select who can set and edit TTL policies.  
+5. Click on **Review and save settings**. 
+6. Confirm the changes and select **Save settings**. 
 
+![](/images/artifacts/define_who_sets_ttl.gif)
 
 ## Create a TTL policy
 Set a TTL policy for an artifact either when you create the artifact or retroactively after the artifact is created.
@@ -105,6 +108,7 @@ The preceding code example sets the TTL policy to two years.
 9. Within the **TTL duration** field, set the TTL policy in units of days.
 10. Select the **Update TTL** button to save your changes.
 
+![](/images/artifacts/edit_ttl_ui.gif)
 
   </TabItem>
 </Tabs>
@@ -172,8 +176,9 @@ Set a default TTL policy for your team. Default TTL policies apply to all existi
 4. Click on the **Set team's default TTL policy**.
 5. Within the **Duration** field, set the TTL policy in units of days.
 6. Click on **Review and save settings**.
+7/ Confirm the changes and then select **Save settings**. 
 
-
+![](/images/artifacts/set_default_ttl.gif)
 
 ## View TTL policies
 View TTL policies for artifacts with the Python SDK or with the W&B App UI.
