@@ -1,4 +1,6 @@
+APIs
 Autogenerate
+[Bb]asename
 [Cc]heckpointing
 CLI
 [Cc]loud
@@ -17,9 +19,11 @@ GPUs
 [Hh]yperparameters
 [Hh]yperparameter
 Kaniko
+Keras
 Kubeflow
 [Nn]amespace
 Optuna
+[P]repended
 [Pp]seudocode
 [Ss]elf-managed
 [Ww]alkthrough

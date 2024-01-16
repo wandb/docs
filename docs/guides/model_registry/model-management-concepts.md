@@ -9,7 +9,7 @@ displayed_sidebar: default
   <title>Model Registry terms and concepts</title>
 </head>
 
-The following terms are used to describe the W&B Model Registry: [*model version*](#model-version), [*model artifact*](#model-artifact), and [*registered model*](#registered-model).
+The following terms describe key components of the W&B Model Registry: [*model version*](#model-version), [*model artifact*](#model-artifact), and [*registered model*](#registered-model).
 
 ## Model version
 A model version represents a single model checkpoint. Model versions are a snapshot at a point in time of a model and its files within an experiment. 
@@ -34,10 +34,11 @@ It is common practice to use aliases such as  "best", "latest", "production", or
 For example, suppose you create a model and assign it a `"best"` alias. You can refer to that specific model with `run.use_model` 
 
 ```python
+import wandb
+run = wandb.init()
 name = f"{entity/project/model_artifact_name}:{alias}"
 run.use_model(name=name)
 ```
-[INSERT]
 
 ## Model artifact
 A model artifact is a group of logged [model versions](#model-version). Model versions are stored in a model artifact in the order they are logged to the model artifact. 
