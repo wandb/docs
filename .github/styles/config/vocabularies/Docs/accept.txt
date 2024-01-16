@@ -9,6 +9,7 @@ CTAButtons
 [Dd]edicated cloud
 [Dd]equeue
 [Dd]equeues
+[Dd]eserialize
 Dockerfile
 [Ee]nqueued
 GPUs

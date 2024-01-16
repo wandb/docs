@@ -28,7 +28,7 @@ Ensure to replace other the values enclosed in `<>` with your own:
 ```python
 import wandb
 
-run = wandb.init(entity="<your-entity>", project="<your-project>")
+run = wandb.init(entity="<entity>", project="<project>")
 run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
 run.finish()
 ```
@@ -59,6 +59,28 @@ artifact.link(target_path=target_path)
 
 
 ## Interactively link a model
+Interactively link a model with the Model Registry or with the Artifact browser.
+
+<Tabs
+  defaultValue="model_ui"
+  values={[
+    {label: 'Model Registry', value: 'model_ui'},
+    {label: 'Artifact browser', value: 'artifacts_ui'},
+  ]}>
+  <TabItem value="model_ui">
+
+1. Navigate to the Model Registry App at [wandb.ai/registry/model](https://wandb.ai/registry/model).
+2. Hover your mouse next to the name of the registered model you want to link a new model to. 
+3. Select the meatball menu icon (three horizontal dots) next to  **View details**.
+4. From the dropdown, select **Link new version**.
+5. A modal will appear. From the **Project** dropdown, either select or type in the name of the project that contains your model. 
+6. From the **Model Artifact** dropdown, select the name of the model artifact. 
+7. From the **Version** dropdown, select the model version you want to link to the registered model.
+
+![](/images/models/link_model_wmodel_reg.gif)
+
+  </TabItem>
+  <TabItem value="artifacts_ui">
 
 1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
 2. Select the Artifacts icon on the left sidebar.
@@ -70,6 +92,13 @@ artifact.link(target_path=target_path)
 8. Click **Link to registry**. 
 
 ![](/images/models/manual_linking.gif)
+
+  </TabItem>
+</Tabs>
+
+
+
+
 
 ## View the source of linked models
 

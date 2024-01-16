@@ -78,7 +78,7 @@ Ensure to replace other the values enclosed in `<>` with your own:
 ```python
 import wandb
 
-run = wandb.init(entity="<your-entity>", project="<your-project>")
+run = wandb.init(entity="<entity>", project="<project>")
 run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
 run.finish()
 ```

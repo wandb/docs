@@ -23,7 +23,7 @@ Copy and paste the proceeding code snippet. Ensure to replace values enclosed in
 import wandb
 
 # Initialize a W&B run
-run = wandb.init(project="<your-project>", entity="<your-entity>")
+run = wandb.init(project="<project>", entity="<entity>")
 
 # Log the model
 run.log_model(path="<path-to-model>", name="<name>")
