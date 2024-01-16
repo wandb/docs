@@ -43,7 +43,8 @@ Add a job to your queue programmatically with the W&B App.
 Within the **Queue Configurations** field, provide values for configuration options that were created by the admin of your team.  
 For example, in the following example, the team admin configured AWS instance types that can be used by the team. In this case, team members can pick either the `ml.m4.xlarge` or `ml.p3.xlarge` compute instance type to train their model.
 ![](/images/launch/team_member_use_config_template.png)
-1. Select the **Launch now** button. 
+10. Select the **Destination project**, where the resulting run will appear.  This project needs to belong to the same entity as the queue.
+11. Select the **Launch now** button. 
 
 
   </TabItem>
