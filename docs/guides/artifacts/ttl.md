@@ -17,6 +17,10 @@ W&B deactivates the option to set a TTL policy for model artifacts linked to the
 ## Define who can edit and set TTL policies
 Define who can set and edit TTL policies within a team. You can either grant TTL permissions only to team admins, or you can grant both team admins and team members TTL permissions. 
 
+:::info
+Only Team admins can edit settings for a team.
+:::
+
 1. Navigate to your team’s profile page.
 2. Select the **Settings** tab.
 3. Navigate to the **Artifacts time-to-live (TTL) section**.
