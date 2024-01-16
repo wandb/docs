@@ -57,13 +57,13 @@ artifact.ttl = timedelta(days=30)  # Set TTL policy
 run.log_artifact(artifact)
 ```
 
-The preceding code snippet sets the TTL policy for the artifact to 30 days. In other words, the artifact is deleted by W&B shortly after 30 days.
+The preceding code snippet sets the TTL policy for the artifact to 30 days. In other words, W&B deletes the artifact after 30 days.
 
 ### Set or edit a TTL policy after you create an artifact
 Use the W&B App UI or the W&B Python SDK to define a TTL policy for an artifact that already exists.
 
 :::note
-When an artifact's TTL is modified, the time the artifact takes to expire is still calculated using the artifact's `createdAt` timestamp.
+When you modify an artifact's TTL, the time the artifact takes to expire is still calculated using the artifact's `createdAt` timestamp.
 :::
 
 <Tabs
@@ -89,7 +89,7 @@ artifact.ttl = timedelta(days=365 * 2)  # Delete in two years
 artifact.save()
 ```
 
-In the preceding example, the TTL policy is set to two years.
+The preceding code example sets the TTL policy to two years.
 
   </TabItem>
   <TabItem value="app">
