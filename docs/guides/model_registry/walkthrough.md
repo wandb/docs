@@ -16,10 +16,11 @@ The following walkthrough shows you how to log a model to W&B. By the end of the
 * Evaluate the performance of the model you link to the registry
 * Mark a model version ready for production.
 
-It is expected that the following code snippets are executed in the order they are presented in this guide.
+
 
 :::note
-Code that is not unique to the Model Registry are hidden in collapsible cells.
+* It is expected that the following code snippets are copied and executed in the order they are presented in this guide.
+* Code that is not unique to the Model Registry are hidden in collapsible cells.
 :::
 ## Setting up
 
@@ -34,6 +35,11 @@ from wandb.keras import WandbCallback
 from sklearn.model_selection import train_test_split
 ```
 
+To complete this walkthrough as it is written, provide your W&B entity to the `entity` variable: 
+
+```python
+entity = "<entity>"
+```
 
 
 ### Create a dataset artifact
@@ -64,10 +70,7 @@ def generate_raw_data(train_size=6000):
 
 Next, upload the dataset to W&B. To do this, create an [artifact](../artifacts/intro.md) object and add the dataset to that artifact. 
 
-Ensure to replace values enclosed in `<>` with your own.
-
 ```python
-entity = "<entity>"
 project = "model-registry-dev"
 
 model_use_case_id = "mnist"
@@ -111,12 +114,11 @@ Storing files (such as datasets) to an artifact is useful in the context of logg
 ## Train a model
 Train a model with the artifact dataset you created in the previous step. 
 
-### Declare an artifact as an input to a run
+### Declare dataset artifact as an input to the run
 
-The proceeding code snippet shows how to declare an artifact as an input to a W&B run. This is particularly useful in the context of logging models because declaring an artifact as an input to a run lets you track which dataset (and the version of the dataset) that was used to train a specific model.
+Declare the dataset artifact you created in a previous step as the input to the W&B run. This is particularly useful in the context of logging models because declaring an artifact as an input to a run lets you track which dataset (and the version of the dataset) is used to train a specific model. This information is collected and used to create a [lineage map](./model-lineage.md). 
 
-
-Use the `use_artifact` API to both declare the dataset artifact as the input of the run and to retrieve the artifact itself.
+Use the `use_artifact` API to both declare the dataset artifact as the input of the run and to retrieve the artifact itself. 
 
 ```python
 job_type = "train_model"
@@ -133,7 +135,7 @@ run = wandb.init(project=project, job_type=job_type, config=config)
 # Retrieve the dataset artifact
 version = "latest"
 name = "{}:{}".format("{}_dataset".format(model_use_case_id), version)
-artifact = wandb.run.use_artifact(artifact_or_name=name)
+artifact = run.use_artifact(artifact_or_name=name)
 
 # Get specific content from the dataframe
 train_table = artifact.get("train_table")
@@ -141,9 +143,14 @@ x_train = train_table.get_column("x_train", convert_to="numpy")
 y_train = train_table.get_column("y_train", convert_to="numpy")
 ```
 
+For more information about tracking the inputs and output of a model, see [Create model lineage](./model-lineage.md) map. 
+
 ### Define and train model
 
-For this walkthrough, you will define a 2D Convolutional Neural Network (CNN) with Keras to classify images from the MNIST dataset.
+For this walkthrough, define a 2D Convolutional Neural Network (CNN) with Keras to classify images from the MNIST dataset. 
+
+<details>
+<summary>Train CNN on MNIST data</summary>
 
 ```python
 # Store values from our config dictionary into variables for easy accessing
@@ -198,6 +205,9 @@ Finally, save the model locally on your machine:
 path = "model.h5"
 model.save(path)
 ```
+</details>
+
+
 
 ## Log and link a model to the Model Registry
 Use the [`link_model`](../../ref/python/run.md#link_model) API to log model file(s) to a W&B run and link it to the [W&B Model Registry](./intro.md).
@@ -228,7 +238,7 @@ model_use_case_id = "mnist"
 version = "latest"
 
 # Get dataset artifact, mark it as a dependency
-artifact = wandb.run.use_artifact(
+artifact = run.use_artifact(
     "{}:{}".format("{}_dataset".format(model_use_case_id), version)
 )
 
@@ -273,8 +283,20 @@ Mark a model version ready for the next stage of your machine learning workflow 
 
 For example, suppose that after evaluating a model's performance, you are confident that the model is ready for production. To promote that model version, add the `production` alias to that specific model version. 
 
-You can add an alias to a model version interactively with the W&B App UI or programmatically with the Python SDK. The following steps show how to add an alias with the W&B App UI:
+:::tip
+The `production` alias is one of the most common aliases we see used to mark a model as production-ready.
+:::
 
-[INSERT -  To do]
+You can add an alias to a model version interactively with the W&B App UI or programmatically with the Python SDK. The following steps show how to add an alias with the W&B Model Registry App:
 
+
+1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+2. Click **View details** next to the name of your registered model.
+3. Within the **Versions** section, click the **View** button next to the name of the model version you want to promote. 
+4. Next to the **Aliases** field, click on the plus icon (**+**). 
+5. Type in `production` into the field that appears.
+6. Press Enter on your keyboard.
+
+
+![](/images/models/promote_model_production.gif)
 

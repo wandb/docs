@@ -21,7 +21,7 @@ From left to right, the image shows:
 
 ## Track an artifact dependency
 
-Declare an artifact (dataset, model, and so forth) as an input to a W&B run with the `use_artifact` API to track a dependency. 
+Declare an dataset artifact as an input to a W&B run with the `use_artifact` API to track a dependency. 
 
 The proceeding code snippet shows how to use the `use_artifact` API:
 
@@ -30,7 +30,7 @@ The proceeding code snippet shows how to use the `use_artifact` API:
 run = wandb.init(project=project, entity=entity)
 
 # Get artifact, mark it as a dependency
-artifact = wandb.run.use_artifact(artifact_or_name="name", aliases="<alias>")
+artifact = run.use_artifact(artifact_or_name="name", aliases="<alias>")
 ```
 
 Once you have retrieved your artifact, you can use that artifact to (for example), evaluate the performance of a model. 
@@ -55,7 +55,7 @@ version = "latest"
 name = "{}:{}".format("{}_dataset".format(model_use_case_id), version)
 
 # highlight-start
-artifact = wandb.run.use_artifact(name)
+artifact = run.use_artifact(name)
 # highlight-end
 
 train_table = artifact.get("train_table")
@@ -111,7 +111,9 @@ path = "./model.h5"
 registered_model_name = "MNIST-dev"
 name = "mnist_model"
 
+# highlight-start
 run.link_model(path=path, registered_model_name=registered_model_name, name=name)
+# highlight-end
 run.finish()
 ```
 
