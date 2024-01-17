@@ -12,7 +12,11 @@ Schedule when artifacts are deleted from W&B with W&B Artifact time-to-live (TTL
 :::note
 W&B deactivates the option to set a TTL policy for model artifacts linked to the Model Registry. This is to help ensure that models are not deleted by mistake.
 :::
+:::info
+Only team admins can permit who can set or edit a TTL policy. 
 
+It is likely that your team admin does not permit you to manage TTL policies if you do not see the option to set or edit a TTL policy in the W&B App UI or if you get an error stating you are denied access when you try to programmatically set or update a TTL policy.
+:::
 
 ## Define who can edit and set TTL policies
 Define who can set and edit TTL policies within a team. You can either grant TTL permissions only to team admins, or you can grant both team admins and team members TTL permissions. 
@@ -32,7 +36,6 @@ Only Team admins can edit settings for a team.
 
 ## Create a TTL policy
 Set a TTL policy for an artifact either when you create the artifact or retroactively after the artifact is created.
-
 
 For all the code snippets below, replace the content wrapped in `<>` with your information to use the code snippet. 
 
