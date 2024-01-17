@@ -1,6 +1,6 @@
 ---
 description: Getting started guide for W&B Launch.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # Walkthrough

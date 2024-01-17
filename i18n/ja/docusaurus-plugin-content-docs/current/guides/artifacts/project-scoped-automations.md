@@ -1,7 +1,7 @@
 ---
 description: Use an project scoped artifact automation in your project to trigger actions when aliases or versions in an artifact collection are created or changed. 
 title: Artifact automations
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

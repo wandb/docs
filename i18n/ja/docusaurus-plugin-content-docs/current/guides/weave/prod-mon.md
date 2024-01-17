@@ -1,7 +1,7 @@
 ---
 slug: /guides/weave/prod-mon
 description: production monitoring with Weave
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # Production monitoring
