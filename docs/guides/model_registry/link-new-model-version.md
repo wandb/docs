@@ -5,7 +5,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Link a new model version
+# Link a model version
 
 Link a model version to a registered model with the W&B App or programmatically with the Python SDK.
 

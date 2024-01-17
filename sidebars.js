@@ -74,7 +74,6 @@ const sidebars = {
           label: 'Model Registry',
           link: { type: 'doc', id: 'guides/model_registry/intro' },
           items: [
-            // 'guides/model_registry/quickstart',
             'guides/model_registry/walkthrough',
             'guides/model_registry/model-management-concepts',
             'guides/model_registry/log-model-to-experiment',
@@ -83,9 +82,7 @@ const sidebars = {
             'guides/model_registry/model-lineage',
             'guides/model_registry/consume-models',
             'guides/model_registry/create-model-cards',
-            // 'guides/model_registry/model_tags',
-            'guides/model_registry/modify-model-states',
-            'guides/model_registry/delete-models',
+            // 'guides/model_registry/delete-models',
             'guides/model_registry/automation',
             'guides/model_registry/notifications',
             'guides/model_registry/access_controls',
