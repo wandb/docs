@@ -1,7 +1,7 @@
 ---
 slug: /guides/weave
 description: introducing Weave, the open-source, visual, interactive analytics toolkit for building AI
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # Weave
