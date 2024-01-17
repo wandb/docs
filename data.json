@@ -722,7 +722,7 @@
     },
     {
       "from": "/guides/models/model_tags",
-      "to" : "/guides/model_registry/link-new-model-version"
+      "to" : "/guides/model_registry/link-model-version"
     },
     {
       "from": "/guides/models/access_controls",

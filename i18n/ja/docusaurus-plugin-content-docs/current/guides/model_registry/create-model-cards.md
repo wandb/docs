@@ -1,14 +1,14 @@
 ---
 description: ''
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # Document machine learning model
 
 Add a description to the model card of your registered model to document aspects of your machine learning model. Some topics worth documenting include:
 
-* **Summary**: A summary of what the model is. The purpose of the model. The machine learning framework that was used, and so forth. 
-* **Training data**: Describe which training data was used. What sort of processing was done on the training data set. Where is that data stored.
+* **Summary**: A summary of what the model is. The purpose of the model. The machine learning framework that is used, and so forth. 
+* **Training data**: Describe the training data used, processing done on the training data set, where is that data stored and so forth.
 * **Architecture**: The architecture of the machine learning algorithm. Did the algorithm use transfer learning? And so forth.
 * **Deserialize the model**: Provide information on how someone on your team can load the model into memory.
 
@@ -21,6 +21,5 @@ Add a description to the model card of your registered model to document aspects
 ![](/images/models/model_card_example.png)
 3. Within the **Description** field, provide information about your machine learning model. Format text within a model card with [Markdown markup language](https://www.markdownguide.org/).
 
-
-For example, the following images shows the model card of a **Credit-card Default Prediction** registered model. Background information about the registered model is provided Within the model card.
+For example, the following images shows the model card of a **Credit-card Default Prediction** registered model.
 ![](/images/models/model_card_credit_example.png)

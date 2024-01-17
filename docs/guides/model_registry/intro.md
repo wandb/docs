@@ -10,7 +10,7 @@ Use W&B Models as a central system of record for your best models, standardized 
 
 With W&B Models, you can:
 
-* [Bookmark your best model versions for each machine learning task.](./model_tags.md)
+* [Bookmark your best model versions for each machine learning task.](./link-model-version.md)
 * [Automate](./automation.md) downstream processes and model CI/CD
 * Move model versions through its ML lifecycle; from staging to production.
 * Track a model's lineage and audit the history of changes to production models.
@@ -60,7 +60,6 @@ Depending on your use case, explore the following resources to get started with 
 * Explore this chapter to learn how about:
    * [Protected models and access control](./access_controls.md).
    * [How to connect the Model Registry to CI/CD processes](./automation.md).
-   * [Use tags to organize registered models](./model_tags.md).
    * Set up [Slack notifications](./notifications.md) when a new model version is linked to a model registry.
 
 
