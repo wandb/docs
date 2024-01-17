@@ -33,10 +33,7 @@ run.log_model(path="<path-to-model>", name="<name>")
 
 <summary>Example: Log a Keras model to W&B</summary>
 
-The proceeding code snippet shows how to log a convolutional neural network (CNN) to W&B.
-
-First, a dictionary that contains two hyperparameters is passed to `run.init()`. This initializes a W&B run that [INSERT - finish describing later].
-
+The proceeding code example shows how to log a convolutional neural network (CNN) model to W&B.
 
 ```python showLineNumbers
 import os

@@ -63,7 +63,6 @@ def generate_raw_data(train_size=6000):
         y_eval[:eval_size],
     )
 
-
 # Create dataset
 (x_train, y_train), (x_eval, y_eval) = generate_raw_data()
 ```
