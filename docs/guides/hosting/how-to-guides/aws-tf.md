@@ -348,7 +348,7 @@ The node where W&B server is running must be configured to permit access to Amaz
 ### Configure W&B server
 Finally, configure your W&B Server.
 
-1. Naavigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
+1. Navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
 2. Enable the ***Use an external file storage backend* option/
 3. Provide information about your Amazon S3 bucket, region, and Amazon SQS queue in the following format:
 * **File Storage Bucket**: `s3://<bucket-name>`
