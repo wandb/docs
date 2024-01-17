@@ -1,7 +1,7 @@
 ---
 slug: /guides/weave/streamtable
 description: Weave StreamTable API for logging a continuous stream of data
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # StreamTable
