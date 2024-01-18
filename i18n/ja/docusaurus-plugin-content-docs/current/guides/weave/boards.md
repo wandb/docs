@@ -1,7 +1,7 @@
 ---
 slug: /guides/weave/boards
 description: Boards are interconnected groups of Panels
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # Boards 
