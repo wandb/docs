@@ -1,5 +1,5 @@
 ---
-description: TTL
+description: Time to live policies (TTL)
 displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
@@ -7,16 +7,30 @@ import TabItem from '@theme/TabItem';
 
 # Manage data retention with Artifact TTL policy
 
-Schedule when artifacts are deleted from W&B with W&B Artifact time-to-live (TTL) policy.
+Schedule when artifacts are deleted from W&B with W&B Artifact time-to-live (TTL) policy. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. For more information on how W&B deletes artifacts, see the [Delete artifacts](./delete-artifacts.md) page.
 
 :::note
 W&B deactivates the option to set a TTL policy for model artifacts linked to the Model Registry. This is to help ensure that models are not deleted by mistake.
 :::
+:::info
+* Only team admins can edit a [team's settings](../app/settings-page/team-settings.md) and permit who can set or edit a TTL policy. 
+* It is likely that your team admin does not permit you to manage TTL policies if you do not see the option to set or edit a TTL policy in the W&B App UI or if you get an error when you try to programmatically set or update a TTL policy.
+:::
 
+## Define who can edit and set TTL policies
+Define who can set and edit TTL policies within a team. You can either grant TTL permissions only to team admins, or you can grant both team admins and team members TTL permissions. 
+
+1. Navigate to your team’s profile page.
+2. Select the **Settings** tab.
+3. Navigate to the **Artifacts time-to-live (TTL) section**.
+4. From the **TTL permissions dropdown**, select who can set and edit TTL policies.  
+5. Click on **Review and save settings**. 
+6. Confirm the changes and select **Save settings**. 
+
+![](/images/artifacts/define_who_sets_ttl.gif)
 
 ## Create a TTL policy
 Set a TTL policy for an artifact either when you create the artifact or retroactively after the artifact is created.
-
 
 For all the code snippets below, replace the content wrapped in `<>` with your information to use the code snippet. 
 
@@ -48,10 +62,22 @@ artifact.ttl = timedelta(days=30)  # Set TTL policy
 run.log_artifact(artifact)
 ```
 
-The code snippet above sets the TTL policy for the artifact to 30 days. In other words, the artifact is deleted by W&B shortly after 30 days.
+The preceding code snippet sets the TTL policy for the artifact to 30 days. In other words, W&B deletes the artifact after 30 days.
 
 ### Set or edit a TTL policy after you create an artifact
-Use the W&B Python SDK to define a TTL policy for an artifact that already exists.
+Use the W&B App UI or the W&B Python SDK to define a TTL policy for an artifact that already exists.
+
+:::note
+When you modify an artifact's TTL, the time the artifact takes to expire is still calculated using the artifact's `createdAt` timestamp.
+:::
+
+<Tabs
+  defaultValue="python"
+  values={[
+    {label: 'Python SDK', value: 'python'},
+    {label: 'W&B App', value: 'app'},
+  ]}>
+  <TabItem value="python">
 
 1. [Fetch your artifact](./download-and-use-an-artifact.md).
 2. Pass in a time delta to the artifact's `ttl` attribute. 
@@ -68,47 +94,93 @@ artifact.ttl = timedelta(days=365 * 2)  # Delete in two years
 artifact.save()
 ```
 
-In the above example, the TTL policy is set to two years.
+The preceding code example sets the TTL policy to two years.
 
-:::note
-When an artifact's TTL is modified, the time the artifact takes to expire is still calculated using the artifact's `createdAt` timestamp.
-:::
+  </TabItem>
+  <TabItem value="app">
 
-<!-- ## Inherit TTL policy [For incoming feature Artifact Collection level TTL]
-Let an artifact, that does not have a TTL policy, inherit the TTL policy of the artifact collection it belongs to. An artifact can only inherit a TTL policy from the artifact collection it belongs to if the artifact collection possesses a TTL policy.  Otherwise, no TTL policy is inherited.
+1. Navigate to your W&B project in the W&B App UI.
+2. Select the artifact icon on the left panel.
+3. From the list of artifacts, expand the artifact type you 
+4. Select on the artifact version you want to edit the TTL policy for.
+5. Click on the Version tab.
+6. Click on the meatball UI icon next to the **Link to registry** button. 
+7. From the dropdown, select **Edit TTL policy**.
+8. Within the modal that appears, select **Custom** from the TTL policy dropdown.
+9. Within the **TTL duration** field, set the TTL policy in units of days.
+10. Select the **Update TTL** button to save your changes.
 
-:::note
-An artifact will not inherit a TTL policy from its artifact collection if a TTL policy already exists for that artifact.
-:::
+![](/images/artifacts/edit_ttl_ui.gif)
 
-1. [Fetch your artifact](./download-and-use-an-artifact.md).
-2. Set the artifact's `ttl` attribute to the constant `wandb.ArtifactTTL.INHERIT`.
-3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
+  </TabItem>
+</Tabs>
 
-```python
-artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
-artifact.ttl = wandb.ArtifactTTL.INHERIT
-artifact.save()
-``` -->
+
+
+
+
 
 ## Deactivate a TTL policy
-Use the W&B Python SDK to deactivate a TTL policy.
+Use the W&B Python SDK or W&B App UI to deactivate a TTL policy for a specific artifact version.
 <!-- 
 :::note
 Artifacts with a disabled TTL will not inherit an artifact collection's TTL. Refer to (## Inherit TTL Policy) on how to delete artifact TTL and inherit from the collection level TTL.
 ::: -->
+
+<Tabs
+  defaultValue="python"
+  values={[
+    {label: 'Python SDK', value: 'python'},
+    {label: 'W&B App', value: 'app'},
+  ]}>
+  <TabItem value="python">
 
 1. [Fetch your artifact](./download-and-use-an-artifact.md).
 2. Set the artifact's `ttl` attribute to `None`.
 3. Update the artifact with the [`save`](../../ref/python/run.md#save) method.
 
 
-The following code snippet shows how to disable a TTL policy for an artifact:
+The following code snippet shows how to turn off a TTL policy for an artifact:
 ```python
 artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
 artifact.ttl = None
 artifact.save()
 ```
+
+
+  </TabItem>
+  <TabItem value="app">
+
+1. Navigate to your W&B project in the W&B App UI.
+2. Select the artifact icon on the left panel.
+3. From the list of artifacts, expand the artifact type you 
+4. Select on the artifact version you want to edit the TTL policy for.
+5. Click on the Version tab.
+6. Click on the meatball UI icon next to the **Link to registry** button. 
+7. From the dropdown, select **Edit TTL policy**.
+8. Within the modal that appears, select **Deactivate** from the TTL policy dropdown.
+9. Select the **Update TTL** button to save your changes.
+
+
+  </TabItem>
+</Tabs>
+
+
+
+
+
+## Set default TTL policies for a team
+Set a default TTL policy for your team. Default TTL policies apply to all existing and future artifacts based on their respective creation dates. Artifacts with existing version-level TTL policies are not affected by the team's default TTL.
+
+1. Navigate to your team’s profile page.
+2. Select the **Settings** tab.
+3. Navigate to the **Artifacts time-to-live (TTL) section**.
+4. Click on the **Set team's default TTL policy**.
+5. Within the **Duration** field, set the TTL policy in units of days.
+6. Click on **Review and save settings**.
+7/ Confirm the changes and then select **Save settings**. 
+
+![](/images/artifacts/set_default_ttl.gif)
 
 ## View TTL policies
 View TTL policies for artifacts with the Python SDK or with the W&B App UI.
