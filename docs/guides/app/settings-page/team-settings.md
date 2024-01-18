@@ -7,7 +7,7 @@ displayed_sidebar: default
 
 # Team settings
 
-Navigate to your team’s profile page and select the **Team settings** icon to manage team settings. Not all members in a team can modify team settings. The account type (Administrator, Member, or Service) of a member determines what settings that member can modify.
+Navigate to your team’s profile page and select the **Team settings** icon to manage team settings. Not all members in a team can modify team settings. Only team admins can view a team's settings and access team level TTL settings. The account type (Administrator, Member, or Service) of a member determines what settings that member can modify. 
 
 :::info
 Only Administration account types can change team settings or remove a member from a team.
