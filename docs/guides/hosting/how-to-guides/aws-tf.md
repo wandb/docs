@@ -23,7 +23,7 @@ The Terraform Module deploys the following `mandatory` components:
 - Amazon S3
 - Amazon Route53
 - Amazon Certificate Manager (ACM)
-- Amazon Elastic Loadbalancing (ALB)
+- Amazon Elastic Load Balancing (ALB)
 - Amazon Secrets Manager
 
 Other deployment options can also include the following optional components:
@@ -74,7 +74,7 @@ The steps on this topic are common for any deployment option covered by this doc
        tags = {
          GithubRepo = "terraform-aws-wandb"
          GithubOrg  = "wandb"
-         Enviroment = "Example"
+         Environment = "Example"
          Example    = "PublicDnsExternal"
        }
      }
