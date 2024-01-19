@@ -9,6 +9,8 @@ import TabItem from '@theme/TabItem';
 
 Schedule when artifacts are deleted from W&B with W&B Artifact time-to-live (TTL) policy. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. For more information on how W&B deletes artifacts, see the [Delete artifacts](./delete-artifacts.md) page.
 
+Check out [this](https://www.youtube.com/watch?v=hQ9J6BoVmnc) video tutorial to learn how to manage data retention with Artifacts TTL in the W&B App.
+
 :::note
 W&B deactivates the option to set a TTL policy for model artifacts linked to the Model Registry. This is to help ensure that linked models do not accidentally expire if used in production workflows.
 :::
@@ -16,6 +18,7 @@ W&B deactivates the option to set a TTL policy for model artifacts linked to the
 * Only team admins can view a [team's settings](../app/settings-page/team-settings.md) and access team level TTL settings such as (1) permitting who can set or edit a TTL policy or (2) setting a team default TTL.  
 * If you do not see the option to set or edit a TTL policy in an artifact's details in the W&B App UI or if setting a TTL programmatically does not successfully change an artifact's TTL property, your team admin has not given you permissions to do so. 
 :::
+
 
 ## Define who can edit and set TTL policies
 Define who can set and edit TTL policies within a team. You can either grant TTL permissions only to team admins, or you can grant both team admins and team members TTL permissions. 
@@ -219,10 +222,6 @@ View a TTL policy for an artifact with the W&B App UI.
 Within the collection view you can see all of the artifacts in the selected collection. Within the `Time to Live` column you will see the TTL policy assigned to that artifact. 
 
 ![](/images/artifacts/ttl_collection_panel_ui.png)
-
-## Getting Started
-- Check out [this](https://www.youtube.com/watch?v=hQ9J6BoVmnc) video tutorial to learn how to manage data retention with Artifacts TTL in the W&B App.
-- View [this](https://wandb.ai/wandb-smle/artifacts-ttl-demo/reports/W-B-Artifacts-Time-to-live-TTL-Walkthrough--Vmlldzo1Mzc3MTAw) report and companion [colab](https://colab.research.google.com/drive/1ZP6W4FhkmGUOPPloIHqUhGLd2vYBVvph?usp=sharing) to explore programattic setting and editing of Artifact TTLs.
 
   </TabItem>
 </Tabs>
