@@ -101,7 +101,7 @@ To delete an artifact collection:
 3. Select the kebab dropdown next to the artifact collection name.
 4. Choose Delete.
 
-You can also delete artifact version programmatically with the [delete()](../../ref/python/artifact.md#delete) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
+You can also delete artifact collection programmatically with the [delete()](../../ref/python/artifact.md#delete) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
 
 ```python
 import wandb
