@@ -220,5 +220,9 @@ Within the collection view you can see all of the artifacts in the selected coll
 
 ![](/images/artifacts/ttl_collection_panel_ui.png)
 
+## Getting Started
+- Check out [this](https://www.youtube.com/watch?v=hQ9J6BoVmnc) video tutorial to learn how to manage data retention with Artifacts TTL in the W&B App.
+- View [this](https://wandb.ai/wandb-smle/artifacts-ttl-demo/reports/W-B-Artifacts-Time-to-live-TTL-Walkthrough--Vmlldzo1Mzc3MTAw) report and companion [colab](https://colab.research.google.com/drive/1ZP6W4FhkmGUOPPloIHqUhGLd2vYBVvph?usp=sharing) to explore programattic setting and editing of Artifact TTLs.
+
   </TabItem>
 </Tabs>
