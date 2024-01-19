@@ -5,17 +5,15 @@ displayed_sidebar: default
 
 # AWS
 
+Use the [Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) developed by Weights & Biases to deploy the W&B Server on AWS.
 
+The module documentation is extensive and contains all available options. This document covers some deployment options.
 
-We recommend the usage of the [Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) developed by Weights and Biases to deploy the W&B server on AWS.
-
-The module documentation is extensive and contains all available options that can be used. We will cover some deployment options in this document.
-
-Before you start, we recommend you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
+First, choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
 
 The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
 
-The Terraform Module will deploy the following `mandatory` components:
+The Terraform Module deploys the following `mandatory` components:
 
 - Load Balancer
 - AWS Identity & Access Management (IAM)
@@ -35,7 +33,7 @@ Other deployment options can also include the following optional components:
 
 ## **Pre-requisite permissions**
 
-The account that will run the Terraform needs to be able to create all components described in the Introduction and permission to create **IAM Policies** and **IAM Roles** and assign roles to resources.
+The account running Terraform needs to be able to create all components described in the Introduction and permission to create **IAM Policies** and **IAM Roles** and assign roles to resources.
 
 ## General steps
 
@@ -43,10 +41,10 @@ The steps on this topic are common for any deployment option covered by this doc
 
 1. Prepare the development environment.
    - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-   - We recommend creating a Git repository with the code that will be used, but you can keep your files locally.
+   - Create a Git repository for code (recommended), or save code files locally
 2. Create the `terraform.tfvars` file.
 
-   The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
+   The `tvfars` file content can be customized according to the installation type. Here is a minimal example:
 
    ```bash
    namespace                  = "wandb"
@@ -58,15 +56,15 @@ The steps on this topic are common for any deployment option covered by this doc
    allowed_inbound_ipv6_cidr  = ["::/0"]
    ```
 
-   The variables defined here need to be decided before the deployment because the `namespace` variable will be a string that will prefix all resources created by Terraform.
+   Define these variables before the deployment. The `namespace` string prefixes all resources created by Terraform.
 
-   The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
+   The combination of `subdomain` and `domain` forms the FQDN that W&B configures. In the example above, the W&B FQDN is `wandb-aws.wandb.ml`, and the DNS `zone_id` where the FQDN record is created.
 
-   Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also need to be set. In the module it's a mandatory input. The example above will allow access from any source to the W&B installation.
+   Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` are mandatory inputs to the module. The example above allows access from any source to the W&B installation.
 
 3. Create the file `versions.tf`
 
-   This file will contain the Terraform and Terraform provider versions required to deploy W&B in AWS
+   This file contains the Terraform and Terraform provider versions required to deploy W&B in AWS.
 
    ```bash
    provider "aws" {
@@ -83,9 +81,9 @@ The steps on this topic are common for any deployment option covered by this doc
    }
    ```
 
-   Please, refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
+   Refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
 
-   Optionally, **but highly recommended**, you can add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
+   Add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration). This is highly recommended, but optional.
 
 4. Create the file `variables.tf`
 
@@ -132,7 +130,7 @@ The steps on this topic are common for any deployment option covered by this doc
 
 ## Deployment - Recommended (~20 mins)
 
-This is the most straightforward deployment option configuration that will create all `Mandatory` components and install in the `Kubernetes Cluster` the latest version of `W&B`.
+This is the most straightforward deployment option configuration that creates all `Mandatory` components and installs in the `Kubernetes Cluster` the latest version of `W&B`.
 
 1. Create the `main.tf`
 
@@ -182,7 +180,7 @@ This is the most straightforward deployment option configuration that will creat
      bucket_queue               = "internal://"
      database_connection_string = "mysql://${module.wandb_infra.database_connection_string}"
 
-     # If we dont wait, tf will start trying to deploy while the work group is
+     # If we don't wait, tf will start trying to deploy while the work group is
      # still spinning up
      depends_on = [module.wandb_infra]
    }
@@ -209,7 +207,7 @@ This is the most straightforward deployment option configuration that will creat
 
 Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
 
-You need to add the option `create_elasticache_subnet = true` to the same `main.tf` file we worked on in `Recommended Deployment` to enable the cache.
+Add the option `create_elasticache_subnet = true` to the same `main.tf` file from `Recommended Deployment` to enable the cache.
 
 ```
 module "wandb_infra" {
@@ -229,7 +227,7 @@ module "wandb_infra" {
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The AWS resource that provides the message broker is the `SQS`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the `Recommended Deployment`
+The AWS resource that provides the message broker is the `SQS`. To enable it, add the option `use_internal_queue = false` to the same `main.tf` created in the `Recommended Deployment`.
 
 ```
 module "wandb_infra" {
@@ -253,14 +251,14 @@ The [Terraform Module](https://github.com/wandb/terraform-aws-wandb) provides se
 
 ## Manual configuration
 
-To use an Amazon S3 bucket as a file storage backend for W&B, you will need to:
+To use an Amazon S3 bucket as a file storage backend for W&B:
 
 * [Create an Amazon S3 Bucket and Bucket Notifications](#create-an-s3-bucket-and-bucket-notifications)
 * [Create SQS Queue](#create-an-sqs-queue)
 * [Grant Permissions to Node Running W&B](#grant-permissions-to-node-running-wb)
 
 
- you'll need to create a bucket, along with an SQS queue configured to receive object creation notifications from that bucket. Your instance will need permissions to read from this queue.
+Create a bucket, along with an SQS queue configured to receive object creation notifications from that bucket. Set instance permissions to read from this queue.
 
 ### Create an S3 Bucket and Bucket Notifications
 
@@ -361,13 +359,13 @@ Finally, configure your W&B Server.
 
 ## Upgrades
 
-To upgrade W&B first you will need to add an extra configuration `wandb_version` to the `wandb_app` module.
+To upgrade W&B, add an extra configuration `wandb_version` to the `wandb_app` module.
 
 ```
 wandb_version = "0.48.1"
 ```
 
-Once you add the configuration to the module, it will look like this: 
+The module now looks like this:
 
 ```
 module "wandb_app" {
@@ -382,4 +380,4 @@ module "wandb_app" {
 
 After this change, you need to run the steps described on [Deploy W&B](#deployment---recommended-20-mins).
 
-When we release a new version, you only need to update this configuration with the newer version and re-execute the same steps.
+To upgrade to a new W&B Server release, update this configuration with the new version and re-execute the same steps.
