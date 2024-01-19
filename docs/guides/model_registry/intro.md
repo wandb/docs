@@ -6,8 +6,6 @@ displayed_sidebar: default
 
 # Model registry
 
-![](/images/models/model_registry_logo_main.png)
-
 Use W&B Models as a central system of record for your best models, standardized and organized in a model registry across projects and teams. 
 
 With W&B Models, you can:
