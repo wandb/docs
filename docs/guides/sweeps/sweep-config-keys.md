@@ -167,6 +167,10 @@ Hyperband checks which [W&B runs](../../ref/python/run.md) to end once every few
 
 Modify the format and contents with nested values within the `command` key. You can directly include fixed components such as filenames.
 
+:::info
+On Unix systems, `/usr/bin/env` ensures that the OS chooses the correct Python interpreter based on the environment.
+:::
+
 W&B supports the following macros for variable components of the command:
 
 | Command macro              | Description                                                                                                                                                           |
@@ -181,28 +185,3 @@ W&B supports the following macros for variable components of the command:
 | `${args_json_file}`        | The path to a file containing the hyperparameters and their values encoded as JSON.                                                                                   |
 | `${envvar}`                | A way to pass environment variables. `${envvar:MYENVVAR}` __ expands to the value of MYENVVAR environment variable. __                                               |
 
-[INSERT]
-
-<Tabs
-  defaultValue="unix"
-  values={[
-    {label: 'Unix', value: 'unix'},
-    {label: 'Windows', value: 'windows'},
-  ]}>
-  <TabItem value="unix">
-
-```bash
-/usr/bin/env python train.py --param1=value1 --param2=value2
-```
-  </TabItem>
-  <TabItem value="windows">
-
-```bash
-python train.py --param1=value1 --param2=value2
-```
-  </TabItem>
-</Tabs>
-
-:::info
-On Unix systems, `/usr/bin/env` ensures that the OS chooses the correct Python interpreter based on the environment.
-:::

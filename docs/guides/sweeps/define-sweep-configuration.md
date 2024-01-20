@@ -323,6 +323,26 @@ command:
 - ${args_no_hyphens}
 ```
 
+<Tabs
+  defaultValue="unix"
+  values={[
+    {label: 'Unix', value: 'unix'},
+    {label: 'Windows', value: 'windows'},
+  ]}>
+  <TabItem value="unix">
+
+```bash
+/usr/bin/env python train.py --param1=value1 --param2=value2
+```
+  </TabItem>
+  <TabItem value="windows">
+
+```bash
+python train.py --param1=value1 --param2=value2
+```
+  </TabItem>
+</Tabs>
+
 The proceeding tabs show how to specify common command macros:
 
 <Tabs
