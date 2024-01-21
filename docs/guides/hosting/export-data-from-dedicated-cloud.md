@@ -5,11 +5,11 @@ displayed_sidebar: default
 
 # Export data from Dedicated Cloud
 
-If you would like to export all the data managed in your Dedicated Cloud instance, you may use the Wandb SDK API to extract the runs, metrics, artifacts etc. and log those to another cloud or on-premises storage using APIs relevant to that storage. 
+If you would like to export all the data managed in your Dedicated Cloud instance, you may use the W&B SDK API to extract the runs, metrics, artifacts etc. and log those to another cloud or on-premises storage using API relevant to that storage. 
 
-Some use cases for data export are mentioned at [Import and Export Data](../track/public-api-guide#export-data). Another use case would be if you are planning to end your agreement to use Dedicated Cloud, you may want to export the pertinent data before W&B terminates the instance.
+Dat export use cases are discussed at [Import and Export Data](../track/public-api-guide#export-data). Another use case would be if you are planning to end your agreement to use Dedicated Cloud, you may want to export the pertinent data before W&B terminates the instance.
 
-Refer to the table below for APIs and other documentation:
+Refer to the table below for data export API and pointers to relevant documentation:
 
 | Purpose | Documentation |
 |---------|---------------|
@@ -19,9 +19,9 @@ Refer to the table below for APIs and other documentation:
 | Export artifacts | [Artifact API](../../ref/python/public-api/api#artifact), [Explore and traverse an artifact graph](../artifacts/explore-and-traverse-an-artifact-graph#traverse-an-artifact-programmatically), [Download and use an artifact](../artifacts/download-and-use-an-artifact#download-and-use-an-artifact-stored-on-wb) |
 
 :::info
-When using Dedicated Cloud with [Secure Storage Connector](./secure-storage-connector), your artifacts are in a storage that is managed by you. In that case, you may not need to export the artifacts using the Wandb SDK API.
+Artifacts stored in Dedicated Cloud with [Secure Storage Connector](./secure-storage-connector) are managed by you. In that case, you may not need to export the artifacts using the W&B SDK API.
 :::
 
 :::note
-Using Wandb SDK APIs to export all of your data can be slow if you have a large number of runs, artifacts etc. W&B recommends running the export process in appropriately sized batches so as not to overwhelm your Dedicated Cloud instance.
+Using W&B SDK API to export all of your data can be slow if you have a large number of runs, artifacts etc. W&B recommends running the export process in appropriately sized batches so as not to overwhelm your Dedicated Cloud instance.
 :::
