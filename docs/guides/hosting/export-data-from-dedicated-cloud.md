@@ -7,7 +7,7 @@ displayed_sidebar: default
 
 If you would like to export all the data managed in your Dedicated Cloud instance, you may use the W&B SDK API to extract the runs, metrics, artifacts etc. and log those to another cloud or on-premises storage using API relevant to that storage. 
 
-Dat export use cases are discussed at [Import and Export Data](../track/public-api-guide#export-data). Another use case would be if you are planning to end your agreement to use Dedicated Cloud, you may want to export the pertinent data before W&B terminates the instance.
+Refer to data export use cases at [Import and Export Data](../track/public-api-guide#export-data). Another use case would be if you are planning to end your agreement to use Dedicated Cloud, you may want to export the pertinent data before W&B terminates the instance.
 
 Refer to the table below for data export API and pointers to relevant documentation:
 
@@ -19,7 +19,7 @@ Refer to the table below for data export API and pointers to relevant documentat
 | Export artifacts | [Artifact API](../../ref/python/public-api/api#artifact), [Explore and traverse an artifact graph](../artifacts/explore-and-traverse-an-artifact-graph#traverse-an-artifact-programmatically), [Download and use an artifact](../artifacts/download-and-use-an-artifact#download-and-use-an-artifact-stored-on-wb) |
 
 :::info
-Artifacts stored in Dedicated Cloud with [Secure Storage Connector](./secure-storage-connector) are managed by you. In that case, you may not need to export the artifacts using the W&B SDK API.
+You manage artifacts stored in the Dedicated Cloud with [Secure Storage Connector](./secure-storage-connector). In that case, you may not need to export the artifacts using the W&B SDK API.
 :::
 
 :::note
