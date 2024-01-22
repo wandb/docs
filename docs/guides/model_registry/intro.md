@@ -8,6 +8,8 @@ displayed_sidebar: default
 
 Use W&B Models as a central system of record for your best models, standardized and organized in a model registry across projects and teams. 
 
+![](/images/models/model_reg_landing_page.png)
+
 With W&B Models, you can:
 
 * [Bookmark your best model versions for each machine learning task.](./link-model-version.md)
