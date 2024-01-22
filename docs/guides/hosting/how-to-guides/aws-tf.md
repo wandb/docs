@@ -58,7 +58,9 @@ The steps on this topic are common for any deployment option covered by this doc
    allowed_inbound_ipv6_cidr  = ["::/0"]
    ```
 
-   The variables defined here need to have been decided before the deployment because the `namespace` variable is a string that prefixes all resources created by Terraform.
+   Ensure to define variables in your `tvfars` file before you deploy because the `namespace` variable is a string that prefixes all resources created by Terraform.
+
+
 
    The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
 
@@ -359,27 +361,24 @@ Finally, configure your W&B Server.
 
 4. Select **Update settings** to apply the new settings.
 
-## Upgrades
+## Upgrade your W&B version
 
-To upgrade W&B first you will need to add an extra configuration `wandb_version` to the `wandb_app` module.
+Follow the steps outlined here to update W&B:
 
-```
-wandb_version = "0.48.1"
-```
+1. Add `wandb_version` to your configuration in your `wandb_app` module. Provide the version of W&B you want to upgrade to. For example, the following line specifies W&B version `0.48.1`:
 
-Once you add the configuration to the module, it appears like this:
+  ```
+  module "wandb_app" {
+      source  = "wandb/wandb/kubernetes"
+      version = "~>1.0"
 
-```
-module "wandb_app" {
-     source  = "wandb/wandb/kubernetes"
-     version = "~>1.0"
+      license       = var.license
+      wandb_version = "0.48.1"
+  ```
 
-     license       = var.license
-     wandb_version = "0.48.1"
-```
+  :::info
+  Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
+  :::
 
-* Alternatively you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
+2. After you update your configuration, complete the steps described in the [Deployment section](#deployment---recommended-20-mins).
 
-After this change, you need to run the steps described on [Deploy W&B](#deployment---recommended-20-mins).
-
-When we release a new version, updating this configuration with the newer version and re-executing the same steps suffices.
