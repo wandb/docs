@@ -11,16 +11,8 @@ Create a [registered model](./model-management-concepts.md#registered-model) to 
 
 
 ## Interactively create a registered model
-Interactively create a registered model within the [Model Registry App](https://wandb.ai/registry/model) or within your project's artifact browser.
+Interactively create a registered model within the [Model Registry App](https://wandb.ai/registry/model).
 
-
-<Tabs
-  defaultValue="registry"
-  values={[
-    {label: 'Model Registry', value: 'registry'},
-    {label: 'Artifact browser', value: 'browser'},
-  ]}>
-  <TabItem value="registry">
 
 1. Navigate to the Model Registry App at [wandb.ai/registry/model](https://wandb.ai/registry/model).
 ![](/images/models/create_registered_model_1.png)
@@ -35,23 +27,10 @@ Interactively create a registered model within the [Model Registry App](https://
 8. Click **Register model**.
 
 
-  </TabItem>
-  <TabItem value="browser">
-
-1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
-2. Click the **+** icon on the bottom of the sidebar.
-3. From the **Type** dropdown, select **model**.
-3. From the **Style** dropdown, select **Registered model**.
-4. Provide a name for your model registry in the **Name** field. W&B suggests that you enter a unique name that describes the use case for this model.
-5. Select **Create**.
-
-![](/images/models/artifact_browser.gif)
-
-  </TabItem>
-</Tabs>
-
 :::tip
-Manual linking a model to the model registry is useful for one-off models. However, it is often useful to programmatically link model versions to the model registry. For example, suppose you have a nightly job. It is tedious to manually link a model created each night. Instead, you could create a script that evaluate the model, and if the model improves in performance, link that model to the model registry with the W&B Python SDK.
+Manual linking a model to the model registry is useful for one-off models. However, it is often useful to [programmatically link model versions to the model registry](#programmatically-link-a-model).
+
+For example, suppose you have a nightly job. It is tedious to manually link a model created each night. Instead, you could create a script that evaluates the model, and if the model improves in performance, link that model to the model registry with the W&B Python SDK.
 :::
 
 ## Programmatically link a model
@@ -74,57 +53,3 @@ run.finish()
 W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
 
 See [`link_model`](../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters.
-
-<!-- 
-<Tabs
-  defaultValue="within"
-  values={[
-    {label: 'Within a run', value: 'within'},
-    {label: 'Outside of a run', value: 'public'},
-  ]}>
-  <TabItem value="within">
-
-Use the [`link_model`](../../ref/python/run.md#link_model) method to log model files to a W&B run and link it to the [W&B Model Registry](./intro.md).  
-
-Ensure to replace other the values enclosed in `<>` with your own:
-
-```python
-import wandb
-
-run = wandb.init(entity="<entity>", project="<project>")
-run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
-run.finish()
-```
-
-W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
-
-See [`link_model`](../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters.
-
-  </TabItem>
-    <TabItem value="public">
-
-Use the W&B Public API and [W&B artifacts](../artifacts/intro.md) to log a model outside of a W&B run.
-
-Ensure to replace other the values enclosed in `<>` with your own:
-
-```python
-import wandb
-
-entity = "<entity>"
-registered_model_name = "<registered-model-name>"
-artifact_name = "<artifact-name:alias>"  
-
-# Fetch the Model Version via API
-artifact = wandb.Api().artifact(name=artifact_name)
-
-# Link the model version to the Model Registry
-target_path = f"{entity}/model-registry/{registered_model_name}"
-artifact.link(target_path=target_path)
-```
-
-W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
-
-For more information about artifacts, see [LINK].
-
-  </TabItem>
-</Tabs>  -->

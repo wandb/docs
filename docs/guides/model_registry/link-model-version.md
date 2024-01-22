@@ -25,51 +25,6 @@ run.finish()
 
 W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
 
-<!-- <Tabs
-  defaultValue="within"
-  values={[
-    {label: 'Within a run', value: 'within'},
-    {label: 'Outside of a run', value: 'public'},
-  ]}>
-  <TabItem value="within">
-
-Use the [`link_model`](../../ref/python/run.md#link_model) method to log model files to a W&B run and link it to the [W&B Model Registry](./intro.md). 
-
-Ensure to replace other the values enclosed in `<>` with your own:
-
-```python
-import wandb
-
-run = wandb.init(entity="<entity>", project="<project>")
-run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
-run.finish()
-```
-
-W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
-
-  </TabItem>
-  <TabItem value="public">
-
-Fetch Model Artifact from Public API:
-
-```python
-import wandb
-
-artifact_name = "artifact-name:alias"  
-
-# Fetch the model version
-artifact = wandb.Api().artifact(name=artifact_name)
-
-# Link the model version to the Model Registry
-target_path = f"{entity}/model-registry/{registered_model_name}"
-artifact.link(target_path=target_path)
-```
-
-  </TabItem>  
-</Tabs> -->
-
-
-
 ## Interactively link a model
 Interactively link a model with the Model Registry or with the Artifact browser.
 
@@ -147,7 +102,7 @@ For example, the following image shows that a `v0` [model version](./model-manag
 5. Click on the **Version** tab within the right panel.
 6. Within the **Version overview** section there is a row that contains a **Linked To** field. The **Linked To** field shows both the name of the registered model and the version it is given (`registered-model-name:version`). 
 
-For example, the following image shows that a `v0` [model version](./model-management-concepts.md#model-version) called `mnist_model`, is linked to the `MNIST-dev` model registry. 
+For example, the following image shows that a `v0` [model version](./model-management-concepts.md#model-version) called `mnist_model`, is linked to the `MNIST-dev` registered model. 
 
 ![](/images/models/view_linked_model_artifacts_browser.png)
 

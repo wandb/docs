@@ -9,9 +9,12 @@ Add a description to the model card of your registered model to document aspects
 
 * **Summary**: A summary of what the model is. The purpose of the model. The machine learning framework that is used, and so forth. 
 * **Training data**: Describe the training data used, processing done on the training data set, where is that data stored and so forth.
-* **Architecture**: The architecture of the machine learning algorithm. Did the algorithm use transfer learning? And so forth.
+* **Architecture**: Information about the model architecture, layers, and any specific design choices.
 * **Deserialize the model**: Provide information on how someone on your team can load the model into memory.
-
+* **Task**: The specific type of task or problem that a machine learning model is designed to perform. It's a categorization of the model's intended functionality.
+* **License**: The legal terms and permissions associated with the use of the machine learning model. It helps model users understand the legal framework under which they can utilize the model.
+* **References**: Citations or references to relevant research papers, datasets, or external resources.
+* **Deployment**: Details on how and where the model is deployed and guidance on how it is integrated into other enterprise systems, such as a workflow orchestration platforms.
 
 ## Add a description to the model card
 

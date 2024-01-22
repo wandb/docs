@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 # Download a model version
 
-Use the W&B Python SDK or the W&B App UI to download a model that you have linked to the Model Registry. Downloading a model is particularly useful if you want to evaluate a model's performance, make predictions with a dataset, or use ship the model to production.
+Use the W&B Python SDK or the W&B App UI to download a model that you have linked to the Model Registry. Downloading a model is particularly useful if you want to evaluate a model's performance, make predictions with a dataset, or ship the model to production.
 
 :::info
 You are responsible for providing additional Python functions, API calls to reconstruct, deserialize your model into a form that you can work with. 
@@ -38,7 +38,7 @@ downloaded_model_path = run.use_model(name="<your-model-name>")
 
 Reference a model version with one of following formats listed:
 
-* `latest` - Use `latest` tag to specify the model version that is most recently linked.
+* `latest` - Use `latest` alias to specify the model version that is most recently linked.
 * `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
 * `alias` - Specify the custom alias that you and your team assigned to your model version
 

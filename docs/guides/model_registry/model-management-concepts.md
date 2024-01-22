@@ -14,20 +14,17 @@ The following terms describe key components of the W&B Model Registry: [*model v
 ## Model version
 A model version represents a single model checkpoint. Model versions are a snapshot at a point in time of a model and its files within an experiment. 
 
-A model version is an immutable directory of data and metadata that describes a trained model. Add files that let you store (and restore) your model architecture and learned parameters. 
+A model version is an immutable directory of data and metadata that describes a trained model. W&B suggests that you add files to your model version that let you store (and restore) your model architecture and learned parameters at a later date. 
 
-A model version belongs to one, and only one, [model artifact](#model-artifact). A model version can belong to zero or more, [registered models](#registered-model). Model versions are stored in a model artifact in the order they are logged to the model artifact. 
-
+A model version belongs to one, and only one, [model artifact](#model-artifact). A model version can belong to zero or more, [registered models](#registered-model). Model versions are stored in a model artifact in the order they are logged to the model artifact. W&B automatically creates a new model version if it detects that a model you log (to the same model artifact) has different contents than a previous model version.
 
 Store files within model versions that are produced from the serialization process provided by your modeling library (for example, [PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) and [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)).
-
-
 
 <!-- [INSERT IMAGE] -->
 
 ## Model alias
 
-Model aliases are mutable strings that allow you to uniquely identify or reference each version of your registered model used a semantically-related keyword. You can only assign an alias to one version of a registered model. This is because an alias should refer to a unique version when used programatically. It also allows aliases to be used to capture a model's state (champion, candidate, production).
+Model aliases are mutable strings that allow you to uniquely identify or reference a model version in your registered model with a semantically-related identifier. You can only assign an alias to one version of a registered model. This is because an alias should refer to a unique version when used programmatically. It also allows aliases to be used to capture a model's state (champion, candidate, production).
 
 It is common practice to use aliases such as  "best", "latest", "production", or "staging" to mark model versions with special purposes.
 
@@ -40,13 +37,24 @@ name = f"{entity/project/model_artifact_name}:{alias}"
 run.use_model(name=name)
 ```
 
+:::note
+Model aliases differ from [model tags](#model-tags). Use model tags add keywords or labels to registered models. Model version
+:::
+
+## Model tags
+Model tags are keywords or labels that belong to one or more registered models.
+
+
+
 ## Model artifact
-A model artifact is a group of logged [model versions](#model-version). Model versions are stored in a model artifact in the order they are logged to the model artifact. 
+A model artifact is a collection of logged [model versions](#model-version). Model versions are stored in a model artifact in the order they are logged to the model artifact. 
 
 A model artifact can contain one or more model versions. A model artifact can be empty if no model versions are logged to it. 
 
+For example, suppose you create a model artifact. During model training, you periodically save your model during checkpoints. Each checkpoint corresponds to its own [model version](#model-version). All of the model versions created during your model training and checkpoint saving are stored in the same model artifact you created at the beginning of your training script.
 
-For example, suppose you create a model artifact. During model training, you create model a version when you periodically save checkpoints. Each checkpoint will correspond to its own [model version](#model-version). All of the model versions belong to the model artifact you created at the beginning of your training script.
+<!-- and will be assigned a version number depending on the sequence in which they were logged. A new version is automatically created when the contents of the latest version that was logged has changed.  -->
+
 
 The proceeding image shows a model artifact that contains three model versions: v0, v1, and v2.
 
@@ -55,9 +63,9 @@ The proceeding image shows a model artifact that contains three model versions: 
 View an [example model artifact here](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/artifacts/model/mnist-zws7gt0n).
 
 ## Registered model
-A registered model is a collection of pointers (links) to model versions. You can think of a registered model as a folder of "bookmarks". Each "bookmark" of a registered model is a pointer to a [model version](#model-version) that belongs to a [model artifact](#model-artifact). 
+A registered model is a collection of pointers (links) to model versions. You can think of a registered model as a folder of "bookmarks" of candidate models for the same ML task. Each "bookmark" of a registered model is a pointer to a [model version](#model-version) that belongs to a [model artifact](#model-artifact). 
 
-Registered models often represent candidate models for a single modeling use case or task. For example, you might create registered model for different image classification task based on the model you use: "ImageClassifier-ResNet50", "ImageClassifier-VGG16", "DogBreedClassifier-MobileNetV2" and so on.
+Registered models often represent candidate models for a single modeling use case or task. For example, you might create registered model for different image classification task based on the model you use: "ImageClassifier-ResNet50", "ImageClassifier-VGG16", "DogBreedClassifier-MobileNetV2" and so on. Model versions are assigned version numbers in the order in which they were linked to the registered model.
 
 
 View an [example Registered Model here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=versions).
