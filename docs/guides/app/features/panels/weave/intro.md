@@ -66,10 +66,40 @@ Map operation just iterates over data and applies a function. This can be done b
 ![](/images/weave/weave_map.gif)
 
 ### Groupby
+You can filter using a query (first image) or from the colum options (second gif)
+![](/images/weave/weave_groupby.png)
+![](/images/weave/weave_groupby.gif)
 
 ### Concat
+The concat operation allows you to concatenate 2 tables and concatenate or join from the panel settings
+![](/images/weave/weave_concat.gif)
 
 ### Join
+It is also possible to join tables directly in the query, where:
+* `project("luis_team_test", "weave_example_queries").runs.summary["short_table_0"].table.rows.concat` is the first table
+* `project("luis_team_test", "weave_example_queries").runs.summary["short_table_1"].table.rows.concat` is the second table
+* `(row) => row["Label"]` are selectors for each table, determining which column to join on
+* `"Table1"` and `"Table2"` are the names of each table when joined
+* `true` and `false` are for left and right inner/outer join settings
+![](/images/weave/weave_join.png)
+
+## Runs Object
+Among other things, Weave allows you to access the `runs` object, which stores a detailed record of your experiments. You can find more details about it in [this section](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object) of the report but, as quick overview, `runs` object has available:
+* `summary`: A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged time series. The contents of the summary can also be set directly. Think of the summary as the run's "outputs". You are probably familiarized with this if you are using tables, as those are stored under the summary of the run and accesses with an expression like `runs.summary[<table-key>]`.
+* `history`: A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.log()` appends to this object.
+* `config`: A dictionary of the run's configuration information, such as the hyperparameters for a training run or the preprocessing methods for a run that creates a dataset Artifact. Think of these as the run's "inputs"
+![](/images/weave/weave_runs_object.png)
+
+## Accessing Artifacts
+
+Artifacts are a core concept in W&B. They are a versioned, named collection of files and directories. Artifacts can be used to track model weights, datasets, and any other file or directory. Artifacts are stored in W&B and can be downloaded or used in other runs. You can find more details and examples in [this section](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts) of the report. Artifacts are normally accessed from the `project` object:
+* `project.artifactVersion()`: returns the specific artifact version for a given name and version within a project
+* `project.artifact("")`: returns the artifact for a given name within a project. You can then use `.versions` to get a list of all versions of this artifact
+`project.artifactType()`: returns the `artifactType` for a given name within a project. You can then use `.artifacts` to get a list of all artifacts with this type
+`project.artifactTypes`: returns a list of all artifact types under the project
+![](/images/weave/weave_artifacts.png)
+
+
 
 
 
