@@ -1,6 +1,6 @@
 ---
 description: Examples of W&B Tables
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 # Tables gallery 

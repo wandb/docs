@@ -1,7 +1,7 @@
 ---
 slug: /guides/integrations/openai
 description: How to Fine-Tune OpenAI models using W&B.
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 
 import Tabs from '@theme/Tabs';

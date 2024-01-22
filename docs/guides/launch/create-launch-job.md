@@ -209,9 +209,11 @@ Create a Git-based job with W&B Launch. Code and other assets are cloned from a 
 
 ```bash
 wandb job create --project "<project-name>" --entity "<your-entity>" \ 
---name "<name-for-job>" git https://github.com/repo-name \ 
+--name "<name-for-job>" git https://github.com/org-name/repo-name.git \ 
 --entry-point "<path-to-script/code.py>"
 ```
+
+To build from a branch or commit hash, append the `-g` argument.
 
   </TabItem>
   <TabItem value="git">
