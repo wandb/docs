@@ -58,11 +58,11 @@ The steps on this topic are common for any deployment option covered by this doc
    allowed_inbound_ipv6_cidr  = ["::/0"]
    ```
 
-   The variables defined here need to be decided before the deployment because the `namespace` variable will be a string that will prefix all resources created by Terraform.
+   The variables defined here need to have been decided before the deployment because the `namespace` variable is a string that prefixes all resources created by Terraform.
 
    The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
 
-   Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also need to be set. In the module it's a mandatory input. The example above will allow access from any source to the W&B installation.
+   Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also require setting. In the module, this is a mandatory input. The proceeding example permits access from any source to the W&B installation.
 
 3. Create the file `versions.tf`
 
@@ -367,7 +367,7 @@ To upgrade W&B first you will need to add an extra configuration `wandb_version`
 wandb_version = "0.48.1"
 ```
 
-Once you add the configuration to the module, it will look like this: 
+Once you add the configuration to the module, it appears like this:
 
 ```
 module "wandb_app" {
@@ -382,4 +382,4 @@ module "wandb_app" {
 
 After this change, you need to run the steps described on [Deploy W&B](#deployment---recommended-20-mins).
 
-When we release a new version, you only need to update this configuration with the newer version and re-execute the same steps.
+When we release a new version, updating this configuration with the newer version and re-executing the same steps suffices.
