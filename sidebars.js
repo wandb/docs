@@ -380,6 +380,7 @@ const sidebars = {
             'guides/hosting/slack-alerts',
             'guides/hosting/scim',
             'guides/hosting/server-release-process',
+            'guides/hosting/export-data-from-dedicated-cloud',
           ],
         },
         // 'guides/hosting/debug',
@@ -771,6 +772,7 @@ const sidebars = {
         'guides/hosting/env-vars',
         'guides/hosting/scim',
         'guides/hosting/server-release-process',
+        'guides/hosting/export-data-from-dedicated-cloud',
         {
           type: 'category',
           label: 'ハウツーガイド',
