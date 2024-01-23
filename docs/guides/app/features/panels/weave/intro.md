@@ -25,7 +25,7 @@ Weave Panels allow users to directly query W&B for data, visualize the results, 
 
 ### Weave expression
 
-Weave expressions allow the user to query the data stored in W&B - from runs, to artifacts, to models, to tables, and more. Common weave expression that you can generate when you log a Table with `wandb.log({"cifar10_sample_table":<MY_TABLE>})`. Will look like this:
+Weave expressions allow the user to query the data stored in W&B - from runs, to artifacts, to models, to tables, and more. Common weave expression that you can generate when you log a Table with `wandb.log({"cifar10_sample_table":<MY_TABLE>})`:
 
 ![](/images/weave/basic_weave_expression.png)
 
@@ -43,7 +43,7 @@ Select the gear icon on the upper left corner of the panel to expand the Weave c
 
 ### Weave result panel
 
-Finally, the Weave result panel renders the result of the Weave expression, using the selected weave panel, configured by the configuration to display the data in an interactive form. Here we can see a Table and a Plot of the same data.
+Finally, the Weave result panel renders the result of the Weave expression, using the selected weave panel, configured by the configuration to display the data in an interactive form. The following images shows a Table and a Plot of the same data.
 
 ![](/images/weave/result_panel_table.png)
 
@@ -61,12 +61,12 @@ You can either filter directly in the query (first image) or using the filter bu
 ![](/images/weave/weave_filter_2.png)
 
 ### Map
-Map operation just iterates over data and applies a function. This can be done both directly from the Weave query (first image) or by inserting a new column from the column options (second gif)
+Map operation just iterates over data and applies a function. You can do this directly with a Weave query (first image) or by inserting a new column from the column options (second gif)
 ![](/images/weave/weave_map.png)
 ![](/images/weave/weave_map.gif)
 
 ### Groupby
-You can filter using a query (first image) or from the colum options (second gif)
+You can filter using a query (first image) or from the column options (second gif)
 ![](/images/weave/weave_groupby.png)
 ![](/images/weave/weave_groupby.gif)
 
@@ -85,14 +85,14 @@ It is also possible to join tables directly in the query, where:
 
 ## Runs object
 Among other things, Weave allows you to access the `runs` object, which stores a detailed record of your experiments. You can find more details about it in [this section](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object) of the report but, as quick overview, `runs` object has available:
-* `summary`: A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged time series. The contents of the summary can also be set directly. Think of the summary as the run's "outputs". You are probably familiarized with this if you are using tables, as those are stored under the summary of the run and accesses with an expression like `runs.summary[<table-key>]`.
+* `summary`: A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged time series. You can set the contents of the summary directly. Think of the summary as the run's "outputs".
 * `history`: A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.log()` appends to this object.
 * `config`: A dictionary of the run's configuration information, such as the hyperparameters for a training run or the preprocessing methods for a run that creates a dataset Artifact. Think of these as the run's "inputs"
 ![](/images/weave/weave_runs_object.png)
 
-## Accessing Artifacts
+## Access Artifacts
 
-Artifacts are a core concept in W&B. They are a versioned, named collection of files and directories. Artifacts can be used to track model weights, datasets, and any other file or directory. Artifacts are stored in W&B and can be downloaded or used in other runs. You can find more details and examples in [this section](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts) of the report. Artifacts are normally accessed from the `project` object:
+Artifacts are a core concept in W&B. They are a versioned, named collection of files and directories. Use Artifacts to track model weights, datasets, and any other file or directory. Artifacts are stored in W&B and can be downloaded or used in other runs. You can find more details and examples in [this section](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts) of the report. Artifacts are normally accessed from the `project` object:
 * `project.artifactVersion()`: returns the specific artifact version for a given name and version within a project
 * `project.artifact("")`: returns the artifact for a given name within a project. You can then use `.versions` to get a list of all versions of this artifact
 `project.artifactType()`: returns the `artifactType` for a given name within a project. You can then use `.artifacts` to get a list of all artifacts with this type
