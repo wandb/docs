@@ -37,13 +37,14 @@ name = f"{entity/project/model_artifact_name}:{alias}"
 run.use_model(name=name)
 ```
 
-:::note
-Model aliases differ from [model tags](#model-tags). Use model tags add keywords or labels to registered models. Model version
-:::
-
 ## Model tags
 Model tags are keywords or labels that belong to one or more registered models.
 
+Use model tags to organize registered models into categories and to search over those categories in the Model Registry's search bar. Model tags appear at the top of the Registered Model Card. You might choose to use them to group your registered models by ML task, owning team, or priority. The same model tag can be added to multiple registered models to allow for grouping. 
+
+:::info
+Model tags, which are labels applied to registered models for grouping and discoverability, are different from [model aliases](#model-alias). Model aliases are unique identifiers or nicknames that you use to fetch a model version programatically. To learn more about using tags to organize the tasks in your Model Registry, see [Organize models](./organize-models.md).
+:::
 
 
 ## Model artifact
@@ -63,7 +64,7 @@ The proceeding image shows a model artifact that contains three model versions: 
 View an [example model artifact here](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/artifacts/model/mnist-zws7gt0n).
 
 ## Registered model
-A registered model is a collection of pointers (links) to model versions. You can think of a registered model as a folder of "bookmarks" of candidate models for the same ML task. Each "bookmark" of a registered model is a pointer to a [model version](#model-version) that belongs to a [model artifact](#model-artifact). 
+A registered model is a collection of pointers (links) to model versions. You can think of a registered model as a folder of "bookmarks" of candidate models for the same ML task. Each "bookmark" of a registered model is a pointer to a [model version](#model-version) that belongs to a [model artifact](#model-artifact). You can use [model tags](#model-tags) to group your registered models. 
 
 Registered models often represent candidate models for a single modeling use case or task. For example, you might create registered model for different image classification task based on the model you use: "ImageClassifier-ResNet50", "ImageClassifier-VGG16", "DogBreedClassifier-MobileNetV2" and so on. Model versions are assigned version numbers in the order in which they were linked to the registered model.
 
