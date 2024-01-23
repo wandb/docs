@@ -33,12 +33,15 @@ Manual linking a model to the model registry is useful for one-off models. Howev
 For example, suppose you have a nightly job. It is tedious to manually link a model created each night. Instead, you could create a script that evaluates the model, and if the model improves in performance, link that model to the model registry with the W&B Python SDK.
 :::
 
-## Programmatically link a model
-Programmatically link a model with the W&B Python SDK. W&B automatically creates a registered model for you if you try to link a model to the model registry that doesn't exist.
 
-For example, suppose you have an existing registered model named "Fine-Tuned-Review-Autocompletion" in your Model Registry (see example [here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models)). And suppose that a few model versions are already linked to it: v0, v1, v2. If you programmatically link a model called `registered-model-name="Fine-Tuned-Review-Autocompletion"`, the new model is linked to this existing registered model as v3. If no registered model with this name exists, a new one registered model is created and the new model is linked as v0. 
 
-Use the [`link_model`](../../ref/python/run.md#link_model) method to log model files to a W&B run and link it to the [W&B Model Registry](./intro.md).  
+
+## Programmatically register a model
+Programmatically register a model with the W&B Python SDK. 
+
+<!-- 
+Use the `log_model` method to log a model file to a W&B run.
+
 
 Ensure to replace other the values enclosed in `<>` with your own:
 
@@ -46,10 +49,10 @@ Ensure to replace other the values enclosed in `<>` with your own:
 import wandb
 
 run = wandb.init(entity="<entity>", project="<project>")
-run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
+run.log_model(path="<path-to-model>",name="<model-name>")
 run.finish()
 ```
 
 W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
 
-See [`link_model`](../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters.
+See [`link_model`](../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters. -->
