@@ -4,17 +4,17 @@ displayed_sidebar: default
 
 # SCIM
 
-The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups and custome roles in their W&B organization. SCIM groups map to W&B teams. 
+The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams. 
 
-The SCIM API can be accessed at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema, but are added to support automated management of custom roles in W&B organizations.
+The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema, but have been added to support automated management of custom roles in W&B organizations.
 
 :::info
-SCIM API applies to all hosting options including Dedicated Cloud, Self-managed deployment and SaaS Cloud. In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests are directed to the right organization. The setting is available in the section `SCIM API Organization`. 
+SCIM API applies to all hosting options including Dedicated Cloud, Self-managed deployment and SaaS Cloud. In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization. The setting is available in the section `SCIM API Organization`. 
 :::
 
 ## Authentication
 
-The SCIM API can be accessed by instance or organization admins using basic authentication with their API key. With basic authentication, send the HTTP request with the `Authorization` header that contains the word `Basic` followed by a space and a base64-encoded string for `username:password` where `password` is your API key. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
+The SCIM API is accessible by instance or organization admins using basic authentication with their API key. With basic authentication, send the HTTP request with the `Authorization` header that contains the word `Basic` followed by a space and a base64-encoded string for `username:password` where `password` is your API key. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
 
 ## User Resource
 
@@ -193,7 +193,7 @@ DELETE /scim/Users/abc
 
 ## Group Resource
 
-The SCIM group resource maps to W&B teams i.e. when you create a SCIM group in a W&B deployment, it creates a W&B team. Same applies to other group endpoints.
+The SCIM group resource maps to W&B teams, that is, when you create a SCIM group in a W&B deployment, it creates a W&B team. Same applies to other group endpoints.
 
 ### Get Team
 
@@ -417,11 +417,11 @@ PATCH /scim/Groups/ghi
 
 ### Delete Team
 
-- Deleting teams is currently unsupported by the SCIM API since there is additional data linked to teams. Delete teams from the application to confirm you want everything deleted.
+- Deleting teams is currently unsupported by the SCIM API since there is additional data linked to teams. Delete teams from the app to confirm you want everything deleted.
 
 ## Role Resource
 
-The SCIM role resource maps to W&B custom roles. As mentioned above, the `/Roles` endpoints are not part of the official SCIM schema, but are added to support automated management of custom roles in W&B organizations.
+The SCIM role resource maps to W&B custom roles. As mentioned earlier, the `/Roles` endpoints are not part of the official SCIM schema, but have been added to support automated management of custom roles in W&B organizations.
 
 ### Get Custom Role
 
@@ -568,7 +568,7 @@ GET /scim/Roles
 | name | String | Name of the custom role |
 | description | String | Description of the custom role |
 | permissions | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
-| inheritedFrom | String | The predefined role which the custom role will inherit from. It can either be `member` or `viewer`. |
+| inheritedFrom | String | The predefined role which the custom role would inherit from. It can either be `member` or `viewer`. |
 - **Request Example**:
 
 ```bash
@@ -630,7 +630,7 @@ POST /scim/Roles
 
 - **Endpoint**: **`<host-url>/scim/Roles/{id}`**
 - **Method**: DELETE
-- **Description**: Delete a custom role in the W&B organization. **Use it with caution**. Post operation, the predefined role inherited by the custom role is assigned to all users that the custom role was assigned to.
+- **Description**: Delete a custom role in the W&B organization. **Use it with caution**. The predefined role from which the custom role inherited will now be inherited by all users assigned the custom role before the operation.
 - **Request Example**:
 
 ```bash
@@ -724,14 +724,14 @@ PATCH /scim/Roles/abc
 
 - **Endpoint**: **`<host-url>/scim/Roles/{id}`**
 - **Method**: PUT
-- **Description**: Update the name, description or inherited role for a custom role in the W&B organization. If the inherited role is updated, it doesn't affect any of the existing i.e. non-inherited custom permissions in the custom role.
+- **Description**: Update the name, description or inherited role for a custom role in the W&B organization. This operation doesn't affect any of the existing i.e. non-inherited custom permissions in the custom role.
 - **Supported Fields**:
 
 | Field | Type | Required |
 | --- | --- | --- |
 | name | String | Name of the custom role |
 | description | String | Description of the custom role |
-| inheritedFrom | String | The predefined role which the custom role will inherit from. It can either be `member` or `viewer`. |
+| inheritedFrom | String | The predefined role which the custom role inherits from. It can either be `member` or `viewer`. |
 - **Request Example**:
 
 ```bash

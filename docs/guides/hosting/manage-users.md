@@ -147,7 +147,7 @@ W&B keeps runs logged by team members, even if they are no longer on the team.
 ## Automate user and team management
 
 ### SCIM API
-Use [SCIM API](./scim.md) to manage users, and the teams they belong to, in an efficient and repeatable manner. You can also use the SCIM API to manage custom roles in your W&B organization. Roles endpoints are not part of the official SCIM schema, but are added to support automated management of custom roles in W&B organizations.
+Use [SCIM API](./scim.md) to manage users, and the teams they belong to, in an efficient and repeatable manner. You can also use the SCIM API to manage custom roles in your W&B organization. Roles endpoints are not part of the official SCIM schema, but have been added to support automated management of custom roles in W&B organizations.
 
 SCIM API is especially useful if you want to:
 * manage user provisioning and de-provisioning at scale
@@ -179,7 +179,7 @@ W&B maps Group SCIM API endpoints to W&B teams because of the similarity between
 [Custom Role SCIM API](./scim.md#role-resource) allows for managing custom roles, including creating, listing, or updating custom roles in an organization.
 
 :::info
-Delete a custom role within a W&B organization with the `DELETE Role` endpoint. **Use it with caution**. Post operation, the predefined role inherited by the custom role is assigned to all users that the custom role was assigned to.
+Delete a custom role within a W&B organization with the `DELETE Role` endpoint. **Use it with caution**. The predefined role from which the custom role inherited will now be inherited by all users assigned the custom role before the operation.
 
 Update the inherited role for a custom role with the `PUT Role` endpoint. This operation doesn't affect any of the existing i.e. non-inherited custom permissions in the custom role.
 :::
