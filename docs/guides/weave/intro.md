@@ -18,8 +18,7 @@ Use Weave to:
 
 ![](/images/weave/core_weave_demo.gif)
 
-For more information about Weave, see the [Weave Github Repo](https://github.com/wandb/weave).
-
+For more information about Weave, see the [Weave Github Repo](https://github.com/wandb/weave). To learn how to write your own queries interactively, check out [this report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
 
 
 ## How it works
