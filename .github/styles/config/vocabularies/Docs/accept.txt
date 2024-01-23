@@ -22,6 +22,7 @@ Kubeflow
 [Nn]amespace
 Optuna
 [Pp]seudocode
+SCIM
 [Ss]elf-managed
 TTL
 [Ww]alkthrough
