@@ -137,7 +137,14 @@ const sidebars = {
             // 'guides/sweeps/intro',
             'guides/sweeps/walkthrough',
             'guides/sweeps/add-w-and-b-to-your-code',
-            'guides/sweeps/define-sweep-configuration',
+            {
+              type: 'category',
+              label: 'Define a sweep configuration',
+              items: [
+                'guides/sweeps/define-sweep-configuration',
+                'guides/sweeps/sweep-config-keys',
+              ],
+            },
             'guides/sweeps/initialize-sweeps',
             'guides/sweeps/start-sweep-agents',
             'guides/sweeps/parallelize-agents',
@@ -377,6 +384,7 @@ const sidebars = {
             'guides/hosting/slack-alerts',
             'guides/hosting/scim',
             'guides/hosting/server-release-process',
+            'guides/hosting/export-data-from-dedicated-cloud',
           ],
         },
         // 'guides/hosting/debug',
@@ -768,6 +776,7 @@ const sidebars = {
         'guides/hosting/env-vars',
         'guides/hosting/scim',
         'guides/hosting/server-release-process',
+        'guides/hosting/export-data-from-dedicated-cloud',
         {
           type: 'category',
           label: 'ハウツーガイド',

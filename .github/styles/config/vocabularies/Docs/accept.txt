@@ -1,6 +1,7 @@
 APIs
 Autogenerate
 [Bb]asename
+[Bb]oolean
 [Cc]heckpointing
 CLI
 [Cc]loud
@@ -16,6 +17,7 @@ Dockerfile
 [Ee]nqueued
 GPUs
 [Hh]ostname
+Hyperband
 [Hh]yperparameters
 [Hh]yperparameter
 Kaniko
@@ -25,6 +27,7 @@ Kubeflow
 Optuna
 [P]repended
 [Pp]seudocode
+SCIM
 [Ss]elf-managed
 TTL
 [Ww]alkthrough

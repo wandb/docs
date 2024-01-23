@@ -21,24 +21,21 @@ This page shows how to define, initialize, and run a sweep. There are four main 
 
 Copy and paste the following code into a Jupyter Notebook or Python script:
 
-```python
+```python 
 # Import the W&B Python Library and log into W&B
 import wandb
 
 wandb.login()
-
 
 # 1: Define objective/training function
 def objective(config):
     score = config.x**3 + config.y
     return score
 
-
 def main():
     wandb.init(project="my-first-sweep")
     score = objective(wandb.config)
     wandb.log({"score": score})
-
 
 # 2: Define the search space
 sweep_configuration = {
