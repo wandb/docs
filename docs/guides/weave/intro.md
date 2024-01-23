@@ -18,7 +18,7 @@ Use Weave to:
 
 ![](/images/weave/core_weave_demo.gif)
 
-For more information about Weave, see the [Weave Github Repo](https://github.com/wandb/weave). To learn how to write your own queries interactively, check out [this report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
+For more information about Weave, see the [Weave Github Repo](https://github.com/wandb/weave). To learn how to write your own queries interactively, see [this report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
 
 
 ## How it works
@@ -73,4 +73,4 @@ If this is your first time using Weave, we suggest that you explore the followin
    * [Create, share, and edit Weave Boards for analysis](./boards.md)
    * [Monitor AI applications and models in production](./prod-mon.md) with real-time metrics, customizable visualizations, and interactive analysis.
 * Go to the Weave Home page at [weave.wandb.ai](https://weave.wandb.ai/) to see all of your Tables and Boards stored in W&B.
-* Check out the Weave repo [Weave Github Repo](https://github.com/wandb/weave).
+* See the [Weave Github Repo](https://github.com/wandb/weave).
