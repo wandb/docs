@@ -25,6 +25,8 @@ run.finish()
 
 W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
 
+For example, suppose you have an existing registered model named "Fine-Tuned-Review-Autocompletion" in your Model Registry (see example [here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models)). And suppose that a few model versions are already linked to it: v0, v1, v2. If you programmatically link a model called `registered-model-name="Fine-Tuned-Review-Autocompletion"`, the new model is linked to this existing registered model as v3. If no registered model with this name exists, a new one registered model is created and the new model is linked as v0.
+
 ## Interactively link a model
 Interactively link a model with the Model Registry or with the Artifact browser.
 

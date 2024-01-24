@@ -7,12 +7,25 @@ import TabItem from '@theme/TabItem';
 
 # Create a registered model
 
-Create a [registered model](./model-management-concepts.md#registered-model) to hold all the candidate models for your modeling tasks. You can create a registered model interactively within the Model Registry or Artifact browser in the W&B App UI. 
+Create a [registered model](./model-management-concepts.md#registered-model) to hold all the candidate models for your modeling tasks. You can create a registered model interactively within the Model Registry or programmatically with the Python SDK.
 
+## Programmatically create registered a model
+Programmatically register a model with the W&B Python SDK. W&B automatically creates a registered model for you if the registered model doesn't exist.
+
+Ensure to replace other the values enclosed in `<>` with your own:
+
+```python
+import wandb
+
+run = wandb.init(entity="<entity>", project="<project>")
+run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
+run.finish()
+```
+
+The name you provide for `registered_model_name` is the name that appears in the [Model Registry App](https://wandb.ai/registry/model).
 
 ## Interactively create a registered model
 Interactively create a registered model within the [Model Registry App](https://wandb.ai/registry/model).
-
 
 1. Navigate to the Model Registry App at [wandb.ai/registry/model](https://wandb.ai/registry/model).
 ![](/images/models/create_registered_model_1.png)
@@ -36,23 +49,3 @@ For example, suppose you have a nightly job. It is tedious to manually link a mo
 
 
 
-## Programmatically register a model
-Programmatically register a model with the W&B Python SDK. 
-
-<!-- 
-Use the `log_model` method to log a model file to a W&B run.
-
-
-Ensure to replace other the values enclosed in `<>` with your own:
-
-```python
-import wandb
-
-run = wandb.init(entity="<entity>", project="<project>")
-run.log_model(path="<path-to-model>",name="<model-name>")
-run.finish()
-```
-
-W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
-
-See [`link_model`](../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters. -->
