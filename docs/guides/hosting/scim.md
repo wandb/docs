@@ -6,7 +6,7 @@ displayed_sidebar: default
 
 The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams. 
 
-The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema, but have been added to support automated management of custom roles in W&B organizations.
+The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema, but are added to support automated management of custom roles in W&B organizations.
 
 :::info
 SCIM API applies to all hosting options including Dedicated Cloud, Self-managed deployment and SaaS Cloud. In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization. The setting is available in the section `SCIM API Organization`. 
@@ -16,11 +16,11 @@ SCIM API applies to all hosting options including Dedicated Cloud, Self-managed 
 
 The SCIM API is accessible by instance or organization admins using basic authentication with their API key. With basic authentication, send the HTTP request with the `Authorization` header that contains the word `Basic` followed by a space and a base64-encoded string for `username:password` where `password` is your API key. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
 
-## User Resource
+## User resource
 
 The SCIM user resource maps to W&B users.
 
-### Get User
+### Get user
 
 - **Endpoint:** **`<host-url>/scim/Users/{id}`**
 - **Method**: GET
@@ -60,7 +60,7 @@ GET /scim/Users/abc
 }
 ```
 
-### List Users
+### List users
 
 - **Endpoint:** **`<host-url>/scim/Users`**
 - **Method**: GET
@@ -110,7 +110,7 @@ GET /scim/Users
 }
 ```
 
-### Create User
+### Create user
 
 - **Endpoint**: **`<host-url>/scim/Users`**
 - **Method**: POST
@@ -170,7 +170,7 @@ POST /scim/Users
 }
 ```
 
-### Deactivate User
+### Deactivate user
 
 - **Endpoint**: **`<host-url>/scim/Users/{id}`**
 - **Method**: DELETE
@@ -187,15 +187,15 @@ DELETE /scim/Users/abc
 (Status 204)
 ```
 
-### Reactivate User
+### Reactivate user
 
 - Reactivating a previously deactivated user is currently unsupported in the SCIM API.
 
-## Group Resource
+## Group resource
 
 The SCIM group resource maps to W&B teams, that is, when you create a SCIM group in a W&B deployment, it creates a W&B team. Same applies to other group endpoints.
 
-### Get Team
+### Get team
 
 - **Endpoint**: **`<host-url>/scim/Groups/{id}`**
 - **Method**: GET
@@ -236,7 +236,7 @@ GET /scim/Groups/ghi
 }
 ```
 
-### List Teams
+### List teams
 
 - **Endpoint**: **`<host-url>/scim/Groups`**
 - **Method**: GET
@@ -287,7 +287,7 @@ GET /scim/Groups
 }
 ```
 
-### Create Team
+### Create team
 
 - **Endpoint**: **`<host-url>/scim/Groups`**
 - **Method**: POST
@@ -348,7 +348,7 @@ POST /scim/Groups
 }
 ```
 
-### Update Team
+### Update team
 
 - **Endpoint**: **`<host-url>/scim/Groups/{id}`**
 - **Method**: PATCH
@@ -415,15 +415,15 @@ PATCH /scim/Groups/ghi
 }
 ```
 
-### Delete Team
+### Delete team
 
 - Deleting teams is currently unsupported by the SCIM API since there is additional data linked to teams. Delete teams from the app to confirm you want everything deleted.
 
-## Role Resource
+## Role resource
 
-The SCIM role resource maps to W&B custom roles. As mentioned earlier, the `/Roles` endpoints are not part of the official SCIM schema, but have been added to support automated management of custom roles in W&B organizations.
+The SCIM role resource maps to W&B custom roles. As mentioned earlier, the `/Roles` endpoints are not part of the official SCIM schema, but are added to support automated management of custom roles in W&B organizations.
 
-### Get Custom Role
+### Get custom role
 
 - **Endpoint:** **`<host-url>/scim/Roles/{id}`**
 - **Method**: GET
@@ -471,7 +471,7 @@ GET /scim/Roles/abc
 }
 ```
 
-### List Custom Roles
+### List custom roles
 
 - **Endpoint:** **`<host-url>/scim/Roles`**
 - **Method**: GET
@@ -556,7 +556,7 @@ GET /scim/Roles
 }
 ```
 
-### Create Custom Role
+### Create custom role
 
 - **Endpoint**: **`<host-url>/scim/Roles`**
 - **Method**: POST
@@ -626,11 +626,11 @@ POST /scim/Roles
 }
 ```
 
-### Delete Custom Role
+### Delete custom role
 
 - **Endpoint**: **`<host-url>/scim/Roles/{id}`**
 - **Method**: DELETE
-- **Description**: Delete a custom role in the W&B organization. **Use it with caution**. The predefined role from which the custom role inherited will now be inherited by all users assigned the custom role before the operation.
+- **Description**: Delete a custom role in the W&B organization. **Use it with caution**. The predefined role from which the custom role inherited is now assigned to all users that were assigned the custom role before the operation.
 - **Request Example**:
 
 ```bash
@@ -643,7 +643,7 @@ DELETE /scim/Roles/abc
 (Status 204)
 ```
 
-### Update Custom Role Permissions
+### Update custom role permissions
 
 - **Endpoint**: **`<host-url>/scim/Roles/{id}`**
 - **Method**: PATCH
@@ -720,11 +720,11 @@ PATCH /scim/Roles/abc
 }
 ```
 
-### Update Custom Role Metadata
+### Update custom role metadata
 
 - **Endpoint**: **`<host-url>/scim/Roles/{id}`**
 - **Method**: PUT
-- **Description**: Update the name, description or inherited role for a custom role in the W&B organization. This operation doesn't affect any of the existing i.e. non-inherited custom permissions in the custom role.
+- **Description**: Update the name, description or inherited role for a custom role in the W&B organization. This operation doesn't affect any of the existing, that is, non-inherited custom permissions in the custom role.
 - **Supported Fields**:
 
 | Field | Type | Required |
