@@ -70,7 +70,7 @@ downloaded_model_path = run.use_model(name=f"{entity/project/model_artifact_name
   </TabItem>
   <TabItem value="app">
 
-1. Navigate to the Model Registry App at [wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 2. Select **View details** next to the name of the registered model that contains the model you want to download.
 3. Within the Versions section, select the View button next to the model version you want to download.
 4. Select the **Files** tab. 

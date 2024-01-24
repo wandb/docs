@@ -6,14 +6,13 @@ displayed_sidebar: default
 
 # Model registry
 
-Use W&B Models as a central system of record for your best models, standardized and organized in a model registry across projects and teams. 
 
 ![](/images/models/model_reg_landing_page.png)
 
-With W&B Models, you can:
+With W&B Model Registry, you can:
 
 * [Bookmark your best model versions for each machine learning task.](./link-model-version.md)
-* [Automate](./automation.md) downstream processes and model CI/CD
+* [Automate](./automation.md) downstream processes and model CI/CD.
 * Move model versions through its ML lifecycle; from staging to production.
 * Track a model's lineage and audit the history of changes to production models.
 
@@ -59,9 +58,9 @@ Depending on your use case, explore the following resources to get started with 
   2. [Consuming models and automating downstream processes](https://www.youtube.com/watch?v=8PFCrDSeHzw) in the Model Registry.
 * Read the [models walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
 * Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
-* Explore this chapter to learn how about:
+* Learn about:
    * [Protected models and access control](./access_controls.md).
    * [How to connect the Model Registry to CI/CD processes](./automation.md).
-   * Set up [Slack notifications](./notifications.md) when a new model version is linked to a model registry.
+   * Set up [Slack notifications](./notifications.md) when a new model version is linked to a registered model.
 
 

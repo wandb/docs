@@ -27,7 +27,7 @@ The name you provide for `registered_model_name` is the name that appears in the
 ## Interactively create a registered model
 Interactively create a registered model within the [Model Registry App](https://wandb.ai/registry/model).
 
-1. Navigate to the Model Registry App at [wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 ![](/images/models/create_registered_model_1.png)
 2. Click the **New registered model** button located in the top right of the Model Registry page.
 ![](/images/models/create_registered_model_model_reg_app.png)

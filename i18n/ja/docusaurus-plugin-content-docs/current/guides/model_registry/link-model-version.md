@@ -81,7 +81,7 @@ Interactively link a model with the Model Registry or with the Artifact browser.
   ]}>
   <TabItem value="model_ui">
 
-1. Navigate to the Model Registry App at [wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 2. Hover your mouse next to the name of the registered model you want to link a new model to. 
 3. Select the meatball menu icon (three horizontal dots) next to  **View details**.
 4. From the dropdown, select **Link new version**.
@@ -126,7 +126,7 @@ A pointer connects a specific model version in the model registry to the source 
   ]}>
   <TabItem value="registry">
 
-1. Navigate to your model registry at [wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to your model registry at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 ![](/images/models/create_registered_model_1.png)
 2. Select **View details** next the name of your registered model.
 3. Within the **Versions** section, select **View** next to the model version you want to investigate.

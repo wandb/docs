@@ -11,17 +11,16 @@ The following walkthrough shows you how to log a model to W&B. By the end of the
 
 * Create and train a model with the MNIST dataset and the Keras framework.
 * Log the model that you trained to a W&B project
-* Mark the dataset you used as a dependency to the model you created
+* Mark the dataset used as a dependency to the model you created
 * Link the model to the W&B Registry.
 * Evaluate the performance of the model you link to the registry
 * Mark a model version ready for production.
 
-
-
 :::note
-* It is expected that the following code snippets are copied and executed in the order they are presented in this guide.
-* Code that is not unique to the Model Registry are hidden in collapsible cells.
+* Copy the code snippets in the order presented in this guide.
+* Code not unique to the Model Registry are hidden in collapsible cells.
 :::
+
 ## Setting up
 
 Before you get started, import the Python dependencies required for this walkthrough:
@@ -35,7 +34,7 @@ from wandb.keras import WandbCallback
 from sklearn.model_selection import train_test_split
 ```
 
-To complete this walkthrough as it is written, provide your W&B entity to the `entity` variable: 
+Provide your W&B entity to the `entity` variable: 
 
 ```python
 entity = "<entity>"
@@ -115,7 +114,7 @@ Train a model with the artifact dataset you created in the previous step.
 
 ### Declare dataset artifact as an input to the run
 
-Declare the dataset artifact you created in a previous step as the input to the W&B run. This is particularly useful in the context of logging models because declaring an artifact as an input to a run lets you track which dataset (and the version of the dataset) is used to train a specific model. This information is collected and used to create a [lineage map](./model-lineage.md). 
+Declare the dataset artifact you created in a previous step as the input to the W&B run. This is particularly useful in the context of logging models because declaring an artifact as an input to a run lets you track the dataset (and the version of the dataset) used to train a specific model. W&B uses the information collected to create a [lineage map](./model-lineage.md). 
 
 Use the `use_artifact` API to both declare the dataset artifact as the input of the run and to retrieve the artifact itself. 
 
@@ -209,7 +208,7 @@ model.save(path)
 
 
 ## Log and link a model to the Model Registry
-Use the [`link_model`](../../ref/python/run.md#link_model) API to log model file(s) to a W&B run and link it to the [W&B Model Registry](./intro.md).
+Use the [`link_model`](../../ref/python/run.md#link_model) API to log model one ore more files to a W&B run and link it to the [W&B Model Registry](./intro.md).
 
 ```python
 path = "./model.h5"
@@ -219,13 +218,13 @@ run.link_model(path=path, registered_model_name=registered_model_name)
 run.finish()
 ```
 
-W&B will create a registered model for you if the name you specify for `registered-model-name` does not already exist. 
+W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
 
 See [`link_model`](../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters.
 ## Evaluate the performance of a model
-After training many models, you will likely want to evaluate the performance of those models. 
+It is common practice to evaluate the performance of a one or more models. 
 
-First, get the evaluation dataset artifact that was stored in W&B in a previous step.
+First, get the evaluation dataset artifact stored in W&B in a previous step.
 
 ```python
 job_type = "evaluate_model"
@@ -247,7 +246,7 @@ x_eval = eval_table.get_column("x_eval", convert_to="numpy")
 y_eval = eval_table.get_column("y_eval", convert_to="numpy")
 ```
 
-Download the model version from W&B that you want to evaluate. Use the `use_model` API to access and download your model.
+Download the [model version](./model-management-concepts.md#model-version) from W&B that you want to evaluate. Use the `use_model` API to access and download your model.
 
 ```python
 alias = "latest"  # alias
@@ -267,7 +266,7 @@ y_eval = keras.utils.to_categorical(y_eval, 10)
 score = (loss, _)
 ```
 
-Finally, log the loss metric to our W&B run:
+Finally, log the loss metric to the W&B run:
 
 ```python
 # # Log metrics, images, tables, or any data useful for evaluation.
@@ -275,15 +274,13 @@ run.log(data={"loss": (loss, _)})
 ```
 
 
-
-
 ## Promote a model version 
-Mark a model version ready for the next stage of your machine learning workflow with an *alias*. Each registered model can have one or more aliases. Each alias can only be assigned to a single model version at a time.
+Mark a model version ready for the next stage of your machine learning workflow with a [*model alias*](./model-management-concepts.md#model-alias). Each registered model can have one or more model aliases. A model alias can only belong to a single model version at a time.
 
 For example, suppose that after evaluating a model's performance, you are confident that the model is ready for production. To promote that model version, add the `production` alias to that specific model version. 
 
 :::tip
-The `production` alias is one of the most common aliases we see used to mark a model as production-ready.
+The `production` alias is one of the most common aliases used to mark a model as production-ready.
 :::
 
 You can add an alias to a model version interactively with the W&B App UI or programmatically with the Python SDK. The following steps show how to add an alias with the W&B Model Registry App:
@@ -292,7 +289,7 @@ You can add an alias to a model version interactively with the W&B App UI or pro
 1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
 2. Click **View details** next to the name of your registered model.
 3. Within the **Versions** section, click the **View** button next to the name of the model version you want to promote. 
-4. Next to the **Aliases** field, click on the plus icon (**+**). 
+4. Next to the **Aliases** field, click the plus icon (**+**). 
 5. Type in `production` into the field that appears.
 6. Press Enter on your keyboard.
 
