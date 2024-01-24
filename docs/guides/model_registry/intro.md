@@ -5,7 +5,7 @@ displayed_sidebar: default
 ---
 
 # Model registry
-
+The W&B Model Registry houses a team's trained models where ML Practitioners can publish candidates for production to be consumed by downstream teams and stakeholders. It is used to house staged/candidate models and manage workflows associated with staging.
 
 ![](/images/models/model_reg_landing_page.png)
 
