@@ -147,7 +147,7 @@ model_artifact_name = "fine-tuned-model"
 # Initialize a run
 run = wandb.init(project=project, entity=entity)
 # Access and download model. Returns path to downloaded artifact
-downloaded_model_path = run.use_model(name=f"{model_artifact_name}:{alias})
+downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
 ```
 </details>
 

@@ -721,6 +721,10 @@
       "to" : "/guides/model_registry/model_tags"
     },
     {
+      "from": "/guides/models/model_tags",
+      "to" : "/guides/model_registry/link-model-version"
+    },
+    {
       "from": "/guides/models/access_controls",
       "to" : "/guides/model_registry/access_controls"
     },
@@ -736,6 +740,10 @@
       "from": "/guides/models/model-management-concepts",
       "to" : "/guides/model_registry/model-management-concepts"
     },
+    {
+      "from": "/guides/model_registry/quickstart",
+      "to" : "/guides/model_registry/walkthrough"
+    },    
     {
       "from": "/guides/manage-runs",
       "to": "/guides/runs/manage-runs"

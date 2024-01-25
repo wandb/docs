@@ -1,4 +1,6 @@
+APIs
 Autogenerate
+[Bb]asename
 [Bb]oolean
 [Cc]heckpointing
 CLI
@@ -10,6 +12,7 @@ CTAButtons
 [Dd]edicated cloud
 [Dd]equeue
 [Dd]equeues
+[Dd]eserialize
 Dockerfile
 [Ee]nqueued
 GPUs
@@ -18,9 +21,11 @@ Hyperband
 [Hh]yperparameters
 [Hh]yperparameter
 Kaniko
+Keras
 Kubeflow
 [Nn]amespace
 Optuna
+[P]repended
 [Pp]seudocode
 SCIM
 [Ss]elf-managed

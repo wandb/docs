@@ -1,42 +1,73 @@
 ---
-description: 'Model Management: Data Model & Terminology'
+description: 'Model Registry terms and concepts'
 displayed_sidebar: default
 ---
 
-# Concepts
+# Terms and concepts
 
 <head>
-  <title>Model Management Concepts</title>
+  <title>Model Registry terms and concepts</title>
 </head>
 
-The following are data model and terminology used to describe the W&B Model Registry:
+The following terms describe key components of the W&B Model Registry: [*model version*](#model-version), [*model artifact*](#model-artifact), and [*registered model*](#registered-model).
 
-* *Model version:* a package of data and metadata describing a trained model.
-* *Model artifact:* a sequence of logged model versions. Model artifacts often track the progress of training.
-* *Registered model:* a selection of linked model versions. Registered models often represent candidate models for a single modeling use case or task.
+## Model version
+A model version represents a single model checkpoint. Model versions are a snapshot at a point in time of a model and its files within an experiment. 
 
-:::tip
-A model version will always belong to one, and only one. model artifact. However, a model version can belong to zero or more Registered Models.
-:::
+A model version is an immutable directory of data and metadata that describes a trained model. W&B suggests that you add files to your model version that let you store (and restore) your model architecture and learned parameters at a later date. 
+
+A model version belongs to one, and only one, [model artifact](#model-artifact). A model version can belong to zero or more, [registered models](#registered-model). Model versions are stored in a model artifact in the order they are logged to the model artifact. W&B automatically creates a new model version if it detects that a model you log (to the same model artifact) has different contents than a previous model version.
+
+Store files within model versions that are produced from the serialization process provided by your modeling library (for example, [PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) and [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)).
+
+<!-- [INSERT IMAGE] -->
+
+## Model alias
+
+Model aliases are mutable strings that allow you to uniquely identify or reference a model version in your registered model with a semantically-related identifier. You can only assign an alias to one version of a registered model. This is because an alias should refer to a unique version when used programmatically. It also allows aliases to be used to capture a model's state (champion, candidate, production).
+
+It is common practice to use aliases such as  "best", "latest", "production", or "staging" to mark model versions with special purposes.
+
+For example, suppose you create a model and assign it a `"best"` alias. You can refer to that specific model with `run.use_model` 
+
+```python
+import wandb
+run = wandb.init()
+name = f"{entity/project/model_artifact_name}:{alias}"
+run.use_model(name=name)
+```
+
+## Model tags
+Model tags are keywords or labels that belong to one or more registered models.
+
+Use model tags to organize registered models into categories and to search over those categories in the Model Registry's search bar. Model tags appear at the top of the Registered Model Card. You might choose to use them to group your registered models by ML task, owning team, or priority. The same model tag can be added to multiple registered models to allow for grouping. 
 
 :::info
-A model is an artifact with `type="model"`.  A model version is an artifact version that belongs to that artifact. A registered model is an artifact collection that has a type set to `model` (`type="model"`).
+Model tags, which are labels applied to registered models for grouping and discoverability, are different from [model aliases](#model-alias). Model aliases are unique identifiers or nicknames that you use to fetch a model version programatically. To learn more about using tags to organize the tasks in your Model Registry, see [Organize models](./organize-models.md).
 :::
 
-A model version is an immutable directory of data; it is up to you to decide what files and formats are appropriate to store (and restore) your model architecture and learned parameters. Typically you will want to store files that are produced from the serialization process provided by your modeling library (for example, [PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) and [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)).
 
-A model artifact is a sequence of model versions. Model artifacts can alias specific versions so that downstream consumers can pin that alias. It is common for a W&B run to produce many versions of a model while training (periodically saving checkpoints). Using this approach, each individual model trained by the run corresponds to its own model artifact. Each checkpoint corresponds to its own model version of the respective model artifact. 
+## Model artifact
+A model artifact is a collection of logged [model versions](#model-version). Model versions are stored in a model artifact in the order they are logged to the model artifact. 
 
-View an [example model artifact](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/artifacts/model/mnist-zws7gt0n)
+A model artifact can contain one or more model versions. A model artifact can be empty if no model versions are logged to it. 
+
+For example, suppose you create a model artifact. During model training, you periodically save your model during checkpoints. Each checkpoint corresponds to its own [model version](#model-version). All of the model versions created during your model training and checkpoint saving are stored in the same model artifact you created at the beginning of your training script.
+
+<!-- and will be assigned a version number depending on the sequence in which they were logged. A new version is automatically created when the contents of the latest version that was logged has changed.  -->
+
+
+The proceeding image shows a model artifact that contains three model versions: v0, v1, and v2.
 
 ![](@site/static/images/models/mr1c.png)
 
-A registered model is a set of links to model versions. A registered model can be accessed exactly like model artifacts (identified by `[[entityName/]/projectName]/registeredModelName:alias`), however it acts more like a folder of "bookmarks". Each "version" of a registered model is a link to a model version that belongs to a model artifact of the same type. A model version can be linked to more than one registered models. Typically you will create a registered model for each of your use cases and use aliases like "production" or "staging" to mark versions with special purposes. 
+View an [example model artifact here](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/artifacts/model/mnist-zws7gt0n).
 
-View an [example Registered Model](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/artifacts/model/MNIST%20Grayscale%2028x28)
+## Registered model
+A registered model is a collection of pointers (links) to model versions. You can think of a registered model as a folder of "bookmarks" of candidate models for the same ML task. Each "bookmark" of a registered model is a pointer to a [model version](#model-version) that belongs to a [model artifact](#model-artifact). You can use [model tags](#model-tags) to group your registered models. 
 
-![](/images/models/diagram_doc.png)
+Registered models often represent candidate models for a single modeling use case or task. For example, you might create registered model for different image classification task based on the model you use: "ImageClassifier-ResNet50", "ImageClassifier-VGG16", "DogBreedClassifier-MobileNetV2" and so on. Model versions are assigned version numbers in the order in which they were linked to the registered model.
 
-While developing an ML model, you will likely have dozens, hundreds, or even thousands of runs that produce model versions. Most likely, not all of those models are great; often you are iterating on scripts, parameters, architectures, preprocessing logic and more. 
 
-The separation of artifacts and registered models allows you to produce a massive number of artifacts (think of them like "draft models"), and periodically _link_ your high performing versions to a the curated Registered Model. Then use aliases to mark which version in a registered model is at a certain stage in the lifecycle. Each person in your team can collaborate on a single use case, while having the freedom to explore and experiment without polluting namespaces or conflicting with others' work.
+View an [example Registered Model here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=versions).
+
