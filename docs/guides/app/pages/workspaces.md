@@ -94,7 +94,7 @@ with run:
 
 
 ## Create saved workspace views (Beta)
-Improve team collaboration with tailored workspace views! 
+Improve team collaboration with tailored workspace views. 
 
 ### Understand the workspace categories
 
@@ -102,37 +102,39 @@ Improve team collaboration with tailored workspace views!
 
 * **Saved Views:** These are collaborative snapshots of your workspace, viewable and usable by all project collaborators. They serve as fixed references of particular workspace states for collective review and discussion.
  
- ![](/images/experiments/mnw_beta/Menu_No_views.jpg)
+ ![](/images/app_ui/Menu_No_views.jpg)
 
 ### Create a new saved workspace view
 A Workspace View in Weights & Biases lets you organize and save your preferred workspace setup of charts and data. You can easily create a new View by following these steps:
 
 * **Open a Workspace or View:** Start by going to the Workspace or View you wish to save.
-* **Save View:** Look for the **'...'** menu at the top right corner of your workspace. Click on it and then choose **Save as a new view**. Once saved, you can also give your new view a descriptive name.
-* **Find Your New View:** Once saved, your new view will appear in the workspace navigation menu, ready for you to click and use anytime.
+* **Save View:** Look for the meatball menu (three horizontal dots) at the top right corner of your workspace. Click on it and then choose **Save as a new view**. Once saved, you can also give your new view a descriptive name.
+* **Find Your New View:** Once saved, new views appear in the workspace navigation menu. 
 
- ![](/images/experiments/mnw_beta/Menu_Views.jpg)
+ ![](/images/app_ui/Menu_Views.jpg)
 
 
 ### Update a saved workspace view 
 To update a saved workspace view in Weights & Biases:
 
 * **Edit the Workspace:** Make the desired changes to your charts and data within the workspace.
-* **Save the Changes:** Confirm your updates by clicking the **Save** button, which will overwrite the previous state of the saved view with the new changes. Unsaved changes will not be retained.
+* **Save the Changes:** Click the **Save** button to confirm your changes. Saved changes overwrite the previous state of the saved view. Unsaved changes are not retained.
 
-_When saving your updates to a workspace view, a confirmation dialog will appear. If you prefer not to see this prompt in the future, simply check the option **Do not show this modal next time** before confirming your save. This will streamline your workflow by bypassing the confirmation step for subsequent saves._
+:::info
+A confirmation  dialog appears when you save your updates to a workspace view. If you prefer not to see this prompt in the future, simply check the option **Do not show this modal next time** before confirming your save.
+:::
 
 ### Deleting a saved workspace view
 To delete a view and manage your workspace menu in Weights & Biases:
 
 * Navigate to the view you wish to remove.
-* Click on the **"..."*** (more options) menu at the top right of the view.
+* Click on the meatball menu (three horizontal lines) at the top right of the view.
 * Choose the option to **Delete view**.
 * Confirm the deletion to remove the view from your workspace menu.
 
 This process helps to declutter your workspace by removing any views that are no longer needed.
 
- ![](/images/experiments/mnw_beta/Deleting.gif)
+ ![](/images/app_ui/Deleting.gif)
 
 ### Share a workspace view
 Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
