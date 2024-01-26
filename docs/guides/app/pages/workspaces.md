@@ -93,95 +93,49 @@ with run:
 
 
 
-## Create multiple workspace views (Beta)
-Create customized workspaces for team collaboration. There are two types of workspaces:
+## Create saved workspace views (Beta)
+Improve team collaboration with tailored workspace views! 
 
-* **Primary workspace**: The initial workspace team members see. A bold **Primary** label appears next to the name of primary workspaces.
-* **Published workspace**: Published workspaces are accessible and viewable by all team members. Use  published workspaces to show the latest configurations and settings made to that workspace. 
+### Understand the workspace categories
 
+* **Personal Workspaces:** Exclusive to you, these are customizable spaces for in-depth analysis of models and data visualizations. You have edit control, while teammates can view configurations without altering them.
 
-You can branch off of a primary workspace or your can duplicate the primary workspace and branch off from the duplicate version. For more information on how to edit a branched version of a primary workspace, see [Edit drafts](#edit-drafts). For information on how to duplicate a primary workspace, see [Create a new workspace](#create-a-new-workspace-based-off-the-primary-workspace).
-
-Access workspaces created by team member with a unique shareable URL and can be navigated through the workspace menu. For more information, see [Share a workspace version](#share-a-workspace-version).
-
-### Workspace modes
-A workspace can exist in one of two modes: View-only or Draft mode.
-
-* **View-Only Mode**: Use View-Only mode to explore and analyze a workspace's layout and data without overwriting the original workspace. In other words, in View-Only mode you can not add panels, create sections, or adjust workspace settings.
-* **Draft Mode**: The draft version is a clone of the original workspace. In draft mode you can make any changes you want, without changing the original workspace your draft was cloned from. All modifications you make in your draft are saved to this draft. Use draft mode as a sandbox environment for experimentation and refinement. 
-
-
-### Edit drafts
-Use draft workspaces to modify panels and settings without impacting the published workspace. Drafts are unique to each user and can be shared for collaboration but remain private until published. Draft workspaces have a pencil label next to the name of the workspace. 
-
-A draft workspace is automatically created for you when you land on a project workspace that you do not own. This workspace version branches off the primary, default workspace version saved by the entity that owns the project. In other words, by default, you work on a workspace that mirrors the original workspace. 
-
-For example, in the following image a user renamed a workspace draft that branched off the Primary workspace to **DataScience-Member-initial-exploration**:
-
-![](/images/app_ui/workspace_versions_initial_branched.png)
+* **Saved Views:** These are collaborative snapshots of your workspace, viewable and usable by all project collaborators. They serve as fixed references of particular workspace states for collective review and discussion.
  
+ ![](/images/experiments/mnw_beta/Menu_No_views.jpg)
 
-### Create a new workspace 
-Create a new workspace that includes all of the W&B runs and metrics from the original project workspace. Follow the procedure outlined below to create a new workspace:
+### Create a new saved workspace view
+A Workspace View in Weights & Biases lets you organize and save your preferred workspace setup of charts and data. You can easily create a new View by following these steps:
 
-1. Navigate to the project workspace
-2. Click on the hamburger menu in the upper left corner, next to the name of the workspace.
-3. From the dropdown, click on **New workspace**.
+* **Open a Workspace or View:** Start by going to the Workspace or View you wish to save.
+* **Save View:** Look for the **'...'** menu at the top right corner of your workspace. Click on it and then choose **Save as a new view**. Once saved, you can also give your new view a descriptive name.
+* **Find Your New View:** Once saved, your new view will appear in the workspace navigation menu, ready for you to click and use anytime.
 
-
-You can create draft versions of your newly created workspace. See the previous section, [Edit drafts](#edit-drafts), for more information. 
-
-
-### Publish a workspace
-A published workspace is the final, collaborative state of a workspace. 
-
-You can publish your workspace in one of two ways:
-* **Publish and override**: This will merge your draft back into the parent workspace that it was created from. This option will override the parent workspace with your draft changes.
-* **Publish as a new workspace**: This will create a new workspace.
-
-Complete the following steps to publish a workspace:
-
-1. Navigate to your draft workspace
-2. Click on the **Publish changes** button located in the upper right corner of the project.
-![](/images/app_ui/workspaces_publish_button.png)
-3. A modal titled **Publish this draft** will appear. Based on your use case, select either **Publish and override** or **Publish as a new workspace**.
-![](/images/app_ui/workspaces_publish_types.png)
+ ![](/images/experiments/mnw_beta/Menu_Views.jpg)
 
 
+### Update a saved workspace view 
+To update a saved workspace view in Weights & Biases:
 
-<!-- 1. Navigate to the project workspace
-2. Click on the name of the workspace
-3. From the dropdown, select **New workspace** -->
+* **Edit the Workspace:** Make the desired changes to your charts and data within the workspace.
+* **Save the Changes:** Confirm your updates by clicking the **Save** button, which will overwrite the previous state of the saved view with the new changes. Unsaved changes will not be retained.
 
-<!-- ![](/images/app_ui/create_manual_version.png) -->
+_When saving your updates to a workspace view, a confirmation dialog will appear. If you prefer not to see this prompt in the future, simply check the option **Do not show this modal next time** before confirming your save. This will streamline your workflow by bypassing the confirmation step for subsequent saves._
 
+### Deleting a saved workspace view
+To delete a view and manage your workspace menu in Weights & Biases:
 
-### View workspaces
-Click on the name of the workspace to view workspace versions. A dropdown will appear that shows workspace versions and their lineage. Each workspace version created contains information of the workspace version that it was created from, including:
+* Navigate to the view you wish to remove.
+* Click on the **"..."*** (more options) menu at the top right of the view.
+* Choose the option to **Delete view**.
+* Confirm the deletion to remove the view from your workspace menu.
 
-* The original workspace that the current workspace version is based off of
-* When the branched version of the workspace was created
-* The W&B user who created a workspace version
+This process helps to declutter your workspace by removing any views that are no longer needed.
 
+ ![](/images/experiments/mnw_beta/Deleting.gif)
 
-
-### Share a workspace version
-Share your customized workspace with your team. 
-
-1. Navigate to the project workspace
-2. Click on the name of the workspace
-3. Select the workspace version you want to share
-4. Copy the URL 
-
-Once you have the URL of the workspace version, share that URL to your team. 
-
-
-
-
-
-<!-- ![](/images/app_ui/image.png) -->
-
-
+### Share a workspace view
+Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
 
 
 
