@@ -121,7 +121,7 @@ To update a saved workspace view in Weights & Biases:
 * **Save the Changes:** Click the **Save** button to confirm your changes. Saved changes overwrite the previous state of the saved view. Unsaved changes are not retained.
 
 :::info
-A confirmation  dialog appears when you save your updates to a workspace view. If you prefer not to see this prompt in the future, simply check the option **Do not show this modal next time** before confirming your save.
+A confirmation  dialog appears when you save your updates to a workspace view. If you prefer not to see this prompt in the future, select the option **Do not show this modal next time** before confirming your save.
 :::
 
 ### Deleting a saved workspace view
