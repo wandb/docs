@@ -315,7 +315,7 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
 
 4. Press **Update settings** to apply the new settings.
 
-## Upgrade your W&B version
+## Upgrade W&B Server
 
 Follow the steps outlined here to update W&B:
 
