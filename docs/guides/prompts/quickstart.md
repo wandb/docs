@@ -29,7 +29,7 @@ This Quickstart guide will walk you how to use [Trace](intro.md) to visualize an
 
 With a 1-line environment variable from LangChain, W&B Trace will continuously log calls to a LangChain Model, Chain, or Agent. 
 
-Note that you can also see the documentation for W&B Trace in the [LangChain documentation](https://python.langchain.com/docs/ecosystem/integrations/agent_with_wandb_tracing).
+Note that you can also see the documentation for W&B Trace in the [LangChain documentation](https://python.langchain.com/docs/integrations/providers/wandb_tracing).
 
 For this quickstart, we will use a LangChain Math Agent:
 
