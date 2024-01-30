@@ -2,8 +2,12 @@
 description: Getting started guide for W&B Launch.
 displayed_sidebar: default
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Walkthrough
+
+<CTAButtons colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP"/>
+
 
 This guide will walk you through how to setup the fundamental components of W&B launch:  **launch jobs**, **launch queues**, and **launch agents**. By the end of this walkthrough, you will:
 

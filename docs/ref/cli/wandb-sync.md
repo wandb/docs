@@ -15,6 +15,7 @@ Upload an offline training directory to W&B
 | --id | The run you want to upload to. |
 | -p, --project | The project you want to upload to. |
 | -e, --entity | The entity to scope to. |
+| --job_type | Specifies the type of run for grouping related runs together. |
 | --sync-tensorboard / --no-sync-tensorboard | Stream tfevent files to wandb. |
 | --include-globs | Comma seperated list of globs to include. |
 | --exclude-globs | Comma seperated list of globs to exclude. |

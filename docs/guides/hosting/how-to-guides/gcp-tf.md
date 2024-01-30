@@ -61,29 +61,8 @@ The steps on this topic are common for any deployment option covered by this doc
 
    The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-gcp.wandb.ml`
 
-3. Create the file `versions.tf`
 
-   This file will contain the Terraform and Terraform provider versions required to deploy W&B in GCP
-
-   ```
-   terraform {
-     required_version = "~> 1.0"
-     required_providers {
-       google = {
-         source  = "hashicorp/google"
-         version = "~> 4.15"
-       }
-       kubernetes = {
-         source  = "hashicorp/kubernetes"
-         version = "~> 2.9"
-       }
-     }
-   }
-   ```
-
-   Optionally (but highly recommended) you can add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
-
-4. Create the file `variables.tf`
+3. Create the file `variables.tf`
 
    For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
 
@@ -133,6 +112,18 @@ This is the most straightforward deployment option configuration that will creat
    In the same directory where you created the files in the `General Steps`, create a file `main.tf` with the following content:
 
    ```
+   provider "google" {
+    project = var.project_id
+    region  = var.region
+    zone    = var.zone
+   }
+
+   provider "google-beta" {
+    project = var.project_id
+    region  = var.reguion
+    zone    = var.zone
+   }
+
    data "google_client_config" "current" {}
 
    provider "kubernetes" {
@@ -144,13 +135,13 @@ This is the most straightforward deployment option configuration that will creat
    # Spin up all required services
    module "wandb" {
      source  = "wandb/wandb/google"
-     version = "1.12.2"
+     version = "~> 1.0"
 
      namespace   = var.namespace
      license     = var.license
      domain_name = var.domain_name
      subdomain   = var.subdomain
-
+     allowed_inbound_cidrs = ["*"]
    }
 
    # You'll want to update your DNS with the provisioned IP address
@@ -187,12 +178,13 @@ You need to add the option `create_redis = true` to the same `main.tf` file we w
 
 module "wandb" {
   source  = "wandb/wandb/google"
-  version = "1.12.2"
+  version = "~> 1.0"
 
   namespace    = var.namespace
   license      = var.license
   domain_name  = var.domain_name
   subdomain    = var.subdomain
+  allowed_inbound_cidrs = ["*"]
   #Enable Redis
   create_redis = true
 
@@ -211,12 +203,13 @@ The GCP resource that provides the message broker is the `Pub/Sub`, and to enabl
 
 module "wandb" {
   source  = "wandb/wandb/google"
-  version = "1.12.2"
+  version = "~> 1.0"
 
   namespace          = var.namespace
   license            = var.license
   domain_name        = var.domain_name
   subdomain          = var.subdomain
+  allowed_inbound_cidrs = ["*"]
   #Create and use Pub/Sub
   use_internal_queue = false
 
@@ -321,3 +314,25 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
 ![](/images/hosting/configure_file_store.png)
 
 4. Press **Update settings** to apply the new settings.
+
+## Upgrade W&B Server
+
+Follow the steps outlined here to update W&B:
+
+1. Add `wandb_version` to your configuration in your `wandb_app` module. Provide the version of W&B you want to upgrade to. For example, the following line specifies W&B version `0.48.1`:
+
+  ```
+  module "wandb_app" {
+      source  = "wandb/wandb/kubernetes"
+      version = "~>1.0"
+
+      license       = var.license
+      wandb_version = "0.48.1"
+  ```
+
+  :::info
+  Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
+  :::
+
+2. After you update your configuration, complete the steps described in the [Deployment section](#deployment---recommended-20-mins).
+
