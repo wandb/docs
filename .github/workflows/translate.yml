@@ -1,0 +1,41 @@
+on: 
+    pull_request:
+      types: [closed]
+      paths:
+        - '**.md'
+  
+  jobs:
+    translate:
+      if: github.event.pull_request.merged == true
+      runs-on: ubuntu-latest
+      name: Translating docs
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 2
+        - name: translate-action
+          id: translate-action
+          uses: tcapelle/gpt_translate@v1.1
+          env:
+            OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          with:
+              folder-to-translate: 'docs/'
+              language: "ja"
+              output-folder: "i18n/ja"
+              filter-files: "pr"  # only consider files that were modified in the PR
+              max-chunk-tokens: "1000"  # max number of tokens to translate at once
+              config-folder: "./.github/translation_configs"  # where are you translation configs stored
+  
+  
+        - name: Create Pull Request
+          uses: peter-evans/create-pull-request@v5
+          with:
+            commit-message: Translated Docs
+            title: Automatic translation
+            body: |
+              This PR was automatically created by the translate-action when merging [PR](${{ github.event.pull_request.number }})
+              Please review the changes and merge if they are correct.
+            branch: translate-pr-${{ github.event.pull_request.number }}
+            base: main
+            delete-branch: true
+            labels: translation

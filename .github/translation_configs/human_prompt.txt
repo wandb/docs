@@ -1,0 +1,4 @@
+Here is a chunk of Markdown text to translate. Return the translated text only, without adding anything else. 
+<Markdown start>
+{md_chunk}
+<End of Markdown>
