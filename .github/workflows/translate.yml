@@ -3,6 +3,8 @@ on:
       types: [closed]
       paths:
         - '**.md'
+    workflow_dispatch:
+      
   
   jobs:
     translate:
