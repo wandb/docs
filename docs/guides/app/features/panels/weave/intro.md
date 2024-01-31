@@ -22,9 +22,9 @@ See [this report](http://wandb.me/keras-xla-benchmark) to see how this team used
 
 To add a Weave Panel:
 
-* In your **Workspace**, click `Add Panel` and select `Weave`.
+* In your Workspace, click `Add Panel` and select `Weave`.
 ![](/images/weave/add_weave_panel_workspace.png)
-* In a **Report**:
+* In a Report:
   * Type `/weave`and select `Weave` to add an independent Weave Panel.
   ![](/images/weave/add_weave_panel_report_1.png)
   * Type `/Panel grid` -> `Panel grid` and then click `Add panel` -> `Weave` to add a Weave Panel associated with a set of runs.
@@ -40,9 +40,9 @@ Weave expressions allow the user to query the data stored in W&B - from runs, to
 
 Let's break this down:
 
-* `runs` is a **variable** automatically injected in Weave Panel Expressions when the Weave Panel is in a Workspace. Its "value" is the list of runs which are visible for that particular Workspace. [Read about the different attributes available within a run here](../../../../track/public-api-guide.md#understanding-the-different-attributes).
-* `summary` is an **op** which returns the Summary object for a Run. Note: **ops** are "mapped", meaning this **op** is applied to each Run in the list, resulting in a list of Summary objects.
-* `["cifar10_sample_table"]` is a Pick **op** (denoted with brackets), with a **parameter** of "predictions". Since Summary objects act like dictionaries or maps, this operation "picks" the "predictions" field off of each Summary object.
+* `runs` is a variable automatically injected in Weave Panel Expressions when the Weave Panel is in a Workspace. Its "value" is the list of runs which are visible for that particular Workspace. [Read about the different attributes available within a run here](../../../../track/public-api-guide.md#understanding-the-different-attributes).
+* `summary` is an op which returns the Summary object for a Run. Note: ops are "mapped", meaning this op is applied to each Run in the list, resulting in a list of Summary objects.
+* `["cifar10_sample_table"]` is a Pick op (denoted with brackets), with a parameter of "predictions". Since Summary objects act like dictionaries or maps, this operation "picks" the "predictions" field off of each Summary object.
 
 To learn how to write your own queries interactively, see out [this report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr), which goes from the basic operations available in Weave to other advanced visualizations of your data.
 
@@ -67,17 +67,17 @@ You can easily sort from the column options
 ![](/images/weave/weave_sort.png)
 
 ### Filter
-You can either filter directly in the query (first image) or using the filter button ▼ in the top left corner (second image)
+You can either filter directly in the query or using the filter button in the top left corner (second image)
 ![](/images/weave/weave_filter_1.png)
 ![](/images/weave/weave_filter_2.png)
 
 ### Map
-Map operations iterate over lists and apply a function to each element in the data. You can do this directly with a Weave query (first image) or by inserting a new column from the column options (second gif)
+Map operations iterate over lists and apply a function to each element in the data. You can do this directly with a Weave query  or by inserting a new column from the column options.
 ![](/images/weave/weave_map.png)
 ![](/images/weave/weave_map.gif)
 
 ### Groupby
-You can filter using a query (first image) or from the column options (second gif)
+You can filter using a query or from the column options.
 ![](/images/weave/weave_groupby.png)
 ![](/images/weave/weave_groupby.gif)
 
@@ -96,7 +96,7 @@ It is also possible to join tables directly in the query, where:
 
 ## Runs object
 Among other things, Weave allows you to access the `runs` object, which stores a detailed record of your experiments. You can find more details about it in [this section](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object) of the report but, as quick overview, `runs` object has available:
-* `summary`: A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged time series. You can set the contents of the summary directly. Think of the summary as the run's "outputs".
+* `summary`: A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged time series. You can set the contents of the summary directly. Think of the summary as the run's outputs.
 * `history`: A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.log()` appends to this object.
 * `config`: A dictionary of the run's configuration information, such as the hyperparameters for a training run or the preprocessing methods for a run that creates a dataset Artifact. Think of these as the run's "inputs"
 ![](/images/weave/weave_runs_object.png)
