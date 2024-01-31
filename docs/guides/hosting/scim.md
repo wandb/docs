@@ -658,6 +658,12 @@ DELETE /scim/Roles/abc
 | value | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
 - **Request Example**:
 
+:::caution
+The request path for the update custom role permissions API is same as for role assignment APIs, that is, the [PATCH - Assign organization-level role to user](#assign-organization-level-role-to-user) and [PATCH - Assign team-level role to user](#assign-team-level-role-to-user) operations. Difference is that the URI for custom role APIs expects a `:roleId` parameter, while the URI for role assignment APIs expects a `:userId`. Expected request bodies for both types of APIs are also different. 
+
+Be careful with the parameter value in the URI and the request body such that those map to the intended operation.
+:::
+
 ```bash
 PATCH /scim/Roles/abc
 ```
@@ -784,5 +790,144 @@ PUT /scim/Roles/abc
     "schemas": [
         ""
     ]
+}
+```
+
+### Assign organization-level role to user
+
+- **Endpoint**: **`<host-url>/scim/Roles/{userId}`**
+- **Method**: PATCH
+- **Description**: Assign an organization-level role to a user. The role can be one of `admin`, `viewer` or `member` as described [here](./manage-users#invite-users). For Public Cloud (SaaS), ensure that you have configured the correct organization for SCIM API in user settings.
+- **Supported Fields**:
+
+| Field | Type | Required |
+| --- | --- | --- |
+| op | String | Type of operation. The only allowed value is `replace`. |
+| path | String | The scope at which role assignment operation takes effect. The only allowed value is `organizationRole`. |
+| value | String | The predefined organization-level role that should be assigned to the user. It can be one of `admin`, `viewer` or `member`. |
+- **Request Example**:
+
+:::caution
+The request path for the role assignment API is same as for custom role APIs, especially the [PATCH - Update custom role permissions](#update-custom-role-permissions) operation. Difference is that the URI for role assignment API expects a `:userId` parameter, while the URI for custom role API expects a `:roleId`. Expected request bodies for both APIs are also different. 
+
+Be careful with the parameter value in the URI and the request body such that those map to the intended operation.
+:::
+
+```bash
+PUT /scim/Roles/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "organizationRole",
+            "value": "admin" // will set the user's organization-level role to admin
+        }
+    ]
+}
+```
+
+- **Response Example**:
+This returns a User object, like in case of [user resource](#user-resource).
+
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "emails": {
+        "Value": "dev-user1@test.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1"
+}
+```
+
+### Assign team-level role to user
+
+- **Endpoint**: **`<host-url>/scim/Roles/{userId}`**
+- **Method**: PATCH
+- **Description**: Assign a team-level role to a user. The role can be one of `admin`, `viewer`, `member` or a custom role as described [here](./manage-users#team-roles). For Public Cloud (SaaS), ensure that you have configured the correct organization for SCIM API in user settings.
+- **Supported Fields**:
+
+| Field | Type | Required |
+| --- | --- | --- |
+| op | String | Type of operation. The only allowed value is `replace`. |
+| path | String | The scope at which role assignment operation takes effect. The only allowed value is `teamRoles`. |
+| value | Object array | A one-object array where the object consists of `teamName` and `roleName` attributes. The `teamName` is for the team to which the role is assigned, and `roleName` can be one of `admin`, `viewer`, `member` or a custom role. |
+- **Request Example**:
+
+:::caution
+The request path for the role assignment API is same as for custom role APIs, especially the [PATCH - Update custom role permissions](#update-custom-role-permissions) operation. Difference is that the URI for role assignment API expects a `:userId` parameter, while the URI for custom role API expects a `:roleId`. Expected request bodies for both APIs are also different. 
+
+Be careful with the parameter value in the URI and the request body such that those map to the intended operation.
+:::
+
+```bash
+PUT /scim/Roles/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "organizationRole",
+            "value": [
+                {
+                    "roleName": "admin",
+                    "teamName": "team1" // will set the user's role in the team team1 to admin
+                }
+            ]
+        }
+    ]
+}
+```
+
+- **Response Example**:
+This returns a User object, like in case of [user resource](#user-resource).
+
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "emails": {
+        "Value": "dev-user1@test.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1"
 }
 ```

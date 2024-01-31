@@ -147,7 +147,7 @@ W&B keeps runs logged by team members, even if they are no longer on the team.
 ## Automate user and team management
 
 ### SCIM API
-Use [SCIM API](./scim.md) to manage users, and the teams they belong to, in an efficient and repeatable manner. You can also use the SCIM API to manage custom roles in your W&B organization. Role endpoints are not part of the official SCIM schema. W&B adds role endpoints to support automated management of custom roles in W&B organizations.
+Use [SCIM API](./scim.md) to manage users, and the teams they belong to, in an efficient and repeatable manner. You can also use the SCIM API to manage custom roles or assign roles to users in your W&B organization. Role endpoints are not part of the official SCIM schema. W&B adds role endpoints to support automated management of custom roles and to assign roles to users in W&B organizations.
 
 SCIM API is especially useful if you want to:
 * manage user provisioning and de-provisioning at scale
@@ -175,8 +175,8 @@ There is no notion of a `group of users having the same role` within W&B. A W&B 
 W&B maps Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
 :::
 
-#### Custom role SCIM API
-[Custom role SCIM API](./scim.md#role-resource) allows for managing custom roles, including creating, listing, or updating custom roles in an organization.
+#### Custom role and role assignment SCIM API
+[Custom role and role assignment SCIM API](./scim.md#role-resource) allows for managing custom roles, including creating, listing, or updating custom roles in an organization. This API also supports assigning predefined or custom roles to users in an organization.
 
 :::caution
 Delete a custom role with caution.
@@ -184,6 +184,12 @@ Delete a custom role with caution.
 Delete a custom role within a W&B organization with the `DELETE Role` endpoint. The predefined role that the custom role inherits is assigned to all users that are assigned the custom role before the operation.
 
 Update the inherited role for a custom role with the `PUT Role` endpoint. This operation doesn't affect any of the existing, that is, non-inherited custom permissions in the custom role.
+:::
+
+:::caution
+The request type and path for the role assignment APIs are same as for the update custom role permissions API. Both types of APIs are implemented using `PATCH Role` endpoint. Difference is that the URI for role assignment APIs expects a `:userId` parameter, while the URI for custom role API expects a `:roleId`. Expected request bodies for both types of APIs are also different. 
+
+Be careful with the parameter value in the URI and the request body such that those map to the intended operation.
 :::
 
 ### W&B Python SDK API
@@ -201,7 +207,7 @@ Just like how SCIM API allows you to automate user and team management, you can 
 |` Member.delete()` | Remove a member user from a team. You can get the list of member objects in a team using the team object's `members` attribute. And you can get the team object using the team(teamName) method. |
 
 ### Role assignment API
-**Coming Soon!** Reach out to your W&B team if you would like to use the upcoming role assignment API.
+The role assignment API is implemented using the SCIM Role API. Refer to [Custom role and role assignment SCIM API](#custom-role-and-role-assignment-scim-api).
 
 ## View organization usage of W&B
 Use the organization dashboard to get a holistic view of users that belong to your organization, how users of your organization use W&B, along with properties such as:
