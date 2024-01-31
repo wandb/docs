@@ -187,7 +187,7 @@ Update the inherited role for a custom role with the `PUT Role` endpoint. This o
 :::
 
 :::caution
-The request type and path for the role assignment APIs are same as for the update custom role permissions API. Both types of APIs are implemented using `PATCH Role` endpoint. Difference is that the URI for role assignment APIs expects a `:userId` parameter, while the URI for custom role API expects a `:roleId`. Expected request bodies for both types of APIs are also different. 
+The request type and path for the role assignment APIs are same as for the update custom role permissions API. Both types of APIs implement the `PATCH Role` endpoint. Difference is that the URI for role assignment APIs expects a `:userId` parameter, while the URI for custom role API expects a `:roleId`. Expected request bodies for both types of APIs are also different. 
 
 Be careful with the parameter value in the URI and the request body such that those map to the intended operation.
 :::
@@ -207,7 +207,7 @@ Just like how SCIM API allows you to automate user and team management, you can 
 |` Member.delete()` | Remove a member user from a team. You can get the list of member objects in a team using the team object's `members` attribute. And you can get the team object using the team(teamName) method. |
 
 ### Role assignment API
-The role assignment API is implemented using the SCIM Role API. Refer to [Custom role and role assignment SCIM API](#custom-role-and-role-assignment-scim-api).
+The role assignment API is part of the SCIM Role API. Refer to [Custom role and role assignment SCIM API](#custom-role-and-role-assignment-scim-api).
 
 ## View organization usage of W&B
 Use the organization dashboard to get a holistic view of users that belong to your organization, how users of your organization use W&B, along with properties such as:

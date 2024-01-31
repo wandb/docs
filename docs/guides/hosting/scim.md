@@ -797,14 +797,14 @@ PUT /scim/Roles/abc
 
 - **Endpoint**: **`<host-url>/scim/Roles/{userId}`**
 - **Method**: PATCH
-- **Description**: Assign an organization-level role to a user. The role can be one of `admin`, `viewer` or `member` as described [here](./manage-users#invite-users). For Public Cloud (SaaS), ensure that you have configured the correct organization for SCIM API in user settings.
+- **Description**: Assign an organization-level role to a user. The role can be one of `admin`, `viewer` or `member` as described [here](./manage-users#invite-users). For Public Cloud, ensure that you have configured the correct organization for SCIM API in user settings.
 - **Supported Fields**:
 
 | Field | Type | Required |
 | --- | --- | --- |
 | op | String | Type of operation. The only allowed value is `replace`. |
 | path | String | The scope at which role assignment operation takes effect. The only allowed value is `organizationRole`. |
-| value | String | The predefined organization-level role that should be assigned to the user. It can be one of `admin`, `viewer` or `member`. |
+| value | String | The predefined organization-level role to assign to the user. It can be one of `admin`, `viewer` or `member`. |
 - **Request Example**:
 
 :::caution
@@ -864,14 +864,14 @@ This returns a User object, like in case of [user resource](#user-resource).
 
 - **Endpoint**: **`<host-url>/scim/Roles/{userId}`**
 - **Method**: PATCH
-- **Description**: Assign a team-level role to a user. The role can be one of `admin`, `viewer`, `member` or a custom role as described [here](./manage-users#team-roles). For Public Cloud (SaaS), ensure that you have configured the correct organization for SCIM API in user settings.
+- **Description**: Assign a team-level role to a user. The role can be one of `admin`, `viewer`, `member` or a custom role as described [here](./manage-users#team-roles). For Public Cloud, ensure that you have configured the correct organization for SCIM API in user settings.
 - **Supported Fields**:
 
 | Field | Type | Required |
 | --- | --- | --- |
 | op | String | Type of operation. The only allowed value is `replace`. |
 | path | String | The scope at which role assignment operation takes effect. The only allowed value is `teamRoles`. |
-| value | Object array | A one-object array where the object consists of `teamName` and `roleName` attributes. The `teamName` is for the team to which the role is assigned, and `roleName` can be one of `admin`, `viewer`, `member` or a custom role. |
+| value | Object array | A one-object array where the object consists of `teamName` and `roleName` attributes. The `teamName` is the name of the team where the user holds the role, and `roleName` can be one of `admin`, `viewer`, `member` or a custom role. |
 - **Request Example**:
 
 :::caution
