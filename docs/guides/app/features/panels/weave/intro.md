@@ -8,11 +8,20 @@ displayed_sidebar: default
 
 # Weave
 
-To learn how to write your own queries interactively, see out [this report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr), which goes from the basic operations available in Weave to other advanced visualizations of your data.
-
 ## Introduction
 
-Weave Panels allow users to directly query W&B for data, visualize the results, and further analyze interactively. Adding Weave Panels is really easy:
+Weave Panels allow users to directly query W&B for data, visualize the results, and further analyze interactively. 
+
+![](/images/weave/pretty_panel.png)
+
+:::tip
+See [this report](http://wandb.me/keras-xla-benchmark) to see how this team used Weave Panels to visualize their benchmarks.
+:::
+
+## Create a Weave Panel
+
+To add a Weave Panel:
+
 * In your **Workspace**, click `Add Panel` and select `Weave`.
 ![](/images/weave/add_weave_panel_workspace.png)
 * In a **Report**:
@@ -34,6 +43,8 @@ Let's break this down:
 * `runs` is a **variable** automatically injected in Weave Panel Expressions when the Weave Panel is in a Workspace. Its "value" is the list of runs which are visible for that particular Workspace. [Read about the different attributes available within a run here](../../../../track/public-api-guide.md#understanding-the-different-attributes).
 * `summary` is an **op** which returns the Summary object for a Run. Note: **ops** are "mapped", meaning this **op** is applied to each Run in the list, resulting in a list of Summary objects.
 * `["cifar10_sample_table"]` is a Pick **op** (denoted with brackets), with a **parameter** of "predictions". Since Summary objects act like dictionaries or maps, this operation "picks" the "predictions" field off of each Summary object.
+
+To learn how to write your own queries interactively, see out [this report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr), which goes from the basic operations available in Weave to other advanced visualizations of your data.
 
 ### Weave configuration
 
@@ -61,7 +72,7 @@ You can either filter directly in the query (first image) or using the filter bu
 ![](/images/weave/weave_filter_2.png)
 
 ### Map
-Map operation just iterates over data and applies a function. You can do this directly with a Weave query (first image) or by inserting a new column from the column options (second gif)
+Map operations iterate over lists and apply a function to each element in the data. You can do this directly with a Weave query (first image) or by inserting a new column from the column options (second gif)
 ![](/images/weave/weave_map.png)
 ![](/images/weave/weave_map.gif)
 
