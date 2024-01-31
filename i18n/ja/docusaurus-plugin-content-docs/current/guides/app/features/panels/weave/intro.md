@@ -17,8 +17,6 @@ Weaveパネルは、ユーザーがW&Bに直接データを問い合わせ、結
 3. **Weave構成**: ユーザーがWeave式および/またはWeaveパネルのパラメーターを設定できるようにします
 4. **Weave結果パネル**: Weaveパネルの主要なエリアで、指定されたWeaveパネルと構成を使用して、Weave式クエリの結果を表示します。
 
-![](/images/weave/weave_panel_components.png)
-
 Weave、テーブル、プロットをすぐに試してみたい場合は、こちらの[インタラクティブレポート](https://wandb.ai/timssweeney/keras\_learning\_rate/reports/Announcing-W-B-Weave-Plot--VmlldzoxMDIyODM1)をご覧ください。
 
 ## コンポーネント
@@ -45,28 +43,25 @@ Weave式は非常に強力であり、例えば、次の式では:
 
 ここで、マージ、クエリ、およびプロット構成はWeave構成（下記で説明）で指定されています。Ops、Types、およびこのクエリ言語のその他の特徴に関する完全な説明については、Weave Expression Docsを参照してください。
 
-![](/images/weave/merge_query_plot_example.png)
+
 
 ### Weaveパネルセレクタ
 
 Weave式を構築した後、Weaveパネルは自動的に結果を表示するために使用するパネルを選択します。結果のデータタイプに対して最も一般的なパネルが自動的に選択されます。ただし、パネルを変更する場合は、ドロップダウンをクリックして別のパネルを選択します。
-
-![](/images/weave/panel_selector.png)
 
 いくつかの特別なケースに注意してください:
 
 1. 現在テーブルを表示している場合、通常のオプションに加えて、「Plot table query」オプションが利用可能になります。このオプションを選択すると、_現在のテーブルクエリ_の結果をプロットすることを意味します。つまり、カスタムフィールドの追加、グループ化、ソート、フィルタリングなど、テーブルを操作している場合は、`Plot table query`を選択して、現在の結果をプロットの入力として使用できます。
 2.  `Merge Tables: <Panel>`は、入力データタイプがテーブルのリストである特別なケースです。このような場合、「Merge Tables」のパネル部分では、すべての行を連結するか、特定の列でテーブルを結合することができます。この設定は、Weave構成（下記で説明）で設定され、次のスクリーンショットに示されています。
 
-    ![](/images/weave/merge_tables_concate.png) ![](/images/weave/merge_tables_join.png)
+    
 3.  `List of: <Panel>`は、入力データタイプがリストである特別なケースであり、ページ化されたパネル表示を表示したい場合です。次の例では、`List of: Plot`が表示され、それぞれのプロットが異なるランから来ています。
-![](/images/weave/list_of_panels_plot.png)
 
 ### Weave設定
 
 パネルの左上隅にある歯車アイコンをクリックして、Weave設定を展開します。これにより、ユーザーは特定の式オペレーションのパラメーターと結果パネルを構成することができます。例えば：
 
-![](/images/weave/config_box_plot.png)result_
+
 
 上記の例では、展開されたWeave設定に3つのセクションが表示されます。
 
@@ -83,8 +78,6 @@ Weave式を構築した後、Weaveパネルは自動的に結果を表示する�
 :::
 
 ![](/images/weave/result_panel.png)
-
-![](/images/weave/result_panel_merge_table_plot.png)
 
 ## Weaveパネルの作成
 
