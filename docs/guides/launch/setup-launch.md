@@ -44,10 +44,14 @@ Launch agents are long running processes that poll one or more launch queues for
 Agents are highly flexible and can be configured to support a wide variety of use cases. The required configuration for your agent will depend on your specific use case. See the dedicated page for [Docker](./setup-launch-docker.md), [Amazon SageMaker](./setup-launch-sagemaker.md), [Kubernetes](./setup-launch-kubernetes.md), or [Vertex AI](./setup-vertex.md).
 :::
 
-W&B recommends you start the agent using a [service acccount's](https://docs.wandb.ai/guides/technical-faq/general#what-is-a-service-account-and-why-is-it-useful) API key, rather than a specific user's.  Beyond ensuring the agent isn't dependent on an individual user, using a service account means the author associated with a run created through Launch will be the user who submitted the job, rather than the user associated with the agent.
+:::tip
+W&B recommends you start agents with a [service account's](https://docs.wandb.ai/guides/technical-faq/general#what-is-a-service-account-and-why-is-it-useful) API key, rather than a specific user's API key. There are two benefits to using a service account's API key:
+1. The agent isn't dependent on an individual user.
+2. The author associated with a run created through Launch is viewed by Launch as the user who submitted the launch job, rather than the user associated with the agent.
+:::
 
 ### Agent configuration
-Configure the launch agent with a YAML file named `launch-config.yaml`. By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
+Configure the launch agent with a YAML file named `launch-config.yaml`. By default, W&B checks for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
 
 The contents of your launch agent's configuration file will depend on your launch agent's environment, the launch queue's target resource, Docker builder requirements, cloud registry requirements, and so forth. 
 
