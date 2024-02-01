@@ -5,17 +5,10 @@ displayed_sidebar: default
 # Advanced queue set up
 The following page describes how to configure additional launch queue options.
 
-## Set up queue config templates (Beta)
+## Set up queue config templates
 Administer and manage guardrails on compute consumption with Queue Config Templates. Set defaults, minimums, and maximum values for fields such as memory consumption, GPU, and runtime duration.
 
 After you configure a queue with config templates, members of your team can alter fields you defined only within the specified range you defined.
-
-### Enable queue config templates
-1. Navigate to your team project's settings in the W&B App.
-2. Scroll down until you reach the **Beta Features** section.
-3. Toggle the **Enable the Launch config allow listing UI**.
-
-![](/images/launch/toggle_allow_listing.png)
 
 ### Configure queue template
 You can configure a queue template on an existing queue or create a new queue.  
@@ -26,9 +19,6 @@ You can configure a queue template on an existing queue or create a new queue.
 4. Navigate to the **Queue config** section.
 5. Identify the config key-values you want to create a template for. 
 6. Replace the value in the config with a template field. Template fields take the form of `{{variable-name}}`. 
-:::tip
-You can provide any value within the template. W&B suggests you use a variable name that is easy to understand.
-:::
 7. Click on the **Parse configuration** button. When you parse your configuration, W&B will automatically create tiles below the queue config for each template you created.
 8. For each tile generated, you must first specify the data type (string, integer, or float) the queue config can allow. To do this, select the data type from the **Type** dropdown menu.
 9. Based on your data type, complete the fields that appear within each tile.
