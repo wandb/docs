@@ -7,13 +7,15 @@ import TabItem from '@theme/TabItem';
 
 # Advanced agent set up
 
-How you configure the launch agent will depend on numerous factors. One of those factors is whether or not the launch agent will build an image for you.
+How you configure the launch agent depends on numerous factors. One of those factors is whether or not the launch agent builds an image for you.
 
 :::tip
-The W&B launch agent will build an image for you if you provide a Git repository based or artifact based jobs.
+The W&B launch agent will build an image for you if you provide a Git repository based or [artifact based jobs](./create-launch-job.md#create-a-job-with-a-wb-artifact).
 :::
 
-In the simplest use case, you provide an image-based launch job that is executed in a launch queue target environment that has access to your image repository More requirements must be satisfied if you use the launch agent to build images for you.
+In the simplest use case, you provide an image-based launch job that is executed in a launch queue target environment that has access to your image repository.
+
+The following section describe the requirements you must satisfy if you use the launch agent to build images for you.
 
 ## Builders
 
@@ -25,7 +27,7 @@ Launch agents can build images from W&B artifacts and Git repository sourced job
 
 ### Docker
 
-We recommend that you use the Docker builder if you want the agent to build images on a local machine (that has Docker installed). Specify the Docker builder in the launch agent config with the builder key.
+W&B recommends that you use the Docker builder if you want the agent to build images on a local machine (that has Docker installed). Specify the Docker builder in the launch agent config with the builder key.
 
 For example, the following YAML snippet shows how to specify this in a launch agent config file (`launch-config.yaml`):
 
@@ -339,8 +341,10 @@ ml.jobs.get;
 
 ### Git repository credentials
 
-If you use a private git repository as the source for your launch job, you will need to provide credentials to the agent to access the repository. The credentials will depend on the type of repository you are using.
+You must provide credentials to your launch agent if you use a private git repository as the source for your launch job.
 
-Git repositories are typically accesseded using ssh or https. The url type determines which protocol is used to access the repository. See [our documentation](/docs/guides/launch/create-launch-job.md#git-remote-url-handling) for more information on how to create jobs that refer to a git remote with either protocol.
+The credentials you specify depend on the type of repository you are using.
 
-Follow your repository provider's documentation to create a credential that can be used by the agent to access the repository.
+Git repositories are typically accessed using SSH or HTTPS. The URL type determines which protocol is used to access the repository. See [Git remote URL handling](./create-launch-job.md#git-remote-url-handling) in [Create a launch job](./create-launch-job.md) for more information on how to create jobs that refer to a git remote with either protocol.
+
+Follow your repository provider's documentation to create a credential that the agent can use to access the repository.

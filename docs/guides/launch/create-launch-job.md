@@ -8,7 +8,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 
 # Create a launch job
-
+<CTAButtons colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP"/>
 
 A job is a blueprint that contains contextual information about a W&B run it is created from; such as the run's source code, software dependencies, hyperparameters, artifact version, and so forth.
 
@@ -16,12 +16,12 @@ Once you have a launch job, you can add them to a pre-configured [launch queue](
 
 There are three ways to create a launch job:
 
-- With a Python script
-- With a Docker image
-- With Git repository
+- [With a Python script](#create-a-job-with-a-wb-artifact)
+- [With a Docker image](#create-a-job-with-a-docker-image)
+- [With Git repository](#create-a-job-with-git)
 
 The following sections show how to create a job based on each use case.
-<CTAButtons colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP"/>
+
 
 ## Before you get started
 
@@ -29,7 +29,6 @@ Before you create a launch job, find out the name of your queue and the entity i
 
 1. Navigate to [wandb.ai/launch](https://wandb.ai/launch).
 2. From the **All entities** dropdown, select the entity the launch queue belongs to.
-   This will filter queues based on W&B entities.
 3. From the filtered results, check that the queue exists.
 4. Hover your mouse to the right of the launch queue and select `View queue`.
 5. Select the **Agents** tab. Within the **Agents** tab you sill see a list of Agent IDs and their statuses. Ensure that one of the agent IDs has a **polling** status.
@@ -122,7 +121,7 @@ For more information on the [`run.log_code()`](../../ref/python/run.md#log_code)
 
 Create a job with a Docker image with the W&B CLI or by creating a Docker container from the image. To create an image-based job, you must first create the Docker image. The Docker image should contain the source code (such as the Dockerfile, requirements.txt file, and so on) required to execute the W&B run.
 
-As an example, suppose we have a directory called [`fashion_mnist_train`](https://github.com/wandb/launch-jobs/tree/main/jobs/fashion_mnist_train) with the following directory structure:
+As an example, suppose you have a directory called [`fashion_mnist_train`](https://github.com/wandb/launch-jobs/tree/main/jobs/fashion_mnist_train) with the following directory structure:
 
 ```
 fashion_mnist_train
@@ -134,7 +133,7 @@ fashion_mnist_train
 │   │   example.yml
 ```
 
-We create a Docker image called `fashion-mnist` with the `docker build` command:
+You can create a Docker image called `fashion-mnist` with the `docker build` command:
 
 ```bash
 docker build . -t fashion-mnist
@@ -173,7 +172,7 @@ docker run -e WANDB_PROJECT="<project-name>" \
 -e WANDB_DOCKER="<docker-image-name>" image:tag
 ```
 
-You can specify a name for your job with the `WANDB_JOB_NAME` environment variable. If you do not specify a name, W&B will automatically generate a launch job name for you. W&B will create a job name with the following format: `job-<image>-<name>`.
+You can specify a name for your job with the `WANDB_JOB_NAME` environment variable. W&B automatically generates a launch job name for you if you do not specify a name. W&B assigns a job name with the following format: `job-<image>-<name>`.
 
 :::tip
 Make sure you specify is set to the full image tag. For example, if your agent will run images from an ECR repository, you should set `WANDB_DOCKER` to the full image tag, including the ECR repository URL: `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-image:develop`. The docker tag, in this case `'develop'`, is added as an alias to the resulting job.
@@ -207,25 +206,31 @@ To build from a branch or commit hash, append the `-g` argument.
 
 Ensure the path with your Python script has a `requirements.txt` file with the Python dependencies required to run your code. A Python runtime is also required. The python runtime can either be specified manually with the runtime parameter or can be auto-detected from a `runtime.txt` or `.python-version file`.
 
-You can specify a name for your job with the `WANDB_JOB_NAME` environment variable. If you do not specify a name, W&B will automatically generate a launch job name for you. It will create a job name with the following format: `job-<git-remote-url>-<path-to-script>`.
+You can specify a name for your job with the `WANDB_JOB_NAME` environment variable. If you do not specify a name, W&B automatically generate a launch job name for you. In this case, W&B assigns a job name with the following format: `job-<git-remote-url>-<path-to-script>`.
 
 </TabItem>
 </Tabs>
 
-### Git remote url handling
+### Git remote URL handling
 
-The git remote associated with a job can be either an https or ssh url.
+The Git remote associated with a launch job can be either an HTTPS or an SSH URL. Git remote URLs typically use the following formats:
 
-Typically these url formats look like:
-
-- `https://github.com/organization/repository.git` (https)
-- `git@github.com:organization/repository.git` (ssh)
+- `https://github.com/organization/repository.git` (HTTPS)
+- `git@github.com:organization/repository.git` (SSH)
 
 The exact format varies by git hosting provider.
 
-The remote url format is important because it determines how the git remote is accessed and authenticated. For example, if you are using an https url, you will need to provide a username and password to authenticate with the git remote. If you are using an ssh url, you will need to provide an ssh key to authenticate with the git remote.
+The remote URL format is important because it determines how the git remote is accessed and authenticated. The following table describes requirements you must satisfy to access and authentication:
 
-If your job is being created automatically by a W&B run, the git remote url will be automatically inferred from the local git repository. If you are creating a job manually, you are responsible for providing the url in the desired format.
+| Remote URL | Requirements for access and authentication |
+| ---------- | ------------------------------------------ |
+| HTTPS URL  | username and password to authenticate with the git remote |
+| SSH URL    | SSH key to authenticate with the git remote |
+
+
+The Git remote URL is automatically inferred from the local git repository if your launch job is created automatically by a W&B run. 
+
+If you create a job manually, you are responsible for providing the URL in the desired format. For more information, see [LINK].
 
 ## Launch job names
 
