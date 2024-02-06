@@ -139,12 +139,48 @@ There are several options for how the Launch agent is deployed for a Sagemaker q
 
 For production workloads and for customers who already have an EKS cluster, W&B recommends deploying the Launch agent to the EKS cluster using this Helm chart.
 
-For production workloads without an current EKS cluster, ECS .  **INSTANCE SIZING GUIDANCE**.
+For production workloads without an current EKS cluster, an EC2 instance is a good approach--while the agent instance will keep running all the time, the agent doesn't need more than a `t2.micro`-sized instance which is relatively affordable.
 
 For experimental or solo use cases, running the Launch agent on your local machine can be a fast way to get started.
 
+
+#### Agent running in EKS
+
+[This helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) can be used to install the agent in an EKS cluster.
+
+#### Agent running in EC2
+
+1. Go to `EC2` in the AWS console and click `Launch instance`.
+2. Pick a t2.micro and use an appropriate security group and key pair for your organization.
+3. Expand `Advanced details` and for `IAM instance profile`, select the launch agent IAM role you created above.
+4. Launch the instance.
+
+Once the instance is running, connect to it and `pip install wandb[launch]`.  **Need to Make sure python is installed.  Also how do you associate with the right role**
+
+
+#### Agent running from a local machine 
+
+Use the AWS config files located at `~/.aws/config`  and `~/.aws/credentials` to associate a role with an agent that is polling on a local machine. Provide the IAM role ARN that you created for the launch agent in the previous step.
+ 
+```yaml title="~/.aws/config"
+[profile sagemaker-agent]
+role_arn = arn:aws:iam::<account-id>:role/<agent-role-name>
+source_profile = default                                                                   
+```
+
+```yaml title="~/.aws/credentials"
+[default]
+aws_access_key_id=<access-key-id>
+aws_secret_access_key=<secret-access-key>
+aws_session_token=<session-token>
+```
+
+Note that session tokens have a [max length](https://docs.aws.amazon.com/cli/latest/reference/sts/get-session-token.html#description) of 1 hour or 3 days depending on the principal they are associated with.
+
 ###  Configure a launch agent
-Configure the launch agent with a YAML config file named `launch-config.yaml`. By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
+Configure the launch agent with a YAML config file named `launch-config.yaml`. 
+
+By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent with the `-c` flag.
 
 The following YAML snippet demonstrates how to specify the core config agent options:
 
@@ -163,29 +199,6 @@ builder:
 
 ```
 
-
-### Agent runs within AWS (such as EC2)
-You can use an instance role to provide permissions to the agent if you want to run the agent within an AWS service like EC2. 
-
-
-### Agent runs from a local machine 
-
-Use the AWS config files located at `~/.aws/config`  and `~/.aws/credentials` to associate a role with an agent that is polling on a local machine. Provide the IAM role ARN that you created for the launch agent in the previous step.
- 
-```yaml title="~/.aws/config"
-[profile sagemaker-agent]
-role_arn = arn:aws:iam::<account-id>:role/<agent-role-name>
-source_profile = default                                                                   
-```
-
-```yaml title="~/.aws/credentials"
-[default]
-aws_access_key_id=<access-key-id>
-aws_secret_access_key=<secret-access-key>
-aws_session_token=<session-token>
-```
-
-Note that session tokens have a [max length](https://docs.aws.amazon.com/cli/latest/reference/sts/get-session-token.html#description) of 1 hour or 3 days depending on the principal they are associated with.
 
 ## Push the job images in ECR
 
