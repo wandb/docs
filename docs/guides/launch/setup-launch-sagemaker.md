@@ -47,7 +47,7 @@ Make a note of the ARNs for these resources, because you'll use them in the Laun
 
 The Launch agent needs permission to create SageMaker training jobs
 
-1. From the IAM screen in AWS, create a new role . 
+1. From the IAM screen in AWS, create a new role. 
 2. For Trusted Entity, select `AWS Account` (or another option suiting your organization's policies).
 3. Scroll through the permissions screen and click Next--you will create a new permissions policy elsewhere.
 4. Give the role a name and description (e.g. `launch-agent-role`).
@@ -130,17 +130,18 @@ You must at minimum specify:
 - `StoppingCondition`: Required specification of the stopping conditions for the training job. Options outlined [here](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_StoppingCondition.html).
 7. Click on the **Create Queue** button.
 
-You can also do this via the Python API with a request like:
-
-```python
-
-```
 
 ## Start the launch agent
 
 ### Decide where to run the Launch agent
 
 There are several options for how the Launch agent is deployed for a Sagemaker queue: on a local machine, on an EC2 instance, or in an EKS cluster.
+
+For production workloads and for customers who already have an EKS cluster, W&B recommends deploying the Launch agent to the EKS cluster using this Helm chart.
+
+For production workloads without an current EKS cluster, ECS .  **INSTANCE SIZING GUIDANCE**.
+
+For experimental or solo use cases, running the Launch agent on your local machine can be a fast way to get started.
 
 ###  Configure a launch agent
 Configure the launch agent with a YAML config file named `launch-config.yaml`. By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
@@ -184,6 +185,13 @@ aws_session_token=<session-token>
 ```
 
 Note that session tokens have a [max length](https://docs.aws.amazon.com/cli/latest/reference/sts/get-session-token.html#description) of 1 hour or 3 days depending on the principal they are associated with.
+
+## Push the job images in ECR
+
+If you are going to have Launch run existing images with overrides specified through W&B, rather than having the Launch agent build the image for you, you need to have the images already in the ECR repo (before creating the job?).
+
+
+
 
 
 <!-- Alternatively, you can use environment variables to specify your  -->
