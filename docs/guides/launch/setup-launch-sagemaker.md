@@ -158,7 +158,8 @@ environment:
 registry:
   type: ecr
   uri: <ecr-repo-arn>
-builder: docker
+builder: 
+  type: docker
 
 ```
 
@@ -188,10 +189,11 @@ Note that session tokens have a [max length](https://docs.aws.amazon.com/cli/lat
 
 ## Push the job images in ECR
 
-If you are going to have Launch run existing images with overrides specified through W&B, rather than having the Launch agent build the image for you, you need to have the images already in the ECR repo (before creating the job?).
+If you are going to have Launch run existing images with overrides specified through W&B, rather than having the Launch agent build the image for you, you need to have the images already in the ECR repo.  The full URI to the image can then be used in job creation e.g.
 
-
-
+```
+wandb job create image <your-image-uri> --p <project> ...
+```
 
 
 <!-- Alternatively, you can use environment variables to specify your  -->
