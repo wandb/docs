@@ -6,3 +6,11 @@ dispatch:
   # Route requests to docs-beta.wandb.ai to the beta service
   - url: "docs-beta.wandb.ai/*"
     service: beta
+
+  # # Route requests to 
+  # - url: "docs.wandb.ai/ko/*"
+  #   service: ko
+
+  # Route requests to docs-beta.wandb.ai to the ko beta service
+  - url: "docs-beta.wandb.ai/ko/*"
+    service: beta-ko
