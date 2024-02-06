@@ -43,11 +43,10 @@ const Home: React.FC = () => {
           <BigSearchBar />
           <div className={styles.homeDescription}>
             <Translate>
-            Weights & Biases is the machine learning platform for developers to
-            build better models faster. Use W&B's lightweight, interoperable
-            tools to quickly track experiments, version and iterate on datasets,
-            evaluate model performance, reproduce models, visualize results and
-            spot regressions, and share findings with colleagues.
+            Weights & Biases는 개발자들이 더 나은 모델을 더 빠르게 구축할 수 있도록 하는 기계학습 플랫폼입니다.
+            W&B의 가벼우면서도 상호 운용 가능한 도구를 통해 신속하게 실험을 추적하고,
+            데이터셋의 버전 관리와 반복 작업을 하며, 모델 성능을 평가하고, 모델을 재현하고,
+            결과를 시각화하며, 회귀를 파악하고, 동료들과 결과를 공유할 수 있습니다.
             </Translate>
           </div>
           <div className={styles.homeBoxContainer}>
@@ -60,8 +59,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className={styles.boxDescription}>
                   <Translate>
-                  The developer guide provides in-depth information about W&B
-                  and how to use it.
+                  개발자 가이드는 W&B에 대한 정보와 사용 방법에 대해 심도 있는 정보를 제공합니다. 
                   </Translate>
                 </div>
               </div>
@@ -70,13 +68,12 @@ const Home: React.FC = () => {
               <div className={clsx(styles.homeBox, styles.sienna)}>
                 <CodeAltIcon />
                 <div className={styles.boxHeader}>
-                  <Translate>API reference</Translate>
+                  <Translate>API Reference</Translate>
                   <ForwardNextIcon className={styles.arrowIcon} />
                 </div>
                 <div className={styles.boxDescription}>
                   <Translate>
-                  The API reference guide provides technical information about
-                  the W&B API.
+                  API 참조 가이드는 W&B API에 대한 기술적 정보를 제공합니다.
                   </Translate>
                 </div>
               </div>
@@ -90,7 +87,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className={styles.boxDescription}>
                   <Translate>
-                  Are you new to W&B? Check out our quickstarts!
+                  W&B가 처음이신가요? 저희의 퀵스타트를 확인해 보세요!
                   </Translate>
                 </div>
               </div>
@@ -104,18 +101,18 @@ const Home: React.FC = () => {
                 </div>
                 <div className={clsx(styles.boxDescription, styles.whiteText)}>
                   <Translate>
-                  Learn practical skills for efficient workflows with our Tutorials. 
+                  저희의 튜토리얼을 통해 효율적인 워크플로우를 위한 실용적인 기술을 배워보세요.
                   </Translate>
                 </div>
               </div>
             </Link>
           </div>
           <div className={styles.homeFooterBox}>
-            Stay up to date with the latest updates from our W&B platform, learn
-            about W&B for enterprise, stay connected with the ML community and
-            more at our sister page:{' '}
+            저희의 또 다른 페이지인 https://wandb.ai/site{' '}
             <a href="https://wandb.ai/site">
-              https://wandb.ai/site.{' '}
+              https://wandb.ai/site.{' '} 에서 W&B
+            플랫폼 관련 최신 업데이트를 확인하고, 엔터프라이즈용 W&B에 대해 알아보고,
+            ML 커뮤니티와 소통하는 등 다양한 정보를 얻어보세요.
               <ForwardNextIconBlue className={styles.arrowIconLink} />
             </a>
           </div>

@@ -6,7 +6,7 @@ slug: /guides
 displayed_sidebar: default
 ---
 
-# What is W&B?
+# W&B란 무엇인가?
 
 Weights & Biases (W&B) is the AI developer platform, with tools for training models, fine-tuning models, and leveraging foundation models. 
 

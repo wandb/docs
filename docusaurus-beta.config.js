@@ -6,11 +6,11 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Weights & Biases Documentation',
+  title: 'Weights & Biases 선적 서류 비치',
   staticDirectories: ['static'],
   tagline: 'The developer-first MLOps platform',
-  url: 'https://docs-beta.wandb.ai',
-  baseUrl: '/',
+  url: 'https://docs-beta.wandb.ai/',
+  baseUrl: '/ko/',
   onBrokenLinks: 'throw',
   // onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'warn',
@@ -19,25 +19,14 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'wandb', // Usually your GitHub org/user name.
-  projectName: 'wandb/docodile', // Usually your repo name.
+  // projectName: 'wandb/docodile', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'ja'],
-    path: 'i18n',
-    localeConfigs: {
-      en : {
-        label: 'English',
-        path: 'en'
-      },
-      ja : {
-        label: 'Japanese',
-        path: 'ja'
-      },
-    },
+    defaultLocale: 'ko',
+    locales: ['ko'],
   },
 
   presets: [
@@ -71,21 +60,20 @@ const config = {
         excludeUserAgents: ['GoogleSecurityScanner'],
       },
     ],
-    [
-      '@docusaurus/plugin-google-tag-manager',
-      {
-        containerId: 'GTM-5BL5RTH',
-      },
-    ],
-    [
-      '@docusaurus/plugin-google-gtag',
-      {
-        trackingID: 'G-5JYCHZZP7K',
-        anonymizeIP: true,
-      },
-    ],
+    // [
+    //   '@docusaurus/plugin-google-tag-manager',
+    //   {
+    //     containerId: 'GTM-5BL5RTH',
+    //   },
+    // ],
+    // [
+    //   '@docusaurus/plugin-google-gtag',
+    //   {
+    //     trackingID: 'G-5JYCHZZP7K',
+    //     anonymizeIP: true,
+    //   },
+    // ],
     require.resolve('docusaurus-plugin-image-zoom'),
-    // require.resolve('docusaurus-lunr-search'),
   ],
 
   themeConfig:
@@ -141,12 +129,12 @@ const config = {
             label: 'Reference',
             position: 'right',
           },
-          {
-            type: 'doc',
-            docId: 'tutorials/intro_to_tutorials',
-            label: 'Tutorials',
-            position: 'right',
-          },
+          // {
+          //   type: 'doc',
+          //   docId: 'tutorials/intro_to_tutorials',
+          //   label: 'Tutorials',
+          //   position: 'right',
+          // },
           {
             type: 'localeDropdown',
             position: 'right',
