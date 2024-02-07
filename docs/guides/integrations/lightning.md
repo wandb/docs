@@ -44,14 +44,12 @@ Instead, log the Trainer's `global_step` like your other metrics, like so:
 
 ```python
 import lightning as L
-from lightning.fabric.loggers import WandbLogger
-    
+from wandb.integration.lightning.fabric import WandbLogger
+
 wandb_logger = WandbLogger(log_model="all")
 fabric = L.Fabric(loggers=[wandb_logger])
 fabric.launch()
-fabric.log_dict({
-    "important_metric": important_metric
-})
+fabric.log_dict({"important_metric": important_metric})
 ```
 
 </TabItem>
@@ -171,10 +169,12 @@ class LitModule(LightningModule):
 <TabItem value="fabric">
 
 ```python
-wandb_logger.log_hyperparams({
-    "hyperparameter_1": hyperparameter_1,
-    "hyperparameter_2": hyperparameter_2,
-})
+wandb_logger.log_hyperparams(
+    {
+        "hyperparameter_1": hyperparameter_1,
+        "hyperparameter_2": hyperparameter_2,
+    }
+)
 ```
 
 </TabItem>
@@ -293,8 +293,9 @@ class My_LitModule(LightningModule):
 
 ```python
 import lightning as L
-import torch; import torchvision as tv
-from lightning.fabric.loggers import WandbLogger
+import torch
+import torchvision as tv
+from wandb.integration.lightning.fabric import WandbLogger
 import wandb
 
 fabric = L.Fabric(loggers=[wandb_logger])
@@ -304,7 +305,9 @@ model = tv.models.resnet18()
 optimizer = torch.optim.SGD(model.parameters(), lr=lr)
 model, optimizer = fabric.setup(model, optimizer)
 
-train_dataloader = fabric.setup_dataloaders(torch.utils.data.DataLoader(train_dataset, batch_size=batch_size))
+train_dataloader = fabric.setup_dataloaders(
+    torch.utils.data.DataLoader(train_dataset, batch_size=batch_size)
+)
 
 model.train()
 for epoch in range(num_epochs):
@@ -313,9 +316,7 @@ for epoch in range(num_epochs):
         loss = model(batch)
         loss.backward()
         optimizer.step()
-        fabric.log_dict({
-            "loss": loss
-        })
+        fabric.log_dict({"loss": loss})
 ```
 
 </TabItem>
@@ -361,9 +362,7 @@ class My_LitModule(LightningModule):
 wandb.define_metric("val_accuracy", summary="max")
 fabric = L.Fabric(loggers=[wandb_logger])
 fabric.launch()
-fabric.log_dict({
-    "val_accuracy": val_accuracy
-})
+fabric.log_dict({"val_accuracy": val_accuracy})
 ```
 
 </TabItem>
@@ -558,8 +557,9 @@ import torch
 import wandb
 import lightning.pytorch as pl
 from lightning.pytorch.loggers import WandbLogger
-# or 
-# from lightning.fabric.loggers import WandbLogger
+
+# or
+# from wandb.integration.lightning.fabric import WandbLogger
 
 
 class LogPredictionSamplesCallback(Callback):
