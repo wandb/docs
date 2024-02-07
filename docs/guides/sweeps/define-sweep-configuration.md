@@ -229,12 +229,19 @@ Describe the hyperparameters to explore during the sweep. For each hyperparamete
   <TabItem value="nested">
 
   ```yaml
-  optimizer:
-      parameters:
+  top_level_param:
+    min: 0
+    max: 5
+  nested_param:
+      parameters:  # required key
           learning_rate:
               values: [0.01, 0.001]
-          momentum:
-              value: 0.9
+          double_nested_param:
+            parameters:  # <--
+              x:
+                value: 0.9
+              y: 
+                value: 0.8
   ```
 
   </TabItem>
@@ -582,3 +589,76 @@ command:
 ```
   </TabItem>
 </Tabs>
+
+### Nested Parameters
+
+The sweep configuration format supports specifying nested parameters. To delineate a nested parameter, use an additional `parameters` key under the top level parameter name. Multi-level nesting is allowed. For a complete sweep configuration example: 
+
+```yaml
+program: train.py
+method: bayes
+metric:
+  name: val_loss
+  goal: minimize
+top_level_param:
+  min: 0
+  max: 5
+nested_param:
+  parameters:  # required key
+    learning_rate:
+      values: [0.01, 0.001]
+    double_nested_param:
+      parameters:  # <--
+        x:
+          value: 0.9
+        y: 
+          value: 0.8
+```
+
+The above configuration might result in the following run config (in `train.py`):
+
+```json
+{
+  "top_level_param": 0,
+  "nested_param": {
+    "learning_rate": 0.01,
+    "double_nested_param": {
+      "x": 0.9,
+      "y": 0.8
+    }
+  }
+}
+```
+
+:::caution
+Nested parameters overwrite keys specified in a run configuration.
+
+For example, suppose you initialize a W&B run with the following configuration:
+
+```python
+run = wandb.init(config = {
+  "nested_param": { 
+    "manual_key": 1
+    }
+  }
+)
+```
+
+If you then create a sweep with the following sweep configuration:
+
+```json
+{
+  "top_level_param": 0,
+  "nested_param": {
+    "learning_rate": 0.01,
+    "double_nested_param": {
+      "x": 0.9,
+      "y": 0.8
+    }
+  }
+}
+```
+
+The `nested_param.manual_key` that was passed when the W&B run was initialized will not be available. Instead, the `run.config` will look exactly like the JSON code snippet shown above.
+:::
+

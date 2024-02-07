@@ -48,10 +48,11 @@ Create a sweep interactively with the W&B App.
 4. Click the **Configure Launch 🚀** button.
 5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from.
 6. Select a queue to run the sweep on using the **Queue** dropdown menu.
-7. (Optional) Configure override args for the run or sweep scheduler. For example, using the scheduler overrides, configure the number of concurrent runs the scheduler manages using `num_workers`.
-8. (Optional) Select a project to save the sweep to using the **Destination Project** dropdown menu.
-9. Click **Save**
-10. Select **Launch Sweep**.
+8. Use the **Job Priority** dropdown to specify the priority of your launch job.  A launch job's priority is set to "Medium" if the launch queue does not support prioritization.
+8. (Optional) Configure override args for the run or sweep scheduler. For example, using the scheduler overrides, configure the number of concurrent runs the scheduler manages using `num_workers`.
+9. (Optional) Select a project to save the sweep to using the **Destination Project** dropdown menu.
+10. Click **Save**
+11. Select **Launch Sweep**.
 
 ![](/images/launch/create_sweep_with_launch.png)
 

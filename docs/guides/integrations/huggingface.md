@@ -359,32 +359,40 @@ import pandas as pd
 
 def decode_predictions(tokenizer, predictions):
     labels = tokenizer.batch_decode(predictions.label_ids)
-    prediction_text = tokenizer.batch_decode(predictions.predictions.argmax(axis=-1))
+    logits = predictions.predictions.argmax(axis=-1)
+    prediction_text = tokenizer.batch_decode(logits)
     return {"labels": labels, "predictions": prediction_text}
 
 
 class WandbPredictionProgressCallback(WandbCallback):
     """Custom WandbCallback to log model predictions during training.
 
-    This callback logs model predictions and labels to a wandb.Table at each logging step during training.
-    It allows to visualize the model predictions as the training progresses.
+    This callback logs model predictions and labels to a wandb.Table at each 
+    logging step during training. It allows to visualize the 
+    model predictions as the training progresses.
 
     Attributes:
         trainer (Trainer): The Hugging Face Trainer instance.
         tokenizer (AutoTokenizer): The tokenizer associated with the model.
-        sample_dataset (Dataset): A subset of the validation dataset for generating predictions.
-        num_samples (int, optional): Number of samples to select from the validation dataset for generating predictions. Defaults to 100.
+        sample_dataset (Dataset): A subset of the validation dataset 
+          for generating predictions.
+        num_samples (int, optional): Number of samples to select from 
+          the validation dataset for generating predictions. Defaults to 100.
         freq (int, optional): Frequency of logging. Defaults to 2.
     """
 
-    def __init__(self, trainer, tokenizer, val_dataset, num_samples=100, freq=2):
+    def __init__(self, trainer, tokenizer, val_dataset,
+                 num_samples=100, freq=2):
         """Initializes the WandbPredictionProgressCallback instance.
 
         Args:
             trainer (Trainer): The Hugging Face Trainer instance.
-            tokenizer (AutoTokenizer): The tokenizer associated with the model.
+            tokenizer (AutoTokenizer): The tokenizer associated 
+              with the model.
             val_dataset (Dataset): The validation dataset.
-            num_samples (int, optional): Number of samples to select from the validation dataset for generating predictions. Defaults to 100.
+            num_samples (int, optional): Number of samples to select from 
+              the validation dataset for generating predictions.
+              Defaults to 100.
             freq (int, optional): Frequency of logging. Defaults to 2.
         """
         super().__init__()
@@ -395,7 +403,8 @@ class WandbPredictionProgressCallback(WandbCallback):
 
     def on_evaluate(self, args, state, control, **kwargs):
         super().on_evaluate(args, state, control, **kwargs)
-        # control the frequency of logging by logging the predictions every `freq` epochs
+        # control the frequency of logging by logging the predictions
+        # every `freq` epochs
         if state.epoch % self.freq == 0:
             # generate predictions
             predictions = self.trainer.predict(self.sample_dataset)
@@ -440,7 +449,7 @@ Further configuration of what is logged with `Trainer` is possible by setting en
 | Environment Variable | Usage                                                                                                                                                                                                                                                                                                    |
 | -------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `WANDB_PROJECT`      | Give your project a name (`huggingface` by default)                                                                                                                                                                                                                                                      |
-| `WANDB_LOG_MODEL`    | Log the model as artifact at the end of training (`false` by default)                                                                                                                                                                                                                                    |
+| `WANDB_LOG_MODEL`    | <p>Log the model checkpoint as a W&B Artifact (`false` by default) </p><ul><li><code>false</code> (default): No model checkpointing </li><li><code>checkpoint</code>: A checkpoint will be uploaded every args.save_steps (set in the Trainer's TrainingArguments). </li><li><code>end</code>: The final model checkpoint will be uploaded at the end of training.</li></ul>                                                                                                                                                                                                                                   |
 | `WANDB_WATCH`        | <p>Set whether you'd like to log your models gradients, parameters or neither</p><ul><li><code>false</code> (default): No gradient or parameter logging </li><li><code>gradients</code>: Log histograms of the gradients </li><li><code>all</code>: Log histograms of gradients and parameters</li></ul> |
 | `WANDB_DISABLED`     | Set to `true` to disable logging entirely (`false` by default)                                                                                                                                                                                                                                           |
 | `WANDB_SILENT`       | Set to `true` to silence the output printed by wandb (`false` by default)                                                                                                                                                                                                                                |

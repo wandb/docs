@@ -20,9 +20,9 @@ The Weights and Biases fine-tuning integration works with `openai >= 1.0`. Pleas
 If you use OpenAI's API to [fine-tune OpenAI models](https://platform.openai.com/docs/guides/fine-tuning/), you can now use the W&B integration to track experiments, models, and datasets in your central dashboard.
 
 ```python
-from wandb.integration.openai import WandbLogger
+from wandb.integration.openai.fine_tuning import WandbLogger
 
-## Finetuning logic
+# Finetuning logic
 
 WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
 ```
@@ -47,7 +47,7 @@ Then sync your results from your script
 
 
 ```python
-from wandb.integration.openai import WandbLogger
+from wandb.integration.openai.fine_tuning import WandbLogger
 
 # one line command
 WandbLogger.sync()
@@ -107,7 +107,7 @@ This model (metadata) artifact can further be linked to a model in the [W&B Mode
 Log your fine-tune jobs to your team account with:
 
 ```python
-WandbLogger.sync(entity='YOUR_TEAM_NAME')
+WandbLogger.sync(entity="YOUR_TEAM_NAME")
 ```
 
 ### How can I organize my runs?
@@ -125,7 +125,7 @@ Fine-tuned model ID is logged to W&B as artifacts (`model_metadata.json`) as wel
 ```python
 import wandb
 
-ft_artifact = wandb.run.use_artifact('ENTITY/PROJECT/model_metadata:VERSION')
+ft_artifact = wandb.run.use_artifact("ENTITY/PROJECT/model_metadata:VERSION")
 artifact_dir = artifact.download()
 ```
 
@@ -143,7 +143,7 @@ If a fine-tune was not logged to W&B successfully, you can use the `overwrite=Tr
 
 ```python
 WandbLogger.sync(
-    fine_tune_job_id='FINE_TUNE_JOB_ID',
+    fine_tune_job_id="FINE_TUNE_JOB_ID",
     overwrite=True,
 )
 ```

@@ -15,7 +15,7 @@ This page describes the high-level steps required to set up W&B Launch:
 ## Set up a queue
 Launch queues must be configured to point to a specific target resource along with any additional configuration specific to that resource. For example, a launch queue that points to a Kubernetes cluster might include environment variables or set a custom namespace its launch queue configuration. When you create a queue, you will specify both the target resource you want to use and the configuration for that resource to use.
 
-When an agent receives a job from a queue, it also receives the queue configuration. When the agent submits the job to the target resource, it includes the queue configuration along with any overrides from the job itself. For example, you can use a job configuration to specify the Amazon SageMaker instance type for that job instance only.
+When an agent receives a job from a queue, it also receives the queue configuration. When the agent submits the job to the target resource, it includes the queue configuration along with any overrides from the job itself. For example, you can use a job configuration to specify the Amazon SageMaker instance type for that job instance only. In this case, it is common to use [queue config templates](./setup-queue-advanced.md#configure-queue-template) as the end user interface. 
 
 ### Create a queue
 1. Navigate to Launch App at [wandb.ai/launch](https://wandb.ai/launch). 
@@ -29,7 +29,8 @@ When an agent receives a job from a queue, it also receives the queue configurat
   :::
 4. Provide a name for your queue in the **Queue** field. 
 5. From the **Resource** dropdown, select the compute resource you want jobs added to this queue to use.
-6. Provide a resource configuration in either JSON or YAML format in the **Configuration** field. The structure and semantics of your configuration document will depend on the resource type that the queue is pointing to. For more details, see the dedicated set up page for your target resource.
+6. Choose whether to allow **Prioritization** for this queue.  If prioritization is enabled, a user on your team can define a priority for their launch job when they enqueue them.  Higher priority jobs are executed before lower priority jobs.
+7. Provide a resource configuration in either JSON or YAML format in the **Configuration** field. The structure and semantics of your configuration document will depend on the resource type that the queue is pointing to. For more details, see the dedicated set up page for your target resource.
 
 
 
@@ -72,13 +73,15 @@ queues:
   - <queue-name>
 ```
 
+
 ### Configure a container builder
 The launch agent can be configured to build images. You must configure the agent to use a container builder if you intend to use launch jobs created from git repositories or code artifacts. See the [Create a launch job](./create-launch-job.md) for more information on how to create a launch job. 
 
-W&B Launch supports two builders:
+W&B Launch supports three builder options:
 
 * Docker: The Docker builder uses a local Docker daemon to build images.
 * [Kaniko](https://github.com/GoogleContainerTools/kaniko):  Kaniko is a Google project that enables image building in environments where a Docker daemon is unavailable. 
+* Noop: The agent will not try to build jobs, and instead only pull pre-built images.
 
 :::tip
 Use the Kaniko builder if your agent is polling in an environment where a Docker daemon is unavailable (for example, a Kubernetes cluster).
@@ -90,16 +93,17 @@ To specify an image builder, include the builder key in your agent configuration
 
 ```yaml title="launch-config.yaml"
 builder:
-  type: docker | kaniko
+  type: docker | kaniko | noop
 ```
 
-### Configure a cloud registry
+### Configure a container registry
 In some cases, you might want to connect a launch agent to a cloud registry. Common scenarios where you might want to connect a launch agent to a cloud registry include:
 
+* You want to run a job in an envirnoment other than where you built it, such as a powerful workstation or cluster.
 * You want to use the agent to build images and run these images on Amazon SageMaker or VertexAI.
 * You want the launch agent to provide credentials to pull from an image repository.
 
-To learn more about how to configure the agent to interact with a cloud registry, see the [Advanced agent set](./setup-agent-advanced.md) up page.
+To learn more about how to configure the agent to interact with a container registry, see the [Advanced agent set](./setup-agent-advanced.md) up page.
 
 ## Activate the launch agent
 Activate the launch agent with the `launch-agent` W&B CLI command:

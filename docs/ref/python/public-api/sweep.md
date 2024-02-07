@@ -1,6 +1,6 @@
 # Sweep
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.0/wandb/apis/public.py#L2869-L3079' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L2901-L3111' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 A set of runs associated with a sweep.
@@ -33,7 +33,7 @@ sweep = api.sweep(path/to/sweep)
 
 ### `best_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.0/wandb/apis/public.py#L2964-L2987)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L2996-L3019)
 
 ```python
 best_run(
@@ -45,7 +45,7 @@ Return the best run sorted by the metric defined in config or the order passed i
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.0/wandb/apis/public.py#L1137-L1148)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L1165-L1176)
 
 ```python
 display(
@@ -57,7 +57,7 @@ Display this object in jupyter.
 
 ### `get`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.0/wandb/apis/public.py#L3012-L3061)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L3044-L3093)
 
 ```python
 @classmethod
@@ -70,7 +70,7 @@ Execute a query against the cloud backend.
 
 ### `load`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.0/wandb/apis/public.py#L2945-L2953)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L2977-L2985)
 
 ```python
 load(
@@ -80,7 +80,7 @@ load(
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.0/wandb/apis/public.py#L1133-L1135)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L1161-L1163)
 
 ```python
 snake_to_camel(
@@ -90,7 +90,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.0/wandb/apis/public.py#L3063-L3071)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L3095-L3103)
 
 ```python
 to_html(

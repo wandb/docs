@@ -8,6 +8,10 @@ displayed_sidebar: default
 
 Organizations allow you to manage membership across teams in your organization as well as subscription settings and billing information.
 
+:::note
+W&B recommends to have more than one admin in an organization. It is a best practice to ensure that admin operations can continue when the primary admin is not available. 
+:::
+
 ## Invite organization members
 
 Invite new members to your organizations.
