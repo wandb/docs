@@ -30,8 +30,6 @@ This guide is for executing Sagemaker Training Jobs.  For deploying to  Sagemake
 
 (A) is faster per-job and works well with existing CI systems, while (B), once set up, can offer some simplicity to ML Engineers rapidly iterating over training code.  
 
-For (B), you will need to provide additional information to your launch agent configuration allowing it to build. For more information, see [Advanced agent set up](./setup-agent-advanced.md).
-
 
 ### Gather information about S3, ECR, and Sagemaker IAM roles
 
@@ -55,6 +53,14 @@ The Launch agent needs permission to create SageMaker training jobs
 6. Toggle to the JSON policy editor, then paste the following, substituting your values:
 
 
+<Tabs
+  defaultValue="build"
+  values={[
+    {label: 'Agent can build images', value: 'build'},
+    {label: 'Agent only submits images', value: 'no-build'},
+  ]}>
+  <TabItem value="no-build">
+
   ```json
   {
     "Version": "2012-10-17",
@@ -74,7 +80,7 @@ The Launch agent needs permission to create SageMaker training jobs
         "Action": "iam:PassRole",
         "Resource": "arn:aws:iam::<account-id>:role/<RoleArn-from-queue-config>"
       },
-      {
+    {
         "Effect": "Allow",
         "Action": "kms:CreateGrant",
         "Resource": "<ARN-OF-KMS-KEY>",
@@ -88,6 +94,64 @@ The Launch agent needs permission to create SageMaker training jobs
     ]
   }
   ```
+  </TabItem>
+  <TabItem value="build">
+
+  ```json
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "logs:DescribeLogStreams",
+          "sagemaker:AddTags",
+          "sagemaker:CreateTrainingJob",
+          "sagemaker:DescribeTrainingJob"
+        ],
+        "Resource": "arn:aws:sagemaker:<region>:<account-id>:*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "iam:PassRole",
+        "Resource": "arn:aws:iam::<account-id>:role/<RoleArn-from-queue-config>"
+      },
+       {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:CreateRepository",
+        "ecr:UploadLayerPart",
+        "ecr:PutImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:InitiateLayerUpload",
+        "ecr:DescribeRepositories",
+        "ecr:DescribeImages",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchDeleteImage"
+      ],
+      "Resource": "arn:aws:ecr:<region>:<account-id>:repository/<repository>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": "kms:CreateGrant",
+        "Resource": "<ARN-OF-KMS-KEY>",
+        "Condition": {
+          "StringEquals": {
+            "kms:ViaService": "sagemaker.<region>.amazonaws.com",
+            "kms:GrantIsForAWSResource": "true"
+          }
+        }
+      }
+    ]
+  }
+  ```
+  </TabItem>
+</Tabs>
 
 Click Next and make note of the ARN for the role--this will be used in setting up the agent. 
 
@@ -153,10 +217,20 @@ For experimental or solo use cases, running the Launch agent on your local machi
 1. Go to `EC2` in the AWS console and click `Launch instance`.
 2. Pick a t2.micro and use an appropriate security group and key pair for your organization.
 3. Expand `Advanced details` and for `IAM instance profile`, select the launch agent IAM role you created above.
-4. Launch the instance.
+4. Launch the instance. Once the instance is running, connect to it.
+5. Install the required packages:
 
-Once the instance is running, connect to it and `pip install wandb[launch]`.  **Need to Make sure python is installed.  Also how do you associate with the right role**
+`sudo yum install python311 -y && python3 -m ensurepip --upgrade && pip3 install wandb && pip3 install wandb[launch]`
 
+6. Install and start Docker
+
+`sudo yum update -y && sudo yum install -y docker python3 && sudo systemctl start docker && sudo systemctl enable docker && sudo usermod -a -G docker ec2-user`
+
+`newgrp docker`
+
+7. **Associate the agent with the right role**
+
+Now you can proceed to setting up the Launch agent config.
 
 #### Agent running from a local machine 
 
@@ -199,6 +273,8 @@ builder:
 
 ```
 
+Now start the agent with `wandb launch-agent`
+
 
 ## Push the job images in ECR
 
@@ -208,5 +284,8 @@ If you are going to have Launch run existing images with overrides specified thr
 wandb job create image <your-image-uri> --p <project> ...
 ```
 
+## Launch jobs from W&B
+
+If you go to the W&B GUI, your Sagemaker Launch queue will now be active.  You can push jobs to it from the UI or CLI.
 
 <!-- Alternatively, you can use environment variables to specify your  -->
