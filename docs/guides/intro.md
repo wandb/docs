@@ -28,7 +28,7 @@ This diagram outlines the relationship between W&B products.
 - [Artifacts](/guides/artifacts/intro.md): Version assets and track lineage
 - [Tables](/guides/tables/intro.md): Visualize and query tabular data
 - [Reports](/guides/reports/intro.md): Document and collaborate on your discoveries
-- [Weave](./app/features/panels/weave) Query and create visualizations of your data
+- [Weave](/guides/app/features/panels/weave) Query and create visualizations of your data
 
 ## Are you a first-time user of W&B?
 
