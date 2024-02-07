@@ -101,7 +101,7 @@ To delete an artifact collection:
 3. Select the kebab dropdown next to the artifact collection name.
 4. Choose Delete.
 
-You can also delete artifact version programmatically with the [delete()](../../ref/python/artifact.md#delete) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively. Replace the `<>` with the name of your artifact:
+You can also delete artifact collection programmatically with the [delete()](../../ref/python/artifact.md#delete) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
 
 ```python
 import wandb
@@ -109,12 +109,9 @@ import wandb
 # Provide your entity and a project name when you
 # use wandb.Api methods.
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
-
-artifact_name = "<>"  # provide artifact name
-artifact = api.artifact(artifact_name)
-artifact.collection.delete()
+collection = api.artifact_collection("<artifact_type>", "entity/project/artifact_collection_name")
+collection.delete()
 ```
-
 
 ## How to enable garbage collection based on how W&B is hosted
 Garbage collection is enabled by default if you use W&B's shared cloud. Based on how you host W&B, you might need to take additional steps to enable garbage collection, this includes:
