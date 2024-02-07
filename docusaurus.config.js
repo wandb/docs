@@ -60,19 +60,19 @@ const config = {
         excludeUserAgents: ['GoogleSecurityScanner'],
       },
     ],
-    // [
-    //   '@docusaurus/plugin-google-tag-manager',
-    //   {
-    //     containerId: 'GTM-5BL5RTH',
-    //   },
-    // ],
-    // [
-    //   '@docusaurus/plugin-google-gtag',
-    //   {
-    //     trackingID: 'G-5JYCHZZP7K',
-    //     anonymizeIP: true,
-    //   },
-    // ],
+    [
+      '@docusaurus/plugin-google-tag-manager',
+      {
+        containerId: 'GTM-5BL5RTH',
+      },
+    ],
+    [
+      '@docusaurus/plugin-google-gtag',
+      {
+        trackingID: 'G-5JYCHZZP7K',
+        anonymizeIP: true,
+      },
+    ],
     require.resolve('docusaurus-plugin-image-zoom'),
   ],
 
