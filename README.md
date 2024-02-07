@@ -78,12 +78,12 @@ yarn start
 
 This will return the port number where you can preview your changes to the docs.
 
-4. Make your changes on the new branch.
-5. Check your changes are rendered correctly.
-6. Build the static files of your website:
+4. Make changes to the appropriate markdown files.
+5. Check your changes are rendered correctly with the preview you started in Step 3.
+6. Next, build the static HTML files. This is a more thorough check that your changes don't break the docs. To build the static HTML files, run the following within the root directory of repo:
 
 ```bash
-yarn docusaurus build
+bash ./scripts/build-local-docs.sh
 ```
 
 7. Commit the changes to the branch.
