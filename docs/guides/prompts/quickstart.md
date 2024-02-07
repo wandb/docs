@@ -435,3 +435,8 @@ index = load_index_from_storage(storage_context, service_context=service_context
 ```
 
 **Note:** For a [`ComposableGraph`](https://gpt-index.readthedocs.io/en/latest/reference/query/query_engines/graph_query_engine.html) the root id for the index can be found in the artifact's metadata tab in the W&B App.
+
+## Next Steps
+
+- You can use existing W&B features like Tables and Runs to track LLM application performance. See this tutorial to learn more:
+[Tutorial: Evaluate LLM application performance](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)
