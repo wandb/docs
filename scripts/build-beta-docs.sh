@@ -5,6 +5,6 @@ subdir="ko"
 docusaurus build --out-dir build/$subdir --config docusaurus-beta.config.js
 
 echo "Formatting $language docs for GAE..."
-cd ./build/$subdir
-cp -R ./img ../
-mv index.html ../
+
+cp -R ./build/$subdir/img ./build/
+cp ./build/$subdir/index.html ./build/

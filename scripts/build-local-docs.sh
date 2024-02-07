@@ -5,6 +5,6 @@ subdir="ko"
 yarn docusaurus build --out-dir build/$subdir
 
 echo "Formatting $language docs for GAE..."
-cd ./build/$subdir
-cp -R ./img ../
-mv index.html ../
+
+cp -R ./build/$subdir/img ./build/
+cp ./build/$subdir/index.html ./build/
