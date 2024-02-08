@@ -149,3 +149,7 @@ Here's how the interactive bbox overlay looks:
 
 You can fine more information on the W&B image overlays [here](../track/log/media.md#image-overlays).
 
+## More Resources
+
+* [Supercharging Ultralytics with Weights & Biases](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+* [Object Detection using YOLOv8: An End-to-End Workflow](https://wandb.ai/reviewco/object-detection-bdd/reports/Object-Detection-using-YOLOv8-An-End-to-End-Workflow--Vmlldzo1NTAyMDQ1)
