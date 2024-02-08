@@ -957,6 +957,22 @@
       "to": "/guides/technical-faq"
     },
     {
+      "from": "/weave",
+      "to": "/guides/app/features/panels/weave"
+    },
+    {
+      "from": "/weave/boards",
+      "to": "/guides/app/features/panels/weave"
+    },
+    {
+      "from": "/weave/streamtable",
+      "to": "/guides/app/features/panels/weave"
+    },
+    {
+      "from": "/weave/prod-mon",
+      "to": "/guides/platform"
+    },
+    {
       "from": "/home",
       "to": "/"
     },
