@@ -12,5 +12,4 @@ W&B core provides capabilities across the entire ML lifecycle. With W&B core, yo
 - [Version and manage ML](./artifacts/intro.md) pipelines with full lineage tracing for easy auditing and reproducibility.
 - Explore and evaluate data and metrics using [interactive, configurable visualizations](./tables/intro.md).
 - [Document and share](./reports/intro.md) insights across the entire organization by generating live reports in digestible, visual formats that are easily understood by non-technical stakeholders.
-- [Interactively Query and Visualize any data on W&B](./weave/intro.md) that serve your custom needs.
-
+- [Query and create visualizations of your data](../guides/app/features/panels/weave) that serve your custom needs.
