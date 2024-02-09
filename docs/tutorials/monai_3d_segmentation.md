@@ -12,7 +12,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 This tutorial demonstrates how to construct a training workflow of multi-labels 3D brain tumor segmentation task using [MONAI](https://github.com/Project-MONAI/MONAI) and use experiment tracking and data visualization features of [Weights & Biases](https://wandb.ai/site). The tutorial contains the following features:
 
-1. Initialize a Weights & Biases run and synchrozize all configs associated with the run for reproducibility.
+1. Initialize a Weights & Biases run and synchronize all configs associated with the run for reproducibility.
 2. MONAI transform API:
     1. MONAI Transforms for dictionary format data.
     2. How to define a new transform according to MONAI `transforms` API.
