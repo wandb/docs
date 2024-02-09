@@ -85,7 +85,7 @@ Start a new W&B run to start tracking the experiment.
 wandb.init(project="monai-brain-tumor-segmentation")
 ```
 
-Use of proper config system is a recommended best practice for reproducible machine learning. We can track the hyperparameters for every experiment using W&B.
+Use of proper config system is a recommended best practice for reproducible machine learning. You can track the hyperparameters for every experiment using W&B.
 
 ```python
 config = wandb.config
