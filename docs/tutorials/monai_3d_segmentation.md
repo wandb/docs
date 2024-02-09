@@ -310,7 +310,7 @@ table = wandb.Table(
 )
 ```
 
-Then we loop over the `train_dataset` and `val_dataset` respectively to generate the visualizations for the data samples and populate the rows of the table which we would log to our dashboard.
+Then, loop over the `train_dataset` and `val_dataset` respectively to generate the visualizations for the data samples and populate the rows of the table which to log to the dashboard.
 
 ```python
 # Generate visualizations for train_dataset
