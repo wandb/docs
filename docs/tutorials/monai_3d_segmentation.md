@@ -679,7 +679,7 @@ def log_predictions_into_tables(
     return table
 ```
 
-Now, let's log the prediction results to the prediction table.
+Log the prediction results to the prediction table.
 
 ```python
 # create the prediction table
