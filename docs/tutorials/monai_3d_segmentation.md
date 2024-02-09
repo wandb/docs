@@ -587,7 +587,7 @@ Instrumenting the code with `wandb.log` not only enables tracking all metrics as
 
 | ![An example of training and validation process tracking on W&B.](@site/static/images/tutorials/monai/viz-3.gif) | 
 |:--:| 
-| **An example of how the training and validation processed are tracked on WandB.** |
+| **An example of training and validation process tracking on W&B.** |
 
 If we navigate to the artifacts tab in the W&B run dashboard, we will be able to access the different versions of model checkpoint artifacts that we logged during training.
 
