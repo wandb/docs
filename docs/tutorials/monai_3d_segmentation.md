@@ -617,7 +617,7 @@ model.eval()
 
 ### 📸 Visualizing Predictions and Comparing with the Ground Truth Labels
 
-In order to visualize the predictions of the pre-trained model and compare them with the corresponding ground-truth segmentation mask using the interactive segmentation mask overlay, let us create another ultility function.
+Create another utility function to visualize the predictions of the pre-trained model and compare them with the corresponding ground-truth segmentation mask using the interactive segmentation mask overlay,.
 
 ```python
 def log_predictions_into_tables(
