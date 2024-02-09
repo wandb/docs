@@ -740,7 +740,7 @@ Use the interactive segmentation mask overlay to analyze and compare the predict
 
 | ![An example of predictions and ground-truth visualization on W&B.](@site/static/images/tutorials/monai/viz-6.gif) | 
 |:--:| 
-| **An example of how the predictions and ground-truth are visualized on WandB.** |
+| **An example of predictions and ground-truth visualization on W&B.** |
 
 ## Acknowledgements and More Resources
 
