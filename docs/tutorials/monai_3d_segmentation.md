@@ -597,7 +597,7 @@ Navigate to the artifacts tab in the W&B run dashboard to access the different v
 
 ## 🔱 Inference
 
-Using the artifacts interface, we can select which version of the artifact is the best model checkpoint, in this case, the mean epoch-wise training loss. We can also explore the entire lineage of the artifact and also use the version that we need.
+Using the artifacts interface, you can select which version of the artifact is the best model checkpoint, in this case, the mean epoch-wise training loss. You can also explore the entire lineage of the artifact and use the version that you need.
 
 | ![An example of how the model artifacts are tracked on WandB](@site/static/images/tutorials/monai/viz-5.gif) | 
 |:--:| 
