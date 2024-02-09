@@ -452,7 +452,7 @@ scaler = torch.cuda.amp.GradScaler()
 torch.backends.cudnn.benchmark = True
 ```
 
-Let us also define a small utility for mixed-precision inference. This will be useful during the validation step of our training process and also when we would want to run our model after training.
+Define a small utility for mixed-precision inference. This will be useful during the validation step of the training process and when you want to run the model after training.
 
 ```python
 def inference(model, input):
