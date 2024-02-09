@@ -736,7 +736,7 @@ with torch.no_grad():
 wandb.finish()
 ```
 
-Let us see how we can analyze and compare the predicted segmentation masks and the ground-truth labels for each class using the interactive segmentation mask overlay.
+Use the interactive segmentation mask overlay to analyze and compare the predicted segmentation masks and the ground-truth labels for each class.
 
 | ![An example of how the predictions and ground-truth are visualized on WandB](@site/static/images/tutorials/monai/viz-6.gif) | 
 |:--:| 
