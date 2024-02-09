@@ -79,7 +79,7 @@ wandb.login()
 
 ## 🌳 Initialize a W&B Run
 
-We will start a new W&B run to start tracking our experiment.
+Start a new W&B run to start tracking the experiment.
 
 ```python
 wandb.init(project="monai-brain-tumor-segmentation")
