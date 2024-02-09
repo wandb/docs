@@ -230,7 +230,7 @@ The remote URL format is important because it determines how the git remote is a
 
 The Git remote URL is automatically inferred from the local git repository if your launch job is created automatically by a W&B run. 
 
-If you create a job manually, you are responsible for providing the URL in the desired format. For more information, see [LINK].
+If you create a job manually, you are responsible for providing a URL for your desired transfer protocol.
 
 ## Launch job names
 

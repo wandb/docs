@@ -36,7 +36,7 @@ When an agent receives a job from a queue, it also receives the queue configurat
 
 
 ## Set up a launch agent
-Launch agents are long running processes that poll one or more launch queues for jobs. Launch agents dequeue jobs in first in, first out (FIFO) order. When an agent dequeues a job from a queue, it potentially builds an image for that job. The agent then submits the job to the target resource along with configuration options specified in the queue configuration.
+Launch agents are long running processes that poll one or more launch queues for jobs. Launch agents dequeue jobs in first in, first out (FIFO) order or in priority order depending on the queues they pull from.  When an agent dequeues a job from a queue, it optionally builds an image for that job. The agent then submits the job to the target resource along with configuration options specified in the queue configuration.
 
 <!-- Future: Insert image -->
 
@@ -44,9 +44,14 @@ Launch agents are long running processes that poll one or more launch queues for
 Agents are highly flexible and can be configured to support a wide variety of use cases. The required configuration for your agent will depend on your specific use case. See the dedicated page for [Docker](./setup-launch-docker.md), [Amazon SageMaker](./setup-launch-sagemaker.md), [Kubernetes](./setup-launch-kubernetes.md), or [Vertex AI](./setup-vertex.md).
 :::
 
+:::tip
+W&B recommends you start agents with a [service account's](https://docs.wandb.ai/guides/technical-faq/general#what-is-a-service-account-and-why-is-it-useful) API key, rather than a specific user's API key. There are two benefits to using a service account's API key:
+1. The agent isn't dependent on an individual user.
+2. The author associated with a run created through Launch is viewed by Launch as the user who submitted the launch job, rather than the user associated with the agent.
+:::
 
 ### Agent configuration
-Configure the launch agent with a configuration (config) YAML file named `launch-config.yaml`. By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
+Configure the launch agent with a YAML file named `launch-config.yaml`. By default, W&B checks for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
 
 The contents of your launch agent's configuration file will depend on your launch agent's environment, the launch queue's target resource, Docker builder requirements, cloud registry requirements, and so forth. 
 

@@ -9,10 +9,11 @@ W&B Prompts is a suite of LLMOps tools built for the development of LLM-powered 
 
 ## Use Cases
 
-W&B Prompts provides several solutions for building and monitoring LLM-based apps. Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to:
+W&B Prompts is the solution for building and evaluating LLM-based apps. Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to explore and debug LLM chains and prompts with greater granularity.
 
-- [Explore and debug LLM chains](https://docs.wandb.ai/guides/prompts) and prompts with greater granularity.
-- Monitor and observe LLMs to better understand and evaluate performance, usage, and budgets.
+- Track inputs & outputs of LLM applications
+- Debug LLM chains and prompts using interactive traces
+- Evaluate the performance of LLM chains and prompts
 
 ## Products
 
@@ -50,44 +51,10 @@ Trace events that raise an error are outlined in red. Click on a trace event col
 
 The Model Architecture view provides details about the structure of the chain and the parameters used to initialize each component of the chain. Click on a trace event to learn more details about that event.
 
-### Weave
+**Evaluation** 
 
-Weave is a visual development environment designed for building AI-powered software. It is also an open-source, interactive analytics toolkit for performant data exploration.
-
-Use Weave to:
-
-- Spend less time waiting for datasets to load and more time exploring data, deriving insights, and building powerful data analytics
-- Interactively explore your data. Work with your data visually and dynamically to discover patterns that static graphs can not reveal, without using complicated APIs.
-- [Monitor AI applications and models in production](https://docs.wandb.ai/guides/weave/prod-mon) with real-time metrics, customizable visualizations, and interactive analysis.
-- Generate Boards to address common use cases when monitoring production models and working with LLMs.
-
-### How it works
-
-Use Weave to view your dataframe in your notebook with only a few lines of code:
-
-1. First, install or update to the latest version of Weave with pip:
-
-```bash
-pip install weave --upgrade
-```
-
-1. Load your dataframe into your notebook.
-2. View your dataframe with `weave.show(df)`.
-
-```python
-import weave
-from sklearn.datasets import load_iris
-
-# We load in the iris dataset for demonstrative purposes
-iris = load_iris(as_frame=True)
-df = iris.data.assign(target=iris.target_names[iris.target])
-
-weave.show(df)
-```
-
-An interactive weave dashboard will appear, similar to the animation shown below:
-
-![https://docs.wandb.ai/assets/images/first_load-af370d0fcdf6ced0334c2bfde5871165.gif](https://docs.wandb.ai/assets/images/first_load-af370d0fcdf6ced0334c2bfde5871165.gif)
+To iterate on an application, we need a way to evaluate if it's improving. To do so, a common practice is to test it against the same dataset when there is a change. See this tutorial to learn how to evaluate LLM applications using W&B.
+[Tutorial: Evaluate LLM application performance](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)
 
 ## Integrations
 
@@ -104,5 +71,7 @@ We recommend you go through the Prompts [Quickstart](https://docs.wandb.ai/guid
 
 ## Next Steps
 
-- Check out more detailed documentation on [Weave](https://github.com/wandb/weave/tree/master/examples), [Trace](https://colab.research.google.com/github/wandb/weave/blob/master/examples/prompts/trace_debugging/trace_quickstart_langchain.ipynb), or our [OpenAI](https://docs.wandb.ai/guides/prompts/openai) Integration.
-- Try one of our [demo colabs](https://github.com/wandb/weave/tree/master/examples), which offer more detailed explanations of how to use Prompts for LLM ops and building interactive data applications.
+- Check out more detailed documentation on [Trace](https://colab.research.google.com/github/wandb/weave/blob/master/examples/prompts/trace_debugging/trace_quickstart_langchain.ipynb), or our [OpenAI](https://docs.wandb.ai/guides/prompts/openai) Integration.
+- Try one of our [demo colabs](https://github.com/wandb/examples/tree/master/colabs/prompts), which offer more detailed explanations of how to use Prompts for LLMOps.
+- You can use existing W&B features like Tables and Runs to track LLM application performance. See this tutorial to learn more:
+[Tutorial: Evaluate LLM application performance](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)

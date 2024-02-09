@@ -29,7 +29,7 @@ This Quickstart guide will walk you how to use [Trace](intro.md) to visualize an
 
 With a 1-line environment variable from LangChain, W&B Trace will continuously log calls to a LangChain Model, Chain, or Agent. 
 
-Note that you can also see the documentation for W&B Trace in the [LangChain documentation](https://python.langchain.com/docs/ecosystem/integrations/agent_with_wandb_tracing).
+Note that you can also see the documentation for W&B Trace in the [LangChain documentation](https://python.langchain.com/docs/integrations/providers/wandb_tracing).
 
 For this quickstart, we will use a LangChain Math Agent:
 
@@ -435,3 +435,8 @@ index = load_index_from_storage(storage_context, service_context=service_context
 ```
 
 **Note:** For a [`ComposableGraph`](https://gpt-index.readthedocs.io/en/latest/reference/query/query_engines/graph_query_engine.html) the root id for the index can be found in the artifact's metadata tab in the W&B App.
+
+## Next Steps
+
+- You can use existing W&B features like Tables and Runs to track LLM application performance. See this tutorial to learn more:
+[Tutorial: Evaluate LLM application performance](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)
