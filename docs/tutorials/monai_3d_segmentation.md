@@ -585,7 +585,7 @@ artifact.wait()
 
 Instrumenting the code with `wandb.log` not only enables tracking all metrics associated with the training and validation process, but also the all system metrics (our CPU and GPU in this case) on the W&B dashboard.
 
-| ![An example of how the training and validation processed are tracked on WandB](@site/static/images/tutorials/monai/viz-3.gif) | 
+| ![An example of training and validation process tracking on W&B.](@site/static/images/tutorials/monai/viz-3.gif) | 
 |:--:| 
 | **An example of how the training and validation processed are tracked on WandB.** |
 
