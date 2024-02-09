@@ -254,7 +254,7 @@ for id, img, label in zip(ids, images, labels):
 wandb.log({"Table": table})
 ```
 
-Let us now write a simple utility function that takes a sample image, label, `wandb.Table` object and some associated metadata and populate the rows of a table that would be logged to our Weights & Biases dashboard.
+Now write a simple utility function that takes a sample image, label, `wandb.Table` object and some associated metadata and populate the rows of a table that would be logged to the Weights & Biases dashboard.
 
 ```python
 def log_data_samples_into_tables(
