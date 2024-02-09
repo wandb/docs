@@ -371,7 +371,7 @@ Open an image and see how you can interact with each of the segmentation masks u
 
 | ![An example of visualized segmentation maps.](@site/static/images/tutorials/monai/viz-2.gif) | 
 |:--:| 
-| **An example of how the segmentation maps are visualized.** |
+| **An example of visualized segmentation maps.* |
 
 :::info
 **Note:** The labels in the dataset consist of non-overlapping masks across classes, hence, they were logged as separate masks in the overlay.
