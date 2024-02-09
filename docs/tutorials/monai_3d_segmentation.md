@@ -228,7 +228,7 @@ val_dataset = DecathlonDataset(
 ```
 
 :::info
-**Note:** Instead of applying the `train_transform` to the `train_dataset`, we have applied `val_transform` to both the training and validation datasets. This is because, before training, we would be visualizing samples from both the splits of the dataset.
+**Note:** Instead of applying the `train_transform` to the `train_dataset`, apply `val_transform` to both the training and validation datasets. This is because, before training, you would be visualizing samples from both the splits of the dataset.
 :::
 
 ### 📸 Visualizing the Dataset
