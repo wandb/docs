@@ -10,7 +10,7 @@ When updating the W&B Server Version and License information, tailor the process
 | Release Type                                               | Description                                                                                                                                                                                                                                                                                   |
 | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [terraform](./how-to-guides#wb-production-and-development) | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
-| [helm](./how-to-guides/bare-metal#helm-chart)              | The [Helm Chart](https://github.com/wandb/helm-charts) can be used to install W&B into an existing Kubernetes cluster.                                                                                                                                                                        |
+| [helm](./how-to-guides/bare-metal#helm-chart)              | You can use the [Helm Chart](https://github.com/wandb/helm-charts) to install W&B into an existing Kubernetes cluster.                                                                                                                                                                        |
 | [docker](./how-to-guides/bare-metal#docker-deployment)     | Docker latest docker image can found in the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).                                                                                                                                                                                 |
 
 ## Updating via Terraform
@@ -41,7 +41,7 @@ If you are opting to use a `terraform.tfvars` or other `.tfvars` file:
 
 ## Updating via Helm
 
-### Update W&B via Spec
+### Update W&B via spec
 
 1. Specify a new version by modifying the `image.tag` and/or `license` values in your Helm chart `*.yaml` configuration file:
 
@@ -61,7 +61,7 @@ If you are opting to use a `terraform.tfvars` or other `.tfvars` file:
      -f ${wandb_install_spec.yaml}
    ```
 
-### Update License and Version directly
+### Update license and version directly
 
 1. Set the new license key and image tag as environment variables:
 
@@ -81,7 +81,7 @@ If you are opting to use a `terraform.tfvars` or other `.tfvars` file:
 
 For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/blob/main/UPGRADE.md) in the public repository.
 
-## Updating via Docker Container
+## Updating via Docker container
 
 1. Choose a new version from the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).
 2. Pull the new Docker image version with:
@@ -94,9 +94,9 @@ For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/b
 
 For docker `run` examples and further details, refer to the [Docker deployment](./how-to-guides/bare-metal##docker-deployment).
 
-## Updating in Admin UI
+## Updating via admin UI
 
-This method is will only work for updating licenses that are not set via an environment variable in the W&B server container, typically in self-hosted Docker installations.
+This method is only works for updating licenses that are not set via an environment variable in the W&B server container, typically in self-hosted Docker installations.
 
 1. Obtain a new license from the [W&B Deployment Page](https://deploy.wandb.ai/), ensuring it matches the correct organization and deployment ID for the deployment you are looking to upgrade.
 2. Access the W&B Admin UI at `<host-url>/system-settings`.
@@ -106,5 +106,5 @@ This method is will only work for updating licenses that are not set via an envi
 ## W&B Dedicated Cloud Updates
 
 :::note
-For dedicated installations, W&B will upgrade your server version on a monthly basis. More information can be found in the [release process](./server-release-process) docs.
+For dedicated installations, W&B upgrades your server version on a monthly basis. More information can be found in the [release process](./server-release-process) docs.
 :::
