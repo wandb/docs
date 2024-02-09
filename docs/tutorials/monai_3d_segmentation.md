@@ -363,7 +363,7 @@ wandb.log({"Tumor-Segmentation-Data": table})
 
 The data appears on the W&B dashboard in an interactive tabular format. We can see each channel of a particular slice from a data volume overlaid with the respective segmentation mask in each row. You can write [Weave queries](https://docs.wandb.ai/guides/weave) to filter the data on the table and focus on one particular row.
 
-| ![An example of how the data is logged in tables](@site/static/images/tutorials/monai/viz-1.gif) | 
+| ![An example of logged table data.](@site/static/images/tutorials/monai/viz-1.gif) | 
 |:--:| 
 | **An example of how the data is logged in tables.** |
 
