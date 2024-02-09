@@ -742,7 +742,7 @@ Use the interactive segmentation mask overlay to analyze and compare the predict
 |:--:| 
 | **An example of predictions and ground-truth visualization on W&B.** |
 
-## Acknowledgements and More Resources
+## Acknowledgements and more resources
 
 * [MONAI Tutorial: Brain tumor 3D segmentation with MONAI](https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/brats_segmentation_3d.ipynb)
 * [WandB Report: Brain Tumor Segmentation using MONAI and WandB](https://wandb.ai/geekyrakshit/brain-tumor-segmentation/reports/Brain-Tumor-Segmentation-using-MONAI-and-WandB---Vmlldzo0MjUzODIw)
