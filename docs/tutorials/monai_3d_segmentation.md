@@ -361,7 +361,7 @@ for data_idx, sample in progress_bar:
 wandb.log({"Tumor-Segmentation-Data": table})
 ```
 
-The data appears to us on our W&B dashboard in an interactive tabular format. We can see each channel of a particular slice from a data volume overlayed with the respective segmentation mask in each row. Let us write [Weave queries](https://docs.wandb.ai/guides/weave) to filter the data on our table and focus on one particular row.
+The data appears on the W&B dashboard in an interactive tabular format. We can see each channel of a particular slice from a data volume overlaid with the respective segmentation mask in each row. You can write [Weave queries](https://docs.wandb.ai/guides/weave) to filter the data on the table and focus on one particular row.
 
 | ![An example of how the data is logged in tables](@site/static/images/tutorials/monai/viz-1.gif) | 
 |:--:| 
