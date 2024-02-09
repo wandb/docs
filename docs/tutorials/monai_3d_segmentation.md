@@ -593,7 +593,7 @@ Navigate to the artifacts tab in the W&B run dashboard to access the different v
 
 | ![An example of model checkpoints logging and versioning on W&B.](@site/static/images/tutorials/monai/viz-4.gif) | 
 |:--:| 
-| **An example of how the model checkpoints are logged and versioned on WandB.** |
+| **An example of model checkpoints logging and versioning on W&B.** |
 
 ## 🔱 Inference
 
