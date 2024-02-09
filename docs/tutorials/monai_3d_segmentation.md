@@ -365,7 +365,7 @@ The data appears on the W&B dashboard in an interactive tabular format. We can s
 
 | ![An example of logged table data.](@site/static/images/tutorials/monai/viz-1.gif) | 
 |:--:| 
-| **An example of how the data is logged in tables.** |
+| **An example of logged table data.** |
 
 Let us now open an image and check how we can interact with each of the segmentation masks using the interactive overlay.
 
