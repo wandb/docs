@@ -7,11 +7,11 @@ displayed_sidebar: default
 
 Updating the W&B Server Version and License information should be tailored according to the initial installation method. Below are the primary methods for installing W&B and their respective update processes:
 
-| Release Type                                              | Description                                                                                                                                                                                                                                                                                   |
-| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [terraform](how-to-guides#wb-production-and-development)  | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
-| [helm](./how-to-guides/bare-metal.md#helm-chart)          | The [Helm Chart](https://github.com/wandb/helm-charts) can be used to install W&B into an existing kubernetes cluster.                                                                                                                                                                        |
-| [docker](./how-to-guides/bare-metal.md#docker-deployment) | Docker latest docker image can found in the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).                                                                                                                                                                                 |
+| Release Type                                               | Description                                                                                                                                                                                                                                                                                   |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [terraform](./how-to-guides#wb-production-and-development) | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
+| [helm](./how-to-guides/bare-metal#helm-chart)              | The [Helm Chart](https://github.com/wandb/helm-charts) can be used to install W&B into an existing kubernetes cluster.                                                                                                                                                                        |
+| [docker](./how-to-guides/bare-metal#docker-deployment)     | Docker latest docker image can found in the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).                                                                                                                                                                                 |
 
 ## Updating via Terraform Install
 
@@ -92,7 +92,7 @@ For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/b
 
 3. Update your Docker container to run the new image version, ensuring you follow best practices for container deployment and management.
 
-For docker `run` examples and further details, refer to the [Docker deployment](./how-to-guides/bare-metal.md#docker-deployment).
+For docker `run` examples and further details, refer to the [Docker deployment](./how-to-guides/bare-metal##docker-deployment).
 
 ## Updating in Admin UI
 
@@ -106,5 +106,5 @@ This method is will only work for updating licenses that are not set via an envi
 ## W&B Dedicated Cloud Updates
 
 :::note
-For dedicated installations, W&B will upgrade your server version on a monthly basis. More information can be found in the [release process](./server-release-process.md) docs.
+For dedicated installations, W&B will upgrade your server version on a monthly basis. More information can be found in the [release process](./server-release-process) docs.
 :::
