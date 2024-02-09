@@ -242,16 +242,6 @@ const sidebars = {
             'guides/reports/reports-gallery',
             'guides/reports/reports-faq',
           ],
-        },
-        {
-          type: 'category',
-          label: 'Weave',
-          link: { type: 'doc', id: 'guides/weave/intro' },
-          items: [
-            'guides/weave/boards',
-            'guides/weave/streamtable',
-            'guides/weave/prod-mon'
-          ],
         },      
         {
           type: 'category',

@@ -6,10 +6,4 @@ displayed_sidebar: default
 Gain a deeper understanding of your LLMs pipelines and prompts performance. Drill into your architectures for easy debugging, configure custom visualizations for the specific analysis you need, and maintain full observability over LLM performance, usage, and budget.
 
 
-W&B Prompts is the solution for building and monitoring LLM-based apps. Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to:
-
-- [Explore and debug LLM chains](./prompts/intro.md) and prompts with greater granularity.
-- Monitor and observe LLMs to better understand and evaluate performance, usage, and budgets
-
-
-![](@site/static/images/general/prompts.png)
+W&B Prompts is the solution for building and evaluating LLM-based apps. Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to [explore and debug LLM chains](./prompts/intro.md) and prompts with greater granularity.
