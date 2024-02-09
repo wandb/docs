@@ -738,7 +738,7 @@ wandb.finish()
 
 Use the interactive segmentation mask overlay to analyze and compare the predicted segmentation masks and the ground-truth labels for each class.
 
-| ![An example of how the predictions and ground-truth are visualized on WandB](@site/static/images/tutorials/monai/viz-6.gif) | 
+| ![An example of predictions and ground-truth visualization on W&B.](@site/static/images/tutorials/monai/viz-6.gif) | 
 |:--:| 
 | **An example of how the predictions and ground-truth are visualized on WandB.** |
 
