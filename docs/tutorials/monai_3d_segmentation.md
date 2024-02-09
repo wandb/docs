@@ -379,7 +379,7 @@ Open an image and see how you can interact with each of the segmentation masks u
 
 ### 🛫 Loading the Data
 
-We create the PyTorch dataloaders for loading the data from the datasets. Note that before creating the dataloaders, we set the `transform` for `train_dataset` to `train_transform` to preprocess and transform the data for training.
+Create the PyTorch DataLoaders for loading the data from the datasets. Before creating the DataLoaders, set the `transform` for `train_dataset` to `train_transform` to preprocess and transform the data for training.
 
 ```python
 # apply train_transforms to the training dataset
