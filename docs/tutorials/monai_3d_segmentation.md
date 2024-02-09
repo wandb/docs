@@ -432,7 +432,7 @@ lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
 )
 ```
 
-We define our loss as multi-label `DiceLoss` using the `monai.losses` API and the corresponding dice metrics using the `monai.metrics` API.
+Define the loss as multi-label `DiceLoss` using the `monai.losses` API and the corresponding dice metrics using the `monai.metrics` API.
 
 ```python
 loss_function = DiceLoss(
