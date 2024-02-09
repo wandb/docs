@@ -30,7 +30,7 @@ This tutorial demonstrates how to construct a training workflow of multi-labels 
 
 ## 🌴 Setup and Installation
 
-First, let us install the latest version of both MONAI and Weights and Biases.
+First, install the latest version of both MONAI and Weights and Biases.
 
 ```python
 !python -c "import monai" || pip install -q -U "monai[nibabel, tqdm]"
