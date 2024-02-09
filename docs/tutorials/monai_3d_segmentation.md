@@ -374,7 +374,7 @@ Open an image and see how you can interact with each of the segmentation masks u
 | **An example of visualized segmentation maps.* |
 
 :::info
-**Note:** The labels in the dataset consist of non-overlapping masks across classes, hence, they were logged as separate masks in the overlay.
+**Note:** The labels in the dataset consist of non-overlapping masks across classes. The overlay logs the labels as separate masks in the overlay.
 :::
 
 ### 🛫 Loading the Data
