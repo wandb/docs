@@ -294,7 +294,7 @@ def log_data_samples_into_tables(
     return table
 ```
 
-Next, we define the `wandb.Table` object and what columns it consists of so that we can populate with our data visualizations.
+Next, define the `wandb.Table` object and what columns it consists of so that it can populate with the data visualizations.
 
 ```python
 table = wandb.Table(
