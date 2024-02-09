@@ -71,7 +71,7 @@ from monai.utils import set_determinism
 import torch
 ```
 
-We will then authenticate this colab instance to use W&B.
+Then, authenticate the colab instance to use W&B.
 
 ```python
 wandb.login()
