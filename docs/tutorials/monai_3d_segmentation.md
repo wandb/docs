@@ -471,7 +471,7 @@ def inference(model, input):
 
 ## 🚝 Training and Validation
 
-Before we start training, let us define some metric properties which will later be logged with `wandb.log()` for tracking our training and validation experiments.
+Before training, define the metric properties which will later be logged with `wandb.log()` for tracking the training and validation experiments.
 
 ```python
 wandb.define_metric("epoch/epoch_step")
