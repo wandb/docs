@@ -369,7 +369,7 @@ The data appears on the W&B dashboard in an interactive tabular format. We can s
 
 Open an image and see how you can interact with each of the segmentation masks using the interactive overlay.
 
-| ![An example of how the segmentation maps are visualized](@site/static/images/tutorials/monai/viz-2.gif) | 
+| ![An example of visualized segmentation maps.](@site/static/images/tutorials/monai/viz-2.gif) | 
 |:--:| 
 | **An example of how the segmentation maps are visualized.** |
 
