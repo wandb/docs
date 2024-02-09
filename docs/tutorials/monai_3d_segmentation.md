@@ -156,7 +156,7 @@ class ConvertToMultiChannelBasedOnBratsClassesd(MapTransform):
         return d
 ```
 
-Next, we set up transforms for training and validation datasets respectively.
+Next, set up transforms for training and validation datasets respectively.
 
 ```python
 train_transform = Compose(
