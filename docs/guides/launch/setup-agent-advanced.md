@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 How you configure the launch agent depends on numerous factors. One of those factors is whether or not the launch agent builds an image for you.
 
 :::tip
-The W&B launch agent will build an image for you if you provide a Git repository based or [artifact based jobs](./create-launch-job.md#create-a-job-with-a-wb-artifact).
+The W&B launch agent builds an image for you if you provide a Git repository based or [artifact based jobs](./create-launch-job.md#create-a-job-with-a-wb-artifact).
 :::
 
 In the simplest use case, you provide an image-based launch job that is executed in a launch queue target environment that has access to your image repository.
@@ -51,7 +51,7 @@ builder:
 
 <!-- For specific policies the Kaniko job can use to interact with the context store see Put in Bucket[LINK]. -->
 
-If you run a Kubernetes cluster other than using AKS, EKS, or GKE, you will need to create a Kubernetes secret that contains the credentials for your cloud environment.
+If you run a Kubernetes cluster other than using AKS, EKS, or GKE, you need to create a Kubernetes secret that contains the credentials for your cloud environment.
 
 - To grant access to GCP, this secret should contain a [service account JSON](https://cloud.google.com/iam/docs/keys-create-delete#creating).
 - To grant access to AWS, this secret should contain an [AWS credentials file](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html).
@@ -78,7 +78,7 @@ You can connect the launch agent to a container registry such Amazon Elastic Con
 - you want to share images across multiple machines
 - if the agent builds an image for you and you use a cloud compute resource such as Amazon SageMaker or VertexAI.
 
-To connect the launch agent to a container registry, you will need to provide additional information about the environment and registry you want to use in the launch agent config. In addition, you will need to grant the agent permissions within the environment to interact with required components based on your use case. 
+To connect the launch agent to a container registry, provide additional information about the environment and registry you want to use in the launch agent config. In addition, grant the agent permissions within the environment to interact with required components based on your use case. 
 
 
 :::note
@@ -100,7 +100,7 @@ values={[
 ]}>
 <TabItem value="aws">
 
-The AWS environment configuration requires the region key to be set. The region should be the AWS region that the agent will be running in. When the agent starts, it will use boto3 to load the default AWS credentials.
+The AWS environment configuration requires the region key. The region should be the AWS region that the agent runs in. The agent uses boto3 to load the default AWS credentials.
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -121,7 +121,7 @@ See the [boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/
   </TabItem>
   <TabItem value="gcp">
 
-The GCP environment requires the region and project keys to be set. The region should be the GCP region that the agent will be running in. The project should be the GCP project that the agent will be running in. When the agent starts, it will use `google.auth.default()` to load the default GCP credentials.
+The GCP environment requires region and project keys. Set the `region` to the GCP region that the agent runs in. Set the GCP `project` that the agent runs. The agent uses `google.auth.default()` to load the default GCP credentials.
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -145,7 +145,7 @@ See the [`google-auth` documentation](https://google-auth.readthedocs.io/en/lat
   </TabItem>
   <TabItem value="azure">
 
-The Azure environment does not require any additional keys to be set. When the agent starts, it will use `azure.identity.DefaultAzureCredential()` to load the default Azure credentials.
+The Azure environment does not require any additional keys. When the agent starts, it use `azure.identity.DefaultAzureCredential()` to load the default Azure credentials.
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -162,7 +162,7 @@ See the [`azure-identity` documentation](https://learn.microsoft.com/en-us/pyth
 
 ## Agent permissions
 
-The agent permissions required will depend on your use case. The policies outlined below are used by launch agents.
+The agent permissions required depend on your use case. The policies outlined below are used by launch agents.
 
 ### Cloud registry permissions
 
@@ -328,7 +328,7 @@ The `kms:CreateGrant` permission for SageMaker queues is required only if the 
   </TabItem>
   <TabItem value="vertex">
 
-In order to run jobs with vertex AI you will also need to set up a GCS bucket and grant the agent the permissions described above.
+In order to run jobs with vertex AI you also need to set up a GCS bucket and grant the agent the permissions described above.
 
 ```js
 ml.jobs.create;

@@ -12,7 +12,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 A job is a blueprint that contains contextual information about a W&B run it is created from; such as the run's source code, software dependencies, hyperparameters, artifact version, and so forth.
 
-Once you have a launch job, you can add them to a pre-configured [launch queue](./launch-terminology.md#launch-queue). The launch agent that was deployed by you or someone on your team, will poll that queue and send the job (as a Docker image) to the compute resource that was configured on launch queue.
+Once you have a launch job, you can add them to a pre-configured [launch queue](./launch-terminology.md#launch-queue). The launch agent that was deployed by you or someone on your team, polls that queue and send the job (as a Docker image) to the compute resource that was configured on launch queue.
 
 There are three ways to create a launch job:
 
@@ -110,7 +110,7 @@ settings = wandb.Settings(job_name="my-job-name")
 wandb.init(settings=settings)
 ```
 
-If you do not specify a name, W&B will automatically generate a launch job name for you. It will create a job name with the following format: `job-<code-artifact-name>`.
+If you do not specify a name, W&B automatically generate a launch job name for you. The job name is formatted as follows: `job-<code-artifact-name>`.
 
 For more information on the [`run.log_code()`](../../ref/python/run.md#log_code) command, see the [API Reference guide](../../ref/README.md).
 
@@ -161,7 +161,7 @@ For a full list of flags you can use, see the [`wandb job create`](../../ref/cli
   </TabItem>
   <TabItem value="build">
 
-Associate your run with a Docker image. W&B will look for an image tag in the `WANDB_DOCKER` environment variable, and if `WANDB_DOCKER` is set, a job will be created from the specified image tag. Ensure that the `WANDB_DOCKER` environment variable is set to the full image tag.
+Associate your run with a Docker image. W&B looks for an image tag in the `WANDB_DOCKER` environment variable, and if `WANDB_DOCKER` is set, a launch job is created from the specified image tag. Ensure that the `WANDB_DOCKER` environment variable is set to the full image tag.
 
 Create a launch job by building a Docker container from a Docker image. Copy the following code snippet and replace the values within `"<>"` based on your use case:
 
@@ -175,7 +175,7 @@ docker run -e WANDB_PROJECT="<project-name>" \
 You can specify a name for your job with the `WANDB_JOB_NAME` environment variable. W&B automatically generates a launch job name for you if you do not specify a name. W&B assigns a job name with the following format: `job-<image>-<name>`.
 
 :::tip
-Make sure you specify is set to the full image tag. For example, if your agent will run images from an ECR repository, you should set `WANDB_DOCKER` to the full image tag, including the ECR repository URL: `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-image:develop`. The docker tag, in this case `'develop'`, is added as an alias to the resulting job.
+Make sure you specify is set to the full image tag. For example, if your agent runs images from an ECR repository, you should set `WANDB_DOCKER` to the full image tag, including the ECR repository URL: `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-image:develop`. The docker tag, in this case `'develop'`, is added as an alias to the resulting job.
 :::
 
   </TabItem>
