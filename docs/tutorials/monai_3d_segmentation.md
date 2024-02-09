@@ -110,7 +110,7 @@ config.inference_roi_size = (128, 128, 64)
 config.max_prediction_images_visualized = 20
 ```
 
-We would also need to set the random seed for modules to enable or disable deterministic training.
+You also need to set the random seed for modules to enable or turn off deterministic training.
 
 ```python
 set_determinism(seed=config.seed)
