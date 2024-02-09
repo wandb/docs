@@ -122,7 +122,7 @@ os.makedirs(config.checkpoint_dir, exist_ok=True)
 
 ## 💿 Data Loading and Transformation
 
-Here we use the `monai.transforms` API to create a custom transform that converts the multi-classes labels into multi-labels segmentation task in one-hot format.
+Here, use the `monai.transforms` API to create a custom transform that converts the multi-classes labels into multi-labels segmentation task in one-hot format.
 
 ```python
 class ConvertToMultiChannelBasedOnBratsClassesd(MapTransform):
