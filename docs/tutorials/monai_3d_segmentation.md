@@ -591,7 +591,7 @@ Instrumenting the code with `wandb.log` not only enables tracking all metrics as
 
 Navigate to the artifacts tab in the W&B run dashboard to access the different versions of model checkpoint artifacts logged during training.
 
-| ![An example of how the model checkpoints are logged and versioned on WandB](@site/static/images/tutorials/monai/viz-4.gif) | 
+| ![An example of model checkpoints logging and versioning on W&B.](@site/static/images/tutorials/monai/viz-4.gif) | 
 |:--:| 
 | **An example of how the model checkpoints are logged and versioned on WandB.** |
 
