@@ -5,15 +5,15 @@ displayed_sidebar: default
 
 # Server upgrade process
 
-Updating the W&B Server Version and License information should be tailored according to the initial installation method. Below are the primary methods for installing W&B and their respective update processes:
+When updating the W&B Server Version and License information, tailor the process to the initial installation method. Here are the primary methods for installing W&B and the corresponding update processes:
 
 | Release Type                                               | Description                                                                                                                                                                                                                                                                                   |
 | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [terraform](./how-to-guides#wb-production-and-development) | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
-| [helm](./how-to-guides/bare-metal#helm-chart)              | The [Helm Chart](https://github.com/wandb/helm-charts) can be used to install W&B into an existing kubernetes cluster.                                                                                                                                                                        |
+| [helm](./how-to-guides/bare-metal#helm-chart)              | The [Helm Chart](https://github.com/wandb/helm-charts) can be used to install W&B into an existing Kubernetes cluster.                                                                                                                                                                        |
 | [docker](./how-to-guides/bare-metal#docker-deployment)     | Docker latest docker image can found in the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).                                                                                                                                                                                 |
 
-## Updating via Terraform Install
+## Updating via Terraform
 
 1. To upgrade, adjust the `wandb_version` and `license` for your specific cloud provider, update the following in your Terraform `wandb_app` module configuration:
 
@@ -39,7 +39,7 @@ If you are opting to use a `terraform.tfvars` or other `.tfvars` file:
    `terraform apply -var-file="terraform.tfvars"`  
     in your Terraform workspace directory.
 
-## Updating via Helm Install
+## Updating via Helm
 
 ### Update W&B via Spec
 
@@ -61,7 +61,7 @@ If you are opting to use a `terraform.tfvars` or other `.tfvars` file:
      -f ${wandb_install_spec.yaml}
    ```
 
-### Update License and Version Directly
+### Update License and Version directly
 
 1. Set the new license key and image tag as environment variables:
 
@@ -79,7 +79,7 @@ If you are opting to use a `terraform.tfvars` or other `.tfvars` file:
      --reuse-values --set license=$LICENSE --set image.tag=$TAG
    ```
 
-For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/blob/main/UPGRADE.md) in our public repository.
+For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/blob/main/UPGRADE.md) in the public repository.
 
 ## Updating via Docker Container
 
