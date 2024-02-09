@@ -603,7 +603,7 @@ Using the artifacts interface, you can select which version of the artifact is t
 |:--:| 
 | **An example of model artifact tracking on W&B.** |
 
-Let us fetch the version of the model artifact with the best epoch-wise mean training loss and load the checkpoint state dictionary to the model.
+Fetch the version of the model artifact with the best epoch-wise mean training loss and load the checkpoint state dictionary to the model.
 
 ```python
 model_artifact = wandb.use_artifact(
