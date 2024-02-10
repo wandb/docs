@@ -375,6 +375,7 @@ const sidebars = {
             'guides/hosting/slack-alerts',
             'guides/hosting/scim',
             'guides/hosting/server-release-process',
+            'guides/hosting/server-upgrade-process',
             'guides/hosting/export-data-from-dedicated-cloud',
           ],
         },
