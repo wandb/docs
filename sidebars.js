@@ -468,48 +468,47 @@ const sidebars = {
       dirName: 'ref',
     },
   ],
+  tutorials: [
+    {
+      type: 'doc',
+      id: 'tutorials/intro_to_tutorials', // document ID
+      label: 'W&B Tutorials', // sidebar label
+    },
+    // 'guides/tutorials/intro_to_tutorials',
+    'tutorials/experiments',
+    'tutorials/tables',
+    'tutorials/sweeps',
+    'tutorials/artifacts',
+    'tutorials/models',
+    {
+      type: 'category',
+      label: 'Integration Tutorials',
+      // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+      items: [
+        'tutorials/pytorch',
+        'tutorials/lightning',
+        'tutorials/huggingface',
+        'tutorials/tensorflow',
+        'tutorials/tensorflow_sweeps',
+        'tutorials/keras',
+        'tutorials/keras_tables',
+        'tutorials/keras_models',
+        'tutorials/xgboost',
+        'tutorials/xgboost_sweeps',
+        'tutorials/lightgbm',
 
-  // tutorials: [
-  //   {
-  //     type: 'doc',
-  //     id: 'tutorials/intro_to_tutorials', // document ID
-  //     label: 'W&B Tutorials', // sidebar label
-  //   },
-  //   // 'guides/tutorials/intro_to_tutorials',
-  //   'tutorials/experiments',
-  //   'tutorials/tables',
-  //   'tutorials/sweeps',
-  //   'tutorials/artifacts',
-  //   'tutorials/models',
-  //   {
-  //     type: 'category',
-  //     label: 'Integration Tutorials',
-  //     // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
-  //     items: [
-  //       'tutorials/pytorch',
-  //       'tutorials/lightning',
-  //       'tutorials/huggingface',
-  //       'tutorials/tensorflow',
-  //       'tutorials/tensorflow_sweeps',
-  //       'tutorials/keras',
-  //       'tutorials/keras_tables',
-  //       'tutorials/keras_models',
-  //       'tutorials/xgboost',
-  //       'tutorials/xgboost_sweeps',
-  //       'tutorials/lightgbm',
-
-  //     ],
-  //   },
-  //   {
-  //     type: 'category',
-  //     label: 'Launch Tutorials',
-  //     // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
-  //     items: [
-  //       'tutorials/volcano',
-  //       'tutorials/minikube_gpu'
-  //     ],
-  //   },
-  // ],
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Launch Tutorials',
+      // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+      items: [
+        'tutorials/volcano',
+        'tutorials/minikube_gpu'
+      ],
+    },
+  ],
 };
 
 module.exports = sidebars;
