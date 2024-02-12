@@ -129,16 +129,35 @@ const config = {
             label: 'Reference',
             position: 'right',
           },
-          // {
-          //   type: 'doc',
-          //   docId: 'tutorials/intro_to_tutorials',
-          //   label: 'Tutorials',
-          //   position: 'right',
-          // },
+          {
+            type: 'doc',
+            docId: 'tutorials/intro_to_tutorials',
+            label: 'Tutorials',
+            position: 'right',
+          },
           // {
           //   type: 'localeDropdown',
           //   position: 'right',
           // },
+          {
+            type: 'dropdown',
+            label: 'Language',
+            position: 'right',
+            items: [
+              {
+                label: 'English',
+                href: 'https://docs.wandb.ai/guides',
+              },
+              {
+                label: 'Japanese',
+                href: 'https://docs.wandb.ai/ja/guides',
+              },
+              {
+                label: 'Korean',
+                href: 'https://docs.wandb.ai/kr/guides',
+              },
+            ],
+          },          
           {
             href: 'https://github.com/wandb/wandb',
             html: 'GitHub<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',

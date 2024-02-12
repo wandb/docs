@@ -6,7 +6,7 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build:prod": "docusaurus build --out-dir build/ko --config docusaurus.config.js",
-    "build:beta": "bash build-beta-docs.sh",
+    "build:beta": "bash ./scripts/build-beta-docs.sh",
     "swizzle": "docusaurus swizzle",
     "deploy:prod": "yarn build:prod && yarn deploy-gae:prod",
     "deploy:beta": "yarn build:beta && yarn deploy-gae:beta",

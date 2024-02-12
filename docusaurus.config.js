@@ -129,12 +129,12 @@ const config = {
             label: 'Reference',
             position: 'right',
           },
-          // {
-          //   type: 'doc',
-          //   docId: 'tutorials/intro_to_tutorials',
-          //   label: 'Tutorials',
-          //   position: 'right',
-          // },
+          {
+            type: 'doc',
+            docId: 'tutorials/intro_to_tutorials',
+            label: 'Tutorials',
+            position: 'right',
+          },
           // {
           //   type: 'localeDropdown',
           //   position: 'right',
