@@ -18,7 +18,7 @@ This tutorial demonstrates how to construct a training workflow of multi-labels 
     2. How to define a new transform according to MONAI `transforms` API.
     3. How to randomly adjust intensity for data augmentation.
 3. Data Loading and Visualization:
-    1. Load Nifti image with metadata, load a list of images and stack them.
+    1. Load `Nifti` image with metadata, load a list of images and stack them.
     2. Cache IO and transforms to accelerate training and validation.
     3. Visualize the data using `wandb.Table` and interactive segmentation overlay on Weights & Biases.
 4. Training a 3D `SegResNet` model
