@@ -57,14 +57,13 @@ function DropdownNavbarItemDesktop({
       ref={dropdownRef}
       className={clsx('navbar__item', 'dropdown', 'dropdown--hoverable', {
         'dropdown--right': position === 'right',
-        'dropdown--show': showDropdown,
       })}>
       <NavbarNavLink
         aria-haspopup="true"
         aria-expanded={showDropdown}
         role="button"
         href={props.to ? undefined : '#'}
-        className={clsx('navbar__link', className)}
+        className={clsx('navbar__link', 'locale-dropdown', className)}
         {...props}
         onClick={props.to ? undefined : (e) => e.preventDefault()}
         onKeyDown={(e) => {
