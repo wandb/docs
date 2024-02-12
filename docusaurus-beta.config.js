@@ -152,10 +152,6 @@ const config = {
                 label: 'Japanese',
                 href: 'https://docs.wandb.ai/ja/guides',
               },
-              {
-                label: 'Korean',
-                href: 'https://docs.wandb.ai/kr/guides',
-              },
             ],
           },          
           {
