@@ -14,41 +14,17 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 ## Next-level logging in just 2 lines
 
-Log all the prompts, negative prompts, generated media, and configs associated with your experiment by simply including 2 lines of code. Here is a brief end-to-end example of the autolog in action:
+Log all the prompts, negative prompts, generated media, and configs associated with your experiment by simply including 2 lines of code. Here are the 2 lines of code to begin logging:
 
 ```python
-import torch
-from diffusers import DiffusionPipeline
-
 # import the autolog function
 from wandb.integration.diffusers import autolog
 
 # call the autolog before calling the pipeline
 autolog(init=dict(project="diffusers_logging"))
-
-# Initialize the diffusion pipeline
-pipeline = DiffusionPipeline.from_pretrained(
-    "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
-).to("cuda")
-
-# Define the prompts, negative prompts, and seed.
-prompt = [
-    "a photograph of an astronaut riding a horse",
-    "a photograph of a dragon"
-]
-negative_prompt = ["ugly, deformed", "ugly, deformed"]
-generator = torch.Generator(device="cpu").manual_seed(10)
-
-# call the pipeline to generate the images
-images = pipeline(
-    prompt,
-    negative_prompt=negative_prompt,
-    num_images_per_prompt=2,
-    generator=generator,
-)
 ```
 
-| ![An example of how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-2.gif) | 
+| ![An example of how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-4.gif) | 
 |:--:| 
 | **An example of how the results of your experiment are logged.** |
 
@@ -89,15 +65,97 @@ When `autolog()` is called, it initializes a Weights & Biases run, which automat
 - All other configs associated with the experiment including seed and the pipeline architecture are stored in the config section for the run.
 - The generated media for each pipeline call are also logged in [media panels](https://docs.wandb.ai/guides/track/log/media) in the run.
 
-Here are the 2 lines of code to begin logging:
+:::info
+You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autolog.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
+:::
+
+Here is a brief end-to-end example of the autolog in action:
+
+<Tabs
+  defaultValue="script"
+  values={[
+    {label: 'Python Script', value: 'script'},
+    {label: 'Notebook', value: 'notebook'},
+  ]}>
+  <TabItem value="script">
 
 ```python
+import torch
+from diffusers import DiffusionPipeline
+
 # import the autolog function
 from wandb.integration.diffusers import autolog
 
-# call the autologger before calling the pipeline
+# call the autolog before calling the pipeline
 autolog(init=dict(project="diffusers_logging"))
+
+# Initialize the diffusion pipeline
+pipeline = DiffusionPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
+).to("cuda")
+
+# Define the prompts, negative prompts, and seed.
+prompt = [
+    "a photograph of an astronaut riding a horse",
+    "a photograph of a dragon"
+]
+negative_prompt = ["ugly, deformed", "ugly, deformed"]
+generator = torch.Generator(device="cpu").manual_seed(10)
+
+# call the pipeline to generate the images
+images = pipeline(
+    prompt,
+    negative_prompt=negative_prompt,
+    num_images_per_prompt=2,
+    generator=generator,
+)
 ```
+
+  </TabItem>
+  <TabItem value="notebook">
+
+```python
+import torch
+from diffusers import DiffusionPipeline
+
+import wandb
+# import the autolog function
+from wandb.integration.diffusers import autolog
+
+# call the autolog before calling the pipeline
+autolog(init=dict(project="diffusers_logging"))
+
+# Initialize the diffusion pipeline
+pipeline = DiffusionPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
+).to("cuda")
+
+# Define the prompts, negative prompts, and seed.
+prompt = [
+    "a photograph of an astronaut riding a horse",
+    "a photograph of a dragon"
+]
+negative_prompt = ["ugly, deformed", "ugly, deformed"]
+generator = torch.Generator(device="cpu").manual_seed(10)
+
+# call the pipeline to generate the images
+images = pipeline(
+    prompt,
+    negative_prompt=negative_prompt,
+    num_images_per_prompt=2,
+    generator=generator,
+)
+
+# Finish the experiment
+wandb.finish()
+```
+
+  </TabItem>
+</Tabs>
+
+| ![An example of how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-2.gif) | 
+|:--:| 
+| **An example of how the results of your experiment are logged.** |
 
 | ![An example of how the results of your experiment are logged](@site/static/images/integrations/diffusers-autolog-1.gif) | 
 |:--:| 
@@ -253,10 +311,6 @@ wandb.finish()
 | ![An example of how the autolog tracks an SDXL + Refiner experiment](@site/static/images/integrations/diffusers-autolog-6.gif) | 
 |:--:| 
 | **An example of how the autolog tracks an SDXL + Refiner experiment.** |
-
-:::info
-You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autolog.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
-:::
 
 ## More Resources
 
