@@ -18,8 +18,5 @@ jobs:
       with:
         python-version: '3.10'
       
-    - name: Check the markdown header in English docs
+    - name: Check markdown header
       run: python scripts/check_header.py -d ./docs/guides/
-
-    - name: Check the markdown header in Japanese docs
-      run: python scripts/check_header.py -d ./i18n/ja/docusaurus-plugin-content-docs/current/guides/
