@@ -1,6 +1,9 @@
 #!/bin/usr
 subdir="ko"
 
+# Clean build directory
+yarn clear
+
 # Build the docs and store them in the correct build subdir
 yarn docusaurus build --out-dir build/$subdir --config docusaurus-beta.config.js
 
