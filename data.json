@@ -5,8 +5,8 @@
       "to": "/"
     },
     {
-      "from": "/",
-      "to": "/ko"
+      "from": "/ko",
+      "to": "/ko/"
     }
   ],
   "ignoredPaths": [
