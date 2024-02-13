@@ -82,7 +82,7 @@ const config = {
       algolia: {
         appId: '2D210VB5MP',
         apiKey: '730cfa02025b8ba2e95d4c33b1e38cc7',
-        indexName: 'docodile',
+        indexName: 'docodile-ko',
 
         // Optional: see doc section below
         // contextualSearch: true,
