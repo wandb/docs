@@ -20,8 +20,10 @@ Launch or queue a W&B Job. See https://wandb.me/launch
 | -r, --resource | Execution resource to use for run. Supported   values: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'.   This is now a required parameter if pushing to a queue with no resource configuration.   If passed in, will override the resource value passed in using a config file. |
 | -d, --docker-image | Specific docker image you'd like to use. In the form name:tag. If passed in, will   override the docker image value passed in using a config file. |
 | -c, --config | Path to JSON file (must end in '.json') or   JSON string which will be passed as a launch config. Dictation how the launched run will   be configured. |
+| -v, --set-var | Set template variable values for queues with   allow listing enabled, as key-value pairs e.g. `--set-var key1=value1 --set-var   key2=value2` |
 | -q, --queue | Name of run queue to push to. If none,   launches single run directly. If supplied without an argument (`--queue`), defaults to   queue 'default'. Else, if name supplied, specified run queue must exist under the   project and entity supplied. |
 | --async | Flag to run the job asynchronously. Defaults   to false, i.e. unless --async is set, wandb launch will wait for the job to finish. This   option is incompatible with --queue; asynchronous options when running with an   agent should be set on wandb launch-agent. |
 | --resource-args | Path to JSON file (must end in '.json') or   JSON string which will be passed as resource args to the compute resource. The exact   content which should be provided is different for each execution backend. See   documentation for layout of this file. |
 | --dockerfile | Path to the Dockerfile used to build the   job, relative to the job's root |
+| --priority [critical|high|medium|low] | When --queue is passed, set the priority of the job. Launch jobs with higher priority   are served first.  The order, from highest to lowest priority, is: critical, high,   medium, low |
 

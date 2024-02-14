@@ -13,9 +13,11 @@ CTAButtons
 [Dd]equeue
 [Dd]equeues
 [Dd]eserialize
+Docker
 Dockerfile
 [Ee]nqueued
 GPUs
+Helm
 [Hh]ostname
 Hyperband
 [Hh]yperparameters
@@ -29,6 +31,8 @@ Optuna
 [Pp]seudocode
 SCIM
 [Ss]elf-managed
+Terraform
 TTL
+UI
 [Ww]alkthrough
 W&B Server
