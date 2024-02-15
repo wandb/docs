@@ -879,6 +879,7 @@ const sidebars = {
         'tutorials/xgboost',
         'tutorials/xgboost_sweeps',
         'tutorials/lightgbm',
+        'tutorials/monai_3d_segmentation'
 
       ],
     },
