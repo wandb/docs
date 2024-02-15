@@ -804,7 +804,7 @@ PUT /scim/Roles/abc
 | --- | --- | --- |
 | op | String | Type of operation. The only allowed value is `replace`. |
 | path | String | The scope at which role assignment operation takes effect. The only allowed value is `organizationRole`. |
-| value | String | The predefined organization-level role to assign to the user. It can be one of `admin`, `viewer` or `member`. |
+| value | String | The predefined organization-level role to assign to the user. It can be one of `admin`, `viewer` or `member`. This field is case insensitive for predefined roles. |
 - **Request Example**:
 
 :::caution
@@ -824,7 +824,7 @@ PUT /scim/Roles/abc
         {
             "op": "replace",
             "path": "organizationRole",
-            "value": "admin" // will set the user's organization-level role to admin
+            "value": "admin" // will set the user's organization-scoped role to admin
         }
     ]
 }
@@ -856,7 +856,14 @@ This returns a User object, like in case of [user resource](#user-resource).
     "schemas": [
         "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
-    "userName": "dev-user1"
+    "userName": "dev-user1",
+    "teamRoles": [  // Returns the user's roles in all the teams that they are a part of
+        {
+            "teamName": "team1",
+            "roleName": "admin"
+        }
+    ],
+    "organizationRole": "admin" // Returns the user's role at the organization scope
 }
 ```
 
@@ -871,7 +878,7 @@ This returns a User object, like in case of [user resource](#user-resource).
 | --- | --- | --- |
 | op | String | Type of operation. The only allowed value is `replace`. |
 | path | String | The scope at which role assignment operation takes effect. The only allowed value is `teamRoles`. |
-| value | Object array | A one-object array where the object consists of `teamName` and `roleName` attributes. The `teamName` is the name of the team where the user holds the role, and `roleName` can be one of `admin`, `viewer`, `member` or a custom role. |
+| value | Object array | A one-object array where the object consists of `teamName` and `roleName` attributes. The `teamName` is the name of the team where the user holds the role, and `roleName` can be one of `admin`, `viewer`, `member` or a custom role. This field is case insensitive for predefined roles and case sensitive for custom roles. |
 - **Request Example**:
 
 :::caution
@@ -890,10 +897,10 @@ PUT /scim/Roles/abc
     "Operations": [
         {
             "op": "replace",
-            "path": "organizationRole",
+            "path": "teamRoles",
             "value": [
                 {
-                    "roleName": "admin",
+                    "roleName": "admin", // role name is case insensitive for predefined roles and case sensitive for custom roles
                     "teamName": "team1" // will set the user's role in the team team1 to admin
                 }
             ]
@@ -928,6 +935,13 @@ This returns a User object, like in case of [user resource](#user-resource).
     "schemas": [
         "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
-    "userName": "dev-user1"
+    "userName": "dev-user1",
+    "teamRoles": [  // Returns the user's roles in all the teams that they are a part of
+        {
+            "teamName": "team1",
+            "roleName": "admin"
+        }
+    ],
+    "organizationRole": "admin" // Returns the user's role at the organization scope
 }
 ```
