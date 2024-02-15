@@ -77,7 +77,7 @@ Map operations iterate over lists and apply a function to each element in the da
 ![](/images/weave/weave_map.gif)
 
 ### Groupby
-You can filter using a query or from the column options.
+You can groupby using a query or from the column options.
 ![](/images/weave/weave_groupby.png)
 ![](/images/weave/weave_groupby.gif)
 
