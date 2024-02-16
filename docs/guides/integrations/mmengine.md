@@ -15,9 +15,9 @@ MMEngine by [OpenMMLab](https://github.com/open-mmlab) is a foundational library
 - log and manage experiment configs.
 - log additional records such as graph, images, scalars, etc.
 
-## Getting Started
+## Getting started
 
-First, we need to install `openmim` and `wandb`. We then proceed to install `mmengine` and `mmcv` using `openmim`.
+First, you need to install `openmim` and `wandb`. You can then proceed to install `mmengine` and `mmcv` using `openmim`.
 
 <Tabs
   defaultValue="script"
@@ -69,7 +69,7 @@ visualizer = Visualizer.get_instance(**visualization_cfg)
 ```
 
 :::info
-You pass a dictionary of arguments for [wandb run initialization](https://docs.wandb.ai/ref/python/init) input parameters to `init_kwargs`.
+You pass a dictionary of arguments for [W&B run initialization](https://docs.wandb.ai/ref/python/init) input parameters to `init_kwargs`.
 :::
 
 Next, you simply initialize a `runner` with the `visualizer`, and call `runner.train()`.
