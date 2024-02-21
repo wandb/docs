@@ -180,8 +180,7 @@ blank.
 |  `uri` |  The URI path of the reference to add. The URI path can be an object returned from `Artifact.get_entry` to store a reference to another artifact's entry. |
 |  `name` |  The path within the artifact to place the contents of this reference. |
 |  `checksum` |  Whether or not to checksum the resource(s) located at the reference URI. Checksumming is strongly recommended as it enables automatic integrity validation, however it can be disabled to speed up artifact creation. |
-|  `max_objects` |  The maximum number of objects to consider when adding a reference that points to directory or bucket store prefix. By default, the maximum number of objects allowed for Amazon S3 and GCS is 10,000. Other URI schemas do not have a maximum. |
-
+|  `max_objects` |  The maximum number of objects to consider when adding a reference. All forms of a URI path, regardless of schema, enforce this maximum. The maximum number of objects allowed for Amazon S3 and GCS is 10,000. 
 | Returns |  |
 | :--- | :--- |
 |  The added manifest entries. |
