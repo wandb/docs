@@ -1,0 +1,219 @@
+API key: API 키
+AV model: AV 모델
+Artifact CLI Reference Guide: 아티팩트 CLI 참조 가이드
+Bayesian optimization: 베이지안 최적화
+Bayesian search: 베이지안 탐색
+Colab notebook: Colab 노트북
+Common Questions: 자주 묻는 질문
+Dedicated Cloud: 데디케이티드 클라우드
+Deployer: 디플로이어
+GPU: GPU
+How It Works: 작동 방식
+How to Get Started: 시작 방법
+Hugging Face transformer: Hugging Face transformer
+INFO: 안내
+IOU: IOU
+Integrations guide: 통합 가이드
+Let's Take a Look: 살펴보죠
+Optimizer: 옵티마이저
+Overview tab: Overview 탭
+Quickstart: 퀵스타트
+SaaS: SaaS
+Video Tutorials: 비디오 튜토리얼
+W&B Developer Guide: W&B 개발자 가이드
+W&B Easy Integration YouTube: W&B 쉬운 통합 YouTube
+W&B Fully Connected: W&B Fully Connected
+W&B SDK Reference Guide: W&B SDK 참조 가이드
+Weave expression: Weave 표현식
+Weights & Biases: Weights & Biases
+What Next?: 다음 단계
+access: 엑세스
+accuracy plot: 정확도 플롯
+address: 주소
+agent: 에이전트
+alias: 별칭
+analysis: 분석
+application: 애플리케이션
+architecture: 아키텍처
+arg: 인수
+argument: 인수
+artifact: 아티팩트
+assignment: 과제
+autonomous vehicle: 자율 주행 차량
+backup: 백업
+baseline: 기준
+batch size: 배치 크기
+behavior: 동작
+best practices: 모범 사계
+bias: 편향
+blog: 블로그
+bucket: 버킷
+business context: 비즈니스 콘텍스트
+callback: 콜백
+case study: 사례 연구
+channel: 채널
+chatbot: 챗봇
+checkpoint: 체크포인트
+cloud: 클라우드
+cluster: 클러스터
+code: 코드
+code snippet: 코드 조각
+command: 명령
+complex code base: 복잡한 코드베이스
+computer vision: 컴퓨터 비전
+configuration: 구성
+controller: 컨트롤러
+convolutional block: 컨볼루션 블록
+couple lines of code: 코드 몇 줄
+course: 코스
+cross validation: 교차 검증
+customer case study: 고객 사례 연구
+cutting-edge: 첨단
+dashboard: 대시보드
+data: 데이터
+data frame: 데이터 프레임
+data leakage: 데이터 유출
+data obfuscation: 데이터 난독 처리
+data partitioning: 데이터 파티셔닝
+data visualization: 데이터 시각화
+dataset: 데이터세트
+dataset-agnostic: 데이터세트-애그노스틱
+deep learning: 딥 러닝
+demo: 데모
+deployment: 배포
+dictionary: 사전
+directory: 디렉터리
+docker container: docker 컨테이너
+ecosystem: 생태계
+edge case: 에지 케이스
+end-to-end: 엔드 투 엔드
+environment: 환경
+epoch: 에포크
+evaluation metric: 평가 메트릭
+experiment: 실험
+findings: 발견한 내용
+fine-tune: 파인 튜닝
+forward pass: 순방향 전달
+framework: 프레임워크
+gradient: 그레이디언트
+grid search: 그리드 검색
+ground truth: 실제값
+group partitioning: 그룹 파티셔닝
+guide: 가이드
+holdout set: 홀드아웃 세트
+hook: 후크
+host flag: 호스트 플래그
+hyperparameter: 하이퍼파라미터
+hyperparameter sweep: 하이퍼파라미터 스윕
+hyperparameter tuning: 하이퍼파라미터 튜닝
+image classification: 이미지 분류
+image segmentation: 이미지 세스멘테이션
+infrastructure: 인프라
+instance segmentation: 인스턴스 세그멘테이션
+interactive charts: 인터랙티브 차트
+intersection over union: IOU(intersection over union)
+job type: 작업 유형
+key: 키
+learner object: 학습자 개체
+lesson: 강의
+library: 라이브러리
+line of code: 코드 라인
+lineage: 계보
+local minima: 로컬 미니멈
+log: 로그
+machine learning: 머신 러닝
+machine learning practitioner: 머신 러닝 프랙티셔너
+metadata: 메타데이터
+method: 메서드
+metrics: 메트릭
+model: 모델
+model evaluation: 모델 평가
+model evolution: 모델 진화
+model lineage: 모델 계보
+model management: 모델 관리
+model registry: 모델 레지스트리
+model training: 모델 학습
+navigation bar: 탐색 모음
+neural network: 신경망
+next steps: 다음 단계
+noise: 노이즈
+noising: 노이즈화
+notebook: 노트북
+object: 개체
+object detection: 오브젝트 디텍션
+on-prem: 온-프레미스
+orchestration: 오케스트레이션
+overfitting: 과대적합
+panel: 패널
+parallel coordinates plots: 평행 좌표 플롯
+parameter: 파라미터
+parameter importance: 파라미터 중요도
+partition: 파티션
+person IOU: 사람 IOU
+pipeline: 파이프라인
+pkce grant types: pkce 권한 부여 유형
+platform: 플랫폼
+population based training: 모집단 기반 학습
+pre-trained: pre-trained
+precision-recall curve: precision-recall 곡선
+prediction: 예측값
+private cloud: 프라이빗 클라우드
+process: 프로세스
+processing: 처리
+production: 프로덕션
+project: 프로젝트
+random search: 랜덤 검색
+recommender system: 추천 시스템
+reinforcement learning: 강화 학습
+report: 리포트
+reproducibility: 재현성
+research: 연구
+result: 결과
+run: 실행
+script: 스크립트
+semantic segmentation: semantic segmentation
+sentiment analysis: 감정 분석
+server: 서버
+settings: 설정
+single-tenant: 단일 테넌트
+snapshot: 스냅샷
+state assignments: 상태 할당
+stratified partitioning: 계층화 파티셔닝
+subset: 서브세트
+support team: 지원팀
+sweep: 스윕
+sweep agent: 스윕 에이전트
+sweep configuration: 스윕 구성
+sweep server: 스윕 서버
+system of record: 기록 시스템
+team member: 팀 멤버
+terminal: 터미널
+test set: 테스트 세트
+text-to-image: 텍스트 투 이미지
+time series: 시계열
+time series cross validation: 시계열 교차 검증
+tool: 도구
+torchvision: torchvision
+tracked hours: 추적 시간
+traffic light: 교통 신호등
+training: 학습
+training data: 학습 데이터
+training script: 학습 스크립트
+traverse: 트래버스
+trial: 시행
+tune: 조정
+tuning transformers: 트랜스포머 튜닝
+underfitting: 과소적합
+use case: 사용 사례
+user: 사용자
+validation accuracy: 검증 정확도
+validation loop: 검증 루프
+validation set: 검들 세트
+value: 값
+version: 버전
+versioning: 버전 관리
+video walkthrough: 비디오 튜토리얼
+visualization: 시각화
+wandb library: wandb 라이브러리
+workflow: 워크플로
+workspace: 워크스페이스
