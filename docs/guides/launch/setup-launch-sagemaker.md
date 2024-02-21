@@ -84,6 +84,12 @@ Create and make note of the following AWS resources:
         "Effect": "Allow",
         "Action": [
           "logs:DescribeLogStreams",
+        ],
+        "Resource": "arn:aws:logs:<region>:<account-id>:*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
           "sagemaker:AddTags",
           "sagemaker:CreateTrainingJob",
           "sagemaker:DescribeTrainingJob"
