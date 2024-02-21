@@ -1,5 +1,6 @@
 APIs
 Autogenerate
+autolog
 [Bb]asename
 [Bb]oolean
 [Cc]heckpointing
@@ -25,6 +26,7 @@ Hyperband
 Kaniko
 Keras
 Kubeflow
+[Ll]atents
 MMEngine
 MMDetection
 [Nn]amespace
