@@ -25,6 +25,8 @@ Hyperband
 Kaniko
 Keras
 Kubeflow
+MMEngine
+MMDetection
 [Nn]amespace
 Optuna
 [P]repended
