@@ -3,58 +3,58 @@ description: Log and visualize data without a W&B account
 displayed_sidebar: default
 ---
 
-# Anonymous Mode
+# 익명 모드
 
-Are you publishing code that you want anyone to be able to run easily? Use Anonymous Mode to let someone run your code, see a W&B dashboard, and visualize results without needing to create a W&B account first.
+누구나 쉽게 실행할 수 있는 코드를 공개하고 싶으신가요? 익명 모드를 사용하면 누군가가 W&B 계정을 만들 필요 없이 코드를 실행하고 W&B 대시보드를 보고 결과를 시각화할 수 있습니다.
 
-Allow results to be logged in Anonymous Mode with `wandb.init(`**`anonymous="allow"`**`)`
+익명 모드에서 결과를 로그하려면 `wandb.init(`**`anonymous="allow"`**`)`를 사용하십시오.
 
 :::info
-**Publishing a paper?** Please [cite W&B](https://docs.wandb.ai/company/academics#bibtex-citation), and if you have questions about how to make your code accessible while using W&B, reach out to us at support@wandb.com.
+**논문을 출판하시나요?** W&B를 [인용해 주세요](https://docs.wandb.ai/company/academics#bibtex-citation), 그리고 W&B를 사용하면서 코드를 어떻게 접근 가능하게 할 수 있는지에 대해 궁금한 점이 있으면 support@wandb.com으로 저희에게 문의해 주세요.
 :::
 
-### How does someone without an account see results?
+### 계정이 없는 사람이 결과를 어떻게 볼 수 있나요?
 
-If someone runs your script and you have to set `anonymous="allow"`:
+다음과 같이 스크립트를 실행하고 `anonymous="allow"`을 설정한 경우:
 
-1. **Auto-create temporary account:** W&B checks for an account that's already signed in. If there's no account, we automatically create a new anonymous account and save that API key for the session.
-2. **Log results quickly:** The user can run and re-run the script, and automatically see results show up in the W&B dashboard UI. These unclaimed anonymous runs will be available for 7 days.
-3. **Claim data when it's useful**: Once the user finds valuable results in W&B, they can easily click a button in the banner at the top of the page to save their run data to a real account. If they don't claim a run, it will be deleted after 7 days.
+1. **자동 임시 계정 생성:** W&B는 이미 로그인한 계정이 있는지 확인합니다. 계정이 없으면 자동으로 새 익명 계정을 생성하고 해당 세션에 대한 API 키를 저장합니다.
+2. **빠른 결과 로그:** 사용자는 스크립트를 실행하고 다시 실행할 수 있으며, 자동으로 W&B 대시보드 UI에 결과가 표시됩니다. 이러한 미청구 익명 실행은 7일 동안 사용할 수 있습니다.
+3. **데이터가 유용할 때 청구:** 사용자가 W&B에서 가치 있는 결과를 찾으면 페이지 상단의 배너에 있는 버튼을 클릭하기만 하면 실행 데이터를 실제 계정에 저장할 수 있습니다. 실행을 청구하지 않으면 7일 후에 삭제됩니다.
 
 :::caution
-**Anonymous run links are sensitive**. These links allow anyone to view and claim the results of an experiment for 7 days, so make sure to only share links with people you trust. If you're trying to share results publicly, but hide the author's identity, please contact us at support@wandb.com to share more about your use case.
+**익명 실행 링크는 민감합니다**. 이러한 링크는 누구나 실험 결과를 7일 동안 볼 수 있고 청구할 수 있으므로 신뢰하는 사람들과만 링크를 공유해야 합니다. 결과를 공개적으로 공유하되 저자의 신원을 숨기려는 경우 support@wandb.com으로 문의하여 사용 사례에 대해 자세히 알려주십시오.
 :::
 
-### What happens to users with existing accounts?
+### 기존 계정이 있는 사용자에게는 어떤 일이 발생하나요?
 
-If you set `anonymous="allow"` in your script, we will check to make sure there's not an existing account first, before creating an anonymous account. This means that if a W&B user finds your script and runs it, their results will be logged correctly to their account, just like a normal run.
+스크립트에서 `anonymous="allow"`를 설정하면, 익명 계정을 생성하기 전에 먼저 기존 계정이 있는지 확인합니다. 이는 W&B 사용자가 귀하의 스크립트를 찾아 실행할 경우, 그들의 결과가 정상 실행처럼 자신의 계정에 올바르게 로그된다는 것을 의미합니다.
 
-### What are features that aren't available to anonymous users?
+### 익명 사용자에게 사용할 수 없는 기능은 무엇인가요?
 
-*   **No persistent data**: Runs are only saved for 7 days in an anonymous account. Users can claim anonymous run data by saving it to a real account.
+*   **영구 데이터 없음**: 실행은 익명 계정에서 7일 동안만 저장됩니다. 사용자는 실행 데이터를 실제 계정에 저장함으로써 익명 실행 데이터를 청구할 수 있습니다.
 
 
 ![](@site/static/images/app_ui/anon_mode_no_data.png)
 
-*   **No artifact logging**: Runs will print a warning on the command line that you can't log an artifact to an anonymous run.
+*   **아티팩트 로그 없음**: 실행은 익명 실행에 아티팩트를 로그할 수 없다는 경고를 명령줄에 출력합니다.
 
 ![](@site/static/images/app_ui/anon_example_warning.png)
 
-* **No profile or settings pages**: Certain pages aren't available in the UI, because they're only useful for real accounts.
+* **프로필이나 설정 페이지 없음**: 실제 계정에만 유용한 특정 페이지는 UI에서 사용할 수 없습니다.
 
-## Example usage
+## 사용 예
 
-[Try the example notebook](http://bit.ly/anon-mode) to see how anonymous mode works.
+[예제 노트북을 시도해 보세요](http://bit.ly/anon-mode) 익명 모드가 어떻게 작동하는지 확인할 수 있습니다.
 
 ```python
 import wandb
 
-# Start a run allowing anonymous accounts
+# 익명 계정 허용으로 실행 시작
 wandb.init(anonymous="allow")
 
-# Log results from your training loop
+# 학습 루프에서 결과 로그
 wandb.log({"acc": 0.91})
 
-# Mark the run as finished
+# 실행을 마침으로 표시
 wandb.finish()
 ```

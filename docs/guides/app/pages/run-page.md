@@ -1,89 +1,88 @@
 ---
-description: >-
-  Each training run of your model gets a dedicated page, organized within the
-  larger project
+description: Each training run of your model gets a dedicated page, organized within
+  the larger project
 displayed_sidebar: default
 ---
 
-# Run Page
+# 실행 페이지
 
-Use the run page to explore detailed information about a single version of your model.
+실행 페이지를 사용하여 모델의 단일 버전에 대한 자세한 정보를 탐색하세요.
 
-## Overview Tab
+## Overview 탭
 
-* Run name, description, and tags
-* Run state
-  * **finished**: script ended and fully synced data, or called `wandb.finish()`
-  * **failed**: script ended with a non-zero exit status
-  * **crashed**: script stopped sending heartbeats in the internal process, which can happen if the machine crashes
-  * **running**: script is still running and has recently sent a heartbeat
-* Host name, operating system, Python version, and command that launched the run
-* List of config parameters saved with [`wandb.config`](../../../guides/track/config.md)
-* List of summary parameters saved with [`wandb.log()`](../../../guides/track/log/intro.md), by default set to the last value logged
+* 실행 이름, 설명, 태그
+* 실행 상태
+  * **완료됨**: 스크립트가 종료되고 전체 데이터가 동기화되었거나 `wandb.finish()`가 호출됨
+  * **실패함**: 스크립트가 0이 아닌 종료 상태로 종료됨
+  * **충돌함**: 내부 프로세스에서 스크립트가 하트비트를 보내지 않아 중단됨, 기계가 충돌하면 발생할 수 있음
+  * **실행 중**: 스크립트가 여전히 실행 중이며 최근에 하트비트를 보냄
+* 호스트 이름, 운영 체제, Python 버전, 실행을 시작한 명령
+* [`wandb.config`](../../../guides/track/config.md)로 저장된 설정 파라미터 목록
+* [`wandb.log()`](../../../guides/track/log/intro.md)로 저장된 요약 파라미터 목록, 기본적으로 로그된 마지막 값으로 설정됨
 
-[View a live example →](https://app.wandb.ai/carey/pytorch-cnn-fashion/runs/munu5vvg/overview?workspace=user-carey)
+[실시간 예시 보기 →](https://app.wandb.ai/carey/pytorch-cnn-fashion/runs/munu5vvg/overview?workspace=user-carey)
 
-![W&B Dashboard run overview tab](/images/app_ui/wandb_run_overview_page.png)
+![W&B 대시보드 실행 overview 탭](/images/app_ui/wandb_run_overview_page.png)
 
-The Python details are private, even if you make the page itself public. Here is an example of my run page in incognito on the left and my account on the right.
+페이지 자체를 공개하더라도 Python 세부 정보는 비공개입니다. 여기 제 실행 페이지의 익명 탭과 제 계정의 오른쪽 예가 있습니다.
 
 ![](/images/app_ui/wandb_run_overview_page_2.png)
 
-## Charts Tab
+## 차트 탭
 
-* Search, group, and arrange visualizations
-  * the search bar supports regular expressions
-* Click the pencil icon ✏️ on a graph to edit
-  * change x-axis, metrics, and ranges
-  * edit legends, titles, and colors of charts
-* View examples predictions from your validation set
-* To get these charts, log data with [`wandb.log()`](../../../guides/track/log/intro.md)
+* 시각화 검색, 그룹화 및 배열
+  * 검색창은 정규 표현식을 지원함
+* 그래프에서 연필 아이콘 ✏️을 클릭하여 편집
+  * x축, 메트릭 및 범위 변경
+  * 차트의 범례, 제목 및 색상 편집
+* 검증 세트에서 예시 예측값 보기
+* 이러한 차트를 얻으려면 [`wandb.log()`](../../../guides/track/log/intro.md)로 데이터를 기록하세요.
 
 ![](/images/app_ui/wandb-run-page-workspace-tab.png)
 
-## System Tab
+## 시스템 탭
 
-* Visualize CPU utilization, system memory, disk I/O, network traffic, GPU utilization, GPU temperature, GPU time spent accessing memory, GPU memory allocated, and GPU power usage
-* Lambda Labs highlighted how to use W&B system metrics in a[ blog post →](https://lambdalabs.com/blog/weights-and-bias-gpu-cpu-utilization/)
+* CPU 사용량, 시스템 메모리, 디스크 I/O, 네트워크 트래픽, GPU 사용량, GPU 온도, GPU 메모리 액세스 시간, 할당된 GPU 메모리 및 GPU 전력 사용량 시각화
+* Lambda Labs에서 W&B 시스템 메트릭 사용 방법을 [블로그 게시물 →](https://lambdalabs.com/blog/weights-and-bias-gpu-cpu-utilization/)에서 강조했습니다.
 
-[View a live example →](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey)
+[실시간 예시 보기 →](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey)
 
 ![](/images/app_ui/wandb_system_utilization.png)
 
-## Model Tab
+## 모델 탭
 
-* See the layers of your model, the number of parameters, and the output shape of each layer
+* 모델의 레이어, 파라미터 수 및 각 레이어의 출력 형태 확인
 
-[View a live example →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/model)
+[실시간 예시 보기 →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/model)
 
 ![](/images/app_ui/wandb_run_page_model_tab.png)
 
-## Logs Tab
+## 로그 탭
 
-* Output printed on the command line, the stdout and stderr from the machine training the model
-* We show the last 1000 lines. After the run has finished, if you'd like to download the full log file, click the download button in the upper right corner.
+* 명령 줄에 출력된 내용, 모델을 학습하는 기계의 stdout 및 stderr
+* 마지막 1000줄을 보여줍니다. 실행이 완료된 후 전체 로그 파일을 다운로드하려면 오른쪽 상단 모서리의 다운로드 버튼을 클릭하세요.
 
-[View a live example →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs)
+[실시간 예시 보기 →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs)
 
 ![](/images/app_ui/wandb_run_page_log_tab.png)
 
-## Files Tab
+## 파일 탭
 
-* Save files to sync with the run using [`wandb.save()`](../../track/save-restore.md)
-* Keep model checkpoints, validation set examples, and more
-* Use the `diff.patch` to [restore](../../track/save-restore.md) the exact version of your code
-  [View a live example →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images)
+* 실행과 동기화할 파일을 저장하기 위해 [`wandb.save()`](../../track/save-restore.md) 사용
+* 모델 체크포인트, 검증 세트 예시 등 유지
+* 정확한 코드 버전을 [복원](../../track/save-restore.md)하기 위해 `diff.patch` 사용
+  [실시간 예시 보기 →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images)
 
-:::info
-The W&B [Artifacts](../../artifacts/intro.md) system adds extra features for handling, versioning, and deduplicating large files like datasets and models. We recommend you use Artifacts for tracking inputs and outputs of runs, rather than `wandb.save`. Check out the Artifacts quickstart [here](../../artifacts/artifacts-walkthrough.md).
+:::안내
+W&B [아티팩트](../../artifacts/intro.md) 시스템은 데이터세트와 모델과 같은 큰 파일을 처리, 버전 관리 및 중복 제거를 위한 추가 기능을 제공합니다. 실행의 입력 및 출력을 추적하기 위해 `wandb.save` 대신 아티팩트를 사용하는 것이 좋습니다. [여기](../../artifacts/artifacts-walkthrough.md)에서 아티팩트 퀵스타트를 확인하세요.
 :::
 
 ![](/images/app_ui/wandb_run_page_files_tab.png)
 
-## Artifacts Tab
+## 아티팩트 탭
 
-* Provides a searchable list of the input and output [Artifacts](../../artifacts/intro.md) for this run
-* Click a row to see information about a particular artifact used or produced by this run
-* See the reference for the [project](project-page.md)-level [Artifacts Tab](project-page.md#artifacts-tab) for more on navigating and using the artifacts viewers in the web app [View a live example →](https://wandb.ai/stacey/artifact\_july\_demo/runs/2cslp2rt/artifacts)
+* 이 실행의 입력 및 출력 [아티팩트](../../artifacts/intro.md)에 대한 검색 가능한 목록 제공
+* 특정 아티팩트에 대한 정보를 보려면 행을 클릭하세요
+* 웹 앱에서 아티팩트 뷰어를 탐색하고 사용하는 방법에 대한 자세한 내용은 [프로젝트](project-page.md) 수준 [아티팩트 탭](project-page.md#artifacts-tab) 참조를 확인하세요 [실시간 예시 보기 →](https://wandb.ai/stacey/artifact\_july\_demo/runs/2cslp2rt/artifacts)
 
 ![](/images/app_ui/artifacts_tab.png)

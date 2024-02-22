@@ -5,70 +5,66 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Workspaces
+# 워크스페이스
 
-W&B workspace is your personal sandbox to customize charts and explore model results. Workspaces consist of two main components: 
+W&B 워크스페이스는 차트를 사용자 정의하고 모델 결과를 탐색할 수 있는 개인용 모래상자입니다. 워크스페이스는 두 가지 주요 구성 요소로 구성됩니다:
 
-1. **Table**: All runs logged to your project are listed in the project's table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
-2. **Panel section**: [Panels](../features/panels/intro.md) are organized into panel sections. Create new panels, organize them, and export to reports to save snapshots of your workspace.
+1. **테이블**: 프로젝트에 로그된 모든 실행이 프로젝트의 테이블에 나열됩니다. 실행을 켜고 끄기, 색상 변경, 각 실행의 노트, 구성 및 요약 메트릭을 보기 위해 테이블을 확장합니다.
+2. **패널 섹션**: [패널](../features/panels/intro.md)은 패널 섹션으로 구성됩니다. 새 패널을 생성하고, 정리하고, 리포트로 내보내어 워크스페이스의 스냅샷을 저장합니다.
 
 ![](/images/app_ui/workspace_table_and_panels.png)
 
+## 기본 워크스페이스
+각 W&B 프로젝트에는 *기본 워크스페이스*가 있습니다. 기본 워크스페이스는 해당 프로젝트의 소유자가 저장한 사용자 정의 워크스페이스를 보여줍니다.
 
-
-## Default workspace
-Each W&B projects has a *default workspace*. The default workspace shows the custom workspace that was saved by the owner of that project. 
-
-Each W&B user has one workspace that is unique to them and can be customized.
+각 W&B 사용자는 자신에게 고유하고 사용자 정의할 수 있는 하나의 워크스페이스를 가지고 있습니다.
 
 :::tip
-Use default workspaces to set up a landing page for your public project, or help your team members get started.
+공개 프로젝트의 랜딩 페이지를 설정하거나 팀 멤버가 시작하도록 돕기 위해 기본 워크스페이스를 사용하세요.
 :::
 
-Changes that you make to your project workspace are saved automatically.  You can undo changes you make to your workspace with the undo buttons located at the bottom right of your workspace.
+프로젝트 워크스페이스에 대한 변경 사항은 자동으로 저장됩니다. 워크스페이스의 오른쪽 하단에 위치한 실행 취소 버튼을 사용하여 워크스페이스에 대한 변경 사항을 실행 취소할 수 있습니다.
 
 ![](/images/app_ui/undo_button.png)
 
-## View and customize workspaces
-View and temporarily customize workspaces created by other W&B users. This is particularly useful if you want to conduct exploratory analysis of someone's work and possibly create a W&B report from it to share with others.
+## 워크스페이스 보기 및 사용자 정의
+다른 W&B 사용자가 생성한 워크스페이스를 보고 임시로 사용자 정의합니다. 이는 다른 사람의 작업을 탐색적 분석을 수행하고 그것으로부터 W&B 리포트를 생성하여 다른 사람과 공유하고 싶을 때 특히 유용합니다.
 
-Changes you make to another user's workspace do not override the default workspace created by the owning W&B user.
+다른 사용자의 워크스페이스에 대한 변경 사항은 워크스페이스를 소유한 W&B 사용자가 생성한 기본 워크스페이스를 덮어쓰지 않습니다.
 
-You can undo temporary changes you make to a workspace you do not own with the **My Workspace** button located at the bottom of the W&B App UI:
+워크스페이스 하단에 있는 **내 워크스페이스** 버튼을 사용하여 소유하지 않은 워크스페이스에 대한 임시 변경 사항을 실행 취소할 수 있습니다:
 
-1. Click on **My Workspace**
-2. Select **Clear workspace**
+1. **내 워크스페이스**를 클릭하세요.
+2. **워크스페이스 지우기**를 선택하세요.
 
 ![](/images/app_ui/workspaces_bar2.png)
 
+## 팀 프로젝트
 
-## Team projects
-
-Every user of a team will get one workspace that is unique to them and can be customized to their liking. However, users between teams can switch workspaces to other users of the team. Workspaces can differ between users for a variety of reasons like having different custom charts, different filters/groupings or section orders.
+팀의 모든 사용자는 자신에게 고유하고 사용자 정의할 수 있는 워크스페이스를 하나씩 가집니다. 그러나, 팀 내의 사용자들은 다른 팀 사용자의 워크스페이스로 전환할 수 있습니다. 사용자별로 워크스페이스가 다를 수 있는 다양한 이유가 있습니다. 예를 들어, 다른 사용자 정의 차트, 다른 필터/그룹화 또는 섹션 순서를 가질 수 있습니다.
 
 ![](/images/app_ui/team_project_1.png)
 
-You can fork a team member's workspace and then save it to your own. To fork a team member's workspace, click on the **Copy to My Workspace** button:
+팀 멤버의 워크스페이스를 복사한 다음 자신의 것으로 저장할 수 있습니다. 팀 멤버의 워크스페이스를 복사하려면 **내 워크스페이스로 복사** 버튼을 클릭하세요:
 
 ![](/images/app_ui/team_project_2.png)
 
+## 차트를 섹션으로 정렬
 
-## Sort charts into sections
-
-You can sort charts into sections in your workspace programmatically or interactively with the W&B App UI.
+W&B 앱 UI 또는 프로그래밍 방식으로 워크스페이스에서 차트를 섹션으로 정렬할 수 있습니다.
 
 
 <Tabs
   defaultValue="programmatically"
   values={[
-    {label: 'Programmatically', value: 'programmatically'},
-    {label: 'W&B App UI', value: 'ui'},
+    {label: '프로그래밍 방식', value: 'programmatically'},
+    {label: 'W&B 앱 UI', value: 'ui'},
   ]}>
   <TabItem value="programmatically">
 
-Add a prefix to the name of your metric when you log that metric to sort the chart into sections.
+메트릭을 로그할 때 메트릭 이름에 접두사를 추가하여 차트를 섹션으로 정렬합니다.
 
-For example, the proceeding code block will produce two chart sections called **section-a** and **section-b**:
+예를 들어, 다음 코드 블록은 **section-a** 및 **section-b**라는 두 차트 섹션을 생성합니다:
 
 ```python
 run = wandb.init()
@@ -82,62 +78,56 @@ with run:
   </TabItem>
   <TabItem value="ui">
 
-1. Navigate to your project workspace.
-2. Scroll down to the bottom of the panel section of your workspace.
-3. Click on the **Add section** button to add a new section.
+1. 프로젝트 워크스페이스로 이동합니다.
+2. 워크스페이스의 패널 섹션 하단으로 스크롤합니다.
+3. 새 섹션을 추가하려면 **섹션 추가** 버튼을 클릭하세요.
 
 ![](/images/app_ui/add_section_app.png)
 
   </TabItem>
 </Tabs>
 
+## 저장된 워크스페이스 뷰 생성 (베타)
+맞춤형 워크스페이스 뷰로 팀 협업 개선.
 
+### 워크스페이스 카테고리 이해
 
-## Create saved workspace views (Beta)
-Improve team collaboration with tailored workspace views. 
+* **개인 워크스페이스:** 당신만의 전용 공간으로, 모델 및 데이터 시각화의 심층 분석을 위해 사용자 정의할 수 있습니다. 팀원은 구성을 변경하지 않고 볼 수 있지만, 편집 제어권은 당신에게 있습니다.
 
-### Understand the workspace categories
-
-* **Personal Workspaces:** Exclusive to you, these are customizable spaces for in-depth analysis of models and data visualizations. You have edit control, while teammates can view configurations without altering them.
-
-* **Saved Views:** These are collaborative snapshots of your workspace, viewable and usable by all project collaborators. They serve as fixed references of particular workspace states for collective review and discussion.
+* **저장된 뷰:** 모든 프로젝트 협업자가 볼 수 있고 사용할 수 있는 협업 스냅샷입니다. 특정 워크스페이스 상태의 고정 참조로서 집단적 검토 및 논의를 위해 사용됩니다.
  
  ![](/images/app_ui/Menu_No_views.jpg)
 
-### Create a new saved workspace view
-A Workspace View in Weights & Biases lets you organize and save your preferred workspace setup of charts and data. You can easily create a new View by following these steps:
+### 새로운 저장된 워크스페이스 뷰 생성
+Weights & Biases에서 워크스페이스 뷰를 사용하면 선호하는 워크스페이스 설정의 차트와 데이터를 구성하고 저장할 수 있습니다. 다음 단계를 따라 새로운 뷰를 쉽게 생성할 수 있습니다:
 
-* **Open a Workspace or View:** Start by going to the Workspace or View you wish to save.
-* **Save View:** Look for the meatball menu (three horizontal dots) at the top right corner of your workspace. Click on it and then choose **Save as a new view**. Once saved, you can also give your new view a descriptive name.
-* **Find Your New View:** Once saved, new views appear in the workspace navigation menu. 
+* **워크스페이스 또는 뷰 열기:** 저장하려는 워크스페이스 또는 뷰로 이동합니다.
+* **뷰 저장:** 워크스페이스 오른쪽 상단 모서리에 있는 미트볼 메뉴(세 개의 수평 점)를 찾습니다. 그것을 클릭한 다음 **새 뷰로 저장**을 선택합니다. 저장한 후, 새 뷰에 설명적 이름을 지정할 수도 있습니다.
+* **새 뷰 찾기:** 저장된 후, 새 뷰는 워크스페이스 탐색 메뉴에 나타납니다.
 
  ![](/images/app_ui/Menu_Views.jpg)
 
+### 저장된 워크스페이스 뷰 업데이트
+Weights & Biases에서 저장된 워크스페이스 뷰를 업데이트하려면:
 
-### Update a saved workspace view 
-To update a saved workspace view in Weights & Biases:
-
-* **Edit the Workspace:** Make the desired changes to your charts and data within the workspace.
-* **Save the Changes:** Click the **Save** button to confirm your changes. Saved changes overwrite the previous state of the saved view. Unsaved changes are not retained.
+* **워크스페이스 편집:** 워크스페이스 내의 차트와 데이터에 원하는 변경 사항을 적용합니다.
+* **변경 사항 저장:** **저장** 버튼을 클릭하여 변경 사항을 확인합니다. 저장된 변경 사항은 저장된 뷰의 이전 상태를 덮어씁니다. 저장되지 않은 변경 사항은 유지되지 않습니다.
 
 :::info
-A confirmation  dialog appears when you save your updates to a workspace view. If you prefer not to see this prompt in the future, select the option **Do not show this modal next time** before confirming your save.
+워크스페이스 뷰 업데이트를 저장할 때 확인 대화 상자가 나타납니다. 앞으로 이 프롬프트를 보지 않으려면, 저장을 확인하기 전에 **다음에 이 모달 창을 표시하지 않기** 옵션을 선택하세요.
 :::
 
-### Deleting a saved workspace view
-To delete a view and manage your workspace menu in Weights & Biases:
+### 저장된 워크스페이스 뷰 삭제
+Weights & Biases에서 뷰를 삭제하고 워크스페이스 메뉴를 관리하려면:
 
-* Navigate to the view you wish to remove.
-* Click on the meatball menu (three horizontal lines) at the top right of the view.
-* Choose the option to **Delete view**.
-* Confirm the deletion to remove the view from your workspace menu.
+* 삭제하려는 뷰로 이동합니다.
+* 뷰 우측 상단에 있는 미트볼 메뉴(세 개의 수평 선)를 클릭합니다.
+* **뷰 삭제** 옵션을 선택합니다.
+* 삭제를 확인하여 워크스페이스 메뉴에서 뷰를 제거합니다.
 
-This process helps to declutter your workspace by removing any views that are no longer needed.
+이 프로세스는 더 이상 필요하지 않은 뷰를 제거하여 워크스페이스를 정리하는 데 도움이 됩니다.
 
  ![](/images/app_ui/Deleting.gif)
 
-### Share a workspace view
-Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
-
-
-
+### 워크스페이스 뷰 공유
+워크스페이스 URL을 직접 공유하여 사용자 정의된 워크스페이스를 팀과 공유하세요. 워크스페이스 프로젝트에 엑세스 권한이 있는 모든 사용자는 해당 워크스페이스의 저장된 뷰를 볼 수 있습니다.

@@ -1,179 +1,162 @@
 ---
-description: >-
-  Collaborate with your colleagues, share results, and track all the experiments
+description: Collaborate with your colleagues, share results, and track all the experiments
   across your team
 displayed_sidebar: default
 ---
 
-# Teams
+# 팀
 
-Use W&B Teams as a central workspace for your ML team to build better models faster.
+W&B 팀을 사용하여 ML 팀이 더 빠르게 더 나은 모델을 구축할 수 있는 중앙 워크스페이스로 활용하세요.
 
-* **Track all the experiments** your team has tried so you never duplicate work.
-* **Save and reproduce** previously trained models.
-* **Share progress** and results with your boss and collaborators.
-* **Catch regressions** and immediately get alerted when performance drops.
-* **Benchmark model performance** and compare model versions.
+* 팀이 시도한 **모든 실험을 추적**하여 작업을 중복하지 않습니다.
+* 이전에 학습된 모델을 **저장하고 재현**합니다.
+* 상사와 협업자와 **진행 상황과 결과를 공유**합니다.
+* 성능이 떨어질 때 즉시 알림을 받아 **회귀를 잡습니다**.
+* 모델 성능을 **벤치마크하고 모델 버전을 비교**합니다.
 
 ![](/images/app_ui/teams_overview.webp)
 
-## Create a collaborative team
+## 협업 팀 만들기
 
-1. [**Sign up or log in**](https://app.wandb.ai/login?signup=true) to your free W&B account.
-2. Click **Invite Team** in the navigation bar.
-3. Create your team and invite collaborators.
+1. 무료 W&B 계정에 [**가입하거나 로그인**](https://app.wandb.ai/login?signup=true)하세요.
+2. 탐색 모음에서 **팀 초대**를 클릭하세요.
+3. 팀을 만들고 협업자를 초대하세요.
 
 :::info
-**Note**: Only the admin of an organization can create a new team.
+**참고**: 조직의 관리자만 새 팀을 만들 수 있습니다.
 :::
 
-## Create a Team Profile
+## 팀 프로필 만들기
 
-You can customize your team's profile page to show an introduction and showcase reports and projects that are visible to the public or team members. Present reports, projects, and external links.
+공개적으로 또는 팀 멤버에게 보이는 리포트 및 프로젝트를 소개하고 전시하여 팀의 프로필 페이지를 사용자 정의할 수 있습니다. 리포트, 프로젝트 및 외부 링크를 소개하세요.
 
-* **Highlight your best research** to visitors by showcasing your best public reports
-* **Showcase the most active projects** to make it easier for teammates to find them
-* **Find collaborators** by adding external links to your company or research lab's website and any papers you've published
+* **최고의 연구를 강조**하여 최고의 공개 리포트를 전시함으로써 방문자에게 보여줍니다.
+* **가장 활동적인 프로젝트를 전시**하여 팀원이 찾기 쉽게 만듭니다.
+* 회사 또는 연구소 웹사이트와 게시한 논문에 대한 외부 링크를 추가하여 **협업자를 찾습니다**.
 
-<!-- To do: show team profiles -->
+## 팀 멤버 제거
 
-<!-- To do: show how to remove team members -->
+팀 관리자는 팀 설정 페이지를 열고 떠나는 멤버의 이름 옆에 있는 삭제 버튼을 클릭하여 멤버를 제거할 수 있습니다. 사용자가 제거된 후에도 그들이 팀에 로그한 실행은 남아 있습니다.
 
-## Remove Team members
+## 팀 역할 및 권한
+동료를 팀에 초대할 때 팀 역할을 선택합니다. 다음과 같은 팀 역할 옵션이 있습니다:
 
-Team admins can open the team settings page and click the delete button next to the departing member's name. Any runs that they logged to the team will remain after a user is removed.
-
-
-## Team Roles and Permissions
-Select a team role when you invite colleagues to join a team. There are following team role options:
-
-- **Admin**: Team admins can add and remove other admins or team members. They have permissions to modify all projects and full deletion permissions. This includes, but is not limited to, deleting runs, projects, artifacts, and sweeps.
-- **Member**: A regular member of the team. A team member is invited by email by the team admin. A team member cannot invite other members. Team members can only delete runs and sweep runs created by that member. Suppose you have two members A and B. Member B moves a Run from team B's project to a different project owned by Member A. Member A can not delete the Run Member B moved to Member A's project. Only the member that creates the Run, or the team admin, can delete the run.
-- **Service (Enterprise-only feature)**: A service worker, an API key useful for using W&B with your run automation tools. If you use the API key from a service account for your team, make sure to set the environment variable **WANDB_USERNAME** to attribute runs to the correct user. See more on the relevant behavior below.
-- **View-Only (Enterprise-only feature)**: View-Only members can view assets within the team such as runs, reports, and workspaces. They can follow and comment on reports, but they can not create, edit, or delete project overview, reports, or runs. View-Only members do not have an API key.
-- **Custom roles (Enterprise-only feature)**: Custom roles allow organization admins to compose new roles by inheriting from the above **View-Only** or **Member** roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. 
+- **관리자**: 팀 관리자는 다른 관리자 또는 팀 멤버를 추가하거나 제거할 수 있습니다. 모든 프로젝트를 수정하고 전체 삭제 권한을 가지고 있습니다. 이는 실행, 프로젝트, 아티팩트 및 스윕을 삭제하는 것을 포함하지만 이에 국한되지 않습니다.
+- **멤버**: 팀의 일반 멤버입니다. 팀 관리자가 이메일로 팀 멤버를 초대합니다. 팀 멤버는 다른 멤버를 초대할 수 없습니다. 팀 멤버는 해당 멤버가 생성한 실행과 스윕 실행만 삭제할 수 있습니다. 예를 들어 두 멤버 A와 B가 있습니다. 멤버 B가 팀 B의 프로젝트에서 멤버 A가 소유한 다른 프로젝트로 실행을 이동했습니다. 멤버 A는 멤버 B가 멤버 A의 프로젝트로 이동한 실행을 삭제할 수 없습니다. 실행을 생성한 멤버 또는 팀 관리자만 실행을 삭제할 수 있습니다.
+- **서비스 (Enterprise 전용 기능)**: 서비스 작업자, 실행 자동화 도구와 함께 W&B를 사용하기 위한 유용한 API 키입니다. 팀의 서비스 계정에서 API 키를 사용할 경우 환경 변수 **WANDB_USERNAME**을 설정하여 실행을 올바른 사용자에게 할당하도록 합니다. 아래에서 관련 동작에 대해 자세히 설명합니다.
+- **읽기 전용 (Enterprise 전용 기능)**: 읽기 전용 멤버는 팀 내의 자산(실행, 리포트, 워크스페이스 등)을 볼 수 있습니다. 리포트를 팔로우하고 댓글을 달 수 있지만 프로젝트 개요, 리포트 또는 실행을 생성, 편집 또는 삭제할 수 없습니다. 읽기 전용 멤버는 API 키가 없습니다.
+- **맞춤 역할 (Enterprise 전용 기능)**: 맞춤 역할을 통해 조직 관리자는 위의 **읽기 전용** 또는 **멤버** 역할에서 상속받아 추가 권한을 부여하여 세밀한 액세스 제어를 달성할 수 있는 새로운 역할을 구성할 수 있습니다. 팀 관리자는 그러한 맞춤 역할을 각각의 팀에서 사용자에게 할당할 수 있습니다. 자세한 내용은 [이 문서](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3)를 참조하세요.
 
 :::note
-W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
+W&B는 팀에 관리자가 한 명 이상 있는 것이 좋습니다. 주 관리자가 사용할 수 없을 때 관리 작업이 계속될 수 있도록 하는 모범 사례입니다.
 :::
 
 :::note
-If you're on W&B Server (Dedicated Cloud or Self-managed deployment), you will need a updated enterprise license to use the **Custom Roles** feature.
+W&B 서버(데디케이티드 클라우드 또는 자체 관리 배포)를 사용하는 경우 **맞춤 역할** 기능을 사용하려면 업데이트된 엔터프라이즈 라이선스가 필요합니다.
 :::
 
-### Team Settings
-Team settings allow you to manage the settings for your team and its members. With these privileges, you can effectively oversee and organize your team within W&B.
+### 팀 설정
+팀 설정을 통해 팀 및 멤버의 설정을 관리할 수 있습니다. 이러한 권한을 통해 W&B 내에서 팀을 효과적으로 관리하고 조직할 수 있습니다.
 
-| Permissions         | View-Only | Team Member | Team Admin | 
+| 권한              | 읽기 전용 | 팀 멤버 | 팀 관리자 | 
 | ------------------- | --------- | ----------- | ---------- |
-| Add team members    |           |             |     X      |
-| Remove team members |           |             |     X      |
-| Manage team settings|           |             |     X      |
+| 팀 멤버 추가    |           |             |     X      |
+| 팀 멤버 제거 |           |             |     X      |
+| 팀 설정 관리|           |             |     X      |
 
-### Model Registry
-The proceeding table lists permissions that apply to all projects across a given team.
+### 모델 레지스트리
+다음 표는 주어진 팀의 모든 프로젝트에 적용되는 권한을 나열합니다.
 
-| Permissions                | View-Only | Team Member | Model Registry Admin | Team Admin | 
+| 권한                    | 읽기 전용 | 팀 멤버 | 모델 레지스트리 관리자 | 팀 관리자 | 
 | ---------------------------| --------- | ----------- | -------------- | ---------- |
-| Add aliases                |           | X           | X              | X |
-| Add models to the registry |           | X           | X              | X |
-| View models in the registry| X         | X           | X              | X |
-|Download models             |           | X           | X              | X |
-|Add/Remove Registry Admins  |           |             | X              | X | 
-|Add/Remove Protected Aliases|           |             | X              |   | 
+| 별칭 추가                |           | X           | X              | X |
+| 레지스트리에 모델 추가 |           | X           | X              | X |
+| 레지스트리의 모델 보기| X         | X           | X              | X |
+|모델 다운로드             |           | X           | X              | X |
+|레지스트리 관리자 추가/제거  |           |             | X              | X | 
+|보호된 별칭 추가/제거|           |             | X              |   | 
 
-See the [Model Registry](../../model_registry/access_controls.md) chapter for more information about protected aliases.
+보호된 별칭에 대한 자세한 내용은 [모델 레지스트리](../../model_registry/access_controls.md) 장을 참조하세요.
 
-### Reports
-Report permissions grant access to create, view, and edit reports. The proceeding table lists permissions that apply to all reports across a given team.
+### 리포트
+리포트 권한은 리포트를 생성, 보기, 편집할 수 있는 권한을 부여합니다. 다음 표는 주어진 팀의 모든 리포트에 적용되는 권한을 나열합니다.
 
-| Permissions   | View-Only | Team Member                                     | Team Admin | 
+| 권한   | 읽기 전용 | 팀 멤버                                     | 팀 관리자 | 
 | -----------   | --------- | ----------------------------------------------- | ---------- |
-|View reports   | X         | X                                               | X          |
-|Create reports |           | X                                               | X          |
-|Edit reports   |           | X (team members can only edit their own reports)| X          |
-|Delete reports |           | X (team members can only edit their own reports)| X          |
+|리포트 보기   | X         | X                                               | X          |
+|리포트 생성 |           | X                                               | X          |
+|리포트 편집   |           | X (팀 멤버는 자신의 리포트만 편집할 수 있음)| X          |
+|리포트 삭제 |           | X (팀 멤버는 자신의 리포트만 편집할 수 있음)| X          |
 
-### Experiments
-The proceeding table lists permissions that apply to all experiments across a given team.
+### 실험
+다음 표는 주어진 팀의 모든 실험에 적용되는 권한을 나열합니다.
 
-| Permissions | View-Only | Team Member | Team Admin | 
+| 권한 | 읽기 전용 | 팀 멤버 | 팀 관리자 | 
 | ------------------------------------------------------------------------------------ | --------- | ----------- | ---------- |
-| View experiment metadata (includes history metrics, system metrics, files, and logs) | X         | X           | X          |
-| Edit experiment panels and workspaces                                                |           | X           | X          |
-| Log experiments                                                                      |           | X           | X          |
-| Delete experiments                                                                   |           | X (team members can only delete experiments they created) |  X  |
-|Stop experiments                                                                      |           | X (team members can only stop experiments they created)   |  X  |
+| 실험 메타데이터 보기 (히스토리 메트릭, 시스템 메트릭, 파일 및 로그 포함) | X         | X           | X          |
+| 실험 패널 및 워크스페이스 편집                                                |           | X           | X          |
+| 실험 로그                                                                      |           | X           | X          |
+| 실험 삭제                                                                   |           | X (팀 멤버는 자신이 생성한 실험만 삭제할 수 있음) |  X  |
+|실험 중단                                                                      |           | X (팀 멤버는 자신이 생성한 실험만 중단할 수 있음)   |  X  |
 
-### Artifacts
-The proceeding table lists permissions that apply to all artifacts across a given team.
+### 아티팩트
+다음 표는 주어진 팀의 모든 아티팩트에 적용되는 권한을 나열합니다.
 
-| Permissions      | View-Only | Team Member | Team Admin | 
+| 권한      | 읽기 전용 | 팀 멤버 | 팀 관리자 | 
 | ---------------- | --------- | ----------- | ---------- |
-| View artifacts   | X         | X           | X          |
-| Create artifacts |           | X           | X          |
-| Delete artifacts |           | X           | X          |
-| Edit metadata    |           | X           | X          |
-| Edit aliases     |           | X           | X          |
-| Delete aliases   |           | X           | X          |
-| Download artifact|           | X           | X          |
+| 아티팩트 보기   | X         | X           | X          |
+| 아티팩트 생성 |           | X           | X          |
+| 아티팩트 삭제 |           | X           | X          |
+| 메타데이터 편집    |           | X           | X          |
+| 별칭 편집     |           | X           | X          |
+| 별칭 삭제   |           | X           | X          |
+| 아티팩트 다운로드|           | X           | X          |
 
-### System Settings (W&B Server Only)
-With system permissions, you have the ability to manage members, create and modify teams, adjust system settings, and view user activity. These privileges enable you to effectively administer and maintain the W&B instance.
+### 시스템 설정 (W&B 서버 전용)
+시스템 권한을 통해 멤버를 관리하고, 팀을 생성 및 수정하며, 시스템 설정을 조정하고, 사용자 활동을 볼 수 있습니다. 이러한 권한을 통해 W&B 인스턴스를 효과적으로 관리하고 유지할 수 있습니다.
 
-| Permissions              | View-Only | Team Member | Team Admin | System Admin | 
+| 권한              | 읽기 전용 | 팀 멤버 | 팀 관리자 | 시스템 관리자 | 
 | ------------------------ | --------- | ----------- | ---------- | ------------ |
-| Configure system settings|           |             |            | X            |
-| Create/delete teams      |           |             |            | X            |
-| View activity dashboard  |           |             |            | X            |
+| 시스템 설정 구성|           |             |            | X            |
+| 팀 생성/삭제      |           |             |            | X            |
+| 활동 대시보드 보기  |           |             |            | X            |
 
-### Team Service Account Behavior
+### 팀 서비스 계정 동작
 
-* When you configure a team in your training environment, you can use a service account from that team to log runs in either of private or public projects within that team. Additionally, you can attribute those runs to a user if **WANDB_USERNAME** or **WANDB_USER_EMAIL** variable is configured in your environment and the referenced user is part of that team.
-* When you **do not** configure a team in your training environment and use a service account, the runs would be logged to the named project within that service account's parent team. In this case as well, you can attribute the runs to a user if **WANDB_USERNAME** or **WANDB_USER_EMAIL** variable is configured in your environment and the referenced user is part of the service account's parent team.
-* A service account can not be used to log runs to a private project in a team different from its parent team, but it can be used to log runs to public projects in other teams.
+* 교육 환경에서 팀을 구성할 때 해당 팀의 서비스 계정을 사용하여 해당 팀 내의 비공개 또는 공개 프로젝트에 실행을 로그할 수 있습니다. 또한 환경에서 **WANDB_USERNAME** 또는 **WANDB_USER_EMAIL** 변수가 구성되어 있고 참조된 사용자가 해당 팀의 일원인 경우 해당 실행을 사용자에게 할당할 수 있습니다.
+* 교육 환경에서 팀을 구성하지 않고 서비스 계정을 사용하는 경우 실행은 해당 서비스 계정의 상위 팀 내 명명된 프로젝트에 로그됩니다. 이 경우에도 환경에서 **WANDB_USERNAME** 또는 **WANDB_USER_EMAIL** 변수가 구성되어 있고 참조된 사용자가 서비스 계정의 상위 팀의 일원인 경우 실행을 사용자에게 할당할 수 있습니다.
+* 서비스 계정은 상위 팀과 다른 팀의 비공개 프로젝트에 실행을 로그하는 데 사용할 수 없지만, 다른 팀의 공개 프로젝트에는 실행을 로그하는 데 사용할 수 있습니다.
 
-#### Add Social Badges to your Intro
+#### 소개에 소셜 배지 추가
 
-In your Intro, type `/` and choose Markdown and paste the markdown snippet that will render your badge. Once you convert it to WYSIWYG, you can resize it.
+소개에서 `/`를 입력하고 Markdown을 선택한 다음 배지를 렌더링할 마크다운 스니펫을 붙여넣습니다. WYSIWYG으로 변환하면 크기를 조정할 수 있습니다.
 
  [![Twitter: @weights_biases](https://img.shields.io/twitter/follow/weights\_biases?style=social)](https://twitter.com/intent/follow?screen\_name=weights\_biases)
 
-For example, to add a Twitter follow badge, add `[![Twitter: @weights_biase](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://twitter.com/intent/follow?screen_name=weights_biases` replacing `weights_biases` with your Twitter username.
+예를 들어, Twitter 팔로우 배지를 추가하려면 `weights_biases`를 Twitter 사용자 이름으로 바꾸어 `[![Twitter: @weights_biase](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://twitter.com/intent/follow?screen_name=weights_biases`를 추가하세요.
 
-## Team Trials
+## 팀 시행
 
-W&B offers free trials for business teams, **no credit card required**. During the trial, you and your colleagues will have access to all the features in W&B. Once the trial is over, you can upgrade your plan to continue using a W&B Team to collaborate. Your personal W&B account will always remain free, and if you're a student or teacher you can enroll in an academic plan.
+W&B는 비즈니스 팀을 위한 무료 시험을 제공하며, **신용카드가 필요하지 않습니다**. 시험 기간 동안 귀하와 귀하의 동료는 W&B의 모든 기능에 액세스할 수 있습니다. 시험 기간이 끝나면 플랜을 업그레이드하여 협업을 계속하기 위해 W&B 팀을 사용할 수 있습니다. 개인 W&B 계정은 항상 무료이며, 학생이나 교사인 경우 학술 플랜에 등록할 수 있습니다.
 
-See the [pricing page](https://wandb.ai/site/pricing) for more information on our plans. You can download all your data at any time, either using the dashboard UI or via our [Export API](../../../ref/python/public-api/README.md).
+자세한 내용은 [가격 페이지](https://wandb.ai/site/pricing)를 참조하세요. 대시보드 UI를 사용하거나 [Export API](../../../ref/python/public-api/README.md)를 통해 언제든지 모든 데이터를 다운로드할 수 있습니다.
 
-## Privacy Settings
+## 개인 정보 설정
 
-You can see the privacy settings of all team projects on the team settings page:
+팀 설정 페이지에서 모든 팀 프로젝트의 개인 정보 설정을 볼 수 있습니다:
 `app.wandb.ai/teams/your-team-name`
 
-## Advanced Configuration
+## 고급 구성
 
-### Secure Storage Connector
+### 안전한 스토리지 커넥터
 
 :::caution
-W&B does not currently support migrating buckets. More specifically W&B does not support:
-* Migrating from one team-level bucket to another team-level bucket
-* Migrating from a W&B SaaS bucket to a team-level bucket and vice versa.
+W&B는 현재 버킷을 마이그레이션하는 것을 지원하지 않습니다. 구체적으로 W&B는 다음을 지원하지 않습니다:
+* 하나의 팀 수준 버킷에서 다른 팀 수준 버킷으로 마이그레이션
+* W&B SaaS 버킷에서 팀 수준 버킷으로 마이그레이션 및 그 반대.
 :::
 
-The team-level secure storage connector allows teams to use their own cloud storage bucket with W&B. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements.
+팀 수준 안전한 스토리지 커넥터를 통해 팀은 자체 클라우드 스토리지 버킷을 W&B와 함께 사용할 수 있습니다. 이는 민감한 데이터를 가진 팀이나 엄격한 준수 요구 사항이 있는 팀에 대한 더 큰 데이터 액세스 제어 및 데이터 격리를 제공합니다.
 
 :::info
-This feature is only available for Google Cloud Storage buckets and Amazon S3 buckets. Only enterprise teams can use this feature. To learn more about enterprise plans, please contact us at  support@wandb.com
-:::
-
-To provision a cloud storage bucket, we recommend using our secure storage connector terraform module for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector).
-
-A cloud storage bucket can be configured only once for a team at the time of team creation. Select **External Storage** when you create a team to configure a cloud storage bucket. Select your provider and fill out your bucket name and storage encryption key ID, if applicable, and select **Create Team**.
-
-An error or warning will appear at the bottom of the page if there are issues accessing the bucket or the bucket has invalid settings.
-
-![](/images/hosting/saas_setup_secure_storage.png)
-
-Only organization administrators have the permissions to configure the secure storage connector. The same cloud storage bucket can be used amongst multiple teams by selecting an existing cloud storage bucket from the dropdown.
+이 기능은 Google Cloud Storage 버킷 및 Amazon S3 버킷에서만 사용할 수 있습니다. 이 기능은 엔터프라이즈 팀에서만 사용할 수 있습니다. 엔터프라이즈 플랜에 대해 자세히 알아보려면 support@wandb.com

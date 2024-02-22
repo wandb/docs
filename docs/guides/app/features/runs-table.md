@@ -3,112 +3,112 @@ description: How to use the sidebar and table on the project page
 displayed_sidebar: default
 ---
 
-# Runs Table
+# 실행 테이블
 
-On the project page, we show runs in a sidebar. Expand the sidebar to view a table of hyperparameters and summary metrics across runs.
+프로젝트 페이지에서 우리는 사이드바에 실행을 표시합니다. 사이드바를 확장하여 실행의 하이퍼파라미터와 요약 메트릭을 표로 확인하세요.
 
-## Search run names
+## 실행 이름 검색
 
-We support full [regex](https://dev.mysql.com/doc/refman/8.0/en/regexp.html) search on run names in the table. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
+테이블에서 실행 이름에 대해 전체 [정규 표현식](https://dev.mysql.com/doc/refman/8.0/en/regexp.html) 검색을 지원합니다. 검색 상자에 쿼리를 입력하면 워크스페이스의 그래프에 표시되는 실행을 필터링하고 테이블의 행을 필터링합니다.
 
-## Filter and sort runs by minimum and maximum values
-Sort the runs table by the minimum or maximum value of a logged metric. This is particularly useful if you want to view the best (or worst) recorded value.
+## 최소값과 최대값으로 실행 필터링 및 정렬
+로그된 메트릭의 최소값 또는 최대값으로 실행 테이블을 정렬합니다. 이는 기록된 최고(또는 최악)의 값으로 보고자 할 때 특히 유용합니다.
 
-The following steps describe how to sort the run table by a specific metric based on the minimum or maximum recorded value:
+특정 메트릭을 기준으로 최소값 또는 최대값으로 실행 테이블을 정렬하는 방법은 다음과 같습니다:
 
-1. Hover your mouse over the column with the metric you want to sort with.
-2. Select the kebob menu (three vertical lines).
-3. From the dropdown, select either **Show min** or **Show max**.
-4. From the same dropdown, select **Sort by asc** or **Sort by desc** to sort in ascending or descending order, respectively. 
+1. 정렬하려는 메트릭이 있는 열 위로 마우스를 가져갑니다.
+2. 케밥 메뉴(세로 세 줄)를 선택합니다.
+3. 드롭다운에서 **최소값 표시** 또는 **최대값 표시**를 선택합니다.
+4. 같은 드롭다운에서 오름차순 또는 내림차순으로 정렬하려면 **오름차순 정렬** 또는 **내림차순 정렬**을 선택합니다.
 
 ![](/images/app_ui/runs_min_max.gif)
 
-#### What to do in case regex fails?
+#### 정규 표현식이 실패한 경우에는 어떻게 하나요?
 
-If regex doesn't provide you the desired results, you can make use of [tags](tags.md) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
+정규 표현식이 원하는 결과를 제공하지 않는 경우, [태그](tags.md)를 사용하여 실행 테이블에서 실행을 필터링할 수 있습니다. 태그는 실행 생성 시나 완료된 후에 추가할 수 있습니다. 실행에 태그를 추가하면 아래 gif처럼 태그 필터를 추가할 수 있습니다.
 
-![If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table](@site/static/images/app_ui/tags.gif)
+![정규 표현식이 원하는 결과를 제공하지 않는 경우, 태그를 사용하여 실행 테이블에서 실행을 필터링할 수 있습니다](@site/static/images/app_ui/tags.gif)
 
-## Search End Time for runs
+## 실행의 종료 시간 검색
 
-We provide a column named `End Time` that logs that last heartbeat from the client process. The field is hidden by default.
+클라이언트 프로세스의 마지막 심장박동을 기록하는 `종료 시간`이라는 열을 제공합니다. 이 필드는 기본적으로 숨겨져 있습니다.
 
 ![](/images/app_ui/search_run_endtime.png)
 
-## Resize the sidebar
+## 사이드바 크기 조정
 
-Would you like to make more space for the graphs on the project page? Click and drag the edge of the column header to resize the sidebar. You'll still be able to click on the eye icon to turn on and off runs on the graphs.
+프로젝트 페이지의 그래프에 더 많은 공간을 만들고 싶으신가요? 열 헤더의 가장자리를 클릭하여 드래그함으로써 사이드바의 크기를 조정할 수 있습니다. 여전히 눈 아이콘을 클릭하여 그래프에서 실행을 켜고 끌 수 있습니다.
 
 ![](https://downloads.intercomcdn.com/i/o/153755378/d54ae70fb8155657a87545b1/howto+-+resize+column.gif)
 
-## Add sidebar columns
+## 사이드바 열 추가
 
-On the project page, we show runs in a sidebar. To show more columns:
+프로젝트 페이지에서 사이드바에 실행을 표시합니다. 더 많은 열을 표시하려면:
 
-1. Click the button in the upper right corner of the sidebar to expand the table.
-2. On a column header, click the dropdown menu to pin a column.
-3. Pinned columns will be available in the sidebar when you collapse the table.
+1. 사이드바 상단 오른쪽 모서리의 버튼을 클릭하여 테이블을 확장합니다.
+2. 열 헤더에서 드롭다운 메뉴를 클릭하여 열을 고정합니다.
+3. 고정된 열은 테이블을 축소했을 때 사이드바에 표시됩니다.
 
-Here's a screen capture. I expand the table, pin two columns, collapse the table, then resize the sidebar.
+여기 화면 캡처가 있습니다. 테이블을 확장하고, 두 열을 고정하고, 테이블을 축소한 다음, 사이드바의 크기를 조정합니다.
 
 ![](https://downloads.intercomcdn.com/i/o/152951680/cf8cbc6b35e923be2551ba20/howto+-+pin+rows+in+table.gif)
 
-## Bulk select runs
+## 실행 대량 선택
 
-Delete multiple runs at once, or tag a group of runs— bulk selection makes it easier to keep the runs table organized.
+여러 실행을 한 번에 삭제하거나 실행 그룹에 태그를 추가하세요— 대량 선택은 실행 테이블을 정리하는 데 도움이 됩니다.
 
 ![](/images/app_ui/howto_bulk_select.gif)
 
-## Select all runs in table
+## 테이블의 모든 실행 선택
 
-Click the checkbox in the upper left corner of the table, and click "Select all runs" to select every run that matches the current set of filters.
+테이블 상단 왼쪽 모서리의 체크박스를 클릭하고 "모든 실행 선택"을 클릭하여 현재 필터와 일치하는 모든 실행을 선택합니다.
 
 ![](/images/app_ui/all_runs_select.gif)
 
-## Move runs between projects
+## 프로젝트 간 실행 이동
 
-To move runs from one project to another:
+한 프로젝트에서 다른 프로젝트로 실행을 이동하려면:
 
-1. Expand the table
-2. Click the checkbox next to the runs you want to move
-3. Click move and select the destination project
+1. 테이블을 확장합니다
+2. 이동하려는 실행 옆의 체크박스를 클릭합니다
+3. 이동을 클릭하고 대상 프로젝트를 선택합니다
 
 ![](/images/app_ui/howto_move_runs.gif)
 
-## See active runs
+## 활성 실행 보기
 
-Look for a green dot next to the name of runs— this indicates they're active in the table and on the graph legends.
+실행 이름 옆에 녹색 점을 찾으세요— 이는 테이블과 그래프 범례에서 활성 상태임을 나타냅니다.
 
-## Hide uninteresting runs
+## 관심 없는 실행 숨기기
 
-Do you want to hide crashed runs? Are short runs filling up your table? Do you want to only see your work in a group project? Hide the noise with a filter. Some filters we recommend:
+추락한 실행을 숨기고 싶으신가요? 짧은 실행이 테이블을 채우나요? 그룹 프로젝트에서 자신의 작업만 보고 싶으신가요? 필터로 노이즈를 숨기세요. 추천하는 필터는 다음과 같습니다:
 
-* **Show only my work** filters down to runs under your username
-* **Hide crashed runs** filters out any runs marked crashed from the table
-* **Duration**: add a new filter and select "duration" to hide short runs
+* **내 작업만 보기**는 사용자 이름 아래의 실행으로 필터링합니다
+* **추락한 실행 숨기기**는 테이블에서 추락으로 표시된 실행을 필터링합니다
+* **지속 시간**: 새 필터를 추가하고 "지속 시간"을 선택하여 짧은 실행을 숨깁니다
 
 ![](/images/app_ui/hide_uninsteresting.png)
 
-## Filter runs with tags
+## 태그로 실행 필터링
 
-Filter runs based on their tags with the filter button.
+필터 버튼으로 태그를 기반으로 실행을 필터링합니다.
 
 ![](/images/app_ui/filter_runs.gif)
 
-## Filter and delete unwanted runs
+## 원치 않는 실행 필터링 및 삭제
 
-If you filter down the table to just the ones you want to delete, you can select all and press delete to remove them from your project. Deleting runs is project-global, so if you delete runs from a report that will be reflected in the rest of your project.
+테이블을 삭제하고 싶은 실행으로만 필터링하면 모두 선택하고 삭제를 눌러 프로젝트에서 제거할 수 있습니다. 실행 삭제는 프로젝트 전체에 적용되므로 리포트에서 실행을 삭제하면 프로젝트의 나머지 부분에 반영됩니다.
 
 ![](/images/app_ui/filter_unwanted_runs.gif)
 
-## Export runs table to CSV
+## 실행 테이블을 CSV로 내보내기
 
-Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
+다운로드 버튼으로 모든 실행, 하이퍼파라미터, 요약 메트릭이 포함된 테이블을 CSV로 내보냅니다.
 
 ![](/images/app_ui/export_to_csv.gif)
 
-## Search columns in the table
+## 테이블에서 열 검색
 
-Search for the columns in the table UI guide with the **Columns** button.
+**열** 버튼으로 테이블 UI 가이드에서 열을 검색합니다.
 
 ![](/images/app_ui/search_columns.gif)

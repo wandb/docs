@@ -3,24 +3,24 @@ slug: /guides/app/features/panels
 displayed_sidebar: default
 ---
 
-# Panels
+# 패널
 
-Use visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and dataset examples.
+로그된 데이터, 하이퍼파라미터와 출력 메트릭 간의 관계, 그리고 데이터세트 예제를 탐색하기 위해 시각화를 사용하세요.
 
-## Common Questions
+## 자주 묻는 질문
 
-### I select dimensions on a parallel coordinates plot and it disappears
+### 병렬 좌표 플롯에서 차원을 선택하면 사라집니다
 
-This is likely because you have dots in your config parameter names. We flatten nested parameters using dots, and we only handle 3 levels of dots in the backend. I recommend using a different character as a separator.
+이는 구성 파라미터 이름에 점이 있기 때문일 가능성이 높습니다. 중첩된 파라미터를 점을 사용하여 평탄화하며, 백엔드에서는 점 3단계만 처리합니다. 구분자로 다른 문자를 사용하는 것이 좋습니다.
 
-### Visualize max accuracy in groups
+### 그룹별 최대 정확도 시각화
 
-Turn on the "eye" icon next to the top run in each group to visualize the maximum accuracy on the charts
+각 그룹에서 상위 실행 옆의 "눈" 아이콘을 켜서 차트에서 최대 정확도를 시각화하세요
 
 ![](/images/app_ui/visualize_max_accuracy.png)
 
-### Download charts
+### 차트 다운로드
 
-You can download charts by clicking the down arrow and select a format (.png, .svg, export API or export by CSV)
+차트를 다운로드하려면 아래 화살표를 클릭하고 형식을 선택하세요(.png, .svg, export API 또는 CSV로 내보내기)
 
 ![](/images/app_ui/download_charts.png)

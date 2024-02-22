@@ -1,49 +1,48 @@
 ---
-description: >-
-  Add notes to your runs and projects, and use notes to describe your findings
+description: Add notes to your runs and projects, and use notes to describe your findings
   in reports
 displayed_sidebar: default
 ---
 
-# Notes
+# 메모
 
-There are a few ways to take notes about your work in W&B.
+W&B에서 작업에 대한 메모를 기록하는 몇 가지 방법이 있습니다.
 
-1. Add notes to a run. These notes show up on the run page in the overview tab and in the table of runs on the project page.
-2. Add notes to a project. These notes show up on the project page in the overview tab.
-3. Add a markdown panel on the run page, project page, or report page.
+1. 실행에 메모를 추가합니다. 이 메모는 실행 페이지의 Overview 탭과 프로젝트 페이지의 실행 테이블에 표시됩니다.
+2. 프로젝트에 메모를 추가합니다. 이 메모는 프로젝트 페이지의 Overview 탭에 표시됩니다.
+3. 실행 페이지, 프로젝트 페이지 또는 리포트 페이지에 마크다운 패널을 추가합니다.
 
-## Add notes to a specific run
+## 특정 실행에 메모 추가
 
-You can edit the notes on a run in two places.
+실행에 대한 메모는 두 곳에서 수정할 수 있습니다.
 
-1. **Project Page**: the table has an editable notes column
-2. **Run Page**: the overview tab shows information about a run, and you can
+1. **프로젝트 페이지**: 테이블에 편집 가능한 메모 열이 있습니다
+2. **실행 페이지**: Overview 탭에 실행에 대한 정보가 표시되며 여기서
 
-On the project page, expand the table. Click "Add notes..." to type notes in-line.
+프로젝트 페이지에서 테이블을 확장합니다. "메모 추가..."를 클릭하여 인라인으로 메모를 입력하세요.
 
-![Editing notes in the table on the project page](https://downloads.intercomcdn.com/i/o/148296355/34114b47362b0378e233a440/2019-09-13+08.05.17.gif)
+![프로젝트 페이지의 테이블에서 메모를 편집하는 것](https://downloads.intercomcdn.com/i/o/148296355/34114b47362b0378e233a440/2019-09-13+08.05.17.gif)
 
-This field also shows up on the individual run page. Click the name of the run in the table to go to the run page. Click the top tab on the left side to go to the Overview tab. The field has much more room to grow here. You can type as many notes as you'd like in this space, and a preview will be shown in the runs table when you mouse over the notes field.
+이 필드는 개별 실행 페이지에도 나타납니다. 테이블에서 실행 이름을 클릭하여 실행 페이지로 이동합니다. 왼쪽 상단의 탭을 클릭하여 Overview 탭으로 이동합니다. 여기에서는 필드가 더 많은 공간을 차지합니다. 이 공간에서 원하는 만큼 많은 메모를 입력할 수 있으며, 메모 필드 위로 마우스를 가져갈 때 실행 테이블에 미리보기가 표시됩니다.
 
-![Editing notes in the overview tab on the run page](https://downloads.intercomcdn.com/i/o/148297196/afdb48d2fb59aaa0c90c3aed/2019-09-13+08.06.45.gif)
+![실행 페이지의 Overview 탭에서 메모를 편집하는 것](https://downloads.intercomcdn.com/i/o/148297196/afdb48d2fb59aaa0c90c3aed/2019-09-13+08.06.45.gif)
 
-You can also create a report to add plots and markdown side by side. Use different sections to show different runs, and tell a story about what you worked on. These notes can be saved and shared with colleagues.
+또한, 다양한 실행을 보여주는 다른 섹션을 사용하여 그래프 패널 옆에 마크다운 패널을 추가하여 작업한 내용에 대한 이야기를 할 수 있는 리포트를 생성할 수 있습니다. 이 메모는 저장하고 동료들과 공유할 수 있습니다.
 
-## Write descriptive notes comparing runs
+## 실행을 비교하며 설명적인 메모 작성
 
-Use reports to write about your findings when comparing multiple runs. Click "Add visualization" to add a markdown panel. You can arrange these panels beside panels of graphs.
+여러 실행을 비교할 때 발견한 내용에 대해 리포트를 작성하십시오. "시각화 추가"를 클릭하여 마크다운 패널을 추가합니다. 이 패널들을 그래프 패널 옆에 배열할 수 있습니다.
 
 ![](https://downloads.intercomcdn.com/i/o/148297552/64e5baa86a48927158d17456/2019-09-13+08.08.31.gif)
 
-## Write Markdown in a new panel
+## 새 패널에 마크다운 작성
 
-Use markdown and latex equations such as:
+다음과 같은 마크다운과 라텍스 수식을 사용하세요:
 
 ```
 $TPR = Sensitivity = \dfrac{TP}{TP+FN}$
 ```
 
-Do this by adding a panel, selecting markdown, and then entering your markdown text, tables equations and code block will automatically render when clicking outside the markdown panel.
+패널을 추가하고 마크다운을 선택한 다음 마크다운 텍스트, 테이블, 수식 및 코드 블록을 입력하면 마크다운 패널 외부를 클릭할 때 자동으로 렌더링됩니다.
 
 ![](@site/static/images/app_ui/tables_panel.gif)
