@@ -3,39 +3,38 @@ description: Compare runs from two different projects with cross-project reports
 displayed_sidebar: default
 ---
 
-# Cross-project reports
+# 프로젝트 간 리포트
 
 <head>
-  <title>Compare runs from two different projects.</title>
+  <title>두 개의 다른 프로젝트에서 실행된 것을 비교합니다.</title>
 </head>
 
+프로젝트 간 리포트를 사용하여 두 개의 다른 프로젝트에서 실행된 것을 비교하세요. 실행 세트 테이블에서 프로젝트 선택기를 사용하여 프로젝트를 선택합니다.
 
-Compare runs from two different projects with cross-project reports. Use the project selector in the run set table to pick a project.
+![다른 프로젝트 간 실행 비교](/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif)
 
-![Compare runs across different projects](/images/reports/howto_pick_a_different_project_to_draw_runs_from.gif)
+이 섹션의 시각화는 첫 번째 활성 실행 세트에서 열을 끌어옵니다. 선 그래프에서 찾고 있는 메트릭을 보지 못하는 경우, 해당 열이 있는지 확인하기 위해 섹션에서 첫 번째로 선택한 실행 세트가 체크되어 있는지 확인하세요.
 
-The visualizations in the section pull columns from the first active runset. Make sure that the first run set checked in the section has that column available if you do not see the metric you are looking for in the line plot.
+이 기능은 시계열 라인의 이력 데이터를 지원하지만, 다른 프로젝트에서 다른 요약 메트릭을 끌어오는 것은 지원하지 않습니다. 즉, 다른 프로젝트에서만 로그된 열로부터 산점도를 만들 수 없습니다.
 
-This feature supports history data on time series lines, but we don't support pulling different summary metrics from different projects. In other words, you can not create a scatter plot from columns that are only logged in another project.
+두 프로젝트에서 실행을 비교해야 하고 열이 작동하지 않는 경우, 한 프로젝트의 실행에 태그를 추가한 다음 그 실행을 다른 프로젝트로 이동하세요. 여전히 각 프로젝트의 실행만 필터링할 수 있지만, 리포트에 있는 두 세트의 실행에 대한 모든 열을 사용할 수 있게 됩니다.
 
-If you need to compare runs from two projects and the columns are not working, add a tag to the runs in one project and then move those runs to the other project. You will still be able to filter only the runs from each project, but you will have all the columns for both sets of runs available in the report.
+### 보기 전용 리포트 링크
 
-### View-only report links
-
-Share a view-only link to a report that is in a private project or team project.
+프라이빗 프로젝트나 팀 프로젝트에 있는 리포트에 대한 보기 전용 링크를 공유하세요.
 
 ![](@site/static/images/reports/magic-links.gif)
 
-View-only report links add a secret access token to the URL, so anyone who opens the link can view the page. The magic link can also be used to let anyone view the report without logging in first. For customers on [W&B Local](../hosting/intro.md) private cloud installations, these links will still be behind your firewall, so only members of your team with access to your private instance _and_ access to the view-only link will be able to view the report.
+보기 전용 리포트 링크는 URL에 비밀 엑세스 토큰을 추가하여 링크를 여는 사람이 페이지를 볼 수 있게 합니다. 매직 링크는 또한 로그인하기 전에 누구나 리포트를 볼 수 있도록 사용할 수 있습니다. [W&B Local](../hosting/intro.md) 프라이빗 클라우드 설치에 대한 고객의 경우, 이러한 링크는 여전히 방화벽 뒤에 있으므로 프라이빗 인스턴스에 엑세스할 수 있는 귀하의 팀 구성원 _그리고_ 보기 전용 링크에 엑세스할 수 있는 사람만 리포트를 볼 수 있습니다.
 
-**View-only mode**
+**보기 전용 모드**
 
-In view mode, someone who is not logged in can see the charts and mouse over to see tooltips of values, zoom in and out on charts, and scroll through columns in the table. When in view mode, they cannot create new charts or new table queries to explore the data. View-only visitors to the report link won't be able to click on a run to get to the run page. Also, the view-only visitors would not be able to see the share modal but instead would see a tooltip on hover which says: `Sharing not available for view only access`.
+보기 모드에서 로그인하지 않은 사람은 차트를 볼 수 있고 마우스를 올려 값의 툴팁을 볼 수 있으며 차트에서 확대/축소하고 테이블의 열을 스크롤할 수 있습니다. 보기 모드에서는 새 차트나 새 테이블 쿼리를 생성하여 데이터를 탐색할 수 없습니다. 보기 전용 방문자는 실행 페이지로 이동하기 위해 실행을 클릭할 수 없습니다. 또한, 보기 전용 방문자는 공유 모달을 볼 수 없지만 대신 `보기 전용 엑세스에는 공유가 불가능합니다`라고 말하는 툴팁을 마우스를 올렸을 때 볼 수 있습니다.
 
 :::info
-Note: The magic links are only available for “Private” and “Team” projects. For “Public” (anyone can view) or “Open” (anyone can view and contribute runs) projects, the links can't turn on/off because this project is public implying that it is already available to anyone with the link.
+안내: 매직 링크는 "Private" 및 "Team" 프로젝트에만 사용 가능합니다. "Public" (누구나 볼 수 있음) 또는 "Open" (누구나 볼 수 있고 실행을 기여할 수 있음) 프로젝트의 경우, 이 프로젝트가 공개적이라는 점을 의미하여 링크를 가진 누구나 이미 볼 수 있기 때문에 링크를 켜거나 끌 수 없습니다.
 :::
 
-### Send a graph to a report
+### 리포트에 그래프 보내기
 
-Send a graph from your workspace to a report to keep track of your progress. Click the dropdown menu on the chart or panel you'd like to copy to a report and click **Add to report** to select the destination report.
+워크스페이스에서 리포트에 그래프를 보내어 진행 상황을 추적하세요. 리포트에 복사하고 싶은 차트나 패널의 드롭다운 메뉴를 클릭하고 **리포트에 추가**를 클릭하여 목적지 리포트를 선택하세요.
