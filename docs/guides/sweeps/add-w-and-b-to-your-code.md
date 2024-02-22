@@ -5,19 +5,19 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Add W&B to your code
+# W&B를 코드에 추가하기
 
 <head>
-  <title>Add W&B to your Python code</title>
+  <title>Python 코드에 W&B 추가하기</title>
 </head>
 
-There are numerous ways to add the W&B Python SDK to your script or Jupyter Notebook. Outlined below is a "best practice" example of how to integrate the W&B Python SDK into your own code.
+스크립트나 Jupyter Notebook에 W&B Python SDK를 추가하는 방법은 여러 가지가 있습니다. 아래에는 W&B Python SDK를 자신의 코드에 통합하는 "최선의 방법" 예시를 설명합니다.
 
-### Original training script
+### 원본 학습 스크립트
 
-Suppose you have the following code in a Jupyter Notebook cell or Python script. We define a function called `main` that mimics a typical training loop; for each epoch, the accuracy and loss is computed on the training and validation data sets. The values are randomly generated for the purpose of this example.
+Jupyter Notebook 셀이나 Python 스크립트에 다음과 같은 코드가 있다고 가정해 보겠습니다. 우리는 특정 학습 루프를 모방하는 `main`이라는 함수를 정의했습니다. 각 에포크에 대해 학습 및 검증 데이터 세트에서 정확도와 손실이 계산됩니다. 값은 이 예제를 위해 무작위로 생성됩니다.
 
-We defined a dictionary called `config` where we store hyperparameters values (line 15). At the end of the cell, we call the `main` function to execute the mock training code.
+하이퍼파라미터 값(`config`라고 불리는 사전에 저장됨, 15번째 줄)을 저장하는 사전을 정의했습니다. 셀의 마지막에서 모의 학습 코드를 실행하려면 `main` 함수를 호출합니다.
 
 ```python showLineNumbers
 # train.py
@@ -41,8 +41,8 @@ config = {"lr": 0.0001, "bs": 16, "epochs": 5}
 
 
 def main():
-    # Note that we define values from `wandb.config`
-    # instead of defining hard values
+    # `wandb.config`에서 값을 정의하는 것에 주목하세요.
+    # 하드 코딩된 값을 정의하는 대신
     lr = config["lr"]
     bs = config["bs"]
     epochs = config["epochs"]
@@ -56,32 +56,32 @@ def main():
         print("validation accuracy:", val_acc, "training loss:", val_loss)
 
 
-# Call the main function.
+# main 함수 호출
 main()
 ```
 
-### Training script with W&B Python SDK
+### W&B Python SDK를 포함한 학습 스크립트
 
-The following code examples demonstrate how to add the W&B Python SDK into your code. If you start W&B Sweep jobs in the CLI, you will want to explore the CLI tab. If you start W&B Sweep jobs within a Jupyter notebook or Python script, explore the Python SDK tab.
+다음 코드 예시는 코드에 W&B Python SDK를 추가하는 방법을 보여줍니다. CLI에서 W&B 스윕 작업을 시작하는 경우 CLI 탭을 탐색하고 싶을 것입니다. Jupyter notebook이나 Python 스크립트 내에서 W&B 스윕 작업을 시작하는 경우 Python SDK 탭을 탐색하십시오.
 
 
 
 <Tabs
   defaultValue="script"
   values={[
-    {label: 'Python script or Jupyter Notebook', value: 'script'},
+    {label: 'Python 스크립트 또는 Jupyter Notebook', value: 'script'},
     {label: 'CLI', value: 'cli'},
   ]}>
   <TabItem value="script">
-  To create a W&B Sweep, we added the following to the code example:
+  W&B 스윕을 생성하기 위해 다음을 코드 예시에 추가했습니다:
 
-1. Line 1: Import the Weights & Biases Python SDK.
-2. Line 6: Create a dictionary object where the key-value pairs define the sweep configuration. In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep. For more information on how to create a sweep configuration, see [Define sweep configuration](./define-sweep-configuration.md).
-3. Line 19: Pass the sweep configuration dictionary to [`wandb.sweep`](../../ref/python/sweep). This initializes the sweep. This returns a sweep ID (`sweep_id`). For more information on how to initialize sweeps, see [Initialize sweeps](./initialize-sweeps.md).
-4. Line 33: Use the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a [W&B Run](../../ref/python/run.md).
-5. Line 37-39: (Optional) define values from `wandb.config` instead of defining hard coded values.
-6. Line 45: Log the metric we want to optimize with [`wandb.log`](../../ref/python/log.md). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value).
-7. Line 54: Start the sweep with the [`wandb.agent`](../../ref/python/agent.md) API call. Provide the sweep ID (line 19), the name of the function the sweep will execute (`function=main`), and set the maximum number of runs to try to four (`count=4`). For more information on how to start W&B Sweep, see [Start sweep agents](./start-sweep-agents.md).
+1. 1번째 줄: Weights & Biases Python SDK를 임포트합니다.
+2. 6번째 줄: 스윕 구성을 정의하는 키-값 쌍을 포함하는 사전 개체를 생성합니다. 다음 예시에서는 배치 크기(`batch_size`), 에포크(`epochs`), 학습률(`lr`) 하이퍼파라미터가 각 스윕 동안 변화합니다. 스윕 구성을 생성하는 방법에 대한 자세한 정보는 [스윕 구성 정의](./define-sweep-configuration.md)를 참조하세요.
+3. 19번째 줄: 스윕 구성 사전을 [`wandb.sweep`](../../ref/python/sweep)에 전달합니다. 이것은 스윕을 초기화합니다. 이것은 스윕 ID(`sweep_id`)를 반환합니다. 스윕을 초기화하는 방법에 대한 자세한 정보는 [스윕 초기화](./initialize-sweeps.md)를 참조하세요.
+4. 33번째 줄: 데이터를 동기화하고 로그하기 위한 백그라운드 프로세스를 생성하기 위해 [`wandb.init()`](../../ref/python/init.md) API를 사용합니다.
+5. 37-39번째 줄: (선택사항) 하드 코딩된 값을 정의하는 대신 `wandb.config`에서 값을 정의합니다.
+6. 45번째 줄: [`wandb.log`](../../ref/python/log.md)로 최적화하려는 메트릭을 로그합니다. 구성에서 정의한 메트릭을 로그해야 합니다. 이 예시에서 구성 사전(`sweep_configuration`)에서 `val_acc` 값을 최대화하도록 스윕을 정의했습니다).
+7. 54번째 줄: [`wandb.agent`](../../ref/python/agent.md) API 호출로 스윕을 시작합니다. 스윕 ID(19번째 줄), 스윕이 실행할 함수의 이름(`function=main`), 최대 시도할 실행 횟수를 네 번으로 설정(`count=4`)을 제공합니다. W&B 스윕을 시작하는 방법에 대한 자세한 정보는 [스윕 에이전트 시작](./start-sweep-agents.md)을 참조하세요.
 
 
 ```python showLineNumbers
@@ -89,7 +89,7 @@ import wandb
 import numpy as np
 import random
 
-# Define sweep config
+# 스윕 구성 정의
 sweep_configuration = {
     "method": "random",
     "name": "sweep",
@@ -101,14 +101,13 @@ sweep_configuration = {
     },
 }
 
-# Initialize sweep by passing in config.
-# (Optional) Provide a name of the project.
+# 구성을 전달하여 스윕 초기화.
+# (선택사항) 프로젝트의 이름을 제공합니다.
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
 
-# Define training function that takes in hyperparameter
-# values from `wandb.config` and uses them to train a
-# model and return metric
+# 하이퍼파라미터 값을 `wandb.config`에서 가져와서
+# 모델을 학습하고 메트릭을 반환하는 학습 함수 정의
 def train_one_epoch(epoch, lr, bs):
     acc = 0.25 + ((epoch / 30) + (random.random() / 10))
     loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
@@ -124,8 +123,7 @@ def evaluate_one_epoch(epoch):
 def main():
     run = wandb.init()
 
-    # note that we define values from `wandb.config`
-    # instead of defining hard values
+    # 하드 코딩된 값을 정의하는 대신 `wandb.config`에서 값을 정의하는 것에 주목하세요.
     lr = wandb.config.lr
     bs = wandb.config.batch_size
     epochs = wandb.config.epochs
@@ -145,13 +143,13 @@ def main():
         )
 
 
-# Start sweep job.
+# 스윕 작업 시작
 wandb.agent(sweep_id, function=main, count=4)
 ```
   </TabItem>
   <TabItem value="cli">
 
-  To create a W&B Sweep, we first create a YAML configuration file. The configuration file contains he hyperparameters we want the sweep to explore.  In the proceeding example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) hyperparameters are varied during each sweep.
+  W&B 스윕을 생성하기 위해, 우리는 먼저 YAML 구성 파일을 생성합니다. 구성 파일에는 스윕이 탐색할 하이퍼파라미터가 포함됩니다. 다음 예시에서는 배치 크기(`batch_size`), 에포크(`epochs`), 학습률(`lr`) 하이퍼파라미터가 각 스윕 동안 변화합니다.
   
 ```yaml
 # config.yaml
@@ -171,17 +169,17 @@ parameters:
     values: [5, 10, 15]
 ```
 
-For more information on how to create a W&B Sweep configuration, see [Define sweep configuration](./define-sweep-configuration.md).
+W&B 스윕 구성을 생성하는 방법에 대한 자세한 정보는 [스윕 구성 정의](./define-sweep-configuration.md)를 참조하세요.
 
-Note that you must provide the name of your Python script for the `program` key in your YAML file.
+YAML 파일의 `program` 키에 Python 스크립트의 이름을 제공해야 합니다.
 
-Next, we add the following to the code example:
+다음으로, 코드 예시에 다음을 추가합니다:
 
-1. Line 1-2: Import the Wieghts & Biases Python SDK (`wandb`) and PyYAML (`yaml`). PyYAML is used to read in our YAML configuration file.
-2. Line 18: Read in the configuration file.
-3. Line 21: Use the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a [W&B Run](../../ref/python/run.md). We pass the config object to the config parameter.
-4. Line 25 - 27: Define hyperparameter values from `wandb.config` instead of using hard coded values.
-5. Line 33-39: Log the metric we want to optimize with [`wandb.log`](../../ref/python/log.md). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) we defined the sweep to maximize the `val_acc` value.
+1. 1-2번째 줄: Weights & Biases Python SDK(`wandb`)와 PyYAML(`yaml`)을 임포트합니다. PyYAML은 YAML 구성 파일을 읽는 데 사용됩니다.
+2. 18번째 줄: 구성 파일을 읽습니다.
+3. 21번째 줄: 데이터를 동기화하고 로그하기 위한 백그라운드 프로세스를 생성하기 위해 [`wandb.init()`](../../ref/python/init.md) API를 사용합니다. config 객체를 config 파라미터에 전달합니다.
+4. 25 - 27번째 줄: 하드 코딩된 값을 사용하는 대신 `wandb.config`에서 하이퍼파라미터 값을 정의합니다.
+5. 33-39번째 줄: [`wandb.log`](../../ref/python/log.md)로 최적화하려는 메트릭을 로그합니다. 구성에서 정의한 메트릭을 로그해야 합니다. 이 예시에서 구성 사전(`sweep_configuration`)에서 `val_acc` 값을 최대화하도록 스윕을 정의했습니다).
 
 
 ```python showLineNumbers
@@ -204,14 +202,13 @@ def evaluate_one_epoch(epoch):
 
 
 def main():
-    # Set up your default hyperparameters
+    # 기본 하이퍼파라미터 설정
     with open("./config.yaml") as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     run = wandb.init(config=config)
 
-    # Note that we define values from `wandb.config`
-    # instead of  defining hard values
+    # 하드 값을 정의하는 대신 `wandb.config`에서 값을 정의하는 것에 주목하세요.
     lr = wandb.config.lr
     bs = wandb.config.batch_size
     epochs = wandb.config.epochs
@@ -231,46 +228,43 @@ def main():
         )
 
 
-# Call the main function.
+# main 함수 호출
 main()
 ```
 
 
-Navigate to your CLI. Within your CLI, set a maximum number of runs the sweep agent should try. This is step optional. In the following example we set the maximum number to five.
+CLI로 이동합니다. CLI 내에서 스윕 에이전트가 시도해야 하는 최대 실행 횟수를 설정합니다. 이 단계는 선택사항입니다. 다음 예에서는 최대 숫자를 다섯으로 설정했습니다.
 
 ```bash
 NUM=5
 ```
 
-Next, initialize the sweep with the [`wandb sweep`](../../ref/cli/wandb-sweep.md) command. Provide the name of the YAML file. Optionally provide the name of the project for the project flag (`--project`):
+다음으로, [`wandb sweep`](../../ref/cli/wandb-sweep.md) 명령어로 스윕을 초기화합니다. YAML 파일의 이름을 제공합니다. 선택적으로 프로젝트 플래그(`--project`)에 프로젝트의 이름을 제공할 수 있습니다:
 
 ```bash
 wandb sweep --project sweep-demo-cli config.yaml
 ```
 
-This returns a sweep ID. For more information on how to initialize sweeps, see [Initialize sweeps](./initialize-sweeps.md).
+이것은 스윕 ID를 반환합니다. 스윕을 초기화하는 방법에 대한 자세한 정보는 [스윕 초기화](./initialize-sweeps.md)를 참조하세요.
 
-Copy the sweep ID and replace `sweepID` in the proceeding code snippet to start the sweep job with the [`wandb agent`](../../ref/cli/wandb-agent.md) command:
+스윕 ID를 복사하고 다음 코드 스니펫에서 `sweepID`를 대체하여 [`wandb agent`](../../ref/cli/wandb-agent.md) 명령어로 스윕 작업을 시작합니다:
 
 ```bash
 wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
 ```
 
-For more information on how to start sweep jobs, see [Start sweep jobs](./start-sweep-agents.md).
+스윕 작업을 시작하는 방법에 대한 자세한 정보는 [스윕 작업 시작](./start-sweep-agents.md)을 참조하세요.
   </TabItem>
 </Tabs>
 
+## 메트릭 로깅 시 고려사항
 
-## Consideration when logging metrics 
+스윕 구성에서 지정한 메트릭을 W&B에 명시적으로 로그해야 합니다. 스윕에 대한 메트릭을 하위 디렉터리 내에 로그하지 마십시오.
 
-
-
-Ensure to log the metric you specify in your sweep configuration explicitly to W&B. Do not log metrics for your sweep inside of a sub-directory. 
-
-For example, consider the proceeding psuedocode. A user wants to log the validation loss (`"val_loss": loss`). First they pass the values into a dictionary (line 16). However, the dictionary passed to `wandb.log` does not explicitly access the key-value pair in the dictionary:
+예를 들어, 다음의 의사코드를 고려해 보세요. 사용자는 검증 손실(`"val_loss": loss`)을 로그하고 싶습니다. 먼저 값들을 사전에 전달합니다(16번째 줄). 그러나 `wandb.log`에 전달된 사전은 사전 내의 키-값 쌍에 명시적으로 접근하지 않습니다:
 
 ```python title="train.py" showLineNumbers
-# Import the W&B Python Library and log into W&B
+# W&B Python 라이브러리를 임포트하고 W&B에 로그인합니다.
 import wandb
 import random
 
@@ -305,10 +299,10 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-Instead, explicitly access the key-value pair within the Python dictionary. For example, the proceeding code (line after you create a dictionary, specify the key-value pair when you pass the dictionary to the `wandb.log` method:
+대신, Python 사전 내의 키-값 쌍에 명시적으로 접근합니다. 예를 들어, 사전을 생성한 뒤에 `wandb.log` 메서드에 사전을 전달할 때 키-값 쌍을 명시적으로 지정합니다:
 
 ```python title="train.py" showLineNumbers
-# Import the W&B Python Library and log into W&B
+# W&B Python 라이브러리를 임포트하고 W&B에 로그인합니다.
 import wandb
 import random
 

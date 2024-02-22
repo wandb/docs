@@ -5,45 +5,42 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+# 미디어 및 개체 로깅
 
-# Log Media & Objects
-
-We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
+이미지, 비디오, 오디오 등을 지원합니다. 풍부한 미디어를 로깅하여 결과를 탐색하고 실행, 모델 및 데이터세트를 시각적으로 비교하세요. 예시와 사용 방법 가이드를 읽어보세요.
 
 :::info
-Looking for reference docs for our media types? You want [this page](../../../ref/python/data-types/README.md).
+미디어 유형에 대한 참조 문서를 찾고 계신가요? [이 페이지](../../../ref/python/data-types/README.md)를 참조하세요.
 :::
 
-<!-- {% embed url="https://www.youtube.com/watch?v=96MxRvx15Ts" %} -->
-
 :::info
-You can see working code to log all of these media objects in [this Colab Notebook](http://wandb.me/media-colab), check out what the results look like on wandb.ai [here](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA), and follow along with a video tutorial, linked above.
+이러한 미디어 개체를 모두 로깅하는 작동 코드를 [이 Colab 노트북](http://wandb.me/media-colab)에서 확인할 수 있으며, wandb.ai에서 결과를 [여기](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA)에서 확인하고, 위에 링크된 비디오 튜토리얼을 따라할 수 있습니다.
 :::
 
-## Images
+## 이미지
 
-Log images to track inputs, outputs, filter weights, activations, and more!
+입력, 출력, 필터 가중치, 활성화 등을 추적하기 위해 이미지를 로깅하세요!
 
-![Inputs and outputs of an autoencoder network performing in-painting.](/images/track/log_images.png)
+![인페인팅을 수행하는 오토인코더 네트워크의 입력 및 출력.](/images/track/log_images.png)
 
-Images can be logged directly from NumPy arrays, as PIL images, or from the filesystem.
+이미지는 NumPy 배열, PIL 이미지 또는 파일 시스템에서 직접 로깅할 수 있습니다.
 
 :::info
-It's recommended to log fewer than 50 images per step to prevent logging from becoming a bottleneck during training and image loading from becoming a bottleneck when viewing results.
+학습 중 로깅이 병목 현상을 초래하고 결과를 보는 동안 이미지 로딩이 병목 현상이 되지 않도록 단계당 50개 미만의 이미지를 로깅하는 것이 권장됩니다.
 :::
 
 <Tabs
   defaultValue="arrays"
   values={[
-    {label: 'Logging Arrays as Images', value: 'arrays'},
-    {label: 'Logging PIL Images', value: 'pil_images'},
-    {label: 'Logging Images from Files', value: 'images_files'},
+    {label: '배열을 이미지로 로깅하기', value: 'arrays'},
+    {label: 'PIL 이미지 로깅하기', value: 'pil_images'},
+    {label: '파일에서 이미지 로깅하기', value: 'images_files'},
   ]}>
   <TabItem value="arrays">
 
-Provide arrays directly when constructing images manually, e.g. using [`make_grid` from `torchvision`](https://pytorch.org/vision/stable/utils.html#torchvision.utils.make\_grid).
+예를 들어, [`torchvision`](https://pytorch.org/vision/stable/utils.html#torchvision.utils.make\_grid)에서 `make_grid`를 사용하여 수동으로 이미지를 구성할 때 배열을 직접 제공합니다.
 
-Arrays are converted to png using [Pillow](https://pillow.readthedocs.io/en/stable/index.html).
+배열은 [Pillow](https://pillow.readthedocs.io/en/stable/index.html)를 사용하여 png로 변환됩니다.
 
 ```python
 images = wandb.Image(image_array, caption="Top: Output, Bottom: Input")
@@ -51,11 +48,11 @@ images = wandb.Image(image_array, caption="Top: Output, Bottom: Input")
 wandb.log({"examples": images})
 ```
 
-We assume the image is gray scale if the last dimension is 1, RGB if it's 3, and RGBA if it's 4. If the array contains floats, we convert them to integers between `0` and `255`. If you want to normalize your images differently, you can specify the [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes) manually or just supply a [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html), as described in the "Logging PIL Images" tab of this panel.
+마지막 차원이 1이면 이미지가 그레이스케일, 3이면 RGB, 4이면 RGBA라고 가정합니다. 배열에 실수가 포함된 경우, `0`과 `255` 사이의 정수로 변환합니다. 이미지를 다르게 정규화하려면 [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes)를 수동으로 지정하거나, 이 패널의 "PIL 이미지 로깅하기" 탭에서 설명한 대로 [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html)을 직접 제공할 수 있습니다.
   </TabItem>
   <TabItem value="pil_images">
 
-For full control over the conversion of arrays to images, construct the [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html) yourself and provide it directly.
+배열에서 이미지로의 변환을 완전히 제어하려면 [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html)를 직접 구성하고 제공하세요.
 
 ```python
 images = [PIL.Image.fromarray(image) for image in image_array]
@@ -64,7 +61,7 @@ wandb.log({"examples": [wandb.Image(image) for image in images]})
 ```
   </TabItem>
   <TabItem value="images_files">
-For even more control, create images however you like, save them to disk, and provide a filepath.
+더 많은 제어를 위해 이미지를 원하는 대로 생성하고, 디스크에 저장한 후 파일 경로를 제공하세요.
 
 ```python
 im = PIL.fromarray(...)
@@ -76,32 +73,32 @@ wandb.log({"example": wandb.Image("myimage.jpg")})
   </TabItem>
 </Tabs>
 
-## Image Overlays
+## 이미지 오버레이
 
 <Tabs
   defaultValue="segmentation_masks"
   values={[
-    {label: 'Segmentation Masks', value: 'segmentation_masks'},
-    {label: 'Bounding Boxes', value: 'bounding_boxes'},
+    {label: '분할 마스크', value: 'segmentation_masks'},
+    {label: '경계 상자', value: 'bounding_boxes'},
   ]}>
   <TabItem value="segmentation_masks">
 
-Log semantic segmentation masks and interact with them (altering opacity, viewing changes over time, and more) via the W&B UI.
+semantic segmentation 마스크를 로깅하고 W&B UI를 통해 상호 작용합니다(불투명도 변경, 시간에 따른 변화 보기 등).
 
-![Interactive mask viewing in the W&B UI.](/images/track/semantic_segmentation.gif)
+![W&B UI에서의 인터랙티브 마스크 보기.](/images/track/semantic_segmentation.gif)
 
-To log an overlay, you'll need to provide a dictionary with the following keys and values to the `masks` keyword argument of `wandb.Image`:
+오버레이를 로깅하려면, 다음 키와 값으로 구성된 사전을 `wandb.Image`의 `masks` 키워드 인수에 제공해야 합니다:
 
-* one of two keys representing the image mask:
-  * `"mask_data"`: a 2D NumPy array containing an integer class label for each pixel
-  * `"path"`: (string) a path to a saved image mask file
-* `"class_labels"`: (optional) a dictionary mapping the integer class labels in the image mask to their readable class names
+* 이미지 마스크를 나타내는 두 가지 키 중 하나:
+  * `"mask_data"`: 각 픽셀에 대한 정수 클래스 레이블이 포함된 2D NumPy 배열
+  * `"path"`: (문자열) 저장된 이미지 마스크 파일의 경로
+* `"class_labels"`: (선택적) 이미지 마스크에 있는 정수 클래스 레이블을 읽을 수 있는 클래스 이름에 매핑하는 사전
 
-To log multiple masks, log a mask dictionary with multiple keys, as in the code snippet below.
+여러 마스크를 로깅하려면, 아래 코드 조각과 같이 여러 키가 있는 마스크 사전을 로깅하세요.
 
-[See a live example →](https://app.wandb.ai/stacey/deep-drive/reports/Image-Masks-for-Semantic-Segmentation--Vmlldzo4MTUwMw)
+[실시간 예시 보기 →](https://app.wandb.ai/stacey/deep-drive/reports/Image-Masks-for-Semantic-Segmentation--Vmlldzo4MTUwMw)
 
-[Sample code →](https://colab.research.google.com/drive/1SOVl3EvW82Q4QKJXX6JtHye4wFix\_P4J)
+[샘플 코드 →](https://colab.research.google.com/drive/1SOVl3EvW82Q4QKJXX6JtHye4wFix\_P4J)
 
 ```python
 mask_data = np.array([[1, 2, 2, ..., 2, 2, 1], ...])
@@ -121,25 +118,25 @@ mask_img = wandb.Image(
 ```
   </TabItem>
   <TabItem value="bounding_boxes">
-Log bounding boxes with images, and use filters and toggles to dynamically visualize different sets of boxes in the UI.
+이미지와 함께 경계 상자를 로깅하고, 필터와 토글을 사용하여 UI에서 다양한 상자 세트를 동적으로 시각화하세요.
 
 ![](@site/static/images/track/bb-docs.jpeg)
 
-[See a live example →](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
+[실시간 예시 보기 →](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
 
-To log a bounding box, you'll need to provide a dictionary with the following keys and values to the boxes keyword argument of `wandb.Image`:
+경계 상자를 로깅하려면, 다음 키와 값으로 구성된 사전을 `wandb.Image`의 `boxes` 키워드 인수에 제공해야 합니다:
 
-* `box_data`: a list of dictionaries, one for each box. The box dictionary format is described below.
-  * `position`: a dictionary representing the position and size of the box in one of two formats, as described below. Boxes need not all use the same format.
-    * _Option 1:_ `{"minX", "maxX", "minY", "maxY"}`. Provide a set of coordinates defining the upper and lower bounds of each box dimension.
-    * _Option 2:_ `{"middle", "width", "height"}`. Provide a set of coordinates specifying the `middle` coordinates as `[x,y]`, and `width` and `height` as scalars.
-  * `class_id`: an integer representing the class identity of the box. See `class_labels` key below.
-  * `scores`: a dictionary of string labels and numeric values for scores. Can be used for filtering boxes in the UI.
-  * `domain`: specify the units/format of the box coordinates. **Set this to "pixel"** if the box coordinates are expressed in pixel space (i.e. as integers within the bounds of the image dimensions). By default, the domain is assumed to be a fraction/percentage of the image (a floating point number between 0 and 1).
-  * `box_caption`: (optional) a string to be displayed as the label text on this box
-* `class_labels`: (optional) A dictionary mapping `class_id`s to strings. By default we will generate class labels `class_0`, `class_1`, etc.
+* `box_data`: 각 상자에 대한 사전이 하나씩 있는 사전 목록. 상자 사전 형식은 아래에 설명되어 있습니다.
+  * `position`: 아래에 설명된 두 가지 형식 중 하나로 상자의 위치와 크기를 나타내는 사전. 모든 상자가 동일한 형식을 사용할 필요는 없습니다.
+    * _옵션 1:_ `{"minX", "maxX", "minY", "maxY"}`. 각 상자 차원의 상한선과 하한선을 정의하는 좌표 세트를 제공합니다.
+    * _옵션 2:_ `{"middle", "width", "height"}`. `middle` 좌표를 `[x,y]`로, `width`와 `height`를 스칼라로 지정하는 좌표 세트를 제공합니다.
+  * `class_id`: 상자의 클래스 신원을 나타내는 정수. 아래의 `class_labels` 키를 참조하세요.
+  * `scores`: UI에서 상자를 필터링하는 데 사용될 수 있는 문자열 레이블과 숫자 값으로 구성된 점수 사전.
+  * `domain`: 상자 좌표의 단위/형식을 지정합니다. 상자 좌표가 픽셀 공간(즉, 이미지 치수의 한계 내에서 정수)으로 표현되는 경우 **"픽셀"로 설정하세요**. 기본적으로 도메인은 이미지의 분수/퍼센트(0과 1 사이의 부동 소수점 숫자)로 가정됩니다.
+  * `box_caption`: (선택적) 이 상자에 표시될 레이블 텍스트로 사용될 문자열
+* `class_labels`: (선택적) `class_id`를 문자열에 매핑하는 사전. 기본적으로 우리는 `class_0`, `class_1` 등의 클래스 레이블을 생성합니다.
 
-Check out this example:
+이 예제를 확인하세요:
 
 ```python
 class_id_to_label = {
@@ -155,26 +152,25 @@ img = wandb.Image(
         "predictions": {
             "box_data": [
                 {
-                    # one box expressed in the default relative/fractional domain
+                    # 기본 상대적/분수 도메인에서 표현된 하나의 상자
                     "position": {"minX": 0.1, "maxX": 0.2, "minY": 0.3, "maxY": 0.4},
                     "class_id": 2,
                     "box_caption": class_id_to_label[2],
                     "scores": {"acc": 0.1, "loss": 1.2},
-                    # another box expressed in the pixel domain
-                    # (for illustration purposes only, all boxes are likely
-                    # to be in the same domain/format)
+                    # 픽셀 도메인에서 표현된 또 다른 상자
+                    # (설명 목적으로만, 모든 상자는 동일한 도메인/형식에 있을 가능성이 높음)
                     "position": {"middle": [150, 20], "width": 68, "height": 112},
                     "domain": "pixel",
                     "class_id": 3,
                     "box_caption": "a building",
                     "scores": {"acc": 0.5, "loss": 0.7},
                     # ...
-                    # Log as many boxes an as needed
+                    # 필요한 만큼 많은 상자를 로깅하세요
                 }
             ],
             "class_labels": class_id_to_label,
         },
-        # Log each meaningful group of boxes with a unique key name
+        # 각 의미 있는 상자 그룹을 고유한 키 이름으로 로깅하세요
         "ground_truth": {
             # ...
         },
@@ -186,21 +182,21 @@ wandb.log({"driving_scene": img})
   </TabItem>
 </Tabs>
 
-## Image Overlays in Tables
+## 테이블에서의 이미지 오버레이
 
 <Tabs
   defaultValue="segmentation_masks"
   values={[
-    {label: 'Segmentation Masks', value: 'segmentation_masks'},
-    {label: 'Bounding Boxes', value: 'bounding_boxes'},
+    {label: '분할 마스크', value: 'segmentation_masks'},
+    {label: '경계 상자', value: 'bounding_boxes'},
   ]}>
   <TabItem value="segmentation_masks">
 
-![Interactive Segmentation Masks in Tables](/images/track/Segmentation_Masks.gif)
+![테이블에서의 인터랙티브 분할 마스크](/images/track/Segmentation_Masks.gif)
 
-To log Segmentation Masks in tables, you will need to provide a `wandb.Image` object for each row in the table.
+테이블에서 분할 마스크를 로깅하려면 테이블의 각 행에 대해 `wandb.Image` 객체를 제공해야 합니다.
 
-An example is provided in the Code snippet below:
+아래에 코드 조각 예제가 제공되어 있습니다:
 
 ```python
 table = wandb.Table(columns=["ID", "Image"])
@@ -222,11 +218,11 @@ wandb.log({"Table": table})
   <TabItem value="bounding_boxes">
 
 
-![Interactive Bounding Boxes in Tables](/images/track/Bounding_Boxes.gif)
+![테이블에서의 인터랙티브 경계 상자](/images/track/Bounding_Boxes.gif)
 
-To log Images with Bounding Boxes in tables, you will need to provide a `wandb.Image` object for each row in the table.
+테이블에서 이미지와 경계 상자를 로깅하려면 테이블의 각 행에 대해 `wandb.Image` 객체를 제공해야 합니다.
 
-An example is provided in the code snippet below:
+아래에 코드 조각 예제가 제공되어 있습니다:
 
 ```python
 table = wandb.Table(columns=["ID", "Image"])
@@ -258,30 +254,30 @@ for id, img, boxes in zip(ids, images, boxes_set):
   </TabItem>
 </Tabs>
 
-## Histograms
+## 히스토그램
 
 <Tabs
   defaultValue="histogram_logging"
   values={[
-    {label: 'Basic Histogram Logging', value: 'histogram_logging'},
-    {label: 'Flexible Histogram Logging', value: 'flexible_histogram'},
-    {label: 'Histograms in Summary', value: 'histogram_summary'},
+    {label: '기본 히스토그램 로깅', value: 'histogram_logging'},
+    {label: '유연한 히스토그램 로깅', value: 'flexible_histogram'},
+    {label: '요약에서의 히스토그램', value: 'histogram_summary'},
   ]}>
   <TabItem value="histogram_logging">
   
-If a sequence of numbers (e.g. list, array, tensor) is provided as the first argument, we will construct the histogram automatically by calling `np.histogram`. Note that all arrays/tensors are flattened. You can use the optional `num_bins` keyword argument to override the default of `64` bins. The maximum number of bins supported is `512`.
+첫 번째 인수로 숫자 시퀀스(예: 리스트, 배열, 텐서)가 제공되면, `np.histogram`을 호출하여 자동으로 히스토그램을 구성합니다. 모든 배열/텐서는 펴집니다. 기본값인 `64`개의 구간을 재정의하려면 선택적 `num_bins` 키워드 인수를 사용할 수 있습니다. 지원되는 최대 구간 수는 `512`입니다.
 
-In the UI, histograms are plotted with the training step on the x-axis, the metric value on the y-axis, and the count represented by color, to ease comparison of histograms logged throughout training. See the "Histograms in Summary" tab of this panel for details on logging one-off histograms.
+UI에서는 학습 단계를 x축, 메트릭 값을 y축, 색상으로 표현된 수치로 히스토그램을 그려 학습 중에 로깅된 히스토그램을 비교하기 쉽게 합니다. "요약에서의 히스토그램" 탭에서 일회성 히스토그램 로깅에 대한 세부 사항을 확인하세요.
 
 ```python
 wandb.log({"gradients": wandb.Histogram(grads)})
 ```
 
-![Gradients for the discriminator in a GAN.](/images/track/histograms.png)
+![GAN의 구분자에 대한 그레이디언트.](/images/track/histograms.png)
   </TabItem>
   <TabItem value="flexible_histogram">
 
-If you want more control, call `np.histogram` and pass the returned tuple to the `np_histogram` keyword argument.
+더 많은 제어를 원하면 `np.histogram`을 호출하고 반환된 튜플을 `np_histogram` 키워드 인수로 전달하세요.
 
 ```python
 np_hist_grads = np.histogram(grads, density=True, range=(0.0, 1.0))
@@ -291,27 +287,27 @@ wandb.log({"gradients": wandb.Histogram(np_hist_grads)})
   <TabItem value="histogram_summary">
 
 ```python
-wandb.run.summary.update(  # if only in summary, only visible on overview tab
+wandb.run.summary.update(  # 요약에만 있을 경우, Overview 탭에서만 보임
     {"final_logits": wandb.Histogram(logits)}
 )
 ```
   </TabItem>
 </Tabs>
 
-If histograms are in your summary they will appear on the Overview tab of the [Run Page](../../app/pages/run-page.md). If they are in your history, we plot a heatmap of bins over time on the Charts tab.
+히스토그램이 요약에 있으면 [실행 페이지](../../app/pages/run-page.md)의 Overview 탭에 표시됩니다. 이력에 있으면 차트 탭에서 시간이 지남에 따른 구간의 히트맵을 그립니다.
 
-## 3D Visualizations
+## 3D 시각화
 
 <Tabs
   defaultValue="3d_object"
   values={[
-    {label: '3D Object', value: '3d_object'},
-    {label: 'Point Clouds', value: 'point_clouds'},
-    {label: 'Molecules', value: 'molecules'},
+    {label: '3D 개체', value: '3d_object'},
+    {label: '포인트 클라우드', value: 'point_clouds'},
+    {label: '분자', value: 'molecules'},
   ]}>
   <TabItem value="3d_object">
 
-Log files in the formats `'obj', 'gltf', 'glb', 'babylon', 'stl', 'pts.json'`, and we will render them in the UI when your run finishes.
+`'obj', 'gltf', 'glb', 'babylon', 'stl', 'pts.json'` 형식의 로그 파일을 업로드하면 실행이 완료될 때 UI에서 렌더링됩니다.
 
 ```python
 wandb.log(
@@ -325,13 +321,13 @@ wandb.log(
 )
 ```
 
-![Ground truth and prediction of a headphones point cloud](/images/track/ground_truth_prediction_of_3d_point_clouds.png)
+![헤드폰 포인트 클라우드의 실제값 및 예측값](/images/track/ground_truth_prediction_of_3d_point_clouds.png)
 
-[See a live example →](https://app.wandb.ai/nbaryd/SparseConvNet-examples\_3d\_segmentation/reports/Point-Clouds--Vmlldzo4ODcyMA)
+[실시간 예제 보기 →](https://app.wandb.ai/nbaryd/SparseConvNet-examples\_3d\_segmentation/reports/Point-Clouds--Vmlldzo4ODcyMA)
   </TabItem>
   <TabItem value="point_clouds">
 
-Log 3D point clouds and Lidar scenes with bounding boxes. Pass in a NumPy array containing coordinates and colors for the points to render. In the UI, we truncate to 300,000 points.
+3D 포인트 클라우드와 리다(Lidar) 장면을 바운딩 박스와 함께 로그합니다. 점들의 좌표 및 색상을 포함하는 NumPy 배열을 전달하여 렌더링합니다. UI에서는 300,000점으로 제한합니다.
 
 ```python
 point_cloud = np.array([[0, 0, 0, COLOR]])
@@ -339,30 +335,30 @@ point_cloud = np.array([[0, 0, 0, COLOR]])
 wandb.log({"point_cloud": wandb.Object3D(point_cloud)})
 ```
 
-Three different shapes of NumPy arrays are supported for flexible color schemes.
+색상 스키마를 유연하게 지원하기 위해 세 가지 형태의 NumPy 배열을 지원합니다.
 
 * `[[x, y, z], ...]` `nx3`
-* `[[x, y, z, c], ...]` `nx4` `| c is a category` in the range `[1, 14]` (Useful for segmentation)
-* `[[x, y, z, r, g, b], ...]` `nx6 | r,g,b` are values in the range `[0,255]`for red, green, and blue color channels.
+* `[[x, y, z, c], ...]` `nx4` `| c는 범위 `[1, 14]` 내의 카테고리입니다` (세분화에 유용)
+* `[[x, y, z, r, g, b], ...]` `nx6 | r,g,b`는 빨간색, 초록색, 파란색 채널의 값으로 `[0,255]` 범위입니다.
 
-Here's an example of logging code below:
+아래는 로깅 코드의 예시입니다:
 
-* `points`is a NumPy array with the same format as the simple point cloud renderer shown above.
-* `boxes` is a NumPy array of python dictionaries with three attributes:
-  * `corners`- a list of eight corners
-  * `label`- a string representing the label to be rendered on the box (Optional)
-  * `color`- rgb values representing the color of the box
-* `type` is a string representing the scene type to render. Currently the only supported value is `lidar/beta`
+* `points`는 위에 표시된 간단한 포인트 클라우드 렌더러와 같은 형식의 NumPy 배열입니다.
+* `boxes`는 세 가지 속성을 가진 파이썬 사전의 NumPy 배열입니다:
+  * `corners`- 여덟 모서리의 목록
+  * `label`- 박스에 렌더링할 라벨을 나타내는 문자열 (선택 사항)
+  * `color`- 박스의 색상을 나타내는 rgb 값
+* `type`은 렌더링할 장면 유형을 나타내는 문자열입니다. 현재 지원되는 값은 `lidar/beta`뿐입니다
 
 ```python
-# Log points and boxes in W&B
+# W&B에서 점과 박스 로깅
 point_scene = wandb.Object3D(
     {
         "type": "lidar/beta",
-        "points": np.array(  # add points, as in a point cloud
+        "points": np.array(  # 포인트 클라우드처럼 점 추가
             [[0.4, 1, 1.3], [1, 1, 1], [1.2, 1, 1.2]]
         ),
-        "boxes": np.array(  # draw 3d boxes
+        "boxes": np.array(  # 3d 박스 그리기
             [
                 {
                     "corners": [
@@ -394,7 +390,7 @@ point_scene = wandb.Object3D(
                 },
             ]
         ),
-        "vectors": np.array(  # add 3d vectors
+        "vectors": np.array(  # 3D 벡터 추가
             [{"start": [0, 0, 0], "end": [0.1, 0.2, 0.5]}]
         ),
     }
@@ -408,9 +404,9 @@ wandb.log({"point_scene": point_scene})
 wandb.log({"protein": wandb.Molecule("6lu7.pdb")})
 ```
 
-Log molecular data in any of 10 file types:`pdb`, `pqr`, `mmcif`, `mcif`, `cif`, `sdf`, `sd`, `gro`, `mol2`, or `mmtf.`
+`pdb`, `pqr`, `mmcif`, `mcif`, `cif`, `sdf`, `sd`, `gro`, `mol2`, `mmtf` 등 10가지 파일 유형의 분자 데이터를 로그합니다.
 
-W&B also supports logging molecular data from SMILES strings, [`rdkit`](https://www.rdkit.org/docs/index.html) `mol` files, and `rdkit.Chem.rdchem.Mol` objects.
+W&B는 SMILES 문자열, [`rdkit`](https://www.rdkit.org/docs/index.html) `mol` 파일 및 `rdkit.Chem.rdchem.Mol` 개체에서 분자 데이터를 로깅하는 것도 지원합니다.
 
 ```python
 resveratrol = rdkit.Chem.MolFromSmiles("Oc1ccc(cc1)C=Cc1cc(O)cc(c1)O")
@@ -418,39 +414,39 @@ resveratrol = rdkit.Chem.MolFromSmiles("Oc1ccc(cc1)C=Cc1cc(O)cc(c1)O")
 wandb.log(
     {
         "resveratrol": wandb.Molecule.from_rdkit(resveratrol),
-        "green fluorescent protein": wandb.Molecule.from_rdkit("2b3p.mol"),
-        "acetaminophen": wandb.Molecule.from_smiles("CC(=O)Nc1ccc(O)cc1"),
+        "녹색 형광 단백질": wandb.Molecule.from_rdkit("2b3p.mol"),
+        "아세트아미노펜": wandb.Molecule.from_smiles("CC(=O)Nc1ccc(O)cc1"),
     }
 )
 ```
 
-When your run finishes, you'll be able to interact with 3D visualizations of your molecules in the UI.
+실행이 완료되면 UI에서 분자의 3D 시각화와 상호작용할 수 있습니다.
 
-[See a live example using AlphaFold →](http://wandb.me/alphafold-workspace)
+[AlphaFold를 사용한 실시간 예제 보기 →](http://wandb.me/alphafold-workspace)
 
 ![](@site/static/images/track/docs-molecule.png)
   </TabItem>
 </Tabs>
 
-## Other Media
+## 기타 미디어
 
-W&B also supports logging of a variety of other media types.
+W&B는 다양한 다른 미디어 유형의 로깅도 지원합니다.
 
 <Tabs
   defaultValue="audio"
   values={[
-    {label: 'Audio', value: 'audio'},
-    {label: 'Video', value: 'video'},
-    {label: 'Text', value: 'text'},
+    {label: '오디오', value: 'audio'},
+    {label: '비디오', value: 'video'},
+    {label: '텍스트', value: 'text'},
     {label: 'HTML', value: 'html'},
   ]}>
   <TabItem value="audio">
 
 ```python
-wandb.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
+wandb.log({"고래 노래": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-The maximum number of audio clips that can be logged per step is 100.
+단계별로 로그할 수 있는 오디오 클립의 최대 수는 100개입니다.
 
   </TabItem>
   <TabItem value="video">
@@ -459,30 +455,30 @@ The maximum number of audio clips that can be logged per step is 100.
 wandb.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")})
 ```
 
-If a numpy array is supplied we assume the dimensions are, in order: time, channels, width, height. By default we create a 4 fps gif image ([`ffmpeg`](https://www.ffmpeg.org) and the [`moviepy`](https://pypi.org/project/moviepy/) python library are required when passing numpy objects). Supported formats are `"gif"`, `"mp4"`, `"webm"`, and `"ogg"`. If you pass a string to `wandb.Video` we assert the file exists and is a supported format before uploading to wandb. Passing a `BytesIO` object will create a temporary file with the specified format as the extension.
+Numpy 배열을 제공하는 경우 차례대로 시간, 채널, 너비, 높이의 차원임을 가정합니다. 기본적으로 4fps gif 이미지를 생성합니다([`ffmpeg`](https://www.ffmpeg.org) 및 [`moviepy`](https://pypi.org/project/moviepy/) 파이썬 라이브러리가 numpy 객체를 전달할 때 필요). 지원되는 형식은 `"gif"`, `"mp4"`, `"webm"`, `"ogg"`입니다. `wandb.Video`에 문자열을 전달하면 파일이 존재하고 지원되는 형식인지 확인한 후 wandb에 업로드합니다. `BytesIO` 개체를 전달하면 지정된 형식의 확장명으로 임시 파일을 생성합니다.
 
-On the W&B [Run](../../app/pages/run-page.md) and [Project](../../app/pages/project-page.md) Pages, you will see your videos in the Media section.
+W&B [실행](../../app/pages/run-page.md) 및 [프로젝트](../../app/pages/project-page.md) 페이지에서 미디어 섹션에서 비디오를 볼 수 있습니다.
 
   </TabItem>
   <TabItem value="text">
 
-Use `wandb.Table` to log text in tables to show up in the UI. By default, the column headers are `["Input", "Output", "Expected"]`. To ensure optimal UI performance, the default maximum number of rows is set to 10,000. However, users can explicitly override the maximum with `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.
+UI에서 테이블 형식으로 텍스트를 로그하려면 `wandb.Table`을 사용하세요. 기본적으로 열 헤더는 `["Input", "Output", "Expected"]`입니다. 최적의 UI 성능을 보장하기 위해 기본적으로 최대 행 수는 10,000으로 설정되어 있습니다. 그러나 사용자는 `wandb.Table.MAX_ROWS = {원하는 최대값}`으로 최대값을 명시적으로 재정의할 수 있습니다.
 
 ```python
 columns = ["Text", "Predicted Sentiment", "True Sentiment"]
-# Method 1
+# 방법 1
 data = [["I love my phone", "1", "1"], ["My phone sucks", "0", "-1"]]
 table = wandb.Table(data=data, columns=columns)
 wandb.log({"examples": table})
 
-# Method 2
+# 방법 2
 table = wandb.Table(columns=columns)
 table.add_data("I love my phone", "1", "1")
 table.add_data("My phone sucks", "0", "-1")
 wandb.log({"examples": table})
 ```
 
-You can also pass a pandas `DataFrame` object.
+pandas `DataFrame` 개체도 전달할 수 있습니다.
 
 ```python
 table = wandb.Table(dataframe=my_dataframe)
@@ -495,7 +491,7 @@ wandb.log({"custom_file": wandb.Html(open("some.html"))})
 wandb.log({"custom_string": wandb.Html('<a href="https://mysite">Link</a>')})
 ```
 
-Custom html can be logged at any key, and this exposes an HTML panel on the run page. By default we inject default styles, you can disable default styles by passing `inject=False`.
+사용자 지정 html은 모든 키에서 로그할 수 있으며, 실행 페이지에 HTML 패널을 노출합니다. 기본적으로 기본 스타일을 주입하지만, `inject=False`를 전달하여 기본 스타일을 비활성화할 수 있습니다.
 
 ```python
 wandb.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
@@ -504,43 +500,43 @@ wandb.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
   </TabItem>
 </Tabs>
 
-## Frequently Asked Questions
+## 자주 묻는 질문
 
-### How can I compare images or media across epochs or steps?
+### 에포크나 단계별로 이미지나 미디어를 어떻게 비교하나요?
 
-Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
+단계별로 이미지를 로그할 때마다 UI에 저장하여 표시합니다. 이미지 패널을 확장하고 단계 슬라이더를 사용하여 다른 단계의 이미지를 살펴보세요. 이를 통해 모델의 출력이 학습하는 동안 어떻게 변하는지 쉽게 비교할 수 있습니다.
 
-### What if I want to integrate W&B into my project, but I don't want to upload any images or media?
+### 이미지나 미디어를 업로드하지 않고 W&B를 프로젝트에 통합하고 싶다면 어떻게 해야 하나요?
 
-W&B can be used even for projects that only log scalars — you specify any files or data you'd like to upload explicitly. Here's [a quick example in PyTorch](http://wandb.me/pytorch-colab) that does not log images.
+스칼라만 로그하는 프로젝트의 경우에도 W&B를 사용할 수 있습니다 — 업로드하고 싶은 파일이나 데이터를 명시적으로 지정합니다. 여기 [PyTorch에서의 간단한 예제](http://wandb.me/pytorch-colab)가 있으며, 이미지를 로그하지 않습니다.
 
-### How do I log a PNG?
+### PNG를 어떻게 로그하나요?
 
-[`wandb.Image`](../../../ref/python/data-types/image.md) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
+[`wandb.Image`](../../../ref/python/data-types/image.md)는 기본적으로 `numpy` 배열이나 `PILImage` 인스턴스를 PNG로 변환합니다.
 
 ```python
 wandb.log({"example": wandb.Image(...)})
-# Or multiple images
+# 또는 여러 이미지
 wandb.log({"example": [wandb.Image(...) for img in images]})
 ```
 
-### How do I log a video?
+### 비디오를 어떻게 로그하나요?
 
-Videos are logged using the [`wandb.Video`](../../../ref/python/data-types/video.md) data type:
+비디오는 [`wandb.Video`](../../../ref/python/data-types/video.md) 데이터 유형을 사용하여 로그됩니다:
 
 ```python
 wandb.log({"example": wandb.Video("myvideo.mp4")})
 ```
 
-Now you can view videos in the media browser. Go to your project workspace, run workspace, or report and click "Add visualization" to add a rich media panel.
+이제 프로젝트 워크스페이스, 실행 워크스페이스 또는 리포트에서 "시각화 추가"를 클릭하여 리치 미디어 패널에 비디오를 볼 수 있습니다.
 
-### How do I navigate and zoom in point clouds?
+### 포인트 클라우드를 내비게이션하고 확대하는 방법은 무엇인가요?
 
-You can hold control and use the mouse to move around inside the space.
+컨트롤을 누르고 마우스를 사용하여 공간 내에서 이동할 수 있습니다.
 
-### How do I log a 2D view of a molecule?
+### 분자의 2D 뷰를 어떻게 로그하나요?
 
-You can log a 2D view of a molecule using the [`wandb.Image`](../../../ref/python/data-types/image.md) data type and [`rdkit`](https://www.rdkit.org/docs/index.html):
+[`wandb.Image`](../../../ref/python/data-types/image.md) 데이터 유형과 [`rdkit`](https://www.rdkit.org/docs/index.html)을 사용하여 분자의 2D 뷰를 로그할 수 있습니다:
 
 ```python
 molecule = rdkit.Chem.MolFromSmiles("CC(=O)O")
@@ -548,5 +544,5 @@ rdkit.Chem.AllChem.Compute2DCoords(molecule)
 rdkit.Chem.AllChem.GenerateDepictionMatching2DStructure(molecule, molecule)
 pil_image = rdkit.Chem.Draw.MolToImage(molecule, size=(300, 300))
 
-wandb.log({"acetic_acid": wandb.Image(pil_image)})
+wandb.log({"아세트산": wandb.Image(pil_image)})
 ```

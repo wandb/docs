@@ -2,26 +2,26 @@
 displayed_sidebar: default
 ---
 
-# Manage Runs
+# 런 관리
 
-### Move runs to a team
+### 런을 팀으로 이동
 
-On the project page:
+프로젝트 페이지에서:
 
-1. Click the table tab to expand the runs table
-2. Click the checkbox to select all runs
-3. Click **Move**: the destination project can be in your personal account or any team that you're a member of.
+1. 런 테이블을 확장하려면 테이블 탭을 클릭하세요.
+2. 모든 런을 선택하려면 체크박스를 클릭하세요.
+3. **이동**을 클릭하세요: 목적지 프로젝트는 개인 계정이나 소속된 팀 중 하나일 수 있습니다.
 
 ![](/images/app_ui/demo_move_runs.gif)
 
-### Send new runs to a team
+### 새 런을 팀으로 보내기
 
-In your script, set the entity to your team. "Entity" just means your username or team name. Create an entity (personal account or team account) in the web app before sending runs there.
+스크립트에서, 엔티티를 팀으로 설정하세요. "엔티티"는 단순히 사용자 이름이나 팀 이름을 의미합니다. 런을 보내기 전에 웹 앱에서 엔티티(개인 계정 또는 팀 계정)를 생성하세요.
 
 ```python
 wandb.init(entity="example-team")
 ```
 
-Your **default entity** is updated when you join a team. This means that on your [settings page](https://app.wandb.ai/settings), you'll see that the default location to create a new project is now the team you've just joined. Here's an example of what that [settings page](https://app.wandb.ai/settings) section looks like:
+**기본 엔티티**는 팀에 가입할 때 업데이트됩니다. 이는 [설정 페이지](https://app.wandb.ai/settings)에서 새 프로젝트를 생성할 기본 위치가 방금 가입한 팀으로 변경되었음을 의미합니다. 다음은 해당 [설정 페이지](https://app.wandb.ai/settings) 섹션이 어떻게 보이는지에 대한 예시입니다:
 
 ![](/images/app_ui/send_new_runs_to_team.png)
