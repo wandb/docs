@@ -3,75 +3,75 @@ description: Run Weights and Biases on your own machines using Docker
 displayed_sidebar: default
 ---
 
-# Basic Setup
+# 기본 설정
 
-Run Weights and Biases on your own machines using Docker.
+Docker를 사용하여 자신의 기계에서 Weights and Biases를 실행하세요.
 
-### Installation
+### 설치
 
-On any machine with [Docker](https://www.docker.com) and [Python](https://www.python.org) installed, run:
+[Docker](https://www.docker.com)와 [Python](https://www.python.org)이 설치된 모든 기계에서 다음을 실행하십시오:
 
 ```
 pip install wandb
 wandb server start
 ```
 
-### Login
+### 로그인
 
-If this is your first time logging in then you will need to create your local W&B server account and authorize your API key. There are several ways to control where your runs are logged to. This is particularly useful if you run `wandb` on multiple machines or you switch between a private instance and W&B cloud. 
+처음 로그인하는 경우 로컬 W&B 서버 계정을 생성하고 API 키를 인증해야 합니다. 여러 대의 기계에서 `wandb`를 실행하거나 프라이빗 인스턴스와 W&B 클라우드 간에 전환할 때 실행 위치를 제어하는 몇 가지 방법이 있습니다.
 
-Follow the procedure below to send metrics to the shared private instance. Ensure you have already set up DNS:
+공유 프라이빗 인스턴스에 메트릭을 보내려면 아래 절차를 따르십시오. 이미 DNS를 설정했는지 확인하십시오:
 
-1. Set the host flag to the address of the private instance whenever you login:
+1. 로그인할 때마다 호스트 플래그를 프라이빗 인스턴스의 주소로 설정하십시오:
 
 ```bash
 wandb login --host=http://wandb.your-shared-local-host.com
 ```
 
-2. Set the environment variable `WANDB_BASE_URL` to the address of the local instance:
+2. 환경 변수 `WANDB_BASE_URL`을 로컬 인스턴스의 주소로 설정하십시오:
 
 ```bash
 export WANDB_BASE_URL="http://wandb.your-shared-local-host.com"
 ```
 
-In an automated environment, you can set the `WANDB_API_KEY`. Find your key at [wandb.your-shared-local-host.com/authorize](http://wandb.your-shared-local-host.com/authorize).
+자동화된 환경에서는 `WANDB_API_KEY`를 설정할 수 있습니다. 키는 [wandb.your-shared-local-host.com/authorize](http://wandb.your-shared-local-host.com/authorize)에서 찾을 수 있습니다.
 
-Set the host to `api.wandb.ai` to log to the public cloud instance of W&B:
+호스트를 `api.wandb.ai`로 설정하여 W&B의 공용 클라우드 인스턴스에 로그를 기록하십시오:
 
 ```bash
 wandb login --cloud
 ```
 
-or
+또는
 
 ```bash
 export WANDB_BASE_URL="https://api.wandb.ai"
 ```
 
-You can also switch to your cloud API key, available at [https://wandb.ai/settings](https://wandb.ai/settings) when you are logged in to your cloud-hosted wandb account in your browser.
+브라우저에서 클라우드 호스팅된 wandb 계정에 로그인한 상태에서 [https://wandb.ai/settings](https://wandb.ai/settings)에서 클라우드 API 키로 전환할 수도 있습니다.
 
-### Generate a free license
+### 무료 라이선스 생성
 
-You need a license to complete your configuration of a W&B server. [**Open the Deploy Manager** ](https://deploy.wandb.ai/deploy)to generate a free license. If you do not already have a cloud account then you will need to create one to generate your free license. You can generate either a personal or team or free license:
+W&B 서버를 구성을 완료하려면 라이선스가 필요합니다. [**Deploy Manager 열기**](https://deploy.wandb.ai/deploy)에서 무료 라이선스를 생성하십시오. 클라우드 계정이 없는 경우 무료 라이선스를 생성하기 위해 계정을 생성해야 합니다. 개인 또는 팀 또는 무료 라이선스를 생성할 수 있습니다:
 
-1. [**Personal licenses**](https://deploy.wandb.ai/deploy) are free forever for personal work: ![](/images/hosting/personal_license.png)
-2. [**Team trial licenses**](https://deploy.wandb.ai/deploy) are free and last 30 days, allowing you to set up a team and connect a scalable backend: ![](/images/hosting/team_trial_license.png)
+1. [**개인 라이선스**](https://deploy.wandb.ai/deploy)는 개인 작업을 위해 영원히 무료입니다: ![](/images/hosting/personal_license.png)
+2. [**팀 시행 라이선스**](https://deploy.wandb.ai/deploy)는 30일 동안 무료이며, 팀을 설정하고 확장 가능한 백엔드를 연결할 수 있습니다: ![](/images/hosting/team_trial_license.png)
 
-### Add a license to your Local host
+### 로컬 호스트에 라이선스 추가
 
-1. Copy your license from your Deployment and navigate back to your W&B server's localhost: ![](/images/hosting/add_license_local_host.png)
-2. Add it to your local settings by pasting it into the `/system-admin` page of your localhost:
+1. Deployment에서 라이선스를 복사하고 W&B 서버의 localhost로 돌아가십시오: ![](/images/hosting/add_license_local_host.png)
+2. localhost의 `/system-admin` 페이지에 붙여넣어 로컬 설정에 추가하십시오:
    ![](@site/static/images/hosting/License.gif)
 
-### Upgrades
+### 업그레이드
 
-New versions of _wandb/local_ are pushed to DockerHub regularly. We suggest you keep your version up to date. To upgrade, copy and paste the following command into your terminal:
+_wandb/local_의 새 버전은 정기적으로 DockerHub에 푸시됩니다. 버전을 최신 상태로 유지하는 것이 좋습니다. 업그레이드하려면 다음 명령을 터미널에 복사하여 붙여넣으십시오:
 
 ```shell
 $ wandb server start --upgrade
 ```
 
-Alternatively, you can upgrade your instance manually. Copy and paste the following code snippets into your terminal:
+또는, 인스턴스를 수동으로 업그레이드할 수 있습니다. 다음 코드 조각을 터미널에 복사하여 붙여넣으십시오:
 
 ```shell
 $ docker pull wandb/local
@@ -79,37 +79,36 @@ $ docker stop wandb-local
 $ docker run --rm -d -v wandb:/vol -p 8080:8080 --name wandb-local wandb/local
 ```
 
-### Persistence and Scalability
+### 지속성 및 확장성
 
-- All metadata and files sent to W&B server are stored in the `/vol` directory. If you do not mount a persistent volume at this location all data will be lost when the docker process dies.
-- This solution is not meant for [production](../hosting-options/intro.md) workloads.
-- You can store metadata in an external MySQL database and files in an external storage bucket.
-- The underlying file store should be resizable. Alerts should be put in place to let you know once minimum storage thresholds are crossed to resize the underlying file system.
-- For enterprise trials, we recommend at least 100GB free space in the underlying volume for non-image/video/audio heavy workloads.
+- W&B 서버로 보낸 모든 메타데이터와 파일은 `/vol` 디렉터리에 저장됩니다. 이 위치에 영구 볼륨을 마운트하지 않으면 docker 프로세스가 종료될 때 모든 데이터가 손실됩니다.
+- 이 솔루션은 [프로덕션](../hosting-options/intro.md) 작업을 위한 것이 아닙니다.
+- 메타데이터를 외부 MySQL 데이터베이스에 저장하고 파일을 외부 스토리지 버킷에 저장할 수 있습니다.
+- 기본 파일 저장소는 크기를 조정할 수 있어야 합니다. 최소 저장 공간 임계값이 초과되면 기본 파일 시스템의 크기를 조정하기 위해 알림을 설정해야 합니다.
+- 엔터프라이즈 시행의 경우, 이미지/비디오/오디오가 많지 않은 작업 부하에 대해 기본 볼륨에 최소 100GB의 여유 공간이 있어야 합니다.
 
-#### How does wandb persist user account data?
+#### wandb는 사용자 계정 데이터를 어떻게 지속합니까?
 
-When a Kubernetes instance is stopped, the W&B application bundles all the user account data into a tarball and uploads it to the Amazon S3 object store. W&B pulls previously uploaded tarball files when you restart an instance and provide the `BUCKET` environment variable. W&B will also load your user account information into the newly started Kubernetes deployment.
+Kubernetes 인스턴스가 중지되면, W&B 애플리케이션은 모든 사용자 계정 데이터를 tarball로 번들링하여 Amazon S3 오브젝트 스토어에 업로드합니다. 인스턴스를 다시 시작하고 `BUCKET` 환경 변수를 제공할 때 W&B는 이전에 업로드된 tarball 파일을 가져옵니다. W&B는 또한 새로 시작된 Kubernetes 배포에 사용자 계정 정보를 로드합니다.
 
-When an external object store is enabled, strong access controls should be enforced as it will contain all users data.
-W&B persists instance settings in the external bucket when it is configured. W&B also persist certificates, and secrets in the bucket.
+외부 오브젝트 스토어가 활성화되면 모든 사용자 데이터를 포함하므로 강력한 엑세스 제어를 시행해야 합니다.
+W&B는 외부 버킷에 인스턴스 설정을 지속합니다. W&B는 또한 인증서 및 비밀을 버킷에 지속합니다.
 
+#### 공유 인스턴스 생성 및 확장
 
-#### Create and scale a shared instance
-
-To enjoy the powerful collaborative features of W&B, you will need a shared instance on a central server, which you can [set up on AWS, GCP, Azure, Kubernetes, or Docker](../hosting-options/intro.md).
+W&B의 강력한 협업 기능을 즐기려면 중앙 서버에 공유 인스턴스가 필요합니다. 이는 [AWS, GCP, Azure, Kubernetes 또는 Docker에서 설정할 수 있습니다](../hosting-options/intro.md).
 
 :::caution
-**Trial Mode vs. Production Setup**
+**시행 모드 대비 프로덕션 설정**
 
-In Trial Mode of W&B Local, you run the Docker container on a single machine. This setup is ideal for testing the product, but it is not scalable.
+W&B Local의 시행 모드에서는 단일 기계에서 Docker 컨테이너를 실행합니다. 이 설정은 제품을 테스트하기에는 이상적이지만 확장 가능하지 않습니다.
 
-For production work, set up a scalable file system to avoid data loss. We suggest you:
-* allocate extra space in advance, 
-* resize the file system proactively as you log more data
-* configure external metadata and object stores for backup.
+프로덕션 작업을 위해 데이터 손실을 피하기 위해 확장 가능한 파일 시스템을 설정하십시오. 우리는 당신이:
+* 사전에 추가 공간을 할당하고,
+* 더 많은 데이터를 로그로 기록함에 따라 파일 시스템을 선제적으로 크기 조정하고
+* 백업을 위해 외부 메타데이터 및 오브젝트 스토어를 구성하십시오.
 
-The instance will stop working if you run out of space. In this case, any additional data will be lost.
+공간이 부족하면 인스턴스가 작동을 멈추고 그 시점 이후의 어떠한 추가 데이터도 손실됩니다.
 :::
 
-[Contact sales](https://wandb.ai/site/contact) to learn more about Enterprise options for W&B server.
+W&B 서버의 Enterprise 옵션에 대해 자세히 알아보려면 [영업팀에 문의하십시오](https://wandb.ai/site/contact).

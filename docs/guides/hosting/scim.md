@@ -4,37 +4,37 @@ displayed_sidebar: default
 
 # SCIM
 
-The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams. 
+System for Cross-domain Identity Management (SCIM) API는 인스턴스 또는 조직 관리자가 W&B 조직의 사용자, 그룹 및 커스텀 역할을 관리할 수 있게 해줍니다. SCIM 그룹은 W&B 팀에 매핑됩니다.
 
-The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema. W&B adds the `/Roles` endpoints to support automated management of custom roles in W&B organizations.
+SCIM API는 `<host-url>/scim/`에서 액세스할 수 있으며, [RC7643 프로토콜](https://www.rfc-editor.org/rfc/rfc7643)에서 찾을 수 있는 필드의 서브세트와 함께 `/Users` 및 `/Groups` 엔드포인트를 지원합니다. 추가로 공식 SCIM 스키마에 포함되지 않은 `/Roles` 엔드포인트를 포함합니다. W&B는 W&B 조직에서 커스텀 역할의 자동 관리를 지원하기 위해 `/Roles` 엔드포인트를 추가합니다.
 
 :::info
-SCIM API applies to all hosting options including Dedicated Cloud, Self-managed deployment and SaaS Cloud. In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization. The setting is available in the section `SCIM API Organization`. 
+SCIM API는 데디케이티드 클라우드, 자체 관리 배포 및 SaaS 클라우드를 포함한 모든 호스팅 옵션에 적용됩니다. SaaS 클라우드에서 조직 관리자는 SCIM API 요청이 올바른 조직으로 가도록 사용자 설정에서 기본 조직을 구성해야 합니다. 설정은 `SCIM API Organization` 섹션에서 사용할 수 있습니다.
 :::
 
-## Authentication
+## 인증
 
-The SCIM API is accessible by instance or organization admins using basic authentication with their API key. With basic authentication, send the HTTP request with the `Authorization` header that contains the word `Basic` followed by a space and a base64-encoded string for `username:password` where `password` is your API key. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
+SCIM API는 인스턴스 또는 조직 관리자가 API 키를 사용한 기본 인증으로 액세스할 수 있습니다. 기본 인증으로는 `username:password`를 위한 base64 인코딩 문자열을 포함하는 `Authorization` 헤더와 함께 HTTP 요청을 보냅니다. 여기서 `password`는 API 키입니다. 예를 들어, `demo:p@55w0rd`로 인증하려면 헤더는 `Authorization: Basic ZGVtbzpwQDU1dzByZA==`가 되어야 합니다.
 
-## User resource
+## 사용자 리소스
 
-The SCIM user resource maps to W&B users.
+SCIM 사용자 리소스는 W&B 사용자에 매핑됩니다.
 
-### Get user
+### 사용자 가져오기
 
-- **Endpoint:** **`<host-url>/scim/Users/{id}`**
-- **Method**: GET
-- **Description**: Retrieve user information by providing the user's unique ID.
-- **Request Example**:
+- **엔드포인트:** **`<host-url>/scim/Users/{id}`**
+- **메서드**: GET
+- **설명**: 사용자의 고유 ID를 제공하여 사용자 정보를 검색합니다.
+- **요청 예**:
 
 ```bash
 GET /scim/Users/abc
 ```
 
-- **Response Example**:
+- **응답 예**:
 
 ```bash
-(Status 200)
+(상태 200)
 ```
 
 ```json
@@ -60,21 +60,21 @@ GET /scim/Users/abc
 }
 ```
 
-### List users
+### 사용자 목록
 
-- **Endpoint:** **`<host-url>/scim/Users`**
-- **Method**: GET
-- **Description**: Retrieve a list of users.
-- **Request Example**:
+- **엔드포인트:** **`<host-url>/scim/Users`**
+- **메서드**: GET
+- **설명**: 사용자 목록을 검색합니다.
+- **요청 예**:
 
 ```bash
 GET /scim/Users
 ```
 
-- **Response Example**:
+- **응답 예**:
 
 ```bash
-(Status 200)
+(상태 200)
 ```
 
 ```json
@@ -110,18 +110,18 @@ GET /scim/Users
 }
 ```
 
-### Create user
+### 사용자 생성
 
-- **Endpoint**: **`<host-url>/scim/Users`**
-- **Method**: POST
-- **Description**: Create a new user resource.
-- **Supported Fields**:
+- **엔드포인트**: **`<host-url>/scim/Users`**
+- **메서드**: POST
+- **설명**: 새 사용자 리소스를 생성합니다.
+- **지원되는 필드**:
 
-| Field | Type | Required |
+| 필드 | 유형 | 필수 |
 | --- | --- | --- |
-| emails | Multi-Valued Array | Yes (Make sure `primary` email is set) |
-| userName | String | Yes |
-- **Request Example**:
+| emails | 다중 값 배열 | 예 (`primary` 이메일이 설정되어야 함) |
+| userName | 문자열 | 예 |
+- **요청 예**:
 
 ```bash
 POST /scim/Users
@@ -142,10 +142,10 @@ POST /scim/Users
 }
 ```
 
-- **Response Example**:
+- **응답 예**:
 
 ```bash
-(Status 201)
+(상태 201)
 ```
 
 ```json
@@ -170,46 +170,46 @@ POST /scim/Users
 }
 ```
 
-### Deactivate user
+### 사용자 비활성화
 
-- **Endpoint**: **`<host-url>/scim/Users/{id}`**
-- **Method**: DELETE
-- **Description**: Deactivate a user by providing the user's unique ID.
-- **Request Example**:
+- **엔드포인트**: **`<host-url>/scim/Users/{id}`**
+- **메서드**: DELETE
+- **설명**: 사용자의 고유 ID를 제공하여 사용자를 비활성화합니다.
+- **요청 예**:
 
 ```bash
 DELETE /scim/Users/abc
 ```
 
-- **Response Example**:
+- **응답 예**:
 
 ```json
-(Status 204)
+(상태 204)
 ```
 
-### Reactivate user
+### 사용자 재활성화
 
-- Reactivating a previously deactivated user is currently unsupported in the SCIM API.
+- SCIM API에서는 현재 비활성화된 사용자를 재활성화하는 것을 지원하지 않습니다.
 
-## Group resource
+## 그룹 리소스
 
-The SCIM group resource maps to W&B teams, that is, when you create a SCIM group in a W&B deployment, it creates a W&B team. Same applies to other group endpoints.
+SCIM 그룹 리소스는 W&B 팀에 매핑됩니다. 즉, W&B 배포에서 SCIM 그룹을 생성하면 W&B 팀이 생성됩니다. 다른 그룹 엔드포인트에도 동일하게 적용됩니다.
 
-### Get team
+### 팀 가져오기
 
-- **Endpoint**: **`<host-url>/scim/Groups/{id}`**
-- **Method**: GET
-- **Description**: Retrieve team information by providing the team’s unique ID.
-- **Request Example**:
+- **엔드포인트**: **`<host-url>/scim/Groups/{id}`**
+- **메서드**: GET
+- **설명**: 팀의 고유 ID를 제공하여 팀 정보를 검색합니다.
+- **요청 예**:
 
 ```bash
 GET /scim/Groups/ghi
 ```
 
-- **Response Example**:
+- **응답 예**:
 
 ```bash
-(Status 200)
+(상태 200)
 ```
 
 ```json
@@ -236,21 +236,21 @@ GET /scim/Groups/ghi
 }
 ```
 
-### List teams
+### 팀 목록
 
-- **Endpoint**: **`<host-url>/scim/Groups`**
-- **Method**: GET
-- **Description**: Retrieve a list of teams.
-- **Request Example**:
+- **엔드포인트**: **`<host-url>/scim/Groups`**
+- **메서드**: GET
+- **설명**: 팀 목록을 검색합니다.
+- **요청 예**:
 
 ```bash
 GET /scim/Groups
 ```
 
-- **Response Example**:
+- **응답 예**:
 
 ```bash
-(Status 200)
+(상태 200)
 ```
 
 ```json
@@ -287,20 +287,20 @@ GET /scim/Groups
 }
 ```
 
-### Create team
+### 팀 생성
 
-- **Endpoint**: **`<host-url>/scim/Groups`**
-- **Method**: POST
-- **Description**: Create a new team resource.
-- **Supported Fields**:
+- **엔드포인트**: **`<host-url>/scim/Groups`**
+- **메서드**: POST
+- **설명**: 새 팀 리소스를 생성합니다.
+- **지원되는 필드**:
 
-| Field | Type | Required |
+| 필드 | 유형 | 필수 |
 | --- | --- | --- |
-| displayName | String | Yes |
-| members | Multi-Valued Array | Yes (`value` sub-field is required and maps to a user ID) |
-- **Request Example**:
+| displayName | 문자열 | 예 |
+| members | 다중 값 배열 | 예 (`value` 하위 필드가 필요하며 사용자 ID에 매핑됨) |
+- **요청 예**:
 
-Creating a team called `wandb-support` with `dev-user2` as its member.
+`wandb-support`라는 이름의 팀을 `dev-user2`를 멤버로 하여 생성합니다.
 
 ```bash
 POST /scim/Groups
@@ -318,10 +318,10 @@ POST /scim/Groups
 }
 ```
 
-- **Response Example**:
+- **응답 예**:
 
 ```bash
-(Status 201)
+(상태 201)
 ```
 
 ```json
@@ -348,15 +348,15 @@ POST /scim/Groups
 }
 ```
 
-### Update team
+### 팀 업데이트
 
-- **Endpoint**: **`<host-url>/scim/Groups/{id}`**
-- **Method**: PATCH
-- **Description**: Update an existing team's membership list.
-- **Supported Operations**: `add` member, `remove` member
-- **Request Example**:
+- **엔드포인트**: **`<host-url>/scim/Groups/{id}`**
+- **메서드**: PATCH
+- **설명**: 기존 팀의 멤버십 목록을 업데이트합니다.
+- **지원되는 작업**: 멤버 `추가`, 멤버 `제거`
+- **요청 예**:
 
-Adding `dev-user2` to `wandb-devs`
+`wandb-devs`에 `dev-user2` 추가
 
 ```bash
 PATCH /scim/Groups/ghi
@@ -379,10 +379,10 @@ PATCH /scim/Groups/ghi
 }
 ```
 
-- **Response Example**:
+- **응답 예**:
 
 ```bash
-(Status 200)
+(상태 200)
 ```
 
 ```json
@@ -415,54 +415,54 @@ PATCH /scim/Groups/ghi
 }
 ```
 
-### Delete team
+### 팀 삭제
 
-- Deleting teams is currently unsupported by the SCIM API since there is additional data linked to teams. Delete teams from the app to confirm you want everything deleted.
+- SCIM API에서는 팀에 연결된 추가 데이터가 있기 때문에 팀을 삭제하는 것을 현재 지원하지 않습니다. 모든 것을 삭제하고 싶다면 앱에서 팀을 삭제하세요.
 
-## Role resource
+## 역할 리소스
 
-The SCIM role resource maps to W&B custom roles. As mentioned earlier, the `/Roles` endpoints are not part of the official SCIM schema, W&B adds `/Roles` endpoints to support automated management of custom roles in W&B organizations.
+SCIM 역할 리소스는 W&B 커스텀 역할에 매핑됩니다. 앞서 언급했듯이, `/Roles` 엔드포인트는 공식 SCIM 스키마의 일부가 아닙니다. W&B는 W&B 조직에서 커스텀 역할의 자동 관리를 지원하기 위해 `/Roles` 엔드포인트를 추가합니다.
 
-### Get custom role
+### 커스텀 역할 가져오기
 
-- **Endpoint:** **`<host-url>/scim/Roles/{id}`**
-- **Method**: GET
-- **Description**: Retrieve information for a custom role by providing the role's unique ID.
-- **Request Example**:
+- **엔드포인트:** **`<host-url>/scim/Roles/{id}`**
+- **메서드**: GET
+- **설명**: 역할의 고유 ID를 제공하여 커스텀 역할에 대한 정보를 검색합니다.
+- **요청 예**:
 
 ```bash
 GET /scim/Roles/abc
 ```
 
-- **Response Example**:
+- **응답 예**:
 
 ```bash
-(Status 200)
+(상태 200)
 ```
 
 ```json
 {
-    "description": "A sample custom role for example",
+    "description": "예시를 위한 샘플 커스텀 역할",
     "id": "Um9sZTo3",
-    "inheritedFrom": "member", // indicates the predefined role
+    "inheritedFrom": "member", // 미리 정의된 역할을 나타냅니다
     "meta": {
         "resourceType": "Role",
         "created": "2023-11-20T23:10:14Z",
         "lastModified": "2023-11-20T23:31:23Z",
         "location": "Roles/Um9sZTo3"
     },
-    "name": "Sample custom role",
+    "name": "샘플 커스텀 역할",
     "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
     "permissions": [
         {
             "name": "artifact:read",
-            "isInherited": true // inherited from member predefined role
+            "isInherited": true // 멤버 미리 정의된 역할로부터 상속됨
         },
         ...
         ...
         {
             "name": "project:update",
-            "isInherited": false // custom permission added by admin
+            "isInherited": false // 관리자가 추가한 커스텀 권한
         }
     ],
     "schemas": [
@@ -471,105 +471,60 @@ GET /scim/Roles/abc
 }
 ```
 
-### List custom roles
+### 커스텀 역할 목록
 
-- **Endpoint:** **`<host-url>/scim/Roles`**
-- **Method**: GET
-- **Description**: Retrieve information for all custom roles in the W&B organization
-- **Request Example**:
+- **엔드포인트:** **`<host-url>/scim/Roles`**
+- **메서드**: GET
+- **설명**: W&B 조직의 모든 커스텀 역할에 대한 정보를 검색합니다.
+- **요청 예**:
 
 ```bash
 GET /scim/Roles
 ```
 
-- **Response Example**:
+- **응답 예**:
 
 ```bash
-(Status 200)
+(상태 200)
 ```
 
 ```json
 {
    "Resources": [
         {
-            "description": "A sample custom role for example",
+            "description": "예시를 위한 샘플 커스텀 역할",
             "id": "Um9sZTo3",
-            "inheritedFrom": "member", // indicates the predefined role that the custom role inherits from
+            "inheritedFrom": "member", // 커스텀 역할이 상속받는 미리 정의된 역할을 나타냅니다
             "meta": {
                 "resourceType": "Role",
                 "created": "2023-11-20T23:10:14Z",
                 "lastModified": "2023-11-20T23:31:23Z",
                 "location": "Roles/Um9sZTo3"
             },
-            "name": "Sample custom role",
+            "name": "샘플 커스텀 역할",
             "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
             "permissions": [
                 {
                     "name": "artifact:read",
-                    "isInherited": true // inherited from member predefined role
+                    "isInherited": true // 멤버 미리 정의된 역할로부터 상속됨
                 },
                 ...
-                ...
-                {
-                    "name": "project:update",
-                    "isInherited": false // custom permission added by admin
-                }
-            ],
-            "schemas": [
-                ""
-            ]
-        },
-        {
-            "description": "Another sample custom role for example",
-            "id": "Um9sZToxMg==",
-            "inheritedFrom": "viewer", // indicates the predefined role that the custom role inherits from
-            "meta": {
-                "resourceType": "Role",
-                "created": "2023-11-21T01:07:50Z",
-                "location": "Roles/Um9sZToxMg=="
-            },
-            "name": "Sample custom role 2",
-            "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
-            "permissions": [
-                {
-                    "name": "launchagent:read",
-                    "isInherited": true // inherited from viewer predefined role
-                },
-                ...
-                ...
-                {
-                    "name": "run:stop",
-                    "isInherited": false // custom permission added by admin
-                }
-            ],
-            "schemas": [
-                ""
-            ]
-        }
-    ],
-    "itemsPerPage": 9999,
-    "schemas": [
-        "urn:ietf:params:scim:api:messages:2.0:ListResponse"
-    ],
-    "startIndex": 1,
-    "totalResults": 2
-}
-```
 
-### Create custom role
 
-- **Endpoint**: **`<host-url>/scim/Roles`**
-- **Method**: POST
-- **Description**: Create a new custom role in the W&B organization.
-- **Supported Fields**:
+### 사용자 정의 역할 생성
 
-| Field | Type | Required |
+- **엔드포인트**: **`<host-url>/scim/Roles`**
+- **메서드**: POST
+- **설명**: W&B 조직에 새로운 사용자 정의 역할을 생성합니다.
+- **지원 필드**:
+
+| 필드 | 유형 | 필수 |
 | --- | --- | --- |
-| name | String | Name of the custom role |
-| description | String | Description of the custom role |
-| permissions | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
-| inheritedFrom | String | The predefined role which the custom role would inherit from. It can either be `member` or `viewer`. |
-- **Request Example**:
+| name | 문자열 | 사용자 정의 역할의 이름 |
+| description | 문자열 | 사용자 정의 역할의 설명 |
+| permissions | 객체 배열 | 각 객체가 `name` 문자열 필드를 포함하고 이 값은 `w&bobject:operation` 형식의 값을 가지는 권한 객체 배열. 예를 들어, W&B 실행에 대한 삭제 작업을 위한 권한 객체는 `name`을 `run:delete`로 가집니다. |
+| inheritedFrom | 문자열 | 사용자 정의 역할이 상속받을 기본 역할. `member` 또는 `viewer`일 수 있습니다. |
+- **요청 예시**:
 
 ```bash
 POST /scim/Roles
@@ -578,8 +533,8 @@ POST /scim/Roles
 ```json
 {
     "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Role"],
-    "name": "Sample custom role",
-    "description": "A sample custom role for example",
+    "name": "샘플 사용자 정의 역할",
+    "description": "예시를 위한 샘플 사용자 정의 역할",
     "permissions": [
         {
             "name": "project:update"
@@ -589,7 +544,7 @@ POST /scim/Roles
 }
 ```
 
-- **Response Example**:
+- **응답 예시**:
 
 ```bash
 (Status 201)
@@ -597,27 +552,27 @@ POST /scim/Roles
 
 ```json
 {
-    "description": "A sample custom role for example",
+    "description": "예시를 위한 샘플 사용자 정의 역할",
     "id": "Um9sZTo3",
-    "inheritedFrom": "member", // indicates the predefined role
+    "inheritedFrom": "member", // 기본 역할을 나타냄
     "meta": {
         "resourceType": "Role",
         "created": "2023-11-20T23:10:14Z",
         "lastModified": "2023-11-20T23:31:23Z",
         "location": "Roles/Um9sZTo3"
     },
-    "name": "Sample custom role",
+    "name": "샘플 사용자 정의 역할",
     "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
     "permissions": [
         {
             "name": "artifact:read",
-            "isInherited": true // inherited from member predefined role
+            "isInherited": true // member 기본 역할에서 상속됨
         },
         ...
         ...
         {
             "name": "project:update",
-            "isInherited": false // custom permission added by admin
+            "isInherited": false // 관리자가 추가한 사용자 정의 권한
         }
     ],
     "schemas": [
@@ -626,37 +581,43 @@ POST /scim/Roles
 }
 ```
 
-### Delete custom role
+### 사용자 정의 역할 삭제
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: DELETE
-- **Description**: Delete a custom role in the W&B organization. **Use it with caution**. The predefined role from which the custom role inherited is now assigned to all users that were assigned the custom role before the operation.
-- **Request Example**:
+- **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
+- **메서드**: DELETE
+- **설명**: W&B 조직에서 사용자 정의 역할을 삭제합니다. **주의해서 사용하세요**. 작업을 수행하기 전에 사용자 정의 역할에 할당되었던 모든 사용자에게 이제 상속받은 기본 역할이 할당됩니다.
+- **요청 예시**:
 
 ```bash
 DELETE /scim/Roles/abc
 ```
 
-- **Response Example**:
+- **응답 예시**:
 
 ```bash
 (Status 204)
 ```
 
-### Update custom role permissions
+### 사용자 정의 역할 권한 업데이트
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: PATCH
-- **Description**: Add or remove custom permissions in a custom role in the W&B organization.
-- **Supported Fields**:
+- **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
+- **메서드**: PATCH
+- **설명**: W&B 조직에서 사용자 정의 역할의 권한을 추가하거나 제거합니다.
+- **지원 필드**:
 
-| Field | Type | Required |
+| 필드 | 유형 | 필수 |
 | --- | --- | --- |
-| operations | Object array | Array of operation objects |
-| op | String | Type of operation within the operation object. It can either be `add` or `remove`. |
-| path | String | Static field in the operation object. Only value allowed is `permissions`. |
-| value | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
-- **Request Example**:
+| operations | 객체 배열 | 작업 객체 배열 |
+| op | 문자열 | 작업 객체 내에서의 작업 유형. `add` 또는 `remove`일 수 있습니다. |
+| path | 문자열 | 작업 객체에서 정적 필드. 허용되는 값은 `permissions`만 있습니다. |
+| value | 객체 배열 | 각 객체가 `name` 문자열 필드를 포함하고 이 값은 `w&bobject:operation` 형식의 값을 가지는 권한 객체 배열. 예를 들어, W&B 실행에 대한 삭제 작업을 위한 권한 객체는 `name`을 `run:delete`로 가집니다. |
+- **요청 예시**:
+
+:::caution
+사용자 정의 역할 권한 업데이트 API의 요청 경로는 역할 할당 API, 즉 [PATCH - 사용자에게 조직 수준 역할 할당](#assign-organization-level-role-to-user) 및 [PATCH - 사용자에게 팀 수준 역할 할당](#assign-team-level-role-to-user) 작업과 동일합니다. 차이점은 사용자 정의 역할 API의 URI가 `:roleId` 파라미터를 기대하는 반면, 역할 할당 API의 URI는 `:userId`를 기대합니다. 두 유형의 API 모두에 대한 예상 요청 본문도 다릅니다.
+
+URI에서 파라미터 값과 요청 본문이 의도한 작업에 맞도록 주의하세요.
+:::
 
 ```bash
 PATCH /scim/Roles/abc
@@ -667,7 +628,7 @@ PATCH /scim/Roles/abc
     "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
     "Operations": [
         {
-            "op": "add", // indicates the type of operation, other possible value being `remove`
+            "op": "add", // 작업 유형을 나타냄, 다른 가능한 값은 `remove`
             "path": "permissions",
             "value": [
                 {
@@ -679,7 +640,7 @@ PATCH /scim/Roles/abc
 }
 ```
 
-- **Response Example**:
+- **응답 예시**:
 
 ```bash
 (Status 200)
@@ -687,31 +648,31 @@ PATCH /scim/Roles/abc
 
 ```json
 {
-    "description": "A sample custom role for example",
+    "description": "예시를 위한 샘플 사용자 정의 역할",
     "id": "Um9sZTo3",
-    "inheritedFrom": "member", // indicates the predefined role
+    "inheritedFrom": "member", // 기본 역할을 나타냄
     "meta": {
         "resourceType": "Role",
         "created": "2023-11-20T23:10:14Z",
         "lastModified": "2023-11-20T23:31:23Z",
         "location": "Roles/Um9sZTo3"
     },
-    "name": "Sample custom role",
+    "name": "샘플 사용자 정의 역할",
     "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
     "permissions": [
         {
             "name": "artifact:read",
-            "isInherited": true // inherited from member predefined role
+            "isInherited": true // member 기본 역할에서 상속됨
         },
         ...
         ...
         {
             "name": "project:update",
-            "isInherited": false // existing custom permission added by admin before the update
+            "isInherited": false // 업데이트 전에 관리자가 추가한 기존의 사용자 정의 권한
         },
         {
             "name": "project:delete",
-            "isInherited": false // new custom permission added by admin as part of the update
+            "isInherited": false // 업데이트의 일부로 관리자가 추가한 새로운 사용자 정의 권한
         }
     ],
     "schemas": [
@@ -720,19 +681,19 @@ PATCH /scim/Roles/abc
 }
 ```
 
-### Update custom role metadata
+### 사용자 정의 역할 메타데이터 업데이트
 
-- **Endpoint**: **`<host-url>/scim/Roles/{id}`**
-- **Method**: PUT
-- **Description**: Update the name, description or inherited role for a custom role in the W&B organization. This operation doesn't affect any of the existing, that is, non-inherited custom permissions in the custom role.
-- **Supported Fields**:
+- **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
+- **메서드**: PUT
+- **설명**: W&B 조직에서 사용자 정의 역할의 이름, 설명 또는 상속받은 역할을 업데이트합니다. 이 작업은 사용자 정의 역할의 기존(즉, 상속받지 않은) 사용자 정의 권한에는 영향을 미치지 않습니다.
+- **지원 필드**:
 
-| Field | Type | Required |
+| 필드 | 유형 | 필수 |
 | --- | --- | --- |
-| name | String | Name of the custom role |
-| description | String | Description of the custom role |
-| inheritedFrom | String | The predefined role which the custom role inherits from. It can either be `member` or `viewer`. |
-- **Request Example**:
+| name | 문자열 | 사용자 정의 역할의 이름 |
+| description | 문자열 | 사용자 정의 역할의 설명 |
+| inheritedFrom | 문자열 | 사용자 정의 역할이 상속받는 기본 역할. `member` 또는 `viewer`일 수 있습니다. |
+- **요청 예시**:
 
 ```bash
 PUT /scim/Roles/abc
@@ -741,13 +702,13 @@ PUT /scim/Roles/abc
 ```json
 {
     "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Role"],
-    "name": "Sample custom role",
-    "description": "A sample custom role for example but now based on viewer",
+    "name": "샘플 사용자 정의 역할",
+    "description": "이제 viewer를 기반으로 한 예시를 위한 샘플 사용자 정의 역할",
     "inheritedFrom": "viewer"
 }
 ```
 
-- **Response Example**:
+- **응답 예시**:
 
 ```bash
 (Status 200)
@@ -755,30 +716,30 @@ PUT /scim/Roles/abc
 
 ```json
 {
-    "description": "A sample custom role for example but now based on viewer", // changed the descripton per the request
+    "description": "이제 viewer를 기반으로 한 예시를 위한 샘플 사용자 정의 역할", // 요청에 따라 변경된 설명
     "id": "Um9sZTo3",
-    "inheritedFrom": "viewer", // indicates the predefined role which is changed per the request
+    "inheritedFrom": "viewer", // 요청에 따라 변경된 기본 역할을 나타냄
     "meta": {
         "resourceType": "Role",
         "created": "2023-11-20T23:10:14Z",
         "lastModified": "2023-11-20T23:31:23Z",
         "location": "Roles/Um9sZTo3"
     },
-    "name": "Sample custom role",
+    "name": "샘플 사용자 정의 역할",
     "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
     "permissions": [
         {
             "name": "artifact:read",
-            "isInherited": true // inherited from viewer predefined role
+            "isInherited": true // viewer 기본 역할에서 상속됨
         },
-        ... // Any permissions that are in member predefined role but not in viewer will not be inherited post the update
+        ... // 업데이트 후에 member 기본 역할에 있지만 viewer에는 없는 모든 권한은 상속받지 않음
         {
             "name": "project:update",
-            "isInherited": false // custom permission added by admin
+            "isInherited": false // 관리자가 추가한 사용자 정의 권한
         },
         {
             "name": "project:delete",
-            "isInherited": false // custom permission added by admin
+            "isInherited": false // 관리자가 추가한 사용자 정의 권한
         }
     ],
     "schemas": [
@@ -786,3 +747,110 @@ PUT /scim/Roles/abc
     ]
 }
 ```
+
+### 사용자에게 조직 수준 역할 할당
+
+- **엔드포인트**: **`<host-url>/scim/Roles/{userId}`**
+- **메서드**: PATCH
+- **설명**: 사용자에게 조직 수준의 역할을 할당합니다. 역할은 [여기](./manage-users#invite-users)에 설명된 `admin`, `viewer`, `member` 중 하나일 수 있습니다. 공용 클라우드의 경우, 사용자 설정에서 SCIM API를 위한 올바른 조직을 구성했는지 확인하세요.
+- **지원 필드**:
+
+| 필드 | 유형 | 필수 |
+| --- | --- | --- |
+| op | 문자열 | 작업 유형. 허용되는 값은 `replace`만 있습니다. |
+| path | 문자열 | 역할 할당 작업이 적용되는 범위. 허용되는 값은 `organizationRole`만 있습니다. |
+| value | 문자열 | 사용자에게 할당할 기본 조직 수준 역할. `admin`, `viewer`, `member` 중 하나일 수 있습니다. 이 필드는 기본 역할에 대해 대소문자를 구분하지 않습니다. |
+- **요청 예시**:
+
+:::caution
+역할 할당 API의 요청 경로는 사용자 정의 역할 API, 특히 [PATCH - 사용자 정의 역할 권한 업데이트](#update-custom-role-permissions) 작업과 동일합니다. 차이점은 역할 할당 API의 URI가 `:userId` 파라미터를 기대하는 반면, 사용자 정의 역할 API의 URI는 `:roleId`를 기대합니다. 두 API 모두에 대한 예상 요청 본문도 다릅니다.
+
+URI에서 파라미터 값과 요청 본문이 의도한 작업에 맞도록 주의하세요.
+:::
+
+```bash
+PUT /scim/Roles/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "organizationRole",
+            "value": "admin" // 사용자의 조직 범위 역할을 admin으로 설정함
+        }
+    ]
+}
+```
+
+- **응답 예시**:
+이는 [사용자 리소스](#user-resource)의 경우와 같이 사용자 객체를 반환합니다.
+
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "emails": {
+        "Value": "dev-user1@test.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
+    "teamRoles": [  // 사용자가 속한 모든 팀에서의 사용자의 역할을 반환함
+        {
+            "teamName": "team1",
+            "roleName": "admin"
+        }
+    ],
+    "organizationRole": "admin" // 조직 범위에서 사용자의 역할을 반환함
+}
+```
+
+### 사용자에게 팀 수준 역할 할당
+
+- **엔드포인트**: **`<host-url>/scim/Roles/{userId}`**
+- **메서드**: PATCH
+- **설명**: 사용자에게 팀 수준의 역할을 할당합니다. 역할은 [여기](./manage-users#team-roles)에 설명된 `admin`, `viewer`, `member` 또는 사용자 정의 역할 중 하나일 수 있습니다. 공용 클라우드의 경우, 사용자 설정에서 SCIM API를 위한 올바른 조직을 구성했는지 확인하세요.
+- **지원 필드**:
+
+| 필드 | 유형 | 필수 |
+| --- | --- | --- |
+| op | 문자열 | 작업 유형. 허용되는 값은 `replace`만 있습니다. |
+| path | 문자열 | 역할 할당 작업이 적용되는 범위. 허용되는 값은 `teamRoles`만 있습니다. |
+| value | 객체 배열 | `teamName`과 `roleName` 속성을 가진 객체가 하나 포함된 배열. `teamName`은 사용자가 역할을 가지는 팀의 이름이며, `roleName`은 `admin`, `viewer`, `member` 또는 사용자 정의 역할 중 하나일 수 있습니다. 이 필드는 기본 역할에 대해 대소문자를 구분하지 않고 사용자 정의 역할에 대해 대소문자를 구분합니다. |
+- **요청 예시**:
+
+:::caution
+역할 할당 API의 요청 경로는 사용자 정의 역할 API, 특히 [PATCH - 사용자 정의 역할 권한 업데이트](#update-custom-role-permissions) 작업과 동일합니다. 차이점은 역할 할당 API의 URI가 `:userId` 파라미터를 기대하는 반면, 사용자 정의 역할 API의 URI는 `:roleId`를 기대합니다. 두 API 모두에 대한 예상 요청 본문도 다릅니다.
+
+URI에서 파라미터 값과 요청 본문이 의도한 작업에 맞도록 주의하세요.
+:::
+
+```bash
+PUT /scim/Roles/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "teamRoles",
+            "value":

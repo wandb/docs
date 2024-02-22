@@ -2,54 +2,54 @@
 displayed_sidebar: default
 ---
 
-# Secure storage connector
+# 보안 스토리지 커넥터
 
-## Introduction
-The secure storage connector allows you to store the artifacts and other files pertaining to your W&B runs within a storage bucket that's managed by you. It provides you with more control over where you store the files for your AI workflows, and may help conform to your enterprise governance requirements. There are two levels of secure storage:
+## 소개
+보안 스토리지 커넥터를 사용하면 W&B 실행과 관련된 아티팩트와 기타 파일을 자체 관리하는 스토리지 버킷에 저장할 수 있습니다. 이를 통해 AI 워크플로 파일을 저장하는 위치에 대해 더 많은 제어권을 갖게 되며, 기업 거버넌스 요구 사항을 준수하는 데 도움이 될 수 있습니다. 보안 스토리지에는 두 가지 수준이 있습니다:
 
-* Instance level: The instance level secure storage allows you to use your own managed bucket to store any files that your users may access as part of any runs in your W&B Server instance. This capability is only available for Dedicated Cloud and Self-Managed instances; for SaaS Cloud instances, the instance level bucket is fully managed by W&B. 
-* Team level: The team level secure storage allows teams within your organization to utilize a separate storage bucket from the one used at the instance level. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. This capability is available for all W&B organizations, including SaaS Cloud.
+* 인스턴스 수준: 인스턴스 수준의 보안 스토리지를 사용하면 자체 관리하는 버킷에 사용자가 W&B 서버 인스턴스의 실행 일부로 액세스할 수 있는 모든 파일을 저장할 수 있습니다. 이 기능은 데디케이티드 클라우드 및 자체 관리 인스턴스에서만 사용할 수 있으며; SaaS 클라우드 인스턴스의 경우 인스턴스 수준 버킷은 W&B에서 완전히 관리됩니다.
+* 팀 수준: 팀 수준의 보안 스토리지를 사용하면 조직 내 팀이 인스턴스 수준에서 사용하는 스토리지 버킷과 다른 별도의 스토리지 버킷을 활용할 수 있습니다. 이는 민감한 데이터를 다루거나 엄격한 준수 요구 사항이 있는 팀에게 데이터 액세스 제어 및 데이터 격리를 제공합니다. 이 기능은 모든 W&B 조직, SaaS 클라우드를 포함하여 사용할 수 있습니다.
 
 :::info
-For Dedicated Cloud or Self-Managed instances, you could configure secure storage connector at both the instance level and separately for any or all teams within your organization. 
+데디케이티드 클라우드 또는 자체 관리 인스턴스의 경우, 조직 내 모든 팀 또는 일부 팀에 대해 인스턴스 수준과 별도로 보안 스토리지 커넥터를 구성할 수 있습니다.
 
-For example, suppose you have two teams called Omega and Kappa in a Dedicated Cloud instance and that you configure secure storage connector at the instance level. Next, suppose you configure secure storage connector separately for team Omega. Files pertaining to runs made by team Omega are accessible at the team level secure storage. 
+예를 들어, 데디케이티드 클라우드 인스턴스에 Omega와 Kappa라는 두 팀이 있고 해당 인스턴스 수준에서 보안 스토리지 커넥터를 구성한다고 가정합니다. 다음으로, Omega 팀을 위한 보안 스토리지 커넥터를 별도로 구성한다고 가정합니다. Omega 팀의 실행과 관련된 파일은 팀 수준의 보안 스토리지에서 액세스할 수 있습니다.
 
-Conversely, if you do not configure the secure storage connector for team Kappa, files pertaining to runs made by team Kappa are accessible in instance level secure storage.
+반대로, Kappa 팀을 위한 보안 스토리지 커넥터를 구성하지 않으면, Kappa 팀의 실행과 관련된 파일은 인스턴스 수준의 보안 스토리지에서 액세스할 수 있습니다.
 :::
 
 :::note
-For Self-Managed instances, the instance level secure storage connector is the default since the deployment is fully managed by the customer. In such a case the capability doesn't have a special significance, as compared to when you use it with Dedicated Cloud. The team level secure storage connector provides the same benefits for Self-Managed instances, especially when different business units and departments share an instance to efficiently utilize the infrastructure and administrative resources. This also applies to firms that have separate project teams managing ML workflows for separate customer engagements.
+자체 관리 인스턴스의 경우, 인스턴스 수준의 보안 스토리지 커넥터는 고객이 완전히 관리하기 때문에 기본적으로 설정됩니다. 이런 경우 데디케이티드 클라우드를 사용할 때와 비교하여 특별한 의미가 없습니다. 팀 수준의 보안 스토리지 커넥터는 특히 서로 다른 비즈니스 단위와 부서가 인프라와 관리 자원을 효율적으로 활용하기 위해 인스턴스를 공유할 때 자체 관리 인스턴스에 동일한 이점을 제공합니다. 이는 별도의 고객 참여를 위해 ML 워크플로를 관리하는 별도의 프로젝트 팀이 있는 회사에도 적용됩니다.
 :::
 
-## Availability matrix
-The following table shows the availability of different kinds of secure storage connector across different W&B Server deployment types. An `X` means the feature is available on the specific deployment type.
+## 사용 가능성 행렬
+다음 표는 다양한 W&B 서버 배포 유형에서 다른 종류의 보안 스토리지 커넥터의 사용 가능성을 보여줍니다. `X`는 해당 배포 유형에서 기능이 사용 가능함을 의미합니다.
 
-| W&B Server deployment type | Instance level | Team level | Additional information |
-|----------------------------|--------------------|----------------|------------------------|
-| Dedicated Cloud | X | X | Both the instance and team level secure storage connector are available for Amazon Web Services and Google Cloud Platform. Only instance level secure storage connector is available for Azure cloud. |
-| SaaS Cloud | | X | The team level secure storage connector is available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only bucket for Azure cloud. |
-| Self-managed | X | X | Refer to the preceding `note` on significance of secure storage connector for **Self-managed** instances. It is also possible to use a S3-compatible secure storage solution like [MinIO](https://github.com/minio/minio). |
+| W&B 서버 배포 유형 | 인스턴스 수준 | 팀 수준 | 추가 정보 |
+|------------------------|----------------|----------|--------------|
+| 데디케이티드 클라우드 | X | X | 인스턴스 및 팀 수준의 보안 스토리지 커넥터는 Amazon Web Services 및 Google Cloud Platform에서 사용할 수 있습니다. Azure 클라우드의 경우 인스턴스 수준의 보안 스토리지 커넥터만 사용할 수 있습니다. |
+| SaaS 클라우드 | | X | 팀 수준의 보안 스토리지 커넥터는 Amazon Web Services 및 Google Cloud Platform에서만 사용할 수 있습니다. Azure 클라우드의 경우 W&B가 기본 및 유일한 버킷을 완전히 관리합니다. |
+| 자체 관리 | X | X | **자체 관리** 인스턴스의 보안 스토리지 커넥터의 중요성에 대한 앞서 언급된 `note`를 참조하십시오. [MinIO](https://github.com/minio/minio)와 같은 S3 호환 보안 스토리지 솔루션을 사용하는 것도 가능합니다. |
 
 :::note
-Configure your instance or team level secure storage connector with the bucket from the same cloud as your instance in Dedicated Cloud. It is not possible to configure a bucket from a different cloud.
+데디케이티드 클라우드의 인스턴스에서 사용하는 것과 동일한 클라우드의 버킷으로 인스턴스 또는 팀 수준의 보안 스토리지 커넥터를 구성하십시오. 다른 클라우드의 버킷을 구성하는 것은 불가능합니다.
 :::
 
 :::note
-W&B uses a garbage collection process to delete W&B artifacts. For more information on how W&B deletes artifacts and on how to enable garbage collection based on how you W&B, see the [garbage collection](../artifacts/delete-artifacts.md#how-to-enable-garbage-collection-based-on-how-wb-is-hosted) guide.
+W&B는 W&B 아티팩트를 삭제하기 위한 가비지 컬렉션 프로세스를 사용합니다. W&B가 호스팅되는 방식에 따라 가비지 컬렉션을 활성화하는 방법 및 W&B가 아티팩트를 삭제하는 방법에 대한 자세한 내용은 [가비지 컬렉션](../artifacts/delete-artifacts.md#how-to-enable-garbage-collection-based-on-how-wb-is-hosted) 가이드를 참조하십시오.
 :::
 
-## Configure team level secure storage connector
-A cloud storage bucket can be configured only once for a team at the time of team creation. To provision a bucket, W&B recommends that you use a Terraform module managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector).
+## 팀 수준 보안 스토리지 커넥터 구성
+팀 생성 시에 한 번만 팀에 대한 클라우드 스토리지 버킷을 구성할 수 있습니다. 버킷을 프로비저닝하기 위해, W&B는 [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) 또는 [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector)를 위해 W&B가 관리하는 Terraform 모듈을 사용할 것을 권장합니다.
 
-Select **External Storage** when you create a team to configure a cloud storage bucket. Select your provider and fill out your bucket name and storage encryption key ID, if applicable, and select **Create Team**.
+팀을 생성할 때 **외부 스토리지**를 선택하여 클라우드 스토리지 버킷을 구성하십시오. 제공자를 선택하고 버킷 이름과 스토리지 암호화 키 ID(해당되는 경우)를 입력한 후 **팀 생성**을 선택하십시오.
 
-An error or warning will appear at the bottom of the page if there are issues accessing the bucket or the bucket has invalid settings.
+버킷에 액세스하는 데 문제가 있거나 버킷 설정이 유효하지 않은 경우 페이지 하단에 오류 또는 경고가 표시됩니다.
 
 ![](/images/hosting/prod_setup_secure_storage.png)
 
-Only system administrators have the permissions to configure the secure storage connector. The same cloud storage bucket can be used amongst multiple teams by selecting an existing cloud storage bucket from the dropdown.
+시스템 관리자만 보안 스토리지 커넥터를 구성할 수 있는 권한이 있습니다. 드롭다운에서 기존 클라우드 스토리지 버킷을 선택하여 여러 팀 간에 동일한 클라우드 스토리지 버킷을 사용할 수 있습니다.
 
 :::note
-Reach out to your W&B team to configure the instance level secure storage connector for your **Dedicated Cloud** or **Self-managed** instance.
+**데디케이티드 클라우드** 또는 **자체 관리** 인스턴스의 인스턴스 수준 보안 스토리지 커넥터를 구성하려면 W&B 팀에 문의하십시오.
 :::
