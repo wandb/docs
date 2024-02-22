@@ -1,14 +1,14 @@
 ---
-slug: /guides/integrations/ray-tune
 description: How to integrate W&B with Ray Tune.
+slug: /guides/integrations/ray-tune
 displayed_sidebar: default
 ---
 
 # Ray Tune
 
-W&B integrates with [Ray](https://github.com/ray-project/ray) by offering two lightweight integrations.
+W&B는 두 가지 가벼운 통합을 제공하여 [Ray](https://github.com/ray-project/ray)와 통합됩니다.
 
-One is the `WandbLoggerCallback`, which automatically logs metrics reported to Tune to the Wandb API. The other one is the `@wandb_mixin` decorator, which can be used with the function API. It automatically initializes the Wandb API with Tune’s training information. You can just use the Wandb API like you would normally do, e.g. using `wandb.log()` to log your training process.
+하나는 `WandbLoggerCallback`으로, Tune에 보고된 메트릭을 Wandb API로 자동 로깅합니다. 다른 하나는 함수 API와 함께 사용할 수 있는 `@wandb_mixin` 데코레이터로, Wandb API를 Tune의 학습 정보와 함께 자동으로 초기화합니다. 일반적으로 할 때처럼 Wandb API를 사용할 수 있습니다. 예를 들어, 학습 프로세스를 로깅하기 위해 `wandb.log()`를 사용합니다.
 
 ## WandbLoggerCallback
 
@@ -16,21 +16,21 @@ One is the `WandbLoggerCallback`, which automatically logs metrics reported to T
 from ray.air.integrations.wandb import WandbLoggerCallback
 ```
 
-Wandb configuration is done by passing a wandb key to the config parameter of `tune.run()` (see example below).
+Wandb 구성은 `tune.run()`의 config 파라미터에 wandb 키를 전달하여 수행됩니다(아래 예제 참조).
 
-The content of the wandb config entry is passed to `wandb.init()` as keyword arguments. The exception are the following settings, which are used to configure the `WandbLoggerCallback` itself:
+wandb config 항목의 내용은 키워드 인수로 `wandb.init()`에 전달됩니다. 다음 설정을 제외하고는 `WandbLoggerCallback` 자체를 구성하는 데 사용됩니다:
 
-### Parameters
+### 파라미터
 
-`api_key_file (str)` – Path to file containing the `Wandb API KEY`.
+`api_key_file (str)` – `Wandb API 키`를 포함한 파일의 경로입니다.
 
-`api_key (str)` – Wandb API Key. Alternative to setting `api_key_file`.
+`api_key (str)` – Wandb API 키입니다. `api_key_file`을 설정하는 대안입니다.
 
-`excludes (list)` – List of metrics that should be excluded from the `log`.
+`excludes (list)` – 로그에서 제외해야 하는 메트릭의 목록입니다.
 
-`log_config (bool)` – Boolean indicating if the config parameter of the results dict should be logged. This makes sense if parameters will change during training, e.g. with `PopulationBasedTraining`. Defaults to False.
+`log_config (bool)` – 결과 dict의 config 파라미터가 로깅되어야 하는지 여부를 나타내는 부울입니다. 예를 들어, `PopulationBasedTraining`과 같이 학습 중에 파라미터가 변경될 경우 이는 유용합니다. 기본값은 False입니다.
 
-### Example
+### 예제
 
 ```python
 from ray import tune, train
@@ -65,9 +65,9 @@ best_trial = analysis.get_best_trial("mean_accuracy", "max", "last")
 ray.tune.integration.wandb.wandb_mixin(func)
 ```
 
-This Ray Tune Trainable `mixin` helps initializing the Wandb API for use with the `Trainable` class or with `@wandb_mixin` for the function API.
+이 Ray Tune Trainable `mixin`은 `Trainable` 클래스 또는 함수 API와 함께 `@wandb_mixin`을 사용하기 위해 Wandb API를 초기화하는 데 도움이 됩니다.
 
-For basic usage, just prepend your training function with the `@wandb_mixin` decorator:
+기본 사용법은 학습 함수 앞에 `@wandb_mixin` 데코레이터를 추가하는 것입니다:
 
 ```python
 from ray.tune.integration.wandb import wandb_mixin
@@ -78,21 +78,21 @@ def train_fn(config):
     wandb.log()
 ```
 
-Wandb configuration is done by passing a `wandb key` to the `config` parameter of `tune.run()` (see example below).
+Wandb 구성은 `tune.run()`의 `config` 파라미터에 `wandb 키`를 전달하여 수행됩니다(아래 예제 참조).
 
-The content of the wandb config entry is passed to `wandb.init()` as keyword arguments. The exception are the following settings, which are used to configure the `WandbTrainableMixin` itself:
+wandb config 항목의 내용은 키워드 인수로 `wandb.init()`에 전달됩니다. 다음 설정을 제외하고는 `WandbTrainableMixin` 자체를 구성하는 데 사용됩니다:
 
-### Parameters
+### 파라미터
 
-`api_key_file (str)` – Path to file containing the Wandb `API KEY`.
+`api_key_file (str)` – Wandb `API 키`를 포함한 파일의 경로입니다.
 
-`api_key (str)` – Wandb API Key. Alternative to setting `api_key_file`.
+`api_key (str)` – Wandb API 키입니다. `api_key_file`을 설정하는 대안입니다.
 
-Wandb’s `group`, `run_id` and `run_name` are automatically selected by Tune, but can be overwritten by filling out the respective configuration values.
+Wandb의 `group`, `run_id` 및 `run_name`은 Tune에 의해 자동으로 선택되지만, 해당 구성 값을 입력하여 덮어쓸 수 있습니다.
 
-Please see here for all other valid configuration settings: [https://docs.wandb.com/library/init](https://docs.wandb.com/library/init)
+다른 모든 유효한 구성 설정은 여기서 확인하십시오: [https://docs.wandb.com/library/init](https://docs.wandb.com/library/init)
 
-### Example:
+### 예제:
 
 ```python
 from ray import tune
@@ -110,18 +110,18 @@ def train_fn(config):
 tune.run(
     train_fn,
     config={
-        # define search space here
+        # 여기에 검색 공간 정의
         "a": tune.choice([1, 2, 3]),
         "b": tune.choice([4, 5, 6]),
-        # wandb configuration
+        # wandb 구성
         "wandb": {"project": "Optimization_Project", "api_key_file": "/path/to/file"},
     },
 )
 ```
 
-## Example Code
+## 예제 코드
 
-We've created a few examples for you to see how the integration works:
+통합이 어떻게 작동하는지 확인할 수 있는 몇 가지 예제를 만들었습니다:
 
-* [Colab](http://wandb.me/raytune-colab): A simple demo to try the integration.
-* [Dashboard](https://wandb.ai/anmolmann/ray\_tune): View dashboard generated from the example.
+* [Colab](http://wandb.me/raytune-colab): 통합을 시험해 볼 수 있는 간단한 데모입니다.
+* [대시보드](https://wandb.ai/anmolmann/ray_tune): 예제에서 생성된 대시보드를 보십시오.

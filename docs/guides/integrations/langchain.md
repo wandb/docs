@@ -6,10 +6,10 @@ import TabItem from '@theme/TabItem';
 
 # LangChain
 
-[LangChain](https://python.langchain.com/) is a framework for developing applications powered by language models.
+[LangChain](https://python.langchain.com/)은 언어 모델을 기반으로 한 애플리케이션 개발을 위한 프레임워크입니다.
 
-## Using LangChain in Weights & Biases
+## Weights & Biases에서 LangChain 사용하기
 
-To use the Weights & Biases LangChain integration please see our [W&B Prompts Quickstart](../prompts/quickstart.md)
+Weights & Biases LangChain 통합을 사용하려면, [W&B Prompts 퀵스타트](../prompts/quickstart.md)를 참조해 주세요.
 
-Or try our [Google Colab Jupyter notebook](http://wandb.me/prompts-quickstart)
+또는 [Google Colab Jupyter 노트북](http://wandb.me/prompts-quickstart)을 시도해 보세요.

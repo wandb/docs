@@ -1,43 +1,42 @@
 ---
 displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # MMDetection
 
-[**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/master/colabs/mmdetection/Train\_an\_Object\_Detection%2BSemantic\_Segmentation\_Model\_with\_MMDetection\_and\_W%26B.ipynb)
+[**여기에서 Colab 노트북으로 시도해 보세요 →**](https://github.com/wandb/examples/blob/master/colabs/mmdetection/Train\_an\_Object\_Detection%2BSemantic\_Segmentation\_Model\_with\_MMDetection\_and\_W%26B.ipynb)
 
-[MMDetection](https://github.com/open-mmlab/mmdetection/) is an open source object detection toolbox based on PyTorch and is part of the [OpenMMLab](https://openmmlab.com/). It offers composable and modular API design which you can use to easily build custom object detection and segmentation pipelines.
+[MMDetection](https://github.com/open-mmlab/mmdetection/)은 PyTorch 기반의 오픈 소스 오브젝트 디텍션 도구 모음으로, [OpenMMLab](https://openmmlab.com/)의 일부입니다. 이는 조합 가능하고 모듈식 API 디자인을 제공하여 사용자가 맞춤형 오브젝트 디텍션 및 세그멘테이션 파이프라인을 쉽게 구축할 수 있습니다.
 
-[Weights and Biases](https://wandb.ai/site) is directly integrated into MMDetection through a dedicated `MMDetWandbHook` that can be used to:
+[Weights and Biases](https://wandb.ai/site)는 전용 `MMDetWandbHook`을 통해 MMDetection에 직접 통합되어 다음을 수행할 수 있습니다:
 
-✅ Log training and evaluation metrics.
+✅ 학습 및 평가 메트릭 로그.
 
-✅ Log versioned model checkpoints.
+✅ 버전 관리된 모델 체크포인트 로그.
 
-✅ Log versioned validation dataset with ground truth bounding boxes.
+✅ 실제값 바운딩 박스가 있는 버전 관리된 검증 데이터세트 로그.
 
-✅ Log and visualize model predictions.
+✅ 모델 예측 로그 및 시각화.
 
-## :fire: Getting Started
+## :fire: 시작하기
 
-### Sign up and Log in to wandb
+### wandb에 가입하고 로그인하기
 
-a) [**Sign up**](https://wandb.ai/site) for a free account
+a) [**무료 계정에 가입하기**](https://wandb.ai/site)
 
-b) Pip install the `wandb` library
+b) `wandb` 라이브러리를 Pip으로 설치하기
 
-c) To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+c) 학습 스크립트에서 로그인하려면 www.wandb.ai에 로그인한 상태여야 하며, 그 후 **API 키를** [**인증 페이지에서 찾을 수 있습니다.**](https://wandb.ai/authorize)**.**
 
-If you are using Weights and Biases for the first time you might want to check out our [quickstart](../../quickstart.md)
+Weights and Biases를 처음 사용하는 경우 [퀵스타트](../../quickstart.md)를 확인해 보세요.
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
+    {label: '명령 줄', value: 'cli'},
+    {label: '노트북', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -61,12 +60,12 @@ wandb.login()
   </TabItem>
 </Tabs>
 
-### Using `MMDetWandbHook`
+### `MMDetWandbHook` 사용하기
 
-You can get started with Weights and Biases by adding the `MMDetWandbHook` to the MMDetection `log_config` method of the config system.
+`MMDetWandbHook`을 MMDetection의 `log_config` 메서드 구성 시스템에 추가하여 Weights and Biases를 사용하기 시작할 수 있습니다.
 
-:::info
-`MMDetWandbHook` is supported by [MMDetection v2.25.0](https://twitter.com/OpenMMLab/status/1532193548283432960?s=20\&t=dzBiKn9dlNdrvK8e\_q0zfQ) and above.
+:::안내
+`MMDetWandbHook`은 [MMDetection v2.25.0](https://twitter.com/OpenMMLab/status/1532193548283432960?s=20\&t=dzBiKn9dlNdrvK8e\_q0zfQ) 이상에서 지원됩니다.
 :::
 
 ```python
@@ -91,18 +90,18 @@ cfg.log_config.hooks = [
 ]
 ```
 
-| Name                      | Description                                                                                                                                                             |
+| 이름                      | 설명                                                                                                                                                             |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `init_kwargs`             | (`dict`) A dict passed to wandb.init to initialize a W&B run.                                                                                                          |
-| `interval`                | (`int`) Logging interval (every k iterations). Defaults to `50`.                                                                                                        |
-| `log_checkpoint`          | (`bool`) Save the checkpoint at every checkpoint interval as W&B Artifacts. Use this for model versioning where each version is a checkpoint. Defaults to `False`.     |
-| `log_checkpoint_metadata` | (`bool`) Log the evaluation metrics computed on the validation data with the checkpoint, along with current epoch as a metadata to that checkpoint. Defaults to `True`. |
-| `num_eval_images`         | (`int`) The number of validation images to be logged. If zero, the evaluation won't be logged. Defaults to `100`.                                                       |
-| `bbox_score_thr`          | (`float`) Threshold for bounding box scores. Defaults to `0.3`.                                                                                                         |
+| `init_kwargs`             | (`dict`) wandb.init에 전달되어 W&B 실행을 초기화하는 데 사용되는 사전입니다.                                                                                                          |
+| `interval`                | (`int`) 로깅 간격(모든 k 반복마다). 기본값은 `50`입니다.                                                                                                        |
+| `log_checkpoint`          | (`bool`) 모든 체크포인트 간격에서 체크포인트를 W&B 아티팩트로 저장합니다. 이는 모델 버전 관리에 사용됩니다. 기본값은 `False`입니다.     |
+| `log_checkpoint_metadata` | (`bool`) 검증 데이터에서 계산된 평가 메트릭을 현재 에포크와 함께 해당 체크포인트의 메타데이터로 로그합니다. 기본값은 `True`입니다. |
+| `num_eval_images`         | (`int`) 로그된 검증 이미지의 수입니다. 0이면 평가가 로그되지 않습니다. 기본값은 `100`입니다.                                                       |
+| `bbox_score_thr`          | (`float`) 바운딩 박스 점수의 임계값입니다. 기본값은 `0.3`입니다.                                                                                                         |
 
-### :chart\_with\_upwards\_trend: Log Metrics
+### :chart\_with\_upwards\_trend: 메트릭 로그
 
-Start tracking train and eval metrics by using the `init_kwargs` argument in `MMDetWandbHook`. This argument takes in a dictionary of key-value pairs which in turn is passed to `wandb.init` which controls which project your run is logged to as well as other features of your run.
+`MMDetWandbHook`의 `init_kwargs` 인수를 사용하여 학습 및 평가 메트릭 추적을 시작합니다. 이 인수는 키-값 쌍의 사전을 받아들이며 이는 `wandb.init`에 전달되어 실행이 로그되는 프로젝트 및 실행의 다른 기능을 제어합니다.
 
 ```
 init_kwargs={
@@ -113,44 +112,44 @@ init_kwargs={
 }
 ```
 
-Check out all the arguments for wandb.init [here](https://docs.wandb.ai/ref/python/init)
+wandb.init의 모든 인수는 [여기](https://docs.wandb.ai/ref/python/init)에서 확인하세요.
 
 ![](@site/static/images/integrations/log_metrics.gif)
 
-### :checkered\_flag: Checkpointing
+### :checkered\_flag: 체크포인팅
 
-You can reliably store these checkpoints as [W&B Artifacts](../artifacts/intro.md) by using the `log_checkpoint=True` argument in `MMDetWandbHook`. This feature depends on the MMCV's [`CheckpointHook`](https://mmcv.readthedocs.io/en/latest/api.html?highlight=CheckpointHook#mmcv.runner.CheckpointHook) that periodically save the model checkpoints. The period is determined by `checkpoint_config.interval`.
+`MMDetWandbHook`의 `log_checkpoint=True` 인수를 사용하여 이러한 체크포인트를 [W&B 아티팩트](../artifacts/intro.md)로 안정적으로 저장할 수 있습니다. 이 기능은 MMCV의 [`CheckpointHook`](https://mmcv.readthedocs.io/en/latest/api.html?highlight=CheckpointHook#mmcv.runner.CheckpointHook)에 의존하며, 이는 주기적으로 모델 체크포인트를 저장합니다. 주기는 `checkpoint_config.interval`에 의해 결정됩니다.
 
-:::info
-Every W&B account comes with 100 GB of free storage for datasets and models.
+:::안내
+모든 W&B 계정에는 데이터세트와 모델을 위한 100GB의 무료 저장 공간이 제공됩니다.
 :::
 
-![The checkpoints are shown as different versions on the left-hand side pane. You can download the model from the Files tab or use API to download it programmatically.](/images/integrations/mmdetection_checkpointing.png)
+![체크포인트는 왼쪽 창에 다른 버전으로 표시됩니다. 모델은 파일 탭에서 다운로드하거나 API를 사용하여 프로그래매틱하게 다운로드할 수 있습니다.](/images/integrations/mmdetection_checkpointing.png)
 
-### :mega: Checkpoint with Metadata
+### 메타데이터와 함께 체크포인트
 
-If `log_checkpoint_metadata` is `True`, every checkpoint version will have metadata associated with it. This feature depends on the `CheckpointHook` as well as `EvalHook` or `DistEvalHook`. The metadata is logged only when the checkpoint interval is divisible by evaluation interval.
+`log_checkpoint_metadata`가 `True`라면, 모든 체크포인트 버전에는 메타데이터가 연결됩니다. 이 기능은 `CheckpointHook`과 `EvalHook` 또는 `DistEvalHook`에 의존합니다. 메타데이터는 체크포인트 간격이 평가 간격으로 나누어질 때만 로그됩니다.
 
-![The logged metadata is displayed under the Metadata tab.](@site/static/images/integrations/mmdetection_checkpoint_metadata.png)
+![로그된 메타데이터는 메타데이터 탭에 표시됩니다.](@site/static/images/integrations/mmdetection_checkpoint_metadata.png)
 
-### Visualize Dataset and Model Prediction 
+### 데이터세트 및 모델 예측 시각화
 
-The ability to interactively visualize the dataset and especially the model prediction can help build and debug better models. Using `MMDetWandbHook` you can now log the validation data as W&B Tables and create versioned W&B Tables for model prediction.
+데이터세트, 특히 모델 예측을 대화형으로 시각화할 수 있는 능력은 더 나은 모델을 구축하고 디버그하는 데 도움이 됩니다. `MMDetWandbHook`을 사용하면 검증 데이터를 W&B 테이블로 로그하고 모델 예측에 대한 버전 관리된 W&B 테이블을 생성할 수 있습니다.
 
-The `num_eval_images` argument controls the number of validation samples that are logged as W&B Tables. Here are a few things to note:
+`num_eval_images` 인수는 W&B 테이블로 로그되는 검증 샘플의 수를 제어합니다. 주의할 몇 가지 사항은 다음과 같습니다:
 
-* If the `num_eval_images=0` the validation data, as well as model predictions, will not be logged.
-* If `validate=False` for [`mmdet.core.train_detector`](https://mmdetection.readthedocs.io/en/latest/\_modules/mmdet/apis/train.html?highlight=train\_detector) API, the validation data and model predictions will not be logged.
-* If the `num_eval_images` is greater than the total number of validation samples, the complete validation dataset is logged.
+* `num_eval_images=0`이면 검증 데이터와 모델 예측이 로그되지 않습니다.
+* [`mmdet.core.train_detector`](https://mmdetection.readthedocs.io/en/latest/\_modules/mmdet/apis/train.html?highlight=train\_detector) API에 대해 `validate=False`인 경우, 검증 데이터와 모델 예측이 로그되지 않습니다.
+* `num_eval_images`가 검증 샘플의 총 수보다 큰 경우, 전체 검증 데이터세트가 로그됩니다.
 
-<!-- ![](/images/integrations/mmdetection_visualize.gif) -->
 
-:::info
-The `val_data` is uploaded only once. The `run_<id>_pred`table and subsequent runs use referencing to the uploaded data to save memory. A new version of `val_data` is created only when it's changed.
+
+:::안내
+`val_data`는 한 번만 업로드됩니다. `run_<id>_pred` 테이블과 후속 실행은 업로드된 데이터를 참조하여 메모리를 절약합니다. `val_data`가 변경될 때만 새로운 버전이 생성됩니다.
 :::
 
-## Next Steps
+## 다음 단계
 
-If you want to train an instance segmentation model (Mask R-CNN) on a custom dataset, you can check out our [How to Use Weights & Biases with MMDetection](https://wandb.ai/ayush-thakur/mmdetection/reports/How-to-Use-Weights-Biases-with-MMDetection--VmlldzoyMTM0MDE2) W&B Report on [Fully Connected](https://wandb.ai/fully-connected).
+사용자 정의 데이터세트에서 인스턴스 세그멘테이션 모델(Mask R-CNN)을 학습하려면 [Weights & Biases와 MMDetection 사용 방법](https://wandb.ai/ayush-thakur/mmdetection/reports/How-to-Use-Weights-Biases-with-MMDetection--VmlldzoyMTM0MDE2) W&B 리포트를 확인해 보세요. [Fully Connected](https://wandb.ai/fully-connected)에서 확인할 수 있습니다.
 
-Any questions or issues about this Weights & Biases integration? Open an issue in the [MMDetection github repository](https://github.com/open-mmlab/mmdetection) and we'll catch it and get you an answer :)
+이 Weights & Biases 통합에 대한 질문이나 문제가 있으신가요? [MMDetection github 저장소](https://github.com/open-mmlab/mmdetection)에 문제를 제기하시면 답변을 드리겠습니다 :)
