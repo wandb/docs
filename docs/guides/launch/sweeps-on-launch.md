@@ -6,80 +6,79 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# Sweeps on Launch
+# Launch에서 스윕 실행하기
 
 <CTAButtons colabLink="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7"/>
 
-Create a hyperparameter tuning job ([sweeps](../sweeps/intro.md)) with W&B Launch. With sweeps on launch, a sweep scheduler is pushed to a Launch Queue with the specified hyperparameters to sweep over. The sweep scheduler starts as it is picked up by the agent, launching sweep runs onto the same queue with chosen hyperparameters. This continues until the sweep finishes or is stopped. 
+W&B Launch를 사용하여 하이퍼파라미터 튜닝 작업([스윕](../sweeps/intro.md))을 생성하세요. Launch에서 스윕을 실행하면, 지정된 하이퍼파라미터를 스윕하기 위해 스윕 스케줄러가 Launch Queue로 푸시됩니다. 에이전트에 의해 선택되자마자 스윕 스케줄러가 시작되며, 선택된 하이퍼파라미터로 같은 큐에서 스윕 실행을 시작합니다. 이는 스윕이 완료되거나 중지될 때까지 계속됩니다.
 
-You can use the default W&B Sweep scheduling engine or implement your own custom scheduler:
+기본 W&B 스윕 스케줄링 엔진을 사용하거나 사용자 정의 스케줄러를 구현할 수 있습니다:
 
-1. Standard sweep scheduler: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps](../sweeps/intro.md). The familiar `bayes`, `grid`, and `random` methods are available.
-2. Custom sweep scheduler: Configure the sweep scheduler to run as a job. This option enables full customization. An example of how to extend the standard sweep scheduler to include more logging can be found in the section below.
- 
+1. 표준 스윕 스케줄러: [W&B 스윕](../sweeps/intro.md)을 제어하는 기본 W&B 스윕 스케줄링 엔진을 사용합니다. 익숙한 `bayes`, `grid`, `random` 메서드가 사용 가능합니다.
+2. 사용자 정의 스윕 스케줄러: 스윕 스케줄러를 작업으로 실행하도록 구성합니다. 이 옵션은 완전한 사용자 정의를 가능하게 합니다. 더 많은 로깅을 포함하도록 표준 스윕 스케줄러를 확장하는 방법에 대한 예제는 아래 섹션에서 찾을 수 있습니다.
+
 :::note
-This guide assumes that W&B Launch has been previously configured. If W&B Launch has is not configured, see the [how to get started](./intro.md#how-to-get-started) section of the launch documentation. 
+이 가이드는 W&B Launch가 이전에 구성되었다고 가정합니다. W&B Launch가 구성되지 않았다면, 런치 문서의 [시작 방법](./intro.md#how-to-get-started) 섹션을 참조하세요.
 :::
 
 :::tip
-We recommend you create a sweep on launch using the 'basic' method if you are a first time users of sweeps on launch. Use a custom sweeps on launch scheduler when the standard W&B scheduling engine does not meet your needs.
+Launch에서 스윕을 처음 사용하는 사용자의 경우 'basic' 메서드를 사용하여 스윕을 생성하는 것이 좋습니다. 표준 W&B 스케줄링 엔진이 요구 사항을 충족하지 못할 때 사용자 정의 Launch 스윕 스케줄러를 사용하세요.
 :::
 
-## Create a sweep with a W&B standard scheduler
-Create W&B Sweeps with Launch. You can create a sweep interactively with the W&B App or programmatically with the W&B CLI. For advanced configurations of Launch sweeps, including the ability to customize the scheduler, use the CLI. 
+## W&B 표준 스케줄러로 스윕 생성하기
+Launch를 사용하여 W&B 스윕을 생성하세요. W&B 앱 또는 W&B CLI를 사용하여 대화형으로 또는 프로그래밍 방식으로 스윕을 생성할 수 있습니다. 스케줄러를 사용자 정의하는 것을 포함하여 Launch 스윕의 고급 구성을 위해 CLI를 사용하세요.
 
 :::info
-Before you create a sweep with W&B Launch, ensure that you first create a job to sweep over. See the [Create a Job](./create-launch-job.md) page for more information. 
+W&B Launch로 스윕을 생성하기 전에, 먼저 스윕할 작업을 생성해야 합니다. 자세한 내용은 [작업 생성](./create-launch-job.md) 페이지를 참조하세요.
 :::
-
 
 <Tabs
   defaultValue="app"
   values={[
-    {label: 'W&B App', value: 'app'},
+    {label: 'W&B 앱', value: 'app'},
     {label: 'CLI', value: 'cli'},
   ]}>
   <TabItem value="app">
-Create a sweep interactively with the W&B App.
+W&B 앱을 사용하여 대화형으로 스윕 생성하기.
 
-1. Navigate to your W&B project on the W&B App.  
-2. Select the sweeps icon on the left panel (broom image). 
-3. Next, select the **Create Sweep** button.
-4. Click the **Configure Launch 🚀** button.
-5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from.
-6. Select a queue to run the sweep on using the **Queue** dropdown menu.
-8. Use the **Job Priority** dropdown to specify the priority of your launch job.  A launch job's priority is set to "Medium" if the launch queue does not support prioritization.
-8. (Optional) Configure override args for the run or sweep scheduler. For example, using the scheduler overrides, configure the number of concurrent runs the scheduler manages using `num_workers`.
-9. (Optional) Select a project to save the sweep to using the **Destination Project** dropdown menu.
-10. Click **Save**
-11. Select **Launch Sweep**.
+1. W&B 앱에서 W&B 프로젝트로 이동하세요.  
+2. 왼쪽 패널에서 스윕 아이콘(빗자루 이미지)을 선택하세요.
+3. **스윕 생성** 버튼을 선택하세요.
+4. **런치 구성 🚀** 버튼을 클릭하세요.
+5. **작업** 드롭다운 메뉴에서 스윕을 생성할 작업의 이름과 버전을 선택하세요.
+6. **큐** 드롭다운 메뉴를 사용하여 스윕을 실행할 큐를 선택하세요.
+8. **작업 우선순위** 드롭다운을 사용하여 런치 작업의 우선순위를 지정하세요. 런치 큐가 우선순위 지정을 지원하지 않는 경우 런치 작업의 우선순위는 "중간"으로 설정됩니다.
+8. (선택사항) 실행 또는 스윕 스케줄러에 대한 오버라이드 인수를 구성하세요. 예를 들어, 스케줄러 오버라이드를 사용하여 스케줄러가 관리하는 동시 실행 수를 `num_workers`를 사용하여 구성합니다.
+9. (선택사항) **대상 프로젝트** 드롭다운 메뉴를 사용하여 스윕을 저장할 프로젝트를 선택하세요.
+10. **저장**을 클릭하세요.
+11. **스윕 런치**를 선택하세요.
 
 ![](/images/launch/create_sweep_with_launch.png)
 
   </TabItem>
   <TabItem value="cli">
 
-Programmatically create a W&B Sweep with Launch with the W&B CLI.
+W&B CLI를 사용하여 프로그래밍 방식으로 W&B 스윕 생성하기.
 
-1. Create a Sweep configuration
-2. Specify the full job name within your sweep configuration
-3. Initialize a sweep agent.
+1. 스윕 구성 생성하기
+2. 스윕 구성 내에서 전체 작업 이름 지정하기
+3. 스윕 에이전트 초기화하기.
 
 :::info
-Steps 1 and 3 are the same steps you normally take when you create a W&B Sweep.
+1단계와 3단계는 일반적으로 W&B 스윕을 생성할 때 수행하는 단계와 동일합니다.
 :::
 
-For example, in the following code snippet, we specify `'wandb/jobs/Hello World 2:latest'` for the job value:
+예를 들어, 다음 코드 조각에서는 작업 값에 `'wandb/jobs/Hello World 2:latest'`를 지정합니다:
 
 ```yaml
 # launch-sweep-config.yaml
 
 job: 'wandb/jobs/Hello World 2:latest'
-description: sweep examples using launch jobs
+description: launch jobs을 사용한 스윕 예제
 
 method: bayes
 metric:
-  goal: minimize
+  goal: 최소화
   name: loss_metric
 parameters:
   learning_rate:
@@ -91,70 +90,69 @@ parameters:
     min: 0
     distribution: int_uniform
 
-# Optional scheduler parameters:
+# 선택적 스케줄러 파라미터:
 
 # scheduler:
-#   num_workers: 1  # concurrent sweep runs
-#   docker_image: <base image for the scheduler>
-#   resource: <ie. local-container...>
-#   resource_args:  # resource arguments passed to runs
+#   num_workers: 1  # 동시 스윕 실행
+#   docker_image: <스케줄러의 기본 이미지>
+#   resource: <예: local-container...>
+#   resource_args:  # 실행에 전달된 리소스 인수
 #     env: 
 #         - WANDB_API_KEY
 
-# Optional Launch Params
+# 선택적 런치 파라미터
 # launch: 
-#    registry: <registry for image pulling>
+#    registry: <이미지 풀링을 위한 레지스트리>
 ```
 
-For information on how to create a sweep configuration, see the [Define sweep configuration](../sweeps/define-sweep-configuration.md) page.
+스윕 구성을 생성하는 방법에 대한 정보는 [스윕 구성 정의](../sweeps/define-sweep-configuration.md) 페이지를 참조하세요.
 
-4. Next, initialize a sweep. Provide the path to your config file, the name of your job queue, your W&B entity, and the name of the project.
+4. 다음으로, 스윕을 초기화하세요. 구성 파일 경로, 작업 큐 이름, W&B 엔티티, 프로젝트 이름을 제공하세요.
 
 ```bash
 wandb launch-sweep <path/to/yaml/file> --queue <queue_name> --entity <your_entity>  --project <project_name>
 ```
 
-For more information on W&B Sweeps, see the [Tune Hyperparameters](../sweeps/intro.md) chapter.
+W&B 스윕에 대한 자세한 정보는 [하이퍼파라미터 조정](../sweeps/intro.md) 챕터를 참조하세요.
 
 
 </TabItem>
 
 </Tabs>
 
-
-## Create a custom sweep scheduler
-Create a custom sweep scheduler either with the W&B scheduler or a custom scheduler.
+## 사용자 정의 스윕 스케줄러 생성하기
+W&B 스케줄러 또는 사용자 정의 스케줄러를 사용하여 사용자 정의 스윕 스케줄러를 생성하세요.
 
 :::info
-Using scheduler jobs requires wandb cli version >= `0.15.4`
+스케줄러 작업을 사용하려면 wandb cli 버전이 `0.15.4` 이상이어야 합니다.
 :::
 
 <Tabs
   defaultValue="wandb-scheduler"
   values={[
-    {label: 'Wandb scheduler', value: 'wandb-scheduler'},
-    {label: 'Optuna scheduler', value: 'optuna-scheduler'},
-    {label: 'Custom scheduler', value: 'custom-scheduler'},
+    {label: 'Wandb 스케줄러', value: 'wandb-scheduler'},
+    {label: 'Optuna 스케줄러', value: 'optuna-scheduler'},
+    {label: '사용자 정의 스케줄러', value: 'custom-scheduler'},
   ]}>
     <TabItem value="wandb-scheduler">
 
-  Create a launch sweep using the W&B sweep scheduling logic as a job.
+  W&B 스윕 스케줄링 로직을 작업으로 사용하여 런치 스윕 생성하기.
   
-  1. Identify the Wandb scheduler job in the public wandb/sweep-jobs project, or use the job name:
+  1. 공개 wandb/sweep-jobs 프로젝트의 Wandb 스케줄러 작업을 식별하거나 작업 이름을 사용하세요:
   `'wandb/sweep-jobs/job-wandb-sweep-scheduler:latest'`
-  2. Construct a configuration yaml with an additional `scheduler` block that includes a `job` key pointing to this name, example below.
-  3. Use the `wandb launch-sweep` command with the new config.
+  2. 아래 예제와 같이 해당 이름을 가리키는 `scheduler` 블록이 추가된 구성 yaml을 구성하세요.
+  3. 새 구성으로 `wandb launch-sweep` 명령을 사용하세요.
 
 
-Example config:
+예제 구성:
 ```yaml
 # launch-sweep-config.yaml  
-description: Launch sweep config using a scheduler job
+description: 스케줄러 작업을 사용한 런치 스윕 구성
 scheduler:
   job: wandb/sweep-jobs/job-wandb-sweep-scheduler:latest
-  num_workers: 8  # allows 8 concurrent sweep runs
+  num_workers: 8  # 8개의 동시 스윕 실행 허용
 
-# training/tuning job that the sweep runs will execute
+# 스윕 실행이 실행할 학습/튜닝 작업
 job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
 method: grid
 parameters:
@@ -166,13 +164,13 @@ parameters:
   </TabItem>
   <TabItem value="custom-scheduler">
 
-  Custom schedulers can be created by creating a scheduler-job. For the purposes of this guide we will be modifying the `WandbScheduler` to provide more logging. 
+  사용자 정의 스케줄러는 스케줄러-작업을 생성함으로써 만들어질 수 있습니다. 이 가이드에서는 더 많은 로깅을 제공하기 위해 `WandbScheduler`를 수정할 것입니다.
 
-  1. Clone the `wandb/launch-jobs` repo (specifically: `wandb/launch-jobs/jobs/sweep_schedulers`)
-  2. Now, we can modify the `wandb_scheduler.py` to achieve our desired increased logging. Example: Add logging to the function `_poll`. This is called once every polling cycle (configurable timing), before we launch new sweep runs. 
-  3. Run the modified file to create a job, with: `python wandb_scheduler.py --project <project> --entity <entity> --name CustomWandbScheduler`
-  4. Identify the name of the job created, either in the UI or in the output of the previous call, which will be a code-artifact job (unless otherwise specified).
-  5. Now create a sweep configuration where the scheduler points to your new job!
+  1. `wandb/launch-jobs` 저장소를 복제하세요(구체적으로: `wandb/launch-jobs/jobs/sweep_schedulers`)
+  2. 이제 `wandb_scheduler.py`를 수정하여 원하는 로깅 증가를 달성하십시오. 예: `_poll` 함수에 로깅 추가. 이는 매 폴링 주기(구성 가능한 타이밍)마다 호출되며, 새로운 스윕 실행을 시작하기 전에 호출됩니다.
+  3. 수정된 파일을 실행하여 작업을 생성하세요: `python wandb_scheduler.py --project <project> --entity <entity> --name CustomWandbScheduler`
+  4. UI에서 또는 이전 호출의 출력에서 생성된 작업의 이름을 식별하세요. 이는 다르게 지정하지 않는 한 코드-아티팩트 작업이 될 것입니다.
+  5. 이제 스케줄러가 새 작업을 가리키는 스윕 구성을 생성하세요!
 
 ```yaml
 ...
@@ -184,40 +182,38 @@ scheduler:
   </TabItem>
   <TabItem value="optuna-scheduler">
 
-  Optuna is a hyperparameter optimization framework that uses a variety of algorithms to find the best hyperparameters for a given model (similar to W&B). In addition to the [sampling algorithms](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna also provides a variety of [pruning algorithms](https://optuna.readthedocs.io/en/stable/reference/pruners.html) that can be used to terminate poorly performing runs early. This is especially useful when running a large number of runs, as it can save time and resources. The classes are highly configurable, just pass in the expected parameters in the `scheduler.settings.pruner/sampler.args` block of the config file.
+  Optuna는 다양한 알고리즘을 사용하여 주어진 모델에 대한 최적의 하이퍼파라미터를 찾는 하이퍼파라미터 최적화 프레임워크입니다(W&B와 유사). [샘플링 알고리즘](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html) 외에도, Optuna는 성능이 저조한 실행을 조기에 종료할 수 있는 다양한 [프루닝 알고리즘](https://optuna.readthedocs.io/en/stable/reference/pruners.html)을 제공합니다. 이는 많은 수의 실행을 수행할 때 시간과 자원을 절약하는 데 특히 유용합니다. 클래스는 매우 구성 가능하며, 구성 파일의 `scheduler.settings.pruner/sampler.args` 블록에 예상되는 파라미터를 전달하기만 하면 됩니다.
 
 
+Optuna의 스케줄링 로직을 사용하여 작업으로 런치 스윕 생성하기.
 
-Create a launch sweep using Optuna's scheduling logic with a job.
+1. 먼저, 자신의 작업을 생성하거나 사전 구축된 Optuna 스케줄러 이미지 작업을 사용하세요.
+    * 자신의 작업을 생성하는 방법에 대한 예제는 [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers) 저장소를 참조하세요.
+    * 사전 구축된 Optuna 이미지를 사용하려면, `wandb/sweep-jobs` 프로젝트의 `job-optuna-sweep-scheduler`로 이동하거나 `wandb/sweep-jobs/job-optuna-sweep-scheduler:latest` 작업 이름을 사용할 수 있습니다.
 
-1. First, create your own job or use a pre-built Optuna scheduler image job. 
-    * See the [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers) repo for examples on how to create your own job.
-    * To use a pre-built Optuna image, you can either navigate to `job-optuna-sweep-scheduler` in the `wandb/sweep-jobs` project or use can use the job name: `wandb/sweep-jobs/job-optuna-sweep-scheduler:latest`. 
-    
-
-2. After you create a job, you can now create a sweep. Construct a sweep config that includes a `scheduler` block with a `job` key pointing to the Optuna scheduler job (example below).
+2. 작업을 생성한 후, 이제 스윕을 생성할 수 있습니다. Optuna 스케줄러 작업을 가리키는 `scheduler` 블록이 포함된 스윕 구성을 구성하세요(아래 예제 참조).
 
 ```yaml
   # optuna_config_basic.yaml
-  description: A basic Optuna scheduler
+  description: 기본 Optuna 스케줄러
   job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
   run_cap: 5
   metric:
     name: epoch/val_loss
-    goal: minimize
+    goal: 최소화
 
   scheduler:
     job: wandb/sweep-jobs/job-optuna-sweep-scheduler:latest
-    resource: local-container  # required for scheduler jobs sourced from images
+    resource: local-container  # 이미지에서 가져온 스케줄러 작업에 필요
     num_workers: 2
 
-    # optuna specific settings
+    # optuna 특정 설정
     settings:
       pruner:
         type: PercentilePruner
         args:
-          percentile: 25.0  # kill 75% of runs
-          n_warmup_steps: 10  # pruning disabled for first x steps
+          percentile: 25.0  # 75%의 실행 종료
+          n_warmup_steps: 10  # 처음 x 단계 동안 프루닝 비활성화
 
   parameters:
     learning_rate:
@@ -226,33 +222,21 @@ Create a launch sweep using Optuna's scheduling logic with a job.
   ```
 
 
-  3. Lastly, launch the sweep to an active queue with the launch-sweep command:
+  3. 마지막으로, 런치-스윕 명령으로 활성 큐에 스윕을 런칭하세요:
   
   ```bash
   wandb launch-sweep <config.yaml> -q <queue> -p <project> -e <entity>
   ```
 
 
-  For the exact implementation of the Optuna sweep scheduler job, see [wandb/launch-jobs](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py). For more examples of what is possible with the Optuna scheduler, check out [wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler).
+  Optuna 스윕 스케줄러 작업의 정확한 구현은 [wandb/launch-jobs](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py)에서 확인할 수 있습니다. Optuna 스케줄러로 가능한 것들의 더 많은 예제는 [wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler)를 확인하세요.
 
 
   </TabItem>
 </Tabs>
 
- Examples of what is possible with custom sweep scheduler jobs are available in the [wandb/launch-jobs](https://github.com/wandb/launch-jobs) repo under `jobs/sweep_schedulers`. This guide shows how to use the publicly available **Wandb Scheduler Job**, as well demonstrates a process for creating custom sweep scheduler jobs. 
+사용자 정의 스윕 스케줄러 작업으로 가능한 것들의 예제는 [wandb/launch-jobs](https://github.com/wandb/launch-jobs) 저장소의 `jobs/sweep_schedulers` 아래에서 확인할 수 있습니다. 이 가이드는 공개적으로 사용 가능한 **Wandb 스케줄러 작업**을 사용하는 방법을 보여주며, 사용자 정의 스윕 스케줄러 작업을 생성하는 프로세스를 설명합니다.
 
 
- ## How to resume sweeps on launch
-  It is also possible to resume a launch-sweep from a previously launched sweep. Although hyperparameters and the training job cannot be changed, scheduler-specific parameters can be, as well as the queue it is pushed to.
-
-:::info
-If the initial sweep used a training job with an alias like 'latest', resuming can lead to different results if the latest job version has been changed since the last run.
-:::
-
-  1. Identify the sweep name/ID for a previously run launch sweep. The sweep ID is an eight character string (for example, `hhd16935`) that you can find in your project on the W&B App.
-  2. If you change the scheduler parameters, construct an updated config file.
-  3. In your terminal, execute the following command. Replace content wrapped in "<" and ">" with your information: 
-
-```bash
-wandb launch-sweep <optional config.yaml> --resume_id <sweep id> --queue <queue_name>
-```
+ ## Launch에서 스윕 재개하기
+  이전에 런칭된 스윕에서 런치-스윕을 재개할 수도 있습니다. 하이퍼파라미터와 학습 작업은 변경할 수 없지

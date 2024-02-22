@@ -2,57 +2,53 @@
 displayed_sidebar: default
 ---
 
-# Terms and concepts
-With W&B Launch, you enqueue [jobs](#launch-job) onto [queues](#launch-queue) to create runs. Jobs are python scripts instrumented with W&B. Queues hold a list of jobs to execute on a [target resource](#target-resources). [Agents](#launch-agent) pull jobs from queues and execute the jobs on target resources. W&B tracks launch jobs similarly to how W&B tracks [runs](../runs/intro.md).
+# 용어 및 개념
+W&B Launch를 사용하면 [작업](#launch-job)을 [큐](#launch-queue)에 추가하여 실행을 생성합니다. 작업은 W&B로 계측된 파이썬 스크립트입니다. 큐는 [대상 리소스](#target-resources)에서 실행할 작업 목록을 보관합니다. [에이전트](#launch-agent)는 큐에서 작업을 가져와 대상 리소스에서 작업을 실행합니다. W&B는 실행을 추적하는 방식과 유사하게 Launch 작업을 추적합니다.
 
+### Launch 작업
+Launch 작업은 완료할 작업을 나타내는 특정 유형의 [W&B 아티팩트](../artifacts/intro.md)입니다. 예를 들어, 일반적인 Launch 작업에는 모델 학습 또는 모델 평가를 트리거하는 것이 포함됩니다. 작업 정의에는 다음이 포함됩니다:
 
-### Launch job
-A launch job is a specific type of [W&B Artifact](../artifacts/intro.md) that represents a task to complete. For example, common launch jobs include training a model or triggering a model evaluation. Job definitions include:
+- 파이썬 코드 및 기타 파일 자산, 적어도 하나의 실행 가능한 진입점을 포함합니다.
+- 입력(구성 파라미터) 및 출력(로그된 메트릭)에 대한 정보.
+- 환경에 대한 정보. (예: `requirements.txt`, 기본 `Dockerfile`).
 
-- Python code and other file assets, including at least one runnable entrypoint.
-- Information about the input (config parameter) and output (metrics logged).
-- Information about the environment. (for example, `requirements.txt`, base `Dockerfile`).
+작업 정의의 세 가지 주요 유형은 다음과 같습니다:
 
-
-There are three main kinds of job definitions:
-
-
-| Job types | Definition | How to run this job type | 
+| 작업 유형 | 정의 | 이 작업 유형을 실행하는 방법 | 
 | ---------- | --------- | -------------- |
-|Artifact-based (or code-based) jobs| Code and other assets are saved as a W&B artifact.| To run artifact-based jobs, Launch agent must be configured with a builder. |
-|Git-based jobs|  Code and other assets are cloned from a certain commit, branch, or tag in a git repository. | To run git-based jobs, Launch agent must be configured with a builder and git repository credentials. |
-|Image-based jobs|Code and other assets are baked into a Docker image. | To run image-based jobs, Launch agent might need to be configured with image repository credentials. | 
-
+|아티팩트 기반(또는 코드 기반) 작업| 코드 및 기타 자산은 W&B 아티팩트로 저장됩니다.| 아티팩트 기반 작업을 실행하려면, Launch 에이전트를 빌더로 구성해야 합니다. |
+|Git 기반 작업|  코드 및 기타 자산은 git 저장소의 특정 커밋, 브랜치 또는 태그에서 복제됩니다. | Git 기반 작업을 실행하려면, Launch 에이전트를 빌더 및 git 저장소 자격 증명으로 구성해야 합니다. |
+|이미지 기반 작업|코드 및 기타 자산은 Docker 이미지로 구성됩니다. | 이미지 기반 작업을 실행하려면, Launch 에이전트를 이미지 저장소 자격 증명으로 구성해야 할 수 있습니다. | 
 
 :::tip
-While Launch jobs can perform activities not related to model training--for example, deploy a model to a Triton inference server--all jobs must call `wandb.init` to complete successfully. This creates a run for tracking purposes in a W&B workspace.
+Launch 작업은 모델 학습과 관련되지 않은 활동을 수행할 수 있습니다--예를 들어, 모델을 Triton 추론 서버에 배포하는 것--하지만 모든 작업은 성공적으로 완료되기 위해 `wandb.init`를 호출해야 합니다. 이는 W&B 워크스페이스에서 추적 목적의 실행을 생성합니다.
 :::
 
-Find jobs you created in the W&B App under the `Jobs` tab of your project workspace. From there, jobs can be configured and sent to a [launch queue](#launch-queue) to be executed on a variety of [target resources](#target-resources).
+W&B App에서 프로젝트 워크스페이스의 `Jobs` 탭에서 생성한 작업을 찾을 수 있습니다. 거기서 작업을 구성하고 다양한 [대상 리소스](#target-resources)에서 실행될 [Launch 큐](#launch-queue)로 보낼 수 있습니다.
 
-### Launch queue
-Launch *queues* are ordered lists of jobs to execute on a specific target resource. Launch queues are first-in, first-out. (FIFO). There is no practical limit to the number of queues you can have, but a good guideline is one queue per target resource. Jobs can be enqueued with the W&B App UI, W&B CLI or Python SDK. Then, one or more Launch agents can be configured to pull items from the queue and execute them on the queue's target resource.
+### Launch 큐
+Launch *큐*는 특정 대상 리소스에서 실행할 작업의 순서가 지정된 목록입니다. Launch 큐는 선입선출입니다. (FIFO). 가질 수 있는 큐의 수에 실질적인 제한은 없지만, 하나의 대상 리소스당 하나의 큐라는 좋은 지침입니다. 작업은 W&B App UI, W&B CLI 또는 Python SDK로 큐에 추가할 수 있습니다. 그런 다음 하나 이상의 Launch 에이전트를 구성하여 큐에서 항목을 가져와 큐의 대상 리소스에서 실행할 수 있습니다.
 
-### Target resources
-The compute environment that a Launch queue is configured to execute jobs on is called the *target resource*.
+### 대상 리소스
+Launch 큐가 작업을 실행하기 위해 구성된 컴퓨팅 환경을 *대상 리소스*라고 합니다.
 
-W&B Launch supports the following target resources:
+W&B Launch는 다음과 같은 대상 리소스를 지원합니다:
 
 - [Docker](./setup-launch-docker.md)
 - [Kubernetes](./setup-launch-kubernetes.md)
 - [AWS SageMaker](./setup-launch-sagemaker.md)
 - [GCP Vertex](./setup-vertex.md)
 
-Each target resource accepts a different set of configuration parameters called *resource configurations*. Resource configurations take on default values defined by each Launch queue, but can be overridden independently by each job. See the documentation for each target resource for more details.
+각 대상 리소스는 *리소스 구성*이라고 하는 다른 세트의 구성 파라미터를 수용합니다. 리소스 구성은 각 Launch 큐에 의해 정의된 기본값을 취하지만, 각 작업에 의해 독립적으로 재정의될 수 있습니다. 각 대상 리소스에 대한 자세한 내용은 해당 문서를 참조하십시오.
 
-### Launch agent
-Launch agents are lightweight, persistent programs that periodically check Launch queues for jobs to execute. When a launch agent receives a job, it first builds or pulls the image from the job definition then runs it on the target resource.
+### Launch 에이전트
+Launch 에이전트는 작업을 실행하기 위해 주기적으로 Launch 큐를 확인하는 가벼운, 지속적인 프로그램입니다. Launch 에이전트가 작업을 받으면, 먼저 작업 정의에서 이미지를 빌드하거나 가져온 다음 대상 리소스에서 실행합니다.
 
-One agent may poll multiple queues, however the agent must be configured properly to support all of the backing target resources for each queue it is polling.
+하나의 에이전트는 여러 큐를 폴링할 수 있지만, 에이전트가 폴링하는 각 큐의 모든 백업 대상 리소스를 지원하도록 올바르게 구성되어야 합니다.
 
-### Launch agent environment
-The agent environment is the environment where a launch agent is running, polling for jobs.
+### Launch 에이전트 환경
+에이전트 환경은 Launch 에이전트가 실행되어 작업을 폴링하는 환경입니다.
 
 :::info
-The agent's runtime environment is independent of a queue's target resource. In other words, agents can be deployed anywhere as long as they are configured sufficiently to access the required target resources.
+에이전트의 런타임 환경은 큐의 대상 리소스와 독립적입니다. 즉, 에이전트는 필요한 대상 리소스에 충분히 엑세스할 수 있도록 구성되어 있다면 어디에나 배포될 수 있습니다.
 :::
