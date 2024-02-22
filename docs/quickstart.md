@@ -6,7 +6,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 빠른 시작
+# Quickstart
 
 Install W&B and start tracking your machine learning experiments in minutes.
 

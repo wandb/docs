@@ -2,14 +2,7 @@
 displayed_sidebar: default
 ---
 
-# W&B Prompts
-Gain a deeper understanding of your LLMs pipelines and prompts performance. Drill into your architectures for easy debugging, configure custom visualizations for the specific analysis you need, and maintain full observability over LLM performance, usage, and budget.
+# W&B 프롬프트
+LLM 파이프라인과 프롬프트 성능에 대한 더 깊은 이해를 얻으세요. 쉬운 디버깅을 위해 아키텍처를 자세히 살펴보고, 필요한 특정 분석을 위해 사용자 정의 시각화를 구성하며, LLM 성능, 사용량 및 예산에 대한 완전한 가시성을 유지하세요.
 
-
-W&B Prompts is the solution for building and monitoring LLM-based apps. Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to:
-
-- [Explore and debug LLM chains](./prompts/intro.md) and prompts with greater granularity.
-- Monitor and observe LLMs to better understand and evaluate performance, usage, and budgets
-
-
-![](@site/static/images/general/prompts.png)
+W&B 프롬프트는 LLM 기반 앱을 구축하고 평가하기 위한 해결책입니다. 소프트웨어 개발자, 프롬프트 엔지니어, ML 실무자, 데이터 과학자 및 LLM을 사용하는 기타 이해 관계자는 [LLM 체인과 프롬프트를 탐색하고 디버깅](./prompts/intro.md)하는 데 더 높은 세밀도를 가진 첨단 도구가 필요합니다.

@@ -1,40 +1,39 @@
 ---
-description: >-
-  Delete artifacts interactively with the App UI or programmatically with the
-  W&B SDK/
+description: Delete artifacts interactively with the App UI or programmatically with
+  the W&B SDK/
 displayed_sidebar: default
 ---
 
-# Delete artifacts
+# 아티팩트 삭제하기
 
 <head>
-  <title>Delete W&B Artifacts</title>
+  <title>W&B 아티팩트 삭제하기</title>
 </head>
 
-Delete artifacts interactively with the App UI or programmatically with the W&B SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. 
+App UI 또는 W&B SDK를 사용하여 아티팩트를 대화식으로 또는 프로그래밍적으로 삭제할 수 있습니다. 아티팩트를 삭제하면 W&B는 해당 아티팩트를 *소프트 삭제*로 표시합니다. 즉, 아티팩트가 삭제로 표시되지만 파일은 스토리지에서 즉시 삭제되지 않습니다.
 
-The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
+아티팩트의 내용은 소프트 삭제, 즉 삭제 대기 상태로 남아 있으며, 정기적으로 실행되는 가비지 컬렉션 프로세스가 삭제로 표시된 모든 아티팩트를 검토할 때까지 유지됩니다. 가비지 컬렉션 프로세스는 아티팩트와 그와 관련된 파일이 이전 또는 이후 아티팩트 버전에서 사용되지 않는 경우 스토리지에서 관련 파일을 삭제합니다.
 
-The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl.md).
+이 페이지의 섹션에서는 특정 아티팩트 버전 삭제 방법, 아티팩트 컬렉션 삭제 방법, 별칭이 있는 아티팩트 및 없는 아티팩트를 삭제하는 방법 등을 설명합니다. W&B에서 아티팩트가 삭제되는 시기를 TTL 정책으로 예약할 수 있습니다. 자세한 정보는 [아티팩트 TTL 정책으로 데이터 보관 관리하기](./ttl.md)를 참조하세요.
 
 :::note
-Artifacts that are scheduled for deletion with a TTL policy, deleted with the W&B SDK, or deleted with the W&B App UI are first soft-deleted. Artifacts that are soft deleted undergo garbage collection before they are hard-deleted.
+TTL 정책으로 삭제가 예약된 아티팩트, W&B SDK로 삭제된 아티팩트 또는 W&B App UI로 삭제된 아티팩트는 먼저 소프트 삭제됩니다. 소프트 삭제된 아티팩트는 하드 삭제되기 전에 가비지 컬렉션을 거칩니다.
 :::
 
-### Delete an artifact version
+### 아티팩트 버전 삭제하기
 
-To delete an artifact version:
+아티팩트 버전을 삭제하려면:
 
-1. Select the name of the artifact. This will expand the artifact view and list all the artifact versions associated with that artifact.
-2. From the list of artifacts, select the artifact version you want to delete.
-3. On the right hand side of the workspace, select the kebab dropdown.
-4. Choose Delete.
+1. 아티팩트의 이름을 선택합니다. 이렇게 하면 아티팩트 뷰가 확장되고 해당 아티팩트와 관련된 모든 아티팩트 버전이 나열됩니다.
+2. 아티팩트 목록에서 삭제하려는 아티팩트 버전을 선택합니다.
+3. 워크스페이스 오른쪽에 있는 케밥 드롭다운을 선택합니다.
+4. 삭제를 선택합니다.
 
-An artifact version can also be deleted programatically via the [delete()](https://docs.wandb.ai/ref/python/artifact#delete) method. See the examples below. 
+아티팩트 버전은 또한 [delete()](https://docs.wandb.ai/ref/python/artifact#delete) 메서드를 통해 프로그래밍 방식으로 삭제될 수 있습니다. 아래 예시를 참조하세요.
 
-### Delete multiple artifact versions with aliases
+### 별칭이 있는 여러 아티팩트 버전 삭제하기
 
-The following code example demonstrates how to delete artifacts that have aliases associated with them. Provide the entity, project name, and run ID that created the artifacts.
+다음 코드 예제는 별칭이 있는 아티팩트를 삭제하는 방법을 보여줍니다. 아티팩트를 생성한 엔티티, 프로젝트 이름, 실행 ID를 제공합니다.
 
 ```python
 import wandb
@@ -45,7 +44,7 @@ for artifact in run.logged_artifacts():
     artifact.delete()
 ```
 
-Set the `delete_aliases` parameter to the boolean value, `True` to delete aliases if the artifact has one or more aliases.
+`delete_aliases` 파라미터를 불리언 값 `True`로 설정하여 아티팩트에 하나 이상의 별칭이 있는 경우 별칭을 삭제합니다.
 
 ```python
 import wandb
@@ -53,96 +52,86 @@ import wandb
 run = api.run("entity/project/run_id")
 
 for artifact in run.logged_artifacts():
-    # Set delete_aliases=True in order to delete
-    # artifacts with one more aliases
+    # 별칭이 한 개 이상 있는 아티팩트를 삭제하려면
+    # delete_aliases=True로 설정합니다.
     artifact.delete(delete_aliases=True)
 ```
 
-### Delete multiple artifact versions with a specific alias
+### 특정 별칭이 있는 여러 아티팩트 버전 삭제하기
 
-The proceeding code demonstrates how to delete multiple artifact versions that have a specific alias. Provide the entity, project name, and run ID that created the artifacts. Replace the deletion logic with your own:
+다음 코드는 특정 별칭이 있는 여러 아티팩트 버전을 삭제하는 방법을 보여줍니다. 아티팩트를 생성한 엔티티, 프로젝트 이름, 실행 ID를 제공합니다. 삭제 로직을 자신의 것으로 대체하세요:
 
 ```python
 import wandb
 
 runs = api.run("entity/project_name/run_id")
 
-# Delete artifact ith alias 'v3' and 'v4
+# 별칭이 'v3' 및 'v4'인 아티팩트 삭제
 for artifact_version in runs.logged_artifacts():
-    # Replace with your own deletion logic.
+    # 자신의 삭제 로직으로 대체하세요.
     if artifact_version.name[-2:] == "v3" or artifact_version.name[-2:] == "v4":
         artifact.delete(delete_aliases=True)
 ```
 
-### Delete all versions of an artifact that do not have an alias
+### 별칭이 없는 아티팩트의 모든 버전 삭제하기
 
-The following code snippet demonstrates how to delete all versions of an artifact that do not have an alias. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively. Replace the `<>` with the name of your artifact:
+다음 코드 조각은 별칭이 없는 아티팩트의 모든 버전을 삭제하는 방법을 보여줍니다. `wandb.Api`의 `project`와 `entity` 키에 대해 프로젝트와 엔티티의 이름을 제공합니다. `<>`를 아티팩트의 이름으로 교체하세요:
 
 ```python
 import wandb
 
-# Provide your entity and a project name when you
-# use wandb.Api methods.
+# wandb.Api 메서드를 사용할 때 자신의 엔티티와 프로젝트 이름을 제공하세요.
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
 
-artifact_type, artifact_name = "<>"  # provide type and name
+artifact_type, artifact_name = "<>"  # 타입과 이름 제공
 for v in api.artifact_versions(artifact_type, artifact_name):
-    # Clean up versions that don't have an alias such as 'latest'.
-    # NOTE: You can put whatever deletion logic you want here.
+    # 'latest'와 같은 별칭이 없는 버전을 정리합니다.
+    # 참고: 여기에 원하는 삭제 로직을 넣을 수 있습니다.
     if len(v.aliases) == 0:
         v.delete()
 ```
 
-### Delete an artifact collection
+### 아티팩트 컬렉션 삭제하기
 
-To delete an artifact collection:
+아티팩트 컬렉션을 삭제하려면:
 
-1. Navigate to the artifact collection you want to delete and hover over it.
-3. Select the kebab dropdown next to the artifact collection name.
-4. Choose Delete.
+1. 삭제하려는 아티팩트 컬렉션으로 이동하여 마우스를 가져갑니다.
+3. 아티팩트 컬렉션 이름 옆에 있는 케밥 드롭다운을 선택합니다.
+4. 삭제를 선택합니다.
 
-You can also delete artifact version programmatically with the [delete()](../../ref/python/artifact.md#delete) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively. Replace the `<>` with the name of your artifact:
+[delete()](../../ref/python/artifact.md#delete) 메서드를 사용하여 프로그래밍 방식으로 아티팩트 컬렉션을 삭제할 수도 있습니다. `wandb.Api`의 `project`와 `entity` 키에 대해 프로젝트와 엔티티의 이름을 각각 제공하세요:
 
 ```python
 import wandb
 
-# Provide your entity and a project name when you
-# use wandb.Api methods.
+# wandb.Api 메서드를 사용할 때 자신의 엔티티와 프로젝트 이름을 제공하세요.
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
-
-artifact_name = "<>"  # provide artifact name
-artifact = api.artifact(artifact_name)
-artifact.collection.delete()
+collection = api.artifact_collection("<artifact_type>", "entity/project/artifact_collection_name")
+collection.delete()
 ```
 
+## W&B 호스팅 방식에 따른 가비지 컬렉션 활성화 방법
+W&B의 공유 클라우드를 사용하는 경우 가비지 컬렉션은 기본적으로 활성화됩니다. W&B를 호스팅하는 방식에 따라 가비지 컬렉션을 활성화하기 위해 추가 단계가 필요할 수 있으며, 여기에는 다음이 포함됩니다:
 
-## How to enable garbage collection based on how W&B is hosted
-Garbage collection is enabled by default if you use W&B's shared cloud. Based on how you host W&B, you might need to take additional steps to enable garbage collection, this includes:
-
-
-* Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
-* Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/object-versioning) or any other storage provider such as [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). If you use Azure, [enable soft deletion](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview).
+* `GORILLA_ARTIFACT_GC_ENABLED` 환경 변수를 true로 설정: `GORILLA_ARTIFACT_GC_ENABLED=true`
+* [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/object-versioning) 또는 [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning)와 같은 다른 스토리지 제공업체를 사용하는 경우 버킷 버전 관리를 활성화합니다. Azure를 사용하는 경우 [소프트 삭제를 활성화](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview)하세요.
   :::note
-  Soft deletion in Azure is equivalent to bucket versioning in other storage providers.
+  Azure에서의 소프트 삭제는 다른 스토리지 제공업체에서의 버킷 버전 관리와 동등합니다.
   :::
 
-The following table describes how to satisfy requirements to enable garbage collection based on your deployment type. 
+다음 표는 배포 유형에 따라 가비지 컬렉션을 활성화하기 위해 충족해야 하는 요구 사항을 설명합니다.
 
-The `X` indicates you must satisfy the requirement:
+`X`는 요구 사항을 충족해야 함을 나타냅니다:
 
-|                                                | Environment variable    | Enable versioning | 
+|                                                | 환경 변수                | 버전 관리 활성화 | 
 | -----------------------------------------------| ------------------------| ----------------- | 
-| Shared cloud                                   |                         |                   | 
-| Shared cloud with [secure storage connector](../hosting/secure-storage-connector.md)|                         | X                 | 
-| Dedicated cloud                                |                         |                   | 
-| Dedicated cloud with [secure storage connector](../hosting/secure-storage-connector.md)|                         | X                 | 
-| Customer-managed cloud                         | X                       | X                 | 
-| Customer managed on-prem                       | X                       | X                 |
- 
-
+| 공유 클라우드                                   |                         |                   | 
+| [보안 스토리지 커넥터](../hosting/secure-storage-connector.md)가 있는 공유 클라우드|                         | X                 | 
+| 데디케이티드 클라우드                                |                         |                   | 
+| [보안 스토리지 커넥터](../hosting/secure-storage-connector.md)가 있는 데디케이티드 클라우드|                         | X                 | 
+| 고객 관리 클라우드                         | X                       | X                 | 
+| 고객 관리 온-프레미스                       | X                       | X                 |
 
 :::note
-Secure storage connector is currently only available for Google Cloud Platform and Amazon Web Services.
+보안 스토리지 커넥터는 현재 Google Cloud Platform과 Amazon Web Services에서만 사용할 수 있습니다.
 :::
-
-

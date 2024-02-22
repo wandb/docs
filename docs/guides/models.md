@@ -2,20 +2,19 @@
 displayed_sidebar: default
 ---
 
-# W&B Models
+# W&B 모델
 
-W&B Models is the system of record for ML Practitioners who want to organize their models, boost productivity and collaboration, and deliver production ML at scale. 
+W&B 모델은 모델을 조직하고, 생산성과 협업을 증진시키며, 대규모 프로덕션 머신 러닝을 제공하고자 하는 머신 러닝 프랙티셔너를 위한 기록 시스템입니다.
 
 ![](@site/static/images/general/models.png)
 
-With W&B Models, you can: 
+W&B 모델을 사용하면 다음을 할 수 있습니다:
 
-- Track and visualize all [ML experiments](./track/intro.md).
-- Optimize and fine-tune models at scale with [hyperparameter sweeps](./sweeps/intro.md).
-- [Maintain a centralized hub of all models](./model_registry/intro.md), with a seamless handoff point to devops and deployment
-- Configure custom automations that trigger key workflows for [model CI/CD](./model_registry/automation.md).
-- [Package and run ML workloads](./launch/intro.md) to gain frictionless access to powerful compute resources.
+- 모든 [머신 러닝 실험](./track/intro.md)을 추적하고 시각화합니다.
+- [하이퍼파라미터 스윕](./sweeps/intro.md)으로 대규모로 모델을 최적화하고 파인 튜닝합니다.
+- [모든 모델의 중앙 집중식 허브를 유지](./model_registry/intro.md)하며, 개발 운영 및 배포로의 원활한 인계 지점을 제공합니다.
+- [모델 CI/CD](./model_registry/automation.md)를 위한 핵심 워크플로를 트리거하는 사용자 정의 자동화를 구성합니다.
+- [머신 러닝 워크로드를 패키지하고 실행](./launch/intro.md)하여 강력한 계산 자원에 대한 무마찰 엑세스를 얻습니다.
 
 
-
-Machine learning practitioners rely on W&B Models as their ML system of record to track and visualize experiments, manage model versions and lineage, and optimize hyperparameters.
+머신 러닝 프랙티셔너는 실험을 추적하고 시각화하며, 모델 버전과 계보를 관리하고, 하이퍼파라미터를 최적화하기 위해 W&B 모델을 자신의 머신 러닝 기록 시스템으로 의존합니다.

@@ -3,51 +3,43 @@ description: Traverse automatically created direct acyclic W&B Artifact graphs.
 displayed_sidebar: default
 ---
 
-# Explore and traverse artifact graphs
+# 아티팩트 그래프 탐색 및 트래버스
 
 <head>
-    <title>Explore direct acyclic W&B Artifact graphs.</title>
+    <title>직접 비순환 W&B 아티팩트 그래프 탐색.</title>
 </head>
 
-W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run used. Explore the lineage of an artifact with the W&B App UI or programmatically.
+W&B는 자동으로 주어진 실행이 기록한 아티팩트와 주어진 실행이 사용한 아티팩트를 추적합니다. W&B 앱 UI 또는 프로그래매틱하게 아티팩트의 계보를 탐색하세요.
 
+## W&B 앱 UI로 아티팩트 트래버스하기
 
-## Traverse an artifact with the W&B App UI
+그래프 뷰는 파이프라인의 일반적인 개요를 보여줍니다.
 
-The graph view shows a general overview of your pipeline. 
+아티팩트 그래프를 보려면:
 
-To view an artifact graph:
+1. W&B 앱 UI에서 프로젝트로 이동합니다.
+2. 왼쪽 패널에서 아티팩트 아이콘을 선택합니다.
+3. **계보**를 선택합니다.
 
-1. Navigate to your project in the W&B App UI
-2. Choose the artifact icon on the left panel.
-3. Select **Lineage**.
+실행과 아티팩트를 생성할 때 제공하는 `type`은 그래프를 생성하는 데 사용됩니다. 실행 또는 아티팩트의 입력과 출력은 그래프에서 화살표로 나타납니다. 아티팩트는 파란색 사각형으로, 실행은 녹색 사각형으로 표현됩니다.
 
-The `type` you provide when you create runs and artifacts are used to create the graph. The input and output of a run or artifact is depicted in the graph with arrows. Artifacts are represented by blue rectangles and Runs are represented by green rectangles. 
+제공하는 아티팩트 유형은 **아티팩트** 레이블 옆의 진한 파란색 헤더에 위치합니다. 아티팩트의 이름과 버전은 **아티팩트** 레이블 아래의 연한 파란색 영역에 표시됩니다.
 
-
-
-The artifact type you provide is located in the dark blue header next to the **ARTIFACT** label. The name of the artifact, along with the artifact version, is shown in the light blue region underneath the **ARTIFACT** label.
-
-The job type you provide when you initialized a run is located next to the **RUN** label. The W&B run name is located in the light green region underneath the **RUN** label. 
+실행을 초기화할 때 제공하는 작업 유형은 **실행** 레이블 옆에 위치합니다. W&B 실행 이름은 **실행** 레이블 아래의 연한 녹색 영역에 위치합니다.
 
 :::info
-You can view the type and the name of artifacts both in the left sidebar and in the **Lineage** tab. 
+왼쪽 사이드바와 **계보** 탭에서 아티팩트의 유형과 이름을 모두 볼 수 있습니다.
 :::
 
+예를 들어, 다음 이미지에서는 "raw_dataset"이라는 유형으로 정의된 아티팩트(분홍색 사각형)가 있습니다. 아티팩트의 이름은 "MNIST_raw"(분홍색 선)입니다. 그 다음 이 아티팩트는 학습에 사용되었습니다. 학습 실행의 이름은 "vivid-snow-42"입니다. 그 실행은 "mnist-19pofeku"(주황색 사각형)라는 이름의 "모델" 아티팩트를 생성했습니다.
 
+![실험에 사용된 아티팩트, 실행의 DAG 뷰](/images/artifacts/example_dag_with_sidebar.png)
 
-For example, in the proceeding image, an artifact was defined with a type called "raw_dataset" (pink square). The name of the artifact is called "MNIST_raw" (pink line). The artifact was then used for training. The name of the training run is called "vivid-snow-42". That run then produced a "model" artifact (orange square) named "mnist-19pofeku".
+더 상세한 뷰를 보려면, 대시보드 상단 왼쪽에 있는 **Explode** 토글을 선택하세요. 확장된 그래프는 로그된 프로젝트의 모든 실행과 모든 아티팩트의 세부 사항을 보여줍니다. 이 [예제 그래프 페이지](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/v0/lineage)에서 직접 시도해 보세요.
 
+## 프로그래매틱하게 아티팩트 트래버스하기
 
-![DAG view of artifacts, runs used for an experiment.](/images/artifacts/example_dag_with_sidebar.png)
-
-
-For a more detailed view, select the **Explode** toggle on the upper left hand side of the dashboard. The expanded graph shows details of every run and every artifact in the project that was logged. Try it yourself on this [example Graph page](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/v0/lineage).
-
-
-## Traverse an artifact programmatically 
-
-Create an artifact object with the W&B Public API ([wandb.Api](../../ref/python/public-api/api.md)). Provide the name of the project, artifact and alias of the artifact:
+W&B 공개 API([wandb.Api](../../ref/python/public-api/api.md))를 사용하여 아티팩트 개체를 생성하세요. 프로젝트, 아티팩트 및 아티팩트의 별칭 이름을 제공합니다:
 
 ```python
 import wandb
@@ -57,17 +49,17 @@ api = wandb.Api()
 artifact = api.artifact("project/artifact:alias")
 ```
 
-Use the artifact object's [`logged_by`](../../ref/python/artifact.md#logged_by) and [`used_by`](../../ref/python/artifact.md#used_by) methods to walk the graph from the artifact:
+아티팩트 개체의 [`logged_by`](../../ref/python/artifact.md#logged_by) 및 [`used_by`](../../ref/python/artifact.md#used_by) 메서드를 사용하여 아티팩트에서 그래프를 트래버스하세요:
 
 ```python
-# Walk up and down the graph from an artifact:
+# 아티팩트에서 그래프를 상하로 트래버스:
 producer_run = artifact.logged_by()
 consumer_runs = artifact.used_by()
 ```
 
-#### Traverse from a run
+#### 실행에서 트래버스하기
 
-Create an artifact object with the W&B Public API ([wandb.Api.Run](../../ref/python/public-api/run.md)). Provide the name of the entity, project, and run ID:
+W&B 공개 API([wandb.Api.Run](../../ref/python/public-api/run.md))를 사용하여 아티팩트 개체를 생성하세요. 엔터티, 프로젝트, 실행 ID의 이름을 제공합니다:
 
 ```python
 import wandb
@@ -77,10 +69,10 @@ api = wandb.Api()
 run = api.run("entity/project/run_id")
 ```
 
-Use the [`logged_artifacts`](../../ref/python/public-api/run.md#logged_artifacts) and [`used_artifacts`](../../ref/python/public-api/run.md#used_artifacts) methods to walk the graph from a given run:
+주어진 실행에서 그래프를 트래버스하기 위해 [`logged_artifacts`](../../ref/python/public-api/run.md#logged_artifacts) 및 [`used_artifacts`](../../ref/python/public-api/run.md#used_artifacts) 메서드를 사용하세요:
 
 ```python
-# Walk up and down the graph from a run:
+# 실행에서 그래프를 상하로 트래버스:
 logged_artifacts = run.logged_artifacts()
 used_artifacts = run.used_artifacts()
 ```
