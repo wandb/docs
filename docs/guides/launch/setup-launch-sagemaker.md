@@ -260,7 +260,6 @@ sudo yum update -y && sudo yum install -y docker python3 && sudo systemctl start
 
 newgrp docker
 ```
-5. Associate the agent with the right role
 
 Now you can proceed to setting up the Launch agent config.
 
@@ -319,11 +318,7 @@ Now start the agent with `wandb launch-agent`
 This section applies only if your launch agent uses existing Docker images that contain your training or inference logic. [There are two options on how your launch agent behaves.](#decide-if-you-want-the-launch-agent-to-build-a-docker-images)  
 :::
 
-Upload your Docker image that contains your launch job to your Amazon ECR. Your Docker image needs to be in your ECR registry before you submit new launch jobs.
-
-:::tip
-You can provide overrides to your Launch jobs with W&B. For more information, see [LINK].
-:::
+Upload your Docker image that contains your launch job to your Amazon ECR repo. Your Docker image needs to be in your ECR registry before you submit new launch jobs if you are using image-based jobs.
 
 
 <!--  
