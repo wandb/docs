@@ -1,16 +1,16 @@
-# wandb verify
 
-**Usage**
+# wandb 검증
+
+**사용법**
 
 `wandb verify [OPTIONS]`
 
-**Summary**
+**요약**
 
-Verify your local instance
+로컬 인스턴스를 검증합니다
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| --host | Test a specific instance of W&B |
-
+| --host | W&B의 특정 인스턴스를 테스트합니다 |

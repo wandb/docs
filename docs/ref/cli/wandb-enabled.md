@@ -1,16 +1,16 @@
-# wandb enabled
 
-**Usage**
+# wandb 활성화
+
+**사용법**
 
 `wandb enabled [OPTIONS]`
 
-**Summary**
+**요약**
 
-Enable W&B.
+W&B를 활성화합니다.
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| --service | Enable W&B service  [default: True] |
-
+| --service | W&B 서비스 활성화  [기본값: True] |

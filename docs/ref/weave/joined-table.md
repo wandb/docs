@@ -1,51 +1,50 @@
+
 # joined-table
 
 ## Chainable Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+asset의 _파일_을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | asset |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+asset의 _파일_
 
 <h3 id="joinedtable-file"><code>joinedtable-file</code></h3>
 
-Returns the _file_ of a _joined-table_
+_joined-table_의 _파일_을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `joinedTable` | The _joined-table_ |
+| `joinedTable` | _joined-table_ |
 
-#### Return Value
-The  _file_ of a _joined-table_
+#### 반환 값
+_joined-table_의 _파일_
 
 <h3 id="joinedtable-rows"><code>joinedtable-rows</code></h3>
 
-Returns the rows of a _joined-table_
+_joined-table_의 행을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `joinedTable` | The _joined-table_ |
-| `leftOuter` | Whether to include rows from the left table that do not have a matching row in the right table |
-| `rightOuter` | Whether to include rows from the right table that do not have a matching row in the left table |
+| `joinedTable` | _joined-table_ |
+| `leftOuter` | 왼쪽 테이블에 매칭되는 행이 없는 경우 왼쪽 테이블의 행을 포함할지 여부 |
+| `rightOuter` | 오른쪽 테이블에 매칭되는 행이 없는 경우 오른쪽 테이블의 행을 포함할지 여부 |
 
-#### Return Value
-The rows of the _joined-table_
-
+#### 반환 값
+_joined-table_의 행
 
 ## List Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+asset의 _파일_을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | asset |
 
-#### Return Value
-The _file_ of the asset
-
+#### 반환 값
+asset의 _파일_

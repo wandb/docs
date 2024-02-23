@@ -1,19 +1,19 @@
+
 # wandb launch-sweep
 
-**Usage**
+**사용법**
 
-`wandb launch-sweep [OPTIONS] [CONFIG]`
+`wandb launch-sweep [옵션] [설정]`
 
-**Summary**
+**요약**
 
-Run a W&B launch sweep (Experimental).
+W&B 실행 스윕을 실행합니다 (실험적 기능).
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| -q, --queue | The name of a queue to push the sweep to |
-| -p, --project | Name of the project which the agent will watch. If   passed in, will override the project value passed in using a config file |
-| -e, --entity | The entity to use. Defaults to current logged-in user |
-| -r, --resume_id | Resume a launch sweep by passing an 8-char sweep id.   Queue required |
-
+| -q, --queue | 스윕을 넣을 큐의 이름 |
+| -p, --project | 에이전트가 관찰할 프로젝트의 이름입니다. 전달되면 설정 파일을 사용하여 전달된 프로젝트 값을 덮어씁니다 |
+| -e, --entity | 사용할 엔티티입니다. 기본값은 현재 로그인한 사용자 |
+| -r, --resume_id | 8자리 스윕 id를 전달하여 실행 스윕을 재개합니다. 큐가 필요함 |

@@ -1,49 +1,48 @@
-# partitioned-table
 
-## Chainable Ops
+# 파티션된-테이블
+
+## 체이너블 작업
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+자산의 _파일_을 반환합니다
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | 자산 |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+자산의 _파일_
 
 <h3 id="partitionedtable-file"><code>partitionedtable-file</code></h3>
 
-Returns the _file_ of a _partitioned-table_
+_파티션된-테이블_의 _파일_을 반환합니다
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `partitionedTable` | The _partitioned-table_ |
+| `partitionedTable` | _파티션된-테이블_ |
 
-#### Return Value
-_file_ of the _partitioned-table_
+#### 반환 값
+_파티션된-테이블_의 _파일_
 
 <h3 id="partitionedtable-rows"><code>partitionedtable-rows</code></h3>
 
-Returns the rows of a _partitioned-table_
+_파티션된-테이블_의 행을 반환합니다
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `partitionedTable` | The _partitioned-table_ to get rows from |
+| `partitionedTable` | 행을 가져올 _파티션된-테이블_ |
 
-#### Return Value
-Rows of the _partitioned-table_
+#### 반환 값
+_파티션된-테이블_의 행
 
-
-## List Ops
+## 리스트 작업
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+자산의 _파일_을 반환합니다
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | 자산 |
 
-#### Return Value
-The _file_ of the asset
-
+#### 반환 값
+자산의 _파일_

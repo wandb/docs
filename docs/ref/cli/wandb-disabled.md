@@ -1,16 +1,16 @@
-# wandb disabled
 
-**Usage**
+# wandb 비활성화
 
-`wandb disabled [OPTIONS]`
+**사용법**
 
-**Summary**
+`wandb disabled [옵션]`
 
-Disable W&B.
+**요약**
 
-**Options**
+W&B 비활성화.
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
-| --service | Disable W&B service  [default: True] |
-
+| --service | W&B 서비스 비활성화  [기본값: True] |

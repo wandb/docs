@@ -1,16 +1,16 @@
-# wandb status
 
-**Usage**
+# wandb 상태
+
+**사용법**
 
 `wandb status [OPTIONS]`
 
-**Summary**
+**요약**
 
-Show configuration settings
+구성 설정 보기
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| --settings / --no-settings | Show the current settings |
-
+| --settings / --no-settings | 현재 설정 보기 |

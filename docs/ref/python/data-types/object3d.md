@@ -1,9 +1,10 @@
+
 # Object3D
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/data_types/object_3d.py#L79-L355' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/data_types/object_3d.py#L79-L355' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
 
-Wandb class for 3D point clouds.
+3D 포인트 클라우드를 위한 Wandb 클래스입니다.
 
 ```python
 Object3D(
@@ -12,23 +13,23 @@ Object3D(
 ) -> None
 ```
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) Object3D can be initialized from a file or a numpy array. You can pass a path to a file or an io object and a file_type which must be one of SUPPORTED_TYPES |
+|  `data_or_path` |  (numpy 배열, 문자열, io) Object3D는 파일이나 numpy 배열로 초기화할 수 있습니다. 파일 경로나 io 객체와 file_type을 전달할 수 있으며, file_type은 SUPPORTED_TYPES 중 하나여야 합니다. |
 
-The shape of the numpy array must be one of either:
+numpy 배열의 형태는 다음 중 하나여야 합니다:
 
 ```
 [[x y z],       ...] nx3
-[[x y z c],     ...] nx4 where c is a category with supported range [1, 14]
-[[x y z r g b], ...] nx6 where is rgb is color
+[[x y z c],     ...] nx4 여기서 c는 지원 범위 [1, 14]인 카테고리입니다
+[[x y z r g b], ...] nx6 여기서 rgb는 색상입니다
 ```
 
-## Methods
+## 메서드
 
 ### `from_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/data_types/object_3d.py#L225-L242)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/data_types/object_3d.py#L225-L242)
 
 ```python
 @classmethod
@@ -38,15 +39,15 @@ from_file(
 ) -> "Object3D"
 ```
 
-Initializes Object3D from a file or stream.
+파일이나 스트림에서 Object3D를 초기화합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  data_or_path (Union["TextIO", str]): A path to a file or a `TextIO` stream. file_type (str): Specifies the data format passed to `data_or_path`. Required when `data_or_path` is a `TextIO` stream. This parameter is ignored if a file path is provided. The type is taken from the file extension. |
+|  data_or_path (Union["TextIO", str]): 파일 경로나 `TextIO` 스트림입니다. file_type (str): `data_or_path`에 전달된 데이터 형식을 지정합니다. `data_or_path`가 `TextIO` 스트림일 때 필요합니다. 파일 경로가 제공되면 이 파라미터는 무시되며, 파일 확장자에서 타입이 결정됩니다. |
 
 ### `from_numpy`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/data_types/object_3d.py#L244-L273)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/data_types/object_3d.py#L244-L273)
 
 ```python
 @classmethod
@@ -55,23 +56,23 @@ from_numpy(
 ) -> "Object3D"
 ```
 
-Initializes Object3D from a numpy array.
+numpy 배열에서 Object3D를 초기화합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  data (numpy array): Each entry in the array will represent one point in the point cloud. |
+|  data (numpy 배열): 배열의 각 항목은 포인트 클라우드의 한 점을 나타냅니다. |
 
-The shape of the numpy array must be one of either:
+numpy 배열의 형태는 다음 중 하나여야 합니다:
 
 ```
 [[x y z],       ...]  # nx3.
-[[x y z c],     ...]  # nx4 where c is a category with supported range [1, 14].
-[[x y z r g b], ...]  # nx6 where is rgb is color.
+[[x y z c],     ...]  # nx4 여기서 c는 지원 범위 [1, 14]인 카테고리입니다.
+[[x y z r g b], ...]  # nx6 여기서 rgb는 색상입니다.
 ```
 
 ### `from_point_cloud`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/data_types/object_3d.py#L275-L309)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/data_types/object_3d.py#L275-L309)
 
 ```python
 @classmethod
@@ -83,13 +84,13 @@ from_point_cloud(
 ) -> "Object3D"
 ```
 
-Initializes Object3D from a python object.
+파이썬 개체에서 Object3D를 초기화합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  points (Sequence["Point"]): The points in the point cloud. boxes (Sequence["Box3D"]): 3D bounding boxes for labeling the point cloud. Boxes are displayed in point cloud visualizations. vectors (Optional[Sequence["Vector3D"]]): Each vector is displayed in the point cloud visualization. Can be used to indicate directionality of bounding boxes. Defaults to None. point_cloud_type ("lidar/beta"): At this time, only the "lidar/beta" type is supported. Defaults to "lidar/beta". |
+|  points (Sequence["Point"]): 포인트 클라우드의 점들입니다. boxes (Sequence["Box3D"]): 포인트 클라우드를 라벨링하는 3D 바운딩 박스입니다. 박스는 포인트 클라우드 시각화에 표시됩니다. vectors (Optional[Sequence["Vector3D"]]): 각 벡터는 포인트 클라우드 시각화에 표시됩니다. 바운딩 박스의 방향성을 나타내는 데 사용할 수 있습니다. 기본값은 None입니다. point_cloud_type ("lidar/beta"): 현재는 "lidar/beta" 타입만 지원됩니다. 기본값은 "lidar/beta"입니다. |
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
 |  `SUPPORTED_POINT_CLOUD_TYPES`<a id="SUPPORTED_POINT_CLOUD_TYPES"></a> |   |
 |  `SUPPORTED_TYPES`<a id="SUPPORTED_TYPES"></a> |   |

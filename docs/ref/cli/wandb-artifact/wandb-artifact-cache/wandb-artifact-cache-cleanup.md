@@ -1,16 +1,16 @@
-# wandb artifact cache cleanup
 
-**Usage**
+# wandb 아티팩트 캐시 정리
 
-`wandb artifact cache cleanup [OPTIONS] TARGET_SIZE`
+**사용법**
 
-**Summary**
+`wandb artifact cache cleanup [옵션] TARGET_SIZE`
 
-Clean up less frequently used files from the artifacts cache
+**요약**
 
-**Options**
+아티팩트 캐시에서 자주 사용하지 않는 파일을 정리합니다
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
-| --remove-temp / --no-remove-temp | Remove temp files |
-
+| --remove-temp / --no-remove-temp | 임시 파일 삭제 |

@@ -1,9 +1,9 @@
-# Artifact
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L77-L2295' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+# 아티팩트
 
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L80-L2237' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
-Flexible and lightweight building block for dataset and model versioning.
+데이터세트와 모델 버전 관리를 위한 유연하고 가벼운 빌딩 블록입니다.
 
 ```python
 Artifact(
@@ -16,67 +16,53 @@ Artifact(
 ) -> None
 ```
 
-Constructs an empty artifact whose contents can be populated using its `add` family
-of functions. Once the artifact has all the desired files, you can call
-`wandb.log_artifact()` to log it.
+빈 W&B 아티팩트를 구성합니다. `add`로 시작하는 메서드를 사용하여 아티팩트의 내용을 채웁니다. 아티팩트에 원하는 모든 파일이 포함되면, `wandb.log_artifact()`를 호출하여 기록할 수 있습니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  A human-readable name for this artifact, which is how you can identify this artifact in the UI or reference it in `use_artifact` calls. Names can contain letters, numbers, underscores, hyphens, and dots. The name must be unique across a project. |
-|  `type` |  The type of the artifact, which is used to organize and differentiate artifacts. Common types include `dataset` or `model`, but you can use any string containing letters, numbers, underscores, hyphens, and dots. |
-|  `description` |  Free text that offers a description of the artifact. The description is markdown rendered in the UI, so this is a good place to place tables, links, etc. |
-|  `metadata` |  Structured data associated with the artifact, for example class distribution of a dataset. This will eventually be queryable and plottable in the UI. There is a hard limit of 100 total keys. |
+|  `name` |  아티팩트에 대한 사람이 읽을 수 있는 이름입니다. 이름을 사용하여 W&B 앱 UI 또는 프로그래밍 방식으로 특정 아티팩트를 식별합니다. `use_artifact` 공개 API로 아티팩트를 대화형으로 참조할 수 있습니다. 이름에는 글자, 숫자, 밑줄, 하이픈 및 점이 포함될 수 있습니다. 이름은 프로젝트 전체에서 고유해야 합니다. |
+|  `type` |  아티팩트의 타입입니다. 아티팩트의 타입을 사용하여 아티팩트를 구성하고 구별합니다. 글자, 숫자, 밑줄, 하이픈 및 점이 포함된 문자열을 사용할 수 있습니다. 일반적인 타입에는 `dataset` 또는 `model`이 포함됩니다. 아티팩트를 W&B 모델 레지스트리에 연결하려면 타입 문자열 내에 `model`을 포함합니다. |
+|  `description` |  아티팩트에 대한 설명입니다. 모델 또는 데이터세트 아티팩트의 경우, 표준화된 팀 모델 또는 데이터세트 카드에 대한 문서를 추가합니다. W&B 앱 UI 또는 프로그래밍 방식으로 아티팩트의 설명을 `Artifact.description` 속성으로 확인할 수 있습니다. W&B는 W&B 앱에서 마크다운으로 설명을 렌더링합니다. |
+|  `metadata` |  아티팩트에 대한 추가 정보입니다. 메타데이터를 키-값 쌍의 사전으로 지정합니다. 최대 100개의 키를 지정할 수 있습니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+|  `Artifact` 객체입니다. |
 
-#### Examples:
-
-Basic usage:
-
-```python
-wandb.init()
-
-artifact = wandb.Artifact("mnist", type="dataset")
-artifact.add_dir("mnist/")
-wandb.log_artifact(artifact)
-```
-
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
-|  `aliases` |  The aliases associated with this artifact. The list is mutable and calling `save()` will persist all alias changes. |
-|  `collection` |  The collection this artifact was retrieved from. If this artifact was retrieved from a portfolio / linked collection, that collection will be returned rather than the source sequence. |
-|  `commit_hash` |  The hash returned when this artifact was committed. |
-|  `created_at` |  The time at which the artifact was created. |
-|  `description` |  The artifact description. Free text that offers a user-set description of the artifact. |
-|  `digest` |  The logical digest of the artifact. The digest is the checksum of the artifact's contents. If an artifact has the same digest as the current `latest` version, then `log_artifact` is a no-op. |
-|  `entity` |  The name of the entity of the secondary (portfolio) artifact collection. |
-|  `file_count` |  The number of files (including references). |
-|  `id` |  The artifact's ID. |
-|  `manifest` |  The artifact's manifest. The manifest lists all of its contents, and can't be changed once the artifact has been logged. |
-|  `metadata` |  User-defined artifact metadata. Structured data associated with the artifact. |
-|  `name` |  The artifact name and version in its secondary (portfolio) collection. A string with the format {collection}:{alias}. Before the artifact is saved, contains only the name since the version is not yet known. |
-|  `project` |  The name of the project of the secondary (portfolio) artifact collection. |
-|  `qualified_name` |  The entity/project/name of the secondary (portfolio) collection. |
-|  `size` |  The total size of the artifact in bytes. Includes any references tracked by this artifact. |
-|  `source_collection` |  The artifact's primary (sequence) collection. |
-|  `source_entity` |  The name of the entity of the primary (sequence) artifact collection. |
-|  `source_name` |  The artifact name and version in its primary (sequence) collection. A string with the format {collection}:{alias}. Before the artifact is saved, contains only the name since the version is not yet known. |
-|  `source_project` |  The name of the project of the primary (sequence) artifact collection. |
-|  `source_qualified_name` |  The entity/project/name of the primary (sequence) collection. |
-|  `source_version` |  The artifact's version in its primary (sequence) collection. A string with the format "v{number}". |
-|  `state` |  The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED". |
-|  `ttl` |  Time To Live (TTL). The artifact will be deleted shortly after TTL since its creation. None means the artifact will never expire. If TTL is not set on an artifact, it will inherit the default for its collection. |
-|  `type` |  The artifact's type. |
-|  `updated_at` |  The time at which the artifact was last updated. |
-|  `version` |  The artifact's version in its secondary (portfolio) collection. |
+|  `aliases` |  아티팩트 버전에 할당된 하나 이상의 의미 친화적 참조 또는 "별칭" 목록입니다. 별칭은 프로그래밍 방식으로 참조할 수 있는 변경 가능한 참조입니다. W&B 앱 UI 또는 프로그래밍 방식으로 아티팩트의 별칭을 변경할 수 있습니다. 자세한 내용은 [새로운 아티팩트 버전 생성](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version)을 참조하십시오. |
+|  `collection` |  이 아티팩트가 검색된 컬렉션입니다. 컬렉션은 아티팩트 버전의 순서 있는 그룹입니다. 이 아티팩트가 포트폴리오/연결된 컬렉션에서 검색된 경우, 아티팩트 버전이 원래 생성된 컬렉션이 아니라 해당 컬렉션이 반환됩니다. 아티팩트가 원래 생성된 컬렉션을 원천 시퀀스라고 합니다. |
+|  `commit_hash` |  이 아티팩트가 커밋될 때 반환된 해시입니다. |
+|  `created_at` |  아티팩트가 생성된 시간의 타임스탬프입니다. |
+|  `description` |  아티팩트에 대한 설명입니다. |
+|  `digest` |  아티팩트의 논리적 다이제스트입니다. 다이제스트는 아티팩트 내용의 체크섬입니다. 아티팩트가 현재 `latest` 버전과 동일한 다이제스트를 가지고 있다면, `log_artifact`는 아무 작업도 수행하지 않습니다. |
+|  `entity` |  보조(포트폴리오) 아티팩트 컬렉션의 엔티티 이름입니다. |
+|  `file_count` |  파일(참조 포함)의 수입니다. |
+|  `id` |  아티팩트의 ID입니다. |
+|  `manifest` |  아티팩트의 매니페스트입니다. 매니페스트는 아티팩트의 모든 내용을 나열하며, 아티팩트가 기록된 후에는 변경할 수 없습니다. |
+|  `metadata` |  사용자 정의 아티팩트 메타데이터입니다. 아티팩트와 관련된 구조화된 데이터입니다. |
+|  `name` |  보조(포트폴리오) 컬렉션에서의 아티팩트 이름과 버전입니다. {collection}:{alias} 형식의 문자열입니다. 아티팩트가 저장되기 전에는 버전이 아직 알려지지 않았으므로 이름만 포함됩니다. |
+|  `project` |  보조(포트폴리오) 아티팩트 컬렉션의 프로젝트 이름입니다. |
+|  `qualified_name` |  보조(포트폴리오) 컬렉션의 entity/project/name입니다. |
+|  `size` |  바이트 단위로 측정된 아티팩트의 총 크기입니다. 이 아티팩트에서 추적하는 모든 참조를 포함합니다. |
+|  `source_collection` |  아티팩트의 기본(시퀀스) 컬렉션입니다. |
+|  `source_entity` |  기본(시퀀스) 아티팩트 컬렉션의 엔티티 이름입니다. |
+|  `source_name` |  기본(시퀀스) 컬렉션에서의 아티팩트 이름과 버전입니다. {collection}:{alias} 형식의 문자열입니다. 아티팩트가 저장되기 전에는 버전이 아직 알려지지 않았으므로 이름만 포함됩니다. |
+|  `source_project` |  기본(시퀀스) 아티팩트 컬렉션의 프로젝트 이름입니다. |
+|  `source_qualified_name` |  기본(시퀀스) 컬렉션의 entity/project/name입니다. |
+|  `source_version` |  기본(시퀀스) 컬렉션에서의 아티팩트 버전입니다. "v{number}" 형식의 문자열입니다. |
+|  `state` |  아티팩트의 상태입니다. "PENDING", "COMMITTED", 또는 "DELETED" 중 하나입니다. |
+|  `ttl` |  아티팩트의 생존 시간(TTL) 정책입니다. TTL 정책의 기간이 지나면 아티팩트는 곧 삭제됩니다. `None`으로 설정된 경우, 아티팩트는 TTL 정책을 비활성화하고 팀 기본 TTL이 있더라도 삭제 예정으로 설정되지 않습니다. 아티팩트는 팀 관리자가 기본 TTL을 정의하고 아티팩트에 사용자 지정 정책이 설정되지 않은 경우 팀 기본값에서 TTL 정책을 상속받습니다. |
+|  `type` |  아티팩트의 타입입니다. 일반적인 타입에는 `dataset` 또는 `model`이 포함됩니다. |
+|  `updated_at` |  아티팩트가 마지막으로 업데이트된 시간입니다. |
+|  `version` |  보조(포트폴리오) 컬렉션에서의 아티팩트 버전입니다. |
 
-## Methods
+## 메서드
 
 ### `add`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1350-L1464)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1295-L1392)
 
 ```python
 add(
@@ -85,45 +71,24 @@ add(
 ) -> ArtifactManifestEntry
 ```
 
-Add wandb.WBValue `obj` to the artifact.
+wandb.WBValue `obj`를 아티팩트에 추가합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `obj` |  The object to add. Currently support one of Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3D |
-|  `name` |  The path within the artifact to add the object. |
+|  `obj` |  추가할 객체입니다. 현재 Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3D 중 하나를 지원합니다. |
+|  `name` |  아티팩트 내에서 객체를 추가할 경로입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  The added manifest entry |
+|  추가된 매니페스트 항목입니다. |
 
-| Raises |  |
+| 발생 가능한 오류 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  if the artifact has already been finalized |
-
-#### Examples:
-
-Basic usage:
-
-```python
-artifact = wandb.Artifact("my_table", type="dataset")
-table = wandb.Table(
-    columns=["a", "b", "c"], data=[(i, i * 2, 2**i) for i in range(10)]
-)
-artifact.add(table, "my_table")
-
-wandb.log_artifact(artifact)
-```
-
-Retrieve an object:
-
-```python
-artifact = wandb.use_artifact("my_table:latest")
-table = artifact.get("my_table")
-```
+|  `ArtifactFinalizedError` |  현재 아티팩트 버전은 최종화되었기 때문에 변경할 수 없습니다. 대신 새로운 아티팩트 버전을 기록하세요. |
 
 ### `add_dir`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1196-L1250)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1170-L1213)
 
 ```python
 add_dir(
@@ -132,36 +97,20 @@ add_dir(
 ) -> None
 ```
 
-Add a local directory to the artifact.
+로컬 디렉터리를 아티팩트에 추가합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `local_path` |  The path to the directory being added. |
-|  `name` |  The path within the artifact to use for the directory being added. Defaults to the root of the artifact. |
+|  `local_path` |  로컬 디렉터리의 경로입니다. |
+|  `name` |  아티팩트 내의 서브디렉터리 이름입니다. 지정한 이름은 아티팩트의 `type`에 따라 W&B 앱 UI에 중첩되어 나타납니다. 기본값은 아티팩트의 루트입니다. |
 
-| Raises |  |
+| 발생 가능한 오류 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  if the artifact has already been finalized |
-
-#### Examples:
-
-Add a directory without an explicit name:
-
-```python
-# All files in `my_dir/` are added at the root of the artifact.
-artifact.add_dir("my_dir/")
-```
-
-Add a directory and name it explicitly:
-
-```python
-# All files in `my_dir/` are added under `destination/`.
-artifact.add_dir("my_dir/", name="destination")
-```
+|  `ArtifactFinalizedError` |  현재 아티팩트 버전은 최종화되었기 때문에 변경할 수 없습니다. 대신 새로운 아티팩트 버전을 기록하세요. |
 
 ### `add_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1147-L1194)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1133-L1168)
 
 ```python
 add_file(
@@ -171,41 +120,25 @@ add_file(
 ) -> ArtifactManifestEntry
 ```
 
-Add a local file to the artifact.
+로컬 파일을 아티팩트에 추가합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `local_path` |  The path to the file being added. |
-|  `name` |  The path within the artifact to use for the file being added. Defaults to the basename of the file. |
-|  `is_tmp` |  If true, then the file is renamed deterministically to avoid collisions. |
+|  `local_path` |  추가되는 파일의 경로입니다. |
+|  `name` |  추가되는 파일을 위해 아티팩트 내에서 사용할 경로입니다. 파일의 기본 이름을 기본값으로 합니다. |
+|  `is_tmp` |  참일 경우, 파일은 충돌을 피하기 위해 결정론적으로 이름이 변경됩니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  The added manifest entry |
+|  추가된 매니페스트 항목입니다. |
 
-| Raises |  |
+| 발생 가능한 오류 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  if the artifact has already been finalized |
-
-#### Examples:
-
-Add a file without an explicit name:
-
-```python
-# Add as `file.txt'
-artifact.add_file("path/to/file.txt")
-```
-
-Add a file with an explicit name:
-
-```python
-# Add as 'new/path/file.txt'
-artifact.add_file("path/to/file.txt", name="new/path/file.txt")
-```
+|  `ArtifactFinalizedError` |  현재 아티팩트 버전은 최종화되었기 때문에 변경할 수 없습니다. 대신 새로운 아티팩트 버전을 기록하세요. |
 
 ### `add_reference`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1252-L1348)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1215-L1293)
 
 ```python
 add_reference(
@@ -216,223 +149,39 @@ add_reference(
 ) -> Sequence[ArtifactManifestEntry]
 ```
 
-Add a reference denoted by a URI to the artifact.
+URI로 표시된 참조를 아티팩트에 추가합니다.
 
-Unlike adding files or directories, references are NOT uploaded to W&B. However,
-artifact methods such as `download()` can be used regardless of whether the
-artifact contains references or uploaded files.
+아티팩트에 추가하는 파일이나 디렉터리와 달리, 참조는 W&B에 업로드되지 않습니다. 자세한 내용은 [외부 파일 추적](https://docs.wandb.ai/guides/artifacts/track-external-files)을 참조하십시오.
 
-By default, W&B offers special handling for the following schemes:
+기본적으로 다음 스키마가 지원됩니다:
 
-- http(s): The size and digest of the file will be inferred by the
-  `Content-Length` and the `ETag` response headers returned by the server.
-- s3: The checksum and size will be pulled from the object metadata. If bucket
-  versioning is enabled, then the version ID is also tracked.
-- gs: The checksum and size will be pulled from the object metadata. If bucket
-  versioning is enabled, then the version ID is also tracked.
-- https, domain matching *.blob.core.windows.net (Azure): The checksum and size
-  will be pulled from the blob metadata. If storage account versioning is
-  enabled, then the version ID is also tracked.
-- file: The checksum and size will be pulled from the file system. This scheme
-  is useful if you have an NFS share or other externally mounted volume
-  containing files you wish to track but not necessarily upload.
+- http(s): 서버가 반환하는 `Content-Length` 및 `ETag` 응답 헤더에 의해 파일의 크기와 다이제스트가 추론됩니다.
+- s3: 체크섬과 크기는 오브젝트 메타데이터에서 가져옵니다. 버킷 버전 관리가 활성화된 경우, 버전 ID도 추적됩니다.
+- gs: 체크섬과 크기는 오브젝트 메타데이터에서 가져옵니다. 버킷 버전 관리가 활성화된 경우, 버전 ID도 추적됩니다.
+- https, `*.blob.core.windows.net` 도메인 일치(Azure): 체크섬과 크기는 블롭 메타데이터에서 가져옵니다. 스토리지 계정 버전 관리가 활성화된 경우, 버전 ID도 추적됩니다.
+- file: 체크섬과 크기는 파일 시스템에서 가져옵니다. 이 스키마는 추적하고 싶지만 반드시 업로드하지는 않아야 하는 NFS 공유나 다른 외부로 마운트된 볼륨에 있는 파일이 있는 경우 유용합니다.
 
-For any other scheme, the digest is just a hash of the URI and the size is left
-blank.
+다른 스키마의 경우, 다이제스트는 URI의 해시이며 크기는 비워둡니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `uri` |  The URI path of the reference to add. Can be an object returned from Artifact.get_entry to store a reference to another artifact's entry. |
-|  `name` |  The path within the artifact to place the contents of this reference |
-|  `checksum` |  Whether or not to checksum the resource(s) located at the reference URI. Checksumming is strongly recommended as it enables automatic integrity validation, however it can be disabled to speed up artifact creation. (default: True) |
-|  `max_objects` |  The maximum number of objects to consider when adding a reference that points to directory or bucket store prefix. For S3 and GCS, this limit is 10,000 by default but is uncapped for other URI schemes. (default: None) |
-
-| Returns |  |
-| :--- | :--- |
-|  The added manifest entries. |
-
-| Raises |  |
-| :--- | :--- |
-|  `ArtifactFinalizedError` |  if the artifact has already been finalized. |
-
-#### Examples:
-
-Add an HTTP link:
-
-```python
-# Adds `file.txt` to the root of the artifact as a reference.
-artifact.add_reference("http://myserver.com/file.txt")
-```
-
-Add an S3 prefix without an explicit name:
-
-```python
-# All objects under `prefix/` will be added at the root of the artifact.
-artifact.add_reference("s3://mybucket/prefix")
-```
-
-Add a GCS prefix with an explicit name:
-
-```python
-# All objects under `prefix/` will be added under `path/` at the artifact
-# root.
-artifact.add_reference("gs://mybucket/prefix", name="path")
-```
-
-### `checkout`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1871-L1900)
-
-```python
-checkout(
-    root: Optional[str] = None
-) -> str
-```
-
-Replace the specified root directory with the contents of the artifact.
-
-WARNING: This will DELETE all files in `root` that are not included in the
-artifact.
-
-| Arguments |  |
-| :--- | :--- |
-|  `root` |  The directory to replace with this artifact's files. |
-
-| Returns |  |
-| :--- | :--- |
-|  The path to the checked out contents. |
-
-| Raises |  |
-| :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact has not been logged |
-
-### `delete`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L2014-L2036)
-
-```python
-delete(
-    delete_aliases: bool = (False)
-) -> None
-```
-
-Delete an artifact and its files.
-
-| Arguments |  |
-| :--- | :--- |
-|  `delete_aliases` |  If true, deletes all aliases associated with the artifact. Otherwise, this raises an exception if the artifact has existing aliases. |
-
-| Raises |  |
-| :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact has not been logged |
-
-#### Examples:
-
-Delete all the "model" artifacts a run has logged:
-
-```python
-runs = api.runs(path="my_entity/my_project")
-for run in runs:
-    for artifact in run.logged_artifacts():
-        if artifact.type == "model":
-            artifact.delete(delete_aliases=True)
-```
-
-### `download`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1668-L1708)
-
-```python
-download(
-    root: Optional[str] = None,
-    allow_missing_references: bool = (False)
-) -> FilePathStr
-```
-
-Download the contents of the artifact to the specified root directory.
-
-NOTE: Any existing files at `root` are left untouched. Explicitly delete
-root before calling `download` if you want the contents of `root` to exactly
-match the artifact.
-
-| Arguments |  |
-| :--- | :--- |
-|  `root` |  The directory in which to download this artifact's files. |
-
-| Returns |  |
-| :--- | :--- |
-|  The path to the downloaded contents. |
-
-| Raises |  |
-| :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact has not been logged |
-
-### `file`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1945-L1970)
-
-```python
-file(
-    root: Optional[str] = None
-) -> StrPath
-```
-
-Download a single file artifact to dir specified by the root.
-
-| Arguments |  |
-| :--- | :--- |
-|  `root` |  The root directory in which to place the file. Defaults to './artifacts/self.name/'. |
-
-| Returns |  |
-| :--- | :--- |
-|  The full path of the downloaded file. |
-
-| Raises |  |
-| :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact has not been logged |
-|  `ValueError` |  if the artifact contains more than one file |
-
-### `files`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1972-L1989)
-
-```python
-files(
-    names: Optional[List[str]] = None,
-    per_page: int = 50
-) -> ArtifactFiles
-```
-
-Iterate over all files stored in this artifact.
-
-| Arguments |  |
-| :--- | :--- |
-|  `names` |  The filename paths relative to the root of the artifact you wish to list. |
-|  `per_page` |  The number of files to return per request |
-
-| Returns |  |
-| :--- | :--- |
-|  An iterator containing `File` objects |
-
-| Raises |  |
-| :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact has not been logged |
+|  `uri` |  추가할 참조의 URI 경로입니다. `
 
 ### `finalize`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L692-L697)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L702-L710)
 
 ```python
 finalize() -> None
 ```
 
-Mark this artifact as final, disallowing further modifications.
+아티팩트 버전을 확정합니다.
 
-This happens automatically when calling `log_artifact`.
+아티팩트가 특정 버전으로 로그되면 그 아티팩트 버전을 수정할 수 없습니다. 아티팩트에 데이터를 더 로그하려면 새 아티팩트 버전을 생성하세요. `log_artifact`로 아티팩트를 로그할 때 아티팩트는 자동으로 확정됩니다.
 
 ### `get`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1559-L1620)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1473-L1519)
 
 ```python
 get(
@@ -440,39 +189,23 @@ get(
 ) -> Optional[data_types.WBValue]
 ```
 
-Get the WBValue object located at the artifact relative `name`.
+아티팩트 상대 `name`에 위치한 WBValue 개체를 가져옵니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  The artifact relative name to get |
+|  `name` |  가져올 아티팩트 상대 이름입니다. |
 
-| Raises |  |
+| 반환값 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact isn't logged or the run is offline |
+|  `wandb.log()`로 로그할 수 있고 W&B UI에서 시각화할 수 있는 W&B 개체입니다. |
 
-#### Examples:
-
-Basic usage:
-
-```python
-# Run logging the artifact
-with wandb.init() as r:
-    artifact = wandb.Artifact("my_dataset", type="dataset")
-    table = wandb.Table(
-        columns=["a", "b", "c"], data=[(i, i * 2, 2**i) for i in range(10)]
-    )
-    artifact.add(table, "my_table")
-    wandb.log_artifact(artifact)
-
-# Run using the artifact
-with wandb.init() as r:
-    artifact = r.use_artifact("my_dataset:latest")
-    table = artifact.get("my_table")
-```
+| 발생 가능한 오류 |  |
+| :--- | :--- |
+|  `ArtifactNotLoggedError` |  아티팩트가 로그되지 않았거나 실행이 오프라인 상태인 경우 |
 
 ### `get_added_local_path_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1622-L1644)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1521-L1533)
 
 ```python
 get_added_local_path_name(
@@ -480,31 +213,19 @@ get_added_local_path_name(
 ) -> Optional[str]
 ```
 
-Get the artifact relative name of a file added by a local filesystem path.
+로컬 파일 시스템 경로로 추가된 파일의 아티팩트 상대 이름을 가져옵니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `local_path` |  The local path to resolve into an artifact relative name. |
+|  `local_path` |  아티팩트 상대 이름으로 해석할 로컬 경로입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  The artifact relative name. |
-
-#### Examples:
-
-Basic usage:
-
-```python
-artifact = wandb.Artifact("my_dataset", type="dataset")
-artifact.add_file("path/to/file.txt", name="artifact/path/file.txt")
-
-# Returns `artifact/path/file.txt`:
-name = artifact.get_added_local_path_name("path/to/file.txt")
-```
+|  아티팩트 상대 이름입니다. |
 
 ### `get_entry`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1522-L1557)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1451-L1471)
 
 ```python
 get_entry(
@@ -512,40 +233,24 @@ get_entry(
 ) -> ArtifactManifestEntry
 ```
 
-Get the entry with the given name.
+주어진 이름을 가진 엔트리를 가져옵니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  The artifact relative name to get |
+|  `name` |  가져올 아티팩트 상대 이름입니다. |
 
-| Raises |  |
+| 반환값 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact isn't logged or the run is offline |
-|  `KeyError` |  if the artifact doesn't contain an entry with the given name |
+|  `W&amp;B` 개체입니다. |
 
-#### Examples:
-
-Basic usage:
-
-```python
-# Run logging the artifact
-with wandb.init() as r:
-    artifact = wandb.Artifact("my_dataset", type="dataset")
-    artifact.add_file("path/to/file.txt")
-    wandb.log_artifact(artifact)
-
-# Run using the artifact
-with wandb.init() as r:
-    artifact = r.use_artifact("my_dataset:latest")
-    entry = artifact.get_entry("file.txt")
-
-    # Can now download 'file.txt' directly:
-    entry.download()
-```
+| 발생 가능한 오류 |  |
+| :--- | :--- |
+|  `ArtifactNotLoggedError` |  아티팩트가 로그되지 않았거나 실행이 오프라인 상태인 경우입니다. |
+|  `KeyError` |  주어진 이름을 가진 엔트리가 아티팩트에 없는 경우입니다. |
 
 ### `get_path`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1515-L1520)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1444-L1449)
 
 ```python
 get_path(
@@ -553,29 +258,37 @@ get_path(
 ) -> ArtifactManifestEntry
 ```
 
-Deprecated, use get_entry(name) instead.
+사용되지 않습니다. `get_entry(name)`을 사용하세요.
 
 ### `is_draft`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L707-L709)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L720-L725)
 
 ```python
 is_draft() -> bool
 ```
 
-Whether the artifact is a draft, i.e. it hasn't been saved yet.
+아티팩트가 저장되지 않았는지 확인합니다.
+
+반환값: 아티팩트가 저장된 경우 `False`, 저장되지 않은 경우 `True`인 Boolean입니다.
 
 ### `json_encode`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L2173-L2175)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L2110-L2117)
 
 ```python
 json_encode() -> Dict[str, Any]
 ```
 
+아티팩트를 JSON 형식으로 인코딩하여 반환합니다.
+
+| 반환값 |  |
+| :--- | :--- |
+|  아티팩트의 속성을 나타내는 `string` 키를 가진 `dict`입니다. |
+
 ### `link`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L2063-L2085)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1988-L2016)
 
 ```python
 link(
@@ -584,50 +297,58 @@ link(
 ) -> None
 ```
 
-Link this artifact to a portfolio (a promoted collection of artifacts).
+이 아티팩트를 포트폴리오(승진된 아티팩트 모음)에 연결합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `target_path` |  The path to the portfolio. It must take the form {portfolio}, {project}/{portfolio} or {entity}/{project}/{portfolio}. |
-|  `aliases` |  A list of strings which uniquely identifies the artifact inside the specified portfolio. |
+|  `target_path` |  프로젝트 내의 포트폴리오로의 경로입니다. 대상 경로는 다음 스키마 중 하나를 준수해야 합니다. `{portfolio}`, `{project}/{portfolio}` 또는 `{entity}/{project}/{portfolio}`. 아티팩트를 프로젝트 내의 일반 포트폴리오가 아닌 모델 레지스트리에 연결하려면 `target_path`를 다음 스키마로 설정하세요. `{"model-registry"}/{Registered Model Name}` 또는 `{entity}/{"model-registry"}/{Registered Model Name}`. |
+|  `aliases` |  지정된 포트폴리오 내에서 아티팩트를 고유하게 식별하는 문자열 목록입니다. |
 
-| Raises |  |
+| 발생 가능한 오류 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact has not been logged |
+|  `ArtifactNotLoggedError` |  아티팩트가 로그되지 않은 경우입니다. |
 
 ### `logged_by`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L2131-L2171)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L2065-L2108)
 
 ```python
 logged_by() -> Optional[Run]
 ```
 
-Get the run that first logged this artifact.
+이 아티팩트를 처음 로그한 W&B 실행을 가져옵니다.
 
-| Raises |  |
+| 반환값 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact has not been logged |
+|  이 아티팩트를 처음 로그한 W&B 실행의 이름입니다. |
+
+| 발생 가능한 오류 |  |
+| :--- | :--- |
+|  `ArtifactNotLoggedError` |  아티팩트가 로그되지 않은 경우입니다. |
 
 ### `new_draft`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L326-L355)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L324-L356)
 
 ```python
 new_draft() -> "Artifact"
 ```
 
-Create a new draft artifact with the same content as this committed artifact.
+이 커밋된 아티팩트와 동일한 내용으로 새 드래프트 아티팩트를 생성합니다.
 
-The artifact returned can be extended or modified and logged as a new version.
+반환된 아티팩트는 확장되거나 수정되어 새 버전으로 로그될 수 있습니다.
 
-| Raises |  |
+| 반환값 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact has not been logged |
+|  `Artifact` 개체입니다. |
+
+| 발생 가능한 오류 |  |
+| :--- | :--- |
+|  `ArtifactNotLoggedError` |  아티팩트가 로그되지 않은 경우입니다. |
 
 ### `new_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1101-L1145)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1094-L1131)
 
 ```python
 @contextlib.contextmanager
@@ -638,34 +359,39 @@ new_file(
 ) -> Generator[IO, None, None]
 ```
 
-Open a new temporary file that will be automatically added to the artifact.
+새 임시 파일을 열고 아티팩트에 추가합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  The name of the new file being added to the artifact. |
-|  `mode` |  The mode in which to open the new file. |
-|  `encoding` |  The encoding in which to open the new file. |
+|  `name` |  아티팩트에 추가할 새 파일의 이름입니다. |
+|  `mode` |  새 파일을 열 때 사용할 파일 접근 모드입니다. |
+|  `encoding` |  새 파일을 열 때 사용할 인코딩입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A new file object that can be written to. Upon closing, the file will be automatically added to the artifact. |
+|  쓸 수 있는 새 파일 개체입니다. 닫을 때 파일은 자동으로 아티팩트에 추가됩니다. |
 
-| Raises |  |
+| 발생 가능한 오류 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  if the artifact has already been finalized. |
+|  `ArtifactFinalizedError` |  현재 아티팩트 버전은 확정되었으므로 변경할 수 없습니다. 대신 새 아티팩트 버전을 로그하세요. |
 
-#### Examples:
+### `path_contains_dir_prefix`
+
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1600-L1607)
 
 ```python
-artifact = wandb.Artifact("my_data", type="dataset")
-with artifact.new_file("hello.txt") as f:
-    f.write("hello!")
-wandb.log_artifact(artifact)
+@classmethod
+path_contains_dir_prefix(
+    path: StrPath,
+    dir_path: StrPath
+) -> bool
 ```
+
+`path`가 `dir_path`를 접두사로 포함하는지 여부를 반환합니다.
 
 ### `remove`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1485-L1513)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1413-L1442)
 
 ```python
 remove(
@@ -673,20 +399,20 @@ remove(
 ) -> None
 ```
 
-Remove an item from the artifact.
+아티팩트에서 항목을 제거합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `item` |  the item to remove. Can be a specific manifest entry or the name of an artifact-relative path. If the item matches a directory all items in that directory will be removed. |
+|  `item` |  제거할 항목입니다. 구체적인 매니페스트 엔트리 또는 아티팩트 상대 경로의 이름일 수 있습니다. 항목이 디렉터리와 일치하면 해당 디렉터리의 모든 항목이 제거됩니다. |
 
-| Raises |  |
+| 발생 가능한 오류 |  |
 | :--- | :--- |
-|  `ArtifactFinalizedError` |  if the artifact has already been finalized. |
-|  `FileNotFoundError` |  if the item isn't found in the artifact. |
+|  `ArtifactFinalizedError` |  현재 아티팩트 버전은 확정되었으므로 변경할 수 없습니다. 대신 새 아티팩트 버전을 로그하세요. |
+|  `FileNotFoundError` |  항목이 아티팩트에서 찾을 수 없는 경우입니다. |
 
 ### `save`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L714-L753)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L730-L769)
 
 ```python
 save(
@@ -695,33 +421,48 @@ save(
 ) -> None
 ```
 
-Persist any changes made to the artifact.
+아티팩트에 대한 변경 사항을 영구적으로 저장합니다.
 
-If currently in a run, that run will log this artifact. If not currently in a
-run, a run of type "auto" will be created to track this artifact.
+현재 실행 중인 경우, 해당 실행이 이 아티팩트를 로그합니다. 현재 실행 중이 아닌 경우, "auto" 유형의 실행이 이 아티팩트를 추적하도록 생성됩니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `project` |  A project to use for the artifact in the case that a run is not already in context |
-|  `settings` |  A settings object to use when initializing an automatic run. Most commonly used in testing harness. |
+|  `project` |  실행이 이미 컨텍스트에 없는 경우 사용할 아티팩트의 프로젝트입니다. |
+|  `settings` |  자동 실행을 초기화할 때 사용할 설정 개체입니다. 주로 테스트 하네스에서 사용됩니다. |
+
+### `should_download_entry`
+
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1609-L1615)
+
+```python
+@classmethod
+should_download_entry(
+    entry: ArtifactManifestEntry,
+    prefix: Optional[StrPath]
+) -> bool
+```
 
 ### `used_by`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L2087-L2129)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L2018-L2063)
 
 ```python
 used_by() -> List[Run]
 ```
 
-Get a list of the runs that have used this artifact.
+이 아티팩트를 사용한 실행 목록을 가져옵니다.
 
-| Raises |  |
+| 반환값 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact has not been logged |
+|  `Run` 개체의 목록입니다. |
+
+| 발생 가능한 오류 |  |
+| :--- | :--- |
+|  `ArtifactNotLoggedError` |  아티팩트가 로그되지 않은 경우입니다. |
 
 ### `verify`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1902-L1943)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1839-L1878)
 
 ```python
 verify(
@@ -729,25 +470,22 @@ verify(
 ) -> None
 ```
 
-Verify that the actual contents of an artifact match the manifest.
+아티팩트의 내용이 매니페스트와 일치하는지 확인합니다.
 
-All files in the directory are checksummed and the checksums are then
-cross-referenced against the artifact's manifest.
+디렉터리의 모든 파일은 체크섬되며, 그 체크섬은 아티팩트의 매니페스트와 교차 참조됩니다. 참조는 검증되지 않습니다.
 
-NOTE: References are not verified.
-
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `root` |  The directory to verify. If None artifact will be downloaded to './artifacts/self.name/' |
+|  `root` |  검증할 디렉터리입니다. None인 경우 아티팩트는 './artifacts/self.name/'에 다운로드됩니다. |
 
-| Raises |  |
+| 발생 가능한 오류 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact has not been logged |
-|  `ValueError` |  If the verification fails. |
+|  `ArtifactNotLoggedError` |  아티팩트가 로그되지 않은 경우입니다. |
+|  `ValueError` |  검증이 실패한 경우입니다. |
 
 ### `wait`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L761-L779)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L777-L804)
 
 ```python
 wait(
@@ -755,15 +493,19 @@ wait(
 ) -> "Artifact"
 ```
 
-Wait for this artifact to finish logging, if needed.
+필요한 경우 이 아티팩트가 로그를 마칠 때까지 기다립니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `timeout` |  Wait up to this long. |
+|  `timeout` |  기다릴 시간(초)입니다. |
+
+| 반환값 |  |
+| :--- | :--- |
+|  `Artifact` 개체입니다. |
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1039-L1066)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1064-L1076)
 
 ```python
 __getitem__(
@@ -771,40 +513,23 @@ __getitem__(
 ) -> Optional[data_types.WBValue]
 ```
 
-Get the WBValue object located at the artifact relative `name`.
+아티팩트 상대 `name`에 위치한 WBValue 개체를 가져옵니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  The artifact relative name to get |
+|  `name` |  가져올 아티팩트 상대 이름입니다. |
 
-| Raises |  |
+| 반환값 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  if the artifact isn't logged or the run is offline |
+|  `wandb.log()`로 로그할 수 있고 W&B UI에서 시각화할 수 있는 W&B 개체입니다. |
 
-#### Examples:
-
-Basic usage:
-
-```python
-artifact = wandb.Artifact("my_table", type="dataset")
-table = wandb.Table(
-    columns=["a", "b", "c"], data=[(i, i * 2, 2**i) for i in range(10)]
-)
-artifact["my_table"] = table
-
-wandb.log_artifact(artifact)
-```
-
-Retrieving an object:
-
-```python
-artifact = wandb.use_artifact("my_table:latest")
-table = artifact["my_table"]
-```
+| 발생 가능한 오류 |  |
+| :--- | :--- |
+|  `ArtifactNotLoggedError` |  아티팩트가 로그되지 않았거나 실행이 오프라인 상태인 경우입니다. |
 
 ### `__setitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/sdk/artifacts/artifact.py#L1068-L1099)
+[View source](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/artifacts/artifact.py#L1078-L1092)
 
 ```python
 __setitem__(
@@ -813,38 +538,5 @@ __setitem__(
 ) -> ArtifactManifestEntry
 ```
 
-Add `item` to the artifact at path `name`.
+`name` 경로에 `item`을 아티팩트에 추가합니다.
 
-| Arguments |  |
-| :--- | :--- |
-|  `name` |  The path within the artifact to add the object. |
-|  `item` |  The object to add. |
-
-| Returns |  |
-| :--- | :--- |
-|  The added manifest entry |
-
-| Raises |  |
-| :--- | :--- |
-|  `ArtifactFinalizedError` |  if the artifact has already been finalized. |
-
-#### Examples:
-
-Basic usage:
-
-```python
-artifact = wandb.Artifact("my_table", type="dataset")
-table = wandb.Table(
-    columns=["a", "b", "c"], data=[(i, i * 2, 2**i) for i in range(10)]
-)
-artifact["my_table"] = table
-
-wandb.log_artifact(artifact)
-```
-
-Retrieving an object:
-
-```python
-artifact = wandb.use_artifact("my_table:latest")
-table = artifact["my_table"]
-```

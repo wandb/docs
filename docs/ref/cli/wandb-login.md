@@ -1,29 +1,20 @@
-# wandb login
 
-**Usage**
+# wandb 로그인
 
-`wandb login [OPTIONS] [KEY]...`
+**사용법**
 
-:::note
-When connecting to a [W&B Server](../../guides/hosting/intro.md) deployment (either **Dedicated Cloud**  or **Self-managed**), use the --relogin and --host options like:
+`wandb login [옵션] [키]...`
 
-```bash
-wandb login --relogin --host=http://your-shared-local-host.com
-```
+**요약**
 
-If needed, ask your deployment admin for the hostname.
-:::
+Weights & Biases에 로그인
 
-**Summary**
+**옵션**
 
-Login to Weights & Biases
-
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| --cloud | Login to the cloud instead of local |
-| --host | Login to a specific instance of W&B |
-| --relogin | Force relogin if already logged in. |
-| --anonymously | Log in anonymously |
-
+| --cloud | 로컬 대신 클라우드에 로그인 |
+| --host | W&B의 특정 인스턴스에 로그인 |
+| --relogin | 이미 로그인되어 있으면 강제로 다시 로그인. |
+| --anonymously | 익명으로 로그인 |
+| --verify | 로그인 자격 증명을 검증 |

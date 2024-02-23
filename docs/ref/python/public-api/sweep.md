@@ -1,9 +1,9 @@
-# Sweep
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L2901-L3111' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+# 스윕
 
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/apis/public/sweeps.py#L29-L239' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
-A set of runs associated with a sweep.
+스윕과 관련된 실행들의 집합입니다.
 
 ```python
 Sweep(
@@ -11,29 +11,29 @@ Sweep(
 )
 ```
 
-#### Examples:
+#### 예시:
 
-Instantiate with:
+다음과 같이 인스턴스를 생성합니다.
 
 ```
 api = wandb.Api()
 sweep = api.sweep(path/to/sweep)
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
-|  `runs` |  (`Runs`) list of runs |
-|  `id` |  (str) sweep id |
-|  `project` |  (str) name of project |
-|  `config` |  (str) dictionary of sweep configuration |
-|  `state` |  (str) the state of the sweep |
-|  `expected_run_count` |  (int) number of expected runs for the sweep |
+|  `runs` |  (`Runs`) 실행 목록 |
+|  `id` |  (str) 스윕 ID |
+|  `project` |  (str) 프로젝트 이름 |
+|  `config` |  (str) 스윕 구성의 사전 |
+|  `state` |  (str) 스윕의 상태 |
+|  `expected_run_count` |  (int) 스윕을 위한 예상 실행 횟수 |
 
-## Methods
+## 메서드
 
 ### `best_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L2996-L3019)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/apis/public/sweeps.py#L124-L147)
 
 ```python
 best_run(
@@ -41,11 +41,11 @@ best_run(
 )
 ```
 
-Return the best run sorted by the metric defined in config or the order passed in.
+구성에서 정의된 메트릭 또는 전달된 순서에 따라 정렬된 최상의 실행을 반환합니다.
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L1165-L1176)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/apis/attrs.py#L15-L26)
 
 ```python
 display(
@@ -53,11 +53,11 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+이 개체를 jupyter에 표시합니다.
 
 ### `get`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L3044-L3093)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/apis/public/sweeps.py#L172-L221)
 
 ```python
 @classmethod
@@ -66,11 +66,11 @@ get(
 )
 ```
 
-Execute a query against the cloud backend.
+클라우드 백엔드에 대한 쿼리를 실행합니다.
 
 ### `load`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L2977-L2985)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/apis/public/sweeps.py#L105-L113)
 
 ```python
 load(
@@ -80,7 +80,7 @@ load(
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L1161-L1163)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/apis/attrs.py#L11-L13)
 
 ```python
 snake_to_camel(
@@ -90,7 +90,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.1/wandb/apis/public.py#L3095-L3103)
+[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/apis/public/sweeps.py#L223-L231)
 
 ```python
 to_html(
@@ -98,9 +98,9 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this sweep.
+이 스윕을 표시하는 iframe이 포함된 HTML을 생성합니다.
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
 |  `LEGACY_QUERY`<a id="LEGACY_QUERY"></a> |   |
 |  `QUERY`<a id="QUERY"></a> |   |

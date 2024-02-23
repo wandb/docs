@@ -1,15 +1,15 @@
-# wandb server stop
 
-**Usage**
+# wandb 서버 중지
 
-`wandb server stop [OPTIONS]`
+**사용법**
 
-**Summary**
+`wandb server stop [옵션]`
 
-Stop a local W&B server
+**요약**
 
-**Options**
+로컬 W&B 서버를 중지합니다
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
-

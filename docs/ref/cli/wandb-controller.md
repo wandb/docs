@@ -1,16 +1,16 @@
-# wandb controller
 
-**Usage**
+# wandb 컨트롤러
 
-`wandb controller [OPTIONS] SWEEP_ID`
+**사용법**
 
-**Summary**
+`wandb 컨트롤러 [옵션] 스윕_ID`
 
-Run the W&B local sweep controller
+**요약**
 
-**Options**
+W&B 로컬 스윕 컨트롤러 실행
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
-| --verbose | Display verbose output |
-
+| --verbose | 상세한 출력 표시 |

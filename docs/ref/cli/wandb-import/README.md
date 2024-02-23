@@ -1,20 +1,21 @@
+
 # wandb import
 
-**Usage**
+**사용법**
 
-`wandb import [OPTIONS] COMMAND [ARGS]...`
+`wandb import [옵션] 명령 [인수]...`
 
-**Summary**
+**요약**
 
-Commands for importing data from other systems
+다른 시스템에서 데이터를 가져오기 위한 명령들
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
 
-**Commands**
+**명령**
 
-| **Command** | **Description** |
+| **명령** | **설명** |
 | :--- | :--- |
-| mlflow | Import from MLFlow |
+| mlflow | MLFlow에서 가져오기 |

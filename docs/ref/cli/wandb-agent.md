@@ -1,18 +1,18 @@
-# wandb agent
 
-**Usage**
+# wandb 에이전트
+
+**사용법**
 
 `wandb agent [OPTIONS] SWEEP_ID`
 
-**Summary**
+**요약**
 
-Run the W&B agent
+W&B 에이전트를 실행합니다
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| -p, --project | The project of the sweep. |
-| -e, --entity | The entity scope for the project. |
-| --count | The max number of runs for this agent. |
-
+| -p, --project | 스윕에서 생성된 W&B 실행이 전송되는 프로젝트의 이름입니다. 프로젝트가 지정되지 않은 경우, 실행은 'Uncategorized'로 표시된 프로젝트로 전송됩니다. |
+| -e, --entity | 스윕에 의해 생성된 W&B 실행을 전송하고자 하는 사용자 이름 또는 팀 이름입니다. 지정한 엔티티가 이미 존재하는지 확인하세요. 엔티티를 지정하지 않으면, 실행은 보통 사용자 이름인 기본 엔티티로 전송됩니다. |
+| --count | 이 에이전트의 최대 실행 횟수입니다. |

@@ -1,21 +1,22 @@
-# wandb server
 
-**Usage**
+# wandb 서버
 
-`wandb server [OPTIONS] COMMAND [ARGS]...`
+**사용법**
 
-**Summary**
+`wandb server [OPTIONS] 명령 [인수]...`
 
-Commands for operating a local W&B server
+**요약**
 
-**Options**
+로컬 W&B 서버를 운영하기 위한 명령어들
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
 
-**Commands**
+**명령**
 
-| **Command** | **Description** |
+| **명령** | **설명** |
 | :--- | :--- |
-| start | Start a local W&B server |
-| stop | Stop a local W&B server |
+| start | 로컬 W&B 서버 시작 |
+| stop | 로컬 W&B 서버 중지 |

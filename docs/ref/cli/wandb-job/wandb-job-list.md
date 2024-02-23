@@ -1,17 +1,17 @@
-# wandb job list
 
-**Usage**
+# wandb 작업 목록
 
-`wandb job list [OPTIONS]`
+**사용법**
 
-**Summary**
+`wandb job list [옵션]`
 
-List jobs in a project
+**요약**
 
-**Options**
+프로젝트의 작업 목록을 봅니다.
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
-| -p, --project | The project you want to list jobs from. |
-| -e, --entity | The entity the jobs belong to |
-
+| -p, --project | 작업 목록을 보고 싶은 프로젝트. |
+| -e, --entity | 작업이 속한 엔터티 |

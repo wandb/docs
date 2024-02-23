@@ -1,15 +1,15 @@
-# wandb offline
 
-**Usage**
+# wandb 오프라인
 
-`wandb offline [OPTIONS]`
+**사용법**
 
-**Summary**
+`wandb offline [옵션]`
 
-Disable W&B sync
+**요약**
 
-**Options**
+W&B 동기화 비활성화
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
-
