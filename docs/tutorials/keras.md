@@ -1,18 +1,18 @@
+
 # Keras
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb)
+[**여기에서 Colab 노트북으로 시도해보세요 →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb)
 
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
+Weights & Biases를 사용하여 머신 러닝 실험 추적, 데이터세트 버전 관리, 프로젝트 협업을 하세요.
 
 <img src="http://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
 
 
-This colab notebook introduces the `WandbMetricsLogger` callback. Use this callback for [Experiment Tracking](https://docs.wandb.ai/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
+이 Colab 노트북은 `WandbMetricsLogger` 콜백을 소개합니다. 이 콜백을 [실험 추적](https://docs.wandb.ai/guides/track)에 사용하세요. 학습 및 검증 메트릭과 시스템 메트릭을 Weights and Biases에 로깅합니다.
 
+# 🌴 설정 및 설치
 
-# 🌴 Setup and Installation
-
-First, let us install the latest version of Weights and Biases. We will then authenticate this colab instance to use W&B.
+먼저, Weights and Biases의 최신 버전을 설치해보겠습니다. 그런 다음 이 Colab 인스턴스를 W&B를 사용하도록 인증합니다.
 
 
 ```python
@@ -27,21 +27,21 @@ from tensorflow.keras import layers
 from tensorflow.keras import models
 import tensorflow_datasets as tfds
 
-# Weights and Biases related imports
+# Weights and Biases 관련 import
 import wandb
 from wandb.keras import WandbMetricsLogger
 ```
 
-If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up for a [free account](https://wandb.ai/signup) is as easy as a few clicks.
+W&B를 처음 사용하거나 로그인하지 않은 경우, `wandb.login()`을 실행한 후 나타나는 링크가 회원 가입/로그인 페이지로 이동합니다. [무료 계정](https://wandb.ai/signup)에 가입하는 것은 몇 번의 클릭만으로 간단합니다.
 
 
 ```python
 wandb.login()
 ```
 
-# 🌳 Hyperparameters
+# 🌳 하이퍼파라미터
 
-Use of proper config system is a recommended best practice for reproducible machine learning. We can track the hyperparameters for every experiment using W&B. In this colab we will be using simple Python `dict` as our config system.
+재현 가능한 머신 러닝을 위한 적절한 설정 시스템 사용은 권장되는 모범 사례입니다. W&B를 사용하여 모든 실험의 하이퍼파라미터를 추적할 수 있습니다. 이 Colab에서는 간단한 Python `dict`를 설정 시스템으로 사용할 것입니다.
 
 
 ```python
@@ -57,9 +57,9 @@ configs = dict(
 )
 ```
 
-# 🍁 Dataset
+# 🍁 데이터세트
 
-In this colab, we will be using [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
+이 Colab에서는 TensorFlow 데이터세트 카탈로그의 [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) 데이터세트를 사용할 것입니다. TensorFlow/Keras를 사용하여 간단한 이미지 분류 파이프라인을 구축하는 것을 목표로 합니다.
 
 
 ```python
@@ -72,11 +72,11 @@ AUTOTUNE = tf.data.AUTOTUNE
 
 
 def parse_data(example):
-    # Get image
+    # 이미지 가져오기
     image = example["image"]
     # image = tf.image.convert_image_dtype(image, dtype=tf.float32)
 
-    # Get label
+    # 레이블 가져오기
     label = example["label"]
     label = tf.one_hot(label, depth=configs["num_classes"])
 
@@ -104,7 +104,7 @@ trainloader = get_dataloader(train_ds, configs)
 validloader = get_dataloader(valid_ds, configs, dataloader_type="valid")
 ```
 
-# 🎄 Model
+# 🎄 모델
 
 
 ```python
@@ -130,7 +130,7 @@ model = get_model(configs)
 model.summary()
 ```
 
-# 🌿 Compile Model
+# 🌿 모델 컴파일
 
 
 ```python
@@ -141,24 +141,24 @@ model.compile(
 )
 ```
 
-# 🌻 Train
+# 🌻 학습
 
 
 ```python
-# Initialize a W&B run
+# W&B 실행 초기화
 run = wandb.init(
     project = "intro-keras",
     config = configs
 )
 
-# Train your model
+# 모델 학습
 model.fit(
     trainloader,
     epochs = configs["epochs"],
     validation_data = validloader,
-    callbacks = [WandbMetricsLogger(log_freq=10)] # Notice the use of WandbMetricsLogger here
+    callbacks = [WandbMetricsLogger(log_freq=10)] # 여기서 WandbMetricsLogger의 사용에 주목하세요
 )
 
-# Close the W&B run
+# W&B 실행 종료
 run.finish()
 ```
