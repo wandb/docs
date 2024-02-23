@@ -1,28 +1,28 @@
+
 # LightGBM
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb)
+[**여기에서 Colab 노트북으로 시도해보세요 →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb)
 
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
+Weights & Biases를 사용하여 머신 러닝 실험 추적, 데이터세트 버전 관리 및 프로젝트 협업을 진행하세요.
 
-Gradient boosting decision trees are the state of the art when it comes to building predictive models for structured data.
+그래디언트 부스팅 결정 트리는 구조화된 데이터에 대한 예측 모델을 구축할 때 최첨단 기술입니다.
 
-[LigthGBM](https://github.com/microsoft/LightGBM), a gradient boosting framework by Microsoft, has dethroned xgboost and become the go to GBDT algorithm (along with catboost). It outperforms xgboost in training speeds, memory usage and the size of datasets it can handle. LightGBM does so by using histogram-based algorithms to bucket continuous features into discrete bins during training.
+[LightGBM](https://github.com/microsoft/LightGBM), Microsoft의 그래디언트 부스팅 프레임워크는 xgboost를 제치고 가장 선호되는 GBDT 알고리즘이 되었습니다(그리고 catboost와 함께). LightGBM은 학습 시 연속적인 특징을 이산적인 버킷으로 분류하는 히스토그램 기반 알고리즘을 사용함으로써 학습 속도, 메모리 사용량 및 처리할 수 있는 데이터세트의 크기에서 xgboost를 능가합니다.
 
-You can find the **[W&B + LightGBM documentation here](https://docs.wandb.ai/guides/integrations/boosting)** 
+**[W&B + LightGBM 문서는 여기에서 확인할 수 있습니다](https://docs.wandb.ai/guides/integrations/boosting)**
 
+## 이 노트북에서 다루는 내용
+* LightGBM과 Weights and Biases의 쉬운 통합.
+* 메트릭 로깅을 위한 `wandb_callback()` 콜백
+* 특징 중요도 그래프 로깅 및 모델 저장을 W&B에 활성화하는 `log_summary()` 함수
 
-## What this notebook covers
-* Easy integration of Weights and Biases with LightGBM. 
-* `wandb_callback()` callback for metrics logging
-* `log_summary()` function to log a feature importance plot and enable model saving to W&B
+우리는 사람들이 자신의 모델을 살펴보는 것을 더 쉽게 만들고자 하여, 단 한 줄의 코드로 LightGBM의 성능을 시각화할 수 있도록 도와주는 콜백을 개발했습니다.
 
-We want to make it incredible easy for people to look under the hood of their models, so we built a callback that helps you visualize your LightGBM’s performance in just one line of code.
+**참고**: _Step_으로 시작하는 섹션은 W&B를 통합하는 데 필요한 모든 것입니다.
 
-**Note**: Sections starting with _Step_ is all you need to integrate W&B.
+# 설치, 가져오기 및 로그인
 
-# Install, Import, and Log in
-
-## The Usual Suspects
+## 평소처럼
 
 
 ```ipython
@@ -36,14 +36,14 @@ import lightgbm as lgb
 from sklearn.metrics import mean_squared_error
 ```
 
-## Step 0: Install W&B
+## Step 0: W&B 설치
 
 
 ```ipython
 !pip install -qU wandb
 ```
 
-## Step 1: Import W&B and Login
+## Step 1: W&B 가져오기 및 로그인
 
 
 ```python
@@ -53,7 +53,7 @@ from wandb.lightgbm import wandb_callback, log_summary
 wandb.login()
 ```
 
-# Download and Prepare Dataset
+# 데이터세트 다운로드 및 준비
 
 
 
@@ -64,7 +64,7 @@ wandb.login()
 
 
 ```python
-# load or create your dataset
+# 데이터세트를 불러오거나 생성합니다
 df_train = pd.read_csv("regression.train", header=None, sep="\t")
 df_test = pd.read_csv("regression.test", header=None, sep="\t")
 
@@ -73,24 +73,24 @@ y_test = df_test[0]
 X_train = df_train.drop(0, axis=1)
 X_test = df_test.drop(0, axis=1)
 
-# create dataset for lightgbm
+# lightgbm을 위한 데이터세트 생성
 lgb_train = lgb.Dataset(X_train, y_train)
 lgb_eval = lgb.Dataset(X_test, y_test, reference=lgb_train)
 ```
 
-# Train
+# 학습
 
-### Step 2: Initialize your wandb run. 
+### Step 2: wandb 실행 초기화
 
-Using `wandb.init()` initialize your W&B run. You can also pass a dictionary of configs. [Check out the official documentation here $\rightarrow$](https://docs.wandb.com/library/init)
+`wandb.init()`를 사용하여 W&B 실행을 초기화합니다. 구성의 사전을 전달할 수도 있습니다. [공식 문서를 확인하세요 $\rightarrow$](https://docs.wandb.com/library/init)
 
-You can't deny the importance of configs in your ML/DL workflow. W&B makes sure that you have access to the right config to reproduce your model. 
+ML/DL 워크플로에서 구성의 중요성을 부인할 수 없습니다. W&B는 모델을 재현할 수 있는 올바른 구성에 액세스할 수 있도록 보장합니다.
 
-[Learn more about configs in this colab notebook $\rightarrow$](http://wandb.me/config-colab)
+[이 Colab 노트북에서 구성에 대해 자세히 알아보세요 $\rightarrow$](http://wandb.me/config-colab)
 
 
 ```python
-# specify your configurations as a dict
+# 사전으로 구성을 지정합니다
 params = {
     "boosting_type": "gbdt",
     "objective": "regression",
@@ -106,14 +106,14 @@ params = {
 wandb.init(project="my-lightgbm-project", config=params)
 ```
 
-> Once you have trained your model come back and click on the **Project page**.
+> 모델을 학습한 후에는 **프로젝트 페이지**를 클릭하여 돌아갑니다.
 
-### Step 3: Train with `wandb_callback`
+### Step 3: `wandb_callback`으로 학습
 
 
 ```python
-# train
-# add lightgbm callback
+# 학습
+# lightgbm 콜백 추가
 gbm = lgb.train(
     params,
     lgb_train,
@@ -125,74 +125,72 @@ gbm = lgb.train(
 )
 ```
 
-### Step 4: Log Feature Importance and Upload Model with `log_summary`
-`log_summary` will upload calculate and upload the feature importance import and (optionally) upload your trained model to W&B Artifacts so you can use it later
+### Step 4: `log_summary`로 특징 중요도 로깅 및 모델 업로드
+`log_summary`는 특징 중요도를 계산 및 업로드하고 (선택적으로) 훈련된 모델을 W&B 아티팩트에 업로드하여 나중에 사용할 수 있습니다
 
 
 ```python
 log_summary(gbm, save_model_checkpoint=True)
 ```
 
-# Evaluate
+# 평가
 
 
 ```python
-# predict
+# 예측
 y_pred = gbm.predict(X_test, num_iteration=gbm.best_iteration)
 
-# eval
-print("The rmse of prediction is:", mean_squared_error(y_test, y_pred) ** 0.5)
+# 평가
+print("예측의 rmse는:", mean_squared_error(y_test, y_pred) ** 0.5)
 wandb.log({"rmse_prediction": mean_squared_error(y_test, y_pred) ** 0.5})
 ```
 
-When you are finished logging for a particular W&B run its a good idea to call `wandb.finish()` to tidy up the wandb process (only necessary when using notebooks/colabs)
+특정 W&B 실행에 대한 로깅을 마쳤다면 `wandb.finish()`를 호출하여 wandb 프로세스를 정리하는 것이 좋습니다(노트북/Colabs 사용 시에만 필요).
 
 
 ```python
 wandb.finish()
 ```
 
-# Visualize Results
+# 결과 시각화
 
-Click on the **project page** link above to see your results automatically visualized.
+위의 **프로젝트 페이지** 링크를 클릭하여 결과를 자동으로 시각화된 것을 확인하세요.
 
 <img src="https://imgur.com/S6lwSig.png" alt="Viz" />
 
-
 # Sweep 101
 
-Use Weights & Biases Sweeps to automate hyperparameter optimization and explore the space of possible models.
+Weights & Biases 스윕을 사용하여 하이퍼파라미터 최적화를 자동화하고 가능한 모델의 공간을 탐색하세요.
 
-## [Check out Hyperparameter Optimization with XGBoost  using W&B Sweep $\rightarrow$](http://wandb.me/xgb-colab)
+## [W&B 스윕을 사용한 XGBoost 하이퍼파라미터 최적화 확인하기 $\rightarrow$](http://wandb.me/xgb-colab)
 
-Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
+Weights & Biases와 함께 하이퍼파라미터 스윕을 실행하는 것은 매우 쉽습니다. 단 3단계만 있습니다:
 
-1. **Define the sweep:** We do this by creating a dictionary or a [YAML file](https://docs.wandb.com/library/sweeps/configuration) that specifies the parameters to search through, the search strategy, the optimization metric et all.
+1. **스윕 정의:** 검색할 매개변수, 검색 전략, 최적화 메트릭 등을 지정하는 사전이나 [YAML 파일](https://docs.wandb.com/library/sweeps/configuration)을 생성함으로써 이를 수행합니다.
 
-2. **Initialize the sweep:** 
+2. **스윕 초기화:** 
 `sweep_id = wandb.sweep(sweep_config)`
 
-3. **Run the sweep agent:** 
+3. **스윕 에이전트 실행:** 
 `wandb.agent(sweep_id, function=train)`
 
-And voila! That's all there is to running a hyperparameter sweep!
+그게 다입니다! 하이퍼파라미터 스윕을 실행하는 것이 그만큼 쉽습니다!
 
 <img src="https://imgur.com/SVtMfa2.png" alt="Sweep Result" />
 
+# 예제 갤러리
 
-# Example Gallery
+W&B에서 추적 및 시각화된 프로젝트의 예시는 [갤러리에서 확인하세요 →](https://app.wandb.ai/gallery)
 
-See examples of projects tracked and visualized with W&B in our [Gallery →](https://app.wandb.ai/gallery)
+# 기본 설정
+1. **프로젝트**: 여러 실행을 프로젝트에 로그하여 비교합니다. `wandb.init(project="project-name")`
+2. **그룹**: 여러 프로세스 또는 교차 검증 폴드의 경우, 각 프로세스를 실행으로 로깅하고 함께 그룹화합니다. `wandb.init(group='experiment-1')`
+3. **태그**: 현재 기준선이나 프로덕션 모델을 추적하기 위해 태그를 추가합니다.
+4. **노트**: 실행 간 변경 사항을 추적하기 위해 테이블에 노트를 입력합니다.
+5. **리포트**: 동료와 진행 상황에 대한 간단한 메모를 작성하고, ML 프로젝트의 대시보드와 스냅샷을 만듭니다.
 
-# Basic Setup
-1. **Projects**: Log multiple runs to a project to compare them. `wandb.init(project="project-name")`
-2. **Groups**: For multiple processes or cross validation folds, log each process as a runs and group them together. `wandb.init(group='experiment-1')`
-3. **Tags**: Add tags to track your current baseline or production model.
-4. **Notes**: Type notes in the table to track the changes between runs.
-5. **Reports**: Take quick notes on progress to share with colleagues and make dashboards and snapshots of your ML projects.
-
-# Advanced Setup
-1. [Environment variables](https://docs.wandb.com/library/environment-variables): Set API keys in environment variables so you can run training on a managed cluster.
-2. [Offline mode](https://docs.wandb.com/library/technical-faq#can-i-run-wandb-offline): Use `dryrun` mode to train offline and sync results later.
-3. [On-prem](https://docs.wandb.com/self-hosted): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
-4. [Sweeps](https://docs.wandb.com/sweeps): Set up hyperparameter search quickly with our lightweight tool for tuning.
+# 고급 설정
+1. [환경 변수](https://docs.wandb.com/library/environment-variables): 관리 클러스터에서 학습을 실행할 수 있도록 환경 변수에 API 키를 설정합니다.
+2. [오프라인 모드](https://docs.wandb.com/library/technical-faq#can-i-run-wandb-offline): `dryrun` 모드를 사용하여 오프라인으로 학습하고 나중에 결과를 동기화합니다.
+3. [온-프레미스](https://docs.wandb.com/self-hosted): W&B를 자체 인프라의 프라이빗 클라우드 또는 에어갭 서버에 설치합니다. 우리는 학계부터 기업 팀까지 모두를 위한 로컬 설치를 제공합니다.
+4. [스윕](https://docs.wandb.com/sweeps): 튜닝을 위한 가벼운 도구로 하이퍼파라미터 검색을 빠르게 설정합니다.
