@@ -1,16 +1,13 @@
-# Weights & Biases Documentation
+# Weights & Biases Documentation [Korean]
 
 [![Build the docs](https://github.com/wandb/docodile/actions/workflows/build_docs.yml/badge.svg)](https://github.com/wandb/docodile/actions/workflows/build_docs.yml)
 
 The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is built using [Docusaurus 2](https://docusaurus.io/), a static website generator built with React. The high level overview of the doc writing process is:
-
-<div align='center'>Edit markdown → confirm changes don’t break the docs → create a pull request for review.</div>
-
-From there, someone from the Docs Team will review the PR and merge it. 
+<div align='center'>Edit markdown → confirm changes don’t break the docs → create a pull request for review.</div>  
 
 &nbsp;
 
-## Docusaurus dependencies
+## Install dependencies
 
 Satisfy the following dependencies to create, build, and locally serve W&B Docs on your local machine:
 
@@ -25,11 +22,8 @@ Satisfy the following dependencies to create, build, and locally serve W&B Docs 
   ```
 - Install an IDE (e.g. VS Studio) or Text Editor (e.g. Sublime)
 
-&nbsp;
-
-## Install W&B Doc dependencies
-
-After you have forked and cloned wandb/docodile, change directory to `wandb/docodile` and install the W&B Doc app dependencies with `yarn`:
+## Install W&B Doc app
+1. After you have forked and cloned wandb/docodile, change directory to `wandb/docodile` and install the W&B Doc app dependencies with `yarn`:
 
 ```bash
 cd docodile
@@ -37,15 +31,7 @@ cd docodile
 yarn install
 ```
 
-Test that you can build the docs locally with:
-
-```bash
-yarn start
-```
-
-This will return the port number where you can preview your changes to the docs. A full list of yarn commands can be found in `docusaurus/package.json`
-
-Install pre-commit hooks to ensure that the code snippets in the docs are formatted correctly:
+2. Install pre-commit hooks to ensure that the code snippets in the docs are formatted correctly:
 
 ```bash
 pip install pre-commit
@@ -56,49 +42,41 @@ pre-commit install
 &nbsp;
 
 ## How to edit the docs locally
+> ⚠️ Make sure that you push changes to the `korean_docs` branch and not `main`. ⚠️
 
-1. Navigate to your local GitHub repo of `docodile` and pull the latest changes from main:
+&nbsp;
 
+
+1. Navigate to your local GitHub repo of `docodile`
 ```bash
 cd docodile
-git pull origin main
 ```
 
-2. Create a feature branch off of `main`.
-
+2. Checkout a branch bashed off of `korean_docs` branch and track `korean_docs`:
 ```bash
-git checkout -b <your-feature-branch>
+git checkout -b your-feature-branch origin/korean_docs
 ```
 
-3. In a new terminal, start a local preview of the docs with `yarn start`.
-
-```bash
-yarn start
-```
-
-This will return the port number where you can preview your changes to the docs.
-
-4. Make changes to the appropriate markdown files.
-5. Check your changes are rendered correctly with the preview you started in Step 3.
-6. Next, build the static HTML files. This is a more thorough check that your changes don't break the docs. To build the static HTML files, run the following within the root directory of repo:
+3. Make changes to the appropriate markdown files.
+4. Build a local version of the site to make sure changes don't break the docs:
 
 ```bash
 bash ./scripts/build-local-docs.sh
 ```
 
-7. Commit the changes to the branch.
+If the build is succesful, go to the next step.
 
+5. Commit your changes:
 ```bash
-git commit -m 'Useful commit message.'
+git add -u
+git commit -m "Your commit message"
 ```
 
-8. Push the branch to GitHub.
-
+6. Push to `korean_docs` branch on remote:
 ```bash
-git push origin <your-feature-branch>
+git push origin your-feature-branch:korean
 ```
 
-9. Open a pull request from the new branch to the original repo.
 
 &nbsp;
 
