@@ -74,7 +74,7 @@ git commit -m "Your commit message"
 
 6. Push to `korean_docs` branch on remote:
 ```bash
-git push origin your-feature-branch:korean
+git push origin your-feature-branch:korean_docs
 ```
 
 
