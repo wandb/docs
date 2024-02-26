@@ -147,17 +147,16 @@ W&B keeps runs logged by team members, even if they are no longer on the team.
 ## Automate user and team management
 
 ### SCIM API
-Use [SCIM API](./scim.md) to manage users, and the teams they belong to, in an efficient and repeatable manner. 
-
+Use [SCIM API](./scim.md) to manage users, and the teams they belong to, in an efficient and repeatable manner. You can also use the SCIM API to manage custom roles or assign roles to users in your W&B organization. Role endpoints are not part of the official SCIM schema. W&B adds role endpoints to support automated management of custom roles and to assign roles to users in W&B organizations.
 
 SCIM API is especially useful if you want to:
-* manage user provisioning and de-provisioning at scale, 
-* mange users with a [SCIM](https://scim.cloud/)-supporting Identity Provider. 
+* manage user provisioning and de-provisioning at scale
+* manage users with a [SCIM](https://scim.cloud/)-supporting Identity Provider
 
-There are broadly two categories of SCIM API - **User** and **Group**.
+There are broadly three categories of SCIM API - **User**, **Group**, and **Roles**.
 
 #### User SCIM API
-[User SCIM API](./scim.md#user-resource) allows for creating, deactivating or getting the details of a user (or listing all users) in a W&B organization.
+[User SCIM API](./scim.md#user-resource) allows for creating, deactivating, getting the details of a user, or listing all users in a W&B organization.
 
 :::info
 Deactivate a user within a W&B organization with the `DELETE User` endpoint. Deactivated users can no longer sign in. However, deactivated users still appears in the organization's user list.
@@ -168,13 +167,29 @@ It is possible to re-enable a deactivated user, if needed.
 :::
 
 #### Group SCIM API
-[Group SCIM API](./scim.md#group-resource) allows for creating or removing a W&B team in a organization. Use the `PATCH Group` add or remove users in an existing team.
+[Group SCIM API](./scim.md#group-resource) allows for managing W&B teams, including creating or removing teams in an organization. Use the `PATCH Group` to add or remove users in an existing team.
 
 :::info
-There is no notion of a `group of users having the same role` within W&B Server. A W&B team closely resembles a group. Use W&B teams allows diverse personas, with different roles, work collaboratively on a set of related projects. Teams are consist of different groups of users. Assign each user in a group a role: team admins, members, viewers, or custom roles. 
+There is no notion of a `group of users having the same role` within W&B. A W&B team closely resembles a group, and allows diverse personas with different roles to work collaboratively on a set of related projects. Teams can consist of different groups of users. Assign each user in a team a role: team admin, member, viewer, or a custom role.
 
+W&B maps Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
+:::
 
-W&B mapped Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
+#### Custom role and role assignment SCIM API
+[Custom role and role assignment SCIM API](./scim.md#role-resource) allows for managing custom roles, including creating, listing, or updating custom roles in an organization. This API also supports assigning predefined or custom roles to users in an organization.
+
+:::caution
+Delete a custom role with caution.
+
+Delete a custom role within a W&B organization with the `DELETE Role` endpoint. The predefined role that the custom role inherits is assigned to all users that are assigned the custom role before the operation.
+
+Update the inherited role for a custom role with the `PUT Role` endpoint. This operation doesn't affect any of the existing, that is, non-inherited custom permissions in the custom role.
+:::
+
+:::caution
+The request type and path for the role assignment APIs are same as for the update custom role permissions API. Both types of APIs implement the `PATCH Role` endpoint. Difference is that the URI for role assignment APIs expects a `:userId` parameter, while the URI for custom role API expects a `:roleId`. Expected request bodies for both types of APIs are also different. 
+
+Be careful with the parameter value in the URI and the request body such that those map to the intended operation.
 :::
 
 ### W&B Python SDK API
@@ -192,7 +207,7 @@ Just like how SCIM API allows you to automate user and team management, you can 
 |` Member.delete()` | Remove a member user from a team. You can get the list of member objects in a team using the team object's `members` attribute. And you can get the team object using the team(teamName) method. |
 
 ### Role assignment API
-**Coming Soon!** Reach out to your W&B team if you would like to use the upcoming role assignment API.
+The role assignment API is part of the SCIM Role API. Refer to [Custom role and role assignment SCIM API](#custom-role-and-role-assignment-scim-api).
 
 ## View organization usage of W&B
 Use the organization dashboard to get a holistic view of users that belong to your organization, how users of your organization use W&B, along with properties such as:

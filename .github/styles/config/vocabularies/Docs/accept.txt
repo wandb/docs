@@ -1,4 +1,8 @@
+APIs
 Autogenerate
+autolog
+[Bb]asename
+[Bb]oolean
 [Cc]heckpointing
 CLI
 [Cc]loud
@@ -9,17 +13,30 @@ CTAButtons
 [Dd]edicated cloud
 [Dd]equeue
 [Dd]equeues
+[Dd]eserialize
+Docker
 Dockerfile
 [Ee]nqueued
 GPUs
+Helm
 [Hh]ostname
+Hyperband
 [Hh]yperparameters
 [Hh]yperparameter
 Kaniko
+Keras
 Kubeflow
+[Ll]atents
+MMEngine
+MMDetection
 [Nn]amespace
 Optuna
+[P]repended
 [Pp]seudocode
+SCIM
 [Ss]elf-managed
+Terraform
+TTL
+UI
 [Ww]alkthrough
 W&B Server

@@ -1,7 +1,7 @@
 ---
 description: Use an Automation to retrain models as new data comes in
 title: Artifact automations
-displayed_sidebar: default
+displayed_sidebar: ja
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

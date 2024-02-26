@@ -35,7 +35,7 @@ wandb job create image <image-name> -p <project> -e <entity>
 
   1. Create your queue before you start your agent, so that you can set your agent to point to it easily.  If you don’t do this, your agent will give errors and not work until you add a queue.
   2. Create a W&B service account to start up the agent, so that it's not tied to an individual user account.
-  3. Use `wandb.config` to read and write your hyperparameters, so that they can be overwritten when re-running a job.  Check out [this guide](https://docs.wandb.ai/guides/launch/create-launch-job#making-your-code-job-friendly) if you use argsparse.
+  3. Use `wandb.config` to read and write your hyperparameters, so that they can be overwritten when re-running a job. Check out [this guide](https://docs.wandb.ai/guides/launch/create-launch-job#making-your-code-job-friendly) if you use argsparse.
 
 ### I do not like clicking- can I use Launch without going through the UI?
   
@@ -175,7 +175,8 @@ Yes. The suggested way is:
 
 ### How can admins restrict what ML engineers have access to modify? For example, changing an image tag may be fine but other job settings may not be.
   
-  Right now, the only permission restriction is that only team admins can create queues.  We are anticipating (a) expanding that to include also *editing* queue configs and (b) to allow whitelisting of certain config parameters to be editable by non-admins.  For example the image tag or the memory requirements.
+This can be controlled by [queue config templates](./setup-queue-advanced.md), which expose certain queuefields for non-team-admin users to edit within limits defined by admin users. Only team admins can create or edit queues, including defining which fields are exposed and the limits for them. 
+
 ### How does W&B Launch build images?
 
 The steps taken to build an image vary depending on the source of the job being run, and whether the resource configuration specifies an accelerator base image.
@@ -227,6 +228,15 @@ For jobs that use tensorflow on GPU, you may also need to specify a custom base 
 
 Note prior to wandb version: 0.15.6 use `cuda` instead of `accelerator` as the parent key to `base_image`.
 
+### Can you use a custom repository for packages when Launch builds the image?
+
+Yes. To do so, add the following line to your `requirements.txt` and replace the values passed to `index-url` and `extra-index-url` with your own values:
+
+```text
+----index-url=https://xyz@<your-repo-host> --extra-index-url=https://pypi.org/simple
+```
+ 
+The `requirements.txt` needs to be defined at the base root of the job.
 
 ## Automatic run re-queuing on preemption
 

@@ -5,25 +5,25 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Set up Kubernetes
+# Set up for Kubernetes
 
-You can use W&B Launch to execute W&B Launch Jobs as a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) or [Custom workload](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) resource in a Kubernetes cluster. This is particularly useful if you want to use Kubernetes to manage your compute cluster and want a simple interface to execute training, transformation, or ML workloads in your cluster.
+You can use W&B Launch to push ML workloads to a Kubernetes cluster, giving ML engineers a simple interface right in W&B to use the resources you already manage with Kubernetes. 
 
-W&B maintains an [official launch agent image](https://hub.docker.com/r/wandb/launch-agent) that can be deployed to your cluster with a [helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) that is managed by W&B.
 
-:::info
-It is possible to start a launch agent outside of a Kubernetes cluster. However, we recommend that you deploy the launch agent directly into the Kubernetes cluster that is responsible for running the Kubernetes Job or Custom workload.
-:::
+W&B maintains an [official Launch agent image](https://hub.docker.com/r/wandb/launch-agent) that can be deployed to your cluster with a [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) that W&B maintains. 
 
-The launch agent submits workloads to the cluster specified by the current Kubernetes cluster context.
 
-W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to enable the launch agent to build Docker images in a Kubernetes cluster. To learn more on how to set up Kaniko for the launch agent, see [Advanced agent set up](./setup-agent-advanced.md).
+W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to enable the Launch agent to build Docker images in a Kubernetes cluster. To learn more on how to set up Kaniko for the Launch agent, or how to disable job building and only use prebuilt Docker images, see [Advanced agent set up](./setup-agent-advanced.md).
+
 
 <!-- Future: insert diagram here -->
 
 ## Configure a queue for Kubernetes
 
-The launch queue configuration for a Kubernetes target resource will resemble either a Kubernetes Job spec or a Kubernetes Custom Resource spec. You can control any aspect of the Kubernetes workload resource spec when you create a launch queue.
+The Launch queue configuration for a Kubernetes target resource will resemble either a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) or a [Kubernetes Custom Resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+
+
+You can control any aspect of the Kubernetes workload resource spec when you create a Launch queue.
 
 <Tabs
 defaultValue="job"
@@ -57,7 +57,7 @@ namespace: wandb
 
 In some use cases, you might want to use `CustomResource` definitions. `CustomResource` definitions are useful if, for example, you want to perform multi-node distributed training. See the tutorial for using Launch with multi-node jobs using Volcano for an example application. Another use case might be that you want to use W&B Launch with Kubeflow.
 
-The following YAML snippet shows a sample launch queue config that uses Kubeflow:
+The following YAML snippet shows a sample Launch queue config that uses Kubeflow:
 
 ```yaml
 kubernetes:
@@ -91,7 +91,7 @@ kubernetes:
   </TabItem>
 </Tabs>
 
-For security reasons, W&B will inject the following resources into your launch queue if they are not specified:
+For security reasons, W&B will inject the following resources into your Launch queue if they are not specified:
 
 - `securityContext`
 - `backOffLimit`
@@ -124,13 +124,13 @@ Create a queue in the W&B App that uses Kubernetes as its compute resource:
 5. Select **Kubernetes** as the **Resource**.
 6. Within the **Configuration** field, provide the Kubernetes Job workflow spec or Custom Resource spec you [configured in the previous section](#configure-a-queue-for-kubernetes).
 
-## Configure a launch agent with helm
+## Configure a Launch agent with Helm
 
-Use the helm chart provided by W&B to deploy the launch agent into your Kubernetes cluster. Control the behavior of the launch agent with the `values.yaml` [file](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml).
+Use the [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) provided by W&B to deploy the Launch agent into your Kubernetes cluster. Control the behavior of the launch agent with the `values.yaml` [file](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml).
 
 Specify the contents that would normally by defined in your launch agent config file (`~/.config/wandb/launch-config.yaml`) within the `launchConfig` key in the`values.yaml` file.
 
-For example, suppose you have launch agent config that enables you to run a launch agent in EKS that uses the Kaniko Docker image builder:
+For example, suppose you have Launch agent config that enables you to run a Launch agent in EKS that uses the Kaniko Docker image builder:
 
 ```yaml title="launch-config.yaml"
 queues:
@@ -190,9 +190,6 @@ launchConfig: |
     type: kaniko
     build-context-store: <s3-bucket-uri>
 
-# Set to false to disable volcano install.
-volcano: true
-
 # The contents of a git credentials file. This will be stored in a k8s secret
 # and mounted into the agent container. Set this if you want to clone private
 # repos.
@@ -208,10 +205,4 @@ serviceAccount:
 azureStorageAccessKey: ''
 ```
 
-:::note
-You can control whether the Volcano scheduler is installed into your cluster.
-:::
-
 For more information on registries, environments and required agent permissions see [Advanced agent set up](./setup-agent-advanced.md).
-
-Follow the instructions in the [helm chart repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) to deploy your agent.

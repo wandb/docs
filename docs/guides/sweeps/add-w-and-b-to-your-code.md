@@ -259,3 +259,86 @@ wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
 For more information on how to start sweep jobs, see [Start sweep jobs](./start-sweep-agents.md).
   </TabItem>
 </Tabs>
+
+
+## Consideration when logging metrics 
+
+
+
+Ensure to log the metric you specify in your sweep configuration explicitly to W&B. Do not log metrics for your sweep inside of a sub-directory. 
+
+For example, consider the proceeding psuedocode. A user wants to log the validation loss (`"val_loss": loss`). First they pass the values into a dictionary (line 16). However, the dictionary passed to `wandb.log` does not explicitly access the key-value pair in the dictionary:
+
+```python title="train.py" showLineNumbers
+# Import the W&B Python Library and log into W&B
+import wandb
+import random
+
+
+def train():
+    offset = random.random() / 5
+    acc = 1 - 2**-epoch - random.random() / epoch - offset
+    loss = 2**-epoch + random.random() / epoch + offset
+
+    val_metrics = {"val_loss": loss, "val_acc": acc}
+    return val_metrics
+
+
+def main():
+    wandb.init(entity="<entity>", project="my-first-sweep")
+    val_metrics = train()
+    # highlight-next-line
+    wandb.log({"val_loss": val_metrics})
+
+
+sweep_configuration = {
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "val_loss"},
+    "parameters": {
+        "x": {"max": 0.1, "min": 0.01},
+        "y": {"values": [1, 3, 7]},
+    },
+}
+
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
+
+wandb.agent(sweep_id, function=main, count=10)
+```
+
+Instead, explicitly access the key-value pair within the Python dictionary. For example, the proceeding code (line after you create a dictionary, specify the key-value pair when you pass the dictionary to the `wandb.log` method:
+
+```python title="train.py" showLineNumbers
+# Import the W&B Python Library and log into W&B
+import wandb
+import random
+
+
+def train():
+    offset = random.random() / 5
+    acc = 1 - 2**-epoch - random.random() / epoch - offset
+    loss = 2**-epoch + random.random() / epoch + offset
+
+    val_metrics = {"val_loss": loss, "val_acc": acc}
+    return val_metrics
+
+
+def main():
+    wandb.init(entity="<entity>", project="my-first-sweep")
+    val_metrics = train()
+    # highlight-next-line
+    wandb.log({"val_loss", val_metrics["val_loss"]})
+
+
+sweep_configuration = {
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "val_loss"},
+    "parameters": {
+        "x": {"max": 0.1, "min": 0.01},
+        "y": {"values": [1, 3, 7]},
+    },
+}
+
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
+
+wandb.agent(sweep_id, function=main, count=10)
+```

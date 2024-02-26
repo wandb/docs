@@ -17,6 +17,7 @@
 | :--- | :--- |
 | agent | Run the W&B agent |
 | artifact | Commands for interacting with artifacts |
+| beta | Beta versions of wandb CLI commands. |
 | controller | Run the W&B local sweep controller |
 | disabled | Disable W&B. |
 | docker | Run your code in a docker container. |
@@ -36,6 +37,6 @@
 | scheduler | Run a W&B launch sweep scheduler (Experimental) |
 | server | Commands for operating a local W&B server |
 | status | Show configuration settings |
-| sweep | Create a sweep |
+| sweep | Initialize a hyperparameter sweep. |
 | sync | Upload an offline training directory to W&B |
 | verify | Verify your local instance |
