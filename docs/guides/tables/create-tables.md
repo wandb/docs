@@ -5,7 +5,7 @@ displayed_sidebar: default
 # Create a table
 
 Unlike traditional spreadsheets, Tables support numerous types of data:
-scalar values, strings, numpy arrays, and most subclasses of `wandb.data_types.Media`.
+scalar values, strings, NumPy arrays, and most subclasses of `wandb.data_types.Media`.
 This means you can embed `Images`, `Video`, `Audio`, and other sorts of rich, annotated media
 directly in Tables, alongside other traditional scalar values.
 
@@ -68,7 +68,7 @@ wandb.log({"classifier_out": tbl})
 
 ## Table Visualizer
 
-Tables added directly to runs as above will produce a corresponding [Table Visualizer](visualize-tables.md) in the
+Tables added directly to runs as above will produce a corresponding [Table Visualizer](./visualize-tables.md) in the
 Workspace which can be used for further analysis and exporting to reports.
 
 Tables added to artifacts can be viewed in the Artifact Tab and will render

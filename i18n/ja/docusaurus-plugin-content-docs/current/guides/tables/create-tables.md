@@ -4,7 +4,7 @@ displayed_sidebar: ja
 ---
 
 Unlike traditional spreadsheets, Tables support numerous types of data:
-scalar values, strings, numpy arrays, and most subclasses of `wandb.data_types.Media`.
+scalar values, strings, NumPy arrays, and most subclasses of `wandb.data_types.Media`.
 This means you can embed `Images`, `Video`, `Audio`, and other sorts of rich, annotated media
 directly in Tables, alongside other traditional scalar values.
 
