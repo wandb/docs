@@ -1,6 +1,6 @@
 # Weave (Query Language)
 
-Weave is wandb's data querying language, which you can use to select and aggregate data across runs and projects. 
+Weave is wandb's data querying language, which you can use to select and aggregate data across runs and projects. For a guide about Weave Panels, see here: https://docs.wandb.ai/guides/app/features/panels/weave
 
 ## Data Types
 

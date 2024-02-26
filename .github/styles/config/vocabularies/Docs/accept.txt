@@ -13,9 +13,11 @@ CTAButtons
 [Dd]equeue
 [Dd]equeues
 [Dd]eserialize
+Docker
 Dockerfile
 [Ee]nqueued
 GPUs
+Helm
 [Hh]ostname
 Hyperband
 [Hh]yperparameters
@@ -23,12 +25,16 @@ Hyperband
 Kaniko
 Keras
 Kubeflow
+MMEngine
+MMDetection
 [Nn]amespace
 Optuna
 [P]repended
 [Pp]seudocode
 SCIM
 [Ss]elf-managed
+Terraform
 TTL
+UI
 [Ww]alkthrough
 W&B Server

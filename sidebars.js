@@ -242,16 +242,6 @@ const sidebars = {
             'guides/reports/reports-gallery',
             'guides/reports/reports-faq',
           ],
-        },
-        {
-          type: 'category',
-          label: 'Weave',
-          link: { type: 'doc', id: 'guides/weave/intro' },
-          items: [
-            'guides/weave/boards',
-            'guides/weave/streamtable',
-            'guides/weave/prod-mon'
-          ],
         },      
         {
           type: 'category',
@@ -385,6 +375,7 @@ const sidebars = {
             'guides/hosting/slack-alerts',
             'guides/hosting/scim',
             'guides/hosting/server-release-process',
+            'guides/hosting/server-upgrade-process',
             'guides/hosting/export-data-from-dedicated-cloud',
           ],
         },
@@ -437,7 +428,7 @@ const sidebars = {
         'guides/integrations/langchain',
         'guides/integrations/lightgbm',
         'guides/integrations/other/metaflow',
-        'guides/integrations/mmdetection',
+        'guides/integrations/mmengine',
         'guides/integrations/other/mmf',
         'guides/integrations/other/composer',
         'guides/integrations/other/openai-api',
@@ -820,7 +811,7 @@ const sidebars = {
         'guides/integrations/langchain',
         'guides/integrations/lightgbm',
         'guides/integrations/other/metaflow',
-        'guides/integrations/mmdetection',
+        'guides/integrations/mmengine',
         'guides/integrations/other/mmf',
         'guides/integrations/other/composer',
         'guides/integrations/other/openai-api',
@@ -888,6 +879,7 @@ const sidebars = {
         'tutorials/xgboost',
         'tutorials/xgboost_sweeps',
         'tutorials/lightgbm',
+        'tutorials/monai_3d_segmentation'
 
       ],
     },
