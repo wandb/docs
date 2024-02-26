@@ -10,7 +10,7 @@ const config = {
   staticDirectories: ['static'],
   tagline: 'The developer-first MLOps platform',
   url: 'https://docs-beta.wandb.ai/',
-  baseUrl: '/ko/',
+  baseUrl: '/ja/',
   onBrokenLinks: 'throw',
   // onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'warn',
@@ -25,8 +25,8 @@ const config = {
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'ko',
-    locales: ['ko'],
+    defaultLocale: 'ja',
+    locales: ['ja'],
   },
 
   presets: [
@@ -82,7 +82,7 @@ const config = {
       algolia: {
         appId: '2D210VB5MP',
         apiKey: '730cfa02025b8ba2e95d4c33b1e38cc7',
-        indexName: 'docodile-beta-ko',
+        indexName: 'docodile-beta-ja',
 
         // Optional: see doc section below
         // contextualSearch: true,

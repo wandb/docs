@@ -2,20 +2,21 @@
 description: Parallelize W&B Sweep agents on multi-core or multi-GPU machine.
 displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 에이전트 병렬 처리하기
+# エージェントを並列化する
 
 <head>
-  <title>에이전트 병렬 처리하기</title>
+  <title>エージェントを並列化する</title>
 </head>
 
-멀티 코어 또는 멀티 GPU 기계에서 W&B 스윕 에이전트를 병렬로 처리하세요. 시작하기 전에, W&B 스윕 초기화가 되었는지 확인하세요. W&B 스윕을 초기화하는 방법에 대한 자세한 정보는 [스윕 초기화하기](./initialize-sweeps.md)를 참조하세요.
+マルチコアやマルチGPUマシンで W&B スイープエージェントを並列化します。始める前に、W&B スイープを初期化しておくことを確認してください。W&B スイープの初期化方法について詳しくは、[Initialize sweeps](https://docs.wandb.ai/guides/sweeps/initialize-sweeps) を参照してください。
 
-### 멀티 CPU 기기에서 병렬 처리하기
+### マルチCPUマシンでの並列化
 
-사용 사례에 따라, CLI 또는 Jupyter Notebook 내에서 W&B 스윕 에이전트를 병렬로 처리하는 방법을 알아보려면 다음 탭을 탐색하세요.
+ユースケースに応じて、次のタブを参照して、CLIを使ったW＆Bスイープエージェントの並列化方法や、Jupyter Notebookでの方法を学習してください。
 
 
 <Tabs
@@ -26,25 +27,21 @@ import TabItem from '@theme/TabItem';
   ]}>
   <TabItem value="cli_text">
 
-터미널에서 여러 CPU에 걸쳐 W&B 스윕 에이전트를 병렬로 처리하려면 [`wandb agent`](../../ref/cli/wandb-agent.md) 명령을 사용하세요. [스윕 초기화하기](./initialize-sweeps.md)에서 반환된 스윕 ID를 제공하세요.
+ターミナルを使って、[`wandb agent`](../../ref/cli/wandb-agent.md) コマンドで W&B スイープエージェントを複数のCPUに並列化します。[スイープを初期化](./initialize-sweeps.md)する際に返されたスイープIDを指定してください。
 
-1. 로컬 기기에서 여러 터미널 창을 엽니다.
-2. 아래 코드 조각을 복사하여 붙여넣고 `sweep_id`를 귀하의 스윕 ID로 교체하세요:
-
-
+1. ローカルマシン上で複数のターミナルウィンドウを開きます。
+2. 下のコードスニペットをコピー＆ペーストし、`sweep_id` をあなたのスイープIDに置き換えます:
 ```bash
 wandb agent sweep_id
 ```
 
-
   </TabItem>
   <TabItem value="jupyter">
 
-Jupyter Notebook 내에서 여러 CPU에 걸쳐 W&B 스윕 에이전트를 병렬로 처리하려면 W&B Python SDK 라이브러리를 사용하세요. [스윕 초기화하기](./initialize-sweeps.md)에서 반환된 스윕 ID를 확인하세요. 또한, 스윕이 실행할 함수의 이름을 `function` 파라미터에 제공하세요:
+Weights & BiasesのPython SDKライブラリを使用して、Jupyter Notebooks内でW&Bスイープエージェントを複数のCPUに並列化します。 [スイープの初期化](./initialize-sweeps.md) 時に返されたsweep IDを確認してください。さらに、 `function` パラメータにスイープが実行する関数名を指定します：
 
-1. 여러 Jupyter Notebook을 엽니다.
-2. 여러 Jupyter Notebook에 W&B 스윕 ID를 복사하여 붙여넣어 W&B 스윕을 병렬로 처리하세요. 예를 들어, `sweep_id`라는 변수에 스윕 ID가 저장되어 있고 함수 이름이 `function_name`이라면 아래 코드 조각을 여러 jupyter notebooks에 붙여넣어 스윕을 병렬로 처리할 수 있습니다:
-
+1. 複数のJupyter Notebookを開きます。
+2. W&BスイープIDを複数のJupyterノートブックにコピーして貼り付けて、W&Bスイープを並列化します。 たとえば、sweep IDを `sweep_id` という変数に格納し、関数名が `function_name` である場合、次のコードスニペットを複数のjupyterノートブックに貼り付けてスイープを並列化できます：
 
 ```python
 wandb.agent(sweep_id=sweep_id, function=function_name)
@@ -53,25 +50,24 @@ wandb.agent(sweep_id=sweep_id, function=function_name)
   </TabItem>
 </Tabs>
 
-### 멀티 GPU 기기에서 병렬 처리하기
+### 複数のGPUを搭載したマシンでの並列化
 
-CUDA Toolkit을 사용하여 터미널을 통해 여러 GPU에 걸쳐 W&B 스윕 에이전트를 병렬로 처리하려면 다음 절차를 따르세요:
+CUDA Toolkitを使用して、ターミナルで複数のGPUにW&Bスイープエージェントを並列化する手順に従います。
 
-1. 로컬 기기에서 여러 터미널 창을 엽니다.
-2. W&B 스윕 작업을 시작할 때 `CUDA_VISIBLE_DEVICES`를 사용하여 사용할 GPU 인스턴스를 지정하세요 ([`wandb agent`](../../ref/cli/wandb-agent.md)). 사용할 GPU 인스턴스에 해당하는 정수 값을 `CUDA_VISIBLE_DEVICES`에 할당하세요.
+1. ローカルマシンで複数のターミナルウィンドウを開きます。
+2. W&Bスイープジョブ（ [`wandb agent`](https://docs.wandb.ai/ref/cli/wandb-agent)）を開始するときに、 `CUDA_VISIBLE_DEVICES`で使用するGPUインスタンスを指定します。 `CUDA_VISIBLE_DEVICES` に使用するGPUインスタンスに対応する整数値を割り当てます。
 
-예를 들어, 로컬 기기에 NVIDIA GPU가 두 개 있다고 가정합니다. 터미널 창을 열고 `CUDA_VISIBLE_DEVICES`를 `0`(`CUDA_VISIBLE_DEVICES=0`)으로 설정하세요. 다음 예제에서 스윕을 초기화할 때 반환된 W&B 스윕 ID로 `sweep_ID`를 교체하세요:
+たとえば、ローカルマシンに2つのNVIDIA GPUがある場合、ターミナルウィンドウを開いて `CUDA_VISIBLE_DEVICES`を `0` に設定します（ `CUDA_VISIBLE_DEVICES=0`）。次の例の`sweep_ID`を、W&Bスイープを初期化したときに返されたW&BスイープIDに置き換えます:
 
-터미널 1
+ターミナル1
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 wandb agent sweep_ID
 ```
 
-두 번째 터미널 창을 엽니다. `CUDA_VISIBLE_DEVICES`를 `1`(`CUDA_VISIBLE_DEVICES=1`)로 설정하세요. 앞서 언급한 코드 조각에 동일한 W&B 스윕 ID를 `sweep_ID`로 붙여넣으세요:
+もう一つのターミナルウィンドウを開きます。`CUDA_VISIBLE_DEVICES`を`1`に設定します（`CUDA_VISIBLE_DEVICES=1`）。手前のコードスニペットで言及された`sweep_ID`に同じW&BスイープIDを貼り付けます。
 
-터미널 2
-
+ターミナル2
 ```bash
 CUDA_VISIBLE_DEVICES=1 wandb agent sweep_ID
 ```

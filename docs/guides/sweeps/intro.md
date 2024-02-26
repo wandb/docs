@@ -1,54 +1,62 @@
 ---
-description: Hyperparameter search and model optimization with W&B Sweeps
 slug: /guides/sweeps
+description: Hyperparameter search and model optimization with W&B Sweeps
 displayed_sidebar: default
 ---
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# 하이퍼파라미터 조정
-
-<CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb"/>
+# ハイパーパラメータをチューニングする
 
 <head>
-  <title>스윕을 이용한 하이퍼파라미터 조정</title>
+  <title>スイープでハイパーパラメータをチューニングする</title>
 </head>
 
-하이퍼파라미터 검색을 자동화하고 풍부하고 상호작용적인 실험 추적을 시각화하기 위해 W&B 스윕을 사용하세요. Bayesian, 그리드 검색, 무작위 검색과 같은 인기 있는 검색 방법 중에서 선택하여 하이퍼파라미터 공간을 검색합니다. 한 대 이상의 기계에서 스윕을 확장하고 병렬 처리합니다.
+Weights & Biases スイープを使って、ハイパーパラメータ探索を自動化し、可能なモデルの空間を調べます。コード数行でスイープを作成できます。スイープは、自動化されたハイパーパラメータ探索の利点を、視覚化豊富でインタラクティブな実験追跡と組み合わせます。ベイズ、グリッドサーチ、ランダムなどの人気のある探索方法から選択して、ハイパーパラメータ空間を探索できます。スイープジョブを1台以上のマシンにスケーリングおよび並列化します。
 
-![대화형 대시보드를 통해 대규모 하이퍼파라미터 조정 실험에서 통찰을 얻습니다.](/images/sweeps/intro_what_it_is.png)
+![インタラクティブなダッシュボードを使った大規模なハイパーパラメータチューニング実験からの洞察](/images/sweeps/intro_what_it_is.png)
 
-### 작동 방식
-[W&B CLI](../../ref/cli/README.md) 명령어 두 가지로 스윕을 생성하세요:
+### 仕組み
+
+Weights & Biases スイープには、_コントローラー_ と 1 つ以上の _エージェント_ の 2 つのコンポーネントがあります。コントローラは、新しいハイパーパラメータの組み合わせを選びます。[通常、スイープサーバーは Weights & Biases サーバーで管理されます](./local-controller.md)。
+
+エージェントは、Weights & Biases サーバーからハイパーパラメーターを問い合わせ、それらを使用してモデルのトレーニングを実行します。トレーニングの結果は、スイープサーバーに報告されます。エージェントは、1台以上のマシンで1つ以上のプロセスを実行できます。エージェントが複数のプロセスを複数のマシンで実行できる柔軟性で、スイープを並列化およびスケーリングしやすくなります。スイープのスケーリング方法についての詳細は、[エージェントの並列化](./parallelize-agents.md)を参照してください。
+
+以下の手順で W&B スイープを作成します。
+
+1. **コードに W&B を追加する:** Python スクリプトに、ハイパーパラメータと出力メトリクスをログに記録するためのコードを数行追加します。詳細については、[コードに W&B を追加する](./add-w-and-b-to-your-code.md)を参照してください。
+2. **スイープ構成の定義:** スイープ対象となる変数と範囲を定義します。検索戦略を選択します。グリッド、ランダム、ベイズ探索などがサポートされており、早期停止などの高速化技術も利用できます。詳細については、[スイープ構成の定義](./define-sweep-configuration.md)を参照してください。
+3. **スイープの初期化**: スイープサーバーを開始します。当社では、この中央コントローラをホストし、スイープを実行するエージェント間で調整を行います。詳細については、[スイープの初期化](./initialize-sweeps.md)を参照してください。
+4. **スイープを開始する:** スイープ内でモデルをトレーニングしたい各マシンで、1行のコマンドを実行します。エージェントは、次に試すハイパーパラメータを中央のスイープサーバーに尋ね、実行を実行します。詳細については、[スイープエージェントの開始](./start-sweep-agents.md)を参照してください。
+5. **結果の可視化（任意）**: ライブダッシュボードを開き、すべての結果を1つの中央の場所に表示します。
+
+### 使い始める方法
+ユースケースに応じて、以下のリソースを参照して、Weights & Biases Sweepsを始めてください。
 
 
-1. 스윕 초기화
 
-```bash
-wandb sweep --project <프로젝트-이름> <구성 파일 경로>
-```
+* Weights & Biases Sweepsで初めてハイパーパラメータチューニングを行う場合は、[Quickstart](./walkthrough.md)をお読みいただくことをお勧めします。クイックスタートでは、最初のW&Bスイープの設定方法を説明しています。
 
-2. 스윕 에이전트 시작
+* Weights and Biases Developer Guideで、Sweepsに関する以下のトピックを探索してください:
 
-```bash
-wandb agent <스윕-ID>
-```
+  * [コードにW&Bを追加する](./add-w-and-b-to-your-code.md)
 
-:::tip
-이전 코드 조각과 이 페이지에 연결된 colab은 W&B CLI로 스윕을 초기화하고 생성하는 방법을 보여줍니다. 스윕 구성을 정의하고 스윕을 초기화하며 스윕을 시작하기 위해 사용할 W&B Python SDK 명령어에 대한 단계별 개요는 스윕 [가이드](./walkthrough.md)에서 확인하세요.
-:::
+  * [スイープ構成を定義する](./define-sweep-configuration.md)
 
-### 시작 방법
+  * [スイープを初期化する](./initialize-sweeps.md)
 
-사용 사례에 따라 W&B 스윕을 시작하기 위해 다음 자료를 탐색하세요:
+  * [スイープエージェントを開始する](./start-sweep-agents.md)
 
-* W&B 스윕을 처음 사용하는 경우, [Sweeps Colab 노트북](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb)을 통해 시작하는 것이 좋습니다.
-* 스윕 구성을 정의하고 스윕을 초기화하며 스윕을 시작하기 위해 사용할 W&B Python SDK 명령어에 대한 단계별 개요는 [스윕 가이드](./walkthrough.md)를 읽어보세요.
-* 이 장을 탐색하여 다음 방법을 배우세요:
-  * [코드에 W&B 추가](./add-w-and-b-to-your-code.md)
-  * [스윕 구성 정의](./define-sweep-configuration.md)
-  * [스윕 초기화](./initialize-sweeps.md)
-  * [스윕 에이전트 시작](./start-sweep-agents.md)
-  * [스윕 결과 시각화](./visualize-sweep-results.md)
-* W&B 스윕으로 하이퍼파라미터 최적화를 탐색하는 [선택된 스윕 실험 목록](./useful-resources.md)을 탐색하세요. 결과는 W&B 리포트에 저장됩니다.
+  * [スイープ結果を可視化する](./visualize-sweep-results.md)
 
-단계별 비디오를 보려면: [W&B 스윕으로 쉽게 하이퍼파라미터 조정](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab\_channel=Weights%26Biases).
+* PyTorchフレームワークを用いたJupyterノートブックでスイープを作成する方法の例として、[Organizing Hyperparameter Sweeps in PyTorch](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing\_Hyperparameter\_Sweeps\_in\_PyTorch\_with\_W%26B.ipynb#scrollTo=e43v8-9MEoYk) Google Colab Jupyterノートブックを試してください。
+
+* W&B Sweepsを用いたハイパーパラメータ最適化を探る[厳選されたスイープ実験のリスト](./useful-resources.md) を探索してください。結果はW&B Reportsに保存されます。
+
+* [Weights & Biases SDK リファレンスガイド](../../ref/README.md)をお読みください。
+
+
+
+ステップバイステップのビデオはこちらをご覧ください：[W&Bスイープを使って簡単にハイパーパラメータをチューニングする](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab\_channel=Weights%26Biases)。
+
+
+
+<!-- {% embed url="http://wandb.me/sweeps-video" %} -->

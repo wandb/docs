@@ -1,74 +1,75 @@
+# 分子
 
-# 분자
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/molecule.py#L23-L239)
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/data_types/molecule.py#L25-L241' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
-
-3D 분자 데이터를 위한 Wandb 클래스.
+Wandbの3D分子データ用クラス。
 
 ```python
 Molecule(
-    data_or_path: Union[str, 'TextIO'],
-    caption: Optional[str] = None,
-    **kwargs
+ data_or_path: Union[str, 'TextIO'],
+ caption: Optional[str] = None,
+ **kwargs
 ) -> None
 ```
 
-| 인수 |  |
+| 引数 | |
 | :--- | :--- |
-|  `data_or_path` |  (문자열, io) 파일 이름이나 io 객체에서 분자를 초기화할 수 있습니다. |
-|  `caption` |  (문자열) 표시를 위한 분자와 관련된 캡션. |
+| `data_or_path` | (string, io) 分子はファイル名またはioオブジェクトから初期化できます。 |
+| `caption` | (string) 分子に関連付けられた表示用のキャプション。 |
 
-## 메서드들
-
+## メソッド
 ### `from_rdkit`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/data_types/molecule.py#L99-L163)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/molecule.py#L97-L161)
 
 ```python
 @classmethod
 from_rdkit(
-    data_or_path: "RDKitDataType",
-    caption: Optional[str] = None,
-    convert_to_3d_and_optimize: bool = (True),
-    mmff_optimize_molecule_max_iterations: int = 200
+ data_or_path: "RDKitDataType",
+ caption: Optional[str] = None,
+ convert_to_3d_and_optimize: bool = (True),
+ mmff_optimize_molecule_max_iterations: int = 200
 ) -> "Molecule"
 ```
 
-RDKit 지원 파일/객체 유형을 wandb.Molecule로 변환합니다.
+RDKit対応のファイル/オブジェクトタイプをwandb.Moleculeに変換します。
 
-| 인수 |  |
+| 引数 | 説明 |
 | :--- | :--- |
-|  `data_or_path` |  (문자열, rdkit.Chem.rdchem.Mol) 파일 이름이나 rdkit.Chem.rdchem.Mol 객체에서 분자를 초기화할 수 있습니다. |
-|  `caption` |  (문자열) 표시를 위한 분자와 관련된 캡션. |
-|  `convert_to_3d_and_optimize` |  (불리언) 3D 좌표로 rdkit.Chem.rdchem.Mol로 변환합니다. 복잡한 분자의 경우 많은 시간이 소요될 수 있는 비용이 많이 드는 작업입니다. |
-|  `mmff_optimize_molecule_max_iterations` |  (정수) rdkit.Chem.AllChem.MMFFOptimizeMolecule에서 사용할 반복 횟수 |
+| `data_or_path` | (string, rdkit.Chem.rdchem.Mol) モLECULeはファイル名またはrdkit.Chem.rdchem.Molオブジェクトから初期化できます。 |
+| `caption` | (string) 分子に関連するキャプションを表示します。 |
+| `convert_to_3d_and_optimize` | (bool) rdkit.Chem.rdchem.Molを3D座標で変換します。これは複雑な分子の場合、長時間かかる可能性があるコストのかかる操作です。 |
+| `mmff_optimize_molecule_max_iterations` | (int) rdkit.Chem.AllChem.MMFFOptimizeMoleculeで使用する反復回数 |
+
+
 
 ### `from_smiles`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/data_types/molecule.py#L165-L202)
+ソースを表示（[View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/molecule.py#L163-L200)）
 
 ```python
 @classmethod
 from_smiles(
-    data: str,
-    caption: Optional[str] = None,
-    sanitize: bool = (True),
-    convert_to_3d_and_optimize: bool = (True),
-    mmff_optimize_molecule_max_iterations: int = 200
+ data: str,
+ caption: Optional[str] = None,
+ sanitize: bool = (True),
+ convert_to_3d_and_optimize: bool = (True),
+ mmff_optimize_molecule_max_iterations: int = 200
 ) -> "Molecule"
 ```
 
-SMILES 문자열을 wandb.Molecule로 변환합니다.
+SMILES文字列をwandb.Moleculeに変換します。
 
-| 인수 |  |
+| 引数 | |
 | :--- | :--- |
-|  `data` |  (문자열) SMILES 문자열. |
-|  `caption` |  (문자열) 표시를 위한 분자와 관련된 캡션 |
-|  `sanitize` |  (불리언) RDKit의 정의에 따라 분자가 화학적으로 타당한지 확인합니다. |
-|  `convert_to_3d_and_optimize` |  (불리언) 3D 좌표로 rdkit.Chem.rdchem.Mol로 변환합니다. 복잡한 분자의 경우 많은 시간이 소요될 수 있는 비용이 많이 드는 작업입니다. |
-|  `mmff_optimize_molecule_max_iterations` |  (정수) rdkit.Chem.AllChem.MMFFOptimizeMolecule에서 사용할 반복 횟수 |
+| `data` | (string) SMILES文字列。 |
+| `caption` | (string) 分子表示に関連付けられたキャプション。 |
+| `sanitize` | (bool) RDKitの定義に基づいて、分子が化学的に適切であるかどうかを確認します。 |
+| `convert_to_3d_and_optimize` | (bool) rdkit.Chem.rdchem.Molに3D座標をもつものに変換します。これは複雑な分子の場合、処理が長時間かかることがある高コストな操作です。 |
+| `mmff_optimize_molecule_max_iterations` | (int) rdkit.Chem.AllChem.MMFFOptimizeMoleculeで使用する反復回数。
+| クラス変数 | |
 
-| 클래스 변수 |  |
 | :--- | :--- |
-|  `SUPPORTED_RDKIT_TYPES`<a id="SUPPORTED_RDKIT_TYPES"></a> |   |
-|  `SUPPORTED_TYPES`<a id="SUPPORTED_TYPES"></a> |   |
+
+| `SUPPORTED_RDKIT_TYPES` | |
+
+| `SUPPORTED_TYPES` | |

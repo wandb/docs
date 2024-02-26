@@ -3,135 +3,138 @@ description: Save files to the cloud and restore them locally later
 displayed_sidebar: default
 ---
 
-# 파일 저장 및 복원
+# ファイルの保存と復元
 
 <head>
-  <title>클라우드에 파일 저장 및 복원</title>
+  <title>クラウドにファイルを保存し、復元する</title>
 </head>
 
-이 가이드는 먼저 `wandb.save`를 사용하여 클라우드에 파일을 저장하는 방법을 보여준 다음, `wandb.restore`를 사용하여 로컬에서 파일을 다시 생성하는 방법을 보여줍니다.
+このガイドではまず、`wandb.save`を使ってクラウドにファイルを保存する方法を紹介し、次に`wandb.restore`を使って、それらをローカルに再作成する方法を紹介します。
 
-## 파일 저장하기
+## ファイルの保存
 
-때로는 숫자 값이나 미디어 조각 대신 전체 파일을 로그하고 싶을 수 있습니다: 모델의 가중치, 다른 로깅 소프트웨어의 출력, 심지어 소스 코드까지도요.
+場合によっては、数値やメディアの一部を記録するのではなく、ファイル全体を記録したいことがあります。例えば、モデルの重みや、他のログソフトウェアの出力、ソースコードなどです。
 
-파일을 실행과 연결하고 W&B에 업로드하는 두 가지 방법이 있습니다.
+W&Bにファイルを関連付けてアップロードする方法は2つあります。
 
-1. `wandb.save(filename)`을 사용합니다.
-2. 파일을 wandb 실행 디렉터리에 넣으면 실행이 끝날 때 업로드됩니다.
+1. `wandb.save(filename)` を使う。
+2. wandb runディレクトリーにファイルを置くと、runの終了時にアップロードされます。
 
 :::info
-실행을 [재개](../runs/resuming.md)하는 경우, `wandb.restore(filename)`을 호출하여 파일을 복구할 수 있습니다.
+[再開](../runs/resuming.md)するrunであれば、`wandb.restore(filename)`を呼び出すことでファイルを復元できます。
 :::
 
-파일이 작성되는 동안 동기화하려면 `wandb.save`에서 파일 이름이나 글로브를 지정할 수 있습니다.
+書き込まれているファイルを同期する場合は、`wandb.save`でファイル名やglobを指定できます。
 
-### `wandb.save`의 예시
+### `wandb.save`の例
 
-완전한 작동 예를 보려면 [이 리포트](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw)를 참조하세요.
+完全な動作例は、[こちらのレポート](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw)をご覧ください。
 
 ```python
-# 현재 디렉터리에서 모델 파일 저장
-wandb.save("model.h5")
+# 現在のディレクトリからモデルファイルを保存する
+wandb.save('model.h5')
 
-# "ckpt"라는 부분 문자열이 포함된 모든 파일 저장
-wandb.save("../logs/*ckpt*")
+# サブストリング "ckpt" を含むすべてのファイルを保存する
+wandb.save('../logs/*ckpt*')
 
-# "checkpoint"로 시작하는 파일을 작성될 때 저장
+# "checkpoint"で始まるファイルを書き込み時に保存する
 wandb.save(os.path.join(wandb.run.dir, "checkpoint*"))
 ```
 
 :::info
-W&B의 로컬 실행 디렉터리는 기본적으로 스크립트와 관련하여 `./wandb` 디렉터리 내부에 있으며, 경로는 `20171023_105053`이 타임스탬프이고 `3o4933r0`이 실행 ID인 `run-20171023_105053-3o4933r0`처럼 보입니다. `WANDB_DIR` [환경 변수](environment-variables.md)를 설정하거나, [`wandb.init`](./launch.md)의 `dir` 키워드 인수를 절대 경로로 설정하면 해당 디렉터리 내에 파일이 작성됩니다.
+W&Bのローカルランディレクトリはデフォルトでスクリプトに関連する`./wandb`ディレクトリ内にありますが、パスは`run-20171023_105053-3o4933r0`のようになります。ここで`20171023_105053`はタイムスタンプで`3o4933r0`はランのIDです。`WANDB_DIR`[環境変数](environment-variables.md)を設定するか、[`wandb.init`](./launch.md)の`dir`キーワード引数に絶対パスを設定することで、代わりにそのディレクトリ内にファイルが書き込まれるようになります。
 :::
 
-### 저장 정책 및 상대 경로
+### 保存ポリシーと相対パス
 
-`wandb.save`는 기본적으로 "**live**"로 설정된 **policy** 인수를 받습니다. 사용 가능한 정책은 다음과 같습니다:
+`wandb.save`は**policy**引数も受け付け、デフォルトで"**live**"に設定されています。利用可能なポリシーは以下の通りです。
 
-* **live (기본값)** - 이 파일을 즉시 wandb 서버에 동기화하고 변경될 경우 다시 동기화합니다
-* **now** - 이 파일을 즉시 wandb 서버에 동기화하고, 변경되어도 계속 동기화하지 않습니다
-* **end** - 실행이 끝날 때만 파일을 동기화합니다
+* **live (デフォルト)** - このファイルをすぐにwandbサーバーに同期し、変更があれば再同期する
+* **now** - このファイルをすぐにwandbサーバーに同期し、変更があっても再同期しない
+* **end** - ランが終了したときにのみファイルを同期する
 
-또한 `wandb.save`에 **base\_path** 인수를 지정할 수 있습니다. 이를 통해 디렉터리 계층을 유지할 수 있습니다. 예를 들면:
+また、`wandb.save`に**base\_path**引数を指定することもできます。これによりディレクトリ階層を維持することができます。例えば：
 
 ```python
-wandb.save(path="./results/eval/*", base_path="./results", policy="now")
+wandb.save(
+    path="./results/eval/*", 
+    base_path="./results", 
+    policy="now"
+    )    
 ```
-
-이는 패턴과 일치하는 모든 파일이 루트가 아닌 `eval` 폴더에 저장됩니다.
+すべてのファイルがパターンに一致すると、ルートの代わりに`eval`フォルダに保存されます。
 
 :::info
-`wandb.save`가 호출되면 제공된 경로에 존재하는 모든 파일을 나열하고 실행 디렉터리(`wandb.run.dir`)로 그들의 심볼릭 링크를 생성합니다. `wandb.save`를 호출한 후 같은 경로에 새 파일을 생성하는 경우, 우리는 그것들을 동기화하지 않습니다. 파일을 직접 `wandb.run.dir`에 작성하거나 새 파일이 생성될 때마다 `wandb.save`를 호출해야 합니다.
+`wandb.save`が呼び出されると、指定されたパスに存在するすべてのファイルを一覧表示し、runディレクトリー（`wandb.run.dir`）にシンボリックリンクを作成します。`wandb.save`を呼び出した後に同じパスに新しいファイルを作成する場合、それらのファイルは同期されません。ファイルは直接`wandb.run.dir`に書き込むか、新しいファイルが作成されるたびに`wandb.save`を呼び出す必要があります。
 :::
 
-### wandb 실행 디렉터리에 파일 저장 예시
+### wandbの実行ディレクトリにファイルを保存する例
 
-파일 `model.h5`는 `wandb.run.dir`에 저장되며, 학습이 끝날 때 업로드됩니다.
+ファイル`model.h5`は`wandb.run.dir`に保存され、トレーニングの終了時にアップロードされます。
 
 ```python
 import wandb
-
 wandb.init()
 
-model.fit(
-    X_train,
-    y_train,
-    validation_data=(X_test, y_test),
-    callbacks=[wandb.keras.WandbCallback()],
-)
+model.fit(X_train, y_train,  validation_data=(X_test, y_test),
+    callbacks=[wandb.keras.WandbCallback()])
 model.save(os.path.join(wandb.run.dir, "model.h5"))
 ```
 
-여기에 공개 예시 페이지가 있습니다. 파일 탭에 `model-best.h5`가 있는 것을 볼 수 있습니다. 이것은 Keras 통합에 의해 기본적으로 자동 저장되지만, 수동으로 체크포인트를 저장할 수 있으며 실행과 연결하여 저장할 것입니다.
+こちらが公開されている例のページです。ファイルタブで`model-best.h5`が表示されています。これはKerasの統合によってデフォルトで自動的に保存されますが、チェックポイントを手動で保存することもでき、runに関連付けて保存します。
 
-[실시간 예제 보기 →](https://app.wandb.ai/wandb/neurips-demo/runs/206aacqo/files)
+[ライブ例を見る →](https://app.wandb.ai/wandb/neurips-demo/runs/206aacqo/files)
 
 ![](/images/experiments/example_saving_file_to_directory.png)
 
-## 파일 복원하기
+## ファイルの復元
 
-`wandb.restore(filename)`를 호출하면 로컬 실행 디렉터리에 파일을 복원합니다. 일반적으로 `filename`은 이전 실험 실행에 의해 생성되고 `wandb.save`로 클라우드에 업로드된 파일을 나타냅니다. 이 호출은 파일의 로컬 복사본을 만들고 읽기용으로 열린 로컬 파일 스트림을 반환합니다.
+`wandb.restore(filename)` を呼び出すと、ローカルのrunディレクトリーにファイルが復元されます。通常、`filename`は、以前の実験runで生成され、`wandb.save`を使用してクラウドにアップロードされたファイルを指します。この呼び出しにより、ファイルのローカルコピーが作成され、読み取り用に開かれたローカルファイルストリームが返されます。
 
-일반적인 사용 사례:
+一般的なユースケース:
+過去のrunsで生成されたモデルアーキテクチャや重みを復元する（より複雑なバージョン管理のユースケースについては、[Artifacts](../artifacts/intro.md)を参照してください）。
+* エラーが発生した場合、最後のチェックポイントからトレーニングを再開する（[再開](../runs/resuming.md)のセクションを参照してください）。
 
-* 과거 실행에 의해 생성된 모델 아키텍처 또는 가중치 복원 (더 복잡한 버전 관리 사용 사례의 경우, [아티팩트](../artifacts/intro.md)를 참조하세요.
-* 실패한 경우 마지막 체크포인트부터 학습을 재개 (중요한 세부 사항에 대해서는 [재개](../runs/resuming.md) 섹션을 참조하세요)
+### `wandb.restore` の例
 
-### `wandb.restore`의 예시
-
-완전한 작동 예를 보려면 [이 리포트](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw)를 참조하세요.
+完全な動作例については、[こちらのレポート](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw) をご覧ください。
 
 ```python
-# "my-project"의 사용자 "vanpelt"에 의한 특정 실행에서 모델 파일 복원
-best_model = wandb.restore("model-best.h5", run_path="vanpelt/my-project/a1b2c3d")
+# ユーザー "vanpelt" が "my-project" で実行した特定の run からモデルファイルを復元する
+best_model = wandb.restore(
+  'model-best.h5', run_path="vanpelt/my-project/a1b2c3d")
 
-# 체크포인트에서 가중치 파일 복원
-# (참고: 실행 경로가 제공되지 않는 경우 재개가 구성되어야 함)
-weights_file = wandb.restore("weights.h5")
-# 프레임워크가 파일 이름을 예상하는 경우 반환된 객체의 "name" 속성을 사용하세요. 예를 들어 Keras에서는
+# チェックポイントから重みファイルを復元する
+# (注意：run_pathが提供されていない場合、再開が設定されている必要があります)
+weights_file = wandb.restore('weights.h5')
+# フレームワークがファイル名を期待している場合、
+# 返されたオブジェクトの "name" 属性を使ってください。
+# 例：Keras では
 my_predefined_model.load_weights(weights_file.name)
 ```
 
-> `run_path`를 지정하지 않으면, 실행을 위해 [재개](../runs/resuming.md)를 구성해야 합니다. 훈련 외부에서 프로그래매틱하게 파일에 액세스하려면 [Run API](../../ref/python/run.md)를 사용하세요.
+> `run_path`を指定しない場合、run の[再開](../runs/resuming.md)を設定する必要があります。トレーニング外でファイルにプログラムでアクセスしたい場合は、[Run API](../../ref/python/run.md)を使用してください。
 
-## 자주 묻는 질문
+## 一般的な質問
 
-### 파일을 무시하려면 어떻게 하나요?
+### どのようにしてファイルを無視するのか？
 
-`wandb/settings` 파일을 편집하고 `ignore_globs`를 쉼표로 구분된 [글로브](https://en.wikipedia.org/wiki/Glob\_\(programming\)) 목록으로 설정할 수 있습니다. 또한 `WANDB_IGNORE_GLOBS` [환경 변수](./environment-variables.md)를 설정할 수 있습니다. 일반적인 사용 사례는 우리가 자동으로 생성하는 git 패치가 업로드되는 것을 방지하는 것입니다. 즉, `WANDB_IGNORE_GLOBS=*.patch`.
+`wandb/settings` ファイルを編集して、`ignore_globs` を [globs](https://en.wikipedia.org/wiki/Glob\_\(programming\)) 形式のカンマ区切りのリストに設定することができます。また、`WANDB_IGNORE_GLOBS` [環境変数](./environment-variables.md)を設定することもできます。一般的なユースケースとしては、自動的に作成される git パッチのアップロードを防ぐために、`WANDB_IGNORE_GLOBS=*.patch` と設定します。
 
-### 파일 저장 디렉터리 변경하기
+### ランが終了する前にファイルを同期する方法は？
+長いrunがある場合は、runの終了前に、モデルのチェックポイントなどのファイルをクラウドにアップロードしたいことがあるでしょう。デフォルトでは、ほとんどのファイルのアップロードはrunの終了まで待っています。スクリプトに`wandb.save('*.pth')`や`wandb.save('latest.pth')`を追加することで、ファイルが作成されたり更新されたりするたびに上記のファイルをアップロードできます。
 
-AWS S3 또는 Google Cloud Storage에 파일을 저장하는 것이 기본 설정인 경우, 다음과 같은 오류가 발생할 수 있습니다: `events.out.tfevents.1581193870.gpt-tpu-finetune-8jzqk-2033426287은 클라우드 저장소 url이므로, wandb에 파일을 저장할 수 없습니다.`
+### ファイルを保存するディレクトリを変更する
 
-TensorBoard 이벤트 파일이나 동기화하고 싶은 다른 파일의 로그 디렉터리를 변경하려면, `wandb.run.dir`에 파일을 저장하여 우리 클라우드에 동기화되도록 하세요.
+AWS S3やGoogle Cloud Storageにデフォルトでファイルを保存する場合、以下のエラーが発生することがあります：`events.out.tfevents.1581193870.gpt-tpu-finetune-8jzqk-2033426287 is a cloud storage url, can't save file to wandb.`
 
-### 실행 이름을 어떻게 얻나요?
+TensorBoardのイベントファイルや同期させたい他のファイルのログディレクトリを変更するには、ファイルを`wandb.run.dir`に保存して、クラウドに同期させるようにします。
 
-스크립트 내에서 실행 이름을 사용하고 싶다면, `wandb.run.name`을 사용하면 됩니다. 예를 들어 "blissful-waterfall-2"와 같은 실행 이름을 얻을 수 있습니다.
+### ランの名前を取得する方法は？
 
-디스플레이 이름에 액세스하기 전에 실행을 저장해야 합니다:
+スクリプト内でランの名前を使用したい場合は、`wandb.run.name`を使用して、例えば "blissful-waterfall-2" のようなランの名前を取得できます。
+
+表示名にアクセスする前に、runでsaveを呼び出す必要があります。
 
 ```
 run = wandb.init(...)
@@ -139,24 +142,23 @@ run.save()
 print(run.name)
 ```
 
-### 로컬에 저장된 모든 파일을 어떻게 푸시하나요?
+### ローカルからすべての保存されたファイルをプッシュする方法は？
 
-`wandb.init` 후 스크립트 상단에서 한 번 `wandb.save("*.pt")`를 호출하면, `wandb.run.dir`에 작성된 모든 파일이 즉시 저장됩니다.
+`wandb.init`の後にスクリプトの先頭で一度`wandb.save("*.pt")`を呼び出すと、そのパターンに一致するすべてのファイルが、`wandb.run.dir`に書き込まれるとすぐに保存されます。
 
-### 이미 클라우드 스토리지에 동기화된 로컬 파일을 제거할 수 있나요?
+### すでにクラウドストレージに同期されたローカルファイルを削除することはできますか？
 
-`wandb sync --clean` 명령을 실행하여 이미 클라우드 스토리지에 동기화된 로컬 파일을 제거할 수 있습니다. 사용법에 대한 자세한 정보는 `wandb sync --help`로 찾을 수 있습니다.
+ローカルのファイルをすでにクラウドストレージに同期した後に削除するためのコマンド`wandb sync --clean`があります。使用方法の詳細は `wandb sync --help`で見ることができます。
 
-### 코드의 상태를 복원하고 싶다면?
+### コードの状態を復元したい場合はどうすればいいですか？
+`restore`コマンドを使って、特定のrunが実行された時のコードの状態に戻ります。[コマンドラインツール](../../ref/cli/README.md)を参照してください。
 
-[명령 줄 도구](../../ref/cli/README.md)의 `restore` 명령을 사용하여 특정 실행을 수행했을 때의 코드 상태로 돌아갈 수 있습니다.
-
-```shell
-# 브랜치를 생성하고 실행 $RUN_ID가 실행될 때의
-# 코드 상태로 복원합니다
+```python
+# ブランチを作成し、コードの状態を復元します
+# run $RUN_IDが実行された時の状態に
 wandb restore $RUN_ID
 ```
 
-### `wandb`는 코드의 상태를 어떻게 캡처하나요?
+### `wandb`はコードの状態をどのようにキャプチャしますか？
 
-`wandb.init`이 스크립트에서 호출될 때, 코드가 git 저장소에 있으면 마지막 git 커밋에 대한 링크가 저장됩니다. 또한 커밋되지 않았거나 원격과 동기화되지 않은 변경 사항이 있는 경우 차이 패치도 생성됩니다.
+スクリプトから`wandb.init`が呼び出されると、コードがgitリポジトリにある場合は最後のgitコミットへのリンクが保存されます。また、未コミットの変更やリモートと同期されていない変更がある場合は、diffパッチも作成されます。

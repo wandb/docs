@@ -1,4 +1,5 @@
 ---
+description: Track your trees with W&B.
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
@@ -6,10 +7,10 @@ import TabItem from '@theme/TabItem';
 
 # LangChain
 
-[LangChain](https://python.langchain.com/)은 언어 모델을 기반으로 한 애플리케이션 개발을 위한 프레임워크입니다.
+[LangChain](https://python.langchain.com/)は、言語モデルを利用したアプリケーション開発のためのフレームワークです。
 
-## Weights & Biases에서 LangChain 사용하기
+## Weights & BiasesでのLangChainの使用方法
 
-Weights & Biases LangChain 통합을 사용하려면, [W&B Prompts 퀵스타트](../prompts/quickstart.md)를 참조해 주세요.
+Weights & BiasesのLangChain統合を利用する方法については、[W&B Prompts クイックスタート](../prompts/quickstart.md) をご覧ください。
 
-또는 [Google Colab Jupyter 노트북](http://wandb.me/prompts-quickstart)을 시도해 보세요.
+または、[Google Colab Jupyterノートブック](http://wandb.me/prompts-quickstart) をお試しください。

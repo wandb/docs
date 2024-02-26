@@ -1,26 +1,26 @@
+# ユーザー
 
-# 사용자
-
-## 연쇄 가능한 작업
+## チェイン可能なOps
 <h3 id="user-username"><code>user-username</code></h3>
 
-[사용자](https://docs.wandb.ai/ref/weave/user)의 사용자 이름을 반환합니다.
+[ユーザー](https://docs.wandb.ai/ref/weave/user)のユーザー名を返します
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `user` | [사용자](https://docs.wandb.ai/ref/weave/user) |
+| `user` | [ユーザー](https://docs.wandb.ai/ref/weave/user) |
 
-#### 반환 값
-[사용자](https://docs.wandb.ai/ref/weave/user)의 사용자 이름
+#### 戻り値
+[ユーザー](https://docs.wandb.ai/ref/weave/user)のユーザー名
 
-## 목록 작업
+
+## リストOps
 <h3 id="user-username"><code>user-username</code></h3>
 
-[사용자](https://docs.wandb.ai/ref/weave/user)의 사용자 이름을 반환합니다.
+[ユーザー](https://docs.wandb.ai/ref/weave/user)のユーザー名を返します
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `user` | [사용자](https://docs.wandb.ai/ref/weave/user) |
+| `user` | [ユーザー](https://docs.wandb.ai/ref/weave/user) |
 
-#### 반환 값
-[사용자](https://docs.wandb.ai/ref/weave/user)의 사용자 이름
+#### 戻り値
+[ユーザー](https://docs.wandb.ai/ref/weave/user)のユーザー名

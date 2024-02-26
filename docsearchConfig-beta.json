@@ -1,7 +1,7 @@
 {
-  "index_name": "docodile-beta-ko",
-  "start_urls": ["https://docs-beta.wandb.ai/ko"],
-  "sitemaps": ["https://docs-beta.wandb.ai/ko/sitemap.xml"],
+  "index_name": "docodile-beta-ja",
+  "start_urls": ["https://docs-beta.wandb.ai/ja"],
+  "sitemaps": ["https://docs-beta.wandb.ai/ja/sitemap.xml"],
   "sitemap_alternate_links": true,
   "selectors": {
     "lvl0": {

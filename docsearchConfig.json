@@ -1,7 +1,7 @@
 {
-  "index_name": "docodile-ko",
-  "start_urls": ["https://docs.wandb.ai/ko"],
-  "sitemaps": ["https://docs.wandb.ai/ko/sitemap.xml"],
+  "index_name": "docodile-ja",
+  "start_urls": ["https://docs.wandb.ai/ja"],
+  "sitemaps": ["https://docs.wandb.ai/ja/sitemap.xml"],
   "sitemap_alternate_links": true,
   "selectors": {
     "lvl0": {

@@ -1,9 +1,8 @@
+# Weave（クエリ言語）
 
-# Weave (쿼리 언어)
+Weaveは、wandbのデータクエリ言語であり、プロジェクトとrunsをまたいでデータを選択および集約するために使用できます。
 
-Weave는 wandb의 데이터 쿼리 언어로, 실행과 프로젝트 전체에서 데이터를 선택하고 집계하는 데 사용할 수 있습니다. Weave 패널에 대한 가이드는 여기에서 확인하세요: https://docs.wandb.ai/guides/app/features/panels/weave
-
-## 데이터 타입
+## データ型
 
 * [artifact](./artifact.md)
 * [artifactType](./artifact-type.md)

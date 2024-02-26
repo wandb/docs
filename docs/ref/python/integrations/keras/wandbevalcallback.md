@@ -1,224 +1,252 @@
-
 # WandbEvalCallback
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/integration/keras/callbacks/tables_builder.py#L10-L226' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
+![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)[GitHubでソースを表示する](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L10-L241)
 
-모델 예측 시각화를 위한 Keras 콜백을 빌드하기 위한 추상 기본 클래스입니다.
+モデル予測の可視化のためのKerasのコールバックを作成する抽象ベースクラスです。
 
 ```python
 WandbEvalCallback(
-    data_table_columns: List[str],
-    pred_table_columns: List[str],
-    *args,
-    **kwargs
+ data_table_columns: List[str],
+ pred_table_columns: List[str],
+ *args,
+ **kwargs
 ) -> None
 ```
 
-분류, 오브젝트 디텍션, 세그멘테이션 등의 작업을 위한 모델 예측 시각화 콜백을 빌드할 수 있습니다. 이를 사용하려면 이 기본 콜백 클래스를 상속받고 `add_ground_truth` 및 `add_model_prediction` 메서드를 구현하십시오.
+`on_epoch_end`でモデル予測を可視化するコールバックを作成できます。これらは、分類、物体検出、セグメンテーションなどのタスクで`model.fit()`に渡すことができます。
 
-기본 클래스는 다음을 처리합니다:
+これを使用するには、このベース コールバック クラスから継承し、`add_ground_truth` メソッドと `add_model_prediction` メソッドを実装します。
 
-- 실제값을 기록하기 위한 `data_table` 및 예측값을 위한 `pred_table` 초기화
-- `data_table`에 업로드된 데이터는 `pred_table`의 참조로 사용됩니다. 이는 메모리 사용량을 줄입니다. `data_table_ref`는 참조된 데이터에 엑세스할 수 있는 리스트입니다. 아래 예시를 확인하여 작동 방식을 확인하세요.
-- W&B 아티팩트로 테이블을 로그로 기록합니다.
-- 새로운 `pred_table`은 별칭과 함께 새 버전으로 로그됩니다.
+ベースクラスは以下を行います。
+- 正解をログに記録するための `data_table` と予測のための `pred_table` を初期化します。
+- `data_table` にアップロードされたデータは、`pred_table` の参照用データとして使用されます。これは、メモリの使用量を削減するためです。`data_table_ref` は、参照されたデータにアクセスできるリストです。以下の例で使用方法を確認してください。
+- W&BアーティファクトとしてテーブルをW&Bにログに記録します。
+- 新しい `pred_table` は、エイリアス付きの新しいバージョンとしてログに記録されます。
+#### 例:
 
-#### 예시:
-
-```python
+```
 class WandbClfEvalCallback(WandbEvalCallback):
-    def __init__(self, validation_data, data_table_columns, pred_table_columns):
-        super().__init__(data_table_columns, pred_table_columns)
+ def __init__(
+ self,
+ validation_data,
+ data_table_columns,
+ pred_table_columns
+ ):
+ super().__init__(
+ data_table_columns,
+ pred_table_columns
+ )
 
-        self.x = validation_data[0]
-        self.y = validation_data[1]
+ self.x = validation_data[0]
+ self.y = validation_data[1]
 
-    def add_ground_truth(self):
-        for idx, (image, label) in enumerate(zip(self.x, self.y)):
-            self.data_table.add_data(idx, wandb.Image(image), label)
+ def add_ground_truth(self):
+ for idx, (image, label) in enumerate(zip(self.x, self.y)):
+ self.data_table.add_data(
+ idx,
+ wandb.Image(image),
+ label
+ )
 
-    def add_model_predictions(self, epoch):
-        preds = self.model.predict(self.x, verbose=0)
-        preds = tf.argmax(preds, axis=-1)
+ def add_model_predictions(self, epoch):
+ preds = self.model.predict(self.x, verbose=0)
+ preds = tf.argmax(preds, axis=-1)
 
-        data_table_ref = self.data_table_ref
-        table_idxs = data_table_ref.get_index()
+data_table_ref = self.data_table_ref
+ table_idxs = data_table_ref.get_index()
 
-        for idx in table_idxs:
-            pred = preds[idx]
-            self.pred_table.add_data(
-                epoch,
-                data_table_ref.data[idx][0],
-                data_table_ref.data[idx][1],
-                data_table_ref.data[idx][2],
-                pred,
-            )
-
+ for idx in table_idxs:
+ pred = preds[idx]
+ self.pred_table.add_data(
+ epoch,
+ data_table_ref.data[idx][0],
+ data_table_ref.data[idx][1],
+ data_table_ref.data[idx][2],
+ pred
+ )
 
 model.fit(
-    x,
-    y,
-    epochs=2,
-    validation_data=(x, y),
-    callbacks=[
-        WandbClfEvalCallback(
-            validation_data=(x, y),
-            data_table_columns=["idx", "image", "label"],
-            pred_table_columns=["epoch", "idx", "image", "label", "pred"],
-        )
-    ],
+ x,
+ y,
+ epochs=2,
+ validation_data=(x, y),
+ callbacks=[
+ WandbClfEvalCallback(
+ validation_data=(x, y),
+ data_table_columns=["idx", "image", "label"],
+ pred_table_columns=["epoch", "idx", "image", "label", "pred"])
+ ],
 )
 ```
 
-더 세밀한 제어를 원한다면 `on_train_begin`과 `on_epoch_end` 메서드를 오버라이드할 수 있습니다. 배치 후 N개의 샘플을 로그하려면 `on_train_batch_end` 메서드를 구현할 수 있습니다.
-
-## 메서드들
+より細かい制御が必要な場合は、`on_train_begin`と`on_epoch_end`メソッドをオーバーライドできます。Nバッチ後のサンプルをログに記録したい場合は、`on_train_batch_end`メソッドを実装できます。
+## メソッド
 
 ### `add_ground_truth`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/integration/keras/callbacks/tables_builder.py#L117-L131)
+
+
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L127-L144)
 
 ```python
 @abc.abstractmethod
 add_ground_truth(
-    logs: Optional[Dict[str, float]] = None
+ logs: Optional[Dict[str, float]] = None
 ) -> None
 ```
 
-`data_table`에 실제값 데이터를 추가합니다.
+`data_table`に正解データを追加します。
 
-`init_data_table` 메서드를 사용하여 초기화된 `data_table`에 검증/학습 데이터를 추가하기 위한 로직을 이 메서드에서 작성하십시오.
+`init_data_table`メソッドを使って初期化された`data_table`に検証/トレーニングデータを追加するロジックを書くために、このメソッドを使用します。
 
-#### 예시:
+#### 例:
 
-```python
-for idx, data in enumerate(dataloader):
-    self.data_table.add_data(idx, data)
 ```
-
-이 메서드는 `on_train_begin` 또는 동등한 후크에서 한 번 호출됩니다.
+for idx, data in enumerate(dataloader):
+ self.data_table.add_data(
+ idx,
+ data
+ )
+```
+このメソッドは、`on_train_begin` または同等のフックで一度呼ばれます。
 
 ### `add_model_predictions`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/integration/keras/callbacks/tables_builder.py#L133-L153)
+
+
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L146-L168)
 
 ```python
 @abc.abstractmethod
 add_model_predictions(
-    epoch: int,
-    logs: Optional[Dict[str, float]] = None
+ epoch: int,
+ logs: Optional[Dict[str, float]] = None
 ) -> None
 ```
 
-`pred_table`에 모델의 예측을 추가합니다.
+モデルからの予測を `pred_table` に追加します。
 
-`init_pred_table` 메서드를 사용하여 초기화된 `pred_table`에 검증/학습 데이터에 대한 모델 예측을 추가하기 위한 로직을 이 메서드에서 작성하십시오.
+このメソッドを使用して、`init_pred_table` メソッドで初期化された `pred_table` に検証/トレーニングデータのモデル予測を追加するロジックを記述します。
 
-#### 예시:
+#### 例：
 
-```python
-# 데이터로더가 샘플을 섞지 않는다고 가정
-for idx, data in enumerate(dataloader):
-    preds = model.predict(data)
-    self.pred_table.add_data(
-        self.data_table_ref.data[idx][0], self.data_table_ref.data[idx][1], preds
-    )
 ```
-
-이 메서드는 `on_epoch_end` 또는 동등한 후크에서 호출됩니다.
+# データローダがサンプルをシャッフルしないと仮定します。
+for idx, data in enumerate(dataloader):
+ preds = model.predict(data)
+ self.pred_table.add_data(
+ self.data_table_ref.data[idx][0],
+ self.data_table_ref.data[idx][1],
+ preds
+ )
+```
+このメソッドは、`on_epoch_end` または同等のフックと呼ばれます。
 
 ### `init_data_table`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/integration/keras/callbacks/tables_builder.py#L155-L164)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L170-L179)
 
 ```python
 init_data_table(
-    column_names: List[str]
+ column_names: List[str]
 ) -> None
 ```
 
-검증 데이터를 위한 W&B 테이블을 초기화합니다.
+検証データ用のW&Bテーブルを初期化します。
 
-이 메서드는 `on_train_begin` 또는 동등한 후크에서 호출합니다. 이는 테이블에 행 또는 열 단위로 데이터를 추가하는 것을 따릅니다.
+このメソッドは、`on_train_begin`または同等のフックで呼び出します。これに続いて、テーブルの行または列にデータを追加します。
 
-| Args |  |
+| 引数 | |
 | :--- | :--- |
-|  `column_names` |  (list) W&B 테이블의 열 이름. |
+| column_names (list): W&Bテーブルの列名。 |
+
+
 
 ### `init_pred_table`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/integration/keras/callbacks/tables_builder.py#L166-L175)
-
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L181-L190)
 ```python
 init_pred_table(
-    column_names: List[str]
+ column_names: List[str]
 ) -> None
 ```
 
-모델 평가를 위한 W&B 테이블을 초기화합니다.
+モデル評価のためのW&Bテーブルを初期化します。
 
-이 메서드는 `on_epoch_end` 또는 동등한 후크에서 호출합니다. 이는 테이블에 행 또는 열 단위로 데이터를 추가하는 것을 따릅니다.
+このメソッドは`on_epoch_end`または同等のフックで呼び出します。これに続いて、テーブルの行または列にデータを追加します。
 
-| Args |  |
+| Args | |
 | :--- | :--- |
-|  `column_names` |  (list) W&B 테이블의 열 이름. |
+| column_names (list): W&Bテーブルの列名。 |
+
 
 ### `log_data_table`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/integration/keras/callbacks/tables_builder.py#L177-L203)
+
+
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L192-L218)
 
 ```python
 log_data_table(
-    name: str = "val",
-    type: str = "dataset",
-    table_name: str = "val_data"
+ name: str = "val",
+ type: str = "dataset",
+ table_name: str = "val_data"
 ) -> None
 ```
+`data_table` をW&Bアーティファクトとしてログし、それに対して `use_artifact` を呼び出します。
 
-`data_table`을 W&B 아티팩트로 로그하고 `use_artifact`를 호출합니다.
+これにより、評価テーブルは、すでにアップロードされたデータ（画像、テキスト、スカラーなど）の参照を使用して、再アップロードせずに済みます。
 
-이를 통해 이미 업로드된 데이터(이미지, 텍스트, 스칼라 등)의 참조를 사용하여 평가 테이블이 데이터를 다시 업로드하지 않고 사용할 수 있습니다.
-
-| Args |  |
+| Args | |
 | :--- | :--- |
-|  `name` |  (str) 이 아티팩트를 UI에서 식별하거나 use_artifact 호출에서 참조하는 데 사용하는 인간이 읽을 수 있는 이름입니다. (기본값은 'val') |
-|  `type` |  (str) 아티팩트의 유형으로, 아티팩트를 구성하고 구분하는 데 사용됩니다. (기본값은 'dataset') |
-|  `table_name` |  (str) UI에서 표시될 테이블의 이름입니다. (기본값은 'val_data'). |
+| name (str): このアーティファクトに対する人間が読める名前で、UI内でこのアーティファクトを識別したり、use_artifact呼び出しで参照したりする際に使用します。（デフォルトは 'val'） type（str）:アーティファクトの種類で、アーティファクトを整理・区別するために使用されます。（デフォルトは 'dataset'） table_name (str): UIに表示されるテーブルの名前（デフォルトは 'val_data'）。|
+
+
 
 ### `log_pred_table`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/integration/keras/callbacks/tables_builder.py#L205-L226)
+
+
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/keras/callbacks/tables_builder.py#L220-L241)
 
 ```python
 log_pred_table(
-    type: str = "evaluation",
-    table_name: str = "eval_data",
-    aliases: Optional[List[str]] = None
+ type: str = "evaluation",
+ table_name: str = "eval_data",
+ aliases: Optional[List[str]] = None
 ) -> None
 ```
 
-모델 평가를 위한 W&B 테이블을 로그합니다.
+モデルの評価のためのW&Bテーブルをログします。
 
-테이블은 여러 번 로그되어 새 버전을 생성합니다. 이를 사용하여 서로 다른 시간 간격에서 모델을 대화형으로 비교할 수 있습니다.
-
-| Args |  |
+テーブルは複数回ログされ、新しいバージョンが作成されます。これを使用して
+異なる間隔でのモデル比較をインタラクティブに行います。
+| Args | |
 | :--- | :--- |
-|  `type` |  (str) 아티팩트의 유형으로, 아티팩트를 구성하고 구분하는 데 사용됩니다. (기본값은 'evaluation') |
-|  `table_name` |  (str) UI에서 표시될 테이블의 이름입니다. (기본값은 'eval_data') |
-|  `aliases` |  (List[str]) 예측 테이블의 별칭 목록입니다. |
+| type (str): アーティファクトの種類で、アーティファクトを整理し区別するために使用されます。（デフォルトは 'evaluation'）table_name (str): UIで表示されるテーブルの名前。（デフォルトは 'eval_data'）aliases (List[str]): 予測テーブルのエイリアスのリスト。 |
+
+
+
 
 ### `set_model`
 
+
+
 ```python
 set_model(
-    model
+ model
 )
 ```
 
+
+
+
 ### `set_params`
+
+
 
 ```python
 set_params(
-    params
+ params
 )
 ```

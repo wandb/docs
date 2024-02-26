@@ -1,8 +1,30 @@
 ---
 displayed_sidebar: default
 ---
+# LLMs
 
-# W&B 프롬프트
-LLM 파이프라인과 프롬프트 성능에 대한 더 깊은 이해를 얻으세요. 쉬운 디버깅을 위해 아키텍처를 자세히 살펴보고, 필요한 특정 분석을 위해 사용자 정의 시각화를 구성하며, LLM 성능, 사용량 및 예산에 대한 완전한 가시성을 유지하세요.
+Evaluating the performance of Large Language Models (LLMs) can be difficult. Use W&B Prompts and LLM Monitoring to streamline the evaluation process, providing a visual way to analyze your generative models.
 
-W&B 프롬프트는 LLM 기반 앱을 구축하고 평가하기 위한 해결책입니다. 소프트웨어 개발자, 프롬프트 엔지니어, ML 실무자, 데이터 과학자 및 LLM을 사용하는 기타 이해 관계자는 [LLM 체인과 프롬프트를 탐색하고 디버깅](./prompts/intro.md)하는 데 더 높은 세밀도를 가진 첨단 도구가 필요합니다.
+## Visualize
+
+[W&B Prompts](./prompts/intro.md) is a suite of LLMOps tools built for the development of LLM-powered applications. Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
+
+W&B Prompts provides several solutions for building and monitoring LLM-based apps. Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to:
+
+- Explore and debug LLM chains and prompts with greater granularity.
+- Monitor and observe LLMs to better understand and evaluate performance, usage, and budgets.
+
+
+
+## Integrations
+
+W&B also has lightweight integrations for:
+
+- [LangChain](./integrations/langchain.md)
+- [OpenAI API](./integrations/other/openai-api.md)
+- [OpenAI GPT-3.5 Fine-Tuning](./integrations/other/openai-fine-tuning.md)
+- [Hugging Face Transformers](./integrations/huggingface.md)
+
+## Next Steps
+
+- Check out more detailed documentation on [Prompts](./prompts/intro.md).

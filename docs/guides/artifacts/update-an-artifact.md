@@ -3,18 +3,17 @@ description: Update an existing Artifact inside and outside of a W&B Run.
 displayed_sidebar: default
 ---
 
-# 아티팩트 업데이트
+# アーティファクトの更新
 
 <head>
-  <title>아티팩트 업데이트</title>
+  <title>アーティファクトの更新</title>
 </head>
+artifactの`description`、`metadata`、および`alias`を更新するために、望ましい値を渡してください。`save()`メソッドを呼び出して、Weights & Biasesサーバー上のartifactを更新します。W&B Run中またはRunの外でartifactを更新できます。
 
-원하는 값들을 전달하여 아티팩트의 `description`, `metadata`, 및 `alias`를 업데이트하십시오. W&B 서버에서 아티팩트를 업데이트하기 위해 `save()` 메서드를 호출하십시오. W&B 실행 중이거나 실행 외부에서 아티팩트를 업데이트할 수 있습니다.
-
-실행 외부에서 아티팩트를 업데이트하기 위해 W&B Public API([`wandb.Api`](../../ref/python/public-api/api.md))를 사용하십시오. 실행 도중에 아티팩트를 업데이트하기 위해 Artifact API([`wandb.Artifact`](../../ref/python/artifact.md))를 사용하십시오.
+W&B Public API（[`wandb.Api`](https://docs.wandb.ai/ref/python/public-api/api)）を使用して、runの外でartifactを更新します。Artifact API（[`wandb.Artifact`](https://docs.wandb.ai/ref/python/artifact)）を使用して、runの間にartifactを更新します。
 
 :::caution
-모델 레지스트리에 연결된 아티팩트의 별칭은 업데이트할 수 없습니다.
+モデルレジストリ内のモデルにリンクされているartifactのエイリアスは更新できません。
 :::
 
 
@@ -24,12 +23,12 @@ import TabItem from '@theme/TabItem';
 <Tabs
   defaultValue="duringrun"
   values={[
-    {label: '실행 도중', value: 'duringrun'},
-    {label: '실행 외부', value: 'outsiderun'},
+    {label: 'ランの間', value: 'duringrun'},
+    {label: 'ランの外', value: 'outsiderun'},
   ]}>
   <TabItem value="duringrun">
 
-다음 코드 예시는 [`wandb.Artifact`](../../ref/python/artifact.md) API를 사용하여 아티팩트의 설명을 업데이트하는 방법을 보여줍니다:
+次のコード例は、[`wandb.Artifact`](https://docs.wandb.ai/ref/python/artifact) APIを使用してアーティファクトの説明を更新する方法を示しています。
 
 ```python
 import wandb
@@ -37,45 +36,44 @@ import wandb
 run = wandb.init(project="<example>", job_type="<job-type>")
 artifact = run.use_artifact("<artifact-name>:<alias>")
 
-artifact = wandb.Artifact("")
-run.use_artifact(artifact)
-artifact.description = "<description>"
-artifact.save()
-```
-  </TabItem>
-  <TabItem value="outsiderun">
 
-다음 코드 예시는 `wandb.Api` API를 사용하여 아티팩트의 설명을 업데이트하는 방법을 보여줍니다:
+アーティファクト = wandb.Artifact("")
+run.use_artifact(artifact)
+アーティファクトの説明 = "<説明>"
+アーティファクト.save()
+```
+
+  </TabItem>
+  <TabItem value="外部実行">
+
+以下のコード例では、`wandb.Api` APIを使用して、アーティファクトの説明を更新する方法を示しています。
 
 ```python
 import wandb
 
 api = wandb.Api()
 
-artifact = api.artifact("entity/project/artifact:alias")
+artifact = api.artifact("entity/project/artifact:エイリアス")
 
-# 설명 업데이트
-artifact.description = "My new description"
+# 説明を更新する
+artifact.description = "新しい説明"
 
-# 메타데이터 키 선택적 업데이트
-artifact.metadata["oldKey"] = "new value"
+# メタデータキーを選択して更新する
+artifact.metadata["oldKey"] = "新しい値"
+# メタデータを完全に置き換える
+artifact.metadata = {"newKey": "新しい値"}
 
-# 메타데이터 전체 교체
-artifact.metadata = {"newKey": "new value"}
-
-# 별칭 추가
+# エイリアスを追加する
 artifact.aliases.append("best")
-
-# 별칭 제거
+# エイリアスを削除する
 artifact.aliases.remove("latest")
 
-# 별칭 전체 교체
+# エイリアスを完全に置き換える
 artifact.aliases = ["replaced"]
 
-# 모든 아티팩트 수정 사항 저장
+# すべてのアーティファクトの変更を保存する
 artifact.save()
 ```
-
-더 많은 정보는 Weights and Biases [Artifact API](../../ref/python/artifact.md)를 참조하십시오.
+詳細については、Weights and Biasesの [Public Artifact API](https://docs.wandb.ai/ref/python/public-api/artifact) をご覧ください。
   </TabItem>
 </Tabs>

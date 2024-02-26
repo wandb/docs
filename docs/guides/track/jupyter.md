@@ -1,98 +1,111 @@
 ---
-description: se W&B with Jupyter to get interactive visualizations without leaving
-  your notebook.
+description: >-
+  se Weights & Biases with Jupyter to get interactive visualizations without
+  leaving your notebook.
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Jupyter 노트북 추적하기
+# Jupyterノートブックのトラッキング
 
 <head>
-  <title>Jupyter 노트북 추적하기</title>
+  <title>Jupyterノートブックのトラッキング</title>
 </head>
 
-W&B와 Jupyter를 사용하여 노트북을 떠나지 않고도 인터랙티브한 시각화를 얻을 수 있습니다. 맞춤 분석, 실험 및 프로토타입을 결합하여 모두 완벽하게 기록하십시오!
+Jupyterを使ってWeights & Biasesを使用し、ノートブックを離れることなくインタラクティブな可視化を取得しましょう。カスタム分析、実験、プロトタイプを組み合わせて、すべて完全に記録されます！
 
-## Jupyter 노트북에서 W&B 사용 사례
+## W&BとJupyterノートブックのユースケース
 
-1. **반복적인 실험**: 실험을 실행하고 다시 실행하며 파라미터를 조정하고, 수동으로 메모를 하지 않아도 W&B에 자동으로 모든 실행이 저장됩니다.
-2. **코드 저장**: 모델을 재현할 때 노트북의 어떤 셀이 어떤 순서로 실행되었는지 알기 어렵습니다. [설정 페이지](../app/settings-page/intro.md)에서 코드 저장을 활성화하여 각 실험에 대한 셀 실행 기록을 저장하세요.
-3. **맞춤 분석**: 실행이 W&B에 로그되면 API에서 데이터프레임을 쉽게 얻고 맞춤 분석을 수행한 다음 그 결과를 W&B에 로그하여 리포트에서 저장하고 공유할 수 있습니다.
+1. **繰り返し実験**: 実験を実行および再実行し、パラメーターを調整し、途中で手動のメモを取らずにすべてのrunをW&Bに自動的に保存します。
+2. **コード保存**: モデルを再現するとき、ノートブックのどのセルが実行され、どの順序で実行されたかわかりにくいです。[設定ページ](../app/settings-page/intro.md) でコード保存をオンにして、各実験のセル実行の記録を保存しましょう。
+3. **カスタム分析**: runがW&Bに記録されると、APIからデータフレームを取得し、カスタム分析を行い、その結果をW&Bに記録してレポートで保存および共有するのが簡単になります。
 
-## 노트북에서 시작하기
+## ノートブックでの始め方
 
-다음 코드로 노트북을 시작하여 W&B를 설치하고 계정을 연결하십시오:
+W&Bをインストールし、アカウントをリンクするために以下のコードでノートブックを開始します。
 
-```notebook
+```python
 !pip install wandb -qqq
 import wandb
 wandb.login()
 ```
 
-다음으로, 실험을 설정하고 하이퍼파라미터를 저장하세요:
+次に、実験を設定し、ハイパーパラメーターを保存します:
 
 ```python
-wandb.init(
-    project="jupyter-projo",
-    config={
-        "batch_size": 128,
-        "learning_rate": 0.01,
-        "dataset": "CIFAR-100",
-    },
-)
+wandb.init(project="jupyter-projo",
+           config={
+               "batch_size": 128,
+               "learning_rate": 0.01,
+               "dataset": "CIFAR-100",
+           })
 ```
 
-`wandb.init()`를 실행한 후 새 셀에서 `%%wandb`로 시작하여 노트북에서 실시간 그래프를 볼 수 있습니다. 이 셀을 여러 번 실행하면 실행에 데이터가 추가됩니다.
+`wandb.init()` を実行した後、`%%wandb`で新しいセルを開始して、ノートブック内でリアルタイムのグラフを表示します。このセルを複数回実行すると、データがrunに追加されます。
 
-```notebook
+```python
 %%wandb
 
-# 여기에 학습 루프
+# ここにトレーニングループを記述
 ```
 
-이 [빠른 예제 노트북 →](http://wandb.me/jupyter-interact-colab)에서 직접 시도해 보세요.
+[クイック実例ノートブック →](http://wandb.me/jupyter-interact-colab) で自分自身で試してみましょう。
 
 ![](/images/track/jupyter_widget.png)
 
-### 노트북에서 직접 실시간 W&B 인터페이스 렌더링하기
+### ノートブック内でのリアルタイムのW&Bインターフェースのレンダリング
 
-`%%wandb` 또는 `%wandb` 매직을 대신하여 `wandb.init()`을 실행한 후에는 어떤 셀에서든 `wandb.run`으로 끝내면 인라인 그래프를 볼 수 있거나, 우리의 API에서 반환된 어떤 리포트, 스윕 또는 실행 개체에 대해 `ipython.display(...)`를 호출할 수 있습니다.
+`%wandb` マジックを使用して、既存のダッシュボード、スイープ、レポートをノートブック内に直接表示することもできます。
 
 ```python
-# 먼저 wandb.run을 초기화합니다
+# プロジェクトワークスペースを表示
+%wandb USERNAME/PROJECT
+# シングルのrunを表示
+%wandb USERNAME/PROJECT/runs/RUN_ID
+# スイープの表示
+%wandb ユーザー名/プロジェクト/sweeps/SWEEP_ID
+# レポートの表示
+%wandb ユーザー名/プロジェクト/reports/REPORT_ID
+# 埋め込まれたiframeの高さを指定
+%wandb ユーザー名/プロジェクト -h 2048
+```
+
+`%%wandb`や`%wandb`マジックとして代替手段として、`wandb.init()`を実行した後、任意のセルで`wandb.run`を使用してインライングラフを表示することができます。また、APIから取得したレポート、スイープ、runオブジェクトに`ipython.display(...)`を呼び出すことができます。
+
+```python
+# 最初にwandb.runを初期化
 wandb.init()
 
-# 셀 출력이 wandb.run이면 실시간 그래프를 볼 수 있습니다
+# セルの出力がwandb.runの場合、ライブグラフが表示されます
 wandb.run
 ```
 
 :::info
-W&B로 할 수 있는 것에 대해 더 알고 싶으십니까? [데이터 및 미디어 로깅 가이드](log/intro.md)를 확인하고, [가장 좋아하는 ML 툴킷과 통합하는 방법](../integrations/intro.md)을 배우거나, 바로 [참조 문서](../../ref/python/README.md)나 [예제 리포지토리](https://github.com/wandb/examples)로 뛰어들어보세요.
+W&Bでできることの詳細は、[データとメディアの記録に関するガイド](log/intro.md)を参照してください。お気に入りのMLツールキットとの統合方法について学ぶには、[こちら](../integrations/intro.md)を参照してください。また、[リファレンスドキュメント](../../ref/python/README.md)や[例のリポジトリ](https://github.com/wandb/examples)を直接閲覧してください。
 :::
 
-## W&B의 추가 Jupyter 기능
+## W&Bでの追加のJupyter機能
 
-1. **Colab에서 쉬운 인증**: Colab에서 처음으로 `wandb.init`을 호출할 때 현재 브라우저에서 W&B에 로그인되어 있다면 자동으로 런타임을 인증합니다. 실행 페이지의 Overview 탭에서 Colab에 대한 링크를 볼 수 있습니다.
-2. **Jupyter Magic:** 대시보드, 스윕 및 리포트를 노트북에 직접 표시합니다. `%wandb` 매직은 프로젝트, 스윕 또는 리포트로의 경로를 받아들이고 노트북 내에서 직접 W&B 인터페이스를 렌더링합니다.
-3. **도커화된 Jupyter 실행**: 코드를 마운트하고, Jupyter가 설치되어 있으며, 포트 8888에서 실행되는 도커 컨테이너를 시작하려면 `wandb docker --jupyter`를 호출하세요.
-4. **임의의 순서로 셀 실행하기**: 기본적으로, 우리는 `wandb.init`이 다음에 호출될 때까지 실행을 "완료"로 표시하는 것을 기다립니다. 이를 통해 여러 셀(예: 데이터 설정, 학습, 테스트를 위한 셀)을 원하는 순서대로 실행하고 모두 동일한 실행에 로그할 수 있습니다. [설정](https://app.wandb.ai/settings)에서 코드 저장을 켜면 실행된 셀도 순서대로, 실행된 상태로 로그하여 가장 비선형적인 파이프라인도 재현할 수 있습니다. Jupyter 노트북에서 실행을 수동으로 완료하려면 `run.finish`를 호출하세요.
+1. **Colabでの簡単な認証**：Colabで初めて`wandb.init`を呼び出すと、ブラウザでW&Bにログインしている場合、自動的にランタイムが認証されます。ランの概要タブにはColabへのリンクが表示されます。
+2. **Jupyter Magic**：ダッシュボード、スイープ、レポートをノートブックに直接表示します。`%wandb`マジックは、プロジェクト、スイープ、レポートへのパスを受け取り、ノートブックに直接W&Bインターフェースを表示します。
+3. **Docker化されたJupyterを起動**：`wandb docker --jupyter`を実行してdockerコンテナを起動し、コードをマウントし、Jupyterをインストールしてポート8888で起動します。
+4. **任意の順序でセルを実行することを恐れない**：デフォルトでは、次に`wandb.init`が呼び出されるまでrunを"終了"としてマークしません。これにより、複数のセル（データの設定、トレーニング、テストなど）を好きな順番で実行し、すべて同じrunに記録させることができます。[設定](https://app.wandb.ai/settings)でコード保存をオンにすると、実行されたセルの順序と実行状態が記録され、非線形な開発フローでも再現が可能になります。Jupyterノートブックでrunを手動で終了するには、`run.finish`を呼び出してください。
 
 ```python
 import wandb
-
 run = wandb.init()
 
-# 여기에 학습 스크립트와 로깅이 있습니다
+# ここにトレーニングスクリプトとログが入ります
 
 run.finish()
 ```
 
-## 자주 묻는 질문
+## よくある質問
 
-### W&B 정보 메시지를 어떻게 끌 수 있나요?
+### W&Bの情報メッセージを非表示にする方法は？
 
-표준 wandb 로깅 및 정보 메시지(예: 실행 시작 시 프로젝트 정보)를 비활성화하려면 `wandb.login`을 실행하기 _전에_ 노트북 셀에서 다음을 실행하세요:
+標準のwandbログや情報メッセージ（例：プロジェクト情報などの開始時の情報）を無効にするには、`wandb.login` を実行する前に、ノートブックのセルで以下のコードを実行してください：
 
 <Tabs
   defaultValue="jupyter"
@@ -102,7 +115,7 @@ run.finish()
   ]}>
   <TabItem value="jupyter">
 
-```notebook
+```python
 %env WANDB_SILENT=True
 ```
   </TabItem>
@@ -116,7 +129,7 @@ os.environ["WANDB_SILENT"] = "True"
   </TabItem>
 </Tabs>
 
-노트북에서 `INFO SenderThread:11484 [sender.py:finish():979]`와 같은 로그 메시지를 본다면, 다음을 사용하여 해당 메시지를 비활성화할 수 있습니다:
+ノートブックに`INFO SenderThread:11484 [sender.py:finish():979]`のようなログメッセージが表示される場合は、以下の方法でそれらを無効にできます。
 
 ```python
 import logging
@@ -125,9 +138,9 @@ logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
 
-### `WANDB_NOTEBOOK_NAME`을 어떻게 설정하나요?
+### `WANDB_NOTEBOOK_NAME`をどのように設定しますか？
 
-`"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` 오류 메시지가 표시되면 환경 변수를 설정하여 해결할 수 있습니다. 여러 방법이 있습니다:
+`"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"`というエラーメッセージが表示される場合は、環境変数を設定することで解決できます。方法はいくつかあります：
 
 <Tabs
   defaultValue="jupyter"
@@ -137,16 +150,22 @@ logger.setLevel(logging.ERROR)
   ]}>
   <TabItem value="jupyter">
 
-```notebook
-%env "WANDB_NOTEBOOK_NAME" "노트북 이름 여기에"
+```python
+%env "WANDB_NOTEBOOK_NAME" "notebook name here"
 ```
   </TabItem>
   <TabItem value="python">
 
-```notebook
+```python
+
 import os
 
-os.environ["WANDB_NOTEBOOK_NAME"] = "노트북 이름 여기에"
+
+
+os.environ["WANDB_NOTEBOOK_NAME"] = "ここにノートブック名を入力"
+
 ```
+
   </TabItem>
+
 </Tabs>

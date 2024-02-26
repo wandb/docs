@@ -1,28 +1,21 @@
+# インポート & エクスポート API
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/__init__.py)
+Public APIを使って、W&Bに保存したデータをエクスポートしたり更新したりします。
+このAPIを使う前に、スクリプトからデータをログに記録しておく必要があります。詳細は[クイックスタート](https://docs.wandb.ai/quickstart)を参照してください。
+Public APIを使って、
+ - Jupyterノートブックで事後分析を行うために、結果をデータフレームとしてダウンロードする
+などができます。
+Public APIの使用方法については、[ガイド](https://docs.wandb.com/guides/track/public-api-guide)をチェックしてください。
+## クラス
+[`class Api`](./api.md): wandbサーバーへの問い合わせに使用されます。
+`class Artifact`: wandbのアーティファクト。
+[`class File`](./file.md): wandbによって保存されたファイルに関連するクラス。
+[`class Files`](./files.md): `File`オブジェクトの反復可能なコレクション。
 
-# Import & Export API
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/__init__.py' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
-## 클래스
 
-[`class Api`](./api.md): wandb 서버를 쿼리하는 데 사용됩니다.
 
-[`class File`](./file.md): wandb에 저장된 파일과 관련된 클래스입니다.
 
-[`class Files`](./files.md): `File` 개체의 반복 가능한 컬렉션입니다.
 
-[`class Job`](./job.md)
 
-[`class Project`](./project.md): 프로젝트는 실행을 위한 네임스페이스입니다.
-
-[`class Projects`](./projects.md): `Project` 개체의 반복 가능한 컬렉션입니다.
-
-[`class QueuedRun`](./queuedrun.md): 엔티티와 프로젝트와 관련된 하나의 대기 중인 실행입니다. 실행에 엑세스하려면 `run = queued_run.wait_until_running()` 또는 `run = queued_run.wait_until_finished()`를 호출하세요.
-
-[`class Run`](./run.md): 엔티티와 프로젝트와 관련된 하나의 실행입니다.
-
-[`class RunQueue`](./runqueue.md)
-
-[`class Runs`](./runs.md): 프로젝트와 선택적 필터와 관련된 실행의 반복 가능한 컬렉션입니다.
-
-[`class Sweep`](./sweep.md): 스윕과 관련된 실행 세트입니다.

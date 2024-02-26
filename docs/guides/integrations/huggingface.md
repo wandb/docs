@@ -1,85 +1,80 @@
 ---
 displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# Hugging Face Transformers
+# Hugging Faceトランスフォーマー
 
-<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Optimize_Hugging_Face_models_with_Weights_&_Biases.ipynb"></CTAButtons>
+[Hugging Faceトランスフォーマー](https://huggingface.co/transformers/) ライブラリは、BERTのような最先端のNLPモデルや、混合精度演算や勾配チェックポイントのようなトレーニング手法を簡単に利用できるようにしています。[W&Bインテグレーション](https://huggingface.co/transformers/main\_classes/callback.html#transformers.integrations.WandbCallback)は、使いやすさを損なうことなく、インタラクティブな中央集約ダッシュボードに豊富で柔軟な実験トラッキングとモデルバージョン管理を追加します。
 
-The [Hugging Face Transformers](https://huggingface.co/transformers/) library makes state-of-the-art NLP models like BERT and training techniques like mixed precision and gradient checkpointing easy to use. The [W&B integration](https://huggingface.co/transformers/main\_classes/callback.html#transformers.integrations.WandbCallback) adds rich, flexible experiment tracking and model versioning to interactive centralized dashboards without compromising that ease of use.
-
-## 🤗 Next-level logging in few lines
+## 🤗 2行で次世代のログ作成
 
 ```python
-os.environ["WANDB_PROJECT"] = "<my-amazing-project>"  # name your W&B project
-os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
-
 from transformers import TrainingArguments, Trainer
 
-args = TrainingArguments(..., report_to="wandb")  # turn on W&B logging
-trainer = Trainer(..., args=args)
+args = TrainingArguments(... , report_to="wandb")
+trainer = Trainer(... , args=args)
 ```
-![Explore your experiment results in the W&B interactive dashboard](@site/static/images/integrations/huggingface_gif.gif)
+![W&Bのインタラクティブダッシュボードで実験結果を探索](@site/static/images/integrations/huggingface_gif.gif)
+
+## このガイドで解説する内容
+
+* W&BとHugging Face トランスフォーマーを組み合わせて、NLP の実験を追跡する方法[**基本的な使い方**](huggingface.md#getting-started-track-and-save-your-models)
+* [**W&B Hugging Face 統合の高度な機能を利用する方法**](../track/intro.md) を詳しく紹介し、実験のトラッキングを最大限に活用する方法。
 
 :::info
-If you'd rather dive straight into working code, check out this [Google Colab](https://wandb.me/hf).
+すぐに実際のコードを試してみたい場合は、この[Google Colab](https://wandb.me/hf)をチェックしてください。
 :::
 
-## Getting started: track experiments
+## はじめに：実験の追跡
 
-### 1) Sign Up, install the `wandb` library and log in
+### 1) サインアップし、`wandb` ライブラリをインストールしてログインする
 
-a) [**Sign up**](https://wandb.ai/site) for a free account
+a) [**サインアップ**](https://wandb.ai/site)して無料アカウントを取得
+b) `wandb`ライブラリをpipでインストール
 
-b) Pip install the `wandb` library
+c) トレーニングスクリプトでログインするには、www.wandb.aiでアカウントにサインインする必要があり、その後、 [**Authorize page**](https://wandb.ai/authorize) **でAPIキーを見つけることができます。**
 
-c) To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
-
-If you are using Weights and Biases for the first time you might want to check out our [**quickstart**](../../quickstart.md)
+Weights and Biasesを初めて使う場合は、[**クイックスタート**](../../quickstart.md) をチェックしてみてください。
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'Python', value: 'python'},
-    {label: 'Command Line', value: 'cli'},
+    {label: 'コマンドライン', value: 'cli'},
+    {label: 'ノートブック', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
-```shell
+```python
 pip install wandb
 
 wandb login
 ```
 
   </TabItem>
-  <TabItem value="python">
+  <TabItem value="notebook">
 
-```notebook
+```python
 !pip install wandb
 
 import wandb
 wandb.login()
 ```
-
-  </TabItem>
+</TabItem>
 </Tabs>
 
-### 2) Name the project
+### 2) プロジェクトの名前を付ける
 
-A [Project](../app/pages/project-page.md) is where all of the charts, data, and models logged from related runs are stored. Naming your project helps you organize your work and keep all the information about a single project in one place.
+[プロジェクト](../app/pages/project-page.md)は、関連するrunsから記録されたすべてのチャート、データ、モデルが格納される場所です。プロジェクトに名前を付けることで、作業を整理し、1つのプロジェクトに関するすべての情報を1か所に保管できます。
 
-To add a run to a project simply set the `WANDB_PROJECT` environment variable to the name of your project. The `WandbCallback` will pick up this project name environment variable and use it when setting up your run.
+runをプロジェクトに追加するには、`WANDB_PROJECT` 環境変数にプロジェクト名を設定するだけです。`WandbCallback` は、このプロジェクト名の環境変数を取得し、runの設定時に使用します。
 
 <Tabs
-  defaultValue="python"
+  defaultValue="cli"
   values={[
-    {label: 'Python', value: 'python'},
     {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'}
+    {label: 'Notebook', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -90,375 +85,264 @@ WANDB_PROJECT=amazon_sentiment_analysis
   </TabItem>
   <TabItem value="notebook">
 
-```notebook
+```python
 %env WANDB_PROJECT=amazon_sentiment_analysis
 ```
 
   </TabItem>
-  <TabItem value="python">
-
-```notebook
-import os
-os.environ["WANDB_PROJECT"]="amazon_sentiment_analysis"
-```
-
-  </TabItem>
 </Tabs>
 
-
 :::info
-Make sure you set the project name _before_ you initialize the `Trainer`.
+`Trainer`を初期化する前に、プロジェクト名を設定してください。
 :::
 
-If a project name is not specified the project name defaults to "huggingface".
+プロジェクト名が指定されていない場合、デフォルトで "huggingface" になります。
 
-### 3) Log your training runs to W&B
+### 3) W&Bにトレーニングのrunをログする
 
-This is **the most important step:** when defining your `Trainer` training arguments, either inside your code or from the command line, is to set `report_to` to `"wandb"` in order enable logging with Weights & Biases.
+これが**最も重要なステップ**です：`Trainer` のトレーニング引数を定義する際、コード内やコマンドラインから、Weights & Biases でのログを有効にするために `report_to` を `"wandb"` に設定します。
 
-The `logging_steps` argument in `TrainingArguments` will control how often training metrics are pushed to W&B during training. You can also give a name to the training run in W&B using the `run_name` argument. 
-
-That's it! Now your models will log losses, evaluation metrics, model topology, and gradients to Weights & Biases while they train.
-
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'Python', value: 'python'},
-    {label: 'Command Line', value: 'cli'},
-  ]}>
-  <TabItem value="cli">
-
-```bash
-python run_glue.py \     # run your Python script
-  --report_to wandb \    # enable logging to W&B
-  --run_name bert-base-high-lr \   # name of the W&B run (optional)
-  # other command line arguments here
-```
-
-  </TabItem>
-  <TabItem value="python">
-
-```python
-from transformers import TrainingArguments, Trainer
-
-args = TrainingArguments(
-    # other args and kwargs here
-    report_to="wandb",  # enable logging to W&B
-    run_name="bert-base-high-lr",  # name of the W&B run (optional)
-    logging_steps=1,  # how often to log to W&B
-)
-
-trainer = Trainer(
-    # other args and kwargs here
-    args=args,  # your training args
-)
-
-trainer.train()  # start training and logging to W&B
-```
-
-  </TabItem>
-</Tabs>
-
+また、`run_name`引数を使用してトレーニングrunに名前を付けることもできます。
 
 :::info
-Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`.
+TensorFlowを使用していますか？ PyTorchの`Trainer` を TensorFlow の `TFTrainer`に置き換えるだけです。
 :::
 
-### 4) Turn on model checkpointing 
-
-
-Using Weights & Biases' [Artifacts](../artifacts), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Model Registry](../model_registry) to register models to prepare them for staging or deployment in your production environment.
-
- Logging your Hugging Face model checkpoints to Artifacts can be done by setting the `WANDB_LOG_MODEL` environment variable to one of `end` or `checkpoint` or `false`: 
-
--  **`checkpoint`**: a checkpoint will be uploaded every `args.save_steps` from the [`TrainingArguments`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments). 
-- **`end`**:  the model will be uploaded at the end of training. 
-
-Use `WANDB_LOG_MODEL` along with `load_best_model_at_end` to upload the best model at the end of training.
-
-
-<Tabs
-  defaultValue="python"
-  values={[
-    {label: 'Python', value: 'python'},
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
-  ]}>
-
-  <TabItem value="python">
-
-```python
-import os
-
-os.environ["WANDB_LOG_MODEL"] = "checkpoint"
-```
-
-  </TabItem>
-  <TabItem value="cli">
-
-```bash
-WANDB_LOG_MODEL="checkpoint"
-```
-
-  </TabItem>
-  <TabItem value="notebook">
-
-```notebook
-%env WANDB_LOG_MODEL="checkpoint"
-```
-
-  </TabItem>
-</Tabs>
-
-
-Any Transformers `Trainer` you initialize from now on will upload models to your W&B project. The model checkpoints you log will be viewable through the [Artifacts](../artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..). 
-
-
-:::info
-By default, your model will be saved to W&B Artifacts as `model-{run_id}` when `WANDB_LOG_MODEL` is set to `end` or `checkpoint-{run_id}` when `WANDB_LOG_MODEL` is set to `checkpoint`.
-However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.run_name) in your `TrainingArguments`, the model will be saved as `model-{run_name}` or `checkpoint-{run_name}`.
-:::
-
-#### W&B Model Registry
-Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the Weights & Biases **[Model Registry](../model_registry)**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](https://docs.wandb.ai/guides/models/automation) downstream actions with webhooks or jobs. 
-
-See the [Model Registry](../model_registry) documentation for how to link a model Artifact to the Model Registry.
- 
-### 5) Visualise evaluation outputs during training
-
-Visualing your model outputs during training or evaluation is often essential to really understand how your model is training.
-
-By using the callbacks system in the Transformers Trainer, you can log additional helpful data to W&B such as your models' text generation outputs or other predictions to W&B Tables. 
-
-See the **[Custom logging section](#custom-logging-log-and-view-evaluation-samples-during-training)** below for a full guide on how to log evaluation outupts while training to log to a W&B Table like this:
-
-
-![Shows a W&B Table with evaluation outputs](/images/integrations/huggingface_eval_tables.png)
-
-### 6) Finish your W&B Run (Notebook only) 
-
-If your training is encapsulated in a Python script, the W&B run will end when your script finishes.
-
-If you are using a Jupyter or Google Colab notebook, you'll need to tell us when you're done with training by calling `wandb.finish()`.
-
-```python
-trainer.train()  # start training and logging to W&B
-
-# post-training analysis, testing, other logged code
-
-wandb.finish()
-```
-
-### 7) Visualize your results
-
-Once you have logged your training results you can explore your results dynamically in the [W&B Dashboard](../track/app.md). It's easy to compare across dozens of runs at once, zoom in on interesting findings, and coax insights out of complex data with flexible, interactive visualizations.
-
-
-
-## Advanced features and FAQs
-
-### How do I save the best model?
-If `load_best_model_at_end=True` is set in the `TrainingArguments` that are passed to the `Trainer`, then W&B will save the best performing model checkpoint to Artifacts.
-
-If you'd like to centralize all your best model versions across your team to organize them by ML task, stage them for production, bookmark them for further evaluation, or kick off downstream Model CI/CD processes then ensure you're saving your model checkpoints to Artifacts. Once logged to Artifacts, these checkpoints can then be promoted to the [Model Registry](../model_registry/intro.md).
-
-### Loading a saved model
-
-If you saved your model to W&B Artifacts with `WANDB_LOG_MODEL`, you can download your model weights for additional training or to run inference. You just load them back into the same Hugging Face architecture that you used before.
-
-```python
-# Create a new run
-with wandb.init(project="amazon_sentiment_analysis") as run:
-    # Pass the name and version of Artifact
-    my_model_name = "model-bert-base-high-lr:latest"
-    my_model_artifact = run.use_artifact(my_model_name)
-
-    # Download model weights to a folder and return the path
-    model_dir = my_model_artifact.download()
-
-    # Load your Hugging Face model from that folder
-    #  using the same model class
-    model = AutoModelForSequenceClassification.from_pretrained(
-        model_dir, num_labels=num_labels
-    )
-
-    # Do additional training, or run inference
-```
-
-### Resume training from a checkpoint 
-If you had set `WANDB_LOG_MODEL='checkpoint'` you can also resume training by you can using the `model_dir` as the `model_name_or_path` argument in your `TrainingArguments` and pass `resume_from_checkpoint=True` to `Trainer`.
-
-```python
-last_run_id = "xxxxxxxx"  # fetch the run_id from your wandb workspace
-
-# resume the wandb run from the run_id
-with wandb.init(
-    project=os.environ["WANDB_PROJECT"],
-    id=last_run_id,
-    resume="must",
-) as run:
-    # Connect an Artifact to the run
-    my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
-    my_checkpoint_artifact = run.use_artifact(my_model_name)
-
-    # Download checkpoint to a folder and return the path
-    checkpoint_dir = my_checkpoint_artifact.download()
-
-    # reinitialize your model and trainer
-    model = AutoModelForSequenceClassification.from_pretrained(
-        "<model_name>", num_labels=num_labels
-    )
-    # your awesome training arguments here.
-    training_args = TrainingArguments()
-
-    trainer = Trainer(model=model, args=training_args)
-
-    # make sure use the checkpoint dir to resume training from the checkpoint
-    trainer.train(resume_from_checkpoint=checkpoint_dir)
-```
-
-### Custom logging: log and view evaluation samples during training
-
-Logging to Weights & Biases via the Transformers `Trainer` is taken care of by the [`WandbCallback`](https://huggingface.co/transformers/main\_classes/callback.html#transformers.integrations.WandbCallback) in the Transformers library. If you need to customize your Hugging Face logging you can modify this callback by subclassing `WandbCallback` and adding additional functionality that leverages additional methods from the Trainer class. 
-
-Below is the general pattern to add this new callback to the HF Trainer, and further down is a code-complete example to log evaluation outputs to a W&B Table:
-
-
-```python
-# Instantiate the Trainer as normal
-trainer = Trainer()
-
-# Instantiate the new logging callback, passing it the Trainer object
-evals_callback = WandbEvalsCallback(trainer, tokenizer, ...)
-
-# Add the callback to the Trainer
-trainer.add_callback(evals_callback)
-
-# Begin Trainer training as normal
-trainer.train()
-```
-
-#### View evaluation samples during training
-
-The following section shows how to customize the `WandbCallback` to run model predictions and log evaluation samples to a W&B Table during training. We will every `eval_steps` using the `on_evaluate` method of the Trainer callback.
-
-Here, we wrote a `decode_predictions` function to decode the predictions and labels from the model output using the tokenizer.
-
-Then, we create a pandas DataFrame from the predictions and labels and add an `epoch` column to the DataFrame.
-
-Finally, we create a `wandb.Table` from the DataFrame and log it to wandb.
-Additionally, we can control the frequency of logging by logging the predictions every `freq` epochs.
-
-**Note**: Unlike the regular `WandbCallback` this custom callback needs to be added to the trainer **after** the `Trainer` is instantiated and not during initialization of the `Trainer`.
-This is because the `Trainer` instance is passed to the callback during initialization.
-
-```python
-from transformers.integrations import WandbCallback
-import pandas as pd
-
-
-def decode_predictions(tokenizer, predictions):
-    labels = tokenizer.batch_decode(predictions.label_ids)
-    logits = predictions.predictions.argmax(axis=-1)
-    prediction_text = tokenizer.batch_decode(logits)
-    return {"labels": labels, "predictions": prediction_text}
-
-
-class WandbPredictionProgressCallback(WandbCallback):
-    """Custom WandbCallback to log model predictions during training.
-
-    This callback logs model predictions and labels to a wandb.Table at each 
-    logging step during training. It allows to visualize the 
-    model predictions as the training progresses.
-
-    Attributes:
-        trainer (Trainer): The Hugging Face Trainer instance.
-        tokenizer (AutoTokenizer): The tokenizer associated with the model.
-        sample_dataset (Dataset): A subset of the validation dataset 
-          for generating predictions.
-        num_samples (int, optional): Number of samples to select from 
-          the validation dataset for generating predictions. Defaults to 100.
-        freq (int, optional): Frequency of logging. Defaults to 2.
-    """
-
-    def __init__(self, trainer, tokenizer, val_dataset,
-                 num_samples=100, freq=2):
-        """Initializes the WandbPredictionProgressCallback instance.
-
-        Args:
-            trainer (Trainer): The Hugging Face Trainer instance.
-            tokenizer (AutoTokenizer): The tokenizer associated 
-              with the model.
-            val_dataset (Dataset): The validation dataset.
-            num_samples (int, optional): Number of samples to select from 
-              the validation dataset for generating predictions.
-              Defaults to 100.
-            freq (int, optional): Frequency of logging. Defaults to 2.
-        """
-        super().__init__()
-        self.trainer = trainer
-        self.tokenizer = tokenizer
-        self.sample_dataset = val_dataset.select(range(num_samples))
-        self.freq = freq
-
-    def on_evaluate(self, args, state, control, **kwargs):
-        super().on_evaluate(args, state, control, **kwargs)
-        # control the frequency of logging by logging the predictions
-        # every `freq` epochs
-        if state.epoch % self.freq == 0:
-            # generate predictions
-            predictions = self.trainer.predict(self.sample_dataset)
-            # decode predictions and labels
-            predictions = decode_predictions(self.tokenizer, predictions)
-            # add predictions to a wandb.Table
-            predictions_df = pd.DataFrame(predictions)
-            predictions_df["epoch"] = state.epoch
-            records_table = self._wandb.Table(dataframe=predictions_df)
-            # log the table to wandb
-            self._wandb.log({"sample_predictions": records_table})
-
-
-# First, instantiate the Trainer
-trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=lm_datasets["train"],
-    eval_dataset=lm_datasets["validation"],
-)
-
-# Instantiate the WandbPredictionProgressCallback
-progress_callback = WandbPredictionProgressCallback(
-    trainer=trainer,
-    tokenizer=tokenizer,
-    val_dataset=lm_dataset["validation"],
-    num_samples=10,
-    freq=2,
-)
-
-# Add the callback to the trainer
-trainer.add_callback(progress_callback)
-```
-
-For a more detailed example please refer to this [colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Custom_Progress_Callback.ipynb)
-
-
-### Additional W&B settings
-
-Further configuration of what is logged with `Trainer` is possible by setting environment variables. A full list of W&B environment variables [can be found here](https://docs.wandb.ai/library/environment-variables).
-
-| Environment Variable | Usage                                                                                                                                                                                                                                                                                                    |
-| -------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `WANDB_PROJECT`      | Give your project a name (`huggingface` by default)                                                                                                                                                                                                                                                      |
-| `WANDB_LOG_MODEL`    | <p>Log the model checkpoint as a W&B Artifact (`false` by default) </p><ul><li><code>false</code> (default): No model checkpointing </li><li><code>checkpoint</code>: A checkpoint will be uploaded every args.save_steps (set in the Trainer's TrainingArguments). </li><li><code>end</code>: The final model checkpoint will be uploaded at the end of training.</li></ul>                                                                                                                                                                                                                                   |
-| `WANDB_WATCH`        | <p>Set whether you'd like to log your models gradients, parameters or neither</p><ul><li><code>false</code> (default): No gradient or parameter logging </li><li><code>gradients</code>: Log histograms of the gradients </li><li><code>all</code>: Log histograms of gradients and parameters</li></ul> |
-| `WANDB_DISABLED`     | Set to `true` to disable logging entirely (`false` by default)                                                                                                                                                                                                                                           |
-| `WANDB_SILENT`       | Set to `true` to silence the output printed by wandb (`false` by default)                                                                                                                                                                                                                                |
+これで完了です！これで、モデルはトレーニング中に損失、評価メトリクス、モデルトポロジー、勾配をWeights & Biasesにログするようになります。
 
 <Tabs
   defaultValue="cli"
   values={[
     {label: 'Command Line', value: 'cli'},
     {label: 'Notebook', value: 'notebook'},
+  ]}>
+  <TabItem value="cli">
+
+```python
+python run_glue.py \     # Pythonスクリプトを実行
+  --report_to wandb \    # W&Bへのログを有効にする
+  --run_name bert-base-high-lr \   # W&Bのrunの名前（オプション）
+  # 他のコマンドライン引数はここに
+```
+
+</TabItem>
+  <TabItem value="notebook">
+
+```python
+from transformers import TrainingArguments, Trainer
+
+args = TrainingArguments(
+    # 他の引数とkwargsはここに
+    report_to="wandb",  # W&Bへのログ記録を有効化
+    run_name="bert-base-high-lr"  # W&B runの名前（オプション）
+)
+
+trainer = Trainer(
+    # 他の引数とkwargsはここに
+    args=args,  # トレーニング引数
+)
+
+trainer.train()  # トレーニングを開始し、W&Bへログを記録
+```
+
+  </TabItem>
+</Tabs>
+
+#### （ノートブックのみ）W&B Runを終了する
+
+もしトレーニングがPythonスクリプトにカプセル化されている場合、スクリプトが終了するとW&B runも終了します。
+
+JupyterまたはGoogle Colabノートブックを使用している場合は、トレーニングが終了したことを`wandb.finish()`を呼び出すことで伝える必要があります。
+
+```python
+trainer.train()  # W&Bにトレーニングとログ記録を開始する
+# トレーニング後の分析、テスト、その他のログコード
+
+wandb.finish()
+```
+
+### 4) 結果を可視化する
+
+トレーニング結果をログに記録したら、[W&Bダッシュボード](../track/app.md)で結果を動的に探索できます。複数のrunを一度に比較しやすく、興味深い発見をズームインし、柔軟でインタラクティブな可視化で複雑なデータから洞察を引き出すことが容易です。
+
+## おすすめ記事
+
+以下は、TransformersとW&Bに関連するおすすめの6つの記事です。
+
+<details>
+
+<summary>Hugging Face Transformersのハイパーパラメータ最適化</summary>
+
+* Hugging Face Transformersのハイパーパラメータ最適化の3つの戦略 - グリッドサーチ、ベイズ最適化、および集団的学習 - を比較します。
+* Hugging Face transformersの標準的なuncased BERTモデルを使用し、SuperGLUEベンチマークのRTEデータセットで微調整を行いたい。
+* 結果は、集団的学習がHugging Faceトランスフォーマーモデルのハイパーパラメータ最適化に最も効果的なアプローチであることを示します。
+
+詳細レポートは[こちら](https://wandb.ai/amogkam/transformers/reports/Hyperparameter-Optimization-for-Hugging-Face-Transformers--VmlldzoyMTc2ODI)。
+</details>
+
+<details>
+
+<summary>ハグするツイート：ツイートを生成するモデルのトレーニング</summary>
+
+* この記事では、著者が5分で誰のツイートでもHuggingFace Transformerの学習済みGPT2モデルを微調整する方法を実演しています。
+* モデルは以下の開発フローを使用しています：ツイートのダウンロード、データセットの最適化、初期実験、ユーザー間の損失の比較、モデルの微調整。
+
+詳細なレポートは、[こちら](https://wandb.ai/wandb/huggingtweets/reports/HuggingTweets-Train-a-Model-to-Generate-Tweets--VmlldzoxMTY5MjI)をご覧ください。
+</details>
+
+<details>
+
+<summary>Hugging Face BERTとWBを用いた文章の分類</summary>
+
+* この記事では、自然言語処理（NLP）で最近の画期的な進歩を活用した文章の分類器を作成し、NLPへの転移学習の適用に焦点を当てます。
+* Corpus of Linguistic Acceptability（CoLA）データセットを使用して、単一の文章の分類を行います。これは、文法的に正しいか正しくないかというラベルが付けられた文章のセットで、2018年5月に初めて公開されました。
+* GoogleのBERTを使用して、NLPタスクの範囲で最小限の努力で高性能なモデルを作成します。
+
+詳細なレポートは[こちら](https://wandb.ai/cayush/bert-finetuning/reports/Sentence-Classification-With-Huggingface-BERT-and-W-B--Vmlldzo4MDMwNA)でご覧いただけます。
+</details>
+
+<details>
+
+<summary>Hugging Faceモデルパフォーマンスのトラッキング方法</summary>
+
+* Weights & BiasesとHugging Faceトランスフォーマーを使用して、DistilBERTをトレーニングします。DistilBERTは、BERTより40%小さく、BERTの精度の97%を保持したトランスフォーマーです。
+* GLUEベンチマークは、NLPモデルのトレーニング用の9つのデータセットとタスクを集めたものです。
+
+詳細なレポートは[こちら](https://wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-HuggingFace-Model-Performance--VmlldzoxMDE2MTU)でご覧いただけます。
+</details>
+
+<details>
+
+<summary>HuggingFaceでのEarly Stoppingの例</summary>
+
+* Hugging Face TransformerをEarly Stopping正則化を使用してファインチューニングすることは、PyTorchまたはTensorFlowではネイティブに実行できます。
+* TensorFlowでは、`tf.keras.callbacks.EarlyStopping`コールバックを使って手軽にEarlyStoppingコールバックを使用できます。
+* PyTorchでは、すぐに使えるearly stopping方法はありませんが、GitHub Gistで利用可能なearly stoppingフックがあります。
+
+完全なレポートは[こちら](https://wandb.ai/ayush-thakur/huggingface/reports/Early-Stopping-in-HuggingFace-Examples--Vmlldzo0MzE2MTM)で読めます。
+</details>
+
+<details>
+
+<summary>カスタムデータセットでの Hugging Face Transformer の微調整方法</summary>
+
+カスタムIMDBデータセットでセンチメント分析（二値分類）用にDistilBERTトランスフォーマーを微調整します。
+
+完全なレポートは[こちら](https://wandb.ai/ayush-thakur/huggingface/reports/How-to-Fine-Tune-HuggingFace-Transformers-on-a-Custom-Dataset--Vmlldzo0MzQ2MDc)で読めます。
+</details>
+
+## 高度な機能
+
+### モデルバージョン管理を有効にする
+
+[Weights & Biases のアーティファクト](https://docs.wandb.ai/artifacts)を使用すると、最大100GBのモデルやデータセットを格納できます。Hugging Face モデルを W&B アーティファクトにログするには、`WANDB_LOG_MODEL` という名前の W&B 環境変数を `'end'` または `'checkpoint'` のいずれかに設定します。
+`'end'` は最終モデルのみをログし、`'checkpoint'` は [`save_steps`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.save_steps) ごとにモデルのチェックポイントをログします（[`TrainingArguments`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments)内）。
+
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'コマンドライン', value: 'cli'},
+    {label: 'ノートブック', value: 'notebook'},
+  ]}>
+  <TabItem value="cli">
+
+```bash
+WANDB_LOG_MODEL='end'
+```
+</TabItem>
+  <TabItem value="notebook">
+
+```python
+%env WANDB_LOG_MODEL='end'
+```
+
+  </TabItem>
+</Tabs>
+
+
+:::info
+デフォルトでは、`WANDB_LOG_MODEL`が`end`に設定されている場合、モデルはW&B Artifactsに`model-{run_id}`として保存されます。`WANDB_LOG_MODEL`が`checkpoint`に設定されている場合は、`checkpoint-{run_id}`として保存されます。
+ただし、`TrainingArguments`で[`run_name`](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.run_name)を渡すと、モデルは`model-{run_name}`または`checkpoint-{run_name}`として保存されます。
+:::
+
+これで、これから初期化するすべての`Trainer`はモデルをW&Bプロジェクトにアップロードします。モデルファイルはW&B Artifacts UIで表示できます。モデルとデータセットのバージョン管理に関しては、[Weights & Biases' Artifactsガイド](https://docs.wandb.ai/artifacts)を参照してください。
+
+#### 最良のモデルをどのように保存しますか？
+
+`load_best_model_at_end=True`が`Trainer`に渡された場合、W&Bは最もパフォーマンスの良いモデルをArtifactsに保存します。
+
+### 保存されたモデルの読み込み
+
+`WANDB_LOG_MODEL`でW&B Artifactsにモデルを保存した場合は、追加のトレーニングや推論の実行のためにモデルの重みをダウンロードできます。以前使用したHugging Faceアーキテクチャーに戻して読み込むだけです。
+
+```python
+# 新しいrunを作成します
+with wandb.init(project="amazon_sentiment_analysis") as run:
+# runにアーティファクトを接続する
+  my_model_name = "model-bert-base-high-lr:latest"
+  my_model_artifact = run.use_artifact(my_model_name)
+
+  # モデルの重みをフォルダにダウンロードし、パスを返す
+  model_dir = my_model_artifact.download()
+
+  # そのフォルダからHugging Faceトランスフォーマーを読み込む
+  #  同じモデルクラスを使用する
+  model = AutoModelForSequenceClassification.from_pretrained(
+      model_dir, num_labels=num_labels)
+
+  # 追加のトレーニングを行うか、推論を実行する
+```
+### チェックポイントからのトレーニング再開
+`WANDB_LOG_MODEL='checkpoint'` を設定していた場合、`model_dir` を `TrainingArguments` の `model_name_or_path` 引数に使用し、`resume_from_checkpoint=True` を `Trainer` に渡すことで、トレーニングを再開することもできます。
+
+```python
+last_run_id = "xxxxxxxx"  # wandbワークスペースからrun_idを取得
+
+# run_idからwandb runを再開
+with wandb.init(
+    project=os.environ["WANDB_PROJECT"],
+    id=last_run_id,
+    resume="must",) as run:
+    
+  # runにアーティファクトを接続する
+  my_checkpoint_name = f"checkpoint-{last_run_id}:latest"
+  my_checkpoint_artifact = run.use_artifact(my_model_name)
+
+# フォルダにチェックポイントをダウンロードし、パスを返す
+  checkpoint_dir = my_checkpoint_artifact.download()
+  
+  ＃モデルとトレーナーを再初期化
+  model = AutoModelForSequenceClassification.from_pretrained(
+      <model_name>, num_labels=num_labels)
+  
+  ＃素晴らしいトレーニング引数がここにあります。
+  training_args = TrainingArguments(...) 
+  
+  trainer = Trainer(
+      model=model,
+      args=training_args,
+      ...)
+  
+  ＃チェックポイントからトレーニングを再開するため、チェックポイントディレクトリを使用してください
+  trainer.train(resume_from_checkpoint=checkpoint_dir) 
+```
+
+### 追加のW&B設定
+
+`Trainer`でログした内容をさらに設定することができます。[ここ](https://docs.wandb.ai/library/environment-variables)でW&B環境変数の全リストを見ることができます。
+
+| 環境変数 | 使用法 |
+| ---------- |------------|
+| `WANDB_PROJECT` | プロジェクトに名前を付ける（デフォルトでは`huggingface`） |
+| `WANDB_LOG_MODEL` | トレーニング終了時にモデルをアーティファクトとしてログする（デフォルトでは`false`） |
+| `WANDB_WATCH` | <p>モデルの勾配、パラメータ、またはどちらもログしたいかどうか設定します。</p><ul><li><code>false</code>（デフォルト）：勾配もパラメータもログしない</li><li><code>gradients</code>：勾配のヒストグラムをログする</li><li><code>all</code>：勾配とパラメータのヒストグラムをログする</li></ul> |
+| `WANDB_DISABLED` | ログを完全に無効にするには、`true`に設定する（デフォルトは`false`） |
+| `WANDB_SILENT` | wandbによって出力される出力を無音にするには、`true`に設定する（デフォルトは`false`） |
+<Tabs
+  defaultValue="cli"
+  values={[
+    {label: 'コマンドライン', value: 'cli'},
+    {label: 'ノートブック', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -470,7 +354,7 @@ WANDB_SILENT=true
   </TabItem>
   <TabItem value="notebook">
 
-```notebook
+```python
 %env WANDB_WATCH=all
 %env WANDB_SILENT=true
 ```
@@ -478,88 +362,22 @@ WANDB_SILENT=true
   </TabItem>
 </Tabs>
 
-### Customize `wandb.init`
+### `wandb.init` をカスタマイズする
 
-The `WandbCallback` that `Trainer` uses will call `wandb.init` under the hood when `Trainer` is initialized. You can alternatively set up your runs manually by calling `wandb.init` before the`Trainer` is initialized. This gives you full control over your W&B run configuration.
+`Trainer`が使っている`WandbCallback`は、`Trainer`が初期化されたときに`wandb.init`を呼び出します。代わりに、`Trainer`が初期化される前に`wandb.init`を呼び出して、runを手動で設定することもできます。これにより、W&B run設定を完全にコントロールすることができます。
 
-An example of what you might want to pass to `init` is below. For more details on how to use `wandb.init`, [check out the reference documentation](../../ref/python/init.md).
-
+`init`に渡す例を下記に示します。`wandb.init`の使い方の詳細は、[リファレンスドキュメントをご覧ください](../../ref/python/init.md) 。
 ```python
-wandb.init(
-    project="amazon_sentiment_analysis",
-    name="bert-base-high-lr",
-    tags=["baseline", "high-lr"],
-    group="bert",
-)
+wandb.init(project="amazon_sentiment_analysis",
+           name="bert-base-high-lr",
+           tags=["baseline", "high-lr"],
+           group="bert")
 ```
 
+### カスタムログ
 
-## Highlighted Articles
+Weights & Biasesへのログは、[Transformersの`Trainer`](https://huggingface.co/transformers/main_classes/trainer.html) によって、Transformersライブラリ内の`WandbCallback`([参考資料](https://huggingface.co/transformers/main_classes/callback.html#transformers.integrations.WandbCallback))で処理されます。Hugging Faceのログをカスタマイズする必要がある場合は、このコールバックを変更してください。
 
-Below are 6 Transformers and W&B related articles you might enjoy
+## 問題点、質問、機能のリクエスト
 
-<details>
-
-<summary>Hyperparameter Optimization for Hugging Face Transformers</summary>
-
-* Three strategies for hyperparameter optimization for Hugging Face Transformers are compared - Grid Search, Bayesian Optimization, and Population Based Training.
-* We use a standard uncased BERT model from Hugging Face transformers, and we want to fine-tune on the RTE dataset from the SuperGLUE benchmark
-* Results show that Population Based Training is the most effective approach to hyperparameter optimization of our Hugging Face transformer model.
-
-Read the full report [here](https://wandb.ai/amogkam/transformers/reports/Hyperparameter-Optimization-for-Hugging-Face-Transformers--VmlldzoyMTc2ODI).
-</details>
-
-<details>
-
-<summary>Hugging Tweets: Train a Model to Generate Tweets</summary>
-
-* In the article, the author demonstrates how to fine-tune a pre-trained GPT2 HuggingFace Transformer model on anyone's Tweets in five minutes.
-* The model uses the following pipeline: Downloading Tweets, Optimizing the Dataset, Initial Experiments, Comparing Losses Between Users, Fine-Tuning the Model.
-
-Read the full report [here](https://wandb.ai/wandb/huggingtweets/reports/HuggingTweets-Train-a-Model-to-Generate-Tweets--VmlldzoxMTY5MjI).
-</details>
-
-<details>
-
-<summary>Sentence Classification With Hugging Face BERT and WB</summary>
-
-* In this article, we'll build a sentence classifier leveraging the power of recent breakthroughs in Natural Language Processing, focusing on an application of transfer learning to NLP.
-* We'll be using The Corpus of Linguistic Acceptability (CoLA) dataset for single sentence classification, which is a set of sentences labeled as grammatically correct or incorrect that was first published in May 2018.
-* We'll use Google's BERT to create high performance models with minimal effort on a range of NLP tasks.
-
-Read the full report [here](https://wandb.ai/cayush/bert-finetuning/reports/Sentence-Classification-With-Huggingface-BERT-and-W-B--Vmlldzo4MDMwNA).
-</details>
-
-<details>
-
-<summary>A Step by Step Guide to Tracking Hugging Face Model Performance</summary>
-
-* We use Weights & Biases and Hugging Face transformers to train DistilBERT, a Transformer that's 40% smaller than BERT but retains 97% of BERT's accuracy, on the GLUE benchmark
-* The GLUE benchmark is a collection of nine datasets and tasks for training NLP models
-
-Read the full report [here](https://wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-HuggingFace-Model-Performance--VmlldzoxMDE2MTU).
-</details>
-
-<details>
-
-<summary>Early Stopping in HuggingFace - Examples</summary>
-
-* Fine-tuning a Hugging Face Transformer using Early Stopping regularization can be done natively in PyTorch or TensorFlow.
-* Using the EarlyStopping callback in TensorFlow is straightforward with the `tf.keras.callbacks.EarlyStopping`callback.
-* In PyTorch, there is not an off-the-shelf early stopping method, but there is a working early stopping hook available on GitHub Gist.
-
-Read the full report [here](https://wandb.ai/ayush-thakur/huggingface/reports/Early-Stopping-in-HuggingFace-Examples--Vmlldzo0MzE2MTM).
-</details>
-
-<details>
-
-<summary>How to Fine-Tune Hugging Face Transformers on a Custom Dataset</summary>
-
-We fine tune a DistilBERT transformer for sentiment analysis (binary classification) on a custom IMDB dataset.
-
-Read the full report [here](https://wandb.ai/ayush-thakur/huggingface/reports/How-to-Fine-Tune-HuggingFace-Transformers-on-a-Custom-Dataset--Vmlldzo0MzQ2MDc).
-</details>
-
-## Issues, questions, feature requests
-
-For any issues, questions, or feature requests for the Hugging Face W&B integration, feel free to post in [this thread on the Hugging Face forums](https://discuss.huggingface.co/t/logging-experiment-tracking-with-w-b/498) or open an issue on the Hugging Face [Transformers GitHub repo](https://github.com/huggingface/transformers).
+Hugging FaceのW&Bインテグレーションに関する問題、質問、機能のリクエストは、[Hugging Faceフォーラムのこのスレッド](https://discuss.huggingface.co/t/logging-experiment-tracking-with-w-b/498)で投稿するか、Hugging Face [Transformers GitHubリポジトリ](https://github.com/huggingface/transformers)でissueを立ててください。

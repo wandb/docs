@@ -1,73 +1,75 @@
+# グラフ
 
-# 그래프
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L1389-L1550)
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/data_types.py#L1326-L1485' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
-
-Wandb의 그래프 클래스입니다.
+Wandbのグラフ用クラスです。
 
 ```python
 Graph(
-    format="keras"
+ format="keras"
 )
 ```
 
-이 클래스는 일반적으로 신경망 모델을 저장하고 표시하는 데 사용됩니다. 그래프를 노드와 엣지의 배열로 표현합니다. 노드는 wandb에 의해 시각화될 수 있는 레이블을 가질 수 있습니다.
+このクラスは通常、ニューラルネットワークのモデルを保存および表示するために使用されます。グラフはノードとエッジの配列として表現されます。ノードには、wandbによって可視化できるラベルを付けることができます。
 
-#### 예시:
+#### 例：
 
-케라스 모델 가져오기:
-
+Kerasモデルをインポートします：
 ```
-Graph.from_keras(keras_model)
+ Graph.from_keras(keras_model)
 ```
-
-## 메서드
+## メソッド
 
 ### `add_edge`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/data_types.py#L1411-L1415)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L1476-L1480)
 
 ```python
 add_edge(
-    from_node, to_node
+ from_node, to_node
 )
 ```
 
 ### `add_node`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/data_types.py#L1399-L1409)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L1462-L1474)
 
 ```python
 add_node(
-    node=None, **node_kwargs
+ node=None, **node_kwargs
 )
 ```
-
 ### `from_keras`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/data_types.py#L1417-L1446)
+
+
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L1482-L1511)
 
 ```python
 @classmethod
 from_keras(
-    model
+ モデル
 )
 ```
 
+
+
+
 ### `pprint`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/data_types.py#L1393-L1397)
+
+
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L1456-L1460)
 
 ```python
 pprint()
 ```
-
 ### `__getitem__`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/data_types.py#L1390-L1391)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/data_types.py#L1453-L1454)
 
 ```python
 __getitem__(
-    nid
+  nid
 )
 ```

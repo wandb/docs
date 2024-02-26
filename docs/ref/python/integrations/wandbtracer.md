@@ -1,48 +1,48 @@
-
 # WandbTracer
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHub에서 소스 보기](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L99-L281)
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L99-L281)
 
-Weights and Biases에 로그하는 콜백 핸들러.
+Weights and Biasesにログを送信するコールバックハンドラ。
 
 ```python
 WandbTracer() -> Any
 ```
 
-이 핸들러는 모델 아키텍처와 실행 트레이스를 Weights and Biases에 로그합니다. 이를 통해 모든 LangChain 활동이 W&B에 로그됩니다.
+このハンドラは、モデルのアーキテクチャーとrunのトレースをWeights and Biasesにログします。このクラスを直接インスタンス化する必要があることはまれです。代わりに、`WandbTracer.init()` メソッドを使用してハンドラを設定し、デフォルトのハンドラにする必要があります。これにより、すべてのLangChainのアクティビティがW&Bにログされることが保証されます。
 
-| 속성 | |
+| 属性 | |
 | :--- | :--- |
-| `always_verbose` | verbose가 False이더라도 verbose 콜백을 호출할지 여부. |
-| `ignore_agent` | 에이전트 콜백을 무시할지 여부. |
-| `ignore_chain` | 체인 콜백을 무시할지 여부. |
-| `ignore_llm` | LLM 콜백을 무시할지 여부. |
-
-## 메서드
+| `always_verbose` | verboseがFalseであっても、verboseコールバックを呼び出します。 |
+| `ignore_agent` | エージェントのコールバックを無視するかどうか。 |
+| `ignore_chain` | チェーンのコールバックを無視するかどうか。 |
+| `ignore_llm` | LLMのコールバックを無視するかどうか。 |
+## メソッド
 
 ### `finish`
 
-[소스 보기](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L152-L162)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L152-L162)
 
 ```python
 @staticmethod
 finish() -> None
 ```
-모든 비동기 프로세스가 완료되고 데이터가 업로드될 때까지 기다립니다.
+
+すべてのLangChainのアクティビティの監視を停止し、デフォルトのハンドラをリセットします。
+
+カーネルやPythonスクリプトを終了する前に、この関数を呼び出すことが推奨されます。
 
 ### `finish_run`
 
-[소스 보기](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L202-L211)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L202-L211)
 
 ```python
 finish_run() -> None
 ```
-
-W&B 데이터가 업로드될 때까지 기다립니다.
+W&Bデータのアップロード待ち。
 
 ### `init`
 
-[소스 보기](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L111-L150)
+[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L111-L150)
 
 ```python
 @classmethod
@@ -53,28 +53,29 @@ init(
 ) -> None
 ```
 
-WandbTracer를 설정하고 기본 핸들러로 만듭니다.
+WandbTracerを設定し、デフォルトのハンドラーにします。
 
-#### 파라미터:
+#### パラメータ:
 
-* **`run_args`**: (dict, optional) `wandb.init()`에 전달할 인수입니다. 제공되지 않으면, `wandb.init()`은 인수 없이 호출됩니다. 자세한 내용은 `wandb.init`를 참조하세요.
-* **`include_stdout`**: (bool, optional) True인 경우, `StdOutCallbackHandler`가 핸들러 목록에 추가됩니다. LangChain을 사용할 때 유용한 정보를 stdout에 출력하기 때문에 일반적인 관행입니다.
-* **`additional_handlers`**: (list, optional) LangChain 핸들러 목록에 추가할 추가 핸들러 목록입니다.
-
-모든 LangChain 활동을 모니터링하기 위해 W&B를 사용하려면, 단순히 노트북이나 스크립트 상단에서 이 함수를 호출하세요:
+* **`run_args`**: (dict, optional) `wandb.init()`に渡す引数。提供されていない場合、`wandb.init()`は引数なしで呼び出されます。詳細については、`wandb.init`を参照してください。
+* **`include_stdout`**: (bool, optional) Trueの場合、`StdOutCallbackHandler`がハンドラーのリストに追加されます。これは、LangChainを使用する際によく行われる実践であり、stdoutに役立つ情報を出力します。。
+* **`additional_handlers`**: (list, optional) LangChainハンドラーのリストに追加する追加ハンドラーのリスト。
+W&Bを使用してLangChainのすべてのアクティビティを監視するには、ノートブックまたはスクリプトの先頭でこの関数を呼び出すだけです:
 ```
 from wandb.integration.langchain import WandbTracer
 WandbTracer.init()
 # ...
-# 노트북 / 스크립트의 끝:
+# ノートブック / スクリプトの終わり:
 WandbTracer.finish()
-```.
+```
 
-이것은 노트북에서와 같이 동일한 인수로 반복적으로 호출해도 안전하며, run_args가 다를 경우에만 새로운 실행을 생성합니다.
+同じ引数を使用して何度も呼び出しても問題ありません（ノートブック内など）、run_argsが異なる場合にのみ新しいrunが作成されます。
 
 ### `init_run`
 
-[소스 보기](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L164-L200)
+
+
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L164-L200)
 
 ```python
 init_run(
@@ -82,27 +83,32 @@ init_run(
 ) -> None
 ```
 
-wandb가 초기화되지 않았다면 초기화합니다.
+wandbが初期化されていない場合は、wandbを初期化します。
+#### パラメータ:
 
-#### 파라미터:
 
-* **`run_args`**: (dict, optional) `wandb.init()`에 전달할 인수입니다. 제공되지 않으면, `wandb.init()`은 인수 없이 호출됩니다. 자세한 내용은 `wandb.init`를 참조하세요.
+* **`run_args`**: (辞書, オプション) `wandb.init()`に渡す引数。指定しない場合、`wandb.init()`は引数なしで呼び出されます。詳細については、`wandb.init`を参照してください。
 
-run_args가 다를 경우에만 새로운 실행을 시작하고자 합니다. 이는 노트북 설정에서 생성되는 W&B 실행 수를 줄이는 것이 더 이상적입니다. 참고: 이 메서드를 직접 호출하는 것은 일반적이지 않습니다. 대신, `WandbTracer.init()` 메서드를 사용해야 합니다. 이 메서드는 핸들러 목록에 트레이서를 수동으로 초기화하고 추가하고 싶을 때 노출됩니다.
+run_argsが異なる場合にのみ、新しいrunを開始したいと考えています。これにより、ノートブックの環境でより理想的な、W&B runsの数が減ります。注：このメソッドを直接呼び出すことは珍しいです。代わりに、`WandbTracer.init()`メソッドを使用するべきです。このメソッドは、トレーサーを手動で初期化し、ハンドラーのリストに追加する場合に公開されています。
 
 ### `load_default_session`
 
-[소스 보기](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L264-L267)
+
+
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L264-L267)
 
 ```python
 load_default_session() -> "TracerSession"
 ```
 
-기본 추적 세션을 로드하고 트레이서의 세션으로 설정합니다.
+デフォルトのトレーシングセッションをロードし、トレーサーのセッションとして設定します。
+
 
 ### `load_session`
 
-[소스 보기](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L259-L262)
+
+
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L259-L262)
 
 ```python
 load_session(
@@ -110,9 +116,12 @@ load_session(
 ) -> "TracerSession"
 ```
 
-트레이서에서 세션을 로드합니다.
+トレーサからセッションを読み込みます。
+
 
 ### `new_session`
+
+
 
 ```python
 new_session(
@@ -121,9 +130,12 @@ new_session(
 ) -> TracerSession
 ```
 
-스레드 안전하지 않습니다. 여러 스레드에서 이 메서드를 호출하지 마십시오.
+スレッドセーフではありません。複数のスレッドからこのメソッドを呼び出さないでください。
+
 
 ### `on_agent_action`
+
+
 
 ```python
 on_agent_action(
@@ -131,8 +143,7 @@ on_agent_action(
  **kwargs
 ) -> Any
 ```
-
-아무 것도 하지 않습니다.
+何もしないでください。
 
 ### `on_agent_finish`
 
@@ -143,7 +154,7 @@ on_agent_finish(
 ) -> None
 ```
 
-에이전트 종료 메시지를 처리합니다.
+エージェント完了メッセージを処理します。
 
 ### `on_chain_end`
 
@@ -154,7 +165,7 @@ on_chain_end(
 ) -> None
 ```
 
-체인 실행에 대한 추적을 종료합니다.
+チェーン実行のトレースを終了します。
 
 ### `on_chain_error`
 
@@ -165,7 +176,7 @@ on_chain_error(
 ) -> None
 ```
 
-체인 실행에 대한 오류를 처리합니다.
+チェーンrunのエラーを処理する。
 
 ### `on_chain_start`
 
@@ -177,7 +188,7 @@ on_chain_start(
 ) -> None
 ```
 
-체인 실행에 대한 추적을 시작합니다.
+チェーンrunのトレースを開始する。
 
 ### `on_llm_end`
 
@@ -188,7 +199,7 @@ on_llm_end(
 ) -> None
 ```
 
-LLM 실행에 대한 추적을 종료합니다.
+LLMの実行に関するトレースを終了させる。
 
 ### `on_llm_error`
 
@@ -199,30 +210,34 @@ on_llm_error(
 ) -> None
 ```
 
-LLM 실행에 대한 오류를 처리합니다.
+LLMの実行中に発生したエラーを処理する。
 
 ### `on_llm_new_token`
 
 ```python
 on_llm_new_token(
- token: str,
+ トークン: str,
  **kwargs
 ) -> None
 ```
 
-LLM 실행에 대한 새 토큰을 처리합니다.
+LLMのrunのための新しいトークンを処理します。
+
 
 ### `on_llm_start`
 
+
+
 ```python
 on_llm_start(
- serialized: Dict[str, Any],
- prompts: List[str],
+ シリアライズされた: Dict[str, Any],
+ プロンプト: List[str],
  **kwargs
 ) -> None
 ```
 
-LLM 실행에 대한 추적을 시작합니다.
+LLMのrunのためにトレースを開始します。
+
 
 ### `on_text`
 
@@ -233,9 +248,11 @@ on_text(
 ) -> None
 ```
 
-텍스트 메시지를 처리합니다.
+テキストメッセージを処理します。
 
 ### `on_tool_end`
+
+
 
 ```python
 on_tool_end(
@@ -244,9 +261,12 @@ on_tool_end(
 ) -> None
 ```
 
-도구 실행에 대한 추적을 종료합니다.
+ツールのrunのトレースを終了します。
+
 
 ### `on_tool_error`
+
+
 
 ```python
 on_tool_error(
@@ -254,17 +274,28 @@ on_tool_error(
  **kwargs
 ) -> None
 ```
+ツールの実行に対するエラーを処理します。
 
-도구 실행에 대한 오류를 처리합니다.
+
 
 ### `on_tool_start`
 
+
+
 ```python
+
 on_tool_start(
+
  serialized: Dict[str, Any],
+
  input_str: str,
+
  **kwargs
+
 ) -> None
+
 ```
 
-도구 실행에 대한 추적을 시작합니다.
+
+
+ツールの実行に対するトレースを開始します。

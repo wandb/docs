@@ -1,226 +1,220 @@
+# artifactVersion
 
-# 아티팩트버전
-
-## 체인 가능한 연산
+## チェーン可能なOps
 <h3 id="artifactVersion-aliases"><code>artifactVersion-aliases</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 별칭을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のエイリアスを返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 별칭
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のエイリアス
 
 <h3 id="artifactVersion-createdAt"><code>artifactVersion-createdAt</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)이 생성된 날짜와 시간을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)が作成された日時を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)이 생성된 날짜와 시간
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)が作成された日時
 
 <h3 id="artifactVersion-file"><code>artifactVersion-file</code></h3>
 
-주어진 경로에 대한 [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 _파일_을 반환합니다.
+指定されたパスの[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の_file_を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
-| `path` | _파일_의 경로 |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `path` | _file_のパス |
 
-#### 반환 값
-주어진 경로에 대한 [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 _파일_
+#### 戻り値
+指定されたパスの[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の_file_
 
 <h3 id="artifactVersion-files"><code>artifactVersion-files</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 _파일_ _목록_을 반환합니다.
-
-| 인수 |  |
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の_files_の_リスト_を返します。
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 _파일_ _목록_
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の_ファイル_の_リスト_
 
 <h3 id="artifactVersion-link"><code>artifactVersion-link</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)에 대한 URL을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のURLを返します
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)에 대한 URL
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のURL
 
 <h3 id="artifactVersion-metadata"><code>artifactVersion-metadata</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) 메타데이터 사전을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のメタデータディクショナリを返します
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) 메타데이터 사전
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のメタデータディクショナリ
 
 <h3 id="artifactVersion-name"><code>artifactVersion-name</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 이름을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の名前を返します
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 이름
-
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の名前
 <h3 id="artifactVersion-size"><code>artifactVersion-size</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 크기를 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のサイズを返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 크기
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のサイズ
 
 <h3 id="artifactVersion-usedBy"><code>artifactVersion-usedBy</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)을 사용하는 [실행](https://docs.wandb.ai/ref/weave/run)을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)を使用する[runs](https://docs.wandb.ai/ref/weave/run)を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)을 사용하는 [실행](https://docs.wandb.ai/ref/weave/run)
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)を使用する[runs](https://docs.wandb.ai/ref/weave/run)
 
 <h3 id="artifactVersion-versionId"><code>artifactVersion-versionId</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 versionId를 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のversionIdを返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 versionId
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のversionId
 
-## 목록 연산
+## リスト操作
 <h3 id="artifactVersion-aliases"><code>artifactVersion-aliases</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 별칭을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のエイリアスを返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
-
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 별칭
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のエイリアス
 
 <h3 id="artifactVersion-createdAt"><code>artifactVersion-createdAt</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)이 생성된 날짜와 시간을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)が作成された日時を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)이 생성된 날짜와 시간
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)が作成された日時
 
 <h3 id="artifactVersion-file"><code>artifactVersion-file</code></h3>
 
-주어진 경로에 대한 [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 _파일_을 반환합니다.
+指定されたパスの[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の_ファイル_を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
-| `path` | _파일_의 경로 |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `path` | _ファイル_のパス |
 
-#### 반환 값
-주어진 경로에 대한 [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 _파일_
+#### 戻り値
+指定されたパスの[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の_ファイル_
 
 <h3 id="artifactVersion-files"><code>artifactVersion-files</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 _파일_ _목록_을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の_ファイル_の_リスト_を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 _파일_ _목록_
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の_ファイル_の_リスト_
 
 <h3 id="artifactVersion-link"><code>artifactVersion-link</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)에 대한 URL을 반환합니다.
-
-| 인수 |  |
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のURLを返します。
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` |  [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)에 대한 URL
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のURL
 
 <h3 id="artifactVersion-metadata"><code>artifactVersion-metadata</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) 메타데이터 사전을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のメタデータ辞書を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` |  [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) 메타데이터 사전
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のメタデータ辞書
 
 <h3 id="artifactVersion-name"><code>artifactVersion-name</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 이름을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の名前を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` |  [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 이름
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)の名前
 
 <h3 id="artifactVersion-size"><code>artifactVersion-size</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 크기를 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のサイズを返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` |  [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 크기
-
+#### 戻り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version)のサイズ
 <h3 id="artifactVersion-usedBy"><code>artifactVersion-usedBy</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)을 사용하는 [실행](https://docs.wandb.ai/ref/weave/run)을 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) を使用している [runs](https://docs.wandb.ai/ref/weave/run) を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)을 사용하는 [실행](https://docs.wandb.ai/ref/weave/run)
+#### 返り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) を使用している [runs](https://docs.wandb.ai/ref/weave/run)
 
 <h3 id="artifactVersion-versionId"><code>artifactVersion-versionId</code></h3>
 
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 versionId를 반환합니다.
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) の versionId を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifactVersion` | [아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersion` | [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
-#### 반환 값
-[아티팩트버전](https://docs.wandb.ai/ref/weave/artifact-version)의 versionId
+#### 返り値
+[artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) の versionId

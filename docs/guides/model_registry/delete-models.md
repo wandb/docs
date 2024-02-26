@@ -1,5 +1,6 @@
 ---
+description: ''
 displayed_sidebar: default
 ---
 
-# 모델 삭제
+# Delete models

@@ -6,45 +6,46 @@ import TabItem from '@theme/TabItem';
 
 # YOLOv5
 
-[Ultralytics의 YOLOv5](https://ultralytics.com/yolov5) ("You Only Look Once") 모델 패밀리는 모든 고통 없이 실시간 오브젝트 디텍션을 컨볼루션 신경망으로 가능하게 합니다.
+[UltralyticsのYOLOv5](https://ultralytics.com/yolov5)（"You Only Look Once"）モデルファミリーでは、痛みを伴わずに畳み込みニューラルネットワークを使用したリアルタイムのオブジェクト検出が可能です。
 
-[Weights & Biases](http://wandb.com)는 직접 YOLOv5에 통합되어, 실험 메트릭 추적, 모델 및 데이터세트 버전 관리, 풍부한 모델 예측 시각화 등을 제공합니다. **단순히 YOLO 실험을 실행하기 전에 한 번의 `pip install`만으로 쉽습니다!**
-
-:::info
-모델과 데이터 로깅 기능의 빠른 개요에 대해 알아보려면 아래 링크된 [이 Colab](https://wandb.me/yolo-colab)과 동영상 튜토리얼을 확인하세요.
-:::
+[Weights & Biases](http://wandb.com)は、YOLOv5に直接統合されており、実験メトリクスのトラッキング、モデルおよびデータセットのバージョニング、豊富なモデル予測の可視化などを提供します。 **YOLO実験を実行する前に、`pip install`を実行するだけで簡単に使えます！**
 
 :::info
-모든 W&B 로깅 기능은 [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)와 같은 데이터-병렬 멀티-GPU 학습과 호환됩니다.
+YOLOv5の統合におけるモデルおよびデータログ機能の概要は、[このColab](https://wandb.me/yolo-colab)と下にリンクされたビデオチュートリアルをご覧ください。
 :::
 
-## 핵심 실험 추적
+<!-- {% embed url="https://www.youtube.com/watch?v=yyecuhBmLxE" %} -->
 
-`wandb`를 설치하기만 하면 내장된 W&B [로그 기능](../track/log/intro.md)이 활성화됩니다: 시스템 메트릭, 모델 메트릭, 그리고 인터랙티브한 [대시보드](../track/app.md)로 로그된 미디어.
+:::info
+すべてのW&Bログ機能は、データ並列マルチGPUトレーニング（例：[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)）と互換性があります。
+:::
+
+## コア実験トラッキング
+
+`wandb`をインストールするだけで、組み込まれたW&B[ログ機能](../track/log/intro.md)がアクティブ化されます：システムメトリクス、モデルメトリクス、およびメディアがインタラクティブな[ダッシュボード](../track/app.md)にログされます。
 
 ```python
 pip install wandb
 git clone https://github.com/ultralytics/yolov5.git
-python yolov5/train.py  # 작은 데이터세트에서 작은 네트워크를 학습
+python yolov5/train.py  # 小さいデータセットで小さいネットワークを訓練する
 ```
 
-wandb가 표준 출력으로 출력한 링크를 따라가기만 하면 됩니다.
+wandbが標準出力に印刷したリンクをたどるだけで終わりです。
+![すべてのこれらのチャートが揃った！](/images/integrations/yolov5_experiment_tracking.png)
 
-![모든 이 차트들과 더 많은 것!](/images/integrations/yolov5_experiment_tracking.png)
+## モデルバージョニングとデータ可視化
 
-## 모델 버전 관리 및 데이터 시각화
+しかし、それだけではありません！YOLOにいくつかのシンプルなコマンドライン引数を渡すことで、さらに多くのW&B機能を利用できます。
 
-그게 전부가 아닙니다! YOLO에 몇 가지 간단한 명령줄 인수를 전달함으로써 더 많은 W&B 기능을 활용할 수 있습니다.
-
-* `--save_period`에 숫자를 전달하면 [모델 버전 관리](../model_registry/intro.md)가 활성화됩니다. 매 `save_period` 에포크마다 모델 가중치가 W&B에 저장됩니다. 검증 세트에서 가장 성능이 좋은 모델은 자동으로 태그됩니다.
-* `--upload_dataset` 플래그를 켜면 데이터세트도 데이터 버전 관리를 위해 업로드됩니다.
-* `--bbox_interval`에 숫자를 전달하면 [데이터 시각화](../intro.md)가 활성화됩니다. 매 `bbox_interval` 에포크마다 모델의 검증 세트에 대한 출력이 W&B에 업로드됩니다.
+* `--save_period`に数値を渡すと、[モデルのバージョン管理](../model_registry/intro.md)がオンになります。`save_period`エポックの終わりに、モデルの重みがW&Bに保存されます。検証セットで最も性能の良いモデルが自動的にタグ付けされます。
+* `--upload_dataset`フラグをオンにすると、データのバージョン管理のためにデータセットもアップロードされます。
+* `--bbox_interval`に数値を渡すと、[データ可視化](../tables/intro.md)がオンになります。`bbox_interval`エポックの終わりに、検証セットでのモデルの出力がW&Bにアップロードされます。
 
 <Tabs
   defaultValue="modelversioning"
   values={[
-    {label: '모델 버전 관리만', value: 'modelversioning'},
-    {label: '모델 버전 관리 및 데이터 시각화', value: 'bothversioning'},
+    {label: 'モデルバージョニングのみ', value: 'modelversioning'},
+    {label: 'モデルバージョニングとデータ可視化', value: 'bothversioning'},
   ]}>
   <TabItem value="modelversioning">
 
@@ -59,20 +60,24 @@ python yolov5/train.py --epochs 20 --save_period 1
 python yolov5/train.py --epochs 20 --save_period 1 \
   --upload_dataset --bbox_interval 1
 ```
+</TabItem>
 
-  </TabItem>
 </Tabs>
 
 :::info
-모든 W&B 계정에는 데이터세트 및 모델을 위한 100GB의 무료 저장 공간이 제공됩니다.
+
+すべてのW&Bアカウントには、データセットとモデル用の100GBの無料ストレージが付属しています。
+
 :::
 
-그것이 어떻게 보이는지 여기 있습니다.
+これがどのように見えるかをご覧ください。
 
-![모델 버전 관리: 최신 및 최고 버전의 모델이 식별됩니다.](/images/integrations/yolov5_model_versioning.png)
+![Model Versioning: 最新および最高のバージョンのモデルが識別されます。](/images/integrations/yolov5_model_versioning.png)
 
-![데이터 시각화: 입력 이미지와 모델의 출력 및 예시별 메트릭을 비교합니다.](/images/integrations/yolov5_data_visualization.png)
+![Data Visualization: モデルの出力と個々のメトリクスとの比較で入力画像を確認します。](/images/integrations/yolov5_data_visualization.png)
 
 :::info
-데이터 및 모델 버전 관리를 통해 어떤 장치에서든 설정 없이 일시 중지되었거나 중단된 실험을 이어서 할 수 있습니다! 자세한 내용은 [Colab](https://wandb.me/yolo-colab)을 확인하세요.
+
+データとモデルのバージョン管理により、一時停止またはクラッシュした実験を任意のデバイスから再開できます。設定は不要です！詳細については、[Colab](https://wandb.me/yolo-colab)をご覧ください。
+
 :::

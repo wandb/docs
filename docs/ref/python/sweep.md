@@ -1,30 +1,55 @@
+# スイープ
 
-# 스윕
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_sweep.py#L31-L116)
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/wandb_sweep.py#L31-L87' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
-
-
-하이퍼파라미터 스윕을 초기화합니다.
+ハイパーパラメータースイープを初期化します。
 
 ```python
 sweep(
-    sweep: Union[dict, Callable],
-    entity: Optional[str] = None,
-    project: Optional[str] = None
+ sweep: Union[dict, Callable],
+ entity: Optional[str] = None,
+ project: Optional[str] = None
 ) -> str
 ```
 
-다양한 조합을 테스트하여 머신 러닝 모델의 비용 함수를 최적화하는 하이퍼파라미터를 검색합니다.
+スイープからハイパーパラメーターの提案を生成し、それらを使用してモデルをトレーニングするには、このコマンドで返されるsweep_idを使って `wandb.agent` を呼び出します。コマンドライン機能については、コマンドラインツール `wandb sweep` (https://docs.wandb.ai/ref/cli/wandb-sweep)を参照してください。
 
-반환되는 고유 식별자인 `sweep_id`를 기록하세요.
-나중에 스윕 에이전트에 `sweep_id`를 제공합니다.
-
-| 인수 |  |
+| 引数 | |
 | :--- | :--- |
-|  `sweep` |  하이퍼파라미터 검색의 구성입니다(또는 구성 생성기). 스윕을 정의하는 방법에 대한 정보는 [스윕 구성 구조](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)를 참조하세요. 호출 가능한 객체를 제공하는 경우, 이 객체가 인수를 사용하지 않고 W&B 스윕 구성 사양에 맞는 사전을 반환하는지 확인하세요. |
-|  `entity` |  스윕으로 생성된 W&B 실행을 보낼 사용자 이름 또는 팀 이름입니다. 지정한 엔티티가 이미 존재하는지 확인하세요. 엔티티를 지정하지 않으면 실행은 보통 사용자 이름인 기본 엔티티로 전송됩니다. |
-|  `project` |  스윕으로부터 생성된 W&B 실행이 전송되는 프로젝트의 이름입니다. 프로젝트가 지정되지 않으면 실행은 'Uncategorized'로 라벨이 붙은 프로젝트로 전송됩니다. |
-
-| 반환 값 |  |
+| `sweep` | 辞書型、SweepConfig型、またはコール可能オブジェクト。スイープ構成（または構成生成器）。dictまたはSweepConfigの場合は、W&Bスイープ構成仕様（https://docs.wandb.ai/guides/sweeps/define-sweep-configuration）に準拠する必要があります。コール可能オブジェクトの場合は、引数なしで呼び出し、W&Bスイープ構成仕様に準拠する辞書を返す必要があります。|
+| `entity` | str（オプション）。エンティティは、実行を送信しているユーザー名またはチーム名です。実行を送信する前に、このエンティティが存在している必要があるため、実行をログに記録する前に、アカウントまたはチームをUIで作成してください。エンティティを指定しない場合、実行はデフォルトのエンティティに送信されます。通常、デフォルトのエンティティはユーザー名です。[Settings](https://wandb.ai/settings)の"default location to create new projects"でデフォルトのエンティティを変更してください。|
+| `project` | str（オプション）。新しい実行を送信しているプロジェクトの名前。プロジェクトが指定されていない場合、実行は"Uncategorized"プロジェクトに入れられます。|
+| 返り値 | |
 | :--- | :--- |
-|  `sweep_id` |  str. 스윕의 고유 식별자입니다. |
+| `sweep_id` | str. スイープの一意な識別子。 |
+
+
+
+#### 例:
+
+基本的な使い方
+
+```python
+import wandb
+
+sweep_configuration = {
+ "name": "my-awesome-sweep",
+ "metric": {"name": "accuracy", "goal": "maximize"},
+ "method": "grid",
+ "parameters": {"a": {"values": [1, 2, 3, 4]}},
+}
+
+
+def my_train_func():
+ # wandb.configからパラメータ "a" の現在の値を読み取る
+ wandb.init()
+ a = wandb.config.a
+
+ wandb.log({"a": a, "accuracy": a + 1})
+sweep_id = wandb.sweep(sweep_configuration)
+
+# スイープを実行する
+
+wandb.agent(sweep_id, function=my_train_func)
+
+```

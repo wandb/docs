@@ -5,53 +5,50 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 리포트 복제 및 내보내기
+# レポートのクローンとエクスポート
 
 <head>
-  <title>W&B 리포트 복제 및 내보내기</title>
+  <title>W&Bレポートのクローンとエクスポート</title>
 </head>
 
-## 리포트 내보내기
+## レポートのエクスポート
 
-리포트를 PDF 또는 LaTeX로 내보냅니다. 리포트에서 케밥 아이콘을 선택하여 드롭다운 메뉴를 확장합니다. **다운로드**를 선택하고 PDF 또는 LaTeX 출력 형식을 선택하세요.
+レポートをPDFまたはLaTeX形式でエクスポートします。レポート内でケバブアイコンを選択してドロップダウンメニューを展開し、**ダウンロード**を選択して、PDFまたはLaTeXの出力形式を選択します。
 
-## 리포트 복제하기
+## レポートのクローニング
 
 <Tabs
   defaultValue="app"
   values={[
-    {label: '앱 UI', value: 'app'},
-    {label: '파이썬 SDK', value: 'python'}
+    {label: 'アプリUI', value: 'app'},
+    {label: 'Python SDK', value: 'python'}
   ]}>
   <TabItem value="app">
 
-리포트에서 케밥 아이콘을 선택하여 드롭다운 메뉴를 확장합니다. **이 리포트 복제하기** 버튼을 선택합니다. 모달에서 복제된 리포트의 목적지를 선택합니다. **리포트 복제**를 선택하세요.
+レポート内でケバブアイコンを選択してドロップダウンメニューを展開し、**このレポートを複製**ボタンを選択します。モーダルで複製したレポートの保存先を選択し、**レポートを複製**を選択します。
 
 ![](@site/static/images/reports/clone_reports.gif)
 
-프로젝트의 템플릿과 형식을 재사용하기 위해 리포트를 복제하세요. 팀 계정 내에서 프로젝트를 복제하면 복제된 프로젝트가 팀에게 보입니다. 개인 계정 내에서 복제된 프로젝트는 해당 사용자에게만 보입니다.
+プロジェクトのテンプレートとフォーマットを再利用するためにレポートを複製します。チームのアカウント内でプロジェクトを複製した場合、複製したプロジェクトはチームのメンバーに表示されます。個人のアカウント内で複製されたプロジェクトは、そのユーザーにしか表示されません。
   </TabItem>
   <TabItem value="python">
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/report\_api)
 
-[**여기에서 Colab 노트북에서 시도해보세요 →**](http://wandb.me/report\_api)
-
-템플릿으로 사용할 URL에서 리포트를 로드합니다.
+URLからレポートをロードして、テンプレートとして使用します。
 
 ```python
-report = wr.Report(
-    project=PROJECT, title="퀵스타트 리포트", description="쉽네요!"
-)  # 생성
-report.save()  # 저장
-new_report = wr.Report.from_url(report.url)  # 로드
+report = wr.Report(project=PROJECT, title="クイックスタート レポート", description="簡単だった！")  # 作成
+report.save()  # 保存
+new_report = wr.Report.from_url(report.url)  # ロード
 ```
 
-`new_report.blocks` 내의 내용을 편집합니다.
+`new_report.blocks`の中身を編集します。
 
 ```python
 pg = wr.PanelGrid(
     runsets=[
-        wr.Runset(ENTITY, PROJECT, "첫 실행 세트"),
-        wr.Runset(ENTITY, PROJECT, "코끼리만!", query="elephant"),
+        wr.Runset(ENTITY, PROJECT, "最初のRunセット"),
+        wr.Runset(ENTITY, PROJECT, "象のみ！", query="elephant"),
     ],
     panels=[
         wr.LinePlot(x="Step", y=["val_acc"], smoothing_factor=0.8),
@@ -60,9 +57,7 @@ pg = wr.PanelGrid(
         wr.RunComparer(diff_only="split", layout={"w": 24, "h": 9}),
     ],
 )
-new_report.blocks = (
-    report.blocks[:1] + [wr.H1("패널 그리드 예제"), pg] + report.blocks[1:]
-)
+new_report.blocks = report.blocks[:1] + [wr.H1("パネルグリッドの例"), pg] + report.blocks[1:]
 new_report.save()
 ```
   </TabItem>

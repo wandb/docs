@@ -5,45 +5,45 @@ displayed_sidebar: default
 
 # GCP
 
-Weights & Biases가 개발한 [Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest)을 사용하여 Google Cloud에 W&B 서버를 배포하는 것이 좋습니다.
+Weights and Biasesが開発した[Terraformモジュール](https://registry.terraform.io/modules/wandb/wandb/google/latest)を使用して、W&BサーバーをGoogle Cloudにデプロイすることをお勧めします。
 
-모듈 문서는 방대하며 사용 가능한 모든 옵션을 포함하고 있습니다. 이 문서에서는 몇 가지 배포 옵션을 다룰 것입니다.
+モジュールのドキュメントは非常に充実しており、使用可能なすべてのオプションが含まれています。このドキュメントでは、いくつかの展開オプションについて説明します。
 
-시작하기 전에, Terraform이 [상태 파일](https://developer.hashicorp.com/terraform/language/state)을 저장하기 위해 사용할 수 있는 [원격 백엔드](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) 중 하나를 선택하는 것이 좋습니다.
+始める前に、Terraformの[リモートバックエンド](https://developer.hashicorp.com/terraform/language/settings/backends/configuration)のいずれかを選択し、[ステートファイル](https://developer.hashicorp.com/terraform/language/state)を保存することをお勧めします。
 
-상태 파일은 배포를 재생성하지 않고 업그레이드를 진행하거나 변경사항을 적용하는 데 필요한 자원입니다.
+ステートファイルは、すべてのコンポーネントを再作成することなく、展開にアップグレードを適用したり変更を加えるために必要なリソースです。
 
-Terraform 모듈은 다음과 같은 `필수` 구성 요소를 배포합니다:
+Terraformモジュールは、以下の`必須`コンポーネントをデプロイします：
 
 - VPC
 - Cloud SQL for MySQL
-- Cloud Storage Bucket
+- Cloud Storageバケット
 - Google Kubernetes Engine
-- KMS Crypto Key
-- Load Balancer
+- KMS暗号キー
+- ロードバランサ
 
-다른 배포 옵션은 다음과 같은 선택적 구성 요소를 포함할 수도 있습니다:
+他の展開オプションには、以下のオプションコンポーネントが含まれる場合があります：
 
-- Redis를 위한 메모리 스토어
-- Pub/Sub 메시지 시스템
+- Redis用のメモリストア
+- Pub/Subメッセージシステム
 
-## **필수 권한**
+## **前提条件とする権限**
 
-terraform을 실행할 계정은 사용하는 GCP 프로젝트에서 `roles/owner` 역할을 가져야 합니다.
+Terraformを実行するアカウントは、使用するGCPプロジェクトに`roles/owner`の役割を持っている必要があります。
 
-## 일반 단계
+## 一般的な手順
 
-이 주제의 단계는 이 문서에서 다루는 모든 배포 옵션에 공통적입니다.
+このドキュメントでカバーされているどの展開オプションにも共通の手順があります。
 
-1. 개발 환경 준비.
-   - [Terraform 설치](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-   - 코드가 사용될 Git 저장소를 생성하는 것이 좋지만, 파일을 로컬에 유지할 수도 있습니다.
-   - [Google Cloud Console](https://console.cloud.google.com/)에서 프로젝트 생성
-   - GCP 인증 (먼저 [gcloud 설치](https://cloud.google.com/sdk/docs/install)를 확인하세요)
+1. 開発環境を準備する。
+   - [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)をインストールする
+   - 使用されるコードを含むGitリポジトリを作成することをお勧めしますが、ファイルをローカルに保持することもできます。
+   - [Google Cloud Console](https://console.cloud.google.com/)でプロジェクトを作成する
+   - GCPで認証する（[gcloudをインストール](https://cloud.google.com/sdk/docs/install)してください）
      `gcloud auth application-default login`
-2. `terraform.tfvars` 파일 생성.
+2. `terraform.tfvars`ファイルを作成する。
 
-   `tvfars` 파일 내용은 설치 유형에 따라 사용자 지정할 수 있지만, 최소 권장 사항은 아래 예제와 같습니다.
+`tvfars`ファイルの内容は、インストールタイプに応じてカスタマイズできますが、最小限のお勧めは以下の例のようになります。
 
    ```bash
    project_id  = "wandb-project"
@@ -55,93 +55,103 @@ terraform을 실행할 계정은 사용하는 GCP 프로젝트에서 `roles/owne
    domain_name = "wandb.ml"
    ```
 
-   여기서 정의된 변수들은 배포 전에 결정해야 합니다. `namespace` 변수는 Terraform이 생성하는 모든 리소스에 접두어로 사용될 문자열입니다.
+   ここで定義されている変数は、展開前に決定する必要があります。`namespace`変数は、Terraformによって作成されるすべてのリソースの接頭辞となる文字列になります。
 
-   `subdomain`과 `domain`의 조합은 W&B가 구성될 FQDN을 형성합니다. 위의 예에서 W&B FQDN은 `wandb-gcp.wandb.ml`이 됩니다.
+   `subdomain`と`domain`の組み合わせによって、W&Bが設定されるFQDNが形成されます。上記の例では、W&B FQDNは`wandb-gcp.wandb.ml`になります。
 
-3. `variables.tf` 파일 생성
+3. `versions.tf`ファイルを作成します。
 
-   `terraform.tfvars`에 구성된 모든 옵션에 대해 Terraform은 해당 변수 선언을 요구합니다.
+   このファイルには、GCPでW&Bを展開するために必要なTerraformおよびTerraformプロバイダーのバージョンが含まれます。
+
+```
+   terraform {
+     required_version = "~> 1.0"
+     required_providers {
+       google = {
+         source  = "hashicorp/google"
+         version = "~> 4.15"
+       }
+       kubernetes = {
+         source  = "hashicorp/kubernetes"
+         version = "~> 2.9"
+       }
+     }
+   }
+   ```
+
+   任意ですが、**強くお勧めします**、このドキュメントの冒頭で触れている[リモートバックエンド設定](https://developer.hashicorp.com/terraform/language/settings/backends/configuration)を追加することができます。
+
+4. `variables.tf`ファイルを作成します。
+
+   `terraform.tfvars`で設定されたすべてのオプションに対応する変数宣言がTerraformに必要です。
 
    ```
    variable "project_id" {
      type        = string
-     description = "프로젝트 ID"
+     description = "プロジェクトID"
    }
 
    variable "region" {
      type        = string
-     description = "Google 지역"
+     description = "Googleリージョン"
    }
 
    variable "zone" {
      type        = string
-     description = "Google 지역"
+     description = "Googleゾーン"
    }
 
-   variable "namespace" {
+variable "namespace" {
      type        = string
-     description = "리소스에 사용되는 네임스페이스 접두어"
+     description = "リソースに使用される名前空間プレフィックス"
    }
 
    variable "domain_name" {
      type        = string
-     description = "Weights & Biases UI에 접근하기 위한 도메인 이름."
+     description = "Weights & Biases UIにアクセスするためのドメイン名。"
    }
 
    variable "subdomain" {
      type        = string
-     description = "Weights & Biases UI에 접근하기 위한 서브도메인."
+     description = "Weights & Biases UIにアクセスするためのサブドメイン。"
    }
 
    variable "license" {
      type        = string
-     description = "W&B 라이선스"
+     description = "W&B ライセンス"
    }
    ```
 
-## 배포 - 권장 (~20분)
+## 展開 - 推奨（約20分）
 
-이것은 모든 `필수` 구성 요소를 생성하고 `Kubernetes 클러스터`에 `W&B`의 최신 버전을 설치하는 가장 간단한 배포 옵션 구성입니다.
+これは最も簡単な展開オプション構成で、すべての `Mandatory` コンポーネントを作成し、`Kubernetes Cluster` に `W&B` の最新バージョンをインストールします。
 
-1. `main.tf` 생성
+1. `main.tf` を作成する
 
-   `일반 단계`에서 생성한 파일과 동일한 디렉터리에 `main.tf` 파일을 다음 내용으로 생성합니다:
+   `General Steps` で作成したファイルと同じディレクトリに、次の内容の `main.tf` ファイルを作成します。
 
    ```
-   provider "google" {
-    project = var.project_id
-    region  = var.region
-    zone    = var.zone
-   }
-
-   provider "google-beta" {
-    project = var.project_id
-    region  = var.reguion
-    zone    = var.zone
-   }
-
    data "google_client_config" "current" {}
 
-   provider "kubernetes" {
+provider "kubernetes" {
      host                   = "https://${module.wandb.cluster_endpoint}"
      cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
      token                  = data.google_client_config.current.access_token
    }
 
-   # 필요한 모든 서비스 실행
+   # すべての必要なサービスを起動する
    module "wandb" {
      source  = "wandb/wandb/google"
-     version = "~> 1.0"
+     version = "1.12.2"
 
      namespace   = var.namespace
      license     = var.license
      domain_name = var.domain_name
      subdomain   = var.subdomain
-     allowed_inbound_cidrs = ["*"]
+
    }
 
-   # 프로비전된 IP 주소로 DNS를 업데이트하고 싶을 것입니다
+   # 用意されたIPアドレスにDNSを更新する必要があります
    output "url" {
      value = module.wandb.url
    }
@@ -155,59 +165,58 @@ terraform을 실행할 계정은 사용하는 GCP 프로젝트에서 `roles/owne
    }
    ```
 
-2. W&B 배포
+2. W&Bのデプロイ
 
-   W&B를 배포하려면 다음 명령을 실행합니다:
+   W&Bをデプロイするには、以下のコマンドを実行してください:
 
    ```
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
 
-## REDIS 캐시와 함께 배포
+## REDISの有効化
 
-다른 배포 옵션은 `Redis`를 사용하여 SQL 쿼리를 캐시하고 실험에 대한 메트릭을 로딩할 때 애플리케이션 응답을 가속화합니다.
+別の展開オプションでは、`Redis` を使用して SQL クエリをキャッシュし、実験のメトリクスを読み込む際のアプリケーションの応答速度を向上させます。
 
-캐시를 활성화하려면 `Deployment option 1`에서 작업한 동일한 `main.tf` 파일에 `create_redis = true` 옵션을 추가하십시오.
+キャッシュを有効にするには、`Deployment option 1` で作業したのと同じ `main.tf` ファイルに `create_redis = true` オプションを追加する必要があります。
 
 ```
 [...]
 
 module "wandb" {
   source  = "wandb/wandb/google"
-  version = "~> 1.0"
+  version = "1.12.2"
 
   namespace    = var.namespace
   license      = var.license
   domain_name  = var.domain_name
   subdomain    = var.subdomain
-  allowed_inbound_cidrs = ["*"]
-  #Redis 활성화
+  #Enable Redis
   create_redis = true
 
 }
 [...]
 ```
 
-## 외부 큐와 함께 배포
+## メッセージブローカー(キュー)の有効化
 
-배포 옵션 3은 외부 `메시지 브로커`를 활성화하는 것입니다. 이것은 선택 사항이며 W&B에는 내장된 브로커가 있기 때문에 성능 향상을 제공하지 않습니다.
+展開オプション3は、外部の `メッセージブローカー` を有効にすることです。W&B にはブローカーが埋め込まれているため、これはオプションです。このオプションは、パフォーマンスの向上をもたらしません。
 
-메시지 브로커를 제공하는 GCP 리소스는 `Pub/Sub`이며, 이를 활성화하려면 `Deployment option 1`에서 작업한 동일한 `main.tf`에 `use_internal_queue = false` 옵션을 추가해야 합니다.
+メッセージブローカーを提供する GCP リソースは `Pub/Sub` であり、それを有効にするには、`Deployment option 1` で作業したのと同じ `main.tf` に `use_internal_queue = false` オプションを追加する必要があります。
 
 ```
 [...]
 
-module "wandb" {
+以下は翻訳するMarkdownテキストのチャンクです。それ以外のものは追加せず、翻訳されたテキストのみを返してください。テキスト：
+ module "wandb" {
   source  = "wandb/wandb/google"
-  version = "~> 1.0"
+  version = "1.12.2"
 
   namespace          = var.namespace
   license            = var.license
   domain_name        = var.domain_name
   subdomain          = var.subdomain
-  allowed_inbound_cidrs = ["*"]
-  #Pub/Sub 생성 및 사용
+  #Create and use Pub/Sub
   use_internal_queue = false
 
 }
@@ -216,44 +225,46 @@ module "wandb" {
 
 ```
 
-## 기타 배포 옵션
+## 他の展開オプション
 
-모든 세 가지 배포 옵션을 결합하여 동일한 파일에 모든 구성을 추가할 수 있습니다.
-[Terraform Module](https://github.com/wandb/terraform-google-wandb)은 표준 옵션 및 `Deployment - Recommended`에서 찾을 수 있는 최소 구성과 함께 조합할 수 있는 여러 옵션을 제공합니다.
+すべての構成を同じファイルに追加して、3つの展開オプションを組み合わせることができます。
+[Terraform Module](https://github.com/wandb/terraform-google-wandb)は、`Deployment - Recommended`で見つかる標準的なオプションと最小限の構成とともに組み合わせることができるいくつかのオプションを提供しています。
 
-## 수동 구성
+<!-- ## Upgrades (coming soon) -->
 
-W&B의 파일 저장소 백엔드로 GCP Storage 버킷을 사용하려면 다음을 생성해야 합니다:
+## 手動設定
 
-* [PubSub 주제 및 구독 생성](#create-pubsub-topic-and-subscription)
-* [Storage Bucket 생성](#create-storage-bucket)
-* [PubSub 알림 생성](#create-pubsub-notification)
+GCPストレージバケットをW&Bのファイルストレージバックエンドとして使用するには、次のものを作成する必要があります。
 
-### PubSub 주제 및 구독 생성
+* [PubSubトピックとサブスクリプション](#create-pubsub-topic-and-subscription)
+* [ストレージバケット](#create-storage-bucket)
+* [PubSub通知](#create-pubsub-notification)
 
-PubSub 주제 및 구독을 생성하려면 아래 절차를 따르십시오:
+### PubSubトピックとサブスクリプションの作成
 
-1. GCP Console 내의 Pub/Sub 서비스로 이동합니다.
-2. **주제 생성**을 선택하고 주제에 대한 이름을 제공합니다.
-3. 페이지 하단에서 **구독 생성**을 선택합니다. **전달 유형**이 **Pull**로 설정되어 있는지 확인합니다.
-4. **생성**을 클릭합니다.
+以下の手順に従って、PubSubトピックとサブスクリプションを作成してください。
 
-인스턴스가 실행 중인 서비스 계정 또는 계정이 이 구독에 대해 `pubsub.admin` 역할을 가지고 있는지 확인하십시오. 자세한 내용은 https://cloud.google.com/pubsub/docs/access-control#console를 참조하십시오.
+1. GCP Console 内の Pub/Sub サービスに移動
+2. **トピックの作成**を選択し、トピックの名前を入力してください。
+3. ページの下部で、**サブスクリプションの作成**を選択します。**配信タイプ**が**Pull**に設定されていることを確認してください。
+4. **作成**をクリックします。
 
-### Storage Bucket 생성
+インスタンスが実行しているサービスアカウントまたはアカウントに、このサブスクリプションで `pubsub.admin` ロールが付与されていることを確認してください。詳細については、https://cloud.google.com/pubsub/docs/access-control#console を参照してください。
 
-1. **Cloud Storage Buckets** 페이지로 이동합니다.
-2. **버킷 생성**을 선택하고 버킷에 이름을 제공합니다. [스토리지 클래스](https://cloud.google.com/storage/docs/storage-classes)로 **Standard**를 선택해야 합니다.
+### ストレージバケットの作成
 
-인스턴스가 실행 중인 서비스 계정 또는 계정이 다음에 모두 액세스할 수 있는지 확인하십시오:
-* 이전 단계에서 생성한 버킷에 액세스
-* 이 버킷에 대한 `storage.objectAdmin` 역할. 자세한 내용은 https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add를 참조하십시오.
+1. **Cloud Storage Buckets**ページに移動します。
+2. **バケットの作成**を選択し、バケットの名前を入力してください。**Standard**の[ストレージクラス](https://cloud.google.com/storage/docs/storage-classes)を選択してください。
+
+インスタンスが実行されているサービスアカウントまたはアカウントが、以下の両方を持っていることを確認してください:
+* 前のステップで作成したバケットへのアクセス
+* このバケットの`storage.objectAdmin`ロール。詳細については、https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add を参照してください。
 
 :::info
-인스턴스는 GCP에서 서명된 파일 URL을 생성하기 위해 `iam.serviceAccounts.signBlob` 권한도 필요합니다. 인스턴스가 실행 중인 서비스 계정 또는 IAM 멤버에 `서비스 계정 토큰 생성자` 역할을 추가하여 권한을 활성화하십시오.
+インスタンスは、GCPで署名されたファイルのURLを作成するために、`iam.serviceAccounts.signBlob`権限も必要です。インスタンスが実行されているサービスアカウントまたはIAMメンバーに`Service Account Token Creator`ロールを追加して、権限を有効にしてください。
 :::
 
-3. CORS 액세스를 활성화합니다. 이 작업은 명령줄을 사용해서만 수행할 수 있습니다. 먼저 다음 CORS 구성이 포함된 JSON 파일을 생성합니다.
+3. CORSアクセスを有効にします。これは、コマンドラインを使用してのみ行うことができます。まず、以下のCORS構成を持つJSONファイルを作成します。
 
 ```
 cors:
@@ -267,65 +278,44 @@ cors:
    - Content-Type
 ```
 
-원점의 스키마, 호스트, 포트 값이 정확히 일치해야 합니다.
+スキーム、ホスト、およびオリジンの値のポートは、正確に一致している必要があります。
 
-4. `gcloud`가 설치되어 있고 올바른 GCP 프로젝트에 로그인되어 있는지 확인합니다.
-5. 다음을 실행합니다:
+4. `gcloud`がインストールされていることを確認し、適切なGCPプロジェクトにログインしてください。
+5. 次に、以下を実行します。
 
 ```bash
 gcloud storage buckets update gs://<BUCKET_NAME> --cors-file=<CORS_CONFIG_FILE>
 ```
 
-### PubSub 알림 생성
-저장소 버킷에서 Pub/Sub 주제로 알림 스트림을 생성하려면 명령줄에서 아래 절차를 따르십시오.
+### PubSub通知の作成
+以下の手順をコマンドラインで実行し、ストレージバケットからPub/Subトピックへの通知ストリームを作成します。
 
 :::info
-알림 스트림을 생성하려면 CLI를 사용해야 합니다. `gcloud`가 설치되어 있는지 확인하십시오.
+通知ストリームを作成するには、CLIを使用する必要があります。`gcloud`がインストールされていることを確認してください。
 :::
 
-1. GCP 프로젝트에 로그인합니다.
-2. 터미널에서 다음을 실행합니다:
+1. GCPプロジェクトにログインします。
+2. ターミナルで以下を実行します。
 
 ```bash
-gcloud pubsub topics list  # 참조를 위한 주제 이름 목록
-gcloud storage ls          # 참조를 위한 버킷 이름 목록
+gcloud pubsub topics list  # トピック名のリストを参照する
+gcloud storage ls          # バケット名のリストを参照する
 
-# 버킷 알림 생성
+# バケット通知を作成する
 gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NAME>
 ```
 
-[Cloud Storage 웹사이트에서 추가 참조가 가능합니다.](https://cloud.google.com/storage/docs/reporting-changes)
+[Cloud Storageのウェブサイトでさらに参考資料が利用可能です。](https://cloud.google.com/storage/docs/reporting-changes)
 
-### W&B 서버 구성
+### W&Bサーバーの設定
 
-1. 마지막으로, `http(s)://YOUR-W&B-SERVER-HOST/system-admin`에서 W&B 설정 페이지로 이동합니다.
-2. "외부 파일 저장소 백엔드 사용" 옵션을 활성화합니다.
-3. 다음 형식으로 AWS S3 버킷 이름, 버킷이 저장된 지역, SQS 큐를 제공합니다:
-* **파일 저장소 버킷**: `gs://<bucket-name>`
-* **파일 저장소 지역**: 빈칸
-* **알림 구독**: `pubsub:/<project-name>/<topic-name>/<subscription-name>`
+1. 最後に、W&B設定ページに移動してください。`http(s)://YOUR-W&B-SERVER-HOST/system-admin`。
+2. "外部ファイルストレージバックエンドを使用する"オプションを有効にします。
+3. AWS S3バケットの名前、バケットが保存されているリージョン、およびSQSキューを以下の形式で指定します。
+* **File Storage Bucket**：`gs://<bucket-name>`
+* **File Storage Region**：空白
+* **Notification Subscription**：`pubsub:/<project-name>/<topic-name>/<subscription-name>`
 
 ![](/images/hosting/configure_file_store.png)
 
-4. **설정 업데이트**를 눌러 새 설정을 적용합니다.
-
-## W&B 서버 업그레이드
-
-W&B를 업데이트하려면 여기에 설명된 단계를 따르십시오:
-
-1. `wandb_app` 모듈의 구성에 `wandb_version`을 추가합니다. 업그레이드하려는 W&B 버전을 제공합니다. 예를 들어, 다음 줄은 W&B 버전 `0.48.1`을 지정합니다:
-
-  ```
-  module "wandb_app" {
-      source  = "wandb/wandb/kubernetes"
-      version = "~>1.0"
-
-      license       = var.license
-      wandb_version = "0.48.1"
-  ```
-
-  :::info
-  또는 `terraform.tfvars`에 `wandb_version`을 추가하고 동일한 이름의 변수를 생성한 다음 리터럴 값 대신 `var.wandb_version`을 사용할 수 있습니다.
-  :::
-
-2. 구성을 업데이트한 후 [배포 섹션](#deployment---recommended-20-mins)에 설명된 단계를 완료합니다.
+4. **設定を更新**を押して新しい設定を適用します。

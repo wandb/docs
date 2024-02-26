@@ -1,18 +1,16 @@
-
 # WBTraceTree
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/data_types/trace_tree.py#L80-L119' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/trace_tree.py#L78-L118)
 
-
-트레이스 트리 데이터를 위한 미디어 개체입니다.
+トレースツリーデータのメディアオブジェクト。
 
 ```python
 WBTraceTree(
-    root_span: Span,
-    model_dict: typing.Optional[dict] = None
+ root_span: Span,
+ model_dict: typing.Optional[dict] = None
 )
 ```
 
-| 인수 |  |
+| 引数 | |
 | :--- | :--- |
-|  root_span (Span): 트레이스 트리의 루트 스팬입니다. model_dict (dict, optional): 모델 덤프를 포함하는 사전입니다. 참고: model_dict는 완전히 사용자 정의 사전입니다. UI는 이 사전을 JSON 뷰어로 렌더링할 것이며, `_kind` 키가 있는 사전에 특별한 처리를 할 것입니다. 모델 공급업체의 직렬화 형식이 매우 다르기 때문에 여기서 유연성이 필요합니다.
+| root_span (Span): トレースツリーのルートスパン。model_dict (dict, optional): モデルダンプを含む辞書。注意: model_dictは完全にユーザー定義の辞書です。UIはこの辞書に対してJSONビューアをレンダリングし、 `_kind` キーを持つ辞書に特別な扱いをします。これは、モデルベンダーのシリアル化形式が非常に異なるため、柔軟性が必要だからです。|

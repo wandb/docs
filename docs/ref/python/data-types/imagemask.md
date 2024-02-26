@@ -1,25 +1,23 @@
+# ImageMask
 
-# 이미지마스크
+[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/image_mask.py#L19-L234)
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/data_types/helper_types/image_mask.py#L18-L233' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
-
-W&B에 로깅하기 위한 이미지 마스크 또는 오버레이 포맷.
+W&Bにログを記録するための画像マスクやオーバーレイのフォーマット。
 
 ```python
 ImageMask(
-    val: dict,
-    key: str
+ val: dict,
+ key: str
 ) -> None
 ```
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-|  `val` |  (사전) 이미지를 나타내는 두 키 중 하나: mask_data : (2D numpy 배열) 이미지의 각 픽셀에 대한 정수 클래스 라벨이 포함된 마스크 path : (문자열) 마스크 이미지 파일이 저장된 경로 class_labels : (정수에서 문자열로의 사전, 선택 사항) 마스크 내의 정수 클래스 라벨을 읽을 수 있는 클래스 이름으로 매핑합니다. 이 값은 기본적으로 class_0, class_1, class_2 등으로 설정됩니다. |
-|  `key` |  (문자열) 이 마스크 타입에 대한 읽을 수 있는 이름 또는 id (예: 예측값, ground_truth) |
+| `val` | (辞書) 画像を表す以下の2つのキーのいずれか: mask_data : (2D numpy配列) 画像の各ピクセルに対する整数クラスラベルが含まれるマスク path : (文字列) マスクの保存された画像ファイルへのパス class_labels : (整数から文字列への辞書, オプション) マスク内の整数クラスラベルを読みやすいクラス名にマッピング。デフォルトではclass_0, class_1, class_2などになります。 |
+| `key` | (文字列) このマスクタイプの読みやすい名前またはID（例：predictions、ground_truth） |
 
-#### 예시:
-
-### 단일 마스크 이미지 로깅
+#### 例:
+### マスク付きの単一画像のログ
 
 ```python
 import numpy as np
@@ -40,19 +38,18 @@ ground_truth_mask[25:, :25] = 1
 ground_truth_mask[:25, 25:] = 2
 ground_truth_mask[25:, 25:] = 3
 
-class_labels = {0: "사람", 1: "나무", 2: "자동차", 3: "도로"}
+class_labels = {0: "人", 1: "木", 2: "車", 3: "道路"}
 
 masked_image = wandb.Image(
-    image,
-    masks={
-        "예측값": {"mask_data": predicted_mask, "class_labels": class_labels},
-        "ground_truth": {"mask_data": ground_truth_mask, "class_labels": class_labels},
-    },
+ image,
+ masks={
+ "predictions": {"mask_data": predicted_mask, "class_labels": class_labels},
+ "ground_truth": {"mask_data": ground_truth_mask, "class_labels": class_labels},
+ },
 )
 wandb.log({"img_with_masks": masked_image})
 ```
-
-### 테이블 내에서 마스크 이미지 로깅
+### テーブル内のマスクされた画像をログに記録する
 
 ```python
 import numpy as np
@@ -73,24 +70,24 @@ ground_truth_mask[25:, :25] = 1
 ground_truth_mask[:25, 25:] = 2
 ground_truth_mask[25:, 25:] = 3
 
-class_labels = {0: "사람", 1: "나무", 2: "자동차", 3: "도로"}
+class_labels = {0: "人", 1: "木", 2: "車", 3: "道"}
 
 class_set = wandb.Classes(
-    [
-        {"name": "사람", "id": 0},
-        {"name": "나무", "id": 1},
-        {"name": "자동차", "id": 2},
-        {"name": "도로", "id": 3},
-    ]
-)
+ [
+ {"name": "人", "id": 0},
+ {"name": "木", "id": 1},
+ {"name": "車", "id": 2},
+ {"name": "道", "id": 3},
+ ]
+)```
 
 masked_image = wandb.Image(
-    image,
-    masks={
-        "예측값": {"mask_data": predicted_mask, "class_labels": class_labels},
-        "ground_truth": {"mask_data": ground_truth_mask, "class_labels": class_labels},
-    },
-    classes=class_set,
+ image,
+ masks={
+ "predictions": {"mask_data": predicted_mask, "class_labels": class_labels},
+ "ground_truth": {"mask_data": ground_truth_mask, "class_labels": class_labels},
+ },
+ classes=class_set,
 )
 
 table = wandb.Table(columns=["image"])
@@ -98,11 +95,11 @@ table.add_data(masked_image)
 wandb.log({"random_field": table})
 ```
 
-## 메서드
+## メソッド
 
 ### `type_name`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/data_types/helper_types/image_mask.py#L205-L207)
+[ソースを表示する](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/image_mask.py#L206-L208)
 
 ```python
 @classmethod
@@ -111,10 +108,10 @@ type_name() -> str
 
 ### `validate`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/fa4423647026d710e3780287b4bac2ee9494e92b/wandb/sdk/data_types/helper_types/image_mask.py#L209-L233)
+[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/helper_types/image_mask.py#L210-L234)
 
 ```python
 validate(
-    val: dict
+ val: dict
 ) -> bool
 ```

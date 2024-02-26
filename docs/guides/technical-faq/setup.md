@@ -1,39 +1,37 @@
 ---
 displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Setup
+# セットアップ
 
-### How can I configure the name of the run in my training code?
+### トレーニングコードで実行の名前をどのように設定できますか？
 
-At the top of your training script when you call `wandb.init`, pass in an experiment name, like this: `wandb.init(name="my_awesome_run")`.
+トレーニングスクリプトの最初に`wandb.init`を呼び出すときに、実験名を指定してください。次のようにします：`wandb.init(name="my_awesome_run")`。
 
-### Can I run wandb offline?
+### wandbをオフラインで実行できますか？
 
-If you're training on an offline machine and want to upload your results to our servers afterwards, we have a feature for you!
+オフラインマシンでトレーニングして、後で結果を当社のサーバーにアップロードしたい場合は、以下の機能をご利用ください！
 
-1. Set the environment variable `WANDB_MODE=offline` to save the metrics locally, no internet required.
-2. When you're ready, run `wandb init` in your directory to set the project name.
-3. Run `wandb sync YOUR_RUN_DIRECTORY` to push the metrics to our cloud service and see your results in our hosted web app.
+1. 環境変数 `WANDB_MODE=offline` を設定して、インターネットが不要なローカルにメトリクスを保存します。
+2. ディレクトリーで`wandb init`を実行して、プロジェクト名を設定します。
+3. `wandb sync YOUR_RUN_DIRECTORY` を実行して、メトリクスをクラウドサービスにプッシュし、ホストされたWebアプリで結果を表示します。
 
-You can check via API whether your run is offline by using `run.settings._offline` or `run.settings.mode` after your wandb.init().
+APIを使用して、`run.settings._offline` または `run.settings.mode` をwandb.init()の後に実行することで、実行がオフラインかどうかを確認できます。
 
-#### Some use-cases where you can use [`wandb sync`](../../ref/cli/wandb-sync.md)
+#### [`wandb sync`](../../ref/cli/wandb-sync.md)を使用できるいくつかのユースケース
 
-* If you don’t have internet.
-* If you need to fully disable things.
-* To sync your run later due to any reason. For instance: if you want to avoid using resources on a training machine.
+* インターネットがない場合。
+* 完全に機能を無効にする必要がある場合。
+* 何らかの理由で後で実行を同期することが望ましい場合。例：トレーニングマシンのリソースを使用しないようにするため。
 
-### Does this only work for Python?
+### これはPython専用ですか？
 
-Currently, the library only works with Python 2.7+ & 3.6+ projects. The architecture mentioned above should enable us to integrate with other languages easily. If you have a need for monitoring other languages, send us a note at [contact@wandb.com](mailto:contact@wandb.com).
+現在、このライブラリはPython 2.7+および3.6+のプロジェクトでのみ動作します。上記のアーキテクチャーは、他の言語との統合を容易にするはずです。他の言語のモニタリングが必要な場合は、[contact@wandb.com](mailto:contact@wandb.com) までご連絡ください。
 
-### Is there an anaconda package?
-
-Yes! You can either install with `pip` or with `conda`. For the latter, you'll need to get the package from the [conda-forge](https://conda-forge.org) channel.
+### Anacondaパッケージはありますか？
+はい！`pip`または`conda`でインストールできます。後者の場合、[conda-forge](https://conda-forge.org)チャンネルからパッケージを取得する必要があります。
 
 <Tabs
   defaultValue="pip"
@@ -44,11 +42,11 @@ Yes! You can either install with `pip` or with `conda`. For the latter, you'll n
   <TabItem value="pip">
 
 ```bash
-# Create a conda env
+# conda envを作成
 conda create -n wandb-env python=3.8 anaconda
-# Activate created env
+# 作成したenvをアクティブ化
 conda activate wandb-env
-# install wandb with pip in this conda env
+# このconda envでwandbをpipでインストール
 pip install wandb
 ```
 
@@ -62,34 +60,33 @@ conda install wandb --channel conda-forge
 
   </TabItem>
 </Tabs>
+このインストールで問題が発生した場合は、お知らせください。このAnaconda [パッケージの管理に関するドキュメント](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html)には、役立つガイドがいくつかあります。
 
+### gccがない環境でwandb Pythonライブラリをインストールするにはどうすればよいですか？
 
-If you run into issues with this install, please let us know. This Anaconda [doc on managing packages](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html) has some helpful guidance.
-
-### How do I install the wandb Python library in environments without gcc?
-
-If you try to install `wandb` and see this error:
+`wandb`のインストールを試みて以下のエラーが表示された場合：
 
 ```
 unable to execute 'gcc': No such file or directory
+
 error: command 'gcc' failed with exit status 1
 ```
+`psutil`を、事前にビルドされたwheelから直接インストールできます。こちらからPythonのバージョンとOSを探してください: [https://pywharf.github.io/pywharf-pkg-repo/psutil](https://pywharf.github.io/pywharf-pkg-repo/psutil)
 
-You can install `psutil` directly from a pre-built wheel. Find your Python version and OS here: [https://pywharf.github.io/pywharf-pkg-repo/psutil](https://pywharf.github.io/pywharf-pkg-repo/psutil)
-
-For example, to install `psutil` on Python 3.8 in Linux:
+例えば、LinuxのPython 3.8で`psutil`をインストールする場合：
 
 ```bash
 WHEEL_URL=https://github.com/pywharf/pywharf-pkg-repo/releases/download/psutil-5.7.0-cp38-cp38-manylinux2010_x86_64.whl/psutil-5.7.0-cp38-cp38-manylinux2010_x86_64.whl#sha256=adc36dabdff0b9a4c84821ef5ce45848f30b8a01a1d5806316e068b5fd669c6d
+
 pip install $WHEEL_URL
 ```
 
-After `psutil` has been installed, you can install wandb with `pip install wandb`.
+`psutil`がインストールされた後、`pip install wandb`でwandbをインストールできます。
 
-### Does the W&B client support Python 2? <a href="#eol-python27" id="eol-python27"></a>
+### W&BクライアントはPython 2をサポートしていますか？ <a href="#eol-python27" id="eol-python27"></a>
 
-The W&B client library supported both Python 2.7 and Python 3 through version 0.10. Due to the Python 2 end of life, support for Python 2.7 was discontinued as of version 0.11. Users who run`pip install --upgrade wandb` on a Python 2.7 system will get new releases of the 0.10.x series only. Support for the 0.10.x series will be limited to critical bugfixes and patches. Currently, version 0.10.33 is the last version of the 0.10.x series that supports Python 2.7.
+W&Bクライアントライブラリは、バージョン0.10までPython 2.7とPython 3の両方をサポートしていました。Python 2のサポートは終了したため、バージョン0.11以降はPython 2.7のサポートが中止されました。Python 2.7システムで`pip install --upgrade wandb`を実行するユーザーは、0.10.xシリーズの新しいリリースのみを受け取ります。0.10.xシリーズのサポートは、重要なバグ修正とパッチに限定されます。現在、バージョン0.10.33がPython 2.7をサポートする0.10.xシリーズの最後のバージョンです。
 
-### Does the W&B client support Python 3.5? <a href="#eol-python35" id="eol-python35"></a>
+### W&BクライアントはPython 3.5をサポートしていますか？ <a href="#eol-python35" id="eol-python35"></a>
 
-The W&B client library supported both Python 3.5 through version 0.11. Due to the Python 3.5 end of life, support was discontinued as of [version 0.12](https://github.com/wandb/wandb/releases/tag/v0.12.0).
+W&Bクライアントライブラリは、バージョン0.11までPython 3.5をサポートしていました。Python 3.5のサポートが終了したため、[バージョン0.12](https://github.com/wandb/wandb/releases/tag/v0.12.0)以降はサポートが中止されました。

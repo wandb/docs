@@ -1,12 +1,13 @@
 ---
-description: Use the Weights and Biases Settings Page to customize your individual
-  user profile or team settings.
 slug: /guides/app/settings-page
+description: >-
+  Use the Weights and Biases Settings Page to customize your individual user
+  profile or team settings.
 displayed_sidebar: default
 ---
 
-# 설정 페이지
+# 設定ページ
 
-개인 사용자 계정에서 프로필 사진, 표시 이름, 지리적 위치, 전기 정보, 계정에 연결된 이메일을 편집하고 실행에 대한 알림을 관리할 수 있습니다. 설정 페이지를 사용하여 GitHub 저장소를 연결하고 계정을 삭제할 수도 있습니다. 자세한 정보는 [사용자 설정](./user-settings.md)을 참조하세요.
+個々のユーザーアカウント内で、次の内容を編集できます。：プロフィール写真、表示名、地理的な場所、自己紹介情報、アカウントに関連付けられたメール、runsのアラートを管理します。また、設定ページを使ってGitHubリポジトリとリンクさせたり、アカウントを削除することもできます。詳細については、[ユーザー設定](./user-settings.md)をご覧ください。
 
-팀 설정 페이지를 사용하여 팀에 새 구성원을 초대하거나 제거하고, 팀 실행에 대한 알림을 관리하고, 개인 정보 설정을 변경하며, 저장소 사용량을 보고 관리할 수 있습니다. 팀 설정에 대한 자세한 정보는 [팀 설정](./team-settings.md)을 참조하세요.
+チーム設定ページを使用して、チームに新しいメンバーを招待したり削除したり、チームのrunsのアラートを管理したり、プライバシー設定を変更したり、ストレージ使用状況を表示・管理することができます。チーム設定についての詳細は、[チーム設定](./team-settings.md)を参照してください。

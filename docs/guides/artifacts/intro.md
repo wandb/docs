@@ -1,53 +1,91 @@
 ---
-description: Overview of what W&B Artifacts are, how they work, and how to get started
-  using W&B Artifacts.
 slug: /guides/artifacts
+description: >-
+  Overview of what W&B Artifacts are, how they work, and how to get started
+  using W&B Artifacts.
 displayed_sidebar: default
 ---
-import Translate, {translate} from '@docusaurus/Translate';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# 아티팩트
+# アーティファクト
 
-<W&B 아티팩트를 사용하여 직렬화된 데이터를 [W&B 실행](../runs/intro.md)의 입력 및 출력으로 추적하고 버전을 관리하세요. 예를 들어, 모델 학습 실행은 입력으로 데이터세트를 사용하고 출력으로 학습된 모델을 생성할 수 있습니다. 실행에 하이퍼파라미터와 메타데이터를 기록하는 것 외에도, 모델을 학습시키는 데 사용된 데이터세트를 입력으로 로그하고 결과 모델 체크포인트를 출력으로 로그하는 데 아티팩트를 사용할 수 있습니다. "이 모델이 어떤 버전의 데이터세트로 학습되었는지" 항상 답할 수 있습니다.
+W&Bアーティファクトを使って、データセット、モデル、依存関係、結果を機械学習パイプラインの各ステップでトラッキングしましょう。アーティファクトを使うことで、ファイルの変更履歴を完全かつ監査可能な形で取得することが簡単になります。
 
-요약하자면, W&B 아티팩트를 사용하면 다음을 할 수 있습니다:
-* [모델의 출처, 포함된 데이터를 훈련시킨 데이터를 확인](./explore-and-traverse-an-artifact-graph.md).
-* [모든 데이터세트 변경 또는 모델 체크포인트 버전 관리](./create-a-new-artifact-version.md).
-* [모델과 데이터세트를 팀 내에서 쉽게 재사용](./download-and-use-an-artifact.md).
+アーティファクトは、バージョン管理されたディレクトリーと考えることができます。アーティファクトは、runの入力または出力のどちらかです。一般的なアーティファクトには、トレーニングセット全体やモデルが含まれます。データセットを直接アーティファクトに保存するか、アーティファクト参照を使ってAmazon S3、GCP、自分のシステムなどの他のシステム内のデータを指し示すことができます。
 
-![](/images/artifacts/artifacts_landing_page2.png)
+![アーティファクトの概要](/images/artifacts/artifacts_overview.png)アーティファクトは、指定されたrunの入力または出力になることができます。
 
-위 다이어그램은 [실행](../runs/intro.md)의 입력 및 출력으로서 아티팩트를 사용하여 전체 ML 워크플로를 어떻게 활용할 수 있는지 보여줍니다.
+アーティファクトとrunは有向グラフを形成します。なぜなら、あるW&B runは、他のrunの出力アーティファクトを入力として使用できるからです。パイプラインを事前に定義する必要はありません。Weights and Biasesは、アーティファクトを使用してログをとることで、DAGを作成してくれます。
 
-## 작동 방식
+次のアニメーションは、W&BアプリUIで表示されるアーティファクトのDAGの例を示しています。
+![アーティファクトの例DAG](/images/artifacts/dag_view_of_artifacts.png)
 
-네 줄의 코드로 아티팩트를 생성하세요:
-1. [W&B 실행](../runs/intro.md)을 생성합니다.
-2. [`wandb.Artifact`](../../ref/python/artifact.md) API로 아티팩트 개체를 생성합니다.
-3. 모델 파일이나 데이터세트와 같은 하나 이상의 파일을 아티팩트 개체에 추가합니다.
-4. W&B에 아티팩트를 로그합니다.
+アーティファクトのグラフの探索方法についての詳細は、[アーティファクトグラフの探索と移動](explore-and-traverse-an-artifact-graph.md)を参照してください。
 
-```python showLineNumbers
-run = wandb.init(project="artifacts-example", job_type="add-dataset")
-artifact = wandb.Artifact(name="my_data", type="dataset")
-artifact.add_dir(local_path="./dataset.h5")  # 데이터세트 디렉터리를 아티팩트에 추가
-run.log_artifact(artifact)  # 아티팩트 버전 "my_data:v0"을 로그함
+### 仕組み
+
+アーティファクトはデータのディレクトリーのようなものです。各エントリは、アーティファクト内に保存されている実際のファイルか、外部URIへの参照のどちらかです。通常のファイルシステムと同様に、アーティファクト内にフォルダを入れ子にできます。データセット、モデル、画像、HTML、コード、オーディオ、生のバイナリデータなど、あらゆるデータを保存できます。
+
+このディレクトリーの内容を変更するたびに、W&Bはアーティファクトの新しいバージョンを作成し、以前の内容を上書きするのではなく、代わりに新しいバージョンを作成します。
+
+例として、以下のディレクトリー構造を持つと仮定しましょう。
+
+```
+画像
+|-- cat.png（2MB）
+|-- dog.png（1MB）
+```
+次のコードスニペットは、`animals`というデータセットアーティファクトを作成する方法を示しています。（以下のコードスニペットの詳細については、後のセクションで詳しく説明します）。
+
+```python
+import wandb
+
+run = wandb.init()  # W&B Runを初期化
+artifact = wandb.Artifact("animals", type="dataset")
+artifact.add_dir("images")  # 複数のファイルをアーティファクトに追加します
+run.log_artifact(artifact)  # `animals:v0`を作成します
 ```
 
-:::tip
-위의 코드 조각과 이 페이지에 링크된 [colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W&B.ipynb)은 파일을 W&B에 업로드하여 추적하는 방법을 보여줍니다. 외부 객체 저장소(예: Amazon S3 버킷)에 저장된 파일이나 디렉터리에 대한 참조를 추가하는 방법에 대한 정보는 [외부 파일 추적](./track-external-files.md) 페이지를 참조하세요.
-:::
+W&Bは、新しいアーティファクトオブジェクトをW&Bに作成してログするときに、自動的に`v0`というバージョンを割り当て、`latest`というエイリアスを付けます。_エイリアス_は、アーティファクトバージョンに人間が読める名前を付けることができます。
 
-## 시작 방법
+同じ名前、タイプ、内容で別のアーティファクトを作成すると（つまり、アーティファクトの別バージョンを作成すると）、W&Bはバージョンインデックスを1つ増やします。エイリアス`latest`はアーティファクト`v0`から外れ、`v1`アーティファクトに割り当てられます。
+W&Bは、アーティファクトのバージョン間で変更されたファイルをアップロードします。アーティファクトがどのように保存されるかの詳細については、[アーティファクトのストレージ](storage.md)を参照してください。
 
-사용 사례에 따라 W&B 아티팩트를 시작하는 데 다음 리소스를 탐색하세요:
+特定のアーティファクトを参照するには、インデックスバージョンまたはエイリアスのいずれかを使用できます。
 
-* W&B 아티팩트를 처음 사용하는 경우, [아티팩트 Colab 노트북](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifacts_Quickstart_with_W%B.ipynb#scrollTo=fti9TCdjOfHT)을 통해 시작하는 것이 좋습니다.
-* 데이터세트 아티팩트를 생성, 추적 및 사용하기 위해 사용할 수 있는 W&B Python SDK 명령의 단계별 개요를 제공하는 [아티팩트 가이드](./artifacts-walkthrough.md)를 읽어보세요.
-* 다음을 배우기 위해 이 장을 탐색하세요:
-  * [아티팩트 구성](./construct-an-artifact.md) 또는 [새 아티팩트 버전 생성](./create-a-new-artifact-version.md)
-  * [아티팩트 업데이트](./update-an-artifact.md)
-  * [아티팩트 다운로드 및 사용](./download-and-use-an-artifact.md).
-  * [아티팩트 삭제](./delete-artifacts.md).
-* [Python SDK 아티팩트 API](../../ref/python/artifact.md) 및 [아티팩트 CLI 참조 가이드](../../ref/cli/wandb-artifact/README.md)를 탐색하세요.
+例として、データセットのアーティファクトに新しい画像 `bird.png` をアップロードしたいとします。前のコード例から続けると、ディレクトリは次のようになります。
+
+```
+images
+|-- cat.png (2MB)
+|-- dog.png (1MB)
+|-- bird.png (3MB)
+```
+
+前のコードスニペットを再初期化します。これにより、新しいアーティファクトのバージョン `animals:v1` が生成されます。W&Bはこのバージョンに自動的にエイリアス `latest` を割り当てます。エイリアスをカスタマイズして、バージョンに適用するには、`log_artifact` に `aliases=['my-cool-alias']` を渡します。新しいバージョンを作成する方法についての詳細は、新しいアーティファクトのバージョンを作成を参照してください。
+アーティファクトを使用するには、アーティファクトの名前とエイリアスを提供してください。
+
+```python
+import wandb
+
+run = wandb.init()
+animals = run.use_artifact("animals:latest")
+directory = animals.download()
+```
+
+アーティファクトのダウンロード方法についての詳細は、[アーティファクトの使用](download-and-use-an-artifact.md)を参照してください。
+
+### はじめ方
+
+ユースケースに応じて、以下のリソースを参考にしてW&Bアーティファクトの使い方を学びましょう：
+* W&Bアーティファクトを初めて使用する場合は、クイックスタートをお読みいただくことをお勧めします。[クイックスタート](./artifacts-walkthrough.md)では、初めてのアーティファクトのセットアップ方法を説明しています。
+* W&B開発者ガイドで、アーティファクトに関するトピックを探求してください。例えば：
+  * アーティファクトや新しいアーティファクトバージョンを作成する。
+  * アーティファクトを更新する。
+  * アーティファクトをダウンロードして使用する。
+  * アーティファクトを削除する。
+* [W&B SDKリファレンスガイド](https://docs.wandb.ai/ref)で、[Python Artifact API](../../ref/python/artifact.md)や[Artifact CLIリファレンスガイド](../../ref/cli/wandb-artifact/README.md)を探索してください。
+
+ステップバイステップのビデオは、「[Version Control Data and Model with W&B Artifacts](https://www.youtube.com/watch?v=Hd94gatGMic\&ab\_channel=Weights%26Biases)」をご覧ください。
+
+
+<!-- {% embed url="https://www.youtube.com/watch?v=Hd94gatGMic" %} -->

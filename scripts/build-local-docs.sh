@@ -1,5 +1,5 @@
 #!/bin/usr
-subdir="ko"
+subdir="ja"
 
 # Build the docs and store them in the correct build subdir
 yarn docusaurus build --out-dir build/$subdir

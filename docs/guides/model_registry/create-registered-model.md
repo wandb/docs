@@ -1,17 +1,67 @@
 ---
+description: ''
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 등록된 모델 생성하기
+# Create a registered model
 
-모델링 작업을 위한 후보 모델을 모두 보관할 [등록된 모델](./model-management-concepts.md#registered-model)을 생성합니다. 모델 레지스트리 내에서 대화형으로 또는 Python SDK를 사용하여 프로그래매틱하게 등록된 모델을 생성할 수 있습니다.
+Create a [registered model](./model-management-concepts.md#registered-model) to hold all the candidate models for your modeling tasks. You can create a registered model interactively within the Model Registry or Artifact browser in the W&B App UI. 
 
-## 프로그래매틱하게 등록된 모델 생성하기
-W&B Python SDK를 사용하여 프로그래매틱하게 모델을 등록합니다. 등록된 모델이 존재하지 않는 경우 W&B가 자동으로 등록된 모델을 생성합니다.
 
-`<>`로 둘러싸인 다른 값을 자신의 값으로 교체해야 합니다:
+## Interactively create a registered model
+Interactively create a registered model within the [Model Registry App](https://wandb.ai/registry/model) or within your project's artifact browser.
+
+
+<Tabs
+  defaultValue="registry"
+  values={[
+    {label: 'Model Registry', value: 'registry'},
+    {label: 'Artifact browser', value: 'browser'},
+  ]}>
+  <TabItem value="registry">
+
+1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+![](/images/models/create_registered_model_1.png)
+2. Click the **New registered model** button located in the top right of the Model Registry page.
+![](/images/models/create_registered_model_model_reg_app.png)
+3. From the panel that appears, select the entity you want the registered model to belong to from the **Owning Entity** dropdown.
+![](/images/models/create_registered_model_3.png)
+4. Provide a name for your model in the **Name** field. 
+5. From the **Type** dropdown, select the type of artifacts to link to the registered model.
+6. (Optional) Add a description about your model in the **Description** field. 
+7. (Optional) Within the **Tags** field, add one or more tags. 
+8. Click **Register model**.
+
+
+  </TabItem>
+  <TabItem value="browser">
+
+1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
+2. Click the **+** icon on the bottom of the sidebar.
+3. From the **Type** dropdown, select **model**.
+3. From the **Style** dropdown, select **Registered model**.
+4. Provide a name for your model registry in the **Name** field. W&B suggests that you enter a unique name that describes the use case for this model.
+5. Select **Create**.
+
+![](/images/models/artifact_browser.gif)
+
+  </TabItem>
+</Tabs>
+
+:::tip
+Manual linking a model to the model registry is useful for one-off models. However, it is often useful to programmatically link model versions to the model registry. For example, suppose you have a nightly job. It is tedious to manually link a model created each night. Instead, you could create a script that evaluate the model, and if the model improves in performance, link that model to the model registry with the W&B Python SDK.
+:::
+
+## Programmatically link a model
+Programmatically link a model with the W&B Python SDK. W&B automatically creates a registered model for you if you try to link a model to the model registry that doesn't exist.
+
+For example, suppose you have an existing registered model named "Fine-Tuned-Review-Autocompletion" in your Model Registry (see example [here](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models)). And suppose that a few model versions are already linked to it: v0, v1, v2. If you programmatically link a model called `registered-model-name="Fine-Tuned-Review-Autocompletion"`, the new model is linked to this existing registered model as v3. If no registered model with this name exists, a new one registered model is created and the new model is linked as v0. 
+
+Use the [`link_model`](../../ref/python/run.md#link_model) method to log model files to a W&B run and link it to the [W&B Model Registry](./intro.md).  
+
+Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
 import wandb
@@ -21,26 +71,60 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
-`registered_model_name`에 제공하는 이름은 [모델 레지스트리 앱](https://wandb.ai/registry/model)에 나타나는 이름입니다.
+W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
 
-## 대화형으로 등록된 모델 생성하기
-[모델 레지스트리 앱](https://wandb.ai/registry/model) 내에서 대화형으로 등록된 모델을 생성합니다.
+See [`link_model`](../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters.
 
-1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model)에 있는 모델 레지스트리 앱으로 이동합니다.
-![](/images/models/create_registered_model_1.png)
-2. 모델 레지스트리 페이지의 오른쪽 상단에 위치한 **새로운 등록된 모델** 버튼을 클릭합니다.
-![](/images/models/create_registered_model_model_reg_app.png)
-3. 나타나는 패널에서 **소유 엔티티** 드롭다운에서 등록된 모델이 속하길 원하는 엔티티를 선택합니다.
-![](/images/models/create_registered_model_3.png)
-4. **이름** 필드에 모델의 이름을 제공합니다.
-5. **유형** 드롭다운에서 등록된 모델에 연결할 아티팩트의 유형을 선택합니다.
-6. (선택 사항) **설명** 필드에 모델에 대한 설명을 추가합니다.
-7. (선택 사항) **태그** 필드 내에서 하나 이상의 태그를 추가합니다.
-8. **모델 등록**을 클릭합니다.
+<!-- 
+<Tabs
+  defaultValue="within"
+  values={[
+    {label: 'Within a run', value: 'within'},
+    {label: 'Outside of a run', value: 'public'},
+  ]}>
+  <TabItem value="within">
 
+Use the [`link_model`](../../ref/python/run.md#link_model) method to log model files to a W&B run and link it to the [W&B Model Registry](./intro.md).  
 
-:::tip
-모델을 모델 레지스트리에 수동으로 연결하는 것은 일회성 모델에 유용합니다. 그러나, [모델 버전을 프로그래매틱하게 모델 레지스트리에 연결하는 것](#programmatically-link-a-model)이 종종 유용합니다.
+Ensure to replace other the values enclosed in `<>` with your own:
 
-예를 들어, 매일 밤 작업이 있다고 가정해 봅시다. 매일 밤 생성된 모델을 수동으로 연결하는 것은 번거로울 수 있습니다. 대신, 모델을 평가하고 모델의 성능이 향상된 경우 W&B Python SDK를 사용하여 해당 모델을 모델 레지스트리에 연결하는 스크립트를 생성할 수 있습니다.
-:::
+```python
+import wandb
+
+run = wandb.init(entity="<entity>", project="<project>")
+run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
+run.finish()
+```
+
+W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
+
+See [`link_model`](../../ref/python/run.md#link_model) in the API Reference guide for more information on optional parameters.
+
+  </TabItem>
+    <TabItem value="public">
+
+Use the W&B Public API and [W&B artifacts](../artifacts/intro.md) to log a model outside of a W&B run.
+
+Ensure to replace other the values enclosed in `<>` with your own:
+
+```python
+import wandb
+
+entity = "<entity>"
+registered_model_name = "<registered-model-name>"
+artifact_name = "<artifact-name:alias>"  
+
+# Fetch the Model Version via API
+artifact = wandb.Api().artifact(name=artifact_name)
+
+# Link the model version to the Model Registry
+target_path = f"{entity}/model-registry/{registered_model_name}"
+artifact.link(target_path=target_path)
+```
+
+W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
+
+For more information about artifacts, see [LINK].
+
+  </TabItem>
+</Tabs>  -->

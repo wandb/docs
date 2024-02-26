@@ -1,74 +1,99 @@
 ---
-description: Tutorial of using the custom charts feature in the W&B UI
+description: Tutorial of using the custom charts feature in the Weights & Biases UI
 displayed_sidebar: default
 ---
 
-# 커스텀 차트 가이드
+# カスタムチャートのウォークスルー
 
-W&B의 기본 차트를 넘어서고 싶다면, 새로운 **커스텀 차트** 기능을 사용하여 패널에 로드하는 데이터의 세부 사항을 정확히 제어하고 그 데이터를 어떻게 시각화할지 결정하세요.
+Weights & Biasesの組み込みチャートを超えて、新しい**カスタムチャート**機能を使って、パネルにロードするデータの詳細やデータの可視化方法を制御します。
 
-**개요**
+**概要**
 
-1. W&B에 데이터 로그하기
-2. 쿼리 생성하기
-3. 차트 커스터마이즈하기
+1. W&Bにデータを記録
+2. クエリを作成
+3. チャートをカスタマイズ
 
-## 1. W&B에 데이터 로그하기
+## 1. W&Bにデータを記録
 
-먼저, 스크립트에서 데이터를 로그하세요. 학습 시작 시에 설정되는 하이퍼파라미터와 같이 단일 데이터 포인트의 경우 [wandb.config](../../../../guides/track/config.md)를 사용하세요. 시간이 지남에 따라 여러 데이터 포인트를 로그하려면 [wandb.log()](../../../../guides/track/log/intro.md)를 사용하고, wandb.Table()로 커스텀 2D 배열을 로그하세요. 로그된 키당 최대 10,000개의 데이터 포인트를 로그하는 것이 좋습니다.
+まず、スクリプト内でデータを記録します。[wandb.config](../../../../guides/track/config.md)をトレーニングの最初に設定された単一のポイント、例えばハイパーパラメータのために使用します。[wandb.log()](../../../../guides/track/log/intro.md)を時間をかけて複数のポイントのために使用し、wandb.Table()でカスタム2D配列を記録します。記録されたキーごとに最大10,000個のデータポイントを記録することをお勧めします。
 
 ```python
-# 데이터 커스텀 테이블 로깅
+# カスタムデータテーブルの記録
 my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
 wandb.log(
     {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
 )
 ```
 
-[데이터 테이블 로깅을 위한 빠른 예제 노트북](https://bit.ly/custom-charts-colab)을 시도해보고, 다음 단계에서 커스텀 차트를 설정하겠습니다. [라이브 리포트](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc)에서 결과 차트를 확인해보세요.
+データテーブルを記録するための[クイックな例ノートブック](https://bit.ly/custom-charts-colab)を試してみてください。次のステップではカスタムチャートを設定します。[ライブレポート](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc)で結果のチャートを確認してください。
 
-## 2. 쿼리 생성하기
+## 2. クエリを作成
 
-시각화할 데이터를 로그한 후, 프로젝트 페이지로 이동하여 **`+`** 버튼을 클릭하여 새 패널을 추가하고 **커스텀 차트**를 선택하세요. [이 워크스페이스](https://app.wandb.ai/demo-team/custom-charts)에서 따라할 수 있습니다.
+可視化するデータを記録したら、プロジェクトページに移動し、**`+`**ボタンをクリックして新しいパネルを追加し、**カスタムチャート** を選択します。[このワークスペース](https://app.wandb.ai/demo-team/custom-charts)で一緒にフォローしてください。
 
-![구성할 준비가 된 새로운 빈 커스텀 차트](/images/app_ui/create_a_query.png)
+![新しい、空白のカスタムチャートが設定される準備が整っています](/images/app_ui/create_a_query.png)
+### クエリを追加
 
-### 쿼리 추가하기
+1. `summary`をクリックし、`historyTable`を選択して、run履歴からデータを取得する新しいクエリを設定します。
+2. **wandb.Table()**をログしたキーを入力します。上記のコードスニペットでは、`my_custom_table`でした。[サンプルノートブック](https://bit.ly/custom-charts-colab)では、キーは`pr_curve`と`roc_curve`です。
 
-1. `summary`를 클릭하고 `historyTable`을 선택하여 실행 기록에서 데이터를 가져오는 새 쿼리를 설정합니다.
-2. **wandb.Table()**을 로그한 키를 입력하세요. 위의 코드 조각에서는 `my_custom_table`이었습니다. [예제 노트북](https://bit.ly/custom-charts-colab)에서는 키가 `pr_curve`와 `roc_curve`입니다.
+### Vegaフィールドの設定
 
-### Vega 필드 설정하기
+クエリがこれらの列をロードしているので、Vegaフィールドのドロップダウンメニューで選択できるオプションとして利用できます。
 
-이제 이러한 열이 쿼리에서 로드되면, Vega 필드 드롭다운 메뉴에서 선택할 수 있는 옵션으로 사용할 수 있습니다:
+![クエリの結果から列を引いてVegaフィールドを設定する](/images/app_ui/set_vega_fields.png)
 
-![쿼리 결과에서 열을 불러와 Vega 필드를 설정하기](/images/app_ui/set_vega_fields.png)
+* **x軸:** runSets\_historyTable\_r (recall)
+* **y軸:** runSets\_historyTable\_p (precision)
+* **色:** runSets\_historyTable\_c (class label)
 
-* **x축:** runSets\_historyTable\_r (재현율)
-* **y축:** runSets\_historyTable\_p (정밀도)
-* **색상:** runSets\_historyTable\_c (클래스 라벨)
+## 3. チャートのカスタマイズ
 
-## 3. 차트 커스터마이즈하기
+これでかなり良い感じになりましたが、散布図から折れ線グラフに切り替えたいと思います。**編集**をクリックして、このビルトインチャートのVega仕様を変更します。[このワークスペース](https://app.wandb.ai/demo-team/custom-charts)で手順に沿って進めてください。
 
-이제 꽤 좋아 보이지만, 저는 산점도에서 선형 플롯으로 전환하고 싶습니다. 이 기본 차트에 대한 Vega spec을 변경하기 위해 **편집**을 클릭하세요. [이 워크스페이스](https://app.wandb.ai/demo-team/custom-charts)에서 계속 따라하세요.
+![](https://paper-attachments.dropbox.com/s\_5FCA7E5A968820ADD0CD5402B4B0F71ED90882B3AC586103C1A96BF845A0EAC7\_1597442115525\_Screen+Shot+2020-08-14+at+2.52.24+PM.png)
 
-시각화를 커스터마이즈하기 위해 Vega spec을 업데이트했습니다:
+Vegaの仕様を更新して可視化をカスタマイズしました。
 
-* 플롯, 범례, x축 및 y축에 대한 제목 추가 (각 필드에 대해 "title" 설정)
-* “mark”의 값을 “point”에서 “line”으로 변경
-* 사용하지 않는 “size” 필드 제거
+* プロット、凡例、x軸、y軸のタイトルを追加（各フィールドに"title"を設定）
+* “mark”の値を“point”から“line”に変更
+* 未使用の“size”フィールドを削除
 
-이 프로젝트에서 다른 곳에 사용할 수 있는 프리셋으로 저장하려면 페이지 상단에서 **저장하기**를 클릭하세요. 여기에 ROC 곡선과 함께 결과가 어떻게 보이는지 나와 있습니다:
+![](/images/app_ui/customize_vega_spec_for_pr_curve.png)
 
-## 보너스: 복합 히스토그램
+このプロジェクト内で他の場所で使用できるプリセットとして保存するには、ページの上部にある**Save as**をクリックします。これが結果の見た目です。ROC曲線と一緒に表示されます。
 
-히스토그램은 수치적 분포를 시각화하여 우리가 더 큰 데이터세트를 이해하는 데 도움을 줄 수 있습니다. 복합 히스토그램은 같은 구간에 여러 분포를 보여주어, 다른 모델이나 모델 내 다른 클래스에 걸쳐 두 개 이상의 메트릭을 비교할 수 있게 합니다. 운전 장면에서 개체를 감지하는 semantic segmentation 모델의 경우, 정확도 대비 IOU(intersection over union) 최적화의 효과를 비교하거나, 다른 모델이 자동차(데이터에서 크고 일반적인 영역)와 교통 표지판(훨씬 더 작고 덜 일반적인 영역)을 얼마나 잘 감지하는지 알고 싶을 수 있습니다. [데모 Colab](https://bit.ly/custom-charts-colab)에서는 생물 10개 클래스 중 두 클래스의 신뢰도 점수를 비교할 수 있습니다.
+![](https://paper-attachments.dropbox.com/s\_5FCA7E5A968820ADD0CD5402B4B0F71ED90882B3AC586103C1A96BF845A0EAC7\_1597442868347\_Screen+Shot+2020-08-14+at+3.07.30+PM.png)
+## ボーナス: 複合ヒストグラム
 
-커스텀 복합 히스토그램 패널의 자체 버전을 만들려면:
 
-1. 워크스페이스 또는 리포트에 새로운 "커스텀 차트" 시각화를 추가하여 새 커스텀 차트 패널을 생성합니다. 오른쪽 상단의 "편집" 버튼을 눌러 기본 패널 유형에서 시작하여 Vega spec을 수정합니다.
-2. 그 기본 Vega spec을 [Vega를 위한 복합 히스토그램의 MVP 코드](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21)로 대체하세요. [Vega 문법](https://vega.github.io/)을 사용하여 이 Vega spec에서 메인 제목, 축 제목, 입력 도메인 및 기타 세부 정보를 직접 수정할 수 있습니다(색상을 변경하거나 세 번째 히스토그램을 추가할 수도 있습니다 :)
-3. 오른쪽의 쿼리를 수정하여 wandb 로그에서 올바른 데이터를 로드하도록 합니다. "summaryTable" 필드를 추가하고 해당 "tableKey"를 "class\_scores"로 설정하여 실행에 의해 로그된 wandb.Table을 가져옵니다. 이를 통해 드롭다운 메뉴를 통해 wandb.Table의 열로 "class\_scores"로 로그된 두 히스토그램 구간 세트("red\_bins" 및 "blue\_bins")를 채울 수 있습니다. 제 예에서는 빨간 구간에는 "동물" 클래스 예측 점수, 파란 구간에는 "식물"을 선택했습니다.
-4. 미리보기 렌더링에서 볼 수 있는 플롯에 만족할 때까지 Vega spec과 쿼리를 계속 변경합니다. 완료되면 상단의 "저장하기"를 클릭하여 커스텀 플롯에 이름을 지정하여 재사용할 수 있습니다. 그런 다음 "패널 라이브러리에서 적용하기"를 클릭하여 플롯을 완성하세요.
 
-여기 제 실험에서의 결과가 나와 있습니다: 단 1000개의 예제로 한 에포크 동안 학습한 모델은 대부분의 이미지가 식물이 아니라고 매우 확신하며 어떤 이미지가 동물일 수 있는지에 대해 매우 불확실합니다.
+ヒストグラムは数値分布を視覚化し、より大きなデータセットを理解するのに役立ちます。複合ヒストグラムは、同じビンに対する複数の分布を示し、異なるモデルや、モデル内の異なるクラス間で2つ以上の指標を比較することができます。運転シーン内のオブジェクトを検出するセマンティックセグメンテーションモデルでは、精度と交差オーバーユニオン（IOU）の最適化の効果を比較することができますし、異なるモデルが自動車（データ内の大きくて一般的な地域）と交通標識（はるかに小さくて一般的でない地域）をどの程度検出するかを知りたいかもしれません。 [デモColab](https://bit.ly/custom-charts-colab)では、生き物の10のクラスのうち2つの信頼スコアを比較することができます。
+
+
+
+![](/images/app_ui/composite_histograms.png)
+
+
+
+カスタム複合ヒストグラムパネルの独自バージョンを作成するには、以下の手順に従ってください。
+
+
+
+1. ワークスペースまたはレポートに新しいカスタムチャートパネルを作成します（「カスタムチャート」の可視化を追加）。右上の[編集]ボタンを押して、任意のビルトインパネルタイプからVega仕様を変更できます。
+
+2. そのビルトインのVega仕様を、[複合ヒストグラム用のVegaのMVPコード](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21)に置き換えます。このVega仕様で、[Vega構文](https://vega.github.io/)を使用して、メインタイトル、軸タイトル、入力ドメイン、その他の詳細を直接編集できます。（色を変更したり、3つ目のヒストグラムを追加したりすることもできます :)）
+
+3. 右側のクエリを修正して、wandbのログから正しいデータをロードします。「summaryTable」フィールドを追加し、「tableKey」を「class\_scores」に設定して、runによってログされたwandb.Tableを取得します。これにより、「red\_bins」と「blue\_bins」という2つのヒストグラムビンセットを、「class\_scores」としてログされたwandb.Tableの列を使ってドロップダウンメニューで設定できるようになります。私の例では、「animal」クラスの予測スコアを赤いビンに、「plant」を青いビンに選択しました。
+
+4. Vega仕様とクエリを変更し続けて、プレビューレンダリングで表示されるプロットに満足するまで続けます。完了したら、上部の「名前を付けて保存」をクリックして、カスタムプロットに名前を付けて再利用できるようにします。次に、「パネルライブラリから適用」をクリックしてプロットを完成させます。
+
+私の結果は、非常に短い実験から得られたものです。たった1000例のうち１エポックだけ学習させたモデルは、ほとんどの画像が植物でないことに非常に確信を持っており、どの画像が動物かどうかについては非常に不確かです。
+
+
+
+![](https://paper-attachments.dropbox.com/s\_5FCA7E5A968820ADD0CD5402B4B0F71ED90882B3AC586103C1A96BF845A0EAC7\_1598376315319\_Screen+Shot+2020-08-25+at+10.24.49+AM.png)
+
+
+
+![](https://paper-attachments.dropbox.com/s\_5FCA7E5A968820ADD0CD5402B4B0F71ED90882B3AC586103C1A96BF845A0EAC7\_1598376160845\_Screen+Shot+2020-08-25+at+10.08.11+AM.png)

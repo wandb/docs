@@ -1,50 +1,48 @@
-
 # joined-table
 
-## Chainable Ops
+## 連鎖可能な操作
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-asset의 _파일_을 반환합니다.
+アセットの_ファイル_を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | asset |
+| `asset` | アセット |
 
-#### 반환 값
-asset의 _파일_
+#### 戻り値
+アセットの_ファイル_
 
 <h3 id="joinedtable-file"><code>joinedtable-file</code></h3>
 
-_joined-table_의 _파일_을 반환합니다.
+_joined-table_の_ファイル_を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
 | `joinedTable` | _joined-table_ |
 
-#### 반환 값
-_joined-table_의 _파일_
+#### 戻り値
+_joined-table_の_ファイル_
 
 <h3 id="joinedtable-rows"><code>joinedtable-rows</code></h3>
 
-_joined-table_의 행을 반환합니다.
+_joined-table_の行を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
 | `joinedTable` | _joined-table_ |
-| `leftOuter` | 왼쪽 테이블에 매칭되는 행이 없는 경우 왼쪽 테이블의 행을 포함할지 여부 |
-| `rightOuter` | 오른쪽 테이블에 매칭되는 행이 없는 경우 오른쪽 테이블의 행을 포함할지 여부 |
+| `leftOuter` | 左テーブルの、右テーブルに対応する行がない行を含めるかどうか |
+| `rightOuter` | 右テーブルの、左テーブルに対応する行がない行を含めるかどうか |
 
-#### 반환 값
-_joined-table_의 행
+#### 戻り値
+_joined-table_の行
 
-## List Ops
+## リスト操作
 <h3 id="asset-file"><code>asset-file</code></h3>
+アセットの _ファイル_ を返す
 
-asset의 _파일_을 반환합니다.
-
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | asset |
+| `asset` | アセット |
 
-#### 반환 값
-asset의 _파일_
+#### 戻り値
+アセットの _ファイル_

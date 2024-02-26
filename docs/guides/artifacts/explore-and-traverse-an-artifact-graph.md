@@ -3,76 +3,69 @@ description: Traverse automatically created direct acyclic W&B Artifact graphs.
 displayed_sidebar: default
 ---
 
-# 아티팩트 그래프 탐색 및 트래버스
+# アーティファクトグラフの探索とたどり
 
 <head>
-    <title>직접 비순환 W&B 아티팩트 그래프 탐색.</title>
+    <title>有向非巡回W＆Bアーティファクトグラフを探索しましょう。</title>
 </head>
+Weights & Biasesは、特定のrunでログしたアーティファクトと、特定のrunが使用したアーティファクトを自動的にトラッキングします。W&B App UIまたはプログラムでアーティファクトの履歴を調べてみましょう。
 
-W&B는 자동으로 주어진 실행이 기록한 아티팩트와 주어진 실행이 사용한 아티팩트를 추적합니다. W&B 앱 UI 또는 프로그래매틱하게 아티팩트의 계보를 탐색하세요.
+## W&B App UIでアーティファクトをたどる
 
-## W&B 앱 UI로 아티팩트 트래버스하기
+グラフビューでは、開発フローの概要が表示されます。
+アーティファクトのグラフを表示する方法：
 
-그래프 뷰는 파이프라인의 일반적인 개요를 보여줍니다.
+1. W&BアプリのUIでプロジェクトに移動します。
+2. 左パネルのアーティファクトアイコンを選択します。
+3. **履歴**を選択します。
 
-아티팩트 그래프를 보려면:
+runやアーティファクトを作成する際に提供する`type`が、グラフの作成に使用されます。runやアーティファクトの入力と出力は、矢印でグラフに表示されます。アーティファクトは青い四角形で表され、Runは緑の四角形で表されます。
+提供されるアーティファクトのタイプは、**ARTIFACT**ラベルの隣にある濃い青のヘッダーにあります。アーティファクトの名前とアーティファクトのバージョンは、**ARTIFACT**ラベルの下の淡い青の領域に表示されます。
 
-1. W&B 앱 UI에서 프로젝트로 이동합니다.
-2. 왼쪽 패널에서 아티팩트 아이콘을 선택합니다.
-3. **계보**를 선택합니다.
-
-실행과 아티팩트를 생성할 때 제공하는 `type`은 그래프를 생성하는 데 사용됩니다. 실행 또는 아티팩트의 입력과 출력은 그래프에서 화살표로 나타납니다. 아티팩트는 파란색 사각형으로, 실행은 녹색 사각형으로 표현됩니다.
-
-제공하는 아티팩트 유형은 **아티팩트** 레이블 옆의 진한 파란색 헤더에 위치합니다. 아티팩트의 이름과 버전은 **아티팩트** 레이블 아래의 연한 파란색 영역에 표시됩니다.
-
-실행을 초기화할 때 제공하는 작업 유형은 **실행** 레이블 옆에 위치합니다. W&B 실행 이름은 **실행** 레이블 아래의 연한 녹색 영역에 위치합니다.
+runを初期化する際に提供するジョブタイプは、**RUN**ラベルの隣にあります。W&Bのrun名は、**RUN**ラベルの下の淡い緑の領域にあります。
 
 :::info
-왼쪽 사이드바와 **계보** 탭에서 아티팩트의 유형과 이름을 모두 볼 수 있습니다.
+アーティファクトのタイプと名前は、左のサイドバーと**Lineage**タブの両方で表示することができます。
 :::
+例えば、上の画像では、アーティファクトは "raw_dataset" というタイプで定義されています（ピンクの四角）。アーティファクトの名前は "MNIST_raw"（ピンクの線）と呼ばれています。そのアーティファクトは、トレーニングに使用されました。トレーニングのrunの名前は "vivid-snow-42" と呼ばれています。そのrunは、"mnist-19pofeku" という名前の "モデル"アーティファクト（オレンジの四角）を生成しました。
 
-예를 들어, 다음 이미지에서는 "raw_dataset"이라는 유형으로 정의된 아티팩트(분홍색 사각형)가 있습니다. 아티팩트의 이름은 "MNIST_raw"(분홍색 선)입니다. 그 다음 이 아티팩트는 학습에 사용되었습니다. 학습 실행의 이름은 "vivid-snow-42"입니다. 그 실행은 "mnist-19pofeku"(주황색 사각형)라는 이름의 "모델" 아티팩트를 생성했습니다.
+![実験に使用されたアーティファクトとrunsのDAGビュー](/images/artifacts/example_dag_with_sidebar.png)
+詳細なビューには、ダッシュボードの左上にある **Explode** トグルを選択してください。拡張されたグラフでは、プロジェクト内のすべてのrunやアーティファクトの詳細を確認できます。この[example Graph page](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/v0/lineage)で自分で試してみてください。
 
-![실험에 사용된 아티팩트, 실행의 DAG 뷰](/images/artifacts/example_dag_with_sidebar.png)
+## アーティファクトをプログラム的にたどる
 
-더 상세한 뷰를 보려면, 대시보드 상단 왼쪽에 있는 **Explode** 토글을 선택하세요. 확장된 그래프는 로그된 프로젝트의 모든 실행과 모든 아티팩트의 세부 사항을 보여줍니다. 이 [예제 그래프 페이지](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/v0/lineage)에서 직접 시도해 보세요.
-
-## 프로그래매틱하게 아티팩트 트래버스하기
-
-W&B 공개 API([wandb.Api](../../ref/python/public-api/api.md))를 사용하여 아티팩트 개체를 생성하세요. 프로젝트, 아티팩트 및 아티팩트의 별칭 이름을 제공합니다:
+W&B Public API（[wandb.Api](https://docs.wandb.ai/ref/python/public-api/api)）を使用して、アーティファクトオブジェクトを作成します。プロジェクト名、アーティファクト名、およびアーティファクトのエイリアスを指定してください。
 
 ```python
 import wandb
 
 api = wandb.Api()
 
-artifact = api.artifact("project/artifact:alias")
+artifact = api.artifact("プロジェクト/アーティファクト:エイリアス")
 ```
-
-아티팩트 개체의 [`logged_by`](../../ref/python/artifact.md#logged_by) 및 [`used_by`](../../ref/python/artifact.md#used_by) 메서드를 사용하여 아티팩트에서 그래프를 트래버스하세요:
+アーティファクトからグラフを辿るために、アーティファクトオブジェクトの[`logged_by`](https://docs.wandb.ai/ref/python/public-api/artifact#logged\_by)メソッドと[`used_by`](https://docs.wandb.ai/ref/python/public-api/artifact#used\_by)メソッドを使用します。
 
 ```python
-# 아티팩트에서 그래프를 상하로 트래버스:
+# アーティファクトからグラフの上下を辿る：
 producer_run = artifact.logged_by()
 consumer_runs = artifact.used_by()
 ```
+#### runからトラバースする
 
-#### 실행에서 트래버스하기
-
-W&B 공개 API([wandb.Api.Run](../../ref/python/public-api/run.md))를 사용하여 아티팩트 개체를 생성하세요. 엔터티, 프로젝트, 실행 ID의 이름을 제공합니다:
+W&B Public API（[wandb.Api.Run](https://docs.wandb.ai/ref/python/public-api/run)）を使用して、アーティファクトオブジェクトを作成します。エンティティ名、プロジェクト名、およびRun IDを指定してください。
 
 ```python
 import wandb
 
 api = wandb.Api()
 
-run = api.run("entity/project/run_id")
+artifact = api.run("エンティティ/プロジェクト/run_id")
 ```
 
-주어진 실행에서 그래프를 트래버스하기 위해 [`logged_artifacts`](../../ref/python/public-api/run.md#logged_artifacts) 및 [`used_artifacts`](../../ref/python/public-api/run.md#used_artifacts) 메서드를 사용하세요:
+与えられたrunからグラフをたどるために、[`logged_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#logged_artifacts) および [`used_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#used_artifacts) メソッドを使用します。
 
 ```python
-# 실행에서 그래프를 상하로 트래버스:
+# runからグラフを上下に辿る：
 logged_artifacts = run.logged_artifacts()
 used_artifacts = run.used_artifacts()
 ```

@@ -4,31 +4,28 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 고급 에이전트 설정
-
-런치 에이전트를 구성하는 방법은 여러 요소에 따라 달라집니다. 이러한 요소 중 하나는 런치 에이전트가 이미지를 대신 빌드해주는지 여부입니다.
+# Advanced agent set up
+How you configure the launch agent will depend on numerous factors. One of those factors is whether or not the launch agent will build an image for you. 
 
 :::tip
-Git 저장소 기반 또는 [아티팩트 기반 작업](./create-launch-job.md#create-a-job-with-a-wb-artifact)을 제공하는 경우 W&B 런치 에이전트가 이미지를 빌드해줍니다.
+The W&B launch agent will build an image for you if you provide a Git repo based or artifact based jobs.
 :::
 
-가장 간단한 사용 사례에서는 이미지 기반 런치 작업을 제공하며, 이미지 저장소에 엑세스할 수 있는 런치 대기열 대상 환경에서 실행됩니다.
+In the simplest use case, you provide an image-based launch job that is executed in a launch queue target environment that has access to your image repository More requirements must be satisfied if you use the launch agent to build images for you. 
 
-다음 섹션에서는 런치 에이전트가 이미지를 빌드할 때 충족해야 하는 요구 사항을 설명합니다.
 
-## 빌더
+## Builders
+Launch agents build images for W&B artifacts and Git repo sourced jobs. This means that the launch agent config file (`launch-config.yaml`) must have a builder option specified. W&B Launch supports two builders: Kaniko and Docker. 
 
-런치 에이전트는 W&B 아티팩트 및 Git 저장소 기반 작업에서 이미지를 빌드할 수 있습니다. 이는 머신 러닝 엔지니어가 도커 이미지를 직접 재빌드할 필요 없이 코드를 신속하게 반복할 수 있음을 의미합니다. 이러한 빌더 동작을 허용하려면 런치 에이전트 구성 파일(`launch-config.yaml`)에 빌더 옵션이 지정되어 있어야 합니다. W&B 런치는 Kaniko와 Docker 빌더를 지원하며, 사전 빌드된 이미지만 사용하도록 에이전트에 지시하는 `noop` 옵션도 지원합니다.
+We suggest that you use either Kaniko or Docker based on the following scenarios:
 
-* Kaniko: 에이전트가 쿠버네티스 클러스터에서 런치 대기열을 폴링할 때 Kaniko를 사용하세요.
-* Docker: 이미지를 자동으로 빌드하고 싶은 모든 다른 경우에 Docker를 사용하세요.
-* Noop: 사전 빌드된 이미지만 사용하고자 할 때 사용하세요. (Kaniko와 Docker 빌더 모두 사전 빌드된 이미지를 사용하거나 새 이미지를 빌드할 수 있습니다.)
+* Kaniko: Use Kaniko when the agent polls launch queues in a Kubernetes cluster
+* Docker: Use Docker for all other cases.
 
 ### Docker
+We recommend that you use the Docker builder if you want the agent to build images on a local machine (that has Docker installed). Specify the Docker builder in the launch agent config with the builder key. 
 
-에이전트가 로컬 머신(도커가 설치된)에서 이미지를 빌드하도록 하고 싶다면 Docker 빌더를 사용하는 것이 좋습니다. 런치 에이전트 구성에서 Docker 빌더를 빌더 키로 지정하세요.
-
-예를 들어, 다음 YAML 스니펫은 런치 에이전트 구성 파일(`launch-config.yaml`)에서 이를 지정하는 방법을 보여줍니다:
+For example, the following YAML snippet shows how to specify this in a launch agent config file (`launch-config.yaml`):
 
 ```yaml title="launch-config.yaml"
 builder:
@@ -36,24 +33,24 @@ builder:
 ```
 
 ### Kaniko
+To use the Kaniko builder, you must specify a container registry and environment option.
 
-Kaniko 빌더를 사용하려면 컨테이너 레지스트리 및 환경 옵션을 지정해야 합니다.
-
-예를 들어, 다음 YAML 스니펫은 런치 에이전트 구성 파일(`launch-config.yaml`)에서 Kaniko를 지정하는 방법을 보여줍니다:
+For example, the following YAML snippet shows how to specify Kaniko in a launch agent config file (`launch-config.yaml`):
 
 ```yaml title="launch-config.yaml"
 builder:
   type: kaniko
-  build-context-store: s3://my-bucket/build-contexts/
-  build-job-name: wandb-image-build # 모든 빌드에 대한 쿠버네티스 작업 이름 접두사
+  build-context-store: s3://my-bucket/build-contexts/ 
+  build-job-name: wandb-image-build # Kubernetes job name prefix for all builds
 ```
+<!-- For specific policies the Kaniko job can use to interact with the context store see Put in Bucket[LINK]. -->
 
-AKS, EKS, GKE 이외의 쿠버네티스 클러스터를 실행하는 경우 클라우드 환경에 대한 자격 증명을 포함하는 쿠버네티스 시크릿을 생성해야 합니다.
+If you run a Kubernetes cluster other than using AKS, EKS, or GKE, you will need to create a Kubernetes secret that contains the credentials for your cloud environment.
 
-- GCP에 엑세스를 부여하려면 이 시크릿에 [서비스 계정 JSON](https://cloud.google.com/iam/docs/keys-create-delete#creating)이 포함되어야 합니다.
-- AWS에 엑세스를 부여하려면 이 시크릿에 [AWS 자격 증명 파일](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html)이 포함되어야 합니다.
+- To grant access to GCP, this secret should contain a [service account json](https://cloud.google.com/iam/docs/keys-create-delete#creating).
+- To grant access to AWS, this secret should contain an [AWS credentials file](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html).
 
-에이전트 구성 파일 내에서 빌더 섹션 내에 `secret-name` 및 `secret-key` 키를 설정하여 Kaniko가 시크릿을 사용할 수 있도록 합니다:
+Within your agent configuration file, and within the builder section, set the `secret-name` and `secret-key` keys to let Kaniko use the secrets:
 
 ```yaml title="launch-config.yaml"
 builder:
@@ -64,38 +61,35 @@ builder:
 ```
 
 :::note
-Kaniko 빌더는 Amazon S3와 같은 클라우드 스토리지에 데이터를 넣을 권한을 요구합니다. 자세한 내용은 [에이전트 권한](#agent-permissions) 섹션을 참조하세요.
+The Kaniko builder requires permissions to put data into cloud storage (such as Amazon S3) see the [Agent permissions](#agent-permissions) section for more information.
 :::
 
-## 컨테이너 레지스트리에 에이전트 연결
-런치 에이전트를 Amazon Elastic Container Registry (Amazon ECR), Google Artifact Registry on GCP 또는 Azure Container Registry와 같은 컨테이너 레지스트리에 연결할 수 있습니다. 다음은 런치 에이전트를 클라우드 컨테이너 레지스트리에 연결하고자 할 수 있는 일반적인 사용 사례를 설명합니다:
+## Connect an agent to a cloud registry
+You can connect the launch agent to a cloud container registry such Amazon Elastic Container Registry (Amazon ECR), Google Artifact Registry on GCP, or Azure Container Registry. The following describes common use cases as to why you might want to connect the launch agent to a cloud container registry:
 
-- 로컬 머신에 빌드 중인 이미지를 저장하고 싶지 않은 경우
-- 여러 머신에서 이미지를 공유하고 싶은 경우
-- 에이전트가 이미지를 빌드하고 Amazon SageMaker 또는 VertexAI와 같은 클라우드 컴퓨팅 리소스를 사용하는 경우
+- you do not want to store images you are building on your local machine
+- you want to share images across multiple machines
+- if the agent builds an image for you and you use a cloud compute resource such as Amazon SageMaker or VertexAI.
 
-런치 에이전트를 컨테이너 레지스트리에 연결하려면 사용하고자 하는 환경 및 레지스트리에 관한 추가 정보를 런치 에이전트 구성에 제공하세요. 또한, 사용 사례에 따라 필요한 구성 요소와 상호 작용할 수 있도록 환경 내에서 에이전트에 권한을 부여하세요.
 
-:::note
-런치 에이전트는 작업이 실행되는 노드가 엑세스할 수 있는 모든 컨테이너 레지스트리에서 *당기기(pulling)*를 지원합니다. 여기에는 비공개 Dockerhub, JFrog, Quay 등이 포함됩니다. 레지스트리에 이미지를 *푸시하는(push)* 기능은 현재 ECR, ACR 및 GCR에 대해서만 지원됩니다.
-:::
+To connect the launch agent to a cloud container registry, you will need to provide additional information about the cloud environment and registry you want to use in the launch agent config. In addition, you will need to grant the agent permissions within the cloud environment to interact with required components based on your use case.
 
-### 에이전트 구성
+### Agent configuration
+Within your launch agent config (`launch-config.yaml`), provide the name of the target resource environment and the container registry for the `environment` and `registry` keys, respectively.
 
-런치 에이전트 구성(`launch-config.yaml`)에서 대상 리소스 환경의 이름과 `environment` 및 `registry` 키에 대한 컨테이너 레지스트리를 각각 제공하세요.
+The following tabs demonstrates how to configure the launch agent based on your environment and registry.
 
-다음 탭은 환경 및 레지스트리에 따라 런치 에이전트를 구성하는 방법을 보여줍니다.
 
 <Tabs
-defaultValue="aws"
-values={[
-{label: 'AWS', value: 'aws'},
-{label: 'GCP', value: 'gcp'},
-{label: 'Azure', value: 'azure'},
-]}>
-<TabItem value="aws">
+  defaultValue="aws"
+  values={[
+    {label: 'AWS', value: 'aws'},
+    {label: 'GCP', value: 'gcp'},
+    {label: 'Azure', value: 'azure'},
+  ]}>
+  <TabItem value="aws">
 
-AWS 환경 구성에는 `region` 키가 필요합니다. 리전은 에이전트가 실행되는 AWS 리전이어야 합니다. 에이전트는 `boto3`을 사용하여 기본 AWS 자격 증명을 로드합니다.
+The AWS environment configuration requires the region key to be set. The region should be the AWS region that the agent will be running in. When the agent starts, it will use boto3 to load the default AWS credentials. 
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -103,19 +97,19 @@ environment:
   region: <aws-region>
 registry:
   type: ecr
-  # 에이전트가 이미지를 저장할 ECR 저장소의 URI입니다.
-  # 환경에서 구성한 리전과 일치해야 합니다.
+  # URI of the ECR repository where the agent will store images.
+  # Make sure the region matches what you have configured in your
+  # environment.
   uri: <account-id>.ecr.<aws-region>.amazonaws.com/<repository-name>
-  # 또는, 단순히 저장소 이름을 설정할 수 있습니다.
+  # Alternatively, you can simply set the repository name
   # repository: my-repository-name
 ```
-
-기본 AWS 자격 증명을 구성하는 방법에 대한 자세한 내용은 [boto3 문서](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)를 참조하세요.
+See the [boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) for more information on how to configure default AWS credentials.
 
   </TabItem>
   <TabItem value="gcp">
 
-GCP 환경에는 `region` 및 `project` 키가 필요합니다. `region`을 에이전트가 실행되는 GCP 리전으로 설정하세요. GCP `project`를 에이전트가 실행되는 프로젝트로 설정하세요. 에이전트는 `google.auth.default()`을 사용하여 기본 GCP 자격 증명을 로드합니다.
+The GCP environment requires the region and project keys to be set. The region should be the GCP region that the agent will be running in. The project should be the GCP project that the agent will be running in. When the agent starts, it will use `google.auth.default()` to load the default GCP credentials. 
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -123,22 +117,23 @@ environment:
   region: <gcp-region>
   project: <gcp-project-id>
 registry:
-  # GCP 환경 구성이 필요합니다.
+  # Requires a gcp environment configuration.
   type: gcr
-  # 에이전트가 이미지를 저장할 아티팩트 레지스트리 저장소 및 이미지 이름의 URI입니다.
-  # 환경에서 구성한 리전과 프로젝트와 일치해야 합니다.
+  # URI of the Artifact Registry repository and image name where the agent
+  # will store images. Make sure the region and project match what you have
+  # configured in your environment.
   uri: <region>-docker.pkg.dev/<project-id>/<repository-name>/<image-name>
-  # 또는, 저장소 및 이미지 이름 키를 설정할 수 있습니다.
+  # Alternatively, you may set the repository and image-name keys.
   # repository: my-artifact-repo
   # image-name: my-image-name
 ```
 
-기본 GCP 자격 증명을 구성하는 방법에 대한 자세한 내용은 [`google-auth` 문서](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default)를 참조하세요.
+See the [`google-auth` documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default for more information on how to configure default GCP credentials.
 
   </TabItem>
   <TabItem value="azure">
 
-Azure 환경에는 추가 키가 필요하지 않습니다. 에이전트가 시작될 때 `azure.identity.DefaultAzureCredential()`을 사용하여 기본 Azure 자격 증명을 로드합니다.
+The Azure environment does not require any additional keys to be set. When the agent starts, it will use `azure.identity.DefaultAzureCredential()` to load the default Azure credentials. 
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -148,55 +143,51 @@ registry:
   uri: https://my-registry.azurecr.io/my-repository
 ```
 
-기본 Azure 자격 증명을 구성하는 방법에 대한 자세한 내용은 [`azure-identity` 문서](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python)를 참조하세요.
+See the [`azure-identity` documentation](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) for more information on how to configure default Azure credentials.
 
   </TabItem>
 </Tabs>
 
-## 에이전트 권한
 
-에이전트 권한은 사용 사례에 따라 다릅니다. 아래에는 런치 에이전트가 사용하는 정책이 개요되어 있습니다.
-
-### 클라우드 레지스트리 권한
-
-아래는 런치 에이전트가 클라우드 레지스트리와 상호 작용하는 데 일반적으로 필요한 권한입니다.
+## Agent permissions
+The agent permissions required will depend on your use case. The policies outlined below are used by launch agents.
+### Cloud registry permissions
+Below are the permissions that are generally required by launch agents to interact with cloud registries.
 
 <Tabs
-defaultValue="aws"
-values={[
-{label: 'AWS', value: 'aws'},
-{label: 'GCP', value: 'gcp'},
-{label: 'Azure', value: 'azure'},
-]}>
-<TabItem value="aws">
+  defaultValue="aws"
+  values={[
+    {label: 'AWS', value: 'aws'},
+    {label: 'GCP', value: 'gcp'},
+    {label: 'Azure', value: 'azure'},
+  ]}>
+  <TabItem value="aws">
 
 ```yaml
 {
-  'Version': '2012-10-17',
-  'Statement':
-    [
-      {
-        'Effect': 'Allow',
-        'Action':
-          [
-            'ecr:CreateRepository',
-            'ecr:UploadLayerPart',
-            'ecr:PutImage',
-            'ecr:CompleteLayerUpload',
-            'ecr:InitiateLayerUpload',
-            'ecr:DescribeRepositories',
-            'ecr:DescribeImages',
-            'ecr:BatchCheckLayerAvailability',
-            'ecr:BatchDeleteImage',
-          ],
-        'Resource': 'arn:aws:ecr:<region>:<account-id>:repository/<repository>',
-      },
-      {
-        'Effect': 'Allow',
-        'Action': 'ecr:GetAuthorizationToken',
-        'Resource': '*',
-      },
-    ],
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:CreateRepository",
+        "ecr:UploadLayerPart",
+        "ecr:PutImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:InitiateLayerUpload",
+        "ecr:DescribeRepositories",
+        "ecr:DescribeImages",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchDeleteImage"
+      ],
+      "Resource": "arn:aws:ecr:<region>:<account-id>:repository/<repository>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
+    }
+  ]
 }
 ```
 
@@ -204,34 +195,34 @@ values={[
   <TabItem value="gcp">
 
 ```js
-artifactregistry.dockerimages.list;
-artifactregistry.repositories.downloadArtifacts;
-artifactregistry.repositories.list;
-artifactregistry.repositories.uploadArtifacts;
+artifactregistry.dockerimages.list
+artifactregistry.repositories.downloadArtifacts
+artifactregistry.repositories.list
+artifactregistry.repositories.uploadArtifacts
 ```
 
   </TabItem>
   <TabItem value="azure">
 
-Kaniko 빌더를 사용하는 경우 [`AcrPush` 역할](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush)을 추가하세요.
+Add the [`AcrPush` role](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush) if you use the Kaniko builder.
 
 </TabItem>
 </Tabs>
 
-### Kaniko 권한
+### Kaniko permissions
+The launch agent requires permission to push to cloud storage if the agent uses the Kaniko builder. Kaniko uses a context store outside of the pod running the build job.
 
-런치 에이전트는 Kaniko 빌더를 사용하는 경우 클라우드 스토리지에 푸시할 권한이 필요합니다. Kaniko는 빌드 작업을 실행하는 파드 외부의 컨텍스트 스토어를 사용합니다.
 
 <Tabs
-defaultValue="aws"
-values={[
-{label: 'AWS', value: 'aws'},
-{label: 'GCP', value: 'gcp'},
-{label: 'Azure', value: 'azure'},
-]}>
-<TabItem value="aws">
+  defaultValue="aws"
+  values={[
+    {label: 'AWS', value: 'aws'},
+    {label: 'GCP', value: 'gcp'},
+    {label: 'Azure', value: 'azure'},
+  ]}>
+  <TabItem value="aws">
 
-AWS에서 Kaniko 빌더에 권장되는 컨텍스트 스토어는 Amazon S3입니다. 다음 정책은 에이전트가 S3 버킷에 접근할 수 있도록 사용될 수 있습니다:
+The recommended context store for the Kaniko builder on AWS is Amazon S3. The following policy can be used to give the agent access to an S3 bucket:
 
 ```json
 {
@@ -256,34 +247,36 @@ AWS에서 Kaniko 빌더에 권장되는 컨텍스트 스토어는 Amazon S3입�
   </TabItem>
   <TabItem value="gcp">
 
-GCP에서는 빌드 컨텍스트를 GCS에 업로드하기 위해 에이전트에 필요한 다음 IAM 권한이 있습니다:
+On GCP, the following IAM permissions are required for the agent to upload build contexts to GCS:
 
 ```js
-storage.buckets.get;
-storage.objects.create;
-storage.objects.delete;
-storage.objects.get;
+storage.buckets.get
+storage.objects.create
+storage.objects.delete
+storage.objects.get
 ```
 
   </TabItem>
   <TabItem value="azure">
 
-에이전트가 Azure Blob Storage에 빌드 컨텍스트를 업로드할 수 있도록 [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) 역할이 필요합니다.
+The [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) role is required in order for the agent to upload build contexts to Azure Blob Storage.
+
 
   </TabItem>
 </Tabs>
 
-### 작업 실행 권한
 
-에이전트는 AWS나 GCP 클라우드에서 Amazon SageMaker 또는 Vertex AI에서 작업을 시작할 수 있는 권한이 필요합니다.
+
+### Permissions to execute jobs
+The agent needs permission in your AWS or GCP cloud to start jobs on Sagemaker or Vertex AI, respectively.
 
 <Tabs
-defaultValue="aws"
-values={[
-{label: 'Amazon SageMaker', value: 'aws'},
-{label: 'Vertex AI', value: 'vertex'},
-]}>
-<TabItem value="aws">
+  defaultValue="aws"
+  values={[
+    {label: 'Amazon SageMaker', value: 'aws'},
+    {label: 'Vertex AI', value: 'vertex'},
+  ]}>
+  <TabItem value="aws">
 
 ```json
 {
@@ -315,21 +308,19 @@ values={[
 ```
 
 :::note
-SageMaker 대기열과 관련된 ResourceConfig에 특정 VolumeKmsKeyId가 지정되어 있고 관련 역할에 이 작업을 허용하는 정책이 없는 경우에만 `kms:CreateGrant` 권한이 필요합니다.
+The `kms:CreateGrant` permission for SageMaker queues is required only if the associated ResourceConfig has a specified VolumeKmsKeyId and the associated role does not have a policy that permits this action.
 :::
 
   </TabItem>
   <TabItem value="vertex">
 
-vertex AI에서 작업을 실행하려면 GCS 버킷을 설정하고 위에서 설명한 권한을 에이전트에 부여해야 합니다.
+In order to run jobs with vertex AI you will also need to set up a GCS bucket and grant the agent the permissions described above.
 
 ```js
-ml.jobs.create;
-ml.jobs.list;
-ml.jobs.get;
+ml.jobs.create
+ml.jobs.list
+ml.jobs.get
 ```
 
   </TabItem>
 </Tabs>
-
-### Git

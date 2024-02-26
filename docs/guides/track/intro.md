@@ -3,63 +3,62 @@ description: Track machine learning experiments with W&B.
 slug: /guides/track
 displayed_sidebar: default
 ---
-import Translate, {translate} from '@docusaurus/Translate';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# 실험 추적하기
 
-<CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb"/>
+# 実験のトラッキング
 
 <head>
-  <title>머신 러닝 및 딥 러닝 실험 추적.</title>
+  <title>機械学習とディープラーニングの実験をトラックする</title>
 </head>
 
-몇 줄의 코드로 머신 러닝 실험을 추적하세요. 그런 다음 [인터랙티브 대시보드](app.md)에서 결과를 검토하거나 [Public API](../../ref/python/public-api/README.md)를 사용하여 데이터를 Python으로 프로그래밍 방식으로 엑세스할 수 있습니다.
+W&BのPythonライブラリを使って、数行のコードで機械学習の実験をトラッキングできます。その後、[インタラクティブなダッシュボード](app.md)で結果を確認したり、[Public API](../../ref/python/public-api/README.md)を使ってPythonにデータをエクスポートしてプログラムでアクセスできます。
 
-[PyTorch](../integrations/pytorch.md), [Keras](../integrations/keras.md), 또는 [Scikit](../integrations/scikit.md)과 같은 인기 있는 프레임워크를 사용하는 경우 W&B 통합을 활용하세요. 통합의 전체 목록과 코드에 W&B를 추가하는 방법에 대한 정보는 [통합 가이드](../integrations/intro.md)를 참조하세요.
+[PyTorch](../integrations/pytorch.md)、[Keras](../integrations/keras.md)、[Scikit](../integrations/scikit.md)などの一般的なフレームワークを使っている場合は、W&Bのインテグレーションを活用してください。[インテグレーションガイド](../integrations/intro.md)で、全てのインテグレーションとW&Bをコードに追加する方法についての情報を入手できます。
 
-![](/images/experiments/experiments_landing_page.png)
+## 仕組み
 
-위 이미지는 여러 [실행](../runs/intro.md) 간 메트릭을 보고 비교할 수 있는 예제 대시보드를 보여줍니다.
+W&Bの実験は、以下の構成要素で構成されています:
 
-## 작동 방식
+1. [**`wandb.init()`**](./launch.md): スクリプトの先頭で新しいrunを初期化します。これにより、`Run`オブジェクトが返され、ログやファイルが保存されるローカルディレクトリが作成され、W&Bサーバーに非同期でストリーミングされます。ホストされたクラウドサーバーの代わりにプライベートサーバーを使用したい場合は、[Self-Hosting](../hosting/intro.md)を提供しています。
+2. [**`wandb.config`**](./config.md): 学習率やモデルタイプなどのハイパーパラメータ辞書を保存します。configでキャプチャしたモデルの設定は、後で結果を整理してクエリするときに便利です。
+3. [**`wandb.log()`**](./log/intro.md): トレーニングループで精度や損失などのメトリクスを時間と共に記録します。デフォルトでは、`wandb.log`を呼び出すと、`history`オブジェクトに新しいステップが追加され、`summary`オブジェクトが更新されます。
+   * `history`: 時間経過と共にメトリクスを記録する辞書のようなオブジェクトの配列。これらの時系列値は、デフォルトでUIの折れ線グラフとして表示されます。
+   * `summary`: デフォルトで、wandb.log()で記録されたメトリックの最終値です。メトリックのサマリーを手動で設定して、最終値の代わりに最も高い精度や最も低い損失を記録できます。これらの値は、テーブルやrunを比較するグラフに使用されます。例えば、プロジェクト内のすべてのrunの最終精度を視覚化できます。
+4. [**`wandb.log_artifact`**](../../ref/python/artifact.md): モデルの重みや予測のテーブルなど、runの出力を保存します。これにより、モデルのトレーニングだけでなく、最終モデルに影響を与える開発フローの全てのステップを追跡できます。
 
-몇 줄의 코드로 머신 러닝 실험을 추적하는 방법:
-1. [W&B 실행](../runs/intro.md)을 생성합니다.
-2. 학습률이나 모델 유형과 같은 하이퍼파라미터의 사전을 구성([`wandb.config`](./config.md))에 저장합니다.
-3. 학습 루프에서 정확도와 손실과 같은 메트릭([`wandb.log()`](./log/intro.md))을 시간에 따라 기록합니다.
-4. 실행의 출력물, 예를 들어 모델 가중치나 예측값 테이블을 저장합니다.
+以下の疑似コードは、一般的なW&B実験のトラッキングワークフローを示しています:
 
-다음 의사 코드는 일반적인 W&B 실험 추적 워크플로를 보여줍니다:
+```python
+# 任意のPythonスクリプトに対する柔軟なインテグレーション
+import wandb
 
-```python showLineNumbers
-# 1. W&B 실행 시작
-wandb.init(entity="", project="my-project-name")
+# 1. W&B Runを開始する
+wandb.init(project="my-project-name")
 
-# 2. 모델 입력 및 하이퍼파라미터 저장
-wandb.config.learning_rate = 0.01
+# 2. モード入力とハイパーパラメーターを保存する
+config = wandb.config
+config.learning_rate = 0.01
 
-# 모델과 데이터 가져오기
+# モデルとデータを設定する
 model, dataloader = get_model(), get_data()
 
-# 여기에 모델 학습 코드 작성
+# モデルトレーニングはここに入ります
 
-# 3. 시간에 따라 성능을 시각화하기 위해 메트릭 기록
+# 3. メトリクスを時系列でログすることでパフォーマンスを可視化する
 wandb.log({"loss": loss})
 
-# 4. W&B에 아티팩트 기록
+# 4. W&Bにアーティファクトをログする
 wandb.log_artifact(model)
 ```
 
-## 시작 방법
+## はじめ方
 
-사용 사례에 따라 W&B 실험을 시작하는 데 도움이 되는 다음 자료를 탐색하세요:
+あなたのユースケースに応じて、以下のリソースを参考にしてW&B実験を始めてください：
 
-* W&B 아티팩트를 처음 사용하는 경우, [Experiments Colab 노트북](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb)을 통해 진행하는 것이 좋습니다.
-* [W&B 퀵스타트](../../quickstart.md)를 읽어 데이터세트 아티팩트를 생성, 추적 및 사용하기 위해 사용할 수 있는 W&B Python SDK 명령의 단계별 개요를 확인하세요.
-* 다음을 배우기 위해 이 장을 탐색하세요:
-  * 실험 생성하기
-  * 실험 구성하기
-  * 실험으로부터 데이터 로그하기
-  * 실험 결과 보기
-* [W&B API 참조 가이드](../../ref/README.md) 내의 [W&B Python 라이브러리](../../ref/python/README.md)를 탐색하세요.
+* W&B実験を初めて利用する場合は、Quick Startをお読みください。[クイックスタート](../../quickstart.md)では、初めての実験を設定する方法について説明しています。
+* W&B Developer Guideの「実験」に関するトピックを探索してください：
+  * 実験を作成する
+  * 実験を設定する
+  * 実験からのデータをログする
+  * 実験からの結果を表示する
+* [W&B API Reference Guide](../../ref/README.md)内にある[W&B Pythonライブラリ](../../ref/python/README.md)を参照してください。

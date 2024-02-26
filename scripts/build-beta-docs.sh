@@ -1,5 +1,5 @@
 #!/bin/usr
-subdir="ko"
+subdir="ja"
 
 # Clean build directory
 yarn clear

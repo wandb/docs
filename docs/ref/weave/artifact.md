@@ -1,70 +1,72 @@
+# アーティファクト
 
-# 아티팩트
-
-## 체인 가능한 연산
+## チェーン可能なOps
 <h3 id="artifact-link"><code>artifact-link</code></h3>
 
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)에 대한 URL을 반환합니다.
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のURLを返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | [아티팩트](https://docs.wandb.ai/ref/weave/artifact) |
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
 
-#### 반환 값
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)에 대한 URL
+#### 返り値
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のURL
 
 <h3 id="artifact-name"><code>artifact-name</code></h3>
 
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)의 이름을 반환합니다.
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)の名前を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | [아티팩트](https://docs.wandb.ai/ref/weave/artifact) |
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
 
-#### 반환 값
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)의 이름
+#### 返り値
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)の名前
 
 <h3 id="artifact-versions"><code>artifact-versions</code></h3>
 
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)의 버전을 반환합니다.
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のバージョンを返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | [아티팩트](https://docs.wandb.ai/ref/weave/artifact) |
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
+#### 戻り値
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のバージョン
 
-#### 반환 값
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)의 버전
-
-## 리스트 연산
+## リスト操作
 <h3 id="artifact-link"><code>artifact-link</code></h3>
 
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)에 대한 URL을 반환합니다.
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のURLを返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | [아티팩트](https://docs.wandb.ai/ref/weave/artifact) |
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
 
-#### 반환 값
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)에 대한 URL
+#### 戻り値
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のURL
 
 <h3 id="artifact-name"><code>artifact-name</code></h3>
 
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)의 이름을 반환합니다.
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)の名前を返します。
 
-| 인수 |  |
+| 引数 |  |
 | :--- | :--- |
-| `artifact` | [아티팩트](https://docs.wandb.ai/ref/weave/artifact) |
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
 
-#### 반환 값
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)의 이름
+#### 戻り値
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)の名前
 
 <h3 id="artifact-versions"><code>artifact-versions</code></h3>
 
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)의 버전을 반환합니다.
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のバージョンを返します。
+| 引数 |  |
 
-| 인수 |  |
 | :--- | :--- |
-| `artifact` | [아티팩트](https://docs.wandb.ai/ref/weave/artifact) |
 
-#### 반환 값
-[아티팩트](https://docs.wandb.ai/ref/weave/artifact)의 버전
+| `artifact` | [アーティファクト](https://docs.wandb.ai/ref/weave/artifact) |
+
+
+
+#### 戻り値
+
+[アーティファクト](https://docs.wandb.ai/ref/weave/artifact)のバージョン

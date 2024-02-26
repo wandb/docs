@@ -1,21 +1,29 @@
 ---
-description: Artifacts quickstart shows how to create, track, and use a dataset artifact
+description: >-
+  Artifacts quickstart shows how to create, track, and use a dataset artifact
   with W&B.
 displayed_sidebar: default
 ---
 
-# 워크스루
+# クイックスタート
 
 <head>
-  <title>워크스루</title>
+  <title>Artifacts クイックスタート</title>
 </head>
 
+このクイックスタートでは、データセットのアーティファクトを作成、トラッキング、および使用する方法を示します。Weights & Biasesのアカウントをお持ちでない方は、始める前にお手続きください。
 
-다음 워크스루에서는 W&B Runs에서 데이터세트 아티팩트를 생성, 추적 및 사용하기 위해 사용되는 주요 W&B Python SDK 명령을 보여줍니다.
+以下の手順は、アーティファクトの作成と使用方法を説明しています。 ステップ1と2は、W&B Artifactsに限らず一般的なものです。
 
-## 1. W&B에 로그인하기
+1. [Weights & Biasesにログインします。](#log-into-weights--biasess)
+2. [Runを初期化します。](#initialize-a-run)
+3. [アーティファクトオブジェクトを作成します。](#create-an-artifact-object)
+4. [データセットをアーティファクトに追加します。](#add-the-dataset-to-the-artifact)
+5. [データセットをログに記録します。](#log-the-dataset)
+6. [アーティファクトをダウンロードして使用します。](#download-and-use-the-artifact)
+### Weights & Biasesにログイン
 
-W&B 라이브러리를 가져오고 W&B에 로그인합니다. 아직 가입하지 않았다면 무료 W&B 계정을 등록해야 합니다.
+Weights & Biasesライブラリをインポートし、W&Bにログインします。まだ登録していない場合は、無料のW&Bアカウントに登録する必要があります。
 
 ```python
 import wandb
@@ -23,68 +31,65 @@ import wandb
 wandb.login()
 ```
 
-## 2. 실행 초기화하기
+### runの初期化
 
-[`wandb.init()`](../../ref/python/init.md) API를 사용하여 백그라운드 프로세스를 생성하고 데이터를 동기화 및 로그로 기록하는 W&B 실행을 생성합니다. 프로젝트 이름과 작업 유형을 제공합니다:
+[`wandb.init()`](https://docs.wandb.ai/ref/python/init) APIを使って、バックグラウンドプロセスを生成し、W&B Runとしてデータを同期およびログに記録できます。プロジェクト名とジョブタイプを指定してください：
 
 ```python
-# W&B 실행을 생성합니다. 여기서는 이 예제가 데이터세트 아티팩트를 생성하는 방법을 보여주기 때문에 작업 유형으로 'dataset'을 지정합니다.
+# W&B Runを作成します。ここでは、データセットアーティファクトの作成方法を示すため、
+# ジョブタイプとして'dataset'を指定しています。
 run = wandb.init(project="artifacts-example", job_type="upload-dataset")
 ```
 
-## 3. 아티팩트 개체 생성하기
+### アーティファクトオブジェクトの作成
 
-[`wandb.Artifact()`](../../ref/python/artifact.md) API를 사용하여 아티팩트 개체를 생성합니다. `name` 및 `type` 파라미터에 대해 아티팩트의 이름과 파일 유형에 대한 설명을 제공합니다.
+[`wandb.Artifact()`](https://docs.wandb.ai/ref/python/artifact) APIを使ってアーティファクトオブジェクトを作成します。アーティファクトに名前を付け、ファイルタイプの説明を`name`および`type`パラメータにそれぞれ指定してください。
 
-예를 들어, 다음 코드 조각은 `‘dataset’` 라벨이 있는 `‘bicycle-dataset’`이라는 아티팩트를 생성하는 방법을 보여줍니다:
+例えば、以下のコードスニペットは、`‘dataset’`ラベルの`‘bicycle-dataset’`というアーティファクトを作成する方法を示しています：
 
 ```python
 artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
 ```
+アーティファクトの構築方法についての詳細は、[アーティファクトの構築](https://docs.wandb.ai/guides/artifacts/construct-an-artifact)を参照してください。
 
-아티팩트를 구성하는 방법에 대한 자세한 내용은 [아티팩트 구성하기](./construct-an-artifact.md)를 참조하십시오.
+### データセットをアーティファクトに追加
 
-## 아티팩트에 데이터세트 추가하기
-
-아티팩트에 파일을 추가합니다. 일반적인 파일 유형에는 모델과 데이터세트가 포함됩니다. 다음 예제에서는 우리의 기계에 로컬로 저장된 `dataset.h5`라는 이름의 데이터세트를 아티팩트에 추가합니다:
+アーティファクトにファイルを追加します。一般的なファイルタイプには、モデルやデータセットがあります。以下の例では、ローカルマシンに保存されている`dataset.h5`という名前のデータセットをアーティファクトに追加しています。
 
 ```python
-# 아티팩트의 내용에 파일을 추가합니다
+# アーティファクトの内容にファイルを追加
 artifact.add_file(local_path="dataset.h5")
 ```
 
-위 코드 조각에서 `dataset.h5` 파일 이름을 아티팩트에 추가하려는 파일의 경로로 교체하십시오.
+上記のコードスニペットの`dataset.h5`というファイル名を、アーティファクトに追加したいファイルへのパスに置き換えてください。
 
-## 4. 데이터세트 로그하기
-
-W&B 실행 객체의 `log_artifact()` 메서드를 사용하여 아티팩트 버전을 저장하고 실행의 출력으로 아티팩트를 선언합니다.
+### データセットをログする
+W&Bのrunオブジェクトの`log_artifact()`メソッドを使って、アーティファクトのバージョンを保存し、そのアーティファクトをrunの出力として宣言します。
 
 ```python
-# 아티팩트 버전을 W&B에 저장하고
-# 이 실행의 출력으로 표시합니다
+# アーティファクトのバージョンをW&Bに保存し、
+# このrunの出力としてマークする
 run.log_artifact(artifact)
 ```
 
-아티팩트를 로그할 때 기본적으로 `'latest'` 별칭이 생성됩니다. 아티팩트 별칭 및 버전에 대한 자세한 내용은 각각 [사용자 정의 별칭 생성하기](./create-a-custom-alias.md) 및 [새로운 아티팩트 버전 생성하기](./create-a-new-artifact-version.md)를 참조하십시오.
+アーティファクトをログすると、デフォルトで`'latest'`エイリアスが作成されます。アーティファクトのエイリアスとバージョンについての詳細は、それぞれ[カスタムエイリアスの作成](https://docs.wandb.ai/guides/artifacts/create-a-custom-alias)と[新しいアーティファクトバージョンの作成](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version)をご覧ください。
 
-## 5. 아티팩트 다운로드 및 사용하기
+### アーティファクトのダウンロードと使用
 
-다음 코드 예제는 W&B 서버에 로그되고 저장된 아티팩트를 사용하기 위해 수행할 수 있는 단계를 보여줍니다.
+以下のコード例は、ログしたアーティファクトをWeights & Biasesサーバーに保存し、それを使用するための手順を示しています。
 
-1. 먼저, **`wandb.init()`**으로 새로운 실행 객체를 초기화합니다.
-2. 둘째, 실행 객체의 [`use_artifact()`](../../ref/python/run.md#use_artifact) 메서드를 사용하여 W&B에 사용할 아티팩트를 알립니다. 이것은 아티팩트 개체를 반환합니다.
-3. 셋째, 아티팩트의 [`download()`](../../ref/python/artifact.md#download) 메서드를 사용하여 아티팩트의 내용을 다운로드합니다.
-
+1. 最初に、**`wandb.init()`**で新しいrunオブジェクトを初期化します。
+2. 次に、runオブジェクトの[`use_artifact()`](https://docs.wandb.ai/ref/python/run#use\_artifact)メソッドを使って、Weights & Biasesにどのアーティファクトを使用するか指示します。これによってアーティファクトオブジェクトが返されます。
+3. 最後に、アーティファクトの[`download()`](https://docs.wandb.ai/ref/python/artifact#download)メソッドを使って、アーティファクトの内容をダウンロードします。
 ```python
-# W&B 실행을 생성합니다. 여기서는 'type'에 'training'을 지정합니다
-# 왜냐하면 이 실행을 학습 추적에 사용할 것이기 때문입니다.
+# W&B Runを作成します。ここでは'type'に'training'を指定しています
+# なぜなら、このrunでトレーニングのトラッキングを行うためです。
 run = wandb.init(project="artifacts-example", job_type="training")
 
-# W&B에서 아티팩트를 조회하고 이 실행의 입력으로 표시합니다
+# アーティファクトをW&Bから取得し、このrunの入力としてマークします
 artifact = run.use_artifact("bicycle-dataset:latest")
 
-# 아티팩트의 내용을 다운로드합니다
+# アーティファクトの内容をダウンロードします
 artifact_dir = artifact.download()
 ```
-
-대안으로, Public API (`wandb.Api`)를 사용하여 실행 외부의 W&B에 이미 저장된 데이터를 내보내거나(또는 업데이트) 할 수 있습니다. 자세한 내용은 [외부 파일 추적하기](./track-external-files.md)를 참조하십시오.
+代わりに、公開API（`wandb.Api`）を使用して、Weights & Biases外部のRun以外ですでに保存されているデータをエクスポート（または更新）することもできます。詳細については、[外部ファイルのトラッキング](https://docs.wandb.ai/guides/artifacts/track-external-files)を参照してください。
