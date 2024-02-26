@@ -26,7 +26,7 @@ const BigSearchBar = () => {
   return (
     <div className={styles.bigSearch} onClick={onClick}>
       <SearchIcon className={styles.searchIcon} />
-      <Translate>Search documentation</Translate>
+      <Translate>ドキュメンテーションを検索</Translate>
     </div>
   );
 };
