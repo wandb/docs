@@ -14,9 +14,16 @@ From there, someone from the Docs Team will review the PR and merge it.
 
 Satisfy the following dependencies to create, build, and locally serve W&B Docs on your local machine:
 
-- Install [Node.js](https://nodejs.org/en/download/) version 16.14 or above.
+- (Recommended) Install [`nvm`](https://github.com/nvm-sh/nvm) to manage your node.js versions.
+- Install [Node.js](https://nodejs.org/en/download/) version 18.0.0.
+  ```node
+  nvm install 18.0.0
+  ```
 - Install Yarn. It is recommended to install Yarn through the [npm package manager](http://npmjs.org/), which comes bundled with [Node.js](https://nodejs.org/) when you install it on your system.
-- An IDE (e.g. VS Studio) or Text Editor (e.g. Sublime)
+  ```yarn
+  npm install --global yarn
+  ```
+- Install an IDE (e.g. VS Studio) or Text Editor (e.g. Sublime)
 
 &nbsp;
 

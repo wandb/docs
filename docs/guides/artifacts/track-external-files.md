@@ -44,7 +44,7 @@ W&B Artifacts support any Amazon S3 compatible interface — including MinIO! Th
 
 Assume we have a bucket with the following structure:
 
-```
+```bash
 s3://my-bucket
 +-- datasets/
 |		+-- mnist/
@@ -58,8 +58,8 @@ Under `mnist/` we have our dataset, a collection of images. Lets track it with a
 import wandb
 
 run = wandb.init()
-artifact = wandb.Artifact('mnist', type='dataset')
-artifact.add_reference('s3://my-bucket/datasets/mnist')
+artifact = wandb.Artifact("mnist", type="dataset")
+artifact.add_reference("s3://my-bucket/datasets/mnist")
 run.log_artifact(artifact)
 ```
 :::caution
@@ -90,7 +90,7 @@ Panels might fail to render in the App UI for private buckets. If your company h
 import wandb
 
 run = wandb.init()
-artifact = run.use_artifact('mnist:latest', type='dataset')
+artifact = run.use_artifact("mnist:latest", type="dataset")
 artifact_dir = artifact.download()
 ```
 
@@ -107,12 +107,12 @@ Based on your use case, read the instructions to enable object versioning: [AWS]
 The following code example demonstrates a simple workflow you can use to track a dataset in Amazon S3, GCS, or Azure that feeds into a training job:
 
 ```python
- import wandb
+import wandb
 
 run = wandb.init()
 
-artifact = wandb.Artifact('mnist', type='dataset')
-artifact.add_reference('s3://my-bucket/datasets/mnist')
+artifact = wandb.Artifact("mnist", type="dataset")
+artifact.add_reference("s3://my-bucket/datasets/mnist")
 
 # Track the artifact and mark it as an input to
 # this run in one swoop. A new artifact version
@@ -132,17 +132,13 @@ import wandb
 
 run = wandb.init()
 
-# Training here... 
+# Training here...
 
-s3_client = boto3.client('s3')
-s3_client.upload_file(
-    'my_model.h5', 
-    'my-bucket', 
-    'models/cnn/my_model.h5'
-    )
+s3_client = boto3.client("s3")
+s3_client.upload_file("my_model.h5", "my-bucket", "models/cnn/my_model.h5")
 
-model_artifact = wandb.Artifact('cnn', type='model')
-model_artifact.add_reference('s3://my-bucket/models/cnn/')
+model_artifact = wandb.Artifact("cnn", type="model")
+model_artifact.add_reference("s3://my-bucket/models/cnn/")
 run.log_artifact(model_artifact)
 ```
 
@@ -159,7 +155,7 @@ Another common pattern for fast access to datasets is to expose an NFS mount poi
 
 Assume we have a filesystem mounted at `/mount` with the following structure:
 
-```
+```bash
 mount
 +-- datasets/
 |		+-- mnist/
@@ -173,8 +169,8 @@ Under `mnist/` we have our dataset, a collection of images. Let's track it with 
 import wandb
 
 run = wandb.init()
-artifact = wandb.Artifact('mnist', type='dataset')
-artifact.add_reference('file:///mount/datasets/mnist/')
+artifact = wandb.Artifact("mnist", type="dataset")
+artifact.add_reference("file:///mount/datasets/mnist/")
 run.log_artifact(artifact)
 ```
 
@@ -192,10 +188,7 @@ Downloading a reference artifact is simple:
 import wandb
 
 run = wandb.init()
-artifact = run.use_artifact(
-    'entity/project/mnist:latest', 
-    type='dataset'
-    )
+artifact = run.use_artifact("entity/project/mnist:latest", type="dataset")
 artifact_dir = artifact.download()
 ```
 
@@ -208,8 +201,8 @@ import wandb
 
 run = wandb.init()
 
-artifact = wandb.Artifact('mnist', type='dataset')
-artifact.add_reference('file:///mount/datasets/mnist/')
+artifact = wandb.Artifact("mnist", type="dataset")
+artifact.add_reference("file:///mount/datasets/mnist/")
 
 # Track the artifact and mark it as an input to
 # this run in one swoop. A new artifact version
@@ -231,10 +224,9 @@ run = wandb.init()
 
 # Training here...
 
-with open('/mount/cnn/my_model.h5') as f:
-	# Output our model file.
+# Write model to disk
 
-model_artifact = wandb.Artifact('cnn', type='model')
-model_artifact.add_reference('file:///mount/cnn/my_model.h5')
+model_artifact = wandb.Artifact("cnn", type="model")
+model_artifact.add_reference("file:///mount/cnn/my_model.h5")
 run.log_artifact(model_artifact)
 ```

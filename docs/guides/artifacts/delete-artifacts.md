@@ -15,15 +15,11 @@ Delete artifacts interactively with the App UI or programmatically with the W&B 
 
 The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
 
+The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl.md).
 
 :::note
-Garbage collection is not automatically enabled for W&B Server. Satisfy the following requirements to enable garbage collection in W&B Server:
-* Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
-* Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html) or [GCP](https://cloud.google.com/storage/docs/object-versioning).
-* [Enable soft delete for blobs if you use Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview).
+Artifacts that are scheduled for deletion with a TTL policy, deleted with the W&B SDK, or deleted with the W&B App UI are first soft-deleted. Artifacts that are soft deleted undergo garbage collection before they are hard-deleted.
 :::
-
-The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy](./ttl.md).
 
 ### Delete an artifact version
 
@@ -105,7 +101,7 @@ To delete an artifact collection:
 3. Select the kebab dropdown next to the artifact collection name.
 4. Choose Delete.
 
-You can also delete artifact version programmatically with the [delete()](../../ref/python/artifact.md#delete) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively. Replace the `<>` with the name of your artifact:
+You can also delete artifact collection programmatically with the [delete()](../../ref/python/artifact.md#delete) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
 
 ```python
 import wandb
@@ -113,8 +109,37 @@ import wandb
 # Provide your entity and a project name when you
 # use wandb.Api methods.
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
-
-artifact_name = "<>"  # provide artifact name
-artifact = api.artifact(artifact_name)
-artifact.collection.delete()
+collection = api.artifact_collection("<artifact_type>", "entity/project/artifact_collection_name")
+collection.delete()
 ```
+
+## How to enable garbage collection based on how W&B is hosted
+Garbage collection is enabled by default if you use W&B's shared cloud. Based on how you host W&B, you might need to take additional steps to enable garbage collection, this includes:
+
+
+* Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
+* Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [GCP](https://cloud.google.com/storage/docs/object-versioning) or any other storage provider such as [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). If you use Azure, [enable soft deletion](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview).
+  :::note
+  Soft deletion in Azure is equivalent to bucket versioning in other storage providers.
+  :::
+
+The following table describes how to satisfy requirements to enable garbage collection based on your deployment type. 
+
+The `X` indicates you must satisfy the requirement:
+
+|                                                | Environment variable    | Enable versioning | 
+| -----------------------------------------------| ------------------------| ----------------- | 
+| Shared cloud                                   |                         |                   | 
+| Shared cloud with [secure storage connector](../hosting/secure-storage-connector.md)|                         | X                 | 
+| Dedicated cloud                                |                         |                   | 
+| Dedicated cloud with [secure storage connector](../hosting/secure-storage-connector.md)|                         | X                 | 
+| Customer-managed cloud                         | X                       | X                 | 
+| Customer managed on-prem                       | X                       | X                 |
+ 
+
+
+:::note
+Secure storage connector is currently only available for Google Cloud Platform and Amazon Web Services.
+:::
+
+

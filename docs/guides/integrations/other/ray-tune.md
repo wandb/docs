@@ -13,7 +13,7 @@ One is the `WandbLoggerCallback`, which automatically logs metrics reported to T
 ## WandbLoggerCallback
 
 ```python
-from ray.tune.integration.wandb import WandbLoggerCallback
+from ray.air.integrations.wandb import WandbLoggerCallback
 ```
 
 Wandb configuration is done by passing a wandb key to the config parameter of `tune.run()` (see example below).
@@ -33,24 +33,30 @@ The content of the wandb config entry is passed to `wandb.init()` as keyword arg
 ### Example
 
 ```python
+from ray import tune, train
 from ray.tune.logger import DEFAULT_LOGGERS
 from ray.air.integrations.wandb import WandbLoggerCallback
 
-tune.run(
-    train_fn,
-    config={
-        # define search space here
-        "parameter_1": tune.choice([1, 2, 3]),
-        "parameter_2": tune.choice([4, 5, 6]),
-        # wandb configuration
-        "wandb": {
-            "project": "Optimization_Project",
-            "api_key_file": "/path/to/file",
-            "log_config": True,
-        },
-    },
-    loggers=DEFAULT_LOGGERS + (WandbLoggerCallback,),
+def train_fc(config):
+    for i in range(10):
+        train.report({"mean_accuracy":(i + config['alpha']) / 10})
+
+search_space = {
+    'alpha': tune.grid_search([0.1, 0.2, 0.3]),
+    'beta': tune.uniform(0.5, 1.0)
+}
+
+analysis = tune.run(
+    train_fc,
+    config=search_space,
+    callbacks=[WandbLoggerCallback(
+        project="<your-project>",
+        api_key="<your-name>",
+        log_config=True
+    )]
 )
+
+best_trial = analysis.get_best_trial("mean_accuracy", "max", "last")
 ```
 
 ## wandb\_mixin

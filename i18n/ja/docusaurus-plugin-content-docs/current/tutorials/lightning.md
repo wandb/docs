@@ -37,7 +37,7 @@ from torchvision.datasets import CIFAR10
 import wandb
 ```
 
-Now you'll need to login to you wandb account.
+Now you'll need to log in to you wandb account.
 
 
 ```

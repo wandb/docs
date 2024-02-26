@@ -56,9 +56,6 @@ Create a report programmatically with the `wandb` library.
 ```python
 import wandb
 import wandb.apis.reports as wr
-
-# W&B requirement to avoid accidental report modification
-wandb.require("report-editing")
 ```
 
 Create a report instance with the Report Class Public API ([`wandb.apis.reports`](https://docs.wandb.ai/ref/python/public-api/api#reports)). Specify a name for the project.

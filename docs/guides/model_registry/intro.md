@@ -5,20 +5,21 @@ displayed_sidebar: default
 ---
 
 # Model registry
+The W&B Model Registry houses a team's trained models where ML Practitioners can publish candidates for production to be consumed by downstream teams and stakeholders. It is used to house staged/candidate models and manage workflows associated with staging.
 
-Use W&B Models as a central system of record for your best models, standardized and organized in a model registry across projects and teams. 
+![](/images/models/model_reg_landing_page.png)
 
-With W&B Models, you can:
+With W&B Model Registry, you can:
 
-* [Bookmark your best model versions for each machine learning task.](./model_tags.md)
+* [Bookmark your best model versions for each machine learning task.](./link-model-version.md)
+* [Automate](./automation.md) downstream processes and model CI/CD.
 * Move model versions through its ML lifecycle; from staging to production.
-* Track and audit the history of changes to production models.
-
+* Track a model's lineage and audit the history of changes to production models.
 
 ![](/images/models/models_landing_page.png)
 
 ## How it works
-Track and manage your trained models with a few simple steps.
+Track and manage your staged models with a few simple steps.
 
 1. **Log a model version**: In your training script, add a few lines of code to save the model files as an artifact to W&B. 
 2. **Compare performance**: Check live charts to compare the metrics and sample predictions from model training and validation. Identify which model version performed the best.
@@ -31,38 +32,35 @@ import wandb
 import random
 
 # Start a new W&B run
-with wandb.init(project="models_quickstart") as run:
-    # Simulate logging model metrics
-    run.log({"acc": random.random()})
+run = wandb.init(project="models_quickstart")
 
-    # Create a simulated model file
-    with open("my_model.h5", "w") as f:
-        f.write("Model: " + str(random.random()))
+# Simulate logging model metrics
+run.log({"acc": random.random()})
 
-    # Save the dummy model to W&B
-    best_model = wandb.Artifact(f"model_{run.id}", type="model")
-    best_model.add_file("my_model.h5")
-    run.log_artifact(best_model)
+# Create a simulated model file
+with open("my_model.h5", "w") as f:
+    f.write("Model: " + str(random.random()))
 
-    # Link the model to the Model Registry
-    run.link_artifact(best_model, "model-registry/My Registered Model")
+# Log and link the model to the Model Registry
+run.link_model(path="./my_model.h5", registered_model_name="MNIST")
 
-    run.finish()
+run.finish()
 ```
 
-4. **Test and deploy your model**: Transition model versions through customizable workflows stages, such as `staging` and `production`.
+4. **Connect model transitions to CI/DC workflows**: transition candidate models through workflow stages and [automate downstream actions](./automation.md) with webhooks or jobs.
+
 
 ## How to get started
 Depending on your use case, explore the following resources to get started with W&B Models:
 
-<!-- * [Try the Quickstart](./quickstart.md) to log and link a sample model in just two minutes. -->
-* Check out the [Model Registry Quickstart YouTube](https://www.youtube.com/watch?v=jy9Pk9riwZI&ab_channel=Weights%26Biases) video.
+* Check out the two-part video series:
+  1. [Logging and registering models](https://www.youtube.com/watch?si=MV7nc6v-pYwDyS-3&v=ZYipBwBeSKE&feature=youtu.be)
+  2. [Consuming models and automating downstream processes](https://www.youtube.com/watch?v=8PFCrDSeHzw) in the Model Registry.
 * Read the [models walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
 * Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
-* Explore this chapter to learn how about:
-   * [Role based access controls (RBAC)](./access_controls.md).
-   * [How to automate model testing and deployment](./automation.md).
-   * [Use tags to organize registered models](./model_tags.md).
-   * Set up [Slack notifications](./notifications.md) when a new model version is linked to a model registry.
+* Learn about:
+   * [Protected models and access control](./access_controls.md).
+   * [How to connect the Model Registry to CI/CD processes](./automation.md).
+   * Set up [Slack notifications](./notifications.md) when a new model version is linked to a registered model.
 
 

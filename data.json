@@ -173,8 +173,12 @@
       "to": "/guides/track/log/log-tables"
     },
     {
-      "from": "guides/tables/log-tables",
+      "from": "/guides/tables/log-tables",
       "to": "guides/track/log/log-tables"
+    },
+    {
+      "from": "/guides/data-vis/tables",
+      "to": "/guides/tables"
     },
     {
       "from": "guides/data-vis/tables",
@@ -717,6 +721,10 @@
       "to" : "/guides/model_registry/model_tags"
     },
     {
+      "from": "/guides/models/model_tags",
+      "to" : "/guides/model_registry/link-model-version"
+    },
+    {
       "from": "/guides/models/access_controls",
       "to" : "/guides/model_registry/access_controls"
     },
@@ -732,6 +740,10 @@
       "from": "/guides/models/model-management-concepts",
       "to" : "/guides/model_registry/model-management-concepts"
     },
+    {
+      "from": "/guides/model_registry/quickstart",
+      "to" : "/guides/model_registry/walkthrough"
+    },    
     {
       "from": "/guides/manage-runs",
       "to": "/guides/runs/manage-runs"
@@ -943,6 +955,22 @@
     {
       "from": "/guides/troubleshooting/network",
       "to": "/guides/technical-faq"
+    },
+    {
+      "from": "/weave",
+      "to": "/guides/app/features/panels/weave"
+    },
+    {
+      "from": "/weave/boards",
+      "to": "/guides/app/features/panels/weave"
+    },
+    {
+      "from": "/weave/streamtable",
+      "to": "/guides/app/features/panels/weave"
+    },
+    {
+      "from": "/weave/prod-mon",
+      "to": "/guides/platform"
     },
     {
       "from": "/home",

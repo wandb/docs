@@ -25,6 +25,8 @@ The above image shows a table with semantic segmentation and custom metrics. Vie
 
 A Table is a two-dimensional grid of data where each column has a single type of data. Tables support primitive and numeric types, as well as nested lists, dictionaries, and rich media types. 
 
+## Log a Table
+
 Log a table with a few lines of code:
 
 - [`wandb.init()`](../../ref/python/init.md): Create a [run](../runs/intro.md) to track results.

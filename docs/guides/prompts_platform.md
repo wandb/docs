@@ -7,6 +7,7 @@ Evaluating the performance of Large Language Models (LLMs) can be difficult. Use
 
 ## Visualize
 
+<<<<<<< HEAD
 [W&B Prompts](./prompts/intro.md) is a suite of LLMOps tools built for the development of LLM-powered applications. Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
 
 W&B Prompts provides several solutions for building and monitoring LLM-based apps. Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to:
@@ -35,3 +36,6 @@ W&B also has lightweight integrations for:
 
 - Check out more detailed documentation on [Prompts](./prompts/intro.md) or [LLM Monitoring](./weave/prod-mon.md).
 - Learn more about [Weave](./weave/intro.md), our visual development environment that has many LLMOps tools built in.
+=======
+W&B Prompts is the solution for building and evaluating LLM-based apps. Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to [explore and debug LLM chains](./prompts/intro.md) and prompts with greater granularity.
+>>>>>>> main

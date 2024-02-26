@@ -28,9 +28,6 @@ An action is a responsive mutation (internal or external) that occurs as a resul
 * Webhooks: Communicate with an external web server from W&B with HTTP requests.
 * W&B Launch job: [Jobs](../launch/create-launch-job.md) are reusable, configurable run templates that allow you to quickly launch new [runs](../runs/intro.md) locally on your desktop or external compute resources such as Kubernetes on EKS, Amazon SageMaker, and more. 
 
-<!-- :::tip
-Question: When should I use a webhook as opposed to a W&B Launch job? Answer: [INSERT]
-::: -->
 
 The following sections describe how to create an automation with webhooks and W&B Launch.
 
@@ -45,7 +42,7 @@ To use a secret in your webhook, you must first add that secret to your team's s
 :::info
 * Only W&B Admins can create, edit, or delete a secret.
 * Skip this section if the external server you send HTTP POST requests to does not use secrets.  
-* Secrets are also available if you use [W&B Server](../hosting/intro.md) in an Azure or GCP deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
+* Secrets are also available if you use [W&B Server](../hosting/intro.md) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
 :::
 
 There are two types of secrets W&B suggests that you create when you use a webhook automation:
@@ -144,20 +141,23 @@ The following tabs demonstrate example payloads based on common use cases. Withi
   ]}>
   <TabItem value="github">
 
+:::info
+Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
+:::
   
   Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
 
   ```yaml
   on:
     repository_dispatch:
-      types: LINK_MODEL
+      types: BUILD_AND_DEPLOY
   ```
 
   The payload for the repository might look something like:
 
   ```json
   {
-    "event_type": "${event_type}",
+    "event_type": "BUILD_AND_DEPLOY",
     "client_payload": 
     {
       "event_author": "${event_author}",
@@ -170,8 +170,11 @@ The following tabs demonstrate example payloads based on common use cases. Withi
   }
 
   ```
+:::note
+The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
+:::
 
-  Where template strings render depending on the event or model version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
+  The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS". See below for an example mapping:
 
   ```json
   ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
