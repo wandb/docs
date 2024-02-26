@@ -49,6 +49,7 @@ const sidebars = {
               link: { type: 'doc', id: 'guides/track/log/intro' },
               items: [
                 // 'guides/track/log/intro',
+                'guides/track/log/log-models',
                 'guides/track/log/plots',
                 'guides/track/log/log-tables',
                 'guides/track/log/log-summary',
@@ -73,14 +74,19 @@ const sidebars = {
           label: 'Model Registry',
           link: { type: 'doc', id: 'guides/model_registry/intro' },
           items: [
-            // 'guides/model_registry/intro',
-            // 'guides/model_registry/quickstart',
             'guides/model_registry/walkthrough',
-            'guides/model_registry/model_tags',
-            'guides/model_registry/access_controls',
+            'guides/model_registry/model-management-concepts',
+            'guides/model_registry/log-model-to-experiment',
+            'guides/model_registry/create-registered-model',
+            'guides/model_registry/link-model-version',
+            'guides/model_registry/organize-models',
+            'guides/model_registry/model-lineage',
+            'guides/model_registry/consume-models',
+            'guides/model_registry/create-model-cards',
+            // 'guides/model_registry/delete-models',
             'guides/model_registry/automation',
             'guides/model_registry/notifications',
-            'guides/model_registry/model-management-concepts',
+            'guides/model_registry/access_controls',
           ],
         },
         {
@@ -116,6 +122,7 @@ const sidebars = {
                 'guides/launch/create-launch-job',
                 'guides/launch/add-job-to-queue',
                 'guides/launch/launch-view-jobs',
+                'guides/launch/launch-queue-observability'
               ],
             },
 
@@ -131,7 +138,14 @@ const sidebars = {
             // 'guides/sweeps/intro',
             'guides/sweeps/walkthrough',
             'guides/sweeps/add-w-and-b-to-your-code',
-            'guides/sweeps/define-sweep-configuration',
+            {
+              type: 'category',
+              label: 'Define a sweep configuration',
+              items: [
+                'guides/sweeps/define-sweep-configuration',
+                'guides/sweeps/sweep-config-keys',
+              ],
+            },
             'guides/sweeps/initialize-sweeps',
             'guides/sweeps/start-sweep-agents',
             'guides/sweeps/parallelize-agents',
@@ -210,6 +224,7 @@ const sidebars = {
             'guides/tables/tables-walkthrough',
             'guides/tables/visualize-tables',
             'guides/tables/tables-gallery',
+            'guides/tables/tables-download',
           ],
         },
         {
@@ -226,16 +241,6 @@ const sidebars = {
             'guides/reports/cross-project-reports',
             'guides/reports/reports-gallery',
             'guides/reports/reports-faq',
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Weave',
-          link: { type: 'doc', id: 'guides/weave/intro' },
-          items: [
-            'guides/weave/boards',
-            'guides/weave/streamtable',
-            'guides/weave/prod-mon'
           ],
         },      
         {
@@ -308,6 +313,7 @@ const sidebars = {
                 'guides/app/features/notes',
                 'guides/app/features/teams',
                 'guides/app/features/organizations',
+                'guides/app/features/storage',
                 'guides/app/features/system-metrics',
                 'guides/app/features/anon',
               ],
@@ -367,6 +373,10 @@ const sidebars = {
             'guides/hosting/sso',
             'guides/hosting/smtp',
             'guides/hosting/slack-alerts',
+            'guides/hosting/scim',
+            'guides/hosting/server-release-process',
+            'guides/hosting/server-upgrade-process',
+            'guides/hosting/export-data-from-dedicated-cloud',
           ],
         },
         // 'guides/hosting/debug',
@@ -391,6 +401,7 @@ const sidebars = {
       items: [
         // 'guides/integrations/intro',
         'guides/integrations/add-wandb-to-any-library',
+        'guides/integrations/other/azure-openai-fine-tuning',
         'guides/integrations/other/catalyst',
         'guides/integrations/dagster',
         'guides/integrations/other/databricks',
@@ -408,6 +419,8 @@ const sidebars = {
           ],
         },
         'guides/integrations/huggingface',
+        'guides/integrations/diffusers',
+        'guides/integrations/autotrain',
         'guides/integrations/other/accelerate',
         'guides/integrations/other/hydra',
         'guides/integrations/keras',
@@ -415,7 +428,7 @@ const sidebars = {
         'guides/integrations/langchain',
         'guides/integrations/lightgbm',
         'guides/integrations/other/metaflow',
-        'guides/integrations/mmdetection',
+        'guides/integrations/mmengine',
         'guides/integrations/other/mmf',
         'guides/integrations/other/composer',
         'guides/integrations/other/openai-api',
@@ -620,6 +633,7 @@ const sidebars = {
             'guides/launch/create-launch-job',
             'guides/launch/add-job-to-queue',
             'guides/launch/launch-view-jobs',
+            'guides/launch/launch-queue-observability'
           ],
         },
 
@@ -752,6 +766,9 @@ const sidebars = {
         'guides/hosting/slack-alerts',
         'guides/hosting/smtp',
         'guides/hosting/env-vars',
+        'guides/hosting/scim',
+        'guides/hosting/server-release-process',
+        'guides/hosting/export-data-from-dedicated-cloud',
         {
           type: 'category',
           label: 'ハウツーガイド',
@@ -771,6 +788,7 @@ const sidebars = {
       link: { type: 'doc', id: 'guides/integrations/intro' },
       items: [
         'guides/integrations/add-wandb-to-any-library',
+        'guides/integrations/other/azure-openai-fine-tuning',
         'guides/integrations/other/catalyst',
         'guides/integrations/dagster',
         'guides/integrations/other/databricks',
@@ -793,7 +811,7 @@ const sidebars = {
         'guides/integrations/langchain',
         'guides/integrations/lightgbm',
         'guides/integrations/other/metaflow',
-        'guides/integrations/mmdetection',
+        'guides/integrations/mmengine',
         'guides/integrations/other/mmf',
         'guides/integrations/other/composer',
         'guides/integrations/other/openai-api',
@@ -861,6 +879,7 @@ const sidebars = {
         'tutorials/xgboost',
         'tutorials/xgboost_sweeps',
         'tutorials/lightgbm',
+        'tutorials/monai_3d_segmentation'
 
       ],
     },
@@ -870,6 +889,7 @@ const sidebars = {
       // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
       items: [
         'tutorials/volcano',
+        'tutorials/minikube_gpu'
       ],
     },
   ],

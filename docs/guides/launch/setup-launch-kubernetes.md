@@ -190,9 +190,6 @@ launchConfig: |
     type: kaniko
     build-context-store: <s3-bucket-uri>
 
-# Set to false to disable volcano install.
-volcano: true
-
 # The contents of a git credentials file. This will be stored in a k8s secret
 # and mounted into the agent container. Set this if you want to clone private
 # repos.
@@ -207,10 +204,6 @@ serviceAccount:
 # Set to access key for azure storage if using kaniko with azure.
 azureStorageAccessKey: ''
 ```
-
-:::note
-You can control whether the Volcano scheduler is installed into your cluster.
-:::
 
 For more information on registries, environments and required agent permissions see [Advanced agent set up](./setup-agent-advanced.md).
 

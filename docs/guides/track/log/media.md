@@ -46,12 +46,9 @@ Provide arrays directly when constructing images manually, e.g. using [`make_gri
 Arrays are converted to png using [Pillow](https://pillow.readthedocs.io/en/stable/index.html).
 
 ```python
-images = wandb.Image(
-    image_array, 
-    caption="Top: Output, Bottom: Input"
-    )
-          
-wandb.log({"examples": images}
+images = wandb.Image(image_array, caption="Top: Output, Bottom: Input")
+
+wandb.log({"examples": images})
 ```
 
 We assume the image is gray scale if the last dimension is 1, RGB if it's 3, and RGBA if it's 4. If the array contains floats, we convert them to integers between `0` and `255`. If you want to normalize your images differently, you can specify the [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes) manually or just supply a [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html), as described in the "Logging PIL Images" tab of this panel.
@@ -62,8 +59,8 @@ For full control over the conversion of arrays to images, construct the [`PIL.Im
 
 ```python
 images = [PIL.Image.fromarray(image) for image in image_array]
-          
-wandb.log({"examples": [wandb.Image(image) for image in images]}
+
+wandb.log({"examples": [wandb.Image(image) for image in images]})
 ```
   </TabItem>
   <TabItem value="images_files">
@@ -71,8 +68,8 @@ For even more control, create images however you like, save them to disk, and pr
 
 ```python
 im = PIL.fromarray(...)
-rgb_im = im.convert('RGB')
-rgb_im.save('myimage.jpg')
+rgb_im = im.convert("RGB")
+rgb_im.save("myimage.jpg")
 
 wandb.log({"example": wandb.Image("myimage.jpg")})
 ```
@@ -107,24 +104,20 @@ To log multiple masks, log a mask dictionary with multiple keys, as in the code 
 [Sample code →](https://colab.research.google.com/drive/1SOVl3EvW82Q4QKJXX6JtHye4wFix\_P4J)
 
 ```python
-mask_data = np.array([[1, 2, 2, ... , 2, 2, 1], ...])
+mask_data = np.array([[1, 2, 2, ..., 2, 2, 1], ...])
 
-class_labels = {
-  1: "tree",
-  2: "car",
-  3: "road"
-}
+class_labels = {1: "tree", 2: "car", 3: "road"}
 
-mask_img = wandb.Image(image, masks={
-  "predictions": {
-    "mask_data": mask_data,
-    "class_labels": class_labels
-  },
-  "ground_truth": {
-    ...
-  },
-  ...
-})
+mask_img = wandb.Image(
+    image,
+    masks={
+        "predictions": {"mask_data": mask_data, "class_labels": class_labels},
+        "ground_truth": {
+            # ...
+        },
+        # ...
+    },
+)
 ```
   </TabItem>
   <TabItem value="bounding_boxes">
@@ -153,51 +146,40 @@ class_id_to_label = {
     1: "car",
     2: "road",
     3: "building",
-    ....
+    # ...
 }
 
-img = wandb.Image(image, boxes={
-    "predictions": {
-        "box_data": [{
-            # one box expressed in the default relative/fractional domain
-            "position": {
-                "minX": 0.1,
-                "maxX": 0.2,
-                "minY": 0.3,
-                "maxY": 0.4
-            },
-            "class_id" : 2,
-            "box_caption": class_id_to_label[2],
-            "scores" : {
-                "acc": 0.1,
-                "loss": 1.2
-            },
-            # another box expressed in the pixel domain
-            # (for illustration purposes only, all boxes are likely
-            # to be in the same domain/format)
-            "position": {
-                "middle": [150, 20],
-                "width": 68,
-                "height": 112
-            },
-            "domain" : "pixel",
-            "class_id" : 3,
-            "box_caption": "a building",
-            "scores" : {
-                "acc": 0.5,
-                "loss": 0.7
-            },
-            ...
-            # Log as many boxes an as needed
-        }
-        ],
-        "class_labels": class_id_to_label
+img = wandb.Image(
+    image,
+    boxes={
+        "predictions": {
+            "box_data": [
+                {
+                    # one box expressed in the default relative/fractional domain
+                    "position": {"minX": 0.1, "maxX": 0.2, "minY": 0.3, "maxY": 0.4},
+                    "class_id": 2,
+                    "box_caption": class_id_to_label[2],
+                    "scores": {"acc": 0.1, "loss": 1.2},
+                    # another box expressed in the pixel domain
+                    # (for illustration purposes only, all boxes are likely
+                    # to be in the same domain/format)
+                    "position": {"middle": [150, 20], "width": 68, "height": 112},
+                    "domain": "pixel",
+                    "class_id": 3,
+                    "box_caption": "a building",
+                    "scores": {"acc": 0.5, "loss": 0.7},
+                    # ...
+                    # Log as many boxes an as needed
+                }
+            ],
+            "class_labels": class_id_to_label,
+        },
+        # Log each meaningful group of boxes with a unique key name
+        "ground_truth": {
+            # ...
+        },
     },
-    # Log each meaningful group of boxes with a unique key name
-    "ground_truth": {
-    ...
-    }
-})
+)
 
 wandb.log({"driving_scene": img})
 ```
@@ -221,20 +203,20 @@ To log Segmentation Masks in tables, you will need to provide a `wandb.Image` ob
 An example is provided in the Code snippet below:
 
 ```python
-table = wandb.Table(columns=['ID', 'Image'])
+table = wandb.Table(columns=["ID", "Image"])
 
 for id, img, label in zip(ids, images, labels):
-    mask_img = wandb.Image(img, masks = {
-        "prediction" : {
-            "mask_data" : label,
-            "class_labels" : class_labels
+    mask_img = wandb.Image(
+        img,
+        masks={
+            "prediction": {"mask_data": label, "class_labels": class_labels}
+            # ...
         },
-        ...
-    })
-    
+    )
+
     table.add_data(id, img)
 
-wandb.log({"Table" : table})
+wandb.log({"Table": table})
 ```
   </TabItem>
   <TabItem value="bounding_boxes">
@@ -247,27 +229,31 @@ To log Images with Bounding Boxes in tables, you will need to provide a `wandb.I
 An example is provided in the code snippet below:
 
 ```python
-table = wandb.Table(columns=['ID', 'Image'])
+table = wandb.Table(columns=["ID", "Image"])
 
 for id, img, boxes in zip(ids, images, boxes_set):
-    box_img = wandb.Image(img, boxes = {
-        "prediction" : {
-            "box_data" : [{
-                "position" :{
-                    "minX" : box["minX"],
-                    "minY" : box["minY"],
-                    "maxX" : box["maxX"],
-                    "maxY" : box["maxY"]
-                },
-                "class_id" : box["class_id"],
-                "box_caption" : box["caption"],
-                "domain" : "pixel"
-            } 
-            for box in boxes
-        ],
-        "class_labels" : class_labels
-        }
-    })
+    box_img = wandb.Image(
+        img,
+        boxes={
+            "prediction": {
+                "box_data": [
+                    {
+                        "position": {
+                            "minX": box["minX"],
+                            "minY": box["minY"],
+                            "maxX": box["maxX"],
+                            "maxY": box["maxY"],
+                        },
+                        "class_id": box["class_id"],
+                        "box_caption": box["caption"],
+                        "domain": "pixel",
+                    }
+                    for box in boxes
+                ],
+                "class_labels": class_labels,
+            }
+        },
+    )
 ```
   </TabItem>
 </Tabs>
@@ -298,7 +284,7 @@ wandb.log({"gradients": wandb.Histogram(grads)})
 If you want more control, call `np.histogram` and pass the returned tuple to the `np_histogram` keyword argument.
 
 ```python
-np_hist_grads = np.histogram(grads, density=True, range=(0., 1.))
+np_hist_grads = np.histogram(grads, density=True, range=(0.0, 1.0))
 wandb.log({"gradients": wandb.Histogram(np_hist_grads)})
 ```
   </TabItem>
@@ -306,7 +292,8 @@ wandb.log({"gradients": wandb.Histogram(np_hist_grads)})
 
 ```python
 wandb.run.summary.update(  # if only in summary, only visible on overview tab
-  {"final_logits": wandb.Histogram(logits)})
+    {"final_logits": wandb.Histogram(logits)}
+)
 ```
   </TabItem>
 </Tabs>
@@ -327,10 +314,15 @@ If histograms are in your summary they will appear on the Overview tab of the [R
 Log files in the formats `'obj', 'gltf', 'glb', 'babylon', 'stl', 'pts.json'`, and we will render them in the UI when your run finishes.
 
 ```python
-wandb.log({"generated_samples":
-           [wandb.Object3D(open("sample.obj")),
+wandb.log(
+    {
+        "generated_samples": [
+            wandb.Object3D(open("sample.obj")),
             wandb.Object3D(open("sample.gltf")),
-            wandb.Object3D(open("sample.glb"))]})
+            wandb.Object3D(open("sample.glb")),
+        ]
+    }
+)
 ```
 
 ![Ground truth and prediction of a headphones point cloud](/images/track/ground_truth_prediction_of_3d_point_clouds.png)
@@ -342,7 +334,7 @@ wandb.log({"generated_samples":
 Log 3D point clouds and Lidar scenes with bounding boxes. Pass in a NumPy array containing coordinates and colors for the points to render. In the UI, we truncate to 300,000 points.
 
 ```python
-point_cloud = np.array([[0, 0, 0, COLOR...], ...])
+point_cloud = np.array([[0, 0, 0, COLOR]])
 
 wandb.log({"point_cloud": wandb.Object3D(point_cloud)})
 ```
@@ -364,60 +356,56 @@ Here's an example of logging code below:
 
 ```python
 # Log points and boxes in W&B
-point_scene = wandb.Object3D({
-    "type": "lidar/beta",
-    "points": np.array(  # add points, as in a point cloud
-        [
-            [0.4, 1, 1.3], 
-            [1, 1, 1], 
-            [1.2, 1, 1.2]
-        ]
-    ),
-    "boxes": np.array(  # draw 3d boxes
-        [
-            {
-                "corners": [
-                    [0,0,0],
-                    [0,1,0],
-                    [0,0,1],
-                    [1,0,0],
-                    [1,1,0],
-                    [0,1,1],
-                    [1,0,1],
-                    [1,1,1]
-                ],
-                "label": "Box",
-                "color": [123, 321, 111],
-            },
-            {
-                "corners": [
-                    [0,0,0],
-                    [0,2,0],
-                    [0,0,2],
-                    [2,0,0],
-                    [2,2,0],
-                    [0,2,2],
-                    [2,0,2],
-                    [2,2,2]
-                ],
-                "label": "Box-2",
-                "color": [111, 321, 0],
-            }
-        ]
-      ),
-      "vectors": np.array(  # add 3d vectors
-          [
-              {"start": [0, 0, 0], "end": [0.1, 0.2, 0.5]}
-          ]
-      )
-})
+point_scene = wandb.Object3D(
+    {
+        "type": "lidar/beta",
+        "points": np.array(  # add points, as in a point cloud
+            [[0.4, 1, 1.3], [1, 1, 1], [1.2, 1, 1.2]]
+        ),
+        "boxes": np.array(  # draw 3d boxes
+            [
+                {
+                    "corners": [
+                        [0, 0, 0],
+                        [0, 1, 0],
+                        [0, 0, 1],
+                        [1, 0, 0],
+                        [1, 1, 0],
+                        [0, 1, 1],
+                        [1, 0, 1],
+                        [1, 1, 1],
+                    ],
+                    "label": "Box",
+                    "color": [123, 321, 111],
+                },
+                {
+                    "corners": [
+                        [0, 0, 0],
+                        [0, 2, 0],
+                        [0, 0, 2],
+                        [2, 0, 0],
+                        [2, 2, 0],
+                        [0, 2, 2],
+                        [2, 0, 2],
+                        [2, 2, 2],
+                    ],
+                    "label": "Box-2",
+                    "color": [111, 321, 0],
+                },
+            ]
+        ),
+        "vectors": np.array(  # add 3d vectors
+            [{"start": [0, 0, 0], "end": [0.1, 0.2, 0.5]}]
+        ),
+    }
+)
 wandb.log({"point_scene": point_scene})
 ```
   </TabItem>
   <TabItem value="molecules">
 
 ```python
-wandb.log({"protein": wandb.Molecule("6lu7.pdb")}
+wandb.log({"protein": wandb.Molecule("6lu7.pdb")})
 ```
 
 Log molecular data in any of 10 file types:`pdb`, `pqr`, `mmcif`, `mcif`, `cif`, `sdf`, `sd`, `gro`, `mol2`, or `mmtf.`
@@ -428,11 +416,11 @@ W&B also supports logging molecular data from SMILES strings, [`rdkit`](https://
 resveratrol = rdkit.Chem.MolFromSmiles("Oc1ccc(cc1)C=Cc1cc(O)cc(c1)O")
 
 wandb.log(
-  {
-    "resveratrol": wandb.Molecule.from_rdkit(resveratrol),
-    "green fluorescent protein": wandb.Molecule.from_rdkit("2b3p.mol"),
-    "acetaminophen": wandb.Molecule.from_smiles("CC(=O)Nc1ccc(O)cc1"),
-  }
+    {
+        "resveratrol": wandb.Molecule.from_rdkit(resveratrol),
+        "green fluorescent protein": wandb.Molecule.from_rdkit("2b3p.mol"),
+        "acetaminophen": wandb.Molecule.from_smiles("CC(=O)Nc1ccc(O)cc1"),
+    }
 )
 ```
 
@@ -459,11 +447,7 @@ W&B also supports logging of a variety of other media types.
   <TabItem value="audio">
 
 ```python
-wandb.log({
-    "whale songs": wandb.Audio(
-        np_array, 
-        caption="OooOoo", 
-        sample_rate=32)})  
+wandb.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
 The maximum number of audio clips that can be logged per step is 100.
@@ -472,8 +456,7 @@ The maximum number of audio clips that can be logged per step is 100.
   <TabItem value="video">
 
 ```python
-wandb.log(
-  {"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")})
+wandb.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")})
 ```
 
 If a numpy array is supplied we assume the dimensions are, in order: time, channels, width, height. By default we create a 4 fps gif image ([`ffmpeg`](https://www.ffmpeg.org) and the [`moviepy`](https://pypi.org/project/moviepy/) python library are required when passing numpy objects). Supported formats are `"gif"`, `"mp4"`, `"webm"`, and `"ogg"`. If you pass a string to `wandb.Video` we assert the file exists and is a supported format before uploading to wandb. Passing a `BytesIO` object will create a temporary file with the specified format as the extension.
@@ -489,7 +472,7 @@ Use `wandb.Table` to log text in tables to show up in the UI. By default, the co
 columns = ["Text", "Predicted Sentiment", "True Sentiment"]
 # Method 1
 data = [["I love my phone", "1", "1"], ["My phone sucks", "0", "-1"]]
-table =  wandb.Table(data=data, columns=columns)
+table = wandb.Table(data=data, columns=columns)
 wandb.log({"examples": table})
 
 # Method 2

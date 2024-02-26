@@ -7,7 +7,7 @@ displayed_sidebar: default
 You can use W&B Launch to submit jobs for execution as Vertex AI training jobs. With Vertex AI training jobs, you can train machine learning models using either provided, or custom algorithms on the Vertex AI platform. Once a launch job is initiated, Vertex AI manages the underlying infrastructure, scaling, and orchestration.
 
 
-W&B Launch works with Vertex AI through the `CustomJob` class in the `google-cloud-aiplatform` SDK. The parameters of a `CustomJob` can be controlled with the launch queue configuration. Vertex AI cannot be configured to pull images from a private registry outside of GCP. This means that you must store container images in GCP or in a public registry if you want to use Vertex AI with W&B Launch. See the Vertex AI documentation for more information on making container images accessible to Vertex jobs. [LINK]
+W&B Launch works with Vertex AI through the `CustomJob` class in the `google-cloud-aiplatform` SDK. The parameters of a `CustomJob` can be controlled with the launch queue configuration. Vertex AI cannot be configured to pull images from a private registry outside of GCP. This means that you must store container images in GCP or in a public registry if you want to use Vertex AI with W&B Launch. See the Vertex AI documentation for more information on making container images accessible to Vertex jobs.
 
 <!-- Component Diagram of Launch in Vertex AI -->
 
@@ -26,7 +26,7 @@ W&B Launch works with Vertex AI through the `CustomJob` class in the `google-clo
 | `ml.jobs.get`    | Specified GCP Project | Allows retrieval of information about specific machine learning jobs within the project. |
 
 :::info
-If you want your Vertex AI workloads to assume the identity of a non-standard service account, refer to the Vertex AI documentation for instructions on service account creation and necessary permissions. [LINK] The `spec.service_account` field of the launch queue configuration can be used to select a custom service account for your W&B runs.
+If you want your Vertex AI workloads to assume the identity of a non-standard service account, refer to the Vertex AI documentation for instructions on service account creation and necessary permissions.  The `spec.service_account` field of the launch queue configuration can be used to select a custom service account for your W&B runs.
 :::
 
 ## Configure a queue for Vertex AI
@@ -86,9 +86,7 @@ queues:
   - <queue-name>
 ```
 
-If you intend on having the launch agent build images to be run in Vertex AI see Advanced agent set up.
-
-If you want the launch agent to build images for you that are executed in Vertex AI, see the advanced agent page[LINK].
+If you want the launch agent to build images for you that are executed in Vertex AI, see [Advanced agent set up](./setup-agent-advanced.md).
 
 
 ## Set up agent permissions

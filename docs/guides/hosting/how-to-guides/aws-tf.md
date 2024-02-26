@@ -49,31 +49,28 @@ The steps on this topic are common for any deployment option covered by this doc
    The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
 
    ```bash
-   namespace     = "wandb"
-   wandb_license = "xxxxxxxxxxyyyyyyyyyyyzzzzzzz"
-   subdomain     = "wandb-aws"
-   domain_name   = "wandb.ml"
-   zone_id       = "xxxxxxxxxxxxxxxx"
+   namespace                  = "wandb"
+   license                    = "xxxxxxxxxxyyyyyyyyyyyzzzzzzz"
+   subdomain                  = "wandb-aws"
+   domain_name                = "wandb.ml"
+   zone_id                    = "xxxxxxxxxxxxxxxx"
+   allowed_inbound_cidr       = ["0.0.0.0/0"]
+   allowed_inbound_ipv6_cidr  = ["::/0"]
    ```
 
-   The variables defined here need to be decided before the deployment because. The `namespace` variable will be a string that will prefix all resources created by Terraform.
+   Ensure to define variables in your `tvfars` file before you deploy because the `namespace` variable is a string that prefixes all resources created by Terraform.
+
+
 
    The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
+
+   Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also require setting. In the module, this is a mandatory input. The proceeding example permits access from any source to the W&B installation.
 
 3. Create the file `versions.tf`
 
    This file will contain the Terraform and Terraform provider versions required to deploy W&B in AWS
 
    ```bash
-   terraform {
-     required_providers {
-       aws = {
-         source  = "hashicorp/aws"
-         version = "~> 3.60"
-       }
-     }
-   }
-
    provider "aws" {
      region = "eu-central-1"
 
@@ -121,6 +118,18 @@ The steps on this topic are common for any deployment option covered by this doc
      type        = string
      description = "Domain for creating the Weights & Biases subdomain on."
    }
+
+   variable "allowed_inbound_cidr" {
+    description = "CIDRs allowed to access wandb-server."
+    nullable    = false
+    type        = list(string)
+   }
+
+   variable "allowed_inbound_ipv6_cidr" {
+    description = "CIDRs allowed to access wandb-server."
+    nullable    = false
+    type        = list(string)
+   }
    ```
 
 ## Deployment - Recommended (~20 mins)
@@ -134,12 +143,20 @@ This is the most straightforward deployment option configuration that will creat
    ```
    module "wandb_infra" {
      source  = "wandb/wandb/aws"
-     version = "1.6.0"
+     version = "~>2.0"
 
      namespace   = var.namespace
      domain_name = var.domain_name
      subdomain   = var.subdomain
      zone_id     = var.zone_id
+
+     allowed_inbound_cidr           = var.allowed_inbound_cidr
+     allowed_inbound_ipv6_cidr      = var.allowed_inbound_ipv6_cidr
+
+     public_access                  = true
+     external_dns                   = true
+     kubernetes_public_access       = true
+     kubernetes_public_access_cidrs = ["0.0.0.0/0"]
    }
 
    data "aws_eks_cluster" "app_cluster" {
@@ -158,7 +175,7 @@ This is the most straightforward deployment option configuration that will creat
 
    module "wandb_app" {
      source  = "wandb/wandb/kubernetes"
-     version = "1.5.0"
+     version = "~>1.0"
 
      license                    = var.license
      host                       = module.wandb_infra.url
@@ -199,7 +216,7 @@ You need to add the option `create_elasticache_subnet = true` to the same `main.
 ```
 module "wandb_infra" {
   source  = "wandb/wandb/aws"
-  version = "1.6.0"
+  version = "~>2.0"
 
   namespace   = var.namespace
   domain_name = var.domain_name
@@ -219,7 +236,7 @@ The AWS resource that provides the message broker is the `SQS`, and to enable it
 ```
 module "wandb_infra" {
   source  = "wandb/wandb/aws"
-  version = "1.6.0"
+  version = "~>2.0"
 
   namespace   = var.namespace
   domain_name = var.domain_name
@@ -228,7 +245,7 @@ module "wandb_infra" {
   **use_internal_queue = false**
 
 [...]
-
+}
 ```
 
 ## Other deployment options
@@ -333,7 +350,7 @@ The node where W&B server is running must be configured to permit access to Amaz
 ### Configure W&B server
 Finally, configure your W&B Server.
 
-1. Nnavigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
+1. Navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
 2. Enable the ***Use an external file storage backend* option/
 3. Provide information about your Amazon S3 bucket, region, and Amazon SQS queue in the following format:
 * **File Storage Bucket**: `s3://<bucket-name>`
@@ -344,4 +361,24 @@ Finally, configure your W&B Server.
 
 4. Select **Update settings** to apply the new settings.
 
-<!-- ## Upgrades (coming soon) -->
+## Upgrade your W&B version
+
+Follow the steps outlined here to update W&B:
+
+1. Add `wandb_version` to your configuration in your `wandb_app` module. Provide the version of W&B you want to upgrade to. For example, the following line specifies W&B version `0.48.1`:
+
+  ```
+  module "wandb_app" {
+      source  = "wandb/wandb/kubernetes"
+      version = "~>1.0"
+
+      license       = var.license
+      wandb_version = "0.48.1"
+  ```
+
+  :::info
+  Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
+  :::
+
+2. After you update your configuration, complete the steps described in the [Deployment section](#deployment---recommended-20-mins).
+
