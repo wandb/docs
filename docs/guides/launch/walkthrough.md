@@ -2,8 +2,12 @@
 description: Getting started guide for W&B Launch.
 displayed_sidebar: default
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Walkthrough
+
+<CTAButtons colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP"/>
+
 
 This guide will walk you through how to setup the fundamental components of W&B launch:  **launch jobs**, **launch queues**, and **launch agents**. By the end of this walkthrough, you will:
 
@@ -22,7 +26,7 @@ Before you get started, ensure you have satisfied the following prerequisites:
     ```bash
     pip install wandb>=0.14.0
     ```
-2. Sign up for a free account at https://wandb.ai/site and then login to your W&B account. 
+2. Sign up for a free account at https://wandb.ai/site and then log in to your W&B account. 
 3. Install Docker. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker. Make sure the docker daemon is running on your machine.
 
 ## Create a launch job
@@ -40,8 +44,10 @@ Before you get started, ensure you have satisfied the following prerequisites:
     project = "launch-quickstart"
     job_name = "walkthrough_example"
 
+    settings = wandb.Settings(job_name=job_name)
+
     with wandb.init(
-        entity=entity, config=config, project=project, job_name=job_name
+        entity=entity, config=config, project=project, settings=settings
     ) as run:
         config = wandb.config
         for epoch in range(1, config.epochs):

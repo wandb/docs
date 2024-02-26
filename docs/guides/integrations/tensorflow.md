@@ -18,7 +18,7 @@ If you need to log additional custom metrics that aren't being logged to TensorB
 
 Setting the step argument in `wandb.log` is disabled when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
 
-`wandb.log({"custom": 0.8, "global_step"=global_step})`
+`wandb.log({"custom": 0.8, "global_step":global_step}, step=global_step)`
 
 ## TensorFlow Hook
 

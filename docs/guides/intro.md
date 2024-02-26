@@ -18,16 +18,17 @@ This diagram outlines the relationship between W&B products.
 
 **[W&B Models](/guides/models.md)** is a set of lightweight, interoperable tools for machine learning practitioners training and fine-tuning models.
 - [Experiments](/guides/track/intro.md): Machine learning experiment tracking
-- [Model Registry](/guides/model_registry/intro.md): quickly track experiments
+- [Model Registry](/guides/model_registry/intro.md): Manage production models centrally
 - [Launch](/guides/launch/intro.md): Scale and automate workloads
 - [Sweeps](/guides/sweeps/intro.md): Hyperparameter tuning and model optimization
 
-**[W&B Prompts](/guides/prompts/intro.md)** is for LLM debugging and monitoring, including usage of OpenAI's GPT API.
+**[W&B Prompts](/guides/prompts/intro.md)** is for debugging and evaluating LLMs.
 
 **[W&B Platform](/guides/platform.md)** is a core set of powerful building blocks for tracking and visualizing data and models, and communicating results.
 - [Artifacts](/guides/artifacts/intro.md): Version assets and track lineage
 - [Tables](/guides/tables/intro.md): Visualize and query tabular data
 - [Reports](/guides/reports/intro.md): Document and collaborate on your discoveries
+- [Weave](/guides/app/features/panels/weave) Query and create visualizations of your data
 
 ## Are you a first-time user of W&B?
 

@@ -4,8 +4,12 @@ displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Sweeps on Launch
+
+<CTAButtons colabLink="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7"/>
+
 Create a hyperparameter tuning job ([sweeps](../sweeps/intro.md)) with W&B Launch. With sweeps on launch, a sweep scheduler is pushed to a Launch Queue with the specified hyperparameters to sweep over. The sweep scheduler starts as it is picked up by the agent, launching sweep runs onto the same queue with chosen hyperparameters. This continues until the sweep finishes or is stopped. 
 
 You can use the default W&B Sweep scheduling engine or implement your own custom scheduler:
@@ -44,10 +48,11 @@ Create a sweep interactively with the W&B App.
 4. Click the **Configure Launch 🚀** button.
 5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from.
 6. Select a queue to run the sweep on using the **Queue** dropdown menu.
-7. (Optional) Configure override args for the run or sweep scheduler. For example, using the scheduler overrides, configure the number of concurrent runs the scheduler manages using `num_workers`.
-8. (Optional) Select a project to save the sweep to using the **Destination Project** dropdown menu.
-9. Click **Save**
-10. Select **Launch Sweep**.
+8. Use the **Job Priority** dropdown to specify the priority of your launch job.  A launch job's priority is set to "Medium" if the launch queue does not support prioritization.
+8. (Optional) Configure override args for the run or sweep scheduler. For example, using the scheduler overrides, configure the number of concurrent runs the scheduler manages using `num_workers`.
+9. (Optional) Select a project to save the sweep to using the **Destination Project** dropdown menu.
+10. Click **Save**
+11. Select **Launch Sweep**.
 
 ![](/images/launch/create_sweep_with_launch.png)
 

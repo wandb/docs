@@ -38,7 +38,7 @@ There are also several ways to add tags after runs have been logged to W&B.
 After a run is created, you can update tags using [our public API](../../../guides/track/public-api-guide.md) like so:
 
 ```python
-run = wandb.Api().run("{entity}/{project}/{run-id}"})
+run = wandb.Api().run("{entity}/{project}/{run-id}")
 run.tags.append("tag1")  # you can choose tags based on run data here
 run.update()
 ```

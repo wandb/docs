@@ -2,7 +2,7 @@
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Image_Classification_using_PyTorch_Lightning.ipynb)
 
-We will build an image classification pipeline using PyTorch Lightning. We will follow this [style guide](https://pytorch-lightning.readthedocs.io/en/stable/starter/style_guide.html) to increase the readability and reproducibility of our code. A cool explanation of this available [here](https://wandb.ai/wandb/wandb-lightning/reports/Image-Classification-using-PyTorch-Lightning--VmlldzoyODk1NzY).
+We will build an image classification pipeline using PyTorch Lightning. We will follow this [style guide](https://lightning.ai/docs/pytorch/stable/starter/style_guide.html) to increase the readability and reproducibility of our code. A cool explanation of this available [here](https://wandb.ai/wandb/wandb-lightning/reports/Image-Classification-using-PyTorch-Lightning--VmlldzoyODk1NzY).
 
 ## Setting up PyTorch Lightning and W&B 
 
@@ -10,7 +10,7 @@ For this tutorial, we need PyTorch Lightning(ain't that obvious!) and Weights an
 
 
 ```
-!pip install pytorch-lightning -q
+!pip install lightning -q
 # install weights and biases
 !pip install wandb -qU
 ```
@@ -20,9 +20,9 @@ You're gonna need these imports.
 
 
 ```
-import pytorch_lightning as pl
+import lightning.pytorch as pl
 # your favorite machine learning tracking tool
-from pytorch_lightning.loggers import WandbLogger
+from lightning.pytorch.loggers import WandbLogger
 
 import torch
 from torch import nn
@@ -37,7 +37,7 @@ from torchvision.datasets import CIFAR10
 import wandb
 ```
 
-Now you'll need to login to you wandb account.
+Now you'll need to log in to you wandb account.
 
 
 ```
@@ -55,7 +55,7 @@ It organizes the data pipeline into one shareable and reusable class. A datamodu
 - Apply transforms (rotate, tokenize, etc…).
 - Wrap inside a DataLoader.
 
-Learn more about datamodules [here](https://pytorch-lightning.readthedocs.io/en/stable/extensions/datamodules.html). Let's build a datamodule for the Cifar-10 dataset. 
+Learn more about datamodules [here](https://lightning.ai/docs/pytorch/stable/data/datamodule.html). Let's build a datamodule for the Cifar-10 dataset. 
 
 
 ```
@@ -98,12 +98,12 @@ class CIFAR10DataModule(pl.LightningDataModule):
 
 ## 📱 Callbacks
 
-A callback is a self-contained program that can be reused across projects. PyTorch Lightning comes with few [built-in callbacks](https://pytorch-lightning.readthedocs.io/en/latest/extensions/callbacks.html#built-in-callbacks) which are regularly used. 
-Learn more about callbacks in PyTorch Lightning [here](https://pytorch-lightning.readthedocs.io/en/latest/extensions/callbacks.html).
+A callback is a self-contained program that can be reused across projects. PyTorch Lightning comes with few [built-in callbacks](https://lightning.ai/docs/pytorch/latest/extensions/callbacks.html#built-in-callbacks) which are regularly used. 
+Learn more about callbacks in PyTorch Lightning [here](https://lightning.ai/docs/pytorch/latest/extensions/callbacks.html).
 
 ### Built-in Callbacks
 
-In this tutorial, we will use [Early Stopping](https://pytorch-lightning.readthedocs.io/en/latest/api/lightning.pytorch.callbacks.EarlyStopping.html#lightning.callbacks.EarlyStopping) and [Model Checkpoint](https://pytorch-lightning.readthedocs.io/en/latest/api/lightning.pytorch.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) built-in callbacks. They can be passed to the `Trainer`.
+In this tutorial, we will use [Early Stopping](https://lightning.ai/docs/pytorch/latest/api/lightning.pytorch.callbacks.EarlyStopping.html#lightning.callbacks.EarlyStopping) and [Model Checkpoint](https://lightning.ai/docs/pytorch/latest/api/lightning.pytorch.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) built-in callbacks. They can be passed to the `Trainer`.
 
 
 ### Custom Callbacks
@@ -317,5 +317,5 @@ I come from the TensorFlow/Keras ecosystem and find PyTorch a bit overwhelming e
 I hope you find this report helpful. I will encourage to play with the code and train an image classifier with a dataset of your choice. 
 
 Here are some resources to learn more about PyTorch Lightning:
-- [Step-by-step walk-through](https://pytorch-lightning.readthedocs.io/en/latest/starter/introduction.html) - This is one of the official tutorials. Their documentation is really well written and I highly encourage it as a good learning resource.
+- [Step-by-step walk-through](https://lightning.ai/docs/pytorch/latest/starter/introduction.html) - This is one of the official tutorials. Their documentation is really well written and I highly encourage it as a good learning resource.
 - [Use Pytorch Lightning with Weights & Biases](https://wandb.me/lightning) - This is a quick colab that you can run through to learn more about how to use W&B with PyTorch Lightning.

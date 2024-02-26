@@ -24,13 +24,13 @@ Follow the procedure below to send metrics to the shared private instance. Ensur
 
 1. Set the host flag to the address of the private instance whenever you login:
 
-```
- wandb login --host=http://wandb.your-shared-local-host.com
+```bash
+wandb login --host=http://wandb.your-shared-local-host.com
 ```
 
 2. Set the environment variable `WANDB_BASE_URL` to the address of the local instance:
 
-```python
+```bash
 export WANDB_BASE_URL="http://wandb.your-shared-local-host.com"
 ```
 

@@ -17,7 +17,7 @@ a) [**Sign up**](https://wandb.ai/site) for a free account
 
 b) Pip install the `wandb` library
 
-c) To login in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+c) To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
 If you are using Weights and Biases for the first time you might want to check out our [quickstart](../../quickstart.md)
 
@@ -38,7 +38,7 @@ wandb login
   </TabItem>
   <TabItem value="notebook">
 
-```python
+```notebook
 !pip install wandb
 
 wandb.login()
@@ -53,6 +53,7 @@ wandb.login()
 
 ```python
 import wandb
+
 wandb.init(project="visualize-sklearn")
 
 y_pred = clf.predict(X_test)
@@ -71,6 +72,7 @@ wandb.summary["accuracy"] = accuracy
 
 ```python
 import wandb
+
 wandb.init(project="visualize-sklearn")
 ```
 
@@ -89,14 +91,26 @@ W&B has functions such as `plot_classifier` that will plot several relevant plot
 
 ```python
 # Visualize all classifier plots
-wandb.sklearn.plot_classifier(clf, X_train, X_test, y_train, y_test, y_pred, y_probas, labels,
-                                                         model_name='SVC', feature_names=None)
+wandb.sklearn.plot_classifier(
+    clf,
+    X_train,
+    X_test,
+    y_train,
+    y_test,
+    y_pred,
+    y_probas,
+    labels,
+    model_name="SVC",
+    feature_names=None,
+)
 
 # All regression plots
-wandb.sklearn.plot_regressor(reg, X_train, X_test, y_train, y_test,  model_name='Ridge')
+wandb.sklearn.plot_regressor(reg, X_train, X_test, y_train, y_test, model_name="Ridge")
 
 # All clustering plots
-wandb.sklearn.plot_clusterer(kmeans, X_train, cluster_labels, labels=None, model_name='KMeans')
+wandb.sklearn.plot_clusterer(
+    kmeans, X_train, cluster_labels, labels=None, model_name="KMeans"
+)
 ```
 
 **Or plot existing matplotlib plots:**
@@ -112,6 +126,7 @@ Finally, the plots can be logged on W&B's dashboard as follows:
 ```python
 import matplotlib.pyplot as plt
 import wandb
+
 wandb.init(project="visualize-sklearn")
 
 # do all the plt.plot(), plt.scatter(), etc. here.
