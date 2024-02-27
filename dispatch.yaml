@@ -3,6 +3,10 @@ dispatch:
   # - url: "docs.wandb.ai/ko*"
   #   service: ko
 
+    # # Route requests to 
+  # - url: "docs.wandb.ai/ja*"
+  #   service: ja
+
   # Route requests to docs.wandb.ai to the default service
   - url: "docs.wandb.ai/*"
     service: default
@@ -10,6 +14,10 @@ dispatch:
   # Route requests to docs-beta.wandb.ai to the ko beta service
   - url: "docs-beta.wandb.ai/ko*"
     service: beta-ko
+
+  # Route requests to docs-beta.wandb.ai to the ko beta service
+  - url: "docs-beta.wandb.ai/ja*"
+    service: beta-ja
 
   # Route requests to docs-beta.wandb.ai to the beta service
   - url: "docs-beta.wandb.ai/*"
