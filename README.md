@@ -1,4 +1,4 @@
-# Weights & Biases Documentation [Korean]
+# Weights & Biases Documentation [Japanese]
 
 [![Build the docs](https://github.com/wandb/docodile/actions/workflows/build_docs.yml/badge.svg)](https://github.com/wandb/docodile/actions/workflows/build_docs.yml)
 
@@ -42,7 +42,7 @@ pre-commit install
 &nbsp;
 
 ## How to edit the docs locally
-> ⚠️ Make sure that you push changes to the `korean_docs` branch and not `main`. ⚠️
+> ⚠️ Make sure that you push changes to the `japanese_docs` branch and not `main`. ⚠️
 
 &nbsp;
 
@@ -52,9 +52,9 @@ pre-commit install
 cd docodile
 ```
 
-2. Checkout a branch bashed off of `korean_docs` branch and track `korean_docs`:
+2. Checkout a branch bashed off of `japanese_docs` branch and track `japanese_docs`:
 ```bash
-git checkout -b your-feature-branch origin/korean_docs
+git checkout -b your-feature-branch origin/japanese_docs
 ```
 
 3. Make changes to the appropriate markdown files.
@@ -72,9 +72,9 @@ git add -u
 git commit -m "Your commit message"
 ```
 
-6. Push to `korean_docs` branch on remote:
+6. Push to `japanese_docs` branch on remote:
 ```bash
-git push origin your-feature-branch:korean_docs
+git push origin your-feature-branch:japanese_docs
 ```
 
 
