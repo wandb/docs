@@ -19,6 +19,7 @@ W&B workspace is your personal sandbox to customize charts and explore model res
 Improve team collaboration with tailored workspace views. 
 
 ### Understand the workspace categories
+There are two main workspace categories: **Personal Workspaces** and **Saved Views**. 
 
 * **Personal Workspaces:** Exclusive to you, these are customizable spaces for in-depth analysis of models and data visualizations. You have edit control, while teammates can view configurations without altering them.
 
