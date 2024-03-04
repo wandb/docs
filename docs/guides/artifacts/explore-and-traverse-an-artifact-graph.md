@@ -14,7 +14,7 @@ W&B automatically tracks the artifacts a given run logged as well as the artifac
 
 ## Lineage
 
-When selecting an artifact in the **Artifacts** tab, you will be able to see your artifact's lineage. This graph view shows a general overview of your pipeline. 
+When selecting an artifact in the **Artifacts** tab, you can see your artifact's lineage. This graph view shows a general overview of your pipeline. 
 
 To view an artifact graph:
 
@@ -25,25 +25,25 @@ To view an artifact graph:
 ### Navigating lineage 
 The lineage graph is generated based on the `type` you provide when you create runs and artifacts. 
 
-The artifact or run type you provide is located above its name, withA artifacts represented by blue icona and runs represented by green icons. The input and output of a run or artifact is depicted in the graph with arrows. 
+The artifact or run type you provide is located above its name, withA artifacts represented by blue icons and runs represented by green icons. The input and output of a run or artifact is depicted in the graph with arrows. 
 
 :::info
 You can view the type and the name of artifact in both the left sidebar and in the **Lineage** tab. 
 :::
 
 
-For a more detailed view, click on the arrow on any individual artifact or run to get more information on a particular object.
+For a more detailed view, click the arrow on any individual artifact or run to get more information on a particular object.
 
 ### Artifact clusters
 
-When a level of the graph has five or more runs or artifacts, a cluster will be created. A cluster has a search bar to find specific versions of runs or artifact and an individual node can be pulled from a cluster to continue investigating the lineage of a node inside a cluster. Clicking on a node will open a preview drawer with an overview of the node.
+When a level of the graph has five or more runs or artifacts, a cluster is created. A cluster has a search bar to find specific versions of runs or artifact and an individual node can be pulled from a cluster to continue investigating the lineage of a node inside a cluster. Clicking on a node opens a preview with an overview of the node.
 
 ## Traverse a graph programmatically 
 You can also navigate a graph usuing the [W&B API]((../../ref/python/public-api/api.md)). 
 
 ### Traverse from an artifact
 
-Create an artifact object, and provide the name of the project, artifact and alias of the artifact:
+Create an artifact object and provide the name of the project, artifact, and alias of the artifact:
 
 ```python
 import wandb
@@ -62,8 +62,7 @@ consumer_runs = artifact.used_by()
 ```
 
 ### Traverse from a run
-
-Create an artifact object with the W&B Public API ([wandb.Api.Run](../../ref/python/public-api/run.md)). Provide the name of the entity, project, and run ID:
+Create an artifact object and provide the name of the project, artifact, and alias of the artifact:
 
 ```python
 import wandb
