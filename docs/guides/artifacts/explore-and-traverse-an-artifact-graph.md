@@ -12,9 +12,9 @@ displayed_sidebar: default
 W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run used. Explore the lineage of an artifact with the W&B App UI or programmatically.
 
 
-## Traverse an artifact with the W&B App UI
+## Lineage
 
-The graph view shows a general overview of your pipeline. 
+When selecting an artifact in the **Artifacts** tab, you will be able to see your artifact's lineage. This graph view shows a general overview of your pipeline. 
 
 To view an artifact graph:
 
@@ -22,28 +22,26 @@ To view an artifact graph:
 2. Choose the artifact icon on the left panel.
 3. Select **Lineage**.
 
-The `type` you provide when you create runs and artifacts are used to create the graph. The input and output of a run or artifact is depicted in the graph with arrows. Artifacts are represented by blue rectangles and Runs are represented by green rectangles. 
-
-
+### Navigating lineage 
+The lineage graph is generated based on the `type` you provide when you create runs and artifacts. 
 
 The artifact type you provide is located in the dark blue header next to the **ARTIFACT** label. The name of the artifact, along with the artifact version, is shown in the light blue region underneath the **ARTIFACT** label.
 
 The job type you provide when you initialized a run is located next to the **RUN** label. The W&B run name is located in the light green region underneath the **RUN** label. 
 
+
+The input and output of a run or artifact is depicted in the graph with arrows. Artifacts are represented by blue icona and Runs are represented by green icons. 
+
 :::info
-You can view the type and the name of artifacts both in the left sidebar and in the **Lineage** tab. 
+You can view the type and the name of artifact in both the left sidebar and in the **Lineage** tab. 
 :::
 
 
+For a more detailed view, click on the arrow on any individual artifact or run to get more information on a particular object.
 
-For example, in the proceeding image, an artifact was defined with a type called "raw_dataset" (pink square). The name of the artifact is called "MNIST_raw" (pink line). The artifact was then used for training. The name of the training run is called "vivid-snow-42". That run then produced a "model" artifact (orange square) named "mnist-19pofeku".
+### Artifact clusters
 
-
-![DAG view of artifacts, runs used for an experiment.](/images/artifacts/example_dag_with_sidebar.png)
-
-
-For a more detailed view, select the **Explode** toggle on the upper left hand side of the dashboard. The expanded graph shows details of every run and every artifact in the project that was logged. Try it yourself on this [example Graph page](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/v0/lineage).
-
+When a level of the graph (i.e a vertical column of nodes) has 5+ runs or artifacts, a cluster will be created. A cluster has a search bar to find specific versions. To continue investigating the lineage of a node in a cluster, a node can be pulled out from a cluster. Clicking on a node, whether an artifact or run node, will open a preview drawer with an overview of the node.
 
 ## Traverse an artifact programmatically 
 
