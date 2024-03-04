@@ -25,12 +25,7 @@ To view an artifact graph:
 ### Navigating lineage 
 The lineage graph is generated based on the `type` you provide when you create runs and artifacts. 
 
-The artifact type you provide is located in the dark blue header next to the **ARTIFACT** label. The name of the artifact, along with the artifact version, is shown in the light blue region underneath the **ARTIFACT** label.
-
-The job type you provide when you initialized a run is located next to the **RUN** label. The W&B run name is located in the light green region underneath the **RUN** label. 
-
-
-The input and output of a run or artifact is depicted in the graph with arrows. Artifacts are represented by blue icona and Runs are represented by green icons. 
+The artifact or run type you provide is located above its name, withA artifacts represented by blue icona and runs represented by green icons. The input and output of a run or artifact is depicted in the graph with arrows. 
 
 :::info
 You can view the type and the name of artifact in both the left sidebar and in the **Lineage** tab. 
@@ -41,11 +36,14 @@ For a more detailed view, click on the arrow on any individual artifact or run t
 
 ### Artifact clusters
 
-When a level of the graph (i.e a vertical column of nodes) has 5+ runs or artifacts, a cluster will be created. A cluster has a search bar to find specific versions. To continue investigating the lineage of a node in a cluster, a node can be pulled out from a cluster. Clicking on a node, whether an artifact or run node, will open a preview drawer with an overview of the node.
+When a level of the graph has five or more runs or artifacts, a cluster will be created. A cluster has a search bar to find specific versions of runs or artifact and an individual node can be pulled from a cluster to continue investigating the lineage of a node inside a cluster. Clicking on a node will open a preview drawer with an overview of the node.
 
-## Traverse an artifact programmatically 
+## Traverse a graph programmatically 
+You can also navigate a graph usuing the [W&B API]((../../ref/python/public-api/api.md)). 
 
-Create an artifact object with the W&B Public API ([wandb.Api](../../ref/python/public-api/api.md)). Provide the name of the project, artifact and alias of the artifact:
+### Traverse from an artifact
+
+Create an artifact object, and provide the name of the project, artifact and alias of the artifact:
 
 ```python
 import wandb
@@ -63,7 +61,7 @@ producer_run = artifact.logged_by()
 consumer_runs = artifact.used_by()
 ```
 
-#### Traverse from a run
+### Traverse from a run
 
 Create an artifact object with the W&B Public API ([wandb.Api.Run](../../ref/python/public-api/run.md)). Provide the name of the entity, project, and run ID:
 
