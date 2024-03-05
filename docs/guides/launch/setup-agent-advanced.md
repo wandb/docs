@@ -279,3 +279,13 @@ The [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role
 
   </TabItem>
 </Tabs>
+
+## [Optional] Deploy Launch agent into CoreWeave 
+Optionally deploy the W&B Launch agent to CoreWeave Cloud infrastructure. CoreWeave is a cloud infrastructure that is purpose built for GPU-accelerated workloads.
+
+For information on how to deploy the Launch agent to CoreWeave, see the [CoreWeave documentation](https://docs.coreweave.com/partners/weights-and-biases#integration). 
+
+:::note
+You will need to create a [CoreWeave account](https://cloud.coreweave.com/login) in order to deploy the Launch agent into a CoreWeave infrastructure. 
+:::
+
