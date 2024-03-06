@@ -93,7 +93,7 @@ Log in to W&B. Follow the prompts if you have not logged in before.
 wandb login
 ```
 
-Import all runs and artifacts from a source W&B instance to a destination W&B instance. Runs and artifacts will be imported to their respective namespaces in the destination instance.
+Import all runs and artifacts from a source W&B instance to a destination W&B instance. Runs and artifacts are imported to their respective namespaces in the destination instance.
 
 ```py
 from wandb.apis.importers.wandb import WandbImporter
@@ -125,7 +125,7 @@ importer.import_all(
 )
 ```
 
-By default, imports are incremental. Subsequent imports will try to validate the previous work and write to `.jsonl` files tracking success/failure. If an import succeeded, future validation is skipped. If an import failed, it will be retried. To disable this, set `incremental=False`.
+By default, imports are incremental. Subsequent imports try to validate the previous work and write to `.jsonl` files tracking success/failure. If an import succeeded, future validation is skipped. If an import failed, it is retried. To disable this, set `incremental=False`.
 
 ```py
 importer.import_all(
@@ -137,7 +137,7 @@ importer.import_all(
 ### Known issues and limitations
 
 1. Sometimes when bulk importing (especially large artifacts), you can run into S3 rate limits. If you see `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`, you can try spacing out imports by moving just a few namespaces at a time.
-2. Imported run tables appear to be blank in the workspace, but if you nav to the Artifacts tab and click on the equivalent run table artifact you should see the table as expected.
+2. Imported run tables appear to be blank in the workspace, but if you nav to the Artifacts tab and click the equivalent run table artifact you should see the table as expected.
 3. System metrics and custom charts (not explicitly logged with `wandb.log`) are not imported
 
 ## Export Data
