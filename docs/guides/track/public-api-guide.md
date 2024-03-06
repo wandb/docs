@@ -106,7 +106,8 @@ importer = WandbImporter(
     dst_api_key="target-environment-api-key-here",
 )
 
-# Imports all runs, artifacts, reports from "entity/project" in src to "entity/project" in dst
+# Imports all runs, artifacts, reports
+# from "entity/project" in src to "entity/project" in dst
 importer.import_all(namespaces=[
     Namespace(entity, project),
     # ... add more namespaces here
@@ -116,17 +117,21 @@ importer.import_all(namespaces=[
 If you prefer to change the destination namespace, you can specify `remapping: dict[Namespace, Namespace]`
 
 ```py
-# also works for artifacts
 importer.import_all(
     namespaces=[Namespace(entity, project)],
-    remapping={Namespace(entity, project): Namespace(new_entity, new_project)}
+    remapping={
+        Namespace(entity, project): Namespace(new_entity, new_project),
+    }
 )
 ```
 
 By default, imports are incremental. Subsequent imports will try to validate the previous work and write to `.jsonl` files tracking success/failure. If an import succeeded, future validation is skipped. If an import failed, it will be retried. To disable this, set `incremental=False`.
 
 ```py
-importer.import_all(namespaces=[Namespace(entity, project)], incremental=False)
+importer.import_all(
+    namespaces=[Namespace(entity, project)],
+    incremental=False,
+)
 ```
 
 ### Known issues and limitations
