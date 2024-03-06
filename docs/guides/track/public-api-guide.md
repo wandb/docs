@@ -24,7 +24,7 @@ Install dependencies:
 pip install wandb[importers]
 ```
 
-Log in to W&B (follow prompts if you haven't logged in before).
+Log in to W&B. Follow the prompts if you have not logged in before.
 
 ```shell
 wandb login
