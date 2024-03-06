@@ -21,10 +21,10 @@ W&B supports importing data from MLFlow, including experiments, runs, artifacts,
 Install dependencies:
 
 ```shell
-pip install mlflow wandb>=0.14.0
+pip install wandb[importers]
 ```
 
-Log in to W&B (follow prompts if you haven't logged in before)
+Log in to W&B (follow prompts if you haven't logged in before).
 
 ```shell
 wandb login
@@ -32,47 +32,48 @@ wandb login
 
 Import all runs from an existing MLFlow server:
 
-```shell
-wandb import mlflow \ &&
-    --mlflow-tracking-uri <mlflow_uri> \ &&
-    --target-entity       <entity> \ &&
-    --target-project      <project>
+```py
+from wandb.apis.importers.mlflow import MlflowImporter
+
+importer = MlflowImporter(mlflow_tracking_uri="...")
+
+runs = importer.collect_runs()
+importer.import_runs(runs)
+```
+
+By default, `importer.collect_runs()` collects all runs from the MLFlow server. If you prefer to upload a special subset, you can construct your own runs iterable and pass it to the importer.
+
+```py
+import mlflow
+from wandb.apis.importers.mlflow import MlflowRun
+
+client = mlflow.tracking.MlflowClient(mlflow_tracking_uri)
+
+runs: Iterable[MlflowRun] = []
+for run in mlflow_client.search_runs(...):
+    runs.append(MlflowRun(run, client))
+
+importer.import_runs(runs)
 ```
 
 :::tip
 You might need to [configure the Databricks CLI first](https://docs.databricks.com/dev-tools/cli/index.html) if you import from Databricks MLFlow.
 
-Set `--mlflow-tracking-uri=databricks` in the previous step.
+Set `mlflow-tracking-uri="databricks"` in the previous step.
 :::
 
-#### Advanced
-
-You can also import from Python. This can be useful if you want to specify overrides, or if you prefer python to the command line.
+To skip importing artifacts, you can pass `artifacts=False`:
 
 ```py
-from wandb.apis.importers import MlflowImporter
-
-# optional dict to override settings for all imported runs
-overrides = {"entity": "my_custom_entity", "project": "my_custom_project"}
-
-importer = MlflowImporter(mlflow_tracking_uri="...")
-importer.import_all_parallel()
+importer.import_runs(runs, artifacts=False)
 ```
 
-For even more fine-grained control, you can selectively import experiments or specify overrides based on your own custom logic. For example, the following code shows how to make runs with custom tags that are then imported into the specified project.
+To import to a specific W&B entity and project, you can pass a `Namespace`:
 
 ```py
-default_settings = {"entity": "default_entity", "project": "default_project"}
+from wandb.apis.importers import Namespace
 
-special_tag_settings = {"entity": "special_entity", "project": "special_project"}
-
-for run in importer.download_all_runs():
-    if "special_tag" in run.tags():
-        overrides = special_tag_settings
-    else:
-        overrides = default_settings
-
-    importer.import_run(run, overrides=overrides)
+importer.import_runs(runs, namespace=Namespace(entity, project))
 ```
 
 ## Import Data from another W&B instance
