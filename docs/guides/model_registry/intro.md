@@ -58,6 +58,7 @@ Depending on your use case, explore the following resources to get started with 
   2. [Consuming models and automating downstream processes](https://www.youtube.com/watch?v=8PFCrDSeHzw) in the Model Registry.
 * Read the [models walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
 * Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
+* Take our free online [Enterprise Model Management](https://www.wandb.courses/courses/enterprise-model-management) course.
 * Learn about:
    * [Protected models and access control](./access_controls.md).
    * [How to connect the Model Registry to CI/CD processes](./automation.md).
