@@ -87,7 +87,7 @@ Install dependencies:
 pip install wandb[importers]
 ```
 
-Log in to W&B. Follow the prompts if you have not logged in before.
+Log in to the source W&B server. Follow the prompts if you have not logged in before.
 
 ```sh
 wandb login
@@ -135,6 +135,12 @@ importer.import_all(
 ```
 
 ### Known issues and limitations
+
+### FAQ
+
+- If the destination namespace does not exist, it will be created automatically
+- If a run or artifact has the same ID in the destination namespace, it will be treated as an incremental import. The destination run/artifact is validated and retried if it failed in a previous import.
+- No data is ever deleted from the source system.
 
 1. Sometimes when bulk importing (especially large artifacts), you can run into S3 rate limits. If you see `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`, you can try spacing out imports by moving just a few namespaces at a time.
 2. Imported run tables appear to be blank in the workspace, but if you nav to the Artifacts tab and click the equivalent run table artifact you should see the table as expected.
