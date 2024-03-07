@@ -13,18 +13,18 @@ W&B automatically tracks the artifacts a given run logged as well as the artifac
 
 
 ## Lineage
-### Benefits of artifact lineage
+### Benefits of tracking lineage
 Tracking an artifact's lineage has several key benefits:
 
 - Reproducibility: By tracking the lineage of all artifacts, teams can reproduce experiments, models, and results, which is essential for debugging, experimentation, and validating machine learning models.
 
-- Version Control: Artifact lineage involves versioning of artifacts so that changes can be tracked over time. This allows teams to roll back to previous versions of data, code, or models if needed.
+- Version Control: Artifact lineage involves versioning of artifacts so that changes are tracked over time. This allows teams to roll back to previous versions of data, code, or models if needed.
 
-- Auditing: Having a detailed history of the artifacts and their transformations enables organizations to comply with regulatory and governance requirements. This is particularly important in industries such as finance and healthcare, where models must be explainable and transparent.
+- Auditing: Having a detailed history of the artifacts and their transformations enables organizations to comply with regulatory and governance requirements.
 
 - Collaboration and Knowledge Sharing: Artifact lineage facilitates better collaboration among team members by providing a clear record of what has been tried, what worked, and what didn’t. This helps in avoiding duplication of efforts and accelerates the development process.
 
-### How to find an artifact's lineage
+### Finding an artifact's lineage
 When selecting an artifact in the **Artifacts** tab, you can see your artifact's lineage. This graph view shows a general overview of your pipeline. 
 
 To view an artifact graph:
@@ -36,7 +36,7 @@ To view an artifact graph:
 ### Navigating the lineage graph
 The lineage graph generates based on the `type` you provide when you create runs and artifacts. 
 
-The artifact or run type you provide is located above its name, withA artifacts represented by blue icons and runs represented by green icons. The input and output of a run or artifact is depicted in the graph with arrows. 
+The artifact or run type you provide is located above its name, with artifacts represented by blue icons and runs represented by green icons. The input and output of a run or artifact is depicted in the graph with arrows. 
 
 :::info
 You can view the type and the name of artifact in both the left sidebar and in the **Lineage** tab. 
@@ -47,21 +47,21 @@ For a more detailed view, click the arrow on any individual artifact or run to g
 
 ### Artifact clusters
 
-When a level of the graph has five or more runs or artifacts, a cluster is created. A cluster has a search bar to find specific versions of runs or artifact and an individual node can be pulled from a cluster to continue investigating the lineage of a node inside a cluster. Clicking on a node opens a preview with an overview of the node.
+When a level of the graph has five or more runs or artifacts, creating a cluster. A cluster has a search bar to find specific versions of runs or artifact and pulls an individual node from a cluster to continue investigating the lineage of a node inside a cluster. Clicking on a node opens a preview with an overview of the node.
 
-## Traverse a graph programmatically 
+## Use the API to track lineage
 You can also navigate a graph usuing the [W&B API]((../../ref/python/public-api/api.md)). 
 
-### Traverse from an artifact
+Create an artifact object. First, create a run with `wandb.init`. Then,create a new artifact or retrieve an existing one with `wandb.Artifact`. Next, add files to the artifact with .add_file. (Line 9) Finally, log the artifact to the run with .log_artifact. The finished code looks something like this:
 
-Create an artifact object and provide the name of the project, artifact, and alias of the artifact:
+```
+with wandb.init() as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
 
-```python
-import wandb
-
-api = wandb.Api()
-
-artifact = api.artifact("project/artifact:alias")
+    # Add Files and Assets to the artifact using
+    # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
+    artifact.add_file("image1.png")
+    run.log_artifact(artifact)
 ```
 
 Use the artifact object's [`logged_by`](../../ref/python/artifact.md#logged_by) and [`used_by`](../../ref/python/artifact.md#used_by) methods to walk the graph from the artifact:
@@ -71,22 +71,6 @@ Use the artifact object's [`logged_by`](../../ref/python/artifact.md#logged_by) 
 producer_run = artifact.logged_by()
 consumer_runs = artifact.used_by()
 ```
-
-### Traverse from a run
-Create an artifact object and provide the name of the project, artifact, and alias of the artifact:
-
-```python
-import wandb
-
-api = wandb.Api()
-
-run = api.run("entity/project/run_id")
-```
-
-Use the [`logged_artifacts`](../../ref/python/public-api/run.md#logged_artifacts) and [`used_artifacts`](../../ref/python/public-api/run.md#used_artifacts) methods to walk the graph from a given run:
-
-```python
-# Walk up and down the graph from a run:
-logged_artifacts = run.logged_artifacts()
-used_artifacts = run.used_artifacts()
-```
+## Next steps
+- [Explore artifacts in more detail](../artifacts/artifacts-walkthrough.md)
+- [Manage artifact storage](../artifacts/delete-artifacts.md)
