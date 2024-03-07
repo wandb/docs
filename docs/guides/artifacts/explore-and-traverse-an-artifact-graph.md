@@ -9,11 +9,22 @@ displayed_sidebar: default
     <title>Explore direct acyclic W&B Artifact graphs.</title>
 </head>
 
-W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run used. Explore the lineage of an artifact with the W&B App UI or programmatically.
+W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run used. These artifacts can include data sets, models, parameters, metrics, and code. You can explore an artifact's lineage to track and manage of the various artifacts produced throughout the machine learning lifecycle.
 
 
 ## Lineage
+### Benefits of artifact lineage
+Tracking an artifact's lineage has several key benefits:
 
+- Reproducibility: By tracking the lineage of all artifacts, teams can reproduce experiments, models, and results, which is essential for debugging, experimentation, and validating machine learning models.
+
+- Version Control: Artifact lineage involves versioning of artifacts so that changes can be tracked over time. This allows teams to roll back to previous versions of data, code, or models if needed.
+
+- Auditing: Having a detailed history of the artifacts and their transformations enables organizations to comply with regulatory and governance requirements. This is particularly important in industries such as finance and healthcare, where models must be explainable and transparent.
+
+- Collaboration and Knowledge Sharing: Artifact lineage facilitates better collaboration among team members by providing a clear record of what has been tried, what worked, and what didn’t. This helps in avoiding duplication of efforts and accelerates the development process.
+
+### How to find an artifact's lineage
 When selecting an artifact in the **Artifacts** tab, you can see your artifact's lineage. This graph view shows a general overview of your pipeline. 
 
 To view an artifact graph:
@@ -22,8 +33,8 @@ To view an artifact graph:
 2. Choose the artifact icon on the left panel.
 3. Select **Lineage**.
 
-### Navigating lineage 
-The lineage graph is generated based on the `type` you provide when you create runs and artifacts. 
+### Navigating the lineage graph
+The lineage graph generates based on the `type` you provide when you create runs and artifacts. 
 
 The artifact or run type you provide is located above its name, withA artifacts represented by blue icons and runs represented by green icons. The input and output of a run or artifact is depicted in the graph with arrows. 
 
