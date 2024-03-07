@@ -33,6 +33,8 @@ To view an artifact graph:
 2. Choose the artifact icon on the left panel.
 3. Select **Lineage**.
 
+![Getting to the Lineage tab](../../../static/images/artifacts/lineage1.gif)
+
 ### Navigating the lineage graph
 The lineage graph generates based on the `type` you provide when you create runs and artifacts. 
 
@@ -42,17 +44,27 @@ The artifact or run type you provide is located above its name, with artifacts r
 You can view the type and the name of artifact in both the left sidebar and in the **Lineage** tab. 
 :::
 
+![Run and artifact nodes](../../../static/images/artifacts/lineage2.png)
 
 For a more detailed view, click the arrow on any individual artifact or run to get more information on a particular object.
 
 ### Artifact clusters
 
-When a level of the graph has five or more runs or artifacts, creating a cluster. A cluster has a search bar to find specific versions of runs or artifact and pulls an individual node from a cluster to continue investigating the lineage of a node inside a cluster. Clicking on a node opens a preview with an overview of the node.
+When a level of the graph has five or more runs or artifacts, it creates a cluster. A cluster has a search bar to find specific versions of runs or artifacts and pulls an individual node from a cluster to continue investigating the lineage of a node inside a cluster. 
+
+![Searching a run cluster](../../../static/images/artifacts/lineage3.gif)
+
+
+Clicking on a node opens a preview with an overview of the node. Clicking on the arrow pulls out the run or artifact so you can track the lineage of the individual node.
+
+![Getting more detail from a node](../../../static/images/artifacts/lineage4.gif)
+
+
 
 ## Use the API to track lineage
 You can also navigate a graph usuing the [W&B API]((../../ref/python/public-api/api.md)). 
 
-Create an artifact object. First, create a run with `wandb.init`. Then,create a new artifact or retrieve an existing one with `wandb.Artifact`. Next, add files to the artifact with .add_file. (Line 9) Finally, log the artifact to the run with .log_artifact. The finished code looks something like this:
+Create an artifact object. First, create a run with `wandb.init`. Then,create a new artifact or retrieve an existing one with `wandb.Artifact`. Next, add files to the artifact with `.add_file`. Finally, log the artifact to the run with `.log_artifact`. The finished code looks something like this:
 
 ```
 with wandb.init() as run:
