@@ -3,9 +3,9 @@ description: Restricted Projects for collaborating on AI workflows with sensitiv
 displayed_sidebar: default
 ---
 
-# Restricted projects 
+# Restrict projects 
 
-Define the scope of a W&B project to grant and limit who can view, edit, and submit W&B runs to your projects. Only the owner of the project, or a team admin, can edit or set a project's scope.
+Define the scope of a W&B project grant access or limit who can view, edit, and submit W&B runs to your projects. Only the owner of the project, or a team admin, can edit or set a project's scope.
 
 ## Project scope types
 There are four project scopes you can choose from. In order of most public to most private, they are: 
@@ -73,9 +73,9 @@ Complete the following step if you select **Restricted** visibility.
 5. Provide one or more names of W&B Team members in the **Invite team members** field.
 
 :::caution
-All members of a team lose access to a project if you change the project's scope from **Team** to **Restricted**, unless you invite team members. 
+* All members of a team lose access to a project if you change the project's scope from **Team** to **Restricted**, unless you invite those team members to the project. 
+* If you remove a team member when editing a restricted project, they do not have access to that project anymore.
 :::
-
 
 :::info
 If you want to use a team-level service account in a restricted project, you should invite or add that specifically to the project. Otherwise a team-level service account can not access a restricted project by default.
@@ -87,6 +87,9 @@ If you are the owner of a restricted project you or a team admin can edit it by 
 
  -->
 
-
-
 <!-- ![](/images/hosting/restricted_project_edit.png) -->
+## Other key things to note
+
+* You can not move runs from a restricted project, but you can move runs from a non-restricted project to a restricted one.
+* You can convert the visibility of a restricted project to only **Team** scope, irrespective of the team privacy setting **Make all future team projects private (public sharing not allowed)**.
+* If the owner of a restricted project is not part of the parent team anymore, the team admin should change the owner to ensure seamless operations in the project.
