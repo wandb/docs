@@ -9,7 +9,7 @@ displayed_sidebar: default
     <title>Explore direct acyclic W&B Artifact graphs.</title>
 </head>
 
-W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run used. These artifacts can include datasets, models, evaluation results, or more. You can explore an artifact's lineage to track and manage of the various artifacts produced throughout the machine learning lifecycle.
+W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run uses. These artifacts can include datasets, models, evaluation results, or more. You can explore an artifact's lineage to track and manage of the various artifacts produced throughout the machine learning lifecycle.
 
 
 ## Lineage
