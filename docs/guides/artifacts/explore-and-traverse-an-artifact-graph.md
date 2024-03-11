@@ -9,7 +9,7 @@ displayed_sidebar: default
     <title>Explore direct acyclic W&B Artifact graphs.</title>
 </head>
 
-W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run uses. These artifacts can include datasets, models, evaluation results, or more. You can explore an artifact's lineage to track and manage of the various artifacts produced throughout the machine learning lifecycle.
+W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run uses. These artifacts can include datasets, models, evaluation results, or more. You can explore an artifact's lineage to track and manage the various artifacts produced throughout the machine learning lifecycle.
 
 
 ## Lineage
@@ -36,7 +36,7 @@ To view an artifact graph:
 
 ### Navigating the lineage graph
 
-The artifact or run type you provide appears in front of its name, with artifacts represented by blue icons and runs represented by green icons. Arrows detail the input and output of a run or artifact on the graph. 
+The artifact or job type you provide appears in front of its name, with artifacts represented by blue icons and runs represented by green icons. Arrows detail the input and output of a run or artifact on the graph. 
 
 ![Run and artifact nodes](../../../static/images/artifacts/lineage2.png)
 
@@ -83,3 +83,4 @@ consumer_runs = artifact.used_by()
 ## Next steps
 - [Explore artifacts in more detail](../artifacts/artifacts-walkthrough.md)
 - [Manage artifact storage](../artifacts/delete-artifacts.md)
+- [Explore an artifacts project](https://wandb.ai/wandb-smle/artifact_workflow/artifacts/raw_dataset/raw_data/v0/lineage)
