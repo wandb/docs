@@ -17,7 +17,7 @@ Tracking an artifact's lineage has several key benefits:
 
 - Reproducibility: By tracking the lineage of all artifacts, teams can reproduce experiments, models, and results, which is essential for debugging, experimentation, and validating machine learning models.
 
-- Version Control: Artifact lineage involves versioning artifacts and tracking their changes over time. This allows teams to roll back to previous versions of data, code, or models if needed.
+- Version Control: Artifact lineage involves versioning artifacts and tracking their changes over time. This allows teams to roll back to previous versions of data or models if needed.
 
 - Auditing: Having a detailed history of the artifacts and their transformations enables organizations to comply with regulatory and governance requirements.
 
