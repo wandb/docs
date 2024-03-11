@@ -1,0 +1,5 @@
+Here is a chunk of documentation in docusaurus Markdown format to translate. Return the translation only, without adding anything else. 
+<Markdown start>
+{md_chunk}
+<End of Markdown>
+Remember to use the dictionary when appropriate.
