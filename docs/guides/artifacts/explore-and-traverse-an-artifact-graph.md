@@ -9,11 +9,10 @@ displayed_sidebar: default
     <title>Explore direct acyclic W&B Artifact graphs.</title>
 </head>
 
-W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run used. These artifacts can include data sets, models, parameters, metrics, and code. You can explore an artifact's lineage to track and manage of the various artifacts produced throughout the machine learning lifecycle.
+W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run used. These artifacts can include datasets, models, evaluation results, or more. You can explore an artifact's lineage to track and manage of the various artifacts produced throughout the machine learning lifecycle.
 
 
 ## Lineage
-### Benefits of tracking lineage
 Tracking an artifact's lineage has several key benefits:
 
 - Reproducibility: By tracking the lineage of all artifacts, teams can reproduce experiments, models, and results, which is essential for debugging, experimentation, and validating machine learning models.
@@ -36,7 +35,6 @@ To view an artifact graph:
 ![Getting to the Lineage tab](../../../static/images/artifacts/lineage1.gif)
 
 ### Navigating the lineage graph
-The lineage graph generates based on the `type` you provide when you create runs and artifacts. 
 
 The artifact or run type you provide is located above its name, with artifacts represented by blue icons and runs represented by green icons. The input and output of a run or artifact is depicted in the graph with arrows. 
 
@@ -46,27 +44,29 @@ You can view the type and the name of artifact in both the left sidebar and in t
 
 ![Run and artifact nodes](../../../static/images/artifacts/lineage2.png)
 
-For a more detailed view, click the arrow on any individual artifact or run to get more information on a particular object.
+For a more detailed view, click any individual artifact or run to get more information on a particular object.
+
+![Previewing a run](../../../static/images/artifacts/lineage3a.gif)
 
 ### Artifact clusters
 
 When a level of the graph has five or more runs or artifacts, it creates a cluster. A cluster has a search bar to find specific versions of runs or artifacts and pulls an individual node from a cluster to continue investigating the lineage of a node inside a cluster. 
 
-![Searching a run cluster](../../../static/images/artifacts/lineage3.gif)
+![Searching a run cluster](../../../static/images/artifacts/lineage3b.gif)
 
 
-Clicking on a node opens a preview with an overview of the node. Clicking on the arrow pulls out the run or artifact so you can track the lineage of the individual node.
+Clicking on a node opens a preview with an overview of the node. Clicking on the arrow extracts the individual run or artifact so you can examine the lineage of the extracted node.
 
 ![Getting more detail from a node](../../../static/images/artifacts/lineage4.gif)
 
 
 
 ## Use the API to track lineage
-You can also navigate a graph usuing the [W&B API]((../../ref/python/public-api/api.md)). 
+You can also navigate a graph using the [W&B API](../../ref/python/public-api/api.md). 
 
 Create an artifact object. First, create a run with `wandb.init`. Then,create a new artifact or retrieve an existing one with `wandb.Artifact`. Next, add files to the artifact with `.add_file`. Finally, log the artifact to the run with `.log_artifact`. The finished code looks something like this:
 
-```
+```python
 with wandb.init() as run:
     artifact = wandb.Artifact("artifact_name", "artifact_type")
 
