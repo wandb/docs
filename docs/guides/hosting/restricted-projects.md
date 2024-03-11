@@ -7,7 +7,7 @@ displayed_sidebar: default
 
 ## Overview
 
-AI practitioners manage their workflows within W&B projects that or organized in a W&B team. There are different project scopes possible in the order of most public to most private - _Open_, _Public_, _Team_ and _Restricted_. Restricted Projects are a type of project scope that's meant for practitioners who want to collaborate on workflows related to sensitive or confidential data.
+AI practitioners manage their workflows within W&B projects that are organized in a W&B team. There are different project scopes possible in the order of most public to most private - _Open_, _Public_, _Team_ and _Restricted_. The _Restricted_ scope is meant for practitioners who want to collaborate on workflows related to sensitive or confidential data.
 
 When you create a restricted project within a team, you can invite or add specific members from the team to collaborate on relevant experiments, artifacts, reports etc. Unlike other project scopes, all members of a team do not get implicit access to a restricted project. At the same time, team admins can join restricted projects to monitor all team activity. Each member inherits their team scoped role when you add them to your restricted project.
 
@@ -20,12 +20,12 @@ When a team admin enables the team privacy setting `Make all future team project
 :::
 
 :::info
-If you want to use a team-level service account in a restricted project, you should invite or add that specifically to the project. Otherwise a team-level service account can not access a restricted project by default.
+If you want to use a team-level service account in a restricted project, you should invite or add that as a team member to the project. Otherwise a team-level service account can not access a restricted project by default.
 :::
 
 ## Editing a restricted project
 
-If you are the owner of a restricted project you or a team admin can edit it by using the `Edit project details` button in the project overview tab, and add or remove team members from the opened interface. You can also change the scope of the project to _Team_ if needed.
+If you are the owner of a restricted project you or a team admin can edit it by using the `Edit project details` button in the project overview tab, and add or remove team members from the opened interface. You can also change the scope of the project to _Team_ if needed. If you remove a team member when editing a restricted project, they will not have access to that project any further.
 
 ![](/images/hosting/restricted_project_edit.png)
 
@@ -33,5 +33,8 @@ If you are the owner of a restricted project you or a team admin can edit it by 
 If you change the scope of a restricted project to _Team_, it's accessible to all members of the team. Similarly, if you change the scope of a team project to _Restricted_, all members of the team lose access to that project unless you add them specifically. So make the scope change after deliberating with your admins or security team.
 :::
 
+## Other key things to note
 
-
+* You can not move runs from a restricted project, but you can move runs from a non-restricted project to a restricted one.
+* You can convert the visibility of a restricted project to only _Team_ scope, irrespective of if the team privacy setting `Make all future team projects private (public sharing not allowed)` is enabled or not.
+* If the owner of a restricted project is removed from its parent team, the team admin should change the owner to ensure seamless operations in the project.
