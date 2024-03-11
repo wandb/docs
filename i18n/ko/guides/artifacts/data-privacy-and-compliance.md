@@ -1,27 +1,26 @@
 ---
-description: >-
-  Learn where W&B files are stored by default. Explore how to save, store
+description: Learn where W&B files are stored by default. Explore how to save, store
   sensitive information.
 displayed_sidebar: default
 ---
 
-# Data Privacy and Compliance
+# 데이터 개인정보 보호 및 준수
 
 <head>
-    <title>Artifact Data Privacy and Compliance</title>
+    <title>아티팩트 데이터 개인정보 보호 및 준수</title>
 </head>
 
-Files are uploaded to Google Cloud bucket managed by W&B when you log artifacts. The contents of the bucket are encrypted both at rest and in transit. Artifact files are only visible to users who have access to the corresponding project.
+파일은 아티팩트를 로그할 때 W&B가 관리하는 Google Cloud 버킷에 업로드됩니다. 버킷의 내용은 저장 시와 전송 시 모두 암호화됩니다. 아티팩트 파일은 해당 프로젝트에 접근 권한이 있는 사용자만 볼 수 있습니다.
 
-![GCS W&B Client Server diagram](/images/artifacts/data_and_privacy_compliance_1.png)
+![GCS W&B 클라이언트 서버 다이어그램](/images/artifacts/data_and_privacy_compliance_1.png)
 
-When you delete a version of an artifact, it is marked for soft deletion in our database and removed from your storage cost. When you delete an entire artifact, it is queued for permanently deletion and all of its contents are removed from the W&B bucket. If you have specific needs around file deletion please reach out to [Customer Support](mailto:support@wandb.com).
+아티팩트의 버전을 삭제하면, 우리 데이터베이스에서 소프트 삭제로 표시되며 저장 비용에서 제거됩니다. 아티팩트 전체를 삭제하면, 영구 삭제를 위해 대기열에 추가되고 모든 내용이 W&B 버킷에서 제거됩니다. 파일 삭제와 관련하여 특별한 요구사항이 있으시면 [고객 지원](mailto:support@wandb.com)으로 문의해 주세요.
 
-For sensitive datasets that cannot reside in a multi-tenant environment, you can use either a private W&B server connected to your cloud bucket or _reference artifacts_. Reference artifacts track references to private buckets without sending file contents to W&B. Reference artifacts maintain links to files on your buckets or servers. In other words, W&B only keeps track of the metadata associated with the files and not the files themselves.
+멀티 테넌트 환경에 위치할 수 없는 민감한 데이터셋의 경우, 클라우드 버킷에 연결된 프라이빗 W&B 서버를 사용하거나 _참조 아티팩트_를 사용할 수 있습니다. 참조 아티팩트는 파일 내용을 W&B에 전송하지 않고 프라이빗 버킷에 대한 참조를 추적합니다. 참조 아티팩트는 버킷이나 서버의 파일에 대한 링크를 유지 관리합니다. 즉, W&B는 파일 자체가 아니라 파일과 관련된 메타데이터만 추적합니다.
 
-![W&B Client Server Cloud diagram](/images/artifacts/data_and_privacy_compliance_2.png)
+![W&B 클라이언트 서버 클라우드 다이어그램](/images/artifacts/data_and_privacy_compliance_2.png)
 
-Create a reference artifact similar to how you create a non reference artifact:
+참조 아티팩트를 비참조 아티팩트와 유사하게 생성하세요:
 
 ```python
 import wandb
@@ -31,4 +30,4 @@ artifact = wandb.Artifact("animals", type="dataset")
 artifact.add_reference("s3://my-bucket/animals")
 ```
 
-For alternatives, contact us at [contact@wandb.com](mailto:contact@wandb.com) to talk about private cloud and on-premises installations.
+대안에 대해 알아보려면, 프라이빗 클라우드 및 온프레미스 설치에 대해 논의하기 위해 [contact@wandb.com](mailto:contact@wandb.com)으로 연락주세요.

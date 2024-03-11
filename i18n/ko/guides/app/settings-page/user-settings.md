@@ -1,72 +1,71 @@
 ---
-description: >-
-  Manage your profile information, account defaults, alerts, participation in
-  beta products, GitHub integration, storage usage, account activation, and
-  create teams in your user settings.
+description: Manage your profile information, account defaults, alerts, participation
+  in beta products, GitHub integration, storage usage, account activation, and create
+  teams in your user settings.
 displayed_sidebar: default
 ---
 
-# User settings
+# 사용자 설정
 
-Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**.
+사용자 프로필 페이지로 이동하여 오른쪽 상단 모서리에 있는 사용자 아이콘을 선택합니다. 드롭다운에서 **설정**을 선택하세요.
 
-### Profile
+### 프로필
 
-Within the **Profile** section you can manage and modify your account name and institution. You can optionally add a biography, location, link to a personal or your institution’s website, and upload a profile image.
+**프로필** 섹션에서 계정 이름과 기관을 관리하고 수정할 수 있습니다. 선택적으로 전기, 위치, 개인 또는 기관 웹사이트 링크를 추가하고 프로필 이미지를 업로드할 수 있습니다.
 
-### Project defaults
+### 프로젝트 기본값
 
-Change the default behavior for your account within the **Project** **Defaults** section. You can manage the proceeding:
+**프로젝트** **기본값** 섹션에서 계정의 기본 행동을 변경하세요. 다음을 관리할 수 있습니다:
 
-* **Default location to create new projects** - Select the dropdown menu and choose the entity to set as the new default. Specify either your account or a team you are a member of.
-* **Default projects privacy in your personal account** - Set a project to public (anyone can view), private (only you can view and contribute) or open (anyone can submit runs or write the reports) automatically when you create a project. You can optionally create a team to collaborate on private projects.
-* **Enable code savings in your personal account** - Permit Weights and Biases to save the latest git commit hash by default. To enable code saving, toggle the Enable code savings in your personal account option. For more information about saving and comparing code, see [Code Saving](../features/panels/code.md).
+* **새 프로젝트 생성 기본 위치** - 드롭다운 메뉴를 선택하고 새 기본값으로 설정할 엔티티를 선택하세요. 계정이나 회원인 팀을 지정하세요.
+* **개인 계정의 기본 프로젝트 개인 정보 설정** - 프로젝트를 공개(누구나 볼 수 있음), 비공개(오직 당신만 볼 수 있고 기여할 수 있음) 또는 오픈(누구나 run을 제출하거나 리포트를 작성할 수 있음)으로 자동 설정하세요. 비공개 프로젝트에 협력하기 위해 팀을 선택적으로 생성할 수 있습니다.
+* **개인 계정에서 코드 저장 활성화** - Weights and Biases가 기본적으로 최신 git 커밋 해시를 저장하도록 허용합니다. 코드 저장을 활성화하려면 개인 계정에서 코드 저장 활성화 옵션을 토글하세요. 코드 저장 및 비교에 대한 자세한 정보는 [코드 저장](../features/panels/code.md)을 참조하세요.
 
-### Teams
+### 팀
 
-Create a new team in the **Team** section. To create a new team, select the **New team** button and provide the following:
+**팀** 섹션에서 새 팀을 만듭니다. 새 팀을 생성하려면 **새 팀** 버튼을 선택하고 다음을 제공하세요:
 
-* **Team name** - the name of your team. The team mane must be unique. Team names can not be changed.
-* **Team type** - Select either the **Work** or **Academic** button.
-* **Company/Organization** - Provide the name of the team’s company or organization. Choose the dropdown menu to select a company or organization. You can optionally provide a new organization.
+* **팀 이름** - 팀의 이름입니다. 팀 이름은 고유해야 합니다. 팀 이름은 변경할 수 없습니다.
+* **팀 유형** - **Work** 또는 **Academic** 버튼을 선택하세요.
+* **회사/기관** - 팀의 회사 또는 기관 이름을 제공합니다. 드롭다운 메뉴를 선택하여 회사 또는 기관을 선택하세요. 선택적으로 새 기관을 제공할 수 있습니다.
 
 :::info
-Only administrative accounts can create a team.
+팀을 생성할 수 있는 것은 관리자 계정뿐입니다.
 :::
 
-### Beta features
+### 베타 기능
 
-Within the **Beta Features** section you can optionally enable fun add-ons and sneak previews of new products in development. Select the toggle switch next to the beta feature you want to enable. Currently you can get a sneak peak of the proceeding features:
+**베타 기능** 섹션에서는 선택적으로 즐거운 추가 기능과 개발 중인 새 제품의 미리보기를 활성화할 수 있습니다. 활성화하려는 베타 기능 옆의 토글 스위치를 선택하세요. 현재 다음 기능의 미리보기를 볼 수 있습니다:
 
-* **Night mode** - Invert the colors everywhere! This makes pages dark, but might make colors on charts less easy to distinguish.
-* **W&B Launch** - Launch jobs on your own infrastructure from Weights and Biases. For more information, see the [Launch Jobs](../../launch/intro.md) documentation.
-* **Unicorn mode** - Change your cursor on charts from a boring pointer to a unicorn!
+* **야간 모드** - 모든 곳의 색상을 반전시킵니다! 이것은 페이지를 어둡게 만들지만, 차트의 색상을 구별하기 어렵게 할 수도 있습니다.
+* **W&B Launch** - Weights and Biases에서 자체 인프라에서 작업을 시작합니다. 자세한 정보는 [작업 시작](../../launch/intro.md) 문서를 참조하세요.
+* **유니콘 모드** - 차트에서 지루한 포인터에서 유니콘으로 커서를 변경하세요!
 
-### Alerts
+### 알림
 
-Get notified when your runs crash, finish, or set custom alerts with [wandb.alert()](../../runs/alert.md). Receive notifications either through Email or Slack. Toggle the switch next to the event type you want to receive alerts from.
+run이 충돌하거나 완료되었을 때, 또는 [wandb.alert()](../../runs/alert.md)를 사용하여 사용자 지정 알림을 설정할 때 알림을 받으세요. Email 또는 Slack을 통해 알림을 받을 수 있습니다. 알림을 받고 싶은 이벤트 유형 옆의 스위치를 토글하세요.
 
-* **Runs finished**: whether a Weights and Biases run successfully finished.
-* **Run crashed**: notification if a run has failed to finish.
+* **Run 완료**: Weights and Biases run이 성공적으로 완료되었는지 여부.
+* **Run 충돌**: run이 완료되지 못했을 때 알림.
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert](../../runs/alert.md).
+알림을 설정하고 관리하는 방법에 대한 자세한 정보는 [wandb.alert로 알림 보내기](../../runs/alert.md)를 참조하세요.
 
-### Personal GitHub integration
+### 개인 GitHub 인테그레이션
 
-Connect a personal Github account. To connect a Github account:
+개인 Github 계정을 연결하세요. Github 계정을 연결하려면:
 
-1. Select the **Connect Github** button. This will redirect you to an open authorization (OAuth) page.
-2. Select the organization to grant access in the **Organization access** section.
-3. Select **Authorize** **wandb**.
+1. **Connect Github** 버튼을 선택하세요. 이렇게 하면 오픈 인증(OAuth) 페이지로 리디렉션됩니다.
+2. **기관 액세스** 섹션에서 액세스를 부여할 기관을 선택하세요.
+3. **wandb**를 **승인**하세요.
 
-### Delete your account
+### 계정 삭제
 
-Select the **Delete Account** button to delete your account.
+**계정 삭제** 버튼을 선택하여 계정을 삭제하세요.
 
 :::caution
-Account deletion can not be reversed.
+계정 삭제는 되돌릴 수 없습니다.
 :::
 
-### Storage
+### 저장소
 
-The **Storage** section describes the total memory usage the your account has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+**저장소** 섹션은 Weights and Biases 서버에서 사용자 계정이 소비한 총 메모리 사용량을 설명합니다. 기본 저장소 계획은 100GB입니다. 저장소 및 가격에 대한 자세한 정보는 [가격 책정](https://wandb.ai/site/pricing) 페이지를 참조하세요.

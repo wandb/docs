@@ -3,14 +3,14 @@ description: Visualize the gradients of your parameters
 displayed_sidebar: default
 ---
 
-# Gradient Panel
+# 그레이디언트 패널
 
-![Logged gradients get rendered as histograms](/images/app_ui/gradient_panels.png)
+![로그된 그레이디언트는 히스토그램으로 렌더링됩니다](/images/app_ui/gradient_panels.png)
 
-The gradient panel shows the histograms of the gradients, per time step.
+그레이디언트 패널은 각 시간 단계별로 그레이디언트의 히스토그램을 보여줍니다.
 
-Take the leftmost chart, `layer.10` weights. In the very first slice at Step 0, the grey shading indicates that the gradients for that layer had values between -40 and +40. The blue parts however indicate that most of those gradients were between -2 and +2 (roughly).
+왼쪽의 차트, `layer.10` 가중치를 보세요. 첫 번째 슬라이스인 Step 0에서, 회색 음영은 해당 레이어의 그레이디언트 값이 -40과 +40 사이였음을 나타냅니다. 그러나 파란색 부분은 대부분의 그레이디언트가 대략 -2와 +2 사이였음을 나타냅니다.
 
-So, the shading represents the count of gradients in that particular histogram bin, for that particular time step.
+즉, 음영은 해당 특정 시간 단계의 특정 히스토그램 구간에서 그레이디언트의 개수를 나타냅니다.
 
-Interpreting gradients can be tricky sometimes, but generally, these plots are useful to check that your gradients haven't exploded (big values on the y-axis) or collapsed (concentrated blue around 0 with little to no deviation).
+그레이디언트를 해석하는 것은 때때로 까다로울 수 있지만, 일반적으로 이러한 플롯은 그레이디언트가 폭발하지 않았는지( y-축의 큰 값) 또는 붕괴하지 않았는지(0 주변에 집중된 파란색과 거의 또는 전혀 편차가 없음) 확인하는 데 유용합니다.

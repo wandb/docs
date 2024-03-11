@@ -1,20 +1,20 @@
 ---
-description: Ways to manage W&B data storage. 
+description: Ways to manage W&B data storage.
 displayed_sidebar: default
 ---
 
-# Storage
+# 저장소
 
-If you are approaching or exceeding your storage limit, there are multiple paths forward to manage your data. The path that's best for you will depend on your account type and your current project setup.
+저장소 한도에 근접하거나 초과하는 경우, 데이터를 관리할 수 있는 여러 방법이 있습니다. 가장 적합한 방법은 계정 유형과 현재 프로젝트 설정에 따라 다릅니다.
 
-## Manage storage consumption
-W&B offers different methods of optimizing your storage consumption:
+## 저장소 사용량 관리
+W&B는 저장소 사용량을 최적화하는 다양한 방법을 제공합니다:
 
--  Use [reference artifacts](../../artifacts/track-external-files.md) to track files saved outside the W&B system, instead of uploading them to W&B storage.
-- Use an [external cloud storage bucket](../features/teams.md) for storage. *(Enterprise only)*
+- W&B 시스템 외부에 저장된 파일을 추적하기 위해 [참조 아티팩트](../../artifacts/track-external-files.md)를 사용하세요. 이를 통해 W&B 저장소에 파일을 업로드하는 대신 관리할 수 있습니다.
+- 저장소로 [외부 클라우드 버킷](../features/teams.md)을 사용하세요. *(Enterprise 전용)*
 
-## Delete data
-You can also choose to delete data to remain under your storage limit. There are several ways to do this:
+## 데이터 삭제
+저장소 한도 아래로 유지하기 위해 데이터를 삭제할 수도 있습니다. 이를 수행하는 몇 가지 방법이 있습니다:
 
-- Delete data interactively with the app UI.
-- [Set a TTL policy](../../artifacts/ttl.md) on Artifacts so they are automatically deleted.
+- 앱 UI로 데이터를 대화형으로 삭제하세요.
+- 아티팩트에 [TTL 정책을 설정](../../artifacts/ttl.md)하여 자동으로 삭제되도록 합니다.

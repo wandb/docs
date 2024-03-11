@@ -1,29 +1,28 @@
 ---
-description: >-
-  se W&B with Jupyter to get interactive visualizations without
-  leaving your notebook.
+description: se W&B with Jupyter to get interactive visualizations without leaving
+  your notebook.
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Track Jupyter Notebooks
+# Jupyter 노트북 추적하기
 
 <head>
-  <title>Track Jupyter Notebooks</title>
+  <title>Jupyter 노트북 추적하기</title>
 </head>
 
-Use W&B with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged!
+W&B를 Jupyter와 함께 사용하여 노트북을 벗어나지 않고도 인터랙티브한 시각화를 얻으십시오. 맞춤형 분석, 실험 그리고 프로토타입을 결합하여 모두 완벽하게 로그하세요!
 
-## Use Cases for W&B with Jupyter notebooks
+## Jupyter 노트북으로 W&B 사용 사례
 
-1. **Iterative experimentation**: Run and re-run experiments, tweaking parameters, and have all the runs you do saved automatically to W&B without having to take manual notes along the way.
-2. **Code saving**: When reproducing a model, it's hard to know which cells in a notebook ran, and in which order. Turn on code saving on your [settings page](../app/settings-page/intro.md) to save a record of cell execution for each experiment.
-3. **Custom analysis**: Once runs are logged to W&B, it's easy to get a dataframe from the API and do custom analysis, then log those results to W&B to save and share in reports.
+1. **반복적인 실험**: 실험을 실행하고 다시 실행하며, 파라미터를 조정하고 수동으로 메모를 하지 않고도 W&B에 자동으로 저장되는 모든 run을 가집니다.
+2. **코드 저장**: 모델을 재현할 때, 노트북의 어떤 셀이 어떤 순서로 실행되었는지 알기 어렵습니다. [설정 페이지](../app/settings-page/intro.md)에서 코드 저장을 켜서 각 실험에 대한 셀 실행 기록을 저장하세요.
+3. **맞춤형 분석**: run이 W&B에 로그되면, API에서 데이터프레임을 쉽게 얻고 맞춤형 분석을 수행한 다음, 그 결과를 W&B에 로그하여 리포트에 저장하고 공유할 수 있습니다.
 
-## Getting started in a notebook
+## 노트북에서 시작하기
 
-Start your notebook with the following code to install W&B and link your account:
+다음 코드로 노트북을 시작하여 W&B를 설치하고 계정을 연결하세요:
 
 ```notebook
 !pip install wandb -qqq
@@ -31,7 +30,7 @@ import wandb
 wandb.login()
 ```
 
-Next, set up your experiment and save hyperparameters:
+다음으로, 실험을 설정하고 하이퍼파라미터를 저장하세요:
 
 ```python
 wandb.init(
@@ -44,71 +43,71 @@ wandb.init(
 )
 ```
 
-After running `wandb.init()` , start a new cell with `%%wandb` to see live graphs in the notebook. If you run this cell multiple times, data will be appended to the run.
+`wandb.init()`를 실행한 후, `%%wandb`로 시작하는 새 셀로 노트북에서 실시간 그래프를 볼 수 있습니다. 이 셀을 여러 번 실행하면, 데이터가 run에 추가됩니다.
 
 ```notebook
 %%wandb
 
-# Your training loop here
+# 여기에 트레이닝 루프를 입력하세요
 ```
 
-Try it for yourself in this [quick example notebook →](http://wandb.me/jupyter-interact-colab)
+이 [빠른 예제 노트북 →](http://wandb.me/jupyter-interact-colab)에서 직접 시도해 보세요.
 
 ![](/images/track/jupyter_widget.png)
 
-### Rendering live W&B interfaces directly in your notebooks
+### 노트북에서 직접 라이브 W&B 인터페이스 렌더링하기
 
-You can also display any existing dashboards, sweeps or reports directly in your notebook using the `%wandb` magic:
+`%wandb` 매직을 사용하여 기존 대시보드, 스윕 또는 리포트를 노트북에 직접 표시할 수도 있습니다:
 
 ```notebook
-# Display a project workspace
+# 프로젝트 워크스페이스 표시
 %wandb USERNAME/PROJECT
-# Display a single run
+# 단일 run 표시
 %wandb USERNAME/PROJECT/runs/RUN_ID
-# Display a sweep
+# 스윕 표시
 %wandb USERNAME/PROJECT/sweeps/SWEEP_ID
-# Display a report
+# 리포트 표시
 %wandb USERNAME/PROJECT/reports/REPORT_ID
-# Specify the height of embedded iframe
+# 임베디드 iframe의 높이 지정
 %wandb USERNAME/PROJECT -h 2048
 ```
 
-As an alternative to the `%%wandb` or `%wandb` magics, after running `wandb.init()` you can end any cell with `wandb.run` to show in-line graphs, or call `ipython.display(...)` on any report, sweep, or run object returned from our apis.
+`%%wandb` 또는 `%wandb` 매직 대신에, `wandb.init()`을 실행한 후에는 `wandb.run`을 셀의 끝에 넣어 인라인 그래프를 표시하거나, 우리 API에서 반환된 리포트, 스윕 또는 run 오브젝트에 대해 `ipython.display(...)`를 호출할 수 있습니다.
 
 ```python
-# Initialize wandb.run first
+# wandb.run을 먼저 초기화하세요
 wandb.init()
 
-# If cell outputs wandb.run, you'll see live graphs
+# 셀이 wandb.run을 출력하면, 실시간 그래프를 볼 수 있습니다
 wandb.run
 ```
 
 :::info
-Want to know more about what you can do with W&B? Check out our [guide to logging data and media](log/intro.md), learn [how to integrate us with your favorite ML toolkits](../integrations/intro.md), or just dive straight into the [reference docs](../../ref/python/README.md) or our [repo of examples](https://github.com/wandb/examples).
+W&B를 사용하여 무엇을 할 수 있는지 더 알고 싶으신가요? [데이터 및 미디어 로깅 가이드](log/intro.md)를 확인하거나, [당신의 좋아하는 ML 툴킷과 우리를 통합하는 방법](../integrations/intro.md)을 배우거나, 바로 [참조 문서](../../ref/python/README.md)나 [예제 레포](https://github.com/wandb/examples)에 뛰어들어 보세요.
 :::
 
-## Additional Jupyter features in W&B
+## W&B에서의 추가 Jupyter 기능들
 
-1. **Easy authentication in Colab**: When you call `wandb.init` for the first time in a Colab, we automatically authenticate your runtime if you're currently logged in to W&B in your browser. On the overview tab of your run page, you'll see a link to the Colab.
-2. **Jupyter Magic:** Display dashboards, sweeps and reports directly in your notebooks. The `%wandb` magic accepts a path to your project, sweeps or reports and will render the W&B interface directly in the notebook.
-3. **Launch dockerized Jupyter**: Call `wandb docker --jupyter` to launch a docker container, mount your code in it, ensure Jupyter is installed, and launch on port 8888.
-4. **Run cells in arbitrary order without fear**: By default, we wait until the next time `wandb.init` is called to mark a run as "finished". That allows you to run multiple cells (say, one to set up data, one to train, one to test) in whatever order you like and have them all log to the same run. If you turn on code saving in [settings](https://app.wandb.ai/settings), you'll also log the cells that were executed, in order and in the state in which they were run, enabling you to reproduce even the most non-linear of pipelines. To mark a run as complete manually in a Jupyter notebook, call `run.finish`.
+1. **Colab에서 쉬운 인증**: Colab에서 처음으로 `wandb.init`을 호출하면, 현재 브라우저에서 W&B에 로그인되어 있다면 자동으로 런타임을 인증합니다. run 페이지의 Overview 탭에서 Colab에 대한 링크를 볼 수 있습니다.
+2. **Jupyter Magic:** 대시보드, 스윕 및 리포트를 직접 노트북에 표시합니다. `%wandb` 매직은 프로젝트, 스윕 또는 리포트로의 경로를 받아 들이고 W&B 인터페이스를 노트북에 직접 렌더링합니다.
+3. **도커화된 Jupyter 실행**: `wandb docker --jupyter`를 호출하여 docker 컨테이너를 시작하고, 코드를 마운트하고, Jupyter가 설치되어 있고 8888 포트에서 시작하도록 합니다.
+4. **두려움 없이 임의의 순서로 셀 실행**: 기본적으로, 우리는 다음 `wandb.init`이 호출될 때까지 run을 "완료됨"으로 표시하는 것을 기다립니다. 이를 통해 여러 셀(예: 데이터 설정, 트레이닝, 테스트를 위한 것)을 원하는 순서대로 실행하고 모두 동일한 run에 로그할 수 있습니다. [설정](https://app.wandb.ai/settings)에서 코드 저장을 켜면, 실행된 셀도 순서대로, 실행된 상태로 로그하여 가장 비선형적인 파이프라인조차도 재현할 수 있습니다. Jupyter 노트북에서 수동으로 run을 완료하려면 `run.finish`를 호출하세요.
 
 ```python
 import wandb
 
 run = wandb.init()
 
-# training script and logging goes here
+# 트레이닝 스크립트와 로깅은 여기에 입력하세요
 
 run.finish()
 ```
 
-## Common questions
+## 자주 묻는 질문
 
-### How do I silence W&B info messages?
+### W&B 정보 메시지를 어떻게 무음 처리하나요?
 
-To disable standard wandb logging and info messages (e.g. project info at the start of a run), run the following in a notebook cell _before_ running `wandb.login`:
+표준 wandb 로깅 및 정보 메시지(예: run 시작 시의 프로젝트 정보)를 비활성화하려면, `wandb.login`을 실행하기 _전에_ 노트북 셀에서 다음을 실행하세요:
 
 <Tabs
   defaultValue="jupyter"
@@ -132,7 +131,7 @@ os.environ["WANDB_SILENT"] = "True"
   </TabItem>
 </Tabs>
 
-If you see log messages like `INFO SenderThread:11484 [sender.py:finish():979]` in your notebook, you can disable those with the following:
+노트북에서 `안내 SenderThread:11484 [sender.py:finish():979]`와 같은 로그 메시지가 보이면, 다음을 사용하여 비활성화할 수 있습니다:
 
 ```python
 import logging
@@ -141,9 +140,9 @@ logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
 
-### How do I set the `WANDB_NOTEBOOK_NAME`?
+### `WANDB_NOTEBOOK_NAME`을 어떻게 설정하나요?
 
-If you're seeing the error message `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` you can resolve it by setting the environment variable. There's multiple ways to do so:
+`"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` 오류 메시지가 보이면, 환경 변수를 설정하여 해결할 수 있습니다. 설정하는 방법은 여러 가지가 있습니다:
 
 <Tabs
   defaultValue="jupyter"

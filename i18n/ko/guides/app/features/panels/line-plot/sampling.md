@@ -2,13 +2,13 @@
 displayed_sidebar: default
 ---
 
-# Sampling and Bucketing
+# 샘플링 및 버킷화
 
-## Sampling
+## 샘플링
 
-For performance reasons, when over 1500 points are chosen for a line plot metric, W&B returns 1500 randomly sampled points.  Each metric is sampled separately and only steps where the metric is actually logged are considered.
+성능상의 이유로, 라인 플롯 메트릭에 1500개 이상의 포인트가 선택될 경우 W&B는 1500개의 무작위로 샘플링된 포인트를 반환합니다. 각 메트릭은 별도로 샘플링되며 실제로 메트릭이 기록된 단계만 고려됩니다.
 
-If you want to look at all of the metrics logged for a run or implement your own sampling you can use the W&B Api.
+run에 기록된 모든 메트릭을 보거나 자체 샘플링을 구현하고 싶다면 W&B Api를 사용할 수 있습니다.
 
 ```python
 run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
@@ -16,6 +16,6 @@ history = run.scan_history(keys=["Loss"])
 losses = [row["Loss"] for row in history]
 ```
 
-## Bucketing
+## 버킷화
 
-When grouping or using expressions with multiple runs with possibly not-aligned x axis values, bucketing is used to downsample the points.  The x-axis is divided into 200 evenly sized segments and then within each segments all points for a given metric are averaged. When grouping or using expressions to combine metrics, this average inside a segment is used as the value of the metric.
+여러 run을 그룹화하거나, x축 값이 정렬되지 않을 수 있는 여러 run과 함께 식을 사용할 때, 버킷화는 포인트를 다운샘플링하기 위해 사용됩니다. x축은 200개의 동일한 크기의 세그먼트로 나누어지며, 그런 다음 각 세그먼트 내에서 주어진 메트릭에 대한 모든 포인트가 평균화됩니다. 그룹화하거나 식을 사용하여 메트릭을 결합할 때, 세그먼트 내의 이 평균이 메트릭의 값으로 사용됩니다.

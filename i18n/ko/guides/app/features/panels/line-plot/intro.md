@@ -1,77 +1,78 @@
 ---
+description: Visualize metrics, customize axes, and compare multiple lines on the
+  same plot
 slug: /guides/app/features/panels/line-plot
-description: Visualize metrics, customize axes, and compare multiple lines on the same plot
 displayed_sidebar: default
 ---
 
-# Line Plot
+# 선 그래프
 
-Line plots show up by default when you plot metrics over time with **wandb.log()**. Customize with chart settings to compare multiple lines on the same plot, calculate custom axes, and rename labels.
+선 그래프는 **wandb.log()**를 사용하여 시간에 따른 메트릭을 플로팅할 때 기본적으로 나타납니다. 차트 설정을 사용자 지정하여 동일한 플롯에 여러 선을 비교하고, 사용자 정의 축을 계산하고, 레이블을 이름 변경할 수 있습니다.
 
 ![](/images/app_ui/line_plot_example.png)
 
-## Settings
+## 설정
 
-**Data**
+**데이터**
 
-* **X axis**: Select default x-axes including Step and Relative Time, or select a custom x-axis. If you'd like to use a custom x-axis, make sure it's logged in the same call to `wandb.log()` that you use to log the y-axis.
-  * **Relative Time (Wall)** is clock time since the process started, so if you started a run and resumed it a day later and logged something that would be plotted a 24hrs.
-  * **Relative Time (Process)** is time inside the running process, so if you started a run and ran for 10 seconds and resumed a day later that point would be plotted at 10s
-  * **Wall Time** is minutes elapsed since the start of the first run on the graph
-  * **Step** increments by default each time `wandb.log()` is called, and is supposed to reflect the number of training steps you've logged from your model
-* **Y axes**: Select y-axes from the logged values, including metrics and hyperparameters that change over time.
-* **Min, max, and log scale**: Minimum, maximum, and log scale settings for x axis and y axis in line plots
-* **Smoothing and exclude outliers**: Change the smoothing on the line plot or rescale to exclude outliers from the default plot min and max scale
-* **Max runs to show**: Show more lines on the line plot at once by increasing this number, which defaults to 10 runs. You'll see the message "Showing first 10 runs" on the top of the chart if there are more than 10 runs available but the chart is constraining the number visible.
-* **Chart type**: Change between a line plot, an area plot, and a percentage area plot
+* **X 축**: Step 및 Relative Time을 포함한 기본 x축을 선택하거나 사용자 정의 x축을 선택합니다. 사용자 정의 x축을 사용하려면 y축을 로그하는 것과 동일한 호출에서 `wandb.log()`로 로그해야 합니다.
+  * **Relative Time (Wall)**은 프로세스가 시작된 이후의 시계 시간이므로, run을 시작하고 하루 후에 다시 시작하여 로그한 경우 24시간이 됩니다.
+  * **Relative Time (Process)**는 실행 중인 프로세스 내의 시간이므로, run을 시작하고 10초 동안 실행한 후 하루 후에 다시 시작한 경우 해당 지점은 10초에 플로팅됩니다.
+  * **Wall Time**은 그래프의 첫 번째 run이 시작된 이후 경과된 분입니다.
+  * **Step**은 `wandb.log()`가 호출될 때마다 기본적으로 증가하며, 모델에서 로그한 트레이닝 단계 수를 반영하도록 설계되었습니다.
+* **Y 축**: 로그된 값에서 y축을 선택하며, 시간에 따라 변하는 메트릭 및 하이퍼파라미터를 포함합니다.
+* **최소, 최대 및 로그 스케일**: 선 그래프의 x축 및 y축에 대한 최소, 최대 및 로그 스케일 설정
+* **부드럽게 하기 및 이상치 제외**: 선 그래프의 부드럽게 처리를 변경하거나 기본 플롯 최소 및 최대 스케일에서 이상치를 제외하도록 재조정
+* **표시할 최대 run 수**: 이 숫자를 늘려서 한 번에 더 많은 선을 선 그래프에 표시합니다. 기본적으로 10개의 run으로 설정됩니다. 차트에 10개 이상의 run이 사용 가능하지만 차트가 보이는 수를 제한하는 경우 차트 상단에 "처음 10개의 run을 표시"라는 메시지가 표시됩니다.
+* **차트 유형**: 선 그래프, 면적 그래프 및 백분율 면적 그래프 간 변경
 
-**X Axis Settings**
-The x-axis can be set at the graph level, as well as globally for the project page or report page. Here's what the global settings look like:
+**X 축 설정**
+x축은 그래프 수준에서 설정할 수 있으며, 프로젝트 페이지 또는 리포트 페이지에 대해 전역적으로 설정할 수도 있습니다. 전역 설정은 다음과 같습니다:
 
 ![](/images/app_ui/x_axis_global_settings.png)
 
 :::info
-Pick **multiple y-axes** in the line plot settings to compare different metrics on the same chart, like accuracy and validation accuracy for example.
+동일한 차트에서 다른 메트릭을 비교하기 위해 선 그래프 설정에서 **다중 y축**을 선택하세요. 예를 들어, 정확도와 검증 정확도를 비교할 수 있습니다.
 :::
 
-**Grouping**
+**그룹화**
 
-* Turn on grouping to see settings for visualizing averaged values.
-* **Group key**: Select a column, and all the runs with the same value in that column will be grouped together.
-* **Agg**: Aggregation— the value of the line on the graph. The options are mean, median, min, and max of the group.
-* **Range**: Switch the behavior for the shaded area behind the grouped curve. None means there is no shaded area. Min/Max shows a shaded region that covers the whole range of points in the group. Std Dev shows the standard deviation of values in the group. Std Err shows the standard error as the shaded area.
-* **Sampled runs**: If you have hundreds of runs selected, we default to only sampling the first 100. You can select to have all your runs included in the grouping calculation, but it might slow things down in the UI.
+* 값의 평균을 시각화하기 위한 설정을 보려면 그룹화를 켭니다.
+* **그룹 키**: 열을 선택하고 해당 열의 동일한 값이 있는 모든 run이 함께 그룹화됩니다.
+* **Agg**: 집계—그래프의 선 값. 옵션은 그룹의 평균, 중앙값, 최소 및 최대입니다.
+* **범위**: 그룹화된 곡선 뒤의 음영 영역에 대한 행동을 전환합니다. 없음은 음영 영역이 없음을 의미합니다. 최소/최대는 그룹 내 포인트의 전체 범위를 포함하는 음영 영역을 보여줍니다. 표준 편차는 그룹 내 값의 표준 편차를 음영 영역으로 표시합니다. 표준 오차는 음영 영역으로 표준 오차를 보여줍니다.
+* **샘플링된 run**: 수백 개의 run이 선택된 경우, 우리는 기본적으로 처음 100개만 샘플링합니다. 그룹화 계산에 모든 run을 포함하도록 선택할 수 있지만, UI에서 처리 속도가 느려질 수 있습니다.
 
-**Legend**
+**범례**
 
-* **Title**: Add a custom title for line plot, which shows up at the top of the chart
-* **X-Axis title**: Add a custom title for the x-axis of the line plot, which shows up in the lower right corner of the chart.
-* **Y-Axis title**: Add a custom title for the y-axis of the line plot, which shows up in the upper left corner of the chart.
-* **Legend**: Select field that you want to see in the legend of the plot for each line. You could, for example, show the name of the run and the learning rate.
-* **Legend template**: Fully customizable, this powerful template allows you to specify exactly what text and variables you want to show up in the template at the top of the line plot as well as the legend that appears when you hover your mouse over the plot.
+* **제목**: 선 그래프에 대한 사용자 정의 제목을 추가하면 차트 상단에 표시됩니다
+* **X축 제목**: 선 그래프의 x축에 대한 사용자 정의 제목을 추가하면 차트 오른쪽 하단에 표시됩니다.
+* **Y축 제목**: 선 그래프의 y축에 대한 사용자 정의 제목을 추가하면 차트 왼쪽 상단에 표시됩니다.
+* **범례**: 플롯의 범례에 표시하고 싶은 필드를 선택합니다. 예를 들어, run의 이름과 학습률을 표시할 수 있습니다.
+* **범례 템플릿**: 완전히 사용자 정의 가능한 이 강력한 템플릿을 사용하면 선 그래프 상단의 템플릿과 플롯 위로 마우스를 올렸을 때 나타나는 범례에 정확히 어떤 텍스트와 변수를 표시할지 지정할 수 있습니다.
 
-![Editing the line plot legend to show hyperparameters](/images/app_ui/legend.png)
+![하이퍼파라미터를 보여주기 위해 선 그래프 범례를 편집](/images/app_ui/legend.png)
 
-**Expressions**
+**수식**
 
-* **Y Axis Expressions**: Add calculated metrics to your graph. You can use any of the logged metrics as well as configuration values like hyperparameters to calculate custom lines.
-* **X Axis Expressions**: Rescale the x-axis to use calculated values using custom expressions. Useful variables include\*\*\_step\*\* for the default x-axis, and the syntax for referencing summary values is `${summary:value}`
+* **Y 축 수식**: 그래프에 계산된 메트릭을 추가합니다. 로그된 메트릭뿐만 아니라 하이퍼파라미터와 같은 구성 값도 사용하여 사용자 정의 선을 계산할 수 있습니다.
+* **X 축 수식**: 사용자 정의 수식을 사용하여 x축의 값을 계산된 값으로 재조정합니다. 유용한 변수에는 기본 x축에 대한 \*\*\_step\*\*이 포함되며, 요약 값을 참조하는 구문은 `${summary:value}`입니다
 
-## Visualize average values on a plot
+## 플롯에서 평균 값을 시각화하기
 
-If you have several different experiments and you'd like to see the average of their values on a plot, you can use the Grouping feature in the table. Click "Group" above the run table and select "All" to show averaged values in your graphs.
+여러 다른 실험이 있고 플롯에서 그 값의 평균을 보고 싶다면 테이블의 그룹화 기능을 사용할 수 있습니다. run 테이블 위에 "그룹"을 클릭하고 "모두"를 선택하여 그래프에서 평균 값을 표시합니다.
 
-Here is what the graph looks like before averaging:
+다음은 평균화하기 전의 그래프 모습입니다:
 
 ![](/images/app_ui/demo_precision_lines.png)
 
-Here I have grouped the lines to see the average value across runs.
+여기서 run의 평균 값을 보기 위해 선을 그룹화했습니다.
 
 ![](/images/app_ui/demo_average_precision_lines.png)
 
-## Visualize NaN value on a plot
+## 플롯에서 NaN 값을 시각화하기
 
-You can also plot `NaN` values including PyTorch tensors on a line plot with `wandb.log`. For example:
+`wandb.log`를 사용하여 PyTorch 텐서를 포함한 `NaN` 값을 선 그래프에 플로팅할 수도 있습니다. 예를 들어:
 
 ```python
 wandb.log({"test": [..., float("nan"), ...]})
@@ -79,63 +80,60 @@ wandb.log({"test": [..., float("nan"), ...]})
 
 ![](/images/app_ui/visualize_nan.png)
 
-## Compare two metrics on one chart
+## 하나의 차트에서 두 메트릭 비교하기
 
-Click on a run to go to the run page. Here's an [example run](https://app.wandb.ai/stacey/estuary/runs/9qha4fuu?workspace=user-carey) from Stacey's Estuary project. The auto-generated charts show single metrics.
-
+run으로 이동하려면 run 페이지로 이동하세요. 여기에는 Stacey의 Estuary 프로젝트에서 [예제 run](https://app.wandb.ai/stacey/estuary/runs/9qha4fuu?workspace=user-carey)이 있습니다. 자동 생성된 차트는 단일 메트릭을 보여줍니다.
 
 ![](@site/static/images/app_ui/visualization_add.png)
 
-Click **the plus sign** at the top right of the page, and select the **Line Plot**.
+페이지 오른쪽 상단에 있는 **더하기 기호**를 클릭하고 **선 그래프**를 선택하세요.
 
 ![](https://downloads.intercomcdn.com/i/o/142936481/d0648728180887c52ab46549/image.png)
 
-In the **Y variables** field, select a few metrics you'd like to compare. They'll show up together on the line graph.
+**Y 변수** 필드에서 비교하고 싶은 몇 가지 메트릭을 선택합니다. 그러면 선 그래프에 함께 표시됩니다.
 
 ![](https://downloads.intercomcdn.com/i/o/146033909/899fc05e30795a1d7699dc82/Screen+Shot+2019-09-04+at+9.10.52+AM.png)
 
-## Changing the color of the line plots
+## 선 그래프의 색상 변경하기
 
-Sometimes the default color of runs is not helpful for comparison. To help overcome this, wandb provides two instances with which one can manually change the colors.
+때로는 run의 기본 색상이 비교에 도움이 되지 않습니다. 이를 해결하기 위해 wandb는 수동으로 색상을 변경할 수 있는 두 가지 인스턴스를 제공합니다.
 
-### From the run table
+### run 테이블에서
 
-Each run is given a random color by default upon initialization.
+각 run은 초기화 시 기본적으로 무작위 색상이 주어집니다.
 
-![Random colors given to runs](/images/app_ui/line_plots_run_table_random_colors.png)
+![run에 주어진 무작위 색상](/images/app_ui/line_plots_run_table_random_colors.png)
 
-Upon clicking any of the colors, a color palette appears from which we can manually choose the color we want.
+색상을 클릭하면 원하는 색상을 수동으로 선택할 수 있는 색상 팔레트가 나타납니다.
 
-![The color palette](/images/app_ui/line_plots_run_table_color_palette.png)
+![색상 팔레트](/images/app_ui/line_plots_run_table_color_palette.png)
 
+### 차트 범례 설정에서
 
-### From the chart legend settings
-
-One can also change the color of the runs from the chart legend settings.
-
+차트 범례 설정에서도 run의 색상을 변경할 수 있습니다.
 
 ![](/images/app_ui/plot_style_line_plot_legend.png)
 
-## Visualize on different x axes
+## 다른 x 축에서 시각화하기
 
-If you'd like to see the absolute time that an experiment has taken, or see what day an experiment ran, you can switch the x axis. Here's an example of switching from steps to relative time and then to wall time.
+실험이 걸린 절대 시간을 보거나 실험이 실행된 날을 보고 싶다면 x축을 전환할 수 있습니다. 다음은 단계에서 상대 시간으로, 그리고 벽 시간으로 전환하는 예입니다.
 
 ![](/images/app_ui/howto_use_relative_time_or_wall_time.gif)
 
-## Area plots
+## 면적 그래프
 
-In the line plot settings, in the advanced tab, click on different plot styles to get an area plot or a percentage area plot.
+선 그래프 설정에서 고급 탭에서 다른 플롯 스타일을 클릭하여 면적 그래프 또는 백분율 면적 그래프를 얻습니다.
 
 ![](/images/app_ui/line_plots_area_plots.gif)
 
-## Zoom
+## 줌
 
-Click and drag a rectangle to zoom vertically and horizontally at the same time. This changes the x-axis and y-axis zoom.
+사각형을 클릭하고 드래그하여 동시에 수직 및 수평으로 확대/축소합니다. 이는 x축과 y축의 확대/축소를 변경합니다.
 
 ![](/images/app_ui/line_plots_zoom.gif)
 
-## Hide chart legend
+## 차트 범례 숨기기
 
-Turn off the legend in the line plot with this simple toggle:
+이 간단한 토글로 선 그래프에서 범례를 끕니다:
 
 ![](/images/app_ui/demo_hide_legend.gif)

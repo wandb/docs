@@ -3,23 +3,23 @@ description: Visualize metrics, customize axes, and compare categorical data as 
 displayed_sidebar: default
 ---
 
-# Bar Plot
+# 막대 그래프
 
-A bar plot presents categorical data with rectangular bars which can be plotted vertically or horizontally. Bar plots show up by default with **wandb.log()** when all logged values are of length one.
+막대 그래프는 수평 또는 수직으로 그려진 직사각형 막대를 사용하여 범주형 데이터를 표시합니다. 로그된 모든 값의 길이가 하나일 때 **wandb.log()**를 사용하면 기본적으로 막대 그래프가 표시됩니다.
 
-![Plotting Box and horizontal Bar plots in W&B](/images/app_ui/bar_plot.png)
+![W&B에서 상자 그림 및 수평 막대 그래프 그리기](/images/app_ui/bar_plot.png)
 
-Customize with chart settings to limit max runs to show, group runs by any config and rename labels.
+차트 설정을 사용자 정의하여 표시할 최대 run 수를 제한하고, 모든 설정으로 run을 그룹화하고 레이블 이름을 변경합니다.
 
 ![](/images/app_ui/bar_plot_custom.png)
 
-### Customize Bar Plots
+### 막대 그래프 사용자 정의하기
 
-You can also create **Box** or **Violin** Plots to combine many summary statistics into one chart type**.**
+여러 요약 통계를 하나의 차트 유형으로 결합하는 **Box** 또는 **Violin** 그림도 만들 수 있습니다**.**
 
-1. Group runs via runs table.
-2. Click 'Add panel' in the workspace.
-3. Add a standard 'Bar Chart' and select the metric to plot.
-4. Under the 'Grouping' tab, pick 'box plot' or 'Violin', etc. to plot either of these styles.
+1. run 테이블을 통해 run을 그룹화합니다.
+2. 워크스페이스에서 '패널 추가'를 클릭합니다.
+3. 표준 '막대 차트'를 추가하고 그래프에 표시할 메트릭을 선택합니다.
+4. '그룹화' 탭에서 'box plot' 또는 'Violin' 등을 선택하여 이러한 스타일 중 하나를 그립니다.
 
-![Customize Bar Plots](@site/static/images/app_ui/bar_plots.gif)
+![막대 그래프 사용자 정의하기](@site/static/images/app_ui/bar_plots.gif)

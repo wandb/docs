@@ -1,82 +1,53 @@
 ---
-slug: /guides/track/log
 description: Keep track of metrics, videos, custom plots, and more
+slug: /guides/track/log
 displayed_sidebar: default
 ---
 
-# Log Media and Objects in Experiments
+# 실험에서 미디어 및 오브젝트 로그하기
 
 <head>
-  <title>Log Media and Objects in Experiments</title>
+  <title>실험에서 미디어 및 오브젝트 로그하기</title>
 </head>
 
-Log a dictionary of metrics, media, or custom objects to a step with the W&B Python SDK. W&B collects the key-value pairs during each step and stores them in one unified dictionary each time you log data with `wandb.log()`. Data logged from your script is saved locally to your machine in a directory called `wandb`, then synced to the W&B cloud or your [private server](../../hosting/intro.md). 
+W&B Python SDK를 사용하여 단계별로 메트릭, 미디어 또는 커스텀 오브젝트의 사전을 로그하세요. W&B는 각 스텝마다 키-값 쌍을 수집하고 `wandb.log()`로 데이터를 로그할 때마다 하나의 통합된 사전에 저장합니다. 스크립트에서 로그된 데이터는 로컬 머신에 `wandb`라는 디렉토리에 저장된 후 W&B 클라우드 또는 [개인 서버](../../hosting/intro.md)로 동기화됩니다.
 
 :::info
-Key-value pairs are stored in one unified dictionary only if you pass the same value for each step. W&B writes all of the collected keys and values to memory if you log a different value for `step`.
+키-값 쌍은 각 스텝마다 동일한 값을 전달할 경우 하나의 통합된 사전에 저장됩니다. `step`에 대해 다른 값을 로그하면 W&B는 수집된 모든 키와 값을 메모리에 기록합니다.
 :::
 
-Each call to `wandb.log` is a new `step` by default. W&B uses steps as the default x-axis when it creates charts and panels. You can optionally create and use a custom x-axis or capture a custom summary metric. For more information, see [Customize log axes](./customize-logging-axes.md).
-
-<!-- [INSERT BETTER EXAMPLE] -->
-<!-- If you want to log to a single history step from lots of different places in your code you can pass a step index to `wandb.log()` as follows:
-
-```python
-wandb.log({'loss': 0.2}, step=step)
-``` -->
-
-<!-- [INSERT EXAMPLE] -->
+`wandb.log` 호출은 기본적으로 새로운 `step`입니다. W&B는 차트와 패널을 생성할 때 x축으로 스텝을 기본값으로 사용합니다. 선택적으로 커스텀 x축을 생성하거나 커스텀 요약 메트릭을 캡처할 수 있습니다. 자세한 정보는 [로그 축 사용자 정의](./customize-logging-axes.md)를 참조하세요.
 
 :::caution
-Use `wandb.log()` to log consecutive values for each `step`: 0, 1, 2, and so on. It is not possible to write to a specific history step. W&B only writes to the "current" and "next" step.
+각 `step`에 연속적인 값을 로그하기 위해 `wandb.log()`를 사용하세요: 0, 1, 2 등. 특정 기록 스텝에 작성하는 것은 불가능합니다. W&B는 "현재"와 "다음" 스텝에만 작성합니다.
 :::
 
-<!-- You can set `commit=False` in `wandb.log` to accumulate metrics, just be sure to eventually call `wandb.log` with `commit=True` (the default) to persist the metrics.
+## 자동으로 로그되는 데이터
 
-```python
-wandb.log({'loss': 0.2}, commit=False)
-# Somewhere else when I'm ready to report this step:
-wandb.log({'accuracy': 0.8})
-``` -->
+W&B 실험 중 W&B는 자동으로 다음 정보를 로그합니다:
 
+* **시스템 메트릭**: CPU 및 GPU 사용량, 네트워크 등. 이들은 [실행 페이지](../../app/pages/run-page.md)의 시스템 탭에 표시됩니다. GPU의 경우, [`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface)로 가져옵니다.
+* **커맨드라인**: stdout 및 stderr가 수집되어 [실행 페이지](../../app/pages/run-page.md)의 로그 탭에 표시됩니다.
 
-## Automatically logged data
+계정의 [설정 페이지](https://wandb.ai/settings)에서 [코드 저장](http://wandb.me/code-save-colab)을 활성화하여 로그합니다:
 
-W&B automatically logs the following information during a W&B Experiment:
+* **Git 커밋**: 최신 git 커밋을 가져오고 실행 페이지의 Overview 탭에서 확인할 수 있으며, 커밋되지 않은 변경사항이 있을 경우 `diff.patch` 파일도 볼 수 있습니다.
+* **의존성**: `requirements.txt` 파일이 업로드되어 실행 페이지의 파일 탭에 표시됩니다. 실행을 위한 `wandb` 디렉토리에 저장한 모든 파일과 함께 표시됩니다.
 
-* **System metrics**: CPU and GPU utilization, network, etc. These are shown in the System tab on the [run page](../../app/pages/run-page.md). For the GPU, these are fetched with [`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface).
-* **Command line**: The stdout and stderr are picked up and show in the logs tab on the [run page.](../../app/pages/run-page.md)
+## 특정 W&B API 호출로 로그되는 데이터는 무엇인가요?
 
-Turn on [Code Saving](http://wandb.me/code-save-colab) in your account's [Settings page](https://wandb.ai/settings) to log:
+W&B를 사용하면 정확히 무엇을 로그할지 결정할 수 있습니다. 다음은 일반적으로 로그되는 오브젝트 목록입니다:
 
-* **Git commit**: Pick up the latest git commit and see it on the overview tab of the run page, as well as a `diff.patch` file if there are any uncommitted changes.
-* **Dependencies**: The `requirements.txt` file will be uploaded and shown on the files tab of the run page, along with any files you save to the `wandb` directory for the run.
+* **데이터셋**: 이미지나 다른 데이터셋 샘플을 특별히 로그해야만 W&B로 스트리밍됩니다.
+* **플롯**: `wandb.plot`을 `wandb.log`와 함께 사용하여 차트를 추적합니다. 자세한 정보는 [플롯 로그하기](./plots.md)를 참조하세요.
+* **테이블**: `wandb.Table`을 사용하여 W&B에서 시각화하고 쿼리할 수 있는 데이터를 로그합니다. 자세한 정보는 [테이블 로그하기](./log-tables.md)를 참조하세요.
+* **PyTorch 그레이디언트**: UI에서 가중치의 그레이디언트를 히스토그램으로 보려면 `wandb.watch(model)`을 추가하세요.
+* **구성 정보**: 하이퍼파라미터, 데이터셋에 대한 링크 또는 사용 중인 아키텍처의 이름과 같은 설정 파라미터를 다음과 같이 로그하세요: `wandb.init(config=your_config_dictionary)`. 자세한 정보는 [PyTorch 인테그레이션](../../integrations/pytorch.md) 페이지를 참조하세요.
+* **메트릭**: `wandb.log`를 사용하여 모델에서 메트릭을 확인하세요. 트레이닝 루프 내부에서 정확도와 손실과 같은 메트릭을 로그하면 UI에서 실시간으로 업데이트되는 그래프를 얻을 수 있습니다.
 
+## 일반적인 워크플로우
 
-## What data is logged with specific W&B API calls?
-
-With W&B, you can decide exactly what you want to log. The following lists some commonly logged objects:
-
-* **Datasets**: You have to specifically log images or other dataset samples for them to stream to W&B.
-* **Plots**: Use `wandb.plot` with `wandb.log` to track charts. See [Log Plots](./plots.md) for more information. 
-* **Tables**: Use `wandb.Table` to log data to visualize and query with W&B. See [Log Tables](./log-tables.md) for more information.
-* **PyTorch gradients**: Add `wandb.watch(model)` to see gradients of the weights as histograms in the UI.
-* **Configuration information**: Log hyperparameters, a link to your dataset, or the name of the architecture you're using as config parameters, passed in like this: `wandb.init(config=your_config_dictionary)`. See the [PyTorch Integrations](../../integrations/pytorch.md) page for more information. 
-* **Metrics**: Use `wandb.log` to see metrics from your model. If you log metrics like accuracy and loss from inside your training loop, you'll get live updating graphs in the UI.
-
-<!-- ### Example Usage
-
-```python
-wandb.log({"loss": 0.314, "epoch": 5,
-           "inputs": wandb.Image(inputs),
-           "logits": wandb.Histogram(outputs),
-           "captions": wandb.Html(captions)})
-``` -->
-
-
-## Common workflows
-
-1. **Compare the best accuracy**: To compare the best value of a metric across runs, set the summary value for that metric. By default, summary is set to the last value you logged for each key. This is useful in the table in the UI, where you can sort and filter runs based on their summary metrics — so you could compare runs in a table or bar chart based on their _best_ accuracy, instead of final accuracy. For example, you could set summary like so: `wandb.run.summary["best_accuracy"] = best_accuracy`
-2. **Multiple metrics on one chart**: Log multiple metrics in the same call to `wandb.log`, like this: `wandb.log({"acc'": 0.9, "loss": 0.1})` and they will both be available to plot against in the UI
-3. **Custom x-axis**: Add a custom x-axis to the same log call to visualize your metrics against a different axis in the W&B dashboard. For example: `wandb.log({'acc': 0.9, 'epoch': 3, 'batch': 117})`. To set the default x-axis for a given metric use [Run.define\_metric()](../../../ref/python/run.md#define_metric)
-4. **Log rich media and charts**: `wandb.log` supports the logging of a wide variety of data types, from [media like images and videos](./media.md) to [tables](./log-tables.md) and [charts](../../app/features/custom-charts/intro.md).
+1. **최고 정확도 비교**: 실행 간 메트릭의 최고 값 비교를 위해 해당 메트릭의 요약 값을 설정하세요. 기본적으로 요약은 각 키에 대해 로그한 마지막 값으로 설정됩니다. 이는 UI의 테이블에서 요약 메트릭을 기준으로 실행을 정렬하고 필터링할 때 유용합니다 — 즉, 최종 정확도가 아닌 _최고_ 정확도를 기준으로 실행을 테이블이나 막대 차트로 비교할 수 있습니다. 예를 들어, 요약을 다음과 같이 설정할 수 있습니다: `wandb.run.summary["best_accuracy"] = best_accuracy`
+2. **하나의 차트에 여러 메트릭**: `wandb.log({"acc'": 0.9, "loss": 0.1})`와 같이 같은 호출에서 여러 메트릭을 로그하면 UI에서 그것들을 대비하여 플롯할 수 있습니다.
+3. **커스텀 x축**: W&B 대시보드에서 메트릭을 다른 축에 대비하여 시각화하기 위해 동일한 로그 호출에 커스텀 x축을 추가하세요. 예를 들어: `wandb.log({'acc': 0.9, 'epoch': 3, 'batch': 117})`. 주어진 메트릭의 기본 x축을 설정하려면 [Run.define\_metric()](../../../ref/python/run.md#define_metric)을 사용하세요.
+4. **풍부한 미디어 및 차트 로그하기**: `wandb.log`는 [이미지 및 비디오와 같은 미디어](./media.md)부터 [테이블](./log-tables.md) 및 [차트](../../app/features/custom-charts/intro.md)까지 다양한 데이터 타입의 로깅을 지원합니다.

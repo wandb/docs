@@ -2,30 +2,30 @@
 displayed_sidebar: default
 ---
 
-# Metrics & Performance
+# 메트릭 & 성능
 
-## Metrics
+## 메트릭
 
-### How often are system metrics collected?
+### 시스템 메트릭은 얼마나 자주 수집되나요?
 
-By default, metrics are collected every 2 seconds and averaged over a 15-second period. If you need higher resolution metrics, email us a [contact@wandb.com](mailto:contact@wandb.com).
+기본적으로, 메트릭은 매 2초마다 수집되며 15초 간격으로 평균화됩니다. 더 높은 해상도의 메트릭이 필요하다면, 저희에게 [contact@wandb.com](mailto:contact@wandb.com)으로 이메일을 보내주세요.
 
-### Can I just log metrics, no code or dataset examples?
+### 메트릭만 로그할 수 있나요, 코드나 데이터셋 예시는 없이요?
 
-**Dataset Examples**
+**데이터셋 예시**
 
-By default, we don't log any of your dataset examples. You can explicitly turn this feature on to see example predictions in our web interface.
+기본적으로, 우리는 귀하의 데이터셋 예시를 로그하지 않습니다. 이 기능을 명시적으로 켜서 우리의 웹 인터페이스에서 예시 예측값을 볼 수 있습니다.
 
-**Code Logging**
+**코드 로깅**
 
-There are two ways to turn off code logging:
+코드 로깅을 끄는 두 가지 방법이 있습니다:
 
-1. Set `WANDB_DISABLE_CODE` to `true` to turn off all code tracking. We won't pick up the git SHA or the diff patch.
-2. Set `WANDB_IGNORE_GLOBS` to `*.patch` to turn off syncing the diff patch to our servers. You'll still have it locally and be able to apply it with the [wandb restore](../track/save-restore.md) command.
+1. 모든 코드 추적을 끄려면 `WANDB_DISABLE_CODE`를 `true`로 설정하세요. 우리는 git SHA나 diff 패치를 수집하지 않을 것입니다.
+2. diff 패치를 우리 서버에 동기화하는 것을 끄려면 `WANDB_IGNORE_GLOBS`를 `*.patch`로 설정하세요. 여전히 로컬에 있으며 [wandb restore](../track/save-restore.md) 코맨드로 적용할 수 있습니다.
 
-### Can I log metrics on two different time scales? (For example, I want to log training accuracy per batch and validation accuracy per epoch.)
+### 두 가지 다른 시간 척도에 메트릭을 로그할 수 있나요? (예를 들어, 배치 당 트레이닝 정확도와 에포크 당 검증 정확도를 로그하고 싶습니다.)
 
-Yes, you can do this by logging your indices (e.g. `batch` and `epoch`) whenever you log your other metrics. So in one step you could call `wandb.log({'train_accuracy': 0.9, 'batch': 200})` and in another step call `wandb.log({'val_accuracy': 0.8, 'epoch': 4})`. Then, in the UI, you can set the appropriate value as the x-axis for each chart. If you want to set the default x-axis of a particular index you can do so using by using [Run.define\_metric()](../../ref/python/run.md#define_metric). In our above example we could do the following:
+네, 다른 메트릭을 로그할 때마다 인덱스(예: `batch` 및 `epoch`)를 로깅함으로써 이를 수행할 수 있습니다. 한 단계에서 `wandb.log({'train_accuracy': 0.9, 'batch': 200})`를 호출하고 다른 단계에서 `wandb.log({'val_accuracy': 0.8, 'epoch': 4})`를 호출할 수 있습니다. 그러면 UI에서 각 차트의 x축으로 적절한 값을 설정할 수 있습니다. 특정 인덱스의 기본 x축을 설정하고 싶다면 [Run.define_metric()](../../ref/python/run.md#define_metric)를 사용하여 설정할 수 있습니다. 위의 예에서는 다음과 같이 할 수 있습니다:
 
 ```python
 wandb.init()
@@ -37,29 +37,28 @@ wandb.define_metric("train_accuracy", step_metric="batch")
 wandb.define_metric("val_accuracy", step_metric="epoch")
 ```
 
-### How can I log a metric that doesn't change over time such as a final evaluation accuracy?
+### 시간이 지나도 변하지 않는 메트릭, 예를 들어 최종 평가 정확도를 어떻게 로그할 수 있나요?
 
-Using `wandb.log({'final_accuracy': 0.9}` will work fine for this. By default `wandb.log({'final_accuracy'})` will update `wandb.settings['final_accuracy']`, which is the value shown in the runs table.
+`wandb.log({'final_accuracy': 0.9}`를 사용하면 잘 작동합니다. 기본적으로 `wandb.log({'final_accuracy'})`는 `wandb.settings['final_accuracy']`를 업데이트할 것이며, 이는 runs 테이블에서 표시되는 값입니다.
 
-### How can I log additional metrics after a run completes?
+### 실행이 완료된 후 추가 메트릭을 어떻게 로그할 수 있나요?
 
-There are several ways to do this.
+이를 위한 여러 방법이 있습니다.
 
-For complicated workflows, we recommend using multiple runs and setting group parameters in [`wandb.init`](../track/launch.md) to a unique value in all the processes that are run as part of a single experiment. The [runs table](../app/pages/run-page.md) will automatically group the table by the group ID and the visualizations will behave as expected. This will allow you to run multiple experiments and training runs as separate processes log all the results into a single place.
+복잡한 워크플로우의 경우, [`wandb.init`](../track/launch.md)에서 그룹 파라미터를 설정하고 단일 실험의 일부로 실행되는 모든 프로세스에서 고유한 값을 가지도록 권장합니다. [runs 테이블](../app/pages/run-page.md)은 자동으로 그룹 ID로 테이블을 그룹화하고 시각화는 예상대로 작동할 것입니다. 이를 통해 여러 실험과 트레이닝 실행을 별도의 프로세스로 실행하고 모든 결과를 한 곳에 로그할 수 있습니다.
 
-For simpler workflows, you can call `wandb.init` with `resume=True` and `id=UNIQUE_ID` and then later call `wandb.init` with the same `id=UNIQUE_ID`. Then you can log normally with [`wandb.log`](../track/log/intro.md) or `wandb.summary` and the runs values will update.
+보다 간단한 워크플로우의 경우, `resume=True` 및 `id=UNIQUE_ID`로 `wandb.init`을 호출한 다음 나중에 동일한 `id=UNIQUE_ID`로 `wandb.init`을 다시 호출할 수 있습니다. 그런 다음 [`wandb.log`](../track/log/intro.md) 또는 `wandb.summary`로 정상적으로 로그할 수 있으며 실행 값이 업데이트됩니다.
 
+## 성능
 
-## Performance
+### wandb가 내 트레이닝을 느리게 할까요?
 
-### Will wandb slow down my training?
+wandb를 정상적으로 사용하는 경우, 트레이닝 성능에 미미한 영향을 줄 것입니다. wandb의 정상적인 사용은 초당 한 번 미만으로 로깅하고 각 단계에서 몇 메가바이트 미만의 데이터를 로깅하는 것을 의미합니다. W&B는 별도의 프로세스에서 실행되며 함수 호출은 차단되지 않으므로 네트워크가 잠시 다운되거나 디스크에 간헐적인 읽기 쓰기 문제가 발생해도 성능에 영향을 주지 않습니다. 대량의 데이터를 빠르게 로깅할 수 있고, 그렇게 하면 디스크 I/O 문제를 일으킬 수 있습니다. 질문이 있으시면 언제든지 저희에게 연락주세요.
 
-W&B should have a negligible effect on your training performance if you use it normally. Normal use of wandb means logging less than once a second and logging less than a few megabytes of data at each step. W&B runs in a separate process and the function calls don't block, so if the network goes down briefly or there are intermittent read write issues on disk it should not affect your performance. It is possible to log a huge amount of data quickly, and if you do that you might create disk I/O issues. If you have any questions, please don't hesitate to contact us.
+### 프로젝트 당 생성할 실행 수는 얼마인가요?
 
-### How many runs to create per project?
+성능상의 이유로 프로젝트 당 대략적으로 최대 10k 실행을 권장합니다.
 
-We recommend you have roughly 10k runs per project max for performance reasons.
+### 하이퍼파라미터 탐색을 구성하는 모범 사례
 
-### Best practices to organize hyperparameter searches
-
-If 10k runs per project (approx.) is a reasonable limit then our recommendation would be to set tags in `wandb.init()` and have a unique tag for each search. This means that you'll easily be able to filter the project down to a given search by clicking that tag in the Project Page in the Runs Table. For example `wandb.init(tags='your_tag')`  docs for this can be found [here](../../ref/python/init.md).
+프로젝트 당 실행 수가 대략 10k(약)이면, 우리의 권장 사항은 `wandb.init()`에서 태그를 설정하고 각 검색에 대해 고유한 태그를 가지는 것입니다. 이렇게 하면 프로젝트 페이지의 Runs 테이블에서 해당 태그를 클릭하여 프로젝트를 주어진 검색으로 쉽게 필터링할 수 있습니다. 예를 들어 `wandb.init(tags='your_tag')` 이에 대한 문서는 [여기](../../ref/python/init.md)에서 찾을 수 있습니다.

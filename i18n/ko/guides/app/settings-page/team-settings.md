@@ -1,78 +1,77 @@
 ---
-description: >-
-  Manage a team's members, avatar, alerts, and privacy settings with the Team
-  Settings page.
+description: Manage a team's members, avatar, alerts, and privacy settings with the
+  Team Settings page.
 displayed_sidebar: default
 ---
 
-# Team settings
+# 팀 설정
 
-Navigate to your team’s profile page and select the **Team settings** icon to manage team settings. Not all members in a team can modify team settings. Only team admins can view a team's settings and access team level TTL settings. The account type (Administrator, Member, or Service) of a member determines what settings that member can modify. 
-
-:::info
-Only Administration account types can change team settings or remove a member from a team.
-:::
-
-## Members
-
-The **Members** section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, and account type. There are three account types: Administrator (Admin), Member, and Service.
-
-### Change a member's role in the team
-
-Complete the proceeding steps to change a member's role in a team:
-
-1. Select the account type icon next to the name of a given team member. A modal will appear.
-2. Select the drop-down menu.
-3. From the drop-down, choose the account type you want that team member to posses.
-
-### Remove a member from a team
-
-Select the trash can icon next to the name of the member you want to remove from the team.
+팀의 프로필 페이지로 이동하여 **팀 설정** 아이콘을 선택하고 팀 설정을 관리하세요. 팀의 모든 멤버가 팀 설정을 수정할 수 있는 것은 아닙니다. 오직 팀 관리자만 팀의 설정을 보고 팀 수준 TTL 설정에 엑세스할 수 있습니다. 멤버의 계정 유형(관리자, 멤버, 서비스)이 멤버가 수정할 수 있는 설정을 결정합니다.
 
 :::info
-Runs created in a team account are preserved when the member who created those runs are removed from the team.
+관리자 계정 유형만 팀 설정을 변경하거나 팀에서 멤버를 제거할 수 있습니다.
 :::
 
-### Match members to a team organization during signup
+## 멤버
 
-Allow new users within your organization discover Teams within your organization when they sign-up. New users must have a verified email domain that matches your organization's verified email domain. Verified new users will see a list of verified teams that belong to an organization when they sign up for a W&B account.
+**멤버** 섹션은 모든 보류 중인 초대와 팀에 가입하도록 초대를 수락한 멤버의 목록을 보여줍니다. 나열된 각 멤버는 멤버의 이름, 사용자 이름, 계정 유형을 표시합니다. 세 가지 계정 유형이 있습니다: 관리자(Admin), 멤버, 서비스.
 
-An organization administrator (Admin) must enable this feature. To enable this feature, follow these steps:
+### 팀 내에서 멤버의 역할 변경하기
 
-1. Navigate to the **Privacy** section of the Teams Setting page.
-2. Select the **Request Access** button next to text "Allow users with matching organization email domain to join this team". W&B Support will be notified of the request.
-3. The **Request Access** button will disappear and the toggle is enabled when W&B Support verifies the request.
-4. Select the newly enabled toggle.
+팀 내에서 멤버의 역할을 변경하려면 다음 단계를 완료하세요:
 
-## Avatar
+1. 주어진 팀 멤버의 이름 옆에 있는 계정 유형 아이콘을 선택하세요. 모달이 나타납니다.
+2. 드롭다운 메뉴를 선택하세요.
+3. 드롭다운에서 해당 팀 멤버가 소유할 계정 유형을 선택하세요.
 
-Set an avatar by navigating to the **Avatar** section and uploading an image.
+### 팀에서 멤버 제거하기
 
-1. Select the **Update Avatar** to prompt a file dialog to appear.
-2. From the file dialog, choose the image you want to use.
+팀에서 제거하려는 멤버의 이름 옆에 있는 쓰레기통 아이콘을 선택하세요.
 
-## Alerts
+:::info
+팀 계정에서 생성된 run은 해당 run을 생성한 멤버가 팀에서 제거되어도 보존됩니다.
+:::
 
-Notify your team when runs crash, finish, or set custom alerts. Your team can receive alerts either through email or Slack.
+### 가입 중 팀 조직과 멤버 매치하기
 
-Toggle the switch next to the event type you want to receive alerts from. Weights and Biases provides the following event type options be default:
+조직 내의 새 사용자가 가입할 때 조직 내의 팀을 발견할 수 있도록 허용하세요. 새 사용자는 조직의 확인된 이메일 도메인과 일치하는 확인된 이메일 도메인을 가져야 합니다. 확인된 새 사용자는 W&B 계정에 가입할 때 조직에 속한 확인된 팀의 목록을 볼 수 있습니다.
 
-* **Runs finished**: whether a Weights and Biases run successfully finished.
-* **Run crashed**: if a run has failed to finish.
+조직 관리자(Admin)가 이 기능을 활성화해야 합니다. 이 기능을 활성화하려면 다음 단계를 따르세요:
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert](../../runs/alert.md).
+1. 팀 설정 페이지의 **개인 정보 보호** 섹션으로 이동하세요.
+2. "해당 조직 이메일 도메인과 일치하는 사용자가 이 팀에 가입할 수 있도록 허용"이라는 텍스트 옆에 있는 **접근 요청** 버튼을 선택하세요. W&B 지원팀에게 요청이 알려집니다.
+3. W&B 지원팀이 요청을 확인하면 **접근 요청** 버튼이 사라지고 토글이 활성화됩니다.
+4. 새로 활성화된 토글을 선택하세요.
 
-## Privacy
+## 아바타
 
-Navigate to the **Privacy** section to change privacy settings. Only members with Administrative roles can modify privacy settings. Administrator roles can:
+**아바타** 섹션으로 이동하여 이미지를 업로드하여 아바타를 설정하세요.
 
-* Force projects in the team to be private.
-* Enable code saving by default.
+1. 파일 대화 상자가 나타나도록 **아바타 업데이트**를 선택하세요.
+2. 파일 대화 상자에서 사용하고 싶은 이미지를 선택하세요.
 
-## Usage
+## 알림
 
-The **Usage** section describes the total memory usage the team has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+run이 충돌하거나 완료되었을 때 또는 사용자 지정 알림을 설정하여 팀에 알리세요. 팀은 이메일이나 Slack을 통해 알림을 받을 수 있습니다.
 
-## Storage
+알림을 받고 싶은 이벤트 유형 옆에 있는 스위치를 토글하세요. Weights and Biases는 기본적으로 다음 이벤트 유형 옵션을 제공합니다:
 
-The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector](../features/teams.md#secure-storage-connector) or check out our [W&B Server](../../hosting/secure-storage-connector.md) docs if you are self-hosting. 
+* **Run 완료**: Weights and Biases run이 성공적으로 완료되었는지 여부.
+* **Run 충돌**: run이 완료되지 못했을 경우.
+
+알림을 설정하고 관리하는 방법에 대한 자세한 내용은 [wandb.alert로 알림 보내기](../../runs/alert.md)를 참조하세요.
+
+## 개인 정보 보호
+
+**개인 정보 보호** 섹션으로 이동하여 개인 정보 보호 설정을 변경하세요. 관리자 역할을 가진 멤버만 개인 정보 보호 설정을 수정할 수 있습니다. 관리자 역할은 다음을 할 수 있습니다:
+
+* 팀의 프로젝트를 기본적으로 비공개로 설정하도록 강제합니다.
+* 기본적으로 코드 저장을 활성화합니다.
+
+## 사용량
+
+**사용량** 섹션은 팀이 Weights and Biases 서버에서 소비한 총 메모리 사용량을 설명합니다. 기본 저장 계획은 100GB입니다. 저장 및 가격에 대한 자세한 내용은 [가격 책정](https://wandb.ai/site/pricing) 페이지를 참조하세요.
+
+## 저장소
+
+**저장소** 섹션은 팀의 데이터를 위해 사용되는 클라우드 스토리지 버킷 설정을 설명합니다. 자세한 내용은 [보안 스토리지 커넥터](../features/teams.md#secure-storage-connector)를 참조하거나 자체 호스팅하는 경우 [W&B 서버](../../hosting/secure-storage-connector.md) 문서를 확인하세요.

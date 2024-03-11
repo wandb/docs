@@ -1,28 +1,27 @@
 ---
-description: ''
 displayed_sidebar: default
 ---
 
-# Document machine learning model
+# 기계학습 모델 문서화하기
 
-Add a description to the model card of your registered model to document aspects of your machine learning model. Some topics worth documenting include:
+등록된 모델의 모델 카드에 설명을 추가하여 기계학습 모델의 여러 측면을 문서화하세요. 문서화할 가치가 있는 몇 가지 주제는 다음과 같습니다:
 
-* **Summary**: A summary of what the model is. The purpose of the model. The machine learning framework the model uses, and so forth. 
-* **Training data**: Describe the training data used, processing done on the training data set, where is that data stored and so forth.
-* **Architecture**: Information about the model architecture, layers, and any specific design choices.
-* **Deserialize the model**: Provide information on how someone on your team can load the model into memory.
-* **Task**: The specific type of task or problem that the machine learning model is designed to perform. It's a categorization of the model's intended capability.
-* **License**: The legal terms and permissions associated with the use of the machine learning model. It helps model users understand the legal framework under which they can utilize the model.
-* **References**: Citations or references to relevant research papers, datasets, or external resources.
-* **Deployment**: Details on how and where the model is deployed and guidance on how the model is integrated into other enterprise systems, such as a workflow orchestration platforms.
+* **요약**: 모델이 무엇인지에 대한 요약입니다. 모델의 목적, 모델이 사용하는 기계학습 프레임워크 등.
+* **트레이닝 데이터**: 사용된 트레이닝 데이터에 대해 설명하고, 트레이닝 데이터셋에 수행된 처리 과정, 데이터가 저장된 위치 등에 대해 설명합니다.
+* **아키텍처**: 모델 아키텍처, 레이어, 특정 디자인 선택사항에 대한 정보.
+* **모델 역직렬화**: 팀 내의 누군가가 모델을 메모리로 로드하는 방법에 대한 정보를 제공합니다.
+* **작업**: 기계학습 모델이 수행하도록 설계된 특정 유형의 작업 또는 문제입니다. 모델의 의도된 능력의 분류입니다.
+* **라이선스**: 기계학습 모델 사용과 관련된 법적 조건 및 권한입니다. 모델 사용자가 모델을 활용할 수 있는 법적 틀을 이해하는 데 도움이 됩니다.
+* **참조**: 관련 연구 논문, 데이터셋 또는 외부 자원에 대한 인용문 또는 참조.
+* **배포**: 모델이 어디에 배포되었으며, 모델이 워크플로우 오케스트레이션 플랫폼과 같은 다른 기업 시스템에 어떻게 통합되는지에 대한 지침을 포함한 세부 정보.
 
-## Add a description to the model card
+## 모델 카드에 설명 추가하기
 
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select **View details** next to the name of the registered model you want to create a model card for.
-2. Go to the **Model card** section.
+1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model)에서 W&B 모델 레지스트리 앱으로 이동합니다.
+2. 모델 카드를 생성하고자 하는 등록된 모델 이름 옆에 있는 **세부 정보 보기**를 선택합니다.
+2. **모델 카드** 섹션으로 이동합니다.
 ![](/images/models/model_card_example.png)
-3. Within the **Description** field, provide information about your machine learning model. Format text within a model card with [Markdown markup language](https://www.markdownguide.org/).
+3. **설명** 필드 내에 기계학습 모델에 대한 정보를 제공합니다. 모델 카드 내의 텍스트를 [Markdown 마크업 언어](https://www.markdownguide.org/)로 포맷합니다.
 
-For example, the following images shows the model card of a **Credit-card Default Prediction** registered model.
+예를 들어, 다음 이미지는 **신용카드 기본 예측** 등록 모델의 모델 카드를 보여줍니다.
 ![](/images/models/model_card_credit_example.png)

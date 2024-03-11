@@ -1,35 +1,31 @@
 ---
 displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Set up for Kubernetes
+# Kubernetes 설정
 
-You can use W&B Launch to push ML workloads to a Kubernetes cluster, giving ML engineers a simple interface right in W&B to use the resources you already manage with Kubernetes. 
-
-
-W&B maintains an [official Launch agent image](https://hub.docker.com/r/wandb/launch-agent) that can be deployed to your cluster with a [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) that W&B maintains. 
+W&B Launch를 사용하여 ML 워크로드를 Kubernetes 클러스터로 푸시할 수 있으므로, ML 엔지니어는 Kubernetes로 관리하는 리소스를 사용하여 W&B에서 간단한 인터페이스를 사용할 수 있습니다.
 
 
-W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to enable the Launch agent to build Docker images in a Kubernetes cluster. To learn more on how to set up Kaniko for the Launch agent, or how to disable job building and only use prebuilt Docker images, see [Advanced agent set up](./setup-agent-advanced.md).
+W&B는 [공식 Launch 에이전트 이미지](https://hub.docker.com/r/wandb/launch-agent)를 유지 관리하며, 이를 W&B에서 유지 관리하는 [Helm 차트](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)로 클러스터에 배포할 수 있습니다.
 
 
-<!-- Future: insert diagram here -->
+W&B는 Launch 에이전트가 Kubernetes 클러스터에서 Docker 이미지를 빌드할 수 있도록 [Kaniko](https://github.com/GoogleContainerTools/kaniko) 빌더를 사용합니다. Launch 에이전트를 위해 Kaniko를 설정하는 방법 또는 작업 빌딩을 비활성화하고 사전 빌드된 Docker 이미지만 사용하는 방법에 대해 자세히 알아보려면 [고급 에이전트 설정](./setup-agent-advanced.md)을 참조하세요.
 
-## Configure a queue for Kubernetes
+## Kubernetes용 큐 설정
 
-The Launch queue configuration for a Kubernetes target resource will resemble either a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) or a [Kubernetes Custom Resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+Kubernetes 대상 리소스에 대한 Launch 큐 설정은 [Kubernetes Job 스펙](https://kubernetes.io/docs/concepts/workloads/controllers/job/) 또는 [Kubernetes 사용자 정의 리소스 스펙](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)과 유사하게 보일 것입니다.
 
 
-You can control any aspect of the Kubernetes workload resource spec when you create a Launch queue.
+Launch 큐를 생성할 때 Kubernetes 워크로드 리소스 스펙의 모든 측면을 제어할 수 있습니다.
 
 <Tabs
 defaultValue="job"
 values={[
-{label: 'Kubernetes Job Spec', value: 'job'},
-{label: 'Custom Resource Spec', value: 'custom'},
+{label: 'Kubernetes Job 스펙', value: 'job'},
+{label: '사용자 정의 리소스 스펙', value: 'custom'},
 ]}>
 
 <TabItem value="job">
@@ -55,9 +51,9 @@ namespace: wandb
 </TabItem>
 <TabItem value="custom">
 
-In some use cases, you might want to use `CustomResource` definitions. `CustomResource` definitions are useful if, for example, you want to perform multi-node distributed training. See the tutorial for using Launch with multi-node jobs using Volcano for an example application. Another use case might be that you want to use W&B Launch with Kubeflow.
+일부 유스 케이스에서는 `CustomResource` 정의를 사용하고 싶을 수 있습니다. `CustomResource` 정의는 예를 들어, 멀티 노드 분산 트레이닝을 수행하고 싶을 때 유용합니다. Volcano를 사용하여 멀티 노드 작업을 사용하는 Launch 튜토리얼을 예시 애플리케이션으로 참조하세요. 또 다른 유스 케이스는 Kubeflow와 함께 W&B Launch를 사용하고자 하는 경우일 수 있습니다.
 
-The following YAML snippet shows a sample Launch queue config that uses Kubeflow:
+다음 YAML 스니펫은 Kubeflow를 사용하는 샘플 Launch 큐 설정을 보여줍니다:
 
 ```yaml
 kubernetes:
@@ -91,13 +87,13 @@ kubernetes:
   </TabItem>
 </Tabs>
 
-For security reasons, W&B will inject the following resources into your Launch queue if they are not specified:
+보안상의 이유로, W&B는 다음 리소스를 Launch 큐에 지정하지 않은 경우, 해당 리소스를 삽입할 것입니다:
 
 - `securityContext`
 - `backOffLimit`
 - `ttlSecondsAfterFinished`
 
-The following YAML snippet demonstrates how these values will appear in your launch queue:
+다음 YAML 스니펫은 이러한 값이 Launch 큐에 어떻게 표시될지 보여줍니다:
 
 ```yaml title="example-spec.yaml"
 spec:
@@ -113,24 +109,24 @@ spec:
         type: "RuntimeDefault"
 ```
 
-## Create a queue
+## 큐 생성하기
 
-Create a queue in the W&B App that uses Kubernetes as its compute resource:
+Kubernetes를 컴퓨팅 리소스로 사용하는 W&B 앱에서 큐를 생성합니다:
 
-1. Navigate to the [Launch page](https://wandb.ai/launch).
-2. Click on the **Create Queue** button.
-3. Select the **Entity** you would like to create the queue in.
-4. Provide a name for your queue in the **Name** field.
-5. Select **Kubernetes** as the **Resource**.
-6. Within the **Configuration** field, provide the Kubernetes Job workflow spec or Custom Resource spec you [configured in the previous section](#configure-a-queue-for-kubernetes).
+1. [Launch 페이지](https://wandb.ai/launch)로 이동합니다.
+2. **큐 생성** 버튼을 클릭합니다.
+3. 큐를 생성하고자 하는 **엔티티**를 선택합니다.
+4. **이름** 필드에 큐의 이름을 입력합니다.
+5. **리소스**로 **Kubernetes**를 선택합니다.
+6. **설정** 필드에, [이전 섹션에서 설정한](#configure-a-queue-for-kubernetes) Kubernetes Job 워크플로우 스펙 또는 사용자 정의 리소스 스펙을 제공합니다.
 
-## Configure a Launch agent with Helm
+## Helm으로 Launch 에이전트 설정
 
-Use the [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) provided by W&B to deploy the Launch agent into your Kubernetes cluster. Control the behavior of the launch agent with the `values.yaml` [file](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml).
+W&B에서 제공하는 [Helm 차트](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 사용하여 Kubernetes 클러스터에 Launch 에이전트를 배포합니다. `values.yaml` [파일](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml)로 launch 에이전트의 행동을 제어합니다.
 
-Specify the contents that would normally by defined in your launch agent config file (`~/.config/wandb/launch-config.yaml`) within the `launchConfig` key in the`values.yaml` file.
+Launch 에이전트 설정 파일(`~/.config/wandb/launch-config.yaml`)에 일반적으로 정의되는 내용을 `values.yaml` 파일의 `launchConfig` 키 내에 지정하십시오.
 
-For example, suppose you have Launch agent config that enables you to run a Launch agent in EKS that uses the Kaniko Docker image builder:
+예를 들어, Kaniko Docker 이미지 빌더를 사용하여 EKS에서 Launch 에이전트를 실행할 수 있도록 설정하는 Launch 에이전트 설정이 있다고 가정해 보겠습니다:
 
 ```yaml title="launch-config.yaml"
 queues:
@@ -147,35 +143,35 @@ builder:
 	build-context-store: <s3-bucket-uri>
 ```
 
-Within your `values.yaml` file, this might look like:
+`values.yaml` 파일 내에서 이는 다음과 같이 보일 수 있습니다:
 
 ```yaml title="values.yaml"
 agent:
   labels: {}
-  # W&B API key.
+  # W&B API 키.
   apiKey: ''
-  # Container image to use for the agent.
+  # 에이전트용 컨테이너 이미지.
   image: wandb/launch-agent:latest
-  # Image pull policy for agent image.
+  # 에이전트 이미지의 이미지 풀 정책.
   imagePullPolicy: Always
-  # Resources block for the agent spec.
+  # 에이전트 스펙의 리소스 블록.
   resources:
     limits:
       cpu: 1000m
       memory: 1Gi
 
-# Namespace to deploy launch agent into
+# launch 에이전트를 배포할 네임스페이스
 namespace: wandb
 
-# W&B api url (Set yours here)
+# W&B api url (여기에 설정하세요)
 baseUrl: https://api.wandb.ai
 
-# Additional target namespaces that the launch agent can deploy into
+# launch 에이전트가 배포할 수 있는 추가 대상 네임스페이스
 additionalTargetNamespaces:
   - default
   - wandb
 
-# This should be set to the literal contents of your launch agent config.
+# 이것은 launch 에이전트 설정의 실제 내용을 설정해야 합니다.
 launchConfig: |
   queues:
     - <queue name>
@@ -190,19 +186,18 @@ launchConfig: |
     type: kaniko
     build-context-store: <s3-bucket-uri>
 
-# The contents of a git credentials file. This will be stored in a k8s secret
-# and mounted into the agent container. Set this if you want to clone private
-# repos.
+# git 자격 증명 파일의 내용입니다. 이것은 k8s 비밀로 저장되고 에이전트 컨테이너에 마운트됩니다. 비공개
+# 저장소를 복제하려면 이를 설정하세요.
 gitCreds: |
 
-# Annotations for the wandb service account. Useful when setting up workload identity on gcp.
+# gcp에서 작업 신원을 설정할 때 유용한 wandb 서비스 계정의 주석.
 serviceAccount:
   annotations:
     iam.gke.io/gcp-service-account:
     azure.workload.identity/client-id:
 
-# Set to access key for azure storage if using kaniko with azure.
+# kaniko를 azure와 함께 사용하는 경우 azure 저장소 엑세스 키를 설정하세요.
 azureStorageAccessKey: ''
 ```
 
-For more information on registries, environments and required agent permissions see [Advanced agent set up](./setup-agent-advanced.md).
+레지스트리, 환경 및 필요한 에이전트 권한에 대한 자세한 내용은 [고급 에이전트 설정](./setup-agent-advanced.md)을 참조하십시오.

@@ -2,97 +2,79 @@
 displayed_sidebar: default
 ---
 
-# Queue monitoring dashboard (beta)
+# 큐 모니터링 대시보드(베타)
 
-Use the interactive **Queue monitoring dashboard** to view when a launch queue is in heavy use or idle, visualize workloads that are running, and spot inefficient jobs. The launch queue dashboard is especially useful for deciding whether or not you are effectively using your compute hardware or cloud resources.
+대화형 **큐 모니터링 대시보드**를 사용하여 실행 대기열이 많이 사용되거나 유휴 상태인 시기를 확인하고, 실행 중인 작업을 시각화하며, 비효율적인 작업을 찾아보세요. 실행 대기열 대시보드는 컴퓨팅 하드웨어나 클라우드 리소스를 효과적으로 사용하고 있는지 결정하는 데 특히 유용합니다.
 
-
-For deeper analysis, the page links to the W&B experiment tracking workspace and to external infrastructure monitoring providers like Datadog, NVIDIA Base Command, or cloud consoles.
+더 깊은 분석을 위해, 페이지는 W&B 실험 추적 워크스페이스와 Datadog, NVIDIA Base Command 또는 클라우드 콘솔과 같은 외부 인프라 모니터링 제공업체로의 링크를 제공합니다.
 
 :::info
-Queue monitoring dashboards require W&B Weave.  W&B Weave is yet not available on Customer-managed or AWS/GCP Dedicated Cloud deployments. Contact your W&B representative to learn more.
+큐 모니터링 대시보드는 W&B Weave가 필요합니다. W&B Weave는 고객 관리 또는 AWS/GCP 전용 클라우드 배포에서는 아직 사용할 수 없습니다. 자세한 내용은 W&B 담당자에게 문의하세요.
 :::
 
-## Dashboard and plots
-Use the **Monitor** tab to view the activity of a queue that occurred during the last seven days. Use the left panel to control time ranges, grouping and filters.
+## 대시보드와 차트
+**모니터** 탭을 사용하여 지난 일곱 일 동안 발생한 큐의 활동을 확인하세요. 왼쪽 패널을 사용하여 시간 범위, 그룹화 및 필터를 제어하세요.
 
-The dashboard contains a number of plots answering common questions about performance and efficiency. The proceeding sections describe UI elements of queue dashboards.
+대시보드에는 성능과 효율성에 대한 자주 묻는 질문에 대답하는 여러 차트가 포함되어 있습니다. 다음 섹션에서는 큐 대시보드의 UI 요소를 설명합니다.
 
-### Job status
-The **Job status** plot shows how many jobs are running, pending, queued, or completed in each time interval. Use the **Job status** plot for identifying periods of idleness in the queue. 
+### 작업 상태
+**작업 상태** 차트는 각 시간 간격마다 실행 중, 대기 중, 큐에 있는, 또는 완료된 작업 수를 보여줍니다. **작업 상태** 차트를 사용하여 큐의 유휴 기간을 식별하세요.
 
 ![](/images/launch/launch_obs_jobstatus.png)
 
-For example, suppose you have a fixed resource (such as DGX BasePod). If you observe an idle queue with the fixed resource, this might suggest an opportunity to run lower-priority pre-emptible launch jobs such as sweeps.
+예를 들어, DGX BasePod와 같은 고정 자원이 있다고 가정해 보세요. 고정 자원으로 유휴 큐를 관찰하면, 스윕과 같은 우선 순위가 낮은 선점 가능한 실행 작업을 실행할 기회를 제안할 수 있습니다.
 
-On the other hand, suppose you use a cloud resource and you see periodic bursts of activity. Periodic bursts of activity might suggest an opportunity to save money by reserving resources for particular times.
+반면에, 클라우드 리소스를 사용하고 주기적인 활동 폭발을 보는 경우, 특정 시간에 리소스를 예약함으로써 돈을 절약할 기회를 제안할 수 있습니다.
 
-To the right of the plot is a key that shows which colors represent the [status of a launch job](./launch-view-jobs.md#check-the-status-of-a-job).
+차트 오른쪽에는 어떤 색상이 [실행 작업의 상태](./launch-view-jobs.md#check-the-status-of-a-job)를 나타내는지 보여주는 키가 있습니다.
 
 :::tip
-`Queued` items might indicate opportunities to shift workloads to other queues. A spike in failures can identify users who might need help with their launch job setup.
+`큐에 있는` 항목은 다른 큐로 작업 부하를 옮길 기회를 나타낼 수 있습니다. 실패의 급증은 실행 작업 설정에 도움이 필요할 수 있는 사용자를 식별할 수 있습니다.
 :::
 
-<!-- Select a range to show more details in the plot below, or Zoom to filter the entire page. -->
+### 큐 대기 시간
 
-### Queued time
-
-The **Queued time** plots shows the amount of time (in seconds) that a launch job was on a queue for a given date or time range. 
+**큐 대기 시간** 차트는 주어진 날짜 또는 시간 범위 동안 실행 작업이 큐에 있었던 시간(초 단위)을 보여줍니다.
 
 ![](/images/launch/launch_obs_queuedtime.png)
 
-The x-axis shows a time frame that you specify and the y-axis shows the time (in seconds) a launch job was on a launch queue. For example, suppose on a given day there are 10 launch jobs queued. The **Queue time** plot shows 600 seconds if those 10 launch jobs wait an average of 60 seconds each.
+x축은 지정한 시간 프레임을 보여주고 y축은 실행 작업이 실행 큐에 있었던 시간(초 단위)을 보여줍니다. 예를 들어, 주어진 날에 10개의 실행 작업이 큐에 있었다고 가정해 보세요. 이 10개의 실행 작업이 평균 60초씩 대기한다면, **큐 대기 시간** 차트는 600초를 보여줍니다.
 
 :::tip
-Use the **Queued time** plot to identify users affected by long queue times. 
+**큐 대기 시간** 차트를 사용하여 긴 큐 대기 시간에 영향을 받는 사용자를 식별하세요.
 :::
 
-Customize the color of each job with the `Grouping` control in the left bar.
+왼쪽 바의 `그룹화` 제어를 사용하여 각 작업의 색상을 사용자 지정하세요.
 
-which can be particularly helpful for identifying which users and jobs are feeling the pain of scarce queue capacity.
+이는 특히 큐 용량이 부족한 사용자와 작업을 식별하는 데 유용할 수 있습니다.
 
-### Job runs
+### 작업 실행
 
 ![](/images/launch/launch_obs_jobruns2.png)
 
+이 차트는 시간 기간 동안 실행된 모든 작업의 시작과 끝을 보여줍니다. 각 실행은 고유한 색상으로 표시됩니다. 이를 통해 한눈에 해당 시간에 큐가 처리하고 있던 작업 부하를 쉽게 파악할 수 있습니다.
 
-This plot shows the start and end of every job executed in a time period, with distinct colors for each run. This makes it easy to see at a glance what workloads the queue was processing at a given time.  
+패널 오른쪽 하단의 선택 도구를 사용하여 작업을 선택하고 아래 표에 세부 정보를 채우세요.
 
-Use the Select tool in the bottom right of the panel to brush over jobs to populate details in the table below.
-
-
-
-### CPU and GPU usage
-Use the **GPU use by a job**, **CPU use by a job**, **GPU memory by job**, and **System memory by job** to view the efficiency of your launch jobs. 
+### CPU 및 GPU 사용량
+**작업별 GPU 사용량**, **작업별 CPU 사용량**, **작업별 GPU 메모리**, **시스템 메모리별 작업**을 사용하여 실행 작업의 효율성을 확인하세요.
 
 ![](/images/launch/launch_obs_gpu.png)
 
+예를 들어, **작업별 GPU 메모리**를 사용하여 W&B 실행이 완료되는 데 오래 걸렸는지 그리고 CPU 코어의 낮은 비율을 사용했는지 여부를 확인할 수 있습니다.
 
-For example, you can use the **GPU memory by job** to view if a W&B run took a long time to complete and whether or not it used a low percentage of its CPU cores.
+각 차트의 x축은 실행 작업에 의해 생성된 W&B 실행(초 단위)의 지속 시간을 보여줍니다. 데이터 포인트 위로 마우스를 가져가면 실행 ID, 실행이 속한 프로젝트, W&B 실행을 생성한 실행 작업 등 W&B 실행에 대한 정보를 볼 수 있습니다.
 
-The x-axis of each plot shows the duration of a W&B run (created by a launch job) in seconds. Hover your mouse over a data point to view information about a W&B run such as the run ID, the project the run belongs to, the launch job that created the W&B run and more.
+### 오류
 
-### Errors
-
-The **Errors** panel shows errors that occurred on a given launch queue. More specifically, the Errors panel shows a timestamp of when the error occurred, the name of the launch job where the error comes from, and the error message that was created. By default, errors are ordered from latest to oldest. 
+**오류** 패널은 주어진 실행 큐에서 발생한 오류를 보여줍니다. 구체적으로, 오류 패널은 오류가 발생한 시간의 타임스탬프, 오류가 발생한 실행 작업의 이름, 생성된 오류 메시지를 보여줍니다. 기본적으로, 오류는 최신부터 오래된 순으로 정렬됩니다.
 
 ![](/images/launch/launch_obs_errors.png)
 
-Use the **Errors** panel to identify and unblock users. 
+**오류** 패널을 사용하여 사용자를 식별하고 해결하세요.
 
-## External links
+## 외부 링크
 
-The queue observability dashboard's view is consistent across all queue types, but in many cases, it can be useful to jump directly into environment-specific monitors. To accomplish this, add a link from the console directly from the queue observability dashboard.
+큐 관찰성 대시보드의 뷰는 모든 큐 유형에 일관되지만, 경우에 따라 환경 특정 모니터로 직접 이동하는 것이 유용할 수 있습니다. 이를 달성하기 위해, 큐 관찰성 대시보드에서 직접 콘솔의 링크를 추가하세요.
 
-At the bottom of the page, click `Manage Links` to open a panel. Add the full URL of the page you want. Next, add a label. Links that you add appear in the **External Links** section. 
-
-
-
-
-
-
-
-
-
-
-
+페이지 하단에서 `링크 관리`를 클릭하여 패널을 엽니다. 원하는 페이지의 전체 URL을 추가하세요. 다음으로, 라벨을 추가하세요. 추가한 링크는 **외부 링크** 섹션에 표시됩니다.

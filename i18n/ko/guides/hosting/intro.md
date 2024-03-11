@@ -3,52 +3,54 @@ slug: /guides/hosting
 displayed_sidebar: default
 ---
 
-# W&B Server
+# W&B 서버
 
-Deploy W&B in a resource isolated environment managed by W&B or by yourself. W&B Server is shipped as a packaged Docker image that can be deployed easily into any underlying infrastructure. There are several ways to install and host the W&B Server in different environments.
+W&B를 W&B 또는 직접 관리하는 자원 격리 환경에서 배포하세요. W&B 서버는 모든 기반 인프라에 쉽게 배포할 수 있는 패키지화된 Docker 이미지로 제공됩니다. W&B 서버를 다양한 환경에서 설치하고 호스팅하는 여러 가지 방법이 있습니다.
 
 :::info
-Production-grade features for W&B Server are available for enterprise-tier only.
+W&B 서버의 프로덕션 등급 기능은 엔터프라이즈 계층만 사용할 수 있습니다.
 
-See the [Basic Setup guide](./how-to-guides/basic-setup.md) to set up a developer or trial environment.
+개발자 또는 트라이얼 환경을 설정하는 [기본 설정 가이드](./how-to-guides/basic-setup.md)를 참조하세요.
 :::
 
-With W&B Server you can configure and leverage features such as:
+W&B 서버를 사용하면 다음과 같은 기능을 구성하고 활용할 수 있습니다:
 
-- [Secure Storage Connector](./secure-storage-connector.md)
-- [Single Sign-On](./sso.md)
-- [Role-based Access Control via LDAP](./ldap.md)
-- [Audit Logs](./audit-logging.md)
-- [User Management](./manage-users.md)
-- [Prometheus Monitoring](./prometheus-logging.md)
-- [Slack Alerts](./slack-alerts.md)
-- [Garbage Collect Deleted Artifacts](../artifacts/delete-artifacts.md#how-to-enable-garbage-collection-based-on-how-you-host-wb)
+- [안전한 저장소 커넥터](./secure-storage-connector.md)
+- [싱글 사인온](./sso.md)
+- [LDAP를 통한 역할 기반 엑세스 제어](./ldap.md)
+- [감사 로그](./audit-logging.md)
+- [사용자 관리](./manage-users.md)
+- [프로메테우스 모니터링](./prometheus-logging.md)
+- [슬랙 알림](./slack-alerts.md)
+- [삭제된 아티팩트의 쓰레기 수집](../artifacts/delete-artifacts.md#how-to-enable-garbage-collection-based-on-how-you-host-wb)
 
-The following sections of the documentation describes different options on how to install W&B Server, the shared responsibility model, step-by-step installation and configuration guides.
+이 문서의 다음 섹션에서는 W&B 서버를 설치하는 다양한 옵션, 공동 책임 모델, 단계별 설치 및 설정 가이드를 설명합니다.
 
-## Recommendations
+## 권장 사항
 
-W&B recommends the following when configuring W&B Server:
+W&B 서버를 구성할 때 W&B는 다음을 권장합니다:
 
-1. Run the W&B Server Docker container with an external storage and an external MySQL database in order to preserve the state outside of a container. This protects the data from being accidentally deleted if the container dies or crashes.
-2. Leverage Kubernetes to run the W&B Server Docker image and expose the `wandb` service.
-3. Set up and manage a scale-able file system if you plan on using W&B Server for production-related work.
+1. 컨테이너 외부에 상태를 보존하기 위해 외부 저장소와 외부 MySQL 데이터베이스를 사용하여 W&B 서버 Docker 컨테이너를 실행하세요. 이렇게 하면 컨테이너가 중단되거나 충돌하는 경우 데이터가 실수로 삭제되는 것을 방지할 수 있습니다.
+2. `wandb` 서비스를 노출시키기 위해 쿠버네티스를 활용하여 W&B 서버 Docker 이미지를 실행하세요.
+3. 프로덕션 관련 작업을 위해 W&B 서버를 사용할 계획이라면 확장 가능한 파일 시스템을 설정하고 관리하세요.
 
-## System Requirements
+## 시스템 요구 사항
 
-W&B Server requires a machine with at least
+W&B 서버는 최소한
 
-- 4 cores of CPU &
-- 8GB of memory (RAM)
+- CPU 4 코어 &
+- 메모리(RAM) 8GB
 
-Your W&B data will be saved on a persistent volume or external database, ensuring that it is preserved across different versions of the container.
+을 요구하는 기계가 필요합니다.
+
+W&B 데이터는 지속적인 볼륨 또는 외부 데이터베이스에 저장되므로 컨테이너의 다른 버전 간에도 보존됩니다.
 
 :::tip
-For enterprise customers, W&B offers extensive technical support and frequent installation updates for privately hosted instances.
+엔터프라이즈 고객을 위해, W&B는 사설 호스팅 인스턴스에 대해 광범위한 기술 지원 및 자주 업데이트되는 설치를 제공합니다.
 :::
 
-## Releases
+## 릴리스
 
-Subscribe to receive notifications from the [W&B Server GitHub repository](https://github.com/wandb/server/releases) when a new W&B Server release comes out.
+새로운 W&B 서버 릴리스가 나올 때 [W&B 서버 GitHub 저장소](https://github.com/wandb/server/releases)에서 알림을 받으세요.
 
-To subscribe, select the **Watch** button at the top of the GitHub page and select **All Activity**.
+구독하려면 GitHub 페이지 상단의 **Watch** 버튼을 선택하고 **All Activity**를 선택하세요.

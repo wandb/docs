@@ -3,52 +3,50 @@ description: Create centralized, interactive, visual dashboards for your ML expe
 displayed_sidebar: default
 ---
 
-# View results from experiments
+# 실험에서 결과 보기
 
 <head>
-  <title>Organize and visualize results from your machine learning models</title>
+  <title>기계학습 모델에서 결과를 조직하고 시각화하기</title>
 </head>
 
-Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models.
+기계학습 모델에서 나온 결과를 조직하고 시각화하기 위한 중앙 장소로 W&B 대시보드를 사용하세요.
 
-<!-- {% embed url="https://youtu.be/gnD8BFuyVUA" %} -->
+### 지속 가능한, 중앙 집중화된 프로젝트
 
-### Persistent, centralized projects
+로컬 기계에서 모델을 트레이닝하든, 실험실 클러스터에서 하든, 클라우드에서 스팟 인스턴스를 사용하든, 동일한 중앙 집중화된 대시보드를 제공합니다. 터미널에서 출력을 스프레드시트로 복사하거나 다른 기계에서 TensorBoard 파일을 조직하는 데 시간을 낭비할 필요가 없습니다.
 
-Anywhere you train your models, whether on your local machine, your lab cluster, or spot instances in the cloud, we give you the same centralized dashboard. You don't need to spend your time copying outputs from your terminal into a spreadsheet or organizing TensorBoard files from different machines.
+### 자동 조직
 
-### Automatic organization
+프로젝트를 동료에게 넘기거나 휴가를 가더라도, W&B는 이미 시도한 모든 모델을 쉽게 볼 수 있어서 오래된 실험을 다시 실행하는 데 시간을 낭비하지 않도록 합니다.
 
-If you hand off a project to a collaborator or take a vacation, W&B makes it easy to see all the models your team has already tried so you're not wasting hours re-running old experiments.
+### 강력한, 쿼리 가능한 테이블
 
-### Powerful, queryable tables
-
-Compare each training run and see what hyperparameters changed. Search, filter, sort, and group results from different models. It's easy to look over thousands of model versions and find the best performing models for different tasks.
+각 트레이닝 실행을 비교하고 어떤 하이퍼파라미터가 변경되었는지 확인하세요. 서로 다른 모델에서 결과를 검색, 필터링, 정렬 및 그룹화할 수 있습니다. 수천 가지 모델 버전을 쉽게 살펴보고 다양한 작업에 가장 적합한 모델을 찾을 수 있습니다.
 
 ![](/images/track/dashboar_faq_query_tables.png)
 
-### Reproducible models
+### 재현 가능한 모델
 
-W&B is good for experimentation, exploration, and reproducing models later. We capture not just the metrics, but also the hyperparameters and version of the code, and we can save your model checkpoints for you so your project is reproducible.
+W&B는 실험, 탐색 및 나중에 모델을 재현하는 데 좋습니다. 메트릭뿐만 아니라 하이퍼파라미터와 코드의 버전도 캡처하며, 모델 체크포인트를 저장하여 프로젝트를 재현 가능하게 만들 수 있습니다.
 
-### Fast, flexible integration
+### 빠르고 유연한 인테그레이션
 
-Add W&B to your project in 5 minutes. Install our free open-source Python package and add a couple of lines to your code, and every time you run your model you'll have nice logged metrics and records.
+W&B를 프로젝트에 5분 안에 추가하세요. 무료 오픈 소스 파이썬 패키지를 설치하고 코드에 몇 줄을 추가하기만 하면 모델을 실행할 때마다 좋은 로그 메트릭과 기록을 가지게 됩니다.
 
-### Tools for Collaboration
+### 협업을 위한 도구
 
-Use W&B to organize complex machine learning projects. It's easy to share a link to W&B, and you can use private teams to have everyone sending results to a shared project. We also support collaboration via reports— add interactive visualizations and describe your work in markdown. This is a great way to keep a work log, share findings with your supervisor, or present findings to your lab.
+W&B를 사용하여 복잡한 기계학습 프로젝트를 조직하세요. W&B에 링크를 공유하기 쉽고, 개인 팀을 사용하여 모든 사람이 공유 프로젝트로 결과를 보낼 수 있습니다. 또한 리포트를 통한 협업을 지원합니다 — 인터랙티브 시각화를 추가하고 마크다운으로 작업을 설명하세요. 이는 작업 로그를 유지하고, 상사와 발견한 내용을 공유하거나, 연구실에 발견한 내용을 발표하는 데 좋은 방법입니다.
 
-## Dashboard FAQ
+## 대시보드 FAQ
 
-### I accidentally deleted a panel in W&B, how do I undo it?
+### W&B에서 패널을 실수로 삭제했습니다. 어떻게 되돌릴 수 있나요?
 
-To undo a change in your workspace, click the "undo" button at the bottom of the page.
+워크스페이스에서 변경 사항을 되돌리려면 페이지 하단에 있는 "되돌리기" 버튼을 클릭하세요.
 
 ![](/images/track/demo_how_to_undo_deleting_a_panel.gif)
 
-### How to sort by more than one column in the runs table?
+### 실행 테이블에서 한 개 이상의 열로 어떻게 정렬하나요?
 
-To sort by more than 1 column in your runs table, click on "Sort" and then "Add another field".
+실행 테이블에서 1개 이상의 열로 정렬하려면 "정렬"을 클릭하고 "다른 필드 추가"를 선택하세요.
 
 ![](/images/track/sort_columns.gif)

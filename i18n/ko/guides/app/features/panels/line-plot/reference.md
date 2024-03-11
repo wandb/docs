@@ -2,85 +2,85 @@
 displayed_sidebar: default
 ---
 
-# Reference
+# 참조
 
-## X-Axis
+## X축
 
-![Selecting X-Axis](/images/app_ui/reference_x_axis.png)
+![X축 선택](/images/app_ui/reference_x_axis.png)
 
-You can set the X-Axis of a line plot to any value that you have logged with wandb.log as long as it's always logged as a number.
+wandb.log로 기록한 모든 값에 대해 숫자로 항상 기록된 경우 선형 그래프의 X축을 설정할 수 있습니다.
 
-## Y-Axis Variables
+## Y축 변수
 
-You can set the y-axis variables to any value you have logged with wandb.log as long as you were logging numbers, arrays of numbers or a histogram of numbers. If you logged more than 1500 points for a variable, wandb samples down to 1500 points.
+wandb.log로 기록한 모든 값에 대해 숫자, 숫자 배열 또는 숫자의 히스토그램으로 로깅한 경우 Y축 변수를 설정할 수 있습니다. 변수에 대해 1500개 이상의 포인트를 로깅한 경우 wandb는 1500개의 포인트로 샘플링합니다.
 
 :::info
-You can change the color of your y axis lines by changing the color of the run in the runs table.
+실행 테이블의 색상을 변경하여 y축 선의 색상을 변경할 수 있습니다.
 :::
 
-## X Range and Y Range
+## X 범위 및 Y 범위
 
-You can change the maximum and minimum values of X and Y for the plot.
+플롯의 X와 Y의 최대 및 최소 값 변경이 가능합니다.
 
-X range default is from the smallest value of your x-axis to the largest.
+X 범위의 기본값은 x축의 가장 작은 값부터 가장 큰 값까지입니다.
 
-Y range default is from the smallest value of your metrics and zero to the largest value of your metrics.
+Y 범위의 기본값은 메트릭의 가장 작은 값과 0부터 메트릭의 가장 큰 값까지입니다.
 
-## Max Runs/Groups
+## 최대 실행/그룹
 
-By default you will only plot 10 runs or groups of runs. The runs will be taken from the top of your runs table or run set, so if you sort your runs table or run set you can change the runs that are shown.
+기본적으로 실행 또는 실행 그룹을 10개만 플로팅합니다. 실행은 실행 테이블 또는 실행 세트의 상단에서 가져옵니다. 따라서 실행 테이블이나 실행 세트를 정렬하면 표시되는 실행을 변경할 수 있습니다.
 
-## Legend
+## 범례
 
-You can control the legend of your chart to show for any run any config value that you logged and meta data from the runs such as the created at time or the user who created the run.
+차트의 범례를 제어하여 실행에 대한 모든 구성 값과 실행에서 생성된 시간이나 실행을 생성한 사용자와 같은 메타 데이터를 표시할 수 있습니다.
 
-Example:
+예시:
 
-${run:displayName} - ${config:dropout} will make the legend name for each run something like "royal-sweep - 0.5" where "royal-sweep" is the run name and 0.5 is the config parameter named "dropout".
+${run:displayName} - ${config:dropout}은 각 실행에 대한 범례 이름을 "royal-sweep - 0.5"와 같이 만듭니다. 여기서 "royal-sweep"은 실행 이름이고 0.5는 "dropout"이라는 구성 파라미터의 값입니다.
 
-You can set value inside`[[ ]]` to display point specific values in the crosshair when hovering over a chart. For example `\[\[ $x: $y ($original) ]]` would display something like "2: 3 (2.9)"
+`[[ ]]` 안에 있는 값을 설정하여 차트 위에 마우스를 올렸을 때 교차선에서 포인트별 값을 표시할 수 있습니다. 예를 들어 `\[\[ $x: $y ($original) \]\]`은 "2: 3 (2.9)"와 같은 것을 표시할 것입니다.
 
-Supported values inside \[\[ ]] are as follows:
+\[\[ \]\] 안에서 지원되는 값은 다음과 같습니다:
 
-| Value       | Meaning                                    |
-| ----------- | ------------------------------------------ |
-| ${x}        | X value                                    |
-| ${y}        | Y value (Including smoothing adjustment)   |
-| ${original} | Y value not including smoothing adjustment |
-| ${mean}     | Mean of grouped runs                       |
-| ${stddev}   | Standard Deviation of grouped runs         |
-| ${min}      | Min of grouped runs                        |
-| ${max}      | Max of grouped runs                        |
-| ${percent}  | Percent of total (for stacked area charts) |
+| 값          | 의미                                          |
+| ----------- | -------------------------------------------- |
+| ${x}        | X 값                                          |
+| ${y}        | Y 값 (부드러움 조정 포함)                     |
+| ${original} | 부드러움 조정 없는 Y 값                       |
+| ${mean}     | 그룹화된 실행의 평균                          |
+| ${stddev}   | 그룹화된 실행의 표준 편차                      |
+| ${min}      | 그룹화된 실행의 최소값                        |
+| ${max}      | 그룹화된 실행의 최대값                        |
+| ${percent}  | 총계의 백분율 (스택 영역 차트용)               |
 
-## Grouping
+## 그룹화
 
-You can aggregate all of the runs by turning on grouping, or group over an individual variable. You can also turn on grouping by grouping inside the table and the groups will automatically populate into the graph.
+그룹화를 켜거나 개별 변수별로 그룹화하여 모든 실행을 집계할 수 있습니다. 테이블 내에서 그룹화를 켜면 그룹이 자동으로 그래프로 채워집니다.
 
-## Smoothing
+## 부드러움
 
-You can set the [smoothing coefficient](../../../../technical-faq/general.md#what-formula-do-you-use-for-your-smoothing-algorithm) to be between 0 and 1 where 0 is no smoothing and 1 is maximum smoothing.
+[부드러움 계수](../../../../technical-faq/general.md#what-formula-do-you-use-for-your-smoothing-algorithm)를 0에서 1 사이로 설정할 수 있으며, 여기서 0은 부드러움 없음이고 1은 최대 부드러움입니다.
 
-## Ignore Outliers
+## 이상치 무시
 
-Ignore outliers makes the graph set the yaxis min and max to the 5th and 95th percentile of the data instead of setting it to make all data visible.
+이상치 무시는 그래프가 모든 데이터를 표시하도록 y축의 최소 및 최대를 설정하는 대신 데이터의 5번째 및 95번째 백분위수를 y축의 최소 및 최대로 설정하게 합니다.
 
-## Expression
+## 표현식
 
-Expression lets you plot values derived from metrics like 1-accuracy. It currently only works if you are plotting a single metric. You can do simple arithmetic expressions, +, -, \*, / and % as well as \*\* for powers.
+표현식을 사용하면 메트릭에서 파생된 값들을 플로팅할 수 있습니다. 예를 들어 1-정확도와 같은 값입니다. 현재 단일 메트릭을 플로팅하는 경우에만 작동합니다. 간단한 산술 표현식, +, -, *, / 및 %뿐만 아니라 **을(를) 거듭제곱으로 사용할 수 있습니다.
 
-## Plot style
+## 플롯 스타일
 
-Select a style for your line plot.
+선형 플롯의 스타일을 선택합니다.
 
-**Line plot:**
+**선형 플롯:**
 
 ![](/images/app_ui/plot_style_line_plot.png)
 
-**Area plot:**
+**영역 플롯:**
 
 ![](/images/app_ui/plot_style_area_plot.png)
 
-**Percentage area plot:**
+**백분율 영역 플롯:**
 
 ![](/images/app_ui/plot_style_percentage_plot.png)

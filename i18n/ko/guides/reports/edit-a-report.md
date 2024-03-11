@@ -1,34 +1,31 @@
 ---
-description: >-
-  Edit a report interactively with the App UI or programmatically with the
-  W&B SDK.
+description: Edit a report interactively with the App UI or programmatically with
+  the W&B SDK.
 displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-
-# Edit a report
+# 리포트 편집하기
 
 <head>
   <title>Edit a W&B Report</title>
 </head>
 
 
-Edit a report interactively with the App UI or programmatically with the W&B SDK.
+App UI 또는 W&B SDK를 사용하여 리포트를 대화식으로 또는 프로그래밍 방식으로 편집하세요.
 
-Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and run, and panels grids.
+리포트는 _블록_으로 구성됩니다. 블록은 리포트의 본문을 구성합니다. 이 블록 안에서 텍스트, 이미지, 내장 시각화, 실험 및 run으로부터의 플롯, 그리고 패널 그리드를 추가할 수 있습니다.
 
-_Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
+_패널 그리드_는 패널과 _run sets_를 보유하는 특정 유형의 블록입니다. Run sets는 W&B 프로젝트에 기록된 run의 모음입니다. 패널은 run set 데이터의 시각화입니다.
 
 :::info
-Editing Reports programmatically with the Python SDK is in Beta and in active development.
+Python SDK를 사용한 리포트 프로그래밍 방식 편집은 베타 버전이며 활발히 개발 중입니다.
 :::
 
-### Add plots
+### 플롯 추가하기
 
-Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data shows up on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
+각 패널 그리드는 run sets와 패널 세트를 가지고 있습니다. 섹션 하단의 run sets는 그리드의 패널에 어떤 데이터가 표시될지를 제어합니다. 다른 run 집합에서 데이터를 가져오는 차트를 추가하려면 새 패널 그리드를 만드세요.
 
 <Tabs
   defaultValue="app"
@@ -38,20 +35,20 @@ Each panel grid has a set of run sets and a set of panels. The run sets at the b
   ]}>
   <TabItem value="app">
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. Select **Add panel** to add a panel. You can add any panel that is supported by W&B; including a line plot, scatter plot or parallel coordinates chart.
+리포트에서 슬래시(`/`)를 입력하면 드롭다운 메뉴가 표시됩니다. **패널 추가**를 선택하여 패널을 추가하세요. W&B에서 지원하는 모든 패널을 추가할 수 있습니다; 라인 플롯, 산점도 또는 병렬 좌표 차트를 포함합니다.
 
 
 
-![Add charts to a report](/images/reports/demo_report_add_panel_grid.gif)
+![리포트에 차트 추가하기](/images/reports/demo_report_add_panel_grid.gif)
   
   </TabItem>
   <TabItem value="sdk">
 
-Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
+SDK를 사용하여 리포트에 프로그래밍 방식으로 플롯을 추가하세요. 하나 이상의 플롯 또는 차트 오브젝트 목록을 `PanelGrid` 공개 API 클래스의 `panels` 파라미터에 전달하세요. 각각의 Python 클래스로 플롯 또는 차트 오브젝트를 생성하세요.
 
 
 
-The proceeding examples demonstrates how to create a line plot and scatter plot.
+다음 예제는 라인 플롯과 산점도를 생성하는 방법을 보여줍니다.
 
 ```python
 import wandb
@@ -76,14 +73,13 @@ report.blocks = blocks
 report.save()
 ```
 
-For more information about available plots and charts you can add to a report programmatically, see `wr.panels`.
+프로그래밍 방식으로 리포트에 추가할 수 있는 사용 가능한 플롯과 차트에 대한 자세한 정보는 `wr.panels`를 참조하세요.
   </TabItem>
 </Tabs>
 
+### run sets 추가하기
 
-### Add run sets
-
-Add run sets from projects interactively with the App UI or the W&B SDK.
+App UI나 W&B SDK를 사용하여 프로젝트에서 run sets를 대화식으로 추가하세요.
 
 <Tabs
   defaultValue="app"
@@ -93,16 +89,16 @@ Add run sets from projects interactively with the App UI or the W&B SDK.
   ]}>
   <TabItem value="app">
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown, choose Panel Grid. This will automatically import the run set from the project the report was created from.
+리포트에서 슬래시(`/`)를 입력하면 드롭다운 메뉴가 표시됩니다. 드롭다운에서 Panel Grid를 선택하세요. 이렇게 하면 리포트가 생성된 프로젝트에서 run set이 자동으로 가져와집니다.
   </TabItem>
   <TabItem value="sdk">
 
-Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
+`wr.Runset()` 및 `wr.PanelGrid` 클래스를 사용하여 프로젝트에서 run sets를 추가하세요. 다음 절차는 runset을 추가하는 방법을 설명합니다:
 
-1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the runsets for the project parameter and the entity that owns the project for the entity parameter.
-2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `runsets` parameter.
-3. Store one or more `wr.PanelGrid()` object instances in a list.
-4. Update the report instance blocks attribute with the list of panel grid instances.
+1. `wr.Runset()` 오브젝트 인스턴스를 생성하세요. 프로젝트 파라미터에는 runsets가 포함된 프로젝트의 이름을 제공하고, 엔티티 파라미터에는 프로젝트를 소유한 엔티티의 이름을 제공하세요.
+2. `wr.PanelGrid()` 오브젝트 인스턴스를 생성하세요. `runsets` 파라미터에 하나 이상의 runset 오브젝트 목록을 전달하세요.
+3. 하나 이상의 `wr.PanelGrid()` 오브젝트 인스턴스를 목록에 저장하세요.
+4. 리포트 인스턴스의 blocks 속성을 패널 그리드 인스턴스 목록으로 업데이트하세요.
 
 ```python
 import wandb
@@ -122,7 +118,7 @@ report.blocks = [panel_grids]
 report.save()
 ```
 
-You can optionally add runsets and panels with one call to the SDK:
+원하는 경우 SDK에 대한 한 번의 호출로 runsets와 패널을 추가할 수 있습니다:
 
 ```python
 import wandb
@@ -185,10 +181,9 @@ report.save()
   </TabItem>
 </Tabs>
 
+### 코드 블록 추가하기
 
-### Add code blocks
-
-Add code blocks to your report interactively with the App UI or with the W&B SDK.
+App UI 또는 W&B SDK를 사용하여 리포트에 코드 블록을 대화식으로 추가하세요.
 
 <Tabs
   defaultValue="app"
@@ -198,15 +193,15 @@ Add code blocks to your report interactively with the App UI or with the W&B SDK
   ]}>
   <TabItem value="app">
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown choose **Code**.
+리포트에서 슬래시(`/`)를 입력하면 드롭다운 메뉴가 표시됩니다. 드롭다운에서 **코드**를 선택하세요.
 
-Select the name of the programming language on the right hand of the code block. This will expand a dropdown. From the dropdown, select your programming language syntax. You can choose from Javascript, Python, CSS, JSON, HTML, Markdown, and YAML.
+코드 블록의 오른쪽에 프로그래밍 언어의 이름을 선택하세요. 이렇게 하면 드롭다운이 표시됩니다. 드롭다운에서 프로그래밍 언어 구문을 선택하세요. Javascript, Python, CSS, JSON, HTML, Markdown, YAML에서 선택할 수 있습니다.
   </TabItem>
   <TabItem value="sdk">
 
-Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
+`wr.CodeBlock` 클래스를 사용하여 프로그래밍 방식으로 코드 블록을 생성하세요. 언어와 코드 파라미터에 각각 언어의 이름과 표시하려는 코드를 제공하세요.
 
-For example the proceeding example demonstrates a list in YAML file:
+예를 들어 다음 예제는 YAML 파일의 목록을 보여줍니다:
 
 ```python
 import wandb
@@ -223,7 +218,7 @@ report.blocks = [
 report.save()
 ```
 
-This will render a code block similar to:
+이것은 다음과 유사한 코드 블록을 렌더링합니다:
 
 ```yaml
 this:
@@ -234,7 +229,7 @@ cool:
 - file
 ```
 
-The proceeding example demonstrates a Python code block:
+다음 예제는 Python 코드 블록을 보여줍니다:
 
 ```python
 report = wr.Report(project="report-editing")
@@ -245,7 +240,7 @@ report.blocks = [wr.CodeBlock(code=["Hello, World!"], language="python")]
 report.save()
 ```
 
-This will render a code block similar to:
+이것은 다음과 유사한 코드 블록을 렌더링합니다:
 
 ```md
 Hello, World!
@@ -253,9 +248,9 @@ Hello, World!
   </TabItem>
 </Tabs>
 
-### Markdown
+### 마크다운
 
-Add markdown to your report interactively with the App UI or with the W&B SDK.
+App UI 또는 W&B SDK를 사용하여 리포트에 마크다운을 대화식으로 추가하세요.
 
 <Tabs
   defaultValue="app"
@@ -265,11 +260,11 @@ Add markdown to your report interactively with the App UI or with the W&B SDK.
   ]}>
   <TabItem value="app">
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown choose **Markdown**.
+리포트에서 슬래시(`/`)를 입력하면 드롭다운 메뉴가 표시됩니다. 드롭다운에서 **Markdown**을 선택하세요.
   </TabItem>
   <TabItem value="sdk">
 
-Use the `wandb.apis.reports.MarkdownBlock` Class to create a markdown block programmatically. Pass a string to the `text` parameter:
+`wandb.apis.reports.MarkdownBlock` 클래스를 사용하여 프로그래밍 방식으로 마크다운 블록을 생성하세요. `text` 파라미터에 문자열을 전달하세요:
 
 ```python
 import wandb
@@ -282,15 +277,15 @@ report.blocks = [
 ]
 ```
 
-This will render a markdown block similar to:
+이것은 다음과 유사한 마크다운 블록을 렌더링합니다:
 
 ![](/images/reports/markdown.png)
   </TabItem>
 </Tabs>
 
-### HTML elements
+### HTML 요소
 
-Add HTML elements to your report interactively with the App UI or with the W&B SDK.
+App UI 또는 W&B SDK를 사용하여 리포트에 HTML 요소를 추가하세요.
 
 <Tabs
   defaultValue="app"
@@ -300,11 +295,11 @@ Add HTML elements to your report interactively with the App UI or with the W&B S
   ]}>
   <TabItem value="app">
 
-Enter a forward slash (`/`) in the report to display a dropdown menu. From the dropdown select a type of text block. For example, to create an H2 heading block, select the `Heading 2` option.
+리포트에서 슬래시(`/`)를 입력하면 드롭다운 메뉴가 표시됩니다. 드롭다운에서 텍스트 블록 유형을 선택하세요. 예를 들어, H2 제목 블록을 만들려면 `제목 2` 옵션을 선택하세요.
   </TabItem>
   <TabItem value="sdk">
 
-Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to create an H1, H2, and an unordered list:
+하나 이상의 HTML 요소를 `wandb.apis.reports.blocks` 속성에 목록으로 전달하세요. 다음 예제는 H1, H2 및 순서 없는 목록을 생성하는 방법을 보여줍니다:
 
 ```python
 import wandb
@@ -321,7 +316,7 @@ report.blocks = [
 report.save()
 ```
 
-This will render a HTML elements  to the following:
+이것은 다음과 같은 HTML 요소를 렌더링합니다:
 
 
 ![](/images/reports/render_html.png)
@@ -329,9 +324,9 @@ This will render a HTML elements  to the following:
   </TabItem>
 </Tabs>
 
-### Embed rich media links
+### 풍부한 미디어 링크 임베딩
 
-Embed rich media within the report with the App UI or with the W&B SDK.
+App UI 또는 W&B SDK를 사용하여 리포트 내에 풍부한 미디어를 임베드하세요.
 
 <Tabs
   defaultValue="app"
@@ -341,11 +336,11 @@ Embed rich media within the report with the App UI or with the W&B SDK.
   ]}>
   <TabItem value="app">
 
-Copy and past URLs into reports to embed rich media within the report. The following animations demonstrate how to copy and paste URLs from Twitter, YouTube and SoundCloud
+리포트 내에 풍부한 미디어를 임베딩하기 위해 URL을 복사하여 붙여넣으세요. 다음 애니메이션은 Twitter, YouTube 및 SoundCloud에서 URL을 복사하여 붙여넣는 방법을 보여줍니다
 
 #### Twitter
 
-Copy and paste a Tweet link URL into a report to view the Tweet within the report.
+리포트에 트윗 링크 URL을 복사하여 붙여넣어 리포트 내에서 트윗을 볼 수 있습니다.
 
 ![](/images/reports/twitter.gif)
 
@@ -353,19 +348,19 @@ Copy and paste a Tweet link URL into a report to view the Tweet within the repor
 
 #### Youtube
 
-Copy and paste a YouTube video URL link to embed a video in the report.
+YouTube 비디오 URL 링크를 복사하여 붙여넣어 리포트에 비디오를 임베드하세요.
 
 ![](/images/reports/youtube.gif)
 
 #### SoundCloud
 
-Copy and paste a SoundCloud link to embed an audio file into a report.
+SoundCloud 링크를 복사하여 붙여넣어 리포트에 오디오 파일을 임베드하세요.
 
 ![](/images/reports/soundcloud.gif)
   </TabItem>
   <TabItem value="sdk">
 
-Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to embed video and Twitter media into a report:
+하나 이상의 임베디드 미디어 오브젝트를 `wandb.apis.reports.blocks` 속성에 목록으로 전달하세요. 다음 예제는 비디오와 Twitter 미디어를 리포트에 임베딩하는 방법을 보여줍니다:
 
 ```python
 import wandb
@@ -384,20 +379,20 @@ report.save()
   </TabItem>
 </Tabs>
 
-### Duplicate and delete panel grids
+### 패널 그리드 복제 및 삭제
 
-If you have a layout that you would like to reuse, you can select a panel grid and copy-paste it to duplicate it in the same report or even paste it into a different report.
+재사용하고 싶은 레이아웃이 있다면, 패널 그리드를 선택하고 복사-붙여넣기하여 같은 리포트에서 복제하거나 다른 리포트에 붙여넣을 수 있습니다.
 
-Highlight a whole panel grid section by selecting the drag handle in the upper right corner. Click and drag to highlight and select a region in a report such as panel grids, text, and headings.
+상단 오른쪽 모서리에서 드래그 핸들을 선택하여 전체 패널 그리드 섹션을 강조 표시합니다. 클릭하고 드래그하여 리포트의 영역(패널 그리드, 텍스트, 제목 등)을 강조 표시하고 선택하세요.
 
 ![](/images/reports/demo_copy_and_paste_a_panel_grid_section.gif)
 
-Select a panel grid and press `delete` on your keyboard to delete a panel grid.
+키보드에서 `delete`를 눌러 패널 그리드를 삭제하세요.
 
 ![](@site/static/images/reports/delete_panel_grid.gif)
 
-### Collapse headers to organize Reports
+### 리포트를 정리하기 위해 헤더 축소
 
-Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
+리포트에서 텍스트 블록 내의 내용을 숨기기 위해 헤더를 축소하세요. 리포트가 로드될 때, 확장된 헤더만 내용을 표시합니다. 리포트에서 헤더를 축소하면 내용을 정리하고 과도한 데이터 로딩을 방지할 수 있습니다. 다음 gif는 절차를 보여줍니다.
 
 ![](@site/static/images/reports/collapse_headers.gif)

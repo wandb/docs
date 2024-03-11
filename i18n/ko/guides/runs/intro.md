@@ -1,30 +1,30 @@
 ---
-slug: /guides/runs
 description: Learn about the basic building block of W&B, Runs.
+slug: /guides/runs
 displayed_sidebar: default
 ---
+
 # Runs
 
-A single unit of computation logged by W&B is called a *Run*. 
+W&B에서 로그된 단일 계산 단위를 *Run*이라고 합니다.
 
-Consider a W&B Run as an atomic element of your whole project. You should create and initiate a new Run if you change a hyperparameter, use a different model, create a [W&B Artifact](../artifacts/intro.md) and so on.
+W&B Run을 전체 프로젝트의 원자적 요소로 생각하세요. 하이퍼파라미터를 변경하거나, 다른 모델을 사용하거나, [W&B 아티팩트](../artifacts/intro.md)를 생성하는 등의 작업을 할 때마다 새로운 Run을 생성하고 시작해야 합니다.
 
-For example, in a [W&B Sweep](../sweeps/intro.md), W&B explores a hyperparameter search and explores the space of possible models. Each new hyperparameter combination is implemented as a W&B Run. 
+예를 들어, [W&B 스윕](../sweeps/intro.md)에서는 W&B가 하이퍼파라미터 탐색을 수행하고 가능한 모델의 공간을 탐색합니다. 각각의 새로운 하이퍼파라미터 조합은 W&B Run으로 구현됩니다.
 
-Use W&B Runs for tasks such as:
+다음과 같은 작업에 W&B Runs를 사용하세요:
 
-* Each time you train a model.
-* Log data or a model as a [W&B Artifact](../artifacts/intro.md).
-* [Download a W&B Artifact](../artifacts/download-and-use-an-artifact.md).
+* 모델을 훈련할 때마다.
+* 데이터나 모델을 [W&B 아티팩트](../artifacts/intro.md)로 로그합니다.
+* [W&B 아티팩트 다운로드](../artifacts/download-and-use-an-artifact.md).
 
+`wandb.log`로 로그하는 모든 것은 해당 Run에 기록됩니다. W&B에서 오브젝트를 로그하는 방법에 대한 자세한 정보는 [미디어 및 오브젝트 로그](../track/log/intro.md)를 참조하세요.
 
-Anything you log with `wandb.log` is recorded in that Run.  For more information on how log objects in W&B, see [Log Media and Objects](../track/log/intro.md).
+프로젝트 내의 Runs를 프로젝트의 [워크스페이스](#view-runs)에서 확인하세요.
 
-View Runs within a project within your Project's [Workspace](#view-runs). 
+## Run 생성
 
-## Create a Run
-
-Create a W&B Run with [`wandb.init()`](../../ref/python/init.md):
+[`wandb.init()`](../../ref/python/init.md)으로 W&B Run을 생성하세요:
 
 ```python
 import wandb
@@ -32,14 +32,13 @@ import wandb
 run = wandb.init(project="my-project-name")
 ```
 
-Optionally provide the name of a project for the `project` field. We recommend you specify a project name when you create a Run object. W&B creates a new project if a project does not already exist with the name you provide.  Projects help organize experiments, runs, artifacts, and more in one convenient location called a *Project Workspace*. A Project's Workspace gives you a personal sandbox to compare runs.
+선택적으로 `project` 필드에 프로젝트 이름을 제공할 수 있습니다. Run 오브젝트를 생성할 때 프로젝트 이름을 지정하는 것이 좋습니다. 제공한 이름으로 프로젝트가 이미 존재하지 않으면 W&B는 새 프로젝트를 생성합니다. 프로젝트는 실험, runs, 아티팩트 등을 한 곳에 편리하게 정리하는 데 도움이 되며, *프로젝트 워크스페이스*라고 하는 개인적인 모래상자를 제공합니다. 프로젝트의 워크스페이스는 runs를 비교할 수 있는 개인적인 공간을 제공합니다.
 
 :::info
-If a project is not specified, the W&B Run is stored in a project called "Uncategorized".
+프로젝트가 지정되지 않은 경우, W&B Run은 "Uncategorized"라는 프로젝트에 저장됩니다.
 :::
 
-There is only ever at most one active [`wandb.Run`](../../ref/python/run.md) in any process,
-and it is accessible as `wandb.run`:
+어떤 프로세스에서든 활성 [`wandb.Run`](../../ref/python/run.md)은 하나만 존재하며, `wandb.run`으로 접근할 수 있습니다:
 
 ```python
 import wandb
@@ -51,20 +50,16 @@ wandb.init()
 assert wandb.run is not None
 ```
 
+동일한 노트북이나 스크립트에서 하나 이상의 Runs를 시작하기 위해서는 완료되지 않은 Run을 마쳐야 합니다.
 
-You need to finish a Run that has not completed in order to start one or more Runs in the same notebook or script. 
-
-
-
-
-## End a Run
-W&B automatically calls [`wandb.finish`](../../ref/python/finish.md) to finalize and cleanup a run. However, if you call [`wandb.init`](../../ref/python/init.md) from a child process, you must explicitly call `wandb.finish` at the end of the child process. 
+## Run 종료
+W&B는 [`wandb.finish`](../../ref/python/finish.md)를 자동으로 호출하여 run을 최종화하고 정리합니다. 그러나 자식 프로세스에서 [`wandb.init`](../../ref/python/init.md)을 호출하는 경우, 자식 프로세스의 끝에서 `wandb.finish`를 명시적으로 호출해야 합니다.
 
 :::note
-The wandb.finish API is automatically called when your script exits.
+스크립트가 종료될 때 wandb.finish API가 자동으로 호출됩니다.
 :::
 
-You can end a Run manually with the [`wandb.finish`](../../ref/python/finish.md) API or end a Run using a `with` statement. The following code example demonstrates how to end a Run from a `with` Python statement:
+[`wandb.finish`](../../ref/python/finish.md) API를 사용하거나 `with` 문을 사용하여 Run을 수동으로 종료할 수 있습니다. 다음 코드 예제는 `with` 파이썬 문을 사용하여 Run을 종료하는 방법을 보여줍니다:
 
 ```python
 import wandb
@@ -75,99 +70,78 @@ wandb.finish()
 assert wandb.run is None
 
 with wandb.init() as run:
-    pass  # log data here
+    pass  # 여기에 데이터 로그
 
 assert wandb.run is None
 ```
 
+## 프로젝트의 모든 Runs 보기
+W&B App UI를 사용하여 프로젝트와 관련된 Runs를 봅니다. W&B App으로 이동하여 프로젝트 이름을 검색하세요.
 
-## View all Runs in a Project
-View Runs associated to a project with the W&B App UI. Navigate to the W&B App and search for the name of your project. 
-
-In the following example we search for a project called "my-first-run":
+다음 예에서는 "my-first-run"이라는 프로젝트를 검색합니다:
 
 ![](/images/runs/search_run_name_landing_page.png)
 
-Select the project. This will redirect you to that project's Workspace. A Project's Workspace gives you a personal sandbox to compare runs. Use projects to organize models that can be compared, working on the same problem with different architectures, hyperparameters, datasets, preprocessing and so on.
+프로젝트를 선택하세요. 이 작업은 해당 프로젝트의 워크스페이스로 리디렉션됩니다. 프로젝트의 워크스페이스는 runs를 비교할 수 있는 개인적인 모래상자를 제공합니다. 프로젝트를 사용하여 비교할 수 있는 모델을 정리하고, 다른 아키텍처, 하이퍼파라미터, 데이터셋, 전처리 등으로 동일한 문제를 해결하는 작업을 조직하세요.
 
-Within your project's workspace, you will see a table labeled **Runs**. This table lists all the Runs that are in your project. In other words, these runs were provided a `project` argument when it was created.
+프로젝트의 워크스페이스 내에서, **Runs**이라고 표시된 테이블을 볼 수 있습니다. 이 테이블은 프로젝트에 있는 모든 Runs를 나열합니다. 즉, 이 runs는 생성될 때 `project` 인수를 받았습니다.
 
-The following image demonstrates a project workspace called "sweep-demo":
+다음 이미지는 "sweep-demo"라는 프로젝트 워크스페이스를 보여줍니다:
 
 ![Example project workspace called 'sweep-demo'](/images/app_ui/workspace_tab_example.png)
 
-The **Runs Sidebar** lists of all the runs in your project. Hover your mouse over a single Run to modify or view the following:
+**Runs 사이드바**는 프로젝트의 모든 runs를 나열합니다. 단일 Run 위로 마우스를 가져가면 다음을 수정하거나 보기 위해 선택할 수 있습니다:
 
-* **Kebob menu**: Use this kebob menu to rename a Run, delete a Run, or stop an active Run.
-* **Visibility icon**: Select the eye icon to hide specific run.
-* **Color**: change the run color to another one of our presets or a custom color.
-* **Search**: search runs by name. This also filters visible runs in the plots.
-* **Filter**: use the sidebar filter to narrow down the set of runs visible.
-* **Group**: select a config column to dynamically group your runs, for example by architecture. Grouping makes plots show up with a line along the mean value, and a shaded region for the variance of points on the graph.
-* **Sort**: pick a value to sort your runs by, for example runs with the lowest loss or highest accuracy. Sorting will affect which runs show up on the graphs.
-* **Expand button**: expand the sidebar into the full table
-* **Run count**: the number in parentheses at the top is the total number of runs in the project. The number (N visualized) is the number of runs that have the eye turned on and are available to be visualized in each plot. In the example below, the graphs are only showing the first 10 of 183 runs. Edit a graph to increase the max number of runs visible.
+* **케밥 메뉴**: Run 이름을 변경하거나 Run을 삭제하거나 활성 Run을 중지하는 데 이 케밥 메뉴를 사용하세요.
+* **가시성 아이콘**: 특정 run을 숨기려면 눈 아이콘을 선택하세요.
+* **색상**: run 색상을 우리의 프리셋 중 하나 또는 사용자 정의 색상으로 변경하세요.
+* **검색**: 이름으로 runs를 검색하세요. 이것은 또한 플롯에서 볼 수 있는 runs를 필터링합니다.
+* **필터**: 사이드바 필터를 사용하여 볼 수 있는 runs의 집합을 좁히세요.
+* **그룹**: runs를 동적으로 그룹화하기 위해 config 열을 선택하세요. 예를 들어 아키텍처별로. 그룹화는 평균 값에 따라 선이 나타나고 그래프의 분산에 대한 음영 처리된 영역이 있는 플롯을 만듭니다.
+* **정렬**: 예를 들어 가장 낮은 손실 또는 가장 높은 정확도를 가진 runs에 따라 runs를 정렬하세요. 정렬은 그래프에 나타나는 runs에 영향을 미칩니다.
+* **확장 버튼**: 사이드바를 전체 테이블로 확장하세요
+* **Run 수**: 괄호 안의 숫자는 프로젝트의 총 run 수입니다. 숫자 (N 시각화)는 눈이 켜져 있고 각 플롯에서 시각화할 수 있는 runs의 수입니다. 아래 예에서는 183개의 runs 중 처음 10개만 그래프에 표시됩니다. 그래프를 편집하여 보이는 최대 runs 수를 늘리세요.
 
-For more information about how to organize multiple Runs in a project, see the [Runs Table](../app/features/runs-table.md) documentation. 
+프로젝트에서 여러 Runs를 조직하는 방법에 대한 자세한 내용은 [Runs 테이블](../app/features/runs-table.md) 문서를 참조하세요.
 
-For a live example of a Project's Workspace, [see this example project](https://app.wandb.ai/example-team/sweep-demo). 
+프로젝트의 워크스페이스에 대한 실제 예를 보려면 [이 예제 프로젝트](https://app.wandb.ai/example-team/sweep-demo)를 참조하세요.
 
+## 프로젝트에서 특정 Run 조사
 
+Run 페이지를 사용하여 특정 Run에 대한 자세한 정보를 탐색하세요.
 
-<!-- ### Search runs
+1. 프로젝트로 이동하여 **Runs 사이드바**에서 특정 Run을 선택하세요.
+2. 다음으로, **Overview 탭** 아이콘을 선택하세요.
 
-Search for a specific run by name in the sidebar. You can use regex to filter down your visible runs. The search box affects which runs are shown on the graph. Here's an example:
+다음 이미지는 "sparkling-glade-2"라는 Run에 대한 정보를 보여줍니다:
 
-![](/images/app_ui/project_page_search_for_runs.gif)
+![W&B 대시보드 run overview 탭](/images/app_ui/wandb_run_overview_page.png)
 
-### Filter runs
+**Overview 탭**은 선택한 Run에 대한 다음 정보를 보여줍니다:
 
-### Organize runs -->
+* Run 이름: Run의 이름입니다.
+* 설명: 제공한 Run의 설명입니다. Run을 생성할 때 설명이 지정되지 않았다면 이 필드는 처음에 비어 있습니다. W&B App UI 또는 프로그래매틱하게 Run에 대한 설명을 선택적으로 제공할 수 있습니다.
+* 개인 정보 보호: Run의 개인 정보 보호 설정입니다. **Private** 또는 **Public**으로 설정할 수 있습니다.
+    * **Private**: (기본값) 본인만 볼 수 있고 기여할 수 있습니다.
+    * **Public**: 누구나 볼 수 있습니다.
+* 태그: (리스트, 선택 사항) 문자열의 리스트입니다. 태그는 runs를 함께 조직하거나 "베이스라인" 또는 "프로덕션"과 같은 임시 라벨을 적용하는 데 유용합니다.
+* 저자: Run을 생성한 W&B 사용자 이름입니다.
+* Run 상태: Run의 상태입니다:
+  * **finished**: 스크립트가 종료되고 데이터가 완전히 동기화되었거나 `wandb.finish()`를 호출했습니다
+  * **failed**: 스크립트가 0이 아닌 종료 상태로 종료되었습니다
+  * **crashed**: 스크립트가 내부 프로세스에서 심장 박동을 보내지 않아 중지되었습니다. 이는 기계가 충돌하는 경우 발생할 수 있습니다
+  * **running**: 스크립트가 여전히 실행 중이며 최근에 심장 박동을 보냈습니다
+* 시작 시간: Run이 시작된 타임스탬프입니다.
+* 지속 시간: Run이 **finish**, **fail**, 또는 **crash**하는 데 걸린 시간(초)입니다.
+* 호스트 이름: Run이 시작된 위치입니다. 로컬 기계에서 Run을 시작한 경우 기계의 이름이 표시됩니다.
+* 운영 체제: Run에 사용된 운영 체제입니다.
+* Python 버전: Run에 사용된 Python 버전입니다.
+* Python 실행 파일: Run을 시작한 코맨드입니다.
+* 시스템 하드웨어: Run을 생성하는 데 사용된 하드웨어입니다.
+* W&B CLI 버전: Run 코맨드를 호스팅한 기계에 설치된 W&B CLI 버전입니다.
 
+개요 섹션 아래에서, 다음 정보를 추가로 찾을 수 있습니다:
 
-
-
-## Investigate a specific Run in a Project
-
-Use the run page to explore detailed information about a specific Run. 
-
-1. Navigate to your project and select a specific Run from the **Runs Sidebar**.
-2. Next, select the **Overview Tab** icon. 
-
-The following image demonstrates information about a Run called "sparkling-glade-2":
-
-![W&B Dashboard run overview tab](/images/app_ui/wandb_run_overview_page.png)
-
-The **Overview Tab** will show the following information about the Run you selected:
-
-* Run name: The name of the run.
-* Description: A description of the run that you provided. This field is left initially blank if no description was specified when you create the run. You can optionally provide a description for the run with the W&B App UI or programmatically. 
-* Privacy: Privacy settings of the run. You can set it to either **Private** or **Public**. 
-    * **Private**: (Default) Only you can view and contribute.
-    * **Public**: Anyone can view.
-* Tags: (list, optional) A list of strings. Tags are useful for organizing runs together, or applying temporary labels like "baseline" or "production".
-* Author: The W&B username that created the run.
-* Run state: The state of the run:
-  * **finished**: script ended and fully synced data, or called `wandb.finish()`
-  * **failed**: script ended with a non-zero exit status
-  * **crashed**: script stopped sending heartbeats in the internal process, which can happen if the machine crashes
-  * **running**: script is still running and has recently sent a heartbeat
-* Start time: The timestamp when the run started.
-* Duration: How long, in seconds, the run took to **finish**, **fail**, or **crash**.
-* Host name: Where the run was launched. The name of your machine is displayed if you launched the run locally on your machine. 
-* Operating system: The operating system used for the run.
-* Python version: The Python version used for the run.
-* Python executable: The command that started the run.
-* System Hardware: The hardware used to create the run. 
-* W&B CLI version: The W&B ClI version installed on the machine that hosted the run command.
-
-<!-- :::info
-The Python details are private, even if you make the page itself public. 
-::: -->
-
-
-Below the overview section, you will additionally find information about: 
-
-* **Artifact Outputs**: Artifact outputs produced by the run.
-* **Config**: List of config parameters saved with [`wandb.config`](../../guides/track/config.md).
-* **Summary**: List of summary parameters saved with [`wandb.log()`](../../guides/track/log/intro.md). By default, this value is set to the last value logged.
+* **아티팩트 출력**: Run에서 생성된 아티팩트 출력입니다.
+* **Config**: [`wandb.config`](../../guides/track/config.md)로 저장된 config 파라미터 목록입니다.
+* **요약**: [`wandb.log()`](../../guides/track/log/intro.md)로 저장된 요약 파라미터 목록입니다. 기본적으로, 이 값은 로그된 마지막 값으로 설정됩니다.

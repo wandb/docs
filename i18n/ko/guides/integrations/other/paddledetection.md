@@ -1,37 +1,36 @@
 ---
-slug: /guides/integrations/paddledetection
 description: How to integrate W&B with PaddleDetection.
+slug: /guides/integrations/paddledetection
 displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # PaddleDetection
 
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) is an end-to-end object-detection development kit based on [PaddlePaddle](https://github.com/PaddlePaddle/Paddle). It implements varied mainstream object detection, instance segmentation, tracking and keypoint detection algorithms in modular design with configurable modules such as network components, data augmentations and losses.
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection)은 [PaddlePaddle](https://github.com/PaddlePaddle/Paddle)을 기반으로 한 엔드투엔드 오브젝트 검출 개발 키트입니다. 이는 네트워크 구성 요소, 데이터 증강 및 손실과 같은 구성 가능한 모듈을 사용하여 다양한 주류 오브젝트 검출, 인스턴스 세그멘테이션, 추적 및 키포인트 검출 알고리즘을 모듈식 설계로 구현합니다.
 
-PaddleDetection now comes with a built in W&B integration which logs all your training and validation metrics, as well as your model checkpoints and their corresponding metadata.
+PaddleDetection은 이제 모든 트레이닝 및 검증 메트릭, 모델 체크포인트 및 해당 메타데이터를 로그하는 내장 W&B 인테그레이션과 함께 제공됩니다.
 
-## Example Blog and Colab
+## 예제 블로그 및 Colab
 
-[**Read our blog here**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) to see how to train a YOLOX model with PaddleDetection on a subset of the COCO2017 dataset. This also comes with a [**Google Colab**](https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing) and the corresponding live W&B dashboard is available [**here**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/runs/2ry6i2x9?workspace=)
+[**여기에서 우리의 블로그를 읽어보세요**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) COCO2017 데이터셋의 서브셋에서 PaddleDetection으로 YOLOX 모델을 트레이닝하는 방법을 확인할 수 있습니다. 이는 [**Google Colab**](https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing)도 함께 제공되며 해당 실시간 W&B 대시보드는 [**여기**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/runs/2ry6i2x9?workspace=)에서 확인할 수 있습니다.
 
-## The PaddleDetection WandbLogger
+## PaddleDetection WandbLogger
 
-The PaddleDetection WandbLogger will log your training and evaluation metrics to Weights & Biases as well as your model checkpoints while training.
+PaddleDetection WandbLogger는 트레이닝 중에 트레이닝 및 평가 메트릭을 Weights & Biases에 로그하고 모델 체크포인트를 기록합니다.
 
-## Using PaddleDetection with Weights & Biases
+## Weights & Biases와 함께 PaddleDetection 사용하기
 
-### Sign up and log in to W&B
+### W&B에 가입하고 로그인하기
 
-[**Sign up**](https://wandb.ai/site) for a free Weights & Biases account, then pip install the wandb library. To login, you'll need to be signed in to you account at www.wandb.ai. Once signed in **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+[**가입**](https://wandb.ai/site)하여 무료 Weights & Biases 계정을 만들고, wandb 라이브러리를 pip 설치하세요. 로그인하려면 www.wandb.ai에 계정으로 로그인해야 합니다. 로그인하면 **API 키를** [**인증 페이지에서 찾을 수 있습니다.**](https://wandb.ai/authorize)**.**
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'Command Line', value: 'cli'},
-    {label: 'Notebook', value: 'notebook'},
+    {label: '커맨드라인', value: 'cli'},
+    {label: '노트북', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -51,15 +50,15 @@ wandb.login()
   </TabItem>
 </Tabs>
 
-### Activating the WandbLogger in your Training Script
+### 트레이닝 스크립트에서 WandbLogger 활성화하기
 
-#### Using the CLI
+#### CLI 사용하기
 
-To use wandb via arguments to `train.py` in [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/):
+`train.py`에 인수를 통해 wandb를 사용하려면 [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/)에서:
 
-* Add the `--use_wandb` flag
-* The first wandb arguments must be preceded by `-o` (you only need to pass this once)
-* Each individual wandb argument must contain the prefix `wandb-` . For example any argument to be passed to [`wandb.init`](https://docs.wandb.ai/ref/python/init) would get the `wandb-` prefix
+* `--use_wandb` 플래그를 추가하세요
+* 첫 번째 wandb 인수는 `-o`로 시작해야 합니다(이것은 한 번만 전달해야 합니다)
+* 각각의 개별 wandb 인수는 `wandb-` 접두어를 포함해야 합니다. 예를 들어, [`wandb.init`](https://docs.wandb.ai/ref/python/init)로 전달될 모든 인수는 `wandb-` 접두어를 가져야 합니다
 
 ```shell
 python tools/train.py 
@@ -71,9 +70,9 @@ python tools/train.py
     wandb-save_dir=./logs
 ```
 
-#### Using a config.yml file
+#### config.yml 파일 사용하기
 
-You can also activate wandb via the config file. Add the wandb arguments to the config.yml file under the wandb header like so:
+config 파일을 통해서도 wandb를 활성화할 수 있습니다. wandb 인수를 config.yml 파일의 wandb 헤더 아래에 다음과 같이 추가하세요:
 
 ```
 wandb:
@@ -82,10 +81,10 @@ wandb:
   save_dir: ./logs
 ```
 
-Once you run your `train.py` file with Weights & Biases turned on, a link will be generated to bring you to your W&B dashboard:
+Weights & Biases가 켜진 상태로 `train.py` 파일을 실행하면 W&B 대시보드로 이동하는 링크가 생성됩니다:
 
-![A Weights & Biases Dashboard](/images/integrations/paddledetection_wb_dashboard.png)
+![Weights & Biases 대시보드](/images/integrations/paddledetection_wb_dashboard.png)
 
-## Feedback or Issues
+## 피드백 또는 문제
 
-If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) or email support@wandb.com
+Weights & Biases 인테그레이션에 대한 피드백이나 문제가 있을 경우 [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection)에 이슈를 열거나 support@wandb.com으로 이메일을 보내주세요

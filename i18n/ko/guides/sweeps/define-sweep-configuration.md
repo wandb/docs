@@ -5,44 +5,42 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Sweep configuration structure
+# 스윕 구성 구조
 
 <head>
-  <title>Define sweep configuration for hyperparameter tuning.</title>
+  <title>하이퍼파라미터 튜닝을 위한 스윕 구성 정의.</title>
 </head>
 
-A W&B Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
+W&B 스윕은 하이퍼파라미터 값을 탐색하는 전략과 이를 평가하는 코드를 결합합니다. 전략은 모든 옵션을 시도하는 것처럼 단순할 수도 있고 베이지안 최적화 및 Hyperband ([BOHB](https://arxiv.org/abs/1807.01774))와 같이 복잡할 수도 있습니다.
 
-Define a sweep configuration either in a [Python dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) or a [YAML](https://yaml.org/) file. How you define your sweep configuration depends on how you want to manage your sweep.
+스윕 구성을 [Python 사전](https://docs.python.org/3/tutorial/datastructures.html#dictionaries)이나 [YAML](https://yaml.org/) 파일로 정의합니다. 스윕 구성을 정의하는 방법은 스윕을 관리하고자 하는 방법에 따라 달라집니다.
 
 :::info
-Define your sweep configuration in a YAML file if you want to initialize a sweep and start a sweep agent from the command line. Define your sweep in a Python dictionary if you initialize a sweep and start a sweep entirely within a Python script or Jupyter notebook.
+커맨드라인에서 스윕을 초기화하고 스윕 에이전트를 시작하려는 경우 YAML 파일에 스윕 구성을 정의하십시오. 파이썬 스크립트나 Jupyter 노트북 내에서 스윕을 초기화하고 시작하려는 경우 파이썬 사전에 스윕을 정의하십시오.
 :::
 
-The following guide describes how to format your sweep configuration. See [Sweep configuration options](./sweep-config-keys.md) for a comprehensive list of top-level sweep configuration keys.
+다음 가이드에서는 스윕 구성을 어떻게 포맷하는지 설명합니다. 스윕 구성 옵션의 상위 수준 스윕 구성 키에 대한 전체 목록은 [스윕 구성 옵션](./sweep-config-keys.md)을 참조하십시오.
 
-## Basic structure
+## 기본 구조
 
-Both sweep configuration format options (YAML and Python dictionary) utilize key-value pairs and nested structures. 
+스윕 구성 형식 옵션(YAML 및 Python 사전) 모두 키-값 쌍과 중첩 구조를 사용합니다.
 
-Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`](./sweep-config-keys.md#name) key), the parameters to search through ([`parameters`](./sweep-config-keys.md#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys.md#method) key), and more. 
+스윕 구성 내의 상위 수준 키를 사용하여 스윕 검색의 특성을 정의하십시오. 예를 들어 스윕의 이름([`name`](./sweep-config-keys.md#name) 키), 검색할 파라미터([`parameters`](./sweep-config-keys.md#parameters) 키), 파라미터 공간을 검색하는 방법론([`method`](./sweep-config-keys.md#method) 키) 등입니다.
 
-
-For example, the proceeding code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. Within the sweep configuration there are five top level keys specified: `program`, `name`, `method`, `metric` and `parameters`. 
-
+예를 들어, 다음 코드 조각은 YAML 파일과 Python 사전 내에서 동일한 스윕 구성을 보여줍니다. 스윕 구성에는 `program`, `name`, `method`, `metric`, `parameters`의 다섯 가지 상위 수준 키가 지정됩니다.
 
 
 <Tabs
   defaultValue="cli"
   values={[    
     {label: 'CLI', value: 'cli'},
-    {label: 'Python script or Jupyter notebook', value: 'script'},
+    {label: 'Python 스크립트 또는 Jupyter 노트북', value: 'script'},
   ]}>
   <TabItem value="script">
 
-Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or Jupyter notebook. 
+Python 스크립트나 Jupyter 노트북에서 트레이닝 알고리즘을 정의하는 경우 파이썬 사전 데이터 구조에서 스윕을 정의하십시오.
 
-The proceeding code snippet stores a sweep configuration in a variable named `sweep_configuration`:
+다음 코드 조각은 `sweep_configuration`이라는 변수에 스윕 구성을 저장합니다:
 
 ```python title="train.py"
 sweep_configuration = {
@@ -59,7 +57,7 @@ sweep_configuration = {
 ```
   </TabItem>
   <TabItem value="cli">
-Define a sweep configuration in a YAML file if you want to manage sweeps interactively from the command line (CLI)
+커맨드라인(CLI)에서 스윕을 대화식으로 관리하려는 경우 YAML 파일에서 스윕 구성을 정의하십시오.
 
 ```yaml title="config.yaml"
 program: train.py
@@ -82,33 +80,32 @@ parameters:
   </TabItem>
 </Tabs>
 
-Within the top level `parameters` key, the following keys are nested: `learning_rate`, `batch_size`, `epoch`, and `optimizer`. For each of the nested keys you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters](./sweep-config-keys.md#parameters) section in [Sweep configuration options](./sweep-config-keys.md). 
+상위 수준 `parameters` 키 내에서 다음 키가 중첩됩니다: `learning_rate`, `batch_size`, `epoch`, `optimizer`. 중첩된 각 키에 대해 하나 이상의 값을, 분포를, 확률 등을 지정할 수 있습니다. 자세한 내용은 [스윕 구성 옵션](./sweep-config-keys.md) 내의 [파라미터](./sweep-config-keys.md#parameters) 섹션을 참조하십시오.
+
+## 이중 중첩 파라미터
+
+스윕 구성은 중첩 파라미터를 지원합니다. 중첩 파라미터를 구분하기 위해 상위 수준 파라미터 이름 아래에 추가 `parameters` 키를 사용하십시오. 스윕 구성은 다중 레벨 중첩을 지원합니다.
+
+베이지안 또는 랜덤 하이퍼파라미터 검색을 사용하는 경우 랜덤 변수에 대한 확률 분포를 지정하십시오. 각 하이퍼파라미터에 대해:
+
+1. 스윕 구성에 상위 수준 `parameters` 키를 생성하십시오.
+2. `parameters` 키 내부에 다음을 중첩하십시오:
+   1. 최적화하려는 하이퍼파라미터의 이름을 지정하십시오.
+   2. `distribution` 키에 사용할 분포를 지정하십시오. 하이퍼파라미터 이름 아래에 `distribution` 키-값 쌍을 중첩하십시오.
+   3. 탐색할 하나 이상의 값을 지정하십시오. 값(또는 값들)은 분포 키와 일치해야 합니다.
+      1. (선택사항) 상위 수준 파라미터 이름 아래에 추가 파라미터 키를 사용하여 중첩 파라미터를 구분하십시오.
 
 
-## Double nested parameters
-
-Sweep configurations support nested parameters. To delineate a nested parameter, use an additional `parameters` key under the top level parameter name. Sweep configs support multi-level nesting.
-
-Specify a probability distribution for your random variables if you use a Bayesian or random hyperparameter search. For each hyperparameter:
-
-1. Create a top level `parameters` key in your sweep config.
-2. Within the `parameters`key, nest the following:
-   1. Specify the name of hyperparameter you want to optimize. 
-   2. Specify the distribution you want to use for the `distribution` key. Nest the `distribution` key-value pair underneath the hyperparameter name.
-   3. Specify one or more values to explore. The value (or values) should be inline with the distribution key.  
-      1. (Optional) Use an additional parameters key under the top level parameter name to delineate a nested parameter.
-
-<!-- For example, the proceeding code snippets show a sweep config both in a YAML config file and a Python script.   -->
 
 
-<!-- To do: what is a double-nested parameter -->
+
 
 
 
 :::caution
-Nested parameters defined in sweep configuration overwrite keys specified in a W&B run configuration.
+스윕 구성에서 정의된 중첩 파라미터는 W&B run 구성에서 지정된 키를 덮어씁니다.
 
-For example, suppose you initialize a W&B run with the following configuration in a `train.py` Python script (see Lines 1-2). Next, you define a sweep configuration in a dictionary called `sweep_configuration` (see Lines 4-13). You then pass the sweep config dictionary to `wandb.sweep` to initialize a sweep config (see Line 16).
+예를 들어, `train.py` 파이썬 스크립트에서 다음 구성으로 W&B run을 초기화한다고 가정합니다(1-2줄 참조). 다음으로, `sweep_configuration`이라는 사전에서 스윕 구성을 정의합니다(4-13줄 참조). 그런 다음 스윕 구성 사전을 `wandb.sweep`에 전달하여 스윕 구성을 초기화합니다(16줄 참조).
 
 
 ```python title="train.py" showLineNumbers
@@ -124,20 +121,19 @@ sweep_configuration = {
     },
 }
 
-# Initialize sweep by passing in config.
+# 스윕을 초기화하기 위해 config를 전달합니다.
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 
-# Start sweep job.
+# 스윕 작업을 시작합니다.
 wandb.agent(sweep_id, function=main, count=4)
 ```
-The `nested_param.manual_key` that is passed when the W&B run is initialized (line 2) is not accessible. The `run.config` only possess the key-value pairs that are defined in the sweep configuration dictionary (lines 4-13).
+W&B run이 초기화될 때 전달된 `nested_param.manual_key`(2줄)는 접근할 수 없습니다. `run.config`는 스윕 구성 사전(4-13줄)에 정의된 키-값 쌍만 가집니다.
 :::
 
+## 스윕 구성 템플릿
 
-## Sweep configuration template
 
-
-The following template shows how you can configure parameters and specify search constraints. Replace `hyperparameter_name` with the name of your hyperparameter and any values enclosed in `<>`.
+다음 템플릿은 파라미터를 구성하고 검색 제약 조건을 지정하는 방법을 보여줍니다. `hyperparameter_name`을 하이퍼파라미터의 이름으로 바꾸고 `<>`로 묶인 값을 교체하십시오.
 
 ```yaml title="config.yaml"
 program: <insert>
@@ -173,13 +169,13 @@ command:
 - ${Command macro}      
 ```
 
-## Sweep configuration examples
+## 스윕 구성 예시
 
 <Tabs
   defaultValue="cli"
   values={[
     {label: 'CLI', value: 'cli'},
-    {label: 'Python script or Jupyter notebook', value: 'notebook'},
+    {label: 'Python 스크립트 또는 Jupyter 노트북', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -236,8 +232,7 @@ sweep_config = {
   </TabItem>
 </Tabs>
 
-
-### Bayes hyperband example
+### 베이지안 하이퍼밴드 예시
 ```yaml
 program: train.py
 method: bayes
@@ -268,13 +263,13 @@ early_terminate:
   max_iter: 27
 ```
 
-The proceeding tabs show how to specify either a minimum or maximum number of iterations for `early_terminate`:
+다음 탭은 `early_terminate`에 대해 최소 또는 최대 반복 횟수를 지정하는 방법을 보여줍니다:
 
 <Tabs
   defaultValue="min_iter"
   values={[
-    {label: 'Minimum number of iterations specified', value: 'min_iter'},
-    {label: 'Maximum number of iterations specified', value: 'max_iter'},
+    {label: '지정된 최소 반복 횟수', value: 'min_iter'},
+    {label: '지정된 최대 반복 횟수', value: 'max_iter'},
   ]}>
   <TabItem value="min_iter">
 
@@ -284,7 +279,7 @@ early_terminate:
   min_iter: 3
 ```
 
-The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.
+이 예시의 괄호는 `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`로, `[3, 9, 27, 81]`과 같습니다.
   </TabItem>
   <TabItem value="max_iter">
 
@@ -295,11 +290,11 @@ early_terminate:
   s: 2
 ```
 
-The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.
+이 예시의 괄호는 `[27/eta, 27/eta/eta]`로, `[9, 3]`과 같습니다.
   </TabItem>
 </Tabs>
 
-### Command example
+### 코맨드 예시
 ```yaml
 program: main.py
 metric:
@@ -343,19 +338,19 @@ python train.py --param1=value1 --param2=value2
   </TabItem>
 </Tabs>
 
-The proceeding tabs show how to specify common command macros:
+다음 탭은 일반적인 코맨드 매크로를 지정하는 방법을 보여줍니다:
 
 <Tabs
   defaultValue="python"
   values={[
-    {label: 'Set python interpreter', value: 'python'},
-    {label: 'Add extra parameters', value: 'parameters'},
-    {label: 'Omit arguments', value: 'omit'},
+    {label: '파이썬 인터프리터 설정', value: 'python'},
+    {label: '추가 파라미터 추가', value: 'parameters'},
+    {label: '인수 생략', value: 'omit'},
     {label: 'Hydra', value: 'hydra'}
   ]}>
   <TabItem value="python">
 
-Remove the `{$interpreter}` macro and provide a value explicitly to hardcode the python interpreter. For example, the following code snippet demonstrates how to do this:
+`{$interpreter}` 매크로를 제거하고 파이썬 인터프리터를 명시적으로 제공하여 하드코딩하십시오. 예를 들어, 다음 코드 조각은 이를 수행하는 방법을 보여줍니다:
 
 ```yaml
 command:
@@ -367,7 +362,7 @@ command:
   </TabItem>
   <TabItem value="parameters">
 
-The following shows how to add extra command line arguments not specified by sweep configuration parameters:
+스윕 구성 파라미터에 의해 지정되지 않은 추가 커맨드라인 인수를 추가하는 방법은 다음과 같습니다:
 
 ```
 command:
@@ -382,7 +377,7 @@ command:
   </TabItem>
   <TabItem value="omit">
 
-If your program does not use argument parsing you can avoid passing arguments all together and take advantage of `wandb.init` picking up sweep parameters into `wandb.config` automatically:
+프로그램이 인수 분석을 사용하지 않는 경우 모든 인수를 전달하지 않고 `wandb.init`이 자동으로 스윕 파라미터를 `wandb.config`로 가져오는 것을 활용할 수 있습니다:
 
 ```
 command:
@@ -393,7 +388,7 @@ command:
   </TabItem>
   <TabItem value="hydra">
 
-You can change the command to pass arguments the way tools like [Hydra](https://hydra.cc) expect. See [Hydra with W&B](../integrations/other/hydra.md) for more information.
+[Hydra](https://hydra.cc)와 같은 툴이 기대하는 방식으로 인수를 전달하도록 코맨드를 변경할 수 있습니다. 자세한 내용은 [Hydra와 W&B](../integrations/other/hydra.md)를 참조하십시오.
 
 ```
 command:
@@ -403,4 +398,3 @@ command:
   - ${args_no_hyphens}
 ```
   </TabItem>
-</Tabs>

@@ -2,100 +2,98 @@
 displayed_sidebar: default
 ---
 
+# 감사 로그
+W&B 서버 감사 로그를 사용하여 팀 내 사용자 활동을 추적하고 엔터프라이즈 거버넌스 요구 사항을 충족하세요. 감사 로그는 JSON 형식이며, 엑세스 방식은 W&B 서버 배포 유형에 따라 다릅니다:
 
-# Audit logs
-Use W&B Server audit logs to track user activity within your teams, and to conform to your enterprise governance requirements. The audit logs are JSON-formatted, and their access mechanism(s) depend on your W&B Server deployment type:
-
-| W&B Server Deployment type | Audit logs access mechanism(s) |
+| W&B 서버 배포 유형 | 감사 로그 엑세스 방식 |
 |----------------------------|--------------------------------|
-| Self-managed | Synced to instance-level bucket every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
-| Dedicated Cloud with [secure storage connector (BYOB)](./secure-storage-connector.md) | Synced to instance-level bucket (BYOB) every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
-| Dedicated Cloud with W&B managed storage (without BYOB) | Only available using [the API](#fetch-audit-logs-using-api). |
+| 자체 관리 | 인스턴스 수준 버킷에 10분마다 동기화됩니다. [API](#fetch-audit-logs-using-api)를 사용하여 엑세스할 수도 있습니다. |
+| 전용 클라우드 [secure storage connector (BYOB)](./secure-storage-connector.md) | 인스턴스 수준 버킷(BYOB)에 10분마다 동기화됩니다. [API](#fetch-audit-logs-using-api)를 사용하여 엑세스할 수도 있습니다. |
+| 전용 클라우드 W&B 관리 스토리지(BYOB 없음) | [API](#fetch-audit-logs-using-api)를 사용하여만 엑세스할 수 있습니다. |
 
-Once you've access to your audit logs, analyze those using your preferred tools, such as [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric), and more. You may need to transform the JSON-formatted audit logs into a format relevant to the tool before analysis. Information on how to transform your audit logs for specific tools is outside the scope of W&B documentation.
+감사 로그에 엑세스하면, [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric) 등과 같은 선호하는 툴을 사용하여 분석할 수 있습니다. 분석을 위해 JSON 형식의 감사 로그를 툴에 적합한 형식으로 변환해야 할 수 있습니다. 특정 툴을 위한 감사 로그 변환 방법에 대한 정보는 W&B 문서의 범위를 벗어납니다.
 
 :::tip
-**Audit Log Retention:** If a compliance, security or risk team in your organization requires audit logs to be retained for a specific period of time, W&B recommends to periodically transfer the logs from your instance-level bucket to a long-term retention storage. If you're instead using the API to access the audit logs, you can implement a simple script that runs periodically (like daily or every few days) to fetch any logs that may have been generated since the time of the last script run, and store those in a short-term storage for analysis or directly transfer to a long-term retention storage.
+**감사 로그 보존:** 귀하의 조직 내 컴플라이언스, 보안 또는 리스크 팀이 감사 로그를 특정 기간 동안 보존하도록 요구하는 경우, W&B는 인스턴스 수준 버킷에서 로그를 주기적으로 장기 보존 스토리지로 전송할 것을 권장합니다. API를 사용하여 감사 로그에 엑세스하는 경우, 마지막 스크립트 실행 시점 이후 생성된 로그를 주기적으로(예: 일일 또는 며칠마다) 가져오는 간단한 스크립트를 구현하고, 이러한 로그를 분석을 위한 단기 저장소에 저장하거나 직접 장기 보존 스토리지로 전송할 수 있습니다.
 :::
 
 :::note
-**Audit logs are not available for W&B Multi-tenant SaaS Cloud yet.**
+**감사 로그는 아직 W&B 다중 테넌트 SaaS 클라우드에서 사용할 수 없습니다.**
 :::
 
-## Audit log schema
-The following table lists all the different keys that might be present in your audit logs. Each log contains only the assets relevant to the corresponding action, and others are omitted from the log.
+## 감사 로그 스키마
+다음 표는 감사 로그에 존재할 수 있는 모든 키를 나열합니다. 각 로그는 해당 동작과 관련된 자산만 포함하고, 다른 것들은 로그에서 생략됩니다.
 
-| Key | Definition |
+| 키 | 정의 |
 |---------| -------|
-|timestamp               | Time stamp in [RFC3339 format](https://www.rfc-editor.org/rfc/rfc3339). For example: `2023-01-23T12:34:56Z`, represents `12:34:56 UTC` time on Jan 23, 2023.
-|action                  | What [action](#actions) did the user take.
-|actor_user_id           | If present, ID of the logged-in user who performed the action.
-|response_code           | Http response code for the action.
-|artifact_asset          | If present, action was taken on this artifact id
-|artifact_sequence_asset | If present, action was taken on this artifact sequence id
-|entity_asset            | If present, action was taken on this entity or team id.
-|project_asset           | If present, action was taken on this project id.
-|report_asset            | If present, action was taken on this report id.
-|user_asset              | If present, action was taken on this user asset.
-|cli_version             | If the action is taken via python SDK, this will contain the version
-|actor_ip                | IP address of the logged-in user.
-|actor_email             | if present, action was taken on this actor email.
-|artifact_digest         | if present, action was taken on this artifact digest.
-|artifact_qualified_name | if present, action was taken on this artifact.
-|entity_name             | if present, action was taken on this entity or team name.
-|project_name            | if present, action was taken on this project name.
-|report_name             | if present, action was taken on this report name.
-|user_email              | if present, action was taken on this user email.
+|timestamp               | [RFC3339 형식](https://www.rfc-editor.org/rfc/rfc3339)의 타임스탬프. 예: `2023-01-23T12:34:56Z`, `2023년 1월 23일 UTC 시간 12:34:56`을 나타냅니다.
+|action                  | 사용자가 수행한 [동작](#actions).
+|actor_user_id           | 있을 경우, 동작을 수행한 로그인한 사용자의 ID.
+|response_code           | 동작에 대한 Http 응답 코드.
+|artifact_asset          | 있을 경우, 이 아티팩트 id에 대한 동작이 수행됨.
+|artifact_sequence_asset | 있을 경우, 이 아티팩트 시퀀스 id에 대한 동작이 수행됨.
+|entity_asset            | 있을 경우, 이 엔티티 또는 팀 id에 대한 동작이 수행됨.
+|project_asset           | 있을 경우, 이 프로젝트 id에 대한 동작이 수행됨.
+|report_asset            | 있을 경우, 이 리포트 id에 대한 동작이 수행됨.
+|user_asset              | 있을 경우, 이 사용자 자산에 대한 동작이 수행됨.
+|cli_version             | 동작이 파이썬 SDK를 통해 이루어진 경우, 버전을 포함함.
+|actor_ip                | 로그인한 사용자의 IP 주소.
+|actor_email             | 있을 경우, 이 액터 이메일에 대한 동작이 수행됨.
+|artifact_digest         | 있을 경우, 이 아티팩트 다이제스트에 대한 동작이 수행됨.
+|artifact_qualified_name | 있을 경우, 이 아티팩트에 대한 동작이 수행됨.
+|entity_name             | 있을 경우, 이 엔티티 또는 팀 이름에 대한 동작이 수행됨.
+|project_name            | 있을 경우, 이 프로젝트 이름에 대한 동작이 수행됨.
+|report_name             | 있을 경우, 이 리포트 이름에 대한 동작이 수행됨.
+|user_email              | 있을 경우, 이 사용자 이메일에 대한 동작이 수행됨.
 
-Personally identifiable information (PII) like email ids, project, team and report names are available only using the API endpoint option, and can be turned off as [described below](#fetch-audit-logs-using-api).
+이메일 ID, 프로젝트, 팀 및 리포트 이름과 같은 개인 식별 정보(PII)는 API 엔드포인트 옵션을 사용하여만 사용할 수 있으며, [아래 설명된](#fetch-audit-logs-using-api)대로 끌 수 있습니다.
 
-## Fetch audit logs using API
-An instance admin can fetch the audit logs for your W&B server instance using the following API:
-1. Construct the full API endpoint using a combination of the base endpoint `<wandb-server-url>/admin/audit_logs` and the following URL parameters:
-    - `numDays` : logs will be fetched starting from `today - numdays` to most recent; defaults to `0` i.e. logs will be returned only for `today`
-    - `anonymize` : if set to `true`, remove any PII; defaults to `false`
-2. Execute HTTP GET request on the constructed full API endpoint, either by directly running it within a modern browser, or by using a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), cURL command or more.
+## API를 사용하여 감사 로그 가져오기
+인스턴스 관리자는 다음 API를 사용하여 W&B 서버 인스턴스의 감사 로그를 가져올 수 있습니다:
+1. 기본 엔드포인트 `<wandb-server-url>/admin/audit_logs`와 다음 URL 파라미터의 조합을 사용하여 전체 API 엔드포인트를 구성합니다:
+    - `numDays` : `오늘 - numdays`부터 가장 최근까지의 로그를 가져옵니다; 기본값은 `0`이며, 즉 `오늘`에 대한 로그만 반환됩니다.
+    - `anonymize` : `true`로 설정하면 모든 PII를 제거합니다; 기본값은 `false`입니다.
+2. 구성된 전체 API 엔드포인트에서 HTTP GET 요청을 실행합니다. 현대적인 브라우저 내에서 직접 실행하거나, [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), cURL 코맨드 등의 툴을 사용할 수 있습니다.
 
-If your W&B Server instance URL is `https://mycompany.wandb.io` and you would like to get audit logs without PII for user activity within the last week, your API endpoint will be `https://mycompany.wandb.io?numDays=7&anonymize=true`.
+W&B 서버 인스턴스 URL이 `https://mycompany.wandb.io`이고 지난 주 동안 PII 없이 감사 로그를 가져오고 싶다면, API 엔드포인트는 `https://mycompany.wandb.io?numDays=7&anonymize=true`가 됩니다.
 
 :::note
-Only W&B Server [instance admins](./manage-users.md#instance-admins) are allowed to fetch audit logs using the API. If you are not an instance admin or not logged into your organization, you will get the `HTTP 403 Forbidden` error.
+API를 사용하여 감사 로그를 가져올 수 있는 것은 W&B 서버 [인스턴스 관리자](./manage-users.md#instance-admins)만 해당됩니다. 인스턴스 관리자가 아니거나 조직에 로그인하지 않은 경우, `HTTP 403 Forbidden` 오류가 발생합니다.
 :::
 
-The API response contains new-line separated JSON objects. Objects will include the fields described in the schema. It's the same format which is used when syncing audit log files to an instance-level bucket (wherever applicable as mentioned earlier). In those cases, the audit logs are located at the `/wandb-audit-logs` directory in your bucket.
+API 응답에는 새 줄로 구분된 JSON 오브젝트가 포함됩니다. 오브젝트에는 스키마에 설명된 필드가 포함됩니다. 이는 인스턴스 수준 버킷으로 감사 로그 파일을 동기화할 때 사용되는 형식과 동일하며(앞서 언급한 대로 적용 가능한 경우), 이러한 경우 감사 로그는 버킷의 `/wandb-audit-logs` 디렉토리에 위치합니다.
 
-## Actions
-The following table describes possible actions that can be recorded by W&B:
+## 동작
+다음 표는 W&B에 의해 기록될 수 있는 가능한 동작을 설명합니다:
 
-|Action | Definition |
+|동작 | 정의 |
 |-----|-----|
-| artifact:create             | Artifact is created.
-| artifact:delete             | Artifact is deleted.
-| artifact:read               | Artifact is read.
-| project:delete              | Project is deleted.
-| project:read                | Project is read.
-| report:read                 | Report is read.
-| run:delete                  | Run is deleted.
-| run:delete_many             | Runs are deleted in batch.
-| run:update_many             | Runs are updated in batch.
-| run:stop                    | Run is stopped.
-| run:undelete_many           | Runs are brought back from trash in batch.
-| run:update                  | Run is updated.
-| sweep:create_agent          | Sweep agent is created.
-| team:invite_user            | User is invited to team.
-| team:create_service_account | Service account is created for the team.
-| team:create                 | Team is created.
-| team:uninvite               | User or service account is uninvited from team.
-| team:delete                 | Team is deleted.
-| user:create                 | User is created.
-| user:delete_api_key         | API key for the user is deleted.
-| user:deactivate             | User is deactivated.
-| user:create_api_key         | API key for the user is created.
-| user:permanently_delete     | User is permanently deleted.
-| user:reactivate             | User is reactivated.
-| user:update                 | User is updated.
-| user:read                   | User profile is read.
-| user:login                  | User logs in.
-| user:initiate_login         | User initiates log in.
-| user:logout                 | User logs out.
-
+| artifact:create             | 아티팩트가 생성됨.
+| artifact:delete             | 아티팩트가 삭제됨.
+| artifact:read               | 아티팩트가 읽힘.
+| project:delete              | 프로젝트가 삭제됨.
+| project:read                | 프로젝트가 읽힘.
+| report:read                 | 리포트가 읽힘.
+| run:delete                  | run이 삭제됨.
+| run:delete_many             | 여러 run이 일괄 삭제됨.
+| run:update_many             | 여러 run이 일괄 업데이트됨.
+| run:stop                    | run이 중지됨.
+| run:undelete_many           | 여러 run이 일괄적으로 휴지통에서 복원됨.
+| run:update                  | run이 업데이트됨.
+| sweep:create_agent          | 스윕 에이전트가 생성됨.
+| team:invite_user            | 사용자가 팀에 초대됨.
+| team:create_service_account | 팀을 위한 서비스 계정이 생성됨.
+| team:create                 | 팀이 생성됨.
+| team:uninvite               | 사용자 또는 서비스 계정이 팀에서 초대 취소됨.
+| team:delete                 | 팀이 삭제됨.
+| user:create                 | 사용자가 생성됨.
+| user:delete_api_key         | 사용자의 API 키가 삭제됨.
+| user:deactivate             | 사용자가 비활성화됨.
+| user:create_api_key         | 사용자를 위한 API 키가 생성됨.
+| user:permanently_delete     | 사용자가 영구적으로 삭제됨.
+| user:reactivate             | 사용자가 재활성화됨.
+| user:update                 | 사용자가 업데이트됨.
+| user:read                   | 사용자 프로필이 읽힘.
+| user:login                  | 사용자가 로그인함.
+| user:initiate_login         | 사용자가 로그인을 시작함.
+| user:logout                 | 사용자가 로그아웃함.

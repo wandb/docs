@@ -1,39 +1,39 @@
 ---
-slug: /guides/app/pages
 description: An overview of the different pages in app.wandb.ai
+slug: /guides/app/pages
 displayed_sidebar: default
 ---
 
-# Pages
+# 페이지
 
-## Home Page
+## 홈페이지
 
-Browse all your runs and projects. The home page pulls in projects from your personal account, as well as any projects you've contributed to in teams.
+모든 run과 프로젝트를 탐색하세요. 홈페이지는 개인 계정의 프로젝트뿐만 아니라 팀에서 기여한 프로젝트도 포함하여 보여줍니다.
 
 ![](/images/app_ui/home_page.png)
 
-## Project Page
+## 프로젝트 페이지
 
-Compare models with different architectures and hyperparameters on the same set of metrics. Learn more [here](project-page.md).
+같은 메트릭 세트에서 다양한 아키텍처와 하이퍼파라미터를 가진 모델을 비교하세요. [여기](project-page.md)에서 더 알아보세요.
 
 ![](/images/app_ui/project_page.png)
 
-## Run Page
+## Run 페이지
 
-Visualize the metrics and dataset examples from a single run. Learn more [here](run-page.md).
+단일 run에서 메트릭과 데이터셋 예시를 시각화하세요. [여기](run-page.md)에서 더 알아보세요.
 
 ![](/images/app_ui/run_page.png)
 
-## Report Page
+## 리포트 페이지
 
-Compare results and describe your findings, then share links with colleagues. Learn more about Reports [here](../../../guides/reports/intro.md).
+결과를 비교하고 발견한 내용을 기술한 후, 동료들과 링크를 공유하세요. 리포트에 대해 더 알아보려면 [여기](../../../guides/reports/intro.md)를 클릭하세요.
 
 ![](/images/app_ui/example_report_for_molecules.png)
 
-## Profile Page
+## 프로필 페이지
 
 ![](/images/app_ui/profile_page_overview.webp)
 
-Use your personal or team's profile page to showcase your work, find collaborators and easily navigate between projects.
+개인 또는 팀의 프로필 페이지를 사용하여 작업을 소개하고, 협업자를 찾으며, 프로젝트 간에 쉽게 이동하세요.
 
-You can use your profile page to highlight your latest research by showcasing your best reports, projects and external links. Only projects and reports that visitors have access to will be displayed to them, showcasing does not change the permissions of the project or report.
+프로필 페이지를 사용하여 최신 연구를 강조하고, 최고의 리포트, 프로젝트 및 외부 링크를 소개할 수 있습니다. 방문자가 엑세스할 수 있는 프로젝트와 리포트만 그들에게 표시되며, 소개하는 것은 프로젝트나 리포트의 권한을 변경하지 않습니다.

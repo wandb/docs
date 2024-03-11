@@ -9,12 +9,12 @@ displayed_sidebar: default
     <title>Sweeps UI</title>
 </head>
 
-<!-- <figure><img src="../../../.gitbook/assets/Screen Shot 2022-09-02 at 4.10.44 PM.png" alt=""><figcaption></figcaption></figure> -->
-
-The state (**State**), creation time (**Created**), the entity that started the sweep (**Creator**), the number of runs completed (**Run count**), and the time it took to compute the sweep (**Compute time**) are displayed in the Sweeps UI. The expected number of runs a sweep will create (**Est. Runs**) is provided when you do a grid search over a discrete search space.
 
 
+Sweeps UI에서는 스윕의 상태(**State**), 생성 시간(**Created**), 스윕을 시작한 엔티티(**Creator**), 완료된 run 수(**Run count**), 스윕을 계산하는 데 걸린 시간(**Compute time**)이 표시됩니다. 이산 검색 공간을 대상으로 그리드 검색을 수행할 때 생성될 것으로 예상되는 run 수(**Est. Runs**)도 제공됩니다.
 
-Click on a sweep to manage the state of the sweep. You can pause, resume, stop, or kill a sweep from the interface.
+
+
+스윕을 클릭하여 스윕의 상태를 관리할 수 있습니다. 인터페이스에서 스윕을 일시 중지, 재개, 중지 또는 종료할 수 있습니다.
 
 ![](https://downloads.intercomcdn.com/i/o/146037849/aeae7b64ddf7008f48dfb170/sweep+controls.png)

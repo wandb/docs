@@ -1,62 +1,60 @@
 ---
-description: The Prompts Quickstart shows how to visualise and debug the execution flow of your LLM chains and pipelines
+description: The Prompts Quickstart shows how to visualise and debug the execution
+  flow of your LLM chains and pipelines
 displayed_sidebar: default
 ---
 
+# 프롬프트 퀵스타트
 
-# Prompts Quickstart
-
-[**Try in a Colab Notebook here →**](http://wandb.me/prompts-quickstart)
+[**여기에서 Colab 노트북으로 시도해보세요 →**](http://wandb.me/prompts-quickstart)
 
 <head>
-  <title>Prompts Quickstart</title>
+  <title>프롬프트 퀵스타트</title>
 </head>
 
-This Quickstart guide will walk you how to use [Trace](intro.md) to visualize and debug calls to LangChain, LlamaIndex or your own LLM Chain or Pipeline:
+이 퀵스타트 가이드는 [Trace](intro.md)를 사용하여 LangChain, LlamaIndex 또는 자체 LLM 체인 또는 파이프라인에 대한 호출을 시각화하고 디버깅하는 방법을 안내합니다:
 
-1. **[Langchain:](#use-wb-trace-with-langchain)** Use the 1-line LangChain environment variable or context manager integration for automated logging.
+1. **[Langchain:](#use-wb-trace-with-langchain)** 자동 로그를 위해 LangChain 환경 변수 또는 컨텍스트 매니저 인테그레이션을 1줄로 사용하세요.
 
-2. **[LlamaIndex:](#use-wb-trace-with-llamaindex)** Use the W&B callback from LlamaIndex for automated logging.
+2. **[LlamaIndex:](#use-wb-trace-with-llamaindex)** LlamaIndex에서 W&B 콜백을 사용하여 자동 로깅합니다.
 
-3. **[Custom usage](#use-wb-trace-with-any-llm-pipeline-or-plug-in)**: Use Trace with your own custom chains and LLM pipeline code.
+3. **[사용자 정의 사용](#use-wb-trace-with-any-llm-pipeline-or-plug-in)**: 자체 사용자 정의 체인 및 LLM 파이프라인 코드와 함께 Trace를 사용하세요.
 
-
-## Use W&B Trace with LangChain
+## LangChain과 함께 W&B Trace 사용하기
 
 :::info
-**Versions** Please use `wandb >= 0.15.4` and `langchain >= 0.0.218`
+**버전** `wandb >= 0.15.4` 및 `langchain >= 0.0.218`을 사용해 주세요
 :::
 
-With a 1-line environment variable from LangChain, W&B Trace will continuously log calls to a LangChain Model, Chain, or Agent. 
+LangChain으로부터 1줄 환경 변수를 사용하면, W&B Trace가 LangChain 모델, 체인 또는 에이전트에 대한 호출을 지속적으로 로깅하게 됩니다.
 
-Note that you can also see the documentation for W&B Trace in the [LangChain documentation](https://python.langchain.com/docs/integrations/providers/wandb_tracing).
+LangChain 문서에서 W&B Trace에 대한 문서도 확인할 수 있습니다. [LangChain 문서](https://python.langchain.com/docs/integrations/providers/wandb_tracing).
 
-For this quickstart, we will use a LangChain Math Agent:
+이 퀵스타트에서는 LangChain Math 에이전트를 사용할 것입니다:
 
-### 1. Set the LANGCHAIN_WANDB_TRACING environment variable
+### 1. LANGCHAIN_WANDB_TRACING 환경 변수 설정하기
 
-First, set the LANGCHAIN_WANDB_TRACING environment variable to true. This will turn on automated Weights & Biases logging with LangChain:
+먼저, LANGCHAIN_WANDB_TRACING 환경 변수를 true로 설정하세요. 이렇게 하면 LangChain과 함께 Weights & Biases 로깅이 자동으로 켜집니다:
 
 ```python
 import os
 
-# turn on wandb logging for langchain
+# langchain에 대한 wandb 로깅 켜기
 os.environ["LANGCHAIN_WANDB_TRACING"] = "true"
 ```
 
-Thats it! Now any call to a LangChain LLM, Chain, Tool or Agent will be logged to Weights & Biases.
+이제 LangChain LLM, 체인, 툴 또는 에이전트에 대한 모든 호출이 Weights & Biases에 로그됩니다.
 
-### 2. Configure your Weights & Biases settings
-You can optionally set additional Weights & Biases [Environment Variables](/guides/track/environment-variables) to set parameters that are typically passed to `wandb.init()`. Parameters often used include `WANDB_PROJECT` or `WANDB_ENTITY` for more control over where your logs are sent in W&B. For more information about [`wandb.init`](../../ref/python/init.md), see the API Reference Guide.
+### 2. Weights & Biases 설정 구성하기
+선택적으로 Weights & Biases [환경 변수](/guides/track/environment-variables)를 설정하여 일반적으로 `wandb.init()`에 전달되는 파라미터를 설정할 수 있습니다. 일반적으로 사용되는 파라미터에는 로그가 전송되는 위치를 더 잘 제어하기 위해 `WANDB_PROJECT` 또는 `WANDB_ENTITY`가 포함됩니다. [`wandb.init`](../../ref/python/init.md)에 대한 자세한 내용은 API 참조 가이드를 참조하세요.
 
 ```python
-# optionally set your wandb settings or configs
+# 선택적으로 wandb 설정 또는 구성을 설정하세요
 os.environ["WANDB_PROJECT"] = "langchain-tracing"
 ```
 
-
-### 3. Create a LangChain Agent
-Create a standard math Agent using LangChain:
+### 3. LangChain 에이전트 생성하기
+LangChain을 사용하여 표준 수학 에이전트를 생성하세요:
 
 ```python
 from langchain.chat_models import ChatOpenAI
@@ -67,93 +65,89 @@ tools = load_tools(["llm-math"], llm=llm)
 math_agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION)
 ```
 
-
-### 4. Run the Agent and start Weights & Biases logging
-Use LangChain as normal by calling your Agent. You will see a Weights & Biases run start and be asked for your Weights & Biases **[API key](https:wwww.wandb.ai/authorize)**. Once your enter your API key, the inputs and outputs of your Agent calls will start to be streamed to the Weights & Biases App.
+### 4. 에이전트를 실행하고 Weights & Biases 로깅 시작하기
+LangChain을 평소와 같이 사용하여 에이전트를 호출하세요. Weights & Biases run이 시작되며 Weights & Biases **[API 키](https:wwww.wandb.ai/authorize)**를 입력하라는 메시지가 표시됩니다. API 키를 입력하면 에이전트 호출의 입력 및 출력이 Weights & Biases 앱으로 스트리밍되기 시작합니다.
 
 ```python
-# some sample maths questions
+# 몇 가지 수학 문제 샘플
 questions = [
-    "Find the square root of 5.4.",
-    "What is 3 divided by 7.34 raised to the power of pi?",
-    "What is the sin of 0.47 radians, divided by the cube root of 27?",
+    "5.4의 제곱근을 구하시오.",
+    "3을 7.34로 나눈 후 파이의 거듭제곱을 하시오.",
+    "0.47 라디안의 사인을 27의 세제곱근으로 나누시오.",
 ]
 
 for question in questions:
     try:
-        # call your Agent as normal
+        # 평소와 같이 에이전트를 호출하시오
         answer = math_agent.run(question)
         print(answer)
     except Exception as e:
-        # any errors will be also logged to Weights & Biases
+        # 모든 오류도 Weights & Biases에 로그됩니다
         print(e)
         pass
 ```
 
-Once each Agent execution completes, all calls in your LangChain object will be logged to Weights & Biases
+각 에이전트 실행이 완료되면 LangChain 오브젝트의 모든 호출이 Weights & Biases에 로그됩니다
 
+### 5. Weights & Biases에서 추적 보기
 
-### 5. View the trace in Weights & Biases
+이전 단계에서 생성된 W&B [run](../runs/intro.md) 링크를 클릭하세요. 이렇게 하면 W&B 앱의 프로젝트 워크스페이스로 리디렉션됩니다.
 
-Click on the W&B [run](../runs/intro.md) link generated in the previous step. This will redirect you to your Project workspace in the W&B App. 
-
-Select a run you created to view the trace table, trace timeline and the model architecture of your LLM. 
+생성한 run을 선택하여 추적 테이블, 추적 타임라인 및 LLM의 모델 아키텍처를 볼 수 있습니다.
 
 ![](/images/prompts/trace_timeline_detailed.png)
 
-
-### 6. LangChain Context Manager
-Depending on your use case, you might instead prefer to use a context manager to manage your logging to W&B:
+### 6. LangChain 컨텍스트 매니저
+사용 사례에 따라 환경 변수를 해제하고 대신 컨텍스트 매니저를 사용하여 W&B에 로깅을 관리하는 것을 선호할 수 있습니다:
 
 ```python
 from langchain.callbacks import wandb_tracing_enabled
 
-# unset the environment variable and use a context manager instead
+# 환경 변수를 해제하고 대신 컨텍스트 매니저를 사용합니다
 if "LANGCHAIN_WANDB_TRACING" in os.environ:
     del os.environ["LANGCHAIN_WANDB_TRACING"]
 
-# enable tracing using a context manager
+# 컨텍스트 매니저를 사용하여 추적 활성화
 with wandb_tracing_enabled():
-    math_agent.run("What is 5 raised to .123243 power?")  # this should be traced
+    math_agent.run("5의 .123243 거듭제곱은 무엇인가요?")  # 이것은 추적되어야 합니다
 
-math_agent.run("What is 2 raised to .123243 power?")  # this should not be traced
+math_agent.run("2의 .123243 거듭제곱은 무엇인가요?")  # 이것은 추적되지 않아야 합니다
 ```
 
-Please report any issues with this LangChain integration to the [wandb repo](https://github.com/wandb/wandb/issues) with the tag `langchain`
+이 LangChain 인테그레이션과 관련된 문제가 있으면 [wandb 저장소](https://github.com/wandb/wandb/issues)에 `langchain` 태그와 함께 문제를 보고해 주세요.
 
-
-## Use W&B Trace with Any LLM Pipeline or Plug-In
+## LLM 파이프라인 또는 플러그인과 함께 W&B Trace 사용하기
 
 :::info
-**Versions** Please use `wandb >= 0.15.4`
+**버전** `wandb >= 0.15.4`을 사용해 주세요
 :::
 
-A W&B Trace is created by logging 1 or more "spans". A root span is expected, which can accept nested child spans, which can in turn accept their own child spans. Spans can be of type `AGENT`, `CHAIN`, `TOOL` or `LLM`.
+W&B Trace는 하나 이상의 "span"을 로깅하여 생성됩니다. 기대되는 루트 span이 있으며, 이는 자체 자식 span을 받아들일 수 있고, 그 자식 span도 자신의 자식 span을 받아들일 수 있습니다. Span은 `AGENT`, `CHAIN`, `TOOL` 또는 `LLM` 유형일 수 있습니다.
 
-When logging with Trace, a single W&B run can have multiple calls to a LLM, Tool, Chain or Agent logged to it, there is no need to start a new W&B run after each generation from your model or pipeline, instead each call will be appended to the Trace Table.
+Trace와 함께 로깅할 때, 단일 W&B run은 모델 또는 파이프라인에서 생성된 후 각 호출을 새로운 W&B run으로 시작할 필요 없이 Trace 테이블에 추가될 수 있습니다.
 
-In this quickstart, we will how to log a single call to an OpenAI model to W&B Trace as a single span. Then we will show how to log a more complex series of nested spans.
+이 퀵스타트에서는 OpenAI 모델에 대한 단일 호출을 W&B Trace에 단일 span으로 로깅하는 방법을 보여줍니다. 그런 다음 더 복잡한 일련의 중첩된 span을 로깅하는 방법을 보여줍니다.
 
-### 1. Import Trace and start a Weights & Biases run
+### 1. Trace를 가져오고 Weights & Biases run 시작하기
 
-Call `wandb.init` to start a W&B run. Here you can pass a W&B project name as well as an entity name (if logging to a W&B Team), as well as a config and more. See [`wandb.init`](../../ref/python/init.md) for the full list of arguments.
+`wandb.init`을 호출하여 W&B run을 시작하세요. 여기에서 W&B 프로젝트 이름과 엔티티 이름(팀으로 로깅하는 경우)을 전달할 수 있으며, 구성 및 기타 항목도 포함됩니다. 모든 인수 목록은 [`wandb.init`](../../ref/python/init.md)을 참조하세요.
 
-Once your start a W&B run you will be asked to log in with your Weights & Biases **[API key](https:wwww.wandb.ai/authorize)**.
+W&B run을 시작하면 Weights & Biases **[API 키](https:wwww.wandb.ai/authorize)**로 로그인하라는 메시지가 표시됩니다.
 
 
 ```python
 import wandb
 
-# start a wandb run to log to
+# 로깅할 wandb run 시작
 wandb.init(project="trace-example")
 ```
 
-You can also set the `entity` argument in `wandb.init` if logging to a W&B Team.
+W&B 팀으로 로깅하는 경우 `wandb.init`에서 `entity` 인수도 설정할 수 있습니다.
 
-### 2. Log to a Trace
-Now we will query OpenAI times and log the results to a W&B Trace. We will log the inputs and outputs, start and end times, whether the OpenAI call was successful, the token usage, and additional metadata.
+### 2. Trace에 로깅하기
+이제 OpenAI 타임스에 쿼리를 하고 결과를 W&B Trace에 로깅할 것입니다. 입력 및 출력, 시작 및 종료 시간, OpenAI 호출이 성공했는지 여부, 토큰 사용량 및 추가 메타데이터를 로깅합니다.
 
-You can see the full description of the arguments to the Trace class [here](https://github.com/wandb/wandb/blob/653015a014281f45770aaf43627f64d9c4f04a32/wandb/sdk/data_types/trace_tree.py#L166).
+Trace 클래스에 대한 인수의 전체 설명은 [여기](https://github.com/wandb/wandb/blob/653015a014281f45770aaf43627f64d9c4f04a32/wandb/sdk/data_types/trace_tree.py#L166)에서 볼 수 있습니다.
 
 ```python
 import openai
@@ -162,15 +156,15 @@ from wandb.sdk.data_types.trace_tree import Trace
 
 openai.api_key = "<YOUR_OPENAI_API_KEY>"
 
-# define your conifg
+# conifg를 정의하세요
 model_name = "gpt-3.5-turbo"
 temperature = 0.7
-system_message = "You are a helpful assistant that always replies in 3 concise bullet points using markdown."
+system_message = "언제나 마크다운을 사용해 3개의 간결한 항목으로 도움이 되는 답변을 하는 도우미입니다."
 
 queries_ls = [
-    "What is the capital of France?",
-    "How do I boil an egg?" * 10000,  # deliberately trigger an openai error
-    "What to do if the aliens arrive?",
+    "프랑스의 수도는 무엇인가요?",
+    "달걀을 어떻게 삶나요?" * 10000,  # 고의로 openai 오류를 발생시킵니다
+    "외계인이 도착하면 어떻게 하나요?",
 ]
 
 for query in queries_ls:
@@ -187,7 +181,7 @@ for query in queries_ls:
 
         end_time_ms = round(
             datetime.datetime.now().timestamp() * 1000
-        )  # logged in milliseconds
+        )  # 밀리세컨드 단위로 로깅됩니다
         status = "success"
         status_message = (None,)
         response_text = response["choices"][0]["message"]["content"]
@@ -196,16 +190,16 @@ for query in queries_ls:
     except Exception as e:
         end_time_ms = round(
             datetime.datetime.now().timestamp() * 1000
-        )  # logged in milliseconds
+        )  # 밀리세컨드 단위로 로깅됩니다
         status = "error"
         status_message = str(e)
         response_text = ""
         token_usage = {}
 
-    # create a span in wandb
+    # wandb에 span을 생성합니다
     root_span = Trace(
         name="root_span",
-        kind="llm",  # kind can be "llm", "chain", "agent" or "tool"
+        kind="llm",  # 종류는 "llm", "chain", "agent" 또는 "tool"일 수 있습니다
         status_code=status,
         status_message=status_message,
         metadata={
@@ -219,27 +213,26 @@ for query in queries_ls:
         outputs={"response": response_text},
     )
 
-    # log the span to wandb
+    # span을 wandb에 로깅합니다
     root_span.log(name="openai_trace")
 ```
 
-### 3. View the trace in Weights & Biases
+### 3. Weights & Biases에서 추적 보기
 
-Click on the W&B [run](../runs/intro.md) link generated in step 2. Here you should be able to view the trace table and trace timeline of your LLM. 
+2단계에서 생성된 W&B [run](../runs/intro.md) 링크를 클릭하세요. 여기에서 LLM의 추적 테이블과 추적 타임라인을 볼 수 있어야 합니다.
 
+### 4. 중첩된 span을 사용하여 LLM 파이프라인 로깅하기
+이 예제에서는 에이전트가 호출되는 것을 시뮬레이션하고, 그 후에 LLM 체인이 호출되며, LLM 체인이 OpenAI LLM을 호출한 다음 에이전트가 계산기 툴을 "호출"합니다.
 
-### 4. Logging a LLM pipeline using nested spans
-In this example we will simulate an Agent being called, which then calls a LLM Chain, which calls an OpenAI LLM and then the Agent "calls" a Calculator tool.
-
-The inputs, outputs and metadata for each step in the execution of our "Agent" is logged in its own span. Spans can have child
+"에이전트" 실행의 각 단계에 대한 입력, 출력 및 메타데이터가 자체 span에 로깅됩니다. Span은 자식을 가질 수 있습니다.
 
 ```python
 import time
 
-# The query our agent has to answer
-query = "How many days until the next US election?"
+# 에이전트가 답변해야 하는 쿼리
+query = "다음 미국 선거까지 며칠입니까?"
 
-# part 1 - an Agent is started...
+# 1부 - 에이전트가 시작됩니다...
 start_time_ms = round(datetime.datetime.now().timestamp() * 1000)
 
 root_span = Trace(
@@ -250,14 +243,14 @@ root_span = Trace(
 )
 
 
-# part 2 - The Agent calls into a LLMChain..
+# 2부 - 에이전트가 LLMChain을 호출합니다..
 chain_span = Trace(name="LLMChain", kind="chain", start_time_ms=start_time_ms)
 
-# add the Chain span as a child of the root
+# 체인 span을 루트의 자식으로 추가합니다
 root_span.add_child(chain_span)
 
 
-# part 3 - the LLMChain calls an OpenAI LLM...
+# 3부 - LLMChain이 OpenAI LLM을 호출합니다...
 messages = [
     {"role": "system", "content": system_message},
     {"role": "user", "content": query},
@@ -286,24 +279,24 @@ llm_span = Trace(
     outputs={"response": response_text},
 )
 
-# add the LLM span as a child of the Chain span...
+# LLM span을 체인 span의 자식으로 추가합니다...
 chain_span.add_child(llm_span)
 
-# update the end time of the Chain span
+# 체인 span의 종료 시간을 업데이트합니다
 chain_span.add_inputs_and_outputs(
     inputs={"query": query}, outputs={"response": response_text}
 )
 
-# update the Chain span's end time
+# 체인 span의 종료 시간을 업데이트합니다
 chain_span._span.end_time_ms = llm_end_time_ms
 
 
-# part 4 - the Agent then calls a Tool...
+# 4부 - 에이전트가 툴을 호출합니다...
 time.sleep(3)
 days_to_election = 117
 tool_end_time_ms = round(datetime.datetime.now().timestamp() * 1000)
 
-# create a Tool span
+# 툴 span을 생성합니다
 tool_span = Trace(
     name="Calculator",
     kind="tool",
@@ -314,129 +307,27 @@ tool_span = Trace(
     outputs={"result": days_to_election},
 )
 
-# add the TOOL span as a child of the root
+# 툴 span을 루트의 자식으로 추가합니다
 root_span.add_child(tool_span)
 
 
-# part 5 - the final results from the tool are added
+# 5부 - 툴에서 최종 결과가 추가됩니다
 root_span.add_inputs_and_outputs(
     inputs={"query": query}, outputs={"result": days_to_election}
 )
 root_span._span.end_time_ms = tool_end_time_ms
 
 
-# part 6 - log all spans to W&B by logging the root span
+# 6부 - 루트 span을 로깅하여 W&B에 모든 span을 로깅합니다
 root_span.log(name="openai_trace")
 ```
 
-Once you have logged your span, you will be able to see your Trace table update in the W&B App.
+span을 로깅하면 W&B 앱에서 Trace 테이블이 업데이트되는 것을 볼 수 있습니다.
 
-
-## Use W&B Trace with LlamaIndex
+## LlamaIndex와 함께 W&B Trace 사용하기
 
 :::info
-**Versions** Please use `wandb >= 0.15.4` and `llama-index >= 0.6.35`
+**버전** `wandb >= 0.15.4` 및 `llama-index >= 0.6.35`를 사용해 주세요
 :::
 
-At the lowest level, LlamaIndex uses the concept of start/end events ([`CBEventTypes`](https://gpt-index.readthedocs.io/en/latest/reference/callbacks.html#llama_index.callbacks.CBEventType)) to keep a track of logs. Each event has some payload which provides information like, the query asked and the response generated by the LLM, or about the number of documents used to create N chunks, etc.
-
-At a higher level, they have recently introduced the concept of Callback Tracing which builds a trace map of connected events. For example when you query over an index, under the hood, retrieval, LLM calls, etc. takes place.
-
-The `WandbCallbackHandler` provides an intuitive way to visualize and track this trace map. It captures the payload of the events and logs them to wandb. It also tracks necessary metadata like total token counts, prompt, context, etc.
-
-Moreover, this callback can also be used to upload and download indices to/from W&B Artifacts for version controlling your indices.
-
-### 1. Import WandbCallbackHandler
-
-First import the `WandbCallbackHandler` and set it up. You can also pass additional parameters [`wandb.init`](../../ref/python/init.md) parameteres such as your W&B Project or Entity.
-
-You will see a W&B run start and be asked for your Weights & Biases **[API key](https:wwww.wandb.ai/authorize)**. A W&B run link will be generated, here you'll be able to view your logged LlamaIndex queries and data once you start logging.
-
-```python
-from llama_index import ServiceContext
-from llama_index.callbacks import CallbackManager, WandbCallbackHandler
-
-# initialise WandbCallbackHandler and pass any wandb.init args
-wandb_args = {"project": "llamaindex"}
-wandb_callback = WandbCallbackHandler(run_args=wandb_args)
-
-# pass wandb_callback to the service context
-callback_manager = CallbackManager([wandb_callback])
-service_context = ServiceContext.from_defaults(callback_manager=callback_manager)
-```
-
-### 2. Build an Index
-
-We will build a simple index using a text file.
-
-```python
-docs = SimpleDirectoryReader("path_to_dir").load_data()
-index = GPTVectorStoreIndex.from_documents(docs, service_context=service_context)
-```
-
-### 3. Query an index and start Weights & Biases logging
-
-With the loaded index, start querying over your documents. Every call to your index will be automatically logged to Weights & Biases
-
-```python
-questions = [
-    "What did the author do growing up?",
-    "Did the author travel anywhere?",
-    "What does the author love to do?",
-]
-
-query_engine = index.as_query_engine()
-
-for q in questions:
-    response = query_engine.query(q)
-```
-
-### 4. View the trace in Weights & Biases
-
-Click on the Weights and Biases run link generated while initializing the `WandbCallbackHandler` in step 1. This will take you to your project workspace in the W&B App where you will find a trace table and a trace timeline.
-
-![](/images/prompts/llama_index_trace.png)
-
-### 5. Finish tracking
-
-When you are done tracking your LLM queries, it is good practice to close the wandb process like so:
-
-```python
-wandb_callback.finish()
-```
-
-Thats it! Now you can log your queries to your index using Weights & Biases. If you come across any issues, please file an issue on the [wandb repo](https://github.com/wandb/wandb/issues) with the tag `llamaindex`
-
-### 6. [Optional] Save your Index data in Weights & Biaes Artifacts
-Weights & Biases [Artifacts](guides/artifacts) is a versioned data and model storage product. 
-
-By logging your index to Artifacts and then using it when needed, you can assosciate a particular version of your index with the logged Trace outputs, ensuring full visibility into what data was in your index for a particular call to your index.
-
-
-```python
-#  The string passed to the `index_name` will be your artifact name
-wandb_callback.persist_index(index, index_name="my_vector_store")
-```
-
-You can then go to the artifacts tab on your W&B run page to view the uploaded index.
-
-**Using an Index stored in W&B Artifacts**
-
-When you load an index from Artifacts you'll return a [`StorageContext`](https://gpt-index.readthedocs.io/en/latest/reference/storage.html). Use this storage context to load the index into memory using a function from the LlamaIndex [loading functions](https://gpt-index.readthedocs.io/en/latest/reference/storage/indices_save_load.html).
-
-
-```python
-from llama_index import load_index_from_storage
-
-storage_context = wandb_callback.load_storage_context(
-    artifact_url="<entity/project/index_name:version>"
-)
-index = load_index_from_storage(storage_context, service_context=service_context)
-```
-
-**Note:** For a [`ComposableGraph`](https://gpt-index.readthedocs.io/en/latest/reference/query/query_engines/graph_query_engine.html) the root id for the index can be found in the artifact's metadata tab in the W&B App.
-
-## Next Steps
-
-- You can use existing W&B features like Tables and Runs to track LLM application performance. See this tutorial to learn more:
-[Tutorial: Evaluate LLM application performance](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)
+가장 낮은 수준에서, LlamaIndex는 로그를 추적하기 위해 시작/종료 이벤트([`CBEventTypes`](https://gpt-index.readthedocs.io/en/latest/reference/callbacks.html#llama_index.callbacks.CBEventType))의 개념을 사용합니다

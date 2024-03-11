@@ -3,23 +3,23 @@ description: Compare results across machine learning experiments
 displayed_sidebar: default
 ---
 
-# Parallel Coordinates
+# 평행 좌표
 
-Parallel coordinates charts summarize the relationship between large numbers of hyperparameters and model metrics at a glance.
+평행 좌표 차트는 다수의 하이퍼파라미터와 모델 메트릭 간의 관계를 한눈에 요약합니다.
 
 ![](/images/app_ui/parallel_coordinates.gif)
 
-* **Axes**: Different hyperparameters from [`wandb.config`](../../../../guides/track/config.md) and metrics from [`wandb.log`](../../../../guides/track/log/intro.md).
-* **Lines**: Each line represents a single run. Mouse over a line to see a tooltip with details about the run. All lines that match the current filters will be shown, but if you turn off the eye, lines will be grayed out.
+* **축**: [`wandb.config`](../../../../guides/track/config.md)에서 가져온 다양한 하이퍼파라미터와 [`wandb.log`](../../../../guides/track/log/intro.md)에서 가져온 메트릭.
+* **선**: 각 선은 단일 run을 나타냅니다. 선 위로 마우스를 올리면 run에 대한 자세한 툴팁이 표시됩니다. 현재 필터와 일치하는 모든 선이 표시되지만, 눈 모양을 끄면 선이 회색으로 표시됩니다.
 
-## Panel Settings
+## 패널 설정
 
-Configure these features in the panel settings— click the edit button in the upper right corner of the panel.
+패널 설정에서 이러한 기능을 구성하세요— 패널 오른쪽 상단의 편집 버튼을 클릭합니다.
 
-* **Tooltip**: On hover, a legend shows up with info on each run
-* **Titles**: Edit the axis titles to be more readable
-* **Gradient**: Customize the gradient to be any color range you like
-* **Log scale**: Each axis can be set to view on a log scale independently
-* **Flip axis**: Switch the axis direction— this is useful when you have both accuracy and loss as columns
+* **툴팁**: 마우스를 올리면 각 run에 대한 정보가 담긴 범례가 표시됩니다
+* **제목**: 축 제목을 더 읽기 쉽게 편집합니다
+* **그레이디언트**: 원하는 색상 범위로 그레이디언트를 사용자 지정합니다
+* **로그 스케일**: 각 축은 독립적으로 로그 스케일로 보기 설정할 수 있습니다
+* **축 뒤집기**: 축 방향을 전환합니다— 이는 정확도와 손실을 모두 열로 가지고 있을 때 유용합니다
 
-[See it live →](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+[실시간으로 보기 →](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)

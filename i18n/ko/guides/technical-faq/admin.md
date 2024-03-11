@@ -2,59 +2,59 @@
 displayed_sidebar: default
 ---
 
-# Admin
+# 관리자
 
-### What is the difference between team and organization?
+### 팀과 조직의 차이점은 무엇인가요?
 
-A team is a collaborative workspace for a group of users working on the same projects, while an organization is a higher-level entity that may consist of multiple teams and is often related to billing and account management.
+팀은 같은 프로젝트에 대해 작업하는 사용자 그룹을 위한 협업 워크스페이스이며, 조직은 보통 여러 팀으로 구성되며 결제 및 계정 관리와 관련된 상위 수준의 엔티티입니다.
 
-### What is the difference between team and entity? As a user - what does entity mean for me?
+### 팀과 엔티티의 차이점은 무엇인가요? 사용자로서 - 엔티티는 나에게 무엇을 의미하나요?
 
-A team is a collaborative workspace for a group of users working on the same projects, while an entity refers to either a username or a team name. When you log runs in W&B, you can set the entity to your personal account or a team account `wandb.init(entity="example-team")`.
+팀은 같은 프로젝트에 대해 작업하는 사용자 그룹을 위한 협업 워크스페이스이며, 엔티티는 사용자 이름이나 팀 이름을 의미합니다. W&B에서 run을 기록할 때, 개인 계정이나 팀 계정으로 엔티티를 설정할 수 있습니다 `wandb.init(entity="example-team")`.
 
-### What is a team and where can I find more information about it?
+### 팀이란 무엇이며, 팀에 대한 자세한 정보는 어디서 찾을 수 있나요?
 
-If you want to know more about teams, visit the [teams section](../app/features/teams.md).
+팀에 대해 더 알고 싶다면, [팀 섹션](../app/features/teams.md)을 방문하세요.
 
-### When should I log to my personal entity against my team entity?
+### 개인 엔티티에 로그를 기록해야 할 때와 팀 엔티티에 로그를 기록해야 할 때는 언제인가요?
 
-You should log to your personal entity when you are working on individual projects or experiments that are not related to your team's work. On the other hand, you should log to your team entity when you are collaborating with your team members on a shared project or when the results of your experiments are relevant to the team's goals.
+개인 프로젝트나 실험을 진행하고 있고, 그것이 팀의 작업과 관련이 없을 때 개인 엔티티에 로그를 기록해야 합니다. 반면에, 공유 프로젝트에 대해 팀 멤버와 협력하거나 실험 결과가 팀의 목표와 관련이 있을 때는 팀 엔티티에 로그를 기록해야 합니다.
 
-### Who can create a team? Who can add or delete people from a team? Who can delete projects?
+### 누가 팀을 만들 수 있나요? 누가 팀에 사람을 추가하거나 삭제할 수 있나요? 누가 프로젝트를 삭제할 수 있나요?
 
-You can check the different roles and permissions [here](../app/features/teams.md#team-roles-and-permissions).
+다양한 역할 및 권한은 [여기](../app/features/teams.md#team-roles-and-permissions)에서 확인할 수 있습니다.
 
-### What type of roles are available and what are the differences between them?
+### 어떤 종류의 역할이 있으며, 그들 사이의 차이점은 무엇인가요?
 
-Go to [this](../app/features/teams.md#team-roles-and-permissions) page to see the different roles and permissions available.
+다양한 역할 및 권한을 보려면 [이 페이지](../app/features/teams.md#team-roles-and-permissions)를 방문하세요.
 
-### What are service accounts, and how do we add one to our team? 
+### 서비스 계정이란 무엇이며, 우리 팀에 어떻게 추가하나요?
 
-Check [this](./general.md#what-is-a-service-account-and-why-is-it-useful) page from our docs to know more about service accounts.
+서비스 계정에 대해 더 알아보려면 [이 문서](./general.md#what-is-a-service-account-and-why-is-it-useful) 페이지를 확인하세요.
 
-### How can I see the bytes stored, bytes tracked and tracked hours of my organization?
+### 내 조직의 저장된 바이트, 추적된 바이트 및 추적 시간을 어떻게 볼 수 있나요?
 
-* You can check the bytes stored of your organization at `https://<host-url>/usage/<team-name>`.
-* You can check the bytes tracked of your organization at `https://<host-url>/usage/<team-name>/tracked`.
-* You can check the tracked hours of your organization at `https://<host-url>/usage/<team-name>/computehour`.
+* 조직의 저장된 바이트는 `https://<host-url>/usage/<team-name>`에서 확인할 수 있습니다.
+* 조직의 추적된 바이트는 `https://<host-url>/usage/<team-name>/tracked`에서 확인할 수 있습니다.
+* 조직의 추적 시간은 `https://<host-url>/usage/<team-name>/computehour`에서 확인할 수 있습니다.
 
-### What really good functionalities are hidden and where can I find those?
+### 어떤 정말 좋은 기능들이 숨겨져 있고, 그것들을 어디에서 찾을 수 있나요?
 
-We have some functionalities hidden under a feature flag in the “Beta Features” section. These can be enabled under the user settings page.
+일부 기능은 "Beta Features" 섹션에 기능 플래그 아래 숨겨져 있습니다. 이는 사용자 설정 페이지에서 활성화할 수 있습니다.
 
-![Available beta features hidden under a feature flag](/images/technical_faq/beta_features.png)
+![기능 플래그 아래 숨겨진 이용 가능한 베타 기능들](/images/technical_faq/beta_features.png)
 
-### Which files should I check when my code crashes? 
+### 내 코드가 충돌할 때 어떤 파일을 확인해야 하나요?
 
-For the affected run, you should check `debug.log` and `debug-internal.log`. These files are under your local folder `wandb/run-<date>_<time>-<run-id>/logs` in the same directory where you’re running your code.
+영향을 받은 run의 경우, `debug.log` 및 `debug-internal.log`를 확인해야 합니다. 이 파일들은 코드를 실행하는 동일한 디렉토리 내의 로컬 폴더 `wandb/run-<date>_<time>-<run-id>/logs` 아래에 있습니다.
 
-### On a local instance, which files should I check when I have issues?
+### 로컬 인스턴스에서 문제가 있을 때 어떤 파일을 확인해야 하나요?
 
-You should check the `Debug Bundle`. An admin of the instance can get it from the `/system-admin` page -> top right corner W&B icon -> `Debug Bundle`.
+`Debug Bundle`을 확인해야 합니다. 인스턴스의 관리자는 `/system-admin` 페이지 -> 오른쪽 상단의 W&B 아이콘 -> `Debug Bundle`에서 이를 얻을 수 있습니다.
 
-![Access System settings page as an Admin of a local instance](/images/technical_faq/local_system_settings.png)
-![Download the Debug Bundle as an Admin of a local instance](/images/technical_faq/debug_bundle.png)
+![로컬 인스턴스의 관리자로서 시스템 설정 페이지 엑세스](/images/technical_faq/local_system_settings.png)
+![로컬 인스턴스의 관리자로서 Debug Bundle 다운로드](/images/technical_faq/debug_bundle.png)
 
-### If I am the admin of my local instance, how should I manage it?
+### 내 로컬 인스턴스의 관리자인 경우, 어떻게 관리해야 하나요?
 
-If you are the admin of your instance, go through our [User Management](../hosting/manage-users.md) section to learn how to add users to the instance and create teams.
+인스턴스의 관리자인 경우, 사용자를 인스턴스에 추가하고 팀을 생성하는 방법을 배우기 위해 [사용자 관리](../hosting/manage-users.md) 섹션을 살펴보세요.

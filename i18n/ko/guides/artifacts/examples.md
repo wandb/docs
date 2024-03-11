@@ -2,17 +2,16 @@
 displayed_sidebar: default
 ---
 
-# Artifacts Examples
+# 아티팩트 예시
 
-Walk through an example of Artifacts in a live notebook.
+라이브 노트북에서 아티팩트의 예시를 살펴보세요.
 
-[**Try the notebook →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline\_Versioning\_with\_W%26B\_Artifacts.ipynb)
+[**노트북을 시도해 보세요 →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline\_Versioning\_with\_W%26B\_Artifacts.ipynb)
 
 ![](/images/artifacts/artifacts_colab_notebook.png)
 
-To see how you can use Artifacts to version control tabular data, check out [this report](http://wandb.me/TBV-Dedup).
+탭 데이터에 대한 버전 관리를 위해 아티팩트를 어떻게 사용할 수 있는지 확인하려면 [이 리포트](http://wandb.me/TBV-Dedup)를 확인하세요.
 
-For more in-depth examples, try our two GitHub demo projects:
+더 심층적인 예시를 원한다면, GitHub 데모 프로젝트 두 개를 시도해 보세요:
 
-<!-- 1. [**Dataset versioning**](https://github.com/wandb/artifacts-examples/tree/master/dataset-versioning)**:** An end-to-end example of how to version datasets with W&B artifacts. -->
-2. [**Detectron 2**](https://github.com/wandb/artifacts-examples/tree/master/detectron2): Image segmentation and bounding box prediction— visualize training metrics and predictions in real time, store and organize trained models, automatically track model fine-tuning, and save results
+2. [**Detectron 2**](https://github.com/wandb/artifacts-examples/tree/master/detectron2): 이미지 세스멘테이션 및 바운딩 박스 예측값 - 트레이닝 메트릭과 예측값을 실시간으로 시각화하고, 트레이닝된 모델을 저장 및 조직화하며, 모델 미세 조정을 자동으로 추적하고, 결과를 저장하세요

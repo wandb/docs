@@ -3,68 +3,68 @@ description: Group training and evaluation runs into larger experiments
 displayed_sidebar: default
 ---
 
-# Group Runs
+# 실행 그룹화
 
 <head>
-  <title>Group W&B Runs</title>
+  <title>W&B 실행 그룹화</title>
 </head>
 
 
-Group individual jobs into experiments by passing a unique **group** name to **wandb.init()**.
+독특한 **group** 이름을 **wandb.init()**에 전달하여 개별 작업을 실험으로 그룹화합니다.
 
-## Use Cases
+## 유스 케이스
 
-1. **Distributed training:** Use grouping if your experiments are split up into different pieces with separate training and evaluation scripts that should be viewed as parts of a larger whole.
-2. **Multiple processes**: Group multiple smaller processes together into an experiment.
-3. **K-fold cross-validation**: Group together runs with different random seeds to see a larger experiment. Here's [an example](https://github.com/wandb/examples/tree/master/examples/wandb-sweeps/sweeps-cross-validation) of k-fold cross-validation with sweeps and grouping.
+1. **분산 트레이닝:** 실험이 별도의 트레이닝 및 평가 스크립트로 나뉘어져 있고, 이를 더 큰 전체의 일부로 보아야 하는 경우 그룹화를 사용합니다.
+2. **여러 프로세스:** 여러 작은 프로세스들을 하나의 실험으로 그룹화합니다.
+3. **K-fold 교차 검증:** 다른 랜덤 시드를 가진 실행들을 그룹화하여 더 큰 실험을 볼 수 있습니다. 여기 스윕과 그룹화를 사용한 k-fold 교차 검증의 [예시](https://github.com/wandb/examples/tree/master/examples/wandb-sweeps/sweeps-cross-validation)가 있습니다.
 
-There are three ways to set grouping:
+그룹화를 설정하는 세 가지 방법이 있습니다:
 
-### 1. Set group in your script
+### 1. 스크립트에서 그룹 설정
 
-Pass an optional group and job_type to wandb.init(). This gives you a dedicated group page for each experiment, which contains the individual runs. For example:`wandb.init(group="experiment_1", job_type="eval")`
+wandb.init()에 선택적 그룹과 job_type을 전달합니다. 이를 통해 각 실험에 대한 전용 그룹 페이지가 제공되며, 개별 실행이 포함됩니다. 예를 들어:`wandb.init(group="experiment_1", job_type="eval")`
 
-### 2. Set a group environment variable
+### 2. 그룹 환경 변수 설정
 
-Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [**Environment Variables**](../track/environment-variables.md)**. Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()`
+`WANDB_RUN_GROUP`을 사용하여 환경 변수로 실행의 그룹을 지정합니다. 이에 대한 자세한 내용은 [**환경 변수**](../track/environment-variables.md)**. 그룹**은 프로젝트 내에서 고유해야 하며 그룹 내의 모든 실행이 공유해야 합니다. `wandb.util.generate_id()`를 사용하여 모든 프로세스에 사용할 고유한 8자리 문자열을 생성할 수 있습니다. 예를 들어, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()`
 
-### 3. Toggle grouping in the UI
+### 3. UI에서 그룹화 전환
 
-You can dynamically group by any config column. For example, if you use `wandb.config` to log batch size or learning rate, you can then group by those hyperparameters dynamically in the web app.
+배치 크기나 학습률과 같은 하이퍼파라미터를 로그하기 위해 `wandb.config`를 사용하는 경우, 웹 앱에서 동적으로 이러한 하이퍼파라미터별로 그룹화할 수 있습니다.
 
-## Distributed training with grouping
+## 그룹화를 사용한 분산 트레이닝
 
-Suppose you set grouping in `wandb.init()`, we will group runs by default in the UI. You can toggle this on and off by clicking the **Group** button at the top of the table. Here's an [example project](https://wandb.ai/carey/group-demo?workspace=user-carey) generated from [sample code](http://wandb.me/grouping) where we set grouping. You can click on each "Group" row in the sidebar to get to a dedicated group page for that experiment.
+`wandb.init()`에서 그룹화를 설정하면, UI에서 기본적으로 실행을 그룹화합니다. 테이블 상단의 **Group** 버튼을 클릭하여 이를 켜고 끌 수 있습니다. 그룹화를 설정한 [샘플 코드](http://wandb.me/grouping)에서 생성된 [예시 프로젝트](https://wandb.ai/carey/group-demo?workspace=user-carey)가 있습니다. 사이드바에서 각 "Group" 행을 클릭하여 해당 실험의 전용 그룹 페이지로 이동할 수 있습니다.
 
 ![](/images/track/distributed_training_wgrouping_1.png)
 
-From the project page above, you can click a **Group** in the left sidebar to get to a dedicated page like [this one](https://wandb.ai/carey/group-demo/groups/exp\_5?workspace=user-carey):
+위 프로젝트 페이지에서, 왼쪽 사이드바의 **Group**을 클릭하면 [이 페이지](https://wandb.ai/carey/group-demo/groups/exp\_5?workspace=user-carey)와 같은 전용 페이지로 이동할 수 있습니다:
 
 ![](/images/track/distributed_training_wgrouping_2.png)
 
-## Grouping dynamically in the UI
+## UI에서 동적으로 그룹화
 
-You can group runs by any column, for example by hyperparameter. Here's an example of what that looks like:
+하이퍼파라미터와 같은 모든 열별로 실행을 그룹화할 수 있습니다. 이것이 어떤 모습인지 예시입니다:
 
-* **Sidebar**: Runs are grouped by the number of epochs.
-* **Graphs**: Each line represents the group's mean, and the shading indicates the variance. This behavior can be changed in the graph settings.
+* **사이드바**: 에포크 수에 따라 실행이 그룹화됩니다.
+* **그래프**: 각 선은 그룹의 평균을 나타내며, 음영은 분산을 나타냅니다. 이 행동은 그래프 설정에서 변경할 수 있습니다.
 
 ![](/images/track/demo_grouping.png)
 
-## Turn off grouping
+## 그룹화 해제
 
-Click the grouping button and clear group fields at any time, which returns the table and graphs to their ungrouped state.
+그룹화 버튼을 클릭하고 그룹 필드를 언제든지 지워 테이블과 그래프를 그룹화되지 않은 상태로 되돌릴 수 있습니다.
 
 ![](/images/track/demo_no_grouping.png)
 
-## Grouping graph settings
+## 그룹화 그래프 설정
 
-Click the edit button in the upper right corner of a graph and select the **Advanced** tab to change the line and shading. You can select the mean, minimum, or maximum value for the line in each group. For the shading, you can turn off shading, and show the min and max, the standard deviation, and the standard error.
+그래프의 오른쪽 상단에 있는 편집 버튼을 클릭하고 **고급** 탭을 선택하여 선과 음영을 변경합니다. 각 그룹에서 선의 값을 평균, 최소 또는 최대 값으로 선택할 수 있습니다. 음영의 경우, 음영을 끄고, 최소 및 최대, 표준 편차, 표준 오차를 표시할 수 있습니다.
 
 ![](/images/track/demo_grouping_options_for_line_plots.gif)
 
-## Common Questions
+## 자주 묻는 질문
 
-### Can we group runs by tags?
+### 태그별로 실행을 그룹화할 수 있나요?
 
-Because a run can have multiple tags we don't support grouping by this field. Our recommendation would be to add a value to the [`config`](../track/config.md) object of these runs and then group by this config value. You can do this with [our API](../track/config.md#update-config-files).
+실행이 여러 태그를 가질 수 있기 때문에 이 필드로 그룹화를 지원하지 않습니다. 우리의 추천은 이러한 실행의 [`config`](../track/config.md) 오브젝트에 값을 추가하고 이 config 값으로 그룹화하는 것입니다. 이는 [우리의 API](../track/config.md#update-config-files)로 할 수 있습니다.

@@ -1,38 +1,38 @@
 ---
-slug: /guides/hosting/hosting-options
 description: Deploying W&B in production
+slug: /guides/hosting/hosting-options
 displayed_sidebar: default
 ---
 
-# W&B Server Hosting Options
+# W&B 서버 호스팅 옵션
 
-There are three ways to deploy W&B Server:
+W&B 서버를 배포하는 세 가지 방법이 있습니다:
 
-- **W&B managed Dedicated Cloud**: A fully managed solution hosted and maintained by W&B on W&B Cloud
-- **Customer managed OnPrem Private Cloud**: A self managed solution hosted and maintained by customer on their Private Cloud
-- **Customer managed OnPrem Bare Metal**: A self managed solution hosted and maintained by customer on their Bare Metal infrastructure
+- **W&B 관리 전용 클라우드**: W&B 클라우드에서 W&B가 호스팅하고 유지 관리하는 완전 관리형 솔루션
+- **고객 관리 OnPrem 프라이빗 클라우드**: 고객이 자신의 프라이빗 클라우드에서 호스팅하고 유지 관리하는 자체 관리 솔루션
+- **고객 관리 OnPrem Bare Metal**: 고객이 자신의 Bare Metal 인프라에서 호스팅하고 유지 관리하는 자체 관리 솔루션
 
-## Shared Responsibility Matrix
+## 공유 책임 매트릭스
 
-The following shared responsibility matrix outlines the respective responsibilities of W&B and the customer for each of the hosting options specified above.
+다음 공유 책임 매트릭스는 위에서 지정한 호스팅 옵션에 대해 W&B와 고객의 각각의 책임을 개요로 설명합니다.
 
 ![](/images/hosting/shared_responsibility_matrix.png)
 
-## Obtain your license
+## 라이센스 획득
 
-You need a W&B license to complete your configuration of a W&B server. Open the [Deploy Manager](https://deploy.wandb.ai/deploy) to generate a free license. 
+W&B 서버의 설정을 완료하려면 W&B 라이센스가 필요합니다. [배포 관리자](https://deploy.wandb.ai/deploy)를 열어 무료 라이센스를 생성하세요.
 
 :::note
-If you do not already have a cloud W&B account then you will need to create one to generate your free license.
+아직 클라우드 W&B 계정이 없다면 무료 라이센스를 생성하기 위해 하나를 만들어야 합니다.
 :::
 
-The URL will redirect you to a **Get a License for W&B Local** form. Provide the following information:
+URL은 **W&B Local용 라이센스 받기** 양식으로 리디렉션됩니다. 다음 정보를 제공하세요:
 
-1. Choose a deployment type from the **Choose Platform** step.
-2. Select the owner of the license or add a new organization in the **Basic Information** step.
-3. Provide a name for the instance in the **Name of Instance** field and optionally provide a description in the **Description** field in the **Get a License** step.
-4. Select the **Generate License Key** button.
+1. **플랫폼 선택** 단계에서 배포 유형을 선택하세요.
+2. **기본 정보** 단계에서 라이센스 소유자를 선택하거나 새로운 조직을 추가하세요.
+3. **라이센스 받기** 단계에서 인스턴스의 이름을 **인스턴스 이름** 필드에 입력하고 선택적으로 **설명** 필드에 설명을 제공하세요.
+4. **라이센스 키 생성** 버튼을 선택하세요.
 
-A page with an overview of your deployment along with licenses associated to the instance will be displayed.
+배포에 대한 개요와 인스턴스와 관련된 라이센스가 표시된 페이지가 표시됩니다.
 
-For information on how to set up your deployment type, see [our How-to guides](../how-to-guides/intro.md) section.
+배포 유형을 설정하는 방법에 대한 정보는 [우리의 방법 가이드](../how-to-guides/intro.md) 섹션을 참조하세요.

@@ -1,66 +1,65 @@
 ---
-slug: /guides/integrations/azure-openai-fine-tuning
 description: How to Fine-Tune Azure OpenAI models using W&B.
+slug: /guides/integrations/azure-openai-fine-tuning
 displayed_sidebar: default
 ---
 
-# Azure OpenAI Fine-Tuning
+# Azure OpenAI 파인튜닝
 
-## Introduction
-Fine-tuning GPT-3.5 or GPT-4 models on Microsoft Azure using W&B allows for detailed tracking and analysis of model performance. This guide extends the concepts from the [OpenAI Fine-Tuning guide](/guides/integrations/openai) with specific steps and features for Azure OpenAI.
+## 도입
+Microsoft Azure에서 W&B를 사용하여 GPT-3.5 또는 GPT-4 모델을 파인튜닝하는 것은 모델 성능의 자세한 추적 및 분석을 가능하게 합니다. 이 가이드는 [OpenAI 파인튜닝 가이드](/guides/integrations/openai)에서 다룬 개념을 Azure OpenAI에 특화된 단계와 기능으로 확장합니다.
 
 ![](/images/integrations/open_ai_auto_scan.png)
 
-:::info
-The Weights and Biases fine-tuning integration works with `openai >= 1.0`. Please install the latest version of `openai` by doing `pip install -U openai`.
+:::안내
+Weights and Biases 파인튜닝 인테그레이션은 `openai >= 1.0`과 함께 작동합니다. 최신 버전의 `openai`를 설치하려면 `pip install -U openai`를 실행하세요.
 :::
 
+## 전제 조건
+- [공식 Azure 문서](https://learn.microsoft.com/en-us/azure/ai-services/openai/tutorials/fine-tune)에 따라 설정된 Azure OpenAI 서비스.
+- `openai`, `wandb`, 그리고 다른 필요한 라이브러리의 최신 버전이 설치되어 있어야 합니다.
 
-## Prerequisites
-- Azure OpenAI service set up as per [official Azure documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/tutorials/fine-tune).
-- Latest versions of `openai`, `wandb`, and other required libraries installed.
-
-## Sync Azure OpenAI fine-tuning results in W&B in 2 lines
+## W&B에서 Azure OpenAI 파인튜닝 결과를 2줄로 동기화하기
 
 ```python
 from openai import AzureOpenAI
 
-# Connect to Azure OpenAI
+# Azure OpenAI에 연결하기
 client = AzureOpenAI(
     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
     api_key=os.getenv("AZURE_OPENAI_KEY"),
 )
 
-# Create and validate your training and validation datasets in JSONL format,
-# upload them via the client,
-# and start a fine-tuning job.
+# 트레이닝 및 검증 데이터셋을 JSONL 포맷으로 생성 및 검증하고,
+# 클라이언트를 통해 업로드하고,
+# 파인튜닝 작업을 시작합니다.
 
 from wandb.integration.openai.fine_tuning import WandbLogger
 
-# Sync your fine-tuning results with W&B!
+# W&B와 파인튜닝 결과를 동기화하세요!
 WandbLogger.sync(
     fine_tune_job_id=job_id, openai_client=client, project="your_project_name"
 )
 ```
 
-### Check out interactive examples
+### 인터랙티브 예시 확인하기
 
-* [Demo Colab](http://wandb.me/azure-openai-colab)
+* [데모 Colab](http://wandb.me/azure-openai-colab)
 
-## Visualization and versioning in W&B
-- Utilize W&B for versioning and visualizing training and validation data as Tables.
-- The datasets and model metadata are versioned as W&B Artifacts, allowing for efficient tracking and version control.
+## W&B에서의 시각화 및 버전 관리
+- 테이블로 트레이닝 및 검증 데이터를 버전 관리하고 시각화하기 위해 W&B를 활용하세요.
+- 데이터셋과 모델 메타데이터는 W&B 아티팩트로 버전이 관리되어 효율적인 추적 및 버전 제어가 가능합니다.
 
 ![](/images/integrations/openai_data_artifacts.png)
 
 ![](/images/integrations/openai_data_visualization.png)
 
-## Retrieving the fine-tuned model
-- The fine-tuned model ID is retrievable from Azure OpenAI and is logged as a part of model metadata in W&B.
+## 파인튜닝된 모델 검색
+- 파인튜닝된 모델 ID는 Azure OpenAI에서 검색할 수 있으며 W&B에서 모델 메타데이터의 일부로 로그됩니다.
 
 ![](/images/integrations/openai_model_metadata.png)
 
-## Additional resources
-- [OpenAI Fine-tuning Documentation](https://platform.openai.com/docs/guides/fine-tuning/)
-- [Azure OpenAI Fine-tuning Documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)
-- [Demo Colab](http://wandb.me/azure-openai-colab)
+## 추가 자료
+- [OpenAI 파인튜닝 문서](https://platform.openai.com/docs/guides/fine-tuning/)
+- [Azure OpenAI 파인튜닝 문서](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython&pivots=programming-language-python)
+- [데모 Colab](http://wandb.me/azure-openai-colab)

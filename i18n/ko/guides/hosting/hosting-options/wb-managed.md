@@ -3,18 +3,18 @@ description: Deploying W&B in production
 displayed_sidebar: default
 ---
 
-# W&B managed hosting
+# W&B 관리 호스팅
 
-## SaaS Cloud
+## SaaS 클라우드
 
-Our most popular deployment option. A Multi-Tenant SaaS offering that allows you access to a fast, secure version of W&B with all of the latest features.
+가장 인기 있는 배포 옵션입니다. 여러분이 액세스할 수 있는 신속하고 안전한 W&B 버전과 모든 최신 기능을 제공하는 멀티 테넌트 SaaS 제공물입니다.
 
 :::info
-We recommend that you consider using the wandb.ai cloud before privately hosting a W&B server on your infrastructure. The cloud is simple and secure, with no configuration required. [Click here](../../../quickstart.md) to learn more.
+인프라에 W&B 서버를 사설로 호스팅하기 전에 wandb.ai 클라우드를 사용하는 것을 고려해 보시기 바랍니다. 클라우드는 설정이 필요 없으며 간단하고 안전합니다. [여기를 클릭하여](../../../quickstart.md) 자세히 알아보세요.
 :::
 
-## Dedicated Cloud
+## 전용 클라우드
 
-Dedicated Cloud is a fully managed solution offered by W&B for organizations with sensitive use cases and stringent enterprise security controls. In Dedicated Cloud, W&B server is hosted in a dedicated virtual private network on W&B's single-tenant AWS, GCP or Azure infrastructure in your choice of cloud region. Customers have the option to use our Secure Storage Connector to connect your data to a scalable data store hosted on your company's private cloud.
+전용 클라우드는 민감한 유스 케이스와 엄격한 엔터프라이즈 보안 관제를 가진 조직을 위해 W&B가 제공하는 완전 관리형 솔루션입니다. 전용 클라우드에서 W&B 서버는 여러분이 선택한 클라우드 지역의 W&B 싱글 테넌트 AWS, GCP 또는 Azure 인프라에 있는 전용 가상 프라이빗 네트워크에서 호스팅됩니다. 고객은 회사의 프라이빗 클라우드에 호스팅된 확장 가능한 데이터 저장소에 데이터를 연결하기 위해 저희의 보안 스토리지 커넥터를 사용할 수 있는 옵션이 있습니다.
 
-Talk to our sales team by reaching out to contact@wandb.com.
+저희 영업팀에게 contact@wandb.com으로 연락해 주세요.

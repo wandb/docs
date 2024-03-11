@@ -5,79 +5,76 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Workspaces
+# 워크스페이스
 
-W&B workspace is your personal sandbox to customize charts and explore model results. Workspaces consist of two main components: 
+W&B 워크스페이스는 차트를 사용자 맞춤화하고 모델 결과를 탐색할 수 있는 개인용 모래상자입니다. 워크스페이스는 주로 두 가지 요소로 구성됩니다:
 
-1. **Table**: All runs logged to your project are listed in the project's table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
-2. **Panel section**: [Panels](../features/panels/intro.md) are organized into panel sections. Create new panels, organize them, and export to reports to save snapshots of your workspace.
+1. **테이블**: 프로젝트에 로그된 모든 run은 프로젝트의 테이블에 나열됩니다. run을 켜고 끄기, 색상 변경, 각 run의 노트, 설정, 요약 메트릭을 보기 위해 테이블을 확장할 수 있습니다.
+2. **패널 섹션**: [패널](../features/panels/intro.md)은 패널 섹션으로 구성됩니다. 새로운 패널을 생성하고, 정리하고, 리포트로 내보내어 워크스페이스의 스냅샷을 저장할 수 있습니다.
 
 ![](/images/app_ui/workspace_table_and_panels.png)
 
+## 저장된 워크스페이스 뷰 생성하기
+맞춤형 워크스페이스 뷰로 팀 협업 개선하기.
 
-## Create saved workspace views
-Improve team collaboration with tailored workspace views. 
+### 워크스페이스 카테고리 이해하기
+주로 두 가지 워크스페이스 카테고리가 있습니다: **개인 워크스페이스**와 **저장된 뷰**.
 
-### Understand the workspace categories
-There are two main workspace categories: **Personal Workspaces** and **Saved Views**. 
+* **개인 워크스페이스:** 당신만의 전용 공간으로, 모델과 데이터 시각화의 심층 분석을 위해 사용자화할 수 있습니다. 편집 권한은 있지만, 팀원들은 설정을 변경하지 않고 볼 수 있습니다.
 
-* **Personal Workspaces:** Exclusive to you, these are customizable spaces for in-depth analysis of models and data visualizations. You have edit control, while teammates can view configurations without altering them.
-
-* **Saved Views:** These are collaborative snapshots of your workspace, viewable and usable by all project collaborators. They serve as fixed references of particular workspace states for collective review and discussion.
+* **저장된 뷰:** 프로젝트 협업자 모두가 볼 수 있고 사용할 수 있는 워크스페이스의 협업 스냅샷입니다. 특정 워크스페이스 상태의 고정 참조로서 집단 검토와 토의를 위해 사용됩니다.
  
  ![](/images/app_ui/Menu_No_views.jpg)
 
-### Create a new saved workspace view
-A Workspace View in Weights & Biases lets you organize and save your preferred workspace setup of charts and data. You can easily create a new View by following these steps:
+### 새로운 저장된 워크스페이스 뷰 생성하기
+Weights & Biases에서 워크스페이스 뷰를 사용하면 차트와 데이터의 선호하는 워크스페이스 설정을 정리하고 저장할 수 있습니다. 다음 단계를 따라 쉽게 새로운 뷰를 생성할 수 있습니다:
 
-* **Open a Workspace or View:** Start by going to the Workspace or View you wish to save.
-* **Save View:** Look for the meatball menu (three horizontal dots) at the top right corner of your workspace. Click on it and then choose **Save as a new view**. Once saved, you can also give your new view a descriptive name.
-* **Find Your New View:** Once saved, new views appear in the workspace navigation menu. 
+* **워크스페이스 또는 뷰 열기:** 저장하고 싶은 워크스페이스 또는 뷰로 이동합니다.
+* **뷰 저장:** 워크스페이스 우측 상단 모서리에 있는 미트볼 메뉴(세로로 배치된 세 개의 점)를 찾습니다. 클릭한 다음 **새 뷰로 저장**을 선택합니다. 저장한 후, 새 뷰에 설명적인 이름을 지정할 수도 있습니다.
+* **새로운 뷰 찾기:** 저장된 후, 새로운 뷰는 워크스페이스 탐색 메뉴에 나타납니다.
 
  ![](/images/app_ui/Menu_Views.jpg)
 
+### 저장된 워크스페이스 뷰 업데이트하기
+Weights & Biases에서 저장된 워크스페이스 뷰를 업데이트하려면:
 
-### Update a saved workspace view 
-To update a saved workspace view in Weights & Biases:
-
-* **Edit the Workspace:** Make the desired changes to your charts and data within the workspace.
-* **Save the Changes:** Click the **Save** button to confirm your changes. Saved changes overwrite the previous state of the saved view. Unsaved changes are not retained.
+* **워크스페이스 편집:** 워크스페이스 내에서 원하는 차트와 데이터 변경을 합니다.
+* **변경사항 저장:** **저장** 버튼을 클릭하여 변경사항을 확인합니다. 저장된 변경사항은 저장된 뷰의 이전 상태를 덮어씁니다. 저장되지 않은 변경사항은 유지되지 않습니다.
 
 :::info
-A confirmation  dialog appears when you save your updates to a workspace view. If you prefer not to see this prompt in the future, select the option **Do not show this modal next time** before confirming your save.
+워크스페이스 뷰 업데이트를 저장할 때 확인 대화 상자가 나타납니다. 이 프롬프트를 향후에 보지 않길 원한다면, 저장을 확인하기 전에 **다음부터 이 모달창 보이지 않기** 옵션을 선택하세요.
 :::
 
-### Deleting a saved workspace view
-To delete a view and manage your workspace menu in Weights & Biases:
+### 저장된 워크스페이스 뷰 삭제하기
+Weights & Biases에서 뷰를 삭제하고 워크스페이스 메뉴를 관리하려면:
 
-* Navigate to the view you wish to remove.
-* Click on the meatball menu (three horizontal lines) at the top right of the view.
-* Choose the option to **Delete view**.
-* Confirm the deletion to remove the view from your workspace menu.
+* 삭제하고 싶은 뷰로 이동합니다.
+* 뷰의 우측 상단에 있는 미트볼 메뉴(세로로 배치된 세 개의 줄)를 클릭합니다.
+* **뷰 삭제** 옵션을 선택합니다.
+* 삭제를 확인하여 워크스페이스 메뉴에서 뷰를 제거합니다.
 
-This process helps to declutter your workspace by removing any views that are no longer needed.
+이 프로세스는 더 이상 필요하지 않은 뷰를 제거하여 워크스페이스를 정리하는 데 도움이 됩니다.
 
  ![](/images/app_ui/Deleting.gif)
 
-### Share a workspace view
-Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
+### 워크스페이스 뷰 공유하기
+워크스페이스 URL을 직접 공유함으로써 팀과 맞춤형 워크스페이스를 공유하세요. 워크스페이스 프로젝트에 엑세스 권한이 있는 모든 사용자는 해당 워크스페이스의 저장된 뷰를 볼 수 있습니다.
 
+## 차트를 섹션으로 분류하기
 
-## Sort charts into sections
-
-You can sort charts into sections in your workspace programmatically or interactively with the W&B App UI.
+W&B App UI와 프로그래밍 방식으로 워크스페이스에서 차트를 섹션으로 정렬할 수 있습니다.
 
 <Tabs
   defaultValue="programmatically"
   values={[
-    {label: 'Programmatically', value: 'programmatically'},
+    {label: '프로그래밍 방식', value: 'programmatically'},
     {label: 'W&B App UI', value: 'ui'},
   ]}>
   <TabItem value="programmatically">
 
-Add a prefix to the name of your metric when you log that metric to sort the chart into sections.
+메트릭 이름에 접두사를 추가하여 해당 메트릭을 로그할 때 차트를 섹션으로 분류합니다.
 
-For example, the proceeding code block will produce two chart sections called **section-a** and **section-b**:
+예를 들어, 다음 코드 블록은 **section-a**와 **section-b**라는 두 차트 섹션을 생성합니다:
 
 ```python
 run = wandb.init()
@@ -91,13 +88,11 @@ with run:
   </TabItem>
   <TabItem value="ui">
 
-1. Navigate to your project workspace.
-2. Scroll down to the bottom of the panel section of your workspace.
-3. Click on the **Add section** button to add a new section.
+1. 프로젝트 워크스페이스로 이동합니다.
+2. 워크스페이스의 패널 섹션 하단까지 스크롤합니다.
+3. 새 섹션 추가 버튼을 클릭하여 새 섹션을 추가합니다.
 
 ![](/images/app_ui/add_section_app.png)
 
   </TabItem>
 </Tabs>
-
-

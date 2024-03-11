@@ -2,13 +2,13 @@
 displayed_sidebar: default
 ---
 
-# Debug bundle
+# 디버그 번들
 
-Share logs and other details with the support team to debug any issues in your W&B Server. To download the debug bundle, follow these steps:
+W&B 서버에서 발생하는 문제를 디버깅하기 위해 로그 및 기타 세부 정보를 지원팀과 공유하세요. 디버그 번들을 다운로드하려면 다음 단계를 따르세요:
 
-1. Click the profile picture in top right corner.
-2. Click "System settings". This will take you to `<wandb-server-url>/system-admin/`. Only admin users can access this page.
-3. Click the W&B logo in top right corner.
-4. Click "Debug Bundle". This will download a zipped file to your computer.
+1. 오른쪽 상단의 프로필 사진을 클릭하세요.
+2. "시스템 설정"을 클릭하세요. 이 작업은 `<wandb-server-url>/system-admin/`으로 이동합니다. 관리 사용자만 이 페이지에 엑세스할 수 있습니다.
+3. 오른쪽 상단의 W&B 로고를 클릭하세요.
+4. "디버그 번들"을 클릭하세요. 이 작업은 압축된 파일을 컴퓨터에 다운로드합니다.
 
 ![](/images/hosting/debug_bundle.gif)

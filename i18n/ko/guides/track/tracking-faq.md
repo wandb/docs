@@ -3,20 +3,20 @@ description: Answers to frequently asked question about W&B Experiments.
 displayed_sidebar: default
 ---
 
-# Experiments FAQ
+# 실험 FAQ
 
 <head>
-  <title>Frequently Asked Questions About Experiments</title>
+  <title>실험에 관한 자주 묻는 질문</title>
 </head>
 
-The proceeding questions are commonly asked questions about W&B Artifacts.
+다음은 W&B Artifacts에 대해 자주 묻는 질문입니다.
 
-### How do I launch multiple runs from one script?
+### 하나의 스크립트에서 여러 실행을 어떻게 시작하나요?
 
-Use `wandb.init` and `run.finish()` to log multiple Runs from one script:
+하나의 스크립트에서 여러 실행을 로그하기 위해 `wandb.init`과 `run.finish()`를 사용하세요:
 
-1. `run = wandb.init(reinit=True)`: Use this setting to allow reinitializing runs
-2. `run.finish()`: Use this at the end of your run to finish logging for that run
+1. `run = wandb.init(reinit=True)`: 실행을 재초기화하는 것을 허용하기 위해 이 설정을 사용하세요
+2. `run.finish()`: 해당 실행에 대한 로깅을 마치기 위해 실행의 끝에서 이것을 사용하세요
 
 ```python
 import wandb
@@ -28,7 +28,7 @@ for x in range(10):
     run.finish()
 ```
 
-Alternatively you can use a python context manager which will automatically finish logging:
+또는 파이썬 컨텍스트 매니저를 사용하여 자동으로 로깅을 마칠 수 있습니다:
 
 ```python
 import wandb
@@ -40,11 +40,11 @@ for x in range(10):
             run.log({"metric": x + y})
 ```
 
-### `InitStartError: Error communicating with wandb process` <a href="#init-start-error" id="init-start-error"></a>
+### `InitStartError: wandb 프로세스와의 통신 오류` <a href="#init-start-error" id="init-start-error"></a>
 
-This error indicates that the library is having difficulty launching the process which synchronizes data to the server.
+이 오류는 라이브러리가 서버로 데이터를 동기화하는 프로세스를 시작하는 데 어려움을 겪고 있음을 나타냅니다.
 
-The following workarounds can help resolve the issue in certain environments:
+특정 환경에서 문제를 해결하는 데 도움이 될 수 있는 다음의 해결 방법이 있습니다:
 
 <Tabs
   defaultValue="linux"
@@ -60,7 +60,7 @@ wandb.init(settings=wandb.Settings(start_method="fork"))
 </TabItem>
   <TabItem value="google_colab">
 
-For versions prior to `0.13.0` we suggest using:
+`0.13.0` 이전 버전의 경우 다음을 사용하는 것이 좋습니다:
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
@@ -68,23 +68,22 @@ wandb.init(settings=wandb.Settings(start_method="thread"))
   </TabItem>
 </Tabs>
 
+### wandb를 멀티프로세싱, 예를 들어 분산 트레이닝과 함께 사용할 수 있나요?
 
-### How can I use wandb with multiprocessing, e.g. distributed training? 
-
-If your training program uses multiple processes you will need to structure your program to avoid making wandb method calls from processes where you did not run `wandb.init()`.\
+트레이닝 프로그램이 여러 프로세스를 사용하는 경우, `wandb.init()`을 실행하지 않은 프로세스에서 wandb 메소드 호출을 피하기 위해 프로그램을 구조화해야 합니다.\
 \
-There are several approaches to managing multiprocess training:
+멀티프로세스 트레이닝을 관리하는 몇 가지 접근 방법이 있습니다:
 
-1. Call `wandb.init` in all your processes, using the [group](../runs/grouping.md) keyword argument to define a shared group. Each process will have its own wandb run and the UI will group the training processes together.
-2. Call `wandb.init` from just one process and pass data to be logged over [multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes).
+1. 모든 프로세스에서 `wandb.init`을 호출하고, [group](../runs/grouping.md) 키워드 인수를 사용하여 공유 그룹을 정의하세요. 각 프로세스는 자체 wandb 실행을 가지며 UI는 트레이닝 프로세스를 함께 그룹화합니다.
+2. 하나의 프로세스에서만 `wandb.init`을 호출하고 로그할 데이터를 [멀티프로세싱 큐](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes)를 통해 전달하세요.
 
 :::info
-Check out the [Distributed Training Guide](./log/distributed-training.md) for more detail on these two approaches, including code examples with Torch DDP.
+이 두 가지 접근 방법에 대한 자세한 내용과 Torch DDP를 사용한 코드 예제는 [분산 트레이닝 가이드](./log/distributed-training.md)를 확인하세요.
 :::
 
-### How do I programmatically access the human-readable run name?
+### 실행 이름을 프로그래밍 방식으로 어떻게 액세스하나요?
 
-It's available as the `.name` attribute of a [`wandb.Run`](../../ref/python/run.md).
+[`wandb.Run`](../../ref/python/run.md)의 `.name` 속성으로 사용할 수 있습니다.
 
 ```python
 import wandb
@@ -93,9 +92,9 @@ wandb.init()
 run_name = wandb.run.name
 ```
 
-### Can I just set the run name to the run ID?
+### 실행 이름을 실행 ID로 설정할 수 있나요?
 
-If you'd like to overwrite the run name (like snowy-owl-10) with the run ID (like qvlp96vk) you can use this snippet:
+실행 이름(예: snowy-owl-10)을 실행 ID(예: qvlp96vk)로 덮어쓰고 싶다면 이 스니펫을 사용할 수 있습니다:
 
 ```python
 import wandb
@@ -105,37 +104,37 @@ wandb.run.name = wandb.run.id
 wandb.run.save()
 ```
 
-### I didn't name my run. Where is the run name coming from?
+### 실행을 명명하지 않았습니다. 실행 이름은 어디서 오는 건가요?
 
-If you do not explicitly name your run, a random run name will be assigned to the run to help identify the run in the UI. For instance, random run names will look like "pleasant-flower-4" or "misunderstood-glade-2".
+실행을 명시적으로 명명하지 않으면 "pleasant-flower-4" 또는 "misunderstood-glade-2"와 같은 무작위 실행 이름이 실행에 할당되어 UI에서 실행을 식별하는 데 도움이 됩니다.
 
-### How can I save the git commit associated with my run?
+### 실행과 관련된 git 커밋을 어떻게 저장하나요?
 
-When `wandb.init` is called in your script, we automatically look for git information to save, including a link to a remote repo and the SHA of the latest commit. The git information should show up on your [run page](../app/pages/run-page.md). If you aren't seeing it appear there, make sure that your shell's current working directory when executing your script is located in a folder managed by git.
+스크립트에서 `wandb.init`이 호출될 때 자동으로 git 정보를 찾아 저장합니다. 여기에는 원격 리포지토리에 대한 링크와 최신 커밋의 SHA가 포함됩니다. git 정보가 [실행 페이지](../app/pages/run-page.md)에 나타나지 않는 경우 스크립트를 실행할 때 셸의 현재 작업 디렉터리가 git으로 관리되는 폴더에 위치해 있는지 확인하세요.
 
-The git commit and command used to run the experiment are visible to you but are hidden to external users, so if you have a public project, these details will remain private.
+git 커밋과 실험을 실행하는 데 사용된 코맨드는 사용자에게 표시되지만 외부 사용자에게는 숨겨져 있으므로 공개 프로젝트를 가지고 있는 경우 이러한 세부 정보는 비공개로 유지됩니다.
 
-### Is it possible to save metrics offline and sync them to W&B later?
+### 메트릭을 오프라인으로 저장하고 나중에 W&B에 동기화할 수 있나요?
 
-By default, `wandb.init` starts a process that syncs metrics in real time to our cloud hosted app. If your machine is offline, you don't have internet access, or you just want to hold off on the upload, here's how to run `wandb` in offline mode and sync later.
+기본적으로 `wandb.init`은 실시간으로 클라우드 호스팅 앱에 메트릭을 동기화하는 프로세스를 시작합니다. 기계가 오프라인 상태이거나 인터넷 액세스가 없거나 업로드를 미루고 싶다면, 여기에서 `wandb`를 오프라인 모드로 실행하고 나중에 동기화하는 방법입니다.
 
-You will need to set two [environment variables](./environment-variables.md).
+두 [환경 변수](./environment-variables.md)를 설정해야 합니다.
 
-1. `WANDB_API_KEY=$KEY`, where `$KEY` is the API Key from your [settings page](https://app.wandb.ai/settings)
+1. `WANDB_API_KEY=$KEY`, 여기에서 `$KEY`는 [설정 페이지](https://app.wandb.ai/settings)에서의 API 키입니다
 2. `WANDB_MODE="offline"`
 
-And here's a sample of what this would look like in your script:
+스크립트에서 이것이 어떻게 보일지의 예:
 
 ```python
 import wandb
 import os
 
-os.environ["WANDB_API_KEY"] = YOUR_KEY_HERE
+os.environ["WANDB_API_KEY"] = 여기에_키
 os.environ["WANDB_MODE"] = "offline"
 
 config = {
     "dataset": "CIFAR10",
-    "machine": "offline cluster",
+    "machine": "오프라인 클러스터",
     "model": "CNN",
     "learning_rate": 0.01,
     "batch_size": 128,
@@ -147,11 +146,11 @@ for i in range(100):
     wandb.log({"accuracy": i})
 ```
 
-Here's a sample terminal output:
+터미널 출력 샘플:
 
 ![](/images/experiments/sample_terminal_output.png)
 
-And once you're ready, just run a sync command to send that folder to the cloud.
+준비가 되면, 그 폴더를 클라우드로 보내기 위해 동기화 코맨드를 실행하기만 하면 됩니다.
 
 ```shell
 wandb sync wandb/dryrun-folder-name
@@ -159,35 +158,34 @@ wandb sync wandb/dryrun-folder-name
 
 ![](/images/experiments/sample_terminal_output_cloud.png)
 
-### What is the difference between wandb.init modes?
+### wandb.init 모드의 차이점은 무엇인가요?
 
-Modes can be "online", "offline" or "disabled", and default to online.
+모드는 "online", "offline" 또는 "disabled"일 수 있으며 기본적으로 online입니다.
 
-`online`(default): In this mode, the client sends data to the wandb server.
+`online`(기본값): 이 모드에서 클라이언트는 데이터를 wandb 서버로 전송합니다.
 
-`offline`: In this mode, instead of sending data to the wandb server, the client will store data on your local machine which can be later synced with the [`wandb sync`](../../ref/cli/wandb-sync.md) command.
+`offline`: 이 모드에서 클라이언트는 wandb 서버로 데이터를 보내는 대신 로컬 머신에 데이터를 저장합니다. 이 데이터는 나중에 [`wandb sync`](../../ref/cli/wandb-sync.md) 코맨드로 동기화할 수 있습니다.
 
-`disabled`: In this mode, the client returns mocked objects and prevents all network communication. The client will essentially act like a no-op. In other words, all logging is entirely disabled. However, stubs out of all the API methods are still callable. This is usually used in tests.
+`disabled`: 이 모드에서 클라이언트는 모의 객체를 반환하고 모든 네트워크 통신을 방지합니다. 클라이언트는 본질적으로 아무 작업도 수행하지 않습니다. 즉, 모든 로깅이 완전히 비활성화됩니다. 그러나 API 메소드의 모든 스텁은 여전히 호출할 수 있습니다. 이는 주로 테스트에서 사용됩니다.
 
-### My run's state is "crashed" on the UI but is still running on my machine. What do I do to get my data back?
+### 실행 상태가 UI에서 "충돌"로 표시되지만 내 기계에서 계속 실행 중입니다. 데이터를 되찾기 위해 어떻게 하나요?
 
-You most likely lost connection to your machine while training. You can recover your data by running [`wandb sync [PATH_TO_RUN]`](../../ref/cli/wandb-sync.md). The path to your run will be a folder in your `wandb` directory corresponding to the Run ID of the run in progress.
+트레이닝하는 동안 기계와의 연결이 끊어졌을 가능성이 높습니다. [`wandb sync [실행_경로]`](../../ref/cli/wandb-sync.md)를 실행하여 데이터를 복구할 수 있습니다. 실행 경로는 진행 중인 실행의 실행 ID에 해당하는 `wandb` 디렉토리의 폴더입니다.
 
-### `LaunchError: Permission denied`
+### `LaunchError: 권한 거부됨`
 
-If you're getting the error message `Launch Error: Permission denied`, you don't have permissions to log to the project you're trying to send runs to. This might be for a few different reasons.
+`Launch Error: 권한 거부됨` 오류 메시지를 받는 경우, 실행을 보내려는 프로젝트에 로그 기록 권한이 없습니다. 이는 몇 가지 다른 이유로 발생할 수 있습니다.
 
-1. You aren't logged in on this machine. Run [`wandb login`](../../ref/cli/wandb-login.md) on the command line.
-2. You've set an entity that doesn't exist. "Entity" should be your username or the name of an existing team. If you need to create a team, go to our [Subscriptions page](https://app.wandb.ai/billing).
-3. You don't have project permissions. Ask the creator of the project to set the privacy to **Open** so you can log runs to this project.
+1. 이 기계에서 로그인하지 않았습니다. 커맨드라인에서 [`wandb login`](../../ref/cli/wandb-login.md)을 실행하세요.
+2. 존재하지 않는 엔티티를 설정했습니다. "엔티티"는 사용자 이름이나 기존 팀의 이름이어야 합니다. 팀을 생성해야 하는 경우, [구독 페이지](https://app.wandb.ai/billing)로 이동하세요.
+3. 프로젝트 권한이 없습니다. 프로젝트 생성자에게 프로젝트의 개인 정보 설정을 **Open**으로 설정하여 이 프로젝트에 실행을 로그할 수 있도록 요청하세요.
 
-### Does W&B uses the `multiprocessing` library?
+### W&B는 `multiprocessing` 라이브러리를 사용하나요?
 
-Yes, W&B uses the `multiprocessing` library. If you see an error message such as:
+예, W&B는 `multiprocessing` 라이브러리를 사용합니다. 다음과 같은 오류 메시지를 보게 되면:
 
 ```
-An attempt has been made to start a new process before the current process 
-has finished its bootstrapping phase.
+현재 프로세스가 부트스트래핑 단계를 마치기 전에 새 프로세스를 시작하려는 시도가 있었습니다.
 ```
 
-This might mean that you might need to add an entry point protection `if name == main`. Note that you would only need to add this entry point protection in case you're trying to run W&B directly from the script.
+이는 W&B를 스크립트에서 직접 실행하려고 할 때 진입점 보호 `if __name__ == '__main__'`을 추가해야 할 수 있음을 의미합니다.

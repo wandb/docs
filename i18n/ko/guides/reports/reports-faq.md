@@ -3,118 +3,118 @@ description: Answers to frequently asked question about W&B Reports.
 displayed_sidebar: default
 ---
 
-# Reports FAQ
+# 리포트 FAQ
 
 <head>
-  <title>Frequently Asked Questions About Reports</title>
+  <title>리포트에 대한 자주 묻는 질문들</title>
 </head>
 
-### Upload a CSV to a report
+### 리포트에 CSV 업로드하기
 
-If you currently want to upload a CSV to a report you can do it via the `wandb.Table` format. Loading the CSV in your Python script and logging it as a `wandb.Table` object will allow you to render the data as a table in a report.
+현재 리포트에 CSV를 업로드하고 싶다면, `wandb.Table` 포맷을 통해 할 수 있습니다. 파이썬 스크립트에서 CSV를 로딩하고 `wandb.Table` 오브젝트로 로깅하면, 리포트에서 데이터를 테이블로 렌더링할 수 있습니다.
 
-### Upload an image to a report
+### 리포트에 이미지 업로드하기
 
-On a new line, press `/` and scroll to Image. Then just drag and drop an image into the report.
+새로운 줄에서 `/`를 누르고 이미지까지 스크롤한 다음, 리포트에 이미지를 드래그 앤 드롭하세요.
 
 ![](/images/reports/add_an_image.gif)
 
-### Refreshing data
+### 데이터 새로고침
 
-Reload the page to refresh data in a report and get the latest results from your active runs. Workspaces automatically load fresh data if you have the **Auto-refresh** option active (available in the dropdown menu in the upper right corner of your page). Auto-refresh does not apply to reports, so this data will not refresh until you reload the page.
+리포트에서 데이터를 새로고침하고 활성화된 run에서 최신 결과를 얻으려면 페이지를 다시 로드하세요. 워크스페이스는 **자동 새로고침** 옵션이 활성화되어 있을 경우(페이지 우측 상단의 드롭다운 메뉴에서 사용 가능) 새로운 데이터를 자동으로 로드합니다. 자동 새로고침은 리포트에 적용되지 않으므로, 페이지를 다시 로드하기 전까지 데이터가 새로고침되지 않습니다.
 
-### Filter and delete unwanted reports
+### 원치 않는 리포트 필터링 및 삭제하기
 
-Using the search bar, you can search and filter down the reports list. You can then delete an unwanted report from the list or select all and press 'Delete Reports' to remove them from your project.
+검색바를 사용하여 리포트 목록을 검색하고 필터링할 수 있습니다. 그런 다음 목록에서 원치 않는 리포트를 삭제하거나 모두 선택하고 '리포트 삭제'를 눌러 프로젝트에서 제거할 수 있습니다.
 
-![Delete unwanted reports and drafts](@site/static/images/reports/delete_runs.gif)
+![원치 않는 리포트 및 초안 삭제하기](@site/static/images/reports/delete_runs.gif)
 
-### Incorporating LaTeX
+### LaTeX 통합하기
 
-LaTeX can be added into reports easily. In order to do so, create a new report, and start typing. The whole page is a rich text area where you can write notes and save custom visualizations and tables.
+LaTeX는 리포트에 쉽게 추가할 수 있습니다. 리포트를 새로 만들고 타이핑을 시작하세요. 전체 페이지는 노트를 쓰고 사용자 정의 시각화 및 테이블을 저장할 수 있는 리치 텍스트 영역입니다.
 
-On a new line, press `/` and scroll to the inline equations tab to add rich content in LaTeX.
+새로운 줄에서 `/`를 누르고 인라인 방정식 탭까지 스크롤하여 LaTeX에서 리치 컨텐츠를 추가하세요.
 
-### List of markdown shortcuts
+### 마크다운 단축키 목록
 
-| Markdown          | Shortcuts     |
+| 마크다운          | 단축키         |
 | ----------------- | ------------- |
-| Bold              | `*<content>*` |
-| Italics           | `_<content>_` |
-| List item         | `*` , `-`     |
-| Ordered list item | `1.`          |
-| Checklist         | `[]`          |
-| Blockquote        | `>` , `\|`    |
-| Heading 1         | `#`           |
-| Heading 2         | `##`          |
-| Heading 3         | `###`         |
-| Code block        | ` ``` `       |
-| Inline code       | `` ` ``       |
-| Callout block     | `>>>`         |
-| Horizontal rule   | `---`, `___`  |
+| 굵게              | `*<content>*` |
+| 기울임꼴          | `_<content>_` |
+| 목록 항목         | `*` , `-`     |
+| 순서 있는 목록 항목 | `1.`          |
+| 체크리스트        | `[]`          |
+| 인용구            | `>` , `\|`    |
+| 제목 1            | `#`           |
+| 제목 2            | `##`          |
+| 제목 3            | `###`         |
+| 코드 블록        | ` ``` `       |
+| 인라인 코드       | `` ` ``       |
+| 콜아웃 블록       | `>>>`         |
+| 수평선            | `---`, `___`  |
 
-A comprehensive list of LaTeX can be found [here](https://en.wikibooks.org/wiki/LaTeX/Mathematics).
+LaTeX의 포괄적인 목록은 [여기](https://en.wikibooks.org/wiki/LaTeX/Mathematics)에서 찾을 수 있습니다.
 
-### Adding multiple authors to a report
+### 리포트에 여러 저자 추가하기
 
-When multiple users work on a report together, they should be credited as such. In our reports, you can do just that and add all the users that worked together on a report in the Author line. This is done by clicking Edit on the top right of the page. From there, a '+' will be seen on the right of the author line to where you can add all of the team members that have contributed to the report.
+여러 사용자가 함께 리포트 작업을 할 경우, 그렇게 표시해야 합니다. 저희 리포트에서는 바로 그렇게 할 수 있으며, 리포트에 협력한 모든 사용자를 저자 줄에 추가할 수 있습니다. 이는 페이지 상단의 편집을 클릭하여 수행됩니다. 거기서 저자 줄의 오른쪽에 보이는 '+'를 클릭하여 리포트에 기여한 모든 팀 멤버를 추가할 수 있습니다.
 
 ![](@site/static/images/reports/reports_faq_add_multiple_reports.gif)
 
-### Embedding Reports
+### 리포트 임베딩하기
 
-You are able to share the report that you have created by embedding it. This is done simply by clicking Share on the top right of your report and copying the embedded code at the bottom of the pop-up window that appears.
+생성한 리포트를 임베딩하여 공유할 수 있습니다. 이는 리포트 상단의 공유를 클릭하고 나타나는 팝업 창 하단에서 임베드 코드를 복사하여 간단히 수행됩니다.
 
 ![](@site/static/images/reports/emgedding_reports.gif)
 
 ### WYSIWYG FAQ
 
-**What's changed in the new reports release?**
+**새 리포트 릴리스에서 무엇이 변경되었나요?**
 
-Reports look the same in view mode, and can have all the same content as they did before, but report editing is now WYSIWYG.
+리포트는 보기 모드에서는 이전과 동일하게 보이며, 이전처럼 모든 같은 컨텐츠를 가질 수 있지만, 리포트 편집은 이제 WYSIWYG입니다.
 
-**What is WYSIWYG?**
+**WYSIWYG이란 무엇인가요?**
 
-WYSIWYG is an acronym for What You See Is What You Get. It refers to a type of editor where the content always looks the same, whether you're editing or presenting. In contrast, W&B reports used to have Markdown editors, where you edit in [Markdown](https://www.markdownguide.org) and have to switch to preview mode to see what it'll end up looking like. W&B reports are now fully WYSIWYG.
+WYSIWYG은 What You See Is What You Get의 약자로, 편집 중이든 발표 중이든 컨텐츠가 항상 동일하게 보이는 편집기 유형을 말합니다. 반면에, W&B 리포트는 [Markdown](https://www.markdownguide.org)에서 편집하고 미리보기 모드로 전환하여 최종적으로 어떻게 보일지를 확인해야 했던 마크다운 편집기를 사용했습니다. W&B 리포트는 이제 완전히 WYSIWYG입니다.
 
-**Why change to WYSIWYG?**
+**WYSIWYG으로 변경하는 이유는 무엇인가요?**
 
-Users have told us that context switching between Markdown mode and preview mode slows them down. We want to minimize the friction between you and sharing your research with the world, so Markdown-dependent editing had to go. With arbitrary reordering, cut+paste, and undo history for everything (even panel grids!), making reports should feel much more natural now. Furthermore, WYSIWYG makes it easier for us to add new advanced features in the future, like video embeds, commenting on specific text selections, and real-time collaboration.
+사용자들은 마크다운 모드와 미리보기 모드 간의 컨텍스트 전환을 느리게 만든다고 말했습니다. 우리는 여러분이 세계와 연구를 공유하는 사이의 마찰을 최소화하고자 하므로, 마크다운 의존 편집은 사라져야 했습니다. 패널 그리드에 대한 임의의 재정렬, 잘라내기+붙여넣기 및 모든 것에 대한 실행 취소 기록(심지어 패널 그리드도 포함!)을 통해, 리포트 작성이 이제 훨씬 더 자연스러워야 합니다. 게다가, WYSIWYG는 우리가 비디오 임베딩, 특정 텍스트 선택에 대한 코멘트, 실시간 협업과 같은 새로운 고급 기능을 미래에 추가하기 더 쉽게 만듭니다.
 
-**My report looks different after converting from Markdown.**
+**Markdown에서 WYSIWYG로 변환한 후 리포트가 달라 보입니다.**
 
-We try to keep your report looking the same after converting to WYSIWYG, but the process isn't perfect. If the changes are drastic or unexpected, let us know and we'll look into the issue. Until your editing session ends, you'll have the option of reverting the report back to its pre-conversion state.
+WYSIWYG로 변환한 후에도 리포트가 동일하게 보이도록 노력하지만, 프로세스는 완벽하지 않습니다. 변화가 심하거나 예상치 못한 경우, 저희에게 알려주시면 문제를 조사하겠습니다. 편집 세션이 끝날 때까지, 리포트를 변환 전 상태로 되돌릴 옵션이 있습니다.
 
-**I prefer Markdown. Can I still use it?**
+**Markdown을 선호합니다. 여전히 사용할 수 있나요?**
 
-Absolutely! Type "/mark" anywhere in the document and hit enter to insert a Markdown block. You can edit these blocks with Markdown the way you used to.
+물론입니다! 문서 어디에서나 "/mark"를 입력하고 엔터를 누르면 Markdown 블록이 삽입됩니다. 이전에 사용하던 방식대로 Markdown으로 이 블록을 편집할 수 있습니다.
 
-**My report is running slowly now.**
+**이제 리포트가 느리게 실행됩니다.**
 
-Sorry! We're constantly working on performance improvements, but WYSIWYG reports may run slowly on older hardware or exceptionally large reports. You can assuage the problem for now by collapsing sections of the report that you're not currently working on, like so:
+죄송합니다! 우리는 지속적으로 성능 개선을 위해 노력하고 있지만, WYSIWYG 리포트는 오래된 하드웨어나 특히 큰 리포트에서 느리게 실행될 수 있습니다. 현재 작업 중이지 않은 리포트의 섹션을 접어 문제를 일시적으로 완화할 수 있습니다:
 
 ![](@site/static/images/reports/wandb-reports-editor-1.gif)
 
-**How do I delete a panel grid?**
+**패널 그리드를 삭제하는 방법은 무엇인가요?**
 
-Select the panel grid, and hit delete/backspace. The easiest way to select a panel grid is by clicking its drag handle on the top-right, like so:
+패널 그리드를 선택하고 삭제/백스페이스를 누릅니다. 패널 그리드를 선택하는 가장 쉬운 방법은 상단 오른쪽에 있는 그것의 드래그 핸들을 클릭하는 것입니다, 이렇게:
 
 ![](@site/static/images/reports/wandb-reports-editor-3.gif)
 
-**How do I insert a table?**
+**테이블을 삽입하는 방법은 무엇인가요?**
 
-Tables are the only feature from Markdown that we haven't added a WYSIWYG equivalent for yet. But because we still support Markdown, you can add a table by adding a Markdown block and creating a table inside of it.
+테이블은 아직 WYSIWYG에 해당하는 기능을 추가하지 않은 유일한 마크다운 기능입니다. 하지만 마크다운을 여전히 지원하기 때문에, 마크다운 블록을 추가하고 그 안에 테이블을 만들어 테이블을 추가할 수 있습니다.
 
-**I converted my report to WYSIWYG but I'd like to revert back to Markdown.**
+**WYSIWYG으로 리포트를 변환했지만 Markdown으로 되돌리고 싶습니다.**
 
-If you converted your report using the message at the top of the report, simply hit the red "Revert" button to return to your pre-converted state. Note that any changes you've made after converting will be lost.
+리포트 상단의 메시지를 사용하여 리포트를 변환한 경우, 빨간색 "되돌리기" 버튼을 눌러 변환 전 상태로 돌아갈 수 있습니다. 변환한 후에 한 변경 사항은 모두 손실됩니다.
 
 ![](/images/reports/reports_faq_wysiwyg.png)
 
-If you converted a single Markdown block, try hitting cmd+z to undo.
+단일 Markdown 블록을 변환했을 경우, cmd+z를 눌러 실행 취소를 시도해 보세요.
 
-If neither of these options work because you've closed your session after converting, consider discarding your draft and editing your report from its last saved state. If this isn't an option either, let us know through the Intercom bubble at the bottom right and our team can try to restore your last working state.
+세션을 닫은 후 이러한 옵션 중 하나도 작동하지 않는 경우, 초안을 버리고 마지막 저장 상태에서 리포트를 편집하는 것을 고려하세요. 이것도 옵션이 아니라면, 앱 하단 오른쪽의 Intercom 버블을 통해 저희에게 알려주시면 저희 팀이 마지막 작동 상태를 복원하려고 시도할 수 있습니다.
 
-**I have a problem that isn't addressed by this FAQ.**
+**이 FAQ에서 다루지 않은 문제가 있습니다.**
 
-Please send us a message through the Intercom bubble on the bottom-right of the page in the app, with a link to your report and the keyword "WYSIWYG". If you're not seeing an Intercom chat widget, it's likely blocked by your Ad Block browser extensions, and you can contact us at contact@wandb.com instead.
+앱 페이지 하단 오른쪽의 Intercom 버블을 통해 메시지를 보내주세요. 리포트 링크와 "WYSIWYG" 키워드를 포함하여 보내주세요. Intercom 채팅 위젯을 보지 못한다면, 광고 차단 브라우저 확장 프로그램에 의해 차단되었을 가능성이 높으며, 대신 contact@wandb.com으로 저희에게 연락할 수 있습니다.

@@ -2,39 +2,39 @@
 displayed_sidebar: default
 ---
 
-# Code Saving
+# 코드 저장
 
-By default, we only save the latest git commit hash. You can turn on more code features to compare the code between your experiments dynamically in the UI.
+기본적으로, 우리는 최신 git 커밋 해시만 저장합니다. UI에서 실험 간의 코드를 동적으로 비교할 수 있도록 더 많은 코드 기능을 활성화할 수 있습니다.
 
-Starting with `wandb` version 0.8.28, we can save the code from your main training file where you call `wandb.init()`. This will get sync'd to the dashboard and show up in a tab on the run page, as well as the Code Comparer panel. Go to your [settings page](https://app.wandb.ai/settings) to enable code saving by default.
+`wandb` 버전 0.8.28부터, `wandb.init()`을 호출하는 주 트레이닝 파일에서 코드를 저장할 수 있습니다. 이렇게 하면 대시보드와 run 페이지의 탭, 그리고 코드 비교기 패널에 동기화되어 표시됩니다. 코드 저장을 기본적으로 활성화하려면 [설정 페이지](https://app.wandb.ai/settings)로 이동하세요.
 
-![Here's what your account settings look like. You can save code by default.](/images/app_ui/code_saving.png)
+![계정 설정이 어떻게 생겼는지 보여줍니다. 기본적으로 코드를 저장할 수 있습니다.](/images/app_ui/code_saving.png)
 
-## Save Library Code
+## 라이브러리 코드 저장
 
-When code saving is enabled, wandb will save the code from the file that called `wandb.init()`. To save additional library code, you have two options:
+코드 저장이 활성화되면, wandb는 `wandb.init()`을 호출한 파일의 코드를 저장합니다. 추가적인 라이브러리 코드를 저장하려면 두 가지 옵션이 있습니다:
 
-* Call `wandb.run.log_code(".")` after calling `wandb.init()`
-* Pass a settings object to `wandb.init` with code\_dir set: `wandb.init(settings=wandb.Settings(code_dir="."))`
+* `wandb.init()`을 호출한 후 `wandb.run.log_code(".")`을 호출합니다.
+* `wandb.init`에 코드_디렉토리 설정이 있는 설정 오브젝트를 전달합니다: `wandb.init(settings=wandb.Settings(code_dir="."))`
 
-This will capture all python source code files in the current directory and all subdirectories as an [artifact](../../../../ref/python/artifact.md). For more control over the types and locations of source code files that are saved, please see the [reference docs](../../../../ref/python/run.md#log_code).
+이렇게 하면 현재 디렉토리 및 모든 하위 디렉토리의 모든 파이썬 소스 코드 파일이 [아티팩트](../../../../ref/python/artifact.md)로 캡처됩니다. 저장되는 소스 코드 파일의 유형과 위치에 대해 더 많은 제어를 원한다면, [참조 문서](../../../../ref/python/run.md#log_code)를 참조하세요.
 
-## Code Comparer
+## 코드 비교기
 
-Click the **+** button in your workspace or report to add a new panel, and select the Code Comparer. Diff any two experiments in your project and see exactly which lines of code changed. Here’s an example:
+워크스페이스나 리포트에 새 패널을 추가하려면 **+** 버튼을 클릭하고 코드 비교기를 선택하세요. 프로젝트 내의 두 실험을 비교하고 코드가 정확히 어떻게 변경되었는지 확인하세요. 예시는 다음과 같습니다:
 
 ![](/images/app_ui/code_comparer.png)
 
-## Jupyter Session History
+## 주피터 세션 히스토리
 
-Starting with **wandb** version 0.8.34, our library does Jupyter session saving. When you call **wandb.init()** inside of Jupyter, we add a hook to automatically save a Jupyter notebook containing the history of code executed in your current session. You can find this session history in a runs file browser under the code directory:
+**wandb** 버전 0.8.34부터, 우리 라이브러리는 주피터 세션 저장을 합니다. 주피터 내에서 **wandb.init()**을 호출할 때, 현재 세션에서 실행된 코드의 히스토리를 포함하는 주피터 노트북을 자동으로 저장하는 훅을 추가합니다. 이 세션 히스토리는 코드 디렉토리 아래의 run 파일 브라우저에서 찾을 수 있습니다:
 
 ![](/images/app_ui/jupyter_session_history.png)
 
-Clicking on this file will display the cells that were executed in your session along with any outputs created by calling iPython’s display method. This enables you to see exactly what code was run within Jupyter in a given run. When possible we also save the most recent version of the notebook which you would find in the code directory as well.
+이 파일을 클릭하면 세션에서 실행된 셀과 iPython의 디스플레이 메소드를 호출하여 생성된 출력물이 표시됩니다. 이를 통해 주피터 내에서 특정 run에서 실행된 코드가 정확히 무엇인지 확인할 수 있습니다. 가능한 경우 코드 디렉토리에서 가장 최근 버전의 노트북도 저장합니다.
 
 ![](/images/app_ui/jupyter_session_history_display.png)
 
-## Jupyter diffing
+## 주피터 차이 비교
 
-One last bonus feature is the ability to diff notebooks. Instead of showing the raw JSON in our Code Comparer panel, we extract each cell and display any lines that changed. We have some exciting features planned for integrating Jupyter deeper in our platform.
+마지막으로 추가된 보너스 기능은 노트북 차이 비교입니다. 코드 비교기 패널에 원시 JSON을 표시하는 대신, 각 셀을 추출하고 변경된 모든 줄을 표시합니다. 우리는 주피터를 플랫폼에 더 깊게 통합하기 위한 몇 가지 흥미로운 기능을 계획하고 있습니다.

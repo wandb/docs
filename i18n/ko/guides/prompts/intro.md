@@ -1,77 +1,78 @@
 ---
-slug: /guides/prompts
 description: Tools for the development of LLM-powered applications
+slug: /guides/prompts
 displayed_sidebar: default
 ---
-# Prompts for LLMs
 
-W&B Prompts is a suite of LLMOps tools built for the development of LLM-powered applications. Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
+# LLM을 위한 프롬프트
 
-## Use Cases
+W&B 프롬프트는 LLM 기반 애플리케이션 개발을 위해 구축된 LLMOps 툴 모음입니다. W&B 프롬프트를 사용하여 LLM의 실행 흐름을 시각화하고 검사하고, LLM의 입력과 출력을 분석하며, 중간 결과를 확인하고 프롬프트 및 LLM 체인 설정을 안전하게 저장하고 관리하세요.
 
-W&B Prompts is the solution for building and evaluating LLM-based apps. Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to explore and debug LLM chains and prompts with greater granularity.
+## 유스 케이스
 
-- Track inputs & outputs of LLM applications
-- Debug LLM chains and prompts using interactive traces
-- Evaluate the performance of LLM chains and prompts
+W&B 프롬프트는 LLM 기반 앱을 구축하고 평가하기 위한 해결책입니다. 소프트웨어 개발자, 프롬프트 엔지니어, ML 실무자, 데이터 과학자 및 LLM을 사용하는 기타 이해 관계자들은 LLM 체인과 프롬프트를 더 세밀하게 탐색하고 디버깅하기 위해 최첨단의 도구가 필요합니다.
 
-## Products
+- LLM 애플리케이션의 입력 및 출력 추적
+- 인터랙티브 추적을 사용하여 LLM 체인과 프롬프트 디버깅
+- LLM 체인 및 프롬프트의 성능 평가
 
-### Traces
+## 제품
 
-W&B’s LLM tool is called *Traces*. **Traces** allow you to track and visualize the inputs and outputs, execution flow, model architecture, and any intermediate results of your LLM chains.
+### 추적(Traces)
 
-Use Traces for LLM chaining, plug-in or pipelining use cases. You can use your own LLM chaining implementation or use a W&B integration provided by LLM libraries such as LangChain.
+W&B의 LLM 툴은 *추적(Traces)*이라고 불립니다. **추적**은 LLM 체인의 입력과 출력, 실행 흐름, 모델 아키텍처 및 모든 중간 결과를 추적하고 시각화할 수 있게 해줍니다.
 
-Traces consists of three main components:
+LLM 체이닝, 플러그인 또는 파이프라이닝 유스 케이스에 대해 추적을 사용하세요. 자체 LLM 체이닝 구현을 사용하거나 LangChain과 같은 LLM 라이브러리에서 제공하는 W&B 인테그레이션을 사용할 수 있습니다.
 
-- [Trace table](https://docs.wandb.ai/guides/prompts#trace-table): Overview of the inputs and outputs of a chain.
-- [Trace timeline](https://docs.wandb.ai/guides/prompts#trace-timeline): Displays the execution flow of the chain and is color-coded according to component types.
-- [Model architecture](https://docs.wandb.ai/guides/prompts#model-architecture): View details about the structure of the chain and the parameters used to initialize each component of the chain.
+추적은 세 가지 주요 구성 요소로 구성됩니다:
 
-**Trace Table**
+- [추적 테이블](https://docs.wandb.ai/guides/prompts#trace-table): 체인의 입력과 출력에 대한 개요.
+- [추적 타임라인](https://docs.wandb.ai/guides/prompts#trace-timeline): 체인의 실행 흐름을 표시하며 구성 요소 유형에 따라 색상으로 코드화됩니다.
+- [모델 아키텍처](https://docs.wandb.ai/guides/prompts#model-architecture): 체인의 구조와 체인의 각 구성 요소를 초기화하는 데 사용된 파라미터에 대한 세부 정보를 봅니다.
 
-The Trace Table provides an overview of the inputs and outputs of a chain. The trace table also provides information about the composition of a trace event in the chain, whether or not the chain ran successfully, and any error messages returned when running the chain.
+**추적 테이블**
 
-![Screenshot of a trace table.](/images/prompts/trace_table.png)
+추적 테이블은 체인의 입력과 출력에 대한 개요를 제공합니다. 추적 테이블은 또한 체인에서 추적 이벤트의 구성, 체인이 성공적으로 실행되었는지 여부 및 체인을 실행할 때 반환된 오류 메시지에 대한 정보도 제공합니다.
 
-Click on a row number on the left hand side of the Table to view the Trace Timeline for that instance of the chain.
+![추적 테이블의 스크린샷입니다.](/images/prompts/trace_table.png)
 
-**Trace Timeline**
+테이블 왼쪽에 있는 행 번호를 클릭하여 해당 체인 인스턴스의 추적 타임라인을 확인하세요.
 
-The Trace Timeline view displays the execution flow of the chain and is color-coded according to component types. Select a trace event to display the inputs, outputs, and metadata of that trace.
+**추적 타임라인**
 
-![Screenshot of a Trace Timeline.](/images/prompts/trace_timeline.png)
+추적 타임라인 뷰는 체인의 실행 흐름을 표시하며 구성 요소 유형에 따라 색상으로 코드화됩니다. 추적 이벤트를 선택하면 해당 추적의 입력, 출력 및 메타데이터가 표시됩니다.
 
-Trace events that raise an error are outlined in red. Click on a trace event colored in red to view the returned error message.
+![추적 타임라인의 스크린샷입니다.](/images/prompts/trace_timeline.png)
 
-![Screenshot of a Trace Timeline error.](/images/prompts/trace_timeline_error.png)
+오류를 발생시키는 추적 이벤트는 빨간색으로 표시됩니다. 빨간색으로 표시된 추적 이벤트를 클릭하면 반환된 오류 메시지를 확인할 수 있습니다.
 
-**Model Architecture**
+![추적 타임라인 오류의 스크린샷입니다.](/images/prompts/trace_timeline_error.png)
 
-The Model Architecture view provides details about the structure of the chain and the parameters used to initialize each component of the chain. Click on a trace event to learn more details about that event.
+**모델 아키텍처**
 
-**Evaluation** 
+모델 아키텍처 뷰는 체인의 구조와 체인의 각 구성 요소를 초기화하는 데 사용된 파라미터에 대한 세부 정보를 제공합니다. 추적 이벤트를 클릭하여 해당 이벤트에 대한 자세한 정보를 알아보세요.
 
-To iterate on an application, we need a way to evaluate if it's improving. To do so, a common practice is to test it against the same dataset when there is a change. See this tutorial to learn how to evaluate LLM applications using W&B.
-[Tutorial: Evaluate LLM application performance](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)
+**평가** 
 
-## Integrations
+애플리케이션이 개선되고 있는지 평가하기 위해서는 방법이 필요합니다. 이를 위한 일반적인 관행은 변경이 있을 때 동일한 데이터셋에 대해 테스트하는 것입니다. W&B를 사용하여 LLM 애플리케이션을 평가하는 방법을 알아보려면 이 튜토리얼을 참조하세요.
+[튜토리얼: LLM 애플리케이션 성능 평가](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)
 
-Weights and Biases also has lightweight integrations for:
+## 인테그레이션
+
+Weights and Biases는 다음에 대한 가벼운 인테그레이션도 제공합니다:
 
 - [LangChain](https://docs.wandb.ai/guides/integrations/langchain)
 - [OpenAI API](https://docs.wandb.ai/guides/integrations/openai-api)
-- [OpenAI GPT-3.5 Fine-Tuning](https://docs.wandb.ai/guides/integrations/openai)
-- [Hugging Face Transformers](https://docs.wandb.ai/guides/integrations/huggingface)
+- [OpenAI GPT-3.5 파인튜닝](https://docs.wandb.ai/guides/integrations/openai)
+- [Hugging Face 트랜스포머](https://docs.wandb.ai/guides/integrations/huggingface)
 
-## Getting Started
+## 시작하기
 
-We recommend you go through the Prompts [Quickstart](https://docs.wandb.ai/guides/prompts/quickstart) guide, which will walk you through logging a custom LLM pipeline with Trace. A [colab](http://wandb.me/prompts-quickstart) version of the guide is also available. 
+Prompts [퀵스타트](https://docs.wandb.ai/guides/prompts/quickstart) 가이드를 참조하는 것이 좋습니다. 이 가이드는 Trace로 사용자 정의 LLM 파이프라인을 로깅하는 방법을 안내합니다. 가이드의 [colab](http://wandb.me/prompts-quickstart) 버전도 이용 가능합니다.
 
-## Next Steps
+## 다음 단계
 
-- Check out more detailed documentation on [Trace](https://colab.research.google.com/github/wandb/weave/blob/master/examples/prompts/trace_debugging/trace_quickstart_langchain.ipynb), or our [OpenAI](https://docs.wandb.ai/guides/prompts/openai) Integration.
-- Try one of our [demo colabs](https://github.com/wandb/examples/tree/master/colabs/prompts), which offer more detailed explanations of how to use Prompts for LLMOps.
-- You can use existing W&B features like Tables and Runs to track LLM application performance. See this tutorial to learn more:
-[Tutorial: Evaluate LLM application performance](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)
+- [Trace](https://colab.research.google.com/github/wandb/weave/blob/master/examples/prompts/trace_debugging/trace_quickstart_langchain.ipynb)에 대한 더 자세한 문서나 [OpenAI](https://docs.wandb.ai/guides/prompts/openai) 인테그레이션을 확인하세요.
+- LLMOps에 대한 Prompts 사용 방법에 대한 더 자세한 설명을 제공하는 [데모 colabs](https://github.com/wandb/examples/tree/master/colabs/prompts) 중 하나를 시도해 보세요.
+- 기존 W&B 기능인 Tables와 Runs를 사용하여 LLM 애플리케이션 성능을 추적할 수 있습니다. 자세한 내용을 알아보려면 이 튜토리얼을 참조하세요:
+[튜토리얼: LLM 애플리케이션 성능 평가](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)

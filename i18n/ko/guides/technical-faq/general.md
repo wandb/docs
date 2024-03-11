@@ -2,112 +2,112 @@
 displayed_sidebar: default
 ---
 
-# General
+# 일반
 
-### What does `wandb.init` do to my training process?
+### `wandb.init`은 내 트레이닝 프로세스에 어떤 영향을 줍니까?
 
-When `wandb.init()` is called from your training script an API call is made to create a run object on our servers. A new process is started to stream and collect metrics, thereby keeping all threads and logic out of your primary process. Your script runs normally and writes to local files, while the separate process streams them to our servers along with system metrics. You can always turn off streaming by running `wandb off` from your training directory, or setting the `WANDB_MODE` environment variable to `offline`.
+트레이닝 스크립트에서 `wandb.init()`가 호출되면, run 오브젝트를 서버에 생성하기 위해 API 호출이 이루어집니다. 새 프로세스가 시작되어 메트릭을 스트림하고 수집하며, 모든 스레드와 로직을 귀하의 주요 프로세스에서 분리합니다. 귀하의 스크립트는 정상적으로 실행되며 로컬 파일에 기록되는 동안, 별도의 프로세스가 시스템 메트릭과 함께 그것들을 서버로 스트림합니다. 스트리밍을 끄고 싶다면 트레이닝 디렉토리에서 `wandb off`를 실행하거나 `WANDB_MODE` 환경 변수를 `offline`으로 설정할 수 있습니다.
 
-### Does your tool track or store training data?
+### 귀사의 툴은 트레이닝 데이터를 추적하거나 저장합니까?
 
-You can pass a SHA or other unique identifier to `wandb.config.update(...)` to associate a dataset with a training run. W&B does not store any data unless `wandb.save` is called with the local file name.
+`wandb.config.update(...)`에 SHA나 다른 고유 식별자를 전달하여 데이터셋을 트레이닝 run과 연결할 수 있습니다. W&B는 `wandb.save`가 로컬 파일 이름과 함께 호출되지 않는 한 어떠한 데이터도 저장하지 않습니다.
 
-### What formula do you use for your smoothing algorithm?
+### 평활화 알고리즘에 사용하는 공식은 무엇입니까?
 
-We use the same exponential moving average formula as TensorBoard. You can find an [explanation here](https://stackoverflow.com/questions/42281844/what-is-the-mathematics-behind-the-smoothing-parameter-in-tensorboards-scalar).
+TensorBoard와 동일한 지수 이동 평균 공식을 사용합니다. [여기에서 설명을 찾을 수 있습니다](https://stackoverflow.com/questions/42281844/what-is-the-mathematics-behind-the-smoothing-parameter-in-tensorboards-scalar).
 
-### How do I get the random run name in my script?
+### 스크립트에서 랜덤 run 이름을 어떻게 얻습니까?
 
-Call `wandb.run.save()` and then get the name with `wandb.run.name` .
+`wandb.run.save()`를 호출한 다음 `wandb.run.name`으로 이름을 가져옵니다.
 
-### What is the difference between `.log()` and `.summary`?
+### `.log()`와 `.summary`의 차이점은 무엇입니까?
 
-The summary is the value that shows in the table while the log will save all the values for plotting later.
+summary는 테이블에 표시되는 값이며, log는 나중에 플로팅하기 위해 모든 값을 저장합니다.
 
-For example, you might want to call `wandb.log` every time the accuracy changes. Usually, you can just use .log. `wandb.log()` will also update the summary value by default unless you have set the summary manually for that metric
+예를 들어, 정확도가 변경될 때마다 `wandb.log`를 호출하고 싶을 수 있습니다. 보통은 .log를 사용할 수 있습니다. `wandb.log()`는 해당 메트릭에 대해 수동으로 summary를 설정하지 않은 경우 기본적으로 summary 값을 업데이트합니다.
 
-The scatterplot and parallel coordinate plots will also use the summary value while the line plot plots all of the values set by .log
+산점도 및 평행 좌표 플롯은 summary 값을 사용하는 반면 선 플롯은 .log에 의해 설정된 모든 값을 플롯합니다.
 
-The reason we have both is that some people like to set the summary manually because they want the summary to reflect for example the optimal accuracy instead of the last accuracy logged.
+이 둘을 모두 가진 이유는 일부 사람들이 최적의 정확도 대신 마지막에 기록된 정확도를 반영하도록 summary를 수동으로 설정하고 싶어하기 때문입니다.
 
-### How is W&B different from TensorBoard?
+### W&B는 TensorBoard와 어떻게 다릅니까?
 
-We love the TensorBoard folks, and we have a [TensorBoard integration](../integrations/tensorboard.md)! We were inspired to improve experiment tracking tools for everyone. When the co-founders started working on W&B, they were inspired to build a tool for the frustrated TensorBoard users at OpenAI. Here are a few things we focused on improving:
+TensorBoard 팀을 사랑하며, [TensorBoard 통합](../integrations/tensorboard.md)을 가지고 있습니다! 우리는 모든 사람을 위한 실험 추적 툴을 개선하기 위해 영감을 받았습니다. 공동 창립자가 W&B 작업을 시작했을 때, 그들은 OpenAI에서 TensorBoard 사용자에게 좌절감을 느꼈던 툴을 만들겠다는 영감을 받았습니다. 여기 몇 가지 우리가 개선에 중점을 둔 사항이 있습니다:
 
-1. **Reproduce models**: W&B is good for experimentation, exploration, and reproducing models later. We capture not just the metrics, but also the hyperparameters and version of the code, and we can save your model checkpoints for you so your project is reproducible.
-2. **Automatic organization**: If you hand off a project to a collaborator or take a vacation, W&B makes it easy to see all the models you've tried so you're not wasting hours re-running old experiments.
-3. **Fast, flexible integration**: Add W&B to your project in 5 minutes. Install our free open-source Python package and add a couple of lines to your code, and every time you run your model you'll have nice logged metrics and records.
-4. **Persistent, centralized dashboard**: Anywhere you train your models, whether on your local machine, your lab cluster, or spot instances in the cloud, we give you the same centralized dashboard. You don't need to spend your time copying and organizing TensorBoard files from different machines.
-5. **Powerful table**: Search, filter, sort, and group results from different models. It's easy to look over thousands of model versions and find the best-performing models for different tasks. TensorBoard isn't built to work well on large projects.
-6. **Tools for collaboration**: Use W&B to organize complex machine learning projects. It's easy to share a link to W&B, and you can use private teams to have everyone send results to a shared project. We also support collaboration via reports— add interactive visualizations and describe your work in markdown. This is a great way to keep a work log, share findings with your supervisor, or present findings to your lab.
+1. **모델 재현**: W&B는 실험, 탐색 및 나중에 모델을 재현하기에 좋습니다. 메트릭뿐만 아니라 하이퍼파라미터와 코드의 버전도 캡처하며, 모델 체크포인트를 저장하여 프로젝트를 재현할 수 있습니다.
+2. **자동 조직**: 프로젝트를 협업자에게 인계하거나 휴가를 간 경우, W&B는 시도한 모든 모델을 쉽게 볼 수 있어 오래된 실험을 다시 실행하는 데 시간을 낭비하지 않도록 합니다.
+3. **빠르고 유연한 통합**: 5분 만에 프로젝트에 W&B를 추가하세요. 무료 오픈 소스 Python 패키지를 설치하고 코드에 몇 줄을 추가하세요, 그러면 모델을 실행할 때마다 멋진 기록된 메트릭과 기록이 생성됩니다.
+4. **지속적이고 중앙 집중식 대시보드**: 로컬 머신, 연구실 클러스터 또는 클라우드의 스팟 인스턴스에서 모델을 트레이닝하는 곳이 어디든 동일한 중앙 집중식 대시보드를 제공합니다. 다른 기계에서 TensorBoard 파일을 복사하고 정리하는 데 시간을 소비할 필요가 없습니다.
+5. **강력한 테이블**: 서로 다른 모델의 결과에서 검색, 필터링, 정렬 및 그룹화가 쉽습니다. 다양한 작업에 대한 최고 성능 모델을 찾기 위해 수천 가지 모델 버전을 쉽게 살펴볼 수 있습니다. TensorBoard는 대규모 프로젝트에서 잘 작동하도록 설계되지 않았습니다.
+6. **협업 도구**: W&B를 사용하여 복잡한 기계학습 프로젝트를 조직하세요. W&B에 대한 링크를 공유하는 것이 쉽고, 프라이빗 팀을 사용하여 모든 사람이 공유 프로젝트에 결과를 보낼 수 있습니다. 또한 인터랙티브 시각화를 추가하고 마크다운으로 작업을 설명하여 협업을 지원합니다. 이것은 작업 로그를 유지하고, 상사와 발견 사항을 공유하거나, 연구실에 발견 사항을 발표하는 데 훌륭한 방법입니다.
 
-Get started with a [free personal account →](http://app.wandb.ai)
+[무료 개인 계정으로 시작하세요 →](http://app.wandb.ai)
 
-### How does wandb stream logs and writes to disk?
+### wandb는 로그를 어떻게 스트림하고 디스크에 기록합니까?
 
-W&B queues in memory but also [write the events to disk](https://github.com/wandb/wandb/blob/7cc4dd311f3cdba8a740be0dc8903075250a914e/wandb/sdk/internal/datastore.py) asynchronously to handle failures and for the `WANDB_MODE=offline` case where you can sync the data after it's been logged.
+W&B는 메모리에 큐를 생성하지만 실패를 처리하고 `WANDB_MODE=offline` 경우 데이터가 기록된 후 동기화할 수 있도록 비동기적으로 [디스크에 이벤트를 기록합니다](https://github.com/wandb/wandb/blob/7cc4dd311f3cdba8a740be0dc8903075250a914e/wandb/sdk/internal/datastore.py).
 
-In your terminal, you can see a path to the local run directory. This directory will contain a `.wandb` file that is the datastore above. If you're also logging images, we write them to `media/images` in that directory before uploading them to cloud storage.
+터미널에서 로컬 run 디렉토리로의 경로를 볼 수 있습니다. 이 디렉토리는 위에서 언급한 데이터 저장소인 `.wandb` 파일을 포함할 것입니다. 이미지도 기록하는 경우, 클라우드 스토리지에 업로드하기 전에 해당 디렉토리의 `media/images`에 씁니다.
 
-### How to get multiple charts with different selected runs?
+### 다른 선택된 run으로 여러 차트를 어떻게 얻습니까?
 
-With wandb reports the procedure is as follows:
+wandb 리포트를 사용하는 절차는 다음과 같습니다:
 
-* Have multiple panel grids.
-* Add filters to filter the run sets of each panel grid. This will help in selecting the runs that you want to portray in the respective panels.
-* Create the charts you want in the panel grids.
+* 여러 패널 그리드를 가지고 있습니다.
+* 각 패널 그리드의 run 집합을 필터링하기 위해 필터를 추가합니다. 이것은 각각의 패널에서 표현하고 싶은 run을 선택하는 데 도움이 됩니다.
+* 패널 그리드에 원하는 차트를 생성합니다.
 
-### How is access to the API controlled?
+### API 엑세스는 어떻게 제어됩니까?
 
-For simplicity, W&B uses API keys for authorization when accessing the API. You can find your API keys in your [settings](https://app.wandb.ai/settings). Your API key should be stored securely and never checked into version control. In addition to personal API keys, you can add Service Account users to your team.
+간단하게 하기 위해, W&B는 API 엑세스 시 권한 부여에 API 키를 사용합니다. [설정](https://app.wandb.ai/settings)에서 API 키를 찾을 수 있습니다. API 키는 안전하게 저장되어야 하며 버전 제어에 체크인해서는 안 됩니다. 개인 API 키 외에도 서비스 계정 사용자를 팀에 추가할 수 있습니다.
 
-### Does W&B support SSO for SaaS?
+### W&B는 SaaS에 대한 SSO를 지원합니까?
 
-Yes, W&B supports setting up Single Sign-On (SSO) for the SaaS offering via Auth0. W&B support SSO integration with any OIDC compliant identity provider(ex: Okta, AzureAD etc.). If you have an OIDC provider, please follow the steps below:
+네, W&B는 Auth0을 통해 SaaS 제공에 대한 Single Sign-On(SSO) 설정을 지원합니다. W&B는 OIDC 호환 ID 제공자(ex: Okta, AzureAD 등)와의 SSO 통합을 지원합니다. OIDC 제공자가 있는 경우 아래 단계를 따르세요:
 
-* Create a `Single Page Application (SPA)` on your Identity Provider.
-* Set `grant_type` to `implicit` flow.
-* Set the callback URI to `https://wandb.auth0.com/login/callback`.
+* ID 제공자에 `Single Page Application (SPA)`을 생성합니다.
+* `grant_type`을 `implicit` 흐름으로 설정합니다.
+* 콜백 URI를 `https://wandb.auth0.com/login/callback`으로 설정합니다.
 
-**What W&B needs?**
+**W&B에 필요한 것은 무엇입니까?**
 
-Once you have the above setup, contact your customer success manager(CSM) and let us know the `Client ID` and `Issuer URL` associated with the application.
+위 설정을 마치고 나면, 고객 성공 관리자(CSM)에게 연락하여 애플리케이션과 관련된 `Client ID`와 `Issuer URL`을 알려주세요.
 
-We'll then set up an Auth0 connection with the above details and enable SSO.
+그러면 위의 세부 정보로 Auth0 연결을 설정하고 SSO를 활성화합니다.
 
-### What is a service account, and why is it useful?
+### 서비스 계정이란 무엇이며 어떤 점에서 유용합니까?
 
-A service account (Enterprise-only feature) is an API key that has permissions to write to your team, but is not associated with a particular user. Among other things, service accounts are useful for tracking automated jobs logged to wandb, like periodic retraining, nightly builds, and so on. If you'd like, you can associate a username with one of these machine-launched runs with the [environment variable](../track/environment-variables.md) `WANDB_USERNAME`.
+서비스 계정(Enterprise 전용 기능)은 특정 사용자와 연결되지 않은 팀에 쓰기 권한이 있는 API 키입니다. 서비스 계정은 주기적인 재트레이닝, 야간 빌드 등과 같은 wandb에 기록된 자동화된 작업을 추적하는 데 유용합니다. 원한다면 이러한 기계가 시작한 run에 사용자 이름을 연결할 수도 있습니다. [환경 변수](../track/environment-variables.md) `WANDB_USERNAME`을 사용하세요.
 
-Refer to [Team Service Account Behavior](../app/features/teams.md#team-service-account-behavior) for more information.
+[팀 서비스 계정 행동](../app/features/teams.md#team-service-account-behavior)에서 자세한 정보를 참조하세요.
 
-You can get the API key in your Team Settings page `/teams/<your-team-name>` where you invite new team members. Select service and click create to add a service account.
+새 팀 멤버를 초대하는 `/teams/<your-team-name>`에서 팀 설정 페이지에서 API 키를 얻을 수 있습니다. 서비스를 선택하고 생성을 클릭하여 서비스 계정을 추가합니다.
 
-![Create a service account on your team settings page for automated jobs](/images/technical_faq/what_is_service_account.png)
+![자동화된 작업을 위한 팀 설정 페이지에서 서비스 계정 생성](/images/technical_faq/what_is_service_account.png)
 
-### How can I rotate or revoke access?
+### 엑세스를 어떻게 회전하거나 취소합니까?
 
-Both personal and service account keys can be rotated or revoked. Simply create a new API Key or Service Account user and reconfigure your scripts to use the new key. Once all processes are reconfigured, you can remove the old API key from your profile or team.
+개인 및 서비스 계정 키는 회전하거나 취소할 수 있습니다. 새로운 API 키 또는 서비스 계정 사용자를 생성하고 스크립트를 새 키를 사용하도록 다시 구성하세요. 모든 프로세스가 다시 구성되면, 프로필이나 팀에서 오래된 API 키를 제거할 수 있습니다.
 
-### How do I switch between accounts on the same machine?
+### 동일한 기계에서 계정 간에 전환하는 방법은 무엇입니까?
 
-If you have two W&B accounts working from the same machine, you'll need a nice way to switch between your different API keys. You can store both API keys in a file on your machine then add code like the following to your repos. This is to avoid checking your secret key into a source control system, which is potentially dangerous.
+동일한 기계에서 두 개의 W&B 계정을 사용하는 경우, 다른 API 키 간에 전환하는 좋은 방법이 필요합니다. 기계에 두 API 키를 파일로 저장한 다음 리포지토리에 다음과 같은 코드를 추가할 수 있습니다. 이는 소스 제어 시스템에 비밀 키를 체크인하는 것은 위험할 수 있으므로 피해야 합니다.
 
 ```python
 if os.path.exists("~/keys.json"):
     os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
 ```
 
-### Is there a dark mode?
+### 다크 모드가 있습니까?
 
-Yes. To enable dark mode:
+네. 다크 모드를 활성화하려면:
 
-1. Navigate to your account settings at [https://wandb.ai/settings](https://wandb.ai/settings).
-2. Scroll to the **Beta Features** section.
-3. Toggle the **Night mode** option.
+1. [https://wandb.ai/settings](https://wandb.ai/settings)에서 계정 설정으로 이동하세요.
+2. **Beta Features** 섹션으로 스크롤하세요.
+3. **Night mode** 옵션을 토글하세요.
 
-### Can I disable wandb when testing my code?
+### 코드를 테스트할 때 wandb를 비활성화할 수 있습니까?
 
-By using `wandb.init(mode="disabled")` or by setting `WANDB_MODE=disabled` you will make wandb act like a NOOP which is perfect for testing your code.
+`wandb.init(mode="disabled")`을 사용하거나 `WANDB_MODE=disabled`을 설정함으로써 wandb를 NOOP처럼 작동시켜 코드를 테스트하기에 완벽하게 만들 수 있습니다.
 
-**Note**: Setting `wandb.init(mode=“disabled”)` does not prevent `wandb` from saving artifacts to `WANDB_CACHE_DIR`
+**참고**: `wandb.init(mode=“disabled”)`을 설정해도 `WANDB_CACHE_DIR`에 아티팩트를 저장하는 것을 방지하지 않습니다

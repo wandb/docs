@@ -1,36 +1,32 @@
 ---
-slug: /guides/hosting/how-to-guides
 description: W&B Server Install
+slug: /guides/hosting/how-to-guides
 displayed_sidebar: default
 ---
 
-# Install
+# 설치
 
-## W&B Production and Develpoment
+## W&B 프로덕션 및 개발
 
-In this page you will find all available installation methods of W&B server.
+이 페이지에서는 W&B 서버를 설치할 수 있는 모든 방법을 찾을 수 있습니다.
 
-The production installation types available are the following:
+사용 가능한 프로덕션 설치 유형은 다음과 같습니다:
 
 - [AWS](./aws-tf.md)
 - [Azure](./azure-tf.md)
 - [GCP](./gcp-tf.md)
-- [Bare Metal](./bare-metal.md)
+- [베어 메탈](./bare-metal.md)
 
-For all of our Cloud Deployments, we rely on [Terraform](https://developer.hashicorp.com/terraform/intro) as a tool to provision all infrastructure components necessary to execute the W&B Server reliably.
+클라우드 배포의 경우, W&B 서버를 안정적으로 실행하기 위해 필요한 모든 인프라 구성 요소를 프로비저닝하기 위해 [Terraform](https://developer.hashicorp.com/terraform/intro) 툴에 의존합니다.
 
 :::info
-We recommend you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
+Terraform에서 사용 가능한 [원격 백엔드](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) 중 하나를 선택하여 [상태 파일](https://developer.hashicorp.com/terraform/language/state)을 저장하는 것이 좋습니다.
 
-The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
+상태 파일은 모든 구성 요소를 다시 생성하지 않고도 업그레이드를 진행하거나 배포에서 변경을 수행하는 데 필요한 자원입니다.
 :::
 
-To allow the users try Weights and Biases server without having to provisioning the whole infrastructure, it's possible to run W&B Server locally.
+사용자가 전체 인프라를 프로비저닝하지 않고도 Weights and Biases 서버를 시도할 수 있도록 W&B 서버를 로컬에서 실행하는 것이 가능합니다.
 
-- [Development Setup](./basic-setup.md)
+- [개발 설정](./basic-setup.md)
 
-This mode is **NOT RECOMMENDED FOR PRODUCTION**
-
-<!-- # Upgrade
-
-- Upgrade W&B Server  -->
+이 모드는 **프로덕션에는 권장되지 않습니다**

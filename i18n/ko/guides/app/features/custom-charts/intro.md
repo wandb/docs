@@ -2,50 +2,49 @@
 slug: /guides/app/features/custom-charts
 displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Custom Charts
+# 사용자 정의 차트
 
-Use **Custom Charts** to create charts that aren't possible right now in the default UI. Log arbitrary tables of data and visualize them exactly how you want. Control details of fonts, colors, and tooltips with the power of [Vega](https://vega.github.io/vega/).
+**사용자 정의 차트**를 사용하여 현재 기본 UI에서는 불가능한 차트를 생성하세요. 임의의 데이터 테이블을 로그하고 원하는 대로 정확하게 시각화하세요. [Vega](https://vega.github.io/vega/)의 힘을 빌려 글꼴, 색상, 툴팁의 세부 사항을 제어하세요.
 
-* **What's possible**: Read the[ launch announcement →](https://wandb.ai/wandb/posts/reports/Announcing-the-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
-* **Code**: Try a live example in a[ hosted notebook →](https://tiny.cc/custom-charts)
-* **Video**: Watch a quick [walkthrough video →](https://www.youtube.com/watch?v=3-N9OV6bkSM)
-* **Example**: Quick Keras and Sklearn [demo notebook →](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0\_5AoZdoSD?usp=sharing)
+* **가능한 것들**: [출시 공지 읽기 →](https://wandb.ai/wandb/posts/reports/Announcing-the-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
+* **코드**: [호스팅 노트북에서 실시간 예제 시도하기 →](https://tiny.cc/custom-charts)
+* **비디오**: 빠른 [소개 비디오 시청하기 →](https://www.youtube.com/watch?v=3-N9OV6bkSM)
+* **예시**: Keras와 Sklearn의 빠른 [데모 노트북 →](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
 
-![Supported charts from vega.github.io/vega](/images/app_ui/supported_charts.png)
+![vega.github.io/vega에서 지원하는 차트](/images/app_ui/supported_charts.png)
 
-### How it works
+### 작동 방식
 
-1. **Log data**: From your script, log [config](../../../../guides/track/config.md) and summary data as you normally would when running with W&B. To visualize a list of multiple values logged at one specific time, use a custom`wandb.Table`
-2. **Customize the chart**: Pull in any of this logged data with a [GraphQL](https://graphql.org) query. Visualize the results of your query with [Vega](https://vega.github.io/vega/), a powerful visualization grammar.
-3. **Log the chart**: Call your own preset from your script with `wandb.plot_table()`.
+1. **데이터 로그하기**: 스크립트에서 [config](../../../../guides/track/config.md) 및 요약 데이터를 W&B와 함께 실행할 때와 같이 평소처럼 로그합니다. 특정 시간에 로그된 여러 값의 목록을 시각화하려면 사용자 정의 `wandb.Table`을 사용하세요.
+2. **차트 사용자 정의하기**: [GraphQL](https://graphql.org) 쿼리로 로그된 모든 데이터를 가져옵니다. 쿼리 결과를 [Vega](https://vega.github.io/vega/)를 사용하여 시각화하세요. Vega는 강력한 시각화 문법입니다.
+3. **차트 로그하기**: 스크립트에서 자신만의 프리셋을 `wandb.plot_table()`로 호출하세요.
 
 ![](/images/app_ui/pr_roc.png)
 
-## Log charts from a script
+## 스크립트에서 차트 로그하기
 
-### Builtin presets
+### 내장 프리셋
 
-These presets have builtin `wandb.plot` methods that make it fast to log charts directly from your script and see the exact visualizations you're looking for in the UI.
+이 프리셋들은 내장된 `wandb.plot` 메소드를 가지고 있어 스크립트에서 직접 차트를 로그하고 UI에서 정확한 시각화를 빠르게 볼 수 있게 합니다.
 
 <Tabs
   defaultValue="line-plot"
   values={[
-    {label: 'Line plot', value: 'line-plot'},
-    {label: 'Scatter plot', value: 'scatter-plot'},
-    {label: 'Bar chart', value: 'bar-chart'},
-    {label: 'Histogram', value: 'histogram'},
-    {label: 'PR curve', value: 'pr-curve'},
-    {label: 'ROC curve', value: 'roc-curve'},
+    {label: '선 그래프', value: 'line-plot'},
+    {label: '산점도', value: 'scatter-plot'},
+    {label: '막대 차트', value: 'bar-chart'},
+    {label: '히스토그램', value: 'histogram'},
+    {label: 'PR 곡선', value: 'pr-curve'},
+    {label: 'ROC 곡선', value: 'roc-curve'},
   ]}>
   <TabItem value="line-plot">
 
 `wandb.plot.line()`
 
-Log a custom line plot—a list of connected and ordered points (x,y) on arbitrary axes x and y.
+임의의 축 x 및 y에서 연결되고 정렬된 점(x,y) 목록인 사용자 정의 선 그래프를 로그합니다.
 
 ```python
 data = [[x, y] for (x, y) in zip(x_values, y_values)]
@@ -53,26 +52,26 @@ table = wandb.Table(data=data, columns=["x", "y"])
 wandb.log(
     {
         "my_custom_plot_id": wandb.plot.line(
-            table, "x", "y", title="Custom Y vs X Line Plot"
+            table, "x", "y", title="사용자 정의 Y vs X 선 그래프"
         )
     }
 )
 ```
 
-You can use this to log curves on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
+두 차원에서 곡선을 로그하는 데 이를 사용할 수 있습니다. 두 값 목록을 서로 대비하여 플로팅하는 경우, 목록의 값 수가 정확히 일치해야 합니다(즉, 각 점은 x와 y를 가져야 합니다).
 
 ![](/images/app_ui/line_plot.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
+[앱에서 보기 →](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[코드 실행하기 →](https://tiny.cc/custom-charts)
 
   </TabItem>
   <TabItem value="scatter-plot">
 
 `wandb.plot.scatter()`
 
-Log a custom scatter plot—a list of points (x, y) on a pair of arbitrary axes x and y.
+임의의 축 x 및 y에서 점(x, y) 목록인 사용자 정의 산점도를 로그합니다.
 
 ```python
 data = [[x, y] for (x, y) in zip(class_x_prediction_scores, class_y_prediction_scores)]
@@ -80,20 +79,20 @@ table = wandb.Table(data=data, columns=["class_x", "class_y"])
 wandb.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
 ```
 
-You can use this to log scatter points on any two dimensions. Note that if you're plotting two lists of values against each other, the number of values in the lists must match exactly (i.e. each point must have an x and a y).
+두 차원에서 산점도를 로그하는 데 이를 사용할 수 있습니다. 두 값 목록을 서로 대비하여 플로팅하는 경우, 목록의 값 수가 정확히 일치해야 합니다(즉, 각 점은 x와 y를 가져야 합니다).
 
 ![](/images/app_ui/demo_scatter_plot.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
+[앱에서 보기 →](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[코드 실행하기 →](https://tiny.cc/custom-charts)
 
   </TabItem>
   <TabItem value="bar-chart">
 
 `wandb.plot.bar()`
 
-Log a custom bar chart—a list of labeled values as bars—natively in a few lines:
+막대로 표시된 레이블이 있는 값 목록인 사용자 정의 막대 차트를 몇 줄로 기본적으로 로그합니다.
 
 ```python
 data = [[label, val] for (label, val) in zip(labels, values)]
@@ -101,26 +100,26 @@ table = wandb.Table(data=data, columns=["label", "value"])
 wandb.log(
     {
         "my_bar_chart_id": wandb.plot.bar(
-            table, "label", "value", title="Custom Bar Chart"
+            table, "label", "value", title="사용자 정의 막대 차트"
         )
     }
 )
 ```
 
-You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
+임의의 막대 차트를 로그하는 데 이를 사용할 수 있습니다. 목록의 레이블과 값의 수가 정확히 일치해야 합니다(즉, 각 데이터 포인트는 둘 다 있어야 합니다).
 
 ![](@site/static/images/app_ui/line_plot_bar_chart.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
+[앱에서 보기 →](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[코드 실행하기 →](https://tiny.cc/custom-charts)
 
   </TabItem>
   <TabItem value="histogram">
 
 `wandb.plot.histogram()`
 
-Log a custom histogram—sort list of values into bins by count/frequency of occurrence—natively in a few lines. Let's say I have a list of prediction confidence scores (`scores`) and want to visualize their distribution:
+값 목록을 발생 빈도/빈도수로 구분하여 분류하는 사용자 정의 히스토그램을 몇 줄로 기본적으로 로그합니다. 예를 들어, 예측 신뢰도 점수(`scores`) 목록이 있고 그 분포를 시각화하고 싶다고 가정해 보겠습니다:
 
 ```python
 data = [[s] for s in scores]
@@ -128,20 +127,20 @@ table = wandb.Table(data=data, columns=["scores"])
 wandb.log({"my_histogram": wandb.plot.histogram(table, "scores", title=None)})
 ```
 
-You can use this to log arbitrary histograms. Note that `data` is a list of lists, intended to support a 2D array of rows and columns.
+임의의 히스토그램을 로그하는 데 이를 사용할 수 있습니다. `data`는 행과 열의 2D 배열을 지원하기 위해 목록의 목록으로 되어 있음에 유의하세요.
 
 ![](/images/app_ui/demo_custom_chart_histogram.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
+[앱에서 보기 →](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[코드 실행하기 →](https://tiny.cc/custom-charts)
 
   </TabItem>
     <TabItem value="pr-curve">
 
 `wandb.plot.pr_curve()`
 
-Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision\_recall\_curve.html#sklearn.metrics.precision\_recall\_curve) in one line:
+한 줄로 [정밀도-재현율 곡선](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve)을 생성합니다:
 
 ```python
 plot = wandb.plot.pr_curve(ground_truth, predictions, labels=None, classes_to_plot=None)
@@ -149,26 +148,26 @@ plot = wandb.plot.pr_curve(ground_truth, predictions, labels=None, classes_to_pl
 wandb.log({"pr": plot})
 ```
 
-You can log this whenever your code has access to:
+코드가 다음에 엑세스할 수 있을 때 이를 로그할 수 있습니다:
 
-* a model's predicted scores (`predictions`) on a set of examples
-* the corresponding ground truth labels (`ground_truth`) for those examples
-* (optionally) a list of the labels/class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
-* (optionally) a subset (still in list format) of the labels to visualize in the plot
+* 예제 집합에 대한 모델의 예측 점수(`predictions`)
+* 해당 예제에 대한 해당 그라운드 트루스 레이블(`ground_truth`)
+* (선택적으로) 레이블/클래스 이름 목록(`labels=["cat", "dog", "bird"...]`이면 레이블 인덱스 0은 고양이, 1 = 개, 2 = 새 등을 의미합니다.)
+* (선택적으로) 플롯에 시각화할 레이블의 서브셋(여전히 목록 형식)
 
 ![](/images/app_ui/demo_average_precision_lines.png)
 
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
+[앱에서 보기 →](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
 
-[Run the code →](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
+[코드 실행하기 →](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
 
   </TabItem>
   <TabItem value="roc-curve">
 
 `wandb.plot.roc_curve()`
 
-Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc\_curve.html#sklearn.metrics.roc\_curve) in one line:
+한 줄로 [ROC 곡선](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve)을 생성합니다:
 
 ```python
 plot = wandb.plot.roc_curve(
@@ -178,35 +177,35 @@ plot = wandb.plot.roc_curve(
 wandb.log({"roc": plot})
 ```
 
-You can log this whenever your code has access to:
+코드가 다음에 엑세스할 수 있을 때 이를 로그할 수 있습니다:
 
-* a model's predicted scores (`predictions`) on a set of examples
-* the corresponding ground truth labels (`ground_truth`) for those examples
-* (optionally) a list of the labels/ class names (`labels=["cat", "dog", "bird"...]` if label index 0 means cat, 1 = dog, 2 = bird, etc.)
-* (optionally) a subset (still in list format) of these labels to visualize on the plot
+* 예제 집합에 대한 모델의 예측 점수(`predictions`)
+* 해당 예제에 대한 해당 그라운드 트루스 레이블(`ground_truth`)
+* (선택적으로) 레이블/클래스 이름 목록(`labels=["cat", "dog", "bird"...]`이면 레이블 인덱스 0은 고양이, 1 = 개, 2 = 새 등을 의미합니다.)
+* (선택적으로) 플롯에 시각화할 레이블의 서브셋(여전히 목록 형식)
 
 ![](/images/app_ui/demo_custom_chart_roc_curve.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
+[앱에서 보기 →](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
-[Run the code →](https://colab.research.google.com/drive/1\_RMppCqsA8XInV\_jhJz32NCZG6Z5t1RO?usp=sharing)
+[코드 실행하기 →](https://colab.research.google.com/drive/1_RMppCqsA8XInV_jhJz32NCZG6Z5t1RO?usp=sharing)
 
   </TabItem>
 </Tabs>
 
-### Custom presets
+### 사용자 정의 프리셋
 
-Tweak a builtin preset, or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script.
+기본 프리셋을 수정하거나 새 프리셋을 생성한 다음 차트를 저장하세요. 스크립트에서 직접 사용자 정의 프리셋에 데이터를 로그하려면 차트 ID를 사용하세요.
 
 ```python
-# Create a table with the columns to plot
+# 플롯할 열이 있는 테이블 생성
 table = wandb.Table(data=data, columns=["step", "height"])
 
-# Map from the table's columns to the chart's fields
+# 테이블의 열을 차트의 필드에 매핑
 fields = {"x": "step", "value": "height"}
 
-# Use the table to populate the new custom chart preset
-# To use your own saved chart preset, change the vega_spec_name
+# 테이블을 사용하여 새 사용자 정의 차트 프리셋 채우기
+# 자신의 저장된 차트 프리셋을 사용하려면 vega_spec_name 변경
 my_custom_chart = wandb.plot_table(
     vega_spec_name="carey/new_chart",
     data_table=table,
@@ -214,95 +213,46 @@ my_custom_chart = wandb.plot_table(
 )
 ```
 
-[Run the code →](https://tiny.cc/custom-charts)
+[코드 실행하기 →](https://tiny.cc/custom-charts)
 
 ![](/images/app_ui/custom_presets.png)
 
-## Log data
+## 데이터 로그하기
 
-Here are the data types you can log from your script and use in a custom chart:
+스크립트에서 로그할 수 있는 데이터 유형은 다음과 같습니다:
 
-* **Config**: Initial settings of your experiment (your independent variables). This includes any named fields you've logged as keys to `wandb.config` at the start of your training (e.g. `wandb.config.learning_rate = 0.0001)`
-* **Summary**: Single values logged during training (your results or dependent variables), e.g. `wandb.log({"val_acc" : 0.8})`. If you write to this key multiple times during training via `wandb.log()`, the summary is set to the final value of that key.
-* **History**: The full time series of the logged scalar is available to the query via the `history` field
-* **summaryTable**: If you need to log a list of multiple values, use a `wandb.Table()` to save that data, then query it in your custom panel.
-* **historyTable**: If you need to see the history data, then query `historyTable` in your custom chart panel. Each time you call `wandb.Table()` or log a custom chart, you're creating a new table in history for that step.
+* **Config**: 실험의 초기 설정(독립 변수). 이는 트레이닝 시작 시 `wandb.config`에 로그된 키로 명명된 모든 필드를 포함합니다(예: `wandb.config.learning_rate = 0.0001`)
+* **Summary**: 트레이닝 중에 로그된 단일 값(결과 또는 종속 변수), 예를 들어 `wandb.log({"val_acc" : 0.8})`. `wandb.log()`를 통해 트레이닝 중에 이 키에 여러 번 작성하는 경우, 요약은 해당 키의 최종 값으로 설정됩니다.
+* **History**: 로그된 스칼라의 전체 시계열은 `history` 필드를 통해 쿼리 가능
+* **summaryTable**: 여러 값을 로그할 필요가 있는 경우 `wandb.Table()`을 사용하여 해당 데이터를 저장한 다음 사용자 정의 패널에서 쿼리하세요.
+* **historyTable**: 히스토리 데이터를 보려면 사용자 정의 차트 패널에서 `historyTable`을 쿼리하세요. `wandb.Table()`을 호출하거나 사용자 정의 차트를 로그할 때마다 해당 단계의 히스토리에 새 테이블을 생성합니다.
 
-### How to log a custom table
+### 사용자 정의 테이블 로그하는 방법
 
-Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.log()`("custom\_data\_table" below), and the individual fields will be accessible via the column names ("x", "y", and "z"). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows.
+`wandb.Table()`을 사용하여 데이터를 2D 배열로 로그하세요. 일반적으로 이 테이블의 각 행은 하나의 데이터 포인트를 나타내며, 각 열은 각 데이터 포인트에 대해 플로팅하려는 관련 필드/차원을 나타냅니다. 사용자 정의 패널을 구성할 때, `wandb.log()`에 전달된 명명된 키("custom_data_table" 아래)를 통해 전체 테이블에 엑세스할 수 있으며, 개별 필드는 열 이름("x", "y", "z")을 통해 엑세스할 수 있습니다. 실험 중 여러 시간 단계에서 테이블을 로그할 수 있습니다. 각 테이블의 최대 크기는 10,000행입니다.
 
-[Try it in a Google Colab →](https://tiny.cc/custom-charts)
+[Google Colab에서 시도해보세요 →](https://tiny.cc/custom-charts)
 
 ```python
-# Logging a custom table of data
+# 데이터의 사용자 정의 테이블 로그하기
 my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
 wandb.log(
     {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
 )
 ```
 
-## Customize the chart
+## 차트 사용자 정의하기
 
-Add a new custom chart to get started, then edit the query to select data from your visible runs. The query uses [GraphQL](https://graphql.org) to fetch data from the config, summary, and history fields in your runs.
+시작하려면 새 사용자 정의 차트를 추가한 다음 쿼리를 편집하여 보이는 실행에서 데이터를 선택하세요. 쿼리는 [GraphQL](https://graphql.org)을 사용하여 실행의 config, summary 및 history 필드에서 데이터를 가져옵니다.
 
-![Add a new custom chart, then edit the query](/images/app_ui/customize_chart.gif)
+![새 사용자 정의 차트 추가 후 쿼리 편집](/images/app_ui/customize_chart.gif)
 
-### Custom visualizations
+### 사용자 정의 시각화
 
-Select a **Chart** in the upper right corner to start with a default preset. Next, pick **Chart fields** to map the data you're pulling in from the query to the corresponding fields in your chart. Here's an example of selecting a metric to get from the query, then mapping that into the bar chart fields below.
+오른쪽 상단에서 **차트**를 선택하여 기본 프리셋으로 시작하세요. 다음으로, 쿼리에서 가져온 데이터를 차트의 해당 필드에 매핑하는 **차트 필드**를 선택하세요. 여기에는 쿼리에서 가져온 메트릭을 선택한 다음 아래의 막대 차트 필드에 매핑하는 예가 있습니다.
 
-![Creating a custom bar chart showing accuracy across runs in a project](/images/app_ui/demo_make_a_custom_chart_bar_chart.gif)
+![프로젝트에서 실행 간 정확도를 보여주는 사용자 정의 막대 차트 생성](/images/app_ui/demo_make_a_custom_chart_bar_chart.gif)
 
-### How to edit Vega
+### Vega 편집 방법
 
-Click **Edit** at the top of the panel to go into [Vega](https://vega.github.io/vega/) edit mode. Here you can define a [Vega specification](https://vega.github.io/vega/docs/specification/) that creates an interactive chart in the UI. You can change any aspect of the chart, from the visual style (e.g. change the title, pick a different color scheme, show curves as a series of points instead of as connected lines) to the data itself (use a Vega transform to bin an array of values into a histogram, etc.). The panel preview will update interactively, so you can see the effect of your changes as you edit the Vega spec or query. The [Vega documentation and tutorials ](https://vega.github.io/vega/)are an excellent source of inspiration.
-
-**Field references**
-
-To pull data into your chart from W&B, add template strings of the form `"${field:<field-name>}"` anywhere in your Vega spec. This will create a dropdown in the **Chart Fields** area on the right side, which users can use to select a query result column to map into Vega.
-
-To set a default value for a field, use this syntax: `"${field:<field-name>:<placeholder text>}"`
-
-### Saving chart presets
-
-Apply any changes to a specific visualization panel with the button at the bottom of the modal. Alternatively, you can save the Vega spec to use elsewhere in your project. To save the reusable chart definition, click **Save as** at the top of the Vega editor and give your preset a name.
-
-## Articles and guides
-
-1. [The W&B Machine Learning Visualization IDE](https://wandb.ai/wandb/posts/reports/The-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
-2. [Visualizing NLP Attention Based Models](https://wandb.ai/kylegoyette/gradientsandtranslation2/reports/Visualizing-NLP-Attention-Based-Models-Using-Custom-Charts--VmlldzoyNjg2MjM)
-3. [Visualizing The Effect of Attention on Gradient Flow](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
-4. [Logging arbitrary curves](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
-
-## Frequently asked questions
-
-### Coming soon
-
-* **Polling**: Auto-refresh of data in the chart
-* **Sampling**: Dynamically adjust the total number of points loaded into the panel for efficiency
-
-### Gotchas
-
-* Not seeing the data you're expecting in the query as you're editing your chart? It might be because the column you're looking for is not logged in the runs you have selected. Save your chart and go back out to the runs table, and select the runs you'd like to visualize with the **eye** icon.
-
-### How to show a "step slider" in a custom chart?
-
-This can be enabled on the “Other settings” page of the custom chart editor. If you change your query to use a `historyTable` instead of the `summaryTable`, you'll get an option to “Show step selector” in the custom chart editor. This gives you a slider that lets you select the step.
-
-<!-- ![Show step slider in a custom chart](/images/app_ui/step_sllider_custon_charts.mov>) -->
-
-### How to delete a custom chart preset?
-
-You can do this by going into the custom chart editor. Then click on the currently selected chart type, this will open up a menu with all your presets. Hover the mouse on a preset you want to delete and then click on the Trash icon.
-
-![](/images/app_ui/delete_custome_chart_preset.gif)
-
-
-### Common use cases
-
-* Customize bar plots with error bars
-* Show model validation metrics which require custom x-y coordinates (like precision-recall curves)
-* Overlay data distributions from two different models/experiments as histograms
-* Show changes in a metric via snapshots at multiple points during training
-* Create a unique visualization not yet available in W&B (and hopefully share it with the world)
+패널 상단에서 **편집**을 클릭하여 [Vega](https://vega.github.io/vega/) 편집 모드로 들어

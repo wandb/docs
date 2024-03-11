@@ -2,13 +2,13 @@
 displayed_sidebar: default
 ---
 
-# SMTP Configuration
+# SMTP 설정
 
-In W&B server, adding users to the instance or team will trigger an email invite. To send these email invites, W&B uses a third-party mail server. In some cases, organizations might have strict policies on traffic leaving the corporate network and hence causing these email invites to never be sent to the end user. W&B server offers an option to configure sending these invite emails via an internal SMTP server.
+W&B 서버에서 인스턴스나 팀에 사용자를 추가하면 이메일 초대장이 발송됩니다. 이러한 이메일 초대장을 발송하기 위해 W&B는 제3자 메일 서버를 사용합니다. 일부 조직에서는 기업 네트워크를 벗어나는 트래픽에 대해 엄격한 정책을 가지고 있어 이로 인해 이메일 초대장이 최종 사용자에게 전송되지 않을 수 있습니다. W&B 서버는 내부 SMTP 서버를 통해 이러한 초대 이메일을 발송하도록 설정할 수 있는 옵션을 제공합니다.
 
-To configure, follow the steps below:
+설정하려면 아래 단계를 따르세요:
 
-- Set the `GORILLA_EMAIL_SINK` environment variable in the docker container or the kubernetes deployment to `smtp://<user:password>@smtp.host.com:<port>`
-- `username` and `password` are optional
-- If you’re using an SMTP server that’s designed to be unauthenticated you would just set the value for the environment variable like `GORILLA_EMAIL_SINK=smtp://smtp.host.com:<port>`
-- Commonly used port numbers for SMTP are ports 587, 465 and 25. Note that this might differ based on the type of the mail server you're using.
+- docker 컨테이너 또는 쿠버네티스 배포에서 `GORILLA_EMAIL_SINK` 환경 변수를 `smtp://<user:password>@smtp.host.com:<port>`로 설정합니다.
+- `username`과 `password`는 선택사항입니다.
+- 인증이 필요 없는 SMTP 서버를 사용하는 경우 환경 변수의 값을 `GORILLA_EMAIL_SINK=smtp://smtp.host.com:<port>`와 같이 설정하면 됩니다.
+- SMTP에 일반적으로 사용되는 포트 번호는 587, 465, 25입니다. 이는 사용하고 있는 메일 서버의 유형에 따라 다를 수 있음을 유의하세요.

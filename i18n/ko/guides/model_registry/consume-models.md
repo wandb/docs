@@ -1,112 +1,57 @@
 ---
-description: ''
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+# 모델 버전 다운로드
 
-# Download a model version
-
-Use the W&B Python SDK to download a model artifact that you linked to the Model Registry. Downloading a model is particularly useful if you want to load or consume a model in a future to evaluate a model's performance, make predictions with a dataset, or use ship the model to production. 
+W&B Python SDK를 사용해 모델 레지스트리에 연결된 모델 아티팩트를 다운로드하세요. 모델을 다운로드하는 것은 특히 모델의 성능을 평가하거나, 데이터셋을 사용해 예측값을 생성하거나, 모델을 프로덕션으로 배포하는 경우에 유용합니다.
 
 :::info
-You are responsible for providing additional Python functions, API calls to reconstruct, deserialize your model into a form that you can work with. 
+모델을 작업할 수 있는 형태로 재구성하거나 역직렬화하기 위해 추가적인 파이썬 함수나 API 호출을 제공하는 것은 사용자의 책임입니다.
 
-W&B suggests that you document information on how to load models into memory with model cards. For more information, see the [Document machine learning models](./create-model-cards.md) page. 
+W&B는 모델 카드로 모델을 메모리에 로드하는 방법에 대한 정보를 문서화할 것을 권장합니다. 자세한 정보는 [기계학습 모델 문서화](./create-model-cards.md) 페이지를 참조하세요.
 :::
 
-
-Replace values within `<>` with your own:
+`<>` 내의 값을 자신의 것으로 대체하세요:
 
 ```python
 import wandb
 
-# Initialize a run
+# run 초기화
 run = wandb.init(project="<project>", entity="<entity>")
 
-# Access and download model. Returns path to downloaded artifact
+# 모델에 엑세스하고 다운로드합니다. 다운로드된 아티팩트의 경로를 반환합니다
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-Reference a model version with one of following formats listed:
+다음에 나열된 형식 중 하나를 사용하여 모델 버전을 참조하세요:
 
-* `latest` - Use `latest` alias to specify the model version that is most recently linked.
-* `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
-* `alias` - Specify the custom alias that you and your team assigned to your model version
+* `latest` - 가장 최근에 연결된 모델 버전을 지정하려면 `latest` 에일리어스를 사용하세요.
+* `v#` - `v0`, `v1`, `v2` 등을 사용하여 등록된 모델에서 특정 버전을 가져옵니다.
+* `alias` - 사용자와 팀이 모델 버전에 할당한 사용자 정의 에일리어스를 지정하세요.
 
-See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
+API 참조 가이드의 [`use_model`](../../ref/python/run.md#use_model)에서 가능한 파라미터와 반환 타입에 대한 자세한 정보를 확인하세요.
 
 <details>
 
-<summary>Example: Download and use a logged model</summary>
+<summary>예시: 로그된 모델 다운로드 및 사용</summary>
 
-For example, in the proceeding code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that returned from the API to the `downloaded_model_path` variable.
+예를 들어, 다음 코드 조각에서 사용자는 `use_model` API를 호출했습니다. 그들은 가져오고 싶은 모델 아티팩트의 이름을 지정했고 버전/에일리어스도 제공했습니다. 그런 다음 API에서 반환된 경로를 `downloaded_model_path` 변수에 저장했습니다.
 
 ```python
 import wandb
 
 entity = "luka"
 project = "NLP_Experiments"
-alias = "latest"  # semantic nickname or identifier for the model version
+alias = "latest"  # 모델 버전에 대한 의미 있는 별명 또는 식별자
 model_artifact_name = "fine-tuned-model"
 
-# Initialize a run
+# run 초기화
 run = wandb.init()
-# Access and download model. Returns path to downloaded artifact
+# 모델에 엑세스하고 다운로드합니다. 다운로드된 아티팩트의 경로를 반환합니다
 
 downloaded_model_path = run.use_model(name=f"{entity/project/model_artifact_name}:{alias}")
 ```
 </details>
-
-<!-- <Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'CLI', value: 'cli'},
-    {label: 'W&B App', value: 'app'},
-  ]}>
-  <TabItem value="cli">
-
-Replace values within `<>` with your own:
-
-```python
-import wandb
-
-# Initialize a run
-run = wandb.init(project="<project>", entity="<entity>")
-
-# Access and download model. Returns path to downloaded artifact
-downloaded_model_path = run.use_model(name="<your-model-name>")
-```
-
-Reference a model version with one of following formats listed:
-
-* `latest` - Use `latest` alias to specify the model version that is most recently linked.
-* `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
-* `alias` - Specify the custom alias that you and your team assigned to your model version
-
-See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
-
-
-
-
-  </TabItem>
-  <TabItem value="app">
-
-1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select **View details** next to the name of the registered model that contains the model you want to download.
-3. Within the Versions section, select the View button next to the model version you want to download.
-4. Select the **Files** tab. 
-5. Click on the download button next to the model file you want to download. 
-
-![](/images/models/download_model_ui.gif)
-
-  </TabItem>
-</Tabs> -->
-
-
-
-
-
-
-

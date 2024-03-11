@@ -1,16 +1,15 @@
 ---
-slug: /guides/technical-faq
 description: Frequently asked questions about W&B.
+slug: /guides/technical-faq
 displayed_sidebar: default
 ---
 
-# Technical FAQ
+# 기술 FAQ
 
+다음 가이드는 자주 묻는 질문에 대한 답변을 제공합니다. 질문은 네 가지 카테고리로 그룹화되어 있습니다:
 
-The following guide provides answers to frequently asked questions. Questions are grouped into four categories:
-
-* [General](./general.md)
-* [Admin](./admin.md)
-* [Metrics and Performance](./metrics-and-performance.md)
-* [Setup](./setup.md)
-* [Troubleshooting](./troubleshooting.md)
+* [일반](./general.md)
+* [관리자](./admin.md)
+* [메트릭 및 성능](./metrics-and-performance.md)
+* [설정](./setup.md)
+* [문제 해결](./troubleshooting.md)
