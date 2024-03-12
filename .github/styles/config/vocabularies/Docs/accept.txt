@@ -41,3 +41,4 @@ UI
 [Ww]alkthrough
 W&B Server
 [Oo]perator
+[Kk]ubernetes
