@@ -1,16 +1,17 @@
-# Keras Models
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb)
+# Keras 모델
 
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
+[**Colab 노트북에서 시도해보기 →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb)
+
+Weights & Biases를 사용하여 기계학습 실험 추적, 데이터셋 버전 관리 및 프로젝트 협업을 하세요.
 
 <img src="http://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
 
-This colab notebook introduces the `WandbModelCheckpoint` callback. Use this callback to log your model checkpoints to Weight and Biases [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning).
+이 Colab 노트북은 `WandbModelCheckpoint` 콜백을 소개합니다. 이 콜백을 사용하여 모델 체크포인트를 Weights & Biases의 [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning)에 로그하세요.
 
-# 🌴 Setup and Installation
+# 🌴 설치 및 설정
 
-First, let us install the latest version of Weights and Biases. We will then authenticate this colab instance to use W&B.
+먼저 Weights & Biases의 최신 버전을 설치합니다. 그런 다음 이 Colab 인스턴스를 W&B를 사용하도록 인증합니다.
 
 
 ```python
@@ -25,22 +26,22 @@ from tensorflow.keras import layers
 from tensorflow.keras import models
 import tensorflow_datasets as tfds
 
-# Weights and Biases related imports
+# Weights & Biases 관련 임포트
 import wandb
 from wandb.keras import WandbMetricsLogger
 from wandb.keras import WandbModelCheckpoint
 ```
 
-If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up for a [free account](https://wandb.ai/signup) is as easy as a few clicks.
+W&B를 처음 사용하거나 로그인하지 않은 경우, `wandb.login()`을 실행한 후 나타나는 링크가 가입/로그인 페이지로 이동합니다. 몇 번의 클릭으로 [무료 계정](https://wandb.ai/signup)에 가입하는 것은 매우 간단합니다.
 
 
 ```python
 wandb.login()
 ```
 
-# 🌳 Hyperparameters
+# 🌳 하이퍼파라미터
 
-Use of proper config system is a recommended best practice for reproducible machine learning. We can track the hyperparameters for every experiment using W&B. In this colab we will be using simple Python `dict` as our config system.
+재현 가능한 기계학습을 위해 적절한 설정 시스템 사용을 권장하는 모범 사례입니다. W&B를 사용하여 모든 실험의 하이퍼파라미터를 추적할 수 있습니다. 이 Colab에서는 간단한 Python `dict`을 설정 시스템으로 사용할 것입니다.
 
 
 ```python
@@ -56,9 +57,9 @@ configs = dict(
 )
 ```
 
-# 🍁 Dataset
+# 🍁 데이터셋
 
-In this colab, we will be using [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
+이 Colab에서는 TensorFlow Dataset 카탈로그의 [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) 데이터셋을 사용할 것입니다. TensorFlow/Keras를 사용하여 간단한 이미지 분류 파이프라인을 구축하는 것이 목표입니다.
 
 
 ```python
@@ -71,11 +72,11 @@ AUTOTUNE = tf.data.AUTOTUNE
 
 
 def parse_data(example):
-    # Get image
+    # 이미지 얻기
     image = example["image"]
     # image = tf.image.convert_image_dtype(image, dtype=tf.float32)
 
-    # Get label
+    # 라벨 얻기
     label = example["label"]
     label = tf.one_hot(label, depth=configs["num_classes"])
 
@@ -103,7 +104,7 @@ trainloader = get_dataloader(train_ds, configs)
 validloader = get_dataloader(valid_ds, configs, dataloader_type="valid")
 ```
 
-# 🎄 Model
+# 🎄 모델
 
 
 ```python
@@ -129,7 +130,7 @@ model = get_model(configs)
 model.summary()
 ```
 
-# 🌿 Compile Model
+# 🌿 모델 컴파일
 
 
 ```python
@@ -140,27 +141,27 @@ model.compile(
 )
 ```
 
-# 🌻 Train
+# 🌻 훈련
 
 
 ```python
-# Initialize a W&B run
+# W&B run 초기화
 run = wandb.init(
     project = "intro-keras",
     config = configs
 )
 
-# Train your model
+# 모델 훈련
 model.fit(
     trainloader,
     epochs = configs["epochs"],
     validation_data = validloader,
     callbacks = [
         WandbMetricsLogger(log_freq=10),
-        WandbModelCheckpoint(filepath="models/") # Notice the use of WandbModelCheckpoint here
+        WandbModelCheckpoint(filepath="models/") # 여기서 WandbModelCheckpoint 사용에 주목하세요
     ]
 )
 
-# Close the W&B run
+# W&B run 종료
 run.finish()
 ```

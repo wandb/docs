@@ -1,34 +1,35 @@
+
 # XGBoost
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W&B.ipynb)
+[**Colab 노트북에서 시도해보기 →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W&B.ipynb)
 
-In this notebook we'll train a XGBoost model to classify whether submitted loan applications will default or not. Using boosting algorithms such as XGBoost increases the performance of a loan assesment, whilst retaining interpretability for internal Risk Management functions as well as external regulators.
+이 노트북에서는 제출된 대출 신청이 채무불이행인지 아닌지를 분류하기 위해 XGBoost 모델을 훈련할 것입니다. XGBoost와 같은 부스팅 알고리즘을 사용하면 대출 평가의 성능을 높이면서도 내부 위험 관리 기능과 외부 규제 기관에 대한 해석 가능성을 유지할 수 있습니다.
 
-This notebook is based on a talk from Nvidia GTC21 by Paul Edwards at ScotiaBank who [presented](https://www.nvidia.com/en-us/on-demand/session/gtcspring21-s31327/) how XGBoost can be used to construct more performant credit scorecards that remain interpretable. They also kindly [shared sample code](https://github.com/rapidsai-community/showcase/tree/main/event_notebooks/GTC_2021/credit_scorecard) which we will use throughout this notebook, credit to Stephen Denton (stephen.denton@scotiabank.com) from Scotiabank for sharing this code publicly.
+이 노트북은 Nvidia GTC21에서 ScotiaBank의 Paul Edwards가 XGBoost를 사용하여 해석 가능성을 유지하면서 더 나은 성능의 신용 점수표를 구성할 수 있는 방법을 [소개한](https://www.nvidia.com/en-us/on-demand/session/gtcspring21-s31327/) 강연을 기반으로 합니다. 그들은 친절하게도 이 노트북 전체에서 사용할 [샘플 코드](https://github.com/rapidsai-community/showcase/tree/main/event_notebooks/GTC_2021/credit_scorecard)를 공개적으로 공유했습니다. Scotiabank의 Stephen Denton (stephen.denton@scotiabank.com)에게 이 코드를 공유해 주셔서 감사합니다.
 
-### [Click here](https://wandb.ai/morgan/credit_scorecard) to view and interact with a live W&B Dashboard built with this notebook
+### [이곳을 클릭하여](https://wandb.ai/morgan/credit_scorecard) 이 노트북으로 구축된 실시간 Weights & Biases 대시보드를 보고 상호 작용하세요
 
-# In this notebook
+# 이 노트북에서 다룰 내용들
 
-In this colab we'll cover how Weights and Biases enables regulated entities to 
-- **Track and version** their data ETL pipelines (locally or in cloud services such as S3 and GCS)
-- **Track experiment results** and store trained models 
-- **Visually inspect** multiple evaluation metrics 
-- **Optimize performance** with hyperparameter sweeps
+이 Colab에서는 조정된 법인이 어떻게 Weights and Biases를 사용하여
+- **데이터 ETL 파이프라인을 추적하고 버전 관리**하기(로컬 또는 S3 및 GCS와 같은 클라우드 서비스에서)
+- **실험 결과를 추적**하고 훈련된 모델 저장하기
+- **여러 평가 메트릭을 시각적으로 검사**하기
+- **하이퍼파라미터 탐색으로 성능 최적화**하기
 
-**Track Experiments and Results**
+**실험 및 결과 추적**
 
-We will track all of the training hyperparameters and output metrics in order to generate an Experiments Dashboard:
+모든 훈련 하이퍼파라미터와 출력 메트릭을 추적하여 실험 대시보드를 생성할 것입니다:
 
 ![credit_scorecard](/images/tutorials/credit_scorecard/credit_scorecard.png)
 
-**Run a Hyperparameter Sweep to Find the Best HyperParameters**
+**최적의 하이퍼파라미터 찾기 위해 하이퍼파라미터 스윕 실행**
 
-Weights and Biases also enables you to do hyperparameter sweeps, either with our own [Sweeps functionality](https://docs.wandb.ai/guides/sweeps) or with our [Ray Tune integration](https://docs.wandb.ai/guides/sweeps/advanced-sweeps/ray-tune). See our docs for a full guide of how to use more advanced hyperparameter sweeps options.
+Weights and Biases는 우리 자체의 [Sweeps 기능](https://docs.wandb.ai/guides/sweeps)이나 [Ray Tune 인테그레이션](https://docs.wandb.ai/guides/sweeps/advanced-sweeps/ray-tune)을 통해 하이퍼파라미터 스윕을 할 수 있도록 지원합니다. 보다 고급 하이퍼파라미터 스윕 옵션 사용 방법에 대한 전체 가이드는 문서를 참조하세요.
 
 ![credit_scorecard_2](/images/tutorials/credit_scorecard/credit_scorecard_2.png)
 
-# Setup
+# 설정
 
 
 ```bash
@@ -58,22 +59,22 @@ import xgboost as xgb
 pd.set_option("display.max_columns", None)
 ```
 
-# Data
+# 데이터
 
-## AWS S3, Google Cloud Storage and W&B Artifacts
+## AWS S3, Google Cloud Storage 및 W&B Artifacts
 
 ![credit_scorecard_3](/images/tutorials/credit_scorecard/credit_scorecard_3.png)
 
-Weights and Biases **Artifacts** enable you to log end-to-end training pipelines to ensure your experiments are always reproducible.
+Weights and Biases의 **Artifacts**는 항상 재현 가능한 실험을 보장하기 위해 엔드투엔드 훈련 파이프라인을 로그할 수 있도록 해줍니다.
 
-Data privacy is critical to Weights & Biases and so we support the creation of Artifacts from reference locations such as your own private cloud such as AWS S3 or Google Cloud Storage. Local, on-premises of W&B are also available upon request. 
+데이터 개인 정보 보호는 Weights & Biases에 매우 중요하므로 AWS S3 또는 Google Cloud Storage와 같은 자체 프라이빗 클라우드에서 참조 위치로부터 Artifacts를 생성하는 것을 지원합니다. 로컬, 온프레미스의 W&B도 요청 시 사용 가능합니다.
 
-By default, W&B stores artifact files in a private Google Cloud Storage bucket located in the United States. All files are encrypted at rest and in transit. For sensitive files, we recommend a private W&B installation or the use of reference artifacts.
+기본적으로, W&B는 미국에 위치한 프라이빗 Google Cloud Storage 버킷에 아티팩트 파일을 저장합니다. 모든 파일은 저장 시 및 전송 중에 암호화됩니다. 민감한 파일의 경우, 프라이빗 W&B 설치 또는 참조 아티팩트 사용을 권장합니다.
 
-## Artifacts Reference Example
-**Create an artifact with the S3/GCS metadata**
+## 아티팩트 참조 예시
+**S3/GCS 메타데이터로 아티팩트 생성하기**
 
-The artifact only consists of metadata about the S3/GCS object such as its ETag, size, and version ID (if object versioning is enabled on the bucket).
+아티팩트는 S3/GCS 오브젝트에 대한 메타데이터로만 구성됩니다(예: ETag, 크기, 버킷의 오브젝트 버전 관리가 활성화된 경우 버전 ID).
 
 ```python
 run = wandb.init()
@@ -82,19 +83,19 @@ artifact.add_reference("s3://my-bucket/datasets/mnist")
 run.log_artifact(artifact)
 ```
 
-**Download the artifact locally when needed**
+**필요할 때 아티팩트를 로컬로 다운로드하기**
 
-W&B will use the metadata recorded when the artifact was logged to retrieve the files from the underlying bucket.
+W&B는 아티팩트가 로그될 때 기록된 메타데이터를 사용하여 기본 버킷에서 파일을 검색합니다.
 
 ```python
 artifact = run.use_artifact("mnist:latest", type="dataset")
 artifact_dir = artifact.download()
 ```
 
-See [Artifact References](https://docs.wandb.ai/guides/artifacts/references) for more on how to use Artifacts by reference, credentials setup etc.
+[아티팩트 참조](https://docs.wandb.ai/guides/artifacts/references)에서 참조를 통한 아티팩트 사용, 자격 증명 설정 등에 대한 자세한 내용을 확인하세요.
 
-## Log in to W&B
-Log in to Weights and Biases 
+## W&B에 로그인하기
+Weights and Biases에 로그인하기
 
 
 ```python
@@ -105,13 +106,13 @@ wandb.login()
 WANDB_PROJECT = "vehicle_loan_default"
 ```
 
-## Vehicle Loan Dataset
+## 차량 대출 데이터셋
 
-We will be using a simplified version of the [Vehicle Loan Default Prediction dataset](https://www.kaggle.com/sneharshinde/ltfs-av-data) from L&T which has been stored in W&B Artifacts. 
+L&T에서 제공하는 [차량 대출 기본 예측 데이터셋](https://www.kaggle.com/sneharshinde/ltfs-av-data)의 간소화된 버전을 사용할 것입니다. 이 데이터는 W&B Artifacts에 저장되어 있습니다.
 
 
 ```python
-# specify a folder to save the data, a new folder will be created if it doesn't exist
+# 데이터를 저장할 폴더를 지정합니다. 존재하지 않는 경우 새 폴더가 생성됩니다.
 data_dir = Path(".")
 model_dir = Path("models")
 model_dir.mkdir(exist_ok=True)
@@ -120,7 +121,7 @@ id_vars = ["UniqueID"]
 targ_var = "loan_default"
 ```
 
-Create function to pickle functions
+함수를 피클로 저장하는 함수 생성하기
 
 
 ```python
@@ -128,16 +129,16 @@ def function_to_string(fn):
     return getsource(detect.code(fn))
 ```
 
-#### Download Data from W&B Artifacts
+#### W&B Artifacts에서 데이터 다운로드하기
 
-We will download our dataset from W&B Artifacts. First we need to create a W&B run object, which we will use to download the data. Once the data is downloaded it will be one-hot encoded. This processed data will then be logged to the same W&B as a new Artifact. By logging to the W&B that downloaded the data, we tie this new Artifact to the raw dataset Artifact
+W&B Artifacts에서 데이터셋을 다운로드할 것입니다. 먼저 W&B run 객체를 생성해야 합니다. 데이터가 다운로드되면 원-핫 인코딩됩니다. 이 처리된 데이터는 동일한 W&B에 새로운 아티팩트로 로그됩니다. 데이터를 다운로드한 W&B에 로깅함으로써 이 새로운 아티팩트를 원본 데이터셋 아티팩트와 연결합니다.
 
 
 ```python
 run = wandb.init(project=WANDB_PROJECT, job_type="preprocess-data")
 ```
 
-Download the subset of the vehicle loan default data from W&B, this contains `train.csv` and `val.csv` files as well as some utils files.
+W&B에서 차량 대출 기본 데이터의 서브셋을 다운로드합니다. 여기에는 `train.csv` 및 `val.csv` 파일과 몇 가지 유틸리티 파일이 포함되어 있습니다.
 
 
 ```python
@@ -155,74 +156,74 @@ from data_utils import (
 )
 ```
 
-#### One-Hot Encode the Data
+#### 데이터 원-핫 인코딩하기
 
 
 ```python
-# Load data into Dataframe
+# 데이터를 Dataframe으로 로드하기
 dataset = pd.read_csv(data_dir / "vehicle_loans_subset.csv")
 
-# One Hot Encode Data
+# 데이터 원-핫 인코딩하기
 dataset, p_vars = one_hot_encode_data(dataset, id_vars, targ_var)
 
-# Save Preprocessed data
+# 처리된 데이터 저장하기
 processed_data_path = data_dir / "proc_ds.csv"
 dataset.to_csv(processed_data_path, index=False)
 ```
 
-#### Log Processed Data to W&B Artifacts
+#### W&B Artifacts에 처리된 데이터 로그하기
 
 
 ```python
-# Create a new artifact for the processed data, including the function that created it, to Artifacts
+# 처리된 데이터를 포함하는 새로운 아티팩트 생성하기, Artifacts에 이를 생성하는 함수 포함
 processed_ds_art = wandb.Artifact(
     name="vehicle_defaults_processed",
     type="processed_dataset",
-    description="One-hot encoded dataset",
+    description="원-핫 인코딩된 데이터셋",
     metadata={"preprocessing_fn": function_to_string(one_hot_encode_data)},
 )
 
-# Attach our processed data to the Artifact
+# 처리된 데이터를 아티팩트에 첨부하기
 processed_ds_art.add_file(processed_data_path)
 
-# Log this Artifact to the current wandb run
+# 현재 wandb run에 이 아티팩트를 로그하기
 run.log_artifact(processed_ds_art)
 
 run.finish()
 ```
 
-## Get Train/Validation Split
+## 훈련/검증 분할 가져오기
 
-Here we show an alternative pattern for how to create a wandb run object. In the cell below, the code to split the dataset is wrapped with a call to `wandb.init() as run`. 
+wandb run 객체를 생성하는 대안적인 패턴을 아래에서 보여드립니다. 아래 셀에서, 데이터셋을 분할하는 코드는 `wandb.init() as run` 호출로 래핑됩니다.
 
-Here we will:
+여기서 우리는:
 
-- Start a wandb run
-- Download our one-hot-encoded dataset from Artifacts
-- Do the Train/Val split and log the params used in the split 
-- Log the new `trndat` and `valdat` datasets to Artifacts
-- Finish the wandb run automatically
+- wandb run을 시작합니다
+- Artifacts에서 원-핫 인코딩된 데이터셋을 다운로드합니다
+- 훈련/검증 분할을 수행하고 분할에 사용된 파라미터를 로그합니다
+- 새로운 `trndat` 및 `valdat` 데이터셋을 Artifacts에 로그합니다
+- wandb run을 자동으로 종료합니다
 
 
 ```python
 with wandb.init(
     project=WANDB_PROJECT, job_type="train-val-split"
 ) as run:  # config is optional here
-    # Download the subset of the vehicle loan default data from W&B
+    # W&B에서 차량 대출 기본 데이터의 서브셋을 다운로드합니다
     dataset_art = run.use_artifact(
         "vehicle_defaults_processed:latest", type="processed_dataset"
     )
     dataset_dir = dataset_art.download(data_dir)
     dataset = pd.read_csv(processed_data_path)
 
-    # Set Split Params
+    # 분할 파라미터 설정하기
     test_size = 0.25
     random_state = 42
 
-    # Log the splilt params
+    # 분할 파라미터를 로그하기
     run.config.update({"test_size": test_size, "random_state": random_state})
 
-    # Do the Train/Val Split
+    # 훈련/검증 분할 수행하기
     trndat, valdat = model_selection.train_test_split(
         dataset,
         test_size=test_size,
@@ -230,33 +231,33 @@ with wandb.init(
         stratify=dataset[[targ_var]],
     )
 
-    print(f"Train dataset size: {trndat[targ_var].value_counts()} \n")
-    print(f"Validation dataset sizeL {valdat[targ_var].value_counts()}")
+    print(f"훈련 데이터셋 크기: {trndat[targ_var].value_counts()} \n")
+    print(f"검증 데이터셋 크기: {valdat[targ_var].value_counts()}")
 
-    # Save split datasets
+    # 분할된 데이터셋 저장하기
     train_path = data_dir / "train.csv"
     val_path = data_dir / "val.csv"
     trndat.to_csv(train_path, index=False)
     valdat.to_csv(val_path, index=False)
 
-    # Create a new artifact for the processed data, including the function that created it, to Artifacts
+    # 처리된 데이터를 포함하는 새로운 아티팩트 생성하기, Artifacts에 이를 생성하는 함수 포함
     split_ds_art = wandb.Artifact(
         name="vehicle_defaults_split",
         type="train-val-dataset",
-        description="Processed dataset split into train and valiation",
+        description="처리된 데이터셋을 훈련 및 검증으로 분할",
         metadata={"test_size": test_size, "random_state": random_state},
     )
 
-    # Attach our processed data to the Artifact
+    # 처리된 데이터를 아티팩트에 첨부하기
     split_ds_art.add_file(train_path)
     split_ds_art.add_file(val_path)
 
-    # Log the Artifact
+    # 아티팩트를 로그하기
     run.log_artifact(split_ds_art)
 ```
 
-#### Inspect Training Dataset
-Get an overview of the training dataset
+#### 훈련 데이터셋 검사하기
+훈련 데이터셋의 개요를 확인하기
 
 
 ```python
@@ -264,48 +265,48 @@ trndict = describe_data_g_targ(trndat, targ_var)
 trndat.head()
 ```
 
-### Log Dataset with W&B Tables
+### W&B Tables로 데이터셋 로그하기
 
-With W&B Tables you can log, query, and analyze tabular data that contains rich media such as images, video, audio and more. With it you can understand your datasets, visualize model predictions, and share insights, for more see more in our [W&B Tables Guide](https://docs.wandb.ai/guides/tables)
+W&B Tables을 사용하면 이미지, 비디오, 오디오 등과 같은 리치 미디어를 포함하는 테이블 형태의 데이터를 로그, 쿼리, 분석할 수 있습니다. 이를 사용하면 데이터셋을 이해하고, 모델 예측을 시각화하고, 인사이트를 공유할 수 있습니다. 자세한 내용은 [W&B Tables 가이드](https://docs.wandb.ai/guides/tables)에서 확인하세요.
 
 
 ```python
-# Create a wandb run, with an optional "log-dataset" job type to keep things tidy
+# "log-dataset" job type으로 wandb run을 생성합니다. 이는 선택 사항입니다.
 run = wandb.init(
     project=WANDB_PROJECT, job_type="log-dataset"
 )  # config is optional here
 
-# Create a W&B Table and log 1000 random rows of the dataset to explore
+# W&B 테이블을 생성하고 데이터셋의 1000개 무작위 행을 로그하여 탐색합니다.
 table = wandb.Table(dataframe=trndat.sample(1000))
 
-# Log the Table to your W&B workspace
+# W&B 워크스페이스에 테이블을 로그합니다.
 wandb.log({"processed_dataset": table})
 
-# Close the wandb run
+# wandb run을 종료합니다.
 wandb.finish()
 ```
 
-# Modelling
+# 모델링
 
-## Fit the XGBoost Model
+## XGBoost 모델 피팅
 
-We will now fit an XGBoost model to classify whether a vehicle loan application will result in a default or not
+이제 차량 대출 신청이 채무불이행으로 이어질지 여부를 분류하기 위해 XGBoost 모델을 피팅할 것입니다.
 
-### Training on GPU
-If you'd like to train your XGBoost model on your GPU, simply change set the following in the parameters you pass to XGBoost:
+### GPU에서 훈련하기
+GPU에서 XGBoost 모델을 훈련하려면, XGBoost에 전달하는 파라미터에서 다음을 변경하기만 하면 됩니다:
 
 ```python
 "tree_method": "gpu_hist"
 ```
 
-#### 1) Initialise a W&B Run
+#### 1) W&B Run 초기화하기
 
 
 ```python
 run = wandb.init(project=WANDB_PROJECT, job_type="train-model")
 ```
 
-#### 2) Setup and Log the Model Parameters
+#### 2) 모델 파라미터 설정 및 로그하기
 
 
 ```python
@@ -318,21 +319,21 @@ early_stopping_rounds = 40
 bst_params = {
     "objective": "binary:logistic",
     "base_score": base_rate,
-    "gamma": 1,  ## def: 0
-    "learning_rate": 0.1,  ## def: 0.1
+    "gamma": 1,  ## 기본값: 0
+    "learning_rate": 0.1,  ## 기본값: 0.1
     "max_depth": 3,
-    "min_child_weight": 100,  ## def: 1
+    "min_child_weight": 100,  ## 기본값: 1
     "n_estimators": 25,
     "nthread": 24,
     "random_state": 42,
     "reg_alpha": 0,
-    "reg_lambda": 0,  ## def: 1
+    "reg_lambda": 0,  ## 기본값: 1
     "eval_metric": ["auc", "logloss"],
-    "tree_method": "hist",  # use `gpu_hist` to train on GPU
+    "tree_method": "hist",  # GPU에서 훈련하려면 `gpu_hist` 사용
 }
 ```
 
-Log the xgboost training parameters to the W&B run config 
+W&B run config에 xgboost 훈련 파라미터를 로그하기
 
 
 ```python
@@ -340,215 +341,18 @@ run.config.update(dict(bst_params))
 run.config.update({"early_stopping_rounds": early_stopping_rounds})
 ```
 
-#### 3) Load the Training Data from W&B Artifacts
+#### 3) W&B Artifacts에서 훈련 데이터 로드하기
 
 
 ```python
-# Load our training data from Artifacts
+# Artifacts에서 훈련 데이터 로드하기
 trndat, valdat = load_training_data(
     run=run, data_dir=data_dir, artifact_name="vehicle_defaults_split:latest"
 )
 
-## Extract target column as a series
+## 타겟 컬럼을 시리즈로 추출하기
 y_trn = trndat.loc[:, targ_var].astype(int)
 y_val = valdat.loc[:, targ_var].astype(int)
 ```
 
-#### 4) Fit the model, log results to W&B and save model to W&B Artifacts
-
-To log all our xgboost model parameters we used the `WandbCallback`. This will . See the [W&B docs](https://docs.wandb.ai/guides/integrations), including documentation for other libraries that have integrated W&B including LightGBM and more.
-
-
-```python
-from wandb.xgboost import WandbCallback
-
-# Initialize the XGBoostClassifier with the WandbCallback
-xgbmodel = xgb.XGBClassifier(
-    **bst_params,
-    callbacks=[WandbCallback(log_model=True)],
-    early_stopping_rounds=run.config["early_stopping_rounds"]
-)
-
-# Train the model
-xgbmodel.fit(trndat[p_vars], y_trn, eval_set=[(valdat[p_vars], y_val)])
-```
-
-#### 5) Log Additional Train and Evaluation Metrics to W&B
-
-
-```python
-bstr = xgbmodel.get_booster()
-
-# Get train and validation predictions
-trnYpreds = xgbmodel.predict_proba(trndat[p_vars])[:, 1]
-valYpreds = xgbmodel.predict_proba(valdat[p_vars])[:, 1]
-
-# Log additional Train metrics
-false_positive_rate, true_positive_rate, thresholds = metrics.roc_curve(
-    y_trn, trnYpreds
-)
-run.summary["train_ks_stat"] = max(true_positive_rate - false_positive_rate)
-run.summary["train_auc"] = metrics.auc(false_positive_rate, true_positive_rate)
-run.summary["train_log_loss"] = -(
-    y_trn * np.log(trnYpreds) + (1 - y_trn) * np.log(1 - trnYpreds)
-).sum() / len(y_trn)
-
-# Log additional Validation metrics
-ks_stat, ks_pval = ks_2samp(valYpreds[y_val == 1], valYpreds[y_val == 0])
-run.summary["val_ks_2samp"] = ks_stat
-run.summary["val_ks_pval"] = ks_pval
-run.summary["val_auc"] = metrics.roc_auc_score(y_val, valYpreds)
-run.summary["val_acc_0.5"] = metrics.accuracy_score(
-    y_val, np.where(valYpreds >= 0.5, 1, 0)
-)
-run.summary["val_log_loss"] = -(
-    y_val * np.log(valYpreds) + (1 - y_val) * np.log(1 - valYpreds)
-).sum() / len(y_val)
-```
-
-#### 6) Log the ROC Curve To W&B
-
-
-```python
-# Log the ROC curve to W&B
-valYpreds_2d = np.array([1 - valYpreds, valYpreds])  # W&B expects a 2d array
-y_val_arr = y_val.values
-d = 0
-while len(valYpreds_2d.T) > 10000:
-    d += 1
-    valYpreds_2d = valYpreds_2d[::1, ::d]
-    y_val_arr = y_val_arr[::d]
-
-run.log(
-    {
-        "ROC_Curve": wandb.plot.roc_curve(
-            y_val_arr,
-            valYpreds_2d.T,
-            labels=["no_default", "loan_default"],
-            classes_to_plot=[1],
-        )
-    }
-)
-```
-
-#### Finish the W&B Run
-
-
-```python
-run.finish()
-```
-
-Now that we've trained a single model, lets try and optimize its performance by running a Hyperparameter Sweep.
-
-# HyperParameter Sweep
-
-Weights and Biases also enables you to do hyperparameter sweeps, either with our own [Sweeps functionality](https://docs.wandb.ai/guides/sweeps/python-api) or with our [Ray Tune integration](https://docs.wandb.ai/guides/sweeps/advanced-sweeps/ray-tune). See [our docs](https://docs.wandb.ai/guides/sweeps/python-api) for a full guide of how to use more advanced hyperparameter sweeps options.
-
-**[Click Here](https://wandb.ai/morgan/credit_score_sweeps/sweeps/iuppbs45)** to check out the results of a 1000 run sweep generated using this notebook
-
-#### Define the Sweep Config
-First we define the hyperparameters to sweep over as well as the type of sweep to use, we'll do a random search over the learning_rate, gamma, min_child_weights and easrly_stopping_rounds
-
-
-```python
-sweep_config = {
-    "method": "random",
-    "parameters": {
-        "learning_rate": {"min": 0.001, "max": 1.0},
-        "gamma": {"min": 0.001, "max": 1.0},
-        "min_child_weight": {"min": 1, "max": 150},
-        "early_stopping_rounds": {"values": [10, 20, 30, 40]},
-    },
-}
-
-sweep_id = wandb.sweep(sweep_config, project=WANDB_PROJECT)
-```
-
-#### Define the Training Function
-
-Then we define the function that will train our model using these hyperparameters. Note that `job_type='sweep'` when initialising the run, so that we can easily filter out these runs from our main workspace if we need to
-
-
-```python
-def train():
-    with wandb.init(job_type="sweep") as run:
-        bst_params = {
-            "objective": "binary:logistic",
-            "base_score": base_rate,
-            "gamma": run.config["gamma"],
-            "learning_rate": run.config["learning_rate"],
-            "max_depth": 3,
-            "min_child_weight": run.config["min_child_weight"],
-            "n_estimators": 25,
-            "nthread": 24,
-            "random_state": 42,
-            "reg_alpha": 0,
-            "reg_lambda": 0,  ## def: 1
-            "eval_metric": ["auc", "logloss"],
-            "tree_method": "hist",
-        }
-
-        # Initialize the XGBoostClassifier with the WandbCallback
-        xgbmodel = xgb.XGBClassifier(
-            **bst_params,
-            callbacks=[WandbCallback()],
-            early_stopping_rounds=run.config["early_stopping_rounds"]
-        )
-
-        # Train the model
-        xgbmodel.fit(trndat[p_vars], y_trn, eval_set=[(valdat[p_vars], y_val)])
-
-        bstr = xgbmodel.get_booster()
-
-        # Log booster metrics
-        run.summary["best_ntree_limit"] = bstr.best_ntree_limit
-
-        # Get train and validation predictions
-        trnYpreds = xgbmodel.predict_proba(trndat[p_vars])[:, 1]
-        valYpreds = xgbmodel.predict_proba(valdat[p_vars])[:, 1]
-
-        # Log additional Train metrics
-        false_positive_rate, true_positive_rate, thresholds = metrics.roc_curve(
-            y_trn, trnYpreds
-        )
-        run.summary["train_ks_stat"] = max(true_positive_rate - false_positive_rate)
-        run.summary["train_auc"] = metrics.auc(false_positive_rate, true_positive_rate)
-        run.summary["train_log_loss"] = -(
-            y_trn * np.log(trnYpreds) + (1 - y_trn) * np.log(1 - trnYpreds)
-        ).sum() / len(y_trn)
-
-        # Log additional Validation metrics
-        ks_stat, ks_pval = ks_2samp(valYpreds[y_val == 1], valYpreds[y_val == 0])
-        run.summary["val_ks_2samp"] = ks_stat
-        run.summary["val_ks_pval"] = ks_pval
-        run.summary["val_auc"] = metrics.roc_auc_score(y_val, valYpreds)
-        run.summary["val_acc_0.5"] = metrics.accuracy_score(
-            y_val, np.where(valYpreds >= 0.5, 1, 0)
-        )
-        run.summary["val_log_loss"] = -(
-            y_val * np.log(valYpreds) + (1 - y_val) * np.log(1 - valYpreds)
-        ).sum() / len(y_val)
-```
-
-#### Run the Sweeps Agent
-
-
-```python
-count = 10  # number of runs to execute
-wandb.agent(sweep_id, function=train, count=count)
-```
-
-## W&B already in your favorite ML library
-
-Weights and Biases has integrations in all of your favourite ML and Deep Learning libraries such as:
-
-- Pytorch Lightning
-- Keras
-- Hugging Face
-- JAX
-- Fastai
-- XGBoost
-- Sci-Kit Learn
-- LightGBM 
-
-**See [W&B integrations for details](https://docs.wandb.ai/guides/integrations)** 
+#### 4) 모델 학습, W&B에
