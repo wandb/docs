@@ -5,9 +5,9 @@ displayed_sidebar: default
 
 # Operator
 
-# Understanding the W&B Operator
+# Understanding the W&B operator
 
-The W&B Kubernetes Operator is designed to leverage the Kubernetes [operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) that significantly simplifies the deployment, administration, troubleshooting, and scalability of the W&B Server deployments on Kubernetes. The operator facilitates managing the lifecycle of different services making the product that is W&B Server more seamless. It is based on standardized predefined configurations, thus acting as a smart assistant for your W&B instance.
+The W&B Kubernetes Operator leverages the Kubernetes [operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) that significantly simplifies the deployment, administration, troubleshooting, and scalability of the W&B Server deployments on Kubernetes. The operator facilitates managing the lifecycle of different services making the product that is W&B Server more seamless. It uses standardized predefined configurations, thus acting as a smart assistant for your W&B instance.
 
 The operator allows for consistency in provisioning & operating the W&B Server deployments across public cloud and private infrastructure. W&B uses the operator to deploy and manage the Dedicated Cloud instances on AWS, GCP and Azure public clouds, and encourages to use it for customer-managed deployments too.
 
@@ -17,7 +17,7 @@ W&B Server architecture & design continuously evolves to expand the AI developer
 Operator for self-managed W&B Server deployments is in private preview. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
 :::
 
-## Pre-baked in Cloud Terraform Modules
+## Pre-baked in Cloud Terraform modules
 
 The W&B Kubernetes Operator is pre-baked with the official W&B cloud-specific Terraform Modules with the following versions:
 
@@ -29,7 +29,7 @@ The W&B Kubernetes Operator is pre-baked with the official W&B cloud-specific Te
 
 This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
 
-## Deploying with Helm Terraform Module
+## Deploying with Helm Terraform module
 
 Install the W&B Kubernetes Operator with the official W&B Terraform Module [terraform-helm-wandb](https://github.com/wandb/terraform-helm-wandb).
 
