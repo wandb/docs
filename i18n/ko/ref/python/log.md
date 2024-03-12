@@ -1,9 +1,9 @@
-# log
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1620-L1828' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+# 로그
 
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1620-L1828' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
-Log a dictionary of data to the current run's history.
+현재 실행의 기록에 데이터 사전을 로그합니다.
 
 ```python
 log(
@@ -14,65 +14,50 @@ log(
 ) -> None
 ```
 
-Use `wandb.log` to log data from runs, such as scalars, images, video,
-histograms, plots, and tables.
+`wandb.log`를 사용하여 실행에서 데이터를 로그하세요. 예를 들어 스칼라, 이미지, 비디오,
+히스토그램, 플롯, 테이블 같은 것들입니다.
 
-See our [guides to logging](https://docs.wandb.ai/guides/track/log) for
-live examples, code snippets, best practices, and more.
+실제 예시, 코드조각, 모범 사례 등을 보려면 [로그 가이드](https://docs.wandb.ai/guides/track/log)를 참조하세요.
 
-The most basic usage is `wandb.log({"train-loss": 0.5, "accuracy": 0.9})`.
-This will save the loss and accuracy to the run's history and update
-the summary values for these metrics.
+가장 기본적인 사용법은 `wandb.log({"train-loss": 0.5, "accuracy": 0.9})`입니다.
+이렇게 하면 손실과 정확도가 실행의 기록에 저장되고 이 메트릭의 요약 값이 업데이트됩니다.
 
-Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
-or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, e.g. in
-Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
+[wandb.ai](https://wandb.ai)에서 로그된 데이터를 시각화하거나, W&B 앱의 [자체 호스팅 인스턴스](https://docs.wandb.ai/guides/hosting)에서 로컬로 시각화하거나, Jupyter 노트북에서 로컬로 시각화하고 탐색하기 위해 데이터를 내보낼 수 있습니다. [API](https://docs.wandb.ai/guides/track/public-api-guide)를 참조하세요.
 
-In the UI, summary values show up in the run table to compare single values across runs.
-Summary values can also be set directly with `wandb.run.summary["key"] = value`.
+UI에서는 실행 테이블에서 실행 간의 단일 값 비교를 위해 요약 값이 표시됩니다.
+요약 값은 `wandb.run.summary["키"] = 값`으로 직접 설정할 수도 있습니다.
 
-Logged values don't have to be scalars. Logging any wandb object is supported.
-For example `wandb.log({"example": wandb.Image("myimage.jpg")})` will log an
-example image which will be displayed nicely in the W&B UI.
-See the [reference documentation](https://docs.wandb.com/ref/python/data-types)
-for all of the different supported types or check out our
-[guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
-from 3D molecular structures and segmentation masks to PR curves and histograms.
-`wandb.Table`s can be used to logged structured data. See our
-[guide to logging tables](https://docs.wandb.ai/guides/data-vis/log-tables)
-for details.
+로그된 값은 스칼라일 필요가 없습니다. wandb 오브젝트를 로깅하는 것이 지원됩니다.
+예를 들어, `wandb.log({"example": wandb.Image("myimage.jpg")})`은 예제 이미지를 로깅하며 W&B UI에서 예쁘게 표시됩니다.
+지원되는 다양한 유형에 대한 자세한 내용은 [참조 문서](https://docs.wandb.com/ref/python/data-types)를 참조하거나 3D 분자 구조와 분할 마스크부터 PR 곡선 및 히스토그램에 이르는 예시를 보려면 [로그 가이드](https://docs.wandb.ai/guides/track/log)를 확인하세요.
+`wandb.Table`은 구조화된 데이터를 로깅하는 데 사용할 수 있습니다. 자세한 내용은 [테이블 로깅 가이드](https://docs.wandb.ai/guides/data-vis/log-tables)를 참조하세요.
 
-Logging nested metrics is encouraged and is supported in the W&B UI.
-If you log with a nested dictionary like `wandb.log({"train": {"acc": 0.9}, "val": {"acc": 0.8}})`, the metrics will be organized into
-`train` and `val` sections in the W&B UI.
+중첩된 메트릭을 로깅하는 것이 권장되며 W&B UI에서 지원됩니다.
+`wandb.log({"train": {"acc": 0.9}, "val": {"acc": 0.8}})`와 같이 중첩 사전으로 로그하면 메트릭이 W&B UI의 `train` 및 `val` 섹션으로 구성됩니다.
 
-wandb keeps track of a global step, which by default increments with each
-call to `wandb.log`, so logging related metrics together is encouraged.
-If it's inconvenient to log related metrics together
-calling `wandb.log({"train-loss": 0.5}, commit=False)` and then
-`wandb.log({"accuracy": 0.9})` is equivalent to calling
-`wandb.log({"train-loss": 0.5, "accuracy": 0.9})`.
+wandb는 기본적으로 `wandb.log` 호출 시마다 증가하는 전역 스텝을 추적합니다. 따라서 관련 메트릭을 함께 로깅하는 것이 권장됩니다.
+관련 메트릭을 함께 로깅하기 불편한 경우
+`wandb.log({"train-loss": 0.5}, commit=False)`를 호출한 다음
+`wandb.log({"accuracy": 0.9})`를 호출하는 것은
+`wandb.log({"train-loss": 0.5, "accuracy": 0.9})`를 호출하는 것과 동일합니다.
 
-`wandb.log` is not intended to be called more than a few times per second.
-If you want to log more frequently than that it's better to aggregate
-the data on the client side or you may get degraded performance.
+`wandb.log`는 초당 몇 번 이상 호출할 의도로 설계되지 않았습니다.
+그보다 더 자주 로그하려면 클라이언트 측에서 데이터를 집계하는 것이 좋으며, 그렇지 않으면 성능이 저하될 수 있습니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `data` |  (dict, optional) A dict of serializable python objects i.e `str`, `ints`, `floats`, `Tensors`, `dicts`, or any of the `wandb.data_types`. |
-|  `commit` |  (boolean, optional) Save the metrics dict to the wandb server and increment the step. If false `wandb.log` just updates the current metrics dict with the data argument and metrics won't be saved until `wandb.log` is called with `commit=True`. |
-|  `step` |  (integer, optional) The global step in processing. This persists any non-committed earlier steps but defaults to not committing the specified step. |
-|  `sync` |  (boolean, True) This argument is deprecated and currently doesn't change the behaviour of `wandb.log`. |
+|  `data` |  (dict, 선택적) 직렬화 가능한 파이썬 오브젝트의 사전, 예: `str`, `ints`, `floats`, `Tensors`, `dicts`, 또는 `wandb.data_types` 중 하나. |
+|  `commit` |  (boolean, 선택적) 메트릭 사전을 wandb 서버에 저장하고 스텝을 증가시킵니다. false인 경우 `wandb.log`는 현재 메트릭 사전을 데이터 인수로만 업데이트하며, `commit=True`로 `wandb.log`가 호출될 때까지 메트릭이 저장되지 않습니다. |
+|  `step` |  (integer, 선택적) 처리할 글로벌 스텝입니다. 이전에 커밋되지 않은 모든 스텝이 유지되지만 지정된 스텝을 커밋하지 않는 것이 기본값입니다. |
+|  `sync` |  (boolean, True) 이 인수는 더 이상 사용되지 않으며 현재 `wandb.log`의 동작을 변경하지 않습니다. |
 
-#### Examples:
+#### 예시:
 
-For more and more detailed examples, see
-[our guides to logging](https://docs.wandb.com/guides/track/log).
+더 자세한 예시는 [로그 가이드](https://docs.wandb.com/guides/track/log)를 참조하세요.
 
-### Basic usage
+### 기본 사용법
 
-<!--yeadoc-test:init-and-log-basic-->
+
 
 
 ```python
@@ -82,9 +67,9 @@ run = wandb.init()
 run.log({"accuracy": 0.9, "epoch": 5})
 ```
 
-### Incremental logging
+### 증분 로깅
 
-<!--yeadoc-test:init-and-log-incremental-->
+
 
 
 ```python
@@ -92,28 +77,28 @@ import wandb
 
 run = wandb.init()
 run.log({"loss": 0.2}, commit=False)
-# Somewhere else when I'm ready to report this step:
+# 나중에 이 단계를 보고할 준비가 되었을 때 어딘가에서:
 run.log({"accuracy": 0.8})
 ```
 
-### Histogram
+### 히스토그램
 
-<!--yeadoc-test:init-and-log-histogram-->
+
 
 
 ```python
 import numpy as np
 import wandb
 
-# sample gradients at random from normal distribution
+# 정규 분포에서 무작위로 그레이디언트를 샘플링합니다
 gradients = np.random.randn(100, 100)
 run = wandb.init()
 run.log({"gradients": wandb.Histogram(gradients)})
 ```
 
-### Image from numpy
+### numpy에서 이미지
 
-<!--yeadoc-test:init-and-log-image-numpy-->
+
 
 
 ```python
@@ -129,9 +114,9 @@ for i in range(3):
 run.log({"examples": examples})
 ```
 
-### Image from PIL
+### PIL에서 이미지
 
-<!--yeadoc-test:init-and-log-image-pillow-->
+
 
 
 ```python
@@ -149,9 +134,9 @@ for i in range(3):
 run.log({"examples": examples})
 ```
 
-### Video from numpy
+### numpy에서 비디오
 
-<!--yeadoc-test:init-and-log-video-numpy-->
+
 
 
 ```python
@@ -159,14 +144,14 @@ import numpy as np
 import wandb
 
 run = wandb.init()
-# axes are (time, channel, height, width)
+# 축은 (시간, 채널, 높이, 너비)입니다
 frames = np.random.randint(low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8)
 run.log({"video": wandb.Video(frames, fps=4)})
 ```
 
-### Matplotlib Plot
+### Matplotlib 플롯
 
-<!--yeadoc-test:init-and-log-matplotlib-->
+
 
 
 ```python
@@ -178,11 +163,11 @@ run = wandb.init()
 fig, ax = plt.subplots()
 x = np.linspace(0, 10)
 y = x * x
-ax.plot(x, y)  # plot y = x^2
+ax.plot(x, y)  # y = x^2 플롯
 run.log({"chart": fig})
 ```
 
-### PR Curve
+### PR 곡선
 
 ```python
 import wandb
@@ -191,7 +176,7 @@ run = wandb.init()
 run.log({"pr": wandb.plots.precision_recall(y_test, y_probas, labels)})
 ```
 
-### 3D Object
+### 3D 오브젝트
 
 ```python
 import wandb
@@ -208,7 +193,7 @@ run.log(
 )
 ```
 
-| Raises |  |
+| 예외 |  |
 | :--- | :--- |
-|  `wandb.Error` |  if called before `wandb.init` |
-|  `ValueError` |  if invalid data is passed |
+|  `wandb.Error` |  `wandb.init` 호출 전에 사용된 경우 |
+|  `ValueError` |  유효하지 않은 데이터가 전달된 경우 |

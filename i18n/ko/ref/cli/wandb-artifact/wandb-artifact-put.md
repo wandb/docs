@@ -1,21 +1,21 @@
+
 # wandb artifact put
 
-**Usage**
+**사용법**
 
 `wandb artifact put [OPTIONS] PATH`
 
-**Summary**
+**요약**
 
-Upload an artifact to wandb
+wandb에 아티팩트를 업로드합니다
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| -n, --name | The name of the artifact to push:   project/artifact_name |
-| -d, --description | A description of this artifact |
-| -t, --type | The type of the artifact |
-| -a, --alias | An alias to apply to this artifact |
-| --id | The run you want to upload to. |
-| --resume | Resume the last run from your current directory. |
-
+| -n, --name | 푸시할 아티팩트의 이름:   project/artifact_name |
+| -d, --description | 이 아티팩트의 설명 |
+| -t, --type | 아티팩트의 유형 |
+| -a, --alias | 이 아티팩트에 적용할 에일리어스 |
+| --id | 업로드하고 싶은 run |
+| --resume | 현재 디렉토리에서 마지막 run을 이어서 합니다. |

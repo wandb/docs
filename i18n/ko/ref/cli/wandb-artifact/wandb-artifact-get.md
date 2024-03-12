@@ -1,17 +1,17 @@
-# wandb artifact get
 
-**Usage**
+# wandb 아티팩트 가져오기
 
-`wandb artifact get [OPTIONS] PATH`
+**사용법**
 
-**Summary**
+`wandb artifact get [옵션] 경로`
 
-Download an artifact from wandb
+**요약**
 
-**Options**
+wandb에서 아티팩트를 다운로드합니다
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
-| --root | The directory you want to download the artifact to |
-| --type | The type of artifact you are downloading |
-
+| --root | 아티팩트를 다운로드할 디렉토리 |
+| --type | 다운로드할 아티팩트의 유형 |

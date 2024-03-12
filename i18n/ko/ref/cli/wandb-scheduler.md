@@ -1,15 +1,15 @@
-# wandb scheduler
 
-**Usage**
+# wandb 스케줄러
 
-`wandb scheduler [OPTIONS] SWEEP_ID`
+**사용법**
 
-**Summary**
+`wandb scheduler [옵션] SWEEP_ID`
 
-Run a W&B launch sweep scheduler (Experimental)
+**요약**
 
-**Options**
+W&B 런치 스윕 스케줄러 실행 (실험적)
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
-

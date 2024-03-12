@@ -1,18 +1,18 @@
-# wandb import mlflow
 
-**Usage**
+# wandb mlflow 가져오기
 
-`wandb import mlflow [OPTIONS]`
+**사용법**
 
-**Summary**
+`wandb import mlflow [옵션]`
 
-Import from MLFlow
+**요약**
 
-**Options**
+MLFlow에서 가져오기
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
-| --mlflow-tracking-uri | MLFlow Tracking URI |
-| --target-entity | Override default entity to import data into   [required] |
-| --target-project | Override default project to import data into   [required] |
-
+| --mlflow-tracking-uri | MLFlow 추적 URI |
+| --target-entity | 데이터를 가져올 기본 엔티티를 재정의합니다.   [필수] |
+| --target-project | 데이터를 가져올 기본 프로젝트를 재정의합니다.   [필수] |

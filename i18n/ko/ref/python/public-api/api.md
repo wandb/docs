@@ -1,9 +1,10 @@
+
 # Api
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L98-L1044' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L98-L1044' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
 
-Used for querying the wandb server.
+wandb 서버를 쿼리하는 데 사용됩니다.
 
 ```python
 Api(
@@ -13,26 +14,26 @@ Api(
 ) -> None
 ```
 
-#### Examples:
+#### 예제:
 
-Most common way to initialize
+가장 일반적인 초기화 방법
 
 ```
 >>> wandb.Api()
 ```
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `overrides` |  (dict) You can set `base_url` if you are using a wandb server other than https://api.wandb.ai. You can also set defaults for `entity`, `project`, and `run`. |
+|  `overrides` |  (dict) https://api.wandb.ai가 아닌 다른 wandb 서버를 사용하는 경우 `base_url`을 설정할 수 있습니다. 또한 `entity`, `project`, 그리고 `run`의 기본값을 설정할 수 있습니다. |
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L941-L965)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L941-L965)
 
 ```python
 artifact(
@@ -40,20 +41,20 @@ artifact(
 )
 ```
 
-Return a single artifact by parsing path in the form `entity/project/name`.
+`entity/project/name` 형식의 경로를 구문 분석하여 단일 아티팩트를 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: name:version name:alias |
-|  `type` |  (str, optional) The type of artifact to fetch. |
+|  `name` |  (str) 아티팩트 이름. entity/project로 접두사가 붙을 수 있습니다. 유효한 이름은 다음 형식일 수 있습니다: name:version name:alias |
+|  `type` |  (str, optional) 가져올 아티팩트의 타입입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Artifact` object. |
+|  `Artifact` 오브젝트. |
 
 ### `artifact_collection`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L910-L924)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L910-L924)
 
 ```python
 artifact_collection(
@@ -62,20 +63,20 @@ artifact_collection(
 )
 ```
 
-Return a single artifact collection by type and parsing path in the form `entity/project/name`.
+타입과 `entity/project/name` 형식의 경로를 구문 분석하여 단일 아티팩트 컬렉션을 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. |
-|  `type` |  (str) The type of artifact collection to fetch. |
+|  `name` |  (str) 아티팩트 컬렉션 이름. entity/project로 접두사가 붙을 수 있습니다. |
+|  `type` |  (str) 가져올 아티팩트 컬렉션의 타입입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  An `ArtifactCollection` object. |
+|  `ArtifactCollection` 오브젝트. |
 
 ### `artifact_collections`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L903-L908)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L903-L908)
 
 ```python
 artifact_collections(
@@ -87,7 +88,7 @@ artifact_collections(
 
 ### `artifact_type`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L898-L901)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L898-L901)
 
 ```python
 artifact_type(
@@ -97,7 +98,7 @@ artifact_type(
 
 ### `artifact_types`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L893-L896)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L893-L896)
 
 ```python
 artifact_types(
@@ -107,7 +108,7 @@ artifact_types(
 
 ### `artifact_versions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L926-L932)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L926-L932)
 
 ```python
 artifact_versions(
@@ -115,11 +116,11 @@ artifact_versions(
 )
 ```
 
-Deprecated, use artifacts(type_name, name) instead.
+사용 중단됨, 대신 artifacts(type_name, name)를 사용하세요.
 
 ### `artifacts`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L934-L939)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L934-L939)
 
 ```python
 artifacts(
@@ -129,7 +130,7 @@ artifacts(
 
 ### `create_project`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L273-L274)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L273-L274)
 
 ```python
 create_project(
@@ -140,13 +141,13 @@ create_project(
 
 ### `create_report`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L282-L297)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L282-L297)
 
 ```python
 create_report(
     project: str,
     entity: str = "",
-    title: Optional[str] = "Untitled Report",
+    title: Optional[str] = "무제 리포트",
     description: Optional[str] = "",
     width: Optional[str] = "readable",
     blocks: Optional['wandb.apis.reports.util.Block'] = None
@@ -155,7 +156,7 @@ create_report(
 
 ### `create_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L276-L280)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L276-L280)
 
 ```python
 create_run(
@@ -163,11 +164,11 @@ create_run(
 )
 ```
 
-Create a new run.
+새 run을 생성합니다.
 
 ### `create_run_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L299-L409)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L299-L409)
 
 ```python
 create_run_queue(
@@ -180,27 +181,27 @@ create_run_queue(
 ) -> "public.RunQueue"
 ```
 
-Create a new run queue (launch).
+새 run 큐(런치)를 생성합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) Name of the queue to create |
-|  `type` |  (str) Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex". |
-|  `entity` |  (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
-|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either "V0" or None |
-|  `config` |  (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. "{{var}}") to specify template variables. template_variables (dict): A dictionary of template variable schemas to be used with the config. Expected format of: { "var-name": { "schema": { "type": "<string | number | integer>", "default": <optional value>, "minimum": <optional minimum>, "maximum": <optional maximum>, "enum": [..."<options>"] } } } |
+|  `name` |  (str) 생성할 큐의 이름 |
+|  `type` |  (str) 큐에 사용될 자원의 타입. "local-container", "local-process", "kubernetes", "sagemaker", 또는 "gcp-vertex" 중 하나입니다. |
+|  `entity` |  (str) 큐를 생성할 엔티티의 선택적 이름. None인 경우, 설정된 또는 기본 엔티티를 사용합니다. |
+|  `prioritization_mode` |  (str) 사용할 우선순위 모드의 선택적 버전. "V0" 또는 None입니다. |
+|  `config` |  (dict) 큐에 사용될 선택적 기본 자원 설정. 구성 변수를 지정하기 위해 핸들바(예: "{{var}}")를 사용합니다. template_variables (dict): config와 함께 사용할 템플릿 변수 스키마의 딕셔너리. 예상 형식: { "var-name": { "schema": { "type": "<string | number | integer>", "default": <optional value>, "minimum": <optional minimum>, "maximum": <optional maximum>, "enum": [..."<options>"] } } } |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  The newly created `RunQueue` |
+|  새로 생성된 `RunQueue` |
 
-| Raises |  |
+| 예외 |  |
 | :--- | :--- |
-|  ValueError if any of the parameters are invalid wandb.Error on wandb API errors |
+|  파라미터 중 하나라도 유효하지 않은 경우 ValueError wandb API 오류가 발생하면 wandb.Error |
 
 ### `create_team`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L690-L700)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L690-L700)
 
 ```python
 create_team(
@@ -208,20 +209,20 @@ create_team(
 )
 ```
 
-Create a new team.
+새 팀을 생성합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `team` |  (str) The name of the team |
-|  `admin_username` |  (str) optional username of the admin user of the team, defaults to the current user. |
+|  `team` |  (str) 팀의 이름 |
+|  `admin_username` |  (str) 팀의 관리자 사용자 이름, 기본값은 현재 사용자입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Team` object |
+|  `Team` 오브젝트 |
 
 ### `create_user`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L427-L437)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L427-L437)
 
 ```python
 create_user(
@@ -229,34 +230,32 @@ create_user(
 )
 ```
 
-Create a new user.
+새 사용자를 생성합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `email` |  (str) The email address of the user |
-|  `admin` |  (bool) Whether this user should be a global instance admin |
+|  `email` |  (str) 사용자의 이메일 주소 |
+|  `admin` |  (bool) 이 사용자가 전역 인스턴스 관리자가 되어야 하는지 여부 |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `User` object |
+|  `User` 오브젝트 |
 
 ### `flush`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L504-L511)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L504-L511)
 
 ```python
 flush()
 ```
 
-Flush the local cache.
+로컬 캐시를 비웁니다.
 
-The api object keeps a local cache of runs, so if the state of the run may
-change while executing your script you must clear the local cache with
-`api.flush()` to get the latest values associated with the run.
+api 오브젝트는 run의 로컬 캐시를 유지하므로 스크립트 실행 중 run의 상태가 변경될 수 있다면 `api.flush()`로 로컬 캐시를 지워 run과 관련된 최신 값들을 얻어야 합니다.
 
 ### `from_path`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L513-L567)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L513-L567)
 
 ```python
 from_path(
@@ -264,9 +263,9 @@ from_path(
 )
 ```
 
-Return a run, sweep, project or report from a path.
+경로에서 run, 스윕, 프로젝트 또는 리포트를 반환합니다.
 
-#### Examples:
+#### 예제:
 
 ```
 project = api.from_path("my_project")
@@ -276,21 +275,21 @@ sweep = api.from_path("my_team/my_project/sweeps/id")
 report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 ```
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `path` |  (str) The path to the project, run, sweep or report |
+|  `path` |  (str) 프로젝트, run, 스윕 또는 리포트로의 경로 |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Project`, `Run`, `Sweep`, or `BetaReport` instance. |
+|  `Project`, `Run`, `Sweep`, 또는 `BetaReport` 인스턴스. |
 
-| Raises |  |
+| 예외 |  |
 | :--- | :--- |
-|  wandb.Error if path is invalid or the object doesn't exist |
+|  경로가 유효하지 않거나 오브젝트가 존재하지 않으면 wandb.Error |
 
 ### `job`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L967-L975)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L967-L975)
 
 ```python
 job(
@@ -300,7 +299,7 @@ job(
 
 ### `list_jobs`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L977-L1044)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L977-L1044)
 
 ```python
 list_jobs(
@@ -310,7 +309,7 @@ list_jobs(
 
 ### `load_report`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L411-L425)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L411-L425)
 
 ```python
 load_report(
@@ -318,23 +317,23 @@ load_report(
 ) -> "wandb.apis.reports.Report"
 ```
 
-Get report at a given path.
+주어진 경로의 리포트를 가져옵니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `path` |  (str) Path to the target report in the form `entity/project/reports/reportId`. You can get this by copy-pasting the URL after your wandb url. For example: `megatruong/report-editing/reports/My-fabulous-report-title--VmlldzoxOTc1Njk0` |
+|  `path` |  (str) `entity/project/reports/reportId` 형식의 대상 리포트로의 경로. 이것은 wandb URL 다음의 URL을 복사하여 붙여넣음으로써 얻을 수 있습니다. 예: `megatruong/report-editing/reports/My-fabulous-report-title--VmlldzoxOTc1Njk0` |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `BetaReport` object which represents the report at `path` |
+|  `path`에 있는 리포트를 나타내는 `BetaReport` 오브젝트 |
 
-| Raises |  |
+| 예외 |  |
 | :--- | :--- |
-|  wandb.Error if path is invalid |
+|  경로가 유효하지 않으면 wandb.Error |
 
 ### `project`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L654-L657)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L654-L657)
 
 ```python
 project(
@@ -344,7 +343,7 @@ project(
 
 ### `projects`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L629-L652)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L629-L652)
 
 ```python
 projects(
@@ -352,20 +351,20 @@ projects(
 )
 ```
 
-Get projects for a given entity.
+주어진 엔티티의 프로젝트를 가져옵니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `entity` |  (str) Name of the entity requested. If None, will fall back to default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
-|  `per_page` |  (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+|  `entity` |  (str) 요청된 엔티티의 이름. None인 경우, `Api`에 전달된 기본 엔티티로 대체됩니다. 기본 엔티티가 없는 경우 `ValueError`를 발생시킵니다. |
+|  `per_page` |  (int) 쿼리 페이지네이션의 페이지 크기를 설정합니다. None은 기본 크기를 사용합니다. 일반적으로 이것을 변경할 필요는 없습니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Projects` object which is an iterable collection of `Project` objects. |
+|  `Project` 오브젝트의 반복 가능한 컬렉션인 `Projects` 오브젝트. |
 
 ### `queued_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L838-L859)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L838-L859)
 
 ```python
 queued_run(
@@ -374,13 +373,13 @@ queued_run(
 )
 ```
 
-Return a single queued run based on the path.
+경로를 기반으로 단일 대기열 run을 반환합니다.
 
-Parses paths of the form entity/project/queue_id/run_queue_item_id.
+`entity/project/queue_id/run_queue_item_id` 형식의 경로를 구문 분석합니다.
 
 ### `reports`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L659-L688)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L659-L688)
 
 ```python
 reports(
@@ -388,23 +387,23 @@ reports(
 )
 ```
 
-Get reports for a given project path.
+주어진 프로젝트 경로에 대한 리포트를 가져옵니다.
 
-WARNING: This api is in beta and will likely change in a future release
+경고: 이 API는 베타 버전이며 향후 릴리스에서 변경될 가능성이 있습니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `path` |  (str) path to project the report resides in, should be in the form: "entity/project" |
-|  `name` |  (str) optional name of the report requested. |
-|  `per_page` |  (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+|  `path` |  (str) 리포트가 속한 프로젝트로의 경로, 형식은 "entity/project"여야 합니다. |
+|  `name` |  (str) 요청된 리포트의 선택적 이름. |
+|  `per_page` |  (int) 쿼리 페이지네이션의 페이지 크기를 설정합니다. None은 기본 크기를 사용합니다. 일반적으로 이것을 변경할 필요는 없습니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Reports` object which is an iterable collection of `BetaReport` objects. |
+|  `BetaReport` 오브젝트의 반복 가능한 컬렉션인 `Reports` 오브젝트. |
 
 ### `run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L821-L836)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L821-L836)
 
 ```python
 run(
@@ -412,19 +411,19 @@ run(
 )
 ```
 
-Return a single run by parsing path in the form entity/project/run_id.
+`entity/project/run_id` 형식의 경로를 구문 분석하여 단일 run을 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `path` |  (str) path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id. |
+|  `path` |  (str) `entity/project/run_id` 형식으로의 run 경로. `api.entity`가 설정되어 있다면, 이것은 `project/run_id` 형식일 수 있고, `api.project`가 설정되어 있다면 이것은 단순히 run_id일 수 있습니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Run` object. |
+|  `Run` 오브젝트. |
 
 ### `run_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L861-L874)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L861-L874)
 
 ```python
 run_queue(
@@ -432,167 +431,6 @@ run_queue(
 )
 ```
 
-Return the named `RunQueue` for entity.
+엔티티에 대한 명명된 `RunQueue`를 반환합니다.
 
-To create a new `RunQueue`, use `wandb.Api().create_run_queue(...)`.
-
-### `runs`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L743-L819)
-
-```python
-runs(
-    path: Optional[str] = None,
-    filters: Optional[Dict[str, Any]] = None,
-    order: str = "-created_at",
-    per_page: int = 50,
-    include_sweeps: bool = (True)
-)
-```
-
-Return a set of runs from a project that match the filters provided.
-
-You can filter by `config.*`, `summary_metrics.*`, `tags`, `state`, `entity`, `createdAt`, etc.
-
-#### Examples:
-
-Find runs in my_project where config.experiment_name has been set to "foo"
-
-```
-api.runs(path="my_entity/my_project", filters={"config.experiment_name": "foo"})
-```
-
-Find runs in my_project where config.experiment_name has been set to "foo" or "bar"
-
-```
-api.runs(
-    path="my_entity/my_project",
-    filters={"$or": [{"config.experiment_name": "foo"}, {"config.experiment_name": "bar"}]}
-)
-```
-
-Find runs in my_project where config.experiment_name matches a regex (anchors are not supported)
-
-```
-api.runs(
-    path="my_entity/my_project",
-    filters={"config.experiment_name": {"$regex": "b.*"}}
-)
-```
-
-Find runs in my_project where the run name matches a regex (anchors are not supported)
-
-```
-api.runs(
-    path="my_entity/my_project",
-    filters={"display_name": {"$regex": "^foo.*"}}
-)
-```
-
-Find runs in my_project sorted by ascending loss
-
-```
-api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
-```
-
-| Arguments |  |
-| :--- | :--- |
-|  `path` |  (str) path to project, should be in the form: "entity/project" |
-|  `filters` |  (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: {"config.experiment_name": "foo"} would find runs with a config entry of experiment name set to "foo" You can compose operations to make more complicated queries, see Reference for the language is at https://docs.mongodb.com/manual/reference/operator/query |
-|  `order` |  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending. If you prepend order with a - order is descending (default). The default order is run.created_at from newest to oldest. |
-
-| Returns |  |
-| :--- | :--- |
-|  A `Runs` object, which is an iterable collection of `Run` objects. |
-
-### `sweep`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L876-L891)
-
-```python
-sweep(
-    path=""
-)
-```
-
-Return a sweep by parsing path in the form `entity/project/sweep_id`.
-
-| Arguments |  |
-| :--- | :--- |
-|  `path` |  (str, optional) path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id. |
-
-| Returns |  |
-| :--- | :--- |
-|  A `Sweep` object. |
-
-### `sync_tensorboard`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L439-L461)
-
-```python
-sync_tensorboard(
-    root_dir, run_id=None, project=None, entity=None
-)
-```
-
-Sync a local directory containing tfevent files to wandb.
-
-### `team`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L702-L703)
-
-```python
-team(
-    team
-)
-```
-
-### `user`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L705-L725)
-
-```python
-user(
-    username_or_email
-)
-```
-
-Return a user from a username or email address.
-
-Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
-
-| Arguments |  |
-| :--- | :--- |
-|  `username_or_email` |  (str) The username or email address of the user |
-
-| Returns |  |
-| :--- | :--- |
-|  A `User` object or None if a user couldn't be found |
-
-### `users`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/api.py#L727-L741)
-
-```python
-users(
-    username_or_email
-)
-```
-
-Return all users from a partial username or email address query.
-
-Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
-
-| Arguments |  |
-| :--- | :--- |
-|  `username_or_email` |  (str) The prefix or suffix of the user you want to find |
-
-| Returns |  |
-| :--- | :--- |
-|  An array of `User` objects |
-
-| Class Variables |  |
-| :--- | :--- |
-|  `CREATE_PROJECT`<a id="CREATE_PROJECT"></a> |   |
-|  `USERS_QUERY`<a id="USERS_QUERY"></a> |   |
-|  `VIEWER_QUERY`<a id="VIEWER_QUERY"></a> |   |
+새 `RunQueue`를 생성하려면

@@ -1,9 +1,10 @@
+
 # Run
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L432-L4026' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L432-L4026' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
 
-A unit of computation logged by wandb. Typically, this is an ML experiment.
+wandb에서 기록된 계산 단위입니다. 일반적으로 이는 ML 실험입니다.
 
 ```python
 Run(
@@ -14,10 +15,7 @@ Run(
 ) -> None
 ```
 
-Create a run with `wandb.init()`:
-
-<!--yeadoc-test:run-object-basic-->
-
+`wandb.init()`으로 run을 생성합니다:
 
 ```python
 import wandb
@@ -25,11 +23,7 @@ import wandb
 run = wandb.init()
 ```
 
-There is only ever at most one active `wandb.Run` in any process,
-and it is accessible as `wandb.run`:
-
-<!--yeadoc-test:global-run-object-->
-
+어떤 프로세스에도 항상 최대 하나의 활성 `wandb.Run`이 있으며, `wandb.run`으로 접근할 수 있습니다:
 
 ```python
 import wandb
@@ -41,14 +35,9 @@ wandb.init()
 assert wandb.run is not None
 ```
 
-anything you log with `wandb.log` will be sent to that run.
+`wandb.log`로 기록하는 모든 것은 해당 run으로 전송됩니다.
 
-If you want to start more runs in the same script or notebook, you'll need to
-finish the run that is in-flight. Runs can be finished with `wandb.finish` or
-by using them in a `with` block:
-
-<!--yeadoc-test:run-context-manager-->
-
+동일한 스크립트나 노트북에서 더 많은 run을 시작하려면, 실행 중인 run을 종료해야 합니다. Run은 `wandb.finish`를 사용하거나 `with` 블록에서 사용하여 종료할 수 있습니다:
 
 ```python
 import wandb
@@ -59,50 +48,44 @@ wandb.finish()
 assert wandb.run is None
 
 with wandb.init() as run:
-    pass  # log data here
+    pass  # 여기에 데이터 기록
 
 assert wandb.run is None
 ```
 
-See the documentation for `wandb.init` for more on creating runs, or check out
-[our guide to `wandb.init`](https://docs.wandb.ai/guides/track/launch).
+run을 생성하는 방법에 대한 자세한 내용은 `wandb.init` 문서를 참조하거나 [wandb.init에 대한 가이드](https://docs.wandb.ai/guides/track/launch)를 확인하세요.
 
-In distributed training, you can either create a single run in the rank 0 process
-and then log information only from that process, or you can create a run in each process,
-logging from each separately, and group the results together with the `group` argument
-to `wandb.init`. For more details on distributed training with W&B, check out
-[our guide](https://docs.wandb.ai/guides/track/log/distributed-training).
+분산 트레이닝에서는 rank 0 프로세스에서 단일 run을 생성한 다음 해당 프로세스에서만 정보를 기록하거나, 각 프로세스에서 run을 생성하여 각각 별도로 기록하고 `wandb.init`의 `group` 인수를 사용하여 결과를 그룹화할 수 있습니다. W&B와 함께 분산 트레이닝에 대한 자세한 내용은 [가이드](https://docs.wandb.ai/guides/track/log/distributed-training)를 확인하세요.
 
-Currently, there is a parallel `Run` object in the `wandb.Api`. Eventually these
-two objects will be merged.
+현재, `wandb.Api`에는 병렬 `Run` 오브젝트가 있습니다. 결국 이 두 오브젝트는 병합될 것입니다.
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
-|  `summary` |  (Summary) Single values set for each `wandb.log()` key. By default, summary is set to the last value logged. You can manually set summary to the best value, like max accuracy, instead of the final value. |
-|  `config` |  Config object associated with this run. |
-|  `dir` |  The directory where files associated with the run are saved. |
-|  `entity` |  The name of the W&B entity associated with the run. Entity can be a username or the name of a team or organization. |
-|  `group` |  Name of the group associated with the run. Setting a group helps the W&B UI organize runs in a sensible way. If you are doing a distributed training you should give all of the runs in the training the same group. If you are doing cross-validation you should give all the cross-validation folds the same group. |
-|  `id` |  Identifier for this run. |
-|  `mode` |  For compatibility with `0.9.x` and earlier, deprecate eventually. |
-|  `name` |  Display name of the run. Display names are not guaranteed to be unique and may be descriptive. By default, they are randomly generated. |
-|  `notes` |  Notes associated with the run, if there are any. Notes can be a multiline string and can also use markdown and latex equations inside `$$`, like `$x + 3$`. |
-|  `path` |  Path to the run. Run paths include entity, project, and run ID, in the format `entity/project/run_id`. |
-|  `project` |  Name of the W&B project associated with the run. |
-|  `resumed` |  True if the run was resumed, False otherwise. |
-|  `settings` |  A frozen copy of run's Settings object. |
-|  `start_time` |  Unix timestamp (in seconds) of when the run started. |
-|  `starting_step` |  The first step of the run. |
-|  `step` |  Current value of the step. This counter is incremented by `wandb.log`. |
-|  `sweep_id` |  ID of the sweep associated with the run, if there is one. |
-|  `tags` |  Tags associated with the run, if there are any. |
-|  `url` |  The W&B url associated with the run. |
+|  `summary` |  각 `wandb.log()` 키에 대해 설정된 단일 값입니다. 기본적으로 summary는 기록된 마지막 값으로 설정됩니다. 최종 값 대신 최고 값, 예를 들어 최대 정확도와 같은 최고의 값으로 summary를 수동으로 설정할 수 있습니다. |
+|  `config` |  이 run과 관련된 설정 오브젝트입니다. |
+|  `dir` |  run과 관련된 파일이 저장되는 디렉토리입니다. |
+|  `entity` |  run과 관련된 W&B 엔티티의 이름입니다. 엔티티는 사용자 이름이거나 팀 또는 조직의 이름일 수 있습니다. |
+|  `group` |  run과 관련된 그룹의 이름입니다. 그룹을 설정하면 W&B UI가 run을 합리적인 방식으로 구성하는 데 도움이 됩니다. 분산 트레이닝을 수행하는 경우 트레이닝의 모든 run에 동일한 그룹을 지정해야 합니다. 교차 검증을 수행하는 경우 모든 교차 검증 폴드에 동일한 그룹을 지정해야 합니다. |
+|  `id` |  이 run의 식별자입니다. |
+|  `mode` |  `0.9.x` 및 이전 버전과의 호환성을 위해 최종적으로 폐지됩니다. |
+|  `name` |  run의 표시 이름입니다. 표시 이름은 고유하지 않을 수 있으며 설명적일 수 있습니다. 기본적으로 무작위로 생성됩니다. |
+|  `notes` |  run과 관련된 노트가 있는 경우입니다. 노트는 다줄 문자열일 수 있으며 `$$` 안에 마크다운 및 라텍스 방정식을 사용할 수도 있습니다, 예를 들어 `$x + 3$`. |
+|  `path` |  run의 경로입니다. Run 경로에는 엔티티, 프로젝트 및 run ID가 포함되며, 형식은 `entity/project/run_id`입니다. |
+|  `project` |  run과 관련된 W&B 프로젝트의 이름입니다. |
+|  `resumed` |  run이 재개되었는지 여부입니다. |
+|  `settings` |  run의 설정 오브젝트의 동결된 복사본입니다. |
+|  `start_time` |  run이 시작된 시간의 유닉스 타임스탬프(초)입니다. |
+|  `starting_step` |  run의 첫 번째 단계입니다. |
+|  `step` |  현재 단계의 값입니다. 이 카운터는 `wandb.log`에 의해 증가됩니다. |
+|  `sweep_id` |  run과 관련된 스윕의 ID입니다(있는 경우). |
+|  `tags` |  run과 관련된 태그가 있는 경우입니다. |
+|  `url` |  run과 관련된 W&B URL입니다. |
 
-## Methods
+## 메소드
 
 ### `alert`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L3323-L3356)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L3323-L3356)
 
 ```python
 alert(
@@ -113,18 +96,18 @@ alert(
 ) -> None
 ```
 
-Launch an alert with the given title and text.
+주어진 제목과 텍스트로 알림을 발송합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `title` |  (str) The title of the alert, must be less than 64 characters long. |
-|  `text` |  (str) The text body of the alert. |
-|  `level` |  (str or wandb.AlertLevel, optional) The alert level to use, either: `INFO`, `WARN`, or `ERROR`. |
-|  `wait_duration` |  (int, float, or timedelta, optional) The time to wait (in seconds) before sending another alert with this title. |
+|  `title` |  (str) 알림의 제목이며, 64자를 초과할 수 없습니다. |
+|  `text` |  (str) 알림의 본문 텍스트입니다. |
+|  `level` |  (str 또는 wandb.AlertLevel, 선택 사항) 사용할 알림 수준이며, `INFO`, `WARN`, 또는 `ERROR` 중 하나입니다. |
+|  `wait_duration` |  (int, float, 또는 timedelta, 선택 사항) 이 제목으로 다른 알림을 보내기 전에 기다릴 시간(초)입니다. |
 
 ### `define_metric`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2535-L2569)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2535-L2569)
 
 ```python
 define_metric(
@@ -139,24 +122,24 @@ define_metric(
 ) -> wandb_metric.Metric
 ```
 
-Define metric properties which will later be logged with `wandb.log()`.
+나중에 `wandb.log()`로 기록될 메트릭 속성을 정의합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  Name of the metric. |
-|  `step_metric` |  Independent variable associated with the metric. |
-|  `step_sync` |  Automatically add `step_metric` to history if needed. Defaults to True if step_metric is specified. |
-|  `hidden` |  Hide this metric from automatic plots. |
-|  `summary` |  Specify aggregate metrics added to summary. Supported aggregations: "min,max,mean,best,last,none" Default aggregation is `copy` Aggregation `best` defaults to `goal`==`minimize` |
-|  `goal` |  Specify direction for optimizing the metric. Supported directions: "minimize,maximize" |
+|  `name` |  메트릭의 이름입니다. |
+|  `step_metric` |  메트릭과 관련된 독립 변수입니다. |
+|  `step_sync` |  필요한 경우 자동으로 `step_metric`을 기록에 추가합니다. step_metric이 지정된 경우 기본값은 True입니다. |
+|  `hidden` |  이 메트릭을 자동 플롯에서 숨깁니다. |
+|  `summary` |  요약에 추가될 집계 메트릭을 지정합니다. 지원되는 집계: "min,max,mean,best,last,none" 기본 집계는 `copy`입니다. 집계 `best`는 기본적으로 `goal`이 `minimize`일 때 적용됩니다. |
+|  `goal` |  메트릭을 최적화하는 방향을 지정합니다. 지원되는 방향: "minimize,maximize" |
 
-| Returns |  |
+| 반환 |  |
 | :--- | :--- |
-|  A metric object is returned that can be further specified. |
+|  추가로 지정할 수 있는 메트릭 오브젝트가 반환됩니다. |
 
 ### `detach`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2691-L2692)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2691-L2692)
 
 ```python
 detach() -> None
@@ -164,7 +147,7 @@ detach() -> None
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1310-L1318)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1310-L1318)
 
 ```python
 display(
@@ -173,11 +156,11 @@ display(
 ) -> bool
 ```
 
-Display this run in jupyter.
+이 run을 주피터에서 표시합니다.
 
 ### `finish`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1947-L1961)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1947-L1961)
 
 ```python
 finish(
@@ -186,19 +169,18 @@ finish(
 ) -> None
 ```
 
-Mark a run as finished, and finish uploading all data.
+run을 완료로 표시하고 모든 데이터의 업로드를 완료합니다.
 
-This is used when creating multiple runs in the same process. We automatically
-call this method when your script exits or if you use the run context manager.
+이 메소드는 동일한 프로세스에서 여러 run을 생성할 때 사용됩니다. 스크립트가 종료될 때나 run 컨텍스트 관리자를 사용할 때 이 메소드를 자동으로 호출합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `exit_code` |  Set to something other than 0 to mark a run as failed |
-|  `quiet` |  Set to true to minimize log output |
+|  `exit_code` |  0이 아닌 것으로 설정하여 run을 실패로 표시합니다 |
+|  `quiet` |  로그 출력을 최소화하려면 true로 설정하세요 |
 
 ### `finish_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2941-L2993)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2941-L2993)
 
 ```python
 finish_artifact(
@@ -210,59 +192,59 @@ finish_artifact(
 ) -> Artifact
 ```
 
-Finishes a non-finalized artifact as output of a run.
+run의 출력으로 최종 결정되지 않은 아티팩트를 완료합니다.
 
-Subsequent "upserts" with the same distributed ID will result in a new version.
+동일한 분산 ID로 "업서트"하는 후속 작업은 새 버전을 생성합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `artifact_or_path` |  (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
-|  `name` |  (str, optional) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
-|  `type` |  (str) The type of artifact to log, examples include `dataset`, `model` |
-|  `aliases` |  (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
-|  `distributed_id` |  (string, optional) Unique string that all distributed jobs share. If None, defaults to the run's group name. |
+|  `artifact_or_path` |  (str 또는 Artifact) 이 아티팩트의 내용에 대한 경로로, 다음 형식 중 하나일 수 있습니다: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` `wandb.Artifact`를 호출하여 생성된 Artifact 오브젝트도 전달할 수 있습니다. |
+|  `name` |  (str, 선택 사항) 아티팩트의 이름입니다. 엔티티/프로젝트로 접두사를 붙일 수 있습니다. 유효한 이름은 다음 형식 중 하나일 수 있습니다: - name:version - name:alias - digest 지정하지 않으면 기본적으로 현재 run ID로 시작하는 경로의 기본 이름이 사용됩니다. |
+|  `type` |  (str) 기록할 아티팩트의 유형입니다. 예를 들어 `dataset`, `model`과 같은 예가 있습니다. |
+|  `aliases` |  (list, 선택 사항) 이 아티팩트에 적용할 별칭으로, 기본값은 `["latest"]`입니다. |
+|  `distributed_id` |  (string, 선택 사항) 모든 분산 작업이 공유하는 고유 문자열입니다. None인 경우 기본값은 run의 그룹 이름입니다. |
 
-| Returns |  |
+| 반환 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+|  `Artifact` 오브젝트입니다. |
 
 ### `get_project_url`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1192-L1200)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1192-L1200)
 
 ```python
 get_project_url() -> Optional[str]
 ```
 
-Return the url for the W&B project associated with the run, if there is one.
+run과 관련된 W&B 프로젝트의 URL을 반환합니다(있는 경우).
 
-Offline runs will not have a project url.
+오프라인 run은 프로젝트 URL이 없습니다.
 
 ### `get_sweep_url`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1202-L1207)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1202-L1207)
 
 ```python
 get_sweep_url() -> Optional[str]
 ```
 
-Return the url for the sweep associated with the run, if there is one.
+run과 관련된 스윕의 URL을 반환합니다(있는 경우).
 
 ### `get_url`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1182-L1190)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1182-L1190)
 
 ```python
 get_url() -> Optional[str]
 ```
 
-Return the url for the W&B run, if there is one.
+run과 관련된 W&B URL을 반환합니다(있는 경우).
 
-Offline runs will not have a url.
+오프라인 run은 URL이 없습니다.
 
 ### `join`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1995-L2005)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1995-L2005)
 
 ```python
 join(
@@ -270,11 +252,11 @@ join(
 ) -> None
 ```
 
-Deprecated alias for `finish()` - use finish instead.
+`finish()`의 사용 중단된 별칭입니다 - 대신 finish를 사용하세요.
 
 ### `link_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2694-L2740)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2694-L2740)
 
 ```python
 link_artifact(
@@ -284,206 +266,34 @@ link_artifact(
 ) -> None
 ```
 
-Link the given artifact to a portfolio (a promoted collection of artifacts).
+주어진 아티팩트를 포트폴리오(승진된 아티팩트 모음)에 연결합니다.
 
-The linked artifact will be visible in the UI for the specified portfolio.
+연결된 아티팩트는 지정된 포트폴리오의 UI에서 볼 수 있습니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `artifact` |  the (public or local) artifact which will be linked |
-|  `target_path` |  `str` - takes the following forms: {portfolio}, {project}/{portfolio}, or {entity}/{project}/{portfolio} |
-|  `aliases` |  `List[str]` - optional alias(es) that will only be applied on this linked artifact inside the portfolio. The alias "latest" will always be applied to the latest version of an artifact that is linked. |
+|  `artifact` |  연결될 (공개 또는 로컬) 아티팩트입니다. |
+|  `target_path` |  `str` - 다음 형식을 취합니다: {portfolio}, {project}/{portfolio}, 또는 {entity}/{project}/{portfolio} |
+|  `aliases` |  `List[str]` - 이 포트폴리오 내에서 연결된 아티팩트에만 적용될 선택적 별칭입니다. "latest" 별칭은 항상 연결된 아티팩트의 최신 버전에 적용됩니다. |
 
-| Returns |  |
+| 반환 |  |
 | :--- | :--- |
 |  None |
 
 ### `link_model`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L3229-L3321)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L3229-L3321)
 
 ```python
 link_model(
     path: StrPath,
     registered_model_name: str,
     name: Optional[str] = None,
-    aliases: Optional[List[str]] = None
-) -> None
-```
+    aliases: Optional[List[str]]
 
-Log a model artifact version and link it to a registered model in the model registry.
-
-The linked model version will be visible in the UI for the specified registered model.
-
-#### Steps:
-
-- Check if 'name' model artifact has been logged. If so, use the artifact version that matches the files
-  located at 'path' or log a new version. Otherwise log files under 'path' as a new model artifact, 'name'
-  of type 'model'.
-- Check if registered model with name 'registered_model_name' exists in the 'model-registry' project.
-  If not, create a new registered model with name 'registered_model_name'.
-- Link version of model artifact 'name' to registered model, 'registered_model_name'.
-- Attach aliases from 'aliases' list to the newly linked model artifact version.
-
-| Arguments |  |
-| :--- | :--- |
-|  `path` |  (str) A path to the contents of this model, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
-|  `registered_model_name` |  (str) - the name of the registered model that the model is to be linked to. A registered model is a collection of model versions linked to the model registry, typically representing a team's specific ML Task. The entity that this registered model belongs to will be derived from the run name: (str, optional) - the name of the model artifact that files in 'path' will be logged to. This will default to the basename of the path prepended with the current run id if not specified. |
-|  `aliases` |  (List[str], optional) - alias(es) that will only be applied on this linked artifact inside the registered model. The alias "latest" will always be applied to the latest version of an artifact that is linked. |
-
-#### Examples:
-
-```python
-run.link_model(
-    path="/local/directory",
-    registered_model_name="my_reg_model",
-    name="my_model_artifact",
-    aliases=["production"],
-)
-```
-
-Invalid usage
-
-```python
-run.link_model(
-    path="/local/directory",
-    registered_model_name="my_entity/my_project/my_reg_model",
-    name="my_model_artifact",
-    aliases=["production"],
-)
-
-run.link_model(
-    path="/local/directory",
-    registered_model_name="my_reg_model",
-    name="my_entity/my_project/my_model_artifact",
-    aliases=["production"],
-)
-```
-
-| Raises |  |
-| :--- | :--- |
-|  `AssertionError` |  if registered_model_name is a path or if model artifact 'name' is of a type that does not contain the substring 'model' |
-|  `ValueError` |  if name has invalid special characters |
-
-| Returns |  |
-| :--- | :--- |
-|  None |
-
-### `log`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1620-L1828)
-
-```python
-log(
-    data: Dict[str, Any],
-    step: Optional[int] = None,
-    commit: Optional[bool] = None,
-    sync: Optional[bool] = None
-) -> None
-```
-
-Log a dictionary of data to the current run's history.
-
-Use `wandb.log` to log data from runs, such as scalars, images, video,
-histograms, plots, and tables.
-
-See our [guides to logging](https://docs.wandb.ai/guides/track/log) for
-live examples, code snippets, best practices, and more.
-
-The most basic usage is `wandb.log({"train-loss": 0.5, "accuracy": 0.9})`.
-This will save the loss and accuracy to the run's history and update
-the summary values for these metrics.
-
-Visualize logged data in the workspace at [wandb.ai](https://wandb.ai),
-or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting)
-of the W&B app, or export data to visualize and explore locally, e.g. in
-Jupyter notebooks, with [our API](https://docs.wandb.ai/guides/track/public-api-guide).
-
-In the UI, summary values show up in the run table to compare single values across runs.
-Summary values can also be set directly with `wandb.run.summary["key"] = value`.
-
-Logged values don't have to be scalars. Logging any wandb object is supported.
-For example `wandb.log({"example": wandb.Image("myimage.jpg")})` will log an
-example image which will be displayed nicely in the W&B UI.
-See the [reference documentation](https://docs.wandb.com/ref/python/data-types)
-for all of the different supported types or check out our
-[guides to logging](https://docs.wandb.ai/guides/track/log) for examples,
-from 3D molecular structures and segmentation masks to PR curves and histograms.
-`wandb.Table`s can be used to logged structured data. See our
-[guide to logging tables](https://docs.wandb.ai/guides/data-vis/log-tables)
-for details.
-
-Logging nested metrics is encouraged and is supported in the W&B UI.
-If you log with a nested dictionary like `wandb.log({"train": {"acc": 0.9}, "val": {"acc": 0.8}})`, the metrics will be organized into
-`train` and `val` sections in the W&B UI.
-
-wandb keeps track of a global step, which by default increments with each
-call to `wandb.log`, so logging related metrics together is encouraged.
-If it's inconvenient to log related metrics together
-calling `wandb.log({"train-loss": 0.5}, commit=False)` and then
-`wandb.log({"accuracy": 0.9})` is equivalent to calling
-`wandb.log({"train-loss": 0.5, "accuracy": 0.9})`.
-
-`wandb.log` is not intended to be called more than a few times per second.
-If you want to log more frequently than that it's better to aggregate
-the data on the client side or you may get degraded performance.
-
-| Arguments |  |
-| :--- | :--- |
-|  `data` |  (dict, optional) A dict of serializable python objects i.e `str`, `ints`, `floats`, `Tensors`, `dicts`, or any of the `wandb.data_types`. |
-|  `commit` |  (boolean, optional) Save the metrics dict to the wandb server and increment the step. If false `wandb.log` just updates the current metrics dict with the data argument and metrics won't be saved until `wandb.log` is called with `commit=True`. |
-|  `step` |  (integer, optional) The global step in processing. This persists any non-committed earlier steps but defaults to not committing the specified step. |
-|  `sync` |  (boolean, True) This argument is deprecated and currently doesn't change the behaviour of `wandb.log`. |
-
-#### Examples:
-
-For more and more detailed examples, see
-[our guides to logging](https://docs.wandb.com/guides/track/log).
-
-### Basic usage
-
-<!--yeadoc-test:init-and-log-basic-->
+### numpy로부터의 비디오
 
 
-```python
-import wandb
-
-run = wandb.init()
-run.log({"accuracy": 0.9, "epoch": 5})
-```
-
-### Incremental logging
-
-<!--yeadoc-test:init-and-log-incremental-->
-
-
-```python
-import wandb
-
-run = wandb.init()
-run.log({"loss": 0.2}, commit=False)
-# Somewhere else when I'm ready to report this step:
-run.log({"accuracy": 0.8})
-```
-
-### Histogram
-
-<!--yeadoc-test:init-and-log-histogram-->
-
-
-```python
-import numpy as np
-import wandb
-
-# sample gradients at random from normal distribution
-gradients = np.random.randn(100, 100)
-run = wandb.init()
-run.log({"gradients": wandb.Histogram(gradients)})
-```
-
-### Image from numpy
-
-<!--yeadoc-test:init-and-log-image-numpy-->
 
 
 ```python
@@ -491,52 +301,14 @@ import numpy as np
 import wandb
 
 run = wandb.init()
-examples = []
-for i in range(3):
-    pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
-    image = wandb.Image(pixels, caption=f"random field {i}")
-    examples.append(image)
-run.log({"examples": examples})
-```
-
-### Image from PIL
-
-<!--yeadoc-test:init-and-log-image-pillow-->
-
-
-```python
-import numpy as np
-from PIL import Image as PILImage
-import wandb
-
-run = wandb.init()
-examples = []
-for i in range(3):
-    pixels = np.random.randint(low=0, high=256, size=(100, 100, 3), dtype=np.uint8)
-    pil_image = PILImage.fromarray(pixels, mode="RGB")
-    image = wandb.Image(pil_image, caption=f"random field {i}")
-    examples.append(image)
-run.log({"examples": examples})
-```
-
-### Video from numpy
-
-<!--yeadoc-test:init-and-log-video-numpy-->
-
-
-```python
-import numpy as np
-import wandb
-
-run = wandb.init()
-# axes are (time, channel, height, width)
+# 축은 (시간, 채널, 높이, 너비)
 frames = np.random.randint(low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8)
 run.log({"video": wandb.Video(frames, fps=4)})
 ```
 
-### Matplotlib Plot
+### Matplotlib 플롯
 
-<!--yeadoc-test:init-and-log-matplotlib-->
+
 
 
 ```python
@@ -548,11 +320,11 @@ run = wandb.init()
 fig, ax = plt.subplots()
 x = np.linspace(0, 10)
 y = x * x
-ax.plot(x, y)  # plot y = x^2
+ax.plot(x, y)  # y = x^2 그래프 그리기
 run.log({"chart": fig})
 ```
 
-### PR Curve
+### PR 커브
 
 ```python
 import wandb
@@ -561,7 +333,7 @@ run = wandb.init()
 run.log({"pr": wandb.plots.precision_recall(y_test, y_probas, labels)})
 ```
 
-### 3D Object
+### 3D 오브젝트
 
 ```python
 import wandb
@@ -578,14 +350,14 @@ run.log(
 )
 ```
 
-| Raises |  |
+| 발생할 수 있는 오류 |  |
 | :--- | :--- |
-|  `wandb.Error` |  if called before `wandb.init` |
-|  `ValueError` |  if invalid data is passed |
+|  `wandb.Error` |  `wandb.init` 호출 전에 사용된 경우 |
+|  `ValueError` |  잘못된 데이터가 전달된 경우 |
 
 ### `log_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2850-L2885)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2850-L2885)
 
 ```python
 log_artifact(
@@ -596,22 +368,22 @@ log_artifact(
 ) -> Artifact
 ```
 
-Declare an artifact as an output of a run.
+아티팩트를 run의 출력물로 선언합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `artifact_or_path` |  (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
-|  `name` |  (str, optional) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
-|  `type` |  (str) The type of artifact to log, examples include `dataset`, `model` |
-|  `aliases` |  (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
+|  `artifact_or_path` |  (str 또는 Artifact) 이 아티팩트의 내용에 대한 경로, 다음 형식 중 하나일 수 있습니다: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` `wandb.Artifact`를 호출하여 생성된 Artifact 오브젝트도 전달할 수 있습니다. |
+|  `name` |  (str, 선택사항) 아티팩트 이름. entity/project로 접두사가 붙을 수 있습니다. 유효한 이름 형식은 다음과 같습니다: - name:version - name:alias - digest 지정하지 않은 경우 경로의 기본 이름에 현재 run id를 접두사로 붙입니다. |
+|  `type` |  (str) 로그하는 아티팩트의 유형, 예를 들어 `dataset`, `model` |
+|  `aliases` |  (list, 선택사항) 이 아티팩트에 적용할 에일리어스, 기본값은 `["latest"]` |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+|  `Artifact` 오브젝트. |
 
 ### `log_code`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1097-L1180)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1097-L1180)
 
 ```python
 log_code(
@@ -622,26 +394,26 @@ log_code(
 ) -> Optional[Artifact]
 ```
 
-Save the current state of your code to a W&B Artifact.
+현재 코드의 상태를 W&B 아티팩트로 저장합니다.
 
-By default, it walks the current directory and logs all files that end with `.py`.
+기본적으로 현재 디렉토리를 순회하여 `.py`로 끝나는 모든 파일을 로그합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `root` |  The relative (to `os.getcwd()`) or absolute path to recursively find code from. |
-|  `name` |  (str, optional) The name of our code artifact. By default, we'll name the artifact `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`. There may be scenarios where you want many runs to share the same artifact. Specifying name allows you to achieve that. |
-|  `include_fn` |  A callable that accepts a file path and (optionally) root path and returns True when it should be included and False otherwise. This defaults to: `lambda path, root: path.endswith(".py")` |
-|  `exclude_fn` |  A callable that accepts a file path and (optionally) root path and returns `True` when it should be excluded and `False` otherwise. This defaults to a function that excludes all files within `&lt;root&gt;/.wandb/` and `&lt;root&gt;/wandb/` directories. |
+|  `root` |  코드를 재귀적으로 찾을 상대적(대 `os.getcwd()`) 또는 절대 경로. |
+|  `name` |  (str, 선택사항) 코드 아티팩트의 이름. 기본적으로, 아티팩트 이름은 `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`로 지정됩니다. 여러 run이 동일한 아티팩트를 공유하고자 하는 시나리오에서 이름을 지정하면 그것을 달성할 수 있습니다. |
+|  `include_fn` |  파일 경로와 (선택적으로) 루트 경로를 받아서 포함해야 할 경우 True를, 그렇지 않을 경우 False를 반환하는 callable입니다. 기본값은: `lambda path, root: path.endswith(".py")` |
+|  `exclude_fn` |  파일 경로와 (선택적으로) 루트 경로를 받아서 제외해야 할 경우 True를, 그렇지 않을 경우 False를 반환하는 callable입니다. 기본값은 `&lt;root&gt;/.wandb/` 및 `&lt;root&gt;/wandb/` 디렉토리 내의 모든 파일을 제외하는 함수입니다. |
 
-#### Examples:
+#### 예시:
 
-Basic usage
+기본 사용법
 
 ```python
 run.log_code()
 ```
 
-Advanced usage
+고급 사용법
 
 ```python
 run.log_code(
@@ -651,13 +423,13 @@ run.log_code(
 )
 ```
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  An `Artifact` object if code was logged |
+|  코드가 로그되었다면 `Artifact` 오브젝트 |
 
 ### `log_model`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L3125-L3174)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L3125-L3174)
 
 ```python
 log_model(
@@ -667,15 +439,15 @@ log_model(
 ) -> None
 ```
 
-Logs a model artifact containing the contents inside the 'path' to a run and marks it as an output to this run.
+'path' 내부의 내용을 포함하는 모델 아티팩트를 run에 로그하고 이 run의 출력으로 표시합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `path` |  (str) A path to the contents of this model, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
-|  `name` |  (str, optional) A name to assign to the model artifact that the file contents will be added to. The string must contain only the following alphanumeric characters: dashes, underscores, and dots. This will default to the basename of the path prepended with the current run id if not specified. |
-|  `aliases` |  (list, optional) Aliases to apply to the created model artifact, defaults to `["latest"]` |
+|  `path` |  (str) 이 모델의 내용에 대한 경로, 다음 형식 중 하나일 수 있습니다: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
+|  `name` |  (str, 선택사항) 파일 내용이 추가될 모델 아티팩트에 할당할 이름. 문자열에는 다음 알파뉴메릭 문자만 포함될 수 있습니다: 대시, 밑줄, 점. 지정하지 않은 경우 경로의 기본 이름에 현재 run id를 접두사로 붙입니다. |
+|  `aliases` |  (list, 선택사항) 생성된 모델 아티팩트에 적용할 에일리어스, 기본값은 `["latest"]` |
 
-#### Examples:
+#### 예시:
 
 ```python
 run.log_model(
@@ -685,7 +457,7 @@ run.log_model(
 )
 ```
 
-Invalid usage
+유효하지 않은 사용법
 
 ```python
 run.log_model(
@@ -695,29 +467,29 @@ run.log_model(
 )
 ```
 
-| Raises |  |
+| 발생할 수 있는 오류 |  |
 | :--- | :--- |
-|  `ValueError` |  if name has invalid special characters |
+|  `ValueError` |  이름에 유효하지 않은 특수 문자가 있는 경우 |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
 |  None |
 
 ### `mark_preempting`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L3374-L3382)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L3374-L3382)
 
 ```python
 mark_preempting() -> None
 ```
 
-Mark this run as preempting.
+이 run을 선점 중으로 표시합니다.
 
-Also tells the internal process to immediately report this to server.
+또한 내부 프로세스에게 즉시 서버에 이를 보고하도록 지시합니다.
 
 ### `plot_table`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2032-L2053)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2032-L2053)
 
 ```python
 @staticmethod
@@ -730,18 +502,18 @@ plot_table(
 ) -> CustomChart
 ```
 
-Create a custom plot on a table.
+테이블에 대한 사용자 지정 플롯을 생성합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `vega_spec_name` |  the name of the spec for the plot |
-|  `data_table` |  a wandb.Table object containing the data to be used on the visualization |
-|  `fields` |  a dict mapping from table keys to fields that the custom visualization needs |
-|  `string_fields` |  a dict that provides values for any string constants the custom visualization needs |
+|  `vega_spec_name` |  플롯에 대한 스펙의 이름 |
+|  `data_table` |  시각화에 사용될 데이터를 포함하는 wandb.Table 오브젝트 |
+|  `fields` |  사용자 지정 시각화에 필요한 필드로부터 테이블 키를 매핑하는 딕셔너리 |
+|  `string_fields` |  사용자 지정 시각화에 필요한 모든 문자열 상수에 대한 값을 제공하는 딕셔너리 |
 
 ### `project_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1043-L1044)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1043-L1044)
 
 ```python
 project_name() -> str
@@ -749,7 +521,7 @@ project_name() -> str
 
 ### `restore`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1932-L1945)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1932-L1945)
 
 ```python
 restore(
@@ -760,30 +532,29 @@ restore(
 ) -> Union[None, TextIO]
 ```
 
-Download the specified file from cloud storage.
+클라우드 저장소에서 지정된 파일을 다운로드합니다.
 
-File is placed into the current directory or run directory.
-By default, will only download the file if it doesn't already exist.
+기본적으로 이미 로컬에 파일이 존재하지 않는 경우에만 파일을 다운로드합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  the name of the file |
-|  `run_path` |  optional path to a run to pull files from, i.e. `username/project_name/run_id` if wandb.init has not been called, this is required. |
-|  `replace` |  whether to download the file even if it already exists locally |
-|  `root` |  the directory to download the file to. Defaults to the current directory or the run directory if wandb.init was called. |
+|  `name` |  파일의 이름 |
+|  `run_path` |  파일을 가져올 run의 선택적 경로, 즉 `username/project_name/run_id` `wandb.init`이 호출되지 않은 경우 이는 필수입니다. |
+|  `replace` |  이미 로컬에 존재하는 파일이라도 다운로드할지 여부 |
+|  `root` |  파일을 다운로드할 디렉토리. 기본값은 현재 디렉토리 또는 `wandb.init`이 호출된 경우 run 디렉토리입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  None if it can't find the file, otherwise a file object open for reading |
+|  파일을 찾을 수 없는 경우 None, 그렇지 않으면 읽기 위해 열린 파일 오브젝트 |
 
-| Raises |  |
+| 발생할 수 있는 오류 |  |
 | :--- | :--- |
-|  `wandb.CommError` |  if we can't connect to the wandb backend |
-|  `ValueError` |  if the file is not found or can't find run_path |
+|  `wandb.CommError` |  wandb 백엔드에 연결할 수 없는 경우 |
+|  `ValueError` |  파일을 찾을 수 없거나 run_path를 찾을 수 없는 경우 |
 
 ### `save`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1830-L1860)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1830-L1860)
 
 ```python
 save(
@@ -793,27 +564,27 @@ save(
 ) -> Union[bool, List[str]]
 ```
 
-Ensure all files matching `glob_str` are synced to wandb with the policy specified.
+지정된 `glob_str`과 일치하는 모든 파일이 지정된 정책에 따라 wandb에 동기화되도록 합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `glob_str` |  (string) a relative or absolute path to a unix glob or regular path. If this isn't specified the method is a noop. |
-|  `base_path` |  (string) the base path to run the glob relative to |
-|  `policy` |  (string) one of `live`, `now`, or `end` - live: upload the file as it changes, overwriting the previous version - now: upload the file once now - end: only upload file when the run ends |
+|  `glob_str` |  (문자열) 유닉스 글롭 또는 정규 경로에 대한 상대적 또는 절대 경로. 지정되지 않은 경우 이 메소드는 아무 작업도 수행하지 않습니다. |
+|  `base_path` |  글롭을 실행할 기본 경로 |
+|  `policy` |  (문자열) `live`, `now`, `end` 중 하나 - live: 파일이 변경될 때마다 이전 버전을 덮어쓰면서 업로드 - now: 지금 한 번 업로드 - end: run이 끝날 때만 파일 업로드 |
 
 ### `status`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2007-L2030)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2007-L2030)
 
 ```python
 status() -> RunStatus
 ```
 
-Get sync info from the internal backend, about the current run's sync status.
+내부 백엔드에서 현재 run의 동기화 상태에 대한 동기화 정보를 가져옵니다.
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1320-L1329)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L1320-L1329)
 
 ```python
 to_html(
@@ -822,11 +593,11 @@ to_html(
 ) -> str
 ```
 
-Generate HTML containing an iframe displaying the current run.
+현재 run을 표시하는 iframe을 포함하는 HTML을 생성합니다.
 
 ### `unwatch`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2652-L2654)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2652-L2654)
 
 ```python
 unwatch(
@@ -836,7 +607,7 @@ unwatch(
 
 ### `upsert_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2887-L2939)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2887-L2939)
 
 ```python
 upsert_artifact(
@@ -848,26 +619,25 @@ upsert_artifact(
 ) -> Artifact
 ```
 
-Declare (or append to) a non-finalized artifact as output of a run.
+run의 출력으로 아티팩트를 선언하거나 (아직 완료되지 않은) 아티팩트에 추가합니다.
 
-Note that you must call run.finish_artifact() to finalize the artifact.
-This is useful when distributed jobs need to all contribute to the same artifact.
+분산 작업이 동일한 아티팩트에 모두 기여해야 할 때 유용합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `artifact_or_path` |  (str or Artifact) A path to the contents of this artifact, can be in the following forms: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` You can also pass an Artifact object created by calling `wandb.Artifact`. |
-|  `name` |  (str, optional) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: - name:version - name:alias - digest This will default to the basename of the path prepended with the current run id if not specified. |
-|  `type` |  (str) The type of artifact to log, examples include `dataset`, `model` |
-|  `aliases` |  (list, optional) Aliases to apply to this artifact, defaults to `["latest"]` |
-|  `distributed_id` |  (string, optional) Unique string that all distributed jobs share. If None, defaults to the run's group name. |
+|  `artifact_or_path` |  (str 또는 Artifact) 이 아티팩트의 내용에 대한 경로, 다음 형식 중 하나일 수 있습니다: - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` `wandb.Artifact`를 호출하여 생성된 Artifact 오브젝트도 전달할 수 있습니다. |
+|  `name` |  (str, 선택사항) 아티팩트 이름. entity/project로 접두사가 붙을 수 있습니다. 유효한 이름 형식은 다음과 같습니다: - name:version - name:alias - digest 지정하지 않은 경우 경로의 기본 이름에 현재 run id를 접두사로 붙입니다. |
+|  `type` |  (str) 로그하는 아티팩트의 유형, 예를 들어 `dataset`, `model` |
+|  `aliases` |  (list, 선택사항) 이 아티팩트에 적용할 에일리어스, 기본값은 `["latest"]` |
+|  `distributed_id` |  (문자열, 선택사항) 모든 분산 작업이 공유하는 고유 문자열. None인 경우 run의 그룹 이름을 기본값으로 사용합니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  An `Artifact` object. |
+|  `Artifact` 오브젝트. |
 
 ### `use_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2742-L2848)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2742-L2848)
 
 ```python
 use_artifact(
@@ -878,96 +648,10 @@ use_artifact(
 ) -> Artifact
 ```
 
-Declare an artifact as an input to a run.
+아티팩트를 run의 입력으로 선언합니다.
 
-Call `download` or `file` on the returned object to get the contents locally.
+반환된 객체에서 `download` 또는 `file`을 호출하여 내용을 로컬에 가져옵니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `artifact_or_name` |  (str or Artifact) An artifact name. May be prefixed with entity/project/. Valid names can be in the following forms: - name:version - name:alias You can also pass an Artifact object created by calling `wandb.Artifact` |
-|  `type` |  (str, optional) The type of artifact to use. |
-|  `aliases` |  (list, optional) Aliases to apply to this artifact |
-|  `use_as` |  (string, optional) Optional string indicating what purpose the artifact was used with. Will be shown in UI. |
-
-| Returns |  |
-| :--- | :--- |
-|  An `Artifact` object. |
-
-### `use_model`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L3176-L3227)
-
-```python
-use_model(
-    name: str
-) -> FilePathStr
-```
-
-Download the files logged in a model artifact 'name'.
-
-| Arguments |  |
-| :--- | :--- |
-|  `name` |  (str) A model artifact name. 'name' must match the name of an existing logged model artifact. May be prefixed with entity/project/. Valid names can be in the following forms: - model_artifact_name:version - model_artifact_name:alias |
-
-#### Examples:
-
-```python
-run.use_model(
-    name="my_model_artifact:latest",
-)
-
-run.use_model(
-    name="my_project/my_model_artifact:v0",
-)
-
-run.use_model(
-    name="my_entity/my_project/my_model_artifact:<digest>",
-)
-```
-
-Invalid usage
-
-```python
-run.use_model(
-    name="my_entity/my_project/my_model_artifact",
-)
-```
-
-| Raises |  |
-| :--- | :--- |
-|  `AssertionError` |  if model artifact 'name' is of a type that does not contain the substring 'model'. |
-
-| Returns |  |
-| :--- | :--- |
-|  `path` |  (str) path to downloaded model artifact file(s). |
-
-### `watch`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L2639-L2649)
-
-```python
-watch(
-    models, criterion=None, log="gradients", log_freq=100, idx=None,
-    log_graph=(False)
-) -> None
-```
-
-### `__enter__`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L3358-L3359)
-
-```python
-__enter__() -> "Run"
-```
-
-### `__exit__`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/wandb_run.py#L3361-L3372)
-
-```python
-__exit__(
-    exc_type: Type[BaseException],
-    exc_val: BaseException,
-    exc_tb: TracebackType
-) -> bool
-```
+|  `artifact

@@ -1,19 +1,19 @@
-# wandb restore
 
-**Usage**
+# wandb 복원
 
-`wandb restore [OPTIONS] RUN`
+**사용법**
 
-**Summary**
+`wandb restore [옵션] RUN`
 
-Restore code, config and docker state for a run
+**요약**
 
-**Options**
+실행에 대한 코드, 설정 및 도커 상태 복원
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
-| --no-git | Don't restore git state |
-| --branch / --no-branch | Whether to create a branch or checkout detached |
-| -p, --project | The project you wish to upload to. |
-| -e, --entity | The entity to scope the listing to. |
-
+| --no-git | git 상태를 복원하지 않음 |
+| --branch / --no-branch | 브랜치를 생성할지 또는 분리된 체크아웃을 할지 여부 |
+| -p, --project | 업로드하고자 하는 프로젝트입니다. |
+| -e, --entity | 목록을 범위로 한 엔티티입니다. |

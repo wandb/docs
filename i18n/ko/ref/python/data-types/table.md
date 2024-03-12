@@ -1,9 +1,10 @@
-# Table
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L150-L873' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+# 테이블
+
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L150-L873' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
 
-The Table class used to display and analyze tabular data.
+테이블 데이터를 표시하고 분석하는 데 사용되는 Table 클래스입니다.
 
 ```python
 Table(
@@ -12,27 +13,23 @@ Table(
 )
 ```
 
-Unlike traditional spreadsheets, Tables support numerous types of data:
-scalar values, strings, numpy arrays, and most subclasses of `wandb.data_types.Media`.
-This means you can embed `Images`, `Video`, `Audio`, and other sorts of rich, annotated media
-directly in Tables, alongside other traditional scalar values.
+전통적인 스프레드시트와 달리, 테이블은 다양한 유형의 데이터를 지원합니다: 스칼라 값, 문자열, numpy 배열 및 `wandb.data_types.Media`의 대부분의 서브클래스. 이는 Images, Video, Audio 및 기타 풍부한 주석이 달린 미디어를 다른 전통적인 스칼라 값과 함께 테이블에 직접 포함할 수 있음을 의미합니다.
 
-This class is the primary class used to generate the Table Visualizer
-in the UI: https://docs.wandb.ai/guides/data-vis/tables.
+이 클래스는 UI에서 Table Visualizer를 생성하는 데 사용되는 주요 클래스입니다: https://docs.wandb.ai/guides/data-vis/tables.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `columns` |  (List[str]) Names of the columns in the table. Defaults to ["Input", "Output", "Expected"]. |
-|  `data` |  (List[List[any]]) 2D row-oriented array of values. |
-|  `dataframe` |  (pandas.DataFrame) DataFrame object used to create the table. When set, `data` and `columns` arguments are ignored. |
-|  `optional` |  (Union[bool,List[bool]]) Determines if `None` values are allowed. Default to True - If a singular bool value, then the optionality is enforced for all columns specified at construction time - If a list of bool values, then the optionality is applied to each column - should be the same length as `columns` applies to all columns. A list of bool values applies to each respective column. |
-|  `allow_mixed_types` |  (bool) Determines if columns are allowed to have mixed types (disables type validation). Defaults to False |
+|  `columns` |  (List[str]) 테이블의 열 이름. 기본값은 ["Input", "Output", "Expected"]. |
+|  `data` |  (List[List[any]]) 값의 2D 행 기반 배열. |
+|  `dataframe` |  (pandas.DataFrame) 테이블을 생성하는 데 사용된 DataFrame 객체. 설정될 때, `data` 및 `columns` 인수는 무시됩니다. |
+|  `optional` |  (Union[bool,List[bool]]) `None` 값이 허용되는지 결정합니다. 기본값은 True - 단일 bool 값이면, 모든 열에 대해 선택 사항이 구축 시간에 지정된 열에 대해 적용됩니다 - bool 값의 목록이면, 각 열에 대해 선택 사항이 적용됩니다 - `columns`에 적용되는 길이와 동일해야 합니다. bool 값의 목록은 각각의 열에 적용됩니다. |
+|  `allow_mixed_types` |  (bool) 열이 혼합 유형을 가질 수 있는지 여부를 결정합니다(유형 검증 비활성화). 기본값은 False |
 
-## Methods
+## 메소드
 
 ### `add_column`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L761-L800)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L761-L800)
 
 ```python
 add_column(
@@ -40,17 +37,17 @@ add_column(
 )
 ```
 
-Adds a column of data to the table.
+테이블에 데이터 열을 추가합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) - the unique name of the column |
-|  `data` |  (list | np.array) - a column of homogenous data |
-|  `optional` |  (bool) - if null-like values are permitted |
+|  `name` |  (str) - 열의 고유 이름 |
+|  `data` |  (list | np.array) - 동질의 데이터 열 |
+|  `optional` |  (bool) - null과 같은 값이 허용되는지 여부 |
 
 ### `add_computed_columns`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L851-L873)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L851-L873)
 
 ```python
 add_computed_columns(
@@ -58,15 +55,15 @@ add_computed_columns(
 )
 ```
 
-Adds one or more computed columns based on existing data.
+기존 데이터를 기반으로 하나 이상의 계산된 열을 추가합니다.
 
 | Args |  |
 | :--- | :--- |
-|  `fn` |  A function which accepts one or two parameters, ndx (int) and row (dict), which is expected to return a dict representing new columns for that row, keyed by the new column names. `ndx` is an integer representing the index of the row. Only included if `include_ndx` is set to `True`. `row` is a dictionary keyed by existing columns |
+|  `fn` |  하나 또는 두 개의 파라미터(ndx(int) 및 row(dict))를 받아들이는 함수로, 해당 행에 대한 새 열을 나타내는 dict를 반환해야 합니다. 새 열 이름으로 키가 지정됩니다. `ndx`는 행의 인덱스를 나타내는 정수입니다. `include_ndx`가 `True`로 설정된 경우에만 포함됩니다. `row`는 기존 열로 키가 지정된 딕셔너리입니다 |
 
 ### `add_data`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L387-L420)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L387-L420)
 
 ```python
 add_data(
@@ -74,13 +71,13 @@ add_data(
 )
 ```
 
-Adds a new row of data to the table. The maximum amount of rows in a table is determined by `wandb.Table.MAX_ARTIFACT_ROWS`.
+테이블에 새 데이터 행을 추가합니다. 테이블의 최대 행 수는 `wandb.Table.MAX_ARTIFACT_ROWS`에 의해 결정됩니다.
 
-The length of the data should match the length of the table column.
+데이터의 길이는 테이블 열의 길이와 일치해야 합니다.
 
 ### `add_row`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L382-L385)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L382-L385)
 
 ```python
 add_row(
@@ -88,11 +85,11 @@ add_row(
 )
 ```
 
-Deprecated; use add_data instead.
+사용되지 않음; 대신 add_data를 사용하세요.
 
 ### `cast`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L282-L335)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L282-L335)
 
 ```python
 cast(
@@ -100,17 +97,17 @@ cast(
 )
 ```
 
-Casts a column to a specific data type. This can be one of the normal python classes, an internal W&B type, or an example objec, like an instance of wandb.Image or wandb.Classes.
+열을 특정 데이터 유형으로 캐스트합니다. 이는 일반 파이썬 클래스, 내부 W&B 유형 또는 wandb.Image 또는 wandb.Classes의 인스턴스와 같은 예제 오브젝트 중 하나일 수 있습니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `col_name` |  (str) - The name of the column to cast. |
-|  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - The target dtype. |
-|  `optional` |  (bool) - If the column should allow Nones. |
+|  `col_name` |  (str) - 캐스트할 열의 이름. |
+|  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - 목표 dtype. |
+|  `optional` |  (bool) - 열이 None을 허용해야 하는지 여부. |
 
 ### `get_column`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L802-L825)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L802-L825)
 
 ```python
 get_column(
@@ -118,36 +115,36 @@ get_column(
 )
 ```
 
-Retrieves a column from the table and optionally converts it to a NumPy object.
+테이블에서 열을 검색하고 선택적으로 NumPy 객체로 변환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) - the name of the column |
-|  `convert_to` |  (str, optional) - "numpy": will convert the underlying data to numpy object |
+|  `name` |  (str) - 열의 이름 |
+|  `convert_to` |  (str, optional) - "numpy": 기본 데이터를 numpy 객체로 변환합니다 |
 
 ### `get_dataframe`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L836-L842)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L836-L842)
 
 ```python
 get_dataframe()
 ```
 
-Returns a `pandas.DataFrame` of the table.
+테이블의 `pandas.DataFrame`을 반환합니다.
 
 ### `get_index`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L827-L834)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L827-L834)
 
 ```python
 get_index()
 ```
 
-Returns an array of row indexes for use in other tables to create links.
+다른 테이블에서 링크를 생성하기 위해 사용되는 행 인덱스의 배열을 반환합니다.
 
 ### `index_ref`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L844-L849)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L844-L849)
 
 ```python
 index_ref(
@@ -155,17 +152,17 @@ index_ref(
 )
 ```
 
-Gets a reference of the index of a row in the table.
+테이블에서 행의 인덱스 참조를 가져옵니다.
 
 ### `iterrows`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L638-L652)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L638-L652)
 
 ```python
 iterrows()
 ```
 
-Returns the table data by row, showing the index of the row and the relevant data.
+행의 인덱스와 관련 데이터를 보여주며 테이블 데이터를 행별로 반환합니다.
 
 | Yields |  |
 | :--- | :--- |
@@ -173,14 +170,14 @@ Returns the table data by row, showing the index of the row and the relevant dat
 ***
 
 index : int
-The index of the row. Using this value in other W&B tables
-will automatically build a relationship between the tables
+행의 인덱스. 이 값을 다른 W&B 테이블에서 사용하면
+테이블 간의 관계가 자동으로 구축됩니다
 row : List[any]
-The data of the row.
+행의 데이터.
 
 ### `set_fk`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L659-L663)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L659-L663)
 
 ```python
 set_fk(
@@ -190,7 +187,7 @@ set_fk(
 
 ### `set_pk`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L654-L657)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L654-L657)
 
 ```python
 set_pk(
@@ -198,7 +195,7 @@ set_pk(
 )
 ```
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
 |  `MAX_ARTIFACT_ROWS`<a id="MAX_ARTIFACT_ROWS"></a> |  `200000` |
 |  `MAX_ROWS`<a id="MAX_ROWS"></a> |  `10000` |

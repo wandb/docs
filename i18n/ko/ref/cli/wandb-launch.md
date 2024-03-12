@@ -1,29 +1,29 @@
+
 # wandb launch
 
-**Usage**
+**사용법**
 
 `wandb launch [OPTIONS]`
 
-**Summary**
+**요약**
 
-Launch or queue a W&B Job. See https://wandb.me/launch
+W&B 작업을 실행하거나 대기열에 추가합니다. https://wandb.me/launch 참조
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| -j, --job (str) | Name of the job to launch. If passed in,   launch does not require a uri. |
-| --entry-point | Entry point within project. [default: main].   If the entry point is not found, attempts to run the project file with the specified name   as a script, using 'python' to run .py files and the default shell (specified by   environment variable $SHELL) to run .sh files. If passed in, will override the   entrypoint value passed in using a config file. |
-| --name | Name of the run under which to launch the   run. If not specified, a random run name will be used to launch run. If passed in,   will override the name passed in using a config file. |
-| -e, --entity (str) | Name of the target entity which the new run   will be sent to. Defaults to using the entity set by local wandb/settings folder.   If passed in, will override the entity value passed in using a config file. |
-| -p, --project (str) | Name of the target project which the new run   will be sent to. Defaults to using the project name given by the source uri or for   github runs, the git repo name. If passed in, will override the project value passed   in using a config file. |
-| -r, --resource | Execution resource to use for run. Supported   values: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'.   This is now a required parameter if pushing to a queue with no resource configuration.   If passed in, will override the resource value passed in using a config file. |
-| -d, --docker-image | Specific docker image you'd like to use. In the form name:tag. If passed in, will   override the docker image value passed in using a config file. |
-| -c, --config | Path to JSON file (must end in '.json') or   JSON string which will be passed as a launch config. Dictation how the launched run will   be configured. |
-| -v, --set-var | Set template variable values for queues with   allow listing enabled, as key-value pairs e.g. `--set-var key1=value1 --set-var   key2=value2` |
-| -q, --queue | Name of run queue to push to. If none,   launches single run directly. If supplied without an argument (`--queue`), defaults to   queue 'default'. Else, if name supplied, specified run queue must exist under the   project and entity supplied. |
-| --async | Flag to run the job asynchronously. Defaults   to false, i.e. unless --async is set, wandb launch will wait for the job to finish. This   option is incompatible with --queue; asynchronous options when running with an   agent should be set on wandb launch-agent. |
-| --resource-args | Path to JSON file (must end in '.json') or   JSON string which will be passed as resource args to the compute resource. The exact   content which should be provided is different for each execution backend. See   documentation for layout of this file. |
-| --dockerfile | Path to the Dockerfile used to build the   job, relative to the job's root |
-| --priority [critical|high|medium|low] | When --queue is passed, set the priority of the job. Launch jobs with higher priority   are served first.  The order, from highest to lowest priority, is: critical, high,   medium, low |
-
+| -j, --job (str) | 실행할 작업의 이름입니다. 전달된 경우, uri가 필요 없습니다. |
+| --entry-point | 프로젝트 내 진입점입니다. [기본값: main]. 진입점을 찾을 수 없는 경우, 지정된 이름의 프로젝트 파일을 스크립트로 실행하려고 시도합니다. '.py' 파일은 'python'으로 실행하고 '.sh' 파일은 환경 변수 $SHELL로 지정된 기본 셸을 사용하여 실행합니다. 전달된 경우, 설정 파일을 사용하여 전달된 entrypoint 값에 우선합니다. |
+| --name | 실행할 실행의 이름입니다. 지정하지 않은 경우, 임의의 실행 이름을 사용하여 실행합니다. 전달된 경우, 설정 파일을 사용하여 전달된 이름에 우선합니다. |
+| -e, --entity (str) | 새 실행이 전송될 대상 엔티티의 이름입니다. 로컬 wandb/settings 폴더에 의해 설정된 엔티티를 기본값으로 사용합니다. 전달된 경우, 설정 파일을 사용하여 전달된 엔티티 값에 우선합니다. |
+| -p, --project (str) | 새 실행이 전송될 대상 프로젝트의 이름입니다. 기본값은 소스 uri에 의해 주어진 프로젝트 이름 또는 github 실행의 경우, git 저장소 이름을 사용합니다. 전달된 경우, 설정 파일을 사용하여 전달된 프로젝트 값에 우선합니다. |
+| -r, --resource | 실행에 사용할 실행 리소스입니다. 지원되는 값: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'. 리소스 설정이 없는 대기열에 푸시하는 경우 이제 필수 파라미터입니다. 전달된 경우, 설정 파일을 사용하여 전달된 리소스 값에 우선합니다. |
+| -d, --docker-image | 사용하고자 하는 특정 도커 이미지입니다. 형식은 이름:태그입니다. 전달된 경우, 설정 파일을 사용하여 전달된 도커 이미지 값에 우선합니다. |
+| -c, --config | 실행 설정을 전달할 JSON 파일 경로(반드시 '.json'으로 끝나야 함) 또는 JSON 문자열입니다. 실행되는 실행이 어떻게 설정될지 지시합니다. |
+| -v, --set-var | 허용 목록이 활성화된 대기열의 템플릿 변수 값 설정, 키-값 쌍으로, 예를 들어 `--set-var key1=value1 --set-var key2=value2` |
+| -q, --queue | 푸시할 실행 대기열의 이름입니다. 없는 경우, 단일 실행을 직접 실행합니다. 인수 없이 (`--queue`) 제공된 경우, 'default' 대기열을 기본값으로 사용합니다. 그렇지 않으면, 이름이 제공된 경우, 지정된 실행 대기열은 제공된 프로젝트 및 엔티티 아래에 존재해야 합니다. |
+| --async | 작업을 비동기적으로 실행할지 여부의 플래그입니다. 기본값은 false, 즉 --async가 설정되지 않는 한 wandb launch는 작업이 끝날 때까지 기다립니다. 이 옵션은 --queue와 호환되지 않습니다; 에이전트와 함께 실행할 때 비동기 옵션은 wandb launch-agent에 설정해야 합니다. |
+| --resource-args | 계산 리소스에 리소스 인수로 전달될 JSON 파일 경로(반드시 '.json'으로 끝나야 함) 또는 JSON 문자열입니다. 제공해야 하는 정확한 내용은 실행 백엔드마다 다릅니다. 이 파일의 레이아웃에 대한 문서를 참조하십시오. |
+| --dockerfile | 작업이 빌드될 Dockerfile의 경로로, 작업의 루트에 상대적입니다. |
+| --priority [critical|high|medium|low] | --queue가 전달될 때, 작업의 우선순위를 설정합니다. 높은 우선순위의 실행 작업이 먼저 처리됩니다. 우선순위 순서는, 가장 높은 것부터 낮은 것까지: critical, high, medium, low |

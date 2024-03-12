@@ -1,9 +1,9 @@
+
 # Runs
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L54-L165' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L54-L165' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
-
-An iterable collection of runs associated with a project and optional filter.
+프로젝트와 선택적 필터와 관련된 runs의 반복 가능한 컬렉션입니다.
 
 ```python
 Runs(
@@ -17,16 +17,16 @@ Runs(
 )
 ```
 
-This is generally used indirectly via the `Api`.runs method.
+이는 일반적으로 `Api`.runs 메소드를 통해 간접적으로 사용됩니다.
 
 | Attributes |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `convert_objects`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L130-L162)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L130-L162)
 
 ```python
 convert_objects()
@@ -34,7 +34,7 @@ convert_objects()
 
 ### `next`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/paginator.py#L72-L79)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/paginator.py#L72-L79)
 
 ```python
 next()
@@ -42,7 +42,7 @@ next()
 
 ### `update_variables`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/paginator.py#L52-L53)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/paginator.py#L52-L53)
 
 ```python
 update_variables()
@@ -50,7 +50,7 @@ update_variables()
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/paginator.py#L65-L70)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/paginator.py#L65-L70)
 
 ```python
 __getitem__(
@@ -60,7 +60,7 @@ __getitem__(
 
 ### `__iter__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/paginator.py#L26-L28)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/paginator.py#L26-L28)
 
 ```python
 __iter__()
@@ -68,7 +68,7 @@ __iter__()
 
 ### `__len__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/paginator.py#L30-L35)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/paginator.py#L30-L35)
 
 ```python
 __len__()

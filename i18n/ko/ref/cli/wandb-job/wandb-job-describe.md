@@ -1,16 +1,16 @@
-# wandb job describe
 
-**Usage**
+# wandb 작업 설명하기
+
+**사용법**
 
 `wandb job describe [OPTIONS] JOB`
 
-**Summary**
+**요약**
 
-Describe a launch job. Provide the launch job in the form of:
+런치 작업을 설명합니다. 런치 작업을 다음 형식으로 제공하십시오:
 entity/project/job-name:alias-or-version
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-

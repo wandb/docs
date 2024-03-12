@@ -1,20 +1,21 @@
-# wandb artifact cache
 
-**Usage**
+# wandb 아티팩트 캐시
+
+**사용법**
 
 `wandb artifact cache [OPTIONS] COMMAND [ARGS]...`
 
-**Summary**
+**요약**
 
-Commands for interacting with the artifact cache
+아티팩트 캐시와 상호작용하는 코맨드들
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
 
-**Commands**
+**코맨드**
 
-| **Command** | **Description** |
+| **코맨드** | **설명** |
 | :--- | :--- |
-| cleanup | Clean up less frequently used files from the artifacts cache |
+| cleanup | 아티팩트 캐시에서 자주 사용하지 않는 파일을 정리합니다 |

@@ -1,71 +1,70 @@
+
 # artifactType
 
 ## Chainable Ops
 <h3 id="artifactType-artifactVersions"><code>artifactType-artifactVersions</code></h3>
 
-Returns the [artifactVersions](https://docs.wandb.ai/ref/weave/artifact-version) of all [artifacts](https://docs.wandb.ai/ref/weave/artifact) of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
+[artifactVersions](https://docs.wandb.ai/ref/weave/artifact-version)의 모든 [artifacts](https://docs.wandb.ai/ref/weave/artifact)를 반환합니다. [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)에 해당합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifactType` | A [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
+| `artifactType` | [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
 
-#### Return Value
-The [artifactVersions](https://docs.wandb.ai/ref/weave/artifact-version) of all [artifacts](https://docs.wandb.ai/ref/weave/artifact) of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
+#### 반환 값
+[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)의 모든 [artifacts](https://docs.wandb.ai/ref/weave/artifact)의 [artifactVersions](https://docs.wandb.ai/ref/weave/artifact-version)
 
 <h3 id="artifactType-artifacts"><code>artifactType-artifacts</code></h3>
 
-Returns the [artifacts](https://docs.wandb.ai/ref/weave/artifact) of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
+[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)의 [artifacts](https://docs.wandb.ai/ref/weave/artifact)를 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifactType` | A [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
+| `artifactType` | [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
 
-#### Return Value
-The [artifacts](https://docs.wandb.ai/ref/weave/artifact) of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
+#### 반환 값
+[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)의 [artifacts](https://docs.wandb.ai/ref/weave/artifact)
 
 <h3 id="artifactType-name"><code>artifactType-name</code></h3>
 
-Returns the name of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
+[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)의 이름을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifactType` | A [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
+| `artifactType` | [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
 
-#### Return Value
-The name of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
-
+#### 반환 값
+[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)의 이름
 
 ## List Ops
 <h3 id="artifactType-artifactVersions"><code>artifactType-artifactVersions</code></h3>
 
-Returns the [artifactVersions](https://docs.wandb.ai/ref/weave/artifact-version) of all [artifacts](https://docs.wandb.ai/ref/weave/artifact) of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
+[artifactVersions](https://docs.wandb.ai/ref/weave/artifact-version)의 모든 [artifacts](https://docs.wandb.ai/ref/weave/artifact)를 반환합니다. [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)에 해당합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifactType` | A [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
+| `artifactType` | [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
 
-#### Return Value
-The [artifactVersions](https://docs.wandb.ai/ref/weave/artifact-version) of all [artifacts](https://docs.wandb.ai/ref/weave/artifact) of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
+#### 반환 값
+[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)의 모든 [artifacts](https://docs.wandb.ai/ref/weave/artifact)의 [artifactVersions](https://docs.wandb.ai/ref/weave/artifact-version)
 
 <h3 id="artifactType-artifacts"><code>artifactType-artifacts</code></h3>
 
-Returns the [artifacts](https://docs.wandb.ai/ref/weave/artifact) of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
+[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)의 [artifacts](https://docs.wandb.ai/ref/weave/artifact)를 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifactType` | A [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
+| `artifactType` | [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
 
-#### Return Value
-The [artifacts](https://docs.wandb.ai/ref/weave/artifact) of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
+#### 반환 값
+[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)의 [artifacts](https://docs.wandb.ai/ref/weave/artifact)
 
 <h3 id="artifactType-name"><code>artifactType-name</code></h3>
 
-Returns the name of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
+[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)의 이름을 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `artifactType` | A [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
+| `artifactType` | [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
 
-#### Return Value
-The name of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type)
-
+#### 반환 값
+[artifactType](https://docs.wandb.ai/ref/weave/artifact-type)의 이름

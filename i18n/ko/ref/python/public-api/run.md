@@ -1,9 +1,10 @@
+
 # Run
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L168-L802' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L168-L802' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
 
-A single run associated with an entity and project.
+엔티티와 프로젝트와 연관된 단일 run입니다.
 
 ```python
 Run(
@@ -19,11 +20,11 @@ Run(
 | Attributes |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `create`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L267-L307)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L267-L307)
 
 ```python
 @classmethod
@@ -32,11 +33,11 @@ create(
 )
 ```
 
-Create a run for the given project.
+주어진 프로젝트를 위한 run을 생성합니다.
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L427-L455)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L427-L455)
 
 ```python
 delete(
@@ -44,11 +45,11 @@ delete(
 )
 ```
 
-Delete the given run from the wandb backend.
+wandb 백엔드에서 주어진 run을 삭제합니다.
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/attrs.py#L15-L26)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/attrs.py#L15-L26)
 
 ```python
 display(
@@ -56,11 +57,11 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+이 오브젝트를 jupyter에 표시합니다.
 
 ### `file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L518-L528)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L518-L528)
 
 ```python
 file(
@@ -68,19 +69,19 @@ file(
 )
 ```
 
-Return the path of a file with a given name in the artifact.
+주어진 이름을 가진 파일의 경로를 반환합니다.
 
 | Arguments |  |
 | :--- | :--- |
-|  name (str): name of requested file. |
+|  name (str): 요청된 파일의 이름. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `File` matching the name argument. |
+|  이름 인수와 일치하는 `File`. |
 
 ### `files`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L505-L516)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L505-L516)
 
 ```python
 files(
@@ -88,19 +89,19 @@ files(
 )
 ```
 
-Return a file path for each file named.
+각각의 파일 이름에 대한 파일 경로를 반환합니다.
 
 | Arguments |  |
 | :--- | :--- |
-|  names (list): names of the requested files, if empty returns all files per_page (int): number of results per page. |
+|  names (list): 요청된 파일의 이름들, 비어있으면 모든 파일을 반환합니다. per_page (int): 페이지 당 결과 수. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Files` object, which is an iterator over `File` objects. |
+|  `File` 오브젝트들을 순환하는 `Files` 오브젝트. |
 
 ### `history`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L554-L594)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L554-L594)
 
 ```python
 history(
@@ -108,25 +109,25 @@ history(
 )
 ```
 
-Return sampled history metrics for a run.
+run에 대한 샘플링된 history 메트릭을 반환합니다.
 
-This is simpler and faster if you are ok with the history records being sampled.
+history 레코드가 샘플링되는 것이 괜찮다면 이 방법이 더 간단하고 빠릅니다.
 
 | Arguments |  |
 | :--- | :--- |
-|  `samples` |  (int, optional) The number of samples to return |
-|  `pandas` |  (bool, optional) Return a pandas dataframe |
-|  `keys` |  (list, optional) Only return metrics for specific keys |
-|  `x_axis` |  (str, optional) Use this metric as the xAxis defaults to _step |
-|  `stream` |  (str, optional) "default" for metrics, "system" for machine metrics |
+|  `samples` |  (int, 선택사항) 반환할 샘플의 수 |
+|  `pandas` |  (bool, 선택사항) pandas 데이터프레임을 반환 |
+|  `keys` |  (list, 선택사항) 특정 키에 대한 메트릭만 반환 |
+|  `x_axis` |  (str, 선택사항) 이 메트릭을 xAxis로 사용 기본값은 _step |
+|  `stream` |  (str, 선택사항) 메트릭에 대해서는 "default", 기계 메트릭에 대해서는 "system" |
 
 | Returns |  |
 | :--- | :--- |
-|  `pandas.DataFrame` |  If pandas=True returns a `pandas.DataFrame` of history metrics. list of dicts: If pandas=False returns a list of dicts of history metrics. |
+|  `pandas.DataFrame` |  pandas=True일 때 history 메트릭의 `pandas.DataFrame`을 반환합니다. dict의 리스트: pandas=False일 때 history 메트릭의 dict 리스트를 반환합니다. |
 
 ### `load`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L309-L374)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L309-L374)
 
 ```python
 load(
@@ -136,7 +137,7 @@ load(
 
 ### `log_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L692-L729)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L692-L729)
 
 ```python
 log_artifact(
@@ -144,19 +145,19 @@ log_artifact(
 )
 ```
 
-Declare an artifact as output of a run.
+아티팩트를 run의 출력으로 선언합니다.
 
 | Arguments |  |
 | :--- | :--- |
-|  artifact (`Artifact`): An artifact returned from `wandb.Api().artifact(name)` aliases (list, optional): Aliases to apply to this artifact |
+|  artifact (`Artifact`): `wandb.Api().artifact(name)`에서 반환된 아티팩트 aliases (list, 선택사항): 이 아티팩트에 적용할 에일리어스 |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Artifact` object. |
+|  `Artifact` 오브젝트. |
 
 ### `logged_artifacts`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L651-L653)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L651-L653)
 
 ```python
 logged_artifacts(
@@ -166,7 +167,7 @@ logged_artifacts(
 
 ### `save`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L457-L458)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L457-L458)
 
 ```python
 save()
@@ -174,7 +175,7 @@ save()
 
 ### `scan_history`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L596-L649)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L596-L649)
 
 ```python
 scan_history(
@@ -182,11 +183,11 @@ scan_history(
 )
 ```
 
-Returns an iterable collection of all history records for a run.
+run에 대한 모든 history 레코드의 반복 가능한 컬렉션을 반환합니다.
 
-#### Example:
+#### 예시:
 
-Export all the loss values for an example run
+예제 run에 대한 모든 손실 값들을 내보냅니다
 
 ```python
 run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
@@ -196,15 +197,15 @@ losses = [row["Loss"] for row in history]
 
 | Arguments |  |
 | :--- | :--- |
-|  keys ([str], optional): only fetch these keys, and only fetch rows that have all of keys defined. page_size (int, optional): size of pages to fetch from the api |
+|  keys ([str], 선택사항): 이 키들만 가져오고, 정의된 모든 키를 가진 행만 가져옵니다. page_size (int, 선택사항): api에서 가져올 페이지의 크기 |
 
 | Returns |  |
 | :--- | :--- |
-|  An iterable collection over history records (dict). |
+|  history 레코드(dict)들에 대한 반복 가능한 컬렉션. |
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/attrs.py#L11-L13)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/attrs.py#L11-L13)
 
 ```python
 snake_to_camel(
@@ -214,7 +215,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L788-L796)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L788-L796)
 
 ```python
 to_html(
@@ -222,21 +223,21 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this run.
+이 run을 표시하는 iframe이 포함된 HTML을 생성합니다.
 
 ### `update`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L399-L425)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L399-L425)
 
 ```python
 update()
 ```
 
-Persist changes to the run object to the wandb backend.
+run 오브젝트에 대한 변경사항을 wandb 백엔드에 영구적으로 저장합니다.
 
 ### `upload_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L530-L552)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L530-L552)
 
 ```python
 upload_file(
@@ -244,19 +245,19 @@ upload_file(
 )
 ```
 
-Upload a file.
+파일을 업로드합니다.
 
 | Arguments |  |
 | :--- | :--- |
-|  path (str): name of file to upload. root (str): the root path to save the file relative to. i.e. If you want to have the file saved in the run as "my_dir/file.txt" and you're currently in "my_dir" you would set root to "../". |
+|  path (str): 업로드할 파일의 이름. root (str): 파일을 저장할 기본 경로. 예를 들어, 파일을 "my_dir/file.txt"로 저장하고 싶고 현재 "my_dir"에 있다면 root를 "../"로 설정하세요. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `File` matching the name argument. |
+|  이름 인수와 일치하는 `File`. |
 
 ### `use_artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L659-L690)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L659-L690)
 
 ```python
 use_artifact(
@@ -264,19 +265,19 @@ use_artifact(
 )
 ```
 
-Declare an artifact as an input to a run.
+아티팩트를 run의 입력으로 선언합니다.
 
 | Arguments |  |
 | :--- | :--- |
-|  artifact (`Artifact`): An artifact returned from `wandb.Api().artifact(name)` use_as (string, optional): A string identifying how the artifact is used in the script. Used to easily differentiate artifacts used in a run, when using the beta wandb launch feature's artifact swapping functionality. |
+|  artifact (`Artifact`): `wandb.Api().artifact(name)`에서 반환된 아티팩트 use_as (string, 선택사항): 스크립트에서 아티팩트가 사용되는 방식을 식별하는 문자열. 베타 wandb launch 기능의 아티팩트 스와핑 기능을 사용할 때 run에서 사용된 아티팩트를 쉽게 구분하기 위해 사용됩니다. |
 
 | Returns |  |
 | :--- | :--- |
-|  A `Artifact` object. |
+|  `Artifact` 오브젝트. |
 
 ### `used_artifacts`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L655-L657)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L655-L657)
 
 ```python
 used_artifacts(
@@ -286,7 +287,7 @@ used_artifacts(
 
 ### `wait_until_finished`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L376-L397)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/runs.py#L376-L397)
 
 ```python
 wait_until_finished()

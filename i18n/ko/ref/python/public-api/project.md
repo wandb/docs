@@ -1,9 +1,10 @@
-# Project
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/projects.py#L79-L161' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+# 프로젝트
+
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/projects.py#L79-L161' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
 
-A project is a namespace for runs.
+프로젝트는 run들의 네임스페이스입니다.
 
 ```python
 Project(
@@ -11,14 +12,14 @@ Project(
 )
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `artifacts_types`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/projects.py#L112-L114)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/projects.py#L112-L114)
 
 ```python
 artifacts_types(
@@ -28,7 +29,7 @@ artifacts_types(
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/attrs.py#L15-L26)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/attrs.py#L15-L26)
 
 ```python
 display(
@@ -36,11 +37,11 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+이 오브젝트를 jupyter에 표시합니다.
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/attrs.py#L11-L13)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/attrs.py#L11-L13)
 
 ```python
 snake_to_camel(
@@ -50,7 +51,7 @@ snake_to_camel(
 
 ### `sweeps`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/projects.py#L116-L161)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/projects.py#L116-L161)
 
 ```python
 sweeps()
@@ -58,7 +59,7 @@ sweeps()
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/projects.py#L96-L104)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/projects.py#L96-L104)
 
 ```python
 to_html(
@@ -66,4 +67,4 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this project.
+이 프로젝트를 표시하는 iframe이 포함된 HTML을 생성합니다.

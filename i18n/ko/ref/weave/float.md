@@ -1,458 +1,354 @@
+
 # float
 
-## Chainable Ops
+## 연쇄 가능 연산
 <h3 id="number-notEqual"><code>number-notEqual</code></h3>
 
-Determines inequality of two values.
+두 값의 부등식을 결정합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 비교할 첫 번째 값. |
+| `rhs` | 비교할 두 번째 값. |
 
-#### Return Value
-Whether the two values are not equal.
+#### 반환 값
+두 값이 같지 않은지 여부.
 
 <h3 id="number-modulo"><code>number-modulo</code></h3>
 
-Divide a [number](https://docs.wandb.ai/ref/weave/number) by another and return remainder
+한 [숫자](https://docs.wandb.ai/ref/weave/number)를 다른 숫자로 나누고 나머지를 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide by |
+| `lhs` | 나눌 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 나눌 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Modulo of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+두 [숫자](https://docs.wandb.ai/ref/weave/number)의 모듈로 값
 
 <h3 id="number-mult"><code>number-mult</code></h3>
 
-Multiply two [numbers](https://docs.wandb.ai/ref/weave/number)
+두 [숫자](https://docs.wandb.ai/ref/weave/number)를 곱합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | First [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Second [number](https://docs.wandb.ai/ref/weave/number) |
+| `lhs` | 첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 두 번째 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Product of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+두 [숫자](https://docs.wandb.ai/ref/weave/number)의 곱
 
 <h3 id="number-powBinary"><code>number-powBinary</code></h3>
 
-Raise a [number](https://docs.wandb.ai/ref/weave/number) to an exponent
+한 [숫자](https://docs.wandb.ai/ref/weave/number)를 지수로 제곱합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | Base [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Exponent [number](https://docs.wandb.ai/ref/weave/number) |
+| `lhs` | 기본 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 지수 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-The base [numbers](https://docs.wandb.ai/ref/weave/number) raised to nth power
+#### 반환 값
+기본 [숫자](https://docs.wandb.ai/ref/weave/number)를 n제곱한 값
 
 <h3 id="number-add"><code>number-add</code></h3>
 
-Add two [numbers](https://docs.wandb.ai/ref/weave/number)
+두 [숫자](https://docs.wandb.ai/ref/weave/number)를 더합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | First [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Second [number](https://docs.wandb.ai/ref/weave/number) |
+| `lhs` | 첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 두 번째 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Sum of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+두 [숫자](https://docs.wandb.ai/ref/weave/number)의 합
 
 <h3 id="number-sub"><code>number-sub</code></h3>
 
-Subtract a [number](https://docs.wandb.ai/ref/weave/number) from another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)에서 다른 숫자를 뺍니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to subtract from |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to subtract |
+| `lhs` | 뺄 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 뺄 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Difference of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+두 [숫자](https://docs.wandb.ai/ref/weave/number)의 차이
 
 <h3 id="number-div"><code>number-div</code></h3>
 
-Divide a [number](https://docs.wandb.ai/ref/weave/number) by another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)를 다른 숫자로 나눕니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide by |
+| `lhs` | 나눌 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 나눌 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Quotient of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+두 [숫자](https://docs.wandb.ai/ref/weave/number)의 몫
 
 <h3 id="number-less"><code>number-less</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is less than another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)가 다른 숫자보다 작은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 비교할 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 비교 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is less than the second
+#### 반환 값
+첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number)가 두 번째보다 작은지 여부
 
 <h3 id="number-lessEqual"><code>number-lessEqual</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is less than or equal to another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)가 다른 숫자보다 작거나 같은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 비교할 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 비교 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is less than or equal to the second
+#### 반환 값
+첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number)가 두 번째보다 작거나 같은지 여부
 
 <h3 id="number-equal"><code>number-equal</code></h3>
 
-Determines equality of two values.
+두 값의 동등성을 결정합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 비교할 첫 번째 값. |
+| `rhs` | 비교할 두 번째 값. |
 
-#### Return Value
-Whether the two values are equal.
+#### 반환 값
+두 값이 동일한지 여부.
 
 <h3 id="number-greater"><code>number-greater</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is greater than another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)가 다른 숫자보다 큰지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 비교할 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 비교 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is greater than the second
+#### 반환 값
+첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number)가 두 번째보다 큰지 여부
 
 <h3 id="number-greaterEqual"><code>number-greaterEqual</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is greater than or equal to another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)가 다른 숫자보다 크거나 같은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 비교할 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 비교 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is greater than or equal to the second
+#### 반환 값
+첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number)가 두 번째보다 크거나 같은지 여부
 
 <h3 id="number-negate"><code>number-negate</code></h3>
 
-Negate a [number](https://docs.wandb.ai/ref/weave/number)
+한 [숫자](https://docs.wandb.ai/ref/weave/number)를 부정합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `val` | Number to negate |
+| `val` | 부정할 숫자 |
 
-#### Return Value
-A [number](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+한 [숫자](https://docs.wandb.ai/ref/weave/number)
 
 <h3 id="number-toString"><code>number-toString</code></h3>
 
-Convert a [number](https://docs.wandb.ai/ref/weave/number) to a string
+한 [숫자](https://docs.wandb.ai/ref/weave/number)를 문자열로 변환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `in` | Number to convert |
+| `in` | 변환할 숫자 |
 
-#### Return Value
-String representation of the [number](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+[숫자](https://docs.wandb.ai/ref/weave/number)의 문자열 표현
 
 <h3 id="number-toTimestamp"><code>number-toTimestamp</code></h3>
 
-Converts a [number](https://docs.wandb.ai/ref/weave/number) to a _timestamp_. Values less than 31536000000 will be converted to seconds, values less than 31536000000000 will be converted to milliseconds, values less than 31536000000000000 will be converted to microseconds, and values less than 31536000000000000000 will be converted to nanoseconds.
+한 [숫자](https://docs.wandb.ai/ref/weave/number)를 _타임스탬프_로 변환합니다. 31536000000보다 작은 값은 초로, 31536000000000보다 작은 값은 밀리초로, 31536000000000000보다 작은 값은 마이크로초로, 31536000000000000000보다 작은 값은 나노초로 변환됩니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `val` | Number to convert to a timestamp |
+| `val` | 타임스탬프로 변환할 숫자 |
 
-#### Return Value
-Timestamp
+#### 반환 값
+타임스탬프
 
 <h3 id="number-abs"><code>number-abs</code></h3>
 
-Calculates the absolute value of a [number](https://docs.wandb.ai/ref/weave/number)
+한 [숫자](https://docs.wandb.ai/ref/weave/number)의 절대값을 계산합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `n` | A [number](https://docs.wandb.ai/ref/weave/number) |
+| `n` | 한 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-The absolute value of the [number](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+[숫자](https://docs.wandb.ai/ref/weave/number)의 절대값
 
-
-## List Ops
+## 목록 연산
 <h3 id="number-notEqual"><code>number-notEqual</code></h3>
 
-Determines inequality of two values.
+두 값의 부등식을 결정합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 비교할 첫 번째 값. |
+| `rhs` | 비교할 두 번째 값. |
 
-#### Return Value
-Whether the two values are not equal.
+#### 반환 값
+두 값이 같지 않은지 여부.
 
 <h3 id="number-modulo"><code>number-modulo</code></h3>
 
-Divide a [number](https://docs.wandb.ai/ref/weave/number) by another and return remainder
+한 [숫자](https://docs.wandb.ai/ref/weave/number)를 다른 숫자로 나누고 나머지를 반환합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide by |
+| `lhs` | 나눌 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 나눌 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Modulo of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+두 [숫자](https://docs.wandb.ai/ref/weave/number)의 모듈로 값
 
 <h3 id="number-mult"><code>number-mult</code></h3>
 
-Multiply two [numbers](https://docs.wandb.ai/ref/weave/number)
+두 [숫자](https://docs.wandb.ai/ref/weave/number)를 곱합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | First [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Second [number](https://docs.wandb.ai/ref/weave/number) |
+| `lhs` | 첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 두 번째 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Product of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+두 [숫자](https://docs.wandb.ai/ref/weave/number)의 곱
 
 <h3 id="number-powBinary"><code>number-powBinary</code></h3>
 
-Raise a [number](https://docs.wandb.ai/ref/weave/number) to an exponent
+한 [숫자](https://docs.wandb.ai/ref/weave/number)를 지수로 제곱합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | Base [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Exponent [number](https://docs.wandb.ai/ref/weave/number) |
+| `lhs` | 기본 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 지수 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-The base [numbers](https://docs.wandb.ai/ref/weave/number) raised to nth power
+#### 반환 값
+기본 [숫자](https://docs.wandb.ai/ref/weave/number)를 n제곱한 값
 
 <h3 id="number-add"><code>number-add</code></h3>
 
-Add two [numbers](https://docs.wandb.ai/ref/weave/number)
+두 [숫자](https://docs.wandb.ai/ref/weave/number)를 더합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | First [number](https://docs.wandb.ai/ref/weave/number) |
-| `rhs` | Second [number](https://docs.wandb.ai/ref/weave/number) |
+| `lhs` | 첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 두 번째 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Sum of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+두 [숫자](https://docs.wandb.ai/ref/weave/number)의 합
 
 <h3 id="number-sub"><code>number-sub</code></h3>
 
-Subtract a [number](https://docs.wandb.ai/ref/weave/number) from another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)에서 다른 숫자를 뺍니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to subtract from |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to subtract |
+| `lhs` | 뺄 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 뺄 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Difference of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+두 [숫자](https://docs.wandb.ai/ref/weave/number)의 차이
 
 <h3 id="number-div"><code>number-div</code></h3>
 
-Divide a [number](https://docs.wandb.ai/ref/weave/number) by another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)를 다른 숫자로 나눕니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to divide by |
+| `lhs` | 나눌 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 나눌 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Quotient of two [numbers](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+두 [숫자](https://docs.wandb.ai/ref/weave/number)의 몫
 
 <h3 id="number-less"><code>number-less</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is less than another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)가 다른 숫자보다 작은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 비교할 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 비교 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is less than the second
+#### 반환 값
+첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number)가 두 번째보다 작은지 여부
 
 <h3 id="number-lessEqual"><code>number-lessEqual</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is less than or equal to another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)가 다른 숫자보다 작거나 같은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 비교할 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 비교 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is less than or equal to the second
+#### 반환 값
+첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number)가 두 번째보다 작거나 같은지 여부
 
 <h3 id="number-equal"><code>number-equal</code></h3>
 
-Determines equality of two values.
+두 값의 동등성을 결정합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | The first value to compare. |
-| `rhs` | The second value to compare. |
+| `lhs` | 비교할 첫 번째 값. |
+| `rhs` | 비교할 두 번째 값. |
 
-#### Return Value
-Whether the two values are equal.
+#### 반환 값
+두 값이 동일한지 여부.
 
 <h3 id="number-greater"><code>number-greater</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is greater than another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)가 다른 숫자보다 큰지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 비교할 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 비교 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is greater than the second
+#### 반환 값
+첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number)가 두 번째보다 큰지 여부
 
 <h3 id="number-greaterEqual"><code>number-greaterEqual</code></h3>
 
-Check if a [number](https://docs.wandb.ai/ref/weave/number) is greater than or equal to another
+한 [숫자](https://docs.wandb.ai/ref/weave/number)가 다른 숫자보다 크거나 같은지 확인합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `lhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare |
-| `rhs` | [number](https://docs.wandb.ai/ref/weave/number) to compare to |
+| `lhs` | 비교할 [숫자](https://docs.wandb.ai/ref/weave/number) |
+| `rhs` | 비교 대상 [숫자](https://docs.wandb.ai/ref/weave/number) |
 
-#### Return Value
-Whether the first [number](https://docs.wandb.ai/ref/weave/number) is greater than or equal to the second
+#### 반환 값
+첫 번째 [숫자](https://docs.wandb.ai/ref/weave/number)가 두 번째보다 크거나 같은지 여부
 
 <h3 id="number-negate"><code>number-negate</code></h3>
 
-Negate a [number](https://docs.wandb.ai/ref/weave/number)
+한 [숫자](https://docs.wandb.ai/ref/weave/number)를 부정합니다.
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `val` | Number to negate |
+| `val` | 부정할 숫자 |
 
-#### Return Value
-A [number](https://docs.wandb.ai/ref/weave/number)
+#### 반환 값
+한 [숫자](https://docs.wandb.ai/ref/weave/number)
 
 <h3 id="numbers-argmax"><code>numbers-argmax</code></h3>
 
-Finds the index of maximum [number](https://docs.wandb.ai/ref/weave/number)
+최대 [숫자](https://docs.wandb.ai/ref/weave/number)의 인덱스를 찾습니다.
 
-| Argument |  |
-| :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to find the index of maximum [number](https://docs.wandb.ai/ref/weave/number) |
-
-#### Return Value
-Index of maximum [number](https://docs.wandb.ai/ref/weave/number)
-
-<h3 id="numbers-argmin"><code>numbers-argmin</code></h3>
-
-Finds the index of minimum [number](https://docs.wandb.ai/ref/weave/number)
-
-| Argument |  |
-| :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to find the index of minimum [number](https://docs.wandb.ai/ref/weave/number) |
-
-#### Return Value
-Index of minimum [number](https://docs.wandb.ai/ref/weave/number)
-
-<h3 id="numbers-avg"><code>numbers-avg</code></h3>
-
-Average of [numbers](https://docs.wandb.ai/ref/weave/number)
-
-| Argument |  |
-| :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to average |
-
-#### Return Value
-Average of [numbers](https://docs.wandb.ai/ref/weave/number)
-
-<h3 id="numbers-max"><code>numbers-max</code></h3>
-
-Maximum number
-
-| Argument |  |
-| :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to find the maximum [number](https://docs.wandb.ai/ref/weave/number) |
-
-#### Return Value
-Maximum [number](https://docs.wandb.ai/ref/weave/number)
-
-<h3 id="numbers-min"><code>numbers-min</code></h3>
-
-Minimum number
-
-| Argument |  |
-| :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to find the minimum [number](https://docs.wandb.ai/ref/weave/number) |
-
-#### Return Value
-Minimum [number](https://docs.wandb.ai/ref/weave/number)
-
-<h3 id="numbers-stddev"><code>numbers-stddev</code></h3>
-
-Standard deviation of [numbers](https://docs.wandb.ai/ref/weave/number)
-
-| Argument |  |
-| :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to calculate the standard deviation |
-
-#### Return Value
-Standard deviation of [numbers](https://docs.wandb.ai/ref/weave/number)
-
-<h3 id="numbers-sum"><code>numbers-sum</code></h3>
-
-Sum of [numbers](https://docs.wandb.ai/ref/weave/number)
-
-| Argument |  |
-| :--- | :--- |
-| `numbers` | _list_ of [numbers](https://docs.wandb.ai/ref/weave/number) to sum |
-
-#### Return Value
-Sum of [numbers](https://docs.wandb.ai/ref/weave/number)
-
-<h3 id="number-toString"><code>number-toString</code></h3>
-
-Convert a [number](https://docs.wandb.ai/ref/weave/number) to a string
-
-| Argument |  |
-| :--- | :--- |
-| `in` | Number to convert |
-
-#### Return Value
-String representation of the [number](https://docs.wandb.ai/ref/weave/number)
-
-<h3 id="number-toTimestamp"><code>number-toTimestamp</code></h3>
-
-Converts a [number](https://docs.wandb.ai/ref/weave/number) to a _timestamp_. Values less than 31536000000 will be converted to seconds, values less than 31536000000000 will be converted to milliseconds, values less than 31536000000000000 will be converted to microseconds, and values less than 31536000000000000000 will be converted to nanoseconds.
-
-| Argument |  |
-| :--- | :--- |
-| `val` | Number to convert to a timestamp |
-
-#### Return Value
-Timestamp
-
-<h3 id="number-abs"><code>number-abs</code></h3>
-
-Calculates the absolute value of a [number](https://docs.wandb.ai/ref/weave/number)
-
-| Argument |  |
-| :--- | :--- |
-| `n` | A [number](https://docs.wandb.ai/ref/weave/number) |
-
-#### Return Value
-The absolute value of the [number](https://docs.wandb.ai/ref/weave/number)
-
+| 인수 |  |
+| :--- |

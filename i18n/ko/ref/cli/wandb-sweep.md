@@ -1,27 +1,26 @@
-# wandb sweep
 
-**Usage**
+# wandb 스윕
+
+**사용법**
 
 `wandb sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID`
 
-**Summary**
+**요약**
 
-Initialize a hyperparameter sweep. Search for hyperparameters that optimizes
-a cost function of a machine learning model by testing various combinations.
+하이퍼파라미터 탐색을 초기화합니다. 기계학습 모델의 비용 함수를 최적화하는 하이퍼파라미터를 찾기 위해 다양한 조합을 테스트합니다.
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| -p, --project | The name of the project where W&B runs created from the   sweep are sent to. If the project is not specified, the run is sent to a project labeled Uncategorized. |
-| -e, --entity | The username or team name where you want to send W&B   runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity,   the run will be sent to your default entity, which is usually your username. |
-| --controller | Run local controller |
-| --verbose | Display verbose output |
-| --name | The name of the sweep. The sweep ID is used if no name   is specified. |
-| --program | Set sweep program |
-| --update | Update pending sweep |
-| --stop | Finish a sweep to stop running new runs and let   currently running runs finish. |
-| --cancel | Cancel a sweep to kill all running runs and stop running   new runs. |
-| --pause | Pause a sweep to temporarily stop running new runs. |
-| --resume | Resume a sweep to continue running new runs. |
-
+| -p, --project | 스윕에서 생성된 W&B run이 전송되는 프로젝트의 이름입니다. 프로젝트가 지정되지 않은 경우, run은 Uncategorized로 라벨링된 프로젝트로 전송됩니다. |
+| -e, --entity | 스윕에 의해 생성된 W&B run을 보내고 싶은 사용자 이름 또는 팀 이름입니다. 지정하신 엔티티가 이미 존재하는지 확인하세요. 엔티티를 지정하지 않으면, run은 보통 사용자 이름인 기본 엔티티로 전송됩니다. |
+| --controller | 로컬 컨트롤러 실행 |
+| --verbose | 자세한 출력 표시 |
+| --name | 스윕의 이름입니다. 이름이 지정되지 않은 경우 스윕 ID가 사용됩니다. |
+| --program | 스윕 프로그램 설정 |
+| --update | 대기 중인 스윕 업데이트 |
+| --stop | 새로운 run을 실행하지 않고 현재 실행 중인 run이 완료되도록 스윕을 마치세요. |
+| --cancel | 모든 실행 중인 run을 종료하고 새로운 run을 실행하지 않도록 스윕을 취소하세요. |
+| --pause | 새로운 run을 일시적으로 실행하지 않도록 스윕을 일시 정지하세요. |
+| --resume | 새로운 run을 계속 실행하도록 스윕을 재개하세요. |

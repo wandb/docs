@@ -1,9 +1,10 @@
+
 # Html
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/data_types/html.py#L18-L107' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/data_types/html.py#L18-L107' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
 
-Wandb class for arbitrary html.
+임의의 html을 위한 Wandb 클래스입니다.
 
 ```python
 Html(
@@ -12,16 +13,16 @@ Html(
 ) -> None
 ```
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `data` |  (string or io object) HTML to display in wandb |
-|  `inject` |  (boolean) Add a stylesheet to the HTML object. If set to False the HTML will pass through unchanged. |
+|  `data` |  (문자열 또는 io 오브젝트) wandb에서 보여줄 HTML |
+|  `inject` |  (불리언) HTML 오브젝트에 스타일시트를 추가합니다. False로 설정하면 HTML이 변경 없이 전달됩니다. |
 
-## Methods
+## 메소드
 
 ### `inject_head`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/data_types/html.py#L59-L74)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/sdk/data_types/html.py#L59-L74)
 
 ```python
 inject_head() -> None

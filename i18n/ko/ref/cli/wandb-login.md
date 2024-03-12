@@ -1,20 +1,20 @@
-# wandb login
 
-**Usage**
+# wandb 로그인
 
-`wandb login [OPTIONS] [KEY]...`
+**사용법**
 
-**Summary**
+`wandb login [옵션] [키]...`
 
-Login to Weights & Biases
+**요약**
 
-**Options**
+Weights & Biases에 로그인
 
-| **Option** | **Description** |
+**옵션**
+
+| **옵션** | **설명** |
 | :--- | :--- |
-| --cloud | Login to the cloud instead of local |
-| --host | Login to a specific instance of W&B |
-| --relogin | Force relogin if already logged in. |
-| --anonymously | Log in anonymously |
-| --verify | Verify login credentials |
-
+| --cloud | 로컬 대신 클라우드에 로그인 |
+| --host | W&B의 특정 인스턴스에 로그인 |
+| --relogin | 이미 로그인된 경우 다시 로그인 강제 실행 |
+| --anonymously | 익명으로 로그인 |
+| --verify | 로그인 자격 증명 확인 |

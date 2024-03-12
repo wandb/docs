@@ -1,27 +1,26 @@
-# video-file
 
-## Chainable Ops
+# 비디오 파일
+
+## 체인 가능한 작업들
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+자산의 _파일_을 반환합니다
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | 자산 |
 
-#### Return Value
-The _file_ of the asset
+#### 반환 값
+자산의 _파일_
 
-
-## List Ops
+## 목록 작업들
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+자산의 _파일_을 반환합니다
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | 자산 |
 
-#### Return Value
-The _file_ of the asset
-
+#### 반환 값
+자산의 _파일_

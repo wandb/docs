@@ -1,6 +1,7 @@
+
 # RunQueue
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/jobs.py#L415-L633' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/jobs.py#L415-L633' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
 
 ```python
@@ -15,15 +16,15 @@ RunQueue(
 ) -> None
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
-|  `items` |  Up to the first 100 queued runs. Modifying this list will not modify the queue or any enqueued items! |
+|  `items` |  첫 100개의 대기중인 run까지. 이 리스트를 수정해도 대기열이나 대기중인 항목들이 수정되지 않습니다! |
 
-## Methods
+## 메소드
 
 ### `create`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/jobs.py#L620-L633)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/jobs.py#L620-L633)
 
 ```python
 @classmethod
@@ -39,10 +40,10 @@ create(
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/jobs.py#L496-L518)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/apis/public/jobs.py#L496-L518)
 
 ```python
 delete()
 ```
 
-Delete the run queue from the wandb backend.
+wandb 백엔드에서 run queue를 삭제합니다.

@@ -1,10 +1,11 @@
-# Weave (Query Language)
 
-Weave is wandb's data querying language, which you can use to select and aggregate data across runs and projects. For a guide about Weave Panels, see here: https://docs.wandb.ai/guides/app/features/panels/weave
+# Weave (쿼리 언어)
 
-## Data Types
+Weave는 wandb의 데이터 쿼리 언어로, 여러분이 run과 프로젝트 전반에 걸쳐 데이터를 선택하고 집계하는 데 사용할 수 있습니다. Weave 패널에 대한 가이드는 여기에서 확인하세요: https://docs.wandb.ai/guides/app/features/panels/weave
 
-* [artifact](./artifact.md)
+## 데이터 타입
+
+* [아티팩트](./artifact.md)
 * [artifactType](./artifact-type.md)
 * [artifactVersion](./artifact-version.md)
 * [audio-file](./audio-file.md)
@@ -21,10 +22,10 @@ Weave is wandb's data querying language, which you can use to select and aggrega
 * [number](./number.md)
 * [object3D-file](./object-3-d-file.md)
 * [partitioned-table](./partitioned-table.md)
-* [project](./project.md)
+* [프로젝트](./project.md)
 * [pytorch-model-file](./pytorch-model-file.md)
 * [run](./run.md)
 * [string](./string.md)
 * [table](./table.md)
-* [user](./user.md)
+* [사용자](./user.md)
 * [video-file](./video-file.md)
