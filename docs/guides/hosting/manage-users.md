@@ -102,11 +102,11 @@ This will redirect you to a newly created Team home page.
 ### Team roles
 When you (team admin) invite a user to a team you can assign them one of the following roles:
 
-| Role      | Definition                                                                                                                                                                                                                                                                                       |
-|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Admin     | A user who can add and remove other users in the team, change user roles, and configure team settings.                                                                                                                                                                                                                      |
-| Member    | A regular user of a team, invited by email or their organization-level username by the team admin. A member user cannot invite other users to the team.                                                                                                                                                                        |
-| View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team admin. A view-only user only has read access to the team and its contents.                                                                                                                                                       |
+| Role   |   Definition   |
+|-----------|---------------------------|
+| Admin     | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
+| Member    | A regular user of a team, invited by email or their organization-level username by the team admin. A member user cannot invite other users to the team.  |
+| View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team admin. A view-only user only has read access to the team and its contents.  |
 | Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
 | Custom Roles (Enterprise-only feature)   | Custom roles allow organization admins to compose new roles by inheriting from the above View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
 
@@ -144,116 +144,5 @@ Use the `Members` tab in the Team's settings page to remove users from your team
 W&B keeps runs logged by team members, even if they are no longer on the team.
 :::
 
-## Automate user and team management
 
-### SCIM API
-Use [SCIM API](./scim.md) to manage users, and the teams they belong to, in an efficient and repeatable manner. You can also use the SCIM API to manage custom roles or assign roles to users in your W&B organization. Role endpoints are not part of the official SCIM schema. W&B adds role endpoints to support automated management of custom roles and to assign roles to users in W&B organizations.
-
-SCIM API is especially useful if you want to:
-* manage user provisioning and de-provisioning at scale
-* manage users with a [SCIM](https://scim.cloud/)-supporting Identity Provider
-
-There are broadly three categories of SCIM API - **User**, **Group**, and **Roles**.
-
-#### User SCIM API
-[User SCIM API](./scim.md#user-resource) allows for creating, deactivating, getting the details of a user, or listing all users in a W&B organization.
-
-:::info
-Deactivate a user within a W&B organization with the `DELETE User` endpoint. Deactivated users can no longer sign in. However, deactivated users still appears in the organization's user list.
-
-To fully remove a deactivated user from the user list, you must [remove the user from the organization](#remove-a-user).
-
-It is possible to re-enable a deactivated user, if needed.
-:::
-
-#### Group SCIM API
-[Group SCIM API](./scim.md#group-resource) allows for managing W&B teams, including creating or removing teams in an organization. Use the `PATCH Group` to add or remove users in an existing team.
-
-:::info
-There is no notion of a `group of users having the same role` within W&B. A W&B team closely resembles a group, and allows diverse personas with different roles to work collaboratively on a set of related projects. Teams can consist of different groups of users. Assign each user in a team a role: team admin, member, viewer, or a custom role.
-
-W&B maps Group SCIM API endpoints to W&B teams because of the similarity between groups and W&B teams.
-:::
-
-#### Custom role and role assignment SCIM API
-[Custom role and role assignment SCIM API](./scim.md#role-resource) allows for managing custom roles, including creating, listing, or updating custom roles in an organization. This API also supports assigning predefined or custom roles to users in an organization.
-
-:::caution
-Delete a custom role with caution.
-
-Delete a custom role within a W&B organization with the `DELETE Role` endpoint. The predefined role that the custom role inherits is assigned to all users that are assigned the custom role before the operation.
-
-Update the inherited role for a custom role with the `PUT Role` endpoint. This operation doesn't affect any of the existing, that is, non-inherited custom permissions in the custom role.
-:::
-
-:::caution
-The request type and path for the role assignment APIs are same as for the update custom role permissions API. Both types of APIs implement the `PATCH Role` endpoint. Difference is that the URI for role assignment APIs expects a `:userId` parameter, while the URI for custom role API expects a `:roleId`. Expected request bodies for both types of APIs are also different. 
-
-Be careful with the parameter value in the URI and the request body such that those map to the intended operation.
-:::
-
-### W&B Python SDK API
-Just like how SCIM API allows you to automate user and team management, you can also use some of the methods available in the [W&B Python SDK API](../../ref/python/public-api/api.md) for that purpose. Keep a note of the following methods:
-
-| Method name | Purpose |
-|-------------|---------|
-| `create_user(email, admin=False)` | Add a user to the organization and optionally make them the organization admin. |
-| `user(userNameOrEmail)` | Return an existing user in the organization. |
-| `user.teams()` | Return the teams for the user. You can get the user object using the user(userNameOrEmail) method. |
-| `create_team(teamName, adminUserName)` | Create a new team and optionally make an organization-level user the team admin. |
-| `team(teamName)` | Return an existing team in the organization. |
-| `Team.invite(userNameOrEmail, admin=False)` | Add a user to the team. You can get the team object using the team(teamName) method. |
-| `Team.create_service_account(description)` | Add a service account to the team. You can get the team object using the team(teamName) method. |
-|` Member.delete()` | Remove a member user from a team. You can get the list of member objects in a team using the team object's `members` attribute. And you can get the team object using the team(teamName) method. |
-
-### Role assignment API
-The role assignment API is part of the SCIM Role API. Refer to [Custom role and role assignment SCIM API](#custom-role-and-role-assignment-scim-api).
-
-## View organization usage of W&B
-Use the organization dashboard to get a holistic view of users that belong to your organization, how users of your organization use W&B, along with properties such as:
-
-* **Name**: The name of the user and their W&B username.
-* **Last active**: The time the user last used W&B. This includes any activity that requires authentication, including viewing pages in the product, logging runs or taking any other action, or logging in.
-* **Role**: The role of the user. 
-* **Email**: The email of the user.
-* **Team**: The names of teams the user belongs to.
-
-### View the status of a user
-The **Last Active** column shows if a user is pending an invitation or an active user.  A user is one of three states:
-
-* Pending invitation: Admin has sent invite but user has not accepted invitation. 
-* Active: User has accepted the invite and created an account.
-* Deactivated: Admin has revoked access of the user.
-
-![](/images/hosting/view_status_of_user.png)
-
-### View and share how your organization uses W&B
-View how your organization uses W&B in CSV format.
-
-1. Select the three dots next to the **Add user** button.
-2. From the dropdown, select **Export as CSV**.
-
-![](/images/hosting/export_org_usage.png)
-
-This will export a CSV file that lists all users of an organization along with their: user name, time stamp of when they were last active, role, email, teams they belong to, and their status (active, pending, or deactivated). 
-
-### View user activity
-Use the **Last Active** column to get an **Activity summary** of an individual user. 
-
-1. Hover your mouse over the **Last Active** entry for a user. 
-2. A tooltip appears and provides a summary of information about the user's activity.
-
-
-![](/images/hosting/activity_tooltip.png)
-
-:::info
-A user is active if they: log in to W&B, view any page in the W&B App, log runs, use the SDK to track an experiment, or interact with the W&B server in any way.
-:::
-
-### View active users over time
-Use the **Users active over time**  plot in the Organization dashboard to get an aggregate overview of how many users are active over time (right most plot in image below). 
-
-![](/images/hosting/dashboard_summary.png)
-
-You can use the dropdown menu to filter results based on days, months, or all time.
 

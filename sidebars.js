@@ -355,27 +355,46 @@ const sidebars = {
           label: 'Hosting options',
           link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
-            'guides/hosting/hosting-options/dedicated_cloud',
+                  {
+              type: 'category',
+              label: 'Dedicated cloud',
+              link: { type: 'doc', id: 'guides/hosting/hosting-options/dedicated_cloud' },
+              items: [
+                'guides/hosting/export-data-from-dedicated-cloud',
+              ],
+            },
             'guides/hosting/hosting-options/saas_cloud',
-            
             {
               type: 'category',
               label: 'Self managed',
               link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
               items: [
                 'guides/hosting/server-upgrade-process',
+                {
+                  type: 'category',
+                  label: 'How to install',
+                  link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+                  items: [
+                    'guides/hosting/how-to-guides/bare-metal',
+                    'guides/hosting/how-to-guides/basic-setup',
+                    'guides/hosting/how-to-guides/aws-tf',
+                    'guides/hosting/how-to-guides/gcp-tf',
+                    'guides/hosting/how-to-guides/azure-tf',
+                  ],
+                },
               ],
             },  
           ],
         },        
         {
           type: 'category',
-          label: 'Identity and access management',
+          label: 'Identity and access management (IAM)',
           // link: { type: 'doc', id: 'guides/hosting/' },
           items: [
             {
               type: 'category',
               label: 'Organization and team structure',
+              link: { type: 'doc', id: 'guides/hosting/org_team_struct' },
               items: [
                 'guides/hosting/manage-users',
               ],
@@ -395,19 +414,18 @@ const sidebars = {
                 'guides/hosting/sso', 
               ],
             }, 
-            // {
-            //   type: 'category',
-            //   label: 'Automated administration',
-            //   items: [
-            //     'guides/hosting/intro',
-            //   ],
-            // },                     
+            {
+              type: 'category',
+              label: 'Automated administration',
+              items: [
+                'guides/hosting/automate_management',
+              ],
+            },                     
           ],
         },
         {
           type: 'category',
           label: 'Data Security',
-          // link: { type: 'doc', id: 'guides/hosting/' },
           items: [
             'guides/hosting/secure-storage-connector',
             // 'guides/hosting/private_link',
@@ -417,35 +435,17 @@ const sidebars = {
         {
           type: 'category',
           label: 'Monitor',
-          // link: { type: 'doc', id: 'guides/hosting/' },
           items: [
             'guides/hosting/audit-logging',
             'guides/hosting/prometheus-logging',
             'guides/hosting/slack-alerts',
             'guides/hosting/smtp',
+            'guides/hosting/org_dashboard',
           ],
         },         
             'guides/hosting/env-vars',
-
-            ,
-            
             'guides/hosting/server-release-process',
-            
-            'guides/hosting/export-data-from-dedicated-cloud',
-
         // 'guides/hosting/debug',
-        {
-          type: 'category',
-          label: 'How to install',
-          link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
-          items: [
-            'guides/hosting/how-to-guides/basic-setup',
-            'guides/hosting/how-to-guides/bare-metal',
-            'guides/hosting/how-to-guides/aws-tf',
-            'guides/hosting/how-to-guides/gcp-tf',
-            'guides/hosting/how-to-guides/azure-tf',
-          ],
-        },
       ],
     },
     {
