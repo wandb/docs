@@ -5,13 +5,20 @@ displayed_sidebar: default
 
 # W&B Kubernetes Operator
 
-## Overview
+Use the W&B Kubernetes Operator to simplify deploying, administering, troubleshooting, and scaling your W&B Server deployments on Kubernetes. You can think of operators as a smart assistant to your W&B instance.
 
-The W&B Kubernetes Operator leverages the Kubernetes [operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) that significantly simplifies the deployment, administration, troubleshooting, and scalability of the W&B Server deployments on Kubernetes. The operator facilitates managing the lifecycle of different services making the product that is W&B Server more seamless. It uses standardized predefined configurations, thus acting as a smart assistant for your W&B instance.
+The W&B Server architecture and design continuously evolves to expand the AI developer tooling capabilities for users, and to have good primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. W&B uses operators to roll out these improvements to users across deployment types.
 
-The operator allows for consistency in provisioning & operating the W&B Server deployments across public cloud and private infrastructure. W&B uses the operator to deploy and manage the Dedicated Cloud instances on AWS, GCP and Azure public clouds, and encourages to use it for customer-managed deployments too.
+:::info
+W&B uses operators to deploy and manage Dedicated Cloud instances on AWS, GCP and Azure public clouds. In the future, W&B will deprecate deployment mechanisms that do not use operators.
+:::
 
-W&B Server architecture & design continuously evolves to expand the AI developer tooling capabilities for the users, and to have good primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. Operator is the standardized interface to easily roll out those improvements to customers across deployment types. At a future date, W&B shall deprecate the deployment mechanisms that do not use operator. If you self-manage your W&B Server instances, transitioning to the operator is strongly recommended. W&B could then roll out newer services & products to your instance more seamlessly, and provide better troubleshooting & support.
+For more information about operators in general, see [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) in the Kubernetes documentation.
+
+
+
+## Migrate from self-managed to W&B Kubernetes Operator
+W&B recommends that you use operators if you currently self-manage your W&B Server instances. This enables W&B to roll out newer services and products to your instance more seamlessly, and provide better troubleshooting and support.
 
 :::note
 Operator for self-managed W&B Server deployments is in private preview. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
@@ -19,7 +26,7 @@ Operator for self-managed W&B Server deployments is in private preview. Reach ou
 
 ## Pre-baked in Cloud Terraform modules
 
-The W&B Kubernetes Operator is pre-baked with the official W&B cloud-specific Terraform Modules with the following versions:
+The W&B Kubernetes Operator is pre-baked with official W&B cloud-specific Terraform Modules with the following versions:
 
 | Terraform Module                                 | Version |
 | ------------------------------------------------ | ------- |
