@@ -105,7 +105,7 @@ You can optionally download part of an artifact based on a prefix. Using the `pa
 ```python
 artifact = run.use_artifact("bike-dataset:latest")
 
-artifact.download(path_prefix='bike.png') # downloads only bike.png
+artifact.download(path_prefix="bike.png") # downloads only bike.png
 ```
 
 ### Use an artifact from a different project
