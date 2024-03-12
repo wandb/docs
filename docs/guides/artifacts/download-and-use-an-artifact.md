@@ -108,6 +108,11 @@ artifact = run.use_artifact("bike-dataset:latest")
 artifact.download(path_prefix="bike.png") # downloads only bike.png
 ```
 
+Alternatively, you can download files from a certain directory:
+
+```python
+artifact.download(path_prefix="images/bikes/") # downloads files in the images/bikes directory
+```
 ### Use an artifact from a different project
 
 Specify the name of artifact along with its project name to reference an artifact. You can also reference artifacts across entities by specifying the name of the artifact with its entity name.
