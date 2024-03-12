@@ -3,7 +3,7 @@ description: Guide for updating W&B (Weights & Biases) version and license acros
 displayed_sidebar: default
 ---
 
-# Server upgrade process
+# Update W&B License and Version
 
 When updating the W&B Server Version and License information, tailor the process to the initial installation method. Here are the primary methods for installing W&B and the corresponding update processes:
 

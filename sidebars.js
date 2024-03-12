@@ -347,7 +347,7 @@ const sidebars = {
     }, 
     {
       type: 'category',
-      label: 'W&B Server',
+      label: 'Deployment models',
       link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
         {
@@ -355,30 +355,84 @@ const sidebars = {
           label: 'Hosting options',
           link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
-            'guides/hosting/hosting-options/wb-managed',
-            'guides/hosting/hosting-options/self-managed',
+            'guides/hosting/hosting-options/dedicated_cloud',
+            'guides/hosting/hosting-options/saas_cloud',
+            
+            {
+              type: 'category',
+              label: 'Self managed',
+              link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
+              items: [
+                'guides/hosting/server-upgrade-process',
+              ],
+            },  
+          ],
+        },        
+        {
+          type: 'category',
+          label: 'Identity and access management',
+          // link: { type: 'doc', id: 'guides/hosting/' },
+          items: [
+            {
+              type: 'category',
+              label: 'Organization and team structure',
+              items: [
+                'guides/hosting/manage-users',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'Access management',
+              items: [
+                'guides/hosting/scim',
+              ],
+            },  
+            {
+              type: 'category',
+              label: 'Authenticate',
+              items: [
+                'guides/hosting/ldap', 
+                'guides/hosting/sso', 
+              ],
+            }, 
+            // {
+            //   type: 'category',
+            //   label: 'Automated administration',
+            //   items: [
+            //     'guides/hosting/intro',
+            //   ],
+            // },                     
           ],
         },
         {
           type: 'category',
-          label: 'Configure',
-          // link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
-          items: [          
-            'guides/hosting/audit-logging',  
-            'guides/hosting/env-vars',
-            'guides/hosting/ldap',
-            'guides/hosting/manage-users',
-            'guides/hosting/prometheus-logging',
+          label: 'Data Security',
+          // link: { type: 'doc', id: 'guides/hosting/' },
+          items: [
             'guides/hosting/secure-storage-connector',
-            'guides/hosting/sso',
-            'guides/hosting/smtp',
-            'guides/hosting/slack-alerts',
-            'guides/hosting/scim',
-            'guides/hosting/server-release-process',
-            'guides/hosting/server-upgrade-process',
-            'guides/hosting/export-data-from-dedicated-cloud',
+            // 'guides/hosting/private_link',
+            // 'guides/hosting/customer_encryption',
           ],
-        },
+        },               
+        {
+          type: 'category',
+          label: 'Monitor',
+          // link: { type: 'doc', id: 'guides/hosting/' },
+          items: [
+            'guides/hosting/audit-logging',
+            'guides/hosting/prometheus-logging',
+            'guides/hosting/slack-alerts',
+            'guides/hosting/smtp',
+          ],
+        },         
+            'guides/hosting/env-vars',
+
+            ,
+            
+            'guides/hosting/server-release-process',
+            
+            'guides/hosting/export-data-from-dedicated-cloud',
+
         // 'guides/hosting/debug',
         {
           type: 'category',
