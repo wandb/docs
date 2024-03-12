@@ -3,7 +3,7 @@ description: Hosting W&B Server via Kubernetes Operator
 displayed_sidebar: default
 ---
 
-# W&B Kubernetes operator
+# W&B Kubernetes Operator
 
 ## Overview
 
