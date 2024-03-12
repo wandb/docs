@@ -18,7 +18,7 @@ Docker
 Dockerfile
 [Ee]nqueued
 GPUs
-Helm
+[Hh]elm
 [Hh]ostname
 Hyperband
 [Hh]yperparameters
@@ -35,8 +35,9 @@ Optuna
 [Pp]seudocode
 SCIM
 [Ss]elf-managed
-Terraform
+[Tt]erraform
 TTL
 UI
 [Ww]alkthrough
 W&B Server
+[Oo]perator
