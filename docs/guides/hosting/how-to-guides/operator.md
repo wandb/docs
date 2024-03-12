@@ -3,9 +3,9 @@ description: Hosting W&B Server via Kubernetes Operator
 displayed_sidebar: default
 ---
 
-# Operator
+# W&B Kubernetes operator
 
-# Understanding the W&B operator
+## Overview
 
 The W&B Kubernetes Operator leverages the Kubernetes [operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) that significantly simplifies the deployment, administration, troubleshooting, and scalability of the W&B Server deployments on Kubernetes. The operator facilitates managing the lifecycle of different services making the product that is W&B Server more seamless. It uses standardized predefined configurations, thus acting as a smart assistant for your W&B instance.
 
