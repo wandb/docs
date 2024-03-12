@@ -15,7 +15,7 @@ There are four project visibility scopes you can choose from. In order of most p
 * _Restricted_: Only invited members can view this project. Public sharing is disabled.
 
 :::tip
-Set a project's scope to **Restricted** if you want to collaborate on workflows related to sensitive or confidential data. When you create a restricted project within a team, you can invite or add specific members from the team to collaborate on relevant experiments, artifacts, reports and so forth. 
+Set a project's scope to **Restricted** if you want to collaborate on workflows related to sensitive or confidential data. When you create a restricted project within a team, you can invite or add specific members from the team to collaborate on relevant experiments, artifacts, reports, and so forth. 
 
 Unlike other project scopes, all members of a team do not get implicit access to a restricted project. At the same time, team admins can join restricted projects to monitor team activity.
 :::
@@ -41,7 +41,7 @@ Complete the following step if you select **Restricted** visibility.
 4. Provide names of one or more W&B team members in the **Invite team members** field. Add only those members who are essential to collaborate on the project.
 ![](/images/hosting/restricted_project_2.png)
 
-### Edit visiblity scope of an existing project
+### Edit visibility scope of an existing project
 
 1. Navigate to your W&B Project.
 2. Select the **Overview** tab on the left column.
