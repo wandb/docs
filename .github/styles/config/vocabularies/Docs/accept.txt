@@ -42,6 +42,7 @@ SCIM
 Terraform
 TTL
 UI
+use_artifact
 [Ww]alkthrough
 W&B Server
 
