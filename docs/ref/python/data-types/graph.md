@@ -1,6 +1,6 @@
 # Graph
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L1326-L1485' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/2b013b90ec3ff5a397c0ced8147101707a433c6e/wandb/data_types.py#L1326-L1485' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Wandb class for graphs.
@@ -27,7 +27,7 @@ Graph.from_keras(keras_model)
 
 ### `add_edge`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L1411-L1415)
+[View source](https://www.github.com/wandb/wandb/tree/2b013b90ec3ff5a397c0ced8147101707a433c6e/wandb/data_types.py#L1411-L1415)
 
 ```python
 add_edge(
@@ -37,7 +37,7 @@ add_edge(
 
 ### `add_node`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L1399-L1409)
+[View source](https://www.github.com/wandb/wandb/tree/2b013b90ec3ff5a397c0ced8147101707a433c6e/wandb/data_types.py#L1399-L1409)
 
 ```python
 add_node(
@@ -47,7 +47,7 @@ add_node(
 
 ### `from_keras`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L1417-L1446)
+[View source](https://www.github.com/wandb/wandb/tree/2b013b90ec3ff5a397c0ced8147101707a433c6e/wandb/data_types.py#L1417-L1446)
 
 ```python
 @classmethod
@@ -58,7 +58,7 @@ from_keras(
 
 ### `pprint`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L1393-L1397)
+[View source](https://www.github.com/wandb/wandb/tree/2b013b90ec3ff5a397c0ced8147101707a433c6e/wandb/data_types.py#L1393-L1397)
 
 ```python
 pprint()
@@ -66,7 +66,7 @@ pprint()
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.4/wandb/data_types.py#L1390-L1391)
+[View source](https://www.github.com/wandb/wandb/tree/2b013b90ec3ff5a397c0ced8147101707a433c6e/wandb/data_types.py#L1390-L1391)
 
 ```python
 __getitem__(
