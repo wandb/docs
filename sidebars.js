@@ -353,7 +353,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Hosting options',
-          link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
+          // link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
                   {
               type: 'category',
@@ -393,17 +393,22 @@ const sidebars = {
           items: [
             {
               type: 'category',
-              label: 'Organization and team structure',
-              link: { type: 'doc', id: 'guides/hosting/org_team_struct' },
+              label: 'W&B Identities',
+              // link: { type: 'doc', id: 'guides/hosting/org_team_struct' },
               items: [
-                'guides/hosting/manage-users',
+                'guides/hosting/iam_users',
+                'guides/hosting/iam_team',
+                'guides/hosting/iam_org',
               ],
             },
             {
               type: 'category',
               label: 'Access management',
               items: [
+                'guides/hosting/manage-users',
+                'guides/hosting/project_avail',
                 'guides/hosting/scim',
+                // 'guides/hosting/automate_management',
               ],
             },  
             {
@@ -412,13 +417,6 @@ const sidebars = {
               items: [
                 'guides/hosting/ldap', 
                 'guides/hosting/sso', 
-              ],
-            }, 
-            {
-              type: 'category',
-              label: 'Automated administration',
-              items: [
-                'guides/hosting/automate_management',
               ],
             },                     
           ],
