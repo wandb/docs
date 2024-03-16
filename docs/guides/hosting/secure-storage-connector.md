@@ -6,16 +6,9 @@ import TabItem from '@theme/TabItem';
 
 
 # BYOB (Secure storage connector)
-Bring your own bucket (BYOB) to store artifacts and other sensitive data for Dedicated Cloud deployments or Self-Managed instances.
+Bring your own bucket (BYOB) to store artifacts and other sensitive data for Dedicated Cloud deployments or Self-Managed instances. Data that is stored in your own bucket does not flow out of your own infrastructure.
 
-There are two storage buckets that are used by Dedicated Cloud and Self Managed deployments; a storage object where artifacts and run data are stored, and a relational database for file metadata. 
-
-Data that is stored in your own bucket does not flow out of your own infrastructure. W&B communicates to your storage object with pre-signed URLs. W&B communicates to your bucket for two reasons:
-
-1. Store W&B run summary files
-2. View artifacts and run data in the W&B App UI
-
-For example, suppose you have Dedicated Cloud deployment and suppose you have an artifact stored in your storage object. You then visit the W&B App UI to view your artifact. Your browser client makes a request to your Dedicated Cloud W&B instance. Your W&B cloud instance  generates a pre-signed URL and sends it to back to your browser client. Your browser uses this pre-signed URL to make a direct request to your bucket to download the object and make it viewable in your browser with the W&B App UI.
+Any communication between W&B and your bucket occurs only with pre-signed URLs.
 
 :::info
 W&B uses a garbage collection process to delete W&B Artifacts. For more information, see [How to enable garbage collection based on how W&B is hosted](../artifacts/delete-artifacts.md#how-to-enable-garbage-collection-based-on-how-wb-is-hosted).
@@ -90,24 +83,5 @@ Reach out to your W&B team to configure the instance level secure storage connec
 
   </TabItem>
 </Tabs>
-
-<!-- OLD -->
-<!-- OLD -->
-
-<!-- The secure storage connector allows you to store the artifacts and other files pertaining to your W&B runs within a storage bucket that's managed by you. It provides you with more control over where you store the files for your AI workflows, and may help conform to your enterprise governance requirements. 
-
-There are two levels of secure storage:
-
-* Instance level: The instance level secure storage allows you to use your own managed bucket to store any files that your users may access as part of any runs in your W&B Server instance. This capability is only available for Dedicated Cloud and Self-Managed instances; for SaaS Cloud instances, the instance level bucket is fully managed by W&B. 
-* Team level: The team level secure storage allows teams within your organization to utilize a separate storage bucket from the one used at the instance level. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. This capability is available for all W&B organizations, including SaaS Cloud. -->
-
-<!-- :::info -->
-<!-- For Dedicated Cloud or Self-Managed instances, you could configure secure storage connector at both the instance level and separately for any or all teams within your organization.  -->
-
-<!-- For example, suppose you have two teams called Omega and Kappa in a Dedicated Cloud instance and that you configure secure storage connector at the instance level. Next, suppose you configure secure storage connector separately for team Omega. Files pertaining to runs made by team Omega are accessible at the team level secure storage.  -->
-<!-- 
-Conversely, if you do not configure the secure storage connector for team Kappa, files pertaining to runs made by team Kappa are accessible in instance level secure storage. -->
-<!-- ::: -->
-
 
 
