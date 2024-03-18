@@ -48,7 +48,7 @@ Deploy and manage W&B to your exact specifications, either on your own customer-
 
 For more information about W&B Customer-manged deployment options, see [INSERT].
 
-## How do I choose between a Dedicated, SaaS or Customer managed hosting type?
+## Which hosting option do I choose?
 W&B recommends that you consider a W&B managed hosting option (W&B SaaS Cloud or W&B Dedicated Cloud) before you privately host W&B Server on your infrastructure. INSERT.
 
 
