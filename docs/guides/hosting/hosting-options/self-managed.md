@@ -11,7 +11,10 @@ We recommend that you consider leveraging [W&B managed hosting options](./wb-man
 
 ## On-prem Private Cloud
 
-On-prem Private Cloud is a fully self-hosted solution where W&B server is running in a scalable deployment on customer's private cloud infrastructure. W&B recommends customers to use the official W&B terraform scripts to deploy into AWS/GCP/Azure. Customers can choose to deploy this in a region of their choice where all W&B services are available. The environment can be provisioned by us or by your company, using a toolset comprised of Terraform and Kubernetes. Upgrades and maintenance of the instance would need to be handled by customer's IT/DevOps/MLOps teams.
+Deploy W&B Server in your private cloud infrastructure. W&B recommends that you use the official W&B Terraform scripts to deploy into AWS, GCP, or Azure. You can choose to deploy W&B Server in the region of your choice. Ensure that all of your W&B services are accessibly and available in the same region. 
+
+Your company or W&B can provision your environment with Terraform and Kubernetes.
+The environment can be provisioned by us or by your company, using a toolset comprised of Terraform and Kubernetes. Upgrades and maintenance of the instance would need to be handled by customer's IT/DevOps/MLOps teams.
 
 The simplest way to configure infrastructure is by using W&B's official terraform scripts:
 
@@ -20,15 +23,18 @@ The simplest way to configure infrastructure is by using W&B's official terrafor
 - [Microsoft Azure](https://github.com/wandb/terraform-azurerm-wandb)
 
 ## On-prem Bare Metal
-
-This is a fully self-hosted solution where W&B server is running in a scalable deployment on customer's on-prem bare-metal infrastructure. There are several infrastructure pieces needed to setup and configure W&B server in an on-prem bare metal installation including but not limited to
+W&B Server runs on your on-prem, bare-metal infrastructure. There are several infrastructure pieces that you need to configure in order to set up W&B Server on your on-prem bare metal infrastructure. Some requirements you must satisfy include, but is not limited to: 
 
 - a fully scalable MySQL 8 database
-- an S3-compatible object storage
+- an Amazon S3-compatible object storage
 - a message queue and
-- a redis cache (optional)
+- (optionally) a redis cache 
 
-W&B can provide recommendations for compatible database engines, object stores and have an experienced team to help with the installation process. The complexity of administrating a database, creating and maintaining a distributed object storage system adds additional overhead to the customer's IT/DevOps/MLOps teams. When possible, W&B recommends using W&B managed cloud solutions for better user experience.
+W&B can provide recommendations for compatible database engines, object stores and have an experienced team to help with the installation process. The complexity of administrating a database, creating and maintaining a distributed object storage system adds additional overhead to the customer's IT/DevOps/MLOps teams. 
+
+:::info
+When possible, W&B recommends using W&B managed cloud solutions for better user experience.
+:::
 
 ### Contact
 
