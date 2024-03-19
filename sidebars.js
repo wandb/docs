@@ -393,10 +393,10 @@ const sidebars = {
           items: [
             {
               type: 'category',
-              label: 'W&B Identities',
+              label: 'W&B Entities & Identities',
               // link: { type: 'doc', id: 'guides/hosting/org_team_struct' },
               items: [
-                'guides/hosting/iam_users',
+                'guides/hosting/iam_users_service',
                 'guides/hosting/iam_team',
                 'guides/hosting/iam_org',
               ],
@@ -407,7 +407,6 @@ const sidebars = {
               items: [
                 'guides/hosting/manage-users',
                 'guides/hosting/project_avail',
-                'guides/hosting/scim',
                 // 'guides/hosting/automate_management',
               ],
             },  
@@ -418,7 +417,8 @@ const sidebars = {
                 'guides/hosting/ldap', 
                 'guides/hosting/sso', 
               ],
-            },                     
+            },
+            'guides/hosting/scim',                     
           ],
         },
         {
