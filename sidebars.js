@@ -347,7 +347,7 @@ const sidebars = {
     }, 
     {
       type: 'category',
-      label: 'Deployment models',
+      label: 'W&B Platform',
       link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
         {
