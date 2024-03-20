@@ -5,7 +5,20 @@ displayed_sidebar: default
 
 # Getting started
 
-Follow this "Hello, world!" example to learn the W&B Server workflow. 
+Follow this "Hello, world!" example to learn the W&B Server workflow for Dedicated Cloud and Self Managed hosting options.
+
+:::info
+**Trial Mode vs. Production Setup**
+
+In Trial Mode of W&B Local, you run the Docker container on a single machine. This setup is ideal for testing the product, but it is not scalable.
+
+For production work, set up a scalable file system to avoid data loss. We suggest you:
+* allocate extra space in advance, 
+* resize the file system proactively as you log more data
+* configure external metadata and object stores for backup.
+
+The instance will stop working if you run out of space. In this case, any additional data will be lost.
+:::
 
 ## Prerequisites
 1. [Python](https://www.python.org)
@@ -58,20 +71,20 @@ export WANDB_BASE_URL="https://api.wandb.ai"
 
 You can also switch to your cloud API key, available at [https://wandb.ai/settings](https://wandb.ai/settings) when you are logged in to your cloud-hosted wandb account in your browser.
 
-### Generate a free license
+## 3. Generate a free license
 
 You need a license to complete your configuration of a W&B server. [**Open the Deploy Manager** ](https://deploy.wandb.ai/deploy)to generate a free license. If you do not already have a cloud account then you will need to create one to generate your free license. You can generate either a personal or team or free license:
 
 1. [**Personal licenses**](https://deploy.wandb.ai/deploy) are free forever for personal work: ![](/images/hosting/personal_license.png)
 2. [**Team trial licenses**](https://deploy.wandb.ai/deploy) are free and last 30 days, allowing you to set up a team and connect a scalable backend: ![](/images/hosting/team_trial_license.png)
 
-### Add a license to your Local host
+## 4. Add a license to your Local host
 
 1. Copy your license from your Deployment and navigate back to your W&B server's localhost: ![](/images/hosting/add_license_local_host.png)
 2. Add it to your local settings by pasting it into the `/system-admin` page of your localhost:
    ![](@site/static/images/hosting/License.gif)
 
-### Upgrades
+## 5. Check for W&B Server updates
 
 New versions of _wandb/local_ are pushed to DockerHub regularly. We suggest you keep your version up to date. To upgrade, copy and paste the following command into your terminal:
 
@@ -87,7 +100,7 @@ $ docker stop wandb-local
 $ docker run --rm -d -v wandb:/vol -p 8080:8080 --name wandb-local wandb/local
 ```
 
-### Persistence and Scalability
+## 6. (Optional) Mount a persistence volume 
 
 - All metadata and files sent to W&B server are stored in the `/vol` directory. If you do not mount a persistent volume at this location all data will be lost when the docker process dies.
 - This solution is not meant for [production](../hosting-options/intro.md) workloads.
@@ -95,29 +108,17 @@ $ docker run --rm -d -v wandb:/vol -p 8080:8080 --name wandb-local wandb/local
 - The underlying file store should be resizable. Alerts should be put in place to let you know once minimum storage thresholds are crossed to resize the underlying file system.
 - For enterprise trials, we recommend at least 100GB free space in the underlying volume for non-image/video/audio heavy workloads.
 
-#### How does wandb persist user account data?
+
+## 7. (Optional) Create and scale a shared instance
+
+To enjoy the powerful collaborative features of W&B, you will need a shared instance on a central server, which you can [set up on AWS, GCP, Azure, Kubernetes, or Docker](../hosting-options/intro.md).
+
+[Contact sales](https://wandb.ai/site/contact) to learn more about Enterprise options for W&B server.
+
+
+## FAQ: How does wandb persist user account data?
 
 When a Kubernetes instance is stopped, the W&B application bundles all the user account data into a tarball and uploads it to the Amazon S3 object store. W&B pulls previously uploaded tarball files when you restart an instance and provide the `BUCKET` environment variable. W&B will also load your user account information into the newly started Kubernetes deployment.
 
 When an external object store is enabled, strong access controls should be enforced as it will contain all users data.
 W&B persists instance settings in the external bucket when it is configured. W&B also persist certificates, and secrets in the bucket.
-
-
-#### Create and scale a shared instance
-
-To enjoy the powerful collaborative features of W&B, you will need a shared instance on a central server, which you can [set up on AWS, GCP, Azure, Kubernetes, or Docker](../hosting-options/intro.md).
-
-:::caution
-**Trial Mode vs. Production Setup**
-
-In Trial Mode of W&B Local, you run the Docker container on a single machine. This setup is ideal for testing the product, but it is not scalable.
-
-For production work, set up a scalable file system to avoid data loss. We suggest you:
-* allocate extra space in advance, 
-* resize the file system proactively as you log more data
-* configure external metadata and object stores for backup.
-
-The instance will stop working if you run out of space. In this case, any additional data will be lost.
-:::
-
-[Contact sales](https://wandb.ai/site/contact) to learn more about Enterprise options for W&B server.
