@@ -36,7 +36,7 @@ The following table shows the availability of BYOB across different W&B Server d
 | Self-managed | X | X | Instance level BYOB is the default since the deployment is fully managed by you. It is also possible to use a S3-compatible secure storage solution like [MinIO](https://github.com/minio/minio). |
 
 :::info
-For Dedicated Cloud and Self-managed instances on Azure, it is possible to use non-Azure storage buckets at team level using the environment variable called `SUPPORTED_FILE_STORES`. Reach out to W&B Support at [support@wandb.com](support@wandb.com) for more information.
+For Dedicated Cloud and Self-managed instances on Azure, it is possible to use non-Azure storage buckets at team level using the environment variable called `SUPPORTED_FILE_STORES`. Reach out to W&B Support at support@wandb.com for more information.
 :::
 
 ## Configure your storage object
