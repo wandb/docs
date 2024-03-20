@@ -183,7 +183,7 @@ const sidebars = {
     },    
     {
       type: 'category',
-      label: 'W&B Platform',
+      label: 'W&B Core',
       link: {type: 'doc', id: 'guides/platform'},
       collapsed: false,
       items: [
@@ -347,7 +347,7 @@ const sidebars = {
     }, 
     {
       type: 'category',
-      label: 'Deployment models',
+      label: 'W&B Platform',
       link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
         {
