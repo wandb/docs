@@ -82,7 +82,7 @@ An error or warning appears at the bottom of the page if there are issues access
   </TabItem>
   <TabItem value="instance">
 
-Reach out to W&B Support at [support@wandb.com](support@wandb.com) to configure Instance level BYOB for your Dedicated Cloud or Self-managed instance.
+Reach out to W&B Support at support@wandb.com to configure Instance level BYOB for your Dedicated Cloud or Self-managed instance.
 
   </TabItem>
 </Tabs>
