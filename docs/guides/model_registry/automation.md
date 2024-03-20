@@ -270,7 +270,7 @@ See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-C
 
 ### Troubleshoot your webhook
 
-Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script.
+Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script. You can troubleshoot a webhook when you create a new webhook or edit an existing webhook.
 
 <Tabs
   defaultValue="app"
