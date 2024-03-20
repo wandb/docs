@@ -270,6 +270,33 @@ See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-C
 
 ### Troubleshoot your webhook
 
+Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script.
+
+<Tabs
+  defaultValue="app"
+  values={[
+    {label: 'W&B App UI', value: 'app'},
+    {label: 'Bash script', value: 'bash'},
+  ]}>
+  <TabItem value="app">
+
+Interactively test a webhook with the W&B App UI. 
+
+1. Navigate to your W&B Team Settings page.
+2. Scroll to the **Webhooks** section.
+3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
+4. Select **Test**.
+5. From the UI panel that appears, paste your POST request to the field that appears. 
+![](/images/models/webhook_ui.png)
+6. Click on **Test webhook**.
+
+Within the W&B App UI, W&B posts the response made by your endpoint.
+
+See [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube video to view a real-world example.
+
+  </TabItem>
+  <TabItem value="bash">
+
 The following bash script generates a POST request similar to the POST request W&B sends to your webhook automation when it is triggered.
 
 Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for the following:
@@ -303,6 +330,11 @@ curl -X POST \
   -H "X-Wandb-Signature: $SIGNATURE" \
   -d "$PAYLOAD" API_ENDPOINT
 ```
+
+  </TabItem>
+</Tabs>
+
+
 
 ## Create a launch automation
 Automatically start a W&B Job. 
