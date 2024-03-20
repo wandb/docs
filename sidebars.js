@@ -350,6 +350,7 @@ const sidebars = {
       label: 'W&B Platform',
       link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
+        'guides/hosting/how-to-guides/basic-setup',
         {
           type: 'category',
           label: 'Hosting options',
@@ -372,11 +373,10 @@ const sidebars = {
                 'guides/hosting/server-upgrade-process',
                 {
                   type: 'category',
-                  label: 'How to install',
+                  label: 'Cloud provider installation info',
                   link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
                   items: [
                     'guides/hosting/how-to-guides/bare-metal',
-                    'guides/hosting/how-to-guides/basic-setup',
                     'guides/hosting/how-to-guides/aws-tf',
                     'guides/hosting/how-to-guides/gcp-tf',
                     'guides/hosting/how-to-guides/azure-tf',

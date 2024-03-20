@@ -3,20 +3,28 @@ description: Run Weights and Biases on your own machines using Docker
 displayed_sidebar: default
 ---
 
-# Basic Setup
+# Getting started
 
-Run Weights and Biases on your own machines using Docker.
+Follow this "Hello, world!" example to learn the W&B Server workflow. 
 
-### Installation
+## Prerequisites
+1. [Python](https://www.python.org)
+2. [Docker](https://www.docker.com)
+3. Ensure you have the latest version of W&B: 
+   ```bash
+   pip install wandb
+   ```
+##  1. Pull W&B Docker image
 
-On any machine with [Docker](https://www.docker.com) and [Python](https://www.python.org) installed, run:
+Execute the following in your terminal.
 
-```
-pip install wandb
+```bash
 wandb server start
 ```
 
-### Login
+This will pull the latest W&B Docker image.
+
+## 2. Log in to W&B
 
 If this is your first time logging in then you will need to create your local W&B server account and authorize your API key. There are several ways to control where your runs are logged to. This is particularly useful if you run `wandb` on multiple machines or you switch between a private instance and W&B cloud. 
 
