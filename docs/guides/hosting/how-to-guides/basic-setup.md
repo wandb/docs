@@ -3,7 +3,7 @@ description: Run Weights and Biases on your own machines using Docker
 displayed_sidebar: default
 ---
 
-# Basic Setup
+# Hello World
 
 Run Weights and Biases on your own machines using Docker.
 
