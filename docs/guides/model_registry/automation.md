@@ -292,6 +292,8 @@ Interactively test a webhook with the W&B App UI.
 
 Within the W&B App UI, W&B posts the response made by your endpoint.
 
+![](/images/models/webhook_ui_testing.gif)
+
 See [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube video to view a real-world example.
 
   </TabItem>
