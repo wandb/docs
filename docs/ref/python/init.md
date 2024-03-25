@@ -101,7 +101,7 @@ For more on using `wandb.init()`, including detailed examples, check out our
 |  `sync_tensorboard` |  (bool, optional) Synchronize wandb logs from tensorboard or tensorboardX and save the relevant events file. (default: `False`) |
 |  `monitor_gym` |  (bool, optional) Automatically log videos of environment when using OpenAI Gym. (default: `False`) See [our guide to this integration](https://docs.wandb.com/guides/integrations/openai-gym). |
 |  `id` |  (str, optional) A unique ID for this run, used for resuming. It must be unique in the project, and if you delete a run you can't reuse the ID. Use the `name` field for a short descriptive name, or `config` for saving hyperparameters to compare across runs. The ID cannot contain the following special characters: `/\#?%:`. See [our guide to resuming runs](https://docs.wandb.com/guides/runs/resuming). |
-|  `fork_from` |  (str, optional) A string describing a moment in a previous run to fork a new run from. Creates a new run that picks up logging history from the specified run at the specified moment. The target run must be in the current project. |
+|  `fork_from` |   (str, optional) A string with the format {run_id}?_step={step} describing a moment in a previous run to fork a new run from. Creates a new run that picks up logging history from the specified run at the specified moment. The target run must be in the current project. Example: `fork_from="my-run-id?_step=1234"`.
 
 #### Examples:
 
