@@ -5,25 +5,25 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 아티팩트 FAQs
+# Artifacts FAQs
 
 <head>
-  <title>아티팩트에 대한 자주 묻는 질문들</title>
+  <title>Artifacts에 대한 자주 묻는 질문들</title>
 </head>
 
-다음 질문들은 [W&B 아티팩트](#questions-about-artifacts)와 [W&B 아티팩트 워크플로우](#questions-about-artifacts-workflows)에 대해 자주 묻는 질문들입니다.
+다음 질문들은 [W&B Artifacts](#questions-about-artifacts)와 [W&B Artifacts 워크플로우](#questions-about-artifacts-workflows)에 대해 자주 묻는 질문들입니다.
 
-## 아티팩트에 대한 질문들
+## Artifacts에 대한 질문들
 
 ### 누가 내 아티팩트에 엑세스할 수 있나요?
 
-아티팩트는 상위 프로젝트의 엑세스 권한을 상속받습니다:
+Artifacts는 상위 프로젝트의 엑세스 권한을 상속받습니다:
 
 * 프로젝트가 비공개인 경우, 프로젝트 팀의 구성원만 해당 아티팩트에 엑세스할 수 있습니다.
 * 공개 프로젝트의 경우, 모든 사용자가 아티팩트를 읽을 수 있지만 프로젝트 팀의 구성원만 생성하거나 수정할 수 있습니다.
 * 오픈 프로젝트의 경우, 모든 사용자가 아티팩트를 읽고 쓸 수 있습니다.
 
-## 아티팩트 워크플로우에 대한 질문들
+## Artifacts 워크플로우에 대한 질문들
 
 이 섹션에서는 아티팩트를 관리하고 편집하기 위한 워크플로우를 설명합니다. 이러한 워크플로우 중 많은 부분이 [W&B API](../track/public-api-guide.md)를 사용하는데, 이는 W&B와 저장된 데이터에 엑세스할 수 있는 [클라이언트 라이브러리](../../ref/python/README.md)의 구성요소입니다.
 
@@ -133,7 +133,7 @@ wandb.log_artifact(code_artifact)
 1. 다른 모델 아키텍처마다 새로운 아티팩트를 생성합니다. run의 `config`를 사용하는 것과 유사하게 아키텍처를 더 자세히 설명하기 위해 아티팩트의 `메타데이터` 속성을 사용할 수 있습니다.
 2. 각 모델에 대해 주기적으로 `log_artifact`를 사용하여 체크포인트를 로그합니다. W&B는 이러한 체크포인트의 기록을 자동으로 구축하며, 가장 최근의 체크포인트에 `latest` 에일리어스를 주석 처리하여 주어진 모델 아키텍처의 최신 체크포인트를 `architecture-name:latest`를 사용하여 참조할 수 있습니다.
 
-## 아티팩트 FAQs 참조
+## Artifacts FAQs 참조
 
 ### W&B에서 이 버전 ID와 ETag를 어떻게 가져올 수 있나요?
 

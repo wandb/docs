@@ -4,13 +4,13 @@ description: Artifacts quickstart shows how to create, track, and use a dataset 
 displayed_sidebar: default
 ---
 
-# 연습
+# Walkthrough
 
 <head>
   <title>연습</title>
 </head>
 
-다음 연습은 데이터셋 아티팩트를 생성, 추적 및 사용하기 위해 사용되는 주요 W&B Python SDK 코맨드를 보여줍니다. [W&B Runs](../runs/intro.md)에서 어떻게 사용되는지를 보여줍니다.
+다음 walkthrough는 데이터셋 아티팩트를 생성, 추적 및 사용하기 위해 사용되는 주요 W&B Python SDK 코맨드를 보여줍니다. [W&B Runs](../runs/intro.md)에서 어떻게 사용되는지를 보여줍니다.
 
 ## 1. W&B에 로그인하기
 

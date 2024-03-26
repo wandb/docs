@@ -3,7 +3,7 @@ description: Manage storage, memory allocation of W&B Artifacts.
 displayed_sidebar: default
 ---
 
-# 저장소
+# Storage
 
 <head>
     <title>아티팩트 저장소</title>

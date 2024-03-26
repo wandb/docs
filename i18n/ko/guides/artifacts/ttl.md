@@ -6,9 +6,9 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# 아티팩트 TTL 정책으로 데이터 보존 관리하기
+# Artifacts TTL 정책으로 데이터 보존 관리하기
 
-W&B 아티팩트 시간존재(TTL) 정책으로 W&B에서 아티팩트가 삭제되는 시간을 예약하세요. 아티팩트를 삭제할 때, W&B는 해당 아티팩트를 *소프트 삭제*로 표시합니다. 즉, 아티팩트는 삭제로 표시되지만 파일은 즉시 저장소에서 삭제되지 않습니다. W&B가 아티팩트를 어떻게 삭제하는지에 대한 자세한 정보는 [아티팩트 삭제](./delete-artifacts.md) 페이지를 참조하세요.
+W&B Artifacts time-to-live(TTL) 정책으로 W&B에서 아티팩트가 삭제되는 시간을 예약하세요. 아티팩트를 삭제할 때, W&B는 해당 아티팩트를 *소프트 삭제*로 표시합니다. 즉, 아티팩트는 삭제로 표시되지만 파일은 즉시 저장소에서 삭제되지 않습니다. W&B가 아티팩트를 어떻게 삭제하는지에 대한 자세한 정보는 [아티팩트 삭제](./delete-artifacts.md) 페이지를 참조하세요.
 
 W&B 앱에서 아티팩트 TTL을 사용하여 데이터 보존을 관리하는 방법을 배우려면 [이](https://www.youtube.com/watch?v=hQ9J6BoVmnc) 비디오 튜토리얼을 확인하세요.
 
@@ -28,11 +28,11 @@ W&B 앱에서 아티팩트 TTL을 사용하여 데이터 보존을 관리하는 
 :::
 
 1. 팀의 프로필 페이지로 이동하세요.
-2. **설정** 탭을 선택하세요.
-3. **아티팩트 시간존재(TTL) 섹션**으로 이동하세요.
-4. **TTL 권한 드롭다운**에서 TTL 정책을 설정하고 편집할 수 있는 사람을 선택하세요.
-5. **설정 검토 및 저장**을 클릭하세요.
-6. 변경 사항을 확인하고 **설정 저장**을 선택하세요.
+2. **Settings** 탭을 선택하세요.
+3. **Artifacts time-to-live (TTL) section**으로 이동하세요.
+4. **TTL permissions dropdown**에서 TTL 정책을 설정하고 편집할 수 있는 사람을 선택하세요.
+5. **Review and save settings**을 클릭하세요.
+6. 변경 사항을 확인하고 **Save settings**을 선택하세요.
 
 ![](/images/artifacts/define_who_sets_ttl.gif)
 
@@ -110,11 +110,11 @@ artifact.save()
 2. 왼쪽 패널에서 아티팩트 아이콘을 선택합니다.
 3. 아티팩트 목록에서 아티팩트 유형을 확장합니다.
 4. TTL 정책을 편집하고자 하는 아티팩트 버전을 선택합니다.
-5. **버전** 탭을 클릭합니다.
-6. 드롭다운에서 **TTL 정책 편집**을 선택합니다.
-7. 나타나는 모달에서 TTL 정책 드롭다운에서 **사용자 정의**를 선택합니다.
-8. **TTL 기간** 필드에서 일 단위로 TTL 정책을 설정합니다.
-9. 변경 사항을 저장하려면 **TTL 업데이트** 버튼을 선택합니다.
+5. **Version** 탭을 클릭합니다.
+6. 드롭다운에서 **Edit TTL policy**을 선택합니다.
+7. 나타나는 모달에서 TTL 정책 드롭다운에서 **Custom**를 선택합니다.
+8. **TTL duration** 필드에서 일 단위로 TTL 정책을 설정합니다.
+9. 변경 사항을 저장하려면 **Update TTL** 버튼을 선택합니다.
 
 ![](/images/artifacts/edit_ttl_ui.gif)
 
@@ -130,12 +130,12 @@ artifact.save()
 팀에 대한 기본 TTL 정책을 설정하세요. 기본 TTL 정책은 각각의 생성 날짜를 기준으로 모든 기존 및 미래의 아티팩트에 적용됩니다. 기존 버전 수준의 TTL 정책이 있는 아티팩트는 팀의 기본 TTL에 영향을 받지 않습니다.
 
 1. 팀의 프로필 페이지로 이동하세요.
-2. **설정** 탭을 선택하세요.
-3. **아티팩트 시간존재(TTL) 섹션**으로 이동하세요.
-4. **팀의 기본 TTL 정책 설정**을 클릭하세요.
-5. **기간** 필드에서 일 단위로 TTL 정책을 설정합니다.
-6. **설정 검토 및 저장**을 클릭하세요.
-7. 변경 사항을 확인한 다음 **설정 저장**을 선택하세요.
+2. **Settings** 탭을 선택하세요.
+3. **Artifacts time-to-live (TTL) section**으로 이동하세요.
+4. **Set team's default TTL policy**을 클릭하세요.
+5. **Duration** 필드에서 일 단위로 TTL 정책을 설정합니다.
+6. **Review and save settings**을 클릭하세요.
+7. 변경 사항을 확인한 다음 **Save settings**을 선택하세요.
 
 ![](/images/artifacts/set_default_ttl.gif)
 
@@ -173,9 +173,9 @@ artifact.save()
 4. TTL 정책을 수정하고자 하는 아티팩트 버전을 선택합니다.
 5. 버전 탭을 클릭합니다.
 6. **레지스트리에 링크** 버튼 옆의 고기 메뉴 UI 아이콘을 클릭합니다.
-7. 드롭다운에서 **TTL 정책 편집**을 선택합니다.
-8. 나타나는 모달에서 TTL 정책 드롭다운에서 **비활성화**를 선택합니다.
-9. 변경 사항을 저장하려면 **TTL 업데이트** 버튼을 선택합니다.
+7. 드롭다운에서 **Edit TTL polic**을 선택합니다.
+8. 나타나는 모달에서 TTL 정책 드롭다운에서 **Deactivate**를 선택합니다.
+9. 변경 사항을 저장하려면 **Update TTL** 버튼을 선택합니다.
 
 ![](/images/artifacts/remove_ttl_polilcy.gif)
 
@@ -204,7 +204,7 @@ print(artifact.ttl)
   <TabItem value="app">
 
 
-W&B 앱 UI에서 아티팩트의 TTL 정책을 보세요.
+W&B app UI에서 아티팩트의 TTL 정책을 보세요.
 
 1. [https://wandb.ai](https://wandb.ai)에서 W&B 앱으로 이동합니다.
 2. 귀하의 W&B 프로젝트로 이동합니다.

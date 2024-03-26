@@ -7,7 +7,7 @@ displayed_sidebar: default
 # 아티팩트 삭제하기
 
 <head>
-  <title>W&B 아티팩트 삭제하기</title>
+  <title>W&B Artifacts 삭제하기</title>
 </head>
 
 앱 UI를 사용하여 대화식으로 아티팩트를 삭제하거나 W&B SDK를 사용하여 프로그래밍 방식으로 삭제할 수 있습니다. 아티팩트를 삭제하면 W&B는 해당 아티팩트를 *소프트 삭제* 표시합니다. 즉, 아티팩트가 삭제로 표시되지만 파일은 저장소에서 즉시 삭제되지 않습니다.

@@ -6,7 +6,7 @@ displayed_sidebar: default
 # 사용자 정의 에일리어스 생성
 
 <head>
-    <title>아티팩트에 대한 사용자 정의 에일리어스 생성하기.</title>
+    <title>Artifacts에 대한 사용자 정의 에일리어스 생성하기.</title>
 </head>
 
 특정 버전을 가리키는 포인터로서 에일리어스를 사용하세요. 기본적으로 `Run.log_artifact`는 로그된 버전에 `latest` 에일리어스를 추가합니다.

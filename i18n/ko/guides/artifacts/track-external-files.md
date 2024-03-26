@@ -7,10 +7,10 @@ displayed_sidebar: default
 # 외부 파일 추적하기
 
 <head>
-	<title>참조 아티팩트로 외부 파일 추적하기</title>
+	<title>Reference artifacts로 외부 파일 추적하기</title>
 </head>
 
-예를 들어 Amazon S3 버킷, GCS 버킷, Azure blob, HTTP 파일 서버 또는 NFS 공유와 같이 W&B 시스템 외부에 저장된 파일을 추적하기 위해 **참조 아티팩트**를 사용하세요. W&B [CLI](https://docs.wandb.ai/ref/cli)를 사용하여 [W&B Run](https://docs.wandb.ai/ref/python/run) 외부에서 아티팩트를 로그합니다.
+예를 들어 Amazon S3 버킷, GCS 버킷, Azure blob, HTTP 파일 서버 또는 NFS 공유와 같이 W&B 시스템 외부에 저장된 파일을 추적하기 위해 **reference artifacts**를 사용하세요. W&B [CLI](https://docs.wandb.ai/ref/cli)를 사용하여 [W&B Run](https://docs.wandb.ai/ref/python/run) 외부에서 아티팩트를 로그합니다.
 
 ### Run 외부에서 아티팩트 로그하기
 
@@ -26,18 +26,18 @@ $ wandb artifact put --name project/artifact_name --type TYPE PATH
 
 ## W&B 외부에서 아티팩트 추적하기
 
-데이터셋 버전 관리 및 모델 이력을 위해 W&B 아티팩트를 사용하고, W&B 서버 외부에 저장된 파일을 추적하기 위해 **참조 아티팩트**를 사용하세요. 이 모드에서 아티팩트는 파일에 대한 메타데이터만을 저장합니다. 예를 들어 URL, 크기, 체크섬 등이 있습니다. 기본 데이터는 시스템을 떠나지 않습니다. 파일과 디렉토리를 W&B 서버에 저장하는 방법에 대한 정보는 [빠른 시작](https://docs.wandb.ai/guides/artifacts/artifacts-walkthrough)을 참조하세요.
+데이터셋 버전 관리 및 모델 이력을 위해 W&B Artifacts를 사용하고, W&B 서버 외부에 저장된 파일을 추적하기 위해 **reference artifacts**를 사용하세요. 이 모드에서 아티팩트는 파일에 대한 메타데이터만을 저장합니다. 예를 들어 URL, 크기, 체크섬 등이 있습니다. 기본 데이터는 시스템을 떠나지 않습니다. 파일과 디렉토리를 W&B 서버에 저장하는 방법에 대한 정보는 [빠른 시작](https://docs.wandb.ai/guides/artifacts/artifacts-walkthrough)을 참조하세요.
 
 다음은 참조 아티팩트를 구성하는 방법과 워크플로우에 최적으로 통합하는 방법을 설명합니다.
 
 ### Amazon S3 / GCS / Azure Blob Storage 참조
 
-클라우드 스토리지 버킷에 있는 참조를 추적하기 위해 데이터셋 및 모델 버전 관리를 위해 W&B 아티팩트를 사용하세요. 아티팩트 참조를 사용하면 기존 스토리지 레이아웃에 아무런 수정 없이 버킷에 추적을 원활하게 추가할 수 있습니다.
+클라우드 스토리지 버킷에 있는 참조를 추적하기 위해 데이터셋 및 모델 버전 관리를 위해 W&B Artifacts를 사용하세요. Reference artifacts를 사용하면 기존 스토리지 레이아웃에 아무런 수정 없이 버킷에 추적을 원활하게 추가할 수 있습니다.
 
-아티팩트는 AWS, GCP 또는 Azure와 같은 기본 클라우드 스토리지 공급자를 추상화합니다. 다음 섹션에서 설명하는 정보는 Amazon S3, Google Cloud Storage 및 Azure Blob Storage에 균일하게 적용됩니다.
+Artifacts는 AWS, GCP 또는 Azure와 같은 기본 클라우드 스토리지 공급자를 추상화합니다. 다음 섹션에서 설명하는 정보는 Amazon S3, Google Cloud Storage 및 Azure Blob Storage에 균일하게 적용됩니다.
 
 :::info
-W&B 아티팩트는 MinIO를 포함한 모든 Amazon S3 호환 인터페이스를 지원합니다! AWS\_S3\_ENDPOINT\_URL 환경 변수를 MinIO 서버를 가리키도록 설정하면 아래 스크립트는 그대로 작동합니다.
+W&B Artifacts는 MinIO를 포함한 모든 Amazon S3 호환 인터페이스를 지원합니다! AWS\_S3\_ENDPOINT\_URL 환경 변수를 MinIO 서버를 가리키도록 설정하면 아래 스크립트는 그대로 작동합니다.
 :::
 
 다음 구조를 가진 버킷을 가정해 봅시다:
@@ -82,7 +82,7 @@ W&B는 사용자가 사용하는 클라우드 제공업체에 따라 자격 증�
 패널이 앱 UI에서 렌더링되지 않을 수 있는 사설 버킷입니다. 회사에 VPN이 있는 경우 버킷의 엑세스 정책을 업데이트하여 VPN 내의 IP를 허용 목록에 추가할 수 있습니다.
 :::
 
-### 참조 아티팩트 다운로드하기
+### Reference artifact 다운로드하기
 
 ```python
 import wandb
@@ -149,7 +149,7 @@ GCP 또는 Azure에 대한 참조로 아티팩트를 추적하는 방법에 대�
 
 ### 파일시스템 참조
 
-데이터셋에 빠르게 엑세스하는 또 다른 일반적인 패턴은 모든 트레이닝 작업을 실행하는 기계에 원격 파일시스템에 대한 NFS 마운트 포인트를 노출하는 것입니다. 클라우드 스토리지 버킷보다 더 간단한 해결책일 수 있습니다. 트레이닝 스크립트의 관점에서 파일은 로컬 파일시스템에 있는 것처럼 보입니다. 다행히도, 파일 시스템에 대한 참조를 추적하기 위해 아티팩트를 사용하는 것의 용이성은 그대로 유지됩니다 — 마운트되었든 아니든.
+데이터셋에 빠르게 엑세스하는 또 다른 일반적인 패턴은 모든 트레이닝 작업을 실행하는 기계에 원격 파일시스템에 대한 NFS 마운트 포인트를 노출하는 것입니다. 클라우드 스토리지 버킷보다 더 간단한 해결책일 수 있습니다. 트레이닝 스크립트의 관점에서 파일은 로컬 파일시스템에 있는 것처럼 보입니다. 다행히도, 파일 시스템에 대한 참조를 추적하기 위해 Artifacts를 사용하는 것의 용이성은 그대로 유지됩니다 — 마운트되었든 아니든.
 
 `/mount`에 다음 구조로 마운트된 파일시스템이 있다고 가정해 봅시다:
 

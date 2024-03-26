@@ -2,9 +2,9 @@
 displayed_sidebar: default
 ---
 
-# 아티팩트 예시
+# Artifacts 예시
 
-라이브 노트북에서 아티팩트의 예시를 살펴보세요.
+라이브 노트북에서 Artifacts의 예시를 살펴보세요.
 
 [**노트북을 시도해 보세요 →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline\_Versioning\_with\_W%26B\_Artifacts.ipynb)
 
