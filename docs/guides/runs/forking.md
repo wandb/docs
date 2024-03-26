@@ -5,11 +5,15 @@ displayed_sidebar: default
 
 # Fork Runs
 
-## Forking a Run
- The `fork_from` initialization parameter streamlines the creation of new experiment runs by "forking" from existing runs. It automatically creates a new run using the `run ID` and `step` of the source run, facilitating the creation of run chains and easy tracking of their lineage. This feature enables efficient exploration of different parameters or models from a specific point in an experiment without data loss impact on the original run.
+Use the `fork_from` initialization parameter to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
 
+Forking a run enables you to explore different parameters or models from a specific point in an experiment without impacting the original run.
 
-### Starting a Forked Run
+:::info
+Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with `define_metric()` to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
+:::
+
+## Start a forked run
 
 To fork a run, use the `fork_from` argument in `wandb.init()` and specify the source `run ID` and the `step` from the source run to fork from:
 
@@ -30,7 +34,7 @@ forked_run = wandb.init(
 ```
 
 
-### Continuing from a Forked Run
+## Continue from a forked run
 After initializing a forked run, you can continue logging to the new run. You can log the same metrics for continuity and introduce new metrics:
 
 ```python
@@ -67,13 +71,10 @@ run2.finish()
 
 When initializing a new run with the intention of forking from an existing run, `wandb.init()` accepts specific arguments for forking a run:
 
-
 | Argument     | Description |
 |--------------|-------------|
 | `fork_from`  | (str, optional) A unique `run.id` identifier of the run you want to fork. Append `?_step=` to the `run.id` with the step to fork from. |
 
 
-:::info
-Forking a run requires monotonically increasing steps. Non-monotonic steps defined with `define_metric()` cannot be used to set a fork point, as it would disrupt the essential chronological order of run history and system metrics.
-:::
+
 
