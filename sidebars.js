@@ -184,6 +184,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Core',
+      label: 'W&B Core',
       link: {type: 'doc', id: 'guides/platform'},
       collapsed: false,
       items: [
@@ -348,12 +349,13 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Platform',
+      label: 'W&B Platform',
       link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
         'guides/hosting/how-to-guides/basic-setup',
         {
           type: 'category',
-          label: 'Hosting options',
+          label: 'Deployment options',
           // link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
                   {
@@ -370,7 +372,19 @@ const sidebars = {
               label: 'Self managed',
               link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
               items: [
-                'guides/hosting/how-to-guides/bare-metal',
+                {
+                  type: 'category',
+                  label: 'How to install',
+                  link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+                  items: [
+                    'guides/hosting/how-to-guides/bare-metal',
+                    'guides/hosting/how-to-guides/basic-setup',
+                    'guides/hosting/how-to-guides/aws-tf',
+                    'guides/hosting/how-to-guides/gcp-tf',
+                    'guides/hosting/how-to-guides/azure-tf',
+                  ],
+                },
+                'guides/hosting/server-upgrade-process',
               ],
             },  
           ],
