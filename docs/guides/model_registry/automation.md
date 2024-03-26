@@ -14,6 +14,10 @@ Create an automation to trigger workflow steps, such as automated model testing 
 
 For example, you can create a trigger that automatically deploys a model to GitHub when you add a new version of a registered model.
 
+:::note
+See [this YouTube video](https://www.youtube.com/watch?v=s5CMj_w3DaQ&ab_channel=Weights%26Biases) for step by step instructions on how to automatically deploy custom models and new model versions from the W&B Model Registry to Amazon SageMaker Endpoints using a W&B Automation.
+:::
+
 ## Event types
 An *event* is a change that takes place in the W&B ecosystem. The Model Registry supports two event types: **Linking a new artifact to a registered model** and **Adding a new alias to a version of the registered model**.
 
@@ -190,6 +194,11 @@ The `event_type` key in the webhook payload must match the `types` field in the 
 
   For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
 
+  See [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases) and [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases) for step by step YouTube videos on how to create automations for model evaluation and deployment, respectively. 
+
+  See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) to learn how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
+
+
   </TabItem>
   <TabItem value="microsoft">
 
@@ -263,10 +272,6 @@ The `event_type` key in the webhook payload must match the `types` field in the 
 
   </TabItem>
 </Tabs>
-
-:::info
-See this W&B [report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) to learn how to use a Github Actions webhook automation for Model CI. Check out this [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook) to learn how to create model CI with a Modal Labs webhook. 
-:::
 
 ### Troubleshoot your webhook
 
