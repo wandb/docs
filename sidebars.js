@@ -183,7 +183,7 @@ const sidebars = {
     },    
     {
       type: 'category',
-      label: 'W&B Platform',
+      label: 'W&B Core',
       link: {type: 'doc', id: 'guides/platform'},
       collapsed: false,
       items: [
@@ -347,9 +347,10 @@ const sidebars = {
     }, 
     {
       type: 'category',
-      label: 'W&B for Enterprise',
+      label: 'W&B Platform',
       link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
+        'guides/hosting/how-to-guides/basic-setup',
         {
           type: 'category',
           label: 'Hosting options',
@@ -369,19 +370,7 @@ const sidebars = {
               label: 'Self managed',
               link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
               items: [
-                'guides/hosting/server-upgrade-process',
-                {
-                  type: 'category',
-                  label: 'How to install',
-                  link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
-                  items: [
-                    'guides/hosting/how-to-guides/bare-metal',
-                    'guides/hosting/how-to-guides/basic-setup',
-                    'guides/hosting/how-to-guides/aws-tf',
-                    'guides/hosting/how-to-guides/gcp-tf',
-                    'guides/hosting/how-to-guides/azure-tf',
-                  ],
-                },
+                'guides/hosting/how-to-guides/bare-metal',
               ],
             },  
           ],
@@ -394,7 +383,7 @@ const sidebars = {
             {
               type: 'category',
               label: 'W&B Entities & Identities',
-              // link: { type: 'doc', id: 'guides/hosting/org_team_struct' },
+              // link: { type: 'doc', id: 'guides/hosting/org_team_struct'},
               items: [
                 'guides/hosting/iam_users_service',
                 'guides/hosting/iam_team',
@@ -439,6 +428,16 @@ const sidebars = {
             'guides/hosting/slack-alerts',
             'guides/hosting/smtp',
             'guides/hosting/org_dashboard',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Install a cloud provider',
+          // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+          items: [
+            'guides/hosting/how-to-guides/aws-tf',
+            'guides/hosting/how-to-guides/gcp-tf',
+            'guides/hosting/how-to-guides/azure-tf',
           ],
         },         
             'guides/hosting/env-vars',

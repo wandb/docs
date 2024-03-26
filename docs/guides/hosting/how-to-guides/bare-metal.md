@@ -5,7 +5,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# On-prem/baremetal guidelines
+# Baremetal guidelines
 
 Run your bare metal infrastructure that connects to scalable external data stores with W&B Server. See the following for instructions on how to provision a new instance and guidance on provisioning external data stores.
 
