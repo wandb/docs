@@ -18,7 +18,11 @@ W&B maps Group SCIM API endpoints to W&B teams because of the similarity between
 :::
 
 ## W&B Python SDK API
+<<<<<<< HEAD
 Just like how SCIM API allows you to automate user and team management, you can also use some of the methods available in the [W&B Python SDK API](../../ref/python/public-api/api.md) for that purpose. Keep a note of the following methods:
+=======
+Just like how SCIM API allows you to automate user and team management, you can also use some of the methods available in the [W&B Python SDK API] for that purpose. Keep a note of the following methods:
+>>>>>>> 96f1bb54ba601540237ca3264cf77f35d0cec7d1
 
 | Method name | Purpose |
 |-------------|---------|
