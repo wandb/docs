@@ -20,7 +20,7 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 ![](/images/artifacts/artifacts_landing_page2.png)
 
 This means that you can:
-* [View where a model came from, including trained data](./explore-and-traverse-an-artifact-graph.md).
+* [Visualize a model's or dataset's lineage and dependencies](./explore-and-traverse-an-artifact-graph.md).
 * [Version every dataset change or model checkpoint](./create-a-new-artifact-version.md).
 * [Easily reuse models and datasets across your team](./download-and-use-an-artifact.md).
 
