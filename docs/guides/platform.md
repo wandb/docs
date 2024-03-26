@@ -10,7 +10,6 @@ W&B Core is the foundational framework supporting [W&B Models](./models.md) and 
 ![](@site/static/images/general/platform.png)
 
 W&B Core provides capabilities across the entire ML lifecycle. With W&B Core, you can:
-W&B Core provides capabilities across the entire ML lifecycle. With W&B Core, you can:
 
 - [Version and manage ML](./artifacts/intro.md) pipelines with full lineage tracing for easy auditing and reproducibility.
 - Explore and evaluate data and metrics using [interactive, configurable visualizations](./tables/intro.md).

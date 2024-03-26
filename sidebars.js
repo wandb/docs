@@ -184,7 +184,6 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Core',
-      label: 'W&B Core',
       link: {type: 'doc', id: 'guides/platform'},
       collapsed: false,
       items: [
@@ -349,10 +348,8 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Platform',
-      label: 'W&B Platform',
       link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
-        'guides/hosting/how-to-guides/basic-setup',
         {
           type: 'category',
           label: 'Deployment options',
