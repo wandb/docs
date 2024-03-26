@@ -7,9 +7,9 @@ displayed_sidebar: default
 
 
 ## Group SCIM API
-Use [SCIM API] to manage users, and the teams they belong to, in an efficient and repeatable manner. You can also use the SCIM API to manage custom roles or assign roles to users in your W&B organization. Role endpoints are not part of the official SCIM schema. W&B adds role endpoints to support automated management of custom roles and to assign roles to users in W&B organizations.
+Use [SCIM API](./scim.md) to manage users, and the teams they belong to, in an efficient and repeatable manner. You can also use the SCIM API to manage custom roles or assign roles to users in your W&B organization. Role endpoints are not part of the official SCIM schema. W&B adds role endpoints to support automated management of custom roles and to assign roles to users in W&B organizations.
 
-[Group SCIM API] allows for managing W&B teams, including creating or removing teams in an organization. Use the `PATCH Group` to add or remove users in an existing team.
+[Group SCIM API](./scim.md#group-resource) allows for managing W&B teams, including creating or removing teams in an organization. Use the `PATCH Group` to add or remove users in an existing team.
 
 :::info
 There is no notion of a `group of users having the same role` within W&B. A W&B team closely resembles a group, and allows diverse personas with different roles to work collaboratively on a set of related projects. Teams can consist of different groups of users. Assign each user in a team a role: team admin, member, viewer, or a custom role.
@@ -18,11 +18,7 @@ W&B maps Group SCIM API endpoints to W&B teams because of the similarity between
 :::
 
 ## W&B Python SDK API
-<<<<<<< HEAD
 Just like how SCIM API allows you to automate user and team management, you can also use some of the methods available in the [W&B Python SDK API](../../ref/python/public-api/api.md) for that purpose. Keep a note of the following methods:
-=======
-Just like how SCIM API allows you to automate user and team management, you can also use some of the methods available in the [W&B Python SDK API] for that purpose. Keep a note of the following methods:
->>>>>>> 96f1bb54ba601540237ca3264cf77f35d0cec7d1
 
 | Method name | Purpose |
 |-------------|---------|
