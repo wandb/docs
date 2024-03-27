@@ -4,7 +4,7 @@ slug: /guides/model_registry
 displayed_sidebar: default
 ---
 
-# 모델 레지스트리
+# Model Registry
 W&B Model Registry는 ML 실무자들이 프로덕션을 위한 후보 모델을 공개하고 하류 팀 및 이해 관계자가 사용할 수 있도록 훈련된 모델을 보관하는 곳입니다. 이 기능은 스테이징된/후보 모델을 보관하고 스테이징과 관련된 워크플로우를 관리하는 데 사용됩니다.
 
 ![](/images/models/model_reg_landing_page.png)
@@ -21,9 +21,9 @@ W&B Model Registry를 사용하면 다음과 같은 작업을 수행할 수 있�
 ## 작동 방식
 몇 가지 간단한 단계로 스테이징된 모델을 추적하고 관리할 수 있습니다.
 
-1. **모델 버전 로깅**: 트레이닝 스크립트에서 몇 줄의 코드를 추가하여 모델 파일을 W&B에 아티팩트로 저장합니다.
-2. **성능 비교**: 라이브 차트를 통해 모델 트레이닝 및 검증에서 얻은 메트릭과 샘플 예측값을 비교합니다. 어떤 모델 버전이 가장 우수한 성능을 보였는지 확인할 수 있습니다.
-3. **레지스트리에 연결**: Python에서 프로그래밍 방식으로 또는 W&B UI에서 대화식으로 가장 우수한 모델 버전을 등록된 모델에 연결하여 북마크에 추가합니다.
+1. **Log a model version**: 트레이닝 스크립트에서 몇 줄의 코드를 추가하여 모델 파일을 W&B에 아티팩트로 저장합니다.
+2. **Compare performance**: 라이브 차트를 통해 모델 트레이닝 및 검증에서 얻은 메트릭과 샘플 예측값을 비교합니다. 어떤 모델 버전이 가장 우수한 성능을 보였는지 확인할 수 있습니다.
+3. **Link to registry**: Python에서 프로그래밍 방식으로 또는 W&B UI에서 대화식으로 가장 우수한 모델 버전을 등록된 모델에 연결하여 북마크에 추가합니다.
 
 다음 코드조각은 모델을 Model Registry에 로깅하고 연결하는 방법을 보여줍니다:
 
@@ -47,7 +47,7 @@ run.link_model(path="./my_model.h5", registered_model_name="MNIST")
 run.finish()
 ```
 
-4. **모델 전환을 CI/DC 워크플로우에 연결**: 후보 모델을 워크플로우 단계를 통해 전환하고 webhook이나 job을 통해 [하류 job을 자동화](./automation.md)합니다.
+4. **Connect model transitions to CI/DC workflows**: 후보 모델을 워크플로우 단계를 통해 전환하고 webhook이나 job을 통해 [하류 job을 자동화](./automation.md)합니다.
 
 ## 시작 방법
 유스케이스에 따라 밑의 자료를 살펴보고 W&B Models를 시작하세요:
