@@ -5,8 +5,6 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<!-- Renaming this to Platform in line with the product architecture -->
-
 # W&B Platform
 
 W&B Platform is the foundational infrastructure, tooling and governance scaffolding which supports the W&B products like [Core](../platform.md), [Models](../models.md) and [Prompts](../prompts_platform.md). 
