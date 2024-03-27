@@ -1,7 +1,7 @@
 dispatch:
   # # Route requests to 
-  # - url: "docs.wandb.ai/ko*"
-  #   service: ko
+  - url: "docs.wandb.ai/ko*"
+    service: ko
 
     # # Route requests to 
   # - url: "docs.wandb.ai/ja*"

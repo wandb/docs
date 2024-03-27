@@ -18,7 +18,7 @@ The following shared responsibility matrix outlines the respective responsibilit
 
 ![](/images/hosting/shared_responsibility_matrix.png)
 
-## Obtain your license
+<!-- ## Obtain your license
 
 You need a W&B license to complete your configuration of a W&B server. Open the [Deploy Manager](https://deploy.wandb.ai/deploy) to generate a free license. 
 
@@ -35,4 +35,4 @@ The URL will redirect you to a **Get a License for W&B Local** form. Provide the
 
 A page with an overview of your deployment along with licenses associated to the instance will be displayed.
 
-For information on how to set up your deployment type, see [our How-to guides](../how-to-guides/intro.md) section.
+For information on how to set up your deployment type, see [our How-to guides](../how-to-guides/intro.md) section. -->
