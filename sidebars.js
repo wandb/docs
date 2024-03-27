@@ -357,7 +357,7 @@ const sidebars = {
           items: [
                   {
               type: 'category',
-              label: 'Dedicated cloud',
+              label: 'Dedicated Cloud',
               link: { type: 'doc', id: 'guides/hosting/hosting-options/dedicated_cloud' },
               items: [
                 'guides/hosting/export-data-from-dedicated-cloud',
@@ -366,7 +366,7 @@ const sidebars = {
             'guides/hosting/hosting-options/saas_cloud',
             {
               type: 'category',
-              label: 'Self managed',
+              label: 'Self Managed',
               link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
               items: [
                 {
