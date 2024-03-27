@@ -3,9 +3,9 @@ description: Forking a W&B run
 displayed_sidebar: default
 ---
 
-# Fork Runs
+# Fork from a run
 :::caution
-The Fork Runs feature is currently available as a private beta and must be enabled by W&B Support before you can use it. Please contact support@wandb.com to request access to this feature.
+The ability to fork a run is in active, private beta development. Contact W&B Support at support@wandb.com to request access to this feature.
 :::
 
 Use the `fork_from` initialization parameter to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
