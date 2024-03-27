@@ -350,15 +350,14 @@ const sidebars = {
       label: 'W&B Platform',
       link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
-        'guides/hosting/how-to-guides/basic-setup',
         {
           type: 'category',
-          label: 'Hosting options',
+          label: 'Deployment options',
           // link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
                   {
               type: 'category',
-              label: 'Dedicated cloud',
+              label: 'Dedicated Cloud',
               link: { type: 'doc', id: 'guides/hosting/hosting-options/dedicated_cloud' },
               items: [
                 'guides/hosting/export-data-from-dedicated-cloud',
@@ -367,10 +366,22 @@ const sidebars = {
             'guides/hosting/hosting-options/saas_cloud',
             {
               type: 'category',
-              label: 'Self managed',
+              label: 'Self Managed',
               link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
               items: [
-                'guides/hosting/how-to-guides/bare-metal',
+                {
+                  type: 'category',
+                  label: 'How to install',
+                  link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+                  items: [
+                    'guides/hosting/how-to-guides/bare-metal',
+                    'guides/hosting/how-to-guides/basic-setup',
+                    'guides/hosting/how-to-guides/aws-tf',
+                    'guides/hosting/how-to-guides/gcp-tf',
+                    'guides/hosting/how-to-guides/azure-tf',
+                  ],
+                },
+                'guides/hosting/server-upgrade-process',
               ],
             },  
           ],
