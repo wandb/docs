@@ -1,31 +1,32 @@
 ---
-description: How to configure the W&B Server installation
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
-# Prometheusモニタリング
 
-W&Bサーバーで[Prometheus](https://prometheus.io/docs/introduction/overview/)を使用します。Prometheusのインストールは、[kubernetes ClusterIPサービス](https://github.com/wandb/terraform-kubernetes-wandb/blob/main/main.tf#L225)として公開されています。
+# Prometheus monitoring
 
-以下の手順に従って、Prometheusメトリクスのエンドポイント(`/metrics`)にアクセスしてください:
+Use [Prometheus](https://prometheus.io/docs/introduction/overview/) with W&B Server. Prometheus installs are exposed as a [kubernetes ClusterIP service](https://github.com/wandb/terraform-kubernetes-wandb/blob/main/main.tf#L225).
 
-1. Kubernetes CLIツールキットの[kubectl](https://kubernetes.io/docs/reference/kubectl/)を使って、クラスターに接続します。詳細については、kubernetesの[クラスターへのアクセス](https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/)ドキュメントを参照してください。
-2. 以下のコマンドで、クラスターの内部アドレスを探し出します:
+Follow the procedure below to access your Prometheus metrics endpoint (`/metrics`):
+
+1. Connect to the cluster with Kubernetes CLI toolkit, [kubectl](https://kubernetes.io/docs/reference/kubectl/). See kubernetes' [Accessing Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/) documentation for more information.
+2. Find the internal address of the cluster with:
 
 ```bash
 kubectl describe svc prometheus
 ```
 
-3. [`kubectl exec`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands) を使って、Kubernetesクラスター内で実行中のコンテナ内でシェルセッションを開始します。`<internal address>/metrics`のエンドポイントにアクセスしてください。
+3. Start a shell session inside your container running in your Kubernetes cluster with [`kubectl exec`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands). Hit the endpoint at `<internal address>/metrics`.
 
-   以下のコマンドをコピーしてターミナルで実行し、`<internal address>`を内部アドレスに置き換えてください:
+   Copy the command below and execute it in your terminal and replace `<internal address>` with your internal address:
 
-```bash
-   kubectl exec <内部アドレス>/メトリクス
+   ```bash
+   kubectl exec <internal address>/metrics
    ```
 
-上記のコマンドは、ダミーポッドを起動し、ネットワーク内の何かにアクセスするためだけに実行できるようになります。
+The previous command will start a dummy pod that you can exec into just to access anything in the network with:
 
 ```bash
 kubectl run -it testpod --image=alpine bin/ash --restart=Never --rm
 ```
-ここから、ネットワーク内部へのアクセスを維持するか、kubernetesのnodeportサービスを使って自分で公開するかを選択できます。
+
+From there you can choose to keep access internal to the network or expose it yourself with a kubernetes nodeport service.

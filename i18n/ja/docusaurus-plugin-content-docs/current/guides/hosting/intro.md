@@ -1,48 +1,58 @@
 ---
 slug: /guides/hosting
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-# W&Bサーバー
+# W&B Server for enterprise users
 
-W&Bサーバーは、W&Bが管理するリソース分離環境または自分で管理する環境にWeights & Biasesを展開できます。W&Bサーバーは、パッケージ化されたDockerイメージとして提供されており、あらゆる基盤インフラに簡単に展開できます。W&Bサーバーを異なる環境にインストールおよびホスティングする方法がいくつかあります。
+W&B Server is designed for [enterprise-tier users](https://wandb.ai/site/for-enterprise) who want fine-tuned control over: authenticating and authorizing users, managing users, data security compliance, and monitoring tooling. With W&B Server, you can: [bring your own bucket to store sensitive data](./secure-storage-connector.md), [authenticate users with LDAP](./ldap.md), [manage users with SCIM or W&B Python SDK API](./scim.md), and more. 
 
-:::info
-W&Bサーバーのプロダクション環境向け機能は、エンタープライズティアのみで利用可能です。
+W&B Server is a resource isolated environment managed by W&B or by yourself. There are three ways you can host W&B Server:
+* [W&B Dedicated Cloud](#wb-dedicated-cloud)
+* [W&B SaaS Cloud](#wb-saas-cloud)
+* [W&B Customer-managed](#wb-customer-managed) (on-prem private cloud or on-prem bare metal)
 
-開発環境や試験環境をセットアップするには、[基本セットアップガイド](./how-to-guides/basic-setup.md) を参照してください。
-:::
-
-W&Bサーバーを使用することで、次のような機能が利用できるように設定できます:
+The following responsibility matrix outlines some of the key differences between the different deployment options:
+![](/images/hosting/shared_responsibility_matrix.png)
 
 
-以下のドキュメントのセクションでは、W&Bサーバーのインストール方法、共有責任モデル、手順に沿ったインストールおよび設定ガイドについて説明しています。
 
-## おすすめ
+## Hosting options
+The following sections provide an overview of each deployment type. 
 
-W&Bでは、W&Bサーバーの設定について以下のことを推奨しています：
+### W&B Dedicated Cloud
+W&B Dedicated Cloud is a single-tenant, fully managed solution available to enterprise customers who have sensitive use cases and stringent enterprise security controls. INSERT.
 
-1. コンテナの外部にあるストレージおよび外部MySQLデータベースとともに、W&BサーバーDockerコンテナを実行します。これにより、コンテナがダウンしたりクラッシュしたりしても、データが誤って削除されることがありません。
-2. Kubernetesを活用してW&BサーバーDockerイメージを実行し、`wandb`サービスを公開します。
-3. プロダクション関連の作業でW&Bサーバーを使用する予定の場合は、スケーラブルなファイルシステムを設定および管理します。
 
-## システム要件
+For more information about W&B Dedicated Cloud, see [INSERT].
 
-W&Bサーバーには、少なくとも
+### W&B SaaS Cloud
+W&B SaaS Cloud is a multi-tenant, Software as a Service (SaaS) solution where you can access to a fast, secure version of W&B with all of the latest features. INSERT.
 
-- 4コアのCPUと
-- 8GBのメモリ（RAM）
+For more information about W&B SaaS, see [INSERT].
 
-が必要です。
+### W&B Customer-Managed
+Deploy and manage W&B to your exact specifications, either on your own customer-managed cloud or on-prem servers. INSERT.
 
-W&Bデータは、永続ボリュームまたは外部データベースに保存され、コンテナの異なるバージョン間で保持されます。
+<Tabs
+  defaultValue="privatecloud"
+  values={[
+    {label: 'Private cloud', value: 'privatecloud'},
+    {label: 'Bare metal', value: 'bare_metal'},
+  ]}>
+  <TabItem value="privatecloud">Deploy W&B Server in your private cloud infrastructure. INSERT.</TabItem>
+  <TabItem value="bare_metal">Deploy W&B Server on your on-prem, bare metal infrastructure. INSERT.</TabItem>
+</Tabs>
 
-:::tip
-エンタープライズ顧客の場合、W&Bはプライベートホストインスタンスに対して幅広い技術サポートと頻繁なインストール更新を提供します。
-:::
+For more information about W&B Customer-manged deployment options, see [INSERT].
 
-## リリース
+## Which hosting option do I choose?
+W&B recommends that you consider a W&B managed hosting option (W&B SaaS Cloud or W&B Dedicated Cloud) before you privately host W&B Server on your infrastructure. INSERT.
 
-新しいW＆Bサーバーリリースが出たときに、[W&BサーバーGitHubリポジトリ](https://github.com/wandb/server/releases)から通知を受け取るように購読してください。
 
-購読するには、GitHubページの上部にある**Watch**ボタンを選択し、**All Activity**を選択します。
+## Next steps
+
+1. Obtain your W&B license. You need a W&B license to complete your configuration of a W&B Server. [INSERT link to page]
+2. See the Basic Setup guide[LINK] to set up a developer or trial environment.
