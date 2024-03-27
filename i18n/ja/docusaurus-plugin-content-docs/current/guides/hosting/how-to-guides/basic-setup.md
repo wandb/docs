@@ -1,107 +1,136 @@
 ---
 description: Run Weights and Biases on your own machines using Docker
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
 
-# 基本セットアップ
+# Getting started
 
-Dockerを使ってWeights and Biasesを自分のマシンで実行しましょう。
+Follow this "Hello, world!" example to learn the general workflow to install W&B Server for Dedicated Cloud and Self Managed hosting options. By the end of this demo, you will know how to host W&B Server on your local machine using a Trial Mode W&B license. 
 
-### インストール
+For demonstration purposes, this demo uses a local development server on port `8080` (`localhost:8080`).
 
-- [Docker](https://www.docker.com) と [Python](https://www.python.org) がインストールされている任意のマシンで以下を実行します:
+:::tip
+**Trial Mode vs. Production Setup**
 
-```
-pip install wandb
+In Trial Mode, you run the Docker container on a single machine. This setup is ideal for testing the product, but it is not scalable.
+
+For production work, set up a scalable file system to avoid data loss. W&B strongly recommends that you:
+* Allocate extra space in advance, 
+* Resize the file system proactively as you log more data
+* Configure external metadata and object stores for backup.
+:::
+
+## Prerequisites
+Before you get started, ensure your local machine satisfies the following requirements: 
+
+1. Install [Python](https://www.python.org)
+2. Install [Docker](https://www.docker.com) and ensure it is running
+3. Install or upgrade the latest version of W&B:
+   ```bash
+   pip install --upgrade wandb
+   ```
+##  1. Pull the W&B Docker image
+
+Run the following in your terminal:
+
+```bash
 wandb server start
 ```
 
-### ログイン
+This command pulls the latest W&B Docker image [`wandb/local`](https://hub.docker.com/r/wandb/local).
 
-初めてログインする場合は、ローカルのW&Bサーバーアカウントを作成し、APIキーを認証する必要があります。
 
-複数のマシンで`wandb`を実行している場合や、プライベートインスタンスとwandbクラウド間で切り替える場合は、runsを記録する場所を制御する方法がいくつかあります。共有プライベートインスタンスにメトリクスを送信し、DNSを設定した場合は、
+## 2. Create a W&B account
+Navigate to `http://localhost:8080/signup` and create an initial user account. Provide a name, email address, a username, and a password: 
 
-- ログインするたびに、ホストフラグをプライベートインスタンスのアドレスに設定します:
+![](/images/hosting/signup_localhost.png)
 
-```
- wandb login --host=http://wandb.your-shared-local-host.com
-```
+Click the **Sign Up** button to create a W&B account. 
 
-- 環境変数`WANDB_BASE_URL`をローカルインスタンスのアドレスに設定します:
-```python
-export WANDB_BASE_URL="http://wandb.your-shared-local-host.com"
-```
-
-自動化された環境では、`WANDB_API_KEY` を [wandb.your-shared-local-host.com/authorize](http://wandb.your-shared-local-host.com/authorize) でアクセスできるように設定できます。
-
-wandbの公開されている**クラウド**インスタンスにログを記録するように切り替えるには、ホストを `api.wandb.ai` に設定します:
-
-```
-wandb login --cloud
-```
-
-または
-
-```python
-export WANDB_BASE_URL="https://api.wandb.ai"
-```
-
-また、ブラウザでクラウド上のwandbアカウントにログインしている場合、[https://wandb.ai/settings](https://wandb.ai/settings) でクラウドAPIキーに切り替えることもできます。
-
-### 無料ライセンスを生成する
-
-W&Bサーバーの設定を完了させるには、ライセンスが必要です。[**デプロイマネージャーを開く**](https://deploy.wandb.ai/deploy) から無料ライセンスを生成してください。まだクラウドアカウントを持っていない場合は、無料ライセンスを生成するために作成する必要があります。2つのオプションがあります:
-
-1. [**個人用ライセンス ->**](https://deploy.wandb.ai/deploy) は個人の作業に対して永久に無料です: ![](/images/hosting/personal_license.png)
-2. [**チーム試用ライセンス ->**](https://deploy.wandb.ai/deploy) は無料であり、30日間有効で、チームを設定し、スケーラブルなバックエンドに接続することができます: ![](/images/hosting/team_trial_license.png)
-
-### ローカルホストにライセンスを追加する
-
-1. デプロイメントからライセンスをコピーして、W&Bサーバーのローカルホストに戻ります: ![](/images/hosting/add_license_local_host.png)
-2. ローカルの設定に追加するために、ローカルホストの `/system-admin` ページに貼り付けます:
-   ![](@site/static/images/hosting/License.gif)
-### アップグレード
-
-定期的に、_wandb/local_ の新バージョンがDockerHubにプッシュされています。アップグレードするには、以下のように実行できます：
-
-```shell
-$ wandb server start --upgrade
-```
-
-手動でインスタンスをアップグレードするには、以下のように実行します
-
-```shell
-$ docker pull wandb/local
-$ docker stop wandb-local
-$ docker run --rm -d -v wandb:/vol -p 8080:8080 --name wandb-local wandb/local
-```
-
-### 永続性とスケーラビリティ
-
-- すべてのメタデータやファイルは、W&Bサーバーの`/vol`ディレクトリーに保存されます。この場所に永続的なボリュームをマウントしない場合、dockerプロセスが終了するとすべてのデータが失われます。
-- このソリューションは[プロダクション](/guides/hosting/hosting-options)ワークロードには適していません。
-- メタデータは外部のMySQLデータベースに、ファイルは外部のストレージバケットに保存することができます。
-- 根底にあるファイルストアはリサイズ可能である必要があります。最小ストレージしきい値を超えた際に、根底にあるファイルシステムをリサイズするように警告を設定してください。
-- エンタープライズ試験では、画像/ビデオ/オーディオのヘビーワークロードではない場合、少なくとも100GBの空き容量を根底にあるボリュームに推奨します。
-
-#### wandbはどのようにユーザーアカウントデータを永続化しますか？
-
-Kubernetesインスタンスが停止されると、wandbアプリケーションはすべてのユーザーアカウントデータをtarballにまとめて、S3オブジェクトストアにアップロードします。インスタンスを再起動し、`BUCKET`環境変数を指定すると、wandbは以前にアップロードされたtarballを取得し、新しく開始されたKubernetes展開にユーザーアカウント情報を読み込みます。
-
-Wandbは、外部バケットが設定されているときにインスタンス設定を保持します。また、バケットに証明書やシークレットも保持していますが、適切なシークレットストアに移動するか、少なくとも暗号化のレイヤーを追加するべきです。外部オブジェクトストアが有効になっている場合、すべてのユーザーデータを含むため、強力なアクセス制御を適用する必要があります。
-#### 共有インスタンスの作成とスケーリング
-
-W&Bの強力な協力機能を活用するには、中央サーバー上に共有インスタンスが必要です。[AWS、GCP、Azure、Kubernetes、またはDocker上で設定](/guides/hosting/hosting-options)することができます。
-
-:::warning
-
-**試験モードとプロダクションのセットアップ**
-
-W&Bローカルの試用モードでは、Dockerコンテナを単一のマシンで実行しています。このセットアップは簡単で痛みがなく、製品のテストに適していますが、スケーラブルではありません。
-
-テストプロジェクトから本格的なプロダクション作業に移行する準備ができたら、データ損失を回避するためにスケーラブルなファイルシステムを設定することが重要です。余分なスペースを事前に割り当て、データをログに記録するにつれてファイルシステムを積極的にリサイズし、外部のメタデータおよびオブジェクトストアをバックアップ用に構成します。ディスク容量が不足すると、インスタンスが停止し、追加のデータが失われます。
-
+:::note
+For this demo, create a new W&B account even if you already have a W&B account. 
 :::
 
-[**セールスにお問い合わせ -**](https://wandb.ai/site/contact)**>** W&Bサーバーのエンタープライズオプションについて詳しく知る。
+
+### Copy your API key
+After you create an account, navigate to `http://localhost:8080/authorize`.  
+
+Copy the W&B API key that appears on the screen. At a later step, you will need this key at a later step to verify your login credentials.
+
+![](/images/hosting/copy_api_key.png)
+
+## 3. Generate a license
+Navigate to the W&B Deploy Manager at https://deploy.wandb.ai/deploy to generate a Trial Mode W&B license.
+
+1. Select Docker as your provider
+![](/images/hosting/deploy_manager_platform.png)
+2. Click **Next**.
+3. Select a license owner from the **Owner of license** dropdown.
+![](/images/hosting/deploy_manager_info.png)
+4. Click **Next**.
+5. Provide a name for your license in the **Name of Instance** field.
+6. (Optional) Provide a description about your license in the **Description** field. 
+7. Click the **Generate License Key** button.
+![](/images/hosting/deploy_manager_generate.png)
+
+After you click **Generate License Key**, W&B redirects you to a Deployment License page. Within the Deployment License page you can view information about your license instance such as the Deployment ID, the organization the license belongs to, and more.
+
+:::tip
+View a specific license instance in one of two ways:
+1. Navigate to the Deploy Manager UI and then click the name of the license instance.
+2. Directly navigate to a specific license instance at `https://deploy.wandb.ai/DeploymentID` where `DeploymentID` is the unique ID assigned to your license instance.
+:::
+
+## 4. Add trial license to your local host
+1. Within the Deployment License page of your license instance, click the **Copy License** button.
+![](/images/hosting/deploy_manager_get_license.png)
+2. Navigate to `http://localhost:8080/system-admin/`
+3. Paste your license into to **License field**.
+![](/images/hosting/License.gif)
+4. Click the **Update settings** button.
+
+## 5. Check your browser is running the W&B App UI
+Check that W&B is running on your local machine. Navigate to `http://localhost:8080/home`. You should see the W&B App UI in your browser.
+
+![](/images/hosting/check_local_host.png)
+
+## 6. Add programmatic access to your local W&B instance
+
+1. Navigate to `http://localhost:8080/authorize` to obtain your API key.
+2. Within your terminal, execute the following:
+   ```bash
+   wandb login --host=http://localhost:8080/
+   ```
+   If you are already logged into W&B with a different count, add the `relogin` flag:
+   ```bash
+   wandb login --relogin --host=http://localhost:8080
+   ```
+3. Paste your API key when prompted.
+
+W&B appends a `localhost` profile and your API key to your .netrc profile at `/Users/username/.netrc` for future automatic logins.
+
+## Add a volume to retain data
+
+All metadata and files you log to W&B are temporarily stored in the `https://deploy.wandb.ai/vol` directory. 
+
+Mount a volume, or external storage, to your Docker container to retain files and metadata you store in your local W&B instance. W&B recommends that you store metadata in an external MySQL database and files in an external storage bucket such as Amazon S3.
+
+:::info
+Recall that your local W&B instance (created using a Trial W&B License), uses Docker to run W&B in your local browser. By default, data is not retained if a Docker container no longer exists. Data is lost when a Docker process dies if you do not mount a volume at `https://deploy.wandb.ai/vol`.
+:::
+
+For more information on how to mount a volume and for information on how Docker manages data, see [Manage data in Docker](https://docs.docker.com/storage/) page in the Docker documentation.
+
+### Volume considerations
+The underlying file store should be resizable.
+W&B recommends that you set up alerts to inform you when you are close to reaching minimum storage thresholds so you can resize the underlying file system. 
+
+
+:::info
+For enterprise trials, W&B recommends at least 100 GB free space in the volume for non-image/video/audio heavy workloads.
+:::
+
+<!-- ## Next steps -->
+
+
+

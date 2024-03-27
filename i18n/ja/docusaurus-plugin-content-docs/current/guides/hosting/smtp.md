@@ -1,17 +1,14 @@
 ---
-description: The Prompts Quickstart shows how to visualise and debug the execution flow of your LLM chains and pipelines
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
-# SMTP設定
 
-W&Bサーバーでは、インスタンスやチームにユーザーを追加すると、メール招待が送信されます。これらのメール招待を送信するために、W&Bはサードパーティのメールサーバーを使用しています。一部の組織では、企業ネットワークからのトラフィックに厳しいポリシーがあるため、これらのメール招待がエンドユーザーに送信されないことがあります。W&Bサーバーでは、内部のSMTPサーバーを経由してこれらの招待メールを送信するように設定するオプションが用意されています。
+# SMTP Configuration
 
-設定するには、以下の手順に従ってください。
+In W&B server, adding users to the instance or team will trigger an email invite. To send these email invites, W&B uses a third-party mail server. In some cases, organizations might have strict policies on traffic leaving the corporate network and hence causing these email invites to never be sent to the end user. W&B server offers an option to configure sending these invite emails via an internal SMTP server.
 
-- DockerコンテナまたはKubernetesのデプロイメントで`GORILLA_EMAIL_SINK`環境変数を`smtp://<user:password>@smtp.host.com:<port>`に設定します。
+To configure, follow the steps below:
 
-- `username`と`password`はオプションです。
-
-- 認証が不要なSMTPサーバーを使用している場合、環境変数の値を`GORILLA_EMAIL_SINK=smtp://smtp.host.com:<port>`のように設定します。
-
-- SMTPでよく使われるポート番号は587、465、25です。ただし、使用しているメールサーバーの種類によって異なる場合がありますので、ご注意ください。
+- Set the `GORILLA_EMAIL_SINK` environment variable in the docker container or the kubernetes deployment to `smtp://<user:password>@smtp.host.com:<port>`
+- `username` and `password` are optional
+- If you’re using an SMTP server that’s designed to be unauthenticated you would just set the value for the environment variable like `GORILLA_EMAIL_SINK=smtp://smtp.host.com:<port>`
+- Commonly used port numbers for SMTP are ports 587, 465 and 25. Note that this might differ based on the type of the mail server you're using.

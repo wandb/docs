@@ -6,17 +6,17 @@ displayed_sidebar: default
 
 # W&B Server Hosting Options
 
-There are three ways to deploy W&B Server:
+<!-- There are three ways to deploy W&B Server: -->
 
-- **W&B managed Dedicated Cloud**: A fully managed solution hosted and maintained by W&B on W&B Cloud
+<!-- - **W&B managed Dedicated Cloud**: A fully managed solution hosted and maintained by W&B on W&B Cloud
 - **Customer managed OnPrem Private Cloud**: A self managed solution hosted and maintained by customer on their Private Cloud
-- **Customer managed OnPrem Bare Metal**: A self managed solution hosted and maintained by customer on their Bare Metal infrastructure
+- **Customer managed OnPrem Bare Metal**: A self managed solution hosted and maintained by customer on their Bare Metal infrastructure -->
 
-## Shared Responsibility Matrix
+<!-- ## Shared Responsibility Matrix
 
 The following shared responsibility matrix outlines the respective responsibilities of W&B and the customer for each of the hosting options specified above.
 
-![](/images/hosting/shared_responsibility_matrix.png)
+![](/images/hosting/shared_responsibility_matrix.png) -->
 
 ## Obtain your license
 

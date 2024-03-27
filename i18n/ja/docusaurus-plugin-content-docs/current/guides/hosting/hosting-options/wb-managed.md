@@ -1,20 +1,20 @@
 ---
 description: Deploying W&B in production
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
 
-# W&Bマネージドホスティング
+# W&B managed hosting
 
-## SaaSクラウド
+## SaaS Cloud
 
-最も人気のある展開オプションです。マルチテナントのSaaS提供で、最新機能がすべて揃った、高速で安全なW&Bにアクセスできます。
+Our most popular deployment option. A Multi-Tenant SaaS offering that allows you access to a fast, secure version of W&B with all of the latest features.
 
 :::info
-まずは、W&Bサーバーを自分のインフラストラクチャー上にプライベートにホスティングする前に、wandb.aiクラウドの利用を検討してください。クラウドはシンプルで安全であり、設定が不要です。[こちら](../../../quickstart.md)をクリックして、詳細をご覧ください。
+We recommend that you consider using the wandb.ai cloud before privately hosting a W&B server on your infrastructure. The cloud is simple and secure, with no configuration required. [Click here](../../../quickstart.md) to learn more.
 :::
 
-## 専用クラウド
+## Dedicated Cloud
 
-専用クラウドは、機密性の高いユースケースや厳格な企業セキュリティコントロールを持つ組織向けにW&Bが提供する完全に管理されたソリューションです。専用クラウドでは、W&Bサーバーは、お客様が選択したクラウドリージョン内のW&BのシングルテナントAWS、GCP、またはAzureインフラストラクチャー上の専用仮想プライベートネットワークにホストされます。お客様は、Secure Storage Connectorを使用して、企業のプライベートクラウド上にホストされたスケーラブルなデータストアにデータを接続することができます。
+Dedicated Cloud is a fully managed solution offered by W&B for organizations with sensitive use cases and stringent enterprise security controls. In Dedicated Cloud, W&B server is hosted in a dedicated virtual private network on W&B's single-tenant AWS, GCP or Azure infrastructure in your choice of cloud region. Customers have the option to use our Secure Storage Connector to connect your data to a scalable data store hosted on your company's private cloud.
 
-お問い合わせは、contact@wandb.comまでメールにて弊社の営業チームまでお気軽にご連絡ください。
+Talk to our sales team by reaching out to contact@wandb.com.

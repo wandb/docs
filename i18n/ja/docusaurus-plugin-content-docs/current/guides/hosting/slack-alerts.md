@@ -1,49 +1,49 @@
 ---
-description: The Prompts Quickstart shows how to visualise and debug the execution flow of your LLM chains and pipelines
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
-# Slackアラート
 
-W&Bサーバーを[Slack](https://slack.com/)と連携させます。
+# Slack alerts
 
-## Slackアプリケーションの作成
+Integrate W&B Server with [Slack](https://slack.com/).
 
-以下の手順に従って、Slackアプリケーションを作成してください。
+## Create the Slack application
 
-1. https://api.slack.com/appsにアクセスし、**アプリを作成**を選択します。
+Follow the procedure below to create a Slack application.
+
+1. Visit https://api.slack.com/apps and select **Create an App**.
 
 ![](/images/hosting/create_an_app.png)
 
-2. **アプリ名**欄にアプリの名前を入力してください。
-3. アプリを開発するSlackワークスペースを選択します。アラートに使用する予定のワークスペースと同じものを使用してください。
+2. Provide a name for your app in the **App Name** field.
+3. Select a Slack workspace where you want to develop your app in. Ensure that the Slack workspace you use is the same workspace you intend to use for alerts.
 
 ![](/images/hosting/name_app_workspace.png)
 
-## Slackアプリケーションの設定
+## Configure the Slack application
 
-1. 左のサイドバーで**OAuth & Permissions**を選択します。
+1. On the left sidebar, select **OAth & Permissions**.
 
 ![](/images/hosting/add_an_oath.png)
 
-2. Scopesのセクション内で、ボットに**incoming_webhook**スコープを付与します。スコープは、開発ワークスペースでアプリがアクションを実行するための権限を与えます。
+2. Within the Scopes section, provide the bot with the **incoming_webhook** scope. Scopes give your app permission to perform actions in your development workspace.
 
-  ボット用のOAuthスコープについての詳細は、Slack APIドキュメントのUnderstanding OAuth scopes for Botsチュートリアルを参照してください。
-  
+   For more information about OAuth scopes for Bots, see the Understanding OAuth scopes for Bots tutorial in the Slack api documentation.
+
 ![](/images/hosting/save_urls.png)
 
-3. リダイレクトURLをW&Bインストールに設定します。ローカルシステム設定のホストURLに設定されているのと同じURLを使用してください。インスタンスに異なるDNSマッピングがある場合は、複数のURLを指定することができます。
+3. Configure the Redirect URL to point to your W&B installation. Use the same URL that your host URL is set to in your local system settings. You can specify multiple URLs if you have different DNS mappings to your instance.
+
 ![](/images/hosting/redirect_urls.png)
 
-4. **URLを保存**を選択します。
+4. Select **Save URLs**.
+5. You can optionally specify an IP range under **Restrict API Token Usage**, allow-list the IP or IP range of your W&B instance(s). Limiting the allowed IP address helps further secure your Slack application.
 
-5. 必要に応じて、**APIトークンの使用制限**の下でIP範囲を指定し、W&BインスタンスのIPまたはIP範囲を許可リストに追加できます。許可されたIPアドレスを制限することで、Slackアプリケーションのセキュリティをさらに強化できます。
+## Register your Slack application with W&B
 
-## SlackアプリケーションをW&Bに登録する
-
-1. W&Bインスタンスの**システム設定**ページに移動します。**カスタムSlackアプリケーションでアラートを送信する**を有効にして、カスタムSlackアプリケーションを有効にします：
+1. Navigate to the **System Settings** page of your W&B instance. Toggle the **Enable a custom Slack application to dispatch alerts** to enable a custom Slack application:
 
 ![](/images/hosting/register_slack_app.png)
 
-SlackアプリケーションのクライアントIDとシークレットを入力する必要があります。SettingsのBasic Informationに移動して、アプリケーションのクライアントIDとシークレットを見つけてください。
+You will need to supply your Slack application's client ID and secret. Navigate to Basic Information in Settings to find your application’s client ID and secret.
 
-2. W&BアプリでSlackインテグレーションを設定して、すべてが正常に動作していることを確認します。
+2. Verify that everything is working by setting up a Slack integration in the W&B app.

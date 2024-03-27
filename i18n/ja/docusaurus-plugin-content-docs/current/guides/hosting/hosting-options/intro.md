@@ -1,33 +1,38 @@
 ---
 slug: /guides/hosting/hosting-options
 description: Deploying W&B in production
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
 
-# W&Bサーバーホスティングのオプション
+# W&B Server Hosting Options
 
-W&Bサーバーを展開するには3つの方法があります：
+<!-- There are three ways to deploy W&B Server: -->
 
-- **W&Bが管理する専用クラウド**：W&Bクラウド上でW&Bによってホストおよび維持される完全に管理されたソリューション
-- **お客様が管理するオンプレミスのプライベートクラウド**：お客様がプライベートクラウド上でホストおよび維持する自己管理のソリューション
-- **お客様が管理するオンプレミスのベアメタル**：お客様がベアメタルインフラストラクチャー上でホストおよび維持する自己管理のソリューション
+<!-- - **W&B managed Dedicated Cloud**: A fully managed solution hosted and maintained by W&B on W&B Cloud
+- **Customer managed OnPrem Private Cloud**: A self managed solution hosted and maintained by customer on their Private Cloud
+- **Customer managed OnPrem Bare Metal**: A self managed solution hosted and maintained by customer on their Bare Metal infrastructure -->
 
-## 共有責任マトリックス
+<!-- ## Shared Responsibility Matrix
 
-以下の共有責任マトリックスでは、上記で指定されたホスティングオプションごとにW&Bとお客様のそれぞれの責任を概説しています。
+The following shared responsibility matrix outlines the respective responsibilities of W&B and the customer for each of the hosting options specified above.
 
-![](/images/hosting/shared_responsibility_matrix.png)
+![](/images/hosting/shared_responsibility_matrix.png) -->
 
-## ライセンスを取得する
+## Obtain your license
 
-W&Bの営業チームにライセンスをお問い合わせください。営業チームは、ローカルのライセンスと展開を作成するために使用できるURLを提供します。
+You need a W&B license to complete your configuration of a W&B server. Open the [Deploy Manager](https://deploy.wandb.ai/deploy) to generate a free license. 
 
-URLをクリックすると、**W&B Local用のライセンス取得**フォームが表示されます。以下の情報を入力してください：
+:::note
+If you do not already have a cloud W&B account then you will need to create one to generate your free license.
+:::
 
-1. **プラットフォームの選択**ステップで、展開タイプを選択します。
-2. **基本情報**ステップで、ライセンスの所有者を選択するか、新しい組織を追加します。
-3. **ライセンスの取得**ステップで、**インスタンス名**フィールドにインスタンスの名前を入力し、**説明**フィールドにオプションで説明を入力します。
-4. **ライセンスキーの生成**ボタンを選択します。
+The URL will redirect you to a **Get a License for W&B Local** form. Provide the following information:
 
-展開の概要とインスタンスに関連付けられたライセンスを表示したページが表示されます。
-デプロイメントタイプの設定方法については、[当社のハウツーガイド](/guides/hosting/how-to-guides)セクションを参照してください。
+1. Choose a deployment type from the **Choose Platform** step.
+2. Select the owner of the license or add a new organization in the **Basic Information** step.
+3. Provide a name for the instance in the **Name of Instance** field and optionally provide a description in the **Description** field in the **Get a License** step.
+4. Select the **Generate License Key** button.
+
+A page with an overview of your deployment along with licenses associated to the instance will be displayed.
+
+For information on how to set up your deployment type, see [our How-to guides](../how-to-guides/intro.md) section.

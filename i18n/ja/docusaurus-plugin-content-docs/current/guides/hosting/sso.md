@@ -1,25 +1,26 @@
 ---
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# シングルサインオン（SSO)の設定
+# Single Sign-On (SSO) setup
 
-[contact@wandb.com](mailto:contact@wandb.com)にメールして、W&Bでサポートされているアイデンティティプロバイダ（SAML、Ping Federate、Active Directoryなど）を含む[Auth0](https://auth0.com)テナントを設定してください。
+Email [contact@wandb.com](mailto:contact@wandb.com) to configure an [Auth0](https://auth0.com) tenant for you with identity providers supported by W&B (such as SAML, Ping Federate, Active Directory, and more).
 
-すでにAuth0を使用しているか、Open ID Connect互換のサーバーがある場合は、以下の手順に従ってOpen IDでの認証を設定してください。
+If you already use Auth0 or have an Open ID Connect compatible server, follow the instructions below to set up authorization with Open ID.
 
 :::info
-W&Bサーバーは、デフォルトで手動ユーザー管理で運用されています。_wandb/local_ のライセンス版でも SSOが利用可能です。
+W&B Server operates with manual user management by default. Licensed versions of _wandb/local_ also unlock SSO. 
 :::
 
 ## Open ID Connect
 
-_wandb/local_ は、Open ID Connect（OIDC）を認証に使用します。ユースケースに応じて、タブのいずれかを選択し、AWS CognitoまたはOktaを使用して、Open ID ConnectでW&Bサーバーを認証する方法を学びます。
+_wandb/local_ uses Open ID Connect (OIDC) for authentication. Based on your use case, select one of the tabs to learn how to set up AWS Cognito or Okta authenticate W&B Server with Open ID Connect.
 
 :::tip
-アイデンティティプロバイダ（IdP）で、シングルページアプリケーションまたはパブリッククライアントアプリケーションを選択してください。
+Select either a Single Page or Public Client application in your identity provider (IdP).
 :::
 
 
@@ -31,68 +32,76 @@ _wandb/local_ は、Open ID Connect（OIDC）を認証に使用します。ユ�
     {label: 'Okta', value: 'okta'},
   ]}>
   <TabItem value="aws">
-以下の手順に従って、AWS Cognitoを設定して認証を行います。
 
-1. まず、AWSアカウントにサインインし、[AWS Cognito](https://aws.amazon.com/cognito/) アプリに移動します。
+Follow the procedure below to set up AWS Cognito for authorization: 
+
+1. First, sign in to your AWS account and navigate to the [AWS Cognito](https://aws.amazon.com/cognito/) App.
 
 ![Because we're only using OIDC for authentication and not authorization, public clients simplify setup](/images/hosting/setup_aws_cognito.png)
 
-2. 許可されたコールバックURLを提供して、IdP内のアプリケーションを設定します。
-     * コールバックURLとして `http(s)://YOUR-W&B-HOST/oidc/callback` を追加します。`YOUR-W&B-HOST` をあなたのW&Bホストパスに置き換えてください。
 
-3. あなたのIdPがユニバーサルログアウトをサポートしている場合は、ログアウトURLを `http(s)://YOUR-W&B-HOST` に設定します。`YOUR-W&B-HOST` をあなたのW&Bホストパスに置き換えてください。
 
-例えば、アプリケーションが `https://wandb.mycompany.com` で実行されている場合、`YOUR-W&B-HOST` を `wandb.mycompany.com` に置き換えます。
+2. Provide an allowed callback URL to configure the application in your IdP:
+     * Add `http(s)://YOUR-W&B-HOST/oidc/callback` as the callback URL. Replace `YOUR-W&B-HOST` with your W&B host path.
 
-以下の画像は、AWS Cognitoで許可されたコールバックURLとサインアウトURLを提供する方法を示しています。
+3. If your IdP supports universal logout, set the Logout URL to `http(s)://YOUR-W&B-HOST`. Replace `YOUR-W&B-HOST` with your W&B host path.
+
+For example, if your application was running at `https://wandb.mycompany.com`, you would replace `YOUR-W&B-HOST` with `wandb.mycompany.com`.
+
+The image below demonstrates how to provide allowed callback and sign-out URLs in AWS Cognito.
 
 ![If your instance is accessible from multiple hosts, be sure to include all of them here.](/images/hosting/setup_aws_cognito_ui_settings.png)
 
-_wandb/local_ はデフォルトで ["implicit" grant with the "form\_post" response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) を使用します。
 
-また、_wandb/local_ を [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/)  フローを使用した "authorization\_code" グラントで実行するように設定することもできます。
+_wandb/local_ uses the ["implicit" grant with the "form\_post" response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) by default. 
 
-4. AWS Cognitoがアプリにトークンを配信する方法を設定するために、1つ以上のOAuthグラントタイプを選択します。
-5. W&Bでは特定のOpenID Connect（OIDC）スコープが必要です。AWS Cognitoアプリから以下を選択してください：
-    * "openid"
+You can also configure _wandb/local_ to perform an "authorization\_code" grant that uses the [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) flow. 
+
+
+4. Select one or more OAuth grant types to configure how AWS Cognito will deliver tokens to your app.
+5. W&B requires specific OpenID Connect (OIDC) scopes. Select the following from AWS Cognito App:
+    * "openid" 
     * "profile"
     * "email"
-たとえば、あなたのAWS CognitoアプリUIは、次の画像のようになるはずです：
 
-![openid, profile, emailが必須](/images/hosting/setup_aws_required_fields.png)
+For example, your AWS Cognito App UI should look similar to the following image:
 
-設定ページで**Auth Method** を選択するか、OIDC_AUTH_METHOD環境変数を設定して、_wandb/local_ にどのグラントを伝えるかを指定します。
+![openid, profile, and email are required](/images/hosting/setup_aws_required_fields.png)
 
-:::info
-AWS Cognitoプロバイダの場合、Auth Methodを "pkce" に設定する必要があります
-:::
-
-6. クライアントIDとOIDC発行者（issuer）のURLが必要です。OpenIDディスカバリドキュメントは `$OIDC_ISSUER/.well-known/openid-configuration`で利用可能でなければなりません。
-
-例えば、AWS Cognitoでは、**User Pools**セクションの**App Integration**タブからCognito IdP URLにユーザープールIDを追加することで、発行者のURLを生成できます：
-
-![発行者のURLは https://cognito-idp.us-east-1.amazonaws.com/us-east-1\_uiIFNdacd になります](/images/hosting/setup_aws_cognito_issuer_url.png)
+Select the **Auth Method** in the settings page or set the OIDC\_AUTH\_METHOD environment variable to tell _wandb/local_ which grant to.
 
 :::info
-IDPのURLには "Cognitoドメイン" を使用しないでください。Cognitoはディスカバリドキュメントを `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID` で提供しています。
+For AWS Cognito providers you must set the Auth Method to "pkce"
 :::
 
-<!-- 7. 最後に、OIDC発行者、クライアントID、およびAuth Methodを_wandb/local_ の `https://deploy.wandb.ai/system-admin` に提供するか、環境変数として設定します。
+6. You need a Client ID and the URL of your OIDC issuer. The OpenID discovery document must be available at `$OIDC_ISSUER/.well-known/openid-configuration` 
 
-次の画像は、W&BアプリUI（`https://deploy.wandb.ai/system-admin`）で、SSOを有効にし、OIDC発行者、クライアントID、および認証方法を提供する方法を示しています： -->
+For example, with AWS Cognito, you can generate your issuer URL by appending your User Pool ID to the Cognito IdP URL from the **App Integration** tab within the **User Pools** section:
 
-<!-- すべての設定が完了したら、発行者、クライアントID、およびAuth Methodを `wandb/local` の`/system-admin` や環境変数に提供して、SSOが構成されます。
+![The issuer URL would be https://cognito-idp.us-east-1.amazonaws.com/us-east-1\_uiIFNdacd](/images/hosting/setup_aws_cognito_issuer_url.png)
 
-1. Weights and Biasesサーバーにサインインする
-2. W&Bアプリに移動します。
+:::info
+Do not use the "Cognito domain" for the IDP url. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
+:::
+
+
+<!-- 7. Lastly, provide the OIDC Issuer, Client ID, and Auth method to _wandb/local_ on `https://deploy.wandb.ai/system-admin` or set them as environment variables.
+
+The following image demonstrates how to: enable SSO, provide the OIDC Issuer, Client ID, and the authentication method in the W&B App UI (`https://deploy.wandb.ai/system-admin`): -->
+
+<!-- Once you have everything configured you can provide the Issuer, Client ID, and Auth method to `wandb/local` via `/system-admin` or the environment variables and SSO will be configured.
+
+1. Sign in to your Weights and Biases server 
+2. Navigate to the W&B App. 
+
 ![](/images/hosting/system_settings.png)
 
-3. ドロップダウンから、**システム設定** を選択してください：
+3. From the dropdown, select **System Settings**:
 
 ![](/images/hosting/system_settings_select_settings.png)
 
-4. 発行者、クライアントID、および認証方法を入力してください。
-5. **設定を更新** を選択してください。
+4. Enter your Issuer, Client ID, and Authentication Method. 
+5. Select **Update settings**.
 
 ![](/images/hosting/system_settings_select_update.png)
 
@@ -102,60 +111,57 @@ IDPのURLには "Cognitoドメイン" を使用しないでください。Cognit
   <TabItem value="okta">
 
 
-1. 最初に新しいアプリケーションを設定します。OktaのApp UIに移動し、**アプリを追加** を選択してください：
+1. First set up a new application.  Navigate to Okta's App UI and select **Add apps**:
 
 ![](/images/hosting/okta.png)
 
-2. **アプリ統合名**フィールドにアプリの名前を提供してください（例：Weights and Biases）
-3. グラントタイプ `implicit (hybrid)` を選択してください。
+2. Provide a name for App in the **App Integration name** field (for example: Weights and Biases)
+3. Select grant type `implicit (hybrid)`
 
-W&Bは、PKCE付きのAuthorization Codeグラントタイプもサポートしています
+W&B also supports the Authorization Code grant type with PKCE
 
 ![](/images/hosting/pkce.png)
 
-4. 許可されたコールバックURLを提供してください：
-    * 次の許可されたコールバックURLを追加してください: `http(s)://YOUR-W&B-HOST/oidc/callback`.
-5. あなたのIdPがユニバーサルログアウトをサポートしている場合、**ログアウトURL** を `http(s)://YOUR-W&B-HOST` に設定します。
+4. Provide an allowed callback url:
+    * Add the following allowed Callback URL `http(s)://YOUR-W&B-HOST/oidc/callback`.
+
+5. If your IdP supports universal logout, set the **Logout URL** to `http(s)://YOUR-W&B-HOST`.
 
 ![](/images/hosting/redirect_uri.png)
-例えば、アプリケーションがローカルホストのポート8080（`https://localhost:8080`）で実行されている場合、リダイレクトURIは次のようになります：`https://localhost:8080/oidc/callback`.
+For example, if your application runs in a local host on port 8080 (`https://localhost:8080`),
+the redirect URI would look like: `https://localhost:8080/oidc/callback`.
 
-6. **サインアウトリダイレクトURI**フィールドに、`http(s)://YOUR-W&B-HOST/logout` を設定します。
+6. Set the sign-out redirect to `http(s)://YOUR-W&B-HOST/logout` in the **Sign-out redirects URIs** field: 
 
 ![](/images/hosting/signout_redirect.png)
 
-7. OIDC Issuer、Client ID、およびAuth methodを https://deploy.wandb.ai/system-admin にあるwandb/localに提供するか、環境変数として設定します。
+7. Provide the OIDC Issuer, Client ID, and Auth method to wandb/local on https://deploy.wandb.ai/system-admin or set them as environment variables.
+
 
 
   </TabItem>
 </Tabs>
 
-## W&BアプリでSSOを設定する
+## Configure SSO on the W&B App
 
-すべての設定が完了したら、Issuer、Client ID、およびAuth methodをW&Bアプリの`wandb/local`に提供するか、環境変数を設定します。次の手順では、W&BアプリUIでSSOを設定する方法を説明します。
+Once you have everything configured you can provide the Issuer, Client ID, and Auth method to `wandb/local` on the W&B App or set environment variables. The following procedure walks you through the steps to configure SSO with the W&B App UI:
 
-1. Weights and Biasesサーバーにサインインします。
-2. W&Bアプリに移動します。
+1. Sign in to your Weights and Biases server 
+2. Navigate to the W&B App. 
 
 ![](/images/hosting/system_settings.png)
 
-3. ドロップダウンから**システム設定**を選択します。
+3. From the dropdown, select **System Settings**:
 
 ![](/images/hosting/system_settings_select_settings.png)
-4. 発行者、クライアントID、および認証方法を入力してください。
 
-5. **設定を更新** を選択してください。
-
-
+4. Enter your Issuer, Client ID, and Authentication Method. 
+5. Select **Update settings**.
 
 ![](/images/hosting/system_settings_select_update.png)
 
 
-
-
-
 :::info
-
-SSOを設定した後でインスタンスにログインできない場合は、`LOCAL_RESTORE=true` 環境変数が設定された状態でインスタンスを再起動できます。これにより、一時的なパスワードがコンテナのログに出力され、SSOが無効になります。SSOの問題が解決されたら、再びSSOを有効にするためにその環境変数を削除する必要があります。
-
+If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This will output a temporary password to the containers logs and disable SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
 :::
+

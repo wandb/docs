@@ -1,89 +1,91 @@
 ---
 description: Hosting W&B Server on baremetal servers on-premises
-displayed_sidebar: ja
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# オンプレミス / ベアメタル
+# Baremetal guidelines
 
-W&Bサーバーを使用して、スケーラブルな外部データストアに接続するベアメタルインフラストラクチャーを実行します。新しいインスタンスのプロビジョニング方法と外部データストアのプロビジョニングに関する指南については、以下を参照してください。
+Run your bare metal infrastructure that connects to scalable external data stores with W&B Server. See the following for instructions on how to provision a new instance and guidance on provisioning external data stores.
 
 :::caution
-W&Bアプリケーションのパフォーマンスは、運用チームが設定および管理する必要があるスケーラブルなデータストアに依存します。チームは、アプリケーションが適切にスケールするために、MySQL 5.7またはMySQL 8データベースサーバーとAWS S3互換のオブジェクトストアを提供する必要があります。
+W&B application performance depends on scalable data stores that your operations team must configure and manage. The team must provide a MySQL 5.7 or MySQL 8 database server and an AWS S3 compatible object store for the application to scale properly.
 :::
 
-W&Bセールスチームにお問い合わせください: [contact@wandb.com](mailto:contact@wandb.com)。
+Talk to the W&B Sales Team: [contact@wandb.com](mailto:contact@wandb.com).
 
-## インフラストラクチャーガイドライン
+## Infrastructure Guidelines
 
-次のインフラストラクチャーガイドラインのセクションでは、アプリケーションサーバー、データベースサーバー、およびオブジェクトストレージを設定する際に考慮すべきW&Bの推奨事項を説明しています。
+The following infrastructure guidelines section outline W&B recommendations to take into consideration when you set up your application server, database server, and object storage.
+
 
 :::tip
-W&BをKubernetesクラスターにデプロイすることをお勧めします。Kubernetesクラスターへのデプロイにより、すべてのW&B機能を使用し、[helmインターフェース](https://github.com/wandb/helm-charts)を利用できます。
+We recommend that you deploy W&B into a Kubernetes cluster. Deploying to a Kubernetes cluster ensures that you can use all W&B features and use the [helm interface](https://github.com/wandb/helm-charts).
 :::
 
-W&Bをベアメタルサーバーにインストールして手動で設定することもできます。ただし、W&Bサーバーは積極的に開発が進められており、一部の機能がK8sネイティブまたはカスタマーリソース定義に分割される可能性があります。その場合、スタンドアロンのDockerコンテナに特定の機能をバックポートすることはできません。
+You can install W&B onto a bare-metal server and configure it manually. However, W&B Server is in active development and certain features might be broken into K8s native or customer resource definitions. If this is the  case, you will not be able to backport certain features into a standalone Docker container.
 
-W&Bのオンプレミスインストールに関する質問がある場合は、W&Bサポート（support@wandb.com）までお問い合わせください。
-
-
-
-### アプリケーションサーバー
-
-最高のパフォーマンス、信頼性、可用性を提供するために、W&Bアプリケーションを独自の名前空間と以下の仕様を持つ2つのアベイラビリティーゾーンノードグループにデプロイすることをお勧めします。
-
-| 仕様                        | 値                                  |
-|--------------------------|-------------------------------------|
-| 帯域幅                    | デュアル10ギガビット+イーサネットネットワーク |
-| ルートディスク帯域幅（Mbps）  | 4,750+                              |
-| ルートディスクプロビジョン（GB） | 100+                                |
-| コア数                    | 4                                   |
-| メモリー（GiB）             | 8                                   |
-
-これにより、W&BはW&Bサーバーアプリケーションデータを処理し、外部化される前の一時的なログを保存するために十分なディスク容量が確保されます。また、高速かつ信頼性のあるデータ転送、スムーズな動作に必要な処理能力とメモリを確保し、W&Bがノイジーな隣人の影響を受けないことを保証します。
-
-これらの仕様が最低要件であることに注意してください。実際のリソースの必要性は、W&Bアプリケーションの具体的な使用とワークロードによって異なる場合があります。アプリケーションのリソース使用量とパフォーマンスを監視して、最適に動作し、必要に応じて調整を行うことが重要です。
-
-### データベースサーバー
-
-W&Bは、メタデータストアとして[MySQL 8](../how-to-guides/bare-metal.md#mysql-80)データベースを推奨しています。MLエンジニアのパラメーターとメタデータの形状は、データベースのパフォーマンスに大きく影響します。データベースは、開発者がトレーニングrunをトラッキングする際に増分的に書き込まれ、レポートやダッシュボードでクエリが実行された際に読み込みが増えます。
-
-最適なパフォーマンスを確保するために、W&Bデータベースを以下のスタートスペックのサーバーにデプロイすることを推奨します:
-
-| 仕様                          | 値                                  |
-|--------------------------- |------------------------------------|
-| 帯域幅                       | デュアル10ギガビット+イーサネットネットワーク |
-| ルートディスク帯域幅(Mbps)   | 4,750+                              |
-| ルートディスクプロビジョン(GB) | 1000+                               |
-| コア数                      | 4                                  |
-| メモリー (GiB)              | 32                                 |
+If you have questions about planning an on premises installation of W&B and reach out to W&B Supported at support@wandb.com.
 
 
-再度おすすめしますが、データベースのリソース使用量とパフォーマンスを監視し、最適に動作するように必要に応じて調整を行ってください。
 
-また、MySQL 8のDBをチューニングするために、以下の[パラメータオーバーライド](../how-to-guides/bare-metal.md#mysql-80)をお勧めします。
+### Application Server
 
-### オブジェクトストレージ
+We recommend deploying W&B Application into its own namespace and a two availability zone node group with the following specifications to provide the best performance, reliability, and availability:
 
-W&Bは、S3 APIインターフェース、Signed URLs、CORSをサポートするオブジェクトストレージと互換性があります。開発者の現在のニーズに合わせてストレージ配列を設定し、定期的なペースで容量計画を立てることをお勧めします。
+| Specification              | Value                             |
+|----------------------------|-----------------------------------|
+| Bandwidth                  | Dual 10 Gigabit+ Ethernet Network |
+| Root Disk Bandwidth (Mbps) | 4,750+                            |
+| Root Disk Provision (GB)   | 100+                              |
+| Core Count                 | 4                                 |
+| Memory (GiB)               | 8                                 |
 
-オブジェクトストアの設定に関する詳細は、[how-toセクション](../how-to-guides/bare-metal.md#object-store)で見つけることができます。
+This ensures that W&B has sufficient disk space to process W&B server application data and store temporary logs before they are externalized. It also ensures fast and reliable data transfer, the necessary processing power and memory for smooth operation, and that W&B will not be affected by any noisy neighbors. 
 
-いくつかのテスト済みで動作するプロバイダー：
+It is important to keep in mind that these specifications are minimum requirements, and actual resource needs may vary depending on the specific usage and workload of the W&B application. Monitoring the resource usage and performance of the application is critical to ensure that it operates optimally and to make adjustments as necessary.
+
+
+### Database Server
+
+W&B recommends a [MySQL 8](../how-to-guides/bare-metal.md#mysql-80) database as a metadata store. The shape of the ML practitioners parameters and metadata will greatly affect the performance of the database. The database is typically incrementally written to as practitioners track their training runs and is more read heavy when queries are executed in reports and dashboard.
+
+To ensure optimal performance we recommend deploying the W&B database on to a server with the following starting specs:
+
+| Specification              | Value                             |
+|--------------------------- |-----------------------------------|
+| Bandwidth                  | Dual 10 Gigabit+ Ethernet Network |
+| Root Disk Bandwidth (Mbps) | 4,750+                            |
+| Root Disk Provision (GB)   | 1000+                              |
+| Core Count                 | 4                                 |
+| Memory (GiB)               | 32                                |
+
+
+Again, we recommend monitoring the resource usage and performance of the database to ensure that it operates optimally and to make adjustments as necessary.
+
+Additionally, we recommend the following [parameter overrides](../how-to-guides/bare-metal.md#mysql-80) to tune the DB for MySQL 8.
+
+### Object Storage
+
+W&B is compatible with an object storage that supports S3 API interface, Signed URLs and CORS. We recommend specing the storage array to the current needs of your practitioners and to capacity plan on a regular cadence.
+
+More details on object store configuration can be found in the [how-to section](../how-to-guides/bare-metal.md#object-store).
+
+Some tested and working providers:
 - [MinIO](https://min.io/)
 - [Ceph](https://ceph.io/)
 - [NetApp](https://www.netapp.com/)
 - [Pure Storage](https://www.purestorage.com/)
 
-##### セキュアストレージコネクタ
+##### Secure Storage Connector
 
-[Secure Storage Connector](../secure-storage-connector.md)は、現在、ベアメタルデプロイメントのチームでは利用できません。
+The [Secure Storage Connector](../secure-storage-connector.md) is not available for teams at this time for bare metal deployments.
 
-## MySQLデータベース
+## MySQL Database
 
-:::注意
-W&Bは現在、MySQL 5.7またはMySQL 8.0.28以降をサポートしています。
+:::caution
+W&B currently supports MySQL 5.7 or MySQL 8.0.28 and above.
 :::
 
 <Tabs
@@ -94,7 +96,7 @@ W&Bは現在、MySQL 5.7またはMySQL 8.0.28以降をサポートしていま�
   ]}>
   <TabItem value="apple">
   
-スケーラブルなMySQLデータベースを簡単に運用できるエンタープライズサービスがいくつかあります。以下のソリューションのいずれかを検討することをお勧めします。
+There are a number of enterprise services that make operating a scalable MySQL database simpler. We suggest looking into one of the following solutions:
 
 [https://www.percona.com/software/mysql-database/percona-server](https://www.percona.com/software/mysql-database/percona-server)
 
@@ -105,10 +107,10 @@ W&Bは現在、MySQL 5.7またはMySQL 8.0.28以降をサポートしていま�
   <TabItem value="orange">
 
 :::info
-W&Bアプリケーションは現在、`MySQL 8`のバージョン`8.0.28`およびそれ以降のバージョンのみをサポートしています。
+The W&B application currently only supports`MySQL 8`versions`8.0.28`and above.
 :::
 
-W&BサーバーMySQL 8.0を実行する場合、またはMySQL 5.7から8.0にアップグレードする場合は、以下の条件を満たしてください。
+Satisfy the conditions below if you run W&B Server MySQL 8.0 or when you upgrade from MySQL 5.7 to 8.0:
 
 ```
 binlog_format = 'ROW'
@@ -118,21 +120,21 @@ innodb_flush_log_at_trx_commit = 1
 binlog_row_image = 'MINIMAL'
 ```
 
-MySQL 8.0での`sort_buffer_size`の取り扱い方に変更があったため、デフォルト値の`262144`から`sort_buffer_size`パラメータを更新する必要があります。データベースがW＆Bアプリケーションで効率的に動作するように、値を`33554432(32MiB)`に設定することをお勧めします。ただし、これはMySQLバージョン8.0.28以上でのみ機能します。
-
+Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. Our recommendation is to set the value to `33554432(32MiB)` in order for the database to efficiently work with the W&B application. Note that, this only works with MySQL versions 8.0.28 and above.
+  
   </TabItem>
 </Tabs>
 
-### データベースに関する注意事項
+### Database considerations
 
-独自のMySQLデータベースを実行する場合は、以下を検討してください。
+Consider the following when you run your own MySQL database:
 
-1. **バックアップ**. データベースは定期的に別の設備にバックアップする必要があります。1週間の保持期間を持つ毎日のバックアップを推奨します。
-2. **パフォーマンス.** サーバーが実行されているディスクは高速である必要があります。データベースはSSDまたはアクセラレーションされたNASで実行することをお勧めします。
-3. **監視.** データベースは負荷を監視する必要があります。CPU使用率がシステムの40％以上で5分以上継続される場合、サーバーがリソース不足である可能性が高いことを示しています。
-4. **可用性.** 可用性と耐久性の要件に応じて、リアルタイムでプライマリサーバーからすべての更新をストリーミングし、プライマリサーバーがクラッシュしたり破損したりした場合にフェイルオーバーできる別のマシンにホットスタンバイを設定することがあります。
+1. **Backups**. You should  periodically back up the database to a separate facility. We suggest daily backups with at least 1 week of retention.
+2. **Performance.** The disk the server is running on should be fast. We suggest running the database on an SSD or accelerated NAS.
+3. **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
+4. **Availability.** Depending on your availability and durability requirements you may want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to incase the primary server crashes or become corrupted.
 
-次のSQLクエリを使用してデータベースとユーザーを作成します。`SOME_PASSWORD` をお好みのパスワードに置き換えてください:
+Create a database and a user with the following SQL query. Replace `SOME_PASSWORD` with password of your choice:
 
 ```sql
 CREATE USER 'wandb_local'@'%' IDENTIFIED BY 'SOME_PASSWORD';
@@ -140,9 +142,9 @@ CREATE DATABASE wandb_local CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
 ```
 
-#### パラメーターグループ設定
+#### Parameter Group Configuration
 
-データベースのパフォーマンスをチューニングするために、以下のパラメーターグループを設定してください。
+Ensure that the following parameter groups are set to tune the database performance:
 
 ```
 binlog_format = 'ROW'
@@ -153,12 +155,12 @@ binlog_row_image = 'MINIMAL'
 sort_buffer_size = 33554432
 ```
 
-## オブジェクトストア
-オブジェクトストアは、外部で[Minioクラスター](https://docs.min.io/minio/k8s/)や、署名付きURLをサポートしているAmazon S3互換のオブジェクトストアでホストすることができます。オブジェクトストアが署名付きURLをサポートしているかどうかを確認するには、[こちらのスクリプト](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b)を実行してください。
+## Object Store
+The object store can be externally hosted on a [Minio cluster](https://docs.min.io/minio/k8s/), or any Amazon S3 compatible object store that has support for signed urls. Run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) to check if your object store supports signed urls.
 
-また、以下のCORSポリシーをオブジェクトストアに適用する必要があります。
+Additionally, the following CORS policy needs to be applied to the object store.
 
-```xml
+``` xml
 <?xml version="1.0" encoding="UTF-8"?>
 <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
 <CORSRule>
@@ -171,47 +173,47 @@ sort_buffer_size = 33554432
 </CORSConfiguration>
 ```
 
-Amazon S3互換のオブジェクトストアに接続する際に、接続文字列の中に認証情報を設定することができます。例えば、以下のように指定できます。
+You can specify your credentials in a connection string when you connect to an Amazon S3 compatible object store. For example, you can specify the following: 
 
 ```yaml
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME
 ```
 
-オブジェクトストア用に信頼できるSSL証明書を設定することで、W&BにTLS経由での接続のみを指定することができます。これを行うには、URLに`tls`クエリパラメータを追加します。以下のURL例では、Amazon S3 URIにTLSクエリパラメータを追加する方法を示しています。
+You can optionally tell W&B to only connect over TLS if you configure a trusted SSL certificate for your object store. To do so, add the `tls` query parameter to the url. For example, the following URL example demonstrates how to add the TLS query parameter to an Amazon S3 URI:
 
 ```yaml
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 ```
 
-:::注意
-これは、SSL証明書が信頼されている場合にのみ機能します。W＆Bは自己署名証明書に対応していません。
+:::caution
+This will only work if the SSL certificate is trusted. W&B does not support self-signed certificates.
 :::
 
-`BUCKET_QUEUE`を`internal://`に設定して、サードパーティのオブジェクトストアを使用する場合。これは、W＆Bサーバーに外部のSQSキューまたは同等のものに依存する代わりに、すべてのオブジェクト通知を内部で管理させるよう指示します。
+Set `BUCKET_QUEUE` to `internal://` if you use third-party object stores.  This tells the W&B server to manage all object notifications internally instead of depending on an external SQS queue or equivalent.
 
-独自のオブジェクトストアを実行する際に考慮すべき最も重要なことは次のとおりです。
+The most important things to consider when running your own object store are:
 
-1. **ストレージ容量とパフォーマンス**。磁気ディスクを使用しても問題ありませんが、これらのディスクの容量を監視する必要があります。平均的なW＆Bの使用は、数十から数百ギガバイトになります。大量の使用は、ペタバイトのストレージ消費になる可能性があります。
-2. **フォールトトレランス**。少なくとも、オブジェクトを格納している物理ディスクはRAIDアレイ上にあるべきです。minioを使用する場合は、[分散モード](https://docs.min.io/minio/baremetal/installation/deploy-minio-distributed.html#deploy-minio-distributed)で実行することを検討してください。
-3. **可用性**。ストレージが利用可能であることを確認するために、監視を設定してください。
+1. **Storage capacity and performance**. It's fine to use magnetic disks, but you should be monitoring the capacity of these disks. Average W&B usage results in 10's to 100's of Gigabytes. Heavy usage could result in Petabytes of storage consumption.
+2. **Fault tolerance.** At a minimum, the physical disk storing the objects should be on a RAID array. If you use minio, consider running it in [distributed mode](https://docs.min.io/minio/baremetal/installation/deploy-minio-distributed.html#deploy-minio-distributed).
+3. **Availability.** Monitoring should be configured to ensure the storage is available.
 
-独自のオブジェクトストレージサービスを運用する代わりに、多くのエンタープライズ向けの代替手段があります。例えば：
+There are many enterprise alternatives to running your own object storage service such as:
 
-1. [https://aws.amazon.com/jp/s3/outposts/](https://aws.amazon.com/jp/s3/outposts/)
-2. [https://www.netapp.com/jp/data-storage/storagegrid/](https://www.netapp.com/jp/data-storage/storagegrid/)
+1. [https://aws.amazon.com/s3/outposts/](https://aws.amazon.com/s3/outposts/)
+2. [https://www.netapp.com/data-storage/storagegrid/](https://www.netapp.com/data-storage/storagegrid/)
 
-### MinIOのセットアップ
+### MinIO setup
 
-MinIOを使用している場合は、以下のコマンドを実行してバケットを作成できます。
+If you use minio, you can run the following commands to create a bucket.
 
 ```bash
 mc config host add local http://$MINIO_HOST:$MINIO_PORT "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" --api s3v4
 mc mb --region=us-east1 local/local-files
 ```
 
-## Kubernetes展開
+## Kubernetes deployment
 
-次のk8s yamlはカスタマイズできますが、Kubernetesでローカルを設定するための基本的な基盤として機能するはずです。
+The following k8s yaml can be customized but should serve as a basic foundation for configuring local in Kubernetes.
 
 ```yaml
 apiVersion: apps/v1
@@ -255,9 +257,7 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-
-```
-path: /healthz
+              path: /healthz
               port: http
           readinessProbe:
             httpGet:
@@ -267,7 +267,7 @@ path: /healthz
             httpGet:
               path: /ready
               port: http
-            failureThreshold: 60 # マイグレーションに10分間許可
+            failureThreshold: 60 # allow 10 minutes for migrations
           resources:
             requests:
               cpu: '2000m'
@@ -303,25 +303,25 @@ spec:
         number: 80
 ```
 
-上記のk8s YAMLは、ほとんどのオンプレミス環境で動作するはずです。ただし、IngressおよびオプションのSSL終了の詳細は異なります。詳細は下記の[ネットワーキング](#networking)を参照してください。
+The k8s YAML above should work in most on-premises installations. However the details of your Ingress and optional SSL termination will vary. See [networking](#networking) below.
 
-### Helmチャート
+### Helm Chart
 
-W＆Bは、Helmチャートを介してデプロイすることもサポートしています。公式のW＆B Helmチャートは[こちらから見つけることができます](https://github.com/wandb/helm-charts)。
+W&B also supports deploying via a Helm Chart. The official W&B helm chart can be [found here](https://github.com/wandb/helm-charts).
 
 ### Openshift
 
-W＆Bは、[Openshift Kubernetesクラスター](https://www.redhat.com/en/technologies/cloud-computing/openshift)内で動作することをサポートしています。上記のKubernetesデプロイメントセクションの手順に従ってください。
+W&B supports operating from within an [Openshift kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). Simply follow the instructions in the kubernetes deployment section above.
 
-#### 特権のないユーザーとしてコンテナを実行する
+#### Run the container as an un-privileged user
 
-デフォルトでは、コンテナは`$UID` 999を使用します。コンテナを非rootユーザーで実行する必要がある場合は、`$UID` >= 100000および`$GID` 0を指定します。
+By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
 
 :::note
-ファイルシステムの権限が正しく機能するために、W＆Bはルートグループ（`$GID=0`）として開始する必要があります。
+W&B  must start as the root group (`$GID=0`) for file system permissions to function properly.
 :::
 
-Kubernetesのセキュリティコンテキストの例は、次のようなものです。
+An example security context for Kubernetes looks similar to the following:
 
 ```
 spec:
@@ -330,11 +330,11 @@ spec:
     runAsGroup: 0
 ```
 
-## Docker展開
+## Docker deployment
 
-_wandb/local_は、Dockerがインストールされているインスタンスでも実行できます。少なくとも8GBのRAMと4vCPUが望ましいです。
+You can run _wandb/local_ on any instance that also has Docker installed. We suggest at least 8GB of RAM and 4vCPU's. 
 
-以下のコマンドを実行して、コンテナを起動します。
+Run the following command to launch the container:
 
 ```bash
  docker run --rm -d \
@@ -348,16 +348,16 @@ _wandb/local_は、Dockerがインストールされているインスタンス�
 ```
 
 :::caution
-このプロセスがクラッシュした場合に再起動されるように、プロセスマネージャーを設定してください。SystemDを使用してこれを行う方法の良い概要は[こちら](https://blog.container-solutions.com/running-docker-containers-with-systemd)で見つかります。
+Configure a process manager to ensure this process is restarted if it crashes. A good overview of using SystemD to do this can be [found here](https://blog.container-solutions.com/running-docker-containers-with-systemd).
 :::
 
-## ネットワーキング
+## Networking
 
-### ロードバランサー
+### Load Balancer
 
-適切なネットワーク境界でネットワークリクエストを終了するロードバランサーを実行します。
+Run a load balancer that terminates network requests at the appropriate network boundary. 
 
-一般的なロードバランサーには以下のものがあります:
+Common load balancers include:
 1. [Nginx Ingress](https://kubernetes.github.io/ingress-nginx/)
 2. [Istio](https://istio.io)
 3. [Caddy](https://caddyserver.com)
@@ -365,47 +365,48 @@ _wandb/local_は、Dockerがインストールされているインスタンス�
 5. [Apache](https://www.apache.org)
 6. [HAProxy](http://www.haproxy.org)
 
-機械学習のペイロードを実行するために使用されるすべてのマシン、およびウェブブラウザを介してサービスにアクセスするために使用されるデバイスが、このエンドポイントと通信できることを確認してください。
+Ensure that all machines used to execute machine learning payloads, and the devices used to access the service through web browsers, can communicate to this endpoint. 
+
 
 ### SSL / TLS
 
-W&BサーバーはSSLを終了しません。信頼できるネットワーク内でSSL通信が必要な場合は、Istioや[サイドカーコンテナ](https://istio.io/latest/docs/reference/config/networking/sidecar/)などのツールを利用してください。ロードバランサー自体が有効な証明書でSSLを終了させるべきです。自己署名証明書の使用はサポートされておらず、ユーザーに多くの問題を引き起こします。可能であれば、[Let's Encrypt](https://letsencrypt.org)のようなサービスを使って、ロードバランサーに信頼できる証明書を提供することが良い方法です。CaddyやCloudflareのようなサービスは、SSLを管理してくれます。
+W&B Server does not terminate SSL. If your security policies require SSL communication within your trusted networks consider using a tool like Istio and [side car containers](https://istio.io/latest/docs/reference/config/networking/sidecar/). The load balancer itself should terminate SSL with a valid certificate. Using self-signed certificates is not supported and will cause a number of challenges for users. If possible using a service like [Let's Encrypt](https://letsencrypt.org) is a great way to provided trusted certificates to your load balancer. Services like Caddy and Cloudflare manage SSL for you.
 
-### Nginx設定の例
+### Example Nginx Configuration
 
-次に示すのは、Nginxをリバースプロキシとして使用する例の設定です。
+The following is an example configuration using nginx as a reverse proxy.
 
 ```nginx
 events {}
 http {
-    # X-Forwarded-Proto を受信した場合はそれを渡し、そうでない場合は、
-    # このサーバーに接続するために使用されたスキームを渡す
+    # If we receive X-Forwarded-Proto, pass it through; otherwise, pass along the
+    # scheme used to connect to this server
     map $http_x_forwarded_proto $proxy_x_forwarded_proto {
         default $http_x_forwarded_proto;
         ''      $scheme;
     }
 
-    # 上記のケースでも、HTTPS を強制する
+    # Also, in the above case, force HTTPS
     map $http_x_forwarded_proto $sts {
         default '';
         "https" "max-age=31536000; includeSubDomains";
     }
 
-    # X-Forwarded-Host を受信した場合はそれを渡し、そうでない場合は $http_host を渡す
+    # If we receive X-Forwarded-Host, pass it though; otherwise, pass along $http_host
     map $http_x_forwarded_host $proxy_x_forwarded_host {
         default $http_x_forwarded_host;
         ''      $http_host;
     }
 
-    # X-Forwarded-Port を受信した場合はそれを渡し、そうでない場合は、
-    # クライアントが接続したサーバーポートを渡す
+    # If we receive X-Forwarded-Port, pass it through; otherwise, pass along the
+    # server port the client connected to
     map $http_x_forwarded_port $proxy_x_forwarded_port {
         default $http_x_forwarded_port;
         ''      $server_port;
     }
 
- # もしUpgradeが受信された場合、Connectionを"upgrade"に設定；そうでない場合、
-    # このサーバーに渡されたかもしれないConnectionヘッダーを削除
+    # If we receive Upgrade, set Connection to "upgrade"; otherwise, delete any
+    # Connection header that may have been passed to this server
     map $http_upgrade $proxy_connection {
         default upgrade;
         '' close;
@@ -431,14 +432,14 @@ http {
             proxy_pass  http://$YOUR_UPSTREAM_SERVER_IP:8080/;
         }
 
-keepalive_timeout 10;
+        keepalive_timeout 10;
     }
 }
 ```
 
-## インストールの確認
+## Verify your installation
 
-W&Bサーバーが正しく設定されていることを確認します。ターミナルで以下のコマンドを実行してください：
+Very your W&B Server is configured properly. Run the following commands in your terminal:
 
 ```bash
 pip install wandb
@@ -446,22 +447,22 @@ wandb login --host=https://YOUR_DNS_DOMAIN
 wandb verify
 ```
 
-W&Bサーバーが起動時にエラーが発生した場合は、ログファイルを確認してください。DockerまたはKubernetesを使用しているかどうかに基づいて、以下のコマンドを実行してください:
+Check log files to view any errors the W&B Server hits at startup. Run the following commands based on whether if you use Docker or Kubernetes: 
 
 <Tabs
-  defaultValue="apple"
+  defaultValue="docker"
   values={[
-    {label: 'Apple', value: 'apple'},
-    {label: 'Orange', value: 'orange'},
+    {label: 'Docker', value: 'docker'},
+    {label: 'Kubernetes', value: 'kubernetes'},
   ]}>
-  <TabItem value="apple">
+  <TabItem value="docker">
 
 ```bash
 docker logs wandb-local
 ```
 
   </TabItem>
-  <TabItem value="orange">
+  <TabItem value="kubernetes">
 
 ```bash
 kubectl get pods
@@ -472,4 +473,4 @@ kubectl logs wandb-XXXXX-XXXXX
 </Tabs>
 
 
-問題が発生した場合は、W&Bサポートチームにお問い合わせください。
+Contact W&B Support if you encounter errors. 
