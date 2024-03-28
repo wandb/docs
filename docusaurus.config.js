@@ -26,18 +26,7 @@ const config = {
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'ja'],
-    path: 'i18n',
-    localeConfigs: {
-      en : {
-        label: 'English',
-        path: 'en'
-      },
-      ja : {
-        label: 'Japanese',
-        path: 'ja'
-      },
-    },
+    locales: ['en'],
   },
 
   presets: [
@@ -148,8 +137,19 @@ const config = {
             position: 'right',
           },
           {
-            type: 'localeDropdown',
+            type: 'dropdown',
+            label: 'Language',
             position: 'right',
+            items: [
+              {
+                label: 'Japanese',
+                href: 'https://docs.wandb.ai/ja/guides',
+              },
+              {
+                label: 'Korean',
+                href: 'https://docs.wandb.ai/ko/guides',
+              },
+            ],
           },
           {
             href: 'https://github.com/wandb/wandb',
