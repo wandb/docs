@@ -1,8 +1,9 @@
 {
   "index_name": "docodile",
-  "start_urls": ["https://docs.wandb.ai"],
   "sitemaps": ["https://docs.wandb.ai/sitemap.xml"],
-  "sitemap_alternate_links": true,
+  "start_urls": ["https://docs.wandb.ai"],
+  "stop_urls": ["https://docs.wandb.ai/ja", "https://docs.wandb.ai/ko"],
+  "sitemap_alternate_links": false,
   "selectors": {
     "lvl0": {
       "selector": "(//ul[contains(@class,'menu__list')]//a[contains(@class, 'menu__link menu__link--sublist menu__link--active')]/text() | //nav[contains(@class, 'navbar')]//a[contains(@class, 'navbar__link--active')]/text())[last()]",

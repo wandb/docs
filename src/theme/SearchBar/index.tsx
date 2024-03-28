@@ -81,7 +81,7 @@ function DocSearch({
   externalUrlRegex,
   ...props
 }: DocSearchProps) {
-  const {siteMetadata, i18n} = useDocusaurusContext();
+  const {siteMetadata} = useDocusaurusContext();
 
   const contextualSearchFacetFilters =
     useAlgoliaContextualFacetFilters() as FacetFilters;
@@ -176,12 +176,6 @@ function DocSearch({
 
   const transformItems = useRef<DocSearchModalProps['transformItems']>(items =>
     items.filter(item => {
-      if (i18n.currentLocale === 'en'){ 
-        return i18n.locales.every( locale => !item.url.includes(`/${locale}/`) ) 
-      } else {
-        return item.url.includes(`/${i18n.currentLocale}/`)
-      }
-    }).map(item => {
       // If Algolia contains a external domain, we should navigate without
       // relative URL
       if (isRegexpStringMatch(externalUrlRegex, item.url)) {
