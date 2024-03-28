@@ -350,28 +350,39 @@ const sidebars = {
       label: 'W&B Platform',
       link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
-        'guides/hosting/how-to-guides/basic-setup',
         {
           type: 'category',
           label: 'Deployment options',
           // link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
-                  {
+            'guides/hosting/hosting-options/saas_cloud',
+            {
               type: 'category',
               label: 'Dedicated Cloud',
               link: { type: 'doc', id: 'guides/hosting/hosting-options/dedicated_cloud' },
               items: [
+                'guides/hosting/hosting-options/dedicated_regions',
                 'guides/hosting/export-data-from-dedicated-cloud',
               ],
             },
-            'guides/hosting/hosting-options/saas_cloud',
             {
               type: 'category',
               label: 'Self Managed',
               link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
               items: [
-                'guides/hosting/server-upgrade-process',
+                'guides/hosting/how-to-guides/basic-setup',
+                {
+                  type: 'category',
+                  label: 'Install on public cloud',
+                  // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+                  items: [
+                    'guides/hosting/how-to-guides/aws-tf',
+                    'guides/hosting/how-to-guides/gcp-tf',
+                    'guides/hosting/how-to-guides/azure-tf',
+                  ],
+                },
                 'guides/hosting/how-to-guides/bare-metal',
+                'guides/hosting/server-upgrade-process',
               ],
             },  
           ],
@@ -379,36 +390,26 @@ const sidebars = {
         {
           type: 'category',
           label: 'Identity and access management (IAM)',
-          // link: { type: 'doc', id: 'guides/hosting/' },
+          link: { type: 'doc', id: 'guides/hosting/iam/org_team_struct'},
           items: [
             {
               type: 'category',
-              label: 'W&B Entities & Identities',
-              // link: { type: 'doc', id: 'guides/hosting/org_team_struct'},
+              label: 'Authentication',
               items: [
-                'guides/hosting/iam_users_service',
-                'guides/hosting/iam_team',
-                'guides/hosting/iam_org',
+                'guides/hosting/iam/sso',
+                'guides/hosting/iam/ldap',
               ],
             },
             {
               type: 'category',
               label: 'Access management',
               items: [
-                'guides/hosting/manage-users',
-                'guides/hosting/project_avail',
-                // 'guides/hosting/automate_management',
-              ],
-            },  
-            {
-              type: 'category',
-              label: 'Authenticate',
-              items: [
-                'guides/hosting/ldap', 
-                'guides/hosting/sso', 
+                'guides/hosting/iam/manage-users',
+                // 'guides/hostin/iam/restricted-projects'
               ],
             },
-            'guides/hosting/scim',                     
+            'guides/hosting/iam/automate_iam',
+            'guides/hosting/iam/scim',                
           ],
         },
         {
@@ -416,33 +417,24 @@ const sidebars = {
           label: 'Data Security',
           items: [
             'guides/hosting/secure-storage-connector',
-            // 'guides/hosting/private_link',
+            'guides/hosting/ip-allowlisting',
+            'guides/hosting/private-connectivity',
             // 'guides/hosting/customer_encryption',
           ],
         },               
         {
           type: 'category',
-          label: 'Monitor',
+          label: 'Monitoring and Usage',
           items: [
             'guides/hosting/audit-logging',
             'guides/hosting/prometheus-logging',
             'guides/hosting/slack-alerts',
-            'guides/hosting/smtp',
             'guides/hosting/org_dashboard',
           ],
         },
-        {
-          type: 'category',
-          label: 'Install a cloud provider',
-          // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
-          items: [
-            'guides/hosting/how-to-guides/aws-tf',
-            'guides/hosting/how-to-guides/gcp-tf',
-            'guides/hosting/how-to-guides/azure-tf',
-          ],
-        },         
-            'guides/hosting/env-vars',
-            'guides/hosting/server-release-process',
+        'guides/hosting/smtp',
+        'guides/hosting/env-vars',
+        'guides/hosting/server-release-process',
         // 'guides/hosting/debug',
       ],
     },
@@ -810,15 +802,15 @@ const sidebars = {
           ],
         },
         'guides/hosting/secure-storage-connector',
-        'guides/hosting/sso',
-        'guides/hosting/ldap',
+        'guides/hosting/iam/sso',
+        'guides/hosting/iam/ldap',
         'guides/hosting/audit-logging',
-        'guides/hosting/manage-users',
+        'guides/hosting/iam/manage-users',
         'guides/hosting/prometheus-logging',
         'guides/hosting/slack-alerts',
         'guides/hosting/smtp',
         'guides/hosting/env-vars',
-        'guides/hosting/scim',
+        'guides/hosting/iam/scim',
         'guides/hosting/server-release-process',
         'guides/hosting/export-data-from-dedicated-cloud',
         {

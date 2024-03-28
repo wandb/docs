@@ -6,7 +6,7 @@ displayed_sidebar: default
 # Self managed
 
 :::info
-We recommend that you consider leveraging SaaS Cloud or Dedicated Cloud before privately hosting the W&B server on your infrastructure. The W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+We recommend that you consider leveraging [SaaS Cloud](../hosting-options/saas_cloud.md) or [Dedicated Cloud](../hosting-options//dedicated_cloud.md) before privately hosting the W&B server on your infrastructure. The W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 :::
 
 ## Self managed cloud accounts

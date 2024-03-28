@@ -4,7 +4,7 @@ displayed_sidebar: default
 # Manage users
 Manage W&B users in your organization or team.
 
-W&B strongly recommends and encourages that users authenticate to an enterprise W&B Server instance using Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to the [SSO Configuration documentation](./sso.md).
+W&B strongly recommends and encourages that users authenticate to an organization using Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).
 
 :::note
 `W&B Server` refers to both **Dedicated Cloud** or **Self-managed** hosting options.
@@ -31,7 +31,7 @@ As an instance admin, you can invite, remove, and change a user's role. To do so
 
 ![](/images/hosting/how_get_to_dashboard.png)
 
-If you are looking to simplify user management in your organization, refer to [Automate user and team management](#automate-user-and-team-management).
+If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
 
 ### Invite users
 1. Navigate to the W&B Organization dashboard.
@@ -52,7 +52,7 @@ The **Add user** option might be not be available if there are no more seats in 
 :::
 
 :::note
-W&B uses a third-party email server to send the user invites. If you've a self-managed W&B Server instance and your organization firewall rules restrict sending traffic outside the corporate network, W&B provides an option to configure an internal SMTP server in the instance. Please refer to [these instructions](./smtp.md) to setup the SMTP server.
+W&B uses a third-party email server to send the user invites. If you've a self-managed W&B Server instance and your organization firewall rules restrict sending traffic outside the corporate network, W&B provides an option to configure an internal SMTP server in the instance. Please refer to [these instructions](../smtp.md) to setup the SMTP server.
 :::
 
 ### User auto-provisioning
@@ -79,7 +79,7 @@ If auto-provisioning is on for your W&B Server instance, there may be a way to c
 4. From the dropdown, select a different role you want to assign.
 
 ## Manage a team
-Use a team home page as a central hub to explore projects, reports, and runs. Within the team home page there is a **Settings** tab. Use the Settings tab to manage users, set a team avatar, adjust privacy settings, set up alerts, track usage, and more. For more information, see the [Team settings](../app/settings-page/team-settings.md) page.
+Use a team home page as a central hub to explore projects, reports, and runs. Within the team home page there is a **Settings** tab. Use the Settings tab to manage users, set a team avatar, adjust privacy settings, set up alerts, track usage, and more. For more information, see the [Team settings](../../app/settings-page/team-settings.md) page.
 
 :::tip
 Team admins can add and remove users in their teams. Add a users to team with the user's email or use the user's organization-level username. A non-admin user in a team cannot invite other users to that team, **unless** team admin has enabled the relevant team setting.
@@ -87,7 +87,7 @@ Team admins can add and remove users in their teams. Add a users to team with th
 See **Team roles** below for what roles are available at the team-level.
 :::
 
-If you're looking to simplify team management in your organization, refer to [Automate user and team management](#automate-user-and-team-management).
+If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md).
 
 ### Create a team
 1. Navigate to the W&B Organization dashboard.
@@ -115,7 +115,7 @@ W&B recommends to have more than one admin in a team. It is a best practice to e
 :::
 
 :::note
-Refer to [Team Service Account Behavior](../app/features/teams.md#team-service-account-behavior) for more information.
+Refer to [Team Service Account Behavior](../../app/features/teams.md#team-service-account-behavior) for more information.
 :::
 
 :::note
