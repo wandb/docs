@@ -66,5 +66,3 @@ Depending on your use case, explore the following resources to get started with 
    * [Protected models and access control](./access_controls.md).
    * [How to connect the Model Registry to CI/CD processes](./automation.md).
    * Set up [Slack notifications](./notifications.md) when a new model version is linked to a registered model.
-
-
