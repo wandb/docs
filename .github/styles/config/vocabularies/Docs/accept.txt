@@ -1,4 +1,5 @@
 APIs
+AWS
 Autogenerate
 autolog
 [Bb]asename
@@ -17,6 +18,7 @@ CTAButtons
 Docker
 Dockerfile
 [Ee]nqueued
+GCP
 GPUs
 Helm
 [Hh]ostname
@@ -26,10 +28,12 @@ Hyperband
 Kaniko
 Keras
 Kubeflow
+Kubernetes
 [Ll]atents
 MMEngine
 MMDetection
 [Nn]amespace
+[Oo]perator
 Optuna
 [P]repended
 [Pp]seudocode
@@ -38,5 +42,8 @@ SCIM
 Terraform
 TTL
 UI
+use_artifact
 [Ww]alkthrough
 W&B Server
+
+

@@ -1,11 +1,11 @@
 dispatch:
   # # Route requests to 
-  # - url: "docs.wandb.ai/ko*"
-  #   service: ko
+  - url: "docs.wandb.ai/ko*"
+    service: ko
 
-    # # Route requests to 
-  # - url: "docs.wandb.ai/ja*"
-  #   service: ja
+# Route requests to 
+  - url: "docs.wandb.ai/ja*"
+    service: ja
 
   # Route requests to docs.wandb.ai to the default service
   - url: "docs.wandb.ai/*"
