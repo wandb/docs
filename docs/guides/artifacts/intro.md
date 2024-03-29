@@ -15,14 +15,16 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 Use W&B Artifacts to track and version any serialized data as the inputs and outputs of your [W&B Runs](../runs/intro.md). For example, a model training run might take in a dataset as input and trained model as output. In addition to logging hyper-parameters and metadata to a run, you can use an artifact to log the dataset used to train the model as input and the resulting model checkpoints as outputs.
 
 ## Use cases
-You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs](../runs/intro.md):
+You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs](../runs/intro.md). You can use datasets, models, or even other artifacts as inputs for processing.
 
 ![](/images/artifacts/artifacts_landing_page2.png)
 
-This means that you can:
-* [Visualize a model's or dataset's lineage and dependencies](./explore-and-traverse-an-artifact-graph.md).
-* [Version every dataset change or model checkpoint](./create-a-new-artifact-version.md).
-* [Easily reuse models and datasets across your team](./download-and-use-an-artifact.md).
+Some of the use cases of artifacts including:
+* **Training models**: Input a dataset to track the training of your model and monitor progress with the W&B dashboard.
+* **Pre-processing datasets**: Clean and transform a dataset and track its changes over time.
+* **Evaluating models**: Track a model's performance with your data using W&B [Tables](../tables/tables-walkthrough.md)
+* **Optimizing models**: Optimize models and track performance over time. 
+
 
 ## Create an artifact
 
@@ -57,11 +59,18 @@ Then, use the returned object to download all contents of the artifact:
 datadir = artifact.download() #downloads the "my_data" artifact
 ```
 
+Optionally, you can retrieve the artifact's URL for reference:
+
+```python
+print("reference file:", artifact.manifest.entries[ref].ref) #prints a URL pointing to the "my_data" artifact for future reference
+```
+
 :::tip
 For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](./download-and-use-an-artifact.md)
 :::
 
 ## Next steps
-* Read the [artifacts walkthrough](./artifacts-walkthrough.md) for a detailed step-by-step outline of how to create, track, and use an artifact.
 * Learn how to [version](./create-a-new-artifact-version.md), [update](./update-an-artifact.md), or [delete](./delete-artifacts.md) artifacts.
+* Learn about [artifact automation](./project-scoped-automations.md).
+* Learn about the [model registry](../model_registry/intro.md), a space that houses trained models.
 * Explore the [Python SDK](../../ref/python/artifact.md) and [CLI](../../ref/cli/wandb-artifact/README.md) reference guides.
