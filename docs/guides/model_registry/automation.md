@@ -36,7 +36,11 @@ An action is a responsive mutation (internal or external) that occurs as a resul
 The following sections describe how to create an automation with webhooks and W&B Launch.
 
 ## Create a webhook automation 
-Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
+Automate a webhook based on an action with the W&B App UI. To do this, first establish a webhook, then configure the webhook automation. 
+
+:::info
+Specify an endpoint for your webhook that has an Address record (A record). W&B does not support connecting to endpoints that are exposed directly with IP addresses such as `[0-255].[0-255].[0-255].[0.255]` or endpoints exposed as `localhost`. This restriction helps protect against Server-side request forgery (SSRF) attacks and other related threat vectors.
+:::
 
 ### Add a secret for authentication or authorization
 Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
@@ -81,7 +85,7 @@ W&B does not recommend that you use a Kubernetes cluster as the backend of your 
 :::
 
 ### Configure a webhook
-Before you can use a webhook, you will first need to configure that webhook in the W&B App UI.
+Before you can use a webhook, first configure that webhook in the W&B App UI. 
 
 :::info
 * Only W&B Admins can configure a webhook for a W&B Team.
