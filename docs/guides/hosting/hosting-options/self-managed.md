@@ -4,25 +4,30 @@ displayed_sidebar: default
 ---
 
 # Self managed
+Deploy W&B Server on your bare servers (on-prem) or within AWS, GCP, or Azure cloud that you manage. 
 
 :::info
-We recommend that you consider leveraging [SaaS Cloud](../hosting-options/saas_cloud.md) or [Dedicated Cloud](../hosting-options//dedicated_cloud.md) before privately hosting the W&B server on your infrastructure. The W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed platforms such as [SaaS Cloud](../hosting-options/saas_cloud.md) or [Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 :::
+
+Check [Obtain your W&B Server license](#obtain-your-wb-server-license) to complete the setup.
 
 ## Self managed cloud accounts
 
-Deploy W&B Server in your own managed cloud accounts. Use this option only if Dedicated Cloud does not meet the security & compliance requirements of your organization. W&B recommends that you use the official W&B Terraform scripts to deploy into AWS, GCP, or Azure. You can choose to deploy W&B Server in the region of your choice, provided the required W&B services are available in the chosen region. 
-
-Deployment provisioning, upgrades and continuous maintenance of the instance would need to be handled by your IT/DevOps/MLOps teams.
-
-The simplest way to configure infrastructure is by using W&B's official terraform scripts:
+Deploy W&B Server in your own managed cloud accounts in AWS, GCP, or Azure cloud.  W&B recommends that you use official W&B Terraform scripts to deploy W&B Server into AWS, GCP, or Azure.
 
 - [Amazon Web Services (AWS)](https://github.com/wandb/terraform-aws-wandb)
 - [Google Cloud Platform (GCP)](https://github.com/wandb/terraform-google-wandb)
 - [Microsoft Azure](https://github.com/wandb/terraform-azurerm-wandb)
 
-Also, refer to the [AWS](../how-to-guides/aws-tf.md), [GCP](../how-to-guides/gcp-tf.md) and [Azure](../how-to-guides/azure-tf.md) documentation. Check [Obtain your W&B Server license](#obtain-your-wb-server-license) to complete the setup.
+<!-- You can deploy W&B Server in the region of your choice, provided the required W&B services are available in the chosen region.  -->
 
+See specific cloud provider documentation for more information on how to set up W&B Server in [AWS](../how-to-guides/aws-tf.md), [GCP](../how-to-guides/gcp-tf.md) or [Azure](../how-to-guides/azure-tf.md).
+
+
+:::note
+Your IT/DevOps/MLOps team is responsible for provisioning your deployment, managing upgrades, and continuously maintenance of your self managed W&B Server instance.
+:::
 ## On-prem or non-supported cloud
 
 Deploy W&B Server runs on your on-prem, bare-metal infrastructure, or on a cloud that's not supported in Dedicated Cloud or with Terraform scripts. You need to configure several infrastructure components in order to set up W&B Server on the required infrastructure. Some of those components include include, but are not limited to: 
@@ -34,7 +39,8 @@ Deploy W&B Server runs on your on-prem, bare-metal infrastructure, or on a cloud
 
 W&B can provide recommendations for the different components and provide guidance through the installation process.
 
-Refer to the [On Prem / Baremetal](../how-to-guides/bare-metal.md) documentation. Check [Obtain your W&B Server license](#obtain-your-wb-server-license) to complete the setup.
+Refer to the [On Prem / Baremetal](../how-to-guides/bare-metal.md) documentation.
+
 
 ## Obtain your W&B Server license
 

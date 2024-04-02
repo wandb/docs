@@ -103,8 +103,3 @@ This method is only works for updating licenses that are not set via an environm
 3. Navigate to the license management section.
 4. Enter the new license key and save your changes.
 
-## W&B Dedicated Cloud Updates
-
-:::note
-For dedicated installations, W&B upgrades your server version on a monthly basis. More information can be found in the [release process](./server-release-process) docs.
-:::

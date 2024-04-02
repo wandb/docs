@@ -5,16 +5,66 @@ displayed_sidebar: default
 
 # Dedicated Cloud Regions
 
-W&B supports the following cloud regions for Dedicated Cloud. Reach out to your W&B team if your desired region is not in the list.
+AWS, GCP, and Azure support cloud computing services in multiple locations worldwide. Regions and availability zones help ensure that you satisfy latency, compliance, cost requirements and more. 
 
-| Cloud provider | Geography | Regions |
-|----------------|-----------|---------|
-| AWS | Americas | us-east-2, us-east-1, us-west-1, us-west-2, ca-central-1 |
-| AWS | EMEA | eu-central-1, eu-west-1, eu-west-2, eu-south-1, eu-north-1 |
-| AWS | APAC | ap-southeast-1, ap-southeast-2, ap-northeast-1 |
-| GCP | Americas | us-east1, us-east4, us-central1, us-west1, us-west2, us-west4, northamerica-northeast2 |
-| GCP | EMEA | europe-west1, europe-west2, europe-west3, europe-west4 |
-| GCP | APAC | asia-northeast1 |
-| Azure | Americas | eastus, centralus, westus |
-| Azure | EMEA | westeurope |
-| Azure | APAC | japaneast, korecentral |
+:::info
+Reach out to W&B Support if an AWS, GCP, or Azure Region is not listed in your region. 
+:::
+## Supported AWS Regions
+
+The following table lists [AWS Regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) that W&B currently supports for Dedicated Cloud deployments.
+
+| Region name | Region |
+|-------------|--------|
+|US East (Ohio)| us-east-2|
+|US East (N. Virginia)|us-east-1|
+|US West (N. California)|us-west-1|
+|US West (Oregon)|us-west-2|
+|Canada (Central)|ca-central-1|
+|Europe (Frankfurt)|eu-central-1|
+|Europe (Ireland)|eu-west-1|
+|Europe (London)|eu-west-2|
+|Europe (Milan)|eu-south-1|
+|Europe (Stockholm)|eu-north-1|
+|Asia Pacific (Singapore)| ap-southeast-1|
+|Asia Pacific (Sydney)|ap-southeast-2|
+|Asia Pacific (Tokyo)|ap-northeast-1|
+
+For more information about AWS Regions, see the [Regions, Availability Zones, and Local Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) in the AWS Documentation.
+
+See [What to Consider when Selecting a Region for your Workloads](https://aws.amazon.com/blogs/architecture/what-to-consider-when-selecting-a-region-for-your-workloads/) for an overview of factors that you should consider when choosing an AWS Region. 
+
+## Supported GCP Regions
+The following table lists [GCP Regions](https://cloud.google.com/compute/docs/regions-zones) that W&B currently supports for Dedicated Cloud deployments.
+
+| Region name | Region |
+|-------------|--------|
+|South Carolina|us-east1|
+|N. Virginia|us-east4|
+|Iowa|us-central1|
+|Oregon|us-west1|
+|Los Angeles|us-west2|
+|Las Vegas|us-west4|
+|Toronto|northamerica-northeast2|
+|Belgium| europe-west1|
+|London|europe-west2|
+|Frankfurt|europe-west3|
+|Netherlands|europe-west4|
+|Tokyo|asia-northeast1|
+
+For more information about GCP Regions, see [Regions and zones](https://cloud.google.com/compute/docs/regions-zones) in the GCP Documentation.
+
+## Supported Azure Geographies
+The following table lists [Azure geographies](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#geographies) that W&B currently supports for Dedicated Cloud deployments.
+
+| Location | Region name |
+|-------------|--------|
+| Virginia|eastus|
+|Iowa|centralus|
+|California|westus|
+|Netherlands|westeurope|
+|Tokyo, Saitama|japaneast|
+|Seoul|korecentral|
+
+
+For more information about Azure geographies, see [Azure geographies](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#overview) in the Azure Documentation.

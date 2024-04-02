@@ -382,7 +382,8 @@ const sidebars = {
                 'guides/hosting/how-to-guides/bare-metal',
                 'guides/hosting/server-upgrade-process',
               ],
-            },  
+            },
+            'guides/hosting/operator',  
           ],
         },        
         {
@@ -403,7 +404,7 @@ const sidebars = {
               label: 'Access management',
               items: [
                 'guides/hosting/iam/manage-users',
-                // 'guides/hostin/iam/restricted-projects'
+                'guides/hosting/restricted-projects',
               ],
             },
             'guides/hosting/iam/automate_iam',
