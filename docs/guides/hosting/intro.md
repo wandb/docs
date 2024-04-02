@@ -23,17 +23,17 @@ The following sections provide an overview of each deployment type.
 ### W&B SaaS Cloud
 W&B SaaS Cloud is a multi-tenant, fully-managed service deployed in W&B's cloud infrastructure, where you can seamlessly access the W&B products at the desired scale, with cost-efficient options for pricing, and with continuous updates for the latest features and functionalities. W&B recommends to use the SaaS Cloud for your product trial, or to manage your production AI workflows if you do not need the security of a private deployment, self-service onboarding is important, and cost efficiency is critical.
 
-For more information about W&B SaaS Cloud, see [INSERT].
+See [W&B SaaS Cloud](./hosting-options/saas_cloud.md) for more information. 
 
 ### W&B Dedicated Cloud
 W&B Dedicated Cloud is a single-tenant, fully-managed service deployed in W&B's cloud infrastructure. It is the best place to onboard W&B if your organization requires conformance to strict governance controls including data residency, have need of advanced security capabilities, and are looking to optimize their AI operating costs by not having to build & manage the required infrastructure with security, scale & performance characteristics.
 
-For more information about W&B Dedicated Cloud, see [INSERT].
+See [W&B Dedicated Cloud](./hosting-options/dedicated_cloud.md) for more information.
 
 ### W&B Customer-Managed
 With this option, you can deploy and manage W&B Server on your own managed infrastructure. W&B Server is a self-contained packaged mechanism to run the W&B Platform & its supported W&B products. W&B recommends this option if all your existing infrastructure is on-prem, or your organization has strict regulatory needs that are not satisfied by W&B Dedicated Cloud. With this option, you are fully responsible to manage the provisioning, and continuous maintenance & upgrades of the infrastructure required to support W&B Server.
 
-For more information about W&B Customer-manged deployment options, see [INSERT].
+See [W&B Self Managed](./hosting-options/self-managed.md) for more information.
 
 ## Next steps
 

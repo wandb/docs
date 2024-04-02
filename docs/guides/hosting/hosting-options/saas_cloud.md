@@ -12,8 +12,8 @@ W&B SaaS Cloud is a multi-tenant, fully-managed platform deployed in W&B's Googl
 
 For non enterprise users, data from both W&B and other W&B SaaS Cloud customers are stored in a shared cloud storage. That data stored in the shared cloud storage from both W&B and W&B SaaS Cloud customer are processed with shared cloud compute services. Depending on your pricing plan, you may be subject to storage limits if you use the default W&B managed storage bucket to store your files.
 
-
-For enterprise users, you can [bring your own bucket(BYOB) using the secure storage connector](../secure-storage-connector.md) to store files at the [Team level](../secure-storage-connector.md#configuration-options). You can configure a single bucket for multiple teams or you can use separate buckets for different W&B Teams. For more information, see the [BYOB(Secure storage connector)](../secure-storage-connector.md).
+### BYOB with secure storage connector
+For enterprise users, you can [bring your own bucket(BYOB) using the secure storage connector](../secure-storage-connector.md) to store artifacts and other sensitive data. Buckets are accessible at the [Team level](../secure-storage-connector.md#configuration-options). You can configure a single bucket for multiple teams or you can use separate buckets for different W&B Teams. For more information, see the [BYOB(Secure storage connector)](../secure-storage-connector.md).
 
 :::note
 W&B SaaS Cloud only supports BYOB at the [Team level](../secure-storage-connector.md#configuration-options). 

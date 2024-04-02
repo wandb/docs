@@ -12,6 +12,7 @@ W&B Dedicated Cloud is available in [multiple global regions for each cloud prov
 
 
 ## Data security 
+Configure a bucket to store artifacts and other sensitive data, restrict who can access your deployment with IP allowlisting, and how users connect to your deployment with a secure private connection. 
 
 You can bring your own bucket(BYOB) using the [secure storage connector](../secure-storage-connector.md) at the [instance and team levels](../secure-storage-connector.md#configuration-options) to store your files such as models, datasets, and more.
 
@@ -19,8 +20,9 @@ Similar to W&B SaaS Cloud, you can configure a single bucket for multiple teams 
 
 ![](/images/hosting/dedicated_cloud_arch.png)
 
-* IP allowlisting[INSERT]
-* Secure private connectivity[INSERT]
+In addition to BYOB with secure storage connector, you can utilize [IP allowlisting](../ip-allowlisting.md) to restrict access to your Dedicated Cloud instance. 
+
+Connect to your W&B Dedicated Cloud deployment with a [cloud provider's secure private network](../private-connectivity.md). This feature is currently available for AWS instances of Dedicated Cloud that use [AWS PrivateLink](https://aws.amazon.com/privatelink/).
 
 
 ## Identity and access management (IAM)
@@ -35,7 +37,6 @@ Use [Audit logs](../audit-logging.md) to track user activity within your teams, 
 
 Monitor your W&B Dedicated Cloud deployment with [Prometheus](../prometheus-logging.md).
 
-Create [Slack alerts](../slack-alerts.md) to [INSERT].
 
 
 ## Maintenance
