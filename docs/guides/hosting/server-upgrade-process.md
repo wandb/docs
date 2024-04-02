@@ -5,43 +5,53 @@ displayed_sidebar: default
 
 # Update W&B License and Version
 
-When updating the W&B Server Version and License information, tailor the process to the initial installation method. Here are the primary methods for installing W&B and the corresponding update processes:
+Update your W&B Server Version and License with the same method you installed W&B Server with. The following table lists how to update your license and version based on different deployment methods:
 
-| Release Type                                               | Description                                                                                                                                                                                                                                                                                   |
-| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+| Release Type    | Description         |
+| ---------------- | ------------------ |
 | [Terraform](./selfm-anaged#wb-production-and-development) | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
-| [Helm](./selfm-anaged/bare-metal#helm-chart)              | You can use the [Helm Chart](https://github.com/wandb/helm-charts) to install W&B into an existing Kubernetes cluster.                                                                                                                                                                        |
-| [Docker](./selfm-anaged/bare-metal#docker-deployment)     | Docker latest docker image can found in the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).                                                                                                                                                                                 |
+| [Helm](./selfm-anaged/bare-metal#helm-chart)              | You can use the [Helm Chart](https://github.com/wandb/helm-charts) to install W&B into an existing Kubernetes cluster.  |
+| [Docker](./selfm-anaged/bare-metal#docker-deployment)     | Docker latest docker image can found in the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).  |
 
-## Updating via Terraform
+## Update with Terraform
 
-1. To upgrade, adjust the `wandb_version` and `license` for your specific cloud provider, update the following in your Terraform `wandb_app` module configuration:
+Update your license and version with Terraform. The proceeding table lists W&B managed Terraform modules based cloud platform.
+
+|Cloud provider| Terraform module|
+|-----|-----|
+|AWS|[AWS Terraform module](https://registry.terraform.io/modules/wandb/wandb/aws/latest)|
+|GCP|[GCP Terraform module](https://registry.terraform.io/modules/wandb/wandb/google/latest)|
+|Azure|[Azure Terraform module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)|
+
+1. First, navigate to the W&B maintained Terraform module for your appropriate cloud provider. See the preceding table to find the appropriate Terraform module based on your cloud provider.
+2. Within your Terraform configuration, update `wandb_version` and `license` in your Terraform `wandb_app` module configuration:
 
    ```hcl
    module "wandb_app" {
        source  = "wandb/wandb/<cloud-specific-module>"
-       version = "~> new_version"
-
+       version = "new_version"
        license       = "new_license_key" # Your new license key
        wandb_version = "new_wandb_version" # Desired W&B version
        ...
    }
    ```
+3. Apply the Terraform configuration with `terraform plan` and `terraform apply`.
+   ```bash
+   terraform init
+   terraform apply
+   ```
 
-2. Apply the Terraform configuration with `terraform plan` and `terraform apply`.
+4. (Optional) If you use a `terraform.tfvars` or other `.tfvars` file:
+   1. Update or create a `terraform.tfvars` file with the new W&B version and license key.
+   2. Apply the configuration. In your Terraform workspace directory execute:  
+   ```bash
+   terraform plan -var-file="terraform.tfvars"
+   terraform apply -var-file="terraform.tfvars"
+   ```
+## Update with Helm
 
-If you are opting to use a `terraform.tfvars` or other `.tfvars` file:
-
-1. **Modify `*.tfvars` File:** Update or create a `terraform.tfvars` file with the new W&B version and license key.
-
-2. **Apply Configuration:** Execute:  
-   `terraform plan -var-file="terraform.tfvars"`  
-   `terraform apply -var-file="terraform.tfvars"`  
-    in your Terraform workspace directory.
-
-## Updating via Helm
-
-### Update W&B via spec
+### Update W&B with spec
 
 1. Specify a new version by modifying the `image.tag` and/or `license` values in your Helm chart `*.yaml` configuration file:
 
@@ -81,7 +91,7 @@ If you are opting to use a `terraform.tfvars` or other `.tfvars` file:
 
 For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/blob/main/UPGRADE.md) in the public repository.
 
-## Updating via Docker container
+## Update with Docker container
 
 1. Choose a new version from the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).
 2. Pull the new Docker image version with:
@@ -94,9 +104,9 @@ For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/b
 
 For docker `run` examples and further details, refer to the [Docker deployment](./selfm-anaged/bare-metal##docker-deployment).
 
-## Updating via admin UI
+## Update with admin UI
 
-This method is only works for updating licenses that are not set via an environment variable in the W&B server container, typically in self-hosted Docker installations.
+This method is only works for updating licenses that are not set with an environment variable in the W&B server container, typically in self-hosted Docker installations.
 
 1. Obtain a new license from the [W&B Deployment Page](https://deploy.wandb.ai/), ensuring it matches the correct organization and deployment ID for the deployment you are looking to upgrade.
 2. Access the W&B Admin UI at `<host-url>/system-settings`.

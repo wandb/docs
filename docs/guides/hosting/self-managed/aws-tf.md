@@ -5,12 +5,10 @@ displayed_sidebar: default
 ---
 
 :::info
-We recommend that you consider leveraging [SaaS Cloud](../hosting-options/saas_cloud.md) or [Dedicated Cloud](../hosting-options//dedicated_cloud.md) before privately hosting the W&B server on your infrastructure. The W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B SaaS Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 :::
 
-# AWS
-
-If you've determined to self-managed W&B Server, W&B recommends using the [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) to deploy the platform on AWS.
+W&B recommends using the [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) to deploy the platform on AWS.
 
 The module documentation is extensive and contains all available options that can be used. We will cover some deployment options in this document.
 
