@@ -100,7 +100,7 @@ $ wandb artifact get project/artifact:alias --root mnist/
 
 ### Partially download an artifact
 
-You can optionally download part of an artifact based on a prefix. Using the `path_prefix` parameter, you can download a single file or a set of files with a common prefix, such as files within the same directory. 
+You can optionally download part of an artifact based on a prefix. Using the `path_prefix` parameter, you can download a single file or the content of a sub-folder.
 
 ```python
 artifact = run.use_artifact("bike-dataset:latest")
