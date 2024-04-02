@@ -9,9 +9,9 @@ When updating the W&B Server Version and License information, tailor the process
 
 | Release Type                                               | Description                                                                                                                                                                                                                                                                                   |
 | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Terraform](./how-to-guides#wb-production-and-development) | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
-| [Helm](./how-to-guides/bare-metal#helm-chart)              | You can use the [Helm Chart](https://github.com/wandb/helm-charts) to install W&B into an existing Kubernetes cluster.                                                                                                                                                                        |
-| [Docker](./how-to-guides/bare-metal#docker-deployment)     | Docker latest docker image can found in the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).                                                                                                                                                                                 |
+| [Terraform](./selfm-anaged#wb-production-and-development) | W&B supports three public Terraform modules for cloud deployment: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), and [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
+| [Helm](./selfm-anaged/bare-metal#helm-chart)              | You can use the [Helm Chart](https://github.com/wandb/helm-charts) to install W&B into an existing Kubernetes cluster.                                                                                                                                                                        |
+| [Docker](./selfm-anaged/bare-metal#docker-deployment)     | Docker latest docker image can found in the [W&B Docker Registry](https://hub.docker.com/r/wandb/local/tags).                                                                                                                                                                                 |
 
 ## Updating via Terraform
 
@@ -92,7 +92,7 @@ For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/b
 
 3. Update your Docker container to run the new image version, ensuring you follow best practices for container deployment and management.
 
-For docker `run` examples and further details, refer to the [Docker deployment](./how-to-guides/bare-metal##docker-deployment).
+For docker `run` examples and further details, refer to the [Docker deployment](./selfm-anaged/bare-metal##docker-deployment).
 
 ## Updating via admin UI
 

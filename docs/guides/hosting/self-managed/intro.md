@@ -1,5 +1,5 @@
 ---
-slug: /guides/hosting/how-to-guides
+slug: /guides/hosting/selfm-anaged
 description: W&B Server Install
 displayed_sidebar: default
 ---
@@ -15,6 +15,7 @@ The production installation types available are the following:
 - [AWS](./aws-tf.md)
 - [Azure](./azure-tf.md)
 - [GCP](./gcp-tf.md)
+- [Operator](./operator.md)
 - [Bare Metal](./bare-metal.md)
 
 For all of our Cloud Deployments, we rely on [Terraform](https://developer.hashicorp.com/terraform/intro) as a tool to provision all infrastructure components necessary to execute the W&B Server reliably.

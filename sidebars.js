@@ -368,18 +368,18 @@ const sidebars = {
               label: 'Self Managed',
               link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
               items: [
-                'guides/hosting/how-to-guides/basic-setup',
+                'guides/hosting/self-managed/basic-setup',
                 {
                   type: 'category',
                   label: 'Install on public cloud',
-                  // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+                  // link: {type: 'doc', id: 'guides/hosting/self-managed/intro'},
                   items: [
-                    'guides/hosting/how-to-guides/aws-tf',
-                    'guides/hosting/how-to-guides/gcp-tf',
-                    'guides/hosting/how-to-guides/azure-tf',
+                    'guides/hosting/self-managed/aws-tf',
+                    'guides/hosting/self-managed/gcp-tf',
+                    'guides/hosting/self-managed/azure-tf',
                   ],
                 },
-                'guides/hosting/how-to-guides/bare-metal',
+                'guides/hosting/self-managed/bare-metal',
                 'guides/hosting/server-upgrade-process',
               ],
             },
@@ -535,7 +535,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Integration Tutorials',
-      // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+      // link: {type: 'doc', id: 'guides/hosting/self-managed/intro'},
       items: [
         'tutorials/pytorch',
         'tutorials/lightning',
@@ -554,7 +554,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Launch Tutorials',
-      // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+      // link: {type: 'doc', id: 'guides/hosting/self-managed/intro'},
       items: ['tutorials/volcano', 'tutorials/minikube_gpu'],
     },
   ],

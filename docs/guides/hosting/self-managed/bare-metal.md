@@ -1,38 +1,36 @@
 ---
-description: Hosting W&B Server on baremetal servers on-premises
+title: Install on on-prem infra
+description: Hosting W&B Server on on-premises infrastructure
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Baremetal guidelines
-
-Run your bare metal infrastructure that connects to scalable external data stores with W&B Server. See the following for instructions on how to provision a new instance and guidance on provisioning external data stores.
-
-:::caution
-W&B application performance depends on scalable data stores that your operations team must configure and manage. The team must provide a MySQL 5.7 or MySQL 8 database server and an AWS S3 compatible object store for the application to scale properly.
+:::info
+We recommend that you consider leveraging [SaaS Cloud](../hosting-options/saas_cloud.md) or [Dedicated Cloud](../hosting-options//dedicated_cloud.md) before privately hosting the W&B server on your infrastructure. The W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 :::
 
-Talk to the W&B Sales Team: [contact@wandb.com](mailto:contact@wandb.com).
+# Install on on-prem infra
+
+You can run W&B Server on your on-premises infrastructure if SaaS Cloud or Dedicated Cloud are not a good fit for your organization.
+
+Reach out to the W&B Sales Team for related question: [contact@wandb.com](mailto:contact@wandb.com).
 
 ## Infrastructure Guidelines
 
 The following infrastructure guidelines section outline W&B recommendations to take into consideration when you set up your application server, database server, and object storage.
 
-
 :::tip
-We recommend that you deploy W&B into a Kubernetes cluster. Deploying to a Kubernetes cluster ensures that you can use all W&B features and use the [helm interface](https://github.com/wandb/helm-charts).
+W&B strongly recommends to deploy W&B Server into a Kubernetes cluster using the W&B Kubernetes Operator. Deploying to a Kubernetes cluster with the operator ensures that you can use all the existing and latest W&B features.
 :::
 
-You can install W&B onto a bare-metal server and configure it manually. However, W&B Server is in active development and certain features might be broken into K8s native or customer resource definitions. If this is the  case, you will not be able to backport certain features into a standalone Docker container.
-
-If you have questions about planning an on premises installation of W&B and reach out to W&B Supported at support@wandb.com.
-
-
+:::caution
+W&B application performance depends on scalable data stores that your operations team must configure and manage. The team must provide a MySQL 8 database cluster and an AWS S3 compatible object store for the application to scale properly.
+:::
 
 ### Application Server
 
-We recommend deploying W&B Application into its own namespace and a two availability zone node group with the following specifications to provide the best performance, reliability, and availability:
+We recommend deploying W&B Server into its own namespace and a two availability zone node group with the following specifications to provide the best performance, reliability, and availability:
 
 | Specification              | Value                             |
 |----------------------------|-----------------------------------|
@@ -42,14 +40,13 @@ We recommend deploying W&B Application into its own namespace and a two availabi
 | Core Count                 | 4                                 |
 | Memory (GiB)               | 8                                 |
 
-This ensures that W&B has sufficient disk space to process W&B server application data and store temporary logs before they are externalized. It also ensures fast and reliable data transfer, the necessary processing power and memory for smooth operation, and that W&B will not be affected by any noisy neighbors. 
+This ensures that W&B Server has sufficient disk space to process the application data and store temporary logs before they are externalized. It also ensures fast and reliable data transfer, the necessary processing power and memory for smooth operation, and that W&B will not be affected by any noisy neighbors. 
 
 It is important to keep in mind that these specifications are minimum requirements, and actual resource needs may vary depending on the specific usage and workload of the W&B application. Monitoring the resource usage and performance of the application is critical to ensure that it operates optimally and to make adjustments as necessary.
 
-
 ### Database Server
 
-W&B recommends a [MySQL 8](../how-to-guides/bare-metal.md#mysql-80) database as a metadata store. The shape of the ML practitioners parameters and metadata will greatly affect the performance of the database. The database is typically incrementally written to as practitioners track their training runs and is more read heavy when queries are executed in reports and dashboard.
+W&B recommends a [MySQL 8](../selfm-anaged/bare-metal.md#mysql-80) database as a metadata store. The shape of the ML practitioners parameters and metadata will greatly affect the performance of the database. The database is typically incrementally written to as practitioners track their training runs and is more read heavy when queries are executed in reports and dashboard.
 
 To ensure optimal performance we recommend deploying the W&B database on to a server with the following starting specs:
 
@@ -61,16 +58,15 @@ To ensure optimal performance we recommend deploying the W&B database on to a se
 | Core Count                 | 4                                 |
 | Memory (GiB)               | 32                                |
 
-
 Again, we recommend monitoring the resource usage and performance of the database to ensure that it operates optimally and to make adjustments as necessary.
 
-Additionally, we recommend the following [parameter overrides](../how-to-guides/bare-metal.md#mysql-80) to tune the DB for MySQL 8.
+Additionally, we recommend the following [parameter overrides](../selfm-anaged/bare-metal.md#mysql-80) to tune the DB for MySQL 8.
 
 ### Object Storage
 
 W&B is compatible with an object storage that supports S3 API interface, Signed URLs and CORS. We recommend specing the storage array to the current needs of your practitioners and to capacity plan on a regular cadence.
 
-More details on object store configuration can be found in the [how-to section](../how-to-guides/bare-metal.md#object-store).
+More details on object store configuration can be found in the [how-to section](../selfm-anaged/bare-metal.md#object-store).
 
 Some tested and working providers:
 - [MinIO](https://min.io/)
@@ -85,7 +81,7 @@ The [Secure Storage Connector](../secure-storage-connector.md) is not available 
 ## MySQL Database
 
 :::caution
-W&B currently supports MySQL 5.7 or MySQL 8.0.28 and above.
+W&B does not recommend using MySQL 5.7. If you are using MySQL 5.7, migrate to MySQL 8 for best compatibility with latest versions of W&B Server. The W&B Server currently only supports `MySQL 8` versions `8.0.28` and above.
 :::
 
 <Tabs
@@ -105,10 +101,6 @@ There are a number of enterprise services that make operating a scalable MySQL d
   </TabItem>
 
   <TabItem value="orange">
-
-:::info
-The W&B application currently only supports`MySQL 8`versions`8.0.28`and above.
-:::
 
 Satisfy the conditions below if you run W&B Server MySQL 8.0 or when you upgrade from MySQL 5.7 to 8.0:
 
