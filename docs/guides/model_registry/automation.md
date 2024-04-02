@@ -39,7 +39,7 @@ The following sections describe how to create an automation with webhooks and W&
 Automate a webhook based on an action with the W&B App UI. To do this, first establish a webhook, then configure the webhook automation. 
 
 :::info
-You can specify any endpoint for your webhook that has an Address record (A record). W&B does not support connecting to endpoints that are exposed directly with IP addresses such as `[0-255].[0-255].[0-255].[0.255]` or endpoints exposed as `localhost`. 
+Specify an endpoint for your webhook that has an Address record (A record). W&B does not support connecting to endpoints that are exposed directly with IP addresses such as `[0-255].[0-255].[0-255].[0.255]` or endpoints exposed as `localhost`. This restriction helps protect against Server-side request forgery (SSRF) attacks and other related threat vectors.
 :::
 
 ### Add a secret for authentication or authorization
