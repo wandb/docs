@@ -57,12 +57,12 @@ Depending on your use case, explore the following resources to get started with 
   1. [Logging and registering models](https://www.youtube.com/watch?si=MV7nc6v-pYwDyS-3&v=ZYipBwBeSKE&feature=youtu.be)
   2. [Consuming models and automating downstream processes](https://www.youtube.com/watch?v=8PFCrDSeHzw) in the Model Registry.
 * Read the [models walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
-* Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
-* Take the Weights & Biases [Enterprise Model Management](https://www.wandb.courses/courses/enterprise-model-management) course and:
-  * learn how to use the W&B Model Registry to manage and version your models, track lineage, and promote models through different lifecycle stages,
-  * discover how to automate your model management workflows using webhooks and launch jobs,
-  * see how the Model Registry integrates with external ML systems and tools in your model development lifecycle for model evaluation, monitoring, and deployment.
 * Learn about:
    * [Protected models and access control](./access_controls.md).
    * [How to connect the Model Registry to CI/CD processes](./automation.md).
    * Set up [Slack notifications](./notifications.md) when a new model version is linked to a registered model.
+* Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
+* Take the W&B [Enterprise Model Management](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
+  * Use the W&B Model Registry to manage and version your models, track lineage, and promote models through different lifecycle stages
+  * Automate your model management workflows using webhooks and launch jobs,
+  * See how the Model Registry integrates with external ML systems and tools in your model development lifecycle for model evaluation, monitoring, and deployment.
