@@ -19,13 +19,7 @@ Your IT/DevOps/MLOps team is responsible for provisioning your deployment, manag
 
 Deploy and manage W&B Server with AWS, GCP, or Azure cloud. W&B recommends that you use official W&B Terraform scripts to deploy W&B Server into AWS, GCP, or Azure.
 
-<!-- - [Amazon Web Services (AWS)](https://github.com/wandb/terraform-aws-wandb)
-- [Google Cloud Platform (GCP)](https://github.com/wandb/terraform-google-wandb)
-- [Microsoft Azure](https://github.com/wandb/terraform-azurerm-wandb) -->
-
-<!-- You can deploy W&B Server in the region of your choice, provided the required W&B services are available in the chosen region.  -->
-
-See specific cloud provider documentation for more information on how to set up W&B Server in [AWS](../selfm-anaged/aws-tf.md), [GCP](../selfm-anaged/gcp-tf.md) or [Azure](../selfm-anaged/azure-tf.md).
+See specific cloud provider documentation for more information on how to set up W&B Server in [AWS](../self-managed/aws-tf.md), [GCP](../self-managed/gcp-tf.md) or [Azure](../self-managed/azure-tf.md).
 
 ## Deploy W&B Server on premises
 
@@ -38,7 +32,7 @@ You need to configure several infrastructure components in order to set up W&B S
 - Amazon S3-compatible object storage
 - Redis cache cluster
 
-See [Install on on-prem infrastructure](../selfm-anaged/bare-metal.md) for more information on how to to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
+See [Install on on-prem infrastructure](../self-managed/bare-metal.md) for more information on how to to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
 
 
 ## Deploy W&B Server on a custom cloud platform
@@ -49,7 +43,7 @@ Deploy W&B Server with Terraform scripts managed by W&B to a cloud platform that
 - Amazon S3-compatible object storage
 - Redis cache cluster
 
-See [Install on on-prem infrastructure](../selfm-anaged/bare-metal.md) for more information on how to to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
+See [Install on on-prem infrastructure](../self-managed/bare-metal.md) for more information on how to to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
 
 
 
@@ -72,5 +66,5 @@ The URL will redirect you to a **Get a License for W&B Local** form. Provide the
 A page with an overview of your deployment along with the license associated to the instance will be displayed.
 
 :::info
-If you need an enterprise license for W&B Server which includes support for important security & other enterprise-fiendly capabilities, [submit this form](https://wandb.ai/site/for-enterprise/self-hosted-trial) or reach out to your W&B team.
+If you need an enterprise license for W&B Server which includes support for important security & other enterprise-friendly capabilities, [submit this form](https://wandb.ai/site/for-enterprise/self-hosted-trial) or reach out to your W&B team.
 :::
