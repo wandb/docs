@@ -5,7 +5,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Enable LDAP Authentication
+# SSO using LDAP
 
 Authenticate your credentials with the W&B Server LDAP server. The following guide explains how to configure the settings for W&B Server. It covers mandatory and optional configurations, as well as instructions for configuring the LDAP connection from systems settings UI. it also provides information on the different inputs of the LDAP configuration, such as the address, base distinguished name, and attributes. You can specify these attributes from the W&B App UI or using environment variables. You can setup either an anonymous bind, or bind with an administrator DN and Password.
 

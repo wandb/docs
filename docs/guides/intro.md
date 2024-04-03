@@ -24,7 +24,7 @@ This diagram outlines the relationship between W&B products.
 
 **[W&B Prompts](/guides/prompts/intro.md)** is for debugging and evaluating LLMs.
 
-**[W&B Platform](/guides/platform.md)** is a core set of powerful building blocks for tracking and visualizing data and models, and communicating results.
+**[W&B Core](/guides/platform.md)** is a core set of powerful building blocks for tracking and visualizing data and models, and communicating results.
 - [Artifacts](/guides/artifacts/intro.md): Version assets and track lineage
 - [Tables](/guides/tables/intro.md): Visualize and query tabular data
 - [Reports](/guides/reports/intro.md): Document and collaborate on your discoveries

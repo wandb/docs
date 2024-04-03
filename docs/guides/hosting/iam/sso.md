@@ -5,7 +5,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Single Sign-On (SSO) setup
+# SSO using OIDC
 
 Email [contact@wandb.com](mailto:contact@wandb.com) to configure an [Auth0](https://auth0.com) tenant for you with identity providers supported by W&B (such as SAML, Ping Federate, Active Directory, and more).
 

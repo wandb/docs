@@ -1,13 +1,15 @@
 ---
+title: GCP
 description: Hosting W&B Server on GCP.
 displayed_sidebar: default
 ---
 
-# GCP
+:::info
+W&B recommends fully managed deployment options such as [W&B SaaS Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+:::
 
 
-
-We recommend the usage of the [Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) developed by Weights and Biases to deploy the W&B server on Google Cloud.
+If you've determined to self-managed W&B Server, W&B recommends using the [W&B Server GCP Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) to deploy the platform on GCP.
 
 The module documentation is extensive and contains all available options that can be used. We will cover some deployment options in this document.
 

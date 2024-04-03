@@ -1,11 +1,15 @@
 ---
+title: Azure
 description: Hosting W&B Server on Azure.
 displayed_sidebar: default
 ---
 
-# Azure
+:::info
+W&B recommends fully managed deployment options such as [W&B SaaS Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+:::
 
-We recommend the usage of the [Terraform Module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) developed by Weights and Biases to deploy the W&B server on Azure.
+
+If you've determined to self-managed W&B Server, W&B recommends using the [W&B Server Azure Terraform Module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) to deploy the platform on Azure.
 
 The module documentation is extensive and contains all available options that can be used. We will cover some deployment options in this document.
 

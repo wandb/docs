@@ -181,7 +181,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'W&B Platform',
+      label: 'W&B Core',
       link: {type: 'doc', id: 'guides/platform'},
       collapsed: false,
       items: [
@@ -345,53 +345,96 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'W&B Server',
-      link: {type: 'doc', id: 'guides/hosting/intro'},
+      label: 'W&B Platform',
+      link: { type: 'doc', id: 'guides/hosting/intro' },
       items: [
         {
           type: 'category',
-          label: 'Hosting options',
-          link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
+          label: 'Deployment options',
+          // link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
-            'guides/hosting/hosting-options/wb-managed',
-            'guides/hosting/hosting-options/self-managed',
+            'guides/hosting/hosting-options/saas_cloud',
+            {
+              type: 'category',
+              label: 'Dedicated Cloud',
+              link: { type: 'doc', id: 'guides/hosting/hosting-options/dedicated_cloud' },
+              items: [
+                'guides/hosting/hosting-options/dedicated_regions',
+                'guides/hosting/export-data-from-dedicated-cloud',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'Self Managed',
+              link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
+              items: [
+                'guides/hosting/self-managed/basic-setup',
+                {
+                  type: 'category',
+                  label: 'Install on public cloud',
+                  // link: {type: 'doc', id: 'guides/hosting/self-managed/intro'},
+                  items: [
+                    'guides/hosting/self-managed/aws-tf',
+                    'guides/hosting/self-managed/gcp-tf',
+                    'guides/hosting/self-managed/azure-tf',
+                  ],
+                },
+                'guides/hosting/self-managed/bare-metal',
+                'guides/hosting/server-upgrade-process',
+              ],
+            },
+            'guides/hosting/operator',  
+          ],
+        },        
+        {
+          type: 'category',
+          label: 'Identity and access management (IAM)',
+          link: { type: 'doc', id: 'guides/hosting/iam/org_team_struct'},
+          items: [
+            {
+              type: 'category',
+              label: 'Authentication',
+              items: [
+                'guides/hosting/iam/sso',
+                'guides/hosting/iam/ldap',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'Access management',
+              items: [
+                'guides/hosting/iam/manage-users',
+                'guides/hosting/restricted-projects',
+              ],
+            },
+            'guides/hosting/iam/automate_iam',
+            'guides/hosting/iam/scim',                
           ],
         },
         {
           type: 'category',
-          label: 'Configure',
-          // link: {type: 'doc', id: 'guides/hosting/hosting-options/intro'},
+          label: 'Data Security',
+          items: [
+            'guides/hosting/secure-storage-connector',
+            'guides/hosting/ip-allowlisting',
+            'guides/hosting/private-connectivity',
+            // 'guides/hosting/customer_encryption',
+          ],
+        },               
+        {
+          type: 'category',
+          label: 'Monitoring and Usage',
           items: [
             'guides/hosting/audit-logging',
-            'guides/hosting/env-vars',
-            'guides/hosting/ldap',
-            'guides/hosting/manage-users',
-            'guides/hosting/restricted-projects',
             'guides/hosting/prometheus-logging',
-            'guides/hosting/secure-storage-connector',
-            'guides/hosting/sso',
-            'guides/hosting/smtp',
             'guides/hosting/slack-alerts',
-            'guides/hosting/scim',
-            'guides/hosting/server-release-process',
-            'guides/hosting/server-upgrade-process',
-            'guides/hosting/export-data-from-dedicated-cloud',
+            'guides/hosting/org_dashboard',
           ],
         },
+        'guides/hosting/smtp',
+        'guides/hosting/env-vars',
+        'guides/hosting/server-release-process',
         // 'guides/hosting/debug',
-        {
-          type: 'category',
-          label: 'How to install',
-          link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
-          items: [
-            'guides/hosting/how-to-guides/basic-setup',
-            'guides/hosting/how-to-guides/aws-tf',
-            'guides/hosting/how-to-guides/gcp-tf',
-            'guides/hosting/how-to-guides/azure-tf',
-            'guides/hosting/how-to-guides/operator',
-            'guides/hosting/how-to-guides/bare-metal',
-          ],
-        },
       ],
     },
     {
@@ -492,7 +535,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Integration Tutorials',
-      // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+      // link: {type: 'doc', id: 'guides/hosting/self-managed/intro'},
       items: [
         'tutorials/pytorch',
         'tutorials/lightning',
@@ -511,7 +554,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Launch Tutorials',
-      // link: {type: 'doc', id: 'guides/hosting/how-to-guides/intro'},
+      // link: {type: 'doc', id: 'guides/hosting/self-managed/intro'},
       items: ['tutorials/volcano', 'tutorials/minikube_gpu'],
     },
   ],
