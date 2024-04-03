@@ -23,7 +23,7 @@ containing a requirements.txt file. image: A docker image.
 | -n, --name | Name for the job |
 | -d, --description | Description for the job |
 | -a, --alias | Alias for the job |
-| --entry-point | Codepath to the main script, required for repo jobs |
+| --entry-point | Entrypoint to the script, including an executable   and an entrypoint file. Required for code or repo jobs |
 | -g, --git-hash | Hash to a specific git commit. |
 | -r, --runtime | Python runtime to execute the job |
 

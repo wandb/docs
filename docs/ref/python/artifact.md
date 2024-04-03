@@ -1,6 +1,6 @@
 # Artifact
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L89-L2281' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L89-L2297' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Flexible and lightweight building block for dataset and model versioning.
@@ -64,7 +64,7 @@ begin with `add`. Once the artifact has all the desired files, you can call
 
 ### `add`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1325-L1422)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1341-L1438)
 
 ```python
 add(
@@ -90,7 +90,7 @@ Add wandb.WBValue `obj` to the artifact.
 
 ### `add_dir`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1182-L1241)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1198-L1257)
 
 ```python
 add_dir(
@@ -117,7 +117,7 @@ Add a local directory to the artifact.
 
 ### `add_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1136-L1180)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1152-L1196)
 
 ```python
 add_file(
@@ -150,7 +150,7 @@ Add a local file to the artifact.
 
 ### `add_reference`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1243-L1323)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1259-L1339)
 
 ```python
 add_reference(
@@ -202,7 +202,7 @@ blank.
 
 ### `checkout`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1852-L1881)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1868-L1897)
 
 ```python
 checkout(
@@ -229,7 +229,7 @@ artifact.
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1993-L2005)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L2009-L2021)
 
 ```python
 delete(
@@ -249,7 +249,7 @@ Delete an artifact and its files.
 
 ### `download`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1601-L1642)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1617-L1658)
 
 ```python
 download(
@@ -282,7 +282,7 @@ match the artifact.
 
 ### `file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1924-L1949)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1940-L1965)
 
 ```python
 file(
@@ -307,7 +307,7 @@ Download a single file artifact to the directory you specify with `root`.
 
 ### `files`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1951-L1968)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1967-L1984)
 
 ```python
 files(
@@ -333,7 +333,7 @@ Iterate over all files stored in this artifact.
 
 ### `finalize`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L711-L719)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L721-L729)
 
 ```python
 finalize() -> None
@@ -348,7 +348,7 @@ when you log the artifact with `log_artifact`.
 
 ### `get`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1517-L1563)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1533-L1579)
 
 ```python
 get(
@@ -372,7 +372,7 @@ Get the WBValue object located at the artifact relative `name`.
 
 ### `get_added_local_path_name`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1565-L1577)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1581-L1593)
 
 ```python
 get_added_local_path_name(
@@ -392,7 +392,7 @@ Get the artifact relative name of a file added by a local filesystem path.
 
 ### `get_entry`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1495-L1515)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1511-L1531)
 
 ```python
 get_entry(
@@ -417,7 +417,7 @@ Get the entry with the given name.
 
 ### `get_path`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1488-L1493)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1504-L1509)
 
 ```python
 get_path(
@@ -429,7 +429,7 @@ Deprecated. Use `get_entry(name)`.
 
 ### `is_draft`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L729-L734)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L739-L744)
 
 ```python
 is_draft() -> bool
@@ -441,7 +441,7 @@ Returns: Boolean. `False` if artifact is saved. `True` if artifact is not saved.
 
 ### `json_encode`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L2154-L2161)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L2170-L2177)
 
 ```python
 json_encode() -> Dict[str, Any]
@@ -455,7 +455,7 @@ Returns the artifact encoded to the JSON format.
 
 ### `link`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L2032-L2060)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L2048-L2076)
 
 ```python
 link(
@@ -477,7 +477,7 @@ Link this artifact to a portfolio (a promoted collection of artifacts).
 
 ### `logged_by`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L2109-L2152)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L2125-L2168)
 
 ```python
 logged_by() -> Optional[Run]
@@ -495,7 +495,7 @@ Get the W&B run that originally logged the artifact.
 
 ### `new_draft`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L333-L365)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L343-L375)
 
 ```python
 new_draft() -> "Artifact"
@@ -515,7 +515,7 @@ The artifact returned can be extended or modified and logged as a new version.
 
 ### `new_file`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1097-L1134)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1113-L1150)
 
 ```python
 @contextlib.contextmanager
@@ -544,7 +544,7 @@ Open a new temporary file and add it to the artifact.
 
 ### `path_contains_dir_prefix`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1644-L1651)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1660-L1667)
 
 ```python
 @classmethod
@@ -558,7 +558,7 @@ Returns true if `path` contains `dir_path` as a prefix.
 
 ### `remove`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1457-L1486)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1473-L1502)
 
 ```python
 remove(
@@ -579,7 +579,7 @@ Remove an item from the artifact.
 
 ### `save`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L739-L778)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L749-L788)
 
 ```python
 save(
@@ -600,7 +600,7 @@ run, a run of type "auto" is created to track this artifact.
 
 ### `should_download_entry`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1653-L1659)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1669-L1675)
 
 ```python
 @classmethod
@@ -612,7 +612,7 @@ should_download_entry(
 
 ### `used_by`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L2062-L2107)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L2078-L2123)
 
 ```python
 used_by() -> List[Run]
@@ -630,7 +630,7 @@ Get a list of the runs that have used this artifact.
 
 ### `verify`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1883-L1922)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1899-L1938)
 
 ```python
 verify(
@@ -654,7 +654,7 @@ cross-referenced against the artifact's manifest. References are not verified.
 
 ### `wait`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L786-L807)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L796-L817)
 
 ```python
 wait(
@@ -674,7 +674,7 @@ If needed, wait for this artifact to finish logging.
 
 ### `__getitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1067-L1079)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1083-L1095)
 
 ```python
 __getitem__(
@@ -698,7 +698,7 @@ Get the WBValue object located at the artifact relative `name`.
 
 ### `__setitem__`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.16.5/wandb/sdk/artifacts/artifact.py#L1081-L1095)
+[View source](https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/artifacts/artifact.py#L1097-L1111)
 
 ```python
 __setitem__(
