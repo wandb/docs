@@ -18,4 +18,5 @@ Run a W&B launch agent.
 | -l, --log-file | Destination for internal agent logs. Use - for   stdout. By default all agents logs will go to debug.log in your wandb/ subdirectory or WANDB_DIR   if set. |
 | -j, --max-jobs | The maximum number of launch jobs this agent can run   in parallel. Defaults to 1. Set to -1 for no upper limit |
 | -c, --config | path to the agent config yaml to use |
+| -v, --verbose | Display verbose output |
 
