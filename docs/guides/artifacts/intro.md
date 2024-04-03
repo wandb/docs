@@ -47,7 +47,7 @@ See the [track external files](./track-external-files.md) page for information o
 :::
 
 ## Download an artifact
-Indicate the artifact you want to use with the [`use_artifact`](../../ref/python/run.md#use_artifact) method, which returns a run object:
+Indicate the artifact you want to mark as input to your run with the [`use_artifact`](../../ref/python/run.md#use_artifact) method, which returns an artifact object:
 
 ```python
 artifact = run.use_artifact("my_data") #returns a run object using the "my_data" artifact
