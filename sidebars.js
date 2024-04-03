@@ -285,11 +285,10 @@ const sidebars = {
                       label: 'Query panels',
                       link: {
                         type: 'doc',
-                        id: 'guides/app/features/panels/weave/intro',
+                        id: 'guides/app/features/panels/query-panel/intro',
                       },
                       items: [
-                        // 'guides/app/features/panels/weave/intro',
-                        'guides/app/features/panels/weave/embedding-projector',
+                        'guides/app/features/panels/query-panel/embedding-projector',
                       ],
                     },
                   ],

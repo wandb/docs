@@ -1,8 +1,6 @@
-# Query Expression Language.
+# Query Expression Language
 
 Use the query expressions to select and aggregate data across runs and projects. 
-
-For a guide about Query Panels, see here: https://docs.wandb.ai/guides/app/features/panels/weave
 
 ## Data Types
 

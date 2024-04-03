@@ -1,5 +1,5 @@
 ---
-slug: /guides/app/features/panels/weave
+slug: /guides/app/features/panels/query-panel
 title: Query panels
 description: >-
   Some features on this page are in beta, hidden behind a feature flag. Add
