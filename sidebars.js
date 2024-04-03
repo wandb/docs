@@ -351,7 +351,6 @@ const sidebars = {
         {
           type: 'category',
           label: 'Deployment options',
-          // link: { type: 'doc', id: 'guides/hosting/hosting-options/intro' },
           items: [
             'guides/hosting/hosting-options/saas_cloud',
             {
@@ -372,7 +371,6 @@ const sidebars = {
                 {
                   type: 'category',
                   label: 'Install on public cloud',
-                  // link: {type: 'doc', id: 'guides/hosting/self-managed/intro'},
                   items: [
                     'guides/hosting/self-managed/aws-tf',
                     'guides/hosting/self-managed/gcp-tf',
