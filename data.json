@@ -376,10 +376,7 @@
       "from": "/guides/data-vis/log-tables",
       "to": "/guides/track/log/log-tables"
     },
-    {
-      "from": "/guides/data-vis/log-tables](https://docs.wandb.ai/guides/data-vis/log-tables",
-      "to": "/guides/data-vis"
-    },
+
     {
       "from": "/guides/data_types",
       "to": "/ref/python/data-types"
@@ -399,6 +396,54 @@
     {
       "from": "/guides/hosting/basic-setup",
       "to": "/guides/hosting/how-to-guides/basic-setup"
+    },
+    {
+      "from": "/guides/hosting/hosting-options/intro",
+      "to":"/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/hosting-options/wb-managed",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/basic-setup",
+      "to": "/guides/hosting/self-managed/basic-setup" 
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/aws-tf" ,
+      "to": "/guides/hosting/self-managed/aws-tf"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/gcp-tf",
+      "to":  "/guides/hosting/self-managed/gcp-tf"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/azure-tf",
+      "to": "/guides/hosting/self-managed/azure-tf"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/operator",
+      "to": "/guides/hosting/operator"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/bare-metal" ,
+      "to": "/guides/hosting/self-managed/bare-metal"
+    },
+    {
+      "from": "/guides/hosting/ldap",
+      "to": "/guides/hosting/iam/ldap"
+    },
+    {
+      "from" : "/guides/hosting/manage-users",
+      "to" : "/guides/hosting/iam/manage-users"
+    },
+    {
+      "from": "/guides/hosting/scim",
+      "to": "/guides/hosting/iam/scim"
+    },
+    {
+      "from": "/guides/hosting/sso",
+      "to": "/guides/hosting/iam/sso"
     },
     {
       "from": "/guides/hosting/hosting-upgrade",
