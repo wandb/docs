@@ -5,27 +5,24 @@ displayed_sidebar: default
 ---
 
 :::info
-W&B recommends fully managed deployment options such as [W&B SaaS Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B SaaS Cloud](./saas_cloud.md) or [W&B Dedicated Cloud](./dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 :::
 
-Deploy W&B Server on your [bare servers (on-prem)](#on-prem-or-non-supported-cloud) or within [AWS, GCP, or Azure cloud that you manage](#self-managed-cloud-accounts). 
+Deploy W&B Server on your [AWS, GCP, or Azure cloud account](#deploy-wb-server-within-self-managed-cloud-accounts) or within your [on-premises infrastructure](#deploy-wb-server-in-on-premises-infrastructure). 
 
 Your IT/DevOps/MLOps team is responsible for provisioning your deployment, managing upgrades, and continuously maintaining your self managed W&B Server instance.
-
 
 <!-- Check [Obtain your W&B Server license](#obtain-your-wb-server-license) to complete the setup. -->
 
 ## Deploy W&B Server within self managed cloud accounts
 
-Deploy and manage W&B Server with AWS, GCP, or Azure cloud. W&B recommends that you use official W&B Terraform scripts to deploy W&B Server into AWS, GCP, or Azure.
+W&B recommends that you use official W&B Terraform scripts to deploy W&B Server into your AWS, GCP, or Azure cloud account.
 
 See specific cloud provider documentation for more information on how to set up W&B Server in [AWS](../self-managed/aws-tf.md), [GCP](../self-managed/gcp-tf.md) or [Azure](../self-managed/azure-tf.md).
 
-## Deploy W&B Server on premises
+## Deploy W&B Server in on-prem infrastructure
 
-Deploy W&B Server on your on-prem, bare-metal infrastructure with Terraform scripts. 
-
-You need to configure several infrastructure components in order to set up W&B Server on the required infrastructure. Some of those components include include, but are not limited to: 
+You need to configure several infrastructure components in order to set up W&B Server in your on-prem infrastructure. Some of those components include include, but are not limited to: 
 
 - (Strongly recommended) Kubernetes cluster
 - MySQL 8 database cluster
@@ -33,27 +30,17 @@ You need to configure several infrastructure components in order to set up W&B S
 - Redis cache cluster
 
 See [Install on on-prem infrastructure](../self-managed/bare-metal.md) for more information on how to to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
-
 
 ## Deploy W&B Server on a custom cloud platform
-Deploy W&B Server with Terraform scripts managed by W&B to a cloud platform that is not AWS, GCP, or Azure. Similar to on-premises requirements, you must configure several infrastructure components to set up W&B Server on your  infrastructure. Some of those components include include, but are not limited to: 
 
-- (Strongly recommended) Kubernetes cluster
-- MySQL 8 database cluster
-- Amazon S3-compatible object storage
-- Redis cache cluster
-
-See [Install on on-prem infrastructure](../self-managed/bare-metal.md) for more information on how to to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
-
-
-
+You can deploy W&B Server to a cloud platform that is not AWS, GCP, or Azure. Requirements for that are similar to that for deploying in [on-prem infrastructure](#deploy-wb-server-in-on-prem-infrastructure).
 
 ## Obtain your W&B Server license
 
 You need a W&B trial license to complete your configuration of the W&B server. Open the [Deploy Manager](https://deploy.wandb.ai/deploy) to generate a free trial license. 
 
 :::note
-If you do not already have a W&B SaaS Cloud account then you will need to create one to generate your free license.
+If you do not already have a W&B account then you will need to create one to generate your free license.
 :::
 
 The URL will redirect you to a **Get a License for W&B Local** form. Provide the following information:
