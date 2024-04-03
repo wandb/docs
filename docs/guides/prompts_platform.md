@@ -5,6 +5,11 @@ displayed_sidebar: default
 
 Evaluating the performance of Large Language Models (LLMs) can be difficult. Use W&B Prompts and LLM Monitoring to streamline the evaluation process, providing a visual way to analyze your generative models.
 
+
+:::info
+Looking for W&B Weave? W&B's suite of tools for Generative AI application building? Find the docs for weave here: [wandb.me/weave](https://wandb.github.io/weave/).
+:::
+
 ## Visualize
 
 [W&B Prompts](./prompts/intro.md) is a suite of LLMOps tools built for the development of LLM-powered applications. Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.

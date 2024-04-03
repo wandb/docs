@@ -1,5 +1,6 @@
 ---
 slug: /guides/app/features/panels/weave
+title: Query panels
 description: >-
   Some features on this page are in beta, hidden behind a feature flag. Add
   `weave-plot` to your bio on your profile page to unlock all related features.
@@ -8,7 +9,9 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Query Panel
+:::info
+Looking for W&B Weave? W&B's suite of tools for Generative AI application building? Find the docs for weave here: [wandb.me/weave](https://wandb.github.io/weave/).
+:::
 
 Use query panels to query and interactively visualize your data.
 
