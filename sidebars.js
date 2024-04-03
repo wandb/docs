@@ -282,7 +282,7 @@ const sidebars = {
                     'guides/app/features/panels/run-comparer',
                     {
                       type: 'category',
-                      label: 'Weave',
+                      label: 'Query panels',
                       link: {
                         type: 'doc',
                         id: 'guides/app/features/panels/weave/intro',
