@@ -3,7 +3,7 @@ displayed_sidebar: default
 ---
 
 # IAM structure
-W&B utilizes three types of identities within W&B: [Organizations](#organization), [Teams](#team), and [Projects](#project).
+W&B Platform has three IAM scopes within W&B: [Organizations](#organization), [Teams](#team), and [Projects](#project).
 
 ## Organization
 

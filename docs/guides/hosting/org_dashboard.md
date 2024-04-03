@@ -3,6 +3,10 @@ displayed_sidebar: default
 ---
 # Organization dashboard
 
+:::important
+Organization dashboard is only available with [Dedicated Cloud](./hosting-options/dedicated_cloud.md) and [Self-managed instances](./hosting-options/self-managed.md).
+:::
+
 ## View organization usage of W&B
 Use the organization dashboard to get a holistic view of users that belong to your organization, how users of your organization use W&B, along with properties such as:
 
