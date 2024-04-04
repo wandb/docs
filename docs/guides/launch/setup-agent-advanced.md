@@ -70,7 +70,7 @@ builder:
 The Kaniko builder requires permissions to put data into cloud storage (such as Amazon S3) see the [Agent permissions](#agent-permissions) section for more information.
 :::
 
-You can customize the Kaniko job spec using the `kaniko-config` key, for example:
+You can specify the Kubernetes job spec that the Kaniko job will use under the `kaniko-config` key. For example:
 
 ```yaml title="launch-config.yaml"
 builder:
