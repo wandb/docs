@@ -1,9 +1,12 @@
 ---
 slug: /guides/prompts
+title: Prompts for LLMs
 description: Tools for the development of LLM-powered applications
 displayed_sidebar: default
 ---
-# Prompts for LLMs
+:::info
+Introducing Weave: Track, Debug, Evaluate & Monitor Generative AI Applications. To learn more, find the docs for Weave here: [wandb.me/weave](https://wandb.me/weave)].
+:::
 
 W&B Prompts is a suite of LLMOps tools built for the development of LLM-powered applications. Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
 

@@ -28,7 +28,7 @@ This diagram outlines the relationship between W&B products.
 - [Artifacts](/guides/artifacts/intro.md): Version assets and track lineage
 - [Tables](/guides/tables/intro.md): Visualize and query tabular data
 - [Reports](/guides/reports/intro.md): Document and collaborate on your discoveries
-- [Weave](/guides/app/features/panels/weave) Query and create visualizations of your data
+<!-- - [Weave](/guides/app/features/panels/weave) Query and create visualizations of your data -->
 
 ## Are you a first-time user of W&B?
 
@@ -39,7 +39,7 @@ Start exploring W&B with these resources:
 1. [Intro Notebook](http://wandb.me/intro): Run quick sample code to track experiments in 5 minutes
 2. [Quickstart](../quickstart.md): Read a quick overview of how and where to add W&B to your code
 1. Explore our [Integrations guide](./integrations/intro.md) and our [W&B Easy Integration YouTube](https://www.youtube.com/playlist?list=PLD80i8An1OEGDADxOBaH71ZwieZ9nmPGC) playlist for information on how to integrate W&B with your preferred machine learning framework.
-1. View the [API Reference guide](../ref/README.md) for technical specifications about the W&B Python Library, CLI, and Weave operations.
+1. View the [API Reference guide](../ref/README.md) for technical specifications about the W&B Python Library, CLI, and Query Language operations.
 
 ## How does W&B work?
 
