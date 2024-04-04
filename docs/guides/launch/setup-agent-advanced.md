@@ -60,7 +60,7 @@ Within your agent configuration file, and within the builder section, set the `
 
 ```yaml title="launch-config.yaml"
 builder:
-	type: kaniko
+  type: kaniko
   build-context-store: <my-build-context-store>
   secret-name: <Kubernetes-secret-name>
   secret-key: <secret-file-name>
@@ -69,6 +69,25 @@ builder:
 :::note
 The Kaniko builder requires permissions to put data into cloud storage (such as Amazon S3) see the [Agent permissions](#agent-permissions) section for more information.
 :::
+
+You can specify the Kubernetes Job spec that the Kaniko job uses in the `kaniko-config` key. For example:
+
+```yaml title="launch-config.yaml"
+builder:
+  type: kaniko
+  build-context-store: <my-build-context-store>
+  build-job-name: wandb-image-build
+  kaniko-config:
+    spec:
+      template:
+        spec:
+          containers:
+          - args:
+            - "--cache=false" # Args must be in the format "key=value"
+            env:
+            - name: "MY_ENV_VAR"
+              value: "my-env-var-value"
+```
 
 
 ## Connect an agent to a container registry
