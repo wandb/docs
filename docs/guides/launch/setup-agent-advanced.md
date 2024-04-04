@@ -60,7 +60,7 @@ Within your agent configuration file, and within the builder section, set the `
 
 ```yaml title="launch-config.yaml"
 builder:
-	type: kaniko
+  type: kaniko
   build-context-store: <my-build-context-store>
   secret-name: <Kubernetes-secret-name>
   secret-key: <secret-file-name>
