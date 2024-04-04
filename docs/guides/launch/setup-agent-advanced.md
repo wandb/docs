@@ -74,7 +74,7 @@ You can customize the Kaniko job spec using the `kaniko-config` key, for example
 
 ```yaml title="launch-config.yaml"
 builder:
-	type: kaniko
+  type: kaniko
   build-context-store: <my-build-context-store>
   build-job-name: wandb-image-build
   kaniko-config:
