@@ -70,6 +70,25 @@ builder:
 The Kaniko builder requires permissions to put data into cloud storage (such as Amazon S3) see the [Agent permissions](#agent-permissions) section for more information.
 :::
 
+You can customize the Kaniko job spec using the `kaniko-config` key, for example:
+
+```yaml title="launch-config.yaml"
+builder:
+	type: kaniko
+  build-context-store: <my-build-context-store>
+  build-job-name: wandb-image-build
+  kaniko-config:
+    spec:
+      template:
+        spec:
+          containers:
+          - args:
+            - "--cache=false" # Args must be in the format "key=value"
+            env:
+            - name: "MY_ENV_VAR"
+              value: "my-env-var-value"
+```
+
 
 ## Connect an agent to a container registry
 You can connect the launch agent to a container registry such Amazon Elastic Container Registry (Amazon ECR), Google Artifact Registry on GCP, or Azure Container Registry. The following describes common use cases as to why you might want to connect the launch agent to a cloud container registry:
