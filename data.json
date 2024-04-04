@@ -402,6 +402,10 @@
       "to":"/guides/hosting"
     },
     {
+      "from": "/guides/hosting/hosting-options",
+      "to": "/guides/hosting"
+    },
+    {
       "from": "/guides/hosting/hosting-options/wb-managed",
       "to": "/guides/hosting"
     },
