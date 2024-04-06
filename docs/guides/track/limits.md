@@ -72,9 +72,9 @@ If you log values wider than these recommendations your data will be saved and t
 
 Pick a logging frequency that is appropriate to the metric you are logging. As a general rule of thumb, the wider the metric the less frequently you should log it. Concretely, we recommend:
 
-* **Scalars**: <100,000 logged points per metric
-* **Media**: <50,000 logged points per metric
-* **Histograms**: <10,000 logged points per metric
+* **Scalars**: `<100,000` logged points per metric
+* **Media**: `<50,000` logged points per metric
+* **Histograms**: `<10,000` logged points per metric
 
 :::caution
 
@@ -123,7 +123,7 @@ If you exceed these guidelines, W&B will continue to accept your logged data but
 
 #### Config Size
 
-Limit the total size of your run config to <10MB. Logging large values could slow down your project workspaces and runs table operations.
+Limit the total size of your run config to `<10MB`. Logging large values could slow down your project workspaces and runs table operations.
 
 ```python
 # ✅ recommended

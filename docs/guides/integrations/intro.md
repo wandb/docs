@@ -19,7 +19,7 @@ Weights & Biases integrations make it fast and easy to set up experiment trackin
 
 ## Guides for Specific Integrations
 
-<Tabs
+<!-- <Tabs
   defaultValue="frameworks"
   values={[
     {label: 'Popular ML Frameworks', value: 'frameworks'},
@@ -34,8 +34,7 @@ Weights & Biases integrations make it fast and easy to set up experiment trackin
 * [PyTorch Ignite](other/ignite.md)
 * [TensorFlow](tensorflow.md)
 * [Fastai](fastai/README.md)
-* [Scikit-Learn](scikit.md)
-
+* [Scikit-Learn](scikit.md)  
 
   </TabItem>
   <TabItem value="repositories">
@@ -48,8 +47,7 @@ Weights & Biases integrations make it fast and easy to set up experiment trackin
 * [Simple Transformers](other/simpletransformers.md)
 * [Catalyst](other/catalyst.md)
 * [XGBoost](xgboost.md)
-* [LightGBM](lightgbm.md)
-
+* [LightGBM](lightgbm.md)  
 
   </TabItem>
   <TabItem value="tools">
@@ -61,8 +59,7 @@ Weights & Biases integrations make it fast and easy to set up experiment trackin
 * [Docker](other/docker.md)
 * [Databricks](other/databricks.md)
 * [Ray Tune](other/ray-tune.md)
-* [OpenAI Gym](other/openai-gym.md)
-
+* [OpenAI Gym](other/openai-gym.md) 
 
   </TabItem>
-</Tabs>
+</Tabs> -->

@@ -50,7 +50,7 @@ Passing `WandbCallback` to a XGBoost model will:
 
 `log_feature_importance`: (boolean) if True log a feature importance bar plot
 
-`importance_type`: (str) one of {weight, gain, cover, total_gain, total_cover} for tree model. weight for linear model.
+`importance_type`: (str) one of (weight, gain, cover, total_gain, total_cover) for tree model. weight for linear model.
 
 `define_metric`: (boolean) if True (default) capture model performance at the best step, instead of the last step, of training in your `wandb.summary`.
 
