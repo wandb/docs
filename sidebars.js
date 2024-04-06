@@ -19,7 +19,10 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Models',
-      link: {type: 'doc', id: 'guides/models'},
+      link: {
+        type: 'doc', 
+        id: 'guides/models'
+      },
       collapsed: false,
       items: [
         {
@@ -64,7 +67,7 @@ const sidebars = {
             'guides/track/app',
             // 'guides/track/reproduce-experiments',
             'guides/track/jupyter',
-            'guides/track/limits',
+            // 'guides/track/limits',
             'guides/track/public-api-guide',
             'guides/track/tracking-faq',
             'guides/track/environment-variables',
@@ -127,7 +130,7 @@ const sidebars = {
               ],
             },
 
-            'guides/launch/sweeps-on-launch',
+            // 'guides/launch/sweeps-on-launch',
             'guides/launch/launch-faqs',
           ],
         },
@@ -262,10 +265,10 @@ const sidebars = {
                     {
                       type: 'category',
                       label: 'Line Plot',
-                      link: {
-                        type: 'doc',
-                        id: 'guides/app/features/panels/line-plot/intro',
-                      },
+                      // link: {
+                      //   type: 'doc',
+                      //   id: 'guides/app/features/panels/line-plot/intro',
+                      // },
                       items: [
                         // 'guides/app/features/panels/line-plot/intro',
                         'guides/app/features/panels/line-plot/reference',
@@ -437,7 +440,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Integrations',
-      link: {type: 'doc', id: 'guides/integrations/intro'},
+      // link: {type: 'doc', id: 'guides/integrations/intro'},
       items: [
         // 'guides/integrations/intro',
         'guides/integrations/add-wandb-to-any-library',
@@ -557,4 +560,5 @@ const sidebars = {
   ],
 };
 
-module.exports = sidebars;
+// module.exports = sidebars;
+export default sidebars;

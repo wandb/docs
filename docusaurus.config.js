@@ -121,24 +121,24 @@ const config = {
             type: 'search',
             position: 'right',
           },
-          {
-            type: 'doc',
-            docId: 'guides/intro',
-            label: 'Developer guide',
-            position: 'right',
-          },
-          {
-            type: 'doc',
-            docId: 'ref/README',
-            label: 'Reference',
-            position: 'right',
-          },
-          {
-            type: 'doc',
-            docId: 'tutorials/intro_to_tutorials',
-            label: 'Tutorials',
-            position: 'right',
-          },
+          // {
+          //   type: 'doc',
+          //   docId: 'guides/intro',
+          //   label: 'Developer guide',
+          //   position: 'right',
+          // },
+          // {
+          //   type: 'doc',
+          //   docId: 'ref/README',
+          //   label: 'Reference',
+          //   position: 'right',
+          // },
+          // {
+          //   type: 'doc',
+          //   docId: 'tutorials/intro_to_tutorials',
+          //   label: 'Tutorials',
+          //   position: 'right',
+          // },
           {
             type: 'dropdown',
             label: 'Language',

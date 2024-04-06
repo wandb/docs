@@ -23,10 +23,10 @@
     "redirect-404s": "ts-node scripts/getRedirectsFrom404s"
   },
   "dependencies": {
-    "@docusaurus/core": "3.0.0",
-    "@docusaurus/plugin-google-gtag": "^2.3.1",
-    "@docusaurus/plugin-google-tag-manager": "^2.3.1",
-    "@docusaurus/preset-classic": "^3.0.0",
+    "@docusaurus/core": "3.2.1",
+    "@docusaurus/plugin-google-gtag": "^3.2.1",
+    "@docusaurus/plugin-google-tag-manager": "^3.2.1",
+    "@docusaurus/preset-classic": "3.2.1",    
     "@laxels/docusaurus-plugin-segment": "^1.0.6",
     "@laxels/serve-static": "^1.15.1",
     "@mdx-js/react": "^3.0.0",
@@ -41,8 +41,8 @@
     "styled-components": "^6.0.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.0.0",
-    "@docusaurus/types": "3.0.0",
+    "@docusaurus/module-type-aliases": "^3.2.1",
+    "@docusaurus/types": "3.2.1",
     "@google-cloud/bigquery": "^6.1.0",
     "@jest/globals": "^29.5.0",
     "@tsconfig/docusaurus": "^1.0.5",
