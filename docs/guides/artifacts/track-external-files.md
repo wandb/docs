@@ -76,6 +76,8 @@ W&B will use the default mechanism to look for credentials based on the cloud pr
 | GCP            | [Google Cloud documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
 | Azure          | [Azure documentation](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
 
+For AWS, if the bucket is not located in the configured user's default region, the `AWS_REGION` environment variable must be set to match the bucket region.
+
 Interact with this artifact similarly to a normal artifact. In the App UI, you can look through the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact.
 
 :::caution
