@@ -19,11 +19,12 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 
 ![](/images/artifacts/artifacts_landing_page2.png)
 
-Some of the use cases of artifacts including:
-* **Training models**: Input a dataset to track the training of your model and monitor progress with the W&B dashboard.
-* **Pre-processing datasets**: Clean and transform a dataset and track its changes over time.
-* **Evaluating models**: Track a model's performance with your data using W&B [Tables](../tables/tables-walkthrough.md)
-* **Optimizing models**: Optimize models and track performance over time. 
+| Use Case               | Input                       | Output                       |
+|------------------------|-----------------------------|------------------------------|
+| Model Training         | Dataset (training data)     | Trained [Model](../models.md)                |
+| Dataset Pre-Processing | Dataset (raw data)          | Dataset (pre-processed data) |
+| Model Evaluation       | Model + Dataset (test data) | [Table](../tables/intro.md)                        |
+| Model Optimization     | Model                       | Optimized Model              |
 
 
 ## Create an artifact
