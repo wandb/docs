@@ -51,27 +51,21 @@ See the [track external files](./track-external-files.md) page for information o
 Indicate the artifact you want to mark as input to your run with the [`use_artifact`](../../ref/python/run.md#use_artifact) method, which returns an artifact object:
 
 ```python
-artifact = run.use_artifact("my_data") #returns a run object using the "my_data" artifact
+artifact = run.use_artifact("my_data:latest") #returns a run object using the "my_data" artifact
 ```
 
 Then, use the returned object to download all contents of the artifact:
 
 ```python
-datadir = artifact.download() #downloads the "my_data" artifact
-```
-
-Optionally, you can retrieve the artifact's URL for reference:
-
-```python
-print("reference file:", artifact.manifest.entries[ref].ref) #prints a URL pointing to the "my_data" artifact for future reference
+datadir = artifact.download() #downloads the full "my_data" artifact to the default directory.
 ```
 
 :::tip
-For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](./download-and-use-an-artifact.md)
+You can pass a custom path into the `root` [parameter](../../ref/python/artifact.md) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](./download-and-use-an-artifact.md)
 :::
 
 ## Next steps
 * Learn how to [version](./create-a-new-artifact-version.md), [update](./update-an-artifact.md), or [delete](./delete-artifacts.md) artifacts.
-* Learn about [artifact automation](./project-scoped-automations.md).
+* Learn how to trigger downstream workflows in response to changes to your artifacts with [artifact automation](./project-scoped-automations.md).
 * Learn about the [model registry](../model_registry/intro.md), a space that houses trained models.
 * Explore the [Python SDK](../../ref/python/artifact.md) and [CLI](../../ref/cli/wandb-artifact/README.md) reference guides.
