@@ -2,12 +2,10 @@
 description: Answers to frequently asked question about W&B Experiments.
 displayed_sidebar: default
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Experiments FAQ
-
-<head>
-  <title>Frequently Asked Questions About Experiments</title>
-</head>
 
 The proceeding questions are commonly asked questions about W&B Artifacts.
 
@@ -39,8 +37,7 @@ for x in range(10):
         for y in range(100):
             run.log({"metric": x + y})
 ```
-
-### `InitStartError: Error communicating with wandb process` <a href="#init-start-error" id="init-start-error"></a>
+### InitStartError: Error communicating with wandb process
 
 This error indicates that the library is having difficulty launching the process which synchronizes data to the server.
 
@@ -50,29 +47,30 @@ The following workarounds can help resolve the issue in certain environments:
   defaultValue="linux"
   values={[
     {label: 'Linux and OS X', value: 'linux'},
-    {label: 'Google Colab', value: 'google_colab'},
+    {label: 'Google Colab', value: 'google'},
   ]}>
   <TabItem value="linux">
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="fork"))
 ```
-</TabItem>
-  <TabItem value="google_colab">
+
+  </TabItem>
+  <TabItem value="google">
 
 For versions prior to `0.13.0` we suggest using:
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
 ```
+
   </TabItem>
 </Tabs>
 
 
-### How can I use wandb with multiprocessing, e.g. distributed training? 
+### How can I use wandb with multiprocessing? 
 
-If your training program uses multiple processes you will need to structure your program to avoid making wandb method calls from processes where you did not run `wandb.init()`.\
-\
+If your training program uses multiple processes you will need to structure your program to avoid making wandb method calls from processes where you did not run `wandb.init()`.
 There are several approaches to managing multiprocess training:
 
 1. Call `wandb.init` in all your processes, using the [group](../runs/grouping.md) keyword argument to define a shared group. Each process will have its own wandb run and the UI will group the training processes together.
@@ -169,7 +167,7 @@ Modes can be "online", "offline" or "disabled", and default to online.
 
 `disabled`: In this mode, the client returns mocked objects and prevents all network communication. The client will essentially act like a no-op. In other words, all logging is entirely disabled. However, stubs out of all the API methods are still callable. This is usually used in tests.
 
-### My run's state is "crashed" on the UI but is still running on my machine. What do I do to get my data back?
+### My run's state crashed on the UI but is still running on my machine. What do I do to get my data back?
 
 You most likely lost connection to your machine while training. You can recover your data by running [`wandb sync [PATH_TO_RUN]`](../../ref/cli/wandb-sync.md). The path to your run will be a folder in your `wandb` directory corresponding to the Run ID of the run in progress.
 
@@ -181,7 +179,7 @@ If you're getting the error message `Launch Error: Permission denied`, you don't
 2. You've set an entity that doesn't exist. "Entity" should be your username or the name of an existing team. If you need to create a team, go to our [Subscriptions page](https://app.wandb.ai/billing).
 3. You don't have project permissions. Ask the creator of the project to set the privacy to **Open** so you can log runs to this project.
 
-### Does W&B uses the `multiprocessing` library?
+### Does W&B use the `multiprocessing` library?
 
 Yes, W&B uses the `multiprocessing` library. If you see an error message such as:
 
