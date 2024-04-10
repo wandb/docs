@@ -14,6 +14,10 @@ import TabItem from '@theme/TabItem';
 
 Export data or import data from MLFlow or between W&B instances with W&B Public APIs.
 
+:::info
+This feature requires python>=3.8
+:::
+
 ## Import Data from MLFlow
 
 W&B supports importing data from MLFlow, including experiments, runs, artifacts, metrics, and other metadata.
@@ -21,6 +25,7 @@ W&B supports importing data from MLFlow, including experiments, runs, artifacts,
 Install dependencies:
 
 ```shell
+# note: this requires py38+
 pip install wandb[importers]
 ```
 
@@ -85,6 +90,7 @@ This feature is in beta, and only supports importing from the W&B public cloud.
 Install dependencies:
 
 ```sh
+# note: this requires py38+
 pip install wandb[importers]
 ```
 
