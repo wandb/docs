@@ -22,7 +22,7 @@ There are broadly three categories of SCIM API - **User**, **Group**, and **Role
 :::info
 Deactivate a user within a W&B organization with the `DELETE User` endpoint. Deactivated users can no longer sign in. However, deactivated users still appears in the organization's user list.
 
-To fully remove a deactivated user from the user list, you must [remove the user from the organization](#remove-a-user).
+To fully remove a deactivated user from the user list, you must remove the user from the organization.
 
 It is possible to re-enable a deactivated user, if needed.
 :::

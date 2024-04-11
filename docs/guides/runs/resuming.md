@@ -119,8 +119,8 @@ There are different ways in which W&B can be used to resume runs as detailed bel
     2. The other form of resume requires you to provide the actual run id: `wandb.init(id=run_id)` and then when you resume (if you want to be sure that it is resuming, you do `wandb.init(id=run_id, resume="must")`.
        * You can also have full control over resuming if you manage the `run_id`. We provide a utility to generate `run_id`: `wandb.util.generate_id()`. As long as you set the id to one of these unique ids for each unique run, you can say `resume="allow"` and W&B will automatically resume the run with that id.
 
-    More context regarding automatic and controlled resuming can be found in [this section](resuming.md#resume-runs).
-2. [`wandb.restore`](../track/save-restore.md#examples-of-wandb.restore)
+    More context regarding automatic and controlled resuming can be found in [this section](#automatic-and-controlled-resuming).
+2. `wandb.restore`
    * This will allow you to log new historical values for your metrics to a run starting from where you left off but does not take care of re-establishing the state of your code, you will need to make sure you have written checkpoints that you can load!
    * You can use [`wandb.save`](../track/save-restore.md#examples-of-wandbsave) to record the state of your run via checkpoint files. Create a checkpoint file through `wandb.save()`, which can then be used through `wandb.init(resume=<run-id>)`. [This report](https://wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W-B--Vmlldzo3MDQ3Mw) illustrates how to save and restore models with W&B.
 

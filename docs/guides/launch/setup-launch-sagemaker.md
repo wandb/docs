@@ -43,7 +43,7 @@ Ensure you have the following AWS resources configured in your preferred AWS reg
 2. One or more [S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) to store inputs and outputs for your SageMaker Training jobs.
 3. An IAM role for Amazon SageMaker that permits SageMaker to run training jobs and interact with Amazon ECR and Amazon S3.
 
-Make a note of the ARNs for these resources. You will need the ARNs when you define the [Launch queue configuration](#configure-a-queue-for-sagemaker). 
+Make a note of the ARNs for these resources. You will need the ARNs when you define the [Launch queue configuration](#configure-launch-queue-for-sagemaker). 
 
 <!-- If you don't have these resources, create them in AWS or follow our walkthrough tutorial [[link]]. -->
 

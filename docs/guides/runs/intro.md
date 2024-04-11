@@ -20,7 +20,7 @@ Use W&B Runs for tasks such as:
 
 Anything you log with `wandb.log` is recorded in that Run.  For more information on how log objects in W&B, see [Log Media and Objects](../track/log/intro.md).
 
-View Runs within a project within your Project's [Workspace](#view-runs). 
+View Runs within a project within your Project's [Workspace](#view-all-runs-in-a-project). 
 
 ## Create a Run
 
@@ -81,7 +81,7 @@ assert wandb.run is None
 ```
 
 
-## View all Runs in a Project
+## View all runs in a Project
 View Runs associated to a project with the W&B App UI. Navigate to the W&B App and search for the name of your project. 
 
 In the following example we search for a project called "my-first-run":
@@ -127,7 +127,7 @@ Search for a specific run by name in the sidebar. You can use regex to filter do
 
 
 
-## Investigate a specific Run in a Project
+## Investigate a specific run in a Project
 
 Use the run page to explore detailed information about a specific Run. 
 

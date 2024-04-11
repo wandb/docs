@@ -10,7 +10,6 @@ In W&B line plots, we support three types of smoothing:
 - [exponential moving average](smoothing.md#exponential-moving-average-default) (default)
 - [gaussian smoothing](smoothing.md#gaussian-smoothing)
 - [running average](smoothing.md#running-average)
-- [exponential moving average - Tensorboard](smoothing.md#exponential-moving-average-tensorboard) (deprecated)
 
 See these live in an [interactive W&B report](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc).
 

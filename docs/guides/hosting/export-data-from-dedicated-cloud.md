@@ -16,7 +16,7 @@ Refer to the table below for data export API and pointers to relevant documentat
 | Export project metadata | [Projects API](../../ref/python/public-api/api#projects) |
 | Export runs in a project | [Runs API](../../ref/python/public-api/api#runs), [Export run data](../track/public-api-guide#export-run-data), [Querying multiple runs](../track/public-api-guide#querying-multiple-runs) |
 | Export reports | [Reports API](../../ref/python/public-api/api#reports) |
-| Export artifacts | [Artifact API](../../ref/python/public-api/api#artifact), [Explore and traverse an artifact graph](../artifacts/explore-and-traverse-an-artifact-graph#traverse-an-artifact-programmatically), [Download and use an artifact](../artifacts/download-and-use-an-artifact#download-and-use-an-artifact-stored-on-wb) |
+| Export artifacts | [Artifact API](../../ref/python/public-api/api#artifact), [Explore and traverse an artifact graph](../artifacts/explore-and-traverse-an-artifact-graph), [Download and use an artifact](../artifacts/download-and-use-an-artifact#download-and-use-an-artifact-stored-on-wb) |
 
 :::info
 You manage artifacts stored in the Dedicated Cloud with [Secure Storage Connector](./secure-storage-connector). In that case, you may not need to export the artifacts using the W&B SDK API.

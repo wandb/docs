@@ -25,7 +25,7 @@ The following guide describes how to format your sweep configuration. See [Sweep
 
 Both sweep configuration format options (YAML and Python dictionary) utilize key-value pairs and nested structures. 
 
-Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`](./sweep-config-keys.md#name) key), the parameters to search through ([`parameters`](./sweep-config-keys.md#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys.md#method) key), and more. 
+Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep (`name` key), the parameters to search through ([`parameters`](./sweep-config-keys.md#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys.md#method) key), and more. 
 
 
 For example, the proceeding code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. Within the sweep configuration there are five top level keys specified: `program`, `name`, `method`, `metric` and `parameters`. 

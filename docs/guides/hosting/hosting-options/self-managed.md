@@ -8,7 +8,7 @@ displayed_sidebar: default
 W&B recommends fully managed deployment options such as [W&B SaaS Cloud](./saas_cloud.md) or [W&B Dedicated Cloud](./dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 :::
 
-Deploy W&B Server on your [AWS, GCP, or Azure cloud account](#deploy-wb-server-within-self-managed-cloud-accounts) or within your [on-premises infrastructure](#deploy-wb-server-in-on-premises-infrastructure). 
+Deploy W&B Server on your [AWS, GCP, or Azure cloud account](#deploy-wb-server-within-self-managed-cloud-accounts) or within your [on-premises infrastructure](#deploy-wb-server-in-on-prem-infrastructure). 
 
 Your IT/DevOps/MLOps team is responsible for provisioning your deployment, managing upgrades, and continuously maintaining your self managed W&B Server instance.
 

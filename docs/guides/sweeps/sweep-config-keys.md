@@ -18,11 +18,11 @@ The proceeding table lists top-level sweep configuration keys and a brief descri
 | `project`         | Specify the project for this sweep.                                                                                           |
 | `description`     | Text description of the sweep.                                                                                                |
 | `name`            | The name of the sweep, displayed in the W&B UI.                                                                               |
-| [`method`](#method) | (required) Specify the [search strategy](./define-sweep-configuration.md#configuration-keys).                               |
+| [`method`](#method) | (required) Specify the [search strategy](#method).                               |
 | [`metric`](#metric) | Specify the metric to optimize (only used by certain search strategies and stopping criteria).                              |
-| [`parameters`](#parameters) | (required) Specify [parameters](define-sweep-configuration.md#parameters) bounds to search.                         |
-| [`early_terminate`](#early_terminate) | Specify any [early stopping criteria](./define-sweep-configuration.md#early_terminate).                                 |
-| [`command`](#command)         | Specify [command structure ](./define-sweep-configuration.md#command)for invoking and passing arguments to the training script. |
+| [`parameters`](#parameters) | (required) Specify [parameters](#parameters) bounds to search.                         |
+| [`early_terminate`](#early_terminate) | Specify any [early stopping criteria](#early_terminate).                                 |
+| [`command`](#command)         | Specify [command structure ](#command)for invoking and passing arguments to the training script. |
 | `run_cap` | Specify a maximum number of runs in a sweep.                                                                                          |
 
 See the [Sweep configuration](./sweep-config-keys.md) structure for more information on how to structure your sweep configuration.

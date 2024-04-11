@@ -45,7 +45,7 @@ It is important to keep in mind that these specifications are minimum requiremen
 
 ### Database Server
 
-W&B recommends a [MySQL 8](../self-managed/bare-metal.md#mysql-80) database as a metadata store. The shape of the ML practitioners parameters and metadata will greatly affect the performance of the database. The database is typically incrementally written to as practitioners track their training runs and is more read heavy when queries are executed in reports and dashboard.
+W&B recommends a [MySQL 8](../self-managed/bare-metal.md#mysql-database) database as a metadata store. The shape of the ML practitioners parameters and metadata will greatly affect the performance of the database. The database is typically incrementally written to as practitioners track their training runs and is more read heavy when queries are executed in reports and dashboard.
 
 To ensure optimal performance we recommend deploying the W&B database on to a server with the following starting specs:
 
@@ -59,7 +59,7 @@ To ensure optimal performance we recommend deploying the W&B database on to a se
 
 Again, we recommend monitoring the resource usage and performance of the database to ensure that it operates optimally and to make adjustments as necessary.
 
-Additionally, we recommend the following [parameter overrides](../self-managed/bare-metal.md#mysql-80) to tune the DB for MySQL 8.
+Additionally, we recommend the following [parameter overrides](../self-managed/bare-metal.md#mysql-database) to tune the DB for MySQL 8.
 
 ### Object Storage
 
