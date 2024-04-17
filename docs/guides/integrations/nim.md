@@ -9,29 +9,50 @@ import TabItem from '@theme/TabItem';
 
 Deploy a model from W&B Artifacts to the NVIDIA NeMo Inference Microservice.
 
-The Launch Job shown in this guide accepts a compatible model artifact from W&B and deploys to a running NIM/Triton server. Launch converts W&B model artifacts to NVIDIA NeMo Model. 
+The Launch Job shown in this guide accepts a compatible model artifact from W&B and deploys to a running NIM/Triton server. Launch converts W&B model artifacts to NVIDIA NeMo Model.
 
 :::info
 Deployment time varies by model and machine type. The base Llama2-7b config takes about 1 minute on GCP's `a2-ultragpu-1g`.
 :::
 
 ## Compatible model types
+
 W&B supports the following model types:
+
 1. [Llama2](https://llama.meta.com/llama2/)
 2. [StarCoder](https://github.com/bigcode-project/starcoder)
 3. NV-GPT (coming soon)
 
 ## Quickstart
 
-1. [Create a launch queue](../launch/add-job-to-queue.md). Within your launch config:
-   1. Set `runtime` to `nvidia`
-   2. Set `gpus` to the specific GPUs you want to use, or set `gpus` to `all` to use everything.
+1. [Create a launch queue](../launch/add-job-to-queue.md) if you don't have one already. See an example queue config below.
+
+   ```yaml
+   net: host
+   gpus: all # can be a specific set of GPUs or `all` to use everything
+   runtime: nvidia # also requires nvidia container runtime
+   volume:
+     - model-store:/model-store/
+   ```
+
    ![image](/images/integrations/nim1.png)
-2. Launch an agent on your GPU machine. Within your machine's terminal execute:
+
+2. Create this job in your project:
+
+   ```bash
+   wandb job create -n "deploy-to-nvidia-nemo-inference-microservice" \
+      -e $ENTITY \
+      -p $PROJECT \
+      -E jobs/deploy_to_nvidia_nemo_inference_microservice/job.py \
+      -g andrew/nim-updates \
+      git https://github.com/wandb/launch-jobs
+   ```
+
+3. Launch an agent on your GPU machine:
    ```bash
    wandb launch-agent -e $ENTITY -p $PROJECT -q $QUEUE
    ```
-3. Submit the deployment launch job with your desired configs from the [Launch UI](https://wandb.ai/launch)
+4. Submit the deployment launch job with your desired configs from the [Launch UI](https://wandb.ai/launch)
    1. You can also submit via the CLI:
       ```bash
       wandb launch -d gcr.io/playground-111/deploy-to-nemo:latest \
@@ -41,11 +62,9 @@ W&B supports the following model types:
         -c $CONFIG_JSON_FNAME
       ```
       ![image](/images/integrations/nim2.png)
-      
 5. You can track the deployment process in the Launch UI.
    ![image](/images/integrations/nim3.png)
-   
-7. Once complete, you can immediately curl the endpoint to test the model. The model name is always `ensemble`.
+6. Once complete, you can immediately curl the endpoint to test the model. The model name is always `ensemble`.
    ```bash
     #!/bin/bash
     curl -X POST "http://0.0.0.0:9999/v1/completions" \
