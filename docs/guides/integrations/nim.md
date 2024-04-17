@@ -7,21 +7,19 @@ import TabItem from '@theme/TabItem';
 
 # NVIDIA NeMo Inference Microservice Deploy Job
 
-Deploy a model from W&B Artifacts to the NVIDIA NeMo Inference Microservice.
+Deploy a model artifact from W&B to a NVIDIA NeMo Inference Microservice. To do this, use W&B Launch. W&B Launch converts model artifacts to NVIDIA NeMo Model and deploys to a running NIM/Triton server.
 
-The Launch Job shown in this guide accepts a compatible model artifact from W&B and deploys to a running NIM/Triton server. Launch converts W&B model artifacts to NVIDIA NeMo Model.
+W&B Launch currently accepts the following compatible model types:
+
+1. [Llama2](https://llama.meta.com/llama2/)
+2. [StarCoder](https://github.com/bigcode-project/starcoder)
+3. NV-GPT (coming soon)
+
 
 :::info
 Deployment time varies by model and machine type. The base Llama2-7b config takes about 1 minute on GCP's `a2-ultragpu-1g`.
 :::
 
-## Compatible model types
-
-W&B supports the following model types:
-
-1. [Llama2](https://llama.meta.com/llama2/)
-2. [StarCoder](https://github.com/bigcode-project/starcoder)
-3. NV-GPT (coming soon)
 
 ## Quickstart
 
