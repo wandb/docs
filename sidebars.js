@@ -471,6 +471,7 @@ const sidebars = {
         'guides/integrations/mmengine',
         'guides/integrations/other/mmf',
         'guides/integrations/other/composer',
+        'guides/integrations/nim',
         'guides/integrations/other/openai-api',
         'guides/integrations/other/openai-fine-tuning',
         'guides/integrations/other/openai-gym',
