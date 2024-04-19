@@ -523,7 +523,6 @@ const sidebars = {
       id: 'tutorials/intro_to_tutorials', // document ID
       label: 'W&B Tutorials', // sidebar label
     },
-    // 'guides/tutorials/intro_to_tutorials',
     'tutorials/experiments',
     'tutorials/tables',
     'tutorials/sweeps',
@@ -532,7 +531,6 @@ const sidebars = {
     {
       type: 'category',
       label: 'Integration Tutorials',
-      // link: {type: 'doc', id: 'guides/hosting/self-managed/intro'},
       items: [
         'tutorials/pytorch',
         'tutorials/lightning',
@@ -542,9 +540,9 @@ const sidebars = {
         'tutorials/keras',
         'tutorials/keras_tables',
         'tutorials/keras_models',
-        'tutorials/xgboost',
+        // 'tutorials/xgboost',  # broken
         'tutorials/xgboost_sweeps',
-        'tutorials/lightgbm',
+        // 'tutorials/lightgbm', # broken
         'tutorials/monai_3d_segmentation',
       ],
     },
