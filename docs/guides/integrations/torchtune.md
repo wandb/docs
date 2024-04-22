@@ -14,10 +14,11 @@ Check the [torchtune documentation](https://pytorch.org/torchtune/stable/deep_di
 :::
 
 
-## Using the Weight & Biases metric logger
+## Using the Weights & Biases metric logger
 
-You can quickly try the W&B integration with torchtune by overriding launch arguments.
-1. First install the `wandb` package:
+You can quickly try the W&B integration with torchtune by overriding arguments at launch time.
+
+1. First install the `wandb` library:
 
 ```bash
 pip install -U wandb
@@ -32,7 +33,7 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
   log_every_n_steps=5
 ```
 
-The `WandBLogger` class is a subclass of `MetricLogger` and inherits all of its methods. It adds the ability to log metrics to Weights & Biases. It also supports any other `kwargs` to pass to the `wandb.init` method. For example, you could pass:
+The `WandBLogger` class is a subclass of `MetricLogger` and inherits all of its methods. It adds the ability to log metrics to Weights & Biases. It also supports any other `kwargs` to pass to the `wandb.init` method. For example, you can pass:
 
 ```bash
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -93,4 +94,5 @@ def save_checkpoint(self, epoch: int) -> None:
 :::info
 We are working on adding support for loading checkpoints from W&B Artifacts.
 :::
+
 
