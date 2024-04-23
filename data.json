@@ -1758,6 +1758,18 @@
       "to": "/guides/app/features/teams"
     },
     {
+      "from": "/tutorials/lightgbm",
+      "to": "/tutorials"
+    },
+    {
+      "from": "/tutorials/prompts",
+      "to": "/tutorials"
+    },
+    {
+      "from": "/tutorials/xgboost",
+      "to": "/tutorials"
+    },
+    {
       "from": "/v",
       "to": "/"
     },
