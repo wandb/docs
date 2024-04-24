@@ -12,7 +12,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 <CTAButtons productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W%26B_Artifacts.ipynb"/>
 
-Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs](../runs/intro.md). For example, a model training run might take in a dataset as input and trained model as output. In addition to logging hyperparameters and metadata to a run, you can use an artifact to log the dataset used to train the model as input and the resulting model checkpoints as outputs.
+Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs](../runs/intro.md). For example, a model training run might take in a dataset as input and produce a trained model as output. In addition to logging hyperparameters, metadata and metrics to a run, you can use an artifact to log, track and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as outputs.
 
 ## Use cases
 You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs](../runs/intro.md). You can use datasets, models, or even other artifacts as inputs for processing.
@@ -21,25 +21,25 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 
 | Use Case               | Input                       | Output                       |
 |------------------------|-----------------------------|------------------------------|
-| Model Training         | Dataset (training data)     | Trained [Model](../models.md)                |
+| Model Training         | Dataset (training and validation data)     | Trained [Model](../models.md)                |
 | Dataset Pre-Processing | Dataset (raw data)          | Dataset (pre-processed data) |
-| Model Evaluation       | Model + Dataset (test data) | [Table](../tables/intro.md)                        |
+| Model Evaluation       | Model + Dataset (test data) | [W&B Table](../tables/intro.md)                        |
 | Model Optimization     | Model                       | Optimized Model              |
 
 
 ## Create an artifact
 
 Create an artifact with four lines of code:
-1. Create a [W&B run](../runs/intro.md).
+1. Create a [W&B Run](../runs/intro.md).
 2. Create an artifact object with the [`wandb.Artifact`](../../ref/python/artifact.md) API.
-3. Add one or more files, such as a model file or dataset, to your artifact object. 
+3. Add one or more files, such as a model file or dataset, to your artifact object. In this example, you'll add a single file.
 4. Log your artifact to W&B.
 
 
 ```python
 run = wandb.init(project="artifacts-example", job_type="add-dataset")
 artifact = wandb.Artifact(name="my_data", type="dataset")
-artifact.add_dir(local_path="./dataset.h5")  # Add dataset directory to artifact
+artifact.add_file(local_path="./dataset.h5")  # Add dataset file to artifact
 run.log_artifact(artifact)  # Logs the artifact version "my_data:v0"
 ```
 
