@@ -143,8 +143,6 @@ For example, to add a Twitter follow badge, add `[![Twitter: @weights_biase](htt
 
 ## Team trials
 
- W&B offers a free 30 day trial, no credit card required. During the trial, you and your colleagues have access to all the features in W&B. Once the trial is over, you must choose a plan to continue using W&B. If you're a student or teacher you can enroll in a free academic plan.
-
 See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API](../../../ref/python/public-api/README.md).
 
 ## Privacy settings
