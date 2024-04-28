@@ -3,9 +3,7 @@ displayed_sidebar: default
 ---
 # LLMs
 
-:::info
-Introducing Weave: Track, Debug, Evaluate & Monitor Generative AI Applications. To learn more, find the docs for Weave here: [wandb.me/weave](https://wandb.me/weave).
-:::
+[![Building LLM apps? Try Weave ->](/images/weave/weave_banner.png)](https://wandb.me/weave)
 
 Evaluating the performance of Large Language Models (LLMs) can be difficult. Use W&B Prompts and LLM Monitoring to streamline the evaluation process, providing a visual way to analyze your generative models.
 
