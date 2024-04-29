@@ -7,7 +7,9 @@ displayed_sidebar: default
 
 [**Check our blog post →**](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0)
 
-[torchtune](https://pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). It focuses on simplicity and extensibility with a componentized, native-PyTorch design that avoids unnecessary abstractions and promotes easy reuse. The library ensures correctness and stability, setting high standards for component testing and performance benchmarks. Torchtune is built to democratize LLM fine-tuning, offering out-of-the-box functionality across different hardware setups. It features modular implementations of popular LLMs, interoperability through checkpoint conversion, and a variety of training recipes. The library also integrates with external datasets and evaluation tools, supports distributed training, and allows configuration through YAML files to adjust training settings and hyperparameters without modifying code. Additionally, torchtune has built-in support for [logging with Weights & Biases](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes. With a focus on usability, torchtune adheres to PyTorch’s philosophy by emphasizing clarity and modular building blocks over monolithic design, aiming to make fine-tuning accessible and efficient for developers.
+[torchtune](https://pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). It focuses on simplicity and extensibility with a componentized, native-PyTorch design that avoids unnecessary abstractions and promotes easy reuse. The library ensures correctness and stability, setting high standards for component testing and performance benchmarks. Torchtune is built to democratize LLM fine-tuning, offering out-of-the-box functionality across different hardware setups. It features modular implementations of popular LLMs, interoperability through checkpoint conversion, and a variety of training recipes. 
+
+The library also integrates with external datasets and evaluation tools, supports distributed training, and allows configuration through YAML files to adjust training settings and hyperparameters without modifying code. Additionally, torchtune has built-in support for [logging with Weights & Biases](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes. With a focus on usability, torchtune adheres to PyTorch’s philosophy by emphasizing clarity and modular building blocks over monolithic design, aiming to make fine-tuning accessible and efficient for developers.
 
 :::info
 Check the [torchtune documentation](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html) on how to use Weights & Biases to tune your LLM models.
@@ -61,7 +63,7 @@ This is a fast evolving library, the current metrics are subject to change. If y
 
 The torchtune library supports various [checkpoint formats](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html). Depending on the origin of the model you are using, you should switch to the appropriate [checkpointer class](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html).
 
-If you want to save the model checkpoints to [W&B Artifacts](https://docs.wandb.ai/guides/artifacts), the simplest solution is to override the [`save_checkpoint`](https://github.com/pytorch/torchtune/blob/cd779783f9acecccbebc3c50265f6caf97fa99aa/recipes/full_finetune_single_device.py#L348) functions inside the corresponding recipe. 
+If you want to save the model checkpoints to [W&B Artifacts](https://docs.wandb.ai/guides/artifacts), the simplest solution is to override the `save_checkpoint` functions inside the corresponding recipe. 
 
 Here is an example of how you can override the `save_checkpoint` function to save the model checkpoints to W&B Artifacts.
 
@@ -74,7 +76,7 @@ def save_checkpoint(self, epoch: int) -> None:
     checkpoint_file = Path.joinpath(
         self._checkpointer._output_dir, f"torchtune_model_{epoch}"
     ).with_suffix(".pt")
-    wandb_at = wandb.Artifact(
+    wandb_artifact = wandb.Artifact(
         name=f"torchtune_model_{epoch}",
         type="model",
         # description of the model checkpoint
@@ -87,8 +89,8 @@ def save_checkpoint(self, epoch: int) -> None:
             utils.MAX_STEPS_KEY: self.max_steps_per_epoch,
         }
     )
-    wandb_at.add_file(checkpoint_file)
-    wandb.log_artifact(wandb_at)
+    wandb_artifact.add_file(checkpoint_file)
+    wandb.log_artifact(wandb_artifact)
 ```
 
 :::info
