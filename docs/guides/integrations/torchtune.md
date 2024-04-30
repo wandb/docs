@@ -49,12 +49,9 @@ log_every_n_steps: 5
 
 ## Using the Weights & Biases metric logger
 
-You can quickly try the W&B integration with torchtune by overriding arguments at launch time.
+Enable Weights & Biases logging on the recipe's config file by modifying the `metric_logger` section. Change the `_component_` to `torchtune.utils.metric_logging.WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to customize the logging behavior.
 
-Run any default recipe and pass the `metric_logger._component_` with the corresponding `WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to log metrics every n steps.
-
-
-The `WandBLogger` class is a subclass of `MetricLogger` and inherits all of its methods. It adds the ability to log metrics to Weights & Biases. It also supports any other `kwargs` to pass to the [wandb.init](https://docs.wandb.ai/ref/python/init) method. For example, you can pass:
+You can also pass any other `kwargs` as you would to the [wandb.init](https://docs.wandb.ai/ref/python/init) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
 
 <Tabs
   defaultValue="config"
