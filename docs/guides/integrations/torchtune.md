@@ -94,11 +94,11 @@ After running the above command, you can explore the W&B dashboard to see the lo
 
 We capture the resolved config for you on the Overview tab. We also store the config as a YAML on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
 
-The actual computation of training metrics is inside the [recipe file](https://github.com/pytorch/torchtune/tree/main/recipes) on the `train` function. Having all the metric logic on a single place makes it easier for the user to add custom metrics or modify the existing ones.
+![](@site/static/images/integrations/torchtune_config.png)
 
 ### Logged Metrics
 
-Each recipe has their own training loop, so check each individual recipe to see what metrics are logged. The default metrics are:
+Each recipe has their own training loop, so check each individual recipe to see what metrics are logged. The default metrics we log are:
 
 | Metric | Description |
 | --- | --- |
@@ -112,7 +112,7 @@ Each recipe has their own training loop, so check each individual recipe to see 
 `total_training_steps` is not the same as the number of training steps. It corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken the `total_training_steps` is incremented by 1. For example, if the dataloader has 10 batches, gradient accumulation steps is 2 and run for 3 epochs, the optimizer will step 15 times, in this case `total_training_steps` will range from 1 to 15.
 :::
 
-The streamlined design of torchtune allows to easily add custom metrics or modify the existing ones. It suffices to modify the corresponding recipe file, for example, computing one could log `current_epoch` as a percentage of the total number of epochs as following:
+The streamlined design of torchtune allows to easily add custom metrics or modify the existing ones. It suffices to modify the corresponding [recipe file](https://github.com/pytorch/torchtune/tree/main/recipes), for example, computing one could log `current_epoch` as a percentage of the total number of epochs as following:
 
 ```python
 # inside `train.py` function in the recipe file
