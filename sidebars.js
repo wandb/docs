@@ -480,6 +480,7 @@ const sidebars = {
         'guides/integrations/other/prodigy',
         'guides/integrations/pytorch',
         'guides/integrations/pytorch-geometric',
+        'guides/integrations/torchtune',
         'guides/integrations/other/ignite',
         'guides/integrations/lightning',
         'guides/integrations/other/ray-tune',

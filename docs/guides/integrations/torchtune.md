@@ -2,31 +2,28 @@
 displayed_sidebar: default
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# torchtune
+# Pytorch torchtune
 
 [**Check our blog post →**](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0)
 
-[torchtune](https://pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). It focuses on simplicity and extensibility with a componentized, native-PyTorch design that avoids unnecessary abstractions and promotes easy reuse. The library ensures correctness and stability, setting high standards for component testing and performance benchmarks. Torchtune is built to democratize LLM fine-tuning, offering out-of-the-box functionality across different hardware setups. It features modular implementations of popular LLMs, interoperability through checkpoint conversion, and a variety of training recipes. 
-
-The library also integrates with external datasets and evaluation tools, supports distributed training, and allows configuration through YAML files to adjust training settings and hyperparameters without modifying code. Additionally, torchtune has built-in support for [logging with Weights & Biases](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes. With a focus on usability, torchtune adheres to PyTorch’s philosophy by emphasizing clarity and modular building blocks over monolithic design, aiming to make fine-tuning accessible and efficient for developers.
-
-:::info
-Check the [torchtune documentation](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html) on how to use Weights & Biases to tune your LLM models.
-:::
+[torchtune](https://pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). Additionally, torchtune has built-in support for [logging with Weights & Biases](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes.
 
 
-## Using the Weights & Biases metric logger
+## Weights & Biases logging at your fingertips
 
-You can quickly try the W&B integration with torchtune by overriding arguments at launch time.
+<Tabs
+  defaultValue="config"
+  values={[
+    {label: 'Recipe\'s Config', value: 'config'},
+    {label: 'Command Line', value: 'cli'},
+  ]}>
+  <TabItem value="cli">
 
-1. First install the `wandb` library:
-
-```bash
-pip install -U wandb
-```
-
-2. Then, run any default recipe and pass the `metric_logger._component_` with the corresponding `WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to log metrics every n steps.
+Overriding command line arguments at launch:
 
 ```bash
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -35,9 +32,39 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
   log_every_n_steps=5
 ```
 
-The `WandBLogger` class is a subclass of `MetricLogger` and inherits all of its methods. It adds the ability to log metrics to Weights & Biases. It also supports any other `kwargs` to pass to the `wandb.init` method. For example, you can pass:
+  </TabItem>
+  <TabItem value="config">
 
-```bash
+Enable W&B logging on the recipe's config
+```yaml
+# inside llama3/8B_lora_single_device.yaml
+metric_logger:
+  _component_: torchtune.utils.metric_logging.WandBLogger
+  project: llama3_lora
+log_every_n_steps: 5
+```
+
+  </TabItem>
+</Tabs>
+
+## Using the Weights & Biases metric logger
+
+You can quickly try the W&B integration with torchtune by overriding arguments at launch time.
+
+Run any default recipe and pass the `metric_logger._component_` with the corresponding `WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to log metrics every n steps.
+
+
+The `WandBLogger` class is a subclass of `MetricLogger` and inherits all of its methods. It adds the ability to log metrics to Weights & Biases. It also supports any other `kwargs` to pass to the [wandb.init](https://docs.wandb.ai/ref/python/init) method. For example, you can pass:
+
+<Tabs
+  defaultValue="config"
+  values={[
+    {label: 'Recipe\'s Config', value: 'config'},
+    {label: 'Command Line', value: 'cli'},
+  ]}>
+  <TabItem value="cli">
+
+```shell
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
   metric_logger._component_=torchtune.utils.metric_logging.WandBLogger \
   metric_logger.project="llama3_lora" \
@@ -46,6 +73,23 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
   metric_logger.group="my_awesome_experiments" \
   log_every_n_steps=5
 ```
+  
+  </TabItem>
+  <TabItem value="config">
+
+```yaml
+# inside llama3/8B_lora_single_device.yaml
+metric_logger:
+  _component_: torchtune.utils.metric_logging.WandBLogger
+  project: llama3_lora
+  entity: my_project
+  job_type: lora_finetune_single_device
+  group: my_awesome_experiments
+log_every_n_steps: 5
+```
+
+  </TabItem>
+</Tabs>
 
 ## What do we log?
 
@@ -53,7 +97,33 @@ After running the above command, you can explore the W&B dashboard to see the lo
 
 We capture the resolved config for you on the Overview tab. We also store the config as a YAML on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
 
-The actual computation of training metrics is inside the [recipe file](https://github.com/pytorch/torchtune/tree/main/recipes) on the [`train`](https://github.com/pytorch/torchtune/blob/cd779783f9acecccbebc3c50265f6caf97fa99aa/recipes/full_finetune_single_device.py#L374) function. Having all the metric logic on a single place makes it easier for the user to add custom metrics or modify the existing ones.
+The actual computation of training metrics is inside the [recipe file](https://github.com/pytorch/torchtune/tree/main/recipes) on the `train` function. Having all the metric logic on a single place makes it easier for the user to add custom metrics or modify the existing ones.
+
+### Logged Metrics
+
+Each recipe has their own training loop, so check each individual recipe to see what metrics are logged. The default metrics are:
+
+| Metric | Description |
+| --- | --- |
+| `loss` | The loss of the model |
+| `lr` | The learning rate |
+| `tokens_per_second` | The tokens per second of the model |
+| `grad_norm` | The gradient norm of the model |
+| `total_training_steps` | Corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken, the model is updated, the gradients are accumulated and the model is updated once every `gradient_accumulation_steps` |
+
+:::warning
+`total_training_steps` is not the same as the number of training steps. It corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken the `total_training_steps` is incremented by 1.
+:::
+
+The streamlined design of torchtune allows to easily add custom metrics or modify the existing ones. It suffices to modify the corresponding recipe file, for example, computing one could log `current_epoch` as a percentage of the total number of epochs as following:
+
+```python
+# inside `train.py` function in the recipe file
+self._metric_logger.log_dict(
+    {"current_epoch": self.epochs * self.total_training_steps / self._steps_per_epoch},
+    step=self.total_training_steps,
+)
+```
 
 :::info
 This is a fast evolving library, the current metrics are subject to change. If you want to add a custom metric, you should modify the recipe and call the corresponding `self._metric_logger.*` function.
@@ -92,9 +162,3 @@ def save_checkpoint(self, epoch: int) -> None:
     wandb_artifact.add_file(checkpoint_file)
     wandb.log_artifact(wandb_artifact)
 ```
-
-:::info
-We are working on adding support for loading checkpoints from W&B Artifacts.
-:::
-
-
