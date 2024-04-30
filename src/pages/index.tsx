@@ -50,6 +50,11 @@ const Home: React.FC = () => {
             spot regressions, and share findings with colleagues.
             </Translate>
           </div>
+          <div className={styles.weaveBanner}>
+            <Link to="https://wandb.me/weave">
+              <img src="/images/weave/weave_banner.png" alt="Image" />
+            </Link>
+          </div>
           <div className={styles.homeBoxContainer}>
             <Link to="/guides">
               <div className={clsx(styles.homeBox, styles.yellow)}>
