@@ -12,6 +12,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 [torchtune](https://pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). Additionally, torchtune has built-in support for [logging with Weights & Biases](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes.
 
+![](@site/static/images/integrations/torchtune_dashboard.png)
 
 ## Weights & Biases logging at your fingertips
 
@@ -106,10 +107,10 @@ Each recipe has their own training loop, so check each individual recipe to see 
 | `lr` | The learning rate |
 | `tokens_per_second` | The tokens per second of the model |
 | `grad_norm` | The gradient norm of the model |
-| `total_training_steps` | Corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken, the model is updated, the gradients are accumulated and the model is updated once every `gradient_accumulation_steps` |
+| `global_step` | Corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken, the model is updated, the gradients are accumulated and the model is updated once every `gradient_accumulation_steps` |
 
 :::info
-`total_training_steps` is not the same as the number of training steps. It corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken the `total_training_steps` is incremented by 1. For example, if the dataloader has 10 batches, gradient accumulation steps is 2 and run for 3 epochs, the optimizer will step 15 times, in this case `total_training_steps` will range from 1 to 15.
+`global_step` is not the same as the number of training steps. It corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken the `global_step` is incremented by 1. For example, if the dataloader has 10 batches, gradient accumulation steps is 2 and run for 3 epochs, the optimizer will step 15 times, in this case `global_step` will range from 1 to 15.
 :::
 
 The streamlined design of torchtune allows to easily add custom metrics or modify the existing ones. It suffices to modify the corresponding [recipe file](https://github.com/pytorch/torchtune/tree/main/recipes), for example, computing one could log `current_epoch` as a percentage of the total number of epochs as following:
@@ -117,8 +118,8 @@ The streamlined design of torchtune allows to easily add custom metrics or modif
 ```python
 # inside `train.py` function in the recipe file
 self._metric_logger.log_dict(
-    {"current_epoch": self.epochs * self.total_training_steps / self._steps_per_epoch},
-    step=self.total_training_steps,
+    {"current_epoch": self.epochs * self.global_step / self._steps_per_epoch},
+    step=self.global_step,
 )
 ```
 
