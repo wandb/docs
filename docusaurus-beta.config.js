@@ -175,7 +175,7 @@ const config = {
       },
       zoom: {
         // CSS selector to apply the plugin to, defaults to '.markdown img'
-        selector: '.markdown img',
+        selector: '.markdown img:not(.no-zoom)',
         // Optional medium-zoom options
         // see: https://www.npmjs.com/package/medium-zoom#options
         options: {

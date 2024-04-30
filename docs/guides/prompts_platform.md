@@ -3,7 +3,9 @@ displayed_sidebar: default
 ---
 # LLMs
 
-[![Building LLM apps? Try Weave ->](/images/weave/weave_banner.png)](https://wandb.me/weave)
+<a href="https://wandb.me/weave" target="_blank">
+    <img className="no-zoom" src="/images/weave/weave_banner.png" alt="Building LLM apps? Try Weave" style={{display: "block", marginBottom: "15px"}} />
+</a>
 
 Evaluating the performance of Large Language Models (LLMs) can be difficult. Use W&B Prompts and LLM Monitoring to streamline the evaluation process, providing a visual way to analyze your generative models.
 
