@@ -111,8 +111,8 @@ Each recipe has their own training loop, so check each individual recipe to see 
 | `grad_norm` | The gradient norm of the model |
 | `total_training_steps` | Corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken, the model is updated, the gradients are accumulated and the model is updated once every `gradient_accumulation_steps` |
 
-:::warning
-`total_training_steps` is not the same as the number of training steps. It corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken the `total_training_steps` is incremented by 1.
+:::info
+`total_training_steps` is not the same as the number of training steps. It corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken the `total_training_steps` is incremented by 1. For example, if the dataloader has 10 batches, gradient accumulation steps is 2 and run for 3 epochs, the optimizer will step 15 times, in this case `total_training_steps` will range from 1 to 15.
 :::
 
 The streamlined design of torchtune allows to easily add custom metrics or modify the existing ones. It suffices to modify the corresponding recipe file, for example, computing one could log `current_epoch` as a percentage of the total number of epochs as following:
