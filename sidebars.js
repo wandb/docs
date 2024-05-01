@@ -413,6 +413,7 @@ const sidebars = {
           label: 'Data Security',
           items: [
             'guides/hosting/secure-storage-connector',
+            'guides/hosting/presigned-urls',
             'guides/hosting/ip-allowlisting',
             'guides/hosting/private-connectivity',
             // 'guides/hosting/customer_encryption',
