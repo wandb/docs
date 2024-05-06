@@ -166,10 +166,10 @@ Explore the rest of the W&B ecosystem.
 
 1. Check out [W&B Integrations](guides/integrations) to learn how to integrate W&B with your ML framework such as PyTorch, ML library such as Hugging Face, or ML service such as SageMaker. 
 2. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [W&B Reports](./guides/reports).
-2. Create [W&B Artifacts](./guides/artifacts) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
-3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps](./guides/sweeps).
-4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/tables).
-
+3. Create [W&B Artifacts](./guides/artifacts) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
+4. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps](./guides/sweeps).
+5. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/tables).
+6. Head to W&B AI Academy and learn about LLMs, MLOps and W&B Models from our multiple [courses](https://wandb.me/courses).
 
 ![](/images/quickstart/wandb_demo_experiments.gif) 
 

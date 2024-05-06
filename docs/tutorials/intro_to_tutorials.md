@@ -16,7 +16,7 @@ The following tutorials take you through the fundamentals of Weights & Biases fo
 6. [Iterate on LLMs](/tutorials/prompts)
 
 ## W&B AI Academy 
-Learn to train, fine-tune and use LLMs in your applications. Implement MLOps and LLMOps solutions. Tackle real-world ML challenges with Weights & Biases free courses, trusted by thousands of practitioners.
+Learn to train, fine-tune and use LLMs in your applications. Implement MLOps and LLMOps solutions. Tackle real-world ML challenges with Weights & Biases free courses.
 
 - Large Language Models (LLMs)
     - [LLM Engineering: Structured Outputs](https://www.wandb.courses/courses/steering-language-models?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
