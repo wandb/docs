@@ -85,8 +85,8 @@
       "to": "/guides/app/pages/project-page"
     },
     {
-      "from": "/app/pages/workspaces#create-saved-workspace-views-beta",
-      "to": "/app/pages/workspaces#create-saved-workspace-views"
+      "from": "/guides/app/pages/workspaces#create-saved-workspace-views-beta",
+      "to": "/guides/app/pages/workspaces#saved-workspace-views"
     },    
     {
       "from": "/app/panels/parameter-importance",
