@@ -405,7 +405,8 @@ const sidebars = {
               ],
             },
             'guides/hosting/iam/automate_iam',
-            'guides/hosting/iam/scim',                
+            'guides/hosting/iam/scim',
+            'guides/hosting/iam/advanced_env_vars',               
           ],
         },
         {
