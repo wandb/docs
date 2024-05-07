@@ -6,23 +6,24 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# Pytorch torchtune
+# Pytorch Torchtune
 
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/torchtune/torchtune_and_wandb.ipynb"></CTAButtons>
 
-[**Check our blog post on Fine-tuning Mistral 7B using torchtune→**](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0)
 
-[torchtune](https://pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). Additionally, torchtune has built-in support for [logging with Weights & Biases](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes.
+[torchtune](https://pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). Additionally, torchtune has built-in support for [logging with W&B](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes.
 
 ![](@site/static/images/integrations/torchtune_dashboard.png)
 
-## Weights & Biases logging at your fingertips
+Check the W&B blog post on [Fine-tuning Mistral 7B using torchtune](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0).
+
+## W&B logging at your fingertips
 
 <Tabs
   defaultValue="config"
   values={[
-    {label: 'Recipe\'s Config', value: 'config'},
-    {label: 'Command Line', value: 'cli'},
+    {label: 'Recipe\'s config', value: 'config'},
+    {label: 'Command line', value: 'cli'},
   ]}>
   <TabItem value="cli">
 
@@ -50,11 +51,11 @@ log_every_n_steps: 5
   </TabItem>
 </Tabs>
 
-## Using the Weights & Biases metric logger
+## Using the W&B metric logger
 
-Enable Weights & Biases logging on the recipe's config file by modifying the `metric_logger` section. Change the `_component_` to `torchtune.utils.metric_logging.WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to customize the logging behavior.
+Enable W&B logging on the recipe's config file by modifying the `metric_logger` section. Change the `_component_` to `torchtune.utils.metric_logging.WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to customize the logging behavior.
 
-You can also pass any other `kwargs` as you would to the [wandb.init](https://docs.wandb.ai/ref/python/init) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
+You can also pass any other `kwargs` as you would to the [wandb.init](../../ref/python/init.md) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
 
 <Tabs
   defaultValue="config"
@@ -91,17 +92,17 @@ log_every_n_steps: 5
   </TabItem>
 </Tabs>
 
-## What do we log?
+## What is logged?
 
-After running the above command, you can explore the W&B dashboard to see the logged metrics. By default we grab all the hyperparameters from the config file and the launch override ones.
+After running the above command, you can explore the W&B dashboard to see the logged metrics. By default W&B grabs all of the hyperparameters from the config file and the launch override ones.
 
-We capture the resolved config for you on the Overview tab. We also store the config as a YAML on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
+W&B captures the resolved config for you on the **Overview** tab. W&B also stores the config as a YAML on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
 
 ![](@site/static/images/integrations/torchtune_config.png)
 
 ### Logged Metrics
 
-Each recipe has their own training loop, so check each individual recipe to see what metrics are logged. The default metrics we log are:
+Each recipe has their own training loop, so check each individual recipe to see what metrics are logged. The default metrics logged are:
 
 | Metric | Description |
 | --- | --- |
@@ -133,7 +134,7 @@ This is a fast evolving library, the current metrics are subject to change. If y
 
 The torchtune library supports various [checkpoint formats](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html). Depending on the origin of the model you are using, you should switch to the appropriate [checkpointer class](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html).
 
-If you want to save the model checkpoints to [W&B Artifacts](https://docs.wandb.ai/guides/artifacts), the simplest solution is to override the `save_checkpoint` functions inside the corresponding recipe. 
+If you want to save the model checkpoints to [W&B Artifacts](../artifacts/intro.md), the simplest solution is to override the `save_checkpoint` functions inside the corresponding recipe. 
 
 Here is an example of how you can override the `save_checkpoint` function to save the model checkpoints to W&B Artifacts.
 
