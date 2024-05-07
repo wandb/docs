@@ -1,6 +1,6 @@
 # save
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.16.6/wandb/sdk/wandb_run.py#L1840-L1940' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/4e8ad7f191d1e929960918a7de3398ef779a9c57/wandb/sdk/wandb_run.py#L1873-L1979' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Sync one or more files to W&B.
@@ -20,7 +20,7 @@ called regardless of the `policy`. In particular, new files are not
 picked up automatically.
 
 A `base_path` may be provided to control the directory structure of
-uploaded files. It should be a prefix of `glob_str`, and the direcotry
+uploaded files. It should be a prefix of `glob_str`, and the directory
 structure beneath it is preserved. It's best understood through
 examples:
 
@@ -32,15 +32,18 @@ wandb.save("these/are/myfiles/*", base_path="these")
 # => Saves files in an "are/myfiles/" folder in the run.
 
 wandb.save("/User/username/Documents/run123/*.txt")
-# => Saves files in a "run123/" folder in the run.
+# => Saves files in a "run123/" folder in the run. See note below.
 
 wandb.save("/User/username/Documents/run123/*.txt", base_path="/User")
 # => Saves files in a "username/Documents/run123/" folder in the run.
 
 wandb.save("files/*/saveme.txt")
 # => Saves each "saveme.txt" file in an appropriate subdirectory
-# of "files/".
+#    of "files/".
 ```
+
+Note: when given an absolute path or glob and no `base_path`, one
+directory level is preserved as in the example above.
 
 | Arguments |  |
 | :--- | :--- |
