@@ -56,9 +56,6 @@ spec:
           containers:
             - name: master
               image: ${image_uri}
-              resources:
-                limits:
-                  nvidia.com/gpu: 1
               imagePullPolicy: IfNotPresent
           restartPolicy: OnFailure
     - name: worker
@@ -68,13 +65,8 @@ spec:
           containers:
             - name: worker
               image: ${image_uri}
-              resources:
-                limits:
-                  nvidia.com/gpu: 1
               workingDir: /home
               imagePullPolicy: IfNotPresent
-          nodeSelector:
-            cloud.google.com/gke-nodepool: k80-pool
           restartPolicy: OnFailure
   plugins:
     pytorch:
@@ -88,6 +80,7 @@ metadata:
   labels:
     wandb_entity: ${entity_name}
     wandb_project: ${project_name}
+  namespace: wandb
 apiVersion: batch.volcano.sh/v1alpha1
 ```
 
@@ -124,7 +117,7 @@ apiVersion: batch.volcano.sh/v1alpha1
       },
       {
         "name": "worker",
-        "replicas": 3,
+        "replicas": 1,
         "template": {
           "spec": {
             "containers": [
@@ -141,7 +134,11 @@ apiVersion: batch.volcano.sh/v1alpha1
       }
     ],
     "plugins": {
-      "pytorch": ["--master=master", "--worker=worker", "--port=23456"]
+      "pytorch": [
+        "--master=master",
+        "--worker=worker",
+        "--port=23456"
+      ]
     },
     "minAvailable": 1,
     "schedulerName": "volcano"
@@ -151,7 +148,8 @@ apiVersion: batch.volcano.sh/v1alpha1
     "labels": {
       "wandb_entity": "${entity_name}",
       "wandb_project": "${project_name}"
-    }
+    },
+    "namespace": "wandb"
   },
   "apiVersion": "batch.volcano.sh/v1alpha1"
 }
@@ -163,42 +161,13 @@ apiVersion: batch.volcano.sh/v1alpha1
 
 Click the **Create queue** button at the bottom of the drawer to finish creating your queue.
 
+## Install Volcano
+
+To install Volcano in your Kubernetes cluster, you can follow the [official installation guide](https://volcano.sh/en/docs/installation/).
+
 ## Deploy your launch agent
 
-Now that you have created a queue, you will need to deploy a launch agent to pull and execute jobs from the queue. The easiest way to do this is with the [`launch-agent` chart from W&B's official `helm-charts` repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent).
-
-### Get an API key for the agent
-
-If you created a queue in your personal entity, head to [wandb.ai/authorize](https://wandb.ai/authorize) to get a personal API key.
-
-If you created a queue for a W&B, you will need to create a service account in that team or use an API key from a prior service account. For more information on generating service accounts, see [these docs](../guides/track/environment-variables.md#automated-runs-and-service-accounts).
-
-Keep the API key you plan to deploy your agent with handy for later steps.
-
-### Create a config for the agent
-
-Create a yaml configuration file for the agent you will deploy. Refer [here](../guides/launch/setup-launch.md) for complete documentation of the agent configuration file. The config should contain (at least):
-
-```yaml
-entity: <your-entity>
-queues: [<your-queue>]
-```
-
-### Deploy with helm
-
-Make sure you have `helm` and `kubectl` installed and pointing at the cluster where you want to install your agent. To add the `wandb/helm-charts` repository, run:
-
-```bash
-helm repo add wandb https://wandb.github.io/helm-charts
-```
-
-Next, run the following command (substituting your own api key and agent config file):
-
-```bash
-helm install volcano-agent wandb/launch-agent --set agent.apiKey=<your-api-key> --set-file launchConfig=<path-to-your-launch-config>
-```
-
-If the commands above succeed, you should see the status of the queue you created change from **Not running** to **Active**.
+Now that you have created a queue, you will need to deploy a launch agent to pull and execute jobs from the queue. The easiest way to do this is with the [`launch-agent` chart from W&B's official `helm-charts` repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent). Follow the instructions in the README to install the chart into your Kubernetes cluster, and be sure to configure the agent to poll the queue you created earlier.
 
 ## Create a training job
 
