@@ -37,7 +37,7 @@ Using this provides:
 
 ```python
 import wandb
-from wandb.keras import WandbMetricsLogger
+from wandb.integration.keras import WandbMetricsLogger
 
 # Initialize a new W&B run
 wandb.init(config={"bs": 12})
@@ -76,7 +76,7 @@ This callback should be used in conjunction with `WandbMetricsLogger`.
 
 ```python
 import wandb
-from wandb.keras import WandbMetricsLogger, WandbModelCheckpoint
+from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
 
 # Initialize a new W&B run
 wandb.init(config={"bs": 12})
@@ -154,7 +154,7 @@ For example, we have implemented `WandbClfEvalCallback` below for an image class
 
 ```python
 import wandb
-from wandb.keras import WandbMetricsLogger, WandbEvalCallback
+from wandb.integration.keras import WandbMetricsLogger, WandbEvalCallback
 
 
 # Implement your model prediction visualization callback
@@ -238,7 +238,7 @@ Use the W&B library [`WandbCallback`](https://docs.wandb.ai/ref/python/integrati
 
 ```python
 import wandb
-from wandb.keras import WandbCallback
+from wandb.integration.keras import WandbCallback
 
 wandb.init(config={"hyper": "parameter"})
 

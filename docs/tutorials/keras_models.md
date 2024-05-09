@@ -27,8 +27,8 @@ import tensorflow_datasets as tfds
 
 # Weights and Biases related imports
 import wandb
-from wandb.keras import WandbMetricsLogger
-from wandb.keras import WandbModelCheckpoint
+from wandb.integration.keras import WandbMetricsLogger
+from wandb.integration.keras import WandbModelCheckpoint
 ```
 
 If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up for a [free account](https://wandb.ai/signup) is as easy as a few clicks.
