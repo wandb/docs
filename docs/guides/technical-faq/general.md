@@ -61,9 +61,9 @@ With wandb reports the procedure is as follows:
 
 For simplicity, W&B uses API keys for authorization when accessing the API. You can find your API keys in your [settings](https://app.wandb.ai/settings). Your API key should be stored securely and never checked into version control. In addition to personal API keys, you can add Service Account users to your team.
 
-### Does W&B support SSO for SaaS?
+### Does W&B support SSO for Multi-tenant?
 
-Yes, W&B supports setting up Single Sign-On (SSO) for the SaaS offering via Auth0. W&B support SSO integration with any OIDC compliant identity provider(ex: Okta, AzureAD etc.). If you have an OIDC provider, please follow the steps below:
+Yes, W&B supports setting up Single Sign-On (SSO) for the Multi-tenant offering via Auth0. W&B support SSO integration with any OIDC compliant identity provider(ex: Okta, AzureAD etc.). If you have an OIDC provider, please follow the steps below:
 
 * Create a `Single Page Application (SPA)` on your Identity Provider.
 * Set `grant_type` to `implicit` flow.

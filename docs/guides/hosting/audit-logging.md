@@ -19,7 +19,7 @@ Once you've access to your audit logs, analyze those using your preferred tools,
 :::
 
 :::note
-**Audit logs are not available for W&B Multi-tenant SaaS Cloud yet.**
+Audit logs are not available for W&B Multi-tenant Cloud yet.
 :::
 
 ## Audit log schema
