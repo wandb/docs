@@ -21,7 +21,7 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 
 | Use Case               | Input                       | Output                       |
 |------------------------|-----------------------------|------------------------------|
-| Model Training         | Dataset (training and validation data)     | Trained [Model](../models.md)                |
+| Model Training         | Dataset (training and validation data)     | Trained Model                |
 | Dataset Pre-Processing | Dataset (raw data)          | Dataset (pre-processed data) |
 | Model Evaluation       | Model + Dataset (test data) | [W&B Table](../tables/intro.md)                        |
 | Model Optimization     | Model                       | Optimized Model              |
