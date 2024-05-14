@@ -2,15 +2,16 @@
 displayed_sidebar: default
 ---
 
+<!-- Renaming this to Core in line with the overall product architecture -->
+
 # W&B Core
-W&B Core is the foundational framework supporting W&B Models and W&B Prompts, with secure enterprise deployment options and flexible multi-cloud support with all industry leaders. 
+W&B Core is the foundational framework supporting [W&B Models](./models.md) and [W&B Prompts](./prompts_platform.md), and is itself supported by the [W&B Platform](./hosting/intro.md). 
 
-![](/images/wb_marketing/wb_core.png)
+![](@site/static/images/general/platform.png)
 
-W&B core provides capabilities across the entire ML lifecycle. With W&B core, you can:
+W&B Core provides capabilities across the entire ML lifecycle. With W&B Core, you can:
 
 - [Version and manage ML](./artifacts/intro.md) pipelines with full lineage tracing for easy auditing and reproducibility.
 - Explore and evaluate data and metrics using [interactive, configurable visualizations](./tables/intro.md).
 - [Document and share](./reports/intro.md) insights across the entire organization by generating live reports in digestible, visual formats that are easily understood by non-technical stakeholders.
-- [Build reusable, modular ML operations and data applications](./weave/intro.md) that serve your custom needs.
-
+- [Query and create visualizations of your data](../guides/app/features/panels/query-panel) that serve your custom needs.

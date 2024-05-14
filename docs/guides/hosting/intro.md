@@ -2,52 +2,39 @@
 slug: /guides/hosting
 displayed_sidebar: default
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-# W&B Server
+# W&B Platform
 
-Deploy W&B in a resource isolated environment managed by W&B or by yourself. W&B Server is shipped as a packaged Docker image that can be deployed easily into any underlying infrastructure. There are several ways to install and host the W&B Server in different environments.
+W&B Platform is the foundational infrastructure, tooling and governance scaffolding which supports the W&B products like [Core](../platform.md), [Models](../models.md) and [Prompts](../prompts_platform.md). 
 
-:::info
-Production-grade features for W&B Server are available for enterprise-tier only.
+W&B Platform is available in three different deployment options:
+* [W&B SaaS Cloud](#wb-saas-cloud)
+* [W&B Dedicated Cloud](#wb-dedicated-cloud)
+* [W&B Customer-managed](#wb-customer-managed)
 
-See the [Basic Setup guide](./how-to-guides/basic-setup.md) to set up a developer or trial environment.
-:::
+The following responsibility matrix outlines some of the key differences between the different options:
+![](/images/hosting/shared_responsibility_matrix.png)
 
-With W&B Server you can configure and leverage features such as:
+## Deployment options
+The following sections provide an overview of each deployment type. 
 
-- [Secure Storage Connector](./secure-storage-connector.md)
-- [Single Sign-On](./sso.md)
-- [Role-based Access Control via LDAP](./ldap.md)
-- [Audit Logs](./audit-logging.md)
-- [User Management](./manage-users.md)
-- [Prometheus Monitoring](./prometheus-logging.md)
-- [Slack Alerts](./slack-alerts.md) and more.
+### W&B SaaS Cloud
+W&B SaaS Cloud is a multi-tenant, fully-managed service deployed in W&B's cloud infrastructure, where you can seamlessly access the W&B products at the desired scale, with cost-efficient options for pricing, and with continuous updates for the latest features and functionalities. W&B recommends to use the SaaS Cloud for your product trial, or to manage your production AI workflows if you do not need the security of a private deployment, self-service onboarding is important, and cost efficiency is critical.
 
-The following sections of the documentation describes different options on how to install W&B Server, the shared responsibility model, step-by-step installation and configuration guides.
+See [W&B SaaS Cloud](./hosting-options/saas_cloud.md) for more information. 
 
-## Recommendations
+### W&B Dedicated Cloud
+W&B Dedicated Cloud is a single-tenant, fully-managed service deployed in W&B's cloud infrastructure. It is the best place to onboard W&B if your organization requires conformance to strict governance controls including data residency, have need of advanced security capabilities, and are looking to optimize their AI operating costs by not having to build & manage the required infrastructure with security, scale & performance characteristics.
 
-W&B recommends the following when configuring W&B Server:
+See [W&B Dedicated Cloud](./hosting-options/dedicated_cloud.md) for more information.
 
-1. Run the W&B Server Docker container with an external storage and an external MySQL database in order to preserve the state outside of a container. This protects the data from being accidentally deleted if the container dies or crashes.
-2. Leverage Kubernetes to run the W&B Server Docker image and expose the `wandb` service.
-3. Set up and manage a scale-able file system if you plan on using W&B Server for production-related work.
+### W&B Customer-Managed
+With this option, you can deploy and manage W&B Server on your own managed infrastructure. W&B Server is a self-contained packaged mechanism to run the W&B Platform & its supported W&B products. W&B recommends this option if all your existing infrastructure is on-prem, or your organization has strict regulatory needs that are not satisfied by W&B Dedicated Cloud. With this option, you are fully responsible to manage the provisioning, and continuous maintenance & upgrades of the infrastructure required to support W&B Server.
 
-## System Requirements
+See [W&B Self Managed](./hosting-options/self-managed.md) for more information.
 
-W&B Server requires a machine with at least
+## Next steps
 
-- 4 cores of CPU &
-- 8GB of memory (RAM)
-
-Your W&B data will be saved on a persistent volume or external database, ensuring that it is preserved across different versions of the container.
-
-:::tip
-For enterprise customers, W&B offers extensive technical support and frequent installation updates for privately hosted instances.
-:::
-
-## Releases
-
-Subscribe to receive notifications from the [W&B Server GitHub repository](https://github.com/wandb/server/releases) when a new W&B Server release comes out.
-
-To subscribe, select the **Watch** button at the top of the GitHub page and select **All Activity**.
+If you're looking to try any of the W&B products, W&B recommends using the [SaaS Cloud](https://wandb.ai/home). If you're looking for an enterprise-friendly setup, choose the appropriate deployment type for your trial [here](https://wandb.ai/site/enterprise-trial).

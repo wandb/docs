@@ -8,20 +8,38 @@ displayed_sidebar: default
 
 # What is W&B?
 
-W&B is the machine learning platform for developers to build better models faster. Use W&B's lightweight, interoperable tools to quickly track experiments, version and iterate on datasets, evaluate model performance, reproduce models, visualize results and spot regressions, and share findings with colleagues.
-Set up W&B in 5 minutes, then quickly iterate on your machine learning pipeline with the confidence that your datasets and models are tracked and versioned in a reliable system of record.
+Weights & Biases (W&B) is the AI developer platform, with tools for training models, fine-tuning models, and leveraging foundation models. 
 
-<!-- ![](@site/static/images/general/diagram_2021.png) -->
+Set up W&B in 5 minutes, then quickly iterate on your machine learning pipeline with the confidence that your models and data are tracked and versioned in a reliable system of record.
+
+![](@site/static/images/general/architecture.png)
+
+This diagram outlines the relationship between W&B products.
+
+**[W&B Models](/guides/models.md)** is a set of lightweight, interoperable tools for machine learning practitioners training and fine-tuning models.
+- [Experiments](/guides/track/intro.md): Machine learning experiment tracking
+- [Model Registry](/guides/model_registry/intro.md): Manage production models centrally
+- [Launch](/guides/launch/intro.md): Scale and automate workloads
+- [Sweeps](/guides/sweeps/intro.md): Hyperparameter tuning and model optimization
+
+**[W&B Weave](https://wandb.github.io/weave/)** is a lightweight toolkit for tracking and evaluating LLM applications.
+
+**[W&B Core](/guides/platform.md)** is a core set of powerful building blocks for tracking and visualizing data and models, and communicating results.
+- [Artifacts](/guides/artifacts/intro.md): Version assets and track lineage
+- [Tables](/guides/tables/intro.md): Visualize and query tabular data
+- [Reports](/guides/reports/intro.md): Document and collaborate on your discoveries
+<!-- - [Weave](/guides/app/features/panels/weave) Query and create visualizations of your data -->
 
 ## Are you a first-time user of W&B?
 
-If this is your first time using W&B we suggest you explore the following:
+<iframe width="100%" height="330" src="https://www.youtube.com/embed/tHAFujRhZLA" title="Weights &amp; Biases End-to-End Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-1. Experience W&B in action, [run an example introduction project with Google Colab](http://wandb.me/intro).
-1. Read through the [Quickstart](../quickstart.md) for a quick overview of how and where to add W&B to your code.
-1. Read [How does W&B work?](#how-does-weights--biases-work) This section provides an overview of the building blocks of W&B.
+Start exploring W&B with these resources:
+
+1. [Intro Notebook](http://wandb.me/intro): Run quick sample code to track experiments in 5 minutes
+2. [Quickstart](../quickstart.md): Read a quick overview of how and where to add W&B to your code
 1. Explore our [Integrations guide](./integrations/intro.md) and our [W&B Easy Integration YouTube](https://www.youtube.com/playlist?list=PLD80i8An1OEGDADxOBaH71ZwieZ9nmPGC) playlist for information on how to integrate W&B with your preferred machine learning framework.
-1. View the [API Reference guide](../ref/README.md) for technical specifications about the W&B Python Library, CLI, and Weave operations.
+1. View the [API Reference guide](../ref/README.md) for technical specifications about the W&B Python Library, CLI, and Query Language operations.
 
 ## How does W&B work?
 

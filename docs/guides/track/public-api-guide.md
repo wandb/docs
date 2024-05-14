@@ -14,74 +14,71 @@ import TabItem from '@theme/TabItem';
 
 Export data or import data from MLFlow or between W&B instances with W&B Public APIs.
 
+:::info
+This feature requires python>=3.8
+:::
+
 ## Import Data from MLFlow
 
 W&B supports importing data from MLFlow, including experiments, runs, artifacts, metrics, and other metadata.
 
 Install dependencies:
 
-```sh
-pip install mlflow wandb>=0.14.0
+```shell
+# note: this requires py38+
+pip install wandb[importers]
 ```
 
-Log in to W&B (follow prompts if you haven't logged in before)
+Log in to W&B. Follow the prompts if you have not logged in before.
 
-```sh
+```shell
 wandb login
 ```
 
 Import all runs from an existing MLFlow server:
 
-```sh
-wandb import mlflow \ &&
-    --mlflow-tracking-uri <mlflow_uri> \ &&
-    --target-entity       <entity> \ &&
-    --target-project      <project>
+```py
+from wandb.apis.importers.mlflow import MlflowImporter
+
+importer = MlflowImporter(mlflow_tracking_uri="...")
+
+runs = importer.collect_runs()
+importer.import_runs(runs)
+```
+
+By default, `importer.collect_runs()` collects all runs from the MLFlow server. If you prefer to upload a special subset, you can construct your own runs iterable and pass it to the importer.
+
+```py
+import mlflow
+from wandb.apis.importers.mlflow import MlflowRun
+
+client = mlflow.tracking.MlflowClient(mlflow_tracking_uri)
+
+runs: Iterable[MlflowRun] = []
+for run in mlflow_client.search_runs(...):
+    runs.append(MlflowRun(run, client))
+
+importer.import_runs(runs)
 ```
 
 :::tip
 You might need to [configure the Databricks CLI first](https://docs.databricks.com/dev-tools/cli/index.html) if you import from Databricks MLFlow.
 
-Set `--mlflow-tracking-uri=databricks` in the previous step.
+Set `mlflow-tracking-uri="databricks"` in the previous step.
 :::
 
-#### Advanced
-
-You can also import from Python. This can be useful if you want to specify overrides, or if you prefer python to the command line.
+To skip importing artifacts, you can pass `artifacts=False`:
 
 ```py
-from wandb.apis.importers import MlflowImporter
-
-# optional dict to override settings for all imported runs
-overrides = {
-    "entity": "my_custom_entity",
-    "project": "my_custom_project"
-}
-
-importer = MlflowImporter(mlflow_tracking_uri="...")
-importer.import_all_parallel()
+importer.import_runs(runs, artifacts=False)
 ```
 
-For even more fine-grained control, you can selectively import experiments or specify overrides based on your own custom logic. For example, the following code shows how to make runs with custom tags that are then imported into the specified project.
+To import to a specific W&B entity and project, you can pass a `Namespace`:
 
 ```py
-default_settings = {
-    "entity": "default_entity",
-    "project": "default_project"
-}
+from wandb.apis.importers import Namespace
 
-special_tag_settings = {
-    "entity": "special_entity",
-    "project": "special_project"
-}
-
-for run in importer.download_all_runs():
-    if "special_tag" in run.tags():
-        overrides = special_tag_settings
-    else:
-        overrides = default_settings
-
-    importer.import_run(run, overrides=overrides)
+importer.import_runs(runs, namespace=Namespace(entity, project))
 ```
 
 ## Import Data from another W&B instance
@@ -93,99 +90,66 @@ This feature is in beta, and only supports importing from the W&B public cloud.
 Install dependencies:
 
 ```sh
-pip install wandb>=0.15.6 polars tqdm
+# note: this requires py38+
+pip install wandb[importers]
 ```
 
-Log in to W&B. Follow the prompts if you have not logged in before.
+Log in to the source W&B server. Follow the prompts if you have not logged in before.
 
 ```sh
 wandb login
 ```
 
-In python, instantiate the importer:
+Import all runs and artifacts from a source W&B instance to a destination W&B instance. Runs and artifacts are imported to their respective namespaces in the destination instance.
 
-```
-from wandb.apis.importers import WandbParquetImporter
+```py
+from wandb.apis.importers.wandb import WandbImporter
+from wandb.apis.importers import Namespace
 
-importer = WandbParquetImporter(
+importer = WandbImporter(
     src_base_url="https://api.wandb.ai",
     src_api_key="your-api-key-here",
     dst_base_url="https://example-target.wandb.io",
     dst_api_key="target-environment-api-key-here",
 )
+
+# Imports all runs, artifacts, reports
+# from "entity/project" in src to "entity/project" in dst
+importer.import_all(namespaces=[
+    Namespace(entity, project),
+    # ... add more namespaces here
+])
 ```
 
-### Import runs
-
-Import all W&B runs from an entity:
+If you prefer to change the destination namespace, you can specify `remapping: dict[Namespace, Namespace]`
 
 ```py
-importer.import_all_runs(src_entity)
-```
-
-You can optionally specify a project if you do not want to import all projects by default:
-
-```py
-importer.import_all_runs(src_entity, src_project)
-```
-
-If you would prefer the data to be imported to a different entity or project, you can specify with `overrides`:
-
-```py
-importer.import_all_runs(
-    src_entity,
-    src_project,
-    overrides={
-        'entity': dst_entity,
-        'project': dst_project
+importer.import_all(
+    namespaces=[Namespace(entity, project)],
+    remapping={
+        Namespace(entity, project): Namespace(new_entity, new_project),
     }
 )
 ```
 
-### Import reports
-
-Import all reports from an entity:
+By default, imports are incremental. Subsequent imports try to validate the previous work and write to `.jsonl` files tracking success/failure. If an import succeeded, future validation is skipped. If an import failed, it is retried. To disable this, set `incremental=False`.
 
 ```py
-importer.import_all_reports(src_entity)
-```
-
-You can optionally specify a project if you don't want to import all projects by default:
-
-```py
-importer.import_all_reports(src_entity, src_project)
-```
-
-Specify the `overrides` parameter if you prefer the data to be imported to a different entity or project. Report overrides also support different names and descriptions:
-
-```py
-importer.import_all_reports(
-    src_entity,
-    src_project,
-    overrides={
-        'entity': dst_entity,
-        'project': dst_project
-    }
+importer.import_all(
+    namespaces=[Namespace(entity, project)],
+    incremental=False,
 )
 ```
 
-### Import individual runs and reports
+### Known issues and limitations
 
-The importer supports more granular control over imports as well.
+- If the destination namespace does not exist, W&B creates one automatically.
+- If a run or artifact has the same ID in the destination namespace, W&B treats it as an incremental import. The destination run/artifact is validated and retried if it failed in a previous import.
+- No data is ever deleted from the source system.
 
-You can import individual runs and reports with `import_run` and `import_report` respectively.
-
-### Import runs and reports with custom logic
-
-You can also collect and import a list of runs and reports based on your own custom logic. For example:
-
-```py
-runs = importer.collect_runs(src_entity)
-
-for run in runs:
-    if run.name().startswith("something-important"):
-        importer.import_run(run)
-```
+1. Sometimes when bulk importing (especially large artifacts), you can run into S3 rate limits. If you see `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`, you can try spacing out imports by moving just a few namespaces at a time.
+2. Imported run tables appear to be blank in the workspace, but if you nav to the Artifacts tab and click the equivalent run table artifact you should see the table as expected.
+3. System metrics and custom charts (not explicitly logged with `wandb.log`) are not imported
 
 ## Export Data
 
@@ -215,6 +179,7 @@ Download data from a finished or active run. Common usage includes downloading a
 
 ```python
 import wandb
+
 api = wandb.Api()
 run = api.run("<entity>/<project>/<run_id>")
 ```
@@ -238,7 +203,9 @@ n_epochs = 5
 config = {"n_epochs": n_epochs}
 run = wandb.init(project=project, config=config)
 for n in range(run.config.get("n_epochs")):
-    run.log({"val": random.randint(0,1000), "loss": (random.randint(0,1000)/1000.00)})
+    run.log(
+        {"val": random.randint(0, 1000), "loss": (random.randint(0, 1000) / 1000.00)}
+    )
 run.finish()
 ```
 
@@ -247,12 +214,12 @@ these are the different outputs for the above run object attributes
 #### `run.config`
 
 ```python
-{'n_epochs': 5}
+{"n_epochs": 5}
 ```
 
 #### `run.history()`
 
-```python
+```shell
    _step  val   loss  _runtime  _timestamp
 0      0  500  0.244         4  1644345412
 1      1   45  0.521         4  1644345412
@@ -264,12 +231,14 @@ these are the different outputs for the above run object attributes
 #### `run.summary`
 
 ```python
-{'_runtime': 4,
- '_step': 4,
- '_timestamp': 1644345412,
- '_wandb': {'runtime': 3},
- 'loss': 0.041,
- 'val': 525}
+{
+    "_runtime": 4,
+    "_step": 4,
+    "_timestamp": 1644345412,
+    "_wandb": {"runtime": 3},
+    "loss": 0.041,
+    "val": 525,
+}
 ```
 
 ### Sampling
@@ -305,18 +274,14 @@ for run in runs:
 
     # .config contains the hyperparameters.
     #  We remove special values that start with _.
-    config_list.append(
-        {k: v for k,v in run.config.items()
-         if not k.startswith('_')})
+    config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
 
     # .name is the human-readable name of the run.
     name_list.append(run.name)
 
-runs_df = pd.DataFrame({
-    "summary": summary_list,
-    "config": config_list,
-    "name": name_list
-    })
+runs_df = pd.DataFrame(
+    {"summary": summary_list, "config": config_list, "name": name_list}
+)
 
 runs_df.to_csv("project.csv")
 ```
@@ -327,11 +292,10 @@ runs_df.to_csv("project.csv")
 The W&B API also provides a way for you to query across runs in a project with api.runs(). The most common use case is exporting runs data for custom analysis. The query interface is the same as the one [MongoDB uses](https://docs.mongodb.com/manual/reference/operator/query).
 
 ```python
-runs = api.runs("username/project",
-    {"$or": [
-        {"config.experiment_name": "foo"},
-        {"config.experiment_name": "bar"}]
-    })
+runs = api.runs(
+    "username/project",
+    {"$or": [{"config.experiment_name": "foo"}, {"config.experiment_name": "bar"}]},
+)
 print(f"Found {len(runs)} runs")
 ```
 
@@ -378,12 +342,13 @@ This example outputs timestamp and accuracy saved with `wandb.log({"accuracy": a
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
 if run.state == "finished":
-   for i, row in run.history().iterrows():
-      print(row["_timestamp"], row["accuracy"])
+    for i, row in run.history().iterrows():
+        print(row["_timestamp"], row["accuracy"])
 ```
 
 ### Filter runs
@@ -393,14 +358,10 @@ You can filters by using the MongoDB Query Language.
 #### Date
 
 ```python
-runs = api.runs('<entity>/<project>', {
-    "$and": [{
-    'created_at': {
-        "$lt": 'YYYY-MM-DDT##',
-        "$gt": 'YYYY-MM-DDT##'
-        }
-    }]
-})
+runs = api.runs(
+    "<entity>/<project>",
+    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
+)
 ```
 
 ### Read specific metrics from a run
@@ -409,12 +370,13 @@ To pull specific metrics from a run, use the `keys` argument. The default number
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
 if run.state == "finished":
-   for i, row in run.history(keys=["accuracy"]).iterrows():
-      print(row["_timestamp"], row["accuracy"])
+    for i, row in run.history(keys=["accuracy"]).iterrows():
+        print(row["_timestamp"], row["accuracy"])
 ```
 
 ### Compare two runs
@@ -424,6 +386,7 @@ This will output the config parameters that are different between `run1` and `ru
 ```python
 import pandas as pd
 import wandb
+
 api = wandb.Api()
 
 # replace with your <entity>, <project>, and <run_id>
@@ -452,6 +415,7 @@ This example sets the accuracy of a previous run to `0.9`. It also modifies the 
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -466,11 +430,12 @@ This example renames a summary column in your tables.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
-run.summary['new_name'] = run.summary['old_name']
-del run.summary['old_name']
+run.summary["new_name"] = run.summary["old_name"]
+del run.summary["old_name"]
 run.summary.update()
 ```
 
@@ -484,6 +449,7 @@ This examples updates one of your configuration settings.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -510,6 +476,7 @@ When you pull data from history, by default it's sampled to 500 points. Get all 
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -523,6 +490,7 @@ If metrics are being fetched slowly on our backend or API requests are timing ou
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -550,18 +518,14 @@ for run in runs:
 
     # .config contains the hyperparameters.
     #  We remove special values that start with _.
-    config_list.append(
-        {k: v for k,v in run.config.items()
-         if not k.startswith('_')})
+    config_list.append({k: v for k, v in run.config.items() if not k.startswith("_")})
 
     # .name is the human-readable name of the run.
     name_list.append(run.name)
 
-runs_df = pd.DataFrame({
-    "summary": summary_list,
-    "config": config_list,
-    "name": name_list
-    })
+runs_df = pd.DataFrame(
+    {"summary": summary_list, "config": config_list, "name": name_list}
+)
 
 runs_df.to_csv("project.csv")
 ```
@@ -572,6 +536,7 @@ This code snippet retrieves the time at which the run was created.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("entity/project/run_id")
@@ -584,6 +549,7 @@ The code snippet below uploads a selected file to a finished run.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("entity/project/run_id")
@@ -596,6 +562,7 @@ This finds the file "model-best.h5" associated with with run ID uxte44z7 in the 
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -608,6 +575,7 @@ This finds all files associated with a run and saves them locally.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -621,6 +589,7 @@ This snippet downloads all the runs associated with a particular sweep.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 sweep = api.sweep("<entity>/<project>/<sweep_id>")
@@ -633,6 +602,7 @@ The following snippet gets the best run from a given sweep.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 sweep = api.sweep("<entity>/<project>/<sweep_id>")
@@ -647,11 +617,11 @@ This snippet downloads the model file with the highest validation accuracy from 
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 sweep = api.sweep("<entity>/<project>/<sweep_id>")
-runs = sorted(sweep.runs,
-    key=lambda run: run.summary.get("val_acc", 0), reverse=True)
+runs = sorted(sweep.runs, key=lambda run: run.summary.get("val_acc", 0), reverse=True)
 val_acc = runs[0].summary.get("val_acc", 0)
 print(f"Best run {runs[0].name} with {val_acc}% val accuracy")
 
@@ -665,6 +635,7 @@ This snippet deletes files with a given extension from a run.
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -672,8 +643,8 @@ run = api.run("<entity>/<project>/<run_id>")
 extension = ".png"
 files = run.files()
 for file in files:
-	if file.name.endswith(extension):
-		file.delete()
+    if file.name.endswith(extension):
+        file.delete()
 ```
 
 ### Download system metrics data
@@ -682,6 +653,7 @@ This snippet produces a dataframe with all the system resource consumption metri
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
@@ -703,6 +675,7 @@ Each run captures the command that launched it on the run overview page. To pull
 
 ```python
 import wandb
+
 api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")

@@ -51,12 +51,12 @@ If the email type is not validated a dispute modal will appear and ask you to co
 
 ![](/images/app_ui/email_types.png)
 
-### Login methods
+### Log in methods
 
-The Login Methods column displays the login methods that are associated with your account.
+The Log in Methods column displays the log in methods that are associated with your account.
 
 A verification email is sent to your email account when you create a W&B account. Your email account is considered unverified until you verify your email address. Unverified emails are displayed in red.
 
 Attempt to log in with your email address again to retrieve a second verification email if you no longer have the original verification email that was sent to your email account.
 
-Contact support@wandb.com for account login issues.
+Contact support@wandb.com for account log in issues.

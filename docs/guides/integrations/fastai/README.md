@@ -9,13 +9,13 @@ import TabItem from '@theme/TabItem';
 
 If you're using **fastai** to train your models, W&B has an easy integration using the `WandbCallback`. Explore the details in[ interactive docs with examples →](https://app.wandb.ai/borisd13/demo\_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)
 
-## Start Logging with W&B
+## Log with W&B
 
-**a)** [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then login to your wandb account.
+**a)** [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then log in to your wandb account.
 
 **b)** Install the wandb library on your machine in a Python 3 environment using `pip`
 
-**c)** Login to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).
+**c)** log in to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).
 
 <Tabs
   defaultValue="script"
@@ -25,7 +25,7 @@ If you're using **fastai** to train your models, W&B has an easy integration usi
   ]}>
   <TabItem value="script">
 
-```python
+```shell
 pip install wandb
 wandb login
 ```
@@ -33,7 +33,7 @@ wandb login
   </TabItem>
   <TabItem value="notebook">
 
-```python
+```notebook
 !pip install wandb
 
 import wandb
@@ -50,7 +50,7 @@ import wandb
 from fastai.callback.wandb import *
 
 # start logging a wandb run
-wandb.init(project='my_project')
+wandb.init(project="my_project")
 
 # To log only during one training phase
 learn.fit(..., cbs=WandbCallback())
@@ -109,18 +109,24 @@ from fastai.distributed import *
 from fastai.callback.wandb import WandbCallback
 
 wandb.require(experiment="service")
-path = rank0_first(lambda: untar_data(URLs.PETS)/'images')
+path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
+
 
 def train():
     dls = ImageDataLoaders.from_name_func(
-        path, get_image_files(path), valid_pct=0.2,
-        label_func=lambda x: x[0].isupper(), item_tfms=Resize(224))
-    wandb.init('fastai_ddp', entity='capecape')
+        path,
+        get_image_files(path),
+        valid_pct=0.2,
+        label_func=lambda x: x[0].isupper(),
+        item_tfms=Resize(224),
+    )
+    wandb.init("fastai_ddp", entity="capecape")
     cb = WandbCallback()
     learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
     with learn.distrib_ctx(sync_bn=False):
         learn.fit(1)
-        
+
+
 if __name__ == "__main__":
     train()
 ```
@@ -147,18 +153,24 @@ from fastai.distributed import *
 from fastai.callback.wandb import WandbCallback
 
 wandb.require(experiment="service")
-path = untar_data(URLs.PETS)/'images'
+path = untar_data(URLs.PETS) / "images"
+
 
 def train():
     dls = ImageDataLoaders.from_name_func(
-        path, get_image_files(path), valid_pct=0.2,
-        label_func=lambda x: x[0].isupper(), item_tfms=Resize(224))
-    wandb.init('fastai_ddp', entity='capecape')
+        path,
+        get_image_files(path),
+        valid_pct=0.2,
+        label_func=lambda x: x[0].isupper(),
+        item_tfms=Resize(224),
+    )
+    wandb.init("fastai_ddp", entity="capecape")
     cb = WandbCallback()
     learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
     with learn.distrib_ctx(in_notebook=True, sync_bn=False):
         learn.fit(1)
-        
+
+
 notebook_launcher(train, num_processes=2)
 ```
 
@@ -184,20 +196,26 @@ from fastai.distributed import *
 from fastai.callback.wandb import WandbCallback
 
 wandb.require(experiment="service")
-path = rank0_first(lambda: untar_data(URLs.PETS)/'images')
+path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
+
 
 def train():
     cb = []
     dls = ImageDataLoaders.from_name_func(
-        path, get_image_files(path), valid_pct=0.2,
-        label_func=lambda x: x[0].isupper(), item_tfms=Resize(224))
+        path,
+        get_image_files(path),
+        valid_pct=0.2,
+        label_func=lambda x: x[0].isupper(),
+        item_tfms=Resize(224),
+    )
     if rank_distrib() == 0:
-        run = wandb.init('fastai_ddp', entity='capecape')
+        run = wandb.init("fastai_ddp", entity="capecape")
         cb = WandbCallback()
     learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
     with learn.distrib_ctx(sync_bn=False):
         learn.fit(1)
-        
+
+
 if __name__ == "__main__":
     train()
 ```
@@ -219,19 +237,25 @@ from fastai.distributed import *
 from fastai.callback.wandb import WandbCallback
 
 wandb.require(experiment="service")
-path = untar_data(URLs.PETS)/'images'
+path = untar_data(URLs.PETS) / "images"
+
 
 def train():
     cb = []
     dls = ImageDataLoaders.from_name_func(
-        path, get_image_files(path), valid_pct=0.2,
-        label_func=lambda x: x[0].isupper(), item_tfms=Resize(224))
+        path,
+        get_image_files(path),
+        valid_pct=0.2,
+        label_func=lambda x: x[0].isupper(),
+        item_tfms=Resize(224),
+    )
     if rank_distrib() == 0:
-        run = wandb.init('fastai_ddp', entity='capecape')
+        run = wandb.init("fastai_ddp", entity="capecape")
         cb = WandbCallback()
     learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
     with learn.distrib_ctx(in_notebook=True, sync_bn=False):
         learn.fit(1)
+
 
 notebook_launcher(train, num_processes=2)
 ```

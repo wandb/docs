@@ -1,6 +1,6 @@
 # init
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.15.12/wandb/sdk/wandb_init.py#L938-L1209' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.0/wandb/sdk/wandb_init.py#L924-L1179' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Start a new run to track and log to W&B.
@@ -30,8 +30,9 @@ init(
     monitor_gym: Optional[bool] = None,
     save_code: Optional[bool] = None,
     id: Optional[str] = None,
+    fork_from: Optional[str] = None,
     settings: Union[Settings, Dict[str, Any], None] = None
-) -> Union[Run, RunDisabled, None]
+) -> Union[Run, RunDisabled]
 ```
 
 In an ML training pipeline, you could add `wandb.init()`
@@ -84,7 +85,7 @@ For more on using `wandb.init()`, including detailed examples, check out our
 |  `save_code` |  (bool, optional) Turn this on to save the main script or notebook to W&B. This is valuable for improving experiment reproducibility and to diff code across experiments in the UI. By default this is off, but you can flip the default behavior to on in [your settings page](https://wandb.ai/settings). |
 |  `group` |  (str, optional) Specify a group to organize individual runs into a larger experiment. For example, you might be doing cross validation, or you might have multiple jobs that train and evaluate a model against different test sets. Group gives you a way to organize runs together into a larger whole, and you can toggle this on and off in the UI. For more details, see our [guide to grouping runs](https://docs.wandb.com/guides/runs/grouping). |
 |  `job_type` |  (str, optional) Specify the type of run, which is useful when you're grouping runs together into larger experiments using group. For example, you might have multiple jobs in a group, with job types like train and eval. Setting this makes it easy to filter and group similar runs together in the UI so you can compare apples to apples. |
-|  `tags` |  (list, optional) A list of strings, which will populate the list of tags on this run in the UI. Tags are useful for organizing runs together, or applying temporary labels like "baseline" or "production". It's easy to add and remove tags in the UI, or filter down to just runs with a specific tag. |
+|  `tags` |  (list, optional) A list of strings, which will populate the list of tags on this run in the UI. Tags are useful for organizing runs together, or applying temporary labels like "baseline" or "production". It's easy to add and remove tags in the UI, or filter down to just runs with a specific tag. If you are resuming a run, its tags will be overwritten by the tags you pass to `wandb.init()`. If you want to add tags to a resumed run without overwriting its existing tags, use `run.tags += ["new_tag"]` after `wandb.init()`. |
 |  `name` |  (str, optional) A short display name for this run, which is how you'll identify this run in the UI. By default, we generate a random two-word name that lets you easily cross-reference runs from the table to charts. Keeping these run names short makes the chart legends and tables easier to read. If you're looking for a place to save your hyperparameters, we recommend saving those in config. |
 |  `notes` |  (str, optional) A longer description of the run, like a `-m` commit message in git. This helps you remember what you were doing when you ran this run. |
 |  `dir` |  (str or pathlib.Path, optional) An absolute path to a directory where metadata will be stored. When you call `download()` on an artifact, this is the directory where downloaded files will be saved. By default, this is the `./wandb` directory. |
@@ -100,6 +101,7 @@ For more on using `wandb.init()`, including detailed examples, check out our
 |  `sync_tensorboard` |  (bool, optional) Synchronize wandb logs from tensorboard or tensorboardX and save the relevant events file. (default: `False`) |
 |  `monitor_gym` |  (bool, optional) Automatically log videos of environment when using OpenAI Gym. (default: `False`) See [our guide to this integration](https://docs.wandb.com/guides/integrations/openai-gym). |
 |  `id` |  (str, optional) A unique ID for this run, used for resuming. It must be unique in the project, and if you delete a run you can't reuse the ID. Use the `name` field for a short descriptive name, or `config` for saving hyperparameters to compare across runs. The ID cannot contain the following special characters: `/\#?%:`. See [our guide to resuming runs](https://docs.wandb.com/guides/runs/resuming). |
+|  `fork_from` |  (str, optional) A string with the format {run_id}?_step={step} describing a moment in a previous run to fork a new run from. Creates a new run that picks up logging history from the specified run at the specified moment. The target run must be in the current project. Example: `fork_from="my-run-id?_step=1234"`. |
 
 #### Examples:
 

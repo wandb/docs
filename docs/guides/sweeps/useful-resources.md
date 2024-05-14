@@ -30,7 +30,7 @@ The following W&B Reports demonstrate examples of projects that explore hyperpar
 * [Intro to MLOps: Hyperparameter Tuning](https://wandb.ai/iamleonie/Intro-to-MLOps/reports/Intro-to-MLOps-Hyperparameter-Tuning--VmlldzozMTg2OTk3)
   * Description: Explore why hyperparameter optimization matters and look at three algorithms to automate hyperparameter tuning for your machine learning models.
 
-### How-to-guides
+### selfm-anaged
 
 The following how-to-guide demonstrates how to solve real-world problems with W&B:
 

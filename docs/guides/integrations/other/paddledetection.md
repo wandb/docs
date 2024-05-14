@@ -23,7 +23,7 @@ The PaddleDetection WandbLogger will log your training and evaluation metrics to
 
 ## Using PaddleDetection with Weights & Biases
 
-### Sign up and Login to W&B
+### Sign up and log in to W&B
 
 [**Sign up**](https://wandb.ai/site) for a free Weights & Biases account, then pip install the wandb library. To login, you'll need to be signed in to you account at www.wandb.ai. Once signed in **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
 
@@ -35,7 +35,7 @@ The PaddleDetection WandbLogger will log your training and evaluation metrics to
   ]}>
   <TabItem value="cli">
 
-```
+```shell
 pip install wandb
 
 wandb login
@@ -43,7 +43,7 @@ wandb login
   </TabItem>
   <TabItem value="notebook">
 
-```
+```notebook
 !pip install wandb
 
 wandb.login()
@@ -61,7 +61,7 @@ To use wandb via arguments to `train.py` in [PaddleDetection](https://github.com
 * The first wandb arguments must be preceded by `-o` (you only need to pass this once)
 * Each individual wandb argument must contain the prefix `wandb-` . For example any argument to be passed to [`wandb.init`](https://docs.wandb.ai/ref/python/init) would get the `wandb-` prefix
 
-```
+```shell
 python tools/train.py 
     -c config.yml \ 
     --use_wandb \

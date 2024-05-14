@@ -81,7 +81,14 @@ Next, start the sweep job. Provide the sweep ID generated from sweep initiation.
 sweep_id, count = "dtzl1o7u", 10
 wandb.agent(sweep_id, count=count)
 ```
+
+:::caution
+If you start a new run after the sweep agent has finished, within the same script or notebook, then you should call `wandb.teardown()` before starting the new run.
+:::
+
+
   </TabItem>
+
   <TabItem value="cli">
 
 First, initialize your sweep with the [`wandb sweep`](../../ref/cli/wandb-sweep.md) command. For more information, see [Initialize sweeps](./initialize-sweeps.md).

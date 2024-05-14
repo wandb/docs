@@ -35,7 +35,7 @@ Within the W&B App UI you can find additional information about runs created fro
    - **Duration**: Time, in seconds, it took to complete the job’s run.
 
 ## List jobs 
-View a list of jobs that exist within a project with the W&B CLI. Use the wandb job list command and provide the name of the project and entity the launch job belongs to to the `--project` and `--entity` flags, respectively. 
+View a list of jobs that exist within a project with the W&B CLI. Use the W&B job list command and provide the name of the project and entity the launch job belongs to the `--project` and `--entity` flags, respectively. 
 
 ```bash
  wandb job list --entity your-entity --project project-name
@@ -50,9 +50,11 @@ The following table defines the status a queued run can have:
 | --- | --- |
 | **Idle** | The run is in a queue with no active agents. |
 | **Queued** | The run is in a queue waiting for an agent to process it. |
-| **Starting** | The run has been picked up by an agent but has not yet started. |
+| **Pending** | The run has been picked up by an agent but has not yet started. This could be due to resources being unavailable on the cluster. |
 | **Running** | The run is currently executing. |
 | **Killed** | The job was killed by the user. |
 | **Crashed** | The run stopped sending data or did not successfully start. |
 | **Failed** | The run ended with a non-zero exit code or the run failed to start. |
 | **Finished** | The job completed successfully. |
+
+

@@ -9,7 +9,7 @@ displayed_sidebar: default
   <title>Configure a Machine Learning Experiment</title>
 </head>
 
-[**Try in a Colab Notebook here →**](http://wandb.me/config-colab)
+[**Try in a Colab Notebook here**](http://wandb.me/config-colab)
 
 Use the `wandb.config` object to save your training configuration such as: 
 - hyperparameters
@@ -44,12 +44,12 @@ import wandb
 
 # Define a config dictionary object
 config = {
-  "hidden_layer_sizes": [32, 64],
-  "kernel_sizes": [3],
-  "activation": "ReLU",
-  "pool_sizes": [2],
-  "dropout": 0.5,
-  "num_classes": 10
+    "hidden_layer_sizes": [32, 64],
+    "kernel_sizes": [3],
+    "activation": "ReLU",
+    "pool_sizes": [2],
+    "dropout": 0.5,
+    "num_classes": 10,
 }
 
 # Pass the config dictionary when you initialize W&B
@@ -64,14 +64,14 @@ Access the values from the dictionary similarly to how you access other dictiona
 
 ```python
 # Access values with the key as the index value
-hidden_layer_sizes = wandb.config['hidden_layer_sizes']
-kernel_sizes = wandb.config['kernel_sizes']
-activation = wandb.config['activation']
+hidden_layer_sizes = wandb.config["hidden_layer_sizes"]
+kernel_sizes = wandb.config["kernel_sizes"]
+activation = wandb.config["activation"]
 
 # Python dictionary get() method
-hidden_layer_sizes = wandb.config.get('hidden_layer_sizes')
-kernel_sizes = wandb.config.get('kernel_sizes')
-activation = wandb.config.get('activation')
+hidden_layer_sizes = wandb.config.get("hidden_layer_sizes")
+kernel_sizes = wandb.config.get("kernel_sizes")
+activation = wandb.config.get("activation")
 ```
 
 :::note
@@ -89,19 +89,20 @@ The proceeding Python script demonstrates how to define a parser object to defin
 # config_experiment.py
 import wandb
 import argparse
-import numpy as np 
+import numpy as np
 import random
 
 
 # Training and evaluation demo code
-def train_one_epoch(epoch, lr, bs): 
-    acc = 0.25 + ((epoch/30) +  (random.random()/10))
-    loss = 0.2 + (1 - ((epoch-1)/10 +  random.random()/5))
+def train_one_epoch(epoch, lr, bs):
+    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
+    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
     return acc, loss
 
-def evaluate_one_epoch(epoch): 
-    acc = 0.1 + ((epoch/20) +  (random.random()/10))
-    loss = 0.25 + (1 - ((epoch-1)/10 +  random.random()/6))
+
+def evaluate_one_epoch(epoch):
+    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
+    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
     return acc, loss
 
 
@@ -109,53 +110,43 @@ def main(args):
     # Start a W&B Run
     run = wandb.init(project="config_example", config=args)
 
-    # Access values from config dictionary and store them 
+    # Access values from config dictionary and store them
     # into variables for readability
-    lr  =  wandb.config['learning_rate']
-    bs = wandb.config['batch_size']
-    epochs = wandb.config['epochs']
+    lr = wandb.config["learning_rate"]
+    bs = wandb.config["batch_size"]
+    epochs = wandb.config["epochs"]
 
-    # Simulate training and logging values to W&B 
+    # Simulate training and logging values to W&B
     for epoch in np.arange(1, epochs):
         train_acc, train_loss = train_one_epoch(epoch, lr, bs)
         val_acc, val_loss = evaluate_one_epoch(epoch)
 
-        wandb.log({
-        'epoch': epoch, 
-        'train_acc': train_acc,
-        'train_loss': train_loss, 
-        'val_acc': val_acc, 
-        'val_loss': val_loss
-        })
+        wandb.log(
+            {
+                "epoch": epoch,
+                "train_acc": train_acc,
+                "train_loss": train_loss,
+                "val_acc": val_acc,
+                "val_loss": val_loss,
+            }
+        )
+
 
 if __name__ == "__main__":
-  parser = argparse.ArgumentParser(
-    formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
-  parser.add_argument(
-    "-b",
-    "--batch_size",
-    type=int,
-    default=32,
-    help="Batch size")
-  parser.add_argument(
-    "-e",
-    "--epochs",
-    type=int,
-    default=50,
-    help="Number of training epochs")
-  parser.add_argument(
-    "-lr",
-    "--learning_rate",
-    type=int,
-    default=0.001,
-    help="Learning rate")    
+    parser.add_argument("-b", "--batch_size", type=int, default=32, help="Batch size")
+    parser.add_argument(
+        "-e", "--epochs", type=int, default=50, help="Number of training epochs"
+    )
+    parser.add_argument(
+        "-lr", "--learning_rate", type=int, default=0.001, help="Learning rate"
+    )
 
-
-args = parser.parse_args()
-
-main(args)
+    args = parser.parse_args()
+    main(args)
 ```
 ### Set the configuration throughout your script
 You can add more parameters to your config object throughout your script. The proceeding code snippet demonstrates how to add new key-value pairs to your config object:
@@ -165,19 +156,19 @@ import wandb
 
 # Define a config dictionary object
 config = {
-  "hidden_layer_sizes": [32, 64],
-  "kernel_sizes": [3],
-  "activation": "ReLU",
-  "pool_sizes": [2],
-  "dropout": 0.5,
-  "num_classes": 10
+    "hidden_layer_sizes": [32, 64],
+    "kernel_sizes": [3],
+    "activation": "ReLU",
+    "pool_sizes": [2],
+    "dropout": 0.5,
+    "num_classes": 10,
 }
 
 # Pass the config dictionary when you initialize W&B
 run = wandb.init(project="config_example", config=config)
 
 # Update config after you initialize W&B
-wandb.config['dropout'] = 0.2
+wandb.config["dropout"] = 0.2
 wandb.config.epochs = 4
 wandb.config["batch_size"] = 32
 ```
@@ -197,8 +188,8 @@ Provide your `entity`, `project name`, and the `Run ID` to update your configura
 ```python
 api = wandb.Api()
 
-# Access attributes directly from the run object 
-# or from the W&B App 
+# Access attributes directly from the run object
+# or from the W&B App
 username = wandb.run.entity
 project = wandb.run.project
 run_id = wandb.run.id
@@ -211,31 +202,15 @@ run.update()
 
 
 
-<!-- ## `argparse.Namespace`
-
-You can pass in the arguments returned by [`argparse`](https://docs.python.org/3/library/argparse.html). This is convenient for quickly testing different hyperparameter values from the command line.
-
-```python
-wandb.init(config={"lr": 0.1})
-wandb.config.epochs = 4
-
-parser = argparse.ArgumentParser()
-parser.add_argument('-b', '--batch-size', type=int, default=8, metavar='N',
-                     help='input batch size for training (default: 8)')
-args = parser.parse_args()
-wandb.config.update(args) # adds all of the arguments as config variables -->
-<!-- ``` -->
-
 ## `absl.FLAGS`
 
 
 You can also pass in [`absl` flags](https://abseil.io/docs/python/guides/flags).
 
 ```python
-flags.DEFINE_string(
-    "model", None, "model to run") # name, default, help
-        
-wandb.config.update(flags.FLAGS) # adds absl flags to config
+flags.DEFINE_string("model", None, "model to run")  # name, default, help
+
+wandb.config.update(flags.FLAGS)  # adds absl flags to config
 ```
 
 ## File-Based Configs
@@ -265,12 +240,12 @@ hyperparameter_defaults = dict(
     dropout=0.5,
     batch_size=100,
     learning_rate=0.001,
-    )
+)
 
 config_dictionary = dict(
     yaml=my_yaml_file,
     params=hyperparameter_defaults,
-    )
+)
 
 wandb.init(config=config_dictionary)
 ```
@@ -286,7 +261,7 @@ wandb.config.epochs = 4
 flags = tf.app.flags
 flags.DEFINE_string("data_dir", "/tmp/data")
 flags.DEFINE_integer("batch_size", 128, "Batch size.")
-wandb.config.update(flags.FLAGS) # add tensorflow flags as config
+wandb.config.update(flags.FLAGS)  # add tensorflow flags as config
 ```
 
 <!-- ## Dataset Identifier
