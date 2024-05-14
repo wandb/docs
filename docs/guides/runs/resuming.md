@@ -11,39 +11,49 @@ import TabItem from '@theme/TabItem';
   <title>Resume W&B Runs</title>
 </head>
 
-This page covers how to resume runs that stopped or crashed. 
+Specify how a run should behave in the event that that run stops or crashes. To resume or enable a run to automatically resume, you will need to specify the unique run ID associated with that run for the `id` parameter:
+```python
+run = wandb.init(entity="<entity>", \ 
+        project="<project>", id="<run ID>", resume="<resume>")
+```
 
-<!-- :::info
-Notes added to a run on the W&B App UI are overwritten when you resume a run with notes programmatically with `wandb.init(notes="some-note")`.
-::: -->
+:::tip
+W&B encourages you to provide the name of the W&B Project where you want to store the run.
+:::
 
-For most use cases, specify `resume` when you initialize a run with `wandb.init`. In addition, ensure you make note of:
+Pass one of the following arguments to the `resume` parameter to determine how a run should respond. In each case, W&B first checks if the run ID already exists. 
 
-1. The unique run ID of the stopped or crashed run.
-2. (Optional-but encouraged): The name of the desired project you want to store the run to.
+|Argument | Description | Run ID exists| Run ID does not exist | Use case |
+| --- | --- | -- | --| -- |
+| `"must"` | W&B must use the run ID specified if run ID exists. | W&B resumes run with the same run ID. | W&B does nothing. | Resume a run that must use the same run ID.  |
+| `"allow"`| Allow W&B to resume run if run ID exists. | W&B resumes run with the same run ID. | W&B initializes a new run with specified run ID. | Resume a run without overriding an existing run. |
+| `"never"`| Never allow W&B to resume a run if run ID exists. | W&B does nothing. | W&B initializes a new run with specified run ID. | |
 
-We recommend that you use one of the the following resume options:
-
-- `"allow"`:  W&B checks if the run exists. If the run exists, W&B uses that run. Otherwise, W&B initializes a new run with the specified run ID. 
-- `"never"`: W&B checks if the run exists. If the run exists, the run will fail. Otherwise, W&B will start a new run with the specified run id.
-- `"must"`: W&B checks if the run exists. If the run exists, W&B uses that run. Otherwise, the run will fail.
+<!-- - `"must"`:  If the run ID exists, W&B resumes the run with that run ID. If the run ID does not exist, W&B does nothing. 
+- `"allow"`:  If the run ID exists, W&B resumes the run with that run ID. If the run ID does not exist, W&B initializes a new run with the specified run ID.
+- `"never"`: If the run ID exists, W&B does nothing. If the run ID does not exist, W&B starts a new run with the specified run ID.  -->
 
 You can also specify `resume="auto"` to let W&B to automatically try to restart the run on your behalf. However, you will need to ensure that you restart your run from the same directory. See the [Enable runs to automatically resume](#enable-runs-to-automatically-resume) section for more information.
 
+For all the examples below, replace values enclosed within `<>` with your own.
 
-## Resume a run using the same run ID
-Resume a run that uses the same run ID when it crashed or failed. Provide the run ID of the run that stopped or crashed.
+## Resume a run that must use the same run ID
+Resume a run that uses the same run ID if it crashes or fails. To do so, initialize a run and specify the following:
 
-Set the `resume` parameter to `"must"` (`resume="must"`) when you initialize a run with W&B. Provide the run ID of the run that stopped or crashed. The following code snippet shows how to accomplish this with the W&B Python SDK:
+* Set the `resume` parameter to `"must"` (`resume="must"`) 
+* Provide the run ID of the run that stopped or crashed
 
-Replace values enclosed within `<>` with your own:
+<!-- Set the `resume` parameter to `"must"` (`resume="must"`) when you initialize the run and provide the run ID of the run that stopped or crashed.  -->
+
+The following code snippet shows how to accomplish this with the W&B Python SDK:
 
 ```python
-run = wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="must")
+run = wandb.init(entity="<entity>", \ 
+        project="<project>", id="<run ID>", resume="must")
 ```
 
 :::caution
-Unexpected results will occur if multiple processes use the same `run_id` concurrently. 
+Unexpected results will occur if multiple processes use the same `id` concurrently. 
 
 
 For more information on  how to manage multiple processes, see the [Log distributed training experiments](../track/log/distributed-training.md) 
@@ -57,7 +67,8 @@ Set the `resume` parameter to `"allow"` (`resume="allow"`) when you initialize a
 ```python
 import wandb
 
-run = wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="allow")
+run = wandb.init(entity="<entity>", \ 
+        project="<project>", id="<run ID>", resume="allow")
 ```
 
 
@@ -77,7 +88,8 @@ The following code snippet shows how to specify a W&B run ID with the Python SDK
 Replace values enclosed within `<>` with your own:
 
 ```python
-run = wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="auto")
+run = wandb.init(entity="<entity>", \ 
+        project="<project>", id="<run ID>", resume="auto")
 ```
 
   </TabItem>
