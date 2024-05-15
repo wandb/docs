@@ -38,9 +38,7 @@ Create an artifact with four lines of code:
 
 ```python
 run = wandb.init(project="artifacts-example", job_type="add-dataset")
-artifact = wandb.Artifact(name="my_data", type="dataset")
-artifact.add_file(local_path="./dataset.h5")  # Add dataset file to artifact
-run.log_artifact(artifact)  # Logs the artifact version "my_data:v0"
+run.log_artifact(artifact "./dataset.h5", "my_data", "dataset" ) # Logs the artifact version "my_data:v0" as a dataset with data from dataset.h5
 ```
 
 :::tip
