@@ -9,7 +9,7 @@ The System for Cross-domain Identity Management (SCIM) API allows instance or or
 The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643). It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema. W&B adds the `/Roles` endpoints to support automated management of custom roles in W&B organizations.
 
 :::info
-SCIM API applies to all hosting options including Dedicated Cloud, Self-managed deployment and SaaS Cloud. In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization. The setting is available in the section `SCIM API Organization`. 
+SCIM API applies to all hosting options including Dedicated Cloud, Self-managed deployment and Multi-tenant Cloud. In Multi-tenant Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization. The setting is available in the section `SCIM API Organization`. 
 :::
 
 ## Authentication

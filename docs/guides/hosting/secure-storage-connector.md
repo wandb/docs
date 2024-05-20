@@ -32,7 +32,7 @@ The following table shows the availability of BYOB across different W&B Server d
 | W&B Server deployment type | Instance level | Team level | Additional information |
 |----------------------------|--------------------|----------------|------------------------|
 | Dedicated Cloud | X | X | Both the instance and team level BYOB are available for Amazon Web Services and Google Cloud Platform. Only instance level BYOB is available for Azure cloud. |
-| SaaS Cloud | | X | The team level BYOB is available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only storage bucket for Azure cloud. |
+| Multi-tenant Cloud | | X | The team level BYOB is available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only storage bucket for Azure cloud. |
 | Self-managed | X | X | Instance level BYOB is the default since the deployment is fully managed by you. It is also possible to use a S3-compatible secure storage solution like [MinIO](https://github.com/minio/minio). |
 
 :::info

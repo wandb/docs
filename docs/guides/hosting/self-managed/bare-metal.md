@@ -7,11 +7,11 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 :::info
-W&B recommends fully managed deployment options such as [W&B SaaS Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 :::
 
 
-You can run W&B Server on your on-premises infrastructure if SaaS Cloud or Dedicated Cloud are not a good fit for your organization.
+You can run W&B Server on your on-premises infrastructure if Multi-tenant Cloud or Dedicated Cloud are not a good fit for your organization.
 
 Reach out to the W&B Sales Team for related question: [contact@wandb.com](mailto:contact@wandb.com).
 
