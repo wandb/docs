@@ -5,10 +5,10 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # BYOB (Secure storage connector)
-Bring your own bucket (BYOB) allows you to store artifacts and other sensitive data for Dedicated Cloud deployments or Self-Managed instances. For Dedicated Cloud deployments, data that you store in your bucket is not stored in the W&B managed infrastructure.
+Bring your own bucket (BYOB) allows you to store W&B artifacts and other related sensitive data in your own cloud or on-prem infrastructure. In case of [Dedicated Cloud](./hosting-options/dedicated_cloud.md) or [SaaS Cloud](./hosting-options/saas_cloud.md), data that you store in your bucket is not copied to the W&B managed infrastructure.
 
 :::info
-* Communication between W&B and your buckets occurs using pre-signed URLs.
+* Communication between W&B SDK / CLI / UI and your buckets occurs using [pre-signed URLs](./presigned-urls.md).
 * W&B uses a garbage collection process to delete W&B Artifacts. For more information, see [Deleting Artifacts](../artifacts/delete-artifacts.md).
 :::
 
@@ -31,12 +31,12 @@ The following table shows the availability of BYOB across different W&B Server d
 
 | W&B Server deployment type | Instance level | Team level | Additional information |
 |----------------------------|--------------------|----------------|------------------------|
-| Dedicated Cloud | X | X | Both the instance and team level BYOB are available for Amazon Web Services and Google Cloud Platform. Only instance level BYOB is available for Azure cloud. |
-| Multi-tenant Cloud | | X | The team level BYOB is available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only storage bucket for Azure cloud. |
+| Dedicated Cloud | X | X | Both the instance and team level BYOB are available for Amazon Web Services, Google Cloud Platform and Microsoft Azure. |
+| SaaS Cloud | | X | The team level BYOB is available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only storage bucket for Microsoft Azure. |
 | Self-managed | X | X | Instance level BYOB is the default since the deployment is fully managed by you. It is also possible to use a S3-compatible secure storage solution like [MinIO](https://github.com/minio/minio). |
 
 :::info
-For Dedicated Cloud and Self-managed instances on Azure, it is possible to use non-Azure storage buckets at team level using the environment variable called `SUPPORTED_FILE_STORES`. Reach out to W&B Support at support@wandb.com for more information.
+For Dedicated Cloud and Self-managed instances on Microsoft Azure, it is possible to use non-Azure storage buckets at team level using the environment variable called `SUPPORTED_FILE_STORES`. Reach out to W&B Support at support@wandb.com for more information.
 :::
 
 ## Configure your storage object
@@ -47,7 +47,7 @@ Only system administrators have the permissions to configure an storage object.
 :::
 
 :::tip
-W&B recommends that you use a Terraform module managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector) to provision a storage bucket along with IAM permissions required to access it.
+W&B recommends that you use a Terraform module managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector) or [Azure](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision a storage bucket along with IAM permissions required to access it.
 :::
 
 
