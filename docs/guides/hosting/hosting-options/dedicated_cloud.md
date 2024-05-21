@@ -11,7 +11,7 @@ W&B Dedicated Cloud is available in [multiple global regions for each cloud prov
 ## Data security 
 You can bring your own bucket (BYOB) using the [secure storage connector](../secure-storage-connector.md) at the [instance and team levels](../secure-storage-connector.md#configuration-options) to store your files such as models, datasets, and more.
 
-Similar to W&B SaaS Cloud, you can configure a single bucket for multiple teams or you can use separate buckets for different teams. If you do not configure secure storage connector for a team, that data is stored in the instance level bucket.
+Similar to W&B Multi-tenant Cloud, you can configure a single bucket for multiple teams or you can use separate buckets for different teams. If you do not configure secure storage connector for a team, that data is stored in the instance level bucket.
 
 ![](/images/hosting/dedicated_cloud_arch.png)
 
@@ -30,7 +30,7 @@ Use the identity and access management capabilities for secure authentication an
 Use [Audit logs](../audit-logging.md) to track user activity within your teams and to conform to your enterprise governance requirements. Also, you can view organization usage in our Dedicated Cloud instance with [W&B Organization Dashboard](../org_dashboard.md).
 
 ## Maintenance
-Similar to W&B SaaS Cloud, you do not incur the overhead and costs of provisioning and maintaining the W&B platform with Dedicated Cloud.
+Similar to W&B Multi-tenant Cloud, you do not incur the overhead and costs of provisioning and maintaining the W&B platform with Dedicated Cloud.
 
 To understand how W&B manages updates on Dedicated Cloud, refer to the [server release process](../server-release-process.md).
 
@@ -38,7 +38,7 @@ To understand how W&B manages updates on Dedicated Cloud, refer to the [server r
 Security controls for W&B Dedicated Cloud are periodically audited internally and externally. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request the SOC2 report and other security and compliance documents.
 
 ## Migration options
-Migration to Dedicated Cloud from a [Self-managed instance](./self-managed.md) or [SaaS Cloud](./saas_cloud.md) is supported.
+Migration to Dedicated Cloud from a [Self-managed instance](./self-managed.md) or [Multi-tenant Cloud](./saas_cloud.md) is supported.
 
 ## Next steps
 Submit [this form](https://wandb.ai/site/for-enterprise/dedicated-saas-trial) if you are interested in using Dedicated Cloud.
