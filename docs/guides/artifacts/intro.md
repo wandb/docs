@@ -21,7 +21,7 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 
 | Use Case               | Input                       | Output                       |
 |------------------------|-----------------------------|------------------------------|
-| Model Training         | Dataset (training and validation data)     | Trained [Model](../models.md)                |
+| Model Training         | Dataset (training and validation data)     | Trained Model                |
 | Dataset Pre-Processing | Dataset (raw data)          | Dataset (pre-processed data) |
 | Model Evaluation       | Model + Dataset (test data) | [W&B Table](../tables/intro.md)                        |
 | Model Optimization     | Model                       | Optimized Model              |
@@ -37,10 +37,8 @@ Create an artifact with four lines of code:
 
 
 ```python
-run = wandb.init(project="artifacts-example", job_type="add-dataset")
-artifact = wandb.Artifact(name="my_data", type="dataset")
-artifact.add_file(local_path="./dataset.h5")  # Add dataset file to artifact
-run.log_artifact(artifact)  # Logs the artifact version "my_data:v0"
+run = wandb.init(project = "artifacts-example", job_type = "add-dataset")
+run.log_artifact(data = "./dataset.h5", name = "my_data", type = "dataset" ) # Logs the artifact version "my_data" as a dataset with data from dataset.h5
 ```
 
 :::tip
