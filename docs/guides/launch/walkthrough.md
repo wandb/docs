@@ -6,123 +6,127 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Walkthrough
 
-<CTAButtons colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP"/>
-
-
-This guide will walk you through how to setup the fundamental components of W&B launch:  **launch jobs**, **launch queues**, and **launch agents**. By the end of this walkthrough, you will:
-
-1. Create a launch job that trains a neural network.
-2. Create a launch queue that is used to submit jobs for execution on your local machine.
-3. Create a launch agent that polls the queue and starts your launch job with Docker.
-
-:::note
-The walkthrough outlined on this page is designed to run on your local machine with Docker.  
-:::
-
-## Before you get started
-
-Before you get started, ensure you have satisfied the following prerequisites:
-1. Install W&B Python SDK version 0.14.0 or higher:
-    ```bash
-    pip install wandb>=0.14.0
-    ```
-2. Sign up for a free account at https://wandb.ai/site and then log in to your W&B account. 
-3. Install Docker. See the [Docker documentation](https://docs.docker.com/get-docker/) for more information on how to install Docker. Make sure the docker daemon is running on your machine.
-
-## Create a launch job
-
-[Launch jobs](./launch-terminology#launch-job) are the basic unit of work in W&B launch. The following code creates a launch job from a W&B [run](../../ref/python/run.md) using the W&B Python SDK.
-
-1. Copy the following Python code to a file named `train.py`. Save the file on your local machine. Replace `<your entity>` with your W&B entity.
-
-    ```python title="train.py"
-    import wandb
-
-    config = {"epochs": 10}
-
-    entity = "<your entity>"
-    project = "launch-quickstart"
-    job_name = "walkthrough_example"
-
-    settings = wandb.Settings(job_name=job_name)
-
-    with wandb.init(
-        entity=entity, config=config, project=project, settings=settings
-    ) as run:
-        config = wandb.config
-        for epoch in range(1, config.epochs):
-            loss = config.epochs / epoch
-            accuracy = (1 + (epoch / config.epochs)) / 2
-            wandb.log({"loss": loss, "accuracy": accuracy, "epoch": epoch})
-
-        # highlight-next-line
-        wandb.run.log_code()
-    ```
-
-2. Execute the Python script and let the script run until it completes:
-    ```bash
-    python train.py
-    ```
-
-This will create a launch job. In the above example, the launch job was created in a `launch-quickstart` project.
-
-Next, we will add the newly created launch job to a *launch queue*.
+This page walks through the basics of the W&B Launch workflow.
 
 :::tip
-There are numerous ways to create a launch job. See the [Create a launch job](./create-launch-job.md) page to learn more about the different ways you can create a launch job,.
+W&B Launch runs machine learning workloads in containers. Familiarity with containers is not required but may be helpful for this walkthrough. See the [Docker documentation](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/) for a primer on containers.
 :::
 
-## Add your launch job to a queue
-Once you have created a launch job, add that job to a [launch queue](./launch-terminology.md#launch-queue). The following steps describe how to create a basic launch queue that will use a Docker container as its [target resource](./launch-terminology.md#target-resources):
-<!-- ![](/images/launch/simple-job.png) -->
+## Prerequisites
 
-1. Navigate to your W&B project. 
-2. Select the Jobs tab on the left panel (thunderbolt icon).
-3. Hover your mouse next the name of the job you created and select the **Launch** button.
-4. A drawer will slide from the right side of your screen. Select the following:
-    1. **Job version**: the version of the job to launch. Since we only have one version, select the default **@latest** version.
-    2. **Overrides**: new values for the launch job's inputs. Our run had one value in the `wandb.config`: `epochs`. We can override this value within the overrides field. For this walkthrough, leave the number of epochs as is.
-    3. **Queue**: the queue to launch the run on. From the dropdown, select **Create a 'Starter' queue**.
+This walkthrough requires terminal access to a machine with a working Docker CLI and engine. See the [Docker installation guide](https://docs.docker.com/engine/install/) for more information.
 
-![](/images/launch/starter-launch.gif)
-5. Once you have configured your job, click the **Launch now** button at the bottom of the drawer to enqueue your launch job.
-
-
-:::tip
-The contents of your launch queue configuration will vary depending on the queue's target resource.
-:::
-
-
-## Start a launch agent
-To execute a launch job you will need a [launch agent](./launch-terminology.md#launch-agent) to poll the launch queue the job was added to. Follow these steps to create and start a launch agent:
-
-1. From [wandb.ai/launch](https://wandb.ai/launch) navigate to the page for your launch queue.
-2. Click the **Add agent** button.
-3. A modal will appear with a W&B CLI command. Copy this and paste this command into your terminal.
-
-![](/images/launch/activate_starter_queue_agent.png)
-
-In general, the command to start a launch agent is:
+Install `wandb>=0.17.1` into a Python environment with the following command:
 
 ```bash
-wandb launch-agent -e <entity-name> -q <queue-name>
+pip install --upgrade wandb
 ```
 
-Within your terminal, you will see the agent begin to poll for queues. Wait a few seconds to a minute and you will see your agent execute the launch job you added to it.
+Run `wandb login` or set the `WANDB_API_KEY` environment variable to authenticate with W&B. To sign up for a free Weights & Biases account, visit [wandb.ai](https://wandb.ai) 🪄🐝
 
-:::tip
-Launch agents can poll for queues in non-local environments such as a Kubernetes cluster.
-:::
+## Launch from an image
+
+To run a simple, pre-made container that logs a classic message to W&B, open a terminal and run the following command:
+
+```bash
+wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart
+```
+
+The preceding command downloads and runs the container image `wandb/job_hello_world:main`. Launch configures the container to report everything logged with `wandb` to the `launch-quickstart` project. The container logs a message to W&B and displays a link to the newly created run in W&B. Click the link to view the run in the W&B UI.
+
+## Launch from a git repository
+
+To launch the same hello-world job from its [source code in the W&B Launch jobs repository](https://github.com/wandb/launch-jobs), run the following command:
+
+```bash
+wandb launch --uri https://github.com/wandb/launch-jobs.git --job-name hello-world-git --project launch-quickstart --build-context jobs/hello_world --dockerfile Dockerfile.wandb --entry-point "python job.py"
+```
+The command does the following:
+1. Clones the [W&B Launch jobs repository](https://github.com/wandb/launch-jobs) to a temporary directory.
+2. Create a job named **hello-world-git** in the **hello** project. This job tracks the exact source code and configuration used to run execute the code.
+3. Build a container image from the `jobs/hello_world` directory and the `Dockerfile.wandb`.
+4. Start the container and run `python job.py`.
+
+The console output shows the image build and execution. The output of the container should be nearly identical to the previous example.
 
 
-## View your launch job
+## Launch from local source code
+
+Code not versioned in a git repository can be launched by specifying a local directory path to the `--uri` argument. 
+
+Create an empty directory and add a Python script named `train.py` with the following content:
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"hello": "world"})
+```
+
+Add a file `requirements.txt` with the following content:
+
+```text
+wandb>=0.17.1
+```
+
+From within the directory, run the following command:
+
+```bash
+wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python train.py"
+```
+
+The command does the following:
+1. Log the contents of the current directory to W&B as a Code Artifact.
+2. Create a job named **hello-world-code** in the **launch-quickstart** project.
+3. Build a container image by copying `train.py` and `requirements.txt` into a base image and `pip install` the requirements.
+4. Start the container and run `python train.py`.
+
+
+## Create a queue
+
+Launch is designed to help teams build workflows around shared compute. In the examples so far, the `wandb launch` command has executed a container synchronously on the local machine. Launch queues and agents enable asynchronous execution of jobs on shared resources and advanced features like prioritization and hyperparameter optimization. To create a basic queue, follow these steps:
+
+1. Navigate to [wandb.ai/launch](https://wandb.ai/launch) and click the **Create a queue** button.
+2. Select an **Entity** to associate the queue with. 
+3. Enter a **Queue name**.
+4. Select **Docker** as the **Resource**.
+5. Leave **Configuration** blank, for now.
+6. Click **Create queue** :rocket:
+
+After clicking the button, the browser will redirect to the **Agents** tab of the queue view. The queue remains in the **Not active** state until an agent starts polling.
+
+![](/images/launch/create_docker_queue.gif)
+
+For advanced queue configuration options, see the [advanced queue setup page](./setup-queue-advanced.md).
+
+## Connect an agent to the queue
+
+The queue view displays an **Add an agent** button in a red banner at the top of the screen if the queue has no polling agents. Click the button to view copy the command to run an agent. The command should look like the following:
+
+```bash
+wandb launch-agent --queue <queue-name> --entity <entity-name>
+```
+
+Run the command in a terminal to start the agent. The agent polls the specified queue for jobs to run. Once received, the agent downloads or builds and then executes a container image for the job, as if the `wandb launch` command was run locally.
+
+Navigate back to [the Launch page](https://wandb.ai/launch) and verify that the queue now shoes as **Active**.
+
+## Submit a job to the queue
 
 Navigate to your new **launch-quickstart** project in your W&B account and open the jobs tab from the navigation on the left side of the screen.
 
-![](/images/launch/jobs-tab.png)
+The **Jobs** page displays a list of W&B Jobs that were created from previously executed runs. Click on your launch job to view source code, dependencies, and any runs created from the job. After completing this walkthrough there should be three jobs in the list.
 
-The **Jobs** page displays a list of W&B Jobs that were created from previously executed runs. You should see a job named **job-source-launch-quickstart-train.py:v0**. Click on your launch job to view source code dependencies and a list of runs that were created by the launch job.
 
-:::tip
-You can edit the name of the job from the jobs page if you would like to make the job a bit more memorable.
-:::
+Pick one of the new jobs and follow these instructions to submit it to the queue:
+
+1. Click the **Launch** button to submit the job to a queue. The **Launch** drawer will appear. 
+2. Select the **Queue** you created earlier and click **Launch**. 
+
+This submits the job to the queue. The agent polling this queue picks up and executes the job. The progress of the job can be monitored from the W&B UI or by inspecting the output of the agent in the terminal.
+
+The `wandb launch` command can push jobs to the queue directly by specifying the `--queue` argument. For example, to submit the hello-world container job to the queue, run the following command:
+
+```bash
+wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart --queue <queue-name>
+```
