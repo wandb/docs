@@ -117,6 +117,10 @@ const sidebars = {
             {
               type: 'category',
               label: 'Create and deploy jobs',
+              link: {
+                type: 'doc',
+                id: 'guides/launch/create-launch-job',
+              },
               items: [
                 'guides/launch/create-launch-job',
                 'guides/launch/add-job-to-queue',
@@ -124,7 +128,6 @@ const sidebars = {
                 'guides/launch/launch-queue-observability',
               ],
             },
-
             'guides/launch/sweeps-on-launch',
             'guides/launch/launch-faqs',
           ],
