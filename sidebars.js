@@ -35,7 +35,6 @@ const sidebars = {
               label: 'What are Runs?',
               link: {type: 'doc', id: 'guides/runs/intro'},
               items: [
-                // 'guides/runs/intro',
                 // 'guides/runs/create-run',
                 'guides/runs/grouping',
                 'guides/runs/resuming',
@@ -49,7 +48,6 @@ const sidebars = {
               label: 'Log Objects and Media',
               link: {type: 'doc', id: 'guides/track/log/intro'},
               items: [
-                // 'guides/track/log/intro',
                 'guides/track/log/log-models',
                 'guides/track/log/plots',
                 'guides/track/log/log-tables',
@@ -136,7 +134,6 @@ const sidebars = {
           label: 'Sweeps',
           link: {type: 'doc', id: 'guides/sweeps/intro'},
           items: [
-            // 'guides/sweeps/intro',
             'guides/sweeps/walkthrough',
             'guides/sweeps/add-w-and-b-to-your-code',
             {
@@ -190,7 +187,6 @@ const sidebars = {
           label: 'Artifacts',
           link: {type: 'doc', id: 'guides/artifacts/intro'},
           items: [
-            // 'guides/artifacts/intro',
             'guides/artifacts/artifacts-walkthrough',
             'guides/artifacts/construct-an-artifact',
             'guides/artifacts/download-and-use-an-artifact',
@@ -230,7 +226,6 @@ const sidebars = {
           label: 'Reports',
           link: {type: 'doc', id: 'guides/reports/intro'},
           items: [
-            // 'guides/reports/intro',
             'guides/reports/create-a-report',
             'guides/reports/edit-a-report',
             'guides/reports/collaborate-on-reports',
@@ -246,19 +241,16 @@ const sidebars = {
           label: 'App Reference',
           link: {type: 'doc', id: 'guides/app/intro'},
           items: [
-            // 'guides/app/intro',
             {
               type: 'category',
               label: 'Features',
               link: {type: 'doc', id: 'guides/app/features/intro'},
               items: [
-                // 'guides/app/features/intro',
                 {
                   type: 'category',
                   label: 'Panels',
                   link: {type: 'doc', id: 'guides/app/features/panels/intro'},
                   items: [
-                    // 'guides/app/features/panels/intro',
                     {
                       type: 'category',
                       label: 'Line Plot',
@@ -267,7 +259,6 @@ const sidebars = {
                         id: 'guides/app/features/panels/line-plot/intro',
                       },
                       items: [
-                        // 'guides/app/features/panels/line-plot/intro',
                         'guides/app/features/panels/line-plot/reference',
                         'guides/app/features/panels/line-plot/sampling',
                         'guides/app/features/panels/line-plot/smoothing',
@@ -320,7 +311,6 @@ const sidebars = {
               label: 'Pages',
               link: {type: 'doc', id: 'guides/app/pages/intro'},
               items: [
-                // 'guides/app/pages/intro',
                 'guides/app/pages/gradient-panel',
                 'guides/app/pages/project-page',
                 'guides/app/pages/run-page',
@@ -332,7 +322,6 @@ const sidebars = {
               label: 'Settings',
               link: {type: 'doc', id: 'guides/app/settings-page/intro'},
               items: [
-                // 'guides/app/settings-page/intro',
                 'guides/app/settings-page/user-settings',
                 'guides/app/settings-page/team-settings',
                 'guides/app/settings-page/emails',
@@ -441,7 +430,6 @@ const sidebars = {
       label: 'Integrations',
       link: {type: 'doc', id: 'guides/integrations/intro'},
       items: [
-        // 'guides/integrations/intro',
         'guides/integrations/add-wandb-to-any-library',
         'guides/integrations/other/azure-openai-fine-tuning',
         'guides/integrations/other/catalyst',
@@ -456,7 +444,6 @@ const sidebars = {
           label: 'Fastai',
           link: {type: 'doc', id: 'guides/integrations/fastai/README'},
           items: [
-            // 'guides/integrations/fastai/README',
             'guides/integrations/fastai/v1',
           ],
         },
@@ -553,7 +540,6 @@ const sidebars = {
     {
       type: 'category',
       label: 'Launch Tutorials',
-      // link: {type: 'doc', id: 'guides/hosting/self-managed/intro'},
       items: ['tutorials/volcano', 'tutorials/minikube_gpu'],
     },
   ],
