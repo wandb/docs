@@ -81,12 +81,13 @@ For more information, see the Weights and Biases [Artifact API](../../ref/python
   </TabItem>
   
   <TabItem value="withcollections">
+You can also update an Artifact collection in the same way as a singular artifact:
 
 ```python
 import wandb
-
 run = wandb.init(project="example", job_type="job-type")
-artifact = api.artifact_collection("type-name", "collection-name")
+api = wandb.Api()
+artifact = api.artifact_collection(type="type-name", collection="collection-name")
 artifact.description = "description"
 artifact.save()
 ```
