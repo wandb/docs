@@ -6,13 +6,17 @@ import TabItem from '@theme/TabItem';
 
 # Create a collection
 
-Create a collection to organize your machine learning models. A *collection* is a set of linked artifact versions in a registry. Each collection represents a distinct task or use case and serves as a container for a curated selection of artifact versions related to that task.
-
-For example, the proceeding image shows a registry name **Forecast**. Within the Forecast registry there are two collections called **LowLightPedRecog-YOLO** and **TextCat**.
+Create a collection in a registry to organize your machine learning models. A *collection* is a set of linked artifact versions in a registry. Each collection represents a distinct task or use case and serves as a container for a curated selection of artifact versions related to that task.
 
 ![](/images/registry/what_is_collection.png)
 
-Depending on the registry settings configured by your team admin, you may or may not be able to configure artifact types accepted for a given collection. For more information, see [LINK].
+For example, the preceding image shows a registry name **Forecast**. Within the Forecast registry there are two collections called **LowLightPedRecog-YOLO** and **TextCat**.
+
+
+:::info
+Permitted artifact types for a collection are configured when a registry is created. This means that, depending on the registry where you create a collection, you may or may not be able to specify which types of artifacts can be added to that collection. For more information about artifact types, see [LINK].
+:::
+
 
 <Tabs
   defaultValue="alltypes"
@@ -25,7 +29,7 @@ Depending on the registry settings configured by your team admin, you may or may
 Create a collection in the W&B Registry that accepts multiple artifact types:
 
 1. Navigate to the Registries App in the W&B App UI.
-2. Select a default or custom registry.
+2. Select a core or custom registry.
 3. Click on the **Create collection** button in the upper right hand corner.
 4. Provide a name for your collection in the **Name** field. 
 5. In the **Type** field, provide one or more artifact types that this collection accepts. 
@@ -41,9 +45,10 @@ Create a collection in the W&B Registry that accepts multiple artifact types:
   </TabItem>
   <TabItem value="restricted">
 
+Create a collection with the W&B Registry that has restricted artifact types"
 
 1. Navigate to the Registries App in the W&B App UI.
-2. Select a default or custom registry.
+2. Select a core or custom registry.
 3. Click on the **Create collection** button in the upper right hand corner.
 4. Provide a name for your collection in the **Name** field. 
 5. Select a type from the **Type** dropdown.
