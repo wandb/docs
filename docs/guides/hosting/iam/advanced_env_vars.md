@@ -16,5 +16,8 @@ Choose any of the following environment variables for your instance depending on
 | GORILLA_OIDC_CUSTOM_SCOPES | If you are using OIDC based SSO, you can specify additional [scopes](https://auth0.com/docs/get-started/apis/scopes/openid-connect-scopes) that W&B instance should request from your identity provider. W&B does not change the SSO functionality due to these custom scopes in any way. |
 | GORILLA_USE_IDENTIFIER_CLAIMS | If you are using OIDC based SSO, set this variable to `true` to enforce username and full name of your users using specific OIDC claims from your identity provider. If set, ensure that you configure the enforced username and full name in the `preferred_username` and `name` OIDC claims respectively. |
 | GORILLA_DISABLE_PERSONAL_ENTITY | Set this to `true` to disable personal user projects in your W&B instance. If set, users can not create new personal projects in their personal entities, plus writes to existing personal projects are disabled. |
+| GORILLA_DISABLE_ADMIN_TEAM_ACCESS | Set this to `true` to restrict Organization or Instance Admins from self-joining or adding themselves to a W&B team, thus ensuring that only Data & AI personas have access to the projects within the teams. |
 
- For any questions, contact your W&B team.
+:::caution
+W&B advises to exercise caution and understand all implications before enabling some of these settings, like `GORILLA_DISABLE_ADMIN_TEAM_ACCESS`. Reach out to your W&B team for any questions.
+:::
