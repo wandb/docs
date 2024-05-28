@@ -5,13 +5,6 @@ displayed_sidebar: default
 ---
 
 # Pages
-
-## Home Page
-
-Browse all your runs and projects. The home page pulls in projects from your personal account, as well as any projects you've contributed to in teams.
-
-![](/images/app_ui/home_page.png)
-
 ## Project Page
 
 Compare models with different architectures and hyperparameters on the same set of metrics. Learn more [here](project-page.md).
