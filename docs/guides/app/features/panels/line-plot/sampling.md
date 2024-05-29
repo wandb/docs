@@ -45,3 +45,7 @@ Some key benfits of full fidelity mode include:
 :::info Line Plot Grouping or Expressions
 Bucketing is used to downsample points when you groupe or use expressions that have multiple runs with possibly not-aligned x axis values. The x-axis is divided into 200 evenly sized segments. Within each segment, all points for a given metric are averaged. The average inside a segment is used as the value of the metric if you group or use expression to combine metrics.
 :::
+
+:::caution Active feature development
+Applying Grouping or Expressions will revert to Random sampling instead of Full fidelity. We are actively working on achieving full feature parity with the Run Plots settings for Full fidelity mode, including enabling Grouping and Custom Expressions, while also optimizing performance. For now, panels with grouping or expressions will use Random sampling. This feature is available early because it was highly requested and provided value to users, even though improvements are still ongoing. Please reachout to support@wandb.com if you have any issues. 
+:::
