@@ -31,7 +31,7 @@ The following Artifact types indicate an auto-generated Artifact:
 - `job`
 - Any Artifact type starting with: `wandb-*`
 
-You can check an Artifact's type on the [W&B platform](../artifacts/explore-and-traverse-an-artifact-graph.md) or programatically:
+You can check an Artifact's type on the [W&B platform](../artifacts/explore-and-traverse-an-artifact-graph.md) or programmatically:
 
 ```python
 import wandb
