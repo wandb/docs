@@ -38,13 +38,17 @@ The new full fidelity point aggregation method replaces random sampling with an 
 3. Enhanced Zoom: Users can zoom into data points without losing detail due to downsampling.
 
 **Enabling Full fidelity mode:**
-1. Navigate to your workspace settings.
+1. Navigate to your workspace settings or panel settings.
 2. Select the Runs tab.
 3. Under Point aggregation method, choose Full fidelity.
 
 
-_Note: By default, workspaces have **Random sampling** selected. Switching to Full fidelity applies the chart setting per user._
+_Note: By default, workspaces have **Random sampling** selected. Switching to **Full fidelity** applies the chart setting per user._
 
 :::info Line Plot Grouping or Expressions
-When applying Line Plot Grouping or using Expressions with multiple runs with possibly not-aligned x axis values, bucketing is used to downsample the points.  The x-axis is divided into 200 evenly sized segments and then within each segments all points for a given metric are averaged. When grouping or using expressions to combine metrics, this average inside a segment is used as the value of the metric.
+When using Line Plot Grouping or Expressions with runs that have non-aligned x-axis values, we downsample points using bucketing. The x-axis is divided into 200 segments, and points within each segment are averaged. These averages represent the metric values when grouping or combining metrics.
+:::
+
+:::caution Active feature development
+Applying Grouping or Expressions will revert to Random sampling instead of Full fidelity. We are actively working on achieving full feature parity with the Run Plots settings for Full fidelity mode, including enabling Grouping and Custom Expressions, while also optimizing performance. For now, panels with grouping or expressions will use Random sampling. This feature is available early because it was highly requested and provided value to users, even though improvements are still ongoing. Please reachout to support@wandb.com if you have any issues. 
 :::
