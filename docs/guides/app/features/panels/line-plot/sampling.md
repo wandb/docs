@@ -37,13 +37,14 @@ Some key benfits of full fidelity mode include:
 * Enhanced Zoom: Users can zoom into data points without losing detail due to downsampling.
 
 ### Enable Full fidelity mode
-1. Navigate to your workspace settings.
+1. Navigate to your workspace settings or panel settings.
 2. Select the Runs tab.
 3. Under **Point aggregation method**, choose **Full fidelity**.
 
 
+
 :::info Line Plot Grouping or Expressions
-Bucketing is used to downsample points when you groupe or use expressions that have multiple runs with possibly not-aligned x axis values. The x-axis is divided into 200 evenly sized segments. Within each segment, all points for a given metric are averaged. The average inside a segment is used as the value of the metric if you group or use expression to combine metrics.
+W&B downsamples points with buckets if you use Line Plot Grouping or Expressions on runs that have non-aligned x-axis values. The x-axis is divided into 200 segments, and points within each segment are averaged. These averages represent the metric values when grouping or combining metrics.
 :::
 
 :::caution Active feature development
