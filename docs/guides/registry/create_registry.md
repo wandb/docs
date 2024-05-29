@@ -3,10 +3,10 @@ displayed_sidebar: default
 ---
 
 # Create a custom registry
-Create custom registry within an organization. This is particularly useful for organizing project-specific requirements. For example, you might need a registry dedicated to storing experiment configurations or hyperparameters for a specific research project. 
+Create a custom registry within an organization. Custom registries are particularly useful for organizing project-specific requirements that differ from the default, core registries that W&B provides. For example, you might need a registry dedicated to storing experiment configurations or hyperparameters for a specific research project. 
 
-:::info
-W&B Registry is is private preview and in active development. Artifact types cannot be edited once defined.  
+:::caution
+W&B Registries is in active development. Currently, you can not remove an artifact type once it is defined.  
 :::
 
 1. Navigate to the Registries App in the W&B App UI.
@@ -20,17 +20,18 @@ W&B Registry is is private preview and in active development. Artifact types can
 
 ![](/images/registry/create_custom_registry.png)
 
-The preceding image shows a custom registry called Forecast that is about to be created. The registry is set to **Restricted** [LINK] which means that only members that are manually added to the Forecast registry will have access to this registry. Only artifacts with `hf-model` type can be added to the Forecast registry (see the **Specify types** field). 
+The preceding image shows a custom registry called "Forecast" that a user is about to create. The registry is set to **Restricted** [LINK] which means that only members that are manually added to the "Forecast" registry will have access to this registry. In addition, only  `hf-model` artifact types can be added to the "Forecast" registry (see the **Specify types** field). 
 
-## Restrict registry visibility
+## Restrict visibility to a registry
 <!-- Who can do this? -->
-Restrict who can access a custom W&B Registry with visibility restrictions. A custom registry can have either **Restricted** or **Organization** visibility:
+Restrict who can access a custom registry. Restrict visibility to a registry when you create a registry or after you create the registry.  A custom registry can have either **Restricted** or **Organization** visibility.
 
-* Organization visibility: Anyone in the organization can view the registry.
-* Restricted visibility: Only invited organization members can view and edit the registry.
+| Visibility | Description |
+| --- | --- |
+| Organization | Anyone in the organization can view the registry. |
+| Restricted   | Only invited organization members can view and edit the registry.| 
 
-
-You can restrict visibility to a registry when you create a registry or after the registry is created. The following steps describe how to restrict the visibility of a custom registry that already exists:
+The following steps describe how to restrict the visibility of a custom registry that already exists:
 
 1. Navigate to the Registries App in the W&B App UI.
 2. Select a core or custom registry.
