@@ -24,12 +24,12 @@ The preceding image shows a custom registry called "Forecast" that a user is abo
 
 ## Restrict visibility to a registry
 <!-- Who can do this? -->
-Restrict who can access a custom registry. Restrict visibility to a registry when you create a registry or after you create the registry.  A custom registry can have either **Restricted** or **Organization** visibility.
+Restrict who can view and access a custom registry. You can restrict visibility to a registry when you create a custom registry or after you create a custom registry. A custom registry can have either restricted or organization visibility. For more information on registry visibilities, see [LINK].
 
-| Visibility | Description |
+<!-- | Visibility | Description |
 | --- | --- |
 | Organization | Anyone in the organization can view the registry. |
-| Restricted   | Only invited organization members can view and edit the registry.| 
+| Restricted   | Only invited organization members can view and edit the registry.|  -->
 
 The following steps describe how to restrict the visibility of a custom registry that already exists:
 
