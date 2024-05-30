@@ -19,12 +19,34 @@ A user within an organization can have different roles, and therefore permission
 The proceeding table lists the different roles a user can have and their permissions:
 
 
-| Role | Permissions |
-| --- | --- |
-| Admin | | 
-| Member | | 
-| Viewer | Read only access. | 
-| Owner | | 
+| Permission                                                     | Permission Group | Viewer | Member | Admin | Owner |
+|--------------------------------------------------------------- |------------------|--------|--------|-------|-------|
+| View a collection’s details                                    | Read             |   X    |   X    |   X   |   X   |
+| View a linked artifact’s details                               | Read             |   X    |   X    |   X   |   X   |
+| Usage: Consume an artifact in a registry with use_artifact     | Read             |   X    |   X    |   X   |   X   |
+| Download a linked artifact                                     | Read             |   X    |   X    |   X   |   X   |
+| Download files from an artifact’s file viewer                  | Read             |   X    |   X    |   X   |   X   |
+| Search a registry                                              | Read             |   X    |   X    |   X   |   X   |
+| View a registry’s settings and user list                       | Read             |   X    |   X    |   X   |   X   |
+| Create a new automation for a collection                       | Create           |        |   X    |   X   |   X   |
+| Turn on Slack notifications for new version being added        | Create           |        |   X    |   X   |   X   |
+| Create a new collection                                        | Create           |        |   X    |   X   |   X   |
+| Create a new custom registry                                   | Create           |        |   X    |   X   |   X   |
+| Edit collection card (description)                             | Update           |        |   X    |   X   |   X   |
+| Edit linked artifact description                               | Update           |        |   X    |   X   |   X   |
+| Add or delete a collection’s tag                               | Update           |        |   X    |   X   |   X   |
+| Add or delete an alias from a linked artifact                  | Update           |        |   X    |   X   |   X   |
+| Link a new artifact                                            | Update           |        |   X    |   X   |   X   |
+| Edit allowed types list for a registry                         | Update           |        |   X    |   X   |   X   |
+| Edit custom registry name                                      | Update           |        |   X    |   X   |   X   |
+| Delete a collection                                            | Delete           |        |   X    |   X   |   X   |
+| Delete an automation                                           | Delete           |        |   X    |   X   |   X   |
+| Unlink an artifact from a registry                             | Delete           |        |   X    |   X   |   X   |
+| Edit accepted artifact types for a registry                    | Admin            |        |        |   X   |   X   |
+| Change registry visibility (Organization or Restricted)        | Admin            |        |        |   X   |   X   |
+| Add users to a registry                                        | Admin            |        |        |   X   |   X   |
+| Assign or change a user's role in a registry                   | Admin            |        |        |   X   |   X   |
+
 
 
 ## Configure user roles in a registry
