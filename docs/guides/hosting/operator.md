@@ -221,10 +221,32 @@ Checking logged metrics, saving and downloading a file..................✅
 Checking artifact save and download workflows...........................✅
 ```
 
+## Update the W&B Kubernetes Operator
+This section describes how to update the operator itself. Please note that this will not update the W&B server application and should you be using a very old version of the Helm chart (non-operator based), please first migrate to the new version of the chart (operator based) as described [here](#migrate-self-managed-instances-to-wb-kubernetes-operator). To update the W&B server application, please continue [here](#update-the-wb-server-application):
+
+Please follow these steps:
+
+**Step 1: Update the repo**
+
+```console
+helm repo update
+```
+
+**Step 2: Update the Helm chart itself**
+
+```console
+helm upgrade --reuse-values
+```
+
+## Update the W&B Server application
+Customers do not have to update the W&B server application by themselves anymore. The operator will take care of the update as soon as Weights&Biases is releasing a new version of the software.
+
 ## Migrate self-managed instances to W&B Kubernetes Operator
 W&B recommends that you use the operator if you self-manage your W&B Server instance. That would enable W&B to roll out the newer services and products to your instance more seamlessly, and provide better troubleshooting and support.
 
 :::note
 Operator for self-managed W&B Server deployments is in private preview. In future at or after GA time, W&B will deprecate deployment mechanisms that do not use the operator. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
 :::
+
+## Configuration Reference
 
