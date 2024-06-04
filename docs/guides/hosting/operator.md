@@ -278,7 +278,7 @@ helm repo update
 ```
 
 **Step 2: Update the Helm chart itself**
-
+ 
 ```console
 helm upgrade --reuse-values
 ```
@@ -292,6 +292,195 @@ W&B recommends that you use the operator if you self-manage your W&B Server inst
 :::note
 Operator for self-managed W&B Server deployments is in private preview. In future at or after GA time, W&B will deprecate deployment mechanisms that do not use the operator. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
 :::
+
+
+To commence with a base installation of the W&B Pre-Operator, ensure that `post-operator.tf` has a `.disabled` file extension and `pre-operator.tf` is active (i.e., does not have a `.disabled` extension).
+
+### Prerequisites
+
+Before initiating the migration process, ensure the following prerequisites are met:
+
+- **Egress**: The deployment can't be airgapped. It needs access to [deploy.wandb.ai](deploy.wandb.ai) to get the latest spec for the **_Release Channel_**.
+- **AWS Credentials**: Proper AWS credentials configured to interact with your AWS resources.
+- **Terraform Installed**: The latest version of Terraform should be installed on your system.
+- **Route53 Hosted Zone**: An existing Route53 hosted zone corresponding to the domain under which the application will be served.
+- **Pre-Operator Terraform Files**: Ensure `pre-operator.tf` and associated variable files like `pre-operator.tfvars` are correctly set up.
+
+### Pre-Operator Setup
+
+Execute the following Terraform commands to initialize and apply the configuration for the Pre-Operator setup:
+
+```bash
+terraform init -upgrade
+terraform apply -var-file=./pre-operator.tfvars
+```
+
+`pre-operator.tf` should look something like this:
+
+```ini
+namespace     = "operator-upgrade"
+domain_name   = "sandbox-aws.wandb.ml"
+zone_id       = "Z032246913CW32RVRY0WU"
+subdomain     = "operator-upgrade"
+wandb_license = "ey..."
+wandb_version = "0.51.2"
+```
+
+The `pre-operator.tf` configuration calls two modules:
+
+```hcl
+module "wandb_infra" {
+  source  = "wandb/wandb/aws"
+  version = "1.16.10"
+  ...
+}
+```
+
+This module spins up the infrastructure.
+
+```hcl
+module "wandb_app" {
+  source  = "wandb/wandb/kubernetes"
+  version = "1.12.0"
+}
+```
+
+This module deploys the application.
+
+### Post-Operator Setup
+
+Make sure that `pre-operator.tf` has a `.disabled` extension, and `post-operator.tf` is active.
+
+The `post-operator.tfvars` includes additional variables:
+
+```ini
+...
+# wandb_version = "0.51.2" is now managed via the Release Channel or set in the User Spec.
+
+# Required Operator Variables for Upgrade:
+size                 = "small"
+enable_dummy_dns     = true
+enable_operator_alb  = true
+custom_domain_filter = "sandbox-aws.wandb.ml"
+```
+
+Run the following commands to initialize and apply the Post-Operator configuration:
+
+```bash
+terraform init -upgrade
+terraform apply -var-file=./post-operator.tfvars
+```
+
+The plan and apply steps will update the following resources:
+
+```yaml
+actions:
+  create:
+    - aws_efs_backup_policy.storage_class
+    - aws_efs_file_system.storage_class
+    - aws_efs_mount_target.storage_class["0"]
+    - aws_efs_mount_target.storage_class["1"]
+    - aws_eks_addon.efs
+    - aws_iam_openid_connect_provider.eks
+    - aws_iam_policy.secrets_manager
+    - aws_iam_role_policy_attachment.ebs_csi
+    - aws_iam_role_policy_attachment.eks_efs
+    - aws_iam_role_policy_attachment.node_secrets_manager
+    - aws_security_group.storage_class_nfs
+    - aws_security_group_rule.nfs_ingress
+    - random_pet.efs
+    - aws_s3_bucket_acl.file_storage
+    - aws_s3_bucket_cors_configuration.file_storage
+    - aws_s3_bucket_ownership_controls.file_storage
+    - aws_s3_bucket_server_side_encryption_configuration.file_storage
+    - helm_release.operator
+    - helm_release.wandb
+    - aws_cloudwatch_log_group.this[0]
+    - aws_iam_policy.default
+    - aws_iam_role.default
+    - aws_iam_role_policy_attachment.default
+    - helm_release.external_dns
+    - aws_default_network_acl.this[0]
+    - aws_default_route_table.default[0]
+    - aws_iam_policy.default
+    - aws_iam_role.default
+    - aws_iam_role_policy_attachment.default
+    - helm_release.aws_load_balancer_controller
+
+  update_in_place:
+    - aws_iam_policy.node_IMDSv2
+    - aws_iam_policy.node_cloudwatch
+    - aws_iam_policy.node_kms
+    - aws_iam_policy.node_s3
+    - aws_iam_policy.node_sqs
+    - aws_eks_cluster.this[0]
+    - aws_elasticache_replication_group.default
+    - aws_rds_cluster.this[0]
+    - aws_rds_cluster_instance.this["1"]
+    - aws_default_security_group.this[0]
+    - aws_subnet.private[0]
+    - aws_subnet.private[1]
+    - aws_subnet.public[0]
+    - aws_subnet.public[1]
+    - aws_launch_template.workers["primary"]
+
+  destroy:
+    - kubernetes_config_map.config_map
+    - kubernetes_deployment.wandb
+    - kubernetes_priority_class.priority
+    - kubernetes_secret.secret
+    - kubernetes_service.prometheus
+    - kubernetes_service.service
+    - random_id.snapshot_identifier[0]
+
+  replace:
+    - aws_autoscaling_attachment.autoscaling_attachment["primary"]
+    - aws_route53_record.alb
+    - aws_eks_node_group.workers["primary"]
+```
+
+You should see something like this:
+
+![post-operator-apply](/images/hosting/post-operator-apply.png)
+
+Note that in `post-operator.tf`, there is a single:
+
+```hcl
+module "wandb_infra" {
+  source  = "wandb/wandb/aws"
+  version = "4.7.2"
+  ...
+}
+```
+
+#### Changes in the Post-Operator Configuration:
+
+1. **Update Required Providers**: Change `required_providers.aws.version` from `3.6` to `4.0` for provider compatibility.
+2. **DNS and Load Balancer Configuration**: Integrate `enable_dummy_dns` and `enable_operator_alb` to manage DNS records and AWS Load Balancer setup through an Ingress.
+3. **License and Size Configuration**: Transfer the `license` and `size` parameters directly to the `wandb_infra` module to match new operational requirements.
+4. **Custom Domain Handling**: If necessary, use `custom_domain_filter` to troubleshoot DNS issues by checking the External DNS pod logs within the `kube-system` namespace.
+5. **Helm Provider Configuration**: Enable and configure the Helm provider to manage Kubernetes resources effectively:
+
+```hcl
+provider "helm" {
+  kubernetes {
+    host                   = data.aws_eks_cluster.app_cluster.endpoint
+    cluster_ca_certificate = base64decode(data.aws_eks_cluster.app_cluster.certificate_authority[0].data)
+    token                  = data.aws_eks_cluster_auth.app_cluster.token
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      args        = ["eks", "get-token", "--cluster-name", data.aws_eks_cluster.app_cluster.name]
+      command     = "aws"
+    }
+  }
+}
+```
+
+This comprehensive setup ensures a smooth transition from the Pre-Operator to the Post-Operator configuration, leveraging new efficiencies and capabilities enabled by the operator model.
+
+
+
+
 
 ## Configuration Reference
 
@@ -395,13 +584,12 @@ global:
 ```yaml
 global:
   bucket:
-    # Example bucket name, replace with your own
     name: abc-wandb-moving-pipefish
     provider: gcs
 ```
 
 **Azure**
-
+ToDO: fix
 ```yaml
 global:
   bucket:
@@ -431,6 +619,8 @@ global:
     secretKey: ""
     accessKey: ""
 ```
+
+Set *kms_key* to **null**
 
 ### MySQL
 
