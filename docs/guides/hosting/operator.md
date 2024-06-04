@@ -295,3 +295,332 @@ Operator for self-managed W&B Server deployments is in private preview. In futur
 
 ## Configuration Reference
 
+This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Many configuration options have been exposed via below configuration, some need to be set as environment variables (see below: Additional Environment Variables). 
+
+The documentation has two lists of environment variables: Link1 and Link2. Only use environment variables if the configuration option that you need has not yet been exposed via Helm Chart.
+
+The W&B Kubernetes operator configuration file for a production deployment requires the following contents:
+
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  labels:
+    app.kubernetes.io/name: weightsandbiases
+    app.kubernetes.io/instance: wandb
+  name: wandb
+  namespace: default
+spec:
+  values:
+    global:
+      host: https://<HOST_URI>
+      license: eyJhbGnUzaH...j9ZieKQ2x5GGfw
+      bucket:
+        <details depend on the provider>
+      mysql:
+        <redacted>
+    ingress:
+      annotations:
+        <redacted>
+    mysql:
+      # important, DO NOT REMOVE
+      install: false
+```
+
+This YAML file defines the desired state of your Weights & Biases deployment, including the version, environment variables, external resources like databases, and other
+necessary settings. Use the above YAML as a starting point and add the missing information.
+
+The full list of spec customization can be found [here](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) in the Helm repository. The recommended approach is to only change what is necessary and otherwise use the default values.
+
+
+### Complete example 
+This is an example configuration that uses GCP Kubernetes with GCP Ingress and GCS (GCP Object storage):
+
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  labels:
+    app.kubernetes.io/name: weightsandbiases
+    app.kubernetes.io/instance: wandb
+  name: wandb
+  namespace: default
+spec:
+  values:
+    global:
+      host: https://abc-wandb.sandbox-gcp.wandb.ml
+      bucket:
+        name: abc-wandb-moving-pipefish
+        provider: gcs
+      mysql:
+        database: wandb_local
+        host: 10.218.0.2
+        name: wandb_local
+        password: 8wtX6cJHizAZvYScjDzZcUarK4zZGjpV
+        port: 3306
+        user: wandb
+      extraEnv:
+        GLOBAL_ENV: "example"
+      license: eyJhbGnUzaHgyQjQyQWhEU3...ZieKQ2x5GGfw
+    ingress:
+      annotations:
+        ingress.gcp.kubernetes.io/pre-shared-cert: abc-wandb-cert-creative-puma
+        kubernetes.io/ingress.class: gce
+        kubernetes.io/ingress.global-static-ip-name: abc-wandb-operator-address
+    mysql:
+      install: false
+```
+
+
+### Host
+```yaml
+ # Provide the FQDN with protocol
+global:
+  # example host name, please replace with your own
+  host: https://abc-wandb.sandbox-gcp.wandb.ml
+```
+
+### Object storage (bucket)
+
+**AWS**
+```yaml
+global:
+  bucket:
+    provider: "s3"
+    name: ""
+    kmsKey: ""
+```
+
+**GCP**
+```yaml
+global:
+  bucket:
+    # Example bucket name, replace with your own
+    name: abc-wandb-moving-pipefish
+    provider: gcs
+```
+
+**Azure**
+
+```yaml
+global:
+  bucket:
+    # az, s3, gcs
+    provider: "s3"
+    name: ""
+    path: ""
+    region: ""
+    kmsKey: ""
+    secretKey: ""
+    accessKey: ""
+```
+
+**Other providers (Minio, Ceph, etc.)**
+
+These are all available configuration options for object storage:
+
+```yaml
+global:
+  bucket:
+    # az, s3, gcs
+    provider: "s3"
+    name: ""
+    path: ""
+    region: ""
+    kmsKey: ""
+    secretKey: ""
+    accessKey: ""
+```
+
+### MySQL
+
+```yaml
+# disable in-chart MySQL
+mysql:
+  install: false
+
+global:
+   mysql:
+     # Example values, replace with your own
+     database: wandb_local
+     host: 10.218.0.2
+     name: wandb_local
+     password: 8wtX6cJH...ZcUarK4zZGjpV
+     port: 3306
+     user: wandb
+```
+
+### License
+
+```yaml
+global:
+  # Example license, please replace with your own
+  license: eyJhbGnUzaHgyQjQy...VFnPS_KETXg1hi
+```
+
+### Ingress
+**Without TLS**
+
+```yaml
+global:
+# IMPORTANT: Ingress is on the same level in the YAML as ‘global’ (not a child)
+ingress:
+  class: ""
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  tls: []
+```
+
+**With TLS**
+
+Create a secret that contains the certificate
+
+```console
+kubectl create secret tls wandb-ingress-tls --key wandb-ingress-tls.key --cert wandb-ingress-tls.crt
+```
+
+Reference the secret in the ingress configuration
+```yaml
+global:
+# IMPORTANT: Ingress is on the same level in the YAML as ‘global’ (not a child)
+ingress:
+  class: ""
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  tls: 
+    - secretName: wandb-ingress-tls
+      hosts:
+        - <HOST_URI>
+```
+
+
+### External Redis
+
+```yaml
+redis:
+  install: false
+
+global
+  redis:
+    host: ""
+    port: 6379
+    password: ""
+    parameters: {}
+    caCert: ""
+```
+
+Alternatively via redis password in a Kubernetes secret:
+
+```console
+kubectl create secret generic redis-secret --from-literal=redis-password=supersecret
+```
+
+Reference it in below configuration:
+```yaml
+redis:
+  install: false
+
+global:
+  redis:
+    host: redis.example
+    port: 9001
+    auth:
+      enabled: true
+      secret: redis-secret
+      key: redis-password
+```
+
+### LDAP
+**Without TLS**
+```yaml
+global:
+  ldap:
+    enabled: true
+    # LDAP server address including "ldap://" or "ldaps://"
+    host:
+    # LDAP search base to use for finding users
+    baseDN:
+    # LDAP user to bind with (if not using anonymous bind)
+    bindDN:
+    # Secret name and key with LDAP password to bind with (if not using anonymous bind)
+    bindPW:
+    # LDAP attribute for email and group ID attribute names as comma separated string values.
+    attributes:
+    # LDAP group allow list
+    groupAllowList:
+    # Enable LDAP TLS
+    tls: false
+```
+
+**With TLS**
+
+The LDAP TLS cert configuration requires a config map pre-created with the certificate content.
+
+To create the config map you can use the following command:
+
+```console
+kubectl create configmap ldap-tls-cert --from-file=certificate.crt
+```
+
+And use the config map in the YAML like the example below
+
+```yaml
+global:
+  ldap:
+    enabled: true
+    # LDAP server address including "ldap://" or "ldaps://"
+    host:
+    # LDAP search base to use for finding users
+    baseDN:
+    # LDAP user to bind with (if not using anonymous bind)
+    bindDN:
+    # Secret name and key with LDAP password to bind with (if not using anonymous bind)
+    bindPW:
+    # LDAP attribute for email and group ID attribute names as comma separated string values.
+    attributes:
+    # LDAP group allow list
+    groupAllowList:
+    # Enable LDAP TLS
+    tls: true
+    # ConfigMap name and key with CA certificate for LDAP server
+    tlsCert:
+      configMap:
+        name: "ldap-tls-cert"
+        key: "certificate.crt"
+```
+
+### OIDC SSO
+
+```yaml
+global: 
+  auth:
+    sessionLengthHours: 720
+    oidc:
+      clientId: ""
+      secret: ""
+      authMethod: ""
+      issuer: ""
+```
+
+### SMTP
+
+```yaml
+global:
+  email:
+    smtp:
+      host: ""
+      port: 587
+      user: ""
+      password: ""
+```
+
+### Environment Variables
+```yaml
+global:
+  extraEnv:
+    GLOBAL_ENV: "example"
+```
