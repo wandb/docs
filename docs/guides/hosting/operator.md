@@ -221,6 +221,51 @@ Checking logged metrics, saving and downloading a file..................✅
 Checking artifact save and download workflows...........................✅
 ```
 
+## Accessing the W&B Management Console
+The W&B Kubernetes Operator Management comes with a management console. It is located at ${HOST_URI}/console, e.g. https://wandb.company-name.com/console.
+
+There are two ways to login to it:
+
+**Option 1**
+
+**Step 1: Open the W&B application in the browser and login**
+
+Login to the W&B application via ${HOST_URI}/, e.g. https://wandb.company-name.com/
+
+**Step 2: Access the console**
+
+Click on the icon in the top right corner and then on “System console”. Please note that only users with admin privileges will see the “System console” entry.
+
+![](/images/hosting/access_system_console_via_main_app.png)
+
+
+**Option 2**
+
+**Step 1: Open console application in browser**
+
+Open the above described URL in the browser and you will be presented with this login screen:
+
+![](/images/hosting/access_system_console_directly.png)
+
+**Step 2: Retrieve password**
+
+The password is stored as a Kubernetes secret and is being generated as part of the installation. To retrieve it, execute the following command:
+
+```console
+kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d
+```
+
+Copy the password to the clipboard.
+
+**Step 3: Login to the console**
+
+Paste the copied password to the textfield “Enter password” and click login.
+
+:::note
+The second option is recommended for troubleshooting only should the main application not be accessible. 
+:::
+
+
 ## Update the W&B Kubernetes Operator
 This section describes how to update the operator itself. Please note that this will not update the W&B server application and should you be using a very old version of the Helm chart (non-operator based), please first migrate to the new version of the chart (operator based) as described [here](#migrate-self-managed-instances-to-wb-kubernetes-operator). To update the W&B server application, please continue [here](#update-the-wb-server-application):
 
