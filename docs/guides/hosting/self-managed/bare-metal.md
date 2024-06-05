@@ -187,107 +187,15 @@ mc config host add local http://$MINIO_HOST:$MINIO_PORT "$MINIO_ACCESS_KEY" "$MI
 mc mb --region=us-east1 local/local-files
 ```
 
-## Kubernetes deployment
+## Deploy W&B Server application to Kubernetes
 
-The following k8s yaml can be customized but should serve as a basic foundation for configuring local in Kubernetes.
+The recommended installation method is via the official W&B Helm chart. Please follow [this section](../operator#deploy-wb-with-helm-cli) to deploy the W&B Server application.
 
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: wandb
-  labels:
-    app: wandb
-spec:
-  strategy:
-    type: RollingUpdate
-  replicas: 1
-  selector:
-    matchLabels:
-      app: wandb
-  template:
-    metadata:
-      labels:
-        app: wandb
-    spec:
-      containers:
-        - name: wandb
-          env:
-            - name: HOST
-              value: https://YOUR_DNS_NAME
-            - name: LICENSE
-              value: XXXXXXXXXXXXXXX
-            - name: BUCKET
-              value: s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME
-            - name: BUCKET_QUEUE
-              value: internal://
-            - name: AWS_REGION
-              value: us-east-1
-            - name: MYSQL
-              value: mysql://$USERNAME:$PASSWORD@$HOSTNAME/$DATABASE
-          imagePullPolicy: IfNotPresent
-          image: wandb/local:latest
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /ready
-              port: http
-          startupProbe:
-            httpGet:
-              path: /ready
-              port: http
-            failureThreshold: 60 # allow 10 minutes for migrations
-          resources:
-            requests:
-              cpu: '2000m'
-              memory: 4G
-            limits:
-              cpu: '4000m'
-              memory: 8G
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: wandb-service
-spec:
-  type: NodePort
-  selector:
-    app: wandb
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: wandb-ingress
-  annotations:
-    kubernetes.io/ingress.class: nginx
-spec:
-  defaultBackend:
-    service:
-      name: wandb-service
-      port:
-        number: 80
-```
-
-The k8s YAML above should work in most on-premises installations. However the details of your Ingress and optional SSL termination will vary. See [networking](#networking) below.
-
-### Helm Chart
-
-W&B also supports deploying via a Helm Chart. The official W&B helm chart can be [found here](https://github.com/wandb/helm-charts).
 
 ### Openshift
 
-W&B supports operating from within an [Openshift kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). Simply follow the instructions in the kubernetes deployment section above.
+W&B supports operating from within an [Openshift kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). The recommended installation method is via the official W&B Helm chart. Please follow this section to deploy the W&B Server application.
+
 
 #### Run the container as an un-privileged user
 
