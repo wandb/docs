@@ -361,6 +361,7 @@ const sidebars = {
               link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
               items: [
                 'guides/hosting/self-managed/basic-setup',
+                'guides/hosting/operator',  
                 {
                   type: 'category',
                   label: 'Install on public cloud',
@@ -374,7 +375,6 @@ const sidebars = {
                 'guides/hosting/server-upgrade-process',
               ],
             },
-            'guides/hosting/operator',  
           ],
         },        
         {

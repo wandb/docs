@@ -78,9 +78,9 @@ The W&B Operator will become the default installation method for W&B Server. Oth
 :::
 
 **Choose one of the following:**
-- If you have provisioned all required external services and want to deploy W&B onto Kubernetes with Helm CLI, please continues [here](#deploy-wb-with-helm-cli).
+- If you have provisioned all required external services and want to deploy W&B onto Kubernetes with Helm CLI, please continue [here](#deploy-wb-with-helm-cli).
 - If you prefer managing infrastructure and the W&B Server with Terraform, please continue [here](#deploy-wb-with-helm-terraform-module).
-- If you want to utilize the W&B Cloud Terraform Modules, please continues [here](#deploy-wb-with-wb-cloud-terraform-modules).
+- If you want to utilize the W&B Cloud Terraform Modules, please continue [here](#deploy-wb-with-wb-cloud-terraform-modules).
 
 ## Deploy W&B with Helm CLI
 W&B provides a Helm Chart to deploy the W&B Kubernetes Operator to a Kubernetes cluster. This approach allows you to deploy W&B Server via Helm CLI or a continuous delivery tool like ArgoCD. Please make sure that the above mentioned requirements are in place.
@@ -576,6 +576,9 @@ global:
 ```
 
 ### Ingress
+
+To identify the ingress class, please see this FAQ [entry](#how-to-identify-the-kubernetes-ingress-class).
+
 **Without TLS**
 
 ```yaml
@@ -775,4 +778,12 @@ The application pod is named **wandb-app-xxx**.
 ```console
 kubectl get pods
 kubectl logs wandb-XXXXX-XXXXX
+```
+
+#### How to identify the Kubernetes ingress class
+
+You can get the ingress class installed in your cluster by running
+
+```console
+kubectl get ingressclass
 ```
