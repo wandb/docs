@@ -97,6 +97,7 @@ helm repo update
 ```
 
 **Step 2: Install the Operator**
+
 To install the Operator on the Kubernetes cluster, execute this command:
 
 ```console
@@ -104,6 +105,7 @@ helm upgrade --install operator wandb/operator
 ```
 
 **Step 3: Configuring the W&B operator custom resource to trigger the W&B Server installation**
+
 Create an operator.yaml file to customize the W&B Operator deployment, specifying your custom configuration. See [Configuration Reference](#configuration-reference) for details.
 
 Once you have the specification YAML created and filled with your values, run the following and the operator will apply the configuration and install the W&B Server application based on your configuration.
@@ -120,6 +122,7 @@ Access the new installation via the browser and create the first admin user acco
 
 
 ## Deploy W&B with Helm Terraform Module
+
 This method allows for customized deployments tailored to specific requirements, leveraging Terraform's infrastructure-as-code approach for consistency and repeatability. The official W&B Helm-based Terraform Module that is located here: [terraform-helm-wandb](https://registry.terraform.io/modules/wandb/wandb/helm/latest). 
 
 The following code can be used as a starting point and includes all necessary configuration options for a production grade deployment. 
@@ -179,6 +182,7 @@ This integration ensures that W&B Kubernetes Operator is ready to use for your i
 For a detailed description on how to use these modules, please refer to this [section](./hosting-options/self-managed#deploy-wb-server-within-self-managed-cloud-accounts) to self-managed installations section in the docs.
 
 ## Verify the installation
+
 To verify the installation, W&B recommends using the wandb CLI. The verify command will execute several tests that verify all components and configurations. This step assumes that the first admin user account has been created via the browser.
 
 Please follow these steps to verify the installation:
@@ -543,7 +547,7 @@ global:
     accessKey: ""
 ```
 
-Set *kms_key* to **null**
+Set *kms_key* to **null** for all other providers.
 
 ### MySQL
 
@@ -610,6 +614,13 @@ ingress:
         - <HOST_URI>
 ```
 
+In case of Nginx you might have to add the following annotation:
+
+```
+ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 64m
+```
 
 ### External Redis
 
@@ -736,4 +747,32 @@ global:
 global:
   extraEnv:
     GLOBAL_ENV: "example"
+```
+
+
+## FAQ
+
+#### How to get the  W&B Operator Console password
+Please see [Accessing the W&B Kubernetes Operator Management Console](#accessing-the-wb-management-console).
+
+
+#### How to access the W&B Operator Console if Ingress doesn’t work
+
+Execute the following command on a host that can reach the Kubernetes cluster:
+
+```console
+kubectl port-forward svc/wandb-console 8082
+```
+
+Access the console in the browser via https://localhost:8082/console.
+
+Please see [Accessing the W&B Kubernetes Operator Management Console](#accessing-the-wb-management-console) on how to get the password (Option 2).
+
+#### How to view W&B Server logs
+
+The application pod is named **wandb-app-xxx**.
+
+```console
+kubectl get pods
+kubectl logs wandb-XXXXX-XXXXX
 ```
