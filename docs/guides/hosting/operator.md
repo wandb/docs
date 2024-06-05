@@ -242,7 +242,6 @@ Click on the icon in the top right corner and then on “System console”. Plea
 
 ![](/images/hosting/access_system_console_via_main_app.png)
 
-
 **Option 2**
 
 **Step 1: Open console application in browser**

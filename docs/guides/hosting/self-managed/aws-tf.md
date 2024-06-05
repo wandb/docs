@@ -390,7 +390,7 @@ This section details the steps required to upgrade from **_pre-operator_** to **
 The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is crucial for our architecture. Please see [this](../operator#reasons-for-the-architecture-shift) for a detailed explanation for this architecture shift.
 
 
-## Before and After Architecture
+### Before and After Architecture
 
 Previously, our architecture used:
 
