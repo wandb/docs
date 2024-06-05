@@ -286,199 +286,122 @@ helm upgrade --reuse-values
 ## Update the W&B Server application
 Customers do not have to update the W&B server application by themselves anymore. The operator will take care of the update as soon as Weights&Biases is releasing a new version of the software.
 
-## Migrate self-managed instances to W&B Kubernetes Operator
+## Migrate self-managed instances to W&B Operator
 W&B recommends that you use the operator if you self-manage your W&B Server instance. That would enable W&B to roll out the newer services and products to your instance more seamlessly, and provide better troubleshooting and support.
 
 :::note
-Operator for self-managed W&B Server deployments is in private preview. In future at or after GA time, W&B will deprecate deployment mechanisms that do not use the operator. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
+The W&B Operator will become the default installation method for W&B Server. In future, W&B will deprecate deployment mechanisms that do not use the operator. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
 :::
 
+**Step 1: Collect data of current installation**
 
-To commence with a base installation of the W&B Pre-Operator, ensure that `post-operator.tf` has a `.disabled` file extension and `pre-operator.tf` is active (i.e., does not have a `.disabled` extension).
+At first we need to identify the current installation method as further steps will depend on that:
+- If you used the official W&B Cloud Terraform Modules, please jump to the according section and continue there:
+  - [AWS](#migrate-to-operator-based-aws-terraform-modules)
+  - [GCP](#migrate-to-operator-based-gcp-terraform-modules)
+  - [Azure](#migrate-to-operator-based-azure-terraform-modules)
+- If you used the [W&B Non-Operator Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/wandb), please continue [here](#migrate-to-operator-based-helm-chart).
+- If you used the [W&B Non-Operator Helm chart via Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest), please continue [here](#migrate-to-operator-based-terraform-helm-chart).
+- If you created the Kubernetes resources via manifest(s), please continue [here](#migrate-to-operator-based-helm-chart).
 
-### Prerequisites
 
-Before initiating the migration process, ensure the following prerequisites are met:
+### Migrate to Operator-based AWS Terraform Modules
 
-- **Egress**: The deployment can't be airgapped. It needs access to [deploy.wandb.ai](deploy.wandb.ai) to get the latest spec for the **_Release Channel_**.
-- **AWS Credentials**: Proper AWS credentials configured to interact with your AWS resources.
-- **Terraform Installed**: The latest version of Terraform should be installed on your system.
-- **Route53 Hosted Zone**: An existing Route53 hosted zone corresponding to the domain under which the application will be served.
-- **Pre-Operator Terraform Files**: Ensure `pre-operator.tf` and associated variable files like `pre-operator.tfvars` are correctly set up.
+For a detailed description of the migration process, please continue [here](self-managed/aws-tf#migrate-to-operator-based-aws-terraform-modules).
 
-### Pre-Operator Setup
+### Migrate to Operator-based GCP Terraform Modules
 
-Execute the following Terraform commands to initialize and apply the configuration for the Pre-Operator setup:
+:::note
+This section of the documentation is currently being worked on. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
+:::
 
-```bash
-terraform init -upgrade
-terraform apply -var-file=./pre-operator.tfvars
+### Migrate to Operator-based Azure Terraform Modules
+
+:::note
+This section of the documentation is currently being worked on. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
+:::
+
+### Migrate to Operator-based Helm chart
+
+Follow these steps to migrate to the Operator-based Helm chart:
+
+**Step 1: Get the current W&B configuration**
+
+If W&B was deployed with an non-operator-based version of the Helm chart, please export the values like this:
+
+```console
+helm get values wandb > operator.yaml
 ```
 
-`pre-operator.tf` should look something like this:
+If W&B was deployed with Kubernetes manifests, please export the values like this:
 
-```ini
-namespace     = "operator-upgrade"
-domain_name   = "sandbox-aws.wandb.ml"
-zone_id       = "Z032246913CW32RVRY0WU"
-subdomain     = "operator-upgrade"
-wandb_license = "ey..."
-wandb_version = "0.51.2"
+```console
+kubectl get deployment wandb -o yaml
 ```
 
-The `pre-operator.tf` configuration calls two modules:
+In both ways you should now have all the configuration values which are needed for the next step. 
 
-```hcl
-module "wandb_infra" {
-  source  = "wandb/wandb/aws"
-  version = "1.16.10"
-  ...
-}
+**Step 2: Create operator.yaml**
+
+Create a file called operator.yaml by following the format described in the [Configuration Reference](#configuration-reference). Use the values from step 1.
+
+**Step 3: Scale the current deployment to 0 pods**
+
+This step is stopping the current deployment.
+
+```console
+kubectl scale --replicas=0 deployment wandb
 ```
 
-This module spins up the infrastructure.
+**Step 4: Update the Helm chart repo**
 
-```hcl
-module "wandb_app" {
-  source  = "wandb/wandb/kubernetes"
-  version = "1.12.0"
-}
+```console
+helm repo update
 ```
 
-This module deploys the application.
+**Step 5: Install the new Helm chart**
 
-### Post-Operator Setup
-
-Make sure that `pre-operator.tf` has a `.disabled` extension, and `post-operator.tf` is active.
-
-The `post-operator.tfvars` includes additional variables:
-
-```ini
-...
-# wandb_version = "0.51.2" is now managed via the Release Channel or set in the User Spec.
-
-# Required Operator Variables for Upgrade:
-size                 = "small"
-enable_dummy_dns     = true
-enable_operator_alb  = true
-custom_domain_filter = "sandbox-aws.wandb.ml"
+```console
+helm upgrade --install operator wandb/operator
 ```
 
-Run the following commands to initialize and apply the Post-Operator configuration:
+**Step 6: Configure the new helm chart and trigger W&B application deployment**
 
-```bash
-terraform init -upgrade
-terraform apply -var-file=./post-operator.tfvars
+Apply the new configuration.
+```console
+kubectl apply -f operator.yaml
 ```
 
-The plan and apply steps will update the following resources:
+The deployment will take a few minutes to complete.
 
-```yaml
-actions:
-  create:
-    - aws_efs_backup_policy.storage_class
-    - aws_efs_file_system.storage_class
-    - aws_efs_mount_target.storage_class["0"]
-    - aws_efs_mount_target.storage_class["1"]
-    - aws_eks_addon.efs
-    - aws_iam_openid_connect_provider.eks
-    - aws_iam_policy.secrets_manager
-    - aws_iam_role_policy_attachment.ebs_csi
-    - aws_iam_role_policy_attachment.eks_efs
-    - aws_iam_role_policy_attachment.node_secrets_manager
-    - aws_security_group.storage_class_nfs
-    - aws_security_group_rule.nfs_ingress
-    - random_pet.efs
-    - aws_s3_bucket_acl.file_storage
-    - aws_s3_bucket_cors_configuration.file_storage
-    - aws_s3_bucket_ownership_controls.file_storage
-    - aws_s3_bucket_server_side_encryption_configuration.file_storage
-    - helm_release.operator
-    - helm_release.wandb
-    - aws_cloudwatch_log_group.this[0]
-    - aws_iam_policy.default
-    - aws_iam_role.default
-    - aws_iam_role_policy_attachment.default
-    - helm_release.external_dns
-    - aws_default_network_acl.this[0]
-    - aws_default_route_table.default[0]
-    - aws_iam_policy.default
-    - aws_iam_role.default
-    - aws_iam_role_policy_attachment.default
-    - helm_release.aws_load_balancer_controller
+**Step 7: Verify the installation**
 
-  update_in_place:
-    - aws_iam_policy.node_IMDSv2
-    - aws_iam_policy.node_cloudwatch
-    - aws_iam_policy.node_kms
-    - aws_iam_policy.node_s3
-    - aws_iam_policy.node_sqs
-    - aws_eks_cluster.this[0]
-    - aws_elasticache_replication_group.default
-    - aws_rds_cluster.this[0]
-    - aws_rds_cluster_instance.this["1"]
-    - aws_default_security_group.this[0]
-    - aws_subnet.private[0]
-    - aws_subnet.private[1]
-    - aws_subnet.public[0]
-    - aws_subnet.public[1]
-    - aws_launch_template.workers["primary"]
+Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
 
-  destroy:
-    - kubernetes_config_map.config_map
-    - kubernetes_deployment.wandb
-    - kubernetes_priority_class.priority
-    - kubernetes_secret.secret
-    - kubernetes_service.prometheus
-    - kubernetes_service.service
-    - random_id.snapshot_identifier[0]
+**Step 8: Remove to old installation**
 
-  replace:
-    - aws_autoscaling_attachment.autoscaling_attachment["primary"]
-    - aws_route53_record.alb
-    - aws_eks_node_group.workers["primary"]
-```
+Uninstall the old helm chart or delete the resources that were created via manifests.
 
-You should see something like this:
+### Migrate to Operator-based Terraform Helm chart
 
-![post-operator-apply](/images/hosting/post-operator-apply.png)
-
-Note that in `post-operator.tf`, there is a single:
-
-```hcl
-module "wandb_infra" {
-  source  = "wandb/wandb/aws"
-  version = "4.7.2"
-  ...
-}
-```
-
-#### Changes in the Post-Operator Configuration:
-
-1. **Update Required Providers**: Change `required_providers.aws.version` from `3.6` to `4.0` for provider compatibility.
-2. **DNS and Load Balancer Configuration**: Integrate `enable_dummy_dns` and `enable_operator_alb` to manage DNS records and AWS Load Balancer setup through an Ingress.
-3. **License and Size Configuration**: Transfer the `license` and `size` parameters directly to the `wandb_infra` module to match new operational requirements.
-4. **Custom Domain Handling**: If necessary, use `custom_domain_filter` to troubleshoot DNS issues by checking the External DNS pod logs within the `kube-system` namespace.
-5. **Helm Provider Configuration**: Enable and configure the Helm provider to manage Kubernetes resources effectively:
-
-```hcl
-provider "helm" {
-  kubernetes {
-    host                   = data.aws_eks_cluster.app_cluster.endpoint
-    cluster_ca_certificate = base64decode(data.aws_eks_cluster.app_cluster.certificate_authority[0].data)
-    token                  = data.aws_eks_cluster_auth.app_cluster.token
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", data.aws_eks_cluster.app_cluster.name]
-      command     = "aws"
-    }
-  }
-}
-```
-
-This comprehensive setup ensures a smooth transition from the Pre-Operator to the Post-Operator configuration, leveraging new efficiencies and capabilities enabled by the operator model.
+Follow these steps to migrate to the Operator-based Helm chart:
 
 
+**Step 1: Prepare Terraform config**
+- Replace the Terraform code from the old deployment in your Terraform config with the one that is described here: Link to Deploy w… Terraform code
+- Set the same variables as before. Should you have a .tfvars file, leave it unchanged.
+
+**Step 2: Execute Terraform run**
+
+Execute terraform init, plan and apply
+
+**Step 3: Verify the installation**
+
+Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
+
+**Step 4: Remove to old installation**
+
+Uninstall the old helm chart or delete the resources that were created via manifests.
 
 
 
