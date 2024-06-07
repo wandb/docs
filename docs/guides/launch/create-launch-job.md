@@ -10,7 +10,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 # Create a Launch job
 <CTAButtons colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP"/>
 
-Launch jobs are blueprints for reproducing W&B runs.  Jobs are W&B Artifacts that capture the source code, dependencies, and inputs required to execute a workload. 
+Launch jobs are blueprints for reproducing W&B runs. Jobs are W&B Artifacts that capture the source code, dependencies, and inputs required to execute a workload. 
 
 Create and run jobs with the `wandb launch` command.
 
@@ -21,7 +21,7 @@ To create a job without submitting it for execution, use the `wandb job create` 
 
 ## Git jobs
 
-You can create a Git-based job where code and other tracked assets are cloned from a certain commit, branch, or tag in a remote git repository with W&B Launch.  Use the `--uri` or `-u` flag to specify the URI containing the code, along with optionally a `--build-context` flag to specify a subdirectory.
+You can create a Git-based job where code and other tracked assets are cloned from a certain commit, branch, or tag in a remote git repository with W&B Launch. Use the `--uri` or `-u` flag to specify the URI containing the code, along with optionally a `--build-context` flag to specify a subdirectory.
 
 Run a "hello world" job from a git repository with the following command:
 
@@ -51,7 +51,7 @@ Note that the exact URL format varies by hosting provider. Jobs created with `wa
 
 ## Code artifact jobs
 
-Jobs can be created from any source code stored in a W&B Artifact. Use a local directory with the `--uri`  or `-u` argument to create a new code artifact and job.
+Jobs can be created from any source code stored in a W&B Artifact. Use a local directory with the `--uri` or `-u` argument to create a new code artifact and job.
 
 To get started, create an empty directory and add a Python script named `main.py` with the following content:
 
@@ -81,7 +81,7 @@ The preceding command does the following:
 
 ## Image jobs
 
-Alternatively, you can build jobs off of pre-made Docker images.  This is useful when you already have an established build system for your ML code, or when you don't expect to adjust the code or requirements for the job but do want to experiment with hyperparameters or different infrastructure scales.
+Alternatively, you can build jobs off of pre-made Docker images. This is useful when you already have an established build system for your ML code, or when you don't expect to adjust the code or requirements for the job but do want to experiment with hyperparameters or different infrastructure scales.
 
 The image is pulled from a Docker registry and run with the specified entry point, or the default entry point if none is specified. Pass a full image tag to the `--docker-image` option to create and run a job from a Docker image.
 
