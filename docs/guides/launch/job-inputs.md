@@ -4,23 +4,20 @@ displayed_sidebar: default
 
 # Manage job inputs
 
-Add variable inputs to your job.
+The core experience of Launch is easily experimenting with different job inputs like hyperparameters and datasets, and routing these jobs to appropriate hardware. Once a job is created, users beyond the original author can adjust these inputs via the W&B GUI or CLI. For information on how job inputs can be set when launching from the CLI or UI, see the [Enqueue jobs](./add-job-to-queue.md) guide.
 
-## Intro
+This section describes how to programmatically control the inputs that can be tweaked for a job.
 
-Jobs have customizable inputs, enabling users to reconfigure the job when launching from the W&B CLI or UI.
+By default, W&B jobs capture the entire `Run.config` as the inputs to a job, but the Launch SDK provides a function to control select keys in the run config or to specify JSON or YAML files as inputs.
 
-By default W&B Jobs capture the entire Run.config as the inputs to a job. The launch sdk provides function to select keys in the run config, or specify JSON or YAML files as inputs.
-
-For information on how job inputs can be set when launching from the CLI or UI, see the [Enqueue jobs](./add-job-to-queue.md) guide.
 
 :::info
-`launch` sdk functions require `wandb-core`. See the [`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README.md) for more information.
+Launch SDK functions require `wandb-core`. See the [`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README.md) for more information.
 :::
 
 ## Reconfigure the `Run` object
 
-The `Run` object returned by `wandb.init` in a job can be reconfigured, by default. The `launch` sdk provides a way to customize what parts of the `Run.config` object can be reconfigured when launching the job.
+The `Run` object returned by `wandb.init` in a job can be reconfigured, by default. The Launch SDK provides a way to customize what parts of the `Run.config` object can be reconfigured when launching the job.
 
 
 ```python
@@ -52,7 +49,7 @@ with wandb.init(config=config)
     # Etc.
 ```
 
-The function `launch.manage_wandb_config` configures the job to accept input values for the `Run.config` object. The optional `include` and `exclude` options take path prefixes within the nested config object.
+The function `launch.manage_wandb_config` configures the job to accept input values for the `Run.config` object.  The optional `include` and `exclude` options take path prefixes within the nested config object.  This can be useful if, for example, a job uses a library whose options you don't want to expose to end users.  
 
 If `include` prefixes are provided, only paths within the config that match an `include` prefix will accept input values. If `exclude` prefixes are provided, no paths that match the `exclude` list will be filtered out of the input values. If a path matches both an `include` and an `exclude` prefix, the `exclude` prefix will take precedence.
 
@@ -79,7 +76,7 @@ If the code above is packaged and run as a job, the input types of the job will 
 }
 ```
 
-When launching the job from the W&B CLI or UI, the user will be able to override the `trainer` parameters.
+When launching the job from the W&B CLI or UI, the user will be able to override only the four `trainer` parameters.
 
 ### Access run config inputs
 
@@ -93,9 +90,9 @@ to load the run config input values anywhere in the job code.
 
 ## Reconfigure a file
 
-The launch sdk can manage input values stored in config files in the job code.
+The Launch SDK also provides a way to manage input values stored in config files in the job code. This is a common pattern in many deep learning and large language model use cases, like this [HuggingFace Tune](https://github.com/huggingface/tune/blob/main/configs/benchmark.yaml) example using Hydra or this [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)). 
 
-The `launch` sdk provides a way to manage input values stored in config files in the job code. The `launch.manage_config_file` function can be used to add a config file as an input to the job and apply input values to the file at runtime.
+The `launch.manage_config_file` function can be used to add a config file as an input to the Launch job, giving you access to edit values within the config file when launching the job.
 
 By default, no run config inputs will be captured if `launch.manage_config_file` is used. Calling `launch.manage_wandb_config` overrides this behavior.
 
