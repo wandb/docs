@@ -2,7 +2,7 @@
 displayed_sidebar: default
 ---
 
-# Privacy Settings
+# Privacy settings
 
 Organization and Team admins can configure a set of privacy settings at the organization and team scopes respectively. When configured at the organization scope, organization admins enforce those settings for all teams in that organization.
 
@@ -12,7 +12,7 @@ W&B recommends organization admins to enforce a privacy setting only after commu
 
 ## Configure privacy settings for a team
 
-Team admins can configure privacy settings for their respective teams from within the `Privacy` section of the team **Settings** tab. Each setting can be configured as long as it's not enforced at the organization scope:
+Team admins can configure privacy settings for their respective teams from within the `Privacy` section of the team **Settings** tab. Each setting is configurable as long as it's not enforced at the organization scope:
 
 * Hide this team from all non-members
 * Make all future team projects private (public sharing not allowed)
@@ -24,7 +24,7 @@ Team admins can configure privacy settings for their respective teams from withi
 
 ## Enforce privacy settings for all teams
 
-Organization admins can enforce privacy settings for all teams in their organization from within the `Privacy` section of the **Settings** tab in the account or organization dashboard. If a setting is enforced, team admins are not allowed to configure it within their respective teams.
+Organization admins can enforce privacy settings for all teams in their organization from within the `Privacy` section of the **Settings** tab in the account or organization dashboard. If organization admins enforce a setting, team admins are not allowed to configure that within their respective teams.
 
 * Enforce team visibility restrictions
     * Enable this option to hide all teams from non-members
