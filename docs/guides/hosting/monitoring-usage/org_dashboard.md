@@ -4,7 +4,7 @@ displayed_sidebar: default
 # Organization dashboard
 
 :::important
-Organization dashboard is only available with [Dedicated Cloud](./hosting-options/dedicated_cloud.md) and [Self-managed instances](./hosting-options/self-managed.md).
+Organization dashboard is only available with [Dedicated Cloud](../hosting-options/dedicated_cloud.md) and [Self-managed instances](../hosting-options/self-managed.md).
 :::
 
 ## View organization usage of W&B

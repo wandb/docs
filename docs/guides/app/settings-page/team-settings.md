@@ -75,4 +75,4 @@ The **Usage** section describes the total memory usage the team has consumed on 
 
 ## Storage
 
-The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector](../features/teams.md#secure-storage-connector) or check out our [W&B Server](../../hosting/secure-storage-connector.md) docs if you are self-hosting. 
+The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector](../features/teams.md#secure-storage-connector) or check out our [W&B Server](../../hosting/data-security/secure-storage-connector.md) docs if you are self-hosting. 

@@ -4,7 +4,7 @@ displayed_sidebar: default
 
 # Secure private connectivity for Dedicated Cloud
 
-You can connect to your [Dedicated Cloud](./hosting-options/dedicated_cloud.md) instance over the cloud provider's secure private network. This applies to the access from your desktop to the W&B UI application and from your AI training workloads to the W&B SDK API. If using this option, the relevant requests and responses do not transit through the public network / internet.
+You can connect to your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) instance over the cloud provider's secure private network. This applies to the access from your desktop to the W&B UI application and from your AI training workloads to the W&B SDK API. If using this option, the relevant requests and responses do not transit through the public network / internet.
 
 :::info
 Secure private connectivity is available in preview as an advanced security option with Dedicated Cloud.
