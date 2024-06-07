@@ -31,7 +31,7 @@ And then see W&B Alerts messages in Slack (or your email):
 :::info
 Please note that these following steps are to turn on alerts in public cloud _only_.
 
-If you're using [W&B Server](../hosting/intro.md) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation](../hosting/slack-alerts.md) to setup Slack alerts.
+If you're using [W&B Server](../hosting/intro.md) in your Private Cloud or on W&B Dedicated Cloud, then please refer to [this documentation](../hosting/monitoring-usage/slack-alerts.md) to setup Slack alerts.
 :::
 
 

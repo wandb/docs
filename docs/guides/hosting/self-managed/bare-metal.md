@@ -75,7 +75,7 @@ Some tested and working providers:
 
 ##### Secure Storage Connector
 
-The [Secure Storage Connector](../secure-storage-connector.md) is not available for teams at this time for bare metal deployments.
+The [Secure Storage Connector](../data-security/secure-storage-connector.md) is not available for teams at this time for bare metal deployments.
 
 ## MySQL Database
 
