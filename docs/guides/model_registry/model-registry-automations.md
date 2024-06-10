@@ -15,7 +15,7 @@ Create an automation to trigger workflow steps, such as automated model testing 
 For example, you can create a trigger that automatically deploys a model to GitHub when you add a new version of a registered model.
 
 :::note
-See [this YouTube video](https://www.youtube.com/watch?v=s5CMj_w3DaQ&ab_channel=Weights%26Biases) for step by step instructions on how to automatically deploy custom models and new model versions from the W&B Model Registry to Amazon SageMaker Endpoints using a W&B Automation.
+[This]([url](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)) tutorial will walk you through setting up an Automation that triggers a Github Action. You can also visit [this video](https://www.youtube.com/watch?v=s5CMj_w3DaQ&ab_channel=Weights%26Biases) for instructions on setting up a W&B Automation that deploys a new model version from the W&B Model Registry to Amazon SageMaker Endpoints.
 :::
 
 ## Event types
