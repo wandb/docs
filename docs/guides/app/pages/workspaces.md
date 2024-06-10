@@ -62,17 +62,17 @@ Remove saved views that are no longer needed.
 ### Share a workspace view
 Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
 
-# Programmatic Workspace
+# Programmatic workspace
 
 [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [Weights & Biases](https://wandb.ai/) workspaces and reports.
 
-## Creating a Workspace programmatically
+## Creating a workspace programmatically
 
-You can define a workspace programmatically by importing the necessary modules and defining the workspace's properties, such as its name, associated entity and project, and the sections it should contain.
+You can define a workspace programmatically by defining the workspace's properties, such as its name, associated entity and project, and the sections it should contain.
 
 ### Features:
 
-- **Programmatic Workspace creation:**
+- **Programmatic workspace creation:**
   - Define and create workspaces with specific configurations.
   - Set panel layouts, colors, and section orders.
 - **Workspace customization:**
@@ -92,7 +92,7 @@ See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/
 
 ### Define and save a workspace view programmatically
 ```python
-import wandb_workspaces.workspaces as ws
+importwandb_workspaces.workspaces as ws
 
 workspace = ws.Workspace(entity="your-entity", project="your-project", views=[...])
 workspace.save()
@@ -105,7 +105,7 @@ existing_workspace.views[0] = ws.View(name="my-new-view", sections=[...])
 existing_workspace.save()
 ```
 
-### Copy a workspace `saved view` to Another Workspace
+### Copy a workspace `saved view` to another workspace
 
 ```python
 old_workspace = ws.Workspace.from_url("old-workspace-url")
