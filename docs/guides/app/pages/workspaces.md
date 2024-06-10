@@ -62,41 +62,55 @@ Remove saved views that are no longer needed.
 ### Share a workspace view
 Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
 
+# Programmatic workspace
 
-## Sort charts into sections
-You can sort charts into sections in your workspace programmatically or interactively with the W&B App UI.
+[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [Weights & Biases](https://wandb.ai/) workspaces and reports.
 
-<Tabs
-  defaultValue="programmatically"
-  values={[
-    {label: 'Programmatically', value: 'programmatically'},
-    {label: 'W&B App UI', value: 'ui'},
-  ]}>
-  <TabItem value="programmatically">
+## Creating a workspace programmatically
 
-Add a prefix to the name of your metric when you log that metric to sort the chart into sections.
+You can define a workspace programmatically by defining the workspace's properties, such as its name, associated entity and project, and the sections it should contain.
 
-For example, the proceeding code block will produce two chart sections called **section-a** and **section-b**:
+### Features:
+
+- **Programmatic workspace creation:**
+  - Define and create workspaces with specific configurations.
+  - Set panel layouts, colors, and section orders.
+- **Workspace customization:**
+  - Configure workspace settings like default x-axis, section order, and collapse states.
+  - Add and customize panels within sections to organize workspace views.
+- **Editing existing workspace `saved views`:**
+  - Load and modify existing workspaces using a URL.
+  - Save changes to existing workspaces or save as new views.
+- **Run filtering and grouping:**
+  - Filter, group, and sort runs programmatically using simple expressions.
+  - Customize run appearance with settings like colors and visibility.
+- **Cross-workspace integration:**
+  - Copy views from one workspace to another for seamless integration and reuse.
+
+## Example workspace API workflows
+See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) for more comprehensive examples using the [Weights & Biases](https://wandb.ai/) workspace API. 
+
+### Define and save a workspace view programmatically
+```python
+importwandb_workspaces.workspaces as ws
+
+workspace = ws.Workspace(entity="your-entity", project="your-project", views=[...])
+workspace.save()
+```
+
+### Edit an existing view
+```python
+existing_workspace = ws.Workspace.from_url("workspace-url")
+existing_workspace.views[0] = ws.View(name="my-new-view", sections=[...])
+existing_workspace.save()
+```
+
+### Copy a workspace `saved view` to another workspace
 
 ```python
-run = wandb.init()
-with run:
-    for idx in range(100):
-        run.log({"section-a/metric": idx})
-        run.log({"section-b/metric": idx * 2})
+old_workspace = ws.Workspace.from_url("old-workspace-url")
+old_workspace_view = old_workspace.views[0]
+new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[old_workspace_view])
+
+new_workspace.save()
 ```
-![](/images/app_ui/workspaces_bar1.png)
-
-  </TabItem>
-  <TabItem value="ui">
-
-1. Navigate to your project workspace.
-2. Scroll down to the bottom of the panel section of your workspace.
-3. Click on the **Add section** button to add a new section.
-
-![](/images/app_ui/add_section_app.png)
-
-  </TabItem>
-</Tabs>
-
-
