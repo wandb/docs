@@ -92,7 +92,7 @@ See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/
 
 ### Define and save a workspace view programmatically
 ```python
-import wandb.apis.workspaces as ws
+import wandb_workspaces.workspaces as ws
 
 workspace = ws.Workspace(entity="your-entity", project="your-project", views=[...])
 workspace.save()
