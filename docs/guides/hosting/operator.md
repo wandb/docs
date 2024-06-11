@@ -101,7 +101,7 @@ helm repo update
 To install the Operator on the Kubernetes cluster, execute this command:
 
 ```console
-helm upgrade --install operator wandb/operator
+helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 ```
 
 **Step 3: Configuring the W&B operator custom resource to trigger the W&B Server installation**
@@ -365,7 +365,7 @@ helm repo update
 **Step 5: Install the new Helm chart**
 
 ```console
-helm upgrade --install operator wandb/operator
+helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 ```
 
 **Step 6: Configure the new helm chart and trigger W&B application deployment**
@@ -434,6 +434,8 @@ spec:
         <details depend on the provider>
       mysql:
         <redacted>
+      extraEnv:
+        AWS_REGION: "var-must-be-set-despite-not-needed"
     ingress:
       annotations:
         <redacted>
@@ -475,7 +477,7 @@ spec:
         port: 3306
         user: wandb
       extraEnv:
-        GLOBAL_ENV: "example"
+        AWS_REGION: "var-must-be-set-despite-not-needed"
       license: eyJhbGnUzaHgyQjQyQWhEU3...ZieKQ2x5GGfw
     ingress:
       annotations:
