@@ -223,7 +223,7 @@ Checking CORs configuration of the bucket...............................✅
 Checking wandb package version is up to date............................✅
 Checking logged metrics, saving and downloading a file..................✅
 Checking artifact save and download workflows...........................✅
-```
+``` 
 
 ## Accessing the W&B Management Console
 The W&B Kubernetes Operator Management comes with a management console. It is located at ${HOST_URI}/console, e.g. https://wandb.company-name.com/console.
@@ -510,43 +510,41 @@ global:
 ```yaml
 global:
   bucket:
-    name: abc-wandb-moving-pipefish
-    provider: gcs
+    provider: "gcs"
+    name: ""
 ```
 
 **Azure**
-ToDO: fix
 ```yaml
 global:
   bucket:
-    # az, s3, gcs
-    provider: "s3"
+    provider: "az"
     name: ""
-    path: ""
-    region: ""
-    kmsKey: ""
     secretKey: ""
-    accessKey: ""
 ```
 
 **Other providers (Minio, Ceph, etc.)**
 
-These are all available configuration options for object storage:
-
+For other S3 compatible providers, set the bucket configuration as a environment variable as follows:
 ```yaml
 global:
-  bucket:
-    # az, s3, gcs
-    provider: "s3"
-    name: ""
-    path: ""
-    region: ""
-    kmsKey: ""
-    secretKey: ""
-    accessKey: ""
+  extraEnv:
+    "BUCKET": "s3://wandb:changeme@mydb.com/wandb?tls=true"
+```
+The variable contains a connection string in this form:
+
+```yaml
+s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME
 ```
 
-Set *kms_key* to **null** for all other providers.
+You can optionally tell W&B to only connect over TLS if you configure a trusted SSL certificate for your object store. To do so, add the `tls` query parameter to the url:
+
+```yaml
+s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
+```
+:::caution
+This will only work if the SSL certificate is trusted. W&B does not support self-signed certificates.
+:::
 
 ### MySQL
 
@@ -585,11 +583,6 @@ global:
 # IMPORTANT: Ingress is on the same level in the YAML as ‘global’ (not a child)
 ingress:
   class: ""
-  annotations:
-    {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  tls: []
 ```
 
 **With TLS**
