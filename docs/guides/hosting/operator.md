@@ -69,7 +69,9 @@ Depending on the installation method, you might need to meet the following requi
 # Air-gapped installations
 Please note that air-gapped installations are currently not supported by the W&B Kubernetes Operator. W&B is working on a utility to deploy W&B with the Operator in air-gapped environments.
 
-InfoBox: We are actively working on adding airgapped installation support. For a status update, please reach out to [Customer Support](mailto:support@wandb.com) or your W&B team.
+:::info
+We are actively working on adding airgapped installation support. For a status update, please reach out to [Customer Support](mailto:support@wandb.com) or your W&B team.
+:::
 
 # Deploy W&B Server application
 This section describes different ways to deploy the W&B Kubernetes operator. 
@@ -123,7 +125,7 @@ Access the new installation via the browser and create the first admin user acco
 
 ## Deploy W&B with Helm Terraform Module
 
-This method allows for customized deployments tailored to specific requirements, leveraging Terraform's infrastructure-as-code approach for consistency and repeatability. The official W&B Helm-based Terraform Module that is located here: [terraform-helm-wandb](https://registry.terraform.io/modules/wandb/wandb/helm/latest). 
+This method allows for customized deployments tailored to specific requirements, leveraging Terraform's infrastructure-as-code approach for consistency and repeatability. The official W&B Helm-based Terraform Module is located [here](https://registry.terraform.io/modules/wandb/wandb/helm/latest). 
 
 The following code can be used as a starting point and includes all necessary configuration options for a production grade deployment. 
 
@@ -160,7 +162,7 @@ module "wandb" {
 }
 ```
 
-Please note that the configuration options are the same as described in [Configuration Reference](#configuration-reference), but that the syntax has to be written in the HashiCorp Configuration Language (HCL). The W&B custom resource definition will be created by the Terraform module.
+Please note that the configuration options are the same as described in [Configuration Reference](#configuration-reference), but that the syntax has to follow the HashiCorp Configuration Language (HCL). The W&B custom resource definition will be created by the Terraform module.
 
 To see how Weights&Biases themselves use the Helm Terraform module to deploy “Dedicated Cloud” installations for customers, please follow those links:
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
@@ -226,11 +228,11 @@ Checking artifact save and download workflows...........................✅
 ``` 
 
 ## Accessing the W&B Management Console
-The W&B Kubernetes Operator Management comes with a management console. It is located at ${HOST_URI}/console, e.g. https://wandb.company-name.com/console.
+The W&B Kubernetes Operator comes with a management console. It is located at ${HOST_URI}/console, e.g. https://wandb.company-name.com/console.
 
 There are two ways to login to it:
 
-**Option 1**
+**Option 1 (Recommended)**
 
 **Step 1: Open the W&B application in the browser and login**
 
@@ -283,14 +285,14 @@ helm repo update
 **Step 2: Update the Helm chart itself**
  
 ```console
-helm upgrade --reuse-values
+helm upgrade operator wandb/operator -n wandb-cr --reuse-values
 ```
 
 ## Update the W&B Server application
 Customers do not have to update the W&B server application by themselves anymore. The operator will take care of the update as soon as Weights&Biases is releasing a new version of the software.
 
 ## Migrate self-managed instances to W&B Operator
-W&B recommends that you use the operator if you self-manage your W&B Server instance. That would enable W&B to roll out the newer services and products to your instance more seamlessly, and provide better troubleshooting and support.
+W&B recommends that you use the operator if you self-manage your W&B Server installation. That would enable W&B to roll out the newer services and products to your instance more seamlessly, and provide better troubleshooting and support.
 
 :::note
 The W&B Operator will become the default installation method for W&B Server. In future, W&B will deprecate deployment mechanisms that do not use the operator. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
@@ -333,7 +335,7 @@ Follow these steps to migrate to the Operator-based Helm chart:
 If W&B was deployed with an non-operator-based version of the Helm chart, please export the values like this:
 
 ```console
-helm get values wandb > operator.yaml
+helm get values wandb
 ```
 
 If W&B was deployed with Kubernetes manifests, please export the values like this:
@@ -391,7 +393,7 @@ Follow these steps to migrate to the Operator-based Helm chart:
 
 
 **Step 1: Prepare Terraform config**
-- Replace the Terraform code from the old deployment in your Terraform config with the one that is described here: Link to Deploy w… Terraform code
+- Replace the Terraform code from the old deployment in your Terraform config with the one that is described [here](#deploy-wb-with-helm-terraform-module)
 - Set the same variables as before. Should you have a .tfvars file, leave it unchanged.
 
 **Step 2: Execute Terraform run**
@@ -410,9 +412,9 @@ Uninstall the old helm chart or delete the resources that were created via manif
 
 ## Configuration Reference
 
-This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Many configuration options have been exposed via below configuration, some need to be set as environment variables (see below: Additional Environment Variables). 
+This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Many configuration options have been exposed via below configuration, some need to be set as environment variables.
 
-The documentation has two lists of environment variables: Link1 and Link2. Only use environment variables if the configuration option that you need has not yet been exposed via Helm Chart.
+The documentation has two lists of environment variables: [Basic](./env-vars) and [Advanced](./iam/advanced_env_vars). Only use environment variables if the configuration option that you need has not yet been exposed via Helm Chart.
 
 The W&B Kubernetes operator configuration file for a production deployment requires the following contents:
 
