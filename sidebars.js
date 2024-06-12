@@ -30,12 +30,15 @@ const sidebars = {
             // 'guides/track/intro',
             'guides/track/launch',
             'guides/track/config',
+            'guides/app/pages/project-page',
+            'guides/app/pages/workspaces',
             {
               type: 'category',
               label: 'What are Runs?',
               link: {type: 'doc', id: 'guides/runs/intro'},
               items: [
                 // 'guides/runs/create-run',
+                'guides/app/pages/run-page',
                 'guides/runs/grouping',
                 'guides/runs/resuming',
                 'guides/runs/rewind',
@@ -162,6 +165,89 @@ const sidebars = {
             'guides/sweeps/existing-project',
           ],
         },
+        {
+          type: 'category',
+          label: 'App Reference',
+          link: {type: 'doc', id: 'guides/app/intro'},
+          items: [
+            {
+              type: 'category',
+              label: 'Features',
+              link: {type: 'doc', id: 'guides/app/features/intro'},
+              items: [
+                {
+                  type: 'category',
+                  label: 'Panels',
+                  link: {type: 'doc', id: 'guides/app/features/panels/intro'},
+                  items: [
+                    {
+                      type: 'category',
+                      label: 'Line Plot',
+                      link: {
+                        type: 'doc',
+                        id: 'guides/app/features/panels/line-plot/intro',
+                      },
+                      items: [
+                        'guides/app/features/panels/line-plot/reference',
+                        'guides/app/features/panels/line-plot/sampling',
+                        'guides/app/features/panels/line-plot/smoothing',
+                      ],
+                    },
+                    'guides/app/features/panels/bar-plot',
+                    'guides/app/features/panels/run-colors',
+                    'guides/app/features/panels/parallel-coordinates',
+                    'guides/app/features/panels/scatter-plot',
+                    'guides/app/features/panels/code',
+                    'guides/app/features/panels/parameter-importance',
+                    'guides/app/features/panels/run-comparer',
+                    
+                    {
+                      type: 'category',
+                      label: 'Query panels',
+                      link: {
+                        type: 'doc',
+                        id: 'guides/app/features/panels/query-panel/intro',
+                      },
+                      items: [
+                        'guides/app/features/panels/query-panel/embedding-projector',
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: 'category',
+                  label: 'Custom Charts',
+                  link: {
+                    type: 'doc',
+                    id: 'guides/app/features/custom-charts/intro',
+                  },
+                  items: [
+                    // 'guides/app/features/custom-charts/intro',
+                    'guides/app/features/custom-charts/walkthrough',
+                  ],
+                },
+                'guides/app/features/runs-table',
+                'guides/app/features/tags',
+                'guides/app/features/notes',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'Settings',
+              link: {type: 'doc', id: 'guides/app/settings-page/intro'},
+              items: [
+                'guides/app/settings-page/user-settings',
+                'guides/app/settings-page/team-settings',
+                'guides/app/settings-page/emails',
+                'guides/app/features/teams',
+                'guides/app/features/organizations',
+                'guides/app/features/storage',
+                'guides/app/features/system-metrics',
+                'guides/app/features/anon',
+              ],
+            },
+          ],
+        },
       ],
     },
     {
@@ -239,99 +325,6 @@ const sidebars = {
             'guides/reports/cross-project-reports',
             'guides/reports/reports-gallery',
             'guides/reports/reports-faq',
-          ],
-        },
-        {
-          type: 'category',
-          label: 'App Reference',
-          link: {type: 'doc', id: 'guides/app/intro'},
-          items: [
-            {
-              type: 'category',
-              label: 'Features',
-              link: {type: 'doc', id: 'guides/app/features/intro'},
-              items: [
-                {
-                  type: 'category',
-                  label: 'Panels',
-                  link: {type: 'doc', id: 'guides/app/features/panels/intro'},
-                  items: [
-                    {
-                      type: 'category',
-                      label: 'Line Plot',
-                      link: {
-                        type: 'doc',
-                        id: 'guides/app/features/panels/line-plot/intro',
-                      },
-                      items: [
-                        'guides/app/features/panels/line-plot/reference',
-                        'guides/app/features/panels/line-plot/sampling',
-                        'guides/app/features/panels/line-plot/smoothing',
-                      ],
-                    },
-                    'guides/app/features/panels/bar-plot',
-                    'guides/app/features/panels/run-colors',
-                    'guides/app/features/panels/parallel-coordinates',
-                    'guides/app/features/panels/scatter-plot',
-                    'guides/app/features/panels/code',
-                    'guides/app/features/panels/parameter-importance',
-                    'guides/app/features/panels/run-comparer',
-                    {
-                      type: 'category',
-                      label: 'Query panels',
-                      link: {
-                        type: 'doc',
-                        id: 'guides/app/features/panels/query-panel/intro',
-                      },
-                      items: [
-                        'guides/app/features/panels/query-panel/embedding-projector',
-                      ],
-                    },
-                  ],
-                },
-                {
-                  type: 'category',
-                  label: 'Custom Charts',
-                  link: {
-                    type: 'doc',
-                    id: 'guides/app/features/custom-charts/intro',
-                  },
-                  items: [
-                    // 'guides/app/features/custom-charts/intro',
-                    'guides/app/features/custom-charts/walkthrough',
-                  ],
-                },
-                'guides/app/features/runs-table',
-                'guides/app/features/tags',
-                'guides/app/features/notes',
-                'guides/app/features/teams',
-                'guides/app/features/organizations',
-                'guides/app/features/storage',
-                'guides/app/features/system-metrics',
-                'guides/app/features/anon',
-              ],
-            },
-            {
-              type: 'category',
-              label: 'Pages',
-              link: {type: 'doc', id: 'guides/app/pages/intro'},
-              items: [
-                'guides/app/pages/gradient-panel',
-                'guides/app/pages/project-page',
-                'guides/app/pages/run-page',
-                'guides/app/pages/workspaces',
-              ],
-            },
-            {
-              type: 'category',
-              label: 'Settings',
-              link: {type: 'doc', id: 'guides/app/settings-page/intro'},
-              items: [
-                'guides/app/settings-page/user-settings',
-                'guides/app/settings-page/team-settings',
-                'guides/app/settings-page/emails',
-              ],
-            },
           ],
         },
       ],
