@@ -14,11 +14,11 @@ W&B uses the operator to deploy and manage Dedicated Cloud instances on AWS, GCP
 :::
 
 ## Reasons for the Architecture Shift
-Historically, the W&B application was deployed as a single deployment and pod within a Kubernetes Cluster or a single Docker container. We have always recommended externalizing the Database and Object Store to decouple state from the application, especially in production environments.
+Historically, the W&B application was deployed as a single deployment and pod within a Kubernetes Cluster or a single Docker container. The recommendation has always been to externalize the Database and Object Store to decouple state from the application, especially in production environments.
 
-As the application grew, the need to evolve from a monolithic container to a distributed system became apparent. This change facilitates backend logic handling and seamlessly introduces **_in-kubernetes_** infrastructure capabilities. It also supports deploying new services essential for additional features that W&B relies on.
+As the application grew, the need to evolve from a monolithic container to a distributed system became apparent. This change facilitates backend logic handling and seamlessly introduces **_in-Kubernetes_** infrastructure capabilities. It also supports deploying new services essential for additional features that W&B relies on.
 
-Previously, any Kubernetes-related changes required updating the [terraform-kubernetes-wandb](https://github.com/wandb/terraform-kubernetes-wandb), ensuring compatibility across cloud providers, configuring necessary Terraform variables, and executing a terraform apply for each backend or Kubernetes-level change. This process was not scalable and placed a significant burden on our support staff to assist customers with upgrades.
+Previously, any Kubernetes-related changes required updating the [terraform-kubernetes-wandb](https://github.com/wandb/terraform-kubernetes-wandb), ensuring compatibility across cloud providers, configuring necessary Terraform variables, and executing a Terraform apply for each backend or Kubernetes-level change. This process was not scalable and placed a significant burden on our support staff to assist customers with upgrades.
 
 The solution was to implement an **_Operator_** that connects to a central [deploy.wandb.ai](https://deploy.wandb.ai) server to request the latest specification changes for a given **_Release Channel_** and apply them. Updates will be received as long as the license is valid. Helm was chosen as both the deployment mechanism for our operator and the means for the operator to handle all configuration templating of the W&B Kubernetes stack; Helmception.
 
