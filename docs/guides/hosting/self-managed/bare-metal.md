@@ -192,9 +192,9 @@ mc mb --region=us-east1 local/local-files
 The recommended installation method is via the official W&B Helm chart. Please follow [this section](../operator#deploy-wb-with-helm-cli) to deploy the W&B Server application.
 
 
-### Openshift
+### OpenShift
 
-W&B supports operating from within an [Openshift kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). The recommended installation method is via the official W&B Helm chart. Please follow this section to deploy the W&B Server application.
+W&B supports operating from within an [OpenShift Kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). The recommended installation method is via the official W&B Helm chart. Please follow this section to deploy the W&B Server.
 
 
 #### Run the container as an un-privileged user
