@@ -387,12 +387,12 @@ Follow the steps outlined here to update W&B:
 
 This section details the steps required to upgrade from **_pre-operator_** to **_post-operator_** environments using the [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) module.
 
-The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is crucial for our architecture. Please see [this](../operator#reasons-for-the-architecture-shift) for a detailed explanation for this architecture shift.
+The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is crucial for the W&B architecture. Please see [this](../operator#reasons-for-the-architecture-shift) for a detailed explanation for this architecture shift.
 
 
-### Before and After Architecture
+### Before and after Architecture
 
-Previously, our architecture used:
+Previously, the W&B architecture used:
 
 ```hcl
 module "wandb_infra" {
@@ -406,7 +406,7 @@ to control the infrastructure:
 
 ![pre-operator-infra](/images/hosting/pre-operator-infra.svg)
 
-and this module to deploy the W&B application:
+and this module to deploy the W&B Server:
 
 ```hcl
 module "wandb_app" {
@@ -427,13 +427,13 @@ module "wandb_infra" {
 }
 ```
 
-to manage both the installation of infrastructure and the W&B application to the Kubernetes cluster, thus eliminating the need for the `module "wandb_app"` in `post-operator.tf`.
+to manage both the installation of infrastructure and the W&B Server to the Kubernetes cluster, thus eliminating the need for the `module "wandb_app"` in `post-operator.tf`.
 
 ![post-operator-k8s](/images/hosting/post-operator-k8s.svg)
 
-This architectural shift facilitates the introduction of additional customer features (like OpenTelemetry, Prometheus, HPA's, Kafka, and image updates) without requiring manual Terraform operations by SRE/Infrastructure teams.
+This architectural shift facilitates the introduction of additional customer features (like OpenTelemetry, Prometheus, HPAs, Kafka, and image updates) without requiring manual Terraform operations by SRE/Infrastructure teams.
 
-To commence with a base installation of the W&B Pre-Operator, ensure that `post-operator.tf` has a `.disabled` file extension and `pre-operator.tf` is active (i.e., does not have a `.disabled` extension). Those files can be found [here](https://github.com/wandb/terraform-aws-wandb/tree/main/docs/operator-migration).
+To commence with a base installation of the W&B Pre-Operator, ensure that `post-operator.tf` has a `.disabled` file extension and `pre-operator.tf` is active (that does not have a `.disabled` extension). Those files can be found [here](https://github.com/wandb/terraform-aws-wandb/tree/main/docs/operator-migration).
 
 ### Prerequisites
 
