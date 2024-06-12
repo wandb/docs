@@ -6,77 +6,62 @@ import TabItem from '@theme/TabItem';
 
 # Set up for SageMaker
 
-<!-- You can use W&B Launch to submit jobs to run as SageMaker training jobs. Amazon SageMaker training jobs allow users to train machine learning models using provided or custom algorithms on the SageMaker platform. Once initiated, SageMaker handles the underlying infrastructure, scaling, and orchestration. -->
+W&B Launchを使用して、Amazon SageMakerにlaunchジョブを送信し、提供されたアルゴリズムやカスタムアルゴリズムを使用してSageMakerプラットフォーム上で機械学習モデルをトレーニングすることができます。SageMakerはコンピュートリソースの起動と解放を管理するため、EKSクラスターを持たないチームにとって良い選択肢となります。
 
-You can use W&B Launch to submit launch jobs to Amazon SageMaker to train machine learning models using provided or custom algorithms on the SageMaker platform.
+Amazon SageMakerに接続されたW&B Launchキューに送信されたlaunchジョブは、[CreateTrainingJob API](https://docs.aws.amazon.com/SageMaker/latest/APIReference/API_CreateTrainingJob.html)を使用してSageMakerトレーニングジョブとして実行されます。launchキュー設定を使用して、`CreateTrainingJob` APIに送信される引数を制御します。
 
-Launch jobs sent to Amazon SageMaker are executed as SageMaker Training Jobs with the [CreateTrainingJob API](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html). Arguments to the `CreateTrainingJob` API are controlled with the launch queue configuration. 
+Amazon SageMakerは[Dockerイメージを使用してトレーニングジョブを実行します](https://docs.aws.amazon.com/SageMaker/latest/dg/your-algorithms-training-algo-dockerfile.html)。SageMakerによってプルされるイメージはAmazon Elastic Container Registry (ECR)に保存されている必要があります。つまり、トレーニングに使用するイメージはECRに保存されている必要があります。
 
-
-Amazon SageMaker [uses Docker images to execute training jobs](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-training-algo-dockerfile.html). Images pulled by SageMaker must be stored in the Amazon Elastic Container Registry (ECR). This means that the image you use for training must be stored on ECR. To learn more about how to set up Launch with ECR, see [Advanced agent set up](./setup-agent-advanced.md).
-
-Amazon SageMaker requires an IAM execution role. The IAM role is used within the SageMaker training job instances to control access to required resources like ECR and Amazon S3. Make note of the IAM role ARN. You will need to specify the IAM role ARN in your queue configuration. 
-
+:::note
+このガイドはSageMakerトレーニングジョブの実行方法を示しています。Amazon SageMakerで推論用のモデルをデプロイする方法については、[この例のLaunchジョブ](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_sagemaker_endpoints)を参照してください。
+:::
 
 ## Prerequisites
-Create and make note of the following AWS resources:
 
-1. **Setup SageMaker in your AWS account.** See the [SageMaker Developer guide](https://docs.aws.amazon.com/sagemaker/latest/dg/gs-set-up.html) for more information.
-2. **Create an Amazon ECR repository**  to store images you want to execute on Amazon SageMaker. See the [Amazon ECR documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for more information.
-3. **Create an Amazon S3 bucket(s)** to store SageMaker inputs and outputs for your SageMaker training jobs. See the [Amazon S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) for more information. Make note of the S3 bucket URI and directory.
-4. **Create IAM execution role.** The role used in the SageMaker training job requires the following permissions to work. These permissions allow for logging events, pulling from ECR, and interacting with input and output buckets. 
-  ```json title="IAM role policy"
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Action": [
-          "cloudwatch:PutMetricData",
-          "logs:CreateLogStream",
-          "logs:PutLogEvents",
-          "logs:CreateLogGroup",
-          "logs:DescribeLogStreams",
-          "ecr:GetAuthorizationToken"
-        ],
-        "Resource": "*"
-      },
-      {
-        "Effect": "Allow",
-        "Action": [
-          "s3:ListBucket"
-        ],
-        "Resource": [
-          "arn:aws:s3:::<input-bucket>"
-        ]
-      },
-      {
-        "Effect": "Allow",
-        "Action": [
-          "s3:GetObject",
-          "s3:PutObject"
-        ],
-        "Resource": [
-          "arn:aws:s3:::<input-bucket>/<object>",
-          "arn:aws:s3:::<output-bucket>/<path>"
-        ]
-      },
-      {
-        "Effect": "Allow",
-        "Action": [
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage"
-        ],
-        "Resource": "arn:aws:ecr:<region>:<account-id>:repository/<repo>"
-      }
-    ]
-  }
-  ```
-  Make note of the IAM role ARN. You will provide the role ARN created in this step when you configure the launch queue.
-5. **Create an IAM role for the launch agent** The launch agent needs permission to create SageMaker training jobs. Attach the following policy to the IAM role that you will use for the launch agent. Make note of the IAM role ARN that you create for the launch agent:
+始める前に、以下の前提条件を満たしていることを確認してください：
 
-  ```yaml
+* [LaunchエージェントにDockerイメージをビルドさせるかどうかを決定します。](#decide-if-you-want-the-launch-agent-to-build-a-docker-images)
+* [AWSリソースを設定し、S3、ECR、およびSageMaker IAMロールに関する情報を収集します。](#set-up-aws-resources)
+* [Launchエージェント用のIAMロールを作成します。](#create-an-iam-role-for-launch-agent)
+
+### Decide if you want the Launch agent to build a Docker images
+
+W&B LaunchエージェントにDockerイメージをビルドさせるかどうかを決定します。選択肢は2つあります：
+
+* LaunchエージェントにDockerイメージをビルドさせ、イメージをAmazon ECRにプッシュし、[SageMakerトレーニング](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html)ジョブを送信させる。このオプションは、トレーニングコードを迅速に繰り返すMLエンジニアにとって簡便です。
+* 既存のDockerイメージを使用し、その中にトレーニングまたは推論スクリプトを含める。このオプションは既存のCIシステムとよく連携します。このオプションを選択する場合、Dockerイメージを手動でAmazon ECRのコンテナレジストリにアップロードする必要があります。
+
+### Set up AWS resources
+
+以下のAWSリソースが希望するAWSリージョンに設定されていることを確認してください：
+
+1. コンテナイメージを保存するための[ECRリポジトリ](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html)。
+2. SageMakerトレーニングジョブの入力と出力を保存するための1つ以上の[S3バケット](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)。
+3. SageMakerがトレーニングジョブを実行し、Amazon ECRおよびAmazon S3と連携することを許可するIAMロール。
+
+これらのリソースのARNをメモしておいてください。Launchキュー設定を定義するときにARNが必要になります。
+
+### Create an IAM role for Launch agent
+
+LaunchエージェントがAmazon SageMakerトレーニングジョブを作成するための権限が必要です。以下の手順に従ってIAMロールを作成します：
+
+1. AWSのIAM画面から新しいロールを作成します。
+2. **Trusted Entity**には**AWS Account**（または組織のポリシーに適した他のオプション）を選択します。
+3. 権限画面をスクロールして**Next**をクリックします。
+4. ロールに名前と説明を付けます。
+5. **Create role**を選択します。
+6. **Add permissions**の下で**Create inline policy**を選択します。
+7. JSONポリシーエディタに切り替え、以下のポリシーをユースケースに基づいて貼り付けます。`<>`で囲まれた値を自分の値に置き換えます：
+
+<Tabs
+  defaultValue="build"
+  values={[
+    {label: 'Agent builds and submits Docker image', value: 'build'},
+    {label: 'Agent submits pre-built Docker image', value: 'no-build'},
+  ]}>
+  <TabItem value="no-build">
+
+  ```json
   {
     "Version": "2012-10-17",
     "Statement": [
@@ -84,24 +69,24 @@ Create and make note of the following AWS resources:
         "Effect": "Allow",
         "Action": [
           "logs:DescribeLogStreams",
-          "sagemaker:AddTags",
-          "sagemaker:CreateTrainingJob",
-          "sagemaker:DescribeTrainingJob"
+          "SageMaker:AddTags",
+          "SageMaker:CreateTrainingJob",
+          "SageMaker:DescribeTrainingJob"
         ],
-        "Resource": "arn:aws:sagemaker:<region>:<account-id>:*"
+        "Resource": "arn:aws:SageMaker:<region>:<account-id>:*"
       },
       {
         "Effect": "Allow",
         "Action": "iam:PassRole",
         "Resource": "arn:aws:iam::<account-id>:role/<RoleArn-from-queue-config>"
       },
-      {
+    {
         "Effect": "Allow",
         "Action": "kms:CreateGrant",
         "Resource": "<ARN-OF-KMS-KEY>",
         "Condition": {
           "StringEquals": {
-            "kms:ViaService": "sagemaker.<region>.amazonaws.com",
+            "kms:ViaService": "SageMaker.<region>.amazonaws.com",
             "kms:GrantIsForAWSResource": "true"
           }
         }
@@ -109,27 +94,88 @@ Create and make note of the following AWS resources:
     ]
   }
   ```
-  
-  
+  </TabItem>
+  <TabItem value="build">
 
+  ```json
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "logs:DescribeLogStreams",
+          "SageMaker:AddTags",
+          "SageMaker:CreateTrainingJob",
+          "SageMaker:DescribeTrainingJob"
+        ],
+        "Resource": "arn:aws:SageMaker:<region>:<account-id>:*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": "iam:PassRole",
+        "Resource": "arn:aws:iam::<account-id>:role/<RoleArn-from-queue-config>"
+      },
+       {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:CreateRepository",
+        "ecr:UploadLayerPart",
+        "ecr:PutImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:InitiateLayerUpload",
+        "ecr:DescribeRepositories",
+        "ecr:DescribeImages",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchDeleteImage"
+      ],
+      "Resource": "arn:aws:ecr:<region>:<account-id>:repository/<repository>"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": "kms:CreateGrant",
+        "Resource": "<ARN-OF-KMS-KEY>",
+        "Condition": {
+          "StringEquals": {
+            "kms:ViaService": "SageMaker.<region>.amazonaws.com",
+            "kms:GrantIsForAWSResource": "true"
+          }
+        }
+      }
+    ]
+  }
+  ```
+  </TabItem>
+</Tabs>
 
-:::note
-* If you want the launch agent to build images, see the [Advanced agent set up](./setup-agent-advanced.md) for additional permissions required.
-* The `kms:CreateGrant` permission for SageMaker queues is required only if the associated ResourceConfig has a specified VolumeKmsKeyId and the associated role does not have a policy that permits this action.
+8. **Next**をクリックします。
+9. ロールのARNをメモします。launchエージェントを設定する際にARNを指定します。
+
+IAMロールの作成方法について詳しくは、[AWS Identity and Access Management Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html)を参照してください。
+
+:::info
+* Launchエージェントにイメージをビルドさせる場合、追加の権限が必要なため、[Advanced agent set up](./setup-agent-advanced.md)を参照してください。
+* SageMakerキューの`kms:CreateGrant`権限は、関連するResourceConfigに指定されたVolumeKmsKeyIdがあり、関連するロールにこのアクションを許可するポリシーがない場合にのみ必要です。
 :::
 
-## Configure a queue for SageMaker
-Create a queue in the W&B App that uses SageMaker as its compute resource:
+## Configure launch queue for SageMaker
 
-1. Navigate to the [Launch App](https://wandb.ai/launch).
-3. Click on the **Create Queue** button.
-4. Select the **Entity** you would like to create the queue in.
-5. Provide a name for your queue in the **Name** field.
-6. Select **SageMaker** as the **Resource**.
-7. Within the **Configuration** field, provide information about your SageMaker job. By default, W&B will populate a YAML and JSON `CreateTrainingJob` request body:
+次に、W&BアプリでSageMakerをコンピュートリソースとして使用するキューを作成します：
+
+1. [Launch App](https://wandb.ai/launch)に移動します。
+3. **Create Queue**ボタンをクリックします。
+4. キューを作成したい**Entity**を選択します。
+5. **Name**フィールドにキューの名前を入力します。
+6. **Resource**として**SageMaker**を選択します。
+7. **Configuration**フィールドにSageMakerジョブに関する情報を入力します。デフォルトで、W&BはYAMLおよびJSONの`CreateTrainingJob`リクエストボディを入力します：
 ```json
 {
-  "RoleArn": "<REQUIRED>",
+  "RoleArn": "<REQUIRED>", 
   "ResourceConfig": {
       "InstanceType": "ml.m4.xlarge",
       "InstanceCount": 1,
@@ -143,48 +189,77 @@ Create a queue in the W&B App that uses SageMaker as its compute resource:
   }
 }
 ```
-You must at minimum specify:
+最低限指定する必要があるのは：
 
-- `RoleArn` : ARN of the IAM role that you created that satisfied the [prerequisites](#prerequisites).
-- `OutputDataConfig.S3OutputPath` : An Amazon S3 URI specifying where SageMaker outputs will be stored.
-- `ResourceConfig`: Required specification of a resource config. Options for resource config are outlined [here](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceConfig.html).
-- `StoppingCondition`: Required specification of the stopping conditions for the trainin job. Options outlined [here](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_StoppingCondition.html).
-7. Click on the **Create Queue** button.
+- `RoleArn` : SageMaker実行IAMロールのARN（[前提条件](#prerequisites)を参照）。launchエージェントIAMロールと混同しないでください。
+- `OutputDataConfig.S3OutputPath` : SageMakerの出力が保存されるAmazon S3 URI。
+- `ResourceConfig`: リソース設定の必須仕様。リソース設定のオプションは[こちら](https://docs.aws.amazon.com/SageMaker/latest/APIReference/API_ResourceConfig.html)に記載されています。
+- `StoppingCondition`: トレーニングジョブの停止条件の必須仕様。オプションは[こちら](https://docs.aws.amazon.com/SageMaker/latest/APIReference/API_StoppingCondition.html)に記載されています。
+7. **Create Queue**ボタンをクリックします。
 
+## Set up the launch agent
 
+次のセクションでは、エージェントをデプロイする場所と、デプロイ場所に基づいてエージェントを設定する方法について説明します。
 
-## Configure a launch agent
-Configure the launch agent with a YAML config file named `launch-config.yaml`. By default, W&B will check for the config file in `~/.config/wandb/launch-config.yaml`. You can optionally specify a different directory when you activate the launch agent.
+Amazon SageMakerのためのlaunchキューには、エージェントをデプロイする[いくつかのオプション](#decide-where-to-run-the-launch-agent)があります：ローカルマシン、EC2インスタンス、またはEKSクラスター。エージェントをデプロイする場所に基づいて、[適切にlaunchエージェントを設定](#configure-a-launch-agent)します。
 
-The following YAML snippet demonstrates how to specify the core config agent options:
+### Decide where to run the Launch agent
 
-```yaml title="launch-config.yaml"
-max_jobs: <n-concurrent-jobs>
-queues:
-  - <queue-name>
+プロダクションワークロードおよび既にEKSクラスターを持っている顧客には、Helmチャートを使用してLaunchエージェントをEKSクラスターにデプロイすることをお勧めします。
+
+現在EKSクラスターを持たないプロダクションワークロードには、EC2インスタンスが良いオプションです。launchエージェントインスタンスは常に稼働していますが、エージェントには`t2.micro`サイズのEC2インスタンスで十分です。
+
+実験的または個人使用の場合、ローカルマシンでLaunchエージェントを実行するのが迅速な方法です。
+
+ユースケースに基づいて、以下のタブに記載された手順に従ってlaunchエージェントを適切に設定してください：
+<Tabs
+  defaultValue="eks"
+  values={[
+    {label: 'EKS', value: 'eks'},
+    {label: 'EC2', value: 'ec2'},
+    {label: 'Local machine', value: 'local'},
+  ]}>
+  <TabItem value="eks">
+
+W&Bは、EKSクラスターにエージェントをインストールするために[W&B管理のHelmチャート](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)を使用することを強く推奨します。
+
+</TabItem>
+  <TabItem value="ec2">
+
+Amazon EC2ダッシュボードに移動し、以下の手順を完了します：
+
+1. **Launch instance**をクリックします。
+2. **Name**フィールドに名前を入力します。オプションでタグを追加します。
+2. **Instance type**からEC2コンテナのインスタンスタイプを選択します。1vCPUと1GiBのメモリで十分です（例：t2.micro）。
+3. **Key pair (login)**フィールドで組織用のキーペアを作成します。このキーペアを使用して、後のステップでSSHクライアントを使用して[EC2インスタンスに接続](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect.html)します。
+2. **Network settings**で組織に適したセキュリティグループを選択します。
+3. **Advanced details**を展開します。**IAM instance profile**には、上記で作成したlaunchエージェントIAMロールを選択します。
+2. **Summary**フィールドを確認します。正しければ、**Launch instance**を選択します。
+
+AWSのEC2ダッシュボードの左パネルで**Instances**に移動します。作成したEC2インスタンスが稼働していることを確認します（**Instance state**列を参照）。EC2インスタンスが稼働していることを確認したら、ローカルマシンの端末に移動し、以下を完了します：
+
+1. **Connect**を選択します。
+2. **SSH client**タブを選択し、EC2インスタンスに接続するための指示に従います。
+3. EC2インスタンス内で以下のパッケージをインストールします：
+```bash
+sudo yum install python311 -y && python3 -m ensurepip --upgrade && pip3 install wandb && pip3 install wandb[launch]
+```
+4. 次に、EC2インスタンス内でDockerをインストールして起動します：
+```bash
+sudo yum update -y && sudo yum install -y docker python3 && sudo systemctl start docker && sudo systemctl enable docker && sudo usermod -a -G docker ec2-user
+
+newgrp docker
 ```
 
-:::tip
-There are two ways to submit launch on Amazon SageMaker:
-* Option 1: Bring your own image (BYOI) and push it to your Amazon ECR repository.
-* Option 2: Let the W&B Launch agent build a container for your and push it to your ECR repository.
+これでLaunchエージェントの設定を行う準備が整いました。
 
-You will need to provide additional information to your launch agent configuration if you want the launch agent to build images for you (Option 2). For more information, see [Advanced agent set up](./setup-agent-advanced.md).
-:::
+  </TabItem>
+  <TabItem value="local">
 
+ローカルマシンでポーリングしているエージェントにロールを関連付けるために、`~/.aws/config`および`~/.aws/credentials`にあるAWS設定ファイルを使用します。前のステップで作成したlaunchエージェント用のIAMロールARNを提供します。
 
-## Set up agent permissions for Amazon SageMaker
-IAM roles can be associated with launch agents in a variety of ways. How you configure these roles will in part depend on where your launch agent is polling from.
-
-
-Based on your use case, see the following guidance. 
-
-### Agent polls from a local machine 
-
-Use the AWS config files located at `~/.aws/config`  and `~/.aws/credentials` to associate a role with an agent that is polling on a local machine. Provide the IAM role ARN that you created for the launch agent in the previous step.
- 
 ```yaml title="~/.aws/config"
-[profile sagemaker-agent]
+[profile SageMaker-agent]
 role_arn = arn:aws:iam::<account-id>:role/<agent-role-name>
 source_profile = default                                                                   
 ```
@@ -196,7 +271,40 @@ aws_secret_access_key=<secret-access-key>
 aws_session_token=<session-token>
 ```
 
-<!-- Alternatively, you can use environment variables to specify your  -->
+セッショントークンは、関連するプリンシパルに応じて、1時間または3日の[最大長](https://docs.aws.amazon.com/cli/latest/reference/sts/get-session-token.html#description)があります。
 
-### Agent polls within AWS (such as EC2)
-You can use an instance role to provide permissions to the agent if you want to run the agent within an AWS service like EC2. 
+  </TabItem>
+</Tabs>
+
+### Configure a launch agent
+
+launchエージェントを`launch-config.yaml`という名前のYAML設定ファイルで設定します。
+
+デフォルトでは、W&Bは`~/.config/wandb/launch-config.yaml`に設定ファイルをチェックします。launchエージェントを起動する際に`-c`フラグを使用して、別のディレクトリを指定することもできます。
+
+以下のYAMLスニペットは、コア設定エージェントオプションを指定する方法を示しています：
+
+```yaml title="launch-config.yaml"
+max_jobs: -1
+queues:
+  - <queue-name>
+environment:
+  type: aws
+  region: <your-region>
+registry:
+  type: ecr
+  uri: <ecr-repo-arn>
+builder: 
+  type: docker
+
+```
+
+次に、`wandb launch-agent`でエージェントを起動します。
+
+## (Optional) Push your launch job Docker image to Amazon ECR
+
+:::info
+このセクションは、トレーニングまたは推論ロジックを含む既存のDockerイメージを使用する場合にのみ適用されます。[Launchエージェントの動作方法には2つのオプションがあります。](#decide-if-you-want-the-launch-agent-to-build-a-docker-images)
+:::
+
+Launchジョブを含むDockerイメージをAmazon ECRリポジトリにアップロードします。イメージベースのジョブを使用する場合、新しいlaunchジョブを送信する前にDocker
