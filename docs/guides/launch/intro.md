@@ -1,6 +1,8 @@
 ---
+description: "W&B Launch \u3092\u4F7F\u7528\u3057\u3066\u3001ML \u30B8\u30E7\u30D6\
+  \u3092\u7C21\u5358\u306B\u30B9\u30B1\u30FC\u30EB\u304A\u3088\u3073\u7BA1\u7406\u3057\
+  \u307E\u3059\u3002"
 slug: /guides/launch
-description: Easily scale and manage ML jobs using W&B Launch.
 displayed_sidebar: default
 ---
 import Translate, {translate} from '@docusaurus/Translate';
@@ -10,30 +12,28 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 <CTAButtons colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP"/>
 
-Easily scale training [runs](../runs/intro.md) from your desktop to a compute resource like Amazon SageMaker, Kubernetes and more with W&B Launch. Once W&B Launch is configured, you can quickly run training scripts, model evaluation suites, prepare models for production inference, and more with a few clicks and commands. 
+W&B Launchを使用すると、デスクトップからAmazon SageMakerやKubernetesなどのコンピュートリソースにトレーニングの[runs](../runs/intro.md)を簡単にスケールできます。W&B Launchが設定されると、数回のクリックとコマンドでトレーニングスクリプト、モデルの評価スイート、プロダクション推論のためのモデルの準備などを迅速に実行できます。
 
-## How it works
+## 仕組み
 
-Launch is composed of three fundamental components: **launch jobs**, **queues**, and **agents**.
+Launchは、**launch jobs**、**queues**、および**agents**の3つの基本コンポーネントで構成されています。
 
-A [*launch job*](./launch-terminology.md#launch-job) is a blueprint for configuring and running tasks in your ML workflow. Once you have a launch job, you can add it to a [*launch queue*](./launch-terminology.md#launch-queue). A launch queue is a first-in, first-out (FIFO) queue where you can configure and submit your jobs to a particular compute target resource, such as Amazon SageMaker or a Kubernetes cluster. 
+[*launch job*](./launch-terminology.md#launch-job)は、MLワークフローでタスクを設定し実行するための設計図です。launch jobを持っていると、それを[*launch queue*](./launch-terminology.md#launch-queue)に追加できます。launch queueは、Amazon SageMakerやKubernetesクラスターなどの特定のコンピュートターゲットリソースにジョブを設定し送信できる先入れ先出し（FIFO）キューです。
 
-As jobs are added to the queue, one or more [*launch agents*](./launch-terminology.md#launch-agent) will poll that queue and execute the job on the system targeted by the queue.
+ジョブがキューに追加されると、1つ以上の[*launch agents*](./launch-terminology.md#launch-agent)がそのキューをポーリングし、キューがターゲットとするシステムでジョブを実行します。
 
 ![](/images/launch/launch_overview.png)
 
-Based on your use case, you (or someone on your team) will configure the launch queue according to your chosen [compute resource target](./launch-terminology.md#target-resources) (for example Amazon SageMaker) and deploy a launch agent on your own infrastructure. 
+ユースケースに基づいて、あなた（またはチームの誰か）が選択した[コンピュートリソースターゲット](./launch-terminology.md#target-resources)（例えばAmazon SageMaker）に従ってlaunch queueを設定し、自身のインフラストラクチャーにlaunch agentをデプロイします。
 
+Launch jobs、queuesの仕組み、launch agents、その他W&B Launchの詳細については、[Terms and concepts](./launch-terminology.md)ページをご覧ください。
 
-See the [Terms and concepts](./launch-terminology.md) page for more information on launch jobs, how queues work, launch agents, and additional information on how W&B Launch works.
+## 開始方法
 
-## How to get started
+ユースケースに応じて、W&B Launchの開始に役立つ以下のリソースを参照してください：
 
-Depending on your use case, explore the following resources to get started with W&B Launch:
-
-* If this is your first time using W&B Launch, we recommend you go through the [Walkthrough](./walkthrough.md) guide.
-* Learn how to set up [W&B Launch](./setup-launch.md).
-* Create a [launch job](./create-launch-job.md).
-* Check out the W&B Launch [public jobs GitHub repository](https://github.com/wandb/launch-jobs) for templates of common tasks like [deploying to Triton](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton), [evaluating an LLM](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals), or more.
-    * View launch jobs created from this repository in this public [`wandb/jobs` project](https://wandb.ai/wandb/jobs/jobs) W&B project.
-
+* 初めてW&B Launchを使用する場合は、[Walkthrough](./walkthrough.md)ガイドを参照することをお勧めします。
+* [W&B Launch](./setup-launch.md)の設定方法を学びます。
+* [launch job](./create-launch-job.md)を作成します。
+* TritonへのデプロイやLLMの評価などの一般的なタスクのテンプレートについては、W&B Launchの[public jobs GitHubリポジトリ](https://github.com/wandb/launch-jobs)をチェックしてください。
+    * このリポジトリから作成されたlaunch jobsは、W&Bのこの公開[`wandb/jobs` project](https://wandb.ai/wandb/jobs/jobs)プロジェクトで確認できます。

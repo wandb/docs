@@ -1,60 +1,60 @@
 ---
-description: Getting started guide for W&B Launch.
+description: "W&B Launch\u306E\u5165\u9580\u30AC\u30A4\u30C9\u3002"
 displayed_sidebar: default
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Walkthrough
 
-This page walks through the basics of the W&B Launch workflow.
+このページでは、W&B Launch ワークフローの基本について説明します。
 
 :::tip
-W&B Launch runs machine learning workloads in containers. Familiarity with containers is not required but may be helpful for this walkthrough. See the [Docker documentation](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/) for a primer on containers.
+W&B Launch はコンテナ内で機械学習のワークロードを実行します。コンテナに関する知識は必須ではありませんが、このウォークスルーを理解する上で役立つかもしれません。コンテナの基本については [Docker documentation](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/) を参照してください。
 :::
 
-## Prerequisites
+## 前提条件
 
-This walkthrough requires terminal access to a machine with a working Docker CLI and engine. See the [Docker installation guide](https://docs.docker.com/engine/install/) for more information.
+このウォークスルーには、Docker CLI とエンジンが動作するマシンへの端末アクセスが必要です。詳細については [Docker installation guide](https://docs.docker.com/engine/install/) を参照してください。
 
-Install `wandb>=0.17.1` into a Python environment with the following command:
+次のコマンドを使用して、Python 環境に `wandb>=0.17.1` をインストールします:
 
 ```bash
 pip install --upgrade wandb
 ```
 
-Run `wandb login` or set the `WANDB_API_KEY` environment variable to authenticate with W&B. To sign up for a free Weights & Biases account, visit [wandb.ai](https://wandb.ai) 🪄🐝
+`wandb login` を実行するか、`WANDB_API_KEY` 環境変数を設定して W&B に認証します。無料の Weights & Biases アカウントにサインアップするには、[wandb.ai](https://wandb.ai) を訪問してください 🪄🐝
 
-## Launch from an image
+## イメージからの起動
 
-To run a simple, pre-made container that logs a classic message to W&B, open a terminal and run the following command:
+W&B にクラシックなメッセージをログするシンプルなプリメイドコンテナを実行するには、端末を開いて次のコマンドを実行します:
 
 ```bash
 wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart
 ```
 
-The preceding command downloads and runs the container image `wandb/job_hello_world:main`. Launch configures the container to report everything logged with `wandb` to the `launch-quickstart` project. The container logs a message to W&B and displays a link to the newly created run in W&B. Click the link to view the run in the W&B UI.
+上記のコマンドは、コンテナイメージ `wandb/job_hello_world:main` をダウンロードして実行します。Launch はコンテナを設定し、`wandb` でログされたすべての情報を `launch-quickstart` プロジェクトに報告します。コンテナは W&B にメッセージをログし、新しく作成された run へのリンクを表示します。リンクをクリックして W&B UI で run を表示します。
 
-## Launch from a git repository
+## Git リポジトリからの起動
 
-To launch the same hello-world job from its [source code in the W&B Launch jobs repository](https://github.com/wandb/launch-jobs), run the following command:
+[W&B Launch jobs リポジトリのソースコード](https://github.com/wandb/launch-jobs) から同じ hello-world ジョブを起動するには、次のコマンドを実行します:
 
 ```bash
 wandb launch --uri https://github.com/wandb/launch-jobs.git --job-name hello-world-git --project launch-quickstart --build-context jobs/hello_world --dockerfile Dockerfile.wandb --entry-point "python job.py"
 ```
-The command does the following:
-1. Clones the [W&B Launch jobs repository](https://github.com/wandb/launch-jobs) to a temporary directory.
-2. Create a job named **hello-world-git** in the **hello** project. This job tracks the exact source code and configuration used to run execute the code.
-3. Build a container image from the `jobs/hello_world` directory and the `Dockerfile.wandb`.
-4. Start the container and run `python job.py`.
 
-The console output shows the image build and execution. The output of the container should be nearly identical to the previous example.
+このコマンドは次のことを行います:
+1. [W&B Launch jobs リポジトリ](https://github.com/wandb/launch-jobs) を一時ディレクトリーにクローンします。
+2. **hello-world-git** という名前のジョブを **hello** プロジェクトに作成します。このジョブは、コードを実行するために使用された正確なソースコードと設定を追跡します。
+3. `jobs/hello_world` ディレクトリーと `Dockerfile.wandb` からコンテナイメージをビルドします。
+4. コンテナを起動し、`python job.py` を実行します。
 
+コンソール出力には、イメージのビルドと実行が表示されます。コンテナの出力は前の例とほぼ同じになるはずです。
 
-## Launch from local source code
+## ローカルソースコードからの起動
 
-Code not versioned in a git repository can be launched by specifying a local directory path to the `--uri` argument. 
+Git リポジトリにバージョン管理されていないコードは、`--uri` 引数にローカルディレクトリーパスを指定して起動できます。
 
-Create an empty directory and add a Python script named `train.py` with the following content:
+空のディレクトリーを作成し、次の内容の Python スクリプト `train.py` を追加します:
 
 ```python
 import wandb
@@ -63,69 +63,67 @@ with wandb.init() as run:
     run.log({"hello": "world"})
 ```
 
-Add a file `requirements.txt` with the following content:
+次の内容の `requirements.txt` ファイルを追加します:
 
 ```text
 wandb>=0.17.1
 ```
 
-From within the directory, run the following command:
+ディレクトリー内から次のコマンドを実行します:
 
 ```bash
 wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python train.py"
 ```
 
-The command does the following:
-1. Log the contents of the current directory to W&B as a Code Artifact.
-2. Create a job named **hello-world-code** in the **launch-quickstart** project.
-3. Build a container image by copying `train.py` and `requirements.txt` into a base image and `pip install` the requirements.
-4. Start the container and run `python train.py`.
+このコマンドは次のことを行います:
+1. 現在のディレクトリーの内容を W&B に Code Artifact としてログします。
+2. **launch-quickstart** プロジェクトに **hello-world-code** という名前のジョブを作成します。
+3. `train.py` と `requirements.txt` をベースイメージにコピーし、`pip install` で必要なパッケージをインストールしてコンテナイメージをビルドします。
+4. コンテナを起動し、`python train.py` を実行します。
 
+## キューの作成
 
-## Create a queue
+Launch は、共有コンピュートリソースを使用したワークフローを構築するために設計されています。これまでの例では、`wandb launch` コマンドはローカルマシンで同期的にコンテナを実行していました。Launch キューとエージェントを使用すると、共有リソースでのジョブの非同期実行や、優先順位付けやハイパーパラメーター最適化などの高度な機能が可能になります。基本的なキューを作成するには、次の手順に従います:
 
-Launch is designed to help teams build workflows around shared compute. In the examples so far, the `wandb launch` command has executed a container synchronously on the local machine. Launch queues and agents enable asynchronous execution of jobs on shared resources and advanced features like prioritization and hyperparameter optimization. To create a basic queue, follow these steps:
+1. [wandb.ai/launch](https://wandb.ai/launch) に移動し、**Create a queue** ボタンをクリックします。
+2. キューに関連付ける **Entity** を選択します。
+3. **Queue name** を入力します。
+4. **Resource** として **Docker** を選択します。
+5. **Configuration** は今のところ空白のままにします。
+6. **Create queue** ボタンをクリックします :rocket:
 
-1. Navigate to [wandb.ai/launch](https://wandb.ai/launch) and click the **Create a queue** button.
-2. Select an **Entity** to associate the queue with. 
-3. Enter a **Queue name**.
-4. Select **Docker** as the **Resource**.
-5. Leave **Configuration** blank, for now.
-6. Click **Create queue** :rocket:
-
-After clicking the button, the browser will redirect to the **Agents** tab of the queue view. The queue remains in the **Not active** state until an agent starts polling.
+ボタンをクリックすると、ブラウザはキューのビューの **Agents** タブにリダイレクトされます。エージェントがポーリングを開始するまで、キューは **Not active** 状態のままです。
 
 ![](/images/launch/create_docker_queue.gif)
 
-For advanced queue configuration options, see the [advanced queue setup page](./setup-queue-advanced.md).
+高度なキュー設定オプションについては、[advanced queue setup page](./setup-queue-advanced.md) を参照してください。
 
-## Connect an agent to the queue
+## エージェントをキューに接続する
 
-The queue view displays an **Add an agent** button in a red banner at the top of the screen if the queue has no polling agents. Click the button to view copy the command to run an agent. The command should look like the following:
+キューにポーリングエージェントがいない場合、キューのビューの上部にある赤いバナーに **Add an agent** ボタンが表示されます。ボタンをクリックして、エージェントを実行するコマンドをコピーします。コマンドは次のようになります:
 
 ```bash
 wandb launch-agent --queue <queue-name> --entity <entity-name>
 ```
 
-Run the command in a terminal to start the agent. The agent polls the specified queue for jobs to run. Once received, the agent downloads or builds and then executes a container image for the job, as if the `wandb launch` command was run locally.
+端末でコマンドを実行してエージェントを起動します。エージェントは指定されたキューをポーリングしてジョブを実行します。ジョブを受信すると、エージェントはコンテナイメージをダウンロードまたはビルドし、ローカルで `wandb launch` コマンドを実行するかのようにジョブを実行します。
 
-Navigate back to [the Launch page](https://wandb.ai/launch) and verify that the queue now shoes as **Active**.
+[Launch ページ](https://wandb.ai/launch) に戻り、キューが **Active** と表示されていることを確認します。
 
-## Submit a job to the queue
+## キューにジョブを送信する
 
-Navigate to your new **launch-quickstart** project in your W&B account and open the jobs tab from the navigation on the left side of the screen.
+W&B アカウントの新しい **launch-quickstart** プロジェクトに移動し、画面の左側のナビゲーションからジョブタブを開きます。
 
-The **Jobs** page displays a list of W&B Jobs that were created from previously executed runs. Click on your launch job to view source code, dependencies, and any runs created from the job. After completing this walkthrough there should be three jobs in the list.
+**Jobs** ページには、以前に実行された run から作成された W&B Jobs のリストが表示されます。launch ジョブをクリックして、ソースコード、依存関係、およびジョブから作成された run を表示します。このウォークスルーを完了すると、リストに 3 つのジョブが表示されるはずです。
 
+新しいジョブのいずれかを選択し、次の手順に従ってキューに送信します:
 
-Pick one of the new jobs and follow these instructions to submit it to the queue:
+1. **Launch** ボタンをクリックしてジョブをキューに送信します。**Launch** ドロワーが表示されます。
+2. 先ほど作成した **Queue** を選択し、**Launch** をクリックします。
 
-1. Click the **Launch** button to submit the job to a queue. The **Launch** drawer will appear. 
-2. Select the **Queue** you created earlier and click **Launch**. 
+これでジョブがキューに送信されます。このキューをポーリングしているエージェントがジョブを受け取り、実行します。ジョブの進行状況は W&B UI から、または端末でエージェントの出力を確認することで監視できます。
 
-This submits the job to the queue. The agent polling this queue picks up and executes the job. The progress of the job can be monitored from the W&B UI or by inspecting the output of the agent in the terminal.
-
-The `wandb launch` command can push jobs to the queue directly by specifying the `--queue` argument. For example, to submit the hello-world container job to the queue, run the following command:
+`wandb launch` コマンドは、`--queue` 引数を指定することでジョブを直接キューにプッシュできます。例えば、hello-world コンテナジョブをキューに送信するには、次のコマンドを実行します:
 
 ```bash
 wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart --queue <queue-name>

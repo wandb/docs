@@ -2,29 +2,27 @@
 displayed_sidebar: default
 ---
 
-# Manage job inputs
+# ジョブ入力の管理
 
-The core experience of Launch is easily experimenting with different job inputs like hyperparameters and datasets, and routing these jobs to appropriate hardware. Once a job is created, users beyond the original author can adjust these inputs via the W&B GUI or CLI. For information on how job inputs can be set when launching from the CLI or UI, see the [Enqueue jobs](./add-job-to-queue.md) guide.
+Launchのコア体験は、ハイパーパラメーターやデータセットなどの異なるジョブ入力を簡単に実験し、これらのジョブを適切なハードウェアにルーティングすることです。一度ジョブが作成されると、元の作成者以外のユーザーもW&BのGUIやCLIを通じてこれらの入力を調整できます。CLIやUIからジョブを起動する際の入力設定方法については、[Enqueue jobs](./add-job-to-queue.md)ガイドを参照してください。
 
-This section describes how to programmatically control the inputs that can be tweaked for a job.
+このセクションでは、プログラム的にジョブの入力を制御する方法について説明します。
 
-By default, W&B jobs capture the entire `Run.config` as the inputs to a job, but the Launch SDK provides a function to control select keys in the run config or to specify JSON or YAML files as inputs.
-
+デフォルトでは、W&Bジョブはジョブの入力として`Run.config`全体をキャプチャしますが、Launch SDKはrun config内の特定のキーを制御したり、JSONやYAMLファイルを入力として指定するための関数を提供します。
 
 :::info
-Launch SDK functions require `wandb-core`. See the [`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README.md) for more information.
+Launch SDKの関数は`wandb-core`を必要とします。詳細は[`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README.md)を参照してください。
 :::
 
-## Reconfigure the `Run` object
+## `Run`オブジェクトの再構成
 
-The `Run` object returned by `wandb.init` in a job can be reconfigured, by default. The Launch SDK provides a way to customize what parts of the `Run.config` object can be reconfigured when launching the job.
-
+ジョブ内で`wandb.init`によって返される`Run`オブジェクトは、デフォルトで再構成可能です。Launch SDKは、ジョブを起動する際に再構成可能な`Run.config`オブジェクトの部分をカスタマイズする方法を提供します。
 
 ```python
 import wandb
 from wandb.sdk import launch
 
-# Required for launch sdk use.
+# Launch SDKの使用に必要
 wandb.require("core")
 
 config = {
@@ -40,30 +38,29 @@ config = {
     "seed": 42,
 }
 
-
 with wandb.init(config=config)
     launch.manange_wandb_config(
         include=["trainer"], 
         exclude=["trainer.private"],
     )
-    # Etc.
+    # その他
 ```
 
-The function `launch.manage_wandb_config` configures the job to accept input values for the `Run.config` object.  The optional `include` and `exclude` options take path prefixes within the nested config object.  This can be useful if, for example, a job uses a library whose options you don't want to expose to end users.  
+`launch.manage_wandb_config`関数は、`Run.config`オブジェクトの入力値を受け入れるようにジョブを設定します。オプションの`include`および`exclude`オプションは、ネストされたconfigオブジェクト内のパスプレフィックスを取ります。これは、例えば、ユーザーに公開したくないライブラリのオプションを使用するジョブの場合に便利です。
 
-If `include` prefixes are provided, only paths within the config that match an `include` prefix will accept input values. If `exclude` prefixes are provided, no paths that match the `exclude` list will be filtered out of the input values. If a path matches both an `include` and an `exclude` prefix, the `exclude` prefix will take precedence.
+`include`プレフィックスが提供されると、config内の`include`プレフィックスに一致するパスのみが入力値を受け入れます。`exclude`プレフィックスが提供されると、`exclude`リストに一致するパスは入力値から除外されます。パスが`include`と`exclude`の両方のプレフィックスに一致する場合、`exclude`プレフィックスが優先されます。
 
-In the preceding example, the path `["trainer.private"]` will filter out the `private` key from the `trainer` object, and the path `["trainer"]` will filter out all keys not under the `trainer` object.
+前述の例では、`["trainer.private"]`パスは`trainer`オブジェクトから`private`キーをフィルタリングし、`["trainer"]`パスは`trainer`オブジェクト以外のすべてのキーをフィルタリングします。
 
 :::tip
-Use a `\`-escaped `.` to filter out keys with a `.` in their name. 
+名前に`.`が含まれるキーをフィルタリングするには、`\`でエスケープされた`.`を使用します。
 
-For example, `r"trainer\.private"` filters out the `trainer.private` key rather than the `private` key under the `trainer` object.
+例えば、`r"trainer\.private"`は`trainer.private`キーをフィルタリングし、`trainer`オブジェクトの下の`private`キーをフィルタリングします。
 
-Note that the `r` prefix above denotes a raw string.
+上記の`r`プレフィックスは生文字列を示します。
 :::
 
-If the code above is packaged and run as a job, the input types of the job will be:
+上記のコードがパッケージ化され、ジョブとして実行されると、ジョブの入力タイプは次のようになります：
 
 ```json
 {
@@ -76,34 +73,33 @@ If the code above is packaged and run as a job, the input types of the job will 
 }
 ```
 
-When launching the job from the W&B CLI or UI, the user will be able to override only the four `trainer` parameters.
+W&B CLIまたはUIからジョブを起動する際、ユーザーは4つの`trainer`パラメーターのみを上書きできます。
 
-### Access run config inputs
+### run config入力へのアクセス
 
-Jobs launched with run config inputs can access the input values through the `Run.config`. The `Run` returned by `wandb.init` in the job code will have the input values automatically set. Use 
+run config入力で起動されたジョブは、`Run.config`を通じて入力値にアクセスできます。ジョブコード内で`wandb.init`によって返される`Run`は、入力値が自動的に設定されています。ジョブコード内のどこでもrun config入力値を読み込むには、次のようにします：
 ```python
 from wandb.sdk import launch
 
 run_config_overrides = launch.load_wandb_config()
 ```
-to load the run config input values anywhere in the job code.
 
-## Reconfigure a file
+## ファイルの再構成
 
-The Launch SDK also provides a way to manage input values stored in config files in the job code. This is a common pattern in many deep learning and large language model use cases, like this [HuggingFace Tune](https://github.com/huggingface/tune/blob/main/configs/benchmark.yaml) example using Hydra or this [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)). 
+Launch SDKは、ジョブコード内のconfigファイルに保存された入力値を管理する方法も提供します。これは、多くのディープラーニングや大規模言語モデルのユースケースで一般的なパターンです。例えば、Hydraを使用したこの[HuggingFace Tune](https://github.com/huggingface/tune/blob/main/configs/benchmark.yaml)の例や、この[Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)などです。
 
-The `launch.manage_config_file` function can be used to add a config file as an input to the Launch job, giving you access to edit values within the config file when launching the job.
+`launch.manage_config_file`関数を使用して、configファイルをLaunchジョブの入力として追加し、ジョブを起動する際にconfigファイル内の値を編集できるようにします。
 
-By default, no run config inputs will be captured if `launch.manage_config_file` is used. Calling `launch.manage_wandb_config` overrides this behavior.
+デフォルトでは、`launch.manage_config_file`が使用されるとrun config入力はキャプチャされません。`launch.manage_wandb_config`を呼び出すと、この振る舞いが上書きされます。
 
-Consider the following example:
+次の例を考えてみましょう：
 
 ```python
 import yaml
 import wandb
 from wandb.sdk import launch
 
-# Required for launch sdk use.
+# Launch SDKの使用に必要
 wandb.require("core")
 
 launch.manage_config_file("config.yaml")
@@ -112,10 +108,10 @@ with open("config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
 with wandb.init(config=config)
-    # Etc.
+    # その他
 ```
 
-Imagine the code is run with an adjacent file `config.yaml`:
+隣接するファイル`config.yaml`と共にコードが実行されるとします：
 
 ```yaml
 learning_rate: 0.01
@@ -124,15 +120,14 @@ model: resnet
 dataset: cifar10
 ```
 
-The call to `launch.manage_config_file` will add the `config.yaml` file as an input to the job, making it reconfigurable when launching from the W&B CLI or UI. 
+`launch.manage_config_file`の呼び出しにより、`config.yaml`ファイルがジョブの入力として追加され、W&B CLIまたはUIからジョブを起動する際に再構成可能になります。
 
-The `include` and `exclude` keyword arugments may be used to filter the acceptable input keys for the config file in the same way as `launch.manage_wandb_config`.
+`launch.manage_wandb_config`と同様に、`include`および`exclude`キーワード引数を使用してconfigファイルの受け入れ可能な入力キーをフィルタリングできます。
 
+### configファイル入力へのアクセス
 
-### Access config file inputs
-
-When `launch.manage_config_file` is called in a run created by Launch, `launch` patches the contents of the config file with the input values. The patched config file is available in the job environment.
+Launchによって作成されたrunで`launch.manage_config_file`が呼び出されると、`launch`は入力値でconfigファイルの内容をパッチします。パッチされたconfigファイルはジョブ環境で利用可能です。
 
 :::important
-Call `launch.manage_config_file` before reading the config file in the job code to ensure input values are used.
+ジョブコード内でconfigファイルを読み込む前に`launch.manage_config_file`を呼び出して、入力値が使用されるようにします。
 :::

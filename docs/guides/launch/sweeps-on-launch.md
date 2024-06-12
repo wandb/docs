@@ -1,5 +1,7 @@
 ---
-description: Discover how to automate hyperparamter sweeps on launch.
+description: "\u30CF\u30A4\u30D1\u30FC\u30D1\u30E9\u30E1\u30FC\u30BF\u30B9\u30A4\u30FC\
+  \u30D7\u3092Launch\u3067\u81EA\u52D5\u5316\u3059\u308B\u65B9\u6CD5\u3092\u767A\u898B\
+  \u3057\u3066\u304F\u3060\u3055\u3044\u3002"
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
@@ -10,28 +12,27 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 <CTAButtons colabLink="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7"/>
 
-Create a hyperparameter tuning job ([sweeps](../sweeps/intro.md)) with W&B Launch. With sweeps on launch, a sweep scheduler is pushed to a Launch Queue with the specified hyperparameters to sweep over. The sweep scheduler starts as it is picked up by the agent, launching sweep runs onto the same queue with chosen hyperparameters. This continues until the sweep finishes or is stopped. 
+W&B Launchを使用してハイパーパラメータチューニングジョブ（[sweeps](../sweeps/intro.md)）を作成します。Launchでのsweepsでは、指定されたハイパーパラメータを持つsweepスケジューラがLaunch Queueにプッシュされます。エージェントがスケジューラをピックアップすると、選択されたハイパーパラメータでsweep runsが同じキューに投入されます。このプロセスはsweepが終了するか停止するまで続きます。
 
-You can use the default W&B Sweep scheduling engine or implement your own custom scheduler:
+デフォルトのW&B Sweepスケジューリングエンジンを使用するか、カスタムスケジューラを実装することができます：
 
-1. Standard sweep scheduler: Use the default W&B Sweep scheduling engine that controls [W&B Sweeps](../sweeps/intro.md). The familiar `bayes`, `grid`, and `random` methods are available.
-2. Custom sweep scheduler: Configure the sweep scheduler to run as a job. This option enables full customization. An example of how to extend the standard sweep scheduler to include more logging can be found in the section below.
- 
+1. 標準のsweepスケジューラ: W&B Sweepsを制御するデフォルトのW&B Sweepスケジューリングエンジンを使用します。おなじみの`bayes`、`grid`、`random`メソッドが利用可能です。
+2. カスタムsweepスケジューラ: ジョブとしてsweepスケジューラを構成します。このオプションでは完全なカスタマイズが可能です。標準のsweepスケジューラを拡張してより多くのログを含める方法の例は、以下のセクションにあります。
+
 :::note
-This guide assumes that W&B Launch has been previously configured. If W&B Launch has is not configured, see the [how to get started](./intro.md#how-to-get-started) section of the launch documentation. 
+このガイドは、W&B Launchが事前に設定されていることを前提としています。W&B Launchが設定されていない場合は、Launchドキュメントの[開始方法](./intro.md#how-to-get-started)セクションを参照してください。
 :::
 
 :::tip
-We recommend you create a sweep on launch using the 'basic' method if you are a first time users of sweeps on launch. Use a custom sweeps on launch scheduler when the standard W&B scheduling engine does not meet your needs.
+初めてLaunchでsweepsを使用する場合は、「basic」メソッドを使用してsweepを作成することをお勧めします。標準のW&Bスケジューリングエンジンがニーズに合わない場合は、カスタムsweeps on launchスケジューラを使用してください。
 :::
 
-## Create a sweep with a W&B standard scheduler
-Create W&B Sweeps with Launch. You can create a sweep interactively with the W&B App or programmatically with the W&B CLI. For advanced configurations of Launch sweeps, including the ability to customize the scheduler, use the CLI. 
+## W&B標準スケジューラでsweepを作成する
+Launchを使用してW&B Sweepsを作成します。W&B Appを使用してインタラクティブにsweepを作成するか、W&B CLIを使用してプログラム的に作成できます。スケジューラのカスタマイズを含むLaunch sweepsの高度な設定には、CLIを使用してください。
 
 :::info
-Before you create a sweep with W&B Launch, ensure that you first create a job to sweep over. See the [Create a Job](./create-launch-job.md) page for more information. 
+W&B Launchでsweepを作成する前に、まずsweep対象のジョブを作成してください。詳細は[Create a Job](./create-launch-job.md)ページを参照してください。
 :::
-
 
 <Tabs
   defaultValue="app"
@@ -40,36 +41,36 @@ Before you create a sweep with W&B Launch, ensure that you first create a job to
     {label: 'CLI', value: 'cli'},
   ]}>
   <TabItem value="app">
-Create a sweep interactively with the W&B App.
+W&B Appを使用してインタラクティブにsweepを作成します。
 
-1. Navigate to your W&B project on the W&B App.  
-2. Select the sweeps icon on the left panel (broom image). 
-3. Next, select the **Create Sweep** button.
-4. Click the **Configure Launch 🚀** button.
-5. From the **Job** dropdown menu, select the name of your job and the job version you want to create a sweep from.
-6. Select a queue to run the sweep on using the **Queue** dropdown menu.
-8. Use the **Job Priority** dropdown to specify the priority of your launch job.  A launch job's priority is set to "Medium" if the launch queue does not support prioritization.
-8. (Optional) Configure override args for the run or sweep scheduler. For example, using the scheduler overrides, configure the number of concurrent runs the scheduler manages using `num_workers`.
-9. (Optional) Select a project to save the sweep to using the **Destination Project** dropdown menu.
-10. Click **Save**
-11. Select **Launch Sweep**.
+1. W&B AppでW&Bプロジェクトに移動します。
+2. 左側のパネルでsweepsアイコン（ほうきの画像）を選択します。
+3. 次に、**Create Sweep**ボタンを選択します。
+4. **Configure Launch 🚀**ボタンをクリックします。
+5. **Job**ドロップダウンメニューから、sweepを作成するジョブの名前とバージョンを選択します。
+6. **Queue**ドロップダウンメニューを使用して、sweepを実行するキューを選択します。
+8. **Job Priority**ドロップダウンを使用して、launchジョブの優先順位を指定します。launchキューが優先順位をサポートしていない場合、launchジョブの優先順位は「Medium」に設定されます。
+8. （オプション）runまたはsweepスケジューラの引数をオーバーライドします。例えば、スケジューラのオーバーライドを使用して、スケジューラが管理する同時実行runの数を`num_workers`で設定します。
+9. （オプション）**Destination Project**ドロップダウンメニューを使用して、sweepを保存するプロジェクトを選択します。
+10. **Save**をクリックします。
+11. **Launch Sweep**を選択します。
 
 ![](/images/launch/create_sweep_with_launch.png)
 
   </TabItem>
   <TabItem value="cli">
 
-Programmatically create a W&B Sweep with Launch with the W&B CLI.
+W&B CLIを使用してプログラム的にW&B SweepをLaunchで作成します。
 
-1. Create a Sweep configuration
-2. Specify the full job name within your sweep configuration
-3. Initialize a sweep agent.
+1. Sweep構成を作成します。
+2. Sweep構成内に完全なジョブ名を指定します。
+3. Sweepエージェントを初期化します。
 
 :::info
-Steps 1 and 3 are the same steps you normally take when you create a W&B Sweep.
+ステップ1と3は、通常のW&B Sweepを作成する際の手順と同じです。
 :::
 
-For example, in the following code snippet, we specify `'wandb/jobs/Hello World 2:latest'` for the job value:
+例えば、以下のコードスニペットでは、ジョブの値として`'wandb/jobs/Hello World 2:latest'`を指定しています：
 
 ```yaml
 # launch-sweep-config.yaml
@@ -106,27 +107,25 @@ parameters:
 #    registry: <registry for image pulling>
 ```
 
-For information on how to create a sweep configuration, see the [Define sweep configuration](../sweeps/define-sweep-configuration.md) page.
+Sweep構成の作成方法については、[Define sweep configuration](../sweeps/define-sweep-configuration.md)ページを参照してください。
 
-4. Next, initialize a sweep. Provide the path to your config file, the name of your job queue, your W&B entity, and the name of the project.
+4. 次に、sweepを初期化します。設定ファイルのパス、ジョブキューの名前、W&Bエンティティ、およびプロジェクトの名前を指定します。
 
 ```bash
 wandb launch-sweep <path/to/yaml/file> --queue <queue_name> --entity <your_entity>  --project <project_name>
 ```
 
-For more information on W&B Sweeps, see the [Tune Hyperparameters](../sweeps/intro.md) chapter.
-
+W&B Sweepsの詳細については、[Tune Hyperparameters](../sweeps/intro.md)章を参照してください。
 
 </TabItem>
 
 </Tabs>
 
-
-## Create a custom sweep scheduler
-Create a custom sweep scheduler either with the W&B scheduler or a custom scheduler.
+## カスタムsweepスケジューラを作成する
+W&Bスケジューラまたはカスタムスケジューラを使用してカスタムsweepスケジューラを作成します。
 
 :::info
-Using scheduler jobs requires wandb cli version >= `0.15.4`
+スケジューラジョブの使用には、wandb cliバージョン >= `0.15.4`が必要です。
 :::
 
 <Tabs
@@ -138,15 +137,14 @@ Using scheduler jobs requires wandb cli version >= `0.15.4`
   ]}>
     <TabItem value="wandb-scheduler">
 
-  Create a launch sweep using the W&B sweep scheduling logic as a job.
+  W&B sweepスケジューリングロジックをジョブとして使用してlaunch sweepを作成します。
   
-  1. Identify the Wandb scheduler job in the public wandb/sweep-jobs project, or use the job name:
+  1. 公開されているwandb/sweep-jobsプロジェクトでWandbスケジューラジョブを特定するか、ジョブ名を使用します：
   `'wandb/sweep-jobs/job-wandb-sweep-scheduler:latest'`
-  2. Construct a configuration yaml with an additional `scheduler` block that includes a `job` key pointing to this name, example below.
-  3. Use the `wandb launch-sweep` command with the new config.
+  2. この名前を指す`job`キーを含む追加の`scheduler`ブロックを持つ構成yamlを作成します。以下に例を示します。
+  3. 新しい構成を使用して`wandb launch-sweep`コマンドを使用します。
 
-
-Example config:
+例の構成：
 ```yaml
 # launch-sweep-config.yaml  
 description: Launch sweep config using a scheduler job
@@ -166,13 +164,13 @@ parameters:
   </TabItem>
   <TabItem value="custom-scheduler">
 
-  Custom schedulers can be created by creating a scheduler-job. For the purposes of this guide we will be modifying the `WandbScheduler` to provide more logging. 
+  カスタムスケジューラは、スケジューラジョブを作成することで作成できます。このガイドの目的のために、`WandbScheduler`を修正してより多くのログを提供します。
 
-  1. Clone the `wandb/launch-jobs` repo (specifically: `wandb/launch-jobs/jobs/sweep_schedulers`)
-  2. Now, we can modify the `wandb_scheduler.py` to achieve our desired increased logging. Example: Add logging to the function `_poll`. This is called once every polling cycle (configurable timing), before we launch new sweep runs. 
-  3. Run the modified file to create a job, with: `python wandb_scheduler.py --project <project> --entity <entity> --name CustomWandbScheduler`
-  4. Identify the name of the job created, either in the UI or in the output of the previous call, which will be a code-artifact job (unless otherwise specified).
-  5. Now create a sweep configuration where the scheduler points to your new job!
+  1. `wandb/launch-jobs`リポジトリをクローンします（具体的には：`wandb/launch-jobs/jobs/sweep_schedulers`）。
+  2. 望ましいログの増加を達成するために`wandb_scheduler.py`を修正します。例：関数`_poll`にログを追加します。これは、ポーリングサイクルごとに一度（設定可能なタイミングで）呼び出され、新しいsweep runsを開始する前に実行されます。
+  3. 修正されたファイルを実行してジョブを作成します：`python wandb_scheduler.py --project <project> --entity <entity> --name CustomWandbScheduler`
+  4. 作成されたジョブの名前をUIまたは前の呼び出しの出力で特定します。これはコードアーティファクトジョブになります（特に指定がない限り）。
+  5. スケジューラが新しいジョブを指すsweep構成を作成します！
 
 ```yaml
 ...
@@ -184,18 +182,15 @@ scheduler:
   </TabItem>
   <TabItem value="optuna-scheduler">
 
-  Optuna is a hyperparameter optimization framework that uses a variety of algorithms to find the best hyperparameters for a given model (similar to W&B). In addition to the [sampling algorithms](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html), Optuna also provides a variety of [pruning algorithms](https://optuna.readthedocs.io/en/stable/reference/pruners.html) that can be used to terminate poorly performing runs early. This is especially useful when running a large number of runs, as it can save time and resources. The classes are highly configurable, just pass in the expected parameters in the `scheduler.settings.pruner/sampler.args` block of the config file.
+  Optunaは、特定のモデルに対して最適なハイパーパラメータを見つけるためにさまざまなアルゴリズムを使用するハイパーパラメータ最適化フレームワークです（W&Bと同様）。[サンプリングアルゴリズム](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html)に加えて、Optunaは[プルーニングアルゴリズム](https://optuna.readthedocs.io/en/stable/reference/pruners.html)も提供しており、パフォーマンスの悪いrunsを早期に終了させることができます。これは、多数のrunsを実行する場合に特に有用で、時間とリソースを節約できます。クラスは非常に設定可能で、期待されるパラメータを`scheduler.settings.pruner/sampler.args`ブロックに渡すだけです。
 
+Optunaのスケジューリングロジックを使用してlaunch sweepを作成します。
 
+1. まず、自分のジョブを作成するか、事前に構築されたOptunaスケジューライメージジョブを使用します。
+    * 自分のジョブを作成する方法については、[`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers)リポジトリを参照してください。
+    * 事前に構築されたOptunaイメージを使用するには、`wandb/sweep-jobs`プロジェクトの`job-optuna-sweep-scheduler`に移動するか、ジョブ名を使用します：`wandb/sweep-jobs/job-optuna-sweep-scheduler:latest`。
 
-Create a launch sweep using Optuna's scheduling logic with a job.
-
-1. First, create your own job or use a pre-built Optuna scheduler image job. 
-    * See the [`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers) repo for examples on how to create your own job.
-    * To use a pre-built Optuna image, you can either navigate to `job-optuna-sweep-scheduler` in the `wandb/sweep-jobs` project or use can use the job name: `wandb/sweep-jobs/job-optuna-sweep-scheduler:latest`. 
-    
-
-2. After you create a job, you can now create a sweep. Construct a sweep config that includes a `scheduler` block with a `job` key pointing to the Optuna scheduler job (example below).
+2. ジョブを作成した後、sweepを作成します。Optunaスケジューラジョブを指す`job`キーを含む`scheduler`ブロックを含むsweep構成を作成します（以下の例を参照）。
 
 ```yaml
   # optuna_config_basic.yaml
@@ -225,33 +220,29 @@ Create a launch sweep using Optuna's scheduling logic with a job.
       max: 0.1
   ```
 
+3. 最後に、launch-sweepコマンドを使用してアクティブなキューにsweepを投入します：
 
-  3. Lastly, launch the sweep to an active queue with the launch-sweep command:
-  
-  ```bash
-  wandb launch-sweep <config.yaml> -q <queue> -p <project> -e <entity>
-  ```
+```bash
+wandb launch-sweep <config.yaml> -q <queue> -p <project> -e <entity>
+```
 
-
-  For the exact implementation of the Optuna sweep scheduler job, see [wandb/launch-jobs](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py). For more examples of what is possible with the Optuna scheduler, check out [wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler).
-
+Optuna sweepスケジューラジョブの正確な実装については、[wandb/launch-jobs](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py)を参照してください。Optunaスケジューラで可能なことの例については、[wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler)をチェックしてください。
 
   </TabItem>
 </Tabs>
 
- Examples of what is possible with custom sweep scheduler jobs are available in the [wandb/launch-jobs](https://github.com/wandb/launch-jobs) repo under `jobs/sweep_schedulers`. This guide shows how to use the publicly available **Wandb Scheduler Job**, as well demonstrates a process for creating custom sweep scheduler jobs. 
+カスタムsweepスケジューラジョブで可能なことの例は、`jobs/sweep_schedulers`の下にある[wandb/launch-jobs](https://github.com/wandb/launch-jobs)リポジトリで利用できます。このガイドでは、公開されている**Wandb Scheduler Job**の使用方法と、カスタムsweepスケジューラジョブを作成するプロセスを示しています。
 
-
- ## How to resume sweeps on launch
-  It is also possible to resume a launch-sweep from a previously launched sweep. Although hyperparameters and the training job cannot be changed, scheduler-specific parameters can be, as well as the queue it is pushed to.
+## Launchでsweepsを再開する方法
+以前に開始されたsweepからlaunch-sweepを再開することも可能です。ハイパーパラメータやトレーニングジョブは変更できませんが、スケジューラ固有のパラメータやプッシュ先のキューは変更できます。
 
 :::info
-If the initial sweep used a training job with an alias like 'latest', resuming can lead to different results if the latest job version has been changed since the last run.
+初回のsweepで「latest」のようなエイリアスを持つトレーニングジョブを使用した場合、再開すると最新のジョブバージョンが変更されている場合、異なる結果になる可能性があります。
 :::
 
-  1. Identify the sweep name/ID for a previously run launch sweep. The sweep ID is an eight character string (for example, `hhd16935`) that you can find in your project on the W&B App.
-  2. If you change the scheduler parameters, construct an updated config file.
-  3. In your terminal, execute the following command. Replace content wrapped in "<" and ">" with your information: 
+1. 以前に実行されたlaunch sweepのsweep名/IDを特定します。sweep IDは8文字の文字列（例：`hhd16935`）で、W&B Appのプロジェクトで確認できます。
+2. スケジューラパラメータを変更する場合は、更新された構成ファイルを作成します。
+3. 端末で以下のコマンドを実行します。`<`と`>`で囲まれた内容を自分の情報に置き換えます：
 
 ```bash
 wandb launch-sweep <optional config.yaml> --resume_id <sweep id> --queue <queue_name>
