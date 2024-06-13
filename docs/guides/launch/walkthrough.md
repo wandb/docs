@@ -3,6 +3,8 @@ description: Getting started guide for W&B Launch.
 displayed_sidebar: default
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Walkthrough
 
@@ -14,43 +16,85 @@ W&B Launch runs machine learning workloads in containers. Familiarity with conta
 
 ## Prerequisites
 
-This walkthrough requires terminal access to a machine with a working Docker CLI and engine. See the [Docker installation guide](https://docs.docker.com/engine/install/) for more information.
+Before you get started, ensure you have satisfied the following prerequisites:
 
-Install `wandb>=0.17.1` into a Python environment with the following command:
 
+1. Sign up for an account at https://wandb.ai/site and then log in to your W&B account. 
+2. This walkthrough requires terminal access to a machine with a working Docker CLI and engine. See the [Docker installation guide](https://docs.docker.com/engine/install/) for more information. 
+3. Install W&B Python SDK version `0.17.1` or higher:
 ```bash
-pip install --upgrade wandb
+pip install wandb>=0.17.1
 ```
+4. Within your terminal, execute `wandb login` or set the `WANDB_API_KEY` environment variable to authenticate with W&B.
+    <Tabs
+    defaultValue="login"
+    values={[
+        {label: 'Log in to W&B', value: 'login'},
+        {label: 'Environment key', value: 'apikey'},
+    ]}>
+    <TabItem value="login">
+    Within your terminal execute:
+    
+    ```bash
+    wandb login
+    ```
 
-Run `wandb login` or set the `WANDB_API_KEY` environment variable to authenticate with W&B. To sign up for a free Weights & Biases account, visit [wandb.ai](https://wandb.ai) 🪄🐝
+    </TabItem>
+    <TabItem value="apikey">
 
-## Launch from an image
+    ```bash
+    WANDB_API_KEY=<your-api-key>
+    ```
 
-To run a simple, pre-made container that logs a classic message to W&B, open a terminal and run the following command:
+    Replace `<your-api-key>` with your W&B API key.
+
+    </TabItem>
+    </Tabs>
+
+
+## Create a launch job
+Create a [launch job](./launch-terminology.md#launch-job) in one of three ways: with a Docker image, from a git repository or from local source code:
+
+<Tabs
+  defaultValue="image"
+  values={[
+    {label: 'Image-based job', value: 'image'},
+    {label: 'Git-based job', value: 'git'},
+    {label: 'Code-based job', value: 'local'},
+  ]}>
+  <TabItem value="image">
+
+To run a pre-made container that logs a message to W&B, open a terminal and run the following command:
 
 ```bash
 wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart
 ```
 
-The preceding command downloads and runs the container image `wandb/job_hello_world:main`. Launch configures the container to report everything logged with `wandb` to the `launch-quickstart` project. The container logs a message to W&B and displays a link to the newly created run in W&B. Click the link to view the run in the W&B UI.
+The preceding command downloads and runs the container image `wandb/job_hello_world:main`. 
 
-## Launch from a git repository
+Launch configures the container to report everything logged with `wandb` to the `launch-quickstart` project. The container logs a message to W&B and displays a link to the newly created run in W&B. Click the link to view the run in the W&B UI.
+
+  </TabItem>
+  <TabItem value="git">
 
 To launch the same hello-world job from its [source code in the W&B Launch jobs repository](https://github.com/wandb/launch-jobs), run the following command:
 
 ```bash
-wandb launch --uri https://github.com/wandb/launch-jobs.git --job-name hello-world-git --project launch-quickstart --build-context jobs/hello_world --dockerfile Dockerfile.wandb --entry-point "python job.py"
+wandb launch --uri https://github.com/wandb/launch-jobs.git \\
+--job-name hello-world-git --project launch-quickstart \\ 
+--build-context jobs/hello_world --dockerfile Dockerfile.wandb \\ 
+--entry-point "python job.py"
 ```
 The command does the following:
-1. Clones the [W&B Launch jobs repository](https://github.com/wandb/launch-jobs) to a temporary directory.
+1. Clone the [W&B Launch jobs repository](https://github.com/wandb/launch-jobs) to a temporary directory.
 2. Create a job named **hello-world-git** in the **hello** project. This job tracks the exact source code and configuration used to run execute the code.
 3. Build a container image from the `jobs/hello_world` directory and the `Dockerfile.wandb`.
-4. Start the container and run `python job.py`.
+4. Start the container and run the `job.py` python script.
 
 The console output shows the image build and execution. The output of the container should be nearly identical to the previous example.
 
-
-## Launch from local source code
+  </TabItem>
+  <TabItem value="local">
 
 Code not versioned in a git repository can be launched by specifying a local directory path to the `--uri` argument. 
 
@@ -81,6 +125,9 @@ The command does the following:
 3. Build a container image by copying `train.py` and `requirements.txt` into a base image and `pip install` the requirements.
 4. Start the container and run `python train.py`.
 
+
+  </TabItem>
+</Tabs>
 
 ## Create a queue
 
