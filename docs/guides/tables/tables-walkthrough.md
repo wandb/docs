@@ -1,6 +1,5 @@
 ---
-description: "W&B Tables\u306E\u4F7F\u3044\u65B9\u30925\u5206\u3067\u5B66\u3079\u308B\
-  \u30AF\u30A4\u30C3\u30AF\u30B9\u30BF\u30FC\u30C8\u3002"
+description: W&B Tablesの使い方を5分で学ぶクイックスタート。
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
@@ -10,27 +9,27 @@ import TabItem from '@theme/TabItem';
 
 以下のクイックスタートでは、データテーブルのログ、データの可視化、およびデータのクエリ方法を示します。
 
-以下のボタンを選択して、MNISTデータに関するPyTorchクイックスタートの例プロジェクトを試してみてください。
+以下のボタンを選択して、MNISTデータに関するPyTorchクイックスタートの例プロジェクトを試してください。
 
 ## 1. テーブルをログする
-W&Bでテーブルをログします。新しいテーブルを構築するか、Pandas DataFrameを渡すことができます。
+W&Bでテーブルをログします。新しいテーブルを作成するか、Pandas DataFrameを渡すことができます。
 
 <Tabs
   defaultValue="construct"
   values={[
-    {label: 'テーブルを構築する', value: 'construct'},
+    {label: 'テーブルを作成する', value: 'construct'},
     {label: 'Pandas DataFrame', value: 'pandas'},
   ]}>
   <TabItem value="construct">
 
-新しいTableを構築してログするには、以下を使用します:
+新しいTableを作成してログするには、以下を使用します:
 - [`wandb.init()`](../../ref/python/init.md): 結果を追跡するための[run](../runs/intro.md)を作成します。
 - [`wandb.Table()`](../../ref/python/data-types/table.md): 新しいテーブルオブジェクトを作成します。
   - `columns`: 列名を設定します。
   - `data`: 各行の内容を設定します。
 - [`run.log()`](../../ref/python/log.md): テーブルをログしてW&Bに保存します。
 
-以下は例です:
+例を示します:
 ```python
 import wandb
 
@@ -42,7 +41,7 @@ run.log({"Table Name": my_table})
   </TabItem>
   <TabItem value="pandas">
 
-Pandas DataFrameを`wandb.Table()`に渡して新しいテーブルを作成します。
+Pandas DataFrameを`wandb.Table()`に渡して、新しいテーブルを作成します。
 
 ```python
 import wandb
@@ -69,11 +68,11 @@ wandb.log({"Table Name": my_table})
 
 ![](/images/data_vis/wandb_demo_logged_sample_table.png)
 
-この例では、`my_table`がキー `"Table Name"`の下にログされています。
+この例では、`my_table`がキー`"Table Name"`の下にログされています。
 
 ## 3. モデルバージョン間で比較する
 
-複数のW&B Runsからサンプルテーブルをログし、プロジェクトワークスペースで結果を比較します。この[例のワークスペース](https://wandb.ai/carey/table-test?workspace=user-carey)では、異なるバージョンからの行を同じテーブルに組み合わせる方法を示しています。
+複数のW&B Runsからサンプルテーブルをログし、プロジェクトワークスペースで結果を比較します。この[例のワークスペース](https://wandb.ai/carey/table-test?workspace=user-carey)では、異なるバージョンからの行を同じテーブルに結合する方法を示しています。
 
 ![](/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif)
 

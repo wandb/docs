@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 このガイドでは、W&B Launchエージェントを設定して、さまざまな環境でコンテナイメージをビルドする方法について説明します。
 
 :::info
-ビルドはgitおよびcode artifactジョブにのみ必要です。イメージジョブにはビルドは不要です。
+ビルドはgitおよびcode artifactジョブにのみ必要です。イメージジョブにはビルドは必要ありません。
 
 ジョブタイプの詳細については、[Create a launch job](./create-launch-job.md)を参照してください。
 :::
@@ -18,15 +18,15 @@ import TabItem from '@theme/TabItem';
 
 Launchエージェントは、[Docker](https://docs.docker.com/)または[Kaniko](https://github.com/GoogleContainerTools/kaniko)を使用してイメージをビルドできます。
 
-* Kaniko: 特権コンテナとしてビルドを実行せずにKubernetesでコンテナイメージをビルドします。
-* Docker: `docker build`コマンドをローカルで実行してコンテナイメージをビルドします。
+* Kaniko: 特権コンテナとしてビルドを実行せずに、Kubernetesでコンテナイメージをビルドします。
+* Docker: ローカルで`docker build`コマンドを実行してコンテナイメージをビルドします。
 
-ビルダータイプは、launchエージェントの設定内の`builder.type`キーで制御できます。`docker`、`kaniko`、またはビルドを無効にするための`noop`を指定できます。デフォルトでは、エージェントのHelmチャートは`builder.type`を`noop`に設定します。`builder`セクション内の追加のキーは、ビルドプロセスを設定するために使用されます。
+ビルダータイプは、launchエージェントの設定の`builder.type`キーで制御できます。`docker`、`kaniko`、またはビルドを無効にするための`noop`を指定できます。デフォルトでは、エージェントのHelmチャートは`builder.type`を`noop`に設定します。`builder`セクションの追加キーは、ビルドプロセスを設定するために使用されます。
 
 エージェント設定にビルダーが指定されておらず、動作する`docker` CLIが見つかった場合、エージェントはデフォルトでDockerを使用します。Dockerが利用できない場合、エージェントはデフォルトで`noop`を使用します。
 
 :::tip
-KubernetesクラスターでイメージをビルドするにはKanikoを使用します。それ以外のすべてのケースではDockerを使用します。
+Kubernetesクラスターでイメージをビルドする場合はKanikoを使用してください。それ以外の場合はDockerを使用してください。
 :::
 
 ## コンテナレジストリへのプッシュ
@@ -39,9 +39,9 @@ Launchエージェントは、ビルドしたすべてのイメージに一意�
 
 エージェントをHelmチャート経由でデプロイする場合、エージェント設定は`values.yaml`ファイルの`agentConfig`キーに提供する必要があります。
 
-`wandb launch-agent`を使用してエージェントを自分で呼び出す場合、`--config`フラグでYAMLファイルへのパスとしてエージェント設定を提供できます。デフォルトでは、設定は`~/.config/wandb/launch-config.yaml`から読み込まれます。
+`wandb launch-agent`を使用してエージェントを自分で起動する場合、`--config`フラグでYAMLファイルへのパスとしてエージェント設定を提供できます。デフォルトでは、設定は`~/.config/wandb/launch-config.yaml`から読み込まれます。
 
-launchエージェント設定（`launch-config.yaml`）内で、ターゲットリソース環境の名前とコンテナレジストリをそれぞれ`environment`および`registry`キーに提供します。
+launchエージェント設定（`launch-config.yaml`）内で、ターゲットリソース環境とコンテナレジストリの名前をそれぞれ`environment`および`registry`キーに提供します。
 
 以下のタブは、環境とレジストリに基づいてlaunchエージェントを設定する方法を示しています。
 
@@ -69,7 +69,7 @@ builder:
   build-context-store: s3://<bucket-name>/<path>
 ```
 
-エージェントはboto3を使用してデフォルトのAWSクレデンシャルを読み込みます。デフォルトのAWSクレデンシャルの設定方法については、[boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)を参照してください。
+エージェントはboto3を使用してデフォルトのAWSクレデンシャルを読み込みます。デフォルトのAWSクレデンシャルを設定する方法については、[boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)を参照してください。
 
   </TabItem>
   <TabItem value="gcp">
@@ -90,7 +90,7 @@ builder:
   build-context-store: gs://<bucket-name>/<path>
 ```
 
-デフォルトのGCPクレデンシャルをエージェントで利用できるように設定する方法については、[`google-auth` documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default)を参照してください。
+デフォルトのGCPクレデンシャルをエージェントが利用できるように設定する方法については、[`google-auth` documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default)を参照してください。
 
   </TabItem>
   <TabItem value="azure">
@@ -173,14 +173,14 @@ artifactregistry.repositories.uploadArtifacts;
   </TabItem>
   <TabItem value="azure">
 
-Kanikoビルダーを使用する場合は、[`AcrPush` role](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush)を追加します。
+Kanikoビルダーを使用する場合は、[`AcrPush` role](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush)を追加してください。
 
 </TabItem>
 </Tabs>
 
 ### Kanikoのストレージ権限
 
-エージェントがKanikoビルダーを使用する場合、クラウドストレージにプッシュする権限が必要です。Kanikoはビルドジョブを実行するポッドの外部にコンテキストストアを使用します。
+エージェントがKanikoビルダーを使用する場合、クラウドストレージにプッシュする権限が必要です。Kanikoはビルドジョブを実行しているポッドの外部にコンテキストストアを使用します。
 
 <Tabs
 defaultValue="aws"
@@ -191,7 +191,7 @@ values={[
 ]}>
 <TabItem value="aws">
 
-AWSでKanikoビルダーの推奨コンテキストストアはAmazon S3です。以下のポリシーを使用して、エージェントにS3バケットへのアクセスを許可できます。
+AWSでのKanikoビルダーの推奨コンテキストストアはAmazon S3です。以下のポリシーを使用して、エージェントにS3バケットへのアクセス権を付与できます。
 
 ```json
 {
@@ -235,7 +235,7 @@ storage.objects.get;
 
 ## Kanikoビルドのカスタマイズ
 
-エージェント設定の`builder.kaniko-config`キーに、Kanikoジョブが使用するKubernetes Job specを指定します。例えば：
+エージェント設定の`builder.kaniko-config`キーにKanikoジョブが使用するKubernetes Job specを指定します。例えば：
 
 ```yaml title="launch-config.yaml"
 builder:
@@ -255,8 +255,8 @@ builder:
               value: "my-env-var-value"
 ```
 
-## LaunchエージェントをCoreWeaveにデプロイ
-オプションで、W&B LaunchエージェントをCoreWeaveクラウドインフラストラクチャにデプロイします。CoreWeaveはGPU加速ワークロード向けに特化したクラウドインフラストラクチャです。
+## CoreWeaveへのLaunchエージェントのデプロイ
+オプションで、W&B LaunchエージェントをCoreWeaveクラウドインフラストラクチャにデプロイできます。CoreWeaveはGPU加速ワークロードに特化したクラウドインフラストラクチャです。
 
 LaunchエージェントをCoreWeaveにデプロイする方法については、[CoreWeave documentation](https://docs.coreweave.com/partners/weights-and-biases#integration)を参照してください。
 

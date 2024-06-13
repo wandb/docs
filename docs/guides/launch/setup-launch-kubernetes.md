@@ -6,17 +6,17 @@ import TabItem from '@theme/TabItem';
 
 # Kubernetes のセットアップ
 
-W&B Launch を使用して ML ワークロードを Kubernetes クラスターにプッシュすることができます。これにより、ML エンジニアは W&B 内で Kubernetes で管理しているリソースを簡単に利用できるインターフェースを得ることができます。
+W&B Launch を使用して ML ワークロードを Kubernetes クラスターにプッシュすることができます。これにより、ML エンジニアは W&B 内でシンプルなインターフェースを使用して、Kubernetes で既に管理しているリソースを利用できます。
 
-W&B は、[公式の Launch エージェントイメージ](https://hub.docker.com/r/wandb/launch-agent) を維持しており、これを [Helm チャート](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) を使用してクラスターにデプロイすることができます。
+W&B は、[公式の Launch エージェントイメージ](https://hub.docker.com/r/wandb/launch-agent)を維持しており、これを W&B が管理する [Helm チャート](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)を使用してクラスターにデプロイできます。
 
-W&B は [Kaniko](https://github.com/GoogleContainerTools/kaniko) ビルダーを使用して、Launch エージェントが Kubernetes クラスター内で Docker イメージをビルドできるようにしています。Launch エージェント用に Kaniko をセットアップする方法や、ジョブビルドを無効にして事前にビルドされた Docker イメージのみを使用する方法については、[高度なエージェント設定](./setup-agent-advanced.md) を参照してください。
+W&B は [Kaniko](https://github.com/GoogleContainerTools/kaniko) ビルダーを使用して、Launch エージェントが Kubernetes クラスター内で Docker イメージをビルドできるようにしています。Launch エージェントのための Kaniko のセットアップ方法や、ジョブビルドを無効にして事前にビルドされた Docker イメージのみを使用する方法については、[高度なエージェント設定](./setup-agent-advanced.md)をご覧ください。
 
-## Kubernetes 用のキューを設定する
+## Kubernetes のキューを設定する
 
-Kubernetes ターゲットリソースの Launch キュー設定は、[Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) または [Kubernetes Custom Resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) のいずれかに似たものになります。
+Kubernetes ターゲットリソースの Launch キュー設定は、[Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) または [Kubernetes Custom Resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) のいずれかに似ています。
 
-Launch キューを作成する際に、Kubernetes ワークロードリソースの spec の任意の側面を制御できます。
+Launch キューを作成する際に、Kubernetes ワークロードリソース spec のあらゆる側面を制御できます。
 
 <Tabs
 defaultValue="job"
@@ -48,9 +48,9 @@ namespace: wandb
 </TabItem>
 <TabItem value="custom">
 
-いくつかのユースケースでは、`CustomResource` 定義を使用したい場合があります。例えば、マルチノード分散トレーニングを実行したい場合に `CustomResource` 定義が役立ちます。Volcano を使用したマルチノードジョブの例については、Launch を使用したチュートリアルを参照してください。別のユースケースとしては、W&B Launch を Kubeflow と一緒に使用したい場合があります。
+いくつかのユースケースでは、`CustomResource` 定義を使用したい場合があります。例えば、マルチノード分散トレーニングを実行したい場合に `CustomResource` 定義が役立ちます。Volcano を使用したマルチノードジョブの例については、Launch を使用したチュートリアルをご覧ください。別のユースケースとしては、W&B Launch を Kubeflow と一緒に使用したい場合があります。
 
-以下の YAML スニペットは、Kubeflow を使用する Launch キュー設定のサンプルを示しています：
+以下の YAML スニペットは、Kubeflow を使用する Launch キュー設定のサンプルを示しています。
 
 ```yaml
 kubernetes:
@@ -84,7 +84,7 @@ kubernetes:
 </TabItem>
 </Tabs>
 
-セキュリティ上の理由から、W&B は以下のリソースを指定されていない場合に Launch キューに注入します：
+セキュリティ上の理由から、W&B は以下のリソースを指定されていない場合に Launch キューに挿入します：
 
 - `securityContext`
 - `backOffLimit`
@@ -110,7 +110,7 @@ spec:
 
 Kubernetes を計算リソースとして使用するキューを W&B アプリで作成します：
 
-1. [Launch ページ](https://wandb.ai/launch) に移動します。
+1. [Launch ページ](https://wandb.ai/launch)に移動します。
 2. **Create Queue** ボタンをクリックします。
 3. キューを作成したい **Entity** を選択します。
 4. **Name** フィールドにキューの名前を入力します。
@@ -119,9 +119,9 @@ Kubernetes を計算リソースとして使用するキューを W&B アプリ�
 
 ## Helm を使用して Launch エージェントを設定する
 
-W&B が提供する [Helm チャート](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) を使用して、Launch エージェントを Kubernetes クラスターにデプロイします。`values.yaml` [ファイル](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml) を使用して、Launch エージェントの振る舞いを制御します。
+W&B が提供する [Helm チャート](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) を使用して、Launch エージェントを Kubernetes クラスターにデプロイします。`values.yaml` [ファイル](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml)を使用して、Launch エージェントの振る舞いを制御します。
 
-`values.yaml` ファイル内の `launchConfig` キーに、通常は Launch エージェント設定ファイル (`~/.config/wandb/launch-config.yaml`) に定義される内容を指定します。
+通常、Launch エージェント設定ファイル (`~/.config/wandb/launch-config.yaml`) に定義される内容を `values.yaml` ファイルの `launchConfig` キー内に指定します。
 
 例えば、Kaniko Docker イメージビルダーを使用して EKS で Launch エージェントを実行できるようにする Launch エージェント設定があるとします：
 
@@ -198,4 +198,4 @@ serviceAccount:
 azureStorageAccessKey: ''
 ```
 
-レジストリ、環境、および必要なエージェント権限の詳細については、[高度なエージェント設定](./setup-agent-advanced.md) を参照してください。
+レジストリ、環境、および必要なエージェント権限の詳細については、[高度なエージェント設定](./setup-agent-advanced.md)をご覧ください。
