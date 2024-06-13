@@ -11,7 +11,7 @@ The ability to rewind a run is in private preview. Contact W&B Support at suppor
 Use `resume_from` with [`wandb.init()`](https://docs.wandb.ai/ref/python/init) to "rewind" a run’s history to a specific step. When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. This feature allows for correction or modification of the run history without losing the original data, and enables new data logging from that point. Summary metrics are recomputed based on the newly logged history.
 
 :::info
-Rewinding a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](https://docs.wandb.ai/ref/python/run#define_metric) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
+Rewinding a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](https://docs.wandb.ai/ref/python/run#define_metric) to set a resume point because it would disrupt the essential chronological order of run history and system metrics.
 :::
 
 :::info
@@ -32,9 +32,9 @@ Rewinding a run requires the [`wandb`](https://pypi.org/project/wandb/) SDK vers
 - **Immutable run IDs**: Introduced for consistent rewinding from a precise state.
 - **Copy immutable run ID**: A button to copy the immutable run ID for improved run management.
 
-### Rewind and Forking Integration
+### Rewind and Forking Compatibility
 
-Rewind complements the Forking feature by providing more flexibility in managing and experimenting with your runs. While Forking allows you to create a new branch off a run at a specific point to try different parameters or models, Rewinding a run allows you to correct or modify the run history itself.
+Rewind compliments the [**`Forking`**](https://docs.wandb.ai/guides/runs/forking) feature by providing more flexibility in managing and experimenting with your runs. While Forking allows you to create a new branch off a run at a specific point to try different parameters or models, Rewinding a run allows you to correct or modify the run history itself.
 
 ### Rewind a Run
 
@@ -42,29 +42,49 @@ To rewind a run, use the `resume_from` argument in `wandb.init()` and specify th
 
 ```python
 import wandb
+import math
 
-# Initialize and log some data
-run = wandb.init(project="your_project_name", entity="your_entity_name")
-for i in range(1000):
-    run.log({"metric": i**2})
-run.finish()
+# Initialize the first run and log some metrics
+# Replace with your_project_name and your_entity_name!
+run1 = wandb.init(project="your_project_name", entity="your_entity_name")
+for i in range(300):
+    run1.log({"metric": i})
+run1.finish()
 
-# Rewind the run to step 500
-rewind_run = wandb.init(
-    project="your_project_name",
-    entity="your_entity_name",
-    resume_from="your_run_name",
-    step=500
-)
+# Rewind from the first run at a specific step and log the metric starting from step 200
+run2 = wandb.init(project="your_project_name", entity="your_entity_name", resume_from=f"{run1.id}?_step=200")
 
-# Log new data from step 500 onwards
-for i in range(500, 1000):
-    rewind_run.log({"metric": i*2})
-rewind_run.finish()
+# Continue logging in the new run
+# For the first few steps, log the metric as is from run1
+# After step 250, start logging the spikey pattern
+for i in range(200, 300):
+    if i < 250:
+        run2.log({"metric": i, "step": i})  # Continue logging from run1 without spikes
+    else:
+        # Introduce the spikey behavior starting from step 250
+        subtle_spike = i + (2 * math.sin(i / 3.0))  # Apply a subtle spikey pattern
+        run2.log({"metric": subtle_spike, "step": i})
+    # Additionally log the new metric at all steps
+    run2.log({"additional_metric": i * 1.1, "step": i})
+run2.finish()
 ```
+
+#### Navigating to a Run Archive
+
+After a run has been rewound, you can easily explore the archived resumptions through the user interface. Follow these steps to navigate the run archive:
+
+1. **Access the Overview Tab:**
+   - Navigate to the [**Overview tab**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab) on the run's page. This tab provides a comprehensive view of the run's details and history.
+
+2. **Locate the Forked From Field:**
+   - Within the Overview tab, find the `Forked From` field. This field captures the history of the resumptions.
+   - The `Forked From` field includes a link to the source run, allowing you to trace back to the original run and understand the entire rewind history.
+
+By using the `Forked From` field, you can effortlessly navigate the tree of archived resumptions and gain insights into the sequence and origin of each rewind. 
+
 ### Fork from a Rewound Run
 
-To fork from a rewound run, use the `fork_from` argument in `wandb.init()` and specify the source run ID and the step from the source run to fork from:
+To fork from a rewound run, use the [**`fork_from`**](https://docs.wandb.ai/guides/runs/forking) argument in `wandb.init()` and specify the source run ID and the step from the source run to fork from:
 
 ```python 
 import wandb

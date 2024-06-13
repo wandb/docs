@@ -40,6 +40,18 @@ forked_run = wandb.init(
 )
 ```
 
+### Using an Immutable Run ID
+
+To ensure you have a consistent and unchanging reference to a specific run, you can use an immutable run ID. Follow these steps to obtain the immutable run ID from the user interface:
+
+1. **Access the Overview Tab:**
+   - Navigate to the [**Overview tab**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab) on the source run's page.
+
+2. **Copy the Immutable Run ID:**
+   - Click on the `...` menu (three dots) located in the top-right corner of the Overview tab.
+   - Select the `Copy Immutable Run ID` option from the dropdown menu.
+
+By following these steps, you will have a stable and unchanging reference to the run, which can be used for forking a run.
 
 ## Continue from a forked run
 After initializing a forked run, you can continue logging to the new run. You can log the same metrics for continuity and introduce new metrics:
@@ -74,4 +86,6 @@ for i in range(200, 300):
 run2.finish()
 ```
 
+### Rewind and Forking Compatibility
 
+Forking compliments the [**`Rewind`**](https://docs.wandb.ai/guides/runs/rewind) feature by providing more flexibility in managing and experimenting with your runs. While Forking allows you to create a new branch off a run at a specific point to try different parameters or models, Rewinding a run allows you to correct or modify the run history itself.
