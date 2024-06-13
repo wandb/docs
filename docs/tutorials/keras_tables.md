@@ -1,24 +1,25 @@
+
+
+
 # Keras Tables
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb)
+[**Colabノートブックで試す →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb)
 
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
+Weights & Biasesを使用して、機械学習の実験トラッキング、データセットのバージョン管理、プロジェクトのコラボレーションを行います。
 
 <img src="http://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
 
-This colab notebook introduces the `WandbEvalCallback` which is an abstract callback that be inherited to build useful callbacks for model prediction visualization and dataset visualization. Refer to the [💫 `WandbEvalCallback`](https://colab.research.google.com/drive/107uB39vBulCflqmOWolu38noWLxAT6Be#scrollTo=u50GwKJ70WeJ&line=1&uniqifier=1) section for more details.
+このColabノートブックでは、`WandbEvalCallback`を紹介します。これは、モデルの予測可視化やデータセットの可視化に役立つコールバックを構築するために継承される抽象コールバックです。詳細は[💫 `WandbEvalCallback`](https://colab.research.google.com/drive/107uB39vBulCflqmOWolu38noWLxAT6Be#scrollTo=u50GwKJ70WeJ&line=1&uniqifier=1)のセクションを参照してください。
 
-# 🌴 Setup and Installation
+# 🌴 セットアップとインストール
 
-First, let us install the latest version of Weights and Biases. We will then authenticate this colab instance to use W&B.
+まず、最新のWeights and Biasesをインストールしましょう。その後、このColabインスタンスを認証してW&Bを使用します。
 
-
-```python
-!pip install -qq -U wandb
+```shell
+pip install -qq -U wandb
 ```
 
-
-```pythonpython
+```python
 import os
 import numpy as np
 import tensorflow as tf
@@ -26,68 +27,62 @@ from tensorflow.keras import layers
 from tensorflow.keras import models
 import tensorflow_datasets as tfds
 
-# Weights and Biases related imports
+# Weights and Biases関連のインポート
 import wandb
-from wandb.keras import WandbMetricsLogger
-from wandb.keras import WandbModelCheckpoint
-from wandb.keras import WandbEvalCallback
+from wandb.integration.keras import WandbMetricsLogger
+from wandb.integration.keras import WandbModelCheckpoint
+from wandb.integration.keras import WandbEvalCallback
 ```
 
-If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up for a [free account](https://wandb.ai/signup) is as easy as a few clicks.
-
+初めてW&Bを使用する場合やログインしていない場合、`wandb.login()`を実行後に表示されるリンクからサインアップ/ログインページに移動できます。数クリックで[無料アカウント](https://wandb.ai/signup)を作成できます。
 
 ```python
 wandb.login()
 ```
 
-# 🌳 Hyperparameters
+# 🌳 ハイパーパラメーター
 
-Use of proper config system is a recommended best practice for reproducible machine learning. We can track the hyperparameters for every experiment using W&B. In this colab we will be using simple Python `dict` as our config system.
-
+適切な設定システムの使用は、再現可能な機械学習のための推奨されるベストプラクティスです。W&Bを使用してすべての実験にハイパーパラメーターをトラッキングできます。このColabでは、シンプルなPythonの`dict`を設定システムとして使用します。
 
 ```python
 configs = dict(
-    num_classes = 10,
-    shuffle_buffer = 1024,
-    batch_size = 64,
-    image_size = 28,
-    image_channels = 1,
-    earlystopping_patience = 3,
-    learning_rate = 1e-3,
-    epochs = 10
+    num_classes=10,
+    shuffle_buffer=1024,
+    batch_size=64,
+    image_size=28,
+    image_channels=1,
+    earlystopping_patience=3,
+    learning_rate=1e-3,
+    epochs=10,
 )
 ```
 
-# 🍁 Dataset
+# 🍁 データセット
 
-In this colab, we will be using [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
-
+このColabでは、TensorFlowデータセットカタログから[CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100)データセットを使用します。TensorFlow/Kerasを使用してシンプルな画像分類開発フローを構築することを目指します。
 
 ```python
-train_ds, valid_ds = tfds.load('fashion_mnist', split=['train', 'test'])
+train_ds, valid_ds = tfds.load("fashion_mnist", split=["train", "test"])
 ```
-
 
 ```
 AUTOTUNE = tf.data.AUTOTUNE
 
-
 def parse_data(example):
-    # Get image
+    # 画像を取得
     image = example["image"]
     # image = tf.image.convert_image_dtype(image, dtype=tf.float32)
 
-    # Get label
+    # ラベルを取得
     label = example["label"]
     label = tf.one_hot(label, depth=configs["num_classes"])
 
     return image, label
 
-
 def get_dataloader(ds, configs, dataloader_type="train"):
     dataloader = ds.map(parse_data, num_parallel_calls=AUTOTUNE)
 
-    if dataloader_type=="train":
+    if (dataloader_type == "train"):
         dataloader = dataloader.shuffle(configs["shuffle_buffer"])
       
     dataloader = (
@@ -99,23 +94,25 @@ def get_dataloader(ds, configs, dataloader_type="train"):
     return dataloader
 ```
 
-
 ```python
 trainloader = get_dataloader(train_ds, configs)
 validloader = get_dataloader(valid_ds, configs, dataloader_type="valid")
 ```
 
-# 🎄 Model
-
+# 🎄 モデル
 
 ```python
 def get_model(configs):
-    backbone = tf.keras.applications.mobilenet_v2.MobileNetV2(weights='imagenet', include_top=False)
+    backbone = tf.keras.applications.mobilenet_v2.MobileNetV2(
+        weights="imagenet", include_top=False
+    )
     backbone.trainable = False
 
-    inputs = layers.Input(shape=(configs["image_size"], configs["image_size"], configs["image_channels"]))
+    inputs = layers.Input(
+        shape=(configs["image_size"], configs["image_size"], configs["image_channels"])
+    )
     resize = layers.Resizing(32, 32)(inputs)
-    neck = layers.Conv2D(3, (3,3), padding="same")(resize)
+    neck = layers.Conv2D(3, (3, 3), padding="same")(resize)
     preprocess_input = tf.keras.applications.mobilenet.preprocess_input(neck)
     x = backbone(preprocess_input)
     x = layers.GlobalAveragePooling2D()(x)
@@ -124,45 +121,45 @@ def get_model(configs):
     return models.Model(inputs=inputs, outputs=outputs)
 ```
 
-
 ```python
 tf.keras.backend.clear_session()
 model = get_model(configs)
 model.summary()
 ```
 
-# 🌿 Compile Model
-
+# 🌿 モデルのコンパイル
 
 ```python
 model.compile(
-    optimizer = "adam",
-    loss = "categorical_crossentropy",
-    metrics = ["accuracy", tf.keras.metrics.TopKCategoricalAccuracy(k=5, name='top@5_accuracy')]
+    optimizer="adam",
+    loss="categorical_crossentropy",
+    metrics=[
+        "accuracy",
+        tf.keras.metrics.TopKCategoricalAccuracy(k=5, name="top@5_accuracy"),
+    ],
 )
 ```
 
 # 💫 `WandbEvalCallback`
 
-The `WandbEvalCallback` is an abstract base class to build Keras callbacks for primarily model prediction visualization and secondarily dataset visualization.
+`WandbEvalCallback`は主にモデルの予測可視化およびデータセットの可視化を行うためのKerasコールバックを構築するための抽象基底クラスです。
 
-This is a dataset and task agnostic abstract callback. To use this, inherit from this base callback class and implement the `add_ground_truth` and `add_model_prediction` methods.
+これはデータセットやタスクに依存しない抽象コールバックです。これを使用するには、この基底コールバッククラスを継承し、`add_ground_truth`メソッドと`add_model_prediction`メソッドを実装します。
 
-The `WandbEvalCallback` is a utility class that provides helpful methods to:
+`WandbEvalCallback`は以下の便利なメソッドを提供するユーティリティクラスです：
 
-- create data and prediction `wandb.Table` instances,
-- log data and prediction Tables as `wandb.Artifact`,
-- logs the data table `on_train_begin`,
-- logs the prediction table `on_epoch_end`.
+- データおよび予測の`wandb.Table`インスタンスを作成する
+- データおよび予測テーブルを`wandb.Artifact`としてログ
+- データテーブルを`on_train_begin`にログ
+- 予測テーブルを`on_epoch_end`にログ
 
-As an example, we have implemented `WandbClfEvalCallback` below for an image classification task. This example callback:
-- logs the validation data (`data_table`) to W&B,
-- performs inference and logs the prediction (`pred_table`) to W&B on every epoch end.
+例として、画像分類タスクのための`WandbClfEvalCallback`を以下に実装しました。このコールバックの例では：
+- 検証データ（`data_table`）をW&Bにログ
+- 推論を行い、各エポック終了時に予測（`pred_table`）をW&Bにログ
 
+## メモリ使用量はどのように削減されるのか？
 
-## How the memory footprint is reduced?
-
-We log the `data_table` to W&B when the `on_train_begin` method is ivoked. Once it's uploaded as a W&B Artifact, we get a reference to this table which can be accessed using `data_table_ref` class variable. The `data_table_ref` is a 2D list that can be indexed like `self.data_table_ref[idx][n]` where `idx` is the row number while `n` is the column number. Let's see the usage in the example below.
+`on_train_begin`メソッドが呼ばれたときに、`data_table`をW&Bにログします。一度W&B Artifactとしてアップロードされると、このテーブルへの参照が取得され、`data_table_ref`クラス変数を使用してアクセスできます。`data_table_ref`は2次元リストで、`self.data_table_ref[idx][n]`のようにインデックスすることができます。ここで`idx`は行番号、`n`は列番号です。以下の例でその使用方法を確認しましょう。
 
 ```python
 class WandbClfEvalCallback(WandbEvalCallback):
@@ -175,14 +172,10 @@ class WandbClfEvalCallback(WandbEvalCallback):
 
     def add_ground_truth(self, logs=None):
         for idx, (image, label) in enumerate(self.val_data):
-            self.data_table.add_data(
-                idx,
-                wandb.Image(image),
-                np.argmax(label, axis=-1)
-            )
+            self.data_table.add_data(idx, wandb.Image(image), np.argmax(label, axis=-1))
 
     def add_model_predictions(self, epoch, logs=None):
-        # Get predictions
+        # 予測を取得
         preds = self._inference()
         table_idxs = self.data_table_ref.get_index()
 
@@ -193,44 +186,40 @@ class WandbClfEvalCallback(WandbEvalCallback):
                 self.data_table_ref.data[idx][0],
                 self.data_table_ref.data[idx][1],
                 self.data_table_ref.data[idx][2],
-                pred
+                pred,
             )
 
     def _inference(self):
-      preds = []
-      for image, label in self.val_data:
-          pred = self.model(tf.expand_dims(image, axis=0))
-          argmax_pred = tf.argmax(pred, axis=-1).numpy()[0]
-          preds.append(argmax_pred)
+        preds = []
+        for image, label in self.val_data:
+            pred = self.model(tf.expand_dims(image, axis=0))
+            argmax_pred = tf.argmax(pred, axis=-1).numpy()[0]
+            preds.append(argmax_pred)
 
-      return preds
+        return preds
 ```
 
-# 🌻 Train
-
+# 🌻 トレーニング
 
 ```python
-# Initialize a W&B run
-run = wandb.init(
-    project = "intro-keras",
-    config = configs
-)
+# W&B runを初期化
+run = wandb.init(project="intro-keras", config=configs)
 
-# Train your model
+# モデルをトレーニング
 model.fit(
     trainloader,
-    epochs = configs["epochs"],
-    validation_data = validloader,
-    callbacks = [
+    epochs=configs["epochs"],
+    validation_data=validloader,
+    callbacks=[
         WandbMetricsLogger(log_freq=10),
         WandbClfEvalCallback(
             validloader,
             data_table_columns=["idx", "image", "ground_truth"],
-            pred_table_columns=["epoch", "idx", "image", "ground_truth", "prediction"]
-        ) # Notice the use of WandbEvalCallback here
-    ]
+            pred_table_columns=["epoch", "idx", "image", "ground_truth", "prediction"],
+        ),  # ここでWandbEvalCallbackを使用
+    ],
 )
 
-# Close the W&B run
+# W&B runを終了
 run.finish()
 ```

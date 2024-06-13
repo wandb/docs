@@ -1,12 +1,13 @@
 ---
-description: Get started using Weights & Biases with interactive tutorials.
+description: Weights & Biasesを使ったインタラクティブチュートリアルを始めましょう。
 slug: /tutorials
 ---
 
-# W&B Tutorials
 
-## Learn to use W&B with interactive code examples
-The following tutorials take you through the fundamentals of Weights & Biases for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more.
+# W&Bチュートリアル
+
+## インタラクティブなコード例でW&Bを学ぶ
+以下のチュートリアルでは、Weights & Biasesを使った機械学習実験のトラッキング、モデルの評価、ハイパーパラメータチューニング、モデルとデータセットのバージョン管理などの基本を学びます。
 
 1. [Track experiments](/tutorials/experiments) 
 2. [Visualize predictions](/tutorials/tables)
@@ -15,7 +16,7 @@ The following tutorials take you through the fundamentals of Weights & Biases fo
 5. [Register models](/tutorials/models)
 6. [Iterate on LLMs](/tutorials/prompts)
 
-## Use W&B with popular ML frameworks
+## 人気のあるMLフレームワークでW&Bを使う
 
 - [PyTorch](/tutorials/pytorch)
 - [PyTorch Lightning](/tutorials/lightning)
@@ -31,4 +32,3 @@ The following tutorials take you through the fundamentals of Weights & Biases fo
     - [Track experiments](/tutorials/xgboost)
     - [Tune hyperparameters](/tutorials/xgboost_sweeps)
 - [LightGBM](/tutorials/lightgbm)
-
