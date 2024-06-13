@@ -1,37 +1,35 @@
 
-
-
 # XGBoost
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W&B.ipynb)
+[**Colabノートブックで試す →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W&B.ipynb)
 
-このノートブックでは、XGBoostモデルをトレーニングして、提出されたローン申請がデフォルトするかどうかを分類します。XGBoostのようなブースティングアルゴリズムを使用することで、ローン評価のパフォーマンスが向上し、内部のリスク管理機能や外部の規制当局に対しても解釈可能性を維持できます。
+このノートブックでは、XGBoostモデルをトレーニングして、提出されたローン申請がデフォルトになるかどうかを分類します。XGBoostのようなブースティングアルゴリズムを使用することで、ローン評価のパフォーマンスが向上し、内部リスク管理機能や外部の規制当局にとっても解釈可能なままです。
 
-このノートブックは、ScotiaBankのPaul Edwards氏によるNvidia GTC21の講演に基づいており、XGBoostが解釈可能でパフォーマンスの高いクレジットスコアカードを構築する方法を紹介しました。彼らはまた[サンプルコードを共有](https://github.com/rapidsai-community/showcase/tree/main/event_notebooks/GTC_2021/credit_scorecard)してくださり、このコードを通して使用します。ScotiabankのStephen Denton (stephen.denton@scotiabank.com)氏に感謝します。
+このノートブックは、ScotiaBankのPaul EdwardsによるNvidia GTC21での講演に基づいています。[こちらのリンク](https://www.nvidia.com/en-us/on-demand/session/gtcspring21-s31327/)から、XGBoostがどのようにして解釈可能なクレジットスコアカードを構築するために使用されるかをご覧いただけます。また、Stephen Denton（stephen.denton@scotiabank.com）から提供された[サンプルコード](https://github.com/rapidsai-community/showcase/tree/main/event_notebooks/GTC_2021/credit_scorecard)を使用します。
 
-### [こちらをクリック](https://wandb.ai/morgan/credit_scorecard)して、このノートブックで構築されたライブのW&B ダッシュボードを表示および操作します
+### [こちらをクリック](https://wandb.ai/morgan/credit_scorecard)して、このノートブックで作成されたライブのW&Bダッシュボードを閲覧し、操作する
 
-# このノートブックで
+# このノートブックについて
 
-このColabノートで、Weights and Biasesを使用して規制対象エンティティが以下のことをどのように行うかを紹介します。
-- **データETLパイプラインのトラッキングとバージョン管理**（ローカルまたはS3やGCSのようなクラウドサービスで）
-- **実験結果のトラッキング**およびトレーニング済みモデルの保存
-- **複数の評価メトリクスの視覚的検査**
-- **ハイパーパラメータースイープによるパフォーマンスの最適化**
+このColabでは、Weights & Biasesが規制されたEntitiesにどのように役立つかをカバーします：
+- **データETL開発フロー（ローカルまたはS3やGCSのクラウドサービス）をトラッキングしてバージョン管理**
+- **実験結果をトラッキングしてトレーニングされたモデルを保存**
+- **複数の評価メトリクスを視覚的に検査**
+- **ハイパーパラメータースイープを使用してパフォーマンスを最適化**
 
 **実験と結果のトラッキング**
 
-すべてのトレーニングハイパーパラメーターと出力メトリクスをトラッキングし、Experiments ダッシュボードを生成します。
+トレーニングのハイパーパラメーターと出力メトリクスをすべてトラッキングして、実験ダッシュボードを生成します：
 
 ![credit_scorecard](/images/tutorials/credit_scorecard/credit_scorecard.png)
 
-**ベストハイパーパラメーターを見つけるためのハイパーパラメータースイープの実行**
+**ハイパーパラメーター探索を実行して最適なハイパーパラメーターを見つける**
 
-Weights and Biasesは、独自の[Sweeps機能](https://docs.wandb.ai/guides/sweeps)や[Ray Tune統合](https://docs.wandb.ai/guides/sweeps/advanced-sweeps/ray-tune)を使用して、ハイパーパラメータースイープを実行することもできます。より高度なハイパーパラメータースイープオプションの使用方法については、ドキュメントを参照してください。
+Weights & Biasesはハイパーパラメーター探索も可能にします。独自の[Sweeps機能](https://docs.wandb.ai/guides/sweeps)や[Ray Tune統合](https://docs.wandb.ai/guides/sweeps/advanced-sweeps/ray-tune)を使用できます。より高度なハイパーパラメーター探索オプションの使用方法については、ドキュメントをご覧ください。
 
 ![credit_scorecard_2](/images/tutorials/credit_scorecard/credit_scorecard_2.png)
 
-# 設定
+# セットアップ
 
 ```bash
 !pip install -qq wandb>=0.13.10 dill
@@ -61,20 +59,20 @@ pd.set_option("display.max_columns", None)
 
 # データ
 
-## AWS S3、Google Cloud Storage、W&B Artifacts
+## AWS S3、Google Cloud StorageおよびW&B Artifacts
 
 ![credit_scorecard_3](/images/tutorials/credit_scorecard/credit_scorecard_3.png)
 
-Weights and Biasesの**Artifacts**は、エンドツーエンドのトレーニングパイプラインをログに記録し、実験が常に再現可能であることを保証します。
+Weights & Biases **Artifacts**を使用すると、エンドツーエンドのトレーニング開発フローをログに記録し、すべての実験が再現可能であることを保証します。
 
-データプライバシーはWeights & Biasesにとって重要であり、AWS S3やGoogle Cloud StorageなどのプライベートクラウドからArtifactsを作成することをサポートしています。ローカルおよびオンプレミスのW&Bもリクエストに応じて利用可能です。
+データのプライバシーはWeights & Biasesにとって非常に重要です。そのため、AWS S3やGoogle Cloud Storageなど、独自のプライベートクラウドからArtifactsを作成することをサポートしています。ローカルやオンプレミスのW&Bもリクエストに応じて利用可能です。
 
-デフォルトでは、W&Bはアメリカに位置するプライベートGoogle Cloud Storageバケットにアーティファクトファイルを保存します。すべてのファイルは保存時および転送時に暗号化されます。機密性の高いファイルには、プライベートW&Bインストールまたは参照アーティファクトの使用を推奨します。
+デフォルトでは、W&BはアメリカにあるプライベートGoogle Cloud StorageバケットにArtifactsファイルを保存します。すべてのファイルは保存中および転送中に暗号化されます。機密ファイルについては、プライベートW&Bインストールまたは参照アーティファクトの使用をお勧めします。
 
-## アーティファクト参照例
-**S3/GCSメタデータを持つアーティファクトを作成**
+## Artifacts参照例
+**S3/GCSのメタデータを含むartifactを作成**
 
-アーティファクトは、S3/GCSオブジェクトのETag、サイズ、バージョンID（バケットにオブジェクトバージョン管理が有効な場合）などのメタデータで構成されています。
+このartifactは、S3/GCSオブジェクトのETag、サイズ、バージョンID（バケットでオブジェクトバージョン管理が有効な場合）などのメタデータのみで構成されます。
 
 ```python
 run = wandb.init()
@@ -83,19 +81,19 @@ artifact.add_reference("s3://my-bucket/datasets/mnist")
 run.log_artifact(artifact)
 ```
 
-**必要なときにアーティファクトをローカルにダウンロード**
+**必要に応じてArtifactをローカルにダウンロード**
 
-W&Bは、アーティファクトログ時に記録されたメタデータを使用して、基礎となるバケットからファイルを取得します。
+W&Bは、アーティファクトがログに記録されたときのメタデータを使用して、基盤となるバケットからファイルを取得します。
 
 ```python
 artifact = run.use_artifact("mnist:latest", type="dataset")
 artifact_dir = artifact.download()
 ```
 
-参照を使ったArtifactsの使用方法、資格情報の設定などについては、[Artifact References](https://docs.wandb.ai/guides/artifacts/references)を参照してください。
+Artifacts参照の詳細、資格情報の設定については[Artifactsの参照](https://docs.wandb.ai/guides/artifacts/references)を参照してください。
 
 ## W&Bにログイン
-Weights and Biasesにログインします
+Weights & Biasesにログイン
 
 ```python
 import wandb
@@ -107,10 +105,10 @@ WANDB_PROJECT = "vehicle_loan_default"
 
 ## 車両ローンデータセット
 
-L&Tの[Vehicle Loan Default Prediction dataset](https://www.kaggle.com/sneharshinde/ltfs-av-data)の簡略化されたバージョンを使用します。このデータセットはW&B Artifactsに保存されています。
+L&Tからの[車両ローンデフォルト予測データセット](https://www.kaggle.com/sneharshinde/ltfs-av-data)の簡略版を使用します。このデータセットはW&B Artifactsに保存されています。
 
 ```python
-# データを保存するフォルダを指定します。存在しない場合は新しいフォルダが作成されます。
+# データを保存するためのフォルダを指定します。フォルダが存在しない場合は新しく作成されます
 data_dir = Path(".")
 model_dir = Path("models")
 model_dir.mkdir(exist_ok=True)
@@ -119,7 +117,7 @@ id_vars = ["UniqueID"]
 targ_var = "loan_default"
 ```
 
-関数をピクル化する関数を作成します
+関数をpickleする関数を作成
 
 ```python
 def function_to_string(fn):
@@ -128,13 +126,13 @@ def function_to_string(fn):
 
 #### W&B Artifactsからデータをダウンロード
 
-W&B Artifactsからデータセットをダウンロードします。最初にW&Bのrunオブジェクトを作成し、これを使用してデータをダウンロードします。データがダウンロードされると、ワンホットエンコードされます。この処理済みデータは、新しいArtifactとして同じW&Bにログされます。
+W&B Artifactsからデータセットをダウンロードします。最初にW&Bのrunオブジェクトを作成し、それを使用してデータをダウンロードします。データがダウンロードされたら、ワンホットエンコーディングされます。この処理されたデータは、新しいArtifactとして同じW&Bにログされます。データをダウンロードしたW&Bにログすることで、この新しいArtifactを生データセットのArtifactに関連付けます。
 
 ```python
 run = wandb.init(project=WANDB_PROJECT, job_type="preprocess-data")
 ```
 
-W&Bから車両ローンデフォルトデータのサブセットをダウンロードします。これには`train.csv`および`val.csv`ファイルや一部のユーティリティファイルが含まれています。
+W&Bから車両ローンデフォルトデータのサブセットをダウンロードします。これには、`train.csv`と`val.csv`ファイルおよびいくつかのユーティルファイルが含まれています。
 
 ```python
 ARTIFACT_PATH = "morgan/credit_scorecard/vehicle_loan_defaults:latest"
@@ -144,19 +142,19 @@ dataset_dir = dataset_art.download(data_dir)
 
 ```python
 from data_utils import (
-  describe_data_g_targ,
-  one_hot_encode_data,
-  load_training_data,
+    describe_data_g_targ,
+    one_hot_encode_data,
+    load_training_data,
 )
 ```
 
-#### データのワンホットエンコード
+#### データのワンホットエンコーディング
 
 ```python
-# データをDataframeに読み込み
+# データをデータフレームにロード
 dataset = pd.read_csv(data_dir / "vehicle_loans_subset.csv")
 
-# データのワンホットエンコード
+# データのワンホットエンコーディング
 dataset, p_vars = one_hot_encode_data(dataset, id_vars, targ_var)
 
 # 前処理されたデータを保存
@@ -164,18 +162,18 @@ processed_data_path = data_dir / "proc_ds.csv"
 dataset.to_csv(processed_data_path, index=False)
 ```
 
-#### 処理済みデータをW&B Artifactsにログ
+#### 処理されたデータをW&B Artifactsにログ
 
 ```python
-# 処理済みデータの新しいアーティファクトを作成し、関数を含めてArtifactsに追加
+# 処理されたデータを含む新しいartifactをArtifactsに作成
 processed_ds_art = wandb.Artifact(
     name="vehicle_defaults_processed",
     type="processed_dataset",
-    description="One-hot encoded dataset",
+    description="ワンホットエンコーディングされたデータセット",
     metadata={"preprocessing_fn": function_to_string(one_hot_encode_data)},
 )
 
-# 処理済みデータをArtifactに追加
+# 処理されたデータをArtifactに添付
 processed_ds_art.add_file(processed_data_path)
 
 # このArtifactを現在のwandb runにログ
@@ -184,71 +182,70 @@ run.log_artifact(processed_ds_art)
 run.finish()
 ```
 
-## トレーニング/バリデーション分割の取得
+## トレーニング/バリデーション分割
 
-ここでは、wandb runオブジェクトを作成するための別のパターンを示します。以下のセルでは、データセットを分割するコードが`wandb.init() as run`の呼び出しでラップされています。
+ここでは、wandb runオブジェクトを作成する別のパターンを示します。以下のセルでは、データセットを分割するコードは`wandb.init() as run`の呼び出しでラップされています。
 
-ここでは以下を行います。
+ここで行うことは：
 - wandb runを開始
-- Artifactsからワンホットエンコードされたデータセットをダウンロード
-- 分割に使用したパラメータをログ
-- 新しい`trndat`および`valdat`データセットをArtifactsにログ
-- wandb runを自動的に終了
+- Artifactsからワンホットエンコーディングされたデータセットをダウンロード
+- トレーニング/バリデーションの分割を行い、分割に使用されたパラメーターをログ
+- 新しい`trndat`と`valdat`データセットをArtifactsにログ
+- 自動的にwandb runを終了
 
 ```python
 with wandb.init(
     project=WANDB_PROJECT, job_type="train-val-split"
-) as run:  # configはオプションです
+) as run:  # configはここでは任意です
+    # W&Bから車両ローンデフォルトデータのサブセットをダウンロード
+    dataset_art = run.use_artifact(
+        "vehicle_defaults_processed:latest", type="processed_dataset"
+    )
+    dataset_dir = dataset_art.download(data_dir)
+    dataset = pd.read_csv(processed_data_path)
 
-  # W&Bから車両ローンデフォルトデータのサブセットをダウンロード
-  dataset_art = run.use_artifact(
-      "vehicle_defaults_processed:latest", type="processed_dataset"
-  )
-  dataset_dir = dataset_art.download(data_dir)
-  dataset = pd.read_csv(processed_data_path)
+    # 分割パラメーターを設定
+    test_size = 0.25
+    random_state = 42
 
-  # 分割パラメータを設定
-  test_size = 0.25
-  random_state = 42
+    # 分割パラメーターをログ
+    run.config.update({"test_size": test_size, "random_state": random_state})
 
-  # 分割パラメータをログ
-  run.config.update({"test_size": test_size, "random_state": random_state})
+    # トレーニング/バリデーションの分割を行う
+    trndat, valdat = model_selection.train_test_split(
+        dataset,
+        test_size=test_size,
+        random_state=random_state,
+        stratify=dataset[[targ_var]],
+    )
 
-  # トレーニング/バリデーション分割を実行
-  trndat, valdat = model_selection.train_test_split(
-      dataset,
-      test_size=test_size,
-      random_state=random_state,
-      stratify=dataset[[targ_var]],
-  )
+    print(f"トレーニングデータセットのサイズ: {trndat[targ_var].value_counts()} \n")
+    print(f"バリデーションデータセットのサイズ: {valdat[targ_var].value_counts()}")
 
-  print(f"Train dataset size: {trndat[targ_var].value_counts()} \n")
-  print(f"Validation dataset sizeL {valdat[targ_var].value_counts()}")
+    # 分割されたデータセットを保存
+    train_path = data_dir / "train.csv"
+    val_path = data_dir / "val.csv"
+    trndat.to_csv(train_path, index=False)
+    valdat.to_csv(val_path, index=False)
 
-  # 分割されたデータセットを保存
-  train_path = data_dir / "train.csv"
-  val_path = data_dir / "val.csv"
-  trndat.to_csv(train_path, index=False)
-  valdat.to_csv(val_path, index=False)
+    # 処理されたデータを含む新しいartifactをArtifactsに作成
+    split_ds_art = wandb.Artifact(
+        name="vehicle_defaults_split",
+        type="train-val-dataset",
+        description="トレーニングおよびバリデーションに分割された処理済みデータセット",
+        metadata={"test_size": test_size, "random_state": random_state},
+    )
 
-  # 処理済みデータの新しいアーティファクトを作成し、関数を含めてArtifactsに追加
-  split_ds_art = wandb.Artifact(
-      name="vehicle_defaults_split",
-      type="train-val-dataset",
-      description="Processed dataset split into train and valiation",
-      metadata={"test_size": test_size, "random_state": random_state},
-  )
+    # 処理されたデータをArtifactに添付
+    split_ds_art.add_file(train_path)
+    split_ds_art.add_file(val_path)
 
-  # 処理済みデータをArtifactに追加
-  split_ds_art.add_file(train_path)
-  split_ds_art.add_file(val_path)
-
-  # Artifactをログ
-  run.log_artifact(split_ds_art)
+    # Artifactをログ
+    run.log_artifact(split_ds_art)
 ```
 
 #### トレーニングデータセットの検査
-トレーニングデータセットの概要を取得
+トレーニングデータセットの概要を確認
 
 ```python
 trndict = describe_data_g_targ(trndat, targ_var)
@@ -257,21 +254,21 @@ trndat.head()
 
 ### W&B Tablesでデータセットをログ
 
-W&B Tablesを使用すると、画像、ビデオ、音声などのリッチメディアを含む表形式のデータをログ、クエリ、および分析できます。これを使用してデータセットを理解し、モデルの予測を可視化し、洞察を共有することができます。詳細については、[W&B Tables Guide](https://docs.wandb.ai/guides/tables)をご覧ください。
+W&B Tablesを使用すると、画像、ビデオ、オーディオなどのリッチメディアを含むタブularデータをログ、クエリ、分析できます。これにより、データセットを理解し、モデルの予測を視覚化し、洞察を共有できます。詳細は[W&B Tablesガイド](https://docs.wandb.ai/guides/tables)をご覧ください。
 
 ```python
-# "log-dataset"ジョブタイプを指定して、W&B runを作成（オプション）
+# wandb runを作成し、オプションで"log-dataset"ジョブタイプを指定して整理を保つ
 run = wandb.init(
     project=WANDB_PROJECT, job_type="log-dataset"
-)  # configはオプションです
+)  # configは任意です
 
-# データセットのランダムに選んだ1000行をW&B Tableにログ
+# W&Bテーブルを作成し、ランダムに選択したデータセットの1000行をログ
 table = wandb.Table(dataframe=trndat.sample(1000))
 
-# W&B workspaceにTableをログ
+# W&Bワークスペースにテーブルをログ
 wandb.log({"processed_dataset": table})
 
-# wandb runを閉じる
+# wandb runを終了
 wandb.finish()
 ```
 
@@ -279,22 +276,22 @@ wandb.finish()
 
 ## XGBoostモデルのフィット
 
-ここでは、XGBoostモデルをトレーニングして、車両ローン申請がデフォルトになるかどうかを分類します。
+今度は、車両ローン申請がデフォルトになるかどうかを分類するためにXGBoostモデルをフィットします。
 
-### GPU上でのトレーニング
-XGBoostモデルをGPU上でトレーニングしたい場合は、XGBoostに渡すパラメータで以下を設定するだけです。
+### GPUでのトレーニング
+XGBoostモデルをGPUでトレーニングしたい場合は、次のパラメータをXGBoostに渡してください：
 
 ```python
 "tree_method": "gpu_hist"
 ```
 
-#### 1) W&B Runの初期化
+#### 1) W&B Runを初期化
 
 ```python
 run = wandb.init(project=WANDB_PROJECT, job_type="train-model")
 ```
 
-#### 2) モデルパラメータの設定とログ
+#### 2) モデルパラメーターの設定とログ
 
 ```python
 base_rate = round(trndict["base_rate"], 6)
@@ -305,21 +302,21 @@ early_stopping_rounds = 40
 bst_params = {
     "objective": "binary:logistic",
     "base_score": base_rate,
-    "gamma": 1,  # デフォルト: 0
-    "learning_rate": 0.1,  # デフォルト: 0.1
+    "gamma": 1,  ## デフォルト: 0
+    "learning_rate": 0.1,  ## デフォルト: 0.1
     "max_depth": 3,
-    "min_child_weight": 100,  # デフォルト: 1
+    "min_child_weight": 100,  ## デフォルト: 1
     "n_estimators": 25,
     "nthread": 24,
     "random_state": 42,
     "reg_alpha": 0,
-    "reg_lambda": 0,  # デフォルト: 1
+    "reg_lambda": 0,  ## デフォルト: 1
     "eval_metric": ["auc", "logloss"],
-    "tree_method": "hist",  # GPUでトレーニングするには`gpu_hist`を使用
+    "tree_method": "hist",  # GPUでトレーニングするには `gpu_hist`
 }
 ```
 
-xgboostのトレーニングパラメータをW&Bのrun configにログ
+XGBoostのトレーニングパラメーターをW&B run configにログ
 
 ```python
 run.config.update(dict(bst_params))
@@ -329,24 +326,24 @@ run.config.update({"early_stopping_rounds": early_stopping_rounds})
 #### 3) W&B Artifactsからトレーニングデータをロード
 
 ```python
-# トレーニングデータをArtifactsからロード
+# Artifactsからトレーニングデータをロード
 trndat, valdat = load_training_data(
     run=run, data_dir=data_dir, artifact_name="vehicle_defaults_split:latest"
 )
 
-# 目標列をSeriesとして抽出
+## ターゲット列をシリーズとして抽出
 y_trn = trndat.loc[:, targ_var].astype(int)
 y_val = valdat.loc[:, targ_var].astype(int)
 ```
 
-#### 4) モデルのフィット、結果のログ、モデルをW&B Artifactsに保存
+#### 4) モデルのフィット、結果をW&Bにログ、およびモデルをW&B Artifactsに保存
 
-すべてのxgboostモデルパラメータをログするために、`WandbCallback`を使用しました。詳細は[W&Bのドキュメント](https://docs.wandb.ai/guides/integrations)を参照してください。他のライブラリも対応しています。
+すべてのXGBoostモデルパラメーターをログするために`WandbCallback`を使用します。これは、詳細については[W&Bドキュメント](https://docs.wandb.ai/guides/integrations)をご覧ください。他のライブラリとしての統合もあり、LightGBMなども含まれています。
 
 ```python
 from wandb.integration.xgboost import WandbCallback
 
-# WandbCallback付きのXGBoostClassifierを初期化
+# WandbCallbackを使用してXGBoostClassifierを初期化
 xgbmodel = xgb.XGBClassifier(
     **bst_params,
     callbacks=[WandbCallback(log_model=True)],
@@ -357,12 +354,12 @@ xgbmodel = xgb.XGBClassifier(
 xgbmodel.fit(trndat[p_vars], y_trn, eval_set=[(valdat[p_vars], y_val)])
 ```
 
-#### 5) 追加のトレーニングと評価メトリクスをW&Bにログ
+#### 5) 追加のトレーニングおよび評価メトリクスをW&Bにログ
 
 ```python
 bstr = xgbmodel.get_booster()
 
-# トレーニングおよびバリデーション予測を取得
+# トレーニングおよびバリデーションの予測を取得
 trnYpreds = xgbmodel.predict_proba(trndat[p_vars])[:, 1]
 valYpreds = xgbmodel.predict_proba(valdat[p_vars])[:, 1]
 
@@ -380,9 +377,4 @@ run.summary["train_log_loss"] = -(
 ks_stat, ks_pval = ks_2samp(valYpreds[y_val == 1], valYpreds[y_val == 0])
 run.summary["val_ks_2samp"] = ks_stat
 run.summary["val_ks_pval"] = ks_pval
-run.summary["val_auc"] = metrics.roc_auc_score(y_val, valYpreds)
-run.summary["val_acc_0.5"] = metrics.accuracy_score(
-    y_val, np.where(valYpreds >= 0.5, 1, 0)
-)
-run.summary["val_log_loss"] = -(
-    y_val * np.log(valYpreds) + (1 -
+run.summary["val_auc

@@ -2,36 +2,36 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 
-# Volcanoでマルチノードジョブを起動する
+# Volcanoを使ったマルチノードジョブの起動
 
-このチュートリアルでは、Kubernetes上でW&BとVolcanoを使用してマルチノードのトレーニングジョブを起動する手順を案内します。
+このチュートリアルでは、Kubernetes上でW&BとVolcanoを使用してマルチノードトレーニングジョブを起動する方法をガイドします。
 
 ## 概要
 
-このチュートリアルでは、W&B Launchを使用してKubernetes上でマルチノードのジョブを実行する方法を学びます。以下のステップを進めます：
+このチュートリアルでは、W&B Launchを使用してKubernetes上でマルチノードジョブを実行する方法を学びます。以下の手順に従います：
 
-- Weights & BiasesのアカウントとKubernetesクラスターを確認する。
-- VolcanoジョブのためのLaunchキューを作成する。
-- LaunchエージェントをKubernetesクラスターにデプロイする。
-- 分散トレーニングジョブを作成する。
-- 分散トレーニングを起動する。
+- Weights & BiasesアカウントとKubernetesクラスターが必要です。
+- Volcanoジョブのためのキューを作成します。
+- KubernetesクラスターにLaunchエージェントをデプロイします。
+- 分散トレーニングジョブを作成します。
+- 分散トレーニングを開始します。
 
 ## 前提条件
 
-開始する前に、以下が必要です：
+始める前に必要なもの:
 
-- Weights & Biasesのアカウント
+- Weights & Biasesアカウント
 - Kubernetesクラスター
 
-## Launchキューを作成する
+## キューの作成
 
-最初のステップはLaunchキューを作成することです。[wandb.ai/launch](https://wandb.ai/launch)にアクセスし、画面の右上にある青い**Create a queue**ボタンをクリックします。画面の右側からキュー作成ドロワーがスライドアウトします。エンティティを選択し、名前を入力し、キューのタイプとして**Kubernetes**を選択します。
+最初のステップはキューを作成することです。[wandb.ai/launch](https://wandb.ai/launch)にアクセスし、画面の右上にある青い**Create a queue**ボタンをクリックします。右側からキュー作成のドロワーが表示されます。エンティティを選択し、名前を入力し、キューのタイプとして**Kubernetes**を選択します。
 
-設定セクションでは、[volcano job](https://volcano.sh/en/docs/vcjob/)テンプレートを入力します。このキューから起動する任意のrunはこのジョブ仕様を使用して作成されるため、ジョブをカスタマイズするためにこの設定を必要に応じて変更できます。
+設定セクションでは、[volcano job](https://volcano.sh/en/docs/vcjob/)テンプレートを入力します。このキューから起動されるすべてのrunはこのジョブ仕様を使用して作成されるため、必要に応じてこの設定を修正してジョブをカスタマイズできます。
 
-この設定ブロックは、Kubernetesジョブ仕様、volcanoジョブ仕様、または他のカスタムリソース定義（CRD）を受け入れることができます。設定ブロック内では[マクロを使用](../guides/launch/setup-launch.md)して、この仕様の内容を動的に設定することができます。
+この設定ブロックは、Kubernetesジョブ仕様、volcanoジョブ仕様、または起動したい任意の他のカスタムリソース定義（CRD）を受け入れることができます。設定ブロックの[マクロを使用](../guides/launch/setup-launch.md)して、このスペックの内容を動的に設定できます。
 
-このチュートリアルでは、[volcanoのpytorchプラグイン](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin.md)を使用したマルチノードpytorchトレーニングの設定を使用します。以下の設定をYAMLまたはJSONとしてコピー＆ペーストできます：
+このチュートリアルでは、[volcanoのpytorchプラグイン](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin.md)を利用したマルチノードpytorchトレーニングの設定を使用します。以下の設定をYAMLまたはJSONとしてコピー＆ペーストできます：
 
 <Tabs
 defaultValue="yaml"
@@ -161,33 +161,33 @@ apiVersion: batch.volcano.sh/v1alpha1
 
 ドロワーの下部にある**Create queue**ボタンをクリックしてキューの作成を完了します。
 
-## Volcanoをインストールする
+## Volcanoのインストール
 
 KubernetesクラスターにVolcanoをインストールするには、[公式インストールガイド](https://volcano.sh/en/docs/installation/)に従ってください。
 
-## Launchエージェントをデプロイする
+## Launchエージェントのデプロイ
 
-キューを作成したので、次にジョブをキューから取得して実行するLaunchエージェントをデプロイする必要があります。最も簡単な方法は、W&Bの公式`helm-charts`リポジトリにある[`launch-agent`チャート](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)を使用することです。READMEの指示に従って、Kubernetesクラスターにチャートをインストールし、エージェントが先ほど作成したキューをポーリングするように設定してください。
+キューを作成した後、そのキューからジョブをプルして実行するためにLaunchエージェントをデプロイする必要があります。最も簡単な方法は、[`launch-agent`チャートをW&Bの公式`helm-charts`リポジトリからインストールする](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)ことです。READMEの指示に従って、このチャートをKubernetesクラスターにインストールし、先に作成したキューをポーリングするようにエージェントを設定してください。
 
-## トレーニングジョブを作成する
+## トレーニングジョブの作成
 
-Volcanoのpytorchプラグインは、pytorch ddpが動作するために必要な環境変数、例えば`MASTER_ADDR`、`RANK`、`WORLD_SIZE`などを自動的に設定します。pytorchのコードをDDPに適切に対応させる限り、他のすべては**ただ動作する**でしょう。詳細については、[pytorchのドキュメント](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)を参照してください。
+Volcanoのpytorchプラグインは、pytorch ddpが機能するために必要な環境変数（例：`MASTER_ADDR`, `RANK`, `WORLD_SIZE`など）を自動的に設定します。あなたのpytorchコードがDDPを正しく使用するように書かれていれば、他の部分は**うまく動作するはずです**。DDPをカスタムのpythonコードで使用する方法については、[pytorchのドキュメント](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)を参照してください。
 
 :::tip
-Volcanoのpytorchプラグインは、[PyTorch Lightning `Trainer`によるマルチノードトレーニング](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes)にも対応しています。
+Volcanoのpytorchプラグインは、[PyTorch Lightningの`Trainer`によるマルチノードトレーニング](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes)にも対応しています。
 :::
 
 ## 起動 🚀
 
-キューとクラスターが設定されたので、分散トレーニングを起動する時が来ました！最初に、volcanoのpytorchプラグインを使用してランダムデータに対してシンプルな多層パーセプトロンをトレーニングする[ジョブ](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest)を使用します。このジョブのソースコードは[こちら](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test)で確認できます。
+キューとクラスターが設定されたので、分散トレーニングを開始する時が来ました！最初に、[こちらのジョブ](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest)を使用して、volcanoのpytorchプラグインを使ってランダムデータに対してシンプルな多層パーセプトロンをトレーニングします。このジョブのソースコードは[こちら](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test)で確認できます。
 
-このジョブを起動するには、[ジョブのページ](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest)に移動し、画面右上の**Launch**ボタンをクリックします。ジョブを起動するキューを選択するように求められます。
+このジョブを起動するには、[ジョブのページ](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest)にアクセスし、画面の右上にある**Launch**ボタンをクリックします。ジョブを起動するキューを選択するように求められます。
 
 ![](/images/launch/launching_multinode_job.png)
 
-1. ジョブのパラメーターを任意に設定します。
-2. 先ほど作成したキューを選択します。
-3. **Resource config**セクションでvolcanoジョブを変更し、ジョブのパラメーターを変更します。例えば、`worker`タスクの`replicas`フィールドを変更してワーカーの数を変更できます。
-4. **Launch**をクリックします 🚀
+1. ジョブのパラメーターを好きなように設定します。
+2. 先に作成したキューを選択します。
+3. **Resource config**セクションでvolcanoジョブを修正して、ジョブのパラメーターを変更します。例えば、`worker`タスクの`replicas`フィールドを変更してワーカーの数を変えることができます。
+4. **Launch**をクリック 🚀
 
-W&BのUIからジョブの進行状況を監視し、必要に応じてジョブを停止することができます。
+W&BのUIから、進行状況を監視したり、必要に応じてジョブを停止することができます。

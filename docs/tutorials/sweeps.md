@@ -1,29 +1,27 @@
 
-
-
-# ハイパーパラメーターをチューニングする
+# ハイパーパラメータをチューニングする
 
 [**こちらのColabノートブックで試してみてください →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.ipynb)
 
-高次元のハイパーパラメータースペースを探索して最もパフォーマンスの良いモデルを見つけるのは非常に難しいことがあります。ハイパーパラメーター探索は、モデルのバトルロワイヤルを効率的に行い、最も正確なモデルを選ぶための整理された方法を提供します。これにより、学習率、バッチサイズ、隠れ層の数、オプティマイザータイプなどのハイパーパラメーター値の組み合わせを自動的に検索して最適な値を見つけることができます。
+高次元のハイパーパラメータ空間を探索して最もパフォーマンスの高いモデルを見つけるのは、非常に複雑で困難です。ハイパーパラメータスイープは、モデルを効率的かつ組織的にバトルロイヤルする方法を提供し、最も正確なモデルを選び出します。スイープは、自動的にハイパーパラメータの値（例：学習率、バッチサイズ、隠れ層の数、optimizerの種類）の組み合わせを検索して、最適な値を見つけることによりこれを実現します。
 
-このチュートリアルでは、Weights & Biasesを使用して3つの簡単なステップで高度なハイパーパラメーター探索を実行する方法を見ていきます。
+このチュートリアルでは、Weights & Biasesを使用して3つの簡単なステップで高度なハイパーパラメータスイープを実行する方法を説明します。
 
-### [ビデオチュートリアル](http://wandb.me/sweeps-video)に沿って進めてください！
+### [ビデオチュートリアル](http://wandb.me/sweeps-video)もあわせてご覧ください！
 
 ![](https://i.imgur.com/WVKkMWw.png)
 
-# 🚀 設定
+# 🚀 セットアップ
 
-まずは実験追跡ライブラリをインストールし、無料のW&Bアカウントを設定しましょう：
+まず、実験追跡ライブラリをインストールし、無料のW&Bアカウントを設定します：
 
 1. `!pip install`でインストール
-2. Pythonにライブラリを`import`
-3. `.login()`してプロジェクトにメトリクスを記録する
+2. ライブラリをPythonに`インポート`
+3. プロジェクトにメトリクスをログできるように`.login()`
 
-初めてWeights & Biasesを使用する場合は、
-`login`の呼び出しによりアカウントのサインアップリンクが表示されます。
-W&Bは個人および学術プロジェクトで無料で使用できます！
+もしWeights & Biasesを初めて使用する場合、
+`ログイン`の呼び出しはアカウント登録リンクを提供します。
+W&Bは個人および学術プロジェクトには無料で使用できます！
 
 ```python
 !pip install wandb -Uq
@@ -35,133 +33,140 @@ import wandb
 wandb.login()
 ```
 
-# ステップ1️⃣: スイープを定義する
+# ステップ 1️⃣. スイープを定義する
 
-基本的に、スイープは一連のハイパーパラメーター値を試すための戦略とそれを評価するコードを組み合わせたものです。
-[設定](https://docs.wandb.com/sweeps/configuration)の形で戦略を定義する必要があります。
+基本的に、スイープは一連のハイパーパラメータ値を試すための戦略と、それらを評価するコードを組み合わせたものです。
+_戦略を定義_するだけで、[configuration](https://docs.wandb.com/sweeps/configuration)形式で設定できます。
 
-上記のスイープをノートブックで設定する場合、
-設定オブジェクトはネストされた辞書になります。
-コマンドラインでスイープを実行する場合、
-設定オブジェクトは
-[YAMLファイル](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)になります。
+ノートブックでスイープを設定する場合、
+configオブジェクトはネストされた辞書です。
+コマンドラインからスイープを実行する場合は、
+そのconfigオブジェクトは
+[YAMLファイル](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)です。
 
-スイープ設定の定義を一緒に見ていきましょう。
-各コンポーネントを説明するため、ゆっくり進めていきます。
+スイープのconfig定義を一緒に見ていきましょう。
+各コンポーネントを説明する時間を取るため、
+ゆっくり進めます。
 通常のスイープ開発フローでは、
-このステップは一つの課題で行われます。
+このステップは1回の課題として実施されます。
 
-### 👈 `method`を選択する
+### 👈 `method`を選ぶ
 
-最初に定義する必要があるのは、新しいパラメーター値を選択するための`method`です。
+新しいパラメータ値を選ぶために最初に定義する必要があるのは、`method`です。
 
-以下の検索`methods`を提供しています：
-* **`grid` Search** – ハイパーパラメーター値のすべての組み合わせを繰り返し試します。非常に効果的ですが、計算コストが高いです。
-* **`random` Search** – 提供された`distribution`に従ってランダムに新しい組み合わせを選択します。意外に効果的です！
-* **`bayes`ian Search** – ハイパーパラメーターの関数としてメトリクススコアの確率モデルを作成し、メトリクスの改善の確率が高いパラメーターを選択します。少数の連続パラメーターに対してはうまく機能しますが、スケールが悪いです。
+次の検索`methods`を提供します：
+*   **`grid`検索** – ハイパーパラメータの全ての組み合わせを繰り返す。
+非常に効果的ですが、計算コストが高い場合があります。
+*   **`random`検索** – 提供された`distribution`に従って新しい組み合わせをランダムに選択します。驚くほど効果的です！
+*   **`bayes`ian検索** – ハイパーパラメータの関数としてメトリックスコアの確率的モデルを作成し、メトリクスを改善する確率が高いパラメータを選択します。連続パラメータが少ない場合に効果的ですが、スケールには課題があります。
 
-ここでは`random`を使用します。
+ここでは`random`を使います。
 
 ```python
 sweep_config = {
     'method': 'random'
-}
+    }
 ```
 
-`bayes`ianスイープの場合、
-`metric`についても少し教えてください。
-モデルの出力で見つけられるように、名前が必要であり、
-また、`goal`が`minimize`（例：二乗誤差の場合）
-または`maximize`（例：精度の場合）であるかも教えてください。
+`bayes`ianスイープの場合は、
+`metric`情報を少し提供する必要があります。
+その`name`を教えていただければ
+モデル出力の中から見つけやすくなり、
+`goal`が`minimize`（例：二乗誤差の場合）
+または`maximize`（例：正確度）のどちらなのかも知っておく必要があります。
 
 ```python
 metric = {
     'name': 'loss',
     'goal': 'minimize'   
-}
+    }
 
 sweep_config['metric'] = metric
 ```
 
-`bayes`ianスイープを実行していない場合でも、
-後で変更する場合を考えて、`sweep_config`にこれを含めることをお勧めします。
-また、再現性のためにこれらの情報をメモしておくのも良い習慣です。
-6ヶ月後または6年後にスイープを再訪したとき、
-`val_G_batch`が高い方が良いのか低い方が良いのかわからない場合に役立ちます。
+`bayes`ianスイープを実行していなくても、
+後で考えが変わることもあるので、
+この情報を`sweep_config`に含めておくと良いでしょう。
+また、こういった情報を保存しておくことは再現性の観点からも良い実務です。
+6ヶ月後や6年後に誰かがそのスイープを再度見るときに、
+`val_G_batch`が高い方が良いのか低い方が良いのかを知っておく必要があります。
 
-### 📃 ハイパー`parameters`の名前を付ける
+### 📃 ハイパー`パラメータ`に名前をつける
 
-新しいハイパーパラメーターの値を試す`method`を選んだら、
-その`parameters`を定義する必要があります。
+新しいハイパーパラメータ値の`method`を選んだ後、
+それらの`parameters`が何であるかを定義する必要があります。
 
-このステップはほとんどの場合、簡単です。
-`parameter`に名前を付け、
-そのパラメーターの合法な`values`のリストを指定するだけです。
+ほとんどの場合、このステップは簡単です：
+`parameter`に名前を付けて、
+そのパラメータの有効な`values`リストを指定します。
 
-たとえば、ネットワークの`optimizer`を選ぶ際には、限られたオプションしかありません。
-ここでは最も人気のある選択肢である`adam`と`sgd`に限定します。
-無限の選択肢があるハイパーパラメーターでも、
-いくつかの選択された`values`を試すことが意味をなす場合がほとんどです。
-これは、ここでの隠れ`layer_size`と`dropout`の例です。
+たとえば、ニューラルネットワークの`optimizer`を選ぶ場合、
+オプションは限られています。
+ここでは、最も人気のある選択肢である`adam`と`sgd`の2つに絞ります。
+潜在的な無限の選択肢があるハイパーパラメータについても、
+通常は重要な`values`のサブセットしか試す意味がありません。
+ここではhidden`layer_size`や`dropout`についていくつかの選択肢を挙げています。
 
 ```python
 parameters_dict = {
     'optimizer': {
         'values': ['adam', 'sgd']
-    },
+        },
     'fc_layer_size': {
         'values': [128, 256, 512]
-    },
+        },
     'dropout': {
-        'values': [0.3, 0.4, 0.5]
-    },
-}
+          'values': [0.3, 0.4, 0.5]
+        },
+    }
 
 sweep_config['parameters'] = parameters_dict
 ```
 
-スイープで変えたくないハイパーパラメーターもよくありますが、
-それでも`sweep_config`に設定しておきたい場合があります。
+このスイープで変更したくないハイパーパラメータが存在する場合もありますが、
+それでもその`sweep_config`に設定しておきたい場合があります。
 
-その場合は、単に`value`を直接設定します。
+その場合は、`value`を直接設定します：
 
 ```python
 parameters_dict.update({
     'epochs': {
         'value': 1}
-})
+    })
 ```
 
-`grid`サーチの場合、これが必要なすべてです。
+`grid`探索の場合、それだけで必要な全てです。
 
-`random`検索の場合、パラメーターのすべての`values`が特定のrunで選ばれる確率は同じです。
+`random`探索の場合、
+あるパラメータのすべての`values`が特定のrunで等しく選ばれる可能性があります。
 
-それでは不十分であれば、
-名前付き`distribution`とそのパラメーター（例えば、`normal`分布の平均`mu`と標準偏差`sigma`）を指定できます。
+それでは不十分な場合、
+名前付きの`distribution`とそのパラメータ（例：正規分布の平均`mu`と標準偏差`sigma`）を指定できます。
 
-ランダム変数の分布の設定方法については[こちら](https://docs.wandb.com/sweeps/configuration#distributions)で詳しく説明しています。
+ランダム変数の分布を設定する方法についてさらに詳しくは[こちら](https://docs.wandb.com/sweeps/configuration#distributions)を参照してください。
 
 ```python
 parameters_dict.update({
     'learning_rate': {
-        # 0から0.1までのフラット分布
+        # 0から0.1の範囲の一様分布
         'distribution': 'uniform',
         'min': 0,
         'max': 0.1
-    },
+      },
     'batch_size': {
-        # 32から256までの整数、対数が均等に分布
+        # 32から256までの整数
+        # 対数が均一に分布している
         'distribution': 'q_log_uniform_values',
         'q': 8,
         'min': 32,
         'max': 256,
-    }
-})
+      }
+    })
 ```
 
-終わったら、`sweep_config`はネストされた辞書になり、
-どの`parameters`を試してみたいか、
-そして何の`method`で試すかを正確に指定することができます。
+終了すると、`sweep_config`はネストされた辞書となり、
+試してみたい正確な`parameters`と
+それを試すための`method`が指定されます。
 
 ```python
 import pprint
@@ -169,56 +174,56 @@ import pprint
 pprint.pprint(sweep_config)
 ```
 
-しかし、これですべての設定オプションではありません！
+しかし、これはすべての設定オプションではありません！
 
-例えば、[HyperBand](https://arxiv.org/pdf/1603.06560.pdf)スケジューリングアルゴリズムでrunを早期終了するオプションも提供しています。
-詳細は[こちら](https://docs.wandb.com/sweeps/configuration#stopping-criteria)をご参照ください。
+例えば、[HyperBand](https://arxiv.org/pdf/1603.06560.pdf)スケジューリングアルゴリズムでrunを早期終了させるオプションも提供しています。詳細は[こちら](https://docs.wandb.com/sweeps/configuration#stopping-criteria)を参照してください。
 
-すべての設定オプションのリストは[こちら](https://docs.wandb.com/library/sweeps/configuration)で見つけることができ、
-YAML形式の例の大集合は[こちら](https://github.com/wandb/examples/tree/master/examples/keras/keras-cnn-fashion)で見つけることができます。
+すべての設定オプションのリストは[こちら](https://docs.wandb.com/library/sweeps/configuration)にあり、
+YAML形式の例の大集が[こちら](https://github.com/wandb/examples/tree/master/examples/keras/keras-cnn-fashion)にあります。
 
-# ステップ2️⃣: スイープを初期化する
+# ステップ 2️⃣. スイープを初期化する
 
-検索戦略を定義したら、それを実装する何かを設定する時です。
+検索戦略を定義したら、それを実行するための設定を開始します。
 
-スイープを管理するのは _Sweep Controller_ と呼ばれるものです。
-各runが終了すると、新しいrunを実行するための新しい指示を出します。
-この指示は_runを実行するエージェントにより拾われます。
+スイープの時計仕掛けの管理者は _Sweep Controller_ として知られています。
+各runが完了すると、新しいrunの指示が発行されます。
+これらの指示は、実際にrunを実行する _agents_ によって拾われます。
 
-通常のスイープでは、コントローラーは_自分のマシン_に住んでおり、
-runを完了させるエージェントは_ユーザーのマシン_に住み、以下の図のようになります。
-この労働の分割により、エージェントを実行するマシンを追加するだけでスイープを簡単にスケールアップできます！
+通常のスイープでは、コントローラは _我々の_ マシン上にあり、
+runを実行するagentsは _あなたの_ マシン上にあります。
+この労働分担により、agentsを実行するマシンを追加するだけでスイープをスケールアップするのが非常に簡単になります！
 
 <img src="https://i.imgur.com/zlbw3vQ.png" alt="sweeps-diagram" width="500"/>
 
-`sweep_config`と`project`名を指定して`wandb.sweep`を呼び出すことでスイープコントローラーを設定できます。
+適切な`sweep_config`と`project`名で`wandb.sweep`を呼び出すことで、スイープコントローラを巻き上げることができます。
 
-この関数は後でエージェントをこのコントローラーに割り当てるために使用する`sweep_id`を返します。
+この関数は、後でこのコントローラにagentsを割り当てるための`sweep_id`を返します。
 
-> _サイドノート_: コマンドラインでは、この関数は次のように置き換えられます
+> _サイドノート_：コマンドラインでは、この関数は
 ```python
 wandb sweep config.yaml
 ```
-[コマンドラインでスイープを使用する方法について詳しくはこちら ➡](https://docs.wandb.ai/guides/sweeps/walkthrough)
+に置き換わります。
+[コマンドラインでのスイープの使用方法について詳しくはこちら ➡](https://docs.wandb.ai/guides/sweeps/walkthrough)
 
 ```python
 sweep_id = wandb.sweep(sweep_config, project="pytorch-sweeps-demo")
 ```
 
-# ステップ3️⃣: スイープエージェントを実行する
+# ステップ 3️⃣. スイープエージェントの実行
 
 ### 💻 トレーニング手順を定義する
 
 実際にスイープを実行する前に、
 それらの値を使用するトレーニング手順を定義する必要があります。
 
-以下の関数では、PyTorchでシンプルな全結合ニューラルネットワークを定義し、
-以下の`wandb`ツールを追加してモデルメトリクスをログに記録し、パフォーマンスと出力を可視化し、実験を追跡するようにします：
-* [**`wandb.init()`**](https://docs.wandb.com/library/init) – 新しいW&B Runを初期化します。各Runはトレーニング関数を一回実行するものです。
-* [**`wandb.config`**](https://docs.wandb.com/library/config) – すべてのハイパーパラメーターを設定オブジェクトに保存し、それをログに記録できるようにします。`wandb.config`の使い方について詳しくは[こちら](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb)を参照してください。
-* [**`wandb.log()`**](https://docs.wandb.com/library/log) – モデルの振る舞いをW&Bにログします。ここではパフォーマンスだけをログしますが、`wandb.log`でログできる他のリッチメディアについては[こちらのColab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb)を参照してください。
+以下の関数では、PyTorchで単純な全結合ニューラルネットワークを定義し、
+次の`wandb`ツールを追加してモデルのメトリクスをログし、パフォーマンスと出力を可視化し、実験を追跡します：
+* [**`wandb.init()`**](https://docs.wandb.com/library/init) – 新しいW&B Runを初期化します。それぞれのRunはトレーニング関数の単一実行です。
+* [**`wandb.config`**](https://docs.wandb.com/library/config) – すべてのハイパーパラメータを設定オブジェクトに保存し、ログに記録できます。`wandb.config`の使用方法について詳しくは[こちら](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb)を参照してください。
+* [**`wandb.log()`**](https://docs.wandb.com/library/log) – モデルの振る舞いをW&Bにログします。ここではパフォーマンスのみをログしていますが、`wandb.log`でログできるその他のリッチメディアについては[こちらのColab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb)を参照してください。
 
-PyTorchとW&Bの統合についての詳細は[こちらのColab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb)を参照してください。
+PyTorchとW&Bの連携について詳細は[こちらのColab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb)を参照してください。
 
 ```python
 import torch
@@ -232,8 +237,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def train(config=None):
     # 新しいwandb runを初期化
     with wandb.init(config=config):
-        # 下記のようにwandb.agentから呼び出された場合、
-        # このconfigはスイープコントローラーにより設定されます
+        # 下記のようにwandb.agentによって呼び出された場合、
+        # このconfigはスイープコントローラによって設定されます
         config = wandb.config
 
         loader = build_dataset(config.batch_size)
@@ -245,9 +250,12 @@ def train(config=None):
             wandb.log({"loss": avg_loss, "epoch": epoch})           
 ```
 
-このセルはトレーニング手順の4つの部分、`build_dataset`、`build_network`、`build_optimizer`、`train_epoch`を定義します。
+このセルではトレーニング手順の4つのパート
+`build_dataset`、`build_network`、`build_optimizer`、`train_epoch`
+を定義します。
 
-これらはすべて基本的なPyTorch開発フローの標準的な部分であり、W&Bの使用によってその実装に影響はないため、コメントしません。
+これらは基本的なPyTorchの開発フローの標準的な一部であり、
+W&Bの使用による影響はありませんので、コメントは省略します。
 
 ```python
 def build_dataset(batch_size):
@@ -292,11 +300,11 @@ def train_epoch(network, loader, optimizer):
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
 
-        # ➡ Forwardパス
+        # ➡ Forward pass
         loss = F.nll_loss(network(data), target)
         cumu_loss += loss.item()
 
-        # ⬅ バックワードパス + 重みの更新
+        # ⬅ Backward pass + 重みの更新
         loss.backward()
         optimizer.step()
 
@@ -305,38 +313,37 @@ def train_epoch(network, loader, optimizer):
     return cumu_loss / len(loader)
 ```
 
-さあ、スイープを始めましょう！🧹🧹🧹
+さあ、スイープを始める準備が整いました！ 🧹🧹🧹
 
-`wandb.sweep`を実行して作成されたスイープコントローラーは、
-誰かが`config`を試すように要求するのを待っています。
+スイープコントローラは、`wandb.sweep`を実行することで作成されますが、
+実行する`config`を誰かが尋ねるのを待っています。
 
-その誰かとは`agent`であり、`wandb.agent`で作成されます。
-エージェントを起動するために知る必要があるのは
-1. どのスイープの一部であるか（`sweep_id`）
-2. 実行する関数（ここでは`train`）
-3. （オプションで）コントローラーに要求するconfigの数（`count`）
+その誰かが`agent`であり、`wandb.agent`で作成されます。
+開始するために`agent`が知っておくべきことは
+1. どのスイープに属しているか (`sweep_id`)
+2. 実行すべき関数（ここでは`train`）
+3. (オプション) コントローラから取得するconfig数 (`count`)
 
-FYI、同じ`sweep_id`を持つ複数の`agent`を異なるコンピュータリリソースで起動でき、
-コントローラーは`sweep_config`に示された戦略に従って協力して動作するようにします。
-これにより、使用可能なノードが多いほどスイープを簡単にスケールできます！
+ちなみに、同じ`sweep_id`で複数の`agent`を異なる計算リソース上で開始し、
+コントローラはこれらが`sweep_config`で定められた戦略に従って共同で動作するようにします。
+これにより、スイープを多くのノードに簡単にスケーリングできます！
 
-> _サイドノート:_ コマンドラインでは、この関数は次のように置き換えられます
+> _サイドノート:_ コマンドラインでは、この関数は
 ```bash
 wandb agent sweep_id
 ```
-[コマンドラインでスイープを使用する方法について詳しくはこちら ➡](https://docs.wandb.com/sweeps/walkthrough)
+に置き換わります。
+[コマンドラインでのスイープの使用方法について詳しくはこちら ➡](https://docs.wandb.com/sweeps/walkthrough)
 
-以下のセルは、スイープコントローラーから返されたランダムに生成されたハイパーパラメータ値を使用して`train`を5回実行する`agent`を起動します。
-実行には5分未満かかります。
+以下のセルは、スイープコントローラから返されるランダムに生成されたハイパーパラメータ値を使用して、`train`を5回実行するための`agent`を起動します。実行には5分以内で完了します。
 
 ```python
 wandb.agent(sweep_id, train, count=5)
 ```
 
-# 👀 スイープ結果を可視化する
+# 👀 スイープ結果の可視化
 
+## 🔀 パラレル座標プロット
+このプロットは、ハイパーパラメータの値をモデルのメトリクスにマッピングします。最良のモデルパフォーマンスをもたらしたハイパーパラメータの組み合わせを特定するのに役立ちます。
 
-## 🔀 パラレルコーディネートプロット
-このプロットはハイパーパラメーター値をモデルメトリクスにマッピングします。最も良いモデル性能を引き出したハイパーパラメーターの組み合わせを特定するのに役立ちます。
-
-![](https://assets.website-files.com/5ac6b7f2924c652fd013a
+![](https://assets.website-files.com/5ac6b7f2924c652fd013a891/5e190366778ad831455f9

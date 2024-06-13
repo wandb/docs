@@ -1,19 +1,17 @@
 
-
-
 # Keras Models
 
-[**Colabノートブックで試してみる →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb)
+[**Colabノートブックで試す →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb)
 
-Weights & Biasesを使用して、機械学習の実験追跡、データセットのバージョン管理、およびプロジェクトのコラボレーションを行います。
+Weights & Biases を使って機械学習の実験トラッキング、データセットのバージョン管理、プロジェクトのコラボレーションを行いましょう。
 
 <img src="http://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
 
-このColabノートブックでは、`WandbModelCheckpoint`コールバックを紹介します。このコールバックを使用して、モデルのチェックポイントをWeights & Biases [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning)にログします。
+このColabノートブックでは `WandbModelCheckpoint` コールバックを紹介しています。このコールバックを使用して、モデルのチェックポイントをWeights & Biases [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning)にログします。
 
 # 🌴 セットアップとインストール
 
-まず、最新バージョンのWeights & Biasesをインストールしましょう。その後、このColabインスタンスを認証してW&Bを使用可能にします。
+まず、Weights & Biasesの最新バージョンをインストールしましょう。その後、このColabインスタンスをW&B用に認証します。
 
 ```python
 !pip install -qq -U wandb
@@ -26,13 +24,13 @@ from tensorflow.keras import layers
 from tensorflow.keras import models
 import tensorflow_datasets as tfds
 
-# Weights and Biases関連のインポート
+# Weights & Biases関連のインポート
 import wandb
 from wandb.integration.keras import WandbMetricsLogger
 from wandb.integration.keras import WandbModelCheckpoint
 ```
 
-初めてW&Bを使用する場合、またはログインしていない場合、`wandb.login()`を実行した後に表示されるリンクは、サインアップ/ログインページに案内します。[無料アカウント](https://wandb.ai/signup)へのサインアップは数クリックで完了します。
+初めてW&Bを使用する場合やログインしていない場合は、`wandb.login()`を実行した後に表示されるリンクからサインアップ/ログインページにアクセスできます。[無料アカウント](https://wandb.ai/signup)を作成するのは数クリックで済みます。
 
 ```python
 wandb.login()
@@ -40,7 +38,7 @@ wandb.login()
 
 # 🌳 ハイパーパラメーター
 
-適切なコンフィグシステムの使用は、再現可能な機械学習のための推奨ベストプラクティスです。各実験のハイパーパラメーターをW&Bで追跡できます。このColabでは、シンプルなPythonの`dict`をコンフィグシステムとして使用します。
+適切な設定システムの使用は、再現性のある機械学習のベストプラクティスとして推奨されます。W&Bを使用して、各実験のハイパーパラメーターを追跡できます。ここでは、シンプルなPythonの `dict` を設定システムとして使用します。
 
 ```python
 configs = dict(
@@ -57,7 +55,7 @@ configs = dict(
 
 # 🍁 データセット
 
-このColabでは、TensorFlow Datasetカタログから[CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100)データセットを使用します。TensorFlow/Kerasを使用してシンプルな画像分類開発フローを構築することを目指します。
+このColabノートブックでは、TensorFlowデータセットカタログから[CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100)データセットを使用します。目標は、TensorFlow/Kerasを使用してシンプルな画像分類開発フローを構築することです。
 
 ```python
 train_ds, valid_ds = tfds.load('fashion_mnist', split=['train', 'test'])
@@ -134,7 +132,7 @@ model.compile(
 # 🌻 トレーニング
 
 ```python
-# W&Bのrunを初期化
+# W&B runを初期化
 run = wandb.init(
     project = "intro-keras",
     config = configs
@@ -147,10 +145,10 @@ model.fit(
     validation_data = validloader,
     callbacks = [
         WandbMetricsLogger(log_freq=10),
-        WandbModelCheckpoint(filepath="models/") # ここでWandbModelCheckpointを使用
+        WandbModelCheckpoint(filepath="models/") # ここでWandbModelCheckpointを使用していることに注意
     ]
 )
 
-# W&Bのrunを終了
+# W&B runを終了
 run.finish()
 ```

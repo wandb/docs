@@ -1,19 +1,17 @@
 
-
-
 # Keras Tables
 
-[**Colabノートブックで試す →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb)
+[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb)
 
-Weights & Biasesを使用して、機械学習の実験トラッキング、データセットのバージョン管理、プロジェクトのコラボレーションを行います。
+Weights & Biasesを使用して機械学習実験の追跡、データセットのバージョン管理、プロジェクトのコラボレーションを行います。
 
 <img src="http://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
 
-このColabノートブックでは、`WandbEvalCallback`を紹介します。これは、モデルの予測可視化やデータセットの可視化に役立つコールバックを構築するために継承される抽象コールバックです。詳細は[💫 `WandbEvalCallback`](https://colab.research.google.com/drive/107uB39vBulCflqmOWolu38noWLxAT6Be#scrollTo=u50GwKJ70WeJ&line=1&uniqifier=1)のセクションを参照してください。
+このColabノートブックでは、`WandbEvalCallback`を紹介します。これは抽象コールバックで、モデル予測の可視化やデータセットの可視化のために役立つコールバックを構築するために継承されます。詳細は[💫 `WandbEvalCallback`](https://colab.research.google.com/drive/107uB39vBulCflqmOWolu38noWLxAT6Be#scrollTo=u50GwKJ70WeJ&line=1&uniqifier=1)セクションを参照してください。
 
 # 🌴 セットアップとインストール
 
-まず、最新のWeights and Biasesをインストールしましょう。その後、このColabインスタンスを認証してW&Bを使用します。
+まず、最新バージョンのWeights and Biasesをインストールしましょう。その後、このColabインスタンスを認証してW&Bを使用します。
 
 ```shell
 pip install -qq -U wandb
@@ -34,7 +32,7 @@ from wandb.integration.keras import WandbModelCheckpoint
 from wandb.integration.keras import WandbEvalCallback
 ```
 
-初めてW&Bを使用する場合やログインしていない場合、`wandb.login()`を実行後に表示されるリンクからサインアップ/ログインページに移動できます。数クリックで[無料アカウント](https://wandb.ai/signup)を作成できます。
+もし初めてW&Bを使用する場合やログインしていない場合、`wandb.login()`を実行した後に表示されるリンクでサインアップ/ログインページにアクセスできます。数回のクリックで[無料アカウント](https://wandb.ai/signup)を作成できます。
 
 ```python
 wandb.login()
@@ -42,7 +40,7 @@ wandb.login()
 
 # 🌳 ハイパーパラメーター
 
-適切な設定システムの使用は、再現可能な機械学習のための推奨されるベストプラクティスです。W&Bを使用してすべての実験にハイパーパラメーターをトラッキングできます。このColabでは、シンプルなPythonの`dict`を設定システムとして使用します。
+再現性のある機械学習において適切なコンフィグシステムの使用は推奨されるベストプラクティスです。W&Bを使用して各実験のハイパーパラメーターを追跡できます。このColabでは、シンプルなPythonの`dict`をコンフィグシステムとして使用します。
 
 ```python
 configs = dict(
@@ -59,7 +57,7 @@ configs = dict(
 
 # 🍁 データセット
 
-このColabでは、TensorFlowデータセットカタログから[CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100)データセットを使用します。TensorFlow/Kerasを使用してシンプルな画像分類開発フローを構築することを目指します。
+このColabでは、TensorFlow Datasetカタログから[CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100)データセットを使用します。TensorFlow/Kerasを使用してシンプルな画像分類パイプラインを構築することを目指します。
 
 ```python
 train_ds, valid_ds = tfds.load("fashion_mnist", split=["train", "test"])
@@ -82,7 +80,7 @@ def parse_data(example):
 def get_dataloader(ds, configs, dataloader_type="train"):
     dataloader = ds.map(parse_data, num_parallel_calls=AUTOTUNE)
 
-    if (dataloader_type == "train"):
+    if dataloader_type=="train":
         dataloader = dataloader.shuffle(configs["shuffle_buffer"])
       
     dataloader = (
@@ -142,24 +140,24 @@ model.compile(
 
 # 💫 `WandbEvalCallback`
 
-`WandbEvalCallback`は主にモデルの予測可視化およびデータセットの可視化を行うためのKerasコールバックを構築するための抽象基底クラスです。
+`WandbEvalCallback`は、主にモデル予測の可視化、二義的にはデータセットの可視化のためにKerasのコールバックを構築するための抽象基底クラスです。
 
-これはデータセットやタスクに依存しない抽象コールバックです。これを使用するには、この基底コールバッククラスを継承し、`add_ground_truth`メソッドと`add_model_prediction`メソッドを実装します。
+これはデータセットおよびタスクに依存しない抽象コールバックです。これを使用するには、この基底コールバッククラスから継承し、`add_ground_truth`および`add_model_prediction`メソッドを実装します。
 
 `WandbEvalCallback`は以下の便利なメソッドを提供するユーティリティクラスです：
 
-- データおよび予測の`wandb.Table`インスタンスを作成する
-- データおよび予測テーブルを`wandb.Artifact`としてログ
-- データテーブルを`on_train_begin`にログ
-- 予測テーブルを`on_epoch_end`にログ
+- データと予測の`wandb.Table`インスタンスを作成する、
+- `wandb.Artifact`としてデータと予測のTablesをログする、
+- `on_train_begin`メソッドでデータテーブルをログする、
+- `on_epoch_end`メソッドで予測テーブルをログする。
 
-例として、画像分類タスクのための`WandbClfEvalCallback`を以下に実装しました。このコールバックの例では：
-- 検証データ（`data_table`）をW&Bにログ
-- 推論を行い、各エポック終了時に予測（`pred_table`）をW&Bにログ
+例として、以下に画像分類タスク用の`WandbClfEvalCallback`を実装しています。この例のコールバックは：
+- 検証データ（`data_table`）をW&Bにログする、
+- 推論を行い、エポック終了時に予測（`pred_table`）をW&Bにログする。
 
-## メモリ使用量はどのように削減されるのか？
+## メモリフットプリントがどのように削減されるのか？
 
-`on_train_begin`メソッドが呼ばれたときに、`data_table`をW&Bにログします。一度W&B Artifactとしてアップロードされると、このテーブルへの参照が取得され、`data_table_ref`クラス変数を使用してアクセスできます。`data_table_ref`は2次元リストで、`self.data_table_ref[idx][n]`のようにインデックスすることができます。ここで`idx`は行番号、`n`は列番号です。以下の例でその使用方法を確認しましょう。
+`on_train_begin`メソッドが呼び出されると`data_table`をW&Bにログします。一度W&B Artifactとしてアップロードされると、`data_table_ref`クラス変数を使ってこのテーブルへの参照を取得できます。`data_table_ref`は2Dリストで、`self.data_table_ref[idx][n]`のようにインデックスを付けることができます。`idx`は行番号、`n`は列番号です。以下の例でその使い方を見てみましょう。
 
 ```python
 class WandbClfEvalCallback(WandbEvalCallback):
@@ -202,7 +200,7 @@ class WandbClfEvalCallback(WandbEvalCallback):
 # 🌻 トレーニング
 
 ```python
-# W&B runを初期化
+# W&Bのrunを初期化
 run = wandb.init(project="intro-keras", config=configs)
 
 # モデルをトレーニング
@@ -216,10 +214,10 @@ model.fit(
             validloader,
             data_table_columns=["idx", "image", "ground_truth"],
             pred_table_columns=["epoch", "idx", "image", "ground_truth", "prediction"],
-        ),  # ここでWandbEvalCallbackを使用
+        ),  # ここでWandbEvalCallbackを使用します
     ],
 )
 
-# W&B runを終了
+# W&Bのrunを終了
 run.finish()
 ```

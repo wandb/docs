@@ -4,19 +4,19 @@ slug: /tutorials
 ---
 
 
-# W&Bチュートリアル
+# W&B Tutorials
 
-## インタラクティブなコード例でW&Bを学ぶ
-以下のチュートリアルでは、Weights & Biasesを使った機械学習実験のトラッキング、モデルの評価、ハイパーパラメータチューニング、モデルとデータセットのバージョン管理などの基本を学びます。
+## インタラクティブなコード例でW&Bの使い方を学ぶ
+以下のチュートリアルでは、Weights & Biases を使用した機械学習実験のトラッキング、モデルの評価、ハイパーパラメータチューニング、モデルとデータセットのバージョン管理などの基礎を学びます。
 
-1. [Track experiments](/tutorials/experiments) 
+1. [Track experiments](/tutorials/experiments)
 2. [Visualize predictions](/tutorials/tables)
 3. [Tune hyperparameters](/tutorials/sweeps)
 4. [Track models and datasets](/tutorials/artifacts)
 5. [Register models](/tutorials/models)
 6. [Iterate on LLMs](/tutorials/prompts)
 
-## 人気のあるMLフレームワークでW&Bを使う
+## 人気のあるMLフレームワークでW&Bを使用する
 
 - [PyTorch](/tutorials/pytorch)
 - [PyTorch Lightning](/tutorials/lightning)
