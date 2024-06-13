@@ -3,28 +3,34 @@ description: Rewind
 displayed_sidebar: default
 ---
 
-# Rewind Runs
+# Rewind a run
 :::caution
 The ability to rewind a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
+
+W&B currently does not support:
+- **Log rewind**: Logs are reset in the new run segment.
+- **System metrics rewind**: Only new system metrics after the rewind point are logged.
+- **Artifact association with specific run segments**: Artifacts are associated with the latest run segment, not the segment that produced them.
 :::
 
-Use `resume_from` with [`wandb.init()`](https://docs.wandb.ai/ref/python/init) to "rewind" a run’s history to a specific step. When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. This feature allows for correction or modification of the run history without losing the original data, and enables new data logging from that point. Summary metrics are recomputed based on the newly logged history.
+Use `resume_from` with [`wandb.init()`](https://docs.wandb.ai/ref/python/init) to "rewind" a run’s history to a specific step. 
+
+When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. 
+
+Rewind a run is particularly useful when you want to correct or modify the history of a run without losing the original data. In addition, when you rewind a run, you can log new data from that point in time. The summary metrics for the run you rewind are recomputed based on the newly logged history.
 
 :::info
-Rewinding a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](https://docs.wandb.ai/ref/python/run#define_metric) to set a resume point because it would disrupt the essential chronological order of run history and system metrics.
+* Rewinding a run requires the [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.17.1.
+* When you want to rewind a run, you must use monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](https://docs.wandb.ai/ref/python/run#define_metric) because it will disrupt the required chronological order of run history and system metrics.
 :::
 
-:::info
-Rewinding a run requires the [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.17.1.
-:::
-
-### History and Config Management
+## History and config management
 
 - **History truncation**: The history is truncated to the rewind point, allowing new data logging.
 - **Summary metrics**: Recomputed based on the newly logged history.
 - **Configuration preservation**: Original configurations are preserved and can be merged with new configurations.
 
-### Run Management
+## Manage runs
 
 - **Run archiving**: Original runs are archived and accessible from the [**`Run Overview`**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab).
 - **Artifact inheritance**: New runs inherit artifacts from the original run.
@@ -32,11 +38,16 @@ Rewinding a run requires the [`wandb`](https://pypi.org/project/wandb/) SDK vers
 - **Immutable run IDs**: Introduced for consistent rewinding from a precise state.
 - **Copy immutable run ID**: A button to copy the immutable run ID for improved run management.
 
-### Rewind and Forking Compatibility
+:::tip Rewind and forking compatibility
+Forking compliments a [`rewind`](https://docs.wandb.ai/guides/runs/rewind) by providing more flexibility in managing and experimenting with your runs. 
 
-Rewind compliments the [**`Forking`**](https://docs.wandb.ai/guides/runs/forking) feature by providing more flexibility in managing and experimenting with your runs. While Forking allows you to create a new branch off a run at a specific point to try different parameters or models, Rewinding a run allows you to correct or modify the run history itself.
+When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
 
-### Rewind a Run
+When you  rewind a run, W&B let's you correct or modify the run history itself.
+:::
+
+
+## Rewind a run
 
 To rewind a run, use the `resume_from` argument in `wandb.init()` and specify the run name and the step from which you want to rewind:
 
@@ -69,20 +80,17 @@ for i in range(200, 300):
 run2.finish()
 ```
 
-#### Navigating to a Run Archive
+### View archived runs
 
-After a run has been rewound, you can easily explore the archived resumptions through the user interface. Follow these steps to navigate the run archive:
 
-1. **Access the Overview Tab:**
-   - Navigate to the [**Overview tab**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab) on the run's page. This tab provides a comprehensive view of the run's details and history.
+After you rewind a run, you can explore archived run with the W&B App UI. Follow these steps to view archived runs:
 
-2. **Locate the Forked From Field:**
-   - Within the Overview tab, find the `Forked From` field. This field captures the history of the resumptions.
-   - The `Forked From` field includes a link to the source run, allowing you to trace back to the original run and understand the entire rewind history.
+1. **Access the Overview Tab:** Navigate to the [**Overview tab**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab) on the run's page. This tab provides a comprehensive view of the run's details and history.
+2. **Locate the Forked From field:** Within the **Overview** tab, find the `Forked From` field. This field captures the history of the resumptions. The **Forked From** field includes a link to the source run, allowing you to trace back to the original run and understand the entire rewind history.
 
 By using the `Forked From` field, you can effortlessly navigate the tree of archived resumptions and gain insights into the sequence and origin of each rewind. 
 
-### Fork from a Rewound Run
+## Fork from a run that you rewind
 
 To fork from a rewound run, use the [**`fork_from`**](https://docs.wandb.ai/guides/runs/forking) argument in `wandb.init()` and specify the source run ID and the step from the source run to fork from:
 
@@ -101,9 +109,4 @@ for i in range(500, 1000):
     forked_run.log({"metric": i*3})
 forked_run.finish()
 ```
-
-### Unsupported Functionality
-- **Log rewind**: Logs are reset in the new run segment.
-- **System metrics rewind**: Only new system metrics after the rewind point are logged.
-- **Artifact association with specific run segments**: Artifacts are associated with the latest run segment, not the segment that produced them.
 

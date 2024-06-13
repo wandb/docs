@@ -3,7 +3,7 @@ description: Forking a W&B run
 displayed_sidebar: default
 ---
 
-# Fork from a Run
+# Fork from a run
 :::caution
 The ability to fork a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 :::
@@ -13,12 +13,10 @@ Use `fork_from` when you initialize a run with [`wandb.init()`](../../ref/python
 Forking a run enables you to explore different parameters or models from a specific point in an experiment without impacting the original run.
 
 :::info
-Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](https://docs.wandb.ai/ref/python/run#define_metric) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
+* Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
+* Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](https://docs.wandb.ai/ref/python/run#define_metric) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
 :::
 
-:::info
-Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
-:::
 
 ## Start a forked run
 
@@ -40,21 +38,20 @@ forked_run = wandb.init(
 )
 ```
 
-### Using an Immutable Run ID
+### Using an immutable run ID
 
-To ensure you have a consistent and unchanging reference to a specific run, you can use an immutable run ID. Follow these steps to obtain the immutable run ID from the user interface:
+Use an immutable run ID to ensure you have a consistent and unchanging reference to a specific run. Follow these steps to obtain the immutable run ID from the user interface:
 
-1. **Access the Overview Tab:**
-   - Navigate to the [**Overview tab**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab) on the source run's page.
+1. **Access the Overview Tab:** Navigate to the [**Overview tab**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab) on the source run's page.
 
-2. **Copy the Immutable Run ID:**
-   - Click on the `...` menu (three dots) located in the top-right corner of the Overview tab.
-   - Select the `Copy Immutable Run ID` option from the dropdown menu.
+2. **Copy the Immutable Run ID:** Click on the `...` menu (three dots) located in the top-right corner of the **Overview** tab. Select the `Copy Immutable Run ID` option from the dropdown menu.
 
 By following these steps, you will have a stable and unchanging reference to the run, which can be used for forking a run.
 
 ## Continue from a forked run
-After initializing a forked run, you can continue logging to the new run. You can log the same metrics for continuity and introduce new metrics:
+After initializing a forked run, you can continue logging to the new run. You can log the same metrics for continuity and introduce new metrics. 
+
+For example, the following code example shows how to first fork a run and then how to log metrics to the forked run starting from a training step of 200:
 
 ```python
 import wandb
@@ -86,6 +83,10 @@ for i in range(200, 300):
 run2.finish()
 ```
 
-### Rewind and Forking Compatibility
+:::tip Rewind and forking compatibility
+Forking compliments a [`rewind`](https://docs.wandb.ai/guides/runs/rewind) by providing more flexibility in managing and experimenting with your runs. 
 
-Forking compliments the [**`Rewind`**](https://docs.wandb.ai/guides/runs/rewind) feature by providing more flexibility in managing and experimenting with your runs. While Forking allows you to create a new branch off a run at a specific point to try different parameters or models, Rewinding a run allows you to correct or modify the run history itself.
+When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
+
+When you  rewind a run, W&B let's you correct or modify the run history itself.
+:::
