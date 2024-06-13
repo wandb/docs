@@ -8,31 +8,26 @@ displayed_sidebar: default
 The ability to rewind a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 
 W&B currently does not support:
-- **Log rewind**: Logs are reset in the new run segment.
-- **System metrics rewind**: Only new system metrics after the rewind point are logged.
-- **Artifact association with specific run segments**: Artifacts are associated with the latest run segment, not the segment that produced them.
+* **Log rewind**: Logs are reset in the new run segment.
+* **System metrics rewind**: Only new system metrics after the rewind point are logged.
+* **Artifact association with specific run segments**: Artifacts are associated with the latest run segment, not the segment that produced them.
 :::
-
-Use `resume_from` with [`wandb.init()`](https://docs.wandb.ai/ref/python/init) to "rewind" a run’s history to a specific step. 
-
-When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. 
-
-Rewind a run is particularly useful when you want to correct or modify the history of a run without losing the original data. In addition, when you rewind a run, you can log new data from that point in time. The summary metrics for the run you rewind are recomputed based on the newly logged history.
 
 :::info
-* Rewinding a run requires the [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.17.1.
-* When you want to rewind a run, you must use monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](https://docs.wandb.ai/ref/python/run#define_metric) because it will disrupt the required chronological order of run history and system metrics.
+* To rewind a run, you must have [W&B Python SDK](https://pypi.org/project/wandb/) version >= `0.17.1`.
+* You must use monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](https://docs.wandb.ai/ref/python/run#define_metric) because it will disrupt the required chronological order of run history and system metrics.
 :::
 
-## History and config management
-
+Rewind a run to correct or modify the history of a run without losing the original data. In addition, when you 
+rewind a run, you can log new data from that point in time. The summary metrics for the run you rewind are recomputed based on the newly logged history. This means the following behavior:
 - **History truncation**: The history is truncated to the rewind point, allowing new data logging.
 - **Summary metrics**: Recomputed based on the newly logged history.
 - **Configuration preservation**: Original configurations are preserved and can be merged with new configurations.
 
-## Manage runs
+<!-- #### Manage runs -->
+When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. This means that:
 
-- **Run archiving**: Original runs are archived and accessible from the [**`Run Overview`**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab).
+- **Run archiving**: Original runs are archived and accessible from the [**Run Overview**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab) tab.
 - **Artifact inheritance**: New runs inherit artifacts from the original run.
 - **Artifact association**: Artifacts are associated with the latest version of the rewound run.
 - **Immutable run IDs**: Introduced for consistent rewinding from a precise state.
@@ -49,7 +44,7 @@ When you  rewind a run, W&B let's you correct or modify the run history itself.
 
 ## Rewind a run
 
-To rewind a run, use the `resume_from` argument in `wandb.init()` and specify the run name and the step from which you want to rewind:
+Use `resume_from` with [`wandb.init()`](https://docs.wandb.ai/ref/python/init) to "rewind" a run’s history to a specific step. Specify the name of the run and the step you want to rewind from:
 
 ```python
 import wandb
@@ -80,7 +75,7 @@ for i in range(200, 300):
 run2.finish()
 ```
 
-### View archived runs
+## View an archived run
 
 
 After you rewind a run, you can explore archived run with the W&B App UI. Follow these steps to view archived runs:
