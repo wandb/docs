@@ -18,7 +18,7 @@ For example, you can create a trigger that automatically deploys a model to GitH
 Looking for companion tutorials for this doc? 
 1. [This]([url](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)) tutorial will walk you through setting up an Automation that triggers a Github Action for model evaluation and deployment
 2. [This]([url](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared)) video series will take you through general webhook basics and how to set them up in W&B 
-3. [This]([url](https://www.youtube.com/watch?v=s5CMj_w3DaQ)) video will detail how to setup an Automation to deploy a model to a Sagemaker Endpoint
+3. [This]([url](https://www.youtube.com/watch?v=s5CMj_w3DaQ)) demo will detail how to setup an Automation to deploy a model to a Sagemaker Endpoint
 :::
 
 ## Event types
