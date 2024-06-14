@@ -15,11 +15,14 @@ Create an automation to trigger workflow steps, such as automated model testing 
 For example, you can create a trigger that automatically deploys a model to GitHub when you add a new version of a registered model.
 
 :::note
-See [this YouTube video](https://www.youtube.com/watch?v=s5CMj_w3DaQ&ab_channel=Weights%26Biases) for step by step instructions on how to automatically deploy custom models and new model versions from the W&B Model Registry to Amazon SageMaker Endpoints using a W&B Automation.
+Looking for companion tutorials for this doc? 
+1. [This]([url](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)) tutorial will walk you through setting up an Automation that triggers a Github Action for model evaluation and deployment
+2. [This]([url](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared)) video series will take you through general webhook basics and how to set them up in W&B 
+3. [This]([url](https://www.youtube.com/watch?v=s5CMj_w3DaQ)) video will detail how to setup an Automation to deploy a model to a Sagemaker Endpoint
 :::
 
 ## Event types
-An *event* is a change that takes place in the W&B ecosystem. The Model Registry supports two event types: **Linking a new artifact to a registered model** and **Adding a new alias to a version of the registered model**.
+An *event* is a change that takes place in the W&B ecosystem. The Model Registry supports two event types: **[Linking a new artifact]([url](https://docs.wandb.ai/guides/model_registry/link-model-version)) to a registered model** and **[Adding a new alias]([url](https://docs.wandb.ai/guides/artifacts/create-a-custom-alias)) to a version of the registered model**.
 
 :::tip
 Use the **Linking a new artifact to a registered model** event type to test new model candidates. Use the **Adding a new alias to a version of the registered model** event type to specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied.
