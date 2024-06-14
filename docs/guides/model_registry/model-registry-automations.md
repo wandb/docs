@@ -14,9 +14,7 @@ Create an automation to trigger workflow steps, such as automated model testing 
 
 For example, you can create a trigger that automatically deploys a model to GitHub when you add a new version of a registered model.
 
-:::note
-[This]([url](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)) tutorial will walk you through setting up an Automation that triggers a Github Action. You can also visit [this video](https://www.youtube.com/watch?v=s5CMj_w3DaQ&ab_channel=Weights%26Biases) for instructions on setting up a W&B Automation that deploys a new model version from the W&B Model Registry to Amazon SageMaker Endpoints.
-:::
+:::note See this YouTube video for step by step instructions on how to automatically deploy custom models and new model versions from the W&B Model Registry to Amazon SageMaker Endpoints using a W&B Automation. :::
 
 ## Event types
 An *event* is a change that takes place in the W&B ecosystem. The Model Registry supports two event types: **Linking a new artifact to a registered model** and **Adding a new alias to a version of the registered model**.
