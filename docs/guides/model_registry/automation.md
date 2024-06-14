@@ -14,8 +14,8 @@ Create an automation to trigger workflow steps, such as automated model testing 
 
 For example, you can create a trigger that automatically deploys a model to GitHub when you add a new version of a registered model.
 
-:::note
-Looking for companion tutorials for this doc? 
+:::info
+Looking for companion tutorials for automations? 
 1. [This]([url](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)) tutorial shows you how to set up an automation that triggers a Github Action for model evaluation and deployment
 2. [This]([url](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared)) video series shows webhook basics and how to set them up in W&B.
 3. [This]([url](https://www.youtube.com/watch?v=s5CMj_w3DaQ)) demo details how to setup an automation to deploy a model to a Sagemaker Endpoint
