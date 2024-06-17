@@ -167,7 +167,7 @@ const sidebars = {
         },
         {
           type: 'category',
-          label: 'App Reference',
+          label: 'W&B App UI Reference',
           link: {type: 'doc', id: 'guides/app/intro'},
           items: [
             {
