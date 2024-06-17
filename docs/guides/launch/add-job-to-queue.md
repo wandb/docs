@@ -23,6 +23,9 @@ W&B Appを使って対話的に、またはW&B CLIを使ってプログラム的
     {label: 'W&B CLI', value: 'cli'},
   ]}>
   <TabItem value="app">
+
+
+
 W&B Appを使ってプログラム的にジョブをキューに追加します。
 
 1. W&B Projectページに移動します。
@@ -43,6 +46,7 @@ W&B Appを使ってプログラム的にジョブをキューに追加します�
 ![](/images/launch/team_member_use_config_template.png)
 10. **Destination project**を選択します。結果のRunが表示されるプロジェクトです。このプロジェクトはキューと同じエンティティに属している必要があります。
 11. **Launch now**ボタンを選択します。
+
 
   </TabItem>
   <TabItem value="cli">
@@ -95,6 +99,7 @@ wandb launch -j <job> -q <queue-name> \
 -e <entity-name> -c path/to/config.json
 ```
 W&B Teamで作業している場合、`entity`フラグ（`-e`）を指定して、キューが使用するエンティティを示すことをお勧めします。
+
 
   </TabItem>
 </Tabs>
