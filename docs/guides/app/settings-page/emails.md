@@ -37,20 +37,6 @@ Select the kebab dropdown and choose **Delete Emails** to delete an email that i
 Primary emails cannot be deleted; you need to set a different email as a primary email before deleting
 :::
 
-### Email Types
-
-There are three email types:
-
-* Corporate - an email associated with a company, usually in the company's domain
-* Academic - an email associated with an academic institution
-* Personal - an email that does not fall under Corporate or Academic
-
-Email Types are automatically detected when you add a new email. You can optionally manually set the email type. Use the kebab dropdown to manually set the email type.
-
-If the email type is not validated a dispute modal will appear and ask you to contact support. Email validation can fail, for example, if you attempt to set an academic or personal email to a corporate email type.
-
-![](/images/app_ui/email_types.png)
-
 ### Log in methods
 
 The Log in Methods column displays the log in methods that are associated with your account.
