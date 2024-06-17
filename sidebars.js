@@ -81,7 +81,6 @@ const sidebars = {
             'guides/registry/create_collection',
             'guides/registry/create_registry',
             'guides/registry/configure_registry',
-            // 'guides/registry/delete_registry',
             {
               type: 'category',
               label: 'Model Registry',

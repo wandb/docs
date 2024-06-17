@@ -3,7 +3,7 @@ displayed_sidebar: default
 ---
 
 # Configure registry access
-Registries, and the linked artifacts inside of them, are scoped at the organization level. This means that teams within an organization can share artifacts linked in a registry.
+Registries, and the linked artifacts inside of them, belong to an organization. This means that teams within an organization can publish and consume artifacts linked to a registry, given the correct access control.
 
 Organization admins can limit who can access a registry by configuring user-defined roles for that registry. User defined roles are useful for fine-grained control on how specific members within an organization can interact with a registry. 
 
@@ -11,10 +11,10 @@ Organization admins can limit who can access a registry by configuring user-defi
 The term 'user' is an all encompassing term that refers to any person that uses W&B, independent of their role type.
 :::
 
-For example, a user with member access in the core Model registry can be be assigned viewer access in the core Dataset registry.
+For example, a user with member access in the Model registry can be be assigned viewer access in the Dataset registry.
 ## Registry roles
 
-A user within an organization can have different roles, and therefore permissions, for each registry in their organization. Organization administrators can set a given user's permission.
+A user within an organization can have different roles, and therefore permissions, for each registry in their organization. Registry administrators can set a given user's permission.
 
 The proceeding table lists the different roles a user can have and their permissions:
 
@@ -48,6 +48,19 @@ The proceeding table lists the different roles a user can have and their permiss
 | Assign or change a user's role in a registry                   | Admin            |        |        |   X   |   X   |
 
 
+## Registry visibility 
+
+There are two registry visibility types: restricted or organization visibility. 
+
+| Visibility | Description |
+| --- | --- |
+| Organization | Anyone in the organization can view the registry. |
+| Restricted   | Only invited organization members can access the registry.| 
+
+Core registries have organization visibility. You can not change the visibility of a core registry. 
+
+A custom registry can have either organization or restricted visibility.  You can change the visibility of a custom registry from organization to restricted. However, you can not change a custom registry's visibility from restricted to organization visibility.
+
 
 ## Configure user roles in a registry
 1. Navigate to the Registries App in the W&B App UI.
@@ -66,8 +79,6 @@ The proceeding table lists the different roles a user can have and their permiss
 3. Click on the gear icon on the upper right hand corner.
 4. Scroll to the **Registry members and roles** section and type in the username of the member you want to remove.
 5. Click on **Delete**.
-
-
 
 
 
