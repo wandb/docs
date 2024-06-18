@@ -29,6 +29,8 @@ The following steps describe how to create a collection within a core registry.
 10. From the **Version** dropdown, select the artifact version you want to link to your collection.
 11. Click on the **Create collection** button.
 
+![](/images/registry/create_collection.gif)
+
 :::note
 Registry administrators can add additional artifact types to a core registry. You can not remove an artifact type from a registry once the type is added to the registry's settings.
 :::

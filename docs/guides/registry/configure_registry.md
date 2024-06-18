@@ -48,7 +48,7 @@ The proceeding table lists the different roles a user can have and their permiss
 | Assign or change a user's role in a registry                   | Admin            |        |        |   X   |   X   |
 
 
-## Registry visibility 
+## Registry visibility types
 
 There are two registry visibility types: restricted or organization visibility. 
 
@@ -61,17 +61,40 @@ Core registries have organization visibility. You can not change the visibility 
 
 A custom registry can have either organization or restricted visibility.  You can change the visibility of a custom registry from organization to restricted. However, you can not change a custom registry's visibility from restricted to organization visibility.
 
+## Restrict visibility to a registry
+<!-- Who can do this? -->
+Restrict who can view and access a custom registry. You can restrict visibility to a registry when you create a custom registry or after you create a custom registry. A custom registry can have either restricted or organization visibility. For more information on registry visibilities, see [LINK].
+
+<!-- | Visibility | Description |
+| --- | --- |
+| Organization | Anyone in the organization can view the registry. |
+| Restricted   | Only invited organization members can view and edit the registry.|  -->
+
+The following steps describe how to restrict the visibility of a custom registry that already exists:
+
+1. Navigate to the Registries App in the W&B App UI.
+2. Select a registry.
+3. Click on the gear icon on the upper right hand corner.
+4. From the **Registry visibility** dropdown, select the desired registry visibility.
+
+Continue if you select **Restricted visibility** .
+
+5. Add members of your organization that you want to have access to this registry. Scroll to the **Registry members and roles** section and click on the **Add member** button. 
+6. Within the **Member** field, add the email or username of the member you want to add.
+7. Click **Add new member**.
+
+![](/images/registry/change_registry_visibility.gif)
 
 ## Configure user roles in a registry
 1. Navigate to the Registries App in the W&B App UI.
-2. Select the registry you want to configure a user's role permission.
+2. Select the registry you want to configure.
 3. Click on the gear icon on the upper right hand corner.
 4. Scroll to the **Registry members and roles** section.
 5. Within the **Member** field, search for the user you want to edit permissions for.
 6. Click on the user's role within the **Registry role** column. 
 7. From the dropdown, select the role you want to assign to the user.
 
-![](/images/registry/edit_registry_role.png)
+![](/images/registry/configure_role_registry.gif)
 
 ## Remove a member from a registry
 1. Navigate to the Registries App in the W&B App UI.
