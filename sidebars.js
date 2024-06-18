@@ -78,9 +78,10 @@ const sidebars = {
           link: {type: 'doc', id: 'guides/registry/intro'},
           items: [
             'guides/registry/registry_types',
-            'guides/registry/create_collection',
             'guides/registry/create_registry',
             'guides/registry/configure_registry',
+            'guides/registry/accepted_artifact_types',
+            'guides/registry/create_collection',
             {
               type: 'category',
               label: 'Model Registry',

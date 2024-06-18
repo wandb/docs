@@ -13,14 +13,16 @@ For example, the proceeding image shows a registry named "Forecast". Within the 
 ![](/images/registry/what_is_collection.png)
 
 
-
 The following steps describe how to create a collection within a core registry.
 
 1. Navigate to the Registries App in the W&B App UI.
 2. Select a registry.
 3. Click on the **Create collection** button in the upper right hand corner.
 4. Provide a name for your collection in the **Name** field. 
-5. Select a type from the **Type** dropdown. Or, if the registry enables custom artifact types, provide one or more artifact types that this collection accepts. 
+5. Select a type from the **Type** dropdown. Or, if the registry enables custom artifact types, provide one or more artifact types that this collection accepts.
+:::info
+An artifact type can not be removed from a registry once it is added and saved in the registry's settings.
+:::
 5. Optionally provide a description of your collection in the **Description** field.
 6. Optionally add one or more tags in the **Tags** field. 
 7. Click **Link version**.
@@ -31,9 +33,7 @@ The following steps describe how to create a collection within a core registry.
 
 ![](/images/registry/create_collection.gif)
 
-:::note
-Registry administrators can add additional artifact types to a core registry. You can not remove an artifact type from a registry once the type is added to the registry's settings.
-:::
+
 
 
 

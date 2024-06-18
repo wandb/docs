@@ -7,7 +7,9 @@ displayed_sidebar: default
 W&B supports two types of registries: [Core registries](#core-registries) and [Custom registries](#custom-registries). 
 
 ## Core registries
-A core registry is a template for specific use cases with a standardizes setup to maintain core functionality. W&B automatically creates two core registries: Models and Datasets. By default, the Model Registry is configured to accept model artifact types (`type="model"`) and the Dataset Registry is configured to accept dataset artifact types of (`type="dataset"`). An admin can choose to add additional accepted types. 
+A core registry is a template for specific use cases with a standardizes setup to maintain core functionality. W&B automatically creates two core registries: Models and Datasets.
+
+By default, the Models registry is configured to accept model artifact types (`type="model"`) and the Dataset registry is configured to accept dataset artifact types of (`type="dataset"`). An admin can add additional accepted artifact types. 
 
 
 ## Custom registries
