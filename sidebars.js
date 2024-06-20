@@ -74,6 +74,34 @@ const sidebars = {
         },
         {
           type: 'category',
+          label: 'Sweeps',
+          link: {type: 'doc', id: 'guides/sweeps/intro'},
+          items: [
+            'guides/sweeps/walkthrough',
+            'guides/sweeps/add-w-and-b-to-your-code',
+            {
+              type: 'category',
+              label: 'Define a sweep configuration',
+              items: [
+                'guides/sweeps/define-sweep-configuration',
+                'guides/sweeps/sweep-config-keys',
+              ],
+            },
+            'guides/sweeps/initialize-sweeps',
+            'guides/sweeps/start-sweep-agents',
+            'guides/sweeps/parallelize-agents',
+            'guides/sweeps/visualize-sweep-results',
+            'guides/sweeps/pause-resume-and-cancel-sweeps',
+            'guides/sweeps/sweeps-ui',
+            'guides/sweeps/local-controller',
+            'guides/sweeps/troubleshoot-sweeps',
+            'guides/sweeps/faq',
+            'guides/sweeps/useful-resources',
+            'guides/sweeps/existing-project',
+          ],
+        },        
+        {
+          type: 'category',
           label: 'Model Registry',
           link: {type: 'doc', id: 'guides/model_registry/intro'},
           items: [
@@ -86,11 +114,18 @@ const sidebars = {
             'guides/model_registry/model-lineage',
             'guides/model_registry/consume-models',
             'guides/model_registry/create-model-cards',
-            // 'guides/model_registry/delete-models',
-            'guides/model_registry/automation',
+            // 'guides/model_registry/automation',
             'guides/model_registry/notifications',
             'guides/model_registry/access_controls',
           ],
+        },
+        {
+          type: 'category',
+          label: 'Automations',
+          items: [
+            'guides/model_registry/model-registry-automations',
+            'guides/artifacts/project-scoped-automations',
+          ]
         },
         {
           type: 'category',
@@ -135,34 +170,6 @@ const sidebars = {
             },
             'guides/launch/sweeps-on-launch',
             'guides/launch/launch-faqs',
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Sweeps',
-          link: {type: 'doc', id: 'guides/sweeps/intro'},
-          items: [
-            'guides/sweeps/walkthrough',
-            'guides/sweeps/add-w-and-b-to-your-code',
-            {
-              type: 'category',
-              label: 'Define a sweep configuration',
-              items: [
-                'guides/sweeps/define-sweep-configuration',
-                'guides/sweeps/sweep-config-keys',
-              ],
-            },
-            'guides/sweeps/initialize-sweeps',
-            'guides/sweeps/start-sweep-agents',
-            'guides/sweeps/parallelize-agents',
-            'guides/sweeps/visualize-sweep-results',
-            'guides/sweeps/pause-resume-and-cancel-sweeps',
-            'guides/sweeps/sweeps-ui',
-            'guides/sweeps/local-controller',
-            'guides/sweeps/troubleshoot-sweeps',
-            'guides/sweeps/faq',
-            'guides/sweeps/useful-resources',
-            'guides/sweeps/existing-project',
           ],
         },
         {
@@ -294,7 +301,6 @@ const sidebars = {
                 'guides/artifacts/ttl',
               ],
             },
-            'guides/artifacts/project-scoped-automations',
             'guides/artifacts/explore-and-traverse-an-artifact-graph',
             'guides/artifacts/data-privacy-and-compliance',
             'guides/artifacts/artifacts-faqs',

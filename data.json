@@ -815,7 +815,7 @@
     },
     {
       "from": "/guides/models/automation",
-      "to": "/guides/model_registry/automation"
+      "to": "/guides/model_registry/model-registry-automations"
     },
     {
       "from": "/guides/models/notifications",
