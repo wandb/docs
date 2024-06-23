@@ -22,10 +22,6 @@ Reports consist of _blocks_. Blocks make up the body of a report. Within these b
 
 _Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
 
-:::info
-Editing Reports programmatically with the Python SDK is in Beta and in active development.
-:::
-
 ### Add plots
 
 Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data shows up on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
@@ -55,7 +51,7 @@ The proceeding examples demonstrates how to create a line plot and scatter plot.
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(
     project="report-editing",
@@ -106,7 +102,7 @@ Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. Th
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(
     project="report-editing",
@@ -210,7 +206,7 @@ For example the proceeding example demonstrates a list in YAML file:
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(project="report-editing")
 
@@ -273,7 +269,7 @@ Use the `wandb.apis.reports.MarkdownBlock` Class to create a markdown block prog
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(project="report-editing")
 
@@ -308,7 +304,7 @@ Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribut
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(project="report-editing")
 
@@ -369,7 +365,7 @@ Pass a list of one or more embedded media objects to the `wandb.apis.reports.blo
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(project="report-editing")
 

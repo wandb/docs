@@ -19,7 +19,7 @@ Refer to the table below for data export API and pointers to relevant documentat
 | Export artifacts | [Artifact API](../../ref/python/public-api/api#artifact), [Explore and traverse an artifact graph](../artifacts/explore-and-traverse-an-artifact-graph#traverse-an-artifact-programmatically), [Download and use an artifact](../artifacts/download-and-use-an-artifact#download-and-use-an-artifact-stored-on-wb) |
 
 :::info
-You manage artifacts stored in the Dedicated Cloud with [Secure Storage Connector](./secure-storage-connector). In that case, you may not need to export the artifacts using the W&B SDK API.
+You manage artifacts stored in the Dedicated Cloud with [Secure Storage Connector](./data-security/secure-storage-connector). In that case, you may not need to export the artifacts using the W&B SDK API.
 :::
 
 :::note

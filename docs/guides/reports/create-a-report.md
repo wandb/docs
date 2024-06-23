@@ -16,7 +16,7 @@ import TabItem from '@theme/TabItem';
 Create a report interactively with the W&B App UI or programmatically with the W&B Python SDK.
 
 :::info
-Creating Reports programmatically with the Python SDK is in Beta and in active development. See this [Google Colab for an example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb).
+See this [Google Colab for an example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb).
 :::
 
 <Tabs
@@ -24,7 +24,7 @@ Creating Reports programmatically with the Python SDK is in Beta and in active d
   values={[
     {label: 'App UI', value: 'app'},
     {label: 'Report tab', value: 'reporttab'},
-    {label: 'Python SDK (Beta)', value: 'sdk'},
+    {label: 'W&B Python SDK', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -55,7 +55,7 @@ Create a report programmatically with the `wandb` library.
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 ```
 
 Create a report instance with the Report Class Public API ([`wandb.apis.reports`](https://docs.wandb.ai/ref/python/public-api/api#reports)). Specify a name for the project.

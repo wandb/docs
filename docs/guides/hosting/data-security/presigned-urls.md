@@ -10,7 +10,7 @@ When needed, AI workloads or user browser clients within your network request pr
 
 ## Team-level access control
 
-Each pre-signed URL is restricted to specific bucket(s) based on [team level access control](./iam/manage-users.md#manage-a-team) in the W&B platform. If a user is part of a team which is mapped to a blob storage bucket using [secure storage connector](./secure-storage-connector.md), and if that user is part of only that team, then the pre-signed URLs generated for their requests would not have permissions to access blob storage buckets mapped to other teams. 
+Each pre-signed URL is restricted to specific bucket(s) based on [team level access control](../iam/manage-users.md#manage-a-team) in the W&B platform. If a user is part of a team which is mapped to a blob storage bucket using [secure storage connector](./secure-storage-connector.md), and if that user is part of only that team, then the pre-signed URLs generated for their requests would not have permissions to access blob storage buckets mapped to other teams. 
 
 :::info
 W&B recommends adding users to only the teams that they are supposed to be a part of.
@@ -24,7 +24,7 @@ In case of AWS, one can use [VPC or IP address based network restriction](https:
 
 ## Audit logs
 
-W&B also recommends to use [W&B audit logs](./audit-logging.md) in addition to blob storage specific audit logs. For latter, refer to [AWS S3 access logs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html),[Google Cloud Storage audit logs](https://cloud.google.com/storage/docs/audit-logging) and [Monitor Azure blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/monitor-blob-storage). With audit logs, admin and security teams can keep track of which user is doing what in the W&B product, and take necessary action if they determine that some operations need to be limited for certain users.
+W&B also recommends to use [W&B audit logs](../monitoring-usage/audit-logging.md) in addition to blob storage specific audit logs. For latter, refer to [AWS S3 access logs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html),[Google Cloud Storage audit logs](https://cloud.google.com/storage/docs/audit-logging) and [Monitor Azure blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/monitor-blob-storage). With audit logs, admin and security teams can keep track of which user is doing what in the W&B product, and take necessary action if they determine that some operations need to be limited for certain users.
 
 :::note
 Pre-signed URLs are the only supported blob storage access mechanism in W&B. W&B recommends configuring some or all of the above list of security controls depending on your risk appetite.

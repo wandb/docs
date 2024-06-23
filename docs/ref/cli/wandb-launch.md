@@ -12,6 +12,7 @@ Launch or queue a W&B Job. See https://wandb.me/launch
 
 | **Option** | **Description** |
 | :--- | :--- |
+| -u, --uri (str) | Local path or git repo uri to launch. If   provided this command will create a job from the specified uri. |
 | -j, --job (str) | Name of the job to launch. If passed in,   launch does not require a uri. |
 | --entry-point | Entry point within project. [default: main].   If the entry point is not found, attempts to run the project file with the specified name   as a script, using 'python' to run .py files and the default shell (specified by   environment variable $SHELL) to run .sh files. If passed in, will override the   entrypoint value passed in using a config file. |
 | --build-context (str) | Path to the build context within the source   code. Defaults to the root of the source code. Compatible only with -u. |

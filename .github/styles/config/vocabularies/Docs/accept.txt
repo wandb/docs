@@ -30,8 +30,10 @@ Keras
 Kubeflow
 Kubernetes
 [Ll]atents
+LLMOps
 MMEngine
 MMDetection
+MLOps
 [Nn]amespace
 [Oo]perator
 Optuna

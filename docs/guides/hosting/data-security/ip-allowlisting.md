@@ -4,7 +4,7 @@ displayed_sidebar: default
 
 # IP allowlisting for Dedicated Cloud
 
-You can restrict access to your [Dedicated Cloud](./hosting-options/dedicated_cloud.md) instance from only an authorized list of IP addresses. This applies to the access from your desktop to the W&B UI application and from your AI training workloads to the W&B SDK API. Once you configure IP allowlisting for your Dedicated Cloud instance, any requests from other unauthorized locations will be denied.
+You can restrict access to your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) instance from only an authorized list of IP addresses. This applies to the access from your desktop to the W&B UI application and from your AI training workloads to the W&B SDK API. Once you configure IP allowlisting for your Dedicated Cloud instance, any requests from other unauthorized locations will be denied.
 
 IP allowlisting is available on AWS and GCP Dedicated Cloud instances.
 

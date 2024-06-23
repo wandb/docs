@@ -87,7 +87,7 @@
     {
       "from": "/guides/app/pages/workspaces#create-saved-workspace-views-beta",
       "to": "/guides/app/pages/workspaces#saved-workspace-views"
-    },    
+    },
     {
       "from": "/app/panels/parameter-importance",
       "to": "/guides/app/features/panels/parameter-importance"
@@ -394,12 +394,48 @@
       "to": "/guides/hosting"
     },
     {
+      "from": "/guides/hosting/secure-storage-connector",
+      "to": "/guides/hosting/data-security/secure-storage-connector"
+    },
+    {
+      "from": "/guides/hosting/presigned-urls",
+      "to": "/guides/hosting/data-security/presigned-urls"
+    },
+    {
+      "from": "/guides/hosting/ip-allowlisting",
+      "to": "/guides/hosting/data-security/ip-allowlisting"
+    },
+    {
+      "from": "/guides/hosting/private-connectivity",
+      "to": "/guides/hosting/data-security/private-connectivity"
+    },
+    {
+      "from": "/guides/hosting/restricted-projects",
+      "to": "/guides/hosting/iam/restricted-projects"
+    },
+    {
+      "from": "/guides/hosting/audit-logging",
+      "to": "/guides/hosting/monitoring-usage/audit-logging"
+    },
+    {
+      "from": "/guides/hosting/prometheus-logging",
+      "to": "/guides/hosting/monitoring-usage/prometheus-logging"
+    },
+    {
+      "from": "/guides/hosting/slack-alerts",
+      "to": "/guides/hosting/monitoring-usage/slack-alerts"
+    },
+    {
+      "from": "/guides/hosting/org_dashboard",
+      "to": "/guides/hosting/monitoring-usage/org_dashboard"
+    },
+    {
       "from": "/guides/hosting/basic-setup",
       "to": "/guides/hosting/how-to-guides/basic-setup"
     },
     {
       "from": "/guides/hosting/hosting-options/intro",
-      "to":"/guides/hosting"
+      "to": "/guides/hosting"
     },
     {
       "from": "/guides/hosting/hosting-options",
@@ -411,15 +447,15 @@
     },
     {
       "from": "/guides/hosting/how-to-guides/basic-setup",
-      "to": "/guides/hosting/self-managed/basic-setup" 
+      "to": "/guides/hosting/self-managed/basic-setup"
     },
     {
-      "from": "/guides/hosting/how-to-guides/aws-tf" ,
+      "from": "/guides/hosting/how-to-guides/aws-tf",
       "to": "/guides/hosting/self-managed/aws-tf"
     },
     {
       "from": "/guides/hosting/how-to-guides/gcp-tf",
-      "to":  "/guides/hosting/self-managed/gcp-tf"
+      "to": "/guides/hosting/self-managed/gcp-tf"
     },
     {
       "from": "/guides/hosting/how-to-guides/azure-tf",
@@ -430,7 +466,7 @@
       "to": "/guides/hosting/operator"
     },
     {
-      "from": "/guides/hosting/how-to-guides/bare-metal" ,
+      "from": "/guides/hosting/how-to-guides/bare-metal",
       "to": "/guides/hosting/self-managed/bare-metal"
     },
     {
@@ -438,8 +474,8 @@
       "to": "/guides/hosting/iam/ldap"
     },
     {
-      "from" : "/guides/hosting/manage-users",
-      "to" : "/guides/hosting/iam/manage-users"
+      "from": "/guides/hosting/manage-users",
+      "to": "/guides/hosting/iam/manage-users"
     },
     {
       "from": "/guides/hosting/scim",
@@ -752,7 +788,7 @@
     {
       "from": "/guides/launch/create-job",
       "to": "/guides/launch/create-launch-job"
-    },    
+    },
     {
       "from": "/guides/launch/getting-started",
       "to": "/guides/launch/walkthrough"
@@ -760,43 +796,39 @@
     {
       "from": "/guides/launch/launch-jobs",
       "to": "/guides/launch/add-job-to-queue"
-    },    
-    {
-      "from": "/guides/models",
-      "to" : "/guides/model_registry"
     },
     {
       "from": "/guides/models/walkthrough",
-      "to" : "/guides/model_registry/walkthrough"
+      "to": "/guides/model_registry/walkthrough"
     },
     {
       "from": "/guides/models/model_tags",
-      "to" : "/guides/model_registry/model_tags"
+      "to": "/guides/model_registry/model_tags"
     },
     {
       "from": "/guides/models/model_tags",
-      "to" : "/guides/model_registry/link-model-version"
+      "to": "/guides/model_registry/link-model-version"
     },
     {
       "from": "/guides/models/access_controls",
-      "to" : "/guides/model_registry/access_controls"
+      "to": "/guides/model_registry/access_controls"
     },
     {
       "from": "/guides/models/automation",
-      "to" : "/guides/model_registry/automation"
+      "to": "/guides/model_registry/model-registry-automations"
     },
     {
       "from": "/guides/models/notifications",
-      "to" : "/guides/model_registry/notifications"
+      "to": "/guides/model_registry/notifications"
     },
     {
       "from": "/guides/models/model-management-concepts",
-      "to" : "/guides/model_registry/model-management-concepts"
+      "to": "/guides/model_registry/model-management-concepts"
     },
     {
       "from": "/guides/model_registry/quickstart",
-      "to" : "/guides/model_registry/walkthrough"
-    },    
+      "to": "/guides/model_registry/walkthrough"
+    },
     {
       "from": "/guides/manage-runs",
       "to": "/guides/runs/manage-runs"
@@ -1026,8 +1058,8 @@
       "to": "/guides/app/features/panels/query-panel"
     },
     {
-      "from" : "/guides/app/features/panels/weave/embedding-projector",
-      "to" : "/guides/app/features/panels/query-panel/embedding-projector"
+      "from": "/guides/app/features/panels/weave/embedding-projector",
+      "to": "/guides/app/features/panels/query-panel/embedding-projector"
     },
     {
       "from": "/weave/prod-mon",

@@ -75,7 +75,7 @@ Some tested and working providers:
 
 ##### Secure Storage Connector
 
-The [Secure Storage Connector](../secure-storage-connector.md) is not available for teams at this time for bare metal deployments.
+The [Secure Storage Connector](../data-security/secure-storage-connector.md) is not available for teams at this time for bare metal deployments.
 
 ## MySQL Database
 
@@ -83,23 +83,11 @@ The [Secure Storage Connector](../secure-storage-connector.md) is not available 
 W&B does not recommend using MySQL 5.7. If you are using MySQL 5.7, migrate to MySQL 8 for best compatibility with latest versions of W&B Server. The W&B Server currently only supports `MySQL 8` versions `8.0.28` and above.
 :::
 
-<Tabs
-  defaultValue="apple"
-  values={[
-    {label: 'MySQL 5.7', value: 'apple'},
-    {label: 'MySQL 8.0', value: 'orange'},
-  ]}>
-  <TabItem value="apple">
-  
 There are a number of enterprise services that make operating a scalable MySQL database simpler. We suggest looking into one of the following solutions:
 
 [https://www.percona.com/software/mysql-database/percona-server](https://www.percona.com/software/mysql-database/percona-server)
 
 [https://github.com/mysql/mysql-operator](https://github.com/mysql/mysql-operator)
-
-  </TabItem>
-
-  <TabItem value="orange">
 
 Satisfy the conditions below if you run W&B Server MySQL 8.0 or when you upgrade from MySQL 5.7 to 8.0:
 
@@ -112,9 +100,6 @@ binlog_row_image = 'MINIMAL'
 ```
 
 Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. Our recommendation is to set the value to `33554432(32MiB)` in order for the database to efficiently work with the W&B application. Note that, this only works with MySQL versions 8.0.28 and above.
-  
-  </TabItem>
-</Tabs>
 
 ### Database considerations
 
@@ -320,27 +305,6 @@ spec:
     runAsUser: 100000
     runAsGroup: 0
 ```
-
-## Docker deployment
-
-You can run _wandb/local_ on any instance that also has Docker installed. We suggest at least 8GB of RAM and 4vCPU's. 
-
-Run the following command to launch the container:
-
-```bash
- docker run --rm -d \
-   -e HOST=https://YOUR_DNS_NAME \
-   -e LICENSE=XXXXX \
-   -e BUCKET=s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME \
-   -e BUCKET_QUEUE=internal:// \
-   -e AWS_REGION=us-east1 \
-   -e MYSQL=mysql://$USERNAME:$PASSWORD@$HOSTNAME/$DATABASE \
-   -p 8080:8080 --name wandb-local wandb/local
-```
-
-:::caution
-Configure a process manager to ensure this process is restarted if it crashes. A good overview of using SystemD to do this can be [found here](https://blog.container-solutions.com/running-docker-containers-with-systemd).
-:::
 
 ## Networking
 
