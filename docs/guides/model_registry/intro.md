@@ -64,5 +64,5 @@ Depending on your use case, explore the following resources to get started with 
 * Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
 * Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
   * Use the W&B Model Registry to manage and version your models, track lineage, and promote models through different lifecycle stages
-  * Automate your model management workflows using webhooks and launch jobs,
+  * Automate your model management workflows using webhooks and launch jobs.
   * See how the Model Registry integrates with external ML systems and tools in your model development lifecycle for model evaluation, monitoring, and deployment.
