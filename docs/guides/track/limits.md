@@ -67,10 +67,10 @@ with f as open("large_file.json", "r"):
     wandb.log(large_data)
 ```
 
-Note that wide values can affect the plot load times for all metrics in the run, not just the metric with the wide values.
+Wide values can affect the plot load times for all metrics in the run, not just the metric with the wide values.
 
 :::info
-Your data is saved and tracked if you log values wider than the recommended amount. However, your plots may load more slowly. 
+Data is saved and tracked even if you log values wider than the recommended amount. However, your plots may load more slowly. 
 :::
 
 ### Metric frequency
@@ -161,7 +161,7 @@ Keep the total number of files uploaded for a single run under 1,000. You can us
 
 ## Python script performance
 
-There are a few ways that your python script performance is being reduced:
+There are a few ways that your performance of your python script is reduced:
 
 1. The size of your data is too large. Large data sizes could introduce a >1 ms overhead to the training loop.
 2. The speed of your network and the how the W&B backend is configured
@@ -171,10 +171,39 @@ There are a few ways that your python script performance is being reduced:
 Is frequent logging slowing your training runs down? Check out [this Colab](http://wandb.me/log-hf-colab) for methods to get better performance by changing your logging strategy.
 :::
 
-W&B does not assert any limits beyond rate limiting. The W&B Python SDK automatically completes an exponential backoff and retry requests that exceed limits. W&B Python SDK responds with a “Network failure” on the command line. For unpaid accounts, W&B may reach out in extreme cases where usage exceeds reasonable thresholds.
+W&B does not assert any limits beyond rate limiting. The W&B Python SDK automatically completes an exponential "backoff" and "retry" requests that exceed limits. W&B Python SDK responds with a “Network failure” on the command line. For unpaid accounts, W&B may reach out in extreme cases where usage exceeds reasonable thresholds.
 
 ## Rate limits
 
-<!-- The W&B API is rate limited by IP and API key. Free accounts are restricted to 50 requests per minute. Paid accounts are restricted to 200 requests per minute. This rate allows you to run approximately 15 processes in parallel and have them report without being throttled. W&B backoffs and retries sending data in the future if the W&B client detects it is being limited. If you need to run more than 15 processes in parallel send an email to [contact@wandb.com](mailto:contact@wandb.com).
+W&B SaaS Cloud API implements a rate limit to maintain system integrity and ensure availability. This measure prevents any single user from monopolizing available resources in the shared infrastructure, ensuring that the service remains accessible to all users. You may encounter a lower rate limit for a variety of reasons. 
 
-For sweeps, W&B supports up to 20 parallel agents. -->
+:::note
+Rate limits are subject to change.
+:::
+
+The `wandb.log` calls in your script utilize a metrics logging API to log your training data to W&B. This API is engaged through either online or [offline syncing](../../ref/cli/wandb-sync.md). In either case, it imposes a rate limit quota limit in a rolling time window. This includes limits on total request size and request rate, where latter refers to the number of requests in a time duration. 
+
+Rate limits are applied to each W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) have higher rate limits than those on the Free plan.
+
+### Rate limit HTTP headers
+
+The proceeding table describes rate limit HTTP headers:
+
+| Header name | Description |
+| ----- | ----- |
+| RateLimit-Limit | The amount of quota available per time window, scaled in the range of 0 to 1000 |
+| RateLimit-Remaining | The amount of quota in the current rate limit window, scaled in the range of 0 and 1000 | 
+| RateLimit-Reset | The number of seconds until the current quota resets |
+
+### Suggestions on how to stay under the rate limit
+
+Exceeding the rate limit may result in increased latency in the run.finish() operation. To avoid this, consider the following strategies:
+
+- Update your W&B Python SDK version: Ensure you are using the latest version of the W&B Python SDK. The W&B Python SDK is regularly updated and includes enhanced mechanisms for gracefully retrying requests and optimizing quota usage.
+- Reduce metric logging frequency:
+Minimize the frequency of logging metrics to conserve your quota. For example, you can modify your code to log metrics every five epochs instead of every epoch:    
+```python
+if epoch % 5 == 0:  # Log metrics every 5 epochs
+    wandb.log({"acc": accuracy, "loss": loss})
+```  
+- Manual data syncing: Your run data is stored locally if you are rate limited. You can manually sync your data with the command `wandb sync <run-file-path>`. For more details, see the [`wandb sync`](../../ref/cli/wandb-sync.md) reference.
