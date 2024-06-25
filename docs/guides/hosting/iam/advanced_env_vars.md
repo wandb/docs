@@ -11,7 +11,7 @@ Choose any of the following environment variables for your instance depending on
 | Environment variable | Description |
 |----------------------|-------------|
 | DISABLE_SSO_PROVISIONING | Set this to `true` to disable user auto-provisioning in your W&B instance. |
-| SESSION_LENGTH | If you would like to change the default user session expiry time, set this variable to the desired number of hours. E.g., set it as `24` to configure session expiry time of 24 hours which is equivalent to a day. The default value is 720 hours which is equivalent to 30 days. |
+| SESSION_LENGTH | If you would like to change the default user session expiry time, set this variable to the desired number of hours. For example, set SESSION_LENGTH to `24` to configure session expiry time to 24 hours. The default value is 720 hours. |
 | GORILLA_ENABLE_SSO_GROUP_CLAIMS | If you are using OIDC based SSO, set this variable to `true` to automate W&B team membership in your instance based on your OIDC groups. Add a `groups` claim to user OIDC token. It should be a string array where each entry is the name of a W&B team that the user should belong to. The array should include all the teams that a user is a part of. |
 | GORILLA_LDAP_GROUP_SYNC | If you are using LDAP based SSO, set it to `true` to automate W&B team membership in your instance based on your LDAP groups. |
 | GORILLA_OIDC_CUSTOM_SCOPES | If you are using OIDC based SSO, you can specify additional [scopes](https://auth0.com/docs/get-started/apis/scopes/openid-connect-scopes) that W&B instance should request from your identity provider. W&B does not change the SSO functionality due to these custom scopes in any way. |
