@@ -16,12 +16,14 @@ For example, a user with member access in the Model registry can be be assigned 
 
 ## Registry visibility types
 
-There are two registry visibility types: restricted or organization visibility. 
+There are two registry visibility types: restricted or organization visibility. The following table describes who has access to the registry by default:
 
-| Visibility | Description |
-| --- | --- |
-| Organization | Anyone in the organization can view the registry. |
-| Restricted   | Only invited organization members can access the registry.| 
+| Visibility | Description | Default Role |
+| --- | --- | --- |
+| Organization | Everyone in the org can access the registry. | By default, organization administrators are an admin for the registry. All other users are a viewer in the registry by default. |
+| Restricted   | Only invited org members can access the registry.| The user who created the restricted registry is the only user in the registry by default, and is the organization's owner. |
+
+
 
 A core registry has organization visibility. You can not change the visibility of a core registry. 
 
