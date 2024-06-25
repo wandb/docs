@@ -92,6 +92,10 @@ to load the run config input values anywhere in the job code.
 
 The Launch SDK also provides a way to manage input values stored in config files in the job code. This is a common pattern in many deep learning and large language model use cases, like this [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) example or this [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)). 
 
+:::info
+[Sweeps on Launch](./sweeps-on-launch.md) does not support the use of config file inputs as sweep parameters. Sweep parameters must be controlled through the `Run.config` object.
+:::
+
 The `launch.manage_config_file` function can be used to add a config file as an input to the Launch job, giving you access to edit values within the config file when launching the job.
 
 By default, no run config inputs will be captured if `launch.manage_config_file` is used. Calling `launch.manage_wandb_config` overrides this behavior.
