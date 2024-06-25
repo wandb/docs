@@ -3,12 +3,12 @@ displayed_sidebar: default
 ---
 
 # Create a custom registry
-Create a custom registry within an organization. Custom registries are particularly useful for organizing project-specific requirements that differ from the default, core registries that W&B creates by default. 
+Create a custom registry within an organization. A custom registry is particularly useful for organizing project-specific requirements that differ from the default, core registry that W&B creates by default. 
 
 For example, you might want to create a custom registry for evaluating or fine-tuning datasets.
 
-1. Navigate to the Registries App in the W&B App UI.
-2. Within **Custom registries**, click on the **Create registry** button.
+1. Navigate to the Registry App in the W&B App UI.
+2. Within **Custom registry**, click on the **Create registry** button.
 3. Provide a name for your registry in the **Name** field.
 4. Optionally provide a description about the registry.
 5. Select who can view the registry from the **Registry visibility** dropdown. See [LINK] for more information on registry visibility options.

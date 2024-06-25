@@ -3,7 +3,7 @@ displayed_sidebar: default
 ---
 
 # Configure registry access
-Registries, and the linked artifacts inside of them, belong to an organization. This means that teams within an organization can publish and consume artifacts linked to a registry, given the correct access control.
+A registry, and the linked artifacts inside a registry, belong to an organization. This means that teams within an organization can publish and consume artifacts linked to a registry, given the correct access control.
 
 Organization admins can limit who can access a registry by configuring user-defined roles for that registry. User defined roles are useful for fine-grained control on how specific members within an organization can interact with a registry. 
 
@@ -23,7 +23,7 @@ There are two registry visibility types: restricted or organization visibility.
 | Organization | Anyone in the organization can view the registry. |
 | Restricted   | Only invited organization members can access the registry.| 
 
-Core registries have organization visibility. You can not change the visibility of a core registry. 
+A core registry has organization visibility. You can not change the visibility of a core registry. 
 
 A custom registry can have either organization or restricted visibility.  You can change the visibility of a custom registry from organization to restricted. However, you can not change a custom registry's visibility from restricted to organization visibility.
 
@@ -38,7 +38,7 @@ Restrict who can view and access a custom registry. You can restrict visibility 
 
 The following steps describe how to restrict the visibility of a custom registry that already exists:
 
-1. Navigate to the Registries App in the W&B App UI.
+1. Navigate to the Registry App in the W&B App UI.
 2. Select a registry.
 3. Click on the gear icon on the upper right hand corner.
 4. From the **Registry visibility** dropdown, select the desired registry visibility.
@@ -89,7 +89,7 @@ The proceeding table lists the different roles a user can have and their permiss
 
 
 ## Configure user roles in a registry
-1. Navigate to the Registries App in the W&B App UI.
+1. Navigate to the Registry App in the W&B App UI.
 2. Select the registry you want to configure.
 3. Click on the gear icon on the upper right hand corner.
 4. Scroll to the **Registry members and roles** section.
@@ -100,7 +100,7 @@ The proceeding table lists the different roles a user can have and their permiss
 ![](/images/registry/configure_role_registry.gif)
 
 ## Remove a member from a registry
-1. Navigate to the Registries App in the W&B App UI.
+1. Navigate to the Registry App in the W&B App UI.
 2. Select a core or custom registry.
 3. Click on the gear icon on the upper right hand corner.
 4. Scroll to the **Registry members and roles** section and type in the username of the member you want to remove.

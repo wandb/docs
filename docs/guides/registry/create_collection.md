@@ -15,7 +15,7 @@ For example, the proceeding image shows a registry named "Forecast". Within the 
 
 The following steps describe how to create a collection within a core registry.
 
-1. Navigate to the Registries App in the W&B App UI.
+1. Navigate to the Registry App in the W&B App UI.
 2. Select a registry.
 3. Click on the **Create collection** button in the upper right hand corner.
 4. Provide a name for your collection in the **Name** field. 
