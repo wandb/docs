@@ -1,89 +1,59 @@
 ---
-description: ''
 displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 
-# Download a model version
+# モデルバージョンのダウンロード
 
-Use the W&B Python SDK or the W&B App UI to download a model that you have linked to the Model Registry. Downloading a model is particularly useful if you want to evaluate a model's performance, make predictions with a dataset, or use ship the model to production.
+W&B Python SDKを使用して、Model Registryにリンクされたモデルアーティファクトをダウンロードします。モデルのダウンロードは、将来モデルのパフォーマンスを評価したり、データセットで予測を行ったり、モデルをプロダクションに送り込んだりする場合に特に有用です。
 
 :::info
-You are responsible for providing additional Python functions, API calls to reconstruct, deserialize your model into a form that you can work with. 
+あなた自身がモデルを再構築し、逆シリアル化し、作業できる形式にするための追加のPython関数やAPIコールを提供する責任があります。
 
-W&B suggests that you document information on how to load models into memory with model cards. For more information, see the [Document machine learning models](./create-model-cards.md) page. 
+W&Bは、モデルカードでモデルをメモリにロードする方法を文書化することを提案しています。詳細については、[Document machine learning models](./create-model-cards.md)ページを参照してください。
 :::
 
-<Tabs
-  defaultValue="cli"
-  values={[
-    {label: 'CLI', value: 'cli'},
-    {label: 'W&B App', value: 'app'},
-  ]}>
-  <TabItem value="cli">
-
-Replace values within `<>` with your own:
+`<>`内の値を自分のものに置き換えてください：
 
 ```python
 import wandb
 
-# Initialize a run
+# runを初期化
 run = wandb.init(project="<project>", entity="<entity>")
 
-# Access and download model. Returns path to downloaded artifact
+# モデルにアクセスしてダウンロードします。ダウンロードされたアーティファクトへのパスを返します
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-Reference a model version with one of following formats listed:
+次に示す形式の1つを使用してモデルバージョンを参照できます：
 
-* `latest` - Use `latest` tag to specify the model version that is most recently linked.
-* `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
-* `alias` - Specify the custom alias that you and your team assigned to your model version
+* `latest` - 最新のリンクされたモデルバージョンを指定するには`latest`エイリアスを使用します。
+* `v#` - `v0`、`v1`、`v2`などを使用して、Registered Modelの特定のバージョンを取得します。
+* `alias` - あなたやチームがモデルバージョンに割り当てたカスタムエイリアスを指定します。
 
-See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
-
+可能なパラメータおよび戻り値の詳細については、APIリファレンスガイドの[`use_model`](../../ref/python/run.md#use_model)を参照してください。
 
 <details>
 
-<summary>Example: Download and use a logged model</summary>
+<summary>例: ログされたモデルをダウンロードして使用する</summary>
 
-For example, in the proceeding code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that returned from the API to the `downloaded_model_path` variable.
+例えば、次のコードスニペットではユーザーが`use_model` APIを呼び出しました。取得したいモデルアーティファクトの名前とバージョン/エイリアスを指定し、APIから返されたパスを`downloaded_model_path`変数に保存しました。
 
 ```python
 import wandb
 
 entity = "luka"
 project = "NLP_Experiments"
-alias = "latest"  # semantic nickname or identifier for the model version
+alias = "latest"  # モデルバージョンのセマンティックニックネームまたは識別子
 model_artifact_name = "fine-tuned-model"
 
-# Initialize a run
+# runを初期化
 run = wandb.init()
-# Access and download model. Returns path to downloaded artifact
+# モデルにアクセスしてダウンロードします。ダウンロードされたアーティファクトへのパスを返します
 
 downloaded_model_path = run.use_model(name=f"{entity/project/model_artifact_name}:{alias}")
 ```
 </details>
-
-  </TabItem>
-  <TabItem value="app">
-
-1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select **View details** next to the name of the registered model that contains the model you want to download.
-3. Within the Versions section, select the View button next to the model version you want to download.
-4. Select the **Files** tab. 
-5. Click on the download button next to the model file you want to download. 
-
-![](/images/models/download_model_ui.gif)
-
-  </TabItem>
-</Tabs>
-
-
-
-
-
-
-

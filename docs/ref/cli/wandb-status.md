@@ -1,16 +1,16 @@
-# wandb ステータス
 
-**使い方**
+# wandb status
 
-`wandb status [オプション]`
+**使用方法**
+
+`wandb status [OPTIONS]`
 
 **概要**
 
-設定を表示する
+設定を表示
 
 **オプション**
 
 | **オプション** | **説明** |
 | :--- | :--- |
-| --settings / --no-settings | 現在の設定を表示する |
-| --help | このメッセージを表示して終了する。 |
+| --settings / --no-settings | 現在の設定を表示 |

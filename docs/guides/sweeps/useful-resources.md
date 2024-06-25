@@ -1,42 +1,43 @@
 ---
-description: Collection of useful sources for Sweeps.
+description: 有用なSweepsの情報源のコレクション。
 displayed_sidebar: default
 ---
 
-# 便利なリソース
+
+# Useful resources
 
 <head>
-  <title>W&Bスイープについてもっと学ぶためのリソース</title>
+  <title>Resources to learn more about W&B Sweeps</title>
 </head>
 
-### 学術論文
+### Academic papers
 
-Li, Lishaら。"[Hyperband: ハイパーパラメータ最適化への新しいバンディットベースのアプローチ](https://arxiv.org/pdf/1603.06560.pdf)" _The Journal of Machine Learning Research_ 18.1 (2017): 6765-6816。
+Li, Lisha, et al. "[Hyperband: A novel bandit-based approach to hyperparameter optimization.](https://arxiv.org/pdf/1603.06560.pdf)" _The Journal of Machine Learning Research_ 18.1 (2017): 6765-6816.
 
-### スイープ実験
+### Sweep Experiments
 
-以下のW&Bレポートでは、W&Bスイープを用いたハイパーパラメータ最適化を探求するプロジェクトの事例を紹介しています。
+以下の W&B Reports は、W&B Sweeps を使用したハイパーパラメータ最適化を探索するプロジェクトの例を示しています。
 
-* [ドラウトウォッチベンチマークの進捗](https://wandb.ai/stacey/droughtwatch/reports/Drought-Watch-Benchmark-Progress--Vmlldzo3ODQ3OQ)
-  * 説明: ドラウトウォッチベンチマークへの提出を探求するためのベースラインの開発。
-* [強化学習における安全性ペナルティの調整](https://wandb.ai/safelife/benchmark-sweeps/reports/Tuning-Safety-Penalties-in-Reinforcement-Learning---VmlldzoyNjQyODM)
-  * 説明: 異なる副作用ペナルティを用いて訓練されたエージェントを、パターン作成、パターン除去、ナビゲーションの3つの異なるタスクで調査します。
-* [W&Bとハイパーパラメータ探索の意味とノイズ](https://wandb.ai/stacey/pytorch\_intro/reports/Meaning-and-Noise-in-Hyperparameter-Search--Vmlldzo0Mzk5MQ) [Stacey Svetlichnaya](https://wandb.ai/stacey)
-  * 説明: どのようにして信号と幻覚パターン（想像上のパターン）を区別するのか？この記事では、W&Bで可能なことを紹介し、さらなる探求にインスピレーションを与えることを目指しています。
-* [誰が彼ら？トランスフォーマーによるテキスト曖昧性解消](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc)
-  * 説明: Hugging Faceを使って自然言語理解のためのモデルを探索
-* [DeepChem: 分子の溶解性](https://wandb.ai/stacey/deepchem\_molsol/reports/DeepChem-Molecular-Solubility--VmlldzoxMjQxMjM)
-  * 説明: ランダムフォレストとディープネットワークを用いて、分子構造から化学的性質を予測。
-* [MLOps入門: ハイパーパラメーターチューニング](https://wandb.ai/iamleonie/Intro-to-MLOps/reports/Intro-to-MLOps-Hyperparameter-Tuning--VmlldzozMTg2OTk3)
-  * 説明: ハイパーパラメータ最適化がなぜ重要であるのか、機械学習モデルのハイパーパラメータチューニングを自動化するための3つのアルゴリズムを紹介します。
-### ハウツーガイド
+* [Drought Watch Benchmark Progress](https://wandb.ai/stacey/droughtwatch/reports/Drought-Watch-Benchmark-Progress--Vmlldzo3ODQ3OQ)
+  * 説明: ベースラインの開発とDrought Watchベンチマークへの提出物の探索。
+* [Tuning Safety Penalties in Reinforcement Learning](https://wandb.ai/safelife/benchmark-sweeps/reports/Tuning-Safety-Penalties-in-Reinforcement-Learning---VmlldzoyNjQyODM)
+  * 説明: パターン作成、パターン削除、およびナビゲーションの3つの異なるタスクで副作用のペナルティをトレーニングしたエージェントを調査。
+* [Meaning and Noise in Hyperparameter Search with W&B](https://wandb.ai/stacey/pytorch_intro/reports/Meaning-and-Noise-in-Hyperparameter-Search--Vmlldzo0Mzk5MQ) [Stacey Svetlichnaya](https://wandb.ai/stacey)
+  * 説明: どのようにしてシグナルとパレイドリア（架空のパターン）を区別するか。この記事はW&Bで何が可能かを示し、さらなる探求を奨励することを目的としています。
+* [Who is Them? Text Disambiguation with Transformers](https://wandb.ai/stacey/winograd/reports/Who-is-Them-Text-Disambiguation-with-Transformers--VmlldzoxMDU1NTc)
+  * 説明: Hugging Face を使用して自然言語理解のためのモデルを探索。
+* [DeepChem: Molecular Solubility](https://wandb.ai/stacey/deepchem_molsol/reports/DeepChem-Molecular-Solubility--VmlldzoxMjQxMjM)
+  * 説明: ランダムフォレストとディープネットを用いて分子構造から化学的特性を予測。
+* [Intro to MLOps: Hyperparameter Tuning](https://wandb.ai/iamleonie/Intro-to-MLOps/reports/Intro-to-MLOps-Hyperparameter-Tuning--VmlldzozMTg2OTk3)
+  * 説明: ハイパーパラメータ最適化が重要な理由を探り、機械学習モデルのハイパーパラメータチューニングを自動化するための3つのアルゴリズムを検討。
 
-以下のハウツーガイドでは、Weights & Biasesを使って実際の問題解決方法を紹介しています:
+### self-managed
 
-* [Sweeps with XGBoost](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)
+次のHow-toガイドは、W&Bを使用して実際の問題を解決する方法を示しています。
 
-  * 説明: XGBoostを用いたハイパーパラメータチューニングにW&B Sweepsを使用する方法です。
+* [Sweeps with XGBoost ](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)
+  * 説明: XGBoost を使用したハイパーパラメータチューニングに W&B Sweeps を使用する方法。
 
-### Sweep GitHubリポジトリ
+### Sweep GitHub repository
 
-Weights & Biasesはオープンソースであり、コミュニティからの貢献を歓迎しています。GitHubリポジトリは[https://github.com/wandb/sweeps](https://github.com/wandb/sweeps)で見つけることができます。Weights & Biasesのオープンソースリポジトリへの貢献方法については、W&B GitHubの[Contribution guidelines](https://github.com/wandb/wandb/blob/master/CONTRIBUTING.md)を参照してください。
+W&B はオープンソースを推奨し、コミュニティからの貢献を歓迎しています。GitHub リポジトリは [https://github.com/wandb/sweeps](https://github.com/wandb/sweeps) で見つけることができます。W&B オープンソースリポジトリへの貢献方法については、W&B GitHub の [Contribution guidelines](https://github.com/wandb/wandb/blob/master/CONTRIBUTING.md) を参照してください。

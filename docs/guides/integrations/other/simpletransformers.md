@@ -1,82 +1,84 @@
 ---
+description: W&B を Hugging Face の Transformers ライブラリと統合する方法。
 slug: /guides/integrations/simpletransformers
-description: How to integrate W&B with the Transformers library by Hugging Face.
 displayed_sidebar: default
 ---
 
-# シンプルトランスフォーマー
 
-このライブラリは、Hugging FaceのTransformersライブラリに基づいています。Simple Transformersを使用すると、Transformerモデルを素早くトレーニングおよび評価できます。モデルを初期化し、モデルをトレーニングし、モデルを評価するために必要なコードはわずか3行です。シーケンス分類、 トークン分類(NER)、質問応答、言語モデルの微調整、言語モデルのトレーニング、言語生成、T5モデル、Seq2Seqタスク、マルチモーダル分類、対話型AIをサポートしています。
+# Simple Transformers
+
+このライブラリは、Hugging Face の Transformers ライブラリに基づいています。Simple Transformers を使うと、Transformer モデルのトレーニングと評価を素早く行うことができます。モデルの初期化、トレーニング、評価のためには、わずか3行のコードが必要です。Sequence Classification、Token Classification \(NER\)、Question Answering、Language Model Fine-Tuning、Language Model Training、Language Generation、T5 Model、Seq2Seq Tasks、Multi-Modal Classification、Conversational AI をサポートしています。
 
 ## Weights & Biases フレームワーク
 
-Weights and Biasesは、モデルトレーニングの可視化に対応しています。これを使用するには、`args`ディクショナリの`wandb_project`属性でW&Bのプロジェクト名を設定するだけです。これにより、すべてのハイパーパラメーター値、トレーニングの損失、および評価指標が指定されたプロジェクトに記録されます。
+モデルトレーニングの可視化には、Weights & Biases がサポートされています。これを使用するには、`args` 辞書の `wandb_project` 属性に W&B のプロジェクト名を設定するだけです。これにより、すべてのハイパーパラメータ値、トレーニング損失、および評価メトリクスが指定されたプロジェクトにログされます。
 
 ```text
 model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'project-name'})
 ```
 
-`wandb.init`に渡される追加の引数は、`wandb_kwargs`として渡すことができます。
+`wandb.init` に渡す追加の引数は、`wandb_kwargs` として渡すことができます。
 
 ## 構造
 
-ライブラリは、各NLPタスクに対して別々のクラスを持つように設計されています。同様の機能を提供するクラスはまとめてグループ化されています。
+このライブラリは、各 NLP タスクごとに個別のクラスを持つように設計されています。同様の機能を提供するクラスは一緒にグループ化されています。
 
-* `simpletransformers.classification` - すべての分類モデルが含まれます。
+* `simpletransformers.classification` - すべての分類モデルを含みます。
   * `ClassificationModel`
   * `MultiLabelClassificationModel`
-* `simpletransformers.ner` - すべての名前付きエンティティ認識モデルが含まれます。
+* `simpletransformers.ner` - すべての名前付きエンティティ認識モデルを含みます。
   * `NERModel`
-* `simpletransformers.question_answering` - すべての質問応答モデルが含まれます。
+* `simpletransformers.question_answering` - すべての質問応答モデルを含みます。
   * `QuestionAnsweringModel`
-以下は、最小限の例です。
 
-## マルチラベル分類
+ここにいくつかの最小の例を示します。
+
+## MultiLabel Classification
 
 ```text
-  model = MultiLabelClassificationModel("distilbert", "distilbert-base-uncased", num_labels=6,
-    args={"reprocess_input_data": True, "overwrite_output_dir": True, "num_train_epochs": epochs,"learning_rate": learning_rate,
-                "wandb_project": "simpletransformers"},
+  model = MultiLabelClassificationModel("distilbert","distilbert-base-uncased",num_labels=6,
+    args={"reprocess_input_data": True, "overwrite_output_dir": True, "num_train_epochs":epochs,'learning_rate':learning_rate,
+                'wandb_project': "simpletransformers"},
   )
-   # モデルをトレーニングする
+   # モデルのトレーニング
   model.train_model(train_df)
 
-  # モデルを評価する
+  # モデルの評価
   result, model_outputs, wrong_predictions = model.eval_model(eval_df)
 ```
 
-これは、ハイパーパラメータースイープを実行した後の上記のトレーニングスクリプトから生成されたいくつかの可視化です。
+ハイパーパラメータ sweep の後、このトレーニングスクリプトから生成された可視化はこちらです。
 
 [![](https://camo.githubusercontent.com/3beab1ca06813523711ff7750cb592430b786834/68747470733a2f2f692e696d6775722e636f6d2f6f63784e676c642e706e67)](https://camo.githubusercontent.com/3beab1ca06813523711ff7750cb592430b786834/68747470733a2f2f692e696d6775722e636f6d2f6f63784e676c642e706e67)
 
 [![](https://camo.githubusercontent.com/b864ca220ddd4228027743790ac30741d1f435ad/68747470733a2f2f692e696d6775722e636f6d2f5252423432374d2e706e67)](https://camo.githubusercontent.com/b864ca220ddd4228027743790ac30741d1f435ad/68747470733a2f2f692e696d6775722e636f6d2f5252423432374d2e706e67)
 
-## 質問回答
+## Question Answering
 
 ```text
   train_args = {
-    "learning_rate": wandb.config.learning_rate,
-    "num_train_epochs": 2,
-    "max_seq_length": 128,
-    "doc_stride": 64,
-    "overwrite_output_dir": True,
-    "reprocess_input_data": False,
-    "train_batch_size": 2,
-    "fp16": False,
-    "wandb_project": "simpletransformers"
+    'learning_rate': wandb.config.learning_rate,
+    'num_train_epochs': 2,
+    'max_seq_length': 128,
+    'doc_stride': 64,
+    'overwrite_output_dir': True,
+    'reprocess_input_data': False,
+    'train_batch_size': 2,
+    'fp16': False,
+    'wandb_project': "simpletransformers"
 }
-```
-モデル = QuestionAnsweringModel（ 'distilbert'、 'distilbert-base-cased'、args=train_args）
+
+model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train_args)
 model.train_model(train_data)
 ```
 
-上記のトレーニングスクリプトを実行した後に生成されたハイパーパラメーター探索の可視化データをいくつか紹介します。
+ハイパーパラメータ sweep の後、このトレーニングスクリプトから生成された可視化はこちらです。
 
 [![](https://camo.githubusercontent.com/1411cacec6226ebfa23c2e2dddc76ff5e41c136d/68747470733a2f2f692e696d6775722e636f6d2f7664636d7855532e706e67)](https://camo.githubusercontent.com/1411cacec6226ebfa23c2e2dddc76ff5e41c136d/68747470733a2f2f692e696d6775722e636f6d2f7664636d7855532e706e67)
 
 [![](https://camo.githubusercontent.com/b8e12316520d4ad6d16449db2d13ab70e4d4a6e9/68747470733a2f2f692e696d6775722e636f6d2f395732775677732e706e67)](https://camo.githubusercontent.com/b8e12316520d4ad6d16449db2d13ab70e4d4a6e9/68747470733a2f2f692e696d6775722e636f6d2f395732775677732e706e67)
 
-SimpleTransformersは、すべての一般的な自然言語タスクに対応するクラスとトレーニングスクリプトを提供しています。以下は、ライブラリでサポートされているデフォルトの引数を含むグローバル引数の完全なリストです。
+SimpleTransformers は、すべての一般的な自然言語タスクのためのクラスおよびトレーニングスクリプトを提供します。ライブラリがサポートするグローバル引数とそのデフォルト引数の完全なリストを以下に示します。
 
 ```text
 global_args = {
@@ -132,6 +134,7 @@ global_args = {
   "weight_decay": 0,
 }
 ```
-詳細なドキュメントについては、[simpletransformers on github](https://github.com/ThilinaRajapakse/simpletransformers) を参照してください。
 
-この[Weights and Biasesレポート](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA)では、人気のあるGLUEベンチマークデータセットでトランスフォーマーをトレーニングする方法について説明しています。Colabで自分で試してみてください。 [![Open In Colab](https://camo.githubusercontent.com/52feade06f2fecbf006889a904d221e6a730c194/68747470733a2f2f636f6c61622e72657365617263682e676f6f676c652e636f6d2f6173736574732f636f6c61622d62616467652e737667)](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing)
+より詳細なドキュメントについては、[simpletransformers on github](https://github.com/ThilinaRajapakse/simpletransformers) を参照してください。
+
+Weights & Biases のレポートは [こちら](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA)。最も人気のあるGLUEベンチマークデータセットでトランスフォーマーをトレーニングする方法をカバーしています。Colabでも試してみてください。[![Open In Colab](https://camo.githubusercontent.com/52feade06f2fecbf006889a904d221e6a730c194/68747470733a2f2f636f6c61622e72657365617263682e676f6f676c652e636f6d2f6173736574732f636f6c61622d62616467652e737667)](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing)

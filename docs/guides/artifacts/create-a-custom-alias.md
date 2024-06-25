@@ -1,29 +1,32 @@
 ---
-description: Create custom aliases for W&B Artifacts.
+description: W&B Artifacts のカスタムエイリアスを作成する。
 displayed_sidebar: default
 ---
 
-# カスタムエイリアスの作成
+
+# カスタムエイリアスを作成する
 
 <head>
-    <title>Artifact用のカスタムエイリアスを作成する。</title>
+    <title>Create a custom alias for your Artifact.</title>
 </head>
-エイリアスを特定のバージョンへのポインタとして使用します。デフォルトでは、`Run.log_artifact`はログされたバージョンに`latest`エイリアスを追加します。
 
-アーティファクトを初めてログするときに、アーティファクトに`v0`というバージョンが作成され、それがアーティファクトに関連付けられます。Weights & Biasesは、同じアーティファクトに再度ログを記録すると、内容をチェックサムします。アーティファクトが変更された場合、Weights & Biasesは新しいバージョン`v1`を保存します。
+エイリアスは特定のバージョンへのポインタとして使用します。デフォルトでは、`Run.log_artifact` はログされたバージョンに `latest` エイリアスを追加します。
 
-例えば、トレーニングスクリプトで最新のデータセットバージョンを引き出したい場合は、アーティファクトを使用するときに`latest`を指定します。以下のコード例では、`latest`というエイリアスを持つ、`bike-dataset`というデータセットアーティファクトの最近のバージョンをダウンロードする方法を示しています：
+初めてアーティファクトをログすると、アーティファクトバージョン `v0` が作成され、それがアーティファクトに添付されます。W&Bは同じアーティファクトに再度ログすると内容をチェックサムし、アーティファクトが変更されている場合、新しいバージョン `v1` を保存します。
+
+例えば、トレーニングスクリプトで最新バージョンのデータセットを取得したい場合、そのアーティファクトを使用するときに `latest` を指定します。以下のコード例は、エイリアス `latest` を持つ `bike-dataset` という名前の最近のデータセットArtifactをダウンロードする方法を示しています。
 
 ```python
 import wandb
 
 run = wandb.init(project="<example-project>")
 
-アーティファクト = run.use_artifact("bike-dataset:latest")
+artifact = run.use_artifact("bike-dataset:latest")
 
-アーティファクト.download()
+artifact.download()
 ```
-アーティファクトのバージョンにカスタムエイリアスを適用することもできます。例えば、モデルのチェックポイントがメトリックAP-50で最も優れていることを示すために、モデルのアーティファクトをログするときに文字列`'best-ap50'`をエイリアスとして追加できます。
+
+また、カスタムエイリアスをアーティファクトバージョンに適用することもできます。例えば、モデルチェックポイントがAP-50のメトリックで最高であることをマークしたい場合、モデルアーティファクトをログするときにエイリアスとして文字列 `'best-ap50'` を追加できます。
 
 ```python
 artifact = wandb.Artifact("run-3nq3ctyy-bike-model", type="model")

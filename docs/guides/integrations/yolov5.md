@@ -1,51 +1,52 @@
 ---
 displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+
 # YOLOv5
 
-[UltralyticsのYOLOv5](https://ultralytics.com/yolov5)（"You Only Look Once"）モデルファミリーでは、痛みを伴わずに畳み込みニューラルネットワークを使用したリアルタイムのオブジェクト検出が可能です。
+[Ultralytics' YOLOv5](https://ultralytics.com/yolov5)（"You Only Look Once"）モデルファミリーは、畳み込みニューラルネットワークを使用してリアルタイムのオブジェクト検出を可能にし、煩わしい作業をすべて省きます。
 
-[Weights & Biases](http://wandb.com)は、YOLOv5に直接統合されており、実験メトリクスのトラッキング、モデルおよびデータセットのバージョニング、豊富なモデル予測の可視化などを提供します。 **YOLO実験を実行する前に、`pip install`を実行するだけで簡単に使えます！**
-
-:::info
-YOLOv5の統合におけるモデルおよびデータログ機能の概要は、[このColab](https://wandb.me/yolo-colab)と下にリンクされたビデオチュートリアルをご覧ください。
-:::
-
-<!-- {% embed url="https://www.youtube.com/watch?v=yyecuhBmLxE" %} -->
+[Weights & Biases](http://wandb.com) は YOLOv5 に直接統合されており、実験メトリクスの追跡、モデルとデータセットのバージョン管理、豊富なモデル予測の可視化などを提供します。**YOLOの実験を行う前に `pip install` を実行するだけで簡単に始められます！**
 
 :::info
-すべてのW&Bログ機能は、データ並列マルチGPUトレーニング（例：[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)）と互換性があります。
+YOLOv5 インテグレーションのモデルとデータロギング機能についての簡単な概要は、[この Colab](https://wandb.me/yolo-colab) と以下のビデオチュートリアルをご覧ください。
 :::
 
-## コア実験トラッキング
+:::info
+すべての W&B ロギング機能は、[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp\_tutorial.html) などのデータ並列マルチGPUトレーニングと互換性があります。
+:::
 
-`wandb`をインストールするだけで、組み込まれたW&B[ログ機能](../track/log/intro.md)がアクティブ化されます：システムメトリクス、モデルメトリクス、およびメディアがインタラクティブな[ダッシュボード](../track/app.md)にログされます。
+## Core Experiment Tracking
+
+`wandb` をインストールするだけで、システムメトリクス、モデルメトリクス、およびインタラクティブな[ダッシュボード](../track/app.md)にログを記録するための組み込み W&B [ロギング機能](../track/log/intro.md)が有効になります。
 
 ```python
 pip install wandb
 git clone https://github.com/ultralytics/yolov5.git
-python yolov5/train.py  # 小さいデータセットで小さいネットワークを訓練する
+python yolov5/train.py  # 小さなネットワークを小さなデータセットでトレーニング
 ```
 
-wandbが標準出力に印刷したリンクをたどるだけで終わりです。
-![すべてのこれらのチャートが揃った！](/images/integrations/yolov5_experiment_tracking.png)
+wandb によって標準出力に表示されるリンクに従うだけです。
 
-## モデルバージョニングとデータ可視化
+![これらのチャートとさらに多くのもの！](/images/integrations/yolov5_experiment_tracking.png)
 
-しかし、それだけではありません！YOLOにいくつかのシンプルなコマンドライン引数を渡すことで、さらに多くのW&B機能を利用できます。
+## Model Versioning and Data Visualization
 
-* `--save_period`に数値を渡すと、[モデルのバージョン管理](../model_registry/intro.md)がオンになります。`save_period`エポックの終わりに、モデルの重みがW&Bに保存されます。検証セットで最も性能の良いモデルが自動的にタグ付けされます。
-* `--upload_dataset`フラグをオンにすると、データのバージョン管理のためにデータセットもアップロードされます。
-* `--bbox_interval`に数値を渡すと、[データ可視化](../tables/intro.md)がオンになります。`bbox_interval`エポックの終わりに、検証セットでのモデルの出力がW&Bにアップロードされます。
+しかし、それだけではありません！YOLO にいくつかの簡単なコマンドライン引数を渡すことで、さらに多くの W&B 機能を利用できます。
+
+* `--save_period` に数値を渡すと、[モデルバージョン管理](../model_registry/intro.md)が有効になります。`save_period` エポックごとにモデルの重みが W&B に保存されます。検証セットで最も性能の良いモデルが自動的にタグ付けされます。
+* `--upload_dataset` フラグを有効にすると、データセットもアップロードされ、データバージョン管理が可能になります。
+* `--bbox_interval` に数値を渡すと、[データ可視化](../intro.md)が有効になります。`bbox_interval` エポックごとに、検証セットのモデル出力が W&B にアップロードされます。
 
 <Tabs
   defaultValue="modelversioning"
   values={[
-    {label: 'モデルバージョニングのみ', value: 'modelversioning'},
-    {label: 'モデルバージョニングとデータ可視化', value: 'bothversioning'},
+    {label: 'Model Versioning Only', value: 'modelversioning'},
+    {label: 'Model Versioning and Data Visualization', value: 'bothversioning'},
   ]}>
   <TabItem value="modelversioning">
 
@@ -60,24 +61,20 @@ python yolov5/train.py --epochs 20 --save_period 1
 python yolov5/train.py --epochs 20 --save_period 1 \
   --upload_dataset --bbox_interval 1
 ```
-</TabItem>
 
+  </TabItem>
 </Tabs>
 
 :::info
-
-すべてのW&Bアカウントには、データセットとモデル用の100GBの無料ストレージが付属しています。
-
+すべての W&B アカウントには、データセットとモデルのための 100 GB の無料ストレージが付いています。
 :::
 
-これがどのように見えるかをご覧ください。
+このようになります。
 
-![Model Versioning: 最新および最高のバージョンのモデルが識別されます。](/images/integrations/yolov5_model_versioning.png)
+![Model Versioning: 最新バージョンと最良バージョンのモデルが特定されます。](/images/integrations/yolov5_model_versioning.png)
 
-![Data Visualization: モデルの出力と個々のメトリクスとの比較で入力画像を確認します。](/images/integrations/yolov5_data_visualization.png)
+![Data Visualization: 入力画像とモデルの出力、および各例に対するメトリクスを比較します。](/images/integrations/yolov5_data_visualization.png)
 
 :::info
-
-データとモデルのバージョン管理により、一時停止またはクラッシュした実験を任意のデバイスから再開できます。設定は不要です！詳細については、[Colab](https://wandb.me/yolo-colab)をご覧ください。
-
+データとモデルのバージョン管理を使用して、中断したりクラッシュしたりした実験を任意のデバイスから再開できます。詳細は[この Colab](https://wandb.me/yolo-colab) をご覧ください。
 :::

@@ -1,97 +1,102 @@
+
 # init
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_init.py#L913-L1184)
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/wandb_init.py#L924-L1186' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHubでソースを見る</a></button></p>
 
-W&Bにトラッキングとログを行う新しいrunを開始します。
+新しいrunを開始して、データを追跡しW&Bにログします。
 
 ```python
 init(
- job_type: Optional[str] = None,
- dir: Union[str, pathlib.Path, None] = None,
- config: Union[Dict, str, None] = None,
- project: Optional[str] = None,
- entity: Optional[str] = None,
- reinit: Optional[bool] = None,
- tags: Optional[Sequence] = None,
- group: Optional[str] = None,
- name: Optional[str] = None,
- notes: Optional[str] = None,
- magic: Optional[Union[dict, str, bool]] = None,
- config_exclude_keys: Optional[List[str]] = None,
- config_include_keys: Optional[List[str]] = None,
- anonymous: Optional[str] = None,
- mode: Optional[str] = None,
- allow_val_change: Optional[bool] = None,
- resume: Optional[Union[bool, str]] = None,
- force: Optional[bool] = None,
- tensorboard: Optional[bool] = None,
- sync_tensorboard: Optional[bool] = None,
- monitor_gym: Optional[bool] = None,
- save_code: Optional[bool] = None,
- id: Optional[str] = None,
- settings: Union[Settings, Dict[str, Any], None] = None
-) -> Union[Run, RunDisabled, None]
+    job_type: Optional[str] = None,
+    dir: Optional[StrPath] = None,
+    config: Union[Dict, str, None] = None,
+    project: Optional[str] = None,
+    entity: Optional[str] = None,
+    reinit: Optional[bool] = None,
+    tags: Optional[Sequence] = None,
+    group: Optional[str] = None,
+    name: Optional[str] = None,
+    notes: Optional[str] = None,
+    magic: Optional[Union[dict, str, bool]] = None,
+    config_exclude_keys: Optional[List[str]] = None,
+    config_include_keys: Optional[List[str]] = None,
+    anonymous: Optional[str] = None,
+    mode: Optional[str] = None,
+    allow_val_change: Optional[bool] = None,
+    resume: Optional[Union[bool, str]] = None,
+    force: Optional[bool] = None,
+    tensorboard: Optional[bool] = None,
+    sync_tensorboard: Optional[bool] = None,
+    monitor_gym: Optional[bool] = None,
+    save_code: Optional[bool] = None,
+    id: Optional[str] = None,
+    fork_from: Optional[str] = None,
+    resume_from: Optional[str] = None,
+    settings: Union[Settings, Dict[str, Any], None] = None
+) -> Union[Run, RunDisabled]
 ```
-MLトレーニング開発フローで、トレーニングスクリプトの最初や評価スクリプトの最初に`wandb.init()`を追加することで、それぞれの部分がW&Bでrunとしてトラッキングされます。
 
-`wandb.init()`は、新しいバックグラウンドプロセスを生成してデータをrunにログするだけでなく、デフォルトでデータをwandb.aiに同期させ、リアルタイムのデータ可視化を表示できます。
+MLトレーニングパイプラインでは、`wandb.init()`をトレーニングスクリプトの最初と評価スクリプトの最初に追加し、それぞれがW&Bのrunとして追跡されるようにすることができます。
 
-`wandb.init()`を呼び出して`wandb.log()`でデータをログする前にrunを開始します：
+`wandb.init()`はバックグラウンドでデータをrunにログする新しいプロセスを生成し、デフォルトではwandb.aiにデータを同期します。これによりライブ可視化が可能になります。
+
+`wandb.init()`を呼び出して、`wandb.log()`でデータをログする前にrunを開始します：
 
 ```python
 import wandb
 
 wandb.init()
-
-# ... メトリクスを計算し、メディアを生成する
+# ... メトリクスを計算し、メディアを生成
 wandb.log({"accuracy": 0.9})
 ```
 
-`wandb.init()`はrunオブジェクトを返し、`wandb.run`を使ってもrunオブジェクトにアクセスできます。
+`wandb.init()`はrunオブジェクトを返しますが、`wandb.run`を通じてrunオブジェクトにアクセスすることもできます：
 
 ```python
 import wandb
 
-```
 run = wandb.init()
 
 assert run is wandb.run
 ```
 
-スクリプトの最後で、自動的に`wandb.finish`を呼び出して、実行を最終化し、クリーンアップします。ただし、子プロセスから`wandb.init`を呼び出す場合は、子プロセスの終わりで明示的に`wandb.finish`を呼び出す必要があります。
-`wandb.init()`の使用方法や詳細な例については、
-[ガイドとFAQ](https://docs.wandb.ai/guides/track/launch)をご覧ください。
+スクリプトの最後に、`wandb.finish`が自動的に呼び出され、runを完了しクリーンアップします。ただし、子プロセスから`wandb.init`を呼び出した場合は、子プロセスの終了時に明示的に`wandb.finish`を呼び出す必要があります。
 
+`wandb.init()`の使用方法の詳細な例については、[ガイドとFAQ](https://docs.wandb.ai/guides/track/launch)をご覧ください。
 
-| 引数 | |
+| 引数 |  |
 | :--- | :--- |
-| `project` | (str, オプション) 新しいrunを送信するプロジェクトの名前。プロジェクトが指定されていない場合、runは"Uncategorized"プロジェクトに入れられます。 |
-| `entity` | (str, オプション) 送信先のユーザー名やチーム名。実行を送信する前に、このエンティティを作成する必要がありますので、ログの送信を開始する前にUIでアカウントやチームを作成してください。エンティティが指定されていない場合、runは通常のユーザー名であるデフォルトのエンティティに送信されます。デフォルトのエンティティは[設定](https://wandb.ai/settings)の「新しいプロジェクトを作成する場所」で変更できます。 |
-| `config` | (dict, argparse, absl.flags, str, オプション) これにより、`wandb.config`が設定されます。これは、モデルのハイパーパラメーターやデータ前処理ジョブの設定など、ジョブに入力するための辞書のようなオブジェクトです。設定はUIのテーブルに表示され、実行をグループ化、フィルター、並べ替えることができます。キーには`.`を含めず、値は10 MB以下にしてください。もしdict, argparse, absl.flagsの場合：`wandb.config`オブジェクトにキーバリューペアを読み込む。strの場合：その名前のyamlファイルを検索し、そのファイルから`wandb.config`オブジェクトに設定を読み込む。|
-| `save_code` | (bool, オプション) これをオンにすると、メインのスクリプトやノートブックがW&Bに保存されます。これは実験の再現性を向上させ、UIで実験間のコードを比較するために有益です。デフォルトではオフですが、[設定ページ](https://wandb.ai/settings)でデフォルトの動作をオンに切り替えることができます。|
-| `group` | (str、オプション) 個々のrunをより大きな実験にまとめるためのグループを指定します。例えば、クロスバリデーションを行っている場合や、異なるテストセットに対してモデルをトレーニングおよび評価する複数のジョブがある場合などです。グループは、runをより大きな単位にまとめる方法を提供し、UIでこれをオン・オフできます。詳細については、[runのグループ化に関するガイド](https://docs.wandb.com/guides/runs/grouping) を参照してください。 |
-| `job_type` | (str、オプション) runのタイプを指定します。これは、groupを使用してrunをより大きな実験にまとめる場合に便利です。例えば、グループ内に複数のジョブがあり、train や eval などのジョブタイプがあるかもしれません。これを設定することで、UIで同様のrunをまとめてフィルタリングしやすくなり、同じもの同士を比較できます。 |
-| `tags` | (list、オプション) 文字列のリストで、これによってUIでこのrunのタグ一覧が表示されます。タグは、runをまとめたり、「ベースライン」や「プロダクション」のような一時的なラベルを適用するのに便利です。UIでタグを追加・削除したり、特定のタグを持つrunに絞り込むのが簡単です。 |
-| `name` | (str、オプション) このrunの短い表示名で、これによってUIでこのrunを識別します。デフォルトでは、ランダムな2単語の名前を生成し、テーブルからチャートへの参照を簡単に行えるようにします。run名を短く保つことで、チャートの凡例やテーブルが読みやすくなります。ハイパーパラメータを保存する場所を探している場合は、configに保存することをお勧めします。
-| `notes` | (str, 任意) runのより長い説明文です。gitのcommitメッセージのようなものです。このrunを実行したときに何をしていたかを思い出すのに役立ちます。 |
-| `dir` | (str または pathlib.Path, 任意) メタデータが保存されるディレクトリへの絶対パス。アーティファクトの`download()`を呼び出すと、ダウンロードされたファイルが保存されるディレクトリです。デフォルトでは`./wandb`ディレクトリです。 |
-| `resume` | (bool, str, 任意) 再開の振る舞いを設定します。オプション: `"allow"`, `"must"`, `"never"`, `"auto"` または `None`。デフォルトは `None`。ケース: - `None` (デフォルト): 新しいrunが以前のrunと同じIDを持っている場合、このrunはそのデータを上書きします。 - `"auto"` (または `True`): このマシン上の前回のrunがクラッシュした場合、自動的に再開します。それ以外の場合は、新しいrunを開始します。 - `"allow"`: idが`init(id="UNIQUE_ID")`または`WANDB_RUN_ID="UNIQUE_ID"`で設定され、それが以前のrunと同じ場合、wandbはそのIDを持つrunを自動的に再開します。それ以外の場合、wandbは新しいrunを開始します。 - `"never"`: idが`init(id="UNIQUE_ID")`または`WANDB_RUN_ID="UNIQUE_ID"`で設定され、それが以前のrunと同じ場合、wandbはクラッシュします。 - `"must"`: idが`init(id="UNIQUE_ID")`または`WANDB_RUN_ID="UNIQUE_ID"`で設定され、それが以前のrunと同じ場合、wandbはそのIDを持つrunを自動的に再開します。それ以外の場合、wandbはクラッシュします。 詳細は [runの再開に関するガイド](https://docs.wandb.com/guides/runs/resuming) を参照してください。|
-| `reinit` | (bool, 任意) 同じプロセスで複数の`wandb.init()`呼び出しを許可します。(デフォルト: `False`) |
-| `magic` | (bool, dict, または str, 任意) このbool値は、wandbコードを追加せずにrunの基本的な詳細をキャプチャしようとするかどうかを制御します。(デフォルト: `False`) dict、json文字列、またはyamlファイル名も渡すことができます。 |
-| `config_exclude_keys` | (list, 任意) `wandb.config`から除外する文字列キー。 |
-| `config_include_keys` | (list, 任意) `wandb.config`に含める文字列キー。 |
-| `anonymous` | (str, 任意) 匿名データロギングを制御します。オプション: - `"never"` (デフォルト): runを追跡する前にW&Bアカウントをリンクしておく必要があります。誤って匿名runを作成しないようにします。 - `"allow"`: ログイン済みのユーザーが自分のアカウントでrunを追跡し、W&Bアカウントを持っていない人がUIでグラフを表示できるようにします。 - `"must"`: runを登録済みのユーザーアカウントではなく匿名アカウントに送ります。 |
-| `mode` | (str, 任意) `"online"`、`"offline"`、または`"disabled"`にできます。デフォルトはonlineです。 |
-| `allow_val_change` | (bool, 任意) 設定値を一度設定したキーを変更できるかどうかを許可します。デフォルトでは、 config値が上書きされた場合に例外をスローします。 トレーニング中に複数回変化する学習率のようなものを追跡したい場合は、代わりに`wandb.log()`を使用してください。(デフォルト: スクリプト内で`False`、Jupyter内で`True`) |
-| `force` | (bool, 任意) `True`の場合、W&Bにログインしていないユーザーに対してスクリプトを強制終了します。`False`の場合、W&Bにログインしていないユーザーでもオフラインモードでスクリプトが実行されます。(デフォルト: `False`) |
-| `sync_tensorboard` | (bool, 任意) tensorboardまたはtensorboardXからwandbログを同期し、関連するイベントファイルを保存します。(デフォルト: `False`) |
-| `monitor_gym` | (bool, 任意) OpenAI Gymを使用している場合、環境のビデオを自動的にログに記録します。(デフォルト: `False`) この統合に関する[当社のガイド](https://docs.wandb.com/guides/integrations/openai-gym)を参照してください。|
-| `id` | (str, 任意) このrunの一意のIDで、再開に使用されます。プロジェクト内で一意でなければならず、runを削除した場合、IDを再利用することはできません。短い説明的な名前には`name`フィールドを、ハイパーパラメーターを比較するために`config`を使用してください。IDには次の特殊文字を含めることができません：`/\#?%:`。runの再開に関する[当社のガイド](https://docs.wandb.com/guides/runs/resuming)を参照してください。|
-#### 例：
+|  `project` |  (str, オプション) 新しいrunを送信するプロジェクトの名前。プロジェクトが指定されていない場合、runは "Uncategorized" のプロジェクトに配置されます。 |
+|  `entity` |  (str, オプション) エンティティは、runを送信するユーザー名またはチーム名です。このエンティティは、runを送信する前に存在する必要があるため、アカウントまたはチームをUIで作成してからログを開始してください。エンティティを指定しない場合、runはデフォルトのエンティティに送信されます。デフォルトのエンティティは[設定](https://wandb.ai/settings)の「新しいプロジェクトを作成するデフォルトの場所」で変更できます。 |
+|  `config` |  (dict, argparse, absl.flags, str, オプション) これは`wandb.config`を設定し、モデルのハイパーパラメーターやデータプロセッシングジョブの設定など、ジョブへの入力を保存するための辞書のようなオブジェクトです。コンフィグはUIのテーブルに表示され、runのグループ化、フィルタリング、ソートに使用できます。キーの名前には `.` を含めず、値は10MB以下にする必要があります。辞書、挙動解析またはabsl.flagsの場合：キーと値のペアを`wandb.config`オブジェクトにロードします。文字列の場合：その名前のyamlファイルを探し、そのファイルからコンフィグを`wandb.config`オブジェクトにロードします。 |
+|  `save_code` |  (bool, オプション) メインスクリプトまたはノートブックをW&Bに保存します。これは実験の再現性を向上させ、UIでのexperiment間のコードの差分を確認するために有用です。デフォルトではオフですが、[設定ページ](https://wandb.ai/settings)でデフォルト動作をオンに切り替えられます。 |
+|  `group` |  (str, オプション) 個々のrunを大きな実験として整理するためのグループを指定します。たとえば、交差検証を行う場合や異なるテストセットに対してモデルをトレーニングおよび評価する複数のジョブがある場合などです。グループを使用すると、runを一緒に整理し、大きな全体として見る方法が提供され、UIでこれをオンオフできます。詳細は[runのグループ化ガイド](https://docs.wandb.com/guides/runs/grouping)をご覧ください。 |
+|  `job_type` |  (str, オプション) runのタイプを指定します。これは、グループを使用してrunを大きな実験にまとめる場合に役立ちます。たとえば、グループ内に複数のジョブがあり、トレーニングや評価などのジョブタイプがある場合です。これを設定すると、UIで同様のrunをフィルターおよびグループ化して比較するのが簡単になります。 |
+|  `tags` |  (リスト, オプション) このrunのUI上のタグリストを入力する文字列のリスト。タグはrunを整理したり、「ベースライン」や「プロダクション」のような一時的なラベルを適用するために便利です。UIでタグを簡単に追加および削除したり、特定のタグを持つrunのみにフィルタリングできます。runを再開すると、そのタグは`wandb.init()`に渡されたタグで上書きされます。既存のタグを上書きせずに再開されたrunにタグを追加するには、`wandb.init()`の後で`run.tags += ["new_tag"]`を使用します。 |
+|  `name` |  (str, オプション) このrunをUIで識別するための短い表示名。デフォルトでは、runを簡単に参照できるようにランダムな二語の名前が生成されます。このrunの名前を短くしておくことで、チャートの凡例およびテーブルが読みやすくなります。ハイパーパラメーターを保存する場所を探している場合は、configに保存することをお勧めします。 |
+|  `notes` |  (str, オプション) gitの`-m`コミットメッセージのように、runの長い説明。このrunを実行したときに何をしていたかを覚えておくのに役立ちます。 |
+|  `dir` |  (strまたはpathlib.Path, オプション) メタデータが保存されるディレクトリーへの絶対パス。artifactで`download()`を呼び出すと、ダウンロードされたファイルがこのディレクトリーに保存されます。デフォルトでは、`./wandb`ディレクトリーです。 |
+|  `resume` |  (bool, str, オプション) 再開動作を設定します。選択肢: `"allow"`, `"must"`, `"never"`, `"auto"`または`None`。デフォルトでは`None`。ケース: - `None` (デフォルト): 新しいrunが以前のrunと同じIDを持つ場合、このrunはそのデータを上書きします。 - `"auto"` (または`True`): このデバイスで以前のrunがクラッシュしていた場合、自動的に再開します。それ以外の場合、新しいrunを開始します。 - `"allow"`: `init(id="UNIQUE_ID")`または`WANDB_RUN_ID="UNIQUE_ID"`でIDが設定され、以前のrunと同一である場合、wandbは自動的にそのIDでrunを再開します。それ以外の場合、新しいrunを開始します。 - `"never"`: `init(id="UNIQUE_ID")`または`WANDB_RUN_ID="UNIQUE_ID"`でIDが設定され、以前のrunと同一である場合、wandbはクラッシュします。 - `"must"`: `init(id="UNIQUE_ID")`または`WANDB_RUN_ID="UNIQUE_ID"`でIDが設定され、以前のrunと同一である場合、wandbは自動的にそのIDでrunを再開します。それ以外の場合、wandbはクラッシュします。詳細は[runの再開ガイド](https://docs.wandb.com/guides/runs/resuming)をご覧ください。 |
+|  `reinit` |  (bool, オプション) 同じプロセスで複数の`wandb.init()`呼び出しを許可します。(デフォルト: `False`) |
+|  `magic` |  (bool, dict, またはstr, オプション) スクリプトを自動でインストルメントし、追加のwandbコードを追加せずにrunの基本的な詳細をキャプチャするかどうかを制御します。(デフォルト: `False`) dict、json文字列、またはyamlファイル名を渡すこともできます。 |
+|  `config_exclude_keys` |  (リスト, オプション) `wandb.config`から除外する文字列キー。 |
+|  `config_include_keys` |  (リスト, オプション) `wandb.config`に含める文字列キー。 |
+|  `anonymous` |  (str, オプション) 匿名データログを制御します。オプション: - `"never"` (デフォルト): runを追跡する前にW&Bアカウントにリンクする必要があり、誤って匿名runを作成しないようにします。 - `"allow"`: ログインしているユーザーがrunをアカウントで追跡できますが、W&Bアカウントなしでスクリプトを実行している場合は、UIでチャートを表示できます。 - `"must"`: runをサインアップ済みユーザーアカウントではなく、匿名アカウントに送信します。 |
+|  `mode` |  (str, オプション) `"online"`, `"offline"`または`"disabled"`に設定できます。デフォルトはオンラインです。 |
+|  `allow_val_change` |  (bool, オプション) キーを一度設定した後にconfigの値を変更するかどうかを制御します。デフォルトでは、config値を上書きすると例外が発生します。学習率のような変動する値をトレーニングの複数のタイミングで追跡したい場合は、代わりに`wandb.log()`を使用してください。(スクリプトではデフォルト: `False`, Jupyterでは`True`) |
+|  `force` |  (bool, オプション) `True`の場合、ユーザーがW&Bにログインしていないとスクリプトがクラッシュします。`False`の場合、ユーザーがW&Bにログインしていない場合でもスクリプトはオフラインモードで実行されます。(デフォルト: `False`) |
+|  `sync_tensorboard` |  (bool, オプション) tensorboardまたはtensorboardXからwandbログを同期し、関連するイベントファイルを保存します。(デフォルト: `False`) |
+|  `monitor_gym` |  (bool, オプション) OpenAI Gymを使用する際に環境のビデオを自動的にログします。(デフォルト: `False`) [このインテグレーションのガイド](https://docs.wandb.com/guides/integrations/openai-gym)をご覧ください。 |
+|  `id` |  (str, オプション) このrunの一意なID。再開に使用されます。プロジェクト内で一意である必要があります。runを削除すると、IDを再利用できません。短い説明的な名前には`name`フィールドを使用し、run間で比較するためにハイパーパラメーターを保存するには`config`を使用します。IDには次の特殊文字を含めることはできません: `/\#?%:`。詳細は[runの再開ガイド](https://docs.wandb.com/guides/runs/resuming)をご覧ください。 |
+|  `fork_from` |  (str, オプション) 前のrunの特定のステップから新しいrunをフォークするための{run_id}?_step={step}形式の文字列。指定された時点でフォークされた新しいrunを作成し、指定されたmomentでのrunのログ履歴をピックアップします。対象のrunは現在のプロジェクト内に存在する必要があります。例: `fork_from="my-run-id?_step=1234"`。[runのフォーキングガイド](https://docs.wandb.com/guides/runs/forking)をご覧ください。 |
+| `resume_from` | (str, optional) 前のrunの特定のステップから新しいrunを"巻き戻す"ための{run_id}?_step={step}形式の文字列。指定されたステップまでのログ履歴を保持しながら、新しいrunをそのステップに巻き戻します。対象のrunは現在のプロジェクト内に存在する必要があります。例: `resume_from="my-run-id?_step=1234"`。[runの巻き戻しガイド](https://docs.wandb.com/guides/runs/rewind)をご覧ください。|
 
-### 実行ログの保存場所を設定する
+### 例:
 
-実行ログの保存場所を変更することができます。これは、gitで組織、リポジトリ、およびブランチを変更するのと同様のことです。
+### Runがログされる場所を設定する
+
+Runがログされる場所を変更できます。ちょうどgitで組織、リポジトリ、ブランチを変更するように:
+
 ```python
 import wandb
 
@@ -101,24 +106,27 @@ display_name = "experiment-2021-10-31"
 
 wandb.init(entity=user, project=project, name=display_name)
 ```
-### Runの設定にメタデータを追加
 
-`config`キーワード引数として辞書型オブジェクトを渡すことで、ハイパーパラメーターなどのメタデータをrunに追加できます。
+### Runのコンフィグにメタデータを追加する
+
+辞書スタイルのオブジェクトを`config`キーワード引数として渡して、runのメタデータ（ハイパーパラメーターなど）を追加します。
 
 ```python
 import wandb
+
 config = {"lr": 3e-4, "batch_size": 32}
 config.update({"architecture": "resnet", "depth": 34})
 wandb.init(config=config)
 ```
 
-| 例外 | |
+| 例外 |  |
 | :--- | :--- |
-| `Error` | runの初期化中に何らかの不明なエラーや内部エラーが発生した場合。 |
-| `AuthenticationError` | ユーザーが有効な認証情報を提供できなかった場合。 |
-| `CommError` | WandBサーバーとの通信中に問題が発生した場合。 |
-| `UsageError` | ユーザーが無効な引数を提供した場合。 |
-| `KeyboardInterrupt` | ユーザーがrunを中断した場合。 |
-| 返り値 | |
+|  `Error` |  run初期化中に未知のエラーまたは内部エラーが発生した場合。 |
+|  `AuthenticationError` |  ユーザーが有効な資格情報を提供できなかった場合。 |
+|  `CommError` |  WandBサーバーとの通信に問題があった場合。 |
+|  `UsageError` |  ユーザーが無効な引数を指定した場合。 |
+|  `KeyboardInterrupt` |  ユーザーがrunを中断した場合。 |
+
+| 戻り値 |  |
 | :--- | :--- |
-| `Run`オブジェクト。 |
+|  `Run`オブジェクト。 |

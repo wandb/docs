@@ -1,33 +1,33 @@
 ---
-description: >-
-  Learn where W&B files are stored by default. Explore how to save, store
-  sensitive information.
+description: W&Bファイルがデフォルトでどこに保存されるかを学びます。敏感な情報を保存し、保管する方法を探ります。
 displayed_sidebar: default
 ---
 
-# データプライバシーとコンプライアンス
+
+# Data Privacy and Compliance
 
 <head>
-    <title>アーティファクトのデータプライバシーとコンプライアンス</title>
+    <title>Artifact Data Privacy and Compliance</title>
 </head>
-アーティファクトをログに記録する際、ファイルはWeights & Biasesが管理するGoogle Cloudバケットにアップロードされます。バケットの内容は、保存時も転送時も暗号化されています。アーティファクトファイルは、対応するプロジェクトへのアクセス権があるユーザーにのみ表示されます。
 
-![GCS W&B クライアントサーバーダイアグラム](/images/artifacts/data_and_privacy_compliance_1.png)
+ファイルは Artifacts をログする際に W&B によって管理された Google Cloud バケットにアップロードされます。バケットの内容は静止時と転送時の両方で暗号化されます。Artifact ファイルは、対応するプロジェクトにアクセス権を持つユーザーのみに表示されます。
 
-アーティファクトのバージョンを削除すると、安全に削除できるファイル（前のバージョンや次のバージョンで使用されていないファイル）が、Weights & Biasesのバケットから _直ちに_ 削除されます。同様に、アーティファクト全体を削除すると、その内容全てがバケットから削除されます。
+![GCS W&B Client Server diagram](/images/artifacts/data_and_privacy_compliance_1.png)
 
-マルチテナント環境に配置できない機密データセットの場合、プライベートなW&Bサーバーをクラウドバケットに接続するか、_リファレンスアーティファクト_ を使用できます。リファレンスアーティファクトは、ファイルの内容をW&Bに送信せずに、プライベートバケットへの参照をトラッキングします。リファレンスアーティファクトは、バケットやサーバー上のファイルへのリンクを維持します。つまり、Weights & Biasesはファイルに関連するメタデータのみを追跡し、ファイル自体は保持しません。
+アーティファクトのバージョンを削除すると、それはデータベースでソフト削除としてマークされ、ストレージコストからも除外されます。アーティファクト全体を削除する場合、それは永久削除のためにキューに登録され、その内容はすべて W&B バケットから削除されます。ファイル削除に関して具体的な要望がある場合は、[カスタマーサポート](mailto:support@wandb.com)までご連絡ください。
 
-![W&B クライアントサーバークラウド図](/images/artifacts/data_and_privacy_compliance_2.png)
+マルチテナント環境に存在できない機密データセットについては、クラウドバケットに接続されたプライベート W&B サーバーまたは _reference artifacts_ を使用できます。Reference artifacts は、ファイルコンテンツを W&B に送信せずにプライベートバケットへの参照を追跡します。Reference artifacts は、バケットやサーバー上のファイルへのリンクを保持します。言い換えると、W&B はファイル自体ではなく、ファイルに関連するメタデータのみを追跡します。
 
-参照用アーティファクトを、非参照用アーティファクトの作成方法と同様に作成してください：
+![W&B Client Server Cloud diagram](/images/artifacts/data_and_privacy_compliance_2.png)
+
+非リファレンスアーティファクトを作成する場合と同様に、リファレンスアーティファクトを作成します:
 
 ```python
 import wandb
-```
+
 run = wandb.init()
-アーティファクト = wandb.Artifact('動物', type='データセット')
-アーティファクト.add_reference('s3://my-バケット/動物')
+artifact = wandb.Artifact("animals", type="dataset")
+artifact.add_reference("s3://my-bucket/animals")
 ```
 
-代替案については、プライベートクラウドおよびオンプレミスのインストールについて話し合うために[contact@wandb.com](mailto:contact@wandb.com)までお問い合わせください。
+代替案については、プライベートクラウドやオンプレミスのインストールについて話し合うために [contact@wandb.com](mailto:contact@wandb.com) までご連絡ください。

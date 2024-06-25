@@ -1,18 +1,17 @@
 ---
-description: Describes the different components of the Sweeps UI.
+description: Sweeps UI のさまざまなコンポーネントについて説明します。
 displayed_sidebar: default
 ---
 
-# スイープ UI
+
+# Sweeps UI
 
 <head>
-    <title>スイープ UI</title>
+    <title>Sweeps UI</title>
 </head>
 
-<!-- <figure><img src="../../../.gitbook/assets/Screen Shot 2022-09-02 at 4.10.44 PM.png" alt=""><figcaption></figcaption></figure> -->
+Sweeps UI には状態 (**State**)、作成時間 (**Created**)、sweep を開始したエンティティ (**Creator**)、完了した run の数 (**Run count**)、および sweep を計算するのにかかった時間 (**Compute time**) が表示されます。離散的な探索空間でグリッド検索を行うと、sweep が作成する run の予想数(**Est. Runs**)が提供されます。
 
-スイープUIには、状態（**State**）、作成時刻（**Created**）、スイープを開始したエンティティ（**Creator**）、完了したrunの数（**Run count**）、スイープの計算にかかった時間（**Compute time**）が表示されます。離散的な探索空間でグリッド検索を行う場合、スイープが生成するrunの予想数（**Est. Runs**）が提供されます。
-
-スイープをクリックして、スイープの状態を管理します。インターフェイスからスイープを一時停止、再開、停止、または強制終了することができます。
+sweep をクリックして、sweep の状態を管理します。インターフェースから pause、resume、stop、または kill を実行できます。
 
 ![](https://downloads.intercomcdn.com/i/o/146037849/aeae7b64ddf7008f48dfb170/sweep+controls.png)

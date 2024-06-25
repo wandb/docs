@@ -2,59 +2,60 @@
 displayed_sidebar: default
 ---
 
+
 # Admin
 
-### What is the difference between team and organization?
+### チームと組織の違いは何ですか？
 
-A team is a collaborative workspace for a group of users working on the same projects, while an organization is a higher-level entity that may consist of multiple teams and is often related to billing and account management.
+チームは同じプロジェクトに取り組むユーザーのための共同ワークスペースであり、組織は複数のチームで構成されることが多く、通常は請求やアカウント管理に関連します。
 
-### What is the difference between team and entity? As a user - what does entity mean for me?
+### チームとエンティティの違いは何ですか？ユーザーとしてエンティティは何を意味しますか？
 
-A team is a collaborative workspace for a group of users working on the same projects, while an entity refers to either a username or a team name. When you log runs in W&B, you can set the entity to your personal account or a team account `wandb.init(entity="example-team")`.
+チームは同じプロジェクトに取り組むユーザーのための共同ワークスペースであり、エンティティはユーザー名またはチーム名を指します。W&Bでrunをログに記録する際、エンティティを個人アカウントまたはチームアカウントに設定できます。 `wandb.init(entity="example-team")`
 
-### What is a team and where can I find more information about it?
+### チームとは何ですか？詳細情報はどこで見つけられますか？
 
-If you want to know more about teams, visit the [teams section](../app/features/teams.md).
+チームについてもっと知りたい場合は、[teams section](../app/features/teams.md)をご覧ください。
 
-### When should I log to my personal entity against my team entity?
+### いつ個人エンティティに対してチームエンティティにログを記録すべきですか？
 
-You should log to your personal entity when you are working on individual projects or experiments that are not related to your team's work. On the other hand, you should log to your team entity when you are collaborating with your team members on a shared project or when the results of your experiments are relevant to the team's goals.
+個人エンティティは2024年5月21日以降のアカウント作成では利用できなくなります。W&Bは、サインアップ日時に関わらず、すべてのユーザーに新しいProjectsをチームにログすることを推奨しています。これにより結果を他の人と共有するオプションが得られます。
 
-### Who can create a team? Who can add or delete people from a team? Who can delete projects?
+### 誰がチームを作成できますか？誰がチームメンバーを追加または削除できますか？誰がProjectsを削除できますか？
 
-You can check the different roles and permissions [here](../app/features/teams.md#team-roles-and-permissions).
+異なる役割と権限については [こちら](../app/features/teams.md#team-roles-and-permissions)をご覧ください。
 
-### What type of roles are available and what are the differences between them?
+### 利用可能な役割の種類とその違いは何ですか？
 
-Go to [this](../app/features/teams.md#team-roles-and-permissions) page to see the different roles and permissions available.
+利用可能な役割と権限については [こちら](../app/features/teams.md#team-roles-and-permissions)のページをご覧ください。
 
-### What are service accounts, and how do we add one to our team? 
+### サービスアカウントとは何ですか？どのようにチームに追加しますか？
 
-Check [this](./general.md#what-is-a-service-account-and-why-is-it-useful) page from our docs to know more about service accounts.
+サービスアカウントについて詳しく知るには、ドキュメントの [こちらのページ](./general.md#what-is-a-service-account-and-why-is-it-useful)をご覧ください。
 
-### How can I see the bytes stored, bytes tracked and tracked hours of my organization?
+### 組織の保存されたバイト数、追跡されたバイト数、追跡時間をどのように確認できますか？
 
-* You can check the bytes stored of your organization at `https://<host-url>/usage/<team-name>`.
-* You can check the bytes tracked of your organization at `https://<host-url>/usage/<team-name>/tracked`.
-* You can check the tracked hours of your organization at `https://<host-url>/usage/<team-name>/computehour`.
+* 組織の保存されたバイト数は `https://<host-url>/usage/<team-name>` で確認できます。
+* 組織の追跡されたバイト数は `https://<host-url>/usage/<team-name>/tracked` で確認できます。
+* 組織の追跡時間は `https://<host-url>/usage/<team-name>/computehour` で確認できます。
 
-### What really good functionalities are hidden and where can I find those?
+### 非常に便利な機能はどこに隠れており、どうやって見つけることができますか？
 
-We have some functionalities hidden under a feature flag in the “Beta Features” section. These can be enabled under the user settings page.
+「ベータ機能」セクションには、フィーチャーフラグの下に隠れているいくつかの機能があります。これらはユーザー設定ページで有効にすることができます。
 
-![Available beta features hidden under a feature flag](/images/technical_faq/beta_features.png)
+![フィーチャーフラグの下に隠れている利用可能なベータ機能](/images/technical_faq/beta_features.png)
 
-### Which files should I check when my code crashes? 
+### コードがクラッシュしたときにどのファイルを確認すればよいですか？
 
-For the affected run, you should check `debug.log` and `debug-internal.log`. These files are under your local folder `wandb/run-<date>_<time>-<run-id>/logs` in the same directory where you’re running your code.
+影響を受けたrunに対して、 `debug.log` および `debug-internal.log` を確認する必要があります。これらのファイルは、コードを実行している同じディレクトリのローカルフォルダー `wandb/run-<date>_<time>-<run-id>/logs` にあります。
 
-### On a local instance, which files should I check when I have issues?
+### ローカルインスタンスで問題が発生した場合、どのファイルを確認すればよいですか？
 
-You should check the `Debug Bundle`. An admin of the instance can get it from the `/system-admin` page -> top right corner W&B icon -> `Debug Bundle`.
+`Debug Bundle` を確認する必要があります。インスタンスの管理者は `/system-admin` ページ -> 右上の W&B アイコン -> `Debug Bundle` 間から取得できます。
 
-![Access System settings page as an Admin of a local instance](/images/technical_faq/local_system_settings.png)
-![Download the Debug Bundle as an Admin of a local instance](/images/technical_faq/debug_bundle.png)
+![ローカルインスタンスの管理者としてシステム設定ページにアクセス](/images/technical_faq/local_system_settings.png)
+![ローカルインスタンスの管理者として Debug Bundle をダウンロード](/images/technical_faq/debug_bundle.png)
 
-### If I am the admin of my local instance, how should I manage it?
+### 自分のローカルインスタンスの管理者の場合、どのように管理すればよいですか？
 
-If you are the admin of your instance, go through our [User Management](../hosting/manage-users.md) section to learn how to add users to the instance and create teams.
+インスタンスの管理者である場合は、[User Management](../hosting/iam/manage-users.md) セクションを参照して、インスタンスにユーザーを追加し、Teamsを作成する方法を学んでください。

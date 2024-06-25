@@ -1,64 +1,67 @@
 ---
-description: Track machine learning experiments with W&B.
+description: W&Bで機械学習実験をトラックする。
 slug: /guides/track
 displayed_sidebar: default
 ---
 
+import Translate, {translate} from '@docusaurus/Translate';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# 実験のトラッキング
+
+# 実験の管理
+
+<CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb"/>
 
 <head>
-  <title>機械学習とディープラーニングの実験をトラックする</title>
+  <title>機械学習とディープラーニングの実験を追跡する</title>
 </head>
 
-W&BのPythonライブラリを使って、数行のコードで機械学習の実験をトラッキングできます。その後、[インタラクティブなダッシュボード](app.md)で結果を確認したり、[Public API](../../ref/python/public-api/README.md)を使ってPythonにデータをエクスポートしてプログラムでアクセスできます。
+数行のコードで機械学習実験を追跡します。結果は [インタラクティブなダッシュボード](app.md) で確認することも、Pythonにデータをエクスポートしてプログラムによるアクセスを行うこともできます（[Public API](../../ref/python/public-api/README.md) を使用）。
 
-[PyTorch](../integrations/pytorch.md)、[Keras](../integrations/keras.md)、[Scikit](../integrations/scikit.md)などの一般的なフレームワークを使っている場合は、W&Bのインテグレーションを活用してください。[インテグレーションガイド](../integrations/intro.md)で、全てのインテグレーションとW&Bをコードに追加する方法についての情報を入手できます。
+人気のあるフレームワークを使用している場合は、W&B Integrations を活用してください。[PyTorch](../integrations/pytorch.md)、[Keras](../integrations/keras.md)、または [Scikit](../integrations/scikit.md)などです。[Integration guides](../integrations/intro.md) で、インテグレーションの完全なリストとコードにW&Bを追加する方法に関する情報を確認できます。
+
+![](/images/experiments/experiments_landing_page.png)
+
+上の画像は、複数の[ラン](../runs/intro.md)にわたってメトリクスを表示および比較できるダッシュボードの例を示しています。
 
 ## 仕組み
 
-W&Bの実験は、以下の構成要素で構成されています:
+数行のコードを使って機械学習実験を追跡します:
+1. [W&B run](../runs/intro.md) を作成。
+2. 学習率やモデルタイプなどのハイパーパラメータを辞書形式で設定 ([`wandb.config`](./config.md))。
+3. トレーニングループの中で精度や損失などのメトリクスをログ ([`wandb.log()`](./log/intro.md))。
+4. モデルの重みや予測のテーブルなど、runの結果を保存。
 
-1. [**`wandb.init()`**](./launch.md): スクリプトの先頭で新しいrunを初期化します。これにより、`Run`オブジェクトが返され、ログやファイルが保存されるローカルディレクトリが作成され、W&Bサーバーに非同期でストリーミングされます。ホストされたクラウドサーバーの代わりにプライベートサーバーを使用したい場合は、[Self-Hosting](../hosting/intro.md)を提供しています。
-2. [**`wandb.config`**](./config.md): 学習率やモデルタイプなどのハイパーパラメータ辞書を保存します。configでキャプチャしたモデルの設定は、後で結果を整理してクエリするときに便利です。
-3. [**`wandb.log()`**](./log/intro.md): トレーニングループで精度や損失などのメトリクスを時間と共に記録します。デフォルトでは、`wandb.log`を呼び出すと、`history`オブジェクトに新しいステップが追加され、`summary`オブジェクトが更新されます。
-   * `history`: 時間経過と共にメトリクスを記録する辞書のようなオブジェクトの配列。これらの時系列値は、デフォルトでUIの折れ線グラフとして表示されます。
-   * `summary`: デフォルトで、wandb.log()で記録されたメトリックの最終値です。メトリックのサマリーを手動で設定して、最終値の代わりに最も高い精度や最も低い損失を記録できます。これらの値は、テーブルやrunを比較するグラフに使用されます。例えば、プロジェクト内のすべてのrunの最終精度を視覚化できます。
-4. [**`wandb.log_artifact`**](../../ref/python/artifact.md): モデルの重みや予測のテーブルなど、runの出力を保存します。これにより、モデルのトレーニングだけでなく、最終モデルに影響を与える開発フローの全てのステップを追跡できます。
+以下の疑似コードでは、一般的なW&B実験管理ワークフローを示しています：
 
-以下の疑似コードは、一般的なW&B実験のトラッキングワークフローを示しています:
+```python showLineNumbers
+# 1. W&B Runを開始
+wandb.init(entity="", project="my-project-name")
 
-```python
-# 任意のPythonスクリプトに対する柔軟なインテグレーション
-import wandb
+# 2. モデルの入力とハイパーパラメータを保存
+wandb.config.learning_rate = 0.01
 
-# 1. W&B Runを開始する
-wandb.init(project="my-project-name")
-
-# 2. モード入力とハイパーパラメーターを保存する
-config = wandb.config
-config.learning_rate = 0.01
-
-# モデルとデータを設定する
+# モデルとデータをインポート
 model, dataloader = get_model(), get_data()
 
-# モデルトレーニングはここに入ります
+# モデルトレーニングのコードがここに入ります
 
-# 3. メトリクスを時系列でログすることでパフォーマンスを可視化する
+# 3. メトリクスをログしてパフォーマンスを可視化
 wandb.log({"loss": loss})
 
-# 4. W&Bにアーティファクトをログする
+# 4. モデルをW&Bにアーティファクトとしてログ
 wandb.log_artifact(model)
 ```
 
-## はじめ方
+## 開始方法
 
-あなたのユースケースに応じて、以下のリソースを参考にしてW&B実験を始めてください：
+ユースケースに応じて、W&B Experimentsを始めるための次のリソースを探索してください：
 
-* W&B実験を初めて利用する場合は、Quick Startをお読みください。[クイックスタート](../../quickstart.md)では、初めての実験を設定する方法について説明しています。
-* W&B Developer Guideの「実験」に関するトピックを探索してください：
-  * 実験を作成する
-  * 実験を設定する
-  * 実験からのデータをログする
-  * 実験からの結果を表示する
-* [W&B API Reference Guide](../../ref/README.md)内にある[W&B Pythonライブラリ](../../ref/python/README.md)を参照してください。
+* 初めてW&B Artifactsを使用する場合は、[Experiments Colabノートブック](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb) をご覧ください。
+* [W&B クイックスタート](../../quickstart.md) を読んで、W&B Python SDKコマンドを使用してデータセットアーティファクトを作成、追跡、使用するためのステップバイステップガイドを参照してください。
+* このチャプターを探索して、以下を学びましょう：
+  * 実験の作成方法
+  * 実験の設定方法
+  * 実験からデータをログする方法
+  * 実験結果を表示する方法
+* [W&B Pythonライブラリ](../../ref/python/README.md) を [W&B APIリファレンスガイド](../../ref/README.md) 内で探索。

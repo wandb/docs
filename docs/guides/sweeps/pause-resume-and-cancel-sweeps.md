@@ -1,68 +1,69 @@
 ---
-description: Pause, resume, and cancel a W&B Sweep with the CLI.
+description: W&B Sweep を CLI で一時停止、再開、キャンセルする。
 displayed_sidebar: default
 ---
 
-# スイープの一時停止、再開、停止、キャンセル
+
+# Pause, resume, stop and cancel sweeps
 
 <head>
-    <title>W&Bスイープの一時停止、再開、停止、キャンセル</title>
+    <title>Pause, resume, stop or cancel W&B Sweeps</title>
 </head>
 
-CLIを使用してW&Bスイープを一時停止、再開、キャンセルします。W&Bスイープを一時停止すると、新しいW&B Runがスイープが再開されるまで実行されないようにW&Bエージェントに伝えます。スイープを再開すると、エージェントは新しいW&B Runの実行を続けます。W&Bスイープを停止すると、W&Bスイープエージェントは新しいW&B Runの作成や実行を停止します。W&Bスイープをキャンセルすると、スイープエージェントは現在実行中のW&B Runを強制終了し、新しいRunの実行を停止します。
+Pause, resume, and cancel a W&B Sweep with the CLI. Pausing a W&B Sweep tells the W&B agent that new W&B Runs should not be executed until the Sweep is resumed. Resuming a Sweep tells the agent to continue executing new W&B Runs. Stopping a W&B Sweep tells the W&B Sweep agent to stop creating or executing new W&B Runs. Cancelling a W&B Sweep tells the Sweep agent to kill currently executing W&B Runs and stop executing new Runs.
 
-それぞれのケースで、W&Bスイープを初期化した際に生成されたW&BスイープIDを提供してください。オプションで新しいターミナルウィンドウを開いて、次のコマンドを実行します。新しいターミナルウィンドウを使用すると、W&Bスイープが現在のターミナルウィンドウに出力ステートメントを表示している場合でも、コマンドの実行が簡単になります。
+各操作では、W&B Sweep を初期化したときに生成された W&B Sweep ID を指定します。オプションとして、新しいターミナルウィンドウを開いて次のコマンドを実行するとよいでしょう。新しいターミナルウィンドウを開くと、現在のターミナルウィンドウで W&B Sweep が出力ステートメントを印刷している場合でも、コマンドを実行しやすくなります。
 
-以下のガイダンスを使用して、スイープの一時停止、再開、キャンセルを行ってください。
+次のガイドを使用して、sweeps を一時停止、再開、キャンセルします。
 
-### スイープを一時停止
+### Pause sweeps
 
-一時的に新しいW&B Runの実行を停止するために、W&Bスイープを一時停止します。`wandb sweep --pause`コマンドを使用してW&Bスイープを一時停止します。一時停止するW&BスイープIDを指定してください。
+新しい W&B Runs の実行を一時停止するために W&B Sweep を一時停止します。`wandb sweep --pause` コマンドを使用して W&B Sweep を一時停止します。一時停止したい W&B Sweep ID を指定します。
 
 ```bash
 wandb sweep --pause entity/project/sweep_ID
 ```
 
-### スイープを再開
+### Resume sweeps
 
-`wandb sweep --resume`コマンドを使用して、一時停止したW&Bスイープを再開します。再開するW&BスイープIDを指定してください。
+一時停止した W&B Sweep を `wandb sweep --resume` コマンドで再開します。再開したい W&B Sweep ID を指定します。
 
 ```bash
 wandb sweep --resume entity/project/sweep_ID
 ```
-### スイープを停止する
 
-W&Bスイープを終了して、新しいW&B ランの実行を停止し、現在実行中のランを終了させます。
+### Stop sweeps
 
-```bash
-wandb sweep --stop エンティティ/プロジェクト/スイープID
-```
-
-### スイープをキャンセルする
-
-スイープをキャンセルして、すべての実行中のランを終了し、新しいランの実行を停止します。 `wandb sweep --cancel` コマンドを使用して W&B スイープをキャンセルします。キャンセルしたいW&BスイープIDを指定してください。
+新しい W&B Runs の実行を停止し、現在実行中の Runs を完了させるために W&B sweep を終了します。
 
 ```bash
-wandb sweep --cancel エンティティ/プロジェクト/スイープ_ID
+wandb sweep --stop entity/project/sweep_ID
 ```
 
-CLIコマンドオプションの全リストについては、[wandb sweep](https://docs.wandb.ai/ref/cli/wandb-sweep) CLIリファレンスガイドを参照してください。
+### Cancel sweeps
 
-### 複数のエージェントでスイープを一時停止、再開、停止、キャンセルする
+すべての実行中の runs を停止し、新しい runs の実行も停止するために sweep をキャンセルします。`wandb sweep --cancel` コマンドを使用して W&B Sweep をキャンセルします。キャンセルしたい W&B Sweep ID を指定します。
 
-シングルターミナルから複数のエージェントでW&Bスイープを一時停止、再開、停止、またはキャンセルします。例えば、マルチコアマシンを持っているとします。W&Bスイープを初期化した後、新しいターミナルウィンドウを開き、スイープIDを各新しいターミナルにコピーします。
-
-任意のターミナル内で、`wandb sweep` CLIコマンドを使用して、W&Bスイープを一時停止、再開、停止、またはキャンセルします。例えば、次のコードスニペットでは、CLIで複数のエージェントでW&Bスイープを一時停止する方法を示しています。
-
-```
-wandb sweep --pause エンティティ/プロジェクト/スイープID
+```bash
+wandb sweep --cancel entity/project/sweep_ID
 ```
 
-スイープIDと一緒に `--resume` フラグを指定して、エージェント間でスイープを再開します。
+全 CLI コマンド オプションの一覧については、[wandb sweep](../../ref/cli/wandb-sweep.md) CLI リファレンス ガイドを参照してください。
+
+### Pause, resume, stop, and cancel a sweep across multiple agents
+
+単一のターミナルから複数のエージェントにわたって W&B Sweep を一時停止、再開、停止、またはキャンセルします。たとえば、マルチコアのマシンがあると仮定します。W&B Sweep を初期化した後、新しいターミナルウィンドウを開き、各新しいターミナルに Sweep ID をコピーします。
+
+任意のターミナル内で `wandb sweep` CLI コマンドを使用して、複数のエージェントにわたって W&B Sweep を一時停止、再開、停止、またはキャンセルします。たとえば、次のコードスニペットは、CLI を使用して複数のエージェントにわたって W&B Sweep を一時停止する方法を示しています。
+
+```
+wandb sweep --pause entity/project/sweep_ID
 ```
 
-wandb sweep --resume エンティティ/プロジェクト/スイープID
+エージェント全体で Sweep を再開するには、`--resume` フラグと Sweep ID を指定します。
 
 ```
+wandb sweep --resume entity/project/sweep_ID
+```
 
-W&Bエージェントの並列化方法に関する詳細は、[エージェントの並列化](https://docs.wandb.ai/guides/sweeps/parallelize-agents)を参照してください。
+W&B エージェントの並列化方法の詳細については、[Parallelize agents](./parallelize-agents.md) を参照してください。

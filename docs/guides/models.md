@@ -2,20 +2,19 @@
 displayed_sidebar: default
 ---
 
+
 # W&B Models
 
-W&B Models is the system of record for ML Practitioners who want to organize their models, boost productivity and collaboration, and deliver production ML at scale. 
+W&B Models は、モデルを整理し、生産性とコラボレーションを向上させ、大規模なプロダクション ML を提供したい機械学習エンジニアのためのシステムです。
 
-![](/images/wb_marketing/wb_models_platform.png)
+![](@site/static/images/general/models.png)
 
-With W&B Models, you can: 
+W&B Models では以下のことができます： 
 
-- Track and visualize all [ML experiments](./track/intro.md).
-- Optimize and fine-tune models at scale with [hyperparameter sweeps](./sweeps/intro.md).
-- [Maintain a centralized hub of all models](./model_registry/intro.md), with a seamless handoff point to devops and deployment
-- Configure custom automations that trigger key workflows for [model CI/CD](./model_registry/automation.md).
-- [Package and run ML workloads](./launch/intro.md) to gain frictionless access to powerful compute resources.
+- すべての [ML experiments](./track/intro.md) をトラックおよび視覚化します。
+- [hyperparameter sweeps](./sweeps/intro.md) を使用して、スケールでモデルを最適化およびファインチューンします。
+- DevOps とデプロイメントへのシームレスな引き継ぎ点として、[すべてのモデルの集中ハブを維持します](./model_registry/intro.md)。
+- [モデル CI/CD](./model_registry/automation.md) のための主要なワークフローをトリガーするカスタムオートメーションを設定します。
+- [ML ワークロードをパッケージ化して実行](./launch/intro.md) し、強力な計算リソースへの簡便なアクセスを得ます。
 
-
-
-Machine learning practitioners rely on W&B Models as their ML system of record to track and visualize experiments, manage model versions and lineage, and optimize hyperparameters.
+機械学習エンジニアは、W&B Models を ML の SoR として活用し、Experiments をトラックおよび視覚化し、モデルのバージョンとリネージを管理し、ハイパーパラメーターを最適化しています。

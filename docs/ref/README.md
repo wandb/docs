@@ -1,23 +1,21 @@
 ---
-
-description: Weights & Biasesツールの生成されたドキュメント
-
+description: Weights & Biases API の生成されたドキュメント
 ---
+
 
 # リファレンス
 
-リファレンスドキュメントは、`wandb`[wandbライブラリ](https://github.com/wandb/wandb)から自動生成されます。
+これらのドキュメントは[`wandb` ライブラリ](https://github.com/wandb/wandb)から自動生成されています。
 
-### リファレンスセクション
+### リファレンス セクション
 
-1. [コマンドラインインターフェース](cli/)：シェルコマンドからwandbの基本を使用する
+1. [Python Library](./python/README.md): `wandb` をスクリプトに追加してメトリクスをキャプチャし、アーティファクトを保存します
+2. [Command Line Interface](./cli/README.md): シェルコマンドを使用してログイン、ジョブの実行、sweepsの実行などを行います
+3. [JavaScript Library](./js/README.md): Nodeサーバーからメトリクスを追跡するためのベータ版のJavaScript/TypeScriptクライアント
+4. [Weave](./query-panel/README.md): データを選択および集計するためのベータ版クエリ言語
 
-2. [Pythonライブラリ](./python/README.md)：スクリプトに`wandb`を追加して、メトリクスを取得し、アーティファクトを保存する
+### 例とガイド
 
-4. [JavaScriptライブラリ](./js/README.md)：JavaScript/TypeScriptとのベータ版統合を試す
+[事例集リポジトリ](https://github.com/wandb/examples)には、W&Bの機能を試すためのスクリプトやColab、様々なライブラリとのインテグレーションが含まれています。
 
-### ガイドと例
-
-使用例（スクリプト、対話型Colab、動画など）については、[GitHubのexamplesリポジトリ](https://github.com/wandb/wandb)をご覧ください。
-
-チュートリアル、ガイド、FAQについては、このページの左側のサイドバーから表示できます。
+[開発者ガイド](../guides/intro.md)には、各種W&B製品のガイド、チュートリアル、FAQが含まれています。

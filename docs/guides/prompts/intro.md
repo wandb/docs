@@ -1,59 +1,85 @@
 ---
+description: LLM搭載アプリケーション開発のためのツール
+title: Prompts for LLMs
 slug: /guides/prompts
-description: Tools for the development of LLM-powered applications
 displayed_sidebar: default
 ---
-# プロンプト
 
-Weights & Biases Promptsは、LLM搭載アプリケーションの開発のために作られたLLMOpsツールのスイートです。
-W&Bプロンプトを使って、LLMの実行フローを可視化・検査し、LLMの入力と出力を解析し、中間結果を表示、プロンプトやLLMチェーン設定を安全に保管・管理できます。
+<a href="https://wandb.me/weave" target="_blank">
+    <img className="no-zoom" src="/images/weave/weave_banner.png" alt="Building LLM apps? Try Weave" style={{display: "block", marginBottom: "15px"}} />
+</a>
 
-![](/images/prompts/trace_timeline.png)
+## Prompts
 
-W&B Promptsは、[W&B実験](../track/intro.md) および [W&Bテーブル](../tables/intro.md) と補完し合い、LLM開発者が確信を持って開発・実験する際のすべての道具が揃うようになります。
+W&B Prompts is a suite of LLMOps tools built for the development of LLM-powered applications. Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
 
-<!-- ## プロンプト製品スイート
+## Use Cases
 
-[トレース](#Trace) は、プロンプトのツールの最初 -->
+W&B Prompts is the solution for building and evaluating LLM-based apps. Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to explore and debug LLM chains and prompts with greater granularity.
 
-## 使い方
+- Track inputs & outputs of LLM applications
+- Debug LLM chains and prompts using interactive traces
+- Evaluate the performance of LLM chains and prompts
 
-W&Bでは、_トレース_ と呼ばれるツールが現在サポートされています。**トレース**を使うことで、LLMチェーンの入力・出力、実行フロー、アーキテクチャー、および中間結果を追跡および可視化することができます。
+## Products
 
-トレースは、LLMチェーニング、プラグイン、またはパイプライニングのユースケースで使用します。独自のLLMチェーニング実装を使用するか、LangChainなどのLLMライブラリが提供するW&Bインテグレーションを使用できます。
+### Traces
 
-トレースには、次の3つの主要なコンポーネントがあります。
+W&B’s LLM tool is called *Traces*. **Traces** allow you to track and visualize the inputs and outputs, execution flow, model architecture, and any intermediate results of your LLM chains.
 
-* [トレーステーブル](#trace-table)：チェーンの入力と出力の概要。
-* [トレースタイムライン](#trace-timeline)：チェーンの実行フローを表示し、コンポーネントタイプに従って色分けされています。
-* [モデルアーキテクチャ](#model-architecture)：チェーンの構造と、チェーンの各コンポーネントを初期化するために使用されたパラメータの詳細を表示します。
+Use Traces for LLM chaining, plug-in or pipelining use cases. You can use your own LLM chaining implementation or use a W&B integration provided by LLM libraries such as LangChain.
 
-### トレーステーブル
-トレーステーブルでは、チェーンの入力と出力の概要が提供されます。また、トレーステーブルは、チェーン内のトレースイベントの構成やチェーンが成功して実行されたかどうか、チェーンの実行時に返されたエラーメッセージに関する情報も提供します。
-![](/images/prompts/trace_table.png)
+Traces consists of three main components:
 
-チェーンのインスタンスに対する[トレースタイムライン](#trace-timeline)を表示するには、テーブルの左側の行番号をクリックしてください。
+- [Trace table](https://docs.wandb.ai/guides/prompts#trace-table): Overview of the inputs and outputs of a chain.
+- [Trace timeline](https://docs.wandb.ai/guides/prompts#trace-timeline): Displays the execution flow of the chain and is color-coded according to component types.
+- [Model architecture](https://docs.wandb.ai/guides/prompts#model-architecture): View details about the structure of the chain and the parameters used to initialize each component of the chain.
 
-### トレースタイムライン
+**Trace Table**
 
-トレースタイムラインビューは、チェーンの実行フローを表示し、コンポーネントの種類に応じて色分けされています。トレースイベントを選択すると、そのトレースの入力、出力、およびメタデータが表示されます。
+The Trace Table provides an overview of the inputs and outputs of a chain. The trace table also provides information about the composition of a trace event in the chain, whether or not the chain ran successfully, and any error messages returned when running the chain.
 
-![](/images/prompts/trace_timeline.png)
+![Screenshot of a trace table.](/images/prompts/trace_table.png)
 
-エラーが発生するトレースイベントは赤で枠が示されています。赤で色付けされたトレースイベントをクリックすると、エラーメッセージが表示されます。
+Click on a row number on the left hand side of the Table to view the Trace Timeline for that instance of the chain.
 
-![](/images/prompts/trace_timeline_error.png)
+**Trace Timeline**
 
-### モデルアーキテクチャー
+The Trace Timeline view displays the execution flow of the chain and is color-coded according to component types. Select a trace event to display the inputs, outputs, and metadata of that trace.
 
-モデルアーキテクチャービューでは、チェーンの構造と各コンポーネントを初期化するために使用されるパラメータの詳細が提供されます。トレースイベントをクリックして、そのイベントに関する詳細情報を表示してください。
+![Screenshot of a Trace Timeline.](/images/prompts/trace_timeline.png)
 
-![](/images/prompts/model_architecture.png)
+Trace events that raise an error are outlined in red. Click on a trace event colored in red to view the returned error message.
 
-## はじめ方
+![Screenshot of a Trace Timeline error.](/images/prompts/trace_timeline_error.png)
 
-* W&Bプロンプトを初めて使う場合は、[クイックスタート](./quickstart.md)ガイドを参照してください。
+**Model Architecture**
 
-* [Google Colab Jupyterノートブック](http://wandb.me/prompts-quickstart)を使って、どのように動作するか試してみてください。
+The Model Architecture view provides details about the structure of the chain and the parameters used to initialize each component of the chain. Click on a trace event to learn more details about that event.
 
-<!-- Add link to colab -->
+**Evaluation** 
+
+To iterate on an application, we need a way to evaluate if it's improving. To do so, a common practice is to test it against the same dataset when there is a change. See this tutorial to learn how to evaluate LLM applications using W&B.
+[Tutorial: Evaluate LLM application performance](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)
+
+## Integrations
+
+Weights and Biases also has lightweight integrations for:
+
+- [LangChain](https://docs.wandb.ai/guides/integrations/langchain)
+- [OpenAI API](https://docs.wandb.ai/guides/integrations/openai-api)
+- [OpenAI GPT-3.5 Fine-Tuning](https://docs.wandb.ai/guides/integrations/openai)
+- [Hugging Face Transformers](https://docs.wandb.ai/guides/integrations/huggingface)
+
+## Getting Started
+
+We recommend you go through the Prompts [Quickstart](https://docs.wandb.ai/guides/prompts/quickstart) guide, which will walk you through logging a custom LLM pipeline with Trace. A [colab](http://wandb.me/prompts-quickstart) version of the guide is also available. 
+
+## Next Steps
+
+- Check out more detailed documentation on [Trace](https://colab.research.google.com/github/wandb/weave/blob/master/examples/prompts/trace_debugging/trace_quickstart_langchain.ipynb), or our [OpenAI](https://docs.wandb.ai/guides/prompts/openai) Integration.
+- Try one of our [demo colabs](https://github.com/wandb/examples/tree/master/colabs/prompts), which offer more detailed explanations of how to use Prompts for LLMOps.
+- You can use existing W&B features like Tables and Runs to track LLM application performance. See this tutorial to learn more:
+[Tutorial: Evaluate LLM application performance](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)
+準備ができました。どのドキュメントを翻訳する必要があるか教えてください。
+

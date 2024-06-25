@@ -1,83 +1,84 @@
 ---
-description: Send alerts, triggered from your Python code, to your Slack or email
+description: PythonコードからトリガーされたアラートをSlackやメールに送信
 displayed_sidebar: default
 ---
 
-# wandb.alertを使ってアラートを送信する
+
+# wandb.alert でアラートを送信
 
 <head>
-  <title>Pythonコードからアラートを送信する</title>
+  <title>Pythonコードからアラートを送信</title>
 </head>
 
+[**Colabノートブックで試す →**](http://wandb.me/alerts-colab)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://wandb.me/alerts-colab)
+W&B アラートを使用すると、W&B Run がクラッシュした場合や、NaN になった損失やMLパイプラインのステップが完了した場合などのカスタムトリガーが達成された場合に、Slackやメールで通知を受け取ることができます。W&B アラートは個人プロジェクトやチームプロジェクトを含むすべてのプロジェクトに適用されます。
 
-W&B Alertsを使用すると、W&B Runがクラッシュした場合や、損失がNaNになったり、MLパイプラインのステップが完了したなどのカスタムトリガーが達成された場合に、Slackまたはメールで通知を受け取ることができます。W&B Alertsは、個人プロジェクトとチームプロジェクトの両方を含む、runを起動するすべてのプロジェクトに適用されます。
-
-以下のようにアラートを設定することができます:
+次のようにアラートを設定できます：
 
 ```python
-text = f"精度 {acc} は許容範囲 {thresh} を下回っています"
+text = f"Accuracy {acc} is below acceptable threshold {thresh}"
 
-wandb.alert(title="低い精度", text=text)
+wandb.alert(title="Low accuracy", text=text)
 ```
 
-そして、Slack（またはメール）でW&B Alertsメッセージを確認できます:
+そして、Slack（またはメール）でW&Bアラートメッセージを確認できます：
 
 ![](/images/track/send_alerts_slack.png)
+
 ## はじめに
 
-:::info
-この手順は、パブリッククラウドでのみアラートを有効にする方法です。
+:::情報
+以下の手順はパブリッククラウドでのみアラートを有効にするためのものです。
 
-プライベートクラウドやW&B専用クラウドで[W&Bサーバー](../hosting/intro.md)を使用している場合は、[このドキュメント](../hosting/slack-alerts.md)を参照してSlackアラートのセットアップを行ってください。
+プライベートクラウドやW&B専用クラウドで [W&B Server](../hosting/intro.md) を使用している場合は、Slackアラートの設定については[こちらのドキュメント](../hosting/monitoring-usage/slack-alerts.md)を参照してください。
 :::
 
-コードからSlackやメールでアラートを送信するためには、最初に以下の2つの手順を行ってください。
+コードからトリガーされるSlackまたはメールアラートを初めて送信する場合は、以下の2つの手順を実行します：
 
-1. W&B [ユーザー設定](https://wandb.ai/settings)でアラートを有効にする
-2. `wandb.alert()`をコードに追加する
+1. W&Bの[ユーザー設定](https://wandb.ai/settings)でアラートを有効にする
+2. コードに `wandb.alert()` を追加する
 
-### 1. W&Bユーザー設定でアラートを有効にする
+### 1. W&Bのユーザー設定でアラートを有効にする
 
-[ユーザー設定](https://wandb.ai/settings)で:
+[ユーザー設定](https://wandb.ai/settings)で：
 
-* **アラート**セクションまでスクロールする
-* \`wandb.alert()\`からアラートを受け取るために、**スクリプトで実行可能なアラート** を有効にする
-* **Slackに接続**を使用して、アラートを投稿するSlackチャンネルを選択します。アラートをプライベートに保つために、**Slackbot**チャンネルをお勧めします。
-* **メール**は、W&Bにサインアップした際に使用したメールアドレスに送信されます。すべてのこれらのアラートがフォルダに入り、受信トレイがいっぱいにならないように、メールでフィルタを設定することをお勧めします。
+* **Alerts** セクションまでスクロール
+* **Scriptable run alerts** をオンにして、`wandb.alert()` からのアラートを受信する設定にする
+* **Connect Slack** を使用して、アラートを投稿するSlackチャンネルを選択。**Slackbot** チャンネルがおすすめです。アラートがプライベートに保持されるためです。
+* **メール** は、W&Bに登録したメールアドレスに送信されます。これらのアラートが受信トレイを埋めないように、メールのフィルターを設定することをおすすめします。
 
-W&Bアラートの設定を初めて行う場合や、アラートの受信方法を変更したい場合に、この作業を行う必要があります。
+これは、W&Bアラートを初めて設定する場合や、アラートの受信方法を変更したい場合にのみ行う必要があります。
 
 ![W&Bユーザー設定のアラート設定](/images/track/demo_connect_slack.png)
 
-### 2. \`wandb.alert()\`をコードに追加する
+### 2. コードに `wandb.alert()` を追加する
 
-コード（ノートブックまたはPythonスクリプト）に`wandb.alert()`を追加し、アラートがトリガーされる場所を選択します。
+`wandb.alert()` をノートブックまたはPythonスクリプト内のトリガーしたい場所に追加します
 
 ```python
 wandb.alert(title="High Loss", text="Loss is increasing rapidly")
 ```
 
-#### Slackまたはメールを確認してください
+#### Slack またはメールを確認
 
-アラートメッセージがSlackまたはメールに届いているか確認してください。もし届いていない場合は、[ユーザー設定](https://wandb.ai/settings)で**スクリプト可能なアラート**に対してメールまたはSlackが有効になっているか確認してください。
+Slackまたはメールでアラートメッセージを確認します。アラートが届かない場合、ユーザー設定で **Scriptable Alerts** がオンになっているか確認してください。
 
-## `wandb.alert()`の使用法
+## `wandb.alert()` の使用
 
-| 引数                         | 説明                                                                                                                                             |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `title` (string)          | アラートの短い説明。例：「精度が低い」                                                                                                           |
-| `text` (string)            | アラートのトリガーとなった事象についてのより詳細な説明                                                                                              |
-| `level` (任意)             | アラートの重要度。`AlertLevel.INFO`、`AlertLevel.WARN`、または`AlertLevel.ERROR`のいずれかである必要があります。`wandb`から`AlertLevel.xxx`をインポートできます。 |
-|                            |                                                                                                                                                   |
-| `wait_duration` (任意)     | 同じ**タイトル**で別のアラートを送信するまでの秒数。これにより、アラートのスパムが減少します。                                                       |
+| 引数                      | 説明                                                                                                                                                 |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title` (string)          | アラートの簡単な説明。例："Low accuracy"                                                                                                              |
+| `text` (string)           | アラートがトリガーされた詳細な説明                                                                                                                     |
+| `level` (optional)        | アラートの重要度。`AlertLevel.INFO`、`AlertLevel.WARN`、または`AlertLevel.ERROR`のいずれかである必要があります。`wandb` から `AlertLevel.xxx` をインポート可能です |
+|                           |                                                                                                                                                       |
+| `wait_duration` (optional)| 同じ**タイトル**のアラートを再送信する前に待機する秒数。この設定によりアラートスパムを減らすことができます                                           |
 
 ### 例
 
-このシンプルなアラートは、精度が閾値を下回ったときに警告を送信します。この例では、少なくとも5分間隔でアラートを送信します。
+この簡単なアラートは、精度が閾値を下回ると警告を送信します。この例では、少なくとも5分ごとにしかアラートを送りません。
 
-[コードを実行 →](http://wandb.me/alerts)
+[コードを実行する →](http://wandb.me/alerts)
 
 ```python
 import wandb
@@ -85,43 +86,35 @@ from wandb import AlertLevel
 
 if acc < threshold:
     wandb.alert(
-        title="低い精度",
-        text=f"精度 {acc} は許容範囲 {threshold} を下回っています",
+        title="Low accuracy",
+        text=f"Accuracy {acc} is below the acceptable threshold {threshold}",
         level=AlertLevel.WARN,
         wait_duration=300,
     )
 ```
 
-## 詳細情報
+## その他の情報
 
-### タグ付け/ユーザーのメンション
+### ユーザーのタグ付け / メンション
 
-Slackでアラートを送る際、自分自身や同僚にメンションを送ることができます。そのためには、アラートのタイトルやテキスト内にSlackユーザーIDを `<@USER_ID>` として追加してください。SlackプロフィールページからSlackユーザーIDを見つけることができます。
+Slackでアラートを送信する際、アラートのタイトルまたはテキスト内にSlackのユーザーIDを `<@USER_ID>` として追加することで、自分自身や同僚のメンションができます。SlackユーザーIDはそのユーザープロフィールページから見つけることができます。
 
 ```python
-wandb.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> lossがNaNになってしまいました")
+wandb.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> loss has gone to NaN")
 ```
 
-### W&Bチームアラート
+### W&B チームアラート
 
-チームの管理者は、チーム設定ページでチームに対するアラートを設定できます: wandb.ai/teams/ `your-team`。これらのアラートは、チーム内の全員に適用されます。アラートをプライベートに保つために、**Slackbot**チャンネルの使用をお勧めします。
+チーム管理者は、チーム設定ページでチームのためのアラートを設定できます：wandb.ai/teams/`your-team`。これらのアラートはチーム内の全員に適用されます。**Slackbot** チャンネルを使用することをおすすめします。アラートがプライベートに保持されるためです。
 
 ### Slackチャンネルの変更
 
-投稿先のチャンネルを変更するには、**Slackの接続解除**をクリックしてから、再接続して別の宛先チャンネルを選択してください。
+投稿先のチャンネルを変更するには、**Disconnect Slack** をクリックしてから再接続し、別のチャンネルを選択します。
+
 ## FAQ(よくある質問)
 
+#### "Run Finished" アラートはJupyterノートブックで動作しますか？
 
+**"Run Finished"** アラート（ユーザー設定の **"Run Finished"** 設定でオンにする）はPythonスクリプトでのみ動作し、Jupyterノートブック環境では各セルの実行ごとに通知が来ないよう無効化されています。Jupyterノートブック環境では `wandb.alert()` を使用してください。
 
-#### Jupyterノートブックでは「Run Finished」アラートは機能しますか？
-
-
-
-ユーザー設定で「Run Finished」設定をオンにすることで有効になる **「Run Finished」** アラートは、Pythonスクリプトでのみ動作し、Jupyter Notebooks環境では各セルの実行ごとにアラート通知が発生しないように無効にされています。代わりに、Jupyter Notebook環境で `wandb.alert()` を使用してください。
-
-
-
-
-
-
-
+#### [W&B Server](../hosting/intro.md) でアラートを有効にする方法は？

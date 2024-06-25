@@ -1,12 +1,13 @@
+
 # wandb pull
 
 **使用法**
 
-`wandb pull [オプション] RUN`
+`wandb pull [OPTIONS] RUN`
 
 **概要**
 
-Weights & Biases からファイルを取得
+Weights & Biases からファイルをプルする
 
 **オプション**
 
@@ -14,4 +15,3 @@ Weights & Biases からファイルを取得
 | :--- | :--- |
 | -p, --project | ダウンロードしたいプロジェクト。 |
 | -e, --entity | リストをスコープするエンティティ。 |
-| --help | このメッセージを表示して終了。 |

@@ -1,22 +1,24 @@
 ---
 displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+
 # spaCy
 
-[spaCy](https://spacy.io)は、高速で正確なモデルを簡単に扱える「産業強度」のNLPライブラリです。spaCy v3以降では、Weights and Biasesを[`spacy train`](https://spacy.io/api/cli#train)と組み合わせて使用することで、spaCyモデルのトレーニングメトリクスを追跡したり、モデルとデータセットを保存・バージョン管理することができます。そして、設定に数行を追加するだけで実現できます！
+[spaCy](https://spacy.io) は、人気のある「工業用強度」のNLPライブラリです。高速で高精度なモデルを、最小限の手間で提供します。spaCy v3以降では、Weights and Biases を [`spacy train`](https://spacy.io/api/cli#train) に使用して、spaCyモデルのトレーニングメトリクスを追跡したり、モデルやデータセットを保存およびバージョン管理したりすることができます。必要なのは設定ファイルに数行追加するだけです！
 
-## はじめに：モデルのトラッキングと保存
+## 始めましょう: モデルを追跡して保存する
 
 ### 1. `wandb` ライブラリをインストールしてログイン
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'コマンドライン', value: 'cli'},
-    {label: 'ノートブック', value: 'notebook'},
+    {label: 'Command Line', value: 'cli'},
+    {label: 'Notebook', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -34,15 +36,16 @@ wandb login
 import wandb
 wandb.login()
 ```
-</TabItem>
+
+  </TabItem>
 </Tabs>
 
-### 2) spaCy設定ファイルに`WandbLogger`を追加
+### 2) `WandbLogger` をspaCyの設定ファイルに追加
 
-spaCyの設定ファイルは、ロギングだけでなく、トレーニングのすべての側面を指定するために使用されます。GPU割り当て、オプティマイザーの選択、データセットのパスなどです。最小限、`[training.logger]`の下で、キー`@loggers`に値`"spacy.WandbLogger.v3"`と、`project_name`を指定する必要があります。
+spaCyの設定ファイルは、ログの記録だけでなく、GPUの割り当て、オプティマイザーの選択、データセットのパスなど、トレーニングのすべての側面を指定するために使用されます。最小限でも、`[training.logger]` に `@loggers` キーと 値 `"spacy.WandbLogger.v3"`、さらに `project_name` を指定する必要があります。
 
 :::info
-spaCyトレーニング設定ファイルの機能や、トレーニングをカスタマイズするために渡すことができる他のオプションについては、[spaCyのドキュメント](https://spacy.io/usage/training)をご覧ください。
+spaCyのトレーニング設定ファイルの詳細や、トレーニングをカスタマイズするために渡すことができるその他のオプションについては、[spaCyのドキュメント](https://spacy.io/usage/training) を参考にしてください。
 :::
 
 ```python
@@ -54,23 +57,24 @@ log_dataset_dir = "./corpus"
 model_log_interval = 1000
 ```
 
-| 名前                   | 説明                                                                                                                                                                                                                                                   |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `project_name`         | `str`. Weights & Biasesの[プロジェクト](../app/pages/project-page.md)の名前。プロジェクトがまだ存在しない場合は自動的に作成されます。                                                                                                    |
-| `remove_config_values` | `List[str]` . 設定から除外する値のリスト。初期値は `[]`です。                                                                                                                                                     |
-| `model_log_interval`   | `Optional int`. 初期値は`None`です。設定された場合、[モデルのバージョン管理](../model_registry/intro.md)と[アーティファクト](../artifacts/intro.md)が有効化されます。モデルチェックポイントのロギング間隔を設定してください。初期値は`None`です。 |
-| `log_dataset_dir`      | `Optional str`. パスが指定されている場合、トレーニング開始時にデータセットがアーティファクトとしてアップロードされます。初期値は`None`です。                                                                                                            |
-| `entity`               | `Optional str` . 指定された場合、特定のエンティティでrunが作成されます。                                                                                                                                                                                   |
-| `run_name`             | `Optional str` . 指定された場合、指定された名前でrunが作成されます。                                                                                                                                                                               |
-### 3) トレーニングを開始する
+| 名前                   | 説明                                                                                                                                                                                                                                                 |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `project_name`         | `str`。Weights & Biases の [project](../app/pages/project-page.md) の名前です。プロジェクトはまだ存在しない場合、自動的に作成されます。                                                                                                    |
+| `remove_config_values` | `List[str]` 。W&Bにアップロードする前に設定から除外する値のリスト。デフォルトは `[]` 。                                                                                                                                                   |
+| `model_log_interval`   | `Optional int`。デフォルトは `None` 。設定すると、[model versioning](../model_registry/intro.md) と [Artifacts](../artifacts/intro.md) が有効になります。モデルチェックポイントを記録する間隔のステップ数を指定します。デフォルトは `None` 。   |
+| `log_dataset_dir`      | `Optional str`。パスを渡すと、データセットがトレーニングの開始時にArtifactとしてアップロードされます。デフォルトは `None` 。                                                                                                    |
+| `entity`               | `Optional str`。指定した場合、run は指定された entity に作成されます。                                                                                                                                                                                |
+| `run_name`             | `Optional str`。指定した場合、run は指定された名前で作成されます。                                                                                                                                                                                    |
 
-`WandbLogger`をspaCyトレーニング設定に追加したら、通常通り`spacy train`を実行できます。
+### 3) トレーニングを開始
+
+`WandbLogger` をspaCyのトレーニング設定に追加したら、通常通り `spacy train` を実行できます。
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'コマンドライン', value: 'cli'},
-    {label: 'ノートブック', value: 'notebook'},
+    {label: 'Command Line', value: 'cli'},
+    {label: 'Notebook', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -92,8 +96,8 @@ python -m spacy train \
     --paths.train ./train \
     --paths.dev ./dev
 ```
-</TabItem>
 
+  </TabItem>
 </Tabs>
 
-トレーニングが始まると、トレーニングrunの[W&Bページ](../app/pages/run-page.md)へのリンクが出力され、このリンクからWeights & Biases Web UIの実験トラッキング[ダッシュボード](../track/app.md)にアクセスできるようになります。
+トレーニングが始まると、トレーニングrunの [W&Bページ](../app/pages/run-page.md) へのリンクが表示され、このrunの実験管理ダッシュボードにアクセスすることができます。

@@ -1,180 +1,172 @@
+
 # Run
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1664-L2276)
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L272-L901' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHubでソースを見る</a></button></p>
 
-エンティティとプロジェクトに関連する単一のrunです。
+エンティティおよびプロジェクトと関連付けられた単一のrun。
 
 ```python
 Run(
- client: "RetryingClient",
- entity: str,
- project: str,
- run_id: str,
- attrs: Optional[Mapping] = None,
- include_sweeps: bool = (True)
+    client: "RetryingClient",
+    entity: str,
+    project: str,
+    run_id: str,
+    attrs: Optional[Mapping] = None,
+    include_sweeps: bool = (True)
 )
 ```
-| 属性 | |
+
+| 属性 |  |
 | :--- | :--- |
 
 ## メソッド
 
 ### `create`
 
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1761-L1801)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L371-L411)
 
 ```python
 @classmethod
 create(
- api, run_id=None, project=None, entity=None
+    api, run_id=None, project=None, entity=None
 )
 ```
 
-指定されたプロジェクトのrunを作成します。
+指定したプロジェクトのrunを作成します。
+
 ### `delete`
 
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1914-L1946)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L529-L557)
 
 ```python
 delete(
- アーティファクトを削除する=(False)
+    delete_artifacts=(False)
 )
 ```
 
 wandbバックエンドから指定されたrunを削除します。
+
 ### `display`
 
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L979-L990)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L15-L26)
 
 ```python
 display(
- height=420, hidden=(False)
+    height=420, hidden=(False)
 ) -> bool
 ```
 
 このオブジェクトをjupyterで表示します。
+
 ### `file`
 
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2009-L2019)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L619-L629)
 
 ```python
 file(
- name
+    name
 )
 ```
 
 アーティファクト内の指定された名前のファイルのパスを返します。
 
-| 引数 | |
+| 引数 |  |
 | :--- | :--- |
-| name (str): 要求されたファイルの名前。|
+|  name (str): リクエストされたファイルの名前。 |
 
-| 戻り値 | |
+| 戻り値 |  |
 | :--- | :--- |
-| 引数の名前に一致する`File`。 |
-
-
+|  名前の引数に一致する `File`。 |
 
 ### `files`
 
-[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1996-L2007)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L606-L617)
 
 ```python
 files(
- names=None, per_page=50
+    names=None, per_page=50
 )
 ```
-各ファイルの名前を返します。
 
+指定された名前の各ファイルのファイルパスを返します。
 
-| 引数 | |
+| 引数 |  |
 | :--- | :--- |
-| names (list): 要求されたファイルの名前、空の場合はすべてのファイルを返します per_page (int): 1ページあたりの結果数。|
+|  names (list): リクエストされたファイルの名前、空の場合はすべてのファイルを返します。 per_page (int): ページごとの結果数。 |
 
-
-
-| 戻り値 | |
+| 戻り値 |  |
 | :--- | :--- |
-| `File` オブジェクトを順に返す `Files` オブジェクト。|
+|  `File`オブジェクトのイテレータである `Files`オブジェクト。 |
+
 ### `history`
 
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2045-L2085)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L655-L695)
 
 ```python
 history(
- サンプル=500, キー=None, x_axis="_step", pandas=(True), ストリーム="デフォルト"
+    samples=500, keys=None, x_axis="_step", pandas=(True), stream="default"
 )
 ```
 
-Runのサンプル履歴メトリクスを返します。
+runのサンプル履歴メトリクスを返します。
 
-履歴レコードがサンプリングされている場合、これはよりシンプルで高速です。
-| 引数 | |
+履歴レコードがサンプリングされることを気にしないのであれば、これが簡単で高速です。
+
+| 引数 |  |
 | :--- | :--- |
-| `samples` | (int, 任意) 返すサンプル数 |
-| `pandas` | (bool, 任意) pandasのデータフレームを返す |
-| `keys` | (list, 任意) 特定のキーのメトリクスのみを返す |
-| `x_axis` | (str, 任意) このメトリクスをx軸に使う（デフォルトは_step） |
-| `stream` | (str, 任意) メトリクスの場合は"default"、機械メトリクスの場合は"system" |
+|  `samples` |  (int, オプション) 返すサンプル数 |
+|  `pandas` |  (bool, オプション) pandasのデータフレームを返すかどうか |
+|  `keys` |  (list, オプション) 特定のキーのメトリクスのみを返す |
+|  `x_axis` |  (str, オプション) これを xAxis として使用、デフォルトは _step |
+|  `stream` |  (str, オプション) メトリクス用の "default"、マシンメトリクス用の "system" |
 
-
-
-| 戻り値 | |
+| 戻り値 |  |
 | :--- | :--- |
-| `pandas.DataFrame` | pandas=Trueの場合、履歴メトリクスの`pandas.DataFrame`を返す。リストの辞書：pandas=Falseの場合、履歴メトリクスの辞書のリストを返す。
+|  `pandas.DataFrame` |  pandas=Trueの場合、履歴メトリクスの `pandas.DataFrame` を返します。 リスト辞書: pandas=Falseの場合、履歴メトリクスの辞書のリストを返します。 |
 
 ### `load`
 
-
-
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1803-L1861)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L413-L477)
 
 ```python
 load(
- force=(False)
+    force=(False)
 )
 ```
+
 ### `log_artifact`
 
-
-
-[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2183-L2215)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L794-L828)
 
 ```python
 log_artifact(
- artifact, aliases=None
+    artifact, aliases=None
 )
 ```
 
-アーティファクトをrunの出力として宣言します。
-| 引数 | |
+runの出力としてアーティファクトを宣言します。
+
+| 引数 |  |
 | :--- | :--- |
-| artifact（`Artifact`）: `wandb.Api().artifact(name)`から返されるアーティファクト　エイリアス（リスト、オプショナル）: このアーティファクトに適用するエイリアス |
+|  artifact (`Artifact`): `wandb.Api().artifact(name)`から返されたアーティファクト。 aliases (list, オプション): このアーティファクトに適用するエイリアス。 |
 
-
-
-| 戻り値 | |
+| 戻り値 |  |
 | :--- | :--- |
-| `Artifact`オブジェクト。 |
-
-
+|  `Artifact` オブジェクト。 |
 
 ### `logged_artifacts`
 
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2142-L2144)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L753-L755)
 
 ```python
 logged_artifacts(
- per_page=100
+    per_page=100
 )
 ```
 
-
-
-
 ### `save`
 
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1948-L1949)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L559-L560)
 
 ```python
 save()
@@ -182,20 +174,19 @@ save()
 
 ### `scan_history`
 
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2087-L2140)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L697-L751)
 
 ```python
 scan_history(
- keys=None, page_size=1000, min_step=None, max_step=None
+    keys=None, page_size=1000, min_step=None, max_step=None
 )
 ```
 
-runのすべての履歴レコードを含む反復可能なコレクションを返します。
-
+runのすべての履歴レコードの反復可能なコレクションを返します。
 
 #### 例:
 
-例のrunにおいて全ての損失値をエクスポートする
+サンプルrunのすべてのloss値をエクスポートする
 
 ```python
 run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
@@ -203,115 +194,99 @@ history = run.scan_history(keys=["Loss"])
 losses = [row["Loss"] for row in history]
 ```
 
-
-
-
-| 引数 | |
+| 引数 |  |
 | :--- | :--- |
-| keys ([str], 任意): これらのキーのみをフェッチし、また、すべてのキーが定義されている行のみをフェッチします。page_size (int, 任意): APIからフェッチするページのサイズ |
+|  keys ([str], オプション): これらのキーのみをフェッチし、すべてのキーが定義されている行のみをフェッチします。 page_size (int, オプション): APIからフェッチするページのサイズ。 min_step (int, オプション): 一度にスキャンする最低ページ数。 max_step (int, オプション): 一度にスキャンする最大ページ数。 |
 
-| 戻り値 | |
+| 戻り値 |  |
 | :--- | :--- |
-| 履歴レコード（dict）をイテレートするコレクション。 |
-
-
+|  履歴レコード（dict）を反復可能なコレクション。 |
 
 ### `snake_to_camel`
 
-
-
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L975-L977)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L11-L13)
 
 ```python
 snake_to_camel(
- 文字列
+    string
 )
 ```
+
 ### `to_html`
 
-
-
-[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2262-L2270)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L887-L895)
 
 ```python
 to_html(
- 高さ=420, 非表示=(False)
+    height=420, hidden=(False)
 )
 ```
+
 このrunを表示するiframeを含むHTMLを生成します。
 
 ### `update`
 
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1886-L1912)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L502-L527)
 
 ```python
 update()
 ```
 
-Runオブジェクトの変更をwandbのバックエンドに保存します。
+変更をwandbバックエンドにrunオブジェクトとして保存します。
+
 ### `upload_file`
 
-
-
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2021-L2043)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L631-L653)
 
 ```python
 upload_file(
- パス, root="."
+    path, root="."
 )
 ```
 
 ファイルをアップロードします。
-| 引数 | |
+
+| 引数 |  |
 | :--- | :--- |
-| path（文字列）: アップロードするファイル名。root（文字列）: ファイルを保存する相対パスのルート。例えば、"my_dir/file.txt" にファイルを保存したい場合で、現在 "my_dir" にいる場合は、rootを "../" に設定します。 |
+|  path (str): アップロードするファイルの名前。 root (str): ファイルを保存するルートパス。現在のディレクトリに "my_dir/file.txt" としてファイルを保存したい場合は、rootを "../" に設定します。 |
 
-
-
-| 戻り値 | |
+| 戻り値 |  |
 | :--- | :--- |
-| name 引数に一致する `File`。|
-
-
+|  名前の引数に一致する `File`。 |
 
 ### `use_artifact`
 
-[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2150-L2181)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L761-L792)
 
 ```python
 use_artifact(
- artifact, use_as=None
+    artifact, use_as=None
 )
 ```
 
-アーティファクトをrunの入力として宣言します。
+runの入力としてアーティファクトを宣言します。
 
-| 引数 | |
+| 引数 |  |
 | :--- | :--- |
-| artifact (`Artifact`): `wandb.Api().artifact(name)`から返されるアーティファクト use_as (文字列, オプション): スクリプトでアーティファクトの使い方を識別する文字列。betaのwandb launch機能のアーティファクト交換機能を使用して、runで使用されるアーティファクトを簡単に区別できます。 |
+|  artifact (`Artifact`): `wandb.Api().artifact(name)`から返されたアーティファクト。 use_as (string, オプション): スクリプト内でアーティファクトの使用法を識別する文字列。ベータ版wandb launch機能のアーティファクト交換機能を使用する際に、runで使用されるアーティファクトを簡単に区別するために使用されます。 |
 
-| 返り値 | |
+| 戻り値 |  |
 | :--- | :--- |
-| `Artifact`オブジェクト。 |
-
-
+|  `Artifact` オブジェクト。 |
 
 ### `used_artifacts`
 
-
-
-[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L2146-L2148)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L757-L759)
 
 ```python
 used_artifacts(
- per_page=100
+    per_page=100
 )
 ```
+
 ### `wait_until_finished`
 
-
-
-[ソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/apis/public.py#L1863-L1884)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/runs.py#L479-L500)
 
 ```python
 wait_until_finished()

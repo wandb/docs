@@ -1,94 +1,106 @@
 ---
-description: >-
-  Each training run of your model gets a dedicated page, organized within the
-  larger project
+description: それぞれのモデルのトレーニング run は、より大きなプロジェクト内で整理され、専用のページが与えられます
 displayed_sidebar: default
 ---
 
-# Runページ
 
-Runページを使用して、モデルの1つのバージョンに関する詳細情報を調べます。
+# Run Page
+プロジェクト内の特定のrunに関する詳細情報を探索するには、runページを使用します。
 
-## 概要タブ
+## Overviewタブ
+Overviewタブを使用して、プロジェクト内の特定のrunについて学びます。例えば以下のような情報です:
 
-* Run名、説明、タグ
-* Runの状態
-  * **終了**: スクリプトが終了し、データが完全に同期されたか、`wandb.finish()`が呼び出された
-  * **失敗**: スクリプトがゼロ以外の終了ステータスで終了した
-  * **クラッシュ**: スクリプトが内部プロセスでハートビートの送信を停止した。これは、マシンがクラッシュする場合に起こることがある
-  * **実行中**: スクリプトが実行中で、最近ハートビートを送信している
-* ホスト名、オペレーティングシステム、Pythonバージョン、およびRunを開始したコマンド
-* [`wandb.config`](../../../guides/track/config.md)で保存された設定パラメータのリスト
-* [`wandb.log()`](../../../guides/track/log/intro.md)で保存されたサマリパラメータのリスト（デフォルトでは最後にログに記録された値に設定）
+* **Name**: runの名前
+* **Description**: runの説明
+* **Author**: runを作成したW&Bエンティティ
+* **State**: runの[状態](#run-states)
+* **Start time**: runが初期化されたタイムスタンプ
+* **Duration**: runが状態に達するまでにかかった時間
+* **Run path**: ユニークなrunパス `<entity>/<project>/<run_id>`
+* **OS**: runを初期化したオペレーティングシステム
+* **Python version**: runを作成したPythonバージョン
+* **Git repository**: [Gitが有効な場合](../settings-page/user-settings.md#personal-github-integration)、runに関連付けられたGitリポジトリ
+* **Command**: runを初期化したコマンド
+* **System hardware**: runが実行されたハードウェア
+* **Config**: [`wandb.config`](../../../guides/track/config.md)と共に保存された設定パラメータのリスト
+* **Summary**: [`wandb.log()`](../../../guides/track/log/intro.md)と共に保存された要約パラメータのリスト、デフォルトでは最後にログされた値に設定
 
-[ライブ例を見る →](https://app.wandb.ai/carey/pytorch-cnn-fashion/runs/munu5vvg/overview?workspace=user-carey)
+runの概要ページを表示するには:
+1. プロジェクトワークスペース内で、特定のrunをクリックします。
+2. 次に、左側の列にある **Overview** タブをクリックします。
 
 ![W&B Dashboard run overview tab](/images/app_ui/wandb_run_overview_page.png)
 
-Pythonの詳細はプライベートであり、ページ自体を公開しても非公開です。これは、無記名モードの左ページと、私のアカウントの右ページの例です。
+### Run states
+次の表に、runが取る可能性がある状態を示します:
 
-![](/images/app_ui/wandb_run_overview_page_2.png)
-## チャートタブ
+| State | Description |
+| ----- | ----- |
+| Finished| runが終了し、データが完全に同期された、または `wandb.finish()` が呼び出された |
+| Failed | runが非ゼロ終了ステータスと共に終了した |
+| Crashed | 内部プロセスでrunがハートビートを送信するのを停止した。これはマシンがクラッシュした場合に発生する可能性があります |
+| Running | runがまだ実行中で、最近ハートビートを送信した |
 
-* 可視化の検索、グループ化、並べ替えが可能
-  * 検索バーでは正規表現が使えます
-* グラフ上の鉛筆アイコン✏️をクリックして編集
-  * x軸、メトリクス、範囲の変更が可能
-  * 凡例、タイトル、チャートの色を編集
-* 検証セットからの例の予測を表示
-* これらのチャートを取得するには、[`wandb.log()`](../../../guides/track/log/intro.md)でデータをログに記録して下さい
+## Workspaceタブ
+Workspaceタブを使用して、特定のrunに関連する以下のような可視化を表示、検索、グループ化、整理します:
+
+* 検証セットによる予測の例などの自動生成されたプロット
+* カスタムプロット
+* システムメトリクス など
 
 ![](/images/app_ui/wandb-run-page-workspace-tab.png)
 
-## システムタブ
+W&B App UIを使用して手動でチャートを作成するか、またはW&B Python SDKを使用してプログラム的に作成します。詳細については、[Log media and objects in Experiments](../../track/log/intro.md)を参照してください。
 
-* CPU使用率、システムメモリ、ディスクI/O、ネットワークトラフィック、GPU使用率、GPU温度、GPUメモリアクセス時間、GPUメモリ割り当て、GPU電力消費を可視化
-* Lambda LabsはW&Bシステムメトリクスの使用方法を[ブログ記事→](https://lambdalabs.com/blog/weights-and-bias-gpu-cpu-utilization/)で紹介しています。
+## Systemタブ
+**Systemタブ**には、特定のrunに対して追跡されたシステムメトリクスが表示されます。例えば:
 
-[ライブ例を見る→](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey)
+* CPU利用率の可視化
+* システムメモリ
+* ディスクI/O
+* ネットワークトラフィック
+* GPU利用率
+* GPU温度
+* GPUがメモリにアクセスした時間
+* GPUメモリのアロケーション
+* GPUの電力使用量
+
+[ここでライブ例を表示](https://wandb.ai/stacey/deep-drive/runs/ki2biuqy/system?workspace=user-carey)。
 
 ![](/images/app_ui/wandb_system_utilization.png)
 
-## モデルタブ
+Lambda Labsによる["See the Tracking System Resource"](https://lambdalabs.com/blog/weights-and-bias-gpu-cpu-utilization/) ブログでは、W&Bシステムメトリクスの使用方法に関する詳細情報が提供されています。
 
-* モデルのレイヤー、パラメータの数、各レイヤーの出力形状を確認できます
+## Modelタブ
+**Modelタブ**で、モデルのレイヤー数、パラメータ数、および各レイヤーの出力形状を確認します。
 
-[ライブ例を見る→](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/model)
+[ここでライブ例を表示](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/model)。
 
 ![](/images/app_ui/wandb_run_page_model_tab.png)
 
-## ログタブ
-* モデルをトレーニングするマシンからのコマンドライン、stdout、stderrに出力された情報
+## Logsタブ
+**Logsタブ**には、コマンドラインで出力されたstdoutやstderrなどの出力が表示されます。W&Bは最後の10,000行を表示します。
 
-* 最後の1000行を表示しています。runが終了した後、完全なログファイルをダウンロードしたい場合は、右上のダウンロードボタンをクリックしてください。
+右上の **Download** ボタンをクリックしてログファイルをダウンロードします。
 
-[ライブ例を見る →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs)
+[ここでライブ例を表示](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs)。
 
 ![](/images/app_ui/wandb_run_page_log_tab.png)
 
-## ファイルタブ
+## Filesタブ
+**Filesタブ**を使用して特定のrunに関連付けられたファイルを表示します。モデルチェックポイント、検証セットの例などを保持します。
 
-* [`wandb.save()`](../../track/save-restore.md)を使用して、runと同期するファイルを保存します。
-
-* モデルのチェックポイント、検証セットの例などを保持します。
-
-* `diff.patch`を使用して、コードの正確なバージョンを[復元](../../track/save-restore.md)します。
-
-  [ライブ例を見る →](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images)
-
-:::info
-
-W&B [アーティファクト](../../artifacts/intro.md) システムは、データセットやモデルなどの大きなファイルを扱ったり、バージョン管理を行ったり、重複を削除するための追加機能を提供しています。 runの入力および出力をトラッキングするためには、`wandb.save`ではなくアーティファクトを使用することをお勧めします。 アーティファクトのクイックスタートは[こちら](../../artifacts/artifacts-walkthrough.md)からご覧ください。
-:::
+[ここでライブ例を表示](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images)。
 
 ![](/images/app_ui/wandb_run_page_files_tab.png)
 
-## アーティファクトタブ
+:::tip
+W&Bの[Artifacts](../../artifacts/intro.md)を使用してrunの入力と出力を追跡します。Artifactsクイックスタートは[こちら](../../artifacts/artifacts-walkthrough.md)をチェックしてください。
+:::
 
-* このrunに関連する入力および出力の[アーティファクト](../../artifacts/intro.md)の検索可能なリストを提供します。
+## Artifactsタブ
+Artifactsタブには、指定されたrunに対する入力および出力[Artifacts](../../artifacts/intro.md)がリストされます。
 
-* 行をクリックすると、このrunで使用された、または生成された特定のアーティファクトに関する情報が表示されます。
-
-* ウェブアプリのアーティファクトビューアを操作および使用する方法については、[プロジェクト](project-page.md)レベルの[アーティファクトタブ](project-page.md#artifacts-tab)の参照をご覧ください。[ライブ例を見る →](https://wandb.ai/stacey/artifact_july_demo/runs/2cslp2rt/artifacts)
+[ここでライブ例を表示](https://wandb.ai/stacey/artifact_july_demo/runs/2cslp2rt/artifacts)。
 
 ![](/images/app_ui/artifacts_tab.png)

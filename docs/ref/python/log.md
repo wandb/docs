@@ -1,72 +1,85 @@
-# ログ
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/wandb_run.py#L1555-L1750)
+# log
 
-現在のrunの履歴にデータの辞書をログします。
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/wandb_run.py#L1665-L1877' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+
+現在の run の履歴にデータの辞書をログします。
 
 ```python
 log(
- data: Dict[str, Any],
- step: Optional[int] = None,
- commit: Optional[bool] = None,
- sync: Optional[bool] = None
+    data: Dict[str, Any],
+    step: Optional[int] = None,
+    commit: Optional[bool] = None,
+    sync: Optional[bool] = None
 ) -> None
 ```
 
-`wandb.log`を使って、スカラー、画像、ビデオ、ヒストグラム、プロット、テーブルなどのrunsのデータをログします。
+`wandb.log` を使用して run からデータをログします。例えばスカラー、画像、ビデオ、
+ヒストグラム、プロット、テーブルなどです。
 
-ライブ例、コードスニペット、ベストプラクティスなどについては、[ログのガイド](https://docs.wandb.ai/guides/track/log)を参照してください。
+ライブ例、コードスニペット、ベストプラクティスなどは [logging ガイド](https://docs.wandb.ai/guides/track/log) を参照してください。
 
-最も基本的な使い方は `wandb.log({"train-loss": 0.5, "accuracy": 0.9})` です。これにより、損失と精度がrunの履歴に保存され、これらのメトリクスのサマリー値が更新されます。
-[wandb.ai](https://wandb.ai)のワークスペースでログされたデータを可視化するか、W&Bアプリの[セルフホストインスタンス](https://docs.wandb.ai/guides/hosting)でローカルに可視化するか、たとえばJupyterノートブックでローカルに可視化・探索するためにデータをエクスポートして、[弊社のAPI](https://docs.wandb.ai/guides/track/public-api-guide)を使用します。
+最も基本的な使い方は `wandb.log({"train-loss": 0.5, "accuracy": 0.9})` です。
+これは損失と精度を run の履歴に保存し、これらのメトリクスの要約値を更新します。
 
-UIでは、サマリー値がrunテーブルに表示され、run間の単一値を比較できます。
-サマリー値は、`wandb.run.summary["key"] = value`で直接設定することもできます。
+workspace でログされたデータを [wandb.ai](https://wandb.ai) で可視化するか、
+W&B アプリの [セルフホスティングインスタンス](https://docs.wandb.ai/guides/hosting)
+でローカルに可視化するか、データをエクスポートして Jupyter ノートブックなどでローカルに
+可視化および探索できます。[API ガイド](https://docs.wandb.ai/guides/track/public-api-guide) も参照してください。
 
-ログされる値はスカラーである必要はありません。wandbオブジェクトのログがサポートされています。
-例えば、`wandb.log({"example": wandb.Image("myimage.jpg")})`は、W&B UIで適切に表示されるサンプル画像をログします。
-サポートされているすべてのタイプについては、[リファレンスドキュメント](https://docs.wandb.com/ref/python/data-types)を参照していただくか、3D分子構造やセグメンテーションマスク、PR曲線やヒストグラムの例がある[ログガイド](https://docs.wandb.ai/guides/track/log)を参照してください。
-`wandb.Table`は、構造化データのログに使用できます。詳細については、[テーブルのログガイド](https://docs.wandb.ai/guides/tables/log-tables)を参照してください。
+UI では、要約値が run テーブルに表示され、run 間で単一の値を比較します。
+要約値は `wandb.run.summary["key"] = value` を使用して直接設定することもできます。
 
-W&B UIでは、入れ子になったメトリクスのログが推奨され、サポートされています。
-`wandb.log({"train": {"acc": 0.9}, "val": {"acc": 0.8}})`のような入れ子の辞書でログすると、W&B UIでは、メトリクスが`train`および`val`セクションに整理されます。
+ログされた値はスカラーである必要はありません。任意の wandb オブジェクトをログすることがサポートされています。
+例えば `wandb.log({"example": wandb.Image("myimage.jpg")})` は例として画像をログし、
+W&B UI にうまく表示されます。
+サポートされているすべての種類については、[リファレンスドキュメント](https://docs.wandb.com/ref/python/data-types) を参照するか、
+3D 分子構造やセグメンテーションマスクから PR 曲線やヒストグラムまでの例については [logging ガイド](https://docs.wandb.ai/guides/track/log) を確認してください。
+`wandb.Table` を使用して構造化データをログすることもできます。[テーブルログのガイド](https://docs.wandb.ai/guides/data-vis/log-tables) を参照してください。
 
-wandbはグローバルステップを追跡し、デフォルトでは`wandb.log`の呼び出し毎にインクリメントされます。そのため、関連するメトリクスを一緒にログすることが推奨されます。関連するメトリクスを一緒にログするのが不便な場合は、`wandb.log({"train-loss": 0.5}, commit=False)`を呼び出してから`wandb.log({"accuracy": 0.9})`を呼び出すと、`wandb.log({"train-loss": 0.5, "accuracy": 0.9})`を呼び出すのと同等です。
-`wandb.log`は、1秒あたり数回以上呼び出すことを想定していません。
-もっと頻繁にログを取りたい場合は、クライアント側でデータを集約するか、
-パフォーマンスが低下する可能性があります。
+ネストされたメトリクスのログが推奨されており、W&B UI でサポートされています。
+例えば、`wandb.log({"train": {"acc": 0.9}, "val": {"acc": 0.8}})` というネストされた辞書でログすると、
+メトリクスは W&B UI に `train` と `val` のセクションに整理されます。
 
-| 引数 | |
+wandb はグローバルステップを追跡しており、デフォルトでは `wandb.log` を呼び出すたびに増加します。そのため、関連するメトリクスを一緒にログすることが推奨されます。
+もし関連するメトリクスを一緒にログするのが不便な場合には、
+`wandb.log({"train-loss": 0.5}, commit=False)` と呼び出し、その後
+`wandb.log({"accuracy": 0.9})` と呼び出すことで、
+`wandb.log({"train-loss": 0.5, "accuracy": 0.9})` と同等になります。
+
+`wandb.log` は一秒間に数回以上呼び出すことを意図していません。
+それ以上頻繁にログしたい場合は、クライアント側でデータを集約する方がよく、パフォーマンスが低下する可能性があります。
+
+| 引数 |  |
 | :--- | :--- |
-| `data` | (辞書型, 任意) シリアライズ可能なPythonオブジェクト、つまり `str`、`ints`、`floats`、`Tensors`、`dicts`、または `wandb.data_types` のいずれか。 |
-| `commit` | (ブール値, 任意) メトリクス辞書をwandbサーバーに保存し、ステップをインクリメントします。Falseの場合、`wandb.log`はデータ引数とメトリクスを現在のメトリクス辞書に更新し、`wandb.log`が`commit=True`で呼び出されるまでメトリクスは保存されません。 |
-| `step` | (整数, 任意) 処理のグローバルステップ。これにより、コミットされていない以前のステップが保持されますが、指定されたステップはデフォルトでコミットされません。 |
-| `sync` | (ブール値, True) この引数は廃止予定であり、現在 `wandb.log` の振る舞いは変わりません。 |
-
-
+|  `data` |  (辞書, オプション) シリアライズ可能な Python オブジェクトの辞書、例えば `str`, `ints`, `floats`, `Tensors`, `dicts`, または任意の `wandb.data_types`. |
+|  `commit` |  (ブール, オプション) メトリクス辞書を wandb サーバーに保存し、ステップをインクリメントします。false の場合、`wandb.log` は現在のメトリクス辞書を引数のデータで更新するだけで、`commit=True` で呼ばれるまでメトリクスは保存されません。 |
+|  `step` |  (整数, オプション) グローバルなプロセッシングステップ。この引数は未コミットの以前のステップを保持しますが、指定されたステップをコミットしないのがデフォルトです。 |
+|  `sync` |  (ブール, True) この引数は廃止され、現在は `wandb.log` の動作を変更しません。 |
 
 #### 例:
 
-より多く、より詳細な例については、
-[ログの取り方に関するガイド](https://docs.wandb.com/guides/track/log) を参照してください。
+さらに詳細な例については、
+[logging ガイド](https://docs.wandb.com/guides/track/log) を参照してください。
 
 ### 基本的な使い方
 
 ```python
 import wandb
 
-wandb.init()
-wandb.log({"accuracy": 0.9, "epoch": 5})
+run = wandb.init()
+run.log({"accuracy": 0.9, "epoch": 5})
 ```
 
 ### インクリメンタルログ
 
 ```python
 import wandb
-wandb.init()
-wandb.log({"loss": 0.2}, commit=False)
-# このステップを報告する準備ができたときに別の場所で:
-wandb.log({"accuracy": 0.8})
+
+run = wandb.init()
+run.log({"loss": 0.2}, commit=False)
+# 別の場所でこのステップを報告する準備ができたら:
+run.log({"accuracy": 0.8})
 ```
 
 ### ヒストグラム
@@ -75,91 +88,98 @@ wandb.log({"accuracy": 0.8})
 import numpy as np
 import wandb
 
-# 正規分布からランダムに勾配をサンプリング
+# 正規分布からランダムにサンプリングした勾配
 gradients = np.random.randn(100, 100)
-wandb.init()
-wandb.log({"gradients": wandb.Histogram(gradients)})
+run = wandb.init()
+run.log({"gradients": wandb.Histogram(gradients)})
 ```
 
-### numpyからの画像
+### numpy から画像をログ
 
 ```python
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 examples = []
 for i in range(3):
- pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
- image = wandb.Image(pixels, caption=f"random field {i}")
- examples.append(image)
-wandb.log({"examples": examples})
+    pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+    image = wandb.Image(pixels, caption=f"random field {i}")
+    examples.append(image)
+run.log({"examples": examples})
 ```
 
-### PILからの画像
+### PIL から画像をログ
 
 ```python
 import numpy as np
 from PIL import Image as PILImage
 import wandb
 
-wandb.init()
+run = wandb.init()
 examples = []
 for i in range(3):
- pixels = np.random.randint(low=0, high=256, size=(100, 100, 3), dtype=np.uint8)
- pil_image = PILImage.fromarray(pixels, mode="RGB")
- image = wandb.Image(pil_image, caption=f"random field {i}")
- examples.append(image)
-wandb.log({"examples": examples})
+    pixels = np.random.randint(low=0, high=256, size=(100, 100, 3), dtype=np.uint8)
+    pil_image = PILImage.fromarray(pixels, mode="RGB")
+    image = wandb.Image(pil_image, caption=f"random field {i}")
+    examples.append(image)
+run.log({"examples": examples})
 ```
 
-### numpyからのビデオ
+### numpy からビデオをログ
 
 ```python
 import numpy as np
 import wandb
 
-wandb.init()
-# 軸は (時間, チャンネル, 高さ, 幅)です
+run = wandb.init()
+# 軸は (time, channel, height, width)
 frames = np.random.randint(low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8)
-wandb.log({"video": wandb.Video(frames, fps=4)})
+run.log({"video": wandb.Video(frames, fps=4)})
 ```
-### Matplotlibプロット
+
+### Matplotlib プロット
 
 ```python
 from matplotlib import pyplot as plt
 import numpy as np
 import wandb
 
-wandb.init()
+run = wandb.init()
 fig, ax = plt.subplots()
 x = np.linspace(0, 10)
 y = x * x
-ax.plot(x, y) # y = x^2 のプロット
-wandb.log({"chart": fig})
+ax.plot(x, y)  # プロット y = x^2
+run.log({"chart": fig})
 ```
 
-### PR曲線
+### PR カーブ
+
 ```python
-wandb.log({"pr": wandb.plots.precision_recall(y_test, y_probas, labels)})
+import wandb
+
+run = wandb.init()
+run.log({"pr": wandb.plot.pr_curve(y_test, y_probas, labels)})
 ```
 
-### 3Dオブジェクト
+### 3D オブジェクト
+
 ```python
-wandb.log(
- {
- "generated_samples": [
- wandb.Object3D(open("sample.obj")),
- wandb.Object3D(open("sample.gltf")),
- wandb.Object3D(open("sample.glb")),
- ]
- }
+import wandb
+
+run = wandb.init()
+run.log(
+    {
+        "generated_samples": [
+            wandb.Object3D(open("sample.obj")),
+            wandb.Object3D(open("sample.gltf")),
+            wandb.Object3D(open("sample.glb")),
+        ]
+    }
 )
 ```
-| Raises | |
 
+| 例外 |  |
 | :--- | :--- |
-
-| `wandb.Error` | `wandb.init`の前に呼び出された場合 |
-
-| `ValueError` | 無効なデータが渡された場合 |
+|  `wandb.Error` |  `wandb.init` の前に呼び出されると発生します |
+|  `ValueError` |  無効なデータが渡されると発生します |

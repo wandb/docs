@@ -1,25 +1,26 @@
 ---
-description: Visualize metrics, customize axes, and compare categorical data as bars.
+description: メトリクスを可視化し、軸をカスタマイズし、カテゴリカルデータをバーで比較します。
 displayed_sidebar: default
 ---
 
-# 棒グラフ
 
-棒グラフは、カテゴリデータを縦方向または横方向にプロットできる長方形の棒で表示します。すべてのログされた値の長さが1の場合、**wandb.log()** を使用して棒グラフがデフォルトで表示されます。
+# Bar Plot
 
-![W&Bで箱ひげ図と水平棒グラフをプロット](/images/app_ui/bar_plot.png)
+バープロットは、カテゴリカルデータを長方形のバーで示すグラフで、垂直または水平にプロットできます。バープロットは、すべてのログされた値が長さ1である場合、 **wandb.log()** でデフォルトで表示されます。
 
-チャート設定をカスタマイズして、表示する最大ランを制限し、任意の設定でランをグループ化し、ラベルの名前を変更します。
+![Plotting Box and horizontal Bar plots in W&B](/images/app_ui/bar_plot.png)
+
+チャート設定でカスタマイズして表示する最大run数を制限したり、任意の設定でrunをグループ化したり、ラベルを変更したりできます。
 
 ![](/images/app_ui/bar_plot_custom.png)
 
-### 棒グラフのカスタマイズ
+### バープロットのカスタマイズ
 
-**Box** または **Violin** プロットを作成して、多くの要約統計を1つのチャートタイプに組み合わせることもできます。
+**Box** や **Violin** プロットを作成して、多くの要約統計量を1つのチャートタイプにまとめることもできます。
 
-1. ランテーブルでグループ化します。
-2. ワークスペースで「パネルを追加」をクリックします。
-3. 標準の「Bar Chart」を追加し、プロットするメトリックを選択します。
-4. 「Grouping」タブの下で、「box plot」または「Violin」などを選択して、これらのスタイルのいずれかをプロットします。
+1. Runsテーブルでrunをグループ化します。
+2. ワークスペースで「Add panel」をクリックします。
+3. 標準の「Bar Chart」を追加し、プロットするメトリクスを選択します。
+4. 「Grouping」タブで、「box plot」や「Violin」などを選択して、いずれかのスタイルをプロットします。
 
-![棒グラフのカスタマイズ](@site/static/images/app_ui/bar_plots.gif)
+![Customize Bar Plots](@site/static/images/app_ui/bar_plots.gif)

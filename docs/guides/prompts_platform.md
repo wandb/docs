@@ -1,30 +1,36 @@
 ---
 displayed_sidebar: default
 ---
+
+
 # LLMs
 
-Evaluating the performance of Large Language Models (LLMs) can be difficult. Use W&B Prompts and LLM Monitoring to streamline the evaluation process, providing a visual way to analyze your generative models.
+<a href="https://wandb.me/weave" target="_blank">
+    <img className="no-zoom" src="/images/weave/weave_banner.png" alt="Building LLM apps? Try Weave" style={{display: "block", marginBottom: "15px"}} />
+</a>
 
-## Visualize
+## プロンプト
 
-[W&B Prompts](./prompts/intro.md) is a suite of LLMOps tools built for the development of LLM-powered applications. Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
+Large Language Models (LLMs) のパフォーマンスを評価するのは難しいことがあります。W&B Prompts と LLM Monitoring を使用して評価プロセスを合理化し、生成モデルを視覚的に分析する方法を提供します。
 
-W&B Prompts provides several solutions for building and monitoring LLM-based apps. Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to:
+## 可視化
 
-- Explore and debug LLM chains and prompts with greater granularity.
-- Monitor and observe LLMs to better understand and evaluate performance, usage, and budgets.
+[W&B Prompts](./prompts/intro.md) は、LLM を活用したアプリケーションの開発に向けた LLMOps ツールのスイートです。W&B Prompts を使用して、LLM の実行フローを視覚化および検査し、LLM の入力と出力を分析し、中間結果を表示し、プロンプトと LLMチェーンの設定を安全に保存および管理します。
 
+W&B Prompts は、LLM ベースのアプリの構築とモニタリングのためのいくつかのソリューションを提供します。ソフトウェア開発者、プロンプトエンジニア、ML 実務者、データサイエンティスト、および LLM を扱う他の関係者は次のような最先端のツールを必要としています：
 
+- LLM チェーンとプロンプトをより詳細に探査し、デバッグする。
+- LLM をモニターおよび観察して、パフォーマンス、使用状況、および予算をよりよく理解し評価する。
 
-## Integrations
+## インテグレーション
 
-W&B also has lightweight integrations for:
+W&B には次のような軽量なインテグレーションもあります：
 
 - [LangChain](./integrations/langchain.md)
 - [OpenAI API](./integrations/other/openai-api.md)
 - [OpenAI GPT-3.5 Fine-Tuning](./integrations/other/openai-fine-tuning.md)
 - [Hugging Face Transformers](./integrations/huggingface.md)
 
-## Next Steps
+## 次のステップ
 
-- Check out more detailed documentation on [Prompts](./prompts/intro.md).
+- [Prompts](./prompts/intro.md) に関するより詳細なドキュメントをチェックしてください。

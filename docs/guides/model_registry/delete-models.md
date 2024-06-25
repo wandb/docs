@@ -1,6 +1,6 @@
 ---
-description: ''
 displayed_sidebar: default
 ---
 
-# Delete models
+
+# モデルを削除する

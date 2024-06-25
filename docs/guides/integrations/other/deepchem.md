@@ -1,17 +1,18 @@
 ---
+description: DeepChemライブラリとW&Bを統合する方法
 slug: /guides/integrations/deepchem
-description: How to integrate W&B with DeepChem library.
 displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+
 # DeepChem
 
-[DeepChemライブラリ](https://github.com/deepchem/deepchem)は、薬物発見、材料科学、化学、生物学においてディープラーニングの使用を民主化するオープンソースツールを提供しています。このW&Bとの統合により、DeepChemを使用してモデルをトレーニングする際に簡単で使いやすい実験トラッキングとモデルチェックポイントを追加できます。
+[DeepChem library](https://github.com/deepchem/deepchem) は、創薬、材料科学、化学、生物学におけるディープラーニングの利用を民主化するオープンソースツールを提供します。この W&B インテグレーションは、DeepChem を使用してモデルをトレーニングする際に、シンプルで使いやすい実験管理とモデルチェックポイントを追加します。
 
-## 🧪 DeepChemエクスペリメントの3行のコードでのログ記録
+## 🧪 3行のコードで DeepChem ログを記録
 
 ```python
 logger = WandbLogger(…)
@@ -21,22 +22,23 @@ model.fit(…)
 
 ![](@site/static/images/integrations/cd.png)
 
-## レポート＆Google Colab
+## レポート & Google Colab
 
-W&B DeepChem統合を使用して生成されたチャートの例として、[W&B with DeepChem：分子グラフ畳み込みネットワーク](https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=) の記事をご覧ください。
+W&B DeepChem インテグレーションを使用して生成されたチャートの例については、[Using W&B with DeepChem: Molecular Graph Convolutional Networks](https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=)の記事をご覧ください。
 
-すぐに作業コードに飛び込む場合は、[**Google Colab**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb)をチェックしてください。
+実際のコードにすぐに取り組みたい場合は、この[**Google Colab**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb)をチェックしてください。
 
-## はじめに: 実験のトラッキング
+## はじめに: Experiments をトラッキングする
 
-[KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) または [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models) のタイプのDeepChemモデル用にWeights & Biasesをセットアップします。
-### 1) `wandb`ライブラリをインストールしてログインする
+[Weights & Biases](https://wandb.ai/site) を DeepChem モデルで使用するには、[KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) または [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models) 型のモデルを設定します。
+
+### 1) `wandb` ライブラリをインストールしてログイン
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'コマンドライン', value: 'cli'},
-    {label: 'ノートブック', value: 'notebook'},
+    {label: 'Command Line', value: 'cli'},
+    {label: 'Notebook', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
@@ -58,16 +60,17 @@ wandb.login()
   </TabItem>
 </Tabs>
 
-### 2) WandbLoggerを初期化して設定する
+### 2) WandbLogger を初期化して設定
+
 ```python
 from deepchem.models import WandbLogger
 
 logger = WandbLogger(entity="my_entity", project="my_project")
 ```
 
-### 3) トレーニングと評価データをW&Bにログする
+### 3) トレーニングと評価データを W&B にログ
 
-トレーニングロスと評価メトリクスは、自動的にWeights & Biasesにログされます。オプションの評価は、DeepChemの[ValidationCallback](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py)を使用して有効にすることができます。`WandbLogger`は、ValidationCallbackコールバックを検出し、生成されたメトリクスをログします。
+トレーニングロスや評価メトリクスは自動的に Weights & Biases にログできます。オプションの評価は、DeepChem の [ValidationCallback](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py) を使用して有効化できます。`WandbLogger` は ValidationCallback コールバックを検出し、生成されたメトリクスをログします。
 
 <Tabs
   defaultValue="torch"
@@ -80,7 +83,7 @@ logger = WandbLogger(entity="my_entity", project="my_project")
 ```python
 from deepchem.models import TorchModel, ValidationCallback
 
-vc = ValidationCallback(…)  # オプション
+vc = ValidationCallback(…)  # optional
 model = TorchModel(…, wandb_logger=logger)
 model.fit(…, callbacks=[vc])
 logger.finish()
@@ -90,15 +93,12 @@ logger.finish()
 
 ```python
 from deepchem.models import KerasModel, ValidationCallback
-vc = ValidationCallback(…)  # 任意
 
+vc = ValidationCallback(…)  # optional
 model = KerasModel(…, wandb_logger=logger)
-
 model.fit(…, callbacks=[vc])
-
 logger.finish()
-
 ```
-</TabItem>
 
+  </TabItem>
 </Tabs>

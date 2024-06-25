@@ -1,71 +1,86 @@
 ---
-description: Traverse automatically created direct acyclic W&B Artifact graphs.
+description: 自動生成された有向非巡回 W&B アーティファクトグラフをトラバースします。
 displayed_sidebar: default
 ---
 
-# アーティファクトグラフの探索とたどり
+
+# Explore and traverse artifact graphs
 
 <head>
-    <title>有向非巡回W＆Bアーティファクトグラフを探索しましょう。</title>
+    <title>Explore direct acyclic W&B Artifact graphs.</title>
 </head>
-Weights & Biasesは、特定のrunでログしたアーティファクトと、特定のrunが使用したアーティファクトを自動的にトラッキングします。W&B App UIまたはプログラムでアーティファクトの履歴を調べてみましょう。
 
-## W&B App UIでアーティファクトをたどる
+W&Bは、特定の run がログした artifacts と、その run が使用した artifacts を自動で追跡します。これらの artifacts にはデータセット、モデル、評価結果、その他が含まれます。アーティファクトのリネージを探索することで、機械学習ライフサイクル全体にわたって生成されるさまざまな artifacts を追跡し、管理することができます。
 
-グラフビューでは、開発フローの概要が表示されます。
-アーティファクトのグラフを表示する方法：
+## Lineage
+アーティファクトのリネージを追跡することには、いくつかの重要な利点があります：
 
-1. W&BアプリのUIでプロジェクトに移動します。
+- 再現性: すべてのアーティファクトのリネージを追跡することで、チームは実験、モデル、および結果を再現することができ、デバッグ、実験、および機械学習モデルの検証にとって不可欠です。
+
+- バージョン管理: アーティファクトのリネージは、アーティファクトのバージョン管理とその変更の追跡を含みます。これにより、必要に応じて以前のバージョンのデータまたはモデルにロールバックすることができます。
+
+- 監査: アーティファクトとその変換の詳細な履歴があることで、組織は規制およびガバナンスの要件に準拠することができます。
+
+- コラボレーションと知識共有: アーティファクトのリネージは、試みとその結果を明確に記録することで、チームメンバー間のより良いコラボレーションを促進します。これにより、努力の重複を避け、開発プロセスを加速します。
+
+### Finding an artifact's lineage
+**Artifacts** タブでアーティファクトを選択すると、そのアーティファクトのリネージを確認することができます。このグラフビューは、パイプラインの概要を示します。
+
+アーティファクトグラフを表示するには：
+
+1. W&BアプリのUIでプロジェクトに移動します
 2. 左パネルのアーティファクトアイコンを選択します。
-3. **履歴**を選択します。
+3. **Lineage** を選択します。
 
-runやアーティファクトを作成する際に提供する`type`が、グラフの作成に使用されます。runやアーティファクトの入力と出力は、矢印でグラフに表示されます。アーティファクトは青い四角形で表され、Runは緑の四角形で表されます。
-提供されるアーティファクトのタイプは、**ARTIFACT**ラベルの隣にある濃い青のヘッダーにあります。アーティファクトの名前とアーティファクトのバージョンは、**ARTIFACT**ラベルの下の淡い青の領域に表示されます。
+![Getting to the Lineage tab](../../../static/images/artifacts/lineage1.gif)
 
-runを初期化する際に提供するジョブタイプは、**RUN**ラベルの隣にあります。W&Bのrun名は、**RUN**ラベルの下の淡い緑の領域にあります。
+### Navigating the lineage graph
+
+指定したアーティファクトまたはジョブタイプがその名前の前に表示され、アーティファクトは青いアイコン、run は緑のアイコンで表されます。矢印は、グラフ上の run またはアーティファクトの入力と出力の詳細を示します。
+
+![Run and artifact nodes](../../../static/images/artifacts/lineage2.png)
 
 :::info
-アーティファクトのタイプと名前は、左のサイドバーと**Lineage**タブの両方で表示することができます。
+アーティファクトのタイプと名前は、左のサイドバーと **Lineage** タブの両方で確認できます。
 :::
-例えば、上の画像では、アーティファクトは "raw_dataset" というタイプで定義されています（ピンクの四角）。アーティファクトの名前は "MNIST_raw"（ピンクの線）と呼ばれています。そのアーティファクトは、トレーニングに使用されました。トレーニングのrunの名前は "vivid-snow-42" と呼ばれています。そのrunは、"mnist-19pofeku" という名前の "モデル"アーティファクト（オレンジの四角）を生成しました。
 
-![実験に使用されたアーティファクトとrunsのDAGビュー](/images/artifacts/example_dag_with_sidebar.png)
-詳細なビューには、ダッシュボードの左上にある **Explode** トグルを選択してください。拡張されたグラフでは、プロジェクト内のすべてのrunやアーティファクトの詳細を確認できます。この[example Graph page](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/v0/lineage)で自分で試してみてください。
+![Inputs and outputs](../../../static/images/artifacts/lineage2a.gif)
 
-## アーティファクトをプログラム的にたどる
+より詳細なビューを得るには、個々のアーティファクトまたは run をクリックして特定のオブジェクトに関する詳細情報を取得します。
 
-W&B Public API（[wandb.Api](https://docs.wandb.ai/ref/python/public-api/api)）を使用して、アーティファクトオブジェクトを作成します。プロジェクト名、アーティファクト名、およびアーティファクトのエイリアスを指定してください。
+![Previewing a run](../../../static/images/artifacts/lineage3a.gif)
+
+### Artifact clusters
+
+グラフのレベルに5つ以上の run またはアーティファクトがある場合、クラスターが作成されます。クラスターには、特定のバージョンの run またはアーティファクトを検索するための検索バーがあり、クラスター内のノードを個別に引き出してそのリネージを調査することができます。
+
+ノードをクリックすると、ノードの概要を持つプレビューが開きます。矢印をクリックすると、個々の run またはアーティファクトが抽出され、抽出されたノードのリネージを調査することができます。
+
+![Searching a run cluster](../../../static/images/artifacts/lineage3b.gif)
+
+## Use the API to track lineage
+[W&B API](../../ref/python/public-api/api.md) を使用してグラフをナビゲートすることもできます。
+
+まず、`wandb.init`で run を作成し、次に新しいアーティファクトを作成するか、既存のアーティファクトを `wandb.Artifact` で取得します。次に、`.add_file` を使用してアーティファクトにファイルを追加します。最後に、そのアーティファクトを run に `log_artifact` でログします。完成したコードは以下のようになります：
 
 ```python
-import wandb
+with wandb.init() as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
 
-api = wandb.Api()
-
-artifact = api.artifact("プロジェクト/アーティファクト:エイリアス")
+    # ファイルとアセットをアーティファクトに追加するには
+    # `.add`, `.add_file`, `.add_dir`, および `.add_reference` を使用します
+    artifact.add_file("image1.png")
+    run.log_artifact(artifact)
 ```
-アーティファクトからグラフを辿るために、アーティファクトオブジェクトの[`logged_by`](https://docs.wandb.ai/ref/python/public-api/artifact#logged\_by)メソッドと[`used_by`](https://docs.wandb.ai/ref/python/public-api/artifact#used\_by)メソッドを使用します。
+
+アーティファクトオブジェクトの[`logged_by`](../../ref/python/artifact.md#logged_by) および [`used_by`](../../ref/python/artifact.md#used_by) メソッドを使用して、アーティファクトからグラフを歩きます：
 
 ```python
-# アーティファクトからグラフの上下を辿る：
+# アーティファクトからグラフを上下に歩きます：
 producer_run = artifact.logged_by()
 consumer_runs = artifact.used_by()
 ```
-#### runからトラバースする
-
-W&B Public API（[wandb.Api.Run](https://docs.wandb.ai/ref/python/public-api/run)）を使用して、アーティファクトオブジェクトを作成します。エンティティ名、プロジェクト名、およびRun IDを指定してください。
-
-```python
-import wandb
-
-api = wandb.Api()
-
-artifact = api.run("エンティティ/プロジェクト/run_id")
-```
-
-与えられたrunからグラフをたどるために、[`logged_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#logged_artifacts) および [`used_artifacts`](https://docs.wandb.ai/ref/python/public-api/run#used_artifacts) メソッドを使用します。
-
-```python
-# runからグラフを上下に辿る：
-logged_artifacts = run.logged_artifacts()
-used_artifacts = run.used_artifacts()
-```
+## Next steps
+- [Explore artifacts in more detail](../artifacts/artifacts-walkthrough.md)
+- [Manage artifact storage](../artifacts/delete-artifacts.md)
+- [Explore an artifacts project](https://wandb.ai/wandb-smle/artifact_workflow/artifacts/raw_dataset/raw_data/v0/lineage)

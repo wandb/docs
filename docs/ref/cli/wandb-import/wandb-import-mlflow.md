@@ -1,18 +1,18 @@
+
 # wandb import mlflow
 
 **使用方法**
 
-`wandb import mlflow [オプション]`
+`wandb import mlflow [OPTIONS]`
 
 **概要**
 
-MLFlowからのインポート
+MLFlow からインポート
 
 **オプション**
 
 | **オプション** | **説明** |
 | :--- | :--- |
 | --mlflow-tracking-uri | MLFlow トラッキング URI |
-| --target-entity | インポート先のデータにデフォルトのエンティティを上書き [必須] |
-| --target-project | インポート先のデータにデフォルトのプロジェクトを上書き [必須] |
-| --help | このメッセージを表示して終了します。 |
+| --target-entity | デフォルトの entity を上書きしてデータをインポートする [必須] |
+| --target-project | デフォルトの project を上書きしてデータをインポートする [必須] |

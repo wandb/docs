@@ -1,62 +1,55 @@
 ---
+description: W&B Sweeps を使用したハイパーパラメータ検索とモデル最適化
 slug: /guides/sweeps
-description: Hyperparameter search and model optimization with W&B Sweeps
 displayed_sidebar: default
 ---
 
-# ハイパーパラメータをチューニングする
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
+
+
+# ハイパーパラメータのチューニング
+
+<CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb"/>
 
 <head>
-  <title>スイープでハイパーパラメータをチューニングする</title>
+  <title>Sweepsでハイパーパラメータをチューニングする</title>
 </head>
 
-Weights & Biases スイープを使って、ハイパーパラメータ探索を自動化し、可能なモデルの空間を調べます。コード数行でスイープを作成できます。スイープは、自動化されたハイパーパラメータ探索の利点を、視覚化豊富でインタラクティブな実験追跡と組み合わせます。ベイズ、グリッドサーチ、ランダムなどの人気のある探索方法から選択して、ハイパーパラメータ空間を探索できます。スイープジョブを1台以上のマシンにスケーリングおよび並列化します。
+W&B Sweepsを使用してハイパーパラメータの検索を自動化し、リッチでインタラクティブな実験管理を視覚化します。ベイズ法、グリッド検索、ランダム検索などの人気のある検索方法から選び、ハイパーパラメータ空間を検索します。複数のマシンに渡ってスケールし、並列化することができます。
 
-![インタラクティブなダッシュボードを使った大規模なハイパーパラメータチューニング実験からの洞察](/images/sweeps/intro_what_it_is.png)
+![インタラクティブなダッシュボードを使用して、大規模なハイパーパラメータチューニング実験から洞察を得る。](/images/sweeps/intro_what_it_is.png)
 
 ### 仕組み
+2つの [W&B CLI](../../ref/cli/README.md) コマンドでsweepを作成します：
 
-Weights & Biases スイープには、_コントローラー_ と 1 つ以上の _エージェント_ の 2 つのコンポーネントがあります。コントローラは、新しいハイパーパラメータの組み合わせを選びます。[通常、スイープサーバーは Weights & Biases サーバーで管理されます](./local-controller.md)。
+1. sweepを初期化する
 
-エージェントは、Weights & Biases サーバーからハイパーパラメーターを問い合わせ、それらを使用してモデルのトレーニングを実行します。トレーニングの結果は、スイープサーバーに報告されます。エージェントは、1台以上のマシンで1つ以上のプロセスを実行できます。エージェントが複数のプロセスを複数のマシンで実行できる柔軟性で、スイープを並列化およびスケーリングしやすくなります。スイープのスケーリング方法についての詳細は、[エージェントの並列化](./parallelize-agents.md)を参照してください。
+```bash
+wandb sweep --project <propject-name> <path-to-config file>
+```
 
-以下の手順で W&B スイープを作成します。
+2. sweep agentを開始する
 
-1. **コードに W&B を追加する:** Python スクリプトに、ハイパーパラメータと出力メトリクスをログに記録するためのコードを数行追加します。詳細については、[コードに W&B を追加する](./add-w-and-b-to-your-code.md)を参照してください。
-2. **スイープ構成の定義:** スイープ対象となる変数と範囲を定義します。検索戦略を選択します。グリッド、ランダム、ベイズ探索などがサポートされており、早期停止などの高速化技術も利用できます。詳細については、[スイープ構成の定義](./define-sweep-configuration.md)を参照してください。
-3. **スイープの初期化**: スイープサーバーを開始します。当社では、この中央コントローラをホストし、スイープを実行するエージェント間で調整を行います。詳細については、[スイープの初期化](./initialize-sweeps.md)を参照してください。
-4. **スイープを開始する:** スイープ内でモデルをトレーニングしたい各マシンで、1行のコマンドを実行します。エージェントは、次に試すハイパーパラメータを中央のスイープサーバーに尋ね、実行を実行します。詳細については、[スイープエージェントの開始](./start-sweep-agents.md)を参照してください。
-5. **結果の可視化（任意）**: ライブダッシュボードを開き、すべての結果を1つの中央の場所に表示します。
+```bash
+wandb agent <sweep-ID>
+```
 
-### 使い始める方法
-ユースケースに応じて、以下のリソースを参照して、Weights & Biases Sweepsを始めてください。
+:::tip
+上記のコードスニペットとこのページにリンクされているColabでは、W&B CLIを使用してsweepを初期化し作成する方法を示しています。詳細な手順については、Sweepsの [ウォークスルー](./walkthrough.md) を参照してください。W&B Python SDKコマンドを使用してsweep設定を定義、初期化、開始する方法がステップバイステップで説明されています。
+:::
 
+### 開始方法
 
+ユースケースに応じて、以下のリソースを参照してW&B Sweepsを始めてください：
 
-* Weights & Biases Sweepsで初めてハイパーパラメータチューニングを行う場合は、[Quickstart](./walkthrough.md)をお読みいただくことをお勧めします。クイックスタートでは、最初のW&Bスイープの設定方法を説明しています。
-
-* Weights and Biases Developer Guideで、Sweepsに関する以下のトピックを探索してください:
-
+* 初めてW&B Sweepsを使用する場合は、[Sweeps Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb) を参照することをお勧めします。
+* W&B Python SDKコマンドを使用してsweep設定を定義、初期化、開始する方法の詳細については、[sweeps walkthrough](./walkthrough.md) を読んでください。
+* このチャプターでは以下の方法を学びます：
   * [コードにW&Bを追加する](./add-w-and-b-to-your-code.md)
+  * [sweep設定を定義する](./define-sweep-configuration.md)
+  * [sweepsを初期化する](./initialize-sweeps.md)
+  * [sweep agentsを開始する](./start-sweep-agents.md)
+  * [sweep結果を視覚化する](./visualize-sweep-results.md)
+* W&B Sweepsを使用してハイパーパラメータ最適化を探求する [キュレーションされたSweep実験のリスト](./useful-resources.md) を参照してください。結果はW&B Reportsに保存されます。
 
-  * [スイープ構成を定義する](./define-sweep-configuration.md)
-
-  * [スイープを初期化する](./initialize-sweeps.md)
-
-  * [スイープエージェントを開始する](./start-sweep-agents.md)
-
-  * [スイープ結果を可視化する](./visualize-sweep-results.md)
-
-* PyTorchフレームワークを用いたJupyterノートブックでスイープを作成する方法の例として、[Organizing Hyperparameter Sweeps in PyTorch](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing\_Hyperparameter\_Sweeps\_in\_PyTorch\_with\_W%26B.ipynb#scrollTo=e43v8-9MEoYk) Google Colab Jupyterノートブックを試してください。
-
-* W&B Sweepsを用いたハイパーパラメータ最適化を探る[厳選されたスイープ実験のリスト](./useful-resources.md) を探索してください。結果はW&B Reportsに保存されます。
-
-* [Weights & Biases SDK リファレンスガイド](../../ref/README.md)をお読みください。
-
-
-
-ステップバイステップのビデオはこちらをご覧ください：[W&Bスイープを使って簡単にハイパーパラメータをチューニングする](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab\_channel=Weights%26Biases)。
-
-
-
-<!-- {% embed url="http://wandb.me/sweeps-video" %} -->
+ステップバイステップのビデオは以下を参照してください：[Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab\_channel=Weights%26Biases).

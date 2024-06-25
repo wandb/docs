@@ -1,50 +1,50 @@
 ---
+description: W&B を PaddleDetection と統合する方法
 slug: /guides/integrations/paddledetection
-description: How to integrate W&B with PaddleDetection.
 displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+
 # PaddleDetection
 
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection)は、[PaddlePaddle](https://github.com/PaddlePaddle/Paddle)をベースにしたエンドツーエンドのオブジェクト検出開発キットです。ネットワークコンポーネント、データ拡張、損失などの設定可能なモジュールを用いて、主要なオブジェクト検出、インスタンスセグメンテーション、トラッキング、キーポイント検出アルゴリズムをモジュラー設計で実装しています。
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) は [PaddlePaddle](https://github.com/PaddlePaddle/Paddle) に基づいたエンドツーエンドのオブジェクト検出開発キットです。ネットワークコンポーネント、データ拡張、損失などのモジュール設計で、多様な主流のオブジェクト検出、インスタンスセグメンテーション、トラッキングおよびキーポイント検出アルゴリズムを実装しています。
 
-現在のPaddleDetectionには、トレーニングと検証のメトリクス、およびモデルのチェックポイントとそれに対応するメタデータをすべて記録するW&B統合が標準で搭載されています。
+PaddleDetection は、トレーニングおよび検証メトリクス、モデルチェックポイント、それに対応するメタデータをログするためのW&Bインテグレーションが組み込まれています。
 
-## 例としてのブログとColab
+## 例: ブログとColab
 
-[**こちらのブログをお読みください**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0)では、PaddleDetectionを使用してCOCO2017データセットのサブセットでYOLOXモデルをトレーニングする方法を紹介しています。これには、[**Google Colab**](https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing)も含まれており、対応するW&Bダッシュボードは[**こちら**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/runs/2ry6i2x9?workspace=)でリアルタイムに閲覧できます。
+PaddleDetectionを使ってCOCO2017データセットのサブセットでYOLOXモデルをトレーニングする方法については、[**こちらのブログ**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0)をお読みください。また、[**Google Colab**](https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing)も利用可能で、対応するライブW&Bダッシュボードは[**こちら**](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/runs/2ry6i2x9?workspace=)からアクセスできます。
 
 ## PaddleDetection WandbLogger
 
-PaddleDetection WandbLoggerは、トレーニングと評価のメトリクスをWeights & Biasesに記録し、トレーニング中のモデルのチェックポイントも記録します。
+PaddleDetection WandbLoggerは、トレーニングと評価のメトリクス、およびトレーニング中のモデルチェックポイントを Weights & Biases にログします。
 
-## Weights & BiasesとPaddleDetectionを使用する
+## Weights & BiasesとPaddleDetectionの利用
 
-### W&Bにサインアップしてログインする
+### W&Bにサインアップとログイン
 
-[**無料のWeights & Biasesアカウントにサインアップ**](https://wandb.ai/site)し、wandbライブラリをpipでインストールします。ログインするには、www.wandb.aiでアカウントにサインインする必要があります。サインインしたら、[**Authorizeページ**](https://wandb.ai/authorize) **でAPIキーが表示されます。**
+[**こちらからサインアップ**](https://wandb.ai/site)して、無料のWeights & Biasesアカウントを作成し、wandbライブラリをインストールしてください。ログインするには、www.wandb.aiであなたのアカウントにサインインしている必要があります。サインインすると、[**認証ページ**](https://wandb.ai/authorize)で**APIキーが見つかります**。
 
 <Tabs
   defaultValue="cli"
   values={[
-    {label: 'コマンドライン', value: 'cli'},
-    {label: 'ノートブック', value: 'notebook'},
+    {label: 'Command Line', value: 'cli'},
+    {label: 'Notebook', value: 'notebook'},
   ]}>
   <TabItem value="cli">
 
-```
+```shell
 pip install wandb
 
 wandb login
 ```
-
   </TabItem>
   <TabItem value="notebook">
 
-```
+```notebook
 !pip install wandb
 
 wandb.login()
@@ -54,15 +54,15 @@ wandb.login()
 
 ### トレーニングスクリプトでWandbLoggerを有効にする
 
-#### CLIを使用する
+#### CLIを使用する場合
 
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/)の`train.py`に引数としてwandbを使用するには：
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/)の `train.py` に引数を渡してwandbを使用するには:
 
-* `--use_wandb`フラグを追加します
-* 最初のwandb引数の前に`-o`が必要（一度だけ指定）
-* 個々のwandb引数には`wandb-`プレフィックスが必要です。例えば、[`wandb.init`](https://docs.wandb.ai/ref/python/init)に渡す 引数には`wandb-`プレフィックスをつけます
+* `--use_wandb` フラグを追加する
+* 最初のwandb引数は `-o` に続ける（これを一度だけ渡せばok）
+* 個々のwandb引数には `wandb-` プレフィックスを付ける。例えば[`wandb.init`](https://docs.wandb.ai/ref/python/init) に渡す引数には `wandb-` プレフィックスを付けます
 
-```
+```shell
 python tools/train.py 
     -c config.yml \ 
     --use_wandb \
@@ -71,9 +71,10 @@ python tools/train.py
     wandb-entity=MyTeam \
     wandb-save_dir=./logs
 ```
-#### config.ymlファイルを利用する方法
 
-また、configファイルを通じてwandbを活性化することもできます。wandbヘッダーの下に、config.ymlファイルにwandbの引数を追加してください：
+#### config.ymlファイルを使用する場合
+
+configファイルを介してwandbを有効にすることもできます。config.ymlファイルにwandb引数を下記のように追加します:
 
 ```
 wandb:
@@ -82,10 +83,10 @@ wandb:
   save_dir: ./logs
 ```
 
-Weights & Biasesをオンにした状態で`train.py`ファイルを実行すると、W&Bダッシュボードにアクセスするためのリンクが生成されます。
+Weights & Biasesを有効にして `train.py` ファイルを実行すると、W&Bダッシュボードへのリンクが生成されます:
 
-![Weights & Biasesダッシュボード](/images/integrations/paddledetection_wb_dashboard.png)
+![A Weights & Biases Dashboard](/images/integrations/paddledetection_wb_dashboard.png)
 
-## フィードバックや問題について
+## フィードバックや問題点
 
-Weights & Biasesのインテグレーションに関するご意見や問題がある場合は、[PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection)にIssueを立てるか、support@wandb.comまでメールしてください。
+Weights & Biasesインテグレーションに関するフィードバックや問題がある場合は、[PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection)で問題を報告するか、support@wandb.com にメールしてください。

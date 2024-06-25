@@ -1,60 +1,62 @@
 ---
-description: W&B Launchに関するよくある質問への回答。
+description: W&B Launch に関するよくある質問への回答。
 displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+
 
 # Launch FAQs
 
 <head>
-  <title>Launchに関するよくある質問</title>
+  <title>Frequently Asked Questions About Launch</title>
 </head>
 
-## はじめに
+## Getting Started
 
-### W&Bにコンテナを作成してほしくないのですが、Launchを使用できますか？
+### I do not want W&B to build a container for me, can I still use Launch?
 
-はい。以下のコマンドを実行して、事前にビルドされたDockerイメージを起動できます。`<>`の中身をあなたの情報に置き換えてください：
+Yes. Run the following to launch a pre-built docker image. Replace the items in the `<>` with your information:
 
 ```bash
 wandb launch -d <docker-image-uri> -q <queue-name> -E <entrypoint>
 ```
 
-これにより、runを作成するとジョブがビルドされます。
+This will build a job when you create a run.
 
-また、イメージからジョブを作成することもできます：
+Or you can make a job from an image:
 
 ```bash
 wandb job create image <image-name> -p <project> -e <entity>
 ```
 
-### Launchを効果的に使用するためのベストプラクティスはありますか？
+### Are there best practices for using Launch effectively?
 
-1. エージェントを開始する前にキューを作成し、エージェントが簡単にそれを指すように設定できるようにします。これを行わないと、エージェントはエラーを出し、キューを追加するまで動作しません。
-2. エージェントを起動するためにW&Bサービスアカウントを作成し、個々のユーザーアカウントに依存しないようにします。
-3. `wandb.config`を使用してハイパーパラメーターを読み書きし、ジョブを再実行する際に上書きできるようにします。argsparseを使用している場合は[このガイド](https://docs.wandb.ai/guides/launch/create-launch-job#making-your-code-job-friendly)を参照してください。
+1. エージェントを開始する前にキューを作成しておくと、エージェントを簡単にキューにポイントさせることができます。これをしないと、エージェントがエラーを出し、キューを追加するまで機能しません。
+2. エージェントを起動するためにW&Bサービスアカウントを作成し、それが個々のユーザーアカウントに結び付けられないようにします。
+3. `wandb.config` を使用してハイパーパラメーターの読み書きを行い、ジョブの再実行時に上書きできるようにします。 argsparse を使用する場合は、[このガイド](https://docs.wandb.ai/guides/launch/create-launch-job#making-your-code-job-friendly) をチェックしてください。
 
-### クリックが嫌いです。UIを使わずにLaunchを使用できますか？
+### I do not like clicking- can I use Launch without going through the UI?
 
-はい。標準の`wandb` CLIには`launch`サブコマンドが含まれており、これを使用してジョブを起動できます。詳細については、以下を実行してみてください：
+Yes. The standard `wandb` CLI includes a `launch` subcommand that you can use to launch your jobs. For more info, try running
 
 ```bash
 wandb launch --help
 ```
 
-### Launchはターゲット環境で計算リソースを自動的にプロビジョニング（およびスピンダウン）できますか？
+### Can Launch automatically provision (and spin down) compute resources for me in the target environment?
 
-これは環境によります。SageMakerやVertexではリソースをプロビジョニングできます。Kubernetesでは、必要に応じてリソースを自動的にスピンアップおよびスピンダウンするためにオートスケーラーを使用できます。W&Bのソリューションアーキテクトは、リトライ、オートスケーリング、スポットインスタンスノードプールの使用を促進するために、基盤となるKubernetesインフラストラクチャーの設定を支援します。support@wandb.comまたは共有Slackチャンネルにお問い合わせください。
+これは環境に依存します。SageMakerやVertexではリソースを自動的にプロビジョンできます。Kubernetesでは、必要に応じてリソースを自動的にスピンダウンまたはスピンアップするためにオートスケーラーが使用できます。W&Bのソリューションアーキテクトが、再試行、オートスケーリング、スポットインスタンスノードプールの利用を促進するためのKubernetesインフラストラクチャ設定をお手伝いします。support@wandb.com または共有のSlackチャンネルにお問い合わせください。
 
-### `wandb launch -d`や`wandb job create image`は、Dockerアーティファクト全体をアップロードしてレジストリからプルしないのですか？
+### Is `wandb launch -d` or `wandb job create image` uploading a whole docker artifact and not pulling from a registry?
 
-いいえ。`wandb launch -d`コマンドはレジストリにアップロードしません。イメージをレジストリにアップロードする必要があります。一般的な手順は以下の通りです：
+No. The `wandb launch -d` command will not upload to a registry for you. You need to upload your image to a registry yourself. Here are the general steps:
 
 1. イメージをビルドします。
 2. イメージをレジストリにプッシュします。
 
-ワークフローは以下のようになります：
+このワークフローは次のようになります:
 
 ```bash
 docker build -t <repo-url>:<tag> .
@@ -62,23 +64,22 @@ docker push <repo-url>:<tag>
 wandb launch -d <repo-url>:<tag>
 ```
 
-そこから、launchエージェントはそのコンテナを指すジョブをスピンアップします。コンテナレジストリからイメージをプルするためのエージェントのアクセス方法については、[Advanced agent setup](./setup-agent-advanced.md#agent-configuration)を参照してください。
+ここから、launchエージェントがそのコンテナを指すジョブをスピンアップします。 コンテナレジストリからイメージをプルするためのエージェントアクセスを与える方法の例は、 [Advanced agent setup](./setup-agent-advanced.md#agent-configuration) を参照してください。
 
-Kubernetesの場合、Kubernetesクラスターのポッドはプッシュしているレジストリにアクセスする必要があります。
+Kubernetes の場合、Kubernetes クラスターポッドはプッシュするレジストリへのアクセスが必要です。
 
-### Dockerfileを指定して、W&BにDockerイメージをビルドしてもらえますか？
-
-はい。これは、頻繁に変更されない多くの要件があるが、コードベースが頻繁に変更される場合に特に便利です。
+### Can I specify a Dockerfile and let W&B build a Docker image for me?
+Yes. これにより、頻繁に変更がない多数の要件があるが、コードベースが頻繁に変更される場合に特に役立ちます。
 
 :::important
-Dockerfileがマウントを使用するようにフォーマットされていることを確認してください。詳細については、[Docker Docsのマウントに関するドキュメント](https://docs.docker.com/build/guide/mounts/)を参照してください。
+Dockerfile がマウントを使用するようにフォーマットされていることを確認してください。 詳細は、[Docker Docs ウェブサイトの Mounts ドキュメント](https://docs.docker.com/build/guide/mounts/) を参照してください。
 :::
 
-Dockerfileが設定されたら、次の3つの方法のいずれかでDockerfileをW&Bに指定できます：
+Dockerfile の設定が完了したら、Dockerfile を W&B に渡す方法は次の3つのいずれかです:
 
-* Dockerfile.wandbを使用
-* W&B CLI
-* W&B App
+- Dockerfile.wandb を使用する
+- W&B CLI
+- W&B アプリ
 
 <Tabs
   defaultValue="dockerfile"
@@ -89,12 +90,12 @@ Dockerfileが設定されたら、次の3つの方法のいずれかでDockerfil
   ]}>
   <TabItem value="dockerfile">
 
-W&B runのエントリーポイントと同じディレクトリに`Dockerfile.wandb`というファイルを含めます。W&Bは、W&Bの組み込みDockerfileの代わりに`Dockerfile.wandb`を使用します。
+Include a file called `Dockerfile.wandb` in the same directory as the W&B run’s entrypoint.  W&B will use `Dockerfile.wandb` instead of W&B’s built-in Dockerfile.
 
   </TabItem>
   <TabItem value="cli">
 
-[`wandb launch`](../../ref/cli/wandb-launch.md)コマンドでlaunchジョブをキューに追加する際に`--dockerfile`フラグを提供します：
+Provide the `--dockerfile` flag when you call queue a launch job with the [`wandb launch`](../../ref/cli/wandb-launch.md) command:
 
 ```bash
 wandb launch --dockerfile path/to/Dockerfile
@@ -103,9 +104,9 @@ wandb launch --dockerfile path/to/Dockerfile
   </TabItem>
   <TabItem value="app">
 
-W&B Appでジョブをキューに追加する際に、**Overrides**セクションにDockerfileのパスを提供します。具体的には、`"dockerfile"`をキーとして、値にDockerfileのパスを指定します。
+When you add a job to a queue on the W&B App, provide the path to your Dockerfile in the **Overrides** section. More specifically, provide it as a key-value pair where `"dockerfile"` is the key and the value is the path to your Dockerfile.
 
-例えば、次のJSONはローカルディレクトリ内のDockerfileを含める方法を示しています：
+For example, the following JSON shows how to include a Dockerfile that is within a local directory:
 
 ```json title="Launch job W&B App"
 {
@@ -123,57 +124,57 @@ W&B Appでジョブをキューに追加する際に、**Overrides**セクショ
   </TabItem>
 </Tabs>
 
-## 権限とリソース
+## Permissions and Resources
 
-### キューにプッシュできる人を制御するにはどうすればよいですか？
+### How do I control who can push to a queue?
 
-キューはユーザーチームにスコープされます。キューを作成する際に所有エンティティを定義します。アクセスを制限するには、チームメンバーシップを変更できます。
+キューはユーザーのチームにスコープされます。キューを作成するときに所有エンティティを定義します。 アクセスを制限するには、チームメンバーシップを変更できます。
 
-### Kubernetesでエージェントに必要な権限は何ですか？
+### What permissions does the agent require in Kubernetes?
 
-次のKubernetesマニフェストは、`wandb`ネームスペースに`wandb-launch-agent`という名前のロールを作成します。このロールは、エージェントが`wandb`ネームスペースでポッド、コンフィグマップ、シークレット、およびポッド/ログを作成することを許可します。`wandb-cluster-role`は、エージェントが任意のネームスペースでポッド、ポッド/ログ、シークレット、ジョブ、およびジョブ/ステータスを作成することを許可します。
+次のKubernetesマニフェストは、`wandb`ネームスペース内に`wandb-launch-agent`という名前の役割を作成します。この役割は、エージェントが`wandb`のネームスペース内でポッド、コンフィグマップ、シークレット、ポッド/ログを作成することを許可します。 `wandb-cluster-role`は、エージェントが選択した任意のネームスペースでポッド、ポッド/ログ、シークレット、ジョブ、およびジョブ/ステータスを作成することを許可します。
 
-### Launchは並列化をサポートしていますか？ジョブが消費するリソースを制限する方法はありますか？
+### Does Launch support parallelization?  How can I limit the resources consumed by a job?
 
-はい、Launchは複数のGPUおよび複数のノードにわたってジョブをスケーリングすることをサポートしています。詳細については[このガイド](https://docs.wandb.ai/tutorials/volcano)を参照してください。
+はい、Launch は複数のGPUおよび複数のノードにわたってジョブのスケーリングをサポートします。 詳細については、[このガイド](https://docs.wandb.ai/tutorials/volcano) をご覧ください。
 
-ジョブ間レベルでは、個々のlaunchエージェントは同時に実行できるジョブの数を決定する`max_jobs`パラメーターで設定されます。さらに、特定のキューに対して任意の数のエージェントを指すことができ、それらのエージェントが起動できるインフラストラクチャーに接続されている限りです。
+ジョブ間レベルでは、個々のlaunchエージェントは`max_jobs`パラメーターで設定され、このパラメーターはエージェントが同時に実行できるジョブの数を決定します。 また、エージェントがインフラに接続されている限り、特定のキューに複数のエージェントをポイントすることもできます。
 
-CPU/GPU、メモリ、およびその他の要件をlaunchキューまたはジョブrunレベルでリソース設定で制限できます。Kubernetesでリソース制限付きのキューを設定する方法については[こちら](https://docs.wandb.ai/guides/launch/kubernetes#queue-configuration)を参照してください。
+CPU/GPU、メモリ、およびその他の要件は、launchキューまたはジョブのrunレベルで設定できます。 詳細については、Kubernetesでリソース制限を設定したキューの設定方法については、[こちら](https://docs.wandb.ai/guides/launch/kubernetes#queue-configuration)を参照してください。
 
-スイープの場合、SDKでキュー設定にブロックを追加できます：
+Sweeps の場合、SDKでキュー設定にブロックを追加できます。
 
 ```yaml title="queue config"
   scheduler:
     num_workers: 4
 ```
 
-これにより、スイープから並行して実行されるrunの数を制限できます。
+これにより、同時に並行して実行されるsweepからのrunの数を制限できます。
 
-### Dockerキューを使用して複数のジョブを実行し、`use_artifact`で同じアーティファクトをダウンロードする場合、ジョブの実行ごとにアーティファクトを再ダウンロードするのですか、それともキャッシュが行われていますか？
+### When using Docker queues to run multiple jobs that download the same artifact with `use_artifact`, do we re-download the artifact for every single run of the job, or is there any caching going on under the hood?
 
-キャッシュはありません。各ジョブは独立しています。ただし、キュー/エージェントを設定して共有キャッシュをマウントする方法があります。これをキュー設定のdocker argsを介して実現できます。
+キャッシュはなく、それぞれのジョブは独立しています。ただし、キュー/エージェントを構成して共有キャッシュをマウントする方法はいくつかあります。 キュー設定でdocker引き数を使用してこれを実現できます。
 
-特別なケースとして、W&Bアーティファクトキャッシュを永続ボリュームとしてマウントすることもできます。
+特別なケースとして、W&Bアーティファクトキャッシュを永続的なボリュームとしてマウントすることもできます。
 
-### ジョブ/オートメーションのシークレットを指定できますか？例えば、ユーザーに直接見せたくないAPIキーなど。
+### Can you specify secrets for jobs/automations? For instance, an API key which you do not wish to be directly visible to users?
 
-はい。推奨される方法は次の通りです：
+はい。 推奨される方法は：
 
-1. runが作成されるネームスペースにバニラk8sシークレットとしてシークレットを追加します。例えば、`kubectl create secret -n <namespace> generic <secret_name> <secret value>`のようにします。
+1. runが作成されるネームスペースにシークレットをバニラk8sシークレットとして追加します。 `kubectl create secret -n <namespace> generic <secret_name> <secret value>` のようなものです。
 
-2. シークレットが作成されたら、runが開始されるときにシークレットを注入するようにキュー設定を指定できます。エンドユーザーはシークレットを見ることができず、クラスター管理者のみが見ることができます。
+2. 一度このシークレットが作成されると、runが開始されるときにシークレットを注入するためのキュー設定を指定できます。エンドユーザーはシークレットを見ることができず、クラスタ管理者のみが閲覧できます。
 
-### 管理者はMLエンジニアが変更できる内容をどのように制限できますか？例えば、イメージタグの変更は問題ありませんが、他のジョブ設定は変更できないようにする場合。
+### How can admins restrict what ML engineers have access to modify? For example, changing an image tag may be fine but other job settings may not be.
 
-これは[queue config templates](./setup-queue-advanced.md)によって制御できます。これにより、管理者ユーザーが定義した制限内で非チーム管理者ユーザーが編集できるキューフィールドを公開します。キューの作成や編集、公開されるフィールドの定義とその制限はチーム管理者のみが行えます。
+これは、[queue config templates](./setup-queue-advanced.md) によって制御できます。このテンプレートは、管理者によって定義された制限内で、チームの管理者以外のユーザーが編集できるqueueフィールドを公開します。 キューを作成または編集（公開するフィールドとその制限を定義することを含む）できるのは、チーム管理者のみです。
 
-### W&B Launchはどのようにイメージをビルドしますか？
+### How does W&B Launch build images?
 
-イメージをビルドする手順は、実行されるジョブのソースとリソース設定にアクセラレーターベースイメージが指定されているかどうかによって異なります。
+ジョブのソースとリソース設定でアクセラレーターベースイメージが指定されているかどうかによって、イメージのビルド手順が異なります。
 
 :::note
-キュー設定を指定する場合、またはジョブを送信する場合、キューまたはジョブのリソース設定でベースアクセラレータイメージを提供できます：
+キュー設定を指定するとき、またはジョブを送信するとき、キューまたはジョブのリソース設定でベースアクセラレータイメージを提供できます：
 ```json
 {
     "builder": {
@@ -185,28 +186,25 @@ CPU/GPU、メモリ、およびその他の要件をlaunchキューまたはジ�
 ```
 :::
 
-ビルドプロセス中に、ジョブの種類と提供されたアクセラレーターベースイメージに応じて、次のアクションが実行されます：
+ビルドプロセス中に、提供されたジョブの種類とアクセラレーターベースイメージに応じて、次のアクションが取られます：
 
-|                                                     | aptを使用してPythonをインストール | Pythonパッケージをインストール | ユーザーと作業ディレクトリを作成 | コードをイメージにコピー | エントリーポイントを設定 |
+|                                                     | pythonをaptでインストール | pythonパッケージをインストール | ユーザーと作業ディレクトリを作成 |  コードをイメージにコピー | エントリーポイントを設定 |
 |-----------------------------------------------------|:------------------------:|:-----------------------:|:-------------------------:|:--------------------:|:--------------:|
-| Gitからソースされたジョブ                            |                          |            X            |             X             |           X          |        X       |
+| gitからソースされたジョブ                            |                          |            X            |             X             |           X          |        X       |
 | コードからソースされたジョブ                          |                          |            X            |             X             |           X          |        X       |
-| Gitからソースされ、アクセラレータイメージが提供されたジョブ |             X            |            X            |             X             |           X          |        X       |
-| コードからソースされ、アクセラレータイメージが提供されたジョブ|             X            |            X            |             X             |           X          |        X       |
-| イメージからソースされたジョブ                        |                          |                         |                           |                      |                |
+| gitからソースされ、アクセラレータイメージを提供       |             X            |            X            |             X             |           X          |        X       |
+| コードからソースされ、アクセラレータイメージを提供   |             X            |            X            |             X             |           X          |        X       |
+| イメージからソースされたジョブ                       |                          |                         |                           |                      |                |
 
-### アクセラレーターベースイメージにはどのような要件がありますか？
+### What requirements does the accelerator base image have?
+アクセラレータを使用するジョブには、必要なアクセラレータコンポーネントがインストールされたアクセラレーターベースイメージを提供できます。提供されるアクセラレータイメージのその他の要件には以下が含まれます：
+- Debian互換性 (Launch Dockerfile は python を apt-get で取得するため)
+- CPU & GPU ハードウェア命令セットとの互換性 (使用する GPU がサポートする CUDA バージョンを確認してください)
+- 提供されたアクセラレータバージョンと ML アルゴリズムでインストールされているパッケージの互換性
+- ハードウェアとの互換性を設定するための追加手順を必要とするパッケージのインストール
 
-アクセラレーターを使用するジョブの場合、必要なアクセラレーターコンポーネントがインストールされたアクセラレーターベースイメージを提供できます。提供されたアクセラレータイメージの他の要件は次の通りです：
-
-- Debian互換性（Launch Dockerfileはapt-getを使用してPythonを取得します）
-- CPU & GPUハードウェア命令セットとの互換性（使用するGPUがサポートするCUDAバージョンを確認してください）
-- 提供するアクセラレーターのバージョンとMLアルゴリズムにインストールされるパッケージとの互換性
-- ハードウェアとの互換性を設定するための追加手順が必要なパッケージ
-
-### W&B LaunchをTensorflow on GPUで動作させるにはどうすればよいですか？
-
-GPU上でTensorflowを使用するジョブの場合、runがGPUを適切に利用できるように、エージェントが実行するコンテナビルドのためにカスタムベースイメージを指定する必要があるかもしれません。これを行うには、リソース設定の`builder.accelerator.base_image`キーの下にイメージタグを追加します。例えば：
+### How do I make W&B Launch work with Tensorflow on GPU?
+GPUでTensorflowを使用するジョブでは、エージェントが実行するコンテナビルドのためにカスタムベースイメージを指定する必要があるかもしれません。この場合、リソース設定の `builder.accelerator.base_image` キーの下にイメージタグを追加します。 例:
 
 ```json
 {
@@ -219,32 +217,32 @@ GPU上でTensorflowを使用するジョブの場合、runがGPUを適切に利�
 }
 ```
 
-wandbバージョン0.15.6以前では、`base_image`の親キーとして`cuda`を使用してください。
+W&B のバージョン0.15.6以前では、`base_image` の親キーとして `accelerator` の代わりに `cuda` を使用してください。
 
-### Launchがイメージをビルドする際にカスタムリポジトリを使用できますか？
+### Can you use a custom repository for packages when Launch builds the image?
 
-はい。これを行うには、`requirements.txt`に次の行を追加し、`index-url`および`extra-index-url`に渡す値を自分の値に置き換えます：
+はい。そうするには、以下の行を `requirements.txt` に追加し、`index-url` と `extra-index-url` に渡す値をあなたのものに置き換えます：
 
 ```text
 ----index-url=https://xyz@<your-repo-host> --extra-index-url=https://pypi.org/simple
 ```
 
-`requirements.txt`はジョブのベースルートに定義する必要があります。
+`requirements.txt` はジョブのベースルートで定義する必要があります。
 
-## プリエンプション時の自動run再キューイング
+## Automatic run re-queuing on preemption
 
-場合によっては、中断された後にジョブを再開するように設定することが有用です。例えば、スポットインスタンスで広範なハイパーパラメータースイープを実行し、より多くのスポットインスタンスがスピンアップしたときに再開したい場合などです。LaunchはKubernetesクラスターでこの設定をサポートできます。
+場合によっては、中断後に再開するジョブを設定すると便利です。たとえば、スポットインスタンスで広範なハイパーパラメータスウィープを実行し、より多くのスポットインスタンスがスピンアップされるとジョブが再開するようにしたい場合、LaunchはKubernetesクラスターでこの設定をサポートできます。
 
-Kubernetesキューがスケジューラーによってプリエンプトされたノードでジョブを実行している場合、ジョブは自動的にキューの最後に追加され、後で再開できるようになります。この再開されたrunは元のものと同じ名前を持ち、元のものと同じページから追跡できます。ジョブはこの方法で最大5回まで自動的に再キューイングされます。
+Kubernetesキューにジョブを持つノードがスケジューラによってプリエンプトされた場合、そのジョブはキューの最後に自動的に追加され、後で再開できるようになります。この再開されたrunは元のrunと同じ名前を持ち、UIの同じページからフォローできます。この方法でジョブは最大5回まで自動で再キューに追加されます。
 
-Launchは、ポッドが次の理由のいずれかで`DisruptionTarget`条件を持っているかどうかを確認することで、ポッドがスケジューラーによってプリエンプトされたかどうかを検出します：
+Launch はポッドがスケジューラによってプリエンプトされたかどうかを、ポッドが以下の理由で `DisruptionTarget` という条件を持っているかどうかをチェックして検出します：
 
 - `EvictionByEvictionAPI`
 - `PreemptionByScheduler`
 - `TerminationByKubelet`
 
-ジョブのコードが再開を許可するように構造化されている場合、これにより再キューイングされたrunが中断した場所から再開できます。そうでない場合、runは再キューイングされると最初から開始されます。詳細については、[resuming runs](../runs/resuming.md)ガイドを参照してください。
+ジョブのコードが再開を許可するように構成されている場合、これにより再キューされたrunは中断された場所から再開できます。そうでない場合、runは再キューされたときに最初から開始されます。 詳細については、再開runに関するガイドを参照してください。
 
-現在、プリエンプトされたノードの自動run再キューイングをオプトアウトする方法はありません。ただし、UIからrunを削除するか、ノードを直接削除すると、再キューイングされません。
+現在、プリエンプトされたノードの自動run再キューからオプトアウトする方法はありません。ただし、UIからrunを削除するか、ノードを直接削除すると、再キューされません。
 
-自動run再キューイングは現在Kubernetesキューでのみ利用可能です。SagemakerおよびVertexはまだサポートされていません。
+自動run再キューは現在Kubernetesキューのみで利用可能です。SagemakerとVertexはまだサポートされていません。

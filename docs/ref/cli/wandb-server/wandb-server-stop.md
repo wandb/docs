@@ -1,18 +1,15 @@
 
-# wandbサーバーの停止
+# wandb server stop
 
 **使用方法**
 
-`wandb server stop [オプション]`
+`wandb server stop [OPTIONS]`
 
 **概要**
 
-ローカルのW&Bサーバーを停止する
+ローカルの W&B サーバーを停止
 
 **オプション**
 
 | **オプション** | **説明** |
-
 | :--- | :--- |
-
-| --help | このメッセージを表示して終了します。 |

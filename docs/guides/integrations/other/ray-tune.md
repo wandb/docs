@@ -1,55 +1,63 @@
 ---
+description: W&B を Ray Tune と統合する方法
 slug: /guides/integrations/ray-tune
-description: How to integrate W&B with Ray Tune.
 displayed_sidebar: default
 ---
 
+
 # Ray Tune
 
-W&Bは、軽量な2つの統合を提供することで[Ray](https://github.com/ray-project/ray)と統合します。
+W&Bは、軽量な2つのインテグレーションを提供することで[Ray](https://github.com/ray-project/ray)と統合します。
 
-1つ目は`WandbLogger`で、Tuneに報告されたメトリクスをWandb APIに自動的にログします。もう1つは`@wandb_mixin`デコレータで、関数APIと一緒に使用できます。これにより、Tuneのトレーニング情報を用いてWandb APIが自動的に初期化されます。たとえば、`wandb.log()`を使用してトレーニングプロセスを記録するなど、通常どおりWandb APIを使用できます。
+1つは `WandbLoggerCallback` で、これはTuneに報告されたメトリクスを自動的にWandb APIにログします。もう1つは `@wandb_mixin` デコレーターで、これは関数APIと一緒に使用できます。これにより、Tuneのトレーニング情報でWandb APIが自動的に初期化されます。通常通りWandb APIを使用することができ、例として `wandb.log()` を使ってトレーニングプロセスをログします。
 
-## WandbLogger
+## WandbLoggerCallback
 
 ```python
-from ray.tune.integration.wandb import WandbLogger
+from ray.air.integrations.wandb import WandbLoggerCallback
 ```
 
-Wandbの設定は、`tune.run()`のconfigパラメータにwandbキーを渡すことで行われます（以下の例参照）。
+Wandbの設定は、`tune.run()` のconfig引数にwandbキーを渡すことで行います（以下の例を参照）。
 
-wandb configエントリの内容は、キーワード引数として`wandb.init()`に渡されます。ただし、以下の設定は、`WandbLogger`自体の設定に使用される例外です。
+wandbの設定エントリの内容は、キーワード引数として `wandb.init()` に渡されます。ただし、以下の設定は `WandbLoggerCallback` 自体の設定に使用されます。
 
 ### パラメータ
 
-`api_key_file (str)` – `Wandb APIキー`が含まれるファイルへのパス。
+`api_key_file (str)` – `Wandb API KEY` を含むファイルのパス。
 
-`api_key (str)` – Wandb APIキー。`api_key_file`を設定する代わりに使用。
+`api_key (str)` – Wandb APIキー。`api_key_file`を設定する代わりに使用します。
 
-`excludes (list)` – `log`から除外されるべきメトリクスのリスト。
+`excludes (list)` – `log`から除外されるメトリクスのリスト。
 
-`log_config (bool)` – 結果 dict の config パラメータがログに記録されるかどうかを示す真偽値。`PopulationBasedTraining`のように、トレーニング中にパラメータが変更される場合などに役立ちます。デフォルトはFalseです。
+`log_config (bool)` – 結果辞書の設定引数をログするかどうかを示すブール値。これは例えば `PopulationBasedTraining` でパラメータがトレーニング中に変わる場合に意味があります。デフォルトはFalseです。
+
 ### 例
 
 ```python
+from ray import tune, train
 from ray.tune.logger import DEFAULT_LOGGERS
-from ray.tune.integration.wandb import WandbLogger
+from ray.air.integrations.wandb import WandbLoggerCallback
 
-tune.run(
-    train_fn,
-    config={
-        # ここで検索空間を定義します
-        "parameter_1": tune.choice([1, 2, 3]),
-        "parameter_2": tune.choice([4, 5, 6]),
-        # wandb設定
-        "wandb": {
-            "project": "Optimization_Project",
-            "api_key_file": "/path/to/file",
-            "log_config": True,
-        },
-    },
-    loggers=DEFAULT_LOGGERS + (WandbLogger,),
+def train_fc(config):
+    for i in range(10):
+        train.report({"mean_accuracy":(i + config['alpha']) / 10})
+
+search_space = {
+    'alpha': tune.grid_search([0.1, 0.2, 0.3]),
+    'beta': tune.uniform(0.5, 1.0)
+}
+
+analysis = tune.run(
+    train_fc,
+    config=search_space,
+    callbacks=[WandbLoggerCallback(
+        project="<your-project>",
+        api_key="<your-name>",
+        log_config=True
+    )]
 )
+
+best_trial = analysis.get_best_trial("mean_accuracy", "max", "last")
 ```
 
 ## wandb\_mixin
@@ -58,9 +66,9 @@ tune.run(
 ray.tune.integration.wandb.wandb_mixin(func)
 ```
 
-このRay Tune Trainable `mixin`は、`Trainable`クラスや関数APIの`@wandb_mixin`とともに、Wandb APIを初期化するのに役立ちます。
+このRay TuneのTrainable `mixin`は、`Trainable`クラスや関数APIで `@wandb_mixin` と使うためにWandb APIを初期化するのに役立ちます。
 
-基本的な使い方は、トレーニング関数の前に`@wandb_mixin`デコレータを付けるだけです:
+基本的な使い方としては、トレーニング関数の前に `@wandb_mixin` デコレータを付けるだけです：
 
 ```python
 from ray.tune.integration.wandb import wandb_mixin
@@ -71,21 +79,21 @@ def train_fn(config):
     wandb.log()
 ```
 
-Wandbの設定は、`wandb key`を`tune.run()`の`config`パラメータに渡すことで行われます（下の例を参照してください）。
+Wandbの設定は、 `tune.run()` の `config` 引数に `wandb key` を渡すことで行います（以下の例を参照）。
 
-wandb設定エントリの内容は、`wandb.init()`にキーワード引数として渡されます。ただし、以下の設定は`WandbTrainableMixin`自体を設定するために使用されます。
+wandbの設定エントリの内容は、キーワード引数として `wandb.init()` に渡されます。ただし、以下の設定は `WandbTrainableMixin` 自体の設定に使用されます。
 
 ### パラメータ
 
-`api_key_file（str）` – Wandbの`APIキー`が含まれるファイルへのパス。
+`api_key_file (str)` – Wandb `API KEY` を含むファイルのパス。
 
-`api_key（str）` – Wandb APIキー。`api_key_file`を設定する代わりに。
+`api_key (str)` – Wandb APIキー。`api_key_file`を設定する代わりに使用します。
 
-Wandbの`group`、`run_id`、`run_name`はTuneによって自動的に選択されますが、対応する設定値を記入することで上書きすることができます。
+Wandbの `group`、`run_id`、`run_name` はTuneによって自動的に選択されますが、各設定値を入力することで上書き可能です。
 
-他の有効な設定設定については、こちらを参照してください。[https://docs.wandb.com/library/init](https://docs.wandb.com/library/init)
+他の有効な設定については、こちらをご覧ください: [https://docs.wandb.com/library/init](https://docs.wandb.com/library/init)
 
-### 例：
+### 例:
 
 ```python
 from ray import tune
@@ -103,7 +111,7 @@ def train_fn(config):
 tune.run(
     train_fn,
     config={
-        # ここで検索範囲を定義する
+        # ここで探索空間を定義
         "a": tune.choice([1, 2, 3]),
         "b": tune.choice([4, 5, 6]),
         # wandbの設定
@@ -112,16 +120,9 @@ tune.run(
 )
 ```
 
+## コード例
 
+インテグレーションの動作を確認するいくつかの例を作成しました：
 
-## 例示コード
-
-
-
-以下は、統合の使い方を確認するために作成したいくつかの例です。
-
-
-
-* [Colab](http://wandb.me/raytune-colab): 統合を試す簡単なデモ。
-
-* [ダッシュボード](https://wandb.ai/anmolmann/ray\_tune): この例から生成されたダッシュボードを表示します。
+* [Colab](http://wandb.me/raytune-colab): インテグレーションを試すためのシンプルなデモ。
+* [Dashboard](https://wandb.ai/anmolmann/ray\_tune): 例から生成されたダッシュボードを見る。

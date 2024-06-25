@@ -1,23 +1,24 @@
 ---
-description: ''
 displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Track a model 
 
-Track a model, the model's dependencies, and other information relevant to that model with the W&B Python SDK. 
+# Track a model
 
-Under the hood, W&B creates a lineage of [model artifact](./model-management-concepts.md#model-artifact) that you can view with the W&B App UI or programmatically with the W&B Python SDK. See the [Create model lineage map](./model-lineage.md) for more information.
+W&B Python SDK を使用して、モデル、モデルの依存関係、およびそのモデルに関連するその他の情報をトラッキングします。
 
-## How to log a model
+内部的には、W&B は [model artifact](./model-management-concepts.md#model-artifact) のリネージを作成し、W&B App UI で視覚化したり、W&B Python SDK でプログラム的に確認することができます。詳細については [Create model lineage map](./model-lineage.md) を参照してください。
 
-Use the `run.log_model` API to log a model. Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI](../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`. 
+## モデルをログする方法
 
-Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B uses the basename of the input path prepended with the run ID. 
+`run.log_model` API を使用してモデルをログします。モデルファイルが保存されているパスを `path` パラメータに提供します。このパスはローカルファイル、ディレクトリー、または `s3://bucket/path` のような外部バケットへの [reference URI](../artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references) であることができます。
 
-Copy and paste the proceeding code snippet. Ensure to replace values enclosed in `<>` with your own.
+オプションで、`name` パラメータにモデルアーティファクトの名前を提供します。`name` が指定されていない場合、W&B は入力パスのベース名に run ID を付加して使用します。
+
+次のコードスニペットをコピーして貼り付けます。`<>` で囲まれた値を自分のものに置き換えてください。
 
 ```python
 import wandb
@@ -33,10 +34,7 @@ run.log_model(path="<path-to-model>", name="<name>")
 
 <summary>Example: Log a Keras model to W&B</summary>
 
-The proceeding code snippet shows how to log a convolutional neural network (CNN) to W&B.
-
-First, a dictionary that contains two hyperparameters is passed to `run.init()`. This initializes a W&B run that [INSERT - finish describing later].
-
+次のコード例では、畳み込みニューラルネットワーク (CNN) モデルを W&B にログする方法を示しています。
 
 ```python showLineNumbers
 import os
@@ -49,7 +47,7 @@ config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
 # Initialize a W&B run
 run = wandb.init(entity="charlie", project="mnist-project", config=config)
 
-# Training algorithm
+# トレーニングアルゴリズム
 loss = run.config["loss"]
 optimizer = run.config["optimizer"]
 metrics = ["accuracy"]
@@ -71,18 +69,17 @@ model = keras.Sequential(
 
 model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
-# Save model
+# モデルを保存
 model_filename = "model.h5"
 local_filepath = "./"
 full_path = os.path.join(local_filepath, model_filename)
 model.save(filepath=full_path)
 
-# Log the model
+# モデルをログ
 # highlight-next-line
 run.log_model(path=full_path, name="MNIST")
 
-# Explicitly tell W&B to end the run.
+# W&B に明示的に run の終了を伝えます。
 run.finish()
 ```
 </details>
-

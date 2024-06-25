@@ -1,20 +1,21 @@
 ---
-description: Ways to manage W&B data storage. 
+description: W&Bのデータストレージを管理する方法。
 displayed_sidebar: default
 ---
 
-# Storage
 
-If you are approaching or exceeding your storage limit, there are multiple paths forward to manage your data. The path that's best for you will depend on your account type and your current project setup.
+# ストレージ
 
-## Managing storage consumption
-W&B offers different methods of optimizing your storage consumption:
+ストレージの制限に近づいている、または超えている場合、データを管理するための複数の方法があります。最適な方法はアカウントの種類や現在のプロジェクトの設定によります。
 
--  Use **[reference artifacts](../../artifacts/track-external-files.md)** to track files saved outside the W&B system, instead of uploading them to W&B storage.
-- Use an [external cloud storage bucket](../features/teams.md) for storage. *(Enterprise only)*
+## ストレージ消費の管理
+W&B はストレージ消費を最適化するためのさまざまなメソッドを提供しています：
 
-## Deleting data
-You can also choose to delete data to remain under your storage limit. There are several ways to do this:
+- [reference artifacts](../../artifacts/track-external-files.md) を使用して、W&B のストレージにアップロードする代わりに W&B システム外に保存されたファイルをトラッキング。
+- [外部クラウドストレージバケット](../features/teams.md) を使用する。 *(エンタープライズ専用)*
 
-- Delete data interactively with the app UI.
-- [Set a TTL policy](../../artifacts/ttl.md) on Artifacts so they are automatically deleted.
+## データの削除
+ストレージの制限内に収まるように、データを削除することもできます。以下のいくつかの方法があります：
+
+- アプリのUIでインタラクティブにデータを削除。
+- Artifacts に [TTL ポリシーを設定](../../artifacts/ttl.md) して自動的に削除されるようにする。

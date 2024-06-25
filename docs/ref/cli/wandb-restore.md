@@ -1,19 +1,19 @@
+
 # wandb restore
 
-**使い方**
+**使用方法**
 
-`wandb restore [オプション] RUN`
+`wandb restore [OPTIONS] RUN`
 
 **概要**
 
-Run のコード、設定、および docker コンテナの状態を復元
+Run のためにコード、コンフィグ、Docker 状態を復元します
 
 **オプション**
 
 | **オプション** | **説明** |
 | :--- | :--- |
-| --no-git | Skupp |
-| --branch / --no-branch | ブランチを作成するか、デタッチされた状態でチェックアウトするか |
-| -p, --project | アップロードしたいプロジェクト。 |
-| -e, --entity | リストの範囲を指定するエンティティ。 |
-| --help | このメッセージを表示して終了。 |
+| --no-git | Git の状態を復元しない |
+| --branch / --no-branch | ブランチを作成するか、チェックアウトを外すか |
+| -p, --project | アップロードしたい Project |
+| -e, --entity | リスティングを対象とする Entity |

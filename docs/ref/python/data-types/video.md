@@ -1,34 +1,36 @@
-# ビデオ
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/video.py#L49-L238)
+# Video
 
-W&Bにログインするためのビデオをフォーマットします。
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/data_types/video.py#L48-L239' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+
+W&Bに動画をログするためのフォーマット。
 
 ```python
 Video(
- data_or_path: Union['np.ndarray', str, 'TextIO', 'BytesIO'],
- caption: Optional[str] = None,
- fps: int = 4,
- format: Optional[str] = None
+    data_or_path: Union['np.ndarray', str, 'TextIO', 'BytesIO'],
+    caption: Optional[str] = None,
+    fps: int = 4,
+    format: Optional[str] = None
 )
 ```
 
-| 引数 | 説明 |
+| 引数 |  |
 | :--- | :--- |
-| `data_or_path` | (numpy配列, 文字列, io) ビデオは、ファイルへのパスまたはioオブジェクトで初期化できます。フォーマットは "gif"、"mp4"、"webm"、または "ogg" である必要があります。フォーマットは、format引数で指定する必要があります。ビデオはnumpyテンソルで初期化することもできます。numpyテンソルは、4次元または5次元である必要があります。チャンネルは（時間, チャンネル, 高さ, 幅）または（バッチ, 時間, チャンネル, 高さ, 幅）である必要があります。|
-| `caption` | (文字列) ビデオに関連するキャプション表示 |
-| `fps` | (int) ビデオのフレームレート。デフォルトは4です。 |
-| `format` | (文字列) ビデオのフォーマットで、パスまたはioオブジェクトで初期化する場合に必要です。 |
+|  `data_or_path` |  (numpy array, string, io) 動画はファイルのパスやioオブジェクトで初期化できます。フォーマットは "gif", "mp4", "webm" または "ogg" でなければなりません。フォーマットはformat引数で指定する必要があります。動画はnumpyテンソルでも初期化できます。numpyテンソルは4次元または5次元でなければなりません。チャンネルは (time, channel, height, width) もしくは (batch, time, channel, height width) でなければなりません。 |
+|  `caption` |  (string) 表示のために動画に関連付けられたキャプション |
+|  `fps` |  (int) 動画のフレーム毎秒数。デフォルトは4です。 |
+|  `format` |  (string) パスまたはioオブジェクトで初期化する場合に必要な動画のフォーマット。 |
+
 #### 例:
 
-### numpy配列をビデオとしてログする
+### numpy arrayを動画としてログする
 
 ```python
 import numpy as np
 import wandb
 
 wandb.init()
-# 軸は (時間, チャンネル, 高さ, 幅)
+# 軸は (time, channel, height, width) です
 frames = np.random.randint(low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8)
 wandb.log({"video": wandb.Video(frames, fps=4)})
 ```
@@ -37,13 +39,12 @@ wandb.log({"video": wandb.Video(frames, fps=4)})
 
 ### `encode`
 
-[ソースを表示](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/sdk/data_types/video.py#L129-L166)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/data_types/video.py#L130-L167)
 
 ```python
 encode() -> None
 ```
-| クラス変数 | |
 
+| クラス変数 |  |
 | :--- | :--- |
-
-| `EXTS` | |
+|  `EXTS`<a id="EXTS"></a> |   |

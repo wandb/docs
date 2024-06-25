@@ -1,91 +1,67 @@
 ---
+description: W&B Artifactsの概要、その仕組み、そしてW&B Artifactsの開始方法。
 slug: /guides/artifacts
-description: >-
-  Overview of what W&B Artifacts are, how they work, and how to get started
-  using W&B Artifacts.
 displayed_sidebar: default
 ---
 
-# アーティファクト
+import Translate, {translate} from '@docusaurus/Translate';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-W&Bアーティファクトを使って、データセット、モデル、依存関係、結果を機械学習パイプラインの各ステップでトラッキングしましょう。アーティファクトを使うことで、ファイルの変更履歴を完全かつ監査可能な形で取得することが簡単になります。
 
-アーティファクトは、バージョン管理されたディレクトリーと考えることができます。アーティファクトは、runの入力または出力のどちらかです。一般的なアーティファクトには、トレーニングセット全体やモデルが含まれます。データセットを直接アーティファクトに保存するか、アーティファクト参照を使ってAmazon S3、GCP、自分のシステムなどの他のシステム内のデータを指し示すことができます。
+# Artifacts
 
-![アーティファクトの概要](/images/artifacts/artifacts_overview.png)アーティファクトは、指定されたrunの入力または出力になることができます。
+<CTAButtons productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W%26B_Artifacts.ipynb"/>
 
-アーティファクトとrunは有向グラフを形成します。なぜなら、あるW&B runは、他のrunの出力アーティファクトを入力として使用できるからです。パイプラインを事前に定義する必要はありません。Weights and Biasesは、アーティファクトを使用してログをとることで、DAGを作成してくれます。
+W&B Artifacts を使用して、[W&B Runs](../runs/intro.md) の入力および出力としてデータのトラッキングとバージョン管理を行います。例えば、モデルのトレーニング run はデータセットを入力として受け取り、トレーニングされたモデルを出力として生成する場合があります。ハイパーパラメーター、メタデータ、およびメトリクスを run にログとして記録することに加えて、アーティファクトを使用してモデルのトレーニングに使用したデータセットを入力として、結果として生成されたモデルのチェックポイントを出力としてログ、トラッキング、バージョン管理することもできます。
 
-次のアニメーションは、W&BアプリUIで表示されるアーティファクトのDAGの例を示しています。
-![アーティファクトの例DAG](/images/artifacts/dag_view_of_artifacts.png)
+## ユースケース
+アーティファクトは [runs](../runs/intro.md) の入力および出力として、ML ワークフロー全体で使用できます。データセットやモデル、さらには他のアーティファクトをプロセッシングの入力として使用できます。
 
-アーティファクトのグラフの探索方法についての詳細は、[アーティファクトグラフの探索と移動](explore-and-traverse-an-artifact-graph.md)を参照してください。
+![](/images/artifacts/artifacts_landing_page2.png)
 
-### 仕組み
+| ユースケース           | 入力                       | 出力                        |
+|------------------------|-----------------------------|-----------------------------|
+| モデルトレーニング     | データセット (トレーニングデータと検証データ) | トレーニングされたモデル     |
+| データセットの前処理   | データセット (生データ)     | データセット (前処理済みデータ) |
+| モデルの評価           | モデル + データセット (テストデータ) | [W&B Table](../tables/intro.md) |
+| モデルの最適化         | モデル                       | 最適化されたモデル          |
 
-アーティファクトはデータのディレクトリーのようなものです。各エントリは、アーティファクト内に保存されている実際のファイルか、外部URIへの参照のどちらかです。通常のファイルシステムと同様に、アーティファクト内にフォルダを入れ子にできます。データセット、モデル、画像、HTML、コード、オーディオ、生のバイナリデータなど、あらゆるデータを保存できます。
+## アーティファクトの作成
 
-このディレクトリーの内容を変更するたびに、W&Bはアーティファクトの新しいバージョンを作成し、以前の内容を上書きするのではなく、代わりに新しいバージョンを作成します。
-
-例として、以下のディレクトリー構造を持つと仮定しましょう。
-
-```
-画像
-|-- cat.png（2MB）
-|-- dog.png（1MB）
-```
-次のコードスニペットは、`animals`というデータセットアーティファクトを作成する方法を示しています。（以下のコードスニペットの詳細については、後のセクションで詳しく説明します）。
-
-```python
-import wandb
-
-run = wandb.init()  # W&B Runを初期化
-artifact = wandb.Artifact("animals", type="dataset")
-artifact.add_dir("images")  # 複数のファイルをアーティファクトに追加します
-run.log_artifact(artifact)  # `animals:v0`を作成します
-```
-
-W&Bは、新しいアーティファクトオブジェクトをW&Bに作成してログするときに、自動的に`v0`というバージョンを割り当て、`latest`というエイリアスを付けます。_エイリアス_は、アーティファクトバージョンに人間が読める名前を付けることができます。
-
-同じ名前、タイプ、内容で別のアーティファクトを作成すると（つまり、アーティファクトの別バージョンを作成すると）、W&Bはバージョンインデックスを1つ増やします。エイリアス`latest`はアーティファクト`v0`から外れ、`v1`アーティファクトに割り当てられます。
-W&Bは、アーティファクトのバージョン間で変更されたファイルをアップロードします。アーティファクトがどのように保存されるかの詳細については、[アーティファクトのストレージ](storage.md)を参照してください。
-
-特定のアーティファクトを参照するには、インデックスバージョンまたはエイリアスのいずれかを使用できます。
-
-例として、データセットのアーティファクトに新しい画像 `bird.png` をアップロードしたいとします。前のコード例から続けると、ディレクトリは次のようになります。
-
-```
-images
-|-- cat.png (2MB)
-|-- dog.png (1MB)
-|-- bird.png (3MB)
-```
-
-前のコードスニペットを再初期化します。これにより、新しいアーティファクトのバージョン `animals:v1` が生成されます。W&Bはこのバージョンに自動的にエイリアス `latest` を割り当てます。エイリアスをカスタマイズして、バージョンに適用するには、`log_artifact` に `aliases=['my-cool-alias']` を渡します。新しいバージョンを作成する方法についての詳細は、新しいアーティファクトのバージョンを作成を参照してください。
-アーティファクトを使用するには、アーティファクトの名前とエイリアスを提供してください。
+4行のコードでアーティファクトを作成できます。
+1. [W&B Run](../runs/intro.md) を作成します。
+2. [`wandb.Artifact`](../../ref/python/artifact.md) API を使用してアーティファクトオブジェクトを作成します。
+3. モデルファイルやデータセットなどの1つ以上のファイルをアーティファクトオブジェクトに追加します。この例では、単一ファイルを追加します。
+4. W&B にアーティファクトをログします。
 
 ```python
-import wandb
-
-run = wandb.init()
-animals = run.use_artifact("animals:latest")
-directory = animals.download()
+run = wandb.init(project = "artifacts-example", job_type = "add-dataset")
+run.log_artifact(data = "./dataset.h5", name = "my_data", type = "dataset" ) # dataset.h5 からデータを持つデータセットとしてアーティファクトバージョン "my_data" をログします。
 ```
 
-アーティファクトのダウンロード方法についての詳細は、[アーティファクトの使用](download-and-use-an-artifact.md)を参照してください。
+:::tip
+Amazon S3 バケットのような外部オブジェクトストレージに保存されているファイルまたはディレクトリーへの参照を追加する方法については、[外部ファイルのトラッキング](./track-external-files.md) ページをご覧ください。
+:::
 
-### はじめ方
+## アーティファクトのダウンロード
+[`use_artifact`](../../ref/python/run.md#use_artifact) メソッドを使用して、run に入力とするアーティファクトを指定します。このメソッドはアーティファクトオブジェクトを返します。
 
-ユースケースに応じて、以下のリソースを参考にしてW&Bアーティファクトの使い方を学びましょう：
-* W&Bアーティファクトを初めて使用する場合は、クイックスタートをお読みいただくことをお勧めします。[クイックスタート](./artifacts-walkthrough.md)では、初めてのアーティファクトのセットアップ方法を説明しています。
-* W&B開発者ガイドで、アーティファクトに関するトピックを探求してください。例えば：
-  * アーティファクトや新しいアーティファクトバージョンを作成する。
-  * アーティファクトを更新する。
-  * アーティファクトをダウンロードして使用する。
-  * アーティファクトを削除する。
-* [W&B SDKリファレンスガイド](https://docs.wandb.ai/ref)で、[Python Artifact API](../../ref/python/artifact.md)や[Artifact CLIリファレンスガイド](../../ref/cli/wandb-artifact/README.md)を探索してください。
+```python
+artifact = run.use_artifact("my_data:latest") # "my_data" アーティファクトを使用する run オブジェクトを返します。
+```
 
-ステップバイステップのビデオは、「[Version Control Data and Model with W&B Artifacts](https://www.youtube.com/watch?v=Hd94gatGMic\&ab\_channel=Weights%26Biases)」をご覧ください。
+次に、返されたオブジェクトを使用してアーティファクトの全内容をダウンロードします。
 
+```python
+datadir = artifact.download() # デフォルトのディレクトリーに "my_data" アーティファクト全体をダウンロードします。
+```
 
-<!-- {% embed url="https://www.youtube.com/watch?v=Hd94gatGMic" %} -->
+:::tip
+カスタムパスを `root` [パラメータ](../../ref/python/artifact.md) に渡して、特定のディレクトリーにアーティファクトをダウンロードできます。アーティファクトをダウンロードする他の方法および追加のパラメーターについては、[アーティファクトのダウンロードと使用](./download-and-use-an-artifact.md) に関するガイドを参照してください。
+:::
+
+## 次のステップ
+* アーティファクトの[バージョン管理](./create-a-new-artifact-version.md)、[更新](./update-an-artifact.md)、または [削除](./delete-artifacts.md) について学びます。
+* アーティファクトの変更に応じて下流のワークフローをトリガーする方法を [artifact automation](./project-scoped-automations.md) で学びます。
+* トレーニング済みモデルを収容するスペースである [model registry](../model_registry/intro.md) について学びます。
+* [Python SDK](../../ref/python/artifact.md) および [CLI](../../ref/cli/wandb-artifact/README.md) リファレンスガイドを探索します。

@@ -1,27 +1,31 @@
 ---
-description: Visualize the results of your Weights & Biases Sweeps with the W&B App UI.
+description: W&B App UIを使ってW&B Sweepsの結果を可視化します。
 displayed_sidebar: default
 ---
 
-# スイープ結果の視覚化
+
+# スイープ結果の可視化
 
 <head>
-  <title>W&Bスイープの結果を視覚化する</title>
+  <title>W&B スイープの結果を可視化</title>
 </head>
-Weights & Biasesスイープの結果をW&B App UIで可視化しましょう。W&B App UIに[https://wandb.ai/home](https://wandb.ai/home) からアクセスしてください。W&Bスイープを初期化した際に指定したプロジェクトを選択します。プロジェクト[ワークスペース](https://docs.wandb.ai/ref/app/pages/workspaces)にリダイレクトされます。左パネルの**スイープアイコン**（ほうきアイコン）を選択してください。[スイープUI](./visualize-sweep-results.md)から、リストからスイープの名前を選択します。
 
-デフォルトでは、Weights & BiasesはW&Bスイープジョブを開始すると、自動的に並行座標プロット、パラメータ重要度プロット、および散布図が作成されます。
+W&B App UIを使用して、W&B Sweepsの結果を可視化します。W&B App UIには[https://wandb.ai/home](https://wandb.ai/home)からアクセスします。W&B Sweepを初期化した際に指定したプロジェクトを選択します。プロジェクトの[ワークスペース](../app/pages/workspaces.md)にリダイレクトされます。左側のパネルで**スイープアイコン**（ホウキのアイコン）を選択します。[スイープUI](./visualize-sweep-results.md)から、リスト内のスイープ名を選択します。
 
-![スイープUIインターフェースに移動し、自動生成されたプロットを表示する方法を示すアニメーション。](/images/sweeps/navigation_sweeps_ui.gif)
+デフォルトでは、W&BはW&B Sweepジョブの開始時に自動的にパラレル座標図、パラメータの重要性プロット、散布図を作成します。
 
-並行座標チャートは、多数のハイパーパラメーターとモデルメトリクスの関係を一目でまとめて表示します。並行座標プロットについての詳細は、[並行座標](../app/features/panels/parallel-coordinates)を参照してください。
-![並行座標プロットの例](/images/sweeps/example_parallel_coordiantes_plot.png)
+![Sweep UIインターフェースに移動して自動生成されたプロットを表示するアニメーション。](/images/sweeps/navigation_sweeps_ui.gif)
 
-散布図（左）は、スイープ中に生成された W&B の Runs を比較します。散布図に関する詳細は、[散布図](../app/features/panels/scatter-plot.md)を参照してください。
+パラレル座標図は、多数のハイパーパラメーターとモデルメトリクスの関係を一目で要約します。パラレル座標図の詳細については、[パラレル座標](../app/features/panels/parallel-coordinates.md)を参照してください。
 
-パラメータ重要度プロット（右）は、メトリクスの望ましい値と高い相関があるハイパーパラメーターを最良の予測因子としてリストアップしています。パラメータ重要度プロットに関する詳細は、[パラメータ重要度](../app/features/panels/parameter-importance.md)を参照してください。
+![パラレル座標図の例。](/images/sweeps/example_parallel_coordiantes_plot.png)
 
-![散布図の例（左）とパラメータ重要度プロット（右）](/images/sweeps/scatter_and_parameter_importance.png)
-自動的に使用される従属変数と独立変数（x軸とy軸）を変更することができます。各パネルには、**編集パネル**と呼ばれる鉛筆アイコンがあります。 **編集パネル**を選択してください。モーダルが表示されます。モーダル内で、グラフの振る舞いを変更することができます。
+左の散布図は、スイープ中に生成されたW&B Runsを比較します。散布図の詳細については、[散布図](../app/features/panels/scatter-plot.md)を参照してください。
 
-すべてのデフォルトのW&B可視化オプションについての詳細は、[Panels](../app/features/panels/intro.md)を参照してください。W&Bスイープの一部ではないW&B Runsからプロットを作成する方法についての情報は、[データ可視化ドキュメント](https://docs.wandb.ai/guides/tables)を参照してください。
+右のパラメータの重要性プロットは、メトリクスの望ましい値と高い相関を持つ予測因子として最適だったハイパーパラメーターをリストアップします。パラメータの重要性プロットの詳細については、[パラメータの重要性](../app/features/panels/parameter-importance.md)を参照してください。
+
+![散布図（左）とパラメータの重要性プロット（右）の例。](/images/sweeps/scatter_and_parameter_importance.png)
+
+自動的に使用される従属値と独立値（x軸とy軸）を変更できます。各パネル内に**パネルを編集**という鉛筆アイコンがあります。**パネルを編集**を選択します。モーダルが表示され、その中でグラフの振る舞いを変更できます。
+
+デフォルトのW&B可視化オプションの全てについての詳細は、[パネル](../app/features/panels/intro.md)を参照してください。W&B Sweepの一部ではないW&B Runsからプロットを作成する方法については、[データ可視化ドキュメント](../tables/intro.md)を参照してください。

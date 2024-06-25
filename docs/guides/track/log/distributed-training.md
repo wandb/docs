@@ -1,70 +1,72 @@
 ---
-description: Use W&B to log distributed training experiments with multiple GPUs.
+description: W&B を使用して、複数の GPU を用いた分散トレーニング実験をログします。
 displayed_sidebar: default
 ---
 
-# 分散トレーニング実験の記録
+
+# 分散トレーニング実験をログする
 
 <head>
-  <title>分散トレーニング実験の記録</title>
+  <title>分散トレーニング実験をログする</title>
 </head>
 
-分散トレーニングでは、複数のGPUを並行して使用してモデルをトレーニングします。W&Bは、分散トレーニング実験をトラッキングするために2つのパターンをサポートしています。
+分散トレーニングでは、複数のGPUを並行して使用してモデルをトレーニングします。W&Bは分散トレーニング実験をトラックするために、以下の2つのパターンをサポートしています：
 
-1. **単一プロセス**： W&Bの初期化（[`wandb.init`](https://docs.wandb.ai/ref/python/init)）と実験の記録（[`wandb.log`](https://docs.wandb.ai/ref/python/log)）は単一プロセスで行います。これは、[PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP)クラスを使用して分散トレーニング実験のログを記録する一般的な方法です。場合によっては、ユーザーがマルチプロセッシングキューや別の通信プリミティブを使用して、他のプロセスからメインログプロセスにデータを送り込みます。
-2. **複数のプロセス**： W&B の初期化（[`wandb.init`](https://docs.wandb.ai/ref/python/init)）と実験ログ（[`wandb.log`](https://docs.wandb.ai/ref/python/log)）は各プロセスごとに行います。各プロセスは実質的に別々の実験となります。W&Bを初期化する際に`group`パラメータを使い、共有実験を定義し、W&BアプリのUI上でログされた値をグループ化するために、`wandb.init(group='group-name')`を使用します。
+1. **ワンプロセス**: 単一のプロセスでW&Bを初期化して([`wandb.init`](../../../ref//python/init.md))、実験をログします([`wandb.log`](../../../ref//python/log.md))。これは、[PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) クラスを使用した分散トレーニング実験をログするための一般的な方法です。場合によっては、ユーザーは他のプロセスからデータをマルチプロセッシングキュー（または他の通信原始）を使ってメインのログプロセスに集めます。
+2. **マルチプロセス**: 各プロセスでW&Bを初期化して([`wandb.init`](../../../ref//python/init.md))、実験をログします([`wandb.log`](../../../ref//python/log.md))。各プロセスは実質的に別々の実験となります。W&Bを初期化する際に`group`パラメータを使用することで、共通の実験を定義し、ログされた値をW&BアプリUI内でグループ化します (`wandb.init(group='group-name')`)。
 
-以下の例では、1台のマシン上の2つのGPUでPyTorch DDPを使用してW&Bを使いメトリクスをトラッキングする方法を説明しています。[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp\_tutorial.html)（`torch.nn` の`DistributedDataParallel`）は、分散トレーニング用の人気のあるライブラリです。基本的な原則はどの分散トレーニング設定にも適用されますが、実装の詳細は異なる場合があります。
-
-:::info
-これらの例の背後にあるコードは、W&BのGitHubのexamplesリポジトリ[こちら](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-ddp)でご覧いただけます。特に、1プロセスと複数プロセスの方法を実装する方法については、[`log-dpp.py`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py)のPythonスクリプトを参照してください。
-:::
-
-### 方法1: 単一プロセス
-
-この方法では、rank 0のプロセスのみをトラッキングします。この方法を実装するには、W&Bの初期化（`wandb.init`）や、W&Bランの開始、メトリクスのログ（`wandb.log`）をrank 0プロセスで行います。この方法はシンプルで頑健ですが、他のプロセスからのモデルメトリクス（たとえば、損失値やバッチ内の入力データ）はログされません。ただし、システムのメトリクス（使用状況やメモリなど）は、すべてのプロセスで情報が利用可能であるため、すべてのGPUのメトリクスがログされます。
+次の例では、PyTorch DDPを使用して単一のマシン上の2つのGPUでメトリクスをトラックする方法を示します。[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`torch.nn`内の`DistributedDataParallel`)は、分散トレーニングのための一般的なライブラリです。基本的な原則は他のいかなる分散トレーニングのセットアップにも適用されますが、実装の詳細は異なるかもしれません。
 
 :::info
-**この方法は、単一プロセスから利用可能なメトリクスのみをトラッキングするために使用します。** 典型的な例は、GPU/CPUの利用率、共有検証セットでの挙動、勾配やパラメータ、代表的なデータの例における損失値などです。
+これらの例のコードはW&B GitHubのexamplesリポジトリで[ここ](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-ddp)から確認できます。具体的には、ワンプロセスとマルチプロセスの方法を実装する方法については、[`log-ddp.py`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) Pythonスクリプトを参照してください。
 :::
 
-サンプルのPythonスクリプト（`log-ddp.py`）では、rankが0であるかどうかを確認しています。これには、まず`torch.distributed.launch`を使い複数プロセスを起動し、次にコマンドライン引数`--local_rank`を使いランクを確認します。ランクが0に設定されている場合、[`train()`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py#L24)関数内で条件付きで`wandb`のログを設定します。Pythonスクリプト内では以下のチェックを使用しています：
+### 方法1: ワンプロセス
+
+この方法では、ランク0のプロセスのみをトラックします。この方法を実装するには、W&Bを初期化し (`wandb.init`)、W&B Runを開始し、ランク0プロセス内でメトリクスをログします (`wandb.log`)。この方法はシンプルで頑強ですが、他のプロセスからのモデルメトリクス（例えば、ロス値やバッチからの入力）をログしません。システムメトリクス（使用状況やメモリなど）は全GPUでログされます。
+
+:::info
+**単一のプロセスから利用可能なメトリクスをトラックするためにこの方法を使ってください**。典型的な例には、GPU/CPUの利用率、共有検証セットでの振る舞い、勾配とパラメータ、代表的なデータ例でのロス値などがあります。
+:::
+
+[サンプルPythonスクリプト (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py)では、ランクが0であることを確認します。まず、`torch.distributed.launch`を用いて複数のプロセスを起動し、次に`--local_rank`コマンドライン引数を用いてランクを確認します。ランクが0に設定されている場合、`wandb`のログを条件付きでセットアップします。Pythonスクリプト内で次のようなチェックを行います：
 
 ```python showLineNumbers
 if __name__ == "__main__":
-    # 引数を取得
+    # Get args
     args = parse_args()
 
-    if args.local_rank == 0:  # メインプロセスでのみ実行
-        # wandb runを初期化
+    if args.local_rank == 0:  # only on main process
+        # Initialize wandb run
         run = wandb.init(
             entity=args.entity,
             project=args.project,
         )
-        # DDPでモデルを学習
+        # Train model with DDP
         train(args, run)
     else:
         train(args)
 ```
 
-W&BアプリのUIを探索して、単一プロセスからトラッキングされたメトリクスの[例のダッシュボード](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system)を表示します。ダッシュボードには、両方のGPUでトラックされた温度や利用状況などのシステムメトリクスが表示されます。
+W&BアプリUIを探索して、単一プロセスからトラックされたメトリクスの[例のダッシュボード](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system)を参照してください。このダッシュボードは、両方のGPUでトラックされた温度や利用状況などのシステムメトリクスを表示します。
 
 ![](/images/track/distributed_training_method1.png)
 
-ただし、損失値はエポックとバッチサイズの関数として、単一のGPUからのみログに記録されました。
+しかし、エポックとバッチサイズによるロス値は単一のGPUからのみログされました。
 
 ![](/images/experiments/loss_function_single_gpu.png)
 
-### 方法2：多くのプロセス
+### 方法2: マルチプロセス
 
-この方法では、ジョブの各プロセスをトラックし、`wandb.init()`および`wandb.log()`をそれぞれのプロセスから個別に呼び出します。すべてのプロセスが適切に終了するように、トレーニングが終了したら`wandb.finish()`を呼び出すことをお勧めします。
+この方法では、ジョブ内の各プロセスをトラックし、各プロセスから個別に`wandb.init()`および`wandb.log()`を呼び出します。トレーニング終了時に`wandb.finish()`を呼び出すことをお勧めします。これはRunが完了したことを示し、すべてのプロセスが適切に終了することを保証します。
 
-この方法では、ログに記録するための情報がより多くアクセス可能になります。ただし、W&BアプリのUIに複数のW&B Runsが表示されることに注意してください。複数の実験でW&B Runsを追跡するのが難しい場合があります。これを軽減するために、W&Bを初期化するときにgroupパラメータに値を提供して、どのW&B Runが特定の実験に属しているかを追跡します。実験のトレーニングと評価のW&B Runsを追跡する方法の詳細については、[Group Runs](../../runs/grouping.md)を参照してください。
+この方法では、より多くの情報がログにアクセス可能になります。ただし、W&BアプリUIでは複数のW&B Runsが報告されます。複数の実験にわたってW&B Runsを追跡するのは難しいかもしれません。これを軽減するために、W&Bを初期化する際にgroupパラメータに値を提供し、どのW&B Runがどの実験に属するかを追跡してください。実験内でトレーニングと評価のW&B Runsを追跡する方法の詳細については、[Group Runs](../../runs/grouping.md)を参照してください。
+
 :::info
-**個々のプロセスからのメトリクスをトラッキングしたい場合は、このメソッドを使用してください**。典型的な例としては、各ノードのデータや予測（データ配布のデバッグ用）や、メインノード外の個々のバッチのメトリックスがあります。この方法は、すべてのノードからのシステムメトリクスを取得するためにも、メインノードで利用可能なサマリースタティスティクスを取得するためにも必要ありません。
+**個々のプロセスからのメトリクスをトラックしたい場合にこの方法を使ってください**。典型的な例には、各ノード上でのデータと予測（データ分配のデバッグ用）や、メインノード外の個々のバッチ上のメトリクスがあります。この方法は、すべてのノードからのシステムメトリクスや、メインノードで利用可能なサマリ統計を取得するためには必要ありません。
 :::
 
-以下のPythonコードスニペットは、W&Bを初期化する際にgroupパラメータを設定する方法を示しています。
+次のPythonコードスニペットでは、W&Bを初期化する際にgroupパラメータを設定する方法を示します：
 
 ```python
 if __name__ == "__main__":
@@ -74,37 +76,38 @@ if __name__ == "__main__":
     run = wandb.init(
         entity=args.entity,
         project=args.project,
-        group="DDP",  # 実験のすべてのrunを1つのグループにまとめる
+        group="DDP",  # all runs for the experiment in one group
     )
-    # DDPでモデルをトレーニングする
+    # Train model with DDP
     train(args, run)
 ```
 
-W&BアプリのUIを調べて、複数のプロセスからトラッキングされたメトリクスの[例となるダッシュボード](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna)を見てください。左サイドバーには、2つのW&BRunsがグループ化されていることに注意してください。グループをクリックして、実験専用のグループページを表示します。専用のグループページには、各プロセスのメトリックスが別々に表示されます。
+W&BアプリUIを探索して、複数のプロセスからトラックされたメトリクスの[例のダッシュボード](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna)を参照してください。サイドバーには2つのW&B Runsがグループ化されて表示されています。グループをクリックして、その実験の専用グループページを表示します。専用グループページには、各プロセスからのメトリクスが個別に表示されます。
 
 ![](/images/experiments/dashboard_grouped_runs.png)
 
-上の画像は、W&BアプリのUIダッシュボードを示しています。サイドバーには、'null'とラベル付けされた実験と、黄色い枠で囲まれた2つ目の実験が表示されています。グループを展開すると（グループのドロップダウンを選択すると）、その実験に関連するW&BRunsが表示されます。
+前述の画像では、W&BアプリUIのダッシュボードを示しています。サイドバーには2つの実験が表示されています。1つは 'null' とラベル付けされており、もう1つは（黄色のボックスで囲まれた） 'DPP' と呼ばれています。グループを展開すると（Groupドロップダウンを選択）、その実験に関連するW&B Runsが表示されます。
 
-### よくある分散トレーニングの問題を回避するために、W&Bサービスを使いましょう。
+### W&Bサービスを使用して、分散トレーニングの一般的な問題を回避する
 
-W&Bと分散トレーニングを使っているときに遭遇する可能性がある共通の問題が2つあります。
-1. **トレーニングの始めに停滞する** - `wandb`プロセスは、`wandb`のマルチプロセッシングが分散トレーニングのマルチプロセッシングと干渉すると停滞することがあります。
-2. **トレーニングの終わりに停滞する** - トレーニングジョブは、`wandb`プロセスが終了する必要があるタイミングを知らない場合に停滞することがあります。Pythonスクリプトの最後で`wandb.finish()`APIを呼び出して、W&BにRunが終了したことを伝えます。wandb.finish() APIはデータのアップロードを完了させ、W&Bを終了させます。
+W&Bおよび分散トレーニングを使用する際に遭遇する可能性のある一般的な問題が2つあります：
 
-分散ジョブの信頼性を向上させるために、`wandb service`の使用をお勧めします。先述のトレーニングの問題は、wandb serviceが利用できないW&B SDKのバージョンで一般的に見られます。
+1. **トレーニングの開始時にハングする** - `wandb`プロセスが分散トレーニングのマルチプロセッシングと干渉する場合、`wandb` プロセスがハングする可能性があります。
+2. **トレーニングの終了時にハングする** - `wandb`プロセスが終了する必要があることを認識しない場合、トレーニングジョブがハングする可能性があります。Pythonスクリプトの最後に`wandb.finish()` APIを呼び出して、W&BにRunが終了したことを通知してください。`wandb.finish()` APIはデータのアップロードを完了し、W&Bの終了をトリガーします。
 
-### W&Bサービスを有効にする
+分散ジョブの信頼性を向上させるためには、`wandb service`を使用することをお勧めします。上記のトレーニングの問題は、`wandb service`が利用できないW&B SDKのバージョンで一般的に見られます。
 
-W&B SDKのバージョンによっては、W&Bサービスがデフォルトで有効になっている場合があります。
+### W&Bサービスを有効化
+
+お使いのW&B SDKのバージョンに応じて、すでにデフォルトでW&Bサービスが有効になっている場合があります。
 
 #### W&B SDK 0.13.0以降
 
-W&B SDK `0.13.0`以降のバージョンでは、W&Bサービスがデフォルトで有効になっています。
+W&B SDK `0.13.0`以降のバージョンでは、デフォルトでW&Bサービスが有効になっています。
 
 #### W&B SDK 0.12.5以降
 
-W&B SDKバージョン0.12.5以降のW&Bサービスを有効にするには、Pythonスクリプトを変更します。`wandb.require`メソッドを使用し、メイン関数内で文字列`"service"`を渡します。
+W&B SDKバージョン0.12.5以降では、W&Bサービスを有効にするためにPythonスクリプトを変更します。`wandb.require` メソッドを使用して、メイン関数内で文字列 `"service"` を渡します：
 
 ```python
 if __name__ == "__main__":
@@ -113,21 +116,22 @@ if __name__ == "__main__":
 
 def main():
     wandb.require("service")
-    # ここに残りのスクリプトを記述
+    # rest-of-your-script-goes-here
 ```
 
-最適な体験のために、最新バージョンにアップグレードすることをお勧めします。
+最適な体験を得るために、最新バージョンにアップグレードすることをお勧めします。
 
 **W&B SDK 0.12.4以前**
-`WANDB_START_METHOD`環境変数を`"thread"`に設定することで、W&B SDKバージョン0.12.4以下を使用している場合にマルチスレッディングを利用できます。
 
-### マルチプロセッシングの例
+W&B SDKバージョン0.12.4以前を使用している場合は、マルチスレッディングを代わりに使用するために`WANDB_START_METHOD`環境変数を `"thread"` に設定します。
 
-以下のコードスニペットでは、高度な分散ユースケースのための一般的な方法が示されています。
+### マルチプロセッシングのユースケース例
 
-#### プロセスの生成
+次のコードスニペットは、高度な分散ユースケースのための一般的な方法を示しています。
 
-`wandb.setup()[line 8]`メソッドをメイン関数内で使用し、生成されたプロセス内でW&B Runを開始します。
+#### スポーンプロセス
+
+スポーンされたプロセスでW&B Runを開始する場合は、メイン関数で`wandb.setup()[line 8]` メソッドを使用します：
 
 ```python showLineNumbers
 import multiprocessing as mp
@@ -150,7 +154,8 @@ if __name__ == "__main__":
 
 #### W&B Runを共有する
 
-W&B Runオブジェクトを引数として渡すことで、プロセス間でW&B Runsを共有できます。
+W&B Runオブジェクトを引数として渡すことで、プロセス間でW&B Runsを共有します：
+
 ```python showLineNumbers
 def do_work(run):
     run.log(dict(this=1))
@@ -158,11 +163,8 @@ def do_work(run):
 
 def main():
     run = wandb.init()
-
     p = mp.Process(target=do_work, kwargs=dict(run=run))
-
     p.start()
-
     p.join()
 
 
@@ -170,12 +172,7 @@ if __name__ == "__main__":
     main()
 ```
 
-
-
-
-
 :::info
-
-ログの順序を保証できないことに注意してください。同期はスクリプトの作者が行うべきです。
-
+ログの順序について保証できないことに注意してください。同期はスクリプトの作成者に委ねられます。
 :::
+

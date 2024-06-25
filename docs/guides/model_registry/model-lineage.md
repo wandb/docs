@@ -1,43 +1,41 @@
 ---
-description: ''
 displayed_sidebar: default
 ---
 
 
 # Create model lineage map
-A useful feature of logging model artifacts to W&B are lineage graphs. Lineage graphs show artifacts logged by a run as well as artifacts used by specific run. 
+W&B にモデルアーティファクトをログする便利な機能のひとつがリネージグラフです。リネージグラフは、run によって記録されたアーティファクトや、特定の run で使用されたアーティファクトを表示します。
 
-This means that, when you log a model artifact, you at a minimum have access to view the W&B run that used or produced the model artifact. If you [track a dependency](#track-an-artifact-dependency), you will also see the inputs used by the model artifact.
+これは、モデルアーティファクトをログすることで、最低限モデルアーティファクトを使用または生成した W&B run を見ることができることを意味します。もし [依存関係を追跡](#track-an-artifact-dependency) する場合、モデルアーティファクトが使用した入力も確認できます。
 
-For example, the proceeding image shows artifacts created and used throughout an ML experiment:
+例えば、次の画像は ML 実験全体で作成され使用されたアーティファクトを示しています。
 
 ![](/images/models/model_lineage_example.png)
 
-From left to right, the image shows:
-1. The `jumping-monkey-1` W&B run created the `mnist_dataset:v0` dataset artifact.
-2. The `vague-morning-5` W&B run trained a model using the `mnist_dataset:v0` dataset artifact. The output of this W&B run was a model artifact called `mnist_model:v0`.
-3. A run called `serene-haze-6` used the model artifact (`mnist_model:v0`) to evaluate the model.
-
+左から右へ画像は次のように示されています：
+1. `jumping-monkey-1` W&B run が `mnist_dataset:v0` データセットアーティファクトを作成しました。
+2. `vague-morning-5` W&B run は `mnist_dataset:v0` データセットアーティファクトを使用してモデルをトレーニングしました。この W&B run の出力は `mnist_model:v0` というモデルアーティファクトです。
+3. `serene-haze-6` という run がそのモデルアーティファクト (`mnist_model:v0`) を使用してモデルを評価しました。
 
 ## Track an artifact dependency
 
-Declare an artifact (dataset, model, and so forth) as an input to a W&B run with the `use_artifact` API to track a dependency. 
+依存関係を追跡するためには、データセットアーティファクトを W&B run に対する入力として `use_artifact` API を使用して宣言します。
 
-The proceeding code snippet shows how to use the `use_artifact` API:
+次のコードスニペットは `use_artifact` API の使い方を示しています：
 
 ```python
-# Initialize a run
+# run を初期化
 run = wandb.init(project=project, entity=entity)
 
-# Get artifact, mark it as a dependency
-artifact = wandb.run.use_artifact(artifact_or_name="name", aliases="<alias>")
+# アーティファクトを取得し、依存関係としてマーク
+artifact = run.use_artifact(artifact_or_name="name", aliases="<alias>")
 ```
 
-Once you have retrieved your artifact, you can use that artifact to (for example), evaluate the performance of a model. 
+アーティファクトを取得すると、そのアーティファクトを使用してモデルの性能を評価することができます（例えば）。
 
 <details>
 
-<summary>Example: Train a model and track a dataset as the input of a model</summary>
+<summary>例: モデルをトレーニングし、データセットをモデルの入力として追跡</summary>
 
 ```python
 job_type = "train_model"
@@ -55,14 +53,14 @@ version = "latest"
 name = "{}:{}".format("{}_dataset".format(model_use_case_id), version)
 
 # highlight-start
-artifact = wandb.run.use_artifact(name)
+artifact = run.use_artifact(name)
 # highlight-end
 
 train_table = artifact.get("train_table")
 x_train = train_table.get_column("x_train", convert_to="numpy")
 y_train = train_table.get_column("y_train", convert_to="numpy")
 
-# Store values from our config dictionary into variables for easy accessing
+# 辞書から設定値を取り出し、変数に格納して簡単にアクセスできるようにする
 num_classes = 10
 input_shape = (28, 28, 1)
 loss = "categorical_crossentropy"
@@ -72,7 +70,7 @@ batch_size = run.config["batch_size"]
 epochs = run.config["epochs"]
 validation_split = run.config["validation_split"]
 
-# Create model architecture
+# モデルアーキテクチャーを作成
 model = keras.Sequential(
     [
         layers.Input(shape=input_shape),
@@ -87,13 +85,13 @@ model = keras.Sequential(
 )
 model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
-# Generate labels for training data
+# トレーニングデータのラベルを生成
 y_train = keras.utils.to_categorical(y_train, num_classes)
 
-# Create training and test set
+# トレーニングセットとテストセットを作成
 x_t, x_v, y_t, y_v = train_test_split(x_train, y_train, test_size=0.33)
 
-# Train the model
+# モデルをトレーニング
 model.fit(
     x=x_t,
     y=y_t,
@@ -103,7 +101,7 @@ model.fit(
     callbacks=[WandbCallback(log_weights=True, log_evaluation=True)],
 )
 
-# Save model locally
+# モデルをローカルに保存
 path = "model.h5"
 model.save(path)
 
@@ -111,7 +109,9 @@ path = "./model.h5"
 registered_model_name = "MNIST-dev"
 name = "mnist_model"
 
+# highlight-start
 run.link_model(path=path, registered_model_name=registered_model_name, name=name)
+# highlight-end
 run.finish()
 ```
 

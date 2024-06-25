@@ -2,14 +2,15 @@
 displayed_sidebar: default
 ---
 
+
 # W&B Core
-W&B Core is the foundational framework supporting W&B Models and W&B Prompts, with secure enterprise deployment options and flexible multi-cloud support with all industry leaders. 
+W&B Core は、[W&B Models](./models.md) と [W&B Prompts](./prompts_platform.md) をサポートする基盤フレームワークであり、[W&B Platform](./hosting/intro.md) によってサポートされています。
 
-![](/images/wb_marketing/wb_core.png)
+![](@site/static/images/general/platform.png)
 
-W&B core provides capabilities across the entire ML lifecycle. With W&B core, you can:
+W&B Core は、ML ライフサイクル全体を通じて様々な機能を提供します。W&B Coreを使用すると、以下のことが可能です：
 
-- [Version and manage ML](./artifacts/intro.md) pipelines with full lineage tracing for easy auditing and reproducibility.
-- Explore and evaluate data and metrics using [interactive, configurable visualizations](./tables/intro.md).
-- [Document and share](./reports/intro.md) insights across the entire organization by generating live reports in digestible, visual formats that are easily understood by non-technical stakeholders.
-- [Query and create visualizations of your data](../guides/app/features/panels/weave) that serve your custom needs.
+- [ML パイプラインのバージョン管理](./artifacts/intro.md) とリネージを含むフルトレース機能により、簡単に監査や再現性を確保。
+- [インタラクティブで構成可能な可視化](./tables/intro.md) を使用して データ と メトリクス を探索および評価。
+- [ライブレポートを作成して](./reports/intro.md)、視覚的でわかりやすい形式で組織全体にわたるインサイトをドキュメント化し、共有。
+- あなたのカスタムニーズに応じた [データのクエリとビジュアライゼーションの作成](../guides/app/features/panels/query-panel)。

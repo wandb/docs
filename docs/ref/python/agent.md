@@ -1,42 +1,26 @@
+
 # エージェント
 
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)GitHubでソースを見る](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/wandb_agent.py#L592-L650)
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/wandb_agent.py#L534-L579' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-サーバーによって指定された設定パラメーターを使用して、関数やプログラムを実行します。
+1つ以上のsweepエージェントを開始します。
+
 ```python
-sweep_id, function = None, entity = None, project = None, count = None
+agent(
+    sweep_id: str,
+    function: Optional[Callable] = None,
+    entity: Optional[str] = None,
+    project: Optional[str] = None,
+    count: Optional[int] = None
+) -> None
 ```
 
+sweepエージェントは、`sweep_id`を使用して、どのsweepに属しているか、どの関数を実行するか、および（任意で）いくつのエージェントを実行するかを判断します。
 
-
+| 引数 |  |
 | :--- | :--- |
-| `function` | (func, 任意) 設定で指定された"program"の代わりに呼び出す関数。|
-| `project` | (str, 任意) W＆Bプロジェクト |
-#### 例:
-
-関数上でサンプルスイープを実行する:
-
-```python
-import wandb
-
-sweep_configuration = {
-    "name": "my-awesome-sweep",
-    "metric": {"name": "accuracy", "goal": "maximize"},
-    "method": "grid",
-    "parameters": {"a": {"values": [1, 2, 3, 4]}},
-}
-
-
-def my_train_func():
-    # wandb.config からパラメータ "a" の現在の値を読み取る
-    wandb.init()
-    a = wandb.config.a
-
-    wandb.log({"a": a, "accuracy": a + 1})
-
-
-sweep_id = wandb.sweep(sweep_configuration)
-
-# スイープを実行する
-wandb.agent(sweep_id, function=my_train_func)
-```
+|  `sweep_id` |  sweepの一意の識別子。sweep IDはW&B CLIまたはPython SDKによって生成されます。 |
+|  `function` |  sweep設定で指定された「プログラム」の代わりに呼び出される関数。 |
+|  `entity` |  sweepによって作成されたW&B runsを送信したいユーザー名またはチーム名。指定したentityが既に存在することを確認してください。entityを指定しない場合、runはデフォルトのentity（通常はユーザー名）に送信されます。 |
+|  `project` |  sweepから作成されたW&B runsが送信されるプロジェクトの名前。プロジェクトが指定されていない場合、runは「Uncategorized」とラベル付けされたプロジェクトに送信されます。 |
+|  `count` |  試行するsweep設定トライアルの数。 |

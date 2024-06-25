@@ -1,40 +1,42 @@
 ---
-description: Troubleshoot common W&B Sweep issues.
+description: 一般的な W&B Sweep の問題のトラブルシューティング。
 displayed_sidebar: default
 ---
 
-# スイープのトラブルシューティング
+
+# Troubleshoot Sweeps
 
 <head>
-  <title>W&Bスイープのトラブルシューティング</title>
+  <title>Troubleshoot W&B Sweeps</title>
 </head>
 
-一般的なエラーメッセージに対処するための指針を提案します。
+Troubleshoot common error messages with the guidance suggested.
 
-### `CommError, Run does not exist` および `ERROR Error uploading`
+### `CommError, Run does not exist` and `ERROR Error uploading`
 
-これら2つのエラーメッセージが両方とも返される場合、W&B Run IDが定義されている可能性があります。例として、JupyterノートブックやPythonスクリプトのどこかに以下のようなコードスニペットが定義されているかもしれません。
+この2つのエラーメッセージが両方とも返される場合、W&B Run ID が定義されている可能性があります。例えば、Jupyter ノートブックや Python スクリプトのどこかに次のようなコードスニペットが定義されているかもしれません:
 
 ```python
 wandb.init(id="some-string")
 ```
 
-W&Bスイープでは、Run IDを設定することはできません。なぜなら、Weights & Biasesは、W&Bスイープによって作成されたRunに対してランダムで一意のIDを自動的に生成するからです。
+W&B Sweeps では Run ID を設定することはできません。W&B が自動的にランダムでユニークな ID を生成するからです。
 
-W&B Run IDは、プロジェクト内で一意である必要があります。
+W&B Run ID はプロジェクト内でユニークである必要があります。
 
-名前パラメータにカスタム名を設定して、テーブルやグラフに表示される名前を指定する場合は、Weights & Biasesを初期化する際に名前を渡すことをお勧めします。例えば、
+カスタムの名前を設定したい場合は、W&B を初期化する際に `name` パラメータに名前を渡すことをお勧めします。例えば、テーブルやグラフに表示される読みやすい名前を設定できます:
 
 ```python
 wandb.init(name="a helpful readable run name")
 ```
+
 ### `Cuda out of memory`
 
-このエラーメッセージが表示された場合、プロセスベースの実行を使用するようにコードをリファクタリングしてください。具体的には、コードをPythonスクリプトに書き換え、W&B Python SDKの代わりにCLIからW&B スイープエージェントを呼び出します。
+このエラーメッセージが表示された場合は、コードをプロセスベースの実行にリファクタリングしてください。具体的には、コードを Python スクリプトに書き直し、W&B Sweep Agent を W&B Python SDK ではなく CLI から呼び出します。
 
-例として、コードを`train.py`という名前のPythonスクリプトに書き換えたとします。トレーニングスクリプト（`train.py`）の名前を、YAMLスイープ構成ファイル（この例では`config.yaml`）に追加します。
+例えば、コードを書き直して `train.py` という名前の Python スクリプトにすると仮定します。トレーニングスクリプト (`train.py`) の名前を YAML Sweep configuration ファイル (`config.yaml`) に追加します:
 
-```
+```yaml
 program: train.py
 method: bayes
 metric:
@@ -48,31 +50,32 @@ parameters:
     values: ["adam", "sgd"]
 ```
 
-次に、`train.py` Pythonスクリプトに以下を追加します。
+次に、`train.py` Python スクリプトに次のコードを追加します:
 
 ```python
 if _name_ == "_main_":
     train()
 ```
 
-CLIに移動し、wandb sweepを使用してW&Bスイープを初期化します。
+CLI に移動して、wandb sweep を使用して W&B Sweep を初期化します:
 
-```
+```shell
 wandb sweep config.yaml
 ```
-W&B スイープ ID をメモしておいてください。次に、Python SDK の [`wandb.agent`](https://docs.wandb.ai/ref/python/agent) ではなく、CLI の [`wandb agent`](https://docs.wandb.ai/ref/cli/wandb-agent) を使ってスイープジョブを開始します。以下のコードスニペットで `sweep_ID` を前のステップで返されたスイープ ID に置き換えてください。
 
-```
+返された W&B Sweep ID をメモしておきます。次に、Sweep ジョブを CLI から [`wandb agent`](../../ref/cli/wandb-agent.md) を使用して開始します。Python SDK ([`wandb.agent`](../../ref/python/agent.md)) ではなく CLI を使用します。以下のコードスニペットの `sweep_ID` を前のステップで返された Sweep ID に置き換えます:
+
+```shell
 wandb agent sweep_ID
 ```
 
 ### `anaconda 400 error`
 
-以下のエラーは、最適化するメトリックをログに記録しない場合に通常発生します。
+このエラーは、最適化するメトリックをログしていないときに通常発生します:
 
-```python
+```shell
 wandb: ERROR Error while calling W&B API: anaconda 400 error: 
 {"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
 ```
 
-YAML ファイルやネストされたディクショナリ内で、最適化する "metric" という名前のキーを指定します。このメトリックをログ（`wandb.log`）に記録することを確認してください。さらに、Python スクリプトや Jupyter ノートブック内でスイープの最適化に定義した _正確な_ メトリック名を使用してください。設定ファイルの詳細については、[スイープ設定の定義](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)を参照してください。
+YAML ファイルまたはネストされた辞書内で、最適化するキー名 "metric" を指定します。このメトリックを `wandb.log` でログすることを確認してください。さらに、Python スクリプトや Jupyter ノートブックで、sweep の最適化に使用する _正確な_ メトリック名を使用してください。設定ファイルの詳細については、[Define sweep configuration](./define-sweep-configuration.md) を参照してください。

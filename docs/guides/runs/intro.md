@@ -1,160 +1,155 @@
 ---
+description: W&Bの基本的な構成要素であるRunについて学びましょう。
 slug: /guides/runs
-description: Learn about the basic building block of W&B, Runs.
 displayed_sidebar: default
 ---
+
+
 # Runs
 
-W&Bでログされる1つの計算単位は*Run*と呼ばれます。 
+W&Bによって記録される計算の単一単位は*run*と呼ばれます。W&Bのrunをプロジェクト全体の原子的な要素と考えることができます。以下の場合に新しいrunを開始する必要があります：
 
-W＆BのRunを、プロジェクト全体の原子的な要素と考えてください。ハイパーパラメーターを変更したり、別のモデルを使用したり、[W&B Artifact](../artifacts/intro.md) を作成するなど、新しいRunを作成して開始する必要があります。
+* モデルをトレーニングする
+* ハイパーパラメーターを変更する
+* 異なるモデルを使用する
+* [W&B Artifact](../artifacts/intro.md)としてデータやモデルをログに記録する
+* [W&B Artifactをダウンロードする](../artifacts/download-and-use-an-artifact.md)
 
-例えば、[W&B Sweep](../sweeps/intro.md)では、ハイパーパラメーター検索を行い、様々なモデルの空間を探索します。各新しいハイパーパラメーターの組み合わせは、W&B Runとして実装されます。
+例えば、[sweep](../sweeps/intro.md)の間、W&Bは指定されたハイパーパラメーター検索空間を探索します。sweepによって生成された各新しいハイパーパラメーターの組み合わせは、ユニークなrunとして実装および記録されます。
 
-W&B Runsは以下のようなタスクに使用します。
-
-* モデルのトレーニングを行うたび。
-* データやモデルを[W&B Artifact](../artifacts/intro.md)としてログする。
-* [W&B Artifactをダウンロードする](../artifacts/download-and-use-an-artifact.md)。
-
-`wandb.log`を使ってログを残すと、そのRunに記録されます。W&Bでオブジェクトをログに記録する方法についての詳細は、[Log Media and Objects](../track/log/intro.md)を参照してください。
-
-プロジェクト内のRunは、プロジェクトの[Workspace](#view-runs)で表示できます。
-
-## Runの作成
-
-[`wandb.init()`](../../ref/python/init.md)を使ってW&B Runを作成します。
-
-```python
-import wandb
-
-run = wandb.init(project="my-project-name")
-```
-`project`フィールドにプロジェクト名をオプションで指定できます。Runオブジェクトを作成する際にプロジェクト名を指定することをお勧めします。指定された名前のプロジェクトがまだ存在しない場合、W&Bは新しいプロジェクトを作成します。プロジェクトは、実験、runs、アーティファクトなどを一か所で便利に整理するのに役立ちます。これを*プロジェクトワークスペース*と呼びます。プロジェクトのワークスペースは、runを比較するための個人用の砂場のようなものです。
-
-:::info
-プロジェクトが指定されていない場合、W&BのRunは"Uncategorized"というプロジェクトに格納されます。
+:::tip
+runを作成および管理する際に考慮すべき重要なポイント：
+* `wandb.log`でログを記録したものはすべてそのrunに記録されます。W&Bでオブジェクトをログに記録する方法の詳細については、[Log Media and Objects](../track/log/intro.md)を参照してください。
+* 各runは特定のW&Bプロジェクトに関連付けられています。
+* W&B App UIのプロジェクトワークスペース内でrunおよびそのプロパティを表示します。
+* 任意のプロセスでアクティブな [`wandb.Run`](../../ref/python/run.md) は多くとも1つしかなく、`wandb.run`としてアクセス可能です。
 :::
 
-あるプロセスでアクティブな[`wandb.Run`](../../ref/python/run.md)は、常に最大1つであり、`wandb.run`としてアクセスできます。
+## runを作成する
+
+[`wandb.init()`](../../ref/python/init.md)を使用してW&Bのrunを作成します：
 
 ```python
 import wandb
 
-assert wandb.run is None
-
-wandb.init()
-
-assert wandb.run is not None
+run = wandb.init()
 ```
 
-同じノートブックやスクリプトで複数のRunsを開始するためには、まだ完了していないRunを終了する必要があります。
+新しいrunを作成する際には、プロジェクト名とW&Bエンティティを指定することをお勧めします。W&Bは指定されたエンティティ内に新しいプロジェクト（プロジェクトが既に存在しない場合）を作成します。プロジェクトが既に存在する場合、W&Bはそのプロジェクトにrunを保存します。
 
-## Runの終了
-W&Bは自動的に[`wandb.finish`](../../ref/python/finish.md)を呼び出して、Runの終了処理とクリーンアップを行います。ただし、[`wandb.init`](../../ref/python/init.md)を子プロセスから呼び出す場合は、子プロセスの終了時に明示的に`wandb.finish`を呼び出す必要があります。
+例えば、以下のコードスニペットは、`wandbee`エンティティ内にスコープされた`model_registry_example`というプロジェクトに保存されるrunを初期化します：
+
+```python
+import wandb
+
+run = wandb.init(entity="wandbee", \
+        project="model_registry_example")
+```
+
+W&Bは作成されたrunの名前と、その特定のrunに関する詳細情報を得るためのURLパスを出力します。
+
+例えば、上記のコードスニペットは次のような出力を生成します：
+![](/images/runs/run_example.png)
+
+## runをrun名とrun IDで整理する
+デフォルトでは、新しいrunを初期化するとW&Bはランダムな名前とrun IDを生成します。
+
+前述の例では、W&Bは`likely-lion-9`というrun名と`xlm66ixq`というrun IDを生成します。`likely-lion-9`runは`model_registry_example`というプロジェクトに保存されます。
 
 :::note
-スクリプトが終了すると、wandb.finish APIは自動的に呼び出されます。
+W&Bによって生成されるrun名がユニークであることは保証されていません。
 :::
 
-[`wandb.finish`](../../ref/python/finish.md) APIを使用してRunを手動で終了させるか、`with`文を使用してRunを終了させることができます。次のコード例は、`with` Python文からRunを終了する方法を示しています:
+runを初期化する際に、`id`パラメータでユニークなrun ID識別子を、`name`パラメータでrunの名前を指定することができます。例えば、
 
-```python
+```python 
 import wandb
 
-wandb.init()
-wandb.finish()
-
-assert wandb.run is None
-
-with wandb.init() as run:
-    pass  # ここでデータをログに記録
-
-assert wandb.run is None
+run = wandb.init(
+    entity="<project>", 
+    project="<project>", 
+    name="<run-name>", 
+    id="<run-id>"
+)
 ```
 
+run名とrun IDを使用して、W&B App UI内のプロジェクト内で実験をすばやく見つけることができます。特定のrunに関する詳細情報をURLで見つけることができます：
 
-## プロジェクト内のすべてのRunを表示
-W&BアプリのUI を使ってプロジェクトに関連付けられたRunを表示します。W&Bアプリに移動し、プロジェクト名で検索してください。
+```text title="W&B App URL for a specific run"
+https://wandb.ai/entity/project-name/run-id
+```
 
-次の例では、"my-first-run"というプロジェクトを検索しています：
+ここで：
+* `entity`: runを初期化したW&Bエンティティ。
+* `project`: runが保存されるプロジェクト。
+* `run-id`: runのrun ID。
 
-![](/images/runs/search_run_name_landing_page.png)
+:::tip
+runを初期化する際にプロジェクト名を指定することをW&Bは推奨しています。プロジェクトが指定されていない場合、W&Bはrunを"Uncategorized"プロジェクトに保存します。
+:::
 
-プロジェクトを選択します。これにより、そのプロジェクトのワークスペースにリダイレクトされます。プロジェクトのワークスペースは、runを比較するためのパーソナルな砂場を提供します。異なるアーキテクチャーやハイパーパラメータ、データセット、前処理などで、同じ問題に取り組むモデルを整理するためにプロジェクトを使用してください。
+[`wandb.init`](../../ref/python/init.md)のリファレンスドキュメントには、使用可能なパラメータの完全なリストが記載されています。
 
-プロジェクトのワークスペース内には**Runs**というラベルの付いたテーブルが表示されます。このテーブルには、プロジェクト内のすべてのRunが一覧表示されます。言い換えれば、これらのrunは、作成時に`project`引数が与えられました。
+## runを表示する
 
-次の画像は、"sweep-demo"というプロジェクトのワークスペースを示しています：
-![例のプロジェクトワークスペース'sweep-demo'](/images/app_ui/workspace_tab_example.png)
+runが記録されたプロジェクト内で特定のrunを表示します：
 
-**Runs Sidebar**には、プロジェクト内のすべてのrunが一覧表示されます。一つのRunにマウスカーソルを合わせることで、以下の操作や表示が可能になります。
+1. W&B App UIの[https://wandb.ai/home](https://wandb.ai/home)に移動します。
+2. runを初期化した際に指定したW&Bプロジェクトに移動します。
+3. プロジェクトのワークスペース内に**Runs**というラベルの付いたテーブルが表示されます。このテーブルにはプロジェクト内のすべてのrunがリストされています。表示したいrunをリストから選択します。
+  ![Example project workspace called 'sweep-demo'](/images/app_ui/workspace_tab_example.png)
+4. 次に、**Overview Tab**アイコンを選択します。
 
-* **ケバブメニュー**：Runの名前を変更したり、Runを削除したり、アクティブなRunを停止したりするために、このケバブメニューを使います。
-* **表示アイコン**：目のアイコンを選択して特定のrunを非表示にします。
-* **色**：runの色を他のプリセットまたはカスタムカラーに変更します。
-* **検索**：名前でrunを検索します。これにより、プロットで表示されるrunがフィルタリングされます。
-* **フィルター**：サイドバーフィルターを使って、表示されるrunのセットを絞り込みます。
-* **グループ**：アーキテクチャーなどのconfig列を選択し、runを動的にグループ化します。グループ化すると、プロットには平均値に沿った線が表示され、グラフ上のポイントの分散が影として表示されます。
-* **並べ替え**：どのようにrunを並べ替えるかを選択します。例えば、最小損失または最高精度のrunを選びます。並べ替えは、グラフに表示されるrunに影響します。
-* **展開ボタン**：サイドバーをフルテーブルに展開します
-* **Runのカウント**：上部のかっこ内の数字は、プロジェクト内のrunの合計数です。括弧内の「N表示」という数字は、目アイコンがオンになっていて、各プロットで視覚化できるrunの数です。下の例では、グラフは183のrunのうち最初の10つしか表示していません。グラフを編集して、表示されるrunの最大数を増やします。
-
-プロジェクト内で複数のRunをどのように整理するかの詳細については、[Runs Table](../app/features/runs-table.md)ドキュメントを参照してください。
-
-プロジェクトのワークスペースのライブ例として、[example project](https://app.wandb.ai/example-team/sweep-demo)をご覧ください。
-
-<!-- ### runの検索
-
-サイドバーで特定のrunを名前で検索します。正規表現を使って表示されるrunを絞り込むことができます。検索ボックスは、グラフに表示されるrunに影響します。以下に例を示します。
-
-![](/images/app_ui/project_page_search_for_runs.gif)
-
-### runのフィルタリング
-
-### runの整理 -->
-## プロジェクト内の特定のRunを調査する
-
-Runページを使用して、特定のRunに関する詳細情報を調査します。
-
-1. プロジェクトに移動し、**Runs Sidebar**から特定のRunを選択します。
-2. 次に、**Overview Tab**アイコンを選択します。
-
-以下の画像は、「sparkling-glade-2」という名前のRunに関する情報を示しています。
+次の画像は**sparkling-glade-2**と呼ばれるrunの情報を示しています：
 
 ![W&B Dashboard run overview tab](/images/app_ui/wandb_run_overview_page.png)
 
-**Overview Tab**では、選択したRunに関する次の情報が表示されます。
+**Overview Tab**には、選択したrunに関する次の情報が表示されます：
 
-* Run名：Runの名前。
-* 説明：Runに関する説明。Runを作成する際に説明が指定されていない場合、このフィールドは最初に空白のままになります。W&B App UIまたはプログラムでRunの説明をオプションで提供できます。
-* プライバシー：Runのプライバシー設定。**プライベート**または**パブリック**のどちらかに設定できます。
-    * **プライベート**：（デフォルト）あなただけが閲覧および貢献できます。
-    * **パブリック**：誰でも閲覧できます。
-* タグ：（リスト、オプション）文字列のリスト。タグは、Runをまとめるためや、"ベースライン" や "プロダクション" などの一時的なラベルを適用するのに便利です。
-* 作者：Runを作成したW&Bのユーザー名。
-* Runの状態：Runの状態：
-  * **終了**：スクリプトが終了し、データが完全に同期されたか、`wandb.finish()`が呼ばれた
-  * **失敗**：スクリプトが正常終了しないステータスで終了した
-  * **クラッシュ**：内部プロセスでスクリプトがハートビートの送信を停止した。マシンがクラッシュした場合に発生することがあります
-  * **実行中**：スクリプトが実行中で、最近ハートビートが送信されました
-* 開始時刻：Runが開始されたタイムスタンプ。
-* 期間：Runが**終了**、**失敗**、または**クラッシュ**するまでの秒数。
-* ホスト名：Runが起動された場所。Runをローカルマシンで起動した場合、マシンの名前が表示されます。
-* オペレーティングシステム：Runに使用されたオペレーティングシステム。
-* Pythonバージョン：Runに使用されたPythonのバージョン。
-* Python実行ファイル：Runを開始したコマンド。
-* システムハードウェア：Runの作成に使用されたハードウェア。
-* W&B CLIバージョン：RunコマンドをホストしたマシンにインストールされたW&B CLIのバージョン。
+* **Run name**: runの名前。
+* **Description**: 提供されたrunの説明。このフィールドは、run作成時に説明が指定されていない場合は初期的に空白のままです。W&B App UIまたはプログラムでrunの説明を追加することができます。
+* **Privacy**: runのプライバシー設定。**Private**または**Public**に設定できます。
+    * **Private**: (デフォルト) あなただけが表示および貢献できます。
+    * **Public**: 誰でも表示できます。
+* **Tags**: (リスト、オプション) 文字列のリスト。Tagsはrunを整理するのに役立ちます。また、一時的なラベル（例えば "baseline" や "production"）を適用するのにも役立ちます。
+* **Author**: runを作成したW&Bユーザー名。
+* **Run state**: runの状態：
+  * **finished**: スクリプトが終了し、データが完全に同期されたか、`wandb.finish()`が呼び出された
+  * **failed**: スクリプトが非ゼロの終了ステータスで終了した
+  * **crashed**: 内部プロセスでスクリプトが心拍を送信しなくなった、これが発生するのはマシンがクラッシュした場合
+  * **running**: スクリプトがまだ実行中で最近の心拍を送信した
+* **Start time**: runが開始されたタイムスタンプ。
+* **Duration**: runが**finish**、**fail**、**crash**するまでにかかった時間（秒）。
+* **Run path**: 一意のrun識別子。形式は`entity/project/run-ID`。
+* **Host name**: runが起動された場所。ローカルマシンでrunが起動された場合はマシン名が表示されます。
+* **Operating system**: runに使用されたオペレーティングシステム。
+* **Python version**: runに使用されたPythonバージョン。
+* **Python executable**: runを開始したコマンド。
+* **System Hardware**: runを作成するために使用されたハードウェア。
+* **W&B CLI version**: runコマンドをホストしたマシンにインストールされているW&B CLIバージョン。
+* **Job Type**:
 
-<!-- :::info
+概要セクションの下にはさらに以下の情報が表示されます：
 
-ページ自体を公開しても、Pythonの詳細はプライベートのままです。
+* **Artifact Outputs**: runによって生成されたArtifactの出力。
+* **Config**: [`wandb.config`](../../guides/track/config.md)で保存された設定パラメータのリスト。
+* **Summary**: [`wandb.log()`](../../guides/track/log/intro.md)で保存されたサマリーパラメータのリスト。デフォルトでは、この値は最後にログに記録された値に設定されます。
 
-::: -->
+プロジェクト内の複数のrunを整理する方法の詳細については、[Runs Table](../app/features/runs-table.md)ドキュメントを参照してください。
 
-概要セクションの下には、以下の情報も追加で表示されます。
+プロジェクトのワークスペースのライブ例については、[この例のプロジェクト](https://app.wandb.ai/example-team/sweep-demo)を参照してください。
 
-* **アーティファクトの出力**: Runによって生成されたアーティファクトの出力。
-* **Config**: [`wandb.config`](../../guides/track/config.md)で保存された設定パラメーターのリスト。
-* **Summary**: [`wandb.log()`](../../guides/track/log/intro.md)で保存されたサマリーパラメーターのリスト。デフォルトでは、この値は最後にログされた値に設定されています。
+## runを終了する
+W&Bは自動的にrunsを終了し、そのrunからW&Bプロジェクトにデータをログに記録します。`run.finish`コマンドを使用して手動でrunを終了できます。例えば：
+
+```python
+import wandb
+
+run = wandb.init()
+run.finish()
+```
+
+:::info
+子プロセスから[`wandb.init`](../../ref/python/init.md)を呼び出す場合、子プロセスの終了時に[`wandb.finish`](../../ref/python/finish.md)メソッドを使用することをW&Bは推奨しています。
+:::
+

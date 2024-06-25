@@ -1,25 +1,28 @@
 ---
-description: ''
 displayed_sidebar: default
 ---
 
-# Document machine learning model
 
-Add a description to the model card of your registered model to document aspects of your machine learning model. Some topics worth documenting include:
+# 機械学習モデルのドキュメント化
 
-* **Summary**: A summary of what the model is. The purpose of the model. The machine learning framework that is used, and so forth. 
-* **Training data**: Describe the training data used, processing done on the training data set, where is that data stored and so forth.
-* **Architecture**: The architecture of the machine learning algorithm. Did the algorithm use transfer learning? And so forth.
-* **Deserialize the model**: Provide information on how someone on your team can load the model into memory.
+登録されたモデルのモデルカードに説明を追加して、機械学習モデルの各側面をドキュメント化します。ドキュメント化する価値のあるトピックには以下が含まれます。
 
+* **Summary**: モデルが何であるかの概要。モデルの目的。モデルが使用する機械学習フレームワークなど。
+* **Training data**: 使用されたトレーニングデータの説明、トレーニングデータセットに対して行われたプロセッシング、そのデータがどこに保存されているかなど。
+* **Architecture**: モデルのアーキテクチャー、レイヤー、および特定の設計選択に関する情報。
+* **Deserialize the model**: チーム内の誰かがモデルをメモリにロードできる方法の情報を提供します。
+* **Task**: 機械学習モデルが設計された特定のタスクや問題。これはモデルの意図された能力の分類です。
+* **License**: 機械学習モデルの使用に関連する法的条件および許可。これはモデルユーザーがモデルを利用する際の法的フレームワークを理解するのに役立ちます。
+* **References**: 関連する研究論文、データセット、または外部リソースへの引用や参照。
+* **Deployment**: モデルがどのように、そしてどこでデプロイされるのか、またワークフローオーケストレーションプラットフォームなどの他の企業システムにモデルがどのように統合されるのかに関するガイドライン。
 
-## Add a description to the model card
+## モデルカードに説明を追加する
 
-1. Navigate to the W&B Model Registry app at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select **View details** next to the name of the registered model you want to create a model card for.
-2. Go to the **Model card** section.
+1. W&B Model Registry アプリに移動します [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+2. モデルカードを作成したい登録済みモデルの名前の横にある **View details** を選択します。
+2. **Model card** セクションに移動します。
 ![](/images/models/model_card_example.png)
-3. Within the **Description** field, provide information about your machine learning model. Format text within a model card with [Markdown markup language](https://www.markdownguide.org/).
+3. **Description** フィールド内に機械学習モデルに関する情報を提供します。モデルカード内のテキストは [Markdown マークアップ言語](https://www.markdownguide.org/) でフォーマットします。
 
-For example, the following images shows the model card of a **Credit-card Default Prediction** registered model.
+例えば、以下の画像は **Credit-card Default Prediction** 登録モデルのモデルカードを示しています。
 ![](/images/models/model_card_credit_example.png)

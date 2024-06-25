@@ -1,46 +1,44 @@
 ---
+description: W&B を Databricks と統合する方法
 slug: /guides/integrations/databricks
-description: How to integrate W&B with Databricks.
 displayed_sidebar: default
 ---
 
+
 # Databricks
 
-W&Bは、Databricks環境でのW&B Jupyterノートブック体験をカスタマイズすることで、[Databricks](https://www.databricks.com/)と統合されます。
+W&Bは、Databricksの環境でW&B Jupyterノートブックの体験をカスタマイズすることで[Databricks](https://www.databricks.com/)と統合します。
 
 ## Databricks設定
 
 ### クラスターにwandbをインストール
 
-クラスター設定に移動し、クラスターを選択し、ライブラリーをクリックし、新しいインストールを選択します。PyPIを選択し、パッケージ`wandb`を追加します。
+クラスター設定に移動し、クラスターを選択し、ライブラリをクリックしてから、新規インストールをクリック、PyPIを選択し、パッケージ `wandb` を追加します。
 
 ### 認証
 
-W&Bアカウントを認証するために、ノートブックでクエリできるdatabricksシークレットを追加できます。
+W&Bアカウントを認証するには、ノートブックからクエリできるDatabricksシークレットを追加します。
 
 ```bash
-# databricks cliをインストールする
+# databricks cli をインストール
 pip install databricks-cli
 
-# databricks UIからトークンを生成する
+# Databricks UIからトークンを生成
 databricks configure --token
 
-# 下記の二つのコマンドのうちどちらかでスコープを作成（databricksのセキュリティ機能が有効かどうかによる）：
-# セキュリティアドオンがある場合
+# 次の2つのコマンドのいずれかでスコープを作成（databricksでセキュリティ機能が有効になっているかどうかに依存します）:
+# セキュリティアドオンあり
 databricks secrets create-scope --scope wandb
-# セキュリティアドオンがない場合
+# セキュリティアドオンなし
 databricks secrets create-scope --scope wandb --initial-manage-principal users
-```
 
-# APIキーを追加：https://app.wandb.ai/authorize から取得
-
+# こちらからapi_keyを追加: https://app.wandb.ai/authorize
 databricks secrets put --scope wandb --key api_key
-
 ```
 
 ## 例
 
-### シンプル
+### シンプルな例
 
 ```python
 import os
@@ -53,14 +51,14 @@ wandb.init()
 wandb.log({"foo": 1})
 ```
 
-### スイープ
+### Sweeps
 
-wandb.sweep() や wandb.agent() を使用しようとするノートブック用の一時的なセットアップ：
+ノートブックでwandb.sweep()やwandb.agent()を使用するための設定（暫定）
 
 ```python
 import os
 
-# これらは将来的に必要がなくなるでしょう。
+# これらは将来的には必要なくなります
 os.environ["WANDB_ENTITY"] = "my-entity"
 os.environ["WANDB_PROJECT"] = "my-project-that-exists"
 ```

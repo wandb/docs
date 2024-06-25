@@ -1,15 +1,80 @@
-# ファイル
- client, attrs
 
+# File
+
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/files.py#L108-L195' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+
+Fileはwandbによって保存されたファイルに関連するクラスです。
+
+```python
+File(
+    client, attrs
+)
 ```
 
+| 属性 |  |
+| :--- | :--- |
 
+## メソッド
+
+### `delete`
+
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/files.py#L175-L188)
+
+```python
+delete()
+```
+
+### `display`
+
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L15-L26)
+
+```python
+display(
+    height=420, hidden=(False)
+) -> bool
+```
+
+このオブジェクトをjupyterで表示します。
+
+### `download`
+
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/files.py#L134-L173)
+
+```python
 download(
+    root: str = ".",
+    replace: bool = (False),
+    exist_ok: bool = (False),
+    api: Optional[Api] = None
+) -> io.TextIOWrapper
+```
 
-| 例外 | |
+wandbサーバーからrunによって以前保存されたファイルをダウンロードします。
 
+| 引数 |  |
+| :--- | :--- |
+|  replace (ブーリアン): `True`の場合、ダウンロードは既存のローカルファイルを上書きします。デフォルトは`False`。 root (str): ファイルを保存するローカルディレクトリー。デフォルトは `.` 。 exist_ok (ブーリアン): `True`の場合、ファイルが既に存在してもValueErrorを発生させず、replace=Trueでない限り再ダウンロードしません。デフォルトは `False`。 api (Api, オプション): 指定された場合、ファイルのダウンロードに使用される`Api`インスタンス。 |
 
+| 発生する可能性のあるエラー |  |
+| :--- | :--- |
+|  `ValueError`: ファイルが既に存在し、replace=Falseかつexist_ok=Falseの場合。 |
 
+### `snake_to_camel`
 
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L11-L13)
 
+```python
+snake_to_camel(
+    string
+)
+```
 
+### `to_html`
+
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L28-L29)
+
+```python
+to_html(
+    *args, **kwargs
+)
+```
