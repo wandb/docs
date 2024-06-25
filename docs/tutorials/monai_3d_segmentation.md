@@ -3,31 +3,31 @@ import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 
-# 3D脳腫瘍セグメンテーションをMONAIで実現
+# 3D脳腫瘍セグメンテーション with MONAI
 
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/main/colabs/monai/3d_brain_tumor_segmentation.ipynb"></CTAButtons>
 
-このチュートリアルでは、[MONAI](https://github.com/Project-MONAI/MONAI)を使用して、多ラベル3D脳腫瘍セグメンテーションタスクのトレーニングワークフローを構築し、[Weights & Biases](https://wandb.ai/site)の実験トラッキングおよびデータ可視化機能を使用する方法を示します。チュートリアルには以下の機能が含まれています：
+このチュートリアルは、[MONAI](https://github.com/Project-MONAI/MONAI) を使用してマルチラベルの3D脳腫瘍セグメンテーションタスクのトレーニングワークフローを構築し、[Weights & Biases](https://wandb.ai/site) の実験管理とデータ可視化機能を利用する方法を示します。チュートリアルには以下の機能が含まれています:
 
-1. Weights & Biasesのrunを初期化し、再現性のためにrunに関連するすべての設定を同期します。
-2. MONAIのトランスフォームAPI:
-    1. 辞書形式のデータ用のMONAIトランスフォーム。
-    2. MONAI`transforms`APIに従って新しいトランスフォームを定義する方法。
+1. Weights & Biases の run を初期化し、再現性のために run に関連するすべての設定を同期します。
+2. MONAI トランスフォーム API:
+    1. 辞書形式のデータのための MONAI トランスフォーム。
+    2. MONAI `transforms` API に従って新しいトランスフォームを定義する方法。
     3. データ増強のために強度をランダムに調整する方法。
-3. データ読み込みと可視化:
-    1. `Nifti`画像とメタデータを読み込み、画像のリストを読み込みそれらをスタックします。
-    2. IOとトランスフォームをキャッシュしてトレーニングとバリデーションを加速します。
-    3. `wandb.Table`を使用してデータを可視化し、Weights & Biasesでインタラクティブなセグメンテーションオーバーレイを行います。
-4. 3D `SegResNet`モデルのトレーニング
-    1. MONAIの`networks`、`losses`、`metrics` APIを使用。
-    2. PyTorchトレーニングループを使用して3D `SegResNet`モデルをトレーニング。
-    3. Weights & Biasesを使用してトレーニング実験をトラック。
-    4. モデルアーティファクトとしてモデルのチェックポイントをWeights & Biasesにログし、バージョン管理。
-5. `wandb.Table`を使用してバリデーションデータセットに対する予測を可視化し、インタラクティブなセグメンテーションオーバーレイで比較。
+3. データの読み込みと可視化:
+    1. メタデータを含む `Nifti` 画像を読み込み、画像リストをロードしてスタックします。
+    2. トレーニングと検証を高速化するために、IOとトランスフォームをキャッシュします。
+    3. Weights & Biases で `wandb.Table` を使用してデータを可視化し、インタラクティブなセグメンテーションオーバーレイを行います。
+4. 3D `SegResNet` モデルのトレーニング
+    1. MONAI の `networks`, `losses`, `metrics` API を使用します。
+    2. PyTorch のトレーニングループを使用して 3D `SegResNet` モデルをトレーニングします。
+    3. Weights & Biases を使用して実験を追跡します。
+    4. モデルチェックポイントをモデルArtifactsとしてログおよびバージョン管理します。
+5. Weights & Biases で `wandb.Table` を使用して検証データセットの予測結果を可視化および比較します。
 
-## 🌴 セットアップとインストール
+## 🌴 環境セットアップとインストール
 
-まず、最新バージョンのMONAIとWeights & Biasesをインストールします。
+まず、最新バージョンの MONAI と Weights & Biases をインストールします。
 
 ```python
 !python -c "import monai" || pip install -q -U "monai[nibabel, tqdm]"
@@ -74,15 +74,15 @@ import torch
 wandb.login()
 ```
 
-## 🌳 W&B Runを初期化
+## 🌳 W&B Run の初期化
 
-新しいW&B runを開始して、実験のトラッキングを開始します。
+新しい W&B run を開始して、実験の追跡を開始します。
 
 ```python
 wandb.init(project="monai-brain-tumor-segmentation")
 ```
 
-再現性のある機械学習には、適切な設定システムの使用が推奨されます。W&Bを使用して、各実験のハイパーパラメーターをトラックできます。
+適切な設定システムの使用は、再現可能な機械学習のための推奨されるベストプラクティスです。W&Bを使用して、すべての実験のハイパーパラメーターを追跡できます。
 
 ```python
 config = wandb.config
@@ -107,7 +107,7 @@ config.inference_roi_size = (128, 128, 64)
 config.max_prediction_images_visualized = 20
 ```
 
-モジュールのランダムシードを設定して、決定論的なトレーニングを可能または無効にする必要もあります。
+また、ランダムシードを設定し、決定的トレーニングを有効または無効にします。
 
 ```python
 set_determinism(seed=config.seed)
@@ -117,44 +117,47 @@ os.makedirs(config.dataset_dir, exist_ok=True)
 os.makedirs(config.checkpoint_dir, exist_ok=True)
 ```
 
-## 💿 データ読み込みと変換
+## 💿 データの読み込みと変換
 
-ここでは、`monai.transforms` APIを使用して、マルチクラスラベルをワンホット形式のマルチラベルセグメンテーションタスクに変換するカスタムトランスフォームを作成します。
+ここでは、`monai.transforms` API を使用して、マルチクラスラベルをワンホット形式でマルチラベルセグメンテーションタスクに変換するカスタムトランスフォームを作成します。
 
 ```python
 class ConvertToMultiChannelBasedOnBratsClassesd(MapTransform):
     """
-    Bratsクラスに基づいてラベルをマルチチャンネルに変換します：
-    ラベル1は髄腫瘍周囲の浮腫、ラベル2はGD増強腫瘍、ラベル3は壊死および非増強腫瘍コアです。
-    可能なクラスはTC（腫瘍コア）、WT（全腫瘍）、およびET（増強腫瘍）です。
+    脳腫瘍クラスに基づいてラベルをマルチチャネルに変換:
+    label 1 は腫瘍周辺の浮腫
+    label 2 は増強された腫瘍
+    label 3 は壊死しているまたは非増強された腫瘍核
+    可能なクラスは TC (腫瘍核), WT (全腫瘍)
+    または ET (増強された腫瘍)。
 
-    参考：https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/brats_segmentation_3d.ipynb
+    参考: https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/brats_segmentation_3d.ipynb
     """
 
     def __call__(self, data):
         d = dict(data)
         for key in self.keys:
             result = []
-            # ラベル2とラベル3をマージしてTCを構築
+            # label 2 と label 3 をマージして TC を構築
             result.append(torch.logical_or(d[key] == 2, d[key] == 3))
-            # ラベル1, 2, 3をマージしてWTを構築
+            # label 1, 2, 3 をマージして WT を構築
             result.append(
                 torch.logical_or(
                     torch.logical_or(d[key] == 2, d[key] == 3), d[key] == 1
                 )
             )
-            # ラベル2はET
+            # label 2 は ET
             result.append(d[key] == 2)
             d[key] = torch.stack(result, axis=0).float()
         return d
 ```
 
-次に、トレーニングおよびバリデーションデータセットのトランスフォームを設定します。
+次に、トレーニングと検証のデータセットそれぞれに対してトランスフォームを設定します。
 
 ```python
 train_transform = Compose(
     [
-        # 4つのNifti画像を読み込み、それらをスタック
+        # 4つのNifti画像を読み込み、一緒にスタックします
         LoadImaged(keys=["image", "label"]),
         EnsureChannelFirstd(keys="image"),
         EnsureTyped(keys=["image", "label"]),
@@ -195,9 +198,9 @@ val_transform = Compose(
 
 ### 🍁 データセット
 
-この実験で使用されるデータセットはhttp://medicaldecathlon.com/ から入手できます。複数のサイトから取得されたマルチモードのMRIデータ（FLAIR、T1w、T1gd、T2w）を使用して、グリオーマ、壊死/活性腫瘍、および浮腫をセグメント化します。このデータセットは、750の4Dボリューム（トレーニング484 + テスト266）で構成されています。
+この実験で使用するデータセットは http://medicaldecathlon.com/ から取得されたものです。FLAIR、T1w、T1gd、T2w などのマルチモーダルなマルチサイト MRI データを使用して、非増強/活動腫瘍、壊死部位をセグメント化します。データセットは合計750 の4Dボリューム（トレーニング 484 + テスト 266）で構成されています。
 
-`DecathlonDataset`を使用してデータセットを自動的にダウンロードおよび抽出します。これはMONAIの`CacheDataset`を継承しており、`cache_num=N`を設定してトレーニング用に`N`個のアイテムをキャッシュし、メモリサイズに応じてバリデーション用にすべてのアイテムをキャッシュできます。
+`DecathlonDataset` を使用して、データセットを自動的にダウンロードして解凍します。これは MONAI の `CacheDataset` を継承しており、`cache_num=N` をセットしてトレーニング用にN個のアイテムをキャッシュし、検証用にはメモリサイズに応じてデフォルトの引数を使用してすべてのアイテムをキャッシュできます。
 
 ```python
 train_dataset = DecathlonDataset(
@@ -221,14 +224,14 @@ val_dataset = DecathlonDataset(
 ```
 
 :::info
-**Note:** `train_transform`を`train_dataset`に適用する代わりに、トレーニングおよびバリデーションデータセットの両方に`val_transform`を適用します。これは、トレーニング前にデータセットの両方の分割からサンプルを可視化するためです。
+**Note:** `train_transform` を `train_dataset` に適用する代わりに、データセットの両スプリットからサンプルをビジュアライズする前に、検証データセットとトレーニングデータセットの両方に `val_transform` を適用します。
 :::
 
 ### 📸 データセットの可視化
 
-Weights & Biasesは画像、ビデオ、オーディオなどをサポートしています。結果を調査し、ラン、モデル、データセットを視覚的に比較するために、リッチメディアをログできます。データボリュームを可視化するために、[セグメンテーションマスクオーバーレイシステム](https://docs.wandb.ai/guides/track/log/media#image-overlays-in-tables)を使用します。セグメンテーションマスクを[tables](https://docs.wandb.ai/guides/tables)にログするには、テーブルの各行に`wandb.Image`オブジェクトを提供する必要があります。
+Weights & Biases は画像、ビデオ、音声などをサポートしています。結果を視覚的に比較しながらリッチメディアをログすることで、run、モデル、データセットを探求できます。[セグメンテーションマスクオーバーレイシステム](https://docs.wandb.ai/guides/track/log/media#image-overlays-in-tables) を使用してデータボリュームを可視化します。Segmentationマスクを [tables](https://docs.wandb.ai/guides/tables) にログするには、テーブルの各行に `wandb.Image` オブジェクトを提供する必要があります。
 
-以下の擬似コードに例を示します：
+例は以下の疑似コードに示されています:
 
 ```python
 table = wandb.Table(columns=["ID", "Image"])
@@ -247,7 +250,7 @@ for id, img, label in zip(ids, images, labels):
 wandb.log({"Table": table})
 ```
 
-次に、サンプル画像、ラベル、`wandb.Table`オブジェクト、および関連メタデータを受け取り、Weights & Biasesダッシュボードにログされるテーブルの行を埋めるユーティリティ関数を作成します。
+次に、サンプル画像、ラベル、`wandb.Table` オブジェクト、および関連メタデータを受け取り、Weights & Biases のダッシュボードにログされるテーブルの行を埋める簡単なユーティリティ関数を作成します。
 
 ```python
 def log_data_samples_into_tables(
@@ -287,7 +290,7 @@ def log_data_samples_into_tables(
     return table
 ```
 
-次に、データビジュアライゼーションで埋めることができるように、`wandb.Table`オブジェクトとその列の構成を定義します。
+次に、`wandb.Table` オブジェクトとその列を定義し、データ可視化で行を埋められるようにします。
 
 ```python
 table = wandb.Table(
@@ -303,10 +306,10 @@ table = wandb.Table(
 )
 ```
 
-次に、それぞれの`train_dataset`と`val_dataset`をループし、データサンプルのビジュアライゼーションを生成し、テーブルの行にログしてダッシュボードにログします。
+それから、`train_dataset` と `val_dataset` それぞれをループして、データサンプルの可視化を生成し、テーブルの行を埋めてダッシュボードにログを作成します。
 
 ```python
-# train_datasetのビジュアライゼーションを生成
+# train_dataset の可視化を生成
 max_samples = (
     min(config.max_train_images_visualized, len(train_dataset))
     if config.max_train_images_visualized > 0
@@ -328,7 +331,7 @@ for data_idx, sample in progress_bar:
         table=table,
     )
 
-# val_datasetのビジュアライゼーションを生成
+# val_dataset の可視化を生成
 max_samples = (
     min(config.max_val_images_visualized, len(val_dataset))
     if config.max_val_images_visualized > 0
@@ -350,36 +353,43 @@ for data_idx, sample in progress_bar:
         table=table,
     )
 
-# テーブルをダッシュボードにログする
+# テーブルをダッシュボードにログ
 wandb.log({"Tumor-Segmentation-Data": table})
 ```
 
-データはインタラクティブな表形式でW&Bダッシュボードに表示されます。データボリュームの特定のスライスの各チャンネルに対応する行ごとに、適切なセグメンテーションマスクがオーバーレイされていることが分かります。[Weaveクエリ](https://docs.wandb.ai/guides/weave)を記述してテーブル上のデータをフィルタリングし、特定の行に集中することができます。
+データは W&B ダッシュボード上でインタラクティブな表形式で表示されます。各チャネルの特定のスライスを確認し、それぞれの行にセグメンテーションマスクがオーバーレイされたものを見ることができます。[Weave queries](https://docs.wandb.ai/guides/weave) を使用してテーブル内のデータをフィルタリングし、特定の行に焦点を当てることができます。
 
 | ![An example of logged table data.](@site/static/images/tutorials/monai/viz-1.gif) | 
 |:--:| 
-| **An example of logged table data.** |
+| **テーブルデータのログ例です。** |
 
-画像を開き、インタラクティブなオーバーレイを使用して各セグメンテーションマスクと操作できます。
+画像を開いて、それぞれのセグメンテーションマスクとインタラクティブにオーバーレイする方法を確認します。
 
 | ![An example of visualized segmentation maps.](@site/static/images/tutorials/monai/viz-2.gif) | 
 |:--:| 
-| **An example of visualized segmentation maps.* |
+| **セグメンテーションマップの可視化例です。** |
 
 :::info
-**Note:** データセットのラベルはクラス間で重複しないマスクで構成されています。オーバーレイはラベルをオーバーレイの別々のマスクとして記録します。
+**Note:** データセットのラベルは、クラス間でオーバーラップしないマスクで構成されています。オーバーレイは、ラベルをオーバーレイ内の別のマスクとしてログします。
 :::
 
 ### 🛫 データの読み込み
 
-データセットからデータを読み込むためのPyTorch DataLoaderを作成します。DataLoaderを作成する前に、`train_dataset`の`transform`を`train_transform`に設定してデータをトレーニング用に前処理および変換します。
+データセットからデータを読み込むための PyTorch DataLoaders を作成します。DataLoaders を作成する前に、`train_dataset` に `train_transform` を設定し、トレーニング用にデータを前処理し変換します。
 
 ```python
-# トレーニングデータセットに`train_transforms`を適用
+# train_transforms をトレーニングデータセットに適用
 train_dataset.transform = train_transform
 
-# train_loaderを作成
+# train_loader を作成
 train_loader = DataLoader(
     train_dataset,
     batch_size=config.batch_size,
-   
+    shuffle=True,
+    num_workers=config.num_workers,
+)
+
+# val_loader を作成
+val_loader = DataLoader(
+    val_dataset,
+    batch_size

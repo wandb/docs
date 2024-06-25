@@ -1,39 +1,39 @@
 
 # XGBoost Sweeps
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb)
+[**Colab ノートブックで試す →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb)
 
-Weights & Biasesを使用して、機械学習実験の追跡やデータセットのバージョン管理、プロジェクトのコラボレーションを行いましょう。
+Weights & Biases を使用して、機械学習の実験管理、データセットのバージョン管理、プロジェクトの共同作業を行いましょう。
 
 <img src="http://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
 
-ツリーベースのモデルから最高のパフォーマンスを引き出すためには、[適切なハイパーパラメーターを選択する](https://blog.cambridgespark.com/hyperparameter-tuning-in-xgboost-4ff9100a3b2f)必要があります。`early_stopping_rounds`は何回に設定すべきか？木の`max_depth`はどれくらいにすべきか？
+ツリーベースのモデルから最高のパフォーマンスを引き出すためには、[適切なハイパーパラメーターの選択](https://blog.cambridgespark.com/hyperparameter-tuning-in-xgboost-4ff9100a3b2f)が必要です。`early_stopping_rounds` はいくつに設定するべきですか？ツリーの `max_depth` はどのくらいにすれば良いでしょうか？
 
-高次元のハイパーパラメータースペースを探索して最もパフォーマンスの高いモデルを見つけるのは非常に大変です。ハイパーパラメーター探索は、モデルの頂点を決めるための組織化された効率的な方法を提供します。これにより、ハイパーパラメーターの組み合わせを自動的に探索し、最適な値を見つけ出すことができます。
+最も性能の良いモデルを見つけるために高次元のハイパーパラメーター空間を検索することは、すぐに手に負えなくなる可能性があります。ハイパーパラメータ探索はモデル同士のバトルロワイヤルを整理し効率的に実行する方法を提供します。自動的にハイパーパラメーターの組み合わせを検索して、最も最適な値を見つけます。
 
-このチュートリアルでは、Weights & Biasesを使用してXGBoostモデルで高度なハイパーパラメーター探索を3つの簡単なステップで実行する方法を紹介します。
+このチュートリアルでは、Weights & Biases を使用して XGBoost モデルで高度なハイパーパラメータ探索を実行する方法を、3つの簡単なステップで紹介します。
 
-予告編として、以下のプロットをご覧ください：
+以下のプロットで概要を確認できます：
 
 ![sweeps_xgboost](/images/tutorials/xgboost_sweeps/sweeps_xgboost.png)
 
 ## Sweeps: 概要
 
-Weights & Biasesを使用してハイパーパラメーター探索を実行するのは非常に簡単です。基本的な手順は3つだけです：
+Weights & Biases でハイパーパラメーター探索を実行するのは非常に簡単です。たった3つのシンプルなステップだけです：
 
-1. **スイープを定義する:** 辞書のようなオブジェクトを作成して、スイープの定義を行います。これは、探索するパラメーター、使用する探索戦略、最適化するメトリクスを指定します。
+1. **探索の定義:** 探索を定義する辞書のようなオブジェクトを作成します。どのパラメータを検索するか、どの探索戦略を使用するか、どのメトリクスを最適化するかを指定します。
 
-2. **スイープを初期化する:** 1行のコードでスイープを初期化し、スイープ構成の辞書を渡します：
-`sweep_id = wandb.sweep(sweep_config)`
+2. **探索の初期化:** コード1行で探索を初期化し、探索設定の辞書を渡します：
+   `sweep_id = wandb.sweep(sweep_config)`
 
-3. **スイープエージェントを実行する:** これも1行のコードで実行し、`sweep_id`とともにモデルのアーキテクチャとトレーニングを定義する関数を渡します：
-`wandb.agent(sweep_id, function=train)`
+3. **探索エージェントの実行:** こちらもコード1行で実行します：`wandb.agent()` を呼び出し、`sweep_id` とモデルアーキテクチャとトレーニングを定義する関数を渡します：
+   `wandb.agent(sweep_id, function=train)`
 
-これで、ハイパーパラメーター探索が完成です！
+以上です！これでハイパーパラメーター探索の実行は完了です！
 
-以下のノートブックでは、これらの3つのステップを詳しく解説します。
+以下のノートブックでは、これらのステップをさらに詳しく説明します。
 
-ぜひノートブックをフォークし、パラメーターを微調整したり、自分のデータセットでモデルを試してみてください！
+このノートブックをフォークし、パラメータを調整したり、自分のデータセットでモデルを試してみることを強くお勧めします！
 
 ### リソース
 - [Sweeps ドキュメント →](https://docs.wandb.com/library/sweeps)
@@ -48,23 +48,23 @@ import wandb
 wandb.login()
 ```
 
-## 1. スイープの定義
+## 1. 探索の定義
 
-Weights & BiasesのSweepsを使用することで、わずか数行のコードでスイープを正確に設定できます。スイープの構成は、[辞書またはYAMLファイル](https://docs.wandb.ai/guides/sweeps/configuration)として定義できます。
+Weights & Biases の Sweeps を使えば、わずか数行のコードで探索を思い通りに設定できます。探索設定は[辞書や YAML ファイル](https://docs.wandb.ai/guides/sweeps/configuration)として定義できます。
 
-いくつかの主要な構成要素を一緒に見ていきましょう。
-* **メトリクス** – スイープが最適化を試みるメトリクスです。メトリクスは`name`（このメトリクスはトレーニングスクリプトでログインされるべきもの）と`goal`（`maximize`または`minimize`）を取ります。
-* **探索戦略** – `"method"`キーを使用して指定されます。We support several different search strategies with sweeps.
-  * **Grid Search** – すべてのハイパーパラメーター値の組み合わせを繰り返し試します。
-  * **Random Search** – ランダムに選ばれたハイパーパラメーター値の組み合わせを繰り返し試します。
-  * **Bayesian Search** – ハイパーパラメーターとメトリクススコアの確率をマッピングする確率モデルを作成し、メトリクスの改善の高確率のあるパラメーターを選択します。ベイズ最適化の目的は、選択するハイパーパラメーターの値に多くの時間を費やしながら、試すハイパーパラメーターの値を減らすことです。
-* **パラメーター** – 名前、範囲、または各反復でそれらの値を引く分布を持つハイパーパラメーター名を含む辞書です。
+いくつかの項目を一緒に見てみましょう：
+* **Metric** – 探索が最適化を試みるメトリクスです。このメトリクスは、トレーニングスクリプトによってログに記録される名前 (`name`) と、`最大化` または `最小化` の目標 (`goal`) を持つことができます。
+* **Search Strategy** – `"method"` キーを使って指定します。Sweep では、いくつかの異なる探索戦略をサポートしています。
+  * **Grid Search** – すべてのハイパーパラメーターの組み合わせを試みます。
+  * **Random Search** – ランダムに選ばれたハイパーパラメーターの組み合わせを試みます。
+  * **Bayesian Search** – ハイパーパラメーターとメトリクスのスコアの確率をマッピングする確率モデルを作成し、メトリクスを改善する高い確率のパラメーターを選びます。ベイズ最適化の目的は、ハイパーパラメーターの値を選ぶために時間をかけることですが、その過程で試すハイパーパラメーターの値が少なくなることを意味します。
+* **Parameters** – ハイパーパラメーターの名前を含む辞書で、各イテレーションでその値を引くための離散値、範囲、または分布が含まれます。
 
 すべての設定オプションのリストは[こちら](https://docs.wandb.com/library/sweeps/configuration)で確認できます。
 
 ```python
 sweep_config = {
-    "method": "random", # gridまたはrandomを試してみてください
+    "method": "random", # grid または random を試す
     "metric": {
       "name": "accuracy",
       "goal": "maximize"   
@@ -86,39 +86,37 @@ sweep_config = {
 }
 ```
 
-## 2. スイープの初期化
+## 2. 探索の初期化
 
-`wandb.sweep`を呼び出すことで、スイープコントローラーを起動します。
-これは、`parameters`の設定を問い合わせるすべてのものに提供し、`metrics`のパフォーマンスを`wandb`のログを通じて返すことを期待する集中プロセスです。
+`wandb.sweep` を呼び出すと、探索コントローラーが開始されます。探索コントローラーは `parameters` の設定を問い合わせるすべてのプロセスに提供し、それらのプロセスから `metrics` のパフォーマンスを `wandb` ログを通じて返すことを期待します。
 
 ```python
 sweep_id = wandb.sweep(sweep_config, project="XGBoost-sweeps")
 ```
 
 ### トレーニングプロセスの定義
-スイープを実行する前に、モデルを作成しトレーニングする関数を定義する必要があります。
-この関数は、ハイパーパラメーター値を受け取り、メトリクスを出力します。
 
-また、`wandb`をスクリプトに統合する必要があります。
-主要コンポーネントは以下の3つです：
-* `wandb.init()` – 新しいW&Bのrunを初期化します。各runはトレーニングスクリプトの単一実行です。
-* `wandb.config` – すべてのハイパーパラメーターを設定オブジェクトに保存します。これにより、[W&Bアプリ](https://wandb.ai)を使用して、ハイパーパラメーターの値によってrunをソートおよび比較できます。
-* `wandb.log()` – メトリクスとカスタムオブジェクトをログに記録します。これらは画像、ビデオ、音声ファイル、HTML、プロット、ポイントクラウドなどです。
+探索を実行する前に、モデルを作成してトレーニングする関数を定義する必要があります。この関数はハイパーパラメーターの値を受け取り、メトリクスを出力します。
 
-データのダウンロードも忘れないでください：
+また、`wandb`をスクリプトに統合する必要があります。以下の3つの主要なコンポーネントがあります：
+* `wandb.init()` – 新しい W&B Run を初期化します。それぞれの Run はトレーニングスクリプトの一回の実行です。
+* `wandb.config` – すべてのハイパーパラメーターを設定オブジェクトに保存します。これにより、[アプリ](https://wandb.ai) でハイパーパラメーターの値ごとに実行をソートおよび比較できます。
+* `wandb.log()` – メトリクスやカスタムオブジェクト（画像、ビデオ、オーディオファイル、HTML、プロット、ポイントクラウドなど）をログに記録します。
+
+また、データのダウンロードが必要です：
 
 ```python
 !wget https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv
 ```
 
 ```python
-# Pima IndiansデータセットのXGBoostモデル
+# Pima Indians データセット用の XGBoost モデル
 from numpy import loadtxt
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-# データを読み込む
+# データの読み込み
 def train():
   config_defaults = {
     "booster": "gbtree",
@@ -129,45 +127,47 @@ def train():
     "test_size": 0.33,
   }
 
-  wandb.init(config=config_defaults)  # デフォルトはスイープ中にオーバーライドされる
+  wandb.init(config=config_defaults)  # デフォルト設定は探索中に上書きされます
   config = wandb.config
 
-  # データを読み込み、予測因子とターゲットに分割する
+  # データの読み込み、予測変数とターゲットに分割
   dataset = loadtxt("pima-indians-diabetes.data.csv", delimiter=",")
   X, Y = dataset[:, :8], dataset[:, 8]
 
-  # データをトレーニングセットとテストセットに分割
+  # トレーニングセットとテストセットにデータを分割
   X_train, X_test, y_train, y_test = train_test_split(X, Y,
                                                       test_size=config.test_size,
                                                       random_state=config.seed)
 
-  # トレーニングセットにモデルを適合させる
+  # トレーニングデータでモデルをフィッティング
   model = XGBClassifier(booster=config.booster, max_depth=config.max_depth,
                         learning_rate=config.learning_rate, subsample=config.subsample)
   model.fit(X_train, y_train)
 
-  # テストセットで予測を行う
+  # テストデータで予測を行う
   y_pred = model.predict(X_test)
   predictions = [round(value) for value in y_pred]
 
-  # 予測を評価する
+  # 予測を評価
   accuracy = accuracy_score(y_test, predictions)
   print(f"Accuracy: {accuracy:.0%}")
   wandb.log({"accuracy": accuracy})
 ```
 
-## 3. エージェントでスイープを実行する
+## 3. エージェントによる探索の実行
 
-それでは、`wandb.agent`を呼び出してスイープを開始しましょう。
+次に、`wandb.agent`を呼び出して探索を開始します。
 
-`wandb.agent`はW&Bにログインしている任意のマシンで呼び出すことができ、
+`wandb.agent` は、W&B にログインしている任意のマシンで実行できます。
 - `sweep_id`
-- データセットと`train`関数
+- データセットと `train` 関数
 
-を持っているそのマシンがスイープに参加します。
+これらが揃っていれば、そのマシンは探索に参加します！
 
-> _注意_: `random`スイープはデフォルトでは無限に実行されます。新しいパラメータの組み合わせを試し続けますが、[アプリUIからスイープをオフにする](https://docs.wandb.ai/ref/app/features/sweeps)まで行います。
-これを防ぐために、`agent`が完了するrunの総数を指定することができます。
+> _Note_: `random` スイープはデフォルトで無限に実行されますが、
+パラメーターの組み合わせを新たに試し続けます。
+[アプリの UI からスイープを停止する](https://docs.wandb.ai/ref/app/features/sweeps)まで。
+実行したい `エージェント` の総数を `count`で提供することでこれを防ぐことができます。
 
 ```python
 wandb.agent(sweep_id, train, count=25)
@@ -175,27 +175,26 @@ wandb.agent(sweep_id, train, count=25)
 
 ## 結果の可視化
 
-スイープが終了したら、結果を確認する時間です。
+探索が終了したら、結果を確認しましょう。
 
-Weights & Biasesは自動的に多くの有用なプロットを生成します。
+Weights & Biases は自動で多くの便利なプロットを生成します。
 
-### 平行座標プロット
+### パラレルコーディネートプロット
 
-このプロットはハイパーパラメーターの値をモデルのメトリクスにマップします。最も良いモデルパフォーマンスを引き出したハイパーパラメーターの組み合わせを見つけるのに役立ちます。
+このプロットはハイパーパラメーターの値をモデルのメトリクスにマッピングします。最も良いモデルパフォーマンスにつながったハイパーパラメーターの組み合わせに絞り込むのに役立ちます。
 
-このプロットは、学習者としてツリーを使用することがわずかに、しかし驚異的なほどではなく、単純な線形モデルを使用するよりも優れていることを示しているようです。
+このプロットを見ると、ツリーを学習器として使用することで若干ですが高い性能が得られることが示唆されていますが、シンプルな線形モデルを学習器として使用するよりも飛び抜けた性能向上ではありません。
 
 ![sweeps_xgboost](/images/tutorials/xgboost_sweeps/sweeps_xgboost2.png)
 
 ### ハイパーパラメーターの重要性プロット
 
-ハイパーパラメーターの重要性プロットは、メトリクスに最も大きな影響を与えたハイパーパラメーター値を示します。
+ハイパーパラメーターの重要性プロットは、メトリクスに対して最も大きな影響を与えたハイパーパラメーターの値を示しています。
 
-相関（線形予測子として扱う）と特徴量重要度（結果に基づいてランダムフォレストをトレーニングした後）を報告しますので、どのパラメーターが最も大きな影響を与え、その影響が正か負かを確認することができます。
+相関（線形予測子として扱う）と特徴の重要性（結果を元にランダムフォレストをトレーニングした後）を報告するので、どのパラメーターが最も大きな効果を持ち、その効果が正のものであるか負のものであるかを確認できます。
 
-このチャートを見ると、平行座標チャートで見られた傾向の定量的な確認がわかります：
-検証精度に最大の影響を与えたのは学習者の選択であり、`gblinear`の学習者よりも`gbtree`の学習者の方が一般的に優れていました。
+このチャートを読むと、上記のパラレルコーディネートチャートで見た傾向が定量的に確認でき、`gblinear` 学習器よりも `gbtree` 学習器の方が一般的に性能が低いことが分かります。
 
 ![sweeps_xgboost](/images/tutorials/xgboost_sweeps/sweeps_xgboost3.png)
 
-これらの可視化は、最も重要であり、それゆえさらに探索する価値のあるパラメーター（および値の範囲）を絞り込むことで、高価なハイパーパラメーター最適化を実行する際に時間とリソースを節約するのに役立ちます。
+これらの可視化により、最も重要であり、さらに探求する価値があるパラメーター（および値の範囲）に絞り込むことで、費用のかかるハイパーパラメーター最適化の実行に要する時間とリソースを節約できます。

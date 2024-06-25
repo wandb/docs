@@ -1,17 +1,17 @@
 
 # Keras
 
-[**Colabノートブックで試してみる →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb)
+[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb)
 
-Weights & Biasesを使って、機械学習の実験トラッキング、データセットのバージョン管理、プロジェクトのコラボレーションを行いましょう。
+Weights & Biasesを使用して、機械学習の実験管理、データセットバージョン管理、およびプロジェクトの協働を行います。
 
 <img src="http://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
 
-このColabノートブックでは、`WandbMetricsLogger`コールバックを紹介します。このコールバックを使って[Experiment Tracking](https://docs.wandb.ai/guides/track)を行います。トレーニングと検証のメトリクスに加えて、システムメトリクスもWeights and Biasesにログを取ります。
+このColabノートブックでは、`WandbMetricsLogger`コールバックを紹介します。このコールバックを使用して[実験管理](https://docs.wandb.ai/guides/track)を行います。このコールバックは、トレーニングとバリデーションのメトリクス、システムメトリクスをWeights and Biasesにログします。
 
 # 🌴 セットアップとインストール
 
-まず、Weights and Biasesの最新バージョンをインストールしましょう。その後、このColabインスタンスをW&Bとして認証します。
+まず、最新バージョンのWeights and Biasesをインストールします。その後、このColabインスタンスを認証してW&Bを使用します。
 
 ```python
 !pip install -qq -U wandb
@@ -29,7 +29,7 @@ import wandb
 from wandb.integration.keras import WandbMetricsLogger
 ```
 
-初めてW&Bを使用する場合や、ログインしていない場合は、`wandb.login()`を実行した後に表示されるリンクでサインアップ/ログインページに移動します。[無料アカウント](https://wandb.ai/signup)へのサインアップは、数クリックで簡単に完了します。
+これが初めてのW&Bの使用であるか、ログインしていない場合、`wandb.login()`を実行した後に表示されるリンクはサインアップ/ログインページにリダイレクトされます。[無料アカウント](https://wandb.ai/signup)のサインアップは数回のクリックで簡単に行えます。
 
 ```python
 wandb.login()
@@ -37,7 +37,7 @@ wandb.login()
 
 # 🌳 ハイパーパラメーター
 
-適切なコンフィグシステムの使用は、再現性のある機械学習における推奨されるベストプラクティスです。W&Bを使って、実験ごとのハイパーパラメーターをトラッキングできます。このColabでは、シンプルなPythonの`dict`をコンフィグシステムとして使用します。
+適切なコンフィグシステムの使用は、再現性のある機械学習における推奨ベストプラクティスです。W&Bを使用して、すべての実験のハイパーパラメーターを追跡できます。このColabでは、シンプルなPythonの`dict`をコンフィグシステムとして使用します。
 
 ```python
 configs = dict(
@@ -54,7 +54,7 @@ configs = dict(
 
 # 🍁 データセット
 
-このColabでは、TensorFlow Datasetカタログから[CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100)データセットを使用します。TensorFlow/Kerasを使ってシンプルな画像分類開発フローを構築することを目指します。
+このColabでは、TensorFlowデータセットカタログから[CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100)データセットを使用します。TensorFlow/Kerasを使用して簡単な画像分類パイプラインを構築することを目指します。
 
 ```python
 train_ds, valid_ds = tfds.load('fashion_mnist', split=['train', 'test'])

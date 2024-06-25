@@ -1,9 +1,9 @@
 
 # TensorFlow
 
-[**Colabノートブックで試す →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Simple_TensorFlow_Integration.ipynb)
+[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Simple_TensorFlow_Integration.ipynb)
 
-Weights & Biasesを使用して機械学習実験のトラッキング、データセットのバージョン管理、プロジェクトのコラボレーションを行います。
+Weights & Biases を使用して、機械学習実験の追跡、データセットのバージョン管理、プロジェクトのコラボレーションを行いましょう。
 
 <div><img /></div>
 
@@ -13,15 +13,15 @@ Weights & Biasesを使用して機械学習実験のトラッキング、デー�
 
 ## このノートブックでカバーする内容
 
-* TensorFlowパイプラインにWeights and Biasesを簡単に統合して実験をトラッキングします。
-* `keras.metrics`でメトリクスを計算します。
-* 独自のトレーニングループで`wandb.log`を使用してそれらのメトリクスをログに記録します。
+* Weights and Biases と TensorFlow の簡単なインテグレーションによる実験管理
+* `keras.metrics` を用いてメトリクスを計算する方法
+* `wandb.log` を使ってカスタムトレーニングループでメトリクスをログする方法
 
-## インタラクティブなW&Bダッシュボードはこのようになります：
+## インタラクティブな W&B ダッシュボードはこのようになります：
 
 ![dashboard](/images/tutorials/tensorflow/dashboard.png)
 
-**注意**: _Step_ で始まるセクションは、W&Bを既存のコードに統合するために必要なすべてです。それ以外は標準的なMNISTの例です。
+**注意**: _Step_ で始まるセクションは W&B を既存のコードに組み込むために必要な部分です。その他の部分は標準的な MNIST の例に過ぎません。
 
 ```python
 import tensorflow as tf
@@ -36,14 +36,14 @@ import matplotlib.pyplot as plt
 
 # 🚀 インストール、インポート、ログイン
 
-## Step 0️⃣: W&Bのインストール
+## Step 0️⃣: W&B をインストールする
 
 ```python
 %%capture
 !pip install wandb
 ```
 
-## Step 1️⃣: W&Bのインポートとログイン
+## Step 1️⃣: W&B をインポートしてログインする
 
 ```python
 import wandb
@@ -52,18 +52,18 @@ from wandb.keras import WandbCallback
 wandb.login()
 ```
 
-> サイドノート: これが初めてのW&B使用か、ログインしていない場合、`wandb.login()`を実行した後に表示されるリンクからサインアップ/ログインページに進むことができます。サインアップはワンクリックで簡単です。
+> 補足: もし W&B を初めて利用する場合やログインしていない場合は、`wandb.login()` 実行後に表示されるリンクからサインアップ/ログインページに移動できます。サインアップはワンクリックで簡単に完了します。
 
 # 👩‍🍳 データセットの準備
 
 ```python
-# トレーニングデータセットを準備します
+# トレーニングデータセットの準備
 BATCH_SIZE = 64
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
 x_train = np.reshape(x_train, (-1, 784))
 x_test = np.reshape(x_test, (-1, 784))
 
-# tf.dataを使用して入力パイプラインを構築します
+# tf.data を使って入力パイプラインを構築
 train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
 train_dataset = train_dataset.shuffle(buffer_size=1024).batch(BATCH_SIZE)
 
@@ -106,7 +106,7 @@ def test_step(x, y, model, loss_fn, val_acc_metric):
     return loss_value
 ```
 
-## Step 2️⃣: トレーニングループに`wandb.log`を追加
+## Step 2️⃣: トレーニングループに `wandb.log` を追加する
 
 ```python
 def train(train_dataset, val_dataset, model, optimizer,
@@ -119,32 +119,32 @@ def train(train_dataset, val_dataset, model, optimizer,
         train_loss = []   
         val_loss = []
 
-        # データセットのバッチを繰り返します
+        # データセットのバッチを繰り返し処理
         for step, (x_batch_train, y_batch_train) in enumerate(train_dataset):
             loss_value = train_step(x_batch_train, y_batch_train, 
                                     model, optimizer, 
                                     loss_fn, train_acc_metric)
             train_loss.append(float(loss_value))
 
-        # 各エポックの終わりに検証ループを実行します
+        # 各エポックの終わりに検証ループを実行
         for step, (x_batch_val, y_batch_val) in enumerate(val_dataset):
             val_loss_value = test_step(x_batch_val, y_batch_val, 
                                        model, loss_fn, 
                                        val_acc_metric)
             val_loss.append(float(val_loss_value))
             
-        # 各エポックの終わりにメトリクスを表示します
+        # 各エポックの終わりにメトリクスを表示
         train_acc = train_acc_metric.result()
         print("Training acc over epoch: %.4f" % (float(train_acc),))
 
         val_acc = val_acc_metric.result()
         print("Validation acc: %.4f" % (float(val_acc),))
 
-        # 各エポックの終わりにメトリクスをリセットします
+        # 各エポックの終わりにメトリクスをリセット
         train_acc_metric.reset_states()
         val_acc_metric.reset_states()
 
-        # ⭐: `wandb.log`を使用してメトリクスをログに記録します
+        # ⭐: wandb.log を使ってメトリクスをログ
         wandb.log({'epochs': epoch,
                    'loss': np.mean(train_loss),
                    'acc': float(train_acc), 
@@ -154,15 +154,15 @@ def train(train_dataset, val_dataset, model, optimizer,
 
 # 👟 トレーニングの実行
 
-## Step 3️⃣: `wandb.init`を呼び出してRunを開始
+## Step 3️⃣: run を開始するために `wandb.init` を呼び出す
 
-これにより、実験を開始していることがわかり、ユニークIDとダッシュボードが提供されます。
+これにより、実験を開始し、一意のIDとダッシュボードを提供します。
 
-[公式ドキュメントはこちらをチェック $\rightarrow$](https://docs.wandb.com/library/init)
+[公式ドキュメントはこちら $\rightarrow$](https://docs.wandb.com/library/init)
 
 ```python
-# プロジェクト名とオプションで設定値を指定してwandbを初期化します。
-# 設定値を変更して、wandbダッシュボードで結果を確認しましょう。
+# プロジェクト名とオプションで設定を指定して wandb を初期化
+# 設定値を変更し、wandb ダッシュボードで結果を確認
 config = {
               "learning_rate": 0.001,
               "epochs": 10,
@@ -176,15 +176,15 @@ config = {
 run = wandb.init(project='my-tf-integration', config=config)
 config = wandb.config
 
-# モデルを初期化します。
+# モデルの初期化
 model = make_model()
 
-# オプティマイザーをインスタンス化してモデルをトレーニングします。
+# モデルをトレーニングするためにオプティマイザーをインスタンス化
 optimizer = keras.optimizers.SGD(learning_rate=config.learning_rate)
-# 損失関数をインスタンス化します。
+# 損失関数をインスタンス化
 loss_fn = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 
-# メトリクスを準備します。
+# メトリクスの準備
 train_acc_metric = keras.metrics.SparseCategoricalAccuracy()
 val_acc_metric = keras.metrics.SparseCategoricalAccuracy()
 
@@ -198,40 +198,40 @@ train(train_dataset,
       log_step=config.log_step, 
       val_log_step=config.val_log_step)
 
-run.finish()  # Jupyter/Colabでは、runの終了を知らせます！
+run.finish()  # Jupyter/Colab では、終了を知らせるために！
 ```
 
-# 👀 結果の可視化
+# 👀 結果を視覚化
 
-ライブ結果を見るには、上記の[**runページ**](https://docs.wandb.ai/ref/app/pages/run-page)リンクをクリックしてください。
+ライブ結果を見るには、上記の [**run ページ**](https://docs.wandb.ai/ref/app/pages/run-page) のリンクをクリックしてください。
 
 # 🧹 Sweep 101
 
-Weights & Biases Sweepsを使用してハイパーパラメーターの最適化を自動化し、可能なモデルの空間を探索します。
+Weights & Biases Sweeps を使用してハイパーパラメーターの最適化を自動化し、考えられるモデルの空間を探索しましょう。
 
-## [W&B Sweepsを使用したTensorFlowのハイパーパラメーター最適化をチェック $\rightarrow$](http://wandb.me/tf-sweeps-colab)
+## [W&B Sweeps を使用した TensorFlow のハイパーパラメーター最適化の詳細はこちら $\rightarrow$](http://wandb.me/tf-sweeps-colab)
 
-### W&B Sweepsを使用する利点
+### W&B Sweeps 使用の利点
 
-* **クイックセットアップ**: 数行のコードでW&B Sweepsを実行できます。
-* **透明性**: 使用しているアルゴリズムをすべて引用し、[コードはオープンソース](https://github.com/wandb/client/tree/master/wandb/sweeps)です。
-* **強力**: Sweepsは完全にカスタマイズ可能で構成可能です。数十台のマシンでSweepを開始することも、ラップトップで開始するのと同じくらい簡単です。
+* **迅速な設定**: わずか数行のコードで W&B sweeps を実行できます。
+* **透明性**: 使用しているすべてのアルゴリズムを引用しており、[コードはオープンソースです](https://github.com/wandb/client/tree/master/wandb/sweeps)。
+* **強力**: sweeps は完全にカスタマイズおよび設定可能です。数十台のマシンにわたって sweep を起動するのも、ラップトップで sweep を開始するのと同じくらい簡単です。
 
 <img src="https://i.imgur.com/6eWHZhg.png" alt="Sweep Result" />
 
 # 🎨 例のギャラリー
 
-W&Bを使ってトラッキングおよび可視化したプロジェクトの例をギャラリーでご覧ください [Fully Connected →](https://wandb.me/fc)
+W&B で追跡・可視化されたプロジェクトの例をギャラリーでご覧ください。[Fully Connected →](https://wandb.me/fc)
 
 # 📏 ベストプラクティス
-1. **Projects**: 複数のRunをプロジェクトにログして比較します。`wandb.init(project="project-name")`
-2. **Groups**: 複数のプロセスや交差検証フォールドごとに、各プロセスをRunとしてログし、それらをグループ化します。`wandb.init(group='experiment-1')`
+1. **Projects**: 複数の run をプロジェクトにログして比較します。`wandb.init(project="project-name")`
+2. **Groups**: 複数のプロセスや交差検証フォールドのために、各プロセスを runs としてログし、一括りにします。`wandb.init(group='experiment-1')`
 3. **Tags**: 現在のベースラインやプロダクションモデルを追跡するためにタグを追加します。
-4. **Notes**: テーブルにメモを入力して、Run間の変更を追跡します。
-5. **Reports**: 進捗状況について同僚と共有するために簡単なメモを取り、MLプロジェクトのダッシュボードやスナップショットを作成します。
+4. **Notes**: テーブルにメモを書き込み、run 間の変更を追跡します。
+5. **Reports**: 同僚と進捗を共有するためにレポートを書き込み、ML プロジェクトのダッシュボードやスナップショットを作成します。
 
-## 🤓 上級設定
-1. [環境変数](https://docs.wandb.com/library/environment-variables): 環境変数にAPIキーを設定して、管理されたクラスターでトレーニングを実行します。
-2. [オフラインモード](https://docs.wandb.com/library/technical-faq#can-i-run-wandb-offline): `dryrun` モードを使用してオフラインでトレーニングし、後で結果を同期します。
-3. [オンプレ](https://docs.wandb.com/self-hosted): プライベートクラウドやエアギャップされたサーバーにW&Bをインストールできます。学術機関からエンタープライズチームまで、ローカルインストールに対応しています。
-4. [Artifacts](http://wandb.me/artifacts-colab): モデルやデータセットをトラッキングし、バージョン管理されるような効率的な方法で、トレーニング中に開発フローのステップを自動的に取得します。
+## 🤓 高度な設定
+1. [環境変数](https://docs.wandb.com/library/environment-variables): 環境変数に API キーを設定し、管理されたクラスターでトレーニングを実行できます。
+2. [オフラインモード](https://docs.wandb.com/library/technical-faq#can-i-run-wandb-offline): `dryrun` モードを使用してオフラインでトレーニングを実行し、後で結果を同期します。
+3. [オンプレミス](https://docs.wandb.com/self-hosted): プライベートクラウドやエアギャップサーバーのインフラに W&B をインストールします。アカデミアから企業チームまで、ローカルインストールに対応しています。
+4. [Artifacts](http://wandb.me/artifacts-colab): モデルやデータセットを追跡及びバージョン管理し、パイプラインのステップをトレーニングしながら自動的に取得します。

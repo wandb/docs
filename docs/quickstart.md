@@ -6,41 +6,41 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+
 # クイックスタート
 
-W&B をインストールして、すぐに機械学習実験をトラッキングし始めましょう。
+W&Bをインストールして、数分で機械学習実験をトラッキングしましょう。
 
-## 1. アカウントを作成し、W&Bをインストール
-まずはじめに、アカウントを作成して W&B をインストールしてください：
+## 1. アカウントを作成してW&Bをインストールする
+始める前に、アカウントを作成してW&Bをインストールしてください:
 
-1. [https://wandb.ai/site](https://wandb.ai/site) で無料アカウントに[サインアップ](https://wandb.ai/site)し、wandb アカウントにログインします。  
-2. Python 3 の環境があるマシンに[`pip`](https://pypi.org/project/wandb/)を使ってwandbライブラリをインストールします。 
-<!-- 3. Login to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).   -->
+1. [サインアップ](https://wandb.ai/site)して、[https://wandb.ai/site](https://wandb.ai/site) で無料アカウントを作成し、wandbアカウントにログインしてください。
+2. Python 3環境で[`pip`](https://pypi.org/project/wandb/)を使ってwandbライブラリをマシンにインストールします。
 
-以下のコードスニペットは、W&B CLI と Python ライブラリを使って W&B にインストールし、ログインする方法を示しています:
+以下のコードスニペットは、W&B CLIおよびPythonライブラリを使ってW&Bにインストールしてログインする方法を示しています。
 
 <Tabs
   defaultValue="notebook"
   values={[
-    {label: 'ノートブック', value: 'notebook'},
-    {label: 'コマンドライン', value: 'cli'},
+    {label: 'Notebook', value: 'notebook'},
+    {label: 'Command Line', value: 'cli'},
   ]}>
   <TabItem value="cli">
 
-Weights and Biases API とやり取りするための CLI と Python ライブラリをインストールします：
+Weights & Biases APIと対話するためにCLIとPythonライブラリをインストールします。
 
-```
+```bash
 pip install wandb
 ```
-</TabItem>
+
+  </TabItem>
   <TabItem value="notebook">
 
-Weights and Biases APIとやり取りするためのCLIとPythonライブラリをインストールしてください：
+Weights & Biases APIと対話するためにCLIとPythonライブラリをインストールします。
 
-```python
+```notebook
 !pip install wandb
 ```
-
 
   </TabItem>
 </Tabs>
@@ -51,84 +51,127 @@ Weights and Biases APIとやり取りするためのCLIとPythonライブラリ�
 <Tabs
   defaultValue="notebook"
   values={[
-    {label: 'ノートブック', value: 'notebook'},
-    {label: 'コマンドライン', value: 'cli'},
+    {label: 'Notebook', value: 'notebook'},
+    {label: 'Command Line', value: 'cli'},
   ]}>
   <TabItem value="cli">
 
-次に、W&Bにログインします：
+次に、W&Bにログインします。
 
-```
+```bash
 wandb login
 ```
-また、[W&Bサーバ:](./guides/hosting/intro.md) を利用している場合は、
 
-```
-wandb login --host=http://wandb.your-shared-local-host.com
+または、[W&B Server](./guides/hosting)（**Dedicated Cloud** または **Self-managed** を含む）を使用している場合：
+
+```bash
+wandb login --relogin --host=http://your-shared-local-host.com
 ```
 
-プロンプトに表示されたときに[あなたのAPIキー](https://wandb.ai/authorize)を提供してください。
+必要に応じて、デプロイメント管理者にホスト名を問い合わせてください。
+
+[あなたのAPIキー](https://wandb.ai/authorize) を求められたら入力してください。
 
   </TabItem>
   <TabItem value="notebook">
 
-次に、W&B Python SDKをインポートし、ログインしてください:
+次に、W&B Python SDKをインポートしてログインします。
 
 ```python
 wandb.login()
 ```
 
-プロンプトに表示されたときに[あなたのAPIキー](https://wandb.ai/authorize)を提供してください。
+[あなたのAPIキー](https://wandb.ai/authorize) を求められたら入力してください。
   </TabItem>
 </Tabs>
 
+## 3. Runを開始してハイパーパラメータをトラックする
 
-## 3. runを開始し、ハイパーパラメーターをトラッキングする
-
-Pythonスクリプトやノートブックで、W&B Runオブジェクトを[`wandb.init()`](./ref/python/run.md)で初期化し、`config`パラメータにハイパーパラメータ名と値のキー・バリューのペアを持った辞書を渡してください:
+Pythonスクリプトまたはノートブックで[`wandb.init()`](./ref/python/run.md)を使ってW&B Runオブジェクトを初期化し、ハイパーパラメータ名と値のペアを持つ辞書を`config`パラメータに渡します：
 
 ```python
 run = wandb.init(
-    # このrunがログに記録されるプロジェクトを設定
+    # このrunがログされるプロジェクトを設定
     project="my-awesome-project",
-    # ハイパーパラメーターとrunのメタデータをトラッキング
+    # ハイパーパラメータとrunメタデータをトラック
     config={
         "learning_rate": 0.01,
         "epochs": 10,
-    })
+    },
+)
 ```
 
+[run](./guides/runs) はW&Bの基本的な構成要素です。メトリクスを[トラック](./guides/track)したり、[ログ](./guides/artifacts)を作成したり、[ジョブを作成](./guides/launch)したりする際に頻繁に使用します。
 
+## すべてをまとめる
 
+すべてをまとめると、トレーニングスクリプトは以下のコード例のようになります。強調したコードはW&B特有のコードです。機械学習のトレーニングを模擬するコードを追加しています。
 
-W&Bのエコシステムをさらに探索してみましょう。
+```python
+# train.py
+import wandb
+import random  # デモスクリプト用
 
-1. [W&Bインテグレーション](guides/integrations/intro.md)をチェックして、PyTorchやHugging Face、SageMakerなどのMLフレームワークやライブラリ、サービスとW&Bを統合する方法を学んでください。
+# 次の行を強調
+wandb.login()
 
-2. [W&Bレポート](./guides/reports/intro.md)を使用して、runの整理、可視化の埋め込み・自動化、発見の説明、コラボレーターとのアップデート共有を行います。
+epochs = 10
+lr = 0.01
 
-3. [W&Bアーティファクト](./guides/artifacts/intro.md)を作成して、データセット、モデル、依存関係、結果を機械学習の各ステップでトラッキングします。
+# ここから強調
+run = wandb.init(
+    # このrunがログされるプロジェクトを設定
+    project="my-awesome-project",
+    # ハイパーパラメータとrunメタデータをトラック
+    config={
+        "learning_rate": lr,
+        "epochs": epochs,
+    },
+)
+# ここまで強調
 
-4. [W&Bスイープ](./guides/sweeps/intro.md)でハイパーパラメーター探索を自動化し、可能なモデルのスペースを探索します。
+offset = random.random() / 5
+print(f"lr: {lr}")
 
-5. [中央ダッシュボード](./guides/tables/intro.md)でデータセットを理解し、モデルの予測を可視化し、洞察を共有します。
+# トレーニングrunをシミュレーション
+for epoch in range(2, epochs):
+    acc = 1 - 2**-epoch - random.random() / epoch - offset
+    loss = 2**-epoch + random.random() / epoch + offset
+    print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
+    # 次の行を強調
+    wandb.log({"accuracy": acc, "loss": loss})
 
-![](/images/quickstart/wandb_demo_experiments.gif) 
+# run.log_code()
+```
+
+以上です！W&Bアプリの[https://wandb.ai/home](https://wandb.ai/home)に移動して、W&Bでログしたメトリクス（精度と損失）が各トレーニングステップでどのように改善されたかを確認してください。
+
+![各スクリプト実行時にトラッキングされた損失と精度を示す。](/images/quickstart/quickstart_image.png)
+
+上の画像（クリックで拡大）は、上記のスクリプトを実行した際にトラッキングされた損失と精度を示しています。作成された各runオブジェクトは**Runs**列内に表示されます。各run名はランダムに生成されます。
+
+## 次に何をする？
+
+W&Bのエコシステムを探索しましょう。
+
+1. [W&B Integrations](guides/integrations)をチェックして、PyTorchのようなMLフレームワーク、Hugging FaceのようなMLライブラリ、SageMakerのようなMLサービスとW&Bを統合する方法を学びましょう。
+2. runを整理し、可視化を埋め込み、自動化し、学びを記述し、コラボレーターとアップデートを共有しましょう。[W&B Reports](./guides/reports)を使ってください。
+2. [W&B Artifacts](./guides/artifacts)を作成して、データセット、モデル、依存関係、結果を機械学習パイプラインの各ステップでトラッキングしましょう。
+3. [W&B Sweeps](./guides/sweeps)を使ってハイパーパラメータ検索を自動化し、可能なモデルの空間を探索しましょう。
+4. データセットを理解し、モデルの予測を可視化し、インサイトを[中央ダッシュボード](./guides/tables)で共有しましょう。
+
+![](/images/quickstart/wandb_demo_experiments.gif)
 
 ## よくある質問
 
-**APIキーはどこで見つけることができますか？**
+**APIキーはどこで見つけられますか？**
+www.wandb.ai にサインインすると、[Authorizeページ](https://wandb.ai/authorize)にAPIキーがあります。
 
-www.wandb.aiにサインインすると、[認証ページ](https://wandb.ai/authorize)にAPIキーがあります。
+**自動化環境でW&Bを使用するにはどうすればよいですか？**
+GoogleのCloudMLのように、シェルコマンドを実行するのが不便な自動化環境でモデルをトレーニングする場合、[環境変数](guides/track/environment-variables)を使った設定ガイドをご覧ください。
 
-**W&Bを自動化された環境でどのように使用しますか？**
+**ローカルのオンプレミスインストールは提供していますか？**
+はい、W&Bを[ローカルホスト](guides/hosting/)したり、プライベートクラウドでプライベートにホストすることができます。[この簡単なチュートリアルノートブック](http://wandb.me/intro)をご覧ください。
 
-GoogleのCloudMLのようなシェルコマンドを実行するのが不便な自動化された環境でモデルをトレーニングしている場合は、[環境変数](guides/track/environment-variables.md)を使った設定に関するガイドを参照してください。
-
-**オンプレミスのインストールは提供していますか？**
-
-はい、独自のマシンやプライベートクラウドで[W&Bをプライベートにホスト](guides/hosting/intro.md)することができます。試しに[このクイックチュートリアルノートブック](http://wandb.me/intro)を参照してください。注意: wandbのローカルサーバーにログインするには、[ホストフラグを設定](guides/hosting/how-to-guides/basic-setup.md)して、ローカルインスタンスのアドレスを指定する必要があります。
-
-**wandbのログを一時的にオフにする方法は？**
-
-コードをテストしている際にwandbの同期を無効にしたい場合は、環境変数[`WANDB_MODE=offline`](guides/track/environment-variables)を設定してください。
+**一時的にwandb loggingをオフにするにはどうすればよいですか？**
+コードをテストしていて一時的にwandbの同期を無効にしたい場合、環境変数[`WANDB_MODE=offline`](./guides/track/environment-variables)を設定します。

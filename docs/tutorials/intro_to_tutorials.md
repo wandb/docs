@@ -1,13 +1,13 @@
 ---
-description: Weights & Biasesを使ったインタラクティブチュートリアルを始めましょう。
+description: Weights & Biases を使い始めるには、インタラクティブなチュートリアルをご覧ください。
 slug: /tutorials
 ---
 
 
 # W&B Tutorials
 
-## インタラクティブなコード例でW&Bの使い方を学ぶ
-以下のチュートリアルでは、Weights & Biases を使用した機械学習実験のトラッキング、モデルの評価、ハイパーパラメータチューニング、モデルとデータセットのバージョン管理などの基礎を学びます。
+## インタラクティブなコード例でW&Bを学ぶ
+以下のチュートリアルは、機械学習の実験管理、モデルの評価、ハイパーパラメータチューニング、モデルとデータセットのバージョン管理など、Weights & Biasesの基本を紹介します。
 
 1. [Track experiments](/tutorials/experiments)
 2. [Visualize predictions](/tutorials/tables)
