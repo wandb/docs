@@ -23,5 +23,5 @@ An artifact type can not be removed from a registry once it is added and saved i
 
 ![](/images/registry/create_registry.gif)
 
-For exampe, the preceding image shows a custom registry called "Forecast" that a user is about to create. The registry is set to **Restricted** which means that only members that are manually added to the "Forecast" registry will have access to this registry. In addition, only  `hf-model` artifact types can be added to the "Forecast" registry (see the **Specify types** field). 
+For example, the preceding image shows a custom registry called "Forecast" that a user is about to create. The registry is set to **Restricted** which means that only members that are manually added to the "Forecast" registry will have access to this registry. In addition, only  `hf-model` artifact types can be added to the "Forecast" registry (see the **Specify types** field). 
 
