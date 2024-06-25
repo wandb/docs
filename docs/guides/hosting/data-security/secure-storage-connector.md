@@ -13,7 +13,7 @@ Bring your own bucket (BYOB) allows you to store W&B artifacts and other related
 :::
 
 ## Configuration options
-There are two scopes at which you can configure your storage bucket: at the *Instance level* or at a *Team level*. 
+There are two scopes you can configure your storage bucket to: at the *Instance level* or at a *Team level*. 
 
 - Instance level: Any user that has relevant permissions within your organization can access files stored in your instance level storage bucket.
 - Team level:  Members of a W&B Team can access files stored in the bucket configured at the Team level. Team level storage buckets allow greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements.
@@ -37,13 +37,42 @@ The following table shows the availability of BYOB across different W&B Server d
 
 ### Cross-cloud or S3-compatible storage for team-level BYOB
 
-You can connect to a cloud-native storage bucket in another cloud or an S3-compatible storage bucket like [MinIO](https://github.com/minio/minio) for team-level BYOB in your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-Managed](../hosting-options/self-managed.md) instance. In either of such cases, specify the storage bucket path in a pertinent format using the `GORILLA_SUPPORTED_FILE_STORES` environment variable for your W&B instance.
+You can connect to a cloud-native storage bucket in another cloud or an S3-compatible storage bucket like [MinIO](https://github.com/minio/minio) for team-level BYOB in your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-Managed](../hosting-options/self-managed.md) instance.
 
-* Connecting to S3-compatible storage like [MinIO](https://github.com/minio/minio) - Specify the path in the format `s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>`, where `region` parameter is mandatory, except for when your W&B instance is in AWS and the `AWS_REGION` environment variable is configured on the instance nodes.
-* Connecting to cloud-native storage in another cloud - Specify the path in a format pertinent to your W&B instance and storage bucket locations:
-    * From W&B instance in GCP or Azure to a bucket in AWS - `s3://<accessKey>:<secretAccessKey>@<s3_regional_url_endpoint>/<bucketName>`
-    * From W&B instance in GCP or AWS to a bucket in Azure - `az://:<urlEncodedAccessKey>@<storageAccountName>/<containerName>`
-    * From W&B instance in AWS or Azure to a bucket in GCP - `gs://<serviceAccountEmail>:<urlEncodedPrivateKey>@<bucketName>`
+To enable cross-cloud or S3 compatible storage, specify the storage bucket path in a pertinent format using the `GORILLA_SUPPORTED_FILE_STORES` environment variable for your W&B instance.
+
+<details>
+<summary>Connect to S3-compatible storage</summary>
+
+Specify the path using the following format:
+```text
+s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>
+```
+Where `region` parameter is mandatory, except for when your W&B instance is in AWS and the `AWS_REGION` environment variable is configured on the instance nodes.
+
+</details>
+<details>
+<summary>Connect to cloud-native storage in another cloud</summary>
+
+Specify the path in a format specific to your W&B instance and storage bucket locations:
+
+From W&B instance in GCP or Azure to a bucket in AWS:
+```text
+s3://<accessKey>:<secretAccessKey>@<s3_regional_url_endpoint>/<bucketName>
+```
+
+From W&B instance in GCP or AWS to a bucket in Azure:
+```text
+az://:<urlEncodedAccessKey>@<storageAccountName>/<containerName>
+```
+
+From W&B instance in AWS or Azure to a bucket in GCP:
+```text
+gs://<serviceAccountEmail>:<urlEncodedPrivateKey>@<bucketName>
+```
+
+</details>
+
 
 Reach out to W&B Support at support@wandb.com for more information.
 
