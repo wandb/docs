@@ -10,7 +10,7 @@ The ability to rewind a run is in private preview. Contact W&B Support at suppor
 W&B currently does not support:
 * **Log rewind**: Logs are reset in the new run segment.
 * **System metrics rewind**: Only new system metrics after the rewind point are logged.
-* **Artifact association with specific run segments**: Artifacts are associated with the latest run segment, not the segment that produced them.
+* **Artifact association**: Artifacts are associated with the source run that produced them.
 :::
 
 :::info
@@ -28,9 +28,8 @@ rewind a run, you can log new data from that point in time. The summary metrics 
 When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. This means that:
 
 - **Run archiving**: Original runs are archived and accessible from the [**Run Overview**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab) tab.
-- **Artifact inheritance**: New runs inherit artifacts from the original run.
-- **Artifact association**: Artifacts are associated with the latest version of the rewound run.
-- **Immutable run IDs**: Introduced for consistent rewinding from a precise state.
+- **Artifact association**: Artifacts are associated with the run that produced them.
+- **Immutable run IDs**: Introduced for consistent forking from a precise state.
 - **Copy immutable run ID**: A button to copy the immutable run ID for improved run management.
 
 :::tip Rewind and forking compatibility
