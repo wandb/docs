@@ -18,11 +18,43 @@ In other words, linking an artifact to a collection brings that artifact version
 Interactively link an artifact version with the Registry App or with the Artifact browser.
 
 <Tabs
-  defaultValue="registry_ui"
+  defaultValue="python_sdk"
   values={[
+    {label: 'Python SDK', value: 'python_sdk'},
     {label: 'Registry App', value: 'registry_ui'},
     {label: 'Artifact browser', value: 'artifacts_ui'},
   ]}>
+  <TabItem value="python_sdk">
+
+
+Use the [`link_artifact`](../../ref/python/run.md#link_artifact) method to programmatically link an artifact to a registry. 
+
+Replace values enclosed in `<>` with your own:
+
+```python
+import wandb
+
+ARTIFACT_NAME = "<ARTIFACT-TO-LINK>"
+ARTIFACT_TYPE = "ARTIFACT-TYPE"
+ENTITY_NAME = "<TEAM-ARTIFACT-BELONGS-IN>"
+PROJECT_NAME = "<PROJECT-ARTIFACT-TO-LINK-BELONGS-IN>"
+
+ORG_ENTITY_NAME = "<YOUR ORG NAME>"
+REGISTRY_NAME = "<REGISTRY-TO-LINK-TO>"
+COLLECTION_NAME = "<REGISTRY-COLLECTION-TO-LINK-TO>"
+
+run = wandb.init(entity=ENTITY_NAME, project=PROJECT_NAME)
+artifact = wandb.Artifact(name=ARTIFACT_NAME, type=ARTIFACT_TYPE)
+run.link_artifact(
+    artifact=artifact,
+    target_path=f"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+)
+run.finish()
+```
+
+If you want to link an artifact version to the **Models** registry or the **Dataset** registry, set the artifact type to `"model"` or `"dataset"`, respectively.
+
+  </TabItem>
   <TabItem value="registry_ui">
 
 1. Navigate to the Registry App.
