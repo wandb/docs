@@ -37,24 +37,24 @@ The following table shows the availability of BYOB across different W&B Server d
 
 ### Cross-cloud or S3-compatible storage for team-level BYOB
 
-You can connect to a cloud-native storage bucket in another cloud or an S3-compatible storage bucket like [MinIO](https://github.com/minio/minio) for team-level BYOB in your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-Managed](../hosting-options/self-managed.md) instance.
+You can connect to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like [MinIO](https://github.com/minio/minio) for team-level BYOB in your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-Managed](../hosting-options/self-managed.md) instance.
 
-To enable cross-cloud or S3 compatible storage, specify the storage bucket path in a pertinent format using the `GORILLA_SUPPORTED_FILE_STORES` environment variable for your W&B instance.
+To enable the use of cross-cloud or S3-compatible storage, specify the storage bucket including the relevant access key in one of the following formats, using the `GORILLA_SUPPORTED_FILE_STORES` environment variable for your W&B instance.
 
 <details>
-<summary>Connect to S3-compatible storage</summary>
+<summary>Configure an S3-compatible storage for team-level BYOB in Dedicated Cloud or Self-managed instance</summary>
 
 Specify the path using the following format:
 ```text
 s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>
 ```
-Where `region` parameter is mandatory, except for when your W&B instance is in AWS and the `AWS_REGION` environment variable is configured on the instance nodes.
+The `region` parameter is mandatory, except for when your W&B instance is in AWS and the `AWS_REGION` configured on the W&B instance nodes matches the region configured for the S3-compatible storage.
 
 </details>
 <details>
-<summary>Connect to cloud-native storage in another cloud</summary>
+<summary>Configure a cross-cloud native storage for team-level BYOB in Dedicated Cloud or Self-managed instance</summary>
 
-Specify the path in a format specific to your W&B instance and storage bucket locations:
+Specify the path in a format specific to the locations of your W&B instance and storage bucket:
 
 From W&B instance in GCP or Azure to a bucket in AWS:
 ```text
@@ -73,9 +73,11 @@ gs://<serviceAccountEmail>:<urlEncodedPrivateKey>@<bucketName>
 
 </details>
 
+:::info
+Connectivity to S3-compatible storage for team-level BYOB is not available in [SaaS Cloud](../hosting-options/saas_cloud.md). Also, connectivity to an AWS bucket for team-level BYOB is considered cross-cloud in [SaaS Cloud](../hosting-options/saas_cloud.md), as that instance is hosted in GCP. That cross-cloud connectivity doesn't use the access key and environment variable based mechanism as outlined above for [Dedicated Cloud](../hosting-options/dedicated_cloud.md) and [Self-Managed](../hosting-options/self-managed.md) instances.
+:::
 
 Reach out to W&B Support at support@wandb.com for more information.
-
 
 ## Configure your storage bucket
 Based on your use case, configure a storage bucket at the Team level or at the Instance level. 
@@ -88,8 +90,6 @@ Only system administrators have the permissions to configure an storage object.
 W&B recommends that you use a Terraform module managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector) or [Azure](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision a storage bucket along with IAM permissions required to access it.
 :::
 
-
-
 <Tabs
   defaultValue="team"
   values={[
@@ -97,6 +97,10 @@ W&B recommends that you use a Terraform module managed by W&B for [AWS](https://
     {label: 'Instance level', value: 'instance'},
   ]}>
   <TabItem value="team">
+
+:::info
+If you're connecting to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like [MinIO](https://github.com/minio/minio) for team-level BYOB in your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-Managed](../hosting-options/self-managed.md) instance, refer to [Cross-cloud or S3-compatible storage for team-level BYOB](#cross-cloud-or-s3-compatible-storage-for-team-level-byob). In such cases, you must specify the storage bucket using the `GORILLA_SUPPORTED_FILE_STORES` environment variable for your W&B instance, before you configure it for a team using the instructions below.
+:::
 
 Configure a cloud storage bucket at the Team level when you create a W&B Team:
 
