@@ -6,7 +6,7 @@ displayed_sidebar: default
 # Registry
 
 :::info
-W&B Registry is in private preview. Contact your account team or [support@wandb.com](support@wandb.com) for early access.  
+W&B Registry is in private preview. Contact your account team or support@wandb.com for early access.  
 :::
 
 
