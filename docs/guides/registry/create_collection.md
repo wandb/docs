@@ -8,14 +8,17 @@ import TabItem from '@theme/TabItem';
 
 Create a collection within a registry to organize your artifacts. A *collection* is a set of linked artifact versions in a registry. Each collection represents a distinct task or use case and serves as a container for a curated selection of artifact versions related to that task.
 
-For example, the proceeding image shows a registry named "Forecast". Within the "Forecast" registry there are two collections called "LowLightPedRecog-YOLO" and "TextCat". "LowLightPedRecog-YOLO" collection contains artifacts from machine learning experiments that uses the You Only Look Once YOLO detection algorithm.  Whereas the "TextCat" collection contains artifacts from [INSERT]. 
-
 ![](/images/registry/what_is_collection.png)
 
+For example, the preceding image shows a registry named "Forecast". Within the "Forecast" registry there are two collections called "LowLightPedRecog-YOLO" and "TextCat". 
 
-The following steps describe how to create a collection within a core registry.
+:::tip
+If you are familiar with W&B Model Registry, you might aware of "registered models". In W&B Registry, registered models are renamed to "collections". The way you [create a registered model in the Model Registry](../model_registry/create-registered-model.md) is nearly the same for creating a collection in the W&B Registry. The main difference being that a collection does not belong to an entity like registered models.
+:::
 
-1. Navigate to the Registry App in the W&B App UI.
+The following steps describe how to create a collection within a registry using the W&B Registry App UI:
+
+1. Navigate to the **Registry** App in the W&B App UI.
 2. Select a registry.
 3. Click on the **Create collection** button in the upper right hand corner.
 4. Provide a name for your collection in the **Name** field. 
@@ -34,7 +37,11 @@ An artifact type can not be removed from a registry once it is added and saved i
 ![](/images/registry/create_collection.gif)
 
 
+## Add a version to an existing collection
 
+
+
+Programmatically create a collection 
 
 
 

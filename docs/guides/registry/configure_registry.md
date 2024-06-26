@@ -3,59 +3,23 @@ displayed_sidebar: default
 ---
 
 # Configure registry access
-A registry, and the linked artifacts inside a registry, belong to an organization. This means that teams within an organization can publish and consume artifacts linked to a registry, given the correct access control.
+<!-- A registry, and the linked artifacts inside a registry, belong to an organization. This means that teams within an organization can publish and consume artifacts linked to a registry, if that team has correct access control. -->
 
-Organization admins can limit who can access a registry by configuring user-defined roles for that registry. User defined roles are useful for fine-grained control on how specific members within an organization can interact with a registry. 
+Registry admins can limit who can access a registry by navigating to a registry's settings and assigning a user's role to [Admin, Member, or Viewer](#registry-roles-permissions). Users can have different roles in different registries. For example, a user can have a view role in "Registry A" and a member role in the "Registry B". 
 
-:::tip
-The term 'user' is an all encompassing term that refers to any person that uses W&B, independent of their role type.
+:::note
+Only registry admins can [restrict visibility](#restrict-visibility-to-a-registry), [configure user roles](#configure-user-roles-in-a-registry), or [remove users](#remove-a-user-from-a-registry) from registries in an organization.
 :::
-
-For example, a user with member access in the Model registry can be be assigned viewer access in the Dataset registry.
-
-
-## Registry visibility types
-
-There are two registry visibility types: restricted or organization visibility. The following table describes who has access to the registry by default:
-
-| Visibility | Description | Default Role |
-| --- | --- | --- |
-| Organization | Everyone in the org can access the registry. | By default, organization administrators are an admin for the registry. All other users are a viewer in the registry by default. |
-| Restricted   | Only invited org members can access the registry.| The user who created the restricted registry is the only user in the registry by default, and is the organization's owner. |
-
-
-
-A core registry has organization visibility. You can not change the visibility of a core registry. 
-
-A custom registry can have either organization or restricted visibility.  You can change the visibility of a custom registry from organization to restricted. However, you can not change a custom registry's visibility from restricted to organization visibility.
-
-## Restrict visibility to a registry
-<!-- Who can do this? -->
-Restrict who can view and access a custom registry. You can restrict visibility to a registry when you create a custom registry or after you create a custom registry. A custom registry can have either restricted or organization visibility. For more information on registry visibilities, see [LINK].
-
-<!-- | Visibility | Description |
-| --- | --- |
-| Organization | Anyone in the organization can view the registry. |
-| Restricted   | Only invited organization members can view and edit the registry.|  -->
-
-The following steps describe how to restrict the visibility of a custom registry that already exists:
-
-1. Navigate to the Registry App in the W&B App UI.
-2. Select a registry.
-3. Click on the gear icon on the upper right hand corner.
-4. From the **Registry visibility** dropdown, select the desired registry visibility.
-
-Continue if you select **Restricted visibility** .
-
-5. Add members of your organization that you want to have access to this registry. Scroll to the **Registry members and roles** section and click on the **Add member** button. 
-6. Within the **Member** field, add the email or username of the member you want to add.
-7. Click **Add new member**.
-
-![](/images/registry/change_registry_visibility.gif)
 
 ## Registry roles permissions
 
-A user within an organization can have different roles, and therefore permissions, for each registry in their organization. Registry administrators can set a given user's permission.
+A user within an organization can have different roles, and therefore permissions, for each registry in their organization.
+
+:::info W&B role types
+W&B has three different types of roles: Organization roles, [team roles](../app/features/teams.md#team-roles-and-permissions), and [registry roles](#registry-roles-permissions).
+
+Your role in a team has no impact or relationship on your role in any registry.
+:::
 
 The proceeding table lists the different roles a user can have and their permissions:
 
@@ -91,7 +55,7 @@ The proceeding table lists the different roles a user can have and their permiss
 
 
 ## Configure user roles in a registry
-1. Navigate to the Registry App in the W&B App UI.
+1. Navigate to the **Registry** App in the W&B App UI.
 2. Select the registry you want to configure.
 3. Click on the gear icon on the upper right hand corner.
 4. Scroll to the **Registry members and roles** section.
@@ -101,12 +65,49 @@ The proceeding table lists the different roles a user can have and their permiss
 
 ![](/images/registry/configure_role_registry.gif)
 
-## Remove a member from a registry
-1. Navigate to the Registry App in the W&B App UI.
+## Remove a user from a registry
+1. Navigate to the **Registry** App in the W&B App UI.
 2. Select a core or custom registry.
 3. Click on the gear icon on the upper right hand corner.
 4. Scroll to the **Registry members and roles** section and type in the username of the member you want to remove.
 5. Click the **Delete** button.
+
+
+
+## Registry visibility types
+
+There are two registry visibility types: restricted or organization visibility. The following table describes who has access to the registry by default:
+
+| Visibility | Description | Default role | Example |
+| --- | --- | --- | --- |
+| Organization | Everyone in the org can access the registry. | By default, organization administrators are an admin for the registry. All other users are a viewer in the registry by default. | Core registry |
+| Restricted   | Only invited org members can access the registry.| The user who created the restricted registry is the only user in the registry by default, and is the organization's owner. | Custom registry or core registry |
+
+
+## Restrict visibility to a registry
+<!-- Who can do this? -->
+Restrict who can view and access a custom registry. You can restrict visibility to a registry when you create a custom registry or after you create a custom registry. A custom registry can have either restricted or organization visibility. For more information on registry visibilities, see [LINK].
+
+<!-- | Visibility | Description |
+| --- | --- |
+| Organization | Anyone in the organization can view the registry. |
+| Restricted   | Only invited organization members can view and edit the registry.|  -->
+
+The following steps describe how to restrict the visibility of a custom registry that already exists:
+
+1. Navigate to the **Registry** App in the W&B App UI.
+2. Select a registry.
+3. Click on the gear icon on the upper right hand corner.
+4. From the **Registry visibility** dropdown, select the desired registry visibility.
+
+Continue if you select **Restricted visibility**:
+
+5. Add members of your organization that you want to have access to this registry. Scroll to the **Registry members and roles** section and click on the **Add member** button. 
+6. Within the **Member** field, add the email or username of the member you want to add.
+7. Click **Add new member**.
+
+![](/images/registry/change_registry_visibility.gif)
+
 
 
 

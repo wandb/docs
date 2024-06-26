@@ -108,8 +108,9 @@ const sidebars = {
             'guides/registry/registry_types',
             'guides/registry/create_registry',
             'guides/registry/configure_registry',
-            'guides/registry/accepted_artifact_types',
+            // 'guides/registry/accepted_artifact_types',
             'guides/registry/create_collection',
+            'guides/registry/link_version',
             {
               type: 'category',
               label: 'Model Registry',
