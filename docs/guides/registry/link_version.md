@@ -6,7 +6,7 @@ import TabItem from '@theme/TabItem';
 
 # Link an artifact version to a registry
 
-Interactively link and view artifact versions in collection with the Registry App or Artifact browser. 
+Programmatically or interactively link artifact versions to a collection.
 
 :::info
 When you link an artifact to a registry, this "publishes" that artifact to that registry. Any user that has access to that registry can access linked artifact versions when you link an artifact to a collection.
@@ -14,8 +14,8 @@ When you link an artifact to a registry, this "publishes" that artifact to that 
 In other words, linking an artifact to a collection brings that artifact version from a private, project-level scope, to the shared organization level scope.
 :::
 
-## Interactively link an artifact version
-Interactively link an artifact version with the Registry App or with the Artifact browser.
+## Link an artifact version
+Link an artifact version with the W&B Python SDK, Registry App, or with the Artifact browser.
 
 <Tabs
   defaultValue="python_sdk"
@@ -27,7 +27,7 @@ Interactively link an artifact version with the Registry App or with the Artifac
   <TabItem value="python_sdk">
 
 
-Use the [`link_artifact`](../../ref/python/run.md#link_artifact) method to programmatically link an artifact to a registry. 
+Use the [`link_artifact`](../../ref/python/run.md#link_artifact) method to programmatically link an artifact to a registry. When you link an artifact, specify the path where you want artifact version to link to for the `target_path` parameter. The target path takes the form of `"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"`.
 
 Replace values enclosed in `<>` with your own:
 
