@@ -37,11 +37,4 @@ An artifact type can not be removed from a registry once it is added and saved i
 ![](/images/registry/create_collection.gif)
 
 
-## Add a version to an existing collection
-
-
-
-Programmatically create a collection 
-
-
 

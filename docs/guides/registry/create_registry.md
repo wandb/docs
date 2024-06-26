@@ -4,7 +4,7 @@ displayed_sidebar: default
 
 # Create a custom registry
 
-Create a [custom registry](./registry_types.md#custom-registry) for each step of your ML workflow. For example, you might want to create a custom registry for evaluating or fine-tuning datasets. [INSERT]
+Create a [custom registry](./registry_types.md#custom-registry) for each step of your ML workflow.
 
 Custom registries are particularly useful for organizing project-specific requirements that differ from the default, [core registry](./registry_types.md#core-registry).
 
@@ -13,7 +13,7 @@ The following procedure describes how to interactively create a registry:
 2. Within **Custom registry**, click on the **Create registry** button.
 3. Provide a name for your registry in the **Name** field.
 4. Optionally provide a description about the registry.
-5. Select who can view the registry from the **Registry visibility** dropdown. See [LINK] for more information on registry visibility options.
+5. Select who can view the registry from the **Registry visibility** dropdown. See [Registry visibility types](./configure_registry.md#registry-visibility-types) for more information on registry visibility options.
 6. Select either **All types** or **Specify types** from the **Accepted artifacts type** dropdown.
 7. (If you select **Specify types**) Add one or more artifact types that your registry accepts.
 :::info
