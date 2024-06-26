@@ -41,8 +41,8 @@ config = {
 }
 
 
-with wandb.init(config=config)
-    launch.manange_wandb_config(
+with wandb.init(config=config):
+    launch.manage_wandb_config(
         include=["trainer"], 
         exclude=["trainer.private"],
     )
@@ -115,8 +115,9 @@ launch.manage_config_file("config.yaml")
 with open("config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
-with wandb.init(config=config)
+with wandb.init(config=config):
     # Etc.
+    pass
 ```
 
 Imagine the code is run with an adjacent file `config.yaml`:
