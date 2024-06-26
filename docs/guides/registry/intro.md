@@ -16,7 +16,7 @@ Use W&B Registry to share artifacts from your machine learning pipeline, such as
 ## How it works
 W&B Registry is composed of three main components: registries, collections, and [artifact versions](../artifacts/create-a-new-artifact-version.md).
 
-A *registry* is a repository or catalog for ML assets of the same kind. You can think of a registry as the top most level of a directory. Each registry consists of one or more sub directories called collections. A *collection* is a folder or a set of linked [*artifact versions*](../artifacts/create-a-new-artifact-version.md) inside a registry. An [artifact version](../artifacts/create-a-new-artifact-version.md) is a single, immutable snapshot of an artifact at a particular stage of its development.  A registry belongs to an organization, not a specific team.
+A *registry* is a repository or catalog for ML assets of the same kind. You can think of a registry as the top most level of a directory. Each registry consists of one or more sub directories called collections. A *collection* is a folder or a set of linked [artifact versions](../artifacts/create-a-new-artifact-version.md) inside a registry. An [*artifact version*](../artifacts/create-a-new-artifact-version.md) is a single, immutable snapshot of an artifact at a particular stage of its development.  A registry belongs to an organization, not a specific team.
 
 ![](/images/registry/registry_diagram_homepage.png)
 
