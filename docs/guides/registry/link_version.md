@@ -4,7 +4,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Link an artifact version to a collection
+# Link an artifact version to a registry
 
 Interactively link and view artifact versions in collection with the Registry App or Artifact browser. 
 
