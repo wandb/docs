@@ -9,21 +9,24 @@ displayed_sidebar: default
 W&B Registry is in private preview. Contact your account team or support@wandb.com for early access.  
 :::
 
-W&B Registry is a governed and curated central repository of machine learning artifacts, and provides versioning, aliasing, and lineage tracking of all ML models, datasets, and other artifacts across your organization. Registry provides ML practitioners the ability to track the creation and usage of artifacts related to ML experiments and to build reproducible end-to-end ML workflows.
+W&B Registry is a governed and curated central repository of machine learning artifacts, and provides versioning, aliasing, and lineage tracking of all ML models, datasets, and other artifacts across your organization. Registry provides ML practitioners the ability to track the creation and usage of artifacts related to ML experiments.
+
+<img width="1253" alt="Screenshot 2024-06-27 at 4 50 49 PM" src="https://github.com/wandb/docodile/assets/40642416/c78aa5cd-6cb5-464a-955e-f8c25542bf44">
+
 
 With W&B Registry, you can:
 
-- Bookmark your best artifact versions for each machine learning task.
+- [Bookmark](https://docs.wandb.ai/guides/registry/link_version) your best artifacts for each machine learning task.
 - [Automate](https://docs.wandb.ai/guides/model_registry/model-registry-automations) downstream processes and model CI/CD.
 - Track an [artifact’s lineage](https://docs.wandb.ai/guides/model_registry/model-lineage) and audit the history of changes to production artifacts.
-- Configure viewer, member, or admin access to a registry for all org users
+- [Configure](https://docs.wandb.ai/guides/registry/configure_registry) viewer, member, or admin access to a registry for all org users
 
 ## How it works
 
-Track and manage your staged artifacts with a few simple steps.
+Track and publish your staged artifacts to W&B Registry in a few steps.
 
-1. Log an artifact version: In your training script, add a few lines of code to save the artifact to a W&B run.
-2. Link to registry: Bookmark the most relevant and valuable artifact version by linking it to a registry, either programmatically in Python or in the W&B UI.
+1. Log an artifact version: In your training or experiment script, add a few lines of code to save the artifact to a W&B run.
+2. Link to registry: Bookmark the most relevant and valuable artifact version by linking it to a registry.
 
 The following code snippet demonstrates how to log and link a model to the model registry inside W&B Registry:
 
@@ -31,8 +34,8 @@ The following code snippet demonstrates how to log and link a model to the model
 import wandb
 import random
 
-# Start a new W&B run
-run = wandb.init(project="registry_quickstart", entity="<YOUR_TEAM_NAME>")
+# Start a new W&B run to track your experiment
+run = wandb.init(project="registry_quickstart") 
 
 # Simulate logging model metrics
 run.log({"acc": random.random()})
@@ -41,9 +44,9 @@ run.log({"acc": random.random()})
 with open("my_model.h5", "w") as f:
    f.write("Model: " + str(random.random()))
 
-# [Log](https://docs.wandb.ai/ref/python/run#log_artifact) and [link](https://docs.wandb.ai/ref/python/run#link_artifact) the model to the Model Registry
-run.log_artifact(path="./my_model.h5", name="gemma-finetuned-3twsov9e")
-run.link_artifact(artifact="gemma-finetuned-3twsov9e", target_path="<YOUR_ORG_NAME>/wandb-registry-model/registry-quickstart-collection",
+# log and link the model to the model registry inside W&B Registry
+logged_artifact = run.log_artifact(artifact_or_path="./my_model.h5", name="gemma-finetuned-3twsov9e", type="model")
+run.link_artifact(artifact=logged_artifact, target_path="<YOUR-ORG-NAME>/wandb-registry-model/registry-quickstart-collection"),
 
 run.finish()
 ```
