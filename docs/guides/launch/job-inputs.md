@@ -41,8 +41,8 @@ config = {
 }
 
 
-with wandb.init(config=config)
-    launch.manange_wandb_config(
+with wandb.init(config=config):
+    launch.manage_wandb_config(
         include=["trainer"], 
         exclude=["trainer.private"],
     )
@@ -90,7 +90,11 @@ to load the run config input values anywhere in the job code.
 
 ## Reconfigure a file
 
-The Launch SDK also provides a way to manage input values stored in config files in the job code. This is a common pattern in many deep learning and large language model use cases, like this [HuggingFace Tune](https://github.com/huggingface/tune/blob/main/configs/benchmark.yaml) example using Hydra or this [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)). 
+The Launch SDK also provides a way to manage input values stored in config files in the job code. This is a common pattern in many deep learning and large language model use cases, like this [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) example or this [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)). 
+
+:::info
+[Sweeps on Launch](./sweeps-on-launch.md) does not support the use of config file inputs as sweep parameters. Sweep parameters must be controlled through the `Run.config` object.
+:::
 
 The `launch.manage_config_file` function can be used to add a config file as an input to the Launch job, giving you access to edit values within the config file when launching the job.
 
@@ -111,8 +115,9 @@ launch.manage_config_file("config.yaml")
 with open("config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
-with wandb.init(config=config)
+with wandb.init(config=config):
     # Etc.
+    pass
 ```
 
 Imagine the code is run with an adjacent file `config.yaml`:

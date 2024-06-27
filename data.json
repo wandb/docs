@@ -394,6 +394,42 @@
       "to": "/guides/hosting"
     },
     {
+      "from": "/guides/hosting/secure-storage-connector",
+      "to": "/guides/hosting/data-security/secure-storage-connector"
+    },
+    {
+      "from": "/guides/hosting/presigned-urls",
+      "to": "/guides/hosting/data-security/presigned-urls"
+    },
+    {
+      "from": "/guides/hosting/ip-allowlisting",
+      "to": "/guides/hosting/data-security/ip-allowlisting"
+    },
+    {
+      "from": "/guides/hosting/private-connectivity",
+      "to": "/guides/hosting/data-security/private-connectivity"
+    },
+    {
+      "from": "/guides/hosting/restricted-projects",
+      "to": "/guides/hosting/iam/restricted-projects"
+    },
+    {
+      "from": "/guides/hosting/audit-logging",
+      "to": "/guides/hosting/monitoring-usage/audit-logging"
+    },
+    {
+      "from": "/guides/hosting/prometheus-logging",
+      "to": "/guides/hosting/monitoring-usage/prometheus-logging"
+    },
+    {
+      "from": "/guides/hosting/slack-alerts",
+      "to": "/guides/hosting/monitoring-usage/slack-alerts"
+    },
+    {
+      "from": "/guides/hosting/org_dashboard",
+      "to": "/guides/hosting/monitoring-usage/org_dashboard"
+    },
+    {
       "from": "/guides/hosting/basic-setup",
       "to": "/guides/hosting/how-to-guides/basic-setup"
     },
@@ -779,7 +815,7 @@
     },
     {
       "from": "/guides/models/automation",
-      "to": "/guides/model_registry/automation"
+      "to": "/guides/model_registry/model-registry-automations"
     },
     {
       "from": "/guides/models/notifications",
