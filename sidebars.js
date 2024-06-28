@@ -268,7 +268,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Weave: LLMOps',
+      label: 'Weave',
       items: [
         'guides/weave_platform',
       ],
