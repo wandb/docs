@@ -3,15 +3,15 @@
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-model-registry/Model_Registry_E2E.ipynb)
 
-モデルレジストリは、組織全体で作業中のすべてのモデルタスクとそれに関連する artifacts を収容し整理するための中央場所です：
+モデルレジストリは、組織全体で現在作業中のすべてのモデルタスクと関連するArtifactsを集めて整理するための中央の場所です。
 - モデルチェックポイント管理
 - リッチなモデルカードでモデルを文書化
-- 使用中/デプロイされたすべてのモデルの履歴を保持
-- モデルのクリーンな引き渡しとステージ管理を促進
-- さまざまなモデルタスクをタグ付けし、整理
-- モデルが進行する時に自動通知を設定
+- 使用中/デプロイメント中のすべてのモデルの履歴を維持
+- モデルのクリーンな引継ぎとステージ管理の促進
+- 各種モデルタスクのタグ付けと整理
+- モデルの進捗時に自動通知を設定
 
-このチュートリアルでは、単純な画像分類タスクのためのモデル開発ライフサイクルを追跡する方法を説明します。
+このチュートリアルでは、簡単な画像分類タスクのモデル開発ライフサイクルを追跡する方法をご紹介します。
 
 ### 🛠️ `wandb` のインストール
 
@@ -21,10 +21,10 @@
 
 ## W&B にログイン
 - `wandb login` または `wandb.login()` を使用して明示的にログインできます（以下参照）
-- 代わりに環境変数を設定することもできます。W&B ログの振る舞いを変えるために設定できるいくつかの環境変数があります。最も重要なのは以下の通りです：
-  - `WANDB_API_KEY` - プロファイルの "Settings" セクションで見つけることができます
-  - `WANDB_BASE_URL` - これは W&B サーバーのURLです
-- W&B アプリで "Profile" -> "Setttings" でAPIトークンを見つけてください
+- あるいは環境変数を設定することも可能です。W&Bロギングの振る舞いを変更するために設定できる環境変数は多岐にわたり、最も重要なものは以下の通りです:
+    - `WANDB_API_KEY` - プロファイルの「Settings」セクションで見つかります
+    - `WANDB_BASE_URL` - W&BサーバーのURLです
+- APIトークンはW&Bアプリの「Profile」 -> 「Settings」で見つかります
 
 ![api_token](https://drive.google.com/uc?export=view&id=1Xn7hnn0rfPu_EW0A_-32oCXqDmpA0-kx)
 
@@ -33,28 +33,28 @@
 ```
 
 :::note
-[W&B Server](..//guides/hosting/intro.md) デプロイメント（**Dedicated Cloud** または **Self-managed**）に接続する場合、--relogin および --host オプションを使用します。例えば：
+[W&B Server](..//guides/hosting/intro.md)デプロイメント（**Dedicated Cloud**または**Self-managed**のどちらか）に接続する際には、--reloginおよび--hostオプションを使用します。例えば:
 
 ```notebook
 !wandb login --relogin --host=http://your-shared-local-host.com
 ```
 
-必要に応じて、デプロイメント管理者にホスト名を尋ねてください。
+必要に応じて、デプロイメント管理者にホスト名を確認してください。
 :::
 
-## データとモデルチェックポイントを Artifacts としてログ  
-W&B Artifacts により、任意のシリアライズデータ（例：datasets、モデルチェックポイント、評価結果）の追跡とバージョン管理が可能です。artifact を作成すると、名前とタイプを与え、その artifact は実験の SoR に永久にリンクされます。基礎データが変更され、そのデータ資産を再度ログすると、W&B はその内容のチェックサム化を通じて自動的に新しいバージョンを作成します。W&B Artifacts は共有の非構造化ファイルシステムの上にある軽量な抽象レイヤーと考えることができます。
+## Log Data and Model Checkpoints as Artifacts
+W&B Artifactsを使用すると、データセット、モデルチェックポイント、評価結果などの任意のシリアライズデータを追跡しバージョン管理が可能です。アーティファクトを作成する際には名前とタイプを指定します。このアーティファクトは実験的なSoR（system of record）と永久にリンクされます。基礎データが変更され、そのデータ資産を再度ログに記録すると、W&Bが自動的に内容をチェックサムし、新しいバージョンを作成します。W&B Artifactsは、共有の非構造化ファイルシステムの上の軽量な抽象レイヤーとして考えることができます。
 
 ### アーティファクトの構造
 
-`Artifact` クラスは W&B Artifact レジストリのエントリに対応します。artifact には次のものがあります
+`Artifact`クラスは、W&Bアーティファクトレジストリ内のエントリに対応します。アーティファクトには以下が含まれます:
 * 名前
 * タイプ
 * メタデータ
 * 説明
-* ファイル、ファイルディレクトリ、またはリファレンス
+* ファイル、およびディレクトリ、または参照
 
-使用例：
+使用例:
 ```python
 run = wandb.init(project="my-project")
 artifact = wandb.Artifact(name="my_artifact", type="data")
@@ -63,7 +63,7 @@ run.log_artifact(artifact)
 run.finish()
 ```
 
-このチュートリアルでは、まずトレーニングデータセットをダウンロードし、それを artifact としてログし、ダウンストリームのトレーニングジョブで使用します。
+このチュートリアルでは、まずトレーニングデータセットをダウンロードし、それをトレーニングジョブで使用するアーティファクトとしてログに記録します。
 
 ```python
 # @title Enter your W&B project and entity
@@ -72,12 +72,11 @@ run.finish()
 PROJECT_NAME = "model-registry-tutorial"  # @param {type:"string"}
 ENTITY = None  # @param {type:"string"}
 
-# SIZE を "TINY", "SMALL", "MEDIUM", または "LARGE" に設定
-# これらの datasets のいずれかを選択します
-# TINY dataset: 100 画像, 30MB
-# SMALL dataset: 1000 画像, 312MB
-# MEDIUM dataset: 5000 画像, 1.5GB
-# LARGE dataset: 12,000 画像, 3.6GB
+# SIZEを"TINY"、"SMALL"、"MEDIUM"、または"LARGE"に設定して、以下のデータセットのいずれかを選択
+# TINYデータセット: 100枚の画像、30MB
+# SMALLデータセット: 1000枚の画像、312MB
+# MEDIUMデータセット: 5000枚の画像、1.5GB
+# LARGEデータセット: 12,000枚の画像、3.6GB
 
 SIZE = "TINY"
 
@@ -96,13 +95,13 @@ elif SIZE == "SMALL":
 elif SIZE == "MEDIUM":
     src_url = "https://storage.googleapis.com/wandb_datasets/nature_12K.zip"
     src_zip = "nature_12K.zip"
-    DATA_SRC = "inaturalist_12K/train"  # (technically a subset of only 10K images)
+    DATA_SRC = "inaturalist_12K/train"  #（技術的には10,000枚の画像のみのサブセット）
     IMAGES_PER_LABEL = 500
     BALANCED_SPLITS = {"train": 400, "val": 50, "test": 50}
 elif SIZE == "LARGE":
     src_url = "https://storage.googleapis.com/wandb_datasets/nature_12K.zip"
     src_zip = "nature_12K.zip"
-    DATA_SRC = "inaturalist_12K/train"  # (technically a subset of only 10K images)
+    DATA_SRC = "inaturalist_12K/train"  #（技術的には10,000枚の画像のみのサブセット）
     IMAGES_PER_LABEL = 1000
     BALANCED_SPLITS = {"train": 800, "val": 100, "test": 100}
 ```
@@ -142,10 +141,10 @@ with wandb.init(project=PROJECT_NAME, entity=ENTITY, job_type="log_datasets") as
 ```
 
 ### アーティファクト名とエイリアスを使用してデータ資産を簡単に引き継ぎおよび抽象化
-- データセットやモデルの `name:alias` の組み合わせを参照するだけで、ワークフローのコンポーネントをより標準化することができます
-- 例えば、PyTorch `Dataset` や `DataModule` を構築し、W&B Artifact 名とエイリアスを引数として取り、適切にロードすることができます
+- データセットやモデルの`name:alias`組み合わせを参照するだけで、ワークフローコンポーネントをより良く標準化できます 
+- 例として、PyTorch `Dataset`や`DataModule`を構築し、引数としてW&B Artifact名とエイリアスを使用して適切にロードできます
 
-このデータセットに関連するすべてのメタデータ、これを消費する W&B Runs、上流および下流の artifacts の全リネージを見ることができます！
+このデータセットに関連するすべてのメタデータ、これを使用するW&B runs、および上下流の全アーティファクトのリネージを今すぐ確認できます！
 
 ![api_token](https://drive.google.com/uc?export=view&id=1fEEddXMkabgcgusja0g8zMz8whlP2Y5P)
 
@@ -158,7 +157,6 @@ from skimage import io, transform
 from torchvision import transforms, utils, models
 import math
 
-
 class NatureDataset(Dataset):
     def __init__(
         self,
@@ -170,7 +168,7 @@ class NatureDataset(Dataset):
         self.local_target_dir = local_target_dir
         self.transform = transform
 
-        # アーティファクトをローカルにダウンロードしてメモリにロード
+        # アーティファクトをローカルに取得してメモリにロード
         art = wandb_run.use_artifact(artifact_name_alias)
         path_at = art.download(root=self.local_target_dir)
 
@@ -196,7 +194,6 @@ class NatureDataset(Dataset):
             image = self.transform(image)
 
         return image, label
-
 
 class NatureDatasetModule(pl.LightningDataModule):
     def __init__(
@@ -263,16 +260,13 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import StepLR
 import onnx
 
-
 def set_parameter_requires_grad(model, feature_extracting):
     if feature_extracting:
         for param in model.parameters():
             param.requires_grad = False
 
-
 def initialize_model(model_name, num_classes, feature_extract, use_pretrained=True):
-    # これらの変数はこの if ステートメントで設定されます。これらの
-    #   変数はモデル固有です。
+    # このifステートメントで設定される変数を初期化します。これらの変数はそれぞれのモデルに特有です。
     model_ft = None
     input_size = 0
 
@@ -324,10 +318,9 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
 
     return model_ft, input_size
 
-
 class NaturePyTorchModule(torch.nn.Module):
     def __init__(self, model_name, num_classes=10, feature_extract=True, lr=0.01):
-        """メソッドはモデルパラメータを定義するために使用されます"""
+        """モデルパラメータを定義するためのメソッド"""
         super().__init__()
 
         self.model_name = model_name
@@ -341,11 +334,10 @@ class NaturePyTorchModule(torch.nn.Module):
         )
 
     def forward(self, x):
-        """入力 -> 出力の推論に使用されるメソッド"""
+        """推論用の入力 -> 出力メソッド"""
         x = self.model(x)
 
         return x
-
 
 def evaluate_model(model, eval_data, idx_to_class, class_names, epoch_ndx):
     device = torch.device("cpu")
@@ -366,7 +358,7 @@ def evaluate_model(model, eval_data, idx_to_class, class_names, epoch_ndx):
             ).item()  # バッチ損失の合計
             pred = output.argmax(
                 dim=1, keepdim=True
-            )  # 最大のログ確率のインデックスを取得
+            )  # 最大対数確率のインデックスを取得
             preds += list(pred.flatten().tolist())
             actual += target.numpy().tolist()
             correct += pred.eq(target.view_as(pred)).sum().item()
@@ -385,8 +377,8 @@ def evaluate_model(model, eval_data, idx_to_class, class_names, epoch_ndx):
     return test_loss, accuracy, preds, val_table, conf_mat
 ```
 
-### トレーニングループの追跡
-トレーニング中、時間の経過とともにモデルのチェックポイントを行うことはベストプラクティスです。トレーニングが中断されたりインスタンスがクラッシュした場合に、チェックポイントから再開することができます。artifact ログを使って、すべてのチェックポイントを W&B で追跡し、必要なメタデータ（シリアライゼーションの形式、クラスラベルなど）を付加することができます。この方法で、誰かがチェックポイントを消費するときに、その使い方を知ることができます。artifact として任意の形式のモデルをログする場合、その artifact の `type` を `model` に設定することを確認してください。
+### トレーニングのループの追跡
+トレーニング中には、定期的にモデルのチェックポイントを作成するのがベストプラクティスです。こうすることで、トレーニングが中断されたり、インスタンスがクラッシュした場合でも、途中から再開できます。Artifactをログすることで、すべてのチェックポイントをW&Bで追跡し、シリアライゼーションの形式やクラスラベルなどのメタデータを付加できます。これにより、誰かがチェックポイントを利用する際に、どのように使用すればよいかが分かります。Artifactとして任意の形式のモデルをログする際には、Artifactの`type`を`model`に設定してください。
 
 ```python
 run = wandb.init(
@@ -421,3 +413,167 @@ learning_rate = wandb.config["lr"]
 gamma = wandb.config["gamma"]
 epochs = wandb.config["epochs"]
 
+device = torch.device("cpu")
+optimizer = optim.Adadelta(model.parameters(), lr=wandb.config["lr"])
+scheduler = StepLR(optimizer, step_size=1, gamma=wandb.config["gamma"])
+
+best_loss = float("inf")
+best_model = None
+
+for epoch_ndx in range(epochs):
+    model.train()
+    for batch_ndx, batch in enumerate(nature_module.train_dataloader()):
+        data, target = batch[0].to("cpu"), batch[1].to("cpu")
+        optimizer.zero_grad()
+        preds = model(data)
+        loss = F.nll_loss(preds, target)
+        loss.backward()
+        optimizer.step()
+        scheduler.step()
+
+        ### あなたのメトリクスをログしましょう ###
+        wandb.log(
+            {
+                "train/epoch_ndx": epoch_ndx,
+                "train/batch_ndx": batch_ndx,
+                "train/train_loss": loss,
+                "train/learning_rate": optimizer.param_groups[0]["lr"],
+            }
+        )
+
+    ### 各エポック終了時の評価 ###
+    model.eval()
+    test_loss, accuracy, preds, val_table, conf_mat = evaluate_model(
+        model,
+        nature_module.val_dataloader(),
+        nature_module.nature_dataset.idx_to_class,
+        nature_module.nature_dataset.class_names,
+        epoch_ndx,
+    )
+
+    is_best = test_loss < best_loss
+
+    wandb.log(
+        {
+            "eval/test_loss": test_loss,
+            "eval/accuracy": accuracy,
+            "eval/conf_mat": conf_mat,
+            "eval/val_table": val_table,
+        }
+    )
+
+    ### モデルの重みをチェックポイントとして保存 ###
+    x = torch.randn(1, 3, 224, 224, requires_grad=True)
+    torch.onnx.export(
+        model,  # 実行されるモデル
+        x,  # モデルの入力（または複数入力の場合はタプル）
+        "model.onnx",  # モデルを保存する場所（ファイルまたはファイルライクオブジェクト）
+        export_params=True,  # トレーニング済みのパラメータ重量をモデルファイルに保存
+        opset_version=10,  # モデルをエクスポートするONNXバージョン
+        do_constant_folding=True,  # 最適化のための定数折りたたみを実行するかどうか
+        input_names=["input"],  # モデルの入力名
+        output_names=["output"],  # モデルの出力名
+        dynamic_axes={
+            "input": {0: "batch_size"},  # 可変長の軸
+            "output": {0: "batch_size"},
+        },
+    )
+
+    art = wandb.Artifact(
+        f"nature-{wandb.run.id}",
+        type="model",
+        metadata={
+            "format": "onnx",
+            "num_classes": len(nature_module.nature_dataset.class_names),
+            "model_type": wandb.config["model_type"],
+            "model_input_size": wandb.config["input_size"],
+            "index_to_class": nature_module.nature_dataset.idx_to_class,
+        },
+    )
+
+    art.add_file("model.onnx")
+
+    ### 長期にわたって最良のチェックポイントを追跡するエイリアスを追加 ###
+    wandb.log_artifact(art, aliases=["best", "latest"] if is_best else None)
+    if is_best:
+        best_model = art
+```
+
+### 1つのプロジェクトの下であなたのすべてのモデルチェックポイントを管理します。
+
+![api_token](https://drive.google.com/uc?export=view&id=1z7nXRgqHTPYjfR1SoP-CkezyxklbAZlM)
+
+### 注記: W&Bオフラインとの同期
+トレーニング中に何らかの理由でネットワーク通信が切断された場合でも、`wandb sync`を使用して進捗を常に同期できます。
+
+W&B SDKはすべてのログデータをローカルディレクトリ`wandb`にキャッシュし、`wandb sync`を呼び出すと、ローカルの状態がウェブアプリと同期されます。
+
+## モデルレジストリ
+実験中に複数のrunで多数のチェックポイントをログした後は、次のワークフローステージ（例：テスト、デプロイメント）に最良のチェックポイントを引き継ぐ時です。
+
+モデルレジストリは、個々のW&Bプロジェクトの上位に位置する中央ページです。ここには**Registered Models**が保存され、個々のW&Bプロジェクトに存在する価値のあるチェックポイントへの「リンク」を格納します。
+
+モデルレジストリは、すべてのモデルタスクの最良のチェックポイントを保存するための集中管理の場を提供します。あなたがログする任意の`model`アーティファクトは、Registered Modelに「リンク」できます。
+
+### **Registered Models**を作成し、UIからリンクする
+
+#### 1. チームページにアクセスし、`Model Registry`を選択して、チームのモデルレジストリにアクセスします。
+
+![model registry](https://drive.google.com/uc?export=view&id=1ZtJwBsFWPTm4Sg5w8vHhRpvDSeQPwsKw)
+
+#### 2. 新しいRegistered Modelを作成します。
+
+![model registry](https://drive.google.com/uc?export=view&id=1RuayTZHNE0LJCxt1t0l6-2zjwiV4aDXe)
+
+#### 3. モデルのすべてのチェックポイントが格納されているプロジェクトのアーティファクトタブに移動します。
+
+![model registry](https://drive.google.com/uc?export=view&id=1LfTLrRNpBBPaUb_RmBIE7fWFMG0h3e0E)
+
+#### 4. モデルアーティファクトバージョンの「Link to Registry」をクリックします。
+
+### **API**を通じてRegistered Modelsを作成しリンクする
+`wandb.run.link_artifact`を使用してアーティファクトオブジェクトおよび**Registered Model**の名前、さらに付加したいエイリアスを渡して、[API経由でモデルをリンク](https://docs.wandb.ai/guides/models)することができます。W&Bでは**Registered Models**はエンティティ（チーム）にスコープされているため、チームのメンバーのみがそこにある**Registered Models**を表示およびアクセスできます。APIでRegistered Modelの名前を指定する場合は、`<entity>/model-registry/<registered-model-name>`とします。Registered Modelが存在しない場合、自動的に作成されます。
+
+```python
+if ENTITY:
+    wandb.run.link_artifact(
+        best_model,
+        f"{ENTITY}/model-registry/Model Registry Tutorial",
+        aliases=["staging"],
+    )
+else:
+    print("Must indicate entity where Registered Model will exist")
+wandb.finish()
+```
+
+### 「リンク」とは？
+レジストリにリンクすると、そのRegistered Modelの新しいバージョンが作成されます。これはそのプロジェクト内に存在するアーティファクトバージョンへのポインタにすぎません。W&Bがプロジェクト内のアーティファクトのバージョン管理とRegistered Modelのバージョン管理を分ける理由はここにあります。モデルアーティファクトのバージョンをリンクするプロセスは、そのアーティファクトバージョンをRegistered Modelタスクの下で「ブックマーク」することと同等です。
+
+通常、研究開発や実験中に研究者は100以上、さらには1000以上のモデルチェックポイントアーティファクトを生成しますが、そのうち実際に「日の目を見る」ものは一つか二つだけです。これらのチェックポイントを別のバージョン管理されたレジストリにリンクするプロセスは、モデル開発側とモデルデプロイメント/消費側のワークフローを明確に区別するのに役立ちます。モデルの世界共通のバージョン/エイリアスは、研究開発中に生成されるすべての実験バージョンから汚染されないようにすべきであり、したがって、Registered Modelのバージョン管理は新しい「ブックマークされた」モデルに応じて増加します。
+
+## すべてのモデルのための集中ハブを作成
+- Registered Modelにモデルカード、タグ、Slack通知を追加
+- モデルが異なるフェーズを移行する際にエイリアスを変更
+- モデルドキュメントと回帰レポートのためにモデルレジストリをレポートに埋め込みます。例えばこのレポートを参照してください：[example](https://api.wandb.ai/links/wandb-smle/r82bj9at)
+![model registry](https://drive.google.com/uc?export=view&id=1lKPgaw-Ak4WK_91aBMcLvUMJL6pDQpgO)
+
+### レジストリに新しいモデルがリンクされるときにSlack通知を設定
+
+![model registry](https://drive.google.com/uc?export=view&id=1RsWCa6maJYD5y34gQ0nwWiKSWUCqcjT9)
+
+## Registered Modelの利用
+APIを介して対応する`name:alias`を参照することで、任意のRegistered Modelを利用できます。エンジニア、研究者、CI/CDプロセスのいずれであっても、テストを通過する必要があるかプロダクションに移行する必要があるすべてのモデルの集中ハブとしてモデルレジストリにアクセスできます。
+
+```notebook
+%%wandb -h 600
+
+run = wandb.init(project=PROJECT_NAME, entity=ENTITY, job_type='inference')
+artifact = run.use_artifact(f'{ENTITY}/model-registry/Model Registry Tutorial:staging', type='model')
+artifact_dir = artifact.download()
+wandb.finish()
+```
+
+# 次は何？
+次のチュートリアルでは、大規模言語モデルを反復処理し、W&B Promptsを使用してデバッグする方法を学びます：
+
+## 👉 [Iterate on LLMs](prompts)

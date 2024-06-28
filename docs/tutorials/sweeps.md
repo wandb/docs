@@ -1,31 +1,29 @@
 
 # ハイパーパラメーターのチューニング
 
-[**ここでColab Notebookを試す →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.ipynb)
+[**Colabノートブックで試す →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.ipynb)
 
-最もパフォーマンスの高いモデルを見つけるために高次元のハイパーパラメータ空間を探索することは、非常に手間がかかります。ハイパーパラメータ探索は、モデルのバトルロワイヤルを整理して効率的に実施し、最も正確なモデルを選ぶ方法を提供します。これにより、学習率、バッチサイズ、隠れ層の数、オプティマイザーの種類などのハイパーパラメータの組み合わせを自動的に検索して最適な値を見つけることができます。
+高次元のハイパーパラメータースペースを探索して最もパフォーマンスの高いモデルを見つけることは、非常に難しい作業です。ハイパーパラメーター探索を利用することで、モデルのバトルロイヤルを効率的に実施し、最も正確なモデルを選び出すことができます。これは、ハイパーパラメーターの組み合わせ（例：学習率、バッチサイズ、隠れ層の数、オプティマイザーの種類）を自動的に探索して最適な値を見つけることで実現されます。
 
-このチュートリアルでは、Weights & Biasesを使用して3つの簡単なステップで高度なハイパーパラメータ探索を実行する方法を見ていきます。
+このチュートリアルでは、Weights & Biases を使って高度なハイパーパラメーター探索を3つの簡単なステップで実行する方法を見ていきます。
 
-### [ビデオチュートリアル](http://wandb.me/sweeps-video)に従って進めましょう！
+### [ビデオチュートリアル](http://wandb.me/sweeps-video)に沿って進めましょう！
 
 ![](https://i.imgur.com/WVKkMWw.png)
 
 # 🚀 セットアップ
 
-まず、実験管理ライブラリをインストールし、無料のW&Bアカウントを設定します。
+まずは、実験管理ライブラリをインストールし、無料の W&B アカウントを設定します:
 
-1. `!pip install`でインストール
-2. ライブラリをPythonに`import`
-3. `.login()`してプロジェクトにメトリクスをログ
+1. `!pip install` コマンドでインストール
+2. ライブラリを Python にインポート
+3. `.login()` してプロジェクトにメトリクスをログインできるようにします
 
-Weights & Biasesを初めて使用する場合、`login`の呼び出しでアカウント登録のリンクが表示されます。W&Bは個人および学術プロジェクトで無料で使用できます！
-
+Weights & Biases を初めて使用する場合、`login` コマンドはアカウント登録用のリンクを提供します。W&B は個人および学術プロジェクトに無料で使用できます！
 
 ```python
 !pip install wandb -Uq
 ```
-
 
 ```python
 import wandb
@@ -33,28 +31,24 @@ import wandb
 wandb.login()
 ```
 
-# ステップ 1️⃣. Sweepの定義
+# ステップ1️⃣. Sweep の定義
 
-根本的に、Sweepは多数のハイパーパラメーター値を試すための戦略とそれを評価するコードを組み合わせたものです。
-あなたはその戦略を[設定](https://docs.wandb.com/sweeps/configuration)の形で定義するだけです。
+根本的には、Sweep は一連のハイパーパラメーター値を試すための戦略をコードと組み合わせたものです。あなたはただ、[設定](https://docs.wandb.com/sweeps/configuration)形式で戦略を定義するだけです。
 
-ノートブックのような環境でSweepを設定する場合、この設定オブジェクトはネストされた辞書です。
-コマンドラインでSweepを実行する場合、設定オブジェクトは[YAMLファイル](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)です。
+ノートブックで Sweep を設定する際は、その設定オブジェクトはネストされた辞書です。コマンドラインから Sweep を実行する場合、設定オブジェクトは [YAML ファイル](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)です。
 
-一緒にSweep設定の定義を見ていきましょう。各コンポーネントを説明する機会を得るために、ゆっくり進めます。
-典型的なSweepパイプラインでは、このステップは単一の割り当てで行われます。
+一緒に Sweep 設定の定義を見ていきましょう。各コンポーネントについて説明する時間を取るため、ゆっくり進めます。通常の Sweep パイプラインでは、このステップはシングル割り当てで行います。
 
-### 👈 `method`を選択
+### 👈 `method` の選択
 
-最初に定義する必要があるのは、新しいパラメータ値を選択する`method`です。
+まず定義する必要があるのは、新しいパラメータ値を選ぶ `method` です。
 
-以下の探索`method`を提供しています：
-* **`grid` Search** – すべてのハイパーパラメータ値の組み合わせを反復処理します。非常に効果的ですが、計算コストがかかる場合があります。
-* **`random` Search** – 提供された`distribution`に従ってランダムに新しい組み合わせを選択します。驚くほど効果的です！
-* **`bayes`ian Search** – ハイパーパラメータの関数としてメトリックスコアの確率モデルを作成し、そのメトリックを改善する可能性の高いパラメータを選択します。少数の連続パラメータに対してはよく機能しますが、スケールが難しいです。
+以下の探索 `methods` を提供しています:
+* **`grid`探索** – ハイパーパラメーター値の全ての組み合わせを試行します。非常に効果的ですが、計算コストが高くつくことがあります。
+* **`random`探索** – 提供された `distribution` に基づいてランダムに新しい組み合わせを選びます。驚くほど効果的です！
+* **`bayes`探索** – ハイパーパラメーターの関数としてメトリクススコアの確率モデルを作成し、メトリクスの改善の可能性が高いパラメーターを選びます。連続パラメーターの小さな数にはうまく機能しますが、大規模にはスケールしません。
 
-今回は`random`を使用します。
-
+この例では `random` を使います。
 
 ```python
 sweep_config = {
@@ -62,29 +56,27 @@ sweep_config = {
     }
 ```
 
-`bayes`ian Sweepの場合には、`metric`についても少し教えてください。それがモデルの出力に見つけられるように名前が必要ですし、そのメトリックを`minimize`（例えば、二乗誤差の場合）するのか、`maximize`（例えば、精度の場合）するのか`goal`も必要です。
-
+`bayes`探索の場合、`metric` についても少し教えてください。モデル出力で見つけるためにその `name` が必要で、`goal` が `minimize`（例えば二乗誤差の場合）か `maximize`（例えば精度の場合）を知る必要があります。
 
 ```python
 metric = {
     'name': 'loss',
-    'goal': 'minimize'   
+    'goal': 'minimize'
     }
 
 sweep_config['metric'] = metric
 ```
 
-`bayes`ian Sweepを実行していない場合でも、後で変更することを考えて`sweep_config`にこれを含めることをお勧めします。また、再現性のためにこのようなことをメモしておくことも良い練習です。6か月や6年後に他の誰かがSweepを見て、`val_G_batch`が高い方が良いのか低い方が良いのかわからない時のために。
+`bayes` 探索を実行しない場合でも、後で心が変わる可能性があるため、`sweep_config` に含めるのは悪いアイディアではありません。こういったことをメモしておくのは再現性のための良い方法でもあります。6か月後、もしくは6年後に自分や他の誰かが Sweep を見直すときに、`val_G_batch` が高いべきなのか低いべきなのか分からない場合があります。
 
-### 📃 ハイパーパラメータに名前を付ける
+### 📃 ハイパー`parameters` の命名
 
-新しいハイパーパラメータ値を試す方法を選択したら、次にそのパラメータが何であるかを定義する必要があります。
+新しいハイパーパラメーター値を試す `method` を選んだら、その `parameters` が何かを定義する必要があります。
 
-ほとんどの場合、このステップは簡単です：
-パラメータに名前を付け、そのパラメータの合法な値のリストを指定します。
+ほとんどの場合、このステップは単純です:
+`parameter` に名前を付け、そのパラメータの合法的な `values` のリストを指定するだけです。
 
-例えば、ネットワークに対する`optimizer`を選ぶときには、選択肢は有限です。ここでは、最も人気のある2つの選択肢、`adam`と`sgd`を使用します。無限の選択肢があるハイパーパラメータでも、実際に試すのはいくつかの選択肢だけです。ここでは難易度`layer_size`と`dropout`で選択肢をいくつか指定しています。
-
+例えば、ネットワーク用の `optimizer` を選ぶ際には、選択肢は限られています。ここでは、最も人気のある選択肢である `adam` と `sgd` を使用します。潜在的に無限の選択肢があるハイパーパラメーターでも、通常は試すべき選択肢がいくつかしかありません。ここでは隠れ層の `layer_size` と `dropout` を選びます。
 
 ```python
 parameters_dict = {
@@ -102,10 +94,9 @@ parameters_dict = {
 sweep_config['parameters'] = parameters_dict
 ```
 
-しばしば、Sweepでは変更したくないハイパーパラメータがある場合でも、`sweep_config`で設定したい場合があります。
+この Sweep で変動させたくないハイパーパラメーターがある場合でも、それを `sweep_config` に設定したい場合があります。
 
-その場合、直接`value`を設定します。
-
+その場合、直接 `value` を設定します。
 
 ```python
 parameters_dict.update({
@@ -114,26 +105,25 @@ parameters_dict.update({
     })
 ```
 
-`grid`探索の場合、必要なのはそれだけです。
+`grid` 検索の場合、これだけで十分です。
 
-`random`探索の場合、パラメータの全ての`values`は各runで同じ確率で選ばれる可能性があります。
+`random` 検索の場合、パラメーターの全ての `values` は与えられたランで選ばれる可能性が同じです。
 
-それではうまくいかない場合は、代わりに名前付きの`distribution`とそのパラメータ（`normal`分布の平均`mu`や標準偏差`sigma`など）を指定できます。
+それでは不十分な場合、名前付き`distribution` とそのパラメーター（例えば、正規分布の平均 `mu` と標準偏差 `sigma`）を指定することもできます。
 
-ランダム変数の分布の設定方法については[こちら](https://docs.wandb.com/sweeps/configuration#distributions)をご覧ください。
-
+ランダム変数の分布の設定方法については、[こちら](https://docs.wandb.com/sweeps/configuration#distributions)から詳細を確認できます。
 
 ```python
 parameters_dict.update({
     'learning_rate': {
-        # 0から0.1までの平坦な分布
+        # 0から0.1までのフラットな分布
         'distribution': 'uniform',
         'min': 0,
         'max': 0.1
       },
     'batch_size': {
         # 32から256までの整数
-        # 対数が均等に分布するもの
+        # 対数が均等に分布
         'distribution': 'q_log_uniform_values',
         'q': 8,
         'min': 32,
@@ -142,8 +132,7 @@ parameters_dict.update({
     })
 ```
 
-終了すると、`sweep_config`はネストされた辞書となり、どの`parameters`を試すか、どの`method`を使用するかを正確に指定します。
-
+完成したら、`sweep_config` はネストされた辞書になります。この辞書は、試すべき `parameters` と、それを試す `method` を正確に指定します。
 
 ```python
 import pprint
@@ -151,54 +140,48 @@ import pprint
 pprint.pprint(sweep_config)
 ```
 
-しかし、これは設定オプションの全てではありません！
+しかし、これだけが設定オプションではありません！
 
-例えば、[HyperBand](https://arxiv.org/pdf/1603.06560.pdf)スケジューリングアルゴリズムを使用してrunを早期終了するオプションも提供しています。詳細は[こちら](https://docs.wandb.com/sweeps/configuration#stopping-criteria)をご覧ください。
+例えば、[HyperBand](https://arxiv.org/pdf/1603.06560.pdf) スケジューリングアルゴリズムを使って run を早期終了させるオプションもあります。[こちら](https://docs.wandb.com/sweeps/configuration#stopping-criteria)で詳細を確認できます。
 
-全ての設定オプションのリストは[こちら](https://docs.wandb.com/library/sweeps/configuration)に、YAML形式の例の大集合は[こちら](https://github.com/wandb/examples/tree/master/examples/keras/keras-cnn-fashion)にあります。
+全ての設定オプションのリストは[こちら](https://docs.wandb.com/library/sweeps/configuration)にありますし、YAML 形式の大規模なサンプルコレクションは[こちら](https://github.com/wandb/examples/tree/master/examples/keras/keras-cnn-fashion)にあります。
 
+# ステップ2️⃣. Sweep の初期化
 
+探索戦略を定義したら、それを実行するための設定を行います。
 
-# ステップ 2️⃣. Sweepの初期化
+Sweep の管理を担うのが _Sweep Controller_ です。各 run が完了すると、新しい run を実行するための指示を発行します。この指示を受け取って実際に run を行うのが _エージェント_ です。
 
-検索戦略を定義したら、それを実行するための設定を行う時です。
-
-Sweepの核となるタイムキーパーは _Sweep Controller_ として知られています。
-各runが完了するたびに、新しいrunを実行するための新しい指示を提供します。
-これらの指示は、実際にrunを実行する _agents_ によって取得されます。
-
-典型的なSweepでは、Controllerは_私たちの_マシン上で動作し、runを完了するagentsは_あなたの_マシン（例えば下図のように）で動作します。この労働の分業により、agentsを実行するためのマシンを追加することでSweepを簡単にスケールアップできます！
+通常の Sweep では、Controller は _私たちの_ マシン上に存在し、run を完了するエージェントは _あなたの_ マシン上に存在します。例えば以下の図のように。この労働分担により、エージェントを実行するマシンを追加するだけで Sweep のスケールアップが非常に簡単になります！
 
 <img src="https://i.imgur.com/zlbw3vQ.png" alt="sweeps-diagram" width="500"/>
 
-適切な`sweep_config`と`project`名を使用して`wandb.sweep`を呼び出すことで、Sweep Controllerを立ち上げます。
+適切な `sweep_config` と `プロジェクト` 名を指定して `wandb.sweep` を呼び出すことで Sweep Controller を準備できます。
 
-この関数は、後でagentをこのControllerに割り当てるために使用する`sweep_id`を返します。
+この関数は `sweep_id` を返し、後にエージェントをこの Controller に割り当てるために使用します。
 
-> _サイドノート_: コマンドラインでは、この関数は次のように置き換えられます
+> _補足_: コマンドラインでは、この関数は次のように置き換えられます
 ```python
 wandb sweep config.yaml
 ```
-[Sweepsをコマンドラインで使用する方法 ➡](https://docs.wandb.ai/guides/sweeps/walkthrough)を学ぶ
-
+[コマンドラインでの Sweeps の使用方法についてさらに学ぶ ➡](https://docs.wandb.ai/guides/sweeps/walkthrough)
 
 ```python
 sweep_id = wandb.sweep(sweep_config, project="pytorch-sweeps-demo")
 ```
 
-# ステップ 3️⃣. Sweepエージェントの実行
+# ステップ3️⃣. Sweep エージェントの実行
 
 ### 💻 トレーニング手順の定義
 
-実際にSweepを実行する前に、それらの値を使用するトレーニング手順を定義する必要があります。
+実際に Sweep を実行する前に、これらの値を使用するトレーニング手順を定義する必要があります。
 
-以下の関数では、PyTorchでシンプルな全結合ニューラルネットワークを定義し、次の`wandb`ツールを追加してモデルメトリクスのログ、パフォーマンスの可視化、および実験管理を行います：
-* [**`wandb.init()`**](https://docs.wandb.com/library/init) – 新しいW&B Runを初期化します。各Runはトレーニング関数の単一の実行です。
-* [**`wandb.config`**](https://docs.wandb.com/library/config) – 全てのハイパーパラメータを設定オブジェクトに保存します。`wandb.config`の使用方法については[こちら](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb)で詳細を読みます。
-* [**`wandb.log()`**](https://docs.wandb.com/library/log) – モデルの振る舞いをW&Bにログします。ここではパフォーマンスだけをログします。`wandb.log`でログできる他の豊富なメディアについては[このColab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb)をご覧ください。
+以下の関数では、PyTorch で単純な全結合ニューラルネットワークを定義し、次の `wandb` ツールを追加してモデルのメトリクスをログし、パフォーマンスと出力を可視化し、実験を追跡します:
+* [**`wandb.init()`**](https://docs.wandb.com/library/init) – 新しい W&B Run を初期化します。各 Run はトレーニング関数の1回の実行です。
+* [**`wandb.config`**](https://docs.wandb.com/library/config) – 全てのハイパーパラメーターを設定オブジェクトに保存し、ログに記録できるようにします。`wandb.config` の使用方法については[こちら](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb)をご覧ください。
+* [**`wandb.log()`**](https://docs.wandb.com/library/log) – モデルの振る舞いを W&B にログします。ここではパフォーマンスのみをログします; `wandb.log` でログできる他のリッチメディアについては[この Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb)をご覧ください。
 
-PyTorchとのW&Bインテグレーションの詳細については[このColab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb)を参照してください。
-
+PyTorch との W&B 連携の詳細については[この Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb)をご覧ください。
 
 ```python
 import torch
@@ -210,10 +193,9 @@ from torchvision import datasets, transforms
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def train(config=None):
-    # 新しいwandb runを初期化
+    # 新しい wandb run を初期化
     with wandb.init(config=config):
-        # wandb.agentが呼び出した場合、
-        # このconfigはSweep Controllerによって設定されます
+        # wandb.agent が呼び出す場合、この config は Sweep Controller によって設定されます
         config = wandb.config
 
         loader = build_dataset(config.batch_size)
@@ -225,11 +207,10 @@ def train(config=None):
             wandb.log({"loss": avg_loss, "epoch": epoch})           
 ```
 
-このセルはトレーニング手順の4つの部分を定義します：
-`build_dataset`、`build_network`、`build_optimizer`、および`train_epoch`。
+このセルでは、トレーニング手順の4つの部分を定義しています:
+`build_dataset`, `build_network`, `build_optimizer`, そして `train_epoch`。
 
-これらはすべて基本的なPyTorchパイプラインの標準的な部分であり、W&Bの使用によってその実装が影響されることはないので、コメントは控えます。
-
+これらは全て基本的な PyTorch パイプラインの標準部分であり、W&B の使用によって影響を受けることはありませんので、詳しくはコメントしません。
 
 ```python
 def build_dataset(batch_size):
@@ -237,7 +218,7 @@ def build_dataset(batch_size):
     transform = transforms.Compose(
         [transforms.ToTensor(),
          transforms.Normalize((0.1307,), (0.3081,))])
-    # MNISTトレーニングデータセットのダウンロード
+    # MNIST トレーニングデータセットをダウンロード
     dataset = datasets.MNIST(".", train=True, download=True,
                              transform=transform)
     sub_dataset = torch.utils.data.Subset(
@@ -248,7 +229,7 @@ def build_dataset(batch_size):
 
 
 def build_network(fc_layer_size, dropout):
-    network = nn.Sequential(  # 全結合、単一の隠れ層
+    network = nn.Sequential(  # 全結合の単一隠れ層
         nn.Flatten(),
         nn.Linear(784, fc_layer_size), nn.ReLU(),
         nn.Dropout(dropout),
@@ -274,11 +255,11 @@ def train_epoch(network, loader, optimizer):
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
 
-        # ➡ フォワードパス
+        # ➡ forward pass
         loss = F.nll_loss(network(data), target)
         cumu_loss += loss.item()
 
-        # ⬅ バックワードパス + 重みの更新
+        # ⬅ バックプロパゲーション + 重みの更新
         loss.backward()
         optimizer.step()
 
@@ -287,41 +268,48 @@ def train_epoch(network, loader, optimizer):
     return cumu_loss / len(loader)
 ```
 
-さあ、Sweepを始める準備が整いました！🧹🧹🧹
+これで、Sweep を開始する準備が整いました！ 🧹🧹🧹
 
-Sweep Controllersは、`wandb.sweep`を実行して作成されたものとして、新しい`config`を試すように待っています。
+Sweep Controllers は `wandb.sweep` を実行することで作られ、
+誰かが試すべき `config` を求めてくるのを待っています。
 
-その要求者は`agent`であり、`wandb.agent`で作成されます。
-エージェントを起動するには
-1. どのSweepの一部であるか（`sweep_id`）
-2. 実行する関数（ここでは`train`）
-3. （任意で）Controllerに何個のconfigを求めるか（`count`）
+その誰かが `エージェント` であり、`wandb.agent` で作成されます。
+開始するには、エージェントは次のことを知る必要があります:
+1. どの Sweep の一部か (`sweep_id`)
+2. 実行する関数 (ここでは `train`)
+3. (オプションで) コンフィギュレーションを Controller にリクエストする回数 (`count`)
 
-情報として、同じ`sweep_id`で複数の`agent`を異なるコンピューティングリソースで開始することができ、Controllerはそれらが`sweep_config`で定められた戦略に従って協力することを保証します。
-これにより、多くのノードにSweepを簡単にスケールアップすることができます！
+FYI, 同じ `sweep_id` で複数の `エージェント` を異なるコンピューティングリソースで起動し、Controller が `sweep_config` の戦略に従ってそれらが協力して作業するようにします。これにより、あなたが持っている限りのノードに Sweeps を簡単にスケールアウトすることができます！
 
-> _サイドノート_: コマンドラインでは、この関数は次のように置き換えられます
+> _補足_: コマンドラインでは、この関数は次のように置き換えられます
 ```bash
 wandb agent sweep_id
 ```
-[Sweepsをコマンドラインで使用する方法 ➡](https://docs.wandb.com/sweeps/walkthrough)を学ぶ
+[コマンドラインでの Sweeps の使用方法についてさらに学ぶ ➡](https://docs.wandb.com/sweeps/walkthrough)
 
-下のセルは、Sweep Controllerによってランダムに生成されたハイパーパラメータ値を使用して、`train`を5回実行する`agent`を起動します。実行には5分未満しかかかりません。
-
+以下のセルでは、Sweep Controller が返したランダムに生成されたハイパーパラメーター値を使用して `train` を5回実行する `エージェント` を起動します。実行は5分以内に完了します。
 
 ```python
 wandb.agent(sweep_id, train, count=5)
 ```
 
-# 👀 Sweep結果を可視化する
+# 👀 Sweep 結果の可視化
 
-
-
-## 🔀 パラレルコーディネートプロット
-このプロットはハイパーパラメータ値をモデルメトリクスにマッピングします。最も優れたモデルパフォーマンスに繋がったハイパーパラメータの組み合わせを絞り込むのに役立ちます。
+## 🔀 Parallel Coordinates プロット
+このプロットはハイパーパラメーター値をモデルのメトリクスにマップします。最も優れたモデルパフォーマンスに繋がったハイパーパラメーターの組み合わせを見つけるのに役立ちます。
 
 ![](https://assets.website-files.com/5ac6b7f2924c652fd013a891/5e190366778ad831455f9af2_s_194708415DEC35F74A7691FF6810D3B14703D1EFE1672ED29000BA98171242A5_1578695138341_image.png)
 
+## 📊 ハイパーパラメーターの重要性プロット
+ハイパーパラメータ
 
-## 📊 ハイパーパラメータ重要性プロット
-ハイパーパラメータ重要性プロットは、メトリクスの最良の予測因子となったハイパーパラメータを浮き彫
+# 🧤 実際に sweeps を試してみよう
+
+簡単なトレーニングスクリプトと [いくつかの異なる sweep 構成](https://github.com/wandb/examples/tree/master/examples/keras/keras-cnn-fashion) を用意しましたので、ぜひ試してみてください。
+
+そのリポジトリには、[Bayesian Hyperband](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/us0ifmrf?workspace=user-lavanyashukla) や [Hyperopt](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/xbs2wm5e?workspace=user-lavanyashukla) など、より高度な sweep 機能を試すための例も含まれています。
+
+# 次は？
+次のチュートリアルでは、W&B Artifacts を使用してモデルの重みとデータセットのバージョンを管理する方法を学びます:
+
+## 👉 [モデルの重みとデータセットのバージョンを管理する](artifacts)
