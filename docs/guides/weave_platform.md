@@ -17,11 +17,9 @@ With W&B Weave, you can:
 * Build rigorous, apples-to-apples evaluations for language model use cases
 * Organize all the information generated across the LLM workflow, from experimentation to evaluations to production
 
-<!-- ## Use Cases
-
-Software developers, prompt engineers, ML practitioners, data scientists, and other stakeholders working with LLMs need cutting-edge tools to explore and debug LLM chains and prompts with greater granularity. With W&B Weave, you can: -->
-
-
+:::info
+Looking for Weave docs? See https://wandb.github.io/weave/.
+:::
 
 ## How to get started 
 Depending on your use case, explore the following resources to get started with W&B Weave:
@@ -30,6 +28,6 @@ Depending on your use case, explore the following resources to get started with 
 * [Build an Evaluation pipeline tutorial](https://wandb.github.io/weave/tutorial-eval)
 * [Model-Based Evaluation of RAG applications tutorial](https://wandb.github.io/weave/tutorial-rag)
 
-<a href="https://wandb.me/weave" target="_blank">
+<!-- <a href="https://wandb.me/weave" target="_blank">
     <img className="no-zoom" src="/images/weave/weave_banner.png" alt="Building LLM apps? Try Weave" style={{display: "block", marginBottom: "15px"}} />
-</a>
+</a> -->
