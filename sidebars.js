@@ -268,19 +268,9 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'W&B Prompts',
-      link: {
-        type: 'doc',
-        id: 'guides/prompts_platform',
-      },
-      collapsed: false,
+      label: 'Weave: LLMOps',
       items: [
-        {
-          type: 'category',
-          label: 'Prompts',
-          link: {type: 'doc', id: 'guides/prompts/intro'},
-          items: ['guides/prompts/quickstart', 'guides/prompts/openai'],
-        },
+        'guides/weave_platform',
       ],
     },
     {
@@ -486,8 +476,20 @@ const sidebars = {
         'guides/integrations/torchtune',
         'guides/integrations/other/ignite',
         'guides/integrations/lightning',
+        {
+          type: 'category',
+          label: 'Prompts',
+          link: {
+            type: 'doc',
+            id: 'guides/prompts/intro'
+          },
+          items: [
+            'guides/prompts/quickstart', 
+            'guides/prompts/openai'
+          ],
+        },
         'guides/integrations/other/ray-tune',
-        'guides/integrations/other/sagemaker',
+        'guides/integrations/other/sagemaker',        
         'guides/integrations/scikit',
         'guides/integrations/other/simpletransformers',
         'guides/integrations/other/skorch',
