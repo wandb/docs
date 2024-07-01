@@ -21,7 +21,7 @@ Use `wandb.log` to track experiment metrics. Once logged, these metrics generate
 
 ### Distinct metric count
 
-Keep the total number of distinct metrics under 10,000. Logging beyond 10,000 distinct metrics can slow down your project workspaces and run table operations.
+For faster performance, keep the total number of distinct metrics in a project under 10,000.
 
 ```python
 import wandb
@@ -36,6 +36,7 @@ wandb.log(
     }
 ) 
 ```
+
 
 :::info
 W&B automatically flattens nested values. This means that if you pass a dictionary, W&B turns it into a dot-separated name. For config values, W&B supports 3 dots in the name. For summary values, W&B supports 4 dots.
@@ -52,6 +53,9 @@ for i, img in enumerate(images):
     # ✅ recommended
     wandb.log({"pred_imgs": [wandb.Image(image) for image in images]})
 ``` -->
+
+If your workspace suddenly slows down, check whether recent runs have unintentionally logged thousands of new metrics.  (This is easiest to spot by seeing sections with thousands of plots that have only one or two runs visible on them.) If they have, consider deleting those runs and recreating them with the desired metrics.
+
 
 ### Value width
 
@@ -153,7 +157,16 @@ with f as open("large_config.json", "r"):
 
 ### Run count
 
-Keep the total number of runs in a single project under 10,000. Large run counts can slow down project workspaces and runs table operations, especially when grouping is enabled or runs have a large count of distinct metrics.
+For fastest loading times, keep the total number of runs in a single project under 10,000.  Large run counts can slow down project workspaces and runs table operations, especially when grouping is enabled or runs have a large count of distinct metrics.  
+
+If you find that you or your team are frequently accessing the same set of runs (e.g. recent runs), consider [bulk moving *other* runs](https://docs.wandb.ai/guides/app/features/runs-table#move-runs-between-projects) to a new project used as an archive,leaving a smaller set of runs in your working project.  
+
+
+### Section count
+
+Having hundreds of sections in a workspace can hurt performance.  Consider creating sections based on high-level groupings of metrics, and avoiding an anti-pattern of one section for each metric. 
+
+ If you find you have too many sections and performance is slow, consider the workspace setting to create sections by prefix rather than suffix, which will result in fewer sections and better performance.
 
 ### File count
 
@@ -207,3 +220,21 @@ if epoch % 5 == 0:  # Log metrics every 5 epochs
     wandb.log({"acc": accuracy, "loss": loss})
 ```  
 - Manual data syncing: Your run data is stored locally if you are rate limited. You can manually sync your data with the command `wandb sync <run-file-path>`. For more details, see the [`wandb sync`](../../ref/cli/wandb-sync.md) reference.
+
+## Browser
+
+The W&B app can be memory-intensive and performs best in Chrome (in particular, we have seen degraded performance in Safari).   Depending on your computer's memory, having W&B active in 3+ tabs at once can cause performance to degrade; if you encounter unexpectedly slow performance, consider closing other tabs or applications.
+
+
+## Reporting performance issues to W&B
+
+We take performance seriously and investigate every report.  For faster investigation, we always appreciate reports that include our built-in performance logger.   Append &PERF_LOGGING to your URL, and share the output of your console.
+
+[[GIF]]
+
+
+
+
+
+
+
