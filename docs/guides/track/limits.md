@@ -159,14 +159,14 @@ with f as open("large_config.json", "r"):
 
 For faster loading times, keep the total number of runs in a single project under 10,000.  Large run counts can slow down project workspaces and runs table operations, especially when grouping is enabled or runs have a large count of distinct metrics.  
 
-If you find that you or your team are frequently accessing the same set of runs (e.g. recent runs), consider [bulk moving *other* runs](https://docs.wandb.ai/guides/app/features/runs-table#move-runs-between-projects) to a new project used as an archive, leaving a smaller set of runs in your working project.  
+If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving *other* runs](https://docs.wandb.ai/guides/app/features/runs-table#move-runs-between-projects) to a new project used as an archive, leaving a smaller set of runs in your working project.  
 
 
 ### Section count
 
 Having hundreds of sections in a workspace can hurt performance. Consider creating sections based on high-level groupings of metrics and avoiding an anti-pattern of one section for each metric. 
 
-If you find you have too many sections and performance is slow, consider the workspace setting to create sections by prefix rather than suffix, which will result in fewer sections and better performance.
+If you find you have too many sections and performance is slow, consider the workspace setting to create sections by prefix rather than suffix, which can result in fewer sections and better performance.
 
 ![Toggling section creation](/images/track/section_prefix_toggle.gif)
 
@@ -226,12 +226,12 @@ if epoch % 5 == 0:  # Log metrics every 5 epochs
 
 ## Browser considerations
 
-The W&B app can be memory-intensive and performs best in Chrome (in particular, we have seen degraded performance in Safari). Depending on your computer's memory, having W&B active in 3+ tabs at once can cause performance to degrade; if you encounter unexpectedly slow performance, consider closing other tabs or applications.
+The W&B app can be memory-intensive and performs best in Chrome (and, typically, worst in Safari).  Depending on your computer's memory, having W&B active in 3+ tabs at once can cause performance to degrade; if you encounter unexpectedly slow performance, consider closing other tabs or applications.
 
 
 ## Reporting performance issues to W&B
 
-We take performance seriously and investigate every report. For faster investigation, we always appreciate reports that include our built-in performance logger that captures key metrics and performance events. Append &PERF_LOGGING to your URL, and share the output of your console--we appreciate your help making your experience faster.
+Weights & Biases takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking our built-in performance logger that captures key metrics and performance events. Append &PERF_LOGGING to your URL, and share the output of your console.  
 
 ![Adding PERF_LOGGING](/images/track/adding_perf_logging.gif)
 
