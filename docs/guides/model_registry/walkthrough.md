@@ -30,7 +30,7 @@ import wandb
 import numpy as np
 from tensorflow import keras
 from tensorflow.keras import layers
-from wandb.keras import WandbCallback
+from wandb.integration.keras import WandbMetricsLogger
 from sklearn.model_selection import train_test_split
 ```
 
