@@ -1,25 +1,23 @@
 ---
-description: PythonコードスクリプトやJupyter NotebookにW&Bを追加します。
+description: あなたの Python コードスクリプトまたは Jupyter ノートブックに W&B を追加します。
 displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-
-#  W&B をコードに追加する
+# Add W&B to your code
 
 <head>
-  <title>W&B を Python コードに追加する</title>
+  <title>Add W&B to your Python code</title>
 </head>
 
-W&B Python SDK をスクリプトや Jupyter Notebook に追加する方法は多数あります。以下に、W&B Python SDK を自身のコードに統合する「ベストプラクティス」の例を示します。
+W&BのPython SDKをスクリプトやJupyter Notebookに追加する方法はいくつもあります。以下に、W&B Python SDKを自分のコードに統合するための「ベストプラクティス」の例を示します。
 
-### 元のトレーニングスクリプト
+### オリジナルのトレーニングスクリプト
 
-次のコードが Jupyter Notebook のセルや Python スクリプトにあるとします。`main` という関数を定義し、これは一般的なトレーニングループを模倣しています。それぞれのエポックで、訓練および検証データセットに対する精度と損失が計算されます。この例のために、値はランダムに生成されています。
+次のコードがJupyter NotebookのセルやPythonスクリプトにあると仮定します。典型的なトレーニングループを模倣する`main`という関数を定義します。各エポックのトレーニングと検証データセットに対して、精度と損失を計算します。この例の目的のために、値はランダムに生成されます。
 
-`config` という辞書を定義し、そこにハイパーパラメータの値を保存します（15行目）。セルの最後で、`main` 関数を呼び出してモックトレーニングコードを実行します。
+ハイパーパラメーターの値を格納するために`config`という辞書が定義されています（15行目）。セルの最後では、`main`関数を呼び出して、模擬トレーニングコードを実行します。
 
 ```python showLineNumbers
 # train.py
@@ -43,8 +41,8 @@ config = {"lr": 0.0001, "bs": 16, "epochs": 5}
 
 
 def main():
-    # 注: 固定値を直接定義する代わりに
-    # `wandb.config` の値を使用しています
+    # Note that we define values from `wandb.config`
+    # instead of defining hard values
     lr = config["lr"]
     bs = config["bs"]
     epochs = config["epochs"]
@@ -58,37 +56,35 @@ def main():
         print("validation accuracy:", val_acc, "training loss:", val_loss)
 
 
-# main 関数を呼び出します。
+# Call the main function.
 main()
 ```
 
-### W&B Python SDK を使ったトレーニングスクリプト
+### W&B Python SDKを使用したトレーニングスクリプト
 
-以下のコード例は、W&B Python SDK をコードに追加する方法を示しています。CLIでW&B Sweepジョブを開始する場合はCLIタブを調べてください。Jupyter ノートブックや Python スクリプト内で W&B Sweep ジョブを開始する場合は、Python SDK タブを探索してください。
+次のコード例は、W&B Python SDKをコードに追加する方法を示しています。W&B SweepジョブをCLIで開始する場合は、CLIタブを参照してください。Jupyter NotebookやPythonスクリプト内でW&B Sweepジョブを開始する場合は、Python SDKタブを参照してください。
 
-<Tabs
-  defaultValue="script"
-  values={[
+<Tabs defaultValue="script" values={[
     {label: 'Python script or Jupyter Notebook', value: 'script'},
     {label: 'CLI', value: 'cli'},
   ]}>
   <TabItem value="script">
-  W&B Sweep を作成するために、以下のコードを追加しました:
+  W&B Sweepを作成するには、以下をコード例に追加しました：
 
-1. 1行目: Weights & Biases Python SDK をインポート。
-2. 6行目: キーと値のペアがsweep configurationを定義する辞書オブジェクトを作成。次の例では、`batch_size`、`epochs`、および `lr` ハイパーパラメーターが各sweep中に変更されます。sweep configurationの作成方法については、[Define sweep configuration](./define-sweep-configuration.md) を参照してください。
-3. 19行目: sweep configuration 辞書を [`wandb.sweep`](../../ref/python/sweep) に渡します。これにより、sweepが初期化されます。これにより、sweep ID (`sweep_id`) が返されます。sweepの初期化方法について詳しくは、[Initialize sweeps](./initialize-sweeps.md) を参照してください。
-4. 33行目:`wandb.init()` APIを使用して、バックグラウンドプロセスを生成し、[W&B Run](../../ref/python/run.md) としてデータを同期およびログする。
-5. 37-39行目: （オプション）固定値を直接定義する代わりに、`wandb.config` の値を使用します。
-6. 45行目: [`wandb.log`](../../ref/python/log.md) を使用して、最適化したいメトリクスをログに記録します。設定で定義したメトリクスをログに記録する必要があります。この例では、設定辞書 (`sweep_configuration`) 内で `val_acc` の値を最大化するように定義しています。
-7. 54行目: [`wandb.agent`](../../ref/python/agent.md) API 呼び出しで sweep を開始します。sweep ID（19行目）、sweep が実行する関数の名前（`function=main`）、および最大試行数を4に設定（`count=4`）。W&B Sweepの開始方法について詳しくは、[Start sweep agents](./start-sweep-agents.md) を参照してください。
+1. 行1：Weights & Biases Python SDKをインポートします。
+2. 行6：キーと値のペアでsweep設定を定義する辞書オブジェクトを作成します。以下の例では、バッチサイズ (`batch_size`)、エポック (`epochs`)、学習率 (`lr`)のハイパーパラメーターが各sweepごとに変化します。sweep設定の作成方法については、[Define sweep configuration](./define-sweep-configuration.md)をご参照ください。
+3. 行19：sweep設定辞書を[`wandb.sweep`](../../ref/python/sweep)に渡します。これによりsweepが初期化されます。これによりsweep ID (`sweep_id`)が返されます。sweepの初期化方法については、[Initialize sweeps](./initialize-sweeps.md)をご参照ください。
+4. 行33：[`wandb.init()`](../../ref/python/init.md) APIを使用して背景プロセスを生成し、データを同期して[W&B Run](../../ref/python/run.md)としてログを取ります。
+5. 行37-39：（オプション）ハードコーディングされた値の代わりに`wandb.config`から値を定義します。
+6. 行45：[`wandb.log`](../../ref/python/log.md)を使用して最適化したいメトリクスを記録します。設定で定義したメトリクスを記録する必要があります。この例の設定辞書 (`sweep_configuration`)では、`val_acc`値を最大化するようにsweepを定義しました。
+7. 行54：[`wandb.agent`](../../ref/python/agent.md) API呼び出しでsweepを開始します。sweep ID（19行目）、実行する関数の名前（`function=main`）、試行回数の最大数を4（`count=4`）に設定します。W&B Sweepの開始方法については、[Start sweep agents](./start-sweep-agents.md)をご参照ください。
 
 ```python showLineNumbers
 import wandb
 import numpy as np
 import random
 
-# sweep 設定を定義
+# Define sweep config
 sweep_configuration = {
     "method": "random",
     "name": "sweep",
@@ -100,11 +96,14 @@ sweep_configuration = {
     },
 }
 
-# 設定を渡してsweepを初期化。（オプション）プロジェクト名を指定します。
+# Initialize sweep by passing in config.
+# (Optional) Provide a name of the project.
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
 
-# `wandb.config` からハイパーパラメータを取得し、モデルをトレーニングしてメトリクスを返す関数
+# Define training function that takes in hyperparameter
+# values from `wandb.config` and uses them to train a
+# model and return metric
 def train_one_epoch(epoch, lr, bs):
     acc = 0.25 + ((epoch / 30) + (random.random() / 10))
     loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
@@ -120,8 +119,8 @@ def evaluate_one_epoch(epoch):
 def main():
     run = wandb.init()
 
-    # 注: 固定値を直接定義する代わりに
-    # `wandb.config` の値を使用しています
+    # note that we define values from `wandb.config`
+    # instead of defining hard values
     lr = wandb.config.lr
     bs = wandb.config.batch_size
     epochs = wandb.config.epochs
@@ -141,14 +140,14 @@ def main():
         )
 
 
-# sweepジョブを開始します。
+# Start sweep job.
 wandb.agent(sweep_id, function=main, count=4)
 ```
   </TabItem>
   <TabItem value="cli">
 
-  W&B Sweep を作成するには、最初に YAML 設定ファイルを作成します。設定ファイルには、sweepで探索したいハイパーパラメーターが含まれています。次の例では、`batch_size`、`epochs`、および `lr` ハイパーパラメータが各sweep中に変更されます。
-  
+W&B Sweepを作成するには、まずYAML設定ファイルを作成します。設定ファイルには、sweepで探索したいハイパーパラメーターが含まれています。以下の例では、バッチサイズ (`batch_size`)、エポック (`epochs`)、学習率 (`lr`)のハイパーパラメーターが各sweepごとに変化します。
+
 ```yaml
 # config.yaml
 program: train.py
@@ -167,17 +166,17 @@ parameters:
     values: [5, 10, 15]
 ```
 
-W&B Sweep 設定の作成方法について詳しくは、[Define sweep configuration](./define-sweep-configuration.md)をご覧ください。
+W&B Sweep設定の作成方法については、[Define sweep configuration](./define-sweep-configuration.md)をご参照ください。
 
-YAMLファイルの `program` キーには、Python スクリプトの名前を指定する必要があることに注意してください。
+YAMLファイルの`program`キーにはPythonスクリプトの名前を必ず提供してください。
 
-次に、別のコード例を追加します:
+次に、以下をコード例に追加します：
 
-1. 1-2行目: Weights & Biases Python SDK (`wandb`) と PyYAML (`yaml`) をインポート。PyYAMLはYAML設定ファイルを読み込むために使用されます。
-2. 18行目: 設定ファイルを読み込みます。
-3. 21行目: [`wandb.init()`](../../ref/python/init.md) API を使用して、バックグラウンドプロセスを生成し、[W&B Run](../../ref/python/run.md) としてデータを同期およびログする。config オブジェクトを config パラメータに渡します。
-4. 25-27行目: 固定値を直接使用する代わりに、`wandb.config` からハイパーパラメータ値を定義します。
-5. 33-39行目: [`wandb.log`](../../ref/python/log.md) を使用して、最適化したいメトリクスをログに記録します。設定で定義したメトリクスをログに記録する必要があります。この例では、設定辞書 (`sweep_configuration`) 内で `val_acc` の値を最大化するように定義しています。
+1. 行1-2：Weights & Biases Python SDK (`wandb`)およびPyYAML (`yaml`)をインポートします。PyYAMLはYAML設定ファイルを読み込むために使用されます。
+2. 行18：設定ファイルを読み込みます。
+3. 行21：[`wandb.init()`](../../ref/python/init.md) APIを使用して背景プロセスを生成し、データを同期して[W&B Run](../../ref/python/run.md)としてログを取ります。configオブジェクトをconfigパラメーターに渡します。
+4. 行25 - 27：ハードコーディングされた値を使用する代わりに、`wandb.config`からハイパーパラメーターの値を定義します。
+5. 行33-39：[`wandb.log`](../../ref/python/log.md)を使用して最適化したいメトリクスを記録します。設定で定義したメトリクスを記録する必要があります。この例の設定辞書 (`sweep_configuration`)では、`val_acc`値を最大化するようにsweepを定義しました。
 
 ```python showLineNumbers
 import wandb
@@ -199,14 +198,14 @@ def evaluate_one_epoch(epoch):
 
 
 def main():
-    # デフォルトのハイパーパラメータを設定
+    # Set up your default hyperparameters
     with open("./config.yaml") as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     run = wandb.init(config=config)
 
-    # 注: 固定値を直接定義する代わりに
-    # `wandb.config` の値を使用しています
+    # Note that we define values from `wandb.config`
+    # instead of defining hard values
     lr = wandb.config.lr
     bs = wandb.config.batch_size
     epochs = wandb.config.epochs
@@ -226,42 +225,42 @@ def main():
         )
 
 
-# main 関数を呼び出します。
+# Call the main function.
 main()
 ```
 
-CLI に移動します。CLI 内で、sweep agent が試行する最大 run 数を設定します。これは任意の手順です。以下の例では、最大数を5に設定します。
+CLIに移動します。CLI内で、sweep agentが試行する最大の実行数を設定します。このステップはオプションです。以下の例では、最大数を5に設定しています。
 
 ```bash
 NUM=5
 ```
 
-次に、[`wandb sweep`](../../ref/cli/wandb-sweep.md) コマンドを使用して sweep を初期化します。YAML ファイルの名前を指定します。オプションで、project フラグ (`--project`) にプロジェクト名を指定できます。
+次に、[`wandb sweep`](../../ref/cli/wandb-sweep.md)コマンドでsweepを初期化します。YAMLファイルの名前を提供します。オプションとして、プロジェクトの名前をプロジェクトフラグ (`--project`) で提供します：
 
 ```bash
 wandb sweep --project sweep-demo-cli config.yaml
 ```
 
-これにより sweep ID が返されます。sweepの初期化方法について詳しくは、[Initialize sweeps](./initialize-sweeps.md) を参照してください。
+これによりsweep IDが返されます。sweepの初期化方法については、[Initialize sweeps](./initialize-sweeps.md)をご参照ください。
 
-sweep ID をコピーし、次のコードスニペットの `sweepID` を置き換えて、[`wandb agent`](../../ref/cli/wandb-agent.md) コマンドを使用して sweep ジョブを開始します。
+sweep IDをコピーし、以下のコードスニペットにある`sweepID`を置き換えて、[`wandb agent`](../../ref/cli/wandb-agent.md)コマンドでsweepジョブを開始します：
 
 ```bash
 wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
 ```
 
-sweepジョブの開始方法について詳しくは、[Start sweep jobs](./start-sweep-agents.md) を参照してください。
+sweepジョブの開始方法については、[Start sweep jobs](./start-sweep-agents.md)をご参照ください。
   </TabItem>
 </Tabs>
 
-## メトリクスをログする際の考慮事項
+## メトリクスをログする際の注意点
 
-確実に、設定した sweep configuration で指定したメトリクスを W&B に明示的にログしてください。サブディレクトリ内で sweep のメトリクスをログしないでください。
+sweep設定で指定したメトリクスを明示的にW&Bへログするようにしてください。サブディレクトリ内でsweepのメトリクスをログしないでください。
 
-例えば、次の pseudocode を考えてみましょう。ユーザーは検証損失 (`"val_loss": loss`) をログしたいと考えています。最初に値を辞書に渡します（16行目）。しかし、`wandb.log` に渡される辞書は辞書内のキーと値のペアを明示的にアクセスしていません。
+例えば、以下の擬似コードを考えてみてください。ユーザーは検証損失 (`"val_loss": loss`)をログしたいとします。まず、辞書に値を渡します（16行目）。しかし、`wandb.log`に渡す辞書は、辞書内のキーと値のペアを明示的にアクセスしていません：
 
 ```python title="train.py" showLineNumbers
-# W&B Python ライブラリをインポートして W&B にログイン
+# Import the W&B Python Library and log into W&B
 import wandb
 import random
 
@@ -296,10 +295,10 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-代わりに、Python 辞書内のキーと値のペアを明示的に参照してください。例えば、次のコード（辞書を作成した後の行）で、`wandb.log` メソッドに辞書を渡す際にキーと値のペアを指定します。
+代わりに、Python辞書内のキーと値のペアを明示的にアクセスします。例えば、以下のコードでは、辞書を作成した後、`wandb.log`メソッドに辞書を渡す際にキーと値のペアを明示的に指定します：
 
 ```python title="train.py" showLineNumbers
-# W&B Python ライブラリをインポートして W&B にログイン
+# Import the W&B Python Library and log into W&B
 import wandb
 import random
 
@@ -331,5 +330,3 @@ sweep_configuration = {
 
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
-wandb.agent(sweep_id, function=main, count=10)
-```

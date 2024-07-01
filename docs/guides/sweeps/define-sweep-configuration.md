@@ -1,35 +1,33 @@
 ---
-description: Sweeps の設定ファイルを作成する方法を学びましょう。
+description: スイープの設定ファイルを作成する方法を学びます。
 displayed_sidebar: default
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-
-# Sweep configuration structure
+# スイープ設定の構造
 
 <head>
-  <title>ハイパーパラメータチューニングのためのスウィープ設定を定義する。</title>
+  <title>ハイパーパラメータチューニングのためのスイープ設定を定義する</title>
 </head>
 
-W&B Sweepは、ハイパーパラメータの値を探索するための戦略と、それを評価するコードを組み合わせたものです。戦略はすべてのオプションを試す簡単なものから、ベイズ最適化やHyperband（[BOHB](https://arxiv.org/abs/1807.01774)）のような複雑なものまで幅広く対応しています。
+W&B スイープは、ハイパーパラメータの値を探索する戦略と、それらを評価するコードを組み合わせたものです。戦略は単純なすべてのオプションを試すものから、ベイズ最適化とハイパーバンド（[BOHB](https://arxiv.org/abs/1807.01774))のような複雑なものまで多岐にわたります。
 
-Sweep設定は、[Python辞書](https://docs.python.org/3/tutorial/datastructures.html#dictionaries)または[YAML](https://yaml.org/)ファイルで定義します。どちらの方法を選ぶかは、どのようにSweepを管理したいかによります。
+スイープ設定を [Pythonの辞書](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) または [YAML](https://yaml.org/) ファイルのいずれかで定義します。どの形式で定義するかは、スイープをどのように管理したいかによります。
 
 :::info
-スウィープ設定をYAMLファイルで定義すると、コマンドラインからスウィープエージェントを初期化して開始することができます。PythonスクリプトやJupyterノートブック内で完全にスウィープを初期化して開始したい場合は、Python辞書でスウィープを定義します。
+スイープをコマンドラインから初期化し、スイープエージェントを開始したい場合は、スイープ設定を YAML ファイルで定義します。Python スクリプトや Jupyter ノートブック内でスイープを初期化し、スイープを開始したい場合は、Pythonの辞書でスイープを定義します。
 :::
 
-次のガイドでは、スウィープ設定をどのようにフォーマットするかについて説明します。トップレベルのスウィープ設定キーの包括的なリストについては、[Sweep configuration options](./sweep-config-keys.md)を参照してください。
+以下のガイドでは、スイープ設定のフォーマット方法について説明します。詳しいスイープ設定キーの一覧は [スイープ設定オプション](./sweep-config-keys.md) を参照してください。
 
 ## 基本構造
 
-両方のスウィープ設定フォーマットオプション（YAMLとPython辞書）は、キーと値のペアおよびネストされた構造を使用します。
+YAMLとPythonの辞書形式のどちらのスイープ設定も、キーと値のペアやネストされた構造を利用します。
 
-スウィープ設定内のトップレベルキーを使用して、スウィープの検索の特性を定義します。例えば、スウィープの名前（[`name`](./sweep-config-keys.md#name)キー）、検索するパラメーター（[`parameters`](./sweep-config-keys.md#parameters)キー）、パラメーター空間の検索方法（[`method`](./sweep-config-keys.md#method)キー）などです。
+スイープ設定内のトップレベルキーを使用して、スイープ検索の特性を定義します。例えば、スイープの名前（[`name`](./sweep-config-keys.md#name) キー）、検索するパラメーター（[`parameters`](./sweep-config-keys.md#parameters) キー）、パラメータ空間を検索する方法（[`method`](./sweep-config-keys.md#method) キー）などです。
 
-例えば、以下のコードスニペットは、同じスウィープ設定をYAMLファイル内とPython辞書内で定義しています。スウィープ設定には、`program`、`name`、`method`、`metric`、`parameters`の五つのトップレベルキーが指定されています。
+例として、以下のコードスニペットは、YAMLファイルとPythonの辞書内で定義された同じスイープ設定を示しています。スイープ設定内には、`program`, `name`, `method`, `metric`, `parameters` の5つのトップレベルキーが指定されています。
 
 <Tabs
   defaultValue="cli"
@@ -39,9 +37,9 @@ Sweep設定は、[Python辞書](https://docs.python.org/3/tutorial/datastructure
   ]}>
   <TabItem value="script">
 
-PythonスクリプトやJupyterノートブックでトレーニングアルゴリズムを定義する場合は、Python辞書データ構造でスウィープを定義します。
+トレーニングアルゴリズムをPythonスクリプトやJupyter ノートブックで定義する場合は、スイープをPythonの辞書データ構造で定義します。
 
-以下のコードスニペットは、`sweep_configuration`という変数にスウィープ設定を保持しています：
+以下のコードスニペットは、変数 `sweep_configuration` にスイープ設定を格納しています：
 
 ```python title="train.py"
 sweep_configuration = {
@@ -58,7 +56,7 @@ sweep_configuration = {
 ```
   </TabItem>
   <TabItem value="cli">
-スウィープをコマンドライン（CLI）からインタラクティブに管理したい場合は、YAMLファイルにスウィープ設定を定義します。
+スイープをコマンドライン（CLI）から対話的に管理したい場合は、スイープ設定を YAML ファイルで定義します
 
 ```yaml title="config.yaml"
 program: train.py
@@ -81,26 +79,25 @@ parameters:
   </TabItem>
 </Tabs>
 
-トップレベルの`parameters`キー内には、`learning_rate`、`batch_size`、`epoch`、`optimizer`というキーがネストされています。指定するネストされた各キーについては、1つ以上の値、分布、確率などを提供できます。詳細については、[Sweep configuration options](./sweep-config-keys.md)の[parameters](./sweep-config-keys.md#parameters)セクションを参照してください。
-
+トップレベルの `parameters` キーの内側には、以下のキーがネストされています：`learning_rate`, `batch_size`, `epoch`, `optimizer`。各ネストされたキーに対して、1つ以上の値や分布、確率などを指定できます。詳しくは、[スイープ設定オプション](./sweep-config-keys.md) の [parameters](./sweep-config-keys.md#parameters) セクションを参照してください。
 
 ## 二重にネストされたパラメータ
 
-スウィープ設定はネストされたパラメータをサポートしています。ネストされたパラメータを区別するには、トップレベルのパラメータ名の下に追加の `parameters` キーを使用します。スウィープ設定は多層ネストをサポートしています。
+スイープ設定はネストされたパラメータをサポートしています。ネストされたパラメータを区別するには、トップレベルのパラメータ名の下に追加の `parameters` キーを使用します。スイープ設定は多層ネストをサポートしています。
 
-ベイズやランダムハイパーパラメータ検索を使用する場合は、ランダム変数の確率分布を指定します。各ハイパーパラメータについて：
+ベイズまたはランダムのハイパーパラメータ検索を使用する場合は、ランダム変数の確率分布を指定します。各ハイパーパラメータについて：
 
-1. スウィープ設定にトップレベルの `parameters` キーを作成します。
-2. `parameters` キー内に次の内容をネストします：
-   1. 最適化したいハイパーパラメータの名前を指定します。 
-   2. `distribution` キーのために使用したい分布を指定します。`distribution` キー値ペアをハイパーパラメータ名の下にネストします。
-   3. 探索する1つ以上の値を指定します。値（または値の複数）は、`distribution` キーに対応するものとします。  
-      1. （オプション） トップレベルのパラメータ名の下に追加の `parameters` キーを使用して、ネストされたパラメータを区別します。
+1. スイープ設定にトップレベルの `parameters` キーを作成します。
+2. `parameters` キー内に以下をネストします：
+   1. 最適化したいハイパーパラメータの名前を指定します。
+   2. `distribution` キーを使って使用したい分布を指定します。`distribution` キー値ペアをハイパーパラメータ名の下にネストします。
+   3. 探索する1つ以上の値を指定します。値は分布キーと一致している必要があります。  
+      1. （オプション）ネストされたパラメータを区別するために、トップレベルパラメータ名の下に追加の parameters キーを使用します。
 
 :::caution
-スウィープ設定で定義されたネストされたパラメータは、W&B run 設定で指定されたキーを上書きします。
+スイープ設定で定義されたネストされたパラメータは、W&B run 設定で指定されたキーを上書きします。
 
-例えば、`train.py` Pythonスクリプトで次の設定を使用してW&B runを初期化したとします（1-2行）。次に、辞書型のスウィープ設定` sweep_configuration `を定義します（4-13行）。そして、スウィープ設定辞書を`sweep`メソッドに渡してスウィープ設定を初期化します（16行）。
+例えば、`train.py` Pythonスクリプト内で次のようにW&B run を初期化する設定を行った場合（1行目と2行目参照）。次に、辞書として定義されたスイープ設定を `sweep_configuration` として定義します（4行目から13行目参照）。その後、スイープ設定辞書を `wandb.sweep` に渡してスイープ設定を初期化します（16行目参照）。
 
 ```python title="train.py" showLineNumbers
 def main():
@@ -115,18 +112,18 @@ sweep_configuration = {
     },
 }
 
-# 設定を渡してスウィープを初期化
+# 設定を渡してスイープを初期化。
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 
-# スウィープジョブを開始
+# スイープジョブを開始。
 wandb.agent(sweep_id, function=main, count=4)
 ```
-W&B runが初期化されるときに渡される`nested_param.manual_key`（2行目）はアクセスできません。`run.config`はスウィープ設定辞書で定義されたキー値ペア（4-13行）しか持ちません。
+W&B runが初期化されるときに渡される `nested_param.manual_key`（2行目）は、アクセスできません。`run.config` にはスイープ設定辞書に定義されたキー値ペアのみが存在します（4行目から13行目まで）。
 :::
 
-## スウィープ設定テンプレート
+## スイープ設定テンプレート
 
-以下のテンプレートは、パラメータを設定し、検索制約を指定する方法を示しています。`hyperparameter_name`をハイパーパラメータの名前に、`<>`で囲まれた値を任意の値に置き換えます。
+以下のテンプレートは、パラメータを設定し、検索制約を指定する方法を示しています。`hyperparameter_name` をハイパーパラメータの名前に置き換え、`<>` で囲まれた値を適宜置き換えてください。
 
 ```yaml title="config.yaml"
 program: <insert>
@@ -162,7 +159,7 @@ command:
 - ${Command macro}      
 ```
 
-## スウィープ設定例
+## スイープ設定の例
 
 <Tabs
   defaultValue="cli"
@@ -171,6 +168,7 @@ command:
     {label: 'Python script or Jupyter notebook', value: 'notebook'},
   ]}>
   <TabItem value="cli">
+
 
 ```yaml title="config.yaml" 
 program: train.py
@@ -186,7 +184,7 @@ parameters:
     q: 8
   dropout: 
     values: [0.3, 0.4, 0.5]
- epochs:
+  epochs:
     value: 1
   fc_layer_size: 
     values: [128, 256, 512]
@@ -224,6 +222,7 @@ sweep_config = {
   </TabItem>
 </Tabs>
 
+
 ### ベイズハイパーバンドの例
 ```yaml
 program: train.py
@@ -255,13 +254,13 @@ early_terminate:
   max_iter: 27
 ```
 
-次のタブは、`early_terminate`のために最小または最大のイテレーション数を指定する方法を示しています：
+以下のタブは、`early_terminate` の最小または最大イテレーション数を指定する方法を示しています：
 
 <Tabs
   defaultValue="min_iter"
   values={[
-    {label: 'Minimum number of iterations specified', value: 'min_iter'},
-    {label: 'Maximum number of iterations specified', value: 'max_iter'},
+    {label: '最小イテレーション数の指定', value: 'min_iter'},
+    {label: '最大イテレーション数の指定', value: 'max_iter'},
   ]}>
   <TabItem value="min_iter">
 
@@ -271,7 +270,7 @@ early_terminate:
   min_iter: 3
 ```
 
-この例の括弧は、 `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]` となり、 `[3, 9, 27, 81]` となります。
+この例のブラケットは `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]` で、`[3, 9, 27, 81]` となります。
   </TabItem>
   <TabItem value="max_iter">
 
@@ -282,7 +281,7 @@ early_terminate:
   s: 2
 ```
 
-この例の括弧は、 `[27/eta, 27/eta/eta]` となり、 `[9, 3]` となります。
+この例のブラケットは `[27/eta, 27/eta/eta]` で、`[9, 3]` となります。
   </TabItem>
 </Tabs>
 
@@ -330,19 +329,19 @@ python train.py --param1=value1 --param2=value2
   </TabItem>
 </Tabs>
 
-次のタブは、一般的なコマンドマクロの指定方法を示しています：
+次のタブは、一般的なコマンドマクロを指定する方法を示しています:
 
 <Tabs
   defaultValue="python"
   values={[
-    {label: 'Set python interpreter', value: 'python'},
-    {label: 'Add extra parameters', value: 'parameters'},
-    {label: 'Omit arguments', value: 'omit'},
+    {label: 'Pythonインタープリタの設定', value: 'python'},
+    {label: '追加パラメータの追加', value: 'parameters'},
+    {label: '引数の省略', value: 'omit'},
     {label: 'Hydra', value: 'hydra'}
   ]}>
   <TabItem value="python">
 
-`{$interpreter}`マクロを削除し、Pythonインタープリタをハードコードするために値を明示的に提供します。例えば、次のコードスニペットはその方法を示しています：
+`{$interpreter}` マクロを削除し、Pythonインタープリタの値を明示的に提供します。例えば、以下のコードスニペットでは、その方法を示しています：
 
 ```yaml
 command:
@@ -354,7 +353,7 @@ command:
   </TabItem>
   <TabItem value="parameters">
 
-次の例は、スウィープ設定パラメータで指定されていない追加のコマンドライン引数を追加する方法を示しています：
+以下は、スイープ設定パラメータでは指定されていない追加のコマンドライン引数を追加する方法を示しています：
 
 ```
 command:
@@ -369,7 +368,7 @@ command:
   </TabItem>
   <TabItem value="omit">
 
-プログラムが引数解析を使用しない場合は、引数の受け渡しを完全に回避し、`wandb.init`がスウィープパラメータを`wandb.config`に自動的に取り入れるのを活用できます：
+プログラムが引数解析を使用しない場合、引数をすべて渡さないようにし、`wandb.init` がスイープパラメータを `wandb.config` に自動的に取得する利点を活用できます：
 
 ```
 command:
@@ -380,14 +379,5 @@ command:
   </TabItem>
   <TabItem value="hydra">
 
-[Hydra](https://hydra.cc)のようなツールが期待する引数の渡し方にコマンドを変更できます。詳細については、[Hydra with W&B](../integrations/other/hydra.md)を参照してください。
+コマンドを変更して、[Hydra](https://hydra.cc) のようなツールが期待する方法で引数を渡すことができます。詳細は [HydraとW&B](../integrations/other/hydra.md)を参照してください。
 
-```
-command:
-  - ${env}
-  - ${interpreter}
-  - ${program}
-  - ${args_no_hyphens}
-```
-  </TabItem>
-</Tabs>

@@ -1,22 +1,24 @@
 ---
-description: W&B サーバーを AWS でホスティングする
 title: AWS
+description: AWS で W&B サーバー をホスティングする
 displayed_sidebar: default
 ---
 
+# AWS
+
 :::info
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B は、[W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) や [W&B Dedicated Cloud](../hosting-options/dedicated_cloud.md) のデプロイメントオプションを推奨しています。W&B の完全管理サービスはシンプルで安全に使用でき、設定は最小限または不要です。
 :::
 
-W&B recommends using the [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) to deploy the platform on AWS.
+W&B は AWS 上にプラットフォームをデプロイするために [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) を使用することを推奨しています。
 
-The module documentation is extensive and contains all available options that can be used. We will cover some deployment options in this document.
+このモジュールのドキュメントは非常に充実しており、利用可能なオプションが全て記載されています。この記事では、いくつかのデプロイメントオプションについて説明します。
 
-Before you start, we recommend you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
+開始する前に、Terraformの[State File](https://developer.hashicorp.com/terraform/language/state)を保存するための[リモートバックエンド](https://developer.hashicorp.com/terraform/language/settings/backends/configuration)のいずれかを選択することをお勧めします。
 
-The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
+State File は、すべてのコンポーネントを再作成することなく、アップグレードをロールアウトしたりデプロイメントに変更を加えるために必要なリソースです。
 
-The Terraform Module will deploy the following `mandatory` components:
+Terraform Module は次の `必須` コンポーネントをデプロイします：
 
 - Load Balancer
 - AWS Identity & Access Management (IAM)
@@ -29,25 +31,25 @@ The Terraform Module will deploy the following `mandatory` components:
 - Amazon Elastic Loadbalancing (ALB)
 - Amazon Secrets Manager
 
-Other deployment options can also include the following optional components:
+その他のデプロイメントオプションには、以下のようなオプションのコンポーネントも含めることができます：
 
 - Elastic Cache for Redis
 - SQS
 
-## **Pre-requisite permissions**
+## **前提条件としての権限**
 
-The account that will run the Terraform needs to be able to create all components described in the Introduction and permission to create **IAM Policies** and **IAM Roles** and assign roles to resources.
+Terraform を実行するアカウントは、イントロダクションで説明したすべてのコンポーネントを作成できる必要があり、**IAM ポリシー** および **IAM ロール** を作成し、リソースにロールを割り当てる権限が必要です。
 
-## General steps
+## 一般的な手順
 
-The steps on this topic are common for any deployment option covered by this documentation.
+このトピックの手順は、このドキュメントでカバーされている任意のデプロイメントオプションに共通です。
 
-1. Prepare the development environment.
-   - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-   - We recommend creating a Git repository with the code that will be used, but you can keep your files locally.
-2. Create the `terraform.tfvars` file.
+1. 開発環境を準備します。
+   - [Terraform をインストール](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+   - 使用するコードの Git リポジトリを作成することをお勧めしますが、ファイルをローカルに保持することもできます。
+2. `terraform.tfvars` ファイルを作成します。
 
-   The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
+   `tvfars` ファイルの内容はインストールタイプに応じてカスタマイズできますが、最小限の推奨内容は以下の例のようになります。
 
    ```bash
    namespace                  = "wandb"
@@ -59,17 +61,15 @@ The steps on this topic are common for any deployment option covered by this doc
    allowed_inbound_ipv6_cidr  = ["::/0"]
    ```
 
-   Ensure to define variables in your `tvfars` file before you deploy because the `namespace` variable is a string that prefixes all resources created by Terraform.
+   デプロイする前に、`namespace` 変数は Terraform が作成するすべてのリソースのプレフィックスとして使用される文字列であるため、 `tvfars` ファイルで変数を定義してください。
 
+   `subdomain` と `domain` の組み合わせが W&B が設定される FQDN を形成します。上記の例では、W&B の FQDN は `wandb-aws.wandb.ml` となり、FQDN レコードが作成される DNS `zone_id` となります。
 
+   `allowed_inbound_cidr` と `allowed_inbound_ipv6_cidr` も設定する必要があります。このモジュールでは、これが必須の入力となります。進行中の例では、W&B インストールへのアクセスを任意のソースから許可しています。
 
-   The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
+3. `versions.tf` ファイルを作成します。
 
-   Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also require setting. In the module, this is a mandatory input. The proceeding example permits access from any source to the W&B installation.
-
-3. Create the file `versions.tf`
-
-   This file will contain the Terraform and Terraform provider versions required to deploy W&B in AWS
+   このファイルには、AWS に W&B をデプロイするために必要な Terraform および Terraform プロバイダーのバージョンが含まれます。
 
    ```bash
    provider "aws" {
@@ -86,29 +86,29 @@ The steps on this topic are common for any deployment option covered by this doc
    }
    ```
 
-   Please, refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
+   AWS プロバイダーを設定するには、[Terraform 公式ドキュメント](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration)を参照してください。
 
-   Optionally, **but highly recommended**, you can add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
+   オプションですが、**強く推奨**されるのは、このドキュメントの最初に記載された [リモートバックエンドの設定](https://developer.hashicorp.com/terraform/language/settings/backends/configuration)を追加することです。
 
-4. Create the file `variables.tf`
+4. `variables.tf` ファイルを作成します。
 
-   For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
+   `terraform.tfvars` で設定されたすべてのオプションに対応する変数宣言が必要です。
 
    ```
    variable "namespace" {
      type        = string
-     description = "Name prefix used for resources"
+     description = "リソースに使用される名前プレフィックス"
    }
 
    variable "domain_name" {
      type        = string
-     description = "Domain name used to access instance."
+     description = "インスタンスにアクセスするために使用されるドメイン名。"
    }
 
    variable "subdomain" {
      type        = string
      default     = null
-     description = "Subdomain for accessing the Weights & Biases UI."
+     description = "Weights & Biases UI へのアクセス用のサブドメイン。"
    }
 
    variable "license" {
@@ -117,29 +117,29 @@ The steps on this topic are common for any deployment option covered by this doc
 
    variable "zone_id" {
      type        = string
-     description = "Domain for creating the Weights & Biases subdomain on."
+     description = "Weights & Biases のサブドメインを作成するためのドメイン。"
    }
 
    variable "allowed_inbound_cidr" {
-    description = "CIDRs allowed to access wandb-server."
+    description = "wandb-server へのアクセスを許可する CIDR。"
     nullable    = false
     type        = list(string)
    }
 
    variable "allowed_inbound_ipv6_cidr" {
-    description = "CIDRs allowed to access wandb-server."
+    description = "wandb-server へのアクセスを許可する CIDR。"
     nullable    = false
     type        = list(string)
    }
    ```
 
-## Deployment - Recommended (~20 mins)
+## デプロイメント - 推奨設定 (~20 分)
 
-This is the most straightforward deployment option configuration that will create all `Mandatory` components and install in the `Kubernetes Cluster` the latest version of `W&B`.
+これは、すべての `必須` コンポーネントを作成し、最新バージョンの `W&B` を `Kubernetes クラスター` にインストールする最も簡単なデプロイメントオプションの設定です。
 
-1. Create the `main.tf`
+1. `main.tf` を作成します
 
-   In the same directory where you created the files in the `General Steps`, create a file `main.tf` with the following content:
+   `一般的な手順` でファイルを作成したのと同じディレクトリに、以下の内容で `main.tf` ファイルを作成します。
 
    ```
    module "wandb_infra" {
@@ -185,8 +185,7 @@ This is the most straightforward deployment option configuration that will creat
      bucket_queue               = "internal://"
      database_connection_string = "mysql://${module.wandb_infra.database_connection_string}"
 
-     # If we dont wait, tf will start trying to deploy while the work group is
-     # still spinning up
+     # 作業グループがスピンアップしている間、tf がデプロイを開始しないようにします。
      depends_on = [module.wandb_infra]
    }
 
@@ -199,20 +198,20 @@ This is the most straightforward deployment option configuration that will creat
    }
    ```
 
-2. Deploy W&B
+2. W&B をデプロイします
 
-   To deploy W&B, execute the following commands:
+   W&B をデプロイするためには、以下のコマンドを実行します：
 
    ```
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
 
-## Enable REDIS
+## REDIS の有効化
 
-Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
+別のデプロイメントオプションとして、`Redis` を使用して SQL クエリをキャッシュし、実験のメトリクスを読み込む際のアプリケーションの応答速度を向上させる方法があります。
 
-You need to add the option `create_elasticache_subnet = true` to the same `main.tf` file we worked on in `Recommended Deployment` to enable the cache.
+キャッシュを有効にするには、`main.tf` ファイルに `create_elasticache_subnet = true` のオプションを追加する必要があります。
 
 ```
 module "wandb_infra" {
@@ -228,11 +227,11 @@ module "wandb_infra" {
 [...]
 ```
 
-## Enable message broker (queue)
+## メッセージブローカー (キュー) の有効化
 
-Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
+デプロイメントオプション 3 では、外部の `メッセージブローカー` の有効化が含まれています。これはオプションで、W&B には組み込まれたブローカーが同梱されています。このオプションはパフォーマンスの改善をもたらしません。
 
-The AWS resource that provides the message broker is the `SQS`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the `Recommended Deployment`
+メッセージブローカーを提供する AWS リソースは `SQS` であり、それを有効にするためには、`Recommended Deployment` で作成した `main.tf` に `use_internal_queue = false` のオプションを追加する必要があります。
 
 ```
 module "wandb_infra" {
@@ -249,34 +248,33 @@ module "wandb_infra" {
 }
 ```
 
-## Other deployment options
+## その他のデプロイメントオプション
 
-You can combine all three deployment options adding all configurations to the same file.
-The [Terraform Module](https://github.com/wandb/terraform-aws-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in `Deployment - Recommended`
+同じファイルにすべての設定を追加することで、3 つのデプロイメントオプションすべてを組み合わせることができます。
+[Terraform Module](https://github.com/wandb/terraform-aws-wandb) は、標準オプションと `Deployment - Recommended` にある最小限の設定と組み合わせて使用できる複数のオプションを提供しています。
 
-## Manual configuration
+## 手動設定
 
-To use an Amazon S3 bucket as a file storage backend for W&B, you will need to:
+W&B のファイルストレージバックエンドとして Amazon S3 バケットを使用するには、以下の手順が必要です：
 
-* [Create an Amazon S3 Bucket and Bucket Notifications](#create-an-s3-bucket-and-bucket-notifications)
-* [Create SQS Queue](#create-an-sqs-queue)
-* [Grant Permissions to Node Running W&B](#grant-permissions-to-node-running-wb)
+* [Amazon S3 バケットとバケット通知の作成](#create-an-s3-bucket-and-bucket-notifications)
+* [SQS キューの作成](#create-an-sqs-queue)
+* [W&B を実行するノードに権限を付与](#grant-permissions-to-node-running-wb)
 
+バケットを作成し、そのバケットからオブジェクト作成通知を受け取るように設定された SQS キューを作成する必要があります。インスタンスにはこのキューから読み取る権限が必要です。
 
- you'll need to create a bucket, along with an SQS queue configured to receive object creation notifications from that bucket. Your instance will need permissions to read from this queue.
+### Amazon S3 バケットとバケット通知の作成
 
-### Create an S3 Bucket and Bucket Notifications
+以下の手順に従って、Amazon S3 バケットを作成し、バケット通知を有効にします。
 
-Follow the procedure bellow to create an Amazon S3 bucket and enable bucket notifications.
-
-1. Navigate to Amazon S3 in the AWS Console.
-2. Select **Create bucket**.
-3. Within the **Advanced settings**, select **Add notification** within the **Events** section.
-4. Configure all object creation events to be sent to the SQS Queue you configured earlier.
+1. AWS コンソールで Amazon S3 に移動します。
+2. **Create bucket**（バケットの作成）を選択します。
+3. **Advanced settings**（詳細設定）の **Events**（イベント）セクションで、**Add notification**（通知を追加）を選択します。
+4. すべてのオブジェクト作成イベントを、前に設定した SQS キューに送信するように設定します。
 
 ![Enterprise file storage settings](/images/hosting/s3-notification.png)
 
-Enable CORS access. Your CORS configuration should look like the following:
+CORS アクセスを有効にします。あなたの CORS 設定は以下のようになります：
 
 ```markup
 <?xml version="1.0" encoding="UTF-8"?>
@@ -290,21 +288,21 @@ Enable CORS access. Your CORS configuration should look like the following:
 </CORSConfiguration>
 ```
 
-### Create an SQS Queue
+### SQS キューの作成
 
-Follow the procedure below to create an SQS Queue:
+以下の手順に従って SQS キューを作成します：
 
-1. Navigate to Amazon SQS in the AWS Console.
-2. Select **Create queue**.
-3. From the **Details** section, select a **Standard** queue type.
-4. Within the Access policy section, add permission to the following principals:
+1. AWS コンソールで Amazon SQS に移動します。
+2. **Create queue**（キューの作成）を選択します。
+3. **Details**（詳細）セクションで、**Standard**（標準）キュータイプを選択します。
+4. アクセスポリシーセクションで、以下のプリンシパルに権限を付与します：
 * `SendMessage`
 * `ReceiveMessage`
 * `ChangeMessageVisibility`
 * `DeleteMessage`
 * `GetQueueUrl`
 
-Optionally add an advanced access policy in the **Access Policy** section. For example, the policy for accessing Amazon SQS with a statement is as follows:
+オプションとして、**Access Policy**（アクセスポリシー）セクションで高度なアクセスポリシーを追加します。例えば、以下はアマゾン SQS へのアクセスポリシーの例です：
 
 ```json
 {
@@ -323,9 +321,9 @@ Optionally add an advanced access policy in the **Access Policy** section. For e
 }
 ```
 
-### Grant Permissions to Node Running W&B
+### W&B 実行ノードに権限を付与
 
-The node where W&B server is running must be configured to permit access to Amazon S3 and Amazon SQS. Depending on the type of server deployment you have opted for, you may need to add the following policy statements to your node role:
+W&B サーバーが実行されているノードは、Amazon S3 および Amazon SQS へのアクセスを許可するように設定する必要があります。選択したサーバーデプロイメントタイプによっては、以下のポリシーステートメントをノードロールに追加する必要があります：
 
 ```json
 {
@@ -348,25 +346,25 @@ The node where W&B server is running must be configured to permit access to Amaz
 }
 ```
 
-### Configure W&B server
-Finally, configure your W&B Server.
+### W&B サーバーの設定
+最後に、W&B サーバーを設定します。
 
-1. Navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
-2. Enable the ***Use an external file storage backend* option/
-3. Provide information about your Amazon S3 bucket, region, and Amazon SQS queue in the following format:
+1. `http(s)://YOUR-W&B-SERVER-HOST/system-admin` にある W&B 設定ページに移動します。
+2. **外部ファイルストレージバックエンドを使用** オプションを有効にします。
+3. Amazon S3 バケット、リージョン、および Amazon SQS キューに関する情報を以下の形式で提供します：
 * **File Storage Bucket**: `s3://<bucket-name>`
 * **File Storage Region (AWS only)**: `<region>`
 * **Notification Subscription**: `sqs://<queue-name>`
 
 ![](/images/hosting/configure_file_store.png)
 
-4. Select **Update settings** to apply the new settings.
+4. **Update settings**（設定の更新）を選択して、新しい設定を適用します。
 
-## Upgrade your W&B version
+## W&B バージョンのアップグレード
 
-Follow the steps outlined here to update W&B:
+ここに記載されている手順に従って W&B を更新します：
 
-1. Add `wandb_version` to your configuration in your `wandb_app` module. Provide the version of W&B you want to upgrade to. For example, the following line specifies W&B version `0.48.1`:
+1. `wandb_app` モジュールの設定に `wandb_version` を追加します。アップグレードしたい W&B のバージョンを指定します。例えば、以下の行では W&B バージョン `0.48.1` を指定しています：
 
   ```
   module "wandb_app" {
@@ -378,80 +376,6 @@ Follow the steps outlined here to update W&B:
   ```
 
   :::info
-  Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
+  また、`wandb_version` を `terraform.tfvars` に追加し、同名の変数を作成して、リテラル値の代わりに `var.wandb_version` を使用することもできます。
   :::
-
-2. After you update your configuration, complete the steps described in the [Deployment section](#deployment---recommended-20-mins).
-Here is a chunk of documentation in docusaurus Markdown format to translate.
-
-```markdown
-### Utilizing Weights & Biases to Its Full Potential
-
-When working on machine learning projects, efficiency and organization are crucial. Leveraging the right tools can significantly improve workflow and performance. Weights & Biases is a comprehensive platform designed to help you manage your machine learning life cycle effectively.
-
-#### Key Features of Weights & Biases
-
-1. **Experiment Tracking**: Monitor and visualize your machine learning Runs easily.
-2. **Dataset Versioning**: Keep track of Datasets and their versions.
-3. **Model Management**: Organize and version different Models.
-4. **Collaborative Reports**: Share insights and results through detailed Reports.
-5. **Hyperparameter Sweeps**: Automate the process of finding the best hyperparameters.
-
-#### Getting Started
-
-1. Signup for a W&B account
-2. Initialize W&B in your project
-3. Track & visualize your Experiments
-
-Refer to the [Quickstart Guide](link/quickstart) for detailed instructions.
-
-#### Managing Your Projects
-
-Effectively managing Projects involves organizing related Runs, Datasets, and Models. Detailed documentation is available [here](link/documentation).
-
-For any support, please refer to our [Support Page](link/support).
-
-### Additional Benefits
-
-Using W&B, individuals and Teams can ensure reproducibility and transparency in their machine learning workflows.
-
-#### Community and Contributions
-
-We encourage Users to contribute by providing feedback or participating in the community discussions. Explore our [Community Forum](link/forum) to get involved.
-```
-
-### Weights & Biasesを最大限に活用する方法
-
-機械学習プロジェクトを進める際、効率と組織力が重要です。適切なツールを活用することで、ワークフローとパフォーマンスが大幅に向上します。Weights & Biasesは、機械学習のライフサイクルを効果的に管理するための包括的なプラットフォームです。
-
-#### Weights & Biasesの主な機能
-
-1. **Experiment Tracking**: 機械学習のRunsを簡単にモニタリングし、視覚化します。
-2. **Dataset Versioning**: Datasetsとそのバージョンを管理します。
-3. **Model Management**: さまざまなModelsを整理し、バージョン管理します。
-4. **Collaborative Reports**: 詳細なReportsを通じて洞察と結果を共有します。
-5. **Hyperparameter Sweeps**: 最適なハイパーパラメータを見つけるプロセスを自動化します。
-
-#### 始め方
-
-1. W&Bアカウントにサインアップする
-2. プロジェクトにW&Bを初期化する
-3. Experimentsを追跡し、視覚化する
-
-詳細な手順については、[Quickstart Guide](link/quickstart)を参照してください。
-
-#### Projectsの管理
-
-Projectsを効果的に管理するためには、関連するRuns、Datasets、Modelsを整理することが重要です。詳細なドキュメントは[こちら](link/documentation)からご覧いただけます。
-
-サポートが必要な場合は、[Support Page](link/support)を参照してください。
-
-### 追加の利点
-
-W&Bを使用することで、個人やTeamsは機械学習ワークフローにおける再現性と透明性を確保できます。
-
-#### コミュニティと貢献
-
-Usersがフィードバックを提供したり、コミュニティディスカッションに参加したりすることを奨励します。[Community Forum](link/forum)で詳細を確認し、参加してください。
-
 

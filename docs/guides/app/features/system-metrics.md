@@ -3,43 +3,41 @@ description: wandb によって自動的にログされるメトリクス
 displayed_sidebar: default
 ---
 
-
 # System Metrics
-
-このページでは、W&B SDKによって追跡されるシステムメトリクスに関する詳細情報を提供します。コード内でどのように特定のメトリクスが計算されるかについても説明します。
+このページでは、W&B SDKでトラッキングされるシステムメトリクスに関する詳細情報と、各メトリクスがコード内でどのように計算されるかについて説明します。
 
 ## CPU
 
-### Process CPU Percent (CPU)
-プロセスによるCPU使用率を示し、利用可能なCPUの数で正規化されます。このメトリクスは `psutil` ライブラリを使用して次の式で計算されます:
+### プロセスCPUパーセンテージ (CPU)
+プロセスによるCPU使用率を、利用可能なCPUの数で正規化したものです。このメトリクスは`psutil`ライブラリを使用して次の式で計算されます：
 
 ```python
 psutil.Process(pid).cpu_percent() / psutil.cpu_count()
 ```
 
-W&Bはこのメトリクスに `cpu` タグを割り当てます。
+W&Bはこのメトリクスに`cpu`タグを割り当てます。
 
-### CPU Percent
-システムのCPU使用率をコアごとに表します。このメトリクスは `psutil` ライブラリを使用して次のように計算されます:
+### CPUパーセンテージ
+システムの各コアごとのCPU使用率。このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 psutil.cpu_percent(interval, percpu=True)
 ```
 
-W&Bはこのメトリクスに `cpu.{i}.cpu_percent` タグを割り当てます。
+W&Bはこのメトリクスに`cpu.{i}.cpu_percent`タグを割り当てます。
 
-### Process CPU Threads 
-プロセスによって使用されるスレッドの数。このメトリクスは `psutil` ライブラリを使用して次のように計算されます:
+### プロセスCPUスレッド
+プロセスによって利用されるスレッドの数。このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 psutil.Process(pid).num_threads()
 ```
 
-W&Bはこのメトリクスに `proc.cpu.threads` タグを割り当てます。
+W&Bはこのメトリクスに`proc.cpu.threads`タグを割り当てます。
 
-## Disk
+## ディスク
 
-デフォルトでは、`/` パスの使用状況メトリクスが収集されます。監視するパスを設定するには、次の設定を使用します:
+デフォルトでは、`/`パスの使用率メトリクスが収集されます。監視するパスを設定するには、次の設定を使用します：
 
 ```python
 run = wandb.init(
@@ -49,130 +47,136 @@ run = wandb.init(
 )
 ```
 
-### Disk Usage Percent
-指定されたパスのシステム全体のディスク使用率をパーセンテージで表します。このメトリクスは `psutil` ライブラリを使用して次の式で計算されます:
+### ディスク使用率パーセンテージ
+指定されたパスの総システムディスク使用率（パーセンテージ）。このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 psutil.disk_usage(path).percent
 ```
-W&Bはこのメトリクスに `disk.{path}.usagePercent` タグを割り当てます。
 
-### Disk Usage
-指定されたパスのシステム全体のディスク使用量をギガバイト（GB）で表します。このメトリクスは `psutil` ライブラリを使用して次のように計算されます:
+W&Bはこのメトリクスに`disk.{path}.usagePercen`タグを割り当てます。
+
+### ディスク使用量
+指定されたパスの総システムディスク使用量をギガバイト（GB）で表します。このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 psutil.disk_usage(path).used / 1024 / 1024 / 1024
 ```
-アクセス可能なパスはサンプリングされ、各パスのディスク使用量（GB）がサンプルに追加されます。
 
-W&Bはこのメトリクスに `disk.{path}.usageGB)` タグを割り当てます。
+アクセス可能なパスがサンプリングされ、各パスのディスク使用量（GB）がサンプルに追加されます。
+
+W&Bはこのメトリクスに`disk.{path}.usageGB)`タグを割り当てます。
 
 ### Disk In
-システム全体のディスク読み取り量をメガバイト（MB）で示します。このメトリクスは `psutil` ライブラリを使用して次の式で計算されます:
+総システムディスク読み取り量をメガバイト（MB）で示します。このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 (psutil.disk_io_counters().read_bytes - initial_read_bytes) / 1024 / 1024
 ```
 
-初期ディスク読み取りバイト数は、最初のサンプルが取得されたときに記録されます。後続のサンプルは、現在の読み取りバイト数と初期値との差を計算します。
+初回サンプル時にディスクの初期読み取りバイト数が記録されます。以降のサンプルでは現在の読み取りバイト数と初期値との差分を計算します。
 
-W&Bはこのメトリクスに `disk.in` タグを割り当てます。
+W&Bはこのメトリクスに`disk.in`タグを割り当てます。
 
 ### Disk Out
-システム全体のディスク書き込み量をメガバイト（MB）で示します。このメトリクスは `psutil` ライブラリを使用して次の式で計算されます:
+総システムディスク書き込み量をメガバイト（MB）で表します。このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 (psutil.disk_io_counters().write_bytes - initial_write_bytes) / 1024 / 1024
 ```
 
-[Disk In](#disk-in) と同様に、初期ディスク書き込みバイト数は、最初のサンプルが取得されたときに記録されます。後続のサンプルは、現在の書き込みバイト数と初期値との差を計算します。
+[Disk In](#disk-in)と同様に、初回サンプル時にディスクの初期書き込みバイト数が記録されます。以降のサンプルでは現在の書き込みバイト数と初期値との差分を計算します。
 
-W&Bはこのメトリクスに `disk.out` タグを割り当てます。
+W&Bはこのメトリクスに`disk.out`タグを割り当てます。
 
-## Memory
+## メモリ
 
-### Process Memory RSS
-プロセスのメモリ実行セットサイズ（RSS）をメガバイト（MB）で示します。RSSは、プロセスが使用するメモリのうち、RAMに保持される部分です。
+### プロセスメモリRSS
+プロセスのメモリ常駐セットサイズ（RSS）をメガバイト（MB）で表します。RSSはプロセスがメインメモリ（RAM）に持つメモリの部分です。
 
-このメトリクスは `psutil` ライブラリを使用して次の式で計算されます:
+このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 psutil.Process(pid).memory_info().rss / 1024 / 1024
 ```
-これはプロセスのRSSを取得し、MBに変換します。
 
-W&Bはこのメトリクスに `proc.memory.rssMB` タグを割り当てます。
+これによりプロセスのRSSがキャプチャされ、MBに変換されます。
 
-### Process Memory Percent
-プロセスのメモリ使用率を、利用可能なメモリ全体に対するパーセンテージで示します。
+W&Bはこのメトリクスに`proc.memory.rssMB`タグを割り当てます。
 
-このメトリクスは `psutil` ライブラリを使用して次のように計算されます:
+### プロセスメモリパーセンテージ
+プロセスのメモリ使用率を総利用可能メモリに対するパーセンテージで示します。
+
+このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 psutil.Process(pid).memory_percent()
 ```
 
-W&Bはこのメトリクスに `proc.memory.percent` タグを割り当てます。
+W&Bはこのメトリクスに`proc.memory.percent`タグを割り当てます。
 
-### Memory Percent
-システム全体のメモリ使用量を、利用可能なメモリ全体に対するパーセンテージで表します。
+### メモリパーセンテージ
+総利用可能メモリに対するシステムの総メモリ使用率をパーセンテージで表します。
 
-このメトリクスは `psutil` ライブラリを使用して次の式で計算されます:
+このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 psutil.virtual_memory().percent
 ```
 
-これはシステム全体のメモリ使用率をパーセンテージで取得します。
+これにより、システム全体の総メモリ使用率がキャプチャされます。
 
-W&Bはこのメトリクスに `memory` タグを割り当てます。
+W&Bはこのメトリクスに`memory`タグを割り当てます。
 
-### Memory Available
-システム全体の利用可能なメモリをメガバイト（MB）で示します。
+### メモリアベイラブル
+システムで利用可能な総メモリ量をメガバイト（MB）で表します。
 
-このメトリクスは `psutil` ライブラリを使用して次のように計算されます:
+このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 psutil.virtual_memory().available / 1024 / 1024
 ```
-これはシステム内の利用可能なメモリ量を取得し、MBに変換します。
 
-W&Bはこのメトリクスに `proc.memory.availableMB` タグを割り当てます。
+これによりシステムで利用可能なメモリ量が取得され、MBに変換されます。
 
-## Network
+W&Bはこのメトリクスに`proc.memory.availableMB`タグを割り当てます。
 
-### Network Sent
-ネットワーク上で送信された総バイト数を示します。
+## ネットワーク
 
-このメトリクスは `psutil` ライブラリを使用して次の式で計算されます:
+### ネットワーク送信
+ネットワーク経由で送信された総バイト数を示します。
+
+このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 psutil.net_io_counters().bytes_sent - initial_bytes_sent
 ```
-初期送信バイト数は、メトリクスが初めて初期化されたときに記録されます。後続のサンプルは、現在の送信バイト数と初期値との差を計算します。
 
-W&Bはこのメトリクスに `network.sent` タグを割り当てます。
+初回サンプル時に送信バイト数が記録されます。以降のサンプルでは現在の送信バイト数と初期値との差分を計算します。
 
-### Network Received
+W&Bはこのメトリクスに`network.sent`タグを割り当てます。
 
-ネットワーク上で受信された総バイト数を示します。
+### ネットワーク受信
 
-このメトリクスは `psutil` ライブラリを使用して次の式で計算されます:
+ネットワーク経由で受信された総バイト数を示します。
+
+このメトリクスは`psutil`ライブラリを使用して次のように計算されます：
 
 ```python
 psutil.net_io_counters().bytes_recv - initial_bytes_received
 ```
-[Network Sent](#network-sent) と同様に、初期受信バイト数は、メトリクスが初めて初期化されたときに記録されます。後続のサンプルは、現在の受信バイト数と初期値との差を計算します。
 
-W&Bはこのメトリクスに `network.recv` タグを割り当てます。
+[Network Sent](#network-sent)と同様に、初回サンプル時に受信バイト数が記録されます。以降のサンプルでは現在の受信バイト数と初期値との差分を計算します。
+
+W&Bはこのメトリクスに`network.recv`タグを割り当てます。
 
 ## NVIDIA GPU
 
-W&Bは、NVIDIA GPUメトリクスをキャプチャするために `pynvml` ライブラリの[適応版](https://github.com/wandb/wandb/blob/main/wandb/vendor/pynvml/pynvml.py)を使用します。キャプチャされたメトリクスの詳細な説明については、NVIDIAの[このガイド](https://docs.nvidia.com/deploy/nvml-api/group__nvmlDeviceQueries.html)を参照してください。
+W&Bは、NVIDIA GPUメトリクスをキャプチャするために`pynvml`ライブラリの[適応バージョン](https://github.com/wandb/wandb/blob/main/wandb/vendor/pynvml/pynvml.py)を使用します。キャプチャ対象のメトリクスの詳細な説明については、NVIDIAの[このガイド](https://docs.nvidia.com/deploy/nvml-api/group__nvmlDeviceQueries.html)を参照してください。
 
-以下に説明するメトリクスに加え、プロセスが特定のGPUを使用している場合、W&Bは対応するメトリクスを `gpu.process.{gpu_index}...` としてキャプチャします。
+以下のメトリクスに加えて、特定のGPUを使用するプロセスがある場合、W&Bは対応するメトリクスを`gpu.process.{gpu_index}...`としてキャプチャします。
 
-プロセスが特定のGPUを使用しているかどうかを確認するために、W&Bは次のコードスニペットを使用します:
+W&Bは、プロセスが特定のGPUを使用しているかどうかを確認するために次のコードスニペットを使用します：
 
 ```python
 def gpu_in_use_by_this_process(gpu_handle: "GPUHandle", pid: int) -> bool:
@@ -182,7 +186,7 @@ def gpu_in_use_by_this_process(gpu_handle: "GPUHandle", pid: int) -> bool:
     try:
         base_process = psutil.Process(pid=pid)
     except psutil.NoSuchProcess:
-        # do not report any gpu metrics if the base process can't be found
+        # ベースプロセスが見つからない場合、GPUメトリクスは報告しない
         return False
 
     our_processes = base_process.children(recursive=True)
@@ -204,30 +208,31 @@ def gpu_in_use_by_this_process(gpu_handle: "GPUHandle", pid: int) -> bool:
     return len(pids_using_device & our_pids) > 0
 ```
 
-### GPU Memory Utilization
-各GPUのGPUメモリ使用率をパーセンテージで示します。
+### GPUメモリユーティライゼーション
+各GPUのメモリ利用率をパーセンテージで示します。
 
 ```python
 handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 pynvml.nvmlDeviceGetUtilizationRates(handle).memory
 ```
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.memory` タグを割り当てます。
+W&Bはこのメトリクスに`gpu.{gpu_index}.memory`タグを割り当てます。
 
-### GPU Memory Allocated
-各GPUの総利用可能メモリに対するGPUメモリの割り当て率をパーセンテージで示します。
+### GPUメモリ割り当て
+各GPUの総利用可能メモリに対するメモリ割り当て率を示します。
 
 ```python
 handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 memory_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
 memory_info.used / memory_info.total * 100
 ```
-これは各GPUのGPUメモリ割り当て率を計算します。
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.memoryAllocated` タグを割り当てます。
+これにより各GPUのメモリ割り当て率が計算されます。
 
-### GPU Memory Allocated Bytes
-各GPUのGPUメモリ割り当て量をバイトで示します。
+W&Bはこのメトリクスに`gpu.{gpu_index}.memoryAllocated`タグを割り当てます。
+
+### GPUメモリ割り当てバイト
+各GPUのメモリ割り当てをバイト単位で示します。
 
 ```python
 handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
@@ -235,91 +240,91 @@ memory_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
 memory_info.used
 ```
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.memoryAllocatedBytes` タグを割り当てます。
+W&Bはこのメトリクスに`gpu.{gpu_index}.memoryAllocatedBytes`タグを割り当てます。
 
-### GPU Utilization
-各GPUのGPU使用率をパーセンテージで反映します。
+### GPU利用率
+各GPUの利用率をパーセンテージで示します。
 
 ```python
 handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 pynvml.nvmlDeviceGetUtilizationRates(handle).gpu
 ```
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.gpu` タグを割り当てます。
+W&Bはこのメトリクスに`gpu.{gpu_index}.gpu`タグを割り当てます。
 
-### GPU Temperature
-各GPUのGPU温度を摂氏で示します。
+### GPU温度
+各GPUの温度を摂氏で示します。
 
 ```python
 handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 pynvml.nvmlDeviceGetTemperature(handle, pynvml.NVML_TEMPERATURE_GPU)
 ```
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.temp` タグを割り当てます。
+W&Bはこのメトリクスに`gpu.{gpu_index}.temp`タグを割り当てます。
 
-### GPU Power Usage Watts
-各GPUのGPU電力使用量をワット（W）で示します。
+### GPU電力消費ワット
+各GPUの電力消費をワット単位で示します。
 
 ```python
 handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 pynvml.nvmlDeviceGetPowerUsage(handle) / 1000
 ```
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.powerWatts` タグを割り当てます。
+W&Bはこのメトリクスに`gpu.{gpu_index}.powerWatts`タグを割り当てます。
 
-### GPU Power Usage Percent
-
-各GPUの電力容量に対するGPU電力使用率をパーセンテージで反映します。
+### GPU電力消費パーセンテージ
+各GPUの電力消費率をその電力容量に対するパーセンテージで示します。
 
 ```python
 handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 (power_watts / power_capacity_watts) * 100
 ```
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.powerPercent` タグを割り当てます。
+W&Bはこのメトリクスに`gpu.{gpu_index}.powerPercent`タグを割り当てます。
 
 ## AMD GPU
-メトリクスはAMDが提供する `rocm-smi` ツール (`rocm-smi -a --json`) の出力（`stats`）から抽出されます。
+メトリクスはAMDが提供する`rocm-smi`ツールの出力（`stats`）から抽出されます（`rocm-smi -a --json`）。
 
-### AMD GPU Utilization
-各AMD GPUデバイスのGPU使用率をパーセンテージで示します。
+### AMD GPU利用率
+各AMD GPUデバイスの利用率をパーセンテージで示します。
 
 ```python
 stats.get("GPU use (%)")
 ```
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.gpu` タグを割り当てます。
+W&Bはこのメトリクスに`gpu.{gpu_index}.gpu`タグを割り当てます。
 
-### AMD GPU Memory Allocated
-各AMD GPUデバイスの総利用可能メモリに対するGPUメモリの割り当て率をパーセンテージで示します。
+### AMD GPUメモリ割り当て
+各AMD GPUデバイスの総利用可能メモリに対するメモリ割り当て率を示します。
 
 ```python
 stats.get("GPU memory use (%)")
 ```
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.memoryAllocated` タグを割り当てます。
+W&Bはこのメトリクスに`gpu.{gpu_index}.memoryAllocated`タグを割り当てます。
 
-### AMD GPU Temperature
-各AMD GPUデバイスのGPU温度を摂氏で表示します。
+### AMD GPU温度
+各AMD GPUデバイスの温度を摂氏で示します。
 
 ```python
 stats.get("Temperature (Sensor memory) (C)")
 ```
-これにより、各AMD GPUの温度が取得されます。
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.temp` タグを割り当てます。
+これにより各AMD GPUの温度が取得されます。
 
-### AMD GPU Power Usage Watts
-各AMD GPUデバイスのGPU電力使用量をワット（W）で示します。
+W&Bはこのメトリクスに`gpu.{gpu_index}.temp`タグを割り当てます。
+
+### AMD GPU電力消費ワット
+各AMD GPUデバイスの電力消費をワット単位で示します。
 
 ```python
 stats.get("Average Graphics Package Power (W)")
 ```
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.powerWatts` タグを割り当てます。
+W&Bはこのメトリクスに`gpu.{gpu_index}.powerWatts`タグを割り当てます。
 
-### AMD GPU Power Usage Percent
-各AMD GPUデバイスの電力容量に対するGPU電力使用率をパーセンテージで反映します。
+### AMD GPU電力消費パーセンテージ
+各AMD GPUデバイスの電力消費率をその電力容量に対するパーセンテージで示します。
 
 ```python
 (
@@ -329,94 +334,151 @@ W&Bはこのメトリクスに `gpu.{gpu_index}.powerWatts` タグを割り当�
 )
 ```
 
-W&Bはこのメトリクスに `gpu.{gpu_index}.powerPercent` タグを割り当てます。
+W&Bはこのメトリクスに`gpu.{gpu_index}.powerPercent`タグを割り当てます。
 
 ## Apple ARM Mac GPU
 
-### Apple GPU Utilization
-Apple GPUデバイスのGPU使用率をパーセンテージで示します。特にARM Macで使用されます。
+### Apple GPU利用率
+Apple GPUデバイス、特にARM Mac上のGPU利用率をパーセンテージで示します。
 
-このメトリクスは `apple_gpu_stats` バイナリから取得されます:
+このメトリクスは`apple_gpu_stats`バイナリから取得されます：
 ```python
 raw_stats["utilization"]
 ```
-W&Bはこのメトリクスに `gpu.0.gpu` タグを割り当てます。
 
-### Apple GPU Memory Allocated
-Apple GPUデバイスの総利用可能メモリに対するGPUメモリの割り当て率をパーセンテージで示します。ARM Macに適用されます。
+W&Bはこのメトリクスに`gpu.0.gpu`タグを割り当てます。
 
-`apple_gpu_stats` バイナリを使用して抽出されます:
+### Apple GPUメモリ割り当て
+Apple GPUデバイス上の総利用可能メモリに対するメモリ割り当て率を示します。
+
+`apple_gpu_stats`バイナリを使用して抽出されます：
 ```python
 raw_stats["mem_used"]
 ```
-これはApple GPUのGPUメモリ割り当て率を計算します。
 
-W&Bはこのメトリクスに `gpu.0.memoryAllocated` タグを割り当てます。
+これによりApple GPUのメモリ割り当て率が計算されます。
 
-### Apple GPU Temperature
-Apple GPUデバイスのGPU温度を摂氏で表示します。ARM Macに適用されます。
+W&Bはこのメトリクスに`gpu.0.memoryAllocated`タグを割り当てます。
 
-`apple_gpu_stats` バイナリを使用して派生されます:
+### Apple GPU温度
+ARM MacのApple GPUデバイスの温度を摂氏で示します。
+
+`apple_gpu_stats`バイナリを使用して取得されます：
 ```python
 raw_stats["temperature"]
 ```
 
-W&Bはこのメトリクスに `gpu.0.temp` タグを割り当てます。
+W&Bはこのメトリクスに`gpu.0.temp`タグを割り当てます。
 
-### Apple GPU Power Usage Watts
-Apple GPUデバイスのGPU電力使用量をワット（W）で示します。ARM Macに適用されます。
+### Apple GPU電力消費ワット
+ARM MacのApple GPUデバイスの電力消費をワット単位で示します。
 
-このメトリクスは `apple_gpu_stats` バイナリから取得されます:
+このメトリクスは`apple_gpu_stats`バイナリから取得されます：
 ```python
 raw_stats["power"]
 ```
-これはApple GPUの電力使用量をワットで計算します。最大電力使用量は16.5Wに固定されています。
 
-W&Bはこのメトリクスに `gpu.0.powerWatts` タグを割り当てます。
+これによりApple GPUの電力消費がワット単位で計算されます。最大電力消費量は16.5Wにハードコーディングされています。
 
-### Apple GPU Power Usage Percent
-Apple GPUデバイスの電力容量に対する電力使用率をパーセンテージで反映します。ARM Macに適用されます。
+W&Bはこのメトリクスに`gpu.0.powerWatts`タグを割り当てます。
 
-`apple_gpu_stats` バイナリを使用して計算されます:
+### Apple GPU電力消費パーセンテージ
+ARM MacのApple GPUデバイスの電力消費率をその電力容量に対するパーセンテージで示します。
+
+`apple_gpu_stats`バイナリを使用して計算されます：
 ```python
 (raw_stats["power"] / MAX_POWER_WATTS) * 100
 ```
-これにより、GPUの電力容量に対する電力使用率が計算されます。最大電力使用量は16.5Wに固定されています。
 
-W&Bはこのメトリクスに `gpu.0.powerPercent` タグを割り当てます。
+これにより、GPUの電力容量に対する電力消費率が計算されます。最大電力消費量は16.5Wにハードコーディングされています。
+
+W&Bはこのメトリクスに`gpu.0.powerPercent`タグを割り当てます。
 
 ## Graphcore IPU
-Graphcore IPU（インテリジェンスプロセッシングユニット）は、機械学習タスク専用に設計された独自のハードウェアアクセラレータです。
+Graphcore IPU（Intelligence Processing Units）は、機械知能タスク専用に設計された独自のハードウェアアクセラレータです。
 
-### IPU Device Metrics
-これらのメトリクスは、特定のIPUデバイスに対するさまざまな統計を示します。各メトリクスには、デバイスID (`device_id`) とメトリクスキー (`metric_key`) があり、それによって識別されます。W&Bはこのメトリクスに `ipu.{device_id}.{metric_key}` タグを割り当てます。
+### IPUデバイスのメトリクス
+これらのメトリクスは特定のIPUデバイスのさまざまな統計情報を表します。各メトリクスにはデバイスID（`device_id`）とメトリクスキー（`metric_key`）があり、これにより識別されます。W&Bはこのメトリクスに`ipu.{device_id}.{metric_key}`タグを割り当てます。
 
-メトリクスはGraphcoreの `gcipuinfo` バイナリと対話する独自の `gcipuinfo` ラ
+メトリクスは、Graphcoreの`gcipuinfo`バイナリとやり取りするプロプライエタリな`gcipuinfo`ライブラリを使用して抽出されます。`sample`メソッドは、プロセスID（`pid`）に関連付けられた各IPUデバイスのこれらのメトリクスを取得します。時間経過とともに変化するメトリクス、またはデバイスのメトリクスが初めて取得される場合のみ記録され、冗長なデータログを避けます。
 
-### Trainium Neuron Device 全メモリ使用量
-Neuron デバイス上の全メモリ使用量をバイト単位で示します。
+各メトリクスについては、メトリクスの値をその生の文字列表現から抽出するための`parse_metric`メソッドが使用されます。メトリクスは、複数のサンプル間で`aggregate`メソッドを使用して集計されます。
 
-W&B はこのメトリクスに `trn.neuron_device_total_memory_usage)` タグを割り当てます。
+以下は利用可能なメトリクスとその単位のリストです：
 
-### Trainium ホストメモリ使用内訳
+- **平均ボード温度**（`average board temp (C)`）：IPUボードの温度（摂氏）
+- **平均ダイ温度**（`average die temp (C)`）：IPUダイの温度（摂氏）
+- **クロックスピード**（`clock (MHz)`）：IPUのクロックスピード（MHz）
+- **IPUパワー**（`ipu power (W)`）：IPUの電力消費量（ワット）
+- **IPU利用率**（`ipu utilisation (%)`）：IPUの利用率（パーセンテージ）
+- **IPUセッション利用率**（`ipu utilisation (session) (%)`）：現在のセッションに特化したIPUの利用率（パーセンテージ）
+- **データリンクスピード**（`speed (GT/s)`）：ギガトランスファー毎秒のデータ伝送速度
 
-ホスト上のメモリ使用量の内訳は以下の通りです：
+## Google Cloud TPU
+Tensor Processing Units（TPUs）とは、機械学習ワークロードを加速するためにGoogleが独自に開発したASICS（Application Specific Integrated Circuits）です。
 
-- **Application Memory** (`trn.host_total_memory_usage.application_memory`): アプリケーションが使用するメモリ。
-- **Constants** (`trn.host_total_memory_usage.constants`): 定数に使用されるメモリ。
-- **DMA Buffers** (`trn.host_total_memory_usage.dma_buffers`): ダイレクトメモリアクセスバッファーに使用されるメモリ。
-- **Tensors** (`trn.host_total_memory_usage.tensors`): テンソルに使用されるメモリ。
+### TPU利用率
+このメトリクスは、Google Cloud TPUの利用率をパーセンテージで示します。
 
-### Trainium Neuron Core メモリ使用内訳
-各 NeuronCore の詳細なメモリ使用情報：
+```python
+tpu_name = os.environ.get("TPU_NAME")
 
-- **Constants** (`trn.{core_index}.neuroncore_memory_usage.constants`)
-- **Model Code** (`trn.{core_index}.neuroncore_memory_usage.model_code`)
-- **Model Shared Scratchpad** (`trn.{core_index}.neuroncore_memory_usage.model_shared_scratchpad`)
-- **Runtime Memory** (`trn.{core_index}.neuroncore_memory_usage.runtime_memory`)
-- **Tensors** (`trn.{core_index}.neuroncore_memory_usage.tensors`)
+compute_zone = os.environ.get("CLOUDSDK_COMPUTE_ZONE")
+core_project = os.environ.get("CLOUDSDK_CORE_PROJECT")
+
+from tensorflow.python.distribute.cluster_resolver import (
+    tpu_cluster_resolver,
+)
+
+service_addr = tpu_cluster_resolver.TPUClusterResolver(
+    [tpu_name], zone=compute_zone, project=core_project
+).get_master()
+
+service_addr = service_addr.replace("grpc://", "").replace(":8470", ":8466")
+
+from tensorflow.python.profiler import profiler_client
+
+result = profiler_client.monitor(service_addr, duration_ms=100, level=2)
+```
+
+W&Bはこのメトリクスに`tpu`タグを割り当てます。
+
+## AWS Trainium
+[AWS Trainium](https://aws.amazon.com/machine-learning/trainium/)は、機械学習ワークロードを加速するためにAWSが提供する特化型ハードウェアプラットフォームです。AWSの`neuron-monitor`ツールを使用して、AWS Trainiumメトリクスをキャプチャします。
+
+### Trainium Neuron Core Utilization
+NeuronCoreごとの利用率を測定します。コアごとに報告されます。
+
+W&Bはこのメトリクスに`trn.{core_index}.neuroncore_utilization`タグを割り当てます。
+
+### Trainiumホストメモリ使用量、総計
+ホスト上の総メモリ消費量をバイト単位で示します。
+
+W&Bはこのメトリクスに`trn.host_total_memory_usage`タグを割り当てます。
+
+### Trainium Neuronデバイス総メモリ使用量
+Neuronデバイス上の総メモリ消費量をバイト単位で表します。
+
+W&Bはこのメトリクスに`trn.neuron_device_total_memory_usage)`タグを割り当てます。
+
+### Trainiumホストメモリ使用量の内訳
+
+以下はホスト上のメモリ使用量の内訳です：
+
+- **アプリケーションメモリ**（`trn.host_total_memory_usage.application_memory`）：アプリケーションによって使用されるメモリ
+- **定数**（`trn.host_total_memory_usage.constants`）：定数に使用されるメモリ
+- **DMAバッファ**（`trn.host_total_memory_usage.dma_buffers`）：ダイレクトメモリアクセスバッファに使用されるメモリ
+- **テンソル**（`trn.host_total_memory_usage.tensors`）：テンソルに使用されるメモリ
+
+### Trainium Neuron Coreメモリ使用量内訳
+各NeuronCoreに対する詳細なメモリ使用情報：
+
+- **定数**（`trn.{core_index}.neuroncore_memory_usage.constants`）
+- **モデルコード**（`trn.{core_index}.neuroncore_memory_usage.model_code`）
+- **モデル共有スクラッチパッド**（`trn.{core_index}.neuroncore_memory_usage.model_shared_scratchpad`）
+- **ランタイムメモリ**（`trn.{core_index}.neuroncore_memory_usage.runtime_memory`）
+- **テンソル**（`trn.{core_index}.neuroncore_memory_usage.tensors`）
 
 ## OpenMetrics
-OpenMetrics / Prometheus 互換のデータを公開する外部エンドポイントからメトリクスをキャプチャしログに記録します。カスタムの正規表現ベースのメトリクスフィルターを消費するエンドポイントに適用することができます。
+OpenMetrics / Prometheus互換データを公開する外部エンドポイントからメトリクスをキャプチャおよびログします。カスタム正規表現ベースのメトリクスフィルターを消費エンドポイントに適用するサポートもあります。
 
-[このレポート](https://wandb.ai/dimaduev/dcgm/reports/Monitoring-GPU-cluster-performance-with-NVIDIA-DCGM-Exporter-and-Weights-Biases--Vmlldzo0MDYxMTA1) で、NVIDIA DCGM-Exporter を使用した特定の GPU クラスターのパフォーマンス監視のケースでこの機能を使用する方法の詳細な例を参照してください。
