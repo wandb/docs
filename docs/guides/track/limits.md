@@ -226,7 +226,7 @@ if epoch % 5 == 0:  # Log metrics every 5 epochs
 
 ## Browser considerations
 
-The W&B app can be memory-intensive and performs best in Chrome (and, typically, worst in Safari).  Depending on your computer's memory, having W&B active in 3+ tabs at once can cause performance to degrade; if you encounter unexpectedly slow performance, consider closing other tabs or applications.
+The W&B app can be memory-intensive and performs best in Chrome.  Depending on your computer's memory, having W&B active in 3+ tabs at once can cause performance to degrade; if you encounter unexpectedly slow performance, consider closing other tabs or applications.
 
 
 ## Reporting performance issues to W&B
