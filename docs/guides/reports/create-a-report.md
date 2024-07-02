@@ -1,20 +1,22 @@
 ---
-description: W&B レポートは、アプリのUIを使用するか、または Weights & Biases SDK を使ってプログラムで作成します。
+description: >-
+  Create a W&B Report with the App UI or programmatically with the Weights &
+  Biases SDK.
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# レポートを作成する
+# Create a report
 
 <head>
   <title>Create a W&B Report</title>
 </head>
 
-W&B App UIを使用してインタラクティブに、またはW&B Python SDKを使用してプログラム的にレポートを作成します。
+Create a report interactively with the W&B App UI or programmatically with the W&B Python SDK.
 
 :::info
-この[Google Colabの例](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb)を参照してください。
+See this [Google Colab for an example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb).
 :::
 
 <Tabs
@@ -26,49 +28,48 @@ W&B App UIを使用してインタラクティブに、またはW&B Python SDK�
   ]}>
   <TabItem value="app">
 
-1. W&B Appのプロジェクトワークスペースに移動します。
-2. ワークスペースの右上にある **Create report** をクリックします。
+1. Navigate to your project workspace in the W&B App.
+2. Click **Create report** in the upper right corner of your workspace.
 
-![Create report button](/images/reports/create_a_report_button.png)
+![](/images/reports/create_a_report_button.png)
 
-3. モーダルが表示されます。開始したいチャートを選択します。チャートはレポートインターフェースから後で追加または削除できます。
+3. A modal will appear. Select the charts you would like to start with. You can add or delete charts later from the report interface.
 
-![Create report modal](/images/reports/create_a_report_modal.png)
+![](/images/reports/create_a_report_modal.png)
 
-4. **Filter run sets** オプションを選択して、新しいRunがレポートに追加されないようにします。このオプションのオンオフを切り替えることができます。**Create report** をクリックすると、レポートタブにドラフトレポートが表示され、続けて作業できます。
+4. Select the **Filter run sets** option to prevent new runs from being added to your report. You can toggle this option on or off. Once you click **Create report,** a draft report will be available in the report tab to continue working on.
+
 
   </TabItem>
   <TabItem value="reporttab">
 
-1. W&B Appのプロジェクトワークスペースに移動します。
-2. プロジェクト内の **Reports** タブを選択します。
-3. レポートページで **Create Report** ボタンを選択します。
+1. Navigate to your project workspace in the W&B App.
+2. Select to the **Reports** tab (clipboard image) in your project.
+3. Select the **Create Report** button on the report page. 
 
-![Create report button](/images/reports/create_report_button.png)
-
+![](/images/reports/create_report_button.png)
   </TabItem>
   <TabItem value="sdk">
 
-
-`wandb` ライブラリを使用してプログラム的にレポートを作成します。
+Create a report programmatically with the `wandb` library.
 
 ```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 ```
 
-Report Class Public API（[`wandb.apis.reports`](https://docs.wandb.ai/ref/python/public-api/api#reports)）を使用してレポートインスタンスを作成します。プロジェクトの名前を指定します。
+Create a report instance with the Report Class Public API ([`wandb.apis.reports`](https://docs.wandb.ai/ref/python/public-api/api#reports)). Specify a name for the project.
 
 ```python
 report = wr.Report(project="report_standard")
 ```
 
-レポートは `.save()` メソッドを呼び出すまでW&Bサーバーにアップロードされません。
+Reports are not uploaded to the W&B server until you call the .`save()` method:
 
 ```python
 report.save()
 ```
 
-App UIを使用してインタラクティブに、またはプログラム的にレポートを編集する方法については [Edit a report](https://docs.wandb.ai/guides/reports/edit-a-report) を参照してください。
+For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report](https://docs.wandb.ai/guides/reports/edit-a-report).
   </TabItem>
 </Tabs>
