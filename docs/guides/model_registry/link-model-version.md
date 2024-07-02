@@ -6,13 +6,13 @@ import TabItem from '@theme/TabItem';
 
 # モデルバージョンをリンクする
 
-W&BアプリまたはPython SDKでプログラム的にモデルバージョンを登録済みモデルにリンクします。
+モデルバージョンをW&Bの登録済みモデルにリンクするには、W&BアプリやPython SDKを使ってプログラム的に行うことができます。
 
 ## プログラム的にモデルをリンクする
 
-[`link_model`](../../ref/python/run.md#link_model) メソッドを使用して、プログラム的にモデルファイルをW&Bのrunにログし、 [W&B Model Registry](./intro.md) にリンクします。
+[`link_model`](../../ref/python/run.md#link_model) メソッドを使って、W&Bのrunにモデルファイルをプログラム的にログし、[W&B Model Registry](./intro.md)にリンクします。
 
-`<>`で囲まれた他の値を自分のものに置き換えてください:
+`<>` で囲まれた他の値を自分のものに置き換えてください:
 
 ```python
 import wandb
@@ -22,14 +22,14 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
-W&Bは、指定した `registered-model-name` パラメータの名前が既に存在しない場合、自動的に登録済みモデルを作成します。
+`registered-model-name` パラメータに指定した名前が既に存在しない場合、W&Bはあなたのために登録済みモデルを作成します。
 
-例えば、「Fine-Tuned-Review-Autocompletion」という名前の既存の登録済みモデル (`registered-model-name="Fine-Tuned-Review-Autocompletion"`) が Model Registry にあり、いくつかのモデルバージョン `v0`, `v1`, `v2` がリンクされているとします。この状態で新しいモデルをプログラム的にリンクし、同じ登録済みモデル名 (`registered-model-name="Fine-Tuned-Review-Autocompletion"`) を使用すると、そのモデルは既存の登録済みモデルとリンクされ、 `v3` というモデルバージョンが割り当てられます。この名前の登録済みモデルが存在しない場合、新しい登録済みモデルが作成され、 `v0` というモデルバージョンが割り当てられます。
+例えば、"Fine-Tuned-Review-Autocompletion"(`registered-model-name="Fine-Tuned-Review-Autocompletion"`)という名前の登録済みモデルがあり、いくつかのモデルバージョン (`v0`, `v1`, `v2`) がリンクされているとします。新しいモデルをプログラム的にリンクし、同じ登録済みモデル名(`registered-model-name="Fine-Tuned-Review-Autocompletion"`)を使用すると、W&Bはこのモデルを既存の登録済みモデルにリンクし、モデルバージョン `v3` を割り当てます。この名前の登録済みモデルが存在しない場合、新しい登録済みモデルが作成され、モデルバージョン `v0` を持ちます。
 
-["Fine-Tuned-Review-Autocompletion" 登録済みモデルの例はこちら](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models) をご覧ください。
+["Fine-Tuned-Review-Autocompletion" 登録済みモデルの例はこちら](https://wandb.ai/reviewco/registry/model?selectionPath=reviewco%2Fmodel-registry%2FFinetuned-Review-Autocompletion&view=all-models)
 
 ## インタラクティブにモデルをリンクする
-Model Registry または Artifact ブラウザを使用して、インタラクティブにモデルをリンクします。
+Model Registry もしくは Artifact ブラウザを使ってインタラクティブにモデルをリンクします。
 
 <Tabs
   defaultValue="model_ui"
@@ -39,38 +39,38 @@ Model Registry または Artifact ブラウザを使用して、インタラク�
   ]}>
   <TabItem value="model_ui">
 
-1. [Model Registry App](https://wandb.ai/registry/model) にアクセスします。
-2. リンクしたい新しいモデルの名前の横にマウスをホバーします。
-3. 「View details」の横にあるミートボールメニューアイコン（三点リーダー）を選択します。
-4. ドロップダウンメニューから「Link new version」を選択します。
-5. 「Project」のドロップダウンから、モデルを含むプロジェクトの名前を選択します。
-6. 「Model Artifact」のドロップダウンから、モデルアーティファクトの名前を選択します。
-7. 「Version」のドロップダウンから、登録済みモデルにリンクしたいモデルバージョンを選択します。
+1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model) にある Model Registry App に移動します。
+2. 登録済みモデルの名前の横にマウスをホバーします。
+3.  **View details** アイコン（3点リーダー）を選択します。
+4. ドロップダウンから **Link new version** を選択します。
+5. **Project** ドロップダウンから、モデルを含むプロジェクトの名前を選択します。
+6. **Model Artifact** ドロップダウンから、モデルアーティファクトの名前を選択します。
+7. **Version** ドロップダウンから、登録済みモデルにリンクしたいモデルバージョンを選択します。
 
 ![](/images/models/link_model_wmodel_reg.gif)
 
   </TabItem>
   <TabItem value="artifacts_ui">
 
-1. W&BアプリでプロジェクトのArtifactブラウザにアクセスします: `https://wandb.ai/<entity>/<project>/artifacts`
-2. 左のサイドバーでArtifactsアイコンを選択します。
-3. レジストリにリンクしたいモデルバージョンをクリックします。
-4. 「Version overview」セクションで、「Link to registry」ボタンをクリックします。
-5. 画面右側に表示されるモーダルから、**Select a registered model** メニューのドロップダウンから登録済みモデルを選択します。
-6. 「Next step」をクリックします。
-7. （オプション）「Aliases」ドロップダウンからエイリアスを選択します。
-8. 「Link to registry」をクリックします。
+1. あなたのプロジェクトのアーティファクト ブラウザに移動します: `https://wandb.ai/<entity>/<project>/artifacts`
+2. 左側のサイドバーでアーティファクトアイコンを選択します。
+3. 登録にリンクしたいモデルバージョンをクリックします。
+4. **Version overview** セクション内で **Link to registry** ボタンをクリックします。
+5. 画面の右側に表示されるモーダルから、 **Select a register model** メニューのドロップダウンから、登録済みモデルを選択します。
+6. **Next step** をクリックします。
+7. （任意）**Aliases** ドロップダウンからエイリアスを選択します。
+8. **Link to registry** をクリックします。
 
 ![](/images/models/manual_linking.gif)
 
   </TabItem>
 </Tabs>
 
-## リンク済みモデルのソースを表示
+## リンクされたモデルのソースを見る
 
-リンク済みモデルのソースを表示する方法は2つあります。モデルがログされているプロジェクト内のArtifactブラウザ、またはW&B Model Registryです。
+リンクされたモデルのソースを見る方法は2つあります: モデルがログされたプロジェクト内のアーティファクトブラウザとW&B Model Registryです。
 
-モデルレジストリ内の特定のモデルバージョンは、そのソースモデルアーティファクト（モデルがログされているプロジェクト内に位置）にポインタで接続されています。ソースモデルアーティファクトもモデルレジストリにポインタを持っています。
+ポインタはモデルレジストリ内の特定のモデルバージョンを、モデルがログされたプロジェクト内にあるソースモデルアーティファクトに接続します。ソースモデルアーティファクトにもモデルレジストリへのポインタがあります。
 
 <Tabs
   defaultValue="registry"
@@ -80,28 +80,30 @@ Model Registry または Artifact ブラウザを使用して、インタラク�
   ]}>
   <TabItem value="registry">
 
-1. [モデルレジストリ](https://wandb.ai/registry/model) にアクセスします。
+1. あなたのモデルレジストリに移動します: [https://wandb.ai/registry/model](https://wandb.ai/registry/model)
 ![](/images/models/create_registered_model_1.png)
-2. 登録済みモデルの名前の横にある「View details」を選択します。
-3. 「Versions」セクション内で、調査したいモデルバージョンの横にある「View」を選択します。
-4. 右側のパネル内の「Version」タブをクリックします。
-5. 「Version overview」セクション内には「Source Version」フィールドが含まれた行があります。「Source Version」フィールドには、モデルの名前とバージョンが表示されます。
+2. 登録済みモデルの名前の横にある **View details** を選択します。
+3. **Versions** セクション内で、調査したいモデルバージョンの横にある **View** を選択します。
+4. 右パネル内の **Version** タブをクリックします。
+5. **Version overview** セクション内に **Source Version** フィールドを持つ行があります。これはモデルの名前とモデルのバージョンの両方を表示します。
 
-例えば、以下の画像では `mnist_model:v0` というバージョンの `mnist_model` モデルが表示されており、 `MNIST-dev` という登録済みモデルにリンクされています。
+例えば、下記画像では `v0` モデルバージョンで呼ばれる `mnist_model` ( **Source version** フィールド `mnist_model:v0` を参照) が、 `MNIST-dev` という登録モデルにリンクされています。
 
 ![](/images/models/view_linked_model_registry.png)
 
   </TabItem>
   <TabItem value="browser">
 
-1. W&BアプリでプロジェクトのArtifactブラウザにアクセスします: `https://wandb.ai/<entity>/<project>/artifacts`
-2. 左のサイドバーでArtifactsアイコンを選択します。
-3. Artifactsパネルの「model」ドロップダウンメニューを展開します。
-4. モデルレジストリにリンクされたモデルの名前とバージョンを選択します。
-5. 右側のパネル内の「Version」タブをクリックします。
-6. 「Version overview」セクション内には「Linked To」フィールドが含まれた行があります。「Linked To」フィールドには、登録済みモデルの名前と、そのバージョンが表示されます（`registered-model-name:version`）。
+1. あなたのプロジェクトのアーティファクト ブラウザに移動します: `https://wandb.ai/<entity>/<project>/artifacts`
+2. 左側のサイドバーでアーティファクトアイコンを選択します。
+3. アーティファクト パネルから **model** ドロップダウンメニューを展開します。
+4. モデルレジストリにリンクされた名前とバージョンのモデルを選択します。
+5. 右パネル内の **Version** タブをクリックします。
+6. **Version overview** セクション内に **Linked To** フィールドを持つ行があります。 これは登録済みモデルの名前とそのバージョン (`registered-model-name:version`) を表示します。
 
-例えば、以下の画像では `MNIST-dev` という登録済みモデルが表示されており（「Linked To」フィールド）、`mnist_model:v0` というバージョンの `mnist_model` モデルが `MNIST-dev` 登録済みモデルにポインタで接続されています。
+例えば、下記画像では `MNIST-dev` という登録済みモデルがあります ( **Linked To** フィールドを参照)。バージョン `v0` (`mnist_model:v0`) のモデルバージョンが `MNIST-dev` 登録済みモデルを指しています。
 
 ![](/images/models/view_linked_model_artifacts_browser.png)
 
+  </TabItem>
+</Tabs>
