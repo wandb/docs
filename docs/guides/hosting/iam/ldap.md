@@ -30,6 +30,7 @@ LDAP 認証を有効にして設定できるのは、W&B 管理者ロールの�
 5. **Update Settings** をクリックして設定をテストします。これにより、W&B サーバーとのテストクライアント/接続が確立されます。
 6. 接続が確認されたら、**Enable LDAP Authentication** をトグルし、**Update Settings** ボタンを選択します。
 
+
   </TabItem>
   <TabItem value="env">
 

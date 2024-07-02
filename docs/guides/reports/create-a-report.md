@@ -37,6 +37,7 @@ import TabItem from '@theme/TabItem';
 
 4. **Filter run sets** オプションを選択して、新しい run がレポートに追加されないようにします。このオプションはオンまたはオフに切り替え可能です。**Create report** をクリックすると、レポートタブに下書きレポートが作成され、作業を続けることができます。
 
+
   </TabItem>
   <TabItem value="reporttab">
 
@@ -45,6 +46,8 @@ import TabItem from '@theme/TabItem';
 3. レポートページで **Create Report** ボタンを選択します。
 
 ![](/images/reports/create_report_button.png)
+
+
   </TabItem>
   <TabItem value="sdk">
 
