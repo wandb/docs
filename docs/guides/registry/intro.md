@@ -8,29 +8,32 @@ displayed_sidebar: default
 :::info
 W&B Registry is in private preview. Contact your account team or support@wandb.com for early access.  
 :::
-
-W&B Registry is a governed and curated central repository of machine learning artifacts, and provides versioning, aliasing, and lineage tracking of all ML models, datasets, and other artifacts across your organization. Registry provides ML practitioners the ability to track the creation and usage of artifacts related to ML experiments.
-
-<img width="1253" alt="Screenshot 2024-06-27 at 4 50 49 PM" src="https://github.com/wandb/docodile/assets/40642416/c78aa5cd-6cb5-464a-955e-f8c25542bf44">
+<!-- 
+W&B Registry is a governed and curated central repository of machine learning artifacts, and provides versioning, aliasing, and lineage tracking of all ML models, datasets, and other artifacts across your organization. Registry provides ML practitioners the ability to track the creation and usage of artifacts related to ML experiments. -->
 
 
-With W&B Registry, you can:
+W&B Registry is a curated and governed repository of machine learning [artifacts](../artifacts/intro.md) within your W&B organization. The W&B Registry provides artifact versioning, artifact lineage tracking, provides information of when an artifact is created and when an artifact is used, and more.
 
-- [Bookmark](https://docs.wandb.ai/guides/registry/link_version) your best artifacts for each machine learning task.
-- [Automate](https://docs.wandb.ai/guides/model_registry/model-registry-automations) downstream processes and model CI/CD.
-- Track an [artifact’s lineage](https://docs.wandb.ai/guides/model_registry/model-lineage) and audit the history of changes to production artifacts.
-- [Configure](https://docs.wandb.ai/guides/registry/configure_registry) viewer, member, or admin access to a registry for all org users
+![](/images/registry/registry_landing_page.png)
+
+Use W&B Registry to:
+
+- [Bookmark](./link_version.md) your best artifacts for each machine learning task.
+- [Automate](../model_registry/model-registry-automations.md) downstream processes and model CI/CD.
+- Track an [artifact’s lineage](../model_registry/model-lineage.md) and audit the history of changes to production artifacts.
+- [Configure](./configure_registry.md) viewer, member, or admin access to a registry for all org users
+- Quickly find or reference important artifacts with a unique identifier known as aliases.
 
 ## How it works
 
-Track and publish your staged artifacts to W&B Registry in a few steps.
+Track and publish your staged artifacts to W&B Registry in a few steps:
 
 1. Log an artifact version: In your training or experiment script, add a few lines of code to save the artifact to a W&B run.
 2. Link to registry: Bookmark the most relevant and valuable artifact version by linking it to a registry.
 
 The following code snippet demonstrates how to log and link a model to the model registry inside W&B Registry:
 
-```jsx
+```python
 import wandb
 import random
 
@@ -51,8 +54,6 @@ run.link_artifact(artifact=logged_artifact, target_path="<YOUR-ORG-NAME>/wandb-r
 run.finish()
 ```
 
-1. When working with models, connect transitions to CI/CD workflows: transition candidate models through workflow stages and [automate downstream actions](https://docs.wandb.ai/guides/model_registry/model-registry-automations) with webhooks or jobs.
-
 ## How to get started
 
 Depending on your use case, explore the following resources to get started with the W&B Registry:
@@ -61,8 +62,8 @@ Depending on your use case, explore the following resources to get started with
     - [Logging and registering models](https://www.youtube.com/watch?si=MV7nc6v-pYwDyS-3&v=ZYipBwBeSKE&feature=youtu.be)
     - [Consuming artifacts and automating downstream processes](https://www.youtube.com/watch?v=8PFCrDSeHzw) in Registry.
 - Learn about:
-    - [Configuring access control](https://docs.wandb.ai/guides/registry/configure_registry) for a registry
-    - [How to connect the Model Registry to CI/CD processes](https://docs.wandb.ai/guides/model_registry/model-registry-automations).
+    - [Configuring access control](./configure_registry.md) for a registry
+    - [How to connect the Model Registry to CI/CD processes](../model_registry/model-registry-automations.md).
 - Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
     - Use the W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages
     - Automate your model management workflows using webhooks and launch jobs.
