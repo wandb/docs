@@ -8,9 +8,6 @@ displayed_sidebar: default
 :::info
 W&B Registry is in private preview. Contact your account team or support@wandb.com for early access.  
 :::
-<!-- 
-W&B Registry is a governed and curated central repository of machine learning artifacts, and provides versioning, aliasing, and lineage tracking of all ML models, datasets, and other artifacts across your organization. Registry provides ML practitioners the ability to track the creation and usage of artifacts related to ML experiments. -->
-
 
 W&B Registry is a curated and governed repository of machine learning [artifacts](../artifacts/intro.md) within your W&B organization. The W&B Registry provides artifact versioning, artifact lineage tracking, provides information of when an artifact is created and when an artifact is used, and more.
 
@@ -78,5 +75,3 @@ If your team is actively using the existing W&B Model Registry to organize your 
 Look out for incoming information on a migration we will be making available to migrate contents from the current model registry into the new model registry inside W&B Registry. You can reach out to support@wandb.com with any questions or to speak to our product team about any concerns with the migration.
 
  
-
-<!-- To do: INSERT -->
