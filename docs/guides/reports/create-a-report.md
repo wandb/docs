@@ -1,5 +1,5 @@
 ---
-description: App UI または Weights & Biases SDK を使用して W&B Report を作成します。
+description: W&B レポートは、アプリのUIを使用するか、または Weights & Biases SDK を使ってプログラムで作成します。
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
@@ -11,10 +11,10 @@ import TabItem from '@theme/TabItem';
   <title>Create a W&B Report</title>
 </head>
 
-W&BアプリUIを使用して対話的に、またはW&B Python SDKを使用してプログラム的にレポートを作成します。
+W&B App UIを使用してインタラクティブに、またはW&B Python SDKを使用してプログラム的にレポートを作成します。
 
 :::info
-こちらの[Google Colabの例](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb)をご覧ください。
+この[Google Colabの例](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb)を参照してください。
 :::
 
 <Tabs
@@ -26,27 +26,29 @@ W&BアプリUIを使用して対話的に、またはW&B Python SDKを使用し�
   ]}>
   <TabItem value="app">
 
-1. W&Bアプリでプロジェクトワークスペースに移動します。
+1. W&B Appのプロジェクトワークスペースに移動します。
 2. ワークスペースの右上にある **Create report** をクリックします。
 
-![](/images/reports/create_a_report_button.png)
+![Create report button](/images/reports/create_a_report_button.png)
 
-3. モーダルが表示されます。最初に追加したいチャートを選択します。レポートインターフェースから後でチャートを追加または削除できます。
+3. モーダルが表示されます。開始したいチャートを選択します。チャートはレポートインターフェースから後で追加または削除できます。
 
-![](/images/reports/create_a_report_modal.png)
+![Create report modal](/images/reports/create_a_report_modal.png)
 
-4. **Filter run sets** オプションを選択して、新しいrunがレポートに追加されないようにします。このオプションはオンまたはオフに切り替えることができます。**Create report** をクリックすると、レポートタブに下書きが表示され、作業を続けることができます。
+4. **Filter run sets** オプションを選択して、新しいRunがレポートに追加されないようにします。このオプションのオンオフを切り替えることができます。**Create report** をクリックすると、レポートタブにドラフトレポートが表示され、続けて作業できます。
 
   </TabItem>
   <TabItem value="reporttab">
 
-1. W&Bアプリでプロジェクトワークスペースに移動します。
-2. プロジェクトの**Reports**タブ（クリップボードの画像）を選択します。
-3. レポートページの **Create Report** ボタンを選択します。
+1. W&B Appのプロジェクトワークスペースに移動します。
+2. プロジェクト内の **Reports** タブを選択します。
+3. レポートページで **Create Report** ボタンを選択します。
 
-![](/images/reports/create_report_button.png)
+![Create report button](/images/reports/create_report_button.png)
+
   </TabItem>
   <TabItem value="sdk">
+
 
 `wandb` ライブラリを使用してプログラム的にレポートを作成します。
 
@@ -55,18 +57,18 @@ import wandb
 import wandb_workspaces.reports.v2 as wr
 ```
 
-ReportクラスのパブリックAPI（[`wandb.apis.reports`](https://docs.wandb.ai/ref/python/public-api/api#reports)）を使用してレポートインスタンスを作成します。プロジェクトの名前を指定します。
+Report Class Public API（[`wandb.apis.reports`](https://docs.wandb.ai/ref/python/public-api/api#reports)）を使用してレポートインスタンスを作成します。プロジェクトの名前を指定します。
 
 ```python
 report = wr.Report(project="report_standard")
 ```
 
-レポートは、`.save()` メソッドを呼び出すまではW&Bサーバーにアップロードされません。
+レポートは `.save()` メソッドを呼び出すまでW&Bサーバーにアップロードされません。
 
 ```python
 report.save()
 ```
 
-App UIを使用して対話的に、またはプログラム的にレポートを編集する方法については、[Edit a report](https://docs.wandb.ai/guides/reports/edit-a-report)をご覧ください。
+App UIを使用してインタラクティブに、またはプログラム的にレポートを編集する方法については [Edit a report](https://docs.wandb.ai/guides/reports/edit-a-report) を参照してください。
   </TabItem>
 </Tabs>
