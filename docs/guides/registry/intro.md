@@ -11,8 +11,7 @@ W&B Registry is in private preview. Contact your account team or support@wandb.c
 
 W&B Registry is a governed and curated central repository of machine learning artifacts, and provides versioning, aliasing, and lineage tracking of all ML models, datasets, and other artifacts across your organization. Registry provides ML practitioners the ability to track the creation and usage of artifacts related to ML experiments.
 
-<img width="1253" alt="Screenshot 2024-06-27 at 4 50 49 PM" src="https://github.com/wandb/docodile/assets/40642416/c78aa5cd-6cb5-464a-955e-f8c25542bf44">
-
+![Registry-landing-page-homepage-with-custom-registries](https://github.com/wandb/docodile/assets/40642416/51a929c9-82af-4015-8183-82ea4de32026)
 
 With W&B Registry, you can:
 
