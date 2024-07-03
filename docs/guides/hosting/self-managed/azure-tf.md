@@ -170,16 +170,14 @@ This is the most straightforward deployment option configuration that will creat
 
 Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
 
-You need to add the option `create_redis = true` to the same `main.tf` file in the Recommended deployment section to enable the cache.
-
+You need to add the option `create_redis = true` to the same `main.tf` file we worked on in [Recommended deployment](./azure-tf.md#deployment---recommended-20-mins) to enable the cache.
 
 ```bash
-
-
-# 全ての必要なサービスを立ち上げる
+# Spin up all required services
 module "wandb" {
   source  = "wandb/wandb/azurerm"
   version = "~> 1.2"
+
 
   namespace   = var.namespace
   location    = var.location
@@ -187,20 +185,21 @@ module "wandb" {
   domain_name = var.domain_name
   subdomain   = var.subdomain
 
-  create_redis       = true # Redis を作成
+  create_redis       = true # Create Redis
   [...]
-}
+```
 
-## 外部キューを使用したデプロイメント
+## Deployment with External Queue
 
-デプロイメントオプション3は、外部の `メッセージブローカー` を有効にすることです。W&Bにはブローカーが組み込まれているため、これはオプションです。このオプションではパフォーマンスの向上は見込めません。
+Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-メッセージブローカーを提供するAzureリソースは `Azure Event Grid` であり、有効にするためには、[Deployment Recommended](azure-tf.md#deployment---recommended-20-mins) で作業した同じ `main.tf` に `use_internal_queue = false` オプションを追加する必要があります
+The Azure resource that provides the message broker is the `Azure Event Grid`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the [Recommended deployment](./azure-tf.md#deployment---recommended-20-mins)
 ```bash
-# 全ての必要なサービスを立ち上げる
+# Spin up all required services
 module "wandb" {
   source  = "wandb/wandb/azurerm"
   version = "~> 1.2"
+
 
   namespace   = var.namespace
   location    = var.location
@@ -208,11 +207,12 @@ module "wandb" {
   domain_name = var.domain_name
   subdomain   = var.subdomain
 
-  use_internal_queue       = false # Azure Event Grid を有効にする
+  use_internal_queue       = false # Enable Azure Event Grid
   [...]
 }
 ```
 
-## その他のデプロイメントオプション
+## Other deployment options
 
-全てのデプロイメントオプションを組み合わせて、同じファイルに全設定を追加することができます。[Terraform Module](https://github.com/wandb/terraform-azure-wandb) は、標準オプションと [Deployment Recommended](azure-tf.md#deployment---recommended-20-mins) に見られる最小設定と共に組み合わせられるいくつかのオプションを提供します。
+You can combine all three deployment options adding all configurations to the same file.
+The [Terraform Module](https://github.com/wandb/terraform-azure-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in the Recommended deployment section of this guide.
