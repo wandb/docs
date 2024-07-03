@@ -10,7 +10,7 @@ Create a collection within a registry to organize your artifacts. A *collection*
 
 ![](/images/registry/what_is_collection.png)
 
-For example, the preceding image shows a registry named "Forecast". Within the "Forecast" registry there are two collections called "LowLightPedRecog-YOLO" and "TextCat". 
+For example, the preceding image shows a registry named "Fine-tuned models". Within the "Fine-tuned models" registry there are is a collection called "MNIST".
 
 :::tip
 If you are familiar with W&B Model Registry, you might aware of "registered models". In W&B Registry, registered models are renamed to "collections". The way you [create a registered model in the Model Registry](../model_registry/create-registered-model.md) is nearly the same for creating a collection in the W&B Registry. The main difference being that a collection does not belong to an entity like registered models.
