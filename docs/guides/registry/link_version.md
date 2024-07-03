@@ -26,7 +26,7 @@ Based on your use case, follow the instructions described in the tabs below to l
   <TabItem value="python_sdk">
 
 
-Use the [`link_artifact`](../../ref/python/run.md#link_artifact) method to programmatically link an artifact to a registry. When you link an artifact, specify the path where you want artifact version to link to for the `target_path` parameter. The target path takes the form of `{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`. Note that this path will inform the registry and collection the artifact will be linked to. 
+Use the [`link_artifact`](../../ref/python/run.md#link_artifact) method to programmatically link an artifact to a registry. When you link an artifact, specify the path where you want artifact version to link to for the `target_path` parameter. The target path takes the form of `{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`. Note that this path informs the registry and collection the artifact will be linked to. 
 
 Replace values enclosed in `<>` with your own:
 ```python
@@ -37,14 +37,14 @@ REGISTRY_NAME = "<insert-registry-name>"  # Set to "model" to link to the model 
 COLLECTION_TYPE = "model"
 
 with wandb.init(project="link-quickstart") as run:
-    with open("my_model.txt", "w") as f:
-        f.write("simulated model file")
+  with open("my_model.txt", "w") as f:
+    f.write("simulated model file")
 
-    logged_artifact = run.log_artifact("./my_model.txt", "artifact-name", type=COLLECTION_TYPE)
-    run.link_artifact(
-        artifact=logged_artifact,
-        target_path=f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/Example ML Task"
-    )
+  logged_artifact = run.log_artifact("./my_model.txt", "artifact-name", type=COLLECTION_TYPE)
+  run.link_artifact(
+    artifact=logged_artifact,
+    target_path=f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/Example ML Task"
+  )
 ```
 
 If you want to link an artifact version to the **Models** registry or the **Dataset** registry, set the artifact type to `"model"` or `"dataset"`, respectively.
