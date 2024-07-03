@@ -26,29 +26,25 @@ Based on your use case, follow the instructions described in the tabs below to l
   <TabItem value="python_sdk">
 
 
-Use the [`link_artifact`](../../ref/python/run.md#link_artifact) method to programmatically link an artifact to a registry. When you link an artifact, specify the path where you want artifact version to link to for the `target_path` parameter. The target path takes the form of `"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"`.
+Use the [`link_artifact`](../../ref/python/run.md#link_artifact) method to programmatically link an artifact to a registry. When you link an artifact, specify the path where you want artifact version to link to for the `target_path` parameter. The target path takes the form of `{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`. Note that this path will inform the registry and collection the artifact will be linked to. 
 
 Replace values enclosed in `<>` with your own:
-
 ```python
 import wandb
 
-ARTIFACT_NAME = "<ARTIFACT-TO-LINK>"
-ARTIFACT_TYPE = "ARTIFACT-TYPE"
-ENTITY_NAME = "<TEAM-ARTIFACT-BELONGS-IN>"
-PROJECT_NAME = "<PROJECT-ARTIFACT-TO-LINK-BELONGS-IN>"
+ORG_NAME = "<insert-org-name>"
+REGISTRY_NAME = "<insert-registry-name>"  # Set to "model" to link to the model registry
+COLLECTION_TYPE = "model"
 
-ORG_ENTITY_NAME = "<YOUR ORG NAME>"
-REGISTRY_NAME = "<REGISTRY-TO-LINK-TO>"
-COLLECTION_NAME = "<REGISTRY-COLLECTION-TO-LINK-TO>"
+with wandb.init(project="link-quickstart") as run:
+    with open("my_model.txt", "w") as f:
+        f.write("simulated model file")
 
-run = wandb.init(entity=ENTITY_NAME, project=PROJECT_NAME)
-artifact = wandb.Artifact(name=ARTIFACT_NAME, type=ARTIFACT_TYPE)
-run.link_artifact(
-    artifact=artifact,
-    target_path=f"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
-)
-run.finish()
+    logged_artifact = run.log_artifact("./my_model.txt", "artifact-name", type=COLLECTION_TYPE)
+    run.link_artifact(
+        artifact=logged_artifact,
+        target_path=f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/Example ML Task"
+    )
 ```
 
 If you want to link an artifact version to the **Models** registry or the **Dataset** registry, set the artifact type to `"model"` or `"dataset"`, respectively.
