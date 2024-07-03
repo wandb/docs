@@ -1,7 +1,6 @@
-
 # File
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/files.py#L108-L195' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/files.py#L108-L195' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 Fileはwandbによって保存されたファイルに関連するクラスです。
 
@@ -18,7 +17,7 @@ File(
 
 ### `delete`
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/files.py#L175-L188)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/files.py#L175-L188)
 
 ```python
 delete()
@@ -26,7 +25,7 @@ delete()
 
 ### `display`
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L15-L26)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/attrs.py#L15-L26)
 
 ```python
 display(
@@ -38,7 +37,7 @@ display(
 
 ### `download`
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/files.py#L134-L173)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/files.py#L134-L173)
 
 ```python
 download(
@@ -53,15 +52,15 @@ wandbサーバーからrunによって以前保存されたファイルをダウ
 
 | 引数 |  |
 | :--- | :--- |
-|  replace (ブーリアン): `True`の場合、ダウンロードは既存のローカルファイルを上書きします。デフォルトは`False`。 root (str): ファイルを保存するローカルディレクトリー。デフォルトは `.` 。 exist_ok (ブーリアン): `True`の場合、ファイルが既に存在してもValueErrorを発生させず、replace=Trueでない限り再ダウンロードしません。デフォルトは `False`。 api (Api, オプション): 指定された場合、ファイルのダウンロードに使用される`Api`インスタンス。 |
+|  replace (boolean): `True`の場合、ダウンロードは既存のローカルファイルを上書きします。デフォルトは`False`。 root (str): ローカルディレクトリーにファイルを保存します。デフォルトは "."。 exist_ok (boolean): `True`の場合、既にファイルが存在していてもValueErrorを発生させず、replace=Trueでない限り再ダウンロードしません。デフォルトは`False`。 api (Api, optional): 提供された場合、ファイルをダウンロードするために使用される`Api`インスタンス。 |
 
-| 発生する可能性のあるエラー |  |
+| 発生するエラー |  |
 | :--- | :--- |
-|  `ValueError`: ファイルが既に存在し、replace=Falseかつexist_ok=Falseの場合。 |
+|  ファイルが既に存在し、replace=Falseかつexist_ok=Falseの場合に`ValueError`を発生させます。 |
 
 ### `snake_to_camel`
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L11-L13)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/attrs.py#L11-L13)
 
 ```python
 snake_to_camel(
@@ -71,7 +70,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L28-L29)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/attrs.py#L28-L29)
 
 ```python
 to_html(

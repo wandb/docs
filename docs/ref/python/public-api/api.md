@@ -2,7 +2,7 @@
 
 <p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/api.py#L95-L1179' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-wandbサーバーをクエリするために使用します。
+W&B サーバーにクエリを送るために使用されます。
 
 ```python
 Api(
@@ -22,7 +22,7 @@ Api(
 
 | 引数 |  |
 | :--- | :--- |
-|  `overrides` |  (辞書) 別のwandbサーバーを使用する場合は、`base_url` を設定することができます。また、`entity`、`project`、および `run` のデフォルト値を設定することもできます。 |
+|  `overrides` |  (dict) `base_url` を設定します。他の `entity`, `project`, `run` のデフォルトも設定できます。|
 
 | 属性 |  |
 | :--- | :--- |
@@ -43,12 +43,12 @@ artifact(
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) アーティファクトの名前。`entity/project`で始まる可能性があります。 有効な名前の形式は次のとおりです: name: version name: alias |
-|  `type` |  (str, オプション) 取得するアーティファクトのタイプ。|
+|  `name` |  (str) artifact 名。`entity/project`でプレフィックスされる場合があります。以下の形式が有効です: name:version name:alias |
+|  `type` |  (str, optional) 取得するartifactの種類。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `Artifact`オブジェクト。 |
+|  `Artifact` オブジェクト。|
 
 ### `artifact_collection`
 
@@ -61,16 +61,16 @@ artifact_collection(
 ) -> "public.ArtifactCollection"
 ```
 
-タイプと次の形式でパスを解析して単一のartifactコレクションを返します: `entity/project/name`
+タイプと `entity/project/name` の形式でパスを解析して単一のartifact collectionを返します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `type_name` |  (str) 取得するアーティファクトコレクションのタイプ。 |
-|  `name` |  (str) アーティファクトコレクションの名前。`entity/project`で始まる可能性があります。|
+|  `type_name` |  (str) 取得するartifact collectionの種類。|
+|  `name` |  (str) artifact collection 名。`entity/project`でプレフィックスされる場合があります。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `ArtifactCollection`オブジェクト。 |
+|  `ArtifactCollection` オブジェクト。|
 
 ### `artifact_collection_exists`
 
@@ -83,16 +83,16 @@ artifact_collection_exists(
 ) -> bool
 ```
 
-指定されたprojectとentity内にアーティファクトコレクションが存在するかどうかを返します。
+指定したprojectとentityの中でartifact collectionが存在するかどうかを返します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) アーティファクトコレクション名。`entity/project`で始まる可能性があります。エンティティまたはプロジェクトが指定されていない場合、オーバーライドパラメータから推測されます。別の設定がない場合、エンティティはユーザーの設定から取得され、プロジェクトは「未分類」にデフォルトされます。 |
-|  `type` |  (str) アーティファクトコレクションのタイプ |
+|  `name` |  (str) artifact collection 名。`entity/project`でプレフィックスされる場合があります。entityまたはprojectが指定されていない場合、overrideパラメーターから推測されます。存在しない場合は、entityはユーザー設定から取得され、projectは「未分類」にデフォルト設定されます。|
+|  `type` |  (str) artifact collectionの種類。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  アーティファクトコレクションが存在する場合はTrue、そうでない場合はFalse。 |
+|  artifact collectionが存在する場合は True、そうでない場合は False。|
 
 ### `artifact_collections`
 
@@ -106,17 +106,17 @@ artifact_collections(
 ) -> "public.ArtifactCollections"
 ```
 
-一致するアーティファクトコレクションのコレクションを返します。
+一致するartifact collectionsのコレクションを返します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `project_name` |  (str) 絞り込みを行うプロジェクトの名前。|
-|  `type_name` |  (str) 絞り込みを行うアーティファクトのタイプの名前。|
-|  `per_page` |  (int, オプション) クエリページネーションのページサイズを設定します。Noneはデフォルトサイズを使用します。通常、これを変更する理由はありません。|
+|  `project_name` |  (str) フィルターをかけるprojectの名前。|
+|  `type_name` |  (str) フィルターをかけるartifactの種類。|
+|  `per_page` |  (int, optional) クエリのページネーションのページサイズを設定します。 None を設定するとデフォルトのサイズが使用されます。通常、これを変更する理由はありません。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  繰り返し可能な `ArtifactCollections`オブジェクト。|
+|  イテラブルな `ArtifactCollections` オブジェクト。|
 
 ### `artifact_exists`
 
@@ -129,16 +129,16 @@ artifact_exists(
 ) -> bool
 ```
 
-指定されたprojectとentity内にアーティファクトのバージョンが存在するかどうかを返します。
+指定したprojectとentityの中でartifactのバージョンが存在するかどうかを返します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) アーティファクトの名前。`entity/project`で始まる可能性があります。 エンティティまたはプロジェクトが指定されていない場合、オーバーライドパラメータから推測されます。別の設定がない場合、エンティティはユーザーの設定から取得され、プロジェクトは「未分類」にデフォルトされます。有効な名前の形式は次のとおりです: name: version name: alias |
-|  `type` |  (str, オプション) アーティファクトのタイプ |
+|  `name` |  (str) artifact 名。`entity/project`でプレフィックスされる場合があります。entityまたはprojectが指定されていない場合、overrideパラメーターから推測されます。存在しない場合は、entityはユーザー設定から取得され、projectは「未分類」にデフォルト設定されます。以下の形式が有効です: name:version name:alias |
+|  `type` |  (str, optional) artifactの種類。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  アーティファクトのバージョンが存在する場合はTrue、そうでない場合はFalse。|
+|  artifactバージョンが存在する場合は True、そうでない場合は False。|
 
 ### `artifact_type`
 
@@ -151,12 +151,12 @@ artifact_type(
 ) -> "public.ArtifactType"
 ```
 
-一致する`ArtifactType`を返します。
+一致する `ArtifactType` を返します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `type_name` |  (str) 取得するアーティファクトのタイプの名前。|
-|  `project` |  (str, オプション) 指定する場合、プロジェクト名またはフィルターに使用するパス。|
+|  `type_name` |  (str) 取得するartifactの種類の名前。|
+|  `project` |  (str, optional) 指定された場合、フィルターをかけるprojectの名前またはパス。|
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -172,15 +172,15 @@ artifact_types(
 ) -> "public.ArtifactTypes"
 ```
 
-一致するアーティファクトタイプのコレクションを返します。
+一致するartifactの種類のコレクションを返します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `project` |  (str, オプション) 指定する場合、プロジェクト名またはフィルターに使用するパス。|
+|  `project` |  (str, optional) 指定された場合、フィルターをかけるprojectの名前またはパス。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  繰り返し可能な `ArtifactTypes` オブジェクト。|
+|  イテラブルな `ArtifactTypes` オブジェクト。|
 
 ### `artifact_versions`
 
@@ -192,7 +192,7 @@ artifact_versions(
 )
 ```
 
-非推奨、代わりに `artifacts(type_name, name)` を使用してください。
+廃止予定です。代わりに `artifacts(type_name, name)` を使用してください。
 
 ### `artifacts`
 
@@ -206,17 +206,17 @@ artifacts(
 ) -> "public.Artifacts"
 ```
 
-指定されたパラメータから `Artifacts` コレクションを返します。
+指定した引数に基づく `Artifacts` コレクションを返します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `type_name` |  (str) 取得するアーティファクトのタイプ。|
-|  `name` |  (str) アーティファクトコレクションの名前。`entity/project`で始まる可能性があります。|
-|  `per_page` |  (int, オプション) クエリページネーションのページサイズを設定します。Noneはデフォルトサイズを使用します。通常、これを変更する理由はありません。|
+|  `type_name` |  (str) 取得するartifactの種類。|
+|  `name` |  (str) artifact collection 名。`entity/project`でプレフィックスされる場合があります。|
+|  `per_page` |  (int, optional) クエリのページネーションのページサイズを設定します。 None を設定するとデフォルトのサイズが使用されます。通常、これを変更する理由はありません。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  繰り返し可能な `Artifacts` オブジェクト。|
+|  イテラブルな `Artifacts` オブジェクト。|
 
 ### `create_project`
 
@@ -229,12 +229,12 @@ create_project(
 ) -> None
 ```
 
-新しいプロジェクトを作成します。
+新規プロジェクトを作成します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) 新しいプロジェクトの名前。|
-|  `entity` |  (str) 新しいプロジェクトのエンティティ。|
+|  `name` |  (str) 新しいprojectの名前。|
+|  `entity` |  (str) 新しいprojectのentity。|
 
 ### `create_run`
 
@@ -249,17 +249,17 @@ create_run(
 ) -> "public.Run"
 ```
 
-新しいRunを作成します。
+新規runを作成します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `run_id` |  (str, オプション) 付与するRunのID。指定しない場合は自動生成されるので、通常は指定する必要はありません。 |
-|  `project` |  (str, オプション) 指定する場合、新しいRunのプロジェクト。|
-|  `entity` |  (str, オプション) 指定する場合、新しいRunのエンティティ。|
+|  `run_id` |  (str, optional) 付与するrunのID。デフォルトではrun IDは自動生成されるため、通常は指定する必要はなく、指定するときは自己責任で行ってください。|
+|  `project` |  (str, optional) 指定された場合、新しいrunのproject。|
+|  `entity` |  (str, optional) 指定された場合、新しいrunのentity。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  新しく作成された `Run` 。|
+|  新しく作成された `Run`。|
 
 ### `create_run_queue`
 
@@ -276,24 +276,24 @@ create_run_queue(
 ) -> "public.RunQueue"
 ```
 
-新しいRunキュー（ローンンチ）を作成します。
+新しいrun queue (launch) を作成します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) 作成するキューの名前 |
-|  `type` |  (str) キューに使用するリソースのタイプ。次のいずれか: "local-container", "local-process", "kubernetes", "sagemaker", または "gcp-vertex"。|
-|  `entity` |  (str) オプションのエンティティ名。Noneの場合、構成済みまたはデフォルトのエンティティが使用されます。|
-|  `prioritization_mode` |  (str) オプションの優先順位モード。 "V0" または None|
-|  `config` |  (辞書) オプションのデフォルトリソース設定。テンプレート変数を指定するためにハンドルバー（例: "{{var}}"）を使用します。|
-|  `template_variables` |  (辞書) 設定に使用するテンプレート変数スキーマの辞書。期待される形式は次のとおり: { "var-name": { "schema": { "type": ("string", "number", または "integer"), "default": (オプションの値), "minimum": (オプションの最小値), "maximum": (オプションの最大値), "enum": [..."(オプション)"] } } } |
+|  `name` |  (str) 作成するキューの名前。|
+|  `type` |  (str) キューに使用されるリソースの種類。"local-container", "local-process", "kubernetes", "sagemaker", "gcp-vertex" のいずれか。|
+|  `entity` |  (str, optional) キューを作成するentityの名前。Noneの場合、設定済みまたはデフォルトのentityが使用されます。|
+|  `prioritization_mode` |  (str, optional) 使用する優先順位付けのバージョン。"V0" または None|
+|  `config` |  (dict, optional) キューに使用するデフォルトのリソース設定。ハンドルバー (例: "{{var}}") を使用してテンプレート変数を指定します。|
+|  `template_variables` |  (dict) テンプレート変数スキーマの辞書、設定とともに使用します。形式は以下の通り: { "var-name": { "schema": { "type": ("string", "number", または "integer"), "default": (オプションの値), "minimum": (オプションの最小), "maximum": (オプションの最大), "enum": [..."(options)"] } } } |
 
 | 戻り値 |  |
 | :--- | :--- |
-|  新しく作成された `RunQueue` |
+|  新しく作成された `RunQueue`|
 
-| 例外 |  |
+| Raises |  |
 | :--- | :--- |
-|  値が無効な場合はValueError, wandb APIエラー時はwandb.Error |
+|  引数が無効な場合は ValueError。 W&B APIエラーの場合は wandb.Error。|
 
 ### `create_team`
 
@@ -305,16 +305,16 @@ create_team(
 )
 ```
 
-新しいTeamを作成します。
+新規チームを作成します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `team` |  (str) チームの名前 |
-|  `admin_username` |  (str) オプションのチームの管理ユーザーのユーザー名。デフォルトは現在のユーザーです。|
+|  `team` |  (str) チームの名前。|
+|  `admin_username` |  (str, optional) チームの管理ユーザーのユーザー名、デフォルトは現在のユーザー。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `Team`オブジェクト |
+|  `Team` オブジェクト。|
 
 ### `create_user`
 
@@ -326,16 +326,16 @@ create_user(
 )
 ```
 
-新しいユーザーを作成します。
+新規ユーザーを作成します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `email` |  (str) ユーザーのメールアドレス |
-|  `admin` |  (bool) このユーザーをグローバルインスタンス管理者にするかどうか |
+|  `email` |  (str) ユーザのメールアドレス。|
+|  `admin` |  (bool) このユーザーをグローバルインスタンス管理者にするか。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `User`オブジェクト |
+|  `User` オブジェクト。|
 
 ### `flush`
 
@@ -347,7 +347,7 @@ flush()
 
 ローカルキャッシュをフラッシュします。
 
-apiオブジェクトはRunのローカルキャッシュを保持しているため、スクリプトを実行している間にRunの状態が変わる可能性がある場合は、`api.flush()` を使用して最新の値を取得する必要があります。
+apiオブジェクトはrunのローカルキャッシュを保持するため、スクリプトを実行している間にrunの状態が変わる場合は、最新の値を取得するために`api.flush()`でローカルキャッシュをクリアする必要があります。
 
 ### `from_path`
 
@@ -359,7 +359,7 @@ from_path(
 )
 ```
 
-指定されたパスからRun、Sweep、ProjectまたはReportを返します。
+パスからproject、run、sweepまたはreportを返します。
 
 #### 例:
 
@@ -373,15 +373,15 @@ report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 
 | 引数 |  |
 | :--- | :--- |
-|  `path` |  (str) プロジェクト、Run、SweepまたはReportのパス |
+|  `path` |  (str) project、run、sweepまたはreportへのパス。|
 
 | 戻り値 |  |
 | :--- | :--- |
 |  `Project`、`Run`、`Sweep`、または `BetaReport` インスタンス。|
 
-| 例外 |  |
+| Raises |  |
 | :--- | :--- |
-|  パスが無効な場合またはオブジェクトが存在しない場合はwandb.Error |
+|  パスが無効だったり、オブジェクトが存在しない場合は wandb.Error。|
 
 ### `job`
 
@@ -394,12 +394,12 @@ job(
 ) -> "public.Job"
 ```
 
-指定されたパラメータから`Job`を返します。
+指定した引数に基づく `Job` を返します。
 
 | 引数 |  |
 | :--- | :--- |
 |  `name` |  (str) ジョブの名前。|
-|  `path` |  (str, オプション) 指定する場合、ジョブアーティファクトをダウンロードするためのルートパス。|
+|  `path` |  (str, optional) ジョブアーティファクトをダウンロードするルートパス。|
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -416,12 +416,12 @@ list_jobs(
 ) -> List[Dict[str, Any]]
 ```
 
-指定されたエンティティとプロジェクトに対するジョブのリストを返します。
+指定したentityとprojectのジョブをリストで返します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `entity` |  (str) 列挙されるジョブのエンティティ。|
-|  `project` |  (str) 列挙されるジョブのプロジェクト。|
+|  `entity` |  (str) ジョブのentity。|
+|  `project` |  (str) ジョブのproject。|
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -438,12 +438,12 @@ project(
 ) -> "public.Project"
 ```
 
-指定された名前の`Project`を返します（エンティティが与えられた場合はそれも）。
+指定された名前（およびoptionalでentity）の `Project` を返します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) プロジェクト名。|
-|  `entity` |  (str) 要求されたエンティティの名前。Noneの場合、`Api`に渡されたデフォルトのエンティティを使用します。デフォルトのエンティティがない場合は、 `ValueError` を発生させます。|
+|  `name` |  (str) projectの名前。|
+|  `entity` |  (str) リクエストするentityの名前。Noneの場合、`Api` に渡されたデフォルトのentityが使用されます。デフォルトのentityがない場合、`ValueError` が発生します。|
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -460,16 +460,16 @@ projects(
 ) -> "public.Projects"
 ```
 
-指定されたエンティティのプロジェクトを取得します。
+指定したentityのprojectsを取得します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `entity` |  (str) 要求されたエンティティの名前。Noneの場合、`Api`に渡されたデフォルトのエンティティを使用します。デフォルトのエンティティがない場合は、 `ValueError` を発生させます。|
-|  `per_page` |  (int) クエリページネーションのページサイズを設定します。Noneはデフォルトサイズを使用します。通常、これを変更する理由はありません。|
+|  `entity` |  (str, optional) リクエストするentityの名前。Noneの場合、`Api` に渡されたデフォルトのentityが使用されます。デフォルトのentityがない場合、`ValueError` が発生します。|
+|  `per_page` |  (int, optional) クエリのページネーションのページサイズを設定します。Noneの場合、デフォルトのサイズが使用されます。通常、これを変更する理由はありません。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  繰り返し可能な `Projects` オブジェクト。|
+|  `Projects` オブジェクト（`Project` オブジェクトのイテラブルコレクション）。|
 
 ### `queued_run`
 
@@ -482,9 +482,9 @@ queued_run(
 )
 ```
 
-パスに基づく単一のキューに入ったRunを返します。
+パスに基づいた単一のqueued runを返します。
 
-パスの形式: entity/project/queue_id/run_queue_item_id.
+`entity/project/queue_id/run_queue_item_id` の形式でパスを解析します。
 
 ### `reports`
 
@@ -498,19 +498,19 @@ reports(
 ) -> "public.Reports"
 ```
 
-指定されたプロジェクトパスのReportsを取得します。
+指定したproject pathのreportsを取得します。
 
-警告: このAPIはベータ版であり、将来のリリースで変更される可能性があります。
+警告: このAPIはベータ版であり、将来のリリースで変更される予定です。
 
 | 引数 |  |
 | :--- | :--- |
-|  `path` |  (str) Reportが存在するプロジェクトへのパス。形式は次のとおり: "entity/project" |
-|  `name` |  (str, オプション) 要求されたReportの名前。|
-|  `per_page` |  (int) クエリページネーションのページサイズを設定します。Noneはデフォルトサイズを使用します。通常、これを変更する理由はありません。|
+|  `path` |  (str) レポートが存在するプロジェクトへのパス。形式は "entity/project" である必要があります。|
+|  `name` |  (str, optional) リクエストするレポートの自身の名前。|
+|  `per_page` |  (int, optional) クエリのページネーションのページサイズを設定します。Noneの場合、デフォルトのサイズが使用されます。通常、これを変更する理由はありません。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  繰り返し可能な `Reports` オブジェクト。|
+|  `Reports` オブジェクト（`BetaReport` オブジェクトのイテラブルコレクション）。|
 
 ### `run`
 
@@ -522,11 +522,11 @@ run(
 )
 ```
 
-entity/project/run_id の形式でパスを解析して単一のRunを返します。
+`entity/project/run_id` の形式でパスを解析して単一のrunを返します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `path` |  (str) `entity/project/run_id` の形式のRunへのパス。 `api.entity` が設定されている場合、 `project/run_id` の形式で、 `api.project` が設定されている場合は、この形式でRun IDを指定できます。|
+|  `path` |  (str) `entity/project/run_id` の形式のrunへのパス。`api.entity` が設定されている場合、この形式は `project/run_id` でも構いませんし、`api.project` が設定されている場合、この形式はrun_idだけでも構いません。|
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -542,9 +542,9 @@ run_queue(
 )
 ```
 
-エンティティの名前付き `RunQueue` を返します。
+指定されたentityの指定された名前の `RunQueue` を返します。
 
-新しい `RunQueue` を作成するには、 `wandb.Api().create_run_queue(...)` を使用します。
+新しい `RunQueue` を作成するには、`wandb.Api().create_run_queue(...)`を使用します。
 
 ### `runs`
 
@@ -560,19 +560,19 @@ runs(
 )
 ```
 
-指定されたフィルタに一致するプロジェクトのRunのセットを返します。
+指定されたフィルターに一致するprojectから一連のrunsを返します。
 
-`config.*`、 `summary_metrics.*`、 `tags`、 `state`、`entity`、`createdAt` などでフィルタリングできます。
+`config.*`、`summary_metrics.*`、`tags`、`state`、`entity`、`createdAt` などでフィルターすることができます。
 
 #### 例:
 
-`config.experiment_name` が "foo" に設定されている `my_project` のRunを検索する
+config.experiment_nameが "foo" に設定されているmy_projectのrunsを検索します。
 
 ```
 api.runs(path="my_entity/my_project", filters={"config.experiment_name": "foo"})
 ```
 
-`config.experiment_name` が "foo" または "bar" に設定されている `my_project` のRunを検索する
+config.experiment_nameが "foo" または "bar" に設定されているmy_projectのrunsを検索します。
 
 ```
 api.runs(
@@ -581,7 +581,7 @@ api.runs(
 )
 ```
 
-`config.experiment_name` が正規表現に一致する `my_project` のRunを検索する（アンカーはサポートされていません）
+config.experiment_nameが正規表現に一致するmy_projectのrunsを検索します（アンカーはサポートされていません）。
 
 ```
 api.runs(
@@ -590,7 +590,7 @@ api.runs(
 )
 ```
 
-Run名が正規表現に一致する `my_project` のRunを検索する（アンカーはサポートされていません）
+run名が正規表現に一致するmy_projectのrunsを検索します（アンカーはサポートされていません）。
 
 ```
 api.runs(
@@ -599,7 +599,7 @@ api.runs(
 )
 ```
 
-昇順で損失をソートした `my_project` のRunを検索する
+昇順で損失を並べ替えたmy_projectのrunsを検索します。
 
 ```
 api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
@@ -607,15 +607,15 @@ api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 
 | 引数 |  |
 | :--- | :--- |
-|  `path` |  (str) プロジェクトへのパス。形式は次のとおり: "entity/project" |
-|  `filters` |  (辞書) MongoDBクエリ言語を使用して特定のRunをクエリ。`config.key`、`summary_metrics.key`、`state`、`entity`、`createdAt` などで実行プロパティをフィルタリングできます。 例: {"config.experiment_name": "foo"} は、configエントリの実験名が "foo" に設定されているRunを見つけます。操作を構成してより複雑なクエリを作成できます。言語の参照は https://docs.mongodb.com/manual/reference/operator/query |
-|  `order` |  (str) ソート順は `created_at`、`heartbeat_at`、`config.*.value` または `summary_metrics.*` にできます。順番に + を付けると昇順になります。順番に - を付けると降順（デフォルト）になります。 デフォルトでは新しいものから古いものへrun.created_atをソートします。|
-|  `per_page` |  (int) クエリページネーションのページサイズを設定します。 |
-|  `include_sweeps` |  (bool) ＳweepのRunを結果に含めるかどうか。|
+|  `path` |  (str) プロジェクトへのパス。形式は "entity/project" である必要があります。|
+|  `filters` |  (dict) MongoDBクエリ言語を使用して、特定のrunsをクエリします。config.key、summary_metrics.key、state、entity、createdAt などのrunプロパティでフィルターします。例えば、{"config.experiment_name": "foo"} はexperiment_nameが "foo" に設定されているrunsを検索します。より複雑なクエリを作成するために操作を組み合わせることができます。言語に関するリファレンスは以下を参照してください: https://docs.mongodb.com/manual/reference/operator/query |
+|  `order` |  (str) 順序の対象となるプロパティ。`created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` を指定します。順序の前に `+` を付けると昇順になり、`-` を付けると降順になります（デフォルト）。デフォルトの順序は、最新から古い順へのrun.created_at です。|
+|  `per_page` |  (int) クエリのページネーションのページサイズを設定します。|
+|  `include_sweeps` |  (bool) 結果にsweep runsを含めるかどうか。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  繰り返し可能な `Runs` オブジェクト。|
+|  `Runs` オブジェクト（`Run` オブジェクトのイテラブルコレクション）。|
 
 ### `sweep`
 
@@ -627,11 +627,11 @@ sweep(
 )
 ```
 
-`entity/project/sweep_id` の形式でパスを解析してSweepを返します。
+`entity/project/sweep_id` の形式でパスを解析して単一のsweepを返します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `path` |  (str, オプション) `entity/project/sweep_id` の形式のSweepのパス。 `api.entity` が設定されている場合、この形式で `project/sweep_id` として、 `api.project` が設定されている場合、この形式で `sweep_id` として指定できます。|
+|  `path` |  (str, optional) `entity/project/sweep_id` の形式のsweepへのパス。`api.entity` が設定されている場合、この形式はproject/sweep_id でも構いませんし、`api.project` が設定されている場合、この形式はsweep_idだけでも構いません。|
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -647,7 +647,7 @@ sync_tensorboard(
 )
 ```
 
-tfeventファイルを含むローカルディレクトリーをwandbと同期します。
+tfeventファイルを含むローカルディレクトリをW&Bと同期します。
 
 ### `team`
 
@@ -659,7 +659,7 @@ team(
 ) -> "public.Team"
 ```
 
-指定された名前の一致する `Team` を返します。
+指定された名前の `Team` を返します。
 
 | 引数 |  |
 | :--- | :--- |
@@ -681,15 +681,15 @@ user(
 
 ユーザー名またはメールアドレスからユーザーを返します。
 
-注意: この関数はローカル管理者にのみ機能します。自分のユーザーオブジェクトを取得しようとしている場合は、`api.viewer` を使用してください。
+注: この関数はローカル管理者のみに機能します。自身のユーザーオブジェクトを取得する場合は `api.viewer` を使用してください。
 
 | 引数 |  |
 | :--- | :--- |
-|  `username_or_email` |  (str) ユーザー名またはメールアドレス |
+|  `username_or_email` |  (str) ユーザーのユーザー名またはメールアドレス。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `User` オブジェクト または ユーザーが見つからなかった場合はNone |
+|  `User` オブジェクト、またはユーザーが見つからない場合は None。|
 
 ### `users`
 
@@ -703,13 +703,19 @@ users(
 
 部分的なユーザー名またはメールアドレスクエリからすべてのユーザーを返します。
 
-注意: この関数はローカル管理者にのみ機能します。自分のユーザーオブジェクトを取得しようとしている場合は、`api.viewer` を使用してください。
+注: この関数はローカル管理者のみに機能します。自身のユーザーオブジェクトを取得する場合は `api.viewer` を使用してください。
 
 | 引数 |  |
 | :--- | :--- |
-|  `username_or_email` |  (str) 見つけたいユーザーの接頭辞または接尾辞 |
+|  `username_or_email` |  (str) 検索するユーザーのプレフィックスまたはサフィックス。|
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `User` オブジェクトの配列 |
+|  `User` オブジェクトの配列。|
 
+| クラス変数 |  |
+| :--- | :--- |
+|  `CREATE_PROJECT`<a id="CREATE_PROJECT"></a> |   |
+|  `DEFAULT_ENTITY_QUERY`<a id="DEFAULT_ENTITY_QUERY"></a> |   |
+|  `USERS_QUERY`<a id="USERS_QUERY"></a> |   |
+|  `VIEWER_QUERY`<a id="VIEWER_QUERY"></a> |   |

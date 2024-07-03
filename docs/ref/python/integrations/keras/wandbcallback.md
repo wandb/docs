@@ -1,9 +1,8 @@
-
 # WandbCallback
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/integration/keras/keras.py#L291-L1080' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHubでソースを見る</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/integration/keras/keras.py#L291-L1080' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-`WandbCallback`はkerasとwandbを自動的にインテグレーションします。
+`WandbCallback` は keras と wandb を自動的に統合します。
 
 ```python
 WandbCallback(
@@ -30,59 +29,59 @@ model.fit(
 )
 ```
 
-`WandbCallback`はkerasが収集した任意のメトリクスからの履歴データを自動的にログします。損失や`keras_model.compile()`に渡されたものを記録します。
+`WandbCallback` は keras によって収集されたメトリクスから、いかなる履歴データも自動的にログします: 損失および `keras_model.compile()` に渡されたもの全て。
 
-`WandbCallback`は、`monitor`および`mode`属性によって定義された "ベスト" トレーニングステップに関連するrunのサマリーメトリクスを設定します。これはデフォルトで最小の`val_loss`を持つエポックに設定されます。`WandbCallback`はデフォルトで最も良いエポックに関連するモデルを保存します。
+`WandbCallback` は "best" training ステップに関連付けられた run のサマリーメトリクスを設定します。"best" は `monitor` および `mode` 属性によって定義され、デフォルトでは、最小の `val_loss` を持つエポックになります。`WandbCallback` はデフォルトで最も良い `epoch` に関連付けられたモデルを保存します。
 
-`WandbCallback`は勾配とパラメータのヒストグラムをオプションでログすることができます。
+`WandbCallback` はオプションで勾配およびパラメータのヒストグラムをログすることができます。
 
-`WandbCallback`はwandbが可視化するためのトレーニングと検証データをオプションで保存することができます。
+`WandbCallback` はオプションでトレーニングおよび検証データを保存し、wandb で可視化することができます。
 
 | 引数 |  |
 | :--- | :--- |
-|  `monitor` |  (str) モニタリングするメトリクスの名前。デフォルトは`val_loss`。 |
-|  `mode` |  (str) {`auto`、`min`、`max`}のいずれか。 `min` - モニターが最小化されたときにモデルを保存 `max` - モニターが最大化されたときにモデルを保存 `auto` - モデルを保存するタイミングを自動的に決定（デフォルト）。 |
-|  `save_model` |  True - モニターがすべての前のエポックを上回ったときにモデルを保存 False - モデルを保存しない |
-|  `save_graph` |  (boolean) Trueの場合、モデルのグラフをwandbに保存します（デフォルトはTrue）。 |
-|  `save_weights_only` |  (boolean) Trueの場合、モデルの重みのみが保存されます（`model.save_weights(filepath)`）。さもなくば完全なモデルが保存されます（`model.save(filepath)`）。 |
-|  `log_weights` |  (boolean) Trueの場合、モデルのレイヤーの重みのヒストグラムを保存します。 |
-|  `log_gradients` |  (boolean) Trueの場合、トレーニング勾配のヒストグラムをログします。 |
-|  `training_data` |  (tuple) `model.fit`に渡される形式`(X, y)`。これは勾配計算のために必要です。`log_gradients`がTrueの場合、これが必須です。 |
-|  `validation_data` |  (tuple) `model.fit`に渡される形式`(X, y)`。wandbが可視化するためのデータセット。これが設定されている場合、毎エポックごとにwandbは少数の予測を行い、後で可視化するために結果を保存します。画像データを扱っている場合は、正しくログするために`input_type`と`output_type`も設定してください。 |
-|  `generator` |  (generator) wandbが可視化するための検証データを返すジェネレーター。このジェネレーターはタプル`(X, y)`を返すべきです。`validate_data`またはジェネレーターのどちらかが設定されていれば、wandbは特定のデータ例を可視化します。画像データを扱っている場合は、正しくログするために`input_type`と`output_type`も設定してください。 |
-|  `validation_steps` |  (int) `validation_data`がジェネレーターの場合、検証セット全体についてジェネレーターを実行するステップ数。 |
-|  `labels` |  (list) データをwandbで可視化する場合、このラベルのリストは数値出力を理解可能な文字列に変換します。マルチクラス分類器を構築している場合に役立ちます。バイナリ分類器を作成している場合、2つのラベル["falseのラベル", "trueのラベル"]のリストを渡すことができます。`validate_data`とジェネレーターの両方がfalseの場合、これは何も行いません。 |
-|  `predictions` |  (int) 各エポックで可視化する予測の数。最大は100。 |
-|  `input_type` |  (string) 可視化を助けるためのモデルの入力タイプ。次のいずれか: (`image`、`images`、`segmentation_mask`、`auto`)。 |
-|  `output_type` |  (string) 可視化を助けるためのモデルの出力タイプ。次のいずれか: (`image`、`images`、`segmentation_mask`、`label`)。 |
-|  `log_evaluation` |  (boolean) Trueの場合、各エポックでモデルの予測を含む検証データのTableを保存します。詳細は`validation_indexes`、`validation_row_processor`、`output_row_processor`を参照。 |
-|  `class_colors` |  ([float, float, float]) 入力または出力がセグメンテーションマスクの場合、各クラスのRGBタプル（範囲0-1）を含む配列。 |
-|  `log_batch_frequency` |  (integer) Noneの場合、コールバックは各エポックごとにログします。整数に設定された場合、コールバックは`log_batch_frequency`バッチごとにトレーニングメトリクスをログします。 |
-|  `log_best_prefix` |  (string) Noneの場合、追加のサマリーメトリクスは保存されません。文字列に設定された場合、監視されるメトリクスとエポックがこの値でプレフィックスされ、サマリーメトリクスとして保存されます。 |
-|  `validation_indexes` |  ([wandb.data_types._TableLinkMixin]) 各検証例に関連付けるインデックスキーの順序付きリスト。`log_evaluation`がTrueの場合、かつ`validation_indexes`が提供されている場合、検証データのTableは作成されず、代わりに各予測は`TableLinkMixin`で表される行に関連付けられます。このようなキーを取得する最も一般的な方法は、`Table.get_index()`を使用することで行キーのリストを取得します。 |
-|  `validation_row_processor` |  (Callable) 検証データに適用する関数。通常データの可視化に使用されます。この関数は`ndx`（int）および`row`（dict）を受け取ります。モデルが単一の入力を持つ場合、`row["input"]`はその行の入力データになります。それ以外の場合、入力スロットの名前に基づいてキーが設定されます。fit関数が単一のターゲットを取る場合、`row["target"]`はその行のターゲットデータになります。それ以外の場合、出力スロットの名前に基づいてキーが設定されます。例えば、入力データが単一のndarrayであるが、データを画像として可視化したい場合、`lambda ndx, row: {"img": wandb.Image(row["input"])}`をプロセッサーとして提供できます。`log_evaluation`がFalseまたは`validation_indexes`が存在する場合、無視されます。 |
-|  `output_row_processor` |  (Callable) `validation_row_processor`と同様ですが、モデルの出力に適用されます。`row["output"]`にはモデル出力の結果が含まれます。 |
-|  `infer_missing_processors` |  (bool) 欠落している場合、`validation_row_processor`および`output_row_processor`を推測するかどうかを決定します。デフォルトはTrueです。`labels`が提供されている場合、適切な場所に分類タイプのプロセッサーを推測しようとします。 |
-|  `log_evaluation_frequency` |  (int) 評価結果をログする頻度を決定します。デフォルトは0（トレーニング終了時のみ）。1に設定すると各エポックごと、2に設定すると毎エポックごと、というようにログします。`log_evaluation`がFalseの場合は効果がありません。 |
-|  `compute_flops` |  (bool) Keras SequentialまたはFunctionalモデルのFLOPsをGigaFLOPs単位で計算します。 |
+|  `monitor` |  (str) 監視するメトリクスの名前。デフォルトは `val_loss`。 |
+|  `mode` |  (str) 次のいずれか: {`auto`, `min`, `max`}. `min` - 監視値が最小化された時、モデルを保存します。`max` - 監視値が最大化された時、モデルを保存します。`auto` - モデルを保存する時を推測しようとします（デフォルト）。|
+|  `save_model` |  True - すべての過去のエポックを上回る監視値がある場合、モデルを保存します。False - モデルを保存しません。 |
+|  `save_graph` |  (boolean) True の場合、モデルのグラフを wandb に保存します（デフォルトは True）。 |
+|  `save_weights_only` |  (boolean) True の場合、モデルの重みだけを保存します（`model.save_weights(filepath)`）、そうでなければ完全なモデルが保存されます（`model.save(filepath)`）。 |
+|  `log_weights` |  (boolean) True の場合、モデルの層の重みのヒストグラムを保存します。 |
+|  `log_gradients` |  (boolean) True の場合、トレーニングの勾配のヒストグラムをログします。 |
+|  `training_data` |  (tuple) `model.fit` に渡された `(X, y)` と同じ形式。これは勾配の計算に必要であり、`log_gradients` が True の場合、必須です。 |
+|  `validation_data` |  (tuple) `model.fit` に渡された `(X, y)` と同じ形式。wandb で可視化するためのデータセット。これが設定されている場合、各エポック、wandb は少数の予測を行い、後で可視化するために結果を保存します。画像データを扱っている場合、正しくログするために `input_type` および `output_type` を設定してください。 |
+|  `generator` |  (generator) wandb で可視化するための検証データを返すジェネレータ。このジェネレータは `(X, y)` のタプルを返すべきです。特定のデータ例を可視化するには、`validate_data` または `generator` のいずれかが設定されている必要があります。画像データを扱っている場合、正しくログするために `input_type` および `output_type` を設定してください。 |
+|  `validation_steps` |  (int) `validation_data` がジェネレータの場合、完全な検証セットのためにジェネレータを実行するステップ数。 |
+|  `labels` |  (list) wandb でデータを可視化している場合、このラベルのリストは数値出力を理解可能な文字列に変換します。複数クラス分類器を構築している場合に有効です。バイナリ分類器を作成している場合、2つのラベル ["false のラベル", "true のラベル"] を渡すことができます。`validate_data` とジェネレータの両方が false の場合、これは何も行いません。 |
+|  `predictions` |  (int) 各エポックで可視化のために予測する数、最大は 100。 |
+|  `input_type` |  (string) 可視化を助けるためのモデル入力のタイプ。次のいずれか: (`image`, `images`, `segmentation_mask`, `auto`)。 |
+|  `output_type` |  (string) 可視化を助けるためのモデル出力のタイプ。次のいずれか: (`image`, `images`, `segmentation_mask`, `label`)。 |
+|  `log_evaluation` |  (boolean) True の場合、各エポックで検証データとモデルの予測を含むテーブルを保存します。詳細は `validation_indexes`、`validation_row_processor`、および `output_row_processor` を参照してください。 |
+|  `class_colors` |  ([float, float, float]) 入力または出力がセグメンテーションマスクである場合、各クラスの rgb タプル（範囲 0-1）を含む配列。 |
+|  `log_batch_frequency` |  (integer) None の場合、コールバックは各エポックでログします。整数に設定された場合、`log_batch_frequency` バッチごとにトレーニングメトリクスをログします。 |
+|  `log_best_prefix` |  (string) None の場合、追加のサマリーメトリクスは保存されません。文字列に設定された場合、監視されたメトリクスとエポックはこの値で前置され、サマリーメトリクスとして保存されます。 |
+|  `validation_indexes` |  ([wandb.data_types._TableLinkMixin]) 各検証例に関連付けられたインデックスキーの順序付きリスト。`log_evaluation` が True で `validation_indexes` が提供されている場合、検証データのテーブルは作成されず、各予測は `TableLinkMixin` によって表される行に関連付けられます。通常は `Table.get_index()` を使用して行キーのリストを取得します。 |
+|  `validation_row_processor` |  (Callable) 検証データに適用する関数。通常データを可視化するために使用されます。この関数は `ndx`（int）および `row`（dict）を受け取ります。モデルが単一の入力を持つ場合、`row["input"]` はその行の入力データとなります。そうでない場合、入力スロットの名前に基づいてキーが設定されます。fit 関数が単一のターゲットを取る場合、`row["target"]` はその行のターゲットデータとなります。そうでない場合、出力スロットの名前に基づいてキーが設定されます。例えば、入力データが単一の ndarray であり、データを画像として可視化したい場合、`lambda ndx, row: {"img": wandb.Image(row["input"])}` をプロセッサとして提供できます。`log_evaluation` が False または `validation_indexes` が存在する場合は無視されます。 |
+|  `output_row_processor` |  (Callable) `validation_row_processor` と同様ですが、モデルの出力に適用されます。`row["output"]` はモデル出力の結果を含みます。 |
+|  `infer_missing_processors` |  (bool) `validation_row_processor` および `output_row_processor` が欠けている場合に推論するかどうかを決定します。デフォルトは True です。`labels` が提供されている場合、適切な分類タイプのプロセッサを推論しようとします。 |
+|  `log_evaluation_frequency` |  (int) 評価結果をログする頻度を決定します。デフォルトは 0（トレーニングの最後にのみログします）。1 に設定すると各エポックごとにログし、2 に設定すると2 エポックごとにログします。`log_evaluation` が False の場合、効果はありません。 |
+|  `compute_flops` |  (bool) Keras の Sequential または Functional モデルの FLOPs を GigaFLOPs 単位で計算します。 |
 
 ## メソッド
 
 ### `get_flops`
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/integration/keras/keras.py#L1034-L1080)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/integration/keras/keras.py#L1034-L1080)
 
 ```python
 get_flops() -> float
 ```
 
-推論モードのtf.keras.Modelまたはtf.keras.SequentialモデルのFLOPS [GFLOPs]を計算します。
+推論モードでの tf.keras.Model または tf.keras.Sequential モデルの FLOPS [GFLOPs] を計算します。
 
-内部ではtf.compat.v1.profilerを使用しています。
+内部では tf.compat.v1.profiler を使用します。
 
 ### `set_model`
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/integration/keras/keras.py#L554-L563)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/integration/keras/keras.py#L554-L563)
 
 ```python
 set_model(
@@ -92,7 +91,7 @@ set_model(
 
 ### `set_params`
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/integration/keras/keras.py#L551-L552)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/integration/keras/keras.py#L551-L552)
 
 ```python
 set_params(

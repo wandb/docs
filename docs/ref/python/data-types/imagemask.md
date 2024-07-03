@@ -1,9 +1,8 @@
-
 # ImageMask
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/data_types/helper_types/image_mask.py#L18-L233' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHubでソースを見る</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/data_types/helper_types/image_mask.py#L18-L233' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-画像マスクやオーバーレイをW&Bにログするためにフォーマットします。
+画像マスクやオーバーレイを W&B にログとして出力するためのフォーマット。
 
 ```python
 ImageMask(
@@ -14,12 +13,12 @@ ImageMask(
 
 | 引数 |  |
 | :--- | :--- |
-|  `val` |  (辞書) 画像を表すための次の2つのキーのうちの1つ: mask_data : (2D numpy配列) 画像内の各ピクセルに対する整数クラスラベルを含むマスク path : (文字列) マスクの保存された画像ファイルのパス class_labels : (整数から文字列への辞書, オプション) マスク内の整数クラスラベルを読み取り可能なクラス名にマッピングする。このデフォルトはclass_0, class_1, class_2などになります。 |
-|  `key` |  (文字列) このマスクタイプの読み取り可能な名前またはID（例：予測値, ground_truth） |
+|  `val` |  (辞書) 画像を表すための2つのキーの一つ: mask_data : (2D numpy array) 各ピクセルの整数クラスラベルを含むマスク path : (string) マスクの保存済み画像ファイルのパス class_labels : (整数から文字列への辞書, オプション) マスク内の整数クラスラベルを、読みやすいクラス名にマッピングする。このクラス名は class_0, class_1, class_2 などのデフォルト値になる。 |
+|  `key` |  (string) このマスクタイプの読みやすい名前またはID (例: predictions, ground_truth) |
 
 #### 例:
 
-### 単一のマスク画像のログ
+### 単一のマスク画像をログする
 
 ```python
 import numpy as np
@@ -52,7 +51,7 @@ masked_image = wandb.Image(
 wandb.log({"img_with_masks": masked_image})
 ```
 
-### Masked imageをTable内にログする
+### Table 内でマスク画像をログする
 
 ```python
 import numpy as np
@@ -102,7 +101,7 @@ wandb.log({"random_field": table})
 
 ### `type_name`
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/data_types/helper_types/image_mask.py#L205-L207)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/data_types/helper_types/image_mask.py#L205-L207)
 
 ```python
 @classmethod
@@ -111,7 +110,7 @@ type_name() -> str
 
 ### `validate`
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/data_types/helper_types/image_mask.py#L209-L233)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/data_types/helper_types/image_mask.py#L209-L233)
 
 ```python
 validate(

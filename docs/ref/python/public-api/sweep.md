@@ -1,9 +1,8 @@
-
 # Sweep
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/sweeps.py#L30-L240' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/sweeps.py#L30-L240' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-sweepに関連付けられた一連のrun。
+ある sweep に関連付けられた一連の runs。
 
 ```python
 Sweep(
@@ -11,9 +10,9 @@ Sweep(
 )
 ```
 
-### 例:
+#### 例:
 
-以下のようにインスタンス化します:
+以下を使用してインスタンス化します:
 
 ```
 api = wandb.Api()
@@ -22,18 +21,18 @@ sweep = api.sweep(path/to/sweep)
 
 | 属性 |  |
 | :--- | :--- |
-|  `runs` |  (`Runs`) runのリスト |
+|  `runs` |  (`Runs`) 複数の runs のリスト |
 |  `id` |  (str) sweep id |
-|  `project` |  (str) project名 |
-|  `config` |  (str) sweep configurationの辞書 |
-|  `state` |  (str) sweepの状態 |
-|  `expected_run_count` |  (int) sweepの予想run数 |
+|  `project` |  (str) project の名前 |
+|  `config` |  (str) sweep configuration の辞書 |
+|  `state` |  (str) sweep の状態 |
+|  `expected_run_count` |  (int) sweep の予想される runs の数 |
 
 ## メソッド
 
 ### `best_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/sweeps.py#L125-L148)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/sweeps.py#L125-L148)
 
 ```python
 best_run(
@@ -41,11 +40,11 @@ best_run(
 )
 ```
 
-configで定義された指標または渡されたorderでソートされた最も良いrunを返します。
+設定で定義されたメトリックまたは渡された order によってソートされた最良の run を返します。
 
 ### `display`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L15-L26)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/attrs.py#L15-L26)
 
 ```python
 display(
@@ -53,11 +52,11 @@ display(
 ) -> bool
 ```
 
-このオブジェクトをjupyterで表示します。
+このオブジェクトを jupyter に表示します。
 
 ### `get`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/sweeps.py#L173-L222)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/sweeps.py#L173-L222)
 
 ```python
 @classmethod
@@ -70,7 +69,7 @@ get(
 
 ### `load`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/sweeps.py#L106-L114)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/sweeps.py#L106-L114)
 
 ```python
 load(
@@ -80,7 +79,7 @@ load(
 
 ### `snake_to_camel`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L11-L13)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/attrs.py#L11-L13)
 
 ```python
 snake_to_camel(
@@ -90,7 +89,7 @@ snake_to_camel(
 
 ### `to_html`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/sweeps.py#L224-L232)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/sweeps.py#L224-L232)
 
 ```python
 to_html(
@@ -98,7 +97,7 @@ to_html(
 )
 ```
 
-このsweepを表示するiframeを含むHTMLを生成します。
+この sweep を表示する iframe を含む HTML を生成します。
 
 | クラス変数 |  |
 | :--- | :--- |

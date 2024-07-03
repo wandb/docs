@@ -1,9 +1,8 @@
-
 # Table
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L150-L876' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L150-L876' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-Table クラスは、表形式のデータを表示および分析するために使用されます。
+Tableクラスは表形式のデータを表示・分析するために使用されます。
 
 ```python
 Table(
@@ -12,26 +11,24 @@ Table(
 )
 ```
 
-従来のスプレッドシートとは異なり、Tables は多数のデータタイプをサポートします:
-スカラー値、文字列、numpy 配列、そして `wandb.data_types.Media` の多くのサブクラス。
-これにより、`Images`、`Video`、`Audio`、およびその他のリッチで注釈付きメディアを
-従来のスカラー値と並べて直接 Table に埋め込むことができます。
+従来のスプレッドシートとは異なり、Tablesは以下のようなさまざまなタイプのデータをサポートしています：
+スカラー値、文字列、numpy配列、および`wandb.data_types.Media`のほとんどのサブクラス。このため、`Images`、`Video`、`Audio`などのリッチで注釈付きのメディアを、他の従来のスカラー値と同様に直接Tablesに埋め込むことができます。
 
-このクラスは、UI で Table Visualizer を生成するための主要なクラスです: https://docs.wandb.ai/guides/data-vis/tables.
+このクラスは、UIでTable Visualizerを生成するための主要なクラスです: https://docs.wandb.ai/guides/data-vis/tables.
 
 | 引数 |  |
 | :--- | :--- |
-|  `columns` |  (List[str]) テーブルの列名。デフォルトは ["Input", "Output", "Expected"]。 |
-|  `data` |  (List[List[any]]) 値の2次元行指向配列。 |
-|  `dataframe` |  (pandas.DataFrame) テーブルを作成するために使用される DataFrame オブジェクト。設定されている場合、`data` および `columns` 引数は無視されます。 |
-|  `optional` |  (Union[bool,List[bool]]) `None` 値が許可されるかどうかを決定します。デフォルトは True - 単一の bool 値の場合、構築時に指定されたすべての列に optionality が適用されます - bool 値のリストの場合、各列に optionality が適用されます - `columns` と同じ長さである必要があります。bool 値のリストは、それぞれの列に適用されます。 |
-|  `allow_mixed_types` |  (bool) 列に混合タイプが許可されるかどうかを決定します（タイプ検証を無効にします）。デフォルトは False |
+|  `columns` |  (List[str]) テーブルのカラム名。デフォルトは ["Input", "Output", "Expected"]。 |
+|  `data` |  (List[List[any]]) 行指向の2次元配列。 |
+|  `dataframe` |  (pandas.DataFrame) Tableを作成するために使用されるDataFrameオブジェクト。設定されている場合、`data`および`columns`引数は無視されます。|
+|  `optional` |  (Union[bool,List[bool]]) `None` 値を許可するかどうかを決定します。デフォルトはTrue - 単一のbool値の場合、構築時に指定されたすべての列に対してオプション性が適用されます - bool値のリストの場合、それぞれの列に対してオプション性が適用されます。 |
+|  `allow_mixed_types` |  (bool) 列に混合タイプが許可されるかどうかを決定します（タイプ検証を無効にします）。デフォルトはFalse。 |
 
 ## メソッド
 
 ### `add_column`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L764-L803)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L764-L803)
 
 ```python
 add_column(
@@ -39,17 +36,17 @@ add_column(
 )
 ```
 
-データの列をテーブルに追加します。
+Tableに新しいカラムデータを追加します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) - 列の一意の名前 |
-|  `data` |  (list | np.array) - 同種データの列 |
-|  `optional` |  (bool) - null のような値が許可されるかどうか |
+|  `name` |  (str) - カラムの一意の名前 |
+|  `data` |  (list | np.array) - 同質データのカラム |
+|  `optional` |  (bool) - nullのような値が許可されているかどうか |
 
 ### `add_computed_columns`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L854-L876)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L854-L876)
 
 ```python
 add_computed_columns(
@@ -57,15 +54,15 @@ add_computed_columns(
 )
 ```
 
-既存のデータに基づいて1つ以上の計算列を追加します。
+既存のデータに基づいて1つまたは複数の計算カラムを追加します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `fn` |  1つまたは2つのパラメータ、ndx (int) および row (辞書) を受け取り、その行の新しい列を新しい列名でキー指定した辞書を返す関数。`ndx` はその行のインデックスを表す整数。`include_ndx` が `True` に設定されている場合のみ含まれます。`row` は既存の列でキー指定された辞書です |
+|  `fn` |  一つまたは二つのパラメータ（ndx（int）およびrow（dict））を受け取り、その行の新しいカラムを表すdictを返す関数。新しいカラム名でキー付けされます。`ndx`は行のインデックスを表す整数です。`include_ndx`が`True`に設定されている場合にのみ含まれます。`row`は既存のカラムでキー付けされた辞書です。|
 
 ### `add_data`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L390-L423)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L390-L423)
 
 ```python
 add_data(
@@ -73,13 +70,13 @@ add_data(
 )
 ```
 
-新しいデータ行をテーブルに追加します。テーブル内の行の最大数は `wandb.Table.MAX_ARTIFACT_ROWS` によって決定されます。
+Tableに新しい行データを追加します。テーブルの最大行数は`wandb.Table.MAX_ARTIFACT_ROWS`で決定されます。
 
-データの長さはテーブルの列の長さと一致する必要があります。
+データの長さはテーブルカラムの長さと一致する必要があります。
 
 ### `add_row`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L385-L388)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L385-L388)
 
 ```python
 add_row(
@@ -87,11 +84,11 @@ add_row(
 )
 ```
 
-廃止予定; 代わりに add_data を使用してください。
+非推奨; 代わりにadd_dataを使用してください。
 
 ### `cast`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L282-L338)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L282-L338)
 
 ```python
 cast(
@@ -99,19 +96,19 @@ cast(
 )
 ```
 
-列を特定のデータタイプにキャストします。
+カラムを特定のデータ型にキャストします。
 
-これには通常の Python クラス、内部の W&B タイプ、または wandb.Image や wandb.Classes のインスタンス例などのオブジェクトが含まれます。
+これには通常のpythonクラス、内部W&B型、またはwandb.Imageやwandb.Classesのインスタンスのようなオブジェクトが含まれます。
 
 | 引数 |  |
 | :--- | :--- |
-|  `col_name` |  (str) - キャストする列の名前。 |
-|  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - 目標の dtype。 |
-|  `optional` |  (bool) - 列が None を許可するかどうか。 |
+|  `col_name` |  (str) - キャストするカラムの名前。 |
+|  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - 目標とするデータ型。 |
+|  `optional` |  (bool) - カラムがNoneを許可するかどうか。 |
 
 ### `get_column`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L805-L828)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L805-L828)
 
 ```python
 get_column(
@@ -119,26 +116,26 @@ get_column(
 )
 ```
 
-テーブルから列を取得し、オプションで NumPy オブジェクトに変換します。
+テーブルからカラムを取得し、任意でNumPyオブジェクトに変換します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  (str) - 列の名前 |
-|  `convert_to` |  (str, optional) - "numpy": 基となるデータを numpy オブジェクトに変換します |
+|  `name` |  (str) - カラムの名前 |
+|  `convert_to` |  (str, optional) - "numpy": データをNumPyオブジェクトに変換します |
 
 ### `get_dataframe`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L839-L845)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L839-L845)
 
 ```python
 get_dataframe()
 ```
 
-テーブルの `pandas.DataFrame` を返します。
+テーブルの`pandas.DataFrame`を返します。
 
 ### `get_index`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L830-L837)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L830-L837)
 
 ```python
 get_index()
@@ -148,7 +145,7 @@ get_index()
 
 ### `index_ref`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L847-L852)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L847-L852)
 
 ```python
 index_ref(
@@ -156,17 +153,17 @@ index_ref(
 )
 ```
 
-テーブル内の行のインデックスの参照を取得します。
+Tableの行のインデックスの参照を取得します。
 
 ### `iterrows`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L641-L655)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L641-L655)
 
 ```python
 iterrows()
 ```
 
-行ごとにテーブルデータを返し、行のインデックスと関連するデータを表示します。
+行データとそのインデックスを返します。
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -174,13 +171,13 @@ iterrows()
 ***
 
 index : int
-行のインデックス。他の W&B テーブルでこの値を使用すると、テーブル間の関係が自動的に構築されます
+行のインデックス。この値を他のW&Bテーブルで使用することで、テーブル間の関係が自動的に構築されます。
 row : List[any]
-行のデータ。
+行データ。
 
 ### `set_fk`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L662-L666)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L662-L666)
 
 ```python
 set_fk(
@@ -190,7 +187,7 @@ set_fk(
 
 ### `set_pk`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/data_types.py#L657-L660)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/data_types.py#L657-L660)
 
 ```python
 set_pk(

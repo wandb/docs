@@ -1,9 +1,8 @@
-
 # Project
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/projects.py#L79-L160' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/projects.py#L79-L154' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-プロジェクトは run のための名前空間です。
+プロジェクトはrunの名前空間です。
 
 ```python
 Project(
@@ -18,7 +17,7 @@ Project(
 
 ### `artifacts_types`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/projects.py#L112-L114)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/projects.py#L112-L114)
 
 ```python
 artifacts_types(
@@ -28,7 +27,7 @@ artifacts_types(
 
 ### `display`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L15-L26)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/attrs.py#L15-L26)
 
 ```python
 display(
@@ -36,11 +35,11 @@ display(
 ) -> bool
 ```
 
-jupyter でこの オブジェクト を表示します。
+このオブジェクトをjupyterで表示します。
 
 ### `snake_to_camel`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/attrs.py#L11-L13)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/attrs.py#L11-L13)
 
 ```python
 snake_to_camel(
@@ -50,7 +49,7 @@ snake_to_camel(
 
 ### `sweeps`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/projects.py#L116-L160)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/projects.py#L116-L154)
 
 ```python
 sweeps()
@@ -58,7 +57,7 @@ sweeps()
 
 ### `to_html`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/apis/public/projects.py#L96-L104)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/apis/public/projects.py#L96-L104)
 
 ```python
 to_html(
@@ -66,4 +65,4 @@ to_html(
 )
 ```
 
-このプロジェクトを表示する iframe を含む HTML を生成します。
+このプロジェクトを表示するiframeを含むHTMLを生成します。

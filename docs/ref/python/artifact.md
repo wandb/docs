@@ -15,53 +15,53 @@ Artifact(
 ) -> None
 ```
 
-空の W&B Artifact を構築します。メソッドでアーティファクトの内容を追加します。すべてのファイルが追加されたら、`wandb.log_artifact()`を呼び出してログを記録します。
+空のW&B Artifactを構築します。`add`で始まるメソッドを使ってアーティファクトの内容を追加します。すべての必要なファイルがアーティファクトに追加されたら、`wandb.log_artifact()`を呼び出してログを作成できます。
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  アーティファクトの人間が読みやすい名前。W&B アプリ UI またはプログラムで特定のアーティファクトを識別するために名前を使用します。 `use_artifact` パブリック API を使用してインタラクティブにアーティファクトを参照できます。名前は文字、数字、アンダースコア、ハイフン、およびドットを含むことができます。名前はプロジェクト内で一意である必要があります。 |
-|  `type` |  アーティファクトのタイプ。アーティファクトのタイプを使用して、アーティファクトを整理および区別します。任意の文字列を使用できますが、文字、数字、アンダースコア、ハイフン、およびドットを含む必要があります。一般的なタイプには `dataset` や `model` があります。アーティファクトを W&B Model Registry にリンクする場合は、タイプ文字列に `model` を含めます。 |
-|  `description` |  アーティファクトの説明。Model や Dataset Artifacts の場合、標準化されたチームモデルやデータセットカードのドキュメントを追加します。アーティファクトの説明は `Artifact.description` 属性を使用してプログラム的に参照したり、W&B アプリ UI を使用して参照できます。W&B は W&B アプリ内でマークダウンとして説明をレンダリングします。 |
-|  `metadata` |  アーティファクトに関する追加情報。キーと値のペアの辞書としてメタデータを指定します。合計 100 個のキーを超えることはできません。 |
+|  `name` |  アーティファクトの人間が読める名前。W&BアプリのUIまたはプログラムを使用して特定のアーティファクトを識別するために使用します。Public APIの`use_artifact`を使ってアーティファクトを参照できます。名前には文字、数字、アンダースコア、ハイフン、およびドットを含めることができます。名前はプロジェクト全体で一意である必要があります。 |
+|  `type` |  アーティファクトのタイプ。アーティファクトのタイプを使用してアーティファクトを整理し、区別します。文字、数字、アンダースコア、ハイフン、およびドットを含む任意の文字列を使用できます。一般的なタイプには`dataset`や`model`が含まれます。アーティファクトをW&Bモデルレジストリにリンクしたい場合は、タイプ文字列に`model`を含めてください。 |
+|  `description` |  アーティファクトの説明。モデルまたはデータセットのArtifactsの場合、標準化されたチームモデルまたはデータセットカードのドキュメントを追加します。アーティファクトの説明をプログラムによっては`Artifact.description`属性で、またはW&BアプリのUIからプログラム的に確認できます。W&Bはアプリ内で説明をMarkdownとしてレンダリングします。 |
+|  `metadata` |  アーティファクトに関する追加情報。メタデータをキーと値のペアで辞書として指定します。キーの総数は100個以内で指定してください。 |
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `Artifact` オブジェクト。 |
+|  `Artifact`オブジェクト。 |
 
 | 属性 |  |
 | :--- | :--- |
-|  `aliases` |  アーティファクトバージョンに割り当てられた、セマンティックにフレンドリーな参照または識別「ニックネーム」のリスト。エイリアスは、プログラム的に参照できる可変の参照です。エイリアスは、W&B アプリ UI またはプログラム的に変更できます。詳細については、[新しいアーティファクトバージョンの作成](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) を参照してください。 |
-|  `collection` |  このアーティファクトが取得されたコレクション。コレクションはアーティファクトバージョンの順序グループです。このアーティファクトがポートフォリオ/リンクコレクションから取得された場合、そのコレクションが返されます。このアーティファクトバージョンが発生したコレクションはソースシーケンスと呼ばれます。 |
-|  `commit_hash` |  このアーティファクトがコミットされたときに返されるハッシュ。 |
-|  `created_at` |  アーティファクトが作成されたときのタイムスタンプ。 |
+|  `aliases` |  アーティファクトバージョンに割り当てられた、意味的に親しみやすい参照や識別用の「ニックネーム」のリスト。エイリアスはプログラムによって参照できる可変参照です。エイリアスはW&BアプリのUIまたはプログラムによって変更可能です。詳細については、[新しいアーティファクトバージョンの作成](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version)を参照してください。 |
+|  `collection` |  このアーティファクトが取得されたコレクション。コレクションはアーティファクトバージョンの順序付けられたグループです。 |
+|  `commit_hash` |  このアーティファクトがコミットされた時に返されるハッシュ。 |
+|  `created_at` |  アーティファクトが作成されたタイムスタンプ。 |
 |  `description` |  アーティファクトの説明。 |
-|  `digest` |  アーティファクトの論理ダイジェスト。ダイジェストはアーティファクト内容のチェックサムです。アーティファクトが現在の最新バージョンと同じダイジェストを持っている場合、`log_artifact`は何もしません。 |
-|  `entity` |  セカンダリー（ポートフォリオ）アーティファクトコレクションのエンティティ名。 |
+|  `digest` |  アーティファクトの論理的ダイジェスト。 |
+|  `entity` |  二次（ポートフォリオ）アーティファクトコレクションのエンティティの名前。 |
 |  `file_count` |  ファイルの数（参照を含む）。 |
 |  `id` |  アーティファクトのID。 |
-|  `manifest` |  アーティファクトのマニフェスト。マニフェストにはすべての内容が一覧されており、アーティファクトがログに記録されると変更できません。 |
-|  `metadata` |  ユーザー定義のアーティファクトメタデータ。アーティファクトに関連付けられた構造化データ。 |
-|  `name` |  セカンダリー（ポートフォリオ）コレクションのアーティファクト名とバージョン。形式は {collection}:{alias} の文字列です。アーティファクトが保存されるまで、バージョンはまだ知られていないため、名前のみを含みます。 |
-|  `project` |  セカンダリー（ポートフォリオ）アーティファクトコレクションのプロジェクト名。 |
-|  `qualified_name` |  セカンダリー（ポートフォリオ）コレクションの entity/project/name。 |
-|  `size` |  バイト単位のアーティファクトの総サイズ。このアーティファクトが追跡する参照を含みます。 |
-|  `source_collection` |  アーティファクトのプライマリー（シーケンス）コレクション。 |
-|  `source_entity` |  プライマリー（シーケンス）アーティファクトコレクションのエンティティ名。 |
-|  `source_name` |  プライマリー（シーケンス）コレクションのアーティファクト名とバージョン。形式は {collection}:{alias} の文字列です。アーティファクトが保存されるまで、名前のみを含みます。 |
-|  `source_project` |  プライマリー（シーケンス）アーティファクトコレクションのプロジェクト名。 |
-|  `source_qualified_name` |  プライマリー（シーケンス）コレクションの entity/project/name。 |
-|  `source_version` |  プライマリー（シーケンス）コレクションのアーティファクトのバージョン。形式は "v{number}" の文字列です。 |
-|  `state` |  アーティファクトの状態。次のいずれか："PENDING", "COMMITTED", または "DELETED". |
-|  `ttl` |  アーティファクトのデータ保存期間（TTL）ポリシー。TTL ポリシーの期間が終了すると、アーティファクトは間もなく削除されます。`None` に設定すると、アーティファクトは TTL ポリシーを無効にし、チームデフォルト TTL が存在しても削除されません。アーティファクトは、チーム管理者がデフォルト TTL を定義し、アーティファクトにカスタムポリシーが設定されていない場合、チームデフォルトから TTL ポリシーを継承します。 |
-|  `type` |  アーティファクトのタイプ。一般的なタイプには `dataset` や `model` があります。 |
-|  `updated_at` |  アーティファクトが最後に更新された時間。 |
-|  `version` |  セカンダリー（ポートフォリオ）コレクションのアーティファクトのバージョン。 |
+|  `manifest` |  アーティファクトのマニフェスト。マニフェストはアーティファクトのすべての内容を一覧表示し、一度ログに記録された後は変更できません。 |
+|  `metadata` |  ユーザー定義のアーティファクトメタデータ。アーティファクトに関連する構造化データ。 |
+|  `name` |  二次（ポートフォリオ）コレクションのアーティファクト名とバージョン。形式は{collection}:{alias}。名前だけが含まれます。 |
+|  `project` |  二次（ポートフォリオ）アーティファクトコレクションのプロジェクト名。 |
+|  `qualified_name` |  二次（ポートフォリオ）コレクションのentity/project/name。 |
+|  `size` |  アーティファクトの総サイズ（バイト単位）。 |
+|  `source_collection` |  アーティファクトの一次（シーケンス）コレクション。 |
+|  `source_entity` |  一次（シーケンス）アーティファクトコレクションのエンティティの名前。 |
+|  `source_name` |  一次（シーケンス）コレクションのアーティファクト名とバージョン。形式は {collection}:{alias} です。名前だけが含まれます。 |
+|  `source_project` |  一次（シーケンス）アーティファクトコレクションのプロジェクト名。 |
+|  `source_qualified_name` |  一次（シーケンス）コレクションのentity/project/name。 |
+|  `source_version` |  一次（シーケンス）コレクションのアーティファクトのバージョン。形式は "v{number}"。 |
+|  `state` |  アーティファクトの状態。 "PENDING", "COMMITTED", または "DELETED" のいずれか。 |
+|  `ttl` |  アーティファクトのタイム・トゥ・リブ (TTL) ポリシー。 |
+|  `type` |  アーティファクトのタイプ。一般的なタイプには`dataset`や`model`が含まれます。 |
+|  `updated_at` |  アーティファクトが最後に更新された時刻。 |
+|  `version` |  二次（ポートフォリオ）コレクションのアーティファクトのバージョン。 |
 
-## メソッド
+## Methods
 
 ### `add`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1344-L1441)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1344-L1441)
 
 ```python
 add(
@@ -70,12 +70,12 @@ add(
 ) -> ArtifactManifestEntry
 ```
 
-wandb.WBValue `obj` をアーティファクトに追加します。
+wandb.WBValue `obj`をアーティファクトに追加します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `obj` |  追加するオブジェクト。現在サポートされているのは Bokeh、JoinedTable、PartitionedTable、Table、Classes、ImageMask、BoundingBoxes2D、Audio、Image、Video、Html、Object3D のいずれか。 |
-|  `name` |  オブジェクトを追加するアーティファクト内のパス。 |
+|  `obj` |  追加するオブジェクト。現在サポートされているのは、Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3Dです。 |
+|  `name` |  アーティファクト内でオブジェクトを追加するパス。 |
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -87,7 +87,7 @@ wandb.WBValue `obj` をアーティファクトに追加します。
 
 ### `add_dir`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1200-L1260)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1200-L1260)
 
 ```python
 add_dir(
@@ -98,14 +98,14 @@ add_dir(
 ) -> None
 ```
 
-ローカルディレクトリーをアーティファクトに追加します。
+ローカルディレクトリをアーティファクトに追加します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `local_path` |  ローカルディレクトリーのパス。 |
-|  `name` |  アーティファクト内のサブディレクトリー名。W&B アプリ UI に表示される名前。デフォルトはアーティファクトのルート。 |
-|  `skip_cache` |  `True` に設定した場合、アップロード時にファイルをキャッシュにコピー/移動しません。 |
-|  `policy` |  "mutable" または "immutable"。デフォルトは "mutable" "mutable"。一時コピーを作成してアップロード中の破損を防ぎます。"immutable"：保護を無効にし、ユーザーがファイルを削除または変更しないことを前提とします。 |
+|  `local_path` |  ローカルディレクトリのパス。 |
+|  `name` |  アーティファクト内のサブディレクトリ名。この名前はW&BアプリのUIでアーティファクトの`type`によってネストされて表示されます。デフォルトはアーティファクトのルートです。 |
+|  `skip_cache` |  `True`に設定されている場合、アップロード中にファイルをキャッシュにコピー/移動しません。 |
+|  `policy` |  "mutable" または "immutable"。デフォルトは"mutable"。「mutable」：アップロード中のファイルの破損を防ぐため、一時コピーを作成します。「immutable」：保護を無効にし、ファイルを削除または変更しないようユーザーに依存します。 |
 
 | 例外 |  |
 | :--- | :--- |
@@ -114,7 +114,7 @@ add_dir(
 
 ### `add_file`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1154-L1198)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1154-L1198)
 
 ```python
 add_file(
@@ -131,10 +131,10 @@ add_file(
 | 引数 |  |
 | :--- | :--- |
 |  `local_path` |  追加するファイルのパス。 |
-|  `name` |  アーティファクト内でファイルに使用するパス。デフォルトはファイルのベース名。 |
-|  `is_tmp` |  true の場合、競合を回避するためにファイルの名前が決定論的に変更されます。 |
-|  `skip_cache` |  `True` に設定した場合、アップロード後にファイルをキャッシュにコピーしません。 |
-|  `policy` |  "mutable" または "immutable"。デフォルトは "mutable" "mutable"。一時コピーを作成してアップロード中の破損を防ぎます。"immutable"：保護を無効にし、ユーザーがファイルを削除または変更しないことを前提とします。 |
+|  `name` |  追加するファイルが使用されるアーティファクト内のパス。デフォルトはファイルのベース名です。 |
+|  `is_tmp` |  trueの場合、ファイルは衝突を避けるため決定論的に名前が変更されます。 |
+|  `skip_cache` |  `True`に設定されている場合、アップロード後にファイルをキャッシュにコピーしません。 |
+|  `policy` |  "mutable" または "immutable"。デフォルトは"mutable"。「mutable」：アップロード中のファイルの破損を防ぐため、一時コピーを作成します。「immutable」：保護を無効にし、ファイルを削除または変更しないようユーザーに依存します。 |
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -147,7 +147,7 @@ add_file(
 
 ### `add_reference`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1262-L1342)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1262-L1342)
 
 ```python
 add_reference(
@@ -158,26 +158,26 @@ add_reference(
 ) -> Sequence[ArtifactManifestEntry]
 ```
 
-URI で指定される参照をアーティファクトに追加します。
+URIで示される参照をアーティファクトに追加します。
 
-ファイルまたはディレクトリーをアーティファクトに追加するのとは異なり、参照は W&B にアップロードされません。 詳細については、[外部ファイルの追跡](https://docs.wandb.ai/guides/artifacts/track-external-files) を参照してください。
+ファイルやディレクトリをアーティファクトに追加するのとは異なり、参照はW&Bにアップロードされません。詳細については、[外部ファイルの追跡](https://docs.wandb.ai/guides/artifacts/track-external-files)を参照してください。
 
-デフォルトでは、以下のスキームがサポートされています：
+デフォルトでは、次のスキームがサポートされています：
 
-- http(s): サーバーが返す `Content-Length` および `ETag` 応答ヘッダーによって、ファイルのサイズとダイジェストが推測されます。
-- s3: チェックサムとサイズはオブジェクトメタデータから取得されます。バケットのバージョン管理が有効になっている場合は、バージョン ID も追跡されます。
-- gs: チェックサムとサイズはオブジェクトメタデータから取得されます。バケットのバージョン管理が有効になっている場合は、バージョン ID も追跡されます。
-- https, *.blob.core.windows.net ドメイン一致 (Azure): チェックサムとサイズが Blob メタデータから取得されます。ストレージアカウントのバージョン管理が有効になっている場合は、バージョン ID も追跡されます。
-- file: チェックサムとサイズがファイルシステムから取得されます。このスキームは、 NFS シェアや他の外部マウントボリュームを追跡するが、アップロードしない場合に便利です。
+- http(s): ファイルのサイズとダイジェストは、サーバーが返す `Content-Length` と `ETag` 応答ヘッダーによって推測されます。
+- s3: チェックサムとサイズはオブジェクトのメタデータから取得されます。バケットバージョニングが有効になっている場合、バージョンIDも追跡されます。
+- gs: チェックサムとサイズはオブジェクトのメタデータから取得されます。バケットバージョニングが有効になっている場合、バージョンIDも追跡されます。
+- https, ドメインが `*.blob.core.windows.net` (Azure) と一致する場合: ブロブのメタデータからチェックサムとサイズが取得されます。ストレージアカウントのバージョニングが有効になっている場合、バージョンIDも追跡されます。
+- file: チェックサムとサイズはファイルシステムから取得されます。このスキームは、NFSシェアまたは他の外部マウントボリュームに含まれるファイルを追跡するのに便利ですが、必ずしもアップロードする必要はありません。
 
-その他のスキームについては、ダイジェストは URI のハッシュであり、サイズは空白のままです。
+他のスキームの場合、ダイジェストはURIのハッシュであり、サイズは空白のままです。
 
 | 引数 |  |
 | :--- | :--- |
-|  `uri` |  参照を追加する URI パス。URI パスは、他のアーティファクトのエントリへの参照を保存するための `Artifact.get_entry` から返されるオブジェクトであることもあります。 |
+|  `uri` |  追加する参照のURIパス。URIパスは、他のアーティファクトのエントリへの参照を保存するために`Artifact.get_entry`から返されるオブジェクトである可能性があります。 |
 |  `name` |  この参照の内容を配置するアーティファクト内のパス。 |
-|  `checksum` |  参照 URI にあるリソースのチェックサムを取るかどうか。チェックサムは自動整合性検証を可能にするため、強く推奨されます。チェックサムを無効にすると、アーティファクトの作成速度が向上しますが、参照ディレクトリーは反復されないため、ディレクトリー内のオブジェクトはアーティファクトに保存されません。チェックサムが false の場合は、参照オブジェクトを追加することをお勧めします。 |
-|  `max_objects` |  ディレクトリーまたはバケットストアプレフィックスを指す参照を追加するときに考慮する最大オブジェクト数。 |
+|  `checksum` |  参照URIにあるリソースのチェックサムを行うかどうか。チェックサミングは強く推奨されます。 |
+|  `max_objects` |  ディレクトリまたはバケットストアプレフィックスを指す参照を追加する際に考慮するオブジェクトの最大数。デフォルトでは、Amazon S3, GCS, Azure, およびローカルファイルの最大数は10,000,000です。他のURIスキーマには最大値がありません。 |
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -189,7 +189,7 @@ URI で指定される参照をアーティファクトに追加します。
 
 ### `checkout`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1878-L1907)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1878-L1907)
 
 ```python
 checkout(
@@ -197,9 +197,9 @@ checkout(
 ) -> str
 ```
 
-指定されたルートディレクトリをアーティファクトの内容で置き換える。
+指定されたルートディレクトリをアーティファクトの内容で置き換えます。
 
-警告: これはアーティファクトに含まれていない `root` のすべてのファイルを削除します。
+警告：これはアーティファクトに含まれていない`root`内のすべてのファイルを削除します。
 
 | 引数 |  |
 | :--- | :--- |
@@ -215,7 +215,7 @@ checkout(
 
 ### `delete`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2019-L2038)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2019-L2038)
 
 ```python
 delete(
@@ -225,11 +225,11 @@ delete(
 
 アーティファクトとそのファイルを削除します。
 
-リンクされたアーティファクトで呼び出された場合（例：ポートフォリオコレクションのメンバーの場合）、リンクのみが削除され、ソースアーティファクトには影響しません。
+リンクされたアーティファクト（つまり、ポートフォリオコレクションのメンバー）に対して呼び出された場合、リンクのみが削除され、元のアーティファクトは影響を受けません。
 
 | 引数 |  |
 | :--- | :--- |
-|  `delete_aliases` |  `True` に設定した場合、アーティファクトに関連するすべてのエイリアスを削除します。それ以外の場合、アーティファクトに既存のエイリアスがある場合は例外を発生させます。このパラメータは、アーティファクトがリンクされている場合（例：ポートフォリオコレクションのメンバーである場合）には無視されます。 |
+|  `delete_aliases` |  `True`に設定すると、アーティファクトに関連付けられているすべてのエイリアスを削除します。そうでない場合、既存のエイリアスが存在する場合に例外が発生します。このパラメータは、アーティファクトがリンクされている場合（つまり、ポートフォリオコレクションのメンバーである場合）には無視されます。 |
 
 | 例外 |  |
 | :--- | :--- |
@@ -237,7 +237,7 @@ delete(
 
 ### `download`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1621-L1662)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1621-L1662)
 
 ```python
 download(
@@ -250,13 +250,13 @@ download(
 
 アーティファクトの内容を指定されたルートディレクトリにダウンロードします。
 
-既存の `root` 内のファイルは変更されません。`download` を呼び出す前に `root` を明示的に削除して、`root` の内容がアーティファクトと完全に一致するようにします。
+`root`内の既存のファイルは変更されません。一致するようにしたい場合は、`download`を呼び出す前に明示的に`root`を削除してください。
 
 | 引数 |  |
 | :--- | :--- |
-|  `root` |  アーティファクトのファイルを保存するディレクトリ。 |
-|  `allow_missing_references` |  `True` に設定した場合、無効な参照パスを無視して参照ファイルをダウンロードします。 |
-|  `skip_cache` |  `True` に設定した場合、ダウンロード時にアーティファクトキャッシュをスキップし、デフォルトのルートまたは指定されたダウンロードディレクトリにファイルをダウンロードします。 |
+|  `root` |  W&Bがアーティファクトのファイルを保存するディレクトリ。 |
+|  `allow_missing_references` |  `True`に設定すると、無効な参照パスがあっても無視され、参照ファイルのダウンロードは行われません。 |
+|  `skip_cache` |  `True`に設定されている場合、アーティファクトキャッシュをスキップし、各ファイルをデフォルトのルートまたは指定されたダウンロードディレクトリに直接ダウンロードします。 |
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -268,7 +268,7 @@ download(
 
 ### `file`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1950-L1975)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1950-L1975)
 
 ```python
 file(
@@ -276,11 +276,11 @@ file(
 ) -> StrPath
 ```
 
-指定された `root` に単一のファイルアーティファクトをダウンロードします。
+単一のファイルアーティファクトを、`root`で指定されたディレクトリにダウンロードします。
 
 | 引数 |  |
 | :--- | :--- |
-|  `root` |  ファイルを保存するルートディレクトリ。デフォルトは './artifacts/self.name/'。 |
+|  `root` |  ファイルを保存するルートディレクトリ。デフォルトは `./artifacts/self.name/`。 |
 
 | 戻り値 |  |
 | :--- | :--- |
@@ -293,7 +293,7 @@ file(
 
 ### `files`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1977-L1994)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1977-L1994)
 
 ```python
 files(
@@ -302,16 +302,16 @@ files(
 ) -> ArtifactFiles
 ```
 
-このアーティファクトに保存されているすべてのファイルを繰り返し処理します。
+このアーティファクトに保存されているすべてのファイルを反復します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `names` |  リストするアーティファクトのルート相対パス。 |
-|  `per_page` |  1 リクエストあたりのファイル数。 |
+|  `names` |  リストしたいアーティファクトのルート相対パスのファイル名。 |
+|  `per_page` |  リクエストごとに返されるファイル数。 |
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `File` オブジェクトを含む反復子。 |
+|  `File`オブジェクトを含むイテレータ。 |
 
 | 例外 |  |
 | :--- | :--- |
@@ -319,7 +319,7 @@ files(
 
 ### `finalize`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L723-L731)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L723-L731)
 
 ```python
 finalize() -> None
@@ -327,11 +327,11 @@ finalize() -> None
 
 アーティファクトバージョンを確定します。
 
-アーティファクトバージョンが確定されると、そのバージョンには変更を加えることができません。それ以降のデータをログに記録するためには、新しいアーティファクトバージョンを作成する必要があります。アーティファクトは `log_artifact` を使用してログに記録されると自動的に確定されます。
+アーティファクトバージョンが確定されると、アーティファクトに変更を加えることはできません。アーティファクトにデータを追加する場合は、新しいアーティファクトバージョンを作成してください。アーティファクトは`log_artifact`でログに記録されると自動的に確定されます。
 
 ### `get`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1537-L1583)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1537-L1583)
 
 ```python
 get(
@@ -339,23 +339,23 @@ get(
 ) -> Optional[data_types.WBValue]
 ```
 
-アーティファクト相対 `name` に配置された WBValue オブジェクトを取得します。
+アーティファクト相対の `name` にあるWBValueオブジェクトを取得します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  取得するアーティファクト相対名。 |
+|  `name` |  取得するアーティファクト相対の名前。 |
 
 | 戻り値 |  |
 | :--- | :--- |
-|  W&B オブジェクト。これは `wandb.log()` を使用してログに記録され、W&B UIで視覚化できます。 |
+|  `W&B`オブジェクト。`wandb.log()`でログに記録し、W&BのUIで可視化可能。 |
 
 | 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  アーティファクトがログに記録されていない場合や、run がオフラインの場合。 |
+|  `ArtifactNotLoggedError` |  アーティファクトがログに記録されていない場合やrunがオフラインの場合。 |
 
 ### `get_added_local_path_name`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1585-L1597)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1585-L1597)
 
 ```python
 get_added_local_path_name(
@@ -363,7 +363,7 @@ get_added_local_path_name(
 ) -> Optional[str]
 ```
 
-ローカルファイルシステムのパスから追加されたファイルのアーティファクト相対名を取得します。
+ローカルファイルシステムパスによって追加されたファイルのアーティファクト相対名を取得します。
 
 | 引数 |  |
 | :--- | :--- |
@@ -375,7 +375,7 @@ get_added_local_path_name(
 
 ### `get_entry`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1515-L1535)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1515-L1535)
 
 ```python
 get_entry(
@@ -387,20 +387,20 @@ get_entry(
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  取得するアーティファクト相対名。 |
+|  `name` |  取得するアーティファクト相対の名前。 |
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `W&B` オブジェクト。 |
+|  `W&B`オブジェクト。 |
 
 | 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  アーティファクトがログに記録されていない場合や、run がオフラインの場合。 |
-|  `KeyError` |  アーティファクトに指定された名前のエントリが含まれていない場合。 |
+|  `ArtifactNotLoggedError` |  アーティファクトがログに記録されていない場合やrunがオフラインの場合。 |
+|  `KeyError` |  指定された名前のエントリがアーティファクトに含まれていない場合。 |
 
 ### `get_path`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1507-L1513)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1507-L1513)
 
 ```python
 get_path(
@@ -412,7 +412,7 @@ get_path(
 
 ### `is_draft`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L741-L746)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L741-L746)
 
 ```python
 is_draft() -> bool
@@ -420,25 +420,25 @@ is_draft() -> bool
 
 アーティファクトが保存されていないかどうかを確認します。
 
-戻り値: Boolean。アーティファクトが保存されている場合は `False`。保存されていない場合は `True`。
+戻り値: Boolean。アーティファクトが保存されている場合は`False`。保存されていない場合は`True`。
 
 ### `json_encode`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2229-L2236)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2229-L2236)
 
 ```python
 json_encode() -> Dict[str, Any]
 ```
 
-アーティファクトを JSON 形式でエンコードして返します。
+アーティファクトをJSON形式にエンコードして返します。
 
 | 戻り値 |  |
 | :--- | :--- |
-|  アーティファクトの属性を表す `string` キーを持つ `dict`。 |
+|  アーティファクトの属性を表す文字列キーを持つ`dict`。 |
 
 ### `link`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2065-L2093)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2065-L2093)
 
 ```python
 link(
@@ -447,11 +447,11 @@ link(
 ) -> None
 ```
 
-このアーティファクトをポートフォリオ (アーティファクトの昇進されたコレクション) にリンクします。
+このアーティファクトをポートフォリオ（アーティファクトのプロモートされたコレクション）にリンクします。
 
 | 引数 |  |
 | :--- | :--- |
-|  `target_path` |  プロジェクト内のポートフォリオへのパス。ターゲットパスは次のいずれかのスキーマに従う必要があります: `{portfolio}`, `{project}/{portfolio}` または `{entity}/{project}/{portfolio}`。アーティファクトをモデルレジストリにリンクする場合は、`{"model-registry"}/{Registered Model Name}` または `{entity}/{"model-registry"}/{Registered Model Name}` のスキーマを使用します。 |
+|  `target_path` |  プロジェクト内のポートフォリオへのパス。ターゲットパスは以下のいずれかのスキーマに従う必要があります `{portfolio}`, `{project}/{portfolio}` または `{entity}/{project}/{portfolio}`。モデルレジストリへアーティファクトをリンクする場合は、スキーマ `{"model-registry"}/{Registered Model Name}` または `{entity}/{"model-registry"}/{Registered Model Name}`を設定してください。 |
 |  `aliases` |  指定されたポートフォリオ内でアーティファクトを一意に識別する文字列のリスト。 |
 
 | 例外 |  |
@@ -460,17 +460,17 @@ link(
 
 ### `logged_by`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2184-L2227)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2184-L2227)
 
 ```python
 logged_by() -> Optional[Run]
 ```
 
-このアーティファクトを最初にログに記録した W&B run を取得します。
+アーティファクトを最初にログに記録したW&B runを取得します。
 
 | 戻り値 |  |
 | :--- | :--- |
-|  アーティファクトを最初にログに記録した W&B run の名前。 |
+|  アーティファクトを最初にログに記録したW&B runの名前。 |
 
 | 例外 |  |
 | :--- | :--- |
@@ -478,19 +478,19 @@ logged_by() -> Optional[Run]
 
 ### `new_draft`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L345-L377)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L345-L377)
 
 ```python
 new_draft() -> "Artifact"
 ```
 
-このコミットされたアーティファクトと同じ内容を持つ新しいドラフトのアーティファクトを作成します。
+このコミットされたアーティファクトと同じ内容を持つ新しい下書きアーティファクトを作成します。
 
-返されるアーティファクトは拡張または変更され、新しいバージョンとしてログに記録できます。
+戻り値のアーティファクトは拡張や変更が可能で、新しいバージョンとしてログに記録できます。
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `Artifact` オブジェクト。 |
+|  `Artifact`オブジェクト。 |
 
 | 例外 |  |
 | :--- | :--- |
@@ -498,7 +498,7 @@ new_draft() -> "Artifact"
 
 ### `new_file`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1115-L1152)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1115-L1152)
 
 ```python
 @contextlib.contextmanager
@@ -509,17 +509,17 @@ new_file(
 ) -> Generator[IO, None, None]
 ```
 
-新しい一時ファイルを開き、アーティファクトに追加します。
+新しい一時ファイルを開き、それをアーティファクトに追加します。
 
 | 引数 |  |
 | :--- | :--- |
 |  `name` |  アーティファクトに追加する新しいファイルの名前。 |
-|  `mode` |  新しいファイルを開くために使用するファイルアクセスモード。 |
-|  `encoding` |  新しいファイルを開くために使用するエンコーディング。 |
+|  `mode` |  新しいファイルを開くためのファイルアクセスモード。 |
+|  `encoding` |  新しいファイルを開くために使用されるエンコーディング。 |
 
 | 戻り値 |  |
 | :--- | :--- |
-|  書き込み可能な新しいファイルオブジェクト。閉じると、自動的にアーティファクトに追加されます。 |
+|  新しいファイルオブジェクト。クローズするとファイルは自動的にアーティファクトに追加されます。 |
 
 | 例外 |  |
 | :--- | :--- |
@@ -527,7 +527,7 @@ new_file(
 
 ### `path_contains_dir_prefix`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1664-L1671)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1664-L1671)
 
 ```python
 @classmethod
@@ -537,11 +537,11 @@ path_contains_dir_prefix(
 ) -> bool
 ```
 
-`path` が `dir_path` をプレフィックスとして含むかどうかを返します。
+`path`が`dir_path`をプレフィックスとして含む場合にtrueを返します。
 
 ### `remove`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1476-L1505)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1476-L1505)
 
 ```python
 remove(
@@ -553,16 +553,16 @@ remove(
 
 | 引数 |  |
 | :--- | :--- |
-|  `item` |  削除するアイテム。特定のマニフェストエントリまたはアーティファクト相対パスの名前。アイテムがディレクトリに一致する場合、そのディレクトリ内のすべてのアイテムが削除されます。 |
+|  `item` |  削除するアイテム。特定のマニフェストエントリまたはアーティファクト相対パス。アイテムがディレクトリと一致する場合、そのディレクトリ内のすべてのアイテムが削除されます。 |
 
 | 例外 |  |
 | :--- | :--- |
 |  `ArtifactFinalizedError` |  現在のアーティファクトバージョンに変更を加えることはできません。代わりに新しいアーティファクトバージョンをログに記録してください。 |
-|  `FileNotFoundError` |  アーティファクトにアイテムが見つからない場合。 |
+|  `FileNotFoundError` |  アイテムがアーティファクトに見つからない場合。 |
 
 ### `save`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L751-L790)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L751-L790)
 
 ```python
 save(
@@ -571,18 +571,18 @@ save(
 ) -> None
 ```
 
-アーティファクトに対して行った変更を保存します。
+アーティファクトに対する変更を保存します。
 
-現在 run 内にいる場合、その run がこのアーティファクトをログに記録します。現在 run 内にいない場合、自動でこのアーティファクトを追跡する "auto" タイプの run が作成されます。
+現在のrun内にある場合、そのrunでこのアーティファクトがログに記録されます。run内にない場合、"auto"タイプのrunが作成され、このアーティファクトを追跡します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `project` |  run がすでに存在する場合に使用するプロジェクト。 |
-|  `settings` |  自動 run を初期化するときに使用する設定オブジェクト。主にテストハーネスで使用されます。 |
+|  `project` |  runが既にコンテキストにない場合にアーティファクトに使用するプロジェクト。 |
+|  `settings` |  自動runを初期化するときに使用する設定オブジェクト。主にテスト環境で使用されます。 |
 
 ### `should_download_entry`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1673-L1679)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1673-L1679)
 
 ```python
 @classmethod
@@ -594,32 +594,32 @@ should_download_entry(
 
 ### `unlink`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2095-L2111)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2095-L2111)
 
 ```python
 unlink() -> None
 ```
 
-アーティファクトがポートフォリオ（アーティファクトの昇進されたコレクション）のメンバーである場合、そのリンクを解除します。
+現在、ポートフォリオ（アーティファクトのプロモートされたコレクション）のメンバーである場合、このアーティファクトのリンクを解除します。
 
 | 例外 |  |
 | :--- | :--- |
 |  `ArtifactNotLoggedError` |  アーティファクトがログに記録されていない場合。 |
-|  `ValueError` |  アーティファクトがリンクされていない場合、例えばポートフォリオコレクションのメンバーではない場合。 |
+|  `ValueError` |  アーティファクトがリンクされていない場合、つまりポートフォリオコレクションのメンバーでない場合。 |
 
 ### `used_by`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2137-L2182)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L2137-L2182)
 
 ```python
 used_by() -> List[Run]
 ```
 
-このアーティファクトを使用した run のリストを取得します。
+このアーティファクトを使用したrunのリストを取得します。
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `Run` オブジェクトのリスト。 |
+|  `Run`オブジェクトのリスト。 |
 
 | 例外 |  |
 | :--- | :--- |
@@ -627,7 +627,7 @@ used_by() -> List[Run]
 
 ### `verify`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1909-L1948)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1909-L1948)
 
 ```python
 verify(
@@ -635,22 +635,22 @@ verify(
 ) -> None
 ```
 
-アーティファクトの内容がマニフェストと一致するかどうかを確認します。
+アーティファクトの内容がマニフェストと一致するかどうかを検証します。
 
-ディレクトリ内のすべてのファイルのチェックサムが取られ、チェックサムがアーティファクトのマニフェストとクロスチェックされます。参照は検証されません。
+ディレクトリ内のすべてのファイルがチェックサムされ、チェックサムはアーティファクトのマニフェストとクロスリファレンスされます。参照は検証されません。
 
 | 引数 |  |
 | :--- | :--- |
-|  `root` |  検証するディレクトリ。None の場合、アーティファクトは './artifacts/self.name/' にダウンロードされます。 |
+|  `root` |  検証するディレクトリ。Noneの場合、アーティファクトは `./artifacts/self.name/` にダウンロードされます。 |
 
 | 例外 |  |
 | :--- | :--- |
 |  `ArtifactNotLoggedError` |  アーティファクトがログに記録されていない場合。 |
-|  `ValueError` |  検証が失敗した場合。 |
+|  `ValueError` |  検証に失敗した場合。 |
 
 ### `wait`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L798-L819)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L798-L819)
 
 ```python
 wait(
@@ -658,7 +658,7 @@ wait(
 ) -> "Artifact"
 ```
 
-必要に応じて、このアーティファクトのログ記録が完了するまで待機します。
+必要に応じて、このアーティファクトのロギングが完了するまで待ちます。
 
 | 引数 |  |
 | :--- | :--- |
@@ -666,11 +666,11 @@ wait(
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `Artifact` オブジェクト。 |
+|  `Artifact`オブジェクト。 |
 
 ### `__getitem__`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1085-L1097)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1085-L1097)
 
 ```python
 __getitem__(
@@ -678,23 +678,23 @@ __getitem__(
 ) -> Optional[data_types.WBValue]
 ```
 
-アーティファクト相対 `name` に位置する WBValue オブジェクトを取得します。
+アーティファクト相対の `name` にあるWBValueオブジェクトを取得します。
 
 | 引数 |  |
 | :--- | :--- |
-|  `name` |  取得するアーティファクト相対名。 |
+|  `name` |  取得するアーティファクト相対の名前。 |
 
 | 戻り値 |  |
 | :--- | :--- |
-|  `wandb.log()` を使用してログに記録され、W&B UI で視覚化できる W&B オブジェクト。 |
+|  W&Bオブジェクト。`wandb.log()`でログに記録し、W&BのUIで可視化できます。 |
 
 | 例外 |  |
 | :--- | :--- |
-|  `ArtifactNotLoggedError` |  アーティファクトがログに記録されていない場合、または run がオフラインの場合。 |
+|  `ArtifactNotLoggedError` |  アーティファクトがログに記録されていない場合やrunがオフラインの場合。 |
 
 ### `__setitem__`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1099-L1113)
+[ソースを見る](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/artifacts/artifact.py#L1099-L1113)
 
 ```python
 __setitem__(
@@ -703,7 +703,7 @@ __setitem__(
 ) -> ArtifactManifestEntry
 ```
 
-`item` をパス `name` にアーティファクトに追加します。
+`item`を指定されたパス `name` のアーティファクトに追加します。
 
 | 引数 |  |
 | :--- | :--- |
@@ -714,3 +714,6 @@ __setitem__(
 | :--- | :--- |
 |  追加されたマニフェストエントリ。 |
 
+| 例外 |  |
+| :--- | :--- |
+|  `ArtifactFinalizedError` |  現在のアーティファクトバージョンに変更を加えることはできません。代わりに新しいアーティファクトバージョンをログに記録してください。 |

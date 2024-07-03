@@ -1,9 +1,8 @@
-
 # Image
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/data_types/image.py#L64-L687' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/data_types/image.py#L64-L687' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-W&Bにログ用の画像をフォーマットします。
+W&Bへのログに画像をフォーマットします。
 
 ```python
 Image(
@@ -20,11 +19,11 @@ Image(
 
 | 引数 |  |
 | :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) 画像データのnumpy array、またはPIL画像を受け付けます。クラスはデータ形式を推測して変換します。 |
-|  `mode` |  (string) 画像のPILモード。「L」、「RGB」、「RGBA」が一般的です。詳細はhttps://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes で説明されています。 |
-|  `caption` |  (string) 画像表示用のラベル。 |
+|  `data_or_path` |  (numpy array, string, io) 画像データのnumpy配列、またはPIL画像を受け入れます。クラスはデータ形式を推測し、変換を行います。 |
+|  `mode` |  (string) 画像のPILモード。最も一般的なのは "L", "RGB", "RGBA" です。詳細は https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes をご覧ください。 |
+|  `caption` |  (string) 画像表示のためのラベル。 |
 
-注意 : `torch.Tensor`を`wandb.Image`としてログすると、画像は正規化されます。画像を正規化したくない場合は、テンソルをPIL画像に変換してください。
+注意 : `torch.Tensor` を `wandb.Image` としてログに記録する際、画像は正規化されます。画像を正規化したくない場合は、テンソルをPIL画像に変換してください。
 
 #### 例:
 
@@ -60,7 +59,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### デフォルトではなく.jpgでログする
+### .png（デフォルト）ではなく .jpg をログに記録する
 
 ```python
 import numpy as np
@@ -82,7 +81,7 @@ with wandb.init() as run:
 
 ### `all_boxes`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/data_types/image.py#L608-L629)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/data_types/image.py#L608-L629)
 
 ```python
 @classmethod
@@ -96,7 +95,7 @@ all_boxes(
 
 ### `all_captions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/data_types/image.py#L631-L635)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/data_types/image.py#L631-L635)
 
 ```python
 @classmethod
@@ -107,7 +106,7 @@ all_captions(
 
 ### `all_masks`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/data_types/image.py#L585-L606)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/data_types/image.py#L585-L606)
 
 ```python
 @classmethod
@@ -121,7 +120,7 @@ all_masks(
 
 ### `guess_mode`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/data_types/image.py#L472-L484)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/data_types/image.py#L472-L484)
 
 ```python
 guess_mode(
@@ -129,11 +128,11 @@ guess_mode(
 ) -> str
 ```
 
-np.arrayがどのタイプの画像を表しているかを推測します。
+np.array がどのタイプの画像を表しているか推測します。
 
 ### `to_uint8`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.1/wandb/sdk/data_types/image.py#L486-L509)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/data_types/image.py#L486-L509)
 
 ```python
 @classmethod
@@ -144,7 +143,7 @@ to_uint8(
 
 画像データをuint8に変換します。
 
-浮動小数点画像を[0,1]範囲で、整数画像を[0,255]範囲でuint8に変換し、必要に応じてクリッピングします。
+範囲 [0,1] の浮動小数点画像と範囲 [0,255] の整数画像を uint8 に変換し、必要に応じてクリッピングします。
 
 | クラス変数 |  |
 | :--- | :--- |
