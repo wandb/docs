@@ -41,15 +41,16 @@ run = wandb.init(project="registry_quickstart")
 run.log({"acc": random.random()})
 
 # Create a simulated model file
-with open("my_model.h5", "w") as f:
+with open("my_model.txt", "w") as f:
    f.write("Model: " + str(random.random()))
 
 # log and link the model to the model registry inside W&B Registry
-logged_artifact = run.log_artifact(artifact_or_path="./my_model.h5", name="gemma-finetuned-3twsov9e", type="model")
-run.link_artifact(artifact=logged_artifact, target_path="<YOUR-ORG-NAME>/wandb-registry-model/registry-quickstart-collection"),
+logged_artifact = run.log_artifact(artifact_or_path="./my_model.txt", name="gemma-finetuned-3twsov9e", type="model")
+run.link_artifact(artifact=logged_artifact, target_path=f"<INSERT-ORG-NAME>/wandb-registry-model/registry-quickstart-collection"),
 
 run.finish()
 ```
+See learn more about linking to a registry, visit [this](https://docs.wandb.ai/guides/registry/link_version) guide. 
 
 ## How to get started
 
