@@ -105,6 +105,7 @@ const sidebars = {
           label: 'Registry',
           link: {type: 'doc', id: 'guides/registry/intro'},
           items: [
+            'guides/registry/terms_concepts',
             'guides/registry/registry_types',
             'guides/registry/create_registry',
             'guides/registry/configure_registry',
