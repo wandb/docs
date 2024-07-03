@@ -105,7 +105,7 @@ The steps on this topic are common for any deployment option covered by this doc
     }
   ```
 
-## Deployment - Recommended (~20 mins)
+## Recommended deployment
 
 This is the most straightforward deployment option configuration that will create all `Mandatory` components and install in the `Kubernetes Cluster` the latest version of `W&B`.
 
@@ -170,7 +170,8 @@ This is the most straightforward deployment option configuration that will creat
 
 Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
 
-You need to add the option `create_redis = true` to the same `main.tf` file we worked on in [Deployment Recommended](azure-tf.md#deployment---recommended-20-mins) to enable the cache.
+You need to add the option `create_redis = true` to the same `main.tf` file in the Recommended deployment section to enable the cache.
+
 
 ```bash
 

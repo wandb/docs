@@ -55,6 +55,5 @@ A page with an overview of your deployment along with the license associated to 
 :::info
 If you need an enterprise license for W&B Server which includes support for important security & other enterprise-friendly capabilities, [submit this form](https://wandb.ai/site/for-enterprise/self-hosted-trial) or reach out to your W&B team.
 :::
-1. [**Artifacts**](link/target.md): wandbに関する何か
-2. [**Entities**](link/target2.md): 再びwandbに関する何か
+
 
