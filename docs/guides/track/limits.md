@@ -231,7 +231,7 @@ The W&B app can be memory-intensive and performs best in Chrome.  Depending on y
 
 ## Reporting performance issues to W&B
 
-Weights & Biases takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking our built-in performance logger that captures key metrics and performance events. Append &PERF_LOGGING to your URL, and share the output of your console.  
+W&B takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking our built-in performance logger that captures key metrics and performance events. Append &PERF_LOGGING to your URL, and share the output of your console.  
 
 ![Adding PERF_LOGGING](/images/track/adding_perf_logging.gif)
 
