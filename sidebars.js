@@ -12,6 +12,67 @@
 // @ts-check
 
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+
+function translateLabel(label) {
+  const translations = {
+    "W&B Models": "W&Bモデル",
+    "Experiments": "実験",
+    "What are Runs?": "Runとは？",
+    "Log Objects and Media": "オブジェクトとメディアの記録",
+    "Sweeps": "Sweep",
+    "Define a sweep configuration": "Sweep設定の定義",
+    "Registry": "レジストリ",
+    "Model Registry": "モデルレジストリ",
+    "Automations": "オートメーション",
+    "Launch": "Launch",
+    "Set up Launch": "Launchの設定",
+    "Create and deploy jobs": "ジョブの作成とデプロイ",
+    "W&B App UI Reference": "W&B App UI リファレンス",
+    "Features": "機能",
+    "Panels": "パネル",
+    "Line Plot": "折れ線グラフ",
+    "Query panels": "クエリパネル",
+    "Custom Charts": "カスタムチャート",
+    "Settings": "設定",
+    "W&B Prompts": "W&B Prompts",
+    "Prompts": "Prompts",
+    "W&B Core": "W&B Core",
+    "Artifacts": "Artifacts",
+    "Manage data": "データ管理",
+    "Tables": "Table",
+    "Reports": "Report",
+    "W&B Platform": "W&B プラットフォーム",
+    "Deployment options": "デプロイメントオプション",
+    "Dedicated Cloud": "専用クラウド",
+    "Self Managed": "セルフマネージド",
+    "Identity and access management (IAM)": "アイデンティティとアクセス管理 (IAM)",
+    "Authentication": "認証",
+    "Access management": "アクセス管理",
+    "Data Security": "データセキュリティ",
+    "Monitoring and Usage": "モニタリングと使用状況",
+    "Integrations": "インテグレーション",
+    "Fastai": "Fastai",
+    "Technical FAQ": "技術FAQ",
+    "Integration Tutorials": "インテグレーションチュートリアル",
+    "Launch Tutorials": "Launchチュートリアル"
+  };
+
+  return translations[label] || label;
+}
+
+
+function translateSidebar(sidebarItem) {
+  if (typeof sidebarItem === 'object') {
+    if (sidebarItem.label) {
+      sidebarItem.label = translateLabel(sidebarItem.label);
+    }
+    if (sidebarItem.items) {
+      sidebarItem.items = sidebarItem.items.map(translateSidebar);
+    }
+  }
+  return sidebarItem;
+}
+
 const sidebars = {
   default: [
     'guides/intro',
@@ -558,5 +619,10 @@ const sidebars = {
     },
   ],
 };
+
+// Translate the sidebar
+Object.keys(sidebars).forEach(key => {
+  sidebars[key] = sidebars[key].map(translateSidebar);
+});
 
 module.exports = sidebars;
