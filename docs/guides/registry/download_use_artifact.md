@@ -100,4 +100,4 @@ You can also find the exact code snippet to use and download a specific artifact
    artifact = run.use_artifact('registries-bug-bash/wandb-registry-model/registry-quickstart-collection:v3', type='model')
    artifact_dir = artifact.download()
    ```
-   
+   ![](/images/registry/find_usage_in_registry_ui.gif)
