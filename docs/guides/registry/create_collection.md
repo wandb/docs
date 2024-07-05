@@ -4,9 +4,11 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+![](static/images/registry/registry_diagram_homepage.png)
+
 # Create a collection
 
-Create a collection within a registry to organize your artifacts. A *collection* is a set of linked artifact versions in a registry. Each collection represents a distinct task or use case and serves as a container for a curated selection of artifact versions related to that task.
+Create a collection within a registry to organize your artifacts. A *collection* is a set of linked artifact versions in a registry. Each collection represents a distinct task or use case and serves as a container for a curated selection of artifact versions related to that task. The diagram above shows the hierarchical relationship between a registry, collections, and versions.
 
 ![](/images/registry/what_is_collection.png)
 
