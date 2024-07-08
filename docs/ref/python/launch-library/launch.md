@@ -26,7 +26,7 @@ launch(
 
 | Arguments |  |
 | :--- | :--- |
-|  `job` |  string reference to a wandb.Job eg: wandb/test/my-job:latest |
+|  `job` |  string reference to a wandb.Job eg: `wandb/test/my-job:latest` |
 |  `api` |  An instance of a wandb Api from wandb.apis.internal. |
 |  `entry_point` |  Entry point to run within the project. Defaults to using the entry point used in the original run for wandb URIs, or main.py for git repository URIs. |
 |  `version` |  For Git-based projects, either a commit hash or a branch name. |
