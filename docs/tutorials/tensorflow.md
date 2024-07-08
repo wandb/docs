@@ -56,7 +56,7 @@ import matplotlib.pyplot as plt
 
 ```python
 import wandb
-from wandb.keras import WandbCallback
+from wandb.integration.keras import WandbMetricsLogger
 
 wandb.login()
 ```

@@ -5,24 +5,22 @@ displayed_sidebar: default
 
 # Fork from a run
 :::caution
-The ability to fork a run is in active, private beta development. Contact W&B Support at support@wandb.com to request access to this feature.
+The ability to fork a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 :::
 
-Use the `fork_from` initialization parameter to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
+Use `fork_from` when you initialize a run with [`wandb.init()`](../../ref/python/init.md) to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
 
 Forking a run enables you to explore different parameters or models from a specific point in an experiment without impacting the original run.
 
 :::info
-Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with `define_metric()` to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
+* Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
+* Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](https://docs.wandb.ai/ref/python/run#define_metric) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
 :::
 
-:::info
-Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
-:::
 
 ## Start a forked run
 
-To fork a run, use the `fork_from` argument in `wandb.init()` and specify the source `run ID` and the `step` from the source run to fork from:
+To fork a run, use the `fork_from` argument in [`wandb.init()`](../../ref/python/init.md) and specify the source `run ID` and the `step` from the source run to fork from:
 
 ```python
 import wandb
@@ -40,9 +38,20 @@ forked_run = wandb.init(
 )
 ```
 
+### Using an immutable run ID
+
+Use an immutable run ID to ensure you have a consistent and unchanging reference to a specific run. Follow these steps to obtain the immutable run ID from the user interface:
+
+1. **Access the Overview Tab:** Navigate to the [**Overview tab**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab) on the source run's page.
+
+2. **Copy the Immutable Run ID:** Click on the `...` menu (three dots) located in the top-right corner of the **Overview** tab. Select the `Copy Immutable Run ID` option from the dropdown menu.
+
+By following these steps, you will have a stable and unchanging reference to the run, which can be used for forking a run.
 
 ## Continue from a forked run
-After initializing a forked run, you can continue logging to the new run. You can log the same metrics for continuity and introduce new metrics:
+After initializing a forked run, you can continue logging to the new run. You can log the same metrics for continuity and introduce new metrics. 
+
+For example, the following code example shows how to first fork a run and then how to log metrics to the forked run starting from a training step of 200:
 
 ```python
 import wandb
@@ -74,11 +83,10 @@ for i in range(200, 300):
 run2.finish()
 ```
 
-## Arguments for `wandb.init()` related to Forking Runs
+:::tip Rewind and forking compatibility
+Forking compliments a [`rewind`](https://docs.wandb.ai/guides/runs/rewind) by providing more flexibility in managing and experimenting with your runs. 
 
-When initializing a new run with the intention of forking from an existing run, `wandb.init()` accepts specific arguments for forking a run:
+When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
 
-| Argument     | Description |
-|--------------|-------------|
-| `fork_from`  | (str, optional) A unique `run.id` identifier of the run you want to fork. Append `?_step=` to the `run.id` with the step to fork from. |
-
+When you  rewind a run, W&B let's you correct or modify the run history itself.
+:::

@@ -360,7 +360,7 @@ To log all our xgboost model parameters we used the `WandbCallback`. This will .
 
 
 ```python
-from wandb.xgboost import WandbCallback
+from wandb.integration.xgboost import WandbCallback
 
 # Initialize the XGBoostClassifier with the WandbCallback
 xgbmodel = xgb.XGBClassifier(

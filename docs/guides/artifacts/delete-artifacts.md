@@ -109,7 +109,9 @@ import wandb
 # Provide your entity and a project name when you
 # use wandb.Api methods.
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
-collection = api.artifact_collection("<artifact_type>", "entity/project/artifact_collection_name")
+collection = api.artifact_collection(
+    "<artifact_type>", "entity/project/artifact_collection_name"
+)
 collection.delete()
 ```
 
@@ -130,9 +132,9 @@ The `X` indicates you must satisfy the requirement:
 |                                                | Environment variable    | Enable versioning | 
 | -----------------------------------------------| ------------------------| ----------------- | 
 | Shared cloud                                   |                         |                   | 
-| Shared cloud with [secure storage connector](../hosting/secure-storage-connector.md)|                         | X                 | 
+| Shared cloud with [secure storage connector](../hosting/data-security/secure-storage-connector.md)|                         | X                 | 
 | Dedicated cloud                                |                         |                   | 
-| Dedicated cloud with [secure storage connector](../hosting/secure-storage-connector.md)|                         | X                 | 
+| Dedicated cloud with [secure storage connector](../hosting/data-security/secure-storage-connector.md)|                         | X                 | 
 | Customer-managed cloud                         | X                       | X                 | 
 | Customer managed on-prem                       | X                       | X                 |
  

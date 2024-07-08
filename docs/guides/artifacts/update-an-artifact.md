@@ -37,7 +37,6 @@ import wandb
 run = wandb.init(project="<example>", job_type="<job-type>")
 artifact = run.use_artifact("<artifact-name>:<alias>")
 
-artifact = wandb.Artifact("")
 run.use_artifact(artifact)
 artifact.description = "<description>"
 artifact.save()

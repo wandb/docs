@@ -9,7 +9,7 @@ W&B Platform has three IAM scopes within W&B: [Organizations](#organization), [T
 
 An *Organization* is the root scope in your W&B account or instance. All actions in your account or instance take place within the context of that root scope, including managing users, managing teams, managing projects within teams, tracking usage and more.
 
-If you are using [SaaS Cloud](../hosting-options/saas_cloud.md), you may have more than one organization where each may correspond to a business unit, a personal user, a joint partnership with another business and more.
+If you are using [Multi-tenant Cloud](../hosting-options/saas_cloud.md), you may have more than one organization where each may correspond to a business unit, a personal user, a joint partnership with another business and more.
 
 If you are using [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or a [Self-managed instance](../hosting-options/self-managed.md), it corresponds to one organization. Your company may have more than one of Dedicated Cloud or Self-managed instances to map to different business units or departments, though that is strictly an optional way to manage AI practioners across your businesses or departments.
 

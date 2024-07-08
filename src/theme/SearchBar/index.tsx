@@ -175,7 +175,7 @@ function DocSearch({
   }).current;
 
   const transformItems = useRef<DocSearchModalProps['transformItems']>(items =>
-    items.filter(item => {
+    items.map(item => {
       // If Algolia contains a external domain, we should navigate without
       // relative URL
       if (isRegexpStringMatch(externalUrlRegex, item.url)) {
