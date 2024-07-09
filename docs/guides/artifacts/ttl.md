@@ -36,9 +36,11 @@ You can check an Artifact's type on the [W&B platform](../artifacts/explore-and-
 ```python
 import wandb
 run = wandb.init(project="<my-project-name>")
-artifact = run.use_artifact("my-artifact-name")
+artifact = run.use_artifact(artifact_or_name="<my-artifact-name>")
 print(artifact.type)
 ```
+
+Replace the values enclosed with `<>` with your own.
 
 ## Define who can edit and set TTL policies
 Define who can set and edit TTL policies within a team. You can either grant TTL permissions only to team admins, or you can grant both team admins and team members TTL permissions. 
