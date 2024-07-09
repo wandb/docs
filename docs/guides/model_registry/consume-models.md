@@ -59,7 +59,14 @@ downloaded_model_path = run.use_model(name=f"{entity/project/model_artifact_name
 ```
 </details>
 
-<!-- <Tabs
+
+:::caution Planned deprecation for W&B Model Registry in 2024
+The proceeding tabs demonstrate how to consume model artifacts using the soon to be deprecated Model Registry.
+
+Use the W&B Registry to track, organize and consume model artifacts. For more information see the [Registry docs](../registry/intro.md).
+:::
+
+<Tabs
   defaultValue="cli"
   values={[
     {label: 'CLI', value: 'cli'},
@@ -68,26 +75,18 @@ downloaded_model_path = run.use_model(name=f"{entity/project/model_artifact_name
   <TabItem value="cli">
 
 Replace values within `<>` with your own:
-
 ```python
 import wandb
-
 # Initialize a run
 run = wandb.init(project="<project>", entity="<entity>")
-
 # Access and download model. Returns path to downloaded artifact
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
-
 Reference a model version with one of following formats listed:
-
 * `latest` - Use `latest` alias to specify the model version that is most recently linked.
 * `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
 * `alias` - Specify the custom alias that you and your team assigned to your model version
-
 See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
-
-
 
 
   </TabItem>
@@ -98,12 +97,12 @@ See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide 
 3. Within the Versions section, select the View button next to the model version you want to download.
 4. Select the **Files** tab. 
 5. Click on the download button next to the model file you want to download. 
-
 ![](/images/models/download_model_ui.gif)
 
-  </TabItem>
-</Tabs> -->
 
+
+  </TabItem>
+</Tabs>
 
 
 
