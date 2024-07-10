@@ -14,25 +14,25 @@ The proceeding diagram shows the hierarchical relationship between a registry, c
 ![](/images/registry/registry_diagram_homepage.png)
 
 
-<!-- What the type field is and how do you choose this? We need to convey in there that
- you will only be able to link artifacts that match this collection type, and 
- the collection type has to be one of the allowed ones for this registry -->
-
-
-
 
 :::tip
 If you are familiar with W&B Model Registry, you might aware of "registered models". In W&B Registry, registered models are renamed to "collections". The way you [create a registered model in the Model Registry](../model_registry/create-registered-model.md) is nearly the same for creating a collection in the W&B Registry. The main difference being that a collection does not belong to an entity like registered models.
 :::
 
-## Collection type
+## Collection types
 
-Each collection consists of one or more collection types. 
+When you create a collection, you must select a "type". The type you specify determines the kinds of artifacts you can link to that collection. 
 
-The types of artifacts you can link to a collection is determined based on the  both the collection and the registry. This means that you can only link an artifact to a collection if the artifact has the same type that the registry permits.
+The registry where you create a collection contains a list of types that you can select from.
 
+### Check accepted collection types
 
-When a custom registry is created, 
+Before you create a collection, check the artifact types that the collection can use:
+
+1. Navigate to the to W&B Registry at https://wandb.ai/registry/.
+2. Select the name of the registry.
+3. Click on the gear icon in the upper right corner.
+4. Scroll to the **Accepted artifact types** field. The UI displays artifact types that the registry accepts.
 
 
 ## Programmatically create a collection
