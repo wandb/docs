@@ -18,6 +18,41 @@ For example, the proceeding image shows a registry named "Fine-tuned models". Wi
 If you are familiar with W&B Model Registry, you might aware of "registered models". In W&B Registry, registered models are renamed to "collections". The way you [create a registered model in the Model Registry](../model_registry/create-registered-model.md) is nearly the same for creating a collection in the W&B Registry. The main difference being that a collection does not belong to an entity like registered models.
 :::
 
+
+## Programmatically create a collection
+When you programmatically link an artifact to a collection that does not exist, W&B automatically creates a collection with the name you specify in the target path. 
+
+The target path consists of the entity of the organization, the prefix "wandb-registry-", the name of the registry, and the name of the collection:
+
+```python
+f"{org_entity}/wandb-registry-{registry_name}/{collection_name}"
+```
+
+The proceeding code snippet shows how to programmatically create a collection. Ensure to replace other the values enclosed in `<>` with your own:
+
+```python
+import wandb
+
+# Initialize a run
+run = wandb.init(entity="<team_entity>", project="<project>")
+
+# Create an artifact object
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+
+org_entity = "<organization_entity>"
+registry_name = "<registry_name>"
+collection_name = "<collection_name>"
+target_path = f"{org_entity}/wandb-registry-{registry_name}/{collection_name}"
+
+# Link the artifact to a collection
+run.link_artifact(artifact = artifact, target_path = target_path)
+
+run.finish()
+```
+
+
+## Interactively create a collection
+
 The following steps describe how to create a collection within a registry using the W&B Registry App UI:
 
 1. Navigate to the **Registry** App in the W&B App UI.
