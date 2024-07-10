@@ -22,15 +22,64 @@ Use W&B Registry to:
 - Quickly find or reference important artifacts with a unique identifier known as aliases.
 
 ## How it works
+W&B Registry is composed of three main components: registries, collections, and [artifact versions](../artifacts/create-a-new-artifact-version.md).
 
-Track and publish your staged artifacts to W&B Registry in a few steps:
+A *registry* is a repository or catalog for ML assets of the same kind. You can think of a registry as the top most level of a directory. Each registry consists of one or more sub directories called collections. A *collection* is a folder or a set of linked [artifact versions](../artifacts/create-a-new-artifact-version.md) inside a registry. An [*artifact version*](../artifacts/create-a-new-artifact-version.md) is a single, immutable snapshot of an artifact at a particular stage of its development.  A registry belongs to an organization, not a specific team.
 
-1. Log an artifact version: In your training or experiment script, add a few lines of code to save the artifact to a W&B run.
-2. Link to registry: Bookmark the most relevant and valuable artifact version by linking it to a registry.
+![](/images/registry/registry_diagram_homepage.png)
 
-The following code snippet demonstrates how to log and link a model to the model registry inside W&B Registry:
+
+<!-- Bookmark the most relevant and valuable artifact version by linking it to a registry (see line 18). -->
+
+Track and publish your artifacts to W&B Registry with three major steps:
+
+1. Initialize a W&B run object
+2. Log an artifact version ith the run object's `log_artifact` method
+3. Link the artifact to a collection with the run object's `link_artifact` method. 
 
 ```python
+import wandb
+
+# Start a new W&B run to track your experiment
+# highlight-next-line
+run = wandb.init(project="<project_name>") 
+
+# log an artifact version 
+# highlight-start
+logged_artifact = run.log_artifact(
+    artifact_or_path="<artifact>", 
+    name="<artifact_name>", 
+    type="<type>"
+    )
+# highlight-end
+
+org_entity = "<organization_entity>"
+registry_name = "<registry_name>"
+collection_name = "<collection_name>"
+target_path = f"{org_entity}/wandb-registry-{registry_name}/{collection_name}"
+
+# Link the artifact to a collection
+# highlight-next-line
+run.link_artifact(artifact = artifact, target_path = target_path)
+
+run.finish()
+```
+
+
+
+<details>
+<summary>Example</summary>
+
+Copy and paste the proceeding code snippet to log and link a psuedo model artifact called `my_model.txt` to the Models registry inside W&B Registry. 
+
+1. First, initialize a run. The run, and the artifacts we log to it, will appear in a project called "registry_quickstart".
+2. For demonstrative purposes, simulate logging model metrics that occur during a training run
+3. For demonstrative purposes, create a mock model file
+4. Next, log the simulated model file to the run as an artifact called "gemma-finetuned-3twsov9e". Note that, because we want to link the artifact to the Models registry(next step), that we specify `"model"` as the artifact's type (`type="model"`).
+5. Lastly, link the artifact to a registry called "quickstart-collection" within the Models registry.
+
+
+```python showLineNumbers
 import wandb
 import random
 
@@ -44,24 +93,42 @@ run.log({"acc": random.random()})
 with open("my_model.txt", "w") as f:
    f.write("Model: " + str(random.random()))
 
-# log and link the model to the model registry inside W&B Registry
-logged_artifact = run.log_artifact(artifact_or_path="./my_model.txt", name="gemma-finetuned-3twsov9e", type="model")
-run.link_artifact(artifact=logged_artifact, target_path=f"<INSERT-ORG-NAME>/wandb-registry-model/registry-quickstart-collection"),
+# log an artifact version 
+logged_artifact = run.log_artifact(
+    artifact_or_path="./my_model.txt", 
+    name="gemma-finetuned-3twsov9e", 
+    type="model"
+    )
+
+# link the model to the predefined core Models registry 
+run.link_artifact(
+    artifact=logged_artifact, 
+    target_path=f"<INSERT-ORG-NAME>/wandb-registry-model/registry-quickstart-collection"
+    )
 
 run.finish()
 ```
-See learn more about linking to a registry, visit [this](https://docs.wandb.ai/guides/registry/link_version) guide. 
+</details>
+
+
+
+
 
 ## How to get started
 
 Depending on your use case, explore the following resources to get started with the W&B Registry:
 
+* [Create a custom registry](./create_registry.md).
+* Once you have a custom registry, learn how [to create your first collection](./create_collection.md).
+* Learn how to [link an artifact to a collection](./link_version.md).
+* [Configuring access control](./configure_registry.md) for a registry
+* Learn how to [connect the Models registry to CI/CD processes](../model_registry/model-registry-automations.md).
+
+For detailed information on how to integrate W&B Registry to your ML workflow, consider the following resources:
+
 - Check out the two-part video series on the model registry:
     - [Logging and registering models](https://www.youtube.com/watch?si=MV7nc6v-pYwDyS-3&v=ZYipBwBeSKE&feature=youtu.be)
     - [Consuming artifacts and automating downstream processes](https://www.youtube.com/watch?v=8PFCrDSeHzw) in Registry.
-- Learn about:
-    - [Configuring access control](./configure_registry.md) for a registry
-    - [How to connect the Model Registry to CI/CD processes](../model_registry/model-registry-automations.md).
 - Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
     - Use the W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages
     - Automate your model management workflows using webhooks and launch jobs.
