@@ -4,15 +4,15 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-![](static/images/registry/registry_diagram_homepage.png)
-
 # Create a collection
 
-Create a collection within a registry to organize your artifacts. A *collection* is a set of linked artifact versions in a registry. Each collection represents a distinct task or use case and serves as a container for a curated selection of artifact versions related to that task. The diagram above shows the hierarchical relationship between a registry, collections, and versions.
+Create a collection within a registry to organize your artifacts. A *collection* is a set of linked artifact versions in a registry. Each collection represents a distinct task or use case and serves as a container for a curated selection of artifact versions related to that task. The diagram below shows the hierarchical relationship between a registry, collections, and versions.
+
+![](/images/registry/registry_diagram_homepage.png)
+
+For example, the proceeding image shows a registry named "Fine-tuned models". Within the "Fine-tuned models" registry there are is a collection called "MNIST".
 
 ![](/images/registry/what_is_collection.png)
-
-For example, the preceding image shows a registry named "Fine-tuned models". Within the "Fine-tuned models" registry there are is a collection called "MNIST".
 
 :::tip
 If you are familiar with W&B Model Registry, you might aware of "registered models". In W&B Registry, registered models are renamed to "collections". The way you [create a registered model in the Model Registry](../model_registry/create-registered-model.md) is nearly the same for creating a collection in the W&B Registry. The main difference being that a collection does not belong to an entity like registered models.
