@@ -17,7 +17,7 @@ W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to
 
 
 :::note
-To install Helm and apply a Helm chart, you need `kubectl` access to the cluster with sufficient permissions to create, update, and delete Kubernetes resources. Typically, a user with cluster-admin or a custom role with equivalent permissions is required.
+To install Helm and apply or upgrade W&B's Launch agent Helm chart, you need `kubectl` access to the cluster with sufficient permissions to create, update, and delete Kubernetes resources. Typically, a user with cluster-admin or a custom role with equivalent permissions is required.
 :::
 
 
