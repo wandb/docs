@@ -33,34 +33,37 @@ A *registry* is a repository or catalog for ML assets of the same kind. You can 
 
 Track and publish your artifacts to W&B Registry with three major steps:
 
-1. Initialize a W&B run object
-2. Log an artifact version ith the run object's `log_artifact` method
-3. Link the artifact to a collection with the run object's `link_artifact` method. 
+1. Initialize a W&B run object with [`wandb.init()`](../../ref/python/init.md)
+2. Log an artifact version ith the run object's [`log_artifact`](../../ref/python/run.md#log_artifact) method
+3. Link the artifact to a collection with the run object's [`link_artifact`](../../ref/python/run.md#link_artifact) method. 
 
 ```python
 import wandb
 
 # Start a new W&B run to track your experiment
-# highlight-next-line
 run = wandb.init(project="<project_name>") 
 
 # log an artifact version 
-# highlight-start
 logged_artifact = run.log_artifact(
     artifact_or_path="<artifact>", 
     name="<artifact_name>", 
     type="<type>"
     )
-# highlight-end
 
+# Provide the entity of your organization
 org_entity = "<organization_entity>"
+
+# The name of the registry you want to create
 registry_name = "<registry_name>"
+
+# The name of the collection you want to create
 collection_name = "<collection_name>"
-target_path = f"{org_entity}/wandb-registry-{registry_name}/{collection_name}"
+
+# The full path of the collection and registry
+path = f"{org_entity}/wandb-registry-{registry_name}/{collection_name}"
 
 # Link the artifact to a collection
-# highlight-next-line
-run.link_artifact(artifact = artifact, target_path = target_path)
+run.link_artifact(artifact = artifact, target_path = path)
 
 run.finish()
 ```
@@ -70,13 +73,15 @@ run.finish()
 <details>
 <summary>Example</summary>
 
-Copy and paste the proceeding code snippet to log and link a psuedo model artifact called `my_model.txt` to the Models registry inside W&B Registry. 
+The proceeding code sample logs and link a pseudo model artifact called `my_model.txt` to a registry called "Models". 
 
-1. First, initialize a run. The run, and the artifacts we log to it, will appear in a project called "registry_quickstart".
-2. For demonstrative purposes, simulate logging model metrics that occur during a training run
-3. For demonstrative purposes, create a mock model file
+1. First, initialize a run. The run, and the artifacts logged to it, appear in a project called "registry_quickstart". 
+2. For demonstrative purposes, simulate logging model metrics that occur during a training run.
+3. For demonstrative purposes, create a mock model file.
 4. Next, log the simulated model file to the run as an artifact called "gemma-finetuned-3twsov9e". Note that, because we want to link the artifact to the Models registry(next step), that we specify `"model"` as the artifact's type (`type="model"`).
-5. Lastly, link the artifact to a registry called "quickstart-collection" within the Models registry.
+5. Lastly, link the artifact to a registry called "quickstart-collection" within the Models registry. Ensure to provide the entity of your organization for the `org_entity` variable.
+
+Copy and paste the proceeding code snippet into a Jupyter notebook or Python script:
 
 
 ```python showLineNumbers
@@ -89,7 +94,7 @@ run = wandb.init(project="registry_quickstart")
 # Simulate logging model metrics
 run.log({"acc": random.random()})
 
-# Create a simulated model file
+# Create a pseudo model file
 with open("my_model.txt", "w") as f:
    f.write("Model: " + str(random.random()))
 
@@ -100,14 +105,26 @@ logged_artifact = run.log_artifact(
     type="model"
     )
 
+# Provide the name of your organization
+org_entity = "<organization_entity>"
+
+# The name of the registry
+registry = "model"
+
+# The name of the collection
+collection = "quickstart-collection"
+
 # link the model to the predefined core Models registry 
 run.link_artifact(
     artifact=logged_artifact, 
-    target_path=f"<INSERT-ORG-NAME>/wandb-registry-model/registry-quickstart-collection"
+    target_path=f"{org_entity}/wandb-registry-{registry}/registry-{collection}"
     )
 
 run.finish()
 ```
+
+Once the code completes, your notebook or terminal will provide links to the W&B App UI where you can view your project or run.
+
 </details>
 
 
