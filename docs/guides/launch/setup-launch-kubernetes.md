@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 You can use W&B Launch to push ML workloads to a Kubernetes cluster, giving ML engineers a simple interface right in W&B to use the resources you already manage with Kubernetes. 
 
 
-W&B maintains an [official Launch agent image](https://hub.docker.com/r/wandb/launch-agent) that can be deployed to your cluster with a [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) that Weights & Biases maintains. 
+W&B maintains an [official Launch agent image](https://hub.docker.com/r/wandb/launch-agent) that can be deployed to your cluster with a [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) that W&B maintains. 
 
 
 W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to enable the Launch agent to build Docker images in a Kubernetes cluster. To learn more on how to set up Kaniko for the Launch agent, or how to disable job building and only use prebuilt Docker images, see [Advanced agent set up](./setup-agent-advanced.md).
