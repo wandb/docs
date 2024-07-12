@@ -21,18 +21,78 @@ If you are familiar with W&B Model Registry, you might aware of "registered mode
 
 ## Collection types
 
-When you create a collection, you must select a "type". The type you specify determines the kinds of artifacts you can link to that collection. 
+When you create a collection, you must select the type of artifacts that you can link to that collection. Each collection accepts one, and only one, type of artifact.  The type of artifact that a collection can have is determined by the registry that that collection is in.
 
-The registry where you create a collection contains a list of types that you can select from.
+:::tip
+You specify the type of an artifact when you create that artifact. Note the `type` field in `wandb.Artifact()`:
 
-### Check accepted collection types
+```python
+import wandb
 
-Before you create a collection, check the artifact types that the collection can use:
+# Initialize a run
+run = wandb.init(entity="<team_entity>", project="<project>")
 
-1. Navigate to the to W&B Registry at https://wandb.ai/registry/.
-2. Select the name of the registry.
-3. Click on the gear icon in the upper right corner.
-4. Scroll to the **Accepted artifact types** field. The UI displays artifact types that the registry accepts.
+# Create an artifact object
+artifact = wandb.Artifact(
+    name="<artifact_name>", 
+    type="<artifact_type>"
+    )
+```
+:::
+
+For example, suppose you create a collection that accepts "dataset" artifacts types. This means that only of artifacts of type "dataset" can be linked to this collection.
+
+
+
+
+### Check the types of artifact that a collection accepts
+
+Before you create a collection, check the artifact type that the collection accepts:
+
+<Tabs
+  defaultValue="ui"
+  values={[
+    {label: 'W&B App', value: 'ui'},
+    {label: 'Python SDK (Beta)', value: 'programmatically'},
+  ]}>
+  <TabItem value="ui">
+
+Check the artifact types that a collection accepts on the registry cards on the homepage or within a registry's settings page. For both methods, you must first navigate to your W&B Registry App at https://wandb.ai/registry/.
+
+
+Within the homepage of the Registry App, you can view the accepted artifact types by scrolling to the registry card you are interested in. The gray horizontal ovals within the registry card lists the artifact types that that registry accepts.
+
+For example, the proceeding image shows multiple registry cards on the Registry App homepage. Within the **Model** registry card, you can see two artifact types: **model** and **model-new**. 
+
+![](/images/registry/artifact_types_model_card.png)
+
+
+To view accepted artifact types within a registry's settings page:
+
+1. Click on the registry card you want to view the settings for.
+2. Click on the gear icon in the upper right corner.
+3. Scroll to the **Accepted artifact types** field. 
+
+
+  </TabItem>
+  <TabItem value="programmatically">
+
+Programmatically view the artifact types that a registry accepts with the W&B Python SDK:
+
+```python
+import wandb
+
+registry_name = "<registryName>"
+org_entity = "<org_entity>"
+artifact_types = wandb.Api().project(name=f"wandb-registry-{registry_name}", entity=org_entity).artifact_types()
+print(artifact_type.name for artifact_type in artifact_types)
+```
+
+
+  </TabItem>
+</Tabs>
+
+
 
 
 ## Programmatically create a collection
