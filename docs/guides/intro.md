@@ -22,31 +22,33 @@ W&B consists of three major components: [Models](/guides/models.md), [Weave](htt
 
 **[W&B Weave](https://wandb.github.io/weave/)** is a lightweight toolkit for tracking and evaluating LLM applications.
 
-**[W&B Core](/guides/platform.md)** is a core set of powerful building blocks for tracking and visualizing data and models, and communicating results.
+**[W&B Core](/guides/platform.md)** is set of powerful building blocks for tracking and visualizing data and models, and communicating results.
 - [Artifacts](/guides/artifacts/intro.md): Version assets and track lineage
 - [Tables](/guides/tables/intro.md): Visualize and query tabular data
 - [Reports](/guides/reports/intro.md): Document and collaborate on your discoveries
 <!-- - [Weave](/guides/app/features/panels/weave) Query and create visualizations of your data -->
 
-## Are you a first-time user of W&B?
-
-<iframe width="100%" height="330" src="https://www.youtube.com/embed/tHAFujRhZLA" title="Weights &amp; Biases End-to-End Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-Start exploring W&B with these resources:
-
-1. [Intro Notebook](http://wandb.me/intro): Run quick sample code to track experiments in 5 minutes
-2. [Quickstart](../quickstart.md): Read a quick overview of how and where to add W&B to your code
-1. Explore our [Integrations guide](./integrations/intro.md) and our [W&B Easy Integration YouTube](https://www.youtube.com/playlist?list=PLD80i8An1OEGDADxOBaH71ZwieZ9nmPGC) playlist for information on how to integrate W&B with your preferred machine learning framework.
-1. View the [API Reference guide](../ref/README.md) for technical specifications about the W&B Python Library, CLI, and Query Language operations.
 
 ## How does W&B work?
 
-We recommend you read the following sections in this order if you are a first-time user of W&B:
+Read the following sections in this order if you are a first-time user of W&B:
 
-1. Learn about [Runs](./runs/intro.md), W&B's basic unit of computation.
+1. Learn about [runs](./runs/intro.md), W&B's basic unit of computation.
 2. Create and track machine learning experiments with [Experiments](./track/intro.md).
 3. Discover W&B's flexible and lightweight building block for dataset and model versioning with [Artifacts](./artifacts/intro.md).
 4. Automate hyperparameter search and explore the space of possible models with [Sweeps](./sweeps/intro.md).
-5. Manage the model lifecycle from training to production with [Model Management](./model_registry/intro.md).
+5. Manage the model lifecycle from training to production with [Model Registry](./model_registry/intro.md).
 6. Visualize predictions across model versions with our [Data Visualization](./tables/intro.md) guide.
 7. Organize W&B Runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [Reports](./reports/intro.md).
+
+
+## Are you a first-time user of W&B?
+
+Start exploring W&B with these resources:
+
+1. [Quickstart](../quickstart.md): Install W&B and read a quick overview of how and where to add W&B to your code
+1. [Intro Notebook](http://wandb.me/intro): Learn how to train and track a machine learning experiment.
+1. Explore the [Integrations guide](./integrations/intro.md) and the [W&B Easy Integration YouTube](https://www.youtube.com/playlist?list=PLD80i8An1OEGDADxOBaH71ZwieZ9nmPGC) playlist for information on how to integrate W&B with your preferred machine learning framework.
+1. View the [API Reference guide](../ref/README.md) for technical specifications about the W&B Python Library, CLI, and Query Language operations.
+
+<iframe width="100%" height="330" src="https://www.youtube.com/embed/tHAFujRhZLA" title="Weights &amp; Biases End-to-End Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
