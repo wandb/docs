@@ -838,6 +838,10 @@
       "to": "/"
     },
     {
+      "from": "/guides/prompts_platform",
+      "to": "/guides/weave_platform"
+    },
+    {
       "from": "/guides/projects/sharing-and-visibility",
       "to": "/"
     },

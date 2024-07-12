@@ -2,8 +2,6 @@
 displayed_sidebar: default
 ---
 
-<!-- Renaming this to Core in line with the overall product architecture -->
-
 # W&B Core
 W&B Core is the foundational framework supporting [W&B Models](./models.md) and [W&B Prompts](./prompts_platform.md), and is itself supported by the [W&B Platform](./hosting/intro.md). 
 
