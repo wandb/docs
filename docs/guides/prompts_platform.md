@@ -1,9 +1,11 @@
 ---
 displayed_sidebar: default
 ---
+import { WEAVE_DOCS_URL } from '@site/src/util/links';
+
 # LLMs
 
-<a href="https://wandb.me/weave" target="_blank">
+<a href={WEAVE_DOCS_URL} target="_blank">
     <img className="no-zoom" src="/images/weave/weave_banner.png" alt="Building LLM apps? Try Weave" style={{display: "block", marginBottom: "15px"}} />
 </a>
 
