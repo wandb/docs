@@ -40,6 +40,7 @@ Read the following sections in this order if you are a first-time user of W&B an
 6. Visualize predictions across model versions with our [Data Visualization](./tables/intro.md) guide.
 7. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [Reports](./reports/intro.md).
 
+<iframe width="100%" height="330" src="https://www.youtube.com/embed/tHAFujRhZLA" title="Weights &amp; Biases End-to-End Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## Are you a first-time user of W&B?
 
