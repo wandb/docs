@@ -30,9 +30,6 @@ W&B consists of three major components: [Models](/guides/models.md), [Weave](htt
 
 
 ## How does W&B work?
-
-
-
 Read the following sections in this order if you are a first-time user of W&B and you are interested in training, tracking, and visualizing machine learning models and experiments:
 
 1. Learn about [runs](./runs/intro.md), W&B's basic unit of computation.
@@ -46,11 +43,4 @@ Read the following sections in this order if you are a first-time user of W&B an
 
 ## Are you a first-time user of W&B?
 
-Start exploring W&B with these resources:
-
-1. [Quickstart](../quickstart.md): Install W&B and read a quick overview of how and where to add W&B to your code
-1. [Intro notebook](http://wandb.me/intro): Learn how to train and track a machine learning experiment.
-1. Explore the [Integrations guide](./integrations/intro.md) and the [W&B Easy Integration YouTube](https://www.youtube.com/playlist?list=PLD80i8An1OEGDADxOBaH71ZwieZ9nmPGC) playlist for information on how to integrate W&B with your preferred machine learning framework.
-1. View the [API Reference guide](../ref/README.md) for technical specifications about the W&B Python Library, CLI, and Query Language operations.
-
-<iframe width="100%" height="330" src="https://www.youtube.com/embed/tHAFujRhZLA" title="Weights &amp; Biases End-to-End Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+Try the [quickstart](../quickstart.md) to learn how to install W&B and how to add W&B to your code.
