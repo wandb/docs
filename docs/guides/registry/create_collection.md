@@ -11,7 +11,7 @@ Create a collection within a registry to organize your artifacts. A *collection*
 
 The proceeding diagram shows the hierarchical relationship between a registry, collections, and versions.
 
-![](/images/registry/registry_diagram_homepage.png)
+![](/images/registry/Registry_Hierarchy_Diagram.png)
 
 
 
