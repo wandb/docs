@@ -146,11 +146,3 @@ An artifact type can not be removed from a registry once it is added and saved i
 11. Click on the **Create collection** button.
 
 ![](/images/registry/create_collection.gif)
-
-
-
-
-
-For example, the proceeding image shows a registry named "Fine-tuned models". Within the "Fine-tuned models" registry there are is a collection called "MNIST".
-
-![](/images/registry/what_is_collection.png)
