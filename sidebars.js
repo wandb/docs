@@ -481,11 +481,11 @@ const sidebars = {
           label: 'Prompts',
           link: {
             type: 'doc',
-            id: 'guides/prompts/intro'
+            id: 'guides/integrations/prompts/intro'
           },
           items: [
-            'guides/prompts/quickstart', 
-            'guides/prompts/openai'
+            'guides/integrations/prompts/quickstart', 
+            'guides/integrations/prompts/openai'
           ],
         },
         'guides/integrations/other/ray-tune',

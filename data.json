@@ -842,6 +842,18 @@
       "to": "/guides/weave_platform"
     },
     {
+      "from": "/guides/prompts/intro",
+      "to": "/guides/integrations/prompts/intro"
+    },
+    {
+      "from": "/guides/prompts/quickstart",
+      "to": "/guides/integrations/prompts/quickstart"
+    },
+    {
+      "from": "/guides/prompts/openai",
+      "to": "/guides/integrations/prompts/openai"
+    },
+    {
       "from": "/guides/projects/sharing-and-visibility",
       "to": "/"
     },

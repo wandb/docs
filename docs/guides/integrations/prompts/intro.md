@@ -74,7 +74,7 @@ Weights and Biases also has lightweight integrations for:
 
 ## Getting Started
 
-We recommend you go through the Prompts [Quickstart](https://docs.wandb.ai/guides/prompts/quickstart) guide, which will walk you through logging a custom LLM pipeline with Trace. A [colab](http://wandb.me/prompts-quickstart) version of the guide is also available. 
+We recommend you go through the Prompts [Quickstart](./quickstart.md) guide, which will walk you through logging a custom LLM pipeline with Trace. A [colab](http://wandb.me/prompts-quickstart) version of the guide is also available. 
 
 ## Next Steps
 
