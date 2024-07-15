@@ -154,4 +154,4 @@ You can see the privacy settings of all team projects on the team settings page:
 
 ### Secure storage connector
 
-The team-level secure storage connector allows teams to use their own cloud storage bucket with W&B. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. See the [Secure Storage Connector](../../hosting/data-security/secure-storage-connector.md) page for more information.
+The team-level secure storage connector allows teams to use their own cloud storage bucket with W&B. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. Refer to [Secure Storage Connector](../../hosting/data-security/secure-storage-connector.md) for more information.
