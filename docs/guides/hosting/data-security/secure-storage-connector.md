@@ -80,15 +80,142 @@ Connectivity to S3-compatible storage for team-level BYOB is not available in [S
 Reach out to W&B Support at support@wandb.com for more information.
 
 ## Configure your storage bucket
-Based on your use case, configure a storage bucket at the Team level or at the Instance level. 
+Based on your use case, configure a storage bucket at the Team level or at the Instance level. The provision and configuration of a storage bucket is the same no matter if team level or instance level. 
+
+:::tip
+W&B recommends that you use a Terraform module managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector) or [Azure](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision a storage bucket along with IAM permissions required to access it.
+:::
+
+<Tabs
+  defaultValue="aws"
+  values={[
+    {label: 'AWS', value: 'aws'},
+    {label: 'GCP', value: 'gcp'},
+    {label: 'Azure', value: 'azure'},
+    {label: 'Other', value: 'other'},
+  ]}>
+  <TabItem value="aws">
+
+
+### Provision the KMS Key
+
+W&B requires the customer to provision a KMS Key which will be used to encrypt and decrypt the S3 bucket. Make sure to enable key usage type for `ENCRYPT_DECRYPT`
+purposes. Assign the following policy to the key:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid" : "Internal",
+      "Effect" : "Allow",
+      "Principal" : { "AWS" : "<customer account id>" },
+      "Action" : "kms:*",
+      "Resource" : "<aws_kms_key.key.arn>"
+    },
+    {
+      "Sid" : "External",
+      "Effect" : "Allow",
+      "Principal" : { "AWS" : "arn:aws:iam::830241207209:root" },
+      "Action" : [
+        "kms:Decrypt",
+        "kms:Describe*",
+        "kms:Encrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*"
+      ],
+      "Resource" : "<aws_kms_key.key.arn>"
+    }
+  ]
+}
+```
+Replace <customer account id\> and <aws_kms_key.key.arn\> accordingly.
+
+This policy grants the customer's account access to the key and also provides the required permissions to the W&B service account. Please keep a record of the KMS Key ARN as it will be needed later.
+
+### Provision the S3 Bucket
+1. Create the S3 bucket with a name of your choosing.
+2. Enable bucket versioning.
+3. Enable server side encryption (use the KMS key from the last step).
+4. Configure CORs with the following policy:
+
+```json
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "HEAD",
+            "PUT"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": [
+            "ETag"
+        ],
+        "MaxAgeSeconds": 3000
+    }
+]
+```
+
+5. Grant the Weights & Biases Deployment account access to this S3 bucket:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Id": "WandBAccess",
+  "Statement": [
+    {
+      "Sid": "WAndBAccountAccess",
+      "Effect": "Allow",
+      "Principal": { "AWS": "arn:aws:iam::830241207209:root" },
+        "Action" : [
+          "s3:GetObject*",
+          "s3:GetEncryptionConfiguration",
+          "s3:ListBucket",
+          "s3:ListBucketMultipartUploads",
+          "s3:ListBucketVersions",
+          "s3:AbortMultipartUpload",
+          "s3:DeleteObject",
+          "s3:PutObject",
+          "s3:GetBucketCORS",
+          "s3:GetBucketLocation",
+          "s3:GetBucketVersioning"
+        ],
+      "Resource": [
+        "arn:aws:s3:::<wandb_bucket>",
+        "arn:aws:s3:::<wandb_bucket>/*"
+      ]
+    }
+  ]
+}
+```
+Replace <wandb_bucket\> accordingly.
+
+  </TabItem>
+
+  <TabItem value="gcp">
+
+  </TabItem>
+
+  <TabItem value="azure">
+
+  </TabItem>
+
+  <TabItem value="other">
+
+  </TabItem>
+
+</Tabs>
 
 :::info
 Only system administrators have the permissions to configure an storage object.
 :::
 
-:::tip
-W&B recommends that you use a Terraform module managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector) or [Azure](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision a storage bucket along with IAM permissions required to access it.
-:::
+
 
 <Tabs
   defaultValue="team"
