@@ -268,7 +268,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Weave',
+      label: 'W&B Weave',
       items: [
         'guides/weave_platform',
       ],
