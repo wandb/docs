@@ -119,13 +119,12 @@ The proceeding table lists permissions that apply to all artifacts across a give
 | Download artifact|           | X           | X          |
 
 ### System settings (W&B Server only)
-System permissions allow you to manage members, create and modify teams, adjust system settings, and view user activity. These privileges enable you to effectively administer and maintain the W&B instance.
+System permissions allow you to manage members, create and modify teams, and adjust system settings. These privileges enable you to effectively administer and maintain the W&B instance.
 
 | Permissions              | View-Only | Team Member | Team Admin | System Admin | 
 | ------------------------ | --------- | ----------- | ---------- | ------------ |
 | Configure system settings|           |             |            | X            |
 | Create/delete teams      |           |             |            | X            |
-| View activity dashboard  |           |             |            | X            |
 
 ### Team service account behavior
 
