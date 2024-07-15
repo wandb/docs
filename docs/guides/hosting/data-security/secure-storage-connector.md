@@ -97,7 +97,7 @@ W&B recommends that you use a Terraform module managed by W&B for [AWS](https://
   <TabItem value="aws">
 
 
-### Provision the KMS Key
+#### Provision the KMS Key
 
 W&B requires the customer to provision a KMS Key which will be used to encrypt and decrypt the S3 bucket. Make sure to enable key usage type for `ENCRYPT_DECRYPT`
 purposes. Assign the following policy to the key:
@@ -129,11 +129,11 @@ purposes. Assign the following policy to the key:
   ]
 }
 ```
-Replace <customer account id\> and <aws_kms_key.key.arn\> accordingly.
+Replace `<customer account id>` and `<aws_kms_key.key.arn>` accordingly.
 
 This policy grants the customer's account access to the key and also provides the required permissions to the W&B service account. Please keep a record of the KMS Key ARN as it will be needed later.
 
-### Provision the S3 Bucket
+#### Provision the S3 Bucket
 Follow these steps to provision the S3 bucket:
 1. Create the S3 bucket with a name of your choosing.
 2. Enable bucket versioning.
@@ -194,23 +194,24 @@ Follow these steps to provision the S3 bucket:
   ]
 }
 ```
-Replace <wandb_bucket\> accordingly.
+Replace `<wandb_bucket>` accordingly.
 
 Please keep a record of the bucket name as it will be needed later.
 
   </TabItem>
   <TabItem value="gcp">
-### Provision the GCS Bucket
+
+#### Provision the GCS Bucket
 
 Follow these steps to provision the GCS bucket:
 
 1. Create a bucket with a name of your choosing.
 2. Enable soft deletion.
 3. Enable object versioning.
-4. Set encryption type to "Google-managed".
-5. Set CORs policy with 'gsutil'. This is not possible in the UI.
+4. Set encryption type to `Google-managed`.
+5. Set the CORs policy with `gsutil`. This is not possible in the UI.
 
-   1. Create a file called cors-policy.json locally.
+   1. Create a file called `cors-policy.json` locally.
    2. Copy the following CORs policy into the file and save it.
     ```json
     [
@@ -224,26 +225,57 @@ Follow these steps to provision the GCS bucket:
     ]
     ```
 
-   3. Replace <bucket_name\> with the correct bucket name and run gsutil.
+   3. Replace `<bucket_name>` with the correct bucket name and run `gsutil`.
     ```bash
     gsutil cors set cors-policy.json gs://<bucket_name>
     ```
 
-   4. Verify the policy was attached to the bucket. Replace <bucket_name\> with the correct bucket name.
+   4. Verify the policy was attached to the bucket. Replace `<bucket_name>` with the correct bucket name.
     ```bash
     gsutil cors get gs://<bucket_name>
     ```
-    
-Please keep a record of the bucket name as it will be needed later.
 
+6. Grant the Weights & Biases Service account access to this GCS bucket:
+* Service Account: deploy@wandb-production.iam.gserviceaccount.com
+* Role: Storage Admin
+
+Please keep a record of the bucket name as it will be needed later.
 
   </TabItem>
 
   <TabItem value="azure">
 
+#### Provision the Azure Blob Storage
+
+Follow these steps to provision the Azure Blob Storage container:
+
+1. Create a bucket with a name of your choosing.
+2. Enable blob and container soft deletion.
+3. Enable versioning.
+4. Configure the CORs policy on the bucket
+To set the CORS policy through the UI go to the Blob Storage account, scroll down to Settings/Resource Sharing (CORs) and then set the following:
+
+   | Parameter | Value |
+   | --- | --- |
+   | Allowed Origins | *  |
+   | Allowed Methods | GET, HEAD, PUT |
+   | Allowed Headers | * |
+   | Exposed Headers | * |
+   | Max Age | 3600 |
+
+Please keep a record of the blob container name, storage account name and one storage key.
+
+
   </TabItem>
 
   <TabItem value="other">
+As there are many different object storage solutions, we can only make generic recommendations on how to create/configure the bucket:
+
+* Generate credentials: username/password, accessKey/secretAccessKey, or similar
+* Enable encryption.
+* Enable bucket versioning.
+* Configure CORs: Use the policies described in the cloud specific sections as starting point.
+
 
   </TabItem>
 
@@ -252,8 +284,6 @@ Please keep a record of the bucket name as it will be needed later.
 :::info
 Only system administrators have the permissions to configure an storage object.
 :::
-
-
 
 <Tabs
   defaultValue="team"
