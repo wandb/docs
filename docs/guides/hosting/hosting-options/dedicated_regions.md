@@ -68,6 +68,6 @@ The following table lists [Azure regions](https://azure.microsoft.com/en-us/expl
 |California|westus|
 |Netherlands|westeurope|
 |Tokyo, Saitama|japaneast|
-|Seoul|korecentral|
+|Seoul|koreacentral|
 
 For more information about Azure regions, see [Azure geographies](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#overview) in the Azure Documentation.
