@@ -4,7 +4,7 @@ displayed_sidebar: default
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# Weave
+# W&B Weave
 
 <CTAButtons colabLink="http://wandb.me/weave_colab"/>
 
