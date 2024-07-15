@@ -134,6 +134,7 @@ Replace <customer account id\> and <aws_kms_key.key.arn\> accordingly.
 This policy grants the customer's account access to the key and also provides the required permissions to the W&B service account. Please keep a record of the KMS Key ARN as it will be needed later.
 
 ### Provision the S3 Bucket
+Follow these steps to provision the S3 bucket:
 1. Create the S3 bucket with a name of your choosing.
 2. Enable bucket versioning.
 3. Enable server side encryption (use the KMS key from the last step).
@@ -156,7 +157,7 @@ This policy grants the customer's account access to the key and also provides th
         "ExposeHeaders": [
             "ETag"
         ],
-        "MaxAgeSeconds": 3000
+        "MaxAgeSeconds": 3600
     }
 ]
 ```
@@ -195,9 +196,46 @@ This policy grants the customer's account access to the key and also provides th
 ```
 Replace <wandb_bucket\> accordingly.
 
-  </TabItem>
+Please keep a record of the bucket name as it will be needed later.
 
+  </TabItem>
   <TabItem value="gcp">
+### Provision the GCS Bucket
+
+Follow these steps to provision the GCS bucket:
+
+1. Create a bucket with a name of your choosing.
+2. Enable soft deletion.
+3. Enable object versioning.
+4. Set encryption type to "Google-managed".
+5. Set CORs policy with 'gsutil'. This is not possible in the UI.
+
+   1. Create a file called cors-policy.json locally.
+   2. Copy the following CORs policy into the file and save it.
+    ```json
+    [
+     {
+       "origin": ["*"],
+       "responseHeader": ["Content-Type"],
+       "exposeHeaders": ["ETag"],
+       "method": ["GET", "HEAD", "PUT"],
+       "maxAgeSeconds": 3600
+     }
+    ]
+    ```
+
+   3. Replace <bucket_name\> with the correct bucket name and run gsutil.
+    ```bash
+    gsutil cors set cors-policy.json gs://<bucket_name>
+    ```
+
+   4. Verify the policy was attached to the bucket. Replace <bucket_name\> with the correct bucket name.
+    ```bash
+    gsutil cors get gs://<bucket_name>
+    ```
+    
+Please keep a record of the bucket name as it will be needed later.
+
 
   </TabItem>
 
