@@ -34,10 +34,10 @@ A *registry* is a repository or catalog for ML assets of the same kind. You can 
 Track and publish your artifacts to W&B Registry with three major steps:
 
 1. Initialize a W&B run object with [`wandb.init()`](../../ref/python/init.md)
-2. Log an artifact version ith the run object's [`log_artifact`](../../ref/python/run.md#log_artifact) method
+2. Log an artifact version to the run using the run object's [`log_artifact`](../../ref/python/run.md#log_artifact) method.
 3. Link the artifact to a collection with the run object's [`link_artifact`](../../ref/python/run.md#link_artifact) method. 
 
-```python
+```python showLineNumbers
 import wandb
 
 # Start a new W&B run to track your experiment
@@ -53,16 +53,18 @@ logged_artifact = run.log_artifact(
 # Provide the entity of your organization
 org_entity = "<organization_entity>"
 
-# The name of the registry you want to create
+# The name of the registry you want to link to
 registry_name = "<registry_name>"
 
-# The name of the collection you want to create
+# The name of the collection you want to link to. 
+# If the collection does not exist, W&B creates one for you
 collection_name = "<collection_name>"
 
 # The full path of the collection and registry
 path = f"{org_entity}/wandb-registry-{registry_name}/{collection_name}"
 
-# Link the artifact to a collection
+# Link artifact to the collection in the registry 
+# specified in target_path
 run.link_artifact(artifact = artifact, target_path = path)
 
 run.finish()
@@ -73,12 +75,12 @@ run.finish()
 <details>
 <summary>Example</summary>
 
-The proceeding code sample logs and link a pseudo model artifact called `my_model.txt` to a registry called "Models". 
+The proceeding code sample logs and link a simulated model file called `my_model.txt` to the Model registry. 
 
 1. First, initialize a run. The run, and the artifacts logged to it, appear in a project called "registry_quickstart". 
 2. For demonstrative purposes, simulate logging model metrics that occur during a training run.
 3. For demonstrative purposes, create a mock model file.
-4. Next, log the simulated model file to the run as an artifact called "gemma-finetuned-3twsov9e". Note that, because we want to link the artifact to the Models registry(next step), that we specify `"model"` as the artifact's type (`type="model"`).
+4. Next, log the simulated model file to the run as an artifact called "gemma-finetuned-3twsov9e". Note that, because we link the artifact to the Model registry (see next step), we specify `"model"` as the artifact's type (`type="model"`).
 5. Lastly, link the artifact to a registry called "quickstart-collection" within the Models registry. Ensure to provide the entity of your organization for the `org_entity` variable.
 
 Copy and paste the proceeding code snippet into a Jupyter notebook or Python script:
