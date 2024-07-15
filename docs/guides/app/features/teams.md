@@ -153,24 +153,4 @@ You can see the privacy settings of all team projects on the team settings page:
 
 ### Secure storage connector
 
-:::caution
-W&B does not currently support migrating buckets. More specifically W&B does not support:
-* Migrating from one team-level bucket to another team-level bucket
-* Migrating from a W&B Multi-tenant bucket to a team-level bucket and vice versa.
-:::
-
-The team-level secure storage connector allows teams to use their own cloud storage bucket with W&B. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements.
-
-:::info
-This feature is only available for Google Cloud Storage buckets and Amazon S3 buckets. Only enterprise teams can use this feature. To learn more about enterprise plans, please contact the [Support Team](mailto:support@wandb.com).
-:::
-
-To provision a cloud storage bucket, use the secure storage connector Terraform module for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector).
-
-A cloud storage bucket configures only once for a team at the time of team creation. Select **External Storage** when you create a team to configure a cloud storage bucket. Select your provider and fill out your bucket name and storage encryption key ID, if applicable, and select **Create Team**.
-
-An error or warning appears at the bottom of the page if there are issues accessing the bucket or the bucket has invalid settings.
-
-![](/images/hosting/saas_setup_secure_storage.png)
-
-Only organization administrators have the permissions to configure the secure storage connector. The same cloud storage bucket is accessible by multiple teams by selecting an existing cloud storage bucket from the dropdown.
+The team-level secure storage connector allows teams to use their own cloud storage bucket with W&B. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. Refer to [Secure Storage Connector](../../hosting/data-security/secure-storage-connector.md) for more information.
