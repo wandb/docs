@@ -80,7 +80,7 @@ Connectivity to S3-compatible storage for team-level BYOB is not available in [S
 Reach out to W&B Support at support@wandb.com for more information.
 
 ## Configure your storage bucket
-Based on your use case, configure a storage bucket at the Team level or at the Instance level. The provision and configuration of a storage bucket is the same no matter if team level or instance level. 
+Based on your use case, configure a storage bucket at the Team level or at the Instance level. The provisioniong and configuration of a storage bucket is the same no matter if team level or instance level - except for Azure. 
 
 :::tip
 W&B recommends that you use a Terraform module managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector) or [Azure](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision a storage bucket along with IAM permissions required to access it.
@@ -134,7 +134,9 @@ Replace `<customer account id>` and `<aws_kms_key.key.arn>` accordingly.
 This policy grants the customer's account access to the key and also provides the required permissions to the W&B service account. Please keep a record of the KMS Key ARN as it will be needed later.
 
 #### Provision the S3 Bucket
+
 Follow these steps to provision the S3 bucket:
+
 1. Create the S3 bucket with a name of your choosing.
 2. Enable bucket versioning.
 3. Enable server side encryption (use the KMS key from the last step).
@@ -202,9 +204,7 @@ Please keep a record of the bucket name as it will be needed later.
   <TabItem value="gcp">
 
 #### Provision the GCS Bucket
-
 Follow these steps to provision the GCS bucket:
-
 1. Create a bucket with a name of your choosing.
 2. Enable soft deletion.
 3. Enable object versioning.
@@ -247,6 +247,8 @@ Please keep a record of the bucket name as it will be needed later.
 
 #### Provision the Azure Blob Storage
 
+This section is only relevant for instance level buckets. For team level buckets please refer to this [repository](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector).
+
 Follow these steps to provision the Azure Blob Storage container:
 
 1. Create a bucket with a name of your choosing.
@@ -263,7 +265,7 @@ To set the CORS policy through the UI go to the Blob Storage account, scroll dow
    | Exposed Headers | * |
    | Max Age | 3600 |
 
-Please keep a record of the blob container name, storage account name and one storage key.
+Please keep a record of the storage account name and one storage key.
 
 
   </TabItem>
@@ -280,10 +282,6 @@ As there are many different object storage solutions, we can only make generic r
   </TabItem>
 
 </Tabs>
-
-:::info
-Only system administrators have the permissions to configure an storage object.
-:::
 
 <Tabs
   defaultValue="team"
