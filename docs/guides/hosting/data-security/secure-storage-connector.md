@@ -80,11 +80,8 @@ Connectivity to S3-compatible storage for team-level BYOB is not available in [S
 Reach out to W&B Support at support@wandb.com for more information.
 
 ## Configure your storage bucket
-<<<<<<< HEAD
-Based on your use case, configure a storage bucket at the Team level or at the Instance level. The provisioniong and configuration of a storage bucket is the same no matter if Team level or Instance level - except for Azure. 
-=======
-Based on your use case, configure a storage bucket at the Team level or at the Instance level. The provisioniong and configuration of a storage bucket is the same no matter if team level or instance level - except for Azure. 
->>>>>>> refs/remotes/origin/add-BYOB-setup-descriptions
+
+Based on your use case, configure a storage bucket at the Team level or at the Instance level. The provisioniong and configuration of a storage bucket is the same no matter if Team level or Instance level - except for Azure.
 
 :::tip
 W&B recommends that you use a Terraform module managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector) or [Azure](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision a storage bucket along with IAM permissions required to access it.
