@@ -81,7 +81,7 @@ Reach out to W&B Support at support@wandb.com for more information.
 
 ## Configure your storage bucket
 
-Based on your use case, configure a storage bucket at the Team level or at the Instance level. The provisioniong and configuration of a storage bucket is the same no matter if Team level or Instance level - except for Azure.
+Based on your use case, configure a storage bucket at the Team level or at the Instance level. The provisioning and configuration of a storage bucket is the same no matter if Team level or Instance level - except for Azure.
 
 :::tip
 W&B recommends that you use a Terraform module managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector) or [Azure](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision a storage bucket along with IAM permissions required to access it.
@@ -100,8 +100,7 @@ W&B recommends that you use a Terraform module managed by W&B for [AWS](https://
 
 #### Provision the KMS Key
 
-W&B requires the customer to provision a KMS Key which will be used to encrypt and decrypt the S3 bucket. Make sure to enable key usage type for `ENCRYPT_DECRYPT`
-purposes. Assign the following policy to the key:
+W&B requires the customer to provision a KMS Key which is needed to encrypt and decrypt the S3 bucket. The key usage type must be `ENCRYPT_DECRYPT`. Assign the following policy to the key:
 
 ```json
 {
@@ -132,7 +131,7 @@ purposes. Assign the following policy to the key:
 ```
 Replace `<customer account id>` and `<aws_kms_key.key.arn>` accordingly.
 
-This policy grants the customer's account access to the key and also provides the required permissions to the W&B service account. Please keep a record of the KMS Key ARN as it will be needed later.
+This policy grants the customer's account access to the key and also provides the required permissions to the W&B service account. Please keep a record of the KMS Key ARN.
 
 #### Provision the S3 Bucket
 
@@ -199,7 +198,7 @@ Follow these steps to provision the S3 bucket:
 ```
 Replace `<wandb_bucket>` accordingly.
 
-Please keep a record of the bucket name as it will be needed later.
+Please keep a record of the bucket name.
 
   </TabItem>
   <TabItem value="gcp">
@@ -240,7 +239,7 @@ Follow these steps to provision the GCS bucket:
 * Service Account: deploy@wandb-production.iam.gserviceaccount.com
 * Role: Storage Admin
 
-Please keep a record of the bucket name as it will be needed later.
+Please keep a record of the bucket name.
 
   </TabItem>
 
