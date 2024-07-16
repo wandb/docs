@@ -140,7 +140,7 @@ Follow these steps to provision the S3 bucket:
 1. Create the S3 bucket with a name of your choosing.
 2. Enable bucket versioning.
 3. Enable server side encryption (use the KMS key from the last step).
-4. Configure CORs with the following policy:
+4. Configure CORS with the following policy:
 
 ```json
 [
@@ -209,10 +209,10 @@ Follow these steps to provision the GCS bucket:
 2. Enable soft deletion.
 3. Enable object versioning.
 4. Set encryption type to `Google-managed`.
-5. Set the CORs policy with `gsutil`. This is not possible in the UI.
+5. Set the CORS policy with `gsutil`. This is not possible in the UI.
 
    1. Create a file called `cors-policy.json` locally.
-   2. Copy the following CORs policy into the file and save it.
+   2. Copy the following CORS policy into the file and save it.
     ```json
     [
      {
@@ -254,8 +254,9 @@ Follow these steps to provision the Azure Blob Storage container:
 1. Create a bucket with a name of your choosing.
 2. Enable blob and container soft deletion.
 3. Enable versioning.
-4. Configure the CORs policy on the bucket
-To set the CORS policy through the UI go to the Blob Storage account, scroll down to Settings/Resource Sharing (CORs) and then set the following:
+4. Configure the CORS policy on the bucket
+
+   To set the CORS policy through the UI go to the Blob Storage account, scroll down to Settings/Resource Sharing (CORS) and then set the following:
 
    | Parameter | Value |
    | --- | --- |
@@ -276,7 +277,7 @@ As there are many different object storage solutions, we can only make generic r
 * Generate credentials: username/password, accessKey/secretAccessKey, or similar
 * Enable encryption.
 * Enable bucket versioning.
-* Configure CORs: Use the policies described in the cloud specific sections as starting point.
+* Configure CORS: Use the policies described in the cloud specific sections as starting point.
 
 
   </TabItem>
