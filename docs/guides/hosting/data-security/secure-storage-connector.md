@@ -35,7 +35,7 @@ The following table shows the availability of BYOB across different W&B Server d
 | SaaS Cloud | Not Applicable | X | The team level BYOB is available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only storage bucket for Microsoft Azure. |
 | Self-managed | X | X | Instance level BYOB is the default since the instance is fully managed by you. If your self-managed instance is in cloud, you can connect to a cloud-native storage bucket in the same or another cloud for the team-level BYOB. You can also use S3-compatible secure storage like [MinIO](https://github.com/minio/minio) for either of instance or team-level BYOB. |
 
-### Cross-cloud or S3-compatible storage for team-level BYOB
+## Cross-cloud or S3-compatible storage for team-level BYOB
 
 You can connect to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like [MinIO](https://github.com/minio/minio) for team-level BYOB in your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-Managed](../hosting-options/self-managed.md) instance.
 
@@ -79,16 +79,197 @@ Connectivity to S3-compatible storage for team-level BYOB is not available in [S
 
 Reach out to W&B Support at support@wandb.com for more information.
 
-## Configure your storage bucket
-Based on your use case, configure a storage bucket at the Team level or at the Instance level. 
+## Cloud storage in same cloud as W&B platform
 
-:::info
-Only system administrators have the permissions to configure an storage object.
-:::
+Based on your use case, configure a storage bucket at the team or instance level. How a storage bucket is provisioned or configured is the same irrespective of the level it's configured at, except for the access mechanism in Azure.
 
 :::tip
 W&B recommends that you use a Terraform module managed by W&B for [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector) or [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector) or [Azure](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) to provision a storage bucket along with IAM permissions required to access it.
 :::
+
+<Tabs
+  defaultValue="aws"
+  values={[
+    {label: 'AWS', value: 'aws'},
+    {label: 'GCP', value: 'gcp'},
+    {label: 'Azure', value: 'azure'},
+  ]}>
+  <TabItem value="aws">
+
+
+#### Provision the KMS Key
+
+W&B requires you to provision a KMS Key which is needed to encrypt and decrypt the data on the S3 bucket. The key usage type must be `ENCRYPT_DECRYPT`. Assign the following policy to the key:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid" : "Internal",
+      "Effect" : "Allow",
+      "Principal" : { "AWS" : "<Your_Account_Id>" },
+      "Action" : "kms:*",
+      "Resource" : "<aws_kms_key.key.arn>"
+    },
+    {
+      "Sid" : "External",
+      "Effect" : "Allow",
+      "Principal" : { "AWS" : "arn:aws:iam::<W&B_Platform_Account_Id>:root" },
+      "Action" : [
+        "kms:Decrypt",
+        "kms:Describe*",
+        "kms:Encrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*"
+      ],
+      "Resource" : "<aws_kms_key.key.arn>"
+    }
+  ]
+}
+```
+Replace `<Your_Account_Id>`, `W&B_Platform_Account_Id` and `<aws_kms_key.key.arn>` accordingly.
+
+This policy grants your AWS account full access to the key and also assigns the required permissions to the AWS account hosting the W&B Platform. Keep a record of the KMS Key ARN.
+
+#### Provision the S3 Bucket
+
+Follow these steps to provision the S3 bucket in your AWS account:
+
+* Create the S3 bucket with a name of your choice.
+* Enable bucket versioning.
+* Enable server side encryption, using the KMS key from the previous step.
+* Configure CORS with the following policy:
+
+```json
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "HEAD",
+            "PUT"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": [
+            "ETag"
+        ],
+        "MaxAgeSeconds": 3600
+    }
+]
+```
+
+* Grant the required S3 permissions to the AWS account hosting the W&B Platform. These permissions are used to generate [pre-signed URLs](./presigned-urls.md) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Id": "WandBAccess",
+  "Statement": [
+    {
+      "Sid": "WAndBAccountAccess",
+      "Effect": "Allow",
+      "Principal": { "AWS": "arn:aws:iam::830241207209:root" },
+        "Action" : [
+          "s3:GetObject*",
+          "s3:GetEncryptionConfiguration",
+          "s3:ListBucket",
+          "s3:ListBucketMultipartUploads",
+          "s3:ListBucketVersions",
+          "s3:AbortMultipartUpload",
+          "s3:DeleteObject",
+          "s3:PutObject",
+          "s3:GetBucketCORS",
+          "s3:GetBucketLocation",
+          "s3:GetBucketVersioning"
+        ],
+      "Resource": [
+        "arn:aws:s3:::<wandb_bucket>",
+        "arn:aws:s3:::<wandb_bucket>/*"
+      ]
+    }
+  ]
+}
+```
+Replace `<wandb_bucket>` accordingly. Keep a record of the bucket name.
+
+  </TabItem>
+  <TabItem value="gcp">
+
+#### Provision the GCS Bucket
+
+Follow these steps to provision the GCS bucket in your GCP project:
+
+* Create the GCS bucket with a name of your choice.
+* Enable soft deletion.
+* Enable object versioning.
+* Set encryption type to `Google-managed`.
+* Set the CORS policy with `gsutil`. This is not possible in the UI.
+
+   1. Create a file called `cors-policy.json` locally.
+   2. Copy the following CORS policy into the file and save it.
+    ```json
+    [
+     {
+       "origin": ["*"],
+       "responseHeader": ["Content-Type"],
+       "exposeHeaders": ["ETag"],
+       "method": ["GET", "HEAD", "PUT"],
+       "maxAgeSeconds": 3600
+     }
+    ]
+    ```
+
+   3. Replace `<bucket_name>` with the correct bucket name and run `gsutil`.
+    ```bash
+    gsutil cors set cors-policy.json gs://<bucket_name>
+    ```
+
+   4. Verify the policy was attached to the bucket. Replace `<bucket_name>` with the correct bucket name.
+    ```bash
+    gsutil cors get gs://<bucket_name>
+    ```
+
+* Grant the `Storage Admin` role to the GCP service account linked to the W&B Platform. Reach out to your W&B team for the service account if your W&B Platform is on [Dedicated Cloud](../hosting-options/dedicated_cloud.md).
+
+Keep a record of the bucket name.
+
+  </TabItem>
+
+  <TabItem value="azure">
+
+#### Provision the Azure Blob Storage
+
+This section is only relevant for instance level BYOB. To configure team level BYOB for W&B platform in Azure, refer to [this repository](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector).
+
+Follow these steps to provision the Azure Blob Storage in your Azure subscription:
+
+* Create a bucket with a name of your choice.
+* Enable blob and container soft deletion.
+* Enable versioning.
+* Configure the CORS policy on the bucket
+
+   To set the CORS policy through the UI go to the blob storage, scroll down to `Settings/Resource Sharing (CORS)` and then set the following:
+
+   | Parameter | Value |
+   | --- | --- |
+   | Allowed Origins | *  |
+   | Allowed Methods | GET, HEAD, PUT |
+   | Allowed Headers | * |
+   | Exposed Headers | * |
+   | Max Age | 3600 |
+
+Generate a storage account access key, and keep a record of that along with the storage account name.
+
+
+  </TabItem>
+</Tabs>
+
+## Configure BYOB in W&B
 
 <Tabs
   defaultValue="team"
@@ -102,19 +283,21 @@ W&B recommends that you use a Terraform module managed by W&B for [AWS](https://
 If you're connecting to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like [MinIO](https://github.com/minio/minio) for team-level BYOB in your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-Managed](../hosting-options/self-managed.md) instance, refer to [Cross-cloud or S3-compatible storage for team-level BYOB](#cross-cloud-or-s3-compatible-storage-for-team-level-byob). In such cases, you must specify the storage bucket using the `GORILLA_SUPPORTED_FILE_STORES` environment variable for your W&B instance, before you configure it for a team using the instructions below.
 :::
 
-Configure a cloud storage bucket at the Team level when you create a W&B Team:
+Configure a storage bucket at the team level when you create a W&B Team:
 
 1. Provide a name for your team in the **Team Name** field. 
 2. Choose the Company or Organization you want this team to belong to from the **Company/Organization** dropdown.  
 3. Select **External Storage** for the **Choose storage type** option. 
 4. Choose either **New bucket** from the dropdown or select an existing bucket.
+
 :::tip
 Multiple W&B Teams can use the same cloud storage bucket. To enable this, select an existing cloud storage bucket from the dropdown.
 :::
+
 5. From the **Cloud provider** dropdown, select your cloud provider.
-6. Provide the name of your storage object for the **Name** field.
+6. Provide the name of your storage bucket for the **Name** field.
 7. (Optional if you use AWS) Provide the ARN of your encryption key for the **KMS key ARN** field. 
-8. Select the **Create Team** button.
+8. Press the **Create Team** button.
 
 ![](/images/hosting/prod_setup_secure_storage.png)
 
@@ -124,7 +307,7 @@ An error or warning appears at the bottom of the page if there are issues access
   </TabItem>
   <TabItem value="instance">
 
-Reach out to W&B Support at support@wandb.com to configure Instance level BYOB for your Dedicated Cloud or Self-managed instance.
+Reach out to W&B Support at support@wandb.com to configure instance level BYOB for your Dedicated Cloud or Self-managed instance.
 
   </TabItem>
 </Tabs>
