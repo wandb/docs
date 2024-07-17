@@ -43,7 +43,7 @@ If you are deploying the agent via our Helm chart, the agent config should be pr
 
 If you are invoking the agent yourself with `wandb launch-agent`, you can provide the agent config as a path to a YAML file with the `--config` flag. By default, the config will be loaded from `~/.config/wandb/launch-config.yaml`.
 
-Within your launch agent config (`launch-config.yaml`), provide the name of the target resource environment and the container registry for the `environment` and `registry` keys, respectively.
+Within your launch agent config (`launch-config.yaml`), provide the name of the target resource environment and the container registry for the `environment` and `builder.destination` keys, respectively.
 
 The following tabs demonstrates how to configure the launch agent based on your environment and registry.
 
@@ -53,6 +53,7 @@ values={[
 {label: 'Amazon Web Services', value: 'aws'},
 {label: 'Google Cloud', value: 'gcp'},
 {label: 'Azure', value: 'azure'},
+{label: 'Docker Hub', value: 'dockerhub'}
 ]}>
 <TabItem value="aws">
 
@@ -101,7 +102,7 @@ See the [`google-auth` documentation](https://google-auth.readthedocs.io/en/lat
   </TabItem>
   <TabItem value="azure">
 
-The Azure environment does not require any additional keys. When the agent starts, it use `azure.identity.DefaultAzureCredential()` to load the default Azure credentials.
+The Azure environment does not require any additional keys. When the agent starts, it uses `azure.identity.DefaultAzureCredential()` to load the default Azure credentials.
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -117,6 +118,21 @@ builder:
 
 See the [`azure-identity` documentation](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) for more information on how to configure default Azure credentials.
 
+  </TabItem>
+  <TabItem value="dockerhub">
+
+Set the `builder.destination` key to the name of your repo and ensure your agent has credentials to access the repo.
+
+When running the agent locally, using `docker login` and providing credentials for the repo will grant access. When running the agent in Kubernetes using the helm chart this can be provided as the `kanikoDockerConfigSecret` in `values.yaml`.
+
+```yaml title="launch-config.yaml"
+builder:
+  type: <kaniko|docker>
+  destination: <organization|user>/<repo-name>
+  # If using Kaniko, specify the PVC or cloud bucket where the agent will store the
+  # build context.
+  build-context-store: gs://<bucket-name>/<path>
+```
   </TabItem>
 </Tabs>
 
