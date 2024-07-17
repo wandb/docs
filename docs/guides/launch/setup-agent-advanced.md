@@ -131,7 +131,7 @@ builder:
   destination: <organization|user>/<repo-name>
   # If using Kaniko, specify the PVC or cloud bucket where the agent can store the
   # build context.
-  build-context-store: gs://<bucket-name>/<path>
+  build-context-store: <PVC | cloud bucket>
 ```
   </TabItem>
 </Tabs>
