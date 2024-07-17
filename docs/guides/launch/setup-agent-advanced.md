@@ -22,7 +22,7 @@ The Launch agent can build images using [Docker](https://docs.docker.com/) or [K
 * Kaniko: builds a container image in Kubernetes without running the build as a privileged container.
 * Docker: builds a container image by executing a `docker build` command locally.
 
-The builder type can be controlled by the `builder.type` key in the launch agent config to either `docker`, `kaniko`, or `noop` to disable build. By default, the agent helm chart sets the `builder.type` to `noop`. Additional keys in the `builder` section will be used to configure the build process.
+The builder type can be controlled by the `builder.type` key in the launch agent config to either `docker`, `kaniko`, or `noop` to disable build. By default, the agent Helm chart sets the `builder.type` to `noop`. Additional keys in the `builder` section will be used to configure the build process.
 
 If no builder is specified in the agent config and a working `docker` CLI is found, the agent will default to using Docker. If Docker is not available the agent will default to `noop`.
 
@@ -121,15 +121,15 @@ See the [`azure-identity` documentation](https://learn.microsoft.com/en-us/pyth
   </TabItem>
   <TabItem value="dockerhub">
 
-Set the `builder.destination` key to the name of your repo and ensure your agent has credentials to access the repo.
+Set the `builder.destination` key to the name of your repository and ensure your agent has credentials to access the repository.
 
-When running the agent locally, using `docker login` and providing credentials for the repo will grant access. When running the agent in Kubernetes using the helm chart this can be provided as the `kanikoDockerConfigSecret` in `values.yaml`.
+When running the agent locally, using `docker login` and providing credentials for the repository will grant access. When running the agent in Kubernetes using the Helm chart set the `kanikoDockerConfigSecret` in `values.yaml`.
 
 ```yaml title="launch-config.yaml"
 builder:
   type: <kaniko|docker>
   destination: <organization|user>/<repo-name>
-  # If using Kaniko, specify the PVC or cloud bucket where the agent will store the
+  # If using Kaniko, specify the PVC or cloud bucket where the agent can store the
   # build context.
   build-context-store: gs://<bucket-name>/<path>
 ```
