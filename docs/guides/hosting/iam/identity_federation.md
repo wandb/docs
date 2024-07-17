@@ -4,7 +4,7 @@ displayed_sidebar: default
 
 # Identity federation with SDK
 
-Use identity federation to sign in using your organizational credentials through W&B SDK. If your W&B organization admin has configured SSO for your organization, then you already use your organizational credentials to sign-in to the W&B application UI. In that sense, identity federation is like SSO for W&B SDK, but by using JSON Web Tokens (JWTs) directly.
+Use identity federation to sign in using your organizational credentials through W&B SDK. If your W&B organization admin has configured SSO for your organization, then you already use your organizational credentials to sign-in to the W&B app UI. In that sense, identity federation is like SSO for W&B SDK, but by using JSON Web Tokens (JWTs) directly. You can use identity federation as an alternative to API keys.
 
 [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523) forms the underlying basis for identity federation with SDK.
 
@@ -13,7 +13,7 @@ Identity federation is available in `Preview` for `Enterprise` plans on all plat
 :::
 
 :::note
-For the purpose of this document, we'll use the terms `identity provider` and `JWT issue` interchangeably. Both refer to one and the same thing in the context of this capability.
+For the purpose of this document, the terms `identity provider` and `JWT issuer` will be used interchangeably. Both refer to one and the same thing in the context of this capability.
 :::
 
 ## JWT issuer setup
@@ -31,8 +31,8 @@ W&B will automatically look for a OIDC discovery document at the path `${ISSUER_
 Once a JWT issuer has been setup for your W&B organization, users can start accessing the relevant W&B projects using JWTs issued by that identity provider. The mechanism for using JWTs is as follows:
 
 * You must sign-in to the identity provider using one of the mechanisms available in your organization. Some providers can be accessed in an automated manner using an API or SDK, while some can only be accessed using a relevant UI. Reach out to your W&B organization admin or the owner of the JWT issuer for details.
-* Once you've retrieved the JWT after signing in to your identity provider, store it in a file at a secure location and configure the absolute file path in an environment variable `WANDB_TOKEN_FILE`.
-* Access your W&B project using the W&B SDK or CLI. The SDK or CLI should automatically detect the JWT and exchange it for a W&B access token after the JWT has been successfully validated. The W&B access token is used to access the relevant APIs for enabling your AI workflows i.e. to log runs, metrics, artifacts etc. The access token is by default stored at the path `~/.config/wandb/credentials.json`. You can change that path by specifying the environment variable `WANDB_CREDENTIALS_FILE`.
+* Once you've retrieved the JWT after signing in to your identity provider, store it in a file at a secure location and configure the absolute file path in an environment variable `WANDB_IDENTITY_TOKEN_FILE`.
+* Access your W&B project using the W&B SDK or CLI. The SDK or CLI should automatically detect the JWT and exchange it for a W&B access token after the JWT has been successfully validated. The W&B access token is used to access the relevant APIs for enabling your AI workflows, that is, to log runs, metrics, artifacts etc. The access token is by default stored at the path `~/.config/wandb/credentials.json`. You can change that path by specifying the environment variable `WANDB_CREDENTIALS_FILE`.
 
 :::info
 JWTs are meant to be short-lived credentials to address the shortcomings of long-lived credentials like API keys, passwords etc. Depending on the JWT expiry time configured in your identity provider, you must continuously refresh the JWT and ensure that it's stored in the file referenced by the environment variable `WANDB_TOKEN_FILE`.
