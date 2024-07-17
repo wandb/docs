@@ -386,6 +386,7 @@ const sidebars = {
               items: [
                 'guides/hosting/iam/sso',
                 'guides/hosting/iam/ldap',
+                'guides/hosting/iam/identity_federation'
               ],
             },
             {
