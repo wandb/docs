@@ -13,7 +13,7 @@ Identity federation is available in `Preview` for `Enterprise` plans on all plat
 :::
 
 :::note
-For the purpose of this document, the terms `identity provider` and `JWT issuer` will be used interchangeably. Both refer to one and the same thing in the context of this capability.
+For the purpose of this document, the terms `identity provider` and `JWT issuer` are used interchangeably. Both refer to one and the same thing in the context of this capability.
 :::
 
 ## JWT issuer setup
@@ -24,7 +24,7 @@ As a first step, an organization admin must set up a federation between your W&B
 * In the **Authentication** option, press `Set up JWT Issuer`
 * Add the JWT issuer URL in the text box and press `Create`
 
-W&B will automatically look for a OIDC discovery document at the path `${ISSUER_URL}/.well-known/oidc-configuration`, and try to fetch the JSON Web Key Set (JWKS) from a relevant URL in the discovery document. The JWKS is used for real-time validation of the JWTs to ensure that those have been issued by the relevant identity provider.
+W&B will automatically look for a OIDC discovery document at the path `${ISSUER_URL}/.well-known/oidc-configuration`, and try to fand so forthh the JSON Web Key Set (JWKS) from a relevant URL in the discovery document. The JWKS is used for real-time validation of the JWTs to ensure that those have been issued by the relevant identity provider.
 
 ## Using the JWT to access W&B
 
@@ -32,12 +32,12 @@ Once a JWT issuer has been setup for your W&B organization, users can start acce
 
 * You must sign-in to the identity provider using one of the mechanisms available in your organization. Some providers can be accessed in an automated manner using an API or SDK, while some can only be accessed using a relevant UI. Reach out to your W&B organization admin or the owner of the JWT issuer for details.
 * Once you've retrieved the JWT after signing in to your identity provider, store it in a file at a secure location and configure the absolute file path in an environment variable `WANDB_IDENTITY_TOKEN_FILE`.
-* Access your W&B project using the W&B SDK or CLI. The SDK or CLI should automatically detect the JWT and exchange it for a W&B access token after the JWT has been successfully validated. The W&B access token is used to access the relevant APIs for enabling your AI workflows, that is, to log runs, metrics, artifacts etc. The access token is by default stored at the path `~/.config/wandb/credentials.json`. You can change that path by specifying the environment variable `WANDB_CREDENTIALS_FILE`.
+* Access your W&B project using the W&B SDK or CLI. The SDK or CLI should automatically detect the JWT and exchange it for a W&B access token after the JWT has been successfully validated. The W&B access token is used to access the relevant APIs for enabling your AI workflows, that is, to log runs, metrics, artifacts and so forth. The access token is by default stored at the path `~/.config/wandb/credentials.json`. You can change that path by specifying the environment variable `WANDB_CREDENTIALS_FILE`.
 
 :::info
-JWTs are meant to be short-lived credentials to address the shortcomings of long-lived credentials like API keys, passwords etc. Depending on the JWT expiry time configured in your identity provider, you must continuously refresh the JWT and ensure that it's stored in the file referenced by the environment variable `WANDB_TOKEN_FILE`.
+JWTs are meant to be short-lived credentials to address the shortcomings of long-lived credentials like API keys, passwords and so forth. Depending on the JWT expiry time configured in your identity provider, you must continuously refresh the JWT and ensure that it's stored in the file referenced by the environment variable `WANDB_TOKEN_FILE`.
 
-W&B access token also has a default expiry duration, after which the SDK or the CLI automatically try to refresh that using your JWT. If the user JWT has also expired by that time and is not refreshed, that could result in an authentication failure. Thus if possible, the JWT retrieval and post-expiry refresh mechanism should be implemented as part of the AI workload that uses the W&B SDK or CLI.
+W&B access token also has a default expiry duration, after which the SDK or the CLI automatically try to refresh that using your JWT. If the user JWT has also expired by that time and is not refreshed, that could result in an authentication failure. If possible, the JWT retrieval and post-expiry refresh mechanism should be implemented as part of the AI workload that uses the W&B SDK or CLI.
 :::
 
 ### JWT validation
