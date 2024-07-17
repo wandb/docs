@@ -123,7 +123,7 @@ See the [`azure-identity` documentation](https://learn.microsoft.com/en-us/pyth
 
 Set the `builder.destination` key to the name of your repository and ensure your agent has credentials to access the repository.
 
-When running the agent locally, using `docker login` and providing credentials for the repository will grant access. When running the agent in Kubernetes using the Helm chart set the `kanikoDockerConfigSecret` in `values.yaml`.
+When running the agent locally, using `docker login` and provide appropriate credentials for the repository you intend to push to. When running the agent in Kubernetes using the Helm chart set the `kanikoDockerConfigSecret` in `values.yaml`.
 
 ```yaml title="launch-config.yaml"
 builder:
