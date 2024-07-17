@@ -130,7 +130,7 @@ W&B requires you to provision a KMS Key which is needed to encrypt and decrypt t
 ```
 Replace `<Your_Account_Id>`, `W&B_Platform_Account_Id` and `<aws_kms_key.key.arn>` accordingly.
 
-This policy grants your AWS account full access to the key and also assigns the required permissions to the AWS account hosting the W&B Platform. Please keep a record of the KMS Key ARN.
+This policy grants your AWS account full access to the key and also assigns the required permissions to the AWS account hosting the W&B Platform. Keep a record of the KMS Key ARN.
 
 #### Provision the S3 Bucket
 
@@ -195,7 +195,7 @@ Follow these steps to provision the S3 bucket in your AWS account:
   ]
 }
 ```
-Replace `<wandb_bucket>` accordingly. Please keep a record of the bucket name.
+Replace `<wandb_bucket>` accordingly. Keep a record of the bucket name.
 
   </TabItem>
   <TabItem value="gcp">
@@ -236,7 +236,7 @@ Follow these steps to provision the GCS bucket in your GCP project:
 
 * Grant the `Storage Admin` role to the GCP service account linked to the W&B Platform. Reach out to your W&B team for the service account if your W&B Platform is on [Dedicated Cloud](../hosting-options/dedicated_cloud.md).
 
-Please keep a record of the bucket name.
+Keep a record of the bucket name.
 
   </TabItem>
 
