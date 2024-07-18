@@ -535,7 +535,7 @@ const sidebars = {
     'tutorials/sweeps',
     'tutorials/artifacts',
     'tutorials/models',
-    'tutorials/Workspace_tutorial',
+    'tutorials/workspaces',
     {
       type: 'category',
       label: 'Integration Tutorials',

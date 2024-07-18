@@ -80,6 +80,8 @@ entity = wandb.Api().default_entity
 Instead of creating a new project, you can load one of your own existing project and workspace. To do this, find the unique workspace URL and pass it to `ws.Workspace.from_url` as a string. The URL has the form `https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc`. 
 
 For example:
+
+```python
 wandb.login()
 
 workspace = ws.Workspace.from_url("https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc").
@@ -89,6 +91,8 @@ workspace = ws.Workspace(
     project=NEW-PROJECT,
     name="NEW-SAVED-VIEW-NAME"
 )
+```
+
 ## 3. Programmatic workspace examples
 Below are examples for using programmatic workspace features:
 
