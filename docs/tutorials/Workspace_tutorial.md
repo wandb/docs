@@ -6,9 +6,9 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
 
 
-Organize and visualize your machine learning experiments more effectively by programmatically create, manage, and customize workspaces by defining configurations, setting panel layouts, and organizing sections with the `wandb-workspaces` W&B library. Load and modify workspaces with URLs, filter and group runs using expressions, and customize run appearances.
+Organize and visualize your machine learning experiments more effectively by programmatically create, manage, and customize workspaces by defining configurations, setting panel layouts, and organizing sections with the [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B library. Load and modify workspaces with URLs, filter and group runs using expressions, and customize run appearances.
 
-[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically creating and customizing W&B [Workspaces](https://docs.wandb.ai/guides/app/pages/workspaces) and [Reports](https://docs.wandb.ai/guides/reports).
+`wandb-workspaces` is a Python library for programmatically creating and customizing W&B [Workspaces](https://docs.wandb.ai/guides/app/pages/workspaces) and [Reports](https://docs.wandb.ai/guides/reports).
 
 In this tutorial you will see how to use `wandb-workspaces` to create and customize workspaces by defining configurations, set panel layouts, and organize sections.
 
