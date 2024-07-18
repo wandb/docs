@@ -1814,6 +1814,10 @@
       "to": "/tutorials"
     },
     {
+      "from": "/tutorials/Workspace_tutorial",
+      "to": "/tutorials/workspace_tutorial"
+    },
+    {
       "from": "/tutorials/xgboost",
       "to": "/tutorials"
     },
