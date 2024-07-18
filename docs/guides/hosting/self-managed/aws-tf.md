@@ -62,7 +62,6 @@ The steps on this topic are common for any deployment option covered by this doc
    Ensure to define variables in your `tvfars` file before you deploy because the `namespace` variable is a string that prefixes all resources created by Terraform.
 
 
-
    The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
 
    Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also require setting. In the module, this is a mandatory input. The proceeding example permits access from any source to the W&B installation.
@@ -86,7 +85,7 @@ The steps on this topic are common for any deployment option covered by this doc
    }
    ```
 
-   Please, refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
+   Refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
 
    Optionally, **but highly recommended**, you can add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
 
@@ -385,9 +384,11 @@ Follow the steps outlined here to update W&B:
 
 ## Migrate to Operator-based AWS Terraform Modules
 
-This section details the steps required to upgrade from **_pre-operator_** to **_post-operator_** environments using the [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) module.
+This section details the steps required to upgrade from _pre-operator_ to  _post-operator_ environments using the [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) module.
 
-The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is crucial for the W&B architecture. Please see [this](../operator#reasons-for-the-architecture-shift) for a detailed explanation for this architecture shift.
+:::info
+The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is necessary for the W&B architecture. See [this section](../operator.md#reasons-for-the-architecture-shift) for a detailed explanation for the architecture shift.
+:::
 
 
 ### Before and after Architecture
@@ -431,7 +432,7 @@ to manage both the installation of infrastructure and the W&B Server to the Kube
 
 ![post-operator-k8s](/images/hosting/post-operator-k8s.svg)
 
-This architectural shift facilitates the introduction of additional customer features (like OpenTelemetry, Prometheus, HPAs, Kafka, and image updates) without requiring manual Terraform operations by SRE/Infrastructure teams.
+This architectural shift enables additional features (like OpenTelemetry, Prometheus, HPAs, Kafka, and image updates) without requiring manual Terraform operations by SRE/Infrastructure teams.
 
 To commence with a base installation of the W&B Pre-Operator, ensure that `post-operator.tf` has a `.disabled` file extension and `pre-operator.tf` is active (that does not have a `.disabled` extension). Those files can be found [here](https://github.com/wandb/terraform-aws-wandb/tree/main/docs/operator-migration).
 
