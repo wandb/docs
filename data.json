@@ -1815,7 +1815,7 @@
     },
     {
       "from": "/tutorials/Workspace_tutorial",
-      "to": "/tutorials/workspace_tutorial"
+      "to": "/tutorials/workspaces"
     },
     {
       "from": "/tutorials/xgboost",
