@@ -189,14 +189,16 @@ mc mb --region=us-east1 local/local-files
 
 ## Deploy W&B Server application to Kubernetes
 
-The recommended installation method is via the official W&B Helm chart. Please follow [this section](../operator#deploy-wb-with-helm-cli) to deploy the W&B Server application.
+The recommended installation method is with the official W&B Helm chart. Follow [this section](../operator#deploy-wb-with-helm-cli) to deploy the W&B Server application.
 
 
 ### OpenShift
 
-W&B supports operating from within an [OpenShift Kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). The recommended installation method is via the official W&B Helm chart. Please follow this section to deploy the W&B Server.
+W&B supports operating from within an [OpenShift Kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). 
 
-
+:::info
+W&B recommends you install with the official W&B Helm chart. 
+:::
 #### Run the container as an un-privileged user
 
 By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
