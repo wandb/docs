@@ -41,4 +41,5 @@ Depending on your use case, explore the following resources to get started with 
 
 * Check out our [video demonstration](https://www.youtube.com/watch?v=2xeJIv\_K\_eI) to get an overview of W&B Reports.
 * Explore the [Reports gallery](./reports-gallery.md) for examples of live reports.
+* Try the [Programmatic Workspaces](../../tutorials/Workspace_tutorial.md) tutorial to learn how to create and customize your workspace.
 * Read curated Reports in [W&B Fully Connected](http://wandb.me/fc).
