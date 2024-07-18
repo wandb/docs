@@ -93,38 +93,26 @@ W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes 
 
 Follow those steps to install the W&B Kubernetes Operator with Helm CLI:
 
-**Step 1: Add the W&B Helm Repository**
-
-W&B has made the W&B Helm chart available with the W&B Helm repository. Add the repo with the following commands:
-
-```console
+1. Add the W&B Helm repository. The W&B Helm chart is available in the W&B Helm repository. Add the repo with the following commands:
+```shell
 helm repo add wandb https://charts.wandb.ai
 helm repo update
 ```
-
-**Step 2: Install the Operator**
-
-To install the Operator on the Kubernetes cluster, execute this command:
-
-```console
+2. Install the Operator on a Kubernetes cluster. Copy and paste the following:
+```shell
 helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 ```
-
-**Step 3: Configuring the W&B operator custom resource to trigger the W&B Server installation**
-
-Create an operator.yaml file to customize the W&B Operator deployment, specifying your custom configuration. See [Configuration Reference](#configuration-reference) for details.
+3. Configure the W&B operator custom resource to trigger the W&B Server installation. Create an operator.yaml file to customize the W&B Operator deployment, specifying your custom configuration. See [Configuration Reference](#configuration-reference) for details.
 
 Once you have the specification YAML created and filled with your values, run the following and the operator will apply the configuration and install the W&B Server application based on your configuration.
 
-```console
+```shell
 kubectl apply -f operator.yaml
 ```
 
 Wait until the deployment is completed and verify the installation. This will take a few minutes.
 
-**Step 4: Verify the installation**
-
-Access the new installation with the browser and create the first admin user account. When this is done, follow the verification steps as outlined [here](#verify-the-installation)
+4. Verify the installation. Access the new installation with the browser and create the first admin user account. When this is done, follow the verification steps as outlined [here](#verify-the-installation)
 
 
 ## Deploy W&B with Helm Terraform Module
@@ -197,24 +185,21 @@ This step assumes that the first admin user account is created with the browser.
 
 Follow these steps to verify the installation:
 
-**Step 1: Install the CLI**
-
+1. Install the W&B CLI:
 ```shell
 pip install wandb
 ```
-
-**Step 2: Log in to W&B**
+2: Log in to W&B:
 ```shell
 wandb login --host=https://YOUR_DNS_DOMAIN
 ```
 
-Example:
+For example:
 ```shell
 wandb login --host=https://wandb.company-name.com
 ```
 
-**Step 3: Start the verification**
-
+3. Verify the installation:
 ```shell
 wandb verify
 ```
@@ -235,7 +220,7 @@ Checking logged metrics, saving and downloading a file..................✅
 Checking artifact save and download workflows...........................✅
 ``` 
 
-## Accessing the W&B Management Console
+## Access the W&B Management Console
 The W&B Kubernetes operator comes with a management console. It is located at `${HOST_URI}/console`, for example https://wandb.company-name.com/console.
 
 There are two ways to log in to the management console:
@@ -251,42 +236,27 @@ import TabItem from '@theme/TabItem';
   ]}>
   <TabItem value="option1">
 
-**Step 1: Open the W&B application in the browser and login**
-
-Log in to the W&B application with `${HOST_URI}/`, for example https://wandb.company-name.com/
-
-**Step 2: Access the console**
-
-Click on the icon in the top right corner and then click on **System console**. Note that only users with admin privileges will see the **System console** entry.
+1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example https://wandb.company-name.com/
+2. Access the console. Click on the icon in the top right corner and then click on **System console**. Note that only users with admin privileges will see the **System console** entry.
 
 ![](/images/hosting/access_system_console_via_main_app.png)
 
   </TabItem>
   <TabItem value="option2">
 
-**Step 1: Open console application in browser**
+:::note
+W&B recommends you access the console using the following steps only if Option 1 does not work.
+:::
 
-Open the above described URL in the browser and you will be presented with this login screen:
-
+1. Open console application in browser. Open the above described URL in the browser and you will be presented with this login screen:
 ![](/images/hosting/access_system_console_directly.png)
-
-**Step 2: Retrieve password**
-
-The password is stored as a Kubernetes secret and is generated as part of the installation. To retrieve it, execute the following command:
-
+2. Retrieve password. The password is stored as a Kubernetes secret and is generated as part of the installation. To retrieve it, execute the following command:
 ```shell
 kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d
 ```
-
 Copy the password to the clipboard.
+3: Login to the console. Paste the copied password to the textfield “Enter password” and click login.
 
-**Step 3: Login to the console**
-
-Paste the copied password to the textfield “Enter password” and click login.
-
-:::note
-The second option is recommended for troubleshooting only should the main application not be accessible. 
-:::
 
   </TabItem>
 </Tabs>
@@ -294,42 +264,40 @@ The second option is recommended for troubleshooting only should the main applic
 
 
 ## Update the W&B Kubernetes operator
-This section describes how to update the W&B Kubernetes operator. Updating the W&B Kubernetes operator does not update the W&B server application.
+This section describes how to update the W&B Kubernetes operator. 
 
 :::note
-See the instructions [here](#migrate-self-managed-instances-to-wb-operator) if you use a Helm chart that does not user the W&B Kubernetes operator before you follow the proceeding instructions to update the W&B operator.
+* Updating the W&B Kubernetes operator does not update the W&B server application.
+* See the instructions [here](#migrate-self-managed-instances-to-wb-operator) if you use a Helm chart that does not user the W&B Kubernetes operator before you follow the proceeding instructions to update the W&B operator.
 :::
 
-**Step 1: Update the repo**
+Copy and paste the code snippets below into your terminal. 
 
+1. First, update the repo with [`helm repo update`](https://helm.sh/docs/helm/helm_repo_update/):
 ```shell
 helm repo update
 ```
 
-**Step 2: Update the Helm chart itself**
+2. Next, update the Helm chart with [`helm upgrade`](https://helm.sh/docs/helm/helm_upgrade/):
  
 ```shell
 helm upgrade operator wandb/operator -n wandb-cr --reuse-values
 ```
-
-For information on how to update the W&B server application, continue [here](#update-the-wb-server-application).
 
 ## Update the W&B Server application
 You no longer need to update W&B Server application if you use the W&B Kubernetes operator.
 
 The operator automatically updates your W&B Server application when a new version of the software of W&B is released.
 
+
 ## Migrate self-managed instances to W&B Operator
-W&B recommends that you use the operator if you self-manage your W&B Server installation. That would enable W&B to roll out the newer services and products to your instance more seamlessly, and provide better troubleshooting and support.
+The proceeding section describe how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. The migration process depends on how you installed W&B Server:
 
 :::note
-The W&B Operator will become the default installation method for W&B Server. In future, W&B will deprecate deployment mechanisms that do not use the operator. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
+The W&B Operator will become the default installation method for W&B Server. In the future, W&B will deprecate deployment mechanisms that do not use the operator. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
 :::
 
-**Step 1: Collect data of current installation**
-
-At first we need to identify the current installation method as further steps will depend on that:
-- If you used the official W&B Cloud Terraform Modules,  jump to the according section and continue there:
+- If you used the official W&B Cloud Terraform Modules, navigate to the appropriate documentation and follow the steps there:
   - [AWS](#migrate-to-operator-based-aws-terraform-modules)
   - [GCP](#migrate-to-operator-based-gcp-terraform-modules)
   - [Azure](#migrate-to-operator-based-azure-terraform-modules)
@@ -344,97 +312,58 @@ For a detailed description of the migration process,  continue [here](self-manag
 
 ### Migrate to Operator-based GCP Terraform Modules
 
-:::note
-This section of the documentation is currently being worked on. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
-:::
+Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
+
 
 ### Migrate to Operator-based Azure Terraform Modules
 
-:::note
-This section of the documentation is currently being worked on. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
-:::
+Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
 
 ### Migrate to Operator-based Helm chart
 
 Follow these steps to migrate to the Operator-based Helm chart:
 
-**Step 1: Get the current W&B configuration**
-
-If W&B was deployed with an non-operator-based version of the Helm chart,  export the values like this:
-
-```console
+1. Get the current W&B configuration. If W&B was deployed with an non-operator-based version of the Helm chart,  export the values like this:
+```shell
 helm get values wandb
 ```
-
 If W&B was deployed with Kubernetes manifests,  export the values like this:
-
-```console
+```shell
 kubectl get deployment wandb -o yaml
 ```
-
 In both ways you should now have all the configuration values which are needed for the next step. 
 
-**Step 2: Create operator.yaml**
+2. Create a file called operator.yaml. Follow the format described in the [Configuration Reference](#configuration-reference). Use the values from step 1.
 
-Create a file called operator.yaml by following the format described in the [Configuration Reference](#configuration-reference). Use the values from step 1.
-
-**Step 3: Scale the current deployment to 0 pods**
-
-This step is stopping the current deployment.
-
-```console
+3. Scale the current deployment to 0 pods. This step is stops the current deployment.
+```shell
 kubectl scale --replicas=0 deployment wandb
 ```
-
-**Step 4: Update the Helm chart repo**
-
-```console
+4. Update the Helm chart repo:
+```shell
 helm repo update
 ```
-
-**Step 5: Install the new Helm chart**
-
-```console
+5. Install the new Helm chart:
+```shell
 helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 ```
-
-**Step 6: Configure the new helm chart and trigger W&B application deployment**
-
-Apply the new configuration.
-```console
+6. Configure the new helm chart and trigger W&B application deployment. Apply the new configuration.
+```shell
 kubectl apply -f operator.yaml
 ```
-
 The deployment will take a few minutes to complete.
-
-**Step 7: Verify the installation**
-
-Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
-
-**Step 8: Remove to old installation**
-
-Uninstall the old helm chart or delete the resources that were created with manifests.
+7. Verify the installation. Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
+8. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
 
 ### Migrate to Operator-based Terraform Helm chart
 
 Follow these steps to migrate to the Operator-based Helm chart:
 
 
-**Step 1: Prepare Terraform config**
-- Replace the Terraform code from the old deployment in your Terraform config with the one that is described [here](#deploy-wb-with-helm-terraform-module)
-- Set the same variables as before. Should you have a .tfvars file, leave it unchanged.
-
-**Step 2: Execute Terraform run**
-
-Execute terraform init, plan and apply
-
-**Step 3: Verify the installation**
-
-Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
-
-**Step 4: Remove to old installation**
-
-Uninstall the old helm chart or delete the resources that were created with manifests.
+1. Prepare Terraform config. Replace the Terraform code from the old deployment in your Terraform config with the one that is described [here](#deploy-wb-with-helm-terraform-module). Set the same variables as before. Do not change .tfvars file if you have one.
+2. Execute Terraform run. Execute terraform init, plan and apply
+3. Verify the installation. Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
+4. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
 
 
 
@@ -474,7 +403,7 @@ spec:
       install: false
 ```
 
-This YAML file defines the desired state of your Weights & Biases deployment, including the version, environment variables, external resources like databases, and other
+This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other
 necessary settings. Use the above YAML as a starting point and add the missing information.
 
 The full list of spec customization can be found [here](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) in the Helm repository. The recommended approach is to only change what is necessary and otherwise use the default values.
