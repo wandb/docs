@@ -24,7 +24,7 @@ As a first step, an organization admin must set up a federation between your W&B
 * In the **Authentication** option, press `Set up JWT Issuer`
 * Add the JWT issuer URL in the text box and press `Create`
 
-W&B will automatically look for a OIDC discovery document at the path `${ISSUER_URL}/.well-known/oidc-configuration`, and try to fand so forthh the JSON Web Key Set (JWKS) from a relevant URL in the discovery document. The JWKS is used for real-time validation of the JWTs to ensure that those have been issued by the relevant identity provider.
+W&B will automatically look for a OIDC discovery document at the path `${ISSUER_URL}/.well-known/oidc-configuration`, and try to find the JSON Web Key Set (JWKS) at a relevant URL in the discovery document. The JWKS is used for real-time validation of the JWTs to ensure that those have been issued by the relevant identity provider.
 
 ## Using the JWT to access W&B
 
