@@ -22,4 +22,4 @@ Once enabled, W&B creates a private endpoint service for your instance and provi
 If you would like to use this feature, contact your W&B team.
 :::
 
-You can use Secure private connectivity with [IP allowlisting](./ip-allowlisting.md). In such a case, W&B recommends using secure private connectivity for all traffic from your AI workloads and majority of the traffic from your user browsers if possible, while using IP allowlisting for instance administration from privileged locations.
+You can use secure private connectivity with [IP allowlisting](./ip-allowlisting.md). If you use secure private connectivity for IP allowlisting, W&B recommends that you secure private connectivity for all traffic from your AI workloads and majority of the traffic from your user browsers if possible, while using IP allowlisting for instance administration from privileged locations.
