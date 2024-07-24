@@ -69,10 +69,21 @@ Depending on your use case, explore the following resources to get started with
 
 ## Migrating from the W&B Model Registry to the W&B Registry
 
-If your team is actively using the existing W&B Model Registry to organize your models, this will still be available through the new Registry App UI. Navigate to the Model Registry from the homepage, and the banner will allow to select a team and visit it's model registry.
+The W&B Model Registry will be deprecated by the end of 2024. The contents in your Model Registry will be migrated to the new Registry. Detailed information about the migration process from the legacy Model Registry to the Registry will be posted soon.
+
+The soon to be legacy W&B Model Registry App UI is still available until W&B Registry is made generally available. To view the legacy Model Registry: Navigate to the Model Registry from the homepage. A banner will appear to view the legacy Model Registry App UI.
 
 ![](/images/registry/nav_to_old_model_reg.gif)
 
-Look out for incoming information on a migration we will be making available to migrate contents from the current model registry into the new model registry inside W&B Registry. You can reach out to support@wandb.com with any questions or to speak to our product team about any concerns with the migration.
+Reach out to support@wandb.com with any questions or to speak to our product team about any concerns with the migration.
 
+### Enable W&B Registry
+
+Based on your deployment type, satisfy the following conditions to enable W&B Registry:
+
+| Deployment type | How to enable |
+| ----- | ----- |
+| Multi-tenant Cloud | No action required. W&B Registry is available on the W&B App. |
+| Dedicated Cloud | Contact your account team. The Solutions Architect (SA) Team will enable W&B Registry with your instance's operator console. |
+| Self Managed  | Go to the server environment variable documentation to enable the environment variable called `ENABLE_REGISTRY_UI`. In self-managed instances, the customer's infrastructure admin should enable this environment variable and set it to `true`. |
  
