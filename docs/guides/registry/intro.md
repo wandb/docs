@@ -74,7 +74,7 @@ Depending on your use case, explore the following resources to get started with
 
 ## Migrating from the legacy Model Registry to W&B Registry
 
-The W&B Model Registry will be deprecated by the end of 2024. The contents in your Model Registry will be migrated to the new Registry. Detailed information about the migration process from the legacy Model Registry to Registry will be posted soon. 
+The W&B Model Registry will be deprecated by the end of 2024. The contents in your Model Registry will be migrated to W&B Registry. Detailed information about the migration process from the legacy Model Registry to Registry will be posted soon. 
 
 The soon to be legacy W&B Model Registry App UI is still available until W&B Registry is made generally available. To view the legacy Model Registry: Navigate to the Model Registry from the homepage. A banner will appear to view the legacy Model Registry App UI.
 
