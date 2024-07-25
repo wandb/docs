@@ -71,7 +71,7 @@ Depending on your use case, explore the following resources to get started with
     - [Getting started with Registry from Weights & Biases](https://www.youtube.com/watch?v=p4XkVOsjIeM)
 
 - Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
-    - Use W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages
+    - Use W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages.
     - Automate your model management workflows using webhooks and launch jobs.
     - See how Registry integrates with external ML systems and tools in your model development lifecycle for model evaluation, monitoring, and deployment.
 
