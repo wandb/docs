@@ -6,10 +6,10 @@ displayed_sidebar: default
 # Registry
 
 :::info
-W&B Registry is in now in public preview. Visit [this](#enable-wb-registry) section to learn how to enable it for your deployment type.
+W&B Registry is now in public preview. Visit [this](#enable-wb-registry) section to learn how to enable it for your deployment type.
 :::
 
-W&B Registry is a curated and governed repository of machine learning [artifacts](../artifacts/intro.md) within your W&B organization. The W&B Registry provides artifact versioning, artifact lineage tracking, provides information of when an artifact is created and when an artifact is used, and more.
+W&B Registry is a curated central repository that stores and provides versioning, aliases, lineage tracking, and governance of models and datasets. Registry allows individuals and teams across the entire organization to share and collaboratively manage the lifecycle of all models, datasets and other artifacts. As the single source of truth for which models are in production, Registry provides the foundation for an effective CI/CD pipeline by identifying the right models to reproduce, retrain, evaluate, and deploy.
 
 ![](/images/registry/registry_landing_page.png)
 
@@ -18,7 +18,7 @@ Use W&B Registry to:
 - [Bookmark](./link_version.md) your best artifacts for each machine learning task.
 - [Automate](../model_registry/model-registry-automations.md) downstream processes and model CI/CD.
 - Track an [artifact’s lineage](../model_registry/model-lineage.md) and audit the history of changes to production artifacts.
-- [Configure](./configure_registry.md) viewer, member, or admin access to a registry for all org users
+- [Configure](./configure_registry.md) viewer, member, or admin access to a registry for all org users.
 - Quickly find or reference important artifacts with a unique identifier known as aliases.
 
 ## How it works
@@ -67,17 +67,14 @@ Based on your deployment type, satisfy the following conditions to enable W&B Re
 
 Depending on your use case, explore the following resources to get started with the W&B Registry:
 
-- Check out the two-part video series on the model registry:
-    - [Logging and registering models](https://www.youtube.com/watch?si=MV7nc6v-pYwDyS-3&v=ZYipBwBeSKE&feature=youtu.be)
-    - [Consuming artifacts and automating downstream processes](https://www.youtube.com/watch?v=8PFCrDSeHzw) in Registry.
 - Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
-    - Use the W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages
+    - Use W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages
     - Automate your model management workflows using webhooks and launch jobs.
     - See how Registry integrates with external ML systems and tools in your model development lifecycle for model evaluation, monitoring, and deployment.
 
 ## Migrating from the legacy Model Registry to W&B Registry
 
-The W&B Model Registry will be deprecated by the end of 2024. The contents in your Model Registry will be migrated to the new Registry. Detailed information about the migration process from the legacy Model Registry to the Registry will be posted soon. 
+The W&B Model Registry will be deprecated by the end of 2024. The contents in your Model Registry will be migrated to W&B Registry. Detailed information about the migration process from the legacy Model Registry to Registry will be posted soon. 
 
 The soon to be legacy W&B Model Registry App UI is still available until W&B Registry is made generally available. To view the legacy Model Registry: Navigate to the Model Registry from the homepage. A banner will appear to view the legacy Model Registry App UI.
 
