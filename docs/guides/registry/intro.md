@@ -67,6 +67,9 @@ Based on your deployment type, satisfy the following conditions to enable W&B Re
 
 Depending on your use case, explore the following resources to get started with the W&B Registry:
 
+- Check out the tutorial video:
+    - [Getting started with Registry from Weights & Biases](https://www.youtube.com/watch?v=p4XkVOsjIeM)
+
 - Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
     - Use W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages
     - Automate your model management workflows using webhooks and launch jobs.
