@@ -43,7 +43,7 @@ with wandb.init(project="link-quickstart") as run:
   logged_artifact = run.log_artifact("./my_model.txt", "artifact-name", type=COLLECTION_TYPE)
   run.link_artifact(
     artifact=logged_artifact,
-    target_path=f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/Example ML Task"
+    target_path=f"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/Example ML Task"
   )
 ```
 
@@ -112,12 +112,12 @@ Only artifacts logged within an organization's team can be linked to the organiz
 
 ### Organization Names with Team Name Collisions
 
-When you have an organization with a team name that exactly matches the organization name, our system appends a unique hash to the organization name to avoid naming collisions. We refer to this as the `ORG_IDENTIFIER`.
+When you have a non-unique organization name, we append a unique hash to your organization name to avoid collisions in the artifact paths you are referencing. We refer to this unique organization name as the `ORG_ENTITY_NAME`. 
 
-For example, if your organization name is `reviewco` and you also have a team named reviewco, the system will append a hash to the organization name, resulting in an `ORG-IDENTIFIER` such as `reviewco_XYZ123456`. 
+For example, if your organization name is `reviewco` and you also have a team named `reviewco`, we will append a hash to the organization name, resulting in an `ORG_ENTITY_NAME` such as `reviewco_XYZ123456`. If your organization name does not collide with an existing team or org name, no hash is appended, resulting in an `ORG_ENTITY_NAME` that matches the org name: `reviewco`.
 
 :::tip 
-When linking to a registry with the Python SDK, always use the ORG_IDENTIFIER format in the target_path. In this case, the target path takes the form of {ORG_IDENTIFIER}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}. 
+When linking to a registry with the Python SDK, always use the ORG_ENTITY_NAME in the target_path. The target path takes the form of {ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}. 
 :::
 
 For example, the target path might look like `reviewco_XYZ123456/wandb-registry-model/my-collection`.
@@ -125,7 +125,7 @@ For example, the target path might look like `reviewco_XYZ123456/wandb-registry-
 **How to Confirm the Exact Path**
 To verify the exact path for linking:
 1. Check Out an Empty Collection: Create or inspect the empty state for an empty collection inside a registry.
-2. Locate the code snippet for link_artifact: In the details of the collection, look for the target_path field. This field will show the ORG_IDENTIFIER.
+2. Locate the code snippet for link_artifact: In the details of the collection, look for the target_path field. This field will show the ORG_ENTITY_NAME.
 
 <!-- insert screenshot -->
 
