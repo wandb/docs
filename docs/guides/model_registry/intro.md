@@ -4,6 +4,10 @@ description: Model registry to manage the model lifecycle from training to produ
 displayed_sidebar: default
 ---
 
+:::caution
+This is the documentation for the legacy Model Registry which will be discontinued soon. Collections will be migrated automatically to Registry. Visit the new Registry docs [here](https://docs.wandb.ai/guides/registry). 
+:::
+
 # Model registry
 The W&B Model Registry houses a team's trained models where ML Practitioners can publish candidates for production to be consumed by downstream teams and stakeholders. It is used to house staged/candidate models and manage workflows associated with staging.
 
