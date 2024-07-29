@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 # W&B Platform
 
-W&B Platform is the foundational infrastructure, tooling and governance scaffolding which supports the W&B products like [Core](../platform.md), [Models](../models.md) and [Prompts](../prompts_platform.md). 
+W&B Platform is the foundational infrastructure, tooling and governance scaffolding which supports the W&B products like [Core](../platform.md), [Models](../models.md) and [Weave](../weave_platform.md). 
 
 W&B Platform is available in three different deployment options:
 * [W&B Multi-tenant Cloud](#wb-saas-cloud)

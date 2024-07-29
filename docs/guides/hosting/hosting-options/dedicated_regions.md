@@ -30,6 +30,7 @@ The following table lists [AWS Regions](https://docs.aws.amazon.com/AmazonRDS/la
 |Asia Pacific (Singapore)| ap-southeast-1|
 |Asia Pacific (Sydney)|ap-southeast-2|
 |Asia Pacific (Tokyo)|ap-northeast-1|
+|Asia Pacific (Seoul)|ap-northeast-2|
 
 For more information about AWS Regions, see the [Regions, Availability Zones, and Local Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) in the AWS Documentation.
 
@@ -47,11 +48,13 @@ The following table lists [GCP Regions](https://cloud.google.com/compute/docs/re
 |Los Angeles|us-west2|
 |Las Vegas|us-west4|
 |Toronto|northamerica-northeast2|
-|Belgium| europe-west1|
+|Belgium|europe-west1|
 |London|europe-west2|
 |Frankfurt|europe-west3|
 |Netherlands|europe-west4|
+|Sydney|australia-southeast1|
 |Tokyo|asia-northeast1|
+|Seoul|asia-northeast3|
 
 For more information about GCP Regions, see [Regions and zones](https://cloud.google.com/compute/docs/regions-zones) in the GCP Documentation.
 
@@ -65,6 +68,6 @@ The following table lists [Azure regions](https://azure.microsoft.com/en-us/expl
 |California|westus|
 |Netherlands|westeurope|
 |Tokyo, Saitama|japaneast|
-|Seoul|korecentral|
+|Seoul|koreacentral|
 
 For more information about Azure regions, see [Azure geographies](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#overview) in the Azure Documentation.
