@@ -8,10 +8,10 @@ import TabItem from '@theme/TabItem';
 
 Create a collection within a registry to organize your artifacts. A *collection* is a set of linked artifact versions in a registry. Each collection represents a distinct task or use case and serves as a container for a curated selection of artifact versions related to that task. 
 
+<!-- Removing this since it's on the landing page + we'll eventually have a terms and concepts page -->
+<!-- The proceeding diagram shows the hierarchical relationship between a registry, collections, and versions.
 
-The proceeding diagram shows the hierarchical relationship between a registry, collections, and versions.
-
-![](/images/registry/Registry_Hierarchy_Diagram.png)
+![](/images/registry/Registry_Hierarchy_Diagram.png) -->
 
 
 
