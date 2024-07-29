@@ -21,7 +21,9 @@ If you are familiar with W&B Model Registry, you might aware of "registered mode
 
 ## Collection types
 
-When you create a collection, you must select the type of artifacts that you can link to that collection. Each collection accepts one, and only one, type of artifact.  The type of artifact that a collection can have is determined by the registry that that collection is in.
+When you create a collection, you must select the type of artifacts that you can link to that collection. Each collection accepts one, and only one, type of artifact. The type of artifact that a collection can have is determined by the accepted types defined for that registry. You can configure the accepted types a registry allows in the registry settings. 
+
+Limiting the types of artifacts that can be linked to a collection is to help ensure that artifacts types are not mixed. For example,  that model artifacts are not linked to the dataset registry.
 
 :::tip
 You specify the type of an artifact when you create that artifact. Note the `type` field in `wandb.Artifact()`:
