@@ -1,0 +1,1 @@
+export const WEAVE_DOCS_URL = 'https://wandb.github.io/weave/?utm_source=wandb_docs&utm_medium=docs&utm_campaign=weave-nudge';

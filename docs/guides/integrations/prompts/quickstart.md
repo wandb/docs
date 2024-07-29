@@ -12,7 +12,7 @@ displayed_sidebar: default
   <title>Prompts Quickstart</title>
 </head>
 
-This Quickstart guide will walk you how to use [Trace](intro.md) to visualize and debug calls to LangChain, LlamaIndex or your own LLM Chain or Pipeline:
+This Quickstart guide will walk you how to use [Trace](./intro.md) to visualize and debug calls to LangChain, LlamaIndex or your own LLM Chain or Pipeline:
 
 1. **[Langchain:](#use-wb-trace-with-langchain)** Use the 1-line LangChain environment variable or context manager integration for automated logging.
 
@@ -47,7 +47,7 @@ os.environ["LANGCHAIN_WANDB_TRACING"] = "true"
 Thats it! Now any call to a LangChain LLM, Chain, Tool or Agent will be logged to Weights & Biases.
 
 ### 2. Configure your Weights & Biases settings
-You can optionally set additional Weights & Biases [Environment Variables](/guides/track/environment-variables) to set parameters that are typically passed to `wandb.init()`. Parameters often used include `WANDB_PROJECT` or `WANDB_ENTITY` for more control over where your logs are sent in W&B. For more information about [`wandb.init`](../../ref/python/init.md), see the API Reference Guide.
+You can optionally set additional Weights & Biases [Environment Variables](/guides/track/environment-variables) to set parameters that are typically passed to `wandb.init()`. Parameters often used include `WANDB_PROJECT` or `WANDB_ENTITY` for more control over where your logs are sent in W&B. For more information about [`wandb.init`](../../../ref/python/init.md), see the API Reference Guide.
 
 ```python
 # optionally set your wandb settings or configs
@@ -95,7 +95,7 @@ Once each Agent execution completes, all calls in your LangChain object will be 
 
 ### 5. View the trace in Weights & Biases
 
-Click on the W&B [run](../runs/intro.md) link generated in the previous step. This will redirect you to your Project workspace in the W&B App. 
+Click on the W&B [run](../../runs/intro.md) link generated in the previous step. This will redirect you to your Project workspace in the W&B App. 
 
 Select a run you created to view the trace table, trace timeline and the model architecture of your LLM. 
 
@@ -136,7 +136,7 @@ In this quickstart, we will how to log a single call to an OpenAI model to W&B T
 
 ### 1. Import Trace and start a Weights & Biases run
 
-Call `wandb.init` to start a W&B run. Here you can pass a W&B project name as well as an entity name (if logging to a W&B Team), as well as a config and more. See [`wandb.init`](../../ref/python/init.md) for the full list of arguments.
+Call `wandb.init` to start a W&B run. Here you can pass a W&B project name as well as an entity name (if logging to a W&B Team), as well as a config and more. See [`wandb.init`](../../../ref/python/init.md) for the full list of arguments.
 
 Once your start a W&B run you will be asked to log in with your Weights & Biases **[API key](https:wwww.wandb.ai/authorize)**.
 
@@ -225,7 +225,7 @@ for query in queries_ls:
 
 ### 3. View the trace in Weights & Biases
 
-Click on the W&B [run](../runs/intro.md) link generated in step 2. Here you should be able to view the trace table and trace timeline of your LLM. 
+Click on the W&B [run](../../runs/intro.md) link generated in step 2. Here you should be able to view the trace table and trace timeline of your LLM. 
 
 
 ### 4. Logging a LLM pipeline using nested spans
@@ -348,7 +348,7 @@ Moreover, this callback can also be used to upload and download indices to/from 
 
 ### 1. Import WandbCallbackHandler
 
-First import the `WandbCallbackHandler` and set it up. You can also pass additional parameters [`wandb.init`](../../ref/python/init.md) parameteres such as your W&B Project or Entity.
+First import the `WandbCallbackHandler` and set it up. You can also pass additional parameters [`wandb.init`](../../../ref/python/init.md) parameteres such as your W&B Project or Entity.
 
 You will see a W&B run start and be asked for your Weights & Biases **[API key](https:wwww.wandb.ai/authorize)**. A W&B run link will be generated, here you'll be able to view your logged LlamaIndex queries and data once you start logging.
 

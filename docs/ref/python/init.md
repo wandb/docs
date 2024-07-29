@@ -1,6 +1,6 @@
 # init
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.3/wandb/sdk/wandb_init.py#L924-L1186' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/sdk/wandb_init.py#L933-L1196' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Start a new run to track and log to W&B.
@@ -80,7 +80,7 @@ For more on using `wandb.init()`, including detailed examples, check out our
 
 | Arguments |  |
 | :--- | :--- |
-|  `project` |  (str, optional) The name of the project where you're sending the new run. If the project is not specified, the run is put in an "Uncategorized" project. |
+|  `project` |  (str, optional) The name of the project where you're sending the new run. If the project is not specified, we will try to infer the project name from git root or the current program file. If we can't infer the project name, we will default to `"uncategorized"`. |
 |  `entity` |  (str, optional) An entity is a username or team name where you're sending runs. This entity must exist before you can send runs there, so make sure to create your account or team in the UI before starting to log runs. If you don't specify an entity, the run will be sent to your default entity. Change your default entity in [your settings](https://wandb.ai/settings) under "default location to create new projects". |
 |  `config` |  (dict, argparse, absl.flags, str, optional) This sets `wandb.config`, a dictionary-like object for saving inputs to your job, like hyperparameters for a model or settings for a data preprocessing job. The config will show up in a table in the UI that you can use to group, filter, and sort runs. Keys should not contain `.` in their names, and values should be under 10 MB. If dict, argparse or absl.flags: will load the key value pairs into the `wandb.config` object. If str: will look for a yaml file by that name, and load config from that file into the `wandb.config` object. |
 |  `save_code` |  (bool, optional) Turn this on to save the main script or notebook to W&B. This is valuable for improving experiment reproducibility and to diff code across experiments in the UI. By default this is off, but you can flip the default behavior to on in [your settings page](https://wandb.ai/settings). |

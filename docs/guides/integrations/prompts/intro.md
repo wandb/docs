@@ -1,10 +1,12 @@
 ---
-slug: /guides/prompts
+slug: /guides/integrations/prompts
 title: Prompts for LLMs
 description: Tools for the development of LLM-powered applications
 displayed_sidebar: default
 ---
-<a href="https://wandb.me/weave" target="_blank">
+import { WEAVE_DOCS_URL } from '@site/src/util/links';
+
+<a href={WEAVE_DOCS_URL} target="_blank">
     <img className="no-zoom" src="/images/weave/weave_banner.png" alt="Building LLM apps? Try Weave" style={{display: "block", marginBottom: "15px"}} />
 </a>
 
@@ -72,7 +74,7 @@ Weights and Biases also has lightweight integrations for:
 
 ## Getting Started
 
-We recommend you go through the Prompts [Quickstart](https://docs.wandb.ai/guides/prompts/quickstart) guide, which will walk you through logging a custom LLM pipeline with Trace. A [colab](http://wandb.me/prompts-quickstart) version of the guide is also available. 
+We recommend you go through the Prompts [Quickstart](./quickstart.md) guide, which will walk you through logging a custom LLM pipeline with Trace. A [colab](http://wandb.me/prompts-quickstart) version of the guide is also available. 
 
 ## Next Steps
 

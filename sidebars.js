@@ -108,9 +108,9 @@ const sidebars = {
             'guides/registry/registry_types',
             'guides/registry/create_registry',
             'guides/registry/configure_registry',
-            // 'guides/registry/accepted_artifact_types',
             'guides/registry/create_collection',
             'guides/registry/link_version',
+            'guides/registry/download_use_artifact',
             {
               type: 'category',
               label: 'Model Registry',
@@ -268,19 +268,9 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'W&B Prompts',
-      link: {
-        type: 'doc',
-        id: 'guides/prompts_platform',
-      },
-      collapsed: false,
+      label: 'W&B Weave',
       items: [
-        {
-          type: 'category',
-          label: 'Prompts',
-          link: {type: 'doc', id: 'guides/prompts/intro'},
-          items: ['guides/prompts/quickstart', 'guides/prompts/openai'],
-        },
+        'guides/weave_platform',
       ],
     },
     {
@@ -369,6 +359,7 @@ const sidebars = {
               link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
               items: [
                 'guides/hosting/self-managed/basic-setup',
+                'guides/hosting/operator',  
                 {
                   type: 'category',
                   label: 'Install on public cloud',
@@ -382,7 +373,6 @@ const sidebars = {
                 'guides/hosting/server-upgrade-process',
               ],
             },
-            'guides/hosting/operator',  
           ],
         },        
         {
@@ -396,6 +386,7 @@ const sidebars = {
               items: [
                 'guides/hosting/iam/sso',
                 'guides/hosting/iam/ldap',
+                'guides/hosting/iam/identity_federation'
               ],
             },
             {
@@ -486,8 +477,20 @@ const sidebars = {
         'guides/integrations/torchtune',
         'guides/integrations/other/ignite',
         'guides/integrations/lightning',
+        {
+          type: 'category',
+          label: 'Prompts',
+          link: {
+            type: 'doc',
+            id: 'guides/integrations/prompts/intro'
+          },
+          items: [
+            'guides/integrations/prompts/quickstart', 
+            'guides/integrations/prompts/openai'
+          ],
+        },
         'guides/integrations/other/ray-tune',
-        'guides/integrations/other/sagemaker',
+        'guides/integrations/other/sagemaker',        
         'guides/integrations/scikit',
         'guides/integrations/other/simpletransformers',
         'guides/integrations/other/skorch',
@@ -533,6 +536,7 @@ const sidebars = {
     'tutorials/sweeps',
     'tutorials/artifacts',
     'tutorials/models',
+    'tutorials/workspaces',
     {
       type: 'category',
       label: 'Integration Tutorials',
