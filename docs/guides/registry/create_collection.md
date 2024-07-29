@@ -47,7 +47,7 @@ For example, suppose you create a collection that accepts "dataset" artifacts ty
 
 ### Check the types of artifact that a collection accepts
 
-Before you create and link to a collection, check the artifact type that the collection accepts:
+Before you link to a collection, check the artifact type that the collection accepts:
 
 <Tabs
   defaultValue="ui"
