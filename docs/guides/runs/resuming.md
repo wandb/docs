@@ -5,7 +5,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Resume Runs
+# Resume runs
 
 <head>
   <title>Resume W&B Runs</title>

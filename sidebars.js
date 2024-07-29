@@ -34,7 +34,7 @@ const sidebars = {
             'guides/app/pages/workspaces',
             {
               type: 'category',
-              label: 'What are Runs?',
+              label: 'What are runs?',
               link: {type: 'doc', id: 'guides/runs/intro'},
               items: [
                 // 'guides/runs/create-run',

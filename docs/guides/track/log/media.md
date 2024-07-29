@@ -6,7 +6,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 
-# Log Media & Objects
+# Log media and objects
 
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
@@ -76,7 +76,7 @@ wandb.log({"example": wandb.Image("myimage.jpg")})
   </TabItem>
 </Tabs>
 
-## Image Overlays
+## Image overlays
 
 <Tabs
   defaultValue="segmentation_masks"
@@ -99,9 +99,9 @@ To log an overlay, you'll need to provide a dictionary with the following keys a
 
 To log multiple masks, log a mask dictionary with multiple keys, as in the code snippet below.
 
-[See a live example →](https://app.wandb.ai/stacey/deep-drive/reports/Image-Masks-for-Semantic-Segmentation--Vmlldzo4MTUwMw)
+[See a live example](https://app.wandb.ai/stacey/deep-drive/reports/Image-Masks-for-Semantic-Segmentation--Vmlldzo4MTUwMw)
 
-[Sample code →](https://colab.research.google.com/drive/1SOVl3EvW82Q4QKJXX6JtHye4wFix\_P4J)
+[Sample code](https://colab.research.google.com/drive/1SOVl3EvW82Q4QKJXX6JtHye4wFix\_P4J)
 
 ```python
 mask_data = np.array([[1, 2, 2, ..., 2, 2, 1], ...])
@@ -125,7 +125,7 @@ Log bounding boxes with images, and use filters and toggles to dynamically visua
 
 ![](@site/static/images/track/bb-docs.jpeg)
 
-[See a live example →](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
+[See a live example](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
 
 To log a bounding box, you'll need to provide a dictionary with the following keys and values to the boxes keyword argument of `wandb.Image`:
 
@@ -186,7 +186,7 @@ wandb.log({"driving_scene": img})
   </TabItem>
 </Tabs>
 
-## Image Overlays in Tables
+## Image overlays in Tables
 
 <Tabs
   defaultValue="segmentation_masks"
@@ -300,7 +300,7 @@ wandb.run.summary.update(  # if only in summary, only visible on overview tab
 
 If histograms are in your summary they will appear on the Overview tab of the [Run Page](../../app/pages/run-page.md). If they are in your history, we plot a heatmap of bins over time on the Charts tab.
 
-## 3D Visualizations
+## 3D visualizations
 
 <Tabs
   defaultValue="3d_object"
@@ -327,7 +327,7 @@ wandb.log(
 
 ![Ground truth and prediction of a headphones point cloud](/images/track/ground_truth_prediction_of_3d_point_clouds.png)
 
-[See a live example →](https://app.wandb.ai/nbaryd/SparseConvNet-examples\_3d\_segmentation/reports/Point-Clouds--Vmlldzo4ODcyMA)
+[See a live example](https://app.wandb.ai/nbaryd/SparseConvNet-examples\_3d\_segmentation/reports/Point-Clouds--Vmlldzo4ODcyMA)
   </TabItem>
   <TabItem value="point_clouds">
 
@@ -426,13 +426,13 @@ wandb.log(
 
 When your run finishes, you'll be able to interact with 3D visualizations of your molecules in the UI.
 
-[See a live example using AlphaFold →](http://wandb.me/alphafold-workspace)
+[See a live example using AlphaFold](http://wandb.me/alphafold-workspace)
 
 ![](@site/static/images/track/docs-molecule.png)
   </TabItem>
 </Tabs>
 
-## Other Media
+## Other media
 
 W&B also supports logging of a variety of other media types.
 
