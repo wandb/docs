@@ -32,11 +32,12 @@ Replace values enclosed in `<>` with your own:
 ```python
 import wandb
 
+TEAM_ENTITY = "<team-entity>"
 ORG_NAME = "<insert-org-name>"
 REGISTRY_NAME = "<insert-registry-name>"  # Set to "model" to link to the model registry
 COLLECTION_TYPE = "model"
 
-with wandb.init(project="link-quickstart") as run:
+with wandb.init(entity="TEAM_ENTITY", project="link-quickstart") as run:
   with open("my_model.txt", "w") as f:
     f.write("simulated model file")
 
@@ -92,37 +93,44 @@ If you want to link an artifact version to the **Models** registry or the **Data
 
 Below are some common things to double check if you are not able to link an artifact. 
 
-### Linking from a personal account
+### Logging artifacts from a personal account
 
-Only artifacts logged within an organization's team can be linked to the organization's registry. Ensure the entity where the run logging your artifact is created is a team within your organization.
+Only artifacts logged within an organization's team can be linked to the organization's registry. Make sure that you log artifacts using a team entity within your organization. 
 
-1. Specify the Entity: Use the `entity` argument when you call [`wandb.init()`](https://docs.wandb.ai/ref/python/init). If you do not specify the `entity` when creating a run with `wandb.init()`, the run will be sent to your default entity.
-   ```
-   wandb.init(project='your_project', entity='your_team')
-   ```
+#### How to log from a team entity
+1. Specify the team as the entity when you initialize a run with [`wandb.init()`](https://docs.wandb.ai/ref/python/init). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity. 
+  ```python 
+  import wandb   
 
-2. Log the Artifact: When you call run.log_artifact on a run, the logged artifact will be sent to the entity inherited from the run.
+  run = wandb.init(
+    entity='<team_entity>', 
+    project='<project_name>'
+    )
+  ```
+2. Log the artifact to the run:
 
-    ```
+    ```python
     run.log_artifact(artifact)
     ```
+3. If an artifact is logged to the wrong entity, you will need to re-log it to an entity within your organization.
 
-3. Re-log if Necessary: If an artifact has been logged to the wrong entity, you will need to re-log it to an entity within your organization.
 
+### Organization names with team name collisions
 
-### Organization Names with Team Name Collisions
+W&B appends a unique hash to the organization name to avoid naming collisions when you have an organization with a team name that exactly matches the organization name. The combination of the name and the unique hash is known as an organizational identifier or `ORG_IDENTIFIER`.
 
-When you have an organization with a team name that exactly matches the organization name, our system appends a unique hash to the organization name to avoid naming collisions. We refer to this as the `ORG_IDENTIFIER`.
-
-For example, if your organization name is `reviewco` and you also have a team named reviewco, the system will append a hash to the organization name, resulting in an `ORG-IDENTIFIER` such as `reviewco_XYZ123456`. 
+For example, if your organization name is "reviewco" and you also have a team named "reviewco", W&B appends a hash to the organization name that results in an `ORG-IDENTIFIER` named `reviewco_XYZ123456`. 
 
 :::tip 
-When linking to a registry with the Python SDK, always use the ORG_IDENTIFIER format in the target_path. In this case, the target path takes the form of {ORG_IDENTIFIER}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}. 
+When linking to a registry with the Python SDK, always use the ORG_IDENTIFIER format in the target_path. In this case, the target path takes the form of `{ORG_IDENTIFIER}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`. 
 :::
 
 For example, the target path might look like `reviewco_XYZ123456/wandb-registry-model/my-collection`.
 
-**How to Confirm the Exact Path**
+
+
+### Confirm the path of a registry
+
 To verify the exact path for linking:
 1. Check Out an Empty Collection: Create or inspect the empty state for an empty collection inside a registry.
 2. Locate the code snippet for link_artifact: In the details of the collection, look for the target_path field. This field will show the ORG_IDENTIFIER.
