@@ -44,7 +44,7 @@ with wandb.init(entity="TEAM_ENTITY", project="link-quickstart") as run:
   logged_artifact = run.log_artifact("./my_model.txt", "artifact-name", type=COLLECTION_TYPE)
   run.link_artifact(
     artifact=logged_artifact,
-    target_path=f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/Example ML Task"
+    target_path=f"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/Example ML Task"
   )
 ```
 
@@ -133,7 +133,7 @@ For example, the target path might look like `reviewco_XYZ123456/wandb-registry-
 
 To verify the exact path for linking:
 1. Check Out an Empty Collection: Create or inspect the empty state for an empty collection inside a registry.
-2. Locate the code snippet for link_artifact: In the details of the collection, look for the target_path field. This field will show the ORG_IDENTIFIER.
+2. Locate the code snippet for link_artifact: In the details of the collection, look for the target_path field. This field will show the ORG_ENTITY_NAME.
 
 <!-- insert screenshot -->
 
