@@ -156,7 +156,7 @@ See [`use_model`](../../../ref/python/run.md#use_model) in the API Reference gui
 ## Log and link a model to the W&B Model Registry
 
 :::info
-The [`link_model`](../../../ref/python/run.md#link_model) method is currently only compatible with the legacy model registry, which will soon be deprecated. To learn how to link a model artifact to the new edition of model registry, visit the Registry [docs](https://docs.wandb.ai/guides/registry/link_version). 
+The [`link_model`](../../../ref/python/run.md#link_model) method is currently only compatible with the legacy W&B Model Registry, which will soon be deprecated. To learn how to link a model artifact to the new edition of model registry, visit the Registry [docs](../../registry/link_version.md). 
 :::
 
 Use the [`link_model`](../../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
