@@ -32,12 +32,12 @@ Replace values enclosed in `<>` with your own:
 ```python
 import wandb
 
-TEAM_ENTITY = "<team-entity>"
-ORG_NAME = "<org-name>"
-REGISTRY_NAME = "<registry-name>"  # Set to "model" to link to the model registry
+TEAM_ENTITY = "<team_entity>"
+ORG_NAME = "<org_name>"
+REGISTRY_NAME = "<registry_name>"  # Set to "model" to link to the model registry
 COLLECTION_TYPE = "model"
 
-with wandb.init(entity="TEAM_ENTITY", project="link-quickstart") as run:
+with wandb.init(entity="TEAM_ENTITY", project="link_quickstart") as run:
   with open("my_model.txt", "w") as f:
     f.write("simulated model file")
 
@@ -95,7 +95,9 @@ Below are some common things to double check if you are not able to link an arti
 
 ### Logging artifacts from a personal account
 
-Only artifacts logged within an organization's team can be linked to the organization's registry. Make sure that you log artifacts using a team entity within your organization. 
+Make sure that you log artifacts using a team entity within your organization. Only artifacts logged within an organization's team can be linked to the organization's registry. 
+
+Artifacts logged to W&B with a personal entity can not be linked to the registry.
 
 #### How to log from a team entity
 1. Specify the team as the entity when you initialize a run with [`wandb.init()`](https://docs.wandb.ai/ref/python/init). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity. 
