@@ -33,8 +33,8 @@ Replace values enclosed in `<>` with your own:
 import wandb
 
 TEAM_ENTITY = "<team-entity>"
-ORG_NAME = "<insert-org-name>"
-REGISTRY_NAME = "<insert-registry-name>"  # Set to "model" to link to the model registry
+ORG_NAME = "<org-name>"
+REGISTRY_NAME = "<registry-name>"  # Set to "model" to link to the model registry
 COLLECTION_TYPE = "model"
 
 with wandb.init(entity="TEAM_ENTITY", project="link-quickstart") as run:
@@ -117,12 +117,12 @@ Only artifacts logged within an organization's team can be linked to the organiz
 
 ### Organization names with team name collisions
 
-W&B appends a unique hash to the organization name to avoid naming collisions when you have an organization with a team name that exactly matches the organization name. The combination of the name and the unique hash is known as an organizational identifier or `ORG_IDENTIFIER`.
+W&B appends a unique hash to the organization name to avoid naming collisions when you have an organization with a team name that exactly matches the organization name. The combination of the name and the unique hash is known as an organizational identifier or `ORG_ENTITY_NAME`.
 
 For example, if your organization name is "reviewco" and you also have a team named "reviewco", W&B appends a hash to the organization name that results in an `ORG-IDENTIFIER` named `reviewco_XYZ123456`. 
 
 :::tip 
-When linking to a registry with the Python SDK, always use the ORG_IDENTIFIER format in the target_path. In this case, the target path takes the form of `{ORG_IDENTIFIER}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`. 
+When linking to a registry with the Python SDK, always use the ORG_ENTITY_NAME format in the target_path. In this case, the target path takes the form of `{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`. 
 :::
 
 For example, the target path might look like `reviewco_XYZ123456/wandb-registry-model/my-collection`.
