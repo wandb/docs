@@ -19,7 +19,6 @@ CTAButtons
 Docker
 Dockerfile
 [Ee]nqueued
-Github
 GCP
 GPUs
 Helm
@@ -42,7 +41,7 @@ Optuna
 [P]repended
 [Pp]seudocode
 SCIM
-Sagemaker
+SageMaker
 [Ss]elf-managed
 Terraform
 TTL
