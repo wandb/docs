@@ -1,4 +1,8 @@
 ---
+slug: /guides/automations
+description: >-
+  Overview of W&B Automations, how they work, and how to get started
+  using them.
 displayed_sidebar: default
 ---
 
