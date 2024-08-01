@@ -136,8 +136,9 @@ const sidebars = {
           type: 'category',
           label: 'Automations',
           items: [
-            'guides/model_registry/model-registry-automations',
-            'guides/artifacts/project-scoped-automations',
+            'guides/automations/intro',
+            'guides/automations/model-registry-automations',
+            'guides/automations/project-scoped-automations',
           ]
         },
         {
