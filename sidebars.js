@@ -135,8 +135,8 @@ const sidebars = {
         {
           type: 'category',
           label: 'Automations',
+          link: {type: 'doc', id: 'guides/automations/intro'},
           items: [
-            'guides/automations/intro',
             'guides/automations/model-registry-automations',
             'guides/automations/project-scoped-automations',
           ]
