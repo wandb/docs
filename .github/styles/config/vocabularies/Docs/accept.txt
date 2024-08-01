@@ -1,6 +1,7 @@
 APIs
 AWS
 Autogenerate
+[Aa]utomations
 autolog
 [Bb]asename
 [Bb]oolean
@@ -18,6 +19,7 @@ CTAButtons
 Docker
 Dockerfile
 [Ee]nqueued
+Github
 GCP
 GPUs
 Helm
@@ -40,6 +42,7 @@ Optuna
 [P]repended
 [Pp]seudocode
 SCIM
+Sagemaker
 [Ss]elf-managed
 Terraform
 TTL
