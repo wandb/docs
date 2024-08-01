@@ -2,9 +2,9 @@
 displayed_sidebar: default
 ---
 
-# Model Registry end of life
+# Legacy Model Registry end of life
 
-W&B will migrate assets from [W&B Model Registry](../model_registry/intro.md) to [W&B Registry](./intro.md) in mid-October 2024.By the end of 2024 you will no longer be able to access W&B Model Registry. An exact date will be shared at least 3 weeks in advance to all W&B Model Registry users. 
+W&B will migrate assets from the legacy [W&B Model Registry](../model_registry/intro.md) to [W&B Registry](./intro.md) in mid-October 2024.By the end of 2024 you will no longer be able to access W&B Model Registry. An exact date will be shared at least 3 weeks in advance to all W&B Model Registry users. 
 
 This guide will cover what changes will occur, how W&B will migrate assets, along with information on how to prepare your current assets for the migration process.
 
@@ -20,7 +20,7 @@ The following tables highlights the major changes that will happen from the lega
 | -----         | ----- | ----- |
 | Artifact visibility| Team level | Organization level |
 | Name change | A set of pointers (links) to model versions are called *registered models*. | A set of pointers (links) to artifact versions are called *collections*. | 
-| `wandb.init.link_model` | Model Registry specific API | No longer supported |
+| `wandb.init.link_model` | Model Registry specific API | Currently only compatible with legacy model registry |
 
 
 
@@ -33,13 +33,15 @@ The following tables highlights the major changes that will happen from the lega
 
 ### What is migrating?
 
-W&B will migrate [registered models](../model_registry/create-registered-model.md) and the [artifact versions](../model_registry/link-model-version.md) that are in your current W&B Model Registry, to W&B Registry as collections. More specifically, your registered models will be stored within within a registry called **Model**.
+W&B will migrate [registered models](../model_registry/create-registered-model.md)(now called collections) and the [artifact versions](../model_registry/link-model-version.md) that are in your current W&B Model Registry, to W&B Registry as collections. More specifically, your registered models(collections) will be stored within within a registry called **Model**.
 
-![](/images/registry/mode_reg_eol.png)
+![](/images/registry/eol_migration.png)
 
 :::info Team visibility to organization visibility
 All registries in the legacy Model Registry, which have team-level visibility, will have organizational-level visibility when the migration to W&B Registry occurs.
 :::
+
+![](/images/registry/mode_reg_eol.png)
 
 ### Artifact path changes
 
@@ -82,7 +84,7 @@ In preparation of the migration, you will need to ensure that you specify the en
 ```python
 import wandb
 
-org_entity = "ReviewCo" # Use organization entity
+org_entity = "reviewco" # Use organization entity
 collection = "Trained_animal_models" # Registered models now called collections
 version = "latest"
 
@@ -122,7 +124,7 @@ Any automations that your team created will be migrated to the new registry. The
 ### Deprecated features 
 
 * [Protected aliases](../model_registry/access_controls.md#add-protected-aliases): Aliases will no longer have a protected status available. Instead, you can go to a registry’s settings to configure which users have viewer, member, or admin status. All aliases that were previously protected will become standard aliases. 
-<!-- *  Service accounts: Team Service accounts will temporarily not be able to interact programmatically with Registry. This feature will be re-introduced before the migration, however.  -->
+*  Service accounts: Team Service accounts will temporarily not be able to interact programmatically with Registry. This feature will be re-introduced before the migration, however. 
 
 
 ## During the migration
@@ -139,7 +141,7 @@ The migration will last for approximately 24-48 hours and will be conducted duri
 
 ## After the migration
 
-After the migration all artifact versions, collections, descriptions, automations, and tags will be migrated to W&B Registry. However, action history will not be transferred.
+After the migration all artifact versions, collections, descriptions, automations, and tags will be migrated to W&B Registry. Action history will be preserved. You will still be able to navigate to the action history prior to the migration. In addition, W&B will add a new action to represent which linked version are migrated.
 
 ### Using the new Registry
 All organizations should plan to use the new Models registry inside the new W&B Registry. The same capabilities will be supported, including automations, lineage, and aliasing, with new features introduced. 
