@@ -2,7 +2,7 @@
 displayed_sidebar: default
 ---
 
-# Legacy Model Registry end of life
+# Migrating from legacy Model Registry
 
 W&B will migrate assets from the legacy [W&B Model Registry](../model_registry/intro.md) to [W&B Registry](./intro.md) in mid-October 2024.By the end of 2024 you will no longer be able to access W&B Model Registry. An exact date will be shared at least 3 weeks in advance to all W&B Model Registry users. 
 
