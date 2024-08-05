@@ -59,7 +59,7 @@ Depending on your use case, explore the following resources to get started with 
 * Read the [models walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
 * Learn about:
    * [Protected models and access control](./access_controls.md).
-   * [How to connect the Model Registry to CI/CD processes](./model-registry-automations.md).
+   * [How to connect the Model Registry to CI/CD processes](../automations/model-registry-automations.md).
    * Set up [Slack notifications](./notifications.md) when a new model version is linked to a registered model.
 * Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
 * Take the W&B [Enterprise Model Management](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
