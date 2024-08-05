@@ -47,18 +47,10 @@ Make a note of the ARNs for these resources. You will need the ARNs when you def
 
 <!-- If you don't have these resources, create them in AWS or follow our walkthrough tutorial [[link]]. -->
 
-### Create an IAM role for Launch agent
+### Create a IAM Policy for Launch agent
 
-The Launch agent needs permission to create Amazon SageMaker training jobs. Follow the procedure below to create an IAM role:
-
-1. From the IAM screen in AWS, create a new role. 
-2. For **Trusted Entity**, select **AWS Account** (or another option that suits your organization's policies).
-3. Scroll through the permissions screen and click **Next**. 
-4. Give the role a name and description.
-5. Select **Create role**.
-6. Under **Add permissions**, select **Create inline policy**.
-7. Toggle to the JSON policy editor, then paste the following policy based on your use case. Substitute values enclosed with `<>` with your own values:
-
+1. From the IAM screen in AWS, create a new policy.
+2. Toggle to the JSON policy editor, then paste the following policy based on your use case. Substitute values enclosed with `<>` with your own values:
 <Tabs
   defaultValue="build"
   values={[
@@ -79,7 +71,7 @@ The Launch agent needs permission to create Amazon SageMaker training jobs. Foll
           "SageMaker:CreateTrainingJob",
           "SageMaker:DescribeTrainingJob"
         ],
-        "Resource": "arn:aws:SageMaker:<region>:<account-id>:*"
+        "Resource": "arn:aws:sagemaker:<region>:<account-id>:*"
       },
       {
         "Effect": "Allow",
@@ -115,7 +107,7 @@ The Launch agent needs permission to create Amazon SageMaker training jobs. Foll
           "SageMaker:CreateTrainingJob",
           "SageMaker:DescribeTrainingJob"
         ],
-        "Resource": "arn:aws:SageMaker:<region>:<account-id>:*"
+        "Resource": "arn:aws:sagemaker:<region>:<account-id>:*"
       },
       {
         "Effect": "Allow",
@@ -159,8 +151,21 @@ The Launch agent needs permission to create Amazon SageMaker training jobs. Foll
   </TabItem>
 </Tabs>
 
-8. Click **Next**.
-9. Note the ARN for the role. You will specify the ARN when you set up the launch agent.
+3. Click **Next**.
+4. Give the policy a name and description.
+5. Click **Create policy**.
+
+
+### Create an IAM role for Launch agent
+
+The Launch agent needs permission to create Amazon SageMaker training jobs. Follow the procedure below to create an IAM role:
+
+1. From the IAM screen in AWS, create a new role. 
+2. For **Trusted Entity**, select **AWS Account** (or another option that suits your organization's policies).
+3. Scroll through the permissions screen and select the policy name you just created above. 
+4. Give the role a name and description.
+5. Select **Create role**.
+6. Note the ARN for the role. You will specify the ARN when you set up the launch agent.
 
 For more information on how to create IAM role, see the [AWS Identity and Access Management Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html).
 
