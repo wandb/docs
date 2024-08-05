@@ -246,9 +246,9 @@ Navigate to the Amazon EC2 Dashboard and complete the following steps:
 3. Expand **Advanced details**. For **IAM instance profile**, select the launch agent IAM role you created above.
 2. Review the **Summary** field. If correct, select **Launch instance**. 
 
-Navigate to **Instances** within the left panel of the EC2 Dashboard on AWS. Ensure that the EC2 instance you created is running (see the **Instance state** column). Once you confirm your EC2 instance is running, navigate to your local machine's terminal and complete the following:
+Navigate to **Instances** within the left panel of the EC2 Dashboard on AWS. Ensure that the EC2 instance you created is running (see the **Instance state** column). Once you confirm your EC2 instance is running, complete the following:
 
-1. Select **Connect**. 
+1. Select **Connect** from EC2 dashboard
 2. Select the **SSH client** tab and following the instructions outlined to connect to your EC2 instance.
 3. Within your EC2 instance, install the following packages:
 ```bash
@@ -303,7 +303,7 @@ environment:
   region: <your-region>
 registry:
   type: ecr
-  uri: <ecr-repo-arn>
+  uri: <ecr-repo-uri>
 builder: 
   type: docker
 
