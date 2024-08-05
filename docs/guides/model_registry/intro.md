@@ -12,7 +12,7 @@ The W&B Model Registry houses a team's trained models where ML Practitioners can
 With W&B Model Registry, you can:
 
 * [Bookmark your best model versions for each machine learning task.](./link-model-version.md)
-* [Automate](./model-registry-automations.md) downstream processes and model CI/CD.
+* [Automate](../automations/model-registry-automations.md) downstream processes and model CI/CD.
 * Move model versions through its ML lifecycle; from staging to production.
 * Track a model's lineage and audit the history of changes to production models.
 

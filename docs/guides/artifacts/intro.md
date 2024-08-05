@@ -64,6 +64,6 @@ You can pass a custom path into the `root` [parameter](../../ref/python/artifact
 
 ## Next steps
 * Learn how to [version](./create-a-new-artifact-version.md), [update](./update-an-artifact.md), or [delete](./delete-artifacts.md) artifacts.
-* Learn how to trigger downstream workflows in response to changes to your artifacts with [artifact automation](./project-scoped-automations.md).
+* Learn how to trigger downstream workflows in response to changes to your artifacts with [artifact automation](../automations/project-scoped-automations.md).
 * Learn about the [model registry](../model_registry/intro.md), a space that houses trained models.
 * Explore the [Python SDK](../../ref/python/artifact.md) and [CLI](../../ref/cli/wandb-artifact/README.md) reference guides.
