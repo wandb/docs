@@ -11,6 +11,9 @@ displayed_sidebar: default
 Code is not the only asset deployed in your machine learning project. W&B offers tools to automate model deployment, downstream actions for versioning artifacts, and more.
 
 ## How it works
+
+![](../../../static/images/automations/automations1.png)
+
 An automation needs an event and an action to work. An action triggers when a defined event occurs. For example, you could trigger a GitHub action workflow to run tests every time a new artifact links to your W&B Model Registry.
 
 ## Use cases
