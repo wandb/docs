@@ -8,7 +8,7 @@ An *event* is a change that takes place in the W&B ecosystem.
 
 Registries support two event types: **Linking a new artifact to a registered model** and **Adding a new alias to a version of the registered model**.
 
-See [Link a model version](./link-model-version.md) for information on how to link model versions and [Create a custom alias](../artifacts/create-a-custom-alias.md) for information an artifact aliases.
+See [Link a model version](../model_registry/link-model-version.md) for information on how to link model versions and [Create a custom alias](../artifacts/create-a-custom-alias.md) for information an artifact aliases.
 
 
 
