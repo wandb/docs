@@ -30,7 +30,7 @@ artifact.add_file("model.h5")
 run.log_artifact(artifact, aliases=["latest", "deploy"])
 ```
 
-See [Link a model version](../model_registry/link-model-version.md) for information on how to link model versions and [Create a custom alias](../artifacts/create-a-custom-alias.md) for information an artifact aliases.
+See [Link a model version](../model_registry/link-model-version.md) for information on how to link model versions and [Create a custom alias](../artifacts/create-a-custom-alias.md) for more information on artifact aliases.
 
 
 ## Artifacts event types
