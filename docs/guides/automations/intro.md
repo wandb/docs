@@ -26,7 +26,7 @@ First, determine the scope of your automation. W&B offers two types of automatio
 
 Then, you'll need to decide what type of action to configure. Webhooks can access external servers, while W&B Launch jobs allow you to launch runs with reusable and configurable templates.
 
-More information on how to create automations [here](../automations/project-scoped-automations.md).
+More information on how to create automations [here](../artifacts/project-scoped-automations.md).
 
 ## Next steps
 - [This](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) tutorial shows you how to set up an automation that triggers a GitHub Action for model evaluation and deployment
