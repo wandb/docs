@@ -2,10 +2,12 @@
 description: Manage automations via the W&B App UI.
 displayed_sidebar: default
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # View an automation
+
 <Tabs
   defaultValue="registry"
   values={[
