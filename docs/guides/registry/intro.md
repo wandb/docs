@@ -16,7 +16,7 @@ W&B Registry is a curated central repository that stores and provides versioning
 Use W&B Registry to:
 
 - [Bookmark](./link_version.md) your best artifacts for each machine learning task.
-- [Automate](../model-registry/model-registry-automations.md) downstream processes and model CI/CD.
+- [Automate](model-registry-automations.md) downstream processes and model CI/CD.
 - Track an [artifact’s lineage](../model_registry/model-lineage.md) and audit the history of changes to production artifacts.
 - [Configure](./configure_registry.md) viewer, member, or admin access to a registry for all org users.
 - Quickly find or reference important artifacts with a unique identifier known as aliases.
