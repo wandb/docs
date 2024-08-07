@@ -23,7 +23,6 @@ Project-scoped automations apply to either all collections in a project or a sin
 
 | Automation Process | Artifact Type | Event Type |Potential Action |
 | --- | --- | --- | --- |
-| Hyperparameter Sweep | Artifact Collection
-Scope: An Artifact Collection of type `train-dataset` inside a project | Add a new artifact version (of type `train-dataset`) | Trigger a hyperparameter sweep for a model trained on a new dataset |
+| Hyperparameter Sweep | An Artifact Collection of type `train-dataset` inside a project | Add a new artifact version (of type `train-dataset`) | Trigger a hyperparameter sweep for a model trained on a new dataset |
 | Retrain a Model when new data is uploaded | An Artifact Collection of type `train-dataset` inside a project | Add a new artifact version (of type `train-dataset`) | Trigger a model training job every time training data is refreshed |
 | Data drift analysis | An Artifact Collection of type `train-dataset` inside a project | Add a new artifact version (of type `train-dataset`) | Run a dataset drift analysis script when a new dataset is uploaded to compare against a baseline dataset |
