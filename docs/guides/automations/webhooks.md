@@ -10,6 +10,64 @@ Automate a webhook based on an action with the W&B App UI. To do this, first est
 Specify an endpoint for your webhook that has an Address record (A record). W&B does not support connecting to endpoints that are exposed directly with IP addresses such as `[0-255].[0-255].[0-255].[0.255]` or endpoints exposed as `localhost`. This restriction helps protect against server-side request forgery (SSRF) attacks and other related threat vectors.
 :::
 
+## POST Requests
+When you set up a webhook in Weights & Biases, you'll define several key components that are used to construct a secure POST request. Understanding how these components are used in the request can help you configure your webhook correctly and ensure secure data transmission. Below is an outline of how each component you define is utilized in the POST request:
+
+### Access Token (`$ACCESS_TOKEN`)
+An Access Token authenticates the request to the target API or service. It is included in the HTTP headers as a bearer token. For example:
+
+```bash
+-H "Authorization: Bearer $ACCESS_TOKEN"
+```
+
+### Secret (`$SECRET`)
+A secret generates a cryptographic HMAC signature that verifies the integrity and authenticity of the payload. The secret itself is not transmitted, but is used to create an HMAC signature of the payload, which is included in the HTTP headers. For example:
+
+```bash
+-H "X-Wandb-Signature: $SIGNATURE"
+```
+
+### Payload (`$PAYLOAD`)
+A payload contains the data you want to send to the endpoint. This can be customized according to the requirements of the receiving API. The payload is included in the body of the POST request. For example:
+
+```bash
+-d "$PAYLOAD" API_ENDPOINT
+```
+
+### API Endpoint (`$API_ENDPOINT`)
+The API Endpoint specifies the URL to which the POST request is sent. The API endpoint is the destination URL for the curl command. For example:
+
+```bash
+-d "$PAYLOAD" API_ENDPOINT
+```
+
+### Example Bash Script
+The following script mimics the POST request that W&B sends on your behalf when the webhook is triggered. Make sure to replace `your_api_key`, `your_api_secret`, the JSON payload, and API_ENDPOINT with your actual data:
+
+```bash
+#!/bin/bash
+
+# Your access token and secret
+ACCESS_TOKEN="your_api_key" 
+SECRET="your_api_secret"
+
+# The data you want to send (for example, in JSON format)
+PAYLOAD='{"key1": "value1", "key2": "value2"}'
+
+# Generate the HMAC signature
+# For security, W&B includes the X-Wandb-Signature in the header computed 
+# from the payload and the shared secret key associated with the webhook 
+# using the HMAC with SHA-256 algorithm.
+SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" -binary | base64)
+
+# Make the cURL request
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "X-Wandb-Signature: $SIGNATURE" \
+  -d "$PAYLOAD" API_ENDPOINT
+```
+
 ## Add a secret for authentication or authorization
 Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
 
