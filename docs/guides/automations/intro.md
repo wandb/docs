@@ -2,4 +2,4 @@
 displayed_sidebar: default
 ---
 
-# Automations
+# Automation
