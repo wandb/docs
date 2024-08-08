@@ -27,7 +27,7 @@ The following tabs demonstrate example payloads based on common use cases. Withi
 Verify that your access tokens have required set of permissions to trigger your GHA workflow. For more information, [see these GitHub Docs](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event). 
 :::
 
-  Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
+Send a repository dispatch from W&B to trigger a GitHub action. For example, suppose you have workflow that accepts a repository dispatch as a trigger for the `on` key:
 
   ```yaml
   on:
@@ -57,7 +57,7 @@ Verify that your access tokens have required set of permissions to trigger your 
 The `event_type` key in the webhook payload must match the `types` field in the GitHub workflow YAML file.
 :::
 
-  The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either `"LINK_ARTIFACT"` or `"ADD_ARTIFACT_ALIAS"`. See below for an example mapping:
+The contents and positioning of rendered template strings depends on the event or model version the automation is configured for. `${event_type}` will render as either `"LINK_ARTIFACT"` or `"ADD_ARTIFACT_ALIAS"`. See below for an example mapping:
 
   ```json
   ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
@@ -69,14 +69,14 @@ The `event_type` key in the webhook payload must match the `types` field in the 
   ${entity_name} --> "<entity>"
   ```
 
-  Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume W&B artifacts through the [W&B API](../artifacts/download-and-use-an-artifact.md).
+Use template strings to dynamically pass context from W&B to GitHub Actions and other tools. If those tools can call Python scripts, they can consume W&B artifacts through the [W&B API](../artifacts/download-and-use-an-artifact.md).
 
-  For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
+For more information about repository dispatch, see the [official documentation on the GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).  
 
   </TabItem>
   <TabItem value="microsoft">
 
-  Configure an ‘Incoming Webhook' to get the webhook URL for your Teams Channel by configuring. The following is an example payload:
+Configure an ‘Incoming Webhook' to get the webhook URL for your Teams Channel by configuring. The following is an example payload:
   
   ```json 
   {
@@ -102,15 +102,15 @@ The `event_type` key in the webhook payload must match the `types` field in the 
   ]
   }
   ```
-  You can use template strings to inject W&B data into your payload at the time of execution (as shown in the Teams example above).
+You can use template strings to inject W&B data into your payload at the time of execution (as shown in the Teams example above).
 
 
   </TabItem>
   <TabItem value="slack">
 
-  Setup your Slack app and add an incoming webhook integration with the instructions highlighted in the [Slack API documentation](https://api.slack.com/messaging/webhooks). Ensure that you have the secret specified under `Bot User OAuth Toke`n as your W&B webhook’s access token. 
+Setup your Slack app and add an incoming webhook integration with the instructions highlighted in the [Slack API documentation](https://api.slack.com/messaging/webhooks). Ensure that you have the secret specified under `Bot User OAuth Toke`n as your W&B webhook’s access token. 
   
-  The following is an example payload:
+The following is an example payload:
 
   ```json
     {

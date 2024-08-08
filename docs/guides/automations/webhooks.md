@@ -10,7 +10,7 @@ Automate a webhook based on an action with the W&B App UI. To do this, first est
 Specify an endpoint for your webhook that has an Address record (A record). W&B does not support connecting to endpoints that are exposed directly with IP addresses such as `[0-255].[0-255].[0-255].[0.255]` or endpoints exposed as `localhost`. This restriction helps protect against server-side request forgery (SSRF) attacks and other related threat vectors.
 :::
 
-### Add a secret for authentication or authorization
+## Add a secret for authentication or authorization
 Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
 
 To use a secret in your webhook, you must first add that secret to your team's secret manager.
@@ -52,7 +52,7 @@ W&B strongly recommends that you store secrets in a W&B instance of a cloud secr
 W&B does not recommend that you use a Kubernetes cluster as the backend of your secrets store. Consider a Kubernetes cluster only if you are not able to use a W&B instance of a cloud secrets manager (AWS, GCP, or Azure), and you understand how to prevent security vulnerabilities that can occur if you use a cluster.
 :::
 
-### Configure a webhook
+## Configure a webhook
 Before you can use a webhook, first configure that webhook in the W&B App UI. 
 
 :::info
