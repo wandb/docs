@@ -1,9 +1,16 @@
 ---
 displayed_sidebar: default
 ---
+## What are launch jobs?
+Launch jobs are blueprints for reproducing W&B runs. Jobs are W&B Artifacts that capture the source code, dependencies, and inputs required to execute a workload.
+
+## Use cases
+- Increased observability: Launch jobs allow you to view and analyze training runs through the W&B platform.
+- Alternate credential storage: Store your credentials on an internal machine instead of a secret store.
+- Infrastructure analysis: Gain increased visibility into your infrastructure usage.
 
 ## Create a launch automation
-Automatically start a W&B Job. 
+Automatically trigger a W&B Job. 
 
 :::info
 This section assumes you already have created a job, a queue, and have an active agent polling. For more information, see the [W&B Launch docs](../launch/intro.md). 
