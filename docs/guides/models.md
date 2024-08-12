@@ -13,7 +13,7 @@ With W&B Models, you can:
 - Track and visualize all [ML experiments](./track/intro.md).
 - Optimize and fine-tune models at scale with [hyperparameter sweeps](./sweeps/intro.md).
 - [Maintain a centralized hub of all models](./model_registry/intro.md), with a seamless handoff point to devops and deployment
-- Configure custom automations that trigger key workflows for [model CI/CD](../guides/model_registry/model-registry-automations.md).
+- Configure custom automations that trigger key workflows for [model CI/CD](./model_registry/model-registry-automations.md).
 - [Package and run ML workloads](./launch/intro.md) to gain frictionless access to powerful compute resources.
 
 
