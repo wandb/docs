@@ -14,7 +14,7 @@ displayed_sidebar: default
 
 ![](../../../static/images/automations/automations1.png)
 
-An automation needs an event and an action to work. An action triggers when a defined event occurs. For example, you could trigger a GitHub action workflow to run tests every time a new artifact links to your W&B Model Registry.
+An automation needs an event and an action to work. An action triggers when a defined event occurs. For example, you could trigger a GitHub action workflow to run tests every time a new artifact links to your W&B Registry.
 
 ## Use cases
 - **Automated model testing and deployment**: When a new model gets linked to a registry, it triggers an action like a GitHub Action workflow or a Amazon SageMaker endpoint to consume the model for testing and/or deployment.
