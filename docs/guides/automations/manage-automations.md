@@ -15,9 +15,11 @@ import TabItem from '@theme/TabItem';
   <TabItem value="registry">
      View automations associated to a registered model from the W&B App UI. 
 
-    1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+    1. Navigate to the Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
     2. Select on a registered model. 
     3. Scroll to the bottom of the page to the **Automations** section.
+
+![](../../../static/images/automations/automations_landing.gif)
 
     Within the Automations section you can find the following properties of automations created for the model you selected:
 
@@ -54,7 +56,7 @@ import TabItem from '@theme/TabItem';
   <TabItem value="registry">
     Delete an automation associated with a model. Actions in progress are not affected if you delete that automation before the action completes. 
 
-    1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+    1. Navigate to the Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
     2. Click on a registered model. 
     3. Scroll to the bottom of the page to the **Automations** section.
     4. Hover your mouse next to the name of the automation and select the kebob (three vertical dots) menu. 
