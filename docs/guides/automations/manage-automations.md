@@ -54,16 +54,21 @@ import TabItem from '@theme/TabItem';
     {label: 'Project', value: 'project'},
   ]}>
   <TabItem value="registry">
-    Delete an automation associated with a model. Actions in progress are not affected if you delete that automation before the action completes. 
+    Delete an automation associated with a model. Actions in progress are not affected if you delete that automation before the action completes.
+
+    ![](/images/artifacts/automations_delete.gif) 
 
     1. Navigate to the Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
     2. Click on a registered model. 
     3. Scroll to the bottom of the page to the **Automations** section.
     4. Hover your mouse next to the name of the automation and select the kebob (three vertical dots) menu. 
     5. Select **Delete**.
+  
   </TabItem>
   <TabItem value="project">
     Delete an automation associated with a artifact. Actions in progress are not affected if you delete that automation before the action completes. 
+
+    ![](/images/artifacts/automations_delete.gif)
 
     1. Navigate to your project workspace on the W&B App. 
     2. Click on the **Automations** tab on the left sidebar.
