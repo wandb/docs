@@ -8,7 +8,7 @@ displayed_sidebar: default
 
 # Automations
 
-Code is not the only asset deployed in your machine learning project. W&B offers tools to automate model deployment, downstream actions for versioning artifacts, and more.
+ W&B offers tools to automate model deployment, downstream actions for versioning artifacts, and more.
 
 ## How it works
 
@@ -22,7 +22,7 @@ An automation needs an event and an action to work. An action triggers when a de
 - **Automated performance report creation**: Create a report with performance information when uploading a new version of an evaluation or holdout dataset. 
 
 ## Get started
-First, determine the scope of your automation. W&B offers two types of automation: model registry automations and artifact automations. Which one you use depends on which changes you want to track. 
+First, determine the scope of your automation. W&B offers two types of automation: registry automations and artifact automations. Which one you use depends on which changes you want to track. 
 
 Then, you'll need to decide what type of action to configure. Webhooks can access external servers, while W&B Launch jobs allow you to launch runs with reusable and configurable templates.
 
