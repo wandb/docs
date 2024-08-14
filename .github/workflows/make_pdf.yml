@@ -11,12 +11,22 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2    
+      uses: actions/checkout@v3    
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: 18.0.0
+
+    - name: Cache Node.js modules
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.npm
+          ~/.cache/yarn
+        key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
 
     - name: Install docs-to-pdf
       run: |
@@ -38,7 +48,7 @@ jobs:
       run: bash ./scripts/create_pdf.sh
 
     - name: Upload PDF as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: wb_dev_guide_pdf
         path: wb_dev_guide.pdf
