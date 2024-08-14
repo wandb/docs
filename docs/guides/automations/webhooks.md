@@ -86,6 +86,8 @@ There are two types of secrets W&B suggests that you create when you use a webho
 
 Follow the instructions below to create a webhook:
 
+![](../../../static/images/automations/addsecret.gif)
+
 1. Navigate to the W&B App UI.
 2. Click on **Team Settings**.
 3. Scroll down the page until you find the **Team secrets** section.
@@ -118,6 +120,8 @@ Before you can use a webhook, first configure that webhook in the W&B App UI.
 * Ensure you already [created one or more secrets](#add-a-secret-for-authentication-or-authorization) if your webhook requires additional secret keys or tokens to authenticate your webhook.
 :::
 
+![](../../../static/images/automations/configurewebhook.gif)
+
 1. Navigate to the W&B App UI.
 2. Click on **Team Settings**.
 4. Scroll down the page until you find the **Webhooks** section.
@@ -135,7 +139,9 @@ the POST request.
 
 
 ### Add a webhook 
-Once you have a webhook configured and (optionally) a secret, navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+Once you have a webhook configured and (optionally) a secret, navigate to the Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+
+![](../../../static/images/automations/addwebhook.gif)
 
 1. From the **Event type** dropdown, select an [event type](#event-types).
 ![](/images/models/webhook_select_event.png)
