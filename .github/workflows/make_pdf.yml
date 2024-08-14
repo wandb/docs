@@ -32,7 +32,7 @@ jobs:
       run: node ./scripts/removeTags.js 
 
     - name: Start local host
-      run: yarn start     
+      run: yarn start &    
 
     - name: Generate PDF
       run: bash ./scripts/create_pdf.sh
