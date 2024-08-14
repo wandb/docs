@@ -1,7 +1,7 @@
 #!/bin/usr
 
 
-initialDocURLs="http://localhost:3000/guides/artifacts/"
+initialDocURLs="http://localhost:3000/guides/"
 
 # Create docs
 npx docs-to-pdf --initialDocURLs=$initialDocURLs \
