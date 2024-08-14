@@ -1,0 +1,44 @@
+name: Generate PDF
+
+on:
+  pull_request:
+  schedule:
+    - cron: "30 5 1 * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    - name: Checkout repository
+      uses: actions/checkout@v2    
+
+    steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.0.0
+
+    - name: Install docs-to-pdf
+      run: |
+        npm install -g docs-to-pdf --no-audit --no-fund
+
+    - name: Install yarn
+      run: npm install --global yarn
+  
+    - name: Install dependencies 
+      run: yarn install   
+
+    - name: Process markdown files
+      run: node ./scripts/removeTags.js 
+
+    - name: Start local host
+      run: yarn start     
+
+    - name: Generate PDF
+      run: bash ./scripts/create_pdf.sh
+
+    - name: Upload PDF as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: wb_dev_guide_pdf
+        path: wb_dev_guide.pdf
