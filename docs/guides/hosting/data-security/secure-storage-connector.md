@@ -234,7 +234,9 @@ Follow these steps to provision the GCS bucket in your GCP project:
     gsutil cors get gs://<bucket_name>
     ```
 
-* Grant the `Storage Admin` role to the GCP service account linked to the W&B Platform. Reach out to your W&B team for the service account if your W&B Platform is on [Dedicated Cloud](../hosting-options/dedicated_cloud.md).
+* Grant the `Storage Admin` role to the GCP service account linked to the W&B Platform.
+  * For SaaS this account will be: `wandb-integration@wandb-production.iam.gserviceaccount.com`
+  * For [Dedicated Cloud](../hosting-options/dedicated_cloud.md) this account will be: `deploy@wandb-production.iam.gserviceaccount.com`
 
 Keep a record of the bucket name.
 
