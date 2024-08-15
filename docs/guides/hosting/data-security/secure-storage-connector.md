@@ -235,8 +235,8 @@ Follow these steps to provision the GCS bucket in your GCP project:
     ```
 
 * Grant the `Storage Admin` role to the GCP service account linked to the W&B Platform.
-  * For SaaS this account will be: `wandb-integration@wandb-production.iam.gserviceaccount.com`
-  * For [Dedicated Cloud](../hosting-options/dedicated_cloud.md) this account will be: `deploy@wandb-production.iam.gserviceaccount.com`
+  * For SaaS, the account it is: `wandb-integration@wandb-production.iam.gserviceaccount.com`
+  * For [Dedicated Cloud](../hosting-options/dedicated_cloud.md) the account is: `deploy@wandb-production.iam.gserviceaccount.com`
 
 Keep a record of the bucket name.
 
