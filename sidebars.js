@@ -411,7 +411,7 @@ const sidebars = {
             'guides/hosting/data-security/presigned-urls',
             'guides/hosting/data-security/ip-allowlisting',
             'guides/hosting/data-security/private-connectivity',
-            // 'guides/hosting/customer_encryption',
+            'guides/hosting/data-security/data-encryption',
           ],
         },
         'guides/hosting/privacy-settings',               
