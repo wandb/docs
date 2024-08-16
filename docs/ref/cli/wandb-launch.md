@@ -21,6 +21,7 @@ Launch or queue a W&B Job. See https://wandb.me/launch
 | -p, --project (str) | Name of the target project which the new run   will be sent to. Defaults to using the project name given by the source uri or for   github runs, the git repo name. If passed in, will override the project value passed   in using a config file. |
 | -r, --resource | Execution resource to use for run. Supported   values: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'.   This is now a required parameter if pushing to a queue with no resource configuration.   If passed in, will override the resource value passed in using a config file. |
 | -d, --docker-image | Specific docker image you'd like to use. In the form name:tag. If passed in, will   override the docker image value passed in using a config file. |
+| --base-image | Docker image to run job code in.   Incompatible with --docker-image. |
 | -c, --config | Path to JSON file (must end in '.json') or   JSON string which will be passed as a launch config. Dictation how the launched run will   be configured. |
 | -v, --set-var | Set template variable values for queues with   allow listing enabled, as key-value pairs e.g. `--set-var key1=value1 --set-var   key2=value2` |
 | -q, --queue | Name of run queue to push to. If none,   launches single run directly. If supplied without an argument (`--queue`), defaults to   queue 'default'. Else, if name supplied, specified run queue must exist under the   project and entity supplied. |

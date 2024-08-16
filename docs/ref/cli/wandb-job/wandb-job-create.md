@@ -27,5 +27,6 @@ containing a requirements.txt file. image: A docker image.
 | -g, --git-hash | Commit reference to use as the source for git jobs |
 | -r, --runtime | Python runtime to execute the job |
 | -b, --build-context | Path to the build context from the root of the job   source code. If provided, this is used as the base path for the Dockerfile and entrypoint. |
+| --base-image | Base image to use for the job. Incompatible with   image jobs. |
 | --dockerfile | Path to the Dockerfile for the job. If --build-   context is provided, the Dockerfile path will be relative to the build context. |
 
