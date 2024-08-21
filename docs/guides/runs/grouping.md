@@ -3,7 +3,7 @@ description: Group training and evaluation runs into larger experiments
 displayed_sidebar: default
 ---
 
-# Group Runs
+# Group runs
 
 <head>
   <title>Group W&B Runs</title>
@@ -12,7 +12,7 @@ displayed_sidebar: default
 
 Group individual jobs into experiments by passing a unique **group** name to **wandb.init()**.
 
-## Use Cases
+## Use cases
 
 1. **Distributed training:** Use grouping if your experiments are split up into different pieces with separate training and evaluation scripts that should be viewed as parts of a larger whole.
 2. **Multiple processes**: Group multiple smaller processes together into an experiment.
@@ -63,7 +63,7 @@ Click the edit button in the upper right corner of a graph and select the **Adva
 
 ![](/images/track/demo_grouping_options_for_line_plots.gif)
 
-## Common Questions
+## Common question
 
 ### Can we group runs by tags?
 

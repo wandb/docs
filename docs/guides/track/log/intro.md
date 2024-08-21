@@ -4,7 +4,7 @@ description: Keep track of metrics, videos, custom plots, and more
 displayed_sidebar: default
 ---
 
-# Log Media and Objects in Experiments
+# Log media and objects in experiments
 
 <head>
   <title>Log Media and Objects in Experiments</title>

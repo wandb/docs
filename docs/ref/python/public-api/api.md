@@ -1,6 +1,6 @@
 # Api
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L95-L1179' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L95-L1179' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Used for querying the wandb server.
@@ -32,7 +32,7 @@ Most common way to initialize
 
 ### `artifact`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L1017-L1041)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L1017-L1041)
 
 ```python
 artifact(
@@ -53,7 +53,7 @@ Return a single artifact by parsing path in the form `entity/project/name`.
 
 ### `artifact_collection`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L967-L983)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L967-L983)
 
 ```python
 artifact_collection(
@@ -75,7 +75,7 @@ Return a single artifact collection by type and parsing path in the form `entity
 
 ### `artifact_collection_exists`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L1162-L1179)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L1162-L1179)
 
 ```python
 artifact_collection_exists(
@@ -97,7 +97,7 @@ Return whether an artifact collection exists within a specified project and enti
 
 ### `artifact_collections`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L947-L965)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L947-L965)
 
 ```python
 artifact_collections(
@@ -121,7 +121,7 @@ Return a collection of matching artifact collections.
 
 ### `artifact_exists`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L1140-L1160)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L1140-L1160)
 
 ```python
 artifact_exists(
@@ -143,7 +143,7 @@ Return whether an artifact version exists within a specified project and entity.
 
 ### `artifact_type`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L931-L945)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L931-L945)
 
 ```python
 artifact_type(
@@ -165,7 +165,7 @@ Return the matching `ArtifactType`.
 
 ### `artifact_types`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L918-L929)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L918-L929)
 
 ```python
 artifact_types(
@@ -185,7 +185,7 @@ Return a collection of matching artifact types.
 
 ### `artifact_versions`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L985-L995)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L985-L995)
 
 ```python
 artifact_versions(
@@ -197,7 +197,7 @@ Deprecated, use `artifacts(type_name, name)` instead.
 
 ### `artifacts`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L997-L1015)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L997-L1015)
 
 ```python
 artifacts(
@@ -221,7 +221,7 @@ Return an `Artifacts` collection from the given parameters.
 
 ### `create_project`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L281-L288)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L281-L288)
 
 ```python
 create_project(
@@ -239,7 +239,7 @@ Create a new project.
 
 ### `create_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L290-L310)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L290-L310)
 
 ```python
 create_run(
@@ -264,7 +264,7 @@ Create a new run.
 
 ### `create_run_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L312-L422)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L312-L422)
 
 ```python
 create_run_queue(
@@ -298,7 +298,7 @@ Create a new run queue (launch).
 
 ### `create_team`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L705-L715)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L705-L715)
 
 ```python
 create_team(
@@ -319,7 +319,7 @@ Create a new team.
 
 ### `create_user`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L424-L434)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L424-L434)
 
 ```python
 create_user(
@@ -340,7 +340,7 @@ Create a new user.
 
 ### `flush`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L501-L508)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L501-L508)
 
 ```python
 flush()
@@ -354,7 +354,7 @@ change while executing your script you must clear the local cache with
 
 ### `from_path`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L510-L564)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L510-L564)
 
 ```python
 from_path(
@@ -388,7 +388,7 @@ report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 
 ### `job`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L1043-L1060)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L1043-L1060)
 
 ```python
 job(
@@ -410,7 +410,7 @@ Return a `Job` from the given parameters.
 
 ### `list_jobs`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L1062-L1138)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L1062-L1138)
 
 ```python
 list_jobs(
@@ -432,7 +432,7 @@ Return a list of jobs, if any, for the given entity and project.
 
 ### `project`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L657-L670)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L657-L670)
 
 ```python
 project(
@@ -454,7 +454,7 @@ Return the `Project` with the given name (and entity, if given).
 
 ### `projects`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L631-L655)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L631-L655)
 
 ```python
 projects(
@@ -476,7 +476,7 @@ Get projects for a given entity.
 
 ### `queued_run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L863-L884)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L863-L884)
 
 ```python
 queued_run(
@@ -491,7 +491,7 @@ Parses paths of the form entity/project/queue_id/run_queue_item_id.
 
 ### `reports`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L672-L703)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L672-L703)
 
 ```python
 reports(
@@ -517,7 +517,7 @@ WARNING: This api is in beta and will likely change in a future release
 
 ### `run`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L846-L861)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L846-L861)
 
 ```python
 run(
@@ -537,7 +537,7 @@ Return a single run by parsing path in the form entity/project/run_id.
 
 ### `run_queue`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L886-L899)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L886-L899)
 
 ```python
 run_queue(
@@ -551,7 +551,7 @@ To create a new `RunQueue`, use `wandb.Api().create_run_queue(...)`.
 
 ### `runs`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L766-L844)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L766-L844)
 
 ```python
 runs(
@@ -612,7 +612,7 @@ api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 | :--- | :--- |
 |  `path` |  (str) path to project, should be in the form: "entity/project" |
 |  `filters` |  (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: {"config.experiment_name": "foo"} would find runs with a config entry of experiment name set to "foo" You can compose operations to make more complicated queries, see Reference for the language is at https://docs.mongodb.com/manual/reference/operator/query |
-|  `order` |  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending. If you prepend order with a - order is descending (default). The default order is run.created_at from newest to oldest. |
+|  `order` |  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending. If you prepend order with a - order is descending (default). The default order is run.created_at from oldest to newest. |
 |  `per_page` |  (int) Sets the page size for query pagination. |
 |  `include_sweeps` |  (bool) Whether to include the sweep runs in the results. |
 
@@ -622,7 +622,7 @@ api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 
 ### `sweep`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L901-L916)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L901-L916)
 
 ```python
 sweep(
@@ -642,7 +642,7 @@ Return a sweep by parsing path in the form `entity/project/sweep_id`.
 
 ### `sync_tensorboard`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L436-L458)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L436-L458)
 
 ```python
 sync_tensorboard(
@@ -654,7 +654,7 @@ Sync a local directory containing tfevent files to wandb.
 
 ### `team`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L717-L726)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L717-L726)
 
 ```python
 team(
@@ -674,7 +674,7 @@ Return the matching `Team` with the given name.
 
 ### `user`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L728-L748)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L728-L748)
 
 ```python
 user(
@@ -696,7 +696,7 @@ Note: This function only works for Local Admins, if you are trying to get your o
 
 ### `users`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/apis/public/api.py#L750-L764)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/apis/public/api.py#L750-L764)
 
 ```python
 users(

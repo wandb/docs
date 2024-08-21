@@ -6,7 +6,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Import & Export Data
+# Import and export data
 
 <head>
   <title>Import & Export Data to W&B</title>
@@ -18,7 +18,7 @@ Export data or import data from MLFlow or between W&B instances with W&B Public 
 This feature requires python>=3.8
 :::
 
-## Import Data from MLFlow
+## Import data from MLFlow
 
 W&B supports importing data from MLFlow, including experiments, runs, artifacts, metrics, and other metadata.
 
@@ -81,7 +81,7 @@ from wandb.apis.importers import Namespace
 importer.import_runs(runs, namespace=Namespace(entity, project))
 ```
 
-## Import Data from another W&B instance
+## Import data from another W&B instance
 
 :::info
 This feature is in beta, and only supports importing from the W&B public cloud.

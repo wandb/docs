@@ -27,6 +27,14 @@ _Panel grids_ are a specific type of block that hold panels and _run sets_. Run 
 Check out the [Programmatic workspaces tutorial](../../tutorials/workspaces.md) for a step by step example on how create and customize a saved workspace view.
 :::
 
+:::info
+Ensure that you have `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
+
+```pip
+pip install wandb wandb-workspaces
+```
+:::
+
 ### Add plots
 
 Each panel grid has a set of run sets and a set of panels. The run sets at the bottom of the section control what data shows up on the panels in the grid. Create a new panel grid if you want to add charts that pull data from a different set of runs.
@@ -35,7 +43,7 @@ Each panel grid has a set of run sets and a set of panels. The run sets at the b
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -49,7 +57,6 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. Select **A
   <TabItem value="sdk">
 
 Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
-
 
 
 The proceeding examples demonstrates how to create a line plot and scatter plot.
@@ -90,7 +97,7 @@ Add run sets from projects interactively with the App UI or the W&B SDK.
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -195,7 +202,7 @@ Add code blocks to your report interactively with the App UI or with the W&B SDK
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -262,7 +269,7 @@ Add markdown to your report interactively with the App UI or with the W&B SDK.
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -297,7 +304,7 @@ Add HTML elements to your report interactively with the App UI or with the W&B S
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -338,7 +345,7 @@ Embed rich media within the report with the App UI or with the W&B SDK.
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 

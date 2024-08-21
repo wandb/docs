@@ -2,7 +2,7 @@
 displayed_sidebar: default
 ---
 
-# Log Models
+# Log models
 
 The following guide describes how to log models to a W&B run and interact with them. 
 
@@ -21,7 +21,7 @@ For more information on W&B Artifacts and advanced versioning use cases, see the
 See this [Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb) for an end-to-end example of how to use the APIs described on this page.
 :::
 
-## Log a model to a W&B run
+## Log a model to a run
 Use the [`log_model`](../../../ref/python/run.md#log_model) to log a model artifact that contains content within a directory you specify. The [`log_model`](../../../ref/python/run.md#log_model) method also marks the resulting model artifact as an output of the W&B run. 
 
 You can track a model's dependencies and the model's associations if you mark the model as the input or output of a W&B run. View the lineage of the model within the W&B App UI. See the [Explore and traverse artifact graphs](../../artifacts/explore-and-traverse-an-artifact-graph.md) page within the [Artifacts](../../artifacts/intro.md) chapter for more information.
@@ -154,6 +154,11 @@ downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}")
 See [`use_model`](../../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
 
 ## Log and link a model to the W&B Model Registry
+
+:::info
+The [`link_model`](../../../ref/python/run.md#link_model) method is currently only compatible with the legacy W&B Model Registry, which will soon be deprecated. To learn how to link a model artifact to the new edition of model registry, visit the Registry [docs](../../registry/link_version.md). 
+:::
+
 Use the [`link_model`](../../../ref/python/run.md#link_model) method to log model file(s) to a W&B run and link it to the [W&B Model Registry](../../model_registry/intro.md). If no registered model exists, W&B will create a new one for you with the name you provide for the `registered_model_name` parameter. 
 
 :::tip

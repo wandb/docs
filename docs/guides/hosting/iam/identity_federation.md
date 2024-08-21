@@ -35,7 +35,7 @@ Once a JWT issuer has been setup for your W&B organization, users can start acce
 * Access your W&B project using the W&B SDK or CLI. The SDK or CLI should automatically detect the JWT and exchange it for a W&B access token after the JWT has been successfully validated. The W&B access token is used to access the relevant APIs for enabling your AI workflows, that is, to log runs, metrics, artifacts and so forth. The access token is by default stored at the path `~/.config/wandb/credentials.json`. You can change that path by specifying the environment variable `WANDB_CREDENTIALS_FILE`.
 
 :::info
-JWTs are meant to be short-lived credentials to address the shortcomings of long-lived credentials like API keys, passwords and so forth. Depending on the JWT expiry time configured in your identity provider, you must continuously refresh the JWT and ensure that it's stored in the file referenced by the environment variable `WANDB_TOKEN_FILE`.
+JWTs are meant to be short-lived credentials to address the shortcomings of long-lived credentials like API keys, passwords and so forth. Depending on the JWT expiry time configured in your identity provider, you must continuously refresh the JWT and ensure that it's stored in the file referenced by the environment variable `WANDB_IDENTITY_TOKEN_FILE`.
 
 W&B access token also has a default expiry duration, after which the SDK or the CLI automatically try to refresh that using your JWT. If the user JWT has also expired by that time and is not refreshed, that could result in an authentication failure. If possible, the JWT retrieval and post-expiry refresh mechanism should be implemented as part of the AI workload that uses the W&B SDK or CLI.
 :::
@@ -52,15 +52,15 @@ As part of the workflow to exchange the JWT for a W&B access token and then acce
 
 ## External service accounts
 
-W&B has supported built-in service accounts with long-lived API keys for long. With the identity federation capability for SDK and CLI, you can also bring external service accounts that could use JWTs for authentication, though as long as those are issued by the same issuer which is configured at the organization level. External service accounts are also configured within the scope of a team, like the built-in ones.
+W&B has supported built-in service accounts with long-lived API keys for long. With the identity federation capability for SDK and CLI, you can also bring external service accounts that could use JWTs for authentication, though as long as those are issued by the same issuer which is configured at the organization level. A team admin can configure external service accounts within the scope of a team, like the built-in service accounts.
 
 To configure an external service account:
 
-* Go to the **Service Accounts** tab in your organization dashboard
+* Go to the **Service Accounts** tab for your team
 * Press `New service account`
 * Provide a name for the service account, select `Federated Identity` as the `Authentication Method`, provide a `Subject`, and press `Create`
 
-The configured subject should be same as what's present in the `sub` claim of the service account's JWT. It is verified as part of [JWT validation](#jwt-validation). The `aud` claim requirement is similar to that for human user JWTs.
+The `sub` claim in the external service account's JWT should be same as what the team admin configures as its subject in the team-level **Service Accounts** tab. That claim is verified as part of [JWT validation](#jwt-validation). The `aud` claim requirement is similar to that for human user JWTs.
 
 When [using an external service account's JWT to access W&B](#using-the-jwt-to-access-wb), it's typically easier to automate the workflow to generate the initial JWT and continuously refresh it. If you would like to attribute the runs logged using an external service account to a human user, you can configure the environment variables `WANDB_USERNAME` or `WANDB_USER_EMAIL` for your AI workflow, similar to how it's done for the built-in service accounts.
 

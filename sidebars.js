@@ -34,7 +34,7 @@ const sidebars = {
             'guides/app/pages/workspaces',
             {
               type: 'category',
-              label: 'What are Runs?',
+              label: 'What are runs?',
               link: {type: 'doc', id: 'guides/runs/intro'},
               items: [
                 // 'guides/runs/create-run',
@@ -111,6 +111,7 @@ const sidebars = {
             'guides/registry/create_collection',
             'guides/registry/link_version',
             'guides/registry/download_use_artifact',
+            'guides/registry/model_registry_eol',
             {
               type: 'category',
               label: 'Model Registry',
@@ -276,7 +277,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Core',
-      link: {type: 'doc', id: 'guides/platform'},
+      link: {type: 'doc', id: 'guides/core'},
       collapsed: false,
       items: [
         {
@@ -410,7 +411,7 @@ const sidebars = {
             'guides/hosting/data-security/presigned-urls',
             'guides/hosting/data-security/ip-allowlisting',
             'guides/hosting/data-security/private-connectivity',
-            // 'guides/hosting/customer_encryption',
+            'guides/hosting/data-security/data-encryption',
           ],
         },
         'guides/hosting/privacy-settings',               

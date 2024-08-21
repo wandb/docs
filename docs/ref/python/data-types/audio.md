@@ -1,6 +1,6 @@
 # Audio
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/data_types.py#L982-L1126' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/data_types.py#L983-L1127' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Wandb class for audio clips.
@@ -21,7 +21,7 @@ Audio(
 
 ### `durations`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/data_types.py#L1084-L1086)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/data_types.py#L1085-L1087)
 
 ```python
 @classmethod
@@ -32,7 +32,7 @@ durations(
 
 ### `resolve_ref`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/data_types.py#L1100-L1112)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/data_types.py#L1101-L1113)
 
 ```python
 resolve_ref()
@@ -40,7 +40,7 @@ resolve_ref()
 
 ### `sample_rates`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.17.5/wandb/data_types.py#L1088-L1090)
+[View source](https://www.github.com/wandb/wandb/tree/v0.17.7/wandb/data_types.py#L1089-L1091)
 
 ```python
 @classmethod
