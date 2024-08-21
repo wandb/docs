@@ -277,7 +277,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Core',
-      link: {type: 'doc', id: 'guides/platform'},
+      link: {type: 'doc', id: 'guides/core'},
       collapsed: false,
       items: [
         {
