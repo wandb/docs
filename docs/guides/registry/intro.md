@@ -9,11 +9,13 @@ displayed_sidebar: default
 W&B Registry is now in public preview. Visit [this](#enable-wb-registry) section to learn how to enable it for your deployment type.
 :::
 
-W&B Registry is a curated central repository that stores and provides versioning, aliases, lineage tracking, and governance of models and datasets. Registry allows individuals and teams across the entire organization to share and collaboratively manage the lifecycle of all models, datasets and other artifacts. As the single source of truth for which models are in production, Registry provides the foundation for an effective CI/CD pipeline by identifying the right models to reproduce, retrain, evaluate, and deploy.
+W&B Registry is a curated central repository that stores and provides versioning, aliases, lineage tracking, and governance of models and datasets. Use W&B Registry to share and collaboratively manage the lifecycle of all models, datasets and other artifacts individuals and teams across the entire organization.
+
+<!-- As the single source of truth for which models are in production, Registry provides the foundation for an effective CI/CD pipeline by identifying the right models to reproduce, retrain, evaluate, and deploy. -->
 
 ![](/images/registry/registry_landing_page.png)
 
-Use W&B Registry to:
+With W&B Registry you can:
 
 - [Bookmark](./link_version.md) your best artifacts for each machine learning task.
 - [Automate](../model_registry/model-registry-automations.md) downstream processes and model CI/CD.
@@ -31,40 +33,35 @@ A *registry* is a repository or catalog for ML assets of the same kind. You can 
 
 <!-- Bookmark the most relevant and valuable artifact version by linking it to a registry (see line 18). -->
 
-Track and publish your artifacts to W&B Registry with three major steps:
+Track and publish your artifacts to W&B Registry with four major steps:
 
 1. Initialize a W&B run object with [`wandb.init()`](../../ref/python/init.md)
-2. Log an artifact version to the run using the run object's [`log_artifact`](../../ref/python/run.md#log_artifact) method.
-3. Link the artifact to a collection with the run object's [`link_artifact`](../../ref/python/run.md#link_artifact) method. 
+2. Create an artifact with [`wandb.Artifact`](../../ref/python/artifact.md) and add one or more files, directory, or external reference you want to track.
+3. Create the target path where you want to link your artifact version to. The path contains the organization entity your team belongs to, the name of the registry, and the name of the collection.
+4. Link the artifact to a collection with the run object's [`link_artifact`](../../ref/python/run.md#link_artifact) method. 
 
 ```python showLineNumbers
 import wandb
 
-# Start a new W&B run to track your experiment
+org_entity = "<organization_entity>" # Entity of your organization
+registry_name = "<registry_name>" # Name of registry that has your collection
+collection_name = "<collection_name>" # Name of the collection you want to link to
+
+# Initializes a new W&B run
 run = wandb.init(project="<project_name>") 
 
-# log an artifact version 
-logged_artifact = run.log_artifact(
-    artifact_or_path="<artifact>", 
-    name="<artifact_name>", 
-    type="<type>"
-    )
+# Create an artifact object
+# Assign it a type such as 'data', 'model' and so forth
+artifact = wandb.Artifact(name = "<artifact_name>", type = "<type>")
 
-# Provide the entity of your organization
-org_entity = "<organization_entity>"
-
-# The name of the registry you want to link to
-registry_name = "<registry_name>"
-
-# The name of the collection you want to link to. 
-# If the collection does not exist, W&B creates one for you
-collection_name = "<collection_name>"
+# Add files to the artifact
+artifact.add_file(local_path = "<path_to_file>")
+artifact.save() # Save changes to artifact
 
 # The full path of the collection and registry
 path = f"{org_entity}/wandb-registry-{registry_name}/{collection_name}"
 
 # Link artifact to the collection in the registry 
-# specified in target_path
 run.link_artifact(artifact = artifact, target_path = path)
 
 run.finish()
@@ -158,9 +155,9 @@ Depending on your use case, explore the following resources to get started with
 
 ## Migrating from the legacy Model Registry to W&B Registry
 
-The W&B Model Registry will be deprecated by the end of 2024. The contents in your Model Registry will be migrated to W&B Registry. Detailed information about the migration process from the legacy Model Registry to Registry will be posted soon. 
+The W&B Model Registry will be deprecated by the end of 2024. The contents in your Model Registry will be migrated to W&B Registry. For more information about the migration process, see [Migrating from legacy Model Registry to Registry](./model_registry_eol.md). 
 
-The soon to be legacy W&B Model Registry App UI is still available until W&B Registry is made generally available. To view the legacy Model Registry: Navigate to the Model Registry from the homepage. A banner will appear to view the legacy Model Registry App UI.
+The legacy W&B Model Registry App UI is still available until W&B Registry is available to all users. To view the legacy Model Registry: Navigate to the Model Registry from the homepage. A banner will appear to view the legacy Model Registry App UI.
 
 ![](/images/registry/nav_to_old_model_reg.gif)
 
