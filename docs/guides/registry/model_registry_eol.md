@@ -2,188 +2,92 @@
 displayed_sidebar: default
 ---
 
-# Migrating from legacy Model Registry
+# Migrating from Legacy Model Registry
 
-W&B will migrate assets from the legacy [W&B Model Registry](../model_registry/intro.md) to [W&B Registry](./intro.md) in mid-October 2024.By the end of 2024 you will no longer be able to access W&B Model Registry. An exact date will be shared at least 3 weeks in advance to all W&B Model Registry users. 
+In the near future, W&B will be transitioning assets from the legacy [W&B Model Registry](../model_registry/intro.md) to the new [W&B Registry](./intro.md). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
 
-This guide will cover what changes will occur, how W&B will migrate assets, along with information on how to prepare your current assets for the migration process.
+The transition will take place once full feature parity with all Model Registry functionalities is achieved, ensuring that users have access to all the tools they need. Ample notice will be provided ahead of the migration to ensure there are no surprises. The goal is to preserve current workflows, codebases, and references to the greatest extent possible during this transition.
 
+This guide is a living document and will be updated regularly as more information becomes available. For any questions or support, contact support@wandb.com.
 
-Contact support@wandb.com for more information about the migration process.
+## **What is Changing?**
 
+W&B Registry introduces a range of new features and enhancements designed to provide a more robust and flexible environment for managing models, datasets, and other artifacts.
 
-## What is changing?
+Key changes include:
 
-The following tables highlights the major changes that will happen from the legacy Model Registry to the W&B Registry:
-
-|               | legacy W&B Model Registry | W&B Registry |
-| -----         | ----- | ----- |
-| Artifact visibility| Team level | Organization level |
-| Name change | A set of pointers (links) to model versions are called *registered models*. | A set of pointers (links) to artifact versions are called *collections*. | 
-| `wandb.init.link_model` | Model Registry specific API | Currently only compatible with legacy model registry |
-
-
-
-<!-- Registered models in the legacy W&B Model Registry are renamed to Collections in W&B Registry. -->
-
-<!-- Artifacts in the new W&B Registry have organization level scope. Artifacts in the legacy W&B Model Registry have team level scope.  -->
-
-
-## Preparing for the migration
-
-### What is migrating?
-
-W&B will migrate [registered models](../model_registry/create-registered-model.md)(now called collections) and the [artifact versions](../model_registry/link-model-version.md) that are in your current W&B Model Registry, to W&B Registry as collections. 
-
-![](/images/registry/eol_migration.png)
-
-More specifically, your registered models(collections) will be stored within within a registry called **Model**.
+- **Organization-Wide Visibility:** The Registry enhances visibility at the organization level, ensuring that models, datasets, and other artifacts are accessible and manageable across the entire organization. However, registries can also be configured with fine-grained control, allowing them to be either visible to the entire organization or set as "Restricted." In a Restricted registry, only selected members can access the content, maintaining privacy and control.
+- **Custom Registries:** Unlike the legacy Model Registry, W&B Registry is not limited to models or datasets. Users can create custom registries tailored to specific workflows or project needs, capable of holding any arbitrary object type. This flexibility allows teams to organize and manage artifacts according to their unique requirements.
 
 ![](/images/registry/mode_reg_eol.png)
 
-:::info Team visibility to organization visibility
-All registries in the legacy Model Registry, which have team-level visibility, will have organizational-level visibility after the migration.
-:::
+- **Fine-Grained Access Control:** Each registry supports detailed access control, where members can be assigned specific roles such as Admin, Member, or Viewer. Admins can manage registry settings, including adding or removing members, setting roles, and configuring visibility. This ensures that teams have the necessary control over who can view, manage, and interact with the artifacts in their registries.
 
+![](/images/registry/registry_access_control.png)
 
+- **Terminology Updates:** Registered models are now referred to as collections, aligning with the new terminology introduced in W&B Registry.
 
-### Artifact path changes
+## **Looking Ahead**
 
-After the migration the paths to artifacts linked within collections will change from:
+While the W&B Registry already brings significant enhancements, we are continuously working on adding even more powerful features.  In the coming months we plan to add: 
 
-```python
-team-name/model-registry/collection-name:v0
-```
-to:
+- **Org-Level Service Accounts:** Upcoming org-level service account support enabling enhanced control and management at the organizational level, streamlining how service accounts interact with the Registry.
+- **Programmatic Access:** An API that allows for creating, reading, updating, and deleting (CRUD) operations programmatically within the Registry.
+- **Advanced Artifact Management:** Fetch artifacts and utilize advanced filtering capabilities, both through the UI and the API, to streamline your workflows.
+- **Comprehensive Search:** Sophisticated search functionality in the UI and API that spans all registries, collections, and artifacts, making it easier than ever to find what you need.
+- **Enhanced Access Control:** Further refinement of access control, offering even more granularity in managing member roles and permissions within each registry.
+- **Customize Collection and Version Displays.**  Choose relevant metrics and properties to show in your collection and version lists, making it faster to find and act on Model
+- **Job Registry**
+- **And more!** Stay tuned as we continue to innovate and expand the capabilities of the W&B Registry to meet the evolving needs of our users.
 
-```python
-org-name/wandb-registry-model/team-name_collection-name:v0
-```
+## **Preparing for the Migration**
 
-:::info Action required
-Update any programmatic references to legacy Model Registry paths within your code to avoid disruptions. 
-:::
+W&B will handle the migration of registered models (now called collections) and associated artifact versions from the legacy Model Registry to the W&B Registry. This process will be conducted automatically, with no action required from users.
 
-For example, suppose that your current code looks like:
+## **Team Visibility to Organization Visibility**
 
-```python
-import wandb
+After the migration, registries will have an organization-level scope, allowing for seamless and transparent sharing across the entire organization. However, each registry will retain the ability to control permissions, just as team-level collections did in the Model Registry. Registries can be made "Restricted," ensuring that only specific members have access, and that access can be finely managed with roles such as Member, Admin, and Viewer.
 
-team_entity = "team_awesome"
-project = "cool_project"
-registered_model_name = "zoo-dataset-tensors"
-version = "latest"
+Importantly, the migration will preserve the existing permission boundaries of team-level collections. This means that collections currently restricted to specific team members will remain protected, with permissions accurately mimicked in the new Registry. There will be no unintentional exposure of team-level collections to the broader organization.
 
-run = wandb.init(entity = team_entity, project = project)
+## **Artifact Path Continuity**
 
-# Create artifact object and add dataset to artifact
-artifact = wandb.Artifact(name = "zoo_data", type = "dataset")
-artifact.add_file(local_path = "zoo_data.pt", name = "dataset")
+Efforts are being made to ensure that existing links to artifact versions within collections continue to function post-migration. The goal is to preserve current workflows and code references, providing a seamless transition to the new Registry.
 
-# The path where you want to link the artifact version to
-target_path = f"{team_entity}/model-registry/{registered_model_name}:{version}"
+## **During the Migration**
 
-run.link_artifact(artifact = artifact, target_path = target_path)
-```
+The migration process will be conducted during non-business hours to minimize any disruption. The legacy Model Registry will transition to a read-only state once the migration begins and will remain accessible for reference.
 
-In preparation of the migration, you will need to ensure that you specify the entity of the organization and provide a name for the collection (formally known as registered model in legacy W&B Model Registry):
+## **After the Migration**
 
-```python
-import wandb
+Post-migration, collections, artifact versions, and associated attributes will be fully accessible within the new W&B Registry. The focus is on ensuring that current workflows remain intact, with ongoing support available to help navigate any changes.
 
-org_entity = "reviewco" # Use organization entity
-project = "cool_project"
-collection = "zoo-dataset-tensors" # Registered models now called collections
-version = "latest"
+## **Using the New Registry**
 
-run = wandb.init(entity = org_entity, project = project)
+Users are encouraged to explore the new features and capabilities available in the W&B Registry. The Registry will not only support the functionalities currently relied upon but also introduces enhancements such as custom registries, improved visibility, and flexible access controls.
 
-# Create artifact object and add dataset to artifact
-artifact = wandb.Artifact(name = "zoo_data", type = "dataset")
-artifact.add_file(local_path = "zoo_data.pt", name = "dataset")
+For those interested in trying the W&B Registry early, or for new users preferring to start directly with Registry, support is available. Contact support@wandb.com or your Sales MLE to enable this functionality. Please note that any early migration will be into a beta version, which may not yet be feature complete compared to the legacy Model Registry.
 
-target_path = f"{org_entity}/wandb-registry-model/{collection}:{version}"
+For more details and to learn about the full range of features in the W&B Registry, visit the [Registry Guide](https://docs.wandb.ai/guides/registry).
 
-# Link an artifact to a collection called zoo-dataset-tensors within the new model registry
-run.link_artifact(artifact = artifact, target_path = target_path)
-```
+## **FAQs**
 
-The proceeding table lists the parameters that you need to update the path name for:
+**Why is W&B migrating assets from Model Registry to W&B Registry?**
 
+W&B is evolving its platform to offer more advanced features and capabilities with the new Registry. This migration is a step towards providing a more integrated and powerful toolset for managing models, datasets, and other artifacts.
 
-| Method | Parameter | 
-| -- | -- | 
-| [`wandb.run.link_artifact()`](../../ref/python/run.md#link_artifact) | `target_path` | 
-| [`wandb.Artifact.link()`](../../ref/python/artifact.md#link) |`target_path` | 
-| [`wandb.Api().run.use_artifact()`](../../ref/python/public-api/run.md#use_artifact)| `artifact`| 
-| [`wandb.Api().artifact()`](../../ref/python/public-api/api.md#artifact) | `name` | 
+**What needs to be done before the migration?**
 
+No action is required from users before the migration. W&B will handle the transition, ensuring that workflows and references are preserved.
 
-### Collection attributes
+**Will access to model artifacts be lost?**
 
-W&B will migrate the following attributes in your current registered models to collections:
+No, access to model artifacts will be retained after the migration. The legacy Model Registry will remain in a read-only state, and all relevant data will be migrated to the new Registry.
 
-- Descriptions
-- Tags
-- Aliases
+**Will metadata related to artifacts be preserved?**
 
-### Automations
+Yes, important metadata related to artifact creation, lineage, and other attributes will be preserved during the migration. Users will continue to have access to all relevant metadata after the migration, ensuring that the integrity and traceability of their artifacts remain intact.
 
-<!-- Noah to update automation links -->
+**How can assistance be obtained if issues arise?**
 
-Any automations that your team created will be migrated to the new registry. The automations will use the same registered model/collection that you created the automation for. 
-
-### Deprecated features 
-
-* [Protected aliases](../model_registry/access_controls.md#add-protected-aliases): Aliases will no longer have a protected status available. Instead, you can go to a registry’s settings to configure which users have viewer, member, or admin status. All aliases that were previously protected will become standard aliases. 
-*  Service accounts:  Existing team service accounts cannot interact programmatically with Registry as the Registry is at the org level. As a result, Organization Service accounts will be made available (this feature is currently in progress) prior to the migration taking place. Please reach out to support@wandb.com to discuss temporary solutions that we recommend. 
-
-
-## During the migration
-
-Once the migration begins, there will be a write-block on the legacy Model Registry. This write-block means that users will not be able to do the following in the legacy Model Registry:
-
-- Create  and delete collections (formerly known as registered models)
-- Link new versions and unlink existing versions
-- Add and delete aliases to artifacts in the registry
-- Add and delete tags to collections in the registry
-- Add and delete automations
-
-The migration will last for approximately 24-48 hours and will be conducted during non-business hours to minimize disruption. The legacy Model Registry will remain in a read-only state after the migration.
-
-## After the migration
-
-After the migration all artifact versions, collections, descriptions, automations, and tags will be migrated to W&B Registry. Action history will be preserved. You will still be able to navigate to the action history prior to the migration. In addition, W&B will add a new action to represent which linked version are migrated.
-
-### Using the new Registry
-All organizations should plan to use the new model registry inside the new W&B Registry. The same capabilities will be supported, including automations, lineage, and aliasing, with new features introduced. Review the list in the [Deprecated features](#deprecated-features) section for more information about features that will no longer be supported.
-
-By default, organization administrators will be admins of the new model registry and all other orgs users will be viewers to the model registry. To modify any user’s access to the registry - learn more [here](https://docs.wandb.ai/guides/registry/configure_registry#configure-user-roles-in-a-registry).
-
-
-### Legacy Model Registry
-After the migration, the legacy Model Registry UI will be read-only. It will eventually be fully deprecated from the W&B App UI. You will still have view-only access to all linked models in your legacy registry using the following paths:
-
-1. See linked models in this view-only W&B Project:
-```python
-[WANDB_BASE_URL]/team_entity_name/model-registry/artifacts/
-```
-2. Programmatically reference a linked model with the following path:
-```python
-team_entity_name/model-registry/collection:alias
-```
-
-
-## FAQs
-
-### Why is W&B migrating assets from Model Registry to Registry?
-W&B is migrating assets from Model Registry to Registry to ensure that users can start using the new capabilities of the new W&B Registry and transition their existing contents before the legacy registry is deprecated. 
-
-### What do I need to do before the migration?
-Ensure that any programmatic references to model paths are updated to reflect the new path format post-migration. This [section contains](#artifact-path-changes) instructions on paths that require updates.
-
-### Will I lose access to my model artifacts?
-No, you will not lose access to the artifacts in the legacy Model Registry. You will continue to retain read access to the legacy paths (and have the ability to perform read actions with the W&B Python SDK). Writes and modifications to the legacy Model Registry will be restricted as described here.
-
-### How can I get help if I encounter issues?
-Reach out to support@wandb.com with any questions, concerns, or if you need assistance with updating your programmatic paths.
+Support is available for any questions or concerns. Please reach out to support@wandb.com for assistance.
