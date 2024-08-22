@@ -536,7 +536,6 @@ const sidebars = {
     'tutorials/tables',
     'tutorials/sweeps',
     'tutorials/artifacts',
-    'tutorials/models',
     'tutorials/workspaces',
     {
       type: 'category',
