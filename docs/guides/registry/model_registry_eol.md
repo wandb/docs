@@ -4,13 +4,13 @@ displayed_sidebar: default
 
 # Migrating from Legacy Model Registry
 
-In the near future, W&B will be transitioning assets from the legacy [W&B Model Registry](../model_registry/intro.md) to the new [W&B Registry](./intro.md). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
+W&B will be transitioning assets from the legacy [W&B Model Registry](../model_registry/intro.md) to the new [W&B Registry](./intro.md). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
 
-The transition will take place once full feature parity with all Model Registry functionalities is achieved, ensuring that users have access to all the tools they need. Ample notice will be provided ahead of the migration to ensure there are no surprises. The goal is to preserve current workflows, codebases, and references to the greatest extent possible during this transition.
+The transition will take place once the new W&B Registry includes all the functionalities currently available in the Model Registry, ensuring that users have access to all the tools and features they rely on. Ample notice will be provided ahead of the migration to ensure there are no surprises. The goal is to preserve current workflows, codebases, and references to the greatest extent possible during this transition.
 
 This guide is a living document and will be updated regularly as more information becomes available. For any questions or support, contact support@wandb.com.
 
-## **What is Changing?**
+## What is changing?
 
 W&B Registry introduces a range of new features and enhancements designed to provide a more robust and flexible environment for managing models, datasets, and other artifacts.
 
@@ -27,7 +27,7 @@ Key changes include:
 
 - **Terminology Updates:** Registered models are now referred to as collections, aligning with the new terminology introduced in W&B Registry.
 
-## **Looking Ahead**
+## Looking ahead
 
 While the W&B Registry already brings significant enhancements, we are continuously working on adding even more powerful features.  In the coming months we plan to add: 
 
@@ -40,37 +40,37 @@ While the W&B Registry already brings significant enhancements, we are continuou
 - **Job Registry**
 - **And more!** Stay tuned as we continue to innovate and expand the capabilities of the W&B Registry to meet the evolving needs of our users.
 
-## **Preparing for the Migration**
+## Preparing for the migration
 
 W&B will handle the migration of registered models (now called collections) and associated artifact versions from the legacy Model Registry to the W&B Registry. This process will be conducted automatically, with no action required from users.
 
-## **Team Visibility to Organization Visibility**
+## Team visibility to organization visibility
 
 After the migration, registries will have an organization-level scope, allowing for seamless and transparent sharing across the entire organization. However, each registry will retain the ability to control permissions, just as team-level collections did in the Model Registry. Registries can be made "Restricted," ensuring that only specific members have access, and that access can be finely managed with roles such as Member, Admin, and Viewer.
 
 Importantly, the migration will preserve the existing permission boundaries of team-level collections. This means that collections currently restricted to specific team members will remain protected, with permissions accurately mimicked in the new Registry. There will be no unintentional exposure of team-level collections to the broader organization.
 
-## **Artifact Path Continuity**
+## Artifact path continuity
 
 Efforts are being made to ensure that existing links to artifact versions within collections continue to function post-migration. The goal is to preserve current workflows and code references, providing a seamless transition to the new Registry.
 
-## **During the Migration**
+## During the migration
 
-The migration process will be conducted during non-business hours to minimize any disruption. The legacy Model Registry will transition to a read-only state once the migration begins and will remain accessible for reference.
+The migration process will be initiated by W&B and will be conducted in a way to minimze any distruption to the services. The legacy Model Registry will transition to a read-only state once the migration begins and will remain accessible for reference.
 
-## **After the Migration**
+## After the migration
 
 Post-migration, collections, artifact versions, and associated attributes will be fully accessible within the new W&B Registry. The focus is on ensuring that current workflows remain intact, with ongoing support available to help navigate any changes.
 
-## **Using the New Registry**
+## Using the new registry
 
 Users are encouraged to explore the new features and capabilities available in the W&B Registry. The Registry will not only support the functionalities currently relied upon but also introduces enhancements such as custom registries, improved visibility, and flexible access controls.
 
-For those interested in trying the W&B Registry early, or for new users preferring to start directly with Registry, support is available. Contact support@wandb.com or your Sales MLE to enable this functionality. Please note that any early migration will be into a beta version, which may not yet be feature complete compared to the legacy Model Registry.
+For those interested in trying the W&B Registry early, or for new users preferring to start directly with Registry, support is available. Contact support@wandb.com or your Sales MLE to enable this functionality. Note that any early migration will be into a beta version, which may not yet be feature complete compared to the legacy Model Registry.
 
-For more details and to learn about the full range of features in the W&B Registry, visit the [Registry Guide](https://docs.wandb.ai/guides/registry).
+For more details and to learn about the full range of features in the W&B Registry, visit the [W&B Registry Guide](./intro.md).
 
-## **FAQs**
+## FAQs
 
 **Why is W&B migrating assets from Model Registry to W&B Registry?**
 
