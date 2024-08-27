@@ -2,7 +2,7 @@
 displayed_sidebar: default
 ---
 
-# Migrating from Legacy Model Registry
+# Migrating from legacy Model Registry
 
 W&B will be transitioning assets from the legacy [W&B Model Registry](../model_registry/intro.md) to the new [W&B Registry](./intro.md). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
 
