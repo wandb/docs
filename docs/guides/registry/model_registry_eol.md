@@ -4,7 +4,7 @@ displayed_sidebar: default
 
 # Migrating from legacy Model Registry
 
-W&B will transition assets from the legacy [W&B Model Registry](../model_registry/intro.md) to the new [W&B Registry](./intro.md) by the end of 2024. This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
+W&B will transition assets from the legacy [W&B Model Registry](../model_registry/intro.md) to the new [W&B Registry](./intro.md). This migration will be fully managed and triggered by W&B, requiring no intervention from users. The process is designed to be as seamless as possible, with minimal disruption to existing workflows.
 
 The transition will take place once the new W&B Registry includes all the functionalities currently available in the Model Registry. W&B will attempt to preserve current workflows, codebases, and references.
 
@@ -15,7 +15,7 @@ This guide is a living document and will be updated regularly as more informatio
 W&B Registry introduces a range of new features and enhancements designed to provide a more robust and flexible environment for managing models, datasets, and other artifacts.
 
 ### Organizational visibility
-Artifacts linked to the legacy Model Registry have team level visibility. This means that only members of your team can view your artifacts in the legacy W&B Model Registry. W&B Registry has organization level visibility. This means that members across an organization, with correct permissions, can view or access models, datasets, and other artifacts.
+Artifacts linked to the legacy Model Registry have team level visibility. This means that only members of your team can view your artifacts in the legacy W&B Model Registry. W&B Registry has organization level visibility. This means that members across an organization, with correct permissions, can view artifacts linked to a registry.
 
 
 ### Restrict visibility to a registry
@@ -39,7 +39,7 @@ Registered models are now referred to as *collections*.
 
 |               | Legacy W&B Model Registry | W&B Registry |
 | -----         | ----- | ----- |
-| Artifact visibility| Team level | Organization level |
+| Artifact visibility| Only members of team can view or access artifacts | Members in your organization, with correct permissions, can view or access artifacts linked to a registry  |
 | Custom access control | Not available | Available |
 | Custom registry | Not available | Available |
 | Terminology update | A set of pointers (links) to model versions are called *registered models*. | A set of pointers (links) to artifact versions are called *collections*. | 
@@ -52,7 +52,7 @@ W&B will migrate registered models (now called collections) and associated artif
 
 ### Team visibility to organization visibility
 
-After the migration, your model and dataset registry will have organization level visibility. You can restrict who has access to a registry by [assigning roles](./configure_registry.md). This helps ensure that only specific members have access to specific registries.
+After the migration, your model registry will have organization level visibility. You can restrict who has access to a registry by [assigning roles](./configure_registry.md). This helps ensure that only specific members have access to specific registries.
 
 The migration will preserve existing permission boundaries of your current team-level registered models (soon to be called collections) in the legacy W&B Model Registry. Permissions currently defined in the legacy Model Registry will be preserved in the new Registry.  This means that collections currently restricted to specific team members will remain protected during and after the migration. 
 
