@@ -115,7 +115,7 @@ W&B requires you to provision a KMS Key which is needed to encrypt and decrypt t
     {
       "Sid" : "External",
       "Effect" : "Allow",
-      "Principal" : { "AWS" : "arn:aws:iam::<W&B_Platform_Account_Id>:root" },
+      "Principal" : { "AWS" : "<aws_principal_and_role_arn>" },
       "Action" : [
         "kms:Decrypt",
         "kms:Describe*",
@@ -128,7 +128,12 @@ W&B requires you to provision a KMS Key which is needed to encrypt and decrypt t
   ]
 }
 ```
-Replace `<Your_Account_Id>`, `W&B_Platform_Account_Id` and `<aws_kms_key.key.arn>` accordingly.
+Replace `<Your_Account_Id>` and `<aws_kms_key.key.arn>` accordingly.
+
+Depending on whether you are using SaaS or [Dedicated Cloud](../hosting-options/dedicated_cloud.md), you will need to replace `<aws_principal_and_role_arn>` with the corresponding value.
+
+* For SaaS: `arn:aws:iam::725579432336:role/WandbIntegration`
+* For [Dedicated Cloud](../hosting-options/dedicated_cloud.md): `arn:aws:iam::830241207209:root`
 
 This policy grants your AWS account full access to the key and also assigns the required permissions to the AWS account hosting the W&B Platform. Keep a record of the KMS Key ARN.
 
@@ -173,7 +178,7 @@ Follow these steps to provision the S3 bucket in your AWS account:
     {
       "Sid": "WAndBAccountAccess",
       "Effect": "Allow",
-      "Principal": { "AWS": "arn:aws:iam::830241207209:root" },
+      "Principal": { "AWS": "<aws_principal_and_role_arn>" },
         "Action" : [
           "s3:GetObject*",
           "s3:GetEncryptionConfiguration",
@@ -195,7 +200,13 @@ Follow these steps to provision the S3 bucket in your AWS account:
   ]
 }
 ```
-Replace `<wandb_bucket>` accordingly. Keep a record of the bucket name.
+Replace `<wandb_bucket>` accordingly and keep a record of the bucket name.
+
+Depending on whether you are using SaaS or [Dedicated Cloud](../hosting-options/dedicated_cloud.md), you will need to replace `<aws_principal_and_role_arn>` with the corresponding value.
+
+* For SaaS: `arn:aws:iam::725579432336:role/WandbIntegration`
+* For [Dedicated Cloud](../hosting-options/dedicated_cloud.md): `arn:aws:iam::830241207209:root`
+
 
   </TabItem>
   <TabItem value="gcp">
@@ -235,7 +246,7 @@ Follow these steps to provision the GCS bucket in your GCP project:
     ```
 
 * Grant the `Storage Admin` role to the GCP service account linked to the W&B Platform.
-  * For SaaS, the account it is: `wandb-integration@wandb-production.iam.gserviceaccount.com`
+  * For SaaS, the account is: `wandb-integration@wandb-production.iam.gserviceaccount.com`
   * For [Dedicated Cloud](../hosting-options/dedicated_cloud.md) the account is: `deploy@wandb-production.iam.gserviceaccount.com`
 
 Keep a record of the bucket name.
