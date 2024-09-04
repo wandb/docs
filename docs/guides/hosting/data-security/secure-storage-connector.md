@@ -274,11 +274,11 @@ For the instance level BYOB, if you're not using [this Terraform module](https:/
 
    | Parameter | Value |
    | --- | --- |
-   | Allowed Origins | *  |
-   | Allowed Methods | GET, HEAD, PUT |
-   | Allowed Headers | * |
-   | Exposed Headers | * |
-   | Max Age | 3600 |
+   | Allowed Origins | `*`  |
+   | Allowed Methods | `GET`, `HEAD`, `PUT` |
+   | Allowed Headers | `*` |
+   | Exposed Headers | `*` |
+   | Max Age | `3600` |
 
 Generate a storage account access key, and keep a record of that along with the storage account name. If you are using [Dedicated Cloud](../hosting-options/dedicated_cloud.md), share the storage account name and access key with your W&B team using a secure sharing mechanism.
 
