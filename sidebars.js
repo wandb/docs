@@ -270,9 +270,8 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Weave',
-      items: [
-        'guides/weave_platform',
-      ],
+      link: { type: 'doc', id: 'guides/weave_platform'},
+      items: [],
     },
     {
       type: 'category',
