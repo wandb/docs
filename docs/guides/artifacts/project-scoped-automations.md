@@ -7,134 +7,142 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 
+Use artifact automations when you want CI/CD actions to trigger when an artifact is changed.
 
-# Trigger CI/CD events with artifact changes
+## Trigger CI/CD Events with Artifact Changes
 
-Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).  
+To create an automation, define the desired [action](#action-types) based on an [event type](#event-types).
 
-Some common use cases for automations that are triggered from changes to an artifact include:
+Common use cases for artifact-triggered automations include:
 
-* When a new version of an evaluation/holdout dataset is uploaded, [trigger a launch job](#create-a-launch-automation) that performs inference using the best training model in the model registry and creates a report with performance information.
-* When a new version of the training dataset is labeled as "production," [trigger a retraining launch](#create-a-launch-automation) job with the configs from the current best-performing model.
+- When a new version of an evaluation or holdout dataset is uploaded, [trigger a launch job](#create-a-launch-automation) to perform inference using the best training model in the model registry and generate a performance report.
+- When a new version of the training dataset is marked "production," [trigger a retraining job](#create-a-launch-automation) using the configurations from the current best-performing model.
 
 :::info
-Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
+Artifact automations are scoped to a project. Only events within a project can trigger an artifact automation.
 
-This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry; they are triggered when events are performed on model versions linked to the [Model Registry](../model_registry/intro.md). For information on how to create an automations for model versions, see the [Automations for Model CI/CD](../model_registry/model-registry-automations.md) page in the [Model Registry chapter](../model_registry/intro.md).
+Automations in the W&B Model Registry, however, are scoped to the Model Registry and are triggered by events on model versions linked to it. For more details, see [Automations for Model CI/CD](../model_registry/model-registry-automations.md) in the [Model Registry chapter](../model_registry/intro.md).
 :::
 
+## Event Types
 
-## Event types
-An *event* is a change that takes place in the W&B ecosystem. You can define two different event types for artifact collections in your project: **A new version of an artifact is created in a collection** and **An artifact alias is added**.
+An *event* is a change that occurs in the W&B ecosystem. You can define two event types for artifact collections in your project:
+
+- **A new version of an artifact is created in a collection**: Use this to apply recurring actions to each new version of an artifact, like starting a training job when a new dataset artifact version is created.
+  
+- **An artifact alias is added**: Use this to trigger an action when a specific alias is applied to an artifact version, such as adding the alias "test-set-quality-check" to trigger downstream processing on that dataset.
+
+## Action Types
+
+An *action* is a response triggered by an event. There are two types of actions you can create for events on artifact collections:
+
+- **Webhooks**: Send HTTP requests to an external web server from W&B.
+- **W&B Launch Jobs**: [Jobs](../launch/create-launch-job.md) are reusable, configurable templates that allow you to launch new [runs](../runs/intro.md) locally or on external compute resources like Kubernetes, Amazon SageMaker, etc.
+
+The following sections explain how to create an automation using webhooks or W&B Launch Jobs.
+
+## Create a Webhook Automation
+
+To automate a webhook, first create a webhook in the W&B App UI, then configure the webhook automation.
+
+:::info
+Ensure the webhook endpoint has an Address record (A record). W&B does not support endpoints exposed directly by IP addresses (e.g., `[0-255].[0-255].[0-255].[0.255]`) or `localhost`. This restriction protects against server-side request forgery (SSRF) attacks and similar threats.
+:::
+
+### Add a Secret for Authentication or Authorization
+
+Secrets are team-level variables used to securely store sensitive data like credentials, API keys, passwords, and tokens. W&B recommends using secrets for any string that needs to be protected.
+
+To use a secret in your webhook, add it to your team's secret manager.
+
+:::info
+- Only W&B Admins can create, edit, or delete secrets.
+- Skip this section if your external server doesn't use secrets.
+- Secrets are available for deployments on Azure, GCP, AWS, and more. Contact your W&B account team to learn how to use secrets with other deployment types.
+:::
+
+W&B recommends creating two types of secrets for webhook automation:
+
+- **Access Tokens**: Authorize senders to secure webhook requests.
+- **Secrets**: Ensure the authenticity and integrity of transmitted data.
+
+To create a webhook:
+
+1. Go to the W&B App UI.
+2. Click **Team Settings**.
+3. Scroll to the **Team secrets** section.
+4. Click **New secret**.
+5. In the modal, enter a name in the **Secret name** field.
+6. Enter your secret in the **Secret** field.
+7. (Optional) Repeat steps 5 and 6 to add additional secrets (such as access tokens).
+
+Specify the secrets for your webhook automation when configuring the webhook. See the [Configure a Webhook](#configure-a-webhook) section for details.
 
 :::tip
-Use the **A new version of an artifact is created in a collection** event type for applying recurring actions to each version of an artifact. For example, you can create an automation that automatically starts a training job when a new dataset artifact version is created.
-
-Use the **An artifact alias is added** event type to create an automation that activates when a specific alias is applied to an artifact version. For example, you could create an automation that triggers an action when someone adds "test-set-quality-check" alias to an artifact that then triggers downstream processing on that dataset. 
+You can access secrets in your W&B workflows using `$`.
 :::
 
+### Configure a Webhook
 
-
-## Action types
-An action is a responsive mutation (internal or external) that occurs as a result of some trigger. There are two types of actions you can create in response to events on artifact collections in your project: webhooks and [W&B Launch Jobs](../launch/intro.md).
-
-* Webhooks: Communicate with an external web server from W&B with HTTP requests.
-* W&B Launch job: [Jobs](../launch/create-launch-job.md) are reusable, configurable run templates that allow you to quickly launch new [runs](../runs/intro.md) locally on your desktop or external compute resources such as Kubernetes on EKS, Amazon SageMaker, and more. 
-
-
-The following sections describe how to create an automation with webhooks and W&B Launch.
-
-## Create a webhook automation 
-Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
+To use a webhook, first configure it in the W&B App UI.
 
 :::info
-Specify an endpoint for your webhook that has an Address record (A record). W&B does not support connecting to endpoints that are exposed directly with IP addresses such as `[0-255].[0-255].[0-255].[0.255]` or endpoints exposed as `localhost`. This restriction helps protect against server-side request forgery (SSRF) attacks and other related threat vectors.
+* Only W&B Admins can configure webhooks for a W&B Team.
+* If your webhook requires secret keys or tokens, [create one or more secrets](#add-a-secret-for-authentication-or-authorization) beforehand.
 :::
 
-### Add a secret for authentication or authorization
-Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
-
-To use a secret in your webhook, you must first add that secret to your team's secret manager.
-
-:::info
-* Only W&B Admins can create, edit, or delete a secret.
-* Skip this section if the external server you send HTTP POST requests to does not use secrets.
-* Secrets are also available if you use [W&B Server](../hosting/intro.md) in an Azure, GCP, or AWS deployment. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
-:::
-
-
-
-There are two types of secrets W&B suggests that you create when you use a webhook automation:
-
-* **Access tokens**: Authorize senders to help secure webhook requests 
-* **Secret**: Ensure the authenticity and integrity of data transmitted from payloads
-
-Follow the instructions below to create a webhook:
-
-1. Navigate to the W&B App UI.
-2. Click on **Team Settings**.
-3. Scroll down the page until you find the **Team secrets** section.
-4. Click on the **New secret** button.
-5. A modal will appear. Provide a name for your secret in the **Secret name** field.
-6. Add your secret into the **Secret** field. 
-7. (Optional) Repeat steps 5 and 6 to create another secret (such as an access token) if your webhook requires additional secret keys or tokens to authenticate your webhook.
-
-Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook](#configure-a-webhook) section for more information. 
-
-:::tip
-Once you create a secret, you can access that secret in your W&B workflows with `$`.
-:::
-
-### Configure a webhook
-Before you can use a webhook, you will first need to configure that webhook in the W&B App UI.
-
-:::info
-* Only W&B Admins can configure a webhook for a W&B Team.
-* Ensure you already [created one or more secrets](#add-a-secret-for-authentication-or-authorization) if your webhook requires additional secret keys or tokens to authenticate your webhook.
-:::
-
-1. Navigate to the W&B App UI.
-2. Click on **Team Settings**.
-4. Scroll down the page until you find the **Webhooks** section.
-5. Click on the **New webhook** button.  
-6. Provide a name for your webhook in the **Name** field.
-7. Provide the endpoint URL for the webhook in the **URL** field.
-8. (Optional) From the **Secret** dropdown menu, select the secret you want to use to authenticate the webhook payload.
-9. (Optional) From the **Access token** dropdown menu, select the access token you want to use to authorize the sender.
-9. (Optional) From the **Access token** dropdown menu select additional secret keys or tokens required to authenticate a webhook  (such as an access token).
+1. Go to the W&B App UI.
+2. Click **Team Settings**.
+3. Scroll to the **Webhooks** section.
+4. Click **New webhook**.
+5. Enter a name in the **Name** field.
+6. Enter the endpoint URL in the **URL** field.
+7. (Optional) Select a secret from the **Secret** dropdown for webhook authentication.
+8. (Optional) Select an access token from the **Access token** dropdown for authorization.
+9. (Optional) Select additional secret keys or tokens from the **Access token** dropdown if needed.
 
 :::note
-See the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to view where the secret and access token are specified in
-the POST request.
+Refer to the [Troubleshoot your webhook](#troubleshoot-your-webhook) section to see where secrets and access tokens are specified in the POST request.
 :::
-### Add a webhook 
-Once you have a webhook configured and (optionally) a secret, navigate to your project workspace. Click on the **Automations** tab on the left sidebar.
 
-1. From the **Event type** dropdown, select an [event type](#event-types).
-![](/images/artifacts/artifact_webhook_select_event.png)
-2. If you selected **A new version of an artifact is created in a collection** event, provide the name of the artifact collection that the automation should respond to from the **Artifact collection** dropdown. 
-![](/images/artifacts/webhook_new_version_artifact.png)
-3. Select **Webhooks** from the **Action type** dropdown. 
-4. Click on the **Next step** button.
+### Add a Webhook
+
+Once your webhook is configured, navigate to your project workspace and click the **Automations** tab in the left sidebar.
+
+1. Choose an [event type](#event-types) from the **Event type** dropdown.
+   
+   ![](/images/artifacts/artifact_webhook_select_event.png)
+   
+2. If you selected **A new version of an artifact is created in a collection**, choose the artifact collection from the **Artifact collection** dropdown.
+
+   ![](/images/artifacts/webhook_new_version_artifact.png)
+
+3. Choose **Webhooks** from the **Action type** dropdown.
+4. Click **Next step**.
 5. Select a webhook from the **Webhook** dropdown.
-![](/images/artifacts/artifacts_webhooks_select_from_dropdown.png)
-6. (Optional) Provide a payload in the JSON expression editor. See the [Example payload](#example-payloads) section for common use case examples.
-7. Click on **Next step**.
-8. Provide a name for your webhook automation in the **Automation name** field. 
-![](/images/artifacts/artifacts_webhook_name_automation.png)
-9. (Optional) Provide a description for your webhook. 
-10. Click on the **Create automation** button.
 
-### Example payloads
+   ![](/images/artifacts/artifacts_webhooks_select_from_dropdown.png)
 
-The following tabs demonstrate example payloads based on common use cases. Within the examples they reference the following keys to refer to condition objects in the payload parameters:
-* `${event_type}` Refers to the type of event that triggered the action.
-* `${event_author}` Refers to the user that triggered the action.
-* `${artifact_version}` Refers to the specific artifact version that triggered the action. Passed as an artifact instance.
-* `${artifact_version_string}` Refers to the specific artifact version that triggered the action. Passed as a string.
-* `${artifact_collection_name}` Refers to the name of the artifact collection that the artifact version is linked to.
-* `${project_name}` Refers to the name of the project owning the mutation that triggered the action.
-* `${entity_name}` Refers to the name of the entity owning the mutation that triggered the action.
+6. (Optional) Enter a payload in the JSON expression editor. See [Example payloads](#example-payloads) for common examples.
+7. Click **Next step**.
+8. Enter a name for the automation in the **Automation name** field.
+
+   ![](/images/artifacts/artifacts_webhook_name_automation.png)
+
+9. (Optional) Add a description for your webhook.
+10. Click **Create automation**.
+
+### Example Payloads
+
+The following examples show payloads for common use cases. The examples reference the following keys in payload parameters:
+
+* `${event_type}`: The type of event triggering the action.
+* `${event_author}`: The user triggering the action.
+* `${artifact_version}`: The specific artifact version triggering the action, passed as an artifact instance.
+* `${artifact_version_string}`: The specific artifact version triggering the action, passed as a string.
+* `${artifact_collection_name}`: The name of the artifact collection linked to the artifact version.
+* `${project_name}`: The project name associated with the triggering action.
+* `${entity_name}`: The entity name associated with the triggering action.
 
 
 <Tabs
@@ -270,9 +278,9 @@ The `event_type` key in the webhook payload must match the `types` field in the 
   </TabItem>
 </Tabs>
 
-### Troubleshoot your webhook
+### Troubleshoot Your Webhook
 
-Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script. You can troubleshoot a webhook when you create a new webhook or edit an existing webhook.
+You can troubleshoot your webhook using the W&B App UI or a Bash script. This can be done when creating a new webhook or editing an existing one.
 
 <Tabs
   defaultValue="app"
@@ -282,21 +290,23 @@ Interactively troubleshoot your webhook with the W&B App UI or programmatically 
   ]}>
   <TabItem value="app">
 
-Interactively test a webhook with the W&B App UI. 
+## Test a Webhook Interactively
 
-1. Navigate to your W&B Team Settings page.
+To test a webhook using the W&B App UI:
+
+1. Go to your W&B Team Settings page.
 2. Scroll to the **Webhooks** section.
-3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
+3. Click the kebab menu (three vertical dots) next to your webhook.
 4. Select **Test**.
-5. From the UI panel that appears, paste your POST request to the field that appears. 
-![](/images/models/webhook_ui.png)
-6. Click on **Test webhook**.
+5. In the panel that appears, paste your POST request into the provided field.
+   ![Webhook test screen](/images/models/webhook_ui.png)
+6. Click **Test webhook**.
 
-Within the W&B App UI, W&B posts the response made by your endpoint.
+W&B will display the response from your endpoint.
 
-![](/images/models/webhook_ui_testing.gif)
+![Webhooks testing screen](/images/models/webhook_ui_testing.gif)
 
-See [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube video to view a real-world example.
+For a real-world example, watch the [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) video.
 
   </TabItem>
   <TabItem value="bash">
@@ -339,53 +349,53 @@ curl -X POST \
 </Tabs>
 
 
+## Create a Launch Automation
 
-
-## Create a launch automation
-Automatically start a W&B Job. 
+To automatically start a W&B job:
 
 :::info
-This section assumes you already have created a job, a queue, and have an active agent polling. For more information, see the [W&B Launch docs](../launch/intro.md). 
+Ensure you have created a job, a queue, and have an active agent polling. For details, see the [W&B Launch docs](../launch/intro.md).
 :::
 
-
-1. From the **Event type** dropdown, select an event type. See the [Event type](#event-types) section for information on supported events.
-2. (Optional) If you selected **A new version of an artifact is created in a collection** event, provide the name of the artifact collection from the **Artifact collection** dropdown. 
-3. Select **Jobs** from the **Action type** dropdown. 
+1. Select an event type from the **Event type** dropdown. Refer to the [Event Types](#event-types) section for supported events.
+2. (Optional) If you chose **A new version of an artifact is created in a collection**, select the artifact collection from the **Artifact collection** dropdown.
+3. Choose **Jobs** from the **Action type** dropdown.
 4. Click **Next step**.
-4. Select a W&B Launch job from the **Job** dropdown.  
-5. Select a version from the **Job version** dropdown.
-6. (Optional) Provide hyperparameter overrides for the new job.
-7. Select a project from the **Destination project** dropdown.
-8. Select a queue to enqueue your job to.  
-9. Click on **Next step**.
-10. Provide a name for your webhook automation in the **Automation name** field. 
-11. (Optional) Provide a description for your webhook. 
-12. Click on the **Create automation** button. 
+5. Select a W&B Launch job from the **Job** dropdown.
+6. Choose a version from the **Job version** dropdown.
+7. (Optional) Provide hyperparameter overrides.
+8. Select a project from the **Destination project** dropdown.
+9. Choose a queue for your job.
+10. Click **Next step**.
+11. Enter a name for the automation in the **Automation name** field.
+12. (Optional) Add a description.
+13. Click **Create automation**.
 
-## View an automation
+## Viewing an Automation
 
-View automations associated to an artifact from the W&B App UI. 
+To view automations associated with an artifact:
 
-1. Navigate to your project workspace on the W&B App. 
-2. Click on the **Automations** tab on the left sidebar.
+1. Open your project workspace in the W&B App.
+2. Click the **Automations** tab on the left sidebar.
 
-![](/images/artifacts/automations_sidebar.gif)
+![Automations Sidebar](/images/artifacts/automations_sidebar.gif)
 
-Within the Automations section you can find the following properties for each automations that was created in your project"
+In the Automations section, you can see these properties for each automation:
 
-- **Trigger type**: The type of trigger that was configured.
-- **Action type**: The action type that triggers the automation. Available options are Webhooks and Launch.
-- **Action name**: The action name you provided when you created the automation.
-- **Queue**: The name of the queue the job was enqueued to. This field is left empty if you selected a webhook action type.
+- **Trigger Type**: The configured trigger type.
+- **Action Type**: The action that triggers the automation, such as Webhooks or Launch.
+- **Action Name**: The name given to the action when the automation was created.
+- **Queue**: The name of the queue for the job. This is empty if a webhook action type was selected.
 
-## Delete an automation
-Delete an automation associated with a artifact. Actions in progress are not affected if you delete that automation before the action completes. 
 
-1. Navigate to your project workspace on the W&B App. 
-2. Click on the **Automations** tab on the left sidebar.
-3. From the list, select the name of the automation you want to view.
-4. Hover your mouse next to the name of the automation and click on the kebob (three vertical dots) menu. 
-5. Select **Delete**.
+## Delete an Automation
+
+To delete an automation associated with an artifact:
+
+1. Open your project workspace in the W&B App.
+2. Click the **Automations** tab on the left sidebar.
+3. Select the automation you wish to delete.
+4. Hover over the automation name and click the kebab menu (three vertical dots).
+5. Choose **Delete**.
 
 
