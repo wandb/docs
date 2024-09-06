@@ -13,9 +13,9 @@ W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]
 
 If you've determined to self-managed W&B Server, W&B recommends using the [W&B Server GCP Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) to deploy the platform on GCP.
 
-The module documentation is extensive and contains all available options that can be used. We will cover some deployment options in this document.
+The module documentation is extensive and contains all available options that can be used.
 
-Before you start, we recommend you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
+Before you start, W&B recommendsthat you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
 
 The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
 
@@ -33,7 +33,7 @@ Other deployment options can also include the following optional components:
 - Memory store for Redis
 - Pub/Sub messages system
 
-## **Pre-requisite permissions**
+## Pre-requisite permissions
 
 The account that will run the terraform need to have the role `roles/owner` in the GCP project used.
 
@@ -174,7 +174,7 @@ This is the most straightforward deployment option configuration that will creat
 
 Another deployment option uses `Redis` to cache the SQL queries and speedup the application response when loading the metrics for the experiments.
 
-You need to add the option `create_redis = true` to the same `main.tf` file we worked on in [Deployment option 1](#deployment---recommended-20-mins) to enable the cache.
+You need to add the option `create_redis = true` to the same `main.tf` file specified in the recommended [Deployment option section](#deployment---recommended-20-mins) to enable the cache.
 
 ```
 [...]
@@ -199,7 +199,7 @@ module "wandb" {
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The GCP resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the [Deployment option 1](#deployment---recommended-20-mins)
+The GCP resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` specified in the recommended [Deployment option section](#deployment---recommended-20-mins)
 
 ```
 [...]
@@ -334,5 +334,5 @@ Follow the steps outlined here to update W&B:
   Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
   :::
 
-2. After you update your configuration, complete the steps described in the [Deployment section](#deployment---recommended-20-mins).
+2. After you update your configuration, complete the steps described in the [Deployment option section](#deployment---recommended-20-mins).
 
