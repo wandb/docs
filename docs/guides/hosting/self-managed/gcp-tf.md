@@ -113,7 +113,7 @@ This is the most straightforward deployment option configuration that will creat
 
 1. Create the `main.tf`
 
-   In the same directory where you created the files in the `General Steps`, create a file `main.tf` with the following content:
+   In the same directory where you created the files in the [General Steps](#general-steps), create a file `main.tf` with the following content:
 
    ```
    provider "google" {
@@ -139,13 +139,12 @@ This is the most straightforward deployment option configuration that will creat
    # Spin up all required services
    module "wandb" {
      source  = "wandb/wandb/google"
-     version = "~> 1.0"
+     version = "~> 5.0"
 
      namespace   = var.namespace
      license     = var.license
      domain_name = var.domain_name
      subdomain   = var.subdomain
-     allowed_inbound_cidrs = ["*"]
    }
 
    # You'll want to update your DNS with the provisioned IP address
@@ -175,7 +174,7 @@ This is the most straightforward deployment option configuration that will creat
 
 Another deployment option uses `Redis` to cache the SQL queries and speedup the application response when loading the metrics for the experiments.
 
-You need to add the option `create_redis = true` to the same `main.tf` file we worked on in `Deployment option 1` to enable the cache.
+You need to add the option `create_redis = true` to the same `main.tf` file we worked on in [Deployment option 1](#deployment---recommended-20-mins) to enable the cache.
 
 ```
 [...]
@@ -200,7 +199,7 @@ module "wandb" {
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The GCP resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the `Deployment option 1`
+The GCP resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the [Deployment option 1](#deployment---recommended-20-mins)
 
 ```
 [...]
@@ -308,14 +307,11 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
 
 ### Configure W&B server
 
-1. Finally, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
-2. Enable the "Use an external file storage backend" option, 
-3. Provide the name of the AWS S3 bucket, the region where the bucket is stored, and SQS queue in the following format:
-* **File Storage Bucket**: `gs://<bucket-name>`
-* **File Storage Region**: blank
-* **Notification Subscription**: `pubsub:/<project-name>/<topic-name>/<subscription-name>`
+1. Finally, navigate to the W&B `System Connections` page at `http(s)://YOUR-W&B-SERVER-HOST/console/settings/system`. 
+2. Select the provider `Google Cloud Storage (gcs)`, 
+3. Provide the name of the GCS bucket
 
-![](/images/hosting/configure_file_store.png)
+![](/images/hosting/configure_file_store_gcp.png)
 
 4. Press **Update settings** to apply the new settings.
 
@@ -328,10 +324,10 @@ Follow the steps outlined here to update W&B:
   ```
   module "wandb_app" {
       source  = "wandb/wandb/kubernetes"
-      version = "~>1.0"
+      version = "~>5.0"
 
       license       = var.license
-      wandb_version = "0.48.1"
+      wandb_version = "0.58.1"
   ```
 
   :::info
