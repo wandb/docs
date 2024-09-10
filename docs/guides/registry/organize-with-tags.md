@@ -7,41 +7,54 @@ import TabItem from '@theme/TabItem';
 
 # Organize collections or artifact versions
 
-Use tags to organize your collections or artifact versions within your registry. You can add a tag to a collection or artifact version programmatically with the W&B Python SDK or interactively with the W&B App UI.
+Create and add tags to organize your collections or artifact versions within your registry. 
+
+You can add, modify, view, or remove tags to a collection with the W&B App UI. Use either the W&B Python SDK or W&B App UI to add, modify, view, or remove tags to artifact versions linked to a registry.
 
 ## Add a tag to a collection
+
+Use the W&B App UI to add a tag to a collection:
 
 1. Navigate to the W&B Registry at https://wandb.ai/registry
 2. Click on a registry card
 3. Click **View details** next to the name of a collection
 4. Within the collection card, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag
-5. Hit **Enter** on your keyboard
+5. Press **Enter** on your keyboard
 
 ![](/images/registry/add_tag_collection.gif)
 
 ## View tags that belong to a collection
 
+Use the W&B App UI to view tags added to a collection:
+
 1. Navigate to the W&B Registry at https://wandb.ai/registry
 2. Click on a registry card
 3. Click **View details** next to the name of a collection
-4. Within the collection card you will one or more blue rectangles next to the **Tags** field
+
+If a collection has one or more tags, you can view those tags within the collection card next to the **Tags** field.
 
 ![](/images/registry/tag_collection_selected.png)
 
-You can also view tags added to a collection when you select a registry card. Within the registry card, you will see one or more collections. If a tag was added a collection, you will see that tag appear as a blue rectangle next to the name of the collection.
+Tags added to a collection also appear next to the name of that collection.
+
+For example, in the proceeding image, a tag called "tag1" was added to the "zoo-dataset-tensors" collection.
 
 ![](/images/registry/tag_collection.png)
 
 
 ## Remove a tag from a collection
 
+Use the W&B App UI to remove a tag from a collection:
+
 1. Navigate to the W&B Registry at https://wandb.ai/registry
 2. Click on a registry card
 3. Click **View details** next to the name of a collection
 4. Within the collection card, hover your mouse over the name of the tag you want to remove
-5. Click on the **X** icon
+5. Click on the cancel button (**X** icon)
 
 ## Add a tag to an artifact version
+
+Add a tag to an artifact version linked to a collection with the W&B App UI or with the Python SDK.
 
 <Tabs
   defaultValue="app_ui"
@@ -57,7 +70,7 @@ You can also view tags added to a collection when you select a registry card. Wi
 4. Scroll down to **Versions**
 5. Click **View** next to an artifact version
 6. Within the **Version** tab, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag
-7. Hit **Enter** on your keyboard
+7. Press **Enter** on your keyboard
 
 ![](/images/registry/add_tag_linked_artifact_version.gif)
 
@@ -95,7 +108,7 @@ run = wandb.init(entity = "<entity>", project="<project>", job_type="<job-type>"
 artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
 artifact = run.use_artifact(artifact_or_name = artifact_name)
-artifact.tags = ["tag2"] # # Provide one or more tags in a list
+artifact.tags = ["tag2"] # Provide one or more tags in a list
 artifact.save()
 ```
 
@@ -105,6 +118,7 @@ artifact.save()
 
 ## View tags that belong to an artifact version
 
+View tags that belong to an artifact version that is linked to a registry with the W&B App UI or with the Python SDK. 
 
 <Tabs
   defaultValue="app_ui"
@@ -118,7 +132,8 @@ artifact.save()
 2. Click on a registry card
 3. Click **View details** next to the name of the collection you want to add a tag to
 4. Scroll down to **Versions** section
-5. Within the **Tags** column, you will see tags that were added to a each artifact version
+
+If an artifact version has one or more tags, you can view those tags within the **Tags** column.
 
 ![](/images/registry/tag_artifact_version.png)
 
@@ -171,4 +186,4 @@ print(artifact.tags)
 4. Scroll down to **Versions**
 5. Click **View** next to an artifact version
 6. Within the **Version** tab, hover your mouse over the name of the tag
-7. Click on the **X** icon 
+7. Click on the cancel button (**X** icon)
