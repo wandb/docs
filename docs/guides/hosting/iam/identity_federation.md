@@ -47,7 +47,7 @@ As part of the workflow to exchange the JWT for a W&B access token and then acce
 * The JWT signature is verified using the JWKS at the W&B organization level. This is the first line of defense, and if this fails, that means there's a problem with your JWKS or how your JWT is signed.
 * The `iss` claim in the JWT should be equal to the issuer URL configured at the organization level.
 * The `sub` claim in the JWT should be equal to the user's email address as configured in the W&B organization.
-* The `aud` claim in the JWT should be equal to the name of the W&B organization which houses the project that you are accessing as part of your AI workflow. In case of [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instances, you could configure an instance-level environment variable `SKIP_AUDIENCE_VALIDATION` to `true` to skip validation of the audience claim.
+* The `aud` claim in the JWT should be equal to the name of the W&B organization which houses the project that you are accessing as part of your AI workflow. In case of [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instances, you could configure an instance-level environment variable `SKIP_AUDIENCE_VALIDATION` to `true` to skip validation of the audience claim, or use `wandb` as the audience.
 * The `exp` claim in the JWT is checked to see if the token is valid or has expired and needs to be refreshed.
 
 ## External service accounts
