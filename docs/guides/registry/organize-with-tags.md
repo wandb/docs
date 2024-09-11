@@ -20,7 +20,7 @@ Use tags when you want more flexibility for grouping or searching. Tags are idea
 Use the W&B App UI or Python SDK to add a tag to a collection:
 
 <Tabs
-  defaultValue="python"
+  defaultValue="app_ui"
   values={[
     {label: 'W&B App UI', value: 'app_ui'},
     {label: 'Python SDK', value: 'python'},
@@ -63,6 +63,32 @@ collection.save()
 </Tabs>
 
 
+## Update tags that belong to a collection 
+
+Update a tag programmatically by reassigning or by mutating the `tags` attribute. W&B recommends, and it is good Python practice, that you reassign the `tags` attribute instead of in-place mutation.
+
+For example, the proceeding code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to a collection section](#add-a-tag-to-a-collection): 
+
+```python
+collection.tags = [*collection.tags, "new-tag", "other-tag"]
+collection.tags = collection.tags + ["new-tag", "other-tag"]
+
+collection.tags = set(collection.tags) - set(tags_to_delete)
+collection.tags = []  # deletes all tags
+```
+
+The following code snippet shows how you can use in-place mutation to update tags that belong to an artifact version:
+
+```python
+collection.tags += ["new-tag", "other-tag"]
+collection.tags.append("new-tag")
+
+collection.tags.extend(["new-tag", "other-tag"])
+collection.tags[:] = ["new-tag", "other-tag"]
+collection.tags.remove("existing-tag")
+collection.tags.pop()
+collection.tags.clear()
+```
 
 ## View tags that belong to a collection
 
@@ -98,7 +124,7 @@ Use the W&B App UI to remove a tag from a collection:
 Add a tag to an artifact version linked to a collection with the W&B App UI or with the Python SDK.
 
 <Tabs
-  defaultValue="python"
+  defaultValue="app_ui"
   values={[
     {label: 'W&B App UI', value: 'app_ui'},
     {label: 'Python SDK', value: 'python'},
@@ -166,12 +192,41 @@ artifact.save()
   </TabItem>
 </Tabs>
 
+## Update tags that belong to an artifact version
+
+
+Update a tag programmatically by reassigning or by mutating the `tags` attribute. W&B recommends, and it is good Python practice, that you reassign the `tags` attribute instead of in-place mutation.
+
+For example, the proceeding code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to an artifact version section](#add-a-tag-to-an-artifact-version): 
+
+```python
+artifact.tags = [*artifact.tags, "new-tag", "other-tag"]
+artifact.tags = artifact.tags + ["new-tag", "other-tag"]
+
+artifact.tags = set(artifact.tags) - set(tags_to_delete)
+artifact.tags = []  # deletes all tags
+```
+
+The following code snippet shows how you can use in-place mutation to update tags that belong to an artifact version:
+
+```python
+artifact.tags += ["new-tag", "other-tag"]
+artifact.tags.append("new-tag")
+
+artifact.tags.extend(["new-tag", "other-tag"])
+artifact.tags[:] = ["new-tag", "other-tag"]
+artifact.tags.remove("existing-tag")
+artifact.tags.pop()
+artifact.tags.clear()
+```
+
+
 ## View tags that belong to an artifact version
 
 View tags that belong to an artifact version that is linked to a registry with the W&B App UI or with the Python SDK. 
 
 <Tabs
-  defaultValue="python"
+  defaultValue="app_ui"
   values={[
     {label: 'W&B App UI', value: 'app_ui'},
     {label: 'Python SDK', value: 'python'},
