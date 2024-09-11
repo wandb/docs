@@ -246,3 +246,13 @@ print(artifact.tags)
 5. Click **View** next to an artifact version
 6. Within the **Version** tab, hover your mouse over the name of the tag
 7. Click on the cancel button (**X** icon)
+
+## Search existing tags
+
+Use the W&B App UI to search existing tags in collections and artifact versions:
+
+1. Navigate to the W&B Registry at https://wandb.ai/registry
+2. Click on a registry card
+3. Within the search bar, type in the name of a tag
+
+![](/images/registry/search_tags.gif)
