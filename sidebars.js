@@ -111,6 +111,7 @@ const sidebars = {
             'guides/registry/create_collection',
             'guides/registry/link_version',
             'guides/registry/download_use_artifact',
+            'guides/registry/organize-with-tags',
             'guides/registry/model_registry_eol',
             {
               type: 'category',
