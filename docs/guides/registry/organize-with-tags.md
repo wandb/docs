@@ -179,7 +179,7 @@ REGISTRY_NAME = "<registry_name>"
 COLLECTION_NAME = "<collection_name>"
 VERSION = "<artifact_version>"
 
-run = wandb.init(entity = "<entity>", project="<project>", job_type="<job-type>")
+run = wandb.init(entity = "<entity>", project="<project>")
 
 artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
@@ -278,7 +278,7 @@ REGISTRY_NAME = "<registry_name>"
 COLLECTION_NAME = "<collection_name>"
 VERSION = "<artifact_version>"
 
-run = wandb.init(entity = "<entity>", project="<project>", job_type="<job-type>")
+run = wandb.init(entity = "<entity>", project="<project>")
 
 artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
