@@ -20,6 +20,7 @@ Use W&B Registry to:
 - Track an [artifact’s lineage](../model_registry/model-lineage.md) and audit the history of changes to production artifacts.
 - [Configure](./configure_registry.md) viewer, member, or admin access to a registry for all org users.
 - Quickly find or reference important artifacts with a unique identifier known as aliases.
+- Use [tags](./organize-with-tags) to label, group, and discover assets in your Registry. 
 
 ## How it works
 
@@ -59,8 +60,8 @@ Based on your deployment type, satisfy the following conditions to enable W&B Re
 | Deployment type | How to enable |
 | ----- | ----- |
 | Multi-tenant Cloud | No action required. W&B Registry is available on the W&B App. |
-| Dedicated Cloud | Contact your account team. The Solutions Architect (SA) Team will enable W&B Registry with your instance's operator console. Ensure your instance is on server release version 0.57.2 or newer.|
-| Self-Managed   | Enable the environment variable called `ENABLE_REGISTRY_UI`. To learn more about enabling environment variables in server, visit [these docs](https://docs.wandb.ai/guides/hosting/env-vars). In self-managed instances, your infrastructure admin should enable this environment variable and set it to `true`. Ensure your instance is on server release version 0.57.2 or newer.|
+| Dedicated Cloud | Contact your account team. The Solutions Architect (SA) Team will enable W&B Registry with your instance's operator console. Ensure your instance is on server release version 0.59.2 or newer.|
+| Self-Managed   | Enable the environment variable called `ENABLE_REGISTRY_UI`. To learn more about enabling environment variables in server, visit [these docs](https://docs.wandb.ai/guides/hosting/env-vars). In self-managed instances, your infrastructure admin should enable this environment variable and set it to `true`. Ensure your instance is on server release version 0.59.2 or newer.|
 
 
 ## Resources to get started
@@ -77,9 +78,9 @@ Depending on your use case, explore the following resources to get started with
 
 ## Migrating from the legacy Model Registry to W&B Registry
 
-The W&B Model Registry will be deprecated by the end of 2024. The contents in your Model Registry will be migrated to W&B Registry. Detailed information about the migration process from the legacy Model Registry to Registry will be posted soon. 
+The W&B Model Registry will eventually be deprecated. Before it is deprecated, the contents in your legacy Model Registry will be migrated to W&B Registry. Detailed information about the migration process from the legacy Model Registry to Registry is posted [here]([url](./model_registry_eol)). 
 
-The soon to be legacy W&B Model Registry App UI is still available until W&B Registry is made generally available. To view the legacy Model Registry: Navigate to the Model Registry from the homepage. A banner will appear to view the legacy Model Registry App UI.
+Until a migration is available, both legacy Model Registry and Registry will be supported. To view the legacy Model Registry: Navigate to the Model Registry from the homepage. A banner will appear to view the legacy Model Registry App UI.
 
 ![](/images/registry/nav_to_old_model_reg.gif)
 
