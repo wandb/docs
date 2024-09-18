@@ -8,41 +8,12 @@
 Python library for programmatically working with Weights & Biases Reports API. 
 
 ```python
+# How to import
 import wandb_workspaces.reports.v2
 ``` 
 
 
 
-<a href="../wandb_workspaces/reports/v2/interface/is_not_all_none#L53"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
-
-## <kbd>function</kbd> `is_not_all_none`
-
-```python
-is_not_all_none(v)
-```
-
-
-
-
-
-
----
-
-<a href="../wandb_workspaces/reports/v2/interface/is_not_internal#L61"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
-
-## <kbd>function</kbd> `is_not_internal`
-
-```python
-is_not_internal(k)
-```
-
-
-
-
-
-
----
-
 
 
 
@@ -54,7 +25,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/RunsetGroupKey#L90"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/RunsetGroupKey#L91"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `RunsetGroupKey`
 
@@ -67,7 +38,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/RunsetGroup#L96"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/RunsetGroup#L97"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `RunsetGroup`
 
@@ -80,7 +51,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Metric#L102"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Metric#L103"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Metric`
 
@@ -93,7 +64,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Config#L107"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Config#L108"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Config`
 
@@ -106,7 +77,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/SummaryMetric#L112"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/SummaryMetric#L113"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `SummaryMetric`
 
@@ -119,12 +90,19 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Layout#L117"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Layout#L118"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Layout`
+Adjusts the width, height, x-axis, or y-axis of a plot. 
 
 
 
+**Attributes:**
+ 
+ - `x` (int):  Text 
+ - `y` (int):  Text 
+ - `w` (int):  Text 
+ - `h` (int):  Text 
 
 
 
@@ -132,7 +110,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Block#L132"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Block#L142"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Block`
 
@@ -145,7 +123,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/UnknownBlock#L136"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/UnknownBlock#L146"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `UnknownBlock`
 
@@ -158,7 +136,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/TextWithInlineComments#L155"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/TextWithInlineComments#L165"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `TextWithInlineComments`
 
@@ -171,7 +149,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Heading#L164"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Heading#L174"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Heading`
 
@@ -184,12 +162,10 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/H1#L182"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/H1#L192"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `H1`
-
-
-
+Creates an H1 HTML tag with the text specified. 
 
 
 
@@ -197,12 +173,10 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/H2#L199"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/H2#L210"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `H2`
-
-
-
+Creates an H2 HTML tag with the text specified. 
 
 
 
@@ -210,12 +184,10 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/H3#L216"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/H3#L228"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `H3`
-
-
-
+Creates an H3 HTML tag with the text specified. 
 
 
 
@@ -223,7 +195,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Link#L233"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Link#L246"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Link`
 
@@ -236,7 +208,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/InlineLatex#L243"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/InlineLatex#L256"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `InlineLatex`
 
@@ -249,7 +221,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/InlineCode#L248"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/InlineCode#L261"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `InlineCode`
 
@@ -262,12 +234,16 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/P#L253"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/P#L266"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `P`
+An HTML paragraph block.  
 
 
 
+**Attributes:**
+ 
+ - `text` (str):  The text that appears within the text block. 
 
 
 
@@ -275,7 +251,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/ListItem#L267"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/ListItem#L286"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ListItem`
 
@@ -288,12 +264,17 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/CheckedListItem#L280"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/CheckedListItem#L299"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CheckedListItem`
+A check mark item. Use with `CheckedList` to add one  or more check mark items to your report. 
 
 
 
+**Attributes:**
+ 
+ - `text` (str):  The text to render next to the list item. 
+ - `checked` (bool):  Add a check mark to the list item. 
 
 
 
@@ -301,7 +282,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/OrderedListItem#L294"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/OrderedListItem#L323"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `OrderedListItem`
 
@@ -314,7 +295,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/UnorderedListItem#L307"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/UnorderedListItem#L336"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `UnorderedListItem`
 
@@ -327,7 +308,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/List#L319"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/List#L348"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `List`
 
@@ -340,12 +321,16 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/CheckedList#L338"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/CheckedList#L367"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CheckedList`
+An HTML block that contains a list of checkboxes. 
 
 
 
+**Attributes:**
+ 
+ - `items` (list):  A list of one or more `CheckedListItem` objects. 
 
 
 
@@ -353,12 +338,16 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/OrderedList#L347"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/OrderedList#L382"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `OrderedList`
+An HTML block that contains an ordered list. 
 
 
 
+**Attributes:**
+ 
+ - `items` (list):  An ordered list of items. Renders as a numbered list. 
 
 
 
@@ -366,12 +355,16 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/UnorderedList#L356"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/UnorderedList#L397"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `UnorderedList`
+An HTML block that contains an unordered list. 
 
 
 
+**Attributes:**
+ 
+ - `items` (list):  An unordered list of items.  Renders as bullet points (small black circles). 
 
 
 
@@ -379,12 +372,16 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/BlockQuote#L365"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/BlockQuote#L413"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `BlockQuote`
+An HTML block that indents the specified text as a quotation. 
 
 
 
+**Attributes:**
+ 
+ - `text` (str):  Text to render in block quote. 
 
 
 
@@ -392,12 +389,17 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/CodeBlock#L377"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/CodeBlock#L432"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CodeBlock`
+An HTML block that contains code samples. 
 
 
 
+**Attributes:**
+ 
+ - `code` (str):  A string that contains example code. 
+ - `language` (str):  The language the code is written in.  The language specified is used for syntax highlighting.  
 
 
 
@@ -405,12 +407,16 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/MarkdownBlock#L399"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/MarkdownBlock#L463"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `MarkdownBlock`
+A Markdown block. Useful if you want to write text that uses common markdown syntax. 
 
 
 
+**Attributes:**
+ 
+ - `text` (str):  Text you want to appear in the markdown block. 
 
 
 
@@ -418,12 +424,16 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/LatexBlock#L411"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/LatexBlock#L482"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `LatexBlock`
+A LaTeX block. Useful if you want to write formulas with LaTeX syntax. 
 
 
 
+**Attributes:**
+ 
+ - `text` (str):  Text you want to appear in the LaTeX block. 
 
 
 
@@ -431,12 +441,17 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Image#L423"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Image#L501"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Image`
+An image HTML block.  
 
 
 
+**Attributes:**
+ 
+ - `url` (str):  The URL where your image is hosted. 
+ - `caption` (str):  A description of the image that appears underneath the image. 
 
 
 
@@ -444,12 +459,16 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/CalloutBlock#L442"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/CalloutBlock#L529"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CalloutBlock`
+An HTML block that renders a callout block. 
 
 
 
+**Attributes:**
+ 
+ - `text` (str):  The text to render in the callout block. 
 
 
 
@@ -457,12 +476,10 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/HorizontalRule#L459"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/HorizontalRule#L552"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `HorizontalRule`
-
-
-
+HTML horizontal line. 
 
 
 
@@ -470,12 +487,16 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Video#L469"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Video#L563"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Video`
+An HTML block that renders a video. 
 
 
 
+**Attributes:**
+ 
+ - `url` (str):  The URL where the video is hosted. 
 
 
 
@@ -483,12 +504,16 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Spotify#L481"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Spotify#L581"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Spotify`
+An HTML block that renders an iFrame with the song, album, playlist, and so forth. 
 
 
 
+**Attributes:**
+ 
+ - `spotify_id` (str):  The base-62 identifier found at the end  of the Spotify URI for an artist, track, album, playlist, and so forth. 
 
 
 
@@ -496,7 +521,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/SoundCloud#L493"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/SoundCloud#L600"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `SoundCloud`
 
@@ -509,7 +534,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/GalleryReport#L505"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/GalleryReport#L612"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `GalleryReport`
 
@@ -522,7 +547,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/GalleryURL#L510"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/GalleryURL#L617"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `GalleryURL`
 
@@ -535,7 +560,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Gallery#L518"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Gallery#L625"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Gallery`
 
@@ -548,7 +573,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/OrderBy#L559"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/OrderBy#L666"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `OrderBy`
 
@@ -561,7 +586,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Runset#L578"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Runset#L685"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Runset`
 
@@ -574,7 +599,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Panel#L638"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Panel#L745"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Panel`
 
@@ -587,12 +612,23 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/PanelGrid#L647"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/PanelGrid#L754"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `PanelGrid`
+An HTML block where you can add `Runset` and `Panel` objects to your project. 
+
+Available panels include: `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `CodeComparer`, `ParallelCoordinatesPlot`, `ParameterImportancePlot`, `RunComparer`, `MediaBrowser`, `MarkdownPanel`, `CustomChart`, `WeavePanel`, `WeavePanelSummaryTable`, `WeavePanelArtifactVersionedFile`. 
 
 
 
+
+
+**Attributes:**
+ 
+ - `runsets` (list):  A list of one or more Runset objects. 
+ - `panels` (list):  A list of one or more Panel objects. 
+ - `active_runset` (int):   The number of runs you want to display within a runset. 
+ - `custom_run_colors` (dict):  Key-value pairs where the key is the name of a  run and the value is a color specified by a hexadecimal value. 
 
 
 
@@ -600,12 +636,10 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/TableOfContents#L706"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/TableOfContents#L829"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `TableOfContents`
-
-
-
+An HTML block that contains a list of sections and subsections using H1, H2, and H3 HTML tags specified in a report. 
 
 
 
@@ -613,7 +647,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Twitter#L716"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Twitter#L843"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Twitter`
 
@@ -626,7 +660,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/WeaveBlock#L728"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/WeaveBlock#L855"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeaveBlock`
 
@@ -639,7 +673,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/WeaveBlockSummaryTable#L732"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/WeaveBlockSummaryTable#L859"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeaveBlockSummaryTable`
 
@@ -652,7 +686,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/WeaveBlockArtifactVersionedFile#L952"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/WeaveBlockArtifactVersionedFile#L1079"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeaveBlockArtifactVersionedFile`
 
@@ -665,7 +699,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/WeaveBlockArtifact#L1101"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/WeaveBlockArtifact#L1228"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeaveBlockArtifact`
 
@@ -678,7 +712,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/GradientPoint#L1277"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/GradientPoint#L1404"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `GradientPoint`
 
@@ -691,12 +725,44 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/LinePlot#L1290"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/LinePlot#L1417"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `LinePlot`
+Text 
 
 
 
+**Attributes:**
+ 
+ - `title` (str):  The text that appears at the top of the plot. 
+ - `x` (str):  The name of a metric logged to your W&B project that the  report pulls information from. The metric specified is used for the x-axis. 
+ - `y` (list):  One or more metrics logged to your W&B project that the report pulls  information from. Metrics specified are plotted within the LinePlot panel. 
+ - `range_x` (tuple):  Tuple that specifies the range of the x-axis.  
+ - `range_y` (tuple):  Tuple that specifies the range of the y-axis.  
+ - `log_x` (bool):  Plots the x-coordinates using a base-10 logarithmic scale. 
+ - `log_y` (bool):  Plots the y-coordinates using a base-10 logarithmic scale. 
+ - `title_x` (str):  The label of the x-axis. 
+ - `title_y` (str):  The label of the y-axis. 
+ - `ignore_outliers` (bool):  If set to `True`, do not plot outliers. 
+ - `groupby` (str):  Group runs based on a metric logged to your W&B project that the  report pulls information from. 
+ - `groupby_aggfunc` (str):  Aggregate runs with specified function. 
+ - `Options include`:  "mean", "min", "max", "median", "sum", "samples", or `None`. 
+ - `groupby_rangefunc` (str):   Group runs based on a range. 
+ - `Options include`:  "minmax", "stddev", "stderr", "none", "samples", or `None`. 
+ - `smoothing_factor` (float):  text 
+ - `smoothing_type`:  text 
+ - `smoothing_show_original` (bool):  text 
+ - `max_runs_to_show` (int):  text 
+ - `custom_expressions` (list):  text 
+ - `plot_type`:  text 
+ - `font_size`:  The size of the line plot's font. 
+ - `Options include`:  "small", "medium", "large", "auto", or `None`. 
+ - `legend_position`:  Where to place the plot's legend. 
+ - `Options include`:  "north", "south", "east", "west", or `None`. 
+ - `legend_template` (str):  text 
+ - `aggregate` (bool):  text 
+ - `xaxis_expression` (str):  text 
+ - `legend_fields` (list):  text 
 
 
 
@@ -704,12 +770,32 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/ScatterPlot#L1387"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/ScatterPlot#L1552"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ScatterPlot`
+Text 
 
 
 
+**Arguments:**
+ 
+ - `title`:  text 
+ - `x`:  text 
+ - `y`:  text 
+ - `z`:  text 
+ - `range_x`:  text 
+ - `range_y`:  text 
+ - `range_z`:  text 
+ - `log_x`:  text 
+ - `log_y`:  text 
+ - `log_z`:  text 
+ - `running_ymin`:  text 
+ - `running_ymax`:  text 
+ - `running_ymean`:  text 
+ - `legend_template`:  text 
+ - `gradient`:  text 
+ - `font_size`:  text 
+ - `regression`:  text 
 
 
 
@@ -717,7 +803,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/BarPlot#L1469"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/BarPlot#L1656"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `BarPlot`
 
@@ -730,7 +816,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/ScalarChart#L1538"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/ScalarChart#L1725"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ScalarChart`
 
@@ -743,7 +829,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/CodeComparer#L1579"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/CodeComparer#L1766"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CodeComparer`
 
@@ -756,12 +842,17 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/ParallelCoordinatesPlotColumn#L1600"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/ParallelCoordinatesPlotColumn#L1787"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlotColumn`
+A column within a parallel coordinates plot.  The order of `metric`s specified  determine the order of the parallel axis (x-axis) in the parallel coordinates plot. 
 
 
 
+**Attributes:**
+ 
+ - `metric`:  The name of the metric logged to your W&B project that the report pulls information from. 
+ - `display_name` (str):  The name of the metric  inverted (bool): log (bool): 
 
 
 
@@ -769,12 +860,16 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/ParallelCoordinatesPlot#L1626"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/ParallelCoordinatesPlot#L1823"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlot`
+Creates a parallel coordinates plot. 
 
 
 
+**Attributes:**
+ 
+ - `columns` (list):  A list of one or more `ParallelCoordinatesPlotColumn` objects.  title (str): gradient: font_size: 
 
 
 
@@ -782,7 +877,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/ParameterImportancePlot#L1669"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/ParameterImportancePlot#L1875"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ParameterImportancePlot`
 
@@ -795,7 +890,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/RunComparer#L1693"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/RunComparer#L1899"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `RunComparer`
 
@@ -808,7 +903,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/MediaBrowser#L1715"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/MediaBrowser#L1921"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `MediaBrowser`
 
@@ -821,7 +916,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/MarkdownPanel#L1742"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/MarkdownPanel#L1948"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `MarkdownPanel`
 
@@ -834,7 +929,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/CustomChart#L1764"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/CustomChart#L1970"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CustomChart`
 
@@ -846,7 +941,7 @@ is_not_internal(k)
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/from_table#L1772"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/from_table#L1978"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>classmethod</kbd> `from_table`
 
@@ -865,7 +960,7 @@ from_table(
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/UnknownPanel#L1856"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/UnknownPanel#L2062"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `UnknownPanel`
 
@@ -878,7 +973,7 @@ from_table(
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/WeavePanel#L1876"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/WeavePanel#L2082"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanel`
 
@@ -891,7 +986,7 @@ from_table(
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/WeavePanelSummaryTable#L1888"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/WeavePanelSummaryTable#L2094"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanelSummaryTable`
 
@@ -904,7 +999,7 @@ from_table(
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/WeavePanelArtifactVersionedFile#L2076"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/WeavePanelArtifactVersionedFile#L2282"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanelArtifactVersionedFile`
 
@@ -917,7 +1012,7 @@ from_table(
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/WeavePanelArtifact#L2197"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/WeavePanelArtifact#L2403"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanelArtifact`
 
@@ -930,41 +1025,46 @@ from_table(
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/Report#L2295"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/Report#L2501"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Report`
+A Data Class that represents a W&B Report. Use the returned object's `blocks` attribute to customize your report. Report Data Class objects do not automatically save. Use the `save()` method to persists changes. 
 
 
 
+**Attributes:**
+ 
+ - `project`:  The name of the W&B project you want to load in. The project specified appears in the report's URL. 
+ - `entity`:  The W&B entity that owns the report. The entity appears in the report's URL. 
+ - `title`:  The title of the report. The title appears at the top of the report as an H1 heading. 
+ - `description`:  A description of the report. The description appears underneath the report's title. 
+ - `blocks`:  A list of one or more HTML tags, plots, grids, runsets, or more. 
+ - `width`:  The width of the report. Options include: 'readable', 'fixed', 'fluid'. 
 
 
 ---
 
 #### <kbd>property</kbd> url
 
-
-
-
+The URL where the report is hosted. The report URL consists of `https://wandb.ai/{entity}/{project_name}/reports/`. Where `{entity}` and `{project_name}` consists of the entity that the report belongs to and the name of the project, respectively. 
 
 
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/from_url#L2423"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/from_url#L2648"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>classmethod</kbd> `from_url`
 
 ```python
-from_url(url, as_model: bool = False)
+from_url(url: str, as_model: bool = False)
 ```
 
-
-
-
+Load in the report  into current environment. Pass in the URL where the report is hosted. 
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/save#L2386"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/save#L2610"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>method</kbd> `save`
 
@@ -972,13 +1072,11 @@ from_url(url, as_model: bool = False)
 save(draft: bool = False, clone: bool = False)
 ```
 
-
-
-
+Persists changes made to Report Data Class object. 
 
 ---
 
-<a href="../wandb_workspaces/reports/v2/interface/to_html#L2431"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="../wandb_workspaces/reports/v2/interface/to_html#L2657"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>method</kbd> `to_html`
 
