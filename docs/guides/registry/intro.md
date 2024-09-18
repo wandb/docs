@@ -20,7 +20,7 @@ Use W&B Registry to:
 - Track an [artifact’s lineage](../model_registry/model-lineage.md) and audit the history of changes to production artifacts.
 - [Configure](./configure_registry.md) viewer, member, or admin access to a registry for all org users.
 - Quickly find or reference important artifacts with a unique identifier known as aliases.
-- Use [tags](./organize-with-tags) to label, group, and discover assets in your Registry. 
+- Use [tags](./organize-with-tags.md) to label, group, and discover assets in your Registry. 
 
 ## How it works
 
@@ -77,7 +77,7 @@ Depending on your use case, explore the following resources to get started with
 
 ## Migrating from the legacy Model Registry to W&B Registry
 
-W&B will eventually deprecate the Model Registry. Before deprecating the legacy Model Registry, W&B will migrate the contents of the legacy Model Registry to the W&B Registry. Detailed information about the migration process from the legacy Model Registry to Registry is posted in [Migrating from legacy Model Registry]([url](./model_registry_eol)). 
+W&B will eventually deprecate the Model Registry. Before deprecating the legacy Model Registry, W&B will migrate the contents of the legacy Model Registry to the W&B Registry. Detailed information about the migration process from the legacy Model Registry to Registry is posted in [Migrating from legacy Model Registry](./model_registry_eol.md). 
 
 Until the migration occurs, W&B will support both the legacy Model Registry and the new Registry. To view the legacy Model Registry, navigate to the Model Registry from the homepage. A banner will appear, allowing you to view the legacy Model Registry App UI.
 
