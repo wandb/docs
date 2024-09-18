@@ -60,29 +60,35 @@ Based on your deployment type, satisfy the following conditions to enable W&B Re
 | Deployment type | How to enable |
 | ----- | ----- |
 | Multi-tenant Cloud | No action required. W&B Registry is available on the W&B App. |
-| Dedicated Cloud | Contact your account team. The Solutions Architect (SA) Team will enable W&B Registry with your instance's operator console. Ensure your instance is on server release version 0.59.2 or newer.|
-| Self-Managed   | Enable the environment variable called `ENABLE_REGISTRY_UI`. To learn more about enabling environment variables in server, visit [these docs](https://docs.wandb.ai/guides/hosting/env-vars). In self-managed instances, your infrastructure admin should enable this environment variable and set it to `true`. Ensure your instance is on server release version 0.59.2 or newer.|
+| Dedicated Cloud | Contact your account team. The Solutions Architect (SA) Team enables W&B Registry within your instance's operator console. Ensure your instance is on server release version 0.59.2 or newer.|
+| Self-Managed   | Enable the environment variable called `ENABLE_REGISTRY_UI`. To learn more about enabling environment variables in server, visit [these docs](https://docs.wandb.ai/guides/hosting/env-vars). In self-managed instances, your infrastructure administrator should enable this environment variable and set it to `true`. Ensure your instance is on server release version 0.59.2 or newer.|
 
 
 ## Resources to get started
 
 Depending on your use case, explore the following resources to get started with the W&B Registry:
 
-- Check out the tutorial video:
-    - [Getting started with Registry from Weights & Biases](https://www.youtube.com/watch?v=p4XkVOsjIeM)
-
-- Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
-    - Use W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages.
-    - Automate your model management workflows using webhooks and launch jobs.
-    - See how Registry integrates with external ML systems and tools in your model development lifecycle for model evaluation, monitoring, and deployment.
+* Check out the tutorial video:
+    * [Getting started with Registry from Weights & Biases](https://www.youtube.com/watch?v=p4XkVOsjIeM)
+* Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
+    * Use W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages.
+    * Automate your model management workflows using webhooks and launch jobs.
+    * See how Registry integrates with external ML systems and tools in your model development lifecycle for model evaluation, monitoring, and deployment.
 
 ## Migrating from the legacy Model Registry to W&B Registry
 
-The W&B Model Registry will eventually be deprecated. Before it is deprecated, the contents in your legacy Model Registry will be migrated to W&B Registry. Detailed information about the migration process from the legacy Model Registry to Registry is posted [here]([url](./model_registry_eol)). 
+W&B will eventually deprecate the Model Registry. Before deprecating the legacy Model Registry, W&B will migrate the contents of the legacy Model Registry to the W&B Registry. Detailed information about the migration process from the legacy Model Registry to Registry is posted in [Migrating from legacy Model Registry]([url](./model_registry_eol)). 
 
-Until a migration is available, both legacy Model Registry and Registry will be supported. To view the legacy Model Registry: Navigate to the Model Registry from the homepage. A banner will appear to view the legacy Model Registry App UI.
+Until the migration occurs, W&B will support both the legacy Model Registry and the new Registry. To view the legacy Model Registry, navigate to the Model Registry from the homepage. A banner will appear, allowing you to view the legacy Model Registry App UI.
+
+Until a migration is available, both legacy Model Registry and Registry are supported. 
+
+:::info
+To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
 
 ![](/images/registry/nav_to_old_model_reg.gif)
+:::
+
 
 Reach out to support@wandb.com with any questions or to speak to our product team about any concerns with the migration.
 
