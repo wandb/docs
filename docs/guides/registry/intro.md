@@ -18,7 +18,7 @@ Use W&B Registry to:
 - [Bookmark](./link_version.md) your best artifacts for each machine learning task.
 - [Automate](../model_registry/model-registry-automations.md) downstream processes and model CI/CD.
 - Track an [artifact’s lineage](../model_registry/model-lineage.md) and audit the history of changes to production artifacts.
-- [Configure](./configure_registry.md) viewer, member, or admin access to a registry for all org users.
+- [Configure](./configure_registry.md) viewer, member, or administrator access to a registry for all organization users.
 - Quickly find or reference important artifacts with a unique identifier known as aliases.
 - Use [tags](./organize-with-tags.md) to label, group, and discover assets in your Registry. 
 
@@ -77,11 +77,12 @@ Depending on your use case, explore the following resources to get started with
 
 ## Migrating from the legacy Model Registry to W&B Registry
 
-W&B will eventually deprecate the Model Registry. Before deprecating the legacy Model Registry, W&B will migrate the contents of the legacy Model Registry to the W&B Registry. Detailed information about the migration process from the legacy Model Registry to Registry is posted in [Migrating from legacy Model Registry](./model_registry_eol.md). 
+The legacy Model Registry is scheduled for deprecation with the exact date not yet decided. Before deprecating the legacy Model Registry, W&B will migrate the contents of the legacy Model Registry to the W&B Registry. 
 
-Until the migration occurs, W&B will support both the legacy Model Registry and the new Registry. To view the legacy Model Registry, navigate to the Model Registry from the homepage. A banner will appear, allowing you to view the legacy Model Registry App UI.
 
-Until a migration is available, both legacy Model Registry and Registry are supported. 
+See [Migrating from legacy Model Registry](./model_registry_eol.md) for more information about the migration process from the legacy Model Registry to W&B Registry.
+
+Until the migration occurs, W&B supports both the legacy Model Registry and the new Registry. 
 
 :::info
 To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
@@ -90,6 +91,6 @@ To view the legacy Model Registry, navigate to the Model Registry in the W&B App
 :::
 
 
-Reach out to support@wandb.com with any questions or to speak to our product team about any concerns with the migration.
+Reach out to support@wandb.com with any questions or to speak to the W&B Product Team about any concerns about the migration.
 
 
