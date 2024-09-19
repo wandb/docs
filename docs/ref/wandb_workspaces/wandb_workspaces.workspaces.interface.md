@@ -2,7 +2,7 @@
 
 <!-- markdownlint-disable -->
 
-<a href="../wandb_workspaces/workspaces/interface#L0"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces.py#L0"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 # <kbd>module</kbd> `wandb_workspaces.workspaces`
 Python library for programmatically working with Weights & Biases Workspace API. 
@@ -25,7 +25,7 @@ import wandb_workspaces.workspaces
 
 ---
 
-<a href="../wandb_workspaces/workspaces/interface/SectionLayoutSettings#L78"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L78"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `SectionLayoutSettings`
 Panel layout settings for a section, typically seen at the top right of the section in the UI. 
@@ -44,7 +44,7 @@ Panel layout settings for a section, typically seen at the top right of the sect
 
 ---
 
-<a href="../wandb_workspaces/workspaces/interface/SectionPanelSettings#L117"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L117"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `SectionPanelSettings`
 Panel settings for a section, similar to WorkspaceSettings for a section. 
@@ -67,7 +67,7 @@ Settings applied here can be overrided by more granular Panel settings in this p
 
 ---
 
-<a href="../wandb_workspaces/workspaces/interface/Section#L173"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L174"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Section`
 Represents a section in a workspace. 
@@ -88,7 +88,7 @@ Represents a section in a workspace.
 
 ---
 
-<a href="../wandb_workspaces/workspaces/interface/WorkspaceSettings#L228"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L229"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WorkspaceSettings`
 Settings for the workspace, typically seen at the top of the workspace in the UI. 
@@ -109,7 +109,7 @@ Settings applied here can be overrided by more granular Section and Panel settin
 
 ---
 
-<a href="../wandb_workspaces/workspaces/interface/RunSettings#L318"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L319"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `RunSettings`
 Settings for a run in a runset (left hand bar). 
@@ -127,7 +127,7 @@ Settings for a run in a runset (left hand bar).
 
 ---
 
-<a href="../wandb_workspaces/workspaces/interface/RunsetSettings#L334"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L335"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `RunsetSettings`
 Settings for the runset (the left bar containing runs) in a workspace. 
@@ -149,7 +149,7 @@ Settings for the runset (the left bar containing runs) in a workspace.
 
 ---
 
-<a href="../wandb_workspaces/workspaces/interface/Workspace#L384"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L385"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Workspace`
 Represents a W&B workspace, including sections, settings, and config for run sets. 
@@ -176,7 +176,7 @@ The URL to the workspace in the W&B app.
 
 ---
 
-<a href="../wandb_workspaces/workspaces/interface/from_url#L641"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L642"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>classmethod</kbd> `from_url`
 
@@ -188,7 +188,7 @@ Get a workspace from a URL.
 
 ---
 
-<a href="../wandb_workspaces/workspaces/interface/save#L657"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L658"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>classmethod</kbd> `save`
 
@@ -200,7 +200,7 @@ Save a workspace to W&B.
 
 ---
 
-<a href="../wandb_workspaces/workspaces/interface/save_as_new_view#L673"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L674"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>classmethod</kbd> `save_as_new_view`
 
