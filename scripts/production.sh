@@ -11,5 +11,5 @@ else
     mv build ../build/ja
     git checkout korean_docs
     bash ./scripts/build-prod-docs.sh
-    mv build ../build/ko
+    mv build/ko ../build
 fi
