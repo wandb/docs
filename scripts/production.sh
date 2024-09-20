@@ -1,4 +1,5 @@
 #!/bin/bash
+git fetch
 cd ../
 rm -rf build
 yarn build:prod
