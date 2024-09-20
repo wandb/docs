@@ -1,5 +1,5 @@
 rm -rf ../build
-git clone https://github.com/wandb/docodile
+git clone https://github.com/wandb/docodile ./docodile
 cd docodile
 git checkout japanese_docs
 bash ./scripts/build-prod-docs.sh
