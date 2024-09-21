@@ -5,7 +5,7 @@ yarn build:prod
 mv build ..
 git checkout japanese_docs
 bash ./scripts/build-prod-docs.sh
-mv build ../build/ja
+mv build/ja ../build
 git checkout korean_docs
 bash ./scripts/build-prod-docs.sh
 mv build/ko ../build
