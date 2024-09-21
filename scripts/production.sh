@@ -13,6 +13,7 @@ git fetch -v --depth=1
 # The JA and KO builds use special scripts for the baseURL mod
 # JA
 git checkout japanese_docs
+yarn install
 sh scripts/build-prod-docs.sh
 mv build/ja ../../build
 # KO
