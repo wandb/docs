@@ -5,7 +5,7 @@ yarn build:prod
 
 # Use a secondary git clone to build JA and KO 
 rm -rf scripts/docodile
-git clone --depth 1 https://github.com/wandb/docodile.git scripts/docodile
+git clone --depth 1 git@github.com:wandb/docodile.git scripts/docodile
 cd scripts/docodile
 git remote set-branches origin '*'
 git fetch -v --depth=1
