@@ -13,11 +13,14 @@ git fetch -v --depth=1
 # The JA and KO builds use special scripts for the baseURL mod
 # JA
 git checkout japanese_docs
+NODE_VERSION="18.0.0"
 yarn install
 sh scripts/build-prod-docs.sh
 mv build/ja ../../build
 # KO
 git checkout korean_docs
+NODE_VERSION="18.0.0"
+yarn install
 sh scripts/build-prod-docs.sh
 mv build/ko ../../build
 
