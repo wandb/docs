@@ -9,6 +9,6 @@ mv build/ja ../build
 git checkout korean_docs
 bash ./scripts/build-prod-docs.sh
 mv build/ko ../build
+git checkout main
 rm -rf build
-git checkout i18n-fix
 mv ../build .
