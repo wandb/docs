@@ -10,4 +10,5 @@ git checkout korean_docs
 bash ./scripts/build-prod-docs.sh
 mv build/ko ../build
 rm -rf build
+git checkout i18n-fix
 mv ../build .
