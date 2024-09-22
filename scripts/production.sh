@@ -15,12 +15,14 @@ git fetch -v --depth=1
 git checkout japanese_docs
 NODE_VERSION="18.0.0"
 yarn install
+node --version
 sh scripts/build-prod-docs.sh
 mv build/ja ../../build
 # KO
 git checkout korean_docs
 NODE_VERSION="18.0.0"
 yarn install
+node --version
 sh scripts/build-prod-docs.sh
 mv build/ko ../../build
 
