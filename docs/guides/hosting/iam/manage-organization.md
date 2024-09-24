@@ -44,10 +44,32 @@ The **Invite new user** button is active only when your license has available se
 :::
 
 
+:::tip enable SSO for authentication
+W&B strongly recommends and encourages that users authenticate to an organization using Single Sign-On (SSO). 
 
-:::info SMTP for self-managed instances
-W&B provides an option to configure an internal SMTP server if you have a Self-managed Dedicated cloud or Self-managed instance and your organization firewall rules restrict sending traffic outside the corporate network. Refer to [these instructions](../smtp.md) to set up an SMTP server.
+To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).
+
+Reach out to your W&B for further assistance.
 :::
+
+### Auto provision users
+
+A person in your company (someone who has the same domain as your company) can sign in to your W&B Organization with Single Sign-On (SSO) if SSO is set up and the SSO provider permits it.
+
+:::tip 
+Auto provisioning with SSO is useful for adding users to an organization at scale because organization admins do not need to generate individual user invitations.
+:::
+
+[INSERT - What role do they get?]
+
+
+Auto-provisioning users with SSO is on by default for Dedicated cloud instances and Self-managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
+
+Reach out to your W&B team if you are on Dedicated Cloud instance and you want to turn off auto provisioning with SSO.
+
+For Self-managed deployments, you can configure configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO.
+
+
 
 ### Assign or update a user's role
 
