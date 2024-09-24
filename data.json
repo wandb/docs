@@ -475,7 +475,11 @@
     },
     {
       "from": "/guides/hosting/manage-users",
-      "to": "/guides/hosting/iam/manage-users"
+      "to": "/guides/hosting/iam/manage-organization"
+    },
+    {
+      "from": "/guides/hosting/iam/manage-users",
+      "to": "/guides/hosting/iam/manage-organization"
     },
     {
       "from": "/guides/hosting/scim",

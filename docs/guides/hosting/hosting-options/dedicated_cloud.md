@@ -25,7 +25,7 @@ You can also privately connect to your Dedicated Cloud instance using [cloud pro
 Use the identity and access management capabilities for secure authentication and effective authorization in your W&B Organization. The following features are available for IAM in Dedicated Cloud instances:
 
 * Authenticate with [SSO using OpenID Connect (OIDC)](../iam/sso.md) or with [LDAP](../iam/ldap.md).
-* [Configure appropriate user roles](../iam/manage-users.md) at the scope of the organization and within a team.
+* [Configure appropriate user roles](../iam/manage-organization.md#assign-or-update-a-users-role) at the scope of the organization and within a team.
 * Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects](../iam/restricted-projects.md).
 * Leverage JSON Web Tokens with [identity federation](../iam/identity_federation.md) to access W&B APIs.
 
