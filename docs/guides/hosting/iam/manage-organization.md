@@ -5,7 +5,9 @@ displayed_sidebar: default
 # Mange your organization
 
 As an administrator of an organization you can both [manage individual users](#add-and-manage-users) within your organization and you can [manage teams](#add-and-manage-teams). 
- 
+
+As a team administrator you can [manage teams](#add-and-manage-teams).
+
 :::info
 The following applies to users with instance administrator (admin) roles. Reach out to an administrator in your organization if you believe you should have instance admin permissions.
 :::
@@ -111,7 +113,7 @@ To change a user's role:
 
 
 ## Add and manage teams
-Use your organization's dashboard to create teams within your organization. Once you create a team, you can invite users to that tem, assign or update a team member's role, automatically add new users to a team when they join your organization, remove users from a team, and manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
+Use your organization's dashboard to create teams within your organization. Once an organization admin creates a team, either the org admin or team admin can invite users to that tem, assign or update a team member's role, automatically add new users to a team when they join your organization, remove users from a team, and manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
 
 <!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md). -->
 
@@ -216,8 +218,10 @@ Remove a user from a team using the team's dashboard. W&B preserves runs created
 4. Hover your mouse next to the ame of the user you want to delete. Select the ellipses or three dots icon (**...**) when it appears. 
 5. From the dropdown, select **Remove user**. 
 
-### Manage team storage
+
+<!-- To do as a follow up -->
+<!-- ### Manage team storage
 
 ## Create and assign custom roles
 
-## Privacy
+## Privacy -->

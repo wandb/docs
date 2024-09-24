@@ -5,14 +5,21 @@ displayed_sidebar: default
 
 # Project visibility
 
-Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it. Only the owner of the project or a team admin can set or edit a project's visibility.
+Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it. 
 
+:::info
+The owner of a project, a team admin, or an organization admin can set or edit a project's visibility.
+:::
 ## Visibility scopes
 There are four project visibility scopes you can choose from. In order of most public to most private, they are: 
-* _Open_: Anyone can submit runs or reports.
-* _Public_: Anyone can view this project. Only your team can edit.
-* _Team_: Only your team can view and edit this project.
-* _Restricted_: Only invited members can view this project. Public sharing is disabled.
+
+| Scope | Description | 
+| ----- | ----- |
+| Open | Anyone can submit runs or reports.|
+| Public | Anyone can view this project. Only your team can edit.|
+| Team | Only your team can view and edit this project. |
+| Restricted| Only invited members can view this project. Public sharing is disabled.|
+
 
 :::tip
 Set a project's scope to **Restricted** if you want to collaborate on workflows related to sensitive or confidential data. When you create a restricted project within a team, you can invite or add specific members from the team to collaborate on relevant experiments, artifacts, reports, and so forth. 
