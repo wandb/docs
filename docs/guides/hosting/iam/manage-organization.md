@@ -4,12 +4,16 @@ displayed_sidebar: default
 
 # Mange your organization
 
-Manage W&B users in your organization or team. 
-
-The following guide applies to the administrator (admin) of an organization.
+As an administrator of an organization you can both [manage individual users](#add-and-manage-users) within your organization and you can [manage teams](#add-and-manage-teams). 
+ 
+:::info
+The following applies to users with instance administrator (admin) roles. Reach out to an administrator in your organization if you believe you should have instance admin permissions.
+:::
 
 If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
 
+
+<!-- W&B assigns an Admin role to new users within an organization by default.  -->
 
 ## Change the name of your organization
 
@@ -21,94 +25,106 @@ If you are looking to simplify user management in your organization, refer to [A
 
 ## Add and manage users
 
+Use your organization's dashboard to invite users, assign or update a user's role, remove users from your organization, assign the billing administrator, and more. Your organization's dashboard is located at: https://wandb.ai/home.
+
 ### Invite a user
 
-1. Navigate to your W&B Organization's dashboard at: https://wandb.ai/home
-2. Select the **Users** tab.
+1. Navigate to your organization's dashboard at https://wandb.ai/home.
+1. Choose the menu in the upper right corner of the organization dashboard. From the dropdown, choose **Users**.
 3. Choose **Invite new user**.
 4. In the modal that appears, provide the email or username of the user in the Email or username field.
 5. (Optional but recommended) Add the user to a team from the **Choose team(s)** dropdown menu. You can alternatively [automatically assign a user to a team if their domain matches](#automatically-add-new-users-to-a-team). 
 6. From the **Select role** dropdown, select the role to assign to the user. You can change the user's role at a later time. See the table listed in [Assign a role](#assign-a-role) for more information about possible roles.
 7. Choose the **Send invite** button.
 
-An invite link is sent to the user's email after you select the **Send invite** button. Once a user accepts the invite, that user can access your W&B organization.
+An invite link is sent using a third-party email server to the user's email after you select the **Send invite** button. A user can access your organization once they accept the invite.
 
-
-W&B uses a third-party email server to send user invites. W&B provides an option to configure an internal SMTP server if you have a self-managed Dedicated cloud or Self-managed instance and your organization firewall rules restrict sending traffic outside the corporate network. Refer to [these instructions](../smtp.md) to setup the SMTP server.
-
-:::info
-The **Add user** option might be not be available if there are no more seats in the license. Reach out to your W&B team if you have difficulty adding users. 
+:::note
+The **Invite new user** button is active only when your license has available seats. Reach out to your W&B team if you have difficulty adding users. 
 :::
 
 
+
+:::info SMTP for self-managed instances
+W&B provides an option to configure an internal SMTP server if you have a Self-managed Dedicated cloud or Self-managed instance and your organization firewall rules restrict sending traffic outside the corporate network. Refer to [these instructions](../smtp.md) to set up an SMTP server.
+:::
+
 ### Assign or update a user's role
 
-W&B assigns an Admin role to new users within an organization by default. You can assign a user's role when you invite them to an organization or and you can modify an existing user's role after they join your organization.
+You initially assign a role to a user when you invite them to your organization. You can change any user's role at a later time.
+
+:::info
+The role a user has within an organization does not impact the role that that user can have in a team.
+:::
 
 A user within an organization can have one of the proceeding roles:
 
 | Role | Descriptions |
 | ----- | ----- |
 | Admin | A instance admin who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends more than one admin for an enterprise Dedicated cloud or Self-managed instances. |
-| Member | A regular user of the organization, invited by an instance admin. A organization user cannot invite other users or manage existing users in the organization. `Team admins` could add specific organization users to their respective teams (team-level roles described below in **Team roles**). |
+| Member | A regular user of the organization, invited by an instance admin. A organization user cannot invite other users or manage existing users in the organization. |
 | Viewer | A view-only user of your organization, invited by an instance admin. A viewer only has read access to the organization and the underlying teams that they are a part of.  |
+
+To change a user's role:
+
+1. Navigate to your organization's dashboard at https://wandb.ai/home.
+2. Choose the menu in the upper right corner of the organization dashboard. From the dropdown, choose **Users**.
+4. Provide the name or email of the user in the search bar.
+4. Select a role from the **TEAM ROLE** dropdown next to the name of the user.
 
 
 ### Remove a user
 
-1. Navigate to your W&B Organization's dashboard at: https://wandb.ai/home .
-2. Choose the User menu in the upper right corner of the organization dashboard. From the dropdown, Choose **Settings**.
-3. Select the **Users** tab.
-4. Search for the user you want to remove in the search bar.
+1. Navigate to your organization's dashboard at https://wandb.ai/home.
+2. Choose the menu in the upper right corner of the organization dashboard. From the dropdown, choose **Users**.
+4. Provide the name or email of the user in the search bar.
 5. Select the ellipses or three dots icon (**...**) when it appears.
 6. From the dropdown, choose **Remove member**.
 
 ### Assign the billing admin
-1. Navigate to your W&B Organization's dashboard at: https://wandb.ai/home .
-2. Choose the User menu in the upper right corner of the organization dashboard. From the dropdown, Choose **Settings**.
-3. Select the **Users** tab.
-4. Search for the user you want to remove in the search bar.
-5. Under the **Billing admin** column, choose the user you want to assign as the Billing admin.
+1. Navigate to your organization's dashboard at https://wandb.ai/home.
+2. Choose the menu in the upper right corner of the organization dashboard. From the dropdown, choose **Users**.
+4. Provide the name or email of the user in the search bar.
+5. Under the **Billing admin** column, choose the user you want to assign as the billing administrator.
 
 
 ## Add and manage teams
-Use a team's home page as the central hub to explore projects, reports, and runs. Within the team home page there is a **Settings** tab where you can add and manage users, set a team avatar, adjust privacy settings, set up alerts, track usage, and more. 
+Use your organization's dashboard to create teams within your organization. Once you create a team, you can invite users to that tem, assign or update a team member's role, automatically add new users to a team when they join your organization, remove users from a team, and manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
 
-
-:::info
-Team admins can add and remove users in their teams. A non-admin user in a team can not invite other users to that team, unless team admin enables relevant team settings.
-
-See [**Team roles**](#team-roles) for more information on available roles at the team level.
-:::
-
-If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md).
-
+<!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md). -->
 
 
 ### Create a team
-1. Navigate to your W&B Organization's dashboard at: https://wandb.ai/home
+
+Use your organization's dashboard to create a team:
+
+1. Navigate to your organization's dashboard athttps://wandb.ai/home.
 2. Select **Create a team to collaborate** on the left navigation panel underneath **Teams**.
 ![](/images/hosting/create_new_team.png)
-3. A modal will appear. Prove a name for your team in the **Team name** field. 
-4. Select a storage type. 
-5. Choose on the **Create team** button.
+3. A modal will appear. Provide a name for your team in the **Team name** field. 
+4. Choose a storage type. 
+5. Select the **Create team** button.
 
-This will redirect you to a newly created Team home page at `https://wandb.ai/<team-name>` where `<team-name>` consists of the name you provide when you create a team.
+After you select **Create team** button, W&B redirects you to a new team page at `https://wandb.ai/<team-name>`. Where `<team-name>` consists of the name you provide when you create a team.
+
+Once you have a team, you can add users to that team.
 
 ### Invite users to a team
 
-Invite users to a team with the W&B App UI. Members of a team inherit the organization that the team is a part of.
+Invite users to a team in your organization. Use the team's dashboard to invite users using their email address or W&B username if they already have a W&B account.
 
 1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`.
 2. Select **Team settings** in the global navigation on the left side of the dashboard.
+![](/images/hosting/team_settings.png)
 3. Select the **Users** tab.
 4. Choose on **Invite a new user**.
-5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select a team** role dropdown. For more information about roles a user can have in a team, see [Team roles](#team-roles).
+5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select a team** role dropdown. For more information about roles a user can have in a team, see [Team roles](#assign-or-update-a-team-members-role).
 6. Choose on the **Send invite** button.
 
+In addition to inviting users manually with email invites, you can automatically add new users to a team if the new user's[ email matches the domain of your organization](#automatically-add-new-users-to-a-team).
 
-### Team roles
-The proceeding table lists the roles you can assign a member to when they join a team:
+### Assign or update a team member's role
+The proceeding table lists the roles you can assign to a member of a team:
 
 | Role   |   Definition   |
 |-----------|---------------------------|
@@ -158,7 +174,7 @@ Domains are unique identifiers. This means that you can not use a domain that is
 :::
 
 1. Navigate to the organization's dashboard at https://wandb.ai/home.
-2. Choose the User menu in the upper right corner of the organization dashboard. From the dropdown, Choose **Settings**.
+2. Choose the User menu in the upper right corner of the organization dashboard. From the dropdown, choose **Settings**.
 3. Within the **Settings** tab, select **General**.
 4. Choose the **Claim domain** button within **Domain capture**.
 5. Provide the email domain in the **Email domain** field.
@@ -170,7 +186,7 @@ A user that joins W&B with the same domain as your organization is automatically
 
 
 ### Remove users from a team
-Remove a user from a team within your organization. W&B preserves runs created in a team even if the user is no longer on the team.
+Remove a user from a team using the team's dashboard. W&B preserves runs created in a team even if the member who created the runs is no longer on that team.
 
 1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`.
 2. Select **Team settings** in the left navigation bar.
