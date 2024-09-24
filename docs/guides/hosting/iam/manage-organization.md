@@ -8,13 +8,16 @@ Manage W&B users in your organization or team.
 
 The following guide applies to the administrator (admin) of an organization.
 
-
 If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
 
 
 ## Change the name of your organization
 
-
+1. Navigate to the organization's dashboard at https://wandb.ai/home.
+2. Choose the User menu in the upper right corner of the organization dashboard. From the dropdown, Choose **Settings**.
+3. Within the **Settings** tab, select **General**.
+4. Select the **Change name** button.
+5. Within the modal that appears, provide a new name for your organization and select the **Save name** button.
 
 ## Add and manage users
 
@@ -66,11 +69,6 @@ A user within an organization can have one of the proceeding roles:
 3. Select the **Users** tab.
 4. Search for the user you want to remove in the search bar.
 5. Under the **Billing admin** column, choose the user you want to assign as the Billing admin.
-
-
-### User auto-provisioning
-
-[To do]
 
 
 ## Add and manage teams
@@ -141,7 +139,7 @@ Assigning a team to a user when they onboard helps ensure that that new user doe
 
 
 :::info Existing users
-Existing users with verified email addresses that match your organization's domain can join your teams within your organization/
+Existing users with verified email addresses that match your organization's domain can join your teams within your organization.
 
 Data that a user creates before that user joins an organization is preserved. Note that W&B does not migrate any assets a user creates outside of an organization.
 :::
