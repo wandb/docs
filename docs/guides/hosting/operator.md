@@ -353,7 +353,7 @@ kubectl apply -f operator.yaml
 ```
 The deployment will take a few minutes to complete.
 
-7. Verify the installation.Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
+7. Verify the installation. Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
 
 8. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
 
@@ -369,11 +369,11 @@ Follow these steps to migrate to the Operator-based Helm chart:
 
 
 
-## Configuration Reference (W&B Server)
+## Configuration Reference for W&B Server
 
 This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Many configuration options have been exposed with below configuration, some need to be set as environment variables.
 
-The documentation has two lists of environment variables: [Basic](./env-vars) and [Advanced](./iam/advanced_env_vars). Only use environment variables if the configuration option that you need has not yet been exposed via Helm Chart.
+The documentation has two lists of environment variables: [Basic](./env-vars) and [Advanced](./iam/advanced_env_vars). Only use environment variables if the configuration option that you need has not yet been exposed using Helm Chart.
 
 The W&B Server application configuration file for a production deployment requires the following contents:
 
@@ -711,29 +711,29 @@ global:
   customCACerts:
   - |
     -----BEGIN CERTIFICATE-----
-    MIIBnDCCAUKgAwIBAgIRALt+/LEb2TdSeCVlVAFfucMwCgYIKoZIzj0EAwIwLDEQ
-    MA4GA1UEChMHSG9tZUxhYjEYMBYGA1UEAxMPSG9tZUxhYiBSb290IENBMB4XDTI0
+    MIIBnDCCAUKgAwIBAg.....................fucMwCgYIKoZIzj0EAwIwLDEQ
+    MA4GA1UEChMHSG9tZU.....................tZUxhYiBSb290IENBMB4XDTI0
     MDQwMTA4MjgzMFoXDT.....................oNWYggsMo8O+0mWLYMAoGCCqG
-    SM49BAMCA0gAMEUCIQDejznNXCMUfBo1eIrjiVFhwuJgyQRaqMI149div72V2QIg
+    SM49BAMCA0gAMEUCIQ.....................hwuJgyQRaqMI149div72V2QIg
     P5GD+5I+02yEp58Cwxd5Bj2CvyQwTjTO4hiVl1Xd0M0=
     -----END CERTIFICATE-----
   - |
     -----BEGIN CERTIFICATE-----
-    MIIBxTCCAWugAwIBAgIRAMXl8L4i99gapX+WGdpqaJcwCgYIKoZIzj0EAwIwLDEQ
-    MA4GA1UEChMHSG9tZUxhYjEYMBYGA1UEAxMPSG9tZUxhYiBSb290IENBMB4XDTI0
+    MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+    MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
     MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
-    SAAwRQIhAIzXZMW44l6XMf9Nf4TxTevK8vE4Ic6E8UFqsCcILdXjAiA7iTluM0IU
+    SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
     aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
     -----END CERTIFICATE-----
 ```
 
-## Configuration Reference (W&B Operator)
+## Configuration Reference for W&B Operator
 
 This section describes the configuration options for W&B Kubernetes operator (wandb-controller-manager). The operator receives its configuration in the form of a YAML file. 
 
-By default, the W&B Kubernetes operator does not need any configuration file and should only be created if actually needed.
+By default, the W&B Kubernetes operator does not need a configuration file. Create a configuration file if required.
 
-The full list of spec customization can be found [here](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml) in the Helm repository.
+Find the full list of spec customization [in the Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
 ### Custom CA
 `customCACerts` is a list and can take many certificates. Those CAs when added only apply to the W&B Kubernetes operator (wandb-controller-manager). 
@@ -742,18 +742,18 @@ The full list of spec customization can be found [here](https://github.com/wandb
 customCACerts:
 - |
   -----BEGIN CERTIFICATE-----
-  MIIBnDCCAUKgAwIBAgIRALt+/LEb2TdSeCVlVAFfucMwCgYIKoZIzj0EAwIwLDEQ
-  MA4GA1UEChMHSG9tZUxhYjEYMBYGA1UEAxMPSG9tZUxhYiBSb290IENBMB4XDTI0
+  MIIBnDCCAUKgAwIBAg.....................fucMwCgYIKoZIzj0EAwIwLDEQ
+  MA4GA1UEChMHSG9tZU.....................tZUxhYiBSb290IENBMB4XDTI0
   MDQwMTA4MjgzMFoXDT.....................oNWYggsMo8O+0mWLYMAoGCCqG
-  SM49BAMCA0gAMEUCIQDejznNXCMUfBo1eIrjiVFhwuJgyQRaqMI149div72V2QIg
+  SM49BAMCA0gAMEUCIQ.....................hwuJgyQRaqMI149div72V2QIg
   P5GD+5I+02yEp58Cwxd5Bj2CvyQwTjTO4hiVl1Xd0M0=
   -----END CERTIFICATE-----
 - |
   -----BEGIN CERTIFICATE-----
-  MIIBxTCCAWugAwIBAgIRAMXl8L4i99gapX+WGdpqaJcwCgYIKoZIzj0EAwIwLDEQ
-  MA4GA1UEChMHSG9tZUxhYjEYMBYGA1UEAxMPSG9tZUxhYiBSb290IENBMB4XDTI0
+  MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+  MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
   MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
-  SAAwRQIhAIzXZMW44l6XMf9Nf4TxTevK8vE4Ic6E8UFqsCcILdXjAiA7iTluM0IU
+  SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
   aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
   -----END CERTIFICATE-----
 ```
