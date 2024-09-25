@@ -25,4 +25,4 @@ jobs:
       run: yarn install
 
     - name: Build the docs
-      run: sh ./scripts/production.sh
+      run: yarn build:prod
