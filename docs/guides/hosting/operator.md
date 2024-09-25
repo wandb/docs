@@ -435,8 +435,6 @@ spec:
         password: 8wtX6cJHizAZvYScjDzZcUarK4zZGjpV
         port: 3306
         user: wandb
-      extraEnv:
-        AWS_REGION: "var-must-be-set-despite-not-needed"
       license: eyJhbGnUzaHgyQjQyQWhEU3...ZieKQ2x5GGfw
     ingress:
       annotations:
@@ -465,6 +463,7 @@ global:
     provider: "s3"
     name: ""
     kmsKey: ""
+    region: ""
 ```
 
 **GCP**
