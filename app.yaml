@@ -1,3 +1,0 @@
-service: default
-runtime: nodejs16
-entrypoint: yarn serve

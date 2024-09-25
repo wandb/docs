@@ -4,7 +4,7 @@ description: Keep track of metrics, videos, custom plots, and more
 displayed_sidebar: default
 ---
 
-# Log Media and Objects in Experiments
+# Log media and objects in experiments
 
 <head>
   <title>Log Media and Objects in Experiments</title>
@@ -28,7 +28,7 @@ wandb.log({'loss': 0.2}, step=step)
 <!-- [INSERT EXAMPLE] -->
 
 :::caution
-Use `wandb.log()` to log consecutive values for each `step`: 0, 1, 2, ..... It is not possible to write to a specific history step. W&B only writes to the "current" and "next" step.
+Use `wandb.log()` to log consecutive values for each `step`: 0, 1, 2, and so on. It is not possible to write to a specific history step. W&B only writes to the "current" and "next" step.
 :::
 
 <!-- You can set `commit=False` in `wandb.log` to accumulate metrics, just be sure to eventually call `wandb.log` with `commit=True` (the default) to persist the metrics.

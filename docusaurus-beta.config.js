@@ -26,19 +26,9 @@ const config = {
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'ja'],
-    path: 'i18n',
-    localeConfigs: {
-      en : {
-        label: 'English',
-        path: 'en'
-      },
-      ja : {
-        label: 'Japanese',
-        path: 'ja'
-      },
-    },
+    locales: ['en'],
   },
+
 
   presets: [
     [
@@ -74,7 +64,7 @@ const config = {
     [
       '@docusaurus/plugin-google-tag-manager',
       {
-        containerId: 'GTM-TCTWFHR',
+        containerId: 'GTM-5BL5RTH',
       },
     ],
     [
@@ -147,10 +137,25 @@ const config = {
             label: 'Tutorials',
             position: 'right',
           },
+          // {
+          //   type: 'localeDropdown',
+          //   position: 'right',
+          // },
           {
-            type: 'localeDropdown',
+            type: 'dropdown',
+            label: 'Language',
             position: 'right',
-          },
+            items: [
+              {
+                label: 'English',
+                href: 'https://docs.wandb.ai/guides',
+              },
+              {
+                label: 'Korean',
+                href: 'https://docs.wandb.ai/ko/guides',
+              },
+            ],
+          },          
           {
             href: 'https://github.com/wandb/wandb',
             html: 'GitHub<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
@@ -158,7 +163,7 @@ const config = {
           },
           {
             href: 'https://app.wandb.ai/login',
-            html: 'Login<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
+            html: 'Log in<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
             position: 'right',
           },
         ],
@@ -170,7 +175,7 @@ const config = {
       },
       zoom: {
         // CSS selector to apply the plugin to, defaults to '.markdown img'
-        selector: '.markdown img',
+        selector: '.markdown img:not(.no-zoom)',
         // Optional medium-zoom options
         // see: https://www.npmjs.com/package/medium-zoom#options
         options: {

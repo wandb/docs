@@ -8,6 +8,10 @@ displayed_sidebar: default
 
 Organizations allow you to manage membership across teams in your organization as well as subscription settings and billing information.
 
+:::note
+W&B recommends to have more than one admin in an organization. It is a best practice to ensure that admin operations can continue when the primary admin is not available. 
+:::
+
 ## Invite organization members
 
 Invite new members to your organizations.
@@ -15,9 +19,6 @@ Invite new members to your organizations.
 2. Navigate to https://wandb.ai/subscriptions.
 3. Select **Manage members**.
 4. A model will appear. Provide the username or email for the **Email or Username** field, select a team for them to join from the **Team** dropdown menu, and select a role type from the **Organizational Role** dropdown menu.
-
-![](@site/static/images/app_ui/ezgif-3-b665ff2fa9.gif)
-
 5. Select the **Add** button.
 
 :::info
@@ -32,9 +33,6 @@ Edit and update the billing information for your organization (both paid and tra
 2. Click on the kebab menu (three vertical dots).
 3. Select **Account** next to your organization name.
 
-
-![Update Account Settings of an Org](@site/static/images/app_ui/edit_account.gif)
-
 :::info
 Contact sales to upgrade your plan.
 :::
@@ -42,5 +40,3 @@ Contact sales to upgrade your plan.
 ## Change the billing user of an organization
 
 Change the billing user of your organization by clicking on the **Manage members** button on your [subscription page](https://wandb.ai/subscriptions).
-
-![](/images/app_ui/change_billing_user.gif)

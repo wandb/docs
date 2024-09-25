@@ -17,6 +17,7 @@ Track your metrics as normal with `wandb.init` and `wandb.log` . Here, `wandb.en
 ```python
 import wandb
 
+
 @hydra.main(config_path="configs/", config_name="defaults")
 def run_experiment(cfg):
     run = wandb.init(entity=cfg.wandb.entity, project=cfg.wandb.project)

@@ -85,6 +85,10 @@
       "to": "/guides/app/pages/project-page"
     },
     {
+      "from": "/guides/app/pages/workspaces#create-saved-workspace-views-beta",
+      "to": "/guides/app/pages/workspaces#saved-workspace-views"
+    },
+    {
       "from": "/app/panels/parameter-importance",
       "to": "/guides/app/features/panels/parameter-importance"
     },
@@ -166,11 +170,27 @@
     },
     {
       "from": "/data-vis",
-      "to": "/guides/data-vis"
+      "to": "/guides/tables"
     },
     {
       "from": "/data-vis/log-tables",
       "to": "/guides/track/log/log-tables"
+    },
+    {
+      "from": "/guides/tables/log-tables",
+      "to": "guides/track/log/log-tables"
+    },
+    {
+      "from": "/guides/data-vis/tables",
+      "to": "/guides/tables"
+    },
+    {
+      "from": "guides/data-vis/tables",
+      "to: ": "guides/tables/visualize-tables"
+    },
+    {
+      "from": "guides/data-vis/tables-quickstart",
+      "to": "guides/tables/tables-walkthrough"
     },
     {
       "from": "/datasets-and-predictions",
@@ -297,8 +317,12 @@
       "to": "/guides/artifacts"
     },
     {
+      "from": "/guides/artifacts/quickstart",
+      "to": "/guides/artifacts/artifacts-walkthrough"
+    },
+    {
       "from": "/guides/artifacts/api",
-      "to": "/ref/python/public-api/artifact"
+      "to": "ref/python/public-api/api#artifact"
     },
     {
       "from": "/guides/artifacts/artifacts-core-concepts",
@@ -310,7 +334,7 @@
     },
     {
       "from": "/guides/artifacts/model-versioning",
-      "to": "/guides/models"
+      "to": "/guides/model_registry"
     },
     {
       "from": "/guides/artifacts/references",
@@ -346,16 +370,13 @@
     },
     {
       "from": "/guides/data-and-model-versioning/model-versioning",
-      "to": "/guides/models"
+      "to": "/guides/model_registry"
     },
     {
       "from": "/guides/data-vis/log-tables",
       "to": "/guides/track/log/log-tables"
     },
-    {
-      "from": "/guides/data-vis/log-tables](https://docs.wandb.ai/guides/data-vis/log-tables",
-      "to": "/guides/data-vis"
-    },
+
     {
       "from": "/guides/data_types",
       "to": "/ref/python/data-types"
@@ -373,12 +394,96 @@
       "to": "/guides/hosting"
     },
     {
-      "from": "/guides/hosting/how-to-guides",
-      "to": "/guides/hosting"
+      "from": "/guides/hosting/secure-storage-connector",
+      "to": "/guides/hosting/data-security/secure-storage-connector"
+    },
+    {
+      "from": "/guides/hosting/presigned-urls",
+      "to": "/guides/hosting/data-security/presigned-urls"
+    },
+    {
+      "from": "/guides/hosting/ip-allowlisting",
+      "to": "/guides/hosting/data-security/ip-allowlisting"
+    },
+    {
+      "from": "/guides/hosting/private-connectivity",
+      "to": "/guides/hosting/data-security/private-connectivity"
+    },
+    {
+      "from": "/guides/hosting/restricted-projects",
+      "to": "/guides/hosting/iam/restricted-projects"
+    },
+    {
+      "from": "/guides/hosting/audit-logging",
+      "to": "/guides/hosting/monitoring-usage/audit-logging"
+    },
+    {
+      "from": "/guides/hosting/prometheus-logging",
+      "to": "/guides/hosting/monitoring-usage/prometheus-logging"
+    },
+    {
+      "from": "/guides/hosting/slack-alerts",
+      "to": "/guides/hosting/monitoring-usage/slack-alerts"
+    },
+    {
+      "from": "/guides/hosting/org_dashboard",
+      "to": "/guides/hosting/monitoring-usage/org_dashboard"
     },
     {
       "from": "/guides/hosting/basic-setup",
       "to": "/guides/hosting/how-to-guides/basic-setup"
+    },
+    {
+      "from": "/guides/hosting/hosting-options/intro",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/hosting-options",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/hosting-options/wb-managed",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/basic-setup",
+      "to": "/guides/hosting/self-managed/basic-setup"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/aws-tf",
+      "to": "/guides/hosting/self-managed/aws-tf"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/gcp-tf",
+      "to": "/guides/hosting/self-managed/gcp-tf"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/azure-tf",
+      "to": "/guides/hosting/self-managed/azure-tf"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/operator",
+      "to": "/guides/hosting/operator"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/bare-metal",
+      "to": "/guides/hosting/self-managed/bare-metal"
+    },
+    {
+      "from": "/guides/hosting/ldap",
+      "to": "/guides/hosting/iam/ldap"
+    },
+    {
+      "from": "/guides/hosting/manage-users",
+      "to": "/guides/hosting/iam/manage-users"
+    },
+    {
+      "from": "/guides/hosting/scim",
+      "to": "/guides/hosting/iam/scim"
+    },
+    {
+      "from": "/guides/hosting/sso",
+      "to": "/guides/hosting/iam/sso"
     },
     {
       "from": "/guides/hosting/hosting-upgrade",
@@ -637,6 +742,30 @@
       "to": "/"
     },
     {
+      "from": "/guides/launch/sagemaker",
+      "to": "/guides/launch/setup-launch-sagemaker"
+    },
+    {
+      "from": "/guides/launch/kubernetes",
+      "to": "/guides/launch/setup-launch-kubernetes"
+    },
+    {
+      "from": "/guides/launch/docker",
+      "to": "/guides/launch/setup-launch-docker"
+    },
+    {
+      "from": "/guides/launch/run-agent",
+      "to": "/guides/launch/setup-agent-advanced"
+    },
+    {
+      "from": "/guides/launch/create-queue",
+      "to": "/guides/launch/setup-queue-advanced"
+    },
+    {
+      "from": "/guides/launch/vertex",
+      "to": "/guides/launch/setup-vertex"
+    },
+    {
       "from": "/guides/launch/containers",
       "to": "/guides/launch"
     },
@@ -657,8 +786,48 @@
       "to": "/guides/launch/create-queue"
     },
     {
+      "from": "/guides/launch/create-job",
+      "to": "/guides/launch/create-launch-job"
+    },
+    {
       "from": "/guides/launch/getting-started",
-      "to": "/guides/launch/quickstart"
+      "to": "/guides/launch/walkthrough"
+    },
+    {
+      "from": "/guides/launch/launch-jobs",
+      "to": "/guides/launch/add-job-to-queue"
+    },
+    {
+      "from": "/guides/models/walkthrough",
+      "to": "/guides/model_registry/walkthrough"
+    },
+    {
+      "from": "/guides/models/model_tags",
+      "to": "/guides/model_registry/model_tags"
+    },
+    {
+      "from": "/guides/models/model_tags",
+      "to": "/guides/model_registry/link-model-version"
+    },
+    {
+      "from": "/guides/models/access_controls",
+      "to": "/guides/model_registry/access_controls"
+    },
+    {
+      "from": "/guides/models/automation",
+      "to": "/guides/model_registry/model-registry-automations"
+    },
+    {
+      "from": "/guides/models/notifications",
+      "to": "/guides/model_registry/notifications"
+    },
+    {
+      "from": "/guides/models/model-management-concepts",
+      "to": "/guides/model_registry/model-management-concepts"
+    },
+    {
+      "from": "/guides/model_registry/quickstart",
+      "to": "/guides/model_registry/walkthrough"
     },
     {
       "from": "/guides/manage-runs",
@@ -667,6 +836,22 @@
     {
       "from": "/guides/projects/campaigns",
       "to": "/"
+    },
+    {
+      "from": "/guides/prompts_platform",
+      "to": "/guides/weave_platform"
+    },
+    {
+      "from": "/guides/prompts/intro",
+      "to": "/guides/integrations/prompts/intro"
+    },
+    {
+      "from": "/guides/prompts/quickstart",
+      "to": "/guides/integrations/prompts/quickstart"
+    },
+    {
+      "from": "/guides/prompts/openai",
+      "to": "/guides/integrations/prompts/openai"
     },
     {
       "from": "/guides/projects/sharing-and-visibility",
@@ -861,12 +1046,44 @@
       "to": "/guides/track/log/plots"
     },
     {
+      "from": "/guides/track/save-restore",
+      "to": "/guides/artifacts"
+    },
+    {
       "from": "/guides/track/summary-metrics",
       "to": "/guides/track/log/log-summary"
     },
     {
       "from": "/guides/troubleshooting/network",
       "to": "/guides/technical-faq"
+    },
+    {
+      "from": "/weave",
+      "to": "/guides/app/features/panels/query-panel"
+    },
+    {
+      "from": "/guides/app/features/panels/weave",
+      "to": "/guides/app/features/panels/query-panel"
+    },
+    {
+      "from": "/weave/boards",
+      "to": "/guides/app/features/panels/query-panel"
+    },
+    {
+      "from": "/weave/streamtable",
+      "to": "/guides/app/features/panels/query-panel"
+    },
+    {
+      "from": "/guides/app/features/panels/weave/embedding-projector",
+      "to": "/guides/app/features/panels/query-panel/embedding-projector"
+    },
+    {
+      "from": "/guides/platform",
+      "to": "/guides/core"
+    },
+    {
+      "from": "/weave/prod-mon",
+      "to": "/guides/core"
     },
     {
       "from": "/home",
@@ -1558,11 +1775,11 @@
     },
     {
       "from": "/sweeps/overview/getting-started",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/overview/quickstart",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/python",
@@ -1574,7 +1791,7 @@
     },
     {
       "from": "/sweeps/quickstart",
-      "to": "/guides/sweeps/quickstart"
+      "to": "/guides/sweeps/walkthrough"
     },
     {
       "from": "/sweeps/ray-tune",
@@ -1591,6 +1808,22 @@
     {
       "from": "/teams",
       "to": "/guides/app/features/teams"
+    },
+    {
+      "from": "/tutorials/lightgbm",
+      "to": "/tutorials"
+    },
+    {
+      "from": "/tutorials/prompts",
+      "to": "/tutorials"
+    },
+    {
+      "from": "/tutorials/Workspace_tutorial",
+      "to": "/tutorials/workspaces"
+    },
+    {
+      "from": "/tutorials/xgboost",
+      "to": "/tutorials"
     },
     {
       "from": "/v",
@@ -1664,7 +1897,6 @@
     "/ref/java/wandbrun.md",
     "/ref/python/data-types/histogram",
     "/ref/python/init%20for%20more%20init%20arguments.",
-    "/ref/python/public-api/artifact",
     "/ref/python/sweep",
     "/ref/weave/artifact.md",
     "/ref/weave/int",

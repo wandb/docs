@@ -8,13 +8,13 @@ displayed_sidebar: default
 The `wandb` library includes a special callback for [LightGBM](https://lightgbm.readthedocs.io/en/latest/). It's also easy to use the generic logging features of Weights & Biases to track large experiments, like hyperparameter sweeps.
 
 ```python
-from wandb.lightgbm import wandb_callback, log_summary
+from wandb.integration.lightgbm import wandb_callback, log_summary
 import lightgbm as lgb
 
 # Log metrics to W&B
 gbm = lgb.train(..., callbacks=[wandb_callback()])
 
-# Log feature importance plot and upload model checkpoint to W&B 
+# Log feature importance plot and upload model checkpoint to W&B
 log_summary(gbm, save_model_checkpoint=True)
 ```
 

@@ -16,7 +16,7 @@ The `wandb` library has a `WandbCallback` callback for logging metrics, configs 
 Logging XGBoost metrics, configs and booster models to Weights & Biases is as easy as passing the `WandbCallback` to XGBoost:
 
 ```python
-from wandb.xgboost import WandbCallback
+from wandb.integration.xgboost import WandbCallback
 import xgboost as XGBClassifier
 
 ...
@@ -25,8 +25,7 @@ run = wandb.init()
 
 # Pass WandbCallback to the model
 bst = XGBClassifier()
-bst.fit(X_train, y_train, 
-    callbacks=[WandbCallback(log_model=True)])
+bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
 
 # Close your wandb run
 run.finish()
@@ -51,7 +50,7 @@ Passing `WandbCallback` to a XGBoost model will:
 
 `log_feature_importance`: (boolean) if True log a feature importance bar plot
 
-`importance_type`: (str) one of {weight, gain, cover, total_gain, total_cover} for tree model. weight for linear model.
+`importance_type`: (str) one of `{weight, gain, cover, total_gain, total_cover}` for tree model. weight for linear model.
 
 `define_metric`: (boolean) if True (default) capture model performance at the best step, instead of the last step, of training in your `wandb.summary`.
 

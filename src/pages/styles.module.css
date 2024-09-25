@@ -46,6 +46,16 @@
   transform: scale(1.2) translateY(9px);
 }
 
+.weaveBanner {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.weaveBanner img {
+  width: 100%;
+  height: auto;
+}
+
 .homeDescription {
   color: #000000;
   font-style: normal;

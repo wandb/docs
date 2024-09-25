@@ -5,7 +5,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create an Experiment
+# Create an experiment
 
 <head>
   <title>Start a W&B Experiment</title>
@@ -24,20 +24,20 @@ Create a W&B Experiment in four steps:
 3. [Log metrics inside your training loop](#log-metrics-inside-your-training-loop)
 4. [Log an artifact to W&B](#log-an-artifact-to-wb)
 
-### Initialize a W&B Run
+### Initialize a W&B run
 At the beginning of your script call, the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a W&B Run. 
 
 The proceeding code snippet demonstrates how to create a new W&B project named `“cat-classification”`. A note `“My first experiment”` was added to help identify this run. Tags `“baseline”` and `“paper1”` are included to remind us that this run is a baseline experiment intended for a future paper publication.
 
 ```python
-# Import the W&B Python Library 
+# Import the W&B Python Library
 import wandb
 
 # 1. Start a W&B Run
 run = wandb.init(
-  project="cat-classification",
-  notes="My first experiment",
-  tags=["baseline", "paper1"]
+    project="cat-classification",
+    notes="My first experiment",
+    tags=["baseline", "paper1"],
 )
 ```
 A [Run](../../ref/python/run.md) object is returned when you initialize W&B with `wandb.init()`. Additionally, W&B creates a local directory where all logs and files are saved and streamed asynchronously to a W&B server.
@@ -50,12 +50,8 @@ Note: Runs are added to pre-existing projects if that project already exists whe
 Save a dictionary of hyperparameters such as learning rate or model type. The model settings you capture in config are useful later to organize and query your results.
 
 ```python
-# 2. Capture a dictionary of hyperparameters
-wandb.config = {
-  "epochs": 100, 
-  "learning_rate": 0.001, 
-  "batch_size": 128
-}
+#  2. Capture a dictionary of hyperparameters
+wandb.config = {"epochs": 100, "learning_rate": 0.001, "batch_size": 128}
 ```
 For more information on how to configure an experiment, see [Configure Experiments](./config.md).
 
@@ -73,11 +69,11 @@ Details of how to set up your mode and retrieve data are omitted.
 model, dataloader = get_model(), get_data()
 
 for epoch in range(wandb.config.epochs):
-	for batch in dataloader:
-	  loss, accuracy = model.training_step()
-    # 3. Log metrics inside your training loop to visualize 
-    # model performance
-	  wandb.log({"accuracy": accuracy, "loss": loss})
+    for batch in dataloader:
+        loss, accuracy = model.training_step()
+        #  3. Log metrics inside your training loop to visualize
+        # model performance
+        wandb.log({"accuracy": accuracy, "loss": loss})
 ```
 For more information on different data types you can log with W&B, see [Log Data During Experiments](./log/intro.md).
 
@@ -86,28 +82,20 @@ Optionally log a W&B Artifact. Artifacts make it easy to version datasets and mo
 ```python
 wandb.log_artifact(model)
 ```
-For more information about Artifacts, see the [Artifacts Chapter](../artifacts/intro.md). For more information about versioning models, see [Model Management](../models/intro.md).
+For more information about Artifacts, see the [Artifacts Chapter](../artifacts/intro.md). For more information about versioning models, see [Model Management](../model_registry/intro.md).
 
 
 ### Putting it all together
 The full script with the preceding code snippets is found below:
 ```python
-# Import the W&B Python Library 
+# Import the W&B Python Library
 import wandb
 
 # 1. Start a W&B Run
-run = wandb.init(
-    project="cat-classification",
-    notes="",
-    tags=["baseline", "paper1"]
-)
+run = wandb.init(project="cat-classification", notes="", tags=["baseline", "paper1"])
 
-# 2. Capture a dictionary of hyperparameters
-wandb.config = {
-        "epochs": 100, 
-        "learning_rate": 0.001, 
-        "batch_size": 128
-}
+#  2. Capture a dictionary of hyperparameters
+wandb.config = {"epochs": 100, "learning_rate": 0.001, "batch_size": 128}
 
 # Set up model and data
 model, dataloader = get_model(), get_data()
@@ -115,8 +103,8 @@ model, dataloader = get_model(), get_data()
 for epoch in range(wandb.config.epochs):
     for batch in dataloader:
         loss, accuracy = model.training_step()
-    # 3. Log metrics inside your training loop to visualize 
-    # model performance
+        #  3. Log metrics inside your training loop to visualize
+        # model performance
         wandb.log({"accuracy": accuracy, "loss": loss})
 
 # 4. Log an artifact to W&B
@@ -135,7 +123,7 @@ Use the W&B Dashboard as a central place to organize and visualize results from 
 For more information on how to view experiments and specific runs, see [Visualize results from experiments](./app.md).
 
 
-## Best Practices
+## Best practices
 The following are some suggested guidelines to consider when you create experiments:
 
 1. **Config**: Track hyperparameters, architecture, dataset, and anything else you'd like to use to reproduce your model. These will show up in columns— use config columns to group, sort, and filter runs dynamically in the app.
@@ -148,18 +136,15 @@ The following code snippet demonstrates how to define a W&B Experiment using the
 ```python
 import wandb
 
-config = dict (
-  learning_rate = 0.01,
-  momentum = 0.2,
-  architecture = "CNN",
-  dataset_id = "cats-0192"
+config = dict(
+    learning_rate=0.01, momentum=0.2, architecture="CNN", dataset_id="cats-0192"
 )
 
 wandb.init(
-  project="detect-cats",
-  notes="tweak baseline",
-  tags=["baseline", "paper1"],
-  config=config,
+    project="detect-cats",
+    notes="tweak baseline",
+    tags=["baseline", "paper1"],
+    config=config,
 )
 ```
 

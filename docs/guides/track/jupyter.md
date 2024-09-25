@@ -15,7 +15,7 @@ import TabItem from '@theme/TabItem';
 
 Use W&B with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged!
 
-## Use Cases for W&B with Jupyter notebooks
+## Use cases for W&B with Jupyter notebooks
 
 1. **Iterative experimentation**: Run and re-run experiments, tweaking parameters, and have all the runs you do saved automatically to W&B without having to take manual notes along the way.
 2. **Code saving**: When reproducing a model, it's hard to know which cells in a notebook ran, and in which order. Turn on code saving on your [settings page](../app/settings-page/intro.md) to save a record of cell execution for each experiment.
@@ -25,7 +25,7 @@ Use W&B with Jupyter to get interactive visualizations without leaving your note
 
 Start your notebook with the following code to install W&B and link your account:
 
-```python
+```notebook
 !pip install wandb -qqq
 import wandb
 wandb.login()
@@ -34,17 +34,19 @@ wandb.login()
 Next, set up your experiment and save hyperparameters:
 
 ```python
-wandb.init(project="jupyter-projo",
-           config={
-               "batch_size": 128,
-               "learning_rate": 0.01,
-               "dataset": "CIFAR-100",
-           })
+wandb.init(
+    project="jupyter-projo",
+    config={
+        "batch_size": 128,
+        "learning_rate": 0.01,
+        "dataset": "CIFAR-100",
+    },
+)
 ```
 
 After running `wandb.init()` , start a new cell with `%%wandb` to see live graphs in the notebook. If you run this cell multiple times, data will be appended to the run.
 
-```python
+```notebook
 %%wandb
 
 # Your training loop here
@@ -58,7 +60,7 @@ Try it for yourself in this [quick example notebook →](http://wandb.me/jupyter
 
 You can also display any existing dashboards, sweeps or reports directly in your notebook using the `%wandb` magic:
 
-```python
+```notebook
 # Display a project workspace
 %wandb USERNAME/PROJECT
 # Display a single run
@@ -116,7 +118,7 @@ To disable standard wandb logging and info messages (e.g. project info at the st
   ]}>
   <TabItem value="jupyter">
 
-```python
+```notebook
 %env WANDB_SILENT=True
 ```
   </TabItem>
@@ -151,13 +153,13 @@ If you're seeing the error message `"Failed to query for notebook name, you can 
   ]}>
   <TabItem value="jupyter">
 
-```python
+```notebook
 %env "WANDB_NOTEBOOK_NAME" "notebook name here"
 ```
   </TabItem>
   <TabItem value="python">
 
-```python
+```notebook
 import os
 
 os.environ["WANDB_NOTEBOOK_NAME"] = "notebook name here"

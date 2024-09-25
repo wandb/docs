@@ -18,7 +18,7 @@ If you want to know more about teams, visit the [teams section](../app/features/
 
 ### When should I log to my personal entity against my team entity?
 
-You should log to your personal entity when you are working on individual projects or experiments that are not related to your team's work. On the other hand, you should log to your team entity when you are collaborating with your team members on a shared project or when the results of your experiments are relevant to the team's goals.
+Personal Entities are no longer available for accounts created after May 21st, 2024. W&B encourages all users, regardless of sign up date, to log new projects to a Team so you have the option to share your results with others.
 
 ### Who can create a team? Who can add or delete people from a team? Who can delete projects?
 
@@ -57,4 +57,4 @@ You should check the `Debug Bundle`. An admin of the instance can get it from th
 
 ### If I am the admin of my local instance, how should I manage it?
 
-If you are the admin of your instance, go through our [User Management](../hosting/manage-users.md) section to learn how to add users to the instance and create teams.
+If you are the admin of your instance, go through our [User Management](../hosting/iam/manage-users.md) section to learn how to add users to the instance and create teams.

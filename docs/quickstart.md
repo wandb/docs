@@ -13,9 +13,9 @@ Install W&B and start tracking your machine learning experiments in minutes.
 ## 1. Create an account and install W&B
 Before you get started, make sure you create an account and install W&B:
 
-1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then login to your wandb account.  
+1. [Sign up](https://wandb.ai/site) for a free account at [https://wandb.ai/site](https://wandb.ai/site) and then log in to your wandb account.  
 2. Install the wandb library on your machine in a Python 3 environment using [`pip`](https://pypi.org/project/wandb/).  
-<!-- 3. Login to the wandb library on your machine. You will find your API key here: [https://wandb.ai/authorize](https://wandb.ai/authorize).   -->
+
 
 The following code snippets demonstrate how to install and log into W&B using the W&B CLI and Python Library:
 
@@ -29,7 +29,7 @@ The following code snippets demonstrate how to install and log into W&B using th
 
 Install the CLI and Python library for interacting with the Weights and Biases API:
 
-```
+```bash
 pip install wandb
 ```
 
@@ -38,7 +38,8 @@ pip install wandb
 
 Install the CLI and Python library for interacting with the Weights and Biases API:
 
-```python
+
+```notebook
 !pip install wandb
 ```
 
@@ -59,15 +60,17 @@ Install the CLI and Python library for interacting with the Weights and Biases A
 
 Next, log in to W&B:
 
-```
+```bash
 wandb login
 ```
 
-Or if you are using [W&B Server:](./guides/hosting)
+Or if you are using [W&B Server](./guides/hosting) (including **Dedicated Cloud** or **Self-managed**):
 
+```bash
+wandb login --relogin --host=http://your-shared-local-host.com
 ```
-wandb login --host=http://wandb.your-shared-local-host.com
-```
+
+If needed, ask your deployment admin for the hostname.
 
 Provide [your API key](https://wandb.ai/authorize) when prompted.
 
@@ -97,36 +100,14 @@ run = wandb.init(
     config={
         "learning_rate": 0.01,
         "epochs": 10,
-    })
+    },
+)
 ```
 
-
-<!-- ```python
-run = wandb.init(project="my-awesome-project")
-``` -->
 
 A [run](./guides/runs) is the basic building block of W&B. You will use them often to [track metrics](./guides/track), [create logs](./guides/artifacts), [create jobs](./guides/launch), and more.
 
 
-<!-- ## Track metrics -->
-<!-- Pass a dictionary to the `config` parameter with key-value pairs of hyperparameter name and values when you initialize a run object:
-
-```python
-  # Track hyperparameters and run metadata
-  config={
-      "learning_rate": lr,
-      "epochs": epochs,
-  }
-``` -->
-
-
-<!-- Use [`wandb.log()`](./ref/python/log.md) to track metrics:
-
-```python
-wandb.log({'accuracy': acc, 'loss': loss})
-```
-
-Anything you log with `wandb.log` is stored in the run object that was most recently initialized. -->
 
 
 
@@ -138,13 +119,13 @@ Note that we added code that mimics machine learning training.
 ```python
 # train.py
 import wandb
-import random # for demo script
+import random  # for demo script
 
 # highlight-next-line
 wandb.login()
 
-epochs=10
-lr=0.01
+epochs = 10
+lr = 0.01
 
 # highlight-start
 run = wandb.init(
@@ -154,16 +135,17 @@ run = wandb.init(
     config={
         "learning_rate": lr,
         "epochs": epochs,
-    })
-# highlight-end    
+    },
+)
+# highlight-end
 
 offset = random.random() / 5
 print(f"lr: {lr}")
 
 # simulating a training run
 for epoch in range(2, epochs):
-    acc = 1 - 2 ** -epoch - random.random() / epoch - offset
-    loss = 2 ** -epoch + random.random() / epoch + offset
+    acc = 1 - 2**-epoch - random.random() / epoch - offset
+    loss = 2**-epoch + random.random() / epoch + offset
     print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
     # highlight-next-line
     wandb.log({"accuracy": acc, "loss": loss})
@@ -179,26 +161,6 @@ The image above (click to expand) shows the loss and accuracy that was tracked f
 
 
 ## What's next?
-<!-- ### Get alerts
-
-Get notified by Slack or email if your W&B Run has crashed or with a custom trigger. For example, you can create a trigger to notify you if your loss reports `NaN` or a step in your ML pipeline has completed.
-
-Follow the procedure outlined below to set up an alert: 
-
-1. Turn on Alerts in your W&B [User Settings](https://wandb.ai/settings).
-2. Add [`wandb.alert()`](./guides/runs/alert.md) to your code.
-
-```python
-wandb.alert(
-    title="Low accuracy", 
-    text=f"Accuracy {acc} is below threshold {thresh}"
-)
-```
-You will receive an email or Slack alert when your alert criteria is met. For example, the proceeding image demonstrates a Slack alert:
-
-![W&B Alerts in a Slack channel](/images/quickstart/get_alerts.png)
-
-See the [Alerts docs](./guides/runs/alert.md) for more information on how to set up an alert. For more information about setting options, see the [Settings](./guides/app/settings-page/intro.md) page.  -->
 
 Explore the rest of the W&B ecosystem.
 
@@ -206,7 +168,8 @@ Explore the rest of the W&B ecosystem.
 2. Organize runs, embed and automate visualizations, describe your findings, and share updates with collaborators with [W&B Reports](./guides/reports).
 2. Create [W&B Artifacts](./guides/artifacts) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
 3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps](./guides/sweeps).
-4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/data-vis).
+4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/tables).
+5. Navigate to W&B AI Academy and learn about LLMs, MLOps and W&B Models from hands-on [courses](https://wandb.me/courses).
 
 
 ![](/images/quickstart/wandb_demo_experiments.gif) 
@@ -222,7 +185,8 @@ Once you've signed in to www.wandb.ai, the API key will be on the [Authorize pag
 If you are training models in an automated environment where it's inconvenient to run shell commands, such as Google's CloudML, you should look at our guide to configuration with [Environment Variables](guides/track/environment-variables).
 
 **Do you offer local, on-prem installs?**
-Yes, you can [privately host W&B](guides/hosting/) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how. Note, to login to wandb local server you can [set the host flag](guides/hosting/how-to-guides/basic-setup) to the address of the local instance.  
+Yes, you can [privately host W&B](guides/hosting/) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how.
+
 
 **How do I turn off wandb logging temporarily?**
 If are testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](./guides/track/environment-variables).

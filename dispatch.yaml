@@ -1,8 +1,0 @@
-dispatch:
-  # Route requests to docs.wandb.ai to the default service
-  - url: "docs.wandb.ai/*"
-    service: default
-
-  # Route requests to docs-beta.wandb.ai to the beta service
-  - url: "docs-beta.wandb.ai/*"
-    service: beta

@@ -6,92 +6,78 @@ description: >-
 displayed_sidebar: default
 ---
 import Translate, {translate} from '@docusaurus/Translate';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Artifacts
 
-Use W&B Artifacts to track datasets, models, dependencies, and results through each step of your machine learning pipeline. Artifacts make it easy to get a complete and auditable history of changes to your files.
+<CTAButtons productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifact_fundamentals.ipynb"/>
 
-Artifacts can be thought of as a versioned directory. Artifacts are either an input of a run or an output of a run. Common artifacts include entire training sets and models. Store datasets directly into artifacts, or use artifact references to point to data in other systems like Amazon S3, GCP, or your own system.
+Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs](../runs/intro.md). For example, a model training run might take in a dataset as input and produce a trained model as output. In addition to logging hyperparameters, metadata and metrics to a run, you can use an artifact to log, track and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as outputs.
 
-![Artifact overview](/images/artifacts/artifacts_overview.png)Artifacts can be an input or an output of a given run.
+## Use cases
+You can use artifacts throughout your entire ML workflow as inputs and outputs of [runs](../runs/intro.md). You can use datasets, models, or even other artifacts as inputs for processing.
 
-Artifacts and runs form a directed graph because a given W&B run can use another run’s output artifact as input. You do not need to define pipelines ahead of time. Weights and Biases will create the DAG for you when you use and log artifacts.
+![](/images/artifacts/artifacts_landing_page2.png)
 
-The following animation demonstrates an example artifacts DAG as seen in the W&B App UI.
+| Use Case               | Input                       | Output                       |
+|------------------------|-----------------------------|------------------------------|
+| Model Training         | Dataset (training and validation data)     | Trained Model                |
+| Dataset Pre-Processing | Dataset (raw data)          | Dataset (pre-processed data) |
+| Model Evaluation       | Model + Dataset (test data) | [W&B Table](../tables/intro.md)                        |
+| Model Optimization     | Model                       | Optimized Model              |
 
-![Example artifact DAG](/images/artifacts/dag_view_of_artifacts.png)
 
-For more information about exploring an artifacts graph, see [Explore and traverse an artifact graph](explore-and-traverse-an-artifact-graph.md).
+:::note
+The proceeding code snippets are meant to be run in order.
+:::
 
-### How it works
+## Create an artifact
 
-An artifact is like a directory of data. Each entry is either an actual file stored in the artifact, or a reference to an external URI. You can nest folders inside an artifact just like a regular filesystem. You can store any data, including: datasets, models, images, HTML, code, audio, raw binary data and more.
+Create an artifact with four lines of code:
+1. Create a [W&B run](../runs/intro.md).
+2. Create an artifact object with the [`wandb.Artifact`](../../ref/python/artifact.md) API.
+3. Add one or more files, such as a model file or dataset, to your artifact object.
+4. Log your artifact to W&B.
 
-Every time you change the contents of this directory, W&B will create a new version of your artifact instead of overwriting the previous contents.
-
-As an example, assume we have the following directory structure:
-
-```
-images
-|-- cat.png (2MB)
-|-- dog.png (1MB)
-```
-
-The proceeding code snippet demonstrates how to create a dataset artifact called `‘animals’`. (The specifics of how the following code snippet work are explained in greater detail in later sections).
-
-```python
-import wandb
-
-run = wandb.init() # Initialize a W&B Run
-artifact = wandb.Artifact('animals', type='dataset')
-artifact.add_dir('images') # Adds multiple files to artifact
-run.log_artifact(artifact) # Creates `animals:v0`
-```
-
-W&B automatically assigns a version `v0` and attaches an alias called `latest` when you create and log a new artifact object to W&B. An _alias_ is a human-readable name that you can give to an artifact version.
-
-If you create another artifact with the same name, type, and contents (in other words, you create another version of the artifact), W&B will increase the version index by one. The alias `latest` is unassigned from artifact `v0` and assigned to the `v1` artifact.
-
-W&B uploads files that were modified between artifacts versions. For more information about how artifacts are stored, see [Artifacts Storage](storage.md).
-
-You can use either the index version or the alias to refer to a specific artifact.
-
-As an example, suppose you want to upload a new image, `bird.png`, to your dataset artifact. Continuing from the previous code example, your directory might look similar to the following:
-
-```
-images
-|-- cat.png (2MB)
-|-- dog.png (1MB)
-|-- bird.png (3MB)
-```
-
-Re initialize the previous code snippet. This will produce a new artifact version `animals:v1`. W&B will automatically assign this version with the alias: `latest` . You can customize the aliases to apply to a version by passing in `aliases=['my-cool-alias']` to `log_artifact`. For more information about how to create new versions, see Create a new artifact version.
-
-To use the artifact, provide the name of the artifact along with the alias.
+For example, the proceeding code snippet shows how to log a file called `dataset.h5` to an artifact called `example_artifact`:
 
 ```python
 import wandb
 
-run = wandb.init()
-animals = run.use_artifact('animals:latest')
-directory = animals.download()
+run = wandb.init(project = "artifacts-example", job_type = "add-dataset")
+artifact = wandb.Artifact(name = "example_artifact", type = "dataset")
+artifact.add_file(local_path = "./dataset.h5", name = "training_dataset")
+artifact.save()
+
+# Logs the artifact version "my_data" as a dataset with data from dataset.h5
 ```
 
-For more information about how to download use artifacts, see [Use an artifact](download-and-use-an-artifact.md).
+:::tip
+See the [track external files](./track-external-files.md) page for information on how to add references to files or directories stored in external object storage, like an Amazon S3 bucket. 
+:::
 
-### How to get started
+## Download an artifact
+Indicate the artifact you want to mark as input to your run with the [`use_artifact`](../../ref/python/run.md#use_artifact) method.
 
-Depending on your use case, explore the following resources to get started with W&B Artifacts:
+Following the preceding code snippet, this next code block shows how to use the `training_dataset` artifact: 
 
-* If this is your first time using W&B Artifacts, we recommend you read the Quick Start. The [Quickstart](./quickstart.md) walks you through setting up your first artifact.
-* Explore topics about Artifacts in the W&B Developer Guide such as:
-  * Create an artifact or a new artifact version.
-  * Update an artifact.
-  * Download and use an artifact.
-  * Delete artifacts.
-* Within the [W&B SDK Reference Guide](../../ref/README.md) explore [Python Artifact APIs](../../ref/python/artifact.md) and [Artifact CLI Reference Guide](../../ref/cli/wandb-artifact/README.md).
+```python
+artifact = run.use_artifact("training_dataset:latest") #returns a run object using the "my_data" artifact
+```
+This returns an artifact object.
 
-For a step-by-step video, see [Version Control Data and Model with W&B Artifacts](https://www.youtube.com/watch?v=Hd94gatGMic\&ab\_channel=Weights%26Biases).
+Next, use the returned object to download all contents of the artifact:
 
+```python
+datadir = artifact.download() #downloads the full "my_data" artifact to the default directory.
+```
 
-<!-- {% embed url="https://www.youtube.com/watch?v=Hd94gatGMic" %} -->
+:::tip
+You can pass a custom path into the `root` [parameter](../../ref/python/artifact.md) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts](./download-and-use-an-artifact.md)
+:::
+
+## Next steps
+* Learn how to [version](./create-a-new-artifact-version.md), [update](./update-an-artifact.md), or [delete](./delete-artifacts.md) artifacts.
+* Learn how to trigger downstream workflows in response to changes to your artifacts with [artifact automation](./project-scoped-automations.md).
+* Learn about the [model registry](../model_registry/intro.md), a space that houses trained models.
+* Explore the [Python SDK](../../ref/python/artifact.md) and [CLI](../../ref/cli/wandb-artifact/README.md) reference guides.

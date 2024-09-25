@@ -8,12 +8,6 @@ displayed_sidebar: default
 
 When `wandb.init()` is called from your training script an API call is made to create a run object on our servers. A new process is started to stream and collect metrics, thereby keeping all threads and logic out of your primary process. Your script runs normally and writes to local files, while the separate process streams them to our servers along with system metrics. You can always turn off streaming by running `wandb off` from your training directory, or setting the `WANDB_MODE` environment variable to `offline`.
 
-### Can I disable wandb when testing my code?
-
-By using `wandb.init(mode="disabled")` or by setting `WANDB_MODE=disabled` you will make wandb act like a NOOP which is perfect for testing your code.
-
-**Note**: Setting `wandb.init(mode=“disabled”)` does not prevent `wandb` from saving artifacts to `WANDB_CACHE_DIR`
-
 ### Does your tool track or store training data?
 
 You can pass a SHA or other unique identifier to `wandb.config.update(...)` to associate a dataset with a training run. W&B does not store any data unless `wandb.save` is called with the local file name.
@@ -47,7 +41,7 @@ We love the TensorBoard folks, and we have a [TensorBoard integration](../integr
 5. **Powerful table**: Search, filter, sort, and group results from different models. It's easy to look over thousands of model versions and find the best-performing models for different tasks. TensorBoard isn't built to work well on large projects.
 6. **Tools for collaboration**: Use W&B to organize complex machine learning projects. It's easy to share a link to W&B, and you can use private teams to have everyone send results to a shared project. We also support collaboration via reports— add interactive visualizations and describe your work in markdown. This is a great way to keep a work log, share findings with your supervisor, or present findings to your lab.
 
-Get started with a [free personal account →](http://app.wandb.ai)
+Get started with a [free account](http://app.wandb.ai)
 
 ### How does wandb stream logs and writes to disk?
 
@@ -67,9 +61,9 @@ With wandb reports the procedure is as follows:
 
 For simplicity, W&B uses API keys for authorization when accessing the API. You can find your API keys in your [settings](https://app.wandb.ai/settings). Your API key should be stored securely and never checked into version control. In addition to personal API keys, you can add Service Account users to your team.
 
-### Does W&B support SSO for SaaS?
+### Does W&B support SSO for Multi-tenant?
 
-Yes, W&B supports setting up Single Sign-On (SSO) for the SaaS offering via Auth0. W&B support SSO integration with any OIDC compliant identity provider(ex: Okta, AzureAD etc.). If you have an OIDC provider, please follow the steps below:
+Yes, W&B supports setting up Single Sign-On (SSO) for the Multi-tenant offering via Auth0. W&B support SSO integration with any OIDC compliant identity provider(ex: Okta, AzureAD etc.). If you have an OIDC provider, please follow the steps below:
 
 * Create a `Single Page Application (SPA)` on your Identity Provider.
 * Set `grant_type` to `implicit` flow.
@@ -83,7 +77,9 @@ We'll then set up an Auth0 connection with the above details and enable SSO.
 
 ### What is a service account, and why is it useful?
 
-A service account is an API key that has permissions to write to your team, but is not associated with a particular user. Among other things, service accounts are useful for tracking automated jobs logged to wandb, like periodic retraining, nightly builds, and so on. If you'd like, you can associate a username with one of these machine-launched runs with the [environment variable](../track/environment-variables.md) `WANDB_USERNAME`.
+A service account (Enterprise-only feature) is an API key that has permissions to write to your team, but is not associated with a particular user. Among other things, service accounts are useful for tracking automated jobs logged to wandb, like periodic retraining, nightly builds, and so on. If you'd like, you can associate a username with one of these machine-launched runs with the [environment variable](../track/environment-variables.md) `WANDB_USERNAME`.
+
+Refer to [Team Service Account Behavior](../app/features/teams.md#team-service-account-behavior) for more information.
 
 You can get the API key in your Team Settings page `/teams/<your-team-name>` where you invite new team members. Select service and click create to add a service account.
 
@@ -99,7 +95,7 @@ If you have two W&B accounts working from the same machine, you'll need a nice w
 
 ```python
 if os.path.exists("~/keys.json"):
-   os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
+    os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
 ```
 
 ### Is there a dark mode?
@@ -109,3 +105,9 @@ Yes. To enable dark mode:
 1. Navigate to your account settings at [https://wandb.ai/settings](https://wandb.ai/settings).
 2. Scroll to the **Beta Features** section.
 3. Toggle the **Night mode** option.
+
+### Can I disable wandb when testing my code?
+
+By using `wandb.init(mode="disabled")` or by setting `WANDB_MODE=disabled` you will make wandb act like a NOOP which is perfect for testing your code.
+
+**Note**: Setting `wandb.init(mode=“disabled”)` does not prevent `wandb` from saving artifacts to `WANDB_CACHE_DIR`

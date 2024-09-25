@@ -32,10 +32,10 @@ See [this report](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/
 
 ```python
 # Save a model file from the current directory
-wandb.save('model.h5')
+wandb.save("model.h5")
 
 # Save all files that exist containing the substring "ckpt"
-wandb.save('../logs/*ckpt*')
+wandb.save("../logs/*ckpt*")
 
 # Save files starting with "checkpoint" as they're written to
 wandb.save(os.path.join(wandb.run.dir, "checkpoint*"))
@@ -56,11 +56,7 @@ W&B's local run directories are by default inside the `./wandb` directory relati
 You can also specify the **base\_path** argument to `wandb.save`. This would allow you to maintain a directory hierarchy, for example:
 
 ```python
-wandb.save(
-    path="./results/eval/*", 
-    base_path="./results", 
-    policy="now"
-    )    
+wandb.save(path="./results/eval/*", base_path="./results", policy="now")
 ```
 
 Would result in all files matching the pattern being saved in an `eval` folder instead of at the root.
@@ -75,10 +71,15 @@ The file `model.h5` is saved into the `wandb.run.dir` and will be uploaded at th
 
 ```python
 import wandb
+
 wandb.init()
 
-model.fit(X_train, y_train,  validation_data=(X_test, y_test),
-    callbacks=[wandb.keras.WandbCallback()])
+model.fit(
+    X_train,
+    y_train,
+    validation_data=(X_test, y_test),
+    callbacks=[wandb.keras.WandbCallback()],
+)
 model.save(os.path.join(wandb.run.dir, "model.h5"))
 ```
 
@@ -103,12 +104,11 @@ See [this report](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/
 
 ```python
 # restore a model file from a specific run by user "vanpelt" in "my-project"
-best_model = wandb.restore(
-  'model-best.h5', run_path="vanpelt/my-project/a1b2c3d")
+best_model = wandb.restore("model-best.h5", run_path="vanpelt/my-project/a1b2c3d")
 
 # restore a weights file from a checkpoint
 # (NOTE: resuming must be configured if run_path is not provided)
-weights_file = wandb.restore('weights.h5')
+weights_file = wandb.restore("weights.h5")
 # use the "name" attribute of the returned object
 # if your framework expects a filename, e.g. as in Keras
 my_predefined_model.load_weights(weights_file.name)
@@ -122,9 +122,6 @@ my_predefined_model.load_weights(weights_file.name)
 
 You can edit the `wandb/settings` file and set `ignore_globs` equal to a comma separated list of [globs](https://en.wikipedia.org/wiki/Glob\_\(programming\)). You can also set the `WANDB_IGNORE_GLOBS` [environment variable](./environment-variables.md). A common use case is to prevent the git patch that we automatically create from being uploaded i.e. `WANDB_IGNORE_GLOBS=*.patch`.
 
-### How can I sync files before the run ends?
-
-If you have a long run, you might want to see files like model checkpoints uploaded to the cloud before the end of the run. By default, we wait to upload most files until the end of the run. You can add a `wandb.save('*.pth')` or just `wandb.save('latest.pth')` in your script to upload those files whenever they are written or updated.
 
 ### Change directory for saving files
 
@@ -156,7 +153,7 @@ There’s a command `wandb sync --clean` that you can run to remove local files 
 
 Use the `restore` command of our [command line tool](../../ref/cli/README.md) to return to the state of your code when you ran a given run.
 
-```python
+```shell
 # creates a branch and restores the code to the state
 # it was in when run $RUN_ID was executed
 wandb restore $RUN_ID

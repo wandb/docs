@@ -27,10 +27,10 @@ WANDB_PROJECT=$project
 
 ```python
 # If you don't want your script to sync to the cloud
-os.environ['WANDB_MODE'] = 'offline'
+os.environ["WANDB_MODE"] = "offline"
 ```
 
-## Optional Environment Variables
+## Optional environment variables
 
 Use these optional environment variables to do things like set up authentication on remote machines.
 
@@ -51,6 +51,7 @@ Use these optional environment variables to do things like set up authentication
 | **WANDB\_ERROR\_REPORTING** | Set this to false to prevent wandb from logging fatal errors to its error tracking system.                             |
 | **WANDB\_HOST**             | Set this to the hostname you want to see in the wandb interface if you don't want to use the system provided hostname                                |
 | **WANDB\_IGNORE\_GLOBS**    | Set this to a comma separated list of file globs to ignore. These files will not be synced to the cloud.                              |
+| **WANDB\_JOB\_NAME**        | Specify a name for any jobs created by `wandb`. For more information, see [create a job](../launch/create-launch-job.md)                                                                                                                                                                                                                        |
 | **WANDB\_JOB\_TYPE**        | Specify the job type, like "training" or "evaluation" to indicate different types of runs. See [grouping](../runs/grouping.md) for more info.               |
 | **WANDB\_MODE**             | If you set this to "offline" wandb will save your run metadata locally and not sync to the server. If you set this to "disabled" wandb will turn off completely.                  |
 | **WANDB\_NAME**             | The human-readable name of your run. If not set it will be randomly generated for you                       |
@@ -66,7 +67,7 @@ Use these optional environment variables to do things like set up authentication
 | **WANDB\_USERNAME**         | The username of a member of your team associated with the run. This can be used along with a service account API key to enable attribution of automated runs to members of your team.               |
 | **WANDB\_USER\_EMAIL**      | The email of a member of your team associated with the run. This can be used along with a service account API key to enable attribution of automated runs to members of your team.            |
 
-## Singularity Environments
+## Singularity environments
 
 If you're running containers in [Singularity](https://singularity.lbl.gov/index.html) you can pass environment variables by pre-pending the above variables with **SINGULARITYENV\_**. More details about Singularity environment variables can be found [here](https://singularity.lbl.gov/docs-environment-metadata#environment).
 
@@ -96,6 +97,7 @@ To quiet the warning messages:
 
 ```python
 import logging
+
 logger = logging.getLogger("wandb")
 logger.setLevel(logging.WARNING)
 ```

@@ -25,7 +25,7 @@ We want to make it incredible easy for people to look under the hood of their mo
 ## The Usual Suspects
 
 
-```python
+```ipython
 !pip install -Uq 'lightgbm>=3.3.1'
 ```
 
@@ -39,7 +39,7 @@ from sklearn.metrics import mean_squared_error
 ## Step 0: Install W&B
 
 
-```python
+```ipython
 !pip install -qU wandb
 ```
 
@@ -48,7 +48,7 @@ from sklearn.metrics import mean_squared_error
 
 ```python
 import wandb
-from wandb.lightgbm import wandb_callback, log_summary
+from wandb.integration.lightgbm import wandb_callback, log_summary
 
 wandb.login()
 ```
@@ -57,7 +57,7 @@ wandb.login()
 
 
 
-```python
+```ipython
 !wget https://raw.githubusercontent.com/microsoft/LightGBM/master/examples/regression/regression.train -qq
 !wget https://raw.githubusercontent.com/microsoft/LightGBM/master/examples/regression/regression.test -qq
 ```
@@ -65,8 +65,8 @@ wandb.login()
 
 ```python
 # load or create your dataset
-df_train = pd.read_csv('regression.train', header=None, sep='\t')
-df_test = pd.read_csv('regression.test', header=None, sep='\t')
+df_train = pd.read_csv("regression.train", header=None, sep="\t")
+df_test = pd.read_csv("regression.test", header=None, sep="\t")
 
 y_train = df_train[0]
 y_test = df_test[0]
@@ -92,18 +92,18 @@ You can't deny the importance of configs in your ML/DL workflow. W&B makes sure 
 ```python
 # specify your configurations as a dict
 params = {
-    'boosting_type': 'gbdt',
-    'objective': 'regression',
-    'metric': ['rmse', 'l2', 'l1', 'huber'],
-    'num_leaves': 31,
-    'learning_rate': 0.05,
-    'feature_fraction': 0.9,
-    'bagging_fraction': 0.8,
-    'bagging_freq': 5,
-    'verbosity': 0
+    "boosting_type": "gbdt",
+    "objective": "regression",
+    "metric": ["rmse", "l2", "l1", "huber"],
+    "num_leaves": 31,
+    "learning_rate": 0.05,
+    "feature_fraction": 0.9,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 5,
+    "verbosity": 0,
 }
 
-wandb.init(project='my-lightgbm-project', config=params);
+wandb.init(project="my-lightgbm-project", config=params)
 ```
 
 > Once you have trained your model come back and click on the **Project page**.
@@ -112,15 +112,17 @@ wandb.init(project='my-lightgbm-project', config=params);
 
 
 ```python
-# train 
+# train
 # add lightgbm callback
-gbm = lgb.train(params,
-                lgb_train,
-                num_boost_round=30,
-                valid_sets=lgb_eval,
-                valid_names=('validation'),
-                callbacks=[wandb_callback()],
-                early_stopping_rounds=5)
+gbm = lgb.train(
+    params,
+    lgb_train,
+    num_boost_round=30,
+    valid_sets=lgb_eval,
+    valid_names=("validation"),
+    callbacks=[wandb_callback()],
+    early_stopping_rounds=5,
+)
 ```
 
 ### Step 4: Log Feature Importance and Upload Model with `log_summary`
@@ -139,8 +141,8 @@ log_summary(gbm, save_model_checkpoint=True)
 y_pred = gbm.predict(X_test, num_iteration=gbm.best_iteration)
 
 # eval
-print('The rmse of prediction is:', mean_squared_error(y_test, y_pred) ** 0.5)
-wandb.log({'rmse_prediction': mean_squared_error(y_test, y_pred) ** 0.5})
+print("The rmse of prediction is:", mean_squared_error(y_test, y_pred) ** 0.5)
+wandb.log({"rmse_prediction": mean_squared_error(y_test, y_pred) ** 0.5})
 ```
 
 When you are finished logging for a particular W&B run its a good idea to call `wandb.finish()` to tidy up the wandb process (only necessary when using notebooks/colabs)

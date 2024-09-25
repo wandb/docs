@@ -13,5 +13,4 @@ Verify your local instance
 | **Option** | **Description** |
 | :--- | :--- |
 | --host | Test a specific instance of W&B |
-| --help | Show this message and exit. |
 
