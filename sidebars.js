@@ -111,6 +111,7 @@ const sidebars = {
             'guides/registry/create_collection',
             'guides/registry/link_version',
             'guides/registry/download_use_artifact',
+            'guides/registry/organize-with-tags',
             'guides/registry/model_registry_eol',
             {
               type: 'category',
@@ -140,6 +141,9 @@ const sidebars = {
             'guides/automations/webhooks',
             'guides/automations/webhooks-payload',
             'guides/automations/webhooks-troubleshoot',
+            'guides/model_registry/model-registry-automations',
+            'guides/artifacts/project-scoped-automations',
+            'guides/automations/manage-automations',
           ]
         },
         {
@@ -271,14 +275,13 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Weave',
-      items: [
-        'guides/weave_platform',
-      ],
+      link: { type: 'doc', id: 'guides/weave_platform'},
+      items: [],
     },
     {
       type: 'category',
       label: 'W&B Core',
-      link: {type: 'doc', id: 'guides/platform'},
+      link: {type: 'doc', id: 'guides/core'},
       collapsed: false,
       items: [
         {
@@ -412,7 +415,7 @@ const sidebars = {
             'guides/hosting/data-security/presigned-urls',
             'guides/hosting/data-security/ip-allowlisting',
             'guides/hosting/data-security/private-connectivity',
-            // 'guides/hosting/customer_encryption',
+            'guides/hosting/data-security/data-encryption',
           ],
         },
         'guides/hosting/privacy-settings',               
@@ -537,7 +540,6 @@ const sidebars = {
     'tutorials/tables',
     'tutorials/sweeps',
     'tutorials/artifacts',
-    'tutorials/models',
     'tutorials/workspaces',
     {
       type: 'category',
