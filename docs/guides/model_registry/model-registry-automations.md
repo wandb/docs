@@ -16,15 +16,15 @@ For example, you can create a trigger that automatically deploys a model to GitH
 
 :::info
 Looking for companion tutorials for automations? 
-1. [This](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) tutorial shows you how to set up an automation that triggers a Github Action for model evaluation and deployment
+1. [This](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) tutorial shows you how to set up an automation that triggers a GitHub Action for model evaluation and deployment
 2. [This](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared) video series shows webhook basics and how to set them up in W&B.
-3. [This](https://www.youtube.com/watch?v=s5CMj_w3DaQ) demo details how to setup an automation to deploy a model to a Sagemaker Endpoint
+3. [This](https://www.youtube.com/watch?v=s5CMj_w3DaQ) demo details how to setup an automation to deploy a model to a SageMaker Endpoint
 :::
 
 ## Event types
 An *event* is a change that takes place in the W&B ecosystem. The Model Registry supports two event types: **Linking a new artifact to a registered model** and **Adding a new alias to a version of the registered model**.
 
-See [Link a model version](./link-model-version.md) for information on how to link model versions and [Create a custom alias](../artifacts/create-a-custom-alias.md) for information an artifact aliases.
+See [Link a model version](../model_registry/link-model-version.md) for information on how to link model versions and [Create a custom alias](../artifacts/create-a-custom-alias.md) for information an artifact aliases.
 
 
 

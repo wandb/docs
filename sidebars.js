@@ -137,6 +137,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Automations',
+          link: {type: 'doc', id: 'guides/automations/intro'},
           items: [
             'guides/automations/webhooks',
             'guides/automations/webhooks-payload',
