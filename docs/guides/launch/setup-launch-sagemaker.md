@@ -51,11 +51,12 @@ Make a note of the ARNs for these resources. You will need the ARNs when you def
 
 1. From the IAM screen in AWS, create a new policy.
 2. Toggle to the JSON policy editor, then paste the following policy based on your use case. Substitute values enclosed with `<>` with your own values:
+
 <Tabs
   defaultValue="build"
   values={[
-    {label: 'Agent builds and submits Docker image', value: 'build'},
-    {label: 'Agent submits pre-built Docker image', value: 'no-build'},
+    {label: 'Agent builds and submits Docker image', value: 'build' },
+    {label: 'Agent submits pre-built Docker image', value: 'no-build' },
   ]}>
   <TabItem value="no-build">
 

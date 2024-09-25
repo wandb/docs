@@ -251,7 +251,7 @@ If the initial sweep used a training job with an alias like 'latest', resuming c
 
   1. Identify the sweep name/ID for a previously run launch sweep. The sweep ID is an eight character string (for example, `hhd16935`) that you can find in your project on the W&B App.
   2. If you change the scheduler parameters, construct an updated config file.
-  3. In your terminal, execute the following command. Replace content wrapped in "<" and ">" with your information: 
+  3. In your terminal, execute the following command. Replace content wrapped in `<` and `>` with your information: 
 
 ```bash
 wandb launch-sweep <optional config.yaml> --resume_id <sweep id> --queue <queue_name>
