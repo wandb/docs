@@ -63,7 +63,6 @@ import TabItem from '@theme/TabItem';
     3. Scroll to the bottom of the page to the **Automations** section.
     4. Hover your mouse next to the name of the automation and select the kebob (three vertical dots) menu. 
     5. Select **Delete**.
-  
   </TabItem>
   <TabItem value="project">
     Delete an automation associated with a artifact. Actions in progress are not affected if you delete that automation before the action completes. 

@@ -11,7 +11,6 @@ The following tutorials take you through the fundamentals of W&B for machine lea
 2. [Visualize predictions](/tutorials/tables)
 3. [Tune hyperparameters](/tutorials/sweeps)
 4. [Track models and datasets](/tutorials/artifacts)
-5. [Register models](/tutorials/models)
 6. [Iterate on LLMs](/tutorials/prompts)
 
 

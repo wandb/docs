@@ -1078,8 +1078,12 @@
       "to": "/guides/app/features/panels/query-panel/embedding-projector"
     },
     {
+      "from": "/guides/platform",
+      "to": "/guides/core"
+    },
+    {
       "from": "/weave/prod-mon",
-      "to": "/guides/platform"
+      "to": "/guides/core"
     },
     {
       "from": "/home",

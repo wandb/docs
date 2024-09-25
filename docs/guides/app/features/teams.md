@@ -78,7 +78,7 @@ The proceeding table lists permissions that apply to all projects across a given
 | Add aliases                |           | X           | X              | X |
 | Add models to the registry |           | X           | X              | X |
 | View models in the registry| X         | X           | X              | X |
-|Download models             |           | X           | X              | X |
+|Download models             | X         | X           | X              | X |
 |Add/Remove Registry Admins  |           |             | X              | X | 
 |Add/Remove Protected Aliases|           |             | X              |   | 
 
