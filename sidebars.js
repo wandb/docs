@@ -140,6 +140,7 @@ const sidebars = {
           items: [
             'guides/model_registry/model-registry-automations',
             'guides/artifacts/project-scoped-automations',
+            'guides/automations/manage-automations',
           ]
         },
         {
