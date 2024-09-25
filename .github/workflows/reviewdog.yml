@@ -16,5 +16,4 @@ jobs:
         with:
             fail_on_error: false
             files: content
-            vale_flags: --glob !content/{products/marketplace,reference/doctl/reference,reference/terraform/reference,reference/ansible/reference/}/*
             reporter: github-pr-review
