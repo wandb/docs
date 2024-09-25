@@ -81,9 +81,9 @@ Data is saved and tracked even if you log values wider than the recommended amou
 
 Pick a logging frequency that is appropriate to the metric you are logging. As a general rule of thumb, the wider the metric the less frequently you should log it. W&B recommends:
 
-* Scalars: <100,000 logged points per metric
-* Media: <50,000 logged points per metric
-* Histograms: <10,000 logged points per metric
+* Scalars: \<100,000 logged points per metric
+* Media: \<50,000 logged points per metric
+* Histograms: \<10,000 logged points per metric
 
 
 ```python

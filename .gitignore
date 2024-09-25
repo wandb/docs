@@ -7,7 +7,6 @@
 # Generated files
 .docusaurus
 .cache-loader
-.package-lock.json
 
 # Misc
 .DS_Store
@@ -30,4 +29,5 @@ yarn-error.log*
 #wandb
 wandb/
 translate_dev/
-chatgpt*
+chatgpt*yar
+package-lock.json
