@@ -231,21 +231,6 @@ The action history audit tab shows all of the alias actions and membership chang
 
 The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
 
-## Project Defaults
-
-You can change your project default settings _manually_ in your User Settings at `/settings`.
-
-* **Default location to create new projects**: This is set to your own personal entity by default. By clicking on the dropdown, you can switch between your personal entity and the teams you're part of.
-* **Default project privacy in your personal account**: This is set to 'Private' by default. In other words, your projects will be private and can only be accessed by you.
-* **Enable code saving in your personal account**: This is turned off by default. You can turn this on to save the main script or notebook to W&B.
-
-:::note
-These settings can also be specified by passing arguments to 
-[`wandb.init`](../../../ref/python/init.md).
-:::
-
-![](/images/app_ui/project_defaults.png)
-
 ## Frequently Asked Questions
 
 ### How can I delete projects?

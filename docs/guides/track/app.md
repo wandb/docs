@@ -35,7 +35,7 @@ W&B is good for experimentation, exploration, and reproducing models later. We c
 
 Add W&B to your project in 5 minutes. Install our free open-source Python package and add a couple of lines to your code, and every time you run your model you'll have nice logged metrics and records.
 
-### Tools for Collaboration
+### Tools for collaboration
 
 Use W&B to organize complex machine learning projects. It's easy to share a link to W&B, and you can use private teams to have everyone sending results to a shared project. We also support collaboration via reports— add interactive visualizations and describe your work in markdown. This is a great way to keep a work log, share findings with your supervisor, or present findings to your lab.
 

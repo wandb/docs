@@ -16,6 +16,7 @@ import {useSearchPopoverProvider} from '../components/SearchPopoverProvider';
 import clsx from 'clsx';
 
 import Translate, {translate} from '@docusaurus/Translate';
+import { WEAVE_DOCS_URL } from '../util/links';
 
 const BigSearchBar = () => {
   const {triggerSearchPopover} = useSearchPopoverProvider();
@@ -51,7 +52,7 @@ const Home: React.FC = () => {
             </Translate>
           </div>
           <div className={styles.weaveBanner}>
-            <Link to="https://wandb.me/weave">
+            <Link to={WEAVE_DOCS_URL}>
               <img src="/images/weave/weave_banner.png" alt="Image" />
             </Link>
           </div>

@@ -22,8 +22,17 @@ Reports consist of _blocks_. Blocks make up the body of a report. Within these b
 
 _Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
 
+
+:::tip
+Check out the [Programmatic workspaces tutorial](../../tutorials/workspaces.md) for a step by step example on how create and customize a saved workspace view.
+:::
+
 :::info
-Editing Reports programmatically with the Python SDK is in Beta and in active development.
+Ensure that you have `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
+
+```pip
+pip install wandb wandb-workspaces
+```
 :::
 
 ### Add plots
@@ -34,7 +43,7 @@ Each panel grid has a set of run sets and a set of panels. The run sets at the b
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -50,12 +59,11 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. Select **A
 Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
 
 
-
 The proceeding examples demonstrates how to create a line plot and scatter plot.
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(
     project="report-editing",
@@ -89,7 +97,7 @@ Add run sets from projects interactively with the App UI or the W&B SDK.
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -106,7 +114,7 @@ Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. Th
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(
     project="report-editing",
@@ -194,7 +202,7 @@ Add code blocks to your report interactively with the App UI or with the W&B SDK
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -210,7 +218,7 @@ For example the proceeding example demonstrates a list in YAML file:
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(project="report-editing")
 
@@ -261,7 +269,7 @@ Add markdown to your report interactively with the App UI or with the W&B SDK.
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -273,7 +281,7 @@ Use the `wandb.apis.reports.MarkdownBlock` Class to create a markdown block prog
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(project="report-editing")
 
@@ -296,7 +304,7 @@ Add HTML elements to your report interactively with the App UI or with the W&B S
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -308,7 +316,7 @@ Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribut
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(project="report-editing")
 
@@ -337,7 +345,7 @@ Embed rich media within the report with the App UI or with the W&B SDK.
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -369,7 +377,7 @@ Pass a list of one or more embedded media objects to the `wandb.apis.reports.blo
 
 ```python
 import wandb
-import wandb.apis.reports as wr
+import wandb_workspaces.reports.v2 as wr
 
 report = wr.Report(project="report-editing")
 

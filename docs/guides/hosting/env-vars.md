@@ -28,7 +28,7 @@ In addition to configuring instance level settings via the System Settings admin
 | LOGGING_ENABLED                  | When set to true, access logs are streamed to stdout. You can also mount a sidecar container and tail `/var/log/gorilla.log` without setting this variable.                              |
 | GORILLA_ALLOW_USER_TEAM_CREATION | When set to true, allows non-admin users to create a new team. False by default.                                                                                                         |
 | GORILLA_DATA_RETENTION_PERIOD | How long to retain deleted data from runs in hours. Deleted run data is unrecoverable. Append an `h` to the input value. For example, `"24h"`. |
-
+| ENABLE_REGISTRY_UI               |  When set to true, enables the new W&B Registry UI.            |
 
 :::info
 

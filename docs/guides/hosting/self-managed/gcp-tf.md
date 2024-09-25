@@ -4,6 +4,8 @@ description: Hosting W&B Server on GCP.
 displayed_sidebar: default
 ---
 
+# GCP
+
 :::info
 W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 :::
@@ -11,9 +13,9 @@ W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]
 
 If you've determined to self-managed W&B Server, W&B recommends using the [W&B Server GCP Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) to deploy the platform on GCP.
 
-The module documentation is extensive and contains all available options that can be used. We will cover some deployment options in this document.
+The module documentation is extensive and contains all available options that can be used.
 
-Before you start, we recommend you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
+Before you start, W&B recommendsthat you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
 
 The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
 
@@ -31,7 +33,7 @@ Other deployment options can also include the following optional components:
 - Memory store for Redis
 - Pub/Sub messages system
 
-## **Pre-requisite permissions**
+## Pre-requisite permissions
 
 The account that will run the terraform need to have the role `roles/owner` in the GCP project used.
 
@@ -111,7 +113,7 @@ This is the most straightforward deployment option configuration that will creat
 
 1. Create the `main.tf`
 
-   In the same directory where you created the files in the `General Steps`, create a file `main.tf` with the following content:
+   In the same directory where you created the files in the [General Steps](#general-steps), create a file `main.tf` with the following content:
 
    ```
    provider "google" {
@@ -137,13 +139,12 @@ This is the most straightforward deployment option configuration that will creat
    # Spin up all required services
    module "wandb" {
      source  = "wandb/wandb/google"
-     version = "~> 1.0"
+     version = "~> 5.0"
 
      namespace   = var.namespace
      license     = var.license
      domain_name = var.domain_name
      subdomain   = var.subdomain
-     allowed_inbound_cidrs = ["*"]
    }
 
    # You'll want to update your DNS with the provisioned IP address
@@ -173,7 +174,7 @@ This is the most straightforward deployment option configuration that will creat
 
 Another deployment option uses `Redis` to cache the SQL queries and speedup the application response when loading the metrics for the experiments.
 
-You need to add the option `create_redis = true` to the same `main.tf` file we worked on in `Deployment option 1` to enable the cache.
+You need to add the option `create_redis = true` to the same `main.tf` file specified in the recommended [Deployment option section](#deployment---recommended-20-mins) to enable the cache.
 
 ```
 [...]
@@ -198,7 +199,7 @@ module "wandb" {
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The GCP resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the `Deployment option 1`
+The GCP resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` specified in the recommended [Deployment option section](#deployment---recommended-20-mins)
 
 ```
 [...]
@@ -306,14 +307,11 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
 
 ### Configure W&B server
 
-1. Finally, navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
-2. Enable the "Use an external file storage backend" option, 
-3. Provide the name of the AWS S3 bucket, the region where the bucket is stored, and SQS queue in the following format:
-* **File Storage Bucket**: `gs://<bucket-name>`
-* **File Storage Region**: blank
-* **Notification Subscription**: `pubsub:/<project-name>/<topic-name>/<subscription-name>`
+1. Finally, navigate to the W&B `System Connections` page at `http(s)://YOUR-W&B-SERVER-HOST/console/settings/system`. 
+2. Select the provider `Google Cloud Storage (gcs)`, 
+3. Provide the name of the GCS bucket
 
-![](/images/hosting/configure_file_store.png)
+![](/images/hosting/configure_file_store_gcp.png)
 
 4. Press **Update settings** to apply the new settings.
 
@@ -326,15 +324,15 @@ Follow the steps outlined here to update W&B:
   ```
   module "wandb_app" {
       source  = "wandb/wandb/kubernetes"
-      version = "~>1.0"
+      version = "~>5.0"
 
       license       = var.license
-      wandb_version = "0.48.1"
+      wandb_version = "0.58.1"
   ```
 
   :::info
   Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
   :::
 
-2. After you update your configuration, complete the steps described in the [Deployment section](#deployment---recommended-20-mins).
+2. After you update your configuration, complete the steps described in the [Deployment option section](#deployment---recommended-20-mins).
 

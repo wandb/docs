@@ -24,9 +24,6 @@ When an agent receives a job from a queue, it also receives the queue configurat
 ![](/images/launch/create-queue.gif)
 
 3. From the **Entity** dropdown menu, select the entity the queue will belong to. 
-  :::tip
-  If you choose a team entity, all members of the team will be able to send jobs to this queue. If you choose a personal entity (associated with a username), W&B will create a private queue that only that user can use.
-  :::
 4. Provide a name for your queue in the **Queue** field. 
 5. From the **Resource** dropdown, select the compute resource you want jobs added to this queue to use.
 6. Choose whether to allow **Prioritization** for this queue.  If prioritization is enabled, a user on your team can define a priority for their launch job when they enqueue them.  Higher priority jobs are executed before lower priority jobs.

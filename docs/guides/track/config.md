@@ -3,7 +3,7 @@ description: Use a dictionary-like object to save your experiment configuration
 displayed_sidebar: default
 ---
 
-# Configure Experiments
+# Configure experiments
 
 <head>
   <title>Configure a Machine Learning Experiment</title>
@@ -250,7 +250,7 @@ config_dictionary = dict(
 wandb.init(config=config_dictionary)
 ```
 
-## TensorFlow v1 Flags
+## TensorFlow v1 flags
 
 You can pass TensorFlow flags into the `wandb.config` object directly.
 

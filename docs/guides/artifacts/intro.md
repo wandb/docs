@@ -10,7 +10,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 # Artifacts
 
-<CTAButtons productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W%26B_Artifacts.ipynb"/>
+<CTAButtons productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifact_fundamentals.ipynb"/>
 
 Use W&B Artifacts to track and version data as the inputs and outputs of your [W&B Runs](../runs/intro.md). For example, a model training run might take in a dataset as input and produce a trained model as output. In addition to logging hyperparameters, metadata and metrics to a run, you can use an artifact to log, track and version the dataset used to train the model as input and another artifact for the resulting model checkpoints as outputs.
 
@@ -27,18 +27,29 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 | Model Optimization     | Model                       | Optimized Model              |
 
 
+:::note
+The proceeding code snippets are meant to be run in order.
+:::
+
 ## Create an artifact
 
 Create an artifact with four lines of code:
-1. Create a [W&B Run](../runs/intro.md).
+1. Create a [W&B run](../runs/intro.md).
 2. Create an artifact object with the [`wandb.Artifact`](../../ref/python/artifact.md) API.
-3. Add one or more files, such as a model file or dataset, to your artifact object. In this example, you'll add a single file.
+3. Add one or more files, such as a model file or dataset, to your artifact object.
 4. Log your artifact to W&B.
 
+For example, the proceeding code snippet shows how to log a file called `dataset.h5` to an artifact called `example_artifact`:
 
 ```python
+import wandb
+
 run = wandb.init(project = "artifacts-example", job_type = "add-dataset")
-run.log_artifact(data = "./dataset.h5", name = "my_data", type = "dataset" ) # Logs the artifact version "my_data" as a dataset with data from dataset.h5
+artifact = wandb.Artifact(name = "example_artifact", type = "dataset")
+artifact.add_file(local_path = "./dataset.h5", name = "training_dataset")
+artifact.save()
+
+# Logs the artifact version "my_data" as a dataset with data from dataset.h5
 ```
 
 :::tip
@@ -46,13 +57,16 @@ See the [track external files](./track-external-files.md) page for information o
 :::
 
 ## Download an artifact
-Indicate the artifact you want to mark as input to your run with the [`use_artifact`](../../ref/python/run.md#use_artifact) method, which returns an artifact object:
+Indicate the artifact you want to mark as input to your run with the [`use_artifact`](../../ref/python/run.md#use_artifact) method.
+
+Following the preceding code snippet, this next code block shows how to use the `training_dataset` artifact: 
 
 ```python
-artifact = run.use_artifact("my_data:latest") #returns a run object using the "my_data" artifact
+artifact = run.use_artifact("training_dataset:latest") #returns a run object using the "my_data" artifact
 ```
+This returns an artifact object.
 
-Then, use the returned object to download all contents of the artifact:
+Next, use the returned object to download all contents of the artifact:
 
 ```python
 datadir = artifact.download() #downloads the full "my_data" artifact to the default directory.

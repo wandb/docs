@@ -13,14 +13,14 @@ W&B Multi-tenant Cloud is a fully-managed platform deployed in W&B's Google Clou
 
 For non enterprise plan users, all data is only stored in the shared cloud storage and is processed with shared cloud compute services. Depending on your pricing plan, you may be subject to storage limits.
 
-Enterprise plan users can [bring their own bucket (BYOB) using the secure storage connector](../secure-storage-connector.md) at the [team level](../secure-storage-connector.md#configuration-options) to store their files such as models, datasets, and more. You can configure a single bucket for multiple teams or you can use separate buckets for different W&B Teams. If you do not configure secure storage connector for a team, that data is stored in the shared cloud storage.
+Enterprise plan users can [bring their own bucket (BYOB) using the secure storage connector](../data-security/secure-storage-connector.md) at the [team level](../data-security/secure-storage-connector.md#configuration-options) to store their files such as models, datasets, and more. You can configure a single bucket for multiple teams or you can use separate buckets for different W&B Teams. If you do not configure secure storage connector for a team, that data is stored in the shared cloud storage.
 
 ## Identity and access management (IAM)
 If you are on enterprise plan, you can use the identity and access managements capabilities for secure authentication and effective authorization in your W&B Organization. The following features are available for IAM in Multi-tenant Cloud:
 
 * SSO authentication with OIDC or SAML. Reach out to your W&B team or support if you would like to configure SSO for your organization.
 * [Configure appropriate user roles](../iam/manage-users.md) at the scope of the organization and within a team.
-* Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects](../restricted-projects.md).
+* Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it with [restricted projects](../iam/restricted-projects.md).
 
 ## Monitor
 Organization admins can manage usage and billing for their account from the `Billing` tab in their account view. If using the shared cloud storage on Multi-tenant Cloud, an admin can optimize storage usage across different teams in their organization.

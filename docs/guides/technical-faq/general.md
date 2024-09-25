@@ -41,7 +41,7 @@ We love the TensorBoard folks, and we have a [TensorBoard integration](../integr
 5. **Powerful table**: Search, filter, sort, and group results from different models. It's easy to look over thousands of model versions and find the best-performing models for different tasks. TensorBoard isn't built to work well on large projects.
 6. **Tools for collaboration**: Use W&B to organize complex machine learning projects. It's easy to share a link to W&B, and you can use private teams to have everyone send results to a shared project. We also support collaboration via reports— add interactive visualizations and describe your work in markdown. This is a great way to keep a work log, share findings with your supervisor, or present findings to your lab.
 
-Get started with a [free personal account →](http://app.wandb.ai)
+Get started with a [free account](http://app.wandb.ai)
 
 ### How does wandb stream logs and writes to disk?
 

@@ -1,6 +1,6 @@
 # init
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.0/wandb/sdk/wandb_init.py#L924-L1179' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/sdk/wandb_init.py#L979-L1249' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Start a new run to track and log to W&B.
@@ -31,8 +31,9 @@ init(
     save_code: Optional[bool] = None,
     id: Optional[str] = None,
     fork_from: Optional[str] = None,
+    resume_from: Optional[str] = None,
     settings: Union[Settings, Dict[str, Any], None] = None
-) -> Union[Run, RunDisabled]
+) -> Run
 ```
 
 In an ML training pipeline, you could add `wandb.init()`
@@ -79,8 +80,8 @@ For more on using `wandb.init()`, including detailed examples, check out our
 
 | Arguments |  |
 | :--- | :--- |
-|  `project` |  (str, optional) The name of the project where you're sending the new run. If the project is not specified, the run is put in an "Uncategorized" project. |
-|  `entity` |  (str, optional) An entity is a username or team name where you're sending runs. This entity must exist before you can send runs there, so make sure to create your account or team in the UI before starting to log runs. If you don't specify an entity, the run will be sent to your default entity, which is usually your username. Change your default entity in [your settings](https://wandb.ai/settings) under "default location to create new projects". |
+|  `project` |  (str, optional) The name of the project where you're sending the new run. If the project is not specified, we will try to infer the project name from git root or the current program file. If we can't infer the project name, we will default to `"uncategorized"`. |
+|  `entity` |  (str, optional) An entity is a username or team name where you're sending runs. This entity must exist before you can send runs there, so make sure to create your account or team in the UI before starting to log runs. If you don't specify an entity, the run will be sent to your default entity. Change your default entity in [your settings](https://wandb.ai/settings) under "default location to create new projects". |
 |  `config` |  (dict, argparse, absl.flags, str, optional) This sets `wandb.config`, a dictionary-like object for saving inputs to your job, like hyperparameters for a model or settings for a data preprocessing job. The config will show up in a table in the UI that you can use to group, filter, and sort runs. Keys should not contain `.` in their names, and values should be under 10 MB. If dict, argparse or absl.flags: will load the key value pairs into the `wandb.config` object. If str: will look for a yaml file by that name, and load config from that file into the `wandb.config` object. |
 |  `save_code` |  (bool, optional) Turn this on to save the main script or notebook to W&B. This is valuable for improving experiment reproducibility and to diff code across experiments in the UI. By default this is off, but you can flip the default behavior to on in [your settings page](https://wandb.ai/settings). |
 |  `group` |  (str, optional) Specify a group to organize individual runs into a larger experiment. For example, you might be doing cross validation, or you might have multiple jobs that train and evaluate a model against different test sets. Group gives you a way to organize runs together into a larger whole, and you can toggle this on and off in the UI. For more details, see our [guide to grouping runs](https://docs.wandb.com/guides/runs/grouping). |
@@ -99,9 +100,12 @@ For more on using `wandb.init()`, including detailed examples, check out our
 |  `allow_val_change` |  (bool, optional) Whether to allow config values to change after setting the keys once. By default, we throw an exception if a config value is overwritten. If you want to track something like a varying learning rate at multiple times during training, use `wandb.log()` instead. (default: `False` in scripts, `True` in Jupyter) |
 |  `force` |  (bool, optional) If `True`, this crashes the script if a user isn't logged in to W&B. If `False`, this will let the script run in offline mode if a user isn't logged in to W&B. (default: `False`) |
 |  `sync_tensorboard` |  (bool, optional) Synchronize wandb logs from tensorboard or tensorboardX and save the relevant events file. (default: `False`) |
+|  `tensorboard` |  (bool, optional) Alias for `sync_tensorboard`, deprecated. |
 |  `monitor_gym` |  (bool, optional) Automatically log videos of environment when using OpenAI Gym. (default: `False`) See [our guide to this integration](https://docs.wandb.com/guides/integrations/openai-gym). |
 |  `id` |  (str, optional) A unique ID for this run, used for resuming. It must be unique in the project, and if you delete a run you can't reuse the ID. Use the `name` field for a short descriptive name, or `config` for saving hyperparameters to compare across runs. The ID cannot contain the following special characters: `/\#?%:`. See [our guide to resuming runs](https://docs.wandb.com/guides/runs/resuming). |
 |  `fork_from` |  (str, optional) A string with the format {run_id}?_step={step} describing a moment in a previous run to fork a new run from. Creates a new run that picks up logging history from the specified run at the specified moment. The target run must be in the current project. Example: `fork_from="my-run-id?_step=1234"`. |
+|  `resume_from` |  (str, optional) A string with the format {run_id}?_step={step} describing a moment in a previous run to resume a run from. This allows users to truncate the history logged to a run at an intermediate step and resume logging from that step. It uses run forking under the hood. The target run must be in the current project. Example: `resume_from="my-run-id?_step=1234"`. |
+|  `settings` |  (dict, wandb.Settings, optional) Settings to use for this run. (default: None) |
 
 #### Examples:
 
