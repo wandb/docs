@@ -16,12 +16,13 @@ git checkout japanese_docs
 yarn install
 sh scripts/build-prod-docs.sh
 mv build/ja ../../build
+git stash
 # KO
 git checkout korean_docs
 yarn install
 sh scripts/build-prod-docs.sh
 mv build/ko ../../build
-
+git stash
 # Cleanup
 cd ../..
 rm -rf scripts/docodile
