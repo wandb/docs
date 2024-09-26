@@ -12,8 +12,6 @@ git fetch -v --depth=1
 
 # The JA and KO builds use special scripts for the baseURL mod
 # JA (requires node 18.0.0)
-nvm install 18.0.0
-nvm use 18.0.0
 git checkout japanese_docs
 yarn install
 sh scripts/build-prod-docs.sh
