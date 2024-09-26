@@ -10,10 +10,10 @@ import TabItem from '@theme/TabItem';
 
 Use **Custom Charts** to create charts that aren't possible right now in the default UI. Log arbitrary tables of data and visualize them exactly how you want. Control details of fonts, colors, and tooltips with the power of [Vega](https://vega.github.io/vega/).
 
-* **What's possible**: Read the[ launch announcement →](https://wandb.ai/wandb/posts/reports/Announcing-the-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
-* **Code**: Try a live example in a[ hosted notebook →](https://tiny.cc/custom-charts)
-* **Video**: Watch a quick [walkthrough video →](https://www.youtube.com/watch?v=3-N9OV6bkSM)
-* **Example**: Quick Keras and Sklearn [demo notebook →](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0\_5AoZdoSD?usp=sharing)
+* **What's possible**: Read the[ launch announcement](https://wandb.ai/wandb/posts/reports/Announcing-the-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
+* **Code**: Try a live example in a[ hosted notebook](https://tiny.cc/custom-charts)
+* **Video**: Watch a quick [walkthrough video](https://www.youtube.com/watch?v=3-N9OV6bkSM)
+* **Example**: Quick Keras and Sklearn [demo notebook](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0\_5AoZdoSD?usp=sharing)
 
 ![Supported charts from vega.github.io/vega](/images/app_ui/supported_charts.png)
 
@@ -63,9 +63,9 @@ You can use this to log curves on any two dimensions. Note that if you're plotti
 
 ![](/images/app_ui/line_plot.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
+[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[Run the code](https://tiny.cc/custom-charts)
 
   </TabItem>
   <TabItem value="scatter-plot">
@@ -84,9 +84,9 @@ You can use this to log scatter points on any two dimensions. Note that if you'r
 
 ![](/images/app_ui/demo_scatter_plot.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
+[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[Run the code](https://tiny.cc/custom-charts)
 
   </TabItem>
   <TabItem value="bar-chart">
@@ -111,9 +111,9 @@ You can use this to log arbitrary bar charts. Note that the number of labels and
 
 ![](@site/static/images/app_ui/line_plot_bar_chart.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
+[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[Run the code](https://tiny.cc/custom-charts)
 
   </TabItem>
   <TabItem value="histogram">
@@ -132,9 +132,9 @@ You can use this to log arbitrary histograms. Note that `data` is a list of list
 
 ![](/images/app_ui/demo_custom_chart_histogram.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
+[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[Run the code](https://tiny.cc/custom-charts)
 
   </TabItem>
     <TabItem value="pr-curve">
@@ -159,9 +159,9 @@ You can log this whenever your code has access to:
 ![](/images/app_ui/demo_average_precision_lines.png)
 
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
+[See in the app](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
 
-[Run the code →](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
+[Run the code](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
 
   </TabItem>
   <TabItem value="roc-curve">
@@ -187,9 +187,9 @@ You can log this whenever your code has access to:
 
 ![](/images/app_ui/demo_custom_chart_roc_curve.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
+[See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
-[Run the code →](https://colab.research.google.com/drive/1\_RMppCqsA8XInV\_jhJz32NCZG6Z5t1RO?usp=sharing)
+[Run the code](https://colab.research.google.com/drive/1\_RMppCqsA8XInV\_jhJz32NCZG6Z5t1RO?usp=sharing)
 
   </TabItem>
 </Tabs>
@@ -214,7 +214,7 @@ my_custom_chart = wandb.plot_table(
 )
 ```
 
-[Run the code →](https://tiny.cc/custom-charts)
+[Run the code](https://tiny.cc/custom-charts)
 
 ![](/images/app_ui/custom_presets.png)
 
@@ -232,7 +232,7 @@ Here are the data types you can log from your script and use in a custom chart:
 
 Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.log()`("custom\_data\_table" below), and the individual fields will be accessible via the column names ("x", "y", and "z"). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows.
 
-[Try it in a Google Colab →](https://tiny.cc/custom-charts)
+[Try it in a Google Colab](https://tiny.cc/custom-charts)
 
 ```python
 # Logging a custom table of data
