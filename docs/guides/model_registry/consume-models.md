@@ -38,7 +38,6 @@ Reference a model version with one of following formats listed:
 See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
 
 <details>
-
 <summary>Example: Download and use a logged model</summary>
 
 For example, in the proceeding code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that returned from the API to the `downloaded_model_path` variable.
@@ -83,11 +82,12 @@ run = wandb.init(project="<project>", entity="<entity>")
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 Reference a model version with one of following formats listed:
+
 * `latest` - Use `latest` alias to specify the model version that is most recently linked.
 * `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
 * `alias` - Specify the custom alias that you and your team assigned to your model version
-See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
 
+See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
 
   </TabItem>
   <TabItem value="app">
@@ -98,8 +98,6 @@ See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide 
 4. Select the **Files** tab. 
 5. Click on the download button next to the model file you want to download. 
 ![](/images/models/download_model_ui.gif)
-
-
 
   </TabItem>
 </Tabs>
