@@ -199,7 +199,7 @@ export default {
                 'guides/app/features/panels/code',
                 'guides/app/features/panels/parameter-importance',
                 'guides/app/features/panels/run-comparer',
-                
+                'guides/app/features/panels/manage-panels',
                 {
                   type: 'category',
                   label: 'Query panels',
