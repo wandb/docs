@@ -731,7 +731,7 @@ global:
 
 This section describes the configuration options for W&B Kubernetes operator (wandb-controller-manager). The operator receives its configuration in the form of a YAML file. 
 
-By default, the W&B Kubernetes operator does not need a configuration file. Create a configuration file if required.
+By default, the W&B Kubernetes operator does not need a configuration file. Create a configuration file if required (e.g. specifying custom CAs, deploying in an airgapped environment). 
 
 Find the full list of spec customization [in the Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
