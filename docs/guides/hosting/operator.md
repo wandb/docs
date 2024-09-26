@@ -371,9 +371,9 @@ Follow these steps to migrate to the Operator-based Helm chart:
 
 ## Configuration Reference for W&B Server
 
-This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Many configuration options have been exposed with below configuration, some need to be set as environment variables.
+This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Some configuration options are exposed with the below configuration, some need to be set as environment variables.
 
-The documentation has two lists of environment variables: [Basic](./env-vars) and [Advanced](./iam/advanced_env_vars). Only use environment variables if the configuration option that you need has not yet been exposed using Helm Chart.
+The documentation has two lists of environment variables: [basic](./env-vars) and [advanced](./iam/advanced_env_vars). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
 
 The W&B Server application configuration file for a production deployment requires the following contents:
 
@@ -703,8 +703,8 @@ global:
     GLOBAL_ENV: "example"
 ```
 
-### Custom CA
-`customCACerts` is a list and can take many certificates. Those CAs when added only apply to the W&B Server application.
+### Custom certificate authority
+`customCACerts` is a list and can take many certificates. Certificate authorities specified in `customCACerts` only apply to the W&B Server application.
 
 ```yaml
 global:
@@ -729,14 +729,14 @@ global:
 
 ## Configuration Reference for W&B Operator
 
-This section describes the configuration options for W&B Kubernetes operator (wandb-controller-manager). The operator receives its configuration in the form of a YAML file. 
+This section describes configuration options for W&B Kubernetes operator (`wandb-controller-manager`). The operator receives its configuration in the form of a YAML file. 
 
-By default, the W&B Kubernetes operator does not need a configuration file. Create a configuration file if required (e.g. specifying custom CAs, deploying in an airgapped environment). 
+By default, the W&B Kubernetes operator does not need a configuration file. Create a configuration file if required. For example, you might need a configuration file to specify custom certificate authorities, deploy in an air gap environment and so forth. 
 
 Find the full list of spec customization [in the Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
 ### Custom CA
-`customCACerts` is a list and can take many certificates. Those CAs when added only apply to the W&B Kubernetes operator (wandb-controller-manager). 
+A custom certificate authority (`customCACerts`), is a list and can take many certificates. Those certificate authorities when added only apply to the W&B Kubernetes operator (`wandb-controller-manager`). 
 
 ```yaml
 customCACerts:
