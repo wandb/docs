@@ -291,7 +291,7 @@ The linked artifact will be visible in the UI for the specified portfolio.
 | Arguments |  |
 | :--- | :--- |
 |  `artifact` |  the (public or local) artifact which will be linked |
-|  `target_path` |  `str` - takes the following forms: {portfolio}, {project}/{portfolio}, or {entity}/{project}/{portfolio} |
+|  `target_path` |  `str` - takes the following forms: `{portfolio}`, `{project}/{portfolio}`, or `{entity}/{project}/{portfolio}` |
 |  `aliases` |  `List[str]` - optional alias(es) that will only be applied on this linked artifact inside the portfolio. The alias "latest" will always be applied to the latest version of an artifact that is linked. |
 
 | Returns |  |
