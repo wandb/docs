@@ -12,8 +12,9 @@ Use panel visualizations to explore your logged data, the relationships between 
 2. Choose the Add panel button
 3. From the dropdown, select a type of panel to add
 ![](/images/app_ui/add_single_panel.gif) 
+4. (Optional) If prompted, define parameters for the plot. 
 
-Depending on the panel you choose, you might be prompted to define parameters for the plot.
+
 :::tip Undo changes to your workspace
 Select the undo button (arrow that points left) to undo any unwanted changes.
 :::
@@ -22,12 +23,12 @@ Select the undo button (arrow that points left) to undo any unwanted changes.
 Add multiple panels to your workspace at the same time. You can add up to 500 panels at a time.
 
 1. Within your project workspace, choose the **Add panels** button
-2. Provide a regex expression within the search field
+2. Provide a regular expression within the search field
 3. Select the **Add all** button
 ![](/images/app_ui/bulk_panels.gif)
 
 :::note
-The **Add all** button appears only if a regex match occurs.
+The **Add all** button appears only if a regular expression match occurs.
 :::
 
 
@@ -40,7 +41,7 @@ By default, W&B generates a panel for each unique metric you [`log`](../../../..
 W&B uses the key value you specify with [`log`](../../../../ref/python/log.md) to determine whether or not to create a new panel. 
 :::
 
-To activate or deactivate this functionality: 
+To activate or deactivate auto generated panels:
 
 1. Navigate to your project's workspace
 2. Select on the gear icon in the upper right hand corner
@@ -49,7 +50,7 @@ To activate or deactivate this functionality:
 ![](/images/app_ui/panel_generation.png)
 
 ### Check auto generated panel settings
-Each workspace indicates whether or not the workspace automatically generates panels. Next to the name of your workspace you will see a clipboard icon. If the icon is red, panels are not automatically generated. If the the panel is green, panels are automatically created each time you log a unique metric.
+Each workspace indicates whether or not the workspace automatically generates panels. Next to the name of your workspace is a clipboard icon. If the icon is red, panels are not automatically generated. If the panel is green, panels are automatically created each time you log a unique metric.
 
 Example of workspace with panel auto generation off:
 ![](/images/app_ui/auto_panel_off.png)
