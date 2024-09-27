@@ -176,65 +176,57 @@ export default {
           items: [
             {
               type: 'category',
-              label: 'Features',
-              link: {type: 'doc', id: 'guides/app/features/intro'},
+              label: 'Panels',
+              link: {type: 'doc', id: 'guides/app/features/panels/intro'},
               items: [
                 {
                   type: 'category',
-                  label: 'Panels',
-                  link: {type: 'doc', id: 'guides/app/features/panels/intro'},
-                  items: [
-                    {
-                      type: 'category',
-                      label: 'Line Plot',
-                      link: {
-                        type: 'doc',
-                        id: 'guides/app/features/panels/line-plot/intro',
-                      },
-                      items: [
-                        'guides/app/features/panels/line-plot/reference',
-                        'guides/app/features/panels/line-plot/sampling',
-                        'guides/app/features/panels/line-plot/smoothing',
-                      ],
-                    },
-                    'guides/app/features/panels/bar-plot',
-                    'guides/app/features/panels/run-colors',
-                    'guides/app/features/panels/parallel-coordinates',
-                    'guides/app/features/panels/scatter-plot',
-                    'guides/app/features/panels/code',
-                    'guides/app/features/panels/parameter-importance',
-                    'guides/app/features/panels/run-comparer',
-                    
-                    {
-                      type: 'category',
-                      label: 'Query panels',
-                      link: {
-                        type: 'doc',
-                        id: 'guides/app/features/panels/query-panel/intro',
-                      },
-                      items: [
-                        'guides/app/features/panels/query-panel/embedding-projector',
-                      ],
-                    },
-                  ],
-                },
-                {
-                  type: 'category',
-                  label: 'Custom Charts',
+                  label: 'Line Plot',
                   link: {
                     type: 'doc',
-                    id: 'guides/app/features/custom-charts/intro',
+                    id: 'guides/app/features/panels/line-plot/intro',
                   },
                   items: [
-                    // 'guides/app/features/custom-charts/intro',
-                    'guides/app/features/custom-charts/walkthrough',
+                    'guides/app/features/panels/line-plot/reference',
+                    'guides/app/features/panels/line-plot/sampling',
+                    'guides/app/features/panels/line-plot/smoothing',
                   ],
                 },
-                'guides/app/features/runs-table',
-                'guides/app/features/tags',
-                'guides/app/features/notes',
+                'guides/app/features/panels/bar-plot',
+                'guides/app/features/panels/run-colors',
+                'guides/app/features/panels/parallel-coordinates',
+                'guides/app/features/panels/scatter-plot',
+                'guides/app/features/panels/code',
+                'guides/app/features/panels/parameter-importance',
+                'guides/app/features/panels/run-comparer',
+                {
+                  type: 'category',
+                  label: 'Query panels',
+                  link: {
+                    type: 'doc',
+                    id: 'guides/app/features/panels/query-panel/intro',
+                  },
+                  items: [
+                    'guides/app/features/panels/query-panel/embedding-projector',
+                  ],
+                },
               ],
             },
+            {
+              type: 'category',
+              label: 'Custom Charts',
+              link: {
+                type: 'doc',
+                id: 'guides/app/features/custom-charts/intro',
+              },
+              items: [
+                // 'guides/app/features/custom-charts/intro',
+                'guides/app/features/custom-charts/walkthrough',
+              ],
+            },
+            'guides/app/features/runs-table',
+            'guides/app/features/tags',
+            'guides/app/features/notes',
             {
               type: 'category',
               label: 'Settings',
