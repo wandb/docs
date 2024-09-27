@@ -189,7 +189,7 @@ Follow these steps to verify the installation:
 ```shell
 pip install wandb
 ```
-2: Log in to W&B:
+2. Log in to W&B:
 ```shell
 wandb login --host=https://YOUR_DNS_DOMAIN
 ```
@@ -352,7 +352,9 @@ helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
 kubectl apply -f operator.yaml
 ```
 The deployment will take a few minutes to complete.
+
 7. Verify the installation. Make sure that everything works by following the steps in [Verify the installation](#verify-the-installation).
+
 8. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
 
 ### Migrate to Operator-based Terraform Helm chart
@@ -367,13 +369,13 @@ Follow these steps to migrate to the Operator-based Helm chart:
 
 
 
-## Configuration Reference
+## Configuration Reference for W&B Server
 
-This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Many configuration options have been exposed with below configuration, some need to be set as environment variables.
+This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases](#how-it-works). Some configuration options are exposed with the below configuration, some need to be set as environment variables.
 
-The documentation has two lists of environment variables: [Basic](./env-vars) and [Advanced](./iam/advanced_env_vars). Only use environment variables if the configuration option that you need has not yet been exposed with Helm Chart.
+The documentation has two lists of environment variables: [basic](./env-vars) and [advanced](./iam/advanced_env_vars). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
 
-The W&B Kubernetes operator configuration file for a production deployment requires the following contents:
+The W&B Server application configuration file for a production deployment requires the following contents:
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -509,10 +511,6 @@ This will only work if the SSL certificate is trusted. W&B does not support self
 ### MySQL
 
 ```yaml
-# disable in-chart MySQL
-mysql:
-  install: false
-
 global:
    mysql:
      # Example values, replace with your own
@@ -583,7 +581,7 @@ ingress:
 redis:
   install: false
 
-global
+global:
   redis:
     host: ""
     port: 6379
@@ -704,6 +702,60 @@ global:
     GLOBAL_ENV: "example"
 ```
 
+### Custom certificate authority
+`customCACerts` is a list and can take many certificates. Certificate authorities specified in `customCACerts` only apply to the W&B Server application.
+
+```yaml
+global:
+  customCACerts:
+  - |
+    -----BEGIN CERTIFICATE-----
+    MIIBnDCCAUKgAwIBAg.....................fucMwCgYIKoZIzj0EAwIwLDEQ
+    MA4GA1UEChMHSG9tZU.....................tZUxhYiBSb290IENBMB4XDTI0
+    MDQwMTA4MjgzMFoXDT.....................oNWYggsMo8O+0mWLYMAoGCCqG
+    SM49BAMCA0gAMEUCIQ.....................hwuJgyQRaqMI149div72V2QIg
+    P5GD+5I+02yEp58Cwxd5Bj2CvyQwTjTO4hiVl1Xd0M0=
+    -----END CERTIFICATE-----
+  - |
+    -----BEGIN CERTIFICATE-----
+    MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+    MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
+    MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
+    SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
+    aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
+    -----END CERTIFICATE-----
+```
+
+## Configuration Reference for W&B Operator
+
+This section describes configuration options for W&B Kubernetes operator (`wandb-controller-manager`). The operator receives its configuration in the form of a YAML file. 
+
+By default, the W&B Kubernetes operator does not need a configuration file. Create a configuration file if required. For example, you might need a configuration file to specify custom certificate authorities, deploy in an air gap environment and so forth. 
+
+Find the full list of spec customization [in the Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
+
+### Custom CA
+A custom certificate authority (`customCACerts`), is a list and can take many certificates. Those certificate authorities when added only apply to the W&B Kubernetes operator (`wandb-controller-manager`). 
+
+```yaml
+customCACerts:
+- |
+  -----BEGIN CERTIFICATE-----
+  MIIBnDCCAUKgAwIBAg.....................fucMwCgYIKoZIzj0EAwIwLDEQ
+  MA4GA1UEChMHSG9tZU.....................tZUxhYiBSb290IENBMB4XDTI0
+  MDQwMTA4MjgzMFoXDT.....................oNWYggsMo8O+0mWLYMAoGCCqG
+  SM49BAMCA0gAMEUCIQ.....................hwuJgyQRaqMI149div72V2QIg
+  P5GD+5I+02yEp58Cwxd5Bj2CvyQwTjTO4hiVl1Xd0M0=
+  -----END CERTIFICATE-----
+- |
+  -----BEGIN CERTIFICATE-----
+  MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+  MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
+  MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
+  SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
+  aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
+  -----END CERTIFICATE-----
+```
 
 ## FAQ
 
