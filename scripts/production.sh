@@ -11,17 +11,18 @@ git remote set-branches origin '*'
 git fetch -v --depth=1
 
 # The JA and KO builds use special scripts for the baseURL mod
-# JA
+# JA (requires node 18.0.0)
 git checkout japanese_docs
 yarn install
 sh scripts/build-prod-docs.sh
 mv build/ja ../../build
+git stash
 # KO
 git checkout korean_docs
 yarn install
 sh scripts/build-prod-docs.sh
 mv build/ko ../../build
-
+git stash
 # Cleanup
 cd ../..
 rm -rf scripts/docodile
