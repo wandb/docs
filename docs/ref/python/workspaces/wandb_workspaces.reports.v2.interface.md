@@ -14,7 +14,7 @@ import wandb_workspaces.reports.v2
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1732"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1758"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `BarPlot`
 A panel object that shows a 2D bar plot. 
@@ -33,11 +33,11 @@ A panel object that shows a 2D bar plot.
  - `groupby_rangefunc` (Optional[GroupArea]):   Group runs based on a range. Options  include "minmax", "stddev", "stderr", "none", "samples", or `None`. 
  - `max_runs_to_show` (Optional[int]):  The maximum number of runs to show on the plot. 
  - `max_bars_to_show` (Optional[int]):  The maximum number of bars to show on the bar plot. 
- - `custom_expressions` (Optional[LList[str]]):  INSERT. 
- - `legend_template` (Optional[str]):  INSERT 
+ - `custom_expressions` (Optional[LList[str]]):  A list of custom expressions to be used in the bar plot. 
+ - `legend_template` (Optional[str]):  The template for the legend. 
  - `font_size` ( Optional[FontSize]):  The size of the line plot's font.  Options include "small", "medium", "large", "auto", or `None`. 
- - `line_titles` (Optional[dict]):  INSERT. 
- - `line_colors` (Optional[dict]):  INSERT. 
+ - `line_titles` (Optional[dict]):  The titles of the lines. The keys are the line names and the values are the titles. 
+ - `line_colors` (Optional[dict]):  The colors of the lines. The keys are the line names and the values are the colors. 
 
 
 
@@ -47,7 +47,7 @@ A panel object that shows a 2D bar plot.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L174"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L169"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Block`
 
@@ -62,16 +62,16 @@ A panel object that shows a 2D bar plot.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L475"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L482"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `BlockQuote`
-An HTML block that indents the specified text as a quotation. 
+A block of quoted text. 
 
 
 
 **Attributes:**
  
- - `text` (str):  Text to render in block quote. 
+ - `text`:  The text of the block quote. 
 
 
 
@@ -81,16 +81,16 @@ An HTML block that indents the specified text as a quotation.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L591"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L588"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CalloutBlock`
-An HTML block that renders a callout block. 
+A block of callout text. 
 
 
 
 **Attributes:**
  
- - `text` (str):  The text to render in the callout block. 
+ - `text`:  The callout text. 
 
 
 
@@ -100,16 +100,16 @@ An HTML block that renders a callout block.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L429"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L440"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CheckedList`
-An HTML block that contains a list of checkboxes. 
+A list of items with checkboxes. Add one or more `CheckedListItem` within `CheckedList`. 
 
 
 
 **Attributes:**
  
- - `items` (list):  A list of one or more `CheckedListItem` objects. 
+ - `items`:  A list of one or more `CheckedListItem` objects. 
 
 
 
@@ -119,17 +119,17 @@ An HTML block that contains a list of checkboxes.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L361"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L365"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CheckedListItem`
-A check mark item. Use with `CheckedList` to add one  or more check mark items to your report. 
+A list item with a checkbox. Add one ore more `CheckedListItem` within `CheckList`. 
 
 
 
 **Attributes:**
  
- - `text` (str):  The text to render next to the list item. 
- - `checked` (bool):  Add a check mark to the list item. 
+ - `text`:  The text of the list item. 
+ - `checked`:  Whether the checkbox is checked. 
 
 
 
@@ -139,17 +139,17 @@ A check mark item. Use with `CheckedList` to add one  or more check mark items t
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L494"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L499"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CodeBlock`
-An HTML block that contains code samples. 
+A block of code. 
 
 
 
 **Attributes:**
  
- - `code` (str):  A string that contains example code. 
- - `language` (str):  The language the code is written in.  The language specified is used for syntax highlighting.  
+ - `code`:  The code in the block. 
+ - `language`:  The language of the code. The language specified  is used for syntax highlighting. 
 
 
 
@@ -159,7 +159,7 @@ An HTML block that contains code samples.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1887"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1913"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CodeComparer`
 A panel object that compares the code between two different runs. 
@@ -178,16 +178,16 @@ A panel object that compares the code between two different runs.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L128"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L126"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Config`
-INSERT 
+A configuration for a metric. 
 
 
 
 **Attributes:**
  
- - `name` (str):  INSERT 
+ - `name`:  The name of the metric. 
 
 
 
@@ -197,19 +197,19 @@ INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2131"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2157"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CustomChart`
-A panel that shows a custom chart. INSERT 
+A panel that shows a custom chart. The chart is defined by a query. 
 
 
 
 **Attributes:**
  
- - `query` (dict):  INSERT 
+ - `query` (dict):  The query that defines the custom chart. The key is the name of the field, and the value is the query. 
  - `chart_name` (str):  The title of the custom chart. 
  - `chart_fields` (dict):  Key-value pairs that define the axis of the  plot. Where the key is the label, and the value is the metric. 
- - `chart_strings` (dict):  INSERT 
+ - `chart_strings` (dict):  Key-value pairs that define the strings in the chart. 
 
 
 
@@ -218,7 +218,7 @@ A panel that shows a custom chart. INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L687"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L685"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Gallery`
 
@@ -233,7 +233,7 @@ A panel that shows a custom chart. INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L674"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L672"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `GalleryReport`
 
@@ -248,7 +248,7 @@ A panel that shows a custom chart. INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L679"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L677"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `GalleryURL`
 
@@ -263,17 +263,17 @@ A panel that shows a custom chart. INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1466"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1492"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `GradientPoint`
-INSERT 
+A point in a gradient. 
 
 
 
 **Attributes:**
  
- - `color`:  INSERT 
- - `offset`:  INSERT 
+ - `color`:  The color of the point. 
+ - `offset`:  The position of the point in the gradient. The value should be between 0 and 100. 
 
 
 
@@ -283,51 +283,69 @@ INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L230"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L225"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `H1`
 Creates an H1 HTML tag with the text specified. 
 
 
 
+**Attributes:**
+ 
+ - `text`:  The text of the heading. 
+
+
+
 
 
 
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L248"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L247"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `H2`
 Creates an H2 HTML tag with the text specified. 
 
 
 
+**Attributes:**
+ 
+ - `text`:  The text of the heading. 
+ - `collapsed_blocks`:  The blocks to show when the heading is collapsed. 
+
+
+
 
 
 
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L266"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L270"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `H3`
 Creates an H3 HTML tag with the text specified. 
 
 
 
+**Attributes:**
+ 
+ - `text`:  The text of the heading. 
+ - `collapsed_blocks`:  The blocks to show when the heading is collapsed. 
+
+
+
 
 
 
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L212"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L206"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Heading`
-
-
-
+A heading block. INSERT 
 
 
 
@@ -337,7 +355,7 @@ Creates an H3 HTML tag with the text specified.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L614"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L610"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `HorizontalRule`
 HTML horizontal line. 
@@ -353,14 +371,14 @@ HTML horizontal line.
 <a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L563"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Image`
-An image HTML block.  
+A block that renders an image. 
 
 
 
 **Attributes:**
  
- - `url` (str):  The URL where your image is hosted. 
- - `caption` (str):  A description of the image that appears underneath the image. 
+ - `url`:  The URL of the image. 
+ - `caption`:  The caption of the image. Caption appears underneath the image. 
 
 
 
@@ -370,16 +388,16 @@ An image HTML block.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L315"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L321"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `InlineCode`
-Displays code in a line. Does not add newline character after provided. This differs from `CodeBlock` where the latter creates an HTML block with code. 
+A block of inline code. Does not add newline character after code. This differs from `CodeBlock` which is an HTML block with code. 
 
 
 
 **Attributes:**
  
- - `text` (str):  A string that contains example code. 
+ - `text`:  The code. 
 
 
 
@@ -389,16 +407,16 @@ Displays code in a line. Does not add newline character after provided. This dif
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L302"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L309"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `InlineLatex`
-Displays LaTeX in a line. Does not add newline character after provided LaTeX. This differs from `LatexBlock` where the latter creates an HTML block with LaTeX 
+A block of inline LaTeX. Does not add newline character after LaTeX. This differs from `LatexBlock` which is an HTML block with LaTeX. 
 
 
 
 **Attributes:**
  
- - `text` (str):   Text you want to appear in the LaTeX inline.  
+ - `text`:  The LaTeX code. 
 
 
 
@@ -408,16 +426,16 @@ Displays LaTeX in a line. Does not add newline character after provided LaTeX. T
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L544"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L546"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `LatexBlock`
-A LaTeX block. Useful if you want to write formulas with LaTeX syntax. 
+A block of LaTeX text. 
 
 
 
 **Attributes:**
  
- - `text` (str):  Text you want to appear in the LaTeX block. 
+ - `text`:  The LaTeX text. 
 
 
 
@@ -427,19 +445,19 @@ A LaTeX block. Useful if you want to write formulas with LaTeX syntax.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L150"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L146"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Layout`
-Adjusts the width, height, x-axis, or y-axis of a plot. 
+The layout of a block in a report. Adjusts the size and position of the block. 
 
 
 
 **Attributes:**
  
- - `x` (int):  INSERT 
- - `y` (int):  INSERT 
- - `w` (int):  INSERT 
- - `h` (int):  INSERT 
+ - `x`:  The x position of the block. 
+ - `y`:  The y position of the block. 
+ - `w`:  The width of the block. 
+ - `h`:  The height of the block. 
 
 
 
@@ -449,10 +467,10 @@ Adjusts the width, height, x-axis, or y-axis of a plot.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1486"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1512"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `LinePlot`
-A panel object that shows 2D line plots. 
+A panel object with 2D line plots. 
 
 
 
@@ -473,16 +491,16 @@ A panel object that shows 2D line plots.
  - `groupby_rangefunc` (Optional[GroupArea]):   Group runs based on a range. Options  include "minmax", "stddev", "stderr", "none", "samples", or `None`. 
  - `smoothing_factor` (Optional[float]):  The smoothing factor to apply to the  smoothing type. Accepted values range between 0 and 1. 
  - `smoothing_type Optional[SmoothingType]`:  Apply a filter based on the specified  distribution. Options include "exponentialTimeWeighted", "exponential",  "gaussian", "average", or "none". 
- - `smoothing_show_original` (Optional[bool]):  INSERT. 
+ - `smoothing_show_original` (Optional[bool]):    If set to `True`, show the original data. 
  - `max_runs_to_show` (Optional[int]):  The maximum number of runs to show on the line plot. 
- - `custom_expressions` (Optional[LList[str]]):  INSERT. 
+ - `custom_expressions` (Optional[LList[str]]):  Custom expressions to apply to the data. 
  - `plot_type Optional[LinePlotStyle]`:  The type of line plot to generate.  Options include "line", "stacked-area", or "pct-area". 
  - `font_size Optional[FontSize]`:  The size of the line plot's font.  Options include "small", "medium", "large", "auto", or `None`. 
  - `legend_position Optional[LegendPosition]`:  Where to place the legend.  Options include "north", "south", "east", "west", or `None`. 
- - `legend_template` (Optional[str]):  INSERT. 
- - `aggregate` (Optional[bool]):  INSERT. 
- - `xaxis_expression` (Optional[str]):  INSERT. 
- - `legend_fields` (Optional[LList[str]]):  INSERT. 
+ - `legend_template` (Optional[str]):  The template for the legend. 
+ - `aggregate` (Optional[bool]):  If set to `True`, aggregate the data. 
+ - `xaxis_expression` (Optional[str]):  The expression for the x-axis. 
+ - `legend_fields` (Optional[LList[str]]):  The fields to include in the legend. 
 
 
 
@@ -492,17 +510,17 @@ A panel object that shows 2D line plots.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L284"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L293"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Link`
-Creates a hyperlink. 
+A link to a URL. 
 
 
 
 **Attributes:**
  
- - `text`:  The text you want to add a hyperlink to. 
- - `url`:  The URL that the hyperlink uses. 
+ - `text`:  The text of the link. 
+ - `url`:  The URL the link points to. 
 
 
 
@@ -512,12 +530,10 @@ Creates a hyperlink.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L410"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L420"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `List`
-
-
-
+A list of items. 
 
 
 
@@ -527,7 +543,7 @@ Creates a hyperlink.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L348"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L352"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ListItem`
 
@@ -542,16 +558,16 @@ Creates a hyperlink.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L525"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L528"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `MarkdownBlock`
-A Markdown block. Useful if you want to write text that uses common markdown syntax. 
+A block of markdown text. Useful if you want to write text that uses common markdown syntax. 
 
 
 
 **Attributes:**
  
- - `text` (str):  Text you want to appear in the markdown block. 
+ - `text`:  The markdown text. 
 
 
 
@@ -561,7 +577,7 @@ A Markdown block. Useful if you want to write text that uses common markdown syn
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2103"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2129"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `MarkdownPanel`
 A panel that renders a markdown. 
@@ -580,17 +596,17 @@ A panel that renders a markdown.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2069"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2095"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `MediaBrowser`
-INSERT 
+A panel that displays media files in a grid layout. 
 
 
 
 **Attributes:**
  
- - `num_columns` (Optional[int]):  INSERT 
- - `media_keys` (LList[str]):  INSERT 
+ - `num_columns` (Optional[int]):  The number of columns in the grid. 
+ - `media_keys` (LList[str]):  A list of media keys that correspond to the media files. 
 
 
 
@@ -600,16 +616,16 @@ INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L117"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L116"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Metric`
-INSERT 
+A metric to display in a report. 
 
 
 
 **Attributes:**
  
- - `name` (str):  INSERT 
+ - `name`:  The name of the metric. 
 
 
 
@@ -619,12 +635,17 @@ INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L728"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L726"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `OrderBy`
+A metric to order by. 
 
 
 
+**Attributes:**
+ 
+ - `name`:  The name of the metric. 
+ - `ascending`:  Whether to sort in ascending order. 
 
 
 
@@ -634,16 +655,16 @@ INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L444"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L454"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `OrderedList`
-An HTML block that contains an ordered list. 
+A list of items in a numbered list. 
 
 
 
 **Attributes:**
  
- - `items` (list):  An ordered list of items. Renders as a numbered list. 
+ - `items`:  A list of one or more `OrderedListItem` objects. 
 
 
 
@@ -656,28 +677,13 @@ An HTML block that contains an ordered list.
 <a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L385"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `OrderedListItem`
-
-
-
-
-
-
-
-
-
-
----
-
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L328"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
-
-## <kbd>class</kbd> `P`
-An HTML paragraph block.  
+A list item in an ordered list. 
 
 
 
 **Attributes:**
  
- - `text` (str):  The text that appears within the text block. 
+ - `text`:  The text of the list item. 
 
 
 
@@ -687,12 +693,35 @@ An HTML paragraph block.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L807"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L333"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+## <kbd>class</kbd> `P`
+A block that contains a paragraph of text. 
+
+
+
+**Attributes:**
+ 
+ - `text`:  The text of the paragraph. 
+
+
+
+
+
+
+
+---
+
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L823"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Panel`
+A panel to display in a panel grid. 
 
 
 
+**Attributes:**
+ 
+ - `layout`:  A `Layout` object. 
 
 
 
@@ -702,7 +731,7 @@ An HTML paragraph block.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L816"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L837"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `PanelGrid`
 An HTML block where you can add `Runset` and `Panel` objects to your project. 
@@ -715,8 +744,8 @@ Available panels include: `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `
 
 **Attributes:**
  
- - `runsets` (list):  A list of one or more Runset objects. 
- - `panels` (list):  A list of one or more Panel objects. 
+ - `runsets` (list):  A list of one or more `Runset` objects. 
+ - `panels` (list):  A list of one or more `Panel` objects. 
  - `active_runset` (int):   The number of runs you want to display within a runset. 
  - `custom_run_colors` (dict):  Key-value pairs where the key is the name of a  run and the value is a color specified by a hexadecimal value. 
 
@@ -728,7 +757,7 @@ Available panels include: `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1951"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1977"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlot`
 A panel object that shows a parallel coordinates plot. 
@@ -739,7 +768,7 @@ A panel object that shows a parallel coordinates plot.
  
  - `columns` (LList[ParallelCoordinatesPlotColumn]):  A list of one  or more `ParallelCoordinatesPlotColumn` objects.  
  - `title` (Optional[str]):  The text that appears at the top of the plot. 
- - `gradient` (Optional[LList[GradientPoint]]):  INSERT. 
+ - `gradient` (Optional[LList[GradientPoint]]):  INSERT 
  - `font_size` (Optional[FontSize]):  The size of the line plot's font.  Options include "small", "medium", "large", "auto", or `None`. 
 
 
@@ -750,7 +779,7 @@ A panel object that shows a parallel coordinates plot.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1915"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1941"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlotColumn`
 A column within a parallel coordinates plot.  The order of `metric`s specified  determine the order of the parallel axis (x-axis) in the parallel coordinates plot. 
@@ -760,7 +789,9 @@ A column within a parallel coordinates plot.  The order of `metric`s specified  
 **Attributes:**
  
  - `metric`:  The name of the metric logged to your W&B project that the report pulls information from. 
- - `display_name` (str):  The name of the metric  inverted (bool): log (bool): 
+ - `display_name` (str):  The name of the metric  
+ - `inverted` (bool):  Whether to invert the metric. 
+ - `log` (bool):  Whether to apply a log transformation to the metric. 
 
 
 
@@ -770,7 +801,7 @@ A column within a parallel coordinates plot.  The order of `metric`s specified  
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2005"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2031"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ParameterImportancePlot`
 A panel that shows how important each hyperparameter is in predicting the chosen metric. 
@@ -789,7 +820,7 @@ A panel that shows how important each hyperparameter is in predicting the chosen
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2681"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2707"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Report`
 A Data Class that represents a W&B Report. Use the returned object's `blocks` attribute to customize your report. Report Data Class objects do not automatically save. Use the `save()` method to persists changes. 
@@ -810,7 +841,7 @@ A Data Class that represents a W&B Report. Use the returned object's `blocks` at
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2039"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2065"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `RunComparer`
 A panel that compares metrics across different runs from the project the report pulls information from. 
@@ -829,12 +860,23 @@ A panel that compares metrics across different runs from the project the report 
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L747"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L751"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Runset`
+A set of runs to display in a panel grid. 
 
 
 
+**Attributes:**
+ 
+ - `entity`:  The entity name. 
+ - `project`:  The project name. 
+ - `name`:  The name of the run set. 
+ - `query`:  A query string to filter runs. 
+ - `filters`:  A filter string to filter runs. 
+ - `groupby`:  A list of metric names to group by. 
+ - `order`:  A list of `OrderBy` objects to order by. 
+ - `custom_run_colors`:  A dictionary mapping run IDs to colors. 
 
 
 
@@ -844,17 +886,17 @@ A panel that compares metrics across different runs from the project the report 
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L104"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L103"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `RunsetGroup`
-UI element that shows runsets.  
+UI element that shows a group of runsets. 
 
 
 
 **Attributes:**
  
- - `runset_name` (str):  The label of a runset. 
- - `keys` (tuple):  INSERT 
+ - `runset_name`:  The name of the runset. 
+ - `keys`:  The keys to group by. 
 
 
 
@@ -867,14 +909,14 @@ UI element that shows runsets.
 <a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L91"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `RunsetGroupKey`
-INSERT 
+A key for grouping runsets. 
 
 
 
 **Attributes:**
  
- - `key`:  INSERT 
- - `value` (str):  INSERT 
+ - `key`:  The metric type to group by. 
+ - `value`:  The value of the metric to group by. 
 
 
 
@@ -884,7 +926,7 @@ INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1829"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1855"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ScalarChart`
 A panel object that shows a scalar chart. 
@@ -897,8 +939,8 @@ A panel object that shows a scalar chart.
  - `metric` (Required[MetricType]):  The name of a metric logged to your W&B project that the  report pulls information from. 
  - `groupby_aggfunc` (Optional[GroupAgg]):  Aggregate runs with specified  function. Options include "mean", "min", "max", "median", "sum", "samples", or `None`. 
  - `groupby_rangefunc` (Optional[GroupArea]):   Group runs based on a range. Options  include "minmax", "stddev", "stderr", "none", "samples", or `None`. 
- - `custom_expressions` (Optional[LList[str]]):  INSERT. 
- - `legend_template` (Optional[str]):  INSERT. 
+ - `custom_expressions` (Optional[LList[str]]):  A list of custom expressions to be used in the scalar chart. 
+ - `legend_template` (Optional[str]):  The template for the legend. 
  - `font_size Optional[FontSize]`:  The size of the line plot's font.  Options include "small", "medium", "large", "auto", or `None`. 
 
 
@@ -909,7 +951,7 @@ A panel object that shows a scalar chart.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1625"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1651"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ScatterPlot`
 A panel object that shows a 2D or 3D scatter plot. 
@@ -927,13 +969,13 @@ A panel object that shows a 2D or 3D scatter plot.
  - `log_x` (Optional[bool]):  Plots the x-coordinates using a base-10 logarithmic scale. 
  - `log_y` (Optional[bool]):  Plots the y-coordinates using a base-10 logarithmic scale. 
  - `log_z` (Optional[bool]):  Plots the z-coordinates using a base-10 logarithmic scale. 
- - `running_ymin` (Optional[bool]):  Apply a moving average or rolling mean on INSERT. 
+ - `running_ymin` (Optional[bool]):   Apply a moving average or rolling mean on  INSERT. 
  - `running_ymax` (Optional[bool]):  Apply a moving average or rolling mean on INSERT. 
  - `running_ymean` (Optional[bool]):  Apply a moving average or rolling mean on INSERT. 
- - `legend_template` (Optional[str]):  INSERT. 
- - `gradient` (Optional[LList[GradientPoint]]):  INSERT. 
+ - `legend_template` (Optional[str]):   A string that specifies the format of the legend. 
+ - `gradient` (Optional[LList[GradientPoint]]):   A list of gradient points that specify the color gradient of the plot. 
  - `font_size` (Optional[FontSize]):  The size of the line plot's font.  Options include "small", "medium", "large", "auto", or `None`. 
- - `regression` (Optional[bool]):  INSERT. 
+ - `regression` (Optional[bool]):  If `True`, a regression line is plotted on the scatter plot. 
 
 
 
@@ -943,12 +985,16 @@ A panel object that shows a 2D or 3D scatter plot.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L662"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L655"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `SoundCloud`
+A block that renders a SoundCloud player. 
 
 
 
+**Attributes:**
+ 
+ - `html`:  The HTML code to embed the SoundCloud player. 
 
 
 
@@ -958,16 +1004,16 @@ A panel object that shows a 2D or 3D scatter plot.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L643"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L638"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Spotify`
-An HTML block that renders an iFrame with the song, album, playlist, and so forth. 
+A block that renders a Spotify player. 
 
 
 
 **Attributes:**
  
- - `spotify_id` (str):  The base-62 identifier found at the end  of the Spotify URI for an artist, track, album, playlist, and so forth. 
+ - `spotify_id`:  The Spotify ID of the track or playlist. 
 
 
 
@@ -977,16 +1023,16 @@ An HTML block that renders an iFrame with the song, album, playlist, and so fort
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L139"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L136"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `SummaryMetric`
-INSERT 
+A summary metric to display in a report. 
 
 
 
 **Attributes:**
  
- - `name` (str):  INSERT 
+ - `name`:  The name of the metric. 
 
 
 
@@ -996,10 +1042,10 @@ INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L891"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L912"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `TableOfContents`
-An HTML block that contains a list of sections and subsections using H1, H2, and H3 HTML tags specified in a report. 
+A block that contains a list of sections and subsections using H1, H2, and H3 HTML tags specified in a report. 
 
 
 
@@ -1009,16 +1055,16 @@ An HTML block that contains a list of sections and subsections using H1, H2, and
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L197"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L192"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `TextWithInlineComments`
-INSERT 
+A block of text with inline comments. 
 
 
 
 **Attributes:**
  
- - `text` (str):  INSERT 
+ - `text`:  The text of the block. 
 
 
 
@@ -1028,12 +1074,16 @@ INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L905"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L926"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Twitter`
+A block that displays a Twitter feed. 
 
 
 
+**Attributes:**
+ 
+ - `html` (str):  The HTML code to display the Twitter feed. 
 
 
 
@@ -1043,7 +1093,7 @@ INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L178"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L173"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `UnknownBlock`
 
@@ -1058,7 +1108,7 @@ INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2242"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2268"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `UnknownPanel`
 
@@ -1073,16 +1123,16 @@ INSERT
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L459"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L468"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `UnorderedList`
-An HTML block that contains an unordered list. 
+A list of items in a bulleted list. 
 
 
 
 **Attributes:**
  
- - `items` (list):  An unordered list of items.  Renders as bullet points (small black circles). 
+ - `items`:  A list of one or more `UnorderedListItem` objects. 
 
 
 
@@ -1092,31 +1142,16 @@ An HTML block that contains an unordered list.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L398"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L403"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `UnorderedListItem`
-
-
-
-
-
-
-
-
-
-
----
-
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L625"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
-
-## <kbd>class</kbd> `Video`
-An HTML block that renders a video. 
+A list item in an unordered list. 
 
 
 
 **Attributes:**
  
- - `url` (str):  The URL where the video is hosted. 
+ - `text`:  The text of the list item. 
 
 
 
@@ -1126,7 +1161,26 @@ An HTML block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L917"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L621"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+## <kbd>class</kbd> `Video`
+A block that renders a video. 
+
+
+
+**Attributes:**
+ 
+ - `url`:  The URL of the video. 
+
+
+
+
+
+
+
+---
+
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L943"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeaveBlock`
 
@@ -1141,7 +1195,7 @@ An HTML block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1290"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1316"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeaveBlockArtifact`
 
@@ -1156,7 +1210,7 @@ An HTML block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1141"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1167"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeaveBlockArtifactVersionedFile`
 
@@ -1171,7 +1225,7 @@ An HTML block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L921"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L947"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeaveBlockSummaryTable`
 
@@ -1186,7 +1240,7 @@ An HTML block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2262"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2288"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanel`
 
@@ -1201,7 +1255,7 @@ An HTML block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2583"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2609"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanelArtifact`
 
@@ -1216,7 +1270,7 @@ An HTML block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2462"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2488"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanelArtifactVersionedFile`
 
@@ -1231,7 +1285,7 @@ An HTML block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2274"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2300"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanelSummaryTable`
 
