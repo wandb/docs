@@ -60,26 +60,15 @@ See the [Configuration parameters](#configuration-parameters) section for defini
 
 ## Configuration parameters
 
-<!-- |Environment variable|Definition| Required | Example |
-|-----|-----|-----|-----|
-|`LOCAL_LDAP_ADDRESS`| This is the address of your LDAP server within the VPC that hosts W&B Server.| Yes |`ldaps://ldap.example.com:636`|
-|`LOCAL_LDAP_BASE_DN`|The root path searches start from and required for doing any queries into this directory.| Yes | |
-|`LOCAL_LDAP_BIND_DN`|Path of the administrative user registered in the LDAP server. This is required if the LDAP server does not support unauthenticated binding. If specified, W&B Server connects to the LDAP server as this user. Otherwise, W&B Server connects using anonymous binding.| No | `cn=admin`, `dc=example,dc=org`|
-|`LOCAL_LDAP_BIND_PW`|The password for administrative user, this is used to authenticate the binding. If left blank, W&B Server connects using anonymous binding.| No | |
-|`LOCAL_LDAP_ATTRIBUTES`|Provide an email and group ID attribute names as comma separated string values. |Yes |`email=mail`, `group=gidNumber`|
-|`LOCAL_LDAP_TLS_ENABLE`|Enable TLS.|No | |
-|`LOCAL_LDAP_GROUP_ALLOW_LIST`|Group allowlist.| | |
-|`LOCAL_LDAP_LOGIN`|This tells W&B Server to use LDAP to authenticate. Set to either `True` or `False`. Optionally set this to false to test the LDAP configuration. Set this to true to start LDAP authentication.| No |  | -->
-
 The following table lists and describes required and optional LDAP configurations.
 
-| Environment variable | Definition                                                                                                                                                                                                                                                              | Required |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --- |
-| `ADDRESS`            | This is the address of your LDAP server within the VPC that hosts W&B Server.                                                                                                                                                                                           | Yes      |
-| `BASE_DN`            | The root path searches start from and required for doing any queries into this directory.                                                                                                                                                                               | Yes      |
+| Environment variable | Definition              | Required |
+| -------------------- | ----------------------- | -------- |
+| `ADDRESS`            | This is the address of your LDAP server within the VPC that hosts W&B Server.      | Yes      |
+| `BASE_DN`            | The root path searches start from and required for doing any queries into this directory.             | Yes      |
 | `BIND_DN`            | Path of the administrative user registered in the LDAP server. This is required if the LDAP server does not support unauthenticated binding. If specified, W&B Server connects to the LDAP server as this user. Otherwise, W&B Server connects using anonymous binding. | No       |
-| `BIND_PW`            | The password for administrative user, this is used to authenticate the binding. If left blank, W&B Server connects using anonymous binding.                                                                                                                             | No       |     |
-| `ATTRIBUTES`         | Provide an email and group ID attribute names as comma separated string values.                                                                                                                                                                                         | Yes      |
-| `TLS_ENABLE`         | Enable TLS.                                                                                                                                                                                                                                                             | No       |
-| `GROUP_ALLOW_LIST`   | Group allowlist.                                                                                                                                                                                                                                                        | No       |
-| `LOGIN`              | This tells W&B Server to use LDAP to authenticate. Set to either `True` or `False`. Optionally set this to false to test the LDAP configuration. Set this to true to start LDAP authentication.                                                                         | No       |
+| `BIND_PW`            | The password for administrative user, this is used to authenticate the binding. If left blank, W&B Server connects using anonymous binding.   | No       |
+| `ATTRIBUTES`         | Provide an email and group ID attribute names as comma separated string values.    | Yes      |
+| `TLS_ENABLE`         | Enable TLS.                | No       |
+| `GROUP_ALLOW_LIST`   | Group allowlist.           | No       |
+| `LOGIN`              | This tells W&B Server to use LDAP to authenticate. Set to either `True` or `False`. Optionally set this to false to test the LDAP configuration. Set this to true to start LDAP authentication. | No       |
