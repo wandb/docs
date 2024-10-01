@@ -172,7 +172,7 @@ This is the most straightforward deployment option configuration that will creat
 
 Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
 
-You need to add the option `create_redis = true` to the same `main.tf` file we worked on in [Deployment Recommended](azure-tf.md#deployment---recommended-20-mins) to enable the cache.
+You need to add the option `create_redis = true` to the same `main.tf` file we worked on in [Deployment Recommended](#deployment---recommended-20-mins) to enable the cache.
 
 ```bash
 # Spin up all required services
@@ -195,7 +195,7 @@ module "wandb" {
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The Azure resource that provides the message broker is the `Azure Event Grid`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the [Deployment Recommended](azure-tf.md#deployment---recommended-20-mins)
+The Azure resource that provides the message broker is the `Azure Event Grid`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the [Deployment Recommended](#deployment---recommended-20-mins)
 ```bash
 # Spin up all required services
 module "wandb" {
@@ -217,4 +217,4 @@ module "wandb" {
 ## Other deployment options
 
 You can combine all three deployment options adding all configurations to the same file.
-The [Terraform Module](https://github.com/wandb/terraform-azure-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in [Deployment Recommended](azure-tf.md#deployment---recommended-20-mins)
+The [Terraform Module](https://github.com/wandb/terraform-azure-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in [Deployment Recommended](#deployment---recommended-20-mins)

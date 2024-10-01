@@ -14,7 +14,7 @@ W&B Server releases apply to the **Dedicated Cloud** and **Self-managed** deploy
 | Patch | Patch releases include critical and high severity bug fixes. Patches are only rarely released, as needed. |
 | Feature | The feature release targets a specific release date for a new product feature, which occasionally happens before the standard monthly release. |
 
-All releases are immediately deployed to all **Dedicated Cloud** instances once the acceptance testing phase is complete. It keeps those managed instances fully updated, making the latest features and fixes available to relevant customers. Customers with **Self-managed** instances are responsible for the [update process](./server-upgrade-process.md) on their own schedule, where they can use [the latest Docker image](https://hub.docker.com/r/wandb/local). Refer to [release support and end of life](#release-support-and-end-of-life).
+All releases are immediately deployed to all **Dedicated Cloud** instances once the acceptance testing phase is complete. It keeps those managed instances fully updated, making the latest features and fixes available to relevant customers. Customers with **Self-managed** instances are responsible for the [update process](./server-upgrade-process.md) on their own schedule, where they can use [the latest Docker image](https://hub.docker.com/r/wandb/local). Refer to [release support and end of life](#release-support-and-end-of-life-policy).
 
 :::info
 Some advanced features are available only with the enterprise license. So even if you get the latest docker image but don't have an enterprise license, you would not be able to take advantage of the relevant advanced capabilities.

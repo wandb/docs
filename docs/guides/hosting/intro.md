@@ -10,9 +10,11 @@ import TabItem from '@theme/TabItem';
 W&B Platform is the foundational infrastructure, tooling and governance scaffolding which supports the W&B products like [Core](../core.md), [Models](../models.md) and [Weave](../weave_platform.md). 
 
 W&B Platform is available in three different deployment options:
-* [W&B Multi-tenant Cloud](#wb-saas-cloud)
+
+* [W&B Multi-tenant Cloud](#wb-multi-tenant-cloud)
 * [W&B Dedicated Cloud](#wb-dedicated-cloud)
 * [W&B Customer-managed](#wb-customer-managed)
+
 
 The following responsibility matrix outlines some of the key differences between the different options:
 ![](/images/hosting/shared_responsibility_matrix.png)
