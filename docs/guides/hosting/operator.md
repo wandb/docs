@@ -165,11 +165,11 @@ To see how Weights&Biases themselves use the Helm Terraform module to deploy “
 
 W&B provides a set of Terraform Modules for AWS, GCP and Azure. Those modules deploy entire infrastructures including Kubernetes clusters, load balancers, MySQL databases and so on as well as the W&B Server application. The W&B Kubernetes Operator is already pre-baked with those official W&B cloud-specific Terraform Modules with the following versions:
 
-| Terraform Registry | Source Code                  | Version |
-| -------------------------------------------------------------------- | ------------------------------------------------ | ------- |
-| [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest)  | https://github.com/wandb/terraform-aws-wandb     | v4.0.0+ |
-| [Azure](https://github.com/wandb/terraform-azurerm-wandb)            | https://github.com/wandb/terraform-azurerm-wandb | v2.0.0+ |
-| [GCP](https://github.com/wandb/terraform-google-wandb)               | https://github.com/wandb/terraform-google-wandb  | v2.0.0+ |
+| Terraform Registry                                                  | Source Code                                      | Version |
+| ------------------------------------------------------------------- | ------------------------------------------------ | ------- |
+| [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest) | https://github.com/wandb/terraform-aws-wandb     | v4.0.0+ |
+| [Azure](https://github.com/wandb/terraform-azurerm-wandb)           | https://github.com/wandb/terraform-azurerm-wandb | v2.0.0+ |
+| [GCP](https://github.com/wandb/terraform-google-wandb)              | https://github.com/wandb/terraform-google-wandb  | v2.0.0+ |
 
 This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
 

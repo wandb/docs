@@ -58,7 +58,7 @@ export default {
             'guides/track/environment-variables',
           ],
         },
-        { 
+        {
           type: 'category',
           label: 'Sweeps',
           link: {type: 'doc', id: 'guides/sweeps/intro'},
@@ -85,7 +85,7 @@ export default {
             'guides/sweeps/useful-resources',
             'guides/sweeps/existing-project',
           ],
-        },         
+        },
         {
           type: 'category',
           label: 'Registry',
@@ -119,14 +119,14 @@ export default {
               ],
             },
           ],
-        },       
+        },
         {
           type: 'category',
           label: 'Automations',
           items: [
             'guides/model_registry/model-registry-automations',
             'guides/artifacts/project-scoped-automations',
-          ]
+          ],
         },
         {
           type: 'category',
@@ -249,7 +249,7 @@ export default {
     {
       type: 'category',
       label: 'W&B Weave',
-      link: { type: 'doc', id: 'guides/weave_platform'},
+      link: {type: 'doc', id: 'guides/weave_platform'},
       items: [],
     },
     {
@@ -316,7 +316,7 @@ export default {
     {
       type: 'category',
       label: 'W&B Platform',
-      link: { type: 'doc', id: 'guides/hosting/intro' },
+      link: {type: 'doc', id: 'guides/hosting/intro'},
       items: [
         {
           type: 'category',
@@ -326,7 +326,10 @@ export default {
             {
               type: 'category',
               label: 'Dedicated Cloud',
-              link: { type: 'doc', id: 'guides/hosting/hosting-options/dedicated_cloud' },
+              link: {
+                type: 'doc',
+                id: 'guides/hosting/hosting-options/dedicated_cloud',
+              },
               items: [
                 'guides/hosting/hosting-options/dedicated_regions',
                 'guides/hosting/export-data-from-dedicated-cloud',
@@ -335,10 +338,20 @@ export default {
             {
               type: 'category',
               label: 'Self Managed',
-              link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
+              link: {
+                type: 'doc',
+                id: 'guides/hosting/hosting-options/self-managed',
+              },
               items: [
                 'guides/hosting/self-managed/basic-setup',
-                'guides/hosting/operator',  
+                {
+                  type: 'category',
+                  label: 'W&B Operator',
+                  items: [
+                    'guides/hosting/operator',
+                    'guides/hosting/operator-airgapped',
+                  ],
+                },
                 {
                   type: 'category',
                   label: 'Install on public cloud',
@@ -353,11 +366,11 @@ export default {
               ],
             },
           ],
-        },        
+        },
         {
           type: 'category',
           label: 'Identity and access management (IAM)',
-          link: { type: 'doc', id: 'guides/hosting/iam/org_team_struct'},
+          link: {type: 'doc', id: 'guides/hosting/iam/org_team_struct'},
           items: [
             {
               type: 'category',
@@ -365,7 +378,7 @@ export default {
               items: [
                 'guides/hosting/iam/sso',
                 'guides/hosting/iam/ldap',
-                'guides/hosting/iam/identity_federation'
+                'guides/hosting/iam/identity_federation',
               ],
             },
             {
@@ -378,7 +391,7 @@ export default {
             },
             'guides/hosting/iam/automate_iam',
             'guides/hosting/iam/scim',
-            'guides/hosting/iam/advanced_env_vars',               
+            'guides/hosting/iam/advanced_env_vars',
           ],
         },
         {
@@ -392,7 +405,7 @@ export default {
             'guides/hosting/data-security/data-encryption',
           ],
         },
-        'guides/hosting/privacy-settings',               
+        'guides/hosting/privacy-settings',
         {
           type: 'category',
           label: 'Monitoring and Usage',
@@ -427,9 +440,7 @@ export default {
           type: 'category',
           label: 'Fastai',
           link: {type: 'doc', id: 'guides/integrations/fastai/README'},
-          items: [
-            'guides/integrations/fastai/v1',
-          ],
+          items: ['guides/integrations/fastai/v1'],
         },
         'guides/integrations/huggingface',
         'guides/integrations/diffusers',
@@ -461,15 +472,15 @@ export default {
           label: 'Prompts',
           link: {
             type: 'doc',
-            id: 'guides/integrations/prompts/intro'
+            id: 'guides/integrations/prompts/intro',
           },
           items: [
-            'guides/integrations/prompts/quickstart', 
-            'guides/integrations/prompts/openai'
+            'guides/integrations/prompts/quickstart',
+            'guides/integrations/prompts/openai',
           ],
         },
         'guides/integrations/other/ray-tune',
-        'guides/integrations/other/sagemaker',        
+        'guides/integrations/other/sagemaker',
         'guides/integrations/scikit',
         'guides/integrations/other/simpletransformers',
         'guides/integrations/other/skorch',
