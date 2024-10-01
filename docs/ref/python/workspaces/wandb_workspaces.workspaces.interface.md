@@ -144,7 +144,61 @@ Represents a W&B workspace, including sections, settings, and config for run set
  - `runset_settings`:  Settings for the runset (the left bar containing runs) in a workspace. 
 
 
+---
 
+#### <kbd>property</kbd> url
+
+The URL to the workspace in the W&B app. 
+
+
+
+---
+
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L631"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>classmethod</kbd> `from_url`
+
+```python
+from_url(url: str)
+```
+
+Get a workspace from a URL. 
+
+---
+
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L647"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>method</kbd> `save`
+
+```python
+save()
+```
+
+Save the current workspace to W&B. 
+
+
+
+**Returns:**
+ 
+ - `Workspace`:  The updated workspace with the saved internal name and ID. 
+
+---
+
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py#L667"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>method</kbd> `save_as_new_view`
+
+```python
+save_as_new_view()
+```
+
+Save the current workspace as a new view to W&B. 
+
+
+
+**Returns:**
+ 
+ - `Workspace`:  The updated workspace with the saved internal name and ID.
 
 ---
 
@@ -161,7 +215,14 @@ Settings applied here can be overrided by more granular Section and Panel settin
 
 **Attributes:**
  
- - `x_axis`:  X-axis metric name setting x_min x_max smoothing_type smoothing_weight ignore_outliers sort_panels_alphabetically group_by_prefix 
+ - `x_axis`:  X-axis metric name setting. 
+ - `x_min`:  Minimum value for the x-axis. 
+ - `x_max`:  Maximum value for the x-axis. 
+ - `smoothing_type`:  Smoothing type applied to all panels. 
+ - `smoothing_weight`:  Smoothing weight applied to all panels. 
+ - `ignore_outliers`:  Ignore outliers in all panels. 
+ - `sort_panels_alphabetically`:  Sorts panels in all sections alphabetically. 
+ - `group_by_prefix`:  Group panels by the first or up to last prefix (first or last). 
 
 
 
