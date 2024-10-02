@@ -217,4 +217,4 @@ module "wandb" {
 ## Other deployment options
 
 You can combine all three deployment options adding all configurations to the same file.
-The [Terraform Module](https://github.com/wandb/terraform-azure-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in [Deployment Recommended](#deployment---recommended-20-mins)
+The [Terraform Module](https://github.com/wandb/terraform-azure-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in [recommended deployment](#deployment---recommended-20-mins)
