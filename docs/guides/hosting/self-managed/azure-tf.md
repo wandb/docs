@@ -195,7 +195,7 @@ module "wandb" {
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The Azure resource that provides the message broker is the `Azure Event Grid`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the [Deployment Recommended](#deployment---recommended-20-mins)
+The Azure resource that provides the message broker is the `Azure Event Grid`, and to enable it, you must add the option `use_internal_queue = false` to the same `main.tf` that you used in the [recommended deployment](#deployment---recommended-20-mins)
 ```bash
 # Spin up all required services
 module "wandb" {
