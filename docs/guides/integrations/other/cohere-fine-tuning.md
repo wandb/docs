@@ -47,7 +47,7 @@ cmd_r_finetune = co.finetuning.create_finetuned_model(
 )
 ```
 
-You will then be able to view your model's training metrics and hyperparameters in the W&B project that you created.
+You can then view your model's fine-tuning training and validation metrics and hyperparameters in the W&B project that you created.
 
 ![](/images/integrations/cohere_ft.png)
 
