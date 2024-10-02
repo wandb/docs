@@ -1,0 +1,23 @@
+name: Lychee check
+on:
+  pull_request:
+    paths:
+      - '**.md'
+
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Link Checker
+        id: lychee
+        uses: lycheeverse/lychee-action@v1
+
+      - name: Create PR comment with link reults
+        if: ${{ hashFiles('./lychee/out.md') }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: lychee
+          recreate: true
+          path: ./lychee/out.md
