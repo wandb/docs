@@ -2,9 +2,8 @@
 slug: /guides/integrations/ray-tune
 description: How to integrate W&B with Ray Tune.
 displayed_sidebar: default
+title: Ray Tune
 ---
-
-# Ray Tune
 
 W&B integrates with [Ray](https://github.com/ray-project/ray) by offering two lightweight integrations.
 
@@ -90,7 +89,7 @@ The content of the wandb config entry is passed to `wandb.init()` as keyword arg
 
 Wandb’s `group`, `run_id` and `run_name` are automatically selected by Tune, but can be overwritten by filling out the respective configuration values.
 
-Please see here for all other valid configuration settings: [https://docs.wandb.com/library/init](https://docs.wandb.com/library/init)
+Please see here for all other valid configuration settings: [/library/init](/library/init)
 
 ### Example:
 

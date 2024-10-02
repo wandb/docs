@@ -1,9 +1,8 @@
 ---
 description: Hosting W&B Server with Kubernetes Operator (Airgapped)
 displayed_sidebar: default
+title: "Tutorial: Deploy W&B in airgapped environment with Kubernetes"
 ---
-
-# W&B Kubernetes Operator (Airgapped)
 
 ## Introduction
 

@@ -1,10 +1,9 @@
 ---
 displayed_sidebar: default
+title: LangChain
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# LangChain
 
 [LangChain](https://python.langchain.com/) is a framework for developing applications powered by language models.
 

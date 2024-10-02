@@ -2,17 +2,12 @@
 slug: /guides/sweeps
 description: Hyperparameter search and model optimization with W&B Sweeps
 displayed_sidebar: default
+title: Sweeps
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-
-# Tune Hyperparameters
-
 <CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb"/>
 
-<head>
-  <title>Tune Hyperparameters with Sweeps</title>
-</head>
 
 Use W&B Sweeps to automate hyperparameter search and visualize rich, interactive experiment tracking. Pick from popular search methods such as Bayesian, grid search, and random to search the hyperparameter space. Scale and parallelize sweep across one or more machines.
 

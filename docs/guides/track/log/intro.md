@@ -2,13 +2,8 @@
 slug: /guides/track/log
 description: Keep track of metrics, videos, custom plots, and more
 displayed_sidebar: default
+title: Log media and objects in experiments
 ---
-
-# Log media and objects in experiments
-
-<head>
-  <title>Log Media and Objects in Experiments</title>
-</head>
 
 Log a dictionary of metrics, media, or custom objects to a step with the W&B Python SDK. W&B collects the key-value pairs during each step and stores them in one unified dictionary each time you log data with `wandb.log()`. Data logged from your script is saved locally to your machine in a directory called `wandb`, then synced to the W&B cloud or your [private server](../../hosting/intro.md). 
 

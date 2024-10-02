@@ -1,13 +1,8 @@
 ---
 description: Use a dictionary-like object to save your experiment configuration
 displayed_sidebar: default
+title: Configure experiments
 ---
-
-# Configure experiments
-
-<head>
-  <title>Configure a Machine Learning Experiment</title>
-</head>
 
 [**Try in a Colab Notebook here**](http://wandb.me/config-colab)
 

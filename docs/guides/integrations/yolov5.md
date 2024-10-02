@@ -1,12 +1,9 @@
 ---
 displayed_sidebar: default
+title: YOLOv5
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-# YOLOv5
 
 [Ultralytics' YOLOv5](https://ultralytics.com/yolov5) ("You Only Look Once") model family enables real-time object detection with convolutional neural networks without all the agonizing pain.
 

@@ -1,11 +1,10 @@
 ---
 description: Tutorial of using the custom charts feature in the W&B UI
 displayed_sidebar: default
+title: "Tutorial: Use custom charts"
 ---
 
-# Custom Charts Walkthrough
-
-To go beyond the built-in charts in W&B, use the new **Custom Charts** feature to control the details of exactly what data you're loading in to a panel and how you visualize that data.
+Use custom charts to control the data you're loading in to a panel and its visualization.
 
 **Overview**
 
@@ -52,7 +51,7 @@ Now that the query is loading in these columns, they're available as options to 
 
 Now that looks pretty good, but I'd like to switch from a scatter plot to a line plot. Click **Edit** to change the Vega spec for this built in chart. Follow along in [this workspace](https://app.wandb.ai/demo-team/custom-charts).
 
-![](https://paper-attachments.dropbox.com/s\_5FCA7E5A968820ADD0CD5402B4B0F71ED90882B3AC586103C1A96BF845A0EAC7\_1597442115525\_Screen+Shot+2020-08-14+at+2.52.24+PM.png)
+![](/images/general/custom-charts-1.png)
 
 I updated the Vega spec to customize the visualization:
 
@@ -64,7 +63,7 @@ I updated the Vega spec to customize the visualization:
 
 To save this as a preset that you can use elsewhere in this project, click **Save as** at the top of the page. Here's what the result looks like, along with an ROC curve:
 
-![](https://paper-attachments.dropbox.com/s\_5FCA7E5A968820ADD0CD5402B4B0F71ED90882B3AC586103C1A96BF845A0EAC7\_1597442868347\_Screen+Shot+2020-08-14+at+3.07.30+PM.png)
+![](/images/general/custom-charts-2.png)
 
 ## Bonus: Composite Histograms
 
@@ -81,6 +80,6 @@ To create your own version of the custom composite histogram panel:
 
 Here’s what my results look like from a very brief experiment: training on only 1000 examples for one epoch yields a model that’s very confident that most images are not plants and very uncertain about which images might be animals.
 
-![](https://paper-attachments.dropbox.com/s\_5FCA7E5A968820ADD0CD5402B4B0F71ED90882B3AC586103C1A96BF845A0EAC7\_1598376315319\_Screen+Shot+2020-08-25+at+10.24.49+AM.png)
+![](/images/general/custom-charts-3.png)
 
-![](https://paper-attachments.dropbox.com/s\_5FCA7E5A968820ADD0CD5402B4B0F71ED90882B3AC586103C1A96BF845A0EAC7\_1598376160845\_Screen+Shot+2020-08-25+at+10.08.11+AM.png)
+![](/images/general/custom-charts-4.png)

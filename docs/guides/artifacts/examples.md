@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Artifact examples
 ---
-
-# Artifacts Examples
 
 Walk through an example of Artifacts in a live notebook.
 

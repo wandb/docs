@@ -1,9 +1,10 @@
 ---
 description: Hosting W&B Server with Kubernetes Operator
 displayed_sidebar: default
+title: Run W&B Server on Kubernetes
 ---
 
-# W&B Kubernetes Operator
+## W&B Kubernetes Operator
 
 Use the W&B Kubernetes Operator to simplify deploying, administering, troubleshooting, and scaling your W&B Server deployments on Kubernetes. You can think of the operator as a smart assistant for your W&B instance.
 

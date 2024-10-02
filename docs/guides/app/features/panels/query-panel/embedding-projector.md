@@ -4,9 +4,8 @@ description: >-
   a 2D plane using common dimension reduction algorithms like PCA, UMAP, and
   t-SNE.
 displayed_sidebar: default
+title: Embed objects
 ---
-
-# Embedding Projector
 
 ![](/images/weave/embedding_projector.png)
 
@@ -14,7 +13,8 @@ displayed_sidebar: default
 
 ## Embedding Examples
 
-You can jump right into a [Live Interactive Demo Report](https://wandb.ai/timssweeney/toy\_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq) or run the code in this report from the [Example Colab](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm\_).
+- [Live Interactive Demo Report](https://wandb.ai/timssweeney/toy\_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq) 
+- [Example Colab](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm\_).
 
 ### Hello World
 

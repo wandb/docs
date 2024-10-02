@@ -1,12 +1,10 @@
 ---
 description: Log rich media, from 3D point clouds and molecules to HTML and histograms
 displayed_sidebar: default
+title: Log media and objects
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-# Log media and objects
 
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
@@ -123,7 +121,7 @@ mask_img = wandb.Image(
   <TabItem value="bounding_boxes">
 Log bounding boxes with images, and use filters and toggles to dynamically visualize different sets of boxes in the UI.
 
-![](@site/static/images/track/bb-docs.jpeg)
+![](/images/track/bb-docs.jpeg)
 
 [See a live example](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
 
@@ -428,7 +426,7 @@ When your run finishes, you'll be able to interact with 3D visualizations of you
 
 [See a live example using AlphaFold](http://wandb.me/alphafold-workspace)
 
-![](@site/static/images/track/docs-molecule.png)
+![](/images/track/docs-molecule.png)
   </TabItem>
 </Tabs>
 

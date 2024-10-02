@@ -3,9 +3,8 @@ description: >-
   Add notes to your runs and projects, and use notes to describe your findings
   in reports
 displayed_sidebar: default
+title: Add notes to runs and projects
 ---
-
-# Notes
 
 There are a few ways to take notes about your work in W&B.
 
@@ -40,4 +39,4 @@ $TPR = Sensitivity = \dfrac{TP}{TP+FN}$
 
 Do this by adding a panel, selecting markdown, and then entering your markdown text, tables equations and code block will automatically render when clicking outside the markdown panel.
 
-![](@site/static/images/app_ui/tables_panel.gif)
+![](/images/app_ui/tables_panel.gif)

@@ -1,15 +1,10 @@
 ---
 description: Create a W&B Experiment.
 displayed_sidebar: default
+title: Create an experiment
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Create an experiment
-
-<head>
-  <title>Start a W&B Experiment</title>
-</head>
 
 Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API](../../ref/python/public-api/README.md).
 

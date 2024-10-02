@@ -1,13 +1,8 @@
 ---
 description: Answers to frequently asked question about W&B Reports.
 displayed_sidebar: default
+title: Reports FAQ
 ---
-
-# Reports FAQ
-
-<head>
-  <title>Frequently Asked Questions About Reports</title>
-</head>
 
 ### Upload a CSV to a report
 
@@ -59,13 +54,13 @@ A comprehensive list of LaTeX can be found [here](https://en.wikibooks.org/wiki/
 
 When multiple users work on a report together, they should be credited as such. In our reports, you can do just that and add all the users that worked together on a report in the Author line. This is done by clicking Edit on the top right of the page. From there, a '+' will be seen on the right of the author line to where you can add all of the team members that have contributed to the report.
 
-![](@site/static/images/reports/reports_faq_add_multiple_reports.gif)
+![](/images/reports/reports_faq_add_multiple_reports.gif)
 
 ### Embedding Reports
 
 You are able to share the report that you have created by embedding it. This is done simply by clicking Share on the top right of your report and copying the embedded code at the bottom of the pop-up window that appears.
 
-![](@site/static/images/reports/emgedding_reports.gif)
+![](/images/reports/emgedding_reports.gif)
 
 ### WYSIWYG FAQ
 
@@ -93,13 +88,13 @@ Absolutely! Type "/mark" anywhere in the document and hit enter to insert a Mark
 
 Sorry! We're constantly working on performance improvements, but WYSIWYG reports may run slowly on older hardware or exceptionally large reports. You can assuage the problem for now by collapsing sections of the report that you're not currently working on, like so:
 
-![](@site/static/images/reports/wandb-reports-editor-1.gif)
+![](/images/reports/wandb-reports-editor-1.gif)
 
 **How do I delete a panel grid?**
 
 Select the panel grid, and hit delete/backspace. The easiest way to select a panel grid is by clicking its drag handle on the top-right, like so:
 
-![](@site/static/images/reports/wandb-reports-editor-3.gif)
+![](/images/reports/wandb-reports-editor-3.gif)
 
 **How do I insert a table?**
 

@@ -1,8 +1,9 @@
+---
+title: 3D brain tumor segmentation with MONAI
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-# 3D brain tumor segmentation with MONAI
 
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/monai/3d_brain_tumor_segmentation.ipynb"></CTAButtons>
 
@@ -229,7 +230,7 @@ val_dataset = DecathlonDataset(
 
 ### 📸 Visualizing the Dataset
 
-Weights & Biases supports images, video, audio, and more. You can log rich media to explore your results and visually compare our runs, models, and datasets. Use the [segmentation mask overlay system](https://docs.wandb.ai/guides/track/log/media#image-overlays-in-tables) to visualize our data volumes. To log segmentation masks in [tables](https://docs.wandb.ai/guides/tables), you must provide a `wandb.Image` object for each row in the table.
+Weights & Biases supports images, video, audio, and more. You can log rich media to explore your results and visually compare our runs, models, and datasets. Use the [segmentation mask overlay system](/guides/track/log/media#image-overlays-in-tables) to visualize our data volumes. To log segmentation masks in [tables](/guides/tables), you must provide a `wandb.Image` object for each row in the table.
 
 An example is provided in the pseudocode below:
 
@@ -357,7 +358,7 @@ for data_idx, sample in progress_bar:
 wandb.log({"Tumor-Segmentation-Data": table})
 ```
 
-The data appears on the W&B dashboard in an interactive tabular format. We can see each channel of a particular slice from a data volume overlaid with the respective segmentation mask in each row. You can write [Weave queries](https://docs.wandb.ai/guides/weave) to filter the data on the table and focus on one particular row.
+The data appears on the W&B dashboard in an interactive tabular format. We can see each channel of a particular slice from a data volume overlaid with the respective segmentation mask in each row. You can write [Weave queries](/guides/weave) to filter the data on the table and focus on one particular row.
 
 | ![An example of logged table data.](@site/static/images/tutorials/monai/viz-1.gif) | 
 |:--:| 

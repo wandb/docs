@@ -2,9 +2,8 @@
 slug: /guides/integrations/simpletransformers
 description: How to integrate W&B with the Transformers library by Hugging Face.
 displayed_sidebar: default
+title: Simple Transformers
 ---
-
-# Simple Transformers
 
 This library is based on the Transformers library by Hugging Face. Simple Transformers lets you quickly train and evaluate Transformer models. Only 3 lines of code are needed to initialize a model, train the model, and evaluate a model. It supports Sequence Classification, Token Classification \(NER\),Question Answering,Language Model Fine-Tuning, Language Model Training, Language Generation, T5 Model, Seq2Seq Tasks , Multi-Modal Classification and Conversational AI.
 

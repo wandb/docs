@@ -2,9 +2,8 @@
 slug: /guides/model_registry
 description: Model registry to manage the model lifecycle from training to production
 displayed_sidebar: default
+title: Model registry
 ---
-
-# Model registry
 
 :::info
 W&B will no longer support W&B Model Registry after 2024. Users are encouraged to instead use [W&B Registry](../registry/intro.md) for linking and sharing their model artifacts versions. W&B Registry broadens the capabilities of the legacy W&B Model Registry. For more information about W&B Registry, see the [Registry docs](../registry/intro.md).

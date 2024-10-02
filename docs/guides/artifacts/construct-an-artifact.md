@@ -3,13 +3,8 @@ description: >-
   Create, construct a W&B Artifact. Learn how to add one or more files or a URI
   reference to an Artifact.
 displayed_sidebar: default
+title: Create an artifact
 ---
-
-# Construct artifacts
-
-<head>
-  <title>Construct Artifacts</title>
-</head>
 
 Use the W&B Python SDK to construct artifacts from [W&B Runs](../../ref/python/run.md). You can add [files, directories, URIs, and files from parallel runs to artifacts](#add-files-to-an-artifact). After you add a file to an artifact, save the artifact to the W&B Server or [your own private server](../hosting/hosting-options/self-managed.md).
 

@@ -1,15 +1,10 @@
 ---
 description: Create and track plots from machine learning experiments.
 displayed_sidebar: default
+title: Create and track plots from experiments
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Log plots
-
-<head>
-  <title>Log and Track Plots from  W&B Experiments.</title>
-</head>
 
 Using the methods in `wandb.plot`, you can track charts with `wandb.log`, including charts that change over time during training. To learn more about our custom charting framework, check out [this guide](../../app/features/custom-charts/walkthrough.md).
 

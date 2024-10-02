@@ -2,12 +2,10 @@
 slug: /guides/integrations/paddledetection
 description: How to integrate W&B with PaddleDetection.
 displayed_sidebar: default
+title: PaddleDetection
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# PaddleDetection
 
 [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) is an end-to-end object-detection development kit based on [PaddlePaddle](https://github.com/PaddlePaddle/Paddle). It implements varied mainstream object detection, instance segmentation, tracking and keypoint detection algorithms in modular design with configurable modules such as network components, data augmentations and losses.
 
@@ -59,7 +57,7 @@ To use wandb via arguments to `train.py` in [PaddleDetection](https://github.com
 
 * Add the `--use_wandb` flag
 * The first wandb arguments must be preceded by `-o` (you only need to pass this once)
-* Each individual wandb argument must contain the prefix `wandb-` . For example any argument to be passed to [`wandb.init`](https://docs.wandb.ai/ref/python/init) would get the `wandb-` prefix
+* Each individual wandb argument must contain the prefix `wandb-` . For example any argument to be passed to [`wandb.init`](/ref/python/init) would get the `wandb-` prefix
 
 ```shell
 python tools/train.py 

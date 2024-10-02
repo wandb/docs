@@ -2,9 +2,8 @@
 slug: /guides/integrations/deepchecks
 description: How to integrate W&B with DeepChecks.
 displayed_sidebar: default
+title: DeepChecks
 ---
-
-# DeepChecks
 
 [**Try in a Colab Notebook here →**](https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export\_outputs\_to\_wandb.ipynb)
 

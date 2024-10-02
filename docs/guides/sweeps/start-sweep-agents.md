@@ -1,15 +1,11 @@
 ---
 description: Start or stop a W&B Sweep Agent on one or more machines.
 displayed_sidebar: default
+title: Start or stop a sweep agent
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Start sweep agents
-
-<head>
-  <title>Start or stop a W&B Sweep</title>
-</head>
 
 Start a W&B Sweep on one or more agents on one or more machines. W&B Sweep agents query the W&B server you launched when you initialized a W&B Sweep (`wandb sweep)` for hyperparameters and use them to run model training.
 

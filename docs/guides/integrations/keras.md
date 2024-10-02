@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Keras
 ---
-
-# Keras
 
 [**Try in a Colab Notebook here →**](http://wandb.me/intro-keras)
 
@@ -11,11 +10,11 @@ displayed_sidebar: default
 We have added three new callbacks for Keras and TensorFlow users, available from `wandb` v0.13.4. For the legacy `WandbCallback` scroll down.
 
 
-**`WandbMetricsLogger`** : Use this callback for [Experiment Tracking](https://docs.wandb.ai/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
+**`WandbMetricsLogger`** : Use this callback for [Experiment Tracking](/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
 
-**`WandbModelCheckpoint`** : Use this callback to log your model checkpoints to Weight and Biases [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning).
+**`WandbModelCheckpoint`** : Use this callback to log your model checkpoints to Weight and Biases [Artifacts](/guides/data-and-model-versioning).
 
-**`WandbEvalCallback`**: This base callback will log model predictions to Weights and Biases [Tables](https://docs.wandb.ai/guides/tables) for interactive visualization.
+**`WandbEvalCallback`**: This base callback will log model predictions to Weights and Biases [Tables](/guides/tables) for interactive visualization.
 
 These new callbacks,
 
@@ -210,7 +209,7 @@ model.fit(
 ```
 
 :::info
-💡 The Tables are logged to the W&B [Artifact page](https://docs.wandb.ai/ref/app/pages/project-page#artifacts-tab) by default and not the [Workspace](https://docs.wandb.ai/ref/app/pages/workspaces) page.
+💡 The Tables are logged to the W&B [Artifact page](/ref/app/pages/project-page#artifacts-tab) by default and not the [Workspace](/ref/app/pages/workspaces) page.
 :::
 
 **`WandbEvalCallback` Reference**
@@ -234,7 +233,7 @@ You can override the `on_train_begin` or `on_epoch_end` methods to have more fin
 
 ## WandbCallback [Legacy]
 
-Use the W&B library [`WandbCallback`](https://docs.wandb.ai/ref/python/integrations/keras/wandbcallback) Class to automatically save all the metrics and the loss values tracked in `model.fit`.
+Use the W&B library [`WandbCallback`](/ref/python/integrations/keras/wandbcallback) Class to automatically save all the metrics and the loss values tracked in `model.fit`.
 
 ```python
 import wandb

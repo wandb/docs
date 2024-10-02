@@ -1,14 +1,14 @@
 ---
 description: Examples of W&B Tables
 displayed_sidebar: default
+title: Example tables
 ---
 
-# Tables gallery 
 The following sections highlight some of the ways you can use tables:
 
 ### View your data
 
-Log metrics and rich media during model training or evaluation, then visualize results in a persistent database synced to the cloud, or to your [hosting instance](https://docs.wandb.ai/guides/hosting). 
+Log metrics and rich media during model training or evaluation, then visualize results in a persistent database synced to the cloud, or to your [hosting instance](/guides/hosting). 
 
 ![Browse examples and verify the counts and distribution of your data](/images/data_vis/tables_see_data.png)
 

@@ -1,11 +1,9 @@
 ---
 displayed_sidebar: default
+title: "Tutorial: Set up W&B Launch with Docker"
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Set up for Docker
 
 The following guide describes how to configure W&B Launch to use Docker on a local machine for both the launch agent environment and for the queue's target resource.
 

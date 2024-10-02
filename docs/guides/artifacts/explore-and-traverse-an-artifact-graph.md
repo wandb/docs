@@ -1,16 +1,10 @@
 ---
 description: Traverse automatically created direct acyclic W&B Artifact graphs.
 displayed_sidebar: default
+title: Explore artifact graphs
 ---
 
-# Explore and traverse artifact graphs
-
-<head>
-    <title>Explore direct acyclic W&B Artifact graphs.</title>
-</head>
-
 W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run uses. These artifacts can include datasets, models, evaluation results, or more. You can explore an artifact's lineage to track and manage the various artifacts produced throughout the machine learning lifecycle.
-
 
 ## Lineage
 Tracking an artifact's lineage has several key benefits:

@@ -3,9 +3,9 @@ description: >-
   Each training run of your model gets a dedicated page, organized within the
   larger project
 displayed_sidebar: default
+title: Run page
 ---
 
-# Run Page
 Use the run page to explore detailed information about a specific run within a project.
 
 ## Overview tab

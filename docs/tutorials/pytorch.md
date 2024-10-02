@@ -1,23 +1,24 @@
-# PyTorch
+---
+title: PyTorch
+---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
+
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb"></CTAButtons>
+
 Use [Weights & Biases](https://wandb.com) for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb)
-
-<div><img /></div>
-
-<img src="https://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
-
-<div><img /></div>
-
+![](/images/tutorials/huggingface-why.png)
 
 ## What this notebook covers:
 
 We show you how to integrate Weights & Biases with your PyTorch code to add experiment tracking to your pipeline.
 
 ## The resulting interactive W&B dashboard will look like:
-![](https://i.imgur.com/z8TK2Et.png)
+
+![](/images/tutorials/pytorch.png)
 
 ## In pseudocode, what we'll do is:
+
 ```python
 # import the library
 import wandb
@@ -432,11 +433,11 @@ a number of hyperparameters.
 
 You can use Weights & Biases Sweeps to automate hyperparameter testing and explore the space of possible models and optimization strategies.
 
-## [Check out Hyperparameter Optimization in PyTorch using W&B Sweeps $\rightarrow$](http://wandb.me/sweeps-colab)
+## [Check out Hyperparameter Optimization in PyTorch using W&B Sweeps](http://wandb.me/sweeps-colab)
 
 Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
 
-1. **Define the sweep:** We do this by creating a dictionary or a [YAML file](https://docs.wandb.com/library/sweeps/configuration) that specifies the parameters to search through, the search strategy, the optimization metric et all.
+1. **Define the sweep:** We do this by creating a dictionary or a [YAML file](/library/sweeps/configuration) that specifies the parameters to search through, the search strategy, the optimization metric et all.
 
 2. **Initialize the sweep:** 
 `sweep_id = wandb.sweep(sweep_config)`
@@ -445,7 +446,8 @@ Running a hyperparameter sweep with Weights & Biases is very easy. There are jus
 `wandb.agent(sweep_id, function=train)`
 
 And voila! That's all there is to running a hyperparameter sweep!
-<img src="https://imgur.com/UiQKg0L.png" alt="Weights & Biases" />
+
+![](/images/tutorials/pytorch-2.png)
 
 
 # 🖼️ Example Gallery
@@ -453,7 +455,7 @@ And voila! That's all there is to running a hyperparameter sweep!
 See examples of projects tracked and visualized with W&B in our [Gallery →](https://app.wandb.ai/gallery)
 
 # 🤓 Advanced Setup
-1. [Environment variables](https://docs.wandb.com/library/environment-variables): Set API keys in environment variables so you can run training on a managed cluster.
-2. [Offline mode](https://docs.wandb.com/library/technical-faq#can-i-run-wandb-offline): Use `dryrun` mode to train offline and sync results later.
-3. [On-prem](https://docs.wandb.com/self-hosted): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
-4. [Sweeps](https://docs.wandb.com/sweeps): Set up hyperparameter search quickly with our lightweight tool for tuning.
+1. [Environment variables](/library/environment-variables): Set API keys in environment variables so you can run training on a managed cluster.
+2. [Offline mode](/library/technical-faq#can-i-run-wandb-offline): Use `dryrun` mode to train offline and sync results later.
+3. [On-prem](/self-hosted): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
+4. [Sweeps](/sweeps): Set up hyperparameter search quickly with our lightweight tool for tuning.

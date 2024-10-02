@@ -2,12 +2,10 @@
 slug: /guides/integrations/openai
 description: How to Fine-Tune OpenAI models using W&B.
 displayed_sidebar: default
+title: OpenAI Fine-Tuning
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# OpenAI Fine-Tuning
 
 With Weights & Biases you can log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to Weights & Biases to analyse and understand the performance of your newly fine-tuned models and share the results with your colleagues. You can check out the models that can be fine-tuned [here](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
 

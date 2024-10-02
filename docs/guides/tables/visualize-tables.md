@@ -1,11 +1,10 @@
 ---
 description: Visualize and analyze W&B Tables.
 displayed_sidebar: default
+title: Visualize and analyze tables
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Visualize & analyze tables
 
 Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. 
 
@@ -71,7 +70,7 @@ To view the two tables side-by-side, change the first dropdown from "Merge Table
 
 
 ## Compare artifacts
-You can also [compare tables across time](#compare-across-time) or [model variants](#compare-across-model-variants). 
+You can also [compare tables across time](#compare-tables-across-time) or [model variants](#compare-tables-across-model-variants). 
 
 
 ### Compare tables across time

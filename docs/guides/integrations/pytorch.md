@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: PyTorch
 ---
-
-# PyTorch
 
 [**Try in a Colab Notebook here →**](http://wandb.me/intro)
 

@@ -1,9 +1,8 @@
 ---
 slug: /guides/registry
 displayed_sidebar: default
+title: Registry
 ---
-
-# Registry
 
 :::info
 W&B Registry is now in public preview. Visit [this](#enable-wb-registry) section to learn how to enable it for your deployment type.
@@ -51,7 +50,7 @@ run.link_artifact(artifact=logged_artifact, target_path=f"<INSERT-ORG-NAME>/wand
 
 run.finish()
 ```
-See learn more about linking to a registry, visit [this](https://docs.wandb.ai/guides/registry/link_version) guide. 
+See learn more about linking to a registry, visit [this](/guides/registry/link_version) guide. 
 
 ## Enable W&B Registry
 
@@ -61,7 +60,7 @@ Based on your deployment type, satisfy the following conditions to enable W&B Re
 | ----- | ----- |
 | Multi-tenant Cloud | No action required. W&B Registry is available on the W&B App. |
 | Dedicated Cloud | Contact your account team. The Solutions Architect (SA) Team enables W&B Registry within your instance's operator console. Ensure your instance is on server release version 0.59.2 or newer.|
-| Self-Managed   | Enable the environment variable called `ENABLE_REGISTRY_UI`. To learn more about enabling environment variables in server, visit [these docs](https://docs.wandb.ai/guides/hosting/env-vars). In self-managed instances, your infrastructure administrator should enable this environment variable and set it to `true`. Ensure your instance is on server release version 0.59.2 or newer.|
+| Self-Managed   | Enable the environment variable called `ENABLE_REGISTRY_UI`. To learn more about enabling environment variables in server, visit [these docs](/guides/hosting/env-vars). In self-managed instances, your infrastructure administrator should enable this environment variable and set it to `true`. Ensure your instance is on server release version 0.59.2 or newer.|
 
 
 ## Resources to get started

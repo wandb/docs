@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: TensorFlow
 ---
-
-# TensorFlow
 
 If you're already using TensorBoard, it's easy to integrate with wandb.
 

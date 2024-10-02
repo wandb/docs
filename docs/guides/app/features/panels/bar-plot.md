@@ -1,9 +1,8 @@
 ---
 description: Visualize metrics, customize axes, and compare categorical data as bars.
 displayed_sidebar: default
+title: Bar plots
 ---
-
-# Bar Plot
 
 A bar plot presents categorical data with rectangular bars which can be plotted vertically or horizontally. Bar plots show up by default with **wandb.log()** when all logged values are of length one.
 

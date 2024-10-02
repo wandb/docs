@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: TensorBoard
 ---
-
-# TensorBoard
 
 ## Hosted TensorBoard with 1 Line of Code
 

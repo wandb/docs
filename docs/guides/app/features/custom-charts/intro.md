@@ -1,12 +1,10 @@
 ---
 slug: /guides/app/features/custom-charts
 displayed_sidebar: default
+title: Custom charts
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Custom Charts
 
 Use **Custom Charts** to create charts that aren't possible right now in the default UI. Log arbitrary tables of data and visualize them exactly how you want. Control details of fonts, colors, and tooltips with the power of [Vega](https://vega.github.io/vega/).
 
@@ -109,7 +107,7 @@ wandb.log(
 
 You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
 
-![](@site/static/images/app_ui/line_plot_bar_chart.png)
+![](/images/app_ui/line_plot_bar_chart.png)
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 

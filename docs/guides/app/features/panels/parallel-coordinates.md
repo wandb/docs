@@ -1,9 +1,8 @@
 ---
 description: Compare results across machine learning experiments
 displayed_sidebar: default
+title: Parallel coordinates
 ---
-
-# Parallel Coordinates
 
 Parallel coordinates charts summarize the relationship between large numbers of hyperparameters and model metrics at a glance.
 

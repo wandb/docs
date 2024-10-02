@@ -2,9 +2,8 @@
 slug: /guides/integrations/hydra
 description: How to integrate W&B with Hydra.
 displayed_sidebar: default
+title: Hydra
 ---
-
-# Hydra
 
 > [Hydra](https://hydra.cc) is an open-source Python framework that simplifies the development of research and other complex applications. The key feature is the ability to dynamically create a hierarchical configuration by composition and override it through config files and the command line.
 

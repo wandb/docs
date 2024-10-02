@@ -3,13 +3,12 @@ description: >-
   Visualize the relationships between your model's hyperparameters and output
   metrics
 displayed_sidebar: default
+title: Parameter importance
 ---
-
-# Parameter Importance
 
 This panel surfaces which of your hyperparameters were the best predictors of, and highly correlated to desirable values of your metrics.
 
-![](https://paper-attachments.dropbox.com/s\_B78AACEDFC4B6CE0BF245AA5C54750B01173E5A39173E03BE6F3ACF776A01267\_1578795733856\_image.png)
+![](/images/general/parameter-importance-1.png)
 
 **Correlation** is the linear correlation between the hyperparameter and the chosen metric (in this case val\_loss). So a high correlation means that when the hyperparameter has a higher value, the metric also has higher values and vice versa. Correlation is a great metric to look at but it can’t capture second order interactions between inputs and it can get messy to compare inputs with wildly different ranges.
 
@@ -25,13 +24,13 @@ Go to your W&B Project. If you don’t have one, you can use [this project](http
 
 From your project page, click **Add Visualization**.
 
-![](https://paper-attachments.dropbox.com/s\_B78AACEDFC4B6CE0BF245AA5C54750B01173E5A39173E03BE6F3ACF776A01267\_1578795570241\_image.png)
+![](/images/general/parameter-importance-2.png)
 
 Then choose **Parameter Importance**.
 
-You don’t need to write any new code, other than [integrating W&B](https://docs.wandb.com/quickstart) into your project.
+You don’t need to write any new code, other than [integrating W&B](/quickstart) into your project.
 
-![](https://paper-attachments.dropbox.com/s\_B78AACEDFC4B6CE0BF245AA5C54750B01173E5A39173E03BE6F3ACF776A01267\_1578795636072\_image.png)
+![](/images/general/parameter-importance-3.png)
 
 :::info
 If an empty panel appears, make sure that your runs are ungrouped
@@ -49,9 +48,9 @@ With the parameter manager, we can manually set the visible and hidden parameter
 
 ## Interpreting A Hyperparameter Importance Panel
 
-![](https://paper-attachments.dropbox.com/s\_B78AACEDFC4B6CE0BF245AA5C54750B01173E5A39173E03BE6F3ACF776A01267\_1578798509642\_image.png)
+![](/images/general/parameter-importance-4.png)
 
-This panel shows you all the parameters passed to the [wandb.config](https://docs.wandb.com/library/python/config) object in your training script. Next, it shows the feature importances and correlations of these config parameters with respect to the model metric you select (`val_loss` in this case).
+This panel shows you all the parameters passed to the [wandb.config](/library/python/config) object in your training script. Next, it shows the feature importances and correlations of these config parameters with respect to the model metric you select (`val_loss` in this case).
 
 ### Importance
 

@@ -1,12 +1,10 @@
 ---
 displayed_sidebar: default
+title: Hugging Face Diffusers
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-# Hugging Face Diffusers
 
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb"></CTAButtons>
 
@@ -56,14 +54,14 @@ pip install --upgrade diffusers transformers accelerate wandb
 
 ### How the `autolog` works?
 
-The `autolog()` function can be called with the `init` parameter which accepts a dictionary of the parameters required by [`wandb.init()`](https://docs.wandb.ai/ref/python/init).
+The `autolog()` function can be called with the `init` parameter which accepts a dictionary of the parameters required by [`wandb.init()`](/ref/python/init).
 
 When `autolog()` is called, it initializes a Weights & Biases run, which automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autolog.py#L12-L72).
 
-- Each pipeline call is tracked into its own [table](https://docs.wandb.ai/guides/tables) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
-- The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`](https://docs.wandb.ai/guides/tables).
+- Each pipeline call is tracked into its own [table](/guides/tables) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
+- The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`](/guides/tables).
 - All other configs associated with the experiment including seed and the pipeline architecture are stored in the config section for the run.
-- The generated media for each pipeline call are also logged in [media panels](https://docs.wandb.ai/guides/track/log/media) in the run.
+- The generated media for each pipeline call are also logged in [media panels](/guides/track/log/media) in the run.
 
 :::info
 You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autolog.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
@@ -166,7 +164,7 @@ wandb.finish()
 | **An example of how the autolog logs the configs of your experiment.** |
 
 :::info
-You need to explicitly call [`wandb.finish()`](https://docs.wandb.ai/ref/python/finish) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
+You need to explicitly call [`wandb.finish()`](/ref/python/finish) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
 :::
 
 ## Tracking multi-pipeline workflows

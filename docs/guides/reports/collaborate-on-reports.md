@@ -1,13 +1,8 @@
 ---
 description: Collaborate and share W&B Reports with peers, co-workers, and your team.
 displayed_sidebar: default
+title: Collaborate on reports
 ---
-
-# Collaborate on reports
-
-<head>
-  <title>Collaborate and Share W&B Reports</title>
-</head>
 
 Once you have saved a report, you can select the **Share** button to collaborate. A draft copy of the report is created when you select the **Edit** button. Draft reports auto-save. Select **Save to report** to publish your changes to the shared report.
 

@@ -1,9 +1,8 @@
 ---
 description: Manage emails from the Settings page.
 displayed_sidebar: default
+title: Manage email settings
 ---
-
-# Emails
 
 Add, delete, manage email types and primary email addresses in your W&B Profile Settings page.
 

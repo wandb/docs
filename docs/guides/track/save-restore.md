@@ -1,13 +1,8 @@
 ---
 description: Save files to the cloud and restore them locally later
 displayed_sidebar: default
+title: Save & restore files to the cloud
 ---
-
-# Save & Restore Files
-
-<head>
-  <title>Save and Restore Files to the Cloud</title>
-</head>
 
 This guide first demonstrates how to save files to the cloud with `wandb.save`, then demonstrates how they can be re-created locally with `wandb.restore`.
 

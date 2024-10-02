@@ -1,11 +1,9 @@
 ---
 displayed_sidebar: default
+title: PyTorch Lightning
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# PyTorch Lightning
 
 [**Try in a Colab Notebook here →**](https://wandb.me/lightning)
 
@@ -325,7 +323,7 @@ for epoch in range(num_epochs):
 
 ### Log the min/max of your metric
 
-Using wandb's [`define_metric`](https://docs.wandb.ai/ref/python/run#define\_metric) function you can define whether you'd like your W&B summary metric to display the min, max, mean or best value for that metric. If `define`_`metric` _ isn't used, then the last value logged with appear in your summary metrics. See the `define_metric` [reference docs here](https://docs.wandb.ai/ref/python/run#define\_metric) and the [guide here](https://docs.wandb.ai/guides/track/log#customize-axes-and-summaries-with-define\_metric) for more.
+Using wandb's [`define_metric`](/ref/python/run#define\_metric) function you can define whether you'd like your W&B summary metric to display the min, max, mean or best value for that metric. If `define`_`metric` _ isn't used, then the last value logged with appear in your summary metrics. See the `define_metric` [reference docs here](/ref/python/run#define\_metric) and the [guide here](/guides/track/log#customize-axes-and-summaries-with-define\_metric) for more.
 
 To tell W&B to keep track of the max validation accuracy in the W&B summary metric, you just need to call `wandb.define_metric` once, e.g. you can call it at the beginning of training like so:
 
@@ -371,7 +369,7 @@ fabric.log_dict({"val_accuracy": val_accuracy})
 
 ### Model Checkpointing
 
-To save model checkpoints as W&B [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning),
+To save model checkpoints as W&B [Artifacts](/guides/data-and-model-versioning),
 use the Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch\_lightning.callbacks.ModelCheckpoint.html#pytorch\_lightning.callbacks.ModelCheckpoint) callback and set the `log_model` argument in the `WandbLogger`:
 
 ```python
@@ -406,7 +404,7 @@ fabric = L.Fabric(loggers=[wandb_logger], callbacks=[checkpoint_callback])
 </Tabs>
 
 
-The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from a W&B [Artifact](https://docs.wandb.ai/guides/data-and-model-versioning):
+The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from a W&B [Artifact](/guides/data-and-model-versioning):
 
 ```python
 # reference can be retrieved in artifacts panel
@@ -474,11 +472,11 @@ optimizer.load_state_dict(full_checkpoint["optimizer"])
 
 </Tabs>
 
-The model checkpoints you log will be viewable through the [W&B Artifacts](https://docs.wandb.ai/guides/artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
+The model checkpoints you log will be viewable through the [W&B Artifacts](/guides/artifacts) UI, and include the full model lineage (see an example model checkpoint in the UI [here](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
 
-To bookmark your best model checkpoints and centralize them across your team, you can link them to the [W&B Model Registry](https://docs.wandb.ai/guides/models).
+To bookmark your best model checkpoints and centralize them across your team, you can link them to the [W&B Model Registry](/guides/models).
 
-Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](https://docs.wandb.ai/guides/models/automation) downstream actions with webhooks or jobs. 
+Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](/guides/models/automation) downstream actions with webhooks or jobs. 
 
 ### Log images, text and more
 

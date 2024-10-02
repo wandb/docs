@@ -1,12 +1,10 @@
 ---
 displayed_sidebar: default
+title: MMEngine
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-# MMEngine
 
 MMEngine by [OpenMMLab](https://github.com/open-mmlab) is a foundational library for training deep learning models based on PyTorch. MMEngine implements a next-generation training architecture for the OpenMMLab algorithm library, providing a unified execution foundation for over 30 algorithm libraries within OpenMMLab. Its core components include the training engine, evaluation engine, and module management.
 
@@ -69,7 +67,7 @@ visualizer = Visualizer.get_instance(**visualization_cfg)
 ```
 
 :::info
-You pass a dictionary of arguments for [W&B run initialization](https://docs.wandb.ai/ref/python/init) input parameters to `init_kwargs`.
+You pass a dictionary of arguments for [W&B run initialization](/ref/python/init) input parameters to `init_kwargs`.
 :::
 
 Next, you simply initialize a `runner` with the `visualizer`, and call `runner.train()`.

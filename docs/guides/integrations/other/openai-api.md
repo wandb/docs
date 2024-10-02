@@ -2,12 +2,10 @@
 slug: /guides/integrations/openai-api
 description: How to use W&B with the OpenAI API.
 displayed_sidebar: default
+title: OpenAI API
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# OpenAI API
 
 Use the Weights & Biases OpenAI API integration to log requests, responses, token counts and model metadata with 1 line of code for all OpenAI models, including fine-tuned models.
 

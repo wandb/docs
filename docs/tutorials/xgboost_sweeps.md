@@ -1,13 +1,13 @@
-# XGBoost Sweeps
+---
+title: XGBoost Sweeps
+---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb)
+<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb'/>
 
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-
-<img src="http://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
-
+![](/images/tutorials/huggingface-why.png)
 
 Squeezing the best performance out of tree-based models requires
 [selecting the right hyperparameters](https://blog.cambridgespark.com/hyperparameter-tuning-in-xgboost-4ff9100a3b2f).
@@ -42,7 +42,7 @@ In the notebook below, we'll walk through these 3 steps in more detail.
 We highly encourage you to fork this notebook, tweak the parameters, or try the model with your own dataset!
 
 ### Resources
-- [Sweeps docs →](https://docs.wandb.com/library/sweeps)
+- [Sweeps docs →](/library/sweeps)
 - [Launching from the command line →](https://www.wandb.com/articles/hyperparameter-tuning-as-easy-as-1-2-3)
 
 
@@ -61,7 +61,7 @@ wandb.login()
 ## 1. Define the Sweep
 
 Weights & Biases sweeps give you powerful levers to configure your sweeps exactly how you want them, with just a few lines of code. The sweeps config can be defined as
-[a dictionary or a YAML file](https://docs.wandb.ai/guides/sweeps/configuration).
+[a dictionary or a YAML file](/guides/sweeps/configuration).
 
 Let's walk through some of them together:
 *   **Metric** – This is the metric the sweeps are attempting to optimize. Metrics can take a `name` (this metric should be logged by your training script) and a `goal` (`maximize` or `minimize`). 
@@ -71,7 +71,7 @@ Let's walk through some of them together:
   *   **Bayesian Search** – Creates a probabilistic model that maps hyperparameters to probability of a metric score, and chooses parameters with high probability of improving the metric. The objective of Bayesian optimization is to spend more time in picking the hyperparameter values, but in doing so trying out fewer hyperparameter values.
 *   **Parameters** – A dictionary containing the hyperparameter names, and discrete values, a range, or distributions from which to pull their values on each iteration.
 
-You can find a list of all configuration options [here](https://docs.wandb.com/library/sweeps/configuration).
+You can find a list of all configuration options [here](/library/sweeps/configuration).
 
 
 ```python
@@ -185,7 +185,7 @@ and that machine will join the sweep!
 
 > _Note_: a `random` sweep will by defauly run forever,
 trying new parameter combinations until the cows come home --
-or until you [turn the sweep off from the app UI](https://docs.wandb.ai/ref/app/features/sweeps).
+or until you [turn the sweep off from the app UI](/ref/app/features/sweeps).
 You can prevent this by providing the total `count` of runs you'd like the `agent` to complete.
 
 

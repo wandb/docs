@@ -1,19 +1,9 @@
+---
+title: Tune hyperparameters with sweeps
+---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-# Tune hyperparameters
-
 <CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.ipynb'/>
-
-
-
-
-
-
-
-
-
-
-
 
 Finding a machine learning model that meets your desired metric (such as model accuracy) is normally a redundant task that can take multiple iterations. To make matters worse, it might be unclear which hyperparameter combinations to use for a given training run. 
 
@@ -21,13 +11,13 @@ Use W&B Sweeps to create an organized and efficient way to automatically search 
 
 In this tutorial you will create a hyperparameter search with W&B PyTorch integration. Follow along with a [video tutorial](http://wandb.me/sweeps-video)!
 
-![](https://i.imgur.com/WVKkMWw.png)
+![](/images/tutorials/sweeps-1.png)
 
 ## Sweeps: An Overview
 
 Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
 
-1. **Define the sweep:** we do this by creating a dictionary or a [YAML file](https://docs.wandb.com/library/sweeps/configuration) that specifies the parameters to search through, the search strategy, the optimization metric et all.
+1. **Define the sweep:** we do this by creating a dictionary or a [YAML file](/library/sweeps/configuration) that specifies the parameters to search through, the search strategy, the optimization metric et all.
 
 2. **Initialize the sweep:** with one line of code we initialize the sweep and pass in the dictionary of sweep configurations:
 `sweep_id = wandb.sweep(sweep_config)`
@@ -70,12 +60,12 @@ Before you start a sweep, you must define your sweep strategy with a _sweep conf
 :::info
 The sweep configuration you create for a sweep must be in a nested dictionary if you start a sweep in a Jupyter Notebook.
 
-If you run a sweep within the command line, you must specify your sweep config with a [YAML file](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration).
+If you run a sweep within the command line, you must specify your sweep config with a [YAML file](/guides/sweeps/define-sweep-configuration).
 :::
 
 ### Pick a search method
 
-First, specify a hyperparameter search method within your configuration dictionary. [There are three hyperparameter search strategies to choose from: grid, random, and Bayesian search](https://docs.wandb.ai/guides/sweeps/sweep-config-keys#method).
+First, specify a hyperparameter search method within your configuration dictionary. [There are three hyperparameter search strategies to choose from: grid, random, and Bayesian search](/guides/sweeps/sweep-config-keys#method).
 
 For this tutorial, you will use a random search. Within your notebook, create a dictionary and specify `random` for the `method` key. 
 
@@ -175,7 +165,7 @@ import pprint
 pprint.pprint(sweep_config)
 ```
 
-For a full list of configuration options, see [Sweep configuration options](https://docs.wandb.ai/guides/sweeps/sweep-config-keys). 
+For a full list of configuration options, see [Sweep configuration options](/guides/sweeps/sweep-config-keys). 
 
 :::tip
 For hyperparameters that have potentially infinite options,
@@ -213,7 +203,7 @@ wandb sweep config.yaml
 ```
 :::
 
-For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](https://docs.wandb.com/sweeps/walkthrough).
+For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/sweeps/walkthrough).
 
 
 ## Step 3:  Define your machine learning code
@@ -226,7 +216,7 @@ In the proceeding code example, the helper functions `build_dataset`, `build_net
 Run the proceeding machine learning training code in your notebook. The functions define a basic fully-connected neural network in PyTorch.
 
 
-```
+```python
 import torch
 import torch.optim as optim
 import torch.nn.functional as F
@@ -252,9 +242,9 @@ def train(config=None):
 ```
 
 Within the `train` function, you will notice the following W&B Python SDK methods:
-* [`wandb.init()`](https://docs.wandb.com/library/init) – Initialize a new W&B run. Each run is a single execution of the training function.
-* [`wandb.config`](https://docs.wandb.com/library/config) – Pass sweep configuration with the hyperparameters you want to experiment with.
-* [`wandb.log()`](https://docs.wandb.com/library/log) – Log the training loss for each epoch.
+* [`wandb.init()`](/library/init) – Initialize a new W&B run. Each run is a single execution of the training function.
+* [`wandb.config`](/library/config) – Pass sweep configuration with the hyperparameters you want to experiment with.
+* [`wandb.log()`](/library/log) – Log the training loss for each epoch.
 
 
 The proceeding cell defines four functions:
@@ -263,7 +253,7 @@ These functions are a standard part of a basic PyTorch pipeline,
 and their implementation is unaffected by the use of W&B.
 
 
-```
+```python
 def build_dataset(batch_size):
    
     transform = transforms.Compose(
@@ -338,7 +328,7 @@ according to the sweep configuration you defined.
 The proceeding cell activates a sweep agent that runs the training function (`train`) 5 times:
 
 
-```
+```python
 wandb.agent(sweep_id, train, count=5)
 ```
 
@@ -346,7 +336,7 @@ wandb.agent(sweep_id, train, count=5)
 Since the `random` search method was specified in the sweep configuration, the sweep controller provides randomly-generated hyperparameter values.
 :::
 
-For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](https://docs.wandb.com/sweeps/walkthrough).
+For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/sweeps/walkthrough).
 
 ## Visualize Sweep Results
 
@@ -355,14 +345,14 @@ For more information on how to create W&B Sweeps in a terminal, see the [W&B Swe
 ### Parallel Coordinates Plot
 This plot maps hyperparameter values to model metrics. It’s useful for honing in on combinations of hyperparameters that led to the best model performance.
 
-![](https://assets.website-files.com/5ac6b7f2924c652fd013a891/5e190366778ad831455f9af2_s_194708415DEC35F74A7691FF6810D3B14703D1EFE1672ED29000BA98171242A5_1578695138341_image.png)
+![](/images/tutorials/sweeps-2.png)
 
 
 ### Hyperparameter Importance Plot
 The hyperparameter importance plot surfaces which hyperparameters were the best predictors of your metrics.
 We report feature importance (from a random forest model) and correlation (implicitly a linear model).
 
-![](https://assets.website-files.com/5ac6b7f2924c652fd013a891/5e190367778ad820b35f9af5_s_194708415DEC35F74A7691FF6810D3B14703D1EFE1672ED29000BA98171242A5_1578695757573_image.png)
+![](/images/tutorials/sweeps-3.png)
 
 These visualizations can help you save both time and resources running expensive hyperparameter optimizations by honing in on the parameters (and value ranges) that are the most important, and thereby worthy of further exploration.
 

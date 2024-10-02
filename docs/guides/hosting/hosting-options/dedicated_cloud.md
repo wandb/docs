@@ -1,5 +1,6 @@
 ---
 displayed_sidebar: default
+title: Use Dedicated Cloud
 ---
 
 # Dedicated cloud (Single-tenant SaaS)

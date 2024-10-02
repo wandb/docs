@@ -1,9 +1,8 @@
 ---
 description: Log tables with W&B.
 displayed_sidebar: default
+title: Log tables
 ---
-
-# Log tables
 
 Use `wandb.Table` to log data to visualize and query with W&B. In this guide, learn how to:
 

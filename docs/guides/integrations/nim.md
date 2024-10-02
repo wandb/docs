@@ -1,11 +1,10 @@
 ---
 displayed_sidebar: default
+title: NVIDIA NeMo Inference Microservice Deploy Job
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# NVIDIA NeMo Inference Microservice Deploy Job
 
 Deploy a model artifact from W&B to a NVIDIA NeMo Inference Microservice. To do this, use W&B Launch. W&B Launch converts model artifacts to NVIDIA NeMo Model and deploys to a running NIM/Triton server.
 

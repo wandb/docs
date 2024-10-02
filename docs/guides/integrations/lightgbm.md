@@ -1,9 +1,8 @@
 ---
 description: Track your trees with W&B.
 displayed_sidebar: default
+title: LightGBM
 ---
-
-# LightGBM
 
 The `wandb` library includes a special callback for [LightGBM](https://lightgbm.readthedocs.io/en/latest/). It's also easy to use the generic logging features of Weights & Biases to track large experiments, like hyperparameter sweeps.
 

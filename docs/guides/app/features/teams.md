@@ -3,9 +3,8 @@ description: >-
   Collaborate with your colleagues, share results, and track all the experiments
   across your team
 displayed_sidebar: default
+title: Manage teams
 ---
-
-# Teams
 
 Use W&B Teams as a central workspace for your ML team to build better models faster.
 

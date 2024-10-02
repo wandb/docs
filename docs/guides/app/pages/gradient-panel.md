@@ -1,9 +1,8 @@
 ---
 description: Visualize the gradients of your parameters
 displayed_sidebar: default
+title: Gradient panel
 ---
-
-# Gradient Panel
 
 ![Logged gradients get rendered as histograms](/images/app_ui/gradient_panels.png)
 

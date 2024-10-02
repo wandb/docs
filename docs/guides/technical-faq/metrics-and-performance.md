@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Metrics and Performance FAQ
 ---
-
-# Metrics & Performance
 
 ## Metrics
 

@@ -1,13 +1,8 @@
 ---
 description: Set W&B environment variables.
 displayed_sidebar: default
+title: Environment variables
 ---
-
-# Environment Variables
-
-<head>
-  <title>W&B Environment Variables</title>
-</head>
 
 When you're running a script in an automated environment, you can control **wandb** with environment variables set before the script runs or within the script.
 

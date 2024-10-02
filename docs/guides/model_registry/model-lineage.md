@@ -1,10 +1,8 @@
 ---
 description: ''
 displayed_sidebar: default
+title: Create model lineage map
 ---
-
-
-# Create model lineage map
 A useful feature of logging model artifacts to W&B are lineage graphs. Lineage graphs show artifacts logged by a run as well as artifacts used by specific run. 
 
 This means that, when you log a model artifact, you at a minimum have access to view the W&B run that used or produced the model artifact. If you [track a dependency](#track-an-artifact-dependency), you also see the inputs used by the model artifact.

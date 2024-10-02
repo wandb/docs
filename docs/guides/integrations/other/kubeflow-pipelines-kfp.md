@@ -2,13 +2,10 @@
 slug: /guides/integrations/kubeflow-pipelines-kfp
 description: How to integrate W&B with Kubeflow Pipelines.
 displayed_sidebar: default
+title: Kubeflow Pipelines (kfp)
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-# Kubeflow Pipelines (kfp)
 
 ## Overview
 
@@ -101,7 +98,7 @@ Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
 
 ### Via the web app UI
 
-The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space! Learn [more about the web app UI here](https://docs.wandb.ai/ref/app).
+The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space! Learn [more about the web app UI here](/ref/app).
 
 ![View details about a particular run (and link back to the Kubeflow UI)](/images/integrations/kubeflow_pipelines.png)
 
@@ -109,7 +106,7 @@ The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipe
 
 ### Via the Public API (for programmatic access)
 
-* For programmatic access, [see our Public API](https://docs.wandb.ai/ref/python/public-api).
+* For programmatic access, [see our Public API](/ref/python/public-api).
 
 ### Concept mapping from Kubeflow Pipelines to W&B
 
@@ -117,10 +114,10 @@ Here's a mapping of Kubeflow Pipelines concepts to W&B
 
 | Kubeflow Pipelines | W&B                                                      | Location in W&B                                                                                  |
 | ------------------ | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Input Scalar       | ``[`config`](https://docs.wandb.ai/guides/track/config)`` | [Overview tab](https://docs.wandb.ai/ref/app/pages/run-page#overview-tab)                         |
-| Output Scalar      | ``[`summary`](https://docs.wandb.ai/guides/track/log)``   | [Overview tab](https://docs.wandb.ai/ref/app/pages/run-page#overview-tab)                         |
-| Input Artifact     | Input Artifact                                            | [Artifacts tab](https://docs.wandb.ai/ref/app/pages/run-page#artifacts-tab)                       |
-| Output Artifact    | Output Artifact                                           | [Artifacts tab](https://docs.wandb.ai/ref/app/pages/run-page#artifacts-tab) |
+| Input Scalar       | ``[`config`](/guides/track/config)`` | [Overview tab](/ref/app/pages/run-page#overview-tab)                         |
+| Output Scalar      | ``[`summary`](/guides/track/log)``   | [Overview tab](/ref/app/pages/run-page#overview-tab)                         |
+| Input Artifact     | Input Artifact                                            | [Artifacts tab](/ref/app/pages/run-page#artifacts-tab)                       |
+| Output Artifact    | Output Artifact                                           | [Artifacts tab](/ref/app/pages/run-page#artifacts-tab) |
 
 ## Fine-grain logging
 
@@ -153,7 +150,7 @@ def train_model(
 
 ### With implicit wandb integrations
 
-If you're using a [framework integration we support](https://docs.wandb.ai/guides/integrations), you can also pass in the callback directly:
+If you're using a [framework integration we support](/guides/integrations), you can also pass in the callback directly:
 
 ```python
 @wandb_log

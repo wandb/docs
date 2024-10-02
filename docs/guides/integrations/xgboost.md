@@ -1,9 +1,8 @@
 ---
 description: Track your trees with W&B.
 displayed_sidebar: default
+title: XGBoost
 ---
-
-# XGBoost
 
 [**Try in a Colab Notebook here →**](https://wandb.me/xgboost)
 

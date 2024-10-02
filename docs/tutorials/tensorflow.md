@@ -1,17 +1,13 @@
-# TensorFlow
+---
+title: TensorFlow
+---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Simple_TensorFlow_Integration.ipynb)
+<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Simple_TensorFlow_Integration.ipynb'/>
 
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-<div><img /></div>
-
-<img src="http://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
-
-<div><img /></div>
-
-
-
+![](/images/tutorials/huggingface-why.png)
 
 ## What this notebook covers
 
@@ -19,16 +15,11 @@ Use Weights & Biases for machine learning experiment tracking, dataset versionin
 * Computing metrics with `keras.metrics`
 * Using `wandb.log` to log those metrics in your custom training loop.
  
-
 ## The interactive W&B dashboard will look like this:
-
 
 ![dashboard](/images/tutorials/tensorflow/dashboard.png)
 
 **Note**: Sections starting with _Step_ are all you need to integrate W&B into existing code. The rest is just a standard MNIST example.
-
-
-
 
 ```python
 import tensorflow as tf
@@ -173,9 +164,7 @@ def train(train_dataset, val_dataset,  model, optimizer,
 This lets us know you're launching an experiment,
 so we can give it a unique ID and a dashboard.
 
-[Check out the official documentation here $\rightarrow$](https://docs.wandb.com/library/init)
-
-
+[Check out the official documentation](/library/init)
 
 ```python
 # initialize wandb with your project name and optionally with configutations.
@@ -220,14 +209,14 @@ run.finish()  # In Jupyter/Colab, let us know you're finished!
 
 # 👀 Visualize Results
 
-Click on the [**run page**](https://docs.wandb.ai/ref/app/pages/run-page)
+Click on the [**run page**](/ref/app/pages/run-page)
 link above to see your live results.
 
 # 🧹 Sweep 101
 
 Use Weights & Biases Sweeps to automate hyperparameter optimization and explore the space of possible models.
 
-## [Check out Hyperparameter Optimization in TensorFlow using W&B Sweeps $\rightarrow$](http://wandb.me/tf-sweeps-colab)
+## [Check out Hyperparameter Optimization in TensorFlow using W&B Sweeps](http://wandb.me/tf-sweeps-colab)
 
 ### Benefits of using W&B Sweeps
 
@@ -235,10 +224,7 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 * **Transparent**: We cite all the algorithms we're using, and [our code is open source](https://github.com/wandb/client/tree/master/wandb/sweeps).
 * **Powerful**: Our sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
 
-
-<img src="https://i.imgur.com/6eWHZhg.png" alt="Sweep Result" />
-
-
+![Sweep result](/images/tutorials/tensorflow/sweeps.png)
 
 # 🎨 Example Gallery
 
@@ -252,7 +238,7 @@ See examples of projects tracked and visualized with W&B in our gallery of examp
 5. **Reports**: Take quick notes on progress to share with colleagues and make dashboards and snapshots of your ML projects.
 
 ## 🤓 Advanced Setup
-1. [Environment variables](https://docs.wandb.com/library/environment-variables): Set API keys in environment variables so you can run training on a managed cluster.
-2. [Offline mode](https://docs.wandb.com/library/technical-faq#can-i-run-wandb-offline): Use `dryrun` mode to train offline and sync results later.
-3. [On-prem](https://docs.wandb.com/self-hosted): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
+1. [Environment variables](/library/environment-variables): Set API keys in environment variables so you can run training on a managed cluster.
+2. [Offline mode](/library/technical-faq#can-i-run-wandb-offline): Use `dryrun` mode to train offline and sync results later.
+3. [On-prem](/self-hosted): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
 4. [Artifacts](http://wandb.me/artifacts-colab): Track and version models and datasets in a streamlined way that automatically picks up your pipeline steps as you train models.

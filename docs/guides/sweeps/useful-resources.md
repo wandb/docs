@@ -1,13 +1,8 @@
 ---
 description: Collection of useful sources for Sweeps.
 displayed_sidebar: default
+title: Learn more about sweeps
 ---
-
-# Useful resources
-
-<head>
-  <title>Resources to learn more about W&B Sweeps</title>
-</head>
 
 ### Academic papers
 

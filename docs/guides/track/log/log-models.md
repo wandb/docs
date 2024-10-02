@@ -1,5 +1,6 @@
 ---
 displayed_sidebar: default
+title: Log models
 ---
 
 # Log models
@@ -43,7 +44,7 @@ run.log_model(path="<path-to-model>", name="<name>")
 Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B will use the basename of the input path prepended with the run ID as the name. 
 
 :::tip
-Keep track of the `name` that you, or W&B assigns, to the model. You will need the name of the model to retrieve the model path with the [`use_model`](https://docs.wandb.ai/ref/python/run#use_model) method. 
+Keep track of the `name` that you, or W&B assigns, to the model. You will need the name of the model to retrieve the model path with the [`use_model`](/ref/python/run#use_model) method. 
 :::
 
 See [`log_model`](../../../ref/python/run.md#log_model) in the API Reference guide for more information on possible parameters.

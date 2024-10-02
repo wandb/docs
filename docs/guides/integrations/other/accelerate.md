@@ -2,9 +2,8 @@
 slug: /guides/integrations/accelerate
 description: Training and inference at scale made simple, efficient and adaptable
 displayed_sidebar: default
+title: Hugging Face Accelerate
 ---
-
-# Hugging Face Accelerate
 
 Accelerate is a library that enables the same PyTorch code to be run across any distributed configuration by adding just four lines of code, making training and inference at scale made simple, efficient and adaptable.
 
@@ -41,7 +40,7 @@ Explaining more, you need to:
 1. Pass `log_with="wandb"` when initialising the Accelerator class
 2. Call the [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) method and pass it:
 - a project name via `project_name`
-- any parameters you want to pass to [`wandb.init`](https://docs.wandb.ai/ref/python/init) via a nested dict to `init_kwargs`
+- any parameters you want to pass to [`wandb.init`](/ref/python/init) via a nested dict to `init_kwargs`
 - any other experiment config information you want to log to your wandb run, via `config`
 3. Use the `.log` method to log to Weigths & Biases; the `step` argument is optional
 4. Call `.end_training` when finished training

@@ -1,16 +1,11 @@
 ---
 description: Import data from MLFlow, export or update data that you have saved to W&B
 displayed_sidebar: default
+title: Import and export data
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Import and export data
-
-<head>
-  <title>Import & Export Data to W&B</title>
-</head>
 
 Export data or import data from MLFlow or between W&B instances with W&B Public APIs.
 
@@ -243,7 +238,7 @@ these are the different outputs for the above run object attributes
 
 ### Sampling
 
-The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` \_\_ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](https://docs.wandb.ai/ref/python/public-api).
+The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` \_\_ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](/ref/python/public-api).
 
 ### Querying Multiple Runs
 

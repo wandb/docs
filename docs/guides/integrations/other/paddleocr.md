@@ -2,12 +2,10 @@
 slug: /guides/integrations/paddleocr
 description: How to integrate W&B with PaddleOCR.
 displayed_sidebar: default
+title: PaddleOCR
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# PaddleOCR
 
 [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) aims to create multilingual, awesome, leading, and practical OCR tools that help users train better models and apply them into practice implemented in PaddlePaddle. PaddleOCR support a variety of cutting-edge algorithms related to OCR, and developed industrial solution. PaddleOCR now comes with a Weights & Biases integration for logging training and evaluation metrics along with model checkpoints with corresponding metadata.
 
@@ -56,7 +54,7 @@ Global:
     use_wandb: True
 ```
 
-Any additional, optional arguments that you might like to pass to [`wandb.init`](https://docs.wandb.ai/guides/track/launch) can also be added under the `wandb` header in the yaml file:
+Any additional, optional arguments that you might like to pass to [`wandb.init`](/guides/track/launch) can also be added under the `wandb` header in the yaml file:
 
 ```
 wandb:  

@@ -1,15 +1,10 @@
 ---
 description: Export a W&B Report as a PDF or LaTeX.
 displayed_sidebar: default
+title: Clone and export reports
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Clone and export reports
-
-<head>
-  <title>Clone and export W&B Reports</title>
-</head>
 
 ## Export reports
 
@@ -27,7 +22,7 @@ Export a report as a PDF or LaTeX. Within your report, select the kebab icon to 
 
 Within your report, select the kebab icon to expand the dropdown menu. Choose the **Clone this report** button. Pick a destination for your cloned report in the modal. Choose **Clone report**.
 
-![](@site/static/images/reports/clone_reports.gif)
+![](/images/reports/clone_reports.gif)
 
 Clone a report to reuse a project's template and format. Cloned projects are visible to your team if you clone a project within the team's account. Projects cloned within an individual's account are only visible to that user.
   </TabItem>

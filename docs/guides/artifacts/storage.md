@@ -1,13 +1,8 @@
 ---
 description: Manage storage, memory allocation of W&B Artifacts.
 displayed_sidebar: default
+title: Manage artifact storage and memory allocation
 ---
-
-# Storage
-
-<head>
-    <title>Artifact Storage</title>
-</head>
 
 W&B stores artifact files in a private Google Cloud Storage bucket located in the United States by default. All files are encrypted at rest and in transit.
 

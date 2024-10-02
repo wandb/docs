@@ -1,11 +1,9 @@
 ---
 displayed_sidebar: default
+title: Hugging Face AutoTrain
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Hugging Face Autotrain
 
 [🤗 AutoTrain](https://huggingface.co/docs/autotrain/index) is a no-code tool for training state-of-the-art models for Natural Language Processing (NLP) tasks, for Computer Vision (CV) tasks, and for Speech tasks and even for Tabular tasks.
 
@@ -51,7 +49,7 @@ To demonstrate these changes we will fine-tune an LLM on a math dataset and try 
 
 ### Training using Autotrain Advanced
 
-We can start training using the Autotrain Advanced CLI. To leverage the logging functionality, we simply use the `--log` argument. Specifying `--log wandb` will seamlessly log your results to a [W&B run](https://docs.wandb.ai/guides/runs). 
+We can start training using the Autotrain Advanced CLI. To leverage the logging functionality, we simply use the `--log` argument. Specifying `--log wandb` will seamlessly log your results to a [W&B run](/guides/runs). 
 
 <Tabs
   defaultValue="script"

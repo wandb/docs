@@ -1,14 +1,8 @@
 ---
 description: Use W&B to log distributed training experiments with multiple GPUs.
 displayed_sidebar: default
+title: Log distributed training experiments
 ---
-
-# Log distributed training experiments
-
-<head>
-  <title>Log distributed training experiments</title>
-</head>
-
 
 In distributed training, models are trained using multiple GPUs in parallel. W&B supports two patterns to track distributed training experiments:
 

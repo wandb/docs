@@ -1,13 +1,8 @@
 ---
 description: Download and use Artifacts from multiple projects.
 displayed_sidebar: default
+title: Download and use artifacts
 ---
-
-# Download and use artifacts
-
-<head>
-  <title>Download and use artifacts</title>
-</head>
 
 Download and use an artifact that is already stored on the W&B server or construct an artifact object and pass it in to for de-duplication as necessary.
 
