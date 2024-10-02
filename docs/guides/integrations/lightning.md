@@ -324,7 +324,7 @@ for epoch in range(num_epochs):
 
 ### Log the min/max of your metric
 
-Using wandb's [`define_metric`](/ref/python/run#define_metric) function you can define whether you'd like your W&B summary metric to display the min, max, mean or best value for that metric. If `define`_`metric` _ isn't used, then the last value logged with appear in your summary metrics. See the `define_metric` [reference docs here](/ref/python/run#define_metric) and the [guide here](/guides/track/log#customize-axes-and-summaries-with-define_metric) for more.
+Using wandb's [`define_metric`](/ref/python/run#define_metric) function you can define whether you'd like your W&B summary metric to display the min, max, mean or best value for that metric. If `define`_`metric` _ isn't used, then the last value logged with appear in your summary metrics. See the `define_metric` [reference docs here](/ref/python/run#define_metric) and the [guide here](/guides/track/log/customize-logging-axes) for more.
 
 To tell W&B to keep track of the max validation accuracy in the W&B summary metric, you just need to call `wandb.define_metric` once, e.g. you can call it at the beginning of training like so:
 
