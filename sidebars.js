@@ -346,7 +346,7 @@ export default {
                 'guides/hosting/self-managed/basic-setup',
                 {
                   type: 'category',
-                  label: 'W&B Operator',
+                  label: 'Kubernetes Operator',
                   items: [
                     'guides/hosting/operator',
                     'guides/hosting/operator-airgapped',
