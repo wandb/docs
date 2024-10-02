@@ -56,11 +56,10 @@ You can then view your model's fine-tuning training and validation metrics and h
 
 ### How can I organize my runs?
 
-Your W&B runs are automatically organized and can be filtered/sorted based on any configuration parameter such as job type, base model, learning rate, training filename and any other hyper-parameter.
+Your W&B runs are automatically organized and can be filtered/sorted based on any configuration parameter such as job type, base model, learning rate and any other hyper-parameter.
 
 In addition, you can rename your runs, add notes or create tags to group them.
 
-Once you’re satisfied, you can save your workspace and use it to create report, importing data from your runs and saved artifacts (training/validation files).
 
 ## Resources
 
