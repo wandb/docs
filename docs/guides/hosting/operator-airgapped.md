@@ -9,7 +9,7 @@ displayed_sidebar: default
 
 This guide provides step-by-step instructions to deploy the W&B Platform in air-gapped customer-managed environments. 
 As the air-gapped environments are assumed to be disconnected from the public network, special configuration is required to ensure the successful deployment and functioning of the W&B platform.
-internal repositories for both Helm charts and container images.
+Use an internal repository or registry to host the helm charts and container images.
 The document assume all commands will be executed in a shell console with proper access to the Kubernetes.
 Although using command line for the matter of documentation, the process also applies to any continuous deliver tooling used to deploy Kubernetes application.
 
