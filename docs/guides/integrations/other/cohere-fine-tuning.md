@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 
 With Weights & Biases you can log your Cohere model's fine-tuning metrics and configuration to analyse and understand the performance of your newly fine-tuned models and share the results with your colleagues. 
 
-## Log your Cohere Fine-Tuning Results
+## Log your Cohere fine-tuning results
 
 To add logging to your W&B workspace:
 
