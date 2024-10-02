@@ -7,7 +7,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Cohere Fine-Tuning
+# Cohere fine-tuning
 
 With Weights & Biases you can log your Cohere model's fine-tuning metrics and configuration to analyse and understand the performance of your newly fine-tuned models and share the results with your colleagues. 
 
