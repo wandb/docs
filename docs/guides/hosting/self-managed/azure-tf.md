@@ -172,7 +172,7 @@ This is the most straightforward deployment option configuration that will creat
 
 Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
 
-You need to add the option `create_redis = true` to the same `main.tf` file we worked on in [Deployment Recommended](#deployment---recommended-20-mins) to enable the cache.
+You must add the option `create_redis = true` to the same `main.tf` file that you used in [recommended deployment](#deployment---recommended-20-mins) to enable the cache.
 
 ```bash
 # Spin up all required services
