@@ -7,7 +7,7 @@ displayed_sidebar: default
 
 ## Introduction
 
-This guide provides a comprehensive and user-friendly step-by-step process for deploying the Weights & Biases (W&B) Platform in airgapped environments. 
+This guide provides step-by-step instructions to deploy the W&B Platform in air-gapped customer-managed environments. 
 Since airgapped environments are isolated from the internet, special configurations are required to ensure the proper deployment of W&B components using 
 internal repositories for both Helm charts and container images.
 The document assume all commands will be executed in a shell console with proper access to the Kubernetes.
