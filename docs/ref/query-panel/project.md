@@ -3,165 +3,165 @@
 ## Chainable Ops
 <h3 id="project-artifact"><code>project-artifact</code></h3>
 
-Returns the [artifact](/ref/weave/artifact) for a given name within a [project](/ref/weave/project)
+Returns the [artifact](https://docs.wandb.ai/ref/weave/artifact) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
-| `artifactName` | The name of the [artifact](/ref/weave/artifact) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `artifactName` | The name of the [artifact](https://docs.wandb.ai/ref/weave/artifact) |
 
 #### Return Value
-The [artifact](/ref/weave/artifact) for a given name within a [project](/ref/weave/project)
+The [artifact](https://docs.wandb.ai/ref/weave/artifact) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-artifactType"><code>project-artifactType</code></h3>
 
-Returns the [artifactType](/ref/weave/artifact-type) for a given name within a [project](/ref/weave/project)
+Returns the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
-| `artifactType` | The name of the [artifactType](/ref/weave/artifact-type) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `artifactType` | The name of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
 
 #### Return Value
-The [artifactType](/ref/weave/artifact-type) for a given name within a [project](/ref/weave/project)
+The [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-artifactTypes"><code>project-artifactTypes</code></h3>
 
-Returns the [artifactTypes](/ref/weave/artifact-type) for a [project](/ref/weave/project)
+Returns the [artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type) for a [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
 
 #### Return Value
-The [artifactTypes](/ref/weave/artifact-type) for a [project](/ref/weave/project)
+The [artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type) for a [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-artifactVersion"><code>project-artifactVersion</code></h3>
 
-Returns the [artifactVersion](/ref/weave/artifact-version) for a given name and version within a [project](/ref/weave/project)
+Returns the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) for a given name and version within a [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
-| `artifactName` | The name of the [artifactVersion](/ref/weave/artifact-version) |
-| `artifactVersionAlias` | The version alias of the [artifactVersion](/ref/weave/artifact-version) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `artifactName` | The name of the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersionAlias` | The version alias of the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
 #### Return Value
-The [artifactVersion](/ref/weave/artifact-version) for a given name and version within a [project](/ref/weave/project)
+The [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) for a given name and version within a [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-createdAt"><code>project-createdAt</code></h3>
 
-Returns the creation time of the [project](/ref/weave/project)
+Returns the creation time of the [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
 
 #### Return Value
-The creation time of the [project](/ref/weave/project)
+The creation time of the [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-name"><code>project-name</code></h3>
 
-Returns the name of the [project](/ref/weave/project)
+Returns the name of the [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
 
 #### Return Value
-The name of the [project](/ref/weave/project)
+The name of the [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-runs"><code>project-runs</code></h3>
 
-Returns the [runs](/ref/weave/run) from a [project](/ref/weave/project)
+Returns the [runs](https://docs.wandb.ai/ref/weave/run) from a [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
 
 #### Return Value
-The [runs](/ref/weave/run) from a [project](/ref/weave/project)
+The [runs](https://docs.wandb.ai/ref/weave/run) from a [project](https://docs.wandb.ai/ref/weave/project)
 
 
 ## List Ops
 <h3 id="project-artifact"><code>project-artifact</code></h3>
 
-Returns the [artifact](/ref/weave/artifact) for a given name within a [project](/ref/weave/project)
+Returns the [artifact](https://docs.wandb.ai/ref/weave/artifact) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
-| `artifactName` | The name of the [artifact](/ref/weave/artifact) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `artifactName` | The name of the [artifact](https://docs.wandb.ai/ref/weave/artifact) |
 
 #### Return Value
-The [artifact](/ref/weave/artifact) for a given name within a [project](/ref/weave/project)
+The [artifact](https://docs.wandb.ai/ref/weave/artifact) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-artifactType"><code>project-artifactType</code></h3>
 
-Returns the [artifactType](/ref/weave/artifact-type) for a given name within a [project](/ref/weave/project)
+Returns the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
-| `artifactType` | The name of the [artifactType](/ref/weave/artifact-type) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `artifactType` | The name of the [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) |
 
 #### Return Value
-The [artifactType](/ref/weave/artifact-type) for a given name within a [project](/ref/weave/project)
+The [artifactType](https://docs.wandb.ai/ref/weave/artifact-type) for a given name within a [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-artifactTypes"><code>project-artifactTypes</code></h3>
 
-Returns the [artifactTypes](/ref/weave/artifact-type) for a [project](/ref/weave/project)
+Returns the [artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type) for a [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
 
 #### Return Value
-The [artifactTypes](/ref/weave/artifact-type) for a [project](/ref/weave/project)
+The [artifactTypes](https://docs.wandb.ai/ref/weave/artifact-type) for a [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-artifactVersion"><code>project-artifactVersion</code></h3>
 
-Returns the [artifactVersion](/ref/weave/artifact-version) for a given name and version within a [project](/ref/weave/project)
+Returns the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) for a given name and version within a [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
-| `artifactName` | The name of the [artifactVersion](/ref/weave/artifact-version) |
-| `artifactVersionAlias` | The version alias of the [artifactVersion](/ref/weave/artifact-version) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
+| `artifactName` | The name of the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
+| `artifactVersionAlias` | The version alias of the [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) |
 
 #### Return Value
-The [artifactVersion](/ref/weave/artifact-version) for a given name and version within a [project](/ref/weave/project)
+The [artifactVersion](https://docs.wandb.ai/ref/weave/artifact-version) for a given name and version within a [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-createdAt"><code>project-createdAt</code></h3>
 
-Returns the creation time of the [project](/ref/weave/project)
+Returns the creation time of the [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
 
 #### Return Value
-The creation time of the [project](/ref/weave/project)
+The creation time of the [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-name"><code>project-name</code></h3>
 
-Returns the name of the [project](/ref/weave/project)
+Returns the name of the [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
 
 #### Return Value
-The name of the [project](/ref/weave/project)
+The name of the [project](https://docs.wandb.ai/ref/weave/project)
 
 <h3 id="project-runs"><code>project-runs</code></h3>
 
-Returns the [runs](/ref/weave/run) from a [project](/ref/weave/project)
+Returns the [runs](https://docs.wandb.ai/ref/weave/run) from a [project](https://docs.wandb.ai/ref/weave/project)
 
 | Argument |  |
 | :--- | :--- |
-| `project` | A [project](/ref/weave/project) |
+| `project` | A [project](https://docs.wandb.ai/ref/weave/project) |
 
 #### Return Value
-The [runs](/ref/weave/run) from a [project](/ref/weave/project)
+The [runs](https://docs.wandb.ai/ref/weave/run) from a [project](https://docs.wandb.ai/ref/weave/project)
 
