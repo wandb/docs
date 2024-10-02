@@ -19,7 +19,6 @@ Before starting, make sure your environment meets the following requirements:
 
 - Kubernetes version >= 1.28
 - Helm version >= 3
-- Kubernetes Metrics installed (required for future support of Horizontal Pod Autoscaler support)
 - Access to an internal container registry with the required W&B images
 - Access to an internal Helm repository for W&B Helm charts
 
