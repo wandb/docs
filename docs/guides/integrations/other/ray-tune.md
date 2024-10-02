@@ -58,7 +58,7 @@ analysis = tune.run(
 best_trial = analysis.get_best_trial("mean_accuracy", "max", "last")
 ```
 
-## wandb\_mixin
+## wandb_mixin
 
 ```python
 ray.tune.integration.wandb.wandb_mixin(func)
@@ -89,7 +89,7 @@ The content of the wandb config entry is passed to `wandb.init()` as keyword arg
 
 Wandb’s `group`, `run_id` and `run_name` are automatically selected by Tune, but can be overwritten by filling out the respective configuration values.
 
-Please see here for all other valid configuration settings: [/library/init](/library/init)
+Please see the [`init()` reference](/ref/python/init/) for all other valid configuration settings.
 
 ### Example:
 
@@ -123,4 +123,4 @@ tune.run(
 We've created a few examples for you to see how the integration works:
 
 * [Colab](http://wandb.me/raytune-colab): A simple demo to try the integration.
-* [Dashboard](https://wandb.ai/anmolmann/ray\_tune): View dashboard generated from the example.
+* [Dashboard](https://wandb.ai/anmolmann/ray_tune): View dashboard generated from the example.

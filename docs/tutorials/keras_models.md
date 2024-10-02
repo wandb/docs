@@ -9,7 +9,7 @@ Use Weights & Biases for machine learning experiment tracking, dataset versionin
 
 ![](/images/tutorials/huggingface-why.png)
 
-This colab notebook introduces the `WandbModelCheckpoint` callback. Use this callback to log your model checkpoints to Weight and Biases [Artifacts](/guides/data-and-model-versioning).
+This Colab notebook introduces the `WandbModelCheckpoint` callback. Use this callback to log your model checkpoints to Weight and Biases [Artifacts](/guides/artifacts).
 
 ## 🌴 Setup and Installation
 

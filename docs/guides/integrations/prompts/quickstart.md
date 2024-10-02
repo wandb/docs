@@ -3,8 +3,9 @@ description: The Prompts Quickstart shows how to visualise and debug the executi
 displayed_sidebar: default
 title: "Tutorial: Visualize and debug LLMs with Prompts"
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-[**Try in a Colab Notebook here →**](http://wandb.me/prompts-quickstart)
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb"></CTAButtons>
 
 This Quickstart guide will walk you how to use [Trace](./intro.md) to visualize and debug calls to LangChain, LlamaIndex or your own LLM Chain or Pipeline:
 

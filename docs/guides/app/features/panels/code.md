@@ -14,7 +14,7 @@ Starting with `wandb` version 0.8.28, we can save the code from your main traini
 When code saving is enabled, wandb will save the code from the file that called `wandb.init()`. To save additional library code, you have two options:
 
 * Call `wandb.run.log_code(".")` after calling `wandb.init()`
-* Pass a settings object to `wandb.init` with code\_dir set: `wandb.init(settings=wandb.Settings(code_dir="."))`
+* Pass a settings object to `wandb.init` with code_dir set: `wandb.init(settings=wandb.Settings(code_dir="."))`
 
 This will capture all python source code files in the current directory and all subdirectories as an [artifact](../../../../ref/python/artifact.md). For more control over the types and locations of source code files that are saved, please see the [reference docs](../../../../ref/python/run.md#log_code).
 

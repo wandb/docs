@@ -437,7 +437,7 @@ You can use Weights & Biases Sweeps to automate hyperparameter testing and explo
 
 Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
 
-1. **Define the sweep:** We do this by creating a dictionary or a [YAML file](/library/sweeps/configuration) that specifies the parameters to search through, the search strategy, the optimization metric et all.
+1. **Define the sweep:** We do this by creating a dictionary or a [YAML file](/guides/sweeps/define-sweep-configuration) that specifies the parameters to search through, the search strategy, the optimization metric et all.
 
 2. **Initialize the sweep:** 
 `sweep_id = wandb.sweep(sweep_config)`
@@ -455,7 +455,7 @@ And voila! That's all there is to running a hyperparameter sweep!
 See examples of projects tracked and visualized with W&B in our [Gallery →](https://app.wandb.ai/gallery)
 
 # 🤓 Advanced Setup
-1. [Environment variables](/library/environment-variables): Set API keys in environment variables so you can run training on a managed cluster.
-2. [Offline mode](/library/technical-faq#can-i-run-wandb-offline): Use `dryrun` mode to train offline and sync results later.
-3. [On-prem](/self-hosted): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
-4. [Sweeps](/sweeps): Set up hyperparameter search quickly with our lightweight tool for tuning.
+1. [Environment variables](/guides/hosting/env-vars): Set API keys in environment variables so you can run training on a managed cluster.
+2. [Offline mode](/guides/technical-faq/setup/#can-i-run-wandb-offline): Use `dryrun` mode to train offline and sync results later.
+3. [On-prem](/guides/hosting/hosting-options/self-managed): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
+4. [Sweeps](/guides/sweeps): Set up hyperparameter search quickly with our lightweight tool for tuning.

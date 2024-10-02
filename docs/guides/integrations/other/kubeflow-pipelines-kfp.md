@@ -98,7 +98,7 @@ Click on any Run in the Kubeflow Pipelines UI that has been logged with W&B.
 
 ### Via the web app UI
 
-The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space! Learn [more about the web app UI here](/ref/app).
+The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipelines, but with more space! Learn [more about the web app UI here](/guides/app.
 
 ![View details about a particular run (and link back to the Kubeflow UI)](/images/integrations/kubeflow_pipelines.png)
 
@@ -112,12 +112,12 @@ The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipe
 
 Here's a mapping of Kubeflow Pipelines concepts to W&B
 
-| Kubeflow Pipelines | W&B                                                      | Location in W&B                                                                                  |
-| ------------------ | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Input Scalar       | ``[`config`](/guides/track/config)`` | [Overview tab](/ref/app/pages/run-page#overview-tab)                         |
-| Output Scalar      | ``[`summary`](/guides/track/log)``   | [Overview tab](/ref/app/pages/run-page#overview-tab)                         |
-| Input Artifact     | Input Artifact                                            | [Artifacts tab](/ref/app/pages/run-page#artifacts-tab)                       |
-| Output Artifact    | Output Artifact                                           | [Artifacts tab](/ref/app/pages/run-page#artifacts-tab) |
+| Kubeflow Pipelines | W&B | Location in W&B |
+| ------------------ | --- | --------------- |
+| Input Scalar | [`config`](/guides/track/config) | [Overview tab](/guides/app/pages/run-page#overview-tab) |
+| Output Scalar | [`summary`](/guides/track/log) | [Overview tab](/guides/app/pages/run-page#overview-tab) |
+| Input Artifact | Input Artifact | [Artifacts tab](/guides/app/pages/run-page#artifacts-tab) |
+| Output Artifact | Output Artifact | [Artifacts tab](/guides/app/pages/run-page#artifacts-tab) |
 
 ## Fine-grain logging
 

@@ -6,6 +6,7 @@ title: OpenAI API
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 Use the Weights & Biases OpenAI API integration to log requests, responses, token counts and model metadata with 1 line of code for all OpenAI models, including fine-tuned models.
 
@@ -13,7 +14,7 @@ Use the Weights & Biases OpenAI API integration to log requests, responses, toke
 The W&B autolog integration works with `openai <= 0.28.1`. Install the correct version of `openai` with `pip install openai==0.28.1`.
 :::
 
-**[Try in a Colab Notebook here →](https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb)**
+<CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb"></CTAButtons>
 
 With just 1 line of code you can now automatically log inputs and outputs from the OpenAI Python SDK to Weights & Biases! 
 

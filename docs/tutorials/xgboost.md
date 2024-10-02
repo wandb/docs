@@ -27,7 +27,7 @@ We will track all of the training hyperparameters and output metrics in order to
 
 **Run a Hyperparameter Sweep to Find the Best HyperParameters**
 
-Weights and Biases also enables you to do hyperparameter sweeps, either with our own [Sweeps functionality](/guides/sweeps) or with our [Ray Tune integration](/guides/sweeps/advanced-sweeps/ray-tune). See our docs for a full guide of how to use more advanced hyperparameter sweeps options.
+Weights and Biases also enables you to do hyperparameter sweeps, either with our own [Sweeps functionality](/guides/sweeps) or with our [Ray Tune integration](/guides/integrations/ray-tune). See our docs for a full guide of how to use more advanced hyperparameter sweeps options.
 
 ![credit_scorecard_2](/images/tutorials/credit_scorecard/credit_scorecard_2.png)
 
@@ -94,7 +94,7 @@ artifact = run.use_artifact("mnist:latest", type="dataset")
 artifact_dir = artifact.download()
 ```
 
-See [Artifact References](/guides/artifacts/references) for more on how to use Artifacts by reference, credentials setup etc.
+See [reference artifacts](/guides/artifacts/track-external-files) for more on how to use Artifacts by reference, credentials setup etc.
 
 ## Log in to W&B
 Log in to Weights and Biases 
@@ -445,7 +445,7 @@ Now that we've trained a single model, lets try and optimize its performance by 
 
 # HyperParameter Sweep
 
-Weights and Biases also enables you to do hyperparameter sweeps, either with our own [Sweeps functionality](/guides/sweeps/python-api) or with our [Ray Tune integration](/guides/sweeps/advanced-sweeps/ray-tune). See [our docs](/guides/sweeps/python-api) for a full guide of how to use more advanced hyperparameter sweeps options.
+Weights and Biases also enables you to do hyperparameter sweeps, either with our own [Sweeps functionality](/guides/sweeps) or with our [Ray Tune integration](/guides/integrations/ray-tune). 
 
 **[Click Here](https://wandb.ai/morgan/credit_score_sweeps/sweeps/iuppbs45)** to check out the results of a 1000 run sweep generated using this notebook
 

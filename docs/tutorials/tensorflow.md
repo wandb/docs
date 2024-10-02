@@ -164,7 +164,7 @@ def train(train_dataset, val_dataset,  model, optimizer,
 This lets us know you're launching an experiment,
 so we can give it a unique ID and a dashboard.
 
-[Check out the official documentation](/library/init)
+[Check out the official documentation](/ref/python/init)
 
 ```python
 # initialize wandb with your project name and optionally with configutations.
@@ -209,8 +209,7 @@ run.finish()  # In Jupyter/Colab, let us know you're finished!
 
 # 👀 Visualize Results
 
-Click on the [**run page**](/ref/app/pages/run-page)
-link above to see your live results.
+Click on the [**run page**](/guides/app/pages/run-page) link above to see your live results.
 
 # 🧹 Sweep 101
 
@@ -238,7 +237,7 @@ See examples of projects tracked and visualized with W&B in our gallery of examp
 5. **Reports**: Take quick notes on progress to share with colleagues and make dashboards and snapshots of your ML projects.
 
 ## 🤓 Advanced Setup
-1. [Environment variables](/library/environment-variables): Set API keys in environment variables so you can run training on a managed cluster.
-2. [Offline mode](/library/technical-faq#can-i-run-wandb-offline): Use `dryrun` mode to train offline and sync results later.
-3. [On-prem](/self-hosted): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
-4. [Artifacts](http://wandb.me/artifacts-colab): Track and version models and datasets in a streamlined way that automatically picks up your pipeline steps as you train models.
+1. [Environment variables](/guides/hosting/env-vars): Set API keys in environment variables so you can run training on a managed cluster.
+2. [Offline mode](/guides/technical-faq/setup/#can-i-run-wandb-offline)
+3. [On-prem](/guides/hosting/hosting-options/self-managed): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
+4. [Artifacts](/guides/artifacts): Track and version models and datasets in a streamlined way that automatically picks up your pipeline steps as you train models.

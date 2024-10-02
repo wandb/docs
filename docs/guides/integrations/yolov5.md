@@ -16,7 +16,7 @@ For a quick overview of the model and data-logging features of our YOLOv5 integr
 <!-- {% embed url="https://www.youtube.com/watch?v=yyecuhBmLxE" %} -->
 
 :::info
-All W&B logging features are compatible with data-parallel multi-GPU training, e.g. with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp\_tutorial.html).
+All W&B logging features are compatible with data-parallel multi-GPU training, e.g. with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
 :::
 
 ## Core Experiment Tracking

@@ -4,12 +4,13 @@ description: How to integrate W&B with DeepChecks.
 displayed_sidebar: default
 title: DeepChecks
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export\_outputs\_to\_wandb.ipynb)
+<CTAButtons colabLink="https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export_outputs_to_wandb.ipynb"></CTAButtons>
 
 DeepChecks helps you validate your machine learning models and data, such as verifying your data’s integrity, inspecting its distributions, validating data splits, evaluating your model and comparing between different models, all with with minimal effort.
 
-[Read more about DeepChecks and the wandb integration ->](https://docs.deepchecks.com/en/stable/examples/guides/export\_outputs\_to\_wandb.html)
+[Read more about DeepChecks and the wandb integration ->](https://docs.deepchecks.com/en/stable/examples/guides/export_outputs_to_wandb.html)
 
 ## Getting Started
 

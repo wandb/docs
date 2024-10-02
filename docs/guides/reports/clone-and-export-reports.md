@@ -5,6 +5,7 @@ title: Clone and export reports
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 ## Export reports
 
@@ -28,7 +29,7 @@ Clone a report to reuse a project's template and format. Cloned projects are vis
   </TabItem>
   <TabItem value="python">
 
-[**Try in a Colab Notebook here →**](http://wandb.me/report\_api)
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb"></CTAButtons>
 
 Load a Report from a URL to use it as a template.
 

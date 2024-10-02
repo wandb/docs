@@ -20,7 +20,7 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 * **Transparent**: We cite all the algorithms we're using, and [our code is open source](https://github.com/wandb/client/tree/master/wandb/sweeps).
 * **Powerful**: Our sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
 
-**[Check out the official documentation](/sweeps)**
+**[Check out the official documentation](/guides/sweeps)**
 
 
 ## What this notebook covers
@@ -185,7 +185,7 @@ This is where you will:
 * Provide an objective and a `metric` if using `bayes`, for example to `minimize` the `val_loss`.
 * Use `hyperband` for early termination of poorly-performing runs
 
-#### [Check out more on Sweep Configs](/sweeps/configuration)
+#### [Check out more on Sweep Configs](/guides/sweeps/define-sweep-configuration)
 
 
 ```python
@@ -299,6 +299,6 @@ See examples of projects tracked and visualized with W&B in our [Gallery →](ht
 5. **Reports**: Take quick notes on progress to share with colleagues and make dashboards and snapshots of your ML projects.
 
 ## 🤓 Advanced Setup
-1. [Environment variables](/library/environment-variables): Set API keys in environment variables so you can run training on a managed cluster.
-2. [Offline mode](/library/technical-faq#can-i-run-wandb-offline): Use `dryrun` mode to train offline and sync results later.
-3. [On-prem](/self-hosted): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
+1. [Environment variables](/guides/hosting/env-vars): Set API keys in environment variables so you can run training on a managed cluster.
+2. [Offline mode](/guides/technical-faq/setup/#can-i-run-wandb-offline)
+3. [On-prem](/guides/hosting/hosting-options/self-managed): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.

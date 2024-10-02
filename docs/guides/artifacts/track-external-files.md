@@ -34,7 +34,7 @@ Use W&B Artifacts for dataset and model versioning to track references in cloud 
 Artifacts abstract away the underlying cloud storage vendor (such AWS, GCP or Azure). Information described in the proceeding section apply uniformly to Amazon S3, Google Cloud Storage and Azure Blob Storage.
 
 :::info
-W&B Artifacts support any Amazon S3 compatible interface — including MinIO! The scripts below work, as is, when you set the AWS\_S3\_ENDPOINT\_URL environment variable to point at your MinIO server.
+W&B Artifacts support any Amazon S3 compatible interface — including MinIO! The scripts below work, as is, when you set the AWS_S3_ENDPOINT_URL environment variable to point at your MinIO server.
 :::
 
 Assume we have a bucket with the following structure:

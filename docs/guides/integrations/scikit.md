@@ -156,8 +156,8 @@ ROC curves plot true positive rate (y-axis) vs false positive rate (x-axis). The
 
 `wandb.sklearn.plot_roc(y_true, y_probas, labels)`
 
-* y\_true (arr): Test set labels.
-* y\_probas (arr): Test set predicted probabilities.
+* y_true (arr): Test set labels.
+* y_probas (arr): Test set predicted probabilities.
 * labels (list): Named labels for target variable (y).
 
 #### Class Proportions
@@ -168,8 +168,8 @@ Plots the distribution of target classes in training and test sets. Useful for d
 
 `wandb.sklearn.plot_class_proportions(y_train, y_test, ['dog', 'cat', 'owl'])`
 
-* y\_train (arr): Training set labels.
-* y\_test (arr): Test set labels.
+* y_train (arr): Training set labels.
+* y_test (arr): Test set labels.
 * labels (list): Named labels for target variable (y).
 
 #### Precision Recall Curve
@@ -182,8 +182,8 @@ High scores for both show that the classifier is returning accurate results (hig
 
 `wandb.sklearn.plot_precision_recall(y_true, y_probas, labels)`
 
-* y\_true (arr): Test set labels.
-* y\_probas (arr): Test set predicted probabilities.
+* y_true (arr): Test set labels.
+* y_probas (arr): Test set predicted probabilities.
 * labels (list): Named labels for target variable (y).
 
 #### Feature Importances
@@ -195,7 +195,7 @@ Evaluates and plots the importance of each feature for the classification task. 
 `wandb.sklearn.plot_feature_importances(model, ['width', 'height, 'length'])`
 
 * model (clf): Takes in a fitted classifier.
-* feature\_names (list): Names for features. Makes plots easier to read by replacing feature indexes with corresponding names.
+* feature_names (list): Names for features. Makes plots easier to read by replacing feature indexes with corresponding names.
 
 #### Calibration Curve
 
@@ -205,14 +205,14 @@ Plots how well calibrated the predicted probabilities of a classifier are and ho
 
 The closer the calibration curves are to a diagonal the better. A transposed sigmoid like curve represents an overfitted classifier, while a sigmoid like curve represents an underfitted classifier. By training isotonic and sigmoid calibrations of the model and comparing their curves we can figure out whether the model is over or underfitting and if so which calibration (sigmoid or isotonic) might help fix this.
 
-For more details, check out [sklearn's docs](https://scikit-learn.org/stable/auto\_examples/calibration/plot\_calibration\_curve.html).
+For more details, check out [sklearn's docs](https://scikit-learn.org/stable/auto_examples/calibration/plot_calibration_curve.html).
 
 `wandb.sklearn.plot_calibration_curve(clf, X, y, 'RandomForestClassifier')`
 
 * model (clf): Takes in a fitted classifier.
 * X (arr): Training set features.
 * y (arr): Training set labels.
-* model\_name (str): Model name. Defaults to 'Classifier'
+* model_name (str): Model name. Defaults to 'Classifier'
 
 #### Confusion Matrix
 
@@ -222,8 +222,8 @@ Computes the confusion matrix to evaluate the accuracy of a classification. It's
 
 `wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)`
 
-* y\_true (arr): Test set labels.
-* y\_pred (arr): Test set predicted labels.
+* y_true (arr): Test set labels.
+* y_pred (arr): Test set predicted labels.
 * labels (list): Named labels for target variable (y).
 
 #### Summary Metrics
@@ -237,8 +237,8 @@ Calculates summary metrics (like f1, accuracy, precision and recall for classifi
 * model (clf or reg): Takes in a fitted regressor or classifier.
 * X (arr): Training set features.
 * y (arr): Training set labels.
-  * X\_test (arr): Test set features.
-* y\_test (arr): Test set labels.
+  * X_test (arr): Test set features.
+* y_test (arr): Test set labels.
 
 #### Elbow Plot
 
@@ -265,7 +265,7 @@ In general we want all silhouette cluster scores to be above average (past the r
 
 * model (clusterer): Takes in a fitted clusterer.
 * X (arr): Training set features.
-  * cluster\_labels (list): Names for cluster labels. Makes plots easier to read by replacing cluster indexes with corresponding names.
+  * cluster_labels (list): Names for cluster labels. Makes plots easier to read by replacing cluster indexes with corresponding names.
 
 #### Outlier Candidates Plot
 

@@ -89,11 +89,11 @@ Now that we know how to integrate W&B into a psuedo machine learning training lo
 
 The following code cell defines and trains a simple MNIST classifier. During training, you will see W&B prints out URLs. Click on the project page link to see your results stream in live to a W&B project.
 
-W&B runs automatically log [metrics](/ref/app/pages/run-page#charts-tab),
-[system information](/ref/app/pages/run-page#system-tab),
-[hyperparameters](/ref/app/pages/run-page#overview-tab),
-[terminal output](/ref/app/pages/run-page#logs-tab) and
-you'll see an [interactive table](/guides/data-vis)
+W&B runs automatically log [metrics](/guides/app/pages/run-page/#workspace-tab),
+[system information](/guides/app/pages/run-page/#system-tab),
+[hyperparameters](/guides/app/pages/run-page/#overview-tab),
+[terminal output](/guides/app/pages/run-page/#logs-tab) and
+you'll see an [interactive table](/guides/tables)
 with model inputs and outputs. 
 
 ### Set up PyTorch Dataloader
@@ -257,7 +257,7 @@ You have now trained your first model using W&B. Click on one of the links above
 
 ## (Optional) Set up a W&B Alert
 
-Create a [W&B Alerts](/guides/track/alert) to send alerts to your Slack or email from your Python code. 
+Create a [W&B Alerts](/guides/runs/alert/) to send alerts to your Slack or email from your Python code. 
 
 There are 2 steps to follow the first time you'd like to send a Slack or email alert, triggered from your code:
 
@@ -303,7 +303,7 @@ for training_step in range(1000):
 wandb.finish()
 ```
 
-You can find the full docs for [W&B Alerts here](/guides/track/alert).
+You can find the full docs for [W&B Alerts here](/guides/runs/alert).
 
 ## Next steps
 The next tutorial you will learn how to do hyperparameter optimization using W&B Sweeps:

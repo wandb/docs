@@ -17,7 +17,7 @@ In this tutorial you will create a hyperparameter search with W&B PyTorch integr
 
 Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
 
-1. **Define the sweep:** we do this by creating a dictionary or a [YAML file](/library/sweeps/configuration) that specifies the parameters to search through, the search strategy, the optimization metric et all.
+1. **Define the sweep:** we do this by creating a dictionary or a [YAML file](/guides/sweeps/define-sweep-configuration) that specifies the parameters to search through, the search strategy, the optimization metric et all.
 
 2. **Initialize the sweep:** with one line of code we initialize the sweep and pass in the dictionary of sweep configurations:
 `sweep_id = wandb.sweep(sweep_config)`
@@ -203,7 +203,7 @@ wandb sweep config.yaml
 ```
 :::
 
-For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/sweeps/walkthrough).
+For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/guides/sweeps/walkthrough).
 
 
 ## Step 3:  Define your machine learning code
@@ -242,9 +242,9 @@ def train(config=None):
 ```
 
 Within the `train` function, you will notice the following W&B Python SDK methods:
-* [`wandb.init()`](/library/init) – Initialize a new W&B run. Each run is a single execution of the training function.
-* [`wandb.config`](/library/config) – Pass sweep configuration with the hyperparameters you want to experiment with.
-* [`wandb.log()`](/library/log) – Log the training loss for each epoch.
+* [`wandb.init()`](/ref/python/init) – Initialize a new W&B run. Each run is a single execution of the training function.
+* [`wandb.config`](/guides/track/config) – Pass sweep configuration with the hyperparameters you want to experiment with.
+* [`wandb.log()`](/ref/python/log) – Log the training loss for each epoch.
 
 
 The proceeding cell defines four functions:
@@ -336,7 +336,7 @@ wandb.agent(sweep_id, train, count=5)
 Since the `random` search method was specified in the sweep configuration, the sweep controller provides randomly-generated hyperparameter values.
 :::
 
-For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/sweeps/walkthrough).
+For more information on how to create W&B Sweeps in a terminal, see the [W&B Sweep walkthrough](/guides/sweeps/walkthrough).
 
 ## Visualize Sweep Results
 

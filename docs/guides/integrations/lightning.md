@@ -4,8 +4,9 @@ title: PyTorch Lightning
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-[**Try in a Colab Notebook here →**](https://wandb.me/lightning)
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Optimize_Pytorch_Lightning_models_with_Weights_%26_Biases.ipynb"></CTAButtons>
 
 PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch code and easily adding advanced features such as distributed training and 16-bit precision. W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: Weights & Biases is incorporated directly into the PyTorch Lightning library via the [**`WandbLogger`**](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb).
 
@@ -323,7 +324,7 @@ for epoch in range(num_epochs):
 
 ### Log the min/max of your metric
 
-Using wandb's [`define_metric`](/ref/python/run#define\_metric) function you can define whether you'd like your W&B summary metric to display the min, max, mean or best value for that metric. If `define`_`metric` _ isn't used, then the last value logged with appear in your summary metrics. See the `define_metric` [reference docs here](/ref/python/run#define\_metric) and the [guide here](/guides/track/log#customize-axes-and-summaries-with-define\_metric) for more.
+Using wandb's [`define_metric`](/ref/python/run#define_metric) function you can define whether you'd like your W&B summary metric to display the min, max, mean or best value for that metric. If `define`_`metric` _ isn't used, then the last value logged with appear in your summary metrics. See the `define_metric` [reference docs here](/ref/python/run#define_metric) and the [guide here](/guides/track/log#customize-axes-and-summaries-with-define_metric) for more.
 
 To tell W&B to keep track of the max validation accuracy in the W&B summary metric, you just need to call `wandb.define_metric` once, e.g. you can call it at the beginning of training like so:
 
@@ -369,8 +370,8 @@ fabric.log_dict({"val_accuracy": val_accuracy})
 
 ### Model Checkpointing
 
-To save model checkpoints as W&B [Artifacts](/guides/data-and-model-versioning),
-use the Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch\_lightning.callbacks.ModelCheckpoint.html#pytorch\_lightning.callbacks.ModelCheckpoint) callback and set the `log_model` argument in the `WandbLogger`:
+To save model checkpoints as W&B [Artifacts](/guides/artifacts/),
+use the Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) callback and set the `log_model` argument in the `WandbLogger`:
 
 ```python
 # log model only if `val_accuracy` increases
@@ -404,7 +405,7 @@ fabric = L.Fabric(loggers=[wandb_logger], callbacks=[checkpoint_callback])
 </Tabs>
 
 
-The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from a W&B [Artifact](/guides/data-and-model-versioning):
+The _latest_ and _best_ aliases are automatically set to easily retrieve a model checkpoint from a W&B [Artifact](/guides/artifacts/):
 
 ```python
 # reference can be retrieved in artifacts panel
@@ -476,7 +477,7 @@ The model checkpoints you log will be viewable through the [W&B Artifacts](/guid
 
 To bookmark your best model checkpoints and centralize them across your team, you can link them to the [W&B Model Registry](/guides/models).
 
-Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](/guides/models/automation) downstream actions with webhooks or jobs. 
+Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](/guides/artifacts/project-scoped-automations/#create-a-webhook-automation) downstream actions with webhooks or jobs. 
 
 ### Log images, text and more
 

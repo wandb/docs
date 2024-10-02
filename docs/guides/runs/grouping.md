@@ -32,7 +32,7 @@ Suppose you set grouping in `wandb.init()`, we will group runs by default in the
 
 ![](/images/track/distributed_training_wgrouping_1.png)
 
-From the project page above, you can click a **Group** in the left sidebar to get to a dedicated page like [this one](https://wandb.ai/carey/group-demo/groups/exp\_5?workspace=user-carey):
+From the project page above, you can click a **Group** in the left sidebar to get to a dedicated page like [this one](https://wandb.ai/carey/group-demo/groups/exp_5?workspace=user-carey):
 
 ![](/images/track/distributed_training_wgrouping_2.png)
 

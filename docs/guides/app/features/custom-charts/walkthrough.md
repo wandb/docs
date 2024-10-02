@@ -43,9 +43,9 @@ Now that the query is loading in these columns, they're available as options to 
 
 ![Pulling in columns from the query results to set Vega fields](/images/app_ui/set_vega_fields.png)
 
-* **x-axis:** runSets\_historyTable\_r (recall)
-* **y-axis:** runSets\_historyTable\_p (precision)
-* **color:** runSets\_historyTable\_c (class label)
+* **x-axis:** runSets_historyTable_r (recall)
+* **y-axis:** runSets_historyTable_p (precision)
+* **color:** runSets_historyTable_c (class label)
 
 ## 3. Customize the chart
 
@@ -75,7 +75,7 @@ To create your own version of the custom composite histogram panel:
 
 1. Create a new Custom Chart panel in your Workspace or Report (by adding a “Custom Chart” visualization). Hit the “Edit” button in the top right to modify the Vega spec starting from any built-in panel type.
 2. Replace that built-in Vega spec with my [MVP code for a composite histogram in Vega](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21). You can modify the main title, axis titles, input domain, and any other details directly in this Vega spec [using Vega syntax](https://vega.github.io/) (you could change the colors or even add a third histogram :)
-3. Modify the query in the right hand side to load the correct data from your wandb logs. Add the field “summaryTable” and set the corresponding “tableKey” to “class\_scores” to fetch the wandb.Table logged by your run. This will let you populate the two histogram bin sets (“red\_bins” and “blue\_bins”) via the dropdown menus with the columns of the wandb.Table logged as “class\_scores”. For my example, I chose the “animal” class prediction scores for the red bins and “plant” for the blue bins.
+3. Modify the query in the right hand side to load the correct data from your wandb logs. Add the field “summaryTable” and set the corresponding “tableKey” to “class_scores” to fetch the wandb.Table logged by your run. This will let you populate the two histogram bin sets (“red_bins” and “blue_bins”) via the dropdown menus with the columns of the wandb.Table logged as “class_scores”. For my example, I chose the “animal” class prediction scores for the red bins and “plant” for the blue bins.
 4. You can keep making changes to the Vega spec and query until you’re happy with the plot you see in the preview rendering. Once you’re done, click “Save as” in the top and give your custom plot a name so you can reuse it. Then click “Apply from panel library” to finish your plot.
 
 Here’s what my results look like from a very brief experiment: training on only 1000 examples for one epoch yields a model that’s very confident that most images are not plants and very uncertain about which images might be animals.

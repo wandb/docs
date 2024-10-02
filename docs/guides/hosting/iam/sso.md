@@ -49,9 +49,9 @@ The image below demonstrates how to provide allowed callback and sign-out URLs i
 ![If your instance is accessible from multiple hosts, be sure to include all of them here.](/images/hosting/setup_aws_cognito_ui_settings.png)
 
 
-_wandb/local_ uses the ["implicit" grant with the "form\_post" response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) by default. 
+_wandb/local_ uses the ["implicit" grant with the "form_post" response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) by default. 
 
-You can also configure _wandb/local_ to perform an "authorization\_code" grant that uses the [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) flow. 
+You can also configure _wandb/local_ to perform an "authorization_code" grant that uses the [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) flow. 
 
 4. Select one or more OAuth grant types to configure how AWS Cognito will deliver tokens to your app.
 5. W&B requires specific OpenID Connect (OIDC) scopes. Select the following from AWS Cognito App:
@@ -63,7 +63,7 @@ For example, your AWS Cognito App UI should look similar to the following image:
 
 ![openid, profile, and email are required](/images/hosting/setup_aws_required_fields.png)
 
-Select the **Auth Method** in the settings page or set the OIDC\_AUTH\_METHOD environment variable to tell _wandb/local_ which grant to.
+Select the **Auth Method** in the settings page or set the OIDC_AUTH_METHOD environment variable to tell _wandb/local_ which grant to.
 
 :::info
 For AWS Cognito providers you must set the Auth Method to "pkce"
@@ -73,7 +73,7 @@ For AWS Cognito providers you must set the Auth Method to "pkce"
 
 For example, with AWS Cognito, you can generate your issuer URL by appending your User Pool ID to the Cognito IdP URL from the **App Integration** tab within the **User Pools** section:
 
-![The issuer URL would be https://cognito-idp.us-east-1.amazonaws.com/us-east-1\_uiIFNdacd](/images/hosting/setup_aws_cognito_issuer_url.png)
+![The issuer URL would be https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd](/images/hosting/setup_aws_cognito_issuer_url.png)
 
 :::info
 Do not use the "Cognito domain" for the IDP url. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`

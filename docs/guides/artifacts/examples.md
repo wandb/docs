@@ -5,7 +5,7 @@ title: Artifact examples
 
 Walk through an example of Artifacts in a live notebook.
 
-[**Try the notebook →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline\_Versioning\_with\_W%26B\_Artifacts.ipynb)
+[**Try the notebook →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W%26B_Artifacts.ipynb)
 
 ![](/images/artifacts/artifacts_colab_notebook.png)
 

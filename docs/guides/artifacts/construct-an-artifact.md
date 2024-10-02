@@ -57,7 +57,7 @@ You can also add multiple files with the [`add_dir`](../../ref/python/artifact.m
 
 ### 3. Save your artifact to the W&B server
 
-Finally, save your artifact to the W&B server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`](../../ref/python/run#log\_artifact) method to save the artifact.
+Finally, save your artifact to the W&B server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`](../../ref/python/run#log_artifact) method to save the artifact.
 
 ```python
 # Create a W&B Run. Replace 'job-type'.
@@ -163,7 +163,7 @@ The proceeding API calls produce the proceeding artifact content:
 
 Artifacts track checksums and other information for reproducibility if the URI has a scheme that W&B library knows how to handle.
 
-Add an external URI reference to an artifact with the [`add_reference`](../../ref/python/artifact#add\_reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
+Add an external URI reference to an artifact with the [`add_reference`](../../ref/python/artifact#add_reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
 
 ```python
 # Add a URI reference

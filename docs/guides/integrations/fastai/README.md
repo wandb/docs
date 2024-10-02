@@ -6,7 +6,7 @@ title: fastai
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-If you're using **fastai** to train your models, W&B has an easy integration using the `WandbCallback`. Explore the details in[ interactive docs with examples →](https://app.wandb.ai/borisd13/demo\_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)
+If you're using **fastai** to train your models, W&B has an easy integration using the `WandbCallback`. Explore the details in[ interactive docs with examples →](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA)
 
 ## Log with W&B
 
@@ -69,14 +69,14 @@ If you use version 1 of Fastai, refer to the [Fastai v1 docs](v1.md).
 | Args                     | Description                                                                                                                                                                                                                                                  |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | log                      | Whether to log the model's: "`gradients`" , "`parameters`", "`all`" or `None` (default). Losses & metrics are always logged.                                                                                                                                 |
-| log\_preds               | whether we want to log prediction samples (default to `True`).                                                                                                                                                                                               |
-| log\_preds\_every\_epoch | whether to log predictions every epoch or at the end (default to `False`)                                                                                                                                                                                    |
-| log\_model               | whether we want to log our model (default to False). This also requires `SaveModelCallback`                                                                                                                                                                  |
-| model\_name              | The name of the `file` to save, overrides `SaveModelCallback`                                                                                                                                                                                                |
-| log\_dataset             | <ul><li><code>False</code> (default)</li><li><code>True</code> will log folder referenced by learn.dls.path.</li><li>a path can be defined explicitly to reference which folder to log.</li></ul><p><em>Note: subfolder "models" is always ignored.</em></p> |
-| dataset\_name            | name of logged dataset (default to `folder name`).                                                                                                                                                                                                           |
-| valid\_dl                | `DataLoaders` containing items used for prediction samples (default to random items from `learn.dls.valid`.                                                                                                                                                  |
-| n\_preds                 | number of logged predictions (default to 36).                                                                                                                                                                                                                |
+| log_preds               | whether we want to log prediction samples (default to `True`).                                                                                                                                                                                               |
+| log_preds_every_epoch | whether to log predictions every epoch or at the end (default to `False`)                                                                                                                                                                                    |
+| log_model               | whether we want to log our model (default to False). This also requires `SaveModelCallback`                                                                                                                                                                  |
+| model_name              | The name of the `file` to save, overrides `SaveModelCallback`                                                                                                                                                                                                |
+| log_dataset             | <ul><li><code>False</code> (default)</li><li><code>True</code> will log folder referenced by learn.dls.path.</li><li>a path can be defined explicitly to reference which folder to log.</li></ul><p><em>Note: subfolder "models" is always ignored.</em></p> |
+| dataset_name            | name of logged dataset (default to `folder name`).                                                                                                                                                                                                           |
+| valid_dl                | `DataLoaders` containing items used for prediction samples (default to random items from `learn.dls.valid`.                                                                                                                                                  |
+| n_preds                 | number of logged predictions (default to 36).                                                                                                                                                                                                                |
 | seed                     | used for defining random samples.                                                                                                                                                                                                                            |
 
 For custom workflows, you can manually log your datasets and models:
@@ -264,5 +264,5 @@ notebook_launcher(train, num_processes=2)
 
 ## Examples
 
-* [Visualize, track, and compare Fastai models](https://app.wandb.ai/borisd13/demo\_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): A thoroughly documented walkthrough
+* [Visualize, track, and compare Fastai models](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): A thoroughly documented walkthrough
 * [Image Segmentation on CamVid](http://bit.ly/fastai-wandb): A sample use case of the integration

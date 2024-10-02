@@ -54,7 +54,7 @@ Pick **multiple y-axes** in the line plot settings to compare different metrics 
 **Expressions**
 
 * **Y Axis Expressions**: Add calculated metrics to your graph. You can use any of the logged metrics as well as configuration values like hyperparameters to calculate custom lines.
-* **X Axis Expressions**: Rescale the x-axis to use calculated values using custom expressions. Useful variables include\*\*\_step\*\* for the default x-axis, and the syntax for referencing summary values is `${summary:value}`
+* **X Axis Expressions**: Rescale the x-axis to use calculated values using custom expressions. Useful variables include\*\*_step\*\* for the default x-axis, and the syntax for referencing summary values is `${summary:value}`
 
 ## Visualize average values on a plot
 

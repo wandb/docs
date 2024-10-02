@@ -25,7 +25,7 @@ def run_experiment(cfg):
 
 ## Track Hyperparameters
 
-Hydra uses [omegaconf](https://omegaconf.readthedocs.io/en/2.1\_branch/) as the default way to interface with configuration dictionaries. `OmegaConf`'s dictionary are not a subclass of primitive dictionaries so directly passing Hydra's `Config` to `wandb.config` leads to unexpected results on the dashboard. It's necessary to convert `omegaconf.DictConfig` to the primitive `dict` type before passing to `wandb.config`.
+Hydra uses [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) as the default way to interface with configuration dictionaries. `OmegaConf`'s dictionary are not a subclass of primitive dictionaries so directly passing Hydra's `Config` to `wandb.config` leads to unexpected results on the dashboard. It's necessary to convert `omegaconf.DictConfig` to the primitive `dict` type before passing to `wandb.config`.
 
 ```python
 @hydra.main(config_path="configs/", config_name="defaults")
@@ -89,4 +89,4 @@ Hydra supports passing extra parameters through the command line which aren't pr
 $ python program.py +experiment=some_experiment
 ```
 
-You cannot sweep over such `+` configurations similar to what one does while configuring [Hydra Experiments](https://hydra.cc/docs/patterns/configuring\_experiments/). To work around this, you can initialize the experiment parameter with a default empty file and use W&B Sweep to override those empty configs on each call. For more information, read [**this W&B Report**](http://wandb.me/hydra)**.**
+You cannot sweep over such `+` configurations similar to what one does while configuring [Hydra Experiments](https://hydra.cc/docs/patterns/configuring_experiments/). To work around this, you can initialize the experiment parameter with a default empty file and use W&B Sweep to override those empty configs on each call. For more information, read [**this W&B Report**](http://wandb.me/hydra)**.**

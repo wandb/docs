@@ -10,7 +10,7 @@ This panel surfaces which of your hyperparameters were the best predictors of, a
 
 ![](/images/general/parameter-importance-1.png)
 
-**Correlation** is the linear correlation between the hyperparameter and the chosen metric (in this case val\_loss). So a high correlation means that when the hyperparameter has a higher value, the metric also has higher values and vice versa. Correlation is a great metric to look at but it can’t capture second order interactions between inputs and it can get messy to compare inputs with wildly different ranges.
+**Correlation** is the linear correlation between the hyperparameter and the chosen metric (in this case val_loss). So a high correlation means that when the hyperparameter has a higher value, the metric also has higher values and vice versa. Correlation is a great metric to look at but it can’t capture second order interactions between inputs and it can get messy to compare inputs with wildly different ranges.
 
 Therefore we also calculate an **importance** metric where we train a random forest with the hyperparameters as inputs and the metric as the target output and report the feature importance values for the random forest.
 
@@ -50,7 +50,7 @@ With the parameter manager, we can manually set the visible and hidden parameter
 
 ![](/images/general/parameter-importance-4.png)
 
-This panel shows you all the parameters passed to the [wandb.config](/library/python/config) object in your training script. Next, it shows the feature importances and correlations of these config parameters with respect to the model metric you select (`val_loss` in this case).
+This panel shows you all the parameters passed to the [wandb.config](/guides/track/config/) object in your training script. Next, it shows the feature importances and correlations of these config parameters with respect to the model metric you select (`val_loss` in this case).
 
 ### Importance
 
@@ -64,7 +64,7 @@ This brings us to correlations.
 
 ### Correlations
 
-Correlations capture linear relationships between individual hyperparameters and metric values. They answer the question – is there a significant relationship between using a hyperparameter, say the SGD optimizer, and my val\_loss (the answer in this case is yes). Correlation values range from -1 to 1, where positive values represent positive linear correlation, negative values represent negative linear correlation and a value of 0 represents no correlation. Generally a value greater than 0.7 in either direction represents strong correlation.
+Correlations capture linear relationships between individual hyperparameters and metric values. They answer the question – is there a significant relationship between using a hyperparameter, say the SGD optimizer, and my val_loss (the answer in this case is yes). Correlation values range from -1 to 1, where positive values represent positive linear correlation, negative values represent negative linear correlation and a value of 0 represents no correlation. Generally a value greater than 0.7 in either direction represents strong correlation.
 
 We might use this graph to further explore the values that are have a higher correlation to our metric (in this case we might pick stochastic gradient descent or adam over rmsprop or nadam) or train for more epochs.
 

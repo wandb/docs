@@ -76,7 +76,7 @@ WandbLogger.sync(
 | wait_for_job_success     | Once an OpenAI fine-tuning job is started it usually takes a bit of time. To ensure that your metrics are logged to W&B as soon as the fine-tune job is finished, this setting will check every 60 seconds for the status of the fine-tune job to change to "succeeded". Once the fine-tune job is detected as being successful, the metrics will be synced automatically to W&B. Set to True by default.                                                    |
 | model_artifact_name      | The name of the model artifact that is logged. Defaults to `"model-metadata"`.                    |
 | model_artifact_type      | The type of the model artifact that is logged. Defaults to `"model"`.                    |
-| \*\*kwargs\_wandb\_init  | Aany additional argument passed directly to [`wandb.init()`](../../../ref/python/init.md)                    |
+| \*\*kwargs_wandb_init  | Aany additional argument passed directly to [`wandb.init()`](../../../ref/python/init.md)                    |
 
 ## Dataset Versioning and Visualization
 

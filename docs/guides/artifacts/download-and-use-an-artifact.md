@@ -129,7 +129,7 @@ artifact = run.use_artifact("my-entity/my-project/artifact:alias")
 
 ### Construct and use an artifact simultaneously
 
-Simultaneously construct and use an artifact. Create an artifact object and pass it to use\_artifact. This creates an artifact in W&B if it does not exist yet. The [`use_artifact`](../../ref/python/run.md#use_artifact) API is idempotent, so you can call it as many times as you like.
+Simultaneously construct and use an artifact. Create an artifact object and pass it to use_artifact. This creates an artifact in W&B if it does not exist yet. The [`use_artifact`](../../ref/python/run.md#use_artifact) API is idempotent, so you can call it as many times as you like.
 
 ```python
 import wandb

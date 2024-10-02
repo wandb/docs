@@ -9,7 +9,7 @@ Use Weights & Biases for machine learning experiment tracking, dataset versionin
 
 ![](/images/tutorials/huggingface-why.png)
 
-This colab notebook introduces the `WandbEvalCallback` which is an abstract callback that be inherited to build useful callbacks for model prediction visualization and dataset visualization. Refer to the [💫 `WandbEvalCallback`](https://colab.research.google.com/drive/107uB39vBulCflqmOWolu38noWLxAT6Be#scrollTo=u50GwKJ70WeJ&line=1&uniqifier=1) section for more details.
+This Colab notebook introduces the `WandbEvalCallback` which is an abstract callback that be inherited to build useful callbacks for model prediction visualization and dataset visualization. 
 
 ## 🌴 Setup and Installation
 

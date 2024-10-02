@@ -4,7 +4,6 @@ title: MMEngine
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 MMEngine by [OpenMMLab](https://github.com/open-mmlab) is a foundational library for training deep learning models based on PyTorch. MMEngine implements a next-generation training architecture for the OpenMMLab algorithm library, providing a unified execution foundation for over 30 algorithm libraries within OpenMMLab. Its core components include the training engine, evaluation engine, and module management.
 

@@ -62,7 +62,7 @@ import wandb
 wandb.login()
 ```
 
-Optionally, we can set environment variables to customize W&B logging. See [documentation](/library/integrations/huggingface).
+Optionally, we can set environment variables to customize W&B logging. See [documentation](/guides/integrations/huggingface).
 
 
 ```python
@@ -113,6 +113,6 @@ Weights & Biases saves a new run for each experiment. Here's the information tha
 - **System Metrics**: GPU and CPU utilization, memory, temperature etc.
 
 ## 🤓 Learn more!
-- [Documentation](/huggingface): docs on the Weights & Biases and Hugging Face integration
+- [Documentation](/guides/integrations/huggingface): docs on the Weights & Biases and Hugging Face integration
 - [Videos](http://wandb.me/youtube): tutorials, interviews with practitioners, and more on our YouTube channel
 - Contact: Message us at contact@wandb.com with questions 

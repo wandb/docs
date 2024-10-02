@@ -2,6 +2,9 @@
 displayed_sidebar: default
 title: Log models
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
+
+<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb'/>
 
 # Log models
 
@@ -16,10 +19,6 @@ W&B suggests that you use [W&B Artifacts](../../artifacts/intro.md) if you want 
 - Interact with the model artifacts these methods created, such as [updating properties](../../artifacts/update-an-artifact.md) (metadata, aliases, and descriptions) 
 
 For more information on W&B Artifacts and advanced versioning use cases, see the [Artifacts](../../artifacts/intro.md) documentation.
-:::
-
-:::info
-See this [Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb) for an end-to-end example of how to use the APIs described on this page.
 :::
 
 ## Log a model to a run

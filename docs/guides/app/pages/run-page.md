@@ -108,6 +108,6 @@ Use W&B [Artifacts](../../artifacts/intro.md) for tracking inputs and outputs of
 ## Artifacts tab
 The Artifacts tab lists the input and output [Artifacts](../../artifacts/intro.md) for the specified run.
 
-[View a live example here](https://wandb.ai/stacey/artifact\_july\_demo/runs/2cslp2rt/artifacts).
+[View a live example here](https://wandb.ai/stacey/artifact_july_demo/runs/2cslp2rt/artifacts).
 
 ![](/images/app_ui/artifacts_tab.png)

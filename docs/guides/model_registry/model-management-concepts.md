@@ -13,7 +13,7 @@ A model version is an immutable directory of data and metadata that describes a 
 
 A model version belongs to one, and only one, [model artifact](#model-artifact). A model version can belong to zero or more, [registered models](#registered-model). Model versions are stored in a model artifact in the order they are logged to the model artifact. W&B automatically creates a new model version if it detects that a model you log (to the same model artifact) has different contents than a previous model version.
 
-Store files within model versions that are produced from the serialization process provided by your modeling library (for example, [PyTorch](https://pytorch.org/tutorials/beginner/saving\_loading\_models.html) and [Keras](https://www.tensorflow.org/guide/keras/save\_and\_serialize)).
+Store files within model versions that are produced from the serialization process provided by your modeling library (for example, [PyTorch](https://pytorch.org/tutorials/beginner/saving_loading_models.html) and [Keras](https://www.tensorflow.org/guide/keras/save_and_serialize)).
 
 <!-- [INSERT IMAGE] -->
 
@@ -56,7 +56,7 @@ The proceeding image shows a model artifact that contains three model versions: 
 
 ![](/images/models/mr1c.png)
 
-View an [example model artifact here](https://wandb.ai/timssweeney/model\_management\_docs\_official\_v0/artifacts/model/mnist-zws7gt0n).
+View an [example model artifact here](https://wandb.ai/timssweeney/model_management_docs_official_v0/artifacts/model/mnist-zws7gt0n).
 
 ## Registered model
 A registered model is a collection of pointers (links) to model versions. You can think of a registered model as a folder of "bookmarks" of candidate models for the same ML task. Each "bookmark" of a registered model is a pointer to a [model version](#model-version) that belongs to a [model artifact](#model-artifact). You can use [model tags](#model-tags) to group your registered models. 
