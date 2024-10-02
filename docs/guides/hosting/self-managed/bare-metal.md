@@ -61,7 +61,7 @@ To ensure optimal performance we recommend deploying the W&B database on to a se
 
 Again, we recommend monitoring the resource usage and performance of the database to ensure that it operates optimally and to make adjustments as necessary.
 
-Additionally, we recommend the following [parameter overrides](#mysql-database) to tune the DB for MySQL 8.
+Additionally, W&B recommends the following [parameter overrides](#mysql-database) to tune the DB for MySQL 8.
 
 ### Object Storage
 
