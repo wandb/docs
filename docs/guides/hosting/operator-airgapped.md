@@ -17,7 +17,7 @@ You could utilize similar commands in any continuous delivery tooling that you u
 
 Before starting, make sure your environment meets the following requirements:
 
-- Kubernetes version >= 1.29
+- Kubernetes version >= 1.28
 - Helm version >= 3
 - Kubernetes Metrics installed (required for future support of Horizontal Pod Autoscaler support)
 - Access to an internal container registry with the required W&B images
