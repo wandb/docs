@@ -310,3 +310,22 @@ Use the W&B App UI to search existing tags in collections and artifact versions:
 3. Within the search bar, type in the name of a tag
 
 ![](/images/registry/search_tags.gif)
+
+
+## Find artifact versions with a specific tag
+
+Use the W&B Python SDK to find artifact versions that have a set of tags:
+
+```python
+import wandb
+
+api = wandb.Api()
+tagged_artifact_versions = api.artifacts(
+    type_name = "<artifact_type>",
+    name = "<artifact_name>",
+    tags = ["<tag_1>", "<tag_2>"]
+)
+
+for artifact_version in tagged_artifact_versions:
+    print(artifact_version.tags)
+```
