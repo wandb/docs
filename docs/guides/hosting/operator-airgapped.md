@@ -3,7 +3,7 @@ description: Hosting W&B Server with Kubernetes Operator (Airgapped)
 displayed_sidebar: default
 ---
 
-# W&B Kubernetes Operator (Airgapped)
+# Kubernetes operator for air-gapped instances
 
 ## Introduction
 
