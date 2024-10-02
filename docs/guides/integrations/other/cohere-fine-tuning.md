@@ -15,7 +15,7 @@ With Weights & Biases you can log your Cohere model's fine-tuning metrics and co
 
 To add logging to your W&B workspace:
 
-1. Create a `WandbConfig` with your W&B api key, W&B `entity` and `project` name. You can find your W&B api key at https://wandb.ai/authorize
+1. Create a `WandbConfig` with your W&B API key, W&B `entity` and `project` name. You can find your W&B API key at https://wandb.ai/authorize
 
 2. Pass this config to the `FinetunedModel` object along with your model name, dataset and hyperparameters to kick off your fine-tuning run.
 
@@ -49,7 +49,6 @@ cmd_r_finetune = co.finetuning.create_finetuned_model(
 
 You will then be able to view your model's training metrics and hyperparameters in the W&B project that you created.
 
-<!-- ![](/images/integrations/open_ai_api.png) -->
 ![](/images/integrations/cohere_ft.png)
 
 
