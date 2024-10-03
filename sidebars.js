@@ -290,6 +290,8 @@ export default {
           label: 'Tables',
           link: {type: 'doc', id: 'guides/tables/intro'},
           items: [
+            'guides/tables/tables-create',
+            'guides/tables/tables-navigate',
             'guides/tables/tables-walkthrough',
             'guides/tables/visualize-tables',
             'guides/tables/tables-gallery',

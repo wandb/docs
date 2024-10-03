@@ -1,5 +1,5 @@
 ---
-description: How to export data from tables.
+description: Export data from tables.
 displayed_sidebar: default
 title: Export table data
 ---
@@ -7,7 +7,7 @@ title: Export table data
 Like all W&B Artifacts, Tables can be converted into pandas dataframes for easy data exporting. 
 
 ## Convert `table` to `artifact`
-First, you'll need to convert the table to an artifact. The easiest way to do this using `artifact.get(table, "table_name")`:
+First, convert the table to an artifact. The easiest way to do this using `artifact.get(table, "table_name")`:
 
 ```python
 # Create and log a new table.
@@ -34,7 +34,7 @@ df = table.get_dataframe()
 ```
 
 ## Export Data
-Now you can export using any method dataframe supports:
+Next, export using any method dataframe supports:
 
 ```python
 # Converting the table data to .csv
