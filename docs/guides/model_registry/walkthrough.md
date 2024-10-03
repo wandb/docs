@@ -1,11 +1,10 @@
 ---
 description: Learn how to use W&B for Model Management
 displayed_sidebar: default
+title: "Tutorial: Use W&B for model management"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Walkthrough
 
 The following walkthrough shows you how to log a model to W&B. By the end of the walkthrough you will:
 

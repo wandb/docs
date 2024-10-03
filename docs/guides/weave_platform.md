@@ -1,10 +1,9 @@
 ---
 slug: /guides/weave
 displayed_sidebar: default
+title: W&B Weave
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-# W&B Weave
 
 <CTAButtons colabLink="http://wandb.me/weave_colab"/>
 
@@ -27,7 +26,3 @@ Depending on your use case, explore the following resources to get started with 
 * [Quickstart: Track inputs and outputs of LLM calls](https://wandb.github.io/weave/quickstart)
 * [Build an Evaluation pipeline tutorial](https://wandb.github.io/weave/tutorial-eval)
 * [Model-Based Evaluation of RAG applications tutorial](https://wandb.github.io/weave/tutorial-rag)
-
-<!-- <a href="https://wandb.me/weave" target="_blank">
-    <img className="no-zoom" src="/images/weave/weave_banner.png" alt="Building LLM apps? Try Weave" style={{display: "block", marginBottom: "15px"}} />
-</a> -->

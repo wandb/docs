@@ -1,8 +1,8 @@
 ---
 displayed_sidebar: default
+title: W&B IAM structure
 ---
 
-# IAM structure
 W&B Platform has three IAM scopes within W&B: [Organizations](#organization), [Teams](#team), and [Projects](#project).
 
 ## Organization

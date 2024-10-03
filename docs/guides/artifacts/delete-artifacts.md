@@ -3,13 +3,8 @@ description: >-
   Delete artifacts interactively with the App UI or programmatically with the
   W&B SDK/
 displayed_sidebar: default
+title: Delete an artifact
 ---
-
-# Delete artifacts
-
-<head>
-  <title>Delete W&B Artifacts</title>
-</head>
 
 Delete artifacts interactively with the App UI or programmatically with the W&B SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. 
 
@@ -30,7 +25,7 @@ To delete an artifact version:
 3. On the right hand side of the workspace, select the kebab dropdown.
 4. Choose Delete.
 
-An artifact version can also be deleted programatically via the [delete()](https://docs.wandb.ai/ref/python/artifact#delete) method. See the examples below. 
+An artifact version can also be deleted programatically via the [delete()](/ref/python/artifact#delete) method. See the examples below. 
 
 ### Delete multiple artifact versions with aliases
 

@@ -1,12 +1,13 @@
 ---
 description: Log rich media, from 3D point clouds and molecules to HTML and histograms
 displayed_sidebar: default
+title: Log media and objects
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-
-# Log media and objects
+<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb'/>
 
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
@@ -14,10 +15,8 @@ We support images, video, audio, and more. Log rich media to explore your result
 Looking for reference docs for our media types? You want [this page](../../../ref/python/data-types/README.md).
 :::
 
-<!-- {% embed url="https://www.youtube.com/watch?v=96MxRvx15Ts" %} -->
-
 :::info
-You can see working code to log all of these media objects in [this Colab Notebook](http://wandb.me/media-colab), check out what the results look like on wandb.ai [here](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA), and follow along with a video tutorial, linked above.
+You can [see what the results look like on wandb.ai](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA), and [follow along with a video tutorial](https://www.youtube.com/watch?v=96MxRvx15Ts).
 :::
 
 ## Images
@@ -41,7 +40,7 @@ It's recommended to log fewer than 50 images per step to prevent logging from be
   ]}>
   <TabItem value="arrays">
 
-Provide arrays directly when constructing images manually, e.g. using [`make_grid` from `torchvision`](https://pytorch.org/vision/stable/utils.html#torchvision.utils.make\_grid).
+Provide arrays directly when constructing images manually, e.g. using [`make_grid` from `torchvision`](https://pytorch.org/vision/stable/utils.html#torchvision.utils.make_grid).
 
 Arrays are converted to png using [Pillow](https://pillow.readthedocs.io/en/stable/index.html).
 
@@ -101,7 +100,7 @@ To log multiple masks, log a mask dictionary with multiple keys, as in the code 
 
 [See a live example](https://app.wandb.ai/stacey/deep-drive/reports/Image-Masks-for-Semantic-Segmentation--Vmlldzo4MTUwMw)
 
-[Sample code](https://colab.research.google.com/drive/1SOVl3EvW82Q4QKJXX6JtHye4wFix\_P4J)
+[Sample code](https://colab.research.google.com/drive/1SOVl3EvW82Q4QKJXX6JtHye4wFix_P4J)
 
 ```python
 mask_data = np.array([[1, 2, 2, ..., 2, 2, 1], ...])
@@ -123,7 +122,7 @@ mask_img = wandb.Image(
   <TabItem value="bounding_boxes">
 Log bounding boxes with images, and use filters and toggles to dynamically visualize different sets of boxes in the UI.
 
-![](@site/static/images/track/bb-docs.jpeg)
+![](/images/track/bb-docs.jpeg)
 
 [See a live example](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
 
@@ -327,7 +326,7 @@ wandb.log(
 
 ![Ground truth and prediction of a headphones point cloud](/images/track/ground_truth_prediction_of_3d_point_clouds.png)
 
-[See a live example](https://app.wandb.ai/nbaryd/SparseConvNet-examples\_3d\_segmentation/reports/Point-Clouds--Vmlldzo4ODcyMA)
+[See a live example](https://app.wandb.ai/nbaryd/SparseConvNet-examples_3d_segmentation/reports/Point-Clouds--Vmlldzo4ODcyMA)
   </TabItem>
   <TabItem value="point_clouds">
 
@@ -428,7 +427,7 @@ When your run finishes, you'll be able to interact with 3D visualizations of you
 
 [See a live example using AlphaFold](http://wandb.me/alphafold-workspace)
 
-![](@site/static/images/track/docs-molecule.png)
+![](/images/track/docs-molecule.png)
   </TabItem>
 </Tabs>
 

@@ -2,9 +2,8 @@
 slug: /guides/integrations/stable-baselines-3
 description: How to integrate W&B with Stable Baseline 3.
 displayed_sidebar: default
+title: Stable Baselines 3
 ---
-
-# Stable Baselines 3
 
 [Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\) is a set of reliable implementations of reinforcement learning algorithms in PyTorch. W&B's SB3 integration will: 
 
@@ -24,7 +23,7 @@ from wandb.integration.sb3 import WandbCallback
 model.learn(..., callback=WandbCallback())
 ```
 
-![](@site/static/images/integrations/stable_baselines_demo.gif)
+![](/images/integrations/stable_baselines_demo.gif)
 
 ## WandbCallback Arguments
 

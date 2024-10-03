@@ -4,9 +4,8 @@ description: >-
   beta products, GitHub integration, storage usage, account activation, and
   create teams in your user settings.
 displayed_sidebar: default
+title: Manage user settings
 ---
-
-# User settings
 
 Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**.
 

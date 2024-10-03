@@ -1,12 +1,10 @@
 ---
-description: W&B Quickstart.
+description: W&B Quickstart
 displayed_sidebar: default
+title: W&B Quickstart
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Quickstart
 
 Install W&B and start tracking your machine learning experiments in minutes.
 

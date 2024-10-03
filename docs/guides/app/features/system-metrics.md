@@ -1,9 +1,8 @@
 ---
 description: Metrics automatically logged by wandb
 displayed_sidebar: default
+title: System metrics
 ---
-
-# System Metrics
 
 <!-- `wandb` automatically logs system metrics every 2 seconds, averaged over a 30 second period. The metrics include:
 

@@ -1,15 +1,10 @@
 ---
 description: Create and track plots from machine learning experiments.
 displayed_sidebar: default
+title: Create and track plots from experiments
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Log plots
-
-<head>
-  <title>Log and Track Plots from  W&B Experiments.</title>
-</head>
 
 Using the methods in `wandb.plot`, you can track charts with `wandb.log`, including charts that change over time during training. To learn more about our custom charting framework, check out [this guide](../../app/features/custom-charts/walkthrough.md).
 
@@ -161,7 +156,7 @@ These preset charts have built-in `wandb.plot` methods that make it quick and ea
 
 `wandb.plot.pr_curve()`
 
-Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision\_recall\_curve.html#sklearn.metrics.precision\_recall\_curve) in one line:
+Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) in one line:
 
 ```python
 wandb.log({"pr": wandb.plot.pr_curve(ground_truth, predictions)})
@@ -184,7 +179,7 @@ You can log this whenever your code has access to:
 
 `wandb.plot.roc_curve()`
 
-Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc\_curve.html#sklearn.metrics.roc\_curve) in one line:
+Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) in one line:
 
 ```python
 wandb.log({"roc": wandb.plot.roc_curve(ground_truth, predictions)})
@@ -201,13 +196,13 @@ You can log this whenever your code has access to:
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
-[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Plot\_ROC\_Curves\_with\_W%26B.ipynb)
+[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Plot_ROC_Curves_with_W%26B.ipynb)
   </TabItem>
   <TabItem value="confusion_matrix">
 
 `wandb.plot.confusion_matrix()`
 
-Create a multi-class [confusion matrix](https://scikit-learn.org/stable/auto\_examples/model\_selection/plot\_confusion\_matrix.html) in one line:
+Create a multi-class [confusion matrix](https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html) in one line:
 
 ```python
 cm = wandb.plot.confusion_matrix(
@@ -227,7 +222,7 @@ You can log this wherever your code has access to:
 
 ​[See in the app](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM)​
 
-​[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log\_a\_Confusion\_Matrix\_with\_W%26B.ipynb)
+​[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_a_Confusion_Matrix_with_W%26B.ipynb)
   </TabItem>
 </Tabs>
 

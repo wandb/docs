@@ -2,12 +2,10 @@
 slug: /guides/integrations/deepchem
 description: How to integrate W&B with DeepChem library.
 displayed_sidebar: default
+title: DeepChem
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# DeepChem
 
 The [DeepChem library](https://github.com/deepchem/deepchem) provides open source tools that democratize the use of deep-learning in drug discovery, materials science, chemistry, and biology. This W&B integration adds simple and easy-to-use experiment tracking and model checkpointing while training models using DeepChem.
 
@@ -19,7 +17,7 @@ model = TorchModel(…, wandb_logger=logger)
 model.fit(…)
 ```
 
-![](@site/static/images/integrations/cd.png)
+![](/images/integrations/cd.png)
 
 ## Report & Google Colab
 

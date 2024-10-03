@@ -3,6 +3,7 @@ description: >-
   Manage a team's members, avatar, alerts, and privacy settings with the Team
   Settings page.
 displayed_sidebar: default
+title: Manage team settings
 ---
 
 # Team settings

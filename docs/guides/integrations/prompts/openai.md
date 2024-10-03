@@ -1,9 +1,9 @@
 ---
 description: OpenAI integrations for Weights & Biases
 displayed_sidebar: default
+title: OpenAI and Weights & Biases
 ---
 
-# OpenAI and Weights & Biases 
 Weights & Biases has 2 OpenAI integrations to help you train better models faster and keep track of your prompts and generations:
 
 ## OpenAI ChatGPT-3.5 and GPT-4 fine-tuning

@@ -1,15 +1,10 @@
 ---
 description: Create a new artifact version from a single run or from a distributed process.
 displayed_sidebar: default
+title: Create an artifact version
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Create new artifact versions
-
-<head>
-    <title>Create new artifacts versions from single and multiprocess Runs.</title>
-</head>
 
 Create a new artifact version with a single [run](../runs/intro.md) or collaboratively with distributed runs. You can optionally create a new artifact version from a previous version known as an [incremental artifact](#create-a-new-artifact-version-from-an-existing-version).
 

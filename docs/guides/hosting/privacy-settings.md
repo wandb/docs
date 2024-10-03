@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Configure privacy settings
 ---
-
-# Privacy settings
 
 Organization and Team admins can configure a set of privacy settings at the organization and team scopes respectively. When configured at the organization scope, organization admins enforce those settings for all teams in that organization.
 

@@ -6,10 +6,6 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-
-
-# Triggering CI/CD events with model registry changes
-
 Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).
 
 For example, you can create a trigger that automatically deploys a model to GitHub when you add a new version of a registered model.

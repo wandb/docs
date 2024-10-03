@@ -2,9 +2,8 @@
 slug: /guides/integrations/databricks
 description: How to integrate W&B with Databricks.
 displayed_sidebar: default
+title: Databricks
 ---
-
-# Databricks
 
 W&B integrates with [Databricks](https://www.databricks.com/) by customizing the W&B Jupyter notebook experience in the Databricks environment.
 

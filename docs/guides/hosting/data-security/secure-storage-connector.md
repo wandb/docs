@@ -1,10 +1,10 @@
 ---
 displayed_sidebar: default
+title: Bring your own bucket (BYOB)
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# BYOB (Secure storage connector)
 Bring your own bucket (BYOB) allows you to store W&B artifacts and other related sensitive data in your own cloud or on-prem infrastructure. In case of [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [SaaS Cloud](../hosting-options/saas_cloud.md), data that you store in your bucket is not copied to the W&B managed infrastructure.
 
 :::info
@@ -100,7 +100,6 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
     {label: 'Azure', value: 'azure'},
   ]}>
   <TabItem value="aws">
-
 
 #### Provision the KMS Key
 
@@ -211,8 +210,8 @@ If you are using [SaaS Cloud](../hosting-options/saas_cloud.md) or [Dedicated Cl
 
 * For [SaaS Cloud](../hosting-options/saas_cloud.md): `arn:aws:iam::725579432336:role/WandbIntegration`
 * For [Dedicated Cloud](../hosting-options/dedicated_cloud.md): `arn:aws:iam::830241207209:root`
-
-
+ 
+ For more details, see the [AWS self-managed hosting guide](../self-managed/aws-tf.md).
   </TabItem>
   <TabItem value="gcp">
 
@@ -258,7 +257,6 @@ If you are using [SaaS Cloud](../hosting-options/saas_cloud.md) or [Dedicated Cl
 Keep a record of the bucket name. If you are using [Dedicated Cloud](../hosting-options/dedicated_cloud.md), share the bucket name with your W&B team in case of instance level BYOB. In case of team level BYOB on any deployment type, [configure the bucket while creating the team](#configure-byob-in-wb).
 
   </TabItem>
-
   <TabItem value="azure">
 
 #### Provision the Azure Blob Storage
@@ -288,7 +286,6 @@ For the team level BYOB, W&B highly recommends using [this Terraform module](htt
 * Storage container name
 * Managed identity client id
 * Azure tenant id
-
 </TabItem>
 </Tabs>
 
@@ -297,8 +294,8 @@ For the team level BYOB, W&B highly recommends using [this Terraform module](htt
 <Tabs
   defaultValue="team"
   values={[
-    {label: 'Team level', value: 'team'},
-    {label: 'Instance level', value: 'instance'},
+    {label: 'Team level', value: 'team' },
+    {label: 'Instance level', value: 'instance' },
   ]}>
   <TabItem value="team">
 

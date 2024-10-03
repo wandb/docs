@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Configure Slack alerts
 ---
-
-# Slack alerts
 
 Integrate W&B Server with [Slack](https://slack.com/).
 

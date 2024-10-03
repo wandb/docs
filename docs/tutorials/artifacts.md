@@ -1,9 +1,11 @@
-# Track models and datasets
+---
+title: Track models and datasets
+---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W&B_Artifacts.ipynb)
+<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W&B_Artifacts.ipynb'/>
 
 In this notebook, we'll show you how to track your ML experiment pipelines using W&B Artifacts.
-
 
 ### Follow along with a [video tutorial](http://tiny.cc/wb-artifacts-video)!
 
@@ -21,7 +23,7 @@ After all, those who don't track training are doomed to repeat it.
 Using our Artifacts API, you can log `Artifact`s as outputs of W&B `Run`s or use `Artifact`s as input to `Run`s, as in this diagram,
 where a training run takes in a dataset and produces a model.
  
- ![](https://gblobscdn.gitbook.com/assets%2F-Lqya5RvLedGEWPhtkjU%2F-M94QAXA-oJmE6q07_iT%2F-M94QJCXLeePzH1p_fW1%2Fsimple%20artifact%20diagram%202.png?alt=media&token=94bc438a-bd3b-414d-a4e4-aa4f6f359f21)
+ ![](/images/tutorials/artifacts-diagram.png)
 
 Since one run can use another's output as an input, Artifacts and Runs together form a directed graph -- actually, a bipartite [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph)! -- with nodes for `Artifact`s and `Run`s
 and arrows connecting `Run`s to the `Artifact`s they consume or produce.

@@ -2,9 +2,8 @@
 slug: /guides/integrations/azure-openai-fine-tuning
 description: How to Fine-Tune Azure OpenAI models using W&B.
 displayed_sidebar: default
+title: Azure OpenAI Fine-Tuning
 ---
-
-# Azure OpenAI Fine-Tuning
 
 ## Introduction
 Fine-tuning GPT-3.5 or GPT-4 models on Microsoft Azure using W&B allows for detailed tracking and analysis of model performance. This guide extends the concepts from the [OpenAI Fine-Tuning guide](/guides/integrations/openai) with specific steps and features for Azure OpenAI.
