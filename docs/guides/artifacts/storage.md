@@ -1,13 +1,8 @@
 ---
 description: Manage storage, memory allocation of W&B Artifacts.
 displayed_sidebar: default
+title: Manage artifact storage and memory allocation
 ---
-
-# Storage
-
-<head>
-    <title>Artifact Storage</title>
-</head>
 
 W&B stores artifact files in a private Google Cloud Storage bucket located in the United States by default. All files are encrypted at rest and in transit.
 
@@ -40,7 +35,7 @@ $ wandb artifact cache cleanup 1GB
 
 Only files that change between two artifact versions incur a storage cost.
 
-![v1 of the artifact "dataset" only has 2/5 images that differ, so it only uses 40% of the space.](@site/static/images/artifacts/artifacts-dedupe.PNG)
+![v1 of the artifact "dataset" only has 2/5 images that differ, so it only uses 40% of the space.](/images/artifacts/artifacts-dedupe.PNG)
 
 For example, suppose you create an image artifact named `animals` that contains two image files cat.png and dog.png:
 

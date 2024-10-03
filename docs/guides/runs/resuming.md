@@ -1,17 +1,13 @@
 ---
 description: Resume a paused or exited W&B Run
 displayed_sidebar: default
+title: Resume a run
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Resume runs
-
-<head>
-  <title>Resume W&B Runs</title>
-</head>
-
 Specify how a run should behave in the event that that run stops or crashes. To resume or enable a run to automatically resume, you will need to specify the unique run ID associated with that run for the `id` parameter:
+
 ```python
 run = wandb.init(entity="<entity>", \ 
         project="<project>", id="<run ID>", resume="<resume>")
@@ -129,7 +125,7 @@ If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variab
 ## Resume preemptible Sweeps runs
 Automatically requeue interrupted [sweep](../sweeps/intro.md) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
 
-Use the [`mark_preempting`](../../ref/python/run.md#markpreempting) function to enable W&B to automatically requeue interrupted sweep runs. For example, the following code snippet
+Use the [`mark_preempting`](../../ref/python/run/#mark_preempting) function to enable W&B to automatically requeue interrupted sweep runs. For example, the following code snippet
 
 ```python
 run = wandb.init()  # Initialize a run

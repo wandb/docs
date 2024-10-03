@@ -53,7 +53,7 @@ Node/CommonJS:
 const wandb = require('@wandb/sdk').default;
 ```
 
-We're currently missing a lot of the functionality found in our Python SDK, but basic logging functionality is available. We'll be adding additional features like [Tables](https://docs.wandb.ai/guides/tables?utm_source=github&utm_medium=code&utm_campaign=wandb&utm_content=readme) soon.
+We're currently missing a lot of the functionality found in our Python SDK, but basic logging functionality is available. We'll be adding additional features like [Tables](/guides/tables?utm_source=github&utm_medium=code&utm_campaign=wandb&utm_content=readme) soon.
 
 ### Authentication and Settings
 
@@ -61,7 +61,7 @@ In node environments we look for `process.env.WANDB_API_KEY` and prompt for it's
 
 # Integrations
 
-Our [Python integrations](https://docs.wandb.ai/guides/integrations) are widely used by our community, and we hope to build out more JavaScript integrations to help LLM app builders leverage whatever tool they want. 
+Our [Python integrations](/guides/integrations) are widely used by our community, and we hope to build out more JavaScript integrations to help LLM app builders leverage whatever tool they want. 
 
 If you have any requests for additional integrations, we'd love you to open an issue with details about the request.
 

@@ -2,8 +2,8 @@
 slug: /guides/runs
 description: Learn about the basic building block of W&B, Runs.
 displayed_sidebar: default
+title: Runs
 ---
-# Runs
 
 A single unit of computation logged by W&B is called a *run*. You can think of a W&B run as an atomic element of your whole project. You should initiate a new run when you:
 

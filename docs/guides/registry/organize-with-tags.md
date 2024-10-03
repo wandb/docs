@@ -1,12 +1,10 @@
 ---
 displayed_sidebar: default
 description: Use tags to organize collections or artifact versions within collections. You can add, remove, edit tags with the Python SDK or W&B App UI.
+title: Organize versions with tags
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-# Organize collections or artifact versions with tags
 
 Create and add tags to organize your collections or artifact versions within your registry. Add, modify, view, or remove tags to a collection  or artifact version with the W&B App UI or the W&B Python SDK.
 

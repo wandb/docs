@@ -1,5 +1,6 @@
 ---
 displayed_sidebar: default
+title: Set up launch agent
 ---
 
 import Tabs from '@theme/Tabs';

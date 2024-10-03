@@ -2,9 +2,8 @@
 slug: /guides/integrations/mmf
 description: How to integrate W&B with Meta AI's MMF.
 displayed_sidebar: default
+title: MMF
 ---
-
-# MMF
 
 The `WandbLogger` class in [Meta AI's MMF](https://github.com/facebookresearch/mmf) library will enable Weights & Biases to log the training/validation metrics, system (GPU and CPU) metrics, model checkpoints and configuration parameters.
 
@@ -43,7 +42,7 @@ training:
         log_model_checkpoint: true
         
         # Additional argument values that you want to pass to wandb.init(). 
-        # Check out the documentation at https://docs.wandb.ai/ref/python/init
+        # Check out the documentation at /ref/python/init
         # to see what arguments are available, such as:
         # job_type: 'train'
         # tags: ['tag1', 'tag2']

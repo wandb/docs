@@ -2,17 +2,12 @@
 slug: /guides/sweeps
 description: Hyperparameter search and model optimization with W&B Sweeps
 displayed_sidebar: default
+title: Sweeps
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-
-# Tune Hyperparameters
-
 <CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb"/>
 
-<head>
-  <title>Tune Hyperparameters with Sweeps</title>
-</head>
 
 Use W&B Sweeps to automate hyperparameter search and visualize rich, interactive experiment tracking. Pick from popular search methods such as Bayesian, grid search, and random to search the hyperparameter space. Scale and parallelize sweep across one or more machines.
 
@@ -44,7 +39,6 @@ The preceding code snippet, and the colab linked on this page, show how to initi
 
 Depending on your use case, explore the following resources to get started with W&B Sweeps:
 
-* If this is your first time using W&B Sweeps, we recommend you go through the [Sweeps Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb).
 * Read through the [sweeps walkthrough](./walkthrough.md) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
 * Explore this chapter to learn how to:
   * [Add W&B to your code](./add-w-and-b-to-your-code.md)
@@ -54,7 +48,7 @@ Depending on your use case, explore the following resources to get started with 
   * [Visualize sweep results](./visualize-sweep-results.md)
 * Explore a [curated list of Sweep experiments](./useful-resources.md) that explore hyperparameter optimization with W&B Sweeps. Results are stored in W&B Reports.
 
-For a step-by-step video, see: [Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab\_channel=Weights%26Biases).
+For a step-by-step video, see: [Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab_channel=Weights%26Biases).
 
 <!-- {% embed url="http://wandb.me/sweeps-video" %} -->
 

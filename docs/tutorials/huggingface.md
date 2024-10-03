@@ -1,18 +1,19 @@
-# Hugging Face
+---
+title: Hugging Face
+---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-<img src="https://i.imgur.com/vnejHGh.png" width="800"/>
+![](/images/tutorials/huggingface.png)
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Huggingface_wandb.ipynb)
+<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Huggingface_wandb.ipynb'/>
 
 Visualize your [Hugging Face](https://github.com/huggingface/transformers) model's performance quickly with a seamless [W&B](https://wandb.ai/site) integration.
 
 Compare hyperparameters, output metrics, and system stats like GPU utilization across your models. 
 
+## Why should I use W&B?
 
-
-## 🤔 Why should I use W&B?
-
-<img src="https://wandb.me/mini-diagram" width="650"/>
+![](/images/tutorials/huggingface-why.png)
 
 - **Unified dashboard**: Central repository for all your model metrics and predictions
 - **Lightweight**: No code changes required to integrate with Hugging Face
@@ -34,7 +35,7 @@ Here's an in depth look at how the integration works: [Hugging Face + W&B Report
 
 Install the Hugging Face and Weights & Biases libraries, and the GLUE dataset and training script for this tutorial.
 - [Hugging Face Transformers](https://github.com/huggingface/transformers): Natural language models and datasets
-- [Weights & Biases](https://docs.wandb.com/): Experiment tracking and visualization
+- [Weights & Biases](/): Experiment tracking and visualization
 - [GLUE dataset](https://gluebenchmark.com/): A language understanding benchmark dataset
 - [GLUE script](https://github.com/huggingface/transformers/blob/master/examples/run_glue.py): Model training script for sequence classification
 
@@ -61,7 +62,7 @@ import wandb
 wandb.login()
 ```
 
-Optionally, we can set environment variables to customize W&B logging. See [documentation](https://docs.wandb.com/library/integrations/huggingface).
+Optionally, we can set environment variables to customize W&B logging. See [documentation](/guides/integrations/huggingface).
 
 
 ```python
@@ -97,13 +98,12 @@ Click the link printed out above, or go to [wandb.ai](https://app.wandb.ai) to s
 **Visualize Model Performance**
 It's easy to look across dozens of experiments, zoom in on interesting findings, and visualize highly dimensional data.
 
-![](https://gblobscdn.gitbook.com/assets%2F-Lqya5RvLedGEWPhtkjU%2F-M79Y5aLAFsMEcybMZcC%2F-M79YL90K1jiq-3jeQK-%2Fhf%20gif%2015.gif?alt=media&token=523d73f4-3f6c-499c-b7e8-ef5be0c10c2a)
+![](/images/tutorials/huggingface-visualize.gif)
 
 **Compare Architectures**
 Here's an example comparing [BERT vs DistilBERT](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU) — it's easy to see how different architectures effect the evaluation accuracy throughout training with automatic line plot visualizations.
-![](https://gblobscdn.gitbook.com/assets%2F-Lqya5RvLedGEWPhtkjU%2F-M79Y5aLAFsMEcybMZcC%2F-M79Ytpj6q6Jlv9RKZGT%2Fgif%20for%20comparing%20bert.gif?alt=media&token=e3dee5de-d120-4330-b4bd-2e2ddbb8315e)
 
-
+![](/images/tutorials/huggingface-comparearchitectures.gif)
 
 ### 📈 Track key information effortlessly by default
 Weights & Biases saves a new run for each experiment. Here's the information that gets saved by default:
@@ -112,8 +112,7 @@ Weights & Biases saves a new run for each experiment. Here's the information tha
 - **Terminal Logs**: Command line outputs are saved and available in a tab
 - **System Metrics**: GPU and CPU utilization, memory, temperature etc.
 
-
 ## 🤓 Learn more!
-- [Documentation](https://docs.wandb.com/huggingface): docs on the Weights & Biases and Hugging Face integration
+- [Documentation](/guides/integrations/huggingface): docs on the Weights & Biases and Hugging Face integration
 - [Videos](http://wandb.me/youtube): tutorials, interviews with practitioners, and more on our YouTube channel
 - Contact: Message us at contact@wandb.com with questions 

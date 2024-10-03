@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Registry types
 ---
-
-# Registry types
 
 W&B supports two types of registries: [Core registries](#core-registry) and [Custom registries](#custom-registry). 
 

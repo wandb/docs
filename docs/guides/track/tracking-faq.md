@@ -1,15 +1,10 @@
 ---
 description: Answers to frequently asked question about W&B Experiments.
 displayed_sidebar: default
+title: Experiments FAQ
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Experiments FAQ
-
-<head>
-  <title>Frequently Asked Questions About Experiments</title>
-</head>
 
 The proceeding questions are commonly asked questions about W&B Artifacts.
 

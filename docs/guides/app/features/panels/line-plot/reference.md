@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Line plot reference
 ---
-
-# Reference
 
 ## X-Axis
 

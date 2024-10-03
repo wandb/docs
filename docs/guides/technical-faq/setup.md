@@ -1,11 +1,9 @@
 ---
 displayed_sidebar: default
+title: Setup FAQ
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Setup
 
 ### How can I configure the name of the run in my training code?
 

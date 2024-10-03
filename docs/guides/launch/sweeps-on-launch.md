@@ -1,12 +1,11 @@
 ---
 description: Discover how to automate hyperparamter sweeps on launch.
 displayed_sidebar: default
+title: Create sweeps with W&B Launch
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-# Sweeps on Launch
 
 <CTAButtons colabLink="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7"/>
 
