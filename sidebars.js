@@ -417,6 +417,7 @@ export default {
         'guides/integrations/add-wandb-to-any-library',
         'guides/integrations/other/azure-openai-fine-tuning',
         'guides/integrations/other/catalyst',
+        'guides/integrations/other/cohere-fine-tuning',
         'guides/integrations/dagster',
         'guides/integrations/other/databricks',
         'guides/integrations/other/deepchecks',
