@@ -1,9 +1,8 @@
 ---
 description: Metrics automatically logged by wandb
 displayed_sidebar: default
+title: System metrics
 ---
-
-# System Metrics
 
 <!-- `wandb` automatically logs system metrics every 2 seconds, averaged over a 30 second period. The metrics include:
 
@@ -496,7 +495,7 @@ Detailed memory usage information for each NeuronCore:
 - **Runtime Memory** (`trn.{core_index}.neuroncore_memory_usage.runtime_memory`)
 - **Tensors** (`trn.{core_index}.neuroncore_memory_usage.tensors`)
 
-### OpenMetrics
+## OpenMetrics
 Capture and log metrics from external endpoints that expose OpenMetrics / Prometheus-compatible data with support for custom regex-based metric filters to be applied to the consumed endpoints.
 
 Refer to [this report](https://wandb.ai/dimaduev/dcgm/reports/Monitoring-GPU-cluster-performance-with-NVIDIA-DCGM-Exporter-and-Weights-Biases--Vmlldzo0MDYxMTA1) for a detailed example of how to use this feature in a particular case of monitoring GPU cluster performance with the [NVIDIA DCGM-Exporter](https://docs.nvidia.com/datacenter/cloud-native/gpu-telemetry/latest/dcgm-exporter.html).

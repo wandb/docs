@@ -1,6 +1,10 @@
-# Iterate on LLMs
+---
+displayed_sidebar: tutorials
+title: Iterate on LLMs
+---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb)
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb"></CTAButtons>
 
 **Weights & Biases Prompts** is a suite of LLMOps tools built for the development of LLM-powered applications. 
 

@@ -1,13 +1,8 @@
 ---
 description: Save files to the cloud and restore them locally later
 displayed_sidebar: default
+title: Save & restore files to the cloud
 ---
-
-# Save & Restore Files
-
-<head>
-  <title>Save and Restore Files to the Cloud</title>
-</head>
 
 This guide first demonstrates how to save files to the cloud with `wandb.save`, then demonstrates how they can be re-created locally with `wandb.restore`.
 
@@ -28,7 +23,7 @@ If you want to sync files as they're being written, you can specify a filename o
 
 ### Examples of `wandb.save`
 
-See [this report](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw) for a complete working example.
+See [this report](https://app.wandb.ai/lavanyashukla/save_and_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw) for a complete working example.
 
 ```python
 # Save a model file from the current directory
@@ -53,7 +48,7 @@ W&B's local run directories are by default inside the `./wandb` directory relati
 * **now** - sync this file to a wandb server immediately, don't continue syncing if it changes
 * **end** - only sync the file when the run finishes
 
-You can also specify the **base\_path** argument to `wandb.save`. This would allow you to maintain a directory hierarchy, for example:
+You can also specify the **base_path** argument to `wandb.save`. This would allow you to maintain a directory hierarchy, for example:
 
 ```python
 wandb.save(path="./results/eval/*", base_path="./results", policy="now")
@@ -100,7 +95,7 @@ Common use cases:
 
 ### Examples of `wandb.restore`
 
-See [this report](https://app.wandb.ai/lavanyashukla/save\_and\_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw) for a complete working example.
+See [this report](https://app.wandb.ai/lavanyashukla/save_and_restore/reports/Saving-and-Restoring-Models-with-W%26B--Vmlldzo3MDQ3Mw) for a complete working example.
 
 ```python
 # restore a model file from a specific run by user "vanpelt" in "my-project"
@@ -120,7 +115,7 @@ my_predefined_model.load_weights(weights_file.name)
 
 ### How do I ignore files?
 
-You can edit the `wandb/settings` file and set `ignore_globs` equal to a comma separated list of [globs](https://en.wikipedia.org/wiki/Glob\_\(programming\)). You can also set the `WANDB_IGNORE_GLOBS` [environment variable](./environment-variables.md). A common use case is to prevent the git patch that we automatically create from being uploaded i.e. `WANDB_IGNORE_GLOBS=*.patch`.
+You can edit the `wandb/settings` file and set `ignore_globs` equal to a comma separated list of [globs](https://en.wikipedia.org/wiki/Glob_\(programming\)). You can also set the `WANDB_IGNORE_GLOBS` [environment variable](./environment-variables.md). A common use case is to prevent the git patch that we automatically create from being uploaded i.e. `WANDB_IGNORE_GLOBS=*.patch`.
 
 
 ### Change directory for saving files

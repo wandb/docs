@@ -1,16 +1,10 @@
 ---
 description: Answers to frequently asked question about W&B Launch.
 displayed_sidebar: default
+title: Launch FAQ
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Launch FAQs
-
-<head>
-  <title>Frequently Asked Questions About Launch</title>
-</head>
-
 
 ## Getting Started
 
@@ -35,7 +29,7 @@ wandb job create image <image-name> -p <project> -e <entity>
 
   1. Create your queue before you start your agent, so that you can set your agent to point to it easily.  If you don’t do this, your agent will give errors and not work until you add a queue.
   2. Create a W&B service account to start up the agent, so that it's not tied to an individual user account.
-  3. Use `wandb.config` to read and write your hyperparameters, so that they can be overwritten when re-running a job. Check out [this guide](https://docs.wandb.ai/guides/launch/create-launch-job#making-your-code-job-friendly) if you use argsparse.
+  3. Use `wandb.config` to read and write your hyperparameters, so that they can be overwritten when re-running a job. Check out [this guide](/guides/track/config/#set-the-configuration-with-argparse) if you use argsparse.
 
 ### I do not like clicking- can I use Launch without going through the UI?
   
@@ -143,13 +137,12 @@ Queues are scoped to a team of users. You define the owning entity when you crea
 
 ### Does Launch support parallelization?  How can I limit the resources consumed by a job?
    
-Yes, Launch supports scaling jobs across mulitple GPUs and multiple nodes.  See [this guide](https://docs.wandb.ai/tutorials/volcano) for details.
+Yes, Launch supports scaling jobs across mulitple GPUs and multiple nodes.  See [this guide](/tutorials/volcano) for details.
 
 On an inter-job level, an individual launch agent is configured with a `max_jobs` parameter that determines how many jobs that agent can run simultaneously. Additionally, you can point to as many agents as you want at a particular queue, so long as those agents are connected to an infrastructure that they can launch into.
   
-You can limit the CPU/GPU, memory, and other requirements at the launch queue or job run level, in the resource config. For more information about setting up queues with resource limits on Kubernetes see [here](https://docs.wandb.ai/guides/launch/kubernetes#queue-configuration). 
+You can limit the CPU/GPU, memory, and other requirements at the launch queue or job run level, in the resource config. For more information about setting up queues with resource limits on Kubernetes see [here](setup-launch-kubernetes). 
 
-   
 For sweeps, in the SDK you can add a block to the queue config
 
 ```yaml title="queue config"

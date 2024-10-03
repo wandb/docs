@@ -2,12 +2,10 @@
 slug: /guides/integrations/openai
 description: How to Fine-Tune OpenAI models using W&B.
 displayed_sidebar: default
+title: OpenAI Fine-Tuning
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# OpenAI Fine-Tuning
 
 With Weights & Biases you can log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to Weights & Biases to analyse and understand the performance of your newly fine-tuned models and share the results with your colleagues. You can check out the models that can be fine-tuned [here](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
 
@@ -59,6 +57,8 @@ WandbLogger.sync(
     project="OpenAI-Fine-Tune",
     entity=None,
     overwrite=False,
+    model_artifact_name="model-metadata",
+    model_artifact_type="model",
     **kwargs_wandb_init
 )
 ```
@@ -74,7 +74,9 @@ WandbLogger.sync(
 | entity                   | Weights & Biases Username or team name where you're sending runs. By default, your default entity is used, which is usually your username. |
 | overwrite                | Forces logging and overwrite existing wandb run of the same fine-tune job. By default this is False.                                                |
 | wait_for_job_success     | Once an OpenAI fine-tuning job is started it usually takes a bit of time. To ensure that your metrics are logged to W&B as soon as the fine-tune job is finished, this setting will check every 60 seconds for the status of the fine-tune job to change to "succeeded". Once the fine-tune job is detected as being successful, the metrics will be synced automatically to W&B. Set to True by default.                                                    |
-| \*\*kwargs\_wandb\_init  | Aany additional argument passed directly to [`wandb.init()`](../../../ref/python/init.md)                    |
+| model_artifact_name      | The name of the model artifact that is logged. Defaults to `"model-metadata"`.                    |
+| model_artifact_type      | The type of the model artifact that is logged. Defaults to `"model"`.                    |
+| \*\*kwargs_wandb_init  | Aany additional argument passed directly to [`wandb.init()`](../../../ref/python/init.md)                    |
 
 ## Dataset Versioning and Visualization
 

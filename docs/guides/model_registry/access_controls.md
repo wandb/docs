@@ -1,9 +1,8 @@
 ---
 description: Use model registry role based access controls (RBAC) to control who can update protected aliases.
 displayed_sidebar: default
+title: Manage data governance and access control
 ---
-
-# Data governance and access control
 
 Use *protected aliases* to represent key stages of your model development pipeline. Only *Model Registry Administrators* can add, modify, or remove protected aliases. Model registry admins can define and use protected aliases. W&B blocks non admin users from adding or removing protected aliases from model versions.
 

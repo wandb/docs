@@ -1,6 +1,9 @@
-# Visualize predictions
+---
+title: Visualize predictions with tables
+---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W&B_Tables_Quickstart.ipynb)
+<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W&B_Tables_Quickstart.ipynb'/>
 
 This covers how to track, visualize, and compare model predictions over the course of training, using PyTorch on MNIST data. 
 
@@ -9,28 +12,31 @@ You will learn how to:
 2. View, sort, filter, group, join, interactively query, and explore these tables
 3. Compare model predictions or results: dynamically across specific images, hyperparameters/model versions, or time steps.
 
-# Examples
-## Compare predicted scores for specific images
+## Examples
+### Compare predicted scores for specific images
 
 [Live example: compare predictions after 1 vs 5 epochs of training →](https://wandb.ai/stacey/table-quickstart/reports/CNN-2-Progress-over-Training-Time--Vmlldzo3NDY5ODU#compare-predictions-after-1-vs-5-epochs)
-<img src="https://i.imgur.com/NMme6Qj.png" alt="1 epoch vs 5 epochs of training"/>
+
+![1 epoch vs 5 epochs of training](/images/tutorials/tables-1.png)
+
 The histograms compare per-class scores between the two models. The top green bar in each histogram represents model "CNN-2, 1 epoch" (id 0), which only trained for 1 epoch. The bottom purple bar represents model "CNN-2, 5 epochs" (id 1), which trained for 5 epochs. The images are filtered to cases where the models disagree. For example, in the first row, the "4" gets high scores across all the possible digits after 1 epoch, but after 5 epochs it scores highest on the correct label and very low on the rest.
 
-## Focus on top errors over time
+### Focus on top errors over time
 [Live example →](https://wandb.ai/stacey/table-quickstart/reports/CNN-2-Progress-over-Training-Time--Vmlldzo3NDY5ODU#top-errors-over-time)
 
 See incorrect predictions (filter to rows where "guess" != "truth") on the full test data. Note that there are 229 wrong guesses after 1 training epoch, but only 98 after 5 epochs.
-<img src="https://i.imgur.com/7g8nodn.png" alt="side by side, 1 vs 5 epochs of training"/>
 
-## Compare model performance and find patterns
+![side by side, 1 vs 5 epochs of training](/images/tutorials/tables-2.png)
+
+### Compare model performance and find patterns
 
 [See full detail in a live example →](https://wandb.ai/stacey/table-quickstart/reports/CNN-2-Progress-over-Training-Time--Vmlldzo3NDY5ODU#false-positives-grouped-by-guess)
 
 Filter out correct answers, then group by the guess to see examples of misclassified images and the underlying distribution of true labels—for two models side-by-side. A model variant with 2X the layer sizes and learning rate is on the left, and the baseline is on the right. Note that the baseline makes slightly more mistakes for each guessed class.
-<img src="https://i.imgur.com/i5PP9AE.png" alt="grouped errors for baseline vs double variant"/>
 
+![grouped errors for baseline vs double variant](/images/tutorials/tables-3.png)
 
-# Sign up or login
+## Sign up or login
 
 [Sign up or login](https://wandb.ai/login) to W&B to see and interact with your experiments in the browser.
 
@@ -52,7 +58,7 @@ wandb.login()
 WANDB_PROJECT = "mnist-viz"
 ```
 
-# 0. Setup
+## 0. Setup
 
 Install dependencies, download MNIST, and create train and test datasets using PyTorch. 
 
@@ -78,7 +84,7 @@ def get_dataloader(is_train, batch_size, slice=5):
     return loader
 ```
 
-# 1. Define the model and training schedule
+## 1. Define the model and training schedule
 
 * Set the number of epochs to run, where each epoch consists of a training step and a validation (test) step. Optionally configure the amount of data to log per test step. Here the number of batches and number of images per batch to visualize are set low to simplify the demo. 
 * Define a simple convolutional neural net (following [pytorch-tutorial](https://github.com/yunjey/pytorch-tutorial) code).
@@ -141,7 +147,7 @@ test_loader = get_dataloader(is_train=False, batch_size=2*BATCH_SIZE)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 ```
 
-# 2. Run training and log test predictions
+## 2. Run training and log test predictions
 
 For every epoch, run a training step and a test step. For each test step, create a wandb.Table() in which to store test predictions. These can be visualized, dynamically queried, and compared side by side in your browser.
 
@@ -238,6 +244,6 @@ for epoch in range(EPOCHS):
 wandb.finish()
 ```
 
-# What's next?
+## What's next?
 The next tutorial, you will learn how to optimize hyperparameters using W&B Sweeps:
 ## 👉 [Optimize Hyperparameters](sweeps)

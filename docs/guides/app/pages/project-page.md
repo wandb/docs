@@ -3,12 +3,10 @@ description: >-
   Compare versions of your model, explore results in a scratch workspace, and
   export findings to a report to save notes and visualizations
 displayed_sidebar: default
+title: Project page
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-# Project Page
 
 The project **Workspace** gives you a personal sandbox to compare experiments. Use projects to organize models that can be compared, working on the same problem with different architectures, hyperparameters, datasets, preprocessing etc.
 
@@ -76,20 +74,20 @@ Each section has options in the upper right corner:
 * **Delete section**: Remove the whole section and all the charts. This can be undone with the undo button at the bottom of the page in the workspace bar.
 * **Add panel**: Click the plus button to add a panel to the section.
 
-![](@site/static/images/app_ui/add-section.gif)
+![](/images/app_ui/add-section.gif)
 
 ### Move panels between sections
 
 Drag and drop panels to reorder and organize into sections. You can also click the "Move" button in the upper right corner of a panel to select a section to move the panel to.
 
-![](@site/static/images/app_ui/move-panel.gif)
+![](/images/app_ui/move-panel.gif)
 
 ### Resize panels
 
 * **Standard layout**: All panels maintain the same size, and there are pages of panels. You can resize the panels by clicking and dragging the lower right corner. Resize the section by clicking and dragging the lower right corner of the section.
 * **Custom layout**: All panels are sized individually, and there are no pages.
 
-![](@site/static/images/app_ui/resize-panel.gif)
+![](/images/app_ui/resize-panel.gif)
 
 ### Search for metrics
 
@@ -169,13 +167,13 @@ By default, this turns other numeric columns into histograms showing the distrib
 
 See all the snapshots of results in one place, and share findings with your team.
 
-![](@site/static/images/app_ui/reports-tab.png)
+![](/images/app_ui/reports-tab.png)
 
 ## Sweeps Tab
 
 Start a new [sweep](../../sweeps/intro.md) from your project.
 
-![](@site/static/images/app_ui/sweeps-tab.png)
+![](/images/app_ui/sweeps-tab.png)
 
 ## Artifacts Tab
 
@@ -230,21 +228,6 @@ The action history audit tab shows all of the alias actions and membership chang
 ![](/images/app_ui/versions_tab.png)
 
 The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
-
-## Project Defaults
-
-You can change your project default settings _manually_ in your User Settings at `/settings`.
-
-* **Default location to create new projects**: This is set to your own personal entity by default. By clicking on the dropdown, you can switch between your personal entity and the teams you're part of.
-* **Default project privacy in your personal account**: This is set to 'Private' by default. In other words, your projects will be private and can only be accessed by you.
-* **Enable code saving in your personal account**: This is turned off by default. You can turn this on to save the main script or notebook to W&B.
-
-:::note
-These settings can also be specified by passing arguments to 
-[`wandb.init`](../../../ref/python/init.md).
-:::
-
-![](/images/app_ui/project_defaults.png)
 
 ## Frequently Asked Questions
 

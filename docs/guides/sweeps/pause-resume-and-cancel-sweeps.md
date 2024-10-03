@@ -1,13 +1,8 @@
 ---
 description: Pause, resume, and cancel a W&B Sweep with the CLI.
 displayed_sidebar: default
+title: Manage sweeps with the CLI
 ---
-
-# Pause, resume, stop and cancel sweeps
-
-<head>
-    <title>Pause, resume, stop or cancel W&B Sweeps</title>
-</head>
 
 Pause, resume, and cancel a W&B Sweep with the CLI.  Pausing a W&B Sweep tells the W&B agent that new W&B Runs should not be executed until the Sweep is resumed. Resuming a Sweep tells the agent to continue executing new W&B Runs. Stopping a W&B Sweep tells the W&B Sweep agent to stop creating or executing new W&B Runs. Cancelling a W&B Sweep tells the Sweep agent to kill currently executing W&B Runs and stop executing new Runs.
 

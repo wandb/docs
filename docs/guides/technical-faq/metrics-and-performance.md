@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Metrics and Performance FAQ
 ---
-
-# Metrics & Performance
 
 ## Metrics
 
@@ -21,11 +20,10 @@ By default, we don't log any of your dataset examples. You can explicitly turn t
 There are two ways to turn off code logging:
 
 1. Set `WANDB_DISABLE_CODE` to `true` to turn off all code tracking. We won't pick up the git SHA or the diff patch.
-2. Set `WANDB_IGNORE_GLOBS` to `*.patch` to turn off syncing the diff patch to our servers. You'll still have it locally and be able to apply it with the [wandb restore](../track/save-restore.md) command.
-
+2. Set `WANDB_IGNORE_GLOBS` to `*.patch` to turn off syncing the diff patch to our servers. You'll still have it locally and be able to apply it with the `wandb restore`.
 ### Can I log metrics on two different time scales? (For example, I want to log training accuracy per batch and validation accuracy per epoch.)
 
-Yes, you can do this by logging your indices (e.g. `batch` and `epoch`) whenever you log your other metrics. So in one step you could call `wandb.log({'train_accuracy': 0.9, 'batch': 200})` and in another step call `wandb.log({'val_accuracy': 0.8, 'epoch': 4})`. Then, in the UI, you can set the appropriate value as the x-axis for each chart. If you want to set the default x-axis of a particular index you can do so using by using [Run.define\_metric()](../../ref/python/run.md#define_metric). In our above example we could do the following:
+Yes, you can do this by logging your indices (e.g. `batch` and `epoch`) whenever you log your other metrics. So in one step you could call `wandb.log({'train_accuracy': 0.9, 'batch': 200})` and in another step call `wandb.log({'val_accuracy': 0.8, 'epoch': 4})`. Then, in the UI, you can set the appropriate value as the x-axis for each chart. If you want to set the default x-axis of a particular index you can do so using by using [Run.define_metric()](../../ref/python/run.md#define_metric). In our above example we could do the following:
 
 ```python
 wandb.init()

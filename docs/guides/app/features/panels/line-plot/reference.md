@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Line plot reference
 ---
-
-# Reference
 
 ## X-Axis
 
@@ -36,22 +35,22 @@ You can control the legend of your chart to show for any run any config value th
 
 Example:
 
-${run:displayName} - ${config:dropout} will make the legend name for each run something like "royal-sweep - 0.5" where "royal-sweep" is the run name and 0.5 is the config parameter named "dropout".
+`${run:displayName} - ${config:dropout}` will make the legend name for each run something like `royal-sweep - 0.5` where `royal-sweep` is the run name and `0.5` is the config parameter named `dropout`.
 
 You can set value inside`[[ ]]` to display point specific values in the crosshair when hovering over a chart. For example `\[\[ $x: $y ($original) ]]` would display something like "2: 3 (2.9)"
 
-Supported values inside \[\[ ]] are as follows:
+Supported values inside `[[ ]]` are as follows:
 
-| Value       | Meaning                                    |
-| ----------- | ------------------------------------------ |
-| ${x}        | X value                                    |
-| ${y}        | Y value (Including smoothing adjustment)   |
-| ${original} | Y value not including smoothing adjustment |
-| ${mean}     | Mean of grouped runs                       |
-| ${stddev}   | Standard Deviation of grouped runs         |
-| ${min}      | Min of grouped runs                        |
-| ${max}      | Max of grouped runs                        |
-| ${percent}  | Percent of total (for stacked area charts) |
+| Value         | Meaning                                    |
+| ------------  | ------------------------------------------ |
+| `${x}`        | X value                                    |
+| `${y}`        | Y value (Including smoothing adjustment)   |
+| `${original}` | Y value not including smoothing adjustment |
+| `${mean}`     | Mean of grouped runs                       |
+| `${stddev}`   | Standard Deviation of grouped runs         |
+| `${min}`      | Min of grouped runs                        |
+| `${max}`      | Max of grouped runs                        |
+| `${percent}`  | Percent of total (for stacked area charts) |
 
 ## Grouping
 

@@ -4,23 +4,14 @@ description: >-
   beta products, GitHub integration, storage usage, account activation, and
   create teams in your user settings.
 displayed_sidebar: default
+title: Manage user settings
 ---
-
-# User settings
 
 Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**.
 
 ### Profile
 
 Within the **Profile** section you can manage and modify your account name and institution. You can optionally add a biography, location, link to a personal or your institution’s website, and upload a profile image.
-
-### Project defaults
-
-Change the default behavior for your account within the **Project** **Defaults** section. You can manage the proceeding:
-
-* **Default location to create new projects** - Select the dropdown menu and choose the entity to set as the new default. Specify either your account or a team you are a member of.
-* **Default projects privacy in your personal account** - Set a project to public (anyone can view), private (only you can view and contribute) or open (anyone can submit runs or write the reports) automatically when you create a project. You can optionally create a team to collaborate on private projects.
-* **Enable code savings in your personal account** - Permit Weights and Biases to save the latest git commit hash by default. To enable code saving, toggle the Enable code savings in your personal account option. For more information about saving and comparing code, see [Code Saving](../features/panels/code.md).
 
 ### Teams
 
@@ -36,11 +27,7 @@ Only administrative accounts can create a team.
 
 ### Beta features
 
-Within the **Beta Features** section you can optionally enable fun add-ons and sneak previews of new products in development. Select the toggle switch next to the beta feature you want to enable. Currently you can get a sneak peak of the proceeding features:
-
-* **Night mode** - Invert the colors everywhere! This makes pages dark, but might make colors on charts less easy to distinguish.
-* **W&B Launch** - Launch jobs on your own infrastructure from Weights and Biases. For more information, see the [Launch Jobs](../../launch/intro.md) documentation.
-* **Unicorn mode** - Change your cursor on charts from a boring pointer to a unicorn!
+Within the **Beta Features** section you can optionally enable fun add-ons and sneak previews of new products in development. Select the toggle switch next to the beta feature you want to enable.
 
 ### Alerts
 

@@ -1,14 +1,10 @@
 ---
 description: Use an project scoped artifact automation in your project to trigger actions when aliases or versions in an artifact collection are created or changed. 
-title: Artifact automations
 displayed_sidebar: default
+title: Trigger CI/CD events when artifact changes
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-
-# Trigger CI/CD events with artifact changes
 
 Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).  
 
@@ -20,7 +16,7 @@ Some common use cases for automations that are triggered from changes to an arti
 :::info
 Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
 
-This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry; they are triggered when events are performed on model versions linked to the [Model Registry](../model_registry/intro.md). For information on how to create an automations for model versions, see the [Automations for Model CI/CD](../model_registry/automation.md) page in the [Model Registry chapter](../model_registry/intro.md).
+This is in contrast to automations created in the W&B Model Registry. Automations created in the model registry are in scope of the Model Registry; they are triggered when events are performed on model versions linked to the [Model Registry](../model_registry/intro.md). For information on how to create an automations for model versions, see the [Automations for Model CI/CD](../model_registry/model-registry-automations.md) page in the [Model Registry chapter](../model_registry/intro.md).
 :::
 
 
@@ -46,6 +42,10 @@ The following sections describe how to create an automation with webhooks and W&
 
 ## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
+
+:::info
+Specify an endpoint for your webhook that has an Address record (A record). W&B does not support connecting to endpoints that are exposed directly with IP addresses such as `[0-255].[0-255].[0-255].[0.255]` or endpoints exposed as `localhost`. This restriction helps protect against server-side request forgery (SSRF) attacks and other related threat vectors.
+:::
 
 ### Add a secret for authentication or authorization
 Secrets are team-level variables that let you obfuscate private strings such as credentials, API keys, passwords, tokens, and more. W&B recommends you use secrets to store any string that you want to protect the plain text content of.
@@ -268,6 +268,35 @@ The `event_type` key in the webhook payload must match the `types` field in the 
 
 ### Troubleshoot your webhook
 
+Interactively troubleshoot your webhook with the W&B App UI or programmatically with a Bash script. You can troubleshoot a webhook when you create a new webhook or edit an existing webhook.
+
+<Tabs
+  defaultValue="app"
+  values={[
+    {label: 'W&B App UI', value: 'app'},
+    {label: 'Bash script', value: 'bash'},
+  ]}>
+  <TabItem value="app">
+
+Interactively test a webhook with the W&B App UI. 
+
+1. Navigate to your W&B Team Settings page.
+2. Scroll to the **Webhooks** section.
+3. Click on the horizontal three docs (meatball icon) next to the name of your webhook.
+4. Select **Test**.
+5. From the UI panel that appears, paste your POST request to the field that appears. 
+![](/images/models/webhook_ui.png)
+6. Click on **Test webhook**.
+
+Within the W&B App UI, W&B posts the response made by your endpoint.
+
+![](/images/models/webhook_ui_testing.gif)
+
+See [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) YouTube video to view a real-world example.
+
+  </TabItem>
+  <TabItem value="bash">
+
 The following bash script generates a POST request similar to the POST request W&B sends to your webhook automation when it is triggered.
 
 Copy and paste the code below into a shell script to troubleshoot your webhook. Specify your own values for the following:
@@ -301,6 +330,11 @@ curl -X POST \
   -H "X-Wandb-Signature: $SIGNATURE" \
   -d "$PAYLOAD" API_ENDPOINT
 ```
+
+  </TabItem>
+</Tabs>
+
+
 
 
 ## Create a launch automation

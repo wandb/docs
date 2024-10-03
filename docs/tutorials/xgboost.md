@@ -1,6 +1,9 @@
-# XGBoost
+---
+title: XGBoost
+---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W&B.ipynb)
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W&B.ipynb"></CTAButtons>
 
 In this notebook we'll train a XGBoost model to classify whether submitted loan applications will default or not. Using boosting algorithms such as XGBoost increases the performance of a loan assesment, whilst retaining interpretability for internal Risk Management functions as well as external regulators.
 
@@ -24,7 +27,7 @@ We will track all of the training hyperparameters and output metrics in order to
 
 **Run a Hyperparameter Sweep to Find the Best HyperParameters**
 
-Weights and Biases also enables you to do hyperparameter sweeps, either with our own [Sweeps functionality](https://docs.wandb.ai/guides/sweeps) or with our [Ray Tune integration](https://docs.wandb.ai/guides/sweeps/advanced-sweeps/ray-tune). See our docs for a full guide of how to use more advanced hyperparameter sweeps options.
+Weights and Biases also enables you to do hyperparameter sweeps, either with our own [Sweeps functionality](/guides/sweeps) or with our [Ray Tune integration](/guides/integrations/ray-tune). See our docs for a full guide of how to use more advanced hyperparameter sweeps options.
 
 ![credit_scorecard_2](/images/tutorials/credit_scorecard/credit_scorecard_2.png)
 
@@ -91,7 +94,7 @@ artifact = run.use_artifact("mnist:latest", type="dataset")
 artifact_dir = artifact.download()
 ```
 
-See [Artifact References](https://docs.wandb.ai/guides/artifacts/references) for more on how to use Artifacts by reference, credentials setup etc.
+See [reference artifacts](/guides/artifacts/track-external-files) for more on how to use Artifacts by reference, credentials setup etc.
 
 ## Log in to W&B
 Log in to Weights and Biases 
@@ -266,7 +269,7 @@ trndat.head()
 
 ### Log Dataset with W&B Tables
 
-With W&B Tables you can log, query, and analyze tabular data that contains rich media such as images, video, audio and more. With it you can understand your datasets, visualize model predictions, and share insights, for more see more in our [W&B Tables Guide](https://docs.wandb.ai/guides/tables)
+With W&B Tables you can log, query, and analyze tabular data that contains rich media such as images, video, audio and more. With it you can understand your datasets, visualize model predictions, and share insights, for more see more in our [W&B Tables Guide](/guides/tables)
 
 
 ```python
@@ -356,11 +359,11 @@ y_val = valdat.loc[:, targ_var].astype(int)
 
 #### 4) Fit the model, log results to W&B and save model to W&B Artifacts
 
-To log all our xgboost model parameters we used the `WandbCallback`. This will . See the [W&B docs](https://docs.wandb.ai/guides/integrations), including documentation for other libraries that have integrated W&B including LightGBM and more.
+To log all our xgboost model parameters we used the `WandbCallback`. This will . See the [W&B docs](/guides/integrations), including documentation for other libraries that have integrated W&B including LightGBM and more.
 
 
 ```python
-from wandb.xgboost import WandbCallback
+from wandb.integration.xgboost import WandbCallback
 
 # Initialize the XGBoostClassifier with the WandbCallback
 xgbmodel = xgb.XGBClassifier(
@@ -442,7 +445,7 @@ Now that we've trained a single model, lets try and optimize its performance by 
 
 # HyperParameter Sweep
 
-Weights and Biases also enables you to do hyperparameter sweeps, either with our own [Sweeps functionality](https://docs.wandb.ai/guides/sweeps/python-api) or with our [Ray Tune integration](https://docs.wandb.ai/guides/sweeps/advanced-sweeps/ray-tune). See [our docs](https://docs.wandb.ai/guides/sweeps/python-api) for a full guide of how to use more advanced hyperparameter sweeps options.
+Weights and Biases also enables you to do hyperparameter sweeps, either with our own [Sweeps functionality](/guides/sweeps) or with our [Ray Tune integration](/guides/integrations/ray-tune). 
 
 **[Click Here](https://wandb.ai/morgan/credit_score_sweeps/sweeps/iuppbs45)** to check out the results of a 1000 run sweep generated using this notebook
 
@@ -551,4 +554,4 @@ Weights and Biases has integrations in all of your favourite ML and Deep Learnin
 - Sci-Kit Learn
 - LightGBM 
 
-**See [W&B integrations for details](https://docs.wandb.ai/guides/integrations)** 
+**See [W&B integrations for details](/guides/integrations)** 

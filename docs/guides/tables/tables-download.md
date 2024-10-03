@@ -1,9 +1,9 @@
 ---
 description: How to export data from tables.
 displayed_sidebar: default
+title: Export table data
 ---
 
-# Export table data
 Like all W&B Artifacts, Tables can be converted into pandas dataframes for easy data exporting. 
 
 ## Convert `table` to `artifact`

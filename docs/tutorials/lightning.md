@@ -1,25 +1,22 @@
-# PyTorch Lightning
+---
+title: PyTorch Lightning
+---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Image_Classification_using_PyTorch_Lightning.ipynb)
+<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Image_Classification_using_PyTorch_Lightning.ipynb'/>
 
 We will build an image classification pipeline using PyTorch Lightning. We will follow this [style guide](https://lightning.ai/docs/pytorch/stable/starter/style_guide.html) to increase the readability and reproducibility of our code. A cool explanation of this available [here](https://wandb.ai/wandb/wandb-lightning/reports/Image-Classification-using-PyTorch-Lightning--VmlldzoyODk1NzY).
 
 ## Setting up PyTorch Lightning and W&B 
 
-For this tutorial, we need PyTorch Lightning(ain't that obvious!) and Weights and Biases.
+For this tutorial, we need PyTorch Lightning and Weights and Biases.
 
-
-```
-!pip install lightning -q
-# install weights and biases
-!pip install wandb -qU
+```shell
+pip install lightning -q
+pip install wandb -qU
 ```
 
-You're gonna need these imports.
-
-
-
-```
+```python
 import lightning.pytorch as pl
 # your favorite machine learning tracking tool
 from lightning.pytorch.loggers import WandbLogger
@@ -37,8 +34,7 @@ from torchvision.datasets import CIFAR10
 import wandb
 ```
 
-Now you'll need to log in to you wandb account.
-
+Now you'll need to log in to your wandb account.
 
 ```
 wandb.login()

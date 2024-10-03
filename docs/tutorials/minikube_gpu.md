@@ -1,7 +1,8 @@
+---
+title: Spin up a single node GPU cluster with Minikube
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Spin up a single node GPU cluster with Minikube
 
 Set up W&B Launch on a Minikube cluster that can schedule and run GPU workloads. 
 
@@ -203,7 +204,7 @@ Running the agent outside of a container also means we can use the local Docker 
 To run the agent locally, make sure your default Kubernetes API context refers to the Minikube cluster. Then, execute the following:
 
 ```bash
-pip install wandb[launch]
+pip install "wandb[launch]"
 ```
 
 to install the agent’s dependencies. To setup authentication for the agent, run `wandb login` or set the `WANDB_API_KEY` environment variable.

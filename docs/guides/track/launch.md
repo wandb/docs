@@ -1,15 +1,10 @@
 ---
 description: Create a W&B Experiment.
 displayed_sidebar: default
+title: Create an experiment
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Create an Experiment
-
-<head>
-  <title>Start a W&B Experiment</title>
-</head>
 
 Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API](../../ref/python/public-api/README.md).
 
@@ -24,7 +19,7 @@ Create a W&B Experiment in four steps:
 3. [Log metrics inside your training loop](#log-metrics-inside-your-training-loop)
 4. [Log an artifact to W&B](#log-an-artifact-to-wb)
 
-### Initialize a W&B Run
+### Initialize a W&B run
 At the beginning of your script call, the [`wandb.init()`](../../ref/python/init.md) API to generate a background process to sync and log data as a W&B Run. 
 
 The proceeding code snippet demonstrates how to create a new W&B project named `“cat-classification”`. A note `“My first experiment”` was added to help identify this run. Tags `“baseline”` and `“paper1”` are included to remind us that this run is a baseline experiment intended for a future paper publication.
@@ -123,7 +118,7 @@ Use the W&B Dashboard as a central place to organize and visualize results from 
 For more information on how to view experiments and specific runs, see [Visualize results from experiments](./app.md).
 
 
-## Best Practices
+## Best practices
 The following are some suggested guidelines to consider when you create experiments:
 
 1. **Config**: Track hyperparameters, architecture, dataset, and anything else you'd like to use to reproduce your model. These will show up in columns— use config columns to group, sort, and filter runs dynamically in the app.

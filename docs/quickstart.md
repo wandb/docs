@@ -1,12 +1,10 @@
 ---
-description: W&B Quickstart.
+description: W&B Quickstart
 displayed_sidebar: default
+title: W&B Quickstart
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Quickstart
 
 Install W&B and start tracking your machine learning experiments in minutes.
 
@@ -169,6 +167,7 @@ Explore the rest of the W&B ecosystem.
 2. Create [W&B Artifacts](./guides/artifacts) to track datasets, models, dependencies, and results through each step of your machine learning pipeline.
 3. Automate hyperparameter search and explore the space of possible models with [W&B Sweeps](./guides/sweeps).
 4. Understand your datasets, visualize model predictions, and share insights in a [central dashboard](./guides/tables).
+5. Navigate to W&B AI Academy and learn about LLMs, MLOps and W&B Models from hands-on [courses](https://wandb.me/courses).
 
 
 ![](/images/quickstart/wandb_demo_experiments.gif) 
@@ -184,7 +183,8 @@ Once you've signed in to www.wandb.ai, the API key will be on the [Authorize pag
 If you are training models in an automated environment where it's inconvenient to run shell commands, such as Google's CloudML, you should look at our guide to configuration with [Environment Variables](guides/track/environment-variables).
 
 **Do you offer local, on-prem installs?**
-Yes, you can [privately host W&B](guides/hosting/) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how. Note, to login to wandb local server you can [set the host flag](guides/hosting/how-to-guides/basic-setup) to the address of the local instance.  
+Yes, you can [privately host W&B](guides/hosting/) locally on your own machines or in a private cloud, try [this quick tutorial notebook](http://wandb.me/intro) to see how.
+
 
 **How do I turn off wandb logging temporarily?**
 If are testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](./guides/track/environment-variables).

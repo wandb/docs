@@ -2,11 +2,11 @@
 slug: /guides/integrations/composer
 description: State of the art algorithms to train your neural networks
 displayed_sidebar: default
+title: MosaicML Composer
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# MosaicML Composer
-
-[**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/master/colabs/mosaicml/MosaicML_Composer_and_wandb.ipynb)
+<CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/mosaicml/MosaicML_Composer_and_wandb.ipynb"></CTAButtons>
 
 [Composer](https://github.com/mosaicml/composer) is a library for training neural networks better, faster, and cheaper. It contains many state-of-the-art methods for accelerating neural network training and improving generalization, along with an optional [Trainer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/using_the_trainer.html) API that makes _composing_ many different enhancements easy.
 
@@ -21,7 +21,7 @@ from composer.loggers import WandBLogger
 trainer = Trainer(..., logger=WandBLogger())
 ```
 
-![Interactive dashboards accessible anywhere, and more!](@site/static/images/integrations/n6P7K4M.gif)
+![Interactive dashboards accessible anywhere, and more!](/images/integrations/n6P7K4M.gif)
 
 ## Using Composer's `WandBLogger`
 
@@ -45,7 +45,7 @@ Below the parameters for WandbLogger, see the [Composer documentation](https://d
 | `tags`                   | W&B tags (List[str], optional)
 | `log_artifacts`                 | Whether to log checkpoints to wandb, default: `false` (bool, optional)|
 | `rank_zero_only`         | Whether to log only on the rank-zero process. When logging artifacts, it is highly recommended to log on all ranks. Artifacts from ranks ≥1 are not stored, which may discard pertinent information. For example, when using Deepspeed ZeRO, it would be impossible to restore from checkpoints without artifacts from all ranks, default: `True` (bool, optional)
-| `init_kwargs`                   | Params to pass to `wandb.init` such as your wandb `config` etc [See here](https://docs.wandb.ai/ref/python/init) for the full list `wandb.init` accepts                                                                                                                                                                                   
+| `init_kwargs`                   | Params to pass to `wandb.init` such as your wandb `config` etc [See here](/ref/python/init) for the full list `wandb.init` accepts                                                                                                                                                                                   
 
 
 A typical usage would be:

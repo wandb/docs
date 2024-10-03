@@ -3,31 +3,26 @@ description: >-
   Track files saved outside the W&B such as in an Amazon S3 bucket,
   GCS bucket, HTTP file server, or even an NFS share.
 displayed_sidebar: default
+title: Track external files
 ---
 
-# Track external files
-
-<head>
-	<title>Track external files with reference artifacts</title>
-</head>
-
-Use **reference artifacts** to track files saved outside the W&B system, for example in an Amazon S3 bucket, GCS bucket, Azure blob, HTTP file server, or even an NFS share. Log artifacts outside of a [W&B Run](https://docs.wandb.ai/ref/python/run) with the W&B [CLI](https://docs.wandb.ai/ref/cli).
+Use **reference artifacts** to track files saved outside the W&B system, for example in an Amazon S3 bucket, GCS bucket, Azure blob, HTTP file server, or even an NFS share. Log artifacts outside of a [W&B Run](/ref/python/run) with the W&B [CLI](/ref/cli).
 
 ### Log artifacts outside of runs
 
 W&B creates a run when you log an artifact outside of a run. Each artifact belongs to a run, which in turn belongs to a project; an artifact (version) also belongs to a collection, and has a type.
 
-Use the [`wandb artifact put`](https://docs.wandb.ai/ref/cli/wandb-artifact/wandb-artifact-put) command to upload an artifact to the W&B server outside of a W&B run. Provide the name of the project you want the artifact to belong to along with the name of the artifact (`project/artifact_name`).Optionally provide the type (`TYPE`). Replace `PATH` in the code snippet below with the file path of the artifact you want to upload.
+Use the [`wandb artifact put`](/ref/cli/wandb-artifact/wandb-artifact-put) command to upload an artifact to the W&B server outside of a W&B run. Provide the name of the project you want the artifact to belong to along with the name of the artifact (`project/artifact_name`).Optionally provide the type (`TYPE`). Replace `PATH` in the code snippet below with the file path of the artifact you want to upload.
 
 ```bash
 $ wandb artifact put --name project/artifact_name --type TYPE PATH
 ```
 
-W&B will create a new project if a the project you specify does not exist. For information on how to download an artifact, see [Download and use artifacts](https://docs.wandb.ai/guides/artifacts/download-and-use-an-artifact).
+W&B will create a new project if a the project you specify does not exist. For information on how to download an artifact, see [Download and use artifacts](/guides/artifacts/download-and-use-an-artifact).
 
 ## Track artifacts outside of W&B
 
-Use W&B Artifacts for dataset versioning and model lineage, and use **reference artifacts** to track files saved outside the W&B server. In this mode an artifact only stores metadata about the files, such as URLs, size, and checksums. The underlying data never leaves your system.  See the [Quick start](https://docs.wandb.ai/guides/artifacts/artifacts-walkthrough) for information on how to save files and directories to W&B servers instead.
+Use W&B Artifacts for dataset versioning and model lineage, and use **reference artifacts** to track files saved outside the W&B server. In this mode an artifact only stores metadata about the files, such as URLs, size, and checksums. The underlying data never leaves your system.  See the [Quick start](/guides/artifacts/artifacts-walkthrough) for information on how to save files and directories to W&B servers instead.
 
 The following describes how to construct reference artifacts and how to best incorporate them into your workflows.
 
@@ -39,7 +34,7 @@ Use W&B Artifacts for dataset and model versioning to track references in cloud 
 Artifacts abstract away the underlying cloud storage vendor (such AWS, GCP or Azure). Information described in the proceeding section apply uniformly to Amazon S3, Google Cloud Storage and Azure Blob Storage.
 
 :::info
-W&B Artifacts support any Amazon S3 compatible interface — including MinIO! The scripts below work, as is, when you set the AWS\_S3\_ENDPOINT\_URL environment variable to point at your MinIO server.
+W&B Artifacts support any Amazon S3 compatible interface — including MinIO! The scripts below work, as is, when you set the AWS_S3_ENDPOINT_URL environment variable to point at your MinIO server.
 :::
 
 Assume we have a bucket with the following structure:
@@ -75,6 +70,8 @@ W&B will use the default mechanism to look for credentials based on the cloud pr
 | AWS            | [Boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
 | GCP            | [Google Cloud documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
 | Azure          | [Azure documentation](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
+
+For AWS, if the bucket is not located in the configured user's default region, you must set the `AWS_REGION` environment variable to match the bucket region.
 
 Interact with this artifact similarly to a normal artifact. In the App UI, you can look through the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact.
 

@@ -23,7 +23,6 @@
 | docker | Run your code in a docker container. |
 | docker-run | Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER... |
 | enabled | Enable W&B. |
-| import | Commands for importing data from other systems |
 | init | Configure a directory with Weights & Biases |
 | job | Commands for managing and viewing W&B jobs |
 | launch | Launch or queue a W&B Job. |

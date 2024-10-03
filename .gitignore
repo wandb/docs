@@ -29,4 +29,6 @@ yarn-error.log*
 #wandb
 wandb/
 translate_dev/
-chatgpt*
+chatgpt*yar
+package-lock.json
+.vale.ini.swp

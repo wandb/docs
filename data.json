@@ -85,6 +85,10 @@
       "to": "/guides/app/pages/project-page"
     },
     {
+      "from": "/guides/app/pages/workspaces#create-saved-workspace-views-beta",
+      "to": "/guides/app/pages/workspaces#saved-workspace-views"
+    },
+    {
       "from": "/app/panels/parameter-importance",
       "to": "/guides/app/features/panels/parameter-importance"
     },
@@ -372,10 +376,7 @@
       "from": "/guides/data-vis/log-tables",
       "to": "/guides/track/log/log-tables"
     },
-    {
-      "from": "/guides/data-vis/log-tables](https://docs.wandb.ai/guides/data-vis/log-tables",
-      "to": "/guides/data-vis"
-    },
+
     {
       "from": "/guides/data_types",
       "to": "/ref/python/data-types"
@@ -393,8 +394,120 @@
       "to": "/guides/hosting"
     },
     {
+      "from": "/guides/self-hosted",
+      "to": "/guides/hosting/hosting-options/self-managed/"
+    },
+    {
+      "from": "/guides/self-hosted/local",
+      "to": "/guides/hosting/hosting-options/self-managed/"
+    },
+    {
+      "from": "/guides/self-hosted/local-common-questions",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/self-hosted/setup/private-cloud",
+      "to": "/guides/hosting/hosting-options/dedicated_cloud",
+    },
+    {
+      "from": "/self-hosted/setup/on-premise-baremetal",
+      "to": "/guides/hosting/hosting-options/self-managed",
+    },
+    {
+      "from": "/guides/self-hosted/setup/configuration",
+      "to": "/guides/hosting",
+    },    
+    {
+      "from": "/guides/hosting/secure-storage-connector",
+      "to": "/guides/hosting/data-security/secure-storage-connector"
+    },
+    {
+      "from": "/guides/hosting/presigned-urls",
+      "to": "/guides/hosting/data-security/presigned-urls"
+    },
+    {
+      "from": "/guides/hosting/ip-allowlisting",
+      "to": "/guides/hosting/data-security/ip-allowlisting"
+    },
+    {
+      "from": "/guides/hosting/private-connectivity",
+      "to": "/guides/hosting/data-security/private-connectivity"
+    },
+    {
+      "from": "/guides/hosting/restricted-projects",
+      "to": "/guides/hosting/iam/restricted-projects"
+    },
+    {
+      "from": "/guides/hosting/audit-logging",
+      "to": "/guides/hosting/monitoring-usage/audit-logging"
+    },
+    {
+      "from": "/guides/hosting/prometheus-logging",
+      "to": "/guides/hosting/monitoring-usage/prometheus-logging"
+    },
+    {
+      "from": "/guides/hosting/slack-alerts",
+      "to": "/guides/hosting/monitoring-usage/slack-alerts"
+    },
+    {
+      "from": "/guides/hosting/org_dashboard",
+      "to": "/guides/hosting/monitoring-usage/org_dashboard"
+    },
+    {
       "from": "/guides/hosting/basic-setup",
       "to": "/guides/hosting/how-to-guides/basic-setup"
+    },
+    {
+      "from": "/guides/hosting/hosting-options/intro",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/hosting-options",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/hosting-options/wb-managed",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/basic-setup",
+      "to": "/guides/hosting/self-managed/basic-setup"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/aws-tf",
+      "to": "/guides/hosting/self-managed/aws-tf"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/gcp-tf",
+      "to": "/guides/hosting/self-managed/gcp-tf"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/azure-tf",
+      "to": "/guides/hosting/self-managed/azure-tf"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/operator",
+      "to": "/guides/hosting/operator"
+    },
+    {
+      "from": "/guides/hosting/how-to-guides/bare-metal",
+      "to": "/guides/hosting/self-managed/bare-metal"
+    },
+    {
+      "from": "/guides/hosting/ldap",
+      "to": "/guides/hosting/iam/ldap"
+    },
+    {
+      "from": "/guides/hosting/manage-users",
+      "to": "/guides/hosting/iam/manage-users"
+    },
+    {
+      "from": "/guides/hosting/scim",
+      "to": "/guides/hosting/iam/scim"
+    },
+    {
+      "from": "/guides/hosting/sso",
+      "to": "/guides/hosting/iam/sso"
     },
     {
       "from": "/guides/hosting/hosting-upgrade",
@@ -699,7 +812,7 @@
     {
       "from": "/guides/launch/create-job",
       "to": "/guides/launch/create-launch-job"
-    },    
+    },
     {
       "from": "/guides/launch/getting-started",
       "to": "/guides/launch/walkthrough"
@@ -707,43 +820,39 @@
     {
       "from": "/guides/launch/launch-jobs",
       "to": "/guides/launch/add-job-to-queue"
-    },    
-    {
-      "from": "/guides/models",
-      "to" : "/guides/model_registry"
     },
     {
       "from": "/guides/models/walkthrough",
-      "to" : "/guides/model_registry/walkthrough"
+      "to": "/guides/model_registry/walkthrough"
     },
     {
       "from": "/guides/models/model_tags",
-      "to" : "/guides/model_registry/model_tags"
+      "to": "/guides/model_registry/model_tags"
     },
     {
       "from": "/guides/models/model_tags",
-      "to" : "/guides/model_registry/link-model-version"
+      "to": "/guides/model_registry/link-model-version"
     },
     {
       "from": "/guides/models/access_controls",
-      "to" : "/guides/model_registry/access_controls"
+      "to": "/guides/model_registry/access_controls"
     },
     {
       "from": "/guides/models/automation",
-      "to" : "/guides/model_registry/automation"
+      "to": "/guides/model_registry/model-registry-automations"
     },
     {
       "from": "/guides/models/notifications",
-      "to" : "/guides/model_registry/notifications"
+      "to": "/guides/model_registry/notifications"
     },
     {
       "from": "/guides/models/model-management-concepts",
-      "to" : "/guides/model_registry/model-management-concepts"
+      "to": "/guides/model_registry/model-management-concepts"
     },
     {
       "from": "/guides/model_registry/quickstart",
-      "to" : "/guides/model_registry/walkthrough"
-    },    
+      "to": "/guides/model_registry/walkthrough"
+    },
     {
       "from": "/guides/manage-runs",
       "to": "/guides/runs/manage-runs"
@@ -751,6 +860,22 @@
     {
       "from": "/guides/projects/campaigns",
       "to": "/"
+    },
+    {
+      "from": "/guides/prompts_platform",
+      "to": "/guides/weave_platform"
+    },
+    {
+      "from": "/guides/prompts/intro",
+      "to": "/guides/integrations/prompts/intro"
+    },
+    {
+      "from": "/guides/prompts/quickstart",
+      "to": "/guides/integrations/prompts/quickstart"
+    },
+    {
+      "from": "/guides/prompts/openai",
+      "to": "/guides/integrations/prompts/openai"
     },
     {
       "from": "/guides/projects/sharing-and-visibility",
@@ -958,19 +1083,31 @@
     },
     {
       "from": "/weave",
-      "to": "/guides/app/features/panels/weave"
+      "to": "/guides/app/features/panels/query-panel"
+    },
+    {
+      "from": "/guides/app/features/panels/weave",
+      "to": "/guides/app/features/panels/query-panel"
     },
     {
       "from": "/weave/boards",
-      "to": "/guides/app/features/panels/weave"
+      "to": "/guides/app/features/panels/query-panel"
     },
     {
       "from": "/weave/streamtable",
-      "to": "/guides/app/features/panels/weave"
+      "to": "/guides/app/features/panels/query-panel"
+    },
+    {
+      "from": "/guides/app/features/panels/weave/embedding-projector",
+      "to": "/guides/app/features/panels/query-panel/embedding-projector"
+    },
+    {
+      "from": "/guides/platform",
+      "to": "/guides/core"
     },
     {
       "from": "/weave/prod-mon",
-      "to": "/guides/platform"
+      "to": "/guides/core"
     },
     {
       "from": "/home",
@@ -1695,6 +1832,22 @@
     {
       "from": "/teams",
       "to": "/guides/app/features/teams"
+    },
+    {
+      "from": "/tutorials/lightgbm",
+      "to": "/tutorials"
+    },
+    {
+      "from": "/tutorials/prompts",
+      "to": "/tutorials"
+    },
+    {
+      "from": "/tutorials/Workspace_tutorial",
+      "to": "/tutorials/workspaces"
+    },
+    {
+      "from": "/tutorials/xgboost",
+      "to": "/tutorials"
     },
     {
       "from": "/v",

@@ -1,16 +1,14 @@
 ---
 displayed_sidebar: default
+title: Monitor launch queue
 ---
 
-# Queue monitoring dashboard (beta)
-
 Use the interactive **Queue monitoring dashboard** to view when a launch queue is in heavy use or idle, visualize workloads that are running, and spot inefficient jobs. The launch queue dashboard is especially useful for deciding whether or not you are effectively using your compute hardware or cloud resources.
-
 
 For deeper analysis, the page links to the W&B experiment tracking workspace and to external infrastructure monitoring providers like Datadog, NVIDIA Base Command, or cloud consoles.
 
 :::info
-Queue monitoring dashboards require W&B Weave.  W&B Weave is yet not available on Customer-managed or AWS/GCP Dedicated Cloud deployments. Contact your W&B representative to learn more.
+Queue monitoring dashboards are currently available only in the W&B Multi-tenant Cloud deployment option.
 :::
 
 ## Dashboard and plots
