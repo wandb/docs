@@ -15,7 +15,7 @@ This [guide from Cohere](https://docs.cohere.com/page/convfinqa-finetuning-wandb
 
 ## Log your Cohere fine-tuning results
 
-To quickly add Cohere fine-tuning logging to your W&B workspace:
+To add Cohere fine-tuning logging to your W&B workspace:
 
 1. Create a `WandbConfig` with your W&B API key, W&B `entity` and `project` name. You can find your W&B API key at https://wandb.ai/authorize
 
