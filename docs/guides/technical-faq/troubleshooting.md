@@ -1,11 +1,9 @@
 ---
 displayed_sidebar: default
+title: Troubleshooting
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Troubleshooting
 
 ### If wandb crashes, will it possibly crash my training run?
 

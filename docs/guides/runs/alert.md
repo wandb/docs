@@ -1,14 +1,9 @@
 ---
 description: Send alerts, triggered from your Python code, to your Slack or email
 displayed_sidebar: default
+title: Send an alert
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-# Send alerts 
-
-<head>
-  <title>Send Alerts from your Python Code</title>
-</head>
 
 <CTAButtons colabLink="http://wandb.me/alerts-colab"/>
 

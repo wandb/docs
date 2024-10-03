@@ -1,9 +1,8 @@
 ---
 description: Guide for updating W&B (Weights & Biases) version and license across different installation methods.
 displayed_sidebar: default
+title: Update W&B license and version
 ---
-
-# Update W&B License and Version
 
 Update your W&B Server Version and License with the same method you installed W&B Server with. The following table lists how to update your license and version based on different deployment methods:
 

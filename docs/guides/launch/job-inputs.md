@@ -1,10 +1,9 @@
 ---
 displayed_sidebar: default
+title: Manage job inputs
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Manage job inputs
 
 The core experience of Launch is easily experimenting with different job inputs like hyperparameters and datasets, and routing these jobs to appropriate hardware. Once a job is created, users beyond the original author can adjust these inputs via the W&B GUI or CLI. For information on how job inputs can be set when launching from the CLI or UI, see the [Enqueue jobs](./add-job-to-queue.md) guide.
 

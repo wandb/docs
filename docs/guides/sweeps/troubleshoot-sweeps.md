@@ -1,13 +1,8 @@
 ---
 description: Troubleshoot common W&B Sweep issues.
 displayed_sidebar: default
+title: Sweeps troubleshooting
 ---
-
-# Troubleshoot Sweeps
-
-<head>
-  <title>Troubleshoot W&B Sweeps</title>
-</head>
 
 Troubleshoot common error messages with the guidance suggested.
 

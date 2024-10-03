@@ -2,10 +2,8 @@
 slug: /guides/technical-faq
 description: Frequently asked questions about W&B.
 displayed_sidebar: default
+title: Technical FAQ
 ---
-
-# Technical FAQ
-
 
 The following guide provides answers to frequently asked questions. Questions are grouped into four categories:
 

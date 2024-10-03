@@ -1,14 +1,12 @@
 ---
-description: ''
+description: 'How to download a model with W&B Python SDK'
 displayed_sidebar: default
+title: Download a model version
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-
-# Download a model version
-
-Use the W&B Python SDK to download a model artifact that you linked to the Model Registry. Downloading a model is particularly useful if you want to load or consume a model in a future to evaluate a model's performance, make predictions with a dataset, or use ship the model to production. 
+Use the W&B Python SDK to download a model artifact that you linked to the Model Registry. 
 
 :::info
 You are responsible for providing additional Python functions, API calls to reconstruct, deserialize your model into a form that you can work with. 

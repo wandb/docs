@@ -1,9 +1,8 @@
 ---
 description: Visualize metrics, customize axes, and compare categorical data as bars.
 displayed_sidebar: default
+title: Bar plots
 ---
-
-# Bar Plot
 
 A bar plot presents categorical data with rectangular bars which can be plotted vertically or horizontally. Bar plots show up by default with **wandb.log()** when all logged values are of length one.
 
@@ -22,4 +21,4 @@ You can also create **Box** or **Violin** Plots to combine many summary statisti
 3. Add a standard 'Bar Chart' and select the metric to plot.
 4. Under the 'Grouping' tab, pick 'box plot' or 'Violin', etc. to plot either of these styles.
 
-![Customize Bar Plots](@site/static/images/app_ui/bar_plots.gif)
+![Customize Bar Plots](/images/app_ui/bar_plots.gif)

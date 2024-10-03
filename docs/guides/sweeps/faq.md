@@ -1,16 +1,10 @@
 ---
 description: Answers to frequently asked question about W&B Sweeps.
 displayed_sidebar: default
+title: Sweeps FAQ
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-# FAQ
-
-<head>
-  <title>Frequently Asked Questions About Sweeps</title>
-</head>
 
 ### Do I need to provide values for all hyperparameters as part of the W&B Sweep. Can I set defaults?
 

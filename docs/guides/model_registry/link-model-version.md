@@ -1,11 +1,10 @@
 ---
-description: ''
+description: Link a model version to a registered model with the W&B App or programmatically with the Python SDK.
 displayed_sidebar: default
+title: Link a model version
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Link a model version
 
 Link a model version to a registered model with the W&B App or programmatically with the Python SDK.
 

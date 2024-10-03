@@ -2,9 +2,8 @@
 slug: /guides/app/features
 description: High level overview of the W&B App features
 displayed_sidebar: default
+title: Features
 ---
-
-# Features
 
 This guides provides information about W&B App features. Select on a topic to learn more:
 

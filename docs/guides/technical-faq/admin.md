@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Admin FAQ
 ---
-
-# Admin
 
 ### What is the difference between team and organization?
 

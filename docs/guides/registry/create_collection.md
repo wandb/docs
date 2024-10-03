@@ -1,10 +1,9 @@
 ---
 displayed_sidebar: default
+title: Create a collection
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Create a collection
 
 Create a collection within a registry to organize your artifacts. A *collection* is a set of linked artifact versions in a registry. Each collection represents a distinct task or use case and serves as a container for a curated selection of artifact versions related to that task. 
 

@@ -1,14 +1,17 @@
-# Keras Tables
+---
+title: Keras tables
+---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb)
+<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb'/>
 
 Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
 
-<img src="http://wandb.me/mini-diagram" width="650" alt="Weights & Biases" />
+![](/images/tutorials/huggingface-why.png)
 
-This colab notebook introduces the `WandbEvalCallback` which is an abstract callback that be inherited to build useful callbacks for model prediction visualization and dataset visualization. Refer to the [💫 `WandbEvalCallback`](https://colab.research.google.com/drive/107uB39vBulCflqmOWolu38noWLxAT6Be#scrollTo=u50GwKJ70WeJ&line=1&uniqifier=1) section for more details.
+This Colab notebook introduces the `WandbEvalCallback` which is an abstract callback that be inherited to build useful callbacks for model prediction visualization and dataset visualization. 
 
-# 🌴 Setup and Installation
+## 🌴 Setup and Installation
 
 First, let us install the latest version of Weights and Biases. We will then authenticate this colab instance to use W&B.
 
@@ -40,7 +43,7 @@ If this is your first time using W&B or you are not logged in, the link that app
 wandb.login()
 ```
 
-# 🌳 Hyperparameters
+## 🌳 Hyperparameters
 
 Use of proper config system is a recommended best practice for reproducible machine learning. We can track the hyperparameters for every experiment using W&B. In this colab we will be using simple Python `dict` as our config system.
 
@@ -58,7 +61,7 @@ configs = dict(
 )
 ```
 
-# 🍁 Dataset
+## 🍁 Dataset
 
 In this colab, we will be using [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
 
@@ -105,7 +108,7 @@ trainloader = get_dataloader(train_ds, configs)
 validloader = get_dataloader(valid_ds, configs, dataloader_type="valid")
 ```
 
-# 🎄 Model
+## 🎄 Model
 
 
 ```python
@@ -135,7 +138,7 @@ model = get_model(configs)
 model.summary()
 ```
 
-# 🌿 Compile Model
+## 🌿 Compile Model
 
 
 ```python
@@ -149,7 +152,7 @@ model.compile(
 )
 ```
 
-# 💫 `WandbEvalCallback`
+## 💫 `WandbEvalCallback`
 
 The `WandbEvalCallback` is an abstract base class to build Keras callbacks for primarily model prediction visualization and secondarily dataset visualization.
 
@@ -167,7 +170,7 @@ As an example, we have implemented `WandbClfEvalCallback` below for an image cla
 - performs inference and logs the prediction (`pred_table`) to W&B on every epoch end.
 
 
-## How the memory footprint is reduced?
+## ✨ How the memory footprint is reduced?
 
 We log the `data_table` to W&B when the `on_train_begin` method is ivoked. Once it's uploaded as a W&B Artifact, we get a reference to this table which can be accessed using `data_table_ref` class variable. The `data_table_ref` is a 2D list that can be indexed like `self.data_table_ref[idx][n]` where `idx` is the row number while `n` is the column number. Let's see the usage in the example below.
 
@@ -209,7 +212,7 @@ class WandbClfEvalCallback(WandbEvalCallback):
         return preds
 ```
 
-# 🌻 Train
+## 🌻 Train
 
 
 ```python

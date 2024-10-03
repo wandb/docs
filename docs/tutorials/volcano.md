@@ -1,7 +1,8 @@
+---
+title: Launch multinode jobs with Volcano
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Launch multinode jobs with Volcano
 
 This tutorial will guide you through the process of launching multinode training jobs with W&B and Volcano on Kubernetes.
 

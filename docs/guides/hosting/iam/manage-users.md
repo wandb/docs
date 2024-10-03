@@ -1,7 +1,8 @@
 ---
 displayed_sidebar: default
+title: Manage users
 ---
-# Manage users
+
 Manage W&B users in your organization or team.
 
 W&B strongly recommends and encourages that users authenticate to an organization using Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).

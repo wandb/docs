@@ -1,9 +1,9 @@
 ---
 description: Forking a W&B run
 displayed_sidebar: default
+title: Fork a run
 ---
 
-# Fork from a run
 :::caution
 The ability to fork a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 :::
@@ -14,7 +14,7 @@ Forking a run enables you to explore different parameters or models from a speci
 
 :::info
 * Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
-* Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](https://docs.wandb.ai/ref/python/run#define_metric) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
+* Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](/ref/python/run#define_metric) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
 :::
 
 
@@ -42,7 +42,7 @@ forked_run = wandb.init(
 
 Use an immutable run ID to ensure you have a consistent and unchanging reference to a specific run. Follow these steps to obtain the immutable run ID from the user interface:
 
-1. **Access the Overview Tab:** Navigate to the [**Overview tab**](https://docs.wandb.ai/guides/app/pages/run-page#overview-tab) on the source run's page.
+1. **Access the Overview Tab:** Navigate to the [**Overview tab**](/guides/app/pages/run-page#overview-tab) on the source run's page.
 
 2. **Copy the Immutable Run ID:** Click on the `...` menu (three dots) located in the top-right corner of the **Overview** tab. Select the `Copy Immutable Run ID` option from the dropdown menu.
 
@@ -84,7 +84,7 @@ run2.finish()
 ```
 
 :::tip Rewind and forking compatibility
-Forking compliments a [`rewind`](https://docs.wandb.ai/guides/runs/rewind) by providing more flexibility in managing and experimenting with your runs. 
+Forking compliments a [`rewind`](/guides/runs/rewind) by providing more flexibility in managing and experimenting with your runs. 
 
 When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
 

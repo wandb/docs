@@ -1,15 +1,10 @@
 ---
 description: Add W&B to your Python code script or Jupyter Notebook.
 displayed_sidebar: default
+title: Add W&B (wandb) to your code
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Add W&B to your code
-
-<head>
-  <title>Add W&B to your Python code</title>
-</head>
 
 There are numerous ways to add the W&B Python SDK to your script or Jupyter Notebook. Outlined below is a "best practice" example of how to integrate the W&B Python SDK into your own code.
 

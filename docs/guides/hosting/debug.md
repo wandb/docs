@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Create debugging bundle
 ---
-
-# Debug bundle
 
 Share logs and other details with the support team to debug any issues in your W&B Server. To download the debug bundle, follow these steps:
 

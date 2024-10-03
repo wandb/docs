@@ -32,11 +32,11 @@ Use Traces for LLM chaining, plug-in or pipelining use cases. You can use your o
 
 Traces consists of three main components:
 
-- [Trace table](https://docs.wandb.ai/guides/prompts#trace-table): Overview of the inputs and outputs of a chain.
-- [Trace timeline](https://docs.wandb.ai/guides/prompts#trace-timeline): Displays the execution flow of the chain and is color-coded according to component types.
-- [Model architecture](https://docs.wandb.ai/guides/prompts#model-architecture): View details about the structure of the chain and the parameters used to initialize each component of the chain.
+- [Trace table](#trace-table): Overview of the inputs and outputs of a chain.
+- [Trace timeline](#trace-timeline): Displays the execution flow of the chain and is color-coded according to component types.
+- [Model architecture](#model-architecture): View details about the structure of the chain and the parameters used to initialize each component of the chain.
 
-**Trace Table**
+#### Trace Table
 
 The Trace Table provides an overview of the inputs and outputs of a chain. The trace table also provides information about the composition of a trace event in the chain, whether or not the chain ran successfully, and any error messages returned when running the chain.
 
@@ -44,7 +44,7 @@ The Trace Table provides an overview of the inputs and outputs of a chain. The t
 
 Click on a row number on the left hand side of the Table to view the Trace Timeline for that instance of the chain.
 
-**Trace Timeline**
+#### Trace Timeline
 
 The Trace Timeline view displays the execution flow of the chain and is color-coded according to component types. Select a trace event to display the inputs, outputs, and metadata of that trace.
 
@@ -54,11 +54,11 @@ Trace events that raise an error are outlined in red. Click on a trace event col
 
 ![Screenshot of a Trace Timeline error.](/images/prompts/trace_timeline_error.png)
 
-**Model Architecture**
+#### Model Architecture
 
 The Model Architecture view provides details about the structure of the chain and the parameters used to initialize each component of the chain. Click on a trace event to learn more details about that event.
 
-**Evaluation** 
+## Evaluation
 
 To iterate on an application, we need a way to evaluate if it's improving. To do so, a common practice is to test it against the same dataset when there is a change. See this tutorial to learn how to evaluate LLM applications using W&B.
 [Tutorial: Evaluate LLM application performance](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)
@@ -67,10 +67,10 @@ To iterate on an application, we need a way to evaluate if it's improving. To do
 
 Weights and Biases also has lightweight integrations for:
 
-- [LangChain](https://docs.wandb.ai/guides/integrations/langchain)
-- [OpenAI API](https://docs.wandb.ai/guides/integrations/openai-api)
-- [OpenAI GPT-3.5 Fine-Tuning](https://docs.wandb.ai/guides/integrations/openai)
-- [Hugging Face Transformers](https://docs.wandb.ai/guides/integrations/huggingface)
+- [LangChain](/guides/integrations/langchain)
+- [OpenAI API](/guides/integrations/openai-api)
+- [OpenAI GPT-3.5 Fine-Tuning](/guides/integrations/openai)
+- [Hugging Face Transformers](/guides/integrations/huggingface)
 
 ## Getting Started
 
@@ -78,7 +78,7 @@ We recommend you go through the Prompts [Quickstart](./quickstart.md) guide, w
 
 ## Next Steps
 
-- Check out more detailed documentation on [Trace](https://colab.research.google.com/github/wandb/weave/blob/master/examples/prompts/trace_debugging/trace_quickstart_langchain.ipynb), or our [OpenAI](https://docs.wandb.ai/guides/prompts/openai) Integration.
+- Check out more detailed documentation on [Trace](https://colab.research.google.com/github/wandb/weave/blob/master/examples/prompts/trace_debugging/trace_quickstart_langchain.ipynb), or our [OpenAI](/guides/integrations/prompts/openai/) Integration.
 - Try one of our [demo colabs](https://github.com/wandb/examples/tree/master/colabs/prompts), which offer more detailed explanations of how to use Prompts for LLMOps.
 - You can use existing W&B features like Tables and Runs to track LLM application performance. See this tutorial to learn more:
 [Tutorial: Evaluate LLM application performance](https://github.com/wandb/examples/blob/master/colabs/prompts/prompts_evaluation.ipynb)
