@@ -16,7 +16,7 @@ Before you start, we recommend you choose one of the [remote backends](https://d
 
 The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
 
-The Terraform Module will deploy the following `mandatory` components:
+The Terraform Module deploys the following `mandatory` components:
 
 - Load Balancer
 - AWS Identity & Access Management (IAM)
@@ -26,7 +26,7 @@ The Terraform Module will deploy the following `mandatory` components:
 - Amazon S3
 - Amazon Route53
 - Amazon Certificate Manager (ACM)
-- Amazon Elastic Loadbalancing (ALB)
+- Amazon Elastic Load Balancing (ALB)
 - Amazon Secrets Manager
 
 Other deployment options can also include the following optional components:
@@ -36,7 +36,7 @@ Other deployment options can also include the following optional components:
 
 ## **Pre-requisite permissions**
 
-The account that will run the Terraform needs to be able to create all components described in the Introduction and permission to create **IAM Policies** and **IAM Roles** and assign roles to resources.
+The account that runs Terraform needs to be able to create all components described in the Introduction and permission to create **IAM Policies** and **IAM Roles** and assign roles to resources.
 
 ## General steps
 
@@ -87,7 +87,7 @@ The steps on this topic are common for any deployment option covered by this doc
 
    Refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
 
-   Optionally, **but highly recommended**, you can add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
+   Optionally, **but highly recommended**, add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
 
 4. Create the file `variables.tf`
 
@@ -132,9 +132,9 @@ The steps on this topic are common for any deployment option covered by this doc
    }
    ```
 
-## Deployment - Recommended (~20 mins)
+## Recommonded deployment option
 
-This is the most straightforward deployment option configuration that will create all `Mandatory` components and install in the `Kubernetes Cluster` the latest version of `W&B`.
+This is the most straightforward deployment option configuration that creates all `Mandatory` components and installs in the `Kubernetes Cluster` the latest version of `W&B`.
 
 1. Create the `main.tf`
 
@@ -322,7 +322,7 @@ Optionally add an advanced access policy in the **Access Policy** section. For e
 }
 ```
 
-### Grant Permissions to Node Running W&B
+### Grant permissions to node that runs W&B
 
 The node where W&B server is running must be configured to permit access to Amazon S3 and Amazon SQS. Depending on the type of server deployment you have opted for, you may need to add the following policy statements to your node role:
 
@@ -347,11 +347,11 @@ The node where W&B server is running must be configured to permit access to Amaz
 }
 ```
 
-### Configure W&B server
+### Configure a W&B server
 Finally, configure your W&B Server.
 
 1. Navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
-2. Enable the ***Use an external file storage backend* option/
+2. Enable the ***Use an external file storage backend* option
 3. Provide information about your Amazon S3 bucket, region, and Amazon SQS queue in the following format:
 * **File Storage Bucket**: `s3://<bucket-name>`
 * **File Storage Region (AWS only)**: `<region>`
@@ -382,7 +382,7 @@ Follow the steps outlined here to update W&B:
 
 2. After you update your configuration, complete the steps described in the [Deployment section](#deployment---recommended-20-mins).
 
-## Migrate to Operator-based AWS Terraform Modules
+## Migrate to operator-based AWS Terraform modules
 
 This section details the steps required to upgrade from _pre-operator_ to  _post-operator_ environments using the [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) module.
 
@@ -391,7 +391,7 @@ The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/ex
 :::
 
 
-### Before and after Architecture
+### Before and after architecture
 
 Previously, the W&B architecture used:
 
@@ -446,7 +446,7 @@ Before initiating the migration process, ensure the following prerequisites are 
 - **Route53 Hosted Zone**: An existing Route53 hosted zone corresponding to the domain under which the application will be served.
 - **Pre-Operator Terraform Files**: Ensure `pre-operator.tf` and associated variable files like `pre-operator.tfvars` are correctly set up.
 
-### Pre-Operator Setup
+### Pre-Operator set up
 
 Execute the following Terraform commands to initialize and apply the configuration for the Pre-Operator setup:
 
@@ -593,7 +593,7 @@ module "wandb_infra" {
 }
 ```
 
-#### Changes in the Post-Operator Configuration:
+#### Changes in the post-operator configuration:
 
 1. **Update Required Providers**: Change `required_providers.aws.version` from `3.6` to `4.0` for provider compatibility.
 2. **DNS and Load Balancer Configuration**: Integrate `enable_dummy_dns` and `enable_operator_alb` to manage DNS records and AWS Load Balancer setup through an Ingress.
