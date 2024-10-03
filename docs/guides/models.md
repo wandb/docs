@@ -1,12 +1,11 @@
 ---
 displayed_sidebar: default
+title: W&B Models
 ---
-
-# W&B Models
 
 W&B Models is the system of record for ML Practitioners who want to organize their models, boost productivity and collaboration, and deliver production ML at scale. 
 
-![](@site/static/images/general/models.png)
+![](/images/general/models.png)
 
 With W&B Models, you can: 
 

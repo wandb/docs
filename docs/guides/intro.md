@@ -4,25 +4,24 @@ description: >-
   if you are a first time user.
 slug: /guides
 displayed_sidebar: default
+title: What is W&B?
 ---
-
-# What is W&B?
 
 Weights & Biases (W&B) is the AI developer platform, with tools for training models, fine-tuning models, and leveraging foundation models. 
 
-![](@site/static/images/general/architecture.png)
+![](/images/general/architecture.png)
 
-W&B consists of three major components: [Models](/guides/models.md), [Weave](https://wandb.github.io/weave/), and [Core](/guides/platform.md):
+W&B consists of three major components: [Models](/guides/models.md), [Weave](https://wandb.github.io/weave/), and [Core](/guides/core.md):
 
 **[W&B Models](/guides/models.md)** is a set of lightweight, interoperable tools for machine learning practitioners training and fine-tuning models.
 - [Experiments](/guides/track/intro.md): Machine learning experiment tracking
 - [Sweeps](/guides/sweeps/intro.md): Hyperparameter tuning and model optimization
-- [Model Registry](/guides/model_registry/intro.md): Manage production models centrally
+- [Registry](/guides/registry/intro.md): Publish and share your ML models and datasets
 - [Launch](/guides/launch/intro.md): Scale and automate workloads
 
 **[W&B Weave](https://wandb.github.io/weave/)** is a lightweight toolkit for tracking and evaluating LLM applications.
 
-**[W&B Core](/guides/platform.md)** is set of powerful building blocks for tracking and visualizing data and models, and communicating results.
+**[W&B Core](/guides/core.md)** is set of powerful building blocks for tracking and visualizing data and models, and communicating results.
 - [Artifacts](/guides/artifacts/intro.md): Version assets and track lineage
 - [Tables](/guides/tables/intro.md): Visualize and query tabular data
 - [Reports](/guides/reports/intro.md): Document and collaborate on your discoveries

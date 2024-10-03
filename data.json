@@ -394,6 +394,30 @@
       "to": "/guides/hosting"
     },
     {
+      "from": "/guides/self-hosted",
+      "to": "/guides/hosting/hosting-options/self-managed/"
+    },
+    {
+      "from": "/guides/self-hosted/local",
+      "to": "/guides/hosting/hosting-options/self-managed/"
+    },
+    {
+      "from": "/guides/self-hosted/local-common-questions",
+      "to": "/guides/hosting"
+    },
+    {
+      "from": "/guides/self-hosted/setup/private-cloud",
+      "to": "/guides/hosting/hosting-options/dedicated_cloud",
+    },
+    {
+      "from": "/self-hosted/setup/on-premise-baremetal",
+      "to": "/guides/hosting/hosting-options/self-managed",
+    },
+    {
+      "from": "/guides/self-hosted/setup/configuration",
+      "to": "/guides/hosting",
+    },    
+    {
       "from": "/guides/hosting/secure-storage-connector",
       "to": "/guides/hosting/data-security/secure-storage-connector"
     },
@@ -1078,8 +1102,12 @@
       "to": "/guides/app/features/panels/query-panel/embedding-projector"
     },
     {
+      "from": "/guides/platform",
+      "to": "/guides/core"
+    },
+    {
       "from": "/weave/prod-mon",
-      "to": "/guides/platform"
+      "to": "/guides/core"
     },
     {
       "from": "/home",
@@ -1812,6 +1840,10 @@
     {
       "from": "/tutorials/prompts",
       "to": "/tutorials"
+    },
+    {
+      "from": "/tutorials/Workspace_tutorial",
+      "to": "/tutorials/workspaces"
     },
     {
       "from": "/tutorials/xgboost",

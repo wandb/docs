@@ -1,12 +1,10 @@
 ---
-title: Install on on-prem infra
+title: Host a W&B Server on-premises
 description: Hosting W&B Server on on-premises infrastructure
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Install on on-prem infra
 
 :::info
 W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
@@ -47,7 +45,7 @@ It is important to keep in mind that these specifications are minimum requiremen
 
 ### Database Server
 
-W&B recommends a [MySQL 8](../self-managed/bare-metal.md#mysql-80) database as a metadata store. The shape of the ML practitioners parameters and metadata will greatly affect the performance of the database. The database is typically incrementally written to as practitioners track their training runs and is more read heavy when queries are executed in reports and dashboard.
+W&B recommends a [MySQL 8](#mysql-database) database as a metadata store. The shape of the ML practitioners parameters and metadata will greatly affect the performance of the database. The database is typically incrementally written to as practitioners track their training runs and is more read heavy when queries are executed in reports and dashboard.
 
 To ensure optimal performance we recommend deploying the W&B database on to a server with the following starting specs:
 
@@ -61,7 +59,7 @@ To ensure optimal performance we recommend deploying the W&B database on to a se
 
 Again, we recommend monitoring the resource usage and performance of the database to ensure that it operates optimally and to make adjustments as necessary.
 
-Additionally, we recommend the following [parameter overrides](../self-managed/bare-metal.md#mysql-80) to tune the DB for MySQL 8.
+Additionally, we recommend the following [parameter overrides](#mysql-database) to tune the DB for MySQL 8.
 
 ### Object Storage
 
@@ -101,7 +99,7 @@ innodb_flush_log_at_trx_commit = 1
 binlog_row_image = 'MINIMAL'
 ```
 
-Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. Our recommendation is to set the value to `33554432(32MiB)` in order for the database to efficiently work with the W&B application. Note that, this only works with MySQL versions 8.0.28 and above.
+Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. Our recommendation is to set the value to `67108864(64MiB)` in order for the database to efficiently work with the W&B application. Note that, this only works with MySQL versions 8.0.28 and above.
 
 ### Database considerations
 
@@ -130,7 +128,7 @@ innodb_online_alter_log_max_size = 268435456
 sync_binlog = 1
 innodb_flush_log_at_trx_commit = 1
 binlog_row_image = 'MINIMAL'
-sort_buffer_size = 33554432
+sort_buffer_size = 67108864
 ```
 
 ## Object Store
@@ -189,108 +187,18 @@ mc config host add local http://$MINIO_HOST:$MINIO_PORT "$MINIO_ACCESS_KEY" "$MI
 mc mb --region=us-east1 local/local-files
 ```
 
-## Kubernetes deployment
+## Deploy W&B Server application to Kubernetes
 
-The following k8s yaml can be customized but should serve as a basic foundation for configuring local in Kubernetes.
+The recommended installation method is with the official W&B Helm chart. Follow [this section](../operator#deploy-wb-with-helm-cli) to deploy the W&B Server application.
 
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: wandb
-  labels:
-    app: wandb
-spec:
-  strategy:
-    type: RollingUpdate
-  replicas: 1
-  selector:
-    matchLabels:
-      app: wandb
-  template:
-    metadata:
-      labels:
-        app: wandb
-    spec:
-      containers:
-        - name: wandb
-          env:
-            - name: HOST
-              value: https://YOUR_DNS_NAME
-            - name: LICENSE
-              value: XXXXXXXXXXXXXXX
-            - name: BUCKET
-              value: s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME
-            - name: BUCKET_QUEUE
-              value: internal://
-            - name: AWS_REGION
-              value: us-east-1
-            - name: MYSQL
-              value: mysql://$USERNAME:$PASSWORD@$HOSTNAME/$DATABASE
-          imagePullPolicy: IfNotPresent
-          image: wandb/local:latest
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /ready
-              port: http
-          startupProbe:
-            httpGet:
-              path: /ready
-              port: http
-            failureThreshold: 60 # allow 10 minutes for migrations
-          resources:
-            requests:
-              cpu: '2000m'
-              memory: 4G
-            limits:
-              cpu: '4000m'
-              memory: 8G
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: wandb-service
-spec:
-  type: NodePort
-  selector:
-    app: wandb
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: wandb-ingress
-  annotations:
-    kubernetes.io/ingress.class: nginx
-spec:
-  defaultBackend:
-    service:
-      name: wandb-service
-      port:
-        number: 80
-```
 
-The k8s YAML above should work in most on-premises installations. However the details of your Ingress and optional SSL termination will vary. See [networking](#networking) below.
+### OpenShift
 
-### Helm Chart
+W&B supports operating from within an [OpenShift Kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). 
 
-W&B also supports deploying via a Helm Chart. The official W&B helm chart can be [found here](https://github.com/wandb/helm-charts).
-
-### Openshift
-
-W&B supports operating from within an [Openshift kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). Simply follow the instructions in the kubernetes deployment section above.
-
+:::info
+W&B recommends you install with the official W&B Helm chart. 
+:::
 #### Run the container as an un-privileged user
 
 By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.

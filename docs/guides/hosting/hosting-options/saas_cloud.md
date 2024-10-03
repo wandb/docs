@@ -1,9 +1,7 @@
 ---
-title: W&B Multi-tenant Cloud
 displayed_sidebar: default
+title: Use W&B Multi-tenant Cloud
 ---
-
-# Multi-tenant Cloud
 
 W&B Multi-tenant Cloud is a fully-managed platform deployed in W&B's Google Cloud Platform (GCP) account in [GPC's North America regions](https://cloud.google.com/compute/docs/regions-zones). W&B Multi-tenant Cloud utilizes autoscaling in GCP to ensure that the platform scales appropriately based on increases or decreases in traffic. 
 

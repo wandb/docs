@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Advanced IAM configuration
 ---
-
-# Advanced configuration
 
 In addition to basic [environment variables](../env-vars.md), you can use environment variables to configure IAM options for your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance.
 

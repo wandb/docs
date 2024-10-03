@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Use point aggregation
 ---
-
-# W&B Line Plots Point aggregation
 
 Use point aggregation methods within W&B Line Plots to improve data visualization accuracy and performance. There are two types of point aggregation modes: [Random sampling](#random-sampling) and [Full fidelity](#full-fidelity).
 

@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Configure Slack alerts
 ---
-
-# Slack alerts
 
 Integrate W&B Server with [Slack](https://slack.com/).
 
@@ -40,10 +39,18 @@ Follow the procedure below to create a Slack application.
 
 ## Register your Slack application with W&B
 
-1. Navigate to the **System Settings** page of your W&B instance. Toggle the **Enable a custom Slack application to dispatch alerts** to enable a custom Slack application:
+1. Navigate to the **System Settings** or **System Console** page of your W&B instance, depending on your deployment
+
+2. Depending on the System page you are on follow one of the below options:
+
+- If you are in the **System Console**: go to **Settings** then to **Notifications**
+
+![](/images/hosting/register_slack_app_console.png)
+
+- If you are in the **System Settings**: toggle the **Enable a custom Slack application to dispatch alerts** to enable a custom Slack application
 
 ![](/images/hosting/register_slack_app.png)
 
-You will need to supply your Slack application's client ID and secret. Navigate to Basic Information in Settings to find your application’s client ID and secret.
+3. Supply your **Slack client ID** and **Slack secret** then click **Save**. Navigate to Basic Information in Settings to find your application’s client ID and secret.
 
-2. Verify that everything is working by setting up a Slack integration in the W&B app.
+4. Verify that everything is working by setting up a Slack integration in the W&B app.

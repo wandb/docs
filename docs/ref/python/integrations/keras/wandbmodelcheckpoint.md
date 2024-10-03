@@ -1,6 +1,6 @@
 # WandbModelCheckpoint
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.17.4/wandb/integration/keras/callbacks/model_checkpoint.py#L27-L200' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/integration/keras/callbacks/model_checkpoint.py#L27-L195' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 A checkpoint that periodically saves a Keras model or model weights.
@@ -14,7 +14,6 @@ WandbModelCheckpoint(
     save_weights_only: bool = (False),
     mode: Mode = "auto",
     save_freq: Union[SaveStrategy, int] = "epoch",
-    options: Optional[str] = None,
     initial_value_threshold: Optional[float] = None,
     **kwargs
 ) -> None
@@ -29,7 +28,7 @@ here: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpo
 This callback is to be used in conjunction with training using `model.fit()` to save
 a model or weights (in a checkpoint file) at some interval. The model checkpoints
 will be logged as W&B Artifacts. You can learn more here:
-https://docs.wandb.ai/guides/artifacts
+/guides/artifacts
 
 This callback provides the following features:
 - Save the model that has achieved "best performance" based on "monitor".
@@ -47,7 +46,6 @@ This callback provides the following features:
 |  `save_weights_only` |  (bool) if True, then only the model's weights will be saved. |
 |  `mode` |  (Mode) one of {'auto', 'min', 'max'}. For `val_acc`, this should be `max`, for `val_loss` this should be `min`, etc. |
 |  `save_freq` |  (Union[SaveStrategy, int]) `epoch` or integer. When using `'epoch'`, the callback saves the model after each epoch. When using an integer, the callback saves the model at end of this many batches. Note that when monitoring validation metrics such as `val_acc` or `val_loss`, save_freq must be set to "epoch" as those metrics are only available at the end of an epoch. |
-|  `options` |  (Optional[str]) Optional `tf.train.CheckpointOptions` object if `save_weights_only` is true or optional `tf.saved_model.SaveOptions` object if `save_weights_only` is false. |
 |  `initial_value_threshold` |  (Optional[float]) Floating point initial "best" value of the metric to be monitored. |
 
 | Attributes |  |

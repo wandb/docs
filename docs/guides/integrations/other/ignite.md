@@ -2,9 +2,8 @@
 slug: /guides/integrations/ignite
 description: How to integrate W&B with PyTorch Ignite.
 displayed_sidebar: default
+title: PyTorch Ignite
 ---
-
-# PyTorch Ignite
 
 * See the resulting visualizations in this [example W&B report →](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg)
 * Try running the code yourself in this [example hosted notebook →](https://colab.research.google.com/drive/15e-yGOvboTzXU4pe91Jg-Yr7sae3zBOJ#scrollTo=ztVifsYAmnRr)
@@ -179,12 +178,12 @@ if __name__ == "__main__":
 
 We get these visualizations on running the above code:
 
-![](https://i.imgur.com/CoBDShx.png)
+![](/images/integrations/pytorch-ignite-1.png)
 
-![](https://i.imgur.com/Fr6Dqd0.png)
+![](/images/integrations/pytorch-ignite-2.png)
 
-![](https://i.imgur.com/Fr6Dqd0.png)
+![](/images/integrations/pytorch-ignite-3.png)
 
-![](https://i.imgur.com/rHNPyw3.png)
+![](/images/integrations/pytorch-ignite-4.png)
 
 Refer [Ignite Docs](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger) for more detailed documentation

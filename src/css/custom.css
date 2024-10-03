@@ -113,7 +113,6 @@ a:hover {
 
 .menu__link {
   font-size: 16px;
-  margin-right: 16px;
 }
 .menu__list-item-collapsible--active .menu__caret:hover {
   background: none;
@@ -255,11 +254,11 @@ a.theme-edit-this-page {
 }
 
 .menu__list .menu__list a.menu__link {
-  padding: 3px 0 3px 13px;
+  padding: 0px 5px 5px;
 }
 
 .menu__list .menu__list .menu__caret {
-  padding: 0 6px;
+  padding: 0px 5px;
 }
 
 .menu__list-item:not(:first-child){

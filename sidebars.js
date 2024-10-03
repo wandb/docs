@@ -1,18 +1,4 @@
-/**
- * Creating a sidebar enables you to:
- - create an ordered group of docs
- - render a sidebar for each doc of that group
- - provide next/previous navigation
-
- The sidebars can be generated from the filesystem, or explicitly defined here.
-
- Create as many sidebars as you want.
- */
-
-// @ts-check
-
-/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
-const sidebars = {
+export default {
   default: [
     'guides/intro',
     'quickstart',
@@ -34,7 +20,7 @@ const sidebars = {
             'guides/app/pages/workspaces',
             {
               type: 'category',
-              label: 'What are Runs?',
+              label: 'What are runs?',
               link: {type: 'doc', id: 'guides/runs/intro'},
               items: [
                 // 'guides/runs/create-run',
@@ -72,7 +58,7 @@ const sidebars = {
             'guides/track/environment-variables',
           ],
         },
-        { 
+        {
           type: 'category',
           label: 'Sweeps',
           link: {type: 'doc', id: 'guides/sweeps/intro'},
@@ -99,7 +85,7 @@ const sidebars = {
             'guides/sweeps/useful-resources',
             'guides/sweeps/existing-project',
           ],
-        },         
+        },
         {
           type: 'category',
           label: 'Registry',
@@ -111,6 +97,8 @@ const sidebars = {
             'guides/registry/create_collection',
             'guides/registry/link_version',
             'guides/registry/download_use_artifact',
+            'guides/registry/organize-with-tags',
+            'guides/registry/model_registry_eol',
             {
               type: 'category',
               label: 'Model Registry',
@@ -131,14 +119,14 @@ const sidebars = {
               ],
             },
           ],
-        },       
+        },
         {
           type: 'category',
           label: 'Automations',
           items: [
             'guides/model_registry/model-registry-automations',
             'guides/artifacts/project-scoped-automations',
-          ]
+          ],
         },
         {
           type: 'category',
@@ -188,65 +176,57 @@ const sidebars = {
           items: [
             {
               type: 'category',
-              label: 'Features',
-              link: {type: 'doc', id: 'guides/app/features/intro'},
+              label: 'Panels',
+              link: {type: 'doc', id: 'guides/app/features/panels/intro'},
               items: [
                 {
                   type: 'category',
-                  label: 'Panels',
-                  link: {type: 'doc', id: 'guides/app/features/panels/intro'},
-                  items: [
-                    {
-                      type: 'category',
-                      label: 'Line Plot',
-                      link: {
-                        type: 'doc',
-                        id: 'guides/app/features/panels/line-plot/intro',
-                      },
-                      items: [
-                        'guides/app/features/panels/line-plot/reference',
-                        'guides/app/features/panels/line-plot/sampling',
-                        'guides/app/features/panels/line-plot/smoothing',
-                      ],
-                    },
-                    'guides/app/features/panels/bar-plot',
-                    'guides/app/features/panels/run-colors',
-                    'guides/app/features/panels/parallel-coordinates',
-                    'guides/app/features/panels/scatter-plot',
-                    'guides/app/features/panels/code',
-                    'guides/app/features/panels/parameter-importance',
-                    'guides/app/features/panels/run-comparer',
-                    
-                    {
-                      type: 'category',
-                      label: 'Query panels',
-                      link: {
-                        type: 'doc',
-                        id: 'guides/app/features/panels/query-panel/intro',
-                      },
-                      items: [
-                        'guides/app/features/panels/query-panel/embedding-projector',
-                      ],
-                    },
-                  ],
-                },
-                {
-                  type: 'category',
-                  label: 'Custom Charts',
+                  label: 'Line Plot',
                   link: {
                     type: 'doc',
-                    id: 'guides/app/features/custom-charts/intro',
+                    id: 'guides/app/features/panels/line-plot/intro',
                   },
                   items: [
-                    // 'guides/app/features/custom-charts/intro',
-                    'guides/app/features/custom-charts/walkthrough',
+                    'guides/app/features/panels/line-plot/reference',
+                    'guides/app/features/panels/line-plot/sampling',
+                    'guides/app/features/panels/line-plot/smoothing',
                   ],
                 },
-                'guides/app/features/runs-table',
-                'guides/app/features/tags',
-                'guides/app/features/notes',
+                'guides/app/features/panels/bar-plot',
+                'guides/app/features/panels/run-colors',
+                'guides/app/features/panels/parallel-coordinates',
+                'guides/app/features/panels/scatter-plot',
+                'guides/app/features/panels/code',
+                'guides/app/features/panels/parameter-importance',
+                'guides/app/features/panels/run-comparer',
+                {
+                  type: 'category',
+                  label: 'Query panels',
+                  link: {
+                    type: 'doc',
+                    id: 'guides/app/features/panels/query-panel/intro',
+                  },
+                  items: [
+                    'guides/app/features/panels/query-panel/embedding-projector',
+                  ],
+                },
               ],
             },
+            {
+              type: 'category',
+              label: 'Custom Charts',
+              link: {
+                type: 'doc',
+                id: 'guides/app/features/custom-charts/intro',
+              },
+              items: [
+                // 'guides/app/features/custom-charts/intro',
+                'guides/app/features/custom-charts/walkthrough',
+              ],
+            },
+            'guides/app/features/runs-table',
+            'guides/app/features/tags',
+            'guides/app/features/notes',
             {
               type: 'category',
               label: 'Settings',
@@ -269,14 +249,13 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Weave',
-      items: [
-        'guides/weave_platform',
-      ],
+      link: {type: 'doc', id: 'guides/weave_platform'},
+      items: [],
     },
     {
       type: 'category',
       label: 'W&B Core',
-      link: {type: 'doc', id: 'guides/platform'},
+      link: {type: 'doc', id: 'guides/core'},
       collapsed: false,
       items: [
         {
@@ -337,7 +316,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'W&B Platform',
-      link: { type: 'doc', id: 'guides/hosting/intro' },
+      link: {type: 'doc', id: 'guides/hosting/intro'},
       items: [
         {
           type: 'category',
@@ -347,7 +326,10 @@ const sidebars = {
             {
               type: 'category',
               label: 'Dedicated Cloud',
-              link: { type: 'doc', id: 'guides/hosting/hosting-options/dedicated_cloud' },
+              link: {
+                type: 'doc',
+                id: 'guides/hosting/hosting-options/dedicated_cloud',
+              },
               items: [
                 'guides/hosting/hosting-options/dedicated_regions',
                 'guides/hosting/export-data-from-dedicated-cloud',
@@ -356,9 +338,20 @@ const sidebars = {
             {
               type: 'category',
               label: 'Self Managed',
-              link: { type: 'doc', id: 'guides/hosting/hosting-options/self-managed' },
+              link: {
+                type: 'doc',
+                id: 'guides/hosting/hosting-options/self-managed',
+              },
               items: [
                 'guides/hosting/self-managed/basic-setup',
+                {
+                  type: 'category',
+                  label: 'W&B Operator',
+                  items: [
+                    'guides/hosting/operator',
+                    'guides/hosting/operator-airgapped',
+                  ],
+                },
                 {
                   type: 'category',
                   label: 'Install on public cloud',
@@ -372,13 +365,12 @@ const sidebars = {
                 'guides/hosting/server-upgrade-process',
               ],
             },
-            'guides/hosting/operator',  
           ],
-        },        
+        },
         {
           type: 'category',
           label: 'Identity and access management (IAM)',
-          link: { type: 'doc', id: 'guides/hosting/iam/org_team_struct'},
+          link: {type: 'doc', id: 'guides/hosting/iam/org_team_struct'},
           items: [
             {
               type: 'category',
@@ -386,6 +378,7 @@ const sidebars = {
               items: [
                 'guides/hosting/iam/sso',
                 'guides/hosting/iam/ldap',
+                'guides/hosting/iam/identity_federation',
               ],
             },
             {
@@ -398,7 +391,7 @@ const sidebars = {
             },
             'guides/hosting/iam/automate_iam',
             'guides/hosting/iam/scim',
-            'guides/hosting/iam/advanced_env_vars',               
+            'guides/hosting/iam/advanced_env_vars',
           ],
         },
         {
@@ -409,10 +402,10 @@ const sidebars = {
             'guides/hosting/data-security/presigned-urls',
             'guides/hosting/data-security/ip-allowlisting',
             'guides/hosting/data-security/private-connectivity',
-            // 'guides/hosting/customer_encryption',
+            'guides/hosting/data-security/data-encryption',
           ],
         },
-        'guides/hosting/privacy-settings',               
+        'guides/hosting/privacy-settings',
         {
           type: 'category',
           label: 'Monitoring and Usage',
@@ -437,6 +430,7 @@ const sidebars = {
         'guides/integrations/add-wandb-to-any-library',
         'guides/integrations/other/azure-openai-fine-tuning',
         'guides/integrations/other/catalyst',
+        'guides/integrations/other/cohere-fine-tuning',
         'guides/integrations/dagster',
         'guides/integrations/other/databricks',
         'guides/integrations/other/deepchecks',
@@ -447,9 +441,7 @@ const sidebars = {
           type: 'category',
           label: 'Fastai',
           link: {type: 'doc', id: 'guides/integrations/fastai/README'},
-          items: [
-            'guides/integrations/fastai/v1',
-          ],
+          items: ['guides/integrations/fastai/v1'],
         },
         'guides/integrations/huggingface',
         'guides/integrations/diffusers',
@@ -481,15 +473,15 @@ const sidebars = {
           label: 'Prompts',
           link: {
             type: 'doc',
-            id: 'guides/integrations/prompts/intro'
+            id: 'guides/integrations/prompts/intro',
           },
           items: [
-            'guides/integrations/prompts/quickstart', 
-            'guides/integrations/prompts/openai'
+            'guides/integrations/prompts/quickstart',
+            'guides/integrations/prompts/openai',
           ],
         },
         'guides/integrations/other/ray-tune',
-        'guides/integrations/other/sagemaker',        
+        'guides/integrations/other/sagemaker',
         'guides/integrations/scikit',
         'guides/integrations/other/simpletransformers',
         'guides/integrations/other/skorch',
@@ -534,7 +526,7 @@ const sidebars = {
     'tutorials/tables',
     'tutorials/sweeps',
     'tutorials/artifacts',
-    'tutorials/models',
+    'tutorials/workspaces',
     {
       type: 'category',
       label: 'Integration Tutorials',
@@ -560,5 +552,3 @@ const sidebars = {
     },
   ],
 };
-
-module.exports = sidebars;

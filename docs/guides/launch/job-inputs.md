@@ -1,8 +1,9 @@
 ---
 displayed_sidebar: default
+title: Manage job inputs
 ---
-
-# Manage job inputs
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 The core experience of Launch is easily experimenting with different job inputs like hyperparameters and datasets, and routing these jobs to appropriate hardware. Once a job is created, users beyond the original author can adjust these inputs via the W&B GUI or CLI. For information on how job inputs can be set when launching from the CLI or UI, see the [Enqueue jobs](./add-job-to-queue.md) guide.
 
@@ -141,3 +142,128 @@ When `launch.manage_config_file` is called in a run created by Launch, `launch` 
 :::important
 Call `launch.manage_config_file` before reading the config file in the job code to ensure input values are used.
 :::
+
+### Customize a job's launch drawer UI
+
+Defining a schema for a job's inputs allows you to create a custom UI for launching the job. To define a job's schema, include it in the call to `launch.manage_wandb_config` or `launch.manage_config_file`. The schema can either be a python dict in the form of a [JSON Schema](https://json-schema.org/understanding-json-schema/reference) or a Pydantic model class.
+
+:::important
+Job input schemas are not used to validate inputs. They are only used to define the UI in the launch drawer.
+:::
+
+<Tabs
+  defaultValue="jsonschema"
+  values={[
+    {label: 'JSON Schema', value: 'jsonschema'},
+    {label: 'Pydantic Model', value: 'pydantic'},
+  ]}>
+  <TabItem value="jsonschema">
+
+The following example shows a schema with these properties:
+
+- `seed`, an integer
+- `trainer`, a dictionary with some keys specified:
+  - `trainer.learning_rate`, a float that must be greater than zero
+  - `trainer.batch_size`, an integer that must be either 16, 64, or 256
+  - `trainer.dataset`, a string that must be either `cifar10` or `cifar100`
+
+```python
+schema = {
+    "type": "object",
+    "properties": {
+        "seed": {
+          "type": "integer"
+        }
+        "trainer": {
+            "type": "object",
+            "properties": {
+                "learning_rate": {
+                    "type": "number",
+                    "description": "Learning rate of the model",
+                    "exclusiveMinimum": 0,
+                },
+                "batch_size": {
+                    "type": "integer",
+                    "description": "Number of samples per batch",
+                    "enum": [16, 64, 256]
+                },
+                "dataset": {
+                    "type": "string",
+                    "description": "Name of the dataset to use",
+                    "enum": ["cifar10", "cifar100"]
+                }
+            }
+        }
+    }
+}
+
+launch.manage_wandb_config(
+    include=["seed", "trainer"], 
+    exclude=["trainer.private"],
+    schema=schema,
+)
+```
+
+In general, the following JSON Schema attributes are supported:
+
+| Attribute | Required |  Notes |
+| --- | --- | --- |
+| `type` | Yes | Must be one of "number", "integer", "string", or "object" |
+| `title` | No | Overrides the property's display name |
+| `description` | No | Gives the property helper text |
+| `enum` | No | Creates a dropdown select instead of a freeform text entry |
+| `minimum` | No | Allowed only if `type` is "number" or "integer" |
+| `maximum` | No | Allowed only if `type` is "number" or "integer" |
+| `exclusiveMinimum` | No | Allowed only if `type` is "number" or "integer" |
+| `exclusiveMaximum` | No | Allowed only if `type` is "number" or "integer" |
+| `properties` | No | If `type` is "object", used to define nested configurations |
+
+  </TabItem>
+  <TabItem value="pydantic">
+
+The following example shows a schema with these properties:
+
+- `seed`, an integer
+- `trainer`, a schema with some sub-attributes specified:
+  - `trainer.learning_rate`, a float that must be greater than zero
+  - `trainer.batch_size`, an integer that must be between 1 and 256, inclusive
+  - `trainer.dataset`, a string that must be either `cifar10` or `cifar100`
+
+```python
+class DatasetEnum(str, Enum):
+    cifar10 = "cifar10"
+    cifar100 = "cifar100"
+
+class Trainer(BaseModel):
+    learning_rate: float = Field(gt=0, description="Learning rate of the model")
+    batch_size: int = Field(ge=1, le=256, description="Number of samples per batch")
+    dataset: DatasetEnum = Field(title="Dataset", description="Name of the dataset to use")
+
+class Schema(BaseModel):
+    seed: int
+    trainer: Trainer
+
+launch.manage_wandb_config(
+    include=["seed", "trainer"],
+    exclude=["trainer.private"],
+    schema=Schema,
+)
+```
+
+You can also use an instance of the class:
+
+```python
+t = Trainer(learning_rate=0.01, batch_size=32, dataset=DatasetEnum.cifar10)
+s = Schema(seed=42, trainer=t)
+launch.manage_wandb_config(
+    include=["seed", "trainer"],
+    exclude=["trainer.private"],
+    input_schema=s,
+)
+```
+  </TabItem>
+</Tabs>
+
+Adding a job input schema will create a structured form in the launch drawer, making it easier to launch the job.
+
+![](/images/launch/schema_overrides.png)

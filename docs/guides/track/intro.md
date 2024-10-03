@@ -2,17 +2,12 @@
 description: Track machine learning experiments with W&B.
 slug: /guides/track
 displayed_sidebar: default
+title: Track experiments
 ---
 import Translate, {translate} from '@docusaurus/Translate';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# Track Experiments
-
 <CTAButtons productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb"/>
-
-<head>
-  <title>Track Machine Learning and Deep Learning Experiments.</title>
-</head>
 
 Track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard](app.md) or export your data to Python for programmatic access using our [Public API](../../ref/python/public-api/README.md). 
 
@@ -55,7 +50,6 @@ wandb.log_artifact(model)
 
 Depending on your use case, explore the following resources to get started with W&B Experiments:
 
-* If this is your first time using W&B Artifacts, we recommend you go through the [Experiments Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb).
 * Read the [W&B Quickstart](../../quickstart.md) for a step-by-step outline of the W&B Python SDK commands you could use to create, track, and use a dataset artifact.
 * Explore this chapter to learn how to:
   * Create an experiment

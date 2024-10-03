@@ -1,11 +1,10 @@
 ---
 description: A playground for exploring run data with interactive visualizations
 displayed_sidebar: default
+title: Manage workspaces
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Workspaces
 
 W&B workspace is your personal sandbox to customize charts and explore model results. A W&B workspace consists of *Tables* and *Panel sections*: 
 
@@ -70,8 +69,6 @@ Share your customized workspace with your team by sharing the workspace URL dire
 
 You can define a workspace programmatically by defining the workspace's properties, such as its name, associated entity and project, and the sections it should contain.
 
-### Features:
-
 - **Programmatic workspace creation:**
   - Define and create workspaces with specific configurations.
   - Set panel layouts, colors, and section orders.
@@ -87,12 +84,27 @@ You can define a workspace programmatically by defining the workspace's properti
 - **Cross-workspace integration:**
   - Copy views from one workspace to another for seamless integration and reuse.
 
-## Example workspace API workflows
-See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) for more comprehensive examples using the [Weights & Biases](https://wandb.ai/) workspace API. 
+
+For more information about programmatically creating and editing workspaces, see the [Programmatic Workspaces](../../../tutorials/workspaces.md) tutorial. 
+
+### Install Workspace API
+
+In addition to `wandb`, ensure that you install `wandb-workspaces`:
+
+```bash
+pip install wandb wandb-workspaces
+```
+
+## Example Workspace API workflows
+The following lists some common actions you can make using the W&B Workspace API. 
+
+See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) for comprehensive workspace API examples. For an end to end tutorial, see [Programmatic Workspaces](../../../tutorials/workspaces.md) tutorial. 
 
 ### Define and save a workspace view programmatically
+
+
 ```python
-wandb_workspaces.workspaces as ws
+import wandb_workspaces.reports.v2 as wr
 
 workspace = ws.Workspace(entity="your-entity", project="your-project", views=[...])
 workspace.save()

@@ -1,18 +1,12 @@
 ---
 description: Group training and evaluation runs into larger experiments
 displayed_sidebar: default
+title: Group runs into experiments
 ---
-
-# Group Runs
-
-<head>
-  <title>Group W&B Runs</title>
-</head>
-
 
 Group individual jobs into experiments by passing a unique **group** name to **wandb.init()**.
 
-## Use Cases
+## Use cases
 
 1. **Distributed training:** Use grouping if your experiments are split up into different pieces with separate training and evaluation scripts that should be viewed as parts of a larger whole.
 2. **Multiple processes**: Group multiple smaller processes together into an experiment.
@@ -38,7 +32,7 @@ Suppose you set grouping in `wandb.init()`, we will group runs by default in the
 
 ![](/images/track/distributed_training_wgrouping_1.png)
 
-From the project page above, you can click a **Group** in the left sidebar to get to a dedicated page like [this one](https://wandb.ai/carey/group-demo/groups/exp\_5?workspace=user-carey):
+From the project page above, you can click a **Group** in the left sidebar to get to a dedicated page like [this one](https://wandb.ai/carey/group-demo/groups/exp_5?workspace=user-carey):
 
 ![](/images/track/distributed_training_wgrouping_2.png)
 
@@ -63,8 +57,8 @@ Click the edit button in the upper right corner of a graph and select the **Adva
 
 ![](/images/track/demo_grouping_options_for_line_plots.gif)
 
-## Common Questions
+## Common question
 
 ### Can we group runs by tags?
 
-Because a run can have multiple tags we don't support grouping by this field. Our recommendation would be to add a value to the [`config`](../track/config.md) object of these runs and then group by this config value. You can do this with [our API](../track/config.md#update-config-files).
+Because a run can have multiple tags we don't support grouping by this field. Our recommendation would be to add a value to the [`config`](../track/config.md) object of these runs and then group by this config value. You can do this with [our API](../track/config#set-the-configuration-after-your-run-has-finished).

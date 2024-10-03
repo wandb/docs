@@ -2,9 +2,9 @@
 slug: /guides/app/pages
 description: An overview of the different pages in app.wandb.ai
 displayed_sidebar: default
+title: Pages
 ---
 
-# Pages
 ## Project Page
 
 Compare models with different architectures and hyperparameters on the same set of metrics. Learn more [here](project-page.md).

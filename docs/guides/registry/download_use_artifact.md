@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Download and use an artifact from a registry
 ---
-
-# Download and use an artifact from a registry
 
 Use the W&B Python SDK to use and download an artifact that you linked to the W&B Registry. 
 
@@ -42,7 +41,7 @@ Where:
 * `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the collection.
 * `alias` - Specify the custom alias attached to the artifact version
 
-See [`use_artifact`](../../ref/python/run.md#use_artifact) and [`download`](https://docs.wandb.ai/ref/python/artifact#download) in the API Reference guide for more information on possible parameters and return type.
+See [`use_artifact`](../../ref/python/run.md#use_artifact) and [`download`](/ref/python/artifact#download) in the API Reference guide for more information on possible parameters and return type.
 
 <details>
 <summary>Example: Use and download an artifact linked to the W&B Registry</summary>

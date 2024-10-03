@@ -1,6 +1,7 @@
 APIs
 AWS
 Autogenerate
+[Aa]utomations
 autolog
 [Bb]asename
 [Bb]oolean
@@ -40,6 +41,7 @@ Optuna
 [P]repended
 [Pp]seudocode
 SCIM
+SageMaker
 [Ss]elf-managed
 Terraform
 TTL

@@ -1,11 +1,9 @@
 ---
 displayed_sidebar: default
+title: Manage tags
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Tags
 
 Tags can be used to label runs with particular features that might not be obvious from the logged metrics or Artifact data -- this run's model is `in_production`, that run is `preemptible`, this run represents the `baseline`.
 

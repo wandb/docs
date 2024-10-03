@@ -1,7 +1,8 @@
+---
+title: Spin up a single node GPU cluster with Minikube
+---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Spin up a single node GPU cluster with Minikube
 
 Set up W&B Launch on a Minikube cluster that can schedule and run GPU workloads. 
 

@@ -3,24 +3,29 @@ description: >-
   Edit a report interactively with the App UI or programmatically with the
   W&B SDK.
 displayed_sidebar: default
+title: Edit a report
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-# Edit a report
-
-<head>
-  <title>Edit a W&B Report</title>
-</head>
-
 
 Edit a report interactively with the App UI or programmatically with the W&B SDK.
 
 Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and run, and panels grids.
 
 _Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
+
+
+:::tip
+Check out the [Programmatic workspaces tutorial](../../tutorials/workspaces.md) for a step by step example on how create and customize a saved workspace view.
+:::
+
+:::info
+Ensure that you have `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
+
+```pip
+pip install wandb wandb-workspaces
+```
+:::
 
 ### Add plots
 
@@ -30,7 +35,7 @@ Each panel grid has a set of run sets and a set of panels. The run sets at the b
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -44,7 +49,6 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. Select **A
   <TabItem value="sdk">
 
 Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
-
 
 
 The proceeding examples demonstrates how to create a line plot and scatter plot.
@@ -85,7 +89,7 @@ Add run sets from projects interactively with the App UI or the W&B SDK.
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -190,7 +194,7 @@ Add code blocks to your report interactively with the App UI or with the W&B SDK
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -257,7 +261,7 @@ Add markdown to your report interactively with the App UI or with the W&B SDK.
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -292,7 +296,7 @@ Add HTML elements to your report interactively with the App UI or with the W&B S
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -333,7 +337,7 @@ Embed rich media within the report with the App UI or with the W&B SDK.
   defaultValue="app"
   values={[
     {label: 'App UI', value: 'app'},
-    {label: 'Python SDK', value: 'sdk'},
+    {label: 'Workspaces API', value: 'sdk'},
   ]}>
   <TabItem value="app">
 
@@ -390,10 +394,10 @@ Highlight a whole panel grid section by selecting the drag handle in the upper r
 
 Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
-![](@site/static/images/reports/delete_panel_grid.gif)
+![](/images/reports/delete_panel_grid.gif)
 
 ### Collapse headers to organize Reports
 
 Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
 
-![](@site/static/images/reports/collapse_headers.gif)
+![](/images/reports/collapse_headers.gif)
