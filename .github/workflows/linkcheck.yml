@@ -40,7 +40,7 @@ jobs:
 
       - name: Run lychee
         id: lychee
-        uses: lycheeverse/lychee-action@v1.10.0
+        uses: lycheeverse/lychee-action@v1
         with:
           args: --verbose --no-progress ${{ steps.changed-files.outputs.all_changed_files }}
         env:
