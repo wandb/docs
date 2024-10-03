@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 [Weights & Biases](http://wandb.com/) is directly integrated into 🤗 AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments!
 
-| ![An example of how the metrics of your experiment are logged](@site/static/images/integrations/hf-autotrain-1.png) | 
+| ![An example of how the metrics of your experiment are logged](/images/integrations/hf-autotrain-1.png) | 
 |:--:| 
 | **An example of how the metrics of your experiment are logged.** |
 
@@ -136,7 +136,7 @@ logging_steps = 10
   </TabItem>
 </Tabs>
 
-| ![An example of how all the configs of your experiment are saved.](@site/static/images/integrations/hf-autotrain-2.gif) | 
+| ![An example of how all the configs of your experiment are saved.](/images/integrations/hf-autotrain-2.gif) | 
 |:--:| 
 | **An example of how all the configs of your experiment are saved.** |
 

@@ -21,4 +21,4 @@ You can also create **Box** or **Violin** Plots to combine many summary statisti
 3. Add a standard 'Bar Chart' and select the metric to plot.
 4. Under the 'Grouping' tab, pick 'box plot' or 'Violin', etc. to plot either of these styles.
 
-![Customize Bar Plots](@site/static/images/app_ui/bar_plots.gif)
+![Customize Bar Plots](/images/app_ui/bar_plots.gif)

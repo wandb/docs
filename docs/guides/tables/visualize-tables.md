@@ -37,18 +37,18 @@ Follow these steps to compare two tables:
 
 In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([view interactive example here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)).
 
-![Click on "predictions" to view the Table](@site/static/images/data_vis/preds_mnist.png)
+![Click on "predictions" to view the Table](/images/data_vis/preds_mnist.png)
 
 
 3. Hover over the second artifact version you want to compare in the sidebar and click **Compare** when it appears. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
 
-![Preparing to compare model predictions after training for 1 epoch (v0, shown here) vs 5 epochs (v4)](@site/static/images/data_vis/preds_2.png)
+![Preparing to compare model predictions after training for 1 epoch (v0, shown here) vs 5 epochs (v4)](/images/data_vis/preds_2.png)
 
 ### Merged view
 <!-- To do, add steps -->
 Initially you will see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 
-![In the merged view, numerical columns will appear as histograms by default](@site/static/images/data_vis/merged_view.png)
+![In the merged view, numerical columns will appear as histograms by default](/images/data_vis/merged_view.png)
 
 From the merged view, you can
 

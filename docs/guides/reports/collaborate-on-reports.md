@@ -8,7 +8,7 @@ Once you have saved a report, you can select the **Share** button to collaborate
 
 A warning notification will appear if an edit conflict occurs. This can occur if you and another collaborator edit the same report at the same time. The warning notification will guide you to resolve potential edit conflicts.
 
-![Report sharing modal for a report in a 'Public' project](@site/static/images/reports/share-report.gif)
+![Report sharing modal for a report in a 'Public' project](/images/reports/share-report.gif)
 
 ### Comment on reports
 

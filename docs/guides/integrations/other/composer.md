@@ -21,7 +21,7 @@ from composer.loggers import WandBLogger
 trainer = Trainer(..., logger=WandBLogger())
 ```
 
-![Interactive dashboards accessible anywhere, and more!](@site/static/images/integrations/n6P7K4M.gif)
+![Interactive dashboards accessible anywhere, and more!](/images/integrations/n6P7K4M.gif)
 
 ## Using Composer's `WandBLogger`
 

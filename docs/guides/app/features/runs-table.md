@@ -28,7 +28,7 @@ The following steps describe how to sort the run table by a specific metric base
 
 If regex doesn't provide you the desired results, you can make use of [tags](tags.md) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
 
-![If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table](@site/static/images/app_ui/tags.gif)
+![If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table](/images/app_ui/tags.gif)
 
 ## Search End Time for runs
 

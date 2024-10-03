@@ -68,7 +68,7 @@ wandb.log({"eda/graph": wandb.Html("graph.html")})
 wandb.finish()
 ```
 
-| ![This image shows the input graph as an interactive HTML visualization.](@site/static/images/integrations/pyg_graph_wandb.png) | 
+| ![This image shows the input graph as an interactive HTML visualization.](/images/integrations/pyg_graph_wandb.png) | 
 |:--:| 
 | **This image shows the input graph as an interactive HTML visualization.** |
 
@@ -124,7 +124,7 @@ wandb.log({‘graph’: wandb.Plotly(create_vis(graph))})
 wandb.finish()
 ```
 
-| ![This visualization was created using the function shown in the snippet above and longed inside a W&B Table.](@site/static/images/integrations/pyg_graph_plotly.png) | 
+| ![This visualization was created using the function shown in the snippet above and longed inside a W&B Table.](/images/integrations/pyg_graph_plotly.png) | 
 |:--:| 
 | **This visualization was created using the function shown in the snippet above and longed inside a W&B Table.** |
 
@@ -141,7 +141,7 @@ wandb.log({
 })
 ```
 
-| ![Plots from W&B showing how the hits@K metric changes over epochs for different values of K.](@site/static/images/integrations/pyg_metrics.png) | 
+| ![Plots from W&B showing how the hits@K metric changes over epochs for different values of K.](/images/integrations/pyg_metrics.png) | 
 |:--:| 
 | **Plots from W&B showing how the hits@K metric changes over epochs for different values of K.** |
 

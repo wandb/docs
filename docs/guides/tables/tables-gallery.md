@@ -56,7 +56,7 @@ Interact with audio tables in [this report](https://wandb.ai/stacey/cshanty/repo
 
 Browse text samples from training data or generated output, dynamically group by relevant fields, and align your evaluation across model variants or experiment settings. Render text as Markdown or use visual diff mode to compare texts. Explore a simple character-based RNN for generating Shakespeare in [this report](https://wandb.ai/stacey/nlg/reports/Visualize-Text-Data-Predictions--Vmlldzo1NzcwNzY).
 
-![Doubling the size of the hidden layer yields some more creative prompt completions.](@site/static/images/data_vis/shakesamples.png)
+![Doubling the size of the hidden layer yields some more creative prompt completions.](/images/data_vis/shakesamples.png)
 
 ### Video
 
@@ -68,7 +68,7 @@ Browse and aggregate over videos logged during training to understand your model
 
 View a report on how to [split and preprocess tabular data](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1) with version control and deduplication.
 
-![Tables and Artifacts work together to version control, label, and deduplicate your dataset iterations](@site/static/images/data_vis/tabs.png)
+![Tables and Artifacts work together to version control, label, and deduplicate your dataset iterations](/images/data_vis/tabs.png)
 
 ### Comparing model variants (semantic segmentation)
 
