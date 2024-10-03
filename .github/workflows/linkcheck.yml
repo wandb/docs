@@ -7,47 +7,23 @@ on:
 jobs:
   lychee:
     runs-on: ubuntu-latest
-    name: Test changed-files
     steps:
       - uses: actions/checkout@v4
 
-      - name: 'A - Get a list of changed files to process'
-        id: changed-files-a
-        run: |
-          # Gets a diff of files from git with Added (A) or Modified (M) status,
-          # Compares the default generated "test merge commit" by Github (HEAD) to the base branch (base.sha == HEAD^1),
-          # `sed` then converts from multi-line (`\n`) to single-line delimited by `,` to support file paths containing spaces:
-          CHANGED_FILES=$(git diff-tree --name-only --diff-filter 'AM' -r HEAD^1 HEAD | sed -z 's/\n/,/g;s/,$//')
-          echo "::set-output name=all_changed_files::${CHANGED_FILES}"
-
-      # Same output as prior step:
-      - name: 'B - Get a list of changed files to process'
-        id: changed-files-b
-        uses: tj-actions/changed-files@v45
-        with:
-          separator: ','
-
-      # lychee-action requires pre-processing for file paths with spaces
-      # NOTE: Github outputs and ENV do not support `\n`, so rely on single-line string or read/write a file
-      - name: 'Compatibility with eval: Quote wrap paths to support spaces'
+      - name: Get changed files
         id: changed-files
-        env:
-          # Change between a or b step above:
-          changed_files: ${{ steps.changed-files-a.outputs.all_changed_files }}
-        run: |
-          QUOTE_WRAPPED="'$( sed "s/,/' '/g" <<< '${{ env.changed_files }}' )'"
-          echo "::set-output name=all_changed_files::${QUOTE_WRAPPED}"
+        uses: tj-actions/changed-files@v45
 
-      - name: Run lychee
+      - name: Link Checker
         id: lychee
-        uses: lycheeverse/lychee-action@v1
+        uses: lycheeverse/lychee-action@v1.10.0
         with:
-          args: --verbose --no-progress ${{ steps.changed-files.outputs.all_changed_files }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --verbose ${{ steps.changed-files.outputs.all_changed_files }}
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Create PR comment with link reults
-        if: ${{ hashFiles('./lychee/out.md') }}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: lychee
