@@ -11,15 +11,16 @@ import TabItem from '@theme/TabItem';
 
 With Weights & Biases you can log your Cohere model's fine-tuning metrics and configuration to analyse and understand the performance of your newly fine-tuned models and share the results with your colleagues. 
 
+This [guide from Cohere](https://docs.cohere.com/page/convfinqa-finetuning-wandb) has a full example of how to kick off a fine-tuning run and you can find the [Cohere api docs here](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb)
+
 ## Log your Cohere fine-tuning results
 
-To add logging to your W&B workspace:
+To quickly add Cohere fine-tuning logging to your W&B workspace:
 
 1. Create a `WandbConfig` with your W&B API key, W&B `entity` and `project` name. You can find your W&B API key at https://wandb.ai/authorize
 
 2. Pass this config to the `FinetunedModel` object along with your model name, dataset and hyperparameters to kick off your fine-tuning run.
 
-This [guide from Cohere](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb) has a full example of how to kick off a fine-tuning run.
 
 ```python
 from cohere.finetuning import WandbConfig, FinetunedModel
