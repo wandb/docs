@@ -14,7 +14,7 @@ import wandb_workspaces.reports.v2
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1832"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1843"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `BarPlot`
 A panel object that shows a 2D bar plot. 
@@ -159,7 +159,7 @@ A block of code.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1987"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1998"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CodeComparer`
 A panel object that compares the code between two different runs. 
@@ -197,7 +197,7 @@ Metrics logged to a run's config object. Config objects are commonly logged usin
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2239"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2250"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `CustomChart`
 A panel that shows a custom chart. The chart is defined by a weave query. 
@@ -216,7 +216,7 @@ A panel that shows a custom chart. The chart is defined by a weave query.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2259"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2270"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>classmethod</kbd> `from_table`
 
@@ -303,7 +303,7 @@ A URL to an external resource.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1564"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1575"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `GradientPoint`
 A point in a gradient. 
@@ -510,7 +510,7 @@ The layout of a panel in a report. Adjusts the size and position of the panel.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1585"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1596"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `LinePlot`
 A panel object with 2D line plots. 
@@ -622,7 +622,7 @@ A block of markdown text. Useful if you want to write text that uses common mark
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2210"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2221"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `MarkdownPanel`
 A panel that renders markdown. 
@@ -641,7 +641,7 @@ A panel that renders markdown.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2175"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2186"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `MediaBrowser`
 A panel that displays media files in a grid layout. 
@@ -802,7 +802,7 @@ Available panels include: `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2054"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2065"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlot`
 A panel object that shows a parallel coordinates plot. 
@@ -824,7 +824,7 @@ A panel object that shows a parallel coordinates plot.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2016"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2027"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlotColumn`
 A column within a parallel coordinates plot.  The order of `metric`s specified determine the order of the parallel axis (x-axis) in the parallel coordinates plot. 
@@ -846,7 +846,7 @@ A column within a parallel coordinates plot.  The order of `metric`s specified d
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2109"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2120"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ParameterImportancePlot`
 A panel that shows how important each hyperparameter is in predicting the chosen metric. 
@@ -865,7 +865,7 @@ A panel that shows how important each hyperparameter is in predicting the chosen
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2790"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2801"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `Report`
 An object that represents a W&B Report. Use the returned object's `blocks` attribute to customize your report. Report objects do not automatically save. Use the `save()` method to persists changes. 
@@ -874,12 +874,12 @@ An object that represents a W&B Report. Use the returned object's `blocks` attri
 
 **Attributes:**
  
- - `project`:  The name of the W&B project you want to load in. The project specified appears in the report's URL. 
- - `entity`:  The W&B entity that owns the report. The entity appears in the report's URL. 
- - `title`:  The title of the report. The title appears at the top of the report as an H1 heading. 
- - `description`:  A description of the report. The description appears underneath the report's title. 
- - `blocks`:  A list of one or more HTML tags, plots, grids, runsets, or more. 
- - `width`:  The width of the report. Options include 'readable', 'fixed', 'fluid'. 
+ - `project` (str):  The name of the W&B project you want to load in. The project specified appears in the report's URL. 
+ - `entity` (str):  The W&B entity that owns the report. The entity appears in the report's URL. 
+ - `title` (str):  The title of the report. The title appears at the top of the report as an H1 heading. 
+ - `description` (str):  A description of the report. The description appears underneath the report's title. 
+ - `blocks` (LList[BlockTypes]):  A list of one or more HTML tags, plots, grids, runsets, or more. 
+ - `width` (Literal['readable', 'fixed', 'fluid']):  The width of the report. Options include 'readable', 'fixed', 'fluid'. 
 
 
 ---
@@ -892,7 +892,7 @@ The URL where the report is hosted. The report URL consists of `https://wandb.ai
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2938"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2949"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>classmethod</kbd> `from_url`
 
@@ -911,7 +911,7 @@ Load in the report into current environment. Pass in the URL where the report is
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2900"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2911"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>method</kbd> `save`
 
@@ -923,7 +923,7 @@ Persists changes made to a report object.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2954"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2965"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>method</kbd> `to_html`
 
@@ -942,7 +942,7 @@ Generate HTML containing an iframe displaying this report. Commonly used to with
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2144"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2155"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `RunComparer`
 A panel that compares metrics across different runs from the project the report pulls information from. 
@@ -1027,7 +1027,7 @@ Groups runsets by a metric type and value. Part of a `RunsetGroup`. Specify the 
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1928"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1939"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ScalarChart`
 A panel object that shows a scalar chart. 
@@ -1052,7 +1052,7 @@ A panel object that shows a scalar chart.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1724"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1735"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ScatterPlot`
 A panel object that shows a 2D or 3D scatter plot. 
@@ -1209,7 +1209,7 @@ A block that displays a Twitter feed.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2351"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2362"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `UnknownPanel`
 
@@ -1296,7 +1296,7 @@ A block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1388"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1399"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeaveBlockArtifact`
 
@@ -1311,7 +1311,7 @@ A block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1239"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1250"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeaveBlockArtifactVersionedFile`
 
@@ -1329,9 +1329,19 @@ A block that renders a video.
 <a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L1019"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeaveBlockSummaryTable`
+A block that displays a summary table of a query panel. 
+
+The term "Weave" in this API does not refer to the W&B Weave toolkit used for tracking and evaluating LLM.  
 
 
 
+
+
+**Attributes:**
+ 
+ - `entity` (str):  The entity name. 
+ - `project` (str):  The project name. 
+ - `table_name` (str):  The table name. 
 
 
 
@@ -1341,7 +1351,7 @@ A block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2371"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2382"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanel`
 
@@ -1356,7 +1366,7 @@ A block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2692"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2703"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanelArtifact`
 
@@ -1371,7 +1381,7 @@ A block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2571"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2582"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanelArtifactVersionedFile`
 
@@ -1386,7 +1396,7 @@ A block that renders a video.
 
 ---
 
-<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2383"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py#L2394"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `WeavePanelSummaryTable`
 
