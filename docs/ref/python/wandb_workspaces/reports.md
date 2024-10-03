@@ -5,7 +5,7 @@
 <a href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2.py#L0"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 # <kbd>module</kbd> `wandb_workspaces.reports.v2`
-Python library for programmatically working with Weights & Biases Reports API. 
+Python library for programmatically working with W&B Reports API. 
 
 ```python
 # How to import
@@ -25,7 +25,7 @@ A panel object that shows a 2D bar plot.
  
  - `title` (Optional[str]):  The text that appears at the top of the plot. metrics LList[MetricType]: 
  - `orientation Literal["v", "h"]`:  The orientation of the bar plot.  Set to either vertical ("v") or horizontal ("h"). Defaults to horizontal ("h"). 
- - `range_x (Tuple[float | `None`, float | `None`]`:  Tuple that specifies the range of the x-axis. 
+ - `range_x` (Tuple[float | None, float | None]):  Tuple that specifies the range of the x-axis. 
  - `title_x` (Optional[str]):  The label of the x-axis. 
  - `title_y` (Optional[str]):  The label of the y-axis. 
  - `groupby` (Optional[str]):  Group runs based on a metric logged to your W&B project that the  report pulls information from. 
