@@ -1,21 +1,21 @@
 ---
 displayed_sidebar: default
+title: Keras
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# Keras
-
-[**Try in a Colab Notebook here →**](http://wandb.me/intro-keras)
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases_keras.ipynb"></CTAButtons>
 
 ## The Weights & Biases Keras Callbacks
 
 We have added three new callbacks for Keras and TensorFlow users, available from `wandb` v0.13.4. For the legacy `WandbCallback` scroll down.
 
 
-**`WandbMetricsLogger`** : Use this callback for [Experiment Tracking](https://docs.wandb.ai/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
+**`WandbMetricsLogger`** : Use this callback for [Experiment Tracking](/guides/track). It will log your training and validation metrics along with system metrics to Weights and Biases.
 
-**`WandbModelCheckpoint`** : Use this callback to log your model checkpoints to Weight and Biases [Artifacts](https://docs.wandb.ai/guides/data-and-model-versioning).
+**`WandbModelCheckpoint`** : Use this callback to log your model checkpoints to Weight and Biases [Artifacts](/guides/artifacts).
 
-**`WandbEvalCallback`**: This base callback will log model predictions to Weights and Biases [Tables](https://docs.wandb.ai/guides/tables) for interactive visualization.
+**`WandbEvalCallback`**: This base callback will log model predictions to Weights and Biases [Tables](/guides/tables) for interactive visualization.
 
 These new callbacks,
 
@@ -25,7 +25,7 @@ These new callbacks,
 
 ## Experiment Tracking with `WandbMetricsLogger`
 
-[**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/master/colabs/keras/Use\_WandbMetricLogger\_in\_your\_Keras\_workflow.ipynb)
+<CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb"></CTAButtons>
 
 `WandbMetricsLogger` automatically logs Keras' `logs` dictionary that callback methods such as `on_epoch_end`, `on_batch_end` etc, take as an argument.
 
@@ -37,7 +37,7 @@ Using this provides:
 
 ```python
 import wandb
-from wandb.keras import WandbMetricsLogger
+from wandb.integration.keras import WandbMetricsLogger
 
 # Initialize a new W&B run
 wandb.init(config={"bs": 12})
@@ -58,11 +58,11 @@ model.fit(
 
 ## Model Checkpointing using `WandbModelCheckpoint`
 
-[**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/master/colabs/keras/Use\_WandbModelCheckpoint\_in\_your\_Keras\_workflow.ipynb)
+<CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb"></CTAButtons>
 
 Use `WandbModelCheckpoint` callback to save the Keras model (`SavedModel` format) or model weights periodically and uploads them to W&B as a `wandb.Artifact` for model versioning. 
 
-This callback is subclassed from [`tf.keras.callbacks.ModelCheckpoint`](https://www.tensorflow.org/api\_docs/python/tf/keras/callbacks/ModelCheckpoint) ,thus the checkpointing logic is taken care of by the parent callback.
+This callback is subclassed from [`tf.keras.callbacks.ModelCheckpoint`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint) ,thus the checkpointing logic is taken care of by the parent callback.
 
 This callback provides the following features:
 
@@ -76,7 +76,7 @@ This callback should be used in conjunction with `WandbMetricsLogger`.
 
 ```python
 import wandb
-from wandb.keras import WandbMetricsLogger, WandbModelCheckpoint
+from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
 
 # Initialize a new W&B run
 wandb.init(config={"bs": 12})
@@ -102,7 +102,7 @@ model.fit(
 | `verbose`                 | (int): Verbosity mode, 0 or 1. Mode 0 is silent, and mode 1 displays messages when the callback takes an action.   |
 | `save_best_only`          | (bool): if `save_best_only=True`, it only saves when the model is considered the "best" and the latest best model according to the quantity monitored (`monitor`) will not be overwritten.     |
 | `save_weights_only`       | (bool): if True, then only the model's weights will be saved.                                            |
-| `mode`                    | ("auto", "min", or "max"): For val\_acc, this should be ‘max’, for val\_loss this should be ‘min’, etc.  |
+| `mode`                    | ("auto", "min", or "max"): For val_acc, this should be ‘max’, for val_loss this should be ‘min’, etc.  |
 | `save_weights_only`       | (bool): if True, then only the model's weights will be saved.                                            |
 | `save_freq`               | ("epoch" or int): When using ‘epoch’, the callback saves the model after each epoch. When using an integer, the callback saves the model at end of this many batches. Note that when monitoring validation metrics such as `val_acc` or `val_loss`, `save_freq` must be set to "epoch" as those metrics are only available at the end of an epoch. |
 | `options`                 | (str): Optional `tf.train.CheckpointOptions` object if `save_weights_only` is true or optional `tf.saved_model.SaveOptions` object if `save_weights_only` is false.    |
@@ -134,7 +134,7 @@ WandbModelCheckpoint(
 
 ## Model Prediction Visualization using `WandbEvalCallback`
 
-[**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/e66f16fbe7ae7a2e636d59350a50059d3f7e5494/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb)
+<CTAButtons colabLink="https://github.com/wandb/examples/blob/e66f16fbe7ae7a2e636d59350a50059d3f7e5494/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb"></CTAButtons>
 
 The `WandbEvalCallback` is an abstract base class to build Keras callbacks primarily for model prediction and, secondarily, dataset visualization.
 
@@ -154,7 +154,7 @@ For example, we have implemented `WandbClfEvalCallback` below for an image class
 
 ```python
 import wandb
-from wandb.keras import WandbMetricsLogger, WandbEvalCallback
+from wandb.integration.keras import WandbMetricsLogger, WandbEvalCallback
 
 
 # Implement your model prediction visualization callback
@@ -210,7 +210,7 @@ model.fit(
 ```
 
 :::info
-💡 The Tables are logged to the W&B [Artifact page](https://docs.wandb.ai/ref/app/pages/project-page#artifacts-tab) by default and not the [Workspace](https://docs.wandb.ai/ref/app/pages/workspaces) page.
+💡 The Tables are logged to the W&B [Artifact page](/guides/artifacts/explore-and-traverse-an-artifact-graph) by default and not the Workspace page.
 :::
 
 **`WandbEvalCallback` Reference**
@@ -234,11 +234,11 @@ You can override the `on_train_begin` or `on_epoch_end` methods to have more fin
 
 ## WandbCallback [Legacy]
 
-Use the W&B library [`WandbCallback`](https://docs.wandb.ai/ref/python/integrations/keras/wandbcallback) Class to automatically save all the metrics and the loss values tracked in `model.fit`.
+Use the W&B library [`WandbCallback`](/ref/python/integrations/keras/wandbcallback) Class to automatically save all the metrics and the loss values tracked in `model.fit`.
 
 ```python
 import wandb
-from wandb.keras import WandbCallback
+from wandb.integration.keras import WandbCallback
 
 wandb.init(config={"hyper": "parameter"})
 
@@ -254,13 +254,13 @@ model.fit(
 
 See this one minute, step-by-step video if this is your first time integrating W&B with Keras: [Get Started with Keras and Weights & Biases in Less Than a Minute](https://www.youtube.com/watch?ab_channel=Weights&Biases&v=4FjDIJ-vO_M)
 
-For a more detailed video, see [Integrate Weights & Biases with Keras](https://www.youtube.com/watch?v=Bsudo7jbMow\&ab\_channel=Weights%26Biases). The notebook example used can be found here: [Colab Jupyter Notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Keras\_pipeline\_with\_Weights\_and\_Biases.ipynb).
+For a more detailed video, see [Integrate Weights & Biases with Keras](https://www.youtube.com/watch?v=Bsudo7jbMow\&ab_channel=Weights%26Biases). The notebook example used can be found here: [Colab Jupyter Notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Keras_pipeline_with_Weights_and_Biases.ipynb).
 
 :::info
-Try W&B and Keras integration example from the video above in a [colab notebook](http://wandb.me/keras-colab). Or see our [example repo](https://github.com/wandb/examples) for scripts, including a [Fashion MNIST example](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py) and the [W&B Dashboard](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) it generates.
+See our [example repo](https://github.com/wandb/examples) for scripts, including a [Fashion MNIST example](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py) and the [W&B Dashboard](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) it generates.
 :::
 
-The `WandbCallback` class supports a wide variety of logging configuration options: specifying a metric to monitor, tracking of weights and gradients, logging of predictions on training\_data and validation\_data, and more.
+The `WandbCallback` class supports a wide variety of logging configuration options: specifying a metric to monitor, tracking of weights and gradients, logging of predictions on training_data and validation_data, and more.
 
 Check out [the reference documentation for the `keras.WandbCallback`](../../ref/python/integrations/keras/wandbcallback.md) for full details.
 
@@ -294,11 +294,11 @@ The `WandbCallback`
 | `class_colors`             | (\[float, float, float]) if the input or output is a segmentation mask, an array containing an rgb tuple (range 0-1) for each class.                  |
 | `log_batch_frequency`      | (integer) if None, callback will log every epoch. If set to integer, callback will log training metrics every `log_batch_frequency` batches.          |
 | `log_best_prefix`          | (string) if None, no extra summary metrics will be saved. If set to a string, the monitored metric and epoch will be prepended with this value and stored as summary metrics.   |
-| `validation_indexes`       | (\[wandb.data\_types.\_TableLinkMixin]) an ordered list of index keys to associate with each validation example. If log\_evaluation is True and `validation_indexes` is provided, then a Table of validation data will not be created and instead each prediction will be associated with the row represented by the `TableLinkMixin`. The most common way to obtain such keys are is use `Table.get_index()` which will return a list of row keys.          |
-| `validation_row_processor` | (Callable) a function to apply to the validation data, commonly used to visualize the data. The function will receive an `ndx` (int) and a `row` (dict). If your model has a single input, then `row["input"]` will be the input data for the row. Else, it will be keyed based on the name of the input slot. If your fit function takes a single target, then `row["target"]` will be the target data for the row. Else, it will be keyed based on the name of the output slots. For example, if your input data is a single ndarray, but you wish to visualize the data as an Image, then you can provide `lambda ndx, row: {"img": wandb.Image(row["input"])}` as the processor. Ignored if log\_evaluation is False or `validation_indexes` are present. |
+| `validation_indexes`       | (\[wandb.data_types._TableLinkMixin]) an ordered list of index keys to associate with each validation example. If log_evaluation is True and `validation_indexes` is provided, then a Table of validation data will not be created and instead each prediction will be associated with the row represented by the `TableLinkMixin`. The most common way to obtain such keys are is use `Table.get_index()` which will return a list of row keys.          |
+| `validation_row_processor` | (Callable) a function to apply to the validation data, commonly used to visualize the data. The function will receive an `ndx` (int) and a `row` (dict). If your model has a single input, then `row["input"]` will be the input data for the row. Else, it will be keyed based on the name of the input slot. If your fit function takes a single target, then `row["target"]` will be the target data for the row. Else, it will be keyed based on the name of the output slots. For example, if your input data is a single ndarray, but you wish to visualize the data as an Image, then you can provide `lambda ndx, row: {"img": wandb.Image(row["input"])}` as the processor. Ignored if log_evaluation is False or `validation_indexes` are present. |
 | `output_row_processor`     | (Callable) same as `validation_row_processor`, but applied to the model's output. `row["output"]` will contain the results of the model output.          |
 | `infer_missing_processors` | (bool) Determines if `validation_row_processor` and `output_row_processor` should be inferred if missing. Defaults to True. If `labels` are provided, we will attempt to infer classification-type processors where appropriate.      |
-| `log_evaluation_frequency` | (int) Determines the frequency which evaluation results will be logged. Default 0 (only at the end of training). Set to 1 to log every epoch, 2 to log every other epoch, and so on. Has no effect when log\_evaluation is False.    |
+| `log_evaluation_frequency` | (int) Determines the frequency which evaluation results will be logged. Default 0 (only at the end of training). Set to 1 to log every epoch, 2 to log every other epoch, and so on. Has no effect when log_evaluation is False.    |
 
 ## Frequently Asked Questions
 

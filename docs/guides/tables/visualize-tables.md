@@ -1,11 +1,10 @@
 ---
 description: Visualize and analyze W&B Tables.
 displayed_sidebar: default
+title: Visualize and analyze tables
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Visualize & analyze tables
 
 Customize your W&B Tables to answer questions about your machine learning model's performance, analyze your data, and more. 
 
@@ -38,18 +37,18 @@ Follow these steps to compare two tables:
 
 In the following image we demonstrate a model's predictions on MNIST validation data after each of five epochs ([view interactive example here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)).
 
-![Click on "predictions" to view the Table](@site/static/images/data_vis/preds_mnist.png)
+![Click on "predictions" to view the Table](/images/data_vis/preds_mnist.png)
 
 
 3. Hover over the second artifact version you want to compare in the sidebar and click **Compare** when it appears. For example, in the image below we select a version labeled as "v4" to compare to MNIST predictions made by the same model after 5 epochs of training. 
 
-![Preparing to compare model predictions after training for 1 epoch (v0, shown here) vs 5 epochs (v4)](@site/static/images/data_vis/preds_2.png)
+![Preparing to compare model predictions after training for 1 epoch (v0, shown here) vs 5 epochs (v4)](/images/data_vis/preds_2.png)
 
 ### Merged view
 <!-- To do, add steps -->
 Initially you will see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
 
-![In the merged view, numerical columns will appear as histograms by default](@site/static/images/data_vis/merged_view.png)
+![In the merged view, numerical columns will appear as histograms by default](/images/data_vis/merged_view.png)
 
 From the merged view, you can
 
@@ -71,7 +70,7 @@ To view the two tables side-by-side, change the first dropdown from "Merge Table
 
 
 ## Compare artifacts
-You can also [compare tables across time](#compare-across-time) or [model variants](#compare-across-model-variants). 
+You can also [compare tables across time](#compare-tables-across-time) or [model variants](#compare-tables-across-model-variants). 
 
 
 ### Compare tables across time
@@ -85,7 +84,7 @@ For a more detailed walkthrough of visualizing predictions across training time,
 
 Compare two artifact versions logged at the same step for two different models to analyze model performance across different configurations (hyperparameters, base architectures, and so forth).
 
-For example, compare predictions between a `baseline` and a new model variant, `2x_layers_2x_lr`, where the first convolutional layer doubles from 32 to 64, the second from 128 to 256, and the learning rate from 0.001 to 0.002. From [this live example](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x\_layers\_2x\_lr), use the side-by-side view and filter down to the incorrect predictions after 1 (left tab) versus 5 training epochs (right tab).
+For example, compare predictions between a `baseline` and a new model variant, `2x_layers_2x_lr`, where the first convolutional layer doubles from 32 to 64, the second from 128 to 256, and the learning rate from 0.001 to 0.002. From [this live example](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x_layers_2x_lr), use the side-by-side view and filter down to the incorrect predictions after 1 (left tab) versus 5 training epochs (right tab).
 
 <Tabs
   defaultValue="one_epoch"
@@ -127,5 +126,5 @@ These reports highlight the different use cases of W&B Tables:
 * [How to Compare Tables in Workspaces](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)
 * [Image & Classification Models](https://wandb.ai/stacey/mendeleev/reports/Tables-Tutorial-Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA)
 * [Text & Generative Language Models](https://wandb.ai/stacey/nlg/reports/Tables-Tutorial-Visualize-Text-Data-Predictions---Vmlldzo1NzcwNzY)
-* [Named Entity Recognition](https://wandb.ai/stacey/ner\_spacy/reports/Named-Entity-Recognition--Vmlldzo3MDE3NzQ)
+* [Named Entity Recognition](https://wandb.ai/stacey/ner_spacy/reports/Named-Entity-Recognition--Vmlldzo3MDE3NzQ)
 * [AlphaFold Proteins](https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc)

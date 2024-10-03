@@ -1,20 +1,15 @@
 ---
 description: Update an existing Artifact inside and outside of a W&B Run.
 displayed_sidebar: default
+title: Update an artifact
 ---
-
-# Update artifacts
-
-<head>
-  <title>Update artifacts</title>
-</head>
 
 Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the W&B servers. You can update an artifact during a W&B Run or outside of a Run.
 
 Use the W&B Public API ([`wandb.Api`](../../ref/python/public-api/api.md)) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`](../../ref/python/artifact.md)) to update an artifact during a run.
 
 :::caution
-You can not update the alias of artifact that is linked to a model in Model Registry.
+You can not update the alias of artifact linked to a model in Model Registry.
 :::
 
 
@@ -26,6 +21,7 @@ import TabItem from '@theme/TabItem';
   values={[
     {label: 'During a Run', value: 'duringrun'},
     {label: 'Outside of a Run', value: 'outsiderun'},
+    {label: 'With Collections', value: 'withcollections'}
   ]}>
   <TabItem value="duringrun">
 
@@ -34,11 +30,8 @@ The proceeding code example demonstrates how to update the description of an art
 ```python
 import wandb
 
-run = wandb.init(project="<example>", job_type="<job-type>")
+run = wandb.init(project="<example>")
 artifact = run.use_artifact("<artifact-name>:<alias>")
-
-artifact = wandb.Artifact("")
-run.use_artifact(artifact)
 artifact.description = "<description>"
 artifact.save()
 ```
@@ -77,5 +70,21 @@ artifact.save()
 ```
 
 For more information, see the Weights and Biases [Artifact API](../../ref/python/artifact.md).
+  </TabItem>
+  
+  <TabItem value="withcollections">
+You can also update an Artifact collection in the same way as a singular artifact:
+
+```python
+import wandb
+run = wandb.init(project="<example>")
+api = wandb.Api()
+artifact = api.artifact_collection(type="<type-name>", collection="<collection-name>")
+artifact.name = "<new-collection-name>"
+artifact.description = "<This is where you'd describe the purpose of your collection.>"
+artifact.save()
+```
+For more information, see the [Artifacts Collection](../../ref/python/public-api/api) reference.
+
   </TabItem>
 </Tabs>

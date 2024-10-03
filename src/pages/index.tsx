@@ -16,6 +16,7 @@ import {useSearchPopoverProvider} from '../components/SearchPopoverProvider';
 import clsx from 'clsx';
 
 import Translate, {translate} from '@docusaurus/Translate';
+import { WEAVE_DOCS_URL } from '../util/links';
 
 const BigSearchBar = () => {
   const {triggerSearchPopover} = useSearchPopoverProvider();
@@ -49,6 +50,11 @@ const Home: React.FC = () => {
             evaluate model performance, reproduce models, visualize results and
             spot regressions, and share findings with colleagues.
             </Translate>
+          </div>
+          <div className={styles.weaveBanner}>
+            <Link to={WEAVE_DOCS_URL}>
+              <img src="/images/weave/weave_banner.png" alt="Image" />
+            </Link>
           </div>
           <div className={styles.homeBoxContainer}>
             <Link to="/guides">

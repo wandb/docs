@@ -1,15 +1,10 @@
 ---
 description: Download and use Artifacts from multiple projects.
 displayed_sidebar: default
+title: Download and use artifacts
 ---
 
-# Download and use artifacts
-
-<head>
-  <title>Download and use artifacts</title>
-</head>
-
-Download and use an artifact that is already stored on the W&B server or construct an artifact object and pass it in to be deduplicated as necessary.
+Download and use an artifact that is already stored on the W&B server or construct an artifact object and pass it in to for de-duplication as necessary.
 
 :::note
 Team members with view-only seats cannot download artifacts.
@@ -18,7 +13,7 @@ Team members with view-only seats cannot download artifacts.
 
 ### Download and use an artifact stored on W&B
 
-Download and use an artifact that is stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](../../ref/python/public-api/api.md)) to export (or update data) already saved in W&B. For more information, see the W&B [Public API Reference guide](../../ref/python/public-api/README.md).
+Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](../../ref/python/public-api/api.md)) to export (or update data) already saved in W&B. For more information, see the W&B [Public API Reference guide](../../ref/python/public-api/README.md).
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -28,7 +23,7 @@ import TabItem from '@theme/TabItem';
   values={[
     {label: 'During a run', value: 'insiderun'},
     {label: 'Outside of a run', value: 'outsiderun'},
-    {label: 'wandb CLI', value: 'cli'},
+    {label: 'W&B CLI', value: 'CLI'},
   ]}>
   <TabItem value="insiderun">
 
@@ -40,7 +35,7 @@ import wandb
 run = wandb.init(project="<example>", job_type="<job-type>")
 ```
 
-Indicate the artifact you want to use with the [`use_artifact`](../../ref/python/run.md#use_artifact) method. This returns a run object. In the proceeding code snippet we specify an artifact called `'bike-dataset'` with alias `'latest'`:
+Indicate the artifact you want to use with the [`use_artifact`](../../ref/python/run.md#use_artifact) method. This returns a run object. In the proceeding code snippet specifies an artifact called `'bike-dataset'` with the alias `'latest'`:
 
 ```python
 artifact = run.use_artifact("bike-dataset:latest")
@@ -63,9 +58,9 @@ path = artifact.get_path(name)
 This fetches only the file at the path `name`. It returns an `Entry` object with the following methods:
 
 * `Entry.download`: Downloads file from the artifact at path `name`
-* `Entry.ref`: If the entry was stored as a reference using `add_reference`, returns the URI
+* `Entry.ref`: If `add_reference` stored the entry as a reference, returns the URI
 
-References that have schemes that W&B knows how to handle can be downloaded just like artifact files. For more information, see [Track external files](../../guides/artifacts/track-external-files.md).
+References that have schemes that W&B knows how to handle get downloaded just like artifact files. For more information, see [Track external files](../../guides/artifacts/track-external-files.md).
   
   </TabItem>
   <TabItem value="outsiderun">
@@ -88,7 +83,7 @@ artifact.download()
 You can optionally pass a path the `root` parameter to download the contents of the artifact to a specific directory. For more information, see the [API Reference Guide](../../ref/python/artifact.md#download).
   
   </TabItem>
-  <TabItem value="cli">
+  <TabItem value="CLI">
 
 Use the `wandb artifact get` command to download an artifact from the W&B server.
 
@@ -98,12 +93,26 @@ $ wandb artifact get project/artifact:alias --root mnist/
   </TabItem>
 </Tabs>
 
+### Partially download an artifact
 
+You can optionally download part of an artifact based on a prefix. Using the `path_prefix` parameter, you can download a single file or the content of a sub-folder.
+
+```python
+artifact = run.use_artifact("bike-dataset:latest")
+
+artifact.download(path_prefix="bike.png") # downloads only bike.png
+```
+
+Alternatively, you can download files from a certain directory:
+
+```python
+artifact.download(path_prefix="images/bikes/") # downloads files in the images/bikes directory
+```
 ### Use an artifact from a different project
 
 Specify the name of artifact along with its project name to reference an artifact. You can also reference artifacts across entities by specifying the name of the artifact with its entity name.
 
-The following code example demonstrates how to query an artifact from another project as input to our current W&B run.
+The following code example demonstrates how to query an artifact from another project as input to the current W&B run.
 
 ```python
 import wandb
@@ -120,7 +129,7 @@ artifact = run.use_artifact("my-entity/my-project/artifact:alias")
 
 ### Construct and use an artifact simultaneously
 
-Simultaneously construct and use an artifact. Create an artifact object and pass it to use\_artifact. This will create an artifact in W&B if it does not exist yet. The [`use_artifact`](../../ref/python/run.md#use_artifact) API is idempotent, so you can call it as many times as you like.
+Simultaneously construct and use an artifact. Create an artifact object and pass it to use_artifact. This creates an artifact in W&B if it does not exist yet. The [`use_artifact`](../../ref/python/run.md#use_artifact) API is idempotent, so you can call it as many times as you like.
 
 ```python
 import wandb

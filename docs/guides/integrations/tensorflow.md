@@ -1,8 +1,10 @@
 ---
 displayed_sidebar: default
+title: TensorFlow
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-# TensorFlow
+<CTAButtons colabLink="https://colab.research.google.com/drive/1JCpAbjkCFhYMT7LCQ399y35TS3jlMpvM"></CTAButtons>
 
 If you're already using TensorBoard, it's easy to integrate with wandb.
 
@@ -75,7 +77,7 @@ When the cofounders started working on W&B, they were inspired to build a tool f
 5. **Powerful tables**: Search, filter, sort, and group results from different models. It's easy to look over thousands of model versions and find the best performing models for different tasks. TensorBoard isn't built to work well on large projects.
 6. **Tools for collaboration**: Use W&B to organize complex machine learning projects. It's easy to share a link to W&B, and you can use private teams to have everyone sending results to a shared project. We also support collaboration via reports— add interactive visualizations and describe your work in markdown. This is a great way to keep a work log, share findings with your supervisor, or present findings to your lab or team.
 
-Get started with a [free personal account →](https://wandb.ai)
+Get started with a [free account](https://wandb.ai)
 
 ## Examples
 
@@ -84,4 +86,4 @@ We've created a few examples for you to see how the integration works:
 * [Example on Github](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-estimator-mnist/mnist.py): MNIST example Using TensorFlow Estimators
 * [Example on Github](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-cnn-fashion/train.py): Fashion MNIST example Using Raw TensorFlow
 * [Wandb Dashboard](https://app.wandb.ai/l2k2/examples-tf-estimator-mnist/runs/p0ifowcb): View result on W&B
-* Customizing Training Loops in TensorFlow 2 - [Article](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) | [Colab Notebook](https://colab.research.google.com/drive/1JCpAbjkCFhYMT7LCQ399y35TS3jlMpvM) | [Dashboard](https://app.wandb.ai/sayakpaul/custom_training_loops_tf)
+* Customizing Training Loops in TensorFlow 2 - [Article](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) | [Dashboard](https://app.wandb.ai/sayakpaul/custom_training_loops_tf)

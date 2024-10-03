@@ -1,11 +1,10 @@
 ---
 description: Guide on how to integrate W&B with Dagster.
 displayed_sidebar: default
+title: Dagster
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Dagster
 
 Use Dagster and W&B (W&B) to orchestrate your MLOps pipelines and maintain ML assets. The integration with W&B makes it easy within Dagster to:
 
@@ -31,7 +30,7 @@ Find your W&B entity by checking the profile page for that user or team in the W
 
 ### How to get an API key
 1. [Log in to W&B](https://wandb.ai/login). Note: if you are using W&B Server ask your admin for the instance host name.
-2. Collect your API key by navigating to the [authorize page](https://wandb.ai/authorize) or in your user/team settings. For a production environment we recommend using a [service account](https://docs.wandb.ai/guides/technical-faq/general#what-is-a-service-account-and-why-is-it-useful) to own that key. 
+2. Collect your API key by navigating to the [authorize page](https://wandb.ai/authorize) or in your user/team settings. For a production environment we recommend using a [service account](/guides/technical-faq/general#what-is-a-service-account-and-why-is-it-useful) to own that key. 
 3. Set an environment variable for that API key export `WANDB_API_KEY=YOUR_KEY`.
 
 
@@ -902,7 +901,7 @@ Interested in Launch? Reach out to your account team to talk about joining the c
 Pilot customers need to use AWS EKS or SageMaker to qualify for the beta program. We ultimately plan to support additional platforms.
 :::
 
-Before continuing, we recommend you to have a good understanding of how to use W&B Launch. Consider, reading the Guide on Launch: https://docs.wandb.ai/guides/launch.
+Before continuing, we recommend you to have a good understanding of how to use W&B Launch. Consider, reading the Guide on Launch: /guides/launch.
 
 The Dagster integration helps with:
 * Running one or multiple Launch agents in your Dagster instance.

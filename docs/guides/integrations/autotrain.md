@@ -1,17 +1,15 @@
 ---
 displayed_sidebar: default
+title: Hugging Face AutoTrain
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Hugging Face Autotrain
 
 [🤗 AutoTrain](https://huggingface.co/docs/autotrain/index) is a no-code tool for training state-of-the-art models for Natural Language Processing (NLP) tasks, for Computer Vision (CV) tasks, and for Speech tasks and even for Tabular tasks.
 
 [Weights & Biases](http://wandb.com/) is directly integrated into 🤗 AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments!
 
-| ![An example of how the metrics of your experiment are logged](@site/static/images/integrations/hf-autotrain-1.png) | 
+| ![An example of how the metrics of your experiment are logged](/images/integrations/hf-autotrain-1.png) | 
 |:--:| 
 | **An example of how the metrics of your experiment are logged.** |
 
@@ -51,7 +49,7 @@ To demonstrate these changes we will fine-tune an LLM on a math dataset and try 
 
 ### Training using Autotrain Advanced
 
-We can start training using the Autotrain Advanced CLI. To leverage the logging functionality, we simply use the `--log` argument. Specifying `--log wandb` will seamlessly log your results to a [W&B run](https://docs.wandb.ai/guides/runs). 
+We can start training using the Autotrain Advanced CLI. To leverage the logging functionality, we simply use the `--log` argument. Specifying `--log wandb` will seamlessly log your results to a [W&B run](/guides/runs). 
 
 <Tabs
   defaultValue="script"
@@ -138,7 +136,7 @@ logging_steps = 10
   </TabItem>
 </Tabs>
 
-| ![An example of how all the configs of your experiment are saved.](@site/static/images/integrations/hf-autotrain-2.gif) | 
+| ![An example of how all the configs of your experiment are saved.](/images/integrations/hf-autotrain-2.gif) | 
 |:--:| 
 | **An example of how all the configs of your experiment are saved.** |
 

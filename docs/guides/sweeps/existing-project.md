@@ -3,15 +3,10 @@ description: >-
   Tutorial on how to create sweep jobs from a pre-existing W&B
   project.
 displayed_sidebar: default
+title: "Tutorial: Create sweep job from project"
 ---
 
-# Tutorial - Create sweeps from existing projects
-
-<head>
-    <title>Create sweeps from existing projects Tutorial</title>
-</head>
-
-The proceeding tutorial will walk through the steps of how to create sweep jobs from a pre-existing W&B project. We will use the [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) to train a PyTorch convolutional neural network how to classify images. The required code an dataset is located in the W&B repo: [https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
+This tutorial explains how to create sweep jobs from a pre-existing W&B project. We will use the [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) to train a PyTorch convolutional neural network how to classify images. The required code an dataset is located in the W&B repo: [https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
 
 Explore the results in this [W&B Dashboard](https://app.wandb.ai/carey/pytorch-cnn-fashion).
 
@@ -31,21 +26,21 @@ Optionally explore the example appear in the W&B App UI dashboard.
 
 From your [project page](../app/pages/project-page.md), open the [Sweep tab](./sweeps-ui.md) in the sidebar and select **Create Sweep**.
 
-![](@site/static/images/sweeps/sweep1.png)
+![](/images/sweeps/sweep1.png)
 
 The auto-generated configuration guesses values to sweep over based on the runs you have completed. Edit the configuration to specify what ranges of hyperparameters you want to try. When you launch the sweep, it starts a new process on the hosted W&B sweep server. This centralized service coordinates the agents— the machines that are running the training jobs.
 
-![](@site/static/images/sweeps/sweep2.png)
+![](/images/sweeps/sweep2.png)
 
 ## 3. Launch agents
 
 Next, launch an agent locally. You can launch up to 20 agents on different machines in parallel if you want to distribute the work and finish the sweep job more quickly. The agent will print out the set of parameters it’s trying next.
 
-![](@site/static/images/sweeps/sweep3.png)
+![](/images/sweeps/sweep3.png)
 
 Now you're running a sweep. The following image demonstrates what the dashboard looks like as the example sweep job is running. [View an example project page →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
 
-![](https://paper-attachments.dropbox.com/s\_5D8914551A6C0AABCD5718091305DD3B64FFBA192205DD7B3C90EC93F4002090\_1579066494222\_image.png)
+![](/images/sweeps/sweep4.png)
 
 ## Seed a new sweep with existing runs
 

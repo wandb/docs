@@ -1,10 +1,8 @@
-# WandbTracer
+---
+title: WandbTracer
+---
 
-
-
-[![](https://www.tensorflow.org/images/GitHub-Mark-32px.png)View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L99-L281)
-
-
+[View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L99-L281)
 
 Callback Handler that logs to Weights and Biases.
 
@@ -12,12 +10,7 @@ Callback Handler that logs to Weights and Biases.
 WandbTracer() -> Any
 ```
 
-
-
-
 This handler will log the model architecture and run traces to Weights and Biases. This will ensure that all LangChain activity is logged to W&B.
-
-
 
 | Attributes | |
 | :--- | :--- |
@@ -26,13 +19,9 @@ This handler will log the model architecture and run traces to Weights and Biase
 | `ignore_chain` | Whether to ignore chain callbacks. |
 | `ignore_llm` | Whether to ignore LLM callbacks. |
 
-
-
 ## Methods
 
 ### `finish`
-
-
 
 [View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L152-L162)
 
@@ -49,8 +38,6 @@ python script. -->
 
 ### `finish_run`
 
-
-
 [View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L202-L211)
 
 ```python
@@ -59,10 +46,7 @@ finish_run() -> None
 
 Waits for W&B data to upload.
 
-
 ### `init`
-
-
 
 [View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L111-L150)
 
@@ -77,9 +61,7 @@ init(
 
 Sets up a WandbTracer and makes it the default handler.
 
-
 #### Parameters:
-
 
 * **`run_args`**: (dict, optional) Arguments to pass to `wandb.init()`. If not provided, `wandb.init()` will be
  called with no arguments. Please refer to the `wandb.init` for more details.
@@ -103,8 +85,6 @@ notebook), as it will only create a new run if the run_args differ.
 
 ### `init_run`
 
-
-
 [View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L164-L200)
 
 ```python
@@ -115,9 +95,7 @@ init_run(
 
 Initialize wandb if it has not been initialized.
 
-
 #### Parameters:
-
 
 * **`run_args`**: (dict, optional) Arguments to pass to `wandb.init()`. If not provided, `wandb.init()` will be
  called with no arguments. Please refer to the `wandb.init` for more details.
@@ -130,8 +108,6 @@ want to manually initialize the tracer and add it to the list of handlers.
 
 ### `load_default_session`
 
-
-
 [View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L264-L267)
 
 ```python
@@ -140,10 +116,7 @@ load_default_session() -> "TracerSession"
 
 Load the default tracing session and set it as the Tracer's session.
 
-
 ### `load_session`
-
-
 
 [View source](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L259-L262)
 
@@ -155,10 +128,7 @@ load_session(
 
 Load a session from the tracer.
 
-
 ### `new_session`
-
-
 
 ```python
 new_session(
@@ -169,10 +139,7 @@ new_session(
 
 NOT thread safe, do not call this method from multiple threads.
 
-
 ### `on_agent_action`
-
-
 
 ```python
 on_agent_action(
@@ -183,10 +150,7 @@ on_agent_action(
 
 Do nothing.
 
-
 ### `on_agent_finish`
-
-
 
 ```python
 on_agent_finish(
@@ -197,10 +161,7 @@ on_agent_finish(
 
 Handle an agent finish message.
 
-
 ### `on_chain_end`
-
-
 
 ```python
 on_chain_end(
@@ -211,10 +172,7 @@ on_chain_end(
 
 End a trace for a chain run.
 
-
 ### `on_chain_error`
-
-
 
 ```python
 on_chain_error(
@@ -225,10 +183,7 @@ on_chain_error(
 
 Handle an error for a chain run.
 
-
 ### `on_chain_start`
-
-
 
 ```python
 on_chain_start(
@@ -240,10 +195,7 @@ on_chain_start(
 
 Start a trace for a chain run.
 
-
 ### `on_llm_end`
-
-
 
 ```python
 on_llm_end(
@@ -254,10 +206,7 @@ on_llm_end(
 
 End a trace for an LLM run.
 
-
 ### `on_llm_error`
-
-
 
 ```python
 on_llm_error(
@@ -268,10 +217,7 @@ on_llm_error(
 
 Handle an error for an LLM run.
 
-
 ### `on_llm_new_token`
-
-
 
 ```python
 on_llm_new_token(
@@ -282,10 +228,7 @@ on_llm_new_token(
 
 Handle a new token for an LLM run.
 
-
 ### `on_llm_start`
-
-
 
 ```python
 on_llm_start(
@@ -297,10 +240,7 @@ on_llm_start(
 
 Start a trace for an LLM run.
 
-
 ### `on_text`
-
-
 
 ```python
 on_text(
@@ -311,10 +251,7 @@ on_text(
 
 Handle a text message.
 
-
 ### `on_tool_end`
-
-
 
 ```python
 on_tool_end(
@@ -325,10 +262,7 @@ on_tool_end(
 
 End a trace for a tool run.
 
-
 ### `on_tool_error`
-
-
 
 ```python
 on_tool_error(
@@ -339,10 +273,7 @@ on_tool_error(
 
 Handle an error for a tool run.
 
-
 ### `on_tool_start`
-
-
 
 ```python
 on_tool_start(
@@ -353,7 +284,3 @@ on_tool_start(
 ```
 
 Start a trace for a tool run.
-
-
-
-

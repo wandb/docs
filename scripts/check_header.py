@@ -109,7 +109,7 @@ def main(args):
     directory_path = args.directory
 
     # Update this list with new sidebar options.
-    available_sidebars = ['default', 'ja']
+    available_sidebars = ['default']
 
     # Starting point of markdown check
     check_markdown_files(directory_path, available_sidebars)

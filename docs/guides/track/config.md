@@ -1,15 +1,11 @@
 ---
 description: Use a dictionary-like object to save your experiment configuration
 displayed_sidebar: default
+title: Configure experiments
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# Configure Experiments
-
-<head>
-  <title>Configure a Machine Learning Experiment</title>
-</head>
-
-[**Try in a Colab Notebook here**](http://wandb.me/config-colab)
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb"></CTAButtons>
 
 Use the `wandb.config` object to save your training configuration such as: 
 - hyperparameters
@@ -250,7 +246,7 @@ config_dictionary = dict(
 wandb.init(config=config_dictionary)
 ```
 
-## TensorFlow v1 Flags
+## TensorFlow v1 flags
 
 You can pass TensorFlow flags into the `wandb.config` object directly.
 

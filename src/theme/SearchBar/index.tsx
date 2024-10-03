@@ -6,7 +6,7 @@ import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import {isRegexpStringMatch} from '@docusaurus/theme-common';
-import {useSearchPage} from '@docusaurus/theme-common/internal';
+import {useSearchLinkCreator} from '@docusaurus/theme-common';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
@@ -51,7 +51,7 @@ type ResultsFooterProps = {
 };
 
 function ResultsFooter({state, onClose}: ResultsFooterProps) {
-  const {generateSearchPageLink} = useSearchPage();
+  const generateSearchPageLink = useSearchLinkCreator();
 
   return (
     <Link to={generateSearchPageLink(state.query)} onClick={onClose}>
@@ -81,7 +81,7 @@ function DocSearch({
   externalUrlRegex,
   ...props
 }: DocSearchProps) {
-  const {siteMetadata, i18n} = useDocusaurusContext();
+  const {siteMetadata} = useDocusaurusContext();
 
   const contextualSearchFacetFilters =
     useAlgoliaContextualFacetFilters() as FacetFilters;
@@ -175,13 +175,7 @@ function DocSearch({
   }).current;
 
   const transformItems = useRef<DocSearchModalProps['transformItems']>(items =>
-    items.filter(item => {
-      if (i18n.currentLocale === 'en'){ 
-        return i18n.locales.every( locale => !item.url.includes(`/${locale}/`) ) 
-      } else {
-        return item.url.includes(`/${i18n.currentLocale}/`)
-      }
-    }).map(item => {
+    items.map(item => {
       // If Algolia contains a external domain, we should navigate without
       // relative URL
       if (isRegexpStringMatch(externalUrlRegex, item.url)) {

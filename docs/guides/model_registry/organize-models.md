@@ -1,7 +1,7 @@
 ---
 displayed_sidebar: default
+title: Organize models
 ---
-# Organize models
 
 Use model tags to organize registered models into categories and to search over those categories. 
 

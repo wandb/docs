@@ -1,11 +1,10 @@
 ---
 description: Learn how to use W&B for Model Management
 displayed_sidebar: default
+title: "Tutorial: Use W&B for model management"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Walkthrough
 
 The following walkthrough shows you how to log a model to W&B. By the end of the walkthrough you will:
 
@@ -30,7 +29,7 @@ import wandb
 import numpy as np
 from tensorflow import keras
 from tensorflow.keras import layers
-from wandb.keras import WandbCallback
+from wandb.integration.keras import WandbMetricsLogger
 from sklearn.model_selection import train_test_split
 ```
 

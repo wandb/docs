@@ -1,15 +1,10 @@
 ---
 description: Answers to frequently asked question about W&B Artifacts.
 displayed_sidebar: default
+title: Artifact FAQ
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Artifacts FAQs
-
-<head>
-  <title>Frequently Asked Questions About Artifacts</title>
-</head>
 
 The proceeding questions are commonly asked questions about [W&B Artifacts](#questions-about-artifacts) and [W&B Artifact workflows](#questions-about-artifacts-workflows).
 

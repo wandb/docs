@@ -1,19 +1,14 @@
 ---
 description: Create and track plots from machine learning experiments.
 displayed_sidebar: default
+title: Create and track plots from experiments
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Log Plots
-
-<head>
-  <title>Log and Track Plots from  W&B Experiments.</title>
-</head>
-
 Using the methods in `wandb.plot`, you can track charts with `wandb.log`, including charts that change over time during training. To learn more about our custom charting framework, check out [this guide](../../app/features/custom-charts/walkthrough.md).
 
-### Basic Charts
+### Basic charts
 
 These simple charts make it easy to construct basic visualizations of metrics and results.
 
@@ -48,9 +43,9 @@ You can use this to log curves on any two dimensions. Note that if you're plotti
 
 ![](/images/track/line_plot.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
+[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[Run the code](https://tiny.cc/custom-charts)
   </TabItem>
   <TabItem value="scatter">
 
@@ -68,9 +63,9 @@ You can use this to log scatter points on any two dimensions. Note that if you'r
 
 ![](/images/track/demo_scatter_plot.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
+[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[Run the code](https://tiny.cc/custom-charts)
   </TabItem>
   <TabItem value="bar">
 
@@ -94,9 +89,9 @@ You can use this to log arbitrary bar charts. Note that the number of labels and
 
 ![](/images/track/basic_charts_bar.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
+[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[Run the code](https://tiny.cc/custom-charts)
   </TabItem>
   <TabItem value="histogram">
 
@@ -114,9 +109,9 @@ You can use this to log arbitrary histograms. Note that `data` is a list of list
 
 ![](/images/track/demo_custom_chart_histogram.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
+[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
 
-[Run the code →](https://tiny.cc/custom-charts)
+[Run the code](https://tiny.cc/custom-charts)
   </TabItem>
   <TabItem value="multiline">
 
@@ -142,11 +137,11 @@ Note that the number of x and y points must match exactly. You can supply one li
 
 ![](/images/track/basic_charts_histogram.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU)
+[See in the app](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU)
   </TabItem>
 </Tabs>
 
-### Model Evaluation Charts
+### Model evaluation charts
 
 These preset charts have built-in `wandb.plot` methods that make it quick and easy to log charts directly from your script and see the exact information you're looking for in the UI.
 
@@ -161,7 +156,7 @@ These preset charts have built-in `wandb.plot` methods that make it quick and ea
 
 `wandb.plot.pr_curve()`
 
-Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision\_recall\_curve.html#sklearn.metrics.precision\_recall\_curve) in one line:
+Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) in one line:
 
 ```python
 wandb.log({"pr": wandb.plot.pr_curve(ground_truth, predictions)})
@@ -176,15 +171,15 @@ You can log this whenever your code has access to:
 
 ![](/images/track/model_eval_charts_precision_recall.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
+[See in the app](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
 
-[Run the code →](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
+[Run the code](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
   </TabItem>
   <TabItem value="roc">
 
 `wandb.plot.roc_curve()`
 
-Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc\_curve.html#sklearn.metrics.roc\_curve) in one line:
+Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) in one line:
 
 ```python
 wandb.log({"roc": wandb.plot.roc_curve(ground_truth, predictions)})
@@ -199,15 +194,15 @@ You can log this whenever your code has access to:
 
 ![](/images/track/demo_custom_chart_roc_curve.png)
 
-[See in the app →](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
+[See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
-[Run the code →](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Plot\_ROC\_Curves\_with\_W%26B.ipynb)
+[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Plot_ROC_Curves_with_W%26B.ipynb)
   </TabItem>
   <TabItem value="confusion_matrix">
 
 `wandb.plot.confusion_matrix()`
 
-Create a multi-class [confusion matrix](https://scikit-learn.org/stable/auto\_examples/model\_selection/plot\_confusion\_matrix.html) in one line:
+Create a multi-class [confusion matrix](https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html) in one line:
 
 ```python
 cm = wandb.plot.confusion_matrix(
@@ -225,13 +220,13 @@ You can log this wherever your code has access to:
 
 ![](/images/experiments/confusion_matrix.png)
 
-​[See in the app →](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM)​
+​[See in the app](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM)​
 
-​[Run the code →](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log\_a\_Confusion\_Matrix\_with\_W%26B.ipynb)
+​[Run the code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_a_Confusion_Matrix_with_W%26B.ipynb)
   </TabItem>
 </Tabs>
 
-### Interactive Custom Charts
+### Interactive custom charts
 
 For full customization, tweak a built-in [Custom Chart preset](../../app/features/custom-charts/walkthrough.md) or create a new preset, then save the chart. Use the chart ID to log data to that custom preset directly from your script.
 
@@ -253,9 +248,9 @@ my_custom_chart = wandb.plot_table(
 )
 ```
 
-[Run the code →](https://tiny.cc/custom-charts)
+[Run the code](https://tiny.cc/custom-charts)
 
-### Matplotlib and Plotly Plots
+### Matplotlib and Plotly plots
 
 Instead of using W&B [Custom Charts](../../app/features/custom-charts/walkthrough.md) with `wandb.plot`, you can log charts generated with [matplotlib](https://matplotlib.org/) and [Plotly](https://plotly.com/).
 
@@ -273,7 +268,7 @@ Just pass a `matplotlib` plot or figure object to `wandb.log()`. By default we'l
 If you’re getting an error “You attempted to log an empty plot” then you can store the figure separately from the plot with `fig = plt.figure()` and then log `fig` in your call to `wandb.log`.
 :::
 
-### Log Custom HTML to W&B Tables
+### Log custom HTML to W&B Tables
 
 W&B supports logging interactive charts from Plotly and Bokeh as HTML and adding them to Tables.
 

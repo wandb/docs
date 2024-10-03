@@ -2,15 +2,8 @@
 slug: /guides/app/pages
 description: An overview of the different pages in app.wandb.ai
 displayed_sidebar: default
+title: Pages
 ---
-
-# Pages
-
-## Home Page
-
-Browse all your runs and projects. The home page pulls in projects from your personal account, as well as any projects you've contributed to in teams.
-
-![](/images/app_ui/home_page.png)
 
 ## Project Page
 

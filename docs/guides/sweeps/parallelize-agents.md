@@ -1,16 +1,10 @@
 ---
 description: Parallelize W&B Sweep agents on multi-core or multi-GPU machine.
 displayed_sidebar: default
+title: Parallelize agents
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Parallelize agents
-
-<head>
-  <title>Parallelize agents</title>
-</head>
 
 Parallelize your W&B Sweep agents on a multi-core or multi-GPU machine. Before you get started, ensure you have initialized your W&B Sweep. For more information on how to initialize a W&B Sweep, see [Initialize sweeps](./initialize-sweeps.md).
 

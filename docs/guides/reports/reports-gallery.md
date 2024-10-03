@@ -1,9 +1,9 @@
 ---
 description: Reports gallery
 displayed_sidebar: default
+title: Example reports
 ---
 
-# Reports gallery
 ### Notes: Add a visualization with a quick summary
 
 Capture an important observation, an idea for future work, or a milestone reached in the development of a project. All experiment runs in your report will link to their parameters, metrics, logs, and code, so you can save the full context of your work.

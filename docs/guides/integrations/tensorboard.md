@@ -1,18 +1,16 @@
 ---
 displayed_sidebar: default
+title: TensorBoard
 ---
-
-# TensorBoard
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 ## Hosted TensorBoard with 1 Line of Code
 
 With Weight & Biases you can easily upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
 
-**Get started now in with this Notebook:** [**Try in a Colab Notebook here →**](https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard\_and\_Weights\_and\_Biases.ipynb)
-
+<CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb"></CTAButtons>
 
 ![](/images/integrations/tensorboard_oneline_code.webp)
-
 
 ### Just add 1 Line of Code
 

@@ -1,16 +1,14 @@
 ---
 displayed_sidebar: default
+title: Add wandb to any library
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Add wandb to Any Library
 
 This guide provides best practices on how to integrate W&B into your Python library to get powerful Experiment Tracking, GPU and System Monitoring, Model Checkpointing and more for you own library.
 
 :::note
-If you are still learning how to use W&B, we recommend exploring the other W&B Guides in these docs, such as [Experiment Tracking](https://docs.wandb.ai/guides/track), before reading further.
+If you are still learning how to use W&B, we recommend exploring the other W&B Guides in these docs, such as [Experiment Tracking](/guides/track), before reading further.
 :::
 
 Below we cover best tips and best practices when the codebase you are working on is more complicated than a single Python training script or Jupyter notebook. The topics covered are:
@@ -247,13 +245,13 @@ Use `wandb.config.update` to update the config. Updating your configuration dict
 wandb.config.update({“model_parameters” = 3500})
 ```
 
-For more information on how to define a config file, see [Configure Experiments with wandb.config](https://docs.wandb.ai/guides/track/config)
+For more information on how to define a config file, see [Configure Experiments with wandb.config](/guides/track/config)
 
 ### Logging To W&B
 
 #### Log Metrics
 
-Create a dictionary where the key value is the name of the metric. Pass this dictionary object to [`wandb.log`](https://docs.wandb.ai/guides/track/log):
+Create a dictionary where the key value is the name of the metric. Pass this dictionary object to [`wandb.log`](/guides/track/log):
 
 ```python
 for epoch in range(NUM_EPOCHS):
@@ -278,7 +276,7 @@ wandb.log(metrics)
 
 ![A W&B Workspace with 2 separate sections](/images/integrations/integrations_add_any_lib_log.png)
 
-For more on `wandb.log`, see [Log Data with wandb.log](https://docs.wandb.ai/guides/track/log)
+For more on `wandb.log`, see [Log Data with wandb.log](/guides/track/log)
 
 #### Preventing x-axis Misalignments
 
@@ -328,7 +326,7 @@ Some considerations when logging data include:
   * For images, you can log sample predictions, segmentation masks etc to see the evolution over time.
   * For text, you can log tables of sample predictions for later exploration.
 
-Refer to [Log Data with wandb.log](https://docs.wandb.ai/guides/track/log) for a full guide on logging media, objects, plots and more.
+Refer to [Log Data with wandb.log](/guides/track/log) for a full guide on logging media, objects, plots and more.
 
 ### Distributed Training
 
@@ -369,7 +367,7 @@ aliases = [“best”, “epoch_10”]
 wandb.log_artifact(artifact, aliases=aliases)
 ```
 
-For information on how to create a custom alias, see [Create a Custom Alias](https://docs.wandb.ai/guides/artifacts/create-a-custom-alias)
+For information on how to create a custom alias, see [Create a Custom Alias](/guides/artifacts/create-a-custom-alias)
 
 You can log output Artifacts at any frequency (for example, every epoch, every 500 steps and so on) and are automatically versioned.
 
@@ -394,18 +392,18 @@ local_path = artifact.download(“./tmp”)
 
 Artifacts can be found in the Artifacts section of W&B and can be referenced with aliases generated automatically (“latest”, “v2”, “v3”) or manually when logging (“best_accuracy”…).
 
-To download an Artifact without creating a `wandb` run (through `wandb.init`), for example in distributed environments or for simple inference, you can instead reference the artifact with the [wandb API](https://docs.wandb.ai/ref/python/public-api):
+To download an Artifact without creating a `wandb` run (through `wandb.init`), for example in distributed environments or for simple inference, you can instead reference the artifact with the [wandb API](/ref/python/public-api):
 
 ```python
 artifact = wandb.Api().artifact(“user/project/artifact:latest”)
 local_path = artifact.download()
 ```
 
-For more information, see [Download and Use Artifacts](https://docs.wandb.ai/guides/artifacts/download-and-use-an-artifact).
+For more information, see [Download and Use Artifacts](/guides/artifacts/download-and-use-an-artifact).
 
 ### Hyper-parameter Tuning
 
-If your library would like to leverage W&B  hyper-parameter tuning, [W&B Sweeps](https://docs.wandb.ai/guides/sweeps) can also be added to your library
+If your library would like to leverage W&B  hyper-parameter tuning, [W&B Sweeps](/guides/sweeps) can also be added to your library
 
 ### Advanced Integrations
 

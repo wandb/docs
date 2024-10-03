@@ -1,30 +1,30 @@
 ---
 description: Import data from MLFlow, export or update data that you have saved to W&B
 displayed_sidebar: default
+title: Import and export data
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Import & Export Data
-
-<head>
-  <title>Import & Export Data to W&B</title>
-</head>
-
 Export data or import data from MLFlow or between W&B instances with W&B Public APIs.
 
-## Import Data from MLFlow
+:::info
+This feature requires python>=3.8
+:::
+
+## Import data from MLFlow
 
 W&B supports importing data from MLFlow, including experiments, runs, artifacts, metrics, and other metadata.
 
 Install dependencies:
 
 ```shell
-pip install mlflow wandb>=0.14.0
+# note: this requires py38+
+pip install wandb[importers]
 ```
 
-Log in to W&B (follow prompts if you haven't logged in before)
+Log in to W&B. Follow the prompts if you have not logged in before.
 
 ```shell
 wandb login
@@ -32,50 +32,51 @@ wandb login
 
 Import all runs from an existing MLFlow server:
 
-```shell
-wandb import mlflow \ &&
-    --mlflow-tracking-uri <mlflow_uri> \ &&
-    --target-entity       <entity> \ &&
-    --target-project      <project>
+```py
+from wandb.apis.importers.mlflow import MlflowImporter
+
+importer = MlflowImporter(mlflow_tracking_uri="...")
+
+runs = importer.collect_runs()
+importer.import_runs(runs)
+```
+
+By default, `importer.collect_runs()` collects all runs from the MLFlow server. If you prefer to upload a special subset, you can construct your own runs iterable and pass it to the importer.
+
+```py
+import mlflow
+from wandb.apis.importers.mlflow import MlflowRun
+
+client = mlflow.tracking.MlflowClient(mlflow_tracking_uri)
+
+runs: Iterable[MlflowRun] = []
+for run in mlflow_client.search_runs(...):
+    runs.append(MlflowRun(run, client))
+
+importer.import_runs(runs)
 ```
 
 :::tip
 You might need to [configure the Databricks CLI first](https://docs.databricks.com/dev-tools/cli/index.html) if you import from Databricks MLFlow.
 
-Set `--mlflow-tracking-uri=databricks` in the previous step.
+Set `mlflow-tracking-uri="databricks"` in the previous step.
 :::
 
-#### Advanced
-
-You can also import from Python. This can be useful if you want to specify overrides, or if you prefer python to the command line.
+To skip importing artifacts, you can pass `artifacts=False`:
 
 ```py
-from wandb.apis.importers import MlflowImporter
-
-# optional dict to override settings for all imported runs
-overrides = {"entity": "my_custom_entity", "project": "my_custom_project"}
-
-importer = MlflowImporter(mlflow_tracking_uri="...")
-importer.import_all_parallel()
+importer.import_runs(runs, artifacts=False)
 ```
 
-For even more fine-grained control, you can selectively import experiments or specify overrides based on your own custom logic. For example, the following code shows how to make runs with custom tags that are then imported into the specified project.
+To import to a specific W&B entity and project, you can pass a `Namespace`:
 
 ```py
-default_settings = {"entity": "default_entity", "project": "default_project"}
+from wandb.apis.importers import Namespace
 
-special_tag_settings = {"entity": "special_entity", "project": "special_project"}
-
-for run in importer.download_all_runs():
-    if "special_tag" in run.tags():
-        overrides = special_tag_settings
-    else:
-        overrides = default_settings
-
-    importer.import_run(run, overrides=overrides)
+importer.import_runs(runs, namespace=Namespace(entity, project))
 ```
 
-## Import Data from another W&B instance
+## Import data from another W&B instance
 
 :::info
 This feature is in beta, and only supports importing from the W&B public cloud.
@@ -84,89 +85,66 @@ This feature is in beta, and only supports importing from the W&B public cloud.
 Install dependencies:
 
 ```sh
-pip install wandb>=0.15.6 polars tqdm
+# note: this requires py38+
+pip install wandb[importers]
 ```
 
-Log in to W&B. Follow the prompts if you have not logged in before.
+Log in to the source W&B server. Follow the prompts if you have not logged in before.
 
 ```sh
 wandb login
 ```
 
-In python, instantiate the importer:
+Import all runs and artifacts from a source W&B instance to a destination W&B instance. Runs and artifacts are imported to their respective namespaces in the destination instance.
 
-```
-from wandb.apis.importers import WandbParquetImporter
+```py
+from wandb.apis.importers.wandb import WandbImporter
+from wandb.apis.importers import Namespace
 
-importer = WandbParquetImporter(
+importer = WandbImporter(
     src_base_url="https://api.wandb.ai",
     src_api_key="your-api-key-here",
     dst_base_url="https://example-target.wandb.io",
     dst_api_key="target-environment-api-key-here",
 )
+
+# Imports all runs, artifacts, reports
+# from "entity/project" in src to "entity/project" in dst
+importer.import_all(namespaces=[
+    Namespace(entity, project),
+    # ... add more namespaces here
+])
 ```
 
-### Import runs
-
-Import all W&B runs from an entity:
+If you prefer to change the destination namespace, you can specify `remapping: dict[Namespace, Namespace]`
 
 ```py
-importer.import_all_runs(src_entity)
-```
-
-You can optionally specify a project if you do not want to import all projects by default:
-
-```py
-importer.import_all_runs(src_entity, src_project)
-```
-
-If you would prefer the data to be imported to a different entity or project, you can specify with `overrides`:
-
-```py
-importer.import_all_runs(
-    src_entity, src_project, overrides={"entity": dst_entity, "project": dst_project}
+importer.import_all(
+    namespaces=[Namespace(entity, project)],
+    remapping={
+        Namespace(entity, project): Namespace(new_entity, new_project),
+    }
 )
 ```
 
-### Import reports
-
-Import all reports from an entity:
+By default, imports are incremental. Subsequent imports try to validate the previous work and write to `.jsonl` files tracking success/failure. If an import succeeded, future validation is skipped. If an import failed, it is retried. To disable this, set `incremental=False`.
 
 ```py
-importer.import_all_reports(src_entity)
-```
-
-You can optionally specify a project if you don't want to import all projects by default:
-
-```py
-importer.import_all_reports(src_entity, src_project)
-```
-
-Specify the `overrides` parameter if you prefer the data to be imported to a different entity or project. Report overrides also support different names and descriptions:
-
-```py
-importer.import_all_reports(
-    src_entity, src_project, overrides={"entity": dst_entity, "project": dst_project}
+importer.import_all(
+    namespaces=[Namespace(entity, project)],
+    incremental=False,
 )
 ```
 
-### Import individual runs and reports
+### Known issues and limitations
 
-The importer supports more granular control over imports as well.
+- If the destination namespace does not exist, W&B creates one automatically.
+- If a run or artifact has the same ID in the destination namespace, W&B treats it as an incremental import. The destination run/artifact is validated and retried if it failed in a previous import.
+- No data is ever deleted from the source system.
 
-You can import individual runs and reports with `import_run` and `import_report` respectively.
-
-### Import runs and reports with custom logic
-
-You can also collect and import a list of runs and reports based on your own custom logic. For example:
-
-```py
-runs = importer.collect_runs(src_entity)
-
-for run in runs:
-    if run.name().startswith("something-important"):
-        importer.import_run(run)
-```
+1. Sometimes when bulk importing (especially large artifacts), you can run into S3 rate limits. If you see `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`, you can try spacing out imports by moving just a few namespaces at a time.
+2. Imported run tables appear to be blank in the workspace, but if you nav to the Artifacts tab and click the equivalent run table artifact you should see the table as expected.
+3. System metrics and custom charts (not explicitly logged with `wandb.log`) are not imported
 
 ## Export Data
 
@@ -260,7 +238,7 @@ these are the different outputs for the above run object attributes
 
 ### Sampling
 
-The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` \_\_ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](https://docs.wandb.ai/ref/python/public-api).
+The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` __ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](/ref/python/public-api).
 
 ### Querying Multiple Runs
 

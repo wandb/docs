@@ -1,10 +1,9 @@
 ---
 displayed_sidebar: default
+title: Launch terms and concepts
 ---
 
-# Terms and concepts
 With W&B Launch, you enqueue [jobs](#launch-job) onto [queues](#launch-queue) to create runs. Jobs are python scripts instrumented with W&B. Queues hold a list of jobs to execute on a [target resource](#target-resources). [Agents](#launch-agent) pull jobs from queues and execute the jobs on target resources. W&B tracks launch jobs similarly to how W&B tracks [runs](../runs/intro.md).
-
 
 ### Launch job
 A launch job is a specific type of [W&B Artifact](../artifacts/intro.md) that represents a task to complete. For example, common launch jobs include training a model or triggering a model evaluation. Job definitions include:
@@ -13,16 +12,13 @@ A launch job is a specific type of [W&B Artifact](../artifacts/intro.md) that re
 - Information about the input (config parameter) and output (metrics logged).
 - Information about the environment. (for example, `requirements.txt`, base `Dockerfile`).
 
-
 There are three main kinds of job definitions:
-
 
 | Job types | Definition | How to run this job type | 
 | ---------- | --------- | -------------- |
 |Artifact-based (or code-based) jobs| Code and other assets are saved as a W&B artifact.| To run artifact-based jobs, Launch agent must be configured with a builder. |
 |Git-based jobs|  Code and other assets are cloned from a certain commit, branch, or tag in a git repository. | To run git-based jobs, Launch agent must be configured with a builder and git repository credentials. |
 |Image-based jobs|Code and other assets are baked into a Docker image. | To run image-based jobs, Launch agent might need to be configured with image repository credentials. | 
-
 
 :::tip
 While Launch jobs can perform activities not related to model training--for example, deploy a model to a Triton inference server--all jobs must call `wandb.init` to complete successfully. This creates a run for tracking purposes in a W&B workspace.
