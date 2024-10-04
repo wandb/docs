@@ -154,7 +154,7 @@ Yes, you can configure your ingress class by modifying the ingress settings in `
 **Our certificate bundle has more than one certificate. Would that work?**  
 You must split the certificates into multiple entries in the `customCACerts` section of `values.yaml`.
 
-**I don't want the W&B Operator to apply unattended updates.**  
+**We would like to prevent the kubernetes operator from applying unattended updates. Is that possible?**  
 You can disable auto-updates by ensuring you have the latest versions and adjusting the W&B Console settings.
 
 **What if my environment has no connection to external repositories?**  
