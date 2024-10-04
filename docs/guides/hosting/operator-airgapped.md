@@ -138,7 +138,7 @@ You can find all supported values in the [official kubernetes operator repositor
 
 ## Step 6: Deploy the W&B platform
 
-Finally, after setting up the CRD and W&B Operator, deploy the W&B platform using the following command:
+Finally, after setting up the kubernetes operator and the CRD, deploy the W&B platform using the following command:
 
 ```bash
 kubectl apply -f wandb.yaml
