@@ -146,7 +146,7 @@ kubectl apply -f wandb.yaml
 
 ## Troubleshooting and FAQ
 
-Below are some frequently asked questions (FAQs) and troubleshooting tips to help you during the deployment process:
+Refer to the below frequently asked questions (FAQs) and troubleshooting tips during the deployment process:
 
 **I have another ingress class, can I use it?**  
 Yes, you can configure your ingress class by modifying the ingress settings in `values.yaml`.
