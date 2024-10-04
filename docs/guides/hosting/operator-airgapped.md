@@ -158,4 +158,4 @@ You must split the certificates into multiple entries in the `customCACerts` sec
 You can disable auto-updates from the W&B console. Reach out to your W&B team for any questions on the supported versions. Also, note that W&B supports platform versions released in last 6 months. W&B recommends performing periodic upgrades. 
 
 **Would the deployment work if our environment has no connection to public repositories?**  
-As long as the `airgapped: true` configuration is enabled, the W&B Operator will not attempt to reach public repositories and will use your internal resources.
+As long as you have enabled the `airgapped: true` configuration, the kubernetes operator will not attempt to reach public repositories and will attempt to use your internal resources.
