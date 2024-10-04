@@ -1,9 +1,8 @@
 ---
 description: Get Slack notifications when a new model version is linked to the model registry.
 displayed_sidebar: default
+title: Create alerts and notifications
 ---
-
-# Create alerts and notifications
 
 <!-- # Notifications for new model versions -->
 Receive Slack notifications when a new model version is linked to the model registry. 

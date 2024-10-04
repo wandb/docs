@@ -1,9 +1,8 @@
 ---
 slug: /guides/integrations
 displayed_sidebar: default
+title: Integrations
 ---
-
-# Integrations
 
 W&B integrations make it fast and easy to set up experiment tracking and data versioning inside existing projects. Check out integrations for ML frameworks such as [PyTorch](pytorch.md), ML libraries such as [Hugging Face](huggingface.md), or cloud services such as [Amazon SageMaker](other/sagemaker.md).
 

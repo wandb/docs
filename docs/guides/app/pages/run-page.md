@@ -3,9 +3,9 @@ description: >-
   Each training run of your model gets a dedicated page, organized within the
   larger project
 displayed_sidebar: default
+title: Run page
 ---
 
-# Run Page
 Use the run page to explore detailed information about a specific run within a project.
 
 ## Overview tab
@@ -108,6 +108,6 @@ Use W&B [Artifacts](../../artifacts/intro.md) for tracking inputs and outputs of
 ## Artifacts tab
 The Artifacts tab lists the input and output [Artifacts](../../artifacts/intro.md) for the specified run.
 
-[View a live example here](https://wandb.ai/stacey/artifact\_july\_demo/runs/2cslp2rt/artifacts).
+[View a live example here](https://wandb.ai/stacey/artifact_july_demo/runs/2cslp2rt/artifacts).
 
 ![](/images/app_ui/artifacts_tab.png)

@@ -1,10 +1,9 @@
 ---
 description: >-
     Manage organization members, subscription settings, and billing information
-displayed_sidebar: default    
+displayed_sidebar: default
+title: Manage organizations
 ---
-
-# Organizations
 
 Organizations allow you to manage membership across teams in your organization as well as subscription settings and billing information.
 

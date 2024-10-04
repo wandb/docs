@@ -1,29 +1,28 @@
 ---
 displayed_sidebar: default
+title: Sweep configuration options
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Sweep configuration options
 
 A sweep configuration consists of nested key-value pairs. Use top-level keys within your sweep configuration to define qualities of your sweep search such as the parameters to search through ([`parameter`](./sweep-config-keys.md#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys.md#method) key), and more. 
 
 The proceeding table lists top-level sweep configuration keys and a brief description. See the respective sections for more information about each key. 
 
 
-| Top-level keys    | Description                                                                                                                   |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `program`         | (required) Training script to run.                                                                                            |
-| `entity`          | Specify the entity for this sweep.                                                                                            |
-| `project`         | Specify the project for this sweep.                                                                                           |
-| `description`     | Text description of the sweep.                                                                                                |
-| `name`            | The name of the sweep, displayed in the W&B UI.                                                                               |
-| [`method`](#method) | (required) Specify the [search strategy](./define-sweep-configuration.md#configuration-keys).                               |
-| [`metric`](#metric) | Specify the metric to optimize (only used by certain search strategies and stopping criteria).                              |
-| [`parameters`](#parameters) | (required) Specify [parameters](define-sweep-configuration.md#parameters) bounds to search.                         |
-| [`early_terminate`](#early_terminate) | Specify any [early stopping criteria](./define-sweep-configuration.md#early_terminate).                                 |
-| [`command`](#command)         | Specify [command structure ](./define-sweep-configuration.md#command)for invoking and passing arguments to the training script. |
-| `run_cap` | Specify a maximum number of runs in a sweep.                                                                                          |
+| Top-level keys | Description |
+| -------------- | ----------- |
+| `program` | (required) Training script to run |
+| `entity` | The entity for this sweep |
+| `project` | The project for this sweep |
+| `description` | Text description of the sweep |
+| `name` | The name of the sweep, displayed in the W&B UI. |
+| [`method`](#method) | (required) The search strategy |
+| [`metric`](#metric) | The metric to optimize (only used by certain search strategies and stopping criteria) |
+| [`parameters`](#parameters) | (required) Parameter bounds to search |
+| [`early_terminate`](#early_terminate) | Any early stopping criteria |
+| [`command`](#command) | Command structure for invoking and passing arguments to the training script |
+| `run_cap` | Maximum number of runs for this sweep |
 
 See the [Sweep configuration](./sweep-config-keys.md) structure for more information on how to structure your sweep configuration.
 

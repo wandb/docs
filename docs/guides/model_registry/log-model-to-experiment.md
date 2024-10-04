@@ -1,11 +1,10 @@
 ---
-description: ''
+description: Track a model, the model's dependencies, and other information relevant to that model with the W&B Python SDK.
 displayed_sidebar: default
+title: Track a model
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Track a model 
 
 Track a model, the model's dependencies, and other information relevant to that model with the W&B Python SDK. 
 

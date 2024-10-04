@@ -1,9 +1,9 @@
 ---
 slug: /guides/app/features/panels
 displayed_sidebar: default
+title: Panels
 ---
 
-# Panels
 Use panel visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and more. 
 
 ## Add a single panel

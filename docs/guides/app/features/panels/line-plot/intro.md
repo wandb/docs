@@ -2,9 +2,8 @@
 slug: /guides/app/features/panels/line-plot
 description: Visualize metrics, customize axes, and compare multiple lines on the same plot
 displayed_sidebar: default
+title: Line plots
 ---
-
-# Line Plot
 
 Line plots show up by default when you plot metrics over time with **wandb.log()**. Customize with chart settings to compare multiple lines on the same plot, calculate custom axes, and rename labels.
 
@@ -55,7 +54,7 @@ Pick **multiple y-axes** in the line plot settings to compare different metrics 
 **Expressions**
 
 * **Y Axis Expressions**: Add calculated metrics to your graph. You can use any of the logged metrics as well as configuration values like hyperparameters to calculate custom lines.
-* **X Axis Expressions**: Rescale the x-axis to use calculated values using custom expressions. Useful variables include\*\*\_step\*\* for the default x-axis, and the syntax for referencing summary values is `${summary:value}`
+* **X Axis Expressions**: Rescale the x-axis to use calculated values using custom expressions. Useful variables include\*\*_step\*\* for the default x-axis, and the syntax for referencing summary values is `${summary:value}`
 
 ## Visualize average values on a plot
 
@@ -83,16 +82,11 @@ wandb.log({"test": [..., float("nan"), ...]})
 
 Click on a run to go to the run page. Here's an [example run](https://app.wandb.ai/stacey/estuary/runs/9qha4fuu?workspace=user-carey) from Stacey's Estuary project. The auto-generated charts show single metrics.
 
-
-![](@site/static/images/app_ui/visualization_add.png)
+![](/images/app_ui/visualization_add.png)
 
 Click **the plus sign** at the top right of the page, and select the **Line Plot**.
 
-![](https://downloads.intercomcdn.com/i/o/142936481/d0648728180887c52ab46549/image.png)
-
 In the **Y variables** field, select a few metrics you'd like to compare. They'll show up together on the line graph.
-
-![](https://downloads.intercomcdn.com/i/o/146033909/899fc05e30795a1d7699dc82/Screen+Shot+2019-09-04+at+9.10.52+AM.png)
 
 ## Changing the color of the line plots
 

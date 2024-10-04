@@ -2,13 +2,10 @@
 slug: /guides/integrations/metaflow
 description: How to integrate W&B with Metaflow.
 displayed_sidebar: default
+title: Metaflow
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-# Metaflow
 
 ## Overview
 
@@ -182,4 +179,4 @@ We currently support these types:
 
 Yes! If you have an artifact that is an output of step A and an input to step B, we automatically construct the lineage DAG for you.
 
-For an example of this behavior, please see this[ notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u\_nG#scrollTo=DQQVaKS0TmDU) and its corresponding [W&B Artifacts page](https://wandb.ai/megatruong/metaflow\_integration/artifacts/dataset/raw\_df/7d14e6578d3f1cfc72fe/graph)
+For an example of this behavior, please see this[ notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) and its corresponding [W&B Artifacts page](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph)

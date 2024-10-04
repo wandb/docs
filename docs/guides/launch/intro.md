@@ -2,11 +2,10 @@
 slug: /guides/launch
 description: Easily scale and manage ML jobs using W&B Launch.
 displayed_sidebar: default
+title: Launch
 ---
 import Translate, {translate} from '@docusaurus/Translate';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-# Launch
 
 <CTAButtons colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP"/>
 

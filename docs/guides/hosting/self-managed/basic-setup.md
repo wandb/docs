@@ -1,9 +1,8 @@
 ---
 description: Run Weights and Biases on your own machines using Docker
 displayed_sidebar: default
+title: "Tutorial: Run a W&B Server using Docker"
 ---
-
-# Getting started
 
 Follow this "Hello, world!" example to learn the general workflow to install W&B Server for Dedicated Cloud and Self Managed hosting options. By the end of this demo, you will know how to host W&B Server on your local machine using a Trial Mode W&B license. 
 

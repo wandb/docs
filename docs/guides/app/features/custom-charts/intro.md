@@ -1,19 +1,17 @@
 ---
 slug: /guides/app/features/custom-charts
 displayed_sidebar: default
+title: Custom charts
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Custom Charts
 
 Use **Custom Charts** to create charts that aren't possible right now in the default UI. Log arbitrary tables of data and visualize them exactly how you want. Control details of fonts, colors, and tooltips with the power of [Vega](https://vega.github.io/vega/).
 
 * **What's possible**: Read the[ launch announcement](https://wandb.ai/wandb/posts/reports/Announcing-the-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
 * **Code**: Try a live example in a[ hosted notebook](https://tiny.cc/custom-charts)
 * **Video**: Watch a quick [walkthrough video](https://www.youtube.com/watch?v=3-N9OV6bkSM)
-* **Example**: Quick Keras and Sklearn [demo notebook](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0\_5AoZdoSD?usp=sharing)
+* **Example**: Quick Keras and Sklearn [demo notebook](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
 
 ![Supported charts from vega.github.io/vega](/images/app_ui/supported_charts.png)
 
@@ -109,7 +107,7 @@ wandb.log(
 
 You can use this to log arbitrary bar charts. Note that the number of labels and values in the lists must match exactly (i.e. each data point must have both).
 
-![](@site/static/images/app_ui/line_plot_bar_chart.png)
+![](/images/app_ui/line_plot_bar_chart.png)
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
 
@@ -141,7 +139,7 @@ You can use this to log arbitrary histograms. Note that `data` is a list of list
 
 `wandb.plot.pr_curve()`
 
-Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision\_recall\_curve.html#sklearn.metrics.precision\_recall\_curve) in one line:
+Create a [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) in one line:
 
 ```python
 plot = wandb.plot.pr_curve(ground_truth, predictions, labels=None, classes_to_plot=None)
@@ -168,7 +166,7 @@ You can log this whenever your code has access to:
 
 `wandb.plot.roc_curve()`
 
-Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc\_curve.html#sklearn.metrics.roc\_curve) in one line:
+Create an [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) in one line:
 
 ```python
 plot = wandb.plot.roc_curve(
@@ -189,7 +187,7 @@ You can log this whenever your code has access to:
 
 [See in the app](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
 
-[Run the code](https://colab.research.google.com/drive/1\_RMppCqsA8XInV\_jhJz32NCZG6Z5t1RO?usp=sharing)
+[Run the code](https://colab.research.google.com/drive/1_RMppCqsA8XInV_jhJz32NCZG6Z5t1RO?usp=sharing)
 
   </TabItem>
 </Tabs>
@@ -230,7 +228,7 @@ Here are the data types you can log from your script and use in a custom chart:
 
 ### How to log a custom table
 
-Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.log()`("custom\_data\_table" below), and the individual fields will be accessible via the column names ("x", "y", and "z"). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows.
+Use `wandb.Table()` to log your data as a 2D array. Typically each row of this table represents one data point, and each column denotes the relevant fields/dimensions for each data point which you'd like to plot. As you configure a custom panel, the whole table will be accessible via the named key passed to `wandb.log()`("custom_data_table" below), and the individual fields will be accessible via the column names ("x", "y", and "z"). You can log tables at multiple time steps throughout your experiment. The maximum size of each table is 10,000 rows.
 
 [Try it in a Google Colab](https://tiny.cc/custom-charts)
 

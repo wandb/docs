@@ -1,9 +1,8 @@
 ---
 description: Get started using Weights & Biases with interactive tutorials.
 slug: /tutorials
+title: W&B Tutorials
 ---
-
-# W&B Tutorials
 
 The following tutorials take you through the fundamentals of W&B for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more.
 

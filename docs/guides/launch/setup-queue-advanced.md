@@ -1,9 +1,9 @@
 ---
 displayed_sidebar: default
+title: Configure launch queue
 ---
 
-# Advanced queue set up
-The following page describes how to configure additional launch queue options.
+The following page describes how to configure launch queue options.
 
 ## Set up queue config templates
 Administer and manage guardrails on compute consumption with Queue Config Templates. Set defaults, minimums, and maximum values for fields such as memory consumption, GPU, and runtime duration.

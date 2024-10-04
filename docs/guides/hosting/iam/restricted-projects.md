@@ -1,9 +1,8 @@
 ---
 description: Restricted Projects for collaborating on AI workflows with sensitive data
 displayed_sidebar: default
+title: Manage project access
 ---
-
-# Project visibility
 
 Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it. Only the owner of the project or a team admin can set or edit a project's visibility.
 

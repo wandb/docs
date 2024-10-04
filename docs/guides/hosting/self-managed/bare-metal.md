@@ -1,12 +1,10 @@
 ---
-title: Install on on-prem infra
+title: Host a W&B Server on-premises
 description: Hosting W&B Server on on-premises infrastructure
 displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Install on on-prem infra
 
 :::info
 W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
@@ -47,7 +45,11 @@ It is important to keep in mind that these specifications are minimum requiremen
 
 ### Database Server
 
+<<<<<<< HEAD
 W&B recommends a [MySQL 8](#mysql-database) database as a metadata store. The shape of the model parameters and related metadata will greatly affect the performance of the database. The database size grows as the ML practitioners track more training runs, and incurs read heavy load when queries are executed in run tables, users workspaces, and reports.
+=======
+W&B recommends a [MySQL 8](#mysql-database) database as a metadata store. The shape of the ML practitioners parameters and metadata will greatly affect the performance of the database. The database is typically incrementally written to as practitioners track their training runs and is more read heavy when queries are executed in reports and dashboard.
+>>>>>>> main
 
 To ensure optimal performance we recommend deploying the W&B database on to a server with the following starting specs:
 
@@ -61,7 +63,11 @@ To ensure optimal performance we recommend deploying the W&B database on to a se
 
 Again, we recommend monitoring the resource usage and performance of the database to ensure that it operates optimally and to make adjustments as necessary.
 
+<<<<<<< HEAD
 Additionally, W&B recommends the following [parameter overrides](#mysql-database) to tune the DB for MySQL 8.
+=======
+Additionally, we recommend the following [parameter overrides](#mysql-database) to tune the DB for MySQL 8.
+>>>>>>> main
 
 ### Object Storage
 

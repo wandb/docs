@@ -1,10 +1,9 @@
 ---
 displayed_sidebar: default
+title: Launch quickstart
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Set up Launch
 
 This page describes the high-level steps required to set up W&B Launch:
 
@@ -42,7 +41,7 @@ Agents are highly flexible and can be configured to support a wide variety of us
 :::
 
 :::tip
-W&B recommends you start agents with a [service account's](https://docs.wandb.ai/guides/technical-faq/general#what-is-a-service-account-and-why-is-it-useful) API key, rather than a specific user's API key. There are two benefits to using a service account's API key:
+W&B recommends you start agents with a [service account's](/guides/technical-faq/general#what-is-a-service-account-and-why-is-it-useful) API key, rather than a specific user's API key. There are two benefits to using a service account's API key:
 1. The agent isn't dependent on an individual user.
 2. The author associated with a run created through Launch is viewed by Launch as the user who submitted the launch job, rather than the user associated with the agent.
 :::

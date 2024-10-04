@@ -2,9 +2,8 @@
 slug: /guides/integrations/skorch
 description: How to integrate W&B with Skorch.
 displayed_sidebar: default
+title: Skorch
 ---
-
-# Skorch
 
 You can use Weights & Biases with Skorch to automatically log the model with the best performance – along with all model performance metrics, the model topology and compute resources after each epoch. Every file saved in wandb_run.dir is automatically logged to W&B servers.
 
@@ -51,8 +50,8 @@ net.fit(X, y)
 | `initialize`\(\) | \(Re-\)Set the initial state of the callback. |
 | `on_batch_begin`\(net\[, X, y, training\]\) | Called at the beginning of each batch. |
 | `on_batch_end`\(net\[, X, y, training\]\) | Called at the end of each batch. |
-| `on_epoch_begin`\(net\[, dataset\_train, …\]\) | Called at the beginning of each epoch. |
+| `on_epoch_begin`\(net\[, dataset_train, …\]\) | Called at the beginning of each epoch. |
 | `on_epoch_end`\(net, \*\*kwargs\) | Log values from the last history step and save best model |
-| `on_grad_computed`\(net, named\_parameters\[, X, …\]\) | Called once per batch after gradients have been computed but before an update step was performed. |
+| `on_grad_computed`\(net, named_parameters\[, X, …\]\) | Called once per batch after gradients have been computed but before an update step was performed. |
 | `on_train_begin`\(net, \*\*kwargs\) | Log model topology and add a hook for gradients |
 | `on_train_end`\(net\[, X, y\]\) | Called at the end of training. |

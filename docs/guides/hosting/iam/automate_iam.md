@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Automate user and team management
 ---
-
-# Automate user and team management
 
 ## SCIM API
 

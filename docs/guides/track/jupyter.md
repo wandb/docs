@@ -3,15 +3,10 @@ description: >-
   se W&B with Jupyter to get interactive visualizations without
   leaving your notebook.
 displayed_sidebar: default
+title: Track Jupyter notebooks
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Track Jupyter Notebooks
-
-<head>
-  <title>Track Jupyter Notebooks</title>
-</head>
 
 Use W&B with Jupyter to get interactive visualizations without leaving your notebook. Combine custom analysis, experiments, and prototypes, all fully logged!
 
