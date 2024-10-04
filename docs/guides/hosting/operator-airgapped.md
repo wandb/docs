@@ -75,7 +75,7 @@ You can find all supported values in the [official kubernetes operator repositor
 
 ## Step 5: Configure Custom Resource Definitions (CRDs)
 
-Once the W&B Operator is installed, configure the Custom Resource Definitions (CRDs) to point to your internal Helm repository and container registry. 
+After installing the W&B kubernetes operator, you must configure the Custom Resource Definitions (CRDs) to point to your internal Helm repository and container registry. 
 This configuration ensures that all required components are deployed from your internal resources. Below is an example of how to configure the CRD.
 
 ```yaml
