@@ -1,9 +1,8 @@
 ---
-description: ''
+description: 'Add descriptions to model card to document your model'
 displayed_sidebar: default
+title: Document machine learning model
 ---
-
-# Document machine learning model
 
 Add a description to the model card of your registered model to document aspects of your machine learning model. Some topics worth documenting include:
 

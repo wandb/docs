@@ -1,12 +1,11 @@
 ---
 description: Time to live policies (TTL)
 displayed_sidebar: default
+title: Manage artifact data retention
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-# Manage data retention with Artifact TTL policy
 
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/kas-artifacts-ttl-colab/colabs/wandb-artifacts/WandB_Artifacts_Time_to_live_TTL_Walkthrough.ipynb"/>
 

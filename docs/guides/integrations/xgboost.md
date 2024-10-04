@@ -1,11 +1,11 @@
 ---
 description: Track your trees with W&B.
 displayed_sidebar: default
+title: XGBoost
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# XGBoost
-
-[**Try in a Colab Notebook here →**](https://wandb.me/xgboost)
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb"></CTAButtons>
 
 The `wandb` library has a `WandbCallback` callback for logging metrics, configs and saved boosters from training with XGBoost. Here you can see a **[live Weights & Biases dashboard](https://wandb.ai/morg/credit_scorecard)** with outputs from the XGBoost `WandbCallback`.
 
@@ -58,7 +58,7 @@ Passing `WandbCallback` to a XGBoost model will:
 You can find the source code for WandbCallback [here](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)
 
 :::info
-Looking for more working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms) or try out a [Colab notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit\_Scorecards\_with\_XGBoost\_and\_W%26B.ipynb)
+Looking for more working code examples? Check out [our repository of examples on GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
 :::
 
 ## Tuning your hyperparameters with Sweeps
@@ -66,7 +66,11 @@ Looking for more working code examples? Check out [our repository of examples on
 Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps](../sweeps/), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
 
 :::info
-To learn more about these tools and see an example of how to use Sweeps with XGBoost, check out [this interactive Colab notebook](http://wandb.me/xgb-sweeps-colab) or try this XGBoost & Sweeps [python script here](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost\_tune.py)
+See the following Colab notebook to learn more about these tools and see an example of how to use Sweeps with XGBoost.
+
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb"></CTAButtons>
+
+You can also try this [XGBoost & Sweeps Python script](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)
 :::
 
 ![tl;dr: trees outperform linear learners on this classification dataset.](/images/integrations/xgboost_sweeps_example.png)

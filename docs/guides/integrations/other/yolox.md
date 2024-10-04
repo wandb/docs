@@ -2,9 +2,8 @@
 slug: /guides/integrations/yolox
 description: How to integrate W&B with YOLOX.
 displayed_sidebar: default
+title: YOLOX
 ---
-
-# YOLOX
 
 [YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. YOLOX contains a Weights & Biases integration that enables you to turn on logging of training, validation and system metrics, as well as interactive validation predictions with just 1 command line argument.
 

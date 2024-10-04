@@ -2,11 +2,10 @@
 slug: /guides/tables
 description: Iterate on datasets and understand model predictions
 displayed_sidebar: default
+title: Visualize your data with tables
 ---
 import Translate, {translate} from '@docusaurus/Translate';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-# Visualize your data
 
 <CTAButtons productLink="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb"/>
 

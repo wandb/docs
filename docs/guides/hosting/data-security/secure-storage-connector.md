@@ -1,10 +1,10 @@
 ---
 displayed_sidebar: default
+title: Bring your own bucket (BYOB)
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# BYOB (Secure storage connector)
 Bring your own bucket (BYOB) allows you to store W&B artifacts and other related sensitive data in your own cloud or on-prem infrastructure. In case of [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [SaaS Cloud](../hosting-options/saas_cloud.md), data that you store in your bucket is not copied to the W&B managed infrastructure.
 
 :::info

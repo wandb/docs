@@ -1,18 +1,15 @@
 ---
 displayed_sidebar: default
+title: Add job to queue
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Enqueue jobs
 
 The following page describes how to add launch jobs to a launch queue.
 
 :::info
 Ensure that you, or someone on your team, has already configured a launch queue. For more information, see the [Set up Launch](./setup-launch.md) page.
 :::
-
-
 
 ## Add jobs to your queue
 

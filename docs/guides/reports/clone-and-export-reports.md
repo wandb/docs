@@ -1,15 +1,11 @@
 ---
 description: Export a W&B Report as a PDF or LaTeX.
 displayed_sidebar: default
+title: Clone and export reports
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Clone and export reports
-
-<head>
-  <title>Clone and export W&B Reports</title>
-</head>
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 ## Export reports
 
@@ -27,13 +23,13 @@ Export a report as a PDF or LaTeX. Within your report, select the kebab icon to 
 
 Within your report, select the kebab icon to expand the dropdown menu. Choose the **Clone this report** button. Pick a destination for your cloned report in the modal. Choose **Clone report**.
 
-![](@site/static/images/reports/clone_reports.gif)
+![](/images/reports/clone_reports.gif)
 
 Clone a report to reuse a project's template and format. Cloned projects are visible to your team if you clone a project within the team's account. Projects cloned within an individual's account are only visible to that user.
   </TabItem>
   <TabItem value="python">
 
-[**Try in a Colab Notebook here →**](http://wandb.me/report\_api)
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb"></CTAButtons>
 
 Load a Report from a URL to use it as a template.
 
