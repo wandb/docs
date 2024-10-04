@@ -43,7 +43,7 @@ Along with the container images, you also must ensure that the following helm ch
 
 
 - [W&B Operator](https://github.com/wandb/helm-charts/tree/main/charts/operator)
-- [Operator W&B](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
+- [W&B Platform](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
 
 
 The `operator` chart is used to deploy the W&B Operator (Controller Manager) while the `operator-wandb` chart will be used with the values configured in the CRD to deploy W&B Platform.
