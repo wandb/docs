@@ -71,7 +71,7 @@ image:
 airgapped: true
 ```
 
-All supported values can be found in the official W&B Operator [repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
+You can find all supported values in the [official kubernetes operator repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
 ## Step 5: Configure Custom Resource Definitions (CRDs)
 
