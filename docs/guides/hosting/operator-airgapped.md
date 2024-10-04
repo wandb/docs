@@ -37,7 +37,7 @@ quay.io/prometheus/prometheus                           v2.47.0
 quay.io/prometheus-operator/prometheus-config-reloader  v0.67.0
 ```
 
-## Step 2: Prepare Internal Helm Chart repository
+## Step 2: Prepare internal helm chart repository
 
 Along with the container images, you also must ensure that the following helm charts are available in your internal Helm Chart repository. 
 
