@@ -19,6 +19,14 @@ Looking for reference docs for our media types? You want [this page](../../../re
 You can [see what the results look like on wandb.ai](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA), and [follow along with a video tutorial](https://www.youtube.com/watch?v=96MxRvx15Ts).
 :::
 
+## Pre-requisites
+In order to log media objects with the W&B SDK, you may need to install additional dependencies.
+You can install these dependencies by running the following command:
+
+```bash
+pip install wandb[media]
+```
+
 ## Images
 
 Log images to track inputs, outputs, filter weights, activations, and more!
