@@ -132,7 +132,7 @@ spec:
     
 ```
 
-To deploy the W&B Platform, the W&B Operator will use the `operator-wandb` chart from your internal repository and use the values from your CRD to configure the helm chart.
+To deploy the W&B platform, the kubernetes Operator will use the `operator-wandb` chart from your internal repository and use the values from your CRD to configure the helm chart.
 
 All supported values can be found in the Operator W&B [repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
