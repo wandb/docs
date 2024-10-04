@@ -136,7 +136,7 @@ To deploy the W&B platform, the kubernetes Operator will use the `operator-wandb
 
 All supported values can be found in the Operator W&B [repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
 
-## Step 6: Deploy the W&B Platform
+## Step 6: Deploy the W&B platform
 
 Finally, after setting up the CRD and W&B Operator, deploy the W&B platform using the following command:
 
