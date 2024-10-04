@@ -42,7 +42,7 @@ The `controller-manager` installs [charts/operator-wandb](https://github.com/wan
 
 Refer to the [configuration specification hierarchy](#configuration-specification-hierarchy) and [configuration reference](#configuration-reference-for-wb-operator) for configuration options.
 
-## Configuration Specification Hierarchy
+## Configuration specification hierarchy
 Configuration specifications follow a hierarchical model where higher-level specifications override lower-level ones. Here’s how it works:
 
 - **Release Channel Values**: This base level configuration sets default values and configurations based on the release channel set by W&B for the deployment.
