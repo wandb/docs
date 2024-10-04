@@ -57,7 +57,7 @@ helm repo add local-repo https://charts.yourdomain.com
 helm repo update
 ```
 
-## Step 4: Install W&B Operator (Controller Manager)
+## Step 4: Install the kubernetes operator aka controller manager
 
 The W&B Operator (Controller Manager) is responsible for managing the W&B platform components. To install it in an airgapped environment, 
 you need to configure it to use your internal container registry.
