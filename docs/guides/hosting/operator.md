@@ -40,7 +40,7 @@ metadata:
 
 The `controller-manager` installs [charts/operator-wandb](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb) based on the spec of the custom resource, release channel, and a user defined config. The configuration specification hierarchy enables maximum configuration flexibility at the user end and enables W&B to release new images, configurations, features, and Helm updates automatically.
 
-For a detailed description of the specification hierarchy, see [Configuration Specification Hierarchy](#configuration-specification-hierarchy) and for configuration options, see [Configuration Reference](#configuration-reference-for-wb-operator).
+Refer to the [configuration specification hierarchy](#configuration-specification-hierarchy) and [configuration reference](#configuration-reference-for-wb-operator) for configuration options.
 
 ## Configuration Specification Hierarchy
 Configuration specifications follow a hierarchical model where higher-level specifications override lower-level ones. Here’s how it works:
