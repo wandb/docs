@@ -152,7 +152,7 @@ Refer to the below frequently asked questions (FAQs) and troubleshooting tips du
 Yes, you can configure your ingress class by modifying the ingress settings in `values.yaml`.
 
 **Our certificate bundle has more than one certificate. Would that work?**  
-Split the certificates into multiple entries in the `customCACerts` section of `values.yaml`.
+You must split the certificates into multiple entries in the `customCACerts` section of `values.yaml`.
 
 **I don't want the W&B Operator to apply unattended updates.**  
 You can disable auto-updates by ensuring you have the latest versions and adjusting the W&B Console settings.
