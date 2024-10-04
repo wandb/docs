@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: default
-title: Use audit logs to track user activity
+title: Track user activity with audit logs
 ---
 
 Use W&B Server audit logs to track user activity within your teams, and to conform to your enterprise governance requirements. The audit logs are JSON-formatted, and their access mechanism(s) depend on your W&B Server deployment type:
