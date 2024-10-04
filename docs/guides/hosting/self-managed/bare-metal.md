@@ -1,5 +1,5 @@
 ---
-title: Host a W&B Server on-premises
+title: Deploy W&B Platform On-premises
 description: Hosting W&B Server on on-premises infrastructure
 displayed_sidebar: default
 ---

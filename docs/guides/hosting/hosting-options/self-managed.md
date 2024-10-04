@@ -1,5 +1,5 @@
 ---
-title: Use self-managed infrastructure
+title: Introduction to W&B customer-managed deployments
 description: Deploying W&B in production
 displayed_sidebar: default
 ---

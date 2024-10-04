@@ -1,5 +1,5 @@
 ---
-title: Host a W&B Server on AWS
+title: Deploy W&B Platform on AWS
 description: Hosting W&B Server on AWS.
 displayed_sidebar: default
 ---
