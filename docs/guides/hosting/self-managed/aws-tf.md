@@ -8,15 +8,13 @@ displayed_sidebar: default
 W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](../hosting-options/saas_cloud.md) or [W&B Dedicated Cloud](../hosting-options//dedicated_cloud.md) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 :::
 
-W&B recommends using the [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) to deploy the platform on AWS.
+W&B recommends using the [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) to deploy the platform on AWS. 
 
-The module documentation is extensive and contains all available options that can be used. We will cover some deployment options in this document.
-
-Before you start, we recommend you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
+Before you start, W&B recommends that you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/backend) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
 
 The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
 
-The Terraform Module will deploy the following `mandatory` components:
+The Terraform Module deploys the following `mandatory` components:
 
 - Load Balancer
 - AWS Identity & Access Management (IAM)
@@ -26,7 +24,7 @@ The Terraform Module will deploy the following `mandatory` components:
 - Amazon S3
 - Amazon Route53
 - Amazon Certificate Manager (ACM)
-- Amazon Elastic Loadbalancing (ALB)
+- Amazon Elastic Load Balancing (ALB)
 - Amazon Secrets Manager
 
 Other deployment options can also include the following optional components:
@@ -34,9 +32,9 @@ Other deployment options can also include the following optional components:
 - Elastic Cache for Redis
 - SQS
 
-## **Pre-requisite permissions**
+## Pre-requisite permissions
 
-The account that will run the Terraform needs to be able to create all components described in the Introduction and permission to create **IAM Policies** and **IAM Roles** and assign roles to resources.
+The account that runs Terraform needs to be able to create all components described in the Introduction and permission to create **IAM Policies** and **IAM Roles** and assign roles to resources.
 
 ## General steps
 
@@ -44,7 +42,7 @@ The steps on this topic are common for any deployment option covered by this doc
 
 1. Prepare the development environment.
    - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-   - We recommend creating a Git repository with the code that will be used, but you can keep your files locally.
+   - W&B recommend creating a Git repository for version control.
 2. Create the `terraform.tfvars` file.
 
    The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
@@ -87,7 +85,7 @@ The steps on this topic are common for any deployment option covered by this doc
 
    Refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
 
-   Optionally, **but highly recommended**, you can add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
+   Optionally, but highly recommended, add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) mentioned at the beginning of this documentation.
 
 4. Create the file `variables.tf`
 
@@ -132,9 +130,9 @@ The steps on this topic are common for any deployment option covered by this doc
    }
    ```
 
-## Deployment - Recommended (~20 mins)
+## Recommended deployment option
 
-This is the most straightforward deployment option configuration that will create all `Mandatory` components and install in the `Kubernetes Cluster` the latest version of `W&B`.
+This is the most straightforward deployment option configuration that creates all `Mandatory` components and installs in the `Kubernetes Cluster` the latest version of `W&B`.
 
 1. Create the `main.tf`
 
@@ -184,8 +182,8 @@ This is the most straightforward deployment option configuration that will creat
      bucket_queue               = "internal://"
      database_connection_string = "mysql://${module.wandb_infra.database_connection_string}"
 
-     # If we dont wait, tf will start trying to deploy while the work group is
-     # still spinning up
+     # TF attempts to deploy while the work group is
+     # still spinning up if you do not wait
      depends_on = [module.wandb_infra]
    }
 
@@ -211,7 +209,7 @@ This is the most straightforward deployment option configuration that will creat
 
 Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
 
-You need to add the option `create_elasticache_subnet = true` to the same `main.tf` file we worked on in `Recommended Deployment` to enable the cache.
+You need to add the option `create_elasticache_subnet = true` to the same `main.tf` file described in the [Recommended deployment](#recommended-deployment-option) section to enable the cache.
 
 ```
 module "wandb_infra" {
@@ -231,7 +229,7 @@ module "wandb_infra" {
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The AWS resource that provides the message broker is the `SQS`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` that we worked on the `Recommended Deployment`
+The AWS resource that provides the message broker is the `SQS`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` described in the [Recommended deployment](#recommended-deployment-option) section.
 
 ```
 module "wandb_infra" {
@@ -259,7 +257,7 @@ To use an Amazon S3 bucket as a file storage backend for W&B, you will need to:
 
 * [Create an Amazon S3 Bucket and Bucket Notifications](#create-an-s3-bucket-and-bucket-notifications)
 * [Create SQS Queue](#create-an-sqs-queue)
-* [Grant Permissions to Node Running W&B](#grant-permissions-to-node-running-wb)
+* [Grant Permissions to Node Running W&B](#grant-permissions-to-node-that-runs-wb)
 
 
  you'll need to create a bucket, along with an SQS queue configured to receive object creation notifications from that bucket. Your instance will need permissions to read from this queue.
@@ -322,7 +320,7 @@ Optionally add an advanced access policy in the **Access Policy** section. For e
 }
 ```
 
-### Grant Permissions to Node Running W&B
+### Grant permissions to node that runs W&B
 
 The node where W&B server is running must be configured to permit access to Amazon S3 and Amazon SQS. Depending on the type of server deployment you have opted for, you may need to add the following policy statements to your node role:
 
@@ -351,7 +349,7 @@ The node where W&B server is running must be configured to permit access to Amaz
 Finally, configure your W&B Server.
 
 1. Navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
-2. Enable the ***Use an external file storage backend* option/
+2. Enable the ***Use an external file storage backend* option
 3. Provide information about your Amazon S3 bucket, region, and Amazon SQS queue in the following format:
 * **File Storage Bucket**: `s3://<bucket-name>`
 * **File Storage Region (AWS only)**: `<region>`
@@ -380,9 +378,9 @@ Follow the steps outlined here to update W&B:
   Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
   :::
 
-2. After you update your configuration, complete the steps described in the [Deployment section](#deployment---recommended-20-mins).
+2. After you update your configuration, complete the steps described in the [Recommended deployment section](#recommended-deployment-option).
 
-## Migrate to Operator-based AWS Terraform Modules
+## Migrate to operator-based AWS Terraform modules
 
 This section details the steps required to upgrade from _pre-operator_ to  _post-operator_ environments using the [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) module.
 
@@ -391,7 +389,7 @@ The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/ex
 :::
 
 
-### Before and after Architecture
+### Before and after architecture
 
 Previously, the W&B architecture used:
 
@@ -446,7 +444,7 @@ Before initiating the migration process, ensure the following prerequisites are 
 - **Route53 Hosted Zone**: An existing Route53 hosted zone corresponding to the domain under which the application will be served.
 - **Pre-Operator Terraform Files**: Ensure `pre-operator.tf` and associated variable files like `pre-operator.tfvars` are correctly set up.
 
-### Pre-Operator Setup
+### Pre-Operator set up
 
 Execute the following Terraform commands to initialize and apply the configuration for the Pre-Operator setup:
 
@@ -593,7 +591,7 @@ module "wandb_infra" {
 }
 ```
 
-#### Changes in the Post-Operator Configuration:
+#### Changes in the post-operator configuration:
 
 1. **Update Required Providers**: Change `required_providers.aws.version` from `3.6` to `4.0` for provider compatibility.
 2. **DNS and Load Balancer Configuration**: Integrate `enable_dummy_dns` and `enable_operator_alb` to manage DNS records and AWS Load Balancer setup through an Ingress.
