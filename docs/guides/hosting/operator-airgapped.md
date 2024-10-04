@@ -62,7 +62,7 @@ helm repo update
 The W&B kubernetes operator i.e. the controller manager is responsible for managing the W&B platform components. To install it in an air-gapped environment, 
 you need to configure it to use your internal container registry.
 
-To do so, uou must override the default image settings to use your internal container registry and set the key `airgapped: true` to indicate this is the deployment type you expect. Update the `values.yaml` file as shown below:
+To do so, you must override the default image settings to use your internal container registry and set the key `airgapped: true` to indicate the expected deployment type. Update the `values.yaml` file as shown below:
 
 ```yaml
 image:
