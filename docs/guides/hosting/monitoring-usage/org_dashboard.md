@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: default
-title: View organization
+title: View organization dashboard
 ---
 
 :::important

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: default
-title: Manage identity federation with SDK
+title: Use federated identities with SDK
 ---
 
 Use identity federation to sign in using your organizational credentials through W&B SDK. If your W&B organization admin has configured SSO for your organization, then you already use your organizational credentials to sign-in to the W&B app UI. In that sense, identity federation is like SSO for W&B SDK, but by using JSON Web Tokens (JWTs) directly. You can use identity federation as an alternative to API keys.
