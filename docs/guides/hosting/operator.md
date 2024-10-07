@@ -218,7 +218,7 @@ Checking artifact save and download workflows...........................✅
 ``` 
 
 ## Access the W&B Management Console
-The W&B Kubernetes operator comes with a management console. It is located at `${HOST_URI}/console`, for example https://wandb.company-name.com/console.
+The W&B Kubernetes operator comes with a management console. It is located at `${HOST_URI}/console`, for example `https://wandb.company-name.com/` console.
 
 There are two ways to log in to the management console:
 
@@ -233,7 +233,7 @@ import TabItem from '@theme/TabItem';
   ]}>
   <TabItem value="option1">
 
-1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example https://wandb.company-name.com/
+1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
 2. Access the console. Click on the icon in the top right corner and then click on **System console**. Note that only users with admin privileges will see the **System console** entry.
 
 ![](/images/hosting/access_system_console_via_main_app.png)
@@ -766,7 +766,7 @@ Execute the following command on a host that can reach the Kubernetes cluster:
 kubectl port-forward svc/wandb-console 8082
 ```
 
-Access the console in the browser with https://localhost:8082/console.
+Access the console in the browser with `https://localhost:8082/` console.
 
 See [Accessing the W&B Kubernetes Operator Management Console](#access-the-wb-management-console) on how to get the password (Option 2).
 
