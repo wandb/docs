@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: default
-title: Use Dedicated Cloud
+title: Use W&B Dedicated Cloud, the Single-Tenant SaaS
 ---
 
 # Dedicated cloud (Single-tenant SaaS)

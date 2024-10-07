@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: default
-title: Manage private connectivity for Dedicated Cloud instance
+title: Configure private connectivity to Dedicated Cloud
 ---
 
 You can connect to your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) instance over the cloud provider's secure private network. This applies to the access from your AI workloads to the W&B APIs and optionally from your user browsers to the W&B app UI as well. When using private connectivity, the relevant requests and responses do not transit through the public network or internet.
