@@ -72,11 +72,7 @@ Depending on the installation method, you might need to meet the following requi
 * Helm is installed.
 
 # Air-gapped installations
-Note that air-gapped installations are currently not supported by the W&B Kubernetes operator. 
-
-:::info
-W&B is actively working on adding airgapped installation support. For status updates, reach out to [Customer Support](mailto:support@wandb.com) or your W&B team.
-:::
+Please see this tutorial on how to install the W&B Kubernetes Operator in an airgapped environment: [Tutorial: Deploy W&B in airgapped environment with Kubernetes](./operator-airgapped).
 
 # Deploy W&B Server application
 This section describes different ways to deploy the W&B Kubernetes operator. 
@@ -396,8 +392,6 @@ spec:
         <details depend on the provider>
       mysql:
         <redacted>
-      extraEnv:
-        AWS_REGION: "var-must-be-set-despite-not-needed"
     ingress:
       annotations:
         <redacted>
