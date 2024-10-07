@@ -26,7 +26,7 @@ W&B currently supports a tool called __Trace__. Trace consists of three main com
 
 **Model architecture**: View details about the structure of the chain and the parameters used to initialize each component of the chain.
 
-As shown below, you will see a new panel automatically created in your workspace, showing each execution, the trace, and the model architecture
+In the proceeding image you see a new panel automatically created in your workspace, showing each execution, the trace, and the model architecture
 
 
 ![prompts_1](/images/tutorials/prompts_quickstart/prompts.png)
@@ -35,7 +35,7 @@ As shown below, you will see a new panel automatically created in your workspace
 
 # Writing your own integration
 
-What if you want to write an integration or instrument your code?This is where utilities like `TraceTree` and `Span` come in handy.
+What if you want to write an integration or instrument your code? This is where utilities like `TraceTree` and `Span` comes in handy.
 
 ![prompts_3](/images/tutorials/prompts_quickstart/prompts3.png)
 
