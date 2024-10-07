@@ -4,7 +4,7 @@ displayed_sidebar: default
 title: Manage access control for projects
 ---
 
-You can use a combination of a couple of controls to configure the access level for any project within a W&B team. **Visibility scope** is the higher-level mechanism using which you can control what groups of users can view or submit runs in a project. Whereas with **Project level role**, you can control the level of access that each user has within a project with _Team_ or _Restricted_ visibility scope.
+You can use a combination of a couple of controls to configure the access level for any project within a W&B team. **Visibility scope** is the higher-level mechanism. Use that to control which groups of users can view or submit runs in a project. For a project with _Team_ or _Restricted_ visibility scope, you can then use **Project level roles** to control the level of access that each user has within the project.
 
 ## Visibility scopes
 
@@ -32,7 +32,7 @@ Set a project's visibility scope when you create a project or when editing it la
 #### Set visibility scope when you create a new project
 
 1. Navigate to your W&B organization on SaaS Cloud, Dedicated Cloud, or Self-managed instance.
-2. Click the **Create a new project** button in the menu on left hand, within **My projects** section. Alternatively, click the **Create new project** button at top right hand corner within the **Projects** tab of your team.
+2. Click the **Create a new project** button in the left hand sidebar's **My projects** section. Alternatively, navigate to the **Projects** tab of your team and click the **Create new project** button in the upper right hand corner.
 3. After selecting the parent team and entering the name of the project, select the desired scope from the **Project Visibility** dropdown.
 ![](/images/hosting/restricted_project_add_new.gif)
 
@@ -87,7 +87,7 @@ Project level roles are in preview on SaaS Cloud, Dedicated Cloud, and Self-mana
 5. Select another role from the dropdown. It should save instantly.
 
 :::info
-When you change the project level role for a user to be different from their team level role, the project level role is shown along with a **\*** to indicate the difference.
+When you change the project level role for a user to be different from their team level role, the project level role includes a **\*** to indicate the difference.
 :::
 
 ### Other key things to note for project level roles
