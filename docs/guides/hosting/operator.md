@@ -603,7 +603,7 @@ global:
 
 
 
-You cana specify service accounts on different subsystems such as app, parquet, console, and more:
+You can specify service accounts on different subsystems such as app, parquet, console, and more:
 
 ```yaml
 app:
