@@ -143,9 +143,6 @@ module "wandb" {
           "x" = "y"
         }
       }
-
-      # important, DO NOT REMOVE
-      mysql = { install = false }
     }
   }
 }
@@ -395,9 +392,6 @@ spec:
     ingress:
       annotations:
         <redacted>
-    mysql:
-      # important, DO NOT REMOVE
-      install: false
 ```
 
 This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other
@@ -438,8 +432,6 @@ spec:
         ingress.gcp.kubernetes.io/pre-shared-cert: abc-wandb-cert-creative-puma
         kubernetes.io/ingress.class: gce
         kubernetes.io/ingress.global-static-ip-name: abc-wandb-operator-address
-    mysql:
-      install: false
 ```
 
 
