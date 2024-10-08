@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: default
-title: Manage storage access
+title: Access BYOB using pre-signed URLs
 ---
 
 W&B uses pre-signed URLs to simplify access to blob storage from your AI workloads or user browsers. For basic information on pre-signed URLs, refer to [Pre-signed URLs for AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html), [Signed URLs for Google Cloud Storage](https://cloud.google.com/storage/docs/access-control/signed-urls) and [Shared Access Signature for Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview).
