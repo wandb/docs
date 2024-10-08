@@ -32,3 +32,5 @@ translate_dev/
 chatgpt*yar
 package-lock.json
 .vale.ini.swp
+
+docs_*/
