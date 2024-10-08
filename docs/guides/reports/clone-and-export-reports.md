@@ -1,47 +1,47 @@
 ---
-description: Export a W&B Report as a PDF or LaTeX.
-displayed_sidebar: default
 title: Clone and export reports
+description: W&B 리포트를 PDF 또는 LaTeX로 내보내기.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-## Export reports
+## 리포트 내보내기
 
-Export a report as a PDF or LaTeX. Within your report, select the kebab icon to expand the dropdown menu. Choose **Download and** select either PDF or LaTeX output format.
+리포트를 PDF 또는 LaTeX로 내보냅니다. 리포트 내에서 케밥 아이콘을 선택하여 드롭다운 메뉴를 확장합니다. **다운로드**를 선택하고 PDF 또는 LaTeX 출력 형식을 선택합니다.
 
-## Cloning reports
+## 리포트 복제
 
 <Tabs
   defaultValue="app"
   values={[
-    {label: 'App UI', value: 'app'},
+    {label: '앱 UI', value: 'app'},
     {label: 'Python SDK', value: 'python'}
   ]}>
   <TabItem value="app">
 
-Within your report, select the kebab icon to expand the dropdown menu. Choose the **Clone this report** button. Pick a destination for your cloned report in the modal. Choose **Clone report**.
+리포트 내에서 케밥 아이콘을 선택하여 드롭다운 메뉴를 확장합니다. **이 리포트 복제** 버튼을 선택합니다. 복제할 리포트의 대상을 모달에서 선택합니다. **리포트 복제**를 선택합니다.
 
 ![](/images/reports/clone_reports.gif)
 
-Clone a report to reuse a project's template and format. Cloned projects are visible to your team if you clone a project within the team's account. Projects cloned within an individual's account are only visible to that user.
+리포트를 복제하여 프로젝트의 템플릿과 형식을 재사용합니다. 팀 계정 내에서 프로젝트를 복제하면 복제된 프로젝트는 팀이 볼 수 있습니다. 개인 계정 내에서 프로젝트를 복제하면 해당 사용자만 볼 수 있습니다.
   </TabItem>
   <TabItem value="python">
 
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb"></CTAButtons>
 
-Load a Report from a URL to use it as a template.
+URL에서 Report를 불러와 템플릿으로 사용합니다.
 
 ```python
 report = wr.Report(
     project=PROJECT, title="Quickstart Report", description="That was easy!"
-)  # Create
-report.save()  # Save
-new_report = wr.Report.from_url(report.url)  # Load
+)  # 생성
+report.save()  # 저장
+new_report = wr.Report.from_url(report.url)  # 불러오기
 ```
 
-Edit the content within `new_report.blocks`.
+`new_report.blocks`의 내용을 편집합니다.
 
 ```python
 pg = wr.PanelGrid(
@@ -57,7 +57,7 @@ pg = wr.PanelGrid(
     ],
 )
 new_report.blocks = (
-    report.blocks[:1] + [wr.H1("Panel Grid Example"), pg] + report.blocks[1:]
+    report.blocks[:1] + [wr.H1("패널 그리드 예제"), pg] + report.blocks[1:]
 )
 new_report.save()
 ```

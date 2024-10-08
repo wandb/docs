@@ -1,31 +1,31 @@
 ---
-description: Deploy W&B Platform with Kubernetes Operator (Airgapped)
+description: 에어갭으로 W&B 플랫폼을 Kubernetes Operator로 배포하기
 displayed_sidebar: default
 ---
 
-# Kubernetes operator for air-gapped instances
+# 폐쇄망 인스턴스를 위한 Kubernetes 오퍼레이터
 
-## Introduction
+## 도입
 
-This guide provides step-by-step instructions to deploy the W&B Platform in air-gapped customer-managed environments. 
+이 가이드는 폐쇄망 고객 관리 환경에서 W&B 플랫폼을 배포하는 단계별 지침을 제공합니다.
 
-Use an internal repository or registry to host the Helm charts and container images. Run all commands in a shell console with proper access to the Kubernetes cluster.
+Helm 차트와 컨테이너 이미지를 호스팅하기 위해 내부 저장소 또는 레지스트리를 사용하세요. 적절한 Kubernetes 클러스터 엑세스 권한이 있는 쉘 콘솔에서 모든 코맨드를 실행합니다.
 
-You could utilize similar commands in any continuous delivery tooling that you use to deploy Kubernetes applications.
+Kubernetes 애플리케이션을 배포하는 데 사용하는 연속 전달 툴링에서도 유사한 코맨드를 사용할 수 있습니다.
 
-## Step 1: Prerequisites
+## 단계 1: 사전 조건
 
-Before starting, make sure your environment meets the following requirements:
+시작하기 전에, 다음 요구 사항을 충족하는지 환경을 확인하세요:
 
-- Kubernetes version >= 1.28
-- Helm version >= 3
-- Access to an internal container registry with the required W&B images
-- Access to an internal Helm repository for W&B Helm charts
+- Kubernetes 버전 >= 1.28
+- Helm 버전 >= 3
+- 필요한 W&B 이미지와 내부 컨테이너 레지스트리에 대한 엑세스
+- W&B Helm 차트를 위한 내부 Helm 저장소 엑세스
 
-## Step 2: Prepare internal container registry
+## 단계 2: 내부 컨테이너 레지스트리 준비
 
-Before proceeding with the deployment, you must ensure that the following container images are available in your internal container registry. 
-These images are critical for the successful deployment of W&B components.
+배포를 진행하기 전에, 다음 컨테이너 이미지가 내부 컨테이너 레지스트리에 있는지 확인해야 합니다.
+이 이미지는 W&B 구성 요소의 성공적인 배포에 필수적입니다.
 
 ```bash
 wandb/local                                             0.59.2
@@ -37,32 +37,29 @@ quay.io/prometheus/prometheus                           v2.47.0
 quay.io/prometheus-operator/prometheus-config-reloader  v0.67.0
 ```
 
-## Step 2: Prepare internal Helm chart repository
+## 단계 2: 내부 Helm 차트 저장소 준비
 
-Along with the container images, you also must ensure that the following Helm charts are available in your internal Helm Chart repository. 
-
+컨테이너 이미지와 함께, 다음 Helm 차트가 내부 Helm 차트 저장소에 있는지 확인해야 합니다.
 
 - [W&B Operator](https://github.com/wandb/helm-charts/tree/main/charts/operator)
 - [W&B Platform](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
 
+`operator` 차트는 W&B 오퍼레이터, 또는 컨트롤러 매니저를 배포하는 데 사용됩니다. `platform` 차트는 커스텀 리소스 정의(CRD)에서 설정된 값을 사용하여 W&B 플랫폼을 배포하는 데 사용됩니다.
 
-The `operator` chart is used to deploy the W&B Operator, or the Controller Manager. While the `platform` chart is used to deploy the W&B Platform using the values configured in the custom resource definition (CRD).
+## 단계 3: Helm 저장소 설정
 
-## Step 3: Set up Helm repository
-
-Now, configure the Helm repository to pull the W&B Helm charts from your internal repository. Run the following commands to add and update the Helm repository:
+이제 Helm 저장소를 설정하여 내부 저장소에서 W&B Helm 차트를 가져옵니다. Helm 저장소를 추가하고 업데이트하기 위해 다음 코맨드를 실행하세요:
 
 ```bash
 helm repo add local-repo https://charts.yourdomain.com
 helm repo update
 ```
 
-## Step 4: Install the Kubernetes operator
+## 단계 4: Kubernetes 오퍼레이터 설치
 
-The W&B Kubernetes operator, also known as the controller manager, is responsible for managing the W&B platform components. To install it in an air-gapped environment, 
-you must configure it to use your internal container registry.
+W&B Kubernetes 오퍼레이터, 즉 컨트롤러 매니저는 W&B 플랫폼 구성 요소를 관리하는 책임이 있습니다. 폐쇄망 환경에서 이를 설치하려면 내부 컨테이너 레지스트리를 사용하도록 설정해야 합니다.
 
-To do so, you must override the default image settings to use your internal container registry and set the key `airgapped: true` to indicate the expected deployment type. Update the `values.yaml` file as shown below:
+이를 위해 기본 이미지 설정을 내부 컨테이너 레지스트리를 사용하도록 재정의하고 배포 유형을 나타내기 위해 키 `airgapped: true`를 설정해야 합니다. `values.yaml` 파일을 아래와 같이 업데이트하세요:
 
 ```yaml
 image:
@@ -71,15 +68,15 @@ image:
 airgapped: true
 ```
 
-You can find all supported values in the [official Kubernetes operator repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
+지원되는 모든 값은 [공식 Kubernetes operator 저장소](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml)에서 찾을 수 있습니다.
 
-## Step 5: Configure CustomResourceDefinitions 
+## 단계 5: CustomResourceDefinitions 구성
 
-After installing the W&B Kubernetes operator, you must configure the Custom Resource Definitions (CRDs) to point to your internal Helm repository and container registry. 
+W&B Kubernetes 오퍼레이터를 설치한 후에는 Custom Resource Definitions (CRDs)를 내부 Helm 저장소와 컨테이너 레지스트리를 가리키도록 구성해야 합니다.
 
-This configuration ensures that the Kubernetes operators uses your internal registry and repository are when it deploys the required components of the W&B platform. 
+이 설정은 Kubernetes 오퍼레이터가 필요한 W&B 플랫폼 구성 요소를 배포할 때 내부 레지스트리와 저장소를 사용하도록 합니다.
 
-Below is an example of how to configure the CRD.
+아래는 CRD를 구성하는 예시입니다.
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -131,34 +128,32 @@ spec:
       annotations:
         nginx.ingress.kubernetes.io/proxy-body-size: 64m
       class: nginx
-
-    
 ```
 
-To deploy the W&B platform, the Kubernetes Operator uses the `operator-wandb` chart from your internal repository and use the values from your CRD to configure the Helm chart.
+W&B 플랫폼을 배포하기 위해 Kubernetes 오퍼레이터는 내부 저장소에서 `operator-wandb` 차트를 사용하고 CRD의 값을 사용하여 Helm 차트를 구성합니다.
 
-You can find all supported values in the [official Kubernetes operator repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
+지원되는 모든 값은 [공식 Kubernetes operator 저장소](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml)에서 찾을 수 있습니다.
 
-## Step 6: Deploy the W&B platform
+## 단계 6: W&B 플랫폼 배포
 
-Finally, after setting up the Kubernetes operator and the CRD, deploy the W&B platform using the following command:
+마지막으로, Kubernetes 오퍼레이터와 CRD를 설정한 후 다음 코맨드를 사용하여 W&B 플랫폼을 배포하세요:
 
 ```bash
 kubectl apply -f wandb.yaml
 ```
 
-## Troubleshooting and FAQ
+## 문제 해결과 FAQ
 
-Refer to the below frequently asked questions (FAQs) and troubleshooting tips during the deployment process:
+배포 프로세스 중에 자주 묻는 질문(FAQ)과 문제 해결 팁은 아래를 참조하세요:
 
-**There is another ingress class. Can that class be used?**  
-Yes, you can configure your ingress class by modifying the ingress settings in `values.yaml`.
+**다른 인그레스 클래스가 있습니다. 그 클래스를 사용할 수 있나요?**  
+네, `values.yaml`의 인그레스 설정을 수정하여 인그레스 클래스를 구성할 수 있습니다.
 
-**The certificate bundle has more than one certificate. Would that work?**  
-You must split the certificates into multiple entries in the `customCACerts` section of `values.yaml`.
+**인증서 번들에 하나 이상의 인증서가 있습니다. 그것이 작동할까요?**  
+인증서는 `values.yaml`의 `customCACerts` 섹션에 여러 항목으로 나누어야 합니다.
 
-**How do you prevent the Kubernetes operator from applying unattended updates. Is that possible?**  
-You can turn off auto-updates from the W&B console. Reach out to your W&B team for any questions on the supported versions. Also, note that W&B supports platform versions released in last 6 months. W&B recommends performing periodic upgrades. 
+**Kubernetes 오퍼레이터가 무단 업데이트를 적용하지 않도록 하려면 어떻게 하나요? 그게 가능한가요?**  
+W&B 콘솔에서 자동 업데이트를 끌 수 있습니다. 지원되는 버전에 대한 질문이 있으면 W&B 팀에 문의하세요. 또한, W&B는 최근 6개월 이내에 발표된 플랫폼 버전을 지원합니다. W&B는 주기적인 업그레이드를 권장합니다.
 
-**Does the deployment work if the environment has no connection to public repositories?**  
-As long as you have enabled the `airgapped: true` configuration, the Kubernetes operator does not attempt to reach public repositories. The Kubernetes operator attempts to use your internal resources.
+**환경이 공개 저장소에 연결되어 있지 않을 경우 배포가 작동할까요?**  
+`airgapped: true` 설정을 활성화한 경우, Kubernetes 오퍼레이터는 공개 저장소에 접근하지 않습니다. Kubernetes 오퍼레이터는 내부 리소스를 사용하려고 시도합니다.

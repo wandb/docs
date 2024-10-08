@@ -2,8 +2,7 @@
 
 <p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/api.py#L95-L1179' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-
-Used for querying the wandb server.
+wandb 서버에 쿼리할 때 사용됩니다.
 
 ```python
 Api(
@@ -13,22 +12,22 @@ Api(
 ) -> None
 ```
 
-#### Examples:
+#### 예시:
 
-Most common way to initialize
+가장 일반적인 초기화 방법
 
 ```
 >>> wandb.Api()
 ```
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `overrides` |  (dict) You can set `base_url` if you are using a wandb server other than https://api.wandb.ai. You can also set defaults for `entity`, `project`, and `run`. |
+| `overrides` | (dict) https://api.wandb.ai가 아닌 다른 wandb 서버를 사용하는 경우 `base_url`을 설정할 수 있습니다. 또한, `entity`, `project`, 그리고 `run`의 기본값을 설정할 수도 있습니다. |
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `artifact`
 
@@ -40,16 +39,16 @@ artifact(
 )
 ```
 
-Return a single artifact by parsing path in the form `entity/project/name`.
+`entity/project/name` 형식의 경로를 분석하여 단일 아티팩트를 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact name. May be prefixed with entity/project. Valid names can be in the following forms: name:version name:alias |
-|  `type` |  (str, optional) The type of artifact to fetch. |
+| `name` | (str) 아티팩트 이름입니다. entity/project로 접두어가 붙을 수 있습니다. 유효한 이름 형식: name:version name:alias |
+| `type` | (str, optional) 가져올 아티팩트의 유형입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Artifact` object. |
+| `Artifact` 오브젝트. |
 
 ### `artifact_collection`
 
@@ -62,16 +61,16 @@ artifact_collection(
 ) -> "public.ArtifactCollection"
 ```
 
-Return a single artifact collection by type and parsing path in the form `entity/project/name`.
+유형 및 경로 분석을 통해 단일 아티팩트 컬렉션을 반환합니다. 형식은 `entity/project/name`입니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `type_name` |  (str) The type of artifact collection to fetch. |
-|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. |
+| `type_name` | (str) 가져올 아티팩트 컬렉션의 유형입니다. |
+| `name` | (str) 아티팩트 컬렉션 이름입니다. entity/project로 접두어가 붙을 수 있습니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  An `ArtifactCollection` object. |
+| `ArtifactCollection` 오브젝트. |
 
 ### `artifact_collection_exists`
 
@@ -84,16 +83,16 @@ artifact_collection_exists(
 ) -> bool
 ```
 
-Return whether an artifact collection exists within a specified project and entity.
+지정된 프로젝트와 entity 내에서 아티팩트 컬렉션이 존재하는지 여부를 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. If entity or project is not specified, it will be inferred from the override params if populated. Otherwise, entity will be pulled from the user settings and project will default to "uncategorized". |
-|  `type` |  (str) The type of artifact collection |
+| `name` | (str) 아티팩트 컬렉션 이름입니다. entity/project로 접두어가 붙을 수 있습니다. entity나 project가 지정되지 않으면, 삽입된 매개변수에서 추론됩니다. 그렇지 않으면 entity는 사용자 설정에서 가져오고 project는 "uncategorized"로 기본 설정됩니다. |
+| `type` | (str) 아티팩트 컬렉션 유형 |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  True if the artifact collection exists, False otherwise. |
+| 아티팩트 컬렉션이 존재하면 True, 그렇지 않으면 False를 반환합니다. |
 
 ### `artifact_collections`
 
@@ -107,17 +106,17 @@ artifact_collections(
 ) -> "public.ArtifactCollections"
 ```
 
-Return a collection of matching artifact collections.
+일치하는 아티팩트 컬렉션의 모음을 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `project_name` |  (str) The name of the project to filter on. |
-|  `type_name` |  (str) The name of the artifact type to filter on. |
-|  `per_page` |  (int, optional) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+| `project_name` | (str) 필터링할 프로젝트 이름입니다. |
+| `type_name` | (str) 필터링할 아티팩트 유형의 이름입니다. |
+| `per_page` | (int, optional) 쿼리 페이징의 페이지 크기를 설정합니다. None이면 기본 크기를 사용합니다. 보통 이를 변경할 이유는 없습니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  An iterable `ArtifactCollections` object. |
+| 반복 가능한 `ArtifactCollections` 오브젝트. |
 
 ### `artifact_exists`
 
@@ -130,16 +129,16 @@ artifact_exists(
 ) -> bool
 ```
 
-Return whether an artifact version exists within a specified project and entity.
+지정된 프로젝트와 entity 내에서 아티팩트 버전이 존재하는지 여부를 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) An artifact name. May be prefixed with entity/project. If entity or project is not specified, it will be inferred from the override params if populated. Otherwise, entity will be pulled from the user settings and project will default to "uncategorized". Valid names can be in the following forms: name:version name:alias |
-|  `type` |  (str, optional) The type of artifact |
+| `name` | (str) 아티팩트 이름입니다. entity/project로 접두어가 붙을 수 있습니다. entity나 project가 지정되지 않으면, 삽입된 매개변수에서 추론됩니다. 그렇지 않으면 entity는 사용자 설정에서 가져오고 project는 "uncategorized"로 기본 설정됩니다. 유효한 이름 형식: name:version name:alias |
+| `type` | (str, optional) 아티팩트 유형 |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  True if the artifact version exists, False otherwise. |
+| 아티팩트 버전이 존재하면 True, 그렇지 않으면 False를 반환합니다. |
 
 ### `artifact_type`
 
@@ -152,16 +151,16 @@ artifact_type(
 ) -> "public.ArtifactType"
 ```
 
-Return the matching `ArtifactType`.
+일치하는 `ArtifactType`을 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `type_name` |  (str) The name of the artifact type to retrieve. |
-|  `project` |  (str, optional) If given, a project name or path to filter on. |
+| `type_name` | (str) 검색할 아티팩트 유형의 이름입니다. |
+| `project` | (str, optional) 주어졌다면, 필터링할 프로젝트 이름이나 경로입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  An `ArtifactType` object. |
+| `ArtifactType` 오브젝트. |
 
 ### `artifact_types`
 
@@ -173,15 +172,15 @@ artifact_types(
 ) -> "public.ArtifactTypes"
 ```
 
-Return a collection of matching artifact types.
+일치하는 아티팩트 유형의 모음을 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `project` |  (str, optional) If given, a project name or path to filter on. |
+| `project` | (str, optional) 주어졌다면, 필터링할 프로젝트 이름이나 경로입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  An iterable `ArtifactTypes` object. |
+| 반복 가능한 `ArtifactTypes` 오브젝트. |
 
 ### `artifact_versions`
 
@@ -193,7 +192,7 @@ artifact_versions(
 )
 ```
 
-Deprecated, use `artifacts(type_name, name)` instead.
+폐기 예정, 대신 `artifacts(type_name, name)`을 사용하세요.
 
 ### `artifacts`
 
@@ -207,17 +206,17 @@ artifacts(
 ) -> "public.Artifacts"
 ```
 
-Return an `Artifacts` collection from the given parameters.
+주어진 인수로부터 `Artifacts` 컬렉션을 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `type_name` |  (str) The type of artifacts to fetch. |
-|  `name` |  (str) An artifact collection name. May be prefixed with entity/project. |
-|  `per_page` |  (int, optional) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+| `type_name` | (str) 가져올 아티팩트 유형. |
+| `name` | (str) 아티팩트 컬렉션 이름입니다. entity/project로 접두어가 붙을 수 있습니다. |
+| `per_page` | (int, optional) 쿼리 페이징의 페이지 크기를 설정합니다. None이면 기본 크기를 사용합니다. 보통 이를 변경할 이유는 없습니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  An iterable `Artifacts` object. |
+| 반복 가능한 `Artifacts` 오브젝트. |
 
 ### `create_project`
 
@@ -230,12 +229,12 @@ create_project(
 ) -> None
 ```
 
-Create a new project.
+새 프로젝트를 만듭니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) The name of the new project. |
-|  `entity` |  (str) The entity of the new project. |
+| `name` | (str) 새 프로젝트의 이름. |
+| `entity` | (str) 새 프로젝트의 entity. |
 
 ### `create_run`
 
@@ -250,17 +249,17 @@ create_run(
 ) -> "public.Run"
 ```
 
-Create a new run.
+새로운 run을 만듭니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `run_id` |  (str, optional) The ID to assign to the run, if given. The run ID is automatically generated by default, so in general, you do not need to specify this and should only do so at your own risk. |
-|  `project` |  (str, optional) If given, the project of the new run. |
-|  `entity` |  (str, optional) If given, the entity of the new run. |
+| `run_id` | (str, optional) run에 할당될 ID입니다. run ID는 기본적으로 자동 생성되므로, 일반적으로 지정할 필요가 없으며, 지정 시에는 신중해야 합니다. |
+| `project` | (str, optional) 주어졌다면, 새로운 run의 프로젝트입니다. |
+| `entity` | (str, optional) 주어졌다면, 새로운 run의 entity입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  The newly created `Run`. |
+| 새로 생성된 `Run`. |
 
 ### `create_run_queue`
 
@@ -277,24 +276,24 @@ create_run_queue(
 ) -> "public.RunQueue"
 ```
 
-Create a new run queue (launch).
+새로운 run 큐를 생성합니다 (Launch).
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) Name of the queue to create |
-|  `type` |  (str) Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex". |
-|  `entity` |  (str) Optional name of the entity to create the queue. If None, will use the configured or default entity. |
-|  `prioritization_mode` |  (str) Optional version of prioritization to use. Either "V0" or None |
-|  `config` |  (dict) Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables. |
-|  `template_variables` |  (dict) A dictionary of template variable schemas to be used with the config. Expected format of: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] }}}` |
+| `name` | (str) 생성할 큐 이름 |
+| `type` | (str) 큐에 사용할 자원의 유형. "local-container", "local-process", "kubernetes", "sagemaker", "gcp-vertex" 중 하나. |
+| `entity` | (str) 큐를 생성할 entity의 선택적 이름. None이면 기본으로 구성된 entity를 사용합니다. |
+| `prioritization_mode` | (str) 선택적 우선순위 버전 사용. "V0" 또는 None. |
+| `config` | (dict) 큐에 사용할 기본 자원 설정. 핸들바(예: `{{var}}`)로 템플릿 변수를 지정하세요. |
+| `template_variables` | (dict) config와 함께 사용할 템플릿 변수 스키마의 사전. 예상 형식: `{ "var-name": { "schema": { "type": ("string", "number", or "integer"), "default": (optional value), "minimum": (optional minimum), "maximum": (optional maximum), "enum": [..."(options)"] }}}` |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  The newly created `RunQueue` |
+| 새로 생성된 `RunQueue` |
 
-| Raises |  |
+| 오류 |  |
 | :--- | :--- |
-|  ValueError if any of the parameters are invalid wandb.Error on wandb API errors |
+| 매개변수가 유효하지 않으면 ValueError를 발생시키고 wandb API 오류가 발생하면 wandb.Error를 발생시킵니다. |
 
 ### `create_team`
 
@@ -306,16 +305,16 @@ create_team(
 )
 ```
 
-Create a new team.
+새로운 팀을 생성합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `team` |  (str) The name of the team |
-|  `admin_username` |  (str) optional username of the admin user of the team, defaults to the current user. |
+| `team` | (str) 팀의 이름 |
+| `admin_username` | (str) 팀의 관리자 사용자 이름, 기본값은 현재 사용자입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Team` object |
+| `Team` 오브젝트 |
 
 ### `create_user`
 
@@ -327,16 +326,16 @@ create_user(
 )
 ```
 
-Create a new user.
+새로운 사용자를 생성합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `email` |  (str) The email address of the user |
-|  `admin` |  (bool) Whether this user should be a global instance admin |
+| `email` | (str) 사용자의 이메일 주소 |
+| `admin` | (bool) 이 사용자가 글로벌 인스턴스 관리자여야 하는지 여부 |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `User` object |
+| `User` 오브젝트 |
 
 ### `flush`
 
@@ -346,11 +345,9 @@ Create a new user.
 flush()
 ```
 
-Flush the local cache.
+로컬 캐시를 플러시합니다.
 
-The api object keeps a local cache of runs, so if the state of the run may
-change while executing your script you must clear the local cache with
-`api.flush()` to get the latest values associated with the run.
+API 오브젝트는 run의 로컬 캐시를 유지하므로, 스크립트를 실행하는 동안 run의 상태가 변경될 수 있는 경우에는 `api.flush()`를 사용하여 run과 관련된 최신 값을 가져와야 합니다.
 
 ### `from_path`
 
@@ -362,9 +359,9 @@ from_path(
 )
 ```
 
-Return a run, sweep, project or report from a path.
+경로에서 run, sweep, project 또는 report를 반환합니다.
 
-#### Examples:
+#### 예시:
 
 ```
 project = api.from_path("my_project")
@@ -374,17 +371,17 @@ sweep = api.from_path("my_team/my_project/sweeps/id")
 report = api.from_path("my_team/my_project/reports/My-Report-Vm11dsdf")
 ```
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `path` |  (str) The path to the project, run, sweep or report |
+| `path` | (str) 프로젝트, run, sweep 또는 report의 경로 |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Project`, `Run`, `Sweep`, or `BetaReport` instance. |
+| `Project`, `Run`, `Sweep`, 또는 `BetaReport` 인스턴스. |
 
-| Raises |  |
+| 오류 |  |
 | :--- | :--- |
-|  wandb.Error if path is invalid or the object doesn't exist |
+| 경로가 잘못되었거나 오브젝트가 존재하지 않으면 wandb.Error를 발생시킵니다. |
 
 ### `job`
 
@@ -397,16 +394,16 @@ job(
 ) -> "public.Job"
 ```
 
-Return a `Job` from the given parameters.
+주어진 인수로부터 `Job`을 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) The job name. |
-|  `path` |  (str, optional) If given, the root path in which to download the job artifact. |
+| `name` | (str) 작업의 이름. |
+| `path` | (str, optional) 주어졌다면, 작업 아티팩트를 다운로드할 루트 경로입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Job` object. |
+| `Job` 오브젝트. |
 
 ### `list_jobs`
 
@@ -419,16 +416,16 @@ list_jobs(
 ) -> List[Dict[str, Any]]
 ```
 
-Return a list of jobs, if any, for the given entity and project.
+주어진 entity와 프로젝트에 대한 작업 목록을 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `entity` |  (str) The entity for the listed job(s). |
-|  `project` |  (str) The project for the listed job(s). |
+| `entity` | (str) 나열된 작업의 entity. |
+| `project` | (str) 나열된 작업의 프로젝트. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A list of matching jobs. |
+| 일치하는 작업 목록. |
 
 ### `project`
 
@@ -441,16 +438,16 @@ project(
 ) -> "public.Project"
 ```
 
-Return the `Project` with the given name (and entity, if given).
+주어진 이름 (및 주어졌다면 entity)과 일치하는 `Project`를 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `name` |  (str) The project name. |
-|  `entity` |  (str) Name of the entity requested. If None, will fall back to the default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
+| `name` | (str) 프로젝트 이름. |
+| `entity` | (str) 요청된 entity의 이름입니다. None이면, `Api`에 전달된 기본 entity를 사용합니다. 기본 entity가 없으면 `ValueError`를 발생시킵니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Project` object. |
+| `Project` 오브젝트. |
 
 ### `projects`
 
@@ -463,16 +460,16 @@ projects(
 ) -> "public.Projects"
 ```
 
-Get projects for a given entity.
+주어진 entity에 대한 프로젝트를 가져옵니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `entity` |  (str) Name of the entity requested. If None, will fall back to the default entity passed to `Api`. If no default entity, will raise a `ValueError`. |
-|  `per_page` |  (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+| `entity` | (str) 요청된 entity의 이름입니다. None이면, `Api`에 전달된 기본 entity를 사용합니다. 기본 entity가 없으면 `ValueError`를 발생시킵니다. |
+| `per_page` | (int) 쿼리 페이징의 페이지 크기를 설정합니다. None이면 기본 크기를 사용합니다. 보통 이를 변경할 이유는 없습니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Projects` object which is an iterable collection of `Project` objects. |
+| `Projects` 오브젝트로, `Project` 오브젝트의 반복 가능한 컬렉션입니다. |
 
 ### `queued_run`
 
@@ -485,9 +482,9 @@ queued_run(
 )
 ```
 
-Return a single queued run based on the path.
+경로를 기반으로 하나의 대기 중인 run을 반환합니다.
 
-Parses paths of the form entity/project/queue_id/run_queue_item_id.
+경로 형식: entity/project/queue_id/run_queue_item_id을 해석합니다.
 
 ### `reports`
 
@@ -501,19 +498,19 @@ reports(
 ) -> "public.Reports"
 ```
 
-Get reports for a given project path.
+주어진 프로젝트 경로에 대한 Reports를 가져옵니다.
 
-WARNING: This api is in beta and will likely change in a future release
+경고: 이 API는 베타 상태이며, 향후 릴리스에서 변경될 가능성이 있습니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `path` |  (str) path to project the report resides in, should be in the form: "entity/project" |
-|  `name` |  (str, optional) optional name of the report requested. |
-|  `per_page` |  (int) Sets the page size for query pagination. None will use the default size. Usually there is no reason to change this. |
+| `path` | (str) 리포트가 위치한 프로젝트의 경로입니다. 형식은 "entity/project"이어야 합니다. |
+| `name` | (str, optional) 요청된 리포트의 선택적 이름입니다. |
+| `per_page` | (int) 쿼리 페이징의 페이지 크기를 설정합니다. None이면 기본 크기를 사용합니다. 보통 이를 변경할 이유는 없습니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Reports` object which is an iterable collection of `BetaReport` objects. |
+| `Reports` 오브젝트로, `BetaReport` 오브젝트의 반복 가능한 컬렉션입니다. |
 
 ### `run`
 
@@ -525,15 +522,15 @@ run(
 )
 ```
 
-Return a single run by parsing path in the form entity/project/run_id.
+경로를 분석하여 단일 run을 반환합니다. 형식은 entity/project/run_id입니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `path` |  (str) path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id. |
+| `path` | (str) run의 경로로, `entity/project/run_id` 형식을 가져야 합니다. 만약 `api.entity`가 설정되어 있다면, `project/run_id` 형식을 사용할 수 있으며, `api.project`가 설정되어 있다면 run_id만 사용 가능합니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Run` object. |
+| `Run` 오브젝트. |
 
 ### `run_queue`
 
@@ -545,9 +542,9 @@ run_queue(
 )
 ```
 
-Return the named `RunQueue` for entity.
+entity에 대한 지정된 이름의 `RunQueue`를 반환합니다.
 
-To create a new `RunQueue`, use `wandb.Api().create_run_queue(...)`.
+새로운 `RunQueue`를 생성하려면 `wandb.Api().create_run_queue(...)`를 사용하세요.
 
 ### `runs`
 
@@ -563,19 +560,19 @@ runs(
 )
 ```
 
-Return a set of runs from a project that match the filters provided.
+제공된 필터에 맞는 프로젝트의 여러 run을 반환합니다.
 
-You can filter by `config.*`, `summary_metrics.*`, `tags`, `state`, `entity`, `createdAt`, etc.
+`config.*`, `summary_metrics.*`, `tags`, `state`, `entity`, `createdAt` 등을 필터링할 수 있습니다.
 
-#### Examples:
+#### 예시:
 
-Find runs in my_project where config.experiment_name has been set to "foo"
+config.experiment_name이 "foo"로 설정된 my_project의 run을 찾습니다.
 
 ```
 api.runs(path="my_entity/my_project", filters={"config.experiment_name": "foo"})
 ```
 
-Find runs in my_project where config.experiment_name has been set to "foo" or "bar"
+config.experiment_name이 "foo" 또는 "bar"로 설정된 my_project의 run을 찾습니다.
 
 ```
 api.runs(
@@ -584,7 +581,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project where config.experiment_name matches a regex (anchors are not supported)
+config.experiment_name이 정규 표현식을 만족하는 my_project의 run을 찾습니다. (앵커는 지원되지 않음)
 
 ```
 api.runs(
@@ -593,7 +590,7 @@ api.runs(
 )
 ```
 
-Find runs in my_project where the run name matches a regex (anchors are not supported)
+run 이름이 정규 표현식을 만족하는 my_project의 run을 찾습니다. (앵커는 지원되지 않음)
 
 ```
 api.runs(
@@ -602,23 +599,23 @@ api.runs(
 )
 ```
 
-Find runs in my_project sorted by ascending loss
+loss를 기준으로 오름차순으로 정렬된 my_project의 run을 찾습니다.
 
 ```
 api.runs(path="my_entity/my_project", order="+summary_metrics.loss")
 ```
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `path` |  (str) path to project, should be in the form: "entity/project" |
-|  `filters` |  (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: \{"config.experiment_name": "foo"\} would find runs with a config entry of experiment name set to "foo" You can compose operations to make more complicated queries, see Reference for the language is at https://docs.mongodb.com/manual/reference/operator/query |
-|  `order` |  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending. If you prepend order with a - order is descending (default). The default order is run.created_at from oldest to newest. |
-|  `per_page` |  (int) Sets the page size for query pagination. |
-|  `include_sweeps` |  (bool) Whether to include the sweep runs in the results. |
+| `path` | (str) 프로젝트 경로, 형식은 "entity/project"이어야 합니다. |
+| `filters` | (dict) MongoDB 쿼리 언어를 사용하여 특정 run을 쿼리합니다. `config.key`, `summary_metrics.key`, `state`, `entity`, `createdAt` 등과 같은 run 속성으로 필터링할 수 있습니다. 예: \{"config.experiment_name": "foo"\}는 실험 이름이 "foo"로 설정된 run을 찾습니다. 더 복잡한 쿼리를 작성하려면 작업을 구성할 수 있습니다. 언어에 대한 참조는 https://docs.mongodb.com/manual/reference/operator/query에 있습니다. |
+| `order` | (str) 정렬은 `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`. 정렬의 접두사로 +를 붙이면 오름차순입니다. 접두사로 -를 붙이면 내림차순(기본값)입니다. 기본 정렬은 run.created_at로 가장 오래된 것부터 가장 최신 것까지입니다. |
+| `per_page` | (int) 쿼리 페이징의 페이지 크기를 설정합니다. |
+| `include_sweeps` | (bool) 결과에 스윕 run을 포함할지 여부입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Runs` object, which is an iterable collection of `Run` objects. |
+| `Runs` 오브젝트로, `Run` 오브젝트의 반복 가능한 컬렉션입니다. |
 
 ### `sweep`
 
@@ -630,15 +627,15 @@ sweep(
 )
 ```
 
-Return a sweep by parsing path in the form `entity/project/sweep_id`.
+경로를 분석하여 스윕을 반환합니다. 형식은 `entity/project/sweep_id`입니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `path` |  (str, optional) path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id. |
+| `path` | (str, optional) 스윕의 경로로, 형식은 `entity/project/sweep_id`이어야 합니다. 만약 `api.entity`가 설정되어 있다면, `project/sweep_id` 형식을 사용할 수 있으며, `api.project`가 설정되어 있다면 sweep_id만 사용 가능합니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Sweep` object. |
+| `Sweep` 오브젝트. |
 
 ### `sync_tensorboard`
 
@@ -650,7 +647,7 @@ sync_tensorboard(
 )
 ```
 
-Sync a local directory containing tfevent files to wandb.
+tfevent 파일을 포함하는 로컬 디렉토리를 wandb와 동기화합니다.
 
 ### `team`
 
@@ -662,15 +659,15 @@ team(
 ) -> "public.Team"
 ```
 
-Return the matching `Team` with the given name.
+주어진 이름과 일치하는 `Team`을 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `team` |  (str) The name of the team. |
+| `team` | (str) 팀의 이름입니다. |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `Team` object. |
+| `Team` 오브젝트. |
 
 ### `user`
 
@@ -682,17 +679,17 @@ user(
 ) -> Optional['public.User']
 ```
 
-Return a user from a username or email address.
+사용자 이름 또는 이메일 주소로부터 user를 반환합니다.
 
-Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
+참고: 이 함수는 로컬 관리자에게만 작동하며, 자신의 사용자 오브젝트를 가져오려면 `api.viewer`를 사용하세요.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `username_or_email` |  (str) The username or email address of the user |
+| `username_or_email` | (str) 사용자 이름 또는 이메일 주소 |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  A `User` object or None if a user couldn't be found |
+| `User` 오브젝트 또는 사용자를 찾을 수 없는 경우 None |
 
 ### `users`
 
@@ -704,21 +701,21 @@ users(
 ) -> List['public.User']
 ```
 
-Return all users from a partial username or email address query.
+부분적인 사용자 이름 또는 이메일 주소를 통한 쿼리로 모든 사용자를 반환합니다.
 
-Note: This function only works for Local Admins, if you are trying to get your own user object, please use `api.viewer`.
+참고: 이 함수는 로컬 관리자에게만 작동하며, 자신의 사용자 오브젝트를 가져오려면 `api.viewer`를 사용하세요.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `username_or_email` |  (str) The prefix or suffix of the user you want to find |
+| `username_or_email` | (str) 찾고자 하는 사용자의 접두사 또는 접미사 |
 
-| Returns |  |
+| 반환값 |  |
 | :--- | :--- |
-|  An array of `User` objects |
+| `User` 오브젝트 배열 |
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
-|  `CREATE_PROJECT`<a id="CREATE_PROJECT"></a> |   |
-|  `DEFAULT_ENTITY_QUERY`<a id="DEFAULT_ENTITY_QUERY"></a> |   |
-|  `USERS_QUERY`<a id="USERS_QUERY"></a> |   |
-|  `VIEWER_QUERY`<a id="VIEWER_QUERY"></a> |   |
+| `CREATE_PROJECT`<a id="CREATE_PROJECT"></a> |   |
+| `DEFAULT_ENTITY_QUERY`<a id="DEFAULT_ENTITY_QUERY"></a> |   |
+| `USERS_QUERY`<a id="USERS_QUERY"></a> |   |
+| `VIEWER_QUERY`<a id="VIEWER_QUERY"></a> |   |

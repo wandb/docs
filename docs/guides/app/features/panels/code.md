@@ -1,39 +1,39 @@
 ---
-displayed_sidebar: default
 title: Save and diff code
+displayed_sidebar: default
 ---
 
-By default, we only save the latest git commit hash. You can turn on more code features to compare the code between your experiments dynamically in the UI.
+기본적으로, 우리는 최신 git 커밋 해시만 저장합니다. 더 많은 코드 기능을 활성화하여 UI에서 실험 간의 코드를 동적으로 비교할 수 있습니다.
 
-Starting with `wandb` version 0.8.28, we can save the code from your main training file where you call `wandb.init()`. This will get sync'd to the dashboard and show up in a tab on the run page, as well as the Code Comparer panel. Go to your [settings page](https://app.wandb.ai/settings) to enable code saving by default.
+`wandb` 버전 0.8.28부터, `wandb.init()`를 호출하는 메인 트레이닝 파일에서 코드를 저장할 수 있습니다. 이는 대시보드에 동기화되어 런 페이지의 탭 및 코드 비교 패널에 표시됩니다. 기본적으로 코드 저장을 활성화하려면 [설정 페이지](https://app.wandb.ai/settings)로 이동하세요.
 
-![Here's what your account settings look like. You can save code by default.](/images/app_ui/code_saving.png)
+![계정 설정은 다음과 같습니다. 기본적으로 코드를 저장할 수 있습니다.](/images/app_ui/code_saving.png)
 
-## Save Library Code
+## 라이브러리 코드 저장
 
-When code saving is enabled, wandb will save the code from the file that called `wandb.init()`. To save additional library code, you have two options:
+코드 저장이 활성화되면, wandb는 `wandb.init()`를 호출한 파일의 코드를 저장합니다. 추가적인 라이브러리 코드를 저장하려면 두 가지 옵션이 있습니다:
 
-* Call `wandb.run.log_code(".")` after calling `wandb.init()`
-* Pass a settings object to `wandb.init` with code_dir set: `wandb.init(settings=wandb.Settings(code_dir="."))`
+* `wandb.init()` 호출 후 `wandb.run.log_code(".")`를 호출하십시오.
+* 코드 디렉토리가 설정된 설정 오브젝트를 `wandb.init`에 전달하십시오: `wandb.init(settings=wandb.Settings(code_dir="."))`
 
-This will capture all python source code files in the current directory and all subdirectories as an [artifact](../../../../ref/python/artifact.md). For more control over the types and locations of source code files that are saved, please see the [reference docs](../../../../ref/python/run.md#log_code).
+이렇게 하면 현재 디렉토리와 모든 하위 디렉토리에 있는 모든 파이썬 소스 코드 파일이 [아티팩트](../../../../ref/python/artifact.md)로 캡처됩니다. 저장되는 소스 코드 파일의 유형과 위치에 대한 더 많은 제어가 필요하면 [참조 문서](../../../../ref/python/run.md#log_code)를 참조하십시오.
 
-## Code Comparer
+## 코드 비교 패널
 
-Click the **+** button in your workspace or report to add a new panel, and select the Code Comparer. Diff any two experiments in your project and see exactly which lines of code changed. Here’s an example:
+워크스페이스 또는 리포트에서 **+** 버튼을 클릭하여 새 패널을 추가하고 코드 비교를 선택합니다. 프로젝트에서 두 실험을 비교하여 변경된 코드 라인을 정확히 확인하세요. 다음은 예시입니다:
 
 ![](/images/app_ui/code_comparer.png)
 
-## Jupyter Session History
+## Jupyter 세션 기록
 
-Starting with **wandb** version 0.8.34, our library does Jupyter session saving. When you call **wandb.init()** inside of Jupyter, we add a hook to automatically save a Jupyter notebook containing the history of code executed in your current session. You can find this session history in a runs file browser under the code directory:
+**wandb** 버전 0.8.34부터, 우리 라이브러리는 Jupyter 세션 저장을 수행합니다. Jupyter 안에서 **wandb.init()**을 호출하면 현재 세션에서 실행된 코드의 히스토리를 포함한 Jupyter 노트북을 자동으로 저장하는 훅을 추가합니다. 이 세션 기록은 코드 디렉토리 아래의 런 파일 브라우저에서 찾을 수 있습니다:
 
 ![](/images/app_ui/jupyter_session_history.png)
 
-Clicking on this file will display the cells that were executed in your session along with any outputs created by calling iPython’s display method. This enables you to see exactly what code was run within Jupyter in a given run. When possible we also save the most recent version of the notebook which you would find in the code directory as well.
+이 파일을 클릭하면 세션에서 실행된 셀과 iPython의 표시 메소드를 호출하여 생성된 출력이 함께 표시됩니다. 이를 통해 Jupyter에서 주어진 런 내에서 어떤 코드가 실행되었는지 정확히 확인할 수 있습니다. 가능할 경우 코드 디렉토리에서 최근 버전의 노트북도 함께 저장합니다.
 
 ![](/images/app_ui/jupyter_session_history_display.png)
 
-## Jupyter diffing
+## Jupyter 차이 분석
 
-One last bonus feature is the ability to diff notebooks. Instead of showing the raw JSON in our Code Comparer panel, we extract each cell and display any lines that changed. We have some exciting features planned for integrating Jupyter deeper in our platform.
+마지막으로 추가적인 기능으로 노트북의 차이 분석 기능이 있습니다. 코드 비교 패널에서 원시 JSON을 표시하는 대신, 각 셀을 추출하고 변경된 줄을 표시합니다. 우리 플랫폼에 Jupyter를 더 깊이 통합하기 위한 흥미로운 기능을 계획하고 있습니다.

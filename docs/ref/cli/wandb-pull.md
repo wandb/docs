@@ -1,17 +1,16 @@
 # wandb pull
 
-**Usage**
+**사용법**
 
 `wandb pull [OPTIONS] RUN`
 
-**Summary**
+**요약**
 
-Pull files from Weights & Biases
+Weights & Biases에서 파일을 가져옵니다
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| -p, --project | The project you want to download. |
-| -e, --entity | The entity to scope the listing to. |
-
+| -p, --project | 다운로드할 프로젝트입니다. |
+| -e, --entity | 목록을 제한할 엔터티입니다. |

@@ -1,24 +1,24 @@
 ---
-slug: /guides/integrations/metaflow
-description: How to integrate W&B with Metaflow.
-displayed_sidebar: default
 title: Metaflow
+description: W&B를 Metaflow와 통합하는 방법.
+slug: /guides/integrations/metaflow
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-## Overview
+## 개요
 
-[Metaflow](https://docs.metaflow.org) is a framework created by [Netflix](https://netflixtechblog.com) for creating and running ML workflows.
+[Metaflow](https://docs.metaflow.org)은 ML 워크플로우를 생성하고 실행하기 위해 [Netflix](https://netflixtechblog.com)에서 만든 프레임워크입니다.
 
-This integration lets users apply decorators to Metaflow [steps and flows](https://docs.metaflow.org/metaflow/basics) to automatically log parameters and artifacts to W&B.
+이 인테그레이션을 통해 사용자는 Metaflow [steps and flows](https://docs.metaflow.org/metaflow/basics)에 데코레이터를 적용하여 W&B에 파라미터와 아티팩트를 자동으로 로그할 수 있습니다.
 
-* Decorating a step will enable or disable logging for certain types within that step.
-* Decorating the flow will enable or disable logging for every step in the flow.
+* 스텝을 데코레이트하면 해당 스텝 내에서 특정 타입의 로그를 활성화하거나 비활성화할 수 있습니다.
+* 플로우를 데코레이트하면 플로우의 모든 스텝에 대해 로그를 활성화하거나 비활성화할 수 있습니다.
 
-## Quickstart
+## 퀵스타트
 
-### Install W&B and login
+### W&B 설치 및 로그인
 
 <Tabs
   defaultValue="notebook"
@@ -44,7 +44,7 @@ wandb login
   </TabItem>
 </Tabs>
 
-### Decorate your flows and steps
+### 플로우와 스텝 데코레이션
 
 <Tabs
   defaultValue="step"
@@ -55,9 +55,9 @@ wandb login
   ]}>
   <TabItem value="step">
 
-Decorating a step will enable or disable logging for certain types within that Step.
+스텝을 데코레이트하면 해당 스텝 내에서 특정 타입의 로그를 활성화하거나 비활성화할 수 있습니다.
 
-In this example, all datasets and models in `start` will be logged
+이 예제에서는 모든 datasets와 models가 `start`에서 로그됩니다.
 
 ```python
 from wandb.integration.metaflow import wandb_log
@@ -66,58 +66,58 @@ class WandbExampleFlow(FlowSpec):
     @wandb_log(datasets=True, models=True, settings=wandb.Settings(...))
     @step
     def start(self):
-        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
-        self.model_file = torch.load(...)  # nn.Module    -> upload as model
+        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> 데이터셋으로 업로드
+        self.model_file = torch.load(...)  # nn.Module    -> 모델로 업로드
         self.next(self.transform)
 ```
   </TabItem>
   <TabItem value="flow">
 
-Decorating a flow is equivalent to decorating all the constituent steps with a default.
+플로우를 데코레이트하는 것은 기본값으로 모든 구성 요소 스텝을 데코레이트하는 것과 같습니다.
 
-In this case, all steps in `WandbExampleFlow` will log datasets and models by default -- the same as decorating each step with `@wandb_log(datasets=True, models=True)`
+이 경우, `WandbExampleFlow`의 모든 스텝은 datasets와 models를 기본값으로 로그합니다 -- 각 스텝을 `@wandb_log(datasets=True, models=True)`로 데코레이트하는 것과 동일합니다.
 
 ```python
 from wandb.integration.metaflow import wandb_log
 
-@wandb_log(datasets=True, models=True)  # decorate all @step 
+@wandb_log(datasets=True, models=True)  # 모든 @step을 데코레이트 
 class WandbExampleFlow(FlowSpec):
     @step
     def start(self):
-        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
-        self.model_file = torch.load(...)  # nn.Module    -> upload as model
+        self.raw_df = pd.read_csv(...).    # pd.DataFrame -> 데이터셋으로 업로드
+        self.model_file = torch.load(...)  # nn.Module    -> 모델로 업로드
         self.next(self.transform)
 ```
   </TabItem>
   <TabItem value="flow_and_steps">
 
-Decorating the flow is equivalent to decorating all steps with a default. That means if you later decorate a Step with another `@wandb_log`, you will override the flow-level decoration.
+플로우를 데코레이트하는 것은 기본값으로 모든 스텝을 데코레이트하는 것과 같습니다. 즉, 나중에 특정 스텝을 다른 `@wandb_log`로 데코레이트하면 플로우 레벨의 데코레이션을 덮어씁니다.
 
-In the example below:
+아래 예제에서는:
 
-* `start` and `mid` will log datasets and models, but
-* `end` will not log datasets or models.
+* `start`와 `mid`는 datasets와 models를 로그하지만,
+* `end`는 datasets나 models를 로그하지 않습니다.
 
 ```python
 from wandb.integration.metaflow import wandb_log
 
-@wandb_log(datasets=True, models=True)  # same as decorating start and mid
+@wandb_log(datasets=True, models=True)  # start와 mid를 데코레이트한 것과 동일
 class WandbExampleFlow(FlowSpec):
-  # this step will log datasets and models
+  # 이 스텝은 datasets와 models를 로그합니다.
   @step
   def start(self):
-    self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
-    self.model_file = torch.load(...)  # nn.Module    -> upload as model
+    self.raw_df = pd.read_csv(...).    # pd.DataFrame -> 데이터셋으로 업로드
+    self.model_file = torch.load(...)  # nn.Module    -> 모델로 업로드
     self.next(self.mid)
 
-  # this step will also log datasets and models
+  # 이 스텝도 datasets와 models를 로그합니다.
   @step
   def mid(self):
-    self.raw_df = pd.read_csv(...).    # pd.DataFrame -> upload as dataset
-    self.model_file = torch.load(...)  # nn.Module    -> upload as model
+    self.raw_df = pd.read_csv(...).    # pd.DataFrame -> 데이터셋으로 업로드
+    self.model_file = torch.load(...)  # nn.Module    -> 모델로 업로드
     self.next(self.end)
 
-  # this step is overwritten and will NOT log datasets OR models
+  # 이 스텝은 덮어쓰여져서 datasets나 models를 로그하지 않습니다.
   @wandb_log(datasets=False, models=False)
   @step
   def end(self):
@@ -127,56 +127,56 @@ class WandbExampleFlow(FlowSpec):
   </TabItem>
 </Tabs>
 
-## Where is my data? Can I access it programmatically?
+## 내 데이터는 어디에 있나요? 프로그램적으로 엑세스할 수 있나요?
 
-You can access the information we've captured in three ways: inside the original Python process being logged using the [`wandb` client library](../../../ref/python/README.md), via the [web app UI](../../app/intro.md), or programmatically using [our Public API](../../../ref/python/public-api/README.md). `Parameter`s are saved to W&B's [`config`](../../track/config.md) and can be found in the [Overview tab](../../app/pages/run-page.md#overview-tab). `datasets`, `models`, and `others` are saved to [W&B Artifacts](../../artifacts/intro.md) and can be found in the [Artifacts tab](../../app/pages/run-page.md#artifacts-tab). Base python types are saved to W&B's [`summary`](../../track/log/intro.md) dict and can be found in the Overview tab. See our [guide to the Public API](../../track/public-api-guide.md) for details on using the API to get this information programmatically from outside .
+우리가 캡처한 정보에 엑세스하는 방법은 세 가지가 있습니다: [`wandb` 클라이언트 라이브러리](../../../ref/python/README.md)를 사용하여 원래 Python 프로세스 내부에서 로그된 정보를 엑세스하거나, [웹 앱 UI](../../app/intro.md)를 통해 엑세스하거나, 또는 [우리의 Public API](../../../ref/python/public-api/README.md)를 사용하여 프로그램적으로 엑세스하는 방법입니다. `Parameter`는 W&B의 [`config`](../../track/config.md)에 저장되며 [Overview 탭](../../app/pages/run-page.md#overview-tab)에서 찾을 수 있습니다. `datasets`, `models`, 및 `others`는 [W&B Artifacts](../../artifacts/intro.md)에 저장되며 [Artifacts 탭](../../app/pages/run-page.md#artifacts-tab)에서 찾을 수 있습니다. 기본 Python 타입은 W&B의 [`summary`](../../track/log/intro.md) dict에 저장되며 Overview 탭에서 찾을 수 있습니다. API를 사용하여 외부에서 프로그램적으로 이 정보를 가져오는 방법에 대한 자세한 내용은 우리의 [Public API 가이드](../../track/public-api-guide.md)를 참조하세요.
 
-Here's a cheatsheet:
+다음은 요약표입니다:
 
-| Data                                            | Client library                            | UI                    |
-| ----------------------------------------------- | ----------------------------------------- | --------------------- |
-| `Parameter(...)`                                | `wandb.config`                            | Overview tab, Config  |
-| `datasets`, `models`, `others`                  | `wandb.use_artifact("{var_name}:latest")` | Artifacts tab         |
-| Base Python types (`dict`, `list`, `str`, etc.) | `wandb.summary`                           | Overview tab, Summary |
+| 데이터                                         | 클라이언트 라이브러리                      | UI                     |
+| --------------------------------------------- | ----------------------------------------- | ---------------------- |
+| `Parameter(...)`                              | `wandb.config`                            | Overview 탭, Config    |
+| `datasets`, `models`, `others`                | `wandb.use_artifact("{var_name}:latest")` | Artifacts 탭           |
+| 기본 Python 타입 (`dict`, `list`, `str`, 등) | `wandb.summary`                           | Overview 탭, Summary   |
 
 ### `wandb_log` kwargs
 
-| kwarg      | Options                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `datasets` | <ul><li><code>True</code>: Log instance variables that are a dataset</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                         |
-| `models`   | <ul><li><code>True</code>: Log instance variables that are a model</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                           |
-| `others`   | <ul><li><code>True</code>: Log anything else that is serializable as a pickle</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                |
-| `settings` | <ul><li><code>wandb.Settings(...)</code>: Specify your own <code>wandb</code> settings for this step or flow</li><li><code>None</code>: Equivalent to passing <code>wandb.Settings()</code></li></ul><p>By default, if:</p><ul><li><code>settings.run_group</code> is <code>None</code>, it will be set to <code>\{flow_name\}/\{run_id\}</code></li><li><code>settings.run_job_type</code> is <code>None</code>, it will be set to <code>\{run_job_type\}/\{step_name\}</code></li></ul> |
+| kwarg      | 옵션                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `datasets` | <ul><li><code>True</code>: 데이터셋인 인스턴스 변수를 로그</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                     |
+| `models`   | <ul><li><code>True</code>: 모델인 인스턴스 변수를 로그</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                           |
+| `others`   | <ul><li><code>True</code>: 피클로 직렬화할 수 있는 그 외의 모든 것을 로그</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                         |
+| `settings` | <ul><li><code>wandb.Settings(...)</code>: 이 스텝이나 플로우에 대해 사용자의 <code>wandb</code> 설정 명시</li><li><code>None</code>: <code>wandb.Settings()</code>로 전달하는 것과 동일</li></ul><p>기본적으로, 만약:</p><ul><li><code>settings.run_group</code>이 <code>None</code>이면, <code>\{flow_name\}/\{run_id\}</code>로 설정됩니다.</li><li><code>settings.run_job_type</code>이 <code>None</code>이면, <code>\{run_job_type\}/\{step_name\}</code>로 설정됩니다.</li></ul> |
 
-## Frequently Asked Questions
+## 자주 묻는 질문
 
-### What exactly do you log? Do you log all instance and local variables?
+### 정확히 무엇을 로그합니까? 모든 인스턴스 및 로컬 변수를 로그합니까?
 
-`wandb_log` only logs instance variables. Local variables are NEVER logged. This is useful to avoid logging unnecessary data.
+`wandb_log`는 인스턴스 변수만 로그합니다. 로컬 변수는 절대 로그되지 않습니다. 이는 불필요한 데이터를 로그하는 것을 방지하는 데 유용합니다.
 
-### Which data types get logged?
+### 어떤 데이터 타입을 로그합니까?
 
-We currently support these types:
+현재 우리는 다음 타입을 지원합니다:
 
-| Logging Setting     | Type                                                                                                                        |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| default (always on) | <ul><li><code>dict, list, set, str, int, float, bool</code></li></ul>                                                       |
-| `datasets`          | <ul><li><code>pd.DataFrame</code></li><li><code>pathlib.Path</code></li></ul>                                               |
-| `models`            | <ul><li><code>nn.Module</code></li><li><code>sklearn.base.BaseEstimator</code></li></ul>                                    |
-| `others`            | <ul><li>Anything that is <a href="https://wiki.python.org/moin/UsingPickle">pickle-able</a> and JSON serializable</li></ul> |
+| 로그 설정            | 타입                                                                                                                              |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| 기본값 (항상 활성화) | <ul><li><code>dict, list, set, str, int, float, bool</code></li></ul>                                                          |
+| `datasets`          | <ul><li><code>pd.DataFrame</code></li><li><code>pathlib.Path</code></li></ul>                                                    |
+| `models`            | <ul><li><code>nn.Module</code></li><li><code>sklearn.base.BaseEstimator</code></li></ul>                                         |
+| `others`            | <ul><li><a href="https://wiki.python.org/moin/UsingPickle">피클 가능</a>하며 JSON 직렬화 가능인 모든 것</li></ul>                |
 
-### Examples of logging behavior
+### 로그 행동 예제
 
-| Kind of Variable | behavior                      | Example         | Data Type      |
+| 변수 종류        | 행동                          | 예제             | 데이터 타입      |
 | ---------------- | ------------------------------ | --------------- | -------------- |
-| Instance         | Auto-logged                    | `self.accuracy` | `float`        |
-| Instance         | Logged if `datasets=True`      | `self.df`       | `pd.DataFrame` |
-| Instance         | Not logged if `datasets=False` | `self.df`       | `pd.DataFrame` |
-| Local            | Never logged                   | `accuracy`      | `float`        |
-| Local            | Never logged                   | `df`            | `pd.DataFrame` |
+| 인스턴스         | 자동 로그                      | `self.accuracy` | `float`        |
+| 인스턴스         | `datasets=True`일 때 로그     | `self.df`       | `pd.DataFrame` |
+| 인스턴스         | `datasets=False`일 때 로그 안함 | `self.df`       | `pd.DataFrame` |
+| 로컬            | 절대 로그되지 않음             | `accuracy`      | `float`        |
+| 로컬            | 절대 로그되지 않음             | `df`            | `pd.DataFrame` |
 
-### Does this track artifact lineage?
+### 이것이 아티팩트 계보를 추적합니까?
 
-Yes! If you have an artifact that is an output of step A and an input to step B, we automatically construct the lineage DAG for you.
+네! 만약 스텝 A의 출력물이고 스텝 B의 입력물인 아티팩트가 있다면, 우리는 자동으로 계보 DAG를 구성합니다.
 
-For an example of this behavior, please see this[ notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) and its corresponding [W&B Artifacts page](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph)
+이 행동의 예제를 보려면, 이 [노트북](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU)과 그것에 해당하는 [W&B Artifacts 페이지](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph)를 참조하세요.

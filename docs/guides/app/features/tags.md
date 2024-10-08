@@ -1,17 +1,17 @@
 ---
-displayed_sidebar: default
 title: Manage tags
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Tags can be used to label runs with particular features that might not be obvious from the logged metrics or Artifact data -- this run's model is `in_production`, that run is `preemptible`, this run represents the `baseline`.
+태그는 로그된 메트릭이나 아티팩트 데이터로부터 명확하지 않을 수 있는 특정 기능으로 runs에 레이블을 붙이는 데 사용될 수 있습니다 -- 이 run의 모델은 `in_production`, 저 run은 `preemptible`, 이 run은 `baseline`을 나타냅니다.
 
-## How to add tags
+## 태그 추가 방법
 
-You can add tags to a run when it is created: `wandb.init(tags=["tag1", "tag2"])` .
+run이 생성될 때 태그를 추가할 수 있습니다: `wandb.init(tags=["tag1", "tag2"])` .
 
-You can also update the tags of a run during training (e.g. if a particular metrics crosses a pre-defined threshold):
+트레이닝 중에도 run의 태그를 업데이트할 수 있습니다 (예: 특정 메트릭이 사전 정의된 기준을 넘었을 경우).
 
 ```python
 run = wandb.init(entity="entity", project="capsules", tags=["debug"])
@@ -22,7 +22,7 @@ if current_loss < threshold:
     run.tags = run.tags + ("release_candidate",)
 ```
 
-There are also several ways to add tags after runs have been logged to W&B.
+runs가 W&B에 로그된 후 태그를 추가하는 여러 가지 방법이 있습니다.
 
 <Tabs
   defaultValue="publicapi"
@@ -33,50 +33,48 @@ There are also several ways to add tags after runs have been logged to W&B.
   ]}>
   <TabItem value="publicapi">
 
-After a run is created, you can update tags using [our public API](../../../guides/track/public-api-guide.md) like so:
+run이 생성된 후, [공개 API](../../../guides/track/public-api-guide.md)를 사용하여 태그를 업데이트할 수 있습니다:
 
 ```python
 run = wandb.Api().run("{entity}/{project}/{run-id}")
-run.tags.append("tag1")  # you can choose tags based on run data here
+run.tags.append("tag1")  # 여기에서 run 데이터에 기반하여 태그를 선택할 수 있습니다.
 run.update()
 ```
 
-You can read more about how to use the Public API in the [reference documentation](../../../ref/README.md) or [guide](../../../guides/track/public-api-guide.md).
+공개 API를 사용하는 방법에 대한 자세한 정보는 [참고 문서](../../../ref/README.md)나 [가이드](../../../guides/track/public-api-guide.md)를 참조하세요.
 
   </TabItem>
   <TabItem value="projectpage">
 
-This method is best suited to tagging large numbers of runs with the same tag or tags.
+이 방법은 동일한 태그 또는 태그들을 다수의 runs에 태그를 붙이는 데 가장 적합합니다.
 
-In the [runs sidebar](../pages/project-page.md#search-for-runs) of the [Project Page](../pages/project-page.md),  click the table icon in the upper-right.  This will expand the sidebar into the full [runs table](runs-table.md).
+[Project Page](../pages/project-page.md)에서 [runs 사이드바](../pages/project-page.md#search-for-runs)에서 우측 상단의 테이블 아이콘을 클릭하세요. 이것은 사이드바를 전체 [runs 테이블](runs-table.md)로 확장합니다.
 
-Hover over a run in the table to see a checkbox on the left or look in the header row for a checkbox that will allow you to select all runs.
+테이블의 run 위로 마우스를 올리면 좌측에 체크박스가 보이거나 모든 runs를 선택할 수 있는 헤더 행에 체크박스가 보입니다.
 
-Click the checkbox to enable bulk actions. Select the runs to which you'd like to apply your tag(s).
+체크박스를 클릭하여 일괄 작업을 가능하게 하세요. 태그를 적용하고자 하는 runs를 선택하세요.
 
-Click the Tag button above the rows of runs.
+runs 행 위의 태그 버튼을 클릭하세요.
 
-Type a tag you'd like to add and click "Add" below the text box to add a new tag.
+추가하고자 하는 태그를 입력하고 텍스트 상자 아래의 "Add"를 클릭하여 새 태그를 추가하세요.
 
   </TabItem>
   <TabItem value="runpage">
 
-This method is best suited to applying a tag or tags to a single run by hand.
+이 방법은 단일 run에 수작업으로 태그를 적용하는 데 가장 적합합니다.
 
-In the left sidebar of the [Run Page](../pages/run-page.md), click the top [Overview tab](../pages/run-page.md#overview-tab).
+[Run Page](../pages/run-page.md)의 좌측 사이드바에서 상단의 [Overview 탭](../pages/run-page.md#overview-tab)을 클릭하세요.
 
-Next to "Tags" is a gray ➕ button. Click on that plus to add a tag.
+"Tags" 옆의 회색 ➕ 버튼을 클릭하세요. 플러스를 클릭하여 태그를 추가하세요.
 
-Type a tag you'd like to add and click "Add" below the text box to add a new tag.
+추가하고자 하는 태그를 입력하고 텍스트 상자 아래의 "Add"를 클릭하여 새 태그를 추가하세요.
 
   </TabItem>
 </Tabs>
 
+## 태그 제거 방법
 
-
-## How to remove tags
-
-Tags can also be removed from runs via the UI.
+UI를 통해 runs에서 태그를 제거할 수 있습니다.
 
 <Tabs
   defaultValue="projectpage"
@@ -86,24 +84,24 @@ Tags can also be removed from runs via the UI.
   ]}>
   <TabItem value="projectpage">
 
-This method is best suited to removing tags from a large numbers of runs.
+이 방법은 다수의 runs에서 태그를 제거하는 데 가장 적합합니다.
 
-In the [runs sidebar](../pages/project-page.md#search-for-runs) of the [Project Page](../pages/project-page.md),  click the table icon in the upper-right.  This will expand the sidebar into the full [runs table](runs-table.md).
+[Project Page](../pages/project-page.md)에서 [runs 사이드바](../pages/project-page.md#search-for-runs)에서 우측 상단의 테이블 아이콘을 클릭하세요. 이것은 사이드바를 전체 [runs 테이블](runs-table.md)로 확장합니다.
 
-Hover over a run in the table to see a checkbox on the left or look in the header row for a checkbox that will allow you to select all runs.
+테이블의 run 위로 마우스를 올리면 좌측에 체크박스가 보이거나 모든 runs를 선택할 수 있는 헤더 행에 체크박스가 보입니다.
 
-Click either checkbox to enable bulk actions. Select the runs to from which you'd like to remove your tag(s).
+체크박스 중 하나를 클릭하여 일괄 작업을 가능하게 하세요. 태그를 제거하고자 하는 runs를 선택하세요.
 
-Click the Tag button above the rows of runs.
+runs 행 위의 태그 버튼을 클릭하세요.
 
-Click the checkbox next to a tag to remove it from the run.
+태그 옆의 체크박스를 클릭하여 run에서 제거합니다.
 
   </TabItem>
   <TabItem value="runpage">
 
-In the left sidebar of the [Run Page,](../pages/run-page.md) click the top [Overview tab](../pages/run-page.md#overview-tab). The tags on the run are visible here.
+[Run Page,](../pages/run-page.md)의 좌측 사이드바에서 상단의 [Overview 탭](../pages/run-page.md#overview-tab)을 클릭하세요. run의 태그는 여기에서 볼 수 있습니다.
 
-Hover over a tag and click the "x" to remove it from the run.
+태그 위로 마우스를 올리고 "x"를 클릭하여 run에서 제거합니다.
 
   </TabItem>
 </Tabs>

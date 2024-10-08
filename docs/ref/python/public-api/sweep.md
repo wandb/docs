@@ -2,8 +2,7 @@
 
 <p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/sweeps.py#L30-L240' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-
-A set of runs associated with a sweep.
+스윕과 관련된 여러 run들의 집합입니다.
 
 ```python
 Sweep(
@@ -11,25 +10,25 @@ Sweep(
 )
 ```
 
-#### Examples:
+#### 예시:
 
-Instantiate with:
+다음과 같이 인스턴스화:
 
 ```
 api = wandb.Api()
 sweep = api.sweep(path/to/sweep)
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
-|  `runs` |  (`Runs`) list of runs |
-|  `id` |  (str) sweep id |
-|  `project` |  (str) name of project |
-|  `config` |  (str) dictionary of sweep configuration |
-|  `state` |  (str) the state of the sweep |
-|  `expected_run_count` |  (int) number of expected runs for the sweep |
+|  `runs` |  (`Runs`) run들의 리스트 |
+|  `id` |  (str) 스윕 id |
+|  `project` |  (str) 프로젝트 이름 |
+|  `config` |  (str) 스윕 구성 사전 |
+|  `state` |  (str) 스윕의 상태 |
+|  `expected_run_count` |  (int) 예상되는 run의 수 |
 
-## Methods
+## 메소드
 
 ### `best_run`
 
@@ -41,7 +40,7 @@ best_run(
 )
 ```
 
-Return the best run sorted by the metric defined in config or the order passed in.
+구성에서 정의된 메트릭이나 전달된 순서에 따라 정렬된 최고의 run을 반환합니다.
 
 ### `display`
 
@@ -53,7 +52,7 @@ display(
 ) -> bool
 ```
 
-Display this object in jupyter.
+이 오브젝트를 주피터에서 표시합니다.
 
 ### `get`
 
@@ -66,7 +65,7 @@ get(
 )
 ```
 
-Execute a query against the cloud backend.
+클라우드 백엔드에 대해 쿼리를 실행합니다.
 
 ### `load`
 
@@ -98,9 +97,9 @@ to_html(
 )
 ```
 
-Generate HTML containing an iframe displaying this sweep.
+이 스윕을 표시하는 iframe을 포함한 HTML을 생성합니다.
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
 |  `LEGACY_QUERY`<a id="LEGACY_QUERY"></a> |   |
 |  `QUERY`<a id="QUERY"></a> |   |

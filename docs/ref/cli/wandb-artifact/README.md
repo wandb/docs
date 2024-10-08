@@ -1,23 +1,23 @@
 # wandb artifact
 
-**Usage**
+**사용법**
 
-`wandb artifact [OPTIONS] COMMAND [ARGS]...`
+`wandb artifact [옵션] 코맨드 [ARG]...`
 
-**Summary**
+**요약**
 
-Commands for interacting with artifacts
+Artifacts와 상호작용하는 명령어
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
 
-**Commands**
+**코맨드**
 
-| **Command** | **Description** |
+| **코맨드** | **설명** |
 | :--- | :--- |
-| cache | Commands for interacting with the artifact cache |
-| get | Download an artifact from wandb |
-| ls | List all artifacts in a wandb project |
-| put | Upload an artifact to wandb |
+| cache | 아티팩트 캐시와 상호작용하는 명령어 |
+| get | wandb에서 아티팩트 다운로드 |
+| ls | wandb 프로젝트의 모든 아티팩트 나열 |
+| put | wandb에 아티팩트 업로드 |

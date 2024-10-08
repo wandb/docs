@@ -1,15 +1,15 @@
 ---
-displayed_sidebar: default
 title: PyTorch Geometric
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) or PyG is one of the most popular libraries for geometric deep learning and W&B works extremely well with it for visualizing graphs and tracking experiments.
+[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) 혹은 PyG는 기하 딥러닝에 있어 가장 인기 있는 라이브러리 중 하나이며, W&B와 함께 그래프를 시각화하고 Experiments를 추적하는 데 매우 적합합니다.
 
-## Getting Started
+## 시작하기
 
-After you have installed pytorch geometric, install the wandb library and login
+pytorch geometric을 설치한 후, wandb 라이브러리를 설치하고 로그인하세요.
 
 <Tabs
   defaultValue="script"
@@ -37,13 +37,13 @@ wandb.login()
   </TabItem>
 </Tabs>
 
-## Visualizing the Graphs
+## 그래프 시각화
 
-You can save details about the input graphs including number of edges, number of nodes and more. W&B supports logging plotly charts and HTML panels so any visualizations you create for your graph can then also be logged to W&B.
+입력 그래프에 대한 세부 사항, 예를 들어 엣지와 노드의 수 등을 저장할 수 있습니다. W&B는 plotly 차트 및 HTML 패널을 로그하는 것을 지원하므로 그래프에 대한 시각화를 생성하면 이를 W&B에 로그할 수 있습니다.
 
-### Using PyVis
+### PyVis 사용하기
 
-The following snippet shows how you could do that with PyVis and HTML.
+다음 코드는 PyVis와 HTML을 사용하는 방법을 보여줍니다.
 
 ```python
 from pyvis.network import Network
@@ -52,7 +52,7 @@ Import wandb
 wandb.init(project=’graph_vis’)
 net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
 
-# Add the edges from the PyG graph to the PyVis network
+# PyG 그래프에서 PyVis 네트워크로 엣지를 추가합니다.
 for e in tqdm(g.edge_index.T):
     src = e[0].item()
     dst = e[1].item()
@@ -62,19 +62,19 @@ for e in tqdm(g.edge_index.T):
     
     net.add_edge(src, dst, value=0.1)
 
-# Save the PyVis visualisation to a HTML file
+# PyVis 시각화를 HTML 파일로 저장합니다.
 net.show("graph.html")
 wandb.log({"eda/graph": wandb.Html("graph.html")})
 wandb.finish()
 ```
 
-| ![This image shows the input graph as an interactive HTML visualization.](/images/integrations/pyg_graph_wandb.png) | 
+| ![이 이미지는 입력 그래프를 인터랙티브한 HTML 시각화로 보여줍니다.](/images/integrations/pyg_graph_wandb.png) | 
 |:--:| 
-| **This image shows the input graph as an interactive HTML visualization.** |
+| **이 이미지는 입력 그래프를 인터랙티브한 HTML 시각화로 보여줍니다.** |
 
-### Using Plotly
+### Plotly 사용하기
 
-To use plotly to create a graph visualization, first you need to convert the PyG graph to a networkx object. Following this you will need to create Plotly scatter plots for both nodes and edges. The snippet below can be used for this task.
+plotly를 사용하여 그래프 시각화를 생성하려면, 먼저 PyG 그래프를 networkx 오브젝트로 변환해야 합니다. 그 후, Plotly의 산점도를 노드와 엣지에 대해 생성해야 합니다. 아래 코드는 이 작업을 수행할 수 있습니다.
 
 ```python
 def create_vis(graph):
@@ -124,13 +124,13 @@ wandb.log({‘graph’: wandb.Plotly(create_vis(graph))})
 wandb.finish()
 ```
 
-| ![This visualization was created using the function shown in the snippet above and longed inside a W&B Table.](/images/integrations/pyg_graph_plotly.png) | 
+| ![이 시각화는 위 코드 스니펫에서 보여진 함수를 사용하여 생성되었으며 W&B Table에 로그되었습니다.](/images/integrations/pyg_graph_plotly.png) | 
 |:--:| 
-| **This visualization was created using the function shown in the snippet above and longed inside a W&B Table.** |
+| **이 시각화는 위 코드 스니펫에서 보여진 함수를 사용하여 생성되었으며 W&B Table에 로그되었습니다.** |
 
-## Logging Metrics
+## 메트릭 로그하기
 
-You can use W&B to track all your experiments along with metrics like loss functions, accuracy and more. Just add the following line to your training loop and you are good to go!
+W&B를 사용하여 모든 Experiments와 손실 함수, 정확도 등의 메트릭들을 추적할 수 있습니다. 트레이닝 루프에 다음 줄을 추가하면 됩니다.
 
 ```python
 wandb.log({
@@ -141,11 +141,11 @@ wandb.log({
 })
 ```
 
-| ![Plots from W&B showing how the hits@K metric changes over epochs for different values of K.](/images/integrations/pyg_metrics.png) | 
+| ![W&B의 플롯은 서로 다른 K 값에 대해 에포크 동안 hits@K 메트릭이 어떻게 변하는지를 보여줍니다.](/images/integrations/pyg_metrics.png) | 
 |:--:| 
-| **Plots from W&B showing how the hits@K metric changes over epochs for different values of K.** |
+| **W&B의 플롯은 서로 다른 K 값에 대해 에포크 동안 hits@K 메트릭이 어떻게 변하는지를 보여줍니다.** |
 
-## More Resources
+## 추가 자료
 
 - [Recommending Amazon Products using Graph Neural Networks in PyTorch Geometric](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
 - [Point Cloud Classification using PyTorch Geometric](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)

@@ -1,10 +1,10 @@
 ---
-description: Get started using Weights & Biases with interactive tutorials.
-slug: /tutorials
 title: W&B Tutorials
+description: Weights & Biases를 사용하여 인터랙티브 튜토리얼로 시작하세요.
+slug: /tutorials
 ---
 
-The following tutorials take you through the fundamentals of W&B for machine learning experiment tracking, model evaluation, hyperparameter tuning, model and dataset versioning, and more.
+W&B를 사용한 기계학습 실험 추적, 모델 평가, 하이퍼파라미터 튜닝, 모델 및 데이터셋 버전 관리 등의 기초를 배우는 튜토리얼입니다.
 
 1. [Track experiments](/tutorials/experiments) 
 2. [Visualize predictions](/tutorials/tables)
@@ -12,9 +12,8 @@ The following tutorials take you through the fundamentals of W&B for machine lea
 4. [Track models and datasets](/tutorials/artifacts)
 6. [Iterate on LLMs](/tutorials/prompts)
 
-
-## Popular ML framework tutorials
-See the following tutorials for step by step information on how to use popular ML frameworks and libraries with W&B:
+## 인기 있는 ML 프레임워크 튜토리얼
+W&B와 함께 인기 있는 ML 프레임워크와 라이브러리를 사용하는 단계별 정보를 보려면 다음 튜토리얼을 참조하세요:
 
 - [PyTorch](/tutorials/pytorch)
 - [PyTorch Lightning](/tutorials/lightning)
@@ -29,17 +28,15 @@ See the following tutorials for step by step information on how to use popular M
 - XGBoost
     - [Tune hyperparameters](/tutorials/xgboost_sweeps)
 
+## 기타 자료
 
+W&B AI 아카데미를 방문하여 LLM을 애플리케이션에 트레이닝, 파인튜닝 및 사용하는 방법을 배우세요. MLOps 및 LLMOps 솔루션을 구현하세요. W&B 코스와 함께 실제 세계의 ML 문제 해결에 도전해 보세요.
 
-## Other resources
-
-Visit the W&B AI Academy to learn how to train, fine-tune and use LLMs in your applications. Implement MLOps and LLMOps solutions. Tackle real-world ML challenges with W&B courses.
-
-- Large Language Models (LLMs)
+- 대형 언어 모델 (LLMs)
     - [LLM Engineering: Structured Outputs](https://www.wandb.courses/courses/steering-language-models?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Building LLM-Powered Apps](https://www.wandb.courses/courses/building-llm-powered-apps?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Training and Fine-tuning Large Language Models](https://www.wandb.courses/courses/training-fine-tuning-LLMs?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
-- Effective MLOps
+- 효과적인 MLOps
     - [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [Effective MLOps: Model Development](https://www.wandb.courses/courses/effective-mlops-model-development?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)
     - [CI/CD for Machine Learning (GitOps)](https://www.wandb.courses/courses/ci-cd-for-machine-learning?utm_source=wandb_docs&utm_medium=code&utm_campaign=tutorials)

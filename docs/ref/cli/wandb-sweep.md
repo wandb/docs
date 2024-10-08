@@ -1,28 +1,26 @@
 # wandb sweep
 
-**Usage**
+**사용 방법**
 
 `wandb sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID`
 
-**Summary**
+**요약**
 
-Initialize a hyperparameter sweep. Search for hyperparameters that optimizes
-a cost function of a machine learning model by testing various combinations.
+하이퍼파라미터 탐색을 초기화합니다. 다양한 조합을 테스트하여 기계학습 모델의 비용 함수를 최적화하는 하이퍼파라미터를 검색합니다.
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| -p, --project | The name of the project where W&B runs created from   the sweep are sent to. If the project is not specified, the run is sent to a project labeled   Uncategorized. |
-| -e, --entity | The username or team name where you want to send W&B   runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an   entity, the run will be sent to your default entity, which is usually your username. |
-| --controller | Run local controller |
-| --verbose | Display verbose output |
-| --name | The name of the sweep. The sweep ID is used if no name   is specified. |
-| --program | Set sweep program |
-| --update | Update pending sweep |
-| --stop | Finish a sweep to stop running new runs and let   currently running runs finish. |
-| --cancel | Cancel a sweep to kill all running runs and stop   running new runs. |
-| --pause | Pause a sweep to temporarily stop running new runs. |
-| --resume | Resume a sweep to continue running new runs. |
-| --prior_run | ID of an existing run to add to this sweep |
-
+| -p, --project | 스윕에서 생성된 W&B runs가 전송될 프로젝트의 이름입니다. 프로젝트가 지정되지 않으면, run은 Uncategorized로 레이블된 프로젝트로 전송됩니다. |
+| -e, --entity | 스윕에서 생성된 W&B runs를 전송하고자 하는 사용자 이름 또는 팀 이름입니다. 지정한 엔티티가 이미 존재하는지 확인하세요. 엔티티를 지정하지 않으면, run은 보통 사용자 이름인 기본 엔티티로 전송됩니다. |
+| --controller | 로컬 컨트롤러 실행 |
+| --verbose | 자세한 출력 표시 |
+| --name | 스윕의 이름입니다. 이름이 지정되지 않으면 스윕 ID가 사용됩니다. |
+| --program | 스윕 프로그램 설정 |
+| --update | 대기 중인 스윕 업데이트 |
+| --stop | 새 run의 실행을 중지하고 현재 실행 중인 run이 완료되도록 스윕 종료. |
+| --cancel | 모든 실행 중인 run을 중지하고 새 run의 실행을 중지하기 위해 스윕 취소. |
+| --pause | 새 run의 실행을 일시적으로 중지하기 위해 스윕 일시 정지. |
+| --resume | 새 run의 실행을 계속하기 위해 스윕 재개. |
+| --prior_run | 이 스윕에 추가할 기존 run의 ID |

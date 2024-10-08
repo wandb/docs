@@ -1,149 +1,146 @@
 ---
-displayed_sidebar: default
 title: Manage users
+displayed_sidebar: default
 ---
 
-Manage W&B users in your organization or team.
+W&B 사용자를 조직이나 팀에서 관리하세요.
 
-W&B strongly recommends and encourages that users authenticate to an organization using Single Sign-On (SSO). To learn more about how to setup SSO with W&B Server, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).
+W&B는 사용자가 Single Sign-On (SSO)을 사용하여 조직에 인증하도록 강력히 권장합니다. W&B 서버와 함께 SSO를 설정하는 방법에 대해 자세히 알아보려면 [OIDC를 사용한 SSO](./sso.md) 또는 [LDAP를 사용한 SSO](./ldap.md)를 참조하세요.
 
 :::note
-`W&B Server` refers to both **Dedicated Cloud** or **Self-managed** hosting options.
+`W&B Server`는 **전용 클라우드** 또는 **셀프 관리** 호스팅 옵션 모두를 지칭합니다.
 :::
 
 :::note
-`Instance` or `organization` terms are used interchangeably within the context of W&B Server.
+`Instance` 또는 `organization` 용어는 W&B 서버 컨텍스트 내에서 상호 교환적으로 사용됩니다.
 
-W&B is actively developing support for multiple organizations in an enterprise instance of W&B Server. If you're interested in utilizing that capability, reach out to your W&B team.
+W&B는 W&B 서버의 엔터프라이즈 인스턴스에서 여러 조직을 지원하기 위해 적극적으로 개발하고 있습니다. 이 기능을 활용하고 싶다면, W&B 팀에 문의하세요.
 :::
 
-## Instance Admins
-The first user to sign up after the W&B Server instance is initially deployed, is automatically assigned the instance `admin` role. The admin can then add additional users to the organization and create teams.
+## 인스턴스 관리자
+W&B 서버 인스턴스가 처음 배포된 후에 첫 번째로 가입한 사용자는 자동으로 인스턴스 `admin` 역할이 할당됩니다. 관리자는 추가 사용자를 조직에 추가하고 팀을 만들 수 있습니다.
 
 :::note
-W&B recommends to have more than one instance admin in an organization. It is a best practice to ensure that admin operations can continue when the primary admin is not available. 
+조직에는 하나 이상의 인스턴스 관리자가 있는 것이 좋습니다. 주 관리자가 부재 중일 때에도 관리 작업이 지속될 수 있도록 하는 것이 모범 사례입니다.
 :::
 
-## Manage your organization
-As an instance admin, you can invite, remove, and change a user's role. To do so, navigate to the Organization dashboard and follow the instructions described below.
+## 조직 관리
+인스턴스 관리자라면 사용자를 초대, 삭제 또는 역할을 변경할 수 있습니다. 이를 위해, 조직 대시보드로 이동하고 아래의 지침을 따르세요.
 
-1. Select your profile image in the upper right hand corner.
-2. A dropdown will appear, click on **Organization dashboard**.
+1. 오른쪽 상단 모서리에 있는 프로필 이미지를 선택합니다.
+2. 드롭다운이 나타나면, **조직 대시보드**를 클릭합니다.
 
 ![](/images/hosting/how_get_to_dashboard.png)
 
-If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
+조직에서 사용자 관리를 간소화하려면, [사용자 및 팀 관리 자동화](./automate_iam.md)를 참조하세요.
 
-### Invite users
-1. Navigate to the W&B Organization dashboard.
-2. Click the **Add user** button.
-3. Add the user's email in the Email field.
-4. Select the role you want to assign to the user, from `Admin, Member or Viewer`. By default, all users are assigned a `Member` role.
-    - **Admin**: A instance admin who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends more than one admin for an enterprise W&B server instance.
-    - **Member** - A regular user of the organization, invited by an instance admin. A organization user cannot invite other users or manage existing users in the organization. `Team admins` could add specific organization users to their respective teams (team-level roles described below in **Team roles**).
-    - **Viewer** - A view-only user of your organization, invited by an instance admin. A viewer only has read access to the organization and the underlying teams that they are a part of.
-5. Click the **Add new user** button.
+### 사용자 초대
+1. W&B 조직 대시보드로 이동합니다.
+2. **사용자 추가** 버튼을 클릭합니다.
+3. 이메일 필드에 사용자의 이메일을 추가합니다.
+4. 사용자가 할당하고 싶은 역할을 `Admin, Member 또는 Viewer` 중에서 선택합니다. 기본적으로 모든 사용자에게 `Member` 역할이 할당됩니다.
+    - **Admin**: 조직에 다른 사용자를 추가하거나 삭제할 수 있는 인스턴스 관리자, 사용자 역할 변경, 사용자 정의 역할 관리, 팀 추가 등을 할 수 있습니다. W&B는 엔터프라이즈 W&B 서버 인스턴스에 두 명 이상의 관리자를 권장합니다.
+    - **Member** - 인스턴스 관리자가 초대한 조직의 일반 사용자입니다. 조직 사용자는 다른 사용자를 초대하거나 조직의 기존 사용자를 관리할 수 없습니다. `팀 관리자`는 해당 팀에 특정 조직 사용자를 추가할 수 있습니다(아래 **팀 역할**에 설명되어 있음).
+    - **Viewer** - 인스턴스 관리자가 초대한 조직의 읽기 전용 사용자입니다. 뷰어는 조직 및 그들이 속한 하위 팀에 대한 읽기 권한만 있습니다.
+5. **새 사용자 추가** 버튼을 클릭합니다.
 
 ![](/images/hosting/org_dashboard_add_user.png)
 
-An invite link will be sent to the user by email. Once the user accepts the invite, they will have access to the W&B instance (organization).
+초대 링크가 이메일을 통해 사용자에게 발송됩니다. 사용자가 초대를 수락하면, W&B 인스턴스(조직)에 엑세스할 수 있게 됩니다.
 
 :::info
-The **Add user** option might be not be available if there are no more seats in the license. Reach out to your W&B team if you have difficulty adding users. 
+**사용자 추가** 옵션은 라이센스에 남은 좌석이 없는 경우 사용할 수 없을 수 있습니다. 사용자를 추가하는 데 어려움이 있는 경우 W&B 팀에 문의하세요.
 :::
 
 :::note
-W&B uses a third-party email server to send the user invites. If you've a self-managed W&B Server instance and your organization firewall rules restrict sending traffic outside the corporate network, W&B provides an option to configure an internal SMTP server in the instance. Please refer to [these instructions](../smtp.md) to setup the SMTP server.
+W&B는 사용자 초대를 보내기 위해 타사 이메일 서버를 사용합니다. 셀프 관리 W&B 서버 인스턴스를 사용하고 있으며 조직의 방화벽 규칙이 기업 네트워크 외부로의 트래픽 전송을 제한하는 경우, W&B는 인스턴스 내에서 내부 SMTP 서버를 구성할 수 있는 옵션을 제공합니다. SMTP 서버를 설정하는 방법에 대한 지침은 [여기](../smtp.md)를 참조하세요.
 :::
 
-### User auto-provisioning
-If Single Sign-On (SSO) is setup for your enterprise W&B Server instance, any user in your company who has access to the instance URL can sign-in to the organization, provided the settings in your SSO provider allow so. When a user signs in for the first time using SSO, their W&B organization user will be automatically created without needing an instance admin to generate a user invite. This is a good alternative for adding users to your W&B organization at scale.
+### 사용자 자동 프로비저닝
+SSO가 엔터프라이즈 W&B 서버 인스턴스에 설정되어 있는 경우, 회사의 모든 사용자가 인스턴스 URL에 엑세스할 수 있으며, SSO 제공자 설정이 허용하는 경우 조직에 로그인할 수 있습니다. 사용자가 SSO를 사용하여 처음 로그인할 때, 인스턴스 관리자가 사용자 초대를 생성할 필요 없이 자동으로 W&B 조직 사용자가 생성됩니다. 이는 W&B 조직에 대규모로 사용자를 추가하는 훌륭한 대안입니다.
 
-User auto-provisioning with SSO on by default for W&B Server. It is possible to turn it `off` if you would like to selectively add specific users to your W&B organization. If you're on **Dedicated Cloud**, reach out to your W&B team. If you've a **Self-managed** deployment, you can configure the setting `DISABLE_SSO_PROVISIONING=true` for your W&B Server instance.
+W&B 서버의 사용자 자동 프로비저닝은 기본적으로 SSO가 켜져 있음입니다. 특정 사용자를 해당 W&B 조직에 선택적으로 추가하고 싶다면, 이를 `끄기`가 가능합니다. **전용 클라우드**를 사용하는 경우, W&B 팀에 문의하세요. **셀프 관리** 배포를 사용하는 경우, W&B 서버 인스턴스에 대해 `DISABLE_SSO_PROVISIONING=true` 설정을 구성할 수 있습니다.
 
 :::note
-If auto-provisioning is on for your W&B Server instance, there may be a way to control which specific users can sign-in to the organization with your SSO provider to restrict the product use to relevant personnel. Extent of that configurability will depend on your SSO provider and is outside the scope of W&B documentation.
+W&B 서버 인스턴스에 대한 자동 프로비저닝이 켜져 있는 경우, SSO 제공자를 통해 특정 사용자가 조직에 로그인할 수 있도록 제어하여 제품 사용을 관련된 인원으로 제한할 수 있습니다. 그 구성 가능성의 범위는 SSO 제공자에 따라 다르며 이는 W&B 문서의 범위를 벗어납니다.
 :::
 
-### Remove a user
-1. Navigate to the W&B Organization dashboard.
-2. Search for the user you want to modify in the search bar.
-3. Click on the meatball menu (three horizontal dots).
-4. Select **Remove user**.
+### 사용자 제거
+1. W&B 조직 대시보드로 이동합니다.
+2. 검색 막대에 수정하려는 사용자를 검색합니다.
+3. 메뉴 버튼(세 개의 수평 점)을 클릭합니다.
+4. **사용자 제거**를 선택합니다.
 
 ![](/images/hosting/remove_user_from_org.png)
 
-### Change a user's organization-level role
-1. Navigate to the W&B Organization dashboard.
-2. Search for the user you want to modify in the search bar.
-3. Hover your mouse to the **Role** column. Click on the pencil icon that appears.
-4. From the dropdown, select a different role you want to assign.
+### 사용자의 조직 수준 역할 변경
+1. W&B 조직 대시보드로 이동합니다.
+2. 검색 막대에 수정하려는 사용자를 검색합니다.
+3. **역할** 열로 마우스를 가리킵니다. 나타나는 연필 아이콘을 클릭합니다.
+4. 드롭다운에서 할당하려는 다른 역할을 선택합니다.
 
-## Manage a team
-Use a team home page as a central hub to explore projects, reports, and runs. Within the team home page there is a **Settings** tab. Use the Settings tab to manage users, set a team avatar, adjust privacy settings, set up alerts, track usage, and more. For more information, see the [Team settings](../../app/settings-page/team-settings.md) page.
+## 팀 관리
+팀 홈 페이지를 중앙 허브로 사용하여 프로젝트, Reports 및 Runs를 탐색하세요. 팀 홈 페이지에는 **설정** 탭이 있습니다. 설정 탭을 사용하여 사용자 관리, 팀 아바타 설정, 개인 정보 설정 조정, 알림 설정, 사용 추적 등을 할 수 있습니다. 자세한 내용은 [팀 설정](../../app/settings-page/team-settings.md) 페이지를 참조하세요.
 
 :::tip
-Team admins can add and remove users in their teams. Add a users to team with the user's email or use the user's organization-level username. A non-admin user in a team cannot invite other users to that team, **unless** team admin has enabled the relevant team setting.
+팀 관리자는 팀 내에서 사용자를 추가 및 삭제할 수 있습니다. 사용자의 이메일이나 사용자 조직 수준 사용자 이름을 사용하여 사용자를 팀에 추가하세요. 팀의 비관리자 사용자는 해당 팀에 다른 사용자를 초대할 수 없습니다. 단, 팀 관리자가 관련 팀 설정을 활성화한 경우에는 예외입니다.
 
-See **Team roles** below for what roles are available at the team-level.
+아래의 **팀 역할**에서 팀 수준에서 제공되는 역할에 대해 볼 수 있습니다.
 :::
 
-If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md).
+조직 내 팀 관리를 간소화하려면, [사용자 및 팀 관리 자동화](./automate_iam.md)를 참조하세요.
 
-### Create a team
-1. Navigate to the W&B Organization dashboard.
-2. Select the **Create new team** button on the left navigation panel.
+### 팀 생성
+1. W&B 조직 대시보드로 이동합니다.
+2. 왼쪽 탐색 패널에서 **새 팀 생성** 버튼을 선택합니다.
 ![](/images/hosting/create_new_team.png)
-3. A modal will appear. Prove a name for your team in the **Team name** field. 
-4. Select a storage type. 
-5. Click on the **Create team** button.
+3. 모달이 나타납니다. **팀 이름** 필드에 팀 이름을 입력하세요.
+4. 저장소 유형을 선택합니다.
+5. **팀 생성** 버튼을 클릭합니다.
 
-This will redirect you to a newly created Team home page. 
+이렇게 하면 새로 생성된 팀 홈 페이지로 리디렉션됩니다.
 
-### Team roles
-When you (team admin) invite a user to a team you can assign them one of the following roles:
+### 팀 역할
+팀 관리자가 사용자를 팀에 초대할 때, 다음의 역할 중 하나를 할당할 수 있습니다:
 
-| Role   |   Definition   |
+| 역할   |   정의   |
 |-----------|---------------------------|
-| Admin     | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
-| Member    | A regular user of a team, invited by email or their organization-level username by the team admin. A member user cannot invite other users to the team.  |
-| View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team admin. A view-only user only has read access to the team and its contents.  |
-| Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
-| Custom Roles (Enterprise-only feature)   | Custom roles allow organization admins to compose new roles by inheriting from the above View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
+| Admin     | 팀 내 다른 사용자를 추가 및 제거하고, 사용자 역할을 변경하며, 팀 설정을 구성할 수 있는 사용자입니다.   |
+| Member    | 이메일이나 팀 관리자가 조직 수준 사용자 이름으로 초대한 팀의 일반 사용자입니다. 멤버 사용자는 팀에 다른 사용자를 초대할 수 없습니다.  |
+| View-Only (엔터프라이즈 전용 기능) | 이메일이나 팀 관리자가 조직 수준 사용자 이름으로 초대한 팀의 읽기 전용 사용자입니다. 읽기 전용 사용자는 팀 및 그 내용에 대한 읽기 권한만 있습니다.  |
+| Service (엔터프라이즈 전용 기능)   | 서비스 워커 또는 서비스 계정은 run 자동화 도구와 함께 W&B를 사용하는 데 유용한 API 키입니다. 팀에 대해 서비스 계정의 API 키를 사용할 경우, 적절한 사용자에게 run을 귀속시키기 위해 환경 변수 `WANDB_USERNAME`를 설정하세요. |
+| Custom Roles (엔터프라이즈 전용 기능)   | Custom Roles를 통해 조직 관리자는 위의 View-Only 또는 Member 역할을 상속하고 추가 권한을 추가하여 새로운 역할을 구성해 세부적인 접근 제어를 구현할 수 있습니다. 그러면 팀 관리자는 해당 팀 내 사용자에게 이러한 Custom Roles를 할당할 수 있습니다. 자세한 내용은 [이 기사](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3)를 참조하세요. |
 
 :::note
-W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
+팀에 두 명 이상의 관리자를 두는 것이 좋습니다. 주 관리자가 부재 중일 때에도 관리 작업이 지속될 수 있도록 하는 것이 모범 사례입니다.
 :::
 
 :::note
-Refer to [Team Service Account Behavior](../../app/features/teams.md#team-service-account-behavior) for more information.
+자세한 내용은 [팀 서비스 계정 행동](../../app/features/teams.md#team-service-account-behavior)을 참조하세요.
 :::
 
 :::note
-If you're on W&B Server (Dedicated Cloud or Self-managed deployment), you will need an updated enterprise license to use the **Custom Roles** feature.
+W&B 서버(전용 클라우드 또는 셀프 관리 배포)를 사용 중인 경우, **Custom Roles** 기능을 사용하려면 업데이트된 엔터프라이즈 라이센스가 필요합니다.
 :::
 
-### Invite users to a team
-Use the `Members` tab in the Team's settings page to invite users to your team.
+### 팀에 사용자 초대
+팀의 설정 페이지에서 `Members` 탭을 사용하여 사용자를 팀에 초대하세요.
 
 :::info
-Members of a team inherit the organization that the team is a part of.
+팀의 구성원은 팀이 속한 조직을 상속받습니다.
 :::
 
-1. Navigate to the Team's Settings page.
-2. Select the **Members** tab.
-3. Enter an email or W&B username in the search bar.
-4. Once you have found the user, click the **Invite** button.
+1. 팀의 설정 페이지로 이동합니다.
+2. **Members** 탭을 선택합니다.
+3. 검색 창에 이메일 또는 W&B 사용자 이름을 입력합니다.
+4. 사용자를 찾은 후, **초대** 버튼을 클릭합니다.
 
-### Remove users from a team
-Use the `Members` tab in the Team's settings page to remove users from your team.
+### 팀에서 사용자 제거
+팀의 설정 페이지에서 `Members` 탭을 사용하여 사용자를 팀에서 제거하세요.
 
-1. Navigate to the Team's settings page.
-2. Select the Delete button next the to user's name.
+1. 팀의 설정 페이지로 이동합니다.
+2. 사용자 이름 옆에 있는 삭제 버튼을 선택합니다.
 
 :::info
-W&B keeps runs logged by team members, even if they are no longer on the team.
+W&B는 팀 구성원이 더 이상 팀에 속하지 않더라도, 그들이 기록한 run을 보관합니다.
 :::
-
-
-

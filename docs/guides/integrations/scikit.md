@@ -1,23 +1,23 @@
 ---
-displayed_sidebar: default
 title: Scikit-Learn
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-You can use wandb to visualize and compare your scikit-learn models' performance with just a few lines of code. [**Try an example →**](http://wandb.me/scikit-colab)
+wandb를 사용하면 몇 줄의 코드만으로 scikit-learn 모델의 성능을 시각화하고 비교할 수 있습니다. [**예제를 시도해보세요 →**](http://wandb.me/scikit-colab)
 
-## :fire: Getting Started
+## :fire: 시작하기
 
-### Sign up and Log in to wandb
+### wandb 가입 및 로그인
 
-a) [**Sign up**](https://wandb.ai/site) for a free account
+a) [**가입하기**](https://wandb.ai/site) 에서 무료 계정을 만드세요
 
-b) Pip install the `wandb` library
+b) `wandb` 라이브러리를 pip로 설치하세요
 
-c) To log in in your training script, you'll need to be signed in to you account at www.wandb.ai, then **you will find your API key on the** [**Authorize page**](https://wandb.ai/authorize)**.**
+c) 트레이닝 스크립트에서 로그인을 하려면 www.wandb.ai에서 계정에 로그인되어 있어야 하며, **그러면** [**승인 페이지**](https://wandb.ai/authorize)**에서 API 키를 찾을 수 있습니다.**
 
-If you are using Weights and Biases for the first time you might want to check out our [quickstart](../../quickstart.md)
+Weights and Biases를 처음 사용하는 경우 [퀵스타트](../../quickstart.md)를 확인해 보세요.
 
 <Tabs
   defaultValue="cli"
@@ -45,9 +45,7 @@ wandb.login()
   </TabItem>
 </Tabs>
 
-
-
-### Logging Metrics
+### 메트릭 로깅
 
 ```python
 import wandb
@@ -57,16 +55,16 @@ wandb.init(project="visualize-sklearn")
 y_pred = clf.predict(X_test)
 accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
 
-# If logging metrics over time, then use wandb.log
+# 메트릭을 시간에 따라 로깅할 경우, wandb.log를 사용하세요
 wandb.log({"accuracy": accuracy})
 
-# OR to log a final metric at the end of training you can also use wandb.summary
+# OR 트레이닝 종료 시 최종 메트릭을 로깅하려면 wandb.summary를 사용하세요
 wandb.summary["accuracy"] = accuracy
 ```
 
-### Making Plots
+### 플롯 만들기
 
-#### Step 1: Import wandb and initialize a new run.
+#### 1단계: wandb를 가져와서 새로운 run을 초기화합니다.
 
 ```python
 import wandb
@@ -74,21 +72,21 @@ import wandb
 wandb.init(project="visualize-sklearn")
 ```
 
-#### Step 2: Visualize individual plots
+#### 2단계: 개별 플롯 시각화
 
-After training a model and making predictions you can then generate plots in wandb to analyze your predictions. See the **Supported Plots** section below for a full list of supported charts
+모델을 트레이닝하고 예측을 한 후, wandb에서 예측을 분석하기 위한 플롯을 생성할 수 있습니다. 아래 **지원되는 플롯** 섹션에서 지원되는 차트의 전체 목록을 확인하세요.
 
 ```python
-# Visualize single plot
+# 개별 플롯 시각화
 wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)
 ```
 
-#### Or visualize all plots at once
+#### 또는 모든 플롯을 한꺼번에 시각화
 
-W&B has functions such as `plot_classifier` that will plot several relevant plots:
+W&B에는 여러 관련 플롯을 그릴 수 있는 `plot_classifier`와 같은 함수가 있습니다.
 
 ```python
-# Visualize all classifier plots
+# 모든 분류기 플롯 시각화
 wandb.sklearn.plot_classifier(
     clf,
     X_train,
@@ -102,24 +100,24 @@ wandb.sklearn.plot_classifier(
     feature_names=None,
 )
 
-# All regression plots
+# 모든 회귀 플롯
 wandb.sklearn.plot_regressor(reg, X_train, X_test, y_train, y_test, model_name="Ridge")
 
-# All clustering plots
+# 모든 클러스터링 플롯
 wandb.sklearn.plot_clusterer(
     kmeans, X_train, cluster_labels, labels=None, model_name="KMeans"
 )
 ```
 
-**Or plot existing matplotlib plots:**
+**또는 기존의 matplotlib 플롯 그리기:**
 
-Plots created on Matplotlib can also be logged on W&B dashboard. To do that, it is first required to install `plotly`.
+Matplotlib에서 생성된 플롯도 W&B 대시보드에 로그할 수 있습니다. 이를 위해 먼저 `plotly`를 설치해야 합니다.
 
 ```
 pip install plotly
 ```
 
-Finally, the plots can be logged on W&B's dashboard as follows:
+마지막으로, 다음과 같이 W&B의 대시보드에 플롯을 로그할 수 있습니다.
 
 ```python
 import matplotlib.pyplot as plt
@@ -127,174 +125,174 @@ import wandb
 
 wandb.init(project="visualize-sklearn")
 
-# do all the plt.plot(), plt.scatter(), etc. here.
+# 여기에서 모든 plt.plot(), plt.scatter() 등을 수행하세요.
 # ...
 
-# instead of doing plt.show() do:
+# plt.show() 대신에 다음을 수행하세요:
 wandb.log({"plot": plt})
 ```
 
-### Supported Plots
+### 지원되는 플롯
 
-#### Learning Curve
+#### 학습 곡선
 
 ![](/images/integrations/scikit_learning_curve.png)
 
-Trains model on datasets of varying lengths and generates a plot of cross validated scores vs dataset size, for both training and test sets.
+데이터셋의 길이를 다르게 하여 모델을 학습시키고, 교차 검증된 점수와 데이터셋 크기의 플롯을 생성합니다. 트레이닝 세트와 테스트 세트 모두에 대한 플롯이 생성됩니다.
 
 `wandb.sklearn.plot_learning_curve(model, X, y)`
 
-* model (clf or reg): Takes in a fitted regressor or classifier.
-* X (arr): Dataset features.
-* y (arr): Dataset labels.
+* model (clf 또는 reg): 피팅된 회귀모델 또는 분류기를 사용합니다.
+* X (arr): 데이터셋 특징.
+* y (arr): 데이터셋 라벨.
 
 #### ROC
 
 ![](/images/integrations/scikit_roc.png)
 
-ROC curves plot true positive rate (y-axis) vs false positive rate (x-axis). The ideal score is a TPR = 1 and FPR = 0, which is the point on the top left. Typically we calculate the area under the ROC curve (AUC-ROC), and the greater the AUC-ROC the better.
+ROC 곡선은 진양성율(y축) 대 위양성율(x축)의 플롯입니다. 이상적인 점수는 TPR = 1 및 FPR = 0이며, 이는 왼쪽 상단의 점입니다. 일반적으로 우리는 ROC 곡선 아래의 면적(AUC-ROC)을 계산하며, AUC-ROC가 높을수록 좋습니다.
 
 `wandb.sklearn.plot_roc(y_true, y_probas, labels)`
 
-* y_true (arr): Test set labels.
-* y_probas (arr): Test set predicted probabilities.
-* labels (list): Named labels for target variable (y).
+* y_true (arr): 테스트 세트 라벨.
+* y_probas (arr): 테스트 세트 예측 확률.
+* labels (list): 목표 변수(y)의 이름 라벨.
 
-#### Class Proportions
+#### 클래스 비율
 
 ![](/images/integrations/scikic_class_props.png)
 
-Plots the distribution of target classes in training and test sets. Useful for detecting imbalanced classes and ensuring that one class doesn't have a disproportionate influence on the model.
+트레이닝 세트와 테스트 세트에서 목표 클래스의 분포를 플롯합니다. 불균형 클래스 탐지 및 한 클래스가 모델에 과도한 영향을 미치지 않도록 확인하는 데 유용합니다.
 
 `wandb.sklearn.plot_class_proportions(y_train, y_test, ['dog', 'cat', 'owl'])`
 
-* y_train (arr): Training set labels.
-* y_test (arr): Test set labels.
-* labels (list): Named labels for target variable (y).
+* y_train (arr): 트레이닝 세트 라벨.
+* y_test (arr): 테스트 세트 라벨.
+* labels (list): 목표 변수(y)의 이름 라벨.
 
-#### Precision Recall Curve
+#### Precision-Recall 곡선
 
 ![](/images/integrations/scikit_precision_recall.png)
 
-Computes the tradeoff between precision and recall for different thresholds. A high area under the curve represents both high recall and high precision, where high precision relates to a low false positive rate, and high recall relates to a low false negative rate.
+다양한 임계값에 대해 정밀도와 재현율 간의 균형을 계산합니다. 곡선 아래의 면적이 높을수록 정밀도와 재현율이 모두 높음을 나타내며, 높은 정밀도는 낮은 위양성율과 관련이 있고, 높은 재현율은 낮은 위음성율과 관련이 있습니다.
 
-High scores for both show that the classifier is returning accurate results (high precision), as well as returning a majority of all positive results (high recall). PR curve is useful when the classes are very imbalanced.
+높은 점수는 분류기가 정확한 결과(높은 정밀도)를 반환하는 동시에 대부분의 모든 긍정 결과를 반환(높은 재현율)하고 있음을 보여줍니다. PR 곡선은 클래스가 매우 불균형할 때 유용합니다.
 
 `wandb.sklearn.plot_precision_recall(y_true, y_probas, labels)`
 
-* y_true (arr): Test set labels.
-* y_probas (arr): Test set predicted probabilities.
-* labels (list): Named labels for target variable (y).
+* y_true (arr): 테스트 세트 라벨.
+* y_probas (arr): 테스트 세트 예측 확률.
+* labels (list): 목표 변수(y)의 이름 라벨.
 
-#### Feature Importances
+#### 특징 중요도
 
 ![](/images/integrations/scikit_feature_importances.png)
 
-Evaluates and plots the importance of each feature for the classification task. Only works with classifiers that have a `feature_importances_` attribute, like trees.
+분류 작업을 위한 각 특징의 중요도를 평가하고 플롯합니다. 트리와 같은 `feature_importances_` 속성이 있는 분류기에만 적용됩니다.
 
 `wandb.sklearn.plot_feature_importances(model, ['width', 'height, 'length'])`
 
-* model (clf): Takes in a fitted classifier.
-* feature_names (list): Names for features. Makes plots easier to read by replacing feature indexes with corresponding names.
+* model (clf): 피팅된 분류기를 사용합니다.
+* feature_names (list): 특징에 대한 이름. 특징 인덱스를 해당 이름으로 대체하여 플롯을 읽기 쉽게 만듭니다.
 
-#### Calibration Curve
+#### 보정 곡선
 
 ![](/images/integrations/scikit_calibration_curve.png)
 
-Plots how well calibrated the predicted probabilities of a classifier are and how to calibrate an uncalibrated classifier. Compares estimated predicted probabilities by a baseline logistic regression model, the model passed as an argument, and by both its isotonic calibration and sigmoid calibrations.
+분류기의 예측 확률이 얼마나 잘 보정되었는지 및 보정되지 않은 분류기를 어떻게 보정할지를 플롯합니다. 기본 로지스틱 회귀모델, 인수로 전달된 모델, 그리고 그 이소톤 보정 및 시그모이드 보정에 의해 추정된 예측 확률을 비교합니다.
 
-The closer the calibration curves are to a diagonal the better. A transposed sigmoid like curve represents an overfitted classifier, while a sigmoid like curve represents an underfitted classifier. By training isotonic and sigmoid calibrations of the model and comparing their curves we can figure out whether the model is over or underfitting and if so which calibration (sigmoid or isotonic) might help fix this.
+보정 곡선이 대각선에 가까울수록 좋습니다. 뒤집어진 시그모이드 같은 곡선은 과제적합된 분류기를 나타내고, 시그모이드 같은 곡선은 과소적합된 분류기를 나타냅니다. 모델을 이소톤 및 시그모이드 보정을 하여 그 곡선을 비교함으로써 모델이 과제적합 또는 과소적합되었는지, 만약 그렇다면 어느 보정 방식(시그모이드 또는 이소톤)이 문제를 해결할 수 있는지 알아낼 수 있습니다.
 
-For more details, check out [sklearn's docs](https://scikit-learn.org/stable/auto_examples/calibration/plot_calibration_curve.html).
+자세한 내용은 [sklearn의 문서](https://scikit-learn.org/stable/auto_examples/calibration/plot_calibration_curve.html)를 참조하세요.
 
 `wandb.sklearn.plot_calibration_curve(clf, X, y, 'RandomForestClassifier')`
 
-* model (clf): Takes in a fitted classifier.
-* X (arr): Training set features.
-* y (arr): Training set labels.
-* model_name (str): Model name. Defaults to 'Classifier'
+* model (clf): 피팅된 분류기를 사용합니다.
+* X (arr): 트레이닝 세트 특징.
+* y (arr): 트레이닝 세트 라벨.
+* model_name (str): 모델 이름. 기본값은 'Classifier'입니다.
 
-#### Confusion Matrix
+#### 혼동 행렬
 
 ![](/images/integrations/scikit_confusion_matrix.png)
 
-Computes the confusion matrix to evaluate the accuracy of a classification. It's useful for assessing the quality of model predictions and finding patterns in the predictions the model gets wrong. The diagonal represents the predictions the model got right, i.e. where the actual label is equal to the predicted label.
+분류의 정확도를 평가하기 위해 혼동 행렬을 계산합니다. 모델 예측의 품질을 평가하고 모델이 실수하는 패턴을 찾는 데 유용합니다. 대각선은 실제 라벨이 예측 라벨과 일치하는 경우, 즉 모델이 맞춘 예측을 나타냅니다.
 
 `wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)`
 
-* y_true (arr): Test set labels.
-* y_pred (arr): Test set predicted labels.
-* labels (list): Named labels for target variable (y).
+* y_true (arr): 테스트 세트 라벨.
+* y_pred (arr): 테스트 세트 예측 라벨.
+* labels (list): 목표 변수(y)의 이름 라벨.
 
-#### Summary Metrics
+#### 요약 메트릭
 
 ![](/images/integrations/scikit_summary_metrics.png)
 
-Calculates summary metrics (like f1, accuracy, precision and recall for classification and mse, mae, r2 score for regression) for both regression and classification algorithms.
+회귀 및 분류 알고리즘 모두에 대해 f1, 정확도, 정밀도 및 재현율과 같은 요약 메트릭을 계산합니다. (mse, mae, r2 점수 등)
 
 `wandb.sklearn.plot_summary_metrics(model, X_train, y_train, X_test, y_test)`
 
-* model (clf or reg): Takes in a fitted regressor or classifier.
-* X (arr): Training set features.
-* y (arr): Training set labels.
-  * X_test (arr): Test set features.
-* y_test (arr): Test set labels.
+* model (clf 또는 reg): 피팅된 회귀모델 또는 분류기를 사용합니다.
+* X (arr): 트레이닝 세트 특징.
+* y (arr): 트레이닝 세트 라벨.
+* X_test (arr): 테스트 세트 특징.
+* y_test (arr): 테스트 세트 라벨.
 
-#### Elbow Plot
+#### 앨보우 플롯
 
 ![](/images/integrations/scikit_elbow_plot.png)
 
-Measures and plots the percentage of variance explained as a function of the number of clusters, along with training times. Useful in picking the optimal number of clusters.
+클러스터의 수에 따른 설명 분산의 비율과 트레이닝 시간을 측정하고 플롯합니다. 최적의 클러스터 수를 선택하는 데 유용합니다.
 
 `wandb.sklearn.plot_elbow_curve(model, X_train)`
 
-* model (clusterer): Takes in a fitted clusterer.
-* X (arr): Training set features.
+* model (clusterer): 피팅된 클러스터러를 사용합니다.
+* X (arr): 트레이닝 세트 특징.
 
-#### Silhouette Plot
+#### 실루엣 플롯
 
 ![](/images/integrations/scikit_silhouette_plot.png)
 
-Measures & plots how close each point in one cluster is to points in the neighboring clusters. The thickness of the clusters corresponds to the cluster size. The vertical line represents the average silhouette score of all the points.
+한 클러스터 내 각 점이 이웃 클러스터의 점에 얼마나 가까이 있는지를 측정하고 플롯합니다. 클러스터의 두께는 클러스터 크기에 해당합니다. 수직선은 모든 점의 평균 실루엣 점수를 나타냅니다.
 
-Silhouette coefficients near +1 indicate that the sample is far away from the neighboring clusters. A value of 0 indicates that the sample is on or very close to the decision boundary between two neighboring clusters and negative values indicate that those samples might have been assigned to the wrong cluster.
+실루엣 계수가 +1에 가까울수록 샘플이 이웃 클러스터에서 멀리 떨어져 있음을 나타냅니다. 0은 샘플이 두 이웃 클러스터 사이의 결정 경계에 매우 가깝다는 것을 나타내고, 음수 값은 샘플이 잘못된 클러스터에 할당되었을 수 있음을 나타냅니다.
 
-In general we want all silhouette cluster scores to be above average (past the red line) and as close to 1 as possible. We also prefer cluster sizes that reflect the underlying patterns in the data.
+일반적으로 모든 실루엣 클러스터 점수가 평균 이상이어야 하며(빨간색 선을 넘기), 가능한 한 1에 가까워야 합니다. 또한, 클러스터 크기는 데이터의 기본 패턴을 반영해야 합니다.
 
 `wandb.sklearn.plot_silhouette(model, X_train, ['spam', 'not spam'])`
 
-* model (clusterer): Takes in a fitted clusterer.
-* X (arr): Training set features.
-  * cluster_labels (list): Names for cluster labels. Makes plots easier to read by replacing cluster indexes with corresponding names.
+* model (clusterer): 피팅된 클러스터러를 사용합니다.
+* X (arr): 트레이닝 세트 특징.
+* cluster_labels (list): 클러스터 라벨의 이름. 클러스터 인덱스를 해당 이름으로 대체하여 플롯을 읽기 쉽게 만듭니다.
 
-#### Outlier Candidates Plot
+#### 이상치 후보 플롯
 
 ![](/images/integrations/scikit_outlier_plot.png)
 
-Measures a datapoint's influence on regression model via cook's distance. Instances with heavily skewed influences could potentially be outliers. Useful for outlier detection.
+쿡의 거리를 통해 회귀모델에 대한 데이터 포인트의 영향을 측정합니다. 심하게 왜곡된 영향을 가진 인스턴스는 잠재적으로 이상치일 수 있습니다. 이상치 탐지에 유용합니다.
 
 `wandb.sklearn.plot_outlier_candidates(model, X, y)`
 
-* model (regressor): Takes in a fitted classifier.
-* X (arr): Training set features.
-* y (arr): Training set labels.
+* model (regressor): 피팅된 회귀모델을 사용합니다.
+* X (arr): 트레이닝 세트 특징.
+* y (arr): 트레이닝 세트 라벨.
 
-#### Residuals Plot
+#### 잔차 플롯
 
 ![](/images/integrations/scikit_residuals_plot.png)
 
-Measures and plots the predicted target values (y-axis) vs the difference between actual and predicted target values (x-axis), as well as the distribution of the residual error.
+예측된 목표 값(y축)과 실제 목표 값과 예측된 목표 값의 차이(x축)를 측정하고, 잔차 오차의 분포를 플롯합니다.
 
-Generally, the residuals of a well-fit model should be randomly distributed because good models will account for most phenomena in a data set, except for random error.
+일반적으로, 잘 맞춰진 모델의 잔차는 무작위로 분포되어야 하는데, 이는 좋은 모델이 데이터 세트의 대부분의 현상을 설명하며, 임의의 오차만 제외하기 때문입니다.
 
 `wandb.sklearn.plot_residuals(model, X, y)`
 
-* model (regressor): Takes in a fitted classifier.
-* X (arr): Training set features.
-*   y (arr): Training set labels.
+* model (regressor): 피팅된 회귀모델을 사용합니다.
+* X (arr): 트레이닝 세트 특징.
+* y (arr): 트레이닝 세트 라벨.
 
-    If you have any questions, we'd love to answer them in our [slack community](http://wandb.me/slack).
+궁금한 점이 있으면 [slack 커뮤니티](http://wandb.me/slack)에 질문을 남겨주시면 기쁘게 답변하겠습니다.
 
-## Example
+## 예제
 
-* [Run in colab](http://wandb.me/scikit-colab): A simple notebook to get you started
+* [Colab에서 실행하기](http://wandb.me/scikit-colab): 시작하기 위한 간단한 노트북

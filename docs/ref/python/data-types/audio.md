@@ -1,9 +1,8 @@
 # Audio
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/data_types.py#L983-L1127' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/data_types.py#L983-L1127' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
-
-Wandb class for audio clips.
+오디오 클립을 위한 wandb 클래스입니다.
 
 ```python
 Audio(
@@ -11,13 +10,13 @@ Audio(
 )
 ```
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `data_or_path` |  (string or numpy array) A path to an audio file or a numpy array of audio data. |
-|  `sample_rate` |  (int) Sample rate, required when passing in raw numpy array of audio data. |
-|  `caption` |  (string) Caption to display with audio. |
+|  `data_or_path` |  (string 또는 numpy array) 오디오 파일 경로 또는 오디오 데이터의 numpy array. |
+|  `sample_rate` |  (int) 오디오 데이터의 원시 numpy array를 전달할 때 필요한 샘플 레이트. |
+|  `caption` |  (string) 오디오와 함께 표시할 캡션. |
 
-## Methods
+## 메소드
 
 ### `durations`
 

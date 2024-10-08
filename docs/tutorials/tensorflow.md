@@ -5,21 +5,21 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
 <CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Simple_TensorFlow_Integration.ipynb'/>
 
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
+Weights & Biases를 사용하여 기계학습 실험 추적, 데이터셋 버전 관리 및 프로젝트 협업을 수행하세요.
 
 ![](/images/tutorials/huggingface-why.png)
 
-## What this notebook covers
+## 이 노트북에서 다루는 내용
 
-* Easy integration of Weights and Biases with your TensorFlow pipeline for experiment tracking.
-* Computing metrics with `keras.metrics`
-* Using `wandb.log` to log those metrics in your custom training loop.
- 
-## The interactive W&B dashboard will look like this:
+* 당신의 TensorFlow 파이프라인과 Weights and Biases의 쉬운 통합을 통한 실험 추적.
+* `keras.metrics`를 사용하여 메트릭 계산하기
+* `wandb.log`를 사용하여 사용자 정의 트레이닝 루프에서 이러한 메트릭을 로그하기
+
+## 대화형 W&B 대시보드는 다음과 같이 보일 것입니다:
 
 ![dashboard](/images/tutorials/tensorflow/dashboard.png)
 
-**Note**: Sections starting with _Step_ are all you need to integrate W&B into existing code. The rest is just a standard MNIST example.
+**참고**: _Step_으로 시작하는 섹션은 W&B를 기존 코드에 통합하기 위해 필요한 모든 것입니다. 나머지는 표준 MNIST 예제일 뿐입니다.
 
 ```python
 import tensorflow as tf
@@ -32,9 +32,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 ```
 
-# 🚀 Install, Import, Login
+# 🚀 설치, 가져오기, 로그인
 
-## Step 0️⃣: Install W&B
+## Step 0️⃣: W&B 설치
 
 
 ```python
@@ -42,7 +42,7 @@ import matplotlib.pyplot as plt
 !pip install wandb
 ```
 
-## Step 1️⃣: Import W&B and login
+## Step 1️⃣: W&B 가져오기 및 로그인
 
 
 ```python
@@ -52,19 +52,19 @@ from wandb.integration.keras import WandbMetricsLogger
 wandb.login()
 ```
 
-> Side note: If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up is as easy as one click.
+> 참고: W&B를 처음 사용하거나 로그인하지 않은 경우 `wandb.login()`을 실행한 후 나타나는 링크는 회원 가입/로그인 페이지로 안내됩니다. 가입은 한 번의 클릭으로 간단합니다.
 
-# 👩‍🍳 Prepare Dataset
+# 👩‍🍳 데이터셋 준비
 
 
 ```python
-# Prepare the training dataset
+# 트레이닝 데이터셋 준비
 BATCH_SIZE = 64
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
 x_train = np.reshape(x_train, (-1, 784))
 x_test = np.reshape(x_test, (-1, 784))
 
-# build input pipeline using tf.data
+# tf.data를 사용하여 입력 파이프라인 구축
 train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
 train_dataset = train_dataset.shuffle(buffer_size=1024).batch(BATCH_SIZE)
 
@@ -72,7 +72,7 @@ val_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
 val_dataset = val_dataset.batch(BATCH_SIZE)
 ```
 
-# 🧠 Define the Model and the Training Loop
+# 🧠 모델 및 트레이닝 루프 정의
 
 
 ```python
@@ -110,7 +110,7 @@ def test_step(x, y, model, loss_fn, val_acc_metric):
     return loss_value
 ```
 
-## Step 2️⃣: Add `wandb.log` to your training loop
+## Step 2️⃣: 트레이닝 루프에 `wandb.log` 추가
 
 
 ```python
@@ -124,32 +124,32 @@ def train(train_dataset, val_dataset,  model, optimizer,
         train_loss = []   
         val_loss = []
 
-        # Iterate over the batches of the dataset
+        # 데이터셋 배치 반복
         for step, (x_batch_train, y_batch_train) in enumerate(train_dataset):
             loss_value = train_step(x_batch_train, y_batch_train, 
                                     model, optimizer, 
                                     loss_fn, train_acc_metric)
             train_loss.append(float(loss_value))
 
-        # Run a validation loop at the end of each epoch
+        # 각 에포크가 끝날 때 검증 루프 실행
         for step, (x_batch_val, y_batch_val) in enumerate(val_dataset):
             val_loss_value = test_step(x_batch_val, y_batch_val, 
                                        model, loss_fn, 
                                        val_acc_metric)
             val_loss.append(float(val_loss_value))
             
-        # Display metrics at the end of each epoch
+        # 각 에포크가 끝날 때 메트릭 표시
         train_acc = train_acc_metric.result()
         print("Training acc over epoch: %.4f" % (float(train_acc),))
 
         val_acc = val_acc_metric.result()
         print("Validation acc: %.4f" % (float(val_acc),))
 
-        # Reset metrics at the end of each epoch
+        # 각 에포크가 끝날 때 메트릭 초기화
         train_acc_metric.reset_states()
         val_acc_metric.reset_states()
 
-        # ⭐: log metrics using wandb.log
+        # ⭐: wandb.log를 사용하여 메트릭 로그
         wandb.log({'epochs': epoch,
                    'loss': np.mean(train_loss),
                    'acc': float(train_acc), 
@@ -157,18 +157,17 @@ def train(train_dataset, val_dataset,  model, optimizer,
                    'val_acc':float(val_acc)})
 ```
 
-# 👟 Run Training
+# 👟 트레이닝 실행
 
-## Step 3️⃣: Call `wandb.init` to start a run
+## Step 3️⃣: `wandb.init` 호출하여 run 시작
 
-This lets us know you're launching an experiment,
-so we can give it a unique ID and a dashboard.
+이것은 당신이 실험을 시작하고 있음을 알리며, 우리는 고유한 ID와 대시보드를 제공할 수 있습니다.
 
-[Check out the official documentation](/ref/python/init)
+[공식 문서 확인하기](/ref/python/init)
 
 ```python
-# initialize wandb with your project name and optionally with configutations.
-# play around with the config values and see the result on your wandb dashboard.
+# 프로젝트 이름과 선택적으로 설정 값을 가지고 wandb를 초기화합니다.
+# 설정 값을 가지고 실험해 보고 wandb 대시보드에서 결과를 확인하세요.
 config = {
               "learning_rate": 0.001,
               "epochs": 10,
@@ -182,15 +181,15 @@ config = {
 run = wandb.init(project='my-tf-integration', config=config)
 config = wandb.config
 
-# Initialize model.
+# 모델 초기화
 model = make_model()
 
-# Instantiate an optimizer to train the model.
+# 모델을 트레이닝할 옵티마이저 인스턴스화
 optimizer = keras.optimizers.SGD(learning_rate=config.learning_rate)
-# Instantiate a loss function.
+# 손실 함수 인스턴스화
 loss_fn = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 
-# Prepare the metrics.
+# 메트릭 준비
 train_acc_metric = keras.metrics.SparseCategoricalAccuracy()
 val_acc_metric = keras.metrics.SparseCategoricalAccuracy()
 
@@ -204,40 +203,40 @@ train(train_dataset,
       log_step=config.log_step, 
       val_log_step=config.val_log_step)
 
-run.finish()  # In Jupyter/Colab, let us know you're finished!
+run.finish()  # Jupyter/Colab에서 완료되었음을 알려주세요!
 ```
 
-# 👀 Visualize Results
+# 👀 결과 시각화
 
-Click on the [**run page**](/guides/app/pages/run-page) link above to see your live results.
+위 [**런 페이지**](/guides/app/pages/run-page) 링크를 클릭하여 라이브 결과를 확인하세요.
 
-# 🧹 Sweep 101
+# 🧹 스윕 101
 
-Use Weights & Biases Sweeps to automate hyperparameter optimization and explore the space of possible models.
+Weights & Biases Sweeps를 사용하여 하이퍼파라미터 최적화를 자동화하고 가능한 모델의 공간을 탐색하세요.
 
-## [Check out Hyperparameter Optimization in TensorFlow using W&B Sweeps](http://wandb.me/tf-sweeps-colab)
+## [W&B Sweeps를 사용한 TensorFlow 하이퍼파라미터 최적화 확인하기](http://wandb.me/tf-sweeps-colab)
 
-### Benefits of using W&B Sweeps
+### W&B Sweeps를 사용하는 이점
 
-* **Quick setup**: With just a few lines of code you can run W&B sweeps.
-* **Transparent**: We cite all the algorithms we're using, and [our code is open source](https://github.com/wandb/client/tree/master/wandb/sweeps).
-* **Powerful**: Our sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
+* **빠른 설정**: 몇 줄의 코드만으로 W&B 스윕을 실행할 수 있습니다.
+* **투명성**: 우리가 사용하는 모든 알고리즘을 인용하며, [우리의 코드는 오픈 소스입니다](https://github.com/wandb/client/tree/master/wandb/sweeps).
+* **강력함**: 우리의 스윕은 완전히 사용자 정의 가능하고 구성 가능합니다. 수십 대의 머신에서 스윕을 시작하는 것도 랩톱에서 스윕을 시작하는 것만큼 쉽습니다.
 
 ![Sweep result](/images/tutorials/tensorflow/sweeps.png)
 
-# 🎨 Example Gallery
+# 🎨 예제 갤러리
 
-See examples of projects tracked and visualized with W&B in our gallery of examples, [Fully Connected →](https://wandb.me/fc)
+우리의 예제 갤러리에서 W&B로 추적하고 시각화한 프로젝트들의 예제를 보세요, [Fully Connected →](https://wandb.me/fc)
 
-# 📏 Best Practices
-1. **Projects**: Log multiple runs to a project to compare them. `wandb.init(project="project-name")`
-2. **Groups**: For multiple processes or cross validation folds, log each process as a runs and group them together. `wandb.init(group='experiment-1')`
-3. **Tags**: Add tags to track your current baseline or production model.
-4. **Notes**: Type notes in the table to track the changes between runs.
-5. **Reports**: Take quick notes on progress to share with colleagues and make dashboards and snapshots of your ML projects.
+# 📏 모범 사례
+1. **Projects**: 여러 run을 로그하여 프로젝트에 비교합니다. `wandb.init(project="project-name")`
+2. **Groups**: 여러 프로세스나 교차검증 폴드를 위해 각 프로세스를 run으로 로그하고 함께 그룹화합니다. `wandb.init(group='experiment-1')`
+3. **Tags**: 현재 베이스라인이나 프로덕션 모델을 추적하기 위해 태그를 추가합니다.
+4. **Notes**: 테이블에 메모를 입력하여 run 간의 변화를 추적합니다.
+5. **Reports**: 진행 사항에 대한 빠른 메모를 작성하여 동료와 공유하고 ML 프로젝트의 대시보드와 스냅샷을 만드세요.
 
-## 🤓 Advanced Setup
-1. [Environment variables](/guides/hosting/env-vars): Set API keys in environment variables so you can run training on a managed cluster.
-2. [Offline mode](/guides/technical-faq/setup/#can-i-run-wandb-offline)
-3. [On-prem](/guides/hosting/hosting-options/self-managed): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.
-4. [Artifacts](/guides/artifacts): Track and version models and datasets in a streamlined way that automatically picks up your pipeline steps as you train models.
+## 🤓 고급 설정
+1. [환경 변수](/guides/hosting/env-vars): API 키를 환경 변수에 설정하여 관리되는 클러스터에서 트레이닝을 실행할 수 있습니다.
+2. [오프라인 모드](/guides/technical-faq/setup/#can-i-run-wandb-offline)
+3. [온프레미스](/guides/hosting/hosting-options/self-managed): 프라이빗 클라우드나 자체 인프라의 에어갭 서버에 W&B를 설치하세요. 학계부터 기업 팀까지 모두를 위한 로컬 설치가 가능합니다.
+4. [Artifacts](/guides/artifacts): 모델과 데이터셋을 추적하고 버전 관리하는 효율적인 방법으로, 모델을 트레이닝할 때 파이프라인 단계를 자동으로 캡쳐합니다.

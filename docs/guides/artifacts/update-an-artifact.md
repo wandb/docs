@@ -1,17 +1,16 @@
 ---
-description: Update an existing Artifact inside and outside of a W&B Run.
-displayed_sidebar: default
 title: Update an artifact
+description: 기존 아티팩트를 W&B run 내외부에서 업데이트하세요.
+displayed_sidebar: default
 ---
 
-Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the W&B servers. You can update an artifact during a W&B Run or outside of a Run.
+아티팩트의 `description`, `metadata`, `alias`를 업데이트하고 싶다면 원하는 값을 전달하세요. `save()` 메소드를 호출하여 W&B 서버에 아티팩트를 업데이트하세요. W&B Run 중 또는 Run 외부에서 아티팩트를 업데이트할 수 있습니다.
 
-Use the W&B Public API ([`wandb.Api`](../../ref/python/public-api/api.md)) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`](../../ref/python/artifact.md)) to update an artifact during a run.
+Run 외부에서 아티팩트를 업데이트하려면 W&B Public API ([`wandb.Api`](../../ref/python/public-api/api.md))를 사용하세요. Run 중에 아티팩트를 업데이트하려면 Artifact API ([`wandb.Artifact`](../../ref/python/artifact.md))를 사용하세요.
 
 :::caution
-You can not update the alias of artifact linked to a model in Model Registry.
+Model Registry에 연결된 아티팩트의 alias는 업데이트할 수 없습니다.
 :::
-
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -25,7 +24,7 @@ import TabItem from '@theme/TabItem';
   ]}>
   <TabItem value="duringrun">
 
-The proceeding code example demonstrates how to update the description of an artifact using the [`wandb.Artifact`](../../ref/python/artifact.md) API:
+다음 코드 예제는 [`wandb.Artifact`](../../ref/python/artifact.md) API를 사용하여 아티팩트의 설명을 업데이트하는 방법을 보여줍니다:
 
 ```python
 import wandb
@@ -38,7 +37,7 @@ artifact.save()
   </TabItem>
   <TabItem value="outsiderun">
 
-The proceeding code example demonstrates how to update the description of an artifact using the `wandb.Api` API:
+다음 코드 예제는 `wandb.Api` API를 사용하여 아티팩트의 설명을 업데이트하는 방법을 보여줍니다:
 
 ```python
 import wandb
@@ -47,33 +46,33 @@ api = wandb.Api()
 
 artifact = api.artifact("entity/project/artifact:alias")
 
-# Update the description
+# 설명 업데이트
 artifact.description = "My new description"
 
-# Selectively update metadata keys
+# 메타데이터 키 선택적 업데이트
 artifact.metadata["oldKey"] = "new value"
 
-# Replace the metadata entirely
+# 메타데이터를 전부 교체
 artifact.metadata = {"newKey": "new value"}
 
-# Add an alias
+# 에일리어스 추가
 artifact.aliases.append("best")
 
-# Remove an alias
+# 에일리어스 제거
 artifact.aliases.remove("latest")
 
-# Completely replace the aliases
+# 에일리어스를 완전히 교체
 artifact.aliases = ["replaced"]
 
-# Persist all artifact modifications
+# 모든 아티팩트 수정 사항 저장
 artifact.save()
 ```
 
-For more information, see the Weights and Biases [Artifact API](../../ref/python/artifact.md).
+자세한 정보는 Weights and Biases [Artifact API](../../ref/python/artifact.md) 참조를 참조하세요.
   </TabItem>
   
   <TabItem value="withcollections">
-You can also update an Artifact collection in the same way as a singular artifact:
+또한 단일 아티팩트와 동일한 방식으로 Artifact 컬렉션을 업데이트할 수 있습니다:
 
 ```python
 import wandb
@@ -84,7 +83,7 @@ artifact.name = "<new-collection-name>"
 artifact.description = "<This is where you'd describe the purpose of your collection.>"
 artifact.save()
 ```
-For more information, see the [Artifacts Collection](../../ref/python/public-api/api) reference.
+자세한 정보는 [Artifacts Collection](../../ref/python/public-api/api) 참조를 참조하세요.
 
   </TabItem>
 </Tabs>

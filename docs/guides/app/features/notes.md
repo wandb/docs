@@ -1,42 +1,40 @@
 ---
-description: >-
-  Add notes to your runs and projects, and use notes to describe your findings
-  in reports
-displayed_sidebar: default
 title: Add notes to runs and projects
+description: runs 및 프로젝트에 메모를 추가하고, 리포트에서 발견한 내용을 설명하는 데 메모를 사용하세요.
+displayed_sidebar: default
 ---
 
-There are a few ways to take notes about your work in W&B.
+W&B에서 작업에 대한 메모를 남기는 방법에는 몇 가지가 있습니다.
 
-1. Add notes to a run. These notes show up on the run page in the overview tab and in the table of runs on the project page.
-2. Add notes to a project. These notes show up on the project page in the overview tab.
-3. Add a markdown panel on the run page, project page, or report page.
+1. run에 메모를 추가하세요. 이러한 메모는 run 페이지의 Overview 탭과 프로젝트 페이지의 run 테이블에 표시됩니다.
+2. 프로젝트에 메모를 추가하세요. 이러한 메모는 프로젝트 페이지의 Overview 탭에 표시됩니다.
+3. run 페이지, 프로젝트 페이지 또는 report 페이지에 마크다운 패널을 추가하세요.
 
-## Add notes to a specific run
+## 특정 run에 메모 추가하기
 
-You can edit the notes on a run in two places.
+run의 메모는 두 군데에서 편집할 수 있습니다.
 
-1. **Project Page**: the table has an editable notes column
-2. **Run Page**: the overview tab shows information about a run, and you can
+1. **Project Page**: 테이블에는 편집 가능한 메모 열이 있습니다.
+2. **Run Page**: Overview 탭은 run에 대한 정보를 보여주며, 여기서 메모를 추가할 수 있습니다.
 
-On the project page, expand the table. Click "Add notes..." to type notes in-line.
+프로젝트 페이지에서 테이블을 확장하세요. "Add notes..."를 클릭하여 인라인으로 메모를 입력하세요.
 
-This field also shows up on the individual run page. Click the name of the run in the table to go to the run page. Click the top tab on the left side to go to the Overview tab. The field has much more room to grow here. You can type as many notes as you'd like in this space, and a preview will be shown in the runs table when you mouse over the notes field.
+이 필드는 개별 run 페이지에서도 나타납니다. 테이블에서 run의 이름을 클릭하여 run 페이지로 이동하세요. 왼쪽의 상단 탭을 클릭하여 Overview 탭으로 이동하세요. 이곳에서는 메모가 훨씬 더 여유롭게 확장됩니다. 이 공간에 원하는 만큼 메모를 입력할 수 있으며, run 테이블에서 메모 필드에 마우스를 올려두면 미리보기가 표시됩니다.
 
-You can also create a report to add plots and markdown side by side. Use different sections to show different runs, and tell a story about what you worked on. These notes can be saved and shared with colleagues.
+또한 리포트를 생성하여 플롯과 마크다운을 나란히 추가할 수 있습니다. 다양한 섹션을 사용하여 다양한 run을 보여주고 자신이 작업한 내용에 대한 이야기를 전할 수 있습니다. 이러한 메모는 저장하여 동료들과 공유할 수 있습니다.
 
-## Write descriptive notes comparing runs
+## run을 비교하면서 설명적인 메모 작성하기
 
-Use reports to write about your findings when comparing multiple runs. Click "Add visualization" to add a markdown panel. You can arrange these panels beside panels of graphs.
+Reports를 사용하여 여러 run을 비교할 때 발견한 내용을 작성하세요. "Add visualization"을 클릭하여 마크다운 패널을 추가하세요. 이러한 패널들은 그래프 패널 옆에 배열할 수 있습니다.
 
-## Write Markdown in a new panel
+## 새로운 패널에 마크다운 작성하기
 
-Use markdown and latex equations such as:
+마크다운과 LaTeX 수식을 사용하세요. 예를 들어:
 
 ```text
 $TPR = Sensitivity = \dfrac{TP}{TP+FN}$
 ```
 
-Do this by adding a panel, selecting markdown, and then entering your markdown text, tables equations and code block will automatically render when clicking outside the markdown panel.
+이를 위해 패널을 추가하고, 마크다운을 선택한 후, 마크다운 텍스트, 테이블, 수식 및 코드 블록을 입력하세요. 마크다운 패널 외부를 클릭하면 자동으로 렌더링됩니다.
 
 ![](/images/app_ui/tables_panel.gif)

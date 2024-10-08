@@ -1,59 +1,56 @@
 ---
-description: >-
-  Manage your profile information, account defaults, alerts, participation in
-  beta products, GitHub integration, storage usage, account activation, and
-  create teams in your user settings.
-displayed_sidebar: default
 title: Manage user settings
+description: 당신의 사용자 설정에서 프로필 정보, 계정 기본값, 알림, 베타 제품 참여, GitHub 인테그레이션, 저장소 사용량, 계정 활성화 관리 및 팀을 생성하세요.
+displayed_sidebar: default
 ---
 
-Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**.
+사용자 프로필 페이지로 이동하여 오른쪽 상단 모서리에 있는 사용자 아이콘을 선택하세요. 드롭다운 메뉴에서 **Settings**를 선택합니다.
 
 ### Profile
 
-Within the **Profile** section you can manage and modify your account name and institution. You can optionally add a biography, location, link to a personal or your institution’s website, and upload a profile image.
+**Profile** 섹션에서는 계정 이름과 기관을 관리하고 수정할 수 있습니다. 선택적으로 전기, 위치, 개인 또는 기관 웹사이트 링크를 추가하고 프로필 이미지를 업로드할 수 있습니다.
 
 ### Teams
 
-Create a new team in the **Team** section. To create a new team, select the **New team** button and provide the following:
+**Team** 섹션에서 새로운 팀을 생성할 수 있습니다. 팀을 새로 만들려면 **New team** 버튼을 선택하고 다음을 입력하세요:
 
-* **Team name** - the name of your team. The team mane must be unique. Team names can not be changed.
-* **Team type** - Select either the **Work** or **Academic** button.
-* **Company/Organization** - Provide the name of the team’s company or organization. Choose the dropdown menu to select a company or organization. You can optionally provide a new organization.
+* **Team name** - 팀 이름입니다. 팀 이름은 고유해야 합니다. 팀 이름은 변경할 수 없습니다.
+* **Team type** - **Work** 또는 **Academic** 버튼 중 하나를 선택하세요.
+* **Company/Organization** - 팀의 회사 또는 조직 이름을 입력하세요. 드롭다운 메뉴를 선택하여 회사 또는 조직을 선택하세요. 새로운 조직을 제공할 수도 있습니다.
 
 :::info
-Only administrative accounts can create a team.
+관리자 계정만 팀을 생성할 수 있습니다.
 :::
 
 ### Beta features
 
-Within the **Beta Features** section you can optionally enable fun add-ons and sneak previews of new products in development. Select the toggle switch next to the beta feature you want to enable.
+**Beta Features** 섹션에서는 개발 중인 새로운 제품의 재미있는 추가 기능과 미리보기를 선택적으로 활성화할 수 있습니다. 활성화하려는 베타 기능 옆의 토글 스위치를 선택하세요.
 
 ### Alerts
 
-Get notified when your runs crash, finish, or set custom alerts with [wandb.alert()](../../runs/alert.md). Receive notifications either through Email or Slack. Toggle the switch next to the event type you want to receive alerts from.
+Your runs이 실패하거나 완료되었을 때 또는 사용자 정의 경고를 설정할 때 [wandb.alert()](../../runs/alert.md)로 알림을 받습니다. 이메일 또는 Slack을 통해 알림을 받을 수 있습니다. 알림을 받고 싶은 이벤트 유형 옆의 스위치를 전환하세요.
 
-* **Runs finished**: whether a Weights and Biases run successfully finished.
-* **Run crashed**: notification if a run has failed to finish.
+* **Runs finished**: Weights and Biases run이 성공적으로 완료되었는지 여부.
+* **Run crashed**: run이 완료되지 못했을 경우 알림.
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert](../../runs/alert.md).
+경고 설정 및 관리에 대한 자세한 내용은 [wandb.alert로 경고 보내기](../../runs/alert.md)를 참조하세요.
 
 ### Personal GitHub integration
 
-Connect a personal Github account. To connect a Github account:
+개인 GitHub 계정을 연결하십시오. GitHub 계정을 연결하려면:
 
-1. Select the **Connect Github** button. This will redirect you to an open authorization (OAuth) page.
-2. Select the organization to grant access in the **Organization access** section.
-3. Select **Authorize** **wandb**.
+1. **Connect Github** 버튼을 선택하세요. 이는 오픈 인증(OAuth) 페이지로 리디렉션됩니다.
+2. **Organization access** 섹션에서 엑세스를 부여할 조직을 선택하세요.
+3. **Authorize** **wandb**를 선택합니다.
 
 ### Delete your account
 
-Select the **Delete Account** button to delete your account.
+계정을 삭제하려면 **Delete Account** 버튼을 선택하세요.
 
 :::caution
-Account deletion can not be reversed.
+계정을 삭제하면 복구할 수 없습니다.
 :::
 
 ### Storage
 
-The **Storage** section describes the total memory usage the your account has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+**Storage** 섹션에서는 Weights and Biases 서버에서 계정이 사용한 총 메모리 사용량을 설명합니다. 기본 저장소 계획은 100GB입니다. 저장소 및 가격 책정에 대한 자세한 내용은 [Pricing](https://wandb.ai/site/pricing) 페이지를 참조하세요.

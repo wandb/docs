@@ -1,113 +1,96 @@
 ---
-displayed_sidebar: default
 title: Configure registry access
+displayed_sidebar: default
 ---
-<!-- A registry, and the linked artifacts inside a registry, belong to an organization. This means that teams within an organization can publish and consume artifacts linked to a registry, if that team has correct access control. -->
 
-Registry admins can limit who can access a registry by navigating to a registry's settings and assigning a user's role to [Admin, Member, or Viewer](#registry-roles-permissions). Users can have different roles in different registries. For example, a user can have a view role in "Registry A" and a member role in the "Registry B". 
+Registry 관리자들은 레지스트리의 설정으로 이동하고 사용자의 역할을 [Admin, Member, 또는 Viewer](#registry-roles-permissions)로 지정하여 레지스트리에 엑세스할 수 있는 사람을 제한할 수 있습니다. 사용자는 서로 다른 레지스트리에서 다른 역할을 가질 수 있습니다. 예를 들어, 사용자가 "Registry A"에서는 보기 역할을, "Registry B"에서는 멤버 역할을 가질 수 있습니다.
 
 :::note
-Only registry admins can [restrict visibility](#restrict-visibility-to-a-registry), [configure user roles](#configure-user-roles-in-a-registry), or [remove users](#remove-a-user-from-a-registry) from registries in an organization.
+오직 registry 관리자만이 조직 내에서 [가시성 제한](#restrict-visibility-to-a-registry), [사용자 역할 구성](#configure-user-roles-in-a-registry), 또는 사용자를 레지스트리에서 [제거](#remove-a-user-from-a-registry)할 수 있습니다.
 :::
 
-## Registry roles permissions
+## Registry 역할 권한
 
-A user within an organization can have different roles, and therefore permissions, for each registry in their organization.
+조직 내의 사용자는 각 레지스트리에서 서로 다른 역할과 따라서 다른 권한을 가질 수 있습니다.
 
-:::info W&B role types
-W&B has three different types of roles: Organization roles, [team roles](../app/features/teams.md#team-roles-and-permissions), and [registry roles](#registry-roles-permissions).
+:::info W&B 역할 유형
+W&B에는 세 가지 다른 유형의 역할이 있습니다: 조직 역할, [팀 역할](../app/features/teams.md#team-roles-and-permissions), 그리고 [레지스트리 역할](#registry-roles-permissions).
 
-Your role in a team has no impact or relationship on your role in any registry.
+팀 내에서의 사용자의 역할은 레지스트리 내의 역할에 영향을 주거나 관계가 없습니다.
 :::
 
-The proceeding table lists the different roles a user can have and their permissions:
-
+다음 표는 사용자가 가질 수 있는 다양한 역할과 그들의 권한을 나열합니다:
 
 | Permission                                                     | Permission Group | Viewer | Member | Admin | Owner |
 |--------------------------------------------------------------- |------------------|--------|--------|-------|-------|
-| View a collection’s details                                    | Read             |   X    |   X    |   X   |   X   |
-| View a linked artifact’s details                               | Read             |   X    |   X    |   X   |   X   |
-| Usage: Consume an artifact in a registry with use_artifact     | Read             |   X    |   X    |   X   |   X   |
-| Download a linked artifact                                     | Read             |   X    |   X    |   X   |   X   |
-| Download files from an artifact’s file viewer                  | Read             |   X    |   X    |   X   |   X   |
-| Search a registry                                              | Read             |   X    |   X    |   X   |   X   |
-| View a registry’s settings and user list                       | Read             |   X    |   X    |   X   |   X   |
-| Create a new automation for a collection                       | Create           |        |   X    |   X   |   X   |
-| Turn on Slack notifications for new version being added        | Create           |        |   X    |   X   |   X   |
-| Create a new collection                                        | Create           |        |   X    |   X   |   X   |
-| Create a new custom registry                                   | Create           |        |   X    |   X   |   X   |
-| Edit collection card (description)                             | Update           |        |   X    |   X   |   X   |
-| Edit linked artifact description                               | Update           |        |   X    |   X   |   X   |
-| Add or delete a collection’s tag                               | Update           |        |   X    |   X   |   X   |
-| Add or delete an alias from a linked artifact                  | Update           |        |   X    |   X   |   X   |
-| Link a new artifact                                            | Update           |        |   X    |   X   |   X   |
-| Edit allowed types list for a registry                         | Update           |        |   X    |   X   |   X   |
-| Edit custom registry name                                      | Update           |        |   X    |   X   |   X   |
-| Delete a collection                                            | Delete           |        |   X    |   X   |   X   |
-| Delete an automation                                           | Delete           |        |   X    |   X   |   X   |
-| Unlink an artifact from a registry                             | Delete           |        |   X    |   X   |   X   |
-| Edit accepted artifact types for a registry                    | Admin            |        |        |   X   |   X   |
-| Change registry visibility (Organization or Restricted)        | Admin            |        |        |   X   |   X   |
-| Add users to a registry                                        | Admin            |        |        |   X   |   X   |
-| Assign or change a user's role in a registry                   | Admin            |        |        |   X   |   X   |
+| 컬렉션 세부 정보 보기                                          | Read             |   X    |   X    |   X   |   X   |
+| 연결된 아티팩트의 세부 정보 보기                               | Read             |   X    |   X    |   X   |   X   |
+| 사용: use_artifact로 레지스트리에서 아티팩트를 소비            | Read             |   X    |   X    |   X   |   X   |
+| 연결된 아티팩트 다운로드                                       | Read             |   X    |   X    |   X   |   X   |
+| 아티팩트의 파일 뷰어에서 파일 다운로드                         | Read             |   X    |   X    |   X   |   X   |
+| 레지스트리 검색                                               | Read             |   X    |   X    |   X   |   X   |
+| 레지스트리 설정 및 사용자 목록 보기                            | Read             |   X    |   X    |   X   |   X   |
+| 컬렉션에 대한 새 자동화 생성                                   | Create           |        |   X    |   X   |   X   |
+| 새 버전이 추가될 때 Slack 알림 켜기                            | Create           |        |   X    |   X   |   X   |
+| 새 컬렉션 생성                                                 | Create           |        |   X    |   X   |   X   |
+| 새 맞춤 레지스트리 생성                                        | Create           |        |   X    |   X   |   X   |
+| 컬렉션 카드 편집 (설명)                                        | Update           |        |   X    |   X   |   X   |
+| 연결된 아티팩트 설명 편집                                      | Update           |        |   X    |   X   |   X   |
+| 컬렉션의 태그 추가 또는 삭제                                   | Update           |        |   X    |   X   |   X   |
+| 연결된 아티팩트에서 에일리어스 추가 또는 삭제                  | Update           |        |   X    |   X   |   X   |
+| 새로운 아티팩트 연결                                           | Update           |        |   X    |   X   |   X   |
+| 레지스트리의 허용된 유형 목록 편집                             | Update           |        |   X    |   X   |   X   |
+| 맞춤 레지스트리 이름 편집                                      | Update           |        |   X    |   X   |   X   |
+| 컬렉션 삭제                                                    | Delete           |        |   X    |   X   |   X   |
+| 자동화 삭제                                                    | Delete           |        |   X    |   X   |   X   |
+| 레지스트리에서 아티팩트 연결 해제                              | Delete           |        |   X    |   X   |   X   |
+| 레지스트리의 허용된 아티팩트 유형 편집                         | Admin            |        |        |   X   |   X   |
+| 레지스트리 가시성 변경 (조직 또는 제한)                        | Admin            |        |        |   X   |   X   |
+| 레지스트리에 사용자를 추가                                     | Admin            |        |        |   X   |   X   |
+| 레지스트리의 사용자의 역할 할당 또는 변경                       | Admin            |        |        |   X   |   X   |
 
-
-
-## Configure user roles in a registry
-1. Navigate to the **Registry** App in the W&B App UI.
-2. Select the registry you want to configure.
-3. Click on the gear icon on the upper right hand corner.
-4. Scroll to the **Registry members and roles** section.
-5. Within the **Member** field, search for the user you want to edit permissions for.
-6. Click on the user's role within the **Registry role** column. 
-7. From the dropdown, select the role you want to assign to the user.
+## 레지스트리에서 사용자 역할 구성
+1. W&B 앱 UI의 **Registry** 앱으로 이동합니다.
+2. 구성하고자 하는 레지스트리를 선택합니다.
+3. 우측 상단 모서리의 기어 아이콘을 클릭합니다.
+4. **Registry 구성원과 역할** 섹션으로 스크롤합니다.
+5. **Member** 필드 내에서 권한을 편집하려는 사용자를 검색합니다.
+6. **Registry 역할** 열에서 사용자의 역할을 클릭합니다.
+7. 드롭다운에서 사용자에게 할당할 역할을 선택합니다.
 
 ![](/images/registry/configure_role_registry.gif)
 
-## Remove a user from a registry
-1. Navigate to the **Registry** App in the W&B App UI.
-2. Select a core or custom registry.
-3. Click on the gear icon on the upper right hand corner.
-4. Scroll to the **Registry members and roles** section and type in the username of the member you want to remove.
-5. Click the **Delete** button.
+## 레지스트리에서 사용자 제거
+1. W&B 앱 UI의 **Registry** 앱으로 이동합니다.
+2. 핵심 또는 맞춤 레지스트리를 선택합니다.
+3. 우측 상단 모서리의 기어 아이콘을 클릭합니다.
+4. **Registry 구성원과 역할** 섹션으로 스크롤하고 제거하려는 구성원의 사용자명을 입력합니다.
+5. **삭제** 버튼을 클릭합니다.
 
+## 레지스트리 가시성 유형
 
-
-## Registry visibility types
-
-There are two registry visibility types: restricted or organization visibility. The following table describes who has access to the registry by default:
+레지스트리 가시성 유형에는 두 가지가 있습니다: 제한 또는 조직 가시성. 다음 표는 기본적으로 레지스트리에 엑세스할 수 있는 사람을 설명합니다:
 
 | Visibility | Description | Default role | Example |
 | --- | --- | --- | --- |
-| Organization | Everyone in the org can access the registry. | By default, organization administrators are an admin for the registry. All other users are a viewer in the registry by default. | Core registry |
-| Restricted   | Only invited org members can access the registry.| The user who created the restricted registry is the only user in the registry by default, and is the organization's owner. | Custom registry or core registry |
+| 조직         | 조직의 모든 사용자가 레지스트리에 엑세스할 수 있습니다. | 기본적으로, 조직 관리자는 레지스트리의 admin 입니다. 모든 다른 사용자는 기본적으로 뷰어입니다. | Core registry |
+| 제한         | 초대받은 조직 구성원만 레지스트리에 엑세스할 수 있습니다. | 제한된 레지스트리를 생성한 사용자가 오직 해당 레지스트리의 사용자가 되며, 조직의 소유자입니다. | Custom registry 또는 core registry |
 
+## 레지스트리의 가시성 제한
 
-## Restrict visibility to a registry
-<!-- Who can do this? -->
-Restrict who can view and access a custom registry. You can restrict visibility to a registry when you create a custom registry or after you create a custom registry. A custom registry can have either restricted or organization visibility. For more information on registry visibilities, see [Registry visibility types](./configure_registry.md#registry-visibility-types).
+맞춤 레지스트리를 볼 수 있고 엑세스할 수 있는 사람을 제한하십시오. 맞춤 레지스트리를 생성할 때 또는 생성 후에 레지스트리의 가시성을 제한할 수 있습니다. 맞춤 레지스트리는 제한된 가시성 또는 조직 가시성을 가질 수 있습니다. 레지스트리 가시성에 대한 자세한 정보는 [레지스트리 가시성 유형](./configure_registry.md#registry-visibility-types)을 참조하십시오.
 
-<!-- | Visibility | Description |
-| --- | --- |
-| Organization | Anyone in the organization can view the registry. |
-| Restricted   | Only invited organization members can view and edit the registry.|  -->
+다음 단계는 이미 존재하는 맞춤 레지스트리의 가시성을 제한하는 방법을 설명합니다:
 
-The following steps describe how to restrict the visibility of a custom registry that already exists:
+1. W&B 앱 UI의 **Registry** 앱으로 이동합니다.
+2. 레지스트리를 선택합니다.
+3. 우측 상단 모서리의 기어 아이콘을 클릭합니다.
+4. **Registry 가시성** 드롭다운에서 원하는 레지스트리 가시성을 선택합니다.
 
-1. Navigate to the **Registry** App in the W&B App UI.
-2. Select a registry.
-3. Click on the gear icon on the upper right hand corner.
-4. From the **Registry visibility** dropdown, select the desired registry visibility.
+**제한된 가시성**을 선택한 경우 계속하십시오:
 
-Continue if you select **Restricted visibility**:
-
-5. Add members of your organization that you want to have access to this registry. Scroll to the **Registry members and roles** section and click on the **Add member** button. 
-6. Within the **Member** field, add the email or username of the member you want to add.
-7. Click **Add new member**.
+5. 이 레지스트리에 엑세스할 수 있도록 하고 싶은 조직의 구성원을 추가합니다. **Registry 구성원과 역할** 섹션으로 스크롤하고 **구성원 추가** 버튼을 클릭합니다.
+6. **Member** 필드에 추가하려는 구성원의 이메일 또는 사용자명을 입력합니다.
+7. **새 구성원 추가**를 클릭합니다.
 
 ![](/images/registry/change_registry_visibility.gif)
-
-
-
-
-

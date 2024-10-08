@@ -1,66 +1,64 @@
 ---
-description: 'How to download a model with W&B Python SDK'
-displayed_sidebar: default
 title: Download a model version
+description: W&B Python SDK로 모델 다운로드하는 방법
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Use the W&B Python SDK to download a model artifact that you linked to the Model Registry. 
+W&B Python SDK를 사용하여 Model Registry에 연결한 모델 아티팩트를 다운로드하세요.
 
 :::info
-You are responsible for providing additional Python functions, API calls to reconstruct, deserialize your model into a form that you can work with. 
+모델을 재구성하고 역직렬화하여 작업할 수 있는 형태로 변환하기 위해 추가적인 Python 함수와 API 호출을 제공해야 합니다.
 
-W&B suggests that you document information on how to load models into memory with model cards. For more information, see the [Document machine learning models](./create-model-cards.md) page. 
+W&B는 모델 카드를 사용하여 메모리에 모델을 로드하는 방법에 대한 정보를 문서화할 것을 권장합니다. 자세한 내용은 [기계학습 모델 문서화](./create-model-cards.md) 페이지를 참조하세요.
 :::
 
-
-Replace values within `<>` with your own:
+`<>` 안의 값을 자신의 것으로 대체하세요:
 
 ```python
 import wandb
 
-# Initialize a run
+# run 초기화
 run = wandb.init(project="<project>", entity="<entity>")
 
-# Access and download model. Returns path to downloaded artifact
+# 모델 엑세스 및 다운로드. 다운로드된 아티팩트의 경로를 반환함
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-Reference a model version with one of following formats listed:
+다음에 나열된 형식 중 하나를 사용하여 모델 버전을 참조하세요:
 
-* `latest` - Use `latest` alias to specify the model version that is most recently linked.
-* `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
-* `alias` - Specify the custom alias that you and your team assigned to your model version
+* `latest` - 가장 최근에 연결된 모델 버전을 지정하기 위해 `latest` 에일리어스를 사용하세요.
+* `v#` - `v0`, `v1`, `v2` 등을 사용하여 Registered Model에서 특정 버전을 가져옵니다.
+* `alias` - 커스텀 에일리어스를 지정하여 팀과 함께 모델 버전에 할당한 별칭을 사용하세요.
 
-See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
+가능한 파라미터와 반환 타입에 대한 자세한 내용은 API Reference 가이드의 [`use_model`](../../ref/python/run.md#use_model)를 참조하세요.
 
 <details>
-<summary>Example: Download and use a logged model</summary>
+<summary>예시: 로그된 모델 다운로드 및 사용하기</summary>
 
-For example, in the proceeding code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that returned from the API to the `downloaded_model_path` variable.
+예를 들어, 다음의 코드조각에서는 사용자가 `use_model` API를 호출했습니다. 그들은 가져오고자 하는 모델 아티팩트의 이름을 지정했으며 버전/에일리어스도 제공했습니다. 그런 다음 API로부터 반환된 경로를 `downloaded_model_path` 변수에 저장했습니다.
 
 ```python
 import wandb
 
 entity = "luka"
 project = "NLP_Experiments"
-alias = "latest"  # semantic nickname or identifier for the model version
+alias = "latest"  # 모델 버전에 대한 시멘틱 별칭 또는 식별자
 model_artifact_name = "fine-tuned-model"
 
-# Initialize a run
+# run 초기화
 run = wandb.init()
-# Access and download model. Returns path to downloaded artifact
+# 모델 엑세스 및 다운로드. 다운로드된 아티팩트의 경로를 반환함
 
 downloaded_model_path = run.use_model(name=f"{entity/project/model_artifact_name}:{alias}")
 ```
 </details>
 
+:::caution 2024년 W&B Model Registry의 계획된 폐기
+다음 탭에서는 곧 폐기될 Model Registry를 사용하여 모델 아티팩트를 처리하는 방법을 설명합니다.
 
-:::caution Planned deprecation for W&B Model Registry in 2024
-The proceeding tabs demonstrate how to consume model artifacts using the soon to be deprecated Model Registry.
-
-Use the W&B Registry to track, organize and consume model artifacts. For more information see the [Registry docs](../registry/intro.md).
+W&B Registry를 사용하여 모델 아티팩트를 추적, 조직 및 소비할 수 있습니다. 자세한 사항은 [Registry 문서](../registry/intro.md)를 참조하세요.
 :::
 
 <Tabs
@@ -71,37 +69,31 @@ Use the W&B Registry to track, organize and consume model artifacts. For more in
   ]}>
   <TabItem value="cli">
 
-Replace values within `<>` with your own:
+`<>` 안의 값을 자신의 것으로 대체하세요:
 ```python
 import wandb
-# Initialize a run
+# run 초기화
 run = wandb.init(project="<project>", entity="<entity>")
-# Access and download model. Returns path to downloaded artifact
+# 모델 엑세스 및 다운로드. 다운로드된 아티팩트의 경로를 반환함
 downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
-Reference a model version with one of following formats listed:
+다음에 나열된 형식 중 하나를 사용하여 모델 버전을 참조하세요:
 
-* `latest` - Use `latest` alias to specify the model version that is most recently linked.
-* `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
-* `alias` - Specify the custom alias that you and your team assigned to your model version
+* `latest` - 가장 최근에 연결된 모델 버전을 지정하기 위해 `latest` 에일리어스를 사용하세요.
+* `v#` - `v0`, `v1`, `v2` 등을 사용하여 Registered Model에서 특정 버전을 가져옵니다.
+* `alias` - 커스텀 에일리어스를 지정하여 팀과 함께 모델 버전에 할당한 별칭을 사용하세요.
 
-See [`use_model`](../../ref/python/run.md#use_model) in the API Reference guide for more information on possible parameters and return type.
+가능한 파라미터와 반환 타입에 대한 자세한 내용은 API Reference 가이드의 [`use_model`](../../ref/python/run.md#use_model)를 참조하세요.
 
   </TabItem>
   <TabItem value="app">
 
-1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-2. Select **View details** next to the name of the registered model that contains the model you want to download.
-3. Within the Versions section, select the View button next to the model version you want to download.
-4. Select the **Files** tab. 
-5. Click on the download button next to the model file you want to download. 
+1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model)에서 Model Registry App으로 이동합니다.
+2. 다운로드하려는 모델이 포함된 등록된 모델 이름 옆의 **View details**를 선택합니다.
+3. Versions 섹션에서 다운로드하려는 모델 버전 옆의 View 버튼을 선택합니다.
+4. **Files** 탭을 선택합니다.
+5. 다운로드하려는 모델 파일 옆의 다운로드 버튼을 클릭합니다.
 ![](/images/models/download_model_ui.gif)
 
   </TabItem>
 </Tabs>
-
-
-
-
-
-

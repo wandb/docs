@@ -1,99 +1,99 @@
 ---
-description: Manage project access using visibility scopes and project-level roles
-displayed_sidebar: default
 title: Manage access control for projects
+description: 프로젝트 엑세스를 가시성 범위 및 프로젝트 수준 역할을 사용하여 관리하기
+displayed_sidebar: default
 ---
 
-You can use a combination of a couple of controls to configure the access level for any project within a W&B team. **Visibility scope** is the higher-level mechanism. Use that to control which groups of users can view or submit runs in a project. For a project with _Team_ or _Restricted_ visibility scope, you can then use **Project level roles** to control the level of access that each user has within the project.
+W&B 팀 내의 프로젝트에 대해 액세스 수준을 구성하려면 몇 가지 컨트롤을 결합하여 사용할 수 있습니다. **가시성 범위**는 더 높은 수준의 메커니즘입니다. 이를 사용하여 프로젝트 내의 어떤 사용자 그룹이 실행이나 리포트를 볼 수 있는지 또는 제출할 수 있는지를 제어합니다. _Team_ 또는 _Restricted_ 가시성 범위를 가진 프로젝트의 경우, **프로젝트 수준 역할**을 사용하여 각 사용자가 프로젝트 내에서 갖는 액세스 수준을 제어할 수 있습니다.
 
-## Visibility scopes
+## 가시성 범위
 
-There are four project visibility scopes you can choose from. In order of most public to most private, they are: 
-* _Open_: Anyone who knows about the project can view it and submit runs or reports.
-* _Public_: Anyone who knows about the project can view it. Only your team can submit runs or reports.
-* _Team_: Only all members of the parent team can view the project and submit runs or reports. Anyone outside the team can not access the project.
-* _Restricted_: Only invited members from the parent team can view the project and submit runs or reports. 
+선택할 수 있는 네 가지 프로젝트 가시성 범위가 있습니다. 가장 공공에서 가장 사적인 순으로 나열하면 다음과 같습니다:
+* _Open_: 프로젝트에 대해 아는 사람은 누구나 이를 보고 실행이나 리포트를 제출할 수 있습니다.
+* _Public_: 프로젝트에 대해 아는 사람은 누구나 이를 볼 수 있습니다. 오직 당신의 팀만이 실행이나 리포트를 제출할 수 있습니다.
+* _Team_: 부모 팀의 모든 멤버만이 프로젝트를 보고 실행이나 리포트를 제출할 수 있습니다. 팀 외부 사람은 프로젝트에 엑세스할 수 없습니다.
+* _Restricted_: 부모 팀의 초대된 멤버만이 프로젝트를 보고 실행이나 리포트를 제출할 수 있습니다.
 
 :::tip
-Set a project's scope to **Restricted** if you would like to collaborate on workflows related to sensitive or confidential data. When you create a restricted project within a team, you can invite or add specific members from the team to collaborate on relevant experiments, artifacts, reports, and so forth. 
+민감하거나 기밀 데이터와 관련된 워크플로우에 협업하려면 프로젝트의 범위를 **Restricted**로 설정하십시오. 팀 내에서 제한된 프로젝트를 생성할 때, 관련된 Experiments, Artifacts, Reports 등에 협업하기 위해 특정 팀 멤버를 초대하거나 추가할 수 있습니다.
 
-Unlike other project scopes, all members of a team do not get implicit access to a restricted project. At the same time, team admins can join restricted projects if needed.
+다른 프로젝트 범위와 달리, 팀의 모든 멤버는 제한된 프로젝트에 암묵적 액세스를 얻지 못합니다. 동시에, 팀 관리자는 필요한 경우 제한된 프로젝트에 참여할 수 있습니다.
 :::
 
-### Set visibility scope on a new or existing project
+### 새 프로젝트나 기존 프로젝트에서 가시성 범위 설정하기
 
-Set a project's visibility scope when you create a project or when editing it later.
+프로젝트를 생성하거나 나중에 편집할 때 프로젝트의 가시성 범위를 설정할 수 있습니다.
 
 :::info
-* Only the owner of the project or a team admin can set or edit its visibility scope.
-* When a team admin enables **Make all future team projects private (public sharing not allowed)** within a team's privacy setting, that disables **Open** and **Public** project visibility scopes for that team. In this case, your team can only use **Team** and **Restricted** scopes.
+* 프로젝트의 소유자나 팀 관리자만이 가시성 범위를 설정하거나 편집할 수 있습니다.
+* 팀 관리자가 팀의 개인정보 설정 내에서 **모든 향후 팀 프로젝트를 비공개로 만들기(공유 불가)** 를 활성화하면, 해당 팀을 위해 **Open** 및 **Public** 프로젝트 가시성 범위가 비활성화됩니다. 이 경우, 당신의 팀은 오직 **Team** 및 **Restricted** 범위만 사용할 수 있습니다.
 :::
 
-#### Set visibility scope when you create a new project
+#### 새로운 프로젝트를 생성할 때 가시성 범위 설정하기
 
-1. Navigate to your W&B organization on SaaS Cloud, Dedicated Cloud, or Self-managed instance.
-2. Click the **Create a new project** button in the left hand sidebar's **My projects** section. Alternatively, navigate to the **Projects** tab of your team and click the **Create new project** button in the upper right hand corner.
-3. After selecting the parent team and entering the name of the project, select the desired scope from the **Project Visibility** dropdown.
+1. SaaS 클라우드, 전용 클라우드, 또는 자체 관리 인스턴스에서 W&B 조직으로 이동하세요.
+2. 왼쪽 사이드바의 **내 프로젝트** 섹션에서 **새 프로젝트 생성** 버튼을 클릭하세요. 또는, 팀의 **Projects** 탭으로 이동하여 오른쪽 상단 모서리의 **새 프로젝트 생성** 버튼을 클릭하세요.
+3. 부모 팀을 선택하고 프로젝트 이름을 입력한 후, **프로젝트 가시성** 드롭다운에서 원하는 범위를 선택하세요.
 ![](/images/hosting/restricted_project_add_new.gif)
 
-Complete the following step if you select **Restricted** visibility. 
+**Restricted** 가시성을 선택한 경우 다음 단계를 완료하세요.
 
-4. Provide names of one or more W&B team members in the **Invite team members** field. Add only those members who are essential to collaborate on the project.
+4. **팀 멤버 초대** 필드에 하나 이상의 W&B 팀 멤버의 이름을 입력하세요. 프로젝트에 협업하기 위해 필수적인 멤버만 추가하십시오.
 ![](/images/hosting/restricted_project_2.png)
 
 :::info
-You can add or remove members in a restricted project later, from its **Users** tab.
+나중에 **Users** 탭에서 제한된 프로젝트의 멤버를 추가하거나 제거할 수 있습니다.
 :::
 
-#### Edit visibility scope of an existing project
+#### 기존 프로젝트의 가시성 범위 편집하기
 
-1. Navigate to your W&B Project.
-2. Select the **Overview** tab on the left column.
-3. Click the **Edit Project Details** button on the upper right corner.  
-4. From the **Project Visibility** dropdown, select the desired scope.
+1. W&B 프로젝트로 이동하세요.
+2. 왼쪽 열에서 **개요** 탭을 선택하세요.
+3. 오른쪽 상단 모서리의 **프로젝트 세부사항 편집** 버튼을 클릭하세요.  
+4. **프로젝트 가시성** 드롭다운에서 원하는 범위를 선택하세요.
 ![](/images/hosting/restricted_project_edit.gif)
 
-Complete the following step if you select **Restricted** visibility. 
+**Restricted** 가시성을 선택한 경우 다음 단계를 완료하세요.
 
-5. Go to the **Users** tab in the project, and click **Add user** button to invite specific users to the restricted project.
+5. 프로젝트의 **Users** 탭으로 이동하여 **사용자 추가** 버튼을 클릭하여 제한된 프로젝트에 특정 사용자를 초대하세요.
 
 :::caution
-* All members of a team lose access to a project if you change its visibility scope from **Team** to **Restricted**, unless you invite the required team members to the project.
-* All members of a team get access to a project if you change its visibility scope from **Restricted** to **Team**.
-* If you remove a team member from the user list for a restricted project, they lose access to that project.
+* 프로젝트의 가시성 범위를 **Team**에서 **Restricted**로 변경하면 팀의 모든 멤버가 프로젝트에 대한 액세스를 잃습니다. 필요한 팀 멤버를 프로젝트에 초대하지 않으면 안 됩니다.
+* 프로젝트의 가시성 범위를 **Restricted**에서 **Team**으로 변경하면 팀의 모든 멤버가 프로젝트에 대한 액세스를 얻습니다.
+* 제한된 프로젝트의 사용자 목록에서 팀 멤버를 제거하면, 해당 프로젝트에 대한 액세스를 잃습니다.
 :::
 
-### Other key things to note for restricted scope
+### 제한된 범위에 대한 기타 주요 사항
 
-* If you want to use a team-level service account in a restricted project, you should invite or add that specifically to the project. Otherwise a team-level service account can not access a restricted project by default.
-* You can not move runs from a restricted project, but you can move runs from a non-restricted project to a restricted one.
-* You can convert the visibility of a restricted project to only **Team** scope, irrespective of the team privacy setting **Make all future team projects private (public sharing not allowed)**.
-* If the owner of a restricted project is not part of the parent team anymore, the team admin should change the owner to ensure seamless operations in the project.
+* 제한된 프로젝트에서 팀 수준의 서비스 계정을 사용하려면, 그 계정을 프로젝트에 초대하거나 추가해야 합니다. 그렇지 않으면, 팀 수준의 서비스 계정이 기본적으로 제한된 프로젝트에 액세스할 수 없습니다.
+* 제한된 프로젝트에서 run을 이동할 수는 없지만, 비제한 프로젝트에서 제한된 프로젝트로 run을 이동할 수 있습니다.
+* 제한된 프로젝트의 가시성을 팀의 개인정보 설정 **모든 향후 팀 프로젝트를 비공개화(공개 공유 허용 안 함)** 와 상관없이 **Team** 범위로만 변경할 수 있습니다.
+* 제한된 프로젝트의 소유자가 더 이상 부모 팀의 일원이 아니라면, 팀 관리자는 프로젝트에서 원활한 운영을 보장하기 위해 소유자를 변경해야 합니다.
 
-## Project level roles
+## 프로젝트 수준 역할
 
-For the _Team_ or _Restricted_ scoped projects in your team, you can assign a specific role to a user, which could be different from that user's team level role. For example, if a user has _Member_ role at the team level, you can assign the _View-Only_, or _Admin_, or any available custom role to that user within a _Team_ or _Restricted_ scope project in that team.
+팀 내의 _Team_ 또는 _Restricted_ 범위 프로젝트에 대해 사용자에게 해당 사용자의 팀 수준 역할과 다를 수 있는 특정 역할을 할당할 수 있습니다. 예를 들어, 사용자가 팀 수준에서 _Member_ 역할을 가지고 있는 경우, 그 사용자는 팀 내 _Team_ 또는 _Restricted_ 범위 프로젝트에서 _View-Only_ 또는 _Admin_ 또는 사용 가능한 커스텀 역할을 할당받을 수 있습니다.
 
 :::info
-Project level roles are in preview on SaaS Cloud, Dedicated Cloud, and Self-managed instances.
+프로젝트 수준 역할은 SaaS 클라우드, 전용 클라우드 및 자체 관리 인스턴스에서 미리 보기로 제공됩니다.
 :::
 
-### Assign project level role to a user
+### 사용자에게 프로젝트 수준 역할 할당하기
 
-1. Navigate to your W&B Project.
-2. Select the **Overview** tab on the left column.
-3. Go to the **Users** tab in the project.
-4. Click the currently assigned role for the pertinent user in the **Project Role** field, which should open up a dropdown listing the other available roles.
-5. Select another role from the dropdown. It should save instantly.
+1. W&B 프로젝트로 이동하세요.
+2. 왼쪽 열에서 **개요** 탭을 선택하세요.
+3. 프로젝트의 **사용자** 탭으로 이동하세요.
+4. 해당 사용자의 **프로젝트 역할** 필드에서 현재 할당된 역할을 클릭하세요. 그럼 사용 가능한 다른 역할 목록이 있는 드롭다운이 열릴 것입니다.
+5. 드롭다운에서 다른 역할을 선택하세요. 즉시 저장되어야 합니다.
 
 :::info
-When you change the project level role for a user to be different from their team level role, the project level role includes a **\*** to indicate the difference.
+프로젝트 수준 역할이 팀 수준 역할과 다르도록 사용자의 프로젝트 수준 역할을 변경할 때, 프로젝트 수준 역할은 차이를 나타내기 위해 **\***를 포함합니다.
 :::
 
-### Other key things to note for project level roles
+### 프로젝트 수준 역할에 대한 기타 주요 사항
 
-* By default, project level roles for all users in a _team_ or _restricted_ scoped project **inherit** their respective team level roles.
-* You **can not** change the project level role of a user who has _View-only_ role at the team level.
-* If the project level role for a user within a particular project **is same as** the team level role, and at some point if a team admin changes the team level role, the relevant project role is automatically changed to track the team level role.
-* If you change the project level role for a user within a particular project such that **it is different from** the team level role, and at some point if a team admin changes the team level role, the relevant project level role remains as is.
-* If you remove a user from a _restricted_ project when their project level role was different from the team level role, and if you then add the user back to the project after some time, they would inherit the team level role due to the default behavior. If needed, you would need to change the project level role again to be different from the team level role.
+* 기본적으로, _team_ 또는 _restricted_ 범위 프로젝트의 모든 사용자는 각각의 팀 수준 역할을 **상속**받습니다.
+* 팀 수준에서 _View-only_ 역할을 가진 사용자의 프로젝트 수준 역할을 **변경할 수 없습니다**.
+* 특정 프로젝트 내에서 사용자의 프로젝트 수준 역할이 팀 수준 역할과 **같은 경우**, 팀 관리자가 팀 수준 역할을 변경하면 관련 프로젝트 역할이 자동으로 팀 수준 역할을 따릅니다.
+* 특정 프로젝트 내에서 사용자의 프로젝트 수준 역할이 팀 수준 역할과 **다른 경우**, 팀 관리자가 팀 수준 역할을 변경해도 해당 프로젝트 수준 역할은 그대로 유지됩니다.
+* 제한된 프로젝트에서 사용자를 제거할 때 프로젝트 수준 역할이 팀 수준 역할과 다르고, 이후에 사용자를 프로젝트로 다시 추가하면 기본 동작으로 인해 팀 수준 역할을 상속받게 됩니다. 필요한 경우, 프로젝트 수준 역할을 팀 수준 역할과 다르게 다시 변경해야 할 수도 있습니다.

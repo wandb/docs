@@ -2,8 +2,7 @@
 
 <p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/runs.py#L61-L269' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-
-An iterable collection of runs associated with a project and optional filter.
+프로젝트와 연관된 run의 이터러블 컬렉션이며, 선택적으로 필터를 추가할 수 있습니다.
 
 ```python
 Runs(
@@ -17,12 +16,12 @@ Runs(
 )
 ```
 
-This is generally used indirectly via the `Api`.runs method.
+이는 일반적으로 `Api`.runs 메소드를 통해 간접적으로 사용됩니다.
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `convert_objects`
 
@@ -46,20 +45,20 @@ histories(
 )
 ```
 
-Return sampled history metrics for all runs that fit the filters conditions.
+필터 조건에 맞는 모든 run의 샘플링된 이력 메트릭을 반환합니다.
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `samples` |  (int, optional) The number of samples to return per run |
-|  `keys` |  (list[str], optional) Only return metrics for specific keys |
-|  `x_axis` |  (str, optional) Use this metric as the xAxis defaults to _step |
-|  `format` |  (Literal, optional) Format to return data in, options are "default", "pandas", "polars" |
-|  `stream` |  (Literal, optional) "default" for metrics, "system" for machine metrics |
+|  `samples` |  (정수, 선택 항목) run당 반환할 샘플의 수 |
+|  `keys` |  (리스트[str], 선택 항목) 특정 키에 대한 메트릭만 반환 |
+|  `x_axis` |  (문자열, 선택 항목) x축으로 사용할 메트릭, 기본값은 _step |
+|  `format` |  (Literal, 선택 항목) 데이터를 반환할 형식, "default", "pandas", "polars" 옵션 가능 |
+|  `stream` |  (Literal, 선택 항목) 메트릭을 위한 "default", 시스템 메트릭을 위한 "system" |
 
-| Returns |  |
+| 반환 |  |
 | :--- | :--- |
-|  `pandas.DataFrame` |  If format="pandas", returns a `pandas.DataFrame` of history metrics. |
-|  `polars.DataFrame` |  If format="polars", returns a `polars.DataFrame` of history metrics. list of dicts: If format="default", returns a list of dicts containing history metrics with a run_id key. |
+|  `pandas.DataFrame` |  format="pandas"일 경우, 이력 메트릭의 `pandas.DataFrame` 반환 |
+|  `polars.DataFrame` |  format="polars"일 경우, 이력 메트릭의 `polars.DataFrame` 반환. list of dicts: format="default"일 경우, run_id 키를 포함하는 이력 메트릭의 사전 목록 반환. |
 
 ### `next`
 
@@ -103,6 +102,6 @@ __iter__()
 __len__()
 ```
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
 |  `QUERY`<a id="QUERY"></a> |   |
