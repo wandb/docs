@@ -8,7 +8,7 @@ title: Run W&B Server on Kubernetes
 
 Use the W&B Kubernetes Operator to simplify deploying, administering, troubleshooting, and scaling your W&B Server deployments on Kubernetes. You can think of the operator as a smart assistant for your W&B instance.
 
-The W&B Server architecture and design continuously evolves to expand AI developer tooling capabilities, and to provide appropriate primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. To help facilitate continuos updates and improvements across deployment types, W&B users a Kubernetes operator.
+The W&B Server architecture and design continuously evolves to expand AI developer tooling capabilities, and to provide appropriate primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. To help facilitate continuous updates and improvements across deployment types, W&B users a Kubernetes operator.
 
 :::info
 W&B uses the operator to deploy and manage Dedicated Cloud instances on AWS, GCP and Azure public clouds.
@@ -143,9 +143,6 @@ module "wandb" {
           "x" = "y"
         }
       }
-
-      # important, DO NOT REMOVE
-      mysql = { install = false }
     }
   }
 }
@@ -395,9 +392,6 @@ spec:
     ingress:
       annotations:
         <redacted>
-    mysql:
-      # important, DO NOT REMOVE
-      install: false
 ```
 
 This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other
@@ -438,8 +432,6 @@ spec:
         ingress.gcp.kubernetes.io/pre-shared-cert: abc-wandb-cert-creative-puma
         kubernetes.io/ingress.class: gce
         kubernetes.io/ingress.global-static-ip-name: abc-wandb-operator-address
-    mysql:
-      install: false
 ```
 
 
@@ -568,6 +560,81 @@ In case of Nginx you might have to add the following annotation:
 ingress:
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 64m
+```
+
+### Custom Kubernetes ServiceAccounts
+
+Specify custom Kubernetes service accounts to run the W&B pods. 
+
+The following snippet creates a service account as part of the deployment with the specified name:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+parquet:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+global:
+  ...
+```
+The subsystems "app" and "parquet" runs under the specified service account. The other subsystem runs under the default service account.
+
+If the service account already exists on the cluster, set `create: false`:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+
+parquet:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+    
+global:
+  ...
+```
+
+
+
+You can specify service accounts on different subsystems such as app, parquet, console, and more:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+console:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+global:
+  ...
+```
+
+The service accounts can be different between the subsystems:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+
+console:
+  serviceAccount:
+    name: another-custom-service-account
+    create: true
+
+global:
+  ...
 ```
 
 ### External Redis
