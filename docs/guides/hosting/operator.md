@@ -570,6 +570,79 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: 64m
 ```
 
+### Custom Kubernetes ServiceAccounts
+
+Customers can specify custom Kubernetes service accounts to run the W&B pods. 
+
+The following snippet will create a service account as part of the deployment with the specified name:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+parquet:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+global:
+  ...
+```
+The subsystems "app" and "parquet" will run under the specified service account. The other subsystem will be run under the default service account.
+
+If the service account already exists on the cluster, set `create: false`:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+
+parquet:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+    
+global:
+  ...
+```
+
+Service accounts can be specified on multiple different subsystems, e.g. app, parquet, console:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+console:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+global:
+  ...
+```
+
+The service accounts can be different between the subsystems:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+
+console:
+  serviceAccount:
+    name: another-custom-service-account
+    create: true
+
+global:
+  ...
+```
+
 ### External Redis
 
 ```yaml
