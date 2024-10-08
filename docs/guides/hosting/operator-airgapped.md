@@ -1,5 +1,5 @@
 ---
-description: Hosting W&B Server with Kubernetes Operator (Airgapped)
+description: Deploy W&B Platform with Kubernetes Operator (Airgapped)
 displayed_sidebar: default
 ---
 
