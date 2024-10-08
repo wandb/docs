@@ -3,15 +3,100 @@ displayed_sidebar: default
 title: Use point aggregation
 ---
 
-Use point aggregation methods within W&B Line Plots to improve data visualization accuracy and performance. There are two types of point aggregation modes: [Random sampling](#random-sampling) and [Full fidelity](#full-fidelity).
+Use point aggregation methods within your line plots for improved data visualization accuracy and performance. There are two types of point aggregation modes: [full fidelity](#full-fidelity) and random sampling](#random-sampling). W&B uses full fidelity mode by default.
 
-:::note
-Workspaces use **Random sampling** mode by default. Switching to Full fidelity applies the chart setting per user.
+## Full fidelity
+
+When you use full fidelity mode, W&B breaks the x-axis into dynamic buckets based on the number of data points. It then calculates the minimum, maximum, and average values within each bucket while rendering a point aggregation for the line plot. 
+
+There are three main advantages to using full fidelity mode for point aggregation:
+
+* Preserve outliers and spikes: Unlike random sampling, full fidelity mode preserves outliers and spikes in the data. 
+* Create shaded areas: use the W&B App to interactively decide whether you want to shade extreme values outliers, such as the minimum and maximum.
+* Zoom in on data points: Zoom in on data points without losing detail due to downsampling. 
+
+
+Full Fidelity provides an accurate and detailed representation of the dataset while maintaining performance for charts with extremely large data.
+
+
+
+### Manage shaded areas
+
+Manage shaded areas within your line plots to highlight minimum and maximum points in your data. For example, you can shade the area between the minimum and maximum values to emphasize the range of the data. 
+
+The proceeding image shows a line plot in purple with maximum values shaded in gray.
+![](/images/app_ui/shaded-areas.png)
+
+There are three ways to manage render shaded areas within your line plots:
+
+* **Never**: The min/max values are not displayed as a shaded area. Only show the aggregated line across the x-axis bucket.
+* **On hover**: The shaded area for min/max values appears dynamically when you hover over the chart. This option keeps the view uncluttered while allowing you to inspect ranges interactively.
+* **Always**: The min/max shaded area is consistently displayed for every bucket in the chart, helping you visualize the full range of values at all times. This can introduce visual noise if there are many runs visualized in the chart.
+
+
+By default, the minimum and maximum values are not displayed as shaded areas. To enable one of the shaded area options, follow these steps:
+
+1. Navigate to your W&B project
+2. Select on the **Workspace** icon on the left tab
+3. Select the gear icon on the top right corner of the screen next to the left of the **Add panels** button.
+4. From the UI slider that appears, select **Line plots**
+5. Within the **Point aggregation** section, choose **On over** or **Always** from the **Show min/max values as a shaded area** dropdown menu.
+
+
+### Zoom in on data points
+
+Analyze specific regions of the dataset without missing critical points like extreme values or spikes. When you zoom in on a line plot, W&B adjusts the buckets sizes used to calculate the minimum, maximum, and average values within each bucket. 
+
+![](/images/app_ui/zoom_in.gif)
+
+
+W&B divides the x-axis is dynamically into 1000 buckets by default. For each bucket, W&B calculates the following values:
+
+- **Minimum**: The lowest value in that bucket.
+- **Maximum**: The highest value in that bucket.
+- **Average**: The mean value of all points in that bucket.
+
+:::info
+W&B does not aggregate data points if you zoom in on a plot with less than 1000 points.
 :::
-## Random sampling
-For performance reasons, when over 1500 points were chosen for a line plot metric, the point aggregation method returns 1500 randomly sampled points. Each metric is sampled separately. Only steps where the metric are actually logged are considered. Because random sampling samples non-deterministically, this method sometimes excluded important outliers or spikes.
 
-### Example: Accessing run history
+To zoom in on a line plot, follow these steps:
+
+1. Navigate to your W&B project
+2. Select on the **Workspace** icon on the left tab
+3. Optionally add a line plot panel to your workspace or navigate to an existing line plot panel.
+4. Click and drag to select a specific region to zoom in on.
+
+<!-- BEFORE -->
+
+
+
+ 
+## Random sampling
+
+Random sampling point aggregation method uses 1500 randomly sampled points to render line plots. Random sampling is useful for performance reasons when you have a large number of data points. 
+
+However, because random sampling samples non-deterministically, this method can sometimes exclude important outliers or spikes in the data and therefore reduce data accuracy.
+
+### Enable random sampling
+By default, W&B uses full fidelity mode for point aggregation. To enable random sampling, follow these steps:
+
+1. Navigate to your W&B project
+2. Select on the **Workspace** icon on the left tab
+3. Select the gear icon on the top right corner of the screen next to the left of the **Add panels** button.
+4. From the UI slider that appears, select **Line plots**
+5. Choose **Random sampling** from the **Point aggregation** section
+
+:::info Line plot grouping and expressions
+When you use Line Plot Grouping, W&B applies the following based on the mode selected:
+
+- **Non-windowed sampling (grouping)**: Aligns points across runs on the x-axis. The average is taken if multiple points share the same x-value; otherwise, they appear as discrete points.
+- **Windowed sampling (grouping and expressions)**: Divides the x-axis either into 250 buckets or the number of points in the longest line (whichever is smaller). Points within each bucket are averaged.
+- **Full fidelity (grouping and expressions)**: Similar to non-windowed sampling, but fetches up to 500 points per run to balance performance and detail.
+:::
+
+
+### Access run history
 
 To access the complete history of metrics logged during a run, you can use the [W&B Run API](../../../../../ref/python/public-api/run.md). The following example demonstrates how to retrieve and process the loss values from a specific run:
 
@@ -24,28 +109,4 @@ history = run.scan_history(keys=["Loss"])
 
 # Extract the loss values from the history
 losses = [row["Loss"] for row in history]
-```
-
-## Full fidelity
-
-The full fidelity point aggregation method replaces random sampling with an averaging approach that maintains the integrity of critical visual insights, such as outliers and spikes. Full fidelity mode guarantees the inclusion of minimum and maximum values within each bucket on your chart, allowing for high-detail zoom capabilities.
-
-Some key benfits of full fidelity mode include:
-* Accurate Data Representation: Ensures all critical outlier spikes are displayed.
-* High-Density Visualization: Maintains full data resolution beyond the 1,500 point limit.
-* Enhanced Zoom: Users can zoom into data points without losing detail due to downsampling.
-
-### Enable Full fidelity mode
-1. Navigate to your workspace settings or panel settings.
-2. Select the Runs tab.
-3. Under **Point aggregation method**, choose **Full fidelity**.
-
-
-
-:::info Line Plot Grouping or Expressions
-W&B downsamples points with buckets if you use Line Plot Grouping or Expressions on runs that have non-aligned x-axis values. The x-axis is divided into 200 segments, and points within each segment are averaged. These averages represent the metric values when grouping or combining metrics.
-:::
-
-:::caution Active feature development
-Applying Grouping or Expressions will revert to Random sampling instead of Full fidelity. We are actively working on achieving full feature parity with the Run Plots settings for Full fidelity mode, including enabling Grouping and Custom Expressions, while also optimizing performance. For now, panels with grouping or expressions will use Random sampling. This feature is available early because it was highly requested and provided value to users, even though improvements are still ongoing. Please reachout to support@wandb.com if you have any issues. 
-:::
+``` 
