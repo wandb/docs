@@ -18,6 +18,7 @@ CTAButtons
 [Dd]eserialize
 Docker
 Dockerfile
+[Dd]ownsampling
 [Ee]nqueued
 GCP
 GPUs
