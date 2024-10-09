@@ -3,13 +3,8 @@ description: >-
   eep your pages in W&B faster and more responsive by logging within these
   suggested bounds.
 displayed_sidebar: default
+title: Experiments limits and performance
 ---
-
-# Limits and performance
-
-<head>
-  <title>Experiments Limits and Performance</title>
-</head>
 
 <!-- ## Best Practices for Fast Pages -->
 
@@ -81,9 +76,9 @@ Data is saved and tracked even if you log values wider than the recommended amou
 
 Pick a logging frequency that is appropriate to the metric you are logging. As a general rule of thumb, the wider the metric the less frequently you should log it. W&B recommends:
 
-* Scalars: <100,000 logged points per metric
-* Media: <50,000 logged points per metric
-* Histograms: <10,000 logged points per metric
+* Scalars: \<100,000 logged points per metric
+* Media: \<50,000 logged points per metric
+* Histograms: \<10,000 logged points per metric
 
 
 ```python
@@ -159,7 +154,7 @@ with f as open("large_config.json", "r"):
 
 For faster loading times, keep the total number of runs in a single project under 10,000.  Large run counts can slow down project workspaces and runs table operations, especially when grouping is enabled or runs have a large count of distinct metrics.  
 
-If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving *other* runs](https://docs.wandb.ai/guides/app/features/runs-table#move-runs-between-projects) to a new project used as an archive, leaving a smaller set of runs in your working project.  
+If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving *other* runs](/guides/app/features/runs-table#move-runs-between-projects) to a new project used as an archive, leaving a smaller set of runs in your working project.  
 
 
 ### Section count

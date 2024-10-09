@@ -3,18 +3,10 @@ description: >-
   Edit a report interactively with the App UI or programmatically with the
   W&B SDK.
 displayed_sidebar: default
+title: Edit a report
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-# Edit a report
-
-<head>
-  <title>Edit a W&B Report</title>
-</head>
-
 
 Edit a report interactively with the App UI or programmatically with the W&B SDK.
 
@@ -402,10 +394,10 @@ Highlight a whole panel grid section by selecting the drag handle in the upper r
 
 Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
-![](@site/static/images/reports/delete_panel_grid.gif)
+![](/images/reports/delete_panel_grid.gif)
 
 ### Collapse headers to organize Reports
 
 Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
 
-![](@site/static/images/reports/collapse_headers.gif)
+![](/images/reports/collapse_headers.gif)

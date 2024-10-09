@@ -1,16 +1,14 @@
 ---
 displayed_sidebar: default
+title: Hugging Face Transformers
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-# Hugging Face Transformers
-
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Optimize_Hugging_Face_models_with_Weights_&_Biases.ipynb"></CTAButtons>
 
-The [Hugging Face Transformers](https://huggingface.co/transformers/) library makes state-of-the-art NLP models like BERT and training techniques like mixed precision and gradient checkpointing easy to use. The [W&B integration](https://huggingface.co/transformers/main\_classes/callback.html#transformers.integrations.WandbCallback) adds rich, flexible experiment tracking and model versioning to interactive centralized dashboards without compromising that ease of use.
+The [Hugging Face Transformers](https://huggingface.co/transformers/) library makes state-of-the-art NLP models like BERT and training techniques like mixed precision and gradient checkpointing easy to use. The [W&B integration](https://huggingface.co/transformers/main_classes/callback.html#transformers.integrations.WandbCallback) adds rich, flexible experiment tracking and model versioning to interactive centralized dashboards without compromising that ease of use.
 
 ## 🤗 Next-level logging in few lines
 
@@ -23,7 +21,7 @@ from transformers import TrainingArguments, Trainer
 args = TrainingArguments(..., report_to="wandb")  # turn on W&B logging
 trainer = Trainer(..., args=args)
 ```
-![Explore your experiment results in the W&B interactive dashboard](@site/static/images/integrations/huggingface_gif.gif)
+![Explore your experiment results in the W&B interactive dashboard](/images/integrations/huggingface_gif.gif)
 
 :::info
 If you'd rather dive straight into working code, check out this [Google Colab](https://wandb.me/hf).
@@ -220,7 +218,7 @@ However, If you pass a [`run_name`](https://huggingface.co/docs/transformers/mai
 :::
 
 #### W&B Model Registry
-Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the Weights & Biases **[Model Registry](../model_registry)**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](https://docs.wandb.ai/guides/models/automation) downstream actions with webhooks or jobs. 
+Once you have logged your checkpoints to Artifacts, you can then register your best model checkpoints and centralize them across your team using the Weights & Biases **[Model Registry](../model_registry)**. Here you can organize your best models by task, manage model lifecycle, facilitate easy tracking and auditing throughout the ML lifecyle, and [automate](/guides/artifacts/project-scoped-automations/#create-a-webhook-automation) downstream actions with webhooks or jobs. 
 
 See the [Model Registry](../model_registry) documentation for how to link a model Artifact to the Model Registry.
  
@@ -319,7 +317,7 @@ with wandb.init(
 
 ### Custom logging: log and view evaluation samples during training
 
-Logging to Weights & Biases via the Transformers `Trainer` is taken care of by the [`WandbCallback`](https://huggingface.co/transformers/main\_classes/callback.html#transformers.integrations.WandbCallback) in the Transformers library. If you need to customize your Hugging Face logging you can modify this callback by subclassing `WandbCallback` and adding additional functionality that leverages additional methods from the Trainer class. 
+Logging to Weights & Biases via the Transformers `Trainer` is taken care of by the [`WandbCallback`](https://huggingface.co/transformers/main_classes/callback.html#transformers.integrations.WandbCallback) in the Transformers library. If you need to customize your Hugging Face logging you can modify this callback by subclassing `WandbCallback` and adding additional functionality that leverages additional methods from the Trainer class. 
 
 Below is the general pattern to add this new callback to the HF Trainer, and further down is a code-complete example to log evaluation outputs to a W&B Table:
 
@@ -444,7 +442,7 @@ For a more detailed example please refer to this [colab](https://colab.research.
 
 ### Additional W&B settings
 
-Further configuration of what is logged with `Trainer` is possible by setting environment variables. A full list of W&B environment variables [can be found here](https://docs.wandb.ai/library/environment-variables).
+Further configuration of what is logged with `Trainer` is possible by setting environment variables. A full list of W&B environment variables [can be found here](/guides/hosting/env-vars/).
 
 | Environment Variable | Usage                                                                                                                                                                                                                                                                                                    |
 | -------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

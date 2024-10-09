@@ -1,12 +1,11 @@
 ---
 description: Getting started guide for W&B Launch.
 displayed_sidebar: default
+title: "Tutorial: W&B Launch basics" 
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Walkthrough
 
 This page walks through the basics of the W&B Launch workflow.
 

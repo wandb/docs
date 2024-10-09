@@ -1,16 +1,10 @@
 ---
 description: Initialize a W&B Sweep
 displayed_sidebar: default
+title: Initialize a sweep
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Initialize sweeps
-
-<head>
-  <title>Start a W&B Sweep</title>
-</head>
 
 W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally (local) across one or more machines. After a run completes, the sweep controller will issue a new set of instructions describing a new run to execute. These instructions are picked up by _agents_ who actually perform the runs. In a typical W&B Sweep, the controller lives on the W&B server. Agents live on _your_ machine(s).
 

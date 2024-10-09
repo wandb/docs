@@ -1,16 +1,11 @@
 ---
 description: The Prompts Quickstart shows how to visualise and debug the execution flow of your LLM chains and pipelines
 displayed_sidebar: default
+title: "Tutorial: Visualize and debug LLMs with Prompts"
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-
-# Prompts Quickstart
-
-[**Try in a Colab Notebook here →**](http://wandb.me/prompts-quickstart)
-
-<head>
-  <title>Prompts Quickstart</title>
-</head>
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb"></CTAButtons>
 
 This Quickstart guide will walk you how to use [Trace](./intro.md) to visualize and debug calls to LangChain, LlamaIndex or your own LLM Chain or Pipeline:
 
@@ -408,7 +403,7 @@ wandb_callback.finish()
 Thats it! Now you can log your queries to your index using Weights & Biases. If you come across any issues, please file an issue on the [wandb repo](https://github.com/wandb/wandb/issues) with the tag `llamaindex`
 
 ### 6. [Optional] Save your Index data in Weights & Biaes Artifacts
-Weights & Biases [Artifacts](guides/artifacts) is a versioned data and model storage product. 
+Weights & Biases [Artifacts](../../artifacts/) is a versioned data and model storage product. 
 
 By logging your index to Artifacts and then using it when needed, you can assosciate a particular version of your index with the logged Trace outputs, ensuring full visibility into what data was in your index for a particular call to your index.
 

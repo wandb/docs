@@ -1,14 +1,8 @@
 ---
 description: Create custom aliases for W&B Artifacts.
 displayed_sidebar: default
+title: Create an artifact alias
 ---
-
-# Create a custom alias
-
-<head>
-    <title>Create a custom alias for your Artifact.</title>
-</head>
-
 Use aliases as pointers to specific versions. By default, `Run.log_artifact` adds the `latest` alias to the logged version.
 
 An artifact version `v0` is created and attached to your artifact when you log an artifact for the first time. W&B checksums the contents when you log again to the same artifact. If the artifact changed, W&B saves a new version `v1`.

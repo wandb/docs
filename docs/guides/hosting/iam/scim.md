@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Manage users, groups, and roles with SCIM 
 ---
-
-# SCIM
 
 The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams. 
 

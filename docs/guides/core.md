@@ -1,11 +1,11 @@
 ---
 displayed_sidebar: default
+title: W&B Core
 ---
 
-# W&B Core
 W&B Core is the foundational framework supporting [W&B Models](./models.md) and [W&B Weave](./weave_platform.md), and is itself supported by the [W&B Platform](./hosting/intro.md). 
 
-![](@site/static/images/general/core.png)
+![](/images/general/core.png)
 
 W&B Core provides capabilities across the entire ML lifecycle. With W&B Core, you can:
 

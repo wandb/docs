@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Configure registry access
 ---
-
-# Configure registry access
 <!-- A registry, and the linked artifacts inside a registry, belong to an organization. This means that teams within an organization can publish and consume artifacts linked to a registry, if that team has correct access control. -->
 
 Registry admins can limit who can access a registry by navigating to a registry's settings and assigning a user's role to [Admin, Member, or Viewer](#registry-roles-permissions). Users can have different roles in different registries. For example, a user can have a view role in "Registry A" and a member role in the "Registry B". 

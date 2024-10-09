@@ -1,14 +1,11 @@
+---
+title: Track experiments
+---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
-
-# Track experiments
 
 <CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_&_Biases.ipynb'/>
 
-
-
-
-
-Use [W&B](https://wandb.ai/site?utm_source=intro_colab&utm_medium=code&utm_campaign=intro) for machine learning experiment tracking, model checkpointing, collaboration with your team and more. See the full W&B Documentation [here](https://docs.wandb.ai/).
+Use [W&B](https://wandb.ai/site?utm_source=intro_colab&utm_medium=code&utm_campaign=intro) for machine learning experiment tracking, model checkpointing, collaboration with your team and more. See the full W&B Documentation [here](/).
 
 In this notebook, you will create and track a machine learning experiment using a simple PyTorch model. By the end of the notebook, you will have an interactive project dashboard that you can share and customize with other members of your team. [View an example dashboard here](https://wandb.ai/wandb/wandb_example).
 
@@ -17,12 +14,12 @@ In this notebook, you will create and track a machine learning experiment using 
 Install the W&B Python SDK and log in:
 
 
-```
+```shell
 !pip install wandb -qU
 ```
 
 
-```
+```python
 # Log in to your W&B account
 import wandb
 import random
@@ -33,7 +30,7 @@ wandb.require("core")
 ```
 
 
-```
+```python
 wandb.login()
 ```
 
@@ -41,7 +38,7 @@ wandb.login()
 
 Create, track, and visualize a machine learning experiment. To do this:
 
-1. Initialize a [W&B run](https://docs.wandb.ai/guides/runs) and pass in the hyperparameters you want to track.
+1. Initialize a [W&B run](/guides/runs) and pass in the hyperparameters you want to track.
 2. Within your training loop, log metrics such as the accuruacy and loss.
 
 
@@ -84,7 +81,7 @@ View how your machine learning peformed in your W&B project. Copy and paste the 
 
 The following image shows what a dashboard can look like:
 
-![](https://i.imgur.com/Pell4Oo.png)
+![](/images/tutorials/experiments-1.png)
 
 Now that we know how to integrate W&B into a psuedo machine learning training loop, let's track a machine learning experiment using a basic PyTorch neural network. The following code will also upload model checkpoints to W&B that you can then share with other teams in in your organization.
 
@@ -92,18 +89,18 @@ Now that we know how to integrate W&B into a psuedo machine learning training lo
 
 The following code cell defines and trains a simple MNIST classifier. During training, you will see W&B prints out URLs. Click on the project page link to see your results stream in live to a W&B project.
 
-W&B runs automatically log [metrics](https://docs.wandb.ai/ref/app/pages/run-page#charts-tab),
-[system information](https://docs.wandb.ai/ref/app/pages/run-page#system-tab),
-[hyperparameters](https://docs.wandb.ai/ref/app/pages/run-page#overview-tab),
-[terminal output](https://docs.wandb.ai/ref/app/pages/run-page#logs-tab) and
-you'll see an [interactive table](https://docs.wandb.ai/guides/data-vis)
+W&B runs automatically log [metrics](/guides/app/pages/run-page/#workspace-tab),
+[system information](/guides/app/pages/run-page/#system-tab),
+[hyperparameters](/guides/app/pages/run-page/#overview-tab),
+[terminal output](/guides/app/pages/run-page/#logs-tab) and
+you'll see an [interactive table](/guides/tables)
 with model inputs and outputs. 
 
 ### Set up PyTorch Dataloader
 The following cell defines some useful functions that we will need to train our machine learning model. The functions themselves are not unique to W&B so we'll not cover them in detail here. See the PyTorch documentation for more information on how to define [forward and backward training loop](https://pytorch.org/tutorials/beginner/nn_tutorial.html), how to use [PyTorch DataLoaders](https://pytorch.org/tutorials/beginner/basics/data_tutorial.html) to load data in for training, and how define PyTorch models using the [`torch.nn.Sequential` Class](https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html). 
 
 
-```
+```python
 #@title
 import torch, torchvision
 import torch.nn as nn
@@ -166,7 +163,7 @@ In the cell we define a function called `log_image_table`. Though technically, o
 More specifically, each row will conists of the image fed to the model, along with predicted value and the actual value (label). 
 
 
-```
+```python
 def log_image_table(images, predicted, labels, probs):
     "Log a wandb.Table with (img, pred, target, scores)"
     # Create a wandb Table to log images, labels and predictions to
@@ -180,10 +177,10 @@ def log_image_table(images, predicted, labels, probs):
 
 The following code trains and saves model checkpoints to your project. Use model checkpoints like you normally would to assess how the model performed during training. 
 
-W&B also makes it easy to share your saved models and model checkpoints with other members of your team or organization. To learn how to share your model and model checkpoints with members outside of your team, see [W&B Registry](https://docs.wandb.ai/guides/registry).
+W&B also makes it easy to share your saved models and model checkpoints with other members of your team or organization. To learn how to share your model and model checkpoints with members outside of your team, see [W&B Registry](/guides/registry).
 
 
-```
+```python
 # Launch 3 experiments, trying different dropout rates
 for _ in range(3):
     # initialise a wandb run
@@ -260,7 +257,7 @@ You have now trained your first model using W&B. Click on one of the links above
 
 ## (Optional) Set up a W&B Alert
 
-Create a [W&B Alerts](https://docs.wandb.ai/guides/track/alert) to send alerts to your Slack or email from your Python code. 
+Create a [W&B Alerts](/guides/runs/alert/) to send alerts to your Slack or email from your Python code. 
 
 There are 2 steps to follow the first time you'd like to send a Slack or email alert, triggered from your code:
 
@@ -277,7 +274,7 @@ wandb.alert(
 The following cell shows a minimal example below to see how to use `wandb.alert`
 
 
-```
+```python
 # Start a wandb run
 wandb.init(project="pytorch-intro")
 
@@ -306,7 +303,7 @@ for training_step in range(1000):
 wandb.finish()
 ```
 
-You can find the full docs for [W&B Alerts here](https://docs.wandb.ai/guides/track/alert).
+You can find the full docs for [W&B Alerts here](/guides/runs/alert).
 
 ## Next steps
 The next tutorial you will learn how to do hyperparameter optimization using W&B Sweeps:

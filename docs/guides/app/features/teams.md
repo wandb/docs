@@ -3,9 +3,8 @@ description: >-
   Collaborate with your colleagues, share results, and track all the experiments
   across your team
 displayed_sidebar: default
+title: Manage teams
 ---
-
-# Teams
 
 Use W&B Teams as a central workspace for your ML team to build better models faster.
 
@@ -138,7 +137,7 @@ In your Intro, type `/` and choose Markdown and paste the markdown snippet that 
 
 For example, to add a Twitter follow badge, add `[![Twitter: @weights_biase](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://twitter.com/intent/follow?screen_name=weights_biases` replacing `weights_biases` with your Twitter username.
 
-[![Twitter: @weights_biases](https://img.shields.io/twitter/follow/weights\_biases?style=social)](https://twitter.com/intent/follow?screen\_name=weights\_biases)
+[![Twitter: @weights_biases](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://twitter.com/intent/follow?screen_name=weights_biases)
 
 ## Team trials
 

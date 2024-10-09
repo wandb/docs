@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: Create a custom registry
 ---
-
-# Create a custom registry
 
 Create a [custom registry](./registry_types.md#custom-registry) for each step of your ML workflow.
 

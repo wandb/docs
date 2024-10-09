@@ -3,14 +3,8 @@ description: >-
   Embed W&B reports directly into Notion or with an HTML IFrame
   element.
 displayed_sidebar: default
+title: Embed a report
 ---
-
-# Embed reports
-
-<head>
-  <title>Embed reports into popular applications.</title>
-</head>
-
 
 ### HTML iframe element
 

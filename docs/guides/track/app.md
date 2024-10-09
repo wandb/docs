@@ -1,13 +1,8 @@
 ---
 description: Create centralized, interactive, visual dashboards for your ML experiments
 displayed_sidebar: default
+title: View experiment results
 ---
-
-# View results from experiments
-
-<head>
-  <title>Organize and visualize results from your machine learning models</title>
-</head>
 
 Use the W&B Dashboard as a central place to organize and visualize results from your machine learning models.
 

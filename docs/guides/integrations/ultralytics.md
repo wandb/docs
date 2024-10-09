@@ -1,12 +1,10 @@
 ---
 displayed_sidebar: default
+title: Ultralytics
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-# Ultralytics
 
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb"></CTAButtons>
 

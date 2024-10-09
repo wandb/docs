@@ -1,6 +1,10 @@
-# Iterate on LLMs
+---
+displayed_sidebar: tutorials
+title: Iterate on LLMs
+---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-[**Try in a Colab Notebook here →**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb)
+<CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/prompts/WandB_Prompts_Quickstart.ipynb"></CTAButtons>
 
 **Weights & Biases Prompts** is a suite of LLMOps tools built for the development of LLM-powered applications. 
 
@@ -11,24 +15,7 @@ Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyz
 
 ```python
 !pip install "wandb==0.15.2" -qqq
-!pip install "langchain==v0.0.158" openai -qqq
 ```
-
-## Setup
-
-This demo requires that you have an [OpenAI key](https://platform.openai.com)
-
-
-```python
-import os
-from getpass import getpass
-
-if os.getenv("OPENAI_API_KEY") is None:
-  os.environ["OPENAI_API_KEY"] = getpass("Paste your OpenAI key from: https://platform.openai.com/account/api-keys\n")
-assert os.getenv("OPENAI_API_KEY", "").startswith("sk-"), "This doesn't look like a valid OpenAI API key"
-print("OpenAI API key configured")
-```
-
 # W&B Prompts
 
 W&B currently supports a tool called __Trace__. Trace consists of three main components:
@@ -39,70 +26,16 @@ W&B currently supports a tool called __Trace__. Trace consists of three main com
 
 **Model architecture**: View details about the structure of the chain and the parameters used to initialize each component of the chain.
 
-After running this section, you will see a new panel automatically created in your workspace, showing each execution, the trace, and the model architecture
+In the proceeding image you see a new panel automatically created in your workspace, showing each execution, the trace, and the model architecture
 
 
 ![prompts_1](/images/tutorials/prompts_quickstart/prompts.png)
 
 ![prompts_2](/images/tutorials/prompts_quickstart/prompts2.png)
 
+# Writing your own integration
 
-Import `WandbTracer`and optionally define a dictionary with arguments for `wandb.init()` that will later be passed to `WandbTracer`. This includes a project name, team name, entity, and more. For more information about wandb.init, see the API Reference Guide.
-
-
-```python
-from wandb.integration.langchain import WandbTracer
-
-wandb_config = {"project": "wandb_prompts_quickstart"}
-```
-
-### Maths with LangChain
-
-
-```python
-from langchain.agents import load_tools
-from langchain.agents import initialize_agent
-from langchain.agents import AgentType
-from langchain.llms import OpenAI
-```
-
-
-```python
-llm = OpenAI(temperature=0)
-tools = load_tools(["llm-math"], llm=llm)
-agent = initialize_agent(
-  tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION)
-```
-
-Pass `WandbTracer` when you call your LangChain chain or agent to log your trace to W&B
-
-
-```python
-questions = [
-    "Find the square root of 5.4.",
-    "What is 3 divided by 7.34 raised to the power of pi?",
-    "What is the sin of 0.47 radians, divided by the cube root of 27?",
-    "what is 1 divided by zero"
-]
-for question in questions:
-  try:
-    answer = agent.run(question, callbacks=[WandbTracer(wandb_config)])
-    print(answer)
-  except Exception as e:
-    print(e)
-    pass
-```
-
-When you're finished your session, it is best practice to call `WandbTracer.finish()` to ensure your wandb run closes cleanly.
-
-
-```python
-WandbTracer.finish()
-```
-
-# Non-Lang Chain Implementation
-
-What if you don't want to use Langchain - in particular you want to write an integration or instrucment your teams code? That is completely ok! Let's learn about `TraceTree` and `Span`!
+What if you want to write an integration or instrument your code? This is where utilities like `TraceTree` and `Span` comes in handy.
 
 ![prompts_3](/images/tutorials/prompts_quickstart/prompts3.png)
 

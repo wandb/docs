@@ -33,7 +33,7 @@ begin with `add`. Once the artifact has all the desired files, you can call
 
 | Attributes |  |
 | :--- | :--- |
-|  `aliases` |  List of one or more semantically-friendly references or identifying "nicknames" assigned to an artifact version. Aliases are mutable references that you can programmatically reference. Change an artifact's alias with the W&B App UI or programmatically. See [Create new artifact versions](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) for more information. |
+|  `aliases` |  List of one or more semantically-friendly references or identifying "nicknames" assigned to an artifact version. Aliases are mutable references that you can programmatically reference. Change an artifact's alias with the W&B App UI or programmatically. See [Create new artifact versions](/guides/artifacts/create-a-new-artifact-version) for more information. |
 |  `collection` |  The collection this artifact was retrieved from. A collection is an ordered group of artifact versions. If this artifact was retrieved from a portfolio / linked collection, that collection will be returned rather than the collection that an artifact version originated from. The collection that an artifact originates from is known as the source sequence. |
 |  `commit_hash` |  The hash returned when this artifact was committed. |
 |  `created_at` |  Timestamp when the artifact was created. |
@@ -44,16 +44,16 @@ begin with `add`. Once the artifact has all the desired files, you can call
 |  `id` |  The artifact's ID. |
 |  `manifest` |  The artifact's manifest. The manifest lists all of its contents, and can't be changed once the artifact has been logged. |
 |  `metadata` |  User-defined artifact metadata. Structured data associated with the artifact. |
-|  `name` |  The artifact name and version in its secondary (portfolio) collection. A string with the format {collection}:{alias}. Before the artifact is saved, contains only the name since the version is not yet known. |
+|  `name` |  The artifact name and version in its secondary (portfolio) collection. A string with the format `{collection}:{alias}`. Before the artifact is saved, contains only the name since the version is not yet known. |
 |  `project` |  The name of the project of the secondary (portfolio) artifact collection. |
 |  `qualified_name` |  The entity/project/name of the secondary (portfolio) collection. |
 |  `size` |  The total size of the artifact in bytes. Includes any references tracked by this artifact. |
 |  `source_collection` |  The artifact's primary (sequence) collection. |
 |  `source_entity` |  The name of the entity of the primary (sequence) artifact collection. |
-|  `source_name` |  The artifact name and version in its primary (sequence) collection. A string with the format {collection}:{alias}. Before the artifact is saved, contains only the name since the version is not yet known. |
+|  `source_name` |  The artifact name and version in its primary (sequence) collection. A string with the format `{collection}:{alias}`. Before the artifact is saved, contains only the name since the version is not yet known. |
 |  `source_project` |  The name of the project of the primary (sequence) artifact collection. |
 |  `source_qualified_name` |  The entity/project/name of the primary (sequence) collection. |
-|  `source_version` |  The artifact's version in its primary (sequence) collection. A string with the format "v{number}". |
+|  `source_version` |  The artifact's version in its primary (sequence) collection. A string with the format `v{number}`. |
 |  `state` |  The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED". |
 |  `tags` |  List of one or more tags assigned to this artifact version. |
 |  `ttl` |  The time-to-live (TTL) policy of an artifact. Artifacts are deleted shortly after a TTL policy's duration passes. If set to `None`, the artifact deactivates TTL policies and will be not scheduled for deletion, even if there is a team default TTL. An artifact inherits a TTL policy from the team default if the team administrator defines a default TTL and there is no custom policy set on an artifact. |
@@ -166,7 +166,7 @@ Add a reference denoted by a URI to the artifact.
 
 Unlike files or directories that you add to an artifact, references are not
 uploaded to W&B. For more information,
-see [Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files).
+see [Track external files](/guides/artifacts/track-external-files).
 
 By default, the following schemes are supported:
 

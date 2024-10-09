@@ -3,13 +3,8 @@ description: >-
   Search and stop algorithms locally instead of using the W&B
   cloud-hosted service.
 displayed_sidebar: default
+title: Manage algorithms locally
 ---
-
-# Search and stop algorithms locally
-
-<head>
-  <title>Search and stop algorithms locally with W&B agents</title>
-</head>
 
 The hyper-parameter controller is hosted by Weights & Biased as a cloud service by default. W&B agents communicate with the controller to determine the next set of parameters to use for training. The controller is also responsible for running early stopping algorithms to determine which runs can be stopped.
 

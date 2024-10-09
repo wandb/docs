@@ -3,16 +3,9 @@ description: >-
   Artifacts quickstart shows how to create, track, and use a dataset artifact
   with W&B.
 displayed_sidebar: default
+title: "Tutorial: Create, track, and use a dataset artifact"
 ---
-
-# Walkthrough
-
-<head>
-  <title>Walkthrough</title>
-</head>
-
-
-The proceeding walkthrough demonstrates the major W&B Python SDK commands used to create, track, and use a dataset artifact from [W&B Runs](../runs/intro.md).
+This walkthrough demonstrates how to create, track, and use a dataset artifact from [W&B Runs](../runs/intro.md).
 
 ## 1. Log into W&B
 

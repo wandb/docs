@@ -1,11 +1,10 @@
 ---
-description: ''
+description: Create a registered model to hold all the candidate models for your modeling tasks.
 displayed_sidebar: default
+title: Create a registered model
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Create a registered model
 
 Create a [registered model](./model-management-concepts.md#registered-model) to hold all the candidate models for your modeling tasks. You can create a registered model interactively within the Model Registry or programmatically with the Python SDK.
 
@@ -41,7 +40,7 @@ Interactively create a registered model within the [Model Registry App](https://
 
 
 :::tip
-Manual linking a model to the model registry is useful for one-off models. However, it is often useful to [programmatically link model versions to the model registry](#programmatically-link-a-model).
+Manual linking a model to the model registry is useful for one-off models. However, it is often useful to [programmatically link model versions to the model registry](link-model-version#programmatically-link-a-model).
 
 For example, suppose you have a nightly job. It is tedious to manually link a model created each night. Instead, you could create a script that evaluates the model, and if the model improves in performance, link that model to the model registry with the W&B Python SDK.
 :::
