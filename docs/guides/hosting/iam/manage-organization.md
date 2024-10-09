@@ -4,7 +4,7 @@ displayed_sidebar: default
 
 # Manage your organization
 
-As an administrator of an organization you can both [manage individual users](#add-and-manage-users) within your organization and you can [manage teams](#add-and-manage-teams). 
+As an administrator of an organization you can [manage individual users](#add-and-manage-users) within your organization and [manage teams](#add-and-manage-teams). 
 
 As a team administrator you can [manage teams](#add-and-manage-teams).
 
@@ -14,7 +14,7 @@ The following workflow applies to:
 * Users with instance administrator (admin) roles. Reach out to an administrator in your organization if you believe you should have instance admin permissions. 
 :::
 
-If you are looking to simplify user management in your organization in Dedicated Cloud deployment, refer to [Automate user and team management](./automate_iam.md).
+If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
 
 
 <!-- W&B assigns an Admin role to new users within an organization by default.  -->
@@ -46,7 +46,7 @@ An invite link is sent using a third-party email server to the user's email afte
 
 
 :::tip enable SSO for authentication
-W&B strongly recommends and encourages that users authenticate to an organization using Single Sign-On (SSO). 
+W&B strongly recommends and encourages that users authenticate using Single Sign-On (SSO). 
 
 To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).
 :::
