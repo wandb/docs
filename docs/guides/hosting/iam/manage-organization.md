@@ -2,7 +2,7 @@
 displayed_sidebar: default
 ---
 
-# Mange your organization
+# Manage your organization
 
 As an administrator of an organization you can both [manage individual users](#add-and-manage-users) within your organization and you can [manage teams](#add-and-manage-teams). 
 
@@ -37,23 +37,18 @@ Use your organization's dashboard to invite users, assign or update a user's rol
 1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Users**.
 3. Select **Invite new user**.
 4. In the modal that appears, provide the email or username of the user in the Email or username field.
-5. (Optional but recommended) Add the user to a team from the **Choose team(s)** dropdown menu. You can alternatively [automatically assign a user to a team if their domain matches](#automatically-add-new-users-to-a-team). 
+5. (Recommended) Add the user to a team from the **Choose team(s)** dropdown menu.(#automatically-add-new-users-to-a-team). 
 6. From the **Select role** dropdown, select the role to assign to the user. You can change the user's role at a later time. See the table listed in [Assign a role](#assign-a-role) for more information about possible roles.
 7. Choose the **Send invite** button.
 
 An invite link is sent using a third-party email server to the user's email after you select the **Send invite** button. A user can access your organization once they accept the invite.
 
-:::note
-The **Invite new user** button is active only when your license has available seats. Reach out to your W&B team if you have difficulty adding users. 
-:::
 
 
 :::tip enable SSO for authentication
 W&B strongly recommends and encourages that users authenticate to an organization using Single Sign-On (SSO). 
 
 To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).
-
-Reach out to your W&B for further assistance.
 :::
 
 ### Auto provision users
@@ -115,7 +110,7 @@ To change a user's role:
 
 
 ## Add and manage teams
-Use your organization's dashboard to create teams within your organization. Once an organization admin creates a team, either the org admin or team admin can invite users to that tem, assign or update a team member's role, automatically add new users to a team when they join your organization, remove users from a team, and manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
+Use your organization's dashboard to create teams within your organization. Once an organization admin creates a team, either the org admin or team admin can invite users to that team, assign or update a team member's role, automatically add new users to a team when they join your organization, remove users from a team, and manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
 
 <!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md). -->
 
