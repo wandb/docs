@@ -9,31 +9,33 @@ As an administrator of an organization you can both [manage individual users](#a
 As a team administrator you can [manage teams](#add-and-manage-teams).
 
 :::info
-The following applies to users with instance administrator (admin) roles. Reach out to an administrator in your organization if you believe you should have instance admin permissions.
+The following workflow applies to:
+* W&B Multi-tenant SaaS Cloud
+* Users with instance administrator (admin) roles. Reach out to an administrator in your organization if you believe you should have instance admin permissions. 
 :::
 
-If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
+If you are looking to simplify user management in your organization in Dedicated Cloud deployment, refer to [Automate user and team management](./automate_iam.md).
 
 
 <!-- W&B assigns an Admin role to new users within an organization by default.  -->
 
 ## Change the name of your organization
 
-1. Navigate to the organization's dashboard at https://wandb.ai/home.
-2. Choose the User menu in the upper right corner of the organization dashboard. From the dropdown, Choose **Settings**.
+1. Navigate to https://wandb.ai/home.
+2. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Settings**.
 3. Within the **Settings** tab, select **General**.
 4. Select the **Change name** button.
 5. Within the modal that appears, provide a new name for your organization and select the **Save name** button.
 
 ## Add and manage users
 
-Use your organization's dashboard to invite users, assign or update a user's role, remove users from your organization, assign the billing administrator, and more. Your organization's dashboard is located at: https://wandb.ai/home.
+Use your organization's dashboard to invite users, assign or update a user's role, remove users from your organization, assign the billing administrator, and more.
 
 ### Invite a user
 
-1. Navigate to your organization's dashboard at https://wandb.ai/home.
-1. Choose the menu in the upper right corner of the organization dashboard. From the dropdown, choose **Users**.
-3. Choose **Invite new user**.
+1. Navigate to https://wandb.ai/home.
+1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Users**.
+3. Select **Invite new user**.
 4. In the modal that appears, provide the email or username of the user in the Email or username field.
 5. (Optional but recommended) Add the user to a team from the **Choose team(s)** dropdown menu. You can alternatively [automatically assign a user to a team if their domain matches](#automatically-add-new-users-to-a-team). 
 6. From the **Select role** dropdown, select the role to assign to the user. You can change the user's role at a later time. See the table listed in [Assign a role](#assign-a-role) for more information about possible roles.
@@ -91,23 +93,23 @@ A user within an organization can have one of the proceeding roles:
 
 To change a user's role:
 
-1. Navigate to your organization's dashboard at https://wandb.ai/home.
-2. Choose the menu in the upper right corner of the organization dashboard. From the dropdown, choose **Users**.
+1. Navigate to https://wandb.ai/home.
+2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Users**.
 4. Provide the name or email of the user in the search bar.
 4. Select a role from the **TEAM ROLE** dropdown next to the name of the user.
 
 
 ### Remove a user
 
-1. Navigate to your organization's dashboard at https://wandb.ai/home.
-2. Choose the menu in the upper right corner of the organization dashboard. From the dropdown, choose **Users**.
+1. Navigate to https://wandb.ai/home.
+2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Users**.
 4. Provide the name or email of the user in the search bar.
 5. Select the ellipses or three dots icon (**...**) when it appears.
 6. From the dropdown, choose **Remove member**.
 
 ### Assign the billing admin
-1. Navigate to your organization's dashboard at https://wandb.ai/home.
-2. Choose the menu in the upper right corner of the organization dashboard. From the dropdown, choose **Users**.
+1. Navigate to https://wandb.ai/home.
+2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Users**.
 4. Provide the name or email of the user in the search bar.
 5. Under the **Billing admin** column, choose the user you want to assign as the billing administrator.
 
@@ -122,10 +124,10 @@ Use your organization's dashboard to create teams within your organization. Once
 
 Use your organization's dashboard to create a team:
 
-1. Navigate to your organization's dashboard athttps://wandb.ai/home.
+1. Navigate to https://wandb.ai/home.
 2. Select **Create a team to collaborate** on the left navigation panel underneath **Teams**.
 ![](/images/hosting/create_new_team.png)
-3. A modal will appear. Provide a name for your team in the **Team name** field. 
+3. Provide a name for your team in the **Team name** field in the modal that appears. 
 4. Choose a storage type. 
 5. Select the **Create team** button.
 
@@ -137,7 +139,7 @@ Once you have a team, you can add users to that team.
 
 Invite users to a team in your organization. Use the team's dashboard to invite users using their email address or W&B username if they already have a W&B account.
 
-1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`.
+1. Navigate to `https://wandb.ai/<team-name>`.
 2. Select **Team settings** in the global navigation on the left side of the dashboard.
 ![](/images/hosting/team_settings.png)
 3. Select the **Users** tab.
@@ -197,8 +199,8 @@ Once you enable domain matching for a team, you can now automatically assign new
 Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
 :::
 
-1. Navigate to the organization's dashboard at https://wandb.ai/home.
-2. Choose the User menu in the upper right corner of the organization dashboard. From the dropdown, choose **Settings**.
+1. Navigate to https://wandb.ai/home.
+2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Settings**.
 3. Within the **Settings** tab, select **General**.
 4. Choose the **Claim domain** button within **Domain capture**.
 5. Provide the email domain in the **Email domain** field.
@@ -212,7 +214,7 @@ A user that joins W&B with the same domain as your organization is automatically
 ### Remove users from a team
 Remove a user from a team using the team's dashboard. W&B preserves runs created in a team even if the member who created the runs is no longer on that team.
 
-1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`.
+1. Navigate to `https://wandb.ai/<team-name>`.
 2. Select **Team settings** in the left navigation bar.
 3. Select the **Users** tab.
 4. Hover your mouse next to the ame of the user you want to delete. Select the ellipses or three dots icon (**...**) when it appears. 
