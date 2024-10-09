@@ -1,12 +1,12 @@
 ---
-description: Log and visualize data without a W&B account
-displayed_sidebar: default
 title: Anonymous mode
+description: 데이터를 로그하고 시각화하기, W&B 계정 없이도 가능합니다
+displayed_sidebar: default
 ---
 
-Are you publishing code that you want anyone to be able to run easily? Use anonymous mode to let someone run your code, see a W&B dashboard, and visualize results without needing to create a W&B account first.
+코드를 쉽게 실행할 수 있도록 게시하시겠습니까? 익명 모드를 사용하여 다른 사람이 W&B 계정을 먼저 생성하지 않고도 코드를 실행하고, W&B 대시보드를 보고, 결과를 시각화할 수 있습니다.
 
-Allow results to be logged in anonymous mode with: 
+익명 모드에서 결과가 로그가 되도록 허용합니다:
 
 ```python
 import wandb
@@ -14,7 +14,7 @@ import wandb
 wandb.init(anonymous="allow")
 ```
 
-For example, the proceeding code snippet shows how to create and log an artifact with W&B:
+예를 들어, 다음 코드조각은 W&B를 사용하여 아티팩트를 생성하고 로그를 작성하는 방법을 보여줍니다:
 
 ```python
 import wandb
@@ -30,36 +30,33 @@ run.log_artifact(artifact)
 run.finish()
 ```
 
-[Try the example notebook](http://bit.ly/anon-mode) to see how anonymous mode works.
+[예제 노트북을 시도해보세요](http://bit.ly/anon-mode) 익명 모드가 어떻게 작동하는지 확인할 수 있습니다.
 
-### How does someone without an account see results?
+### 계정 없이 결과를 볼 수 있는 방법은?
 
-If someone runs your script and you have to set `anonymous="allow"`:
+누군가가 스크립트를 실행하고 `anonymous="allow"`를 설정한 경우에는:
 
-1. **Auto-create temporary account:** W&B checks for an account that's already signed in. If there's no account, W&B automatically creates a new anonymous account and save that API key for the session.
-2. **Log results quickly:** The user can run and re-run the script, and automatically see results show up in the W&B dashboard UI. These unclaimed anonymous runs will be available for 7 days.
-3. **Claim data when it's useful**: Once the user finds valuable results in W&B, they can easily click a button in the banner at the top of the page to save their run data to a real account. If they don't claim a run, it will be deleted after 7 days.
+1. **임시 계정 자동 생성:** W&B는 이미 로그인된 계정을 확인합니다. 계정이 없는 경우 W&B는 자동으로 새 익명 계정을 생성하고 해당 세션에 대해 API 키를 저장합니다.
+2. **빠른 결과 로그:** 사용자는 스크립트를 실행하거나 다시 실행하여 자동으로 W&B 대시보드 UI에서 결과를 볼 수 있습니다. 이러한 미인지된 익명 run은 7일 동안 사용할 수 있습니다.
+3. **데이터가 유용할 때 클레임:** 사용자가 W&B에서 가치 있는 결과를 찾으면 페이지 상단의 배너에 있는 버튼을 클릭하여 run 데이터를 실제 계정으로 쉽게 저장할 수 있습니다. run을 클레임하지 않으면 7일 후에 삭제됩니다.
 
 :::caution
-**Anonymous run links are sensitive**. These links allow anyone to view and claim the results of an experiment for 7 days, so make sure to only share links with people you trust. If you're trying to share results publicly, but hide the author's identity,  contact support@wandb.com to share more about your use case.
+**익명 run 링크는 민감합니다**. 이러한 링크는 누구나 실험의 결과를 7일 동안 볼 수 있도록 하므로 신뢰할 수 있는 사람에게만 링크를 공유하십시오. 실행 결과를 공개적으로 공유하면서 작성자의 신원을 숨기려면 support@wandb.com에 문의하여 유스 케이스에 대해 더 알아보세요.
 :::
 
-### What happens to users with existing accounts?
+### 기존 계정이 있는 사용자에게는 어떤 일이 발생합니까?
 
-If you set `anonymous="allow"` in your script, W&B checks to make sure there's not an existing account first, before creating an anonymous account. This means that if a W&B user finds your script and runs it, their results will be logged correctly to their account, just like a normal run.
+스크립트에서 `anonymous="allow"`를 설정하면 W&B는 익명 계정을 생성하기 전에 먼저 기존 계정이 없는지 확인합니다. 즉, W&B 사용자가 스크립트를 찾고 실행하면 결과가 정상적인 run처럼 자신의 계정에 정확하게 로그가 됩니다.
 
-### What are features that are not available to anonymous users?
+### 익명 사용자에게 사용 불가능한 기능은 무엇인가요?
 
-*   **No persistent data**: Runs are only saved for 7 days in an anonymous account. You can claim anonymous run data by saving it to a real account.
-
+*   **영구 데이터 없음:** run은 익명 계정에서 7일 동안만 저장됩니다. 실제 계정에 저장하여 익명 run 데이터를 클레임할 수 있습니다.
 
 ![](/images/app_ui/anon_mode_no_data.png)
 
-*   **No artifact logging**: Runs print a warning on the command line that you can't log an artifact to an anonymous run:
+*   **아티팩트 로그 불가능:** 익명 run에 아티팩트를 로그할 수 없다는 경고를 커맨드라인에 출력합니다:
     ```bash
     wandb: WARNING Artifacts logged anonymously cannot be claimed and expire after 7 days.
     ```
 
-* **No profile or settings pages**: Certain pages aren't available in the UI, because they're only useful for real accounts.
-
-
+* **프로필 및 설정 페이지 없음:** 특정 페이지는 실제 계정에만 유용하므로 UI에서 사용할 수 없습니다.

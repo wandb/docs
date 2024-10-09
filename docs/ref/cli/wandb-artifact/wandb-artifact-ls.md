@@ -1,16 +1,15 @@
 # wandb artifact ls
 
-**Usage**
+**사용법**
 
-`wandb artifact ls [OPTIONS] PATH`
+`wandb artifact ls [옵션] 경로`
 
-**Summary**
+**요약**
 
-List all artifacts in a wandb project
+wandb 프로젝트의 모든 아티팩트를 나열합니다
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| -t, --type | The type of artifacts to list |
-
+| -t, --type | 나열할 아티팩트의 유형 |

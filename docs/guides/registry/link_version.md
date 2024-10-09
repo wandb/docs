@@ -1,30 +1,29 @@
 ---
-displayed_sidebar: default
 title: Link an artifact version to a registry
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Programmatically or interactively link artifact versions to a registry. 
+아티팩트 버전을 프로그래밍 방식 또는 대화형으로 레지스트리에 연결하세요.
 
-W&B recommends that you check the artifact types that the registry permits. Each registry controls the types of artifacts that can be linked to that registry.
-
-:::info
-The term "type" refers to the artifact object type. When you create an artifact object ([`wandb.Artifact`](../../ref/python/artifact.md)), or log an artifact ([`wandb.run.log_artifact`](../../ref/python/run.md#log_artifact)), you specify a type for the `type` parameter. 
-<!-- If you are familiar with Python, you can think of artifact types in W&B as having similar functions as Python data types.  -->
-:::
-
-As an example, by default, the Model registry only permits artifacts objects that have a "model" type. W&B will not permit you to link a dataset artifact type object if you try to link it to the Model registry.
+W&B는 레지스트리가 허용하는 아티팩트 유형을 확인할 것을 권장합니다. 각 레지스트리는 해당 레지스트리에 연결할 수 있는 아티팩트의 유형을 제어합니다.
 
 :::info
-When you link an artifact to a registry, this "publishes" that artifact to that registry. Any user that has access to that registry can access linked artifact versions when you link an artifact to a collection.
-
-In other words, linking an artifact to a registry collection brings that artifact version from a private, project-level scope, to the shared organization level scope.
+"유형"이라는 용어는 아티팩트 오브젝트 유형을 나타냅니다. 아티팩트 오브젝트를 생성할 때 ([`wandb.Artifact`](../../ref/python/artifact.md)) 또는 아티팩트를 로그할 때 ([`wandb.run.log_artifact`](../../ref/python/run.md#log_artifact)), `type` 파라미터에 대한 유형을 지정합니다.
 :::
 
-## How to link an artifact version 
+예를 들어, 기본적으로 모델 레지스트리는 "model" 유형을 가진 아티팩트 오브젝트만 허용합니다. 데이터셋 아티팩트 유형 오브젝트를 모델 레지스트리에 연결하려고 하면 W&B는 이를 허용하지 않습니다.
 
-Based on your use case, follow the instructions described in the tabs below to link an artifact version.
+:::info
+아티팩트를 레지스트리에 연결할 때, 이는 해당 아티팩트를 해당 레지스트리에 "게시"합니다. 해당 레지스트리에 엑세스 권한이 있는 모든 사용자는 아티팩트를 컬렉션에 연결할 때 연결된 아티팩트 버전에 엑세스할 수 있습니다.
+
+다시 말해, 아티팩트를 레지스트리 컬렉션에 연결하면 해당 아티팩트 버전이 개인 프로젝트 수준 범위에서 공유 조직 수준 범위로 전환됩니다.
+:::
+
+## 아티팩트 버전 연결 방법
+
+유스 케이스에 따라 아래 탭에 설명된 지침을 따라 아티팩트 버전을 연결하세요.
 
 <Tabs
   defaultValue="python_sdk"
@@ -33,19 +32,18 @@ Based on your use case, follow the instructions described in the tabs below to l
     {label: 'Registry App', value: 'registry_ui'},
     {label: 'Artifact browser', value: 'artifacts_ui'},
   ]}>
+
   <TabItem value="python_sdk">
 
+`link_artifact`를 사용하여 기존 레지스트리 내의 컬렉션에 아티팩트 버전을 프로그래밍 방식으로 연결하세요. 컬렉션이 속한 레지스트리가 이미 존재하는지 확인하세요.
 
-Programmatically link an artifact version to a collection with [`link_artifact`](../../ref/python/run.md#link_artifact). Before you link an artifact to a collection, ensure that the registry that the collection belongs to already exists.
-
-
-Use the `target_path` parameter to specify the collection and registry you want to link the artifact version to. The target path consists of:
+`target_path` 파라미터를 사용하여 아티팩트 버전을 연결할 컬렉션과 레지스트리를 지정합니다. 대상 경로는 다음으로 구성됩니다:
 
 ```text
 {ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
 ```
 
-Copy and paste the code snippet below to link an artifact version to a collection within an existing registry. Replace values enclosed in `<>` with your own:
+기존 레지스트리 내의 컬렉션에 아티팩트 버전을 연결하려면 아래 코드조각을 복사하여 붙여넣으세요. `<>`로 묶인 값을 여러분의 값으로 교체하세요:
 
 ```python
 import wandb
@@ -66,10 +64,9 @@ target_path=f"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
 run.link_artifact(artifact = artifact, target_path = target_path)
 ```
 
-If you want to link an artifact version to the **Models** registry or the **Dataset** registry, set the artifact type to `"model"` or `"dataset"`, respectively.
+**Models** 레지스트리 또는 **Dataset** 레지스트리에 아티팩트 버전을 연결하려면, 아티팩트 유형을 각각 `"model"` 또는 `"dataset"`으로 설정하세요.
 
-
-For example, the proceeding code snippet simulates logging a model artifact called "my_model.txt" to a collection called "Example ML Task" within the model registry:
+예를 들어, 다음 코드조각은 모델 레지스트리 내의 "Example ML Task"라는 컬렉션에 "my_model.txt"라는 모델 아티팩트를 로그하는 것을 시뮬레이트합니다:
 
 ```python
 import wandb
@@ -94,134 +91,117 @@ with wandb.init(entity=TEAM_ENTITY_NAME, project="link_quickstart") as run:
   )
 ```
 
-
   </TabItem>
   <TabItem value="registry_ui">
 
-1. Navigate to the Registry App.
+1. Registry App으로 이동하세요.
 ![](/images/registry/navigate_to_registry_app.png)
-2. Hover your mouse next to the name of the collection you want to link an artifact version to.
-3. Select the meatball menu icon (three horizontal dots) next to  **View details**.
-4. From the dropdown, select **Link new version**.
-5. From the sidebar that appears, select the name of a team from the **Team** dropdown.
-5. From the **Project** dropdown, select the name of the project that contains your artifact. 
-6. From the **Artifact** dropdown, select the name of the artifact. 
-7. From the **Version** dropdown, select the artifact version you want to link to the collection.
-
-<!-- TO DO insert gif -->
+2. 아티팩트 버전을 연결하고자 하는 컬렉션의 이름 옆에 마우스를 올리세요.
+3. **View details** 옆에 있는 세 개의 수평 점이 있는 아이콘을 선택하세요.
+4. 드롭다운에서 **Link new version**을 선택하세요.
+5. 나타나는 사이드바에서 **Team** 드롭다운에서 팀 이름을 선택하세요.
+6. **Project** 드롭다운에서 아티팩트를 포함하는 프로젝트 이름을 선택하세요.
+7. **Artifact** 드롭다운에서 아티팩트 이름을 선택하세요.
+8. **Version** 드롭다운에서 컬렉션에 연결하려는 아티팩트 버전을 선택하세요.
 
   </TabItem>
   <TabItem value="artifacts_ui">
 
-1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
-2. Select the Artifacts icon on the left sidebar.
-3. Click on the artifact version you want to link to your registry.
-4. Within the **Version overview** section, click the **Link to registry** button.
-5. From the modal that appears on the right of the screen, select an artifact from the **Select a register model** menu dropdown. 
-6. Click **Next step**.
-7. (Optional) Select an alias from the **Aliases** dropdown. 
-8. Click **Link to registry**. 
-
-<!-- Update this gif -->
-<!-- ![](/images/models/manual_linking.gif) -->
+1. 프로젝트의 아티팩트 브라우저로 이동하세요: `https://wandb.ai/<entity>/<project>/artifacts`
+2. 왼쪽 사이드바에서 Artifacts 아이콘을 선택하세요.
+3. 레지스트리에 연결하고자 하는 아티팩트 버전을 클릭하세요.
+4. **Version overview** 섹션 내에서 **Link to registry** 버튼을 클릭하세요.
+5. 화면 오른쪽에 나타나는 모달에서 **Select a register model** 메뉴 드롭다운에서 아티팩트를 선택하세요.
+6. **Next step**을 클릭하세요.
+7. (선택 사항) **Aliases** 드롭다운에서 에일리어스를 선택하세요.
+8. **Link to registry**를 클릭하세요.
 
   </TabItem>
 </Tabs>
 
+## 문제 해결
 
+아티팩트를 연결할 수 없을 경우, 확인해야 할 일반적인 항목은 다음과 같습니다.
 
-<!-- :::tip Linked vs source artifact versions
-* Source version: the artifact version inside a team's project that is logged to a [run](../runs/intro.md).
-* Linked version: the artifact version that is published to the registry. This is a pointer to the source artifact, and is the exact same artifact version, just made available in the scope of the registry.
-::: -->
+### 개인 계정에서 아티팩트 로그
 
-## Troubleshooting 
+개인 엔티티로 W&B에 로그된 아티팩트는 레지스트리에 연결할 수 없습니다. 조직 내 팀 엔티티를 사용하여 아티팩트를 로그했는지 확인하세요. 조직의 팀 내에 로그된 아티팩트만 조직의 레지스트리에 연결할 수 있습니다.
 
-Below are some common things to double check if you are not able to link an artifact. 
-
-### Logging artifacts from a personal account
-
-Artifacts logged to W&B with a personal entity can not be linked to the registry. Make sure that you log artifacts using a team entity within your organization. Only artifacts logged within an organization's team can be linked to the organization's registry. 
-
-
-:::tip 
-Ensure that you you log an artifact with a team entity if you want to link that artifact to a registry.
+:::tip
+아티팩트를 레지스트리에 연결하려면 팀 엔티티로 아티팩트를 로그했는지 확인하세요.
 :::
 
-#### Find your team entity
+#### 팀 엔티티 찾기
 
-W&B uses the name of your team as the team's entity. For example, if your team is called "team-awesome", your team entity is `team-awesome`.
+W&B는 팀의 이름을 팀의 엔티티로 사용합니다. 예를 들어 팀이 "team-awesome"이라면, 팀 엔티티는 `team-awesome`입니다.
 
-You can confirm the name of your team by:
+팀 이름을 확인하려면:
 
-1. Navigate to your team's W&B profile page.
-2. Copy the site's URL. It has the form of `https://wandb.ai/<team>`. Where `<team>` is the both the name of your team and the team's entity.
+1. 팀의 W&B 프로필 페이지로 이동하세요.
+2. 사이트의 URL을 복사하세요. 이는 `https://wandb.ai/<team>` 형식을 가지고 있으며, `<team>`은 팀의 이름이자 팀의 엔티티입니다.
 
-#### Log from a team entity
-1. Specify the team as the entity when you initialize a run with [`wandb.init()`](/ref/python/init). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity. 
-  ```python 
-  import wandb   
+#### 팀 엔티티에서 로그
+1. [`wandb.init()`](/ref/python/init)으로 run을 초기화할 때 엔티티로 팀을 지정하세요. run을 초기화할 때 `entity`를 명시하지 않으면, 기본 엔티티가 사용되며, 이는 팀 엔티티가 아닐 수도 있습니다.
+  ```python
+  import wandb
 
   run = wandb.init(
     entity='<team_entity_name>', 
     project='<project_name>'
     )
   ```
-2. Log the artifact to the run either with run.log_artifact or by creating an Artifact object and then adding files to it with  :
+2. run.log_artifact로 또는 Artifact 오브젝트를 생성한 후 파일을 추가하여 run에 아티팩트를 로그합니다:
 
     ```python
     artifact = wandb.Artifact(name="<artifact_name>", type="<collection_type>")
     run.log_artifact(artifact)
     ```
-    For more information on how to log artifacts, see [Construct artifacts](../artifacts/construct-an-artifact.md).
-3. If an artifact is logged to your personal entity, you will need to re-log it to an entity within your organization.
+    아티팩트를 로그하는 방법에 대한 자세한 정보는 [Construct artifacts](../artifacts/construct-an-artifact.md)를 참조하세요.
+3. 아티팩트가 개인 엔티티에 로그된 경우, 이를 조직 내 엔티티로 다시 로그해야 합니다.
 
+### 팀 이름과 충돌이 있는 조직 이름
 
-### Organization names with team name collisions
+W&B는 기존 엔티티와의 이름 충돌을 피하기 위해 조직 이름에 고유한 해시를 추가합니다. 이름과 고유 해시의 조합은 조직 식별자, 즉 `ORG_ENTITY_NAME`으로 알려져 있습니다.
 
-W&B appends a unique hash to the organization name to avoid naming collisions with existing entities. The combination of the name and the unique hash is known as an organizational identifier or `ORG_ENTITY_NAME`.
+예를 들어, 조직 이름이 "reviewco"이고 팀 이름도 "reviewco"인 경우, W&B는 `ORG_ENTITY_NAME`이 `reviewco_XYZ123456`로 명명되도록 이름에 해시를 추가합니다.
 
-For example, if your organization name is "reviewco" and you also have a team named "reviewco", W&B appends a hash to the organization name that results in an `ORG_ENTITY_NAME` named `reviewco_XYZ123456`. 
-
-:::tip 
-When linking to a registry with the Python SDK, always use the `ORG_ENTITY_NAME` format in the `target_path`.
+:::tip
+Python SDK로 레지스트리에 연결할 때, 항상 `target_path`에 `ORG_ENTITY_NAME` 형식을 사용하세요.
 :::
 
-For example, the target path might look like `reviewco_XYZ123456/wandb-registry-model/my-collection`.
+예를 들어, 타겟 경로는 `reviewco_XYZ123456/wandb-registry-model/my-collection`과 같은 형태일 수 있습니다.
 
+### W&B 앱 UI에서 레지스트리 경로 확인
 
+UI에서 레지스트리 경로를 확인하는 두 가지 방법이 있습니다: 빈 컬렉션을 생성하고 컬렉션 세부 정보를 보거나 컬렉션의 홈 페이지에서 자동 생성된 코드를 복사하여 붙여넣습니다.
 
-### Confirm the path of a registry in the W&B App UI
+#### 자동 생성된 코드 복사 및 붙여넣기
 
-There are two ways to confirm the path of a registry with the UI: create an empty collection and view the collection details or copy and paste the autogenerated code on the collection's home page.
-
-#### Copy and paste autogenerated code
-
-1. Navigate to the Registry app at https://wandb.ai/registry/.
-2. Click the registry you want to link an artifact to.
-3. At the top of the page, you will see an autogenerated code block. 
-4. Copy and paste this into your code, ensure to replace the last part of the path with the name of your collection.
+1. Registry 앱으로 이동하세요: https://wandb.ai/registry/.
+2. 아티팩트를 연결할 레지스트리를 클릭하세요.
+3. 페이지 상단에 자동 생성된 코드 블록을 볼 수 있습니다.
+4. 이를 코드에 복사하여 붙여넣고, 경로의 마지막 부분을 컬렉션 이름으로 교체하세요.
 
 ![](/images/registry/get_autogenerated_code.gif)
 
-#### Create an empty collection
+#### 빈 컬렉션 생성
 
-1. Navigate to the Registry app at https://wandb.ai/registry/.
-2. Click the registry you want to link an artifact to.
-4. Click on the empty collection. If an empty collection does not exist, create a new collection.
-5. Within the code snippet that appears, identify the `target_path` field within `run.link_artifact()`.
-6. (Optional) Delete the collection.
+1. Registry 앱으로 이동하세요: https://wandb.ai/registry/.
+2. 아티팩트를 연결할 레지스트리를 클릭하세요.
+3. 빈 컬렉션을 클릭하세요. 빈 컬렉션이 존재하지 않으면 새 컬렉션을 생성하세요.
+4. 나타나는 코드조각에서 `run.link_artifact()` 내의 `target_path` 필드를 식별하세요.
+5. (선택 사항) 컬렉션을 삭제하세요.
 
 ![](/images/registry/check_empty_collection.gif)
 
-For example, after completing the steps outlined, you find the code block with the `target_path` parameter:
+예를 들어, 위에서 설명한 단계를 완료한 후, `target_path` 파라미터가 포함된 코드 블록을 찾을 수 있습니다:
 
 ```python
 target_path = 
       "smle-registries-bug-bash/wandb-registry-Golden Datasets/raw_images"
 ```
 
-Breaking this down into its components, you can see what you will need to use to create the path to link your artifact programmatically:
+이를 구성 요소로 나누면, 아티팩트를 프로그래밍 방식으로 연결할 경로를 생성하는 데 필요한 것을 확인할 수 있습니다:
 
 ```python
 ORG_ENTITY_NAME = "smle-registries-bug-bash"
@@ -230,6 +210,5 @@ COLLECTION_NAME = "raw_images"
 ```
 
 :::note
-Ensure that you replace the name of the collection from the temporary collection with the name of the collection that you want to link your artifact to.
+임시 컬렉션에서 컬렉션 이름을 실제 연결하려는 컬렉션의 이름으로 대체해야 합니다.
 :::
-

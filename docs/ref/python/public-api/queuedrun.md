@@ -1,9 +1,8 @@
 # QueuedRun
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L220-L423' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L220-L423' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>GitHub에서 소스 보기</a></button></p>
 
-
-A single queued run associated with an entity and project. Call `run = queued_run.wait_until_running()` or `run = queued_run.wait_until_finished()` to access the run.
+엔티티 및 프로젝트와 연결된 한 개의 대기열에 있는 run입니다. `run = queued_run.wait_until_running()` 또는 `run = queued_run.wait_until_finished()`를 호출하여 run에 엑세스하세요.
 
 ```python
 QueuedRun(
@@ -12,14 +11,14 @@ QueuedRun(
 )
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L344-L393)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L344-L393)
 
 ```python
 delete(
@@ -27,11 +26,11 @@ delete(
 )
 ```
 
-Delete the given queued run from the wandb backend.
+wandb 백엔드에서 주어진 대기열에 있는 run을 삭제합니다.
 
 ### `wait_until_finished`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L334-L342)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L334-L342)
 
 ```python
 wait_until_finished()
@@ -39,7 +38,7 @@ wait_until_finished()
 
 ### `wait_until_running`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L395-L420)
+[소스 보기](https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L395-L420)
 
 ```python
 wait_until_running()

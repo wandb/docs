@@ -1,56 +1,55 @@
 ---
-displayed_sidebar: default
 title: View organization dashboard
+displayed_sidebar: default
 ---
 
 :::important
-Organization dashboard is only available with [Dedicated Cloud](../hosting-options/dedicated_cloud.md) and [Self-managed instances](../hosting-options/self-managed.md).
+조직 대시보드는 [전용 클라우드](../hosting-options/dedicated_cloud.md)와 [자가 관리 인스턴스](../hosting-options/self-managed.md)로만 사용 가능합니다.
 :::
 
-## View organization usage of W&B
-Use the organization dashboard to get a holistic view of users that belong to your organization, how users of your organization use W&B, along with properties such as:
+## W&B 조직 사용 현황 보기
+조직 대시보드를 사용하여 조직에 속한 사용자, 조직의 사용자가 W&B를 사용하는 방법, 그리고 다음과 같은 속성에 대한 전체적인 보기를 얻으세요:
 
-* **Name**: The name of the user and their W&B username.
-* **Last active**: The time the user last used W&B. This includes any activity that requires authentication, including viewing pages in the product, logging runs or taking any other action, or logging in.
-* **Role**: The role of the user. 
-* **Email**: The email of the user.
-* **Team**: The names of teams the user belongs to.
+* **Name**: 사용자 이름과 W&B 사용자 이름.
+* **Last active**: 사용자가 마지막으로 W&B를 사용한 시간. 이에는 제품의 페이지를 보는 것, run을 기록하는 것, 또는 다른 행동을 취하거나 로그인을 요구하는 모든 활동이 포함됩니다.
+* **Role**: 사용자의 역할.
+* **Email**: 사용자의 이메일.
+* **Team**: 사용자가 속한 팀의 이름.
 
-### View the status of a user
-The **Last Active** column shows if a user is pending an invitation or an active user.  A user is one of three states:
+### 사용자 상태 보기
+**Last Active** 열은 사용자가 초대 대기 중인지, 활성 사용자인지 보여줍니다. 사용자는 세 가지 상태 중 하나입니다:
 
-* Pending invitation: Admin has sent invite but user has not accepted invitation. 
-* Active: User has accepted the invite and created an account.
-* Deactivated: Admin has revoked access of the user.
+* 초대 대기 중: 관리자가 초대를 보냈지만 사용자가 초대를 수락하지 않은 상태.
+* 활성: 사용자가 초대를 수락하고 계정을 만든 상태.
+* 비활성화됨: 관리자가 사용자의 엑세스를 철회한 상태.
 
 ![](/images/hosting/view_status_of_user.png)
 
-### View and share how your organization uses W&B
-View how your organization uses W&B in CSV format.
+### 조직이 W&B를 사용하는 방법 보기 및 공유
+조직이 W&B를 사용하는 방식을 CSV 형식으로 보세요.
 
-1. Select the three dots next to the **Add user** button.
-2. From the dropdown, select **Export as CSV**.
+1. **Add user** 버튼 옆의 세 개 점을 선택합니다.
+2. 드롭다운에서 **Export as CSV**를 선택합니다.
 
 ![](/images/hosting/export_org_usage.png)
 
-This will export a CSV file that lists all users of an organization along with their: user name, time stamp of when they were last active, role, email, teams they belong to, and their status (active, pending, or deactivated). 
+이 작업은 조직의 모든 사용자에 대한 사용자 이름, 마지막 활동 시간 스탬프, 역할, 이메일, 속한 팀, 상태(활성, 대기 중, 비활성화됨)를 나열하는 CSV 파일로 내보냅니다.
 
-### View user activity
-Use the **Last Active** column to get an **Activity summary** of an individual user. 
+### 사용자 활동 보기
+**Last Active** 열을 사용하여 개별 사용자의 **활동 요약**을 얻으세요.
 
-1. Hover your mouse over the **Last Active** entry for a user. 
-2. A tooltip appears and provides a summary of information about the user's activity.
-
+1. 사용자의 **Last Active** 항목 위에 마우스를 올립니다.
+2. 도구 설명이 나타나고 사용자의 활동에 대한 정보 요약을 제공합니다.
 
 ![](/images/hosting/activity_tooltip.png)
 
 :::info
-A user is active if they: log in to W&B, view any page in the W&B App, log runs, use the SDK to track an experiment, or interact with the W&B server in any way.
+사용자가 W&B에 로그인하거나, W&B 앱의 페이지를 보거나, run을 기록하거나, 실험을 추적하기 위해 SDK를 사용하거나, W&B 서버와 어떤 방식으로든 상호 작용하면 활성 상태입니다.
 :::
 
-### View active users over time
-Use the **Users active over time**  plot in the Organization dashboard to get an aggregate overview of how many users are active over time (right most plot in image below). 
+### 시간에 따른 활성 사용자 보기
+조직 대시보드의 **Users active over time** 그래프를 사용하여 시간이 지남에 따라 활성 사용자의 수에 대한 종합적인 개요를 확인하세요 (아래 이미지의 가장 오른쪽 그래프).
 
 ![](/images/hosting/dashboard_summary.png)
 
-You can use the dropdown menu to filter results based on days, months, or all time.
+드롭다운 메뉴를 사용하여 일, 월, 또는 전체 시간에 기반하여 결과를 필터링할 수 있습니다.

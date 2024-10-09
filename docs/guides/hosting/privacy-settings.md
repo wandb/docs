@@ -1,40 +1,40 @@
 ---
-displayed_sidebar: default
 title: Configure privacy settings
+displayed_sidebar: default
 ---
 
-Organization and Team admins can configure a set of privacy settings at the organization and team scopes respectively. When configured at the organization scope, organization admins enforce those settings for all teams in that organization.
+조직과 팀 관리자는 각각 조직 및 팀 범위에서 개인정보 설정을 구성할 수 있습니다. 조직 범위에서 설정된 경우, 조직 관리자는 해당 조직의 모든 팀에 대해 이러한 설정을 강제할 수 있습니다.
 
 :::info
-W&B recommends organization admins to enforce a privacy setting only after communicating that in advance to all team admins and users in their organization. This is to avoid unexpected changes in their workflows.
+W&B는 조직 관리자가 모든 팀 관리자 및 사용자에게 미리 공지한 후에만 개인정보 설정을 강제할 것을 권장합니다. 이는 워크플로우에 예상치 못한 변경을 피하기 위함입니다.
 :::
 
-## Configure privacy settings for a team
+## 팀의 개인정보 설정 구성하기
 
-Team admins can configure privacy settings for their respective teams from within the `Privacy` section of the team **Settings** tab. Each setting is configurable as long as it's not enforced at the organization scope:
+팀 관리자는 팀 **Settings** 탭의 `Privacy` 섹션에서 각각의 팀에 대한 개인정보 설정을 구성할 수 있습니다. 각 설정은 조직 범위에서 강제되지 않는 한 구성 가능합니다:
 
-* Hide this team from all non-members
-* Make all future team projects private (public sharing not allowed)
-* Allow any team member to invite other members (not just admins)
-* Disable public sharing to outside of team for reports in private projects. This disables existing magic links.
-* Allow users with matching organization email domain to join this team.
-    * This setting is applicable only to [SaaS Cloud](./hosting-options/saas_cloud.md). It's not available in [Dedicated Cloud](./hosting-options/dedicated_cloud.md) or [Self-managed](./hosting-options/self-managed.md) instances.
-* Enable code saving by default.
+* 비회원에게 이 팀 숨기기
+* 모든 향후 팀 Projects를 비공개로 설정 (공개 공유 허용 안 됨)
+* 모든 팀 멤버가 다른 멤버를 초대할 수 있도록 허용 (단, 관리자만 가능한 것은 아님)
+* 비공개 프로젝트의 Reports에 대해 팀 외부로의 공개 공유 비활성화. 기존의 magic 링크 비활성화.
+* 조직 이메일 도메인이 일치하는 사용자가 이 팀에 가입할 수 있도록 허용.
+    * 이 설정은 [SaaS Cloud](./hosting-options/saas_cloud.md)에서만 사용 가능합니다. [Dedicated Cloud](./hosting-options/dedicated_cloud.md) 또는 [Self-managed](./hosting-options/self-managed.md) 인스턴스에서는 사용할 수 없습니다.
+* 기본적으로 코드 저장 활성화.
 
-## Enforce privacy settings for all teams
+## 모든 팀에 대해 개인정보 설정 강제하기
 
-Organization admins can enforce privacy settings for all teams in their organization from within the `Privacy` section of the **Settings** tab in the account or organization dashboard. If organization admins enforce a setting, team admins are not allowed to configure that within their respective teams.
+조직 관리자는 계정 또는 조직 대시보드의 **Settings** 탭 내 `Privacy` 섹션에서 조직의 모든 팀에 대해 개인정보 설정을 강제할 수 있습니다. 조직 관리자가 설정을 강제하는 경우, 팀 관리자는 해당 팀 내에서 이를 설정할 수 없습니다.
 
-* Enforce team visibility restrictions
-    * Enable this option to hide all teams from non-members
-* Enforce privacy for future projects
-    * Enable this option to enforce all future projects in all teams to be private or [restricted](./iam/restricted-projects.md)
-* Enforce invitation control
-    * Enable this option to prevent non-admins from inviting members to any team
-* Enforce report sharing control
-    * Enable this option to disable public sharing of reports in private projects and deactivate existing magic links
-* Enforce team self joining restrictions
-    * Enable this option to restrict users with matching organization email domain from self-joining any team
-    * This setting is applicable only to [SaaS Cloud](./hosting-options/saas_cloud.md). It's not available in [Dedicated Cloud](./hosting-options/dedicated_cloud.md) or [Self-managed](./hosting-options/self-managed.md) instances.
-* Enforce default code saving restrictions
-    * Enable this option to turn off code saving by default for all teams
+* 팀 가시성 제한 강제
+    * 모든 팀을 비회원에게 숨기기 위해 이 옵션 활성화
+* 향후 프로젝트 개인정보 강제
+    * 모든 팀의 향후 Projects를 비공개 또는 [제한된](./iam/restricted-projects.md) 상태로 강제하기 위해 이 옵션 활성화
+* 초대 제어 강제
+    * 비관리자가 어떤 팀에도 멤버를 초대하지 못하도록 방지하기 위해 이 옵션 활성화
+* 리포트 공유 제어 강제
+    * 비공개 프로젝트의 Reports에 대한 공개 공유를 비활성화하고 기존 magic 링크 비활성화를 위해 이 옵션 활성화
+* 팀 자체 가입 제한 강제
+    * 조직 이메일 도메인이 일치하는 사용자가 자동으로 어떤 팀에도 가입하지 못하도록 하기 위해 이 옵션 활성화.
+    * 이 설정은 [SaaS Cloud](./hosting-options/saas_cloud.md)에서만 사용 가능합니다. [Dedicated Cloud](./hosting-options/dedicated_cloud.md) 또는 [Self-managed](./hosting-options/self-managed.md) 인스턴스에서는 사용할 수 없습니다.
+* 기본 코드 저장 제한 강제
+    * 모든 팀에 대해 기본적으로 코드 저장을 비활성화하기 위해 이 옵션 활성화.

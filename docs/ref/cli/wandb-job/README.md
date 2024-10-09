@@ -1,22 +1,22 @@
 # wandb job
 
-**Usage**
+**사용 방법**
 
 `wandb job [OPTIONS] COMMAND [ARGS]...`
 
-**Summary**
+**요약**
 
-Commands for managing and viewing W&B jobs
+W&B job을 관리하고 조회하기 위한 코맨드
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
 
-**Commands**
+**코맨드**
 
-| **Command** | **Description** |
+| **코맨드** | **설명** |
 | :--- | :--- |
-| create | Create a job from a source, without a wandb run. |
-| describe | Describe a launch job. |
-| list | List jobs in a project |
+| create | wandb run 없이 소스에서 job을 생성합니다. |
+| describe | launch job을 설명합니다. |
+| list | 프로젝트 내 job을 나열합니다. |

@@ -1,40 +1,36 @@
 ---
-description: >-
-  Answers to frequently asked questions about tracking data from machine
-  learning experiments with W&B Experiments.
-displayed_sidebar: default
 title: Logging FAQ
+description: 기계학습 Experiments 에서 W&B Experiments 로 데이터 추적에 대한 자주 묻는 질문에 대한 답변.
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-### How can I organize my logged charts and media in the W&B UI?
+### W&B UI에서 로그된 차트와 미디어를 어떻게 조직할 수 있나요?
 
-We treat `/` as a separator for organizing logged panels in the W&B UI. By default, the component of the logged item's name before a `/` is used to define a group of panel called a "Panel Section".
+우리는 `/`를 W&B UI에서 로그된 패널을 조직하기 위한 구분자로 사용합니다. 기본적으로, 로그된 항목 이름의 `/` 이전 부분은 "패널 섹션"이라고 불리는 패널 그룹을 정의하는 데 사용됩니다.
 
 ```python
 wandb.log({"val/loss": 1.1, "val/acc": 0.3})
 wandb.log({"train/loss": 0.1, "train/acc": 0.94})
 ```
 
-In the [Workspace](../../app/pages/workspaces.md) settings, you can change whether panels are grouped by just the first component or by all components separated by `/`.
+[Workspace](../../app/pages/workspaces.md) 설정에서 패널이 첫 번째 구성 요소로만 그룹화될 것인지 또는 `/`로 분리된 모든 구성 요소로 그룹화될 것인지를 변경할 수 있습니다.
 
-### How can I compare images or media across epochs or steps?
+### 에포크 또는 스텝에 걸쳐 이미지를 비교하려면 어떻게 하나요?
 
-Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
+스텝마다 이미지를 로그할 때마다 우리는 그것들을 UI에 표시하기 위해 저장합니다. 이미지 패널을 확장하고 스텝 슬라이더를 사용하여 다른 스텝의 이미지를 살펴볼 수 있습니다. 이를 통해 트레이닝 중에 모델의 출력이 어떻게 변화하는지 쉽게 비교할 수 있습니다.
 
-### What if I want to log some metrics on batches and some metrics only on epochs?
+### 배치에서 몇 가지 메트릭을 로그하고 에포크에서만 몇 가지 메트릭을 로그하려면 어떻게 하나요?
 
-If you'd like to log certain metrics in every batch and standardize plots, you can log x axis values that you want to plot with your metrics. Then in the custom plots, click edit and select a custom x-axis.
+모든 배치에서 특정 메트릭을 로그하고 플롯을 표준화하려면, 메트릭과 함께 플롯하고 싶은 x축 값을 로그할 수 있습니다. 그런 다음 커스텀 플롯에서 편집을 선택하고 커스텀 x축을 선택하세요.
 
 ```python
 wandb.log({"batch": batch_idx, "loss": 0.3})
 wandb.log({"epoch": epoch, "val_acc": 0.94})
 ```
 
-### How do I log a list of values?
-
-<!-- Logging lists directly is not supported. Instead, list-like collections of numerical data are converted to [histograms](../../../ref/python/data-types/histogram.md). To log all of the entries in a list, give a name to each entry in the list and use those names as keys in a dictionary, as below. -->
+### 값 목록을 어떻게 로그하나요?
 
 <Tabs
   defaultValue="dictionary"
@@ -51,14 +47,14 @@ wandb.log({f"losses/loss-{ii}": loss for ii, loss in enumerate(losses)})
   <TabItem value="histogram">
 
 ```python
-wandb.log({"losses": wandb.Histogram(losses)})  # converts losses to a histogram
+wandb.log({"losses": wandb.Histogram(losses)})  # 손실을 히스토그램으로 변환합니다
 ```
   </TabItem>
 </Tabs>
 
-### How do I plot multiple lines on a plot with a legend?
+### 범례가 있는 플롯에 여러 곡선을 어떻게 그리나요?
 
-Multi-line custom chart can be created by using `wandb.plot.line_series()`. You'll need to navigate to the [project page](../../app/pages/project-page.md) to see the line chart. To add a legend to the plot, pass the keys argument within `wandb.plot.line_series()`. For example:
+`wandb.plot.line_series()`를 사용하여 멀티라인 커스텀 차트를 생성할 수 있습니다. 라인 차트를 보기 위해 [프로젝트 페이지](../../app/pages/project-page.md)로 이동해야 합니다. 플롯에 범례를 추가하려면 `wandb.plot.line_series()`의 키 인수를 전달하세요. 예를 들어:
 
 ```python
 wandb.log(
@@ -70,11 +66,11 @@ wandb.log(
 )
 ```
 
-You can find more information about Multi-line plots [here](../../track/log/plots.md#basic-charts) under the Multi-line tab.
+멀티라인 플롯에 대한 더 많은 정보는 [여기](../../track/log/plots.md#basic-charts) 멀티라인 탭 아래에서 찾을 수 있습니다.
 
-### How do I add Plotly/Bokeh Charts into Tables?
+### Plotly/Bokeh 차트를 테이블에 어떻게 추가하나요?
 
-Adding Plotly/Bokeh figures to Tables directly is not yet supported. Instead, write the figure to HTML and then add the HTML to the Table. Examples with interactive Plotly and Bokeh charts below.
+Plotly/Bokeh 피규어를 테이블에 직접 추가하는 것은 아직 지원되지 않습니다. 대신 피규어를 HTML로 작성하여 해당 HTML을 테이블에 추가하세요. 아래에 인터랙티브 Plotly 및 Bokeh 차트의 예시가 있습니다.
 
 <Tabs
   defaultValue="plotly"
@@ -88,27 +84,26 @@ Adding Plotly/Bokeh figures to Tables directly is not yet supported. Instead, wr
 import wandb
 import plotly.express as px
 
-# Initialize a new run
+# 새로운 run을 초기화
 run = wandb.init(project="log-plotly-fig-tables", name="plotly_html")
 
-# Create a table
+# 테이블 생성
 table = wandb.Table(columns=["plotly_figure"])
 
-# Create path for Plotly figure
+# Plotly 피규어 경로 생성
 path_to_plotly_html = "./plotly_figure.html"
 
-# Example Plotly figure
+# Plotly 예제 피규어
 fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
-# Write Plotly figure to HTML
-# Setting auto_play to False prevents animated Plotly
-# charts from playing in the table automatically
+# Plotly 피규어를 HTML로 작성
+# auto_play를 False로 설정하면 애니메이션 된 Plotly 차트가 테이블에서 자동으로 재생되지 않습니다
 fig.write_html(path_to_plotly_html, auto_play=False)
 
-# Add Plotly figure as HTML file into Table
+# Plotly 피규어를 HTML 파일로 테이블에 추가
 table.add_data(wandb.Html(path_to_plotly_html))
 
-# Log Table
+# 테이블 로그
 run.log({"test_table": table})
 wandb.finish()
 ```
@@ -156,19 +151,19 @@ run.finish()
   </TabItem>
 </Tabs>
 
-### Why is nothing showing up in my graphs?
+### 내 그래프에 아무것도 표시되지 않는 이유는 무엇인가요?
 
-If you're seeing "No visualization data logged yet" that means that we haven't gotten the first `wandb.log` call from your script yet. This could be because your run takes a long time to finish a step. If you're logging at the end of each epoch, you could log a few times per epoch to see data stream in more quickly.
+"아직 시각화 데이터가 로그되지 않았음"을 보고 있다면, 이는 스크립트에서 첫 번째 `wandb.log` 호출을 받지 않았음을 의미합니다. 이는 run이 스텝을 완료하는 데 시간이 오래 걸리기 때문일 수 있습니다. 에포크가 끝날 때마다 로그하려면 에포크마다 몇 번 로그하여 데이터 스트림을 더 빨리 볼 수 있도록 하세요.
 
-### Why is the same metric appearing more than once?
+### 동일한 메트릭이 여러 번 나타나는 이유는 무엇인가요?
 
-If you're logging different types of data under the same key, we have to split them out in our database. This means you'll see multiple entries of the same metric name in a dropdown in the UI. The types we group by are `number`, `string`, `bool`, `other` (mostly arrays), and any `wandb` data type (`Histogram`, `Image`, etc). Send only one type to each key to avoid this behavior.
+동일한 키로 다른 유형의 데이터를 로그하면 데이터베이스에서 이를 분리해야 합니다. 이를 통해 UI의 드롭다운에서 동일한 메트릭 이름의 여러 항목을 볼 수 있습니다. 우리가 그룹화하는 유형은 `number`, `string`, `bool`, `other` (주로 배열) 및 `wandb` 데이터 유형 (`Histogram`, `Image`, 등)입니다. 이 행동을 피하기 위해 각 키에 한 유형만 보내세요.
 
-We store metrics in a case-insensitive fashion, so make sure you don't have two metrics with the same name like `"My-Metric"` and `"my-metric"`.
+우리는 메트릭을 대소문자 구분 없이 저장하므로, `"My-Metric"`과 `"my-metric"` 같은 이름의 메트릭 두 개를 갖고 있지 않도록 하세요.
 
-### How can I access the data logged to my runs directly and programmatically?
+### 실험의 로그된 데이터를 직접적으로 프로그래밍적으로 엑세스하는 방법은 무엇인가요?
 
-The history object is used to track metrics logged by `wandb.log`. Using [our API](../public-api-guide.md), you can access the history object via `run.history()`.
+history 오브젝트는 `wandb.log`에 의해 로그된 메트릭을 추적하는 데 사용됩니다. [우리의 API](../public-api-guide.md)를 사용하여 `run.history()`를 통해 history 오브젝트에 엑세스할 수 있습니다.
 
 ```python
 api = wandb.Api()
@@ -176,29 +171,28 @@ run = api.run("username/project/run_id")
 print(run.history())
 ```
 
-### What happens when I log millions of steps to W&B? How is that rendered in the browser?
+### 수백만 개의 스텝을 W&B에 로그할 때 어떤 일이 발생하나요? 브라우저에서는 어떻게 렌더링되나요?
 
-The more points you send us, the longer it will take to load your graphs in the UI. If you have more than 1000 points on a line, we sample down to 1000 points on the backend before we send your browser the data. This sampling is nondeterministic, so if you refresh the page you'll see a different set of sampled points.
+더 많은 포인트를 보내면 UI에서 그래프를 로드하는 데 더 오래 걸립니다. 1,000개 이상의 포인트가 라인에 있으면, 우리는 백엔드에서 1,000개로 샘플링하여 브라우저로 데이터를 전송합니다. 이 샘플링은 비결정적이므로 페이지를 새로고침할 때마다 다른 샘플링 포인트 세트를 보게 됩니다.
 
-**Guidelines**
+**가이드라인**
 
-We recommend that you try to log less than 10,000 points per metric. If you log more than 1 million points in a line, it will take us while to load the page. For more on strategies for reducing logging footprint without sacrificing accuracy, check out [this Colab](http://wandb.me/log-hf-colab). If you have more than 500 columns of config and summary metrics, we'll only show 500 in the table.
+각 메트릭 당 10,000점 이하로 로그하는 것이 좋습니다. 한 라인에 100만 점 이상 로그하면 페이지를 로드하는 데 시간이 걸립니다. 로깅 정확도를 손상시키지 않고 로깅 크기를 줄이는 전략에 대한 더 많은 정보는 [이 Colab](http://wandb.me/log-hf-colab)을 참조하세요. 구성 및 요약 메트릭의 열이 500개 이상이면 테이블에서 500개만 표시됩니다.
 
-### What if I want to integrate W&B into my project, but I don't want to upload any images or media?
+### 프로젝트에 W&B를 통합하고 싶지만 이미지를 업로드하고 싶지 않을 때는 어떻게 하나요?
 
-W&B can be used even for projects that only log scalars — you specify any files or data you'd like to upload explicitly. Here's [a quick example in PyTorch](http://wandb.me/pytorch-colab) that does not log images.
+W&B는 스칼라만 로그하는 프로젝트에서도 사용할 수 있습니다 — 업로드하고 싶은 파일이나 데이터를 명시적으로 지정할 수 있습니다. 이미지를 로그하지 않는 [PyTorch 예제](http://wandb.me/pytorch-colab)를 참고하세요.
 
-### What happens if I pass a class attribute into wandb.log()?
+### wandb.log()에 클래스 속성을 전달하면 어떻게 되나요?
 
-It is generally not recommended to pass class attributes into `wandb.log()` as the attribute may change before the network call is made. If you are storing metrics as the attribute of a class, it is recommended to deep copy the attribute to ensure the metric logged matches the value of the attribute at the time that `wandb.log()` was called.
+일반적으로 `wandb.log()`에 클래스 속성을 전달하는 것은 권장되지 않습니다. 속성이 네트워크 호출이 이루어지기 전에 변경될 수 있기 때문입니다. 클래스의 속성으로 메트릭을 저장하는 경우, `wandb.log()`가 호출될 당시의 속성 값이 메트릭으로 정확히 로그되도록 속성을 깊은 복사할 것을 권장합니다.
 
-### Why am I seeing fewer data points than I logged?
+### 로그한 데이터 포인트가 예상보다 적은 이유는 무엇인가요?
 
-If you are visualizing your metrics against something other than `Step` on your X-Axis, you might see fewer data points than you expect. This is because we require the metrics to be plotted against one another to be logged at the same `Step` - that is how we keep your metrics synchronized, i.e., we only sample metrics that are logged at the same `Step` while interpolating in between samples.\
-\
-**Guidelines**\
-****\
-****We recommend you bundle your metrics into the same `log()` call. If your code looks like this:
+X-Axis에서 `Step`이 아닌 다른 항목에 대해 메트릭을 시각화하면 예상보다 적은 데이터 포인트를 볼 수 있습니다. 이는 메트릭을 서로 플롯하기 위해 동일한 `Step`으로 로그되어야 하기 때문입니다. 즉, 우리는 동일한 `Step`에 로그된 메트릭만 샘플링하여 서로 중간 샘플을 인터폴레이션합니다.  
+**가이드라인**  
+우리는 메트릭을 동일한 `log()` 호출에 번들링할 것을 권장합니다.  
+만약 코드가 다음과 같다면:
 
 ```python
 wandb.log({"Precision": precision})
@@ -206,13 +200,13 @@ wandb.log({"Precision": precision})
 wandb.log({"Recall": recall})
 ```
 
-It would be better to log it as:
+다음과 같이 로그하는 것이 더 좋습니다:
 
 ```python
 wandb.log({"Precision": precision, "Recall": recall})
 ```
 
-Alternatively, you can manually control the step parameter and synchronize your metrics in your own code:
+또는 step 파라미터를 수동으로 제어하여 메트릭을 코드 내에서 동기화할 수 있습니다:
 
 ```python
 wandb.log({"Precision": precision}, step=step)
@@ -220,4 +214,4 @@ wandb.log({"Precision": precision}, step=step)
 wandb.log({"Recall": recall}, step=step)
 ```
 
-If the value of `step` is the same in both the calls to `log()`, your metrics will be logged under the same step and be sampled together. Please note that step must be monotonically increasing in each call, otherwise the `step` value is ignored during your call to `log()`.
+`log()`에 대한 두 호출의 `step` 값이 동일하면 메트릭이 동일한 스텝에 로그되고 함께 샘플링됩니다. 각 호출에서 step이 단조롭게 증가해야 한다는 점을 유의하세요, 그렇지 않으면 `log()` 호출 중에 `step` 값이 무시됩니다.

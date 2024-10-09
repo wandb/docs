@@ -4,22 +4,22 @@ title: WandbTracer
 
 [View source on GitHub](https://www.github.com/wandb/client/tree/c4726707ed83ebb270a2cf84c4fd17b8684ff699/wandb/integration/langchain/wandb_tracer.py#L99-L281)
 
-Callback Handler that logs to Weights and Biases.
+Weights & Biases에 로그를 기록하는 콜백 핸들러입니다.
 
 ```python
 WandbTracer() -> Any
 ```
 
-This handler will log the model architecture and run traces to Weights and Biases. This will ensure that all LangChain activity is logged to W&B.
+이 핸들러는 Weights & Biases에 모델 아키텍처와 run 트레이스를 기록합니다. 이를 통해 모든 LangChain 활동이 W&B에 로그로 남게 됩니다.
 
-| Attributes | |
+| 속성 | |
 | :--- | :--- |
-| `always_verbose` | Whether to call verbose callbacks even if verbose is False. |
-| `ignore_agent` | Whether to ignore agent callbacks. |
-| `ignore_chain` | Whether to ignore chain callbacks. |
-| `ignore_llm` | Whether to ignore LLM callbacks. |
+| `always_verbose` | verbose가 False여도 콜백을 호출할지 여부. |
+| `ignore_agent` | 에이전트 콜백을 무시할지 여부. |
+| `ignore_chain` | 체인 콜백을 무시할지 여부. |
+| `ignore_llm` | LLM 콜백을 무시할지 여부. |
 
-## Methods
+## 메소드
 
 ### `finish`
 
@@ -29,12 +29,7 @@ This handler will log the model architecture and run traces to Weights and Biase
 @staticmethod
 finish() -> None
 ```
-Waits for all asynchronous processes to finish and data to upload.
-
-<!-- Stops watching all LangChain activity and resets the default handler.
-
-It is recommended to call this function before terminating the kernel or
-python script. -->
+모든 비동기 프로세스가 완료되고 데이터 업로드가 완료될 때까지 기다립니다.
 
 ### `finish_run`
 
@@ -44,7 +39,7 @@ python script. -->
 finish_run() -> None
 ```
 
-Waits for W&B data to upload.
+W&B 데이터가 업로드될 때까지 기다립니다.
 
 ### `init`
 
@@ -59,29 +54,24 @@ init(
 ) -> None
 ```
 
-Sets up a WandbTracer and makes it the default handler.
+WandbTracer를 설정하고 기본 핸들러로 만듭니다.
 
-#### Parameters:
+#### 파라미터:
 
-* **`run_args`**: (dict, optional) Arguments to pass to `wandb.init()`. If not provided, `wandb.init()` will be
- called with no arguments. Please refer to the `wandb.init` for more details.
-* **`include_stdout`**: (bool, optional) If True, the `StdOutCallbackHandler` will be added to the list of
- handlers. This is common practice when using LangChain as it prints useful information to stdout.
-* **`additional_handlers`**: (list, optional) A list of additional handlers to add to the list of LangChain handlers.
+* **`run_args`**: (dict, optional) `wandb.init()`에 전달할 인수. 제공되지 않으면, `wandb.init()`은 인수 없이 호출됩니다. 자세한 내용은 `wandb.init`을 참조하세요.
+* **`include_stdout`**: (bool, optional) True이면, `StdOutCallbackHandler`가 핸들러 목록에 추가됩니다. 이는 LangChain 사용 시 stdout에 유용한 정보를 출력하는 일반적인 관행입니다.
+* **`additional_handlers`**: (list, optional) LangChain 핸들러 목록에 추가할 추가 핸들러 목록.
 
-To use W&B to
-monitor all LangChain activity, simply call this function at the top of
-the notebook or script:
+LangChain의 모든 활동을 모니터링하기 위해, 노트북이나 스크립트의 상단에서 이 함수를 호출합니다:
 ```
 from wandb.integration.langchain import WandbTracer
 WandbTracer.init()
 # ...
-# end of notebook / script:
+# 노트북 / 스크립트의 끝:
 WandbTracer.finish()
 ```.
 
-It is safe to call this repeatedly with the same arguments (such as in a
-notebook), as it will only create a new run if the run_args differ.
+같은 인수로 여러 번 호출해도 안전합니다 (예: 노트북에서). 이는 run_args가 다를 경우에만 새로운 run을 생성하기 때문입니다.
 
 ### `init_run`
 
@@ -93,18 +83,13 @@ init_run(
 ) -> None
 ```
 
-Initialize wandb if it has not been initialized.
+wandb가 초기화되지 않았으면 초기화합니다.
 
-#### Parameters:
+#### 파라미터:
 
-* **`run_args`**: (dict, optional) Arguments to pass to `wandb.init()`. If not provided, `wandb.init()` will be
- called with no arguments. Please refer to the `wandb.init` for more details.
+* **`run_args`**: (dict, optional) `wandb.init()`에 전달할 인수. 제공되지 않으면, `wandb.init()`은 인수 없이 호출됩니다. 자세한 내용은 `wandb.init`을 참조하세요.
 
-We only want to start a new run if the run args differ. This will reduce
-the number of W&B runs created, which is more ideal in a notebook
-setting. Note: it is uncommon to call this method directly. Instead, you
-should use the `WandbTracer.init()` method. This method is exposed if you
-want to manually initialize the tracer and add it to the list of handlers.
+우리는 run 인수가 다를 때만 새로운 run을 시작하고 싶습니다. 이는 생성되는 W&B runs의 수를 줄여줍니다. 이는 노트북 환경에서 더 이상적입니다. 참고로, 이 메소드를 직접 호출하는 일은 드뭅니다. 대신 `WandbTracer.init()` 메소드를 사용하세요. 이 메소드는 트레이서를 수동으로 초기화하여 핸들러 목록에 추가하고자 할 때 노출됩니다.
 
 ### `load_default_session`
 
@@ -114,7 +99,7 @@ want to manually initialize the tracer and add it to the list of handlers.
 load_default_session() -> "TracerSession"
 ```
 
-Load the default tracing session and set it as the Tracer's session.
+기본 트레이싱 세션을 로드하고 이를 Tracer의 세션으로 설정합니다.
 
 ### `load_session`
 
@@ -126,7 +111,7 @@ load_session(
 ) -> "TracerSession"
 ```
 
-Load a session from the tracer.
+트레이서로부터 세션을 로드합니다.
 
 ### `new_session`
 
@@ -137,7 +122,7 @@ new_session(
 ) -> TracerSession
 ```
 
-NOT thread safe, do not call this method from multiple threads.
+스레드 안전하지 않으므로 이 메소드를 여러 스레드에서 호출하지 마세요.
 
 ### `on_agent_action`
 
@@ -148,7 +133,7 @@ on_agent_action(
 ) -> Any
 ```
 
-Do nothing.
+아무것도 하지 않습니다.
 
 ### `on_agent_finish`
 
@@ -159,7 +144,7 @@ on_agent_finish(
 ) -> None
 ```
 
-Handle an agent finish message.
+에이전트 종료 메시지를 처리합니다.
 
 ### `on_chain_end`
 
@@ -170,7 +155,7 @@ on_chain_end(
 ) -> None
 ```
 
-End a trace for a chain run.
+체인 run의 트레이스를 종료합니다.
 
 ### `on_chain_error`
 
@@ -181,7 +166,7 @@ on_chain_error(
 ) -> None
 ```
 
-Handle an error for a chain run.
+체인 run의 오류를 처리합니다.
 
 ### `on_chain_start`
 
@@ -193,7 +178,7 @@ on_chain_start(
 ) -> None
 ```
 
-Start a trace for a chain run.
+체인 run의 트레이스를 시작합니다.
 
 ### `on_llm_end`
 
@@ -204,7 +189,7 @@ on_llm_end(
 ) -> None
 ```
 
-End a trace for an LLM run.
+LLM run의 트레이스를 종료합니다.
 
 ### `on_llm_error`
 
@@ -215,7 +200,7 @@ on_llm_error(
 ) -> None
 ```
 
-Handle an error for an LLM run.
+LLM run의 오류를 처리합니다.
 
 ### `on_llm_new_token`
 
@@ -226,7 +211,7 @@ on_llm_new_token(
 ) -> None
 ```
 
-Handle a new token for an LLM run.
+LLM run의 새로운 토큰을 처리합니다.
 
 ### `on_llm_start`
 
@@ -238,7 +223,7 @@ on_llm_start(
 ) -> None
 ```
 
-Start a trace for an LLM run.
+LLM run의 트레이스를 시작합니다.
 
 ### `on_text`
 
@@ -249,7 +234,7 @@ on_text(
 ) -> None
 ```
 
-Handle a text message.
+텍스트 메시지를 처리합니다.
 
 ### `on_tool_end`
 
@@ -260,7 +245,7 @@ on_tool_end(
 ) -> None
 ```
 
-End a trace for a tool run.
+툴 run의 트레이스를 종료합니다.
 
 ### `on_tool_error`
 
@@ -271,7 +256,7 @@ on_tool_error(
 ) -> None
 ```
 
-Handle an error for a tool run.
+툴 run의 오류를 처리합니다.
 
 ### `on_tool_start`
 
@@ -283,4 +268,4 @@ on_tool_start(
 ) -> None
 ```
 
-Start a trace for a tool run.
+툴 run의 트레이스를 시작합니다.

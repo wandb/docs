@@ -1,59 +1,55 @@
 ---
-displayed_sidebar: default
 title: View launch jobs
+displayed_sidebar: default
 ---
 
-The following page describes how to view information about launch jobs added to queues.
+다음 페이지는 큐에 추가된 launch 작업에 대한 정보를 보는 방법을 설명합니다.
 
-## View jobs
+## 작업 보기
 
-View jobs added to a queue with the W&B App.
+W&B App을 사용하여 큐에 추가된 작업을 확인하십시오.
 
-1. Navigate to the W&B App at https://wandb.ai/home.
-2. Select **Launch** within the **Applications** section of the left sidebar.
-3. Select the **All entities** dropdown and select the entity the launch job belongs to.
-4. Expand the collapsible UI from the Launch Application page to view a list of jobs added to that specific queue.
+1. https://wandb.ai/home에 접속하여 W&B App으로 이동합니다.
+2. 왼쪽 사이드바의 **Applications** 섹션에서 **Launch**를 선택합니다.
+3. **All entities** 드롭다운을 선택하고 launch 작업이 속한 entity를 선택합니다.
+4. Launch Application 페이지에서 UI를 확장하여 해당 큐에 추가된 작업 목록을 봅니다.
 
 :::info
-A run is created when the launch agent executes a launch job. In other words, each run listed corresponds to a specific job that was added to that queue.
+런치는 launch 에이전트가 launch 작업을 실행할 때 생성됩니다. 즉, 나열된 각 런치는 해당 큐에 추가된 특정 작업에 해당합니다.
 :::
 
-For example, the following image shows two runs that were created from a job called `job-source-launch_demo-canonical`. The job was added to a queue called `Start queue`. The first run listed in the queue called `resilient-snowball` and the second run listed is called `earthy-energy-165`.
-
+예를 들어, 다음 이미지는 `job-source-launch_demo-canonical`이라는 작업에서 생성된 두 개의 런치를 보여줍니다. 이 작업은 `Start queue`라는 큐에 추가되었습니다. 큐에서 첫 번째로 나열된 런은 `resilient-snowball`이며 두 번째로 나열된 런은 `earthy-energy-165`입니다.
 
 ![](/images/launch/launch_jobs_status.png)
 
-Within the W&B App UI you can find additional information about runs created from launch jobs such as the:
-   - **Run**: The name of the W&B run assigned to that job.
-   - **Job ID**: The name of the job. 
-   - **Project**: The name of the project the run belongs to.
-   - **Status**: The status of the queued run. 
-   - **Author**: The W&B entity that created the run.
-   - **Creation date**: The timestamp when the queue was created.
-   - **Start time**: The timestamp when the job started.
-   - **Duration**: Time, in seconds, it took to complete the job’s run.
+W&B App UI 내에서 launch 작업에서 생성된 런치에 대한 추가 정보를 찾을 수 있습니다:
+   - **Run**: 해당 작업에 할당된 W&B 런의 이름입니다.
+   - **Job ID**: 작업의 이름입니다.
+   - **Project**: 런이 속한 프로젝트의 이름입니다.
+   - **Status**: 대기 중인 런의 상태입니다.
+   - **Author**: 런을 생성한 W&B entity입니다.
+   - **Creation date**: 큐가 생성된 타임스탬프입니다.
+   - **Start time**: 작업이 시작된 타임스탬프입니다.
+   - **Duration**: 작업의 런이 완료되는데 걸린 시간(초)입니다.
 
-## List jobs 
-View a list of jobs that exist within a project with the W&B CLI. Use the W&B job list command and provide the name of the project and entity the launch job belongs to the `--project` and `--entity` flags, respectively. 
+## 작업 목록
+W&B CLI로 프로젝트 내에 존재하는 작업 목록을 확인하세요. W&B job list 코맨드를 사용하고 `--project`와 `--entity` 플래그에 launch 작업이 속한 프로젝트와 entity의 이름을 제공합니다.
 
 ```bash
  wandb job list --entity your-entity --project project-name
 ```
 
-## Check the status of a job
+## 작업 상태 확인
 
-The following table defines the status a queued run can have:
+다음 표는 큐에 있는 런이 가질 수 있는 상태를 정의합니다:
 
-
-| Status | Description |
+| 상태 | 설명 |
 | --- | --- |
-| **Idle** | The run is in a queue with no active agents. |
-| **Queued** | The run is in a queue waiting for an agent to process it. |
-| **Pending** | The run has been picked up by an agent but has not yet started. This could be due to resources being unavailable on the cluster. |
-| **Running** | The run is currently executing. |
-| **Killed** | The job was killed by the user. |
-| **Crashed** | The run stopped sending data or did not successfully start. |
-| **Failed** | The run ended with a non-zero exit code or the run failed to start. |
-| **Finished** | The job completed successfully. |
-
-
+| **Idle** | 런이 활성 에이전트 없이 큐에 있습니다. |
+| **Queued** | 런이 에이전트의 프로세스를 기다리며 큐에 있습니다. |
+| **Pending** | 런이 에이전트에 의해 선택되었지만 아직 시작되지 않았습니다. 이는 클러스터에서 리소스가 이용 가능하지 않은 경우일 수 있습니다. |
+| **Running** | 런이 현재 실행되고 있습니다. |
+| **Killed** | 작업이 사용자에 의해 중단되었습니다. |
+| **Crashed** | 런이 데이터를 보내지 않거나 성공적으로 시작되지 않았습니다. |
+| **Failed** | 런이 비정상 종료 코드로 종료되었거나 시작되지 않았습니다. |
+| **Finished** | 작업이 성공적으로 완료되었습니다. |

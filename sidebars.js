@@ -35,7 +35,7 @@ export default {
             },
             {
               type: 'category',
-              label: 'Log Objects and Media',
+              label: 'Log 오브젝트와 미디어',
               link: {type: 'doc', id: 'guides/track/log/intro'},
               items: [
                 'guides/track/log/log-models',
@@ -67,7 +67,7 @@ export default {
             'guides/sweeps/add-w-and-b-to-your-code',
             {
               type: 'category',
-              label: 'Define a sweep configuration',
+              label: '스윕 구성 정의',
               items: [
                 'guides/sweeps/define-sweep-configuration',
                 'guides/sweeps/sweep-config-keys',
@@ -140,7 +140,7 @@ export default {
             'guides/launch/launch-terminology',
             {
               type: 'category',
-              label: 'Set up Launch',
+              label: 'Launch 설정하기',
               link: {
                 type: 'doc',
                 id: 'guides/launch/setup-launch',
@@ -156,7 +156,7 @@ export default {
             },
             {
               type: 'category',
-              label: 'Create and deploy jobs',
+              label: '작업 생성 및 배포',
               items: [
                 'guides/launch/create-launch-job',
                 'guides/launch/add-job-to-queue',
@@ -171,17 +171,17 @@ export default {
         },
         {
           type: 'category',
-          label: 'W&B App UI Reference',
+          label: 'W&B App UI 참고자료',
           link: {type: 'doc', id: 'guides/app/intro'},
           items: [
             {
               type: 'category',
-              label: 'Panels',
+              label: '패널',
               link: {type: 'doc', id: 'guides/app/features/panels/intro'},
               items: [
                 {
                   type: 'category',
-                  label: 'Line Plot',
+                  label: '선 그래프',
                   link: {
                     type: 'doc',
                     id: 'guides/app/features/panels/line-plot/intro',
@@ -201,7 +201,7 @@ export default {
                 'guides/app/features/panels/run-comparer',
                 {
                   type: 'category',
-                  label: 'Query panels',
+                  label: '쿼리 패널',
                   link: {
                     type: 'doc',
                     id: 'guides/app/features/panels/query-panel/intro',
@@ -214,7 +214,7 @@ export default {
             },
             {
               type: 'category',
-              label: 'Custom Charts',
+              label: '커스텀 차트',
               link: {
                 type: 'doc',
                 id: 'guides/app/features/custom-charts/intro',
@@ -229,7 +229,7 @@ export default {
             'guides/app/features/notes',
             {
               type: 'category',
-              label: 'Settings',
+              label: '설정',
               link: {type: 'doc', id: 'guides/app/settings-page/intro'},
               items: [
                 'guides/app/settings-page/user-settings',
@@ -272,7 +272,7 @@ export default {
             'guides/artifacts/track-external-files',
             {
               type: 'category',
-              label: 'Manage data',
+              label: '데이터 관리',
               items: [
                 'guides/artifacts/delete-artifacts',
                 'guides/artifacts/storage',
@@ -320,12 +320,12 @@ export default {
       items: [
         {
           type: 'category',
-          label: 'Deployment options',
+          label: '배포 옵션',
           items: [
             'guides/hosting/hosting-options/saas_cloud',
             {
               type: 'category',
-              label: 'Dedicated Cloud',
+              label: '전용 클라우드',
               link: {
                 type: 'doc',
                 id: 'guides/hosting/hosting-options/dedicated_cloud',
@@ -346,7 +346,7 @@ export default {
                 'guides/hosting/self-managed/basic-setup',
                 {
                   type: 'category',
-                  label: 'Kubernetes Operator',
+                  label: '쿠버네티스 오퍼레이터',
                   items: [
                     'guides/hosting/operator',
                     'guides/hosting/operator-airgapped',
@@ -354,7 +354,7 @@ export default {
                 },
                 {
                   type: 'category',
-                  label: 'Install on public cloud',
+                  label: '퍼블릭 클라우드에 설치',
                   items: [
                     'guides/hosting/self-managed/aws-tf',
                     'guides/hosting/self-managed/gcp-tf',
@@ -369,12 +369,12 @@ export default {
         },
         {
           type: 'category',
-          label: 'Identity and access management (IAM)',
+          label: '아이덴티티 및 엑세스 관리 (IAM)',
           link: {type: 'doc', id: 'guides/hosting/iam/org_team_struct'},
           items: [
             {
               type: 'category',
-              label: 'Authentication',
+              label: '인증',
               items: [
                 'guides/hosting/iam/sso',
                 'guides/hosting/iam/ldap',
@@ -383,7 +383,7 @@ export default {
             },
             {
               type: 'category',
-              label: 'Access management',
+              label: '엑세스 관리',
               items: [
                 'guides/hosting/iam/manage-users',
                 'guides/hosting/iam/restricted-projects',
@@ -396,7 +396,7 @@ export default {
         },
         {
           type: 'category',
-          label: 'Data Security',
+          label: '데이터 보안',
           items: [
             'guides/hosting/data-security/secure-storage-connector',
             'guides/hosting/data-security/presigned-urls',
@@ -408,7 +408,7 @@ export default {
         'guides/hosting/privacy-settings',
         {
           type: 'category',
-          label: 'Monitoring and Usage',
+          label: '모니터링 및 사용량',
           items: [
             'guides/hosting/monitoring-usage/audit-logging',
             'guides/hosting/monitoring-usage/prometheus-logging',
@@ -424,7 +424,7 @@ export default {
     },
     {
       type: 'category',
-      label: 'Integrations',
+      label: '인테그레이션',
       link: {type: 'doc', id: 'guides/integrations/intro'},
       items: [
         'guides/integrations/add-wandb-to-any-library',
@@ -498,8 +498,8 @@ export default {
     },
     {
       type: 'category',
-      label: 'Technical FAQ',
-      link: {type: 'doc', id: 'guides/technical-faq/intro'},
+      label: '기술 FAQ',
+  link: {type: 'doc', id: 'guides/technical-faq/intro'},
       items: [
         // 'guides/hosting/technical-faq/intro',
         'guides/technical-faq/general',
@@ -519,8 +519,8 @@ export default {
   tutorials: [
     {
       type: 'doc',
-      id: 'tutorials/intro_to_tutorials', // document ID
-      label: 'W&B Tutorials', // sidebar label
+      id: 'tutorials/intro_to_tutorials', // 문서 ID
+      label: 'W&B Tutorials', // 사이드바 레이블
     },
     'tutorials/experiments',
     'tutorials/tables',

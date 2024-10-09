@@ -3,25 +3,23 @@
 ## Chainable Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+자산의 _파일_ 을 반환합니다
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | 자산 |
 
-#### Return Value
-The _file_ of the asset
-
+#### 반환 _값_
+자산의 _파일_
 
 ## List Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+자산의 _파일_ 을 반환합니다
 
-| Argument |  |
+| 인수 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | 자산 |
 
-#### Return Value
-The _file_ of the asset
-
+#### 반환 _값_
+자산의 _파일_ 

@@ -1,23 +1,23 @@
 ---
-displayed_sidebar: default
 title: Scatter plots
+displayed_sidebar: default
 ---
 
-Use the scatter plot to compare multiple runs and visualize how your experiments are performing. We've added some customizable features:
+산점도를 사용하여 여러 runs을 비교하고 실험이 어떻게 진행되고 있는지 시각화하세요. 저희는 몇 가지 사용자 정의 가능한 기능을 추가했습니다:
 
-1. Plot a line along the min, max, and average
-2. Custom metadata tooltips
-3. Control point colors 
-4. Set axes ranges
-5. Switch axes to log scale
+1. 최소, 최대, 평균을 따라 선 그리기
+2. 사용자 정의 메타데이터 툴팁
+3. 제어점 색상 설정
+4. 축 범위 설정
+5. 축을 로그 척도로 전환
 
-Here’s an example of validation accuracy of different models over a couple of weeks of experimentation. The tooltip is customized to include the batch size and dropout as well as the values on the axes. There’s also a line plotting the running average of validation accuracy.  
-[See a live example →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
+여기 몇 주 간의 실험 동안 여러 models의 검증 정확도를 보여주는 예가 있습니다. 툴팁은 배치 크기와 드롭아웃 및 축에 있는 값들을 포함하도록 사용자 정의되었습니다. 또한 검증 정확도의 실행 평균을 그리는 선도 있습니다.  
+[실시간 예제 보기 →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
 
 ![](/images/general/scatter-plots-1.png)
 
-## Common Questions
+## 자주 묻는 질문
 
-### Is it possible to plot the max of a metric rather than plot step by step?
+### 지표의 최대값을 단계별로 그리지 않고 플롯하는 것이 가능한가요?
 
-The best way to do this is to create a Scatter Plot of the metric, go into the Edit menu, and select Annotations. From there you can plot the running max of the values
+이를 수행하는 가장 좋은 방법은 지표의 산점도를 생성한 후, 편집 메뉴로 가서 주석을 선택하는 것입니다. 거기에서 값의 실행 최대값을 플롯할 수 있습니다.

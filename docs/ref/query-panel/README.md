@@ -1,9 +1,8 @@
-# Query Expression Language
+# 쿼리 표현 언어
 
-Use the query expressions to select and aggregate data across runs and projects. 
-Learn more about Query Panels here: https://docs.wandb.ai/guides/app/features/panels/query-panel
+쿼리 표현을 사용하여 run 및 프로젝트 전반에 걸쳐 데이터를 선택하고 집계하세요. Query 패널에 대한 자세한 내용은 여기에서 확인하세요: https://docs.wandb.ai/guides/app/features/panels/query-panel
 
-## Data Types
+## 데이터 유형
 
 * [artifact](./artifact.md)
 * [artifactType](./artifact-type.md)

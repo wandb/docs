@@ -4,44 +4,44 @@ title: Spin up a single node GPU cluster with Minikube
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Set up W&B Launch on a Minikube cluster that can schedule and run GPU workloads. 
+W&B Launch를 설정하여 GPU 워크로드를 스케줄링하고 실행할 수 있는 Minikube 클러스터를 구성하세요.
 
-:::info
-This tutorial is intended to guide users with direct access to a machine that has multiple GPUs. This tutorial is not intended for users who rent a cloud machine.
+:::안내
+이 튜토리얼은 GPU를 여러 개 보유한 머신에 직접 엑세스할 수 있는 사용자를 위한 가이드입니다. 클라우드 머신을 임대하여 사용하는 사용자를 위한 것은 아닙니다.
 
-W&B recommends you create a Kubernetes cluster with GPU support that uses your cloud provider, if you want to set up a minikube cluster on a cloud machine. For example, AWS, GCP, Azure, Coreweave, and other cloud providers have tools to create Kubernetes clusters with GPU support.
+클라우드 머신에 minikube 클러스터를 설정하려면, 클라우드 공급자를 사용하여 GPU 지원을 갖춘 Kubernetes 클러스터를 만들 것을 W&B에서 권장합니다. 예를 들어 AWS, GCP, Azure, Coreweave 등 클라우드 공급자는 GPU 지원 Kubernetes 클러스터를 만드는 툴을 제공하고 있습니다.
 
-W&B recommends you use a [Launch Docker queue](/guides/launch/setup-launch-docker) if you want to set up a minikube cluster for scheduling GPUs on a machine that has a single GPU. You can still follow the tutorial for fun, but the GPU scheduling will not be very useful.
+단일 GPU를 보유한 머신에서 GPU를 스케줄링하기 위해 minikube 클러스터를 설정하려는 경우, W&B는 [Launch Docker queue](/guides/launch/setup-launch-docker)를 사용할 것을 권장합니다. 여전히 재미로 튜토리얼을 따라갈 수 있지만, GPU 스케줄링은 크게 유용하지 않을 것입니다.
 :::
 
-## Background
+## 배경
 
-<!-- Paraphrase commented paragraph below in more clear wording. -->
+[Nvidia 컨테이너 툴킷](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) 덕분에 GPU가 지원되는 워크플로우를 Docker에서 쉽게 실행할 수 있습니다. 제한점은 볼륨에 따라 GPU를 스케줄링하는 네이티브 지원이 부족하다는 것입니다. `docker run` 코맨드에서 GPU를 사용하려면 특정 GPU ID를 요청하거나 모든 GPU를 요청해야 하므로 많은 분산 GPU 지원 워크로드가 비현실적입니다. Kubernetes는 볼륨 요청에 따라 스케줄링하는 지원을 제공하지만, GPU 스케줄링이 가능한 로컬 Kubernetes 클러스터를 설정하는 데는 상당한 시간과 노력이 필요했습니다. Minikube는 가장 인기 있는 단일 노드 Kubernetes 클러스터 실행 툴 중 하나로, 최근 [GPU 스케줄링 지원](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/)을 출시했습니다 🎉 이 튜토리얼에서 우리는 Multi-GPU 머신에 Minikube 클러스터를 만들고, W&B Launch를 사용하여 클러스터에 동시 안정성 확산 추론 작업을 실행할 것입니다 🚀
 
-The [Nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) has made it easy to run GPU-enabled workflows on Docker. One limitation is a lack of native support for scheduling GPU by volume. If you want to use a GPU with the `docker run` command you must either request specific GPU by ID or all GPU present, which makes many distributed GPU enabled workloads impractical. Kubernetes offers support for scheduling by a volume request, but setting up a local Kubernetes cluster with GPU scheduling can take considerable time and effort, until recently. Minikube, one of the most popular tools for running single node Kubernetes clusters, recently released [support for GPU scheduling](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/) 🎉 In this tutorial, we will create a Minikube cluster on a multi-GPU machine and launch concurrent stable diffusion inference jobs to the cluster using W&B Launch 🚀
+## 필요 조건
 
-## Prerequisites
+시작하기 전에 다음이 필요합니다:
 
-Before getting started, you will need:
-
-1. A W&B account.
-2. Linux machine with the following installed and running:
-   1. Docker runtime
-   2. Drivers for any GPU you want to use
-   3. Nvidia container toolkit
+1. W&B 계정.
+2. 다음을 설치 및 실행한 Linux 머신:
+   1. Docker 런타임
+   2. 사용할 모든 GPU에 대한 드라이버
+   3. Nvidia 컨테이너 툴킷
 
 :::note
-For testing and creating this tutorial, we used an `n1-standard-16` Google Cloud Compute Engine instance with 4 NVIDIA Tesla T4 GPU connected.
+이 튜토리얼을 테스트하고 작성할 때, 우리는 4개의 NVIDIA Tesla T4 GPU가 연결된 `n1-standard-16` Google Cloud Compute Engine 인스턴스를 사용했습니다.
 :::
 
-## Create a queue for launch jobs
+## Launch 작업을 위한 큐 생성
 
-First, create a launch queue for our launch jobs. 
+우선, Launch 작업을 위한 큐를 생성하세요.
 
-1. Navigate to [wandb.ai/launch](https://wandb.ai/launch) (or `<your-wandb-url>/launch` if you use a private W&B server).
-2. In the top right corner of your screen, click the blue **Create a queue** button. A queue creation drawer will slide out from the right side of your screen.
-3. Select an entity, enter a name, and select **Kubernetes** as the type for your queue.
-4. The **Config** section of the drawer is where you will enter a [Kubernetes job specification](https://kubernetes.io/docs/concepts/workloads/controllers/job/) for the launch queue. Any runs launched from this queue will be created using this job specification, so you can modify this configuration as needed to customize your jobs. For this tutorial, you can copy and paste the sample config below in your queue config as YAML or JSON:
+1. [wandb.ai/launch](https://wandb.ai/launch) (혹은 프라이빗 W&B 서버를 사용하는 경우 `<your-wandb-url>/launch`)로 이동합니다.
+2. 화면 오른쪽 상단 모서리에서 파란색 **큐 생성** 버튼을 클릭하세요. 큐 생성 서랍이 화면 오른쪽에서 슬라이드 아웃됩니다.
+3. 엔터티를 선택하고 이름을 입력한 후, 큐의 유형으로 **Kubernetes**를 선택하세요.
+4. 서랍의 **Config** 섹션에서는 Launch queue에 대한 [Kubernetes 작업 사양](https://kubernetes.io/docs/concepts/workloads/controllers/job/)을 입력합니다. 이 큐에서 시작된 모든 run은 이 작업 사양을 사용하여 생성되므로, 이를 수정하여 작업을 사용자 정의할 수 있습니다. 이 튜토리얼을 위해, 아래 샘플 설정을 YAML 또는 JSON 형식으로 큐 설정란에 복사하여 붙여 넣을 수 있습니다:
+
+   
 
 <Tabs
 defaultValue="yaml"
@@ -52,7 +52,6 @@ values={[
 
 <TabItem value="yaml">
 
-```yaml
 spec:
   template:
     spec:
@@ -65,13 +64,12 @@ spec:
               nvidia.com/gpu: '{{gpus}}'
       restartPolicy: Never
   backoffLimit: 0
-```
+  
 
 </TabItem>
 
 <TabItem value="json">
 
-```json
 {
   "spec": {
     "template": {
@@ -94,50 +92,39 @@ spec:
     "backoffLimit": 0
   }
 }
-```
-
+  
 </TabItem>
 </Tabs>
 
-For more information about queue configurations, see the [Set up Launch on Kubernetes](/guides/launch/setup-launch-kubernetes.md) and the [Advanced queue setup guide](/guides/launch/setup-queue-advanced.md).   
+큐 설정에 대한 추가 정보는 [Kubernetes에 Launch 설정하기](/guides/launch/setup-launch-kubernetes.md)와 [고급 큐 설정 가이드](/guides/launch/setup-queue-advanced.md)를 참조하세요.
 
+`${image_uri}`와 `{{gpus}}` 문자열은 큐 설정에서 사용할 수 있는 두 가지 유형의 변수 템플릿 예시입니다. `${image_uri}` 템플릿은 런치할 작업의 이미지 URI로 에이전트에 의해 교체됩니다. `{{gpus}}` 템플릿은 작업 제출 시 Launch UI, CLI 또는 SDK에서 대체할 수 있는 템플릿 변수를 만들기 위해 사용됩니다. 이러한 값은 작업 사양에 배치되므로 작업에 사용되는 이미지와 GPU 자원을 제어하는 올바른 필드를 수정할 수 있습니다.
 
-The `${image_uri}` and `{{gpus}}` strings are examples of the two kinds of
-variable templates that you can use in your queue configuration. The `${image_uri}`
-template will be replaced with the image URI of the job you are launching by the
-agent. The `{{gpus}}` template will be used to create a template variable that
-you can override from the launch UI, CLI, or SDK when submitting a job. These values
-are placed in the job specification so that they will modify the correct fields
-to control the image and GPU resources used by the job.
+5. **구성 구문 분석** 버튼을 클릭하여 `gpus` 템플릿 변수를 사용자 정의하기 시작하세요.
+6. **Type**을 `Integer`로 설정하고 **기본값**, **최소값**, **최대값**을 원하는 값으로 설정하세요.
+템플릿 변수 제약 조건을 위반하여 이 큐에 run을 제출하려고 하면 거부됩니다.
 
-5. Click the **Parse configuration** button to begin customizing your `gpus` template
-variable. 
-6. Set the **Type** to `Integer` and the **Default**, **Min**, and **Max** to values of your choosing.
-Attempts to submit a run to this queue which violate the constraints of the template variable will
-be rejected.
+![gpus 템플릿 변수가 있는 큐 생성 서랍 이미지](/images/tutorials/minikube_gpu/create_queue.png)
 
-![Image of queue creation drawer with gpus template variable](/images/tutorials/minikube_gpu/create_queue.png)
+7. **큐 생성**을 클릭하여 큐를 생성하세요. 새 큐의 큐 페이지로 리디렉션됩니다.
 
-7. Click **Create queue** to create your queue. You will be redirected to the queue page for your new queue.
+다음 섹션에서는 생성한 큐에서 작업을 가져와 실행할 수 있는 에이전트를 설정할 것입니다.
 
+## Docker + NVIDIA CTK 설정
 
-In the next section, we will set up an agent that can pull and execute jobs from the queue you created.
+Docker와 Nvidia 컨테이너 툴킷이 이미 머신에 설치되어 있다면 이 섹션을 건너뛰어도 됩니다.
 
-## Setup Docker + NVIDIA CTK
+Docker 컨테이너 엔진 설정에 대한 설명은 [Docker 문서](https://docs.docker.com/engine/install/)를 참조하세요.
 
-If you already have Docker and the Nvidia container toolkit setup on your machine, you can skip this section.
+Docker가 설치되면 [Nvidia 문서](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)의 지침에 따라 Nvidia 컨테이너 툴킷을 설치하세요.
 
-Refer to [Docker’s documentation](https://docs.docker.com/engine/install/) for instructions on setting up the Docker container engine on your system.
-
-Once you have Docker installed, install the Nvidia container toolkit [following the instructions in Nvidia’s documentation](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
-
-To validate that your container runtime has access to your GPU, you can run:
+컨테이너 런타임이 GPU 엑세스가 가능한지 확인하려면 다음을 실행하세요:
 
 ```bash
 docker run --gpus all ubuntu nvidia-smi
 ```
 
-You should see `nvidia-smi` output describing the GPU connected to your machine. For example, on our setup the output looks like this:
+이 장비에 연결된 GPU를 설명하는 `nvidia-smi` 출력이 표시되어야 합니다. 예를 들어, 우리의 설정에서 출력은 다음과 같습니다:
 
 ```
 Wed Nov  8 23:25:53 2023
@@ -174,66 +161,66 @@ Wed Nov  8 23:25:53 2023
 +-----------------------------------------------------------------------------+
 ```
 
-## Setup Minikube
+## Minikube 설정
 
-Minikube’s GPU support requires version `v1.32.0` or later. Refer to [Minikube’s install documentation](https://minikube.sigs.k8s.io/docs/start/) for up to date installation help. For this tutorial, we installed the latest Minikube release using the command:
+Minikube의 GPU 지원은 `v1.32.0` 버전 이상이 필요합니다. 최신 설치 도움말에 대한 [Minikube의 설치 문서](https://minikube.sigs.k8s.io/docs/start/)를 참조하세요. 이 튜토리얼에서는 다음 코맨드를 사용하여 최신 Minikube 릴리스를 설치했습니다:
 
 ```yaml
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 
-The next step is to start a minikube cluster using your GPU. On your machine, run:
+다음 단계는 GPU를 사용하여 minikube 클러스터를 시작하는 것입니다. 머신에서 다음을 실행하세요:
 
 ```yaml
 minikube start --gpus all
 ```
 
-The output of the command above will indicate whether a cluster has been successfully created.
+위 코맨드의 출력은 클러스터가 성공적으로 생성되었는지 여부를 나타냅니다.
 
-## Start launch agent
+## Launch 에이전트 시작
 
-The launch agent for your new cluster can either be started by invoking `wandb launch-agent` directly or by deploying the launch agent using a [helm chart managed by W&B](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent). 
+새 클러스터의 Launch 에이전트는 `wandb launch-agent`를 직접 호출하거나 [W&B에서 관리하는 helm 차트](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 사용하여 에이전트를 배포하여 시작할 수 있습니다.
 
-In this tutorial we will run the agent directly on our host machine. 
+이 튜토리얼에서는 호스트 머신에서 직접 에이전트를 실행할 것입니다.
 
 :::tip
-Running the agent outside of a container also means we can use the local Docker host to build images for our cluster to run.
+컨테이너 외부에서 에이전트를 실행하면 로컬 Docker 호스트를 사용하여 클러스터가 실행할 이미지를 빌드할 수도 있습니다.
 :::
 
-To run the agent locally, make sure your default Kubernetes API context refers to the Minikube cluster. Then, execute the following:
+에이전트를 로컬에서 실행하려면 기본 Kubernetes API 컨텍스트가 Minikube 클러스터를 참조하고 있는지 확인하세요. 그런 다음 다음을 실행하세요:
 
 ```bash
 pip install "wandb[launch]"
 ```
 
-to install the agent’s dependencies. To setup authentication for the agent, run `wandb login` or set the `WANDB_API_KEY` environment variable.
+에이전트의 종속 항목을 설치합니다. 에이전트 인증 설정을 위해 `wandb login`을 실행하거나 `WANDB_API_KEY` 환경 변수를 설정하세요.
 
-To start the agent, type and execute the following:
+에이전트를 시작하려면 다음을 입력하고 실행하세요:
 
 ```bash
 wandb launch-agent -j <max-number-concurrent-jobs> -q <queue-name> -e <queue-entity>
 ```
 
-Within your terminal you should see the launch agent start to print polling message. 
+터미널에서 에이전트가 run을 실행하고 시작하려는 메시지를 인쇄하기 시작하는 것을 보게 될 것입니다.
 
-Congratulations, you have a launch agent polling your launch queue! When a job is added to your queue, your agent will pick it up and schedule it to run on your Minikube cluster.
+축하합니다! Launch 에이전트가 Launch queue를 폴링하고 있습니다! 큐에 작업이 추가되면 에이전트가 이를 선택하여 Minikube 클러스터에서 실행되도록 스케줄링할 것입니다.
 
-## Launch a job
+## 작업 시작
 
-Let's send a job to our agent. You can launch a simple "hello world" from a terminal logged into your W&B account with:
+에이전트로 작업을 보내봅시다. 터미널에서 W&B 계정에 로그인한 상태로 간단한 "hello world"를 시작할 수 있습니다:
 
 ```yaml
 wandb launch -d wandb/job_hello_world:main -p <target-wandb-project> -q <your-queue-name> -e <your-queue-entity>
 ```
 
-You can test with any job or image you like, but make sure your cluster can pull your image.  See [Minikube’s documentation](https://minikube.sigs.k8s.io/docs/handbook/registry/) for additional guidance. You can also [test using one of our public jobs](https://wandb.ai/wandb/jobs/jobs?workspace=user-bcanfieldsherman).
+원하는 작업이나 이미지를 테스트할 수 있지만, 클러스터에서 이미지를 가져올 수 있는지 확인하세요. 추가 안내는 [Minikube의 문서](https://minikube.sigs.k8s.io/docs/handbook/registry/)를 참조하세요. 또한 [우리의 공개 작업 중 하나를 사용하여 테스트할 수 있습니다](https://wandb.ai/wandb/jobs/jobs?workspace=user-bcanfieldsherman).
 
-## (Optional) Model and data caching with NFS
+## (선택적) 모델 및 데이터 캐싱을 위한 NFS
 
-For ML workloads we will often want multiple jobs to have access to the same data. For example, you might want to have a shared cache to avoid repeatedly downloading large assets like datasets or model weights. Kubernetes supports this through [persistent volumes and persistent volume claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/). Persistent volumes can be used to create `volumeMounts` in our Kubernetes workloads, providing direct filesystem access to the shared cache.
+ML 워크로드에서 여러 작업이 동일한 데이터에 엑세스할 수 있도록 하고 싶을 때가 종종 있습니다. 예를 들어, 데이터셋이나 모델 가중치와 같은 대용량 자산을 반복적으로 다운로드하는 것을 피하기 위해 공유 캐시를 보유하고자 할 수 있습니다. Kubernetes는 [Persistent Volumes 및 Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)을 통해 이를 지원합니다. Persistent Volumes는 Kubernetes 워크로드에 `volumeMounts`를 생성하는 데 사용될 수 있으며, 공유 캐시에 대한 직접적 파일 시스템 엑세스를 제공합니다.
 
-In this step, we will set up a network file system (NFS) server that can be used as a shared cache for model weights. The first step is to install and configure NFS. This process varies by operating system. Since our VM is running Ubuntu, we installed nfs-kernel-server and configured an export at `/srv/nfs/kubedata`:
+이 단계에서는 모델 가중치에 대한 공유 캐시로 사용할 수 있는 네트워크 파일 시스템(NFS) 서버를 설정할 것입니다. 첫 번째 단계는 NFS를 설치하고 구성하는 것입니다. 이 과정은 운영 체제에 따라 다릅니다. 우리의 VM은 Ubuntu를 실행 중이므로 nfs-kernel-server를 설치하고 `/srv/nfs/kubedata`에 export를 구성합니다:
 
 ```bash
 sudo apt-get install nfs-kernel-server
@@ -244,11 +231,11 @@ sudo exportfs -ra
 sudo systemctl restart nfs-kernel-server
 ```
 
-Keep note of the export location of the server in your host filesystem, as well as the local IP address of your NFS server, i.e. your host machine. We will need this pieces of information in the next step.
+NFS 서버의 파일 시스템 내 export 위치와 로컬 IP 어드레스를 기록해 두십시오. 다음 단계에서 이 정보를 사용해야 합니다.
 
-Next, you will need to create a persistent volume and persistent volume claim for this NFS. Persistent volumes are highly customizable, but we will use straightforward configuration here for the sake of simplicity.
+다음으로, 이 NFS에 대한 Persistent Volume 및 Persistent Volume Claim을 생성해야 합니다. Persistent Volumes는 매우 사용자 정의 가능합니다. 하지만 여기서는 간단한 구성을 사용할 것입니다.
 
-Copy the yaml below into a file named `nfs-persistent-volume.yaml` , making sure to fill out your desired volume capacity and claim request. The `PersistentVolume.spec.capcity.storage` field controls the maximum size of the underlying volume. The `PersistentVolumeClaim.spec.resources.requests.stroage` can be used to limit the volume capacity allotted for a particular claim. For our use case, it makes sense to use the same value for each.
+아래 yaml을 `nfs-persistent-volume.yaml`이라는 이름의 파일에 복사하되, 원하는 볼륨 용량 및 클레임 요청을 작성하세요. `PersistentVolume.spec.capcity.storage` 필드는 기본 볼륨의 최대 크기를 제어합니다. `PersistentVolumeClaim.spec.resources.requests.stroage`는 특정 클레임에 할당된 볼륨 용량을 제한하는 데 사용할 수 있습니다. 우리의 유스 케이스에서는 두 값에 동일한 값을 사용하는 것이 합리적입니다.
 
 ```yaml
 apiVersion: v1
@@ -257,12 +244,12 @@ metadata:
   name: nfs-pv
 spec:
   capacity:
-    storage: 100Gi # Set this to your desired capacity.
+    storage: 100Gi # 원하는 용량으로 설정하십시오.
   accessModes:
     - ReadWriteMany
   nfs:
-    server: <your-nfs-server-ip> # TODO: Fill this in.
-    path: '/srv/nfs/kubedata' # Or your custom path
+    server: <your-nfs-server-ip> # TODO: 여기에 작성하십시오.
+    path: '/srv/nfs/kubedata' # 또는 사용자 정의 경로
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -273,18 +260,18 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Gi # Set this to your desired capacity.
+      storage: 100Gi # 원하는 용량으로 설정하십시오.
   storageClassName: ''
   volumeName: nfs-pv
 ```
 
-Create the resources in your cluster with:
+다음 명령어를 사용하여 클러스터에 자원을 생성하세요:
 
 ```yaml
 kubectl apply -f nfs-persistent-volume.yaml
 ```
 
-In order for our runs to make use of this cache, we will need to add `volumes` and `volumeMounts` to our launch queue config. To edit the launch config, head back to [wandb.ai/launch](http://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server), find your queue, click to the queue page, and then click the **Edit config** tab. The original config can be modified to:
+NFS를 캐시로 사용하려면, 런치 큐 설정에 `volumes` 및 `volumeMounts`를 추가해야 합니다. 런치 설정을 편집하려면 다시 [wandb.ai/launch](http://wandb.ai/launch) (혹은 wandb 서버의 경우 \<your-wandb-url\>/launch)로 이동하여 큐를 찾고, 큐 페이지로 가서 **구성 편집** 탭을 클릭하세요. 원래 설정을 다음과 같이 수정할 수 있습니다:
 
 <Tabs
 defaultValue="yaml"
@@ -295,7 +282,6 @@ values={[
 
 <TabItem value="yaml">
 
-```yaml
 spec:
   template:
     spec:
@@ -314,14 +300,12 @@ spec:
         - name: nfs-storage
           persistentVolumeClaim:
             claimName: nfs-pvc
-  backoffLimit: 0
-```
+  
 
 </TabItem>
 
 <TabItem value="json">
 
-```json
 {
   "spec": {
     "template": {
@@ -358,39 +342,37 @@ spec:
     "backoffLimit": 0
   }
 }
-```
+  
 
 </TabItem>
 
 </Tabs>
 
-Now, our NFS will be mounted at `/root/.cache` in the containers running our jobs. The mount path will require adjustment if your container runs as a user other than `root`. Huggingface’s libraries and W&B Artifacts both make use of `$HOME/.cache/` by default, so downloads should only happen once.
+이제 NFS는 우리의 작업을 실행하는 컨테이너의 `/root/.cache`에 마운트됩니다. 컨테이너가 `root`가 아닌 다른 사용자로 실행되는 경우에는 마운트 경로를 조정해야 합니다. Huggingface의 라이브러리와 W&B Artifacts는 기본적으로 `$HOME/.cache/`를 사용하므로, 다운로드는 한 번만 발생해야 합니다.
 
-## Playing with stable diffusion
+## 안정적인 확산과의 실험
 
-To test out our new system, we are going to experiment with stable diffusion’s inference parameters.
-To run a simple stable diffusion inference job with a default prompt and sane
-parameters, you can run:
+새로운 시스템을 테스트하기 위해, 우리는 안정적인 확산의 추론 파라미터를 실험할 것입니다.
+기본 프롬프트와 합리적인 파라미터로 간단한 안정적인 확산 추론 작업을 실행하려면, 다음을 실행할 수 있습니다:
 
 ```
 wandb launch -d wandb/job_stable_diffusion_inference:main -p <target-wandb-project> -q <your-queue-name> -e <your-queue-entity>
 ```
 
-The command above will submit the container image `wandb/job_stable_diffusion_inference:main` to your queue.
-Once your agent picks up the job and schedules it for execution on your cluster,
-it may take a while for the image to be pulled, depending on your connection.
-You can follow the status of the job on the queue page on [wandb.ai/launch](http://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server).
+위 코맨드는 컨테이너 이미지 `wandb/job_stable_diffusion_inference:main`을 큐에 제출할 것입니다.
+에이전트가 작업을 선택하고 클러스터에서 실행되도록 스케줄링하면,
+연결 상태에 따라 이미지를 가져오는 데 시간이 걸릴 수 있습니다.
+[wandb.ai/launch](http://wandb.ai/launch) (혹은 wandb 서버의 경우 \<your-wandb-url\>/launch)에서 큐 페이지에서 작업 상태를 확인할 수 있습니다.
 
-Once the run has finished, you should have a job artifact in the project you specified.
-You can check your project's job page (`<project-url>/jobs`) to find the job artifact. Its default name should
-be `job-wandb_job_stable_diffusion_inference` but you can change that to whatever you like on the job's page
-by clicking the pencil icon next to the job name.
+run이 완료되면, 지정한 프로젝트에 작업 아티팩트를 가지게 됩니다.
+프로젝트의 작업 페이지(`<project-url>/jobs`)에서 작업 아티팩트를 찾아볼 수 있습니다. 기본 이름은
+`job-wandb_job_stable_diffusion_inference`가 될 것이지만, 작업 페이지에서
+작업 이름 옆의 연필 아이콘을 클릭하여 원하는 대로 변경할 수 있습니다.
 
-You can now use this job to run more stable diffusion inference on your cluster!
-From the job page, we can click the **Launch** button in the top right hand corner
-to configure a new inference job and submit it to our queue. The job configuration
-page will be pre-populated with the parameters from the original run, but you can
-change them to whatever you like by modifying their values in the **Overrides** section
-of the launch drawer.
+이제 이 작업을 사용하여 클러스터에서 더 많은 안정적인 확산 추론을 실행할 수 있습니다!
+작업 페이지에서 우리는 오른쪽 상단 모서리에 있는 **Launch** 버튼을 클릭하여
+새로운 추론 작업을 구성하고 큐에 제출할 수 있습니다. 작업 구성
+페이지는 원래 run의 파라미터로 미리 채워질 것이지만, 이들을
+대시보드의 **Overrides** 섹션에서 값을 수정하여 원하는 대로 변경할 수 있습니다.
 
-![Image of launch UI for stable diffusion inference job](/images/tutorials/minikube_gpu/sd_launch_drawer.png)
+![안정적인 확산 추론 작업을 위한 Launch UI 이미지](/images/tutorials/minikube_gpu/sd_launch_drawer.png)

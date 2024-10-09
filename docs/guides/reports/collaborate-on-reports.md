@@ -1,29 +1,27 @@
 ---
-description: Collaborate and share W&B Reports with peers, co-workers, and your team.
-displayed_sidebar: default
 title: Collaborate on reports
+description: 동료, 동료 그리고 당신의 팀과 함께 W&B Reports를 협업하고 공유하세요.
+displayed_sidebar: default
 ---
 
-Once you have saved a report, you can select the **Share** button to collaborate. A draft copy of the report is created when you select the **Edit** button. Draft reports auto-save. Select **Save to report** to publish your changes to the shared report.
+리포트를 저장한 후, **Share** 버튼을 선택하여 협업할 수 있습니다. **Edit** 버튼을 선택하면 리포트의 초안 사본이 생성됩니다. 초안 리포트는 자동 저장됩니다. **Save to report**를 선택하여 변경 사항을 공유된 리포트에 게시하세요.
 
-A warning notification will appear if an edit conflict occurs. This can occur if you and another collaborator edit the same report at the same time. The warning notification will guide you to resolve potential edit conflicts.
+편집 충돌이 발생하면 경고 알림이 표시됩니다. 이는 다른 협력자가 동일한 리포트를 동시에 편집할 경우 발생할 수 있습니다. 경고 알림은 잠재적인 편집 충돌을 해결하는 방법을 안내합니다.
 
 ![Report sharing modal for a report in a 'Public' project](/images/reports/share-report.gif)
 
-### Comment on reports
+### 리포트에 댓글 달기
 
-Click the comment button on a panel in a report to add a comment directly to that panel.
+리포트의 패널에서 댓글 버튼을 클릭하여 해당 패널에 직접 댓글을 추가하세요.
 
 ![Adding a comment to a panel](/images/reports/demo_comment_on_panels_in_reports.gif)
 
+### 누가 리포트를 편집하고 공유할 수 있나요?
 
+개인의 개인 프로젝트 내에서 생성된 리포트는 그 사용자만 볼 수 있습니다. 사용자는 자신의 프로젝트를 팀이나 대중에게 공유할 수 있습니다.
 
-### Who can edit and share reports?
+팀 프로젝트에서는 관리자 또는 리포트를 생성한 멤버가 다른 팀 멤버에 대해 편집 또는 보기 엑세스를 전환할 수 있습니다. 팀 멤버는 리포트를 공유할 수 있습니다.
 
-Reports that are created within an individual's private project is only visible to that user. The user can share their project to a team or to the public.
+리포트를 공유하려면, 오른쪽 상단 모서리의 **Share** 버튼을 선택하세요. 이메일 계정을 제공하거나 매직 링크를 복사할 수 있습니다. 이메일로 초대된 사용자는 리포트를 보기 위해 W&B에 로그인해야 합니다. 매직 링크를 받은 사용자는 W&B에 로그인하지 않고도 리포트를 볼 수 있습니다.
 
-On team projects, both the administrator, or member who created the report, can toggle permissions between edit or view access for other team members. Team members can share reports.
-
-To share a report, select the **Share** button on the upper right hand corner.  You can either provide an email account or copy the magic link. Users invited by email will need to log into W&B to view the report. Users who are given a magic link to not need to log into W&B to view the report.
-
-Shared reports are view-only.
+공유된 리포트는 보기 전용입니다.

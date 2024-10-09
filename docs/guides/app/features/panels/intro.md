@@ -1,97 +1,89 @@
 ---
+title: Panels
 slug: /guides/app/features/panels
 displayed_sidebar: default
-title: Panels
 ---
 
-Use panel visualizations to explore your logged data, the relationships between hyperparameters and output metrics, and more. 
+패널 시각화를 사용하여 로그된 데이터를 탐색하고, 하이퍼파라미터와 출력 메트릭 간의 관계 등을 탐색하세요.
 
-## Add a single panel
+## 단일 패널 추가하기
 
-1. Within your workspace, navigate to the section you want to add a panel to
-2. Choose the Add panel button
-3. From the dropdown, select a type of panel to add
+1. 워크스페이스 내에서 패널을 추가하고 싶은 섹션으로 이동하세요.
+2. Add panel 버튼을 선택하세요.
+3. 드롭다운에서 추가할 패널 유형을 선택하세요.
 ![](/images/app_ui/add_single_panel.gif) 
-4. (Optional) If prompted, define parameters for the plot. 
+4. (옵션) 요청 시, 플롯의 파라미터를 정의하세요.
 
-
-:::tip Undo changes to your workspace
-Select the undo button (arrow that points left) to undo any unwanted changes.
+:::tip 워크스페이스에서 변경 사항 되돌리기
+원치 않는 변경 사항을 되돌리려면 되돌리기 버튼(왼쪽으로 가리키는 화살표)을 선택하세요.
 :::
 
-## Add multiple panels
-Add multiple panels to your workspace at the same time. You can add up to 500 panels at a time.
+## 여러 패널 추가하기
+한 번에 여러 개의 패널을 워크스페이스에 추가하세요. 최대 500개의 패널을 동시에 추가할 수 있습니다.
 
-1. Within your project workspace, choose the **Add panels** button
-2. Provide a regular expression within the search field
-3. Select the **Add all** button
+1. 프로젝트 워크스페이스 내에서 **Add panels** 버튼을 선택하세요.
+2. 검색 필드에 정규 표현식을 입력하세요.
+3. **Add all** 버튼을 선택하세요.
 ![](/images/app_ui/bulk_panels.gif)
 
 :::note
-The **Add all** button appears only if a regular expression match occurs.
+정규 표현식이 일치할 경우에만 **Add all** 버튼이 나타납니다.
 :::
 
+## 자동 생성 패널 활성화 또는 비활성화
 
-
-## Activate or deactivate auto generated panels
-
-By default, W&B generates a panel for each unique metric you [`log`](../../../../ref/python/log.md) with the Python SDK. 
+기본적으로, W&B는 Python SDK를 사용하여 [`log`](../../../../ref/python/log.md)하는 각 고유 메트릭에 대해 패널을 생성합니다.
 
 :::info
-W&B uses the key value you specify with [`log`](../../../../ref/python/log.md) to determine whether or not to create a new panel. 
+W&B는 [`log`](../../../../ref/python/log.md)와 함께 지정한 키 값을 사용하여 새 패널을 생성할지 여부를 결정합니다.
 :::
 
-To activate or deactivate auto generated panels:
+자동 생성 패널을 활성화하거나 비활성화하려면 다음을 따르세요:
 
-1. Navigate to your project's workspace
-2. Select on the gear icon in the upper right hand corner
-3. A modal appears, choose **Sections**
-4. Toggle the **Panel generation** option to desired state
+1. 프로젝트의 워크스페이스로 이동하세요.
+2. 오른쪽 상단의 기어 아이콘을 선택하세요.
+3. 모달이 나타나면, **Sections**를 선택하세요.
+4. **Panel generation** 옵션을 원하는 상태로 전환하세요.
 ![](/images/app_ui/panel_generation.png)
 
-### Check auto generated panel settings
-Each workspace indicates whether or not the workspace automatically generates panels. Next to the name of your workspace is a clipboard icon. If the icon is red, panels are not automatically generated. If the panel is green, panels are automatically created each time you log a unique metric.
+### 자동 생성 패널 설정 확인하기
+각 워크스페이스는 패널이 자동으로 생성되는지 여부를 표시합니다. 워크스페이스 이름 옆에 클립보드 아이콘이 있습니다. 아이콘이 빨간색이면 패널이 자동으로 생성되지 않습니다. 패널이 녹색이면 고유한 메트릭을 로그할 때마다 패널이 자동으로 생성됩니다.
 
-Example of workspace with panel auto generation off:
+패널 자동 생성이 꺼진 워크스페이스 예:
 ![](/images/app_ui/auto_panel_off.png)
 
-Example of workspace with panel auto generation on:
+패널 자동 생성이 켜진 워크스페이스 예:
 ![](/images/app_ui/auto_panel_on.png)
 
+## 패널 제거하기
 
-## Remove a panel
+1. 제거하고 싶은 패널의 상단 모서리에 마우스를 올려놓으세요.
+2. 나타나는 세 개의 가로 점(**...**)을 선택하세요.
+3. 드롭다운에서 **Delete**를 선택하세요.
 
-1. Hover your mouse in the upper corner of the panel you want to remove
-2. Select the three horizontal dots (**...**) that appear
-3. From the dropdown, select **Delete**
+## 모든 패널 제거하기
 
-## Remove all panels
-
-1. Within your project workspace, select the three horizontal dots (**...**) next to the panel search bar
-2. Select **Clear all panels**
+1. 프로젝트 워크스페이스 내에서 패널 검색창 옆에 있는 세 개의 가로 점(**...**)을 선택하세요.
+2. **Clear all panels**를 선택하세요.
 
 :::note
-Clearing panels in your workspace deactivates automatic panel generation.
+워크스페이스에서 패널을 제거하면 자동 패널 생성이 비활성화됩니다.
 :::
 
-<!-- ## Add a section -->
+## 워크스페이스 섹션 구성하기
 
-<!-- Delete a section -->
+패널을 그룹화하여 패널을 더 잘 정리할 수 있도록 돕습니다. 워크스페이스 섹션 내에서 패널을 정렬하고, 재배치하고, 섹션 이름을 변경할 수 있습니다.
 
-## Organize workspace sections
+### 섹션 이름 변경하기
+1. 섹션의 오른쪽 상단 모서리에 있는 세 개의 가로 점(**...**)을 선택하세요.
+2. 드롭다운에서 **Rename section**을 선택하세요.
 
-Group panels within sections in your organize to help organize your panels. Within a workspace section you can sort panels, rearrange panels, and rename the section name.
+### 패널 정렬하기
+1. 섹션의 오른쪽 상단 모서리에 있는 세 개의 가로 점(**...**)을 선택하세요.
+2. 드롭다운에서 **Sort panels A-Z**를 선택하세요.
 
-### Rename a section
-1. Select the three horizontal dots (**...**) in the upper right corner of a section
-2. From the dropdown, select **Rename section**
+### 패널 재배치하기
 
-### Sort panels
-1. Select the three horizontal dots (**...**) in the upper right corner of a section
-2. From the dropdown, select **Sort panels A-Z** 
-
-### Rearrange panels
-
-Click and drag a panel within a section to manually order your panels:
+섹션 내에서 패널을 클릭하고 드래그하여 수동으로 패널을 정렬하세요.
 
 ![](/images/app_ui/rearrange_panels.gif)

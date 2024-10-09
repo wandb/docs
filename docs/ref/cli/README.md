@@ -1,41 +1,40 @@
-# Command Line Interface
+# 커맨드라인 인터페이스
 
-**Usage**
+**사용법**
 
 `wandb [OPTIONS] COMMAND [ARGS]...`
 
+**옵션**
 
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| --version | Show the version and exit. |
+| --version | 버전을 표시하고 종료합니다. |
 
-**Commands**
+**코맨드**
 
-| **Command** | **Description** |
+| **코맨드** | **설명** |
 | :--- | :--- |
-| agent | Run the W&B agent |
-| artifact | Commands for interacting with artifacts |
-| beta | Beta versions of wandb CLI commands. |
-| controller | Run the W&B local sweep controller |
-| disabled | Disable W&B. |
-| docker | Run your code in a docker container. |
-| docker-run | Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER... |
-| enabled | Enable W&B. |
-| init | Configure a directory with Weights & Biases |
-| job | Commands for managing and viewing W&B jobs |
-| launch | Launch or queue a W&B Job. |
-| launch-agent | Run a W&B launch agent. |
-| launch-sweep | Run a W&B launch sweep (Experimental). |
-| login | Login to Weights & Biases |
-| offline | Disable W&B sync |
-| online | Enable W&B sync |
-| pull | Pull files from Weights & Biases |
-| restore | Restore code, config and docker state for a run |
-| scheduler | Run a W&B launch sweep scheduler (Experimental) |
-| server | Commands for operating a local W&B server |
-| status | Show configuration settings |
-| sweep | Initialize a hyperparameter sweep. |
-| sync | Upload an offline training directory to W&B |
-| verify | Verify your local instance |
+| agent | W&B 에이전트를 실행합니다. |
+| artifact | Artifacts와 상호작용하기 위한 코맨드입니다. |
+| beta | wandb CLI의 베타 버전 코맨드입니다. |
+| controller | W&B 로컬 스윕 컨트롤러를 실행합니다. |
+| disabled | W&B를 비활성화합니다. |
+| docker | docker 컨테이너에서 코드를 실행합니다. |
+| docker-run | `docker run`을 래핑하고 WANDB_API_KEY와 WANDB_DOCKER를 추가합니다... |
+| enabled | W&B를 활성화합니다. |
+| init | Weights & Biases로 디렉토리를 설정합니다. |
+| job | W&B 작업을 관리하고 보는 코맨드입니다. |
+| launch | W&B 작업을 실행하거나 큐에 넣습니다. |
+| launch-agent | W&B launch agent를 실행합니다. |
+| launch-sweep | W&B launch sweep을 실행합니다 (실험적). |
+| login | Weights & Biases에 로그인합니다. |
+| offline | W&B 동기화를 비활성화합니다. |
+| online | W&B 동기화를 활성화합니다. |
+| pull | Weights & Biases에서 파일을 가져옵니다. |
+| restore | run을 위한 코드, 설정 및 docker 상태를 복원합니다. |
+| scheduler | W&B launch sweep 스케줄러를 실행합니다 (실험적). |
+| server | 로컬 W&B 서버를 운영하기 위한 코맨드입니다. |
+| status | 설정을 보여줍니다. |
+| sweep | 하이퍼파라미터 스윕을 초기화합니다. |
+| sync | 오프라인 트레이닝 디렉토리를 W&B에 업로드합니다. |
+| verify | 로컬 인스턴스를 검증합니다. |

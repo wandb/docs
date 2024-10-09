@@ -1,15 +1,14 @@
 # wandb online
 
-**Usage**
+**사용법**
 
 `wandb online [OPTIONS]`
 
-**Summary**
+**개요**
 
-Enable W&B sync
+W&B 동기화 활성화
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-

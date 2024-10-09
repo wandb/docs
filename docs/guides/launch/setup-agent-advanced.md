@@ -1,52 +1,51 @@
 ---
-displayed_sidebar: default
 title: Set up launch agent
+displayed_sidebar: default
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Advanced agent setup
+# 고급 에이전트 설정
 
-This guide provides information on how to set up the W&B Launch agent to build container images in different environments.
+이 가이드는 다양한 환경에서 컨테이너 이미지를 빌드하기 위해 W&B Launch 에이전트를 설정하는 방법에 대한 정보를 제공합니다.
 
 :::info
-Build is only required for git and code artifact jobs. Image jobs do not require build.
+빌드는 git 및 코드 아티팩트 작업에 대해서만 필요합니다. 이미지 작업에는 빌드가 필요하지 않습니다.
 
-See [Create a launch job](./create-launch-job.md) for more information on job types.
+작업 유형에 대한 자세한 내용은 [런치 작업 생성](./create-launch-job.md)를 참조하세요.
 :::
 
-## Builders
+## 빌더
 
-The Launch agent can build images using [Docker](https://docs.docker.com/) or [Kaniko](https://github.com/GoogleContainerTools/kaniko).
+Launch 에이전트는 [Docker](https://docs.docker.com/) 또는 [Kaniko](https://github.com/GoogleContainerTools/kaniko)를 사용하여 이미지를 빌드할 수 있습니다.
 
-* Kaniko: builds a container image in Kubernetes without running the build as a privileged container.
-* Docker: builds a container image by executing a `docker build` command locally.
+* Kaniko: Kubernetes에서 빌드를 특권 컨테이너로 실행하지 않고 컨테이너 이미지를 빌드합니다.
+* Docker: 로컬에서 `docker build` 명령을 실행하여 컨테이너 이미지를 빌드합니다.
 
-The builder type can be controlled by the `builder.type` key in the launch agent config to either `docker`, `kaniko`, or `noop` to disable build. By default, the agent helm chart sets the `builder.type` to `noop`. Additional keys in the `builder` section will be used to configure the build process.
+빌더 유형은 launch 에이전트 설정의 `builder.type` 키를 통해 `docker`, `kaniko` 또는 `noop`으로 설정하여 빌드를 비활성화할 수 있습니다. 기본적으로 에이전트 헬름 차트는 `builder.type`을 `noop`으로 설정합니다. `builder` 섹션의 추가 키는 빌드 프로세스를 설정하는 데 사용됩니다.
 
-If no builder is specified in the agent config and a working `docker` CLI is found, the agent will default to using Docker. If Docker is not available the agent will default to `noop`.
+에이전트 설정에 빌더가 지정되지 않았고 작동 가능한 `docker` CLI가 발견되면 에이전트는 기본적으로 Docker를 사용합니다. Docker가 사용 가능하지 않으면 에이전트는 `noop`을 기본적으로 사용합니다.
 
 :::tip
-Use Kaniko for building images in a Kubernetes cluster. Use Docker for all other cases.
+Kubernetes 클러스터에서는 이미지를 빌드하기 위해 Kaniko를 사용하세요. 그 외의 경우에는 Docker를 사용하세요.
 :::
 
+## 컨테이너 레지스트리에 푸시하기
 
-## Pushing to a container registry
+Launch 에이전트는 모든 빌드된 이미지에 고유한 소스 해시를 태그합니다. 에이전트는 `builder.destination` 키에 지정된 레지스트리에 이미지를 푸시합니다.
 
-The launch agent tags all images it builds with a unique source hash. The agent pushes the image to the registry specified in the `builder.destination` key.
+예를 들어, `builder.destination` 키가 `my-registry.example.com/my-repository`로 설정된 경우 에이전트는 `my-registry.example.com/my-repository:<source-hash>`로 이미지를 태그하고 푸시합니다. 이미지가 레지스트리에 이미 존재하면 빌드는 건너뜁니다.
 
-For example, if the `builder.destination` key is set to `my-registry.example.com/my-repository`, the agent will tag and push the image to `my-registry.example.com/my-repository:<source-hash>`. If the image exists in the registry, the build is skipped.
+### 에이전트 구성
 
-### Agent configuration
+헬름 차트를 통해 에이전트를 배포하는 경우, 에이전트 설정은 `values.yaml` 파일의 `agentConfig` 키에 제공되어야 합니다.
 
-If you are deploying the agent via our Helm chart, the agent config should be provided in the `agentConfig` key in the `values.yaml` file.
+`wandb launch-agent`를 사용하여 직접 에이전트를 호출하는 경우, 에이전트 설정을 YAML 파일 경로로 `--config` 플래그와 함께 제공할 수 있습니다. 기본적으로 설정은 `~/.config/wandb/launch-config.yaml`에서 로드됩니다.
 
-If you are invoking the agent yourself with `wandb launch-agent`, you can provide the agent config as a path to a YAML file with the `--config` flag. By default, the config will be loaded from `~/.config/wandb/launch-config.yaml`.
+`launch-config.yaml` 내의 launch 에이전트 설정에는 대상 리소스 환경의 이름과 `environment` 및 `registry` 키에 대한 컨테이너 레지스트리를 제공하세요.
 
-Within your launch agent config (`launch-config.yaml`), provide the name of the target resource environment and the container registry for the `environment` and `registry` keys, respectively.
-
-The following tabs demonstrates how to configure the launch agent based on your environment and registry.
+다음 탭들은 환경과 레지스트리에 기반한 launch 에이전트 구성을 보여줍니다.
 
 <Tabs
 defaultValue="aws"
@@ -57,7 +56,7 @@ values={[
 ]}>
 <TabItem value="aws">
 
-The AWS environment configuration requires the region key. The region should be the AWS region that the agent runs in. 
+AWS 환경 설정은 지역(region) 키가 필요합니다. 지역은 에이전트가 실행되는 AWS 지역이어야 합니다.
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -65,21 +64,19 @@ environment:
   region: <aws-region>
 builder:
   type: <kaniko|docker>
-  # URI of the ECR repository where the agent will store images.
-  # Make sure the region matches what you have configured in your
-  # environment.
+  # 에이전트가 이미지를 저장할 ECR 리포지토리의 URI입니다.
+  # region이 환경에 구성한 것과 일치하는지 확인하세요.
   destination: <account-id>.ecr.<aws-region>.amazonaws.com/<repository-name>
-  # If using Kaniko, specify the S3 bucket where the agent will store the
-  # build context.
+  # Kaniko를 사용하는 경우 에이전트가 빌드 컨텍스트를 저장할 S3 버킷 지정
   build-context-store: s3://<bucket-name>/<path>
 ```
 
-The agent uses boto3 to load the default AWS credentials. See the [boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) for more information on how to configure default AWS credentials.
+에이전트는 기본 AWS 자격 증명을 로드하기 위해 boto3 를 사용합니다. 기본 AWS 자격 증명을 설정하는 방법에 대한 더 많은 정보는 [boto3 설명서](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)를 참조하세요.
 
   </TabItem>
   <TabItem value="gcp">
 
-The Google Cloud environment requires region and project keys. Set `region` to the region that the agent runs in. Set `project` to the Google Cloud project that the agent runs in. The agent uses `google.auth.default()` in Python to load the default credentials.
+Google Cloud 환경은 지역(region) 및 프로젝트(project) 키가 필요합니다. `region`을 에이전트가 실행되는 Google Cloud 프로젝트에 설정하세요. 에이전트는 `google.auth.default()`를 통해 Python에서 기본 자격 증명을 로드합니다.
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -88,46 +85,43 @@ environment:
   project: <gcp-project-id>
 builder:
   type: <kaniko|docker>
-  # URI of the Artifact Registry repository and image name where the agent
-  # will store images. Make sure the region and project match what you have
-  # configured in your environment.
+  # 에이전트가 이미지를 저장할 Artifact Registry 리포지토리와 이미지 이름의 URI
+  # region과 project가 환경에 구성한 것과 일치하는지 확인하세요.
   uri: <region>-docker.pkg.dev/<project-id>/<repository-name>/<image-name>
-  # If using Kaniko, specify the GCS bucket where the agent will store the
-  # build context.
+  # Kaniko를 사용하는 경우 에이전트가 빌드 컨텍스트를 저장할 GCS 버킷 지정
   build-context-store: gs://<bucket-name>/<path>
 ```
 
-See the [`google-auth` documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) for more information on how to configure default GCP credentials so they are available to the agent.
+에이전트에서 사용할 수 있도록 기본 GCP 자격 증명을 구성하는 방법에 대한 더 많은 정보는 [`google-auth` 설명서](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) 를 참조하세요.
 
   </TabItem>
   <TabItem value="azure">
 
-The Azure environment does not require any additional keys. When the agent starts, it use `azure.identity.DefaultAzureCredential()` to load the default Azure credentials.
+Azure 환경은 추가적인 키가 필요하지 않습니다. 에이전트가 시작될 때 `azure.identity.DefaultAzureCredential()`을 사용하여 기본 Azure 자격 증명을 로드합니다.
 
 ```yaml title="launch-config.yaml"
 environment:
   type: azure
 builder:
   type: <kaniko|docker>
-  # URI of the Azure Container Registry repository where the agent will store images.
+  # 에이전트가 이미지를 저장할 Azure Container Registry 리포지토리의 URI
   destination: https://<registry-name>.azurecr.io/<repository-name>
-  # If using Kaniko, specify the Azure Blob Storage container where the agent
-  # will store the build context.
+  # Kaniko를 사용하는 경우 에이전트가 빌드 컨텍스트를 저장할 Azure Blob Storage 컨테이너 지정
   build-context-store: https://<storage-account-name>.blob.core.windows.net/<container-name>
 ```
 
-See the [`azure-identity` documentation](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) for more information on how to configure default Azure credentials.
+기본 Azure 자격 증명을 설정하는 방법에 대한 더 많은 정보는 [`azure-identity` 설명서](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python)를 참조하세요.
 
   </TabItem>
 </Tabs>
 
-## Agent permissions
+## 에이전트 권한
 
-The agent permissions required vary by use case.
+에이전트 권한 요구 사항은 유스 케이스에 따라 다릅니다.
 
-### Cloud registry permissions
+### 클라우드 레지스트리 권한
 
-Below are the permissions that are generally required by launch agents to interact with cloud registries.
+아래는 launch 에이전트가 클라우드 레지스트리와 상호작용하기 위해 일반적으로 요구되는 권한입니다.
 
 <Tabs
 defaultValue="aws"
@@ -181,14 +175,14 @@ artifactregistry.repositories.uploadArtifacts;
   </TabItem>
   <TabItem value="azure">
 
-Add the [`AcrPush` role](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush) if you use the Kaniko builder.
+Kaniko 빌더를 사용하는 경우, [`AcrPush` 역할](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#acrpush)을 추가하세요.
 
 </TabItem>
 </Tabs>
 
-### Storage permissions for Kaniko
+### Kaniko를 위한 스토리지 권한
 
-The launch agent requires permission to push to cloud storage if the agent uses the Kaniko builder. Kaniko uses a context store outside of the pod running the build job.
+Kaniko 빌더를 사용하는 경우 launch 에이전트는 클라우드 스토리지에 푸시할 수 있는 권한이 필요합니다. Kaniko는 빌드 작업을 실행하는 pod 외부에 컨텍스트 스토어를 사용합니다.
 
 <Tabs
 defaultValue="aws"
@@ -199,7 +193,7 @@ values={[
 ]}>
 <TabItem value="aws">
 
-The recommended context store for the Kaniko builder on AWS is Amazon S3. The following policy can be used to give the agent access to an S3 bucket:
+AWS에서 Kaniko 빌더에 추천되는 컨텍스트 스토어는 Amazon S3입니다. 다음 정책은 에이전트에게 S3 버킷에 대한 엑세스 권한을 부여하기 위해 사용할 수 있습니다:
 
 ```json
 {
@@ -224,7 +218,7 @@ The recommended context store for the Kaniko builder on AWS is Amazon S3. The fo
   </TabItem>
   <TabItem value="gcp">
 
-On GCP, the following IAM permissions are required for the agent to upload build contexts to GCS:
+GCP에서 에이전트가 GCS에 빌드 컨텍스트를 업로드할 수 있는 IAM 권한은 다음과 같습니다:
 
 ```js
 storage.buckets.get;
@@ -236,15 +230,14 @@ storage.objects.get;
   </TabItem>
   <TabItem value="azure">
 
-The [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) role is required in order for the agent to upload build contexts to Azure Blob Storage.
+에이전트가 Azure Blob Storage에 빌드 컨텍스트를 업로드할 수 있게 하려면 [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) 역할이 필요합니다.
 
   </TabItem>
 </Tabs>
 
+## Kaniko 빌드 커스터마이징
 
-## Customizing the Kaniko build
-
-Specify the Kubernetes Job spec that the Kaniko job uses in the `builder.kaniko-config` key of the agent configuration. For example:
+에이전트 설정의 `builder.kaniko-config` 키에서 Kaniko 작업에 사용할 Kubernetes Job 사양을 지정하세요. 예를 들어:
 
 ```yaml title="launch-config.yaml"
 builder:
@@ -258,18 +251,17 @@ builder:
         spec:
           containers:
           - args:
-            - "--cache=false" # Args must be in the format "key=value"
+            - "--cache=false" # Args는 "key=value" 형식이어야 함
             env:
             - name: "MY_ENV_VAR"
               value: "my-env-var-value"
 ```
 
-## Deploy Launch agent into CoreWeave 
-Optionally deploy the W&B Launch agent to CoreWeave Cloud infrastructure. CoreWeave is a cloud infrastructure that is purpose built for GPU-accelerated workloads.
+## Launch 에이전트를 CoreWeave에 배포
+W&B Launch 에이전트를 선택적으로 CoreWeave 클라우드 인프라에 배포할 수 있습니다. CoreWeave는 GPU 가속 워크로드에 맞게 설계된 클라우드 인프라입니다.
 
-For information on how to deploy the Launch agent to CoreWeave, see the [CoreWeave documentation](https://docs.coreweave.com/partners/weights-and-biases#integration). 
+Launch 에이전트를 CoreWeave에 배포하는 방법에 대한 정보는 [CoreWeave 설명서](https://docs.coreweave.com/partners/weights-and-biases#integration)를 참조하세요.
 
 :::note
-You will need to create a [CoreWeave account](https://cloud.coreweave.com/login) in order to deploy the Launch agent into a CoreWeave infrastructure. 
+CoreWeave 인프라에 Launch 에이전트를 배포하려면 [CoreWeave 계정](https://cloud.coreweave.com/login)을 생성해야 합니다.
 :::
-

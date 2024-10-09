@@ -1,186 +1,166 @@
 ---
-displayed_sidebar: default
 title: Sweep configuration options
+displayed_sidebar: default
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-A sweep configuration consists of nested key-value pairs. Use top-level keys within your sweep configuration to define qualities of your sweep search such as the parameters to search through ([`parameter`](./sweep-config-keys.md#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys.md#method) key), and more. 
+스윕 구성은 중첩된 키-값 쌍으로 구성됩니다. 스윕 구성 내에서 최상위 키를 사용하여 검색할 파라미터([`parameter`](./sweep-config-keys.md#parameters) 키), 파라미터 공간을 검색하는 메소드([`method`](./sweep-config-keys.md#method) 키) 등과 같은 스윕 검색의 특성을 정의하십시오.
 
-The proceeding table lists top-level sweep configuration keys and a brief description. See the respective sections for more information about each key. 
+다음 표는 최상위 스윕 구성 키와 간단한 설명을 나열합니다. 각 키에 대한 자세한 내용은 해당 섹션을 참조하십시오.
 
-
-| Top-level keys | Description |
+| 최상위 키 | 설명 |
 | -------------- | ----------- |
-| `program` | (required) Training script to run |
-| `entity` | The entity for this sweep |
-| `project` | The project for this sweep |
-| `description` | Text description of the sweep |
-| `name` | The name of the sweep, displayed in the W&B UI. |
-| [`method`](#method) | (required) The search strategy |
-| [`metric`](#metric) | The metric to optimize (only used by certain search strategies and stopping criteria) |
-| [`parameters`](#parameters) | (required) Parameter bounds to search |
-| [`early_terminate`](#early_terminate) | Any early stopping criteria |
-| [`command`](#command) | Command structure for invoking and passing arguments to the training script |
-| `run_cap` | Maximum number of runs for this sweep |
+| `program` | (필수) 실행할 트레이닝 스크립트 |
+| `entity` | 이 스윕에 대한 엔티티 |
+| `project` | 이 스윕에 대한 프로젝트 |
+| `description` | 스윕에 대한 텍스트 설명 |
+| `name` | W&B UI에 표시되는 스윕의 이름 |
+| [`method`](#method) | (필수) 검색 전략 |
+| [`metric`](#metric) | 최적화할 메트릭 (특정 검색 전략 및 중지 기준에서만 사용됨) |
+| [`parameters`](#parameters) | (필수) 검색할 파라미터 범위 |
+| [`early_terminate`](#early_terminate) | 조기 중지 기준 |
+| [`command`](#command) | 트레이닝 스크립트에 인수를 전달하는 코맨드 구조 |
+| `run_cap` | 이 스윕의 최대 run 수 |
 
-See the [Sweep configuration](./sweep-config-keys.md) structure for more information on how to structure your sweep configuration.
-
-<!-- ## `program`
-
-##  `entity`
-
-## `project`
-
-## `description`
-
-## `name` -->
+스윕 구성 구조에 대한 자세한 내용은 [스윕 구성](./sweep-config-keys.md) 구조를 참조하십시오.
 
 ## `metric`
 
-Use the `metric` top-level sweep configuration key to specify the name, the goal, and the target metric to optimize.
+최적화할 메트릭의 이름, 목표 및 대상을 지정하려면 `metric` 최상위 스윕 구성 키를 사용하세요.
 
-|Key | Description |
+| 키 | 설명 |
 | -------- | --------------------------------------------------------- |
-| `name`   | Name of the metric to optimize.                           |
-| `goal`   | Either `minimize` or `maximize` (Default is `minimize`).  |
-| `target` | Goal value for the metric you are optimizing. The sweep does not create new runs when if or when a run reaches a target value that you specify. Active agents that have a run executing (when the run reaches the target) wait until the run completes before the agent stops creating new runs. |
-
-
-
+| `name`   | 최적화할 메트릭의 이름.                           |
+| `goal`   | `minimize` 또는 `maximize` (기본값은 `minimize`).  |
+| `target` | 최적화 중인 메트릭의 목표 값. 지정한 목표 값에 도달하거나 도달한 경우, 스윕은 새 run을 생성하지 않습니다. 에이전트가 실행 중인 run이 목표에 도달하면 run이 완료될 때까지 기다린 후 새 run 생성을 중단합니다. |
 
 ## `parameters`
-In your YAML file or Python script, specify `parameters` as a top level key. Within the `parameters` key, provide the name of a hyperparameter you want to optimize. Common hyperparameters include: learning rate, batch size, epochs, optimizers, and more. For each hyperparameter you define in your sweep configuration, specify one or more search constraints. 
 
-The proceeding table shows supported hyperparameter search constraints. Based on your hyperparameter and use case, use one of the search constraints below to tell your sweep agent where (in the case of a distribution) or what (`value`, `values`, and so forth) to search or use.
+귀하의 YAML 파일 또는 파이썬 스크립트에서, `parameters`를 최상위 키로 지정하십시오. `parameters` 키 내에서 최적화하려는 하이퍼파라미터의 이름을 제공합니다. 일반적인 하이퍼파라미터에는 학습률, 배치 크기, 에포크, 옵티마이저 등이 포함됩니다. 스윕 구성에서 정의하는 각 하이퍼파라미터에 대해 하나 이상의 검색 제약 조건을 지정하십시오. 
 
+다음 표는 지원되는 하이퍼파라미터 검색 제약 조건을 보여줍니다. 하이퍼파라미터 및 유스 케이스에 따라 아래의 검색 제약 조건 중 하나를 사용하여 스윕 에이전트가 검색 위치(분포의 경우) 또는 검색할 내용(`value`, `values` 등)을 지정하십시오.
 
-| Search constraint | Description   |
+| 검색 제약 조건 | 설명   |
 | --------------- | ------------------------------------------------------------------------------ |
-| `values`        | Specifies all valid values for this hyperparameter. Compatible with `grid`.    |
-| `value`         | Specifies the single valid value for this hyperparameter. Compatible with `grid`.  |
-| `distribution`  | Specify a probability [distribution](#distribution-options-for-random-and-bayesian-search). See the note following this table for information on default values. |
-| `probabilities` | Specify the probability of selecting each element of `values` when using `random`.  |
-| `min`, `max`    | (`int`or `float`) Maximum and minimum values. If `int`, for `int_uniform` -distributed hyperparameters. If `float`, for `uniform` -distributed hyperparameters. |
-| `mu`            | (`float`) Mean parameter for `normal` - or `lognormal` -distributed hyperparameters. |
-| `sigma`         | (`float`) Standard deviation parameter for `normal` - or `lognormal` -distributed hyperparameters. |
-| `q`             | (`float`) Quantization step size for quantized hyperparameters.     |
-| `parameters`    | Nest other parameters inside a root level parameter.    |
-
+| `values`        | 이 하이퍼파라미터의 모든 유효 값을 지정합니다. `grid`와 호환됩니다.    |
+| `value`         | 이 하이퍼파라미터의 단일 유효 값을 지정합니다. `grid`와 호환됩니다.  |
+| `distribution`  | 확률 [분포](#distribution-options-for-random-and-bayesian-search)를 지정하세요. 기본 값에 대한 정보는 이 테이블 다음의 주를 참조하십시오. |
+| `probabilities` | `random`을 사용할 때 `values`의 각 요소를 선택할 확률을 지정합니다.  |
+| `min`, `max`    | (`int`또는 `float`) 최대 및 최소 값. `int`이면, `int_uniform` 분포하이퍼파라미터를 위해. `float`이면, `uniform` 분포 하이퍼파라미터를 위해. |
+| `mu`            | (`float`) `normal` 또는 `lognormal` 분포 하이퍼파라미터의 평균 파라미터. |
+| `sigma`         | (`float`) `normal` 또는 `lognormal` 분포 하이퍼파라미터의 표준 편차 파라미터. |
+| `q`             | (`float`) 양자화된 하이퍼파라미터의 양자화 단계 크기.     |
+| `parameters`    | 최상위 수준 파라미터 내에 다른 파라미터를 중첩시킵니다.    |
 
 :::info
-W&B sets the following distributions based on the following conditions if a [distribution](#distribution-options-for-random-and-bayesian-search) is not specified:
-* `categorical` if you specify `values`
-* `int_uniform` if you specify `max` and `min` as integers
-* `uniform` if you specify `max` and `min` as floats
-* `constant` if you provide a set to `value`
+[분포](#distribution-options-for-random-and-bayesian-search)가 지정되지 않은 경우 W&B는 다음 조건을 기반으로 기본 분포를 설정합니다:
+* `values` 지정을 배면 `categorical`
+* `max` 및 `min`을 정수로 지정하면 `int_uniform`
+* `max` 및 `min`을 실수로 지정하면 `uniform`
+* `value`를 지정하면 `constant`
 :::
 
 ## `method`
-Specify the hyperparameter search strategy with the `method` key. There are three hyperparameter search strategies to choose from: grid, random, and Bayesian search. 
-#### Grid search
-Iterate over every combination of hyperparameter values. Grid search makes uninformed decisions on the set of hyperparameter values to use on each iteration. Grid search can be computationally costly.     
 
-Grid search executes forever if it is searching within in a continuous search space.
+`method` 키를 사용하여 하이퍼파라미터 검색 전략을 지정하십시오. 세 가지 하이퍼파라미터 검색 전략 중 하나를 선택할 수 있습니다: 그리드, 랜덤, 베이지안 탐색. 
 
-#### Random search
-Choose a random, uninformed, set of hyperparameter values on each iteration based on a distribution. Random search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI](./sweeps-ui.md).
+#### 그리드 검색
 
-Specify the distribution space with the metric key if you choose random (`method: random`) search.
+하이퍼파라미터 값의 모든 조합을 반복합니다. 그리드 검색은 각 반복에서 사용할 하이퍼파라미터 값을 세트로 결정하는 데 있어서 무작위적 결정을 내립니다. 그리드 검색은 계산 비용이 많이 들 수 있습니다.
 
-#### Bayesian search
-In contrast to [random](#random-search) and [grid](#grid-search) search, Bayesian models make informed decisions. Bayesian optimization uses a probabilistic model to decide which values to use through an iterative process of testing values on a surrogate function before evaluating the objective function. Bayesian search works well for small numbers of continuous parameters but scales poorly. For more information about Bayesian search, see the [Bayesian Optimization Primer paper](https://web.archive.org/web/20240209053347/https://static.sigopt.com/b/20a144d208ef255d3b981ce419667ec25d8412e2/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf).
+그리드 검색은 연속 검색 공간 내에서 검색하는 경우 무한히 실행됩니다.
 
-<!-- There are different Bayesian optimization methods. W&B uses a Gaussian process to model the relationship between hyperparameters and the model metric. For more information, see this paper. [LINK] -->
+#### 랜덤 검색
 
-Bayesian search runs forever unless you stop the process from the command line, within your python script, or [the W&B App UI](./sweeps-ui.md). 
+분포에 기반하여 각 반복에서 무작위, 비정보적 하이퍼파라미터 값 세트를 선택합니다. 프로세스를 커맨드라인에서, 파이썬 스크립트 내에서, 또는 [W&B 앱 UI](./sweeps-ui.md)에서 중지하지 않는 한 랜덤 검색은 무한정 실행됩니다.
 
-### Distribution options for random and Bayesian search
-Within the `parameter` key, nest the name of the hyperparameter. Next, specify the `distribution` key and specify a distribution for the value.
+랜덤 (`method: random`) 검색을 선택하면 `metric` 키로 분포 공간을 지정하십시오.
 
-The proceeding tables lists distributions W&B supports.
+#### 베이지안 탐색
 
-| Value for `distribution` key  | Description            |
+[random](#random-search) 및 [grid](#grid-search) 검색과 달리, 베이지안 모델은 정보에 기반한 결정을 내립니다. 베이지안 최적화는 대체 함수를 테스팅하는 반복적인 프로세스를 통해 결정할 값을 결정하는 데 확률 모델을 사용합니다. 베이지안 탐색은 적은 수의 연속 파라미터에는 적합하게 작동하지만, 확장이 어렵습니다. 베이지안 탐색에 대한 자세한 정보는 [베이지안 최적화 프라이머 논문](https://web.archive.org/web/20240209053347/https://static.sigopt.com/b/20a144d208ef255d3b981ce419667ec25d8412e2/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf)을 참조하십시오.
+
+베이지안 탐색은 프로세스를 커맨드라인에서, 파이썬 스크립트 내에서, 또는 [W&B 앱 UI](./sweeps-ui.md)에서 중지하지 않는 한 무한정 실행됩니다.
+
+### 랜덤 및 베이지안 탐색을 위한 분포 옵션
+
+`parameter` 키 내에 하이퍼파라미터의 이름을 중첩합니다. 다음으로, `distribution` 키를 지정하고 값을 위한 분포를 지정합니다.
+
+다음 표는 W&B가 지원하는 분포를 나열합니다.
+
+| `distribution` 키의 값  | 설명            |
 | ------------------------ | ------------------------------------ |
-| `constant`               | Constant distribution. Must specify the constant value (`value`) to use.                    |
-| `categorical`            | Categorical distribution. Must specify all valid values (`values`) for this hyperparameter. |
-| `int_uniform`            | Discrete uniform distribution on integers. Must specify `max` and `min` as integers.     |
-| `uniform`                | Continuous uniform distribution. Must specify `max` and `min` as floats.      |
-| `q_uniform`              | Quantized uniform distribution. Returns `round(X / q) * q` where X is uniform. `q` defaults to `1`.|
-| `log_uniform`            | Log-uniform distribution. Returns a value `X` between `exp(min)` and `exp(max)`such that the natural logarithm is uniformly distributed between `min` and `max`.   |
-| `log_uniform_values`     | Log-uniform distribution. Returns a value `X` between `min` and `max` such that `log(`X`)` is uniformly distributed between `log(min)` and `log(max)`.     |
-| `q_log_uniform`          | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform`. `q` defaults to `1`. |
-| `q_log_uniform_values`   | Quantized log uniform. Returns `round(X / q) * q` where `X` is `log_uniform_values`. `q` defaults to `1`.  |
-| `inv_log_uniform`        | Inverse log uniform distribution. Returns `X`, where  `log(1/X)` is uniformly distributed between `min` and `max`. |
-| `inv_log_uniform_values` | Inverse log uniform distribution. Returns `X`, where  `log(1/X)` is uniformly distributed between `log(1/max)` and `log(1/min)`.    |
-| `normal`                 | Normal distribution. Return value is normally distributed with mean `mu` (default `0`) and standard deviation `sigma` (default `1`).|
-| `q_normal`               | Quantized normal distribution. Returns `round(X / q) * q` where `X` is `normal`. Q defaults to 1.  |
-| `log_normal`             | Log normal distribution. Returns a value `X` such that the natural logarithm `log(X)` is normally distributed with mean `mu` (default `0`) and standard deviation `sigma` (default `1`). |
-| `q_log_normal`  | Quantized log normal distribution. Returns `round(X / q) * q` where `X` is `log_normal`. `q` defaults to `1`. |
-
-
+| `constant`               | 상수 분포. 사용할 상수 값 (`value`)를 지정해야 합니다.                    |
+| `categorical`            | 범주형 분포. 이 하이퍼파라미터의 모든 유효 값 (`values`)을 지정해야 합니다. |
+| `int_uniform`            | 정수에 대한 불연속 균등 분포. `max` 및 `min`을 정수로 지정해야 합니다.     |
+| `uniform`                | 연속 균등 분포. `max` 및 `min`을 실수로 지정해야 합니다.      |
+| `q_uniform`              | 양자화된 균등 분포. `q`가 기본값으로 `1`인 경우, `X`는 균등합니다, `round(X / q) * q`를 반환합니다.|
+| `log_uniform`            | 로그 불연속 균등 분포. `exp(min)`과 `exp(max)` 사이의 값을 반환하여 자연 로그가 `min`과 `max` 사이에 균일하게 분포됩니다.   |
+| `log_uniform_values`     | 로그 불연속 균등 분포. `min`과 `max` 사이에서 `log(X)`가 `log(min)`과 `log(max)` 사이에 균등하게 분포되도록 `X` 값을 반환합니다.     |
+| `q_log_uniform`          | 양자화된 로그 균등 분포. `q`가 기본값으로 `1`인 `X`는 `log_uniform`, `round(X / q) * q`를 반환합니다. |
+| `q_log_uniform_values`   | 양자화된 로그 균등 분포. `q`가 기본값으로 `1`인 `X`는 `log_uniform_values`, `round(X / q) * q`를 반환합니다.  |
+| `inv_log_uniform`        | 역 로그 균등 분포. `log(1/X)`가 `min`과 `max` 사이에 균등하게 분포되도록 `X`를 반환합니다. |
+| `inv_log_uniform_values` | 역 로그 균등 분포. `log(1/X)`가 `log(1/max)`와 `log(1/min)` 사이에 균등하게 분포되도록 `X`를 반환합니다.    |
+| `normal`                 | 정상 분포. 반환 값이 평균 `mu` (기본값 `0`) 및 표준 편차 `sigma` (기본값 `1`)로 정상 분포됩니다.|
+| `q_normal`               | 양자화된 정상 분포. `q`가 기본값으로 `1`인 경우, `X`는 `normal`, `round(X / q) * q`를 반환합니다.  |
+| `log_normal`             | 로그 정상 분포. `log(X)`의 자연 로그가 `mu` (기본값 `0`) 및 표준 편차 `sigma` (기본값 `1`)로 정상적으로 분포되는 `X` 값을 반환합니다. |
+| `q_log_normal`  | 양자화된 로그 정상 분포. `q`가 기본값으로 `1`인 경우, `X`는 `log_normal`, `round(X / q) * q`를 반환합니다. |
 
 ## `early_terminate`
 
-Use early termination (`early_terminate`) to stop poorly performing runs. If early termination occurs, W&B stops the current run before it creates a new run with a new set of hyperparameter values.
+조기 중지(`early_terminate`)를 사용하여 성능이 낮은 run을 중지하십시오. 조기 중지가 발생하면 W&B는 하이퍼파라미터 값의 새 세트로 새 run을 생성하기 전에 현재 run을 중지합니다.
 
 :::note
-You must specify a stopping algorithm if you use `early_terminate`. Nest the `type` key within `early_terminate` within your sweep configuration.
+`early_terminate`를 사용하는 경우 중지 알고리즘을 지정해야 합니다. 스윕 구성 내에서 `type` 키를 `early_terminate` 내에 중첩하십시오.
 :::
 
-
-### Stopping algorithm
+### 중지 알고리즘
 
 :::info
-W&B currently supports [Hyperband](https://arxiv.org/abs/1603.06560) stopping algorithm. 
+현재 W&B는 [Hyperband](https://arxiv.org/abs/1603.06560) 중지 알고리즘을 지원합니다.
 :::
 
-[Hyperband](https://arxiv.org/abs/1603.06560) hyperparameter optimization evaluates if a program should stop or if it should to continue at one or more pre-set iteration counts, called *brackets*.
+[Hyperband](https://arxiv.org/abs/1603.06560) 하이퍼파라미터 최적화는 *bracket*이라고 하는 하나 이상의 사전 설정된 반복 횟수에서 프로그램을 중지해야 할지 계속해야 할지를 평가합니다.
 
-When a W&B run reaches a bracket, the sweep compares that run's metric to all previously reported metric values. The sweep terminates the run if the run's metric value is too high (when the goal is minimization) or if the run's metric is too low (when the goal is maximization).
+W&B run이 브래킷에 도달하면, 스윕은 해당 run의 메트릭을 이전에 보고된 모든 메트릭 값과 비교합니다. 스윕이 run의 메트릭 값이 너무 높다고 판단되면(목표가 최소화일 때) 또는 run의 메트릭 값이 너무 낮다면(목표가 최대화일 때)이 run을 종료합니다.
 
-Brackets are based on the number of logged iterations. The number of brackets corresponds to the number of times you log the metric you are optimizing. The iterations can correspond to steps, epochs, or something in between. The numerical value of the step counter is not used in bracket calculations.
+브래킷은 로그된 반복 횟수를 기반으로 합니다. 브래킷의 수는 최적화 중인 메트릭을 로그할 수 있는 횟수에 해당합니다. 반복 횟수는 단계, 에포크 또는 그 중간에 해당할 수 있습니다. 스텝 카운터의 수치 값은 브래킷 계산에 사용되지 않습니다.
 
 :::info
-Specify either `min_iter` or `max_iter` to create a bracket schedule.
+브래킷 일정을 생성하려면 `min_iter` 또는 `max_iter` 중 하나를 지정하세요.
 :::
 
-
-| Key        | Description                                                    |
+| 키        | 설명                                                    |
 | ---------- | -------------------------------------------------------------- |
-| `min_iter` | Specify the iteration for the first bracket                    |
-| `max_iter` | Specify the maximum number of iterations.                      |
-| `s`        | Specify the total number of brackets (required for `max_iter`) |
-| `eta`      | Specify the bracket multiplier schedule (default: `3`).        |
-| `strict`   | Enable 'strict' mode that prunes runs aggressively, more closely following the original Hyperband paper. Defaults to false. |
-
-
+| `min_iter` | 첫 번째 브래킷의 반복 횟수 지정                    |
+| `max_iter` | 최대 반복 횟수 지정                      |
+| `s`        | 총 브래킷 수 지정 (`max_iter`에 필요) |
+| `eta`      | 브래킷 배수 일정 지정 (기본값: `3`).        |
+| `strict`   | run을 적극적으로 가지치기하여 원래 Hyperband 논문을 더 가깝게 따르는 'strict' 모드를 활성화합니다. 기본값은 false입니다. |
 
 :::info
-Hyperband checks which [W&B runs](../../ref/python/run.md) to end once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
+Hyperband는 몇 분마다 종료할 [W&B runs](../../ref/python/run.md)을 확인합니다. run 또는 반복 회수가 짧을 경우 run 종료 타임스탬프는 지정된 브래킷과 다를 수 있습니다.
 :::
 
-## `command` 
+## `command`
 
-<!-- Agents created with [`wandb agent`](../../ref/cli/wandb-agent.md) receive a command in the following format by default: -->
-
-Modify the format and contents with nested values within the `command` key. You can directly include fixed components such as filenames.
+`command` 키 내에서 중첩된 값을 사용하여 형식 및 내용을 수정하십시오. 파일 이름과 같은 고정 구성 요소를 직접 포함할 수 있습니다.
 
 :::info
-On Unix systems, `/usr/bin/env` ensures that the OS chooses the correct Python interpreter based on the environment.
+Unix 시스템에서 `/usr/bin/env`는 환경에 따라 올바른 Python 인터프리터를 선택하도록 OS에 지시합니다.
 :::
 
-W&B supports the following macros for variable components of the command:
+W&B는 명령의 변수 구성 요소에 대해 다음 매크로를 지원합니다:
 
-| Command macro              | Description                                                                                                                                                           |
+| 코맨드 매크로              | 설명                                                                                                                                                           |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `${env}`                   | `/usr/bin/env` on Unix systems, omitted on Windows.                                                                                                                   |
-| `${interpreter}`           | Expands to `python`.                                                                                                                                                  |
-| `${program}`               | Training script filename specified by the sweep configuration `program` key.                                                                                          |
-| `${args}`                  | Hyperparameters and their values in the form `--param1=value1 --param2=value2`.                                                                                       |
-| `${args_no_boolean_flags}` | Hyperparameters and their values in the form `--param1=value1` except boolean parameters are in the form `--boolean_flag_param` when `True` and omitted when `False`. |
-| `${args_no_hyphens}`       | Hyperparameters and their values in the form `param1=value1 param2=value2`.                                                                                           |
-| `${args_json}`             | Hyperparameters and their values encoded as JSON.                                                                                                                     |
-| `${args_json_file}`        | The path to a file containing the hyperparameters and their values encoded as JSON.                                                                                   |
-| `${envvar}`                | A way to pass environment variables. `${envvar:MYENVVAR}` __ expands to the value of MYENVVAR environment variable. __                                               |
-
+| `${env}`                   | Unix 시스템에서 `/usr/bin/env`, Windows에서는 생략.                                                                                                                   |
+| `${interpreter}`           | `python`으로 확장됩니다.                                                                                                                                                  |
+| `${program}`               | 스윕 구성 `program` 키에 의해 지정된 트레이닝 스크립트 파일 이름.                                                                                          |
+| `${args}`                  | `--param1=value1 --param2=value2` 형식으로 하이퍼파라미터와 그 값들.                                                                                       |
+| `${args_no_boolean_flags}` | 하이퍼파라미터 및 그 값을 `--param1=value1` 형식으로 나타내며, 불리언 파라미터는 `True`일 때 `--boolean_flag_param` 형식으로 나타나고, `False`일 때 생략됩니다. |
+| `${args_no_hyphens}`       | `param1=value1 param2=value2` 형식으로 하이퍼파라미터와 그 값들.                                                                                           |
+| `${args_json}`             | JSON으로 인코딩된 하이퍼파라미터와 그 값들.                                                                                                                     |
+| `${args_json_file}`        | JSON으로 인코딩된 하이퍼파라미터와 그 값들을 포함하는 파일의 경로.                                                                                   |
+| `${envvar}`                | 환경 변수를 전달하는 방법. `${envvar:MYENVVAR}` __는 MYENVVAR 환경 변수의 값으로 확장됩니다. __                                               |

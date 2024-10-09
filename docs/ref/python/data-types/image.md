@@ -2,8 +2,7 @@
 
 <p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/sdk/data_types/image.py#L64-L689' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
-
-Format images for logging to W&B.
+이미지를 W&B에 로그하도록 포맷합니다.
 
 ```python
 Image(
@@ -18,20 +17,17 @@ Image(
 ) -> None
 ```
 
-| Arguments |  |
+| 인수 |  |
 | :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) Accepts numpy array of image data, or a PIL image. The class attempts to infer the data format and converts it. |
-|  `mode` |  (string) The PIL mode for an image. Most common are "L", "RGB", "RGBA". Full explanation at https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes |
-|  `caption` |  (string) Label for display of image. |
+|  `data_or_path` |  (numpy array, string, io) 이미지 데이터의 numpy array 또는 PIL 이미지를 허용합니다. 클래스는 데이터 포맷을 추론하여 변환을 시도합니다. |
+|  `mode` |  (string) 이미지의 PIL 모드입니다. 가장 흔한 것은 "L", "RGB", "RGBA"입니다. 전체 설명은 https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes에서 확인할 수 있습니다. |
+|  `caption` |  (string) 이미지의 표시를 위한 레이블입니다. |
 
-Note : When logging a `torch.Tensor` as a `wandb.Image`, images are normalized. If you do not want to normalize your images, please convert your tensors to a PIL Image.
+Note : `torch.Tensor`를 `wandb.Image`로 로그할 때, 이미지는 정규화됩니다. 이미지를 정규화하지 않으려면, 텐서를 PIL Image로 변환하세요.
 
-#### Examples:
+#### 예제:
 
-### Create a wandb.Image from a numpy array
-
-<!--yeadoc-test:log-image-numpy-->
-
+### numpy array로부터 wandb.Image 생성하기
 
 ```python
 import numpy as np
@@ -46,10 +42,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### Create a wandb.Image from a PILImage
-
-<!--yeadoc-test:log-image-pillow-->
-
+### PILImage로부터 wandb.Image 생성하기
 
 ```python
 import numpy as np
@@ -66,10 +59,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### log .jpg rather than .png (default)
-
-<!--yeadoc-test:log-image-format-->
-
+### .png (기본값) 대신 .jpg 로그하기
 
 ```python
 import numpy as np
@@ -84,10 +74,10 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-| Attributes |  |
+| 속성 |  |
 | :--- | :--- |
 
-## Methods
+## 메소드
 
 ### `all_boxes`
 
@@ -138,7 +128,7 @@ guess_mode(
 ) -> str
 ```
 
-Guess what type of image the np.array is representing.
+np.array가 표현하는 이미지 유형을 추측합니다.
 
 ### `to_uint8`
 
@@ -151,12 +141,11 @@ to_uint8(
 ) -> "np.ndarray"
 ```
 
-Convert image data to uint8.
+이미지 데이터를 uint8로 변환합니다.
 
-Convert floating point image on the range [0,1] and integer images on the range
-[0,255] to uint8, clipping if necessary.
+범위 [0,1]의 부동 소수점 이미지와 범위 [0,255]의 정수 이미지를 uint8로 변환하며, 필요한 경우 잘라냅니다.
 
-| Class Variables |  |
+| 클래스 변수 |  |
 | :--- | :--- |
 |  `MAX_DIMENSION`<a id="MAX_DIMENSION"></a> |  `65500` |
 |  `MAX_ITEMS`<a id="MAX_ITEMS"></a> |  `108` |

@@ -1,81 +1,79 @@
 ---
-description: >-
-  Visualize the relationships between your model's hyperparameters and output
-  metrics
-displayed_sidebar: default
 title: Parameter importance
+description: 모델의 하이퍼파라미터와 출력 메트릭 사이의 관계를 시각화하기
+displayed_sidebar: default
 ---
 
-This panel surfaces which of your hyperparameters were the best predictors of, and highly correlated to desirable values of your metrics.
+이 패널은 하이퍼파라미터 중에서 어떤 것이 메트릭의 기대하는 값을 잘 예측하는데 가장 좋은지를 표면화합니다.
 
 ![](/images/general/parameter-importance-1.png)
 
-**Correlation** is the linear correlation between the hyperparameter and the chosen metric (in this case val_loss). So a high correlation means that when the hyperparameter has a higher value, the metric also has higher values and vice versa. Correlation is a great metric to look at but it can’t capture second order interactions between inputs and it can get messy to compare inputs with wildly different ranges.
+**상관관계**는 하이퍼파라미터와 선택된 메트릭 간의 선형 상관(이 경우 val_loss)을 나타냅니다. 높은 상관관계는 하이퍼파라미터의 값이 높을 때 메트릭 또한 높은 값을 가지거나 그 반대일 경우를 의미합니다. 상관관계는 훌륭한 메트릭을 제공하지만 입력 사이의 2차 상호작용을 파악할 수 없으며, 범위가 크게 다른 입력을 비교할 때 복잡해질 수 있습니다.
 
-Therefore we also calculate an **importance** metric where we train a random forest with the hyperparameters as inputs and the metric as the target output and report the feature importance values for the random forest.
+따라서 우리는 하이퍼파라미터를 입력으로, 메트릭을 목표 출력으로 랜덤 포레스트를 학습시켜 특징 중대성 값을 보고하는 **중대성** 메트릭도 계산합니다.
 
-The idea for this technique was inspired by a conversation with [Jeremy Howard](https://twitter.com/jeremyphoward) who has pioneered the use of random forest feature importances to explore hyperparameter spaces at [Fast.ai](http://fast.ai). We highly recommend you check out his phenomenal [lecture](http://course18.fast.ai/lessonsml1/lesson4.html) (and these [notes](https://forums.fast.ai/t/wiki-lesson-thread-lesson-4/7540)) to learn more about the motivation behind this analysis.
+이 기법의 아이디어는 [Fast.ai](http://fast.ai)에서 하이퍼파라미터 공간을 탐색하기 위해 랜덤 포레스트 특징 중요성을 사용하는 것을 개척한 [Jeremy Howard](https://twitter.com/jeremyphoward)와의 대화에서 영감을 받았습니다. 이러한 분석의 동기에 대해 더 알고 싶다면 그의 뛰어난 [강의](http://course18.fast.ai/lessonsml1/lesson4.html) (그리고 이 [노트](https://forums.fast.ai/t/wiki-lesson-thread-lesson-4/7540))를 확인하기를 강력히 추천합니다.
 
-This hyperparameter importance panel untangles the complicated interactions between highly correlated hyperparameters. In doing so, it helps you fine tune your hyperparameter searches by showing you which of your hyperparameters matter the most in terms of predicting model performance.
+이 하이퍼파라미터 중요도 패널은 상관관계가 높은 하이퍼파라미터 사이의 복잡한 상호작용을 풀어줍니다. 이를 통해 어떤 하이퍼파라미터가 모델 성능을 예측하는데 가장 중요한지를 보여주어 하이퍼파라미터 검색을 세밀히 조정하는 데 도움을 줍니다.
 
-## Creating A Hyperparameter Importance Panel
+## 하이퍼파라미터 중요도 패널 생성하기
 
-Go to your W&B Project. If you don’t have one, you can use [this project](https://app.wandb.ai/sweep/simpsons).
+W&B Project로 이동하세요. 프로젝트가 없다면 [이 프로젝트](https://app.wandb.ai/sweep/simpsons)를 사용할 수 있습니다.
 
-From your project page, click **Add Visualization**.
+프로젝트 페이지에서 **Add Visualization**을 클릭하세요.
 
 ![](/images/general/parameter-importance-2.png)
 
-Then choose **Parameter Importance**.
+그런 다음 **Parameter Importance**를 선택하세요.
 
-You don’t need to write any new code, other than [integrating W&B](/quickstart) into your project.
+[W&B를 프로젝트에 통합하는 것](/quickstart)을 제외하고, 새로운 코드를 작성할 필요는 없습니다.
 
 ![](/images/general/parameter-importance-3.png)
 
-:::info
-If an empty panel appears, make sure that your runs are ungrouped
+:::안내
+비어 있는 패널이 나타나면, run이 그룹화되지 않았는지 확인하세요.
 :::
 
-## Using the Hyperparameter Importance Panel
+## 하이퍼파라미터 중요도 패널 사용하기
 
-We can let wandb visualize the most useful set of hyperparameters by clicking on the magic wand beside the parameters manager. We can then sort the hyperparameters based on the Importance.
+wandb를 통해 매직 완드를 매개변수 관리자 옆에 클릭하여 가장 유용한 하이퍼파라미터 세트를 시각화할 수 있습니다. 그런 다음 중요도를 기준으로 하이퍼파라미터를 정렬할 수 있습니다.
 
-![Using automatic parameter visualization](/images/app_ui/hyperparameter_importance_panel.gif)
+![자동 파라미터 시각화 사용](/images/app_ui/hyperparameter_importance_panel.gif)
 
-With the parameter manager, we can manually set the visible and hidden parameters.
+매개변수 관리자를 사용하여 표시할 매개변수와 숨길 매개변수를 수동으로 설정할 수 있습니다.
 
-![Manually setting the visible and hidden fields](/images/app_ui/hyperparameter_importance_panel_manual.gif)
+![표시 및 숨길 필드를 수동으로 설정](/images/app_ui/hyperparameter_importance_panel_manual.gif)
 
-## Interpreting A Hyperparameter Importance Panel
+## 하이퍼파라미터 중요도 패널 해석하기
 
 ![](/images/general/parameter-importance-4.png)
 
-This panel shows you all the parameters passed to the [wandb.config](/guides/track/config/) object in your training script. Next, it shows the feature importances and correlations of these config parameters with respect to the model metric you select (`val_loss` in this case).
+이 패널은 트레이닝 스크립트의 [wandb.config](/guides/track/config/) 오브젝트에 전달된 모든 파라미터를 보여줍니다. 다음으로 이 구성 파라미터와 선택한 모델 메트릭(`val_loss`의 경우)과의 특징 중요도 및 상관관계를 보여줍니다.
 
-### Importance
+### 중요도
 
-The importance column shows you the degree to which each hyperparameter was useful in predicting the chosen metric. We can imagine a scenario in which we start by tuning a plethora of hyperparameters and using this plot to hone in on which ones merit further exploration. The subsequent sweeps can then be limited to the most important hyperparameters, thereby finding a better model faster and cheaper.
+중요도 열은 각 하이퍼파라미터가 선택한 메트릭을 예측하는 데 얼마나 유용했는지를 보여줍니다. 우리는 여러 하이퍼파라미터를 조정하고 이 플롯을 사용하여 더 탐색할 가치가 있는 하이퍼파라미터를 집중적으로 탐구하는 시나리오를 상상할 수 있습니다. 이후의 sweeps는 가장 중요한 하이퍼파라미터로 제한하여 더 빠르고 저렴하게 더 나은 모델을 찾을 수 있습니다.
 
-Note: We calculate these importances using a tree based model rather than a linear model as the former are more tolerant of both categorical data and data that’s not normalized.\
-In the aforementioned panel we can see that `epochs, learning_rate, batch_size` and `weight_decay` were fairly important.
+참고: 이 중요도는 범주형 데이터와 정규화되지 않은 데이터에 더 관대한 트리 기반 모델을 사용하여 계산하며, 선형 모델이 아닙니다.\
+위 패널에서 `epochs, learning_rate, batch_size` 및 `weight_decay`가 상당히 중요했음을 볼 수 있습니다.
 
-As a next step, we might run another sweep exploring more fine grained values of these hyperparameters. Interestingly, while `learning_rate` and `batch_size` were important, they weren’t very well correlated to the output.\
-This brings us to correlations.
+다음 단계로, 이러한 하이퍼파라미터의 보다 세분화된 값을 탐색하는 또 다른 스윕을 실행할 수 있습니다. 흥미롭게도 `learning_rate`와 `batch_size`는 중요했음에도 불구하고 출력과 잘 상관되지 않았습니다.\
+이것이 상관관계로 이어집니다.
 
-### Correlations
+### 상관관계
 
-Correlations capture linear relationships between individual hyperparameters and metric values. They answer the question – is there a significant relationship between using a hyperparameter, say the SGD optimizer, and my val_loss (the answer in this case is yes). Correlation values range from -1 to 1, where positive values represent positive linear correlation, negative values represent negative linear correlation and a value of 0 represents no correlation. Generally a value greater than 0.7 in either direction represents strong correlation.
+상관관계는 개별 하이퍼파라미터와 메트릭 값 간의 선형 관계를 포착합니다. 이는 특정 하이퍼파라미터 사용, 예를 들어 SGD 옵티마이저 사용 여부와 val_loss 간의 유의미한 관계가 있는지를 보여줍니다 (이 경우 예입니다). 상관관계 값은 -1에서 1 사이로, 양수는 양의 선형 상관, 음수는 음의 선형 상관, 0은 상관이 없음을 나타냅니다. 일반적으로 0.7 이상의 값은 어느 방향으로든 강한 상관을 나타냅니다.
 
-We might use this graph to further explore the values that are have a higher correlation to our metric (in this case we might pick stochastic gradient descent or adam over rmsprop or nadam) or train for more epochs.
+우리는 이 그래프를 사용하여 메트릭과 더 높은 상관관계가 있는 값을 더 탐색하거나 (이 경우 확률적 그레이디언트 디센트나 adam을 rmsprop 또는 nadam보다 더 선호할 수 있음) 더 많은 에포크를 통해 학습할 수 있습니다.
 
-Quick note on interpreting correlations:
+상관관계 해석에 대한 간단한 참고 사항:
 
-* correlations show evidence of association, not necessarily causation.
-* correlations are sensitive to outliers, which might turn a strong relationship to a moderate one, specially if the sample size of hyperparameters tried is small.
-* and finally, correlations only capture linear relationships between hyperparameters and metrics. If there is a strong polynomial relationship, it won’t be captured by correlations.
+* 상관관계는 연관 증거를 보여주며, 반드시 인과관계를 보여주지는 않습니다.
+* 상관관계는 특이치에 민감하며, 이는 샘플 크기가 작을 때 강한 관계를 중간 관계로 변하게 할 수 있습니다.
+* 마지막으로, 상관관계는 하이퍼파라미터와 메트릭 간의 선형 관계만 포착합니다. 강한 다항식 관계가 있을 경우, 상관관계로는 파악되지 않습니다.
 
-The disparities between importance and correlations result from the fact that importance accounts for interactions between hyperparameters, whereas correlation only measures the affects of individual hyperparameters on metric values. Secondly, correlations capture only the linear relationships, whereas importances can capture more complex ones.
+중요도와 상관관계 간의 차이는 중요도가 하이퍼파라미터 간의 상호작용을 고려하는 반면, 상관관계는 개별 하이퍼파라미터가 메트릭 값에 미치는 효과만 측정하기 때문입니다. 두 번째로, 상관관계는 선형 관계만 포착할 수 있는 반면, 중요도는 더 복잡한 관계를 포착할 수 있습니다.
 
-As you can see both importance and correlations are powerful tools for understanding how your hyperparameters influence model performance.
+위에서 보이듯이 중요도와 상관관계 모두 모델 성능에 하이퍼파라미터가 어떻게 영향을 미치는지를 이해하는 데 강력한 도구입니다.
 
-We hope that this panel helps you capture these insights and hone in on a powerful model faster.
+우리는 이 패널이 이러한 통찰을 잡아내고 더 강력한 모델을 빠르게 만들 수 있도록 돕기를 바랍니다.

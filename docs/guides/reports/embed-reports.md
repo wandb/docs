@@ -1,16 +1,14 @@
 ---
-description: >-
-  Embed W&B reports directly into Notion or with an HTML IFrame
-  element.
-displayed_sidebar: default
 title: Embed a report
+description: Notion에 W&B Reports를 직접 임베드하거나 HTML IFrame 요소를 사용하세요.
+displayed_sidebar: default
 ---
 
-### HTML iframe element
+### HTML iframe 요소
 
-Select the **Share** button on the upper right hand corner within a report. A modal window will appear. Within the modal window, select **Copy embed code**. The copied code will render within an Inline Frame (IFrame)  HTML element. Paste the copied code into an iframe HTML element of your choice.
+리포트 내 오른쪽 상단 모서리에 있는 **Share** 버튼을 선택하세요. 모달 창이 나타납니다. 모달 창에서 **Copy embed code**를 선택하세요. 복사된 코드는 HTML의 인라인 프레임 (IFrame) 요소 내에 표시됩니다. 원하는 iframe HTML 요소에 복사된 코드를 붙여넣으세요.
 
-_Note: Only **public** reports are viewable when embedded currently._
+_참고: **공개** 리포트만 현재 임베드 시에 볼 수 있습니다._
 
 __
 
@@ -18,19 +16,19 @@ __
 
 ### Confluence
 
-The proceeding animation demonstrates how to insert the direct link to the report within an IFrame cell in Confluence.
+아래의 애니메이션은 Confluence의 IFrame 셀에 리포트의 직접 링크를 삽입하는 방법을 보여줍니다.
 
 ![](//images/reports/embed_iframe_confluence.gif)
 
 ### Notion
 
-The proceeding animation demonstrates how to insert a report into a Notion document using an Embed block in Notion and the report's embedded code.
+아래의 애니메이션은 Notion 문서에서 Embed 블록과 리포트의 임베드 코드를 사용하여 리포트를 삽입하는 방법을 보여줍니다.
 
 ![](//images/reports/embed_iframe_notion.gif)
 
 ### Gradio
 
-You can use the `gr.HTML` element to embed W&B Reports within Gradio Apps and use them within Hugging Face Spaces.
+`gr.HTML` 요소를 사용하여 W&B Reports를 Gradio Apps 내에 임베드하고 Hugging Face Spaces 내에서 사용할 수 있습니다.
 
 ```python
 import gradio as gr
@@ -47,5 +45,3 @@ with gr.Blocks() as demo:
     )
 demo.launch()
 ```
-
-##

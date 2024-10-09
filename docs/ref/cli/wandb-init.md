@@ -1,19 +1,18 @@
 # wandb init
 
-**Usage**
+**사용법**
 
 `wandb init [OPTIONS]`
 
-**Summary**
+**요약**
 
-Configure a directory with Weights & Biases
+Weights & Biases로 디렉토리를 구성합니다
 
-**Options**
+**옵션**
 
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| -p, --project | The project to use. |
-| -e, --entity | The entity to scope the project to. |
-| --reset | Reset settings |
-| -m, --mode | Can be "online", "offline" or "disabled". Defaults to   online. |
-
+| -p, --project | 사용할 프로젝트. |
+| -e, --entity | 프로젝트를 범위로 지정할 엔터티. |
+| --reset | 설정 재설정 |
+| -m, --mode | "online", "offline" 또는 "disabled" 중 하나. 기본값은 online. |

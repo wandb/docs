@@ -1,15 +1,15 @@
 ---
-displayed_sidebar: default
 title: Download and use an artifact from a registry
+displayed_sidebar: default
 ---
 
-Use the W&B Python SDK to use and download an artifact that you linked to the W&B Registry. 
+W&B Python SDK를 사용하여 W&B Registry에 연결된 아티팩트를 사용하고 다운로드하세요.
 
 :::note
-To find the usage code snippets for a specific artifact pre-populated with the path information, please refer to the section [Copy and paste the usage path from the Registry UI](#copy-and-paste-the-usage-path-from-the-registry-ui).
+특정 아티팩트에 대한 경로 정보가 미리 채워진 사용법 코드조각을 찾으려면, [Copy and paste the usage path from the Registry UI](#copy-and-paste-the-usage-path-from-the-registry-ui) 섹션을 참조하세요.
 :::
 
-Replace values within `<>` with your own:
+`<>` 안의 값을 여러분의 값으로 교체하세요:
 
 ```python
 import wandb
@@ -20,33 +20,33 @@ COLLECTION_NAME = '<collection-name>'
 ALIAS = '<artifact-alias>'
 INDEX = '<artifact-index>'
 
-run = wandb.init()  # Optionally use the entity, project arguments to specify where the run should be created
+run = wandb.init()  # 추가적으로 entity와 project 인수를 사용하여 run이 생성될 위치를 지정할 수 있습니다
 
 registered_artifact_name = f"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
-registered_artifact = run.use_artifact(artifact_or_name=name)  # marks this artifact as an input to your run
+registered_artifact = run.use_artifact(artifact_or_name=name)  # 이 아티팩트를 run의 입력으로 표시합니다
 artifact_dir = registered_artifact.download()  
 ```
 
-Reference an artifact version with one of following formats listed:
+다음에 나열된 형식을 사용하여 아티팩트 버전을 참조하세요:
 
 ```python
-# Artifact name with version index specified
+# 버전 인덱스가 지정된 아티팩트 이름
 f"{ORG_ENTITY}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INDEX}"
 
-# Artifact name with alias specified
+# 에일리어스가 지정된 아티팩트 이름
 f"{ORG_ENTITY}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
 ```
-Where:
-* `latest` - Use `latest` alias to specify the version that is most recently linked.
-* `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the collection.
-* `alias` - Specify the custom alias attached to the artifact version
+여기서:
+* `latest` - 가장 최근에 연결된 버전을 지정하기 위해 `latest` 에일리어스를 사용하세요.
+* `v#` - 컬렉션에서 특정 버전을 가져오기 위해 `v0`, `v1`, `v2` 등을 사용하세요.
+* `alias` - 아티팩트 버전에 부착된 사용자 정의 에일리어스를 지정하세요.
 
-See [`use_artifact`](../../ref/python/run.md#use_artifact) and [`download`](/ref/python/artifact#download) in the API Reference guide for more information on possible parameters and return type.
+가능한 파라미터와 반환 타입에 대한 자세한 정보는 API Reference 가이드의 [`use_artifact`](../../ref/python/run.md#use_artifact) 및 [`download`](/ref/python/artifact#download)를 참조하세요.
 
 <details>
-<summary>Example: Use and download an artifact linked to the W&B Registry</summary>
+<summary>예제: W&B Registry에 연결된 아티팩트를 사용하고 다운로드</summary>
 
-For example, in the proceeding code snippet a user called the `use_artifact` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that returned from the API to the `downloaded_path` variable.
+예를 들어, 다음 코드조각에서 사용자는 `use_artifact` API를 호출했습니다. 그들은 가져오고자 하는 모델 아티팩트의 이름을 지정하고 버전/에일리어스를 제공했습니다. 그런 다음, API에서 반환된 경로를 `downloaded_path` 변수에 저장했습니다.
 
 ```python
 import wandb
@@ -58,38 +58,38 @@ REGISTRY_NAME = "Fine-tuned Models"
 COLLECTION_NAME = "phi3-finetuned"
 ALIAS = 'production'
 
-# Initialize a run inside the specified team and project
+# 지정된 팀과 프로젝트 내부에서 run을 초기화
 run = wandb.init(entity=TEAM_NAME, propject=PROJECT_NAME)
 
 registered_artifact_name = f"{ORG_ENTITY_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
 
-# Access an artifact and mark it as input to your run for lineage tracking
+# 아티팩트에 엑세스하고, 계보 추적을 위해 run의 입력으로 표시
 registered_artifact = run.use_artifact(artifact_or_name=name)  # 
-# Download artifact. Returns path to downloaded contents
+# 아티팩트를 다운로드합니다. 다운로드된 내용의 경로를 반환합니다
 downloaded_path = registered_artifact.download()  
 ```
 </details>
 
-## Copy and paste the usage path from the Registry UI
+## Registry UI에서 사용 경로 복사 및 붙여넣기
 
-You can also find the exact code snippet to use and download a specific artifact version inside the Usage tab in the Registry UI to avoid constructing the path yourself. The required fields will be populated based on the which artifact version's details you are viewing:
+Registry UI의 Usage 탭에서 특정 아티팩트 버전을 사용하고 다운로드할 수 있는 정확한 코드조각을 찾아 경로를 직접 구성하지 않아도 됩니다. 필요한 필드는 보고 있는 아티팩트 버전의 세부 정보에 따라 채워집니다:
 
-1. **Navigate to the W&B Registry:**
-   - Go to the "Registry" tab in the sidebar to access the list of registries.
+1. **W&B Registry로 이동:**
+   - 사이드바의 "Registry" 탭으로 가서 레지스트리 목록에 엑세스합니다.
 
-2. **Select the Desired Registry:**
-   - From the list of registries, click on the registry that contains the artifact you want to use. 
+2. **원하는 레지스트리를 선택:**
+   - 레지스트리 목록에서 사용하려는 아티팩트를 포함한 레지스트리를 클릭하세요.
 
-3. **Find the Artifact Collection:**
-   - In the registry details page, locate the collection that includes your desired artifact. Click on the collection name to view its versions.
+3. **아티팩트 컬렉션 찾기:**
+   - 레지스트리 세부 페이지에서 원하는 아티팩트를 포함한 컬렉션을 찾습니다. 컬렉션 이름을 클릭하여 버전을 확인합니다.
 
-4. **Access the Usage Tab:**
-   - Click on the version of the artifact you need. This will open the artifact version details page.
-   - On the artifact version details page, switch to the "Usage" tab.
+4. **Usage 탭 엑세스:**
+   - 필요한 아티팩트의 버전을 클릭하세요. 이는 아티팩트 버전 세부 페이지를 엽니다.
+   - 아티팩트 버전 세부 페이지에서 "Usage" 탭으로 전환하세요.
 
-5. **Copy the Code Snippet:**
-   - In the "Usage" tab, you will see code snippets for using and downloading the artifact. These snippets are pre-filled with the correct path to the artifact.
-   - Copy the relevant code snippet for your use case. The code snippet will look something like this:
+5. **코드조각 복사:**
+   - "Usage" 탭에서 아티팩트를 사용하고 다운로드할 수 있는 코드조각을 볼 수 있습니다. 이 조각들은 정확한 경로로 미리 채워져 있습니다.
+   - 자신의 유스 케이스에 맞는 코드를 복사하세요. 코드조각은 다음과 같습니다:
 
    ```python
    import wandb

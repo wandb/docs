@@ -1,27 +1,25 @@
 ---
+title: Tutorial: Set up W&B Launch on Kubernetes
 displayed_sidebar: default
-title: "Tutorial: Set up W&B Launch on Kubernetes"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-You can use W&B Launch to push ML workloads to a Kubernetes cluster, giving ML engineers a simple interface right in W&B to use the resources you already manage with Kubernetes. 
+W&B Launch를 사용하여 ML 작업을 Kubernetes 클러스터로 전송할 수 있으며, ML 엔지니어는 Kubernetes로 이미 관리하고 있는 리소스를 W&B에서 간단한 인터페이스로 활용할 수 있습니다.
 
-W&B maintains an [official Launch agent image](https://hub.docker.com/r/wandb/launch-agent) that can be deployed to your cluster with a [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) that W&B maintains. 
+W&B는 [공식 Launch 에이전트 이미지](https://hub.docker.com/r/wandb/launch-agent)를 유지하고 있으며, 이를 W&B가 유지하는 [Helm 차트](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 사용하여 클러스터에 배포할 수 있습니다.
 
-W&B uses the [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder to enable the Launch agent to build Docker images in a Kubernetes cluster. To learn more on how to set up Kaniko for the Launch agent, or how to disable job building and only use prebuilt Docker images, see [Advanced agent set up](./setup-agent-advanced.md).
+W&B는 [Kaniko](https://github.com/GoogleContainerTools/kaniko) 빌더를 사용하여 Launch 에이전트가 Kubernetes 클러스터에서 Docker 이미지를 빌드할 수 있도록 합니다. Launch 에이전트에 Kaniko를 설정하는 방법 또는 작업 빌드를 비활성화하고 미리 빌드된 Docker 이미지만 사용하는 방법에 대한 자세한 내용은 [고급 에이전트 설정](./setup-agent-advanced.md)을 참조하세요.
 
 :::note
-To install Helm and apply or upgrade W&B's Launch agent Helm chart, you need `kubectl` access to the cluster with sufficient permissions to create, update, and delete Kubernetes resources. Typically, a user with cluster-admin or a custom role with equivalent permissions is required.
+Helm을 설치하고 W&B의 Launch 에이전트 Helm 차트를 적용하거나 업그레이드하려면, Kubernetes 리소스를 생성, 업데이트 및 삭제할 수 있는 충분한 권한을 가진 클러스터에 대한 `kubectl` 엑세스가 필요합니다. 일반적으로 cluster-admin 또는 동등한 권한을 가진 사용자 정의 역할이 필요합니다.
 :::
 
-<!-- Future: insert diagram here -->
+## Kubernetes에 대한 큐 구성
 
-## Configure a queue for Kubernetes
+Kubernetes 대상 리소스에 대한 Launch 큐 설정은 [Kubernetes Job 스펙](https://kubernetes.io/docs/concepts/workloads/controllers/job/) 또는 [Kubernetes Custom Resource 스펙](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)과 유사할 것입니다.
 
-The Launch queue configuration for a Kubernetes target resource will resemble either a [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) or a [Kubernetes Custom Resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
-
-You can control any aspect of the Kubernetes workload resource spec when you create a Launch queue.
+Launch 큐를 생성할 때 Kubernetes 작업 리소스 스펙의 모든 측면을 제어할 수 있습니다.
 
 <Tabs
 defaultValue="job"
@@ -53,9 +51,9 @@ namespace: wandb
 </TabItem>
 <TabItem value="custom">
 
-In some use cases, you might want to use `CustomResource` definitions. `CustomResource` definitions are useful if, for example, you want to perform multi-node distributed training. See the tutorial for using Launch with multi-node jobs using Volcano for an example application. Another use case might be that you want to use W&B Launch with Kubeflow.
+일부 유스 케이스에서 `CustomResource` 정의를 사용하고 싶을 수 있습니다. 예를 들어, 다중 노드 분산 트레이닝을 수행하려면 `CustomResource` 정의가 유용합니다. Volcano를 사용한 다중 노드 작업을 사용하는 Launch의 튜토리얼 예를 참고하세요. 또 다른 유스 케이스는 W&B Launch를 Kubeflow와 함께 사용할 때일 수 있습니다.
 
-The following YAML snippet shows a sample Launch queue config that uses Kubeflow:
+다음 YAML 스니펫은 Kubeflow를 사용하는 Launch 큐 설정의 예를 보여줍니다:
 
 ```yaml
 kubernetes:
@@ -86,16 +84,16 @@ kubernetes:
   apiVersion: kubeflow.org/v1
 ```
 
-  </TabItem>
+</TabItem>
 </Tabs>
 
-For security reasons, W&B will inject the following resources into your Launch queue if they are not specified:
+보안상의 이유로 W&B는 지정되지 않은 경우 다음 리소스를 Launch 큐에 삽입합니다:
 
 - `securityContext`
 - `backOffLimit`
 - `ttlSecondsAfterFinished`
 
-The following YAML snippet demonstrates how these values will appear in your launch queue:
+다음 YAML 스니펫은 Launch 큐에서 이러한 값이 어떻게 나타나는지 보여줍니다:
 
 ```yaml title="example-spec.yaml"
 spec:
@@ -111,24 +109,24 @@ spec:
         type: "RuntimeDefault"
 ```
 
-## Create a queue
+## 큐 생성
 
-Create a queue in the W&B App that uses Kubernetes as its compute resource:
+W&B 앱에서 Kubernetes를 컴퓨트 리소스로 사용하는 큐를 생성하세요:
 
-1. Navigate to the [Launch page](https://wandb.ai/launch).
-2. Click on the **Create Queue** button.
-3. Select the **Entity** you would like to create the queue in.
-4. Provide a name for your queue in the **Name** field.
-5. Select **Kubernetes** as the **Resource**.
-6. Within the **Configuration** field, provide the Kubernetes Job workflow spec or Custom Resource spec you [configured in the previous section](#configure-a-queue-for-kubernetes).
+1. [Launch 페이지](https://wandb.ai/launch)로 이동합니다.
+2. **Create Queue** 버튼을 클릭합니다.
+3. 큐를 생성할 **Entity**를 선택합니다.
+4. **Name** 필드에 큐의 이름을 입력합니다.
+5. **Resource**로 **Kubernetes**를 선택합니다.
+6. **Configuration** 필드에 [이전 섹션에서 구성한 것](#configure-a-queue-for-kubernetes)과 같은 Kubernetes Job 워크플로우 스펙 또는 Custom Resource 스펙을 입력합니다.
 
-## Configure a Launch agent with Helm
+## Helm을 사용하여 Launch 에이전트 구성
 
-Use the [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) provided by W&B to deploy the Launch agent into your Kubernetes cluster. Control the behavior of the launch agent with the `values.yaml` [file](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml).
+W&B가 제공하는 [Helm 차트](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 사용하여 Kubernetes 클러스터에 Launch 에이전트를 배포합니다. `values.yaml` [파일](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml)로 Launch 에이전트의 행동을 제어합니다.
 
-Specify the contents that would normally by defined in your launch agent config file (`~/.config/wandb/launch-config.yaml`) within the `launchConfig` key in the`values.yaml` file.
+일반적으로 Launch 에이전트 구성 파일(`~/.config/wandb/launch-config.yaml`)에 정의되는 내용을 `values.yaml` 파일의 `launchConfig` 키 안에 지정하세요.
 
-For example, suppose you have Launch agent config that enables you to run a Launch agent in EKS that uses the Kaniko Docker image builder:
+예를 들어, Kaniko Docker 이미지 빌더를 사용하는 EKS에서 Launch 에이전트를 실행할 수 있는 Launch 에이전트 구성을 가지고 있다고 가정합니다:
 
 ```yaml title="launch-config.yaml"
 queues:
@@ -145,7 +143,7 @@ builder:
 	build-context-store: <s3-bucket-uri>
 ```
 
-Within your `values.yaml` file, this might look like:
+`values.yaml` 파일 내에서 다음과 같이 나타날 수 있습니다:
 
 ```yaml title="values.yaml"
 agent:
@@ -203,4 +201,4 @@ serviceAccount:
 azureStorageAccessKey: ''
 ```
 
-For more information on registries, environments and required agent permissions see [Advanced agent set up](./setup-agent-advanced.md).
+레지스트리, 환경 및 필수 에이전트 권한에 대한 자세한 내용은 [고급 에이전트 설정](./setup-agent-advanced.md)을 참조하세요.
