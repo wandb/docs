@@ -98,6 +98,10 @@ Domains are unique identifiers. This means that you can not use a domain that is
 7. Choose the **Claim email** domain button.
 
 ### Auto provision users
+:::info
+The following workflow only applies to:
+* Dedicated cloud instances and Self-managed deployments
+:::
 
 A person in your company (someone who has the same domain as your company) can sign in to your W&B Organization with Single Sign-On (SSO) if SSO is set up and the SSO provider permits it.
 
