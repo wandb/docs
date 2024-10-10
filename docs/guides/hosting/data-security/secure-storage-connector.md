@@ -36,6 +36,10 @@ The following table shows the availability of BYOB across different W&B Server d
 | SaaS Cloud | Not Applicable | X | The team level BYOB is available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only storage bucket for Microsoft Azure. |
 | Self-managed | X | X | Instance level BYOB is the default since the instance is fully managed by you. If your self-managed instance is in cloud, you can connect to a cloud-native storage bucket in the same or another cloud for the team-level BYOB. You can also use S3-compatible secure storage like [MinIO](https://github.com/minio/minio) for either of instance or team-level BYOB. |
 
+:::caution
+Once you configure a instance or team level storage bucket for your Dedicated Cloud or Self-managed instance, or a team level storage bucket for your SaaS Cloud account, you can not change or reconfigure the storage bucket for any of those scopes. That includes the inability to migrate data to another bucket and remap relevant references in the main product storage. W&B recommends to plan your storage bucket layout carefully before configuring for either of the instance or team level scopes. Reach out to your W&B team for any questions.
+:::
+
 ## Cross-cloud or S3-compatible storage for team-level BYOB
 
 You can connect to a cloud-native storage bucket in another cloud or to an S3-compatible storage bucket like [MinIO](https://github.com/minio/minio) for team-level BYOB in your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-Managed](../hosting-options/self-managed.md) instance.
