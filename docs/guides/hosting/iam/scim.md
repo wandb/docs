@@ -396,7 +396,7 @@ This returns the User object.
 
 - **Endpoint**: **`<host-url>/scim/Users/{id}`**
 - **Method**: PATCH
-- **Description**: Assign a team-level role to a user. The role can be one of `admin`, `viewer`, `member` or a custom role as described [here](./manage-organization.md#team-roles). For [SaaS Cloud](../hosting-options/saas_cloud.md), ensure that you have configured the correct organization for SCIM API in user settings.
+- **Description**: Assign a team-level role to a user. The role can be one of `admin`, `viewer`, `member` or a custom role as described [here](./manage-organization.md#assign-or-update-a-team-members-role). For [SaaS Cloud](../hosting-options/saas_cloud.md), ensure that you have configured the correct organization for SCIM API in user settings.
 - **Supported Fields**:
 
 | Field | Type | Required |
