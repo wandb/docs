@@ -781,7 +781,7 @@ global:
     -----END CERTIFICATE-----
   - |
     -----BEGIN CERTIFICATE-----
-    MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+    MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
     MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
     MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
     SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
@@ -812,7 +812,7 @@ customCACerts:
   -----END CERTIFICATE-----
 - |
   -----BEGIN CERTIFICATE-----
-  MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+  MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
   MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
   MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
   SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
