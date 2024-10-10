@@ -19,7 +19,7 @@ If you are looking to simplify user management in your organization, refer to [A
 
 ## Change the name of your organization
 :::info
-The following workflow applies to:
+The following workflow only applies to:
 * W&B Multi-tenant SaaS Cloud
 :::
 
@@ -30,6 +30,10 @@ The following workflow applies to:
 5. Within the modal that appears, provide a new name for your organization and select the **Save name** button.
 
 ## Add and manage users
+
+Understanding how users and members are managed is an essential part of getting the most out of organizations and what you can do with Weights & Biases. Weights & Biases provides admins with several ways to allow a user to become an Organization members:
+
+
 
 Use your organization's dashboard to invite users, assign or update a user's role, remove users from your organization, assign the billing administrator, and more.
 
@@ -52,6 +56,48 @@ W&B strongly recommends and encourages that users authenticate using Single Sign
 
 To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).
 :::
+
+### Domain capture
+:::info
+The following workflow only applies to:
+* W&B Multi-tenant SaaS Cloud
+:::
+
+Domain capture lets you automatically add people with a company email address—like @example.com—to your Weights & Biases SaaS cloud organization. This helps all your employees join the right organization and avoid accidentally working in silos.
+
+<!-- Automatically assign new users that join an organization to one or more teams if the user's domain matches the organization's domain. -->
+
+Assigning a team to a user when they onboard helps ensure that that new user does not create assets outside of their organization's account. Assets a user creates outside of an organization is not transferred if that user joins the organization at a later date.
+
+
+:::info Existing users
+Existing users with verified email addresses that match your organization's domain can join your teams within your organization.
+
+Data that a user creates before that user joins an organization is preserved. Note that W&B does not migrate any assets a user creates outside of an organization.
+:::
+
+Before you can automatically assign new users to a specific team, you must enable domain matching within that team's settings: 
+
+1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`. Where `<team-name>` is the name of the team you want to enable domain matching.
+2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
+3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
+
+
+Once you enable domain matching for a team, you can now automatically assign new users to that team when they join your organization:
+
+:::note Domains must be unique
+Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
+:::
+
+1. Navigate to https://wandb.ai/home.
+2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Settings**.
+3. Within the **Settings** tab, select **General**.
+4. Choose the **Claim domain** button within **Domain capture**.
+5. Provide the email domain in the **Email domain** field.
+6. Select the team that you want new users to automatically join from the **Default team** dropdown.
+7. Choose the **Claim email** domain button.
+
+A user that joins W&B with the same domain as your organization is automatically added to the team you specify in the preceding steps.
 
 ### Auto provision users
 
@@ -167,46 +213,6 @@ Refer to [Team Service Account Behavior](../../app/features/teams.md#team-servic
 :::note
 Only enterprise licenses on Dedicated Cloud or Self-managed deployment can assign custom roles to members in a team.
 :::
-
-### Automatically add new users to a team
-
-Automatically add new users to a team if the user's domain matches the domain of your organization. 
-
-<!-- Automatically assign new users that join an organization to one or more teams if the user's domain matches the organization's domain. -->
-
-Assigning a team to a user when they onboard helps ensure that that new user does not create assets outside of their organization's account. Assets a user creates outside of an organization is not transferred if that user joins the organization at a later date.
-
-
-:::info Existing users
-Existing users with verified email addresses that match your organization's domain can join your teams within your organization.
-
-Data that a user creates before that user joins an organization is preserved. Note that W&B does not migrate any assets a user creates outside of an organization.
-:::
-
-Before you can automatically assign new users to a specific team, you must enable domain matching within that team's settings: 
-
-1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`. Where `<team-name>` is the name of the team you want to enable domain matching.
-2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
-3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
-
-
-Once you enable domain matching for a team, you can now automatically assign new users to that team when they join your organization:
-
-:::note Domains must be unique
-Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
-:::
-
-1. Navigate to https://wandb.ai/home.
-2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Settings**.
-3. Within the **Settings** tab, select **General**.
-4. Choose the **Claim domain** button within **Domain capture**.
-5. Provide the email domain in the **Email domain** field.
-6. Select the team that you want new users to automatically join from the **Default team** dropdown.
-7. Choose the **Claim email** domain button.
-
-
-A user that joins W&B with the same domain as your organization is automatically added to the team you specify in the preceding steps.
-
 
 ### Remove users from a team
 Remove a user from a team using the team's dashboard. W&B preserves runs created in a team even if the member who created the runs is no longer on that team.
