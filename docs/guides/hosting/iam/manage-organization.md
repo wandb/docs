@@ -57,6 +57,28 @@ W&B strongly recommends and encourages that users authenticate using Single Sign
 To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).
 :::
 
+### Auto provision users
+:::info
+The following workflow only applies to:
+* Dedicated cloud instances and Self-managed deployments
+:::
+
+A person in your company (someone who has the same domain as your company) can sign in to your W&B Organization with Single Sign-On (SSO) if SSO is set up and the SSO provider permits it.
+
+:::tip 
+Auto provisioning with SSO is useful for adding users to an organization at scale because organization admins do not need to generate individual user invitations.
+:::
+
+[INSERT - What role do they get?]
+
+
+Auto-provisioning users with SSO is on by default for Dedicated cloud instances and Self-managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
+
+Reach out to your W&B team if you are on Dedicated Cloud instance and you want to turn off auto provisioning with SSO.
+
+For Self-managed deployments, you can configure configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO.
+
+
 ### Domain capture
 :::info
 The following workflow only applies to:
@@ -96,28 +118,6 @@ Domains are unique identifiers. This means that you can not use a domain that is
 5. Provide the email domain in the **Email domain** field.
 6. Select the team that you want new users to automatically join from the **Default team** dropdown.
 7. Choose the **Claim email** domain button.
-
-### Auto provision users
-:::info
-The following workflow only applies to:
-* Dedicated cloud instances and Self-managed deployments
-:::
-
-A person in your company (someone who has the same domain as your company) can sign in to your W&B Organization with Single Sign-On (SSO) if SSO is set up and the SSO provider permits it.
-
-:::tip 
-Auto provisioning with SSO is useful for adding users to an organization at scale because organization admins do not need to generate individual user invitations.
-:::
-
-[INSERT - What role do they get?]
-
-
-Auto-provisioning users with SSO is on by default for Dedicated cloud instances and Self-managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
-
-Reach out to your W&B team if you are on Dedicated Cloud instance and you want to turn off auto provisioning with SSO.
-
-For Self-managed deployments, you can configure configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO.
-
 
 
 ### Assign or update a user's role
