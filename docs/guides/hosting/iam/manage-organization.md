@@ -10,16 +10,18 @@ As a team administrator you can [manage teams](#add-and-manage-teams).
 
 :::info
 The following workflow applies to:
-* W&B Multi-tenant SaaS Cloud
 * Users with instance administrator (admin) roles. Reach out to an administrator in your organization if you believe you should have instance admin permissions. 
 :::
 
 If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
 
-
 <!-- W&B assigns an Admin role to new users within an organization by default.  -->
 
 ## Change the name of your organization
+:::info
+The following workflow applies to:
+* W&B Multi-tenant SaaS Cloud
+:::
 
 1. Navigate to https://wandb.ai/home.
 2. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Settings**.
