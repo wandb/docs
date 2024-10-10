@@ -65,7 +65,7 @@ The following table lists [Azure regions](https://azure.microsoft.com/en-us/expl
 |Virginia|eastus|
 |Iowa|centralus|
 |California|westus|
-|Canada Central|candacentral|
+|Canada Central|canadacentral|
 |Netherlands|westeurope|
 |Tokyo, Saitama|japaneast|
 |Seoul|koreacentral|
