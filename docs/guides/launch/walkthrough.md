@@ -155,7 +155,7 @@ wandb launch-agent --queue <queue-name> --entity <entity-name>
 
 Run the command in a terminal to start the agent. The agent polls the specified queue for jobs to run. Once received, the agent downloads or builds and then executes a container image for the job, as if the `wandb launch` command was run locally.
 
-Navigate back to [the Launch page](https://wandb.ai/launch) and verify that the queue now shoes as **Active**.
+Navigate back to [the Launch page](https://wandb.ai/launch) and verify that the queue now shows as **Active**.
 
 ## Submit a job to the queue
 

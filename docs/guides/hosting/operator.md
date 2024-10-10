@@ -41,9 +41,9 @@ metadata:
 
 The `controller-manager` installs [charts/operator-wandb](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb) based on the spec of the custom resource, release channel, and a user defined config. The configuration specification hierarchy enables maximum configuration flexibility at the user end and enables W&B to release new images, configurations, features, and Helm updates automatically.
 
-For a detailed description of the specification hierarchy, see [Configuration Specification Hierarchy](#configuration-specification-hierarchy) and for configuration options, see [Configuration Reference](#configuration-reference-for-wb-operator).
+Refer to the [configuration specification hierarchy](#configuration-specification-hierarchy) and [configuration reference](#configuration-reference-for-wb-operator) for configuration options.
 
-## Configuration Specification Hierarchy
+## Configuration specification hierarchy
 Configuration specifications follow a hierarchical model where higher-level specifications override lower-level ones. Here’s how it works:
 
 - **Release Channel Values**: This base level configuration sets default values and configurations based on the release channel set by W&B for the deployment.
@@ -57,6 +57,7 @@ Satisfy the following requirements to deploy W&B with the W&B Kubernetes operato
 
 * Egress to the following endpoints during installation and during runtime:
     * deploy.wandb.ai
+    * charts.wandb.ai
     * docker.io
     * quay.io
     * gcr.io
@@ -780,7 +781,7 @@ global:
     -----END CERTIFICATE-----
   - |
     -----BEGIN CERTIFICATE-----
-    MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+    MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
     MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
     MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
     SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
@@ -811,7 +812,7 @@ customCACerts:
   -----END CERTIFICATE-----
 - |
   -----BEGIN CERTIFICATE-----
-  MIIBxTCCAWugAwIB.....................qaJcwCgYIKoZIzj0EAwIwLDEQ
+  MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
   MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
   MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
   SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
