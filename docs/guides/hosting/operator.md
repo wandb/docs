@@ -57,6 +57,7 @@ Satisfy the following requirements to deploy W&B with the W&B Kubernetes operato
 
 * Egress to the following endpoints during installation and during runtime:
     * deploy.wandb.ai
+    * charts.wandb.ai
     * docker.io
     * quay.io
     * gcr.io
