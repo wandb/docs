@@ -4,12 +4,19 @@ displayed_sidebar: default
 title: Compare run metrics
 ---
 
-Use the Run Comparer to see what metrics are different across your runs. Add a new visualization and click **Run Comparer** to try it.​​
+Use the Run Comparer to see what metrics are different across your runs.
 
-![](/images/general/run-comparer-1.png)
 
-Use the **diff only** option to hide rows where the values are the same across runs.​​
+![](/images/app_ui/visualization_add.gif)
+
+1. Select the **Add panels** button in the top right corner of the page.
+2. From the left panel that appears, expand the Evaluation dropdown.
+3. Select **Run comparer**
+
+
+
+Toggle the **diff only** option to hide rows where the values are the same across runs.​​
 
 ![](/images/general/run-comparer-2.gif)
 
-[View a live example →](http://bit.ly/wandb-comparison-table)
+
