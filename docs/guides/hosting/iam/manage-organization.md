@@ -67,7 +67,7 @@ Domain capture lets you automatically add people with a company email address—
 
 <!-- Automatically assign new users that join an organization to one or more teams if the user's domain matches the organization's domain. -->
 
-Assigning a team to a user when they onboard helps ensure that that new user does not create assets outside of their organization's account. Assets a user creates outside of an organization is not transferred if that user joins the organization at a later date.
+Assigning a team to a user when they onboard helps ensure that that new user does not create assets outside of their organization's account. Assets a user creates outside of an organization are not transferred if that user joins the organization at a later date.
 
 
 :::info Existing users
@@ -96,8 +96,6 @@ Domains are unique identifiers. This means that you can not use a domain that is
 5. Provide the email domain in the **Email domain** field.
 6. Select the team that you want new users to automatically join from the **Default team** dropdown.
 7. Choose the **Claim email** domain button.
-
-A user that joins W&B with the same domain as your organization is automatically added to the team you specify in the preceding steps.
 
 ### Auto provision users
 
