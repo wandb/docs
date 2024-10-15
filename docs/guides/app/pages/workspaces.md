@@ -1,11 +1,10 @@
 ---
 description: A playground for exploring run data with interactive visualizations
 displayed_sidebar: default
+title: Manage workspaces
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Workspaces
 
 W&B workspace is your personal sandbox to customize charts and explore model results. A W&B workspace consists of *Tables* and *Panel sections*: 
 

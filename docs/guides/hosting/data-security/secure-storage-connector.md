@@ -1,10 +1,10 @@
 ---
 displayed_sidebar: default
+title: Bring your own bucket (BYOB)
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# BYOB (Secure storage connector)
 Bring your own bucket (BYOB) allows you to store W&B artifacts and other related sensitive data in your own cloud or on-prem infrastructure. In case of [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [SaaS Cloud](../hosting-options/saas_cloud.md), data that you store in your bucket is not copied to the W&B managed infrastructure.
 
 :::info
@@ -35,6 +35,10 @@ The following table shows the availability of BYOB across different W&B Server d
 | Dedicated Cloud | X | X | Both the instance and team level BYOB are available for Amazon Web Services, Google Cloud Platform and Microsoft Azure. For the team-level BYOB, you can connect to a cloud-native storage bucket in the same or another cloud, or even a S3-compatible secure storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or on-prem infrastructure. |
 | SaaS Cloud | Not Applicable | X | The team level BYOB is available only for Amazon Web Services and Google Cloud Platform. W&B fully manages the default and only storage bucket for Microsoft Azure. |
 | Self-managed | X | X | Instance level BYOB is the default since the instance is fully managed by you. If your self-managed instance is in cloud, you can connect to a cloud-native storage bucket in the same or another cloud for the team-level BYOB. You can also use S3-compatible secure storage like [MinIO](https://github.com/minio/minio) for either of instance or team-level BYOB. |
+
+:::caution
+Once you configure a instance or team level storage bucket for your Dedicated Cloud or Self-managed instance, or a team level storage bucket for your SaaS Cloud account, you can not change or reconfigure the storage bucket for any of those scopes. That includes the inability to migrate data to another bucket and remap relevant references in the main product storage. W&B recommends to plan your storage bucket layout carefully before configuring for either of the instance or team level scopes. Reach out to your W&B team for any questions.
+:::
 
 ## Cross-cloud or S3-compatible storage for team-level BYOB
 
@@ -100,7 +104,6 @@ W&B recommends that you use a Terraform module managed by W&B to provision a sto
     {label: 'Azure', value: 'azure'},
   ]}>
   <TabItem value="aws">
-
 
 #### Provision the KMS Key
 
@@ -211,8 +214,8 @@ If you are using [SaaS Cloud](../hosting-options/saas_cloud.md) or [Dedicated Cl
 
 * For [SaaS Cloud](../hosting-options/saas_cloud.md): `arn:aws:iam::725579432336:role/WandbIntegration`
 * For [Dedicated Cloud](../hosting-options/dedicated_cloud.md): `arn:aws:iam::830241207209:root`
-
-
+ 
+ For more details, see the [AWS self-managed hosting guide](../self-managed/aws-tf.md).
   </TabItem>
   <TabItem value="gcp">
 
@@ -258,7 +261,6 @@ If you are using [SaaS Cloud](../hosting-options/saas_cloud.md) or [Dedicated Cl
 Keep a record of the bucket name. If you are using [Dedicated Cloud](../hosting-options/dedicated_cloud.md), share the bucket name with your W&B team in case of instance level BYOB. In case of team level BYOB on any deployment type, [configure the bucket while creating the team](#configure-byob-in-wb).
 
   </TabItem>
-
   <TabItem value="azure">
 
 #### Provision the Azure Blob Storage
@@ -288,7 +290,6 @@ For the team level BYOB, W&B highly recommends using [this Terraform module](htt
 * Storage container name
 * Managed identity client id
 * Azure tenant id
-
 </TabItem>
 </Tabs>
 
@@ -297,8 +298,8 @@ For the team level BYOB, W&B highly recommends using [this Terraform module](htt
 <Tabs
   defaultValue="team"
   values={[
-    {label: 'Team level', value: 'team'},
-    {label: 'Instance level', value: 'instance'},
+    {label: 'Team level', value: 'team' },
+    {label: 'Instance level', value: 'instance' },
   ]}>
   <TabItem value="team">
 

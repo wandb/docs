@@ -1,13 +1,8 @@
 ---
 description: Importing and logging data into W&B
 displayed_sidebar: default
+title: Track CSV files with experiments
 ---
-
-# Log data and experiments from a CSV file
-
-<head>
-  <title>Track CSV files with W&B Experiments</title>
-</head>
 
 Use the W&B Python Library to log a CSV file and visualize it in a [W&B Dashboard](../app.md). W&B Dashboard are the central place to organize and visualize results from your machine learning models. This is particularly useful if you have a [CSV file that contains information of previous machine learning experiments](#import-and-log-your-csv-of-experiments) that are not logged in W&B or if you have [CSV file that contains a dataset](#import-and-log-your-dataset-csv-file).
 

@@ -1,9 +1,11 @@
 ---
 description: Log tables with W&B.
 displayed_sidebar: default
+title: Log tables
 ---
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
-# Log tables
+<CTAButtons colabLink='https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb'/>
 
 Use `wandb.Table` to log data to visualize and query with W&B. In this guide, learn how to:
 
@@ -174,4 +176,4 @@ join_at.add(join_table, "synth_explore")
 run.log_artifact(join_at)
 ```
 
-Explore this [Colab notebook](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) for an example on how to combine two previously stored tables stored in different Artifact objects.
+[Read this tutorial](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) for an example on how to combine two previously stored tables stored in different Artifact objects.

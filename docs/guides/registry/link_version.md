@@ -1,10 +1,9 @@
 ---
 displayed_sidebar: default
+title: Link an artifact version to a registry
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Link an artifact version to a registry
 
 Programmatically or interactively link artifact versions to a registry. 
 
@@ -159,7 +158,7 @@ You can confirm the name of your team by:
 2. Copy the site's URL. It has the form of `https://wandb.ai/<team>`. Where `<team>` is the both the name of your team and the team's entity.
 
 #### Log from a team entity
-1. Specify the team as the entity when you initialize a run with [`wandb.init()`](https://docs.wandb.ai/ref/python/init). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity. 
+1. Specify the team as the entity when you initialize a run with [`wandb.init()`](/ref/python/init). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity. 
   ```python 
   import wandb   
 

@@ -28,7 +28,7 @@ here: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpo
 This callback is to be used in conjunction with training using `model.fit()` to save
 a model or weights (in a checkpoint file) at some interval. The model checkpoints
 will be logged as W&B Artifacts. You can learn more here:
-https://docs.wandb.ai/guides/artifacts
+/guides/artifacts
 
 This callback provides the following features:
 - Save the model that has achieved "best performance" based on "monitor".

@@ -1,8 +1,7 @@
 ---
 displayed_sidebar: default
+title: View launch jobs
 ---
-
-# View launch jobs
 
 The following page describes how to view information about launch jobs added to queues.
 

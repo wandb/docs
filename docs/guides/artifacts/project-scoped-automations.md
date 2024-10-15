@@ -1,14 +1,10 @@
 ---
 description: Use an project scoped artifact automation in your project to trigger actions when aliases or versions in an artifact collection are created or changed. 
-title: Artifact automations
 displayed_sidebar: default
+title: Trigger CI/CD events when artifact changes
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-
-# Trigger CI/CD events with artifact changes
 
 Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).  
 

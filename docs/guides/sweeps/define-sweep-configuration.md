@@ -1,15 +1,10 @@
 ---
 description: Learn how to create configuration files for sweeps.
 displayed_sidebar: default
+title: Configure sweeps
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Sweep configuration structure
-
-<head>
-  <title>Define sweep configuration for hyperparameter tuning.</title>
-</head>
 
 A W&B Sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
 
@@ -25,7 +20,7 @@ The following guide describes how to format your sweep configuration. See [Sweep
 
 Both sweep configuration format options (YAML and Python dictionary) utilize key-value pairs and nested structures. 
 
-Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`](./sweep-config-keys.md#name) key), the parameters to search through ([`parameters`](./sweep-config-keys.md#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys.md#method) key), and more. 
+Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`](./sweep-config-keys.md) key), the parameters to search through ([`parameters`](./sweep-config-keys.md#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys.md#method) key), and more. 
 
 
 For example, the proceeding code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. Within the sweep configuration there are five top level keys specified: `program`, `name`, `method`, `metric` and `parameters`. 

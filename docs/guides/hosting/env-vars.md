@@ -1,9 +1,8 @@
 ---
 description: How to configure the W&B Server installation
 displayed_sidebar: default
+title: Configure environment variables
 ---
-
-# Environment variables
 
 In addition to configuring instance level settings via the System Settings admin UI, W&B also provides a way to configure these values via code using Environment Variables. Also, refer to [advanced configuration for IAM](./iam/advanced_env_vars.md).
 

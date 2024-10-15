@@ -4,11 +4,10 @@ description: >-
   Overview of what W&B Artifacts are, how they work, and how to get started
   using W&B Artifacts.
 displayed_sidebar: default
+title: Artifacts
 ---
 import Translate, {translate} from '@docusaurus/Translate';
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
-
-# Artifacts
 
 <CTAButtons productLink="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Artifact_fundamentals.ipynb"/>
 

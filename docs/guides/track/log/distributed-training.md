@@ -1,21 +1,15 @@
 ---
 description: Use W&B to log distributed training experiments with multiple GPUs.
 displayed_sidebar: default
+title: Log distributed training experiments
 ---
-
-# Log distributed training experiments
-
-<head>
-  <title>Log distributed training experiments</title>
-</head>
-
 
 In distributed training, models are trained using multiple GPUs in parallel. W&B supports two patterns to track distributed training experiments:
 
 1. **One process**: Initialize W&B ([`wandb.init`](../../../ref//python/init.md)) and log experiments ([`wandb.log`](../../../ref//python/log.md)) from a single process. This is a common solution for logging distributed training experiments with the [PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) Class. In some cases, users funnel data over from other processes using a multiprocessing queue (or another communication primitive) to the main logging process.
 2. **Many processes**: Initialize W&B ([`wandb.init`](../../../ref//python/init.md)) and log experiments ([`wandb.log`](../../../ref//python/log.md)) in every process. Each process is effectively a separate experiment. Use the `group` parameter when you initialize W&B (`wandb.init(group='group-name')`) to define a shared experiment and group the logged values together in the W&B App UI.
 
-The proceeding examples demonstrate how to track metrics with W&B using PyTorch DDP on two GPUs on a single machine. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp\_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the details of implementation may differ.
+The proceeding examples demonstrate how to track metrics with W&B using PyTorch DDP on two GPUs on a single machine. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the details of implementation may differ.
 
 :::info
 Explore the code behind these examples in the W&B GitHub examples repository [here](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-ddp). Specifically, see the [`log-dpp.py`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) Python script for information on how to implement one process and many process methods.

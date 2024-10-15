@@ -1,7 +1,7 @@
 ---
 displayed_sidebar: default
+title: View organization dashboard
 ---
-# Organization dashboard
 
 :::important
 Organization dashboard is only available with [Dedicated Cloud](../hosting-options/dedicated_cloud.md) and [Self-managed instances](../hosting-options/self-managed.md).

@@ -2,9 +2,8 @@
 slug: /guides/integrations/prodigy
 description: How to integrate W&B with Prodigy.
 displayed_sidebar: default
+title: Prodigy
 ---
-
-# Prodigy
 
 [Prodigy](https://prodi.gy/) is an annotation tool for creating training and evaluation data for machine learning models, error analysis, data inspection & cleaning. [W&B Tables](../../tables/tables-walkthrough.md) allow you to log, visualize, analyze, and share datasets (and more!) inside W&B.
 
@@ -26,9 +25,9 @@ and get visual, interactive, shareable tables like this one:
 
 ## Quickstart
 
-Use `wandb.integration.prodigy.upload_dataset` to upload your annotated prodigy dataset directly from the local Prodigy database to W&B in our [Table](https://docs.wandb.ai/ref/python/data-types/table) format. For more information on Prodigy, including installation & setup, please refer to the [Prodigy documentation](https://prodi.gy/docs/).
+Use `wandb.integration.prodigy.upload_dataset` to upload your annotated prodigy dataset directly from the local Prodigy database to W&B in our [Table](/ref/python/data-types/table) format. For more information on Prodigy, including installation & setup, please refer to the [Prodigy documentation](https://prodi.gy/docs/).
 
-W&B will automatically try to convert images and named entity fields to [`wandb.Image`](https://docs.wandb.ai/ref/python/data-types/image) and [`wandb.Html`](https://docs.wandb.ai/ref/python/data-types/html)respectively. Extra columns may be added to the resulting table to include these visualizations.
+W&B will automatically try to convert images and named entity fields to [`wandb.Image`](/ref/python/data-types/image) and [`wandb.Html`](/ref/python/data-types/html)respectively. Extra columns may be added to the resulting table to include these visualizations.
 
 ## Read through a detailed example
 
@@ -36,4 +35,4 @@ Explore the [Visualizing Prodigy Datasets Using W&B Tables](https://wandb.ai/ksh
 
 ## Also using spaCy?
 
-W&B also has an integration with spaCy, see the [docs here](https://docs.wandb.ai/guides/integrations/spacy).
+W&B also has an integration with spaCy, see the [docs here](/guides/integrations/spacy).

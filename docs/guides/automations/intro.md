@@ -4,6 +4,7 @@ description: >-
   Overview of W&B Automations, how they work, and how to get started
   using them.
 displayed_sidebar: default
+title: Automations
 ---
 
 # Automations
@@ -32,3 +33,4 @@ More information on how to create automations [here](../artifacts/project-scoped
 - [This](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) tutorial shows you how to set up an automation that triggers a GitHub Action for model evaluation and deployment
 - [This](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared) video series shows webhook basics and how to set them up in W&B.
 - [This](https://www.youtube.com/watch?v=s5CMj_w3DaQ) demo details how to setup an automation to deploy a model to a SageMaker Endpoint.
+

@@ -1,12 +1,9 @@
 ---
 displayed_sidebar: default
+title: YOLOv5
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-
-# YOLOv5
 
 [Ultralytics' YOLOv5](https://ultralytics.com/yolov5) ("You Only Look Once") model family enables real-time object detection with convolutional neural networks without all the agonizing pain.
 
@@ -19,7 +16,7 @@ For a quick overview of the model and data-logging features of our YOLOv5 integr
 <!-- {% embed url="https://www.youtube.com/watch?v=yyecuhBmLxE" %} -->
 
 :::info
-All W&B logging features are compatible with data-parallel multi-GPU training, e.g. with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp\_tutorial.html).
+All W&B logging features are compatible with data-parallel multi-GPU training, e.g. with [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
 :::
 
 ## Core Experiment Tracking

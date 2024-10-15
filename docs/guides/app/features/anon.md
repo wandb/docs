@@ -1,9 +1,8 @@
 ---
 description: Log and visualize data without a W&B account
 displayed_sidebar: default
+title: Anonymous mode
 ---
-
-# Anonymous mode
 
 Are you publishing code that you want anyone to be able to run easily? Use anonymous mode to let someone run your code, see a W&B dashboard, and visualize results without needing to create a W&B account first.
 
@@ -54,7 +53,7 @@ If you set `anonymous="allow"` in your script, W&B checks to make sure there's n
 *   **No persistent data**: Runs are only saved for 7 days in an anonymous account. You can claim anonymous run data by saving it to a real account.
 
 
-![](@site/static/images/app_ui/anon_mode_no_data.png)
+![](/images/app_ui/anon_mode_no_data.png)
 
 *   **No artifact logging**: Runs print a warning on the command line that you can't log an artifact to an anonymous run:
     ```bash

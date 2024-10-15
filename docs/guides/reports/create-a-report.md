@@ -3,15 +3,10 @@ description: >-
   Create a W&B Report with the App UI or programmatically with the Weights &
   Biases SDK.
 displayed_sidebar: default
+title: Create a report
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-# Create a report
-
-<head>
-  <title>Create a W&B Report</title>
-</head>
 
 Create a report interactively with the W&B App UI or programmatically with the W&B Python SDK.
 
@@ -62,7 +57,7 @@ pip install wandb wandb-workspaces
 import wandb
 import wandb_workspaces.reports.v2 as wr
 ```
-3. Create a report with `wandb_workspaces.reports.v2.Report`. Create a report instance with the Report Class Public API ([`wandb.apis.reports`](https://docs.wandb.ai/ref/python/public-api/api#reports)). Specify a name for the project.
+3. Create a report with `wandb_workspaces.reports.v2.Report`. Create a report instance with the Report Class Public API ([`wandb.apis.reports`](/ref/python/public-api/api#reports)). Specify a name for the project.
 
 
 ```python
@@ -75,6 +70,6 @@ report = wr.Report(project="report_standard")
 report.save()
 ```
 
-For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report](https://docs.wandb.ai/guides/reports/edit-a-report).
+For information on how to edit a report interactively with the App UI or programmatically, see [Edit a report](/guides/reports/edit-a-report).
   </TabItem>
 </Tabs>
