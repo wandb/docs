@@ -111,15 +111,15 @@ To automatically assign non-invited new users to a default team when they join y
 5. Select the team that you want new users to automatically join from the **Default team** dropdown. _If no teams are avalible, you'll need to update team settings (see instructions below)._
 6. Click the **Claim email domain** button.
 
+:::note Domains must be unique
+Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
+:::
+
 Before you can automatically assign non-invited new users to a default team, domain matching must be enabled within that team's settings: 
 
 1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`. Where `<team-name>` is the name of the team you want to enable domain matching.
 2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
 3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
-
-:::note Domains must be unique
-Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
-:::
 
 :::info
 The following workflow only applies to:
