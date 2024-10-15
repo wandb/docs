@@ -13,7 +13,26 @@ Python library for programmatically working with W&B Workspace API.
 
 ```python
 # How to import
-import wandb_workspaces.workspaces
+import wandb_workspaces.workspaces as ws
+
+# Example of creating a workspace
+ws.Workspace(
+     name="Example W&B Workspace",
+     entity="entity", # entity that owns the workspace
+     project="project", # project that the workspace is associated with
+     sections=[
+         ws.Section(
+             name="Validation Metrics",
+             panels=[
+                 wr.LinePlot(x="Step", y=["val_loss"]),
+                 wr.BarPlot(metrics=["val_accuracy"]),
+                 wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
+             ],
+             is_open=True,
+         ),
+     ],
+)
+workspace.save()
 ```
 
 ---
@@ -27,8 +46,8 @@ Settings for a run in a runset (left hand bar).
 
 **Attributes:**
  
- - `color`:  The color of the run in the UI.  Can be hex (#ff0000), css color (red), or rgb (rgb(255, 0, 0)) 
- - `disabled`:  Whether the run is disabled (eye closed in the UI). 
+ - `color` (str):  The color of the run in the UI.  Can be hex (#ff0000), css color (red), or rgb (rgb(255, 0, 0)) 
+ - `disabled` (bool):  Whether the run is deactivated (eye closed in the UI). Default is set to `False`. 
 
 
 
@@ -47,12 +66,12 @@ Settings for the runset (the left bar containing runs) in a workspace.
 
 **Attributes:**
  
- - `query`:  A query to filter the runset (can be a regex expr, see next param). 
- - `regex_query`:  Controls whether the query (above) is a regex expr. 
- - `filters`:  A list of filters to apply to the runset.  Filters are AND'd together. See FilterExpr for more information on creating filters. 
- - `groupby`:  A list of metrics to group by in the runset. 
- - `order`:  A list of metrics and ordering to apply to the runset. 
- - `run_settings`:  A dictionary of run settings, where the key is the run's ID and the value is a RunSettings object. 
+ - `query` (str):  A query to filter the runset (can be a regex expr, see next param). 
+ - `regex_query` (bool):  Controls whether the query (above) is a regex expr. Default is set to `False`. 
+ - `filters` (LList[expr.FilterExpr]):  A list of filters to apply to the runset.  Filters are AND'd together. See FilterExpr for more information on creating filters. 
+ - `groupby` (LList[expr.MetricType]):  A list of metrics to group by in the runset. Set to  `Metric`, `Summary`, `Config`, `Tags`, or `KeysInfo`. 
+ - `order` (LList[expr.Ordering]):  A list of metrics and ordering to apply to the runset. 
+ - `run_settings` (Dict[str, RunSettings]):  A dictionary of run settings, where the key  is the run's ID and the value is a RunSettings object. 
 
 
 
@@ -71,11 +90,11 @@ Represents a section in a workspace.
 
 **Attributes:**
  
- - `name`:  The name/title of the section. 
- - `panels`:  An ordered list of panels in the section.  By default, first is top-left and last is bottom-right. 
- - `is_open`:  Whether the section is open or closed.  Default is closed. 
- - `layout_settings`:  Settings for panel layout in the section. 
- - `panel_settings`:  Panel-level settings applied to all panels in the section, similar to WorkspaceSettings for this Section. 
+ - `name` (str):  The name/title of the section. 
+ - `panels` (LList[PanelTypes]):  An ordered list of panels in the section. By default, first is top-left and last is bottom-right. 
+ - `is_open` (bool):  Whether the section is open or closed. Default is closed. 
+ - `layout_settings` (Literal["standard", "custom"]):  Settings for panel layout in the section. 
+ - `panel_settings`:  Panel-level settings applied to all panels in the section, similar to `WorkspaceSettings` for a `Section`. 
 
 
 
@@ -94,9 +113,9 @@ Panel layout settings for a section, typically seen at the top right of the sect
 
 **Attributes:**
  
- - `layout`:  In a standard layout, the number of columns in the layout. 
- - `columns`:  In a standard layout, the number of columns in the layout. 
- - `rows`:  In a standard layout, the number of rows in the layout. 
+ - `layout` (Literal["standard", "custom"]):  The layout of panels in the section. `standard`  follows the default grid layout, `custom` allows per per-panel layouts controlled  by the individual panel settings. 
+ - `columns` (int):  In a standard layout, the number of columns in the layout. Default is 3. 
+ - `rows` (int):  In a standard layout, the number of rows in the layout. Default is 2. 
 
 
 
@@ -117,11 +136,11 @@ Settings applied here can be overrided by more granular Panel settings in this p
 
 **Attributes:**
  
- - `x_axis`:  X-axis metric name setting. 
- - `x_min`:  Minimum value for the x-axis. 
- - `x_max`:  Maximum value for the x-axis. 
- - `smoothing_type`:  Smoothing type applied to all panels. 
- - `smoothing_weight`:  Smoothing weight applied to all panels. 
+ - `x_axis` (str):  X-axis metric name setting. By default, set to "Step". 
+ - `x_min Optional[float]`:  Minimum value for the x-axis. 
+ - `x_max Optional[float]`:  Maximum value for the x-axis. 
+ - `smoothing_type` (Literal['exponentialTimeWeighted', 'exponential', 'gaussian', 'average', 'none']):  Smoothing  type applied to all panels. 
+ - `smoothing_weight` (int):  Smoothing weight applied to all panels. 
 
 
 
@@ -140,12 +159,12 @@ Represents a W&B workspace, including sections, settings, and config for run set
 
 **Attributes:**
  
- - `entity`:  The entity this workspace will be saved to (usually user or team name). 
- - `project`:  The project this workspace will be saved to. 
+ - `entity` (str):  The entity this workspace will be saved to (usually user or team name). 
+ - `project` (str):  The project this workspace will be saved to. 
  - `name`:  The name of the workspace. 
- - `sections`:  An ordered list of sections in the workspace.  The first section is at the top of the workspace. 
- - `settings`:  Settings for the workspace, typically seen at the top of the workspace in the UI. 
- - `runset_settings`:  Settings for the runset (the left bar containing runs) in a workspace. 
+ - `sections` (LList[Section]):  An ordered list of sections in the workspace.  The first section is at the top of the workspace. 
+ - `settings` (WorkspaceSettings):  Settings for the workspace, typically seen at  the top of the workspace in the UI. 
+ - `runset_settings` (RunsetSettings):  Settings for the runset  (the left bar containing runs) in a workspace. 
 
 
 ---
@@ -219,14 +238,21 @@ Settings applied here can be overrided by more granular Section and Panel settin
 
 **Attributes:**
  
- - `x_axis`:  X-axis metric name setting. 
- - `x_min`:  Minimum value for the x-axis. 
- - `x_max`:  Maximum value for the x-axis. 
- - `smoothing_type`:  Smoothing type applied to all panels. 
- - `smoothing_weight`:  Smoothing weight applied to all panels. 
- - `ignore_outliers`:  Ignore outliers in all panels. 
- - `sort_panels_alphabetically`:  Sorts panels in all sections alphabetically. 
- - `group_by_prefix`:  Group panels by the first or up to last prefix (first or last). 
+ - `x_axis` (str):  X-axis metric name setting. 
+ - `x_min` (Optional[float]):  Minimum value for the x-axis. 
+ - `x_max` (Optional[float]):  Maximum value for the x-axis. 
+ - `smoothing_type` (Literal['exponentialTimeWeighted', 'exponential', 'gaussian', 'average', 'none']):  Smoothing  type applied to all panels. 
+ - `smoothing_weight` (int):  Smoothing weight applied to all panels. 
+ - `ignore_outliers` (bool):  Ignore outliers in all panels. 
+ - `sort_panels_alphabetically` (bool):  Sorts panels in all sections alphabetically. 
+ - `group_by_prefix` (Literal["first", "last"]):  Group panels by the first or up to last  prefix (first or last). Default is set to `last`. 
+ - `remove_legends_from_panels` (bool):  Remove legends from all panels. 
+ - `tooltip_number_of_runs` (Literal["default", "all", "none"]):  The number of runs to show in the tooltip. 
+ - `tooltip_color_run_names` (bool):  Whether to color run names in the tooltip to  match the runset (True) or not (False). Default is set to `True`. 
+ - `max_runs` (int):  The maximum number of runs to show per panel (this will be the first 10 runs in the runset). 
+ - `point_visualization_method` (Literal["line", "point", "line_point"]):  The visualization method for points. 
+ - `panel_search_query` (str):  The query for the panel search bar (can be a regex expression). 
+ - `auto_expand_panel_search_results` (bool):  Whether to auto expand the panel search results. 
 
 
 
