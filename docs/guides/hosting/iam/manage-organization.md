@@ -20,7 +20,7 @@ If you are looking to simplify user management in your organization, refer to [A
 ## Change the name of your organization
 :::info
 The following workflow only applies to:
-* W&B Multi-tenant SaaS Cloud
+*  W&B Multi-tenant SaaS Cloud
 :::
 
 1. Navigate to https://wandb.ai/home.
@@ -31,10 +31,12 @@ The following workflow only applies to:
 
 ## Add and manage users
 
-Understanding how users and members are managed is an essential part of getting the most out of organizations and what you can do with W&B. 
+W&B provides administrators with several ways to allow a user to become an Organization member. As an administrator, use your organization's dashboard to invite users, assign or update a user's role, remove users from your organization, assign the billing administrator, and more.
 
-
-W&B provides administrators with several ways to allow a user to become an Organization members. As an administrator, use your organization's dashboard to invite users, assign or update a user's role, remove users from your organization, assign the billing administrator, and more.
+Weights & Biases provides admins with several ways to allow a user to become an Organization member:
+1. Member-by-invite
+2. Auto provisioning via SSO
+3. Domain capture
 
 ### Invite a user
 
@@ -53,7 +55,6 @@ The following workflow only applies to:
 
 
 W&B sends an invite link using a third-party email server to the user's email after you select the **Send invite** button. A user can access your organization once they accept the invite.
-
 
 
 :::tip enable SSO for authentication
@@ -98,39 +99,39 @@ The proceeding table summarizes the behavior of new and existing users with and 
 | | With domain capture | Without domain capture |
 | ----- | ----- | ----- |
 | New users | Users who sign up for W&B from verified domains are automatically added as members to your organization’s default team. They can choose additional teams to join at sign up, if team joining is enabled for these teams. They can still join other organizations and teams with an invitation. | Users can create W&B accounts without knowing there is a centralized organization available. | 
+| Invited users | Invited users automatically join your organization when accepting your invite. Invited users are not automatically added as members to your organization’s default team. They can still join other organizations and teams with an invitation. | Invited users automatically join your organization when accepting your invite. They can still join other organizations and teams with an invitation.| 
 | Existing users | Existing users with verified email addresses from your domains can join your organization’s teams within the W&B App. All data that existing users create before joining your organization will remain. No data will be migrated. | Existing W&B users may be spread across multiple organizations and teams.|
 
-
-Before you can automatically assign new users to a specific team, you must enable domain matching within that team's settings: 
-
-1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`. Where `<team-name>` is the name of the team you want to enable domain matching.
-2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
-3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
-
-
-Once you enable domain matching for a team, you can now automatically assign new users to that team when they join your organization:
-
+To automatically assign non-invited new users to a default team when they join your organization:
 
 1. Navigate to https://wandb.ai/home.
 2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Settings**.
 3. Within the **Settings** tab, select **General**.
 4. Choose the **Claim domain** button within **Domain capture**.
-5. Provide the email domain in the **Email domain** field.
-6. Select the team that you want new users to automatically join from the **Default team** dropdown.
-7. Choose the **Claim email** domain button.
+5. Select the team that you want new users to automatically join from the **Default team** dropdown. _If no teams are avalible, you'll need to update team settings (see instructions below)._
+6. Click the **Claim email domain** button.
+
+Before you can automatically assign non-invited new users to a default team, domain matching must be enabled within that team's settings: 
+
+1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`. Where `<team-name>` is the name of the team you want to enable domain matching.
+2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
+3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
 
 :::note Domains must be unique
 Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
 :::
 
+:::info
+The following workflow only applies to:
+* Dedicated cloud instances and Self-managed deployments
+:::
+
+If you utilize a single-tenant instance, you can reach out to your account team to configure domain capture on the W&B SaaS instance to automatically direct people with your company email address, such as `@example.com`, to contact an admin to request access. This helps all your employees join your single-tenant instance and helps ensure that new users do not create assets outside your private instance. 
+
 
 ### Assign or update a user's role
 
 You initially assign a role to a user when you invite them to your organization. You can change any user's role at a later time.
-
-:::info
-The role a user has within an organization does not impact the role that that user can have in a team.
-:::
 
 A user within an organization can have one of the proceeding roles:
 
