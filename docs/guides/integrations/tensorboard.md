@@ -4,15 +4,25 @@ title: TensorBoard
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-## Hosted TensorBoard with 1 Line of Code
-
-With Weight & Biases you can easily upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
 
 <CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb"></CTAButtons>
 
+
+
+
+:::info
+W&B support embedded TensorBoaord for W&B Multi-tenant SaaS.
+:::
+
+Upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
+
+
+
 ![](/images/integrations/tensorboard_oneline_code.webp)
 
-### Just add 1 Line of Code
+### Add one line of code to your training script
+
+
 
 ```python
 import wandb
@@ -27,12 +37,12 @@ wandb.init(project="my-project", sync_tensorboard=True)
 wandb.finish()
 ```
 
-[**See here for an example of Tensorboard hosted in Weights & Biases**](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard)
+[**See here for an example**](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard)
 
-Once your wandb run finishes, your TensorBoard event files will then be uploaded to Weights & Biases. These metrics will **also be logged** in native Weights & Biases charts along with a host of useful information such as your machines CPU or GPU utilization, the git state, the terminal command used, and much more.
+Once your wandb run finishes, your TensorBoard event files will then be uploaded to W&B. These metrics will **also be logged** in native W&B charts along with a host of useful information such as your machines CPU or GPU utilization, the git state, the terminal command used, and much more.
 
 :::info
-Weights & Biases support TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard > 1.14 with PyTorch as well as TensorBoardX.
+W&B supports TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard > 1.14 with PyTorch as well as TensorBoardX.
 :::
 
 ## Common questions
