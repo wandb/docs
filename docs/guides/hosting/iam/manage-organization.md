@@ -9,8 +9,7 @@ As an administrator of an organization you can [manage individual users](#add-an
 As a team administrator you can [manage teams](#add-and-manage-teams).
 
 :::info
-The following workflow applies to:
-* Users with instance administrator (admin) roles. Reach out to an administrator in your organization if you believe you should have instance administrator permissions. 
+The following workflow applies to users with instance administrator (admin) roles. Reach out to an administrator in your organization if you believe you should have instance administrator permissions. 
 :::
 
 If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
@@ -19,8 +18,7 @@ If you are looking to simplify user management in your organization, refer to [A
 
 ## Change the name of your organization
 :::info
-The following workflow only applies to:
-* W&B Multi-tenant SaaS Cloud
+The following workflow only applies to W&B Multi-tenant SaaS Cloud.
 :::
 
 1. Navigate to https://wandb.ai/home.
@@ -39,8 +37,7 @@ W&B provides administrators with several ways to allow a user to become an Organ
 ### Invite a user
 
 :::info
-The following workflow only applies to:
-* W&B Multi-tenant SaaS Cloud
+The following workflow only applies to W&B Multi-tenant SaaS Cloud.
 :::
 
 1. Navigate to https://wandb.ai/home.
@@ -64,8 +61,7 @@ To learn more about how to setup SSO with Dedicated cloud or Self-managed instan
 
 ### Auto provision users
 :::info
-The following workflow only applies to:
-* Dedicated cloud instances and Self-managed deployments
+The following workflow only applies to Dedicated cloud instances and Self-managed deployments.
 :::
 
 A person in your company (someone who has the same domain as your company) can sign in to your W&B Organization with Single Sign-On (SSO) if SSO is set up and the SSO provider permits it.
@@ -86,8 +82,7 @@ For Self-managed deployments, you can configure the setting `DISABLE_SSO_PROVISI
 
 ### Domain capture
 :::info
-The following workflow only applies to:
-* W&B Multi-tenant SaaS Cloud
+The following workflow only applies to W&B Multi-tenant SaaS Cloud.
 :::
 
 Domain capture lets you automatically add people with a company email address, such as  `@example.com`, to your W&B SaaS cloud organization. This helps all your employees join the right organization and helps ensure that new users do not create assets outside of their organization's accounts. Assets a user creates outside of an organization are not transferred if that user joins the organization at a later date.
