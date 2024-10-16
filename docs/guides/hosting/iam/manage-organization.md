@@ -177,6 +177,11 @@ You must enable domain matching within a team's settings before you can automati
 
 Reach out to your W&B Account Team if you use Dedicated or Self-Managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your administrator to request access to your Dedicated or Self-Managed instance.
 
+| | With domain capture | Without domain capture |
+| ----- | ----- |
+| New users | Users who sign up for W&B on SaaS cloud from verified domains are automatically prompted to contact an admin via an email address you customize. They can still create an organizations on SaaS cloud to trial the product. | Users can create W&B SaaS cloud accounts without learning their company has a centralized dedicated instance. | 
+| Existing users | Existing W&B users may be spread across multiple organizations and teams.| Existing W&B users may be spread across multiple organizations and teams.|
+
 </TabItem>
 </Tabs>
 
