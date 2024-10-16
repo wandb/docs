@@ -21,6 +21,8 @@ In the context of W&B Server, the access token is not required. Access tokens ar
 
 In addition to basic [environment variables](../env-vars.md), you can use environment variables to [configure IAM options](advanced_env_vars.md) for your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance.
 
+To assist with configuring Identity Providers for [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) W&B Server installations, here are some key guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
+
 <Tabs
   defaultValue="aws"
   values={[
@@ -156,3 +158,7 @@ Once you have everything configured you can provide the Issuer, Client ID, and A
 :::info
 If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This will output a temporary password to the containers logs and disable SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
 :::
+
+## Security Assertion Markup Language (SAML)
+W&B Server does not support SAML.
+
