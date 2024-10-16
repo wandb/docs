@@ -9,9 +9,9 @@ W&B Server's support for OpenID Connect (OIDC) compatible identity providers all
 
 ## OpenID Connect (OIDC)
 
-W&B Server supports two OpenID Connect (OIDC) authentication flows for integrating with external Identity Providers (IdPs): 
-- Implicit Flow with Form Post and 
-- Authorization Code Flow with Proof Key for Code Exchange (PKCE). 
+W&B Server supports the following OIDC authentication flows for integrating with external Identity Providers (IdPs).
+1. Implicit Flow with Form Post 
+2. Authorization Code Flow with Proof Key for Code Exchange (PKCE)
 
 These flows authenticate users and provide W&B Server with the necessary identity information (in the form of ID tokens) to manage access control.
 
