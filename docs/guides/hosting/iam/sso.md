@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 W&B Server’s support for OpenID Connect (OIDC) compatible Identity Providers allows for streamlined and secure management of user identities and group memberships through external identity providers like Okta, Keycloak, Auth0, Google, or Microsoft’s Entra. This integration centralizes authentication, simplifying user management and ensuring adherence to security best practices such as single sign-on (SSO) and multi-factor authentication (MFA).
 
-## Open ID Connect
+## OpenID Connect (OIDC)
 
 W&B Server supports two OpenID Connect (OIDC) authentication flows for integrating with external Identity Providers (IdPs): 
 - Implicit Flow with Form Post and 
