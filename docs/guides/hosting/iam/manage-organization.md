@@ -65,7 +65,7 @@ W&B sends an invite link using a third-party email server to the user's email af
   </TabItem>
   <TabItem value="dedicated">
 
-1. Navigate to `https://wandb.io/org/dashboard`
+1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Select the **Add user** button
 3. Within the modal that appears, provide the email of the new user in the **Email** field.
 4. Select a role to assign to the user from the **Role** dropdown. You can change the user's role at a later time. See the table listed in [Assign a role](#assign-or-update-a-team-members-role) for more information about possible roles.
@@ -112,7 +112,7 @@ Reach out to your W&B team if you are on Dedicated Cloud instance and you want t
 
 Use the W&B Console to turn off auto provisioning with SSO:
 
-1. Navigate to `https://wandb.io/console/settings/`
+1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Choose **Security** 
 3. Select the **Disable SSO Provisioning** to turn off auto provisioning with SSO.
 
