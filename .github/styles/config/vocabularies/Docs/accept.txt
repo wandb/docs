@@ -20,6 +20,7 @@ Docker
 Dockerfile
 [Dd]ownsampling
 [Ee]nqueued
+Entra
 GCP
 GPUs
 Helm
@@ -29,6 +30,7 @@ Hyperband
 [Hh]yperparameter
 Kaniko
 Keras
+Keycloak
 Kubeflow
 Kubernetes
 [Ll]atents
@@ -37,18 +39,20 @@ MMEngine
 MMDetection
 MLOps
 [Nn]amespace
+Okta
+OpenID Connect
 [Oo]perator
 Optuna
 [P]repended
 [Pp]seudocode
 SCIM
 SageMaker
+Security Assertion Markup Language
 [Ss]elf-managed
 Terraform
 TTL
 UI
 use_artifact
 [Ww]alkthrough
+wandb.com
 W&B Server
-
-
