@@ -8,6 +8,7 @@ autolog
 [Cc]heckpointing
 CLI
 [Cc]loud
+Cognito
 Colab
 [Cc]onfig
 CTAButtons
