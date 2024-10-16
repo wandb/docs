@@ -1,6 +1,9 @@
 ---
 displayed_sidebar: default
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 
 # Manage your organization
 
@@ -29,18 +32,25 @@ The following workflow only applies to W&B Multi-tenant SaaS Cloud.
 
 ## Add and manage users
 
-W&B provides administrators with several ways to allow a user to become an Organization member. As an administrator, use your organization's dashboard to invite users, assign or update a user's role, remove users from your organization, assign the billing administrator, and more.
+As an administrator, use your organization's dashboard to invite users, assign or update a user's role, remove users from your organization, assign the billing administrator, and more.
 
-Weights & Biases provides admins with several ways to allow a user to become an Organization member:
+There are several ways an organization administrator can add users to an organization:
+
 1. Member-by-invite
-2. Auto provisioning via SSO
+2. Auto provisioning with SSO
 3. Domain capture
 
 ### Invite a user
 
-:::info
-The following workflow only applies to W&B Multi-tenant SaaS Cloud.
-:::
+[INSERT text]
+
+<Tabs
+  defaultValue="saas"
+  values={[
+    {label: 'Multi-tenant SaaS Cloud', value: 'saas'},
+    {label: 'Dedicated or Self Managed', value: 'dedicated'},
+  ]}>
+  <TabItem value="saas">
 
 1. Navigate to https://wandb.ai/home.
 1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Users**.
@@ -50,8 +60,21 @@ The following workflow only applies to W&B Multi-tenant SaaS Cloud.
 6. From the **Select role** dropdown, select the role to assign to the user. You can change the user's role at a later time. See the table listed in [Assign a role](#assign-or-update-a-team-members-role) for more information about possible roles.
 7. Choose the **Send invite** button.
 
-
 W&B sends an invite link using a third-party email server to the user's email after you select the **Send invite** button. A user can access your organization once they accept the invite.
+
+  </TabItem>
+  <TabItem value="dedicated">
+
+1. Navigate to `https://wandb.io/org/dashboard`
+2. Select the **Add user** button
+3. Within the modal that appears, provide the email of the new user in the **Email** field.
+4. Select a role to assign to the user from the **Role** dropdown. You can change the user's role at a later time. See the table listed in [Assign a role](#assign-or-update-a-team-members-role) for more information about possible roles.
+5. Check the **Send invite email to user** box if you want W&B to send an invite link using a third-party email server to the user's email.
+6. Select the **Add new user** button.
+
+  </TabItem>
+</Tabs>
+
 
 
 :::tip enable SSO for authentication
@@ -62,23 +85,48 @@ To learn more about how to setup SSO with Dedicated cloud or Self-managed instan
 
 ### Auto provision users
 :::info
-The following workflow only applies to Dedicated cloud instances and Self-managed deployments.
+The following workflow only applies to Dedicated cloud instances and Self-Managed deployments.
 :::
 
 A person in your company (someone who has the same domain as your company) can sign in to your W&B Organization with Single Sign-On (SSO) if SSO is set up and the SSO provider permits it.
 
-:::tip 
-Auto provisioning with SSO is useful for adding users to an organization at scale because organization administrators do not need to generate individual user invitations.
-:::
 
 W&B assigned auto-provisioning users "Member" roles by default. You can change the role of auto-provisioned users at any time.
 
+Auto-provisioning users with SSO is on by default for Dedicated cloud instances and Self-Managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
 
-Auto-provisioning users with SSO is on by default for Dedicated cloud instances and Self-managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
+The proceeding tabs describe how to turn off SSO based on deployment type:
+
+<Tabs
+  defaultValue="dedicated"
+  values={[
+    {label: 'Dedicated Cloud', value: 'dedicated'},
+    {label: 'Self Manged', value: 'self_managed'},
+  ]}>
+  <TabItem value="dedicated">
 
 Reach out to your W&B team if you are on Dedicated Cloud instance and you want to turn off auto provisioning with SSO.
 
-For Self-managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO.
+  </TabItem>
+  <TabItem value="self_managed">
+
+Use the W&B Console to turn off auto provisioning with SSO:
+
+1. Navigate to `https://wandb.io/console/settings/`
+2. Choose **Security** 
+3. Select the **Disable SSO Provisioning** to turn off auto provisioning with SSO.
+
+<!-- For Self-Managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO.  -->
+
+
+  </TabItem>
+</Tabs>
+
+
+
+:::tip 
+Auto provisioning with SSO is useful for adding users to an organization at scale because organization administrators do not need to generate individual user invitations.
+:::
 
 
 ### Domain capture
@@ -103,25 +151,25 @@ To automatically assign non-invited new users to a default team when they join y
 2. In the upper right corner of the page, select the **User menu** dropdown. From the dropdown, choose **Settings**.
 3. Within the **Settings** tab, select **General**.
 4. Choose the **Claim domain** button within **Domain capture**.
-5. Select the team that you want new users to automatically join from the **Default team** dropdown. _If no teams are avalible, you'll need to update team settings (see instructions below)._
+5. Select the team that you want new users to automatically join from the **Default team** dropdown. If no teams are available, you'll need to update team settings. See the instructions in [Add and manage teams](#add-and-manage-teams).
 6. Click the **Claim email domain** button.
 
 :::note Domains must be unique
 Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
 :::
 
-Before you can automatically assign non-invited new users to a default team, domain matching must be enabled within that team's settings: 
+You must enable domain matching within a team's settings before you can automatically assign non-invited new users to that team.
+
 
 1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`. Where `<team-name>` is the name of the team you want to enable domain matching.
 2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
 3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
 
 :::info
-The following workflow only applies to:
-* Dedicated cloud instances and Self-managed deployments
+The following workflow only applies to Dedicated cloud instances and Self-managed deployments.
 :::
 
-If you utilize a single-tenant instance, you can reach out to your account team to configure domain capture on the W&B SaaS instance to automatically direct people with your company email address, such as `@example.com`, to contact an admin to request access. This helps all your employees join your single-tenant instance and helps ensure that new users do not create assets outside your private instance. 
+If you utilize a single-tenant instance, you can reach out to your account team to configure domain capture on the W&B SaaS instance to automatically direct people with your company email address, such as `@example.com`, to contact an administrator to request access. This helps all your employees join your single-tenant instance and helps ensure that new users do not create assets outside your private instance. 
 
 
 ### Assign or update a user's role
@@ -132,7 +180,7 @@ A user within an organization can have one of the proceeding roles:
 
 | Role | Descriptions |
 | ----- | ----- |
-| Admin | A instance administrator who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends more than one admin for an enterprise Dedicated cloud or Self-managed instances. |
+| administrator| A instance administrator who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends more than one administrator for an enterprise Dedicated cloud or Self-managed instances. |
 | Member | A regular user of the organization, invited by an instance administrator. A organization user cannot invite other users or manage existing users in the organization. |
 | Viewer | A view-only user of your organization, invited by an instance administrator. A viewer only has read access to the organization and the underlying teams that they are a part of.  |
 
@@ -199,7 +247,7 @@ The proceeding table lists the roles you can assign to a member of a team:
 
 | Role   |   Definition   |
 |-----------|---------------------------|
-| Admin     | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
+| administrator    | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
 | Member    | A regular user of a team, invited by email or their organization-level username by the team administrator. A member user cannot invite other users to the team.  |
 | View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team administrator. A view-only user only has read access to the team and its contents.  |
 | Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
