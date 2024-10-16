@@ -161,7 +161,7 @@ await RagModel.predict("When was the first conference on climate change?")
 ```
 
 # 4. Run new `weave.Evaluation` connecting to the existing models run
-Finally, we can evaluate our new `RagModel` on of the existing `weave.Evaluation`. To make the integration as easy as possible we include the following changes. 
+Finally, we can evaluate our new `RagModel` on the existing `weave.Evaluation`. To make the integration as easy as possible we include the following changes. 
 
 From a Models perspective:
 - We log the summary result of the weave Evaluation to the run used to download the fine-tuned chat model as part of the summary variable and as graphs in a new [workspace view](https://wandb.ai/wandb-smle/weave-cookboook-demo/workspace?nw=eglm8z7o9)
