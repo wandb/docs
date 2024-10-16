@@ -18,7 +18,7 @@ W&B Server operates with manual user management by default. Licensed versions of
 _wandb/local_ uses Open ID Connect (OIDC) for authentication. Based on your use case, select one of the tabs to learn how to set up AWS Cognito or Okta authenticate W&B Server with Open ID Connect.
 
 <Tabs
-  defaultValue="entra"
+  defaultValue="aws"
   values={[
     {label: 'AWS', value: 'aws'},
     {label: 'Okta', value: 'okta'},
