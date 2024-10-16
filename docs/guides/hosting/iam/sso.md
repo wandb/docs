@@ -5,7 +5,7 @@ title: Configure SSO with OIDC
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-W&B Server’s support for OpenID Connect (OIDC) compatible Identity Providers allows for streamlined and secure management of user identities and group memberships through external identity providers like Okta, Keycloak, Auth0, Google, or Microsoft’s Entra. This integration centralizes authentication, simplifying user management and ensuring adherence to security best practices such as single sign-on (SSO) and multi-factor authentication (MFA).
+W&B Server's support for OpenID Connect (OIDC) compatible identity providers allows for management of user identities and group memberships through external identity providers like Okta, Keycloak, Auth0, Google, and Entra.
 
 ## OpenID Connect (OIDC)
 
