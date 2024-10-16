@@ -130,12 +130,17 @@ Auto provisioning with SSO is useful for adding users to an organization at scal
 
 
 ### Domain capture
-:::info
-The following workflow only applies to W&B Multi-tenant SaaS Cloud.
-:::
+Domain capture helps your employees join the your companies organization to ensure new users do not create assets outside of your company jurisdiction. 
 
-Domain capture lets you automatically add people with a company email address, such as  `@example.com`, to your W&B SaaS cloud organization. This helps all your employees join the right organization and helps ensure that new users do not create assets outside of their organization's accounts. Assets a user creates outside of an organization are not transferred if that user joins the organization at a later date.
+<Tabs
+  defaultValue="saas"
+  values={[
+    {label: 'Multi-tenant SaaS Cloud', value: 'saas'},
+    {label: 'Dedicated or Self Managed', value: 'dedicated'},
+  ]}>
+  <TabItem value="saas">
 
+Domain capture lets you automatically add people with a company email address, such as  `@example.com`, to your W&B SaaS cloud organization. This helps all your employees join the right organization and ensures that new users do not create assets outside of your company jurisdiction. 
 
 The proceeding table summarizes the behavior of new and existing users with and without domain capture enabled:
 
@@ -154,22 +159,26 @@ To automatically assign non-invited new users to a default team when they join y
 5. Select the team that you want new users to automatically join from the **Default team** dropdown. If no teams are available, you'll need to update team settings. See the instructions in [Add and manage teams](#add-and-manage-teams).
 6. Click the **Claim email domain** button.
 
-:::note Domains must be unique
-Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
-:::
-
 You must enable domain matching within a team's settings before you can automatically assign non-invited new users to that team.
-
 
 1. Navigate to the team's dashboard at `https://wandb.ai/<team-name>`. Where `<team-name>` is the name of the team you want to enable domain matching.
 2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
 3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
 
-:::info
-The following workflow only applies to Dedicated cloud instances and Self-managed deployments.
+:::note Domains must be unique
+Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
 :::
+ </TabItem>
+ 
+<TabItem value="dedicated">
 
-If you utilize a single-tenant instance, you can reach out to your account team to configure domain capture on the W&B SaaS instance to automatically direct people with your company email address, such as `@example.com`, to contact an administrator to request access. This helps all your employees join your single-tenant instance and helps ensure that new users do not create assets outside your private instance. 
+If you utilize a single-tenant instance, you can reach out to your account team to configure domain capture on the W&B SaaS instance to automatically prompt people who create a W&B cloud account with your company email address to contact your administrator to request access to your instance. This helps all your employees join your single-tenant instance.
+
+:::note Domains must be unique
+Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
+:::
+</TabItem>
+</Tabs>
 
 
 ### Assign or update a user's role
