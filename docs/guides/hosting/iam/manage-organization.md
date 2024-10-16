@@ -132,6 +132,10 @@ Auto provisioning with SSO is useful for adding users to an organization at scal
 ### Domain capture
 Domain capture helps your employees join the your companies organization to ensure new users do not create assets outside of your company jurisdiction. 
 
+:::note Domains must be unique
+Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
+:::
+
 <Tabs
   defaultValue="saas"
   values={[
@@ -141,6 +145,7 @@ Domain capture helps your employees join the your companies organization to ensu
   <TabItem value="saas">
 
 Domain capture lets you automatically add people with a company email address, such as  `@example.com`, to your W&B SaaS cloud organization. This helps all your employees join the right organization and ensures that new users do not create assets outside of your company jurisdiction. 
+
 
 The proceeding table summarizes the behavior of new and existing users with and without domain capture enabled:
 
@@ -165,18 +170,13 @@ You must enable domain matching within a team's settings before you can automati
 2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
 3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
 
-:::note Domains must be unique
-Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
-:::
+
  </TabItem>
  
 <TabItem value="dedicated">
 
-If you utilize a single-tenant instance, you can reach out to your account team to configure domain capture on the W&B SaaS instance to automatically prompt people who create a W&B cloud account with your company email address to contact your administrator to request access to your instance. This helps all your employees join your single-tenant instance.
+Reach out to your W&B Account Team if you use Dedicated or Self-Managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your administrator to request access to your Dedicated or Self-Managed instance.
 
-:::note Domains must be unique
-Domains are unique identifiers. This means that you can not use a domain that is already in use by another organization. 
-:::
 </TabItem>
 </Tabs>
 
