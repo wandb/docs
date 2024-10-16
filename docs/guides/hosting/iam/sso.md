@@ -19,7 +19,7 @@ The ID token is a JWT that contains the user’s identity information, including
 
 In the context of W&B Server, the access token is not required. Access tokens are typically used to authorize requests to APIs on behalf of the user, but since W&B Server’s primary concern is user authentication and identity, it only requires the ID token.
 
-In addition to basic [environment variables](../env-vars.md), you can use environment variables to [configure IAM options](advanced_env_vars.md) for your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance.
+You can use environment variables to [configure IAM options](advanced_env_vars.md) for your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance.
 
 To assist with configuring Identity Providers for [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) W&B Server installations, here are some key guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
 
