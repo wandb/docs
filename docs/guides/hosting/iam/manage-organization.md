@@ -42,7 +42,7 @@ There are several ways an organization administrator can add users to an organiz
 
 ### Invite a user
 
-[INSERT text]
+Administrators can invite users to their organization, as well as specific teams within the organization.
 
 <Tabs
   defaultValue="saas"
