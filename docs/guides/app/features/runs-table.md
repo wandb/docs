@@ -1,10 +1,10 @@
 ---
 description: How to use the sidebar and table on the project page
 displayed_sidebar: default
-title: Use the project page
+title: Explore runs in a project
 ---
 
-## Runs Table
+
 
 On the project page, we show runs in a sidebar. Expand the sidebar to view a table of hyperparameters and summary metrics across runs.
 
@@ -70,6 +70,16 @@ To move runs from one project to another:
 
 ![](/images/app_ui/howto_move_runs.gif)
 
+
+## Edit run colors
+
+When a new run is created, it is assigned a default color. You can edit the color for a given run by clicking the color preview.
+
+Colors are locally scoped. On the project page, custom colors only apply to your own workspace. In reports, custom colors for runs only apply at the section level. You can visualize the same run in different sections, and it can have a different custom color in each section.
+
+1. Select the Run you want to visualize
+2. Click the colored dot 
+3. Select a color for the graphs of your run
 ## See active runs
 
 Look for a green dot next to the name of runs— this indicates they're active in the table and on the graph legends.
