@@ -13,7 +13,7 @@ W&B Server supports two OpenID Connect (OIDC) authentication flows for integrati
 - Implicit Flow with Form Post and 
 - Authorization Code Flow with Proof Key for Code Exchange (PKCE). 
 
-These flows are used to authenticate users and provide W&B Server with the necessary identity information (in the form of ID tokens) to manage access control.
+These flows authenticate users and provide W&B Server with the necessary identity information (in the form of ID tokens) to manage access control.
 
 The ID token is a JWT that contains the user’s identity information, including attributes such as name, username, email, and optionally group memberships. This is the primary token W&B Server uses to authenticate the user and map them to appropriate roles or groups in the system.
 
