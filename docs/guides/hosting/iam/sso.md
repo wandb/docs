@@ -5,21 +5,21 @@ title: Configure SSO with OIDC
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Email [contact@wandb.com](mailto:contact@wandb.com) to configure an [Auth0](https://auth0.com) tenant for you with identity providers supported by W&B (such as SAML, Ping Federate, Active Directory, and more).
-
-If you already use Auth0 or have an Open ID Connect compatible server, follow the instructions below to set up authorization with Open ID.
-
-:::info
-W&B Server operates with manual user management by default. Licensed versions of _wandb/local_ also unlock SSO. 
-:::
+W&B Server’s support for OpenID Connect (OIDC) compatible Identity Providers allows for streamlined and secure management of user identities and group memberships through external identity providers like Okta, Keycloak, Auth0, Google, or Microsoft’s Entra. This integration centralizes authentication, simplifying user management and ensuring adherence to security best practices such as single sign-on (SSO) and multi-factor authentication (MFA).
 
 ## Open ID Connect
 
-_wandb/local_ uses Open ID Connect (OIDC) for authentication. Based on your use case, select one of the tabs to learn how to set up AWS Cognito or Okta authenticate W&B Server with Open ID Connect.
+W&B Server supports two OpenID Connect (OIDC) authentication flows for integrating with external Identity Providers (IdPs): 
+- Implicit Flow with Form Post and 
+- Authorization Code Flow with Proof Key for Code Exchange (PKCE). 
 
-:::tip
-Select either a Single Page or Public Client application in your identity provider (IdP).
-:::
+These flows are used to authenticate users and provide W&B Server with the necessary identity information (in the form of ID tokens) to manage access control.
+
+The ID token is a JWT that contains the user’s identity information, including attributes such as name, username, email, and optionally group memberships. This is the primary token W&B Server uses to authenticate the user and map them to appropriate roles or groups in the system.
+
+In the context of W&B Server, the access token is not required. Access tokens are typically used to authorize requests to APIs on behalf of the user, but since W&B Server’s primary concern is user authentication and identity, only the ID token is needed.
+
+In addition to basic [environment variables](../env-vars.md), you can use environment variables to [configure IAM options](advanced_env_vars.md) for your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance.
 
 <Tabs
   defaultValue="aws"
