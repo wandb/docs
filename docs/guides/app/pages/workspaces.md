@@ -1,7 +1,7 @@
 ---
 description: A playground for exploring run data with interactive visualizations
 displayed_sidebar: default
-title: Manage workspaces
+title: View experiments results
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -52,24 +52,31 @@ A confirmation dialog appears when you save your updates to a workspace view. If
 Remove saved views that are no longer needed.
 
 1. Navigate to the saved view you want to remove.
-2. Click on the hamburger menu (three horizontal lines) at the top right of the view.
+2. Select the three horizontal lines (**...**) at the top right of the view.
 3. Choose **Delete view**.
 4. Confirm the deletion to remove the view from your workspace menu.
-
-![](/images/app_ui/Deleting.gif)
 
 ### Share a workspace view
 Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
 
-# Programmatic workspace
+## Programmatically creating workspaces
 
-[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [Weights & Biases](https://wandb.ai/) workspaces and reports.
+[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [W&B](https://wandb.ai/) workspaces and reports.
 
-## Creating a workspace programmatically
+Define a workspace programmatically with [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main). [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [W&B](https://wandb.ai/) workspaces and reports.
 
-You can define a workspace programmatically by defining the workspace's properties, such as its name, associated entity and project, and the sections it should contain.
+You can define the workspace's properties, such as:
 
-- **Programmatic workspace creation:**
+* Set panel layouts, colors, and section orders.
+* Configure workspace settings like default x-axis, section order, and collapse states.
+* Add and customize panels within sections to organize workspace views.
+* Load and modify existing workspaces using a URL.
+* Save changes to existing workspaces or save as new views.
+* Filter, group, and sort runs programmatically using simple expressions.
+* Customize run appearance with settings like colors and visibility.
+* Copy views from one workspace to another for integration and reuse.
+
+<!-- - **Programmatic workspace creation:**
   - Define and create workspaces with specific configurations.
   - Set panel layouts, colors, and section orders.
 - **Workspace customization:**
@@ -82,10 +89,7 @@ You can define a workspace programmatically by defining the workspace's properti
   - Filter, group, and sort runs programmatically using simple expressions.
   - Customize run appearance with settings like colors and visibility.
 - **Cross-workspace integration:**
-  - Copy views from one workspace to another for seamless integration and reuse.
-
-
-For more information about programmatically creating and editing workspaces, see the [Programmatic Workspaces](../../../tutorials/workspaces.md) tutorial. 
+  - Copy views from one workspace to another for seamless integration and reuse. -->
 
 ### Install Workspace API
 
@@ -95,10 +99,7 @@ In addition to `wandb`, ensure that you install `wandb-workspaces`:
 pip install wandb wandb-workspaces
 ```
 
-## Example Workspace API workflows
-The following lists some common actions you can make using the W&B Workspace API. 
 
-See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) for comprehensive workspace API examples. For an end to end tutorial, see [Programmatic Workspaces](../../../tutorials/workspaces.md) tutorial. 
 
 ### Define and save a workspace view programmatically
 
@@ -126,3 +127,5 @@ new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[
 
 new_workspace.save()
 ```
+
+See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) for comprehensive workspace API examples. For an end to end tutorial, see [Programmatic Workspaces](../../../tutorials/workspaces.md) tutorial. 

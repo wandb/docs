@@ -115,7 +115,7 @@ Use the W&B Dashboard as a central place to organize and visualize results from 
 
 ![Quickstart Sweeps Dashboard example](/images/sweeps/quickstart_dashboard_example.png)
 
-For more information on how to view experiments and specific runs, see [Visualize results from experiments](./app.md).
+For more information on how to view experiments and specific runs, see [Visualize results from experiments](../app/pages/workspaces.md).
 
 
 ## Best practices

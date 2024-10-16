@@ -49,8 +49,6 @@ export default {
                 'guides/track/log/logging-faqs',
               ],
             },
-            'guides/track/app',
-            // 'guides/track/reproduce-experiments',
             'guides/track/jupyter',
             'guides/track/limits',
             'guides/track/public-api-guide',
@@ -172,7 +170,6 @@ export default {
         {
           type: 'category',
           label: 'W&B App UI Reference',
-          link: {type: 'doc', id: 'guides/app/intro'},
           items: [
             {
               type: 'category',
@@ -193,7 +190,6 @@ export default {
                   ],
                 },
                 'guides/app/features/panels/bar-plot',
-                'guides/app/features/panels/run-colors',
                 'guides/app/features/panels/parallel-coordinates',
                 'guides/app/features/panels/scatter-plot',
                 'guides/app/features/panels/code',

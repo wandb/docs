@@ -5,17 +5,23 @@ title: Configure SSO with OIDC
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Email [contact@wandb.com](mailto:contact@wandb.com) to configure an [Auth0](https://auth0.com) tenant for you with identity providers supported by W&B (such as SAML, Ping Federate, Active Directory, and more).
+W&B Server's support for OpenID Connect (OIDC) compatible identity providers allows for management of user identities and group memberships through external identity providers like Okta, Keycloak, Auth0, Google, and Entra.
 
-If you already use Auth0 or have an Open ID Connect compatible server, follow the instructions below to set up authorization with Open ID.
+## OpenID Connect (OIDC)
 
-:::info
-W&B Server operates with manual user management by default. Licensed versions of _wandb/local_ also unlock SSO. 
-:::
+W&B Server supports the following OIDC authentication flows for integrating with external Identity Providers (IdPs).
+1. Implicit Flow with Form Post 
+2. Authorization Code Flow with Proof Key for Code Exchange (PKCE)
 
-## Open ID Connect
+These flows authenticate users and provide W&B Server with the necessary identity information (in the form of ID tokens) to manage access control.
 
-_wandb/local_ uses Open ID Connect (OIDC) for authentication. Based on your use case, select one of the tabs to learn how to set up AWS Cognito or Okta authenticate W&B Server with Open ID Connect.
+The ID token is a JWT that contains the user's identity information, such as their name, username, email, and group memberships. W&B Server uses this token to authenticate the user and map them to appropriate roles or groups in the system.
+
+In the context of W&B Server, the access token is not required. Access tokens are typically used to authorize requests to APIs on behalf of the user, but since W&B Server’s primary concern is user authentication and identity, it only requires the ID token.
+
+You can use environment variables to [configure IAM options](advanced_env_vars.md) for your [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) instance.
+
+To assist with configuring Identity Providers for [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) W&B Server installations, here are some key guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
 
 <Tabs
   defaultValue="aws"
@@ -70,7 +76,7 @@ For AWS Cognito providers you must set the Auth Method to "pkce"
 
 For example, with AWS Cognito, you can generate your issuer URL by appending your User Pool ID to the Cognito IdP URL from the **App Integration** tab within the **User Pools** section:
 
-![The issuer URL would be https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd](/images/hosting/setup_aws_cognito_issuer_url.png)
+![Screenshot of issuer URL in AWS Cognito](/images/hosting/setup_aws_cognito_issuer_url.png)
 
 :::info
 Do not use the "Cognito domain" for the IDP url. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
@@ -213,3 +219,7 @@ Once you have everything configured you can provide the Issuer, Client ID, and A
 :::info
 If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This will output a temporary password to the containers logs and disable SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
 :::
+
+## Security Assertion Markup Language (SAML)
+W&B Server does not support SAML.
+
