@@ -75,7 +75,7 @@ For AWS Cognito providers you must set the Auth Method to "pkce"
 
 For example, with AWS Cognito, you can generate your issuer URL by appending your User Pool ID to the Cognito IdP URL from the **App Integration** tab within the **User Pools** section:
 
-![The issuer URL would be https://cognito-idp.us-east-1.amazonaws.com/us-east-1_uiIFNdacd](/images/hosting/setup_aws_cognito_issuer_url.png)
+![Screenshot of issuer URL in AWS Cognito](/images/hosting/setup_aws_cognito_issuer_url.png)
 
 :::info
 Do not use the "Cognito domain" for the IDP url. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
