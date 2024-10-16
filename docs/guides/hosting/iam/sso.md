@@ -17,15 +17,12 @@ W&B Server operates with manual user management by default. Licensed versions of
 
 _wandb/local_ uses Open ID Connect (OIDC) for authentication. Based on your use case, select one of the tabs to learn how to set up AWS Cognito or Okta authenticate W&B Server with Open ID Connect.
 
-:::tip
-Select either a Single Page or Public Client application in your identity provider (IdP).
-:::
-
 <Tabs
-  defaultValue="aws"
+  defaultValue="entra"
   values={[
     {label: 'AWS', value: 'aws'},
     {label: 'Okta', value: 'okta'},
+     {label: 'Entra', value: 'entra'},
   ]}>
   <TabItem value="aws">
 
@@ -133,6 +130,66 @@ the redirect URI would look like: `https://localhost:8080/oidc/callback`.
 7. Provide the OIDC Issuer, Client ID, and Auth method to wandb/local on https://deploy.wandb.ai/system-admin or set them as environment variables.
 
   </TabItem>
+
+<TabItem value="entra">
+1. Login to the [Azure Portal](https://portal.azure.com/#home).
+
+2. Select "Microsoft Entra ID" service.
+![](/images/hosting/entra_select_entra_service.png)
+
+3. On the left side, select "App registrations".
+![](/images/hosting/entra_app_registrations.png)
+
+4. On the top, click "New registration".
+![](/images/hosting/entra_new_app_registration.png)
+
+    On the screen named "Register an application", fill out the values as follows:
+![](/images/hosting/entra_register_an_application.png)
+
+    - Specify a name, e.g. "Weights and Biases application".
+    - Leave the default account type: "Accounts in this organizational directory only (Default Directory only - Single tenant)". Modify if you need to.
+    - Configure Redirect URI as type "Web" with value: `https://YOUR_W_AND_B_URL/oidc/callback`
+    - Click "Register".
+
+- Make a note of the "Application (client) ID" and "Directory (tenant) ID". 
+![](/images/hosting/entra_app_overview_make_note.png)
+
+
+5. On the left side, click "Authentication"
+![](/images/hosting/entra_select_authentication.png)
+
+- Under "Front-channel logout URL" specify: `https://YOUR_W_AND_B_URL/logout`
+- Click "Save".
+
+![](/images/hosting/entra_logout_url.png)
+
+
+6. On the left side, click "Certificates & secrets".
+![](/images/hosting/entra_select_certificates_secrets.png)
+
+- Click "Client secrets" and then click "New client secret".
+![](/images/hosting/entra_new_secret.png)
+
+    On the screen named "Add a client secret", fill out the values as follows:
+![](/images/hosting/entra_add_new_client_secret.png)
+
+  - Enter a description, e.g. wandb.
+  - Leave "Expires" as is or change if you have to.
+  - Click "Add".
+
+
+- Make a note of the "Value" of the secret. There is no need for the "Secret ID".
+![](/images/hosting/entra_make_note_of_secret_value.png)
+
+You should now have made notes of three values:
+- OIDC Client ID
+- OIDC Client Secret
+- Tenant ID is needed for the OIDC Issuer URL
+
+The OIDC issuer URL has the following format: https://login.microsoftonline.com/${TenantID}/v2.0
+
+</TabItem>
+
 </Tabs>
 
 ## Configure SSO on the W&B App
