@@ -44,9 +44,9 @@ weave.init(ENTITY + "/" + PROJECT)
 We retrieve the fine-tuned chat model from the Registry and create a `weave.Model` out of it that we can directly plug in to the [RagModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) in the next step. It takes in the same parameters as the existing [ChatModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) just the `init` and `predict` change.
 
 ```python
-# pip install unsloth
+pip install unsloth
 # Also get the latest nightly Unsloth!
-# pip uninstall unsloth -y && pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
+pip uninstall unsloth -y && pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
 ```
 
 The model team fine-tuned different Llama-3.2 models using the `unsloth` library to make it faster. Hence we'll use the special `unsloth.FastLanguageModel` or `peft.AutoPeftModelForCausalLM` models with adapters to load in the model once we download it from the Registry. The loading code in the `model_post_init` can be simply copy & pasted from the "Use" tab in the Registry.
@@ -147,6 +147,7 @@ new_chat_model = UnslothLoRAChatModel(
  # 3. Integrate new `ChatModel` version into `RagModel`
 Now we retrieve the [RagModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) from our existing Weave project and exchange the `ChatModel` to the new one. We don't need to change or re-create any of the other components (VDB, prompts, etc.)!
 
+<img src="https://github.com/wandb/docodile/blob/weave-models-tutorial/static/images/tutorials/weave-ref-1.png?raw=true"  alt="Weights & Biases" />
 ```python
 # pip install litellm faiss-gpu
 
