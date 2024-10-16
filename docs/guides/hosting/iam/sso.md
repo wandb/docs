@@ -15,7 +15,7 @@ W&B Server supports the following OIDC authentication flows for integrating with
 
 These flows authenticate users and provide W&B Server with the necessary identity information (in the form of ID tokens) to manage access control.
 
-The ID token is a JWT that contains the user’s identity information, including attributes such as name, username, email, and optionally group memberships. This is the primary token W&B Server uses to authenticate the user and map them to appropriate roles or groups in the system.
+The ID token is a JWT that contains the user's identity information, such as their name, username, email, and group memberships. W&B Server uses this token to authenticate the user and map them to appropriate roles or groups in the system.
 
 In the context of W&B Server, the access token is not required. Access tokens are typically used to authorize requests to APIs on behalf of the user, but since W&B Server’s primary concern is user authentication and identity, it only requires the ID token.
 
