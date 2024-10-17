@@ -152,7 +152,7 @@ the redirect URI would look like: `https://localhost:8080/oidc/callback`.
     On the screen named "Register an application", fill out the values as follows:
 ![](/images/hosting/entra_register_an_application.png)
 
-    - Specify a name, e.g. "Weights and Biases application".
+    - Specify a name, for example "Weights and Biases application".
     - Leave the default account type: "Accounts in this organizational directory only (Default Directory only - Single tenant)." Modify if you need to.
     - Configure Redirect URI as type "Web" with value: `https://YOUR_W_AND_B_URL/oidc/callback`
     - Click "Register."
