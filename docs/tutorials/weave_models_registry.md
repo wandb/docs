@@ -13,7 +13,7 @@ This notebook shows how W&B Weave can be used together with W&B Models. Specific
 
 Find the public workspace for both W&B Models and W&B Weave [here](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations).
 
-<img src="https://github.com/NiWaRe/agent-dev-collection/blob/master/screenshots/weave_models_workflow.jpg?raw=true"  alt="Weights & Biases" />
+<img src="https://github.com/wandb/docodile/blob/weave-models-tutorial/static/images/tutorials/weave_models_workflow.jpg?raw=true"  alt="Weights & Biases" />
 
 We'll cover the following steps as part of the workflow:
 
@@ -26,9 +26,11 @@ We'll cover the following steps as part of the workflow:
 # 1. Setup
 We first have to install `weave` and `wandb` and login. We also set a couple of API keys that we might need.
 
-```python
-# pip install weave wandb
+```bash
+pip install weave wandb
+```
 
+```python
 import wandb
 import weave
 import pandas as pd
@@ -43,9 +45,8 @@ weave.init(ENTITY + "/" + PROJECT)
 # 2. Make `ChatModel` based on Artifact
 We retrieve the fine-tuned chat model from the Registry and create a `weave.Model` out of it that we can directly plug in to the [RagModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) in the next step. It takes in the same parameters as the existing [ChatModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) just the `init` and `predict` change.
 
-```python
+```bash
 pip install unsloth
-# Also get the latest nightly Unsloth!
 pip uninstall unsloth -y && pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
 ```
 
@@ -149,9 +150,11 @@ Now we retrieve the [RagModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/
 
 <img src="https://github.com/wandb/docodile/blob/weave-models-tutorial/static/images/tutorials/weave-ref-1.png"  alt="Weights & Biases" />
 
-```python
-# pip install litellm faiss-gpu
+```bash
+pip install litellm faiss-gpu
+```
 
+```python
 RagModel = weave.ref(
     "weave:///wandb-smle/weave-cookboook-demo/object/RagModel:cqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo"
 ).get()
@@ -166,7 +169,7 @@ await RagModel.predict("When was the first conference on climate change?")
 Finally, we can evaluate our new `RagModel` on the existing `weave.Evaluation`. To make the integration as easy as possible we include the following changes. 
 
 From a Models perspective:
-- We log the summary result of the weave Evaluation to the run used to download the fine-tuned chat model as part of the summary variable and as graphs in a new [workspace view](https://wandb.ai/wandb-smle/weave-cookboook-demo/workspace?nw=eglm8z7o9)
+- Getting the model from the registry will create a new `wandb.run` which will be part of the E2E lineage of the chat model
 - We add the trace ID (with current eval ID) to the run config so that the model team can simply click on the link to go to the corresponding Weave page
 
 From a Weave perspective:
