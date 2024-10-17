@@ -24,9 +24,7 @@ We'll cover the following steps as part of the workflow:
 5. Once we are happy with the results, we'll save a reference to our updated Rag app in the Registry
 
 **Note:**
-The `RagModel` referenced below is top-level `weave.Model` that contains a `ChatModel`, Vector database, and a Prompt
-
-The `ChatModel` is also another `weave.Model` (can also be a `weave.Object`)
+The `RagModel` referenced below is top-level `weave.Model` that can be considered a complete RAG Application. It contains a `ChatModel`, Vector database, and a Prompt. The `ChatModel` is also another `weave.Model` which contains the code to download an artifact from the W&B Registry and can be changed modularly to support any kind of other Chat Model as part of the `RagModel`. For more details see the complete model on Weave [here](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26). 
 
 # 1. Setup
 We first have to install `weave` and `wandb` and login. We also set a couple of API keys that we might need.
