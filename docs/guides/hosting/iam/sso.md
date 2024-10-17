@@ -149,7 +149,7 @@ the redirect URI would look like: `https://localhost:8080/oidc/callback`.
 4. On the top, click "New registration".
 ![](/images/hosting/entra_new_app_registration.png)
 
-    On the screen named "Register an application", fill out the values as follows:
+    On the screen named "Register an application," fill out the values as follows:
 ![](/images/hosting/entra_register_an_application.png)
 
     - Specify a name, for example "Weights and Biases application".
