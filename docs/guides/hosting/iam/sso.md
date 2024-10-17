@@ -137,21 +137,21 @@ the redirect URI would look like: `https://localhost:8080/oidc/callback`.
 2. Select "Microsoft Entra ID" service.
 ![](/images/hosting/entra_select_entra_service.png)
 
-3. On the left side, select "App registrations".
+3. On the left side, select "App registrations."
 ![](/images/hosting/entra_app_registrations.png)
 
-4. On the top, click "New registration".
+4. On the top, click "New registration."
 ![](/images/hosting/entra_new_app_registration.png)
 
-    On the screen named "Register an application", fill out the values as follows:
+    On the screen named "Register an application," fill out the values as follows:
 ![](/images/hosting/entra_register_an_application.png)
 
-    - Specify a name, e.g. "Weights and Biases application".
-    - Leave the default account type: "Accounts in this organizational directory only (Default Directory only - Single tenant)". Modify if you need to.
+    - Specify a name, for example "Weights and Biases application."
+    - By default the selected account type is: "Accounts in this organizational directory only (Default Directory only - Single tenant)." Modify if you need to.
     - Configure Redirect URI as type "Web" with value: `https://YOUR_W_AND_B_URL/oidc/callback`
-    - Click "Register".
+    - Click "Register."
 
-- Make a note of the "Application (client) ID" and "Directory (tenant) ID". 
+- Make a note of the "Application (client) ID" and "Directory (tenant) ID." 
 ![](/images/hosting/entra_app_overview_make_note.png)
 
 
@@ -159,26 +159,26 @@ the redirect URI would look like: `https://localhost:8080/oidc/callback`.
 ![](/images/hosting/entra_select_authentication.png)
 
 - Under "Front-channel logout URL" specify: `https://YOUR_W_AND_B_URL/logout`
-- Click "Save".
+- Click "Save."
 
 ![](/images/hosting/entra_logout_url.png)
 
 
-6. On the left side, click "Certificates & secrets".
+6. On the left side, click "Certificates & secrets."
 ![](/images/hosting/entra_select_certificates_secrets.png)
 
-- Click "Client secrets" and then click "New client secret".
+- Click "Client secrets" and then click "New client secret."
 ![](/images/hosting/entra_new_secret.png)
 
-    On the screen named "Add a client secret", fill out the values as follows:
+    On the screen named "Add a client secret," fill out the values as follows:
 ![](/images/hosting/entra_add_new_client_secret.png)
 
-  - Enter a description, e.g. wandb.
+  - Enter a description, for example "wandb."
   - Leave "Expires" as is or change if you have to.
-  - Click "Add".
+  - Click "Add."
 
 
-- Make a note of the "Value" of the secret. There is no need for the "Secret ID".
+- Make a note of the "Value" of the secret. There is no need for the "Secret ID."
 ![](/images/hosting/entra_make_note_of_secret_value.png)
 
 You should now have made notes of three values:
