@@ -1,6 +1,6 @@
 # launch_add
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/sdk/launch/_launch_add.py#L34-L131' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.5/wandb/sdk/launch/_launch_add.py#L34-L131' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Enqueue a W&B launch experiment. With either a source uri, job or docker_image.
@@ -35,7 +35,7 @@ launch_add(
 |  `uri` |  URI of experiment to run. A wandb run uri or a Git repository URI. |
 |  `job` |  string reference to a wandb.Job eg: wandb/test/my-job:latest |
 |  `config` |  A dictionary containing the configuration for the run. May also contain resource specific arguments under the key "resource_args" |
-|  `template_variables` |  A dictionary containing values of template variables for a run queue. Expected format of `{"VAR_NAME": VAR_VALUE}` |
+|  `template_variables` |  A dictionary containing values of template variables for a run queue. Expected format of {"VAR_NAME": VAR_VALUE} |
 |  `project` |  Target project to send launched run to |
 |  `entity` |  Target entity to send launched run to |
 |  `queue` |  the name of the queue to enqueue the run to |
