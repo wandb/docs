@@ -143,7 +143,7 @@ the redirect URI would look like: `https://localhost:8080/oidc/callback`.
 2. Select "Microsoft Entra ID" service.
 ![](/images/hosting/entra_select_entra_service.png)
 
-3. On the left side, select "App registrations".
+3. On the left side, select "App registrations."
 ![](/images/hosting/entra_app_registrations.png)
 
 4. On the top, click "New registration."
