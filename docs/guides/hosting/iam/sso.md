@@ -108,31 +108,33 @@ The following image demonstrates how to: enable SSO, provide the OIDC Issuer, Cl
   <TabItem value="okta">
 
 
-1. First set up a new application.  Navigate to Okta's App UI and select **Add apps**:
+1. Login to the [Okta Portal](https://login.okta.com/). 
 
-![](/images/hosting/okta.png)
+2. On the left side, select **Applications** and then **Applications** again.
+![](/images/hosting/okta_select_applications.png)
 
-2. Provide a name for App in the **App Integration name** field (for example: Weights and Biases)
-3. Select grant type `implicit (hybrid)`
+3. Click on "Create App integration."
+![](/images/hosting/okta_create_new_app_integration.png)
 
-W&B also supports the Authorization Code grant type with PKCE
+4. On the screen named "Create a new app integration," select **OIDC - OpenID Connect** and **Single-Page Application**. Then click "Next."
+![](/images/hosting/okta_create_a_new_app_integration.png)
 
-![](/images/hosting/pkce.png)
+5. On the screen named "New Single-Page App Integration," fill out the values as follows and click **Save**:
+    - App integration name, for example "Weights & Biases"
+    - Grant type: Check both "Authorization Code" and "Implicit (hybrid)"
+    - Sign-in redirect URIs: https://YOUR_W_AND_B_URL/oidc/callback
+    - Sign-out redirect URIs: https://YOUR_W_AND_B_URL/logout
+    - Assignments: Select **Skip group assignment for now**
+![](/images/hosting/okta_new_single_page_app_integration.png)
 
-4. Provide an allowed callback url:
-    * Add the following allowed Callback URL `http(s)://YOUR-W&B-HOST/oidc/callback`.
+6. On the overview screen of the Okta application that you just created, make note of the **Client ID** under **Client Credentials** under the **General** tab:
+![](/images/hosting/okta_make_note_of_client_id.png)
 
-5. If your IdP supports universal logout, set the **Logout URL** to `http(s)://YOUR-W&B-HOST`.
+7. To identify the Okta OIDC Issuer URL, select **Settings** and then **Account** on the left side.
+The Okta UI shows the company name under **Organization Contact**.
+![](/images/hosting/okta_identify_oidc_issuer_url.png)
 
-![](/images/hosting/redirect_uri.png)
-For example, if your application runs in a local host on port 8080 (`https://localhost:8080`),
-the redirect URI would look like: `https://localhost:8080/oidc/callback`.
-
-6. Set the sign-out redirect to `http(s)://YOUR-W&B-HOST/logout` in the **Sign-out redirects URIs** field: 
-
-![](/images/hosting/signout_redirect.png)
-
-7. Provide the OIDC Issuer, Client ID, and Auth method to wandb/local on https://deploy.wandb.ai/system-admin or set them as environment variables.
+The OIDC issuer URL has the following format: https://COMPANY.okta.com. Replace COMPANY with the corresponding value. Make note of it.
 
   </TabItem>
 </Tabs>
