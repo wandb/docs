@@ -157,7 +157,7 @@ the redirect URI would look like: `https://localhost:8080/oidc/callback`.
     - Configure Redirect URI as type "Web" with value: `https://YOUR_W_AND_B_URL/oidc/callback`
     - Click "Register".
 
-- Make a note of the "Application (client) ID" and "Directory (tenant) ID". 
+- Make a note of the "Application (client) ID" and "Directory (tenant) ID."
 ![](/images/hosting/entra_app_overview_make_note.png)
 
 
