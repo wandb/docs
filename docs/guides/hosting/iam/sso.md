@@ -146,7 +146,7 @@ the redirect URI would look like: `https://localhost:8080/oidc/callback`.
 3. On the left side, select "App registrations".
 ![](/images/hosting/entra_app_registrations.png)
 
-4. On the top, click "New registration".
+4. On the top, click "New registration."
 ![](/images/hosting/entra_new_app_registration.png)
 
     On the screen named "Register an application," fill out the values as follows:
