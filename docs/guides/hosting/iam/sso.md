@@ -164,7 +164,7 @@ the redirect URI would look like: `https://localhost:8080/oidc/callback`.
 5. On the left side, click **Authentication**.
 ![](/images/hosting/entra_select_authentication.png)
 
-- Under "Front-channel logout URL" specify: `https://YOUR_W_AND_B_URL/logout`
+- Under **Front-channel logout URL**, specify: `https://YOUR_W_AND_B_URL/logout`
 - Click "Save".
 
 ![](/images/hosting/entra_logout_url.png)
