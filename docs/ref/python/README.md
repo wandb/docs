@@ -3,7 +3,7 @@
 <!-- Insert buttons and diff -->
 
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/__init__.py' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.4/wandb/__init__.py' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Use wandb to track machine learning work.
@@ -14,7 +14,7 @@ For guides and examples, see https://docs.wandb.ai.
 
 For scripts and interactive notebooks, see https://github.com/wandb/examples.
 
-For reference documentation, see /ref/python.
+For reference documentation, see https://docs.wandb.com/ref/python.
 
 ## Classes
 
@@ -40,10 +40,10 @@ For reference documentation, see /ref/python.
 
 [`sweep(...)`](./sweep.md): Initialize a hyperparameter sweep.
 
-[`watch(...)`](./watch.md): Hook into the torch model to collect gradients and the topology.
+[`watch(...)`](./watch.md): Hooks into the given PyTorch model(s) to monitor gradients and the model's computational graph.
 
 | Other Members |  |
 | :--- | :--- |
-|  `__version__`<a id="__version__"></a> |  `'0.18.0'` |
+|  `__version__`<a id="__version__"></a> |  `'0.18.4'` |
 |  `config`<a id="config"></a> |   |
 |  `summary`<a id="summary"></a> |   |
