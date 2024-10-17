@@ -13,7 +13,7 @@ This notebook shows how W&B Weave can be used together with W&B Models. Specific
 
 Find the public workspace for both W&B Models and W&B Weave [here](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations).
 
-<img src="https://github.com/wandb/docodile/blob/weave-models-tutorial/static/images/tutorials/weave_models_workflow.jpg?raw=true"  alt="Weights & Biases" />
+<img src="/images/tutorials/weave_models_workflow.jpg"  alt="Weights & Biases" />
 
 We'll cover the following steps as part of the workflow:
 
@@ -148,7 +148,7 @@ new_chat_model = UnslothLoRAChatModel(
  # 3. Integrate new `ChatModel` version into `RagModel`
 Now we retrieve the [RagModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) (you can fetch the weave ref for the current RagModel from the use tab as shown in the image below) from our existing Weave project and exchange the `ChatModel` to the new one. We don't need to change or re-create any of the other components (VDB, prompts, etc.)!
 
-<img src="https://github.com/wandb/docodile/blob/weave-models-tutorial/static/images/tutorials/weave-ref-1.png"  alt="Weights & Biases" />
+<img src="/images/tutorials/weave-ref-1.png"  alt="Weights & Biases" />
 
 ```bash
 pip install litellm faiss-gpu
