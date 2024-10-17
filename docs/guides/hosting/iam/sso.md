@@ -155,7 +155,7 @@ the redirect URI would look like: `https://localhost:8080/oidc/callback`.
     - Specify a name, e.g. "Weights and Biases application".
     - Leave the default account type: "Accounts in this organizational directory only (Default Directory only - Single tenant)". Modify if you need to.
     - Configure Redirect URI as type "Web" with value: `https://YOUR_W_AND_B_URL/oidc/callback`
-    - Click "Register".
+    - Click "Register."
 
 - Make a note of the "Application (client) ID" and "Directory (tenant) ID."
 ![](/images/hosting/entra_app_overview_make_note.png)
