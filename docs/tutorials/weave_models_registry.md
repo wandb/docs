@@ -17,11 +17,16 @@ Find the public workspace for both W&B Models and W&B Weave [here](https://wandb
 
 We'll cover the following steps as part of the workflow:
 
-1. Create a new `ChatModel` object on Weave based on the new fine-tuned Chat Model in the registry.
-2. Retrieve the `RagModel` object on Weave - with old `ChatModel`.
-3. Create a new `RagModel`with the new `ChatModel` and publish to Weave.
-4. Get existing Evaluation from Weave and evaluate new `RagModel` and save the results to W&B Weave and to W&B Models.
-5. Save the new `RagModel` on the registry to be shared. 
+1. Instrument our RAG application code with W&B Weave
+2. Fine-tune an LLM (we've used Llama 3.2 but this can be replaced with any other LLM) and track it with W&B Models
+3. Log the fine-tuned model to the Registry
+4. Implement the RAG application with the new fine-tuned model and evaluate the application with W&B Weave
+5. Once we are happy with the results, we'll save a reference to our updated Rag app in the Registry
+
+**Note:**
+The `RagModel` referenced below is top-level `weave.Model` that contains a `ChatModel`, Vector database, and a Prompt
+
+The `ChatModel` is also another `weave.Model` (can also be a `weave.Object`)
 
 # 1. Setup
 We first have to install `weave` and `wandb` and login. We also set a couple of API keys that we might need.
