@@ -131,7 +131,7 @@ The following image demonstrates how to: enable SSO, provide the OIDC Issuer, Cl
 ![](/images/hosting/okta_make_note_of_client_id.png)
 
 7. To identify the Okta OIDC Issuer URL, select **Settings** and then **Account** on the left side.
-The company name is shown under **Organization Contact**.
+The Okta UI shows the company name under **Organization Contact**.
 ![](/images/hosting/okta_identify_oidc_issuer_url.png)
 
 The OIDC issuer URL has the following format: https://COMPANY.okta.com. Replace COMPANY with the corresponding value. Make note of it.
