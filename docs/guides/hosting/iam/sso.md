@@ -28,7 +28,7 @@ To assist with configuring Identity Providers for [Dedicated Cloud](../hosting-o
   values={[
     {label: 'AWS', value: 'aws'},
     {label: 'Okta', value: 'okta'},
-     {label: 'Entra', value: 'entra'},
+    {label: 'Entra', value: 'entra'},
   ]}>
   <TabItem value="aws">
 
