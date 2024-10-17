@@ -24,7 +24,7 @@ You can use environment variables to [configure IAM options](advanced_env_vars.m
 To assist with configuring Identity Providers for [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) W&B Server installations, here are some key guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
 
 <Tabs
-  defaultValue="okta"
+  defaultValue="aws"
   values={[
     {label: 'AWS', value: 'aws'},
     {label: 'Okta', value: 'okta'},
