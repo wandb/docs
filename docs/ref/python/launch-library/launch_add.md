@@ -35,7 +35,7 @@ launch_add(
 |  `uri` |  URI of experiment to run. A wandb run uri or a Git repository URI. |
 |  `job` |  string reference to a wandb.Job eg: wandb/test/my-job:latest |
 |  `config` |  A dictionary containing the configuration for the run. May also contain resource specific arguments under the key "resource_args" |
-|  `template_variables` |  A dictionary containing values of template variables for a run queue. Expected format of {"VAR_NAME": VAR_VALUE} |
+|  `template_variables` |  A dictionary containing values of template variables for a run queue. Expected format of `{"VAR_NAME": VAR_VALUE}` |
 |  `project` |  Target project to send launched run to |
 |  `entity` |  Target entity to send launched run to |
 |  `queue` |  the name of the queue to enqueue the run to |
