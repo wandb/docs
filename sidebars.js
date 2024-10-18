@@ -381,8 +381,9 @@ export default {
             {
               type: 'category',
               label: 'Access management',
+              link: {type: 'doc', id: 'guides/hosting/iam/access-management-intro'},
               items: [
-                'guides/hosting/iam/manage-users',
+                'guides/hosting/iam/manage-organization',
                 'guides/hosting/iam/restricted-projects',
               ],
             },
