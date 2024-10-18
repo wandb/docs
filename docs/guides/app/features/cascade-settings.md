@@ -12,7 +12,7 @@ Within a given workspace page there are three different setting levels: workspac
 
 ## Workspace settings
 
-Workspace settings apply to all sections and all panels within those sections. You can edit two types of workspace settings: [**Workspace layout**](#workspace-layout) and [**Line plots**](#line-plots). **Workspace layouts** determine the structure of the workspace, while **Line plots** settings control the default settings for line plots in the workspace.
+Workspace settings apply to all sections and all panels within those sections. You can edit two types of workspace settings: [**Workspace layout**](#workspace-layout-options) and [**Line plots**](#line-plots-options). **Workspace layouts** determine the structure of the workspace, while **Line plots** settings control the default settings for line plots in the workspace.
 
 To edit settings that apply to the overall structure of this workspace:
 
