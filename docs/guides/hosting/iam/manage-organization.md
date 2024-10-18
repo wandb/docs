@@ -76,20 +76,15 @@ W&B sends an invite link using a third-party email server to the user's email af
 </Tabs>
 
 
+### Auto provision users
+
+A person in your company (someone who has the same domain as your company) can sign in to your W&B Organization with Single Sign-On (SSO) if SSO is set up and the SSO provider permits it. SSO is avalible for all Enterprise licenses. 
 
 :::tip enable SSO for authentication
 W&B strongly recommends and encourages that users authenticate using Single Sign-On (SSO). Reach out to your W&B team to enable SSO for your organization. 
 
 To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](./sso.md) or [SSO with LDAP](./ldap.md).
 :::
-
-### Auto provision users
-:::info
-The following workflow only applies to Dedicated cloud instances and Self-Managed deployments.
-:::
-
-A person in your company (someone who has the same domain as your company) can sign in to your W&B Organization with Single Sign-On (SSO) if SSO is set up and the SSO provider permits it.
-
 
 W&B assigned auto-provisioning users "Member" roles by default. You can change the role of auto-provisioned users at any time.
 
