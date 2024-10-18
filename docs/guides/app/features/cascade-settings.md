@@ -23,17 +23,24 @@ To edit settings that apply to the overall structure of this workspace:
 
 ### Workspace layout options
 
-Configure a workspace's layout to define the overall structure of the workspace.  including sectioning logic and panel organization. The proceeding table lists the settings you can apply to an entire workspace:
+Configure a workspace's layout to define the overall structure of the workspace.  including sectioning logic and panel organization. 
+
+![](/images/app_ui/workspace_layout_settings.png)
+
+The proceeding table lists the settings you can apply to an entire workspace:
 
 | Workspace setting | Description |
 | ----- | ----- |
 |  **Panel generation** | Enable W&B to generate a panel for each unique metric you log with the Python SDK. For more information, see [Activate or deactivate panel generation](./panels/intro.md#activate-or-deactivate-auto-generated-panels). |
 | **Hide empty sections during search** |  Hide sections that do not contain any panels when searching for a panel.|
 | **Sort panels alphabetically** | Sort panels in your workspaces alphabetically. |
+| **Section organization** | Remove all existing sections and panels and repopulate them with new section names. The newly populated sections are grouped wither by first or last prefix. |
 
 
 ### Line plots options
 Set global defaults and custom rules for line plots in a workspace by modifying the **Line plots** workspace settings.
+
+![](/images/app_ui/workspace_settings_line_plots.png)
 
 You can edit two main settings within **Line plots** settings: **Data** and **Display preferences**. The **Data** tab contains the following settings:
 
