@@ -105,20 +105,3 @@ Clearing panels in your workspace deactivates automatic panel generation.
 
 <!-- Delete a section -->
 
-## Organize workspace sections
-
-Group panels within sections in your organize to help organize your panels. Within a workspace section you can sort panels, rearrange panels, and rename the section name.
-
-### Rename a section
-1. Select the three horizontal dots (**...**) in the upper right corner of a section
-2. From the dropdown, select **Rename section**
-
-### Sort panels
-1. Select the three horizontal dots (**...**) in the upper right corner of a section
-2. From the dropdown, select **Sort panels A-Z** 
-
-### Rearrange panels
-
-Click and drag a panel within a section to manually order your panels:
-
-![](/images/app_ui/rearrange_panels.gif)
