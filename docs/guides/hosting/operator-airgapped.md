@@ -104,8 +104,10 @@ spec:
       bucket:
         accessKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        name: s3.yourdomain.com
+        name: s3.yourdomain.com:port #Ex.: s3.yourdomain.com:9000
+        path: bucket_name
         provider: s3
+        region: us-east-1
       mysql:
         database: wandb
         host: mysql.home.lab

@@ -223,6 +223,7 @@ export default {
             'guides/app/features/runs-table',
             'guides/app/features/tags',
             'guides/app/features/notes',
+            'guides/app/features/cascade-settings',
             {
               type: 'category',
               label: 'Settings',
@@ -380,8 +381,9 @@ export default {
             {
               type: 'category',
               label: 'Access management',
+              link: {type: 'doc', id: 'guides/hosting/iam/access-management-intro'},
               items: [
-                'guides/hosting/iam/manage-users',
+                'guides/hosting/iam/manage-organization',
                 'guides/hosting/iam/restricted-projects',
               ],
             },

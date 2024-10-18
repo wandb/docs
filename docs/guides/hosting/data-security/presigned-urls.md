@@ -9,7 +9,7 @@ When needed, AI workloads or user browser clients within your network request pr
 
 ## Team-level access control
 
-Each pre-signed URL is restricted to specific bucket(s) based on [team level access control](../iam/manage-users.md#manage-a-team) in the W&B platform. If a user is part of a team which is mapped to a blob storage bucket using [secure storage connector](./secure-storage-connector.md), and if that user is part of only that team, then the pre-signed URLs generated for their requests would not have permissions to access blob storage buckets mapped to other teams. 
+Each pre-signed URL is restricted to specific bucket(s) based on [team level access control](../iam/manage-organization.md#add-and-manage-teams) in the W&B platform. If a user is part of a team which is mapped to a blob storage bucket using [secure storage connector](./secure-storage-connector.md), and if that user is part of only that team, then the pre-signed URLs generated for their requests would not have permissions to access blob storage buckets mapped to other teams. 
 
 :::info
 W&B recommends adding users to only the teams that they are supposed to be a part of.
