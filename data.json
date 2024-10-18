@@ -269,6 +269,14 @@
       "to": "/quickstart"
     },
     {
+      "from" : "/guides/app/intro",
+      "to": "/guides/app/features/panels"
+    },
+    {
+      "from": "/guides/app/features/panels/run-colors",
+      "to": "/guides/app/features/runs-table"
+    },
+    {
       "from": "/guides/app//settings-page/team-settings",
       "to": "/guides/app/settings-page/team-settings"
     },
@@ -499,7 +507,11 @@
     },
     {
       "from": "/guides/hosting/manage-users",
-      "to": "/guides/hosting/iam/manage-users"
+      "to": "/guides/hosting/iam/manage-organization"
+    },
+    {
+      "from": "/guides/hosting/iam/manage-users",
+      "to": "/guides/hosting/iam/manage-organization"
     },
     {
       "from": "/guides/hosting/scim",
@@ -968,6 +980,10 @@
     {
       "from": "/guides/track/advanced",
       "to": "/guides/track"
+    },
+    {
+      "from": "/guides/track/app",
+      "to": "/guides/track/workspaces"
     },
     {
       "from": "/guides/track/advanced/alert",

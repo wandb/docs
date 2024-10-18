@@ -49,8 +49,6 @@ export default {
                 'guides/track/log/logging-faqs',
               ],
             },
-            'guides/track/app',
-            // 'guides/track/reproduce-experiments',
             'guides/track/jupyter',
             'guides/track/limits',
             'guides/track/public-api-guide',
@@ -172,7 +170,6 @@ export default {
         {
           type: 'category',
           label: 'W&B App UI Reference',
-          link: {type: 'doc', id: 'guides/app/intro'},
           items: [
             {
               type: 'category',
@@ -193,7 +190,6 @@ export default {
                   ],
                 },
                 'guides/app/features/panels/bar-plot',
-                'guides/app/features/panels/run-colors',
                 'guides/app/features/panels/parallel-coordinates',
                 'guides/app/features/panels/scatter-plot',
                 'guides/app/features/panels/code',
@@ -227,6 +223,7 @@ export default {
             'guides/app/features/runs-table',
             'guides/app/features/tags',
             'guides/app/features/notes',
+            'guides/app/features/cascade-settings',
             {
               type: 'category',
               label: 'Settings',
@@ -384,8 +381,9 @@ export default {
             {
               type: 'category',
               label: 'Access management',
+              link: {type: 'doc', id: 'guides/hosting/iam/access-management-intro'},
               items: [
-                'guides/hosting/iam/manage-users',
+                'guides/hosting/iam/manage-organization',
                 'guides/hosting/iam/restricted-projects',
               ],
             },
