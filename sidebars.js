@@ -223,6 +223,7 @@ export default {
             'guides/app/features/runs-table',
             'guides/app/features/tags',
             'guides/app/features/notes',
+            'guides/app/features/cascade-settings',
             {
               type: 'category',
               label: 'Settings',
