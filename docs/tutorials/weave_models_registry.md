@@ -6,7 +6,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 <CTAButtons colabLink='https://colab.research.google.com/drive/1Uqgel6cNcGdP7AmBXe2pR9u6Dejggsh8?usp=sharing'/>
 
 # Models and Weave - Integration Demo
-This notebook shows how W&B Weave can be used together with W&B Models. Specifically, we consider two different teams as part of this example.
+This notebook shows how W&B Weave can be used together with W&B Models. Specifically, two different teams are considered as part of this example.
 
 * **The Model Team:** the model building team fine-tunes a new Chat Model (Llama 3.2) and saves it to the registry using **W&B Models**.
 * **The App Team:** the app development team retrieves the Chat Model to to create and evaluate a new RAG Chatbot using **W&B Weave**.
@@ -15,19 +15,19 @@ Find the public workspace for both W&B Models and W&B Weave [here](https://wandb
 
 <img src="/images/tutorials/weave_models_workflow.jpg"  alt="Weights & Biases" />
 
-We'll cover the following steps as part of the workflow:
+The following steps are covered as part of the workflow:
 
-1. Instrument our RAG application code with W&B Weave
-2. Fine-tune an LLM (we've used Llama 3.2 but this can be replaced with any other LLM) and track it with W&B Models
-3. Log the fine-tuned model to the Registry
-4. Implement the RAG application with the new fine-tuned model and evaluate the application with W&B Weave
-5. Once we are happy with the results, we'll save a reference to our updated Rag app in the Registry
+1. Instrument the RAG app code with W&B Weave
+2. Fine-tune an LLM (such as Llama 3.2, but you can replace it with any other LLM) and track it with W&B Models
+3. Log the fine-tuned model to the [W&B Registry](https://docs.wandb.ai/guides/registry)
+4. Implement the RAG app with the new fine-tuned model and evaluate the application with W&B Weave
+5. Once satisfied with the results, save a reference to the updated Rag app in the W&B Registry
 
 **Note:**
-The `RagModel` referenced below is top-level `weave.Model` that can be considered a complete RAG Application. It contains a `ChatModel`, Vector database, and a Prompt. The `ChatModel` is also another `weave.Model` which contains the code to download an artifact from the W&B Registry and can be changed modularly to support any kind of other Chat Model as part of the `RagModel`. For more details see the complete model on Weave [here](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26). 
+The `RagModel` referenced below is top-level `weave.Model` that you can consider a complete RAG Application. It contains a `ChatModel`, Vector database, and a Prompt. The `ChatModel` is also another `weave.Model` which contains the code to download an artifact from the W&B Registry and it can be changed modularly to support any other Chat Model as part of the `RagModel`. For more details see the complete model on Weave [here](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26). 
 
 # 1. Setup
-We first have to install `weave` and `wandb` and login. We also set a couple of API keys that we might need.
+First, install `weave` and `wandb`, then log in. Set a couple of API keys that might be needed.
 
 ```bash
 pip install weave wandb
@@ -46,14 +46,14 @@ weave.init(ENTITY + "/" + PROJECT)
 ```
 
 # 2. Make `ChatModel` based on Artifact
-We retrieve the fine-tuned chat model from the Registry and create a `weave.Model` out of it that we can directly plug in to the [RagModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) in the next step. It takes in the same parameters as the existing [ChatModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) just the `init` and `predict` change.
+Retrieve the fine-tuned chat model from the Registry and create a `weave.Model` from it to directly plug into the [RagModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) in the next step. It takes in the same parameters as the existing [ChatModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) just the `init` and `predict` change.
 
 ```bash
 pip install unsloth
 pip uninstall unsloth -y && pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
 ```
 
-The model team fine-tuned different Llama-3.2 models using the `unsloth` library to make it faster. Hence we'll use the special `unsloth.FastLanguageModel` or `peft.AutoPeftModelForCausalLM` models with adapters to load in the model once we download it from the Registry. The loading code in the `model_post_init` can be simply copy & pasted from the "Use" tab in the Registry.
+The model team fine-tuned different Llama-3.2 models using the `unsloth` library to make it faster. Hence we'll use the special `unsloth.FastLanguageModel` or `peft.AutoPeftModelForCausalLM` models with adapters to load in the model once downloaded from the Registry. The loading code in the `model_post_init` can be copy and pasted from the "Use" tab in the Registry.
 
 ```python
 import weave
@@ -119,7 +119,7 @@ class UnslothLoRAChatModel(weave.Model):
         return "".join(decoded_outputs).strip()
 ```
 
-Now we create a new model with a specific link from our registry:
+Now create a new model with a specific link from the registry:
 
 ```python
 MODEL_REG_URL = "wandb32/wandb-registry-RAG Chat Models/Finetuned Llama-3.2:v3"
@@ -151,7 +151,7 @@ new_chat_model = UnslothLoRAChatModel(
  # 3. Integrate new `ChatModel` version into `RagModel`
 Building a RAG app from a fine-tuned chat model can provide several advantages, particularly in enhancing the performance and versatility of conversational AI systems.
 
-So we now retrieve the [RagModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) (you can fetch the weave ref for the current RagModel from the use tab as shown in the image below) from our existing Weave project and exchange the `ChatModel` to the new one. We don't need to change or re-create any of the other components (VDB, prompts, etc.)!
+Now retrieve the [RagModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) (you can fetch the weave ref for the current RagModel from the use tab as shown in the image below) from the existing Weave project and exchange the `ChatModel` to the new one. There is no need to change or re-create any of the other components (VDB, prompts, etc.)!
 
 <img src="/images/tutorials/weave-ref-1.png"  alt="Weights & Biases" />
 
@@ -165,21 +165,21 @@ RagModel = weave.ref(
 ).get()
 # MAGIC: exchange chat_model and publish new version (no need to worry about other RAG components)
 RagModel.chat_model = new_chat_model
-# first publish new version so that in prediction we reference new version
+# First publish new version so that in prediction we reference new version
 PUB_REFERENCE = weave.publish(RagModel, "RagModel")
 await RagModel.predict("When was the first conference on climate change?")
 ```
 
 # 4. Run new `weave.Evaluation` connecting to the existing models run
-Finally, we can evaluate our new `RagModel` on the existing `weave.Evaluation`. To make the integration as easy as possible we include the following changes. 
+Finally, evaluate our new `RagModel` on the existing `weave.Evaluation`. To make the integration as easy as possible we include the following changes. 
 
 From a Models perspective:
-- Getting the model from the registry will create a new `wandb.run` which will be part of the E2E lineage of the chat model
-- We add the trace ID (with current eval ID) to the run config so that the model team can simply click on the link to go to the corresponding Weave page
+- Getting the model from the registry creates a new `wandb.run` which is part of the E2E lineage of the chat model
+- Add the trace ID (with current eval ID) to the run config so that the model team can simply click on the link to go to the corresponding Weave page
 
 From a Weave perspective:
-- We save the artifact / registry link as input to the `ChatModel` (i.e. RagModel)
-- We save the run.id as extra column in the traces with `weave.attributes`
+- Save the artifact / registry link as input to the `ChatModel` (i.e. RagModel)
+- Save the run.id as extra column in the traces with `weave.attributes`
 
 ```python
 # MAGIC: we can simply get an evaluation with a eval dataset and scorers and use them
@@ -192,7 +192,7 @@ with weave.attributes({"wandb-run-id": wandb.run.id}):
 ```
 
 # 5. Save the new RAG Model on the Registry
-In order to effectively share the new RAG Model we push it to the Regsitry as a reference artifact adding in the weave version as an alias.
+In order to effectively share the new RAG Model, push it to the Registry as a reference artifact adding in the weave version as an alias.
 
 ```python
 MODELS_OBJECT_VERSION = PUB_REFERENCE.digest  # weave object version
