@@ -25,10 +25,10 @@ The workflow covers the following steps:
 5. Once satisfied with the results, save a reference to the updated Rag app in the W&B Registry
 
 **Note:**
-The `RagModel` referenced below is top-level `weave.Model` that you can consider a complete RAG Application. It contains a `ChatModel`, Vector database, and a Prompt. The `ChatModel` is also another `weave.Model` which contains the code to download an artifact from the W&B Registry and it can change modularly to support any other Chat Model as part of the `RagModel`. For more details see the complete model on Weave [here](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26). 
+The `RagModel` referenced below is top-level `weave.Model` that you can consider a complete RAG app. It contains a `ChatModel`, Vector database, and a Prompt. The `ChatModel` is also another `weave.Model` which contains the code to download an artifact from the W&B Registry and it can change to support any other chat model as part of the `RagModel`. For more details see [the complete model on Weave](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26). 
 
 # 1. Setup
-First, install `weave` and `wandb`, then log in. Set a couple of API keys that may be required.
+First, install `weave` and `wandb`, then log in with an API key. You can create and view your API keys at https://wandb.ai/settings. 
 
 ```bash
 pip install weave wandb
@@ -47,14 +47,14 @@ weave.init(ENTITY + "/" + PROJECT)
 ```
 
 # 2. Make `ChatModel` based on Artifact
-Retrieve the fine-tuned chat model from the Registry and create a `weave.Model` from it to directly plug into the [RagModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) in the next step. It takes in the same parameters as the existing [ChatModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) just the `init` and `predict` change.
+Retrieve the fine-tuned chat model from the Registry and create a `weave.Model` from it to directly plug into the [`RagModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) in the next step. It takes in the same parameters as the existing [ChatModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) just the `init` and `predict` change.
 
 ```bash
 pip install unsloth
 pip uninstall unsloth -y && pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
 ```
 
-The model team fine-tuned different Llama-3.2 models using the `unsloth` library to make it faster. Hence use the special `unsloth.FastLanguageModel` or `peft.AutoPeftModelForCausalLM` models with adapters to load in the model once downloaded from the Registry. The loading code in the `model_post_init` can be copy and pasted from the "Use" tab in the Registry.
+The model team fine-tuned different Llama-3.2 models using the `unsloth` library to make it faster. Hence use the special `unsloth.FastLanguageModel` or `peft.AutoPeftModelForCausalLM` models with adapters to load in the model once downloaded from the Registry. Copy the loading code from the "Use" tab in the Registry and paste it into `model_post_init`.
 
 ```python
 import weave
@@ -66,7 +66,7 @@ import torch
 
 class UnslothLoRAChatModel(weave.Model):
     """
-    Define an extra ChatModel class to be able store and version more parameters than just the model name.
+    Define an extra ChatModel class to store and version more parameters than just the model name.
     This enables fine-tuning on specific parameters.
     """
 
@@ -152,7 +152,7 @@ new_chat_model = UnslothLoRAChatModel(
  # 3. Integrate new `ChatModel` version into `RagModel`
 Building a RAG app from a fine-tuned chat model can provide several advantages, particularly in enhancing the performance and versatility of conversational AI systems.
 
-Now retrieve the [RagModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) (you can fetch the weave ref for the current RagModel from the use tab as shown in the image below) from the existing Weave project and exchange the `ChatModel` to the new one. There is no need to change or re-create any of the other components (VDB, prompts, etc.)!
+Now retrieve the [`RagModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) (you can fetch the weave ref for the current `RagModel` from the use tab as shown in the image below) from the existing Weave project and exchange the `ChatModel` to the new one. There is no need to change or re-create any of the other components (VDB, prompts, etc.)!
 
 <img src="/images/tutorials/weave-ref-1.png"  alt="Weights & Biases" />
 
@@ -176,10 +176,10 @@ Finally, evaluate the new `RagModel` on the existing `weave.Evaluation`. To make
 
 From a Models perspective:
 - Getting the model from the registry creates a new `wandb.run` which is part of the E2E lineage of the chat model
-- Add the Trace ID (with current Eval ID) to the run config so that the model team can simply click the link to go to the corresponding Weave page
+- Add the Trace ID (with current eval ID) to the run config so that the model team can click the link to go to the corresponding Weave page
 
 From a Weave perspective:
-- Save the artifact / registry link as input to the `ChatModel` (that is RagModel)
+- Save the artifact / registry link as input to the `ChatModel` (that is `RagModel`)
 - Save the run.id as extra column in the traces with `weave.attributes`
 
 ```python
@@ -189,10 +189,10 @@ climate_rag_eval = weave.ref(WEAVE_EVAL).get()
 
 with weave.attributes({"wandb-run-id": wandb.run.id}):
     # use .call attribute to retrieve both the result and the call in order to save eval trace to Models
-    summary, call = await climate_rag_eval.evaluate.call(climate_rag_eval, RagModel)
+    summary, call = await climate_rag_eval.evaluate.call(climate_rag_eval, `RagModel`)
 ```
 
-# 5. Save the new RAG Model on the Registry
+# 5. Save the new RAG model on the Registry
 In order to effectively share the new RAG Model, push it to the Registry as a reference artifact adding in the weave version as an alias.
 
 ```python
