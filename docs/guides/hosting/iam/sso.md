@@ -140,7 +140,7 @@ The OIDC issuer URL has the following format: https://COMPANY.okta.com. Replace 
   </TabItem>
 
 <TabItem value="entra">
-1. Login to the [Azure Portal](https://portal.azure.com/#home).
+1. Login to the Azure Portal at https://portal.azure.com/.
 
 2. Select "Microsoft Entra ID" service.
 ![](/images/hosting/entra_select_entra_service.png)
@@ -195,7 +195,7 @@ You should now have made notes of three values:
 - OIDC Client Secret
 - Tenant ID is needed for the OIDC Issuer URL
 
-The OIDC issuer URL has the following format: https://login.microsoftonline.com/${TenantID}/v2.0
+The OIDC issuer URL has the following format: `https://login.microsoftonline.com/${TenantID}/v2.0`
 
 </TabItem>
 
