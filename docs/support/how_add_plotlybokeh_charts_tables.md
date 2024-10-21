@@ -1,8 +1,10 @@
 ---
-title: "How do I add Plotly/Bokeh Charts into Tables?"
+title: "How do I add Plotly or Bokeh Charts into Tables?"
 tags:
    - experiments
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 Adding Plotly/Bokeh figures to Tables directly is not yet supported. Instead, write the figure to HTML and then add the HTML to the Table. Examples with interactive Plotly and Bokeh charts below.
 

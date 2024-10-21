@@ -3,6 +3,8 @@ title: "Do I need to provide values for all hyperparameters as part of the W&B S
 tags:
    - sweeps
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 The hyperparameter names and values specified as part of the sweep configuration are accessible in `wandb.config`, a dictionary-like object.
 

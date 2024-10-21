@@ -1,8 +1,10 @@
 ---
-title: "`InitStartError: Error communicating with wandb process` <a href="#init-start-error" id="init-start-error"></a>"
+title: "InitStartError: Error communicating with wandb process"
 tags:
    - experiments
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 This error indicates that the library is having difficulty launching the process which synchronizes data to the server.
 

@@ -3,6 +3,8 @@ title: "How can I find the artifacts logged or consumed by a run? How can I find
 tags:
    - artifacts
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 W&B automatically tracks the artifacts a given run has logged as well as the artifacts a given run has used and uses the information to construct an artifact graph -- a bipartite, directed, acyclic graph whose nodes are runs and artifacts, like [this one](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (click "Explode" to see the full graph).
 

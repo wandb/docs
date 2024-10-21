@@ -3,6 +3,8 @@ title: "Can I specify a Dockerfile and let W&B build a Docker image for me?"
 tags:
    - launch
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 Yes. This is particularly useful if you have a lot of requirements that do not change often, but you have a codebase that does change often.
 
