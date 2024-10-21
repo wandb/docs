@@ -6,7 +6,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 <CTAButtons colabLink='https://colab.research.google.com/drive/1Uqgel6cNcGdP7AmBXe2pR9u6Dejggsh8?usp=sharing'/>
 
 # Models and Weave - Integration Demo
-This notebook shows how W&B Weave can be used together with W&B Models. Specifically, two different teams are considered as part of this example.
+This notebook shows how to use W&B Weave together with W&B Models. Specifically, this example considers two different teams.
 
 * **The Model Team:** the model building team fine-tunes a new Chat Model (Llama 3.2) and saves it to the registry using **W&B Models**.
 * **The App Team:** the app development team retrieves the Chat Model to to create and evaluate a new RAG Chatbot using **W&B Weave**.
@@ -15,19 +15,19 @@ Find the public workspace for both W&B Models and W&B Weave [here](https://wandb
 
 <img src="/images/tutorials/weave_models_workflow.jpg"  alt="Weights & Biases" />
 
-The following steps are covered as part of the workflow:
+The workflow covers the following steps:
 
 1. Instrument the RAG app code with W&B Weave
 2. Fine-tune an LLM (such as Llama 3.2, but you can replace it with any other LLM) and track it with W&B Models
 3. Log the fine-tuned model to the [W&B Registry](https://docs.wandb.ai/guides/registry)
-4. Implement the RAG app with the new fine-tuned model and evaluate the application with W&B Weave
+4. Implement the RAG app with the new fine-tuned model and evaluate the app with W&B Weave
 5. Once satisfied with the results, save a reference to the updated Rag app in the W&B Registry
 
 **Note:**
-The `RagModel` referenced below is top-level `weave.Model` that you can consider a complete RAG Application. It contains a `ChatModel`, Vector database, and a Prompt. The `ChatModel` is also another `weave.Model` which contains the code to download an artifact from the W&B Registry and it can be changed modularly to support any other Chat Model as part of the `RagModel`. For more details see the complete model on Weave [here](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26). 
+The `RagModel` referenced below is top-level `weave.Model` that you can consider a complete RAG Application. It contains a `ChatModel`, Vector database, and a Prompt. The `ChatModel` is also another `weave.Model` which contains the code to download an artifact from the W&B Registry and it can change modularly to support any other Chat Model as part of the `RagModel`. For more details see the complete model on Weave [here](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26). 
 
 # 1. Setup
-First, install `weave` and `wandb`, then log in. Set a couple of API keys that might be needed.
+First, install `weave` and `wandb`, then log in. Set a couple of API keys that may be required.
 
 ```bash
 pip install weave wandb
@@ -53,7 +53,7 @@ pip install unsloth
 pip uninstall unsloth -y && pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
 ```
 
-The model team fine-tuned different Llama-3.2 models using the `unsloth` library to make it faster. Hence we'll use the special `unsloth.FastLanguageModel` or `peft.AutoPeftModelForCausalLM` models with adapters to load in the model once downloaded from the Registry. The loading code in the `model_post_init` can be copy and pasted from the "Use" tab in the Registry.
+The model team fine-tuned different Llama-3.2 models using the `unsloth` library to make it faster. Hence use the special `unsloth.FastLanguageModel` or `peft.AutoPeftModelForCausalLM` models with adapters to load in the model once downloaded from the Registry. The loading code in the `model_post_init` can be copy and pasted from the "Use" tab in the Registry.
 
 ```python
 import weave
@@ -171,14 +171,14 @@ await RagModel.predict("When was the first conference on climate change?")
 ```
 
 # 4. Run new `weave.Evaluation` connecting to the existing models run
-Finally, evaluate our new `RagModel` on the existing `weave.Evaluation`. To make the integration as easy as possible we include the following changes. 
+Finally, evaluate the new `RagModel` on the existing `weave.Evaluation`. To make the integration as easy as possible, include the following changes. 
 
 From a Models perspective:
 - Getting the model from the registry creates a new `wandb.run` which is part of the E2E lineage of the chat model
-- Add the trace ID (with current eval ID) to the run config so that the model team can simply click on the link to go to the corresponding Weave page
+- Add the Trace ID (with current Eval ID) to the run config so that the model team can simply click the link to go to the corresponding Weave page
 
 From a Weave perspective:
-- Save the artifact / registry link as input to the `ChatModel` (i.e. RagModel)
+- Save the artifact / registry link as input to the `ChatModel` (that is RagModel)
 - Save the run.id as extra column in the traces with `weave.attributes`
 
 ```python
