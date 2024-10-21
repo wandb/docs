@@ -5,11 +5,12 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx'
 
 <CTAButtons colabLink='https://colab.research.google.com/drive/1Uqgel6cNcGdP7AmBXe2pR9u6Dejggsh8?usp=sharing'/>
 
-# Models and Weave - Integration Demo
+# Models and Weave integration demo
+
 This notebook shows how to use W&B Weave together with W&B Models. Specifically, this example considers two different teams.
 
 * **The Model Team:** the model building team fine-tunes a new Chat Model (Llama 3.2) and saves it to the registry using **W&B Models**.
-* **The App Team:** the app development team retrieves the Chat Model to to create and evaluate a new RAG Chatbot using **W&B Weave**.
+* **The App Team:** the app development team retrieves the Chat Model to create and evaluate a new RAG chatbot using **W&B Weave**.
 
 Find the public workspace for both W&B Models and W&B Weave [here](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations).
 
@@ -65,8 +66,8 @@ import torch
 
 class UnslothLoRAChatModel(weave.Model):
     """
-    We define an extra ChatModel class to be able store and version more parameters than just the model name.
-    Especially, relevant if we consider fine-tuning (locally or aaS) because of specific parameters.
+    Define an extra ChatModel class to be able store and version more parameters than just the model name.
+    This enables fine-tuning on specific parameters.
     """
 
     chat_model: str
@@ -80,7 +81,7 @@ class UnslothLoRAChatModel(weave.Model):
     _tokenizer: Any = PrivateAttr()
 
     def model_post_init(self, __context):
-        # we can simply paste this from the "Use" tab from the registry
+        # paste this from the "Use" tab from the registry
         run = wandb.init(project=PROJECT, job_type="model_download")
         artifact = run.use_artifact(f"{self.chat_model}")
         model_path = artifact.download()
@@ -140,7 +141,7 @@ new_chat_model = UnslothLoRAChatModel(
 )
 ```
 
- And finally run the evaluation in async mode:
+ And finally run the evaluation asynchronously:
 
  ```python
  await new_chat_model.predict(
@@ -165,7 +166,7 @@ RagModel = weave.ref(
 ).get()
 # MAGIC: exchange chat_model and publish new version (no need to worry about other RAG components)
 RagModel.chat_model = new_chat_model
-# First publish new version so that in prediction we reference new version
+# First publish the new version so that it is referenced during predictions
 PUB_REFERENCE = weave.publish(RagModel, "RagModel")
 await RagModel.predict("When was the first conference on climate change?")
 ```
@@ -182,7 +183,7 @@ From a Weave perspective:
 - Save the run.id as extra column in the traces with `weave.attributes`
 
 ```python
-# MAGIC: we can simply get an evaluation with a eval dataset and scorers and use them
+# MAGIC: get an evaluation with a eval dataset and scorers and use them
 WEAVE_EVAL = "weave:///wandb-smle/weave-cookboook-demo/object/climate_rag_eval:ntRX6qn3Tx6w3UEVZXdhIh1BWGh7uXcQpOQnIuvnSgo"
 climate_rag_eval = weave.ref(WEAVE_EVAL).get()
 
