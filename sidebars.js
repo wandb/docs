@@ -548,5 +548,10 @@ export default {
       label: 'Launch Tutorials',
       items: ['tutorials/volcano', 'tutorials/minikube_gpu'],
     },
+    {
+      type: 'category',
+      label: 'Weave and Models Tutorials',
+      items: ['tutorials/weave_models_registry'],
+    },
   ],
 };
