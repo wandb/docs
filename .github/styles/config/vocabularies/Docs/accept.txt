@@ -1,6 +1,7 @@
 APIs
 AWS
 Autogenerate
+chatbot
 [Aa]utomations
 autolog
 [Bb]asename
@@ -22,6 +23,7 @@ Dockerfile
 [Dd]ownsampling
 [Ee]nqueued
 Entra
+[Ee]val
 GCP
 GPUs
 Helm
@@ -46,6 +48,7 @@ OpenID Connect
 Optuna
 [P]repended
 [Pp]seudocode
+[Rr]egistry
 SCIM
 SageMaker
 Security Assertion Markup Language
