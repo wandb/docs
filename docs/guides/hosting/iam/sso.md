@@ -163,7 +163,7 @@ If you're unable to log in to your instance after configuring SSO, you can resta
 
 ## Advanced configuration
 ### Custom scopes
-By default, W&B Server requires three OIDC scopes: `profile`, `oidc` and `email`. You can specify additional [scopes](https://auth0.com/docs/get-started/apis/scopes/openid-connect-scopes) that W&B should request from your identity provider.
+By default, W&B Server requires three OIDC scopes: `profile`, `openid` and `email`. You can specify additional [scopes](https://auth0.com/docs/get-started/apis/scopes/openid-connect-scopes) that W&B should request from your identity provider.
 
 ### Disable user provisioning
 To turn off user auto-provisioning in your W&B instance, set et the environment variable `DISABLE_SSO_PROVISIONING` to `true`.
