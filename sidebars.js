@@ -560,6 +560,6 @@ export default {
       id: 'support/index', // document ID
       label: 'Support', // sidebar label
     },
-    'support/tags-admin',
+    'support/adding_multiple_authors_report',
   ]
 };

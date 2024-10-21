@@ -1,5 +1,5 @@
 ---
-title: "My run's state is "crashed" on the UI but is still running on my machine. What do I do to get my data back?"
+title: "My run's state is `crashed` on the UI but is still running on my machine. What do I do to get my data back?"
 tags:
    - experiments
 ---
