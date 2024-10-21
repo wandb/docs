@@ -25,6 +25,7 @@ The workflow covers the following steps:
 5. Once satisfied with the results, save a reference to the updated Rag app in the W&B Registry
 
 **Note:**
+
 The `RagModel` referenced below is top-level `weave.Model` that you can consider a complete RAG app. It contains a `ChatModel`, Vector database, and a Prompt. The `ChatModel` is also another `weave.Model` which contains the code to download an artifact from the W&B Registry and it can change to support any other chat model as part of the `RagModel`. For more details see [the complete model on Weave](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26). 
 
 # 1. Setup
@@ -47,6 +48,7 @@ weave.init(ENTITY + "/" + PROJECT)
 ```
 
 # 2. Make `ChatModel` based on Artifact
+
 Retrieve the fine-tuned chat model from the Registry and create a `weave.Model` from it to directly plug into the [`RagModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) in the next step. It takes in the same parameters as the existing [ChatModel](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) just the `init` and `predict` change.
 
 ```bash
