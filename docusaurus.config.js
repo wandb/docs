@@ -152,8 +152,9 @@ const config = {
             ],
           },
           {
-            href: 'https://github.com/wandb/wandb',
-            html: 'GitHub<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
+            type: 'doc',
+            docId: 'support/index',
+            label: 'Support',
             position: 'right',
           },
           {
