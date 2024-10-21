@@ -109,7 +109,7 @@ The following image demonstrates how to: enable SSO, provide the OIDC Issuer, Cl
   <TabItem value="okta">
 
 
-1. Login to the [Okta Portal](https://login.okta.com/). 
+1. Login to the Okta Portal at https://login.okta.com/. 
 
 2. On the left side, select **Applications** and then **Applications** again.
 ![](/images/hosting/okta_select_applications.png)
