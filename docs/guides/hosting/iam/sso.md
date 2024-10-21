@@ -166,12 +166,12 @@ If you're unable to log in to your instance after configuring SSO, you can resta
 By default, W&B Server requires three OIDC scopes: `profile`, `oidc` and `email`. You can specify additional [scopes](https://auth0.com/docs/get-started/apis/scopes/openid-connect-scopes) that W&B should request from your identity provider.
 
 ### Disable user provisioning
-To disable user auto-provisioning in your W&B instance, set et the environment variable `DISABLE_SSO_PROVISIONING` to `true`.
+To turn off user auto-provisioning in your W&B instance, set et the environment variable `DISABLE_SSO_PROVISIONING` to `true`.
 
 ### Name and Username identifier claims
-To enforce the use of specific OIDC claims for usernames and full names, set the environment variable `GORILLA_USE_IDENTIFIER_CLAIMS` to `true`. When this is enabled, make sure that the `preferred_username` and `name` OIDC claims are properly configured to reflect the enforced username and full name, respectively. Usernames must only contain alphanumeric characters, underscores, or hyphens as allowed special characters.
+To enforce the use of specific OIDC claims for usernames and full names, set the environment variable `GORILLA_USE_IDENTIFIER_CLAIMS` to `true`. When you enable this, make sure that the `preferred_username` and `name` OIDC claims are properly configured to reflect the enforced username and full name, respectively. Usernames must only contain alphanumeric characters, underscores, or hyphens as allowed special characters.
 
-### OIDC Group claims
+### OIDC group claims
 To automate W&B team membership based on OIDC groups, set the environment variable `GORILLA_ENABLE_SSO_GROUP_CLAIMS` to `true`. This enables automatic synchronization of team memberships from your OIDC provider. Ensure the OIDC ID token includes a `groups` claim, which should be an array of strings. Each entry in this array represents the name of a W&B team the user belongs to, and it must include all teams the user is a part of.
 
 ## Security Assertion Markup Language (SAML)
