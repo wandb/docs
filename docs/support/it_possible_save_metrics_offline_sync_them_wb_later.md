@@ -6,7 +6,7 @@ tags:
 
 By default, `wandb.init` starts a process that syncs metrics in real time to our cloud hosted app. If your machine is offline, you don't have internet access, or you just want to hold off on the upload, here's how to run `wandb` in offline mode and sync later.
 
-You will need to set two [environment variables](./environment-variables.md).
+You will need to set two [environment variables](../guides/track/environment-variables.md).
 
 1. `WANDB_API_KEY=$KEY`, where `$KEY` is the API Key from your [settings page](https://app.wandb.ai/settings)
 2. `WANDB_MODE="offline"`

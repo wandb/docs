@@ -4,4 +4,4 @@ tags:
    - None
 ---
 
-You can check the different roles and permissions [here](../app/features/teams.md#team-roles-and-permissions).
+You can check the different roles and permissions [here](../guides/app/features/teams.md#team-roles-and-permissions).

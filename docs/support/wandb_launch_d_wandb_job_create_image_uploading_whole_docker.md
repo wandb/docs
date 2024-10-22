@@ -17,6 +17,6 @@ docker push <repo-url>:<tag>
 wandb launch -d <repo-url>:<tag>
 ```
 
-From there, the launch agent will spin up a job pointing to that container.  See [Advanced agent setup](./setup-agent-advanced.md#agent-configuration) for examples of how to give the agent access to pull an image from a container registry.
+From there, the launch agent will spin up a job pointing to that container.  See [Advanced agent setup](../guides/launch/setup-agent-advanced.md#agent-configuration) for examples of how to give the agent access to pull an image from a container registry.
 
 For Kubernetes, the Kubernetes cluster pods will need access to the registry you are pushing to.

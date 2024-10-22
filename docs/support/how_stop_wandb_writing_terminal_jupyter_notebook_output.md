@@ -6,7 +6,7 @@ tags:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Set the environment variable [`WANDB_SILENT`](../track/environment-variables.md) to `true`.
+Set the environment variable [`WANDB_SILENT`](../guides/track/environment-variables.md) to `true`.
 
 <Tabs
   defaultValue="python"

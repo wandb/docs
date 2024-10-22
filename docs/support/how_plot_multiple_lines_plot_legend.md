@@ -4,7 +4,7 @@ tags:
    - experiments
 ---
 
-Multi-line custom chart can be created by using `wandb.plot.line_series()`. You'll need to navigate to the [project page](../../app/pages/project-page.md) to see the line chart. To add a legend to the plot, pass the keys argument within `wandb.plot.line_series()`. For example:
+Multi-line custom chart can be created by using `wandb.plot.line_series()`. You'll need to navigate to the [project page](../guides/app/pages/project-page.md) to see the line chart. To add a legend to the plot, pass the keys argument within `wandb.plot.line_series()`. For example:
 
 ```python
 wandb.log(
@@ -16,4 +16,4 @@ wandb.log(
 )
 ```
 
-You can find more information about Multi-line plots [here](../../track/log/plots.md#basic-charts) under the Multi-line tab.
+You can find more information about Multi-line plots [here](../guides/track/log/plots.md#basic-charts) under the Multi-line tab.

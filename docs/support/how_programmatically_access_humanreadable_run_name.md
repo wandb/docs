@@ -4,7 +4,7 @@ tags:
    - experiments
 ---
 
-It's available as the `.name` attribute of a [`wandb.Run`](../../ref/python/run.md).
+It's available as the `.name` attribute of a [`wandb.Run`](../ref/python/run.md).
 
 ```python
 import wandb

@@ -4,4 +4,4 @@ tags:
    - None
 ---
 
-If you want to know more about teams, visit the [teams section](../app/features/teams.md).
+If you want to know more about teams, visit the [teams section](../guides/app/features/teams.md).

@@ -4,4 +4,4 @@ tags:
    - None
 ---
 
-Go to [this](../app/features/teams.md#team-roles-and-permissions) page to see the different roles and permissions available.
+Go to [this](../guides/app/features/teams.md#team-roles-and-permissions) page to see the different roles and permissions available.

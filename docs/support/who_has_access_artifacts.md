@@ -12,4 +12,4 @@ Artifacts inherit the access to their parent project:
 
 ## Questions about Artifacts workflows
 
-This section describes workflows for managing and editing Artifacts. Many of these workflows use [the W&B API](../track/public-api-guide.md), the component of [our client library](../../ref/python/README.md) which provides access to data stored with W&B.
+This section describes workflows for managing and editing Artifacts. Many of these workflows use [the W&B API](../guides/track/public-api-guide.md), the component of [our client library](../ref/python/README.md) which provides access to data stored with W&B.

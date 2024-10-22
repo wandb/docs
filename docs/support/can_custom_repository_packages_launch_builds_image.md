@@ -24,7 +24,7 @@ Launch detects whether a pod is preempted by a scheduler by checking if the pod 
 - `PreemptionByScheduler`
 - `TerminationByKubelet`
 
-If your job’s code is structured to allow resuming, it will enable these re-queued runs to pick up where they left off. Otherwise, runs will start from the beginning when they are re-queued. See our guide for [resuming runs](../runs/resuming.md) for more info.   
+If your job’s code is structured to allow resuming, it will enable these re-queued runs to pick up where they left off. Otherwise, runs will start from the beginning when they are re-queued. See our guide for [resuming runs](../guides/runs/resuming.md) for more info.   
 
 There is currently no way to opt out of automatic run re-queuing for preempted nodes. However, if you delete a run from the UI or delete the node directly, it will not be re-queued.
 

@@ -34,7 +34,7 @@ Include a file called `Dockerfile.wandb` in the  same directory as the W&B runâ€
   </TabItem>
   <TabItem value="cli">
 
-Provide the `--dockerfile` flag when you call queue a launch job with the [`wandb launch`](../../ref/cli/wandb-launch.md) command:
+Provide the `--dockerfile` flag when you call queue a launch job with the [`wandb launch`](../ref/cli/wandb-launch.md) command:
 
 ```bash
 wandb launch --dockerfile path/to/Dockerfile
