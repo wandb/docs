@@ -76,7 +76,7 @@ We'll then set up an Auth0 connection with the above details and enable SSO.
 
 ### What is a service account, and why is it useful?
 
-A service account (Enterprise-only feature) is supposed to represent a non-human or machine user, which can be used to automate common tasks across teams and projects or ones that are not specific to a particular human user. A service account is created within a team and has an API key that has permissions to write to projects within that team. 
+A service account (Enterprise-only feature) represents a non-human or machine user, which can automate common tasks across teams and projects or ones that are not specific to a particular human user. You can create a service account within a team and use its API key to read from and write to projects within that team.
 
 Among other things, service accounts are useful for tracking automated jobs logged to wandb, like periodic retraining, nightly builds, and so on. If you'd like, you can associate a username with one of these machine-launched runs with the [environment variables](../track/environment-variables.md) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
 
@@ -92,7 +92,7 @@ To create a new service account for your team:
 * Click the **Copy API key** button for the newly created service account and store it in a secret manager or another safe but accessible location
 
 :::info
-Apart from the **Built-in** service accounts, W&B also supports **External service accounts** using [identity federation for SDK and CLI](../hosting/iam/identity_federation.md#external-service-accounts). Use external service accounts if you are looking to automate W&B tasks using service identities managed in your identity provider that can issue JWTs.
+Apart from the **Built-in** service accounts, W&B also supports **External service accounts** using [identity federation for SDK and CLI](../hosting/iam/identity_federation.md#external-service-accounts). Use external service accounts if you are looking to automate W&B tasks using service identities managed in your identity provider that can issue JSON Web Tokens (JWT).
 :::
 
 ### How can I rotate or revoke access?
