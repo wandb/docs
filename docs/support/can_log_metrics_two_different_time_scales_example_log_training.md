@@ -3,8 +3,7 @@ title: "Can I log metrics on two different time scales? (For example, I want to 
 tags:
    - None
 ---
-
-Yes, you can do this by logging your indices (e.g. `batch` and `epoch`) whenever you log your other metrics. So in one step you could call `wandb.log({'train_accuracy': 0.9, 'batch': 200})` and in another step call `wandb.log({'val_accuracy': 0.8, 'epoch': 4})`. Then, in the UI, you can set the appropriate value as the x-axis for each chart. If you want to set the default x-axis of a particular index you can do so using by using [Run.define_metric()](../ref/python/run.md#define_metric). In our above example we could do the following:
+Yes, log indices like `batch` and `epoch` alongside your metrics. Use `wandb.log({'train_accuracy': 0.9, 'batch': 200})` in one step and `wandb.log({'val_accuracy': 0.8, 'epoch': 4})` in another. In the UI, set the desired value as the x-axis for each chart. To set a default x-axis for a specific index, use [Run.define_metric()](../ref/python/run.md#define_metric). For the example provided, use the following code:
 
 ```python
 wandb.init()

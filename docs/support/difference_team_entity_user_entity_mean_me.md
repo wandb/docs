@@ -3,5 +3,4 @@ title: "What is the difference between team and entity? As a user - what does en
 tags:
    - None
 ---
-
-A team is a collaborative workspace for a group of users working on the same projects, while an entity refers to either a username or a team name. When you log runs in W&B, you can set the entity to your personal account or a team account `wandb.init(entity="example-team")`.
+A team serves as a collaborative workspace for users working on the same projects. An entity represents either a username or a team name. When logging runs in W&B, set the entity to a personal or team account using `wandb.init(entity="example-team")`.

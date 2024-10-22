@@ -3,5 +3,4 @@ title: "How do I control who can push to a queue?"
 tags:
    - launch
 ---
-
-Queues are scoped to a team of users. You define the owning entity when you create the queue.  To restrict access, you can change the team membership.
+Queues are specific to a user team. Define the owning entity during queue creation. To restrict access, modify team membership.

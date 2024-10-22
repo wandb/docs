@@ -3,8 +3,7 @@ title: "How can I access the data logged to my runs directly and programmaticall
 tags:
    - experiments
 ---
-
-The history object is used to track metrics logged by `wandb.log`. Using [our API](../guides/track/public-api-guide.md), you can access the history object via `run.history()`.
+The history object tracks metrics logged with `wandb.log`. Access the history object using the API:
 
 ```python
 api = wandb.Api()

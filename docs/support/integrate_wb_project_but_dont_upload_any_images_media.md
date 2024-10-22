@@ -3,5 +3,4 @@ title: "What if I want to integrate W&B into my project, but I don't want to upl
 tags:
    - experiments
 ---
-
-W&B can be used even for projects that only log scalars — you specify any files or data you'd like to upload explicitly. Here's [a quick example in PyTorch](http://wandb.me/pytorch-colab) that does not log images.
+W&B supports projects that log only scalars by allowing explicit specification of files or data for upload. Refer to this [example in PyTorch](http://wandb.me/pytorch-colab) that demonstrates logging without using images.

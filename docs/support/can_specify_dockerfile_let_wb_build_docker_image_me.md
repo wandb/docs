@@ -6,18 +6,17 @@ tags:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Yes. This is particularly useful if you have a lot of requirements that do not change often, but you have a codebase that does change often.
+This feature suits projects with stable requirements but frequently changing codebases.
 
 :::important
-Ensure your Dockerfile is formatted to use mounts. For more information, see [Mounts documentation on the Docker Docs website](https://docs.docker.com/build/guide/mounts/). 
+Format your Dockerfile to use mounts. For further details, visit the [Mounts documentation on the Docker Docs website](https://docs.docker.com/build/guide/mounts/).
 :::
 
-Once your Dockerfile is configured, you can then specify your Dockerfile in one of three ways to W&B:
+After configuring the Dockerfile, specify it in one of three ways to W&B:
 
 * Use Dockerfile.wandb
-* W&B CLI
-* W&B App
-
+* Use W&B CLI
+* Use W&B App
 
 <Tabs
   defaultValue="dockerfile"
@@ -28,26 +27,23 @@ Once your Dockerfile is configured, you can then specify your Dockerfile in one 
   ]}>
   <TabItem value="dockerfile">
 
-Include a file called `Dockerfile.wandb` in the  same directory as the W&B run’s entrypoint.  W&B will use `Dockerfile.wandb` instead of W&B’s built-in Dockerfile.
-
+Include a `Dockerfile.wandb` file in the same directory as the W&B run's entrypoint. W&B utilizes this file instead of the built-in Dockerfile. 
 
   </TabItem>
   <TabItem value="cli">
 
-Provide the `--dockerfile` flag when you call queue a launch job with the [`wandb launch`](../ref/cli/wandb-launch.md) command:
+Use the `--dockerfile` flag with the `wandb launch` command to queue a job:
 
 ```bash
 wandb launch --dockerfile path/to/Dockerfile
 ```
 
-
   </TabItem>
   <TabItem value="app">
 
+When adding a job to a queue in the W&B App, provide the Dockerfile path in the **Overrides** section. Enter it as a key-value pair with `"dockerfile"` as the key and the path to the Dockerfile as the value.
 
-When you add a job to a queue on the W&B App, provide the path to your Dockerfile in the **Overrides** section. More specifically, provide it as a key-value pair where `"dockerfile"` is the key and the value is the path to your Dockerfile. 
-
-For example, the following JSON shows how to include a Dockerfile that is within a local directory:
+The following JSON demonstrates how to include a Dockerfile in a local directory:
 
 ```json title="Launch job W&B App"
 {
@@ -64,7 +60,5 @@ For example, the following JSON shows how to include a Dockerfile that is within
 
   </TabItem>
 </Tabs>
-
-
 
 ## Permissions and Resources

@@ -3,5 +3,4 @@ title: "How many runs to create per project?"
 tags:
    - None
 ---
-
-We recommend you have roughly 10k runs per project max for performance reasons.
+Limit each project to approximately 10,000 runs for optimal performance.

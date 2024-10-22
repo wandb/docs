@@ -3,21 +3,15 @@ title: "List of markdown shortcuts"
 tags:
    - reports
 ---
-
-| Markdown          | Shortcuts     |
-| ----------------- | ------------- |
-| Bold              | `*<content>*` |
-| Italics           | `_<content>_` |
-| List item         | `*` , `-`     |
-| Ordered list item | `1.`          |
-| Checklist         | `[]`          |
-| Blockquote        | `>` , `\|`    |
-| Heading 1         | `#`           |
-| Heading 2         | `##`          |
-| Heading 3         | `###`         |
-| Code block        | ` ``` `       |
-| Inline code       | `` ` ``       |
-| Callout block     | `>>>`         |
-| Horizontal rule   | `---`, `___`  |
-
-A comprehensive list of LaTeX can be found [here](https://en.wikibooks.org/wiki/LaTeX/Mathematics).
+| Markdown       | Shortcuts     |  
+|----------------|----------------|  
+| Headers        | `#`, `##`, `###`, etc.  |  
+| Bold           | `**text**` or `__text__` |  
+| Italics        | `*text*` or `_text_`     |  
+| Strikethrough  | `~~text~~`     |  
+| Unordered List | `* item` or `- item`   |  
+| Ordered List   | `1. item`      |  
+| Code           | `` `code` ``    |  
+| Blockquote     | `> quote`      |  
+| Link           | `[text](URL)`  |  
+| Image          | `![alt text](URL)` |

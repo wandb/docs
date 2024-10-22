@@ -3,5 +3,4 @@ title: "Who can create a team? Who can add or delete people from a team? Who can
 tags:
    - None
 ---
-
-You can check the different roles and permissions [here](../guides/app/features/teams.md#team-roles-and-permissions).
+Refer to the link for details on roles and permissions: [Team Roles and Permissions](../guides/app/features/teams.md#team-roles-and-permissions).

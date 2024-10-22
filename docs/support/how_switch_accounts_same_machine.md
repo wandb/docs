@@ -3,8 +3,7 @@ title: "How do I switch between accounts on the same machine?"
 tags:
    - None
 ---
-
-If you have two W&B accounts working from the same machine, you'll need a nice way to switch between your different API keys. You can store both API keys in a file on your machine then add code like the following to your repos. This is to avoid checking your secret key into a source control system, which is potentially dangerous.
+To manage two W&B accounts from the same machine, store both API keys in a file. Use the following code in your repositories to switch between keys securely, preventing secret keys from being checked into source control.
 
 ```python
 if os.path.exists("~/keys.json"):

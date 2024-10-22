@@ -3,5 +3,4 @@ title: "If wandb crashes, will it possibly crash my training run?"
 tags:
    - None
 ---
-
-It is extremely important to us that we never interfere with your training runs. We run wandb in a separate process to make sure that if wandb somehow crashes, your training will continue to run. If the internet goes out, wandb will continue to retry sending data to [wandb.ai](https://wandb.ai).
+It is critical to avoid interference with training runs. W&B operates in a separate process, ensuring that training continues even if W&B experiences a crash. In the event of an internet outage, W&B continually retries sending data to [wandb.ai](https://wandb.ai).

@@ -3,7 +3,6 @@ title: "How can I save the git commit associated with my run?"
 tags:
    - experiments
 ---
+When `wandb.init` is invoked, the system automatically collects git information, including the remote repository link and the SHA of the latest commit. This information appears on the [run page](../guides/app/pages/run-page.md). Ensure the current working directory when executing the script is within a git-managed folder to view this information.
 
-When `wandb.init` is called in your script, we automatically look for git information to save, including a link to a remote repo and the SHA of the latest commit. The git information should show up on your [run page](../guides/app/pages/run-page.md). If you aren't seeing it appear there, make sure that your shell's current working directory when executing your script is located in a folder managed by git.
-
-The git commit and command used to run the experiment are visible to you but are hidden to external users, so if you have a public project, these details will remain private.
+The git commit and the command used to run the experiment remain visible to the user but are hidden from external users. In public projects, these details remain private.

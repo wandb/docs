@@ -3,7 +3,6 @@ title: "What happens if internet connection is lost while I'm training a model?"
 tags:
    - None
 ---
+If the library cannot connect to the internet, it enters a retry loop and continues to attempt to stream metrics until the network is restored. The program continues to run during this time.
 
-If our library is unable to connect to the internet it will enter a retry loop and keep attempting to stream metrics until the network is restored. During this time your program is able to continue running.
-
-If you need to run on a machine without internet, you can set `WANDB_MODE=offline` to only have metrics stored locally on your hard drive. Later you can call `wandb sync DIRECTORY` to have the data streamed to our server.
+To run on a machine without internet, set `WANDB_MODE=offline`. This configuration stores metrics locally on the hard drive. Later, call `wandb sync DIRECTORY` to stream the data to the server.

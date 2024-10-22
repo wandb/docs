@@ -3,10 +3,9 @@ title: "How do I use custom CLI commands with sweeps?"
 tags:
    - sweeps
 ---
+You can use W&B Sweeps with custom CLI commands if training configuration passes command-line arguments.
 
-You can use W&B Sweeps with custom CLI commands if you normally configure some aspects of training by passing command line arguments.
-
-For example, the proceeding code snippet demonstrates a bash terminal where the user is training a Python script named train.py. The user passes in values that are then parsed within the Python script:
+In the example below, the code snippet illustrates a bash terminal where a user trains a Python script named `train.py`, providing values that the script parses:
 
 ```bash
 /usr/bin/env python train.py -b \
@@ -15,7 +14,7 @@ For example, the proceeding code snippet demonstrates a bash terminal where the 
     --lr 0.00001
 ```
 
-To use custom commands, edit the `command` key in your YAML file. For example, continuing the example above, that might look like so:
+To implement custom commands, modify the `command` key in the YAML file. Based on the previous example, the configuration appears as follows:
 
 ```yaml
 program:
@@ -35,9 +34,9 @@ command:
   - ${args}
 ```
 
-The `${args}` key expands to all the parameters in the sweep configuration file, expanded so they can be parsed by `argparse: --param1 value1 --param2 value2`
+The `${args}` key expands to all parameters in the sweep configuration, formatted for `argparse` as `--param1 value1 --param2 value2`.
 
-If you have extra arguments that you don't want to specify with `argparse` you can use:
+For additional arguments outside of `argparse`, implement the following:
 
 ```python
 parser = argparse.ArgumentParser()
@@ -45,7 +44,7 @@ args, unknown = parser.parse_known_args()
 ```
 
 :::info
-Depending on the environment, `python` might point to Python 2. To ensure Python 3 is invoked, use `python3` instead of `python` when configuring the command:
+Depending on the environment, `python` might refer to Python 2. To ensure invocation of Python 3, use `python3` in the command configuration:
 
 ```yaml
 program:

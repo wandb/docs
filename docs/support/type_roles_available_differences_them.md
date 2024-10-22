@@ -3,5 +3,4 @@ title: "What type of roles are available and what are the differences between th
 tags:
    - None
 ---
-
-Go to [this](../guides/app/features/teams.md#team-roles-and-permissions) page to see the different roles and permissions available.
+Visit [this](../guides/app/features/teams.md#team-roles-and-permissions) page for an overview of the available roles and permissions.

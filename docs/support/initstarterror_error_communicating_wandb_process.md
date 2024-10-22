@@ -6,9 +6,9 @@ tags:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-This error indicates that the library is having difficulty launching the process which synchronizes data to the server.
+This error indicates that the library encounters an issue launching the process that synchronizes data to the server.
 
-The following workarounds can help resolve the issue in certain environments:
+The following workarounds resolve the issue in specific environments:
 
 <Tabs
   defaultValue="linux"
@@ -21,10 +21,10 @@ The following workarounds can help resolve the issue in certain environments:
 ```python
 wandb.init(settings=wandb.Settings(start_method="fork"))
 ```
-</TabItem>
+  </TabItem>
   <TabItem value="google_colab">
 
-For versions prior to `0.13.0` we suggest using:
+For versions prior to `0.13.0`, use:
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))

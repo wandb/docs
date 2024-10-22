@@ -3,8 +3,7 @@ title: "Can I just set the run name to the run ID?"
 tags:
    - experiments
 ---
-
-If you'd like to overwrite the run name (like snowy-owl-10) with the run ID (like qvlp96vk) you can use this snippet:
+To overwrite the run name with the run ID, use the following code snippet:
 
 ```python
 import wandb

@@ -3,19 +3,17 @@ title: "What is the `Est. Runs` column?"
 tags:
    - sweeps
 ---
+W&B provides an estimated number of Runs generated when creating a W&B Sweep with a discrete search space. This total reflects the Cartesian product of the search space.
 
-W&B provides an estimated number of Runs that will occur when you create a W&B Sweep with a discrete search space. The total number of Runs is the cartesian product of the search space.
-
-For example, suppose you provide the following search space:
+For instance, consider the following search space:
 
 ![](/images/sweeps/sweeps_faq_whatisestruns_1.png)
 
-The cartesian product in this example is 9. W&B shows this number in the W&B App UI as the estimated run count (**Est. Runs**):
+In this case, the Cartesian product equals 9. W&B displays this value in the App UI as the estimated run count (**Est. Runs**):
 
 ![](/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp)
 
-
-You can obtain the estimated Run count with the W&B SDK as well. Use the Sweep object's `expected_run_count` attribute to obtain the estimated Run count:
+To retrieve the estimated Run count programmatically, use the `expected_run_count` attribute of the Sweep object within the W&B SDK:
 
 ```python
 sweep_id = wandb.sweep(

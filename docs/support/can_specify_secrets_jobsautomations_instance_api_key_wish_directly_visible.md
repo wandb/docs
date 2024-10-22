@@ -3,9 +3,9 @@ title: "Can you specify secrets for jobs/automations? For instance, an API key w
 tags:
    - launch
 ---
+Yes. Follow these steps:
 
-Yes. The suggested way is:
+1. Create a Kubernetes secret in the designated namespace for the runs using the command:  
+   `kubectl create secret -n <namespace> generic <secret_name> <secret_value>`
 
-  1. Add the secret as a vanilla k8s secret in the namespace where the runs will be created. something like `kubectl create secret -n <namespace> generic <secret_name> <secret value>`
-
- 2. Once that secret is created, you can specify a queue config to inject the secret when runs start. The end users cannot see the secret, only cluster admins can.
+2. After creating the secret, configure the queue to inject the secret when runs start. Only cluster administrators can view the secret; end users cannot see it.

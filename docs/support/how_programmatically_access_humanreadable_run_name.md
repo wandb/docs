@@ -3,8 +3,7 @@ title: "How do I programmatically access the human-readable run name?"
 tags:
    - experiments
 ---
-
-It's available as the `.name` attribute of a [`wandb.Run`](../ref/python/run.md).
+The `.name` attribute of a [`wandb.Run`](../ref/python/run.md) is accessible as follows:
 
 ```python
 import wandb

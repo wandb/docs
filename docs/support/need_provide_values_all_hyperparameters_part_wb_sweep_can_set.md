@@ -6,11 +6,11 @@ tags:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-The hyperparameter names and values specified as part of the sweep configuration are accessible in `wandb.config`, a dictionary-like object.
+Access hyperparameter names and values from the sweep configuration using `wandb.config`, which acts like a dictionary.
 
-For runs that are not part of a sweep, the values of `wandb.config` are usually set by providing a dictionary to the `config` argument of `wandb.init`. During a sweep, however, any configuration information passed to `wandb.init` is instead treated as a default value, which might be over-ridden by the sweep.
+For runs outside a sweep, set `wandb.config` values by passing a dictionary to the `config` argument in `wandb.init`. In a sweep, any configuration supplied to `wandb.init` serves as a default value, which the sweep can override.
 
-You can also be more explicit about the intended behavior by using `config.setdefaults`. Code snippets for both methods appear below:
+Use `config.setdefaults` for explicit behavior. The following code snippets illustrate both methods:
 
 <Tabs
   defaultValue="wandb.init"
@@ -21,13 +21,13 @@ You can also be more explicit about the intended behavior by using `config.setde
   <TabItem value="wandb.init">
 
 ```python
-# set default values for hyperparameters
+# Set default values for hyperparameters
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# start a run, providing defaults
-#   that can be over-ridden by the sweep
-with wandb.init(config=config_default) as run:
-    # add your training code here
+# Start a run and provide defaults
+# that a sweep can override
+with wandb.init(config=config_defaults) as run:
+    # Add training code here
     ...
 ```
 
@@ -35,15 +35,15 @@ with wandb.init(config=config_default) as run:
   <TabItem value="config.setdef">
 
 ```python
-# set default values for hyperparameters
+# Set default values for hyperparameters
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# start a run
+# Start a run
 with wandb.init() as run:
-    # update any values not set by sweep
+    # Update any values not set by the sweep
     run.config.setdefaults(config_defaults)
 
-    # add your training code here
+    # Add training code here
 ```
 
   </TabItem>

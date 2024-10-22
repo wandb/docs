@@ -3,6 +3,4 @@ title: "Best practices to organize hyperparameter searches"
 tags:
    - None
 ---
-
-If 10k runs per project (approx.) is a reasonable limit then our recommendation would be to set tags in `wandb.init()` and have a unique tag for each search. This means that you'll easily be able to filter the project down to a given search by clicking that tag in the Project Page in the Runs Table. For example `wandb.init(tags='your_tag')`  docs for this can be found [here](../ref/python/init.md).
-
+If the limit of 10,000 runs per project is reasonable, set unique tags in `wandb.init()` for each search. This allows efficient filtering of project runs by selecting the corresponding tag in the Project Page's Runs Table. For example, use `wandb.init(tags='your_tag')`. More documentation is available [here](../ref/python/init.md).

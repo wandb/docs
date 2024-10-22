@@ -3,8 +3,7 @@ title: "How do I find an artifact from the best run in a sweep?"
 tags:
    - artifacts
 ---
-
-You can use the following code to retrieve the artifacts associated with the best performing run in a sweep:
+To retrieve artifacts from the best performing run in a sweep, use the following code:
 
 ```python
 api = wandb.Api()

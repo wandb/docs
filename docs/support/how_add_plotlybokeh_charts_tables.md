@@ -6,7 +6,7 @@ tags:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Adding Plotly/Bokeh figures to Tables directly is not yet supported. Instead, write the figure to HTML and then add the HTML to the Table. Examples with interactive Plotly and Bokeh charts below.
+Direct integration of Plotly or Bokeh figures into tables is not supported. Instead, export the figures to HTML and include the HTML in the table. Below are examples demonstrating this with interactive Plotly and Bokeh charts.
 
 <Tabs
   defaultValue="plotly"
@@ -26,18 +26,17 @@ run = wandb.init(project="log-plotly-fig-tables", name="plotly_html")
 # Create a table
 table = wandb.Table(columns=["plotly_figure"])
 
-# Create path for Plotly figure
+# Define path for Plotly figure
 path_to_plotly_html = "./plotly_figure.html"
 
-# Example Plotly figure
+# Create a Plotly figure
 fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
-# Write Plotly figure to HTML
-# Setting auto_play to False prevents animated Plotly
-# charts from playing in the table automatically
+# Export Plotly figure to HTML
+# Setting auto_play to False prevents animated Plotly charts from playing automatically
 fig.write_html(path_to_plotly_html, auto_play=False)
 
-# Add Plotly figure as HTML file into Table
+# Add Plotly figure as HTML file to the table
 table.add_data(wandb.Html(path_to_plotly_html))
 
 # Log Table
@@ -59,12 +58,11 @@ from bokeh.resources import INLINE
 hv.extension("bokeh", logo=False)
 import wandb
 
-
 def save_audio_with_bokeh_plot_to_html(audio_path, html_file_name):
     sr, wav_data = wavfile.read(audio_path)
     duration = len(wav_data) / sr
     f, t, sxx = spectrogram(wav_data, sr)
-    spec_gram = hv.Image((t, f, np.log10(sxx)), ["Time (s)", "Frequency (hz)"]).opts(
+    spec_gram = hv.Image((t, f, np.log10(sxx)), ["Time (s)", "Frequency (Hz)"]).opts(
         width=500, height=150, labelled=[]
     )
     audio = pn.pane.Audio(wav_data, sample_rate=sr, name="Audio", throttle=500)
@@ -73,7 +71,6 @@ def save_audio_with_bokeh_plot_to_html(audio_path, html_file_name):
     slider.jslink(audio, value="time", bidirectional=True)
     slider.jslink(line, value="glyph.location")
     combined = pn.Row(audio, spec_gram * line, slider).save(html_file_name)
-
 
 html_file_name = "audio_with_plot.html"
 audio_path = "hello.wav"

@@ -3,5 +3,4 @@ title: "How can admins restrict what ML engineers have access to modify? For exa
 tags:
    - launch
 ---
-
-This can be controlled by [queue config templates](../guides/launch/setup-queue-advanced.md), which expose certain queuefields for non-team-admin users to edit within limits defined by admin users. Only team admins can create or edit queues, including defining which fields are exposed and the limits for them.
+Control access to certain queue fields for non-team-admin users through [queue config templates](../guides/launch/setup-queue-advanced.md). Team admins define which fields are exposed to non-admin users and set the editing limits. Only team admins have the ability to create or edit queues.

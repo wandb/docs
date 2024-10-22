@@ -3,9 +3,9 @@ title: "What requirements does the accelerator base image have?"
 tags:
    - launch
 ---
+For jobs utilizing an accelerator, provide a base image that includes the necessary accelerator components. Ensure the following requirements for the accelerator image:
 
-For jobs that use an accelerator, an accelerator base image with the required accelerator components installed can be provided. Other requirements for the provided accelerator image include:
-- Debian compatibility (the Launch Dockerfile uses apt-get to fetch python )
-- Compatibility CPU & GPU hardware instruction set (Make sure your CUDA version is supported by the GPU you intend on using)
-- Compatibility between the accelerator version you provide and the packages installed in your ML algorithm
-- Packages installed that require extra steps for setting up compatibility with hardware
+- Compatibility with Debian (the Launch Dockerfile uses apt-get to install Python)
+- Supported CPU and GPU hardware instruction set (confirm the CUDA version compatibility with the intended GPU)
+- Compatibility between the supplied accelerator version and the packages in the machine learning algorithm
+- Installation of packages that require additional steps for hardware compatibility

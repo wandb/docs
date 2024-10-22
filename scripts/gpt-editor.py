@@ -2,6 +2,12 @@ import sys
 from openai import OpenAI
 import os
 
+# This file uses GPT to do an edit pass on a markdown file. 
+#
+# Usage (run from root of repo):
+# OPENAI_API_KEY={key} python scripts/gpt-editor.py path/to/markdown-file.md
+
+
 if len(sys.argv) > 1:
     file = sys.argv[1]
 else:
@@ -19,7 +25,7 @@ client = OpenAI(
 )
 
 prompt = """
-Given a page comprised of the following markdown, rewrite the text for clarity, brevity, and adherence to the Google Technical Documentation style guide. Do not remove things like the import statements at the top of the markdown file as that is used to tell our markdown processor that it needs to import certain libraries to render the content correctly. Be sure to leave markup intact, as well, such as <TabItem> and <Tab> tags. Avoid the use of plural pronouns like "we" and the use of future tense, such as "W&B will do x,y,z." Avoid the use of Latin abbreviations such as "i.e." and "e.g." Do not wrap the output in triple tics or label it as markdown, it will be parsed as markdown already.
+Given a page comprised of the following markdown, rewrite the text for clarity, brevity, and adherence to the Google Technical Documentation style guide. Do not remove things like the import statements at the top of the markdown file as that is used to tell our markdown processor that it needs to import certain libraries to render the content correctly. Be sure to leave markup intact, as well, such as <TabItem> and <Tab> tags. Avoid the use of plural pronouns like "we." Avoid the use of future tense, such as "W&B will do x,y,z." Avoid the use of Latin abbreviations such as "i.e." and "e.g." Do not wrap the output in triple tics or label it as markdown, it will be parsed as markdown already. Remove any use of passive voice such as "be added." Do not use soft language like "may," "should," "might," and "maybe." Avoid use of problematic or non-inclusive language.
 """
 response = client.chat.completions.create(
   model="gpt-4o-mini",

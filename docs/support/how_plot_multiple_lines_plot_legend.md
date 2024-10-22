@@ -3,8 +3,7 @@ title: "How do I plot multiple lines on a plot with a legend?"
 tags:
    - experiments
 ---
-
-Multi-line custom chart can be created by using `wandb.plot.line_series()`. You'll need to navigate to the [project page](../guides/app/pages/project-page.md) to see the line chart. To add a legend to the plot, pass the keys argument within `wandb.plot.line_series()`. For example:
+Create a multi-line custom chart with `wandb.plot.line_series()`. Navigate to the [project page](../guides/app/pages/project-page.md) to view the line chart. To add a legend, include the `keys` argument in `wandb.plot.line_series()`. For example:
 
 ```python
 wandb.log(
@@ -16,4 +15,4 @@ wandb.log(
 )
 ```
 
-You can find more information about Multi-line plots [here](../guides/track/log/plots.md#basic-charts) under the Multi-line tab.
+Refer to additional details about multi-line plots [here](../guides/track/log/plots.md#basic-charts) under the Multi-line tab.

@@ -3,7 +3,6 @@ title: "Some use-cases where you can use [`wandb sync`](../../ref/cli/wandb-sync
 tags:
    - None
 ---
-
-* If you don’t have internet.
-* If you need to fully disable things.
-* To sync your run later due to any reason. For instance: if you want to avoid using resources on a training machine.
+* When experiencing no internet connection.
+* When requiring full system disablement.
+* When needing to sync your run later for reasons such as conserving resources on a training machine.

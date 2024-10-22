@@ -6,7 +6,7 @@ tags:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Yes! You can either install with `pip` or with `conda`. For the latter, you'll need to get the package from the [conda-forge](https://conda-forge.org) channel.
+You can install the package using either `pip` or `conda`. For `conda`, obtain the package from the [conda-forge](https://conda-forge.org) channel.
 
 <Tabs
   defaultValue="pip"
@@ -17,11 +17,11 @@ Yes! You can either install with `pip` or with `conda`. For the latter, you'll n
   <TabItem value="pip">
 
 ```bash
-# Create a conda env
+# Create a conda environment
 conda create -n wandb-env python=3.8 anaconda
-# Activate created env
+# Activate the environment
 conda activate wandb-env
-# install wandb with pip in this conda env
+# Install wandb using pip
 pip install wandb
 ```
 
@@ -36,5 +36,4 @@ conda install wandb --channel conda-forge
   </TabItem>
 </Tabs>
 
-
-If you run into issues with this install, please let us know. This Anaconda [doc on managing packages](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html) has some helpful guidance.
+For installation issues, refer to this Anaconda [documentation on managing packages](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html) for assistance.

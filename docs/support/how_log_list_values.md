@@ -6,7 +6,7 @@ tags:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<!-- Logging lists directly is not supported. Instead, list-like collections of numerical data are converted to [histograms](../../../ref/python/data-types/histogram.md). To log all of the entries in a list, give a name to each entry in the list and use those names as keys in a dictionary, as below. -->
+<!-- Logging lists directly is not supported. List-like collections of numerical data convert to [histograms](../../../ref/python/data-types/histogram.md). To log entries from a list, assign a name to each entry and use those names as keys in a dictionary, as shown below. -->
 
 <Tabs
   defaultValue="dictionary"
@@ -23,7 +23,7 @@ wandb.log({f"losses/loss-{ii}": loss for ii, loss in enumerate(losses)})
   <TabItem value="histogram">
 
 ```python
-wandb.log({"losses": wandb.Histogram(losses)})  # converts losses to a histogram
+wandb.log({"losses": wandb.Histogram(losses)})  # Converts losses to a histogram
 ```
   </TabItem>
 </Tabs>

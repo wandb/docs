@@ -3,9 +3,8 @@ title: "`LaunchError: Permission denied`"
 tags:
    - experiments
 ---
+If you encounter the error message `Launch Error: Permission denied`, it indicates insufficient permissions to log to the desired project. Possible causes include:
 
-If you're getting the error message `Launch Error: Permission denied`, you don't have permissions to log to the project you're trying to send runs to. This might be for a few different reasons.
-
-1. You aren't logged in on this machine. Run [`wandb login`](../ref/cli/wandb-login.md) on the command line.
-2. You've set an entity that doesn't exist. "Entity" should be your username or the name of an existing team. If you need to create a team, go to our [Subscriptions page](https://app.wandb.ai/billing).
-3. You don't have project permissions. Ask the creator of the project to set the privacy to **Open** so you can log runs to this project.
+1. You are not logged in on this machine. Run [`wandb login`](../ref/cli/wandb-login.md) in the command line.
+2. The specified entity does not exist. The entity must be your username or an existing team's name. Create a team if necessary via the [Subscriptions page](https://app.wandb.ai/billing).
+3. You lack project permissions. Request the project creator to change the privacy setting to **Open** to allow logging runs to the project.

@@ -3,13 +3,12 @@ title: "Who has access to my artifacts?"
 tags:
    - artifacts
 ---
+Artifacts inherit access permissions from their parent project:
 
-Artifacts inherit the access to their parent project:
+* In a private project, only team members can access artifacts.
+* In a public project, all users can read artifacts, while only team members can create or modify them.
+* In an open project, all users can read and write artifacts.
 
-* If the project is private, then only members of the project's team have access to its artifacts.
-* For public projects, all users have read access to artifacts but only members of the project's team can create or modify them.
-* For open projects, all users have read and write access to artifacts.
+## Artifacts Workflows
 
-## Questions about Artifacts workflows
-
-This section describes workflows for managing and editing Artifacts. Many of these workflows use [the W&B API](../guides/track/public-api-guide.md), the component of [our client library](../ref/python/README.md) which provides access to data stored with W&B.
+This section outlines workflows for managing and editing Artifacts. Many workflows utilize [the W&B API](../guides/track/public-api-guide.md), a component of [the client library](../ref/python/README.md) that provides access to W&B-stored data.

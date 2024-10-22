@@ -3,11 +3,10 @@ title: "What is the difference between `.log()` and `.summary`?"
 tags:
    - None
 ---
+The summary displays in the table, while the log saves all values for future plotting.
 
-The summary is the value that shows in the table while the log will save all the values for plotting later.
+For instance, call `wandb.log` whenever accuracy changes. By default, `wandb.log()` updates the summary value unless set manually for that metric.
 
-For example, you might want to call `wandb.log` every time the accuracy changes. Usually, you can just use .log. `wandb.log()` will also update the summary value by default unless you have set the summary manually for that metric
+The scatterplot and parallel coordinate plots use the summary value, while the line plot shows all values recorded by `.log`.
 
-The scatterplot and parallel coordinate plots will also use the summary value while the line plot plots all of the values set by .log
-
-The reason we have both is that some people like to set the summary manually because they want the summary to reflect for example the optimal accuracy instead of the last accuracy logged.
+Some users prefer to set the summary manually to reflect the optimal accuracy instead of the most recent accuracy logged.

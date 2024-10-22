@@ -3,21 +3,20 @@ title: "Is it possible to save metrics offline and sync them to W&B later?"
 tags:
    - experiments
 ---
+By default, `wandb.init` starts a process that syncs metrics in real time to the cloud. For offline use, set two environment variables to enable offline mode and sync later.
 
-By default, `wandb.init` starts a process that syncs metrics in real time to our cloud hosted app. If your machine is offline, you don't have internet access, or you just want to hold off on the upload, here's how to run `wandb` in offline mode and sync later.
+Set the following environment variables:
 
-You will need to set two [environment variables](../guides/track/environment-variables.md).
+1. `WANDB_API_KEY=$KEY`, where `$KEY` is the API Key from your [settings page](https://app.wandb.ai/settings).
+2. `WANDB_MODE="offline"`.
 
-1. `WANDB_API_KEY=$KEY`, where `$KEY` is the API Key from your [settings page](https://app.wandb.ai/settings)
-2. `WANDB_MODE="offline"`
-
-And here's a sample of what this would look like in your script:
+Here is an example of implementing this in a script:
 
 ```python
 import wandb
 import os
 
-os.environ["WANDB_API_KEY"] = YOUR_KEY_HERE
+os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"
 os.environ["WANDB_MODE"] = "offline"
 
 config = {
@@ -34,11 +33,11 @@ for i in range(100):
     wandb.log({"accuracy": i})
 ```
 
-Here's a sample terminal output:
+Sample terminal output is shown below:
 
 ![](/images/experiments/sample_terminal_output.png)
 
-And once you're ready, just run a sync command to send that folder to the cloud.
+After completing work, run the following command to sync data to the cloud:
 
 ```shell
 wandb sync wandb/dryrun-folder-name

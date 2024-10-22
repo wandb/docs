@@ -3,7 +3,6 @@ title: "Why is the same metric appearing more than once?"
 tags:
    - experiments
 ---
+When logging various data types under the same key, split them in the database. This results in multiple entries of the same metric name in the UI dropdown. The data types grouped are `number`, `string`, `bool`, `other` (primarily arrays), and any `wandb` data type such as `Histogram` or `Image`. Send only one type per key to prevent this issue.
 
-If you're logging different types of data under the same key, we have to split them out in our database. This means you'll see multiple entries of the same metric name in a dropdown in the UI. The types we group by are `number`, `string`, `bool`, `other` (mostly arrays), and any `wandb` data type (`Histogram`, `Image`, etc). Send only one type to each key to avoid this behavior.
-
-We store metrics in a case-insensitive fashion, so make sure you don't have two metrics with the same name like `"My-Metric"` and `"my-metric"`.
+Metrics are stored in a case-insensitive manner. Avoid using names that differ only by case, such as `"My-Metric"` and `"my-metric"`.

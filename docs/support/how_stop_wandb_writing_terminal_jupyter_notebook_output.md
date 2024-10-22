@@ -31,7 +31,7 @@ os.environ["WANDB_SILENT"] = "true"
   </TabItem>
   <TabItem value="command-line">
 
-```python
+```shell
 WANDB_SILENT=true
 ```
 

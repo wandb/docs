@@ -3,7 +3,6 @@ title: "Can you use W&B Sweeps with cloud infrastructures such as AWS Batch, ECS
 tags:
    - sweeps
 ---
+To publish the `sweep_id` so that any W&B Sweep agent can access it, implement a method for these agents to read and execute the `sweep_id`.
 
-In general, you would need a way to publish `sweep_id` to a location that any potential W&B Sweep agent can read and a way for these Sweep agents to consume this `sweep_id` and start running.
-
-In other words, you need something that can invoke `wandb agent`. For instance, bring up an EC2 instance and then call `wandb agent` on it. In this case, you might use an SQS queue to broadcast `sweep_id` to a few EC2 instances and then have them consume the `sweep_id` from the queue and start running.
+For example, launch an EC2 instance and execute `wandb agent` on it. Use an SQS queue to broadcast the `sweep_id` to multiple EC2 instances. Each instance can then retrieve the `sweep_id` from the queue and initiate the process.

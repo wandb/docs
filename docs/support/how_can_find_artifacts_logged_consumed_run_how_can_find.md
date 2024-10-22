@@ -6,9 +6,9 @@ tags:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-W&B automatically tracks the artifacts a given run has logged as well as the artifacts a given run has used and uses the information to construct an artifact graph -- a bipartite, directed, acyclic graph whose nodes are runs and artifacts, like [this one](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (click "Explode" to see the full graph).
+W&B tracks artifacts logged by each run and those used by each run to construct an artifact graph. This graph is a bipartite, directed, acyclic graph with nodes representing runs and artifacts. An example can be viewed [here](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (click "Explode" to expand the graph).
 
-You can walk this graph programmatically with [the Public API](../ref/python/public-api/README.md), starting from either a run or an artifact.
+Use the Public API to navigate the graph programmatically, starting from either an artifact or a run.
 
 <Tabs
   defaultValue="from_artifact"

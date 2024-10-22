@@ -3,5 +3,4 @@ title: "Does this only work for Python?"
 tags:
    - None
 ---
-
-Currently, the library only works with Python 2.7+ & 3.6+ projects. The architecture mentioned above should enable us to integrate with other languages easily. If you have a need for monitoring other languages, send us a note at [contact@wandb.com](mailto:contact@wandb.com).
+The library supports Python 2.7 and later, as well as Python 3.6 and later. The architecture facilitates integration with other programming languages. For monitoring other languages, contact [contact@wandb.com](mailto:contact@wandb.com).
