@@ -127,7 +127,7 @@ importer.import_all(
 )
 ```
 
-By default, imports are incremental. Subsequent imports try to validate the previous work and write to `.jsonl` files tracking success/failure. If an import succeeded, future validation is skipped. If an import failed, it is retried. To disable this, set `incremental=False`.
+By default, imports are incremental. Subsequent imports try to validate the previous work and write to `.jsonl` files tracking success/failure. If an import succeeded, future validation is skipped. If an import failed, it is retried. To turn this off, set `incremental=False`.
 
 ```py
 importer.import_all(

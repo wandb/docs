@@ -98,7 +98,7 @@ To change what channel alerts are sent to, click **Disconnect Slack** and then r
 
 ### Do "Run Finished" Alerts work in notebooks?
 
-No. **Run Finished** alerts (turned on with the **Run Finished** setting in User Settings) only work with Python scripts and are disabled in Jupyter Notebook environments to prevent alert notifications on every cell execution. 
+No. **Run Finished** alerts (turned on with the **Run Finished** setting in User Settings) only work with Python scripts and are turned off in Jupyter Notebook environments to prevent alert notifications on every cell execution. 
 
 Use `wandb.alert()` in notebook environments instead.
 

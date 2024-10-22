@@ -1,5 +1,5 @@
 ---
-title: "Can I disable wandb when testing my code?"
+title: "Can I turn off wandb when testing my code?"
 tags:
    - None
 ---

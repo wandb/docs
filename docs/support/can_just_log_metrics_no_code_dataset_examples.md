@@ -9,7 +9,7 @@ By default, the platform does not log dataset examples. Enable this feature to v
 
 **Code Logging**
 
-Two methods exist to disable code logging:
+Two methods exist to turn off code logging:
 
-1. Set `WANDB_DISABLE_CODE` to `true` to disable all code tracking. This action prevents retrieval of the git SHA and the diff patch.
+1. Set `WANDB_DISABLE_CODE` to `true` to turn off all code tracking. This action prevents retrieval of the git SHA and the diff patch.
 2. Set `WANDB_IGNORE_GLOBS` to `*.patch` to stop syncing the diff patch to the servers, while keeping it available locally for application with `wandb restore`.

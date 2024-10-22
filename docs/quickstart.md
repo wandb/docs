@@ -187,4 +187,4 @@ Yes, you can [privately host W&B](guides/hosting/) locally on your own machines 
 
 
 **How do I turn off wandb logging temporarily?**
-If are testing code and want to disable wandb syncing, set the environment variable [`WANDB_MODE=offline`](./guides/track/environment-variables).
+If are testing code and want to turn off wandb syncing, set the environment variable [`WANDB_MODE=offline`](./guides/track/environment-variables).

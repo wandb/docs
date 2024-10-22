@@ -116,7 +116,7 @@ Yes. To enable dark mode:
 2. Scroll to the **Beta Features** section.
 3. Toggle the **Night mode** option.
 
-### Can I disable wandb when testing my code?
+### Can I turn off wandb when testing my code?
 
 By using `wandb.init(mode="disabled")` or by setting `WANDB_MODE=disabled` you will make wandb act like a NOOP which is perfect for testing your code.
 

@@ -3,7 +3,6 @@ title: "How is W&B different from TensorBoard?"
 tags:
    - None
 ---
-import { Tab, TabItem } from 'example-library';
 
 W&B integrates with TensorBoard and improves experiment tracking tools. The founders created W&B to address common frustrations faced by TensorBoard users. Key improvements include:
 

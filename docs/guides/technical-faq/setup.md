@@ -22,7 +22,7 @@ You can check via API whether your run is offline by using `run.settings._offlin
 #### Some use-cases where you can use [`wandb sync`](../../ref/cli/wandb-sync.md)
 
 * If you don’t have internet.
-* If you need to fully disable things.
+* If you need to fully turn off things.
 * To sync your run later due to any reason. For instance: if you want to avoid using resources on a training machine.
 
 ### Does this only work for Python?
