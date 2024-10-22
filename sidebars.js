@@ -2,6 +2,7 @@ export default {
   default: [
     'guides/intro',
     'quickstart',
+    'guides/artifacts/meow',
     {
       type: 'category',
       label: 'W&B Models',
