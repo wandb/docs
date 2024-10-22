@@ -1,0 +1,60 @@
+/* Container for the card rows */
+.card-container {
+  display: flex;
+  justify-content: space-between; /* Add space between cards */
+  gap: 8px; /* Add some space between the cards */
+  margin-bottom: 16px; /* Space between rows */
+}
+
+.card {
+  margin: 8px;
+  display: block;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-yellow {
+  background-color: #FAC13C;
+}
+
+.card-gray {
+  background-color: #8E949E;
+}
+
+.card-blue {
+  background-color: #10BFCC;
+}
+
+/* Global hover text color for all cards */
+.card h2, .card p {
+  color: #000; /* Default text color */
+}
+
+.card:hover h2, .card:hover p {
+  color: white; /* Global hover text color (orange) */
+}
+
+/* Make sure the layout is responsive on smaller screens */
+@media (max-width: 768px) {
+  .card-container {
+    flex-direction: column; /* Stack the cards vertically on smaller screens */
+  }
+}
+
+h2 {
+  font-size: 20px;
+}
+
+p {
+  font-size: 16px;
+}
