@@ -5,8 +5,7 @@ import os
 # Specify the directory containing the markdown files
 directory = 'docs/support'
 tagList = []
-outputTemplate = """
----
+outputTemplate = """---
 title: {{tag}} 
 ---
 The following support questions are tagged with "{{tag}}". If you don't see 
