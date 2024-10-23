@@ -1,5 +1,6 @@
 ---
 title: "Will wandb slow down my training?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

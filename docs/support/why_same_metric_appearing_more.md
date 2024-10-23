@@ -1,5 +1,6 @@
 ---
 title: "Why is the same metric appearing more than once?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

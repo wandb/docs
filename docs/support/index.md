@@ -3,12 +3,6 @@ title: Weights & Biases Support Center
 ---
 import Card from '@site/src/components/Card';
 
-<Card href="index_charts" className="card-blue">
-  <h2>Charts</h2>
-</Card>
-<Card href="index_tensorboard" className="card-blue">
-  <h2>Tensorboard</h2>
-</Card>
 <Card href="index_administrator" className="card-blue">
   <h2>administrator</h2>
 </Card>

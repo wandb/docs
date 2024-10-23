@@ -55,6 +55,7 @@ for filename in os.listdir(directory):
                 if 'tags' in data: # 'tags' front-matter exists
                     if (data['tags']): # front-matter is not empty array i.e. []
                         for tag in data['tags']:
+                            tag = tag.lower().strip()
                             if tag not in tagList:
                                 tagList.append(tag)
                                 write_tag_page(tag)

@@ -1,5 +1,6 @@
 ---
 title: "Why is nothing showing up in my graphs?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Why is a run marked crashed in W&B when it’s training fine locally?"
+displayed_sidebar: support
 tags:
    - crashing and hanging runs
 ---

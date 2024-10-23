@@ -5,7 +5,7 @@ The following support questions are tagged with "Experiments". If you don't see
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).
 
-- [What does `wandb.init` do to my training process?](wandbinit_training_process.md)
+- [What does wandb.init do to my training process?](wandbinit_training_process.md)
 - [How can I compare images or media across epochs or steps?](how_can_compare_images_media_across_epochs_steps.md)
 - [Does your tool track or store training data?](tool_track_store_training_data.md)
 - [How do I launch multiple runs from one script?](how_launch_multiple_runs_one_script.md)
