@@ -555,5 +555,5 @@ export default {
       items: ['tutorials/weave_models_registry'],
     },
   ],
-  support: [{type: 'doc',id: 'support/index',label: 'Support',},'support/index_artifacts',]
+  support: [{type: 'doc',id: 'support/index',label: 'Support',},'support/index_none','support/index_artifacts','support/index_experiments','support/index_launch','support/index_reports','support/index_sweeps','support/index_wysiwyg',]
 };
