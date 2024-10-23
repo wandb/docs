@@ -19,3 +19,6 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [My report looks different after converting from Markdown.](report_looks_different_converting_markdown.md)
 - [Refreshing data](refreshing_data.md)
 - [Incorporating LaTeX](incorporating_latex.md)
+- [How to get multiple charts with different selected runs?](how_get_multiple_charts_different_selected_runs.md)
+- [List of markdown shortcuts](list_markdown_shortcuts.md)
+

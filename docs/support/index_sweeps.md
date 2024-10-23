@@ -14,6 +14,8 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [How should I run sweeps on SLURM?](how_should_run_sweeps_slurm.md)
 - [How do I enable code logging with Sweeps?](how_enable_code_logging_sweeps.md)
 - [Can we flag boolean variables as hyperparameters?](can_we_flag_boolean_variables_hyperparameters.md)
+- [How do I best log models from runs in a sweep?](how_best_log_models_runs_sweep.md)
+- [Best practices to organize hyperparameter searches](best_practices_organize_hyperparameter_searches.md)
 - [Do I need to provide values for all hyperparameters as part of the W&B Sweep. Can I set defaults?](need_provide_values_all_hyperparameters_part_wb_sweep_can_set.md)
 - [How do I use custom CLI commands with sweeps?](how_custom_cli_commands_sweeps.md)
 - [Is there a way to add extra values to a sweep, or do I need to start a new one?](there_way_add_extra_values_sweep_need_start_new_one.md)

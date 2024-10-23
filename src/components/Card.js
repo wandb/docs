@@ -4,7 +4,7 @@ import '@site/src/css/Card.css';
 
 const Card = ({ href, className, children }) => {
   return (
-    <a href={href} className={`card ${className}`} target="_blank" rel="noopener noreferrer">
+    <a href={href} className={`card ${className}`} rel="noopener noreferrer">
       {children}
     </a>
   );

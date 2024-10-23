@@ -555,5 +555,5 @@ export default {
       items: ['tutorials/weave_models_registry'],
     },
   ],
-  support: [{type: 'doc',id: 'support/index',label: 'Support',},'support/index_none','support/index_artifacts','support/index_experiments','support/index_launch','support/index_reports','support/index_sweeps','support/index_wysiwyg',]
+  support: [{type: 'doc',id: 'support/index',label: 'Support',},'support/index_charts','support/index_none','support/index_tensorboard','support/index_administrator','support/index_artifacts','support/index_aws','support/index_charts','support/index_crashing and hanging runs','support/index_environment variables','support/index_experiments','support/index_gcc','support/index_hyperparameter','support/index_launch','support/index_logs','support/index_reports','support/index_resuming','support/index_runs','support/index_runs table','support/index_sweeps','support/index_system metrics','support/index_tables','support/index_team management','support/index_tensorboard','support/index_wysiwyg',]
 };
