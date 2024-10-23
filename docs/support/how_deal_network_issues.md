@@ -1,5 +1,6 @@
 ---
 title: "How do I deal with network issues?"
+displayed_sidebar: support
 tags:
    - None
 ---

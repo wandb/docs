@@ -1,5 +1,6 @@
 ---
 title: "How do I log an artifact to an existing run?"
+displayed_sidebar: support
 tags:
    - artifacts
 ---

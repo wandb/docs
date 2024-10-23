@@ -1,5 +1,6 @@
 ---
 title: "How do I switch between accounts on the same machine?"
+displayed_sidebar: support
 tags:
    - environment variables
 ---

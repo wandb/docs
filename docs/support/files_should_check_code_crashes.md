@@ -1,5 +1,6 @@
 ---
 title: "Which files should I check when my code crashes?"
+displayed_sidebar: support
 tags:
    - logs
 ---

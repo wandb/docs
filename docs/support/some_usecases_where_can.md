@@ -1,5 +1,6 @@
 ---
 title: "Some use-cases where you can use [`wandb sync`](../../ref/cli/wandb-sync.md)"
+displayed_sidebar: support
 tags:
    - None
 ---

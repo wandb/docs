@@ -1,5 +1,6 @@
 ---
 title: "How can I find the artifacts logged or consumed by a run? How can I find the runs that produced or consumed an artifact?"
+displayed_sidebar: support
 tags:
    - artifacts
 ---

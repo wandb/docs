@@ -1,5 +1,6 @@
 ---
 title: "Adding multiple authors to a report"
+displayed_sidebar: support
 tags:
    - reports
 ---

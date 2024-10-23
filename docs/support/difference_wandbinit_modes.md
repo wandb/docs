@@ -1,5 +1,6 @@
 ---
 title: "What is the difference between wandb.init modes?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

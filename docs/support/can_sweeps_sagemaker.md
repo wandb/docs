@@ -1,5 +1,6 @@
 ---
 title: "Can I use Sweeps and SageMaker?"
+displayed_sidebar: support
 tags:
    - sweeps
    - aws

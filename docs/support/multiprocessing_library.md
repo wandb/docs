@@ -1,5 +1,6 @@
 ---
-title: "Does W&B uses the `multiprocessing` library?"
+title: "Does W&B use the `multiprocessing` library?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

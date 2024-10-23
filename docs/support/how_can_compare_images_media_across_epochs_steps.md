@@ -1,5 +1,6 @@
 ---
 title: "How can I compare images or media across epochs or steps?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

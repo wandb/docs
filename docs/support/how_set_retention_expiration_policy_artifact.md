@@ -1,5 +1,6 @@
 ---
 title: "How do I set a retention or expiration policy on my artifact?"
+displayed_sidebar: support
 tags:
    - artifacts
 ---

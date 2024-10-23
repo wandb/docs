@@ -1,5 +1,6 @@
 ---
 title: "Are there best practices for using Launch effectively?"
+displayed_sidebar: support
 tags:
    - launch
 ---

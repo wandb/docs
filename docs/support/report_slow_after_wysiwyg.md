@@ -1,5 +1,6 @@
 ---
 title: "My report is running slowly after the change to WYSIWYG"
+displayed_sidebar: support
 tags:
    - reports
    - wysiwyg

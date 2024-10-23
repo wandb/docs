@@ -1,5 +1,6 @@
 ---
 title: "Can Launch automatically provision (and spin down) compute resources for me in the target environment?"
+displayed_sidebar: support
 tags:
    - launch
    - aws

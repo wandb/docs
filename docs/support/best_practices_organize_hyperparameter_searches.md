@@ -1,5 +1,6 @@
 ---
 title: "Best practices to organize hyperparameter searches"
+displayed_sidebar: support
 tags:
    - hyperparameter
    - sweeps

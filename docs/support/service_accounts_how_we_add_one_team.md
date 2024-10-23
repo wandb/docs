@@ -1,5 +1,6 @@
 ---
 title: "What are service accounts, and how do we add one to our team?"
+displayed_sidebar: support
 tags:
    - None
 ---

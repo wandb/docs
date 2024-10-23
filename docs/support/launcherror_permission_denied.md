@@ -1,5 +1,6 @@
 ---
 title: "`LaunchError: Permission denied`"
+displayed_sidebar: support
 tags:
    - experiments
 ---

@@ -1,5 +1,6 @@
 ---
 title: "On a local instance, which files should I check when I have issues?"
+displayed_sidebar: support
 tags:
    - None
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Can I still use Markdown in my reports?"
+displayed_sidebar: support
 tags:
    - reports
    - wysiwyg

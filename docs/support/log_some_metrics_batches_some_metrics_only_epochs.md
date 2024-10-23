@@ -1,5 +1,6 @@
 ---
 title: "What if I want to log some metrics on batches and some metrics only on epochs?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

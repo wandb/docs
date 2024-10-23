@@ -1,5 +1,6 @@
 ---
 title: "How to get multiple charts with different selected runs?"
+displayed_sidebar: support
 tags:
    - reports
 ---

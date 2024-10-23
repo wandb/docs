@@ -1,5 +1,6 @@
 ---
 title: "What happens if I pass a class attribute into wandb.log()?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

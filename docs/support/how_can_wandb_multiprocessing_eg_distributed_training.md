@@ -1,5 +1,6 @@
 ---
 title: "How can I use wandb with multiprocessing, e.g. distributed training?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

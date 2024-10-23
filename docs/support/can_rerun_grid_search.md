@@ -1,5 +1,6 @@
 ---
 title: "Can I rerun a grid search?"
+displayed_sidebar: support
 tags:
    - sweeps
    - hyperparameter

@@ -1,5 +1,6 @@
 ---
-title: "How do I stop W&B from writing to my terminal or my jupyter notebook output?"
+title: "How do I stop wandb from writing to my terminal or my jupyter notebook output?"
+displayed_sidebar: support
 tags:
    - environment variables
 ---

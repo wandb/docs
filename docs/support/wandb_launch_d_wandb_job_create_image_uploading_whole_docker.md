@@ -1,5 +1,6 @@
 ---
 title: "Is `wandb launch -d` or `wandb job create image` uploading a whole docker artifact and not pulling from a registry?"
+displayed_sidebar: support
 tags:
    - launch
 ---

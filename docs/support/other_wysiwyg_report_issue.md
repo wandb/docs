@@ -1,5 +1,6 @@
 ---
 title: I have a problem with my WYSIWYG report that isn't addressed here
+displayed_sidebar: support
 tags:
    - reports
    - wysiwyg

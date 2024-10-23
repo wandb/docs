@@ -1,5 +1,6 @@
 ---
 title: "Upload an image to a report"
+displayed_sidebar: support
 tags:
    - reports
 ---

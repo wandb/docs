@@ -1,5 +1,6 @@
 ---
 title: "Can I run wandb offline?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Who can create a team? Who can add or delete people from a team? Who can delete projects?"
+displayed_sidebar: support
 tags:
    - None
 ---

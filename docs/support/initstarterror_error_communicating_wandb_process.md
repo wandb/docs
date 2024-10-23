@@ -1,5 +1,6 @@
 ---
 title: "InitStartError: Error communicating with wandb process"
+displayed_sidebar: support
 tags:
    - experiments
 ---

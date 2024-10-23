@@ -1,5 +1,6 @@
 ---
 title: "I do not want W&B to build a container for me, can I still use Launch?"
+displayed_sidebar: support
 tags:
    - launch
 ---

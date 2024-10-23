@@ -1,5 +1,6 @@
 ---
 title: "How can I save the git commit associated with my run?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

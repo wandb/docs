@@ -1,5 +1,6 @@
 ---
 title: "Does this only work for Python?"
+displayed_sidebar: support
 tags:
    - None
 ---

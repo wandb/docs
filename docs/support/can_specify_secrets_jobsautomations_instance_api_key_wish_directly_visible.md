@@ -1,5 +1,6 @@
 ---
 title: "Can you specify secrets for jobs/automations? For instance, an API key which you do not wish to be directly visible to users?"
+displayed_sidebar: support
 tags:
    - launch
 ---

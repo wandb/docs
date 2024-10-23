@@ -1,5 +1,6 @@
 ---
 title: "Is there a dark mode?"
+displayed_sidebar: support
 tags:
    - None
 ---

@@ -1,5 +1,6 @@
 ---
 title: "How do I get the random run name in my script?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

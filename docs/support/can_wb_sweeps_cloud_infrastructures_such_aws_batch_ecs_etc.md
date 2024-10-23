@@ -1,5 +1,6 @@
 ---
 title: "Can you use W&B Sweeps with cloud infrastructures such as AWS Batch, ECS, etc.?"
+displayed_sidebar: support
 tags:
    - sweeps
    - aws

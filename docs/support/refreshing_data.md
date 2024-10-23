@@ -1,5 +1,6 @@
 ---
 title: "Refreshing data"
+displayed_sidebar: support
 tags:
    - reports
 ---

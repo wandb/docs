@@ -1,5 +1,6 @@
 ---
 title: "Can I specify a Dockerfile and let W&B build a Docker image for me?"
+displayed_sidebar: support
 tags:
    - launch
 ---

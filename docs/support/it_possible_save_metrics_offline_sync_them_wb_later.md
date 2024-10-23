@@ -1,5 +1,6 @@
 ---
 title: "Is it possible to save metrics offline and sync them to W&B later?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

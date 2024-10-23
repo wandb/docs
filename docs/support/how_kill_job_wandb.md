@@ -1,5 +1,6 @@
 ---
 title: "How do I kill a job with wandb?"
+displayed_sidebar: support
 tags:
    - crashing and hanging runs
 ---

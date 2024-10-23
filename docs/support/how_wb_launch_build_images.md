@@ -1,5 +1,6 @@
 ---
 title: "How does W&B Launch build images?"
+displayed_sidebar: support
 tags:
    - launch
 ---

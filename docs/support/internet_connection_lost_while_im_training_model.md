@@ -1,5 +1,6 @@
 ---
 title: "What happens if internet connection is lost while I'm training a model?"
+displayed_sidebar: support
 tags:
    - None
 ---

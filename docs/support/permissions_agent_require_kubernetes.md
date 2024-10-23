@@ -1,5 +1,6 @@
 ---
 title: "What permissions does the agent require in Kubernetes?"
+displayed_sidebar: support
 tags:
    - launch
 ---

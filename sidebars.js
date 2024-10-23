@@ -555,12 +555,5 @@ export default {
       items: ['tutorials/weave_models_registry'],
     },
   ],
-  support: [
-    {
-      type: 'doc',
-      id: 'support/index', // document ID
-      label: 'Support', // sidebar label
-    },
-    'support/adding_multiple_authors_report',
-  ]
+  support: [{type: 'doc',id: 'support/index',label: 'Support',},'support/index_artifacts',]
 };

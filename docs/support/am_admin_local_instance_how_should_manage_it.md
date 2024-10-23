@@ -1,5 +1,6 @@
 ---
 title: "If I am the admin of my local instance, how should I manage it?"
+displayed_sidebar: support
 tags:
    - administrator
 ---

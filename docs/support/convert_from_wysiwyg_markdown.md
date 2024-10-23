@@ -1,5 +1,6 @@
 ---
 title: I converted my report to WYSIWYG but want to revert back to Markdown
+displayed_sidebar: support
 tags:
    - reports
    - wysiwyg

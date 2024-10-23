@@ -1,5 +1,6 @@
 ---
 title: "Does Launch support parallelization?  How can I limit the resources consumed by a job?"
+displayed_sidebar: support
 tags:
    - launch
 ---

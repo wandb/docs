@@ -1,5 +1,6 @@
 ---
 title: "What is the difference between `.log()` and `.summary`?"
+displayed_sidebar: support
 tags:
    - Charts
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Filter and delete unwanted reports"
+displayed_sidebar: support
 tags:
    - reports
 ---

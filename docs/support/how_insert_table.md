@@ -1,5 +1,6 @@
 ---
 title: How do I insert a table?
+displayed_sidebar: support
 tags:
    - reports
    - wysiwyg

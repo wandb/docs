@@ -1,5 +1,6 @@
 ---
 title: "What is a team and where can I find more information about it?"
+displayed_sidebar: support
 tags:
    - None
 ---
