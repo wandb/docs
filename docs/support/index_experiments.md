@@ -8,7 +8,6 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [How can I compare images or media across epochs or steps?](how_can_compare_images_media_across_epochs_steps.md)
 - [How do I launch multiple runs from one script?](how_launch_multiple_runs_one_script.md)
 - [How can I use wandb with multiprocessing, e.g. distributed training?](how_can_wandb_multiprocessing_eg_distributed_training.md)
-- [Does W&B uses the `multiprocessing` library?](wb_uses_multiprocessing_library.md)
 - [What if I want to integrate W&B into my project, but I don't want to upload any images or media?](integrate_wb_project_but_dont_upload_any_images_media.md)
 - [What if I want to log some metrics on batches and some metrics only on epochs?](log_some_metrics_batches_some_metrics_only_epochs.md)
 - [How can I access the data logged to my runs directly and programmatically?](how_can_access_data_logged_runs_directly_programmatically.md)
@@ -30,3 +29,4 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [My run's state is `crashed` on the UI but is still running on my machine. What do I do to get my data back?](runs_state_crashed_ui_but_still_running_machine_get_data.md)
 - [`LaunchError: Permission denied`](launcherror_permission_denied.md)
 - [How do I programmatically access the human-readable run name?](how_programmatically_access_humanreadable_run_name.md)
+- [Does W&B use the `multiprocessing` library?](multiprocessing_library.md)

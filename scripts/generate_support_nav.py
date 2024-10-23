@@ -63,11 +63,18 @@ for filename in os.listdir(directory):
             except Exception as error:
                 print("ERROR:",error,file_path)
 
-# Load the JSON file
-with open('sidebars.js') as f:
-    data = json.load(f)
-
-# Access a specific node
-node_value = data['support']
+# Rewrite support section sidebar
+sidebar_prefix = "  support: [{type: 'doc',id: 'support/index',label: 'Support',},"
+topic_additions = ""
+sidebar_suffix = "]"
+tagList.sort()
+with open('sidebars.js', 'r') as infile, open('output.txt', 'w') as outfile:
+    for line in infile:
+        if sidebar_prefix in line:
+            for tag in tagList:
+                topic_additions += "'support/index_" + tag.lower() + "',"
+            line = sidebar_prefix + topic_additions + sidebar_suffix + '\n'
+        outfile.write(line)
+os.remove('sidebars.js')
+os.rename('output.txt', 'sidebars.js')
 print(tagList)
-print(node_value)
