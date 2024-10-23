@@ -6,14 +6,14 @@ import Card from '@site/src/components/Card';
 <Card href="index_charts" className="card-blue">
   <h2>Charts</h2>
 </Card>
-<Card href="index_none" className="card-blue">
-  <h2>None</h2>
-</Card>
 <Card href="index_tensorboard" className="card-blue">
   <h2>Tensorboard</h2>
 </Card>
 <Card href="index_administrator" className="card-blue">
   <h2>administrator</h2>
+</Card>
+<Card href="index_adminstrator" className="card-blue">
+  <h2>adminstrator</h2>
 </Card>
 <Card href="index_artifacts" className="card-blue">
   <h2>artifacts</h2>
@@ -23,6 +23,9 @@ import Card from '@site/src/components/Card';
 </Card>
 <Card href="index_charts" className="card-blue">
   <h2>charts</h2>
+</Card>
+<Card href="index_connectivity" className="card-blue">
+  <h2>connectivity</h2>
 </Card>
 <Card href="index_crashing and hanging runs" className="card-blue">
   <h2>crashing and hanging runs</h2>
@@ -42,17 +45,20 @@ import Card from '@site/src/components/Card';
 <Card href="index_launch" className="card-blue">
   <h2>launch</h2>
 </Card>
+<Card href="index_local" className="card-blue">
+  <h2>local</h2>
+</Card>
 <Card href="index_logs" className="card-blue">
   <h2>logs</h2>
+</Card>
+<Card href="index_other" className="card-blue">
+  <h2>other</h2>
 </Card>
 <Card href="index_reports" className="card-blue">
   <h2>reports</h2>
 </Card>
 <Card href="index_resuming" className="card-blue">
   <h2>resuming</h2>
-</Card>
-<Card href="index_runs" className="card-blue">
-  <h2>runs</h2>
 </Card>
 <Card href="index_runs table" className="card-blue">
   <h2>runs table</h2>
@@ -71,6 +77,15 @@ import Card from '@site/src/components/Card';
 </Card>
 <Card href="index_tensorboard" className="card-blue">
   <h2>tensorboard</h2>
+</Card>
+<Card href="index_user management" className="card-blue">
+  <h2>user management</h2>
+</Card>
+<Card href="index_workspace" className="card-blue">
+  <h2>workspace</h2>
+</Card>
+<Card href="index_workspaces" className="card-blue">
+  <h2>workspaces</h2>
 </Card>
 <Card href="index_wysiwyg" className="card-blue">
   <h2>wysiwyg</h2>

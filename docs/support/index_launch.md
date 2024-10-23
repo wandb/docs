@@ -18,5 +18,6 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [I do not want W&B to build a container for me, can I still use Launch?](wb_build_container_me_can_still_launch.md)
 - [Does Launch support parallelization?  How can I limit the resources consumed by a job?](launch_support_parallelization_how_can_limit_resources_consumed_job.md)
 - [Can I specify a Dockerfile and let W&B build a Docker image for me?](can_specify_dockerfile_let_wb_build_docker_image_me.md)
+- [`LaunchError: Permission denied`](launcherror_permission_denied.md)
 - [Is `wandb launch -d` or `wandb job create image` uploading a whole docker artifact and not pulling from a registry?](wandb_launch_d_wandb_job_create_image_uploading_whole_docker.md)
 - [How does W&B Launch build images?](how_wb_launch_build_images.md)

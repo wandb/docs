@@ -5,7 +5,9 @@ The following support questions are tagged with "Experiments". If you don't see
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).
 
+- [What does `wandb.init` do to my training process?](wandbinit_training_process.md)
 - [How can I compare images or media across epochs or steps?](how_can_compare_images_media_across_epochs_steps.md)
+- [Does your tool track or store training data?](tool_track_store_training_data.md)
 - [How do I launch multiple runs from one script?](how_launch_multiple_runs_one_script.md)
 - [How can I use wandb with multiprocessing, e.g. distributed training?](how_can_wandb_multiprocessing_eg_distributed_training.md)
 - [How can I configure the name of the run in my training code?](how_can_configure_name_run_training_code.md)
@@ -16,6 +18,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [Can I just set the run name to the run ID?](can_just_set_run_name_run_id.md)
 - [How can I organize my logged charts and media in the W&B UI?](how_can_organize_logged_charts_media_wb_ui.md)
 - [Can I run wandb offline?](can_run_wandb_offline.md)
+- [Does logging block my training?](logging_block_training.md)
 - [What happens if I pass a class attribute into wandb.log()?](pass_class_attribute_wandblog.md)
 - [What is the difference between wandb.init modes?](difference_wandbinit_modes.md)
 - [Can I log metrics on two different time scales?](can_log_metrics_two_different_time_scales_example_log_training.md)
@@ -30,7 +33,9 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [Why am I seeing fewer data points than I logged?](why_am_seeing_fewer_data_points_logged.md)
 - [How do I log a list of values?](how_log_list_values.md)
 - [I didn't name my run. Where is the run name coming from?](didnt_name_run_where_run_name_coming.md)
+- [Will wandb slow down my training?](will_wandb_slow_training.md)
 - [My run's state is `crashed` on the UI but is still running on my machine. What do I do to get my data back?](runs_state_crashed_ui_but_still_running_machine_get_data.md)
+- [How many runs to create per project?](how_many_runs_create_per_project.md)
 - [`LaunchError: Permission denied`](launcherror_permission_denied.md)
 - [How do I programmatically access the human-readable run name?](how_programmatically_access_humanreadable_run_name.md)
 - [Does W&B use the `multiprocessing` library?](multiprocessing_library.md)
