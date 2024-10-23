@@ -2,8 +2,9 @@
 title: "What is the `Est. Runs` column?"
 tags:
    - sweeps
+   - hyperparameter
 ---
-W&B provides an estimated number of Runs generated when creating a W&B Sweep with a discrete search space. This total reflects the Cartesian product of the search space.
+W&B provides an estimated number of Runs generated when creating a W&B Sweep with a discrete search space. This total reflects the cartesian product of the search space.
 
 For instance, consider the following search space:
 

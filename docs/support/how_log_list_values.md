@@ -6,7 +6,6 @@ tags:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<!-- Logging lists directly is not supported. List-like collections of numerical data convert to [histograms](../../../ref/python/data-types/histogram.md). To log entries from a list, assign a name to each entry and use those names as keys in a dictionary, as shown below. -->
 
 <Tabs
   defaultValue="dictionary"

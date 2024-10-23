@@ -1,7 +1,7 @@
 ---
 title: "Can I run wandb offline?"
 tags:
-   - None
+   - experiments
 ---
 If training occurs on an offline machine, use the following steps to upload results to the servers:
 

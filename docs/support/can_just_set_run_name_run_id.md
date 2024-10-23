@@ -3,7 +3,8 @@ title: "Can I just set the run name to the run ID?"
 tags:
    - experiments
 ---
-To overwrite the run name with the run ID, use the following code snippet:
+
+Yes. To overwrite the run name with the run ID, use the following code snippet:
 
 ```python
 import wandb

@@ -2,8 +2,9 @@
 title: "Can I use Sweeps and SageMaker?"
 tags:
    - sweeps
+   - aws
 ---
-To authenticate W&B, complete the following steps: create a `requirements.txt` file if using a built-in SageMaker estimator. For details on authentication and setting up the `requirements.txt` file, refer to the [SageMaker integration](../guides/integrations/other/sagemaker.md) guide.
+To authenticate W&B, complete the following steps: create a `requirements.txt` file if using a built-in Amazon SageMaker estimator. For details on authentication and setting up the `requirements.txt` file, refer to the [SageMaker integration](../guides/integrations/other/sagemaker.md) guide.
 
 :::info
 Find a complete example on [GitHub](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cifar10-sagemaker) and additional insights on our [blog](https://wandb.ai/site/articles/running-sweeps-with-sagemaker).\

@@ -5,4 +5,4 @@ tags:
    - wysiwyg
 ---
 
-Select the panel grid and press delete or backspace. Click the drag handle in the top-right corner to easily select the panel grid.
+Select the panel grid and press delete or backspace. Click the drag handle in the top-right corner to select the panel grid.

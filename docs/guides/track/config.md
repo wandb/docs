@@ -8,7 +8,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 <CTAButtons colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb"></CTAButtons>
 
 Use the `wandb.config` object to save your training configuration such as: 
-- hyperparameters
+- hyperparameter
 - input settings such as the dataset name or model type
 - any other independent variables for your experiments. 
 

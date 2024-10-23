@@ -61,4 +61,3 @@ The following JSON demonstrates how to include a Dockerfile in a local directory
   </TabItem>
 </Tabs>
 
-## Permissions and Resources

@@ -1,7 +1,7 @@
 ---
 title: "How do I install the wandb Python library in environments without gcc?"
 tags:
-   - None
+   - gcc
 ---
 If an error occurs when installing `wandb` that states:
 

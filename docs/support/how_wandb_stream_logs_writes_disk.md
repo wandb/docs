@@ -1,7 +1,7 @@
 ---
 title: "How does wandb stream logs and writes to disk?"
 tags:
-   - None
+   - environment variables
 ---
 W&B queues events in memory and writes them to disk asynchronously to manage failures and support the `WANDB_MODE=offline` configuration, allowing synchronization after logging.
 

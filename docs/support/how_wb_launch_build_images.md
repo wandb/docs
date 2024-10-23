@@ -20,5 +20,4 @@ When configuring a queue or submitting a job, include a base accelerator image i
 
 The build process includes the following actions based on the job type and provided accelerator base image:
 
-|                                                     | Install Python using apt | Install Python packages | Create a user and workdir | Copy code into image | Set entrypoint |
-|
+| | Install Python using apt | Install Python packages | Create a user and workdir | Copy code into image | Set entrypoint | |

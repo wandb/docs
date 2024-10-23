@@ -15,4 +15,4 @@ wandb.log(
 )
 ```
 
-Refer to additional details about multi-line plots [here](../guides/track/log/plots.md#basic-charts) under the Multi-line tab.
+Refer to additional details about multi-line plots [here](../guides/track/log/plots.md#basic-charts) under the **Multi-line** tab.

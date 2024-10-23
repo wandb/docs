@@ -1,7 +1,7 @@
 ---
 title: "What is the difference between `.log()` and `.summary`?"
 tags:
-   - None
+   - Charts
 ---
 The summary displays in the table, while the log saves all values for future plotting.
 

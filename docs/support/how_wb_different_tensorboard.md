@@ -1,7 +1,7 @@
 ---
 title: "How is W&B different from TensorBoard?"
 tags:
-   - None
+   - tensorboard
 ---
 
 W&B integrates with TensorBoard and improves experiment tracking tools. The founders created W&B to address common frustrations faced by TensorBoard users. Key improvements include:
@@ -17,5 +17,3 @@ W&B integrates with TensorBoard and improves experiment tracking tools. The foun
 5. **Robust Filtering Table**: Search, filter, sort, and group results from various models efficiently. Easily identify the best-performing models for different tasks, an area where TensorBoard often struggles with larger projects.
 
 6. **Collaboration Tools**: W&B enhances collaboration for complex machine learning projects. Share project links and utilize private teams for result sharing. Create reports with interactive visualizations and markdown descriptions for work logs or presentations.
-
-Create a [free account](http://app.wandb.ai) to start using W&B.

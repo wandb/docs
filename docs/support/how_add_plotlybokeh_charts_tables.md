@@ -2,6 +2,8 @@
 title: "How do I add Plotly or Bokeh Charts into Tables?"
 tags:
    - experiments
+   - tables
+   - charts
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

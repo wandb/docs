@@ -3,6 +3,6 @@ title: "When using Docker queues to run multiple jobs that download the same art
 tags:
    - launch
 ---
-No caching exists; each job operates independently. Configure the queue or agent to mount a shared cache using Docker arguments in the queue configuration.
+No caching exists; each launch job operates independently. Configure the queue or agent to mount a shared cache using Docker arguments in the queue configuration.
 
 Additionally, mount the W&B artifacts cache as a persistent volume for specific use cases.
