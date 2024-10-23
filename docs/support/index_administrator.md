@@ -12,4 +12,5 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [What is a service account, and why is it useful?](service_account_why_it_useful.md)
 - [Can I just log metrics, no code or dataset examples?](can_just_log_metrics_no_code_dataset_examples.md)
 - [How can I rotate or revoke access?](how_can_rotate_revoke_access.md)
+- [What are service accounts, and how do we add one to our team?](service_accounts_how_we_add_one_team.md)
 - [What is the difference between team and organization?](difference_team_organization.md)

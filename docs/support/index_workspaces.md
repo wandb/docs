@@ -5,4 +5,6 @@ The following support questions are tagged with "Workspaces". If you don't see
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).
 
+- [What really good functionalities are hidden and where can I find those?](really_good_functionalities_hidden_where_can_find_those.md)
 - [Is there a dark mode?](there_dark_mode.md)
+- [Refreshing data](refreshing_data.md)

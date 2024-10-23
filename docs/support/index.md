@@ -6,9 +6,6 @@ import Card from '@site/src/components/Card';
 <Card href="index_administrator" className="card-blue">
   <h2>administrator</h2>
 </Card>
-<Card href="index_adminstrator" className="card-blue">
-  <h2>adminstrator</h2>
-</Card>
 <Card href="index_artifacts" className="card-blue">
   <h2>artifacts</h2>
 </Card>
@@ -74,9 +71,6 @@ import Card from '@site/src/components/Card';
 </Card>
 <Card href="index_user management" className="card-blue">
   <h2>user management</h2>
-</Card>
-<Card href="index_workspace" className="card-blue">
-  <h2>workspace</h2>
 </Card>
 <Card href="index_workspaces" className="card-blue">
   <h2>workspaces</h2>
