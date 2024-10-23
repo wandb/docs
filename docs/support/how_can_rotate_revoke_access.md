@@ -1,5 +1,6 @@
 ---
 title: "How can I rotate or revoke access?"
+displayed_sidebar: support
 tags:
    - None
 ---

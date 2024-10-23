@@ -1,5 +1,6 @@
 ---
 title: "Embedding Reports"
+displayed_sidebar: support
 tags:
    - reports
 ---

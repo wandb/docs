@@ -1,5 +1,6 @@
 ---
 title: "How can I log additional metrics after a run completes?"
+displayed_sidebar: support
 tags:
    - None
 ---

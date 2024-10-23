@@ -1,5 +1,6 @@
 ---
 title: "Optimizing multiple metrics"
+displayed_sidebar: support
 tags:
    - sweeps
 ---

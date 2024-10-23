@@ -1,5 +1,6 @@
 ---
 title: "My report looks different after converting from Markdown."
+displayed_sidebar: support
 tags:
    - reports
    - wysiwyg

@@ -1,5 +1,6 @@
 ---
 title: "How should I run sweeps on SLURM?"
+displayed_sidebar: support
 tags:
    - sweeps
 ---

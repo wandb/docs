@@ -1,5 +1,6 @@
 ---
 title: "Upload a CSV to a report"
+displayed_sidebar: support
 tags:
    - reports
 ---

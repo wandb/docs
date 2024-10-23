@@ -1,5 +1,6 @@
 ---
 title: "Using artifacts with multiple architectures and runs?"
+displayed_sidebar: support
 tags:
    - artifacts
 ---

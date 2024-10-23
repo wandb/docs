@@ -1,5 +1,6 @@
 ---
 title: "Why am I seeing fewer data points than I logged?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

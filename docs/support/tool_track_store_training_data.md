@@ -1,5 +1,6 @@
 ---
 title: "Does your tool track or store training data?"
+displayed_sidebar: support
 tags:
    - None
 ---

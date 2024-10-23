@@ -1,5 +1,6 @@
 ---
 title: "Incorporating LaTeX"
+displayed_sidebar: support
 tags:
    - reports
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Is there an anaconda package?"
+displayed_sidebar: support
 tags:
    - None
 ---

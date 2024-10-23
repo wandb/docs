@@ -1,5 +1,6 @@
 ---
 title: "How is access to the API controlled?"
+displayed_sidebar: support
 tags:
    - None
 ---

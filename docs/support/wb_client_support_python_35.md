@@ -1,5 +1,6 @@
 ---
-title: "Does the W&B client support Python 3.5? <a href="#eol-python35" id="eol-python35"></a>"
+title: "Does the W&B client support Python 3.5?"
+displayed_sidebar: support
 tags:
    - None
 ---

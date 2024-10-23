@@ -1,5 +1,6 @@
 ---
 title: "How can I organize my logged charts and media in the W&B UI?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

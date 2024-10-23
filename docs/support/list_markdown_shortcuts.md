@@ -1,5 +1,6 @@
 ---
 title: "List of markdown shortcuts"
+displayed_sidebar: support
 tags:
    - reports
 ---

@@ -1,5 +1,6 @@
 ---
 title: "How do I make W&B Launch work with Tensorflow on GPU?"
+displayed_sidebar: support
 tags:
    - launch
 ---

@@ -1,5 +1,6 @@
 ---
 title: How do I delete a panel grid?
+displayed_sidebar: support
 tags:
    - reports
    - wysiwyg

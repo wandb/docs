@@ -1,5 +1,6 @@
 ---
 title: "How do I control who can push to a queue?"
+displayed_sidebar: support
 tags:
    - launch
 ---

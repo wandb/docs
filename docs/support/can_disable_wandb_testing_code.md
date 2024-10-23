@@ -1,5 +1,6 @@
 ---
 title: "Can I turn off wandb when testing my code?"
+displayed_sidebar: support
 tags:
    - None
 ---

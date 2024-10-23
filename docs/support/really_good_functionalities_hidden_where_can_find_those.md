@@ -1,5 +1,6 @@
 ---
 title: "What really good functionalities are hidden and where can I find those?"
+displayed_sidebar: support
 tags:
    - None
 ---

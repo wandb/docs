@@ -1,5 +1,6 @@
 ---
 title: "How can I configure the name of the run in my training code?"
+displayed_sidebar: support
 tags:
    - None
 ---

@@ -1,5 +1,6 @@
 ---
 title: "How do I use custom CLI commands with sweeps?"
+displayed_sidebar: support
 tags:
    - sweeps
 ---

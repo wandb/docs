@@ -1,5 +1,6 @@
 ---
 title: "How do I launch multiple runs from one script?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

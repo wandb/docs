@@ -1,5 +1,6 @@
 ---
 title: "How do I install the wandb Python library in environments without gcc?"
+displayed_sidebar: support
 tags:
    - None
 ---

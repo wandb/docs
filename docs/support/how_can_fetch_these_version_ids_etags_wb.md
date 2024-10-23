@@ -1,5 +1,6 @@
 ---
 title: "How can I fetch these Version IDs and ETags in W&B?"
+displayed_sidebar: support
 tags:
    - artifacts
 ---

@@ -1,5 +1,6 @@
 ---
 title: "How often are system metrics collected?"
+displayed_sidebar: support
 tags:
    - None
 ---

@@ -1,5 +1,6 @@
 ---
 title: "How do I log a list of values?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

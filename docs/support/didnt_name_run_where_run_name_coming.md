@@ -1,5 +1,6 @@
 ---
 title: "I didn't name my run. Where is the run name coming from?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

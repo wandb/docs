@@ -1,5 +1,6 @@
 ---
 title: "What is a service account, and why is it useful?"
+displayed_sidebar: support
 tags:
    - None
 ---

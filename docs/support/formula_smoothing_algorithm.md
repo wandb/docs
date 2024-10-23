@@ -1,5 +1,6 @@
 ---
 title: "What formula do you use for your smoothing algorithm?"
+displayed_sidebar: support
 tags:
    - None
 ---

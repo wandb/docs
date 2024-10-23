@@ -1,5 +1,6 @@
 ---
 title: "Can you use a custom repository for packages when Launch builds the image?"
+displayed_sidebar: support
 tags:
    - launch
 ---

@@ -1,5 +1,6 @@
 ---
 title: "How can I change the directory my sweep logs to locally?"
+displayed_sidebar: support
 tags:
    - sweeps
 ---

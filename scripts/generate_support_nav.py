@@ -1,6 +1,8 @@
 import frontmatter
 import sys
 import os
+import json
+import glob
 
 # Specify the directory containing the markdown files
 directory = 'docs/support'
@@ -23,6 +25,18 @@ def write_tag_page(tag):
     file_path = directory + "/index_" + tag + ".md"
     with open(file_path, "w") as file:
         file.write(outputTemplate.replace('{{tag}}',tag.title())) 
+def delete_files_matching_pattern(pattern, directory="."):
+    """Deletes files matching the given pattern in the specified directory."""
+
+    for file in glob.glob(os.path.join(directory, pattern)):
+        try:
+            os.remove(file)
+            print(f"Deleted: {file}")
+        except OSError as e:
+            print(f"Error deleting {file}: {e}")
+
+# Example usage:
+delete_files_matching_pattern("docs/support/index_*.md")  # Deletes all existing support nav files
 
 # Loop through all files in the directory
 for filename in os.listdir(directory):
@@ -49,4 +63,11 @@ for filename in os.listdir(directory):
             except Exception as error:
                 print("ERROR:",error,file_path)
 
+# Load the JSON file
+with open('sidebars.js') as f:
+    data = json.load(f)
+
+# Access a specific node
+node_value = data['support']
 print(tagList)
+print(node_value)

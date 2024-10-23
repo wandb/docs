@@ -1,5 +1,6 @@
 ---
 title: "What requirements does the accelerator base image have?"
+displayed_sidebar: support
 tags:
    - launch
 ---

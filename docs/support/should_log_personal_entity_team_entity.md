@@ -1,5 +1,6 @@
 ---
 title: "When should I log to my personal entity against my team entity?"
+displayed_sidebar: support
 tags:
    - None
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Can I just log metrics, no code or dataset examples?"
+displayed_sidebar: support
 tags:
    - None
 ---

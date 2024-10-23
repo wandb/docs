@@ -1,5 +1,6 @@
 ---
 title: "What happens when I log millions of steps to W&B? How is that rendered in the browser?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Who has access to my artifacts?"
+displayed_sidebar: support
 tags:
    - artifacts
 ---

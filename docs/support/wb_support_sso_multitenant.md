@@ -1,5 +1,6 @@
 ---
 title: "Does W&B support SSO for Multi-tenant?"
+displayed_sidebar: support
 tags:
    - None
 ---

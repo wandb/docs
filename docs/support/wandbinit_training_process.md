@@ -1,5 +1,6 @@
 ---
 title: "What does `wandb.init` do to my training process?"
+displayed_sidebar: support
 tags:
    - None
 ---

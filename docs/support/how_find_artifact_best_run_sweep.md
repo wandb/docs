@@ -1,5 +1,6 @@
 ---
 title: "How do I find an artifact from the best run in a sweep?"
+displayed_sidebar: support
 tags:
    - artifacts
 ---

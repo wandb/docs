@@ -1,5 +1,6 @@
 ---
 title: "How can admins restrict what ML engineers have access to modify?"
+displayed_sidebar: support
 tags:
    - launch
 ---

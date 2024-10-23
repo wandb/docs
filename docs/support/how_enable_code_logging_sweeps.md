@@ -1,5 +1,6 @@
 ---
 title: "How do I enable code logging with Sweeps?"
+displayed_sidebar: support
 tags:
    - sweeps
 ---

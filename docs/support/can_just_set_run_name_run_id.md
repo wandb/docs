@@ -1,5 +1,6 @@
 ---
 title: "Can I just set the run name to the run ID?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

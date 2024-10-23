@@ -1,5 +1,6 @@
 ---
 title: "How do I plot multiple lines on a plot with a legend?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

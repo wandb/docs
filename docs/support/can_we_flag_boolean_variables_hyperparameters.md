@@ -1,5 +1,6 @@
 ---
 title: "Can we flag boolean variables as hyperparameters?"
+displayed_sidebar: support
 tags:
    - sweeps
 ---

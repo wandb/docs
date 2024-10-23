@@ -1,5 +1,6 @@
 ---
 title: "What is the difference between team and organization?"
+displayed_sidebar: support
 tags:
    - None
 ---

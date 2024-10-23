@@ -1,5 +1,6 @@
 ---
 title: "Does logging block my training?"
+displayed_sidebar: support
 tags:
    - None
 ---

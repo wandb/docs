@@ -1,5 +1,6 @@
 ---
 title: "Is there a way to add extra values to a sweep, or do I need to start a new one?"
+displayed_sidebar: support
 tags:
    - sweeps
 ---

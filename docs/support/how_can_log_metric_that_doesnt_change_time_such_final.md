@@ -1,5 +1,6 @@
 ---
 title: "How can I log a metric that doesn't change over time such as a final evaluation accuracy?"
+displayed_sidebar: support
 tags:
    - None
 ---

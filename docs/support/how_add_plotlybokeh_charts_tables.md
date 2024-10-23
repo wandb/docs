@@ -1,5 +1,6 @@
 ---
 title: "How do I add Plotly or Bokeh Charts into Tables?"
+displayed_sidebar: support
 tags:
    - experiments
 ---

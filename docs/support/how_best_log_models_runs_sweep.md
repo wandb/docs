@@ -1,5 +1,6 @@
 ---
 title: "How do I best log models from runs in a sweep?"
+displayed_sidebar: support
 tags:
    - artifacts
 ---

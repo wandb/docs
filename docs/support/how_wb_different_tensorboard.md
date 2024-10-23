@@ -1,5 +1,6 @@
 ---
 title: "How is W&B different from TensorBoard?"
+displayed_sidebar: support
 tags:
    - None
 ---

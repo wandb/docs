@@ -1,5 +1,6 @@
 ---
 title: "What is the difference between team and entity? As a user - what does entity mean for me?"
+displayed_sidebar: support
 tags:
    - None
 ---
