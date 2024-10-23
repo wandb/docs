@@ -2,7 +2,7 @@
 title: "What is a service account, and why is it useful?"
 displayed_sidebar: support
 tags:
-   - None
+   - administrator
 ---
 A service account (Enterprise-only feature) acts as an API key with permissions to write to your team without being tied to a specific user. Service accounts track automated tasks logged to W&B, such as periodic retraining and nightly builds. To associate a username with a machine-launched run, set the environment variable `WANDB_USERNAME`.
 

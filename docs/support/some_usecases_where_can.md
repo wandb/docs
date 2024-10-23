@@ -2,7 +2,7 @@
 title: "Some use-cases where you can use [`wandb sync`](../../ref/cli/wandb-sync.md)"
 displayed_sidebar: support
 tags:
-   - None
+   - local
 ---
 * When experiencing no internet connection.
 * When requiring full system disablement.

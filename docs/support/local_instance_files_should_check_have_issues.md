@@ -2,7 +2,7 @@
 title: "On a local instance, which files should I check when I have issues?"
 displayed_sidebar: support
 tags:
-   - None
+   - administrator
 ---
 Check the `Debug Bundle`. An admin can retrieve it from the `/system-admin` page by selecting the W&B icon in the top right corner and then choosing `Debug Bundle`.
 

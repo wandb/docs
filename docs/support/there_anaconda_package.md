@@ -2,7 +2,7 @@
 title: "Is there an anaconda package?"
 displayed_sidebar: support
 tags:
-   - None
+   - other
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

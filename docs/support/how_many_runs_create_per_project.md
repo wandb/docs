@@ -2,6 +2,6 @@
 title: "How many runs to create per project?"
 displayed_sidebar: support
 tags:
-   - runs
+   - experiments
 ---
 Limit each project to approximately 10,000 runs for optimal performance.

@@ -2,7 +2,7 @@
 title: "How do I deal with network issues?"
 displayed_sidebar: support
 tags:
-   - None
+   - connectivity
 ---
 If you encounter SSL or network errors, such as `wandb: Network error (ConnectionError), entering retry loop`, use the following solutions:
 

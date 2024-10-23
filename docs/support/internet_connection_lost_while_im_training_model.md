@@ -2,7 +2,7 @@
 title: "What happens if internet connection is lost while I'm training a model?"
 displayed_sidebar: support
 tags:
-   - None
+   - environment variables
 ---
 If the library cannot connect to the internet, it enters a retry loop and continues to attempt to stream metrics until the network is restored. The program continues to run during this time.
 

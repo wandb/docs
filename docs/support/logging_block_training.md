@@ -2,7 +2,7 @@
 title: "Does logging block my training?"
 displayed_sidebar: support
 tags:
-   - None
+   - experiments
 ---
 "Is the logging function lazy? I don't want to depend on the network to send results to your servers while executing local operations."
 
