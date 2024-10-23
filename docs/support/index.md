@@ -36,9 +36,6 @@ import Card from '@site/src/components/Card';
 <Card href="index_launch" className="card-blue">
   <h2>launch</h2>
 </Card>
-<Card href="index_local" className="card-blue">
-  <h2>local</h2>
-</Card>
 <Card href="index_logs" className="card-blue">
   <h2>logs</h2>
 </Card>
