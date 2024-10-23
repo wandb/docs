@@ -13,7 +13,6 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [When using Docker queues to run multiple jobs that download the same artifact with `use_artifact`, do we re-download the artifact for every single run of the job, or is there any caching going on under the hood?](docker_queues_run_multiple_jobs_that_download_same_artifact_useartifact.md)
 - [Can Launch automatically provision (and spin down) compute resources for me in the target environment?](can_launch_automatically_provision_spin_compute_resources_me_target_environment.md)
 - [Are there best practices for using Launch effectively?](there_best_practices_launch_effectively.md)
-- [Can you use a custom repository for packages when Launch builds the image?](can_custom_repository_packages_launch_builds_image.md)
 - [How can admins restrict what ML engineers have access to modify?](how_can_admins_restrict_ml_engineers_have_access_modify_example.md)
 - [I do not like clicking- can I use Launch without going through the UI?](like_clicking_can_launch_without_going_ui.md)
 - [I do not want W&B to build a container for me, can I still use Launch?](wb_build_container_me_can_still_launch.md)

@@ -9,7 +9,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [What does `wandb.init` do to my training process?](wandbinit_training_process.md)
 - [How does wandb stream logs and writes to disk?](how_wandb_stream_logs_writes_disk.md)
 - [Does your tool track or store training data?](tool_track_store_training_data.md)
-- [Some use-cases where you can use [`wandb sync`](../../ref/cli/wandb-sync.md)](some_usecases_where_can.md)
+- [Some use-cases where you can use `wandb sync`](some_usecases_where_can.md)
 - [If wandb crashes, will it possibly crash my training run?](wandb_crashes_will_it_possibly_crash_training_run.md)
 - [What formula do you use for your smoothing algorithm?](formula_smoothing_algorithm.md)
 - [How can I configure the name of the run in my training code?](how_can_configure_name_run_training_code.md)
