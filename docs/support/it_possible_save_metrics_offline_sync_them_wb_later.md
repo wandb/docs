@@ -3,7 +3,7 @@ title: "Is it possible to save metrics offline and sync them to W&B later?"
 displayed_sidebar: support
 tags:
    - experiments
-   -environment variables
+   - environment variables
 ---
 By default, `wandb.init` starts a process that syncs metrics in real time to the cloud. For offline use, set two environment variables to enable offline mode and sync later.
 
