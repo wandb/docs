@@ -6,37 +6,37 @@
   margin-bottom: 16px; /* Space between rows */
 }
 
+
 .card {
-  margin: 8px;
-  display: block;
+  display: flex; /* Use flexbox for layout */
+  padding: var(--Spacing-spacing-sm-md, 12px) var(--Spacing-spacing-md, 16px);
+  flex-direction: column; /* Stack children vertically */
+  align-items: flex-start;
+  gap: var(--Spacing-spacing-none, 0px);
+  flex: 1 0 0;
+  justify-content: center; /* Center content vertically */
+  height: 100%; /* Ensure the card has a height */
+  /* Ensure the card takes full height */
   border-radius: 8px;
   border-width: thin;
-  border: 1px solid #10BFCC;
-  padding: 12px;
+  border: var(--Spacing-spacing-none, 1px) solid var(--Borders-Border, #DADEE3);
   text-align: center;
   text-decoration: none;
   color: inherit;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  min-width: 250px; /* Minimum height to preserve card size */
+  min-width: 300px; /* Minimum height to preserve card size */
+  background: var(--backgrounds-background-type-1, #FFF);
   background-size: cover;
   background-position: center;
   position: relative;
   overflow: hidden;
 }
 
-/* Icon styles */
-.card-icon {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  width: 24px; /* Adjust the size of the icon */
-  height: 24px;
-}
-
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-color: #10BFCC
 }
 
 .card-white {
@@ -74,10 +74,20 @@
 
 h2 {
   font-size: 20px;
+  color: var(--Text-Body-text, #2B3038);
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px; /* 160% */
 }
 
 p {
+  color: var(--Text-Secondary-text-and-icons, #79808A);
+  font-family: "Source Sans Pro";
   font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 /* Image-specific card styles */
@@ -138,3 +148,4 @@ p {
 
 
 /* Add more combinations as needed */
+
