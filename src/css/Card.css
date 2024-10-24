@@ -10,17 +10,37 @@
   margin: 8px;
   display: block;
   border-radius: 8px;
-  padding: 16px;
-  text-align: left;
+  border-width: thin;
+  border: 1px solid #10BFCC;
+  padding: 12px;
+  text-align: center;
   text-decoration: none;
   color: inherit;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-width: 250px; /* Minimum height to preserve card size */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Icon styles */
+.card-icon {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 24px; /* Adjust the size of the icon */
+  height: 24px;
 }
 
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-white {
+  background-color: #fff;
 }
 
 .card-yellow {
@@ -35,13 +55,14 @@
   background-color: #10BFCC;
 }
 
+
 /* Global hover text color for all cards */
 .card h2, .card p {
   color: #000; /* Default text color */
 }
 
 .card:hover h2, .card:hover p {
-  color: white; /* Global hover text color (orange) */
+  color: black; /* Global hover text color  */
 }
 
 /* Make sure the layout is responsive on smaller screens */
@@ -58,3 +79,62 @@ h2 {
 p {
   font-size: 16px;
 }
+
+/* Image-specific card styles */
+.card-image {
+  color: white; /* Default text color for cards with images */
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6); /* Improve text readability */
+}
+
+/* Ensure all text elements within card-image use the specified color */
+.card-image h1,
+.card-image h2,
+.card-image h3,
+.card-image h4,
+.card-image h5,
+.card-image h6,
+.card-image p,
+.card-image a {
+  color: inherit; /* This will use the color specified in .card-image */
+}
+
+/* Custom text colors for cards with images */
+.card-image-text-white {
+  color: white;
+}
+
+.card-image-text-black {
+  color: black;
+}
+
+/* Add a semi-transparent overlay only for cards with images */
+.card-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(226, 226, 226, 0.3); /* Adjust opacity as needed */
+  z-index: 1;
+}
+
+/* Ensure text is above the overlay for cards with images */
+.card-image h2, .card-image p {
+  position: relative;
+  z-index: 2;
+}
+
+/* Example image backgrounds */
+.wandb-slide-image {
+  background-image: url('/images/wandb_slide.png');
+}
+
+
+/* .card-image h2,
+.card-image p {
+  color: white;
+} */
+
+
+/* Add more combinations as needed */
