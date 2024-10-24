@@ -203,20 +203,20 @@ The OIDC issuer URL has the following format: `https://login.microsoftonline.com
 
 ## Set up SSO on the W&B Server
 
-To set up SSO, you need admin privileges and the following information:
+To set up SSO, you need administrator privileges and the following information:
 - OIDC Client ID
 - OIDC Auth method (implicit` or `pkce`)
 - OIDC Issuer URL
 - OIDC Client Secret (optional; depends on how you have setup your IdP) 
 
 :::info
-Should your IdP require a OIDC Client Secret, you will need to specify this via the environment variable OIDC_SECRET.
+Should your IdP require a OIDC Client Secret, specify it with the environment variable OIDC_SECRET.
 :::
 
-You can configure SSO using either the W&B Server UI or by passing [environment variables](../env-vars.md) to the `wandb/local` pod. If both methods are used, the environment variables will take precedence.
+You can configure SSO using either the W&B Server UI or by passing [environment variables](../env-vars.md) to the `wandb/local` pod. The environment variables take precedence over UI.
 
 :::info
-If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This will output a temporary password to the containers logs and disable SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
+If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and disables SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
 :::
 
 <Tabs
@@ -238,7 +238,7 @@ The System Console is the successor to the System Settings page. It is available
 
 4. Click on **Save**.
 
-5. Log out and then log back in. You should now be redirected to your IdP login screen.
+5. Log out and then log back in, this time using the IdP login screen.
 
 </TabItem>
 
