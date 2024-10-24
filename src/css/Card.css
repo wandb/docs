@@ -62,7 +62,7 @@
 }
 
 .card:hover h2, .card:hover p {
-  color: black; /* Global hover text color  */
+  color: white; /* Global hover text color  */
 }
 
 /* Make sure the layout is responsive on smaller screens */
@@ -107,6 +107,8 @@ p {
 .card-image a {
   color: inherit; /* This will use the color specified in .card-image */
 }
+
+
 
 /* Custom text colors for cards with images */
 .card-image-text-white {
