@@ -1,4 +1,3 @@
-
 ---
 title: How can I change my account from corporate to academic?
 displayed_sidebar: support
