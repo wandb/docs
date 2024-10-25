@@ -1,4 +1,3 @@
-
 ---
 title: Why does the storage meter not update after deleting runs?
 displayed_sidebar: support
