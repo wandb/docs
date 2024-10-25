@@ -5,6 +5,6 @@ tags:
 - alerts
 - notebooks
 ---
-No. **Run Finished** alerts (turned on with the **Run Finished** setting in User Settings) only work with Python scripts and are turned off in Jupyter Notebook environments to prevent alert notifications on every cell execution. 
+No. **Run Finished** alerts (activated with the **Run Finished** setting in User Settings) operate only with Python scripts and remain turned off in Jupyter Notebook environments to avoid notifications for each cell execution. 
 
 Use `wandb.alert()` in notebook environments instead.

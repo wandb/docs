@@ -4,4 +4,4 @@ displayed_sidebar: support
 tags:
 - scatter plot
 ---
-The best way to do this is to create a scatter plot of the metric, go into the **Edit** menu, and select **Annotations**. From there you can plot the running max of the values.
+Create a scatter plot of the metric. Open the **Edit** menu and select **Annotations**. From there, plot the running maximum of the values.

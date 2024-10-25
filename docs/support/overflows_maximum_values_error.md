@@ -4,4 +4,4 @@ displayed_sidebar: support
 tags:
 - workspaces
 ---
-If you see this error, add `?workspace=clear` to the end of the URL and press enter. This should take you to a cleared version of your project page workspace and solve the issue.
+To resolve this error, add `?workspace=clear` to the end of the URL and press Enter. This action directs you to a cleared version of the project page workspace.

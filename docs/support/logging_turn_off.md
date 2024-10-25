@@ -4,9 +4,9 @@ displayed_sidebar: support
 tags:
 - logs
 ---
-The command `wandb offline` sets an environment variable, `WANDB_MODE=offline` . This stops any data from syncing from your machine to the remote wandb server. If you have multiple projects, they will all stop syncing logged data to W&B servers.
+The command `wandb offline` sets the environment variable `WANDB_MODE=offline`, preventing data from syncing to the remote W&B server. This action affects all projects, stopping the logging of data to W&B servers.
 
-To quiet the warning messages:
+To suppress warning messages, use the following code:
 
 ```python
 import logging

@@ -4,6 +4,6 @@ displayed_sidebar: support
 tags:
 - logs
 ---
-If you're using a shared machine and another person is a wandb user, it's easy to make sure your runs are always logged to the proper account. Set the `WANDB_API_KEY` environment variable to authenticate. If you source it in your env, when you log in you'll have the right credentials, or you can set the environment variable from your script.
+When using a shared machine, ensure that runs log to the correct WandB account by setting the `WANDB_API_KEY` environment variable for authentication. If sourced in the environment, this variable provides the correct credentials upon login. Alternatively, set the environment variable directly in the script.
 
-Run this command `export WANDB_API_KEY=X` where X is your API key. When you're logged in, you can find your API key at [wandb.ai/authorize](https://app.wandb.ai/authorize).
+Execute the command `export WANDB_API_KEY=X`, replacing X with your API key. Logged-in users can find their API key at [wandb.ai/authorize](https://app.wandb.ai/authorize).

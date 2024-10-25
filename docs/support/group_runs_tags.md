@@ -5,4 +5,4 @@ tags:
 - tags
 - runs
 ---
-Because a run can have multiple tags, we don't support grouping by them. Our recommendation would be to add a value to the [`config`](../guides/track/config.md) object of these runs and then group by this config value. You can do this with [our API](../guides/track/config#set-the-configuration-after-your-run-has-finished).
+A run can have multiple tags, so grouping by tags is not supported. Add a value to the [`config`](../guides/track/config.md) object for these runs and group by this config value instead. This can be accomplished using [the API](../guides/track/config#set-the-configuration-after-your-run-has-finished).

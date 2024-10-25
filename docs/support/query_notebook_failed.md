@@ -5,13 +5,13 @@ tags:
 - notebooks
 - environment variables
 ---
-If you're seeing the error message `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` you can resolve it by setting the environment variable. There's multiple ways to do so:
+If you encounter the error message `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` resolve it by setting the environment variable. Multiple methods accomplish this:
 
 <Tabs
   defaultValue="jupyter"
   values={[
     {label: 'Jupyter Magic', value: 'jupyter'},
-    {label: 'python', value: 'python'},
+    {label: 'Python', value: 'python'},
   ]}>
   <TabItem value="jupyter">
 
