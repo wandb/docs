@@ -1,5 +1,6 @@
 ---
 title: How do I handle the "Failed to query for notebook" error?
+displayed_sidebar: support
 tags:
 - notebooks
 - environment variables

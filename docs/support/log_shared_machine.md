@@ -1,5 +1,6 @@
 ---
 title: How do I log to the right wandb user on a shared machine?
+displayed_sidebar: support
 tags:
 - logs
 ---

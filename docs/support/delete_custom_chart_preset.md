@@ -1,5 +1,6 @@
 ---
 title: How do you delete a custom chart preset?
+displayed_sidebar: support
 tags:
 - charts
 ---

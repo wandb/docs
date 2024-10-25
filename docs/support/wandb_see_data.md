@@ -1,5 +1,6 @@
 ---
 title: Can W&B team members see my data?
+displayed_sidebar: support
 tags:
 - privacy
 - security

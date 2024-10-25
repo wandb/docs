@@ -1,5 +1,6 @@
 ---
 title: Who can edit and share reports?
+displayed_sidebar: support
 tags:
 - reports
 ---

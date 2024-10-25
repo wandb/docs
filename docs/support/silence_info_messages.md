@@ -1,5 +1,6 @@
 ---
 title: How do I silence W&B info messages?
+displayed_sidebar: support
 tags:
 - notebooks
 - environment variables

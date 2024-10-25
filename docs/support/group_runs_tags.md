@@ -1,5 +1,6 @@
 ---
 title: Can you group runs by tags?
+displayed_sidebar: support
 tags:
 - tags
 - runs

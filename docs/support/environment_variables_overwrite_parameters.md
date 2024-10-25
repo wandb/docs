@@ -1,5 +1,6 @@
 ---
 title: Do environment variables overwrite the parameters passed to wandb.init()?
+displayed_sidebar: support
 tags:
 - environment variables
 ---

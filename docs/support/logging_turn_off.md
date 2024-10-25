@@ -1,5 +1,6 @@
 ---
 title: How do I turn off logging?
+displayed_sidebar: support
 tags:
 - logs
 ---

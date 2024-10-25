@@ -1,5 +1,6 @@
 ---
-title: How do I log runs launched by continuous integration or internal tools? 
+title: How do I log runs launched by continuous integration or internal tools?
+displayed_sidebar: support
 tags:
 - service account
 - continuous integration

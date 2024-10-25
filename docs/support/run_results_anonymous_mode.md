@@ -1,5 +1,6 @@
 ---
 title: How does someone without an account see run results?
+displayed_sidebar: support
 tags:
 - anonymous
 ---

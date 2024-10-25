@@ -1,5 +1,6 @@
 ---
 title: How do you show a "step slider" in a custom chart?
+displayed_sidebar: support
 tags:
 - charts
 ---

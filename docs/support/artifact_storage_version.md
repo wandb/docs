@@ -1,5 +1,6 @@
 ---
 title: How much storage does each artifact version use?
+displayed_sidebar: support
 tags:
 - artifact
 - storage

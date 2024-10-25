@@ -1,5 +1,6 @@
 ---
 title: What are features that are not available to anonymous users?
+displayed_sidebar: support
 tags:
 - anonymous
 ---

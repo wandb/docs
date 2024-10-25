@@ -1,5 +1,6 @@
 ---
 tite: Do "Run Finished" alerts work in notebooks?
+displayed_sidebar: support
 tags:
 - alerts
 - notebooks
