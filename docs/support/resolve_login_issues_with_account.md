@@ -2,19 +2,18 @@
 title: How can I resolve login issues with my account?
 displayed_sidebar: support
 tags:
-- administrator
-- frontend
+- user management
 ---
-To resolve login issues with your account, try the following steps:
+To resolve login issues, follow these steps:
 
-- **Verify Access**: Ensure you are using the correct email or username and check your membership in any relevant teams or projects.
-- **Browser Troubleshooting**:
-  - Use an incognito window to prevent cached data interference.
-  - Clear your browser's cache.
-  - Try logging in from a different browser or device.
-- **SSO and Permissions**:
-  - Confirm your identity provider (IdP) and Single Sign-On (SSO) settings are correct.
-  - If using SSO, ensure you're part of the appropriate SSO group.
-- **Technical Problems**:
-  - If you receive specific error messages, note them for further troubleshooting.
-  - If issues persist, contact the support team for additional assistance.    
+- **Verify access**: Confirm you are using the correct email or username and check membership in relevant teams or projects.
+- **Browser troubleshooting**:
+  - Use an incognito window to avoid cached data interference.
+  - Clear the browser cache.
+  - Attempt to log in from a different browser or device.
+- **SSO and permissions**:
+  - Verify the identity provider (IdP) and Single Sign-On (SSO) settings.
+  - If using SSO, confirm inclusion in the appropriate SSO group.
+- **Technical problems**:
+  - Take note of specific error messages for further troubleshooting.
+  - Contact the support team for additional assistance if issues persist.

@@ -6,54 +6,218 @@
   margin-bottom: 16px; /* Space between rows */
 }
 
+
+.help-banner {
+  display: flex;
+  padding: 56px 40px 72px 40px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  align-self: stretch;
+  border-radius: 12px;
+  background: var(--Moon-Moon-900, #1A1D24);
+  background-image: url('/images/support/support_banner.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: none;  
+}
+
+.help-banner h2 {
+  color: var(--Moon-Moon-50, #FAFAFA);
+  font-family: "Source Sans Pro";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 56px *//* 28px */
+}
+
+.help-banner p {
+  color: var(--Moon-Moon-250, #DADEE3);
+  font-family: "Source Sans Pro";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 28px *//* 22.4px */
+}
+
 .card {
-  margin: 8px;
-  display: block;
-  border-radius: 8px;
-  padding: 16px 16px 0px 16px;
-  text-align: left;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  padding: 40px 33px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1 0 0;
+  border-radius: 12px;
+  position: relative;
+  min-height: 200px;
+  box-shadow: none; /* Adjust as needed */
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.08);
+}
+
+
+.card-icon-left, .card-icon-right {
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.card-icon-left {
+  /* This icon will be part of the normal flow, above the header */
+  margin-bottom: 8px; /* Increased space between icon and header */  
+}
+
+.card-icon-right {
+  position: absolute;
+  top: 40px; /* Aligns with the top padding of the card */
+  right: 40px; /* Aligns with the right padding of the card */
+}
+
+
+
+.card-title {
+  color: var(--Grayscale-gray-900, #181B1F);
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px; /* 133.333% */
+  margin: 0;
+}
+
+.card-content {
+  color: var(--Moon-Moon-800, #2B3038);
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  margin: 0;
+}
+
+
+
+.card-pink {
+  border-radius: 6px;
+  background: var(--color-sienna-300, #FFCFB2);
+  background-repeat: no-repeat;
 }
 
 .card-yellow {
-  background-color: #FAC13C;
+  border-radius: 6px;
+  background: var(--Gold-gold-light2, #FFD95C);
 }
 
+
 .card-gray {
-  background-color: #8E949E;
+  border-radius: 6px;
+  background: var(--Moon-Moon-150, #EDEFF2);
 }
 
 .card-blue {
-  background-color: #10BFCC;
+  border-radius: 6px;
+  background: var(--color-teal-550, #0097AB);
+  color: var(--color-moon-white, #FFF);
 }
 
-.card-light-gray {
-  background-color: rgb(235, 237, 240);
+.card-blue h2, 
+.card-blue p {
+  color: var(--color-moon-white, #FFF);
 }
 
-/* Global hover text color for all cards */
-.card h2, .card p {
-  color: #000; /* Default text color */
+
+.card-banner {
+  display: flex;
+  padding: 32px 40px;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+  border-radius: 12px;
+  background: var(--Moon-Moon-50, #FAFAFA);
+  color: var(--Moon-Moon-800, #2B3038);  
 }
 
-/* Make sure the layout is responsive on smaller screens */
-@media (max-width: 768px) {
-  .card-container {
-    flex-direction: column; /* Stack the cards vertically on smaller screens */
-  }
+.card-banner:hover {
+  color: var(--color-moon-black, #181B1F);
 }
 
-h2 {
-  font-size: 20px;
+.card-banner h2 {
+  font-family: "Source Sans Pro";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%;
+  margin: 0; /* 39.2px */
 }
 
-p {
+.card-banner p {
+  color: var(--Moon-Moon-800, #2B3038);
+  font-family: "Source Sans Pro";
   font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  margin: 0;/* 22.4px */
+}
+
+.card-banner-gray {
+  border-radius: 12px;
+  background: var(--Moon-Moon-50, #FAFAFA);
+}
+
+.card-banner-icon {
+  display: flex;
+  width: 64px;
+  height: 64px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background: var(--Backgrounds-Teal-tag-background, rgba(169, 237, 242, 0.48));
+}
+
+.card-banner-icon img {
+  width: 32px; /* Make the SVG smaller than the container */
+  height: 32px;
+}
+
+
+.contact-us-button {
+  display: flex;
+  padding: var(--Spacing-spacing-sm, 8px) var(--Spacing-spacing-sm-md, 12px);
+  justify-content: center;
+  align-items: center;
+  gap: var(--Spacing-spacing-sm, 8px);
+  border-radius: var(--Radius-radius-sm, 4px);
+  background: var(--buttons-primary-button-rest, #13A9BA); /* Teal background */
+  color: white;
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+}
+
+.contact-us-button:hover {
+  background: var(--color-teal-450, #00B8D4); /* Lighter teal on hover */
+}
+
+.contact-us-button img {
+  width: 112px;
+  height: 24px;
+}
+
+.contact-us-button p {
+  margin: 0;
+  color: white;
+}
+
+.faq-container {
+  max-width: 768px;
+  margin: 0 auto;
 }

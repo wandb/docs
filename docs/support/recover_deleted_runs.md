@@ -2,16 +2,14 @@
 title: How can I recover deleted runs?
 displayed_sidebar: support
 tags:
-- workspaces 
+- runs 
 ---
-To recover deleted runs, follow these steps:
+To recover deleted runs, complete the following steps:
 
-- Go to the Project Overview page.
-- Click on the three dots in the top right corner.
-- Select "Undelete recently deleted runs."
+- Navigate to the Project Overview page.
+- Click the three dots in the top right corner.
+- Select **Undelete recently deleted runs**.
 
-Note:
+**Notes**:
 - You can only restore runs deleted within the last 7 days.
-- If you've logged data on a server, consider manually uploading logs using the wandb API if undelete isn't applicable.
-- For further assistance, contact support.
-    
+- You can manually upload logs using the W&B API if undelete is not an option.
