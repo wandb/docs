@@ -1,4 +1,3 @@
-
 ---
 title: Is there a way to add more seats?
 displayed_sidebar: support
