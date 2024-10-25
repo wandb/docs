@@ -1,10 +1,13 @@
 ---
 title: Reports 
 ---
-The following support questions are tagged with "Reports". If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+import Card from '@site/src/components/Card';
 
+<Card className="card-light-gray">
+  <p>The following support questions are tagged with <b>Reports</b>. If you don't see 
+your question answered, try [asking the community](https://community.wandb.ai/), 
+or email [support@wandb.com](mailto:support@wandb.com).</p>
+</Card>
 - [Adding multiple authors to a report](adding_multiple_authors_report.md)
 - [Can I use Markdown in my reports?](reports_markdown.md)
 - [Embedding Reports](embedding_reports.md)

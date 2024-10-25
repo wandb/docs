@@ -3,6 +3,7 @@ title: "Why am I seeing fewer data points than I logged?"
 displayed_sidebar: support
 tags:
    - experiments
+   - metrics
 ---
 When visualizing metrics against an X-axis other than `Step`, expect to see fewer data points. Metrics must log at the same `Step` to remain synchronized. Only metrics logged at the same `Step` are sampled while interpolating between samples.
 

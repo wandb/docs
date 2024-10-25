@@ -3,6 +3,7 @@ title: "What if I want to log some metrics on batches and some metrics only on e
 displayed_sidebar: support
 tags:
    - experiments
+   - metrics
 ---
 To log specific metrics in each batch and standardize plots, log the desired x-axis values alongside the metrics. In the custom plots, click edit and select a custom x-axis.
 

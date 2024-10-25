@@ -3,6 +3,7 @@ title: "How can I log additional metrics after a run completes?"
 displayed_sidebar: support
 tags:
    - runs
+   - metrics
 ---
 There are several ways to manage experiments.
 

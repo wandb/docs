@@ -1,10 +1,13 @@
 ---
 title: Team Management 
 ---
-The following support questions are tagged with "Team Management". If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+import Card from '@site/src/components/Card';
 
+<Card className="card-light-gray">
+  <p>The following support questions are tagged with <b>Team Management</b>. If you don't see 
+your question answered, try [asking the community](https://community.wandb.ai/), 
+or email [support@wandb.com](mailto:support@wandb.com).</p>
+</Card>
 - [Can I just log metrics, no code or dataset examples?](just_log_metrics_no_code_dataset_examples.md)
 - [How do I delete a team from my account?](delete_team_from_account.md)
 - [How do I get added to a team on W&B?](join_team.md)
