@@ -33,7 +33,9 @@ Log images to track inputs, outputs, filter weights, activations, and more!
 
 ![Inputs and outputs of an autoencoder network performing in-painting.](/images/track/log_images.png)
 
-Images can be logged directly from NumPy arrays, as PIL images, or from the filesystem.
+Images can be logged directly from NumPy arrays, as PIL images, or from the filesystem. 
+
+Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
 
 :::info
 It's recommended to log fewer than 50 images per step to prevent logging from becoming a bottleneck during training and image loading from becoming a bottleneck when viewing results.
@@ -408,6 +410,9 @@ point_scene = wandb.Object3D(
 )
 wandb.log({"point_scene": point_scene})
 ```
+
+When viewing a point cloud, you can hold control and use the mouse to move around inside the space.
+
   </TabItem>
   <TabItem value="molecules">
 
@@ -438,6 +443,40 @@ When your run finishes, you'll be able to interact with 3D visualizations of you
 ![](/images/track/docs-molecule.png)
   </TabItem>
 </Tabs>
+
+### PNG image
+
+[`wandb.Image`](../../../ref/python/data-types/image.md) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
+
+```python
+wandb.log({"example": wandb.Image(...)})
+# Or multiple images
+wandb.log({"example": [wandb.Image(...) for img in images]})
+```
+
+### Video
+
+Videos are logged using the [`wandb.Video`](../../../ref/python/data-types/video.md) data type:
+
+```python
+wandb.log({"example": wandb.Video("myvideo.mp4")})
+```
+
+Now you can view videos in the media browser. Go to your project workspace, run workspace, or report and click **Add visualization** to add a rich media panel.
+
+## 2D view of a molecule
+
+You can log a 2D view of a molecule using the [`wandb.Image`](../../../ref/python/data-types/image.md) data type and [`rdkit`](https://www.rdkit.org/docs/index.html):
+
+```python
+molecule = rdkit.Chem.MolFromSmiles("CC(=O)O")
+rdkit.Chem.AllChem.Compute2DCoords(molecule)
+rdkit.Chem.AllChem.GenerateDepictionMatching2DStructure(molecule, molecule)
+pil_image = rdkit.Chem.Draw.MolToImage(molecule, size=(300, 300))
+
+wandb.log({"acetic_acid": wandb.Image(pil_image)})
+```
+
 
 ## Other media
 
@@ -510,50 +549,3 @@ wandb.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 
   </TabItem>
 </Tabs>
-
-## Frequently Asked Questions
-
-### How can I compare images or media across epochs or steps?
-
-Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
-
-### What if I want to integrate W&B into my project, but I don't want to upload any images or media?
-
-W&B can be used even for projects that only log scalars — you specify any files or data you'd like to upload explicitly. Here's [a quick example in PyTorch](http://wandb.me/pytorch-colab) that does not log images.
-
-### How do I log a PNG?
-
-[`wandb.Image`](../../../ref/python/data-types/image.md) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
-
-```python
-wandb.log({"example": wandb.Image(...)})
-# Or multiple images
-wandb.log({"example": [wandb.Image(...) for img in images]})
-```
-
-### How do I log a video?
-
-Videos are logged using the [`wandb.Video`](../../../ref/python/data-types/video.md) data type:
-
-```python
-wandb.log({"example": wandb.Video("myvideo.mp4")})
-```
-
-Now you can view videos in the media browser. Go to your project workspace, run workspace, or report and click "Add visualization" to add a rich media panel.
-
-### How do I navigate and zoom in point clouds?
-
-You can hold control and use the mouse to move around inside the space.
-
-### How do I log a 2D view of a molecule?
-
-You can log a 2D view of a molecule using the [`wandb.Image`](../../../ref/python/data-types/image.md) data type and [`rdkit`](https://www.rdkit.org/docs/index.html):
-
-```python
-molecule = rdkit.Chem.MolFromSmiles("CC(=O)O")
-rdkit.Chem.AllChem.Compute2DCoords(molecule)
-rdkit.Chem.AllChem.GenerateDepictionMatching2DStructure(molecule, molecule)
-pil_image = rdkit.Chem.Draw.MolToImage(molecule, size=(300, 300))
-
-wandb.log({"acetic_acid": wandb.Image(pil_image)})
-```

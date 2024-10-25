@@ -15,9 +15,3 @@ Here’s an example of validation accuracy of different models over a couple of 
 [See a live example →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
 
 ![](/images/general/scatter-plots-1.png)
-
-## Common Questions
-
-### Is it possible to plot the max of a metric rather than plot step by step?
-
-The best way to do this is to create a Scatter Plot of the metric, go into the Edit menu, and select Annotations. From there you can plot the running max of the values
