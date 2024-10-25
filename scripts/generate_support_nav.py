@@ -6,7 +6,7 @@ import glob
 
 # Specify the directory containing the markdown files
 directory = 'docs/support'
-tagList = []
+tagList = dict()
 outputTemplate = """---
 title: {{tag}} 
 ---
@@ -15,11 +15,11 @@ your question answered, try [asking the community](https://community.wandb.ai/),
 or email [support@wandb.com](mailto:support@wandb.com).
 
 """
-def append_topic_to_tag_page(tag,path,title):
+def append_topic_to_tag_page(tag,markdown):
     tag = tag.lower()
     file_path = directory + "/index_" + tag + ".md"
     with open(file_path, "a") as f:
-        f.write("- [" + title + "](" + path + ")\n")
+        f.write("- " + markdown + "\n")
 def write_tag_page(tag):
     tag = tag.lower()
     file_path = directory + "/index_" + tag + ".md"
@@ -57,9 +57,10 @@ for filename in os.listdir(directory):
                         for tag in data['tags']:
                             tag = tag.lower().strip()
                             if tag not in tagList:
-                                tagList.append(tag)
+                                tagList[tag] = []
                                 write_tag_page(tag)
-                            append_topic_to_tag_page(tag,file_path.replace('docs/support/',''),data['title'])
+                            tagList[tag].append('[' + data['title'] + '](' + file_path.replace('docs/support/','') + ')')
+                        
 
             except Exception as error:
                 print("ERROR:",error,file_path)
@@ -68,11 +69,14 @@ for filename in os.listdir(directory):
 sidebar_prefix = "  support: [{type: 'doc',id: 'support/index',label: 'Support',},"
 topic_additions = ""
 sidebar_suffix = "]"
-tagList.sort()
+for tag in tagList:
+    tagList[tag].sort()
+    for markdown in tagList[tag]:
+        append_topic_to_tag_page(tag,markdown)
 with open('sidebars.js', 'r') as infile, open('output.txt', 'w') as outfile:
     for line in infile:
         if sidebar_prefix in line:
-            for tag in tagList:
+            for tag in sorted(tagList):
                 topic_additions += "'support/index_" + tag.lower() + "',"
             line = sidebar_prefix + topic_additions + sidebar_suffix + '\n'
         outfile.write(line)

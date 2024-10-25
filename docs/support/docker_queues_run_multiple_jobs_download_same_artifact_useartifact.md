@@ -1,8 +1,9 @@
 ---
-title: "When using Docker queues to run multiple jobs that download the same artifact with `use_artifact`, do we re-download the artifact for every single run of the job, or is there any caching going on under the hood?"
+title: When multiple jobs in a Docker queue download the same artifact, is any caching used, or is it re-downloaded every run?
 displayed_sidebar: support
 tags:
    - launch
+   - artifacts
 ---
 No caching exists; each launch job operates independently. Configure the queue or agent to mount a shared cache using Docker arguments in the queue configuration.
 
