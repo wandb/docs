@@ -60,7 +60,6 @@
   transform: translateY(-5px);
 }
 
-
 .card-icon-left, .card-icon-right {
   width: 24px;
   height: 24px;
@@ -79,8 +78,6 @@
   top: 40px; /* Aligns with the top padding of the card */
   right: 40px; /* Aligns with the right padding of the card */
 }
-
-
 
 .card-title {
   color: var(--Grayscale-gray-900, #181B1F);
@@ -135,6 +132,7 @@
 .card-support-index {
   background-color: rgb(235, 237, 240);
   padding: 16px 16px 0px 16px;
+  margin-bottom: 16px;
   min-height: 0px;
   color: #000
 }
