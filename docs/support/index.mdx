@@ -9,8 +9,7 @@ import TopicGrid from '@site/src/components/TopicGrid';
 
 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+A nice intro paragraph about the support center.
 
 
 <Card className="help-banner">
@@ -22,30 +21,47 @@ sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 Here are the most commonly asked questions across all categories.
 
-
 ## Popular categories
 
+Browse articles by category.
+
 <div className="card-container">
-  <Card href="index_administrator" className="card card-yellow icon">
-    <h2>Experiments</h2>
+  <Card href="index_administrator" className="card card-yellow">
+    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-category-multimodal.png')"}} />
+    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.png')"}} />
+    <h2 className="card-title">Experiments</h2>
+    <p className="card-content">Track, visualize, and compare machine learning experiments</p>
   </Card>
 
   <Card href="index_artifacts" className="card card-pink">
-    <h2>Artifacts</h2>
+    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-category-multimodal.png')"}} />
+    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.png')"}} />
+    <h2 className="card-title">Artifacts</h2>
+    <p className="card-content">Version and track datasets, models, and other machine learning artifacts</p>
   </Card>
 </div>
 
 <div className="card-container">
-  <Card href="index_aws" className="card card-blue">
-    <h2>Launch</h2>
-  </Card>
+
   <Card href="index_charts" className="card card-gray">
-    <h2>Reports</h2>
+    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-category-multimodal.png')"}} />
+    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.png')"}} />
+    <h2 className="card-title">Reports</h2>
+    <p className="card-content">Create interactive, collaborative reports to share your work</p>
   </Card>
+  <Card href="index_aws" className="card card-blue">
+    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-category-multimodal.png')"}} />
+    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.png')"}} />
+    <h2 className="card-title">Launch</h2>
+    <p className="card-content">Manage compute resources and run machine learning jobs at scale</p>
+  </Card>  
 </div>
 
 <Card className="card-banner card-banner-gray">
-<h2>Still can't find what you are looking for?</h2>
-<p>We are here to help. Contact at support@wandb.com</p>
+  <div className="card-banner-icon" style={{backgroundImage: "url('/images/support/callout-icon.png')"}} />
+  <h2>Still can't find what you are looking for?</h2>
+  <p>We are here to help. Contact W&B Support at support@wandb.com</p>
+  <a href="mailto:support@wandb.com" className="contact-us-button">
+    Contact Support
+  </a>
 </Card>
-

@@ -43,21 +43,58 @@
   align-items: flex-start;
   gap: 8px;
   flex: 1 0 0;
+  border-radius: 12px;
+  position: relative;
+  min-height: 200px; /* Adjust as needed */
+}
+
+
+.card-icon {
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.card-icon-left, .card-icon-right {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.card-icon-left {
+  /* This icon will be part of the normal flow, above the header */
+  margin-bottom: 8px; /* Increased space between icon and header */
+}
+
+.card-icon-right {
+  position: absolute;
+  top: 40px; /* Aligns with the top padding of the card */
+  right: 40px; /* Aligns with the right padding of the card */
+}
+
+
+
+.card-title {
   color: var(--Grayscale-gray-900, #181B1F);
-  font-family: "Source Sans Pro";
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
-  line-height: 40px; /* 166.667% */  
+  line-height: 32px; /* 133.333% */
+  margin: 0;
 }
 
-.card .icon {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  align-self: stretch;
+.card-content {
+  color: var(--Moon-Moon-800, #2B3038);
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  margin: 0;
 }
-
 
 .card-pink {
   border-radius: 6px;
@@ -81,6 +118,12 @@
   color: var(--color-moon-white, #FFF);
 }
 
+.card-blue h2, 
+.card-blue p {
+  color: var(--color-moon-white, #FFF);
+}
+
+
 .card-banner {
   display: flex;
   padding: 32px 40px;
@@ -88,21 +131,22 @@
   align-items: center;
   gap: 24px;
   align-self: stretch;
-  color: var(--Moon-Moon-800, #2B3038);
-  font-family: "Source Sans Pro";
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 140%; /* 39.2px */  
+  border-radius: 12px;
+  background: var(--Moon-Moon-50, #FAFAFA);
+  color: var(--Moon-Moon-800, #2B3038);  
+}
+
+.card-banner:hover {
+  color: var(--color-moon-black, #181B1F);
 }
 
 .card-banner h2 {
-  color: var(--Moon-Moon-800, #2B3038);
   font-family: "Source Sans Pro";
   font-size: 28px;
   font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 39.2px */
+  line-height: 140%;
+  margin: 0; /* 39.2px */
 }
 
 .card-banner p {
@@ -111,7 +155,8 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 140%; /* 22.4px */  
+  line-height: 140%;
+  margin: 0;/* 22.4px */
 }
 
 .card-banner-gray {
@@ -119,6 +164,45 @@
   background: var(--Moon-Moon-50, #FAFAFA);
 }
 
-p {
-  color: var(--Moon-Moon-800, #2B3038);
+
+.card-banner-icon {
+  display: flex;
+  width: 64px;
+  height: 64px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 100px;
+  background: var(--Backgrounds-Teal-tag-background, rgba(169, 237, 242, 0.48));
+}
+
+
+.contact-us-button {
+  display: flex;
+  padding: var(--Spacing-spacing-sm, 8px) var(--Spacing-spacing-sm-md, 12px);
+  justify-content: center;
+  align-items: center;
+  gap: var(--Spacing-spacing-sm, 8px);
+  border-radius: var(--Radius-radius-sm, 4px);
+  background: var(--buttons-primary-button-rest, #13A9BA); /* Teal background */
+  color: white;
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+}
+
+.contact-us-button:hover {
+  background: var(--color-teal-450, #00B8D4); /* Lighter teal on hover */
+}
+
+.contact-us-button img {
+  width: 112px;
+  height: 24px;
+}
+
+.contact-us-button p {
+  margin: 0;
+  color: white;
 }
