@@ -15,6 +15,7 @@ or email [support@wandb.com](mailto:support@wandb.com).</p>
 - [Can you use W&B Sweeps with cloud infrastructures such as AWS Batch, ECS, etc.?](sweeps_cloud_infrastructures_such_aws_batch_ecs.md)
 - [Do I need to provide values for all hyperparameters as part of the W&B Sweep. Can I set defaults?](need_provide_values_all_hyperparameters_part_wb_sweep_set.md)
 - [How can I change the directory my sweep logs to locally?](change_directory_sweep_logs_locally.md)
+- [How can I resume a sweep using Python code?](resume_sweep_using_python_code.md)
 - [How do I best log models from runs in a sweep?](best_log_models_runs_sweep.md)
 - [How do I enable code logging with Sweeps?](enable_code_logging_sweeps.md)
 - [How do I use custom CLI commands with sweeps?](custom_cli_commands_sweeps.md)

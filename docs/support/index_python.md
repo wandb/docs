@@ -11,5 +11,6 @@ or email [support@wandb.com](mailto:support@wandb.com).</p>
 - [Does the W&B client support Python 2?](client_support_python_2.md)
 - [Does the W&B client support Python 3.5?](client_support_python_35.md)
 - [Does this only work for Python?](work_python.md)
+- [How can I resume a sweep using Python code?](resume_sweep_using_python_code.md)
 - [How do I install the wandb Python library in environments without gcc?](install_wandb_python_library_environments_without_gcc.md)
 - [Is there an anaconda package for Weights and Biases?](anaconda_package.md)

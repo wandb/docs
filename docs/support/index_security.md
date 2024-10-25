@@ -12,3 +12,5 @@ or email [support@wandb.com](mailto:support@wandb.com).</p>
 - [Do you have a bug bounty program?](bounty_program.md)
 - [Does W&B support SSO for Multi-tenant?](sso_multitenant.md)
 - [How can I rotate or revoke access?](rotate_revoke_access.md)
+- [How do I find my API key?](find_api_key.md)
+- [How do I resolve permission errors when logging a run?](resolve_permission_errors_when_logging_wandb_entity.md)
