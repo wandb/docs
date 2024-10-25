@@ -4,5 +4,4 @@ displayed_sidebar: support
 tags:
 - administrator
 ---
-- To renew your expired license, contact the support team. They will assist you with the renewal process and provide a new license key.
-- To unlock your data after license renewal, apply the new license key correctly.    
+To renew an expired license, contact the support team at support@wandb.com for assistance with the renewal process and to receive a new license key.

@@ -2,12 +2,12 @@
 title: How do I rename a project?
 displayed_sidebar: support
 tags:
-- frontend
+- projects
 ---
 To rename a project:
 
 - Navigate to the Project overview.
-- Click on Edit Project details.
+- Click on **Edit Project**.
 
 Note:
 

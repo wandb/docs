@@ -24,7 +24,6 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [How do I log a list of values?](log_list_values.md)
 - [How do I plot multiple lines on a plot with a legend?](plot_multiple_lines_plot_legend.md)
 - [How do I programmatically access the human-readable run name?](programmatically_access_humanreadable_run_name.md)
-- [How many runs to create per project?](uns_create_per_project.md)
 - [I didn't name my run. Where is the run name coming from?](didnt_name_run_run_name_coming.md)
 - [InitStartError: Error communicating with wandb process](initstarterror_error_communicating_wandb_process.md)
 - [Is it possible to save metrics offline and sync them to W&B later?](save_metrics_offline_sync_them_wb_later.md)
