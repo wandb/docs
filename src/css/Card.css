@@ -19,7 +19,8 @@
   background-image: url('/images/support/support_banner.png');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;  
+  background-repeat: no-repeat;
+  box-shadow: none;  
 }
 
 .help-banner h2 {
@@ -49,7 +50,12 @@
   flex: 1 0 0;
   border-radius: 12px;
   position: relative;
-  min-height: 200px; /* Adjust as needed */
+  min-height: 200px;
+  box-shadow: none; /* Adjust as needed */
+}
+
+.card:hover {
+  box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.08);
 }
 
 
@@ -143,7 +149,7 @@
 
 .card-banner h2 {
   font-family: "Source Sans Pro";
-  font-size: 28px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 600;
   line-height: 140%;
