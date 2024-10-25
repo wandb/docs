@@ -12,6 +12,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [How do I find an artifact from the best run in a sweep?](find_artifact_best_run_sweep.md)
 - [Using artifacts with multiple architectures and runs?](artifacts_multiple_architectures_runs.md)
 - [How do I save code?‌](save_code‌.md)
+- [Is it possible to recover an artifact after it has been deleted with a run?](possible_recover_artifact_after_been_deleted_with_run.md)
 - [Can I turn off wandb when testing my code?](testing_code_turn_off.md)
 - [Who has access to my artifacts?](access_artifacts.md)
 - [How can I find the artifacts logged or consumed by a run? How can I find the runs that produced or consumed an artifact?](find_artifacts_logged_consumed_run_find.md)

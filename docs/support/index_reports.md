@@ -6,6 +6,7 @@ your question answered, try [asking the community](https://community.wandb.ai/),
 or email [support@wandb.com](mailto:support@wandb.com).
 
 - [How to get multiple charts with different selected runs?](multiple_charts_different_selected_runs.md)
+- [Who can edit and share reports?](edit_share_reports.md)
 - [My report is running slowly after the change to WYSIWYG](report_slow_after_wysiwyg.md)
 - [How do I delete a panel grid?](delete_panel_grid.md)
 - [Upload a CSV to a report](upload_csv_report.md)
