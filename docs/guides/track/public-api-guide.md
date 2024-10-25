@@ -127,7 +127,7 @@ importer.import_all(
 )
 ```
 
-By default, imports are incremental. Subsequent imports try to validate the previous work and write to `.jsonl` files tracking success/failure. If an import succeeded, future validation is skipped. If an import failed, it is retried. To disable this, set `incremental=False`.
+By default, imports are incremental. Subsequent imports try to validate the previous work and write to `.jsonl` files tracking success/failure. If an import succeeded, future validation is skipped. If an import failed, it is retried. To turn this off, set `incremental=False`.
 
 ```py
 importer.import_all(
@@ -309,13 +309,7 @@ If errors occur while talking to W&B servers a `wandb.CommError` will be raised.
 
 In the UI, click on a run and then click the Overview tab on the run page to see the latest git commit. It's also in the file `wandb-metadata.json` . Using the public API, you can get the git hash with `run.commit`.
 
-## Frequently Asked Questions
-
-### How do I export data to visualize in matplotlib or seaborn?
-
-Check out our [API examples](../../ref/python/public-api/README.md) for some common export patterns. You can also click the download button on a custom plot or on the expanded runs table to download a CSV from your browser.
-
-### How do I get a run's name and ID during a run?
+### Get a run's name and ID during a run
 
 After calling `wandb.init()` you can access the random run ID or the human readable run name from your script like this:
 
@@ -330,6 +324,10 @@ If you're thinking about ways to set useful identifiers for your runs, here's wh
 - **Run tags**: Track things dynamically in run tags, and use filters in the UI to filter your table down to just the runs you care about. You can set tags from your script and then edit them in the UI, both in the runs table and the overview tab of the run page. See the detailed instructions [here](../app/features/tags.md).
 
 ## Public API Examples
+
+### Export data to visualize in matplotlib or seaborn
+
+Check out our [API examples](../../ref/python/public-api/README.md) for some common export patterns. You can also click the download button on a custom plot or on the expanded runs table to download a CSV from your browser.
 
 ### Read metrics from a run
 

@@ -137,6 +137,12 @@ const config = {
             position: 'right',
           },
           {
+            type: 'doc',
+            docId: 'support/index',
+            label: 'Support',
+            position: 'right',
+          },
+          {
             type: 'dropdown',
             label: 'Language',
             position: 'right',
@@ -150,11 +156,6 @@ const config = {
                 href: 'https://docs.wandb.ai/ko/guides',
               },
             ],
-          },
-          {
-            href: 'https://github.com/wandb/wandb',
-            html: 'GitHub<img src="/img/icon-open-new-tab.svg" class="navbar__link__icon" />',
-            position: 'right',
           },
           {
             href: 'https://app.wandb.ai/login',

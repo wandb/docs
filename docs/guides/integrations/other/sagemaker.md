@@ -34,7 +34,7 @@ You can also read the [tutorial](https://wandb.ai/authors/sagemaker/reports/Depl
 :::
 
 :::caution
-The W&B sweep agent will not behave as expected in a SageMaker job unless our SageMaker integration is disabled. You can disable the SageMaker integration in your runs by modifying your invocation of `wandb.init` as follows:
+The W&B sweep agent will not behave as expected in a SageMaker job unless our SageMaker integration is turned off. You can turn off the SageMaker integration in your runs by modifying your invocation of `wandb.init` as follows:
 
 ```
 wandb.init(..., settings=wandb.Settings(sagemaker_disable=True))

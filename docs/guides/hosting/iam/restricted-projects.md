@@ -37,7 +37,7 @@ Set a project's visibility scope when you create a project or when editing it la
 
 :::info
 * Only the owner of the project or a team admin can set or edit its visibility scope.
-* When a team admin enables **Make all future team projects private (public sharing not allowed)** within a team's privacy setting, that disables **Open** and **Public** project visibility scopes for that team. In this case, your team can only use **Team** and **Restricted** scopes.
+* When a team admin enables **Make all future team projects private (public sharing not allowed)** within a team's privacy setting, that turns off **Open** and **Public** project visibility scopes for that team. In this case, your team can only use **Team** and **Restricted** scopes.
 :::
 
 #### Set visibility scope when you create a new project

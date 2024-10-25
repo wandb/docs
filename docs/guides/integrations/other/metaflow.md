@@ -13,8 +13,8 @@ import TabItem from '@theme/TabItem';
 
 This integration lets users apply decorators to Metaflow [steps and flows](https://docs.metaflow.org/metaflow/basics) to automatically log parameters and artifacts to W&B.
 
-* Decorating a step will enable or disable logging for certain types within that step.
-* Decorating the flow will enable or disable logging for every step in the flow.
+* Decorating a step will turn logging off or on for certain types within that step.
+* Decorating the flow will turn logging off or on for every step in the flow.
 
 ## Quickstart
 
@@ -55,7 +55,7 @@ wandb login
   ]}>
   <TabItem value="step">
 
-Decorating a step will enable or disable logging for certain types within that Step.
+Decorating a step will turn logging off or on for certain types within that Step.
 
 In this example, all datasets and models in `start` will be logged
 

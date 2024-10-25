@@ -5,6 +5,7 @@ chatbot
 [Aa]utomations
 autolog
 [Bb]asename
+Bokeh
 [Bb]oolean
 [Cc]heckpointing
 CLI
@@ -14,6 +15,7 @@ Colab
 [Cc]onfig
 CTAButtons
 [Dd]ataframe
+[Dd]atastore
 [Dd]edicated cloud
 [Dd]equeue
 [Dd]equeues
@@ -46,11 +48,15 @@ Okta
 OpenID Connect
 [Oo]perator
 Optuna
+Plotly
 [P]repended
 [Pp]seudocode
 [Rr]egistry
+[Rr]einitialization
 SCIM
 SageMaker
+[Ss]catterplot
+[Ss]ubcommand
 Security Assertion Markup Language
 [Ss]elf-managed
 Terraform
@@ -58,5 +64,6 @@ TTL
 UI
 use_artifact
 [Ww]alkthrough
+wandb
 wandb.com
 W&B Server

@@ -109,7 +109,7 @@ Add a local directory to the artifact.
 |  `local_path` |  The path of the local directory. |
 |  `name` |  The subdirectory name within an artifact. The name you specify appears in the W&B App UI nested by artifact's `type`. Defaults to the root of the artifact. |
 |  `skip_cache` |  If set to `True`, W&B will not copy/move files to the cache while uploading |
-|  `policy` |  "mutable" | "immutable". By default, "mutable" "mutable": Create a temporary copy of the file to prevent corruption during upload. "immutable": Disable protection, rely on the user not to delete or change the file. |
+|  `policy` |  "mutable" | "immutable". By default, "mutable" "mutable": Create a temporary copy of the file to prevent corruption during upload. "immutable": Turn off protection, rely on the user not to delete or change the file. |
 
 | Raises |  |
 | :--- | :--- |
@@ -138,7 +138,7 @@ Add a local file to the artifact.
 |  `name` |  The path within the artifact to use for the file being added. Defaults to the basename of the file. |
 |  `is_tmp` |  If true, then the file is renamed deterministically to avoid collisions. |
 |  `skip_cache` |  If set to `True`, W&B will not copy files to the cache after uploading. |
-|  `policy` |  By default, set to "mutable". If set to "mutable", create a temporary copy of the file to prevent corruption during upload. If set to "immutable", disable protection and rely on the user not to delete or change the file. |
+|  `policy` |  By default, set to "mutable". If set to "mutable", create a temporary copy of the file to prevent corruption during upload. If set to "immutable", turn off protection and rely on the user not to delete or change the file. |
 
 | Returns |  |
 | :--- | :--- |

@@ -163,7 +163,7 @@ python train.py ... --use-wandb
   </TabItem>
 </Tabs>
 
-* Or, set `wandb` to be disabled in `wandb.init`
+* Or, set `wandb` to be `disabled` in `wandb.init`
 
 <Tabs
   defaultValue="python"

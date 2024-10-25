@@ -375,3 +375,41 @@ footer .container {
 .pagination-nav {
   display: none;
 }
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.topic-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.topic-card h2 {
+  margin-top: 0;
+  color: white;
+}
+
+.topic-card ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.topic-card li {
+  margin-bottom: 10px;
+}
+
+.topic-card a {
+  color: #10BFCC;
+  text-decoration: none;
+}
+
+.topic-card a:hover {
+  text-decoration: underline;
+}
+
