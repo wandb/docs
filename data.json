@@ -2,47 +2,47 @@
   "redirects": [
     {
       "from": "/guides/technical-faq/general",
-      "to": "/"
+      "to": "/support/index"
     },
     {
       "from": "/guides/technical-faq/admin",
-      "to": "/"
+      "to": "/support/index"
     },
     {
       "from": "/guides/technical-faq/metrics-and-performance",
-      "to": "/"
+      "to": "/support/index"
     },
     {
       "from" :"/guides/technical-faq/setup",
-      "to": "/"
+      "to": "/support/index"
     },
     {
       "from" :"/guides/technical-faq/troubleshooting",
-      "to": "/"
+      "to": "/support/index"
     },
     {
       "from" : "/guides/track/tracking-faq",
-      "to" : "/"
+      "to" : "/support/index_experiments"
     },
     {
       "from" : "/guides/sweeps/faq",
-      "to" : "/"
+      "to" : "/support/index_sweeps"
     },
     {
       "from" : "/guides/launch/launch-faqs",
-      "to" : "/"
+      "to" : "/support/index_launch"
     },
     {
       "from" : "/guides/artifacts/artifacts-faqs",
-      "to" : "/"
+      "to" : "/support/index_artifacts"
     },
     {
       "from" : "/guides/reports/reports-faq",
-      "to" : "/"
+      "to" : "/support/index_reports"
     },
     {
       "from" : "/guides/track/log/logging-faqs",
-      "to" : "/"
+      "to" : "/support/index_logs"
     },
     {
       "from": "/app",
