@@ -2,7 +2,7 @@
 title: How can I regain access to my account if I cannot receive a password reset email?
 displayed_sidebar: support
 tags:
-- admin
+- administrator
 ---
 To regain access to your account if you cannot receive a password reset email:
 
