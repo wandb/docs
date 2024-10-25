@@ -258,14 +258,12 @@ The System Console is the successor to the System Settings page. It is available
 
 ![](/images/hosting/system_settings_select_update.png)
 
+</TabItem>
+</Tabs>
 
 :::info
 If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This will output a temporary password to the containers logs and turn off SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
 :::
-
-</TabItem>
-</Tabs>
-
 
 ## Security Assertion Markup Language (SAML)
 W&B Server does not support SAML.
