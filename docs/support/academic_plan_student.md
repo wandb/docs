@@ -1,4 +1,3 @@
-
 ---
 title: Can I get an academic plan as a student?
 displayed_sidebar: support
