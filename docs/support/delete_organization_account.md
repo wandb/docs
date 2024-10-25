@@ -1,4 +1,3 @@
-
 ---
 title: How do I delete my organization account?
 displayed_sidebar: support
