@@ -280,10 +280,20 @@ helm upgrade operator wandb/operator -n wandb-cr --reuse-values
 ```
 
 ## Update the W&B Server application
-You no longer need to update W&B Server application if you use the W&B Kubernetes operator.
+With the W&B Kubernetes operator, you no longer need to manually update the W&B Server application. The operator automatically applies updates whenever a new version is released. Customers also have the option to pin specific W&B versions.
 
-The operator automatically updates your W&B Server application when a new version of the software of W&B is released.
+### Version Pinning
+Follow these steps to pin a specific W&B version: 
 
+1. Refer to [Access the W&B Management Console](#access-the-wb-management-console).
+
+2. Navigate to **Settings**, then **Advanced** and then **Other**. Toggle the **Pin specific version** switch.
+
+4. Select your desired version from the dropdown menu and click **Save**.
+
+![](/images/hosting/operator_version_pinning.png)
+
+Please review the support policies regarding [release support and end of life policy](server-release-process#release-support-and-end-of-life-policy).
 
 ## Migrate self-managed instances to W&B Operator
 The proceeding section describe how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. The migration process depends on how you installed W&B Server:

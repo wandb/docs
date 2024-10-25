@@ -205,7 +205,7 @@ The OIDC issuer URL has the following format: `https://login.microsoftonline.com
 
 To set up SSO, you need administrator privileges and the following information:
 - OIDC Client ID
-- OIDC Auth method (implicit` or `pkce`)
+- OIDC Auth method (`implicit` or `pkce`)
 - OIDC Issuer URL
 - OIDC Client Secret (optional; depends on how you have setup your IdP) 
 
