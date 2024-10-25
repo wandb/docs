@@ -2,7 +2,7 @@
 title: How much storage does each artifact version use?
 displayed_sidebar: support
 tags:
-- artifact
+- artifacts
 - storage
 ---
 Only files that change between two artifact versions incur storage costs.
