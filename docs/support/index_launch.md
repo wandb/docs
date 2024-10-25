@@ -1,10 +1,13 @@
 ---
 title: Launch 
 ---
-The following support questions are tagged with "Launch". If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+import Card from '@site/src/components/Card';
 
+<Card className="card-light-gray">
+  <p>The following support questions are tagged with <b>Launch</b>. If you don't see 
+your question answered, try [asking the community](https://community.wandb.ai/), 
+or email [support@wandb.com](mailto:support@wandb.com).</p>
+</Card>
 - [Are there best practices for using Launch effectively?](best_practices_launch_effectively.md)
 - [Can I specify a Dockerfile and let W&B build a Docker image for me?](dockerfile_let_wb_build_docker_image_me.md)
 - [Can Launch automatically provision (and spin down) compute resources for me in the target environment?](launch_automatically_provision_spin_compute_resources_target_environment.md)

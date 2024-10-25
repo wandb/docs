@@ -1,10 +1,13 @@
 ---
 title: Experiments 
 ---
-The following support questions are tagged with "Experiments". If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+import Card from '@site/src/components/Card';
 
+<Card className="card-light-gray">
+  <p>The following support questions are tagged with <b>Experiments</b>. If you don't see 
+your question answered, try [asking the community](https://community.wandb.ai/), 
+or email [support@wandb.com](mailto:support@wandb.com).</p>
+</Card>
 - [Can I just set the run name to the run ID?](just_set_run_name_run_id.md)
 - [Can I log metrics on two different time scales?](log_metrics_two_different_time_scales_example_log_training.md)
 - [Can I run wandb offline?](run_wandb_offline.md)

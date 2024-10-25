@@ -1,10 +1,13 @@
 ---
 title: Sweeps 
 ---
-The following support questions are tagged with "Sweeps". If you don't see 
-your question answered, try [asking the community](https://community.wandb.ai/), 
-or email [support@wandb.com](mailto:support@wandb.com).
+import Card from '@site/src/components/Card';
 
+<Card className="card-light-gray">
+  <p>The following support questions are tagged with <b>Sweeps</b>. If you don't see 
+your question answered, try [asking the community](https://community.wandb.ai/), 
+or email [support@wandb.com](mailto:support@wandb.com).</p>
+</Card>
 - [Best practices to organize hyperparameter searches](best_practices_organize_hyperparameter_searches.md)
 - [Can I rerun a grid search?](rerun_grid_search.md)
 - [Can I use Sweeps and SageMaker?](sweeps_sagemaker.md)

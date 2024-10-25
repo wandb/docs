@@ -10,17 +10,16 @@
   margin: 8px;
   display: block;
   border-radius: 8px;
-  padding: 16px;
+  padding: 16px 16px 0px 16px;
   text-align: left;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
 }
 
 .card-yellow {
@@ -35,13 +34,13 @@
   background-color: #10BFCC;
 }
 
+.card-light-gray {
+  background-color: rgb(235, 237, 240);
+}
+
 /* Global hover text color for all cards */
 .card h2, .card p {
   color: #000; /* Default text color */
-}
-
-.card:hover h2, .card:hover p {
-  color: white; /* Global hover text color (orange) */
 }
 
 /* Make sure the layout is responsive on smaller screens */

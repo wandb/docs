@@ -4,6 +4,7 @@ displayed_sidebar: support
 tags:
    - experiments
    - environment variables
+   - metrics
 ---
 By default, `wandb.init` starts a process that syncs metrics in real time to the cloud. For offline use, set two environment variables to enable offline mode and sync later.
 

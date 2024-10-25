@@ -3,6 +3,7 @@ title: "Can I log metrics on two different time scales?"
 displayed_sidebar: support
 tags:
    - experiments
+   - metrics
 ---
 For example, I want to log training accuracy per batch and validation accuracy per epoch.
 

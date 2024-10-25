@@ -3,6 +3,7 @@ title: "Optimizing multiple metrics"
 displayed_sidebar: support
 tags:
    - sweeps
+   - metrics
 ---
 To optimize multiple metrics in a single run, use a weighted sum of the individual metrics.
 

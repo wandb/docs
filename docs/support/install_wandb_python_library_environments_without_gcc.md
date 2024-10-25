@@ -2,7 +2,7 @@
 title: "How do I install the wandb Python library in environments without gcc?"
 displayed_sidebar: support
 tags:
-   - gcc
+- python
 ---
 If an error occurs when installing `wandb` that states:
 

@@ -2,7 +2,6 @@
 title: How can I resolve the Filestream rate limit exceeded error?
 displayed_sidebar: support
 tags:
-- rate limits
 - connectivity
 - outage
 ---

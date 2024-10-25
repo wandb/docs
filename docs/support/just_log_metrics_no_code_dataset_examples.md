@@ -4,6 +4,7 @@ displayed_sidebar: support
 tags:
    - administrator
    - team management
+   - metrics
 ---
 
 By default, W&B does not log dataset examples. By default, W&B logs code and system metrics.
