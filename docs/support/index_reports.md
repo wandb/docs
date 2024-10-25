@@ -17,7 +17,7 @@ or email [support@wandb.com](mailto:support@wandb.com).
 - [I converted my report to WYSIWYG but want to revert back to Markdown](convert_from_wysiwyg_markdown.md)
 - [Filter and delete unwanted reports](filter_delete_unwanted_reports.md)
 - [My report looks different after converting from Markdown.](report_looks_different_converting_markdown.md)
+- [Can I use Markdown in my reports?](reports_markdown.md)
 - [Refreshing data](refreshing_data.md)
 - [Incorporating LaTeX](incorporating_latex.md)
 - [How do I insert a table?](insert_table.md)
-- [Can I still use Markdown in my reports?](use_markdown.md)

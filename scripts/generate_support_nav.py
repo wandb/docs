@@ -79,20 +79,3 @@ with open('sidebars.js', 'r') as infile, open('output.txt', 'w') as outfile:
 os.remove('sidebars.js')
 os.rename('output.txt', 'sidebars.js')
 print(tagList)
-
-index_output = ''
-index_card_template = """<Card href="{{link}}" className="card-blue">
-  <h2>{{tag}}</h2>
-</Card>
-"""
-index_page_template = """---
-title: Weights & Biases Support Center
----
-import Card from '@site/src/components/Card';
-
-{{content}}
-"""
-with open('docs/support/index.md', 'w') as outfile:
-    for tag in tagList:
-        index_output += index_card_template.replace('{{tag}}',tag).replace('{{link}}','index_' + tag.lower())
-    outfile.write(index_page_template.replace('{{content}}',index_output))

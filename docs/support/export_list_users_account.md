@@ -3,8 +3,9 @@ title: How do I export a list of users from my W&B Organisation?
 displayed_sidebar: support
 tags:
 - administrator
+- user management
 ---
-To export a list of users from your W&B Organisation an Admin can use the SCIM API with the following code:
+To export a list of users from a W&B organization, an admin uses the SCIM API with the following code:
 
 ```python
 import base64
@@ -29,7 +30,4 @@ for user in response.json()['Resources']:
     users.append([user['userName'], user['emails']['Value']])
 ```
 
-Ensure you have the appropriate API key and permissions. Modify scripts to save output as needed.
-
-
-    
+Modify the script to save the output as needed.

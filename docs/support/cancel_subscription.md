@@ -4,6 +4,6 @@ displayed_sidebar: support
 tags:
 - administrator
 ---
-- **To cancel your subscription:**
-  - Contact our support team.
-  - Provide your organization name, email associated with your account, and username.    
+
+- Contact the support team (support@wandb.com).
+- Provide the organization name, email associated with the account, and username.

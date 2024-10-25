@@ -3,10 +3,11 @@ title: Can I get an academic plan as a student?
 displayed_sidebar: support
 tags:
 - administrator
+- academic
+- user management
 ---
-Yes, as a student, you can apply for an academic plan. Follow these steps: 
+Students can apply for an academic plan by following these steps:
 
-- Visit the Pricing page of our website. 
-- Click on the apply button for the academic plan.
-- Alternatively, start with a 30-day trial and then convert it to an academic plan by visiting [https://wandb.ai/academic_application](https://wandb.ai/academic_application).
-    
+- Visit [the Pricing page on the wandb.com](https://wandb.ai/site/pricing).
+- Apply for the academic plan.
+- Alternatively, start with a 30-day trial and convert it to an academic plan by visiting [https://wandb.ai/academic_application](https://wandb.ai/academic_application).

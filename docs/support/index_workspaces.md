@@ -7,6 +7,5 @@ or email [support@wandb.com](mailto:support@wandb.com).
 
 - [Is there a dark mode?](dark_mode.md)
 - [What really good functionalities are hidden and where can I find those?](functionalities_hidden_find.md)
-- [Is it possible to move a run from one project to another?](possible_move_from_project_another.md)
 - [Refreshing data](refreshing_data.md)
 - [How do I fix the "overflows maximum values of a signed 64 bits integer" error?](overflows_maximum_values_error.md)

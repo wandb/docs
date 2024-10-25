@@ -1,13 +1,13 @@
 ---
-title: "Is there an anaconda package?"
+title: "Is there an anaconda package for Weights and Biases?"
 displayed_sidebar: support
 tags:
-   - other
+- python
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-You can install the package using either `pip` or `conda`. For `conda`, obtain the package from the [conda-forge](https://conda-forge.org) channel.
+There is an anaconda package that is installable using either `pip` or `conda`. For `conda`, obtain the package from the [conda-forge](https://conda-forge.org) channel.
 
 <Tabs
   defaultValue="pip"
@@ -17,7 +17,7 @@ You can install the package using either `pip` or `conda`. For `conda`, obtain t
   ]}>
   <TabItem value="pip">
 
-```bash
+```shell
 # Create a conda environment
 conda create -n wandb-env python=3.8 anaconda
 # Activate the environment
@@ -29,7 +29,7 @@ pip install wandb
   </TabItem>
   <TabItem value="conda">
 
-```
+```shell
 conda activate myenv
 conda install wandb --channel conda-forge
 ```

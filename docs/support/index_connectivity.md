@@ -5,6 +5,7 @@ The following support questions are tagged with "Connectivity". If you don't see
 your question answered, try [asking the community](https://community.wandb.ai/), 
 or email [support@wandb.com](mailto:support@wandb.com).
 
-- [How do I resolve a run initialization timeout error in wandb?](resolve_initialization_timeout_error_wandb.md)
+- [How do I resolve a run initialization timeout error in wandb?](initialization_timeout_error.md)
+- [Is there a W&B outage?](wandb_status.md)
 - [How do I deal with network issues?](deal_network_issues.md)
-- [Is there a W&B outage?](check_wandb_status.md)
+- [How can I resolve the Filestream rate limit exceeded error?](filestream_rate_limit_exceeded_error.md)

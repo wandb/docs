@@ -5,4 +5,4 @@ tags:
 - administrator
 - team management
 ---
-No, it is not possible to add the same service account to multiple teams in W&B. Service accounts are tied to a specific team.
+A service account cannot be added to multiple teams in W&B. Each service account is tied to a specific team.
