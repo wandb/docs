@@ -1,5 +1,5 @@
 ---
-title: Aws 
+title: AWS 
 ---
 import Card from '@site/src/components/Card';
 

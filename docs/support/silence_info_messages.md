@@ -5,6 +5,9 @@ tags:
 - notebooks
 - environment variables
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 To turn off standard Weights & Biases logging and information messages, such as project info at the start of a run, set the `WANDB_SILENT` environment variable. This must occur in a notebook cell before running `wandb.login`:
 
 <Tabs

@@ -4,7 +4,6 @@ displayed_sidebar: support
 tags:
 - workspaces 
 ---
-   - Currently, changing the colors of individual runs within a group is not possible. All runs in the same group share a common color.
+Currently, changing the colors of individual runs within a group is not possible. All runs in the same group share a common color.
 
-**
     

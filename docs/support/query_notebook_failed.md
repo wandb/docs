@@ -5,6 +5,9 @@ tags:
 - notebooks
 - environment variables
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 If you encounter the error message `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` resolve it by setting the environment variable. Multiple methods accomplish this:
 
 <Tabs
