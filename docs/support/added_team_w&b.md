@@ -1,4 +1,3 @@
-
 ---
 title: How do I get added to a team on W&B?
 displayed_sidebar: support

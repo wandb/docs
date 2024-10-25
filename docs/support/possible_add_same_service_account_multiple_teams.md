@@ -1,4 +1,3 @@
-
 ---
 title: Is it possible to add the same service account to multiple teams?
 displayed_sidebar: support

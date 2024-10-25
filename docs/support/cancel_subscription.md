@@ -1,4 +1,3 @@
-
 ---
 title: How do I cancel my subscription?  
 displayed_sidebar: support

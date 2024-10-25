@@ -1,4 +1,3 @@
-
 ---
 title: How do I delete a team from my account?  
 displayed_sidebar: support
