@@ -7,147 +7,118 @@
 }
 
 
-.card {
-  display: flex; /* Use flexbox for layout */
-  padding: var(--Spacing-spacing-sm-md, 12px) var(--Spacing-spacing-md, 16px);
-  flex-direction: column; /* Stack children vertically */
+.help-banner {
+  display: flex;
+  padding: 56px 40px 72px 40px;
+  flex-direction: column;
   align-items: flex-start;
-  gap: var(--Spacing-spacing-none, 0px);
+  gap: 32px;
+  align-self: stretch;
+  border-radius: 12px;
+  background: var(--Moon-Moon-900, #1A1D24);   
+}
+
+.help-banner h2 {
+  color: var(--Moon-Moon-50, #FAFAFA);
+  font-family: "Source Sans Pro";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 56px *//* 28px */
+}
+
+.help-banner p {
+  color: var(--Moon-Moon-250, #DADEE3);
+  font-family: "Source Sans Pro";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 28px *//* 22.4px */
+}
+
+.card {
+  display: flex;
+  padding: 40px 33px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   flex: 1 0 0;
-  justify-content: center; /* Center content vertically */
-  height: 100%; /* Ensure the card has a height */
-  /* Ensure the card takes full height */
-  border-radius: 8px;
-  border-width: thin;
-  border: var(--Spacing-spacing-none, 1px) solid var(--Borders-Border, #DADEE3);
-  text-align: center;
-  text-decoration: none;
-  color: inherit;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  min-width: 300px; /* Minimum height to preserve card size */
-  background: var(--backgrounds-background-type-1, #FFF);
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  overflow: hidden;
+  color: var(--Grayscale-gray-900, #181B1F);
+  font-family: "Source Sans Pro";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 40px; /* 166.667% */  
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  border-color: #10BFCC
+.card .icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
 }
 
-.card-white {
-  background-color: #fff;
+
+.card-pink {
+  border-radius: 6px;
+  background: var(--color-sienna-300, #FFCFB2);
 }
 
 .card-yellow {
-  background-color: #FAC13C;
+  border-radius: 6px;
+  background: var(--Gold-gold-light2, #FFD95C);
 }
 
+
 .card-gray {
-  background-color: #8E949E;
+  border-radius: 6px;
+  background: var(--Moon-Moon-150, #EDEFF2);
 }
 
 .card-blue {
-  background-color: #10BFCC;
+  border-radius: 6px;
+  background: var(--color-teal-550, #0097AB);
+  color: var(--color-moon-white, #FFF);
 }
 
-
-/* Global hover text color for all cards */
-.card h2, .card p {
-  color: #000; /* Default text color */
-}
-
-.card:hover h2, .card:hover p {
-  color: white; /* Global hover text color  */
-}
-
-/* Make sure the layout is responsive on smaller screens */
-@media (max-width: 768px) {
-  .card-container {
-    flex-direction: column; /* Stack the cards vertically on smaller screens */
-  }
-}
-
-h2 {
-  font-size: 20px;
-  color: var(--Text-Body-text, #2B3038);
+.card-banner {
+  display: flex;
+  padding: 32px 40px;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+  color: var(--Moon-Moon-800, #2B3038);
   font-family: "Source Sans Pro";
+  font-size: 28px;
   font-style: normal;
-  font-weight: 400;
-  line-height: 32px; /* 160% */
+  font-weight: 600;
+  line-height: 140%; /* 39.2px */  
 }
 
-p {
-  color: var(--Text-Secondary-text-and-icons, #79808A);
+.card-banner h2 {
+  color: var(--Moon-Moon-800, #2B3038);
+  font-family: "Source Sans Pro";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 39.2px */
+}
+
+.card-banner p {
+  color: var(--Moon-Moon-800, #2B3038);
   font-family: "Source Sans Pro";
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: normal;
+  line-height: 140%; /* 22.4px */  
 }
 
-/* Image-specific card styles */
-.card-image {
-  color: white; /* Default text color for cards with images */
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.6); /* Improve text readability */
+.card-banner-gray {
+  border-radius: 12px;
+  background: var(--Moon-Moon-50, #FAFAFA);
 }
 
-/* Ensure all text elements within card-image use the specified color */
-.card-image h1,
-.card-image h2,
-.card-image h3,
-.card-image h4,
-.card-image h5,
-.card-image h6,
-.card-image p,
-.card-image a {
-  color: inherit; /* This will use the color specified in .card-image */
+p {
+  color: var(--Moon-Moon-800, #2B3038);
 }
-
-
-
-/* Custom text colors for cards with images */
-.card-image-text-white {
-  color: white;
-}
-
-.card-image-text-black {
-  color: black;
-}
-
-/* Add a semi-transparent overlay only for cards with images */
-.card-image::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(226, 226, 226, 0.3); /* Adjust opacity as needed */
-  z-index: 1;
-}
-
-/* Ensure text is above the overlay for cards with images */
-.card-image h2, .card-image p {
-  position: relative;
-  z-index: 2;
-}
-
-/* Example image backgrounds */
-.wandb-slide-image {
-  background-image: url('/images/wandb_slide.png');
-}
-
-
-/* .card-image h2,
-.card-image p {
-  color: white;
-} */
-
-
-/* Add more combinations as needed */
-
