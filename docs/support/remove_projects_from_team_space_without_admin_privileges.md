@@ -4,9 +4,9 @@ displayed_sidebar: support
 tags:
 - administrator
 ---
-To remove projects from a team space without admin privileges, you have two options:
+To remove projects from a team space without admin privileges, follow these options:
 
-- Request that a current admin remove the projects for you.
-- Ask the admin to grant you the necessary access to manage the projects temporarily. 
+- Request that a current admin remove the projects.
+- Ask the admin to grant temporary access for project management.
 
-If you can't reach the admin, contact a billing admin or another authorized user in your organization who can assist.  
+If unable to contact the admin, reach out to a billing admin or another authorized user in your organization for assistance.
