@@ -1,4 +1,3 @@
-
 ---
 title: Is it possible to change the username?
 displayed_sidebar: support

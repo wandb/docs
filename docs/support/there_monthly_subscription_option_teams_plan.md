@@ -1,4 +1,3 @@
-
 ---
 title: Is there a monthly subscription option for the teams plan?
 displayed_sidebar: support

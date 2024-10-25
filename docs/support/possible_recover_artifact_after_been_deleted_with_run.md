@@ -1,4 +1,3 @@
-
 ---
 title: Is it possible to recover an artifact after it has been deleted with a run?  
 displayed_sidebar: support

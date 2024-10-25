@@ -1,4 +1,3 @@
-
 ---
 title: How can I make my project public?
 displayed_sidebar: support
