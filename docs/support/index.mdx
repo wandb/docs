@@ -5,6 +5,7 @@ hide_table_of_contents: true
 import Card from '@site/src/components/Card';
 import TopicCard from '@site/src/components/TopicCard';
 import TopicGrid from '@site/src/components/TopicGrid';
+import FAQItem from '@site/src/components/FAQItem';
 
 
 
@@ -19,7 +20,29 @@ A nice intro paragraph about the support center.
 
 ## Frequently asked questions
 
+
+
 Here are the most commonly asked questions across all categories.
+
+<div className="faq-container">
+  <FAQItem
+    question="How do I start tracking experiments with W&B?"
+    answer="To start tracking experiments, initialize wandb in your script and log metrics. Check our quickstart guide for detailed steps."
+  />
+  <FAQItem
+    question="How can I organize my runs into projects?"
+    answer="You can specify a project name when initializing wandb. All runs with the same project name will be grouped together automatically."
+  />
+  <FAQItem
+    question="What's the difference between artifacts and media?"
+    answer="Artifacts are versioned files or directories, while media are non-versioned files like images or videos associated with a specific run."
+  />
+  <FAQItem
+    question="How do I share my experiments with my team?"
+    answer="You can invite team members to your W&B account or share specific project links. Use our collaboration features for seamless sharing."
+  />
+</div>
+
 
 ## Popular categories
 
@@ -27,15 +50,15 @@ Browse articles by category.
 
 <div className="card-container">
   <Card href="index_administrator" className="card card-yellow">
-    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-category-multimodal.png')"}} />
-    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.png')"}} />
+    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-running-repeat.svg')"}} />
+    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.svg')"}} />
     <h2 className="card-title">Experiments</h2>
     <p className="card-content">Track, visualize, and compare machine learning experiments</p>
   </Card>
 
   <Card href="index_artifacts" className="card card-pink">
-    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-category-multimodal.png')"}} />
-    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.png')"}} />
+    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-versions-layers.svg')"}} />
+    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.svg')"}} />
     <h2 className="card-title">Artifacts</h2>
     <p className="card-content">Version and track datasets, models, and other machine learning artifacts</p>
   </Card>
@@ -44,21 +67,23 @@ Browse articles by category.
 <div className="card-container">
 
   <Card href="index_charts" className="card card-gray">
-    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-category-multimodal.png')"}} />
-    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.png')"}} />
+    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-category-multimodal.svg')"}} />
+    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.svg')"}} />
     <h2 className="card-title">Reports</h2>
     <p className="card-content">Create interactive, collaborative reports to share your work</p>
   </Card>
   <Card href="index_aws" className="card card-blue">
-    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/icon-category-multimodal.png')"}} />
-    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/icon-forward-next.png')"}} />
+    <div className="card-icon-left" style={{backgroundImage: "url('/images/support/white-icon-category-multimodal.svg')"}} />
+    <div className="card-icon-right" style={{backgroundImage: "url('/images/support/white-icon-forward-next.svg')"}} />
     <h2 className="card-title">Launch</h2>
     <p className="card-content">Manage compute resources and run machine learning jobs at scale</p>
   </Card>  
 </div>
 
 <Card className="card-banner card-banner-gray">
-  <div className="card-banner-icon" style={{backgroundImage: "url('/images/support/callout-icon.png')"}} />
+    <div className="card-banner-icon">
+    <img src="/images/support/callout-icon.svg" alt="Callout Icon" width="32" height="32" />
+  </div>
   <h2>Still can't find what you are looking for?</h2>
   <p>We are here to help. Contact W&B Support at support@wandb.com</p>
   <a href="mailto:support@wandb.com" className="contact-us-button">
