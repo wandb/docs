@@ -2,8 +2,7 @@
 title: How do I export a list of users from my W&B Organisation?
 displayed_sidebar: support
 tags:
-- cli
-- admin
+- administrator
 ---
 To export a list of users from your W&B Organisation an Admin can use the SCIM API with the following code:
 
