@@ -4,7 +4,7 @@ displayed_sidebar: support
 tags:
    - hyperparameter
    - sweeps
-   - runs table
+   - runs
 ---
 Set unique tags with `wandb.init(tags='your_tag')`. This allows efficient filtering of project runs by selecting the corresponding tag in a Project Page's Runs Table. 
 

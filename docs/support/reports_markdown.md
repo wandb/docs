@@ -1,8 +1,7 @@
 ---
-title: "Can I still use Markdown in my reports?"
+title: "Can I use Markdown in my reports?"
 displayed_sidebar: support
 tags:
-   - reports
-   - wysiwyg
+- reports
 ---
 Yes. Type "/mark" anywhere in the document and press enter to insert a Markdown block. This allows editing with Markdown as before.

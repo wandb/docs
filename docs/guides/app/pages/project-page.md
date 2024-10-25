@@ -229,9 +229,7 @@ The action history audit tab shows all of the alias actions and membership chang
 
 The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
 
-## Frequently Asked Questions
-
-### How can I delete projects?
+## Delete a project
 
 You can delete your project by clicking the three dots on the right of the overview tab.
 
@@ -241,14 +239,12 @@ If the project is empty (i.e. it has no runs), you can delete it by clicking the
 
 ![](/images/app_ui/howto_delete_project_2.png)
 
-### Where are the privacy settings for projects? How can I make a project public or private?
+## Change project privacy settings
 
 Click the lock in the navigation bar at the top of the page to change project privacy settings. You can edit who can view or submit runs to your project. These settings include all runs and reports in the project. If you'd like to share your results with just a few people, you can create a [private team](../features/teams.md).
 
 ![](/images/app_ui/privacy_settings.png)
 
-### How do I reset my workspace?
-
-If you see an error like the one below on your project page, here's how to reset your workspace.`"objconv: "100000000000" overflows the maximum values of a signed 64 bits integer"`
+## Reset a workspace
 
 Add `?workspace=clear` to the end of the URL and press enter. This should take you to a cleared version of your project page workspace.

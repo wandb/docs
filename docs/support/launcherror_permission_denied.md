@@ -1,5 +1,5 @@
 ---
-title: "`LaunchError: Permission denied`"
+title: How do I fix a "permission denied" error in Launch?
 displayed_sidebar: support
 tags:
    - experiments

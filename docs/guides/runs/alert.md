@@ -93,15 +93,3 @@ Team alerts apply to everyone on your team. W&B recommends using the **Slackbot*
 ## Change Slack channel to send alerts to
 
 To change what channel alerts are sent to, click **Disconnect Slack** and then reconnect. After you reconnect, pick a different Slack channel.
-
-## FAQ(s)
-
-### Do "Run Finished" Alerts work in notebooks?
-
-No. **Run Finished** alerts (turned on with the **Run Finished** setting in User Settings) only work with Python scripts and are turned off in Jupyter Notebook environments to prevent alert notifications on every cell execution. 
-
-Use `wandb.alert()` in notebook environments instead.
-
-<!-- ### How to enable alerts with [W&B Server](../hosting/intro.md)?
-
-If you are self-hosting using W&B Server you will need to follow [these steps](../../hosting/setup/configuration#slack) before enabling Slack alerts. -->
