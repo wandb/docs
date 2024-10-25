@@ -1,4 +1,3 @@
-
 ---
 title: Do you have a bug bounty program?
 displayed_sidebar: support
