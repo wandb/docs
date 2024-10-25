@@ -24,13 +24,13 @@ You can use environment variables to [configure IAM options](advanced_env_vars.m
 To assist with configuring Identity Providers for [Dedicated Cloud](../hosting-options/dedicated_cloud.md) or [Self-managed](../hosting-options/self-managed.md) W&B Server installations, here are some key guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
 
 <Tabs
-  defaultValue="aws"
+  defaultValue="cognito"
   values={[
-    {label: 'AWS', value: 'aws'},
+    {label: 'Cognito', value: 'cognito'},
     {label: 'Okta', value: 'okta'},
     {label: 'Entra', value: 'entra'},
   ]}>
-  <TabItem value="aws">
+  <TabItem value="cognito">
 
 Follow the procedure below to set up AWS Cognito for authorization: 
 
@@ -201,11 +201,50 @@ The OIDC issuer URL has the following format: `https://login.microsoftonline.com
 
 </Tabs>
 
-## Configure SSO on the W&B App
+## Set up SSO on the W&B Server
 
-Once you have everything configured you can provide the Issuer, Client ID, and Auth method to `wandb/local` on the W&B App or set environment variables. The following procedure walks you through the steps to configure SSO with the W&B App UI:
+To set up SSO, you need administrator privileges and the following information:
+- OIDC Client ID
+- OIDC Auth method (implicit` or `pkce`)
+- OIDC Issuer URL
+- OIDC Client Secret (optional; depends on how you have setup your IdP) 
 
-1. Sign in to your Weights and Biases server 
+:::info
+Should your IdP require a OIDC Client Secret, specify it with the environment variable OIDC_SECRET.
+:::
+
+You can configure SSO using either the W&B Server UI or by passing [environment variables](../env-vars.md) to the `wandb/local` pod. The environment variables take precedence over UI.
+
+:::info
+If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and disables SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
+:::
+
+<Tabs
+  defaultValue="console"
+  values={[
+    {label: 'System Console', value: 'console'},
+    {label: 'System Settings', value: 'settings'},
+  ]}>
+  <TabItem value="console">
+
+The System Console is the successor to the System Settings page. It is available with the [W&B Kubernetes Operator](../operator.md) based deployment.
+
+1. Refer to [Access the W&B Management Console](../operator#access-the-wb-management-console).
+
+2. Navigate to **Settings**, then **Authentication**. Select **OIDC** in the **Type** dropdown.
+![](/images/hosting/sso_configure_via_console.png)
+
+3. Enter the values.
+
+4. Click on **Save**.
+
+5. Log out and then log back in, this time using the IdP login screen.
+
+</TabItem>
+
+<TabItem value="settings">
+
+1. Sign in to your Weights&Biases instance. 
 2. Navigate to the W&B App. 
 
 ![](/images/hosting/system_settings.png)
@@ -219,9 +258,14 @@ Once you have everything configured you can provide the Issuer, Client ID, and A
 
 ![](/images/hosting/system_settings_select_update.png)
 
+
 :::info
 If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This will output a temporary password to the containers logs and turn off SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
 :::
+
+</TabItem>
+</Tabs>
+
 
 ## Security Assertion Markup Language (SAML)
 W&B Server does not support SAML.
