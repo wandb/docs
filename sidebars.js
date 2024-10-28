@@ -233,7 +233,6 @@ export default {
                 'guides/app/settings-page/team-settings',
                 'guides/app/settings-page/emails',
                 'guides/app/features/teams',
-                'guides/app/features/organizations',
                 'guides/app/features/storage',
                 'guides/app/features/system-metrics',
                 'guides/app/features/anon',

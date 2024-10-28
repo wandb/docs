@@ -73,6 +73,10 @@
       "to": "/guides/app/features/notes"
     },
     {
+      "from": "/guides/app/features/organizations",
+      "to": "/guides/hosting/iam/manage-organization"
+    },
+    {
       "from": "/app/features/panels",
       "to": "/guides/app/features/panels"
     },

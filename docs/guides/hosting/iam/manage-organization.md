@@ -183,15 +183,17 @@ Reach out to your W&B Account Team if you use Dedicated or Self-Managed deployme
 
 ### Assign or update a user's role
 
-You initially assign a role to a user when you invite them to your organization. You can change any user's role at a later time.
+Every member in an Organization has an organization role and seat for both W&B Models and Weave. The type of seat they have determines both their billing status and the actions they can take in each product line.
+
+You initially assign an organization role to a user when you invite them to your organization. You can change any user's role at a later time.
 
 A user within an organization can have one of the proceeding roles:
 
 | Role | Descriptions |
 | ----- | ----- |
-| Administrator| A instance administrator who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends more than one administrator for an enterprise Dedicated cloud or Self-managed instances. |
-| Member | A regular user of the organization, invited by an instance administrator. A organization user cannot invite other users or manage existing users in the organization. |
-| Viewer | A view-only user of your organization, invited by an instance administrator. A viewer only has read access to the organization and the underlying teams that they are a part of.  |
+| Administrator| A instance administrator who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends ensuring there is more than one administrator in the event that your administrator is unavailable. |
+| Member | A regular user of the organization, invited by an instance administrator. A organization member cannot invite other users or manage existing users in the organization. |
+| Viewer | A view-only user of your organization, invited by an instance administrator. A viewer only has read access to the organization and the underlying teams that they are a member of. |
 
 To change a user's role:
 
@@ -218,6 +220,16 @@ To change a user's role:
 
 ## Add and manage teams
 Use your organization's dashboard to create teams within your organization. Once an organization administrator creates a team, either the org administrator or team administrator can invite users to that team, assign or update a team member's role, automatically add new users to a team when they join your organization, remove users from a team, and manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
+
+
+
+### How seats work
+
+
+| Product |Seats | Cost based on |
+| ----- | ----- | ----- |
+| Models | Pay per set | How many Models paid seats you have, and how much usage you’ve accrued determines your overall subscription cost. Each user can be assigned one of the three available seat types: Full, Viewer, and No-Access |
+| Weave | Free  | Usage based |
 
 <!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md). -->
 
@@ -251,12 +263,24 @@ Invite users to a team in your organization. Use the team's dashboard to invite 
 
 In addition to inviting users manually with email invites, you can automatically add new users to a team if the new user's [email matches the domain of your organization](#domain-capture).
 
+### Match members to a team organization during sign up
+
+Allow new users within your organization discover Teams within your organization when they sign-up. New users must have a verified email domain that matches your organization's verified email domain. Verified new users will see a list of verified teams that belong to an organization when they sign up for a W&B account.
+
+An organization administrator must enable domain claiming. To enable domain capture, see the steps described in [Domain capture](#domain-capture).
+
+
 ### Assign or update a team member's role
+
+
+1. Select the account type icon next to the name of the team member. 
+2. From the drop-down, choose the account type you want that team member to posses.
+
 The proceeding table lists the roles you can assign to a member of a team:
 
 | Role   |   Definition   |
 |-----------|---------------------------|
-| administrator    | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
+| Administrator    | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
 | Member    | A regular user of a team, invited by email or their organization-level username by the team administrator. A member user cannot invite other users to the team.  |
 | View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team administrator. A view-only user only has read access to the team and its contents.  |
 | Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
