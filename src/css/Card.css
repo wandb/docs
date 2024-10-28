@@ -1,12 +1,3 @@
-/* Container for the card rows */
-.card-container {
-  display: flex;
-  justify-content: space-between; /* Add space between cards */
-  gap: 8px; /* Add some space between the cards */
-  margin-bottom: 16px; /* Space between rows */
-}
-
-
 .help-banner {
   display: flex;
   padding: 56px 40px 72px 40px;
@@ -23,23 +14,36 @@
   box-shadow: none;  
 }
 
+.help-banner h2,
+.help-banner p {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  line-height: 140%;
+}
+
 .help-banner h2 {
   color: var(--Moon-Moon-50, #FAFAFA);
-  font-family: "Source Sans Pro";
   font-size: 40px;
-  font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 56px *//* 28px */
 }
 
 .help-banner p {
-  color: var(--Moon-Moon-250, #DADEE3);
-  font-family: "Source Sans Pro";
+  color: var(--Moon-Moon-250, #DADEE3); 
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 140%; /* 28px *//* 22.4px */
 }
+
+
+/* Container for the card rows */
+.card-container {
+  display: flex;
+  justify-content: space-between; /* Add space between cards */
+  gap: 8px; /* Add some space between the cards */
+  margin-bottom: 16px; /* Space between rows */
+}
+
+
+
 
 .card {
   display: flex;
