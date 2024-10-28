@@ -297,6 +297,26 @@ handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
 
 W&B assigns a `gpu.{gpu_index}.powerPercent` tag to this metric.
 
+
+## NVIDIA DCGM-Exporter
+
+### GPU SM Clock Speed 
+
+### GPU Memory Clock Speed
+The current memory clock speed of the GPU at index i (in MHz).
+
+### GPU Graphics Clock Speed 
+
+The current graphics clock speed of the GPU at index i (in MHz).
+
+### GPU Corrected Memory Errors
+
+### GPU Uncorrected Memory Errors
+
+### GPU Encoder Utilization
+
+The utilization of the GPU's encoder at index i (in percentage).
+
 <!-- New section -->
 ## AMD GPU
 The metrics are extracted from the output (`stats`) of the `rocm-smi` tool supplied by AMD (`rocm-smi -a --json`).
