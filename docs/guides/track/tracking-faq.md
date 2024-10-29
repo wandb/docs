@@ -108,7 +108,7 @@ If you do not explicitly name your run, a random run name will be assigned to th
 
 ### How can I save the git commit associated with my run?
 
-When `wandb.init` is called in your script, we automatically look for git information to save, including a link to a remote repo and the SHA of the latest commit. The git information should show up on your [run page](../app/pages/run-page.md). If you aren't seeing it appear there, make sure that your shell's current working directory when executing your script is located in a folder managed by git.
+When `wandb.init` is called in your script, we automatically look for git information to save, including a link to a remote repo and the SHA of the latest commit. The git information should show up on your run page. If you aren't seeing it appear there, make sure that your shell's current working directory when executing your script is located in a folder managed by git.
 
 The git commit and command used to run the experiment are visible to you but are hidden to external users, so if you have a public project, these details will remain private.
 
