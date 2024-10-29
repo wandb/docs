@@ -103,7 +103,7 @@ In some cases, you might have your experiment details in a CSV file. Common deta
 
 * A name for the experiment run
 * Initial [notes](../../app/features/notes.md)
-* [Tags](../../app/features/tags.md) to differentiate the experiments
+* [Tags](../../runs/tags.md) to differentiate the experiments
 * Configurations needed for your experiment (with the added benefit of being able to utilize our [Sweeps Hyperparameter Tuning](../../sweeps/intro.md)).
 
 | Experiment   | Model Name       | Notes                                            | Tags          | Num Layers | Final Train Acc | Final Val Acc | Training Losses                       |

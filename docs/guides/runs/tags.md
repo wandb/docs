@@ -41,7 +41,7 @@ run.tags.append("tag1")  # you can choose tags based on run data here
 run.update()
 ```
 
-Read more about how to use the Public API in the [reference documentation](../../../ref/README.md) or [guide](../track/public-api-guide.md).
+Read more about how to use the Public API in the [reference documentation](../../ref/README.md) or [guide](../track/public-api-guide.md).
 
   </TabItem>
   <TabItem value="projectpage">
