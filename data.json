@@ -57,6 +57,14 @@
       "to": "/guides/runs/alert"
     },
     {
+      "from": "/guides/app/features/intro",
+      "to": "/guides/app/features/panels"
+    },
+    {
+      "from": "/guides/app/features/organizations",
+      "to": "/guides/hosting/iam/manage-organization"
+    },
+    {
       "from": "/app/features/custom-charts",
       "to": "/guides/app/features/custom-charts"
     },
