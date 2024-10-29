@@ -13,7 +13,7 @@ Compare models with different architectures and hyperparameters on the same set 
 
 ## Run Page
 
-Visualize the metrics and dataset examples from a single run. Learn more [here](run-page.md).
+Visualize the metrics and dataset examples from a single run. Learn more [here](../../runs/run-page.md).
 
 ![](/images/app_ui/run_page.png)
 

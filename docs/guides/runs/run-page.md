@@ -20,11 +20,11 @@ Use the Overview tab learn about a specific run in a project, such as:
 * **Run path**: A unique run path `<entity>/<project>/<run_id>`
 * **OS**: Operating system that initialized the run
 * **Python version**: The Python version that created the run
-* **Git repository**: [If git is enabled](../settings-page/user-settings.md#personal-github-integration), the git repository associated with the run
+* **Git repository**: [If git is enabled](../app/settings-page/user-settings.md#personal-github-integration), the git repository associated with the run
 * **Command**: The command that initialized the run
 * **System hardware**: The hardware the run was executed on
-* **Config**: List of config parameters saved with [`wandb.config`](../../../guides/track/config.md)
-* **Summary**: List of summary parameters saved with [`wandb.log()`](../../../guides/track/log/intro.md), by default set to the last value logged
+* **Config**: List of config parameters saved with [`wandb.config`](../track/config.md)
+* **Summary**: List of summary parameters saved with [`wandb.log()`](../track/log/intro.md), by default set to the last value logged
 
 To view the a run's overview page:
 1. Within your project workspace, click on a specific run.
@@ -56,7 +56,7 @@ Use the Workspace tab to view, search, group and arrange visualizations such as:
 
 ![](/images/app_ui/wandb-run-page-workspace-tab.png)
 
-Create charts manually with the W&B App UI or programmatically with the W&B Python SDK. See [Log media and objects in Experiments](../../track/log/intro.md) for more information.
+Create charts manually with the W&B App UI or programmatically with the W&B Python SDK. See [Log media and objects in Experiments](../track/log/intro.md) for more information.
 
 ## System tab
 The **System tab** shows system metrics tracked for a specific run such as:
@@ -102,11 +102,11 @@ Use the **Files tab** to view files associated with a specific run. Keep model c
 ![](/images/app_ui/wandb_run_page_files_tab.png)
 
 :::tip
-Use W&B [Artifacts](../../artifacts/intro.md) for tracking inputs and outputs of runs. Check out the Artifacts quickstart [here](../../artifacts/artifacts-walkthrough.md).
+Use W&B [Artifacts](../artifacts/intro.md) for tracking inputs and outputs of runs. Check out the Artifacts quickstart [here](../artifacts/artifacts-walkthrough.md).
 :::
 
 ## Artifacts tab
-The Artifacts tab lists the input and output [Artifacts](../../artifacts/intro.md) for the specified run.
+The Artifacts tab lists the input and output [Artifacts](../artifacts/intro.md) for the specified run.
 
 [View a live example here](https://wandb.ai/stacey/artifact_july_demo/runs/2cslp2rt/artifacts).
 

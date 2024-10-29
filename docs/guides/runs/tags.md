@@ -33,7 +33,7 @@ There are also several ways to add tags after runs have been logged to W&B.
   ]}>
   <TabItem value="publicapi">
 
-After you create a run, you can update tags using [the Public API](../../../guides/track/public-api-guide.md). For example:
+After you create a run, you can update tags using [the Public API](../track/public-api-guide.md). For example:
 
 ```python
 run = wandb.Api().run("{entity}/{project}/{run-id}")
@@ -41,14 +41,14 @@ run.tags.append("tag1")  # you can choose tags based on run data here
 run.update()
 ```
 
-Read more about how to use the Public API in the [reference documentation](../../../ref/README.md) or [guide](../../../guides/track/public-api-guide.md).
+Read more about how to use the Public API in the [reference documentation](../../../ref/README.md) or [guide](../track/public-api-guide.md).
 
   </TabItem>
   <TabItem value="projectpage">
 
 This method is best suited to tagging large numbers of runs with the same tag or tags.
 
-1. In the [runs sidebar](../pages/project-page.md#search-for-runs) of the [Project Page](../pages/project-page.md), select the table icon in the upper-right.  This expands the sidebar into the full [runs table](runs-table.md).
+1. In the runs sidebar of the [Project page](../app/pages/project-page.md), select the table icon in the upper-right.  This expands the sidebar into the full runs table.
 2. Hover your mouse over a run in the table to see a checkbox on the left or look in the header row for a checkbox that select all runs.
 3. Select the checkbox to enable bulk actions. 
 4. Select the runs to which you want to apply your tags.
@@ -60,7 +60,7 @@ This method is best suited to tagging large numbers of runs with the same tag or
 
 This method is best suited to applying a tag or tags to a single run manually.
 
-1. In the left sidebar of the [Run Page](../pages/run-page.md), select the top [Overview tab](../pages/run-page.md#overview-tab).
+1. In the left sidebar of the [Run page](./run-page.md), select the top [Overview tab](./run-page.md#overview-tab).
 2. Select the gray plus icon (**+**) button next to **Tags**.
 3. Type a tag you want to add and select **Add** below the text box to add a new tag.
 
@@ -76,14 +76,14 @@ Tags can also be removed from runs with the W&B App UI.
 <Tabs
   defaultValue="projectpage"
   values={[
-    {label: 'Project Page', value: 'projectpage'},
-    {label: 'Run Page', value: 'runpage'},
+    {label: 'Project page', value: 'projectpage'},
+    {label: 'Run page', value: 'runpage'},
   ]}>
   <TabItem value="projectpage">
 
 This method is best suited to removing tags from a large numbers of runs.
 
-1. In the [runs sidebar](../pages/project-page.md#search-for-runs) of the [Project Page](../pages/project-page.md),  select the table icon in the upper-right.  This will expand the sidebar into the full [runs table](runs-table.md).
+1. In the Run sidebar of the project, select the table icon in the upper-right.  This will expand the sidebar into the full runs table.
 2. Hover over a run in the table to see a checkbox on the left or look in the header row for a checkbox to select all runs.
 3. Select the checkbox to enable bulk actions. 
 4. Select the runs you want to remove tags.
@@ -93,7 +93,7 @@ This method is best suited to removing tags from a large numbers of runs.
   </TabItem>
   <TabItem value="runpage">
 
-1. In the left sidebar of the [Run Page,](../pages/run-page.md) select the top [Overview tab](../pages/run-page.md#overview-tab). The tags on the run are visible here.
+1. In the left sidebar of the Run page, select the top **Overview** tab. The tags on the run are visible here.
 2. Hover over a tag and select the "x" to remove it from the run.
 
   </TabItem>

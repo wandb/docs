@@ -4,9 +4,8 @@ displayed_sidebar: default
 title: Explore runs in a project
 ---
 
+Use your project page to gain insights from runs logged to W&B.
 
-
-On the project page, we show runs in a sidebar. Expand the sidebar to view a table of hyperparameters and summary metrics across runs.
 
 ## Search run names
 

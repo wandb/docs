@@ -24,13 +24,15 @@ export default {
               link: {type: 'doc', id: 'guides/runs/intro'},
               items: [
                 // 'guides/runs/create-run',
-                'guides/app/pages/run-page',
                 'guides/runs/grouping',
+                'guides/runs/tags',
                 'guides/runs/resuming',
                 'guides/runs/rewind',
                 'guides/runs/forking',
                 'guides/runs/alert',
                 'guides/runs/manage-runs',
+                'guides/runs/runs-table',
+                'guides/runs/run-page',
               ],
             },
             {
@@ -220,8 +222,6 @@ export default {
                 'guides/app/features/custom-charts/walkthrough',
               ],
             },
-            'guides/app/features/runs-table',
-            'guides/app/features/tags',
             'guides/app/features/notes',
             'guides/app/features/cascade-settings',
             {

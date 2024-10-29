@@ -154,7 +154,7 @@ with f as open("large_config.json", "r"):
 
 For faster loading times, keep the total number of runs in a single project under 10,000.  Large run counts can slow down project workspaces and runs table operations, especially when grouping is enabled or runs have a large count of distinct metrics.  
 
-If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving *other* runs](/guides/app/features/runs-table#move-runs-between-projects) to a new project used as an archive, leaving a smaller set of runs in your working project.  
+If you find that you or your team are frequently accessing the same set of runs (for example, recent runs), consider [bulk moving *other* runs](../app/features/runs-table#move-runs-between-projects) to a new project used as an archive, leaving a smaller set of runs in your working project.  
 
 
 ### Section count

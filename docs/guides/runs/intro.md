@@ -147,7 +147,7 @@ Below the overview section, you will additionally find information about:
 
 
 
-For more information about how to organize multiple Runs in a project, see the [Runs Table](../app/features/runs-table.md) documentation. 
+For more information about how to organize multiple Runs in a project, see the [Runs Table](./runs-table.md) documentation. 
 
 For a live example of a Project's Workspace, [see this example project](https://app.wandb.ai/example-team/sweep-demo). 
 

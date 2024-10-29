@@ -65,6 +65,18 @@
       "to": "/guides/hosting/iam/manage-organization"
     },
     {
+      "from": "/guides/app/features/tags",
+      "to" : "/guides/runs/tags"
+    },
+    {
+      "from" : "/guides/app/features/runs-table",
+      "to" : "/guides/runs/runs-table"
+    },
+    {
+      "from" : "/guides/app/pages/run-page",
+      "to" : "/guides/runs/run-page"
+    },
+    {
       "from": "/app/features/custom-charts",
       "to": "/guides/app/features/custom-charts"
     },
