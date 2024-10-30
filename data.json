@@ -57,6 +57,14 @@
       "to": "/guides/runs/alert"
     },
     {
+      "from": "/guides/app/features/intro",
+      "to": "/guides/app/features/panels"
+    },
+    {
+      "from": "/guides/app/features/organizations",
+      "to": "/guides/hosting/iam/manage-organization"
+    },
+    {
       "from": "/app/features/custom-charts",
       "to": "/guides/app/features/custom-charts"
     },
@@ -1143,7 +1151,7 @@
     },
     {
       "from": "/guides/troubleshooting/network",
-      "to": "/guides/technical-faq"
+      "to": "/guides/support/index"
     },
     {
       "from": "/weave",
@@ -1851,7 +1859,7 @@
     },
     {
       "from": "/sweeps/faq",
-      "to": "/guides/sweeps/faq"
+      "to": "/support/index_sweeps"
     },
     {
       "from": "/sweeps/overview",

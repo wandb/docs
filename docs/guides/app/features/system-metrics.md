@@ -188,60 +188,20 @@ W&B assigns a `network.recv` tag to this metric.
 <!-- New section -->
 ## NVIDIA GPU
 
-W&B uses an [adapted version](https://github.com/wandb/wandb/blob/main/wandb/vendor/pynvml/pynvml.py) of the `pynvml` library to capture the NVIDIA GPU metrics.  Refer to [this guide](https://docs.nvidia.com/deploy/nvml-api/group__nvmlDeviceQueries.html) from NVIDIA for a detailed description of captured metrics.
-
 In addition to the metrics described below, if the process uses a particular GPU, W&B captures the corresponding metrics as `gpu.process.{gpu_index}...`
 
-W&B uses the following code snippet to check if a process uses a particular GPU:
 
-```python
-def gpu_in_use_by_this_process(gpu_handle: "GPUHandle", pid: int) -> bool:
-    if psutil is None:
-        return False
-
-    try:
-        base_process = psutil.Process(pid=pid)
-    except psutil.NoSuchProcess:
-        # do not report any gpu metrics if the base process can't be found
-        return False
-
-    our_processes = base_process.children(recursive=True)
-    our_processes.append(base_process)
-
-    our_pids = {process.pid for process in our_processes}
-
-    compute_pids = {
-        process.pid
-        for process in pynvml.nvmlDeviceGetComputeRunningProcesses(gpu_handle)  # type: ignore
-    }
-    graphics_pids = {
-        process.pid
-        for process in pynvml.nvmlDeviceGetGraphicsRunningProcesses(gpu_handle)  # type: ignore
-    }
-
-    pids_using_device = compute_pids | graphics_pids
-
-    return len(pids_using_device & our_pids) > 0
-```
 
 ### GPU Memory Utilization
 Represents the GPU memory utilization in percent for each GPU.
 
-```python
-handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
-pynvml.nvmlDeviceGetUtilizationRates(handle).memory
-```
 
 W&B assigns a `gpu.{gpu_index}.memory` tag to this metric.
 
 ### GPU Memory Allocated
 Indicates the GPU memory allocated as a percentage of the total available memory for each GPU.
 
-```python
-handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
-memory_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
-memory_info.used / memory_info.total * 100
-```
+
 This computes the percentage of GPU memory allocated for each GPU.
 
 W&B assigns a `gpu.{gpu_index}.memoryAllocated` tag to this metric.
@@ -249,40 +209,26 @@ W&B assigns a `gpu.{gpu_index}.memoryAllocated` tag to this metric.
 ### GPU Memory Allocated Bytes
 Specifies the GPU memory allocated in bytes for each GPU.
 
-```python
-handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
-memory_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
-memory_info.used
-```
+
 
 W&B assigns a `gpu.{gpu_index}.memoryAllocatedBytes` tag to this metric.
 
 ### GPU Utilization
 Reflects the GPU utilization in percent for each GPU.
 
-```python
-handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
-pynvml.nvmlDeviceGetUtilizationRates(handle).gpu
-```
+
 
 W&B assigns a `gpu.{gpu_index}.gpu` tag to this metric.
 ### GPU Temperature
 The GPU temperature in Celsius for each GPU.
 
-```python
-handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
-pynvml.nvmlDeviceGetTemperature(handle, pynvml.NVML_TEMPERATURE_GPU)
-```
+
 
 W&B assigns a `gpu.{gpu_index}.temp` tag to this metric.
 
 ### GPU Power Usage Watts
 Indicates the GPU power usage in Watts for each GPU.
 
-```python
-handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
-pynvml.nvmlDeviceGetPowerUsage(handle) / 1000
-```
 
 W&B assigns a `gpu.{gpu_index}.powerWatts` tag to this metric.
 
@@ -290,16 +236,45 @@ W&B assigns a `gpu.{gpu_index}.powerWatts` tag to this metric.
 
 Reflects the GPU power usage as a percentage of its power capacity for each GPU.
 
-```python
-handle = pynvml.nvmlDeviceGetHandleByIndex(gpu_index)
-(power_watts / power_capacity_watts) * 100
-```
-
 W&B assigns a `gpu.{gpu_index}.powerPercent` tag to this metric.
+
+
+### GPU SM Clock Speed 
+Represents the clock speed of the Streaming Multiprocessor (SM) on the GPU in MHz. This metric is indicative of the processing speed within the GPU cores responsible for computation tasks.
+
+W&B assigns a `gpu.{gpu_index}.smClock` tag to this metric.
+
+### GPU Memory Clock Speed
+Represents the clock speed of the GPU memory in MHz, which influences the rate of data transfer between the GPU memory and processing cores.
+
+W&B assigns a `gpu.{gpu_index}.memoryClock` tag to this metric.
+
+### GPU Graphics Clock Speed 
+
+Represents the base clock speed for graphics rendering operations on the GPU, expressed in MHz. This metric often reflects performance during visualization or rendering tasks.
+
+W&B assigns a `gpu.{gpu_index}.graphicsClock` tag to this metric.
+
+### GPU Corrected Memory Errors
+
+Tracks the count of memory errors on the GPU that W&B automatically corrects by error-checking protocols, indicating recoverable hardware issues.
+
+W&B assigns a `gpu.{gpu_index}.correctedMemoryErrors` tag to this metric.
+
+### GPU Uncorrected Memory Errors
+Tracks the count of memory errors on the GPU that W&B uncorrected, indicating non-recoverable errors which can impact processing reliability.
+
+W&B assigns a `gpu.{gpu_index}.unCorrectedMemoryErrors` tag to this metric.
+
+### GPU Encoder Utilization
+
+Represents the percentage utilization of the GPU's video encoder, indicating its load when encoding tasks (for example, video rendering) are running.
+
+W&B assigns a `gpu.{gpu_index}.encoderUtilization` tag to this metric.
 
 <!-- New section -->
 ## AMD GPU
-The metrics are extracted from the output (`stats`) of the `rocm-smi` tool supplied by AMD (`rocm-smi -a --json`).
+W&B extracts metrics from the output (`stats`) of the `rocm-smi` tool supplied by AMD (`rocm-smi -a --json`).
 
 ### AMD GPU Utilization
 Represents the GPU utilization in percent for each AMD GPU device.
