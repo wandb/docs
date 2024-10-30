@@ -10,19 +10,20 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 <CTAButtons colabLink="https://github.com/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb"></CTAButtons>
 
-Use the W&B OpenAI API integration to log requests, responses, token counts and model metadata for all OpenAI models, including fine-tuned models. With one line of code you can now automatically log inputs and outputs from the OpenAI Python SDK to W&B. 
+Use the W&B OpenAI API integration to log requests, responses, token counts and model metadata for all OpenAI models, including fine-tuned models. 
+
+
 
 :::info
-Check out the W&B OpenAI fine-tuning integration [here](/guides/integrations/openai-fine-tuning).
+See the [W&B OpenAI fine-tuning integration](./openai-fine-tuning.md) to learn how to utilize the W&B ecosystem to track your fine-tuning experiments, models, and datasets and share your results with your colleagues.
 :::
+
+Log your API inputs and outputs you can quickly evaluate the performance of difference prompts, compare different model settings (such as temperature), and track other usage metrics such as token usage.
 
 
 
 
 ![](/images/integrations/open_ai_autolog.png)
-
-Once you start logging your API inputs and outputs you can quickly evaluate the performance of difference prompts, compare different model settings (such as temperature), and track other usage metrics such as token usage.
-
 
 
 ## Install OpenAI Python API library
