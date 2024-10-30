@@ -201,7 +201,7 @@ The preceding table describes rate limit HTTP headers:
 
 The `wandb.log` calls in your script utilize a metrics logging API to log your training data to W&B. This API is engaged through either online or [offline syncing](../../ref/cli/wandb-sync.md). In either case, it imposes a rate limit quota limit in a rolling time window. This includes limits on total request size and request rate, where latter refers to the number of requests in a time duration.
 
-Rate limits are applied to each W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) have higher rate limits than those on the Free plan.
+W&B applies rate limits per W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) have higher rate limits than those on the Free plan.
 
 ### Suggestions for staying under the metrics logging API rate limit
 
@@ -216,11 +216,11 @@ if epoch % 5 == 0:  # Log metrics every 5 epochs
     wandb.log({"acc": accuracy, "loss": loss})
 ```
 
-- Manual data syncing: Your run data is stored locally if you are rate limited. You can manually sync your data with the command `wandb sync <run-file-path>`. For more details, see the [`wandb sync`](../../ref/cli/wandb-sync.md) reference.
+- Manual data syncing: W&B store your run data locally if you are rate limited. You can manually sync your data with the command `wandb sync <run-file-path>`. For more details, see the [`wandb sync`](../../ref/cli/wandb-sync.md) reference.
 
 ### Rate limits on GraphQL API
 
-The W&B Models UI and SDK’s [public API](https://docs.wandb.ai/ref/python/public-api/api) make GraphQL requests to the server for data querying and mutations. For all GraphQL requests in SaaS Cloud, W&B applies rate limits per IP address for unauthorized requests and per user for authorized requests. These limits follow a fixed rate (requests per second) within a fixed time window, where your pricing plan determines the default limits. For relevant SDK requests that specify a project path (e.g., reports, runs, artifacts), W&B applies rate limits per project, measured by database query time.
+The W&B Models UI and SDK’s [public API](https://docs.wandb.ai/ref/python/public-api/api) make GraphQL requests to the server for data querying and mutations. For all GraphQL requests in SaaS Cloud, W&B applies rate limits per IP address for unauthorized requests and per user for authorized requests. The limit is based on request rate (request per second) within a fixed time window, where your pricing plan determines the default limits. For relevant SDK requests that specify a project path (for example, reports, runs, artifacts), W&B applies rate limits per project, measured by database query time.
 
 Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
 
@@ -234,6 +234,6 @@ The W&B app can be memory-intensive and performs best in Chrome. Depending on yo
 
 ## Reporting performance issues to W&B
 
-W&B takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking our built-in performance logger that captures key metrics and performance events. Append &PERF_LOGGING to your URL, and share the output of your console.
+W&B takes performance seriously and investigates every report of lag. To expedite investigation, when reporting slow loading times consider invoking W&B's built-in performance logger that captures key metrics and performance events. Append &PERF_LOGGING to your URL, and share the output of your console.
 
 ![Adding PERF_LOGGING](/images/track/adding_perf_logging.gif)
