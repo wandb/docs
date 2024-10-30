@@ -6,11 +6,16 @@ displayed_sidebar: default
 ---
 import { WEAVE_DOCS_URL } from '@site/src/util/links';
 
+
+:::info
+Support for W&B Prompts will end in 2024. W&B recommends that current Prompt users switch to [Weave](https://weave-docs.wandb.ai/?utm_source=wandb_docs&utm_medium=docs&utm_campaign=weave-nudge) for tracking and evaluating LLM applications.
+
+For assistance, contact support@wandb.com. 
+:::
+
 <a href={WEAVE_DOCS_URL} target="_blank">
     <img className="no-zoom" src="/images/weave/weave_banner.png" alt="Building LLM apps? Try Weave" style={{display: "block", marginBottom: "15px"}} />
 </a>
-
-## Prompts
 
 W&B Prompts is a suite of LLMOps tools built for the development of LLM-powered applications. Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations.
 
