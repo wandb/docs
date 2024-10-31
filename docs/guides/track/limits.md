@@ -203,7 +203,7 @@ The `wandb.log` calls in your script utilize a metrics logging API to log your t
 
 W&B applies rate limits per W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) have higher rate limits than those on the Free plan.
 
-When you reach the rate limit with the metrics logging API, the terminal output will remain stalled at the upload step.
+When you reach the rate limit with the metrics logging API, the terminal output remains stalled at the upload step.
 
 ### Suggestions for staying under the metrics logging API rate limit
 
@@ -226,7 +226,8 @@ The W&B Models UI and SDK’s [public API](https://docs.wandb.ai/ref/python/publ
 
 Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
 
-With the W&B Models SDK public API, the following message will appear in the terminal if a rate limit is reached:
+With the W&B Models SDK public API, the following message appears in the terminal when it reaches the rate limit:
+
 ```
 $ python train.py
 wandb: Network error (HTTPError), entering retry loop.
