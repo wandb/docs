@@ -180,6 +180,14 @@ Reach out to your W&B Account Team if you use Dedicated or Self-Managed deployme
 </TabItem>
 </Tabs>
 
+### How seats work
+
+
+| Product |Seats | Cost based on |
+| ----- | ----- | ----- |
+| Models | Pay per set | How many Models paid seats you have, and how much usage you’ve accrued determines your overall subscription cost. Each user can be assigned one of the three available seat types: Full, Viewer, and No-Access |
+| Weave | Free  | Usage based |
+
 
 ### Assign or update a user's role
 
@@ -193,7 +201,8 @@ A user within an organization can have one of the proceeding roles:
 | ----- | ----- |
 | Administrator| A instance administrator who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends ensuring there is more than one administrator in the event that your administrator is unavailable. |
 | Member | A regular user of the organization, invited by an instance administrator. A organization member cannot invite other users or manage existing users in the organization. |
-| Viewer | A view-only user of your organization, invited by an instance administrator. A viewer only has read access to the organization and the underlying teams that they are a member of. |
+| Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an instance administrator. A viewer only has read access to the organization and the underlying teams that they are a member of. |
+|Custom Roles (Enterprise-only feature) | Custom roles allow organization administrators to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team administrators can then assign any of those custom roles to users in their respective teams. Refer to this article for details.|
 
 To change a user's role:
 
@@ -202,6 +211,15 @@ To change a user's role:
 4. Provide the name or email of the user in the search bar.
 4. Select a role from the **TEAM ROLE** dropdown next to the name of the user.
 
+### Assign or update a user's access
+
+A user within an organization has one of the proceeding model seat or weave access types: full, viewer, or no access. The availability of these seats are determined by organization role and subscription type. 
+
+| Seat type | Description |
+| ----- | ----- |
+| Full | Users with this role type have full permissions to write, read, and export data for Models or Weave. |
+| Viewer | A view-only user of your organization. A viewer only has read access to the organization and the underlying teams that they are a part of, and view only access to Models or Weave. |
+| No access | Users with this role have no access to the Models or Weave products. |
 
 ### Remove a user
 
@@ -221,15 +239,6 @@ To change a user's role:
 ## Add and manage teams
 Use your organization's dashboard to create teams within your organization. Once an organization administrator creates a team, either the org administrator or team administrator can invite users to that team, assign or update a team member's role, automatically add new users to a team when they join your organization, remove users from a team, and manage team storage with the team's dashboard at `https://wandb.ai/<team-name>`.
 
-
-
-### How seats work
-
-
-| Product |Seats | Cost based on |
-| ----- | ----- | ----- |
-| Models | Pay per set | How many Models paid seats you have, and how much usage you’ve accrued determines your overall subscription cost. Each user can be assigned one of the three available seat types: Full, Viewer, and No-Access |
-| Weave | Free  | Usage based |
 
 <!-- If you're looking to simplify team management in your organization, refer to [Automate user and team management](./automate_iam.md). -->
 
