@@ -203,7 +203,7 @@ The `wandb.log` calls in your script utilize a metrics logging API to log your t
 
 W&B applies rate limits per W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) have higher rate limits than those on the Free plan.
 
-When you reach the rate limit with the metrics logging API, the terminal output remains stalled at the upload step.
+When you reach the rate limit while using the metrics logging API, a rate limit message will appear in your terminal.
 
 ### Suggestions for staying under the metrics logging API rate limit
 
