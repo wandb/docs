@@ -205,7 +205,7 @@ A user within an organization can have one of the proceeding roles:
 | Administrator| A instance administrator who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends ensuring there is more than one administrator in the event that your administrator is unavailable. |
 | Member | A regular user of the organization, invited by an instance administrator. A organization member cannot invite other users or manage existing users in the organization. |
 | Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an instance administrator. A viewer only has read access to the organization and the underlying teams that they are a member of. |
-|Custom Roles (Enterprise-only feature) | Custom roles allow organization administrators to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team administrators can then assign any of those custom roles to users in their respective teams. Refer to this article for details.|
+|Custom Roles (Enterprise-only feature) | Custom roles allow organization administrators to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team administrators can then assign any of those custom roles to users in their respective teams.|
 
 To change a user's role:
 
@@ -226,7 +226,7 @@ A user within an organization has one of the proceeding model seat or weave acce
 
 Model seat type and weave access type are defined at the organization level, and inherited by the team. If you want to change a user's seat type, navigate to the organization settings and follow the proceeding steps:
 
-1. Navigate to your organization's settings at `https://wandb.ai/account-settings/<organization>/settings`. Ensure to replace the values enclosed in angle brackets (`<>`) with your organization name.
+1. For SaaS users, navigate to your organization's settings at `https://wandb.ai/account-settings/<organization>/settings`. Ensure to replace the values enclosed in angle brackets (`<>`) with your organization name. For other Dedicated and Self-managed deployments, navigate to `https://<your-instance>.wandb.io/org/dashboard`.
 2. Select th **Users** tab.
 3. From the **Role** dropdown, select the seat type you want to assign to the user.
 
