@@ -203,6 +203,8 @@ The `wandb.log` calls in your script utilize a metrics logging API to log your t
 
 W&B applies rate limits per W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) have higher rate limits than those on the Free plan.
 
+When you reach the rate limit with the metrics logging API, the terminal output will remain stalled at the upload step.
+
 ### Suggestions for staying under the metrics logging API rate limit
 
 Exceeding the rate limit may delay `run.finish()` until the rate limit resets. To avoid this, consider the following strategies:
@@ -223,6 +225,16 @@ if epoch % 5 == 0:  # Log metrics every 5 epochs
 The W&B Models UI and SDK’s [public API](https://docs.wandb.ai/ref/python/public-api/api) make GraphQL requests to the server for querying and modifying data. For all GraphQL requests in SaaS Cloud, W&B applies rate limits per IP address for unauthorized requests and per user for authorized requests. The limit is based on request rate (request per second) within a fixed time window, where your pricing plan determines the default limits. For relevant SDK requests that specify a project path (for example, reports, runs, artifacts), W&B applies rate limits per project, measured by database query time.
 
 Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
+
+With the W&B Models SDK public API, the following message will appear in the terminal if a rate limit is reached:
+```
+$ python train.py
+wandb: Network error (HTTPError), entering retry loop.
+Traceback (most recent call last):
+	  ...
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://api.wandb.ai/graphql
+```
 
 ### Suggestions for staying under the GraphQL API rate limit
 
