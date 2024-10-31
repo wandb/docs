@@ -226,16 +226,7 @@ The W&B Models UI and SDK’s [public API](https://docs.wandb.ai/ref/python/publ
 
 Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
 
-With the W&B Models SDK public API, the following message appears in the terminal when it reaches the rate limit:
-
-```
-$ python train.py
-wandb: Network error (HTTPError), entering retry loop.
-Traceback (most recent call last):
-	  ...
-    raise HTTPError(http_error_msg, response=self)
-requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://api.wandb.ai/graphql
-```
+When you reach the rate limit while using the `wandb` Models Public SDK, a rate limit message will appear in your terminal.
 
 ### Suggestions for staying under the GraphQL API rate limit
 
