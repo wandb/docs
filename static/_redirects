@@ -10,7 +10,8 @@
 /guides/reports/reports-faq /support/index_reports 301
 /guides/track/log/logging-faqs /support/index_logs 301
 /app /guides/app 301
-/app/features /guides/app/features 301
+/guides/app/features/ /guides/models 301
+/app/features /guides/models 301
 /app/features/alerts /guides/runs/alert 301
 /app/features/custom-charts /guides/app/features/custom-charts 301
 /app/features/custom-charts-beta /guides/app/features/custom-charts-beta 301
@@ -55,7 +56,6 @@
 /data-vis/log-tables /guides/track/log/log-tables 301
 /guides/tables/log-tables /guides/track/log/log-tables 301
 /guides/data-vis/tables /guides/tables 301
-/guides/data-vis/tables /guides/tables/visualize-tables 301
 /guides/data-vis/tables-quickstart /guides/tables/tables-walkthrough 301
 /datasets-and-predictions /guides/integrations/mmdetection#visualize-dataset-and-model-prediction 301
 /define-sweep-configuration /guides/sweeps/define-sweep-configuration 301
@@ -226,7 +226,7 @@
 /guides/model_registry/quickstart /guides/model_registry/walkthrough 301
 /guides/manage-runs /guides/runs/manage-runs 301
 /guides/projects/campaigns / 301
-/guides/prompts_platform /guides/weave_platform 301
+/guides/prompts_platform /guides/weave 301
 /guides/prompts/intro /guides/integrations/prompts/intro 301
 /guides/prompts/quickstart /guides/integrations/prompts/quickstart 301
 /guides/prompts/openai /guides/integrations/prompts/openai 301
@@ -235,12 +235,9 @@
 /guides/reports/reports-walkthrough /guides/reports 301
 /guides/run/grouping /guides/runs/grouping 301
 /guides/self-hosted/configuration /guides/hosting/env-vars 301
-/guides/self-hosted/local-common-questions /guides/hosting 301
 /guides/self-hosted/setup /guides/hosting/setup 301
-/guides/self-hosted/setup/configuration /guides/hosting/env-vars 301
 /guides/self-hosted/setup/dedicated-cloud /guides/hosting/hosting-options/wb-managed 301
 /guides/self-hosted/setup/on-premise-baremetal /guides/hosting/hosting-options/self-managed#on-prem-bare-metal 301
-/guides/self-hosted/setup/private-cloud /guides/hosting/hosting-options 301
 /guides/self-hosted/system-admin /guides/hosting 301
 /guides/sweeps/advanced-sweeps/ray-tune /guides/integrations/ray-tune 301
 /guides/sweeps/configuration /guides/sweeps/define-sweep-configuration 301

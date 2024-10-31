@@ -11,7 +11,7 @@ import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
 
 :::info
-W&B support embedded TensorBoaord for W&B Multi-tenant SaaS.
+W&B support embedded TensorBoard for W&B Multi-tenant SaaS.
 :::
 
 Upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
