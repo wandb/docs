@@ -4,7 +4,6 @@ displayed_sidebar: default
 
 # Access management
 
-[INSERT - to do]
 
 ## Manage users and teams within an organization
 The first user to sign up to W&B with a unique organization domain is assigned as that organization's *instance administrator role*. The organization administrator assigns specific users team administrator roles.
