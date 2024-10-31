@@ -29,6 +29,5 @@ or email [support@wandb.com](mailto:support@wandb.com).</p>
 - [Is there a monthly subscription option for the teams plan?](monthly_subscription_option_teams_plan.md)
 - [Is there a way to add more seats?](add_more_seats.md)
 - [On a local instance, which files should I check when I have issues?](local_instance_files_check_issues.md)
-- [What are service accounts, and how do we add one to our team?](service_accounts_we_add_one_team.md)
 - [What is a service account, and why is it useful?](service_account_useful.md)
 - [What is the difference between team and organization?](difference_team_organization.md)
