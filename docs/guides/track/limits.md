@@ -226,7 +226,7 @@ The W&B Models UI and SDK’s [public API](https://docs.wandb.ai/ref/python/publ
 
 Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
 
-When you reach the rate limit while using the `wandb` Models Public SDK, a rate limit message will appear in your terminal.
+When you reach the rate limit while using the W&B Models Public SDK, a rate limit message will appear in your terminal.
 
 ### Suggestions for staying under the GraphQL API rate limit
 
