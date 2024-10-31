@@ -40,6 +40,17 @@ There are several ways an organization administrator can add users to an organiz
 2. Auto provisioning with SSO
 3. Domain capture
 
+### How seats work
+
+Models pricing is based on user seats and each user can be assigned one of the three available seat types: Full, Viewer, and No-Access.  Weave pricing is usage based.
+
+The proceeding table summarizes how seats work for Models and Weave:
+
+| Product |Seats | Cost based on |
+| ----- | ----- | ----- |
+| Models | Pay per set | How many Models paid seats you have, and how much usage you’ve accrued determines your overall subscription cost. Each user can be assigned one of the three available seat types: Full, Viewer, and No-Access |
+| Weave | Free  | Usage based |
+
 ### Invite a user
 
 Administrators can invite users to their organization, as well as specific teams within the organization.
@@ -180,14 +191,6 @@ Reach out to your W&B Account Team if you use Dedicated or Self-Managed deployme
 </TabItem>
 </Tabs>
 
-### How seats work
-
-
-| Product |Seats | Cost based on |
-| ----- | ----- | ----- |
-| Models | Pay per set | How many Models paid seats you have, and how much usage you’ve accrued determines your overall subscription cost. Each user can be assigned one of the three available seat types: Full, Viewer, and No-Access |
-| Weave | Free  | Usage based |
-
 
 ### Assign or update a user's role
 
@@ -213,13 +216,23 @@ To change a user's role:
 
 ### Assign or update a user's access
 
-A user within an organization has one of the proceeding model seat or weave access types: full, viewer, or no access. The availability of these seats are determined by organization role and subscription type. 
+A user within an organization has one of the proceeding model seat or weave access types: full, viewer, or no access.  
 
 | Seat type | Description |
 | ----- | ----- |
 | Full | Users with this role type have full permissions to write, read, and export data for Models or Weave. |
 | Viewer | A view-only user of your organization. A viewer only has read access to the organization and the underlying teams that they are a part of, and view only access to Models or Weave. |
 | No access | Users with this role have no access to the Models or Weave products. |
+
+Model seat type and weave access type are defined at the organization level, and inherited by the team. If you want to change a user's seat type, navigate to the organization settings and follow the proceeding steps:
+
+1. Navigate to your organization's settings at `https://wandb.ai/account-settings/<organization>/settings`. Ensure to replace the values enclosed in angle brackets (`<>`) with your organization name.
+2. Select th **Users** tab.
+3. From the **Role** dropdown, select the seat type you want to assign to the user.
+
+:::note
+The organization role and subscription type determines which seat types are available within your organization.
+:::
 
 ### Remove a user
 
