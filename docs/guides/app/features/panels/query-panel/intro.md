@@ -31,7 +31,7 @@ Add a query to your workspace or within a report.
     {label: 'Project workspace', value: 'workspace'},
     {label: 'W&B Report', value: 'report'},
   ]}>
-  <TabItem value="report">
+  <TabItem value="workspace">
 
 1. Navigate to your project's workspace. 
 2. In the upper right hand corner, click `Add panel`.
@@ -40,7 +40,7 @@ Add a query to your workspace or within a report.
 
 
   </TabItem>
-  <TabItem value="workspace">
+  <TabItem value="report">
 
 
 1. Within your report, type and select `/Query panel`
