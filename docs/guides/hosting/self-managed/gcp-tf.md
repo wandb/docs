@@ -13,7 +13,7 @@ If you've determined to self-managed W&B Server, W&B recommends using the [W&B S
 
 The module documentation is extensive and contains all available options that can be used.
 
-Before you start, W&B recommendsthat you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
+Before you start, W&B recommends that you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/backend/remote) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
 
 The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
 
