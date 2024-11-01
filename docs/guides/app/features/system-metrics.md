@@ -4,19 +4,6 @@ displayed_sidebar: default
 title: System metrics
 ---
 
-<!-- `wandb` automatically logs system metrics every 2 seconds, averaged over a 30 second period. The metrics include:
-
-* CPU Utilization
-* System Memory Utilization
-* Disk I/O Utilization
-* Network traffic (bytes sent and received)
-* GPU Utilization
-* GPU Temperature
-* GPU Time Spent Accessing Memory (as a percentage of the sample time)
-* GPU Memory Allocated
-* TPU Utilization
-
-GPU metrics are collected on a per-device basis using [nvidia-ml-py3](https://github.com/nicolargo/nvidia-ml-py3/blob/master/pynvml.py). For more information on how to interpret these metrics and optimize your model's performance, see [this helpful blog post from Lambda Labs](https://lambdalabs.com/blog/weights-and-bias-gpu-cpu-utilization/). -->
 
 
 This page provides detailed information about the system metrics that are tracked by the W&B SDK, including how the particular metrics are calculated in the code.
@@ -431,6 +418,15 @@ result = profiler_client.monitor(service_addr, duration_ms=100, level=2)
 ```
 
 W&B assigns a `tpu` tags to this metric.
+
+
+### TPU Memory usage
+The memory/usage metric is generated for the TPU Worker resource and tracks the memory used by the TPU VM in bytes. This metric is sampled every 10 seconds.
+
+### TPU Memory usage percentage
+The memory/usage metric is generated for the TPU Worker resource and tracks the memory used by the TPU VM as a percentage. This metric is sampled every 10 seconds.
+
+### TPU Duty cycle
 
 <!-- New section -->
 
