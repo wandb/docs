@@ -21,7 +21,7 @@ jobs:
         uses: lycheeverse/lychee-action@v1.10.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: --scheme https --scheme http --verbose ${{ steps.changed-files.outputs.all_changed_files }}
+          args: --verbose ${{ steps.changed-files.outputs.all_changed_files }}
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
