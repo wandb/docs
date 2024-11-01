@@ -122,7 +122,7 @@ This is the most straightforward deployment option configuration that will creat
 
    provider "google-beta" {
     project = var.project_id
-    region  = var.reguion
+    region  = var.region
     zone    = var.zone
    }
 
