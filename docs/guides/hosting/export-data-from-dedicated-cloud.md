@@ -9,7 +9,7 @@ If you would like to export all the data managed in your Dedicated Cloud instanc
 | Purpose | Documentation |
 |---------|---------------|
 | Export project metadata | [Projects API](/ref/python/public-api/projects/) |
-| Export runs in a project | [Runs API](/ref/python/public-api/runs/)) |
+| Export runs in a project | [Runs API](/ref/python/public-api/runs/) |
 | Export reports | [Reports API](/guides/reports/clone-and-export-reports/) |
 | Export artifacts | [Explore artifact graphs](/guides/artifacts/explore-and-traverse-an-artifact-graph), [Download and use artifacts](/guides/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
 
