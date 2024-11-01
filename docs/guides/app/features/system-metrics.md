@@ -427,6 +427,7 @@ The memory/usage metric is generated for the TPU Worker resource and tracks the 
 The memory/usage metric is generated for the TPU Worker resource and tracks the memory used by the TPU VM as a percentage. This metric is sampled every 10 seconds.
 
 ### TPU Duty cycle
+Tracks the percentage of time over the sample period during which the TPU memory usage was actively processing.
 
 <!-- New section -->
 
