@@ -393,41 +393,15 @@ The following lists available metrics and their units:
 ## Google Cloud TPU
 Tensor Processing Units (TPUs) are Google's custom-developed ASICs (Application Specific Integrated Circuits) used to accelerate machine learning workloads.
 
-### TPU Utilization 
-This metric indicates the utilization of the Google Cloud TPU in percentage.
-
-```python
-tpu_name = os.environ.get("TPU_NAME")
-
-compute_zone = os.environ.get("CLOUDSDK_COMPUTE_ZONE")
-core_project = os.environ.get("CLOUDSDK_CORE_PROJECT")
-
-from tensorflow.python.distribute.cluster_resolver import (
-    tpu_cluster_resolver,
-)
-
-service_addr = tpu_cluster_resolver.TPUClusterResolver(
-    [tpu_name], zone=compute_zone, project=core_project
-).get_master()
-
-service_addr = service_addr.replace("grpc://", "").replace(":8470", ":8466")
-
-from tensorflow.python.profiler import profiler_client
-
-result = profiler_client.monitor(service_addr, duration_ms=100, level=2)
-```
-
-W&B assigns a `tpu` tags to this metric.
-
 
 ### TPU Memory usage
-The memory/usage metric is generated for the TPU Worker resource and tracks the memory used by the TPU VM in bytes. This metric is sampled every 10 seconds.
+The current High Bandwidth Memory usage in bytes per TPU core. W&B assigns a `tpu.{tpu_index}.memoryUsageBytes` tag to this metric.
 
 ### TPU Memory usage percentage
-The memory/usage metric is generated for the TPU Worker resource and tracks the memory used by the TPU VM as a percentage. This metric is sampled every 10 seconds.
+The current High Bandwidth Memory usage in percent per TPU core. W&B assigns a `tpu.{tpu_index}.memoryUsageBytes` tag to this metric.
 
 ### TPU Duty cycle
-Tracks the percentage of time over the sample period during which the TPU memory usage was actively processing.
+TensorCore duty cycle percentage per TPU device. Tracks the percentage of time over the sample period during which the accelerator TensorCore was actively processing. A larger value means better TensorCore utilization. W&B assigns a `tpu.{tpu_index}.dutyCycle` tag to this metric.
 
 <!-- New section -->
 
