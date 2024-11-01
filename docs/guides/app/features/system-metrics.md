@@ -4,9 +4,11 @@ displayed_sidebar: default
 title: System metrics
 ---
 
-`wandb` automatically logs system metrics every 10 seconds.
-
 This page provides detailed information about the system metrics that are tracked by the W&B SDK.
+
+:::info
+`wandb` automatically logs system metrics every 10 seconds.
+:::
 
 ## CPU
 
@@ -259,31 +261,21 @@ The following lists available metrics and their units:
 ## Google Cloud TPU
 Tensor Processing Units (TPUs) are Google's custom-developed ASICs (Application Specific Integrated Circuits) used to accelerate machine learning workloads.
 
-### TPU Utilization 
-This metric indicates the utilization of the Google Cloud TPU in percentage.
 
-```python
-tpu_name = os.environ.get("TPU_NAME")
+### TPU Memory usage
+The current High Bandwidth Memory usage in bytes per TPU core. 
 
-compute_zone = os.environ.get("CLOUDSDK_COMPUTE_ZONE")
-core_project = os.environ.get("CLOUDSDK_CORE_PROJECT")
+W&B assigns a `tpu.{tpu_index}.memoryUsageBytes` tag to this metric.
 
-from tensorflow.python.distribute.cluster_resolver import (
-    tpu_cluster_resolver,
-)
+### TPU Memory usage percentage
+The current High Bandwidth Memory usage in percent per TPU core. 
 
-service_addr = tpu_cluster_resolver.TPUClusterResolver(
-    [tpu_name], zone=compute_zone, project=core_project
-).get_master()
+W&B assigns a `tpu.{tpu_index}.memoryUsageBytes` tag to this metric.
 
-service_addr = service_addr.replace("grpc://", "").replace(":8470", ":8466")
+### TPU Duty cycle
+TensorCore duty cycle percentage per TPU device. Tracks the percentage of time over the sample period during which the accelerator TensorCore was actively processing. A larger value means better TensorCore utilization. 
 
-from tensorflow.python.profiler import profiler_client
-
-result = profiler_client.monitor(service_addr, duration_ms=100, level=2)
-```
-
-W&B assigns a `tpu` tags to this metric.
+W&B assigns a `tpu.{tpu_index}.dutyCycle` tag to this metric.
 
 <!-- New section -->
 
