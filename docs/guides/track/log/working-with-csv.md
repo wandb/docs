@@ -102,7 +102,7 @@ The below table becomes this Weights & Biases Dashboard after conversion
 In some cases, you might have your experiment details in a CSV file. Common details found in such CSV files include:
 
 * A name for the experiment run
-* Initial [notes](../../app/features/notes.md)
+* Initial [notes](../../runs/notes.md)
 * [Tags](../../runs/tags.md) to differentiate the experiments
 * Configurations needed for your experiment (with the added benefit of being able to utilize our [Sweeps Hyperparameter Tuning](../../sweeps/intro.md)).
 

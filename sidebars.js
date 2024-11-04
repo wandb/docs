@@ -16,7 +16,7 @@ export default {
             // 'guides/track/intro',
             'guides/track/launch',
             'guides/track/config',
-            'guides/app/pages/project-page',
+            'guides/track/project-page',
             'guides/app/pages/workspaces',
             {
               type: 'category',
@@ -33,6 +33,7 @@ export default {
                 'guides/runs/manage-runs',
                 'guides/runs/runs-table',
                 'guides/runs/run-page',
+                'guides/runs/notes',
               ],
             },
             {
@@ -218,7 +219,6 @@ export default {
                 'guides/app/features/custom-charts/walkthrough',
               ],
             },
-            'guides/app/features/notes',
             'guides/app/features/cascade-settings',
             {
               type: 'category',

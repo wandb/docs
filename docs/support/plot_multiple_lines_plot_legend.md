@@ -4,7 +4,8 @@ displayed_sidebar: support
 tags:
    - experiments
 ---
-Create a multi-line custom chart with `wandb.plot.line_series()`. Navigate to the [project page](../guides/app/pages/project-page.md) to view the line chart. To add a legend, include the `keys` argument in `wandb.plot.line_series()`. For example:
+
+Create a multi-line custom chart with `wandb.plot.line_series()`. Navigate to the [project page](../guides/track/project-page.md) to view the line chart. To add a legend, include the `keys` argument in `wandb.plot.line_series()`. For example:
 
 ```python
 wandb.log(
