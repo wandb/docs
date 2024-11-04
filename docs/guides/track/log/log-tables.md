@@ -101,7 +101,7 @@ Each time a table is logged to the same key, a new version of the table is creat
 :::info
 To log more than 200,000 rows, you can override the limit with:
 
-`wandb.Table.MAX_ARTIFACTS_ROWS = X`
+`wandb.Table.MAX_ARTIFACT_ROWS = X`
 
 However, this would likely cause performance issues, such as slower queries, in the UI.
 :::
