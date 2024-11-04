@@ -259,7 +259,7 @@ Add notes to your project either as a description overview or as a markdown pane
 Descriptions you add to your page appear in the **Overview** tab of your profile.
 
 1. Navigate to your W&B project
-2. Select the **Overview** tab from the Project Sidebar
+2. Select the **Overview** tab from the project sidebar
 3. Choose Edit in the upper right hand corner
 4. Add your notes in the **Description** field
 5. Select the **Save** button
@@ -271,7 +271,7 @@ You can also create a W&B Report to add plots and markdown side by side. Use dif
 ### Add notes to run workspace
 
 1. Navigate to your W&B project
-2. Select the **Workspace** tab from the Project Sidebar
+2. Select the **Workspace** tab from the project sidebar
 3. Choose the **Add panels** button from the top right corner
 4. Select the **TEXT AND CODE** dropdown from the modal that appears
 5. Select **Markdown**

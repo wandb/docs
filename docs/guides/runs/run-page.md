@@ -6,17 +6,25 @@ displayed_sidebar: default
 title: Run page
 ---
 
-Use the run page to explore detailed information about a specific run within a project.
+Explore detailed information about a specific run within a project. To view a detailed information of a specific run:
+
+1. Navigate to your project
+2. Click on the **Workspace** tab from the project sidebar
+3. Select a specific run from the list of runs in the run selector
+
+
+The proceeding sections describe the different tabs available:
 
 ## Overview tab
-Use the Overview tab learn about a specific run in a project, such as:
+Use the **Overview** tab learn about a specific run in a project, such as:
+
 
 * **Name**: The name of the run
 * **Description**: A description of the run
 * **Author**: The W&B entity that created the run
 * **State**: The [state of the run](#run-states)
 * **Start time**: The timestamp when the run is initialized
-* **Duration**: How long it took for the run to reach a state
+* **Duration**: The amount of time the run is actively computing or logging data. Excludes any pauses or time waiting.
 * **Run path**: A unique run path `<entity>/<project>/<run_id>`
 * **OS**: Operating system that initialized the run
 * **Python version**: The Python version that created the run

@@ -32,8 +32,8 @@ export default {
                 'guides/runs/alert',
                 'guides/runs/manage-runs',
                 'guides/runs/runs-table',
-                'guides/runs/run-page',
                 'guides/runs/notes',
+                'guides/runs/run-page',
               ],
             },
             {

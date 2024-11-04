@@ -9,7 +9,7 @@ Notes that you add to a specific run appear on the run page in the Overview tab 
 
 
 1. Navigate to your W&B project
-2. Select the **Workspace** tab from the Project Sidebar
+2. Select the **Workspace** tab from the project sidebar
 3. Select the run you want to add a note to from the Run Selector
 4. Choose the **Overview** tab
 5. Select the pencil icon next to the **Description** field and add your notes
