@@ -8,41 +8,17 @@ title: Manage team settings
 
 # Team settings
 
-Navigate to your team’s profile page and select the **Team settings** icon to manage team settings. Not all members in a team can modify team settings. Only team admins can view a team's settings and access team level TTL settings. The account type (Administrator, Member, or Service) of a member determines what settings that member can modify. 
+Change your team's settings, including members, avatar, alerts, privacy, and usage. Only team administrators can view and edit a team's settings.
 
 :::info
 Only Administration account types can change team settings or remove a member from a team.
 :::
 
+
 ## Members
+The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, email, team role, as well as their access privileges to Models and Weave, which is inherited by from the Organization. There are three standard team roles: Administrator (Admin), Member, and View-only.
 
-The **Members** section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, and account type. There are three account types: Administrator (Admin), Member, and Service.
-
-### Change a member's role in the team
-
-Complete the proceeding steps to change a member's role in a team:
-
-1. Select the account type icon next to the name of a given team member. A modal will appear.
-2. Select the drop-down menu.
-3. From the drop-down, choose the account type you want that team member to posses.
-
-### Remove a member from a team
-
-Select the trash can icon next to the name of the member you want to remove from the team.
-
-:::info
-Runs created in a team account are preserved when the member who created those runs are removed from the team.
-:::
-
-### Match members to a team organization during signup
-
-Allow new users within your organization discover Teams within your organization when they sign-up. New users must have a verified email domain that matches your organization's verified email domain. Verified new users will see a list of verified teams that belong to an organization when they sign up for a W&B account.
-
-An organization administrator (Admin) must enable this feature. To enable this feature, follow these steps:
-
-1. Navigate to the **Privacy** section of the Teams Setting page.
-2. Select the **Claim Organization Email Domain** button next to the text "Allow users with matching organization email domain to join this team".
-3. Select the newly enabled the toggle.
+See [Add and Manage teams](../../hosting/iam/manage-organization.md#add-and-manage-teams) for information on how to create a tea, invite users to a team, remove users from a team, and change a user's role.
 
 ## Avatar
 
