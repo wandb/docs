@@ -12,7 +12,7 @@ As an administrator of an organization you can [manage individual users](#add-an
 As a team administrator you can [manage teams](#add-and-manage-teams).
 
 :::info
-The following workflow applies to users with instance administrator (admin) roles. Reach out to an administrator in your organization if you believe you should have instance administrator permissions. 
+The following workflow applies to users with instance administrator roles. Reach out to an administrator in your organization if you believe you should have instance administrator permissions. 
 :::
 
 If you are looking to simplify user management in your organization, refer to [Automate user and team management](./automate_iam.md).
@@ -40,9 +40,7 @@ There are several ways an organization administrator can add users to an organiz
 2. Auto provisioning with SSO
 3. Domain capture
 
-### How seats work
-
-Models pricing is based on user seats and each user can be assigned one of the three available seat types: Full, Viewer, and No-Access.  Weave pricing is usage based.
+### Seats and pricing
 
 The proceeding table summarizes how seats work for Models and Weave:
 
@@ -89,7 +87,7 @@ W&B sends an invite link using a third-party email server to the user's email af
 
 ### Auto provision users
 
-A person in your company (someone who has the same domain as your company) can sign in to your W&B Organization with Single Sign-On (SSO) if SSO is set up and the SSO provider permits it. SSO is avalible for all Enterprise licenses. 
+A W&B user with matching email domain can sign in to your W&B Organization with Single Sign-On (SSO) if you configure SSO and your SSO provider permits it. SSO is available for all Enterprise licenses.
 
 :::tip enable SSO for authentication
 W&B strongly recommends and encourages that users authenticate using Single Sign-On (SSO). Reach out to your W&B team to enable SSO for your organization. 
@@ -157,9 +155,9 @@ The proceeding table summarizes the behavior of new and existing users with and 
 
 | | With domain capture | Without domain capture |
 | ----- | ----- | ----- |
-| New users | Users who sign up for W&B from verified domains are automatically added as members to your organization’s default team. They can choose additional teams to join at sign up, if team joining is enabled for these teams. They can still join other organizations and teams with an invitation. | Users can create W&B accounts without knowing there is a centralized organization available. | 
+| New users | Users who sign up for W&B from verified domains are automatically added as members to your organization’s default team. They can choose additional teams to join at sign up, if you enable team joining. They can still join other organizations and teams with an invitation. | Users can create W&B accounts without knowing there is a centralized organization available. | 
 | Invited users | Invited users automatically join your organization when accepting your invite. Invited users are not automatically added as members to your organization’s default team. They can still join other organizations and teams with an invitation. | Invited users automatically join your organization when accepting your invite. They can still join other organizations and teams with an invitation.| 
-| Existing users | Existing users with verified email addresses from your domains can join your organization’s teams within the W&B App. All data that existing users create before joining your organization will remain. No data will be migrated. | Existing W&B users may be spread across multiple organizations and teams.|
+| Existing users | Existing users with verified email addresses from your domains can join your organization’s teams within the W&B App. All data that existing users create before joining your organization remains. W&B does not migrate the existing user's data. | Existing W&B users may be spread across multiple organizations and teams.|
 
 To automatically assign non-invited new users to a default team when they join your organization:
 
@@ -227,7 +225,7 @@ A user within an organization has one of the proceeding model seat or weave acce
 Model seat type and weave access type are defined at the organization level, and inherited by the team. If you want to change a user's seat type, navigate to the organization settings and follow the proceeding steps:
 
 1. For SaaS users, navigate to your organization's settings at `https://wandb.ai/account-settings/<organization>/settings`. Ensure to replace the values enclosed in angle brackets (`<>`) with your organization name. For other Dedicated and Self-managed deployments, navigate to `https://<your-instance>.wandb.io/org/dashboard`.
-2. Select th **Users** tab.
+2. Select the **Users** tab.
 3. From the **Role** dropdown, select the seat type you want to assign to the user.
 
 :::note
@@ -287,7 +285,7 @@ In addition to inviting users manually with email invites, you can automatically
 
 ### Match members to a team organization during sign up
 
-Allow new users within your organization discover Teams within your organization when they sign-up. New users must have a verified email domain that matches your organization's verified email domain. Verified new users will see a list of verified teams that belong to an organization when they sign up for a W&B account.
+Allow new users within your organization discover Teams within your organization when they sign-up. New users must have a verified email domain that matches your organization's verified email domain. Verified new users can view a list of verified teams that belong to an organization when they sign up for a W&B account.
 
 An organization administrator must enable domain claiming. To enable domain capture, see the steps described in [Domain capture](#domain-capture).
 
