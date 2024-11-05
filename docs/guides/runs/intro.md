@@ -5,13 +5,16 @@ displayed_sidebar: default
 title: Runs
 ---
 
-A single unit of computation logged by W&B is called a *run*. You can think of a W&B run as an atomic element of your whole project. You should initiate a new run when you:
+A single unit of computation logged by W&B is called a *run*. You can think of a W&B run as an atomic element of your whole project. 
 
-* Train a model
-* Change a hyperparameter
-* Use a different model
-* Log data or a model as a [W&B Artifact](../artifacts/intro.md)
+Common patterns for initiating a run include, but are not limited to: 
+
+* Training a model
+* Changing a hyperparameter
+* Using a different model
+* Logging data or a model as a [W&B Artifact](../artifacts/intro.md)
 * [Download a W&B Artifact](../artifacts/download-and-use-an-artifact.md)
+
 
 For example, during a [sweep](../sweeps/intro.md), W&B explores a hyperparameter search space that you specify. Each new hyperparameter combination created by the sweep is implemented and recorded as a unique run. 
 
@@ -24,4 +27,3 @@ Some key things to consider when you create and manage runs:
 * There is only at most one active [`wandb.Run`](../../ref/python/run.md) in any process,
 and it is accessible as `wandb.run`.
 :::
-

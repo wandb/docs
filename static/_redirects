@@ -31,7 +31,7 @@
 /app/features/tags /guides/app/features/tags 301
 /app/features/teams /guides/app/features/teams 301
 /app/pages/project-page /guides/app/pages/project-page 301
-/guides/app/pages/workspaces#create-saved-workspace-views-beta /guides/app/pages/workspaces#saved-workspace-views 301
+/guides/app/pages/workspaces#create-saved-workspace-views-beta /guides/track/workspaces#saved-workspace-views 301
 /app/panels/parameter-importance /guides/app/features/panels/parameter-importance 301
 /app/visualizations /guides/app 301
 /artifacts /guides/artifacts 301

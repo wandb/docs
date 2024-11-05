@@ -17,13 +17,14 @@ export default {
             'guides/track/launch',
             'guides/track/config',
             'guides/track/project-page',
-            'guides/app/pages/workspaces',
+            'guides/track/workspaces',
             {
               type: 'category',
               label: 'What are runs?',
               link: {type: 'doc', id: 'guides/runs/intro'},
               items: [
                 'guides/runs/create_runs',
+                'guides/runs/stop-delete-runs',
                 'guides/runs/view-runs',
                 'guides/runs/tags',
                 'guides/runs/resuming',

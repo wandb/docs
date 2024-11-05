@@ -13,9 +13,7 @@ For example, you can add a tag to a run to indicated that that run's model is `i
 
 Programmatically or interactively add tags to your runs.
 
-
-
-There are also several ways to add tags after runs have been logged to W&B.
+Based on your use case, select the tab below that best fits your needs:
 
 <Tabs
   defaultValue="python_sdk"

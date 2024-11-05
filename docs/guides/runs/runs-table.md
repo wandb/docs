@@ -17,18 +17,14 @@ Filter runs based on their tags with the filter button.
 
 ![](/images/app_ui/filter_runs.gif)
 
-### Filter and delete unwanted runs
-
-If you filter down the table to just the ones you want to delete, you can select all and press delete to remove them from your project. Deleting runs is project-global, so if you delete runs from a report that will be reflected in the rest of your project.
-
-![](/images/app_ui/filter_unwanted_runs.gif)
-
 
 ### Filter runs with regex
 
 If regex doesn't provide you the desired results, you can make use of [tags](tags.md) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
 
 ![If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table](/images/app_ui/tags.gif)
+
+
 
 
 ## Search run names

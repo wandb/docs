@@ -1,67 +1,50 @@
 ---
 displayed_sidebar: default
-title: Create a run
+title: Initialize a run
 ---
 
 
-Create a W&B run with [`wandb.init()`](../../ref/python/init.md):
+Initialize a W&B run with [`wandb.init()`](../../ref/python/init.md). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run:
 
 ```python
 import wandb
 
-run = wandb.init()
+run = wandb.init(entity="<entity>", project="<project>")
 ```
 
-W&B recommends that you specify a project name and a W&B entity when you create a new run. W&B creates a new project (if the project does not already exist) within the W&B entity you provide. If the project already exists, W&B stores the run in that project.
+When you initialize a run, W&B logs your run to the project you specify for the project field (`wandb.init(project="<project>"`). W&B creates a new project if the project does not already exist. If the project already exists, W&B stores the run in that project.
+
 
 :::info
 If you do not specify a project name, W&B stores the run in a project called "Uncategorized".
 :::
 
-For example, the following code snippet initializes a run that is stored in a project called `model_registry_example` that is scoped within a `wandbee` entity:
+
+Each run in W&B has a [unique identifier known as a *run ID*](#specify-a-unique-run-id). [You can specify a unique ID](#specify-a-unique-run-id) or let [W&B randomly generate one for you](#find-generated-run-id).
+
+Each run also has a human-readable,[ non-unique identifier known as a *run name*](#name-your-run). You can specify a name for your run or let W&B randomly generate one for you.
+
+
+For example, consider the proceeding code snippet: 
 
 ```python
 import wandb
 
-run = wandb.init(entity="wandbee", \
-        project="model_registry_example")
+run = wandb.init(entity="wandbee", project="awesome-project")
+run.finish()
 ```
 
-W&B prints the name of the run that is created along with a URL path to find out more information about that specific run. 
-
-For example, the code snippet above produces this output:
+The code snippet above produces this output:
 ![](/images/runs/run_example.png)
 
-
-Use run names and run IDs to quickly find your experiments in your project
-
-
-## Name your run 
-
-The name of a run is a human-readable, non-unique identifier. You can use the name of a run to quickly identify the purpose of the run within the App UI.
-
-By default, W&B generates a random name and run ID when you initialize a new run. The name of a run appears within your project's workspace and at the top of the [run's overview page](./view-runs.md#overview-tab).
-
-You can specify a name for your run by passing the `name` parameter to the [`wandb.init`](../../ref/python/init.md) method. 
+Where `wandbee` is the entity that logged the run, `awesome-project` is the name of the project the run is logged to, `likely-lion-9` is the name of the run, and `xlm66ixq` is the run ID.
 
 
-```python 
-import wandb
+## Specify a unique run ID
 
-run = wandb.init(
-    entity="<project>", 
-    project="<project>", 
-    name="<run-name>"
-)
-```
+Run IDs are unique identifiers for runs. By default, W&B generates a random and unique run ID for you when you initialize a new run. 
 
-:::tip
-W&B suggests that you specify a project name when you initialize a run. If a project is not specified, W&B stores runs in a project called "Uncategorized".
-:::
-
-## Provide a unique run ID 
-
-Run IDs are unique identifiers for runs. W&B generates a random run ID when you initialize a new run. You can specify a run ID by passing the `id` parameter to the [`wandb.init`](../../ref/python/init.md) method. 
+You can specify your own run ID by passing the `id` parameter to the [`wandb.init`](../../ref/python/init.md) method. 
 
 ```python 
 import wandb
@@ -81,9 +64,9 @@ https://wandb.ai/<entity>/<project>/<run-id>
 
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the entity, project, and run ID.
 
-## Find the unique ID of your run
+## Find generated run ID
 
-If you do not specify a run ID when you initialize a run, W&B generates a random run ID. You can find the unique ID of a run in the W&B App UI.
+If you do not specify a run ID when you initialize a run, W&B generates a random run ID for you. You can find the unique ID of a run in the W&B App UI.
 
 1. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home).
 2. Navigate to the W&B project you specified when you initialized the run.
@@ -95,6 +78,36 @@ Within the **Run path** field, you will find the unique run ID. The unique ID is
 For example, in the proceeding image, the unique run ID is `9mxi1arc`:
 
 ![](/images/runs/unique-run-id.png)
+
+
+## Name your run 
+
+The name of a run is a human-readable, non-unique identifier. 
+
+By default, W&B generates a random run name when you initialize a new run. The name of a run appears within your project's workspace and at the top of the [run's overview page](./view-runs.md#overview-tab).
+
+:::tip
+Use run names as a way to quickly identify a run in your project workspace.
+:::
+
+You can specify a name for your run by passing the `name` parameter to the [`wandb.init`](../../ref/python/init.md) method. 
+
+
+```python 
+import wandb
+
+run = wandb.init(
+    entity="<project>", 
+    project="<project>", 
+    name="<run-name>"
+)
+```
+
+
+
+
+
+
 
 <!-- ## End a run
 
