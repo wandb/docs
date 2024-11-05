@@ -3,38 +3,50 @@ description: >-
   Compare versions of your model, explore results in a scratch workspace, and
   export findings to a report to save notes and visualizations
 displayed_sidebar: default
-title: Project page
+title: Projects
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-The project **Workspace** gives you a personal sandbox to compare experiments. Use projects to organize models that can be compared, working on the same problem with different architectures, hyperparameters, datasets, preprocessing etc.
 
-Project page tabs:
+A *project* is a central location where you visualize results, compare experiments, view and download artifacts, create an automation, and more. 
 
-1. [**Overview**](project-page.md#overview-tab): snapshot of your project
-2. [**Workspace**](project-page.md#workspace-tab): personal visualization sandbox
-3. [**Table**](project-page.md#table-tab): bird's eye view of all runs
-4. [**Reports**](project-page.md#reports-tab): saved snapshots of notes, runs, and graphs
-5. [**Sweeps**](project-page.md#sweeps-tab): automated exploration and optimization
+:::info
+Each project has a visibility setting that determines who can access it. For more information about who can access a project, see [Project visibility](../hosting/iam/restricted-projects.md).
+:::
 
-## Overview Tab
+Each project contains the proceeding which you can access from the sidebar:
 
-* **Project name**: click to edit the project name
-* **Project description**: click to edit the project description and add notes
-* **Delete project**: click the dot menu in the right corner to delete a project
-* **Project privacy**: edit who can view runs and reports— click the lock icon
-* **Last active**: see when the most recent data was logged to this project
+* [**Overview**](project-page.md#overview-tab): snapshot of your project
+* [**Workspace**](project-page.md#workspace-tab): personal visualization sandbox
+* [**Runs**](#runs-tab): A table that lists all the runs in your project
+* **Automations**: Automations configured in your project
+* [**Sweeps**](project-page.md#sweeps-tab): automated exploration and optimization
+* [**Reports**](project-page.md#reports-tab): saved snapshots of notes, runs, and graphs
+* [**Artifacts**](#artifacts-tab): Contains all runs and the artifacts associated with that run
+
+## Overview tab
+
+* **Project name**: The name of the project. W&B creates a project for you when you initialize a run with the name you provide for the project field. You can change the name of the project at any time by selecting the **Edit** button in the upper right corner.
+* **Description**: A description of the project.
+* **Project visibility**: The visibility of the project. The visibility setting that determines who can access it. See [Project visibility](../hosting/iam/restricted-projects.md) for more information.
+* **Last active**: Timestamp of the last time data is logged to this project
+* **Owner**: The entity that owns this project
+* **Contributors**: The number of users that contribute to this project
+* **Total runs**: The total number of runs in this project
 * **Total compute**: we add up all the run times in your project to get this total
 * **Undelete runs**: Click the dropdown menu and click "Undelete all runs" to recover deleted runs in your project.
+* **Delete project**: click the dot menu in the right corner to delete a project
 
-[View a live example →](https://app.wandb.ai/example-team/sweep-demo/overview)
+[View a live example](https://app.wandb.ai/example-team/sweep-demo/overview)
 
-![](/images/app_ui/overview_tab_image.png)
+![](/images/runs/overview_tab_image.png)
 
-![](/images/app_ui/undelete.png)
 
-## Workspace Tab
+## Workspace tab
+
+A project's *workspace* gives you a personal sandbox to compare experiments. Use projects to organize models that can be compared, working on the same problem with different architectures, hyperparameters, datasets, preprocessing etc.
+
 
 **Runs Sidebar**: list of all the runs in your project
 
@@ -50,15 +62,10 @@ Project page tabs:
 
 **Panels layout**: use this scratch space to explore results, add and remove charts, and compare versions of your models based on different metrics
 
-[View a live example →](https://app.wandb.ai/example-team/sweep-demo)
+[View a live example](https://app.wandb.ai/example-team/sweep-demo)
 
 ![](/images/app_ui/workspace_tab_example.png)
 
-### Search for runs
-
-Search for a run by name in the sidebar. You can use regex to filter down your visible runs. The search box affects which runs are shown on the graph. Here's an example:
-
-![](/images/app_ui/project_page_search_for_runs.gif)
 
 ### Add a section of panels
 
@@ -95,22 +102,26 @@ Use the search box in the workspace to filter down the panels. This search match
 
 ![](/images/app_ui/search_in_the_workspace.png)
 
-## Table Tab
+<!-- ## Table Tab
 
 Use the table to filter, group, and sort your results.
 
-[View a live example →](https://app.wandb.ai/example-team/sweep-demo/table?workspace=user-carey)
+[View a live example](https://app.wandb.ai/example-team/sweep-demo/table?workspace=user-carey) -->
 
-![](/images/app_ui/table_tab.png)
 
 
 
 <!-- start -->
-### Table operations
 
-Use the W&B App to sort, filter, and group your W&B Tables. 
+
+## Runs tab
+Use the runs tab to filter, group, and sort your results.
+
+![](/images/runs/run-table-example.png)
 
 <!-- [Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) -->
+
+The proceeding tabs demonstrate some common actions you can take in the runs tab.
 
 <Tabs
   defaultValue="sort"
@@ -163,19 +174,22 @@ By default, this turns other numeric columns into histograms showing the distrib
 </Tabs>
 
 
-## Reports Tab
+<!-- ## Automations tab -->
+
+
+## Reports tab
 
 See all the snapshots of results in one place, and share findings with your team.
 
 ![](/images/app_ui/reports-tab.png)
 
-## Sweeps Tab
+## Sweeps tab
 
 Start a new [sweep](../sweeps/intro.md) from your project.
 
 ![](/images/app_ui/sweeps-tab.png)
 
-## Artifacts Tab
+## Artifacts tab
 
 View all the [artifacts](../artifacts/intro.md) associated with a project, from training datasets and [fine-tuned models](../model_registry/intro.md) to [tables of metrics and media](../tables/tables-walkthrough.md).
 
@@ -239,15 +253,6 @@ If the project is empty (i.e. it has no runs), you can delete it by clicking the
 
 ![](/images/app_ui/howto_delete_project_2.png)
 
-## Change project privacy settings
-
-Click the lock in the navigation bar at the top of the page to change project privacy settings. You can edit who can view or submit runs to your project. These settings include all runs and reports in the project. If you'd like to share your results with just a few people, you can create a [private team](../app/features/teams.md).
-
-![](/images/app_ui/privacy_settings.png)
-
-## Reset a workspace
-
-Add `?workspace=clear` to the end of the URL and press enter. This should take you to a cleared version of your project page workspace.
 
 
 ## Add notes to a project
