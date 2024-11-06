@@ -1,8 +1,6 @@
 ---
 title: "What requirements does the accelerator base image have?"
-displayed_sidebar: support
-tags:
-   - launch
+displayed_sidebar: launch
 ---
 For jobs utilizing an accelerator, provide a base image that includes the necessary accelerator components. Ensure the following requirements for the accelerator image:
 

@@ -46,7 +46,7 @@ Use these optional environment variables to do things like set up authentication
 | **WANDB_ERROR_REPORTING** | Set this to false to prevent wandb from logging fatal errors to its error tracking system.                             |
 | **WANDB_HOST**             | Set this to the hostname you want to see in the wandb interface if you don't want to use the system provided hostname                                |
 | **WANDB_IGNORE_GLOBS**    | Set this to a comma separated list of file globs to ignore. These files will not be synced to the cloud.                              |
-| **WANDB_JOB_NAME**        | Specify a name for any jobs created by `wandb`. For more information, see [create a job](../launch/create-launch-job.md)                                                                                                                                                                                                                        |
+| **WANDB_JOB_NAME**        | Specify a name for any jobs created by `wandb`. |
 | **WANDB_JOB_TYPE**        | Specify the job type, like "training" or "evaluation" to indicate different types of runs. See [grouping](../runs/grouping.md) for more info.               |
 | **WANDB_MODE**             | If you set this to "offline" wandb will save your run metadata locally and not sync to the server. If you set this to `disabled` wandb will turn off completely.                  |
 | **WANDB_NAME**             | The human-readable name of your run. If not set it will be randomly generated for you                       |

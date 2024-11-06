@@ -14,7 +14,6 @@ or email [support@wandb.com](mailto:support@wandb.com).</p>
 - [How can I remove projects from a team space without admin privileges?](remove_projects_from_team_space_without_admin_privileges.md)
 - [How can I rotate or revoke access?](rotate_revoke_access.md)
 - [How can I see the bytes stored, bytes tracked and tracked hours of my organization?](see_bytes_stored_bytes_tracked_tracked_hours_organization.md)
-- [How can admins restrict which users have modify access?](restrict_access_modify_example.md)
 - [How do I cancel my subscription?](cancel_subscription.md)
 - [How do I change my billing address?](change_billing_address.md)
 - [How do I delete a team from my account?](delete_team_from_account.md)

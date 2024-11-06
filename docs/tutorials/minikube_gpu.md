@@ -1,5 +1,6 @@
 ---
 title: Spin up a single node GPU cluster with Minikube
+displayed_sidebar: launch
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

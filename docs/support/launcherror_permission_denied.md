@@ -1,9 +1,6 @@
 ---
 title: How do I fix a "permission denied" error in Launch?
-displayed_sidebar: support
-tags:
-   - experiments
-   - launch
+displayed_sidebar: launch
 ---
 If you encounter the error message `Launch Error: Permission denied`, it indicates insufficient permissions to log to the desired project. Possible causes include:
 

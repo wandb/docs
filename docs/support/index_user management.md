@@ -12,7 +12,6 @@ or email [support@wandb.com](mailto:support@wandb.com).</p>
 - [How can I change my account from corporate to academic?](change_account_from_corporate_academic.md)
 - [How can I regain access to my account if I cannot receive a password reset email?](regain_access_account_cannot_receive_password_reset_email.md)
 - [How can I resolve login issues with my account?](resolve_login_issues_with_account.md)
-- [How can admins restrict which users have modify access?](restrict_access_modify_example.md)
 - [How do I export a list of users from my W&B Organisation?](export_list_users_account.md)
 - [How do I find my API key?](find_api_key.md)
 - [How do I request the complete deletion of my W&B account?](request_complete_deletion_account.md)

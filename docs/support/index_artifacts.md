@@ -19,5 +19,4 @@ or email [support@wandb.com](mailto:support@wandb.com).</p>
 - [How much storage does each artifact version use?](artifact_storage_version.md)
 - [Is it possible to recover an artifact after it has been deleted with a run?](recover_artifact_after_deleted.md)
 - [Using artifacts with multiple architectures and runs?](artifacts_multiple_architectures_runs.md)
-- [When multiple jobs in a Docker queue download the same artifact, is any caching used, or is it re-downloaded every run?](docker_queues_run_multiple_jobs_download_same_artifact_useartifact.md)
 - [Who has access to my artifacts?](access_artifacts.md)

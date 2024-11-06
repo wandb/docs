@@ -111,7 +111,7 @@ The datasets are also visualized as W&B Tables which allows you to explore, sear
 
 OpenAI gives you an id of the fine-tuned model. Since we don't have access to the model weights, the `WandbLogger` creates a `model_metadata.json` file with all the details (hyperparameters, data file ids, etc.) of the model along with the `fine_tuned_model`` id and is logged as a W&B Artifact. 
 
-This model (metadata) artifact can further be linked to a model in the [W&B Model Registry](../../model_registry/intro.md) and even paired with [W&B Launch](../../launch/intro.md).
+This model (metadata) artifact can further be linked to a model in the [W&B Model Registry](../../model_registry/intro.md).
 
 ![](/images/integrations/openai_model_metadata.png)
 

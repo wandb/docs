@@ -21,7 +21,6 @@ or email [support@wandb.com](mailto:support@wandb.com).</p>
 - [How can I save the git commit associated with my run?](save_git_commit_associated_run.md)
 - [How can I use wandb with multiprocessing, e.g. distributed training?](multiprocessing_eg_distributed_training.md)
 - [How do I add Plotly or Bokeh Charts into Tables?](add_plotlybokeh_charts_tables.md)
-- [How do I fix a "permission denied" error in Launch?](launcherror_permission_denied.md)
 - [How do I get the random run name in my script?](random_run_name_script.md)
 - [How do I launch multiple runs from one script?](launch_multiple_runs_one_script.md)
 - [How do I log a list of values?](log_list_values.md)
