@@ -6,7 +6,7 @@
 
 **Summary**
 
-Turn off W&B sync
+Disable W&B sync
 
 **Options**
 
