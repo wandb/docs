@@ -91,7 +91,7 @@ This method is best suited to applying a tag or tags to a single run manually.
 
 
 
-## Remove tags
+## Remove tags from one or more runs
 
 Tags can also be removed from runs with the W&B App UI.
 

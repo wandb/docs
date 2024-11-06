@@ -243,6 +243,9 @@ The action history audit tab shows all of the alias actions and membership chang
 
 The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
 
+
+
+
 ## Delete a project
 
 You can delete your project by clicking the three dots on the right of the overview tab.

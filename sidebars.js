@@ -23,9 +23,6 @@ export default {
               label: 'What are runs?',
               link: {type: 'doc', id: 'guides/runs/intro'},
               items: [
-                'guides/runs/create_runs',
-                'guides/runs/stop-delete-runs',
-                'guides/runs/view-runs',
                 'guides/runs/tags',
                 'guides/runs/resuming',
                 'guides/runs/rewind',
@@ -33,7 +30,6 @@ export default {
                 'guides/runs/alert',
                 'guides/runs/manage-runs',
                 'guides/runs/runs-table',
-                'guides/runs/notes',
                 'guides/runs/grouping',
               ],
             },
