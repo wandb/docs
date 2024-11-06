@@ -1,8 +1,6 @@
 ---
 title: "Can I specify a Dockerfile and let W&B build a Docker image for me?"
-displayed_sidebar: support
-tags:
-   - launch
+displayed_sidebar: launch
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

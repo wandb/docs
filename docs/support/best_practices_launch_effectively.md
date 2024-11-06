@@ -1,8 +1,6 @@
 ---
 title: "Are there best practices for using Launch effectively?"
-displayed_sidebar: support
-tags:
-   - launch
+displayed_sidebar: launch
 ---
 1. Create the queue before starting the agent to enable easy configuration. Failure to do this results in errors that prevent the agent from functioning until a queue is added.
 

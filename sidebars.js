@@ -38,6 +38,40 @@ export default {
           ],
         },
         'guides/launch/sweeps-on-launch',
+        {
+          type: 'category',
+          label: 'Launch Integration Guides',
+          items: [
+            'guides/integrations/dagster',
+            'tutorials/minikube_gpu',
+            'tutorials/volcano',
+          ]
+        },
+        {
+          type: 'category',
+          label: 'Launch FAQ',
+          items: [
+            'support/launch_d_wandb_job_create_image_uploading_whole_docker',
+            'support/launch_support_parallelization_limit_resources_consumed_job',
+            'support/restrict_access_modify_example',
+            'support/best_practices_launch_effectively',
+            'support/dockerfile_let_wb_build_docker_image_me',
+            'support/launch_automatically_provision_spin_compute_resources_target_environment',
+            'support/secrets_jobsautomations_instance_api_key_wish_directly_visible',
+            'support/launch_support_parallelization_limit_resources_consumed_job',
+            'support/restrict_access_modify_example',
+            'support/control_push_queue',
+            'support/launcherror_permission_denied',
+            'support/launch_tensorflow_gpu',
+            'support/launch_build_images',
+            'support/clicking_launch_without_going_ui',
+            'support/build_container_launch',
+            'support/launch_d_wandb_job_create_image_uploading_whole_docker',
+            'support/permissions_agent_require_kubernetes',
+            'support/requirements_accelerator_base_image',
+            'support/docker_queues_run_multiple_jobs_download_same_artifact_useartifact',
+          ]
+        }
       ],
     },
   ],
@@ -424,7 +458,6 @@ export default {
         'guides/integrations/other/azure-openai-fine-tuning',
         'guides/integrations/other/catalyst',
         'guides/integrations/other/cohere-fine-tuning',
-        'guides/integrations/dagster',
         'guides/integrations/other/databricks',
         'guides/integrations/other/deepchecks',
         'guides/integrations/other/deepchem',
@@ -536,5 +569,5 @@ export default {
       items: ['tutorials/weave_models_registry'],
     },
   ],
-  support: [{type: 'doc',id: 'support/index',label: 'W&B Support Center',},'support/index_academic','support/index_administrator','support/index_alerts','support/index_anonymous','support/index_artifacts','support/index_aws','support/index_billing','support/index_charts','support/index_connectivity','support/index_crashing and hanging runs','support/index_environment variables','support/index_experiments','support/index_hyperparameter','support/index_launch','support/index_logs','support/index_metrics','support/index_notebooks','support/index_outage','support/index_privacy','support/index_projects','support/index_python','support/index_reports','support/index_resuming','support/index_runs','support/index_security','support/index_storage','support/index_sweeps','support/index_tables','support/index_team management','support/index_tensorboard','support/index_user management','support/index_workspaces','support/index_wysiwyg',]
+  support: [{type: 'doc',id: 'support/index',label: 'W&B Support Center',},'support/index_academic','support/index_administrator','support/index_alerts','support/index_anonymous','support/index_artifacts','support/index_aws','support/index_billing','support/index_charts','support/index_connectivity','support/index_crashing and hanging runs','support/index_environment variables','support/index_experiments','support/index_hyperparameter','support/index_logs','support/index_metrics','support/index_notebooks','support/index_outage','support/index_privacy','support/index_projects','support/index_python','support/index_reports','support/index_resuming','support/index_runs','support/index_security','support/index_storage','support/index_sweeps','support/index_tables','support/index_team management','support/index_tensorboard','support/index_user management','support/index_workspaces','support/index_wysiwyg',]
 };

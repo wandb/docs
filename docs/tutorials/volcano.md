@@ -1,5 +1,6 @@
 ---
 title: Launch multinode jobs with Volcano
+displayed_sidebar: launch
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
