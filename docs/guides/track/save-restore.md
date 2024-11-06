@@ -37,7 +37,7 @@ wandb.save(os.path.join(wandb.run.dir, "checkpoint*"))
 ```
 
 :::info
-W&B's local run directories are by default inside the `./wandb` directory relative to your script, and the path looks like `run-20171023_105053-3o4933r0` where `20171023_105053` is the timestamp and `3o4933r0` is the ID of the run. You can set the `WANDB_DIR` [environment variable](environment-variables.md), or the `dir` keyword argument of [`wandb.init`](./launch.md), to an absolute path and files will be written within that directory instead.
+W&B's local run directories are by default inside the `./wandb` directory relative to your script, and the path looks like `run-20171023_105053-3o4933r0` where `20171023_105053` is the timestamp and `3o4933r0` is the ID of the run. You can set the `WANDB_DIR` [environment variable](environment-variables.md), or the `dir` argument of [`wandb.init`](/ref/python/init), to an absolute path and files will be written within that directory instead.
 :::
 
 ### Save Policies and relative paths

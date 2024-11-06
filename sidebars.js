@@ -43,8 +43,10 @@ export default {
           label: 'Launch Integration Guides',
           items: [
             'guides/integrations/dagster',
+            'guides/integrations/nim',
             'tutorials/minikube_gpu',
             'tutorials/volcano',
+
           ]
         },
         {
@@ -482,7 +484,6 @@ export default {
         'guides/integrations/mmengine',
         'guides/integrations/other/mmf',
         'guides/integrations/other/composer',
-        'guides/integrations/nim',
         'guides/integrations/other/openai-api',
         'guides/integrations/other/openai-fine-tuning',
         'guides/integrations/other/openai-gym',
@@ -557,11 +558,6 @@ export default {
         // 'tutorials/lightgbm', # broken
         'tutorials/monai_3d_segmentation',
       ],
-    },
-    {
-      type: 'category',
-      label: 'Launch Tutorials',
-      items: ['tutorials/volcano', 'tutorials/minikube_gpu'],
     },
     {
       type: 'category',

@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: default
+displayed_sidebar: launch
 title: NVIDIA NeMo Inference Microservice Deploy Job
 ---
 import Tabs from '@theme/Tabs';

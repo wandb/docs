@@ -54,7 +54,7 @@ Global:
     use_wandb: True
 ```
 
-Any additional, optional arguments that you might like to pass to [`wandb.init`](/guides/track/launch) can also be added under the `wandb` header in the yaml file:
+Any additional, optional arguments that you might like to pass to [`wandb.init`](/ref/python/init) can also be added under the `wandb` header in the yaml file:
 
 ```
 wandb:  
