@@ -27,4 +27,5 @@ For more information, see [Add and manage teams](./manage-organization.md#add-an
 
 A *Project* is a subscope within a team, that maps to an actual AI project with specific intended outcomes. You may have more than one project within a team. Each project has a visibility mode which determines who can access it.
 
-Every project is comprised of [Workspaces](../../app/pages/workspaces.md) and [Reports](../../reports/intro.md), and is linked to relevant [Artifacts](../../artifacts/intro.md), [Sweeps](../../sweeps/intro.md), and [Automations](../../artifacts/project-scoped-automations.md).
+
+Every project is comprised of [Workspaces](../../track/workspaces.md) and [Reports](../../reports/intro.md), and is linked to relevant [Artifacts](../../artifacts/intro.md), [Sweeps](../../sweeps/intro.md), [Launch Jobs](../../launch/intro.md) and [Automations](../../artifacts/project-scoped-automations.md).

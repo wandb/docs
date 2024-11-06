@@ -31,6 +31,7 @@
 /app/features/tags /guides/app/features/tags 301
 /app/features/teams /guides/app/features/teams 301
 /app/pages/project-page /guides/app/pages/project-page 301
+/guides/app/pages/workspaces#create-saved-workspace-views-beta  /guides/track/workspaces 301
 /app/panels/parameter-importance /guides/app/features/panels/parameter-importance 301
 /app/visualizations /guides/app 301
 /artifacts /guides/artifacts 301
@@ -76,7 +77,7 @@
 /frameworks/pytorch /guides/integrations/pytorch 301
 /getting-started /quickstart 301
 /guides/app/intro /guides/app/features/panels 301
-/guides/app/features/panels/run-colors /guides/app/features/runs-table 301
+/guides/app/features/panels/run-colors guides/runs/filter-runs 301
 /guides/app//settings-page/team-settings /guides/app/settings-page/team-settings 301
 /guides/app/features/app/features/panels/parallel-coordinates /guides/app/features/app/features/panels/parallel-coordinates 301
 /guides/app/features/panels/compare-metrics /guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart 301
@@ -407,7 +408,7 @@
 /ref/app/pages/settings-page/emails /guides/app/settings-page/emails 301
 /ref/app/pages/settings-page/team-settings /guides/app/settings-page/team-settings 301
 /ref/app/pages/settings-page/user-settings /guides/app/settings-page/user-settings 301
-/ref/app/pages/workspaces /guides/app/pages/workspaces 301
+/ref/app/pages/workspaces /guides/track/workspaces 301
 /ref/cli/wandb-server-start /ref/cli/wandb-server 301
 /ref/data-types /ref/python/data-types 301
 /ref/data_types /ref/python/data-types 301

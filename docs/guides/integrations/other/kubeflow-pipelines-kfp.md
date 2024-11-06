@@ -114,10 +114,10 @@ Here's a mapping of Kubeflow Pipelines concepts to W&B
 
 | Kubeflow Pipelines | W&B | Location in W&B |
 | ------------------ | --- | --------------- |
-| Input Scalar | [`config`](/guides/track/config) | [Overview tab](/guides/app/pages/run-page#overview-tab) |
-| Output Scalar | [`summary`](/guides/track/log) | [Overview tab](/guides/app/pages/run-page#overview-tab) |
-| Input Artifact | Input Artifact | [Artifacts tab](/guides/app/pages/run-page#artifacts-tab) |
-| Output Artifact | Output Artifact | [Artifacts tab](/guides/app/pages/run-page#artifacts-tab) |
+| Input Scalar | [`config`](/guides/track/config) | [Overview tab](../../runs/intro.md#overview-tab) |
+| Output Scalar | [`summary`](/guides/track/log) | [Overview tab](../../runs/intro.md#overview-tab) |
+| Input Artifact | Input Artifact | [Artifacts tab](../../runs/intro.md#artifacts-tab) |
+| Output Artifact | Output Artifact | [Artifacts tab](../../runs/intro.md#artifacts-tab) |
 
 ## Fine-grain logging
 

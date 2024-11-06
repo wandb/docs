@@ -4,7 +4,7 @@ displayed_sidebar: default
 title: Visualize sweep results
 ---
 
-Visualize the results of your W&B Sweeps with the W&B App UI. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home). Choose the project that you specified when you initialized a W&B Sweep. You will be redirected to your project [workspace](../app/pages/workspaces.md). Select the **Sweep icon** on the left panel (broom icon). From the [Sweep UI](./visualize-sweep-results.md), select the name of your Sweep from the list.
+Visualize the results of your W&B Sweeps with the W&B App UI. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home). Choose the project that you specified when you initialized a W&B Sweep. You will be redirected to your project [workspace](../track/workspaces.md). Select the **Sweep icon** on the left panel (broom icon). From the [Sweep UI](./visualize-sweep-results.md), select the name of your Sweep from the list.
 
 By default, W&B will automatically create a parallel coordinates plot, a parameter importance plot, and a scatter plot when you start a W&B Sweep job.
 

@@ -166,7 +166,8 @@ Authenticate your machine with your [API key](https://wandb.ai/authorize) in one
 
 ### Find the run path
 
-To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab ](../app/pages/run-page.md#overview-tab)to get the run path.
+To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab ](../runs/intro.md#overview-tab)to get the run path.
+
 
 ### Export Run Data
 
@@ -321,7 +322,7 @@ If you're thinking about ways to set useful identifiers for your runs, here's wh
 - **Run ID**: leave it as the generated hash. This needs to be unique across runs in your project.
 - **Run name**: This should be something short, readable, and preferably unique so that you can tell the difference between different lines on your charts.
 - **Run notes**: This is a great place to put a quick description of what you're doing in your run. You can set this with `wandb.init(notes="your notes here")`
-- **Run tags**: Track things dynamically in run tags, and use filters in the UI to filter your table down to just the runs you care about. You can set tags from your script and then edit them in the UI, both in the runs table and the overview tab of the run page. See the detailed instructions [here](../app/features/tags.md).
+- **Run tags**: Track things dynamically in run tags, and use filters in the UI to filter your table down to just the runs you care about. You can set tags from your script and then edit them in the UI, both in the runs table and the overview tab of the run page. See the detailed instructions [here](../runs/tags.md).
 
 ## Public API Examples
 

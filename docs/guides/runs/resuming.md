@@ -115,7 +115,7 @@ For example, suppose you execute a python script called `train.py` in a director
 
 
 :::tip
-If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See the [Create a run](./intro.md#create-a-run) section in the "What are runs?" page for more information on run IDs.
+If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variable or pass the run ID with the W&B Python SDK. See the [Custom run IDs](./intro.md#custom-run-ids) section in the "What are runs?" page for more information on run IDs.
 :::
 
 

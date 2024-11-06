@@ -11,4 +11,4 @@ wandb.log({"val/loss": 1.1, "val/acc": 0.3})
 wandb.log({"train/loss": 0.1, "train/acc": 0.94})
 ```
 
-In the [Workspace](../guides/app/pages/workspaces.md) settings, adjust the grouping of panels based on either the first segment or all segments separated by `/`.
+In the [Workspace](../guides/track/project-page#workspace-tab) settings, adjust the grouping of panels based on either the first segment or all segments separated by `/`.

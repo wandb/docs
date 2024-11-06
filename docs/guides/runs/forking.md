@@ -42,7 +42,7 @@ forked_run = wandb.init(
 
 Use an immutable run ID to ensure you have a consistent and unchanging reference to a specific run. Follow these steps to obtain the immutable run ID from the user interface:
 
-1. **Access the Overview Tab:** Navigate to the [**Overview tab**](/guides/app/pages/run-page#overview-tab) on the source run's page.
+1. **Access the Overview Tab:** Navigate to the [**Overview tab**](./intro.md#overview-tab) on the source run's page.
 
 2. **Copy the Immutable Run ID:** Click on the `...` menu (three dots) located in the top-right corner of the **Overview** tab. Select the `Copy Immutable Run ID` option from the dropdown menu.
 
