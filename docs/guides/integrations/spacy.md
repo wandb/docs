@@ -99,4 +99,4 @@ python -m spacy train \
   </TabItem>
 </Tabs>
 
-When training begins, a link to your training run's [W&B page](../runs/run-page.md) will be output which will take you to this run's experiment tracking [dashboard](../app/pages/workspaces.md) in the Weights & Biases web UI.
+When training begins, a link to your training run's [W&B page](../runs/intro.md) will be output which will take you to this run's experiment tracking [dashboard](../track/workspaces.md) in the Weights & Biases web UI.

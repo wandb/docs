@@ -166,7 +166,7 @@ Authenticate your machine with your [API key](https://wandb.ai/authorize) in one
 
 ### Find the run path
 
-To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab ](../runs/run-page.md#overview-tab)to get the run path.
+To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab ](../runs/intro.md#overview-tab)to get the run path.
 
 
 ### Export Run Data

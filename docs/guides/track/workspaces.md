@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 W&B workspace is your personal sandbox to customize charts and explore model results. A W&B workspace consists of *Tables* and *Panel sections*: 
 
 * **Tables**: All runs logged to your project are listed in the project's table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
-* **Panel sections**: A section that contains one or more [panels](../features/panels/intro.md). Create new panels, organize them, and export to reports to save snapshots of your workspace.
+* **Panel sections**: A section that contains one or more [panels](../app/features/panels/intro.md). Create new panels, organize them, and export to reports to save snapshots of your workspace.
 
 ![](/images/app_ui/workspace_table_and_panels.png)
 
@@ -128,4 +128,4 @@ new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[
 new_workspace.save()
 ```
 
-See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) for comprehensive workspace API examples. For an end to end tutorial, see [Programmatic Workspaces](../../../tutorials/workspaces.md) tutorial. 
+See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) for comprehensive workspace API examples. For an end to end tutorial, see [Programmatic Workspaces](../../tutorials/workspaces.md) tutorial. 

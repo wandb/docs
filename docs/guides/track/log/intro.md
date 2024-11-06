@@ -40,8 +40,8 @@ wandb.log({'accuracy': 0.8})
 W&B automatically logs the following information during a W&B Experiment:
 
 
-* **System metrics**: CPU and GPU utilization, network, etc. These are shown in the System tab on the [run page](../../runs/run-page.md). For the GPU, these are fetched with [`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface).
-* **Command line**: The stdout and stderr are picked up and show in the logs tab on the [run page.](../../runs/run-page.md)
+* **System metrics**: CPU and GPU utilization, network, etc. These are shown in the System tab on the [run page](../../runs/intro.md). For the GPU, these are fetched with [`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface).
+* **Command line**: The stdout and stderr are picked up and show in the logs tab on the [run page.](../../runs/intro.md)
 
 Turn on [Code Saving](http://wandb.me/code-save-colab) in your account's [Settings page](https://wandb.ai/settings) to log:
 

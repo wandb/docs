@@ -249,7 +249,7 @@ wandb.finish()
 
 ### 7) Visualize your results
 
-Once you have logged your training results you can explore your results dynamically in the [W&B Dashboard](../app/pages/workspaces.md). It's easy to compare across dozens of runs at once, zoom in on interesting findings, and coax insights out of complex data with flexible, interactive visualizations.
+Once you have logged your training results you can explore your results dynamically in the [W&B Dashboard](../track/workspaces.md). It's easy to compare across dozens of runs at once, zoom in on interesting findings, and coax insights out of complex data with flexible, interactive visualizations.
 
 
 

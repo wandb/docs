@@ -89,10 +89,10 @@ Now that we know how to integrate W&B into a psuedo machine learning training lo
 
 The following code cell defines and trains a simple MNIST classifier. During training, you will see W&B prints out URLs. Click on the project page link to see your results stream in live to a W&B project.
 
-W&B runs automatically log [metrics]( /guides/runs/run-page/#workspace-tab),
-[system information]( /guides/runs/run-page/#system-tab),
-[hyperparameters]( /guides/runs/run-page/#overview-tab),
-[terminal output]( /guides/runs/run-page/#logs-tab) and
+W&B runs automatically log [metrics](/guides/runs/intro.md#workspace-tab),
+[system information](/guides/runs/intro.md#system-tab),
+[hyperparameters](/guides/runs/intro.md#overview-tab),
+[terminal output](/guides/runs/intro.md#logs-tab) and
 you'll see an [interactive table](/guides/tables)
 with model inputs and outputs. 
 

@@ -209,7 +209,7 @@ run.finish()  # In Jupyter/Colab, let us know you're finished!
 
 # 👀 Visualize Results
 
-Click on the [**run page**](/guides/runs/run-page) link above to see your live results.
+Click on the [**run page**](/guides/runs/intro.md#view-logged-runs) link above to see your live results.
 
 # 🧹 Sweep 101
 

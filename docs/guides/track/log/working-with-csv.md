@@ -4,7 +4,7 @@ displayed_sidebar: default
 title: Track CSV files with experiments
 ---
 
-Use the W&B Python Library to log a CSV file and visualize it in a [W&B Dashboard](../../app/pages/workspaces.md). W&B Dashboard are the central place to organize and visualize results from your machine learning models. This is particularly useful if you have a [CSV file that contains information of previous machine learning experiments](#import-and-log-your-csv-of-experiments) that are not logged in W&B or if you have [CSV file that contains a dataset](#import-and-log-your-dataset-csv-file).
+Use the W&B Python Library to log a CSV file and visualize it in a [W&B Dashboard](../../track/workspaces.md). W&B Dashboard are the central place to organize and visualize results from your machine learning models. This is particularly useful if you have a [CSV file that contains information of previous machine learning experiments](#import-and-log-your-csv-of-experiments) that are not logged in W&B or if you have [CSV file that contains a dataset](#import-and-log-your-dataset-csv-file).
 
 ## Import and log your dataset CSV file
 
@@ -22,7 +22,7 @@ import pandas as pd
 new_iris_dataframe = pd.read_csv("iris.csv")
 ```
 
-2. Convert the CSV file to a W&B Table to utilize [W&B Dashboards](../../app/pages/workspaces.md). 
+2. Convert the CSV file to a W&B Table to utilize [W&B Dashboards](../../track/workspaces.md). 
 
 ```python
 # Convert the DataFrame into a W&B Table
@@ -102,7 +102,7 @@ The below table becomes this Weights & Biases Dashboard after conversion
 In some cases, you might have your experiment details in a CSV file. Common details found in such CSV files include:
 
 * A name for the experiment run
-* Initial [notes](../../runs/notes.md)
+* Initial [notes](../../runs/intro.md#add-a-note-to-a-run)
 * [Tags](../../runs/tags.md) to differentiate the experiments
 * Configurations needed for your experiment (with the added benefit of being able to utilize our [Sweeps Hyperparameter Tuning](../../sweeps/intro.md)).
 
@@ -176,7 +176,7 @@ run.summary.update(summaries)
 
 For more information about summary metrics, see [Log Summary Metrics](./log-summary.md).
 
-Below is the full example script that converts the above sample table into a [W&B Dashboard](../../app/pages/workspaces.md):
+Below is the full example script that converts the above sample table into a [W&B Dashboard](../../track/workspaces.md):
 
 ```python
 FILENAME = "experiments.csv"

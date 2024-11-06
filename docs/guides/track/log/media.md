@@ -307,7 +307,7 @@ wandb.run.summary.update(  # if only in summary, only visible on overview tab
   </TabItem>
 </Tabs>
 
-If histograms are in your summary they will appear on the Overview tab of the [Run Page](../../runs/run-page.md). If they are in your history, we plot a heatmap of bins over time on the Charts tab.
+If histograms are in your summary they will appear on the Overview tab of the [Run Page](../../runs/intro.md). If they are in your history, we plot a heatmap of bins over time on the Charts tab.
 
 ## 3D visualizations
 
@@ -507,7 +507,7 @@ wandb.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif
 
 If a numpy array is supplied we assume the dimensions are, in order: time, channels, width, height. By default we create a 4 fps gif image ([`ffmpeg`](https://www.ffmpeg.org) and the [`moviepy`](https://pypi.org/project/moviepy/) python library are required when passing numpy objects). Supported formats are `"gif"`, `"mp4"`, `"webm"`, and `"ogg"`. If you pass a string to `wandb.Video` we assert the file exists and is a supported format before uploading to wandb. Passing a `BytesIO` object will create a temporary file with the specified format as the extension.
 
-On the W&B [Run](../../runs/run-page.md) and [Project](../../track/project-page.md) Pages, you will see your videos in the Media section.
+On the W&B [Run](../../runs/intro.md) and [Project](../../track/project-page.md) Pages, you will see your videos in the Media section.
 
   </TabItem>
   <TabItem value="text">
