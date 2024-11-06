@@ -1,6 +1,6 @@
 # QueuedRun
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L220-L423' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.6/wandb/apis/public/jobs.py#L220-L423' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 A single queued run associated with an entity and project. Call `run = queued_run.wait_until_running()` or `run = queued_run.wait_until_finished()` to access the run.
@@ -19,7 +19,7 @@ QueuedRun(
 
 ### `delete`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L344-L393)
+[View source](https://www.github.com/wandb/wandb/tree/v0.18.6/wandb/apis/public/jobs.py#L344-L393)
 
 ```python
 delete(
@@ -31,7 +31,7 @@ Delete the given queued run from the wandb backend.
 
 ### `wait_until_finished`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L334-L342)
+[View source](https://www.github.com/wandb/wandb/tree/v0.18.6/wandb/apis/public/jobs.py#L334-L342)
 
 ```python
 wait_until_finished()
@@ -39,7 +39,7 @@ wait_until_finished()
 
 ### `wait_until_running`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.0/wandb/apis/public/jobs.py#L395-L420)
+[View source](https://www.github.com/wandb/wandb/tree/v0.18.6/wandb/apis/public/jobs.py#L395-L420)
 
 ```python
 wait_until_running()

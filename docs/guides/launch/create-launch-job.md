@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: default
+displayed_sidebar: launch
 title: Create a launch job
 ---
 import Tabs from '@theme/Tabs';

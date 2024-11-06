@@ -6,7 +6,7 @@ displayed_sidebar: default
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).
+Create an automation to trigger workflow steps, such as automated model testing and deployment. To create an automation, define the action you want to occur based on an [event type](#event-types).
 
 For example, you can create a trigger that automatically deploys a model to GitHub when you add a new version of a registered model.
 
@@ -27,16 +27,6 @@ See [Link a model version](../model_registry/link-model-version.md) for informat
 :::tip
 Use the **Linking a new artifact to a registered model** event type to test new model candidates. Use the **Adding a new alias to a version of the registered model** event type to specify an alias that represents a special step of your workflow, like `deploy`, and any time a new model version has that alias applied.
 :::
-
-
-## Action types
-An action is a responsive mutation (internal or external) that occurs as a result of some trigger. There are two types of actions you can create in the Model Registry: [webhooks](#create-a-webhook-automation) and [W&B Launch Jobs](../launch/intro.md).
-
-* Webhooks: Communicate with an external web server from W&B with HTTP requests.
-* W&B Launch job: [Jobs](../launch/create-launch-job.md) are reusable, configurable run templates that allow you to quickly launch new [runs](../runs/intro.md) locally on your desktop or external compute resources such as Kubernetes on EKS, Amazon SageMaker, and more. 
-
-
-The following sections describe how to create an automation with webhooks and W&B Launch.
 
 ## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, first establish a webhook, then configure the webhook automation. 
@@ -349,29 +339,6 @@ curl -X POST \
 </Tabs>
 
 
-
-## Create a launch automation
-Automatically start a W&B Job. 
-
-:::info
-This section assumes you already have created a job, a queue, and have an active agent polling. For more information, see the [W&B Launch docs](../launch/intro.md). 
-:::
-
-
-1. From the **Event type** dropdown, select an event type. See the [Event type](#event-types) section for information on supported events.
-2. (Optional) If you selected **A new version is added to a registered model** event, provide the name of a registered model from the **Registered model** dropdown. 
-3. Select **Jobs** from the **Action type** dropdown. 
-4. Select a W&B Launch job from the **Job** dropdown.  
-5. Select a version from the **Job version** dropdown.
-6. (Optional) Provide hyperparameter overrides for the new job.
-7. Select a project from the **Destination project** dropdown.
-8. Select a queue to enqueue your job to.  
-9. Click on **Next step**.
-10. Provide a name for your webhook automation in the **Automation name** field. 
-11. (Optional) Provide a description for your webhook. 
-12. Click on the **Create automation** button.
-
-See this example [report](https://wandb.ai/examples/wandb_automations/reports/Model-CI-with-W-B-Automations--Vmlldzo0NDY5OTIx) for an end to end example on how to create an automation for model CI with W&B Launch.
 ## View automation
 
 View automations associated to a registered model from the W&B App UI. 
@@ -383,7 +350,7 @@ View automations associated to a registered model from the W&B App UI.
 Within the Automations section you can find the following properties of automations created for the model you selected:
 
 - **Trigger type**: The type of trigger that was configured.
-- **Action type**: The action type that triggers the automation. Available options are Webhooks and Launch.
+- **Action type**: The action type that triggers the automation. 
 - **Action name**: The action name you provided when you created the automation.
 - **Queue**: The name of the queue the job was enqueued to. This field is left empty if you selected a webhook action type.
 

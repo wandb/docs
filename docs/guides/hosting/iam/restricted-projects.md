@@ -4,15 +4,26 @@ displayed_sidebar: default
 title: Manage access control for projects
 ---
 
+# Project visibility
+
+Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it. 
 You can use a combination of a couple of controls to configure the access level for any project within a W&B team. **Visibility scope** is the higher-level mechanism. Use that to control which groups of users can view or submit runs in a project. For a project with _Team_ or _Restricted_ visibility scope, you can then use **Project level roles** to control the level of access that each user has within the project.
 
+:::info
+The owner of a project, a team admin, or an organization admin can set or edit a project's visibility.
+:::
 ## Visibility scopes
 
 There are four project visibility scopes you can choose from. In order of most public to most private, they are: 
-* _Open_: Anyone who knows about the project can view it and submit runs or reports.
-* _Public_: Anyone who knows about the project can view it. Only your team can submit runs or reports.
-* _Team_: Only all members of the parent team can view the project and submit runs or reports. Anyone outside the team can not access the project.
-* _Restricted_: Only invited members from the parent team can view the project and submit runs or reports. 
+
+
+| Scope | Description | 
+| ----- | ----- |
+| Open |Anyone who knows about the project can view it and submit runs or reports.|
+| Public |Anyone who knows about the project can view it. Only your team can submit runs or reports.|
+| Team | Only members of the parent team can view the project and submit runs or reports. Anyone outside the team can not access the project. |
+| Restricted| Only invited members from the parent team can view the project and submit runs or reports.|
+
 
 :::tip
 Set a project's scope to **Restricted** if you would like to collaborate on workflows related to sensitive or confidential data. When you create a restricted project within a team, you can invite or add specific members from the team to collaborate on relevant experiments, artifacts, reports, and so forth. 
@@ -26,7 +37,7 @@ Set a project's visibility scope when you create a project or when editing it la
 
 :::info
 * Only the owner of the project or a team admin can set or edit its visibility scope.
-* When a team admin enables **Make all future team projects private (public sharing not allowed)** within a team's privacy setting, that disables **Open** and **Public** project visibility scopes for that team. In this case, your team can only use **Team** and **Restricted** scopes.
+* When a team admin enables **Make all future team projects private (public sharing not allowed)** within a team's privacy setting, that turns off **Open** and **Public** project visibility scopes for that team. In this case, your team can only use **Team** and **Restricted** scopes.
 :::
 
 #### Set visibility scope when you create a new project

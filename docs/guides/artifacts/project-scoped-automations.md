@@ -6,12 +6,7 @@ title: Trigger CI/CD events when artifact changes
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. To create an automation, define the [action](#action-types) you want to occur based on an [event type](#event-types).  
-
-Some common use cases for automations that are triggered from changes to an artifact include:
-
-* When a new version of an evaluation/holdout dataset is uploaded, [trigger a launch job](#create-a-launch-automation) that performs inference using the best training model in the model registry and creates a report with performance information.
-* When a new version of the training dataset is labeled as "production," [trigger a retraining launch](#create-a-launch-automation) job with the configs from the current best-performing model.
+Create an automation that triggers when an artifact is changed. Use artifact automations when you want to automate downstream actions for versioning artifacts. To create an automation, define the action you want to occur based on an [event type](#event-types).  
 
 :::info
 Artifact automations are scoped to a project. This means that only events within a project will trigger an artifact automation.
@@ -28,17 +23,6 @@ Use the **A new version of an artifact is created in a collection** event type f
 
 Use the **An artifact alias is added** event type to create an automation that activates when a specific alias is applied to an artifact version. For example, you could create an automation that triggers an action when someone adds "test-set-quality-check" alias to an artifact that then triggers downstream processing on that dataset. 
 :::
-
-
-
-## Action types
-An action is a responsive mutation (internal or external) that occurs as a result of some trigger. There are two types of actions you can create in response to events on artifact collections in your project: webhooks and [W&B Launch Jobs](../launch/intro.md).
-
-* Webhooks: Communicate with an external web server from W&B with HTTP requests.
-* W&B Launch job: [Jobs](../launch/create-launch-job.md) are reusable, configurable run templates that allow you to quickly launch new [runs](../runs/intro.md) locally on your desktop or external compute resources such as Kubernetes on EKS, Amazon SageMaker, and more. 
-
-
-The following sections describe how to create an automation with webhooks and W&B Launch.
 
 ## Create a webhook automation 
 Automate a webhook based on an action with the W&B App UI. To do this, you will first establish a webhook, then you will configure the webhook automation. 
@@ -334,31 +318,6 @@ curl -X POST \
   </TabItem>
 </Tabs>
 
-
-
-
-## Create a launch automation
-Automatically start a W&B Job. 
-
-:::info
-This section assumes you already have created a job, a queue, and have an active agent polling. For more information, see the [W&B Launch docs](../launch/intro.md). 
-:::
-
-
-1. From the **Event type** dropdown, select an event type. See the [Event type](#event-types) section for information on supported events.
-2. (Optional) If you selected **A new version of an artifact is created in a collection** event, provide the name of the artifact collection from the **Artifact collection** dropdown. 
-3. Select **Jobs** from the **Action type** dropdown. 
-4. Click **Next step**.
-4. Select a W&B Launch job from the **Job** dropdown.  
-5. Select a version from the **Job version** dropdown.
-6. (Optional) Provide hyperparameter overrides for the new job.
-7. Select a project from the **Destination project** dropdown.
-8. Select a queue to enqueue your job to.  
-9. Click on **Next step**.
-10. Provide a name for your webhook automation in the **Automation name** field. 
-11. (Optional) Provide a description for your webhook. 
-12. Click on the **Create automation** button. 
-
 ## View an automation
 
 View automations associated to an artifact from the W&B App UI. 
@@ -371,7 +330,7 @@ View automations associated to an artifact from the W&B App UI.
 Within the Automations section you can find the following properties for each automations that was created in your project"
 
 - **Trigger type**: The type of trigger that was configured.
-- **Action type**: The action type that triggers the automation. Available options are Webhooks and Launch.
+- **Action type**: The action type that triggers the automation.
 - **Action name**: The action name you provided when you created the automation.
 - **Queue**: The name of the queue the job was enqueued to. This field is left empty if you selected a webhook action type.
 

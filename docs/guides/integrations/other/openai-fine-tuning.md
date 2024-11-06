@@ -6,16 +6,39 @@ title: OpenAI Fine-Tuning
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
 
-With Weights & Biases you can log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to Weights & Biases to analyse and understand the performance of your newly fine-tuned models and share the results with your colleagues. You can check out the models that can be fine-tuned [here](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+<CTAButtons colabLink="http://wandb.me/openai-colab"></CTAButtons>
 
-:::info
-The Weights and Biases fine-tuning integration works with `openai >= 1.0`. Please install the latest version of `openai` by doing `pip install -U openai`.
+Log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to W&B. Utilize the W&B ecosystem to track your fine-tuning experiments, models, and datasets and share your results with your colleagues.
+
+:::tip
+See the [OpenAI documentation](https://platform.openai.com/docs/guides/fine-tuning/which-models-can-be-fine-tuned) for a list of models that you can fine tune.
 :::
 
-## Sync your OpenAI Fine-Tuning Results in 2 Lines
+See the [Weights and Biases Integration](https://platform.openai.com/docs/guides/fine-tuning/weights-and-biases-integration) section in the OpenAI documentation for supplemental information on how to integrate W&B with OpenAI for fine-tuning.
 
-If you use OpenAI's API to [fine-tune OpenAI models](https://platform.openai.com/docs/guides/fine-tuning/), you can now use the W&B integration to track experiments, models, and datasets in your central dashboard.
+
+## Install or update OpenAI Python API
+
+The W&B OpenAI fine-tuning integration works with OpenAI version 1.0 and above. See the PyPI documentation for the latest version of the [OpenAI Python API](https://pypi.org/project/openai/) library.
+
+
+To install OpenAI Python API, run:
+```python
+pip install openai
+```
+
+If you already have OpenAI Python API installed, you can update it with:
+```python
+pip install -U openai
+```
+
+
+## Sync your OpenAI fine-tuning results
+
+Integrate W&B with OpenAI's fine-tuning API to log your fine-tuning metrics and configuration to W&B. To do this, use the `WandbLogger` class from the `wandb.integration.openai.fine_tuning` module.
+
 
 ```python
 from wandb.integration.openai.fine_tuning import WandbLogger
@@ -28,20 +51,11 @@ WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
 <!-- ![](/images/integrations/open_ai_api.png) -->
 ![](/images/integrations/open_ai_auto_scan.png)
 
-### Check out interactive examples
 
-* [Demo Colab](http://wandb.me/openai-colab)
-* [Report - OpenAI Fine-Tuning Exploration and Tips](http://wandb.me/openai-report)
 
-### Sync your fine-tunes with few lines of code
+### Sync your fine-tunes
 
-Make sure you are using latest version of openai and wandb.
-
-```shell-session
-pip install --upgrade openai wandb
-```
-
-Then sync your results from your script 
+Sync your results from your script 
 
 
 ```python
@@ -71,7 +85,7 @@ WandbLogger.sync(
 | openai_client            | Pass an initialized OpenAI client to `sync`. If no client is provided, one is initialized by the logger itself. By default it is None.                |
 | num_fine_tunes           | If no ID is provided, then all the unsynced fine-tunes will be logged to W&B. This argument allows you to select the number of recent fine-tunes to sync. If num_fine_tunes is 5, it selects the 5 most recent fine-tunes.                                                  |
 | project                  | Weights and Biases project name where your fine-tune metrics, models, data, etc. will be logged. By default, the project name is "OpenAI-Fine-Tune." |
-| entity                   | Weights & Biases Username or team name where you're sending runs. By default, your default entity is used, which is usually your username. |
+| entity                   | W&B Username or team name where you're sending runs. By default, your default entity is used, which is usually your username. |
 | overwrite                | Forces logging and overwrite existing wandb run of the same fine-tune job. By default this is False.                                                |
 | wait_for_job_success     | Once an OpenAI fine-tuning job is started it usually takes a bit of time. To ensure that your metrics are logged to W&B as soon as the fine-tune job is finished, this setting will check every 60 seconds for the status of the fine-tune job to change to "succeeded". Once the fine-tune job is detected as being successful, the metrics will be synced automatically to W&B. Set to True by default.                                                    |
 | model_artifact_name      | The name of the model artifact that is logged. Defaults to `"model-metadata"`.                    |
@@ -97,7 +111,7 @@ The datasets are also visualized as W&B Tables which allows you to explore, sear
 
 OpenAI gives you an id of the fine-tuned model. Since we don't have access to the model weights, the `WandbLogger` creates a `model_metadata.json` file with all the details (hyperparameters, data file ids, etc.) of the model along with the `fine_tuned_model`` id and is logged as a W&B Artifact. 
 
-This model (metadata) artifact can further be linked to a model in the [W&B Model Registry](../../model_registry/intro.md) and even paired with [W&B Launch](../../launch/intro.md).
+This model (metadata) artifact can further be linked to a model in the [W&B Model Registry](../../model_registry/intro.md).
 
 ![](/images/integrations/openai_model_metadata.png)
 
@@ -162,4 +176,4 @@ You can always control the pipeline using low level wandb APIs like `wandb.Artif
 
 * [OpenAI Fine-tuning Documentation](https://platform.openai.com/docs/guides/fine-tuning/) is very thorough and contains many useful tips
 * [Demo Colab](http://wandb.me/openai-colab)
-* [Report - OpenAI Fine-Tuning Exploration & Tips](http://wandb.me/openai-report)
+* [How to Fine-Tune Your OpenAI GPT-3.5 and GPT-4 Models with W&B](http://wandb.me/openai-report) report

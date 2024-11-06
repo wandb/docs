@@ -17,7 +17,6 @@ W&B consists of three major components: [Models](/guides/models.md), [Weave](htt
 - [Experiments](/guides/track/intro.md): Machine learning experiment tracking
 - [Sweeps](/guides/sweeps/intro.md): Hyperparameter tuning and model optimization
 - [Registry](/guides/registry/intro.md): Publish and share your ML models and datasets
-- [Launch](/guides/launch/intro.md): Scale and automate workloads
 
 **[W&B Weave](https://wandb.github.io/weave/)** is a lightweight toolkit for tracking and evaluating LLM applications.
 

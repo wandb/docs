@@ -1,6 +1,6 @@
 ---
 description: Getting started guide for W&B Launch.
-displayed_sidebar: default
+displayed_sidebar: launch
 title: "Tutorial: W&B Launch basics" 
 ---
 import { CTAButtons } from '@site/src/components/CTAButtons/CTAButtons.tsx';
