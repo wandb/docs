@@ -1,6 +1,6 @@
 # Video
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.5/wandb/sdk/data_types/video.py#L49-L248' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.6/wandb/sdk/data_types/video.py#L49-L249' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Format a video for logging to W&B.
@@ -14,7 +14,7 @@ Video(
 )
 ```
 
-| Arguments |  |
+| Args |  |
 | :--- | :--- |
 |  `data_or_path` |  (numpy array, string, io) Video can be initialized with a path to a file or an io object. The format must be "gif", "mp4", "webm" or "ogg". The format must be specified with the format argument. Video can be initialized with a numpy tensor. The numpy tensor must be either 4 dimensional or 5 dimensional. Channels should be (time, channel, height, width) or (batch, time, channel, height width) |
 |  `caption` |  (string) caption associated with the video for display |
@@ -42,7 +42,7 @@ wandb.log({"video": wandb.Video(frames, fps=4)})
 
 ### `encode`
 
-[View source](https://www.github.com/wandb/wandb/tree/v0.18.5/wandb/sdk/data_types/video.py#L139-L176)
+[View source](https://www.github.com/wandb/wandb/tree/v0.18.6/wandb/sdk/data_types/video.py#L140-L177)
 
 ```python
 encode(
