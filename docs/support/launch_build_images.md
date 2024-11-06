@@ -1,8 +1,6 @@
 ---
 title: "How does W&B Launch build images?"
-displayed_sidebar: support
-tags:
-   - launch
+displayed_sidebar: launch
 ---
 The steps for building an image depend on the job source and the specified accelerator base image in the resource configuration.
 

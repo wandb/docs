@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: default
+displayed_sidebar: launch
 title: "Tutorial: Set up W&B Launch with Docker"
 ---
 import Tabs from '@theme/Tabs';
