@@ -1,4 +1,46 @@
 export default {
+  launch: [
+    {
+      type: 'category',
+      label: 'Launch',
+      link: {
+        type: 'doc',
+        id: 'guides/launch/intro',
+      },
+      items: [
+        'guides/launch/walkthrough',
+        'guides/launch/launch-terminology',
+        {
+          type: 'category',
+          label: 'Set up Launch',
+          link: {
+            type: 'doc',
+            id: 'guides/launch/setup-launch',
+          },
+          items: [
+            'guides/launch/setup-launch-docker',
+            'guides/launch/setup-launch-sagemaker',
+            'guides/launch/setup-launch-kubernetes',
+            'guides/launch/setup-vertex',
+            'guides/launch/setup-agent-advanced',
+            'guides/launch/setup-queue-advanced',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Create and deploy jobs',
+          items: [
+            'guides/launch/create-launch-job',
+            'guides/launch/add-job-to-queue',
+            'guides/launch/job-inputs',
+            'guides/launch/launch-view-jobs',
+            'guides/launch/launch-queue-observability',
+          ],
+        },
+        'guides/launch/sweeps-on-launch',
+      ],
+    },
+  ],
   default: [
     'guides/intro',
     'quickstart',
@@ -121,46 +163,6 @@ export default {
           items: [
             'guides/model_registry/model-registry-automations',
             'guides/artifacts/project-scoped-automations',
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Launch',
-          link: {
-            type: 'doc',
-            id: 'guides/launch/intro',
-          },
-          items: [
-            'guides/launch/walkthrough',
-            'guides/launch/launch-terminology',
-            {
-              type: 'category',
-              label: 'Set up Launch',
-              link: {
-                type: 'doc',
-                id: 'guides/launch/setup-launch',
-              },
-              items: [
-                'guides/launch/setup-launch-docker',
-                'guides/launch/setup-launch-sagemaker',
-                'guides/launch/setup-launch-kubernetes',
-                'guides/launch/setup-vertex',
-                'guides/launch/setup-agent-advanced',
-                'guides/launch/setup-queue-advanced',
-              ],
-            },
-            {
-              type: 'category',
-              label: 'Create and deploy jobs',
-              items: [
-                'guides/launch/create-launch-job',
-                'guides/launch/add-job-to-queue',
-                'guides/launch/job-inputs',
-                'guides/launch/launch-view-jobs',
-                'guides/launch/launch-queue-observability',
-              ],
-            },
-            'guides/launch/sweeps-on-launch',
           ],
         },
         {

@@ -1,6 +1,6 @@
 ---
 description: Discover how to automate hyperparamter sweeps on launch.
-displayed_sidebar: default
+displayed_sidebar: launch
 title: Create sweeps with W&B Launch
 ---
 import Tabs from '@theme/Tabs';
