@@ -29,7 +29,7 @@ export default {
                 'guides/runs/forking',
                 'guides/runs/alert',
                 'guides/runs/manage-runs',
-                'guides/runs/runs-table',
+                'guides/runs/filter-runs',
                 'guides/runs/grouping',
               ],
             },
