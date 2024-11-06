@@ -6,11 +6,11 @@
 
 **Summary**
 
-Turn off W&B.
+Disable W&B.
 
 **Options**
 
 | **Option** | **Description** |
 | :--- | :--- |
-| --service | Turn off W&B service  [default: True] |
+| --service | Disable W&B service  [default: True] |
 

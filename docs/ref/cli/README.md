@@ -19,7 +19,7 @@
 | artifact | Commands for interacting with artifacts |
 | beta | Beta versions of wandb CLI commands. |
 | controller | Run the W&B local sweep controller |
-| disabled | Turn off W&B. |
+| disabled | Disable W&B. |
 | docker | Run your code in a docker container. |
 | docker-run | Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER... |
 | enabled | Enable W&B. |
@@ -29,7 +29,7 @@
 | launch-agent | Run a W&B launch agent. |
 | launch-sweep | Run a W&B launch sweep (Experimental). |
 | login | Login to Weights & Biases |
-| offline | Turn off W&B sync |
+| offline | Disable W&B sync |
 | online | Enable W&B sync |
 | pull | Pull files from Weights & Biases |
 | restore | Restore code, config and docker state for a run |

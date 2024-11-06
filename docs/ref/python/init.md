@@ -1,6 +1,6 @@
 # init
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.5/wandb/sdk/wandb_init.py#L1001-L1271' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.6/wandb/sdk/wandb_init.py#L1001-L1271' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 Start a new run to track and log to W&B.
@@ -78,7 +78,7 @@ child process.
 For more on using `wandb.init()`, including detailed examples, check out our
 [guide and FAQs](https://docs.wandb.ai/guides/track/launch).
 
-| Arguments |  |
+| Args |  |
 | :--- | :--- |
 |  `project` |  (str, optional) The name of the project where you're sending the new run. If the project is not specified, we will try to infer the project name from git root or the current program file. If we can't infer the project name, we will default to `"uncategorized"`. |
 |  `entity` |  (str, optional) An entity is a username or team name where you're sending runs. This entity must exist before you can send runs there, so make sure to create your account or team in the UI before starting to log runs. If you don't specify an entity, the run will be sent to your default entity. Change your default entity in [your settings](https://wandb.ai/settings) under "default location to create new projects". |

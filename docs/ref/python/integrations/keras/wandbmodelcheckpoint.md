@@ -1,6 +1,6 @@
 # WandbModelCheckpoint
 
-<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.5/wandb/integration/keras/callbacks/model_checkpoint.py#L27-L195' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
+<p><button style={{display: 'flex', alignItems: 'center', backgroundColor: 'white', border: '1px solid #ddd', padding: '10px', borderRadius: '6px', cursor: 'pointer', boxShadow: '0 2px 3px rgba(0,0,0,0.1)', transition: 'all 0.3s'}}><a href='https://www.github.com/wandb/wandb/tree/v0.18.6/wandb/integration/keras/callbacks/model_checkpoint.py#L27-L195' style={{fontSize: '1.2em', display: 'flex', alignItems: 'center'}}><img src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' height='32px' width='32px' style={{marginRight: '10px'}}/>View source on GitHub</a></button></p>
 
 
 A checkpoint that periodically saves a Keras model or model weights.
@@ -37,7 +37,7 @@ This callback provides the following features:
 - Save only model weights, or save the whole model.
 - Save the model either in SavedModel format or in `.h5` format.
 
-| Arguments |  |
+| Args |  |
 | :--- | :--- |
 |  `filepath` |  (Union[str, os.PathLike]) path to save the model file. `filepath` can contain named formatting options, which will be filled by the value of `epoch` and keys in `logs` (passed in `on_epoch_end`). For example: if `filepath` is `model-{epoch:02d}-{val_loss:.2f}`, then the model checkpoints will be saved with the epoch number and the validation loss in the filename. |
 |  `monitor` |  (str) The metric name to monitor. Default to "val_loss". |
